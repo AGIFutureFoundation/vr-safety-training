@@ -1,0 +1,1349 @@
+/**
+ * The 2D UI chrome — HUD, intro, results, leaderboard, scenario editor — as
+ * React components. This file owns none of the Three.js scene, the Session,
+ * or the render loop; it only reads `store` and calls back into `actions`,
+ * both handed to it by app.js. The CSS in index.html targets these same
+ * element ids/classes as before, so no style changes were needed to move
+ * the markup here.
+ */
+
+import { SIMS_META } from "./sims-meta.js";
+import { prettyKey } from "../../shared/input.js";
+import { trT, trLang, trSubscribe } from "../../shared/i18n.js";
+
+const h = React.createElement;
+const { Fragment, useSyncExternalStore } = React;
+
+// Static marketing copy for the intro card — this never changes at runtime,
+// so it is kept as one HTML block rather than hand-built as elements. The
+// per-sim roster used to be a THIRD hand-written copy of this same list
+// (name/tagline/tint), duplicating sims-meta.js (itself generated from the
+// real sim modules — see tools/gen_sims_meta.mjs) with nothing enforcing
+// they stayed in sync. SimsGrid below replaces that copy with a real
+// render from SIMS_META, so it can't drift again.
+const INTRO_HEAD_HTML = `
+  <div class="brandline">SmartCiti.X ~VR Simulators (Powered by AGI Corp &amp; Visko)</div>
+  <div class="eyebrow">${new Set(SIMS_META.map((s) => s.category)).size} categories · ${SIMS_META.length} stations · One apprentice record</div>
+  <h1>AR / VR Training Simulators</h1>
+  <p class="lead">Deep-skill simulators across ${new Set(SIMS_META.map((s) => s.category)).size} trade-union categories. Each station is its own
+  gamified system — its own rank ladder, currency and badges — and names the real union and
+  certification a worker in that role actually needs. Every procedure is real and every hazard is
+  real: the training scores what you touch and in what order.</p>
+`;
+const INTRO_TAIL_HTML = `
+  <p><b>AR:</b> place a tabletop diorama of any station on a real surface, then tap components.<br>
+  <b>VR:</b> full-scale digital-twin plaza. <b>Desktop:</b> drag to look, click to act, <kbd>WASD</kbd> to move.</p>
+`;
+
+// Canonical display order for the 10 categories — not alphabetical, so the
+// roster reads as an intentional taxonomy (infrastructure trades first,
+// specialty trades after) rather than a shuffled list.
+const CATEGORY_ORDER = [
+  "Energy & Power", "Mobility & Transit", "Water & Environmental",
+  "Connectivity & Telecom", "Building Systems & Facilities",
+  "Construction & Structural Trades", "Manufacturing & Automation",
+  "Emergency Services", "Maritime & Ports", "Entertainment & Live Events",
+  "Environmental Monitoring", "Surface Prep & Coatings", "Culinary & Hospitality",
+  "Dental & Oral Health", "Community Environmental Justice", "Sewing & Garment Trades",
+  "Youth Sports & Coaching",
+];
+const INTRO_FOOT_HTML = `
+  <p class="fineprint" style="margin-top:6px">New here? <b style="color:var(--text)">Start guided tour</b> plays all
+  ${SIMS_META.length} stations in order and brings you back to the campus between each one.</p>
+  <p class="fineprint">Progress, ranks and badges are stored per simulator in this browser only —
+  nothing is transmitted. AR needs a WebXR + hit-test capable browser (most current Android
+  Chrome-based browsers on ARCore devices, and Meta Quest Browser in passthrough). Ray-Ban Meta
+  display glasses cannot run immersive WebXR, so on those this page is a flat phone view.</p>
+  <p class="fineprint">Your level, XP and badges carry over to <a href="../trades/index.html">Trade Skills Simulator</a>,
+  nine more union-trade rooms (electrician, welder, plumber, laborer, painter and more) built on the same engine —
+  one shared apprentice record across both. See <a href="../portal/index.html">the network map</a> for
+  all four apps in this repository, including <a href="../holodeck/index.html">Holodeck</a>'s
+  prompt-driven procedure generator.</p>
+  <p class="fineprint" style="opacity:.65;margin-top:8px">SmartCiti.X ~VR Simulators — powered by AGI Corp &amp; Visko.
+  Construction worker model by restore50, CC-BY 4.0.</p>
+`;
+
+function stripHtml(html) {
+  return String(html ?? "").replace(/<[^>]*>/g, "");
+}
+
+// The intro card's buttons, as data rather than ten hand-written elements:
+// the same list numbers them for "select item N" (app.js's voiceMenu()) and
+// renders them, so the badge a learner reads and the number voice resolves
+// are the same number by construction. `action` is a key in the actions
+// object app.js hands mountUI.
+const INTRO_BUTTONS = [
+  { id: "start-tour", label: "Start guided tour", action: "startTour", primary: true },
+  { id: "enter-ar", label: "Enter AR", action: "enterAr", textFrom: "arText", disabledFrom: "arDisabled" },
+  { id: "enter-vr", label: "Enter VR", action: "enterVr", textFrom: "vrText", disabledFrom: "vrDisabled" },
+  { id: "enter-flat", label: "Free explore", action: "enterFlat" },
+  { id: "view-leaderboard", label: "Leaderboards", action: "viewLeaderboard" },
+  { id: "view-records", label: "Training records", action: "viewRecords" },
+  { id: "view-training", label: "My Training", action: "viewMyTraining" },
+  { id: "view-programs", label: "Training programmes", action: "viewPrograms" },
+  { id: "view-flows", label: "Flows", action: "viewFlows" },
+  { id: "open-signin", label: "Sign in", action: "viewSignIn" },
+  { id: "open-share", label: "Share to train agents & robots", action: "viewShare" },
+  { id: "open-editor", label: "Create a scenario", action: "openEditor" },
+  { id: "open-controls", label: "Controls", action: "openControls" },
+  { id: "reset-progress", label: "Reset progress", action: "resetProgress", textFromSlice: "resetProgressText" },
+];
+
+// The intro buttons' string keys (tools/i18n/en.json), by button id.
+const TR_INTRO_KEYS = { "start-tour": "run.startTour", "enter-ar": "run.enterAr", "enter-vr": "run.enterVr", "enter-flat": "run.free",
+  "view-leaderboard": "run.leaderboards", "view-records": "run.records", "view-training": "run.myTraining", "view-programs": "run.programmes",
+  "view-flows": "run.flows", "open-signin": "acct.signin", "open-share": "run.share", "open-editor": "run.editor", "open-controls": "run.controls",
+  "reset-progress": "run.reset" };
+
+/** The station cards in the order the grid draws them: grouped by category in
+ *  CATEGORY_ORDER, then by each sim's own catalog index. */
+function orderedSims() {
+  const byCategory = new Map();
+  for (const sim of SIMS_META) {
+    const cat = sim.category ?? "Uncategorized";
+    if (!byCategory.has(cat)) byCategory.set(cat, []);
+    byCategory.get(cat).push(sim);
+  }
+  const categories = [...byCategory.keys()].sort(
+    (a, b) => CATEGORY_ORDER.indexOf(a) - CATEGORY_ORDER.indexOf(b));
+  return categories.map((cat) => [cat, byCategory.get(cat).sort((a, b) => a.index.localeCompare(b.index))]);
+}
+
+/**
+ * The numbered menu, in badge order: the panel's buttons, then every station
+ * card. app.js maps each entry onto the handler a click would run, and the
+ * voice command "select item N" takes the Nth.
+ */
+export function introMenu() {
+  const rows = INTRO_BUTTONS.map((b) => ({ kind: "button", id: b.id, label: b.label, action: b.action }));
+  for (const [, sims] of orderedSims()) {
+    for (const sim of sims) rows.push({ kind: "sim", id: sim.id, label: sim.name });
+  }
+  return rows;
+}
+const SIM_BADGE_BASE = INTRO_BUTTONS.length;
+
+/** mm:ss for a count of seconds. */
+function diveClock(sec) {
+  const s = Math.max(0, Math.floor(sec));
+  return `${String(Math.floor(s / 60)).padStart(2, "0")}:${String(s % 60).padStart(2, "0")}`;
+}
+
+/**
+ * The dive readout for a station that stands in the bay-underwater district.
+ * Every value comes from the station: `room.underwater = { depthLabel,
+ * bottomTimeSeconds }`, where depthLabel is the text the station wants shown
+ * (it may name the dive plan rather than a number) and bottomTimeSeconds is
+ * the planned bottom time the station declares. The only thing measured here
+ * is how long this run has been on the bottom — the session's own clock. No
+ * depth, gas or decompression figure is ever made up; a station that sets
+ * nothing gets no chip.
+ */
+export function diveReadout(underwater, elapsedSeconds = 0) {
+  if (!underwater || typeof underwater !== "object") return null;
+  const depth = typeof underwater.depthLabel === "string" && underwater.depthLabel.trim() ? underwater.depthLabel.trim() : null;
+  const plan = Number.isFinite(underwater.bottomTimeSeconds) && underwater.bottomTimeSeconds > 0 ? underwater.bottomTimeSeconds : null;
+  if (!depth && !plan) return null;
+  const on = Math.max(0, elapsedSeconds || 0);
+  return {
+    depth,
+    bottom: plan ? `${diveClock(on)} / ${diveClock(plan)}` : diveClock(on),
+    // Past four-fifths of the planned bottom time the chip turns amber, and
+    // past the plan it turns red: the cue a supervisor would give on the radio.
+    state: !plan ? "ok" : on >= plan ? "over" : on >= plan * 0.8 ? "warn" : "ok",
+  };
+}
+
+/** The HUD chip for diveReadout(); nothing at all when there is no readout. */
+export function DiveChip({ dive }) {
+  if (!dive) return null;
+  return h("div", { className: "chip", id: "hud-dive", "data-state": dive.state, role: "status", "aria-label": `Depth ${dive.depth ?? "not set"}, bottom time ${dive.bottom}` },
+    dive.depth ? h(Fragment, null, h("div", { className: "eyebrow" }, "Depth"), h("div", { id: "hud-depth" }, dive.depth)) : null,
+    h("div", { className: "eyebrow" }, "Bottom time"),
+    h("div", { id: "hud-bottom" }, dive.bottom));
+}
+
+/**
+ * The scoreboard chip for a station standing in the gym-court district. The
+ * district names the labels (`scoreboard = { period, home, guest }`); every
+ * number is this run's own: drills cleared out of the station's steps, fouls
+ * as the run's unsafe actions, and the session clock against the station's
+ * par. Nothing is invented — no scoreboard, no chip.
+ */
+export function courtReadout(scoreboard, session) {
+  if (!scoreboard || typeof scoreboard !== "object" || !session) return null;
+  const total = session.steps?.length ?? 0;
+  const done = session.finished ? total : Math.min(session.index ?? 0, total);
+  const fouls = session.hazardHits | 0;
+  const on = Math.max(0, session.elapsed || 0);
+  const par = session.room?.parSeconds > 0 ? session.room.parSeconds : null;
+  return {
+    period: String(scoreboard.period ?? "Practice"),
+    home: String(scoreboard.home ?? "Home"), guest: String(scoreboard.guest ?? "Guest"),
+    drills: `${String(done).padStart(2, "0")}/${String(total).padStart(2, "0")}`,
+    fouls: String(fouls).padStart(2, "0"),
+    clock: par ? `${diveClock(on)} / ${diveClock(par)}` : diveClock(on),
+    // A foul on the board turns the chip amber; past par it turns red.
+    state: par && on > par ? "over" : fouls ? "warn" : "ok",
+  };
+}
+
+/** The HUD chip for courtReadout(); nothing at all when there is no readout. */
+export function CourtChip({ court }) {
+  if (!court) return null;
+  return h("div", { className: "chip", id: "hud-court", "data-state": court.state, role: "status", "aria-label": `${court.period}: ${court.home} ${court.drills}, ${court.guest} ${court.fouls}, clock ${court.clock}` },
+    h("div", { className: "eyebrow" }, court.period),
+    h("div", { className: "court-row" },
+      h("span", { className: "court-cell" }, h("span", { className: "court-label" }, court.home), h("span", { id: "hud-drills" }, court.drills)),
+      h("span", { className: "court-cell" }, h("span", { className: "court-label" }, court.guest), h("span", { id: "hud-fouls" }, court.fouls))),
+    h("div", { id: "hud-court-clock" }, court.clock));
+}
+
+/**
+ * The events HUD chip (shared/events.js): the last few random beats this
+ * run's own seed has staged — a weather shift, a passing vehicle, a crew
+ * member walking through, a radio call, a dropped tool, a mast light
+ * flicker. Nothing here is scored; it exists so a learner (and later, the
+ * debrief) can name what just happened rather than wonder about it. Nothing
+ * at all when the run has fired none yet, including every run with events off.
+ */
+export function EventsChip({ events }) {
+  if (!events?.length) return null;
+  return h("div", { className: "chip", id: "hud-events", role: "status", "aria-label": `Events this run: ${events.join(". ")}` },
+    h("div", { className: "eyebrow" }, "Events"),
+    h("ul", { id: "hud-events-list" }, events.map((e, i) => h("li", { key: i }, e))));
+}
+
+export function mountUI(store, actions) {
+  function useSlice(key) {
+    return useSyncExternalStore(store.subscribe, () => store.get()[key]);
+  }
+
+  function HudMission() {
+    const hud = useSlice("hud");
+    return h("div", { className: "chip", id: "hud-mission" },
+      h("div", { className: "eyebrow" }, trT("run.district")),
+      h("div", { id: "hud-room" }, hud.room));
+  }
+
+  function HudMetrics() {
+    const hud = useSlice("hud");
+    return h("div", { className: "chip", id: "hud-metrics" },
+      h("div", { className: "eyebrow" }, trT("run.score")),
+      h("div", { id: "hud-score" }, hud.score),
+      h("div", { id: "hud-combo", className: [hud.comboHot && "hot", hud.comboFire && "fire"].filter(Boolean).join(" ") }, hud.comboText),
+      hud.scorePops.map((p) => h("div", { key: p.id, className: p.big ? "score-pop big" : "score-pop" }, p.text)));
+  }
+
+  function HudDive() {
+    const hud = useSlice("hud");
+    return h(DiveChip, { dive: hud.dive ?? null });
+  }
+
+  /** The drive HUD, for a 'drive' step: speed against the band, the vehicle's
+   * place in its lane, how far along the route, and the next check — plus a
+   * button per check, and on a touch screen the pedals and the wheel. */
+  function HudDrive() {
+    const d = useSlice("drive");
+    if (!d?.visible) return null;
+    const off = (patch) => Object.fromEntries(Object.keys(patch).map((k) => [k, k === "steer" ? 0 : false]));
+    const hold = (patch) => ({
+      onPointerDown: (e) => { e.preventDefault(); actions.driveTouch(patch); },
+      onPointerUp: () => actions.driveTouch(off(patch)),
+      onPointerLeave: () => actions.driveTouch(off(patch)),
+      onPointerCancel: () => actions.driveTouch(off(patch)),
+    });
+    const markLeft = `${50 + Math.max(-1.6, Math.min(1.6, d.offset)) * 28}%`;
+    return h(Fragment, null,
+      h("div", { className: "chip", id: "hud-drive", "data-band": d.bandState, "data-lane": d.laneState, role: "status",
+        "aria-label": `${d.label}: ${d.speed} ${d.units}, band ${d.band}. ${d.laneState === "ok" ? "In lane" : "Out of lane"}. ${d.next ? `Next: ${d.next.name}` : "No checks left"}` },
+        h("div", { className: "eyebrow" }, d.reverse ? "Reverse" : d.label),
+        h("div", { id: "hud-speed" }, String(d.speed), h("small", null, ` ${d.units}`)),
+        h("div", { id: "hud-band" }, `band ${d.band}${d.bandLabel ? ` · ${d.bandLabel}` : ""}`),
+        h("div", { id: "hud-lane", "aria-hidden": "true" },
+          h("div", { className: "lane-edge l" }), h("div", { className: "lane-edge r" }),
+          h("div", { id: "hud-lane-mark", style: { left: markLeft } })),
+        h("div", { id: "hud-route" }, h("div", { style: { width: `${d.progressPct}%` } })),
+        h("div", { id: "hud-next", "data-now": d.next?.now ? "1" : "0" },
+          !d.started ? (d.next?.now ? `First: ${d.next.name} (${d.next.key}), then ${d.goKey} to pull away` : `Press ${d.goKey} to pull away`)
+            : d.next ? (d.next.now ? `NOW: ${d.next.name} — ${d.next.key}` : `Next: ${d.next.name} (${d.next.key}) in ${d.next.metres} m`)
+              : `Checks ${d.done}/${d.total} · drive it home`),
+        h("div", { id: "hud-drive-keys" }, `${d.goKey} go · ${d.brakeKey} brake · ${d.steerKeys} steer`)),
+      h("div", { id: "drive-checks", role: "group", "aria-label": "Driving checks" },
+        (d.checks ?? []).map((c) => h("button", {
+          key: c.id, type: "button", className: [d.next?.kind === c.id && d.next?.now ? "due" : "", d.flash === c.id ? "flash" : ""].join(" "),
+          onClick: () => actions.driveCheck(c.id), title: `${c.label} (${c.key})`,
+        }, h("b", null, c.key), " ", c.label.replace(/^Check the /, "")))),
+      d.touch ? h("div", { id: "drive-touch", "aria-label": "On-screen driving controls" },
+        h("button", { type: "button", className: "steer", "aria-label": "Steer left", ...hold({ steer: -1 }) }, h("span", { className: "at-i at-i--chevron-left", "aria-hidden": "true" })),
+        h("button", { type: "button", className: "brake", ...hold({ brake: true }) }, "Brake"),
+        h("button", { type: "button", className: "go", ...hold({ throttle: true }) }, d.reverse ? "Back" : "Go"),
+        h("button", { type: "button", className: "steer", "aria-label": "Steer right", ...hold({ steer: 1 }) }, h("span", { className: "at-i at-i--chevron-right", "aria-hidden": "true" }))) : null);
+  }
+
+  function HudCourt() {
+    const hud = useSlice("hud");
+    return h(CourtChip, { court: hud.court ?? null });
+  }
+
+  function HudEvents() {
+    const hud = useSlice("hud");
+    return h(EventsChip, { events: hud.events ?? [] });
+  }
+
+  function HudObjective() {
+    const hud = useSlice("hud");
+    return h("div", { id: "hud-objective" },
+      h("div", { id: "hud-step" }, hud.step),
+      trLang() !== "en" && hud.step ? h("div", { className: "tr-stepnote", "data-tr-stepnote": "" }, trT("step.english")) : null,
+      h("div", { id: "hud-cue" }, hud.cue),
+      h("div", { id: "hud-gesture", hidden: !hud.gestureVisible }, hud.gestureVerb));
+  }
+
+  function HudRail() {
+    const hud = useSlice("hud");
+    return h("div", { id: "hud-rail", "data-state": hud.railState },
+      h("div", { id: "hud-feedback", "aria-live": "polite", dangerouslySetInnerHTML: { __html: hud.feedbackHtml } }),
+      h("div", { id: "hud-progress" },
+        h("div", { id: "hud-track" }, h("div", { id: "hud-fill", style: { width: `${hud.fillPct}%` } })),
+        h("div", { id: "hud-count" }, hud.count),
+        h("div", { id: "hud-timer" }, hud.timer)));
+  }
+
+  /** The corner crib line. It reads the live bindings rather than three
+   * hard-coded letters, so a learner on the numpad or one-hand preset is not
+   * told to press a key that no longer does anything. */
+  function HudHint() {
+    const rows = useSlice("controls").rows;
+    const keyFor = (action, fallback) => rows.find((r) => r.action === action)?.pretty?.[0] ?? fallback;
+    return h("div", { id: "hud-hint" },
+      trT("run.hint", { controls: keyFor("controls", prettyKey("Slash")), mute: keyFor("mute", "M"), back: keyFor("back", "Esc") }));
+  }
+
+  function GestureTip() {
+    const tip = useSlice("gestureTip");
+    return h("div", {
+      id: "gesture-tip",
+      className: tip.show ? "show" : "",
+      dangerouslySetInnerHTML: { __html: tip.html },
+    });
+  }
+
+  function ArPrompt() {
+    const ar = useSlice("arPrompt");
+    return h("div", { id: "ar-prompt", hidden: !ar.visible }, h("b", null, trT("run.tapSurface")), h("br"), trT("run.toPlace"));
+  }
+
+  function ScaleRow() {
+    const scaleRow = useSlice("scaleRow");
+    return h("div", { id: "scale-row", hidden: !scaleRow.visible },
+      h("button", { id: "scale-down", onClick: actions.scaleDown }, trT("run.smaller")),
+      h("button", { id: "scale-up", onClick: actions.scaleUp }, trT("run.larger")));
+  }
+
+  /** Grouped by category, in CATEGORY_ORDER, sorted by each sim's own
+   * catalog index within its category — a real render from SIMS_META
+   * (see tools/gen_sims_meta.mjs) instead of a hand-copied HTML list, so
+   * it can never silently drift from the actual sim roster. */
+  function SimsGrid() {
+    const numbers = useSlice("controls").numbers;
+    let n = SIM_BADGE_BASE;
+    return h(Fragment, null, orderedSims().map(([cat, sims]) => h(Fragment, { key: cat },
+      h("div", { className: "sim-category" }, cat),
+      h("div", { className: "sims" },
+        sims.map((sim) => {
+          n += 1;
+          return h("div", { className: "sim", style: { "--tint": sim.accentCss }, key: sim.id },
+            numbers && h("span", { className: "idx-badge", "aria-hidden": "true" }, n),
+            h("b", null, sim.name, sim.flat && h("em", { className: "sim-flat" }, "flat briefing")),
+            h("span", null, `${sim.trade} · ${sim.game.system}`),
+            h("span", { className: "sim-cert" }, sim.certification));
+        })))));
+  }
+
+  /** The panel's buttons, rendered from INTRO_BUTTONS so the badge numbers and
+   * the voice menu's numbers are the same list. */
+  function IntroButtons() {
+    const intro = useSlice("intro");
+    const resetText = useSlice("resetProgressText");
+    const numbers = useSlice("controls").numbers;
+    return h("div", { className: "btnrow" }, INTRO_BUTTONS.map((b, i) => h("button", {
+      key: b.id, id: b.id, type: "button",
+      className: b.primary ? "primary" : "",
+      disabled: b.disabledFrom ? !!intro[b.disabledFrom] : false,
+      onClick: actions[b.action],
+    },
+    numbers && h("span", { className: "idx-badge", "aria-hidden": "true" }, i + 1),
+    b.textFromSlice ? resetText : (b.textFrom ? intro[b.textFrom] : trT(TR_INTRO_KEYS[b.id] ?? "", null, b.label)))));
+  }
+
+  function IntroCard() {
+    const intro = useSlice("intro");
+    return h("div", { className: "overlay", id: "intro", hidden: !intro.visible, role: "dialog", "aria-modal": "true", "aria-label": "SmartCiti.X training campus" },
+      h("div", { className: "card", role: "main" },
+        h("div", { dangerouslySetInnerHTML: { __html: INTRO_HEAD_HTML } }),
+        h(SimsGrid),
+        h("div", { dangerouslySetInnerHTML: { __html: INTRO_TAIL_HTML } }),
+        h("div", { className: "namerow" },
+          h("label", { className: "eyebrow", htmlFor: "player-name" },
+            intro.identityLocked ? trT("run.crewTagLocked") : trT("world.crewTag")),
+          h("input", {
+            id: "player-name", maxLength: 12, placeholder: "YOU", autoComplete: "off",
+            value: intro.playerName, readOnly: intro.identityLocked,
+            "aria-describedby": intro.identityLocked ? "identity-note" : undefined,
+            onChange: (e) => actions.setPlayerNameDraft(e.target.value),
+            onBlur: actions.commitPlayerName,
+          }),
+          intro.identityLocked && h("p", { id: "identity-note", className: "fineprint identity-note" }, intro.identityLabel)),
+        h(IntroButtons),
+        h("div", { dangerouslySetInnerHTML: { __html: INTRO_FOOT_HTML } })));
+  }
+
+  /** A flat briefing station: dossier with sources, then the knowledge
+   * check, each option a real interactable the Session scores. */
+  function FlatStationCard() {
+    const f = useSlice("flat");
+    if (!f.visible) return null;
+    const link = (src) => h("a", { href: src.url, target: "_blank", rel: "noopener noreferrer" }, src.label);
+    return h("div", { className: "overlay flat-overlay", id: "flat-station", role: "region", "aria-label": f.name },
+      h("div", { className: "card card-wide flat-card" },
+        h("div", { className: "eyebrow" }, `${f.category} · briefing station · flat, not a walkable scene`),
+        h("h1", null, f.name),
+        h("p", { className: "lead" }, f.tagline),
+        f.certification && h("p", { className: "fineprint flat-cert" }, f.certification),
+        h("details", { className: "dossier", open: f.stepIndex === 0 },
+          h("summary", null, "Site dossier — read this first"),
+          f.dossier.map((d, i) => h("section", { key: i, className: "dossier-section" },
+            h("h3", null, d.title),
+            h("p", null, d.body),
+            h("p", { className: "dossier-src" }, "Source: ", link(d.source), d.source2 && h(Fragment, null, " · ", link(d.source2)))))),
+        h("div", { className: "flat-q" },
+          h("div", { className: "eyebrow" }, `Knowledge check · ${Math.min(f.stepIndex + 1, f.stepCount)} of ${f.stepCount}`),
+          h("h2", { id: "flat-question" }, f.question),
+          h("p", { className: "flat-cue" }, f.cue),
+          h("div", { className: "flat-options", role: "group", "aria-labelledby": "flat-question" },
+            f.options.map((o) => h("button", {
+              key: o.id, type: "button", className: "flat-opt" + (f.picked.includes(o.id) ? " picked" : ""),
+              disabled: f.picked.includes(o.id), onClick: () => actions.flatSelect(o.id),
+            }, o.label))),
+          f.feedback && h("div", { className: `flat-feedback ${f.feedback.kind}`, "aria-live": "polite", dangerouslySetInnerHTML: { __html: f.feedback.html } })),
+        h("div", { className: "btnrow" },
+          h("button", { id: "flat-hub", type: "button", onClick: actions.backToHub }, trT("run.backCampus")))));
+  }
+
+  /** Flipped-classroom pre-brief: the station's procedure as study material
+   * before the first run, with the reason for every step. */
+  function PreBriefCard() {
+    const b = useSlice("prebrief");
+    if (!b.visible) return null;
+    return h("div", { className: "overlay", id: "prebrief", role: "dialog", "aria-modal": "true", "aria-label": `Pre-brief: ${b.name}` },
+      h("div", { className: "card card-wide" },
+        h("div", { className: "eyebrow" }, `${b.category || "Station"} · pre-brief · learn it first, then prove it`),
+        h("h1", null, b.name),
+        h("p", { className: "lead" }, b.tagline),
+        b.certification && h("p", { className: "fineprint flat-cert" }, `${b.trade} · ${b.certification}`),
+        h("p", { className: "fineprint" },
+          `The procedure below is the real order of operations for this station, with the reason behind each step. ` +
+          `Read it now and the run that follows starts prepared: the Prepared award and a 10% score bonus on that run. ` +
+          `${b.hazardCount} seeded hazard${b.hazardCount === 1 ? "" : "s"} wait in the station — the brief does not name them.`),
+        h("ol", { className: "prebrief-steps" },
+          b.steps.map((s, i) => h("li", { key: s.id },
+            h("b", null, s.title),
+            h("span", null, s.why)))),
+        h("div", { className: "btnrow" },
+          h("button", { className: "primary", id: "prebrief-start", type: "button", onClick: actions.prebriefStart }, trT("run.readStart")),
+          h("button", { id: "prebrief-skip", type: "button", onClick: actions.prebriefSkip }, trT("run.skipBrief")),
+          h("button", { id: "prebrief-close", type: "button", onClick: actions.prebriefClose }, trT("run.backCampus")))));
+  }
+
+  function ResultsCard() {
+    const results = useSlice("results");
+    if (!results.visible) return h("div", { className: "overlay", id: "results", hidden: true });
+    return h("div", { className: "overlay", id: "results", role: "dialog", "aria-modal": "true", "aria-label": trT("run.results") },
+      h("div", { className: "card" },
+        h("div", { id: "results-body", dangerouslySetInnerHTML: { __html: results.html } }),
+        h("div", { className: "btnrow" },
+          h("button", { className: "primary", id: "res-next", hidden: !results.showNext, onClick: actions.nextTourStop }, results.nextLabel ?? trT("run.nextStop")),
+          h("button", { className: results.retryPrimary ? "primary" : "", id: "res-retry", onClick: actions.retryResult }, trT("run.runAgain")),
+          h("button", { id: "res-hub", onClick: actions.backToHub }, trT("run.backCampus"))),
+        // The next station in the programme and the way home to the world
+        // that launched this run (console POLISH).
+        (results.nextStation || results.returnTo) && h("div", { className: "btnrow res-onward" },
+          results.nextStation && h("a", { className: "btn primary", id: "res-next-station", href: results.nextStation.href,
+            "aria-label": `Next station in ${results.nextStation.programme}: ${results.nextStation.label}` }, `Next station → ${results.nextStation.label}`),
+          results.returnTo && h("a", { className: "btn", id: "res-return", href: results.returnTo.url }, results.returnTo.label))));
+  }
+
+  function LeaderboardCard() {
+    const lb = useSlice("leaderboard");
+    if (!lb.visible) return h("div", { className: "overlay", id: "leaderboard", hidden: true });
+    return h("div", { className: "overlay", id: "leaderboard", role: "dialog", "aria-modal": "true", "aria-label": "Leaderboards" },
+      h("div", { className: "card" },
+        h("div", { id: "leaderboard-body", dangerouslySetInnerHTML: { __html: lb.html } }),
+        h("div", { className: "btnrow" }, h("button", { className: "primary", id: "lb-close", onClick: actions.closeLeaderboard }, "Close"))));
+  }
+
+  /** Robot training on a programme: a headless calibration of every station in
+   * the block, and the difficulty curve it produces, as a chart of the success
+   * rate at each rung of the skill ladder. Plain data from the store — the
+   * numbers come from shared/robot-embodiment.js, which is also what the
+   * headless tools/robot_train.mjs writes into a dataset. */
+  function RobotTrainingCard() {
+    const rt = useSlice("robotTraining");
+    const curve = rt.curve ?? [];
+    const stations = rt.stations ?? [];
+    const offLimits = stations.reduce((n, st) => n + (st.noRobot | 0), 0);
+    const violations = stations.reduce((n, st) => n + (st.violations | 0), 0);
+    return h("section", { className: "robot-card" },
+      h("div", { className: "robot-head" },
+        h("div", null,
+          h("h3", null, "Robot training"),
+          h("div", { className: "robot-sub" },
+            "The same procedures, run by an embodied trainee: a target pose for every control, " +
+            "a force ceiling for every step, keep-out volumes around the patient, and the steps " +
+            "a robot hands back to the clinician.")),
+        h("button", {
+          className: rt.running ? "" : "primary", id: "robot-train-start",
+          onClick: rt.running ? actions.stopRobotTraining : actions.startRobotTraining,
+        }, rt.running ? "Stop" : curve.length ? "Run it again" : "Calibrate the block")),
+      rt.running && h("div", { className: "robot-progress" },
+        h("span", { className: "robot-spin" }),
+        `Station ${Math.min(rt.done + 1, rt.total)} of ${rt.total}${rt.station ? ` — ${rt.station}` : ""}`),
+      curve.length > 0 && h("div", { className: "robot-curve", role: "img",
+        "aria-label": `Difficulty curve: ${curve.map((c) => `skill ${c.skill.toFixed(2)}, ${c.pct}% pass`).join("; ")}`,
+      }, curve.map((c) => h("div", { key: c.skill, className: "robot-col" },
+        h("div", { className: "robot-bar" }, h("span", { style: { height: `${c.pct}%` } })),
+        h("div", { className: "robot-pct" }, `${c.pct}%`),
+        h("div", { className: "robot-skill" }, c.skill.toFixed(2))))),
+      curve.length > 0 && h("div", { className: "robot-legend" },
+        `Pass rate against policy skill, averaged over ${rt.done} station${rt.done === 1 ? "" : "s"}. ` +
+        `A run that entered a keep-out volume is not a pass. ${offLimits} step${offLimits === 1 ? "" : "s"} off-limits, ` +
+        `${violations} keep-out violation${violations === 1 ? "" : "s"} across the whole ladder.`),
+      rt.note && h("div", { className: "robot-note" }, rt.note));
+  }
+
+  /** Sign in. Only the options this deployment configured and this browser can
+   * actually do reach this list (shared/auth.js decides), and each one carries
+   * the sentence that says where its credential is verified — which is never
+   * this page. Built from plain data, never markup: a provider's note and a
+   * learner's own typed value are both untrusted here. */
+  function SignInCard() {
+    const si = useSlice("signin");
+    if (!si.visible) return h("div", { className: "overlay", id: "signin", hidden: true });
+    const asking = si.fieldFor ? (si.providers.find((p) => p.id === si.fieldFor) ?? null) : null;
+    return h("div", { className: "overlay", id: "signin", role: "dialog", "aria-modal": "true", "aria-label": "Sign in" },
+      h("div", { className: "card" },
+        h("div", { className: "eyebrow" }, "SmartCiti.X · sign in"),
+        h("h1", null, si.session ? "Signed in" : "Put your name on the record"),
+        h("p", { className: "lead" }, si.session
+          ? si.session.line
+          : "These pages are static files. Signing in collects a credential and hands it to your training host, "
+            + "which is what verifies it — nothing is verified here. Only the options this deployment configured, "
+            + "and this browser can actually do, are listed."),
+        si.session
+          ? null
+          : h("div", { className: "signin-opts" },
+              si.providers.length
+                ? si.providers.map((p) => h("button", {
+                    key: p.id, id: `signin-${p.id}`, type: "button", className: "signin-opt",
+                    onClick: () => actions.signInWith(p.id),
+                  }, h("b", null, p.label), h("span", null, p.note)))
+                : h("p", { className: "fineprint" },
+                    "No sign-in option is configured for this deployment and this browser offers none of its own. "
+                    + "Your crew tag and your records still work; they stay in this browser.")),
+        asking
+          ? h("div", { className: "signin-field" },
+              h("label", { className: "eyebrow", htmlFor: "signin-value" },
+                asking.needs === "email" ? "Your e-mail address" : "The name to label this device's passkey with"),
+              h("input", {
+                id: "signin-value", type: asking.needs === "email" ? "email" : "text",
+                value: si.field, autoComplete: asking.needs === "email" ? "email" : "name",
+                onChange: (e) => actions.setSignInField(e.target.value),
+              }))
+          : null,
+        si.message ? h("p", { className: "signin-msg", role: "status" }, si.message) : null,
+        h("div", { className: "btnrow" },
+          si.session
+            ? h("button", { id: "signin-out", onClick: actions.signOutOfAuth }, "Sign out")
+            : null,
+          h("button", { id: "signin-close", onClick: actions.closeSignIn }, "Close")),
+        h("p", { className: "fineprint" },
+          "Signing in is optional. Without it you are a crew tag in this browser, and every record still works.")));
+  }
+
+  /**
+   * Share to train agents & robots (shared/share-engagement.js,
+   * shared/agent-protocols.js, shared/wallet.js). Default is off: opting in
+   * only ever writes a consent record to this browser, and pressing Share is
+   * the one action that sends anything, to the one relay this deployment
+   * configured. Every value here is plain data — a wallet address, a
+   * receipt reason — rendered as text, never markup.
+   */
+  function ShareCard() {
+    const sh = useSlice("share");
+    if (!sh.visible) return h("div", { className: "overlay", id: "share", hidden: true });
+    const optedIn = !!sh.consent?.optIn;
+
+    const walletSection = h("div", { className: "share-section" },
+      h("div", { className: "eyebrow" }, "Wallet (optional)"),
+      sh.wallet
+        ? h("p", { className: "signin-msg", role: "status" },
+            `Connected: ${sh.wallet.shortAddress}${sh.wallet.chainId ? ` · chain ${sh.wallet.chainId}` : ""}`)
+        : h("p", { className: "fineprint" },
+            "Connecting a wallet lets your opt-in be signed (personal_sign) so a relay can check who gave it. " +
+            "Without one, opting in still works as a plain, unsigned record kept in this browser. " +
+            "This page never asks for a private key or a seed phrase."),
+      h("div", { className: "btnrow" },
+        sh.wallet
+          ? h("button", { id: "share-wallet-disconnect", onClick: actions.disconnectWallet }, "Disconnect wallet")
+          : h("button", { id: "share-wallet-connect", disabled: sh.walletBusy, onClick: actions.connectWallet }, sh.walletBusy ? "Connecting…" : "Connect wallet")),
+      sh.walletMessage ? h("p", { className: "signin-msg", role: "status" }, sh.walletMessage) : null);
+
+    const licenceOption = (lic, note) => h("label", { key: lic, className: `share-licence-opt${sh.licence === lic ? " on" : ""}` },
+      h("input", { type: "radio", name: "share-licence", value: lic, checked: sh.licence === lic, onChange: () => actions.setShareLicence(lic), disabled: optedIn }),
+      h("span", null, note));
+    const licenceSection = h("div", { className: "share-section" },
+      h("div", { className: "eyebrow" }, "Licence"),
+      h("div", { className: "share-licence", role: "radiogroup", "aria-label": "Licence" },
+        licenceOption("CC0", "CC0 — public domain dedication"),
+        licenceOption("CC-BY-4.0", "CC-BY-4.0 — attribution required")));
+
+    const consentRow = optedIn
+      ? h(Fragment, null,
+          h("p", { className: "signin-msg", role: "status" },
+            `Opted in under ${sh.consent.licence} on ${new Date(sh.consent.at).toLocaleDateString()} — ` +
+            `${sh.consent.mode === "wallet" ? `signed by ${sh.consent.address}` : "an unsigned local record"}.`),
+          h("div", { className: "btnrow" },
+            h("button", { className: "primary", id: "share-now", disabled: sh.busy, onClick: actions.shareNow }, sh.busy ? "Sharing…" : "Share"),
+            h("button", { id: "share-revoke", onClick: actions.revokeShare }, "Revoke")))
+      : h("div", { className: "btnrow" },
+          h("button", { className: "primary", id: "share-optin", disabled: sh.busy, onClick: actions.optInShare }, sh.busy ? "Working…" : "Opt in"));
+
+    const receiptRows = [...sh.receipts].reverse().slice(0, 20).map((r, i) => h("li", {
+      key: `${r.at}-${i}`, className: r.ok ? "ok" : "fail",
+    }, `${new Date(r.at).toLocaleString()} · ${r.provider} · ${r.ok ? "sent" : (r.reason ?? "failed")}`));
+    const infoSection = h("div", { className: "share-section" },
+      h("div", { className: "eyebrow" }, "What is shared, and what never is"),
+      h("ul", { className: "share-list" },
+        h("li", null, "Shared: anonymised episode digests and the per-category roll-up scores already in Training Records."),
+        h("li", null, "Never shared: your name, crew tag, free text, or any launch identity.")),
+      h("div", { className: "eyebrow", style: { marginTop: "8px" } }, "Receipts"),
+      sh.receipts.length
+        ? h("ul", { className: "share-receipts" }, receiptRows)
+        : h("p", { className: "fineprint" }, "Nothing has been shared yet."));
+
+    return h("div", { className: "overlay", id: "share", role: "dialog", "aria-modal": "true", "aria-label": "Share to train agents & robots" },
+      h("div", { className: "card" },
+        h("div", { className: "eyebrow" }, "SmartCiti.X · share to train agents & robots"),
+        h("h1", null, "Help train agents and robots"),
+        h("p", { className: "lead" },
+          "Opt in to share anonymised training engagement — episode digests and roll-up scores only, never your name, " +
+          "free text or launch identity — with agent-protocol platforms (Virtuals Protocol, SingularityNET and others) " +
+          "so they can train software agents and robots on real practice patterns. This is off by default, and nothing " +
+          "is sent until you press Share, below."),
+        walletSection,
+        licenceSection,
+        consentRow,
+        sh.message ? h("p", { className: "signin-msg", role: "status" }, sh.message) : null,
+        infoSection,
+        h("p", { className: "fineprint" },
+          "Sharing is optional and revocable at any time. Revoking removes the local consent record; it does not " +
+          "un-send anything already delivered to a relay. See ",
+          h("a", { href: "../docs/wallets-and-sharing.md", target: "_blank", rel: "noopener" }, "wallets and sharing"),
+          " and ",
+          h("a", { href: "../docs/agent-protocols.md", target: "_blank", rel: "noopener" }, "agent protocols"), "."),
+        h("div", { className: "btnrow" },
+          h("button", { id: "share-close", onClick: actions.closeShare }, "Close"))));
+  }
+
+  /** A programme's twenty-level ladder (shared/ladder.js), top rung first:
+   * each level's lessons, its tasks with a chip for the condition each runs
+   * under, state and partial flag, and Start on an open one. A locked rung
+   * says what opens it; nothing on this card unlocks anything. */
+  function LadderView({ p }) {
+    const rows = [...(p.ladder ?? [])].reverse();
+    const passed = rows.filter((r) => r.state === "passed").length;
+    return h("div", { className: "ladder", role: "list", "aria-label": `${p.name} — ${rows.length}-level ladder` },
+      h("div", { className: "ladder-head" },
+        h("b", null, "Ladder"),
+        h("span", null, `${passed} of ${rows.length} passed · a lesson is one step under one condition · a level passes when every task in one run of it is a mastery run`)),
+      rows.map((r) => h("div", {
+        key: r.n, role: "listitem", id: `rung-${p.id}-${r.n}`,
+        className: `rung ${r.state}${r.partial ? " partial" : ""}${p.assignedLevel === r.n ? " assigned" : ""}`,
+      },
+        h("span", { className: "rung-n", "aria-label": `Level ${r.n}` }, String(r.n)),
+        h("div", null,
+          h("div", { className: "rung-title" }, r.title,
+            !r.coaching && h("span", { className: "rung-tag" }, "no coaching"),
+            r.partial && h("span", { className: "rung-tag warn" }, `partial · ${r.shortfall} lessons short`),
+            p.assignedLevel === r.n && h("span", { className: "rung-tag pin" }, "assigned")),
+          h("ol", { className: "rung-tasks", "aria-label": `Level ${r.n} tasks` }, r.tasks.map((t, i) => h("li", { key: `${t.id}-${i}` },
+            t.name + (t.app === "trades" ? " (Trade Skills)" : ""),
+            h("span", { className: `cond-chip cond-${t.condition.split(":")[0]}`, title: t.condition }, t.conditionLabel)))),
+          h("div", { className: "rung-meta" },
+            `${r.lessons} lessons · ${r.tasks.length} task${r.tasks.length === 1 ? "" : "s"} · ${r.standards} standard${r.standards === 1 ? "" : "s"} evidenced` +
+            (r.interruptions ? ` · ${r.interruptions} injectable interruptions` : ""))),
+        h("span", { className: `rung-state ${r.state}` }, r.state),
+        r.state === "locked"
+          ? h("span", { className: "rung-lock" }, `Pass level ${r.n - 1}`)
+          : h("button", {
+              className: r.state === "open" ? "primary small" : "small", id: `level-start-${p.id}-${r.n}`,
+              onClick: () => actions.startLevel(p.id, r.n),
+            }, r.state === "passed" ? "Run again" : "Start level"))));
+  }
+
+  /** Training programmes: the ordered blocks a hall runs, with progress read
+   * from the same passing records the certificate claim rests on. Plain data
+   * only — a station name never reaches this as markup. */
+  function ProgramsCard() {
+    const pg = useSlice("programs");
+    if (!pg.visible) return h("div", { className: "overlay", id: "programs", hidden: true });
+    const rows = pg.rows ?? [];
+    const complete = rows.filter((r) => r.complete).length;
+    return h("div", { className: "overlay", id: "programs", role: "dialog", "aria-modal": "true", "aria-label": "Training programmes" },
+      h("div", { className: "card card-wide" },
+        h("div", { className: "eyebrow" }, "SmartCiti.X · training programmes"),
+        h("h1", null, "Training Programmes"),
+        h("p", { className: "lead" },
+          `${rows.length} programmes across the network · ${complete} complete. ` +
+          "A station counts toward a programme when it has a passing attempt — two or more stars with no unsafe action. " +
+          "Programmes cross both apps, the way an apprenticeship does."),
+        h("div", { className: "prog-list" }, rows.map((p) => h("section", {
+          key: p.id, className: `prog-card${p.complete ? " done" : ""}${p.assigned ? " assigned" : ""}`, style: { "--prog": p.accent },
+        },
+          h("header", { className: "prog-head" },
+            h("div", null,
+              p.assigned && h("p", { className: "prog-pin" },
+                p.assignedBy === "link" ? "The programme you followed here" : "Assigned by your instructor"),
+              h("h2", null, p.name),
+              h("div", { className: "prog-union" }, p.union)),
+            h("div", { className: `prog-count${p.complete ? " done" : ""}` }, `${p.done}/${p.total}`)),
+          h("div", { className: "prog-bar" }, h("span", { style: { width: `${p.pct}%` } })),
+          h("p", { className: "prog-summary" }, p.summary),
+          // K-12 programmes carry a note for the teacher on running the
+          // lesson where the connection is poor (docs/k12.md).
+          p.teacherNote && h("p", { className: "prog-teacher" }, h("b", null, "For teachers: "), p.teacherNote),
+          // A programme whose stations interrupt the learner reports on that
+          // separately: passing the procedure and noticing the alarm are two
+          // different competencies and a training director wants both.
+          p.attention && h("p", { className: "prog-attention" },
+            h("b", null, "Attention: "),
+            p.attention.pct == null
+              ? `${p.attention.runs} run${p.attention.runs === 1 ? "" : "s"}, no interruptions reached yet.`
+              : `${p.attention.caught} of ${p.attention.caught + p.attention.dropped} interruptions caught (${p.attention.pct}%) across ${p.attention.runs} run${p.attention.runs === 1 ? "" : "s"}.`),
+          h("p", { className: "prog-cert" }, p.certification),
+          h("ol", { className: "prog-steps" }, p.stations.map((s) => h("li", {
+            key: `${s.app}:${s.id}`, className: s.done ? "done" : "",
+          },
+            h("b", null, s.id.replace(/-/g, " ")),
+            s.app === "trades" && h("span", { className: "prog-app" }, "Trade Skills"),
+            h("span", { className: "prog-why" }, s.why)))),
+          p.robot && h(RobotTrainingCard, null),
+          h("div", { className: "prog-actions" },
+            p.next
+              ? h("button", {
+                  className: "primary", id: `prog-start-${p.id}`,
+                  onClick: () => actions.programStart(p.next.app, p.next.id),
+                }, `Start ${p.next.id.replace(/-/g, " ")}`)
+              : h("p", { className: "prog-done" }, "Programme complete — every station passed."),
+            p.ladder?.length ? h("button", {
+              id: `prog-ladder-${p.id}`, "aria-expanded": p.ladderOpen ? "true" : "false",
+              onClick: () => actions.toggleLadder(p.id),
+            }, p.ladderOpen ? "Hide ladder" : `Ladder · ${p.ladder.filter((r) => r.state === "passed").length}/${p.ladder.length}`) : null),
+          p.ladderOpen && h(LadderView, { p })))),
+        h("div", { className: "btnrow" },
+          h("button", { id: "prog-close", onClick: actions.closePrograms }, "Close"))));
+  }
+
+  /** Flows: the host-orchestrated graphs a platform hands over
+   * (shared/flowhub.js). One card per loaded flow with the node standing now,
+   * the path taken as a small diagram of chips and arrows, and the reason the
+   * run is where it is. Plain data only — a flow's title comes from a host, so
+   * nothing here is ever set as markup. */
+  function FlowPath({ path }) {
+    const rows = path ?? [];
+    if (!rows.length) return null;
+    return h("ol", { className: "flow-diagram" }, rows.map((r) => h("li", {
+      key: `${r.index}-${r.id}`,
+      className: `flow-node${r.current ? " now" : ""}${r.passed === false ? " failed" : ""}${r.passed === true ? " done" : ""}`,
+    },
+      h("span", { className: "flow-kind" }, r.kind ?? "node"),
+      h("b", null, r.label || r.id),
+      r.app && r.app !== "smartcity" && h("span", { className: "flow-app" }, r.app),
+      r.stars != null && r.kind === "station" && h("span", { className: "flow-stars" }, "★".repeat(r.stars) + "☆".repeat(Math.max(0, 3 - r.stars))),
+      r.why && h("span", { className: "flow-why" }, r.why))));
+  }
+
+  function FlowsCard() {
+    const fl = useSlice("flows");
+    if (!fl.visible) return h("div", { className: "overlay", id: "flows", hidden: true });
+    const rows = fl.rows ?? [];
+    return h("div", { className: "overlay", id: "flows", role: "dialog", "aria-modal": "true", "aria-label": "Flows" },
+      h("div", { className: "card card-wide" },
+        h("div", { className: "eyebrow" }, "SmartCiti.X · flows"),
+        h("h1", null, "Flows"),
+        h("p", { className: "lead" },
+          rows.length
+            ? `${rows.length} flow${rows.length === 1 ? "" : "s"} loaded. A flow is your platform's own order of work — stations, briefs, programmes, a competency gate and its own assessments — and this side runs the parts that are its to run.`
+            : "No flow is loaded. A flow arrives from the platform that launched you, or from an instructor console on this machine; it is never invented here."),
+        fl.note && h("p", { className: "flow-note" }, fl.note),
+        fl.error && h("p", { className: "flow-error" }, fl.error),
+        h("div", { className: "flow-list" }, rows.map((f) => h("section", {
+          key: f.id, className: `flow-card${f.current ? " current" : ""}${f.done ? " done" : ""}`,
+        },
+          h("header", { className: "flow-head" },
+            h("div", null,
+              h("h2", null, f.title || f.id),
+              h("div", { className: "flow-meta" },
+                `${f.id} · v${f.version} · ${f.nodes} nodes, ${f.edges} edges` + (f.restarts ? ` · restarted ${f.restarts}×` : ""))),
+            h("div", { className: `flow-state${f.done ? " done" : ""}` }, f.done ? "complete" : f.started ? "running" : "not started")),
+          h("p", { className: "flow-now" },
+            h("b", null, f.done ? "Finished" : `Now: ${f.nodeLabel || f.nodeId}`),
+            !f.done && f.nodeKind && h("span", { className: "flow-kind" }, f.nodeKind),
+            !f.done && f.nodeApp && f.nodeApp !== "smartcity" && h("span", { className: "flow-app" }, f.nodeApp)),
+          h("p", { className: "flow-why-line" }, h("span", null, "Why here: "), f.why),
+          f.competencies.length > 0 && h("p", { className: "flow-comps" },
+            h("span", null, "Demonstrated: "), f.competencies.join(", ")),
+          h(FlowPath, { path: f.path }),
+          h("div", { className: "btnrow" },
+            h("button", {
+              className: "primary", id: `flow-continue-${f.id}`, disabled: !!f.done,
+              onClick: () => actions.flowContinue(f.id),
+            }, f.started ? "Continue" : "Start"),
+            h("button", { id: `flow-restart-${f.id}`, onClick: () => actions.flowRestart(f.id) }, "Restart"),
+            !f.current && h("button", { id: `flow-select-${f.id}`, onClick: () => actions.flowSelect(f.id) }, "Make current"))))),
+        h("p", { className: "fineprint" },
+          "A flow is validated against this network's own roster before it runs: a node naming a station that does not exist is refused, with the reason. " +
+          "A gate reads the same passing attempts the certificate claim rests on and scores nothing of its own, and a node your platform owns is handed back to it — this side waits rather than guessing. " +
+          "The run is kept in this browser only, under one key, so a flow that sends you to Trade Skills and back keeps its place."),
+        h("div", { className: "btnrow" },
+          h("button", { id: "flows-close", onClick: actions.closeFlows }, "Close"))));
+  }
+
+  /** Instructor/compliance view: every attempt with its pass verdict, per
+   * category, with CSV and xAPI export. Built from plain data — never an
+   * HTML string — so a crew tag can't inject markup here. */
+  function RecordsCard() {
+    const rec = useSlice("records");
+    if (!rec.visible) return h("div", { className: "overlay", id: "records", hidden: true });
+    const proofTab = rec.tab === "proof";
+    return h("div", { className: "overlay", id: "records", role: "dialog", "aria-modal": "true", "aria-label": "Training records" },
+      h("div", { className: "card card-wide" },
+        h("div", { className: "eyebrow" }, "SmartCiti.X · training records"),
+        h("h1", null, "Training Records"),
+        // Two tiers, two tabs: the attempt log an employer audits, and the
+        // proof tier a hall signs (see shared/competency.js).
+        h("div", { className: "rec-tabs", role: "tablist", "aria-label": "Records view" },
+          h("button", {
+            id: "rec-tab-attempts", role: "tab", "aria-selected": String(!proofTab),
+            className: `rec-tab${proofTab ? "" : " on"}`, onClick: () => actions.setRecordsTab("attempts"),
+          }, "Attempts"),
+          h("button", {
+            id: "rec-tab-proof", role: "tab", "aria-selected": String(proofTab),
+            className: `rec-tab${proofTab ? " on" : ""}`, onClick: () => actions.setRecordsTab("proof"),
+          }, "Proof")),
+        proofTab ? h(ProofPanel, { rec }) : h(AttemptsPanel, { rec }),
+        h("div", { className: "btnrow" },
+          h("button", { id: "rec-clear", disabled: !rec.total, onClick: actions.clearRecords }, "Clear records"),
+          h("button", { id: "rec-close", onClick: actions.closeRecords }, "Close"))));
+  }
+
+  const fmtDate = (iso) => { const d = new Date(iso); return isNaN(d) ? iso : d.toLocaleString(undefined, { dateStyle: "medium", timeStyle: "short" }); };
+  const fmtTime = (s) => `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`;
+  // The transcript has eleven columns, so its dates are the short sortable
+  // form rather than a locale string that wraps over five lines in a cell.
+  const fmtStamp = (iso) => String(iso ?? "").replace("T", " ").slice(0, 16);
+
+  function AttemptsPanel({ rec }) {
+    return h(Fragment, null,
+        h("p", { className: "lead" },
+          `${rec.total} attempt${rec.total === 1 ? "" : "s"} on this device · ${rec.passes} passed. ` +
+          "A pass is two or more stars with no unsafe action. Records stay in this browser until you export them."),
+        rec.summary.length > 0 && h("div", { className: "rec-grid" },
+          rec.summary.map((s) => h("div", { className: "rec-tile", key: s.category },
+            h("div", { className: "rec-cat" }, s.category),
+            h("div", { className: "rec-big" }, `${s.stationsPassed}/${s.stations}`),
+            h("div", { className: "rec-sub" }, `stations passed · ${s.passes}/${s.attempts} attempts · best ${"★".repeat(s.bestStars)}`)))),
+        rec.rows.length
+          ? h("div", { className: "rec-table-wrap" },
+              h("table", { className: "lb-table rec-table" },
+                h("thead", null, h("tr", null,
+                  h("th", null, "When"), h("th", null, "Learner"), h("th", null, "Station"), h("th", null, "Category"),
+                  h("th", null, "Score"), h("th", null, "Stars"), h("th", null, "Corr."), h("th", null, "Unsafe"),
+                  h("th", null, "Time"), h("th", null, "Result"))),
+                h("tbody", null, rec.rows.map((r) => h("tr", { key: r.id, className: r.passed ? "pass" : "fail" },
+                  h("td", null, fmtDate(r.at)), h("td", null, r.learner), h("td", null, r.simName), h("td", null, r.category),
+                  h("td", null, r.score), h("td", null, "★".repeat(r.stars)), h("td", null, r.errors), h("td", null, r.hazardHits),
+                  h("td", null, fmtTime(r.seconds)),
+                  h("td", null, h("span", { className: `rec-verdict ${r.passed ? "pass" : "fail"}` }, r.passed ? "PASS" : "FAIL")))))))
+          : h("p", { className: "lb-empty" }, "No attempts recorded yet — finish any station and it will appear here."),
+        rec.credentials.length > 0 && h(Fragment, null,
+          h("div", { className: "eyebrow", style: { marginTop: "8px" } }, "Credentials earned — portable (Open Badges 2.0)"),
+          h("ul", { className: "cred-list" }, rec.credentials.map((c) => h("li", { key: c.id, className: "cred-row" },
+            h("b", null, c.certification),
+            h("span", null, `${c.simName} · ${fmtDate(c.at)}`)))),
+          h("p", { className: "fineprint" }, "Exported assertions can be checked by anyone with the ",
+            h("a", { href: "../verify/index.html", target: "_blank", rel: "noopener" }, "credential verifier"),
+            " — structure, dates, issuer and, where the hall hosts them, the hosted copy.")),
+        h(LrsBox, { lrs: rec.lrs, total: rec.total }),
+        h("div", { className: "btnrow" },
+          h("button", { className: "primary", id: "rec-export-csv", disabled: !rec.total, onClick: actions.exportRecordsCsv }, "Export CSV"),
+          h("button", { id: "rec-export-xapi", disabled: !rec.total, onClick: actions.exportRecordsXapi }, "Export xAPI (LRS)"),
+          h("button", { id: "rec-export-badges", disabled: !rec.credentials.length, onClick: actions.exportCredentials }, "Export credentials (Open Badges)"),
+          h("button", { id: "rec-export-episodes", disabled: !rec.episodes, onClick: actions.exportEpisodesJson }, `Export episodes${rec.episodes ? ` (${rec.episodes})` : ""}`)));
+  }
+
+  /**
+   * The proof tier: what the learner can actually demonstrate, against which
+   * standards, on which stations, and why a near miss did not count. Every
+   * value is plain data from shared/competency.js rendered as a text node —
+   * a standard's title and a station's name never arrive as markup.
+   */
+  function ProofPanel({ rec }) {
+    const proof = rec.proof ?? { competencies: [], transcript: [], rubric: [] };
+    const comps = proof.competencies ?? [];
+    const rows = proof.transcript ?? [];
+    return h(Fragment, null,
+      h("p", { className: "lead" },
+        `${comps.length} competenc${comps.length === 1 ? "y" : "ies"} touched · ${proof.demonstrated | 0} demonstrated · ${proof.consistent | 0} consistent. ` +
+        "This is the tier a hall signs: a competency is earned by mastery runs on named stations, against the standards below."),
+      h("p", { className: "proof-rule" }, h("b", null, "The mastery rule: "), proof.rule),
+      comps.length
+        ? h("div", { className: "proof-grid" }, comps.map((c) => h("section", {
+            key: c.id, className: `proof-card ${c.status.replace(/\s+/g, "-")}`,
+          },
+            // The title gets the card's full width; the status chip shares the
+            // line below it with the tier and id, rather than competing with
+            // the title for room in a 300px column.
+            h("header", { className: "proof-head" },
+              h("h2", null, c.title),
+              h("div", { className: "proof-headrow" },
+                h("span", { className: "proof-sub" }, `${c.kind === "core" ? "Cross-programme" : "Programme"} · ${c.id}`),
+                h("span", { className: `proof-chip ${c.status.replace(/\s+/g, "-")}` }, c.status))),
+            h("div", { className: "proof-meter" },
+              h("span", { style: { width: `${Math.min(100, Math.round((c.stationsMet / Math.max(1, c.require)) * 100))}%` } })),
+            h("p", { className: "proof-count" },
+              `${c.stationsMet} of ${c.require} required stations mastered`,
+              h("span", { className: "proof-dim" }, ` · ${c.total} named · ${c.masteryRuns} mastery run${c.masteryRuns === 1 ? "" : "s"} on ${c.days} day${c.days === 1 ? "" : "s"}`)),
+            h("div", { className: "proof-stds" },
+              h("div", { className: "eyebrow" }, "Standards evidenced"),
+              h("ul", null, c.standards.map((s) => h("li", { key: s.id },
+                s.label,
+                s.source === "unverified" && h("span", { className: "proof-unver" }, "citation unverified"))))),
+            h("ul", { className: "proof-stations" }, c.stations.filter((s) => s.attempted).map((s) => h("li", {
+              key: s.id, className: s.mastery ? "met" : "not",
+            }, h("b", null, s.id.replace(/-/g, " ")), h("span", null, s.note)))))))
+        : h("p", { className: "lb-empty" }, "No competency evidence yet — finish a station cleanly and it will appear here."),
+      rows.length > 0 && h(Fragment, null,
+        h("div", { className: "eyebrow", style: { marginTop: "10px" } }, "Proof transcript — every attempt behind the claim"),
+        h("div", { className: "rec-table-wrap" },
+          h("table", { className: "lb-table rec-table proof-table" },
+            h("thead", null, h("tr", null,
+              h("th", null, "Competency"), h("th", null, "When"), h("th", null, "Station"),
+              h("th", null, "Score"), h("th", null, "Stars"), h("th", null, "Unsafe"), h("th", null, "Interrupts"),
+              h("th", null, "Time / par"), h("th", null, "Counted"))),
+            // The reason a run did not count is the point of this table, so it
+            // is an annotation row under the attempt rather than a last column
+            // that a narrow overlay pushes off the right-hand edge.
+            h("tbody", null, rows.flatMap((row) => row.evidence.flatMap((e) => [
+              h("tr", { key: `${row.competency.id}:${e.attemptId}`, className: e.mastery ? "pass" : "fail" },
+                h("td", null, row.competency.title,
+                  h("span", { className: `proof-chip ${row.status.replace(/\s+/g, "-")}` }, row.status)),
+                h("td", { className: "proof-when" }, fmtStamp(e.at)),
+                h("td", null, e.stationName ?? e.stationId),
+                h("td", null, e.score),
+                h("td", null, "★".repeat(e.stars)),
+                h("td", null, e.hazardHits),
+                h("td", null, e.interrupts ? `${e.interrupts.answered}/${e.interrupts.answered + e.interrupts.wrong + e.interrupts.missed}` : "—"),
+                h("td", null, `${fmtTime(e.seconds)} / ${e.parSeconds ? fmtTime(e.parSeconds) : "—"}`),
+                h("td", null, h("span", { className: `rec-verdict ${e.mastery ? "pass" : "fail"}` }, e.mastery ? "MASTERY" : "NO"))),
+              e.mastery ? null : h("tr", {
+                key: `${row.competency.id}:${e.attemptId}:why`, className: "fail proof-whyrow",
+              }, h("td", { colSpan: 9, className: "proof-why" }, `Did not count: ${e.reason}`)),
+            ].filter(Boolean))))))),
+      // The rubric, straight from game.js's own constants, so a learner can
+      // see why the run scored what it scored and why a high score can still
+      // fail the rule above.
+      h("details", { className: "proof-rubric", id: "proof-rubric" },
+        h("summary", null, "How scoring works — score, stars, combo and par"),
+        h("dl", null, (proof.rubric ?? []).flatMap(([head, body]) => [
+          h("dt", { key: `t-${head}` }, head),
+          h("dd", { key: `d-${head}` }, body),
+        ]))),
+      h("div", { className: "btnrow" },
+        h("button", { className: "primary", id: "proof-export-csv", disabled: !rows.length, onClick: actions.exportProofCsv }, "Export proof (CSV)"),
+        h("button", { id: "proof-export-badges", disabled: !(proof.demonstrated | 0), onClick: actions.exportCompetencyBadges }, "Export competency badges (JSON)"),
+        h("button", { id: "proof-print", disabled: !rows.length, onClick: actions.printTranscript }, "Print transcript")));
+  }
+
+  function LrsBox({ lrs, total }) {
+    const n = lrs.pending;
+    let status = `Connected to ${lrs.host}${lrs.authed ? " (authenticated)" : ""} · ${n} statement${n === 1 ? "" : "s"} waiting`;
+    if (lrs.busy) status += " · sending…";
+    else if (lrs.last?.error) status += ` · last send failed: ${lrs.last.error}`;
+    else if (lrs.last) status += ` · last send delivered ${lrs.last.sent}`;
+    return h("div", { className: "lrs-box" },
+      h("div", { className: "eyebrow" }, "Learning Record Store (live xAPI)"),
+      lrs.configured
+        ? h(Fragment, null,
+            h("p", { className: "lrs-status", id: "lrs-status", "aria-live": "polite" }, status),
+            h("div", { className: "btnrow lrs-row" },
+              h("button", { id: "lrs-send-all", disabled: !total || lrs.busy, onClick: actions.lrsSendAll }, "Send all records now"),
+              h("button", { id: "lrs-disconnect", onClick: actions.lrsDisconnect }, "Disconnect")))
+        : h(Fragment, null,
+            h("p", { className: "fineprint" },
+              "Connect an xAPI endpoint and every finished attempt is delivered as it happens. Statements that " +
+              "cannot be sent wait on this device and retry; the credential lives in this tab only."),
+            h("div", { className: "lrs-form" },
+              h("input", {
+                id: "lrs-endpoint", type: "url", inputMode: "url", placeholder: "https://lrs.example.org/xapi",
+                "aria-label": "LRS endpoint", value: lrs.endpointDraft, autoComplete: "off", spellCheck: false,
+                onChange: (e) => actions.lrsSetEndpoint(e.target.value),
+              }),
+              h("input", {
+                id: "lrs-auth", type: "password", placeholder: "user:secret or token (optional)",
+                "aria-label": "LRS credential", value: lrs.authDraft, autoComplete: "off",
+                onChange: (e) => actions.lrsSetAuth(e.target.value),
+              }),
+              h("button", { id: "lrs-connect", className: "primary", disabled: !lrs.endpointDraft.trim(), onClick: actions.lrsConnect }, "Connect")),
+            lrs.error && h("p", { className: "lrs-error", role: "alert" }, lrs.error)));
+  }
+
+  /** Whole seconds as "Hh Mm" / "Mm" / "Ss" — a card a learner reads, not a
+   *  stopwatch readout. Mirrors shared/tracking.js's clockText(). */
+  function fmtDuration(totalSeconds) {
+    const s = Math.max(0, Math.round(totalSeconds | 0));
+    const hh = Math.floor(s / 3600), mm = Math.floor((s % 3600) / 60), ss = s % 60;
+    if (hh) return `${hh}h ${mm}m`;
+    if (mm) return `${mm}m ${ss}s`;
+    return `${ss}s`;
+  }
+
+  /**
+   * My Training (shared/tracking.js, docs/course-tracking.md): the union-
+   * accountability card. Every programme the learner has touched — levels,
+   * lessons, measured time on task, the last station and next level, badges
+   * and standards evidenced, refreshers due, and any instructor sign-off —
+   * plus the platform-wide streak and the gamification it earns. Plain data
+   * throughout: a station name, a crew tag and an instructor's own note are
+   * all untrusted here, the same rule the Records card follows.
+   */
+  function MyTrainingCard() {
+    const tr = useSlice("training");
+    if (!tr.visible) return h("div", { className: "overlay", id: "training", hidden: true });
+    const rows = tr.rows ?? [];
+    return h("div", { className: "overlay", id: "training", role: "dialog", "aria-modal": "true", "aria-label": "My Training" },
+      h("div", { className: "card card-wide" },
+        h("div", { className: "eyebrow" }, "SmartCiti.X · my training"),
+        h("h1", null, "My Training"),
+        h("p", { className: "lead" },
+          `${tr.streak.days} consecutive training day${tr.streak.days === 1 ? "" : "s"}${tr.streak.active ? "" : " (not current)"}` +
+          (tr.streakBonusXp ? ` — ${tr.streakBonusXp} bonus XP for the streak` : "") +
+          (tr.hazardFreeWeek ? ` · Hazard-Free Week badge earned (${tr.hazardFreeWeek.weeks} week${tr.hazardFreeWeek.weeks === 1 ? "" : "s"})` : "") +
+          ". Built from this browser's own training record — nothing here is a credential."),
+        rows.length
+          ? h("div", { className: "training-list" }, rows.map((p) => h("section", { key: p.id, className: "training-card" },
+              h("header", { className: "training-head" },
+                h("h2", null, p.name),
+                h("div", { className: "training-count" }, `${p.levelsCompleted}/${p.levelsTotal} levels`)),
+              h("p", { className: "training-meta" },
+                `${p.lessonsCompleted} of ${p.lessonsTotal} lessons · time on task ${fmtDuration(p.timeOnTaskSeconds)}`),
+              h("p", { className: "training-meta" },
+                `${p.lastStation ? `Last station: ${p.lastStation}` : "No station played yet"}` +
+                (p.nextLevel ? ` · Next level: ${p.nextLevel.n} — ${p.nextLevel.title}` : " · Ladder complete")),
+              h("p", { className: "training-line" },
+                h("b", null, "Badges: "), p.badgesEarned.length ? p.badgesEarned.join(", ") : "none yet",
+                p.cleanRunBadges.length ? `; ${p.cleanRunBadges.map((b) => b.label).join(", ")}` : ""),
+              h("p", { className: "training-line" },
+                h("b", null, "Standards evidenced: "), p.standardsEvidenced.length ? p.standardsEvidenced.join("; ") : "none yet"),
+              p.refreshersDue.length > 0 && h("p", { className: "training-due" },
+                h("b", null, "Refreshers due "), `(${p.dueLabel}): `,
+                p.refreshersDue.map((d) => `${d.stationName} — ${d.overdueDays}d overdue`).join(", ")),
+              p.onTimeRefreshers > 0 && h("p", { className: "training-line" },
+                `${p.onTimeRefreshers} refresher${p.onTimeRefreshers === 1 ? "" : "s"} completed on time this programme.`),
+              p.signOffs.length > 0 && h("div", { className: "training-attest" },
+                h("div", { className: "eyebrow" }, "Instructor attestation"),
+                h("ul", null, p.signOffs.map((s) => h("li", { key: s.id },
+                  `Level ${s.level}, attested by ${s.instructor} on ${String(s.at).slice(0, 10)}`,
+                  s.note ? ` — ${s.note}` : "")))),
+              p.leaderboard.length > 1 && h("div", { className: "training-board" },
+                h("div", { className: "eyebrow" }, "Programme leaderboard · lessons completed"),
+                h("ol", null, p.leaderboard.map((r) => h("li", { key: r.name }, `${r.name} — ${r.lessonsCompleted} lessons`)))))))
+          : h("p", { className: "lb-empty" }, "No programme trained yet — finish a station and its programme will appear here."),
+        h("div", { className: "btnrow" },
+          h("button", { className: "primary", id: "training-export-json", disabled: !rows.length, onClick: actions.exportTranscriptJson }, "Export transcript (JSON)"),
+          h("button", { id: "training-print", disabled: !rows.length, onClick: actions.printTrainingTranscript }, "Print transcript"),
+          h("button", { id: "training-close", onClick: actions.closeMyTraining }, "Close"))));
+  }
+
+  function EditorStepRow({ step, i, count }) {
+    return h("div", { className: `ed-step${step.on ? "" : " off"}` },
+      h("input", { type: "checkbox", checked: step.on, onChange: (e) => actions.edToggleStep(i, e.target.checked) }),
+      h("span", { className: "kind" }, step.kind),
+      h("span", { className: "title" }, step.title),
+      h("button", { type: "button", className: "mv", disabled: i === 0, onClick: () => actions.edMoveStep(i, -1) }, "↑"),
+      h("button", { type: "button", className: "mv", disabled: i === count - 1, onClick: () => actions.edMoveStep(i, 1) }, "↓"));
+  }
+
+  function EditorLibraryCard({ entry }) {
+    return h("div", { className: "ed-lib-card" },
+      h("h3", null, entry.name),
+      h("p", null, `${entry.baseName} · ${entry.stepCount} step${entry.stepCount === 1 ? "" : "s"}`),
+      h("div", { className: "btnrow" },
+        h("button", { className: "primary", disabled: !entry.playable, onClick: () => actions.edPlayLibrary(entry.id) }, "Play"),
+        h("button", { onClick: () => actions.edDeleteLibrary(entry.id) }, "Delete")));
+  }
+
+  function EditorCard() {
+    const ed = useSlice("editor");
+    return h("div", { className: "overlay", id: "editor", hidden: !ed.visible, role: "dialog", "aria-modal": "true", "aria-label": "Create a scenario" },
+      h("div", { className: "card" },
+        h("div", { className: "eyebrow" }, "SmartCiti.X · scenario editor"),
+        h("h2", { className: "lb-h1" }, "Create a Scenario"),
+        h("p", { className: "lead" }, "Build your own drill from a real station's real steps: pick a simulator, keep " +
+          "the steps that matter for what you're teaching, order them how you want, and it runs on the " +
+          "same procedure engine and rank ladder as the original — hazards included."),
+        h("div", { className: "ed-row" },
+          h("label", { className: "eyebrow", htmlFor: "ed-base" }, "Base simulator"),
+          h("select", { id: "ed-base", value: ed.baseValue, onChange: (e) => actions.edSelectBase(e.target.value) },
+            h("option", { value: "" }, "Choose a simulator…"),
+            ed.baseOptions.map((o) => h("option", { key: o.id, value: o.id }, o.label)))),
+        h("div", { id: "ed-steps-wrap", hidden: !ed.stepsVisible },
+          h("div", { className: "ed-row" }, h("label", { className: "eyebrow" }, "Steps — checked and in this order")),
+          h("div", { id: "ed-steps", className: "ed-steps" },
+            ed.steps.map((s, i) => h(EditorStepRow, { key: s.id, step: s, i, count: ed.steps.length }))),
+          h("div", { className: "ed-grid" },
+            h("div", { className: "ed-row" },
+              h("label", { className: "eyebrow", htmlFor: "ed-name" }, "Scenario name"),
+              h("input", { id: "ed-name", maxLength: 40, placeholder: "e.g. Quick Isolation Drill", value: ed.name, onChange: (e) => actions.edSetName(e.target.value) })),
+            h("div", { className: "ed-row" },
+              h("label", { className: "eyebrow", htmlFor: "ed-par" }, "Par time (seconds, optional)"),
+              h("input", { id: "ed-par", type: "number", min: 30, max: 900, placeholder: "auto", value: ed.par, onChange: (e) => actions.edSetPar(e.target.value) }))),
+          h("div", { className: "ed-row" },
+            h("label", { className: "eyebrow", htmlFor: "ed-tagline" }, "Tagline (optional)"),
+            h("input", { id: "ed-tagline", maxLength: 90, placeholder: "Shown on the kiosk and the intro card", value: ed.tagline, onChange: (e) => actions.edSetTagline(e.target.value) })),
+          h("p", { id: "ed-error", className: "ed-error", hidden: !ed.error }, ed.error),
+          h("div", { className: "btnrow" },
+            h("button", { className: "primary", id: "ed-save-play", onClick: actions.edSavePlay }, "Save & play"),
+            h("button", { id: "ed-save", onClick: actions.edSaveOnly }, "Save"),
+            h("button", { id: "ed-cancel", onClick: actions.edCancel }, "Cancel"))),
+        h("div", { id: "ed-library-wrap" },
+          h("div", { className: "eyebrow", style: { marginTop: "6px" } }, "My scenarios"),
+          h("div", { id: "ed-library", className: "ed-library" },
+            ed.library.length
+              ? ed.library.map((entry) => h(EditorLibraryCard, { key: entry.id, entry }))
+              : h("p", { className: "ed-empty" }, "Nothing saved yet — pick a simulator above and build one."))),
+        h("div", { className: "btnrow", id: "ed-close-row" }, h("button", { id: "ed-close", onClick: actions.closeEditor }, "Close"))));
+  }
+
+  function VoiceButton() {
+    const voice = useSlice("voice");
+    if (!voice.supported) return null;
+    return h(Fragment, null,
+      h("button", {
+        id: "voice-btn", type: "button",
+        className: voice.listening ? "listening" : "",
+        onClick: actions.toggleVoice,
+        title: 'Voice — say a station name, "hub," "reset," "hint," "brief," "status," or "help"',
+      }, voice.listening ? "■ Listening…" : h(Fragment, null, h("span", { className: "at-i at-i--mic", "aria-hidden": "true" }), " Voice")),
+      (voice.heard || voice.error) && h("div", { id: "voice-heard", className: voice.error ? "error" : "" },
+        voice.error || `Heard: “${voice.heard}”`));
+  }
+
+  // ------------------------------------------------------ the controls panel
+  //
+  // Three tabs over one action table (shared/input.js): the keys, the pad and
+  // the grammar. Which tabs appear and in what order is decided by the device
+  // profile — a monocular hardhat display is never offered a gamepad tab.
+
+  const TAB_LABELS = { keyboard: "Keyboard", gamepad: "Gamepad", voice: "Voice" };
+
+  function KeyboardTab() {
+    const c = useSlice("controls");
+    const preset = c.presets.find((p) => p.id === c.preset);
+    return h("div", { className: "ctl-pane", id: "controls-keyboard" },
+      h("div", { className: "ctl-presetrow" },
+        h("label", { className: "eyebrow", htmlFor: "ctl-preset" }, "Preset"),
+        h("select", {
+          id: "ctl-preset", value: c.preset,
+          onChange: (e) => actions.controlsPreset(e.target.value),
+        }, c.presets.map((p) => h("option", { key: p.id, value: p.id }, p.label))),
+        h("button", { id: "ctl-reset-keys", type: "button", onClick: actions.controlsResetBindings }, "Reset keys")),
+      preset && h("p", { className: "fineprint" }, preset.note),
+      h("p", { className: "ctl-note", "aria-live": "polite" }, c.remapNote || "Click a key to rebind it, then press the key you want."),
+      h("table", { className: "ctl-table" },
+        h("thead", null, h("tr", null,
+          h("th", null, "Action"), h("th", null, "Key"), h("th", null, "What it does"))),
+        h("tbody", null, c.rows.map((row) => h("tr", { key: row.action, className: row.unbound ? "ctl-unbound" : "" },
+          h("td", null, row.label),
+          h("td", null, h("button", {
+            type: "button",
+            className: "ctl-key" + (c.remapping === row.action ? " arming" : "") + (row.custom ? " custom" : ""),
+            "aria-label": `Rebind ${row.label}`,
+            onClick: () => actions.controlsRemap(row.action),
+          }, c.remapping === row.action
+            ? "press a key…"
+            : row.pretty.map((k, i) => h(Fragment, { key: k + i }, i > 0 && h("span", { className: "ctl-or" }, "or"), h("kbd", null, k))))),
+          h("td", { className: "ctl-what" }, row.what))))));
+  }
+
+  /** The pad, drawn out of plain DOM shapes: two sticks with a live dot, a
+   * d-pad cross, four face buttons, the bumpers and the triggers. Whatever is
+   * pressed lights up, which is how a learner checks a suspect pad. */
+  function PadDiagram({ pad }) {
+    const byIndex = new Map((pad.buttons ?? []).map((b) => [b.index, b]));
+    const on = (i) => (byIndex.get(i)?.pressed ? " on" : "");
+    const analog = (i) => ({ opacity: 0.35 + 0.65 * Math.min(1, byIndex.get(i)?.value ?? 0) });
+    const axis = (i) => pad.axes?.[i]?.value ?? 0;
+    const stick = (xi, yi, cls) => h("div", { className: `pad-stick ${cls}` },
+      h("div", {
+        className: "pad-stick-dot" + (pad.axes?.[xi]?.live || pad.axes?.[yi]?.live ? " on" : ""),
+        style: { transform: `translate(${axis(xi) * 16}px, ${axis(yi) * 16}px)` },
+      }));
+    const label = (i) => byIndex.get(i)?.label ?? "";
+    return h("div", { className: "pad-diagram", id: "controls-pad-diagram", role: "img", "aria-label": "Gamepad layout with the pressed buttons highlighted" },
+      h("div", { className: "pad-shoulder pad-lt" + on(6), style: analog(6) }, label(6) || "LT"),
+      h("div", { className: "pad-shoulder pad-rt" + on(7), style: analog(7) }, label(7) || "RT"),
+      h("div", { className: "pad-shoulder pad-lb" + on(4) }, label(4) || "LB"),
+      h("div", { className: "pad-shoulder pad-rb" + on(5) }, label(5) || "RB"),
+      h("div", { className: "pad-body" },
+        h("div", { className: "pad-dpad" },
+          h("div", { className: "pad-dbtn pad-dup" + on(12) }),
+          h("div", { className: "pad-dbtn pad-ddown" + on(13) }),
+          h("div", { className: "pad-dbtn pad-dleft" + on(14) }),
+          h("div", { className: "pad-dbtn pad-dright" + on(15) })),
+        h("div", { className: "pad-middle" },
+          h("div", { className: "pad-pill" + on(8) }, "Back"),
+          h("div", { className: "pad-pill" + on(9) }, "Start")),
+        h("div", { className: "pad-faces" },
+          h("div", { className: "pad-face pad-y" + on(3) }, label(3) || "Y"),
+          h("div", { className: "pad-face pad-x" + on(2) }, label(2) || "X"),
+          h("div", { className: "pad-face pad-b" + on(1) }, label(1) || "B"),
+          h("div", { className: "pad-face pad-a" + on(0) }, label(0) || "A"))),
+      stick(0, 1, "pad-ls"),
+      stick(2, 3, "pad-rs"));
+  }
+
+  function GamepadTab() {
+    const c = useSlice("controls");
+    const pad = c.gamepad;
+    return h("div", { className: "ctl-pane", id: "controls-gamepad" },
+      h("p", { className: "ctl-note", id: "pad-state", "aria-live": "polite" },
+        pad.connected
+          ? `${pad.vendorName} layout · ${pad.id}${pad.mapping ? ` · ${pad.mapping} mapping` : ""}`
+          : "No gamepad seen yet. Plug one in and press a button — a browser only reports a pad once it is used."),
+      h(PadDiagram, { pad }),
+      pad.connected && h("div", { className: "pad-readout" },
+        h("div", { className: "pad-readout-row" }, (pad.buttons ?? []).filter((b) => b.pressed || b.value > 0.05)
+          .map((b) => h("span", { key: b.index, className: "pad-live" }, `${b.label} ${b.value.toFixed(2)}`)),
+        !(pad.buttons ?? []).some((b) => b.pressed || b.value > 0.05) && h("span", { className: "pad-idle" }, "nothing pressed")),
+        h("div", { className: "pad-readout-row" }, (pad.axes ?? []).map((a) =>
+          h("span", { key: a.index, className: "pad-live" + (a.live ? " on" : "") }, `${a.label} ${a.value.toFixed(2)}`)))),
+      h("table", { className: "ctl-table" },
+        h("thead", null, h("tr", null, h("th", null, "Control"), h("th", null, "Action"), h("th", null, "What it does"))),
+        h("tbody", null, c.padMap.map((row, i) => h("tr", { key: `${row.index ?? "axis"}-${i}` },
+          h("td", null, h("kbd", null, row.label)),
+          h("td", null, row.actionLabel),
+          h("td", { className: "ctl-what" }, row.note))))),
+      h("p", { className: "fineprint" },
+        "Mapped by index, not by brand: an Xbox, PlayStation or unbranded pad in the W3C Standard Gamepad mapping " +
+        "all behave the same, and only the printed names change. In a headset the pad is left alone — the controllers " +
+        "there are XR input sources with their own ray, trigger and grip."));
+  }
+
+  function VoiceTab() {
+    const c = useSlice("controls");
+    const voice = useSlice("voice");
+    return h("div", { className: "ctl-pane", id: "controls-voice" },
+      h("p", { className: "ctl-note", "aria-live": "polite", id: "voice-last" },
+        c.heard || voice.heard ? `Last heard: “${c.heard || voice.heard}”` : "Nothing heard yet. Press the microphone button, or say a command while it is listening."),
+      !voice.supported && h("p", { className: "fineprint" }, "This browser offers no speech recognition, so the grammar below is only reachable from the keyboard and the pad."),
+      h("table", { className: "ctl-table" },
+        h("thead", null, h("tr", null, h("th", null, "Say"), h("th", null, "What happens"))),
+        h("tbody", null, c.grammar.map((row) => h("tr", { key: row.type },
+          h("td", null, row.say.map((s, i) => h(Fragment, { key: s },
+            i > 0 && h("span", { className: "ctl-or" }, "or"), h("kbd", null, `“${s}”`)))),
+          h("td", { className: "ctl-what" }, row.what))))),
+      h("p", { className: "fineprint" },
+        "Voice navigates, focuses, describes, reads back and answers the check-in. It never completes a step: " +
+        "selecting, pressing, dragging and turning stay with the hands, which is the point of a hands-on trainer. " +
+        "Station names work too — say the name on a kiosk to enter it."));
+  }
+
+  function ControlsCard() {
+    const c = useSlice("controls");
+    if (!c.visible) return null;
+    const tabs = c.tabs.length ? c.tabs : ["keyboard"];
+    const tab = tabs.includes(c.tab) ? c.tab : tabs[0];
+    return h("div", { className: "overlay", id: "controls", role: "dialog", "aria-modal": "true", "aria-label": "Controls" },
+      h("div", { className: "card card-wide" },
+        h("div", { className: "eyebrow" }, c.deviceLine || "This device"),
+        h("h1", null, "Controls"),
+        h("p", { className: "lead" },
+          `Tabs are ordered for this device (${c.inputSource === "device" ? "from its own input record" : "from its run profile"})`
+          + `${c.voiceFirst ? ", voice first" : ""}${c.hands ? "; hands do the work in the headset" : ""}.`
+          + " Every action here is reachable from the keyboard as well, and the bindings live in this browser only."),
+        h("div", { className: "tabrow", role: "tablist", "aria-label": "Control surfaces" },
+          tabs.map((id) => h("button", {
+            key: id, type: "button", id: `ctl-tab-${id}`, role: "tab",
+            "aria-selected": tab === id ? "true" : "false",
+            className: "ctl-tab" + (tab === id ? " primary" : ""),
+            onClick: () => actions.controlsTab(id),
+          }, TAB_LABELS[id] ?? id))),
+        tab === "keyboard" && h(KeyboardTab),
+        tab === "gamepad" && h(GamepadTab),
+        tab === "voice" && h(VoiceTab),
+        h("div", { className: "btnrow" },
+          h("button", { className: "primary", id: "controls-close", type: "button", onClick: actions.closeControls }, "Close"))));
+  }
+
+  function ControlsButton() {
+    return h("button", {
+      id: "controls-btn", type: "button",
+      onClick: actions.openControls,
+      title: "Controls — keyboard, gamepad and voice (? or F1)",
+      "aria-label": trT("run.controlsAria"),
+    }, h("span", { className: "at-i at-i--keyboard", "aria-hidden": "true" }));
+  }
+
+  // Beside the controls button: switches between the first-person view and a
+  // third-person camera that follows the learner's own figure (or the
+  // vehicle, on a drive step). `V`, a gamepad button and "third person" /
+  // "first person" by voice all reach the same toggle — see app.js.
+  function ViewButton() {
+    const view = useSlice("view");
+    const third = view.mode === "third";
+    return h("button", {
+      id: "view-btn", type: "button",
+      className: third ? "active" : "",
+      onClick: actions.toggleView,
+      title: third ? "Switch to first-person (V)" : "Switch to third-person (V)",
+      "aria-label": third ? "Switch to first-person view" : "Switch to third-person view",
+      "aria-pressed": third ? "true" : "false",
+    }, third ? h(Fragment, null, h("span", { className: "at-i at-i--footprints", "aria-hidden": "true" }), " 3rd") : h(Fragment, null, h("span", { className: "at-i at-i--eye", "aria-hidden": "true" }), " 1st"));
+  }
+
+  function SpeakButton() {
+    if (!actions.speechSupported) return null;
+    return h("button", {
+      id: "speak-btn", type: "button",
+      onClick: actions.speakHint,
+      title: trT("run.speak"),
+      "aria-label": trT("run.speak"),
+    }, h("span", { className: "at-i at-i--volume-2", "aria-hidden": "true" }));
+  }
+
+  function App() {
+    // Re-render the whole shell when the language changes (shared/i18n.js).
+    useSyncExternalStore(trSubscribe, trLang);
+    return h(Fragment, null,
+      h(HudMission), h(HudMetrics), h(HudDive), h(HudDrive), h(HudCourt), h(HudEvents), h(HudObjective), h(HudRail), h(HudHint),
+      h(GestureTip), h(ArPrompt), h(ScaleRow), h(VoiceButton), h(SpeakButton), h(ViewButton), h(ControlsButton),
+      h(IntroCard), h(FlatStationCard), h(PreBriefCard), h(ResultsCard), h(LeaderboardCard), h(RecordsCard), h(MyTrainingCard), h(ProgramsCard), h(FlowsCard), h(EditorCard), h(SignInCard), h(ShareCard),
+      h(ControlsCard));
+  }
+
+  ReactDOM.createRoot(document.getElementById("react-root")).render(h(App));
+}
+
+export { stripHtml };

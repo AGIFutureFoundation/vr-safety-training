@@ -1,0 +1,367 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "nacelle-certified",
+    "name": "Nacelle Certified",
+    "note": "A gearbox serviced with all three locks proven, sampled hot, and the nacelle left closed and clear"
+  },
+  "category": "Energy & Power",
+  "certification": "IBEW / IUOE — utility-scale wind technician; GWO Basic Safety Training (working at height, first aid, manual handling, fire awareness); OSHA 29 CFR 1910.147 for the rotor, yaw and converter locks; 1910.269 for the electrical isolation",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "IBEW",
+        "id": "ibew-neca-jatc",
+        "title": "IBEW/NECA Joint Apprenticeship and Training Committee — inside and outside wireman apprenticeship standards, taught from the electrical training ALLIANCE curriculum"
+      },
+      {
+        "body": "union",
+        "citedAs": "IUOE",
+        "id": "iuoe-training",
+        "title": "IUOE local training funds and the IUOE National Training Fund — operating and stationary engineer apprenticeship"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Renewable generation",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "three-locks",
+        "name": "Three Locks",
+        "note": "Rotor, yaw and converter all locked before the hatch opened"
+      },
+      {
+        "id": "always-anchored",
+        "name": "Always Anchored",
+        "note": "Never unclipped inside the nacelle"
+      },
+      {
+        "id": "sampled-hot",
+        "name": "Sampled Hot",
+        "note": "Oil drawn inside the temperature window"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-service",
+        "name": "Clean Service",
+        "note": "Clean run, no corrections"
+      },
+      {
+        "id": "torque-held",
+        "name": "Torque Held",
+        "note": "Held the drain plug torque the full count"
+      },
+      {
+        "id": "down-before-dark",
+        "name": "Down Before Dark",
+        "note": "Complete inside 80% of par"
+      }
+    ],
+    "currency": "MWH",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Trainee Tech",
+      "Wind Tech",
+      "Lead Tech",
+      "Site Lead",
+      "Nacelle Authority Certified"
+    ],
+    "system": "Nacelle Authority"
+  },
+  "hazards": {
+    "hot-oil": "You cracked the drain at full operating temperature with no shield. Gear oil at ninety degrees under head pressure comes out as a jet, not a trickle, and it goes straight through a coverall.",
+    "unclipped": "You moved inside the nacelle without transferring your lanyard. There is an open hatch in this floor and an eighty-five metre drop under it; the twin lanyard exists so that one end is always attached during the transfer.",
+    "unlocked-rotor": "You opened the gearbox with the rotor lock pin not seated. A parked rotor still creeps in gusting wind, and a turning low-speed shaft inside a nacelle takes an arm before anyone can react. The pin goes in and is confirmed visually, every time.",
+    "yaw-free": "You are working with the yaw drive free. The nacelle will hunt into a wind shift with you standing in it, and the tower cable below you twists with it — a yaw event with the hatch open throws tools out and drops them ninety metres."
+  },
+  "id": "wind-nacelle",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "drain",
+      "alert": "The nacelle has started to buffet and the anemometer readout on the controller has climbed hard.",
+      "cue": "You have an open hatch and a wind limit.",
+      "delay": 4,
+      "id": "wind-freshening",
+      "kind": "Wind rising",
+      "missNote": "You worked through it with the hatch open. Nothing went out of it this time. The wind decided that, not you — and the rescue plan you were relying on had already stopped being valid.",
+      "seconds": 12,
+      "target": "anemometer",
+      "why": "The limit is not a formality — above it the hatch cannot be controlled, tools go out of it, and rescue from height stops being available. The anemometer is read again the moment the nacelle starts to move, not at the end of the task.",
+      "wrongNote": "It is the anemometer. When the nacelle starts buffeting, the first thing you do is find out what the wind is actually doing."
+    },
+    {
+      "after": "sample",
+      "alert": "The hoist hatch guard has been knocked back off its catch. The hatch is open and unguarded behind you.",
+      "cue": "There is an eighty-five metre hole in this floor.",
+      "delay": 3,
+      "id": "hatch-open",
+      "kind": "Open hatch unguarded",
+      "missNote": "The hatch stayed open and unguarded for the rest of the service. A dropped wrench through it reaches the ground at over forty metres a second, and the crew at the tower base had no reason to expect anything coming down.",
+      "seconds": 11,
+      "target": "hoist-hatch",
+      "why": "An open hatch is only safe while it is guarded and attended. The guard exists because the nacelle is cramped, the floor is oily, and the thing behind you is not a hazard you can keep in your head while your hands are in a gearbox.",
+      "wrongNote": "It is the hatch. Guard it or close it before you touch anything else."
+    }
+  ],
+  "lateNotes": {
+    "drain-plug": "The oil comes out after the locks are proven and the shield is up.",
+    "rotor-pin": "The rotor lock goes in before any cover comes off — not after."
+  },
+  "name": "Wind Nacelle",
+  "parSeconds": 270,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "situational-awareness"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.2,
+    "hits": [
+      "anchor-point",
+      "anemometer",
+      "chafed-cable",
+      "converter-lock",
+      "drain-plug",
+      "harness",
+      "hoist-hatch",
+      "hot-oil",
+      "lock-box",
+      "loose-guard",
+      "oil-thermo",
+      "pad-gauge",
+      "rotor-pin",
+      "sample-bottle",
+      "splash-shield",
+      "torque-wrench",
+      "twin-lanyard",
+      "unclipped",
+      "unlocked-rotor",
+      "work-order",
+      "yaw-free",
+      "yaw-lock"
+    ],
+    "meshes": 166
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check the service task, the lock points, and the wind speed the order stops work at.",
+      "id": "wtg-permit",
+      "kind": "select",
+      "prompt": "Check the service task, the lock points, and the wind speed the order stops work at.",
+      "target": "work-order",
+      "title": "Take the turbine work order and the wind limit",
+      "why": "Every turbine task carries a wind limit, because above it the nacelle moves, the hatch cannot be controlled and rescue from height stops being possible. The number is on the order and it is checked against the anemometer, not the sky."
+    },
+    {
+      "cue": "Confirm the wind is inside the working limit before anything else happens.",
+      "gauge": {
+        "green": [
+          0.18,
+          0.42
+        ],
+        "label": "WIND m/s",
+        "missNote": "Above the working limit — the task stops and the nacelle gets closed up.",
+        "speed": 0.75
+      },
+      "id": "wind-check",
+      "kind": "gauge",
+      "prompt": "Confirm the wind is inside the working limit before anything else happens.",
+      "target": "anemometer",
+      "title": "Read the nacelle anemometer",
+      "why": "Ninety metres up, the wind is not the wind at the base. The nacelle's own anemometer is the one the limit is written against, and it is read at the top before the work starts and again if it freshens."
+    },
+    {
+      "cue": "Pin the rotor, lock the yaw brake, isolate the converter — in that order, each confirmed.",
+      "id": "locks",
+      "itemNames": {
+        "converter-lock": "converter isolation",
+        "rotor-pin": "rotor lock pin",
+        "yaw-lock": "yaw brake lock"
+      },
+      "kind": "sequence",
+      "prompt": "Pin the rotor, lock the yaw brake, isolate the converter — in that order, each confirmed.",
+      "targets": [
+        "rotor-pin",
+        "yaw-lock",
+        "converter-lock"
+      ],
+      "title": "Three locks: rotor, yaw, converter",
+      "why": "Three different things can move or energise in here and they are stopped three different ways. The rotor is mechanical, the yaw is hydraulic, the converter is electrical, and one lock does not do the job of the others."
+    },
+    {
+      "cue": "Personal lock onto the box that holds the three isolation keys.",
+      "id": "tag",
+      "kind": "select",
+      "prompt": "Personal lock onto the box that holds the three isolation keys.",
+      "target": "lock-box",
+      "title": "Your lock on the group lock box",
+      "why": "The keys to those three locks live in a box that cannot open while your padlock is on it. That is the difference between an isolation somebody else is maintaining and an isolation you control."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Inspect the harness, clip both tails, and take the rated anchor inside the nacelle.",
+      "id": "anchor",
+      "itemNames": {
+        "anchor-point": "rated anchor",
+        "harness": "full-body harness",
+        "twin-lanyard": "twin lanyard"
+      },
+      "kind": "sequence",
+      "prompt": "Inspect the harness, clip both tails, and take the rated anchor inside the nacelle.",
+      "targets": [
+        "harness",
+        "twin-lanyard",
+        "anchor-point"
+      ],
+      "title": "Harness, twin lanyard, rated anchor",
+      "why": "Inside a nacelle there is an open hoist hatch and no floor over it. The twin lanyard is so that moving past the hatch never requires being unattached, and the anchor is the one the manufacturer rated, not the nearest pipe."
+    },
+    {
+      "cue": "Open the hatch for the oil hose and set its guard rail before anything goes through it.",
+      "id": "hatch",
+      "kind": "select",
+      "prompt": "Open the hatch for the oil hose and set its guard rail before anything goes through it.",
+      "target": "hoist-hatch",
+      "title": "Open and guard the hoist hatch",
+      "why": "The hatch is how the oil and the tools come up, and it is an eighty-five metre hole in the floor for as long as it is open. It gets a rail and it never gets left open unattended."
+    },
+    {
+      "cue": "The oil drains warm, not hot — read the sump before cracking anything.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.58
+        ],
+        "label": "OIL °C",
+        "missNote": "Outside the drain window — let it cool, or run it up, but do not crack it here.",
+        "speed": 0.7
+      },
+      "id": "oil-temp",
+      "kind": "gauge",
+      "prompt": "The oil drains warm, not hot — read the sump before cracking anything.",
+      "target": "oil-thermo",
+      "title": "Check the gearbox oil temperature",
+      "why": "Cold oil will not carry the wear particles out and the drain takes an hour. Hot oil comes out as a jet. There is a window between those, and the thermometer says whether you are in it."
+    },
+    {
+      "cue": "Shield across the drain before the plug moves.",
+      "id": "shield",
+      "kind": "select",
+      "prompt": "Shield across the drain before the plug moves.",
+      "target": "splash-shield",
+      "title": "Set the splash shield",
+      "why": "Even inside the window the first of it comes out under head pressure. The shield is between the plug and the person turning it, and it takes two seconds to set."
+    },
+    {
+      "cue": "Back the plug off slowly and let the sump down into the hose.",
+      "id": "drain",
+      "kind": "turn",
+      "prompt": "Back the plug off slowly and let the sump down into the hose.",
+      "target": "drain-plug",
+      "title": "Crack the drain plug",
+      "turn": {
+        "axis": "y",
+        "label": "DRAIN",
+        "turns": 1.5
+      },
+      "why": "Slowly, because a plug that comes out in one turn comes out with the oil behind it. The hose is already connected to the down-tower tank before the plug moves."
+    },
+    {
+      "cue": "Bottle into the stream once it is running clean, not the first of it and not the last.",
+      "id": "sample",
+      "kind": "select",
+      "prompt": "Bottle into the stream once it is running clean, not the first of it and not the last.",
+      "target": "sample-bottle",
+      "title": "Draw the oil sample mid-stream",
+      "why": "The first of the flow carries whatever settled in the drain and the last carries the sump floor. The mid-stream sample is the one that represents the oil the gearbox has actually been running on."
+    },
+    {
+      "cue": "Measure each pad and commit inside the wear limit.",
+      "gauge": {
+        "green": [
+          0.46,
+          0.64
+        ],
+        "label": "PAD mm",
+        "missNote": "Under the wear limit — that pad set is a replacement, not a sign-off.",
+        "speed": 0.75
+      },
+      "id": "brake-pads",
+      "kind": "gauge",
+      "prompt": "Measure each pad and commit inside the wear limit.",
+      "target": "pad-gauge",
+      "title": "Gauge the yaw brake pads",
+      "why": "The yaw brake is what holds the nacelle against a wind shift. Pads below the limit let the nacelle walk under load, and a nacelle that walks tears the tower cable loop it is hanging on."
+    },
+    {
+      "cue": "New sealing washer, plug in, and hold the wrench to the click.",
+      "holdBreakNote": "Came off before the click — that plug is not to torque. Set it again.",
+      "id": "torque",
+      "kind": "hold",
+      "prompt": "New sealing washer, plug in, and hold the wrench to the click.",
+      "seconds": 4,
+      "target": "torque-wrench",
+      "title": "Refit and torque the drain plug",
+      "why": "A gearbox drain plug backing out is eight hundred litres of oil down a tower and a machine destroyed. New washer, right figure, held to the click."
+    },
+    {
+      "cue": "Look over the converter, the couplings and the frame before the hatch shuts; click what needs reporting.",
+      "id": "close",
+      "itemNames": {
+        "chafed-cable": "chafed converter cable",
+        "loose-guard": "loose coupling guard"
+      },
+      "itemNotes": {
+        "chafed-cable": "A converter cable is rubbing on the frame where the nacelle flexes. Chafed through, that is an arc inside a fibreglass box full of oil mist.",
+        "loose-guard": "The high-speed coupling guard has two of its four fasteners. The coupling behind it turns at fifteen hundred rpm the moment the rotor is released."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look over the converter, the couplings and the frame before the hatch shuts; click what needs reporting.",
+      "targets": [
+        "chafed-cable",
+        "loose-guard"
+      ],
+      "title": "Walk the nacelle before you close it",
+      "why": "The next person up this tower might be six months away. What gets written down today is what gets fixed before the machine finds it."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Gearbox service ninety metres up: rotor lock, yaw lock, converter isolation, oil sampled hot, brake pads gauged, hatch closed",
+  "title": "SmartCiti.X~ Wind Nacelle VR",
+  "trade": "Wind turbine technician",
+  "underwater": null,
+  "weather": "wind"
+}

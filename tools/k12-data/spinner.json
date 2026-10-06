@@ -1,0 +1,261 @@
+{
+  "id": "k12-probability-with-a-fair-spinner",
+  "index": "817",
+  "prefix": "kfs",
+  "accent": "#5a9fd8",
+  "floor": [
+    "#6f7a6c",
+    "#636d60"
+  ],
+  "wall": [
+    "#ece2d2",
+    "#ded4c2"
+  ],
+  "trade": "Maths class at the community fair's games tent — learner and stall volunteer",
+  "header": "Upper-primary maths at a community fair's games tent: what makes a spinner fair, predicting outcomes as fractions of equal parts, running a tally and comparing what happened with what was expected, with prizes that are stickers and no money at stake.",
+  "name": "Probability with a Fair Spinner",
+  "tagline": "Equal parts make a fair spinner — and one lucky run proves nothing",
+  "badge": {
+    "id": "fair-and-square",
+    "name": "Fair and Square",
+    "note": "A spinner checked for fairness, outcomes predicted from equal parts and a tally compared honestly with the prediction"
+  },
+  "board": {
+    "name": "Spinner Board",
+    "currency": "SPINS",
+    "ranks": [
+      "Spinner",
+      "Counter",
+      "Tallier",
+      "Predictor",
+      "Statistician"
+    ]
+  },
+  "hazards": [
+    {
+      "id": "due-for-a-win",
+      "label": "Say red is due because it has not come up for a while?",
+      "face": "RED IS\nDUE",
+      "text": "You said red is due because it has not come up for a while. A fair spinner has no memory: each spin has the same chance as the last, whatever came before. Believing an outcome is due is the gambler's mistake, and it is why games of chance are not a way to win anything back."
+    },
+    {
+      "id": "count-colours-not-areas",
+      "label": "Count the colours and ignore the sizes of the parts?",
+      "face": "COUNT\nCOLOURS",
+      "text": "You counted how many colours there are and ignored how big each part is. Chance depends on the share of the spinner each outcome takes up, so a spinner with one big part and two small ones is not an equal three-way chance."
+    },
+    {
+      "id": "spin-near-the-guy-ropes",
+      "label": "Step back over the guy ropes to watch the spin?",
+      "face": "GUY\nROPES",
+      "text": "You stepped back across the tent's guy ropes to get a better view. Guy ropes are a trip hazard at every fair; you watch from inside the tent, and the volunteer keeps the ropes flagged so nobody walks into them."
+    },
+    {
+      "id": "few-spins-prove-it",
+      "label": "Decide the spinner is unfair after a handful of spins?",
+      "face": "A FEW\nSPINS",
+      "text": "You decided the spinner was unfair after a handful of spins. Short runs wobble a lot by chance alone; only many spins show whether the results settle near what equal parts predict, and even then you check the spinner itself."
+    }
+  ],
+  "find1": {
+    "title": "Find what makes the spinner fair",
+    "cue": "Mark the three things you check before trusting a spinner.",
+    "why": "A spinner is fair when every part is the same size, the pointer turns freely and nothing makes it stop in one place more than another. Checking those three before predicting anything means the maths describes the real spinner, not a spinner you are imagining.",
+    "items": [
+      [
+        "equal-parts",
+        "parts that are all the same size",
+        "Equal parts give each outcome the same chance."
+      ],
+      [
+        "free-pointer",
+        "a pointer that turns freely",
+        "A sticking pointer favours where it sticks."
+      ],
+      [
+        "level-board",
+        "a board that sits level",
+        "A tilted board can pull the pointer downhill."
+      ]
+    ],
+    "decoy": [
+      "bright-colours",
+      "the bright paint on the parts",
+      "Colour makes it easy to read, but it does not change the chances."
+    ]
+  },
+  "select1": {
+    "title": "Agree what the prizes are",
+    "cue": "Read the stall card: stickers only, nothing to pay, nothing to lose.",
+    "why": "This lesson is about how chance works, so the stall uses stickers and nobody pays or loses anything. Being clear about that from the start matters, because the same maths explains why games where money is at stake are built so that, over time, the players lose.",
+    "key": "prize-card",
+    "label": "Stickers only, nothing to pay",
+    "face": "STICKERS\nONLY"
+  },
+  "seq": {
+    "title": "Put the experiment in order",
+    "cue": "Check the spinner, predict, spin and tally, then compare.",
+    "why": "Checking the spinner first and writing a prediction before spinning keeps the experiment honest, because you cannot change the prediction to match the result. Spinning and tallying many times, and only then comparing, is how any probability experiment is run, from a classroom to a lab.",
+    "oon": "Out of order. Write the prediction before you spin, so the results cannot change it.",
+    "items": [
+      [
+        "ord-check",
+        "check the spinner is fair"
+      ],
+      [
+        "ord-predict",
+        "write a prediction from equal parts"
+      ],
+      [
+        "ord-tally",
+        "spin many times and tally"
+      ],
+      [
+        "ord-compare",
+        "compare the tally with the prediction"
+      ]
+    ]
+  },
+  "hold": {
+    "title": "Hold the board level while it spins",
+    "cue": "Hold the spinner board steady and level while the pointer turns.",
+    "why": "If the board tilts, the pointer tends to settle at the lowest point, and the spinner stops being fair even if its parts are equal. Holding it level while it turns is part of running a fair test, the same as keeping any other condition the same between trials.",
+    "brk": "The board tipped while the pointer turned. Set it level and hold it again.",
+    "key": "hold-board",
+    "label": "Board held level"
+  },
+  "turn": {
+    "title": "Give the pointer a full spin",
+    "cue": "Turn the pointer firmly so it goes round more than once before it stops.",
+    "why": "A gentle nudge that barely moves the pointer lets the starting position decide the result. Spinning firmly, so the pointer goes round several times, is what makes each outcome depend on chance alone and not on where you started.",
+    "key": "spin-dial",
+    "label": "Spin the pointer",
+    "dial": "SPIN"
+  },
+  "gauge": {
+    "title": "Read which part the pointer stopped on",
+    "cue": "Commit when you can see clearly which part the pointer's tip is in.",
+    "why": "A result only counts once you can see which part the pointer's tip sits in. If it lands on a line, the stall's rule is to spin again, decided before the game starts, so that nobody chooses the result they would prefer.",
+    "key": "read-meter",
+    "label": "Pointer read",
+    "meter": "RESULT",
+    "miss": "Not clear yet. Wait until the pointer has stopped and read its tip."
+  },
+  "drag": {
+    "title": "Add the result to the tally",
+    "cue": "Drag the tally mark to the row for the part the pointer stopped on.",
+    "why": "A tally is a running record, one mark per spin in the row it belongs to. Putting each mark in the right row as it happens, rather than trying to remember a string of results, is what makes the final count something you can trust.",
+    "key": "tally-token",
+    "label": "Tally mark",
+    "spot": "tally-spot",
+    "spotLabel": "The right row",
+    "miss": "Not in its row yet. Put the mark beside the part the pointer landed on."
+  },
+  "select2": {
+    "title": "Say the chance of landing on one part",
+    "cue": "The spinner has equal parts. Say the chance of one of them as a fraction.",
+    "why": "With equal parts, the chance of one part is one out of the number of parts, written as a fraction. Saying it as a fraction, and why, links probability to the fractions you already know and gives a prediction you can test.",
+    "key": "compare-card",
+    "label": "Chance as a fraction",
+    "face": "ONE OUT\nOF ...?"
+  },
+  "find2": {
+    "title": "Spot the problems in a classmate's report",
+    "cue": "Look at the draft experiment report and mark each problem.",
+    "why": "Probability reports go wrong in a few familiar ways: a prediction written after the spins, a conclusion drawn from too few trials and an outcome called due. Spotting them in another report is how you learn to write a conclusion that the evidence actually supports.",
+    "items": [
+      [
+        "rp-late",
+        "a prediction written after the spins",
+        "Predict first, then spin."
+      ],
+      [
+        "rp-few",
+        "a verdict from only a few spins",
+        "Short runs wobble by chance."
+      ],
+      [
+        "rp-due",
+        "a colour called due to come up",
+        "The spinner has no memory."
+      ]
+    ],
+    "decoy": [
+      "rp-table",
+      "a neat tally table",
+      "A clear tally table is good practice. Keep it."
+    ]
+  },
+  "track": {
+    "title": "Keep the tally going through a long run",
+    "cue": "Keep up with the spins, marking each one as it lands.",
+    "why": "The point of many spins is that short-run wobbles even out, but only if every spin is counted. Keeping up through a long run, without skipping or double-counting, is where concentration matters more than arithmetic.",
+    "brk": "The tally fell behind the spins. Catch up before the next one.",
+    "key": "track-meter",
+    "label": "Tally kept up",
+    "meter": "TALLY"
+  },
+  "record": {
+    "title": "Record the prediction and the results",
+    "cue": "Write the prediction, the tally totals and how they compare.",
+    "why": "Writing the prediction beside the results shows how close chance came to what equal parts predicted. The record is what lets someone else repeat your experiment and see whether they get a similar pattern.",
+    "key": "spin-log",
+    "label": "Experiment record",
+    "done": "Prediction and results recorded"
+  },
+  "share": {
+    "title": "Pool your results with the class",
+    "cue": "Add your tally to the class total on the board.",
+    "why": "Pooling everyone's spins gives a much longer run than any one group could manage, and the class total usually sits closer to the prediction than any single group's. Seeing that happen is the clearest evidence that more trials give a better picture.",
+    "key": "share-board",
+    "label": "Class total",
+    "done": "Results pooled with the class"
+  },
+  "checkin": {
+    "title": "Check in at the end of the lesson",
+    "cue": "What surprised you about the spins? What would you test next?",
+    "why": "The stall closes with the class comparing what they expected the spinner to do with what it did. That gap between the guess and the tally is the whole lesson in chance, and hearing classmates describe it in their own words helps the ones who still think a spinner remembers its last spin.",
+    "label": "End-of-lesson check-in"
+  },
+  "interrupts": [
+    {
+      "id": "a-small-child-is-lost",
+      "kind": "Lost child",
+      "key": "tell-volunteer",
+      "label": "Tell the stall volunteer at once",
+      "alert": "A small child who is not in your class is standing alone and crying at the tent entrance.",
+      "cue": "Tell the stall volunteer straight away; stay where you are with your group.",
+      "why": "A lost child at a fair is found fastest when an adult who knows the fair's plan takes charge. Telling the volunteer at once, and staying with your own group, gets the child help without anyone else going missing.",
+      "miss": "Nobody told an adult, and the child wandered off into the crowd before anyone could help.",
+      "wrong": "That does not get an adult involved. Tell the volunteer. Choose the response that deals with it now.",
+      "done": "Volunteer told, child taken to the fair's help point. The lesson carries on."
+    },
+    {
+      "id": "the-volunteer-asks-if-it-is-fair",
+      "kind": "Volunteer question",
+      "key": "say-fair",
+      "label": "Say what makes it fair",
+      "alert": "The stall volunteer asks your group whether their spinner is fair and how you would know.",
+      "cue": "Say what you checked about the spinner and what the long run shows.",
+      "why": "The volunteer is checking you know fairness comes from the spinner, not from a lucky run. Naming equal parts, a free pointer and a level board, and then the long-run tally, is exactly the reasoning a fair test needs.",
+      "miss": "You said it was fair because you won, and the volunteer pointed out that proves nothing.",
+      "wrong": "That relies on one lucky result. Say what you checked. Choose the response that deals with it now.",
+      "done": "Checks named, long run described. The volunteer agrees it is fair."
+    }
+  ],
+  "crew": [
+    "Maths teacher",
+    "Classmate",
+    "Stall volunteer",
+    "Parent helper"
+  ],
+  "guide": {
+    "start": "Equal parts, equal chances.",
+    "after": "One part out of all the equal parts.",
+    "hazard": "Stop. Does the spinner remember? Are the parts equal?"
+  },
+  "lateRecord": "The experiment record is written once the tally is done — nothing to record yet.",
+  "lateCheckin": "The check-in comes at the very end of the lesson.",
+  "scene": "bench",
+  "order": "c"
+}

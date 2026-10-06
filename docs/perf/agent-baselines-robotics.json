@@ -1,0 +1,550 @@
+{
+ "schema": "smartcitix.holodeck.agent-task@1/baselines",
+ "generator": "tools/ag_eval.mjs",
+ "config": {
+  "stations": 16,
+  "seeds": [
+   1,
+   2,
+   3
+  ],
+  "dt": 0.05,
+  "maxSteps": 900,
+  "hintCost": 0.02,
+  "pass": "finished && stars >= 2 && hazardHits === 0 (shared/robot.js runEpisode's rule)"
+ },
+ "baselines": {
+  "random": "uniform random over select/confirm/press/release/wait/inspect and the visible ids",
+  "expert": "scripted expert reading the station's step list (privileged: sees target ids) — an upper bound, not a learner",
+  "retrieval": "word-overlap retrieval (IDF-weighted) over the step's title, cue and sourced why text; inspects before touching; hint only when nothing matches. No language model.",
+  "retrieval-ask": "the same retrieval heuristic, also asking for a hint whenever the runner-up is within 1.5 of the best match"
+ },
+ "summary": {
+  "random": {
+   "episodes": 48,
+   "successRate": 0,
+   "finishRate": 0,
+   "meanSteps": 900,
+   "meanStepsWhenPassed": null,
+   "hazardHitsPerEpisode": 67.98,
+   "errorsPerEpisode": 421.21,
+   "hintsPerEpisode": 0,
+   "meanStationScore": 4
+  },
+  "expert": {
+   "episodes": 48,
+   "successRate": 1,
+   "finishRate": 1,
+   "meanSteps": 279,
+   "meanStepsWhenPassed": 279,
+   "hazardHitsPerEpisode": 0,
+   "errorsPerEpisode": 0,
+   "hintsPerEpisode": 0,
+   "meanStationScore": 3347
+  },
+  "retrieval": {
+   "episodes": 48,
+   "successRate": 0.063,
+   "finishRate": 1,
+   "meanSteps": 333.9,
+   "meanStepsWhenPassed": 312,
+   "hazardHitsPerEpisode": 1.13,
+   "errorsPerEpisode": 20.69,
+   "hintsPerEpisode": 1,
+   "meanStationScore": 1949
+  },
+  "retrieval-ask": {
+   "episodes": 48,
+   "successRate": 0.313,
+   "finishRate": 1,
+   "meanSteps": 300.9,
+   "meanStepsWhenPassed": 312.6,
+   "hazardHitsPerEpisode": 0.63,
+   "errorsPerEpisode": 4.81,
+   "hintsPerEpisode": 8.69,
+   "meanStationScore": 2563
+  }
+ },
+ "perStation": {
+  "robot-cell": {
+   "random": {
+    "passed": 0,
+    "of": 3,
+    "meanSteps": 900,
+    "hints": 0,
+    "hazardHits": 260
+   },
+   "expert": {
+    "passed": 3,
+    "of": 3,
+    "meanSteps": 67,
+    "hints": 0,
+    "hazardHits": 0
+   },
+   "retrieval": {
+    "passed": 0,
+    "of": 3,
+    "meanSteps": 91,
+    "hints": 3,
+    "hazardHits": 0
+   },
+   "retrieval-ask": {
+    "passed": 0,
+    "of": 3,
+    "meanSteps": 85,
+    "hints": 18,
+    "hazardHits": 0
+   }
+  },
+  "k12-rt-a-robot-waits-for-a-grown-ups-ok": {
+   "random": {
+    "passed": 0,
+    "of": 3,
+    "meanSteps": 900,
+    "hints": 0,
+    "hazardHits": 181
+   },
+   "expert": {
+    "passed": 3,
+    "of": 3,
+    "meanSteps": 319.7,
+    "hints": 0,
+    "hazardHits": 0
+   },
+   "retrieval": {
+    "passed": 0,
+    "of": 3,
+    "meanSteps": 405.7,
+    "hints": 9,
+    "hazardHits": 6
+   },
+   "retrieval-ask": {
+    "passed": 0,
+    "of": 3,
+    "meanSteps": 362.7,
+    "hints": 36,
+    "hazardHits": 6
+   }
+  },
+  "rt-speed-separation-monitoring-setup": {
+   "random": {
+    "passed": 0,
+    "of": 3,
+    "meanSteps": 900,
+    "hints": 0,
+    "hazardHits": 188
+   },
+   "expert": {
+    "passed": 3,
+    "of": 3,
+    "meanSteps": 320,
+    "hints": 0,
+    "hazardHits": 0
+   },
+   "retrieval": {
+    "passed": 0,
+    "of": 3,
+    "meanSteps": 356,
+    "hints": 0,
+    "hazardHits": 6
+   },
+   "retrieval-ask": {
+    "passed": 0,
+    "of": 3,
+    "meanSteps": 342,
+    "hints": 21,
+    "hazardHits": 6
+   }
+  },
+  "rt-robot-estop-recovery-and-restart": {
+   "random": {
+    "passed": 0,
+    "of": 3,
+    "meanSteps": 900,
+    "hints": 0,
+    "hazardHits": 183
+   },
+   "expert": {
+    "passed": 3,
+    "of": 3,
+    "meanSteps": 293,
+    "hints": 0,
+    "hazardHits": 0
+   },
+   "retrieval": {
+    "passed": 0,
+    "of": 3,
+    "meanSteps": 335,
+    "hints": 3,
+    "hazardHits": 6
+   },
+   "retrieval-ask": {
+    "passed": 0,
+    "of": 3,
+    "meanSteps": 314,
+    "hints": 36,
+    "hazardHits": 3
+   }
+  },
+  "rt-cobot-power-force-limit-check": {
+   "random": {
+    "passed": 0,
+    "of": 3,
+    "meanSteps": 900,
+    "hints": 0,
+    "hazardHits": 183
+   },
+   "expert": {
+    "passed": 3,
+    "of": 3,
+    "meanSteps": 308,
+    "hints": 0,
+    "hazardHits": 0
+   },
+   "retrieval": {
+    "passed": 0,
+    "of": 3,
+    "meanSteps": 359.7,
+    "hints": 3,
+    "hazardHits": 3
+   },
+   "retrieval-ask": {
+    "passed": 0,
+    "of": 3,
+    "meanSteps": 341,
+    "hints": 30,
+    "hazardHits": 3
+   }
+  },
+  "rt-teach-pendant-safe-jogging": {
+   "random": {
+    "passed": 0,
+    "of": 3,
+    "meanSteps": 900,
+    "hints": 0,
+    "hazardHits": 202
+   },
+   "expert": {
+    "passed": 3,
+    "of": 3,
+    "meanSteps": 293,
+    "hints": 0,
+    "hazardHits": 0
+   },
+   "retrieval": {
+    "passed": 0,
+    "of": 3,
+    "meanSteps": 319,
+    "hints": 0,
+    "hazardHits": 3
+   },
+   "retrieval-ask": {
+    "passed": 0,
+    "of": 3,
+    "meanSteps": 312,
+    "hints": 30,
+    "hazardHits": 3
+   }
+  },
+  "tw-palletizer-cell-fenced-access-permit": {
+   "random": {
+    "passed": 0,
+    "of": 3,
+    "meanSteps": 900,
+    "hints": 0,
+    "hazardHits": 213
+   },
+   "expert": {
+    "passed": 3,
+    "of": 3,
+    "meanSteps": 182,
+    "hints": 0,
+    "hazardHits": 0
+   },
+   "retrieval": {
+    "passed": 0,
+    "of": 3,
+    "meanSteps": 246,
+    "hints": 9,
+    "hazardHits": 0
+   },
+   "retrieval-ask": {
+    "passed": 0,
+    "of": 3,
+    "meanSteps": 203,
+    "hints": 24,
+    "hazardHits": 0
+   }
+  },
+  "tw-amr-traffic-zone-entry-and-lockout": {
+   "random": {
+    "passed": 0,
+    "of": 3,
+    "meanSteps": 900,
+    "hints": 0,
+    "hazardHits": 238
+   },
+   "expert": {
+    "passed": 3,
+    "of": 3,
+    "meanSteps": 315,
+    "hints": 0,
+    "hazardHits": 0
+   },
+   "retrieval": {
+    "passed": 0,
+    "of": 3,
+    "meanSteps": 354,
+    "hints": 9,
+    "hazardHits": 0
+   },
+   "retrieval-ask": {
+    "passed": 3,
+    "of": 3,
+    "meanSteps": 330,
+    "hints": 21,
+    "hazardHits": 0
+   }
+  },
+  "ad-cobot-risk-assessment-and-speed-separation": {
+   "random": {
+    "passed": 0,
+    "of": 3,
+    "meanSteps": 900,
+    "hints": 0,
+    "hazardHits": 187
+   },
+   "expert": {
+    "passed": 3,
+    "of": 3,
+    "meanSteps": 294,
+    "hints": 0,
+    "hazardHits": 0
+   },
+   "retrieval": {
+    "passed": 0,
+    "of": 3,
+    "meanSteps": 358,
+    "hints": 0,
+    "hazardHits": 3
+   },
+   "retrieval-ask": {
+    "passed": 0,
+    "of": 3,
+    "meanSteps": 314,
+    "hints": 30,
+    "hazardHits": 3
+   }
+  },
+  "ad-amr-fleet-traffic-and-estop-drill": {
+   "random": {
+    "passed": 0,
+    "of": 3,
+    "meanSteps": 900,
+    "hints": 0,
+    "hazardHits": 196
+   },
+   "expert": {
+    "passed": 3,
+    "of": 3,
+    "meanSteps": 293,
+    "hints": 0,
+    "hazardHits": 0
+   },
+   "retrieval": {
+    "passed": 0,
+    "of": 3,
+    "meanSteps": 340,
+    "hints": 0,
+    "hazardHits": 6
+   },
+   "retrieval-ask": {
+    "passed": 0,
+    "of": 3,
+    "meanSteps": 317,
+    "hints": 30,
+    "hazardHits": 0
+   }
+  },
+  "ad-robot-cell-lockout-and-safe-reentry": {
+   "random": {
+    "passed": 0,
+    "of": 3,
+    "meanSteps": 900,
+    "hints": 0,
+    "hazardHits": 223
+   },
+   "expert": {
+    "passed": 3,
+    "of": 3,
+    "meanSteps": 294,
+    "hints": 0,
+    "hazardHits": 0
+   },
+   "retrieval": {
+    "passed": 3,
+    "of": 3,
+    "meanSteps": 312,
+    "hints": 0,
+    "hazardHits": 0
+   },
+   "retrieval-ask": {
+    "passed": 3,
+    "of": 3,
+    "meanSteps": 311,
+    "hints": 12,
+    "hazardHits": 0
+   }
+  },
+  "k12-rp-how-a-robot-knows-to-stop": {
+   "random": {
+    "passed": 0,
+    "of": 3,
+    "meanSteps": 900,
+    "hints": 0,
+    "hazardHits": 181
+   },
+   "expert": {
+    "passed": 3,
+    "of": 3,
+    "meanSteps": 319.7,
+    "hints": 0,
+    "hazardHits": 0
+   },
+   "retrieval": {
+    "passed": 0,
+    "of": 3,
+    "meanSteps": 519.3,
+    "hints": 9,
+    "hazardHits": 6
+   },
+   "retrieval-ask": {
+    "passed": 0,
+    "of": 3,
+    "meanSteps": 351.7,
+    "hints": 45,
+    "hazardHits": 3
+   }
+  },
+  "rp-construction-drilling-robot-setup": {
+   "random": {
+    "passed": 0,
+    "of": 3,
+    "meanSteps": 900,
+    "hints": 0,
+    "hazardHits": 243
+   },
+   "expert": {
+    "passed": 3,
+    "of": 3,
+    "meanSteps": 292,
+    "hints": 0,
+    "hazardHits": 0
+   },
+   "retrieval": {
+    "passed": 0,
+    "of": 3,
+    "meanSteps": 410,
+    "hints": 3,
+    "hazardHits": 6
+   },
+   "retrieval-ask": {
+    "passed": 0,
+    "of": 3,
+    "meanSteps": 309,
+    "hints": 18,
+    "hazardHits": 3
+   }
+  },
+  "rp-robot-policy-evaluation-review": {
+   "random": {
+    "passed": 0,
+    "of": 3,
+    "meanSteps": 900,
+    "hints": 0,
+    "hazardHits": 178
+   },
+   "expert": {
+    "passed": 3,
+    "of": 3,
+    "meanSteps": 292,
+    "hints": 0,
+    "hazardHits": 0
+   },
+   "retrieval": {
+    "passed": 0,
+    "of": 3,
+    "meanSteps": 313,
+    "hints": 0,
+    "hazardHits": 0
+   },
+   "retrieval-ask": {
+    "passed": 3,
+    "of": 3,
+    "meanSteps": 309,
+    "hints": 12,
+    "hazardHits": 0
+   }
+  },
+  "rp-teleop-demonstration-collection": {
+   "random": {
+    "passed": 0,
+    "of": 3,
+    "meanSteps": 900,
+    "hints": 0,
+    "hazardHits": 225
+   },
+   "expert": {
+    "passed": 3,
+    "of": 3,
+    "meanSteps": 291,
+    "hints": 0,
+    "hazardHits": 0
+   },
+   "retrieval": {
+    "passed": 0,
+    "of": 3,
+    "meanSteps": 312,
+    "hints": 0,
+    "hazardHits": 6
+   },
+   "retrieval-ask": {
+    "passed": 3,
+    "of": 3,
+    "meanSteps": 306,
+    "hints": 24,
+    "hazardHits": 0
+   }
+  },
+  "vb-supervising-agent-dispatched-robots": {
+   "random": {
+    "passed": 0,
+    "of": 3,
+    "meanSteps": 900,
+    "hints": 0,
+    "hazardHits": 182
+   },
+   "expert": {
+    "passed": 3,
+    "of": 3,
+    "meanSteps": 291,
+    "hints": 0,
+    "hazardHits": 0
+   },
+   "retrieval": {
+    "passed": 0,
+    "of": 3,
+    "meanSteps": 311,
+    "hints": 0,
+    "hazardHits": 3
+   },
+   "retrieval-ask": {
+    "passed": 3,
+    "of": 3,
+    "meanSteps": 307,
+    "hints": 30,
+    "hazardHits": 0
+   }
+  }
+ }
+}

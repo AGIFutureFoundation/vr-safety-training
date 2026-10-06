@@ -1,0 +1,603 @@
+<title>Courtside Sports Psychology</title>
+<style>
+:root{
+  --ground:#f2eee8; --surface:#fffdf9; --surface-2:#ebe4d9; --ink:#1d1814; --ink-2:#5a4f45; --rule:#d9cfc1;
+  --court:#7a1f2b; --court-ink:#fff; --maple:#b8864f; --maple-soft:#ecdcc4;
+  --board:#15120f; --board-2:#231e19; --led:#ff4b33; --led-dim:#5a1f17; --board-ink:#d8cfc3;
+  --focus:#1f5fbf;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#13100e; --surface:#1c1815; --surface-2:#26201b; --ink:#efe6da; --ink-2:#b3a696; --rule:#3a322b;
+    --court:#d7677a; --court-ink:#1a0d10; --maple:#d2a46c; --maple-soft:#33271c;
+    --board:#0b0908; --board-2:#1a1612; --led:#ff5a43; --led-dim:#4a1a14; --board-ink:#cfc5b8;
+    --focus:#8fb6ff; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#13100e; --surface:#1c1815; --surface-2:#26201b; --ink:#efe6da; --ink-2:#b3a696; --rule:#3a322b;
+  --court:#d7677a; --court-ink:#1a0d10; --maple:#d2a46c; --maple-soft:#33271c;
+  --board:#0b0908; --board-2:#1a1612; --led:#ff5a43; --led-dim:#4a1a14; --board-ink:#cfc5b8;
+  --focus:#8fb6ff; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--ground);color:var(--ink);font-family:"Libre Franklin",system-ui,-apple-system,"Segoe UI",sans-serif;font-size:16px;line-height:1.6;margin:0;padding-inline:16px;padding-block:0 64px}
+.wrap{max-width:1120px;margin:0 auto}
+a{color:var(--court);text-underline-offset:2px}
+a:focus-visible,summary:focus-visible,video:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+code{font-family:"Chivo Mono",ui-monospace,Menlo,monospace;font-size:.82em;overflow-wrap:anywhere}
+h1,h2,h3,h4{font-family:"Saira Condensed","Arial Narrow",sans-serif;text-wrap:balance;line-height:1.1;margin:0}
+h2{font-size:clamp(28px,4vw,38px);font-weight:700;letter-spacing:.01em;text-transform:uppercase}
+h3{font-size:22px;font-weight:600;letter-spacing:.02em;text-transform:uppercase}
+p{margin:0}
+.muted{color:var(--ink-2)}
+.eyebrow{font-family:"Saira Condensed","Arial Narrow",sans-serif;font-size:14px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2)}
+section{padding-block:48px 8px;display:grid;gap:22px}
+.sec-head{display:grid;gap:6px;border-top:3px solid var(--ink);padding-top:14px}
+.sec-head .eyebrow{color:var(--court)}
+.lede{max-width:68ch;color:var(--ink-2)}
+/* header */
+header{padding-block:32px 8px;display:grid;gap:20px}
+.proto{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center}
+.pill{display:inline-flex;align-items:center;gap:6px;font-family:"Saira Condensed","Arial Narrow",sans-serif;font-weight:600;font-size:14px;letter-spacing:.1em;text-transform:uppercase;padding:3px 10px;border:1.5px solid var(--court);color:var(--court);border-radius:3px}
+.pill::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--court)}
+h1{font-size:clamp(40px,7vw,76px);font-weight:800;text-transform:uppercase;letter-spacing:-.005em}
+h1 .plus{color:var(--court)}
+.purpose{font-size:clamp(17px,2.2vw,20px);max-width:62ch}
+.prepared{color:var(--ink-2);font-size:15px}
+/* scoreboard */
+.board{background:var(--board);color:var(--board-ink);border-radius:6px;padding:14px;display:grid;gap:10px;box-shadow:inset 0 0 0 2px var(--board-2)}
+.board-top{display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px;font-family:"Saira Condensed","Arial Narrow",sans-serif;letter-spacing:.16em;text-transform:uppercase;font-size:13px}
+.cells{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px}
+.cell{background:var(--board-2);border-radius:4px;padding:10px 12px;display:grid;gap:2px}
+.cell .lbl{font-family:"Saira Condensed","Arial Narrow",sans-serif;font-size:13px;letter-spacing:.14em;text-transform:uppercase}
+.cell .led{font-family:"Chivo Mono",ui-monospace,monospace;font-size:34px;font-weight:700;color:var(--led);line-height:1.1;font-variant-numeric:tabular-nums;text-shadow:0 0 12px color-mix(in srgb,var(--led) 45%,transparent)}
+.cell .sub{font-size:12px;opacity:.8}
+/* video */
+.video{background:var(--board);border-radius:6px;padding:8px}
+.video video{display:block;width:100%;max-width:100%;aspect-ratio:16/9;background:#000;border-radius:3px}
+.video-cap{font-size:14px;color:var(--ink-2)}
+/* overview */
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px 28px}
+.block{display:grid;gap:10px;align-content:start}
+.block ul{margin:0;padding-left:20px;display:grid;gap:6px}
+.chip-demo{display:inline-grid;gap:2px;background:var(--board);color:var(--board-ink);border-radius:5px;padding:8px 14px;font-family:"Chivo Mono",ui-monospace,monospace;font-size:13px;justify-self:start}
+.chip-demo .row{display:flex;gap:16px}
+.chip-demo b{color:var(--led);font-weight:700}
+.chip-demo .e{font-family:"Saira Condensed","Arial Narrow",sans-serif;letter-spacing:.14em;text-transform:uppercase;font-size:12px}
+.skills{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px}
+.skill{background:var(--surface);border:1px solid var(--rule);border-radius:4px;padding:12px 14px;display:grid;gap:4px;align-content:start}
+.skill h4{font-size:19px;font-weight:600;text-transform:uppercase;letter-spacing:.03em;color:var(--court)}
+.skill p{font-size:14.5px;color:var(--ink-2)}
+.skill .where{font-size:13px;color:var(--ink)}
+.ladder{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px}
+.rung{border-left:4px solid var(--maple);padding:6px 12px;background:var(--surface)}
+.rung .big{font-family:"Chivo Mono",ui-monospace,monospace;font-size:22px;font-weight:700;font-variant-numeric:tabular-nums}
+.note{font-size:14px;color:var(--ink-2);max-width:75ch}
+.quote{border-left:3px solid var(--court);padding:4px 14px;font-style:italic;color:var(--ink)}
+/* table */
+.scroll{overflow-x:auto;border:1px solid var(--rule);border-radius:4px;background:var(--surface);-webkit-overflow-scrolling:touch}
+table{border-collapse:collapse;width:100%;font-size:14px}
+.stations{min-width:1000px}
+th,td{text-align:left;vertical-align:top;padding:9px 10px;border-bottom:1px solid var(--rule)}
+thead th{position:sticky;top:0;background:var(--surface-2);font-family:"Saira Condensed","Arial Narrow",sans-serif;font-size:13.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:600;white-space:nowrap}
+.grp-head th{background:var(--maple-soft);border-bottom:2px solid var(--maple);padding:8px 10px}
+.grp-label{font-family:"Saira Condensed","Arial Narrow",sans-serif;font-size:18px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin-right:12px}
+.grp-note{font-size:13px;color:var(--ink-2);font-weight:400}
+.grp-ei .grp-head th{background:color-mix(in srgb,var(--court) 16%,var(--surface))}
+.st-name{min-width:170px}
+.st-title{display:block;font-weight:600}
+.st-name code{display:block;color:var(--ink-2);font-size:11.5px}
+.st-badge{display:block;font-size:12px;color:var(--ink-2)}
+.st-trains{min-width:240px;max-width:330px}
+.st-kinds{font-size:12.5px;color:var(--ink-2);min-width:120px}
+.st-list ul{margin:0;padding-left:16px;font-size:13px;min-width:130px}
+.num{text-align:right;font-variant-numeric:tabular-nums;font-family:"Chivo Mono",ui-monospace,monospace}
+.score{font-weight:700;color:var(--court)}
+/* worlds */
+.quests{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:10px}
+.quest{background:var(--surface);border:1px solid var(--rule);border-radius:4px;padding:12px 14px;display:grid;gap:6px;align-content:start}
+.quest-team{border:2px solid var(--court)}
+.q-top{display:flex;justify-content:space-between;font-size:12.5px;color:var(--ink-2);text-transform:uppercase;letter-spacing:.08em}
+.quest h4{font-size:19px;font-weight:600}
+.q-meta,.q-badge{font-size:13px;color:var(--ink-2)}
+.quest ol{margin:0;padding-left:20px;font-size:14px}
+.sites{margin:0;padding-left:20px;display:grid;gap:8px}
+/* screens */
+.shots{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+figure{margin:0;display:grid;gap:6px;align-content:start}
+figure img{width:100%;max-width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:4px;border:1px solid var(--rule);background:var(--board)}
+figcaption{font-size:14px;color:var(--ink-2)}
+/* build */
+.commits{min-width:640px}
+.commits td.date{white-space:nowrap;font-variant-numeric:tabular-nums}
+.checkers{margin:0;padding-left:20px;display:grid;gap:5px}
+.links{margin:0;padding-left:20px;display:grid;gap:4px;overflow-wrap:anywhere}
+.std{margin:0;padding-left:20px;display:grid;gap:6px;font-size:14.5px}
+/* next */
+.asks{margin:0;padding:0;list-style:none;display:grid;gap:10px;counter-reset:ask}
+.asks li{background:var(--surface);border:1px solid var(--rule);border-radius:4px;padding:12px 14px 12px 52px;position:relative;counter-increment:ask}
+.asks li::before{content:counter(ask);position:absolute;left:12px;top:10px;width:28px;height:28px;border-radius:50%;background:var(--court);color:var(--court-ink);font-family:"Chivo Mono",ui-monospace,monospace;font-weight:700;display:grid;place-items:center;font-size:14px}
+footer{margin-top:40px;font-size:13px;color:var(--ink-2);border-top:1px solid var(--rule);padding-top:12px}
+@media (prefers-reduced-motion: reduce){*{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chivo+Mono:wght@400;700&family=Libre+Franklin:wght@400;600;700&family=Saira+Condensed:wght@500;600;700;800&display=swap">
+<div class="wrap">
+<header>
+  <div class="proto"><span class="pill">Working prototype</span><span class="eyebrow">SmartCiti.X ~ Holodeck · WebXR</span></div>
+  <h1>Basketball Fundamentals <span class="plus">+</span> Teamwork &amp; EI</h1>
+  <p class="purpose">Sport psychology as the stations actually teach it: communication before movement, composure after a mistake, reading teammates, repairing a conflict, leading a huddle and knowing your role. Practised on a virtual gym floor in a phone, laptop or headset browser.</p>
+  <p class="prepared">Prepared for a demo meeting with a youth-sport and coaching partner team. Built from catalog curriculum <code>basketball-fundamentals</code> (23 stations) and the <code>ei-</code> strand of <code>civic-leadership-and-ei</code> (3 stations). Every figure below is computed from the repository.</p>
+  <div class="board" role="group" aria-label="Programme figures">
+    <div class="board-top"><span>Practice · gym-court</span><span>Repo head ce62330 · 2026-09-28</span></div>
+    <div class="cells">
+      <div class="cell"><span class="lbl">Stations</span><span class="led">26</span><span class="sub">23 basketball + 3 ei-</span></div>
+      <div class="cell"><span class="lbl">Steps</span><span class="led">356</span><span class="sub">13–14 per station</span></div>
+      <div class="cell"><span class="lbl">Fouls to avoid</span><span class="led">104</span><span class="sub">unsafe actions scored</span></div>
+      <div class="cell"><span class="lbl">Interruptions</span><span class="led">52</span><span class="sub">2 per station</span></div>
+      <div class="cell"><span class="lbl">Content eval</span><span class="led">96.3</span><span class="sub">mean · min 95</span></div>
+    </div>
+  </div>
+</header>
+
+<section id="video" aria-labelledby="h-video">
+  <div class="sec-head"><span class="eyebrow">Video demo</span><h2 id="h-video">Tip-off in ninety seconds</h2></div>
+  <div class="video"><video controls playsinline preload="metadata" poster="assets/poster.jpg" src="demo.mp4"></video></div>
+  <p class="video-cap">Recorded headless from the prototype: the home page, the basketball track page, the gym-court district, the first steps of seven real station runs and the Teamwork side quest's site in Bay World. The station runs are driven by script, so the moves are faster than a learner's.</p>
+</section>
+
+<section id="overview" aria-labelledby="h-over">
+  <div class="sec-head"><span class="eyebrow">Overview</span><h2 id="h-over">What a player or coach does here</h2></div>
+  <div class="cols">
+    <div class="block">
+      <h3>On the floor</h3>
+      <p>Every basketball station stands on the <strong>gym-court</strong> district: a maple floor with painted lanes, a hoop behind each baseline, bleachers and a scoreboard on the far wall. The learner starts at the near bleachers facing centre court and works a station of 13–14 steps using up to 8 interaction kinds (find, select, drag, sequence, hold, gauge, turn, track).</p>
+      <p>Each station scores 4 unsafe actions and fires 2 interruptions mid-run that need a different control: a <em>player down</em>, a <em>heated moment</em>, a <em>bad call</em>, a <em>parent at the door</em>.</p>
+      <div class="chip-demo" aria-hidden="true"><span class="e">Practice</span><span class="row"><span>Drills <b>05/14</b></span><span>Fouls <b>01</b></span></span><span>01:15 / 05:00</span></div>
+      <p class="note">The scoreboard chip on the HUD. The district names the labels; every number is the run's own: steps cleared, unsafe actions as fouls, and the clock against par. It turns amber on a foul and red past par. The values shown are the ones <code>check_districts.mjs</code> tests.</p>
+    </div>
+    <div class="block">
+      <h3>How it is graded</h3>
+      <ul>
+        <li><strong>Programme completion:</strong> every station has a passing attempt (stars &gt;= 2, no unsafe action).</li>
+        <li><strong>Competency:</strong> “Teach basketball fundamentals and run a youth session nobody gets hurt in”, shown by a mastery run on 6 of its 23 stations. The civic programme asks for 6 of 20 (“Lead in public: listen, decide, own the call, and run a meeting people trust”).</li>
+        <li><strong>Unsafe actions</strong> are the fouls: any one of them stops a run counting as a pass.</li>
+        <li><strong>After a team station</strong> the Guide offers three questions, none scored: “What did you say out loud that helped?” “Where did you wait when you could have spoken?” “Who covered for you, and have you told them?”</li>
+      </ul>
+      <div class="ladder">
+        <div class="rung"><span class="eyebrow">Basketball Fundamentals ladder</span><br><span class="big">20</span> levels · <span class="big">1657</span> lessons · <span class="big">120</span> tasks</div>
+        <div class="rung"><span class="eyebrow">Civic Leadership and Emotional Intelligence ladder</span><br><span class="big">20</span> levels · <span class="big">1605</span> lessons · <span class="big">120</span> tasks</div>
+      </div>
+      <p class="note">A lesson is one station step under one condition; see docs/ladders.md. Both ladders have all 20 levels full at a lesson bar of 75.</p>
+    </div>
+  </div>
+
+  <h3>The mental skills the stations teach</h3>
+  <div class="skills">
+    <div class="skill"><h4>Communication</h4><p>Talk before you move. The screen called by whoever sees it, the switch agreed out loud, the help announced.</p><span class="where">Pick-and-Roll Communication · Help Defence and Rotations</span></div>
+    <div class="skill"><h4>Composure</h4><p>One slow breath, a one-word cue, eyes back on the bench. A routine short enough to use between possessions.</p><span class="where">Reset Routine After a Miss · Composure with a Hostile Crowd and Officials</span></div>
+    <div class="skill"><h4>Reading teammates</h4><p>Trust the rotation behind you, and hear both reads in the huddle before one is chosen.</p><span class="where">Help Defence and Rotations · Timeout Huddle and Adjustment</span></div>
+    <div class="skill"><h4>Conflict repair</h4><p>Separated first, cooled down, heard in turn and repaired for real, on the court and on a work crew.</p><span class="where">Teammate Conflict and Accountability · Conflict on the Crew</span></div>
+    <div class="skill"><h4>Leadership</h4><p>One fact, one change, one encouragement, and nobody blamed. A calm voice and one clear next step.</p><span class="where">Timeout Huddle and Adjustment · Leading Under Pressure</span></div>
+    <div class="skill"><h4>Role clarity</h4><p>Five players with five jobs: lanes filled wide, roles held, the extra pass over the hero shot.</p><span class="where">Transition Spacing and Roles · Team Offense: Spacing and Screens</span></div>
+    <div class="skill"><h4>Feedback</h4><p>Name the behaviour, not the person, and take it back without defending.</p><span class="where">Coach Feedback and Growth Mindset · Giving and Taking Feedback</span></div>
+    <div class="skill"><h4>Decisions and losing well</h4><p>A decision order read calmly as the clock runs down, and the morning after a loss: own a part, name one fix, thank who covered.</p><span class="where">Final Possession, Decision Under Pressure · Losing Well and Film Review</span></div>
+  </div>
+  <p class="note">11 of the basketball stations name the Association for Applied Sport Psychology in their certification line; the registry entry reads “Association for Applied Sport Psychology guidance on mental-skills routines for young athletes: composure after a mistake, pre-performance routines, coach feedback and growth mindset, and decision-making under pressure”. These are practice drills for team habits. The prototype makes no clinical or treatment claim and states no performance outcome.</p>
+</section>
+
+<section id="details" aria-labelledby="h-det">
+  <div class="sec-head"><span class="eyebrow">Details</span><h2 id="h-det">Every station</h2></div>
+  <p class="lede">26 stations in four groups. The groups are this page's reading of the catalog order; the order within each follows the catalog. “Fouls” are the unsafe actions a station scores; “eval” is the station's score in <code>tools/eval-content.json</code>.</p>
+  <div class="scroll" tabindex="0" role="region" aria-label="Station table, scrolls sideways">
+  <table class="stations">
+    <thead><tr><th scope="col">Station</th><th scope="col">What it trains</th><th scope="col" class="num">Steps</th><th scope="col">Interaction kinds</th><th scope="col">Fouls it scores</th><th scope="col">Interruptions</th><th scope="col" class="num">Eval</th></tr></thead>
+    <tbody class="grp grp-fund"><tr class="grp-head"><th colspan="7" scope="rowgroup"><span class="grp-label">Fundamentals and a safe session</span><span class="grp-note">Drills on the court, run so nobody gets hurt · 12 stations</span></th></tr>
+<tr>
+<td class="st-name"><span class="st-title">Warm-Up, Injury Prevention and Hydration</span><code>bb-warmup-injury-prevention-and-hydration</code><span class="st-badge">Badge: Ready to Play</span></td>
+<td class="st-trains">The first fifteen minutes of practice: the floor walked dry and clear, the emergency plan read, a health check-in at the door, water at the bench, a dynamic warm-up in order, shoes and jewellery checked and a water break called by the clock</td>
+<td class="num">14</td>
+<td class="st-kinds">find · select · drag · sequence · hold · gauge · turn · track</td>
+<td class="st-list"><ul><li>Start on wet spot</li><li>Skip water for time</li><li>Punishment sprints</li><li>Skip shoe check</li></ul></td>
+<td class="st-list"><ul><li>Parent at the door</li><li>Player down</li></ul></td>
+<td class="num score">97</td>
+</tr>
+<tr>
+<td class="st-name"><span class="st-title">Stance and Ball Handling</span><code>bb-stance-and-ball-handling</code><span class="st-badge">Badge: Eyes Up</span></td>
+<td class="st-trains">Balls checked before they are handed out, lanes spaced wide, the triple-threat stance built from the feet up, a pound dribble with the eyes up, work and rest on a timer, and every loose ball racked</td>
+<td class="num">14</td>
+<td class="st-kinds">find · gauge · drag · sequence · hold · select · turn · track</td>
+<td class="st-list"><ul><li>Overlap the lanes</li><li>Leave loose balls</li><li>Dribble through sweat</li><li>No rest intervals</li></ul></td>
+<td class="st-list"><ul><li>Heated moment</li><li>Fire alarm</li></ul></td>
+<td class="num score">97</td>
+</tr>
+<tr>
+<td class="st-name"><span class="st-title">Footwork: Pivots and Jump Stops</span><code>bb-footwork-pivots-and-jump-stops</code><span class="st-badge">Badge: Soft Landings</span></td>
+<td class="st-trains">The floor felt for sticky and slick patches, the pivot-foot rule explained, a jump stop landed soft and balanced, a half-turn pivot on the ball of the foot, a steady agility ladder, a jump count kept, and a rolled ankle cared for properly</td>
+<td class="num">14</td>
+<td class="st-kinds">find · select · sequence · hold · gauge · turn · drag · track</td>
+<td class="st-list"><ul><li>Jump stop by ball bag</li><li>Land on sticky patch</li><li>Jumps until legs go</li><li>Stations too close</li></ul></td>
+<td class="st-list"><ul><li>Player down</li><li>Parent at the door</li></ul></td>
+<td class="num score">97</td>
+</tr>
+<tr>
+<td class="st-name"><span class="st-title">Passing and Catching</span><code>bb-passing-and-catching</code><span class="st-badge">Badge: Soft Hands</span></td>
+<td class="st-trains">Every receiver's background checked, names called before passes, a chest pass built in order, target hands up, speed matched to the catcher, the bounce spot set, and any ball to the face taken seriously</td>
+<td class="num">14</td>
+<td class="st-kinds">find · select · sequence · hold · gauge · drag · turn · track</td>
+<td class="st-list"><ul><li>Shake off ball to face</li><li>Cross the passing lines</li><li>Leaky bottle on court</li><li>Water in the locker room</li></ul></td>
+<td class="st-list"><ul><li>Heated moment</li><li>Fire alarm</li></ul></td>
+<td class="num score">97</td>
+</tr>
+<tr>
+<td class="st-name"><span class="st-title">Shooting Form and Arc</span><code>bb-shooting-form-and-arc</code><span class="st-badge">Badge: Nothing but Arc</span></td>
+<td class="st-trains">A practice hoop inspected and set to the right height, the ball sized to the hands, the shot built from balance up, the arc held in a band that drops, the release timed at the top, the lane clear and a shot count with rest</td>
+<td class="num">14</td>
+<td class="st-kinds">find · select · turn · sequence · hold · track · gauge · drag</td>
+<td class="st-list"><ul><li>Rebounders under the rim</li><li>Shoot until arms go</li><li>Balls under the basket</li><li>Shoot in the hot corner</li></ul></td>
+<td class="st-list"><ul><li>Player down</li><li>Fire alarm</li></ul></td>
+<td class="num score">97</td>
+</tr>
+<tr>
+<td class="st-name"><span class="st-title">Free Throw Routine</span><code>bb-free-throw-routine</code><span class="st-badge">Badge: Same Every Time</span></td>
+<td class="st-trains">The line and lane checked, the lane rules explained, the same routine every time, the shooting foot lined up, a steady tempo, composure held on tired legs, water between rounds and shooters rotated to rest</td>
+<td class="num">14</td>
+<td class="st-kinds">find · select · drag · sequence · hold · turn · gauge · track</td>
+<td class="st-list"><ul><li>Skip water between rounds</li><li>Sprints for every miss</li><li>Lane players crash early</li><li>Shoot from damp line</li></ul></td>
+<td class="st-list"><ul><li>Fire alarm</li><li>Parent at the door</li></ul></td>
+<td class="num score">97</td>
+</tr>
+<tr>
+<td class="st-name"><span class="st-title">Defensive Stance and Closeouts</span><code>bb-defensive-stance-and-closeouts</code><span class="st-badge">Badge: Under Control</span></td>
+<td class="st-trains">Room to slide checked, active hands instead of reaching, a stance built and held, slides without crossing the feet, closeouts chopped under control and never into a shooter's landing, hips opened to run, and rest between reps</td>
+<td class="num">14</td>
+<td class="st-kinds">find · select · sequence · hold · track · gauge · turn · drag</td>
+<td class="st-list"><ul><li>Closeout into landing</li><li>Slides by the bleachers</li><li>Slides until someone quits</li><li>Sweatshirts to work harder</li></ul></td>
+<td class="st-list"><ul><li>Heated moment</li><li>Player down</li></ul></td>
+<td class="num score">97</td>
+</tr>
+<tr>
+<td class="st-name"><span class="st-title">Rebounding and Boxing Out</span><code>bb-rebounding-and-boxing-out</code><span class="st-badge">Badge: Sealed and Safe</span></td>
+<td class="st-trains">The paint cleared, pairs matched by size, the box-out built and the seal held, the jump timed, contact kept controlled, concussion signs recognised, and any knock to the head taken out of play</td>
+<td class="num">14</td>
+<td class="st-kinds">find · select · sequence · hold · turn · gauge · track · drag</td>
+<td class="st-list"><ul><li>Back in after head knock</li><li>Swinging elbows allowed</li><li>Four to a ball</li><li>Sweat in the paint</li></ul></td>
+<td class="st-list"><ul><li>Player down</li><li>Parent at the door</li></ul></td>
+<td class="num score">97</td>
+</tr>
+<tr>
+<td class="st-name"><span class="st-title">Team Offense: Spacing and Screens</span><code>bb-team-offense-spacing-and-screens</code><span class="st-badge">Badge: Legal and Spaced</span></td>
+<td class="st-trains">Five spots on the floor, the action drawn first, spacing fixed, an on-ball screen built and held still, the ball kept moving, illegal and blind screens caught, the reads walked, and a rotation with water in it</td>
+<td class="num">14</td>
+<td class="st-kinds">find · select · drag · sequence · hold · gauge · turn · track</td>
+<td class="st-list"><ul><li>Blind screens no space</li><li>Keep in with headache</li><li>Full court no subs</li><li>No water till it runs</li></ul></td>
+<td class="st-list"><ul><li>Parent at the door</li><li>Heated moment</li></ul></td>
+<td class="num score">97</td>
+</tr>
+<tr>
+<td class="st-name"><span class="st-title">Scrimmage and Sportsmanship Debrief</span><code>bb-scrimmage-and-sportsmanship-debrief</code><span class="st-badge">Badge: Good Game</span></td>
+<td class="st-trains">The sideline checked, ground rules said, fair teams, short periods, the game's temperature held, minutes shared, tired players rested, sportsmanship noticed, a handshake line, a debrief in order, and a check-in on how everyone is</td>
+<td class="num">14</td>
+<td class="st-kinds">find · select · sequence · turn · track · gauge · hold · drag</td>
+<td class="st-list"><ul><li>Play on after head hits floor</li><li>Overtime no water</li><li>Extend past the plan</li><li>Drink spill by the table</li></ul></td>
+<td class="st-list"><ul><li>Heated moment</li><li>Fire alarm</li></ul></td>
+<td class="num score">97</td>
+</tr>
+<tr>
+<td class="st-name"><span class="st-title">Layups and Finishing at the Rim</span><code>bb-layups-and-finishing-at-the-rim</code><span class="st-badge">Badge: Soft Touch, Clean Line</span></td>
+<td class="st-trains">The easiest drill on the practice plan is also the most collision-prone: gather, plant, drive, soft touch, and a controlled approach that keeps the line under the rim from becoming a pile-up</td>
+<td class="num">14</td>
+<td class="st-kinds">find · hold · select · sequence · turn · track · gauge · drag</td>
+<td class="st-list"><ul><li>Run layup lines on a still wet patch</li><li>Let two lines collide under the rim</li><li>Played on after a hard knee to the head under the rim</li><li>Double the rep count with no water break</li></ul></td>
+<td class="st-list"><ul><li>Player down</li><li>Fire alarm</li></ul></td>
+<td class="num score">95</td>
+</tr>
+<tr>
+<td class="st-name"><span class="st-title">Dribble Moves and Change of Pace</span><code>bb-dribble-moves-and-change-of-pace</code><span class="st-badge">Badge: Sell It, Then Burst</span></td>
+<td class="st-trains">A crossover only beats a defender because of what happens around it — a believable slow stretch that makes the sudden burst actually sudden, run low and under control the whole way through</td>
+<td class="num">14</td>
+<td class="st-kinds">find · select · sequence · gauge · turn · hold · track · drag</td>
+<td class="st-list"><ul><li>Run live moves around a loose ball</li><li>Let two live move lines cross paths</li><li>Push through a rolled ankle to finish the set</li><li>Add extra conditioning sprints as a fault punishment</li></ul></td>
+<td class="st-list"><ul><li>Player down</li><li>Fire alarm</li></ul></td>
+<td class="num score">95</td>
+</tr></tbody>
+<tbody class="grp grp-mind"><tr class="grp-head"><th colspan="7" scope="rowgroup"><span class="grp-label">Composure and mindset</span><span class="grp-note">Routines, composure, feedback and decisions under pressure · 6 stations</span></th></tr>
+<tr>
+<td class="st-name"><span class="st-title">Reset Routine After a Miss</span><code>bb-reset-routine-after-a-miss</code><span class="st-badge">Badge: Next Play</span></td>
+<td class="st-trains">One slow breath, a one-word cue, a physical let-it-go and eyes up for the next play — a routine short enough to actually use between one possession and the next</td>
+<td class="num">14</td>
+<td class="st-kinds">find · select · hold · sequence · turn · gauge · drag · track</td>
+<td class="st-list"><ul><li>Dive for the loose ball uncalled</li><li>Played on after the wall bang</li><li>Fifty makeup free throws as punishment</li><li>Let the mocking keep going</li></ul></td>
+<td class="st-list"><ul><li>Sideline moment</li><li>Fire alarm</li></ul></td>
+<td class="num score">96</td>
+</tr>
+<tr>
+<td class="st-name"><span class="st-title">Pre-Game Routine and Visualisation</span><code>bb-pre-game-routine-and-visualisation</code><span class="st-badge">Badge: Ready, Not Wound Up</span></td>
+<td class="st-trains">Gear checked, a genuinely quiet visualisation, a shoot-around and a short captain's word — a calm hour before tip-off instead of a wound-up one</td>
+<td class="num">14</td>
+<td class="st-kinds">find · select · hold · sequence · gauge · turn · drag · track</td>
+<td class="st-list"><ul><li>Locker room fans off</li><li>Extra sprints right before tip</li><li>Hype video turns reckless</li><li>Phone recording without consent</li></ul></td>
+<td class="st-list"><ul><li>Parent at the door</li><li>Fire alarm</li></ul></td>
+<td class="num score">97</td>
+</tr>
+<tr>
+<td class="st-name"><span class="st-title">Composure with a Hostile Crowd and Officials</span><code>bb-composure-with-a-hostile-crowd-and-officials</code><span class="st-badge">Badge: Still in the Game</span></td>
+<td class="st-trains">A bad call and a heckling parent are not something a player can win an argument with — one breath, a cue word and eyes back on the bench keep the game the one thing still in their control</td>
+<td class="num">14</td>
+<td class="st-kinds">find · select · hold · sequence · turn · gauge · drag · track</td>
+<td class="st-list"><ul><li>Argue the call nose to nose</li><li>Let the heckler keep going unanswered</li><li>Spilled drink left on the baseline</li><li>Bench empties onto the court</li></ul></td>
+<td class="st-list"><ul><li>Bad call</li><li>Heckler</li></ul></td>
+<td class="num score">96</td>
+</tr>
+<tr>
+<td class="st-name"><span class="st-title">Teammate Conflict and Accountability</span><code>bb-teammate-conflict-and-accountability</code><span class="st-badge">Badge: Still Teammates</span></td>
+<td class="st-trains">A flare-up over a loose ball does not end when the whistle blows it dead. Separated first, cooled down, heard in turn and repaired for real.</td>
+<td class="num">14</td>
+<td class="st-kinds">find · select · hold · sequence · turn · gauge · drag · track</td>
+<td class="st-list"><ul><li>Let the drill keep running around them</li><li>Force a fake apology in front of everyone</li><li>Let teammates pick sides</li><li>Skip the report because it was minor</li></ul></td>
+<td class="st-list"><ul><li>Heated moment</li><li>Parent at the door</li></ul></td>
+<td class="num score">96</td>
+</tr>
+<tr>
+<td class="st-name"><span class="st-title">Coach Feedback and Growth Mindset</span><code>bb-coach-feedback-and-growth-mindset</code><span class="st-badge">Badge: Correction, Not Collapse</span></td>
+<td class="st-trains">The same mistake on film either becomes one specific, fixable thing or a verdict on the player watching it — the difference is entirely in how the correction is given</td>
+<td class="num">14</td>
+<td class="st-kinds">find · select · hold · sequence · turn · gauge · drag · track</td>
+<td class="st-list"><ul><li>Compare the player to a teammate</li><li>Give only criticism no specific fix</li><li>Leave the projector cable across the walkway</li><li>Mock the mistake in front of the team</li></ul></td>
+<td class="st-list"><ul><li>Emotional moment</li><li>Team moment</li></ul></td>
+<td class="num score">96</td>
+</tr>
+<tr>
+<td class="st-name"><span class="st-title">Final Possession, Decision Under Pressure</span><code>bb-final-possession-decision-under-pressure</code><span class="st-badge">Badge: Read It, Don't Force It</span></td>
+<td class="st-trains">The clock winding down does not change what the right read is, only how hard it is to make calmly — a decision hierarchy read in order beats a forced shot every time</td>
+<td class="num">14</td>
+<td class="st-kinds">find · select · sequence · turn · hold · gauge · drag · track</td>
+<td class="st-list"><ul><li>Let the clock run with no reset check</li><li>Call a play only for one star player every time</li><li>Push a player back in after a hard fall to finish the possession</li><li>Berate the player who missed the final shot</li></ul></td>
+<td class="st-list"><ul><li>Iced timeout</li><li>Sideline moment</li></ul></td>
+<td class="num score">96</td>
+</tr></tbody>
+<tbody class="grp grp-team"><tr class="grp-head"><th colspan="7" scope="rowgroup"><span class="grp-label">Teamwork on the court</span><span class="grp-note">Communication, trust, roles and the huddle · 5 stations</span></th></tr>
+<tr>
+<td class="st-name"><span class="st-title">Pick-and-Roll Communication</span><code>bb-pick-and-roll-communication</code><span class="st-badge">Badge: Heard It First</span></td>
+<td class="st-trains">Talk before you move: the screen called by whoever sees it, the switch agreed out loud, the recovery announced before anybody leaves their man</td>
+<td class="num">13</td>
+<td class="st-kinds">find · select · sequence · hold · turn · gauge · drag · track</td>
+<td class="st-list"><ul><li>Switch silently and hope</li><li>Reach around the screener</li><li>Blame the teammate out loud</li><li>Call it too late</li></ul></td>
+<td class="st-list"><ul><li>Second screen</li><li>Player down</li></ul></td>
+<td class="num score">95</td>
+</tr>
+<tr>
+<td class="st-name"><span class="st-title">Help Defence and Rotations</span><code>bb-help-defense-rotations</code><span class="st-badge">Badge: On One String</span></td>
+<td class="st-trains">Trust the rotation behind you: the helper steps in and says so, the next teammate rotates, and the beaten defender recovers to whoever is left</td>
+<td class="num">13</td>
+<td class="st-kinds">find · select · sequence · hold · turn · gauge · drag · track</td>
+<td class="st-list"><ul><li>Step under an airborne shooter</li><li>Chase the ball not the rotation</li><li>Help without a word</li><li>Blame the beaten defender</li></ul></td>
+<td class="st-list"><ul><li>Skip pass</li><li>Player down</li></ul></td>
+<td class="num score">95</td>
+</tr>
+<tr>
+<td class="st-name"><span class="st-title">Transition Spacing and Roles</span><code>bb-transition-spacing-and-roles</code><span class="st-badge">Badge: The Extra Pass</span></td>
+<td class="st-trains">Lanes filled, roles held, the extra pass over the hero shot — and a finish that never runs into the wall behind the baseline</td>
+<td class="num">13</td>
+<td class="st-kinds">find · select · sequence · hold · turn · gauge · drag · track</td>
+<td class="st-list"><ul><li>Dribble into three defenders</li><li>All run the middle lane</li><li>Sprint into the baseline wall</li><li>Take the hero shot</li></ul></td>
+<td class="st-list"><ul><li>Defender in the lane</li><li>Run-off blocked</li></ul></td>
+<td class="num score">95</td>
+</tr>
+<tr>
+<td class="st-name"><span class="st-title">Timeout Huddle and Adjustment</span><code>bb-timeout-huddle-and-adjustment</code><span class="st-badge">Badge: Thirty Seconds</span></td>
+<td class="st-trains">Thirty seconds, one fact, one change, one encouragement — and nobody blamed</td>
+<td class="num">13</td>
+<td class="st-kinds">find · select · sequence · hold · turn · gauge · drag · track</td>
+<td class="st-list"><ul><li>Name who lost us the lead</li><li>Give five instructions at once</li><li>Skip the water</li><li>Let the argument run on</li></ul></td>
+<td class="st-list"><ul><li>Official's signal</li><li>Parent in the stands</li></ul></td>
+<td class="num score">96</td>
+</tr>
+<tr>
+<td class="st-name"><span class="st-title">Losing Well and Film Review</span><code>bb-losing-well-and-film-review</code><span class="st-badge">Badge: Lost Well</span></td>
+<td class="st-trains">After a loss: own your part, name one thing to fix, and thank the teammate who covered for you</td>
+<td class="num">13</td>
+<td class="st-kinds">find · select · sequence · hold · turn · gauge · drag · track</td>
+<td class="st-list"><ul><li>Replay one mistake over and over</li><li>Blame the officials</li><li>Skip your own part</li><li>Wave off the knock</li></ul></td>
+<td class="st-list"><ul><li>Player leaves</li><li>Head injury sign</li></ul></td>
+<td class="num score">96</td>
+</tr></tbody>
+<tbody class="grp grp-ei"><tr class="grp-head"><th colspan="7" scope="rowgroup"><span class="grp-label">Emotional intelligence on the crew</span><span class="grp-note">The ei- strand of Civic Leadership and Emotional Intelligence · 3 stations</span></th></tr>
+<tr>
+<td class="st-name"><span class="st-title">Conflict on the Crew</span><code>ei-conflict-on-the-crew</code><span class="st-badge">Badge: Cooled and Fixed</span></td>
+<td class="st-trains">Two crew members clash beside live traffic: notice it, name it, slow it down, and get to the fix — the work zone safe first</td>
+<td class="num">13</td>
+<td class="st-kinds">find · select · sequence · hold · turn · gauge · drag · track</td>
+<td class="st-list"><ul><li>Argue it out in the lane</li><li>Pick the senior worker by default</li><li>Threaten a write up on the spot</li><li>Tell them to just get over it</li></ul></td>
+<td class="st-list"><ul><li>Vehicle intrusion</li><li>Crew member leaves</li></ul></td>
+<td class="num score">96</td>
+</tr>
+<tr>
+<td class="st-name"><span class="st-title">Giving and Taking Feedback</span><code>ei-giving-and-taking-feedback</code><span class="st-badge">Badge: Both Directions</span></td>
+<td class="st-trains">Name the behaviour, not the person — and when it comes back to you, take it without defending</td>
+<td class="num">13</td>
+<td class="st-kinds">find · select · sequence · hold · turn · gauge · drag · track</td>
+<td class="st-list"><ul><li>Call them careless</li><li>Correct them in front of the crew</li><li>Defend your instructions</li><li>Save it for the annual review</li></ul></td>
+<td class="st-list"><ul><li>Machine jam</li><li>Supervisor question</li></ul></td>
+<td class="num score">97</td>
+</tr>
+<tr>
+<td class="st-name"><span class="st-title">Leading Under Pressure</span><code>ei-leading-under-pressure</code><span class="st-badge">Badge: Steady Lead</span></td>
+<td class="st-trains">The schedule slips and the crew is tired: a calm voice, one clear next step, no safety step traded for time, and credit shared at the end</td>
+<td class="num">13</td>
+<td class="st-kinds">find · select · sequence · hold · turn · gauge · drag · track</td>
+<td class="st-list"><ul><li>Skip the trench check to save time</li><li>Shout to speed them up</li><li>Take the credit with the supervisor</li><li>Cancel the rest break</li></ul></td>
+<td class="st-list"><ul><li>Pressure from above</li><li>Trench warning</li></ul></td>
+<td class="num score">96</td>
+</tr></tbody>
+  </table>
+  </div>
+
+  <div class="cols">
+    <div class="block">
+      <h3>Where it lives in the open worlds</h3>
+      <p><strong>gym-court district.</strong> All 23 basketball stations stand on it, and no other station in the catalog does (23 in total). Its conditions are forced to “Indoor court”, with the note that a cool gym does not replace water breaks. The 3 ei- stations stand on city crew worksites instead, written for: City street maintenance crew lead; City parks crew — senior worker and apprentice; City public works crew lead.</p>
+      <p><strong>Bay World sites</strong></p>
+      <ul class="sites"><li><strong>Downtown Civic Center</strong> <span class="muted">zone downtown</span><br>Anchors civic-leadership-and-ei.</li>
+<li><strong>Fruitvale Community College</strong> <span class="muted">zone fruitvale</span><br>Hosts the Teamwork side-quest pair.</li>
+<li><strong>Coliseum Arena</strong> <span class="muted">zone coliseum</span><br>Anchors basketball-fundamentals. Its job board lists Warm-Up, Injury Prevention and Hydration and Stance and Ball Handling.</li></ul>
+    </div>
+    <div class="block">
+      <h3>The Guide and devices</h3>
+      <p><strong>The Guide</strong> is the help button on every page. It answers from a knowledge base generated from the repository (1374 rows), which carries the Basketball Fundamentals and Civic Leadership and Emotional Intelligence programmes and all 26 of these stations. Its emotional-intelligence layer speaks after an unsafe action or a missed interruption without blame, and has lines for 4 team moments: teammate mistake, huddle disagreement, loss, win shared.</p>
+      <p class="quote">“One fact, one change, one encouragement. It works in a huddle and it works beside a trench.” <span class="muted">(the workforce instructor, closing the Teamwork capstone)</span></p>
+      <p><strong>Devices.</strong> The stations are WebXR pages that run three ways: flat in any browser (mouse or touch, voice), immersive AR on a WebXR browser with hit-test, and immersive VR in a headset browser. A phone or laptop runs the flat mode. A VR headset such as a Meta Quest runs immersive VR with controllers or hands, and a headset that tracks bare hands gets a slightly larger HUD and targets. The page names the device it detected so the learner can correct it.</p>
+    </div>
+  </div>
+
+  <h3>Quests that route through these stations</h3>
+  <ul class="quests"><li class="quest ">
+<div class="q-top"><span class="q-tier">Tier 1 · opener</span><span class="q-xp">100 xp</span></div>
+<h4>Civic Leadership and Emotional Intelligence — First Shift</h4>
+<p class="q-meta">Given by the programme's training lead · Civic Leadership and Emotional Intelligence</p>
+<ol><li>public-comment-prep</li><li>civic-principles-briefing</li><li>public-meeting-chair</li></ol>
+<p class="q-badge">Badge: Civic Leadership and Emotional Intelligence — Opener</p>
+</li>
+<li class="quest ">
+<div class="q-top"><span class="q-tier">Tier 2 · capstone</span><span class="q-xp">250 xp</span></div>
+<h4>Civic Leadership and Emotional Intelligence — Capstone</h4>
+<p class="q-meta">Given by the programme's certifying evaluator · Civic Leadership and Emotional Intelligence</p>
+<ol><li>Conflict on the Crew</li><li>Giving and Taking Feedback</li><li>Leading Under Pressure</li></ol>
+<p class="q-badge">Badge: Civic Leadership and Emotional Intelligence — Capstone</p>
+</li>
+<li class="quest ">
+<div class="q-top"><span class="q-tier">Tier 1 · opener</span><span class="q-xp">100 xp</span></div>
+<h4>Basketball Fundamentals — First Shift</h4>
+<p class="q-meta">Given by the programme's training lead · Basketball Fundamentals</p>
+<ol><li>Warm-Up, Injury Prevention and Hydration</li><li>Stance and Ball Handling</li><li>Footwork: Pivots and Jump Stops</li></ol>
+<p class="q-badge">Badge: Basketball Fundamentals — Opener</p>
+</li>
+<li class="quest ">
+<div class="q-top"><span class="q-tier">Tier 2 · capstone</span><span class="q-xp">250 xp</span></div>
+<h4>Basketball Fundamentals — Capstone</h4>
+<p class="q-meta">Given by the programme's certifying evaluator · Basketball Fundamentals</p>
+<ol><li>Transition Spacing and Roles</li><li>Timeout Huddle and Adjustment</li><li>Losing Well and Film Review</li></ol>
+<p class="q-badge">Badge: Basketball Fundamentals — Capstone</p>
+</li>
+<li class="quest quest-team">
+<div class="q-top"><span class="q-tier">Tier 1 · opener</span><span class="q-xp">100 xp</span></div>
+<h4>Teamwork — Talk Before You Move</h4>
+<p class="q-meta">Given by the college's team captain · Fruitvale Community College · track <code>teamwork</code></p>
+<ol><li>Pick-and-Roll Communication</li><li>Help Defence and Rotations</li><li>Transition Spacing and Roles</li></ol>
+<p class="q-badge">Badge: Teamwork — Opener</p>
+</li>
+<li class="quest quest-team">
+<div class="q-top"><span class="q-tier">Tier 2 · capstone</span><span class="q-xp">250 xp</span></div>
+<h4>Teamwork — Steady the Crew</h4>
+<p class="q-meta">Given by the college's workforce instructor · Fruitvale Community College · track <code>teamwork</code></p>
+<ol><li>Timeout Huddle and Adjustment</li><li>Conflict on the Crew</li><li>Giving and Taking Feedback</li><li>Leading Under Pressure</li></ol>
+<p class="q-badge">Badge: Teamwork — Capstone</p>
+</li></ul>
+  <p class="note">The two outlined quests are the Teamwork pair HUDDLE added at Fruitvale Community College. The opener runs the three basketball teamwork stations; the capstone runs the timeout huddle and the three ei- crew stations. In the quest data the capstone lists the opener as its prerequisite.</p>
+</section>
+
+<section id="screens" aria-labelledby="h-shots">
+  <div class="sec-head"><span class="eyebrow">Screens</span><h2 id="h-shots">From the prototype</h2></div>
+  <div class="shots">
+    <figure><img src="assets/gym-court.jpg" alt="The gym-court district: maple floor, painted lanes, bleachers and the scoreboard wall." loading="lazy"><figcaption>The gym-court district: maple floor, painted lanes, bleachers and the scoreboard wall.</figcaption></figure>
+    <figure><img src="assets/station-fundamentals.jpg" alt="Warm-Up, Injury Prevention and Hydration, mid-run, with the scoreboard chip on the HUD." loading="lazy"><figcaption>Warm-Up, Injury Prevention and Hydration, mid-run, with the scoreboard chip on the HUD.</figcaption></figure>
+    <figure><img src="assets/station-teamwork.jpg" alt="Pick-and-Roll Communication: the talk comes before the move." loading="lazy"><figcaption>Pick-and-Roll Communication: the talk comes before the move.</figcaption></figure>
+    <figure><img src="assets/station-ei.jpg" alt="Conflict on the Crew: the ei- strand, on a city street worksite." loading="lazy"><figcaption>Conflict on the Crew: the ei- strand, on a city street worksite.</figcaption></figure>
+    <figure><img src="assets/track.jpg" alt="The Basketball Fundamentals track page." loading="lazy"><figcaption>The Basketball Fundamentals track page.</figcaption></figure>
+    <figure><img src="assets/bayworld.jpg" alt="Bay World at Fruitvale Community College, the site of the Teamwork side quests." loading="lazy"><figcaption>Bay World at Fruitvale Community College, the site of the Teamwork side quests.</figcaption></figure>
+  </div>
+</section>
+
+<section id="build" aria-labelledby="h-build">
+  <div class="sec-head"><span class="eyebrow">Build info</span><h2 id="h-build">How it was built and what guards it</h2></div>
+  <div class="cols">
+    <div class="block">
+      <h3>Content eval</h3>
+      <ul>
+        <li>All 26 stations: mean <strong>96.3</strong>, min <strong>95</strong>, max 97.</li>
+        <li>23 basketball stations: mean 96.3, min 95.</li>
+        <li>3 ei- stations: mean 96.3, min 96.</li>
+        <li>HUDDLE's 8 teamwork and EI stations: mean 95.8, min 95.</li>
+      </ul>
+      <p class="note">Scores from <code>docs/investor/stations.csv</code> (<code>tools/eval_content.mjs</code>): variety, decisions, explanation, grounding, standards, feedback and scene. A ranking signal for content quality, not a learning outcome.</p>
+      <h3>Checkers that guard it</h3>
+      <p class="note">From the 65 checkers in <code>tools/check_all.mjs</code>. These name the programme, its district or its quests:</p>
+      <ul class="checkers"><li><code>check_districts.mjs</code> builds gym-court at night, dusk and day and checks the scoreboard chip reads the run's own drills, fouls and clock</li><li><code>check_bay_quests.mjs</code> counts the Teamwork side-quest pair apart from the per-programme pairs</li><li><code>check_smartcity.mjs</code> loads each of HUDDLE's eight station files</li><li><code>check_eggs.mjs</code> maps basketball-fundamentals to its catalog category</li></ul>
+      <p class="note">HUDDLE's log names these as failing its first gate and passing after the fix: <code>check_layout.mjs</code>, <code>check_ladders.mjs</code>, <code>check_investor.mjs</code>, <code>check_unity_export.mjs</code>, <code>check_console.mjs</code>, <code>check_home.mjs</code>. Its hand-back records that a clean full <code>check_all</code> run was still to do.</p>
+    </div>
+    <div class="block">
+      <h3>Standards it cites</h3>
+      <p class="note">Basketball Fundamentals, from <code>docs/programmes/basketball-fundamentals.md</code>:</p>
+      <ul class="std"><li><code>afscme-training</code> <strong>union</strong>. AFSCME member education and safety training for public-service and air-district members</li><li><code>cdc-heads-up</code> <strong>CDC</strong>. CDC Heads Up concussion-in-youth-sports training for coaches, parents and athletes: recognise the signs, remove the player from play, refer for evaluation, and return only with clearance</li><li><code>nfhs-basketball-rules</code> <strong>NFHS</strong>. National Federation of State High School Associations (NFHS) basketball rules and its sports medicine advisory guidance on concussion, heat and hydration for school sport</li><li><code>red-cross-first-aid-course</code> <strong>Red Cross</strong>. American Red Cross first aid, CPR and AED course for coaches and staff: check the scene, call, care, and hand over to emergency services</li><li><code>safesport-code</code> <strong>U.S. Center for SafeSport</strong>. U.S. Center for SafeSport abuse-prevention training and policies for adults who work with young athletes: two adults present, observable and interruptible interactions, and reporting</li><li><code>seiu-training</code> <strong>union</strong>. SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members</li><li><code>usa-basketball-youth-guidelines</code> <strong>USA Basketball</strong>. USA Basketball youth development guidelines: age-appropriate play, practice length and frequency, rest and multi-sport participation for young players, and the coach licence that teaches them</li><li><code>aasp-sport-psychology-guidance</code> <strong>Association for Applied Sport Psychology</strong>. Association for Applied Sport Psychology guidance on mental-skills routines for young athletes: composure after a mistake, pre-performance routines, coach feedback and growth mindset, and decision-making under pressure</li></ul>
+      <p class="note">The ei- strand: the Civic Leadership and Emotional Intelligence standards each ei- station names, plus the MUTCD for the work zone:</p>
+      <ul class="std"><li><code>afscme-training</code> <strong>union</strong>. AFSCME member education and safety training for public-service and air-district members</li><li><code>nims-ics</code> <strong>NIMS/ICS</strong>. NIMS incident command system — the structure a multi-agency response runs inside</li><li><code>samhsa-trauma-informed</code> <strong>SAMHSA</strong>. SAMHSA's six principles of a trauma-informed approach</li><li><code>seiu-training</code> <strong>union</strong>. SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members</li><li><code>mutcd</code> <strong>MUTCD</strong>. Manual on Uniform Traffic Control Devices — temporary traffic control for work zones</li></ul>
+      <p class="note">Registry entries in <code>tools/standards.json</code>. The bodies are named for what they publish; no clause, limit or course number is claimed, and no body has reviewed or endorsed this prototype.</p>
+    </div>
+  </div>
+  <h3>Commits touching it</h3>
+  <div class="scroll" tabindex="0" role="region" aria-label="Commit list, scrolls sideways">
+  <table class="commits"><thead><tr><th scope="col">Commit</th><th scope="col">Date</th><th scope="col">Subject</th></tr></thead><tbody>
+<tr><td><code>3dd738c</code></td><td class="date">2026-09-28</td><td>Emotional intelligence and basketball teamwork: five basketball stations on screens, help defence, spacing, the timeout huddle and losing well, three workplace stations on crew conflict, feedback and leading under pressure, teamwork lines for the guide and a Teamwork quest pair</td></tr>
+<tr><td><code>cf5cf94</code></td><td class="date">2026-09-28</td><td>Generated stations write plain JS keys so the milestone reader finds each first why; EI crew moved clear of the worksite barriers; regenerated in the right order; console hand-back</td></tr>
+<tr><td><code>3c9b46f</code></td><td class="date">2026-09-27</td><td>Eight teamwork and EI stations registered in their programmes and competencies, the Teamwork side quest pair at the college, and everything regenerated</td></tr>
+<tr><td><code>7d38e46</code></td><td class="date">2026-09-27</td><td>Station ei-leading-under-pressure: a calm voice, one next step and credit shared when the schedule slips</td></tr>
+<tr><td><code>1cc0fa0</code></td><td class="date">2026-09-27</td><td>Station ei-giving-and-taking-feedback: the behaviour not the person, and feedback taken without defending</td></tr>
+<tr><td><code>c5f5c07</code></td><td class="date">2026-09-27</td><td>Station ei-conflict-on-the-crew: notice, name, slow down and fix a crew conflict beside traffic</td></tr>
+<tr><td><code>9aa8447</code></td><td class="date">2026-09-27</td><td>Station bb-losing-well-and-film-review: own your part, name one fix, thank who covered for you</td></tr>
+<tr><td><code>5d2a082</code></td><td class="date">2026-09-27</td><td>Station bb-timeout-huddle-and-adjustment: a captain's thirty-second huddle with nobody blamed</td></tr>
+<tr><td><code>9a99bab</code></td><td class="date">2026-09-27</td><td>Station bb-transition-spacing-and-roles: lanes filled, roles held, the extra pass over the hero shot</td></tr>
+<tr><td><code>cf5274c</code></td><td class="date">2026-09-27</td><td>Station bb-help-defense-rotations: help, rotate, recover, and trust the rotation behind you</td></tr>
+<tr><td><code>0e7c69f</code></td><td class="date">2026-09-27</td><td>Station bb-pick-and-roll-communication: talk before you move on the ball screen</td></tr>
+<tr><td><code>9e05069</code></td><td class="date">2026-09-27</td><td>HUDDLE console, and the Guide's teamwork moments and reflection prompt in ei-guide.js</td></tr>
+<tr><td><code>a72f7f7</code></td><td class="date">2026-09-26</td><td>Add bb-dribble-moves-and-change-of-pace station</td></tr>
+<tr><td><code>a040689</code></td><td class="date">2026-09-26</td><td>Add bb-layups-and-finishing-at-the-rim station</td></tr>
+<tr><td><code>bf256fd</code></td><td class="date">2026-09-26</td><td>Add bb-final-possession-decision-under-pressure station</td></tr>
+<tr><td><code>79050ea</code></td><td class="date">2026-09-26</td><td>Add bb-coach-feedback-and-growth-mindset station</td></tr>
+<tr><td><code>b566cb7</code></td><td class="date">2026-09-26</td><td>Add bb-teammate-conflict-and-accountability station</td></tr>
+<tr><td><code>cbd3b24</code></td><td class="date">2026-09-26</td><td>Add bb-composure-with-a-hostile-crowd-and-officials station</td></tr>
+<tr><td><code>92d4d07</code></td><td class="date">2026-09-26</td><td>Add bb-reset-routine-after-a-miss: the reset routine after a mistake</td></tr>
+<tr><td><code>61716ef</code></td><td class="date">2026-09-24</td><td>Register the basketball standards in the competency layer, add docs/basketball.md, rebundle</td></tr>
+<tr><td><code>8508822</code></td><td class="date">2026-09-24</td><td>Basketball fundamentals: scrimmage and sportsmanship debrief station</td></tr>
+<tr><td><code>091629b</code></td><td class="date">2026-09-24</td><td>Basketball fundamentals: team offense, spacing and screens station</td></tr>
+<tr><td><code>6552c0a</code></td><td class="date">2026-09-24</td><td>Basketball fundamentals: rebounding and boxing out station</td></tr>
+<tr><td><code>505c561</code></td><td class="date">2026-09-24</td><td>Basketball fundamentals: defensive stance and closeouts station</td></tr>
+<tr><td><code>3062108</code></td><td class="date">2026-09-24</td><td>Basketball fundamentals: free throw routine station</td></tr>
+<tr><td><code>119b0d2</code></td><td class="date">2026-09-24</td><td>Basketball fundamentals: shooting form and arc station</td></tr>
+<tr><td><code>ced2a2f</code></td><td class="date">2026-09-24</td><td>Basketball fundamentals: passing and catching station</td></tr>
+<tr><td><code>3e408a5</code></td><td class="date">2026-09-24</td><td>Basketball fundamentals: footwork, pivots and jump stops station</td></tr>
+<tr><td><code>77cb1fa</code></td><td class="date">2026-09-24</td><td>Basketball fundamentals: stance and ball handling station</td></tr>
+<tr><td><code>e256a51</code></td><td class="date">2026-09-24</td><td>Basketball fundamentals: warm-up, injury prevention and hydration station</td></tr>
+<tr><td><code>a214eca</code></td><td class="date">2026-09-24</td><td>Add the gym-court district and a scoreboard HUD chip</td></tr>
+<tr><td><code>b42ccd2</code></td><td class="date">2026-09-22</td><td>Give the guide an emotional-intelligence layer: supportive lines after hazards and missed interruptions, and an unscored end-of-run check-in</td></tr>
+  </tbody></table>
+  </div>
+  <p class="note">32 commits from <code>git log --format='%h|%ad|%s' --date=short</code> on the programme docs, the 26 station files, <code>ei-guide.js</code>, the gym-court district and the Teamwork quests.</p>
+  <h3>Source</h3>
+  <ul class="links">
+    <li><a href="https://github.com/AGIFutureFoundation/vr-safety-training/tree/claude/vr-ar-safety-training-wkwmve" target="_blank" rel="noopener">Repository, branch claude/vr-ar-safety-training-wkwmve</a></li>
+    <li><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/docs/programmes/basketball-fundamentals.md" target="_blank" rel="noopener">docs/programmes/basketball-fundamentals.md</a> · <a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/docs/programmes/civic-leadership-and-ei.md" target="_blank" rel="noopener">docs/programmes/civic-leadership-and-ei.md</a> · <a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/docs/basketball.md" target="_blank" rel="noopener">docs/basketball.md</a></li>
+    <li><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/docs/consoles/HUDDLE.md" target="_blank" rel="noopener">docs/consoles/HUDDLE.md</a>: the team log for the teamwork and EI work</li>
+    <li><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/WebXR/smartcity/catalog.json" target="_blank" rel="noopener">WebXR/smartcity/catalog.json</a> · <a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/WebXR/smartcity/js/curricula.js" target="_blank" rel="noopener">curricula.js</a></li>
+    <li><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/WebXR/smartcity/js/districts.js" target="_blank" rel="noopener">WebXR/smartcity/js/districts.js</a> (gym-court) · <a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/WebXR/smartcity/js/react-ui.js" target="_blank" rel="noopener">react-ui.js</a> (scoreboard chip)</li>
+    <li><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/WebXR/shared/ei-guide.js" target="_blank" rel="noopener">WebXR/shared/ei-guide.js</a> · <a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/WebXR/bayworld/js/quests-data.js" target="_blank" rel="noopener">WebXR/bayworld/js/quests-data.js</a> (Teamwork quests)</li>
+    <li>Station files: <a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/WebXR/smartcity/js/sims/bb-pick-and-roll-communication.js" target="_blank" rel="noopener">bb-pick-and-roll-communication.js</a> · <a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/WebXR/smartcity/js/sims/bb-timeout-huddle-and-adjustment.js" target="_blank" rel="noopener">bb-timeout-huddle-and-adjustment.js</a> · <a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/WebXR/smartcity/js/sims/bb-reset-routine-after-a-miss.js" target="_blank" rel="noopener">bb-reset-routine-after-a-miss.js</a> · <a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/WebXR/smartcity/js/sims/ei-conflict-on-the-crew.js" target="_blank" rel="noopener">ei-conflict-on-the-crew.js</a> · <a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/WebXR/smartcity/js/sims/ei-leading-under-pressure.js" target="_blank" rel="noopener">ei-leading-under-pressure.js</a></li>
+  </ul>
+</section>
+
+<section id="next" aria-labelledby="h-next">
+  <div class="sec-head"><span class="eyebrow">Next steps for a pilot</span><h2 id="h-next">Questions for your team</h2></div>
+  <ol class="asks">
+    <li>Would your coaches review every station, all 26 of them, and mark any step, foul or interruption that does not match how you run a practice or a huddle?</li>
+    <li>Which of the four groups matters most to your players? A pilot could start with only the composure and teamwork stations if that fits better.</li>
+    <li>Would you pilot a small cohort on phones or a few headsets, so we can see where the controls or wording get in the way?</li>
+    <li>Is there language your programme already uses (cue words, huddle structure, feedback phrasing) that the stations should adopt instead of their own?</li>
+    <li>Who on your side should confirm how the named bodies' guidance is described before anything is shown to players or parents?</li>
+  </ol>
+  <p class="note">These are offers and questions. Nothing here commits your team to anything, and the prototype has not been piloted with any partner.</p>
+</section>
+
+<footer>SmartCiti.X ~ Holodeck working prototype. The team, players, parents and gym in the stations are invented. Page built by console COURTSIDE from the repository at ce62330.</footer>
+</div>

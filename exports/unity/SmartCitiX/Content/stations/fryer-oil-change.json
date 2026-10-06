@@ -1,0 +1,395 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "line-certified",
+    "name": "Line Certified",
+    "note": "A full oil change with the vat cold, the caddy used, the route dry and the element covered before power"
+  },
+  "category": "Culinary & Hospitality",
+  "certification": "UNITE HERE Local 2 kitchen safety training; the California Retail Food Code (used-oil handling and equipment cleaning as adopted from the FDA Food Code); Cal/OSHA General Industry Safety Orders on personal protective equipment and slip hazards, and OSHA 29 CFR 1910.132/1910.22; NSF/ANSI 4 commercial cooking equipment; the fryer manufacturer's cool-down and boil-out procedure",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "CalCode",
+        "citedAs": "California Retail Food Code",
+        "id": "calcode-retail-food",
+        "title": "California Retail Food Code (Health and Safety Code Division 104, Part 7) — the FDA Food Code as California adopts it"
+      },
+      {
+        "body": "FDA",
+        "citedAs": "FDA Food Code",
+        "id": "fda-food-code",
+        "title": "FDA Food Code — the model code for retail food establishments"
+      },
+      {
+        "body": "NSF",
+        "citedAs": "NSF/ANSI 4",
+        "id": "nsf-ansi-4",
+        "title": "NSF/ANSI 4 — Commercial cooking, rethermalization and powered hot food holding equipment"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.132",
+        "id": "osha-1910-132",
+        "title": "29 CFR 1910.132 — Personal protective equipment, general requirements"
+      },
+      {
+        "body": "union",
+        "citedAs": "UNITE HERE",
+        "id": "unite-here-training",
+        "title": "UNITE HERE hospitality training funds — cooks, housekeepers, bartenders and banquet staff"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Culinary",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "cold-vat",
+        "name": "Cold Vat",
+        "note": "Never touched the drain before the oil read safe"
+      },
+      {
+        "id": "dry-route",
+        "name": "Dry Route",
+        "note": "Held the drain and the mop pass clean, no corrections"
+      },
+      {
+        "id": "element-covered",
+        "name": "Element Covered",
+        "note": "Covered the element before the heat went back on, every time"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "shift-change",
+        "name": "Shift Change",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "steady-hand",
+        "name": "Steady Hand",
+        "note": "Held the fill line and the mop pass without a single dropout"
+      },
+      {
+        "id": "line-streak",
+        "name": "Line Streak",
+        "note": "Nine correct actions in a row"
+      }
+    ],
+    "currency": "FRY",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Prep Cook",
+      "Line Cook",
+      "Station Lead",
+      "Sous Chef",
+      "Line Certified"
+    ],
+    "system": "Line Certified"
+  },
+  "hazards": {
+    "bucket-decoy": "That is a mop bucket, not the wheeled oil caddy. Oil off this drain is still within a few degrees of scalding when the plan calls it safe to move, and a bucket has no lid, no wheel and nothing stopping it tipping the moment a boot catches its rim — the caddy is a sealed, wheeled tank built to take that heat between the fryer and the rendering bin, and it is the only container this job uses.",
+    "carried-bucket": "That bucket is full and somebody is about to carry it by hand across the line. Hot oil in an open container held at arm's length has no lid holding it level and no wheels absorbing a stumble, and a spill from carrying height lands on feet, not floor. Cal/OSHA's walking-working-surface rules exist for exactly this kind of load — wheel it, never carry it.",
+    "exposed-element": "The heating element is still bare — no oil covering it and no guard over it. Energizing a fryer element with nothing over it dry-fires the coil toward burnout in seconds and, with any residual oil vapor still in the vat, gives that vapor an ignition source it would not otherwise have. The element gets covered by fresh oil before the switch is touched, not after.",
+    "wet-floor-hazard": "That slick by the fryer is still wet. Quarry tile with a film of fryer oil on it has close to the grip of wet ice, and the next person through here is carrying either hot oil or a full basket. The floor gets dried before the station is called finished, not left for whoever crosses it next to discover."
+  },
+  "id": "fryer-oil-change",
+  "indoor": "kitchen",
+  "interrupts": [
+    {
+      "after": "drain-hold",
+      "alert": "The caddy's drain hose has kicked loose off the fitting. Oil is running down the front of the tank onto the floor instead of into it.",
+      "cue": "Secure the hose before that stream reaches the walkway.",
+      "delay": 3,
+      "id": "hose-kick",
+      "kind": "Drain hose failure",
+      "missNote": "The hose stayed loose and oil kept running down the caddy onto the tile. That puddle sits directly on the route the caddy itself is about to be wheeled over, and it is still close to hot.",
+      "seconds": 12,
+      "target": "hose-clamp",
+      "why": "A drain hose is only a closed path while its fitting is actually seated, and a jarred caddy or a kinked hose backing off the barb turns a controlled drain into oil running straight down the outside of the tank — reseating the clamp is the one action that puts the flow back where it belongs.",
+      "wrongNote": "It's the hose clamp on the caddy. Nothing else here is where that oil is actually escaping from."
+    },
+    {
+      "after": "vat-scrub",
+      "alert": "A co-worker has walked up to the fryer's power switch, thinking the boil-out is finished, with the element still sitting bare inside an empty vat.",
+      "cue": "Stop that switch before the bare element gets power.",
+      "delay": 4,
+      "id": "early-power",
+      "kind": "Premature power-up",
+      "missNote": "The switch got flipped with the element bare in an empty vat. A dry-fired element heats unopposed by any oil to carry the heat away, and it fails — or ignites whatever film is left in the vat — inside seconds.",
+      "seconds": 12,
+      "target": "fryer-power",
+      "why": "An empty vat with the element uncovered is one flip of a switch away from a dry-fired coil, and the person reaching for it has no way to know from across the kitchen that the vat is still empty — getting to the switch first is the only thing standing between a bare element and a burnout.",
+      "wrongNote": "It's the power switch, not the vat or the caddy. Get to it before the element takes a live current with nothing covering it."
+    }
+  ],
+  "lateNotes": {
+    "fryer-power": "The power switch matters twice in this job: it goes off before anything else moves, and it does not go back on until the element is covered and the vat is full to the line.",
+    "oil-caddy": "The caddy only matters once the vat has actually read cold on the thermometer — position it against a fryer that is still confirmed hot and you are lining up a scald for the moment the valve opens."
+  },
+  "name": "Fryer Oil Change",
+  "parSeconds": 260,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "culinary-kitchen"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.2,
+    "hits": [
+      "boilout-correct",
+      "bucket-decoy",
+      "burn-apron",
+      "burn-sleeves",
+      "carried-bucket",
+      "drain-valve",
+      "element-cover",
+      "exposed-element",
+      "face-shield",
+      "floor-mop",
+      "fryer-power",
+      "hose-clamp",
+      "oil-caddy",
+      "oil-jug",
+      "oil-thermometer",
+      "rendering-bin",
+      "service-plan",
+      "shelf-bleach",
+      "shelf-degreaser",
+      "thermal-gloves",
+      "vat-scrub",
+      "wet-floor-hazard"
+    ],
+    "meshes": 121
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Confirm which fryer, which oil grade, and which boil-out chemical the ticket calls for.",
+      "id": "odor-call",
+      "kind": "select",
+      "prompt": "Confirm which fryer, which oil grade, and which boil-out chemical the ticket calls for.",
+      "target": "service-plan",
+      "title": "Read the service ticket",
+      "why": "Two fryers on the same line can run different oils and different boil-out chemicals, and the ticket is what tells you which is which — working from memory on a busy line is how the wrong chemical ends up soaking a stainless vat it was never rated for."
+    },
+    {
+      "cue": "Kill the fryer at its power switch before anything else moves.",
+      "id": "power-off",
+      "kind": "select",
+      "prompt": "Kill the fryer at its power switch before anything else moves.",
+      "target": "fryer-power",
+      "title": "Shut the fryer off",
+      "why": "Nothing about this job — not the drain, not the caddy, not the boil-out — happens with the fryer still calling for heat. Shutting it off first is what makes every reading you take after this point actually mean something, instead of chasing a temperature the burner is still adding to."
+    },
+    {
+      "cue": "Watch the vat thermometer and commit once it reads inside the plan's safe-to-drain band.",
+      "gauge": {
+        "green": [
+          0,
+          0.16
+        ],
+        "label": "FRYER VAT — OIL TEMPERATURE",
+        "missNote": "Still too hot to drain. Give it more time on the cooldown — the drain valve and the caddy are not rated for oil at this temperature.",
+        "speed": 0.55
+      },
+      "id": "cooldown",
+      "kind": "gauge",
+      "prompt": "Watch the vat thermometer and commit once it reads inside the plan's safe-to-drain band.",
+      "target": "oil-thermometer",
+      "title": "Confirm the oil has cooled",
+      "why": "Fryer oil at cooking temperature is close to 350°F, and oil at that heat splashes through a sleeve and blisters skin on contact — the plan's cool-down band exists because the drain valve and the caddy are both rated for a specific temperature ceiling, not for whatever the vat happens to read when somebody feels like starting."
+    },
+    {
+      "cue": "Apron, then sleeve guards, then face shield, then the thermal gloves last.",
+      "id": "ppe",
+      "itemNames": {
+        "burn-apron": "heat-resistant apron",
+        "burn-sleeves": "sleeve guards",
+        "face-shield": "face shield",
+        "thermal-gloves": "thermal gloves"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Wrong order — apron, sleeves and face shield go on first while your hands are still free to fasten them, and the thermal gloves go on last.",
+      "prompt": "Apron, then sleeve guards, then face shield, then the thermal gloves last.",
+      "targets": [
+        "burn-apron",
+        "burn-sleeves",
+        "face-shield",
+        "thermal-gloves"
+      ],
+      "title": "Don the burn PPE",
+      "why": "The gloves go on last because everything before them needs bare fingers to fasten straps and buckles, and putting them on first just means peeling them off again for the apron ties. Every piece is on before the drain valve is touched — a splash you did not expect is the whole reason this order exists."
+    },
+    {
+      "cue": "Position the wheeled caddy directly under the drain, not a bucket.",
+      "id": "caddy-position",
+      "kind": "select",
+      "prompt": "Position the wheeled caddy directly under the drain, not a bucket.",
+      "target": "oil-caddy",
+      "title": "Roll the oil caddy into place",
+      "why": "The caddy is a sealed, wheeled tank sized for exactly this vat, and it is the only container this drain ever runs into. A bucket set under the same valve holds the same oil at the same temperature with none of the caddy's lid, wheels or capacity margin."
+    },
+    {
+      "cue": "Turn the drain valve handle to fully open and let the vat empty into the caddy.",
+      "id": "open-drain",
+      "kind": "turn",
+      "prompt": "Turn the drain valve handle to fully open and let the vat empty into the caddy.",
+      "target": "drain-valve",
+      "title": "Open the drain valve",
+      "turn": {
+        "axis": "z",
+        "label": "FRYER DRAIN VALVE",
+        "turns": 0.6
+      },
+      "why": "A drain valve stopped part way still passes oil, just slower and less predictably, and a slow stream is exactly what lets it wander off the caddy's inlet. Take the handle all the way to its stop so the flow is a straight line into the tank you positioned for it."
+    },
+    {
+      "cue": "Stay at the caddy while the vat empties completely — do not walk away mid-drain.",
+      "holdBreakNote": "You stepped away before the vat finished draining. Get back to the caddy — an unattended drain is exactly when a surge overshoots the tank.",
+      "id": "drain-hold",
+      "kind": "hold",
+      "prompt": "Stay at the caddy while the vat empties completely — do not walk away mid-drain.",
+      "seconds": 7,
+      "target": "oil-caddy",
+      "title": "Hold the caddy under the flow",
+      "why": "Oil coming off a full vat does not run at a constant rate — it surges as pockets of sediment and breading debris clear the strainer, and a caddy left unattended under a surging drain is how oil ends up on the floor around it instead of inside the tank. Staying at the caddy is what catches that the moment it happens."
+    },
+    {
+      "cue": "Three bottles are on the shelf. Take the one the ticket actually called for.",
+      "decoyNotes": {
+        "shelf-bleach": "That's chlorine bleach. Mixed with the wrong residue on a vat wall it can generate a chlorine gas hazard, and it has no business anywhere near this boil-out — leave it exactly where it is.",
+        "shelf-degreaser": "That's the floor degreaser. It is not rated for a stainless vat and the ticket did not call for it — leave it on the shelf."
+      },
+      "id": "boilout-chem",
+      "itemNames": {
+        "boilout-correct": "the fryer boil-out solution"
+      },
+      "itemNotes": {
+        "boilout-correct": "This is the boil-out chemical the ticket named — formulated to lift carbonized oil off stainless without pitting it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Three bottles are on the shelf. Take the one the ticket actually called for.",
+      "targets": [
+        "boilout-correct"
+      ],
+      "title": "Find the correct boil-out chemical",
+      "why": "A boil-out chemical is matched to the vat's metal and to the specific baked-on residue it is meant to lift, and the shelf next to it holds two other chemicals that are wrong for entirely different reasons — reading the label against the ticket is the only step between the right bottle and a ruined vat."
+    },
+    {
+      "cue": "Work the brush over the vat walls and hold through the chemical's full contact time.",
+      "holdBreakNote": "You stopped scrubbing before the boil-out finished working. A vat wiped down early still carries the carbonized film the fresh oil would have to burn through again — hold the full contact time.",
+      "id": "vat-scrub",
+      "kind": "hold",
+      "prompt": "Work the brush over the vat walls and hold through the chemical's full contact time.",
+      "seconds": 6,
+      "target": "vat-scrub",
+      "title": "Boil out the vat",
+      "why": "A boil-out only lifts carbonized oil off the vat wall if the chemical stays in contact long enough to do its job, and pulling the brush away early just spreads a half-dissolved film around instead of removing it — the vat gets scrubbed for the full time the label calls for, not until it looks close enough."
+    },
+    {
+      "cue": "Roll the caddy along the dry route to the rendering bin — do not cross the anti-fatigue mats.",
+      "drag": {
+        "missNote": "Not lined up with the rendering bin yet — keep the caddy on the dry route and bring it in against the intake.",
+        "radius": 0.55,
+        "to": "rendering-bin"
+      },
+      "id": "caddy-haul",
+      "kind": "drag",
+      "prompt": "Roll the caddy along the dry route to the rendering bin — do not cross the anti-fatigue mats.",
+      "target": "oil-caddy",
+      "title": "Wheel the caddy to the rendering bin",
+      "why": "A loaded caddy rolling over the seam of a raised anti-fatigue mat can catch a wheel and tip, which is exactly the failure this whole procedure has been built to avoid since the vat was drained — the dry route around the mats exists because used oil at rest is still hot enough to matter for a good while after it leaves the vat."
+    },
+    {
+      "cue": "Pour the fresh oil and commit once the level sits at the fill mark.",
+      "gauge": {
+        "green": [
+          0.46,
+          0.6
+        ],
+        "label": "FRESH OIL — FILL LEVEL",
+        "missNote": "Not at the fill line. Underfilled oil overheats fast around exposed heating surfaces; overfilled oil displaces and spills the moment a basket goes in.",
+        "speed": 0.5
+      },
+      "id": "fill-line",
+      "kind": "gauge",
+      "prompt": "Pour the fresh oil and commit once the level sits at the fill mark.",
+      "target": "oil-jug",
+      "title": "Fill fresh oil to the line",
+      "why": "The fill line is not a suggestion — the manufacturer set it to the volume that keeps oil circulating past the heating element instead of scorching against it, and it is also the margin that keeps a lowered basket from displacing oil over the rim onto a hot cabinet."
+    },
+    {
+      "cue": "Check that the fresh oil fully covers the heating element before power goes back on.",
+      "id": "cover-element",
+      "kind": "select",
+      "prompt": "Check that the fresh oil fully covers the heating element before power goes back on.",
+      "target": "element-cover",
+      "title": "Confirm the element is covered",
+      "why": "An element sitting above the oil line dry-fires the instant it is energized, and it does that in seconds, not minutes — NSF-listed fryers put the fill mark exactly at the depth the element needs, and confirming the cover before the switch is touched is what keeps that mark meaningful."
+    },
+    {
+      "cue": "Return the fryer to service now that the element is covered and the vat is filled.",
+      "id": "power-on",
+      "kind": "select",
+      "prompt": "Return the fryer to service now that the element is covered and the vat is filled.",
+      "target": "fryer-power",
+      "title": "Power the fryer back on",
+      "why": "This is the one point in the whole job where the fryer is allowed to call for heat again, and it is allowed only because every step ahead of it — cooldown, drain, boil-out, refill, covered element — is already done. Reaching the switch any earlier turns one of those into an assumption instead of a confirmed fact."
+    },
+    {
+      "cue": "Sweep the mop steadily across the marked area until it reads dry.",
+      "holdBreakNote": "Pass broke off before the floor came dry. A film of oily water left at the base of the fryer is the last hazard this whole job was supposed to remove — finish the pass.",
+      "id": "floor-dry",
+      "kind": "track",
+      "prompt": "Sweep the mop steadily across the marked area until it reads dry.",
+      "seconds": 5,
+      "target": "floor-mop",
+      "title": "Mop the floor around the fryer dry",
+      "track": {
+        "drift": 0.1,
+        "fall": 0.42,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "FLOOR — DRYNESS PASS",
+        "rise": 0.48,
+        "start": 0.1
+      },
+      "why": "Every step before this one put oil, boil-out runoff or rinse water on this floor at some point, and none of it counts as finished until the tile is actually dry under foot — a fry cook, a food runner or the closer doing inventory is the next person to stand exactly here."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Cold vat, caddy not a bucket, boil-out, the dry route to the rendering bin, and a covered element before the heat goes back on",
+  "title": "SmartCiti.X~ Fryer Oil Change VR",
+  "trade": "Line cook — UNITE HERE Local 2",
+  "underwater": null,
+  "weather": "clear"
+}

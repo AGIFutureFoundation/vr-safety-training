@@ -1,0 +1,354 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "highball-clean",
+    "name": "Clean Highball",
+    "note": "Startup, both brake tests and every alerter cycle answered with nothing skipped"
+  },
+  "category": "Mobility & Transit",
+  "certification": "BLET-qualified locomotive engineer working to FRA 49 CFR Part 232 brake system standards for the independent and automatic brake tests, movement authority confirmed over the radio the way the dispatcher and a SMART-TD-qualified conductor both expect it worked, with roadway worker protection under FRA 49 CFR Part 214 respected the whole time the walk-around is underway",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "BLET",
+        "id": "blet-training",
+        "title": "BLET certification and training for locomotive engineers and trainmen"
+      },
+      {
+        "body": "union",
+        "citedAs": "SMART-TD",
+        "id": "smarttd-training",
+        "title": "SMART Transportation Division training for conductors, trainmen and yardmasters"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Rail",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "never-early",
+        "name": "Never Early",
+        "note": "Never touched the throttle or reverser before movement authority was confirmed"
+      },
+      {
+        "id": "gauge-true",
+        "name": "Gauge True",
+        "note": "Every gauge reading near band centre"
+      },
+      {
+        "id": "brakes-clean",
+        "name": "Clean Brakes",
+        "note": "Independent and automatic brake tests worked with no correction"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "highball-time",
+        "name": "Highball Time",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "first-highball",
+        "name": "First Highball",
+        "note": "Clean run, no corrections"
+      },
+      {
+        "id": "ten-clear",
+        "name": "Ten Clear",
+        "note": "Ten correct actions in a row"
+      }
+    ],
+    "currency": "THROTTLE",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Hostler",
+      "Qualified Engineer",
+      "Road Engineer",
+      "Road Foreman",
+      "Cab Authority Certified"
+    ],
+    "system": "Cab Authority"
+  },
+  "hazards": {
+    "moving-under-loco": "You reached toward the coupler during the walk-around before confirming the engine is shut down. A locomotive that can still move does not announce it before the coupler closes on whatever is reaching into it, and a walk-around is not the time to find out the hard way which state it was actually in.",
+    "open-engine-door": "You left the engine compartment access door open near the running gear. A door swinging loose at speed is a door that can catch a hand reaching past it or come open further than anyone expected, and it is closed and latched before the engine ever turns over.",
+    "unauthorized-movement": "You put a hand on the throttle before movement authority was confirmed. However ready the brakes and the engine are, a locomotive with no confirmed authority is a locomotive that, as far as the dispatcher and every other crew in this territory know, has no reason to be moving yet.",
+    "unsecured-walkway": "You stepped up without taking the handhold. Boarding a locomotive is a three-point job — two hands and a foot, or two feet and a hand — and skipping the handhold to save a second is exactly how an engineer goes down the steps backward instead of up them."
+  },
+  "id": "ra-locomotive-cab-startup-and-alerter",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "automatic-brake",
+      "alert": "The radio breaks in mid-test: the dispatcher is reporting equipment fouling the track ahead of your authorized limits.",
+      "cue": "That is not a routine call, and it is not asking you to finish the brake test first.",
+      "delay": 4,
+      "id": "emergency-message",
+      "kind": "The dispatcher reports something ahead",
+      "missNote": "You kept working the automatic brake test through the whole call. The report did not need you to finish testing a valve you were already about to prove works — it needed that valve applied in emergency, now, and nothing about finishing the test first got the train stopped any sooner.",
+      "seconds": 12,
+      "target": "emergency-brake",
+      "why": "A report of equipment fouling the track ahead outranks anything else in progress in the cab, including a brake test that was already going to prove the same valve works — the emergency brake is the one control that gets the train stopped in the shortest distance this equipment can manage, and it is reached for immediately, not after the current step is wrapped up.",
+      "wrongNote": "That does not answer a report of fouled track ahead. The emergency brake is the control built for exactly this call."
+    },
+    {
+      "after": "task-focus",
+      "alert": "The alerter chime has started and the countdown light is flashing. It has not been reset in the interval this trip requires.",
+      "cue": "That chime is not background noise — it is the countdown to a penalty brake application.",
+      "delay": 4,
+      "id": "alerter-timeout",
+      "kind": "The alerter reaches the end of its countdown",
+      "missNote": "You let the alerter run out. The penalty brake application that follows is not a malfunction — it is the system doing exactly what it is built to do the moment it stops getting an answer, on the assumption that no answer means nobody capable of giving one is at the controls.",
+      "seconds": 11,
+      "target": "alerter-reset",
+      "why": "The alerter is built on one assumption: an engineer who has stopped responding to anything has also stopped responding to the alerter, so the test it runs is deliberately simple — press the reset within the interval, or the equipment assumes the worst and applies the brakes itself. Answering it here is not paperwork, it is the actual thing the device exists to check.",
+      "wrongNote": "That does not answer the alerter. Reset it directly, before the countdown reaches zero."
+    }
+  ],
+  "lateNotes": {
+    "left-tool-cab": "Nothing gets tallied against the closing count until the walk is actually done.",
+    "reverser-handle": "The handle goes into the stand only once the reverser itself is confirmed in neutral — never before."
+  },
+  "name": "Locomotive Cab Startup & Alerter",
+  "parSeconds": 330,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "railroad-crafts"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "alerter-reset",
+      "automatic-brake-valve",
+      "brake-hose-check",
+      "closing-log",
+      "coupler-check",
+      "emergency-brake",
+      "engine-start-switch",
+      "horn-sequence",
+      "independent-brake",
+      "journal-box",
+      "left-tool-cab",
+      "loose-item",
+      "main-reservoir-gauge",
+      "mount-point",
+      "moving-under-loco",
+      "open-engine-door",
+      "paperwork-clipboard",
+      "radio-handset",
+      "reverser-handle",
+      "reverser-slot",
+      "train-order-board",
+      "unauthorized-movement",
+      "unsecured-walkway"
+    ],
+    "meshes": 151
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check the consist, the initial movement authority and the track speed for this territory.",
+      "id": "briefing",
+      "kind": "select",
+      "prompt": "Check the consist, the initial movement authority and the track speed for this territory.",
+      "target": "train-order-board",
+      "title": "Read the train order",
+      "why": "Everything the rest of this trip depends on is set before the engine ever turns over — what this consist weighs, what authority has been granted, and what speed this territory allows are facts the whole trip is planned against, not things worked out after the wheels are already turning."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Check the journal boxes, the coupler and the brake hoses before boarding.",
+      "id": "walk-around",
+      "itemNames": {
+        "brake-hose-check": "brake hose and glad hand",
+        "coupler-check": "coupler and knuckle",
+        "journal-box": "journal box — oil level and seal"
+      },
+      "kind": "sequence",
+      "prompt": "Check the journal boxes, the coupler and the brake hoses before boarding.",
+      "targets": [
+        "journal-box",
+        "coupler-check",
+        "brake-hose-check"
+      ],
+      "title": "Walk around the locomotive",
+      "why": "The walk-around is the one inspection this locomotive gets from a person actually looking at it today, and every item on it is something that fails quietly from the cab — a hot journal, a worn knuckle, a cracked hose all read completely normal on every gauge until the moment they don't."
+    },
+    {
+      "cue": "Take the handhold and the steps together, three points of contact the whole way up.",
+      "id": "board",
+      "kind": "select",
+      "prompt": "Take the handhold and the steps together, three points of contact the whole way up.",
+      "target": "mount-point",
+      "title": "Board using the handhold",
+      "why": "The steps into a locomotive cab are steel, often wet or greasy, and set at a height that makes skipping the handhold feel faster right up until a boot slips — three points of contact is what turns that slip into a recovered step instead of a fall."
+    },
+    {
+      "cue": "Carry the reverser handle from its hook to the control stand and seat it, only once the reverser reads neutral.",
+      "drag": {
+        "missNote": "Not seated in the stand — carry the handle the rest of the way and set it into the slot.",
+        "radius": 0.3,
+        "to": "reverser-slot"
+      },
+      "id": "reverser-handle",
+      "kind": "drag",
+      "prompt": "Carry the reverser handle from its hook to the control stand and seat it, only once the reverser reads neutral.",
+      "target": "reverser-handle",
+      "title": "Seat the reverser handle",
+      "why": "The handle is kept separate from the stand for exactly this reason — a locomotive with no handle seated cannot be put into gear by a hand brushing the reverser by accident, and seating it is the one deliberate action that changes that."
+    },
+    {
+      "cue": "Turn the start switch and hold until the engine catches.",
+      "id": "engine-start",
+      "kind": "turn",
+      "prompt": "Turn the start switch and hold until the engine catches.",
+      "target": "engine-start-switch",
+      "title": "Start the prime mover",
+      "turn": {
+        "axis": "z",
+        "label": "ENGINE START",
+        "turns": 0.3
+      },
+      "why": "The prime mover is what the rest of this startup depends on — the air compressor, the main generator and every gauge in this cab reads off a system that has to actually be running before any of the tests that follow mean anything."
+    },
+    {
+      "cue": "Watch the main reservoir gauge and commit once it reads full charge.",
+      "gauge": {
+        "green": [
+          0.82,
+          1
+        ],
+        "label": "MAIN RESERVOIR",
+        "missNote": "Not fully charged. Give the compressor more time before testing.",
+        "speed": 0.66
+      },
+      "id": "air-gauge",
+      "kind": "gauge",
+      "prompt": "Watch the main reservoir gauge and commit once it reads full charge.",
+      "target": "main-reservoir-gauge",
+      "title": "Build main reservoir pressure",
+      "why": "Every brake on this consist is fed from the main reservoir, and a test run before it is fully charged tells you nothing about how those brakes behave once they actually are — the gauge is what says the system is ready to be tested, not the clock since the engine started."
+    },
+    {
+      "cue": "Apply and release the independent brake and confirm the locomotive's own wheels respond.",
+      "id": "independent-brake",
+      "kind": "select",
+      "prompt": "Apply and release the independent brake and confirm the locomotive's own wheels respond.",
+      "target": "independent-brake",
+      "title": "Test the independent brake",
+      "why": "The independent brake is the locomotive's own, separate from the train line, and it is tested on its own first because a locomotive that cannot hold itself is not a locomotive that should be trusted to help hold anything else."
+    },
+    {
+      "cue": "Hold the automatic brake valve in a service application and confirm the whole train line responds.",
+      "holdBreakNote": "You let go before the application was confirmed. An automatic brake test that is not held long enough to actually read a response proves nothing.",
+      "id": "automatic-brake",
+      "kind": "hold",
+      "prompt": "Hold the automatic brake valve in a service application and confirm the whole train line responds.",
+      "seconds": 5,
+      "target": "automatic-brake-valve",
+      "title": "Test the automatic brake",
+      "why": "The automatic brake is what the whole consist answers to, and a service application tested now, at a stop, is what confirms that valve does what it is supposed to before it is ever needed at speed, where a brake that does not answer is a very different kind of problem."
+    },
+    {
+      "cue": "Press the alerter reset once to confirm the device itself is live before departure.",
+      "id": "alerter-test",
+      "kind": "select",
+      "prompt": "Press the alerter reset once to confirm the device itself is live before departure.",
+      "target": "alerter-reset",
+      "title": "Test the alerter",
+      "why": "The alerter that will police the whole trip only helps if it is actually working, and the one moment to confirm that cheaply is a deliberate test at a stop — not the first time it should have caught something and didn't."
+    },
+    {
+      "cue": "Call the dispatcher and confirm the authority and track speed for this territory.",
+      "id": "call-authority",
+      "kind": "select",
+      "prompt": "Call the dispatcher and confirm the authority and track speed for this territory.",
+      "target": "radio-handset",
+      "title": "Confirm movement authority",
+      "why": "A signal indication or a track warrant read from a piece of paper is not the same as having it confirmed by the one person who can also see every other movement in this territory — the call is what makes sure both sides are working from the same authority before the first wheel turns."
+    },
+    {
+      "cue": "Keep your attention in the green band while you finish the paperwork before departure.",
+      "holdBreakNote": "Attention dropped out of band while the paperwork was in front of you. That is exactly the gap the alerter is built to notice, whether or not it happens to catch it this time.",
+      "id": "task-focus",
+      "kind": "track",
+      "prompt": "Keep your attention in the green band while you finish the paperwork before departure.",
+      "seconds": 6,
+      "target": "paperwork-clipboard",
+      "title": "Complete the trip paperwork",
+      "track": {},
+      "why": "A cab has real paperwork that has to get done, and doing it is not itself unsafe — what matters is that attention on the page does not become attention nowhere else, which is exactly the gap the alerter is built to close if it runs longer than it should."
+    },
+    {
+      "cue": "Sound the standard horn sequence for the crossing ahead before departure.",
+      "id": "horn-sequence",
+      "kind": "select",
+      "prompt": "Sound the standard horn sequence for the crossing ahead before departure.",
+      "target": "horn-sequence",
+      "title": "Sound the horn sequence",
+      "why": "The horn sequence is what warns a driver at a crossing this locomotive is coming, sounded early and held long enough to actually be heard over a closed window and an engine — a horn sounded late or clipped short gives a driver less warning than the crossing was designed around."
+    },
+    {
+      "cue": "Scan the cab for anything left loose before the train starts moving.",
+      "id": "cab-walk",
+      "itemNames": {
+        "left-tool-cab": "wrench left on the control stand",
+        "loose-item": "loose fire extinguisher bracket"
+      },
+      "itemNotes": {
+        "left-tool-cab": "A tool left on the stand becomes a projectile the first time this cab takes a hard jolt.",
+        "loose-item": "Anything not actually secured in a moving cab eventually ends up on the floor at the worst possible moment."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Scan the cab for anything left loose before the train starts moving.",
+      "targets": [
+        "left-tool-cab",
+        "loose-item"
+      ],
+      "title": "Walk the cab before highball",
+      "why": "A cab in motion turns anything unsecured into something that moves on its own the first time the train brakes or takes a curve, and the only check that catches it is somebody actually looking before the wheels turn."
+    },
+    {
+      "cue": "Log the brake test results, the authority confirmed and the departure time.",
+      "id": "close-log",
+      "kind": "select",
+      "prompt": "Log the brake test results, the authority confirmed and the departure time.",
+      "target": "closing-log",
+      "title": "Log the departure",
+      "why": "The next crew and the dispatcher's own record both rely on this entry — the tests that were run, the authority that was confirmed, and the exact minute this consist actually started moving."
+    }
+  ],
+  "supportLine": "your road foreman or your BLET local if fatigue on a long tour of duty is making the alerter feel like the only thing keeping you awake",
+  "tagline": "The walk-around done on foot, the reverser handle carried and seated, both brakes tested from the cab, movement authority confirmed over the radio, and the alerter answered on its own schedule the whole way to highball",
+  "title": "SmartCiti.X~ Locomotive Cab Startup & Alerter VR",
+  "trade": "Locomotive engineer",
+  "underwater": null,
+  "weather": "clear"
+}

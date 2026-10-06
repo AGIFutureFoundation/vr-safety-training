@@ -1,0 +1,53 @@
+{
+  "id": "union-ibew-local6",
+  "kind": "union",
+  "name": "IBEW Local 6 Union Package",
+  "title": "SmartCiti.X IBEW Local 6 Union Package — Powered by AGI Corp",
+  "audience": "trades",
+  "summary": "Every station the platform ties to IBEW Local 6: the programmes whose union line names it and the stations whose own certification does.",
+  "certification": null,
+  "programmes": [],
+  "stations": [
+    {
+      "app": "smartcity",
+      "id": "pcb-equipment-removal"
+    },
+    {
+      "app": "smartcity",
+      "id": "vapor-mitigation"
+    }
+  ],
+  "unions": [
+    "ibew-local6"
+  ],
+  "unionLine": "IBEW Local 6",
+  "k12Bands": [],
+  "path": "union-trades",
+  "alsoPaths": [],
+  "worlds": [
+    {
+      "world": "parishes",
+      "parish": "sf-bayview",
+      "sites": [
+        "hunters-point-shipyard",
+        "shipyard-groundwater-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-san-mateo-shoreline",
+      "sites": [
+        "smc-pcb-equipment-removal"
+      ]
+    }
+  ],
+  "stationNames": {
+    "pcb-equipment-removal": "PCB Equipment Removal",
+    "vapor-mitigation": "Vapor Mitigation"
+  },
+  "version": "1.0.0",
+  "contentHash": "83929a16",
+  "brand": "SmartCiti.X · Powered by AGI Corp",
+  "generator": "tools/gen_packs.mjs",
+  "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."
+}

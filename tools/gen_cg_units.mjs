@@ -1,0 +1,184 @@
+#!/usr/bin/env node
+/**
+ * COGNITION — generate the K-12 learning module (docs/consoles/COGNITION.md).
+ *
+ *   node tools/gen_cg_units.mjs          # writes WebXR/shared/cg-units.js, WebXR/flows/cg-*.json, updates WebXR/flows/index.json
+ *   node tools/gen_cg_units.mjs --check  # writes nothing; exits 1 if the output would change
+ *
+ * Sources (nothing invented): the catalog's four K-12 curricula (WebXR/smartcity/catalog.json), the parish and district
+ * maps' own field lessons and site boards (np-parishes.js), the
+ * field lessons (WebXR/shared/field-lessons.js, Redwood's RW_FIELD_LESSONS), BAYOU's parish lessons
+ * (WebXR/shared/by-parish-lessons.js) and each K-12 station's own steps and interrupts (the rooms).
+ *
+ * Hierarchy: unit (one per K-12 programme) -> lesson (a station, a field lesson or a parish lesson,
+ * in reading-ceiling order: band ceiling, then Flesch-Kincaid grade) -> flow (a flowhub flow id).
+ * A K-12 station with no flow naming it gets one: brief -> station -> check -> close, with the
+ * adaptive branch (a missed check routes to a simpler re-teach step, then back to the check).
+ */
+import { readFileSync, writeFileSync, readdirSync, existsSync } from "node:fs";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
+import { loadSmartCity } from "./lib/headless.mjs";
+import { readingStats } from "./lib/reading-level.mjs";
+
+const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
+const FLOWS = join(ROOT, "WebXR", "flows");
+const CHECK = process.argv.includes("--check");
+const catalog = JSON.parse(readFileSync(join(ROOT, "WebXR/smartcity/catalog.json"), "utf8"));
+const FL = await import("../WebXR/shared/field-lessons.js");
+const BY = await import("../WebXR/shared/by-parish-lessons.js");
+const { RW_FIELD_LESSONS } = await import("../WebXR/redwood/js/rw-lore-data.js");
+const { NP_PARISHES } = await import("../WebXR/shared/np-parishes.js");
+// LA-K12's Louisiana lessons: their places (fixed anchors and the character fallback, guarded by the maps in the tree)
+const LK = await import("../WebXR/shared/lk-la-lessons.js");
+const city = await loadSmartCity();
+const ROOMS = new Map(city.ROOMS.map((r) => [r.id, r]));
+const STATIONS = new Map(catalog.stations.map((s) => [s.id, s]));
+
+export const CG_CEILING_DEFAULT = 11; // check_k12's K-12 station ceiling (RL_STATION upper bound)
+const ceilingOf = (band) => {
+  if (!band) return CG_CEILING_DEFAULT;
+  const parts = String(band).split(" to ").map((b) => BY.BY_BAND_CEILING[b.trim()]).filter(Boolean);
+  return parts.length ? Math.max(...parts) : CG_CEILING_DEFAULT;
+};
+const grade = (text) => Math.round(readingStats(text).grade * 10) / 10;
+const normCheck = (c) => (c ? { q: c.q ?? c.question, options: [...c.options], answer: c.answer, why: c.why ?? null } : null);
+
+// ---- existing flows: which station each already names (station or brief node)
+const flowFiles = readdirSync(FLOWS).filter((f) => f.endsWith(".json") && f !== "index.json" && !f.startsWith("cg-"));
+const flowOf = new Map();
+for (const f of flowFiles) {
+  const j = JSON.parse(readFileSync(join(FLOWS, f), "utf8"));
+  for (const n of j.nodes) if (n.kind === "station" && !flowOf.has(n.ref)) flowOf.set(n.ref, j.id); // a station node, not a brief alone: a programme flow only pre-briefs its first station
+}
+
+// ---- the lessons that can teach each station
+const byFor = (id) => BY.BY_LESSONS.find((l) => l.station === id) ?? null;
+const flFor = (id) => FL.K2_FIELD_LESSONS.find((l) => l.station === id) ?? null;
+const rwFor = (id) => RW_FIELD_LESSONS.find((l) => l.k12 === id) ?? null;
+
+function checkFor(id) {
+  const b = byFor(id); if (b?.check) return { ...normCheck(b.check), source: `parish lesson ${b.id}` };
+  const f = flFor(id); if (f?.check) return { ...normCheck(f.check), source: `field lesson ${f.id}` };
+  const r = rwFor(id); if (r?.check) return { ...normCheck(r.check), source: `field lesson ${r.id}` };
+  const iv = ROOMS.get(id)?.interrupts?.[0];
+  if (iv) return { q: `${iv.alert} What do you do?`, options: [iv.cue, "Keep going and say nothing."], answer: 0, why: String(iv.why).split(/(?<=\.)\s/)[0], source: `station interrupt ${iv.id}` };
+  return null;
+}
+
+/** The simpler re-teach lines: the station's own step titles, one short idea each (first three). */
+function reteachFor(id) {
+  const steps = ROOMS.get(id)?.steps ?? [];
+  return steps.slice(0, 3).map((s) => `${String(s.title ?? s.cue).replace(/\.$/, "")}.`);
+}
+
+function genFlow(id, programme, band) {
+  const st = STATIONS.get(id);
+  const name = st.name;
+  const check = checkFor(id);
+  const { source, ...chk } = check;
+  return {
+    id: `cg-${id.replace(/^k12-/, "")}`,
+    title: `Learning Module — ${name}`,
+    version: 1,
+    start: "brief",
+    meta: {
+      audience: "A learner or a small group at the lesson's site, with a GRIOT character as the guide.",
+      why: "One K-12 station taught as a lesson: its own study card, the station, one check question, and a simpler re-teach step when the check is missed, then back to the check.",
+      hostNotes: "The SmartCiti.X side of the flow contract only (docs/flowhub.md): generated by tools/gen_cg_units.mjs from the station's own steps and check; nothing here states how Cognition.X or any other host stores or presents it.",
+      lowConnectivity: "Works offline once the page has loaded; the run waits in this browser's own storage.",
+      cognition: { station: id, programme, band: band ?? null, checkSource: source, generated: "tools/gen_cg_units.mjs" },
+    },
+    nodes: [
+      { id: "brief", kind: "brief", app: "smartcity", ref: id, title: `Pre-brief — ${name}`, why: "The station's own study card, read first." },
+      { id: "lesson", kind: "station", app: "smartcity", ref: id, title: name, why: "The K-12 station itself; a run that does not pass goes back to the brief." },
+      { id: "check", kind: "checkin", app: "smartcity", title: `Check question — ${name}`, why: "One question on the idea just taught. A missed answer goes to a simpler re-teach step, then back here. Never scored against anyone.", params: { check: chk } },
+      { id: "reteach", kind: "brief", app: "smartcity", ref: id, title: `Re-teach — ${name}, one step at a time`, why: "The adaptive step: the same idea in the station's own short step titles, then back to the check.", params: { reteach: reteachFor(id) } },
+      { id: "close", kind: "checkin", app: "smartcity", title: "End-of-lesson check-in", why: "The lesson closes on the learner's own answer about how it went, not on a score." },
+    ],
+    edges: [
+      { from: "brief", to: "lesson" },
+      { from: "lesson", to: "check", when: { passed: true } },
+      { from: "lesson", to: "brief" },
+      { from: "check", to: "close", when: { passed: true } },
+      { from: "check", to: "reteach" },
+      { from: "reteach", to: "check" },
+    ],
+  };
+}
+
+// ---- units
+const K12 = catalog.curricula.filter((c) => c.id.startsWith("k12-"));
+const generated = [];
+const units = [];
+for (const c of K12) {
+  const lessons = [];
+  for (const s of c.stations) {
+    const id = s.id;
+    const by = byFor(id), fl = flFor(id), rw = rwFor(id);
+    const band = by?.band ?? fl?.band ?? rw?.band ?? null;
+    let flow = flowOf.get(id) ?? null;
+    if (!flow) { const f = genFlow(id, c.id, band); generated.push(f); flow = f.id; flowOf.set(id, flow); }
+    const room = ROOMS.get(id);
+    const text = by ? by.steps.join(" ") : fl ? fl.steps.join(" ") : rw ? rw.steps.join(" ") : (room?.steps ?? []).map((x) => `${x.cue} ${x.why}`).join(" ");
+    const where = by ? { world: "parishes", parish: by.parish, site: by.site, guide: by.guide ?? null }
+      : fl ? { world: fl.world, anchor: fl.anchor ?? null }
+      : rw ? { world: "redwood", site: rw.site }
+      : { world: "smartcity" };
+    // every place the idea is taught: each parish lesson site, each field lesson anchor, each Redwood site
+    const places = [
+      ...BY.BY_LESSONS.filter((l) => l.station === id).map((l) => ({ world: "parishes", parish: l.parish, site: l.site, lesson: l.id })),
+      ...FL.K2_FIELD_LESSONS.filter((l) => l.station === id).map((l) => ({ world: l.world, anchor: l.anchor ?? null, lesson: l.id })),
+      ...RW_FIELD_LESSONS.filter((l) => l.k12 === id).map((l) => ({ world: "redwood", site: l.site, lesson: l.id })),
+      // the ten parish and district maps: their own field lessons, then the site boards that launch the station
+      ...NP_PARISHES.flatMap((p) => (p.fieldLessons ?? []).filter((l) => (l.k12 ?? l.station) === id).map((l) => ({ world: "parishes", parish: p.id, site: l.site, lesson: l.id }))),
+      ...NP_PARISHES.flatMap((p) => p.sites.filter((s) => (s.stations ?? []).includes(id)).map((s) => ({ world: "parishes", parish: p.id, site: s.id, board: true }))),
+      // LA-K12's Louisiana lessons at their places on the maps in the tree (LA-COHORTS: so the runner offers them there)
+      ...LK.LK_LESSONS.filter((l) => l.station === id).flatMap((l) => NP_PARISHES.flatMap((p) => LK.lkPlacesOn(l, p).map((a) => ({ world: "parishes", parish: a.map, site: a.site, lesson: LK.lkAnchorLessonId(l, a) })))),
+    ];
+    lessons.push({
+      id: `cg-${c.id}-${id.replace(/^k12-/, "")}`, station: id, title: STATIONS.get(id)?.name ?? id,
+      kind: by ? "parish" : fl || rw ? "field" : "station", lessonRef: by?.id ?? fl?.id ?? rw?.id ?? null,
+      band, ceiling: ceilingOf(band), grade: grade(text), flow, where, places,
+      steps: by ? [...by.steps] : fl ? [...fl.steps] : rw ? [...rw.steps] : (room?.steps ?? []).slice(0, 3).map((x) => x.cue),
+    });
+  }
+  lessons.sort((a, b) => a.ceiling - b.ceiling || a.grade - b.grade || a.station.localeCompare(b.station));
+  units.push({ id: `cg-unit-${c.id}`, programme: c.id, title: c.name, lessons });
+}
+
+// ---- write
+const embed = {};
+for (const u of units) for (const l of u.lessons) {
+  const g = generated.find((f) => f.id === l.flow);
+  if (g) embed[g.id] = g;
+  else if (!embed[l.flow]) { const f = flowFiles.map((n) => JSON.parse(readFileSync(join(FLOWS, n), "utf8"))).find((j) => j.id === l.flow); if (f) embed[f.id] = { ...f, meta: { bayou: f.meta?.bayou ?? null } }; }
+}
+const js = `// GENERATED by tools/gen_cg_units.mjs — do not edit by hand (docs/consoles/COGNITION.md).
+// Provenance: the catalog's K-12 curricula, the field lessons, BAYOU's parish lessons and each K-12 station's own
+// steps and interrupts. Procedural structure only: no figures about real places. The \`cg\` prefix keeps the bundler's shared scope clean.
+//
+// Shape: CG_UNITS = [{ id, programme, title, lessons: [{ id, station, title, kind: "parish"|"field"|"station",
+//   lessonRef, band, ceiling, grade, flow, where: { world, parish?, site?, anchor?, guide? }, places: [every place it is taught], steps: [the lesson's own lines] }] }] — lessons in
+//   reading-ceiling order. CG_FLOWS = { [flowId]: flowhub flow } for every flow a lesson names.
+
+export const CG_PROVENANCE = "tools/gen_cg_units.mjs from WebXR/smartcity/catalog.json K-12 curricula, field-lessons.js, rw-lore-data.js and by-parish-lessons.js";
+export const CG_UNITS = ${JSON.stringify(units)};
+export const CG_FLOWS = ${JSON.stringify(embed)};
+`;
+const outs = [[join(ROOT, "WebXR/shared/cg-units.js"), js]];
+for (const f of generated) outs.push([join(FLOWS, `${f.id}.json`), JSON.stringify(f, null, 2) + "\n"]);
+const idxPath = join(FLOWS, "index.json");
+const idx = JSON.parse(readFileSync(idxPath, "utf8"));
+idx.flows = idx.flows.filter((e) => !e.id.startsWith("cg-"));
+for (const f of generated) idx.flows.push({ id: f.id, file: `${f.id}.json`, title: f.title, shape: "brief -> station -> check -> close; a missed check -> re-teach -> check" });
+outs.push([idxPath, JSON.stringify(idx, null, 2) + "\n"]);
+let changed = 0;
+for (const [p, text] of outs) {
+  const old = existsSync(p) ? readFileSync(p, "utf8") : null;
+  if (old === text) continue;
+  changed++;
+  if (!CHECK) writeFileSync(p, text);
+}
+console.log(`gen_cg_units: ${units.length} units, ${units.reduce((n, u) => n + u.lessons.length, 0)} lessons, ${generated.length} generated flows, ${Object.keys(embed).length} flows embedded; ${changed} file(s) ${CHECK ? "would change" : "written"}`);
+if (CHECK && changed) process.exit(1);

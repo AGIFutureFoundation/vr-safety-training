@@ -1,0 +1,408 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "reef-reconciled",
+    "name": "Reef Reconciled",
+    "note": "Every fixed quadrat, tile and pin read to the plan and the sheet squared with the photos before the flood — first time"
+  },
+  "category": "Water & Environmental",
+  "certification": "Environmental monitoring technicians; LIUNA laborers (reef construction and habitat crews); California State Coastal Conservancy Living Shorelines Program grant monitoring conditions; San Francisco Bay Regional Water Quality Control Board permit monitoring conditions; NOAA Fisheries; San Francisco Bay Conservation and Development Commission (BCDC) permit; seasonal in-water work window for fish protection",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "BCDC",
+        "citedAs": "BCDC",
+        "id": "bcdc-bay-plan",
+        "title": "San Francisco Bay Plan and BCDC permit conditions under the McAteer-Petris Act"
+      },
+      {
+        "body": "union",
+        "citedAs": "CWA",
+        "id": "cwa-training",
+        "title": "CWA member training for outside-plant, tower and broadcast work"
+      },
+      {
+        "body": "union",
+        "citedAs": "LIUNA",
+        "id": "liuna-training-fund",
+        "title": "LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula"
+      },
+      {
+        "body": "NOAA Fisheries",
+        "citedAs": "NOAA Fisheries",
+        "id": "noaa-fisheries-mmpa-esa",
+        "title": "NOAA Fisheries (National Marine Fisheries Service) Marine Mammal Protection Act authorizations and Endangered Species Act consultation for in-water work affecting marine mammals"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.132",
+        "id": "osha-1910-132",
+        "title": "29 CFR 1910.132 — Personal protective equipment, general requirements"
+      },
+      {
+        "body": "RWQCB",
+        "citedAs": "Regional Water Quality Control Board",
+        "id": "rwqcb-401-certification",
+        "title": "Regional Water Quality Control Board Clean Water Act §401 certification and waste discharge requirements"
+      },
+      {
+        "body": "USACE",
+        "citedAs": "Section 404",
+        "id": "usace-section-404",
+        "title": "Clean Water Act §404 permit conditions for the discharge of dredged or fill material"
+      }
+    ]
+  },
+  "district": "Environmental Monitoring",
+  "domain": "Environmental",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "baseline-tagged",
+        "name": "Baseline Tagged",
+        "note": "Every fixed quadrat relocated by its own tag and GPS, first time"
+      },
+      {
+        "id": "reef-undisturbed",
+        "name": "Reef Undisturbed",
+        "note": "Never a hazard, never a shell broken that didn't need to be"
+      },
+      {
+        "id": "true-reading",
+        "name": "True Reading",
+        "note": "The sonde's stabilised reading and the dissolved oxygen gauge both read inside the working band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-count",
+        "name": "Clean Count",
+        "note": "No corrections across the whole visit"
+      },
+      {
+        "id": "steady-frame",
+        "name": "Steady Frame",
+        "note": "Held the quadrat frame and the sonde readout steady the whole way"
+      },
+      {
+        "id": "off-before-flood",
+        "name": "Off Before The Flood",
+        "note": "Reef reconciled and cleared inside 80% of par"
+      }
+    ],
+    "currency": "SPAT",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Field Tech",
+      "Reef Tech",
+      "Lead Tech",
+      "Monitoring Steward",
+      "Reef Certified"
+    ],
+    "system": "Monitoring Crew"
+  },
+  "hazards": {
+    "bare-hand-shell": "You reached bare-handed into the reef to steady a quadrat corner. Cured oyster shell fractures into edges sharp enough to open a glove, let alone skin, and a technician cut on someone else's restored reef is the incident report that follows every crew here afterward.",
+    "cal-solution-dump": "You tipped the sonde's used calibration solution out onto the mudflat. It is a lab standard, not seawater, and dumping it beside the reef the sonde is about to sample from can shift the very water-quality reading the Regional Water Quality Control Board's permit conditions are asking this sonde to report honestly.",
+    "guess-quadrat-tag": "You dropped the frame at a spot that looked about right instead of finding the tagged rebar and confirming it against the GPS unit. A permanent quadrat is permanent precisely so the same square metre gets measured every visit; a frame set anywhere else produces a number that cannot be compared to last quarter's and breaks the trend the whole monitoring plan exists to build.",
+    "reef-trample": "You cut straight across the reef mounds instead of staying on the marked path to the quadrat. Live oyster clusters break under a boot the same way they break under a wave, and a reef trampled by the crew measuring it stops being a fair test of whether the restoration itself is surviving."
+  },
+  "id": "oyster-reef-monitoring",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "quadrat-count",
+      "alert": "The tide staff at the reef's edge shows the flood is already running ahead of the table, and the quadrat frame is still down on the last plot.",
+      "cue": "Read the staff — the water is coming back faster than the table said. Don't leave the frame for it.",
+      "delay": 4,
+      "id": "flood-early",
+      "kind": "Flood tide arriving early",
+      "missNote": "The frame sat on the reef while the real tide came in around it, and the last quadrat's count went in half-guessed because nobody could tell what the rising water had already covered before it was pulled.",
+      "seconds": 14,
+      "target": "tide-staff",
+      "why": "A tide table is an average of the moon's cycle, not a promise about today's wind and barometric pressure, and the difference shows up first as water moving in around a frame the crew assumed there was still time to finish. The staff gauge at the reef's edge is the only reading of where the water actually is right now, and it is what tells the crew whether they have minutes or none.",
+      "wrongNote": "That's not it. The tide staff at the reef's edge is the only true reading of where the water is right now — nothing else on this reef tells you that."
+    },
+    {
+      "after": "sonde-stabilize",
+      "alert": "The sonde's dissolved oxygen channel has settled well under the monitoring plan's flag level for this reef.",
+      "cue": "Flag the reading now, per the plan — don't wait to see if it climbs on its own.",
+      "delay": 4,
+      "id": "do-flag",
+      "kind": "Dissolved oxygen below the flag level",
+      "missNote": "The low reading went into the log without being flagged, and the one number that was supposed to trigger a same-day call to the Water Board sat unread until the quarterly report went out weeks later.",
+      "seconds": 13,
+      "target": "do-flag",
+      "why": "Dissolved oxygen under the flag level is exactly the condition a restored reef is supposed to be reversing, not adding to, and the Regional Water Quality Control Board's permit monitoring conditions exist so a bad reading gets reported the day it is taken, not folded into a quarterly summary months later when whatever caused it is long gone.",
+      "wrongNote": "Not that. The flag control is the one action that gets a low dissolved-oxygen reading in front of someone today instead of buried in next quarter's report."
+    }
+  ],
+  "lateNotes": {
+    "field-binder": "Nothing to reconcile yet. The binder waits for the drill survey, the last thing counted before the crew leaves the reef.",
+    "quadrat-frame": "Set the frame down after the tagged rebar and the GPS unit both confirm this is the fixed plot — a frame set before that is a frame set nowhere the trend dataset recognises.",
+    "recruitment-tile": "Lift the tile after this quarter's density count is logged — pulling gear off the reef before the count is on paper is how a quarter's numbers go missing.",
+    "sonde": "Deploy the sonde after the tile is back down at its marked orientation — the reef gets put back together before the water gets read."
+  },
+  "name": "Oyster Reef Monitoring",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "hunters-point-bay-restoration"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "bare-hand-shell",
+      "cal-solution-dump",
+      "data-sheet",
+      "do-flag",
+      "drill-egg-case",
+      "field-binder",
+      "guess-quadrat-tag",
+      "monitoring-plan-board",
+      "oyster-drill",
+      "permit-board",
+      "quad-tag-1",
+      "quad-tag-2",
+      "quad-tag-3",
+      "quadrat-frame",
+      "recruitment-tile",
+      "reef-trample",
+      "sonde",
+      "sonde-readout",
+      "sonde-socket",
+      "stage-gloves",
+      "stage-slate",
+      "stage-waders",
+      "tide-staff",
+      "tile-bench-socket"
+    ],
+    "meshes": 250
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check today's plot list, the low-tide working window, and the parameters the sonde has to read.",
+      "id": "plan",
+      "kind": "select",
+      "prompt": "Check today's plot list, the low-tide working window, and the parameters the sonde has to read.",
+      "target": "monitoring-plan-board",
+      "title": "Read the monitoring plan and the tide window",
+      "why": "The whole visit is timed to a falling tide that exposes the reef and a flood that will cover it again in a few hours, and the plan is what tells the crew which of the reef's permanent quadrats, tiles and pins are due this quarter rather than guessed at from memory. Reading it here is what turns the visit into the same measurement taken the same way every time, which is the only kind of number a restoration trend can be built from."
+    },
+    {
+      "cue": "Read the Water Board's monitoring conditions, the BCDC permit note, NOAA Fisheries' interest in the reef, and the in-water work window.",
+      "id": "permit",
+      "kind": "select",
+      "prompt": "Read the Water Board's monitoring conditions, the BCDC permit note, NOAA Fisheries' interest in the reef, and the in-water work window.",
+      "target": "permit-board",
+      "title": "Check the permit's monitoring conditions",
+      "why": "This reef exists because a federal Clean Water Act (CWA) Section 404 permit required it, and the permit did not end at construction — the San Francisco Bay Regional Water Quality Control Board's own EPA-delegated CWA Section 401 water quality certification, the BCDC permit, and NOAA Fisheries' interest in a native oyster reef all keep reading this station's numbers long after the crew that built it is gone, and the seasonal work window is what keeps the crew reading them at the right time of year."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Waders, gloves, and the waterproof data slate before anyone steps onto the reef.",
+      "id": "stage",
+      "itemNames": {
+        "stage-gloves": "gloves",
+        "stage-slate": "waterproof data slate",
+        "stage-waders": "chest waders"
+      },
+      "kind": "sequence",
+      "prompt": "Waders, gloves, and the waterproof data slate before anyone steps onto the reef.",
+      "targets": [
+        "stage-waders",
+        "stage-gloves",
+        "stage-slate"
+      ],
+      "title": "Stage for working the reef",
+      "why": "The reef sits below the same tideline the crew is racing, and its surface is broken shell, not sand — waders keep cold water and cut hazards off skin that will be kneeling in the mud all morning, gloves are for the shell itself under the same OSHA general industry PPE duty (29 CFR 1910.132) as any other job site, and the slate is the only notebook that survives being set down on wet substrate between quadrats."
+    },
+    {
+      "cue": "Walk the reef and find the three tagged rebar stakes the GPS unit confirms are this quarter's fixed quadrats.",
+      "id": "quadrat-locate",
+      "itemNames": {
+        "quad-tag-1": "quadrat tag 1 — GPS confirmed",
+        "quad-tag-2": "quadrat tag 2 — GPS confirmed",
+        "quad-tag-3": "quadrat tag 3 — GPS confirmed"
+      },
+      "itemNotes": {
+        "quad-tag-1": "Tagged rebar for permanent plot 1, set the day the reef was built. The GPS unit's reading has to match this tag before the frame goes down.",
+        "quad-tag-2": "Plot 2's tag — the mid-reef control that shows whether the reef's centre is holding density the same way its edges are.",
+        "quad-tag-3": "Plot 3's tag, nearest the channel — the plot most exposed to current and the one that usually moves first if the reef is failing."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the reef and find the three tagged rebar stakes the GPS unit confirms are this quarter's fixed quadrats.",
+      "targets": [
+        "quad-tag-1",
+        "quad-tag-2",
+        "quad-tag-3"
+      ],
+      "title": "Find the fixed quadrats by their tag and GPS",
+      "why": "A permanent quadrat is permanent so the exact same square metre of reef gets measured every single quarter, and that only works if the crew finds the tagged stake the last crew left rather than a spot that merely looks about right — a density count from the wrong metre of reef is not comparable to last quarter's and cannot join the trend the whole monitoring program depends on."
+    },
+    {
+      "cue": "Set the frame flat at the tag and hold it while you tally every live oyster inside it.",
+      "holdBreakNote": "The frame lifted before the tally finished — reset it flat at the tag and hold through the full count.",
+      "id": "quadrat-count",
+      "kind": "hold",
+      "prompt": "Set the frame flat at the tag and hold it while you tally every live oyster inside it.",
+      "seconds": 6,
+      "target": "quadrat-frame",
+      "title": "Set the frame and tally the oyster density",
+      "why": "The count is only valid for the footprint the frame actually covers, and a frame that lifts or shifts mid-tally either double-counts a shell at the edge or misses one — holding it flat and steady for the full count is what makes this quarter's density number mean the same thing as last quarter's, taken the same way over the same square metre."
+    },
+    {
+      "cue": "Write the count onto the data sheet before the frame comes up and moves to the next plot.",
+      "id": "density-log",
+      "kind": "select",
+      "prompt": "Write the count onto the data sheet before the frame comes up and moves to the next plot.",
+      "target": "data-sheet",
+      "title": "Log the count before the frame moves",
+      "why": "A count that lives only in memory becomes a guess the moment the next quadrat starts, and three plots' worth of oysters are easy to swap in a technician's head by the end of a low-tide morning. Logging each count immediately, plot by plot, is what keeps the number on the sheet the number the frame actually covered."
+    },
+    {
+      "cue": "Lift the recruitment tile off the reef and carry it up to the bench to photograph.",
+      "drag": {
+        "missNote": "Not on the bench — carry the tile all the way up before letting go.",
+        "radius": 0.4,
+        "to": "tile-bench-socket"
+      },
+      "id": "tile-lift",
+      "kind": "drag",
+      "prompt": "Lift the recruitment tile off the reef and carry it up to the bench to photograph.",
+      "target": "recruitment-tile",
+      "title": "Lift the recruitment tile to the bench",
+      "why": "Recruitment tiles are read off the reef, in daylight, against something other than glare off the water, because juvenile spat the size of a grain of rice do not photograph reliably at the water's edge at low tide — the bench is the only place the tile's set actually gets counted rather than estimated."
+    },
+    {
+      "cue": "Turn the tile back to the paint mark on its frame before it goes back down.",
+      "id": "tile-return",
+      "kind": "turn",
+      "prompt": "Turn the tile back to the paint mark on its frame before it goes back down.",
+      "target": "recruitment-tile",
+      "title": "Turn the tile back to its marked orientation",
+      "turn": {
+        "axis": "y",
+        "label": "TILE ORIENTATION",
+        "turns": 0.5
+      },
+      "why": "The tile's orientation controls which face gets the current and which gets shaded, and a tile put back rotated from how it was set is no longer testing the same recruitment conditions the last three quarters measured — the paint mark on the frame exists so the tile goes back exactly as it came up, not close to it."
+    },
+    {
+      "cue": "Carry the sonde out and set it into the socket at the reef edge.",
+      "drag": {
+        "missNote": "Not at the socket — the sonde reads the reef edge, not the bench.",
+        "radius": 0.35,
+        "to": "sonde-socket"
+      },
+      "id": "sonde-deploy",
+      "kind": "drag",
+      "prompt": "Carry the sonde out and set it into the socket at the reef edge.",
+      "target": "sonde",
+      "title": "Deploy the water-quality sonde",
+      "why": "Temperature, salinity and dissolved oxygen are read at the reef itself, not from the truck, because a restored reef's whole premise is that it is supposed to be improving the water quality right where it stands — a reading taken anywhere else answers a different question than the one this monitoring plan is asking."
+    },
+    {
+      "cue": "Hold position at the readout while the three channels settle — don't record a number that is still drifting.",
+      "holdBreakNote": "Position broke before the channels settled — hold steady at the readout and let them stabilise again.",
+      "id": "sonde-stabilize",
+      "kind": "track",
+      "prompt": "Hold position at the readout while the three channels settle — don't record a number that is still drifting.",
+      "seconds": 7,
+      "target": "sonde-readout",
+      "title": "Hold position while the sonde's readings settle",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.45,
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "SONDE",
+        "rise": 0.55,
+        "start": 0.1
+      },
+      "why": "A probe just placed in the water reads whatever turbulence the placement itself stirred up, and only once temperature, salinity and dissolved oxygen stop drifting is the reading actually the water rather than the disturbance of putting the sonde into it — recording early is recording the moment of deployment, not the reef's water."
+    },
+    {
+      "cue": "Read the dissolved oxygen channel against the plan's flag level and commit it.",
+      "gauge": {
+        "green": [
+          0.5,
+          0.7
+        ],
+        "label": "DISSOLVED OXYGEN",
+        "missNote": "Under the flag level. Read it again and commit inside the band, or flag it if it holds low.",
+        "speed": 0.7
+      },
+      "id": "sonde-read",
+      "kind": "gauge",
+      "prompt": "Read the dissolved oxygen channel against the plan's flag level and commit it.",
+      "target": "sonde-readout",
+      "title": "Read dissolved oxygen against the flag level",
+      "why": "Dissolved oxygen is the one of the sonde's three numbers with a flag level written into the monitoring plan, because it is the first sign a restored reef's own biology is struggling before anything else about it looks wrong — reading it against that line, not just writing down whatever the screen shows, is what turns a number into an early warning instead of a data point nobody looks at twice."
+    },
+    {
+      "cue": "Search the reef for the invasive oyster drill and its egg cases and record both.",
+      "id": "drill-survey",
+      "itemNames": {
+        "drill-egg-case": "drill egg case cluster",
+        "oyster-drill": "invasive oyster drill"
+      },
+      "itemNotes": {
+        "drill-egg-case": "A cluster of yellow, vase-shaped egg cases means the drill population on this reef is reproducing, not just passing through.",
+        "oyster-drill": "A predatory snail that bores a single hole through an oyster's shell and eats it from the inside — every drill found is one less oyster the next density count will see."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Search the reef for the invasive oyster drill and its egg cases and record both.",
+      "targets": [
+        "oyster-drill",
+        "drill-egg-case"
+      ],
+      "title": "Search for the invasive drill and its egg cases",
+      "why": "The oyster drill can undo a season of recruitment one shell at a time, and its egg cases left uncounted look like nothing until the next quarter's density count comes back down for no reason anyone can explain — recording both the drill and its cases is what gives the next report an actual cause instead of a mystery."
+    },
+    {
+      "cue": "Match every plot on the data sheet against the tile photos before the crew leaves the reef.",
+      "id": "reconcile",
+      "kind": "select",
+      "prompt": "Match every plot on the data sheet against the tile photos before the crew leaves the reef.",
+      "target": "field-binder",
+      "title": "Reconcile the data sheet with the photos",
+      "why": "A data sheet and a set of photos taken an hour apart on a moving tide can drift out of order without anyone meaning for them to, and a plot number that does not match its own photo is a discrepancy nobody catches until a report is already written — reconciling them here, on the reef, is the only chance to fix it before the flood takes the chance away."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Quarterly reef monitoring on a falling tide: fixed quadrats found by tag and GPS, density counted and logged before the frame moves, tiles turned back to their mark, the sonde read against the permit's own flag level, the drill counted, and the sheet reconciled with the photos before the flood",
+  "title": "SmartCiti.X~ Oyster Reef Monitoring VR",
+  "trade": "Environmental monitoring technician / restoration monitoring crew",
+  "underwater": null,
+  "weather": "fog"
+}

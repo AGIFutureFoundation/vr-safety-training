@@ -1,0 +1,451 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "curb-never-open",
+    "name": "Curb Never Open",
+    "note": "A skylight unit replaced with the fall-through screen up for the whole time the curb had no glass in it"
+  },
+  "category": "Construction & Structural Trades",
+  "certification": "IUPAT District Council 16 glaziers apprenticeship and training (architectural glass and metal); IUPAT Finishing Trades Institute glazier curriculum; ANSI/ASSP Z97.1 safety glazing materials for the replacement skylight unit; OSHA 29 CFR 1926.501 duty to have fall protection and 29 CFR 1926.502 fall protection systems criteria for a roof opening; ANSI Z359 fall protection component standards for the roof anchor and lanyard; the skylight manufacturer's screen and cover load rating for the curb opening",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI Z359",
+        "id": "ansi-z359",
+        "title": "ANSI/ASSP Z359 — Fall Protection Code"
+      },
+      {
+        "body": "union",
+        "citedAs": "IUPAT District Council 16",
+        "id": "iupat-dc16-glaziers",
+        "title": "IUPAT District Council 16 — glaziers apprenticeship and training, architectural glass and metal"
+      },
+      {
+        "body": "union",
+        "citedAs": "Finishing Trades Institute",
+        "id": "iupat-fti",
+        "title": "IUPAT Finishing Trades Institute — industrial painter, glazier and drywall finisher apprenticeship, including lead and containment training"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.501",
+        "id": "osha-1926-501",
+        "title": "29 CFR 1926.501 — Duty to have fall protection"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.502",
+        "id": "osha-1926-502",
+        "title": "29 CFR 1926.502 — Fall protection systems criteria and practices"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Construction & Structural Trades",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "screen-first",
+        "name": "Screen First",
+        "note": "The fall-through screen and warning line rigged before the old glass came out"
+      },
+      {
+        "id": "curb-covered",
+        "name": "Curb Covered",
+        "note": "No unsafe action toward the open curb the whole run"
+      },
+      {
+        "id": "level-true",
+        "name": "Level True",
+        "note": "The new unit levelled inside tolerance, first read"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-swap",
+        "name": "Clean Swap",
+        "note": "The unit swapped without a correction"
+      },
+      {
+        "id": "dome-held",
+        "name": "Dome Held",
+        "note": "The new unit never came off the curb before the first fastener was in"
+      },
+      {
+        "id": "curb-in-time",
+        "name": "Curb In Time",
+        "note": "Swapped, sealed and logged inside 80% of par"
+      }
+    ],
+    "currency": "CURB",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Pre-apprentice",
+      "Ground Hand",
+      "Roof Glazier",
+      "Lead Glazier",
+      "Roof Access Certified"
+    ],
+    "system": "Roof Crew"
+  },
+  "hazards": {
+    "cracked-dome-edge": "Lifting the failed unit out bare-handed skips the one accommodation this material demands: a laminate that has already started to give up its integrity does not part predictably, so a shifting fragment meets an ungloved palm exactly where nobody planned for contact. Corner-to-corner travel stays on the suction pads, mitts on, until the piece is safely down on the cart.",
+    "curb-clamp-pinch": "Slipping digits beneath the retaining bar mid-tightening puts them exactly where a continuous perimeter clamp-down concentrates its force in one pass. That bar is engineered to bite down on aluminium and gasket alike, and knuckles caught along its closing line receive precisely that bite. Contact stays on the bar's exposed top, away from the line it is squeezing shut.",
+    "dome-wind-catch": "Moving the fresh unit solo across open decking treats a broad, feather-light pane like cargo rather than like the sail it actually becomes the instant a rooftop gust gets under it — and an unbalanced twist that close to an unguarded hole ends the same whether the panel goes sideways or straight down. Two sets of hands, held flat, cover the whole trip from staging to curb.",
+    "skylight-fall-through": "Approaching the curb footprint while nothing spans it is indistinguishable, to an ordinary walk, from approaching any other patch of roofing membrane — until weight finds the gap and there is roofing on one side of that gap and a long drop on the other. Foot traffic stays off that footprint until either the mesh is restored or the finished unit has sealed the hole for good."
+  },
+  "id": "gl-skylight-glass-replacement-and-fall-protection",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "dome-hold",
+      "alert": "A gust has caught the new unit on the curb before the first fastener is fully seated, and it is lifting at one corner.",
+      "cue": "The new unit is lifting off the curb at the corner.",
+      "delay": 3,
+      "id": "gust-dome",
+      "kind": "Gust catches the new unit",
+      "missNote": "The gust let go of the corner on its own and the unit settled back down. It could as easily have gone the other way, off the curb and into the screen below. The clamp exists for exactly the gap between the hold and the last fastener, and it sat unused while the gust had its turn.",
+      "seconds": 11,
+      "target": "unit-clamp",
+      "why": "A unit not yet fastened at every point is a unit the wind can still get a grip under, and the temporary clamp across the unfastened corner is what holds it flat to the curb without anyone's hand near the gap the wind is using. The fastener sequence can pick back up once the clamp has it flat again.",
+      "wrongNote": "It is the unit clamp. Get the lifting corner flat again before the fastener sequence continues."
+    },
+    {
+      "after": "sealant-track",
+      "alert": "Someone else on the roof crew is walking toward this curb, past where the warning line should still be up.",
+      "cue": "A second person is walking toward the curb.",
+      "delay": 3,
+      "id": "second-worker",
+      "kind": "A second roofer approaches the curb",
+      "missNote": "The second roofer walked right up to the curb edge and looked down before anyone reached them. They stepped back on their own. The warning line was down for exactly as long as it took someone else to notice, and this time it was luck rather than the line that kept them off the unfastened unit.",
+      "seconds": 11,
+      "target": "warning-line",
+      "why": "The curb still reads as a hazard to anyone who was not the one who rigged the screen, because they have no way to know from a glance whether this unit is sealed yet or not. Restringing the warning line is what tells them the same thing the crew already knows, without relying on a shout across an open roof.",
+      "wrongNote": "It is the warning line. Get it back up before anyone else reads this curb as clear."
+    }
+  ],
+  "lateNotes": {
+    "new-skylight": "The new unit comes off the hoist point after the screen has proven its rating and the warning line is up. A unit carried before the curb is protected is a unit carried past an open hole with nothing stopping a slip.",
+    "sealant-gun": "Sealant goes around a unit already fastened at every point on the curb. A bead run against a unit still shifting on its clamps pulls loose the first rain that tests it."
+  },
+  "name": "Skylight Glass Replacement And Fall Protection",
+  "parSeconds": 295,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "glaziers-and-architectural-metal"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "glassVacuumLifter",
+        "count": 1,
+        "kit": "toolkit"
+      },
+      {
+        "builder": "level",
+        "count": 1,
+        "kit": "toolkit"
+      }
+    ],
+    "error": null,
+    "footprint": 2.2,
+    "hits": [
+      "anemometer",
+      "cracked-dome-edge",
+      "cracked-unit",
+      "curb-clamp-pinch",
+      "curb-log",
+      "dome-wind-catch",
+      "fall-screen",
+      "harness-webbing",
+      "lanyard-snap",
+      "level-instrument",
+      "new-cap-fastener",
+      "new-skylight",
+      "old-cap-fastener",
+      "roof-anchor",
+      "roof-cart",
+      "roof-cart-curb",
+      "roof-debris",
+      "screen-anchor",
+      "screen-rating",
+      "screen-stow",
+      "sealant-gun",
+      "skylight-fall-through",
+      "tailboard",
+      "tool-at-edge",
+      "unguarded-skylight",
+      "unit-clamp",
+      "unlatched-hatch",
+      "warning-line",
+      "warning-line-down"
+    ],
+    "meshes": 146
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the day's tailboard — which curb is open today, the roof anchor points, the wind limit for the unit, who else has roof access — and sign it.",
+      "id": "check-in",
+      "kind": "select",
+      "prompt": "Read the day's tailboard — which curb is open today, the roof anchor points, the wind limit for the unit, who else has roof access — and sign it.",
+      "target": "tailboard",
+      "title": "Sign the tailboard with the crew",
+      "why": "A roof with more than one skylight is a roof where the wrong curb is exactly the mistake the tailboard exists to prevent, and today's plan names which curb the screen goes on, which anchor the harness ties to, and who else might come up the hatch while this curb is open. Signing it is what makes today's roof the crew's roof rather than an assumption."
+    },
+    {
+      "cue": "Take the anemometer reading at the roof edge and commit it inside the working band before the unit leaves the hoist point.",
+      "gauge": {
+        "green": [
+          0.18,
+          0.46
+        ],
+        "label": "WIND",
+        "missNote": "That reading is outside the working band for carrying the unit — over it, wait at the hoist point; under it, read it again at the curb.",
+        "speed": 0.68
+      },
+      "id": "wind-read",
+      "kind": "gauge",
+      "prompt": "Take the anemometer reading at the roof edge and commit it inside the working band before the unit leaves the hoist point.",
+      "target": "anemometer",
+      "title": "Read the wind before the new unit crosses the roof",
+      "why": "A roof reads calmer at the parapet than it is in the open field where the skylights sit, and a lightweight glazing unit carried across that field catches whatever the roof is actually doing, not what the edge suggested. A reading over the band means the unit waits at the hoist point, because a unit that twists out of a carry near an open curb has two ways to go wrong instead of one."
+    },
+    {
+      "cue": "Webbing and stitching first, then the lanyard and its hook gate, then the hook onto the roof's own structural anchor — in that order.",
+      "id": "harness-seq",
+      "itemNames": {
+        "harness-webbing": "harness webbing and stitching",
+        "lanyard-snap": "lanyard and snap hook gate",
+        "roof-anchor": "the roof's structural anchor point"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Webbing, then lanyard, then anchor — the hook goes on last, onto a harness already proven sound.",
+      "prompt": "Webbing and stitching first, then the lanyard and its hook gate, then the hook onto the roof's own structural anchor — in that order.",
+      "targets": [
+        "harness-webbing",
+        "lanyard-snap",
+        "roof-anchor"
+      ],
+      "title": "Inspect the harness and tie off to the roof anchor",
+      "why": "A roof with an open curb on it is fall-protection work whether or not anyone is near the edge, because the curb itself is the fall hazard now, not the parapet. The anchor is the roof's own structural point rather than anything convenient nearby, because a lanyard hooked to ductwork or a vent stack is a lanyard hooked to something that was never rated to catch a person."
+    },
+    {
+      "cue": "Look at what else is on this roof and what is near the edge — click the two things wrong before the screen goes up on this curb.",
+      "id": "roof-walk",
+      "itemNames": {
+        "roof-debris": "loose gravel and debris near the roof edge",
+        "unguarded-skylight": "a second skylight nearby with no screen"
+      },
+      "itemNotes": {
+        "roof-debris": "Loose ballast gravel is drifted right up to the parapet edge, exactly where a foot finds it while carrying something heavier than usual.",
+        "unguarded-skylight": "The skylight two curbs over has no screen and no warning line around it — somebody else's job, maybe, but a hole in this roof either way."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look at what else is on this roof and what is near the edge — click the two things wrong before the screen goes up on this curb.",
+      "targets": [
+        "unguarded-skylight",
+        "roof-debris"
+      ],
+      "title": "Walk the roof before the old glass comes out",
+      "why": "A roof with skylights on it usually has more than one, and a crew focused on the curb they are working can walk right past another one with no protection on it at all. Both the unguarded curb and the loose gravel at the edge get flagged before this crew's own work narrows their attention to one hole in the roof."
+    },
+    {
+      "cue": "Read the screen's rating plate and confirm it is rated to span this curb before it goes down.",
+      "id": "screen-check",
+      "kind": "select",
+      "prompt": "Read the screen's rating plate and confirm it is rated to span this curb before it goes down.",
+      "target": "screen-rating",
+      "title": "Check the fall-through screen's rating plate",
+      "why": "A fall-through screen is only doing its job if it is actually rated for the load and the span of this specific curb, and the rating plate is the one place that claim is made in writing rather than assumed from how the screen looks. A screen borrowed from a smaller curb on a different job is a screen that reads as protection and is not."
+    },
+    {
+      "cue": "Screen across the curb first, then the warning line strung around it, then the screen anchored at all four corners — in that order, before a single fastener is touched.",
+      "id": "screen-seq",
+      "itemNames": {
+        "fall-screen": "screen set across the curb",
+        "screen-anchor": "screen anchored at all four corners",
+        "warning-line": "warning line strung around the curb"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Screen, then warning line, then anchor it down — a warning line around a screen that is not anchored is a fence around a screen that can still slide.",
+      "prompt": "Screen across the curb first, then the warning line strung around it, then the screen anchored at all four corners — in that order, before a single fastener is touched.",
+      "targets": [
+        "fall-screen",
+        "warning-line",
+        "screen-anchor"
+      ],
+      "title": "Rig the screen and warning line before the old glass comes out",
+      "why": "The screen goes down before anything else because it is what makes the next several steps survivable if a foot ever does find the curb, and the warning line around it is what keeps anyone who is not looking at the curb from finding out about it by walking into the barrier. Anchoring the screen last is what stops it being just something laid over the hole rather than something that actually spans it under a load."
+    },
+    {
+      "cue": "Turn each fastener out of the old unit's retaining cap, evenly around the curb, before the unit is lifted.",
+      "id": "cap-turn",
+      "kind": "turn",
+      "prompt": "Turn each fastener out of the old unit's retaining cap, evenly around the curb, before the unit is lifted.",
+      "target": "old-cap-fastener",
+      "title": "Free the old unit's retaining cap",
+      "turn": {
+        "axis": "z",
+        "label": "FREE",
+        "turns": 1
+      },
+      "why": "The retaining cap holds the old unit to the curb at every point around its perimeter, and freeing it evenly rather than at one corner first is what keeps the cracked unit from twisting and finishing its own failure while it is still fastened down. Every fastener comes out before the unit is touched, not part way through."
+    },
+    {
+      "cue": "Cups seated on the old unit, lift it straight up off the curb and onto the roof cart — not released until it is set flat.",
+      "drag": {
+        "missNote": "Not set flat on the cart — a cracked unit resting on an edge finishes breaking on the way down.",
+        "radius": 0.45,
+        "to": "roof-cart"
+      },
+      "id": "old-glass-drag",
+      "kind": "drag",
+      "prompt": "Cups seated on the old unit, lift it straight up off the curb and onto the roof cart — not released until it is set flat.",
+      "target": "cracked-unit",
+      "title": "Lift the old unit out onto the cart",
+      "why": "The old unit comes straight up rather than tilted out at an angle, because a cracked unit tilted against its own curb frame is a unit given one more chance to finish breaking on the way out. It goes onto the cart flat because a cracked unit set down on an edge is a unit that arrives at the dumpster in more pieces than it left the curb in."
+    },
+    {
+      "cue": "Both hands on the unit, hold it square on the curb's gasket while the first cap fastener is started — do not let go until it is threaded.",
+      "holdBreakNote": "You let go before the fastener threaded — the unit shifted on the gasket. Reseat it square and hold until the first fastener catches.",
+      "id": "dome-hold",
+      "kind": "hold",
+      "prompt": "Both hands on the unit, hold it square on the curb's gasket while the first cap fastener is started — do not let go until it is threaded.",
+      "seconds": 4,
+      "target": "new-skylight",
+      "title": "Hold the new unit square on the curb while the first fastener is started",
+      "why": "Between the unit landing on the curb and the first fastener catching, the unit is held square by your grip and nothing else, and letting go early lets it shift on the gasket before the fastener has anything to draw down against. The first fastener threaded is what turns the unit from something you are holding into something the curb is holding."
+    },
+    {
+      "cue": "Turn every fastener down evenly around the curb, to the manufacturer's torque, so the cap clamps the unit without cracking it.",
+      "id": "cap-torque",
+      "kind": "turn",
+      "prompt": "Turn every fastener down evenly around the curb, to the manufacturer's torque, so the cap clamps the unit without cracking it.",
+      "target": "new-cap-fastener",
+      "title": "Draw down the new unit's retaining cap",
+      "turn": {
+        "axis": "z",
+        "label": "TORQUE",
+        "turns": 1
+      },
+      "why": "The cap clamps a new unit exactly the way it clamped the old one, and driven evenly rather than tightened fully at one point first, so the clamping load spreads around the frame instead of concentrating at whichever fastener went in first — a new unit cracked by an uneven cap fails the same way the old one did, just sooner."
+    },
+    {
+      "cue": "Gun at the curb joint, run a continuous bead at a steady pace around the new unit to the depth the manufacturer's detail calls for.",
+      "holdBreakNote": "The bead ran out of the band on the curb joint — a thin spot or an overfill. Tool it out and run that stretch again at a steady pace.",
+      "id": "sealant-track",
+      "kind": "track",
+      "prompt": "Gun at the curb joint, run a continuous bead at a steady pace around the new unit to the depth the manufacturer's detail calls for.",
+      "seconds": 5,
+      "target": "sealant-gun",
+      "title": "Run the perimeter sealant bead",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.43,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "BEAD",
+        "rise": 0.55
+      },
+      "why": "The bead around a skylight curb is the roof's actual defence against the exact kind of water that finds every gap eventually, sitting on a joint that faces straight up into every storm this building gets. Run unevenly, it is a leak with a delay built in rather than a leak that shows up today."
+    },
+    {
+      "cue": "Read the level gauge against the curb's own frame and commit inside tolerance.",
+      "gauge": {
+        "green": [
+          0.44,
+          0.6
+        ],
+        "label": "LEVEL mm",
+        "missNote": "Outside level tolerance against the curb — back to the fasteners before the bead goes on.",
+        "speed": 0.72
+      },
+      "id": "level-gauge",
+      "kind": "gauge",
+      "prompt": "Read the level gauge against the curb's own frame and commit inside tolerance.",
+      "target": "level-instrument",
+      "title": "Check the new unit level on the curb",
+      "why": "A skylight unit that sits even slightly out of level does not drain the way its own detail assumes, and standing water on a roof joint finds every weakness in a bead twice as fast as running water does. The gauge is read against the curb's own frame because that is the surface the water actually runs across, not an abstract level line."
+    },
+    {
+      "cue": "Warning line down first, then the screen lifted clear and stowed — only once the new unit is fastened and sealed.",
+      "id": "screen-down-seq",
+      "itemNames": {
+        "screen-stow": "screen stowed for the next curb",
+        "warning-line-down": "warning line taken down"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Warning line first, then the screen — the screen is the last thing between the curb and open air, so it is the last thing that comes off.",
+      "prompt": "Warning line down first, then the screen lifted clear and stowed — only once the new unit is fastened and sealed.",
+      "targets": [
+        "warning-line-down",
+        "screen-stow"
+      ],
+      "title": "Take down the screen and warning line",
+      "why": "The screen and warning line come down in the reverse order they went up, and only now, because the curb is protected by the sealed unit itself rather than by the screen from this point on. Taking the warning line down first and the screen last means the barrier stays up for exactly as long as the curb actually needs it."
+    },
+    {
+      "cue": "Look at the parapet edge and the hatch — click the two things wrong before the crew leaves the roof.",
+      "id": "roof-walk-2",
+      "itemNames": {
+        "tool-at-edge": "a tool left near the roof edge",
+        "unlatched-hatch": "the roof access hatch not latched"
+      },
+      "itemNotes": {
+        "tool-at-edge": "A driver is sitting right at the parapet edge from earlier in the job — one gust or one bump from going over onto whoever is below.",
+        "unlatched-hatch": "The roof access hatch is closed but not latched, and a hatch that can blow open in the wind is a trip hazard for the next person coming up through it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look at the parapet edge and the hatch — click the two things wrong before the crew leaves the roof.",
+      "targets": [
+        "tool-at-edge",
+        "unlatched-hatch"
+      ],
+      "title": "Walk the roof once more before signing off",
+      "why": "A roof that is finished from the curb's point of view is not finished until nothing near the edge can become a dropped object and the way down is actually secured behind the crew — both are exactly the kind of thing that gets assumed fine because the real work of the day already felt done."
+    },
+    {
+      "cue": "Unit replaced, screen rating, wind readings, level reading and the faults found and fixed, and sign it.",
+      "id": "log",
+      "kind": "select",
+      "prompt": "Unit replaced, screen rating, wind readings, level reading and the faults found and fixed, and sign it.",
+      "target": "curb-log",
+      "title": "Log the curb",
+      "why": "The log ties this curb's screen rating and level reading to a date and a name, which is what the crew shows if this roof ever leaks at this joint. It also carries the unguarded skylight and the loose hatch as fixed rather than assumed, for whoever is on this roof after the crew has packed up."
+    }
+  ],
+  "supportLine": "your IUPAT District Council 16 apprenticeship coordinator or job steward, or your employer's employee assistance program if the open curb with no screen on it is what you keep seeing",
+  "tagline": "Tailboard and wind read, harness tied to the roof anchor, the screen and warning line up before the old glass comes out, the new unit set and sealed, the screen down last",
+  "title": "SmartCiti.X~ Skylight Glass Replacement And Fall Protection VR",
+  "trade": "Glazier — IUPAT District Council 16 roof glazing and skylights",
+  "underwater": null,
+  "weather": "wind"
+}

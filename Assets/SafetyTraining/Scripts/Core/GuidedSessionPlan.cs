@@ -5,9 +5,11 @@ namespace SafetyTraining.Core
 {
     public sealed class GuidedSessionPlan
     {
-        public const float MinimumSessionSeconds = 20f * 60f;
         public const float MinimumSiteSeconds = 4f * 60f;
         public const int RequiredCoachTurnsPerSite = 2;
+        public static readonly int SiteCount = Enum.GetValues(typeof(TrainingSiteId)).Length;
+        public static readonly float MinimumSessionSeconds = MinimumSiteSeconds * SiteCount;
+        public static readonly int RequiredCoachTurns = RequiredCoachTurnsPerSite * SiteCount;
 
         readonly Dictionary<TrainingSiteId, float> siteSeconds = new();
         readonly Dictionary<TrainingSiteId, int> coachTurns = new();

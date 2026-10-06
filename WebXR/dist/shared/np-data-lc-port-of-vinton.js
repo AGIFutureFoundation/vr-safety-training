@@ -1,0 +1,96 @@
+// the Port of Vinton (a FastSites site area; the project layout is illustrative) — console SOUTHWEST (docs/consoles/SOUTHWEST.md, docs/parishes.md). A stylised 4096 m map, not a survey:
+// real places appear only by their public names as places; every coordinate is approximate (three decimals, `approximate: true`)
+// and exists only to place the map. One north-up uniform scale (x east, +z south). No imagery was used: the lake, the river, the
+// ship channel, the bayous, the interstates and the towns follow their general position; every other feature, every site and
+// every project layout is PROCEDURAL — the project layout is illustrative; the parish, waterways and towns are real. Project
+// facts only from the Louisiana facts file; no partnership with any company, agency or union is claimed. Written once by
+// tools/gen_sw_districts.mjs; this module is the source afterwards. Pure data, no imports.
+// Water and road layout checked against Copernicus Sentinel-2 imagery (Contains modified Copernicus Sentinel data 2026).
+export const NP_LC_PORT_OF_VINTON = {
+  id: "lc-port-of-vinton",
+  name: "the Port of Vinton",
+  region: "louisiana-sites",
+  size: 4096,
+  blurb: "Vinton and its port in western Calcasieu Parish, Interstate Ten running south-west to north-east past the town, the port's waterway, rice fields and pasture: a FastSites site area — $5.9 million at the Port of Vinton for a 600 ft × 50 ft barge berth, per the facts file — the berth build, site preparation, rail and road work, the sheet-pile wall, dredging and mooring dolphins. The project layout is illustrative; the parish, waterways and towns are real. A trade reference only: no partnership is claimed.",
+  start: "lpv-port-office",
+  anchors: [
+    {"xz":[-241,-807],"lonlat":[-93.585,30.187],"approximate":true,"name":"Vinton"},
+    {"xz":[-385,-250],"lonlat":[-93.588,30.177],"approximate":true,"name":"Interstate Ten at Vinton's interchange"},
+    {"xz":[674,1364],"lonlat":[-93.566,30.148],"approximate":true,"name":"the Port of Vinton (the port's area)"},
+    {"xz":[-866,1753],"lonlat":[-93.598,30.141],"approximate":true,"name":"a pond south-west of town"},
+    {"xz":[-1684,1642],"lonlat":[-93.615,30.143],"approximate":true,"name":"the wooded wetland south-west of town"},
+    {"xz":[1684,-139],"lonlat":[-93.545,30.175],"approximate":true,"name":"the fields east of Vinton"},
+  ],
+  hills: [],
+  water: [
+    {"id":"port-waterway","name":"the port's waterway","kind":"canal","width":45,"poly":[[587,-484],[616,0],[587,612],[510,1124],[361,1536],[207,2043]]},
+    {"id":"south-west-pond","name":"a pond south-west of town","kind":"lake","poly":[[-1035,1586],[-722,1586],[-698,1948],[-1035,1965]]},
+    {"id":"wooded-wetland","name":"the wooded wetland south-west of town","kind":"wetland","poly":[[-2048,2043],[-1347,2043],[-1347,1252],[-2048,1252]]},
+    {"id":"rice-field-ditch","name":"a rice field ditch (procedural)","kind":"canal","width":14,"poly":[[1684,-417],[1708,-28],[1732,362]]},
+  ],
+  levees: [
+    {"id":"berth-bulkhead","name":"the new barge berth's bulkhead (illustrative)","height":3.8,"pts":[[549,1152],[486,1375]]},
+    {"id":"waterway-spoil-bank","name":"the waterway spoil bank (procedural)","height":6,"pts":[[731,-445],[741,28],[731,473]]},
+  ],
+  roads: [
+    {"id":"i10","name":"Interstate Ten","kind":"interstate","pts":[[-2048,612],[-361,-228],[510,-690],[2048,-1052]]},
+    {"id":"us90","name":"US Highway Ninety through Vinton","kind":"avenue","pts":[[-2048,206],[-284,-924],[1487,-2048]]},
+    {"id":"main-road","name":"the main road south through Vinton (procedural)","kind":"avenue","pts":[[-361,-2048],[-361,-918],[-361,-228],[-361,2043]]},
+    {"id":"port-road","name":"the port road (procedural)","kind":"avenue","pts":[[1025,-612],[1025,584],[914,918]]},
+    {"id":"south-road-west","name":"a farm road west of the waterway (procedural)","kind":"street","pts":[[-2048,573],[-361,584],[529,584]]},
+    {"id":"south-road-east","name":"a farm road east of the waterway (procedural)","kind":"street","pts":[[654,584],[1025,584],[2048,584]]},
+    {"id":"east-road","name":"a road east of the interchange (procedural)","kind":"street","pts":[[510,-640],[2048,-640]]},
+    {"id":"town-street","name":"a Vinton town street (procedural)","kind":"street","pts":[[-866,-751],[385,-751]]},
+  ],
+  districts: [
+    {"id":"vinton-town","name":"Vinton","character":"suburb","poly":[[-866,-1252],[529,-1252],[529,-362],[-866,-362]]},
+    {"id":"vinton-main-street","name":"Vinton's main street","character":"downtown","poly":[[-529,-1002],[-192,-1002],[-192,-696],[-529,-696]]},
+    {"id":"port","name":"the Port of Vinton","character":"port","poly":[[457,696],[1251,696],[1251,1698],[457,1698]]},
+    {"id":"north-fields","name":"the fields north of town","character":"garden","poly":[[-2048,-2048],[2048,-2048],[2048,-1308],[-2048,-1308]]},
+    {"id":"east-fields","name":"the rice fields and pasture east of the waterway","character":"garden","poly":[[674,-584],[2048,-584],[2048,2043],[1251,2043],[1251,696],[674,696]]},
+    {"id":"west-fields","name":"the fields west of the waterway","character":"garden","poly":[[-2048,-306],[481,-306],[481,2043],[-2048,2043]]},
+    {"id":"wooded-wetland","name":"the wooded wetland south-west of town","character":"wetland","poly":[[-2048,2043],[-1347,2043],[-1347,1252],[-2048,1252]]},
+  ],
+  sites: [
+    {"id":"lpv-barge-berth-build","name":"Barge Berth Build","kind":"port","position":[635,1297],"trades":["iuoe","carpenters","liuna","ironworkers"],"programmes":["heavy-equipment-operators","port-operations","rigging-lifting"],"stations":["op-pile-driving-rig-and-lead-setup","concrete-pour","mooring-line","rl-critical-lift-plan-and-signalperson"],"blurb":"The new barge berth going in (illustrative): the pile rig, the deck pour, the lift plan and the first mooring lines.","precinct":true},
+    {"id":"lpv-site-prep","name":"Port Site Preparation","kind":"construction","position":[962,1419],"trades":["iuoe","liuna","teamsters"],"programmes":["heavy-equipment-operators"],"stations":["op-dozer-slope-work-and-rollover-protection","op-excavator-trench-and-utility-locate","op-compactor-lift-thickness-and-edge","op-equipment-daily-walkaround-and-fluids"],"blurb":"Clearing and grading the port's upland (illustrative): the dozer on the slope, locates before the dig, compacted lifts and the walkaround.","precinct":true},
+    {"id":"lpv-rail-and-road","name":"Rail and Road Crew","kind":"rail","position":[1155,807],"trades":["bmwed","iuoe","liuna"],"programmes":["railroad-crafts","heavy-equipment-operators"],"stations":["ra-tie-and-rail-replacement-with-track-machines","ra-roadway-worker-protection-and-job-briefing","ra-crossing-signal-maintenance-and-flagging","op-compactor-lift-thickness-and-edge"],"blurb":"The rail spur and the port road (illustrative): ties and rail, roadway worker protection, the crossing signal and the compacted base.","precinct":true},
+    {"id":"lpv-sheet-pile-wall","name":"Sheet-Pile Wall Crew","kind":"seawall","position":[654,1058],"trades":["carpenters","iuoe","ironworkers"],"programmes":["heavy-equipment-operators","rigging-lifting"],"stations":["op-pile-driving-rig-and-lead-setup","gg-pile-driver-fender-repair","welding","rl-critical-lift-plan-and-signalperson"],"blurb":"The sheet-pile wall along the berth (illustrative): the vibratory rig and its leads, the welded wale and the lift plan.","precinct":true},
+    {"id":"lpv-berth-dredge","name":"Berth Dredge Crew","kind":"landing","position":[192,1308],"trades":["iuoe","ibu","liuna"],"programmes":["bay-restoration-maritime-underwater","heavy-equipment-operators"],"stations":["dredge-barge","br-dredge-spoils-dewatering-pad","br-turbidity-curtain-deployment","br-vhf-and-navigation-in-a-work-zone"],"blurb":"The dredge crew deepening the berth (illustrative): the barge, the dewatering pad, the turbidity curtain and the radio.","precinct":true},
+    {"id":"lpv-mooring-dolphins","name":"Mooring Dolphin Crew","kind":"landing","position":[529,1614],"trades":["carpenters","iuoe","ibu"],"programmes":["port-operations","commercial-diving-and-scientific-scuba"],"stations":["mw-pier-pile-inspection-dive","pt-dock-fender-and-bollard-inspection","op-pile-driving-rig-and-lead-setup","br-cold-water-immersion-and-mob-recovery"],"blurb":"Mooring dolphins set off the berth (illustrative): the pile inspection dive, fenders and bollards, the rig and the throw line.","precinct":true},
+    {"id":"lpv-crane-and-rigging","name":"Crane and Rigging Pad","kind":"construction","position":[794,1197],"trades":["iuoe","ironworkers","liuna"],"programmes":["rigging-lifting","heavy-equipment-operators"],"stations":["op-crawler-crane-assembly-and-load-chart","crane-yard","rl-critical-lift-plan-and-signalperson","op-compactor-lift-thickness-and-edge"],"blurb":"The crane pad by the berth (illustrative): the crane assembled on compacted ground, its load chart and the lift plan.","precinct":true},
+    {"id":"lpv-drainage-culvert","name":"Drainage Culvert Crew","kind":"utility","position":[192,417],"trades":["liuna","iuoe","uwua"],"programmes":["heavy-equipment-operators","water-and-gas-utility-crews"],"stations":["or-ranch-road-grading-and-culvert","trench-box","br-culvert-retrofit-for-fish-passage","stormwater-outfall"],"blurb":"Culverts under the port road where the field drainage runs (illustrative): the grade, the trench box, fish passage and the outfall.","precinct":true},
+    {"id":"lpv-environmental-survey","name":"Environmental Survey Crew","kind":"monitoring","position":[-1203,1419],"trades":["ifpte","afscme"],"programmes":["bay-restoration-maritime-underwater","marine-ecology-and-restoration"],"stations":["marsh-transect-survey","br-water-quality-sonde-calibration-and-deploy","br-bird-nesting-buffer-and-work-window","br-drone-shoreline-survey"],"blurb":"The survey crew at the marsh edge (illustrative): the transect, the sonde, the nesting buffer and the drone survey.","precinct":true},
+    {"id":"lpv-laydown-yard","name":"Port Laydown Yard","kind":"staging","position":[986,1085],"trades":["teamsters","iuoe","liuna"],"programmes":["heavy-equipment-operators","warehouse-and-logistics-automation"],"stations":["forklift-dock","op-loader-truck-loading-and-blind-spots","tdl-trailer-loading-and-dock-plate","op-equipment-daily-walkaround-and-fluids"],"blurb":"Where the piles and rebar wait (illustrative): forklifts, loading lanes and the walkaround.","precinct":true},
+    {"id":"lpv-utility-extension","name":"Utility Extension Crew","kind":"utility","position":[1155,250],"trades":["ibew","uwua","liuna"],"programmes":["electrical-first-period","water-and-gas-utility-crews"],"stations":["ut-pe-pipe-fusion-and-squeeze-off","trench-box","or-transmission-line-right-of-way-patrol","ut-service-line-locate-and-hand-dig-near-gas-main"],"blurb":"Power and water brought down the port road (illustrative): fused poly pipe, the trench box, the line right-of-way and locates.","precinct":true},
+    {"id":"lpv-port-office","name":"Port Office and Orientation","kind":"office","position":[794,835],"trades":["ibew","ua","ironworkers","liuna"],"programmes":["job-readiness-edition","builders-trades"],"stations":["jobsite-orientation-and-osha-10","wp-permit-study-and-knowledge-test","hazwoper-site-orientation","leading-edge-and-horizontal-lifeline"],"blurb":"The port office where every crew signs in (illustrative): the site orientation, the permit study, the hazard orientation and the fall-protection brief. A training place, not any employer's programme.","precinct":true},
+    {"id":"lpv-truck-gate","name":"Port Truck Gate","kind":"trucking","position":[866,417],"trades":["teamsters","ila"],"programmes":["port-operations","warehouse-and-logistics-automation"],"stations":["tdl-backing-and-docking","tdl-trailer-loading-and-dock-plate","traffic-incident-management"],"blurb":"The truck gate on the port road (illustrative): backing with a spotter, the dock plate and the traffic plan.","precinct":true},
+    {"id":"lpv-warehouse-build","name":"Port Warehouse Build","kind":"warehouse","position":[866,1586],"trades":["ironworkers","carpenters","opcmia"],"programmes":["builders-trades"],"stations":["steel-erector","concrete-pour","leading-edge-and-horizontal-lifeline","tw-dock-leveler-and-trailer-restraint-check"],"blurb":"A warehouse by the berth (illustrative): steel erection, the slab pour, tie-off at the edge and the dock leveller.","precinct":true},
+    {"id":"lpv-vinton-main-street","name":"Vinton Main Street Utility Crew","kind":"utility","position":[-241,-852],"trades":["liuna","uwua","iuoe"],"programmes":["water-and-gas-utility-crews","heavy-equipment-operators"],"stations":["op-excavator-trench-and-utility-locate","trench-box","ut-service-line-locate-and-hand-dig-near-gas-main","cm-concrete-saw-cutting-with-water-and-silica-control"],"blurb":"A street and utility crew on Vinton's main street (procedural): locates, the trench box, hand-digging by the gas line and the wet saw."},
+    {"id":"lpv-fire-station","name":"a Vinton Fire Station","kind":"fire-station","position":[192,-891],"trades":["iaff","naemt"],"programmes":["first-responders","fall-protection"],"stations":["structure-fire-sizeup","aerial-ladder","firefighter-rehab-sector","ambulance-scene-safety"],"blurb":"The town's fire station (procedural): size-up, the ladder, rehab and scene safety."},
+    {"id":"lpv-school-campus","name":"a Vinton School Campus","kind":"school","position":[-722,-473],"trades":["aft","csea","seiu"],"programmes":["education-support-staff","k12-literacy-and-life-skills"],"stations":["ed-playground-equipment-inspection","ed-crossing-guard-intersection-control","k12-reading-instructions-and-safety-labels","ed-kitchen-receiving-and-warewash-sanitizing"],"blurb":"A school in Vinton (procedural): the playground check, the crossing guard, the safety labels and the kitchen."},
+    {"id":"lpv-rice-field-crew","name":"Rice Field Drainage Crew","kind":"wetland","position":[1540,28],"trades":["liuna","iuoe","uwua"],"programmes":["heavy-equipment-operators","water-and-gas-utility-crews"],"stations":["or-ranch-road-grading-and-culvert","trench-box","br-culvert-retrofit-for-fish-passage","stormwater-outfall"],"blurb":"A drainage crew in the rice fields east of town (procedural): field culverts, the ditch, the trench box and the outfall."},
+  ],
+  landmarks: [
+    {"id":"vinton-place","name":"Vinton","position":[-96,-1002],"kind":"town"},
+    {"id":"port-of-vinton-place","name":"the Port of Vinton","position":[722,1503],"kind":"port"},
+    {"id":"i10-vinton","name":"Interstate Ten at Vinton","position":[-289,-362],"kind":"road"},
+    {"id":"south-marsh-place","name":"the wooded wetland south-west of town","position":[-1684,1642],"kind":"marsh"},
+    {"id":"rice-fields-place","name":"the rice fields east of the waterway","position":[1684,-139],"kind":"field"},
+    {"id":"pond-shore","name":"the shore of the pond south-west of town","position":[-674,1753],"kind":"shore"},
+    {"id":"lpv-sign","name":"a sign: the project layout is illustrative; the parish, waterways and towns are real","position":[914,751],"kind":"sign"},
+  ],
+  connectors: [
+    {"id":"sw-pv-i10-west","kind":"road","name":"Interstate Ten west toward the Sabine River and Texas","from":{"parish":"lc-port-of-vinton","position":[-2035,601]},"to":{"parish":"sabine-texas-line","position":null,"lonlat":[-93.622,30.162]},"lonlat":[-93.622,30.162],"approximate":true},
+    {"id":"sw-pv-i10-east","kind":"road","name":"Interstate Ten east toward Sulphur and Lake Charles","from":{"parish":"lc-port-of-vinton","position":[2035,-1046]},"to":{"parish":"lc-sulphur","position":null,"lonlat":[-93.538,30.191]},"lonlat":[-93.538,30.191],"approximate":true},
+  ],
+  fieldLessons: [
+    {"id":"sw-pv-fl-float","title":"Why a Loaded Barge Floats","site":"lpv-barge-berth-build","landmark":"port-of-vinton-place","k12":"k12-buoyancy-and-pressure-in-the-deep","station":"mooring-line","trade":"Marine and dock crews","tradeLine":"A dock crew watches how low a barge sits, because a heavy load pushes it deeper and changes how it is tied up.","minutes":3,"steps":["Look at a barge tied to the berth and where the water meets its side.","The water pushes up on the hull, and a heavier load sits the barge lower.","The crew adjusts the lines as the barge is loaded so it stays snug to the berth."],"check":{"q":"What happens to a barge as it is loaded?","options":["It sits lower in the water","It rises higher","It stops floating"],"answer":0,"why":"More weight pushes the hull deeper until the water's push balances it, so the barge sits lower."}},
+    {"id":"sw-pv-fl-drain","title":"Where the Field Water Goes","site":"lpv-drainage-culvert","landmark":"rice-fields-place","k12":"k12-es-where-the-storm-drain-goes","station":"or-ranch-road-grading-and-culvert","trade":"Labourers and operators","tradeLine":"A culvert crew keeps the pipes under the road clear, because a blocked culvert floods the road and the fields.","minutes":3,"steps":["Find the ditch beside the port road and the pipe under it.","Rain from the fields runs along the ditch and through the pipe to the waterway.","The crew clears the pipe ends and never works in a trench without protection."],"check":{"q":"What happens when a culvert under a road is blocked?","options":["Water backs up and can flood the road","The road gets drier","Nothing changes"],"answer":0,"why":"Blocked culverts stop the water moving, so it backs up over the road and the fields."}},
+    {"id":"sw-pv-fl-marsh","title":"A Marsh Slows the Water","site":"lpv-environmental-survey","landmark":"south-marsh-place","k12":"k12-by-wetlands-as-a-storms-speed-bump","station":"marsh-transect-survey","trade":"Survey crews","tradeLine":"A survey crew walks a line across the marsh and records what grows there, so the work around the port protects it.","minutes":3,"steps":["Stand at the marsh edge south of town.","Grass and shallow water slow the water after a storm.","The survey crew records the plants so the port's work can avoid harming them."],"check":{"q":"Why does a crew survey the marsh before port work?","options":["So the work can protect the marsh","To find the fastest road","To count cars"],"answer":0,"why":"Knowing what lives in the marsh lets the crew plan work that avoids harming it."}},
+  ],
+  gated: [
+    {"id":"sw-pv-gated-first-pile","kind":"side-quest","title":"The First Berth Pile","world":"parishes","parish":"lc-port-of-vinton","site":"lpv-barge-berth-build","siteName":"Barge Berth Build","summary":"Help the pile crew drive the first pile for the new berth (illustrative).","gate":{"stations":["op-pile-driving-rig-and-lead-setup","rl-critical-lift-plan-and-signalperson"],"note":"Finish the pile rig and lift plan stations before the first pile"}},
+    {"id":"sw-pv-gated-rail-spur","kind":"side-quest","title":"Laying the Rail Spur","world":"parishes","parish":"lc-port-of-vinton","site":"lpv-rail-and-road","siteName":"Rail and Road Crew","summary":"Work with the track crew laying the port's rail spur (illustrative).","gate":{"stations":["ra-roadway-worker-protection-and-job-briefing","ra-tie-and-rail-replacement-with-track-machines"],"note":"Walk roadway worker protection and track machines before the spur"}},
+  ],
+};

@@ -1,0 +1,404 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "amr-zone-certified",
+    "name": "AMR Zone Certified",
+    "note": "Read the zone honestly, requested access instead of stepping past the gate, isolated and locked the dock before touching it, and marked the floor before working"
+  },
+  "category": "Manufacturing & Automation",
+  "certification": "Teamsters warehouse and logistics automation training; OSHA 29 CFR 1910.147 the control of hazardous energy and 29 CFR 1910.212 machine guarding; ANSI R15.06 and ISO 10218 for industrial robots and robot systems, worked the way a site's own robot-cell risk assessment applies them to a mobile-robot floor; NIOSH findings on struck-by incidents around automated material handling",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI R15.06",
+        "id": "ansi-r15-06",
+        "title": "ANSI/RIA R15.06 — Industrial robots and robot systems: safety requirements"
+      },
+      {
+        "body": "ISO",
+        "citedAs": "ISO 10218",
+        "id": "iso-10218",
+        "title": "ISO 10218 — Robots and robotic devices: safety requirements for industrial robots"
+      },
+      {
+        "body": "NIOSH",
+        "citedAs": "NIOSH",
+        "id": "niosh-criteria",
+        "title": "NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.212",
+        "id": "osha-1910-212",
+        "title": "29 CFR 1910.212 — General requirements for all machines (machine guarding)"
+      },
+      {
+        "body": "union",
+        "citedAs": "Teamsters",
+        "id": "teamsters-training",
+        "title": "Teamsters apprenticeship and driver training programmes, including regulated-soil and yard work"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Warehousing & Logistics",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "never-step-past-the-gate",
+        "name": "Never Step Past the Gate",
+        "note": "Requested access every time, first try"
+      },
+      {
+        "id": "locked-before-touched",
+        "name": "Locked Before Touched",
+        "note": "Isolated and locked the dock before the first hands-on step"
+      },
+      {
+        "id": "steady-clearance",
+        "name": "Steady Clearance",
+        "note": "Held the clearance test near band centre all shift"
+      },
+      {
+        "id": "clean-walk",
+        "name": "Clean Walk",
+        "note": "Never missed a hazard on the zone read"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "quick-entry",
+        "name": "Quick Entry",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "clean-shift",
+        "name": "Clean Shift",
+        "note": "Clean run, no corrections"
+      },
+      {
+        "id": "access-streak",
+        "name": "Access Streak",
+        "note": "Nine correct actions in a row"
+      }
+    ],
+    "currency": "CLEARANCE",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Floor Visitor",
+      "Zone Aware",
+      "Manual-Access Handler",
+      "Zone Access Authority",
+      "AMR Zone Certified"
+    ],
+    "system": "Zone Access Control"
+  },
+  "hazards": {
+    "bypass-interlock-hazard": "That is the taped-open bypass on the gate interlock, left from the last time someone was in a hurry. An interlock held open no longer proves the aisle is clear before the gate releases — it just opens, every time, whether or not a robot is mid-approach on the other side.",
+    "gap-walk-hazard": "That is the gap in the barrier where the tape has worn thin — the shortcut every busy associate is tempted by instead of walking the marked crossing to the gate. A scanner tuned to the marked lane has no reason to expect a body coming through a gap it was never told about, and the fleet controller's board shows the crossing as clear the whole time someone is standing in it.",
+    "override-scanner-hazard": "That is the override key left seated in the safety scanner's muting switch. Muting the scanner clears its detection field on purpose, for the one job that is supposed to need it — leaving the key seated means the next person to walk in front of it gets treated as invisible by a robot that would otherwise have stopped for them.",
+    "skip-loto-hazard": "That is the quick-power lever that skips isolating and locking the charging dock before anyone reaches into it. A dock that looks powered down because its display is dark can still have a live bus behind the panel — the isolator and the lock are what make that assumption provable instead of hoped for."
+  },
+  "id": "tw-amr-traffic-zone-entry-and-lockout",
+  "indoor": "garage",
+  "interrupts": [
+    {
+      "after": "yield-hold",
+      "alert": "An AMR in the zone has stopped short with its beacon flashing fault red — something in its path it did not expect.",
+      "cue": "Report the fault to the fleet controller board rather than waving the robot through or walking around it.",
+      "delay": 4,
+      "id": "amr-reroute-fault",
+      "kind": "AMR fault stop",
+      "missNote": "The fault stop was left unreported. A fleet controller who never hears about a fault stop cannot tell a one-off sensor glitch from a robot that is about to do the same thing again on someone standing closer to it.",
+      "seconds": 12,
+      "target": "fleet-board",
+      "why": "A robot stopped on a fault is a robot that has already decided something is wrong with what it is sensing, and reporting it to the controller is what gets a person with the fleet's own diagnostics looking at it — waving it through or working around it treats a safety stop as an inconvenience instead of the warning it is.",
+      "wrongNote": "Not that — the fault has to go to the fleet controller board before anything else about this stop matters."
+    },
+    {
+      "after": "gate-request",
+      "alert": "The pedestrian gate's interlock light has gone to red and stayed there — the gate is not releasing on this request.",
+      "cue": "Hold at the gate and call it in. Do not climb or force the gate open.",
+      "delay": 3,
+      "id": "gate-interlock-fault",
+      "kind": "Gate interlock fault",
+      "missNote": "The gate was forced instead of called in. A gate forced open once is a gate an associate learns to force again, and the second time there may actually be a robot on the other side of it.",
+      "seconds": 12,
+      "target": "gate-call-in",
+      "why": "An interlock that fails red is failing the way it is supposed to — closed — and forcing it open defeats the one control standing between a person and a lane a robot still believes is theirs; calling it in is what gets the gate looked at instead of defeated.",
+      "wrongNote": "Not that — a red interlock gets called in, not climbed."
+    }
+  ],
+  "lateNotes": {
+    "dock-isolator": "The dock's power gets isolated and locked before a hand goes near the connector, not checked by touch after the fact.",
+    "gate-arm": "Access gets requested at the gate and the green release waited for, not assumed from how quiet the zone sounds."
+  },
+  "name": "AMR Traffic-Zone Entry & Lockout",
+  "parSeconds": 260,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "warehouse-and-logistics-automation"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "amrRobot",
+        "count": 3,
+        "kit": "equipment"
+      },
+      {
+        "builder": "1.04x1.7x1.24",
+        "count": 2,
+        "kit": "unknown"
+      },
+      {
+        "builder": "2.62x4.22x1.18",
+        "count": 2,
+        "kit": "unknown"
+      }
+    ],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "bypass-interlock-hazard",
+      "clearance-target",
+      "closing-log",
+      "dock-isolator",
+      "dock-lock",
+      "dock-tag",
+      "fleet-board",
+      "gap-walk-hazard",
+      "gate-arm",
+      "gate-call-in",
+      "gate-reader",
+      "hi-vis-vest",
+      "manual-zone-sign",
+      "manual-zone-socket",
+      "override-scanner-hazard",
+      "scanner-post",
+      "skip-loto-hazard",
+      "spare-scanner-panel",
+      "steel-toe-boots",
+      "yield-marker",
+      "zone-map-board"
+    ],
+    "meshes": 171
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "anyOrder": true,
+      "cue": "Hi-vis vest and steel-toe boots before stepping anywhere near the marked lanes.",
+      "id": "ppe",
+      "itemNames": {
+        "hi-vis-vest": "hi-vis vest",
+        "steel-toe-boots": "steel-toe boots"
+      },
+      "kind": "sequence",
+      "prompt": "Hi-vis vest and steel-toe boots before stepping anywhere near the marked lanes.",
+      "targets": [
+        "hi-vis-vest",
+        "steel-toe-boots"
+      ],
+      "title": "Suit up before entering the floor",
+      "why": "An AMR's scanner is tuned for a person-shaped obstruction, not for a specific colour, but the hi-vis vest is what makes an associate visible to every other person and every powered industrial truck sharing this floor — the boots are what a dropped case or a caught foot does not get to end badly."
+    },
+    {
+      "cue": "Confirm today's traffic-zone map before crossing into the lane.",
+      "id": "zone-map-read",
+      "kind": "select",
+      "prompt": "Confirm today's traffic-zone map before crossing into the lane.",
+      "target": "zone-map-board",
+      "title": "Read the zone map",
+      "why": "The map is what tells an associate where the marked lanes, the yield points and the pedestrian gate actually are today — a zone gets re-taped when the floor plan changes, and working from yesterday's mental picture is how a person ends up standing exactly where a robot's path says they will not be."
+    },
+    {
+      "cue": "Look around the entry before crossing. Three things are already wrong with this zone — find them.",
+      "decoyNotes": {
+        "spare-scanner-panel": "That spare scanner access panel is seated and latched, showing no damage. Nothing to flag there."
+      },
+      "id": "zone-hazard-read",
+      "itemNames": {
+        "bypass-interlock-hazard": "bypass taped open on the gate interlock",
+        "gap-walk-hazard": "worn gap in the lane barrier",
+        "override-scanner-hazard": "override key left in the scanner"
+      },
+      "itemNotes": {
+        "bypass-interlock-hazard": "A taped-open interlock releases the gate whether or not a robot is actually clear of it — it gets pulled before the gate is trusted again.",
+        "gap-walk-hazard": "A gap in the barrier is a crossing the scanner was never told to expect — it gets taped shut before anyone uses this zone, not stepped through.",
+        "override-scanner-hazard": "A key left seated in the mute switch is a scanner running blind for whoever walks in front of it next — it comes out and goes back to whoever is authorised to hold it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look around the entry before crossing. Three things are already wrong with this zone — find them.",
+      "targets": [
+        "gap-walk-hazard",
+        "bypass-interlock-hazard",
+        "override-scanner-hazard"
+      ],
+      "title": "Read the zone for what is already wrong with it",
+      "why": "A zone that looks fine from the gate is not the same thing as one an associate has actually checked — a worn gap, a taped bypass or a seated override key each quietly cancels the one control they were built to provide, and finding them now costs a maintenance ticket instead of costing someone the moment a robot assumes they are not there."
+    },
+    {
+      "cue": "Badge in at the reader and wait for the gate's own green release.",
+      "id": "gate-request",
+      "kind": "select",
+      "prompt": "Badge in at the reader and wait for the gate's own green release.",
+      "target": "gate-reader",
+      "title": "Request access at the gate",
+      "why": "Requesting access is what tells the fleet controller a person is about to be on the floor, so the system can hold or reroute traffic around the crossing — stepping past the gate without requesting it means every robot on this floor is still operating on the assumption that the lane is pedestrian-free."
+    },
+    {
+      "cue": "Turn the gate arm through once the interlock shows green, not before.",
+      "id": "gate-cross",
+      "kind": "turn",
+      "prompt": "Turn the gate arm through once the interlock shows green, not before.",
+      "target": "gate-arm",
+      "title": "Cross once the gate releases",
+      "turn": {
+        "axis": "y",
+        "label": "GATE ARM",
+        "turns": 0.5
+      },
+      "why": "The gate arm only turns freely once the interlock has actually confirmed the lane clear — forcing it early is forcing past the one mechanical proof that a robot is not mid-approach on the other side."
+    },
+    {
+      "cue": "Stand on the marked yield point and hold until the crossing AMR has fully cleared.",
+      "holdBreakNote": "Stepped off the yield point before the robot cleared. The margin the yield point buys only exists for as long as someone actually stands on it.",
+      "id": "yield-hold",
+      "kind": "hold",
+      "prompt": "Stand on the marked yield point and hold until the crossing AMR has fully cleared.",
+      "seconds": 6,
+      "target": "yield-marker",
+      "title": "Hold at the yield point",
+      "why": "The yield point is placed where a robot's own sensors have the most room to see a person and route around them — stepping off it early, while a robot is still mid-pass, puts an associate back into the margin the zone was designed to remove."
+    },
+    {
+      "cue": "Read the scanner's field indicator and commit only while it shows clear.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.64
+        ],
+        "label": "SCANNER FIELD",
+        "missNote": "The field was not reading active and clear. Do not proceed into the lane on a degraded or muted scanner.",
+        "speed": 0.55
+      },
+      "id": "scanner-field-check",
+      "kind": "gauge",
+      "prompt": "Read the scanner's field indicator and commit only while it shows clear.",
+      "target": "scanner-post",
+      "title": "Confirm the safety scanner's field",
+      "why": "A safety scanner's detection field is either actively watching the approach or it is not, and the indicator is the only honest way to know which — trusting that it is probably fine because the floor looks empty is exactly the assumption the indicator exists to replace."
+    },
+    {
+      "anyOrder": false,
+      "cue": "Isolate the dock's power, apply your own lock, then apply the tag — in that order.",
+      "id": "dock-loto",
+      "itemNames": {
+        "dock-isolator": "dock power isolator",
+        "dock-lock": "personal lock",
+        "dock-tag": "danger tag"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Isolate, then lock, then tag — a lock with nothing isolated behind it, or a tag with no lock behind it, protects nobody.",
+      "prompt": "Isolate the dock's power, apply your own lock, then apply the tag — in that order.",
+      "targets": [
+        "dock-isolator",
+        "dock-lock",
+        "dock-tag"
+      ],
+      "title": "Isolate and lock the charging dock",
+      "why": "The isolator alone can be re-energised by anyone who does not know a person is working past it; the lock is what makes that impossible without that person's own key, and the tag is what tells the next person walking by why the lock is there at all — skip any one of the three and the other two are only half a control."
+    },
+    {
+      "cue": "Advance the test target while keeping its distance from the scanner above the marked minimum the whole time.",
+      "holdBreakNote": "The clearance closed past the marked minimum. Bring the test target back under control before continuing.",
+      "id": "clearance-test",
+      "kind": "track",
+      "prompt": "Advance the test target while keeping its distance from the scanner above the marked minimum the whole time.",
+      "seconds": 8,
+      "target": "clearance-target",
+      "title": "Prove the manual-zone clearance",
+      "track": {
+        "drift": -0.12,
+        "fall": 0.55,
+        "green": [
+          0.42,
+          0.9
+        ],
+        "label": "SCANNER CLEARANCE",
+        "rise": 0.4,
+        "start": 0.75
+      },
+      "why": "Proving the clearance with the test target under control is what confirms the manual zone is actually being honoured before a body relies on it — letting the distance close past the marked minimum even once is the exact failure the marked minimum exists to prevent."
+    },
+    {
+      "cue": "Carry the manual-zone sign to the marked spot at the dock before starting hands-on work.",
+      "drag": {
+        "missNote": "Not on the marked spot — the sign only tells the fleet anything if it sits exactly where the floor mark says.",
+        "radius": 0.4,
+        "to": "manual-zone-socket"
+      },
+      "id": "barrier-place",
+      "kind": "drag",
+      "prompt": "Carry the manual-zone sign to the marked spot at the dock before starting hands-on work.",
+      "target": "manual-zone-sign",
+      "title": "Mark the floor for the rest of the fleet",
+      "why": "The fleet's routing only avoids a manual zone it has actually been told about — the sign at the marked spot is what tells every other robot and every other associate that this dock is occupied by hands-on work, not just what the person doing that work happens to know."
+    },
+    {
+      "cue": "Confirm the fleet controller board shows this dock as a manual zone before leaving the gate.",
+      "id": "notify-fleet",
+      "kind": "select",
+      "prompt": "Confirm the fleet controller board shows this dock as a manual zone before leaving the gate.",
+      "target": "fleet-board",
+      "title": "Notify the fleet controller",
+      "why": "The board is the fleet controller's whole picture of the floor — an associate who marks the floor but never confirms the board shows it is trusting a sign a controller three screens deep in a shift may never actually see."
+    },
+    {
+      "cue": "Sign the entry log before the shift moves on to the next task.",
+      "id": "closing-log",
+      "kind": "select",
+      "prompt": "Sign the entry log before the shift moves on to the next task.",
+      "target": "closing-log",
+      "title": "Sign the zone entry log",
+      "why": "The signed log is the record that this specific entry, on this specific dock, was actually done by the procedure — not assumed fine because the last associate through this gate usually does it right."
+    }
+  ],
+  "supportLine": "your Teamsters local's member assistance programme, or the site's employee assistance line if a close call with a moving robot is what stayed with you",
+  "tagline": "Crossing into a live autonomous-mobile-robot floor the way the zone is actually built for it: the map read and checked for what is already wrong, access requested at the gate rather than stepped past, the charging dock's power isolated and locked before anyone touches it, and the floor marked for the rest of the fleet before hands-on work starts",
+  "title": "SmartCiti.X~ AMR Traffic-Zone Entry & Lockout VR",
+  "trade": "Teamsters warehouse associate — automated traffic-zone entry",
+  "underwater": null,
+  "weather": null
+}

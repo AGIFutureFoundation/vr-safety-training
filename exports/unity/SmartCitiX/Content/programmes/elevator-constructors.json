@@ -1,0 +1,126 @@
+{
+  "accent": "#ff9f43",
+  "anchors": [
+    {
+      "id": "ct-notice-board-downtown-tower-site",
+      "name": "Union hall notice board · Downtown Tower Site",
+      "position": [
+        30.8,
+        -17.7
+      ],
+      "stations": [
+        "steel-erector",
+        "gl-curtain-wall-unit-setting-from-the-floor",
+        "ew-hoistway-false-car-and-rail-setting"
+      ],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "downtown"
+    },
+    {
+      "id": "downtown-tower-site",
+      "name": "Downtown Tower Site",
+      "position": [
+        40,
+        0
+      ],
+      "stations": [
+        "steel-erector",
+        "gl-curtain-wall-unit-setting-from-the-floor",
+        "ew-hoistway-false-car-and-rail-setting"
+      ],
+      "table": "BAY_SITES",
+      "world": "bayworld",
+      "zone": "downtown"
+    }
+  ],
+  "certification": "IUEC elevator constructors; NEIEP apprenticeship curriculum; ASME A17.1 the safety code for elevators and escalators; OSHA 29 CFR 1910.147 control of hazardous energy for every disconnect this block isolates",
+  "competency": {
+    "id": "elevator-constructors",
+    "kind": "programme",
+    "require": 4,
+    "standards": [
+      "asme-a17-1",
+      "osha-1910-147",
+      "neiep-training"
+    ],
+    "stations": [
+      "ew-hoistway-false-car-and-rail-setting",
+      "ew-machine-room-lockout-and-brake-test",
+      "ew-pit-work-and-buffer-inspection",
+      "ew-car-top-inspection-station-and-ride",
+      "ew-door-operator-adjustment-and-gap",
+      "ew-escalator-step-chain-and-comb-plate",
+      "ew-rope-inspection-and-sheave-wear",
+      "ew-elevator-entrapment-and-rescue-with-fire-service"
+    ],
+    "title": "Isolate, gauge and prove an elevator or escalator machine before returning it to service"
+  },
+  "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
+  "guides": [
+    "neiep-training",
+    "asme-a17-1",
+    "osha-1910-147",
+    "osha-1926-501",
+    "ansi-z359",
+    "osha-1910-333",
+    "osha-1910-23"
+  ],
+  "id": "elevator-constructors",
+  "ladder": {
+    "atBar": 20,
+    "lessonBar": 75,
+    "lessons": 1670,
+    "levels": 20,
+    "note": "a lesson is one station step under one condition; see docs/ladders.md",
+    "partial": 0,
+    "stationsNeeded": 0,
+    "tasks": 120
+  },
+  "name": "Elevator Constructor — IUEC Core Skills",
+  "schema": "smartcitix.programme/1",
+  "stations": [
+    {
+      "app": "smartcity",
+      "id": "ew-hoistway-false-car-and-rail-setting",
+      "why": "Setting the first guide rail in a new hoistway from a false car, with the platform's own stop switch confirmed and a tag line never out of a hand while the hoist is running."
+    },
+    {
+      "app": "smartcity",
+      "id": "ew-machine-room-lockout-and-brake-test",
+      "why": "Proving the traction machine's brake against its own wear limits, with the hand-release lever physically guarded so nobody can pull it while the reading is being taken."
+    },
+    {
+      "app": "smartcity",
+      "id": "ew-pit-work-and-buffer-inspection",
+      "why": "A full pit service — refuge space, ladder, sump pump, and both the spring and oil buffers proven against their own ratings before anyone climbs back out."
+    },
+    {
+      "app": "smartcity",
+      "id": "ew-car-top-inspection-station-and-ride",
+      "why": "Riding the car top itself on inspection operation, watching crosshead clearance, the traveling cable and the door hangers from the one vantage point that actually shows them."
+    },
+    {
+      "app": "smartcity",
+      "id": "ew-door-operator-adjustment-and-gap",
+      "why": "Gauging a car door's interlock gap and closing force, then proving the reopening device actually stops the door on an obstruction rather than assuming it would."
+    },
+    {
+      "app": "smartcity",
+      "id": "ew-escalator-step-chain-and-comb-plate",
+      "why": "Isolating an escalator to gauge its step chain tension and skirt clearance, then proving the comb, skirt and handrail safety switches with an actual test, not a look."
+    },
+    {
+      "app": "smartcity",
+      "id": "ew-rope-inspection-and-sheave-wear",
+      "why": "Walking a hoist rope set by gloved hand for broken wire and dry sections, then gauging tension, diameter and the sheave groove against the limits each one is retired at."
+    },
+    {
+      "app": "smartcity",
+      "id": "ew-elevator-entrapment-and-rescue-with-fire-service",
+      "why": "A coordinated rescue with a responding fire company — the car's true position confirmed before a hand crank ever lowers it, and the sill bridged before a passenger ever steps toward the gap."
+    }
+  ],
+  "summary": "Eight jobs across new installation, machine room, pit, car top, door, escalator, rope and a coordinated rescue — the isolation habit proven fresh each time against a different machine and a different way of getting hurt.",
+  "union": "IUEC and the NEIEP apprenticeship as a body"
+}

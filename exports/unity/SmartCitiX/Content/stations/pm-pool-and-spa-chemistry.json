@@ -1,0 +1,412 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "clear-water",
+    "name": "Clear Water",
+    "note": "Tested to code, dosed by the feeder, two oxidisers kept apart, and the gate latched behind every child"
+  },
+  "category": "Building Systems & Facilities",
+  "certification": "The state pool code's disinfectant, pH and water-temperature limits and the rescue equipment a residential pool keeps on deck; the Virginia Graeme Baker Pool and Spa Safety Act's anti-entrapment drain covers; CDC guidance on recreational water illness and pool chemical storage; OSHA 29 CFR 1910.1200 hazard communication, 29 CFR 1910.133 eye protection and ANSI Z358.1 eyewash in the chemical room; 29 CFR 1910.147 lockout on the recirculation pump; IUOE stationary engineer training for the pool plant, UNITE HERE for the amenity staff on deck, and the apartment association's CAM and CAMT credentials",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI Z358.1",
+        "id": "ansi-z358-1",
+        "title": "ANSI/ISEA Z358.1 — Emergency eyewash and shower equipment"
+      },
+      {
+        "body": "CDC",
+        "citedAs": "CDC",
+        "id": "cdc-guidance",
+        "title": "CDC infection-prevention and public-health guidance, including the Guidelines for Infection Control in Dental Health-Care Settings and Legionella control guidance"
+      },
+      {
+        "body": "union",
+        "citedAs": "IUOE",
+        "id": "iuoe-training",
+        "title": "IUOE local training funds and the IUOE National Training Fund — operating and stationary engineer apprenticeship"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1200",
+        "id": "osha-1910-1200",
+        "title": "29 CFR 1910.1200 — Hazard communication"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.133",
+        "id": "osha-1910-133",
+        "title": "29 CFR 1910.133 — Eye and face protection"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      },
+      {
+        "body": "union",
+        "citedAs": "UNITE HERE",
+        "id": "unite-here-training",
+        "title": "UNITE HERE hospitality training funds — cooks, housekeepers, bartenders and banquet staff"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Building Systems & Facilities",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "true-reading",
+        "name": "True Reading",
+        "note": "Free chlorine read inside the band first time"
+      },
+      {
+        "id": "kept-apart",
+        "name": "Kept Apart",
+        "note": "No unsafe act anywhere on deck or in the chemical room"
+      },
+      {
+        "id": "clean-backwash",
+        "name": "Clean Backwash",
+        "note": "Held the filter pressure in the band through the backwash"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-deck",
+        "name": "Clean Deck",
+        "note": "No corrections across the whole round"
+      },
+      {
+        "id": "steady-gauge",
+        "name": "Steady Gauge",
+        "note": "Held the backwash without breaking the band"
+      },
+      {
+        "id": "open-on-time",
+        "name": "Open On Time",
+        "note": "Finished inside 80% of par"
+      }
+    ],
+    "currency": "PPM",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Deck Attendant",
+      "Pool Tech",
+      "Pool Operator",
+      "Aquatics Lead",
+      "Pool Plant Certified"
+    ],
+    "system": "Pool Deck"
+  },
+  "hazards": {
+    "cal-hypo-into-trichlor": "You started scooping calcium hypochlorite shock into the trichlor erosion feeder. Those are two different chlorine chemistries, and together in a closed feeder they react violently — heat, chlorine gas and, in pool rooms, explosions that have put operators in hospital. Each goes only where its own label says, with its own scoop.",
+    "filter-clamp-band": "You reached to loosen the filter tank's clamp band with the system still under pressure. A filter lid released under pressure leaves the tank with enough force to kill — the pump is off, the air relief valve open and the gauge at zero before that band is touched.",
+    "shock-with-swimmers": "You went to broadcast granular shock across the pool with a resident still in the water. Undissolved shock and a spike of chlorine burn skin and eyes, and pool codes and good practice agree: superchlorination waits until the pool is closed and empty, and residents come back only after the level has fallen into the band.",
+    "water-into-acid": "You went to pour water into the bucket of muriatic acid. Water added to acid can boil at the surface and spit concentrated acid out of the bucket; acid goes slowly into water, never the other way, with goggles and gloves on and the eyewash in reach."
+  },
+  "id": "pm-pool-and-spa-chemistry",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "backwash-filter",
+      "alert": "While you run the backwash, a small child has come through the gate on her own and is standing at the deep-end edge.",
+      "cue": "Walk her back out and latch the gate behind her. Let the backwash valve sit — the child comes first.",
+      "delay": 3,
+      "id": "child-at-edge",
+      "kind": "Child alone at the pool edge",
+      "missNote": "She stood at the edge the whole window while the backwash ran. Nobody on the deck moved, and the gate she came through is still open behind her.",
+      "seconds": 12,
+      "target": "gate-latch",
+      "why": "Drowning is silent and fast, and a small child alone at the edge of deep water is seconds from it — nothing on the filter is worth those seconds. Walking her back out and latching the gate also finds her parent, and it tells you the gate still is not doing its job.",
+      "wrongNote": "That doesn't get her away from the water. Walk her back through the gate and latch it behind her."
+    },
+    {
+      "after": "prove-spa-estop",
+      "alert": "Thunder rolls over the courtyard while you hold the spa shutoff — and a resident is still swimming laps.",
+      "cue": "Clear the pool: hang the pool-closed sign and call the swimmer out. Don't wait to see the lightning.",
+      "delay": 2,
+      "id": "thunder-clear",
+      "kind": "Thunder — clear the pool",
+      "missNote": "The resident kept swimming through the thunder the whole window. The pool stayed open in a storm because nobody closed it.",
+      "seconds": 12,
+      "target": "pool-closed-sign",
+      "why": "Water and a metal-railed deck are the worst place to be in a thunderstorm, and if you can hear thunder you are within striking distance. The property's lightning policy clears the pool at the first rumble and keeps it closed until the storm has passed — waiting for a flash to be sure is how swimmers get caught in the water.",
+      "wrongNote": "That doesn't clear the water. Hang the pool-closed sign and call the swimmer out — the storm won't wait."
+    }
+  ],
+  "lateNotes": {
+    "spa-thermometer": "Read the spa once the pool's own chemistry is in hand — the spa is next on the round, not before the test.",
+    "strainer-basket": "Not yet — the basket comes out only after the pump is locked out and the strainer lid is off."
+  },
+  "name": "Pool & Spa Chemistry",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "property-management"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "acid-above-hypo",
+      "attendant-checkin",
+      "building-log",
+      "cal-hypo-into-trichlor",
+      "debris-bin-slot",
+      "drain-cover-cracked",
+      "eyewash-expired",
+      "fc-comparator",
+      "feeder-dial",
+      "filter-clamp-band",
+      "filter-gauge",
+      "gate-closer",
+      "gate-latch",
+      "gate-prop-chair",
+      "pool-closed-sign",
+      "pool-log",
+      "pump-breaker",
+      "pump-lock-hasp",
+      "shock-with-swimmers",
+      "spa-estop",
+      "spa-thermometer",
+      "strainer-basket",
+      "strainer-lid",
+      "water-into-acid"
+    ],
+    "meshes": 196
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check yesterday's readings, doses and bather load in the log before opening the deck.",
+      "id": "read-pool-log",
+      "kind": "select",
+      "prompt": "Check yesterday's readings, doses and bather load in the log before opening the deck.",
+      "target": "pool-log",
+      "title": "Read the pool log and the posted rules",
+      "why": "The chemistry of a pool this size moves with the weather and the number of residents who used it, and yesterday's readings and doses are what tell you whether this morning's number is normal or a problem. The state pool code asks for a written log because a trend — chlorine demand climbing every afternoon — shows up on paper long before it shows up as a sick resident."
+    },
+    {
+      "cue": "Find what would let a child into the water or trap a swimmer at the bottom.",
+      "id": "walk-the-deck",
+      "itemNames": {
+        "drain-cover-cracked": "cracked main drain cover",
+        "gate-prop-chair": "chair propping the self-closing gate"
+      },
+      "itemNotes": {
+        "drain-cover-cracked": "The main drain cover has a crack across one corner. A damaged cover is exactly the entrapment hazard the federal drain-cover law was written about — the pool stays closed until it is replaced.",
+        "gate-prop-chair": "A deck chair is holding the self-closing gate open. That gate is the only barrier between a toddler in the courtyard and deep water with nobody watching it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Find what would let a child into the water or trap a swimmer at the bottom.",
+      "targets": [
+        "gate-prop-chair",
+        "drain-cover-cracked"
+      ],
+      "title": "Walk the deck before it opens",
+      "why": "A residential pool runs without a lifeguard, so the physical barriers are doing the watching: a self-closing, self-latching gate and a drain cover that cannot hold a body against the suction. A small child's drowning at a residential pool very often begins with a gate that did not close behind somebody, and an entrapment begins with a cover that was cracked or missing."
+    },
+    {
+      "cue": "Match the comparator colour and commit when the reading sits inside the code's band.",
+      "gauge": {
+        "green": [
+          0.3,
+          0.55
+        ],
+        "label": "FREE CHLORINE",
+        "missNote": "Outside the code's band — too low and the pool stays closed until it's dosed, too high and residents' eyes and skin pay for it. Read the comparator again.",
+        "speed": 0.55
+      },
+      "id": "test-chlorine",
+      "kind": "gauge",
+      "prompt": "Match the comparator colour and commit when the reading sits inside the code's band.",
+      "target": "fc-comparator",
+      "title": "Test free chlorine with the DPD kit",
+      "why": "Free chlorine is what actually kills the germs residents bring in, and below the code's minimum a pool can spread diarrhoeal illness within a day. The DPD test reads the free fraction separately from the chlorine already used up, which is why it is read to a colour standard rather than eyeballed from a test strip on a sunny deck."
+    },
+    {
+      "cue": "Turn the erosion feeder's dial to bring the dose in line with the reading.",
+      "id": "set-feeder",
+      "kind": "turn",
+      "prompt": "Turn the erosion feeder's dial to bring the dose in line with the reading.",
+      "target": "feeder-dial",
+      "title": "Adjust the chlorinator feed rate",
+      "turn": {
+        "axis": "z",
+        "label": "FEED RATE",
+        "turns": 0.5
+      },
+      "why": "The feeder doses continuously through the recirculation line, so the dial — not a bucket over the edge — is how chlorine gets into the water evenly and without a resident ever meeting concentrated chemical. Adjusting the rate to the reading is also what keeps the level from swinging between a bleach bath at noon and nothing by evening."
+    },
+    {
+      "cue": "Breaker off, your lock and tag on, and only then take the strainer lid off.",
+      "id": "lockout-pump",
+      "itemNames": {
+        "pump-breaker": "pump breaker off",
+        "pump-lock-hasp": "your lock and tag on it",
+        "strainer-lid": "strainer lid off"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Breaker, lock, then the lid — opening the strainer with the pump still able to start is exactly what the lock is for.",
+      "prompt": "Breaker off, your lock and tag on, and only then take the strainer lid off.",
+      "targets": [
+        "pump-breaker",
+        "pump-lock-hasp",
+        "strainer-lid"
+      ],
+      "title": "Lock out the recirculation pump for its strainer",
+      "why": "A pump's timer can restart it at any moment, and a strainer opened on a running pump sprays water and debris and can draw a hand towards a spinning impeller. Your lock on the breaker is what stops the timer, the resident who presses the spa button and the coworker who thinks the pool should be running."
+    },
+    {
+      "cue": "Carry the strainer basket to the debris bin and empty it.",
+      "drag": {
+        "missNote": "Not in the bin — debris tipped on the deck ends up back in the gutter and the pool by lunchtime.",
+        "radius": 0.5,
+        "to": "debris-bin-slot"
+      },
+      "id": "empty-basket",
+      "kind": "drag",
+      "prompt": "Carry the strainer basket to the debris bin and empty it.",
+      "target": "strainer-basket",
+      "title": "Empty the strainer basket in the debris bin",
+      "why": "A packed basket starves the pump of flow, and a starved pump turns over less water through the filter and the chlorinator — the chemistry you just set stops reaching the far end of the pool. Emptied into the bin rather than onto the deck, the leaves and hair stay out of the water and out from under residents' feet."
+    },
+    {
+      "cue": "Run the backwash and keep the filter pressure in the band until the sight glass runs clear.",
+      "holdBreakNote": "The pressure left the band. Over pressure strains the tank and the clamp; starved means the valve isn't where it should be — bring it back.",
+      "id": "backwash-filter",
+      "kind": "track",
+      "prompt": "Run the backwash and keep the filter pressure in the band until the sight glass runs clear.",
+      "seconds": 7,
+      "target": "filter-gauge",
+      "title": "Backwash the filter and watch its gauge",
+      "track": {
+        "drift": 0.1,
+        "fall": 0.38,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "FILTER PRESSURE",
+        "rise": 0.44,
+        "start": 0.2
+      },
+      "why": "A filter's pressure rises as it loads with dirt, and the gauge's climb above its clean reading is what says it is time to backwash. Run too hard, the backwash lifts sand or tears the grids; stopped too early, the filter goes back on line half-clean and the water goes cloudy — a cloudy pool is one where nobody can see a swimmer on the bottom."
+    },
+    {
+      "cue": "Find what turns a splash or a leak into an emergency.",
+      "id": "walk-chem-room",
+      "itemNames": {
+        "acid-above-hypo": "acid jug on the shelf above the cal-hypo",
+        "eyewash-expired": "eyewash bottles past their date"
+      },
+      "itemNotes": {
+        "acid-above-hypo": "The muriatic acid is stored on the shelf directly above the calcium hypochlorite. One leak or one knocked jug and acid drips onto an oxidiser — chlorine gas in a room with the door shut.",
+        "eyewash-expired": "The sealed eyewash bottles are past their printed date. The emergency eyewash standard is about flushing within seconds of a splash, and a bottle nobody trusts is a bottle nobody uses."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Find what turns a splash or a leak into an emergency.",
+      "targets": [
+        "acid-above-hypo",
+        "eyewash-expired"
+      ],
+      "title": "Walk the chemical room",
+      "why": "Pool chemical injuries are mostly storage and handling injuries: incompatible products shelved together, a splash with no working eyewash in reach. CDC's pool chemical guidance and the hazard communication standard both come back to the same point — the room has to be arranged so that the one bad day stays a small one."
+    },
+    {
+      "cue": "Watch the spa thermometer and commit when it holds under the code's ceiling.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.66
+        ],
+        "label": "SPA TEMP",
+        "missNote": "Over the ceiling or well under it — hot enough to faint in, or cold enough that residents crank it. Read it again.",
+        "speed": 0.55
+      },
+      "id": "read-spa",
+      "kind": "gauge",
+      "prompt": "Watch the spa thermometer and commit when it holds under the code's ceiling.",
+      "target": "spa-thermometer",
+      "title": "Read the spa temperature",
+      "why": "Hot water raises heart rate and drops blood pressure, and above the 104°F ceiling most state pool codes set, a resident with a heart condition, a pregnancy or a drink in them can faint in the water. The spa is read every round because its heater has no idea who is about to sit in it."
+    },
+    {
+      "cue": "Press and hold the spa emergency shutoff until the jets and the heater both stop.",
+      "holdBreakNote": "You let go before the jets stopped. A shutoff that has not been proven to stop the pump is a switch nobody should trust in the moment it matters.",
+      "id": "prove-spa-estop",
+      "kind": "hold",
+      "prompt": "Press and hold the spa emergency shutoff until the jets and the heater both stop.",
+      "seconds": 4,
+      "target": "spa-estop",
+      "title": "Prove the spa's emergency shutoff",
+      "why": "The spa's emergency shutoff exists for a single moment — a child's hair drawn into a suction fitting — and in that moment the resident reaching for it has to find it and have it work. Holding it until the jets actually stop proves the switch, the relay and the pump all obey it, which a switch that has never been pressed cannot promise."
+    },
+    {
+      "cue": "Turn the closer's tension until the gate swings shut and latches on its own from full open.",
+      "id": "adjust-gate-closer",
+      "kind": "turn",
+      "prompt": "Turn the closer's tension until the gate swings shut and latches on its own from full open.",
+      "target": "gate-closer",
+      "title": "Set the gate closer so it self-closes and latches",
+      "turn": {
+        "axis": "y",
+        "label": "CLOSER TENSION",
+        "turns": 0.6
+      },
+      "why": "A gate that closes most of the way is a gate that stands open an inch, which is all a three-year-old needs. The state pool code asks for self-closing and self-latching for exactly that reason, and the closer is adjusted until the latch catches every time from full open with nobody's hand on it."
+    },
+    {
+      "cue": "Hand over the drain cover closure and the gate, and ask how the attendant is doing after the morning.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Hand over the drain cover closure and the gate, and ask how the attendant is doing after the morning.",
+      "target": "attendant-checkin",
+      "title": "Check in with the amenity attendant",
+      "why": "The UNITE HERE amenity attendant is the one on the deck all afternoon, answering residents who want to know why the pool is closed and watching the gate you just fixed. A handover in person gives them the words to explain the drain cover, and a morning that included a child at the water's edge is worth asking about, not just logging."
+    },
+    {
+      "cue": "Log the readings, the feed rate, the backwash, the chemical room findings and the closure.",
+      "id": "building-log",
+      "kind": "select",
+      "prompt": "Log the readings, the feed rate, the backwash, the chemical room findings and the closure.",
+      "target": "building-log",
+      "title": "Enter the round in the building log",
+      "why": "The pool log is a record the health inspector reads, the next operator relies on and the building's insurer asks for after an incident. Readings with times, doses with amounts and a closure with its reason are what make it a record rather than a column of ticks, and IUOE practice treats an unlogged test as an untested pool."
+    }
+  ],
+  "supportLine": "your union steward or member-assistance contact, or your employer's employee assistance program — a near-drowning is a call worth making afterwards",
+  "tagline": "The courtyard pool and spa: water tested and dosed to code, the pump locked out for its strainer, the filter backwashed to its gauge, the chemicals stored apart, and the spa held under its ceiling",
+  "title": "SmartCiti.X~ Pool & Spa Chemistry VR",
+  "trade": "Pool operator and building engineer — IUOE Local 39 stationary engineers and SEIU building staff, UNITE HERE residential amenity staff on deck, and the apartment association's CAM and CAMT credentials",
+  "underwater": null,
+  "weather": "overcast"
+}

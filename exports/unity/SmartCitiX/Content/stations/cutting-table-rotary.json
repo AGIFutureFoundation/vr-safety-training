@@ -1,0 +1,376 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "cut-clean",
+    "name": "Cut Clean",
+    "note": "A spread cut to the marker on both blades with the glove on, the guard proven, and the count right"
+  },
+  "category": "Sewing & Garment Trades",
+  "certification": "ANSI B11 safety requirements for cutting machines, OSHA 29 CFR 1910.212 machine guarding for the rotary and straight knives, 1910.132 hand protection for the cut-resistant glove on the guiding hand, and 1910.147 control of hazardous energy for the blade change — Workers United (SEIU) and state apprenticeship standards for industrial sewing machine operators",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI B11",
+        "id": "ansi-b11",
+        "title": "ANSI B11 — Safety of machinery (the B11 series of machine-tool standards)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.212",
+        "id": "osha-1910-212",
+        "title": "29 CFR 1910.212 — General requirements for all machines (machine guarding)"
+      },
+      {
+        "body": "union",
+        "citedAs": "SEIU",
+        "id": "seiu-training",
+        "title": "SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Garment manufacturing",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "blade-locked",
+        "name": "Blade Changed Locked Out",
+        "note": "Never changed a blade without the power locked out first"
+      },
+      {
+        "id": "glove-on",
+        "name": "Glove On the Guiding Hand",
+        "note": "Never guided fabric bare-handed at either blade"
+      },
+      {
+        "id": "ply-true",
+        "name": "Ply Count True",
+        "note": "Ply count held close to the ticket's spec"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-spread",
+        "name": "Clean Spread",
+        "note": "No corrections through the whole cut"
+      },
+      {
+        "id": "steady-cut",
+        "name": "Steady Cut",
+        "note": "Held both blades' feed without dropping out"
+      },
+      {
+        "id": "cut-fast",
+        "name": "Cut Fast",
+        "note": "Spread bundled inside 80% of par"
+      }
+    ],
+    "currency": "PLY",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Floor Trainee",
+      "Cutter",
+      "Lead Cutter",
+      "Cutting Room Lead",
+      "Cutting Room Authority Certified"
+    ],
+    "system": "Cutting Room Authority"
+  },
+  "hazards": {
+    "bare-hand-guide": "The guiding hand is bare at the cut line instead of wearing the rated glove. A rotary or straight blade does not treat a guiding hand any differently than the twenty-four plies of cloth it is already cutting through — the glove is what the blade meets first, not the skin under it.",
+    "rotary-blade-exposed": "The rotary knife's retractable guard is left open with the blade exposed while it is set down on the table. That guard is spring-loaded to close the instant the knife is not actively cutting for exactly this reason — a blade left exposed on a table full of cloth and hands is a hazard whether or not anyone is holding it right now.",
+    "spare-blade-exposed": "A fresh replacement blade is sitting loose on the table with its edge uncased. A brand-new blade is sharper than the one it is replacing, and one left exposed instead of in its case is a laceration waiting for whoever's hand lands on the table next, not just the person changing it.",
+    "straight-knife-reach-across": "You reached across the straight knife's own blade path instead of walking around it to clear scrap. That vertical blade runs the full height of the stack and does not pause because a hand is passing in front of it to grab something that would have taken two extra steps to reach safely."
+  },
+  "id": "cutting-table-rotary",
+  "indoor": "shop",
+  "interrupts": [
+    {
+      "after": "straight-cut",
+      "alert": "A coworker carrying a bundle cuts straight through the blade's own line of travel to save walking around the table.",
+      "cue": "Somebody just walked through the blade's path carrying a bundle.",
+      "delay": 3,
+      "id": "coworker-crosses-path",
+      "kind": "Coworker crosses the blade's path",
+      "missNote": "The blade kept running while they crossed its path with a full bundle in both hands. Nobody was hurt this time, which says nothing about the next crossing — the stop happens the moment somebody enters the line, not based on how it turns out.",
+      "seconds": 10,
+      "target": "power-switch",
+      "why": "The straight knife's stroke does not stop because someone is mid-crossing in front of it, and a coworker with both hands full of a bundle has no free hand to catch themselves or the blade — the machine comes off the instant anyone enters that line, not after they have already cleared it safely this time.",
+      "wrongNote": "The bundle can wait — the blade needs to stop while somebody is in its path."
+    },
+    {
+      "after": "bundle-ticket",
+      "alert": "Coiling the scrap thread by the straight knife, you find its blade guard tied back out of the way with a piece of twine from an earlier shift.",
+      "cue": "That guard has been tied open, not just left open.",
+      "delay": 4,
+      "id": "guard-tied-back",
+      "kind": "Guard found tied back",
+      "missNote": "The twine stayed on the guard. The next person to use this straight knife inherits a guard that cannot do its job, with no way of knowing that from looking at the machine running.",
+      "seconds": 12,
+      "target": "guard-tie-back",
+      "why": "A guard tied back is a guard somebody deliberately defeated, usually to see the cut line better or move faster through a rush order, and it stays defeated for every operator who uses this machine after them until somebody actually notices and cuts the twine — found is not fixed until the guard is actually freed to close again.",
+      "wrongNote": "That's the tied-back guard — cut it free before moving on to anything else at this machine."
+    }
+  ],
+  "lateNotes": {
+    "power-switch": "That is the lockout switch for the blade change — nothing needs it yet.",
+    "rotary-knife": "Not yet — the spread, the glove and the guard all get checked first.",
+    "straight-knife": "The rotary cuts the curves first. The straight knife takes the long straight runs after."
+  },
+  "name": "Cutting Table and Rotary Knife",
+  "parSeconds": 245,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "sewing-garment-trades"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.3,
+    "hits": [
+      "attach-ticket",
+      "band-bundle",
+      "bare-hand-guide",
+      "blade-socket",
+      "cut-glove",
+      "guard-tie-back",
+      "loose-thread-table",
+      "marker-corner",
+      "ply-gauge",
+      "power-switch",
+      "rotary-blade-exposed",
+      "rotary-guard",
+      "rotary-knife",
+      "spare-blade",
+      "spare-blade-exposed",
+      "spread",
+      "stack-pieces",
+      "stance-zone",
+      "straight-knife",
+      "straight-knife-reach-across",
+      "weights",
+      "weights-missing"
+    ],
+    "meshes": 135
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Look down the full length of the spread for wrinkles, slack plies or a shifted edge before cutting anything.",
+      "id": "spread-check",
+      "kind": "select",
+      "prompt": "Look down the full length of the spread for wrinkles, slack plies or a shifted edge before cutting anything.",
+      "target": "spread",
+      "title": "Check the spread",
+      "why": "Every ply in this stack is about to be cut to the exact same paper marker, so a wrinkle or a slipped edge buried on ply twelve does not stay a small flaw — it becomes a piece cut off-grain or short on every layer above it, and nobody finds it until a sewing operator further down the line cannot get two pieces to match."
+    },
+    {
+      "cue": "Carry the weights onto the paper marker's corners so it cannot shift while you cut.",
+      "drag": {
+        "missNote": "Not on the marker's corner — carry the weights fully onto the paper before cutting.",
+        "radius": 0.3,
+        "to": "marker-corner"
+      },
+      "id": "weight-marker",
+      "kind": "drag",
+      "prompt": "Carry the weights onto the paper marker's corners so it cannot shift while you cut.",
+      "target": "weights",
+      "title": "Weight the marker down",
+      "why": "The paper marker is the only thing telling the blade where every piece's edge actually is, and a marker that creeps even a few millimetres mid-cut moves that line on every ply still under the blade — the weights are what keep the one reference this whole spread is cut against from becoming a moving target."
+    },
+    {
+      "cue": "Pull the rated cut-resistant glove onto the hand that will guide the fabric at the blade.",
+      "id": "glove-on",
+      "kind": "select",
+      "prompt": "Pull the rated cut-resistant glove onto the hand that will guide the fabric at the blade.",
+      "target": "cut-glove",
+      "title": "Glove the guiding hand",
+      "why": "The guiding hand works closer to a moving blade for longer, continuously, than almost any other hand in this whole trade series — the rated glove is graded to resist exactly that contact, and it goes on before either blade is picked up, not after the first close pass proves why it matters."
+    },
+    {
+      "cue": "Check the retractable guard springs closed over the blade the instant you let up on the trigger.",
+      "id": "rotary-guard-check",
+      "kind": "select",
+      "prompt": "Check the retractable guard springs closed over the blade the instant you let up on the trigger.",
+      "target": "rotary-guard",
+      "title": "Confirm the rotary knife's guard is free",
+      "why": "A guard that sticks open even once is a guard that is not doing its job the one time it matters — the rotary knife's whole safety case rests on that spring closing every single time the blade is not actively being pressed into the cloth, so it gets proven before the first cut, not assumed from the last time it was used."
+    },
+    {
+      "cue": "Read the spread's height on the ply gauge against the ticket's count.",
+      "gauge": {
+        "green": [
+          0.44,
+          0.6
+        ],
+        "label": "PLY COUNT",
+        "missNote": "Off the ticket's ply count — restack the spread to the called-for height before cutting.",
+        "speed": 0.75
+      },
+      "id": "ply-count",
+      "kind": "gauge",
+      "prompt": "Read the spread's height on the ply gauge against the ticket's count.",
+      "target": "ply-gauge",
+      "title": "Check the ply count",
+      "why": "Too few plies wastes the whole spread's set-up time on an undersized cut; too many and the blade cannot travel cleanly through the bottom layers, leaving pieces that are cut clean on top and ragged or uncut at the base — the count is checked against the ticket before the blade ever enters the stack, not guessed by the height of the pile."
+    },
+    {
+      "cue": "Guide the rotary knife along the marker's curved lines at a steady feed.",
+      "holdBreakNote": "Feed rate broke out of the steady band. Bring the blade back onto the marker's line before continuing.",
+      "id": "rotary-cut",
+      "kind": "track",
+      "prompt": "Guide the rotary knife along the marker's curved lines at a steady feed.",
+      "seconds": 6,
+      "target": "rotary-knife",
+      "title": "Cut the curves with the rotary knife",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.42,
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "FEED RATE",
+        "rise": 0.5,
+        "start": 0.15
+      },
+      "why": "A rotary blade pushed too fast rides up out of the stack and leaves the bottom plies uncut; pushed too slowly it wanders off the marker's line one small correction at a time until the curve is visibly off — a steady feed is what keeps the blade following the line instead of the operator chasing it back onto the line every few inches."
+    },
+    {
+      "cue": "Stand to the side of the blade's travel, never directly in front of it, before switching to the straight knife.",
+      "id": "straight-stance",
+      "kind": "select",
+      "prompt": "Stand to the side of the blade's travel, never directly in front of it, before switching to the straight knife.",
+      "target": "stance-zone",
+      "title": "Take your stance beside the straight knife's path",
+      "why": "The straight knife's whole cutting stroke travels in one line, and a body standing anywhere in that line is standing exactly where a stalled cut, a kicked-back stack or a slipped stroke goes — the correct stance is decided before the blade starts moving, not adjusted after it is already running."
+    },
+    {
+      "cue": "Feed the straight knife through the marker's long straight lines at a steady pace from your stance beside the blade.",
+      "holdBreakNote": "Feed rate broke out of the steady band on the straight knife. Bring it back before the stack shifts.",
+      "id": "straight-cut",
+      "kind": "track",
+      "prompt": "Feed the straight knife through the marker's long straight lines at a steady pace from your stance beside the blade.",
+      "seconds": 6,
+      "target": "straight-knife",
+      "title": "Cut the long straight runs",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.4,
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "FEED RATE",
+        "rise": 0.48,
+        "start": 0.15
+      },
+      "why": "The straight knife carries the full height of the stack in one continuous pass, so an uneven feed here does not just mis-cut a piece, it can bind the blade partway through twenty-plus layers of cloth — the same steady feed that kept the rotary cut clean is what gets this blade through the whole stack in one controlled stroke."
+    },
+    {
+      "cue": "Stack the cut pieces by size, band the bundle, then attach the cutting ticket.",
+      "id": "bundle-ticket",
+      "itemNames": {
+        "attach-ticket": "ticket attached",
+        "band-bundle": "bundle banded",
+        "stack-pieces": "pieces stacked by size"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Stack, then band, then ticket — a ticket on an unbanded pile falls off the first time somebody lifts it.",
+      "prompt": "Stack the cut pieces by size, band the bundle, then attach the cutting ticket.",
+      "targets": [
+        "stack-pieces",
+        "band-bundle",
+        "attach-ticket"
+      ],
+      "title": "Bundle and ticket the cut pieces",
+      "why": "A bundle without its own ticket is a stack of cloth nobody downstream can trace back to a style, a size or a quantity — banding it and ticketing it here is what turns a pile of cut pieces into a bundle a sewing operation can actually run against, the same ticket every operator after this one reads first."
+    },
+    {
+      "cue": "Turn the straight knife's power off and apply your lock before the blade is touched.",
+      "id": "lockout",
+      "kind": "turn",
+      "prompt": "Turn the straight knife's power off and apply your lock before the blade is touched.",
+      "target": "power-switch",
+      "title": "Lock out before changing the blade",
+      "turn": {
+        "axis": "y",
+        "label": "LOCKOUT",
+        "turns": 0.5
+      },
+      "why": "A straight knife blade dulls fast against layered cloth and gets changed often enough that skipping the lockout is the easiest habit on this whole floor to fall into — the machine cannot tell the difference between a hand steadying the mount and one about to be in the blade's path the instant it restarts."
+    },
+    {
+      "cue": "Carry the fresh blade from its case into the mount and seat it fully.",
+      "drag": {
+        "missNote": "Not seated in the mount — carry the blade fully home before releasing your lock.",
+        "radius": 0.3,
+        "to": "blade-socket"
+      },
+      "id": "blade-change",
+      "kind": "drag",
+      "prompt": "Carry the fresh blade from its case into the mount and seat it fully.",
+      "target": "spare-blade",
+      "title": "Change the blade",
+      "why": "A blade that is not seated fully in the mount can work loose the first time it meets real resistance in a thick spread, and a loose blade in a straight knife is metal breaking free at whatever speed the motor was turning when it let go — the fresh blade goes in from its case straight to the mount, never carried around loose in a hand first."
+    },
+    {
+      "cue": "Clear your hands from the blade, remove your lock, then restore power.",
+      "id": "power-restore",
+      "kind": "select",
+      "prompt": "Clear your hands from the blade, remove your lock, then restore power.",
+      "target": "power-switch",
+      "title": "Remove your lock and restore power",
+      "why": "Your lock, your call — the blade mount is confirmed clear of tools and fingers before power comes back, because the machine restarts able to cut the instant it is live again, not after some grace period to double-check the mount."
+    },
+    {
+      "cue": "Two things at this station are out of place. Find them by looking.",
+      "id": "walk",
+      "itemNames": {
+        "loose-thread-table": "loose scrap on the cutting surface",
+        "weights-missing": "a marker corner without a weight"
+      },
+      "itemNotes": {
+        "loose-thread-table": "Scrap left on the cutting surface is exactly what the next spread's blade catches on a pass nobody was watching for it.",
+        "weights-missing": "A marker corner with no weight on it is the one corner that walks the instant the next cut starts."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Two things at this station are out of place. Find them by looking.",
+      "targets": [
+        "loose-thread-table",
+        "weights-missing"
+      ],
+      "title": "Walk the table before the next spread",
+      "why": "A cut that measured perfectly can still leave the table worse for the next spread — loose scrap and an unweighted corner are both invisible from where the last cut finished, and both become somebody else's mis-cut bundle if they are not caught here first."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "The spread checked, the marker weighted, the glove on, both blades guarded, the ply count right, bundled and ticketed, the blade changed locked out",
+  "title": "SmartCiti.X~ Cutting Table and Rotary Knife VR",
+  "trade": "Industrial sewing machine operator — Workers United (SEIU)",
+  "underwater": null,
+  "weather": null
+}

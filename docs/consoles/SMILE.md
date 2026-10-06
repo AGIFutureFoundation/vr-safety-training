@@ -1,0 +1,13 @@
+# SMILE console
+
+- 2026-09-28T04:04:11Z UTC — started; read BRIEF.md; slug smiles
+- 04:06 UTC — read both docs/programmes files, catalog curricula, grep for "Unspoken Smiles" (STATUS, WHITEPAPER, ladders, flowhub, easter-egg, briefs, standards/README). Repo states nothing about the organisation: docs/standards/README.md says "Unspoken Smiles, the programme this platform is built for; named only, not described — its own materials are not sourced in this repository". Page will say "prepared for the Unspoken Smiles team".
+- 04:06 UTC — read world data (bayworld-data.js site fruitvale-community-college; quests-data.js four dental quests), flows/dental-careers-orientation.json, competency.js MASTERY/RUBRIC, devices.md, guide-kb, check_all.mjs; read rec_review.mjs, rec_page.mjs, rec_bayworld.mjs, shot_district.mjs, cap_r1.mjs, promo.py, pro/helpers.mjs.
+- 04:06 UTC — starting station clips: node review/rec_review.mjs showcase-smiles (7 stations)
+- 04:11 UTC — station clips done (7/7 ok) under review/showcase-smiles/raw; data build smiles_build.mjs → data.json; page generator smiles_page.mjs written. Starting page/world recordings (smiles_rec_pages.mjs).
+- 04:16 UTC — page clips: home (trade finder search 'dental' shows both programme cards), both track pages, atlas, Bay World at ?site=fruitvale-community-college with the job board opened (E).
+- 04:17 UTC — assembling video: smiles_video.py → smiles_promo.py (copy of review/promo.py, palette + outro subtitle changed to 'Working prototype')
+- 04:29 UTC — video assembled: assets/demo.mp4, 99.3 s, 5.1 MB, 1280x720, 11 clips (home, 2 track pages, 7 stations, Bay World job board) + hook/outro cards. Home clip start moved to 9.5 s so the search results stay on screen.
+- 04:29 UTC — stills extracted: poster (Sterilisation Centre mid-run), station-four-handed, station-operatory, home-dental, track-careers, track-hygiene, bayworld-board. Dropped the ultrasonic and OHI stills: those scenes show the repo's SEIU wordmark sign with a "TRAINING PARTNER" line (WebXR/shared/signage.js); it still appears briefly in two video clips — flagged for the coordinator.
+- 04:29 UTC — page generated (smiles_page.mjs → index.html); one preview look at 1280 light / 400 dark: no horizontal scroll (scrollWidth = viewport at both). One edit pass: star glyphs set in the body face.
+- Facts: catalog.json curricula + stations, docs/programmes/dental-*.md (standards, competency line), docs/investor/stations.csv, competency.js MASTERY/RUBRIC, bayworld-data.js, quests-data.js, flows/dental-careers-orientation.json, guide-kb.js, tools/check_all.mjs, platform-summary.json, git log. Shared stations computed: 1 (patient-intake-screening); 18 unique each; 37 distinct.

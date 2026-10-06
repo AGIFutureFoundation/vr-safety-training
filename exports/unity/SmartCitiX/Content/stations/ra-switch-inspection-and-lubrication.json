@@ -1,0 +1,391 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "points-true",
+    "name": "Points True",
+    "note": "Switch locked out, points measured and greased, and handed back seating tight in both positions"
+  },
+  "category": "Mobility & Transit",
+  "certification": "BMWED-qualified switch and turnout maintenance, worked to FRA 49 CFR Part 213 track safety standards for point closure and gauge at the switch, with the switch itself locked out and tagged under FRA 49 CFR Part 214 before any hand goes near the points, and the dispatcher's own record of the switch's position the only thing a BLET engineer or a SMART-TD conductor has to go on before they reach it",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "BLET",
+        "id": "blet-training",
+        "title": "BLET certification and training for locomotive engineers and trainmen"
+      },
+      {
+        "body": "union",
+        "citedAs": "BMWED",
+        "id": "bmwed-training",
+        "title": "BMWED roadway worker training for track and structures maintenance"
+      },
+      {
+        "body": "union",
+        "citedAs": "SMART-TD",
+        "id": "smarttd-training",
+        "title": "SMART Transportation Division training for conductors, trainmen and yardmasters"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Track",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "never-pinched",
+        "name": "Never Pinched",
+        "note": "Never once with a hand near the points while they moved"
+      },
+      {
+        "id": "gap-true",
+        "name": "Gap True",
+        "note": "Every gauge reading near band centre"
+      },
+      {
+        "id": "lockout-clean",
+        "name": "Clean Lockout",
+        "note": "Lockout and restoration steps worked with no correction"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "gang-time",
+        "name": "Gang Time",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "first-switch",
+        "name": "First Switch",
+        "note": "Clean run, no corrections"
+      },
+      {
+        "id": "ten-clear",
+        "name": "Ten Clear",
+        "note": "Ten correct actions in a row"
+      }
+    ],
+    "currency": "POINT",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Trackman",
+      "Switch Maintainer",
+      "Lead Maintainer",
+      "Track Supervisor",
+      "Switch Authority Certified"
+    ],
+    "system": "Switch Authority"
+  },
+  "hazards": {
+    "fouling-lead": "You are standing in the clearance point of the switch lead. A movement routed through this turnout swings through exactly this space, and a switch that reads correctly on the panel is not the same thing as a lead with nobody standing in it.",
+    "point-pinch": "You reached toward the points while the switch stand was mid-throw. A moving point rail closes against the stock rail with enough force to do exactly what it is built to do to a rail — it does not know the difference between that and a hand.",
+    "stood-on-points": "You stepped directly onto the points instead of around them. A point rail is a moving part with a knife edge at the tip, and standing on one while it is out of service is one crew member's bad habit away from a very different day when it isn't.",
+    "switch-heater-energized": "You put a hand on the heater element before the lock actually went on the disconnect. A breaker switched off and a breaker locked off are two different guarantees, and the one that matters here is the one a thermostat controller cannot quietly undo."
+  },
+  "id": "ra-switch-inspection-and-lubrication",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "heater-breaker",
+      "alert": "The heater's thermostat controller has cycled back on. The breaker is still off, but the element is warming again under your hand.",
+      "cue": "Your breaker did not do this. Something else did.",
+      "delay": 4,
+      "id": "heater-reenergized",
+      "kind": "Thermostat controller resets the heater",
+      "missNote": "You kept working with the breaker off and no lock on the disconnect. The controller did exactly what it is built to do, on its own schedule, with no idea a hand was already on the element it was about to warm back up.",
+      "seconds": 12,
+      "target": "lockout-tag",
+      "why": "A breaker switched off is a position, not a guarantee — a thermostat controller on its own timer has no idea a maintainer's hand is on the element, and it will cycle the circuit back exactly the way it is built to whenever the sensor says the rail is cold. The lock at the disconnect is the one thing between that controller and the element, because it is the only part of this circuit the controller cannot override on its own schedule.",
+      "wrongNote": "Flipping the breaker again is not the fix — it was already off. The lock at the disconnect is what stops the controller from doing this on its own."
+    },
+    {
+      "after": "clearance-dial",
+      "alert": "The target indicator has started to move. Somebody else — a crew you have not talked to — is trying to throw this switch from the panel.",
+      "cue": "The points under your hands are about to move, and it isn't you moving them.",
+      "delay": 4,
+      "id": "throw-attempt",
+      "kind": "Someone else reaches for the switch",
+      "missNote": "You kept working while the indicator kept moving. A switch stand does not check for a hand at the points before it throws, and the only thing that would have stopped this one in time was already in your other hand.",
+      "seconds": 11,
+      "target": "radio-handset",
+      "why": "A switch locked out for maintenance is supposed to be unreachable from anywhere else, but a lock that has not actually been logged with the dispatcher is a lock somebody else has no reason to know is there. The radio is the fastest way to reach whoever is at that panel and stop the throw before the points move under a hand that is still on them.",
+      "wrongNote": "That will not stop a throw commanded from somewhere else. The radio is what reaches whoever is at that panel."
+    }
+  ],
+  "lateNotes": {
+    "debris-1": "Nothing gets logged clear until the walk is actually done.",
+    "grease-gun": "The grease goes on the plates once the old grease and grit are actually cleared off, not over the top of them."
+  },
+  "name": "Switch Inspection & Lubrication",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "railroad-crafts"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.2,
+    "hits": [
+      "clearance-dial",
+      "closing-log",
+      "debris-1",
+      "debris-2",
+      "fouling-lead",
+      "grease-gun",
+      "hand-cart",
+      "headblock-gauge",
+      "heater-breaker",
+      "job-order-board",
+      "lockout-tag",
+      "lubrication-point",
+      "point-pinch",
+      "points-gauge",
+      "radio-handset",
+      "spare-parts-crate",
+      "stood-on-points",
+      "switch-heater-energized",
+      "switch-lock",
+      "switch-stand",
+      "target-indicator"
+    ],
+    "meshes": 153
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the work order: which switch, which position it will be locked in, and what else moves through this lead.",
+      "id": "briefing",
+      "kind": "select",
+      "prompt": "Read the work order: which switch, which position it will be locked in, and what else moves through this lead.",
+      "target": "job-order-board",
+      "title": "Attend the job briefing",
+      "why": "A hand-thrown switch taken out of service changes what the rest of the territory can safely assume about this lead, and the gang, the dispatcher and anyone else working nearby all need the same understanding of what is about to happen to it."
+    },
+    {
+      "cue": "Lock the switch stand in position first, then tag it out of service.",
+      "id": "lock-switch",
+      "itemNames": {
+        "lockout-tag": "tag the switch out of service",
+        "switch-lock": "lock the switch stand"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Wrong order — the lock goes on first. A tag with nothing actually holding the points is a label on a switch that can still be thrown.",
+      "prompt": "Lock the switch stand in position first, then tag it out of service.",
+      "targets": [
+        "switch-lock",
+        "lockout-tag"
+      ],
+      "title": "Lock and tag the switch",
+      "why": "A lock with no tag on it is a lock the next person to walk up has no way to identify — the tag is what turns a padlock into a record of who has this switch and why, and it goes on only after the lock is actually holding the points where the work needs them."
+    },
+    {
+      "cue": "Turn the switch stand to normal and watch where the points actually go.",
+      "id": "throw-test",
+      "kind": "turn",
+      "prompt": "Turn the switch stand to normal and watch where the points actually go.",
+      "target": "switch-stand",
+      "title": "Throw the stand to normal and watch the points",
+      "turn": {
+        "axis": "y",
+        "label": "SWITCH STAND",
+        "turns": 0.5
+      },
+      "why": "The target on a switch stand tells you what the handle did, not what the points did — the only way to know a point has actually seated is to watch the rail itself close against the stock rail, not the lever that is supposed to be moving it, because a linkage that has worked loose can move the handle without moving the point at all."
+    },
+    {
+      "cue": "Set the feeler gauge against the closed point and commit the reading.",
+      "gauge": {
+        "green": [
+          0,
+          0.18
+        ],
+        "label": "POINT GAP",
+        "missNote": "Open wider than this switch's tolerance. Log the defect and adjust the point before moving on.",
+        "speed": 0.68
+      },
+      "id": "point-gauge",
+      "kind": "gauge",
+      "prompt": "Set the feeler gauge against the closed point and commit the reading.",
+      "target": "points-gauge",
+      "title": "Measure the point gap",
+      "why": "A point that looks seated can still be standing open a few millimetres at the tip, and that gap is exactly wide enough for a wheel flange to pick the point instead of following it — the feeler gauge is what tells the difference between looks-closed and is-closed."
+    },
+    {
+      "cue": "Hold the breaker off and confirm zero energy before touching the heater element.",
+      "holdBreakNote": "You let go before zero energy was actually confirmed. A breaker in the off position and a circuit proven dead are not the same fact.",
+      "id": "heater-breaker",
+      "kind": "hold",
+      "prompt": "Hold the breaker off and confirm zero energy before touching the heater element.",
+      "seconds": 5,
+      "target": "heater-breaker",
+      "title": "Lock out the switch heater",
+      "why": "A switch heater is live enough to burn and wired to a controller that can bring it back on its own schedule, so the breaker being off is only the first half of proving it safe — the hold is what confirms the reading actually stays at zero rather than assuming the switch position tells the whole story."
+    },
+    {
+      "cue": "Carry the grease gun to the switch plates and work it along the slide.",
+      "drag": {
+        "missNote": "Not on the plates — carry the gun the rest of the way to the switch slide.",
+        "radius": 0.3,
+        "to": "lubrication-point"
+      },
+      "id": "grease",
+      "kind": "drag",
+      "prompt": "Carry the grease gun to the switch plates and work it along the slide.",
+      "target": "grease-gun",
+      "title": "Grease the switch plates",
+      "why": "Dry switch plates are what turn a light hand throw into a heavy one, and a heavy throw is exactly the kind of throw a spring or a hand-thrown lever eventually fails to complete — greasing the slide is cheap, and a point that won't fully seat because the plate is dry is not."
+    },
+    {
+      "cue": "Check the lock and the keeper it seats into for wear.",
+      "id": "lock-inspect",
+      "kind": "select",
+      "prompt": "Check the lock and the keeper it seats into for wear.",
+      "target": "switch-lock",
+      "title": "Inspect the lock and keeper",
+      "why": "A worn keeper lets a locked switch stand work loose under vibration from every train that passes over the adjacent main, and the failure is invisible from a passing inspection — it only shows up the day the lock is holding nothing at all."
+    },
+    {
+      "cue": "Set the gauge across the headblock ties and commit the reading.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.62
+        ],
+        "label": "HEADBLOCK SPACING",
+        "missNote": "Outside tolerance for this switch. Log the defect before continuing.",
+        "speed": 0.66
+      },
+      "id": "headblock-gauge",
+      "kind": "gauge",
+      "prompt": "Set the gauge across the headblock ties and commit the reading.",
+      "target": "headblock-gauge",
+      "title": "Check the headblock tie spacing",
+      "why": "The headblock ties carry the switch rods and have to hold their own spacing independent of the running rail's gauge — a headblock that has shifted lets the connecting rods bind or come free exactly when the switch is thrown, which is the one moment this defect actually matters."
+    },
+    {
+      "cue": "Hold the clearance reading in the green band while the switch is worked through both positions.",
+      "holdBreakNote": "Clearance dropped out of band during the function test. A lead with someone standing in it is not a clear lead, whatever the panel says.",
+      "id": "clearance-dial",
+      "kind": "track",
+      "prompt": "Hold the clearance reading in the green band while the switch is worked through both positions.",
+      "seconds": 6,
+      "target": "clearance-dial",
+      "title": "Keep clear of the lead while you function-test",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.4,
+        "green": [
+          0.4,
+          0.66
+        ],
+        "label": "CLEARANCE",
+        "rise": 0.48
+      },
+      "why": "A function test is the one part of this job that puts the points back in motion, and staying clear of the lead while it happens is what keeps a test of the switch from becoming a test of anyone standing in it — your own lock is what kept anyone else from doing this, not what stops the points once you are the one throwing them."
+    },
+    {
+      "cue": "Turn the switch stand to reverse and confirm the points close tight against the stock rail.",
+      "id": "throw-confirm",
+      "kind": "turn",
+      "prompt": "Turn the switch stand to reverse and confirm the points close tight against the stock rail.",
+      "target": "switch-stand",
+      "title": "Throw the stand to reverse and watch the points seat",
+      "turn": {
+        "axis": "y",
+        "label": "SWITCH STAND",
+        "reverse": true,
+        "turns": 0.5
+      },
+      "why": "Both positions get proved, not just the one the switch happened to be left in — a point that seats clean to normal and hangs open a hair to reverse is a defect a single-direction test would never have found."
+    },
+    {
+      "cue": "Confirm the target reads the same position the points are actually standing in.",
+      "id": "target-check",
+      "kind": "select",
+      "prompt": "Confirm the target reads the same position the points are actually standing in.",
+      "target": "target-indicator",
+      "title": "Check the target indicator",
+      "why": "The target is the one thing a crew approaching this switch can actually see from a distance, and a target that disagrees with the points is worse than no target at all — it tells an approaching crew something that isn't true."
+    },
+    {
+      "cue": "Scan the points and the stand for anything left in the way.",
+      "id": "debris-walk",
+      "itemNames": {
+        "debris-1": "ballast wedged in the point flangeway",
+        "debris-2": "rag left on the switch stand"
+      },
+      "itemNotes": {
+        "debris-1": "A stone in the flangeway is exactly what stops a point from closing the last few millimetres a gauge would otherwise pass.",
+        "debris-2": "A rag on a switch stand catches in the connecting rod the first time somebody throws it without looking."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Scan the points and the stand for anything left in the way.",
+      "targets": [
+        "debris-1",
+        "debris-2"
+      ],
+      "title": "Clear debris from the switch",
+      "why": "A switch that measures correctly today can still fail tomorrow on a stone or a rag nobody noticed, because the gauge only reads what is in the flangeway at the moment it is tested — the walk is what catches what the gauge cannot."
+    },
+    {
+      "cue": "Remove your tag and lock now that the switch is back in working order.",
+      "id": "restore-switch",
+      "kind": "select",
+      "prompt": "Remove your tag and lock now that the switch is back in working order.",
+      "target": "lockout-tag",
+      "title": "Remove the lock and tag",
+      "why": "The switch is not back in service until your own lock and tag are actually off it — leaving a personal lock on a switch that is done being worked on blocks it from everyone else exactly as effectively as leaving a real defect in place."
+    },
+    {
+      "cue": "Call the dispatcher and hold the radio for the read-back confirming the switch is clear.",
+      "holdBreakNote": "You let go before the read-back came back. The dispatcher's record does not change until they have said so in your own hearing.",
+      "id": "radio-report",
+      "kind": "hold",
+      "prompt": "Call the dispatcher and hold the radio for the read-back confirming the switch is clear.",
+      "seconds": 4,
+      "target": "radio-handset",
+      "title": "Report the switch back in service",
+      "why": "The dispatcher's own record of this switch's position is what a train crew relies on when they cannot see it themselves, and that record does not update until you have said so and had it read back to you — a crew running toward a switch nobody has actually reported clear is running on an assumption, not a fact."
+    },
+    {
+      "cue": "Log the point gap, the headblock reading and any defect flagged today.",
+      "id": "close-log",
+      "kind": "select",
+      "prompt": "Log the point gap, the headblock reading and any defect flagged today.",
+      "target": "closing-log",
+      "title": "Close the maintenance log",
+      "why": "The next scheduled inspection only knows what this entry tells it — the readings taken today are the baseline the next maintainer compares theirs against, and a gap that is widening slowly is only visible across two logged readings, never one."
+    }
+  ],
+  "supportLine": "your roadmaster or your BMWED local if a close call at the points is still sitting with you after shift",
+  "tagline": "The switch locked and tagged out of service, the points measured and greased, the heater proved dead before a hand goes near the element, and the whole thing thrown, tested and handed back with the target indicator reading true",
+  "title": "SmartCiti.X~ Switch Inspection & Lubrication VR",
+  "trade": "Switch and turnout maintainer",
+  "underwater": null,
+  "weather": "clear"
+}

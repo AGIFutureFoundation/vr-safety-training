@@ -1,0 +1,361 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "deck-disciplined",
+    "name": "Deck Disciplined",
+    "note": "The briefing given, the sterile phase held, the checklist run challenge-and-response, and every callout closed the loop before the flight deck moved on"
+  },
+  "category": "Mobility & Transit",
+  "certification": "ALPA member professional-standards and safety training; the airline's own crew resource management and sterile-flight-deck procedure under 14 CFR 121, coordinated with the AFA-CWA cabin crew through the same closed-loop callouts this station teaches — no altitude, airspeed or clearance value is stated here, every threshold runs per the checklist",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFA-CWA",
+        "id": "afa-cwa-training",
+        "title": "AFA-CWA apprenticeship and training, as a training body"
+      },
+      {
+        "body": "union",
+        "citedAs": "ALPA",
+        "id": "alpa-training",
+        "title": "ALPA apprenticeship and training, as a training body"
+      },
+      {
+        "body": "FAA",
+        "citedAs": "14 CFR 121",
+        "id": "faa-14-cfr-121",
+        "title": "14 CFR Part 121 — Operating requirements for domestic, flag and supplemental air carriers"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Aviation",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "briefing-complete",
+        "name": "Briefing Complete",
+        "note": "Threats and roles briefed before a single engine started"
+      },
+      {
+        "id": "sterile-held",
+        "name": "Sterile Held",
+        "note": "Declined the non-essential conversation during the sterile phase, first try"
+      },
+      {
+        "id": "loop-closed",
+        "name": "Loop Closed",
+        "note": "Every callout actually acknowledged, not just made"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-briefing",
+        "name": "Clean Briefing",
+        "note": "No corrections anywhere in the briefing"
+      },
+      {
+        "id": "steady-crosscheck",
+        "name": "Steady Crosscheck",
+        "note": "Held the instrument crosscheck the full count, first try"
+      },
+      {
+        "id": "fast-briefing",
+        "name": "Fast Briefing",
+        "note": "Complete inside 80% of par"
+      }
+    ],
+    "currency": "CRM",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "New First Officer",
+      "Line Qualified",
+      "Line Captain",
+      "Check Airman",
+      "Deck Disciplined Certified"
+    ],
+    "system": "Deck Disciplined"
+  },
+  "hazards": {
+    "checklist-item-skipped-hazard": "That checklist item was never actually challenged out loud. A silently-skipped item is not the same as a completed one, whatever position the switch happens to be in — challenge-and-response exists specifically so nothing gets assumed done.",
+    "phone-out-hazard": "That personal phone is out on the console during the sterile phase. Nothing that isn't essential to actually flying the aircraft belongs anywhere in reach during this phase, and a phone sitting there is exactly the kind of distraction the sterile rule exists to remove.",
+    "unacknowledged-callout-hazard": "That callout was made and nobody actually answered it. A callout that lands on silence has not actually closed the loop — the other pilot needs to hear it, understand it and say something back, or this crew has no way to know it registered at all.",
+    "unbriefed-threat-hazard": "That weather card was never actually read out during the briefing. A threat that's sitting on the console unbriefed is a threat only one pilot may know about — the whole point of briefing it out loud is making sure it's in both pilots' heads before it ever matters."
+  },
+  "id": "ca-flight-deck-crew-resource-management",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "checklist-callout",
+      "alert": "Air traffic control breaks in with an urgent frequency change mid-checklist.",
+      "cue": "That gets handled on the radio panel — the checklist waits.",
+      "delay": 3,
+      "id": "urgent-frequency-change",
+      "kind": "ATC issues an urgent frequency change",
+      "missNote": "The urgent frequency change sat unanswered while the checklist continued. An ATC instruction that goes unacknowledged is a instruction this crew cannot assume was ever actually received.",
+      "seconds": 12,
+      "target": "radio-transmit-button",
+      "why": "An urgent ATC instruction takes priority over a checklist that isn't going anywhere — acknowledging it on the radio now, then returning to exactly where the checklist left off, is what keeps both the instruction and the checklist itself from getting lost.",
+      "wrongNote": "Answer the radio first — an urgent ATC call doesn't wait for a checklist item to finish."
+    },
+    {
+      "after": "monitor-approach-band",
+      "alert": "The approach indicator drifts noticeably off target while attention is elsewhere.",
+      "cue": "That gets called out immediately, not assumed already seen.",
+      "delay": 3,
+      "id": "unexpected-deviation-noticed",
+      "kind": "A deviation shows up that nobody has called out yet",
+      "missNote": "The deviation kept drifting, unspoken, while the crew assumed someone else had already caught it. That assumption is exactly what CRM training exists to break.",
+      "seconds": 12,
+      "target": "callout-deviation",
+      "why": "A drift nobody has actually spoken up about is a drift this flight deck is trusting on hope alone — calling it out the instant it's noticed is the one habit that turns CRM from a phrase in training into something this crew actually does under pressure.",
+      "wrongNote": "Call it out now — a deviation nobody has actually spoken up about is a deviation this crew is trusting on hope alone."
+    }
+  ],
+  "lateNotes": {
+    "callout-acknowledgment": "Hold that. A callout has to actually be made before there's anything here to acknowledge.",
+    "sterile-phase-panel": "Not yet — the pre-flight briefing comes first. Sterile phase starts on the checklist's own cue, not before the crew has actually briefed the flight."
+  },
+  "name": "Flight Deck Crew Resource Management Briefing",
+  "parSeconds": 340,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "airline-cabin-and-flight-crew"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "altimeter-crosscheck",
+      "altimeter-setting-knob",
+      "approach-indicator",
+      "assign-roles",
+      "brief-threats",
+      "callout-acknowledgment",
+      "callout-deviation",
+      "challenge-item",
+      "checklist-item-skipped-hazard",
+      "crm-debrief-log",
+      "non-essential-topic-card",
+      "phone-on-console",
+      "phone-out-hazard",
+      "radio-transmit-button",
+      "response-item",
+      "sterile-phase-panel",
+      "unacknowledged-callout-hazard",
+      "unbriefed-threat-hazard",
+      "unbriefed-weather-card"
+    ],
+    "meshes": 128
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "anyOrder": false,
+      "cue": "Read the known threats out loud, then confirm who is flying and who is monitoring.",
+      "id": "crm-briefing",
+      "itemNames": {
+        "assign-roles": "confirm who does what",
+        "brief-threats": "brief the known threats out loud"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Threats first, then roles — assigning who does what means less if neither pilot has actually heard what they're watching for yet.",
+      "prompt": "Read the known threats out loud, then confirm who is flying and who is monitoring.",
+      "targets": [
+        "brief-threats",
+        "assign-roles"
+      ],
+      "title": "Brief threats, then confirm roles",
+      "why": "A threat named out loud is a threat both pilots now actually know about, and confirming roles right after is what makes sure everyone in this flight deck knows exactly whose job is flying and whose is watching, before either one is needed."
+    },
+    {
+      "cue": "Two things on this flight deck aren't right yet. Find them before the sterile phase begins.",
+      "id": "scan-deck",
+      "itemNames": {
+        "phone-on-console": "a personal phone left out on the console",
+        "unbriefed-weather-card": "a weather card that was never briefed out loud"
+      },
+      "itemNotes": {
+        "phone-on-console": "This gets put away before the sterile phase starts — nothing personal stays within reach once this flight deck goes sterile.",
+        "unbriefed-weather-card": "This gets read out loud and folded into the briefing now — a threat sitting on the console unbriefed helps nobody who hasn't happened to notice it themselves."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Two things on this flight deck aren't right yet. Find them before the sterile phase begins.",
+      "targets": [
+        "phone-on-console",
+        "unbriefed-weather-card"
+      ],
+      "title": "Scan the flight deck before pushback",
+      "why": "Everything this scan catches is easy to fix right now and a real gap in this crew's shared picture the moment the sterile phase actually starts and conversation narrows to just what's essential."
+    },
+    {
+      "cue": "Confirm with the other pilot that the flight deck is now sterile, per the checklist's own cue.",
+      "id": "confirm-sterile-phase",
+      "kind": "select",
+      "prompt": "Confirm with the other pilot that the flight deck is now sterile, per the checklist's own cue.",
+      "target": "sterile-phase-panel",
+      "title": "Confirm the sterile flight deck phase",
+      "why": "Sterile phase only means something once both pilots have actually agreed it started — confirming it out loud is what turns a rule written in the manual into something this specific flight deck is actually observing right now."
+    },
+    {
+      "anyOrder": false,
+      "cue": "Call out each checklist item, then confirm the other pilot's response before moving to the next one.",
+      "id": "checklist-callout",
+      "itemNames": {
+        "challenge-item": "call out the checklist item",
+        "response-item": "confirm the response"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Challenge first, then confirm the response — a response confirmed before the item was ever actually challenged isn't checking anything.",
+      "prompt": "Call out each checklist item, then confirm the other pilot's response before moving to the next one.",
+      "targets": [
+        "challenge-item",
+        "response-item"
+      ],
+      "title": "Run the checklist, challenge and response",
+      "why": "Challenge-and-response is what makes a checklist a shared, verified fact instead of one pilot's own private assumption — nothing on this list counts as done until it's been called out and answered, every single item."
+    },
+    {
+      "cue": "Decline the non-essential topic and redirect back to the flight, per the sterile-phase rule.",
+      "id": "decline-conversation",
+      "kind": "select",
+      "prompt": "Decline the non-essential topic and redirect back to the flight, per the sterile-phase rule.",
+      "target": "non-essential-topic-card",
+      "title": "Decline the non-essential conversation",
+      "why": "A conversation about anything that isn't essential to flying this aircraft doesn't belong anywhere in the sterile phase, however harmless it sounds — declining it, every time, is the entire rule, not a judgment call about how distracting this particular topic actually is."
+    },
+    {
+      "cue": "Turn the altimeter setting knob to the current setting given, per the checklist.",
+      "id": "set-altimeter",
+      "kind": "turn",
+      "prompt": "Turn the altimeter setting knob to the current setting given, per the checklist.",
+      "target": "altimeter-setting-knob",
+      "title": "Set the altimeter",
+      "turn": {
+        "axis": "y",
+        "label": "ALTIMETER",
+        "turns": 0.3
+      },
+      "why": "Setting the altimeter to the value actually given is a mechanical step this checklist spells out precisely so both pilots' instruments read the same reference — it is never a value this crew estimates or carries over from the last leg."
+    },
+    {
+      "cue": "Compare both pilots' altimeter readings and confirm they actually match.",
+      "gauge": {
+        "green": [
+          0.45,
+          0.6
+        ],
+        "label": "CROSSCHECK",
+        "missNote": "Moved on without the two altimeters actually confirmed matched. Two instruments reading two different things is exactly the disagreement this crosscheck exists to catch.",
+        "speed": 0.6
+      },
+      "id": "crosscheck-altimeters",
+      "kind": "gauge",
+      "prompt": "Compare both pilots' altimeter readings and confirm they actually match.",
+      "target": "altimeter-crosscheck",
+      "title": "Cross-check both altimeters",
+      "why": "Two pilots trusting two altimeters that don't actually agree is a disagreement neither one may notice alone — cross-checking them against each other is what catches that gap before it ever becomes the reason either pilot is wrong about where this aircraft actually is."
+    },
+    {
+      "cue": "Hold the transmit button through the entire readback — releasing early cuts it off mid-word.",
+      "holdBreakNote": "Released the transmit button before the readback actually finished. A cut-off transmission is functionally the same as one that was never sent.",
+      "id": "hold-radio-transmit",
+      "kind": "hold",
+      "prompt": "Hold the transmit button through the entire readback — releasing early cuts it off mid-word.",
+      "seconds": 5,
+      "target": "radio-transmit-button",
+      "title": "Hold the transmit button for the full readback",
+      "why": "A readback cut off early is a readback the other party never actually heard in full, and holding the button down for the whole transmission is the only way this crew's own words reliably reach whoever needs them."
+    },
+    {
+      "cue": "Keep the approach indicator centred in the band the whole time you're watching it.",
+      "holdBreakNote": "The indicator drifted out of the band without a callout. Monitoring means actually watching the trend, not glancing at it once and assuming it holds.",
+      "id": "monitor-approach-band",
+      "kind": "track",
+      "prompt": "Keep the approach indicator centred in the band the whole time you're watching it.",
+      "seconds": 6,
+      "target": "approach-indicator",
+      "title": "Hold the approach indicator on target",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.3,
+        "green": [
+          0.42,
+          0.62
+        ],
+        "label": "ON TARGET",
+        "rise": 0.32,
+        "start": 0.35
+      },
+      "why": "The pilot monitoring is the second set of eyes this flight deck depends on precisely because the pilot flying is busy flying — holding this indicator on target the whole time is what that monitoring role actually means in practice, not just in title."
+    },
+    {
+      "cue": "Speak up immediately the moment you notice anything drifting from what's expected.",
+      "id": "callout-deviation",
+      "kind": "select",
+      "prompt": "Speak up immediately the moment you notice anything drifting from what's expected.",
+      "target": "callout-deviation",
+      "title": "Call out the deviation",
+      "why": "A deviation noticed and not spoken up about might as well not have been noticed at all — CRM only works if the pilot monitoring actually says something the instant something looks wrong, rather than assuming the pilot flying has already seen it too."
+    },
+    {
+      "cue": "Hold the acknowledgment button through the full readback so the loop actually closes.",
+      "holdBreakNote": "Let go before the acknowledgment readback actually finished. A half-answered callout leaves the other pilot no more certain it landed than silence would have.",
+      "id": "acknowledge-callout",
+      "kind": "hold",
+      "prompt": "Hold the acknowledgment button through the full readback so the loop actually closes.",
+      "seconds": 4,
+      "target": "callout-acknowledgment",
+      "title": "Acknowledge the callout",
+      "why": "A callout answered with silence has not actually been heard, as far as anyone in this flight deck can tell — holding the acknowledgment through the whole readback is what turns \"I said something\" into \"we both know it now,\" which is the entire point of saying it in the first place."
+    },
+    {
+      "cue": "Confirm, per the checklist's own cue, that the sterile flight-deck phase has ended.",
+      "id": "end-sterile-phase",
+      "kind": "select",
+      "prompt": "Confirm, per the checklist's own cue, that the sterile flight-deck phase has ended.",
+      "target": "sterile-phase-panel",
+      "title": "Confirm the end of the sterile phase",
+      "why": "The sterile phase ends on the same kind of explicit, mutual confirmation it started with — assuming it's over because the workload feels lighter is exactly the kind of guess this procedure was built to replace with an actual agreed fact."
+    },
+    {
+      "cue": "Record what went well and what to improve before signing off the leg.",
+      "id": "log-crm-debrief",
+      "kind": "select",
+      "prompt": "Record what went well and what to improve before signing off the leg.",
+      "target": "crm-debrief-log",
+      "title": "Log the CRM debrief",
+      "why": "A debrief that never gets written down is a lesson this crew learned once and the next crew never gets to benefit from — logging it is what turns today's flight into something the whole operation can actually learn from."
+    }
+  ],
+  "supportLine": "your ALPA local's member assistance resources, or the airline's own employee assistance line — flight deck discipline is a habit worth talking through when it slips, not just when it holds",
+  "tagline": "Threats and roles briefed before the engines start, the sterile flight deck held without exception, challenge-and-response checklist discipline where nothing is skipped silently, and a callout that isn't worth anything until it's actually acknowledged",
+  "title": "SmartCiti.X~ Flight Deck Crew Resource Management Briefing VR",
+  "trade": "Airline pilot — ALPA flight crew",
+  "underwater": null,
+  "weather": null
+}

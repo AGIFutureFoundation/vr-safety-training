@@ -1,0 +1,427 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "pinned-plate",
+    "name": "Pinned Plate",
+    "note": "Truck chocked, plate pinned, garage air clean, and every resident kept out of the jack's path"
+  },
+  "category": "Building Systems & Facilities",
+  "certification": "OSHA 29 CFR 1910.178 and ANSI B56.1 for the mover's powered pallet jack; 29 CFR 1910.22 and 29 CFR 1910.28 for the dock edge and walking surfaces; 29 CFR 1910.1000 and the ACGIH TLV for carbon monoxide in the garage, with NIOSH guidance on engine exhaust in enclosed spaces; ASME A17.1 for the freight elevator's independent service; NFPA 101 for the stair doors a move must never prop; SEIU building staff, IUOE Local 39 engineers for the garage ventilation and the apartment association's CAM credential; the building's move rules under the local housing code",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ACGIH",
+        "citedAs": "ACGIH",
+        "id": "acgih-tlvs",
+        "title": "ACGIH Threshold Limit Values and Biological Exposure Indices"
+      },
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI B56.1",
+        "id": "ansi-b56-1",
+        "title": "ANSI/ITSDF B56.1 — Safety standard for low lift and high lift trucks"
+      },
+      {
+        "body": "ASME",
+        "citedAs": "ASME A17.1",
+        "id": "asme-a17-1",
+        "title": "ASME A17.1 — Safety Code for Elevators and Escalators"
+      },
+      {
+        "body": "union",
+        "citedAs": "IUOE",
+        "id": "iuoe-training",
+        "title": "IUOE local training funds and the IUOE National Training Fund — operating and stationary engineer apprenticeship"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 101",
+        "id": "nfpa-101",
+        "title": "NFPA 101 — Life Safety Code"
+      },
+      {
+        "body": "NIOSH",
+        "citedAs": "NIOSH",
+        "id": "niosh-criteria",
+        "title": "NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1000",
+        "id": "osha-1910-1000",
+        "title": "29 CFR 1910.1000 — Air contaminants and the permissible exposure limits"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.178",
+        "id": "osha-1910-178",
+        "title": "29 CFR 1910.178 — Powered industrial trucks"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.22",
+        "id": "osha-1910-22",
+        "title": "29 CFR 1910.22 — Walking-working surfaces, general requirements"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.28",
+        "id": "osha-1910-28",
+        "title": "29 CFR 1910.28 — Duty to have fall protection and falling object protection"
+      },
+      {
+        "body": "union",
+        "citedAs": "SEIU",
+        "id": "seiu-training",
+        "title": "SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Building Systems & Facilities",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "pinned-first",
+        "name": "Pinned First",
+        "note": "Chock, plate and pin in order before anything rolled"
+      },
+      {
+        "id": "clear-dock",
+        "name": "Clear Dock",
+        "note": "No unsafe act anywhere on the dock"
+      },
+      {
+        "id": "straight-across",
+        "name": "Straight Across",
+        "note": "Spotted the jack across the plate without breaking the band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-move",
+        "name": "Clean Move",
+        "note": "No corrections across the whole move"
+      },
+      {
+        "id": "steady-spot",
+        "name": "Steady Spot",
+        "note": "Held the spot without breaking the band"
+      },
+      {
+        "id": "elevator-back",
+        "name": "Elevator Back Early",
+        "note": "Finished inside 80% of par"
+      }
+    ],
+    "currency": "PALLETS",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Porter",
+      "Dock Attendant",
+      "Dock Lead",
+      "Building Super",
+      "Loading Dock Certified"
+    ],
+    "system": "Loading Dock"
+  },
+  "hazards": {
+    "dock-edge-jump": "You went to jump down from the dock edge to the truck apron. It is a four-foot drop onto concrete with a truck's bumper beside it, and falls from dock edges are a well-known cause of serious injury — use the stair at the end of the dock.",
+    "idling-truck": "You told the mover's second truck it could sit idling inside the garage while it loads. A running engine in an enclosed garage fills it with carbon monoxide faster than the fans can clear it, and the people breathing it are the residents walking to their cars and the crew carrying boxes — engines off inside, every time.",
+    "ride-pallet-jack": "You stepped onto the pallet jack's forks to ride it across the dock. A powered pallet jack is not built to carry a person, and a rider's feet are exactly where the load wheels and the dock plate's edge are — 1910.178 limits riding to trucks designed for it.",
+    "unpinned-plate-roll": "You waved the pallet jack onto the dock plate before its pin was in. An unpinned plate can walk off the truck bed as the load rolls across it, and a plate that drops out from under a loaded jack takes the jack, the load and the operator into the gap between the truck and the dock."
+  },
+  "id": "pm-loading-dock-and-moves",
+  "indoor": "garage",
+  "interrupts": [
+    {
+      "after": "run-exhaust",
+      "alert": "While you hold the fan override, a delivery box truck starts backing into bay one — the move bay, where the dock plate is down and the crew is working.",
+      "cue": "Switch bay one's dock light to red and wave him to bay two. Keep your hand on the override.",
+      "delay": 3,
+      "id": "wrong-dock-driver",
+      "kind": "Delivery driver at the wrong dock",
+      "missNote": "He kept backing into the occupied bay the whole window. Nobody set the light or waved him off, and the crew on the plate had no warning.",
+      "seconds": 12,
+      "target": "wrong-dock-light",
+      "why": "A truck reversing into an occupied bay backs into a dock plate, a pallet jack and people who are not expecting it, and the driver cannot see any of them past the box. The dock light is the signal every driver is taught to obey, and red on the occupied bay with a clear wave to the free one is faster and safer than chasing the truck.",
+      "wrongNote": "That doesn't stop him. Bay one's dock light switch sets the signal a reversing driver is watching for."
+    },
+    {
+      "after": "spot-pallet-jack",
+      "alert": "A resident pushing a stroller cuts across the dock from the garage, straight behind the pallet jack as it reverses off the plate.",
+      "cue": "Sound the dock horn and hold her behind the yellow line. The jack stops on the horn.",
+      "delay": 3,
+      "id": "stroller-behind-jack",
+      "kind": "Resident with a stroller in the jack's path",
+      "missNote": "She crossed behind the reversing jack the whole window with nobody stopping either of them. That is how a stroller ends up under a load wheel.",
+      "seconds": 12,
+      "target": "dock-horn",
+      "why": "A powered pallet jack reversing with a load has almost no view behind it, and a stroller is low enough to be invisible from the handle. The horn is the dock's agreed stop signal — the operator stops, the resident stops — and the yellow line is where pedestrians wait until the dock is clear.",
+      "wrongNote": "That doesn't stop the jack. The dock horn is the stop signal the operator and the resident both answer to."
+    }
+  ],
+  "lateNotes": {
+    "elevator-key-return": "The elevator goes back to automatic only after the move path is walked and the mover has signed off.",
+    "pallet-jack-path": "Not yet — the jack crosses only after the truck is chocked and the plate is pinned and the garage air has been read."
+  },
+  "name": "Loading Dock & Moves",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "property-management"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "building-log",
+      "cab-pad-hooks",
+      "co-monitor",
+      "dock-edge-jump",
+      "dock-horn",
+      "elevator-key",
+      "elevator-key-return",
+      "elevator-pads",
+      "exhaust-fan-button",
+      "gouged-wall-corner",
+      "idling-truck",
+      "move-sheet",
+      "mover-foreman",
+      "oil-slick",
+      "pallet-jack-path",
+      "plate-lower",
+      "plate-pin",
+      "porter-checkin",
+      "propped-stair-door",
+      "ride-pallet-jack",
+      "torn-dock-bumper",
+      "unpinned-plate-roll",
+      "wheel-chock",
+      "wrong-dock-light"
+    ],
+    "meshes": 173
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check the reserved window, the elevator booking and the mover's certificate of insurance.",
+      "id": "read-move-sheet",
+      "kind": "select",
+      "prompt": "Check the reserved window, the elevator booking and the mover's certificate of insurance.",
+      "target": "move-sheet",
+      "title": "Read the move sheet and the mover's paperwork",
+      "why": "A move is a four-hour disruption of the building's dock, elevator and corridors, and the move sheet is how it stays inside the window the residents were promised. The mover's certificate of insurance is what the building relies on when a wall gets gouged or a resident is hurt, so it is read before the truck is let in, not after something breaks."
+    },
+    {
+      "cue": "Turn the key in the car's operating panel to independent service for the move.",
+      "id": "key-elevator",
+      "kind": "turn",
+      "prompt": "Turn the key in the car's operating panel to independent service for the move.",
+      "target": "elevator-key",
+      "title": "Put the freight elevator on independent service",
+      "turn": {
+        "axis": "z",
+        "label": "INDEPENDENT SERVICE",
+        "turns": 0.35
+      },
+      "why": "Independent service takes the freight car out of the building's call system so it goes only where the move crew sends it, and its doors stay open while furniture is loaded instead of closing on a sofa. ASME A17.1 sets how that mode must behave, and using it is what keeps the car from answering a hall call halfway through loading a dresser."
+    },
+    {
+      "cue": "Carry the pads from the rack and hang them on the car's pad hooks.",
+      "drag": {
+        "missNote": "Not on the hooks — pads leaned against the car wall fall at the first dolly and cover nothing.",
+        "radius": 0.55,
+        "to": "cab-pad-hooks"
+      },
+      "id": "hang-pads",
+      "kind": "drag",
+      "prompt": "Carry the pads from the rack and hang them on the car's pad hooks.",
+      "target": "elevator-pads",
+      "title": "Hang the elevator's protective pads",
+      "why": "A freight car's walls and doors take every dolly corner and chair leg of the day, and the pads are what stop a move from turning into an elevator repair bill and a car out of service for the next move. Hung before the first load rather than after the first scrape, they protect the car on every trip of the day."
+    },
+    {
+      "cue": "Find what will make the dock edge or the floor fail under the move.",
+      "id": "walk-dock",
+      "itemNames": {
+        "oil-slick": "oil slick across the dock floor",
+        "torn-dock-bumper": "torn dock bumper at bay one"
+      },
+      "itemNotes": {
+        "oil-slick": "A patch of engine oil across the dock where the jack will run. A loaded jack's wheels skid on it, and so do boots carrying boxes.",
+        "torn-dock-bumper": "Bay one's rubber bumper has been torn off its bolts. Without it, a reversing truck hits the dock edge itself, shifting the plate and cracking the concrete where people stand."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Find what will make the dock edge or the floor fail under the move.",
+      "targets": [
+        "torn-dock-bumper",
+        "oil-slick"
+      ],
+      "title": "Walk the dock before the truck backs in",
+      "why": "The dock is where a moving truck, a powered pallet jack, a crew carrying heavy furniture and residents coming in from the garage all share a few square metres beside a four-foot drop. Walked before the truck arrives, a missing bumper and an oil slick are two quick fixes; walked after, they are the causes on an injury report."
+    },
+    {
+      "cue": "Chock the truck's rear wheel, lower the dock plate onto the bed, then drop its locking pin.",
+      "id": "secure-truck",
+      "itemNames": {
+        "plate-lower": "dock plate lowered onto the truck bed",
+        "plate-pin": "dock plate pinned",
+        "wheel-chock": "wheel chock set at the truck's rear wheel"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Chock, plate, pin — lowering the plate onto a truck that can still roll away is the accident this sequence exists to prevent.",
+      "prompt": "Chock the truck's rear wheel, lower the dock plate onto the bed, then drop its locking pin.",
+      "targets": [
+        "wheel-chock",
+        "plate-lower",
+        "plate-pin"
+      ],
+      "title": "Chock the truck, lower the plate and pin it",
+      "why": "A truck that creeps forward from the dock drops the plate and anything on it into the gap, and a plate lying on a bed without its pin can slide as a load rolls across it. The order is the whole point: chock first so the truck cannot move, plate down onto a stationary bed, pin in so the plate cannot walk — then, and only then, does anything cross."
+    },
+    {
+      "cue": "Watch the CO monitor settle and commit when it reads inside the clean band.",
+      "gauge": {
+        "green": [
+          0.03,
+          0.2
+        ],
+        "label": "GARAGE CO",
+        "missNote": "Outside the clean band — above it the fans need to run and the engines need to stop. Read it again.",
+        "speed": 0.55
+      },
+      "id": "read-co",
+      "kind": "gauge",
+      "prompt": "Watch the CO monitor settle and commit when it reads inside the clean band.",
+      "target": "co-monitor",
+      "title": "Read the garage's carbon monoxide monitor",
+      "why": "Every truck that backs in and every car that starts in the garage adds carbon monoxide to air the residents and the crew are breathing, and CO has no smell, no colour and early symptoms that look like a headache. The ACGIH limit is lower than OSHA's for a reason, and the monitor is the only way anyone on the dock knows which side of either the garage is on."
+    },
+    {
+      "cue": "Press and hold the exhaust fan override until the fans come up to speed.",
+      "holdBreakNote": "You let go before the fans came up. An override that has not been seen to start the fans is a switch you are hoping works — hold it until they spin up.",
+      "id": "run-exhaust",
+      "kind": "hold",
+      "prompt": "Press and hold the exhaust fan override until the fans come up to speed.",
+      "seconds": 5,
+      "target": "exhaust-fan-button",
+      "title": "Hold the garage exhaust override on",
+      "why": "The garage exhaust normally runs on its CO sensors, which respond after the air has already got worse. Bringing the fans up on override at the start of a move clears the garage ahead of the trucks rather than behind them, and holding it until they reach speed proves the override actually starts them — IUOE engineers set that system, and a move is when it earns its keep."
+    },
+    {
+      "cue": "Guide the mover's powered pallet jack straight across the plate, keeping it centred.",
+      "holdBreakNote": "The jack drifted toward the plate's edge. A wheel off the plate drops into the gap — call it back to centre.",
+      "id": "spot-pallet-jack",
+      "kind": "track",
+      "prompt": "Guide the mover's powered pallet jack straight across the plate, keeping it centred.",
+      "seconds": 7,
+      "target": "pallet-jack-path",
+      "title": "Spot the pallet jack across the dock plate",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.38,
+        "green": [
+          0.38,
+          0.62
+        ],
+        "label": "JACK LINE",
+        "rise": 0.44,
+        "start": 0.25
+      },
+      "why": "A dock plate is only as wide as it has to be, and a loaded jack that drifts toward one edge can drop a wheel off it into the gap. A spotter standing clear, calling the line, is how the operator — who cannot see the plate's edges past the load — keeps the jack centred all the way across."
+    },
+    {
+      "cue": "Find what the move has damaged or defeated between the dock and the elevator.",
+      "id": "walk-move-path",
+      "itemNames": {
+        "gouged-wall-corner": "wall corner gouged by a dolly",
+        "propped-stair-door": "stair door propped open with a moving blanket"
+      },
+      "itemNotes": {
+        "gouged-wall-corner": "A dolly has taken a chunk out of the corner by the elevator. It goes on the move sheet with a photo before the mover leaves — found tomorrow, nobody can say whose it was.",
+        "propped-stair-door": "The crew has jammed a moving blanket in the stair door so they can go up and down. That door is part of the stair's fire separation, and propped it lets smoke into the only way out."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Find what the move has damaged or defeated between the dock and the elevator.",
+      "targets": [
+        "gouged-wall-corner",
+        "propped-stair-door"
+      ],
+      "title": "Walk the move path",
+      "why": "The move path is where a crew under time pressure does the two things that cost the building most: dings the walls on the corners and props the fire doors to save a trip. The Life Safety Code is plain that a stair door works only closed, and a gouge photographed while the mover is still here is a repair the mover pays for."
+    },
+    {
+      "cue": "Show the foreman the gouge and the door, and get the damage sheet signed.",
+      "id": "mover-signoff",
+      "kind": "select",
+      "prompt": "Show the foreman the gouge and the door, and get the damage sheet signed.",
+      "target": "mover-foreman",
+      "title": "Walk the damage sheet with the mover's foreman",
+      "why": "The mover's foreman is the person who can accept the damage on the company's behalf, and a signature on the damage sheet with a photo attached turns a dispute next week into a claim against the certificate of insurance today. It is also where the propped door is said out loud to the person who can stop the crew doing it on the next floor."
+    },
+    {
+      "cue": "Take the pads down and turn the car back to automatic service.",
+      "id": "return-elevator",
+      "kind": "turn",
+      "prompt": "Take the pads down and turn the car back to automatic service.",
+      "target": "elevator-key-return",
+      "title": "Return the freight elevator to automatic",
+      "turn": {
+        "axis": "z",
+        "label": "AUTOMATIC",
+        "turns": 0.35
+      },
+      "why": "A freight car left on independent service is a car the rest of the building cannot call — the resident with groceries, the porter with the trash, the paramedics with a stretcher. Returning it the moment the move is done, pads down, is what gives the elevator back to everyone else."
+    },
+    {
+      "cue": "Hand over the bumper, the oil and the damage sheet, and ask how the porter is holding up.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Hand over the bumper, the oil and the damage sheet, and ask how the porter is holding up.",
+      "target": "porter-checkin",
+      "title": "Check in with the porter",
+      "why": "The porter who clears the dock after the truck leaves will deal with the oil, report the bumper and meet the next mover, so a handover in person is what makes the findings stick. A move-in Saturday is physical, rushed work beside moving vehicles — asking how a coworker is doing at the end of it is part of doing it safely."
+    },
+    {
+      "cue": "Log the window, the elevator times, the CO readings, the damage sheet and the dock findings.",
+      "id": "building-log",
+      "kind": "select",
+      "prompt": "Log the window, the elevator times, the CO readings, the damage sheet and the dock findings.",
+      "target": "building-log",
+      "title": "Enter the move in the building log",
+      "why": "The building log is where the elevator's out-of-service time, the garage's CO readings and the damage sheet all come together, and where the next move's booking is checked against how this one went. When a resident asks why the freight car was unavailable, or a mover disputes a claim, the log is the record the building stands on."
+    }
+  ],
+  "supportLine": "your union steward or member-assistance contact, or your employer's employee assistance program",
+  "tagline": "Move-in Saturday: the freight elevator keyed and padded, the truck chocked and the dock plate pinned, the garage air read, the pallet jack spotted across the plate, and the move path walked",
+  "title": "SmartCiti.X~ Loading Dock & Moves VR",
+  "trade": "Building porter and dock attendant — SEIU building staff, with IUOE Local 39 engineers for the garage ventilation and the apartment association's CAM-credentialed manager scheduling the move",
+  "underwater": null,
+  "weather": null
+}

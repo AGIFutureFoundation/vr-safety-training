@@ -1,0 +1,411 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "help-called",
+    "name": "Help Called",
+    "note": "Danger checked, an adult fetched, help called and the location given clearly"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFT",
+        "id": "aft-training",
+        "title": "AFT — American Federation of Teachers training for paraprofessionals and school-related personnel"
+      },
+      {
+        "body": "INEE",
+        "citedAs": "INEE Minimum Standards",
+        "id": "inee-minimum-standards",
+        "title": "INEE Minimum Standards for Education in emergencies, as a body whose standards a lesson is aligned to; it certifies nothing"
+      },
+      {
+        "body": "national curriculum authority",
+        "citedAs": "national curriculum framework",
+        "id": "national-curriculum-framework",
+        "title": "The national curriculum framework the school itself follows, as a category rather than any one country's document; no grade-level code is cited"
+      },
+      {
+        "body": "union",
+        "citedAs": "National Education Association",
+        "id": "nea-training",
+        "title": "NEA apprenticeship and training, as a training body"
+      },
+      {
+        "body": "UN",
+        "citedAs": "Sustainable Development Goal 4",
+        "id": "un-sdg-4-quality-education",
+        "title": "UN Sustainable Development Goal 4 (Quality Education), as a framework a lesson is aligned to; it certifies nothing"
+      },
+      {
+        "body": "UNESCO",
+        "citedAs": "UNESCO education guidance",
+        "id": "unesco-education-guidance",
+        "title": "UNESCO education guidance, as a body whose published guidance a lesson is aligned to; it certifies nothing"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Education",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "clean-read",
+        "name": "First Look",
+        "note": "Everything in the opening scan found first time"
+      },
+      {
+        "id": "no-shortcut",
+        "name": "No Shortcuts",
+        "note": "No misconception or unsafe shortcut anywhere in the run"
+      },
+      {
+        "id": "in-the-band",
+        "name": "In the Band",
+        "note": "Every gauge and meter held inside its band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-run",
+        "name": "Clean Run",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "steady-hands",
+        "name": "Steady Hands",
+        "note": "Every hold and track carried its full count"
+      },
+      {
+        "id": "quick-and-right",
+        "name": "Quick and Right",
+        "note": "Finished inside 80% of par"
+      }
+    ],
+    "currency": "CALLS",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Noticer",
+      "Helper",
+      "Caller",
+      "Guide",
+      "Responder"
+    ],
+    "system": "Help Board"
+  },
+  "hazards": {
+    "hang-up-early": "You hung up as soon as you had said what happened. The person on the phone may need to ask more questions or tell you what to do next; you stay on the line until they say you can go.",
+    "rush-into-danger": "You ran straight towards the person without checking for danger. The first rule is to keep yourself safe, because a second person hurt means help has two people to reach; you look for traffic or other dangers first and get an adult.",
+    "try-a-treatment": "You tried to treat the injury yourself. This lesson is about calling for help, not treating; trained people will know what to do, and trying a treatment you have not been trained in can make things worse.",
+    "vague-location": "You gave a vague location. Help can only arrive where you tell it to; look for a street sign, a building name or a landmark and say it clearly, because a vague answer costs time."
+  },
+  "id": "k12-first-aid-awareness-call-for-help",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "stay-on-the-line",
+      "alert": "A car pulls up fast close to where you are standing near the road.",
+      "cue": "Step back onto the pavement with the adult; do not go into the road.",
+      "delay": 3,
+      "id": "a-car-pulls-up-fast",
+      "kind": "Traffic",
+      "missNote": "Nobody stepped back, and a classmate was nearly clipped by the car door. Next time, stop the lesson and deal with it first.",
+      "seconds": 12,
+      "target": "kfa-step-back-to-kerb",
+      "why": "Traffic is the danger you checked for at the start, and it can arrive at any moment. Stepping back to the pavement with the adult keeps you safe; you are no help to anyone if you are hurt too.",
+      "wrongNote": "That does not keep you safe. Step back onto the pavement. Choose the response that deals with it now."
+    },
+    {
+      "after": "stay-steady-until-help-arrives",
+      "alert": "The firefighter, playing the call handler, asks exactly where you are.",
+      "cue": "Give the street sign or landmark you noticed, clearly.",
+      "delay": 3,
+      "id": "the-firefighter-asks-where-you-are",
+      "kind": "Firefighter question",
+      "missNote": "You said 'near the park', and the practice responders went to the wrong side of it.",
+      "seconds": 12,
+      "target": "kfa-give-the-landmark",
+      "why": "A clear location is the single most useful thing a caller gives. The firefighter asks because that is the first thing a real call handler needs, and noticing a sign at the start makes it easy to answer.",
+      "wrongNote": "That is too vague. Give the sign or landmark you noticed. Choose the response that deals with it now."
+    }
+  ],
+  "lateNotes": {
+    "kfa-checkin": "The check-in comes at the very end of the lesson.",
+    "kfa-help-log": "You tell the adult what happened once help has arrived — not yet."
+  },
+  "name": "First Aid Awareness: Call for Help",
+  "parSeconds": 330,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "k12-literacy-and-life-skills"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "hang-up-early",
+      "kfa-adult-card",
+      "kfa-arrival-spot",
+      "kfa-balloon",
+      "kfa-calm-meter",
+      "kfa-checkin",
+      "kfa-clinical-card",
+      "kfa-danger",
+      "kfa-give-the-landmark",
+      "kfa-help-log",
+      "kfa-hp-adult",
+      "kfa-hp-danger",
+      "kfa-hp-treat",
+      "kfa-hp-vague",
+      "kfa-ord-many",
+      "kfa-ord-stay",
+      "kfa-ord-what",
+      "kfa-ord-where",
+      "kfa-phone-dial",
+      "kfa-responding",
+      "kfa-share-board",
+      "kfa-stay-line",
+      "kfa-step-back-to-kerb",
+      "kfa-track-meter",
+      "kfa-wave-token",
+      "kfa-where",
+      "rush-into-danger",
+      "try-a-treatment",
+      "vague-location"
+    ],
+    "meshes": 297
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Mark the three things to notice before you do anything else.",
+      "decoyNotes": {
+        "kfa-balloon": "Not important right now. Notice what matters."
+      },
+      "id": "notice-what-you-need-to-know",
+      "itemNames": {
+        "kfa-danger": "any danger nearby, like traffic",
+        "kfa-responding": "whether the person is responding",
+        "kfa-where": "a street sign or landmark"
+      },
+      "itemNotes": {
+        "kfa-danger": "Keep yourself safe first. Do not go into danger.",
+        "kfa-responding": "You can tell the adult and the caller this. You do not need to do anything else.",
+        "kfa-where": "Help needs to know exactly where you are."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Mark the three things to notice before you do anything else.",
+      "targets": [
+        "kfa-danger",
+        "kfa-responding",
+        "kfa-where"
+      ],
+      "title": "Notice what you need to know",
+      "why": "Before acting, notice three things: whether there is any danger to you, whether the person is responding, and where exactly you are. Noticing these first keeps you safe and gives you what the person on the phone will ask for."
+    },
+    {
+      "cue": "Where you are, what happened, how many people, then stay on the line.",
+      "id": "put-the-call-in-order",
+      "itemNames": {
+        "kfa-ord-many": "3 · how many people",
+        "kfa-ord-stay": "4 · stay on the line",
+        "kfa-ord-what": "2 · what happened",
+        "kfa-ord-where": "1 · where you are"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order. Say where you are first, so help can start moving.",
+      "prompt": "Where you are, what happened, how many people, then stay on the line.",
+      "targets": [
+        "kfa-ord-where",
+        "kfa-ord-what",
+        "kfa-ord-many",
+        "kfa-ord-stay"
+      ],
+      "title": "Put the call in order",
+      "why": "The person answering needs to know where to send help first, because that is what gets people moving. Then what happened and how many people are hurt help them send the right help; staying on the line lets them guide you until it arrives."
+    },
+    {
+      "cue": "Shout for, or run to, the nearest trusted adult.",
+      "id": "get-a-trusted-adult-straight-away",
+      "kind": "select",
+      "prompt": "Shout for, or run to, the nearest trusted adult.",
+      "target": "kfa-adult-card",
+      "title": "Get a trusted adult straight away",
+      "why": "Getting an adult is almost always the fastest route to help, and it is the right first move for a young person. An adult can call, keep others back and take charge, so you are never left dealing with it alone."
+    },
+    {
+      "cue": "Turn the phone to speaker so your hands are free and the adult can hear.",
+      "id": "put-the-phone-on-speaker",
+      "kind": "turn",
+      "prompt": "Turn the phone to speaker so your hands are free and the adult can hear.",
+      "target": "kfa-phone-dial",
+      "title": "Put the phone on speaker",
+      "turn": {
+        "axis": "y",
+        "label": "SPEAKER",
+        "turns": 0.5
+      },
+      "why": "Putting the phone on speaker lets the adult beside you hear the questions and answer too, and leaves your hands free to wave to arriving help. It is a small step that makes the call work better for everyone. Every detail you can give calmly is one less question the call-taker has to ask while help is on its way."
+    },
+    {
+      "cue": "Commit when your voice is calm and clear enough to be understood first time.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.58
+        ],
+        "label": "CALM",
+        "missNote": "Outside the band. Too rushed and you have to repeat yourself. Take a breath and try again.",
+        "speed": 0.6
+      },
+      "id": "speak-calmly-and-clearly",
+      "kind": "gauge",
+      "prompt": "Commit when your voice is calm and clear enough to be understood first time.",
+      "target": "kfa-calm-meter",
+      "title": "Speak calmly and clearly",
+      "why": "A calm, clear voice gets information across first time; a rushed or shouted one has to be repeated, which costs time. Taking a breath before speaking is the simplest way to be understood in an emergency. Saying where you are first, before anything else, means help can start moving even if the call is cut short."
+    },
+    {
+      "cue": "Hold the phone and listen until they say you can hang up.",
+      "holdBreakNote": "You hung up too early. Stay on the line until they tell you it is fine to go.",
+      "id": "stay-on-the-line",
+      "kind": "hold",
+      "prompt": "Hold the phone and listen until they say you can hang up.",
+      "seconds": 6,
+      "target": "kfa-stay-line",
+      "title": "Stay on the line",
+      "why": "Staying on the line means the person answering can ask more questions and tell you what to do next, such as keeping the person still or waving at the arriving help. Hanging up early cuts that help off. If you are not sure what to say, the person answering will guide you with questions, so stay with them."
+    },
+    {
+      "cue": "Drag the waving arm to the safe spot by the road where help will arrive.",
+      "drag": {
+        "missNote": "Not in place yet. Take it all the way to at the road edge, safely.",
+        "radius": 0.45,
+        "to": "kfa-arrival-spot"
+      },
+      "id": "show-help-where-to-come",
+      "kind": "drag",
+      "prompt": "Drag the waving arm to the safe spot by the road where help will arrive.",
+      "target": "kfa-wave-token",
+      "title": "Show help where to come",
+      "why": "Showing arriving help exactly where to go saves time. Standing safely at the road edge, with an adult, and waving is a useful job a young person can do while trained people take over. Responders arriving at a busy place lose time finding the right spot, so a clear signal from a safe place gets them there sooner."
+    },
+    {
+      "cue": "Look at the classmate's help plan and mark each problem.",
+      "decoyNotes": {
+        "kfa-hp-adult": "Right first move. Keep it."
+      },
+      "id": "spot-the-problems-in-a-classmate",
+      "itemNames": {
+        "kfa-hp-danger": "running in without checking",
+        "kfa-hp-treat": "trying a treatment",
+        "kfa-hp-vague": "a vague location"
+      },
+      "itemNotes": {
+        "kfa-hp-danger": "Check for danger first. Keep yourself safe.",
+        "kfa-hp-treat": "Call, do not treat. Trained people will know what to do.",
+        "kfa-hp-vague": "Look for a sign or landmark and say it clearly."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look at the classmate's help plan and mark each problem.",
+      "targets": [
+        "kfa-hp-danger",
+        "kfa-hp-treat",
+        "kfa-hp-vague"
+      ],
+      "title": "Spot the problems in a classmate's plan",
+      "why": "Help plans go wrong in predictable ways: running into danger, trying a treatment and giving a vague location. Spotting them in someone else's plan helps you remember the right order when it matters. The right order is always the same: stay safe, fetch an adult, call for help and say exactly where you are."
+    },
+    {
+      "cue": "Say why you will not try to treat the injury yourself.",
+      "id": "say-what-you-will-not-do",
+      "kind": "select",
+      "prompt": "Say why you will not try to treat the injury yourself.",
+      "target": "kfa-clinical-card",
+      "title": "Say what you will not do",
+      "why": "Knowing what not to do is part of being helpful. Leaving treatment to trained people, and doing the things you can do well, staying safe, calling and guiding, is what actually helps the person most. Trying a treatment you have not been trained in can make things worse, and it takes an adult's attention away from calling for help."
+    },
+    {
+      "cue": "Hold yourself in band — calm and near the adult — until help arrives.",
+      "holdBreakNote": "You drifted from calm. Take a breath and stay beside the adult.",
+      "id": "stay-steady-until-help-arrives",
+      "kind": "track",
+      "prompt": "Hold yourself in band — calm and near the adult — until help arrives.",
+      "seconds": 8,
+      "target": "kfa-track-meter",
+      "title": "Stay steady until help arrives",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.38,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "STEADY",
+        "rise": 0.46,
+        "start": 0.3
+      },
+      "why": "Waiting for help is hard, and it is tempting to do something, anything. Staying calm, close to the adult and ready to answer questions is the most useful thing to do until trained people take over. Moving about or crowding round only adds to the confusion that responders then have to sort out."
+    },
+    {
+      "cue": "When help has arrived, tell the adult what you saw.",
+      "id": "tell-the-adult-what-happened",
+      "kind": "select",
+      "prompt": "When help has arrived, tell the adult what you saw.",
+      "target": "kfa-help-log",
+      "title": "Tell the adult what happened",
+      "why": "Afterwards, telling the adult clearly what you saw helps them and the responders. Keep it to what you saw, in order, the same way a clear report is written. Guesses about what caused it can wait; the responders need what you actually saw first."
+    },
+    {
+      "cue": "Tell the class the steps: safe, adult, call, where.",
+      "id": "share-the-steps-with-the-class",
+      "kind": "select",
+      "prompt": "Tell the class the steps: safe, adult, call, where.",
+      "target": "kfa-share-board",
+      "title": "Share the steps with the class",
+      "why": "Sharing the steps helps classmates remember them, and saying them out loud fixes them in your own memory. Short steps that everyone knows are exactly what helps in a real emergency. In a frightening moment people fall back on what they have practised, so the practice is the preparation."
+    },
+    {
+      "cue": "How did the lesson go? Which part was hardest?",
+      "id": "crew-check-in",
+      "kind": "select",
+      "prompt": "How did the lesson go? Which part was hardest?",
+      "target": "kfa-checkin",
+      "title": "Check in at the end of the lesson",
+      "why": "A short check-in at the end tells the teacher who is confident and who needs another go, and gives each learner a moment to notice what they can now do. Nobody is marked here, and a teacher or trusted adult is there for anyone who wants to talk more."
+    }
+  ],
+  "supportLine": "your teacher, a school counsellor or a trusted adult at home — if anything in this lesson was hard, talk it through afterwards",
+  "tagline": "Stay safe, get an adult, call for help, say clearly where you are",
+  "title": "SmartCiti.X~ First Aid Awareness: Call for Help VR",
+  "trade": "Life skills class at the fire station's open day — learner and firefighter",
+  "underwater": null,
+  "weather": "clear"
+}

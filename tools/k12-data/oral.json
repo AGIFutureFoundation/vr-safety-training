@@ -1,0 +1,261 @@
+{
+  "id": "k12-oral-history-interview-skills",
+  "index": "823",
+  "prefix": "koh",
+  "accent": "#c08a4a",
+  "floor": [
+    "#7e746a",
+    "#70675e"
+  ],
+  "wall": [
+    "#eadfce",
+    "#dcd0be"
+  ],
+  "trade": "History class in the union hall's meeting room — learner and oral history volunteer",
+  "header": "Lower-secondary history at a union hall's meeting room: how to record an oral history interview with a retired worker, from consent and open questions to listening, checking and archiving, with the interviewee invented for the lesson and memory treated as a source to be weighed like any other.",
+  "name": "Oral History Interview Skills",
+  "tagline": "Ask consent, ask open questions, then listen — a memory is a source, not a verdict",
+  "badge": {
+    "id": "careful-listener",
+    "name": "Careful Listener",
+    "note": "An interview recorded with consent, open questions and follow-ups, and the memory weighed as a source"
+  },
+  "board": {
+    "name": "Archive Board",
+    "currency": "STORIES",
+    "ranks": [
+      "Listener",
+      "Interviewer",
+      "Recorder",
+      "Archivist",
+      "Historian"
+    ]
+  },
+  "hazards": [
+    {
+      "id": "record-without-asking",
+      "label": "Start recording before asking permission?",
+      "face": "NO\nCONSENT",
+      "text": "You started recording before asking permission. An oral history belongs to the person telling it; they decide whether they are recorded, what is kept and who may hear it. Consent comes first, every time, and it can be withdrawn."
+    },
+    {
+      "id": "lead-the-answer",
+      "label": "Ask a question that tells them what to say?",
+      "face": "LEADING\nQUESTION",
+      "text": "You asked a question that suggested its own answer. A leading question puts your idea into their memory and makes the recording less trustworthy; open questions like how, what and tell me about let them say what they actually remember."
+    },
+    {
+      "id": "memory-is-a-fact",
+      "label": "Treat the memory as proved fact?",
+      "face": "MEMORY =\nFACT",
+      "text": "You wrote the memory down as a proved fact. Memories are precious evidence of how things felt and what mattered, but they change over time; a historian checks them against other sources, just as they would a document."
+    },
+    {
+      "id": "share-without-permission",
+      "label": "Post a clip online without asking?",
+      "face": "POST IT\nONLINE",
+      "text": "You wanted to post a clip online without asking. The interviewee agreed to a class archive, not the internet; sharing beyond what they agreed breaks their trust and their consent. Ask first, and respect the answer."
+    }
+  ],
+  "find1": {
+    "title": "Find what you need before the interview",
+    "cue": "Mark the three things you need ready before the interview begins.",
+    "why": "A good interview is prepared. A consent form sets out what will be recorded and who may hear it, a short list of open questions keeps the conversation focused without controlling it, and a working recorder means the words are kept. With those three ready, you can give your full attention to listening.",
+    "items": [
+      [
+        "consent-form",
+        "the consent form",
+        "It records what the interviewee agrees to."
+      ],
+      [
+        "question-list",
+        "a short list of open questions",
+        "Open questions let them tell it their way."
+      ],
+      [
+        "recorder",
+        "a tested recorder",
+        "Check it works before, not during."
+      ]
+    ],
+    "decoy": [
+      "union-banner",
+      "the banner on the wall",
+      "A striking thing to ask about later, but not something you need ready to start."
+    ]
+  },
+  "select1": {
+    "title": "Ask for consent before recording",
+    "cue": "Explain what the recording is for and ask the interviewee to agree before you press record.",
+    "why": "Consent is the foundation of oral history. Explaining clearly what the recording is for, who will hear it and that they can stop at any time lets the interviewee make a real choice, and it is how every responsible archive works.",
+    "key": "consent-card",
+    "label": "Ask for consent first",
+    "face": "MAY WE\nRECORD?"
+  },
+  "seq": {
+    "title": "Put the interview in order",
+    "cue": "Consent, an easy opening, open questions with follow-ups, then thank and check.",
+    "why": "Consent first makes the interview possible. An easy opening, such as asking where they grew up, helps the interviewee relax. Open questions and follow-ups draw out detail, and a thank-you with a check of what they are happy to share closes it respectfully.",
+    "oon": "Out of order. Consent comes before anything is recorded.",
+    "items": [
+      [
+        "ord-consent",
+        "ask for consent"
+      ],
+      [
+        "ord-opening",
+        "start with an easy opening question"
+      ],
+      [
+        "ord-open",
+        "ask open questions and follow up"
+      ],
+      [
+        "ord-thank",
+        "thank them and check what may be shared"
+      ]
+    ]
+  },
+  "hold": {
+    "title": "Hold the pause while they think",
+    "cue": "Stay quiet and hold the pause while the interviewee gathers their thoughts.",
+    "why": "The best part of an answer often comes after a pause. Staying quiet and letting the silence sit gives the interviewee time to remember, instead of jumping in with another question that cuts off what they were about to say.",
+    "brk": "You filled the silence too soon. Let them think, and hold the pause again.",
+    "key": "hold-pause",
+    "label": "Hold the pause"
+  },
+  "turn": {
+    "title": "Turn the recorder's level to their voice",
+    "cue": "Turn the recording level so their voice is clear without distorting.",
+    "why": "A recording that is too quiet loses words, and one that is too loud distorts them. Setting the level to the interviewee's voice before the main questions means their words will be heard clearly by everyone who listens later.",
+    "key": "level-dial",
+    "label": "Recording level",
+    "dial": "LEVEL"
+  },
+  "gauge": {
+    "title": "Check the voice level is in the band",
+    "cue": "Commit when the level meter sits in the band as they speak.",
+    "why": "A level meter shows whether the voice is being recorded well. Checking it while they speak, not only in silence, catches a quiet speaker or a noisy room before the whole interview is spoiled.",
+    "key": "voice-meter",
+    "label": "Voice level",
+    "meter": "VOICE",
+    "miss": "Outside the band. Adjust the level before the main questions."
+  },
+  "drag": {
+    "title": "Choose an open follow-up question",
+    "cue": "Drag the open follow-up card into the question slot.",
+    "why": "A follow-up like tell me more about that invites detail in the interviewee's own words. Choosing it over a yes or no question keeps the story theirs, and it is the single most useful habit of a good interviewer.",
+    "key": "followup-token",
+    "label": "Tell me more about that",
+    "spot": "question-spot",
+    "spotLabel": "Next question",
+    "miss": "Not in the slot yet. Put the open follow-up in the next question."
+  },
+  "select2": {
+    "title": "Say how a memory is a source",
+    "cue": "Say what a memory can tell a historian, and what it needs checking against.",
+    "why": "A memory tells you how something felt and what mattered to the person who lived it, which documents often miss. But memories change, so a historian checks the details against records and other accounts, weighing the memory as they would any source.",
+    "key": "compare-card",
+    "label": "Memory as evidence",
+    "face": "FEELING AND\nCHECKING"
+  },
+  "find2": {
+    "title": "Spot the problems in a classmate's interview plan",
+    "cue": "Look at the draft interview plan and mark each problem.",
+    "why": "Interview plans go wrong in familiar ways: no consent step, leading questions and a plan to share recordings more widely than agreed. Spotting them helps you plan an interview that is both good history and respectful of the person.",
+    "items": [
+      [
+        "ip-consent",
+        "no consent step",
+        "Consent comes first."
+      ],
+      [
+        "ip-leading",
+        "a question that suggests its answer",
+        "Ask open questions."
+      ],
+      [
+        "ip-share",
+        "a plan to post clips online",
+        "Share only as agreed."
+      ]
+    ],
+    "decoy": [
+      "ip-thanks",
+      "a thank-you at the end",
+      "Thanking the interviewee is good practice. Keep it."
+    ]
+  },
+  "track": {
+    "title": "Keep listening through a long answer",
+    "cue": "Keep your attention on the speaker through a long answer, noting follow-ups quietly.",
+    "why": "Long answers are where the richest stories are, and staying attentive through them shows respect as well as catching details worth asking about. Noting follow-ups quietly lets you return to them without interrupting the flow.",
+    "brk": "Your attention wandered. Bring it back to the speaker.",
+    "key": "track-meter",
+    "label": "Listening held",
+    "meter": "LISTENING"
+  },
+  "record": {
+    "title": "Record the archive notes",
+    "cue": "Write who was interviewed, when, what they agreed to and a summary.",
+    "why": "An archive note tells future listeners what the recording is and what they may do with it. Writing the consent terms beside the summary protects the interviewee and makes the recording useful for years.",
+    "key": "archive-log",
+    "label": "Archive notes",
+    "done": "Archive notes written"
+  },
+  "share": {
+    "title": "Thank the interviewee and check the sharing",
+    "cue": "Thank them and confirm what they are happy for the class archive to keep.",
+    "why": "Closing with thanks and a check of what may be kept respects the gift of their story. It gives them the last word on how it is used, which is at the heart of every ethical oral history project.",
+    "key": "share-board",
+    "label": "Thank and check",
+    "done": "Thanked and sharing confirmed"
+  },
+  "checkin": {
+    "title": "Check in at the end of the session",
+    "cue": "What did the interview teach you that a book could not? What was hard?",
+    "why": "Interviewers debrief after every recording, so the class does too: each learner says what their question drew out and what they would ask differently. Speaking about consent and listening in front of the group is practice for the real interviews, and it shows the archivist who is ready to lead one.",
+    "label": "End-of-session check-in"
+  },
+  "interrupts": [
+    {
+      "id": "the-interviewee-becomes-upset",
+      "kind": "Upset interviewee",
+      "key": "pause-offer",
+      "label": "Pause and offer to stop",
+      "alert": "The interviewee's voice catches while describing a hard time at work, and they look upset.",
+      "cue": "Pause the recording and gently offer to stop or take a break.",
+      "why": "An interviewee's wellbeing matters more than the recording. Pausing and offering a break or an end gives them control, and it is what every oral history guide asks interviewers to do.",
+      "miss": "You pressed on with the next question, and the interviewee ended the session upset.",
+      "wrong": "That carries on regardless. Pause and offer to stop. Choose the response that deals with it now.",
+      "done": "Recording paused, a break taken. The interviewee chose to carry on."
+    },
+    {
+      "id": "the-volunteer-asks-about-consent",
+      "kind": "Volunteer question",
+      "key": "say-consent",
+      "label": "Say what the consent covers",
+      "alert": "The oral history volunteer asks what the interviewee agreed to and who may hear the recording.",
+      "cue": "Say what the consent form covers and who may hear it.",
+      "why": "The volunteer is checking you know the limits of consent. Saying exactly what was agreed shows the recording will be used only as the interviewee wished.",
+      "miss": "You were not sure, and the volunteer had to check the form before anything could be kept.",
+      "wrong": "That does not say what was agreed. Choose the response that deals with it now.",
+      "done": "Consent terms stated. The volunteer files the recording."
+    }
+  ],
+  "crew": [
+    "History teacher",
+    "Classmate",
+    "Oral history volunteer",
+    "Retired worker (invented)"
+  ],
+  "guide": {
+    "start": "Consent first, then listen.",
+    "after": "A memory is a source to weigh.",
+    "hazard": "Stop. Did they consent? Is the question open?"
+  },
+  "lateRecord": "The archive notes are written once the interview is over — nothing to record yet.",
+  "lateCheckin": "The check-in comes at the very end of the session.",
+  "scene": "stage",
+  "order": "c"
+}

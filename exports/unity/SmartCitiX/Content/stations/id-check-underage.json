@@ -1,0 +1,361 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "door-held",
+    "name": "Door Held",
+    "note": "Every ID at the rail checked to F.L.A.G. and both underage attempts caught and documented"
+  },
+  "category": "Culinary & Hospitality",
+  "certification": "California ABC Responsible Beverage Service (RBS) certification and Business and Professions Code §25658 sale to a minor; TIPS or ServSafe Alcohol training on the F.L.A.G. method; Cal/OSHA 8 CCR §3342 workplace violence prevention plan for a refusal that escalates; UNITE HERE Local 2's own practice on backing up a refusal across the shift",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "Cal. ABC",
+        "citedAs": "§25658",
+        "id": "abc-25658",
+        "title": "California Business and Professions Code §25658 — sale or furnishing of alcohol to a person under 21"
+      },
+      {
+        "body": "Cal. ABC",
+        "citedAs": "RBS",
+        "id": "abc-rbs-training",
+        "title": "California Responsible Beverage Service Training Act — ABC RBS certification for anyone who serves alcohol"
+      },
+      {
+        "body": "ServSafe",
+        "citedAs": "ServSafe",
+        "id": "servsafe-certification",
+        "title": "ServSafe Food Protection Manager and ServSafe Alcohol certification (National Restaurant Association)"
+      },
+      {
+        "body": "union",
+        "citedAs": "UNITE HERE",
+        "id": "unite-here-training",
+        "title": "UNITE HERE hospitality training funds — cooks, housekeepers, bartenders and banquet staff"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Culinary & Hospitality",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "flag-clean",
+        "name": "F.L.A.G. Clean",
+        "note": "Worked feel, look, ask and glance in order without a correction"
+      },
+      {
+        "id": "never-served",
+        "name": "Never Served",
+        "note": "No unsafe action anywhere in the run"
+      },
+      {
+        "id": "caught-both",
+        "name": "Caught Both",
+        "note": "Both the mismatched photo and the birthday-tomorrow patron were refused clean"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-shift",
+        "name": "Clean Shift",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "held-composure",
+        "name": "Held Composure",
+        "note": "Never broke the hold during a refusal"
+      },
+      {
+        "id": "door-fast",
+        "name": "Door Fast",
+        "note": "Complete inside 80% of par"
+      }
+    ],
+    "currency": "CARD",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Barback",
+      "Bartender",
+      "Shift Lead",
+      "Bar Manager",
+      "RBS Certified Trainer"
+    ],
+    "system": "Door Authority"
+  },
+  "hazards": {
+    "confront-alone": "You are squaring up to the refused patron by yourself instead of calling for backup. Cal/OSHA's workplace violence prevention plan under 8 CCR §3342 exists because a refusal is exactly the moment a calm interaction can turn, and the plan's whole point is that nobody handles that alone at the door.",
+    "id-expired-accepted": "That ID expired months ago. An expired card is not a valid form of identification under the ABC Act even when the photo is a perfect match — the state stopped vouching for its accuracy the day it expired, and a bartender who accepts it is vouching for it instead.",
+    "photo-id-on-phone": "That is a photo of an ID on somebody's phone screen, not the ID itself. California law requires an actual, physical, valid form of identification — a photo can be borrowed from anyone's camera roll and proves nothing about who is standing in front of you holding the phone.",
+    "vertical-format-missed": "That card is printed vertically — California prints every under-21 licence and ID in portrait format for exactly this reason, so it reads as underage from across the bar before anyone gets close enough to check a birth date. Glancing past the orientation is missing the one feature built to be seen first."
+  },
+  "id": "id-check-underage",
+  "indoor": "bar",
+  "interrupts": [
+    {
+      "after": "uv-check",
+      "alert": "Another customer is waving their card and pushing to be served while you're still mid-check on this one.",
+      "cue": "Point them to wait their turn — don't rush the ID you're already holding.",
+      "delay": 3,
+      "id": "customer-pressure-waving-card",
+      "kind": "Impatient customer at the rail",
+      "missNote": "The UV check got rushed to deal with the second customer, and rushing it is the same as not doing it — either finish what's in your hands or you haven't checked it at all.",
+      "seconds": 11,
+      "target": "next-in-line-sign",
+      "why": "The whole reason a UV check exists is that it takes a few extra seconds to actually see the security thread — a second customer's impatience is not a reason to shortcut the check already in progress, and a posted 'one at a time' point makes the answer visible instead of just spoken.",
+      "wrongNote": "It's the wait-your-turn sign. Point them to it and go back to the card you're already holding."
+    },
+    {
+      "after": "hold-composure",
+      "alert": "While you're finishing the refusal, a friend standing next to the refused patron slides their own drink across to them.",
+      "cue": "Stop the hand-off — that drink does not reach the refused patron.",
+      "delay": 2,
+      "id": "friend-passes-drink",
+      "kind": "Friend passing a drink at the rail",
+      "missNote": "The drink changed hands and the refused patron is now holding alcohol anyway — the refusal at the door just got undone at the rail, in front of everyone who saw you make it.",
+      "seconds": 12,
+      "target": "friend-glass",
+      "why": "A refusal at the point of sale means nothing if a drink already poured to someone else reaches the same person thirty seconds later — the friend passing their glass is the same §25658 problem wearing a different face, and it gets caught the same way the original request did.",
+      "wrongNote": "It's the glass being passed. Stop that hand-off before it reaches them."
+    }
+  ],
+  "lateNotes": {
+    "ask-second-id": "There's no reason to ask for a second form yet — the first one hasn't failed anything.",
+    "refuse-mismatch-id": "Ask for a second form before refusing outright — in doubt gets one more chance to resolve, not an immediate no."
+  },
+  "name": "Checking ID",
+  "parSeconds": 270,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "bartending-course"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.3,
+    "hits": [
+      "86-flag",
+      "ask-second-id",
+      "calendar-correct-date",
+      "composure-panel",
+      "confront-alone",
+      "flag-ask",
+      "flag-feel",
+      "flag-glance",
+      "flag-look",
+      "forms-poster",
+      "friend-glass",
+      "id-card-1",
+      "id-expired-accepted",
+      "log-entry-1",
+      "log-entry-2",
+      "next-in-line-sign",
+      "photo-id-on-phone",
+      "photo-mismatch-flag",
+      "refuse-mismatch-id",
+      "refuse-underage-id",
+      "return-slot-1",
+      "second-form-fail",
+      "student-card",
+      "uv-lamp",
+      "vertical-format-missed",
+      "workplace-badge"
+    ],
+    "meshes": 160
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "hold",
+    "select",
+    "sequence"
+  ],
+  "steps": [
+    {
+      "cue": "Check the posted list: driver's licence, state ID, passport, passport card, or military ID.",
+      "id": "acceptable-forms",
+      "kind": "select",
+      "prompt": "Check the posted list: driver's licence, state ID, passport, passport card, or military ID.",
+      "target": "forms-poster",
+      "title": "Know the ABC-acceptable forms of ID",
+      "why": "The ABC only recognises a specific, short list of government-issued forms as valid proof of age, and a workplace ID, a student card or a photocopy is not on it no matter how official it looks — knowing the list cold is what keeps a busy door from waving through something that was never acceptable in the first place."
+    },
+    {
+      "cue": "Feel the card's edges and texture, look at the photo and printing, ask the patron their birth date, then glance between their face and the card.",
+      "id": "flag-method",
+      "itemNames": {
+        "flag-ask": "Ask the birth date",
+        "flag-feel": "Feel the card",
+        "flag-glance": "Glance face to card",
+        "flag-look": "Look at the photo and printing"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Feel, then look, then ask, then glance — asking before you've actually looked at the card just tests their memory, not the card.",
+      "prompt": "Feel the card's edges and texture, look at the photo and printing, ask the patron their birth date, then glance between their face and the card.",
+      "targets": [
+        "flag-feel",
+        "flag-look",
+        "flag-ask",
+        "flag-glance"
+      ],
+      "title": "Work the F.L.A.G. method in order",
+      "why": "F.L.A.G. is taught in this order because each step catches something the next one can't — feel catches a re-laminated fake, look catches bad printing, asking catches a patron who has not memorised the birth date on the card they are holding, and only then does the glance compare a face that has had no time to be coached."
+    },
+    {
+      "cue": "Hold the card under the lamp and confirm the hologram and security thread.",
+      "holdBreakNote": "Pulled the card out before the lamp confirmed anything. A half-second under the light proves nothing — hold it the full count.",
+      "id": "uv-check",
+      "kind": "hold",
+      "prompt": "Hold the card under the lamp and confirm the hologram and security thread.",
+      "seconds": 5,
+      "target": "uv-lamp",
+      "title": "Check the card under UV light",
+      "why": "A real driver's licence carries security features that only show under ultraviolet light and cost real equipment to fake — the hologram and thread are what F.L.A.G.'s ordinary look cannot catch on a good counterfeit, which is why a UV check is its own separate step rather than folded into the glance."
+    },
+    {
+      "cue": "Hand the checked, valid card back across the bar.",
+      "drag": {
+        "missNote": "Not back in their hand — set it down on the bar and it's the next thing to go missing in the shuffle.",
+        "radius": 0.4,
+        "to": "return-slot-1"
+      },
+      "id": "accept-return",
+      "kind": "drag",
+      "prompt": "Hand the checked, valid card back across the bar.",
+      "target": "id-card-1",
+      "title": "Return the verified ID",
+      "why": "A verified ID goes straight back to its owner rather than sitting on the bar top being handled by anyone else — the check is finished the moment F.L.A.G. and the UV pass clean, and holding onto someone's ID longer than that is its own small trust problem at the door."
+    },
+    {
+      "cue": "Two cards in this stack are not ABC-acceptable forms at all — find them before anyone gets further than the door.",
+      "id": "queue-scan",
+      "itemNames": {
+        "student-card": "a student ID card",
+        "workplace-badge": "an employee ID badge"
+      },
+      "itemNotes": {
+        "student-card": "A university card proves enrolment, not age, and it isn't on the ABC's list no matter how official the seal looks.",
+        "workplace-badge": "A badge with a photo and a name is not a government-issued form of ID — plenty of employers print one that looks convincing."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Two cards in this stack are not ABC-acceptable forms at all — find them before anyone gets further than the door.",
+      "targets": [
+        "workplace-badge",
+        "student-card"
+      ],
+      "title": "Scan the rest of the queue",
+      "why": "The door moves fastest when the obviously-wrong forms are pulled before a single one of them gets the full F.L.A.G. treatment — recognising what's not on the list on sight is what keeps a five-deep line from turning into five full UV checks."
+    },
+    {
+      "cue": "This card's photo doesn't match the face holding it — flag it before it goes any further.",
+      "id": "mismatch-flag",
+      "kind": "select",
+      "prompt": "This card's photo doesn't match the face holding it — flag it before it goes any further.",
+      "target": "photo-mismatch-flag",
+      "title": "Catch the photo that doesn't match",
+      "why": "A borrowed ID is usually a real, unexpired, ABC-acceptable card — everything about it checks out except the one thing F.L.A.G.'s glance step exists to catch, which is that the face in front of you and the face on the card are not the same person."
+    },
+    {
+      "cue": "Ask the patron for a second piece of ID with a matching name before deciding anything.",
+      "id": "second-form-request",
+      "kind": "select",
+      "prompt": "Ask the patron for a second piece of ID with a matching name before deciding anything.",
+      "target": "ask-second-id",
+      "title": "Ask for a second form — in doubt, not out",
+      "why": "A mismatch is doubt, not proof by itself — some resemblances are close enough to argue, and asking for a second form that has to independently agree with the first is what turns a judgement call into an actual decision either way."
+    },
+    {
+      "cue": "The second card's name doesn't match the first either — the doubt just became certainty.",
+      "id": "second-form-compare",
+      "kind": "select",
+      "prompt": "The second card's name doesn't match the first either — the doubt just became certainty.",
+      "target": "second-form-fail",
+      "title": "Compare the second form",
+      "why": "Two independent documents that disagree with each other, or that both fail to match the face in front of you, is what closes the question F.L.A.G.'s glance opened — there is no plausible honest explanation left for a mismatch confirmed twice."
+    },
+    {
+      "cue": "Hold a level, polite tone while you explain the card is being kept from service — no arguing, no raised voice.",
+      "holdBreakNote": "Broke composure before the conversation was actually over. Matching a raised voice with your own is how a refusal turns into the incident the workplace violence plan was written to prevent.",
+      "id": "hold-composure",
+      "kind": "hold",
+      "prompt": "Hold a level, polite tone while you explain the card is being kept from service — no arguing, no raised voice.",
+      "seconds": 5,
+      "target": "composure-panel",
+      "title": "Stay calm and firm through the refusal",
+      "why": "RBS training teaches the refusal itself as a skill separate from spotting the fake: calm and firm de-escalates, and it is also the behaviour Cal/OSHA's workplace violence prevention plan under 8 CCR §3342 expects from staff in the moment most likely to turn confrontational."
+    },
+    {
+      "cue": "Decline service and keep the card — do not hand a confirmed fake back across the bar.",
+      "id": "refuse-mismatch",
+      "kind": "select",
+      "prompt": "Decline service and keep the card — do not hand a confirmed fake back across the bar.",
+      "target": "refuse-mismatch-id",
+      "title": "Refuse the mismatched ID",
+      "why": "Business and Professions Code §25658 makes serving a minor the bartender's own liability, not the patron's excuse, and a card that has failed both a photo match and a second-form check does not get a third chance to somehow still be theirs."
+    },
+    {
+      "cue": "Find this patron's actual 21st birthday on the wall calendar — the date the card claims is one day short.",
+      "id": "birthdate-calc",
+      "kind": "select",
+      "prompt": "Find this patron's actual 21st birthday on the wall calendar — the date the card claims is one day short.",
+      "target": "calendar-correct-date",
+      "title": "Work the birth-date math against today's date",
+      "why": "A birth date only proves someone is of age relative to today, and the arithmetic has to be done against the actual calendar rather than trusted at a glance — a patron born one day too recently is not a rounding error, because the ABC Act doesn't have one."
+    },
+    {
+      "cue": "Decline service — their birthday is tomorrow, not today.",
+      "id": "refuse-underage",
+      "kind": "select",
+      "prompt": "Decline service — their birthday is tomorrow, not today.",
+      "target": "refuse-underage-id",
+      "title": "Refuse the patron a day short of 21",
+      "why": "There is no such thing as almost twenty-one under §25658; a patron who turns 21 tomorrow is legally a minor for every hour of tonight's shift, and the calendar the last step just worked through is exactly what makes that an easy call to hold to instead of a hard one."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Log each refusal in the door book — time, description, reason.",
+      "id": "document-refusals",
+      "itemNames": {
+        "log-entry-1": "mismatched-ID refusal logged",
+        "log-entry-2": "underage refusal logged"
+      },
+      "kind": "sequence",
+      "prompt": "Log each refusal in the door book — time, description, reason.",
+      "targets": [
+        "log-entry-1",
+        "log-entry-2"
+      ],
+      "title": "Document both refusals",
+      "why": "A written refusal log is what backs a bartender up if either patron comes back arguing, and it is also what an ABC investigator or the bar's own RBS records review looks for after any incident — a refusal that only exists in memory did not, as far as either of those is concerned, happen."
+    },
+    {
+      "cue": "Flag both patrons at the POS so every other bartender on shift knows not to serve them tonight.",
+      "id": "do-not-serve-handoff",
+      "kind": "select",
+      "prompt": "Flag both patrons at the POS so every other bartender on shift knows not to serve them tonight.",
+      "target": "86-flag",
+      "title": "Hand the refusal off to the rest of the bar",
+      "why": "A refusal that stays with the one bartender who made it is worth nothing the moment that patron sits at a different part of the same bar twenty minutes later — the whole point of the hand-off is that one person's 'no' has to become the whole shift's 'no' for the rest of the night."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "F.L.A.G., a UV check, the birth-date math against the calendar, a second form when in doubt, and a refusal that is polite, documented and handed to the rest of the bar",
+  "title": "SmartCiti.X~ Checking ID VR",
+  "trade": "Bartender — UNITE HERE Local 2",
+  "underwater": null,
+  "weather": "clear"
+}

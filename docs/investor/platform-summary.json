@@ -1,0 +1,250 @@
+{
+  "note": "Every value is computed from this repository by tools/gen_investor.mjs and names its source file or command. No commercial figure of any kind is stated.",
+  "facts": [
+    {
+      "key": "procedures",
+      "value": 742,
+      "source": "WebXR/smartcity/catalog.json stations.length"
+    },
+    {
+      "key": "smartcityStations",
+      "value": 733,
+      "source": "WebXR/smartcity/catalog.json stations where app = smartcity"
+    },
+    {
+      "key": "tradeSkillsRooms",
+      "value": 9,
+      "source": "WebXR/smartcity/catalog.json stations where app = trades"
+    },
+    {
+      "key": "programmes",
+      "value": 61,
+      "source": "WebXR/smartcity/js/curricula.js CURRICULA.length"
+    },
+    {
+      "key": "categories",
+      "value": 20,
+      "source": "WebXR/smartcity/catalog.json categories.length"
+    },
+    {
+      "key": "unions",
+      "value": 111,
+      "source": "tools/unions.json unions.length"
+    },
+    {
+      "key": "trainingBodies",
+      "value": 105,
+      "source": "tools/standards.json standards where body = union"
+    },
+    {
+      "key": "standards",
+      "value": 513,
+      "source": "tools/standards.json standards.length"
+    },
+    {
+      "key": "competencies",
+      "value": 71,
+      "source": "WebXR/shared/competency.js COMPETENCIES.length"
+    },
+    {
+      "key": "programmeCompetencies",
+      "value": 61,
+      "source": "WebXR/shared/competency.js PROGRAMME_COMPETENCIES.length"
+    },
+    {
+      "key": "coreCompetencies",
+      "value": 10,
+      "source": "WebXR/shared/competency.js CORE_COMPETENCIES.length"
+    },
+    {
+      "key": "profileLevels",
+      "value": 33,
+      "source": "WebXR/smartcity/catalog.json profile.levels"
+    },
+    {
+      "key": "programmeLadderLevels",
+      "value": 1220,
+      "source": "WebXR/smartcity/catalog.json sum of curricula[].ladder.levels"
+    },
+    {
+      "key": "programmeLadderLevelsFull",
+      "value": 1219,
+      "source": "WebXR/smartcity/catalog.json sum of curricula[].ladder.atBar"
+    },
+    {
+      "key": "checkers",
+      "value": 142,
+      "source": "tools/check_all.mjs CHECKERS array"
+    },
+    {
+      "key": "evalProceduresScored",
+      "value": 742,
+      "source": "tools/eval-content.json results.length"
+    },
+    {
+      "key": "evalCorpusMean",
+      "value": 95.8,
+      "source": "tools/eval-content.json mean of results[].score"
+    },
+    {
+      "key": "evalBand95plus",
+      "value": 612,
+      "source": "tools/eval-content.json results with score >= 95"
+    },
+    {
+      "key": "evalBand90to94",
+      "value": 126,
+      "source": "tools/eval-content.json results with score 90-94"
+    },
+    {
+      "key": "evalBandBelow90",
+      "value": 4,
+      "source": "tools/eval-content.json results with score < 90"
+    },
+    {
+      "key": "bayWorldZones",
+      "value": 16,
+      "source": "WebXR/shared/bayworld-data.js BAY_ZONES.length"
+    },
+    {
+      "key": "bayWorldSites",
+      "value": 53,
+      "source": "WebXR/shared/bayworld-data.js BAY_SITES.length"
+    },
+    {
+      "key": "bayWorldLandmarks",
+      "value": 28,
+      "source": "WebXR/shared/bayworld-data.js BAY_LANDMARKS.length"
+    },
+    {
+      "key": "bayWorldRoads",
+      "value": 15,
+      "source": "WebXR/shared/bayworld-data.js BAY_ROADS.length"
+    },
+    {
+      "key": "bayWorldMainQuests",
+      "value": 7,
+      "source": "WebXR/bayworld/js/quests-data.js MAIN_QUESTS.length"
+    },
+    {
+      "key": "bayWorldSideQuests",
+      "value": 122,
+      "source": "WebXR/bayworld/js/quests-data.js SIDE_QUESTS.length"
+    },
+    {
+      "key": "bayWorldEggQuests",
+      "value": 26,
+      "source": "WebXR/bayworld/js/quests-data.js EGG_QUESTS.length"
+    },
+    {
+      "key": "bayWorldFieldGuideEggs",
+      "value": 8,
+      "source": "WebXR/bayworld/js/quests-data.js FIELD_GUIDE_EGGS.length"
+    },
+    {
+      "key": "bayWorldActivities",
+      "value": 6,
+      "source": "WebXR/bayworld/js/quests-data.js SIDE_ACTIVITIES.length"
+    },
+    {
+      "key": "deepZones",
+      "value": 14,
+      "source": "WebXR/shared/underwater-data.js DEEP_ZONES.length"
+    },
+    {
+      "key": "deepSites",
+      "value": 33,
+      "source": "WebXR/shared/underwater-data.js DEEP_SITES.length"
+    },
+    {
+      "key": "deepLandmarks",
+      "value": 25,
+      "source": "WebXR/shared/underwater-data.js DEEP_LANDMARKS.length"
+    },
+    {
+      "key": "deepLines",
+      "value": 17,
+      "source": "WebXR/shared/underwater-data.js DEEP_LINES.length"
+    },
+    {
+      "key": "deepMainDives",
+      "value": 6,
+      "source": "WebXR/underwater/js/dives-data.js DV_MAIN_DIVES.length"
+    },
+    {
+      "key": "deepSideDives",
+      "value": 38,
+      "source": "WebXR/underwater/js/dives-data.js DV_SIDE_DIVES.length"
+    },
+    {
+      "key": "deepEggDives",
+      "value": 24,
+      "source": "WebXR/underwater/js/dives-data.js DV_EGG_DIVES.length"
+    },
+    {
+      "key": "deepActivities",
+      "value": 4,
+      "source": "WebXR/underwater/js/dives-data.js DV_ACTIVITIES.length"
+    },
+    {
+      "key": "fairwayHoles",
+      "value": 9,
+      "source": "WebXR/shared/fairway-data.js FAIRWAY_HOLES.length"
+    },
+    {
+      "key": "regattaYachts",
+      "value": 12,
+      "source": "WebXR/shared/yacht-fleet.js YACHT_FLEET.length"
+    },
+    {
+      "key": "regattaCourses",
+      "value": 3,
+      "source": "WebXR/regatta/js/courses.js RG_COURSES.length"
+    },
+    {
+      "key": "regattaEvents",
+      "value": 5,
+      "source": "WebXR/regatta/js/events.js RG_EVENTS.length"
+    },
+    {
+      "key": "scenicDistricts",
+      "value": 13,
+      "source": "WebXR/smartcity/js/districts.js DISTRICTS entries with plaza: false"
+    },
+    {
+      "key": "assetBuilders",
+      "value": 144,
+      "source": "tools/gen_investor.mjs: entries of EQUIPMENT_BUDGET, FLEET_BUDGET, PROPS_BUDGET, TOOLKIT_BUDGET, WILDLIFE_BUDGET (kinds), SKY_BUDGET (one dome)"
+    },
+    {
+      "key": "unityModels",
+      "value": 99,
+      "source": "exports/unity/SmartCitiX/Models/MANIFEST.json entries.length"
+    },
+    {
+      "key": "unityModels.equipment",
+      "value": 45,
+      "source": "exports/unity/SmartCitiX/Models/MANIFEST.json entries where kit = equipment"
+    },
+    {
+      "key": "unityModels.fleet",
+      "value": 32,
+      "source": "exports/unity/SmartCitiX/Models/MANIFEST.json entries where kit = fleet"
+    },
+    {
+      "key": "unityModels.toolkit",
+      "value": 22,
+      "source": "exports/unity/SmartCitiX/Models/MANIFEST.json entries where kit = toolkit"
+    },
+    {
+      "key": "unityExportBytes",
+      "value": 7445344,
+      "source": "exports/unity/SmartCitiX/Models/MANIFEST.json bytes"
+    },
+    {
+      "key": "uiPages",
+      "value": 80,
+      "source": "ls WebXR/dist/*.html WebXR/dist/tracks/*.html"
+    }
+  ]
+}

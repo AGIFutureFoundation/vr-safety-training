@@ -1,0 +1,371 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "ventilated-every-pour",
+    "name": "Ventilated Every Pour",
+    "note": "A floor coated with the fan running, the ratio to the can and nobody in the space without respiratory protection until it off-gassed — first time"
+  },
+  "category": "Construction & Structural Trades",
+  "certification": "OPCMIA Local 300 cement mason apprenticeship as a training body; OSHA 29 CFR 1926.55 gases, vapors, fumes, dusts and mists, as applied to epoxy solvent vapor; OSHA 29 CFR 1926.57 ventilation; OSHA 29 CFR 1926 Subpart Q concrete and masonry construction for the slab preparation; ANSI/ASSP A10.9 concrete and masonry construction safety requirements; the epoxy manufacturer's safety data sheet for mix ratio, working time and re-entry",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "OPCMIA",
+        "id": "opcmia-local-300",
+        "title": "OPCMIA Local 300 - cement masons and plasterers apprenticeship, as a training body"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926",
+        "id": "osha-1926",
+        "title": "29 CFR 1926 — Safety and health regulations for construction"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.55",
+        "id": "osha-1926-55",
+        "title": "29 CFR 1926.55 - Gases, vapors, fumes, dusts, and mists"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.57",
+        "id": "osha-1926-57",
+        "title": "29 CFR 1926.57 - Ventilation"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Construction & Structural Trades",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "read-the-sds",
+        "name": "Read The SDS First",
+        "note": "The SDS and the substrate walk both happened before a can was ever opened, first time"
+      },
+      {
+        "id": "never-without-the-fan",
+        "name": "Never Without The Fan",
+        "note": "Never mixed with the fan off, never an open flame near the cans, never skipped the respirator, never let someone back in before the re-entry time"
+      },
+      {
+        "id": "on-the-ratio",
+        "name": "On The Ratio",
+        "note": "The mix ratio and the coating thickness both held inside the band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-coat",
+        "name": "Clean Coat",
+        "note": "No corrections through the whole bay"
+      },
+      {
+        "id": "held-the-roll",
+        "name": "Held The Roll",
+        "note": "The rolling pass held for the whole bay before the pot life ran out"
+      },
+      {
+        "id": "bay-by-break",
+        "name": "Bay By Break",
+        "note": "Mixed, rolled and logged inside 80% of par"
+      }
+    ],
+    "currency": "BAY",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Laborer",
+      "Roller Hand",
+      "Cement Mason",
+      "Lead Finisher",
+      "Coating Crew Certified"
+    ],
+    "system": "Coating Crew"
+  },
+  "hazards": {
+    "early-reentry": "You let someone back into the bay before the SDS's re-entry time had passed. Freshly coated epoxy keeps off-gassing solvent vapor well after it looks dry to the eye, and the re-entry time on the data sheet is the point the manufacturer has tested the air to actually be safe to breathe without protection, not a guess.",
+    "flame-near-cans": "You went to run the torch cutter near the open epoxy cans. Epoxy solvent vapor is flammable, and an open flame or a spark near cans that are open or recently opened is exactly the ignition source the SDS's precautions exist to keep away from the work area.",
+    "mix-fan-off": "You went to mix the two parts with the ventilation fan off. Epoxy resin and hardener release solvent vapor as they mix and cure, and in a space with limited natural airflow that vapor concentrates fast — the fan is running and confirmed moving air before the cans are ever opened, not switched on afterward if the smell gets strong.",
+    "skip-respirator": "You went to roll the coat without the respirator the SDS calls for. Epoxy vapor at the concentrations mixing and rolling produce is an inhalation hazard the manufacturer's data sheet specifically names a respirator for, and skin contact with the uncured resin is its own chemical burn risk that gloves are there to prevent."
+  },
+  "id": "cm-epoxy-floor-coating-and-ventilation",
+  "indoor": "plant",
+  "interrupts": [
+    {
+      "after": "mix-epoxy",
+      "alert": "The ventilation fan has stalled and the solvent smell in the bay is building fast while the batch is still being worked.",
+      "cue": "Stop mixing and get everyone out until the fan is running again.",
+      "delay": 2,
+      "id": "fan-stalls",
+      "kind": "Ventilation fan stalls mid-mix",
+      "missNote": "The crew kept working the batch through the stall while the smell built up in the bay; nobody left until the fan finally caught again on its own.",
+      "seconds": 12,
+      "target": "evacuate-signal",
+      "why": "A stalled fan in a space with limited natural airflow means the vapor concentration keeps climbing with nothing carrying it out, and continuing to mix or roll while that happens raises everyone's exposure by the minute. Clearing the bay first is what actually protects the crew; restarting the fan matters, but not before the people are already out of the vapor.",
+      "wrongNote": "The evacuate signal — a stalled fan with vapor building means the crew leaves the bay first, and the fan gets fixed after."
+    },
+    {
+      "after": "roll-coat",
+      "alert": "A coworker from another trade has walked into the coated bay without a respirator, well before the re-entry time on the sign.",
+      "cue": "Call him out over the radio before he breathes any more of it.",
+      "delay": 2,
+      "id": "coworker-enters-early",
+      "kind": "Coworker walks into the bay before re-entry time",
+      "missNote": "He walked halfway across the bay before anyone said anything over the radio; he was breathing the vapor the whole way in and the whole way back out.",
+      "seconds": 12,
+      "target": "crew-radio",
+      "why": "Somebody from outside this crew has no reason to know the floor was coated an hour ago or what the re-entry sign means, and the vapor concentration in a freshly coated bay does not care whether he read the sign or not. Calling him out immediately over the radio reaches him faster than crossing the bay after him through the same air.",
+      "wrongNote": "The radio — somebody is already inside the bay without protection, and the fastest way to reach him is calling him out, not walking in after him."
+    }
+  ],
+  "lateNotes": {
+    "close-log": "The bay is logged once the coat is down and the space is marked off for its full re-entry time.",
+    "mixer-paddle": "The two parts only get mixed once the fan is confirmed moving air — mixing before that just fills a still room with solvent vapor.",
+    "roller": "Rolling starts once the mix is actually batched to ratio; rolling a mix that has not been proportioned right cures wrong no matter how even the pass is."
+  },
+  "name": "Epoxy Floor Coating & Ventilation",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "cement-masons-and-plasterers"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "bay-floor",
+      "clear-flame-source",
+      "close-log",
+      "crew-radio",
+      "cut-in-brush",
+      "dry-the-spot",
+      "early-reentry",
+      "evacuate-signal",
+      "fan-check",
+      "fan-not-running",
+      "flame-near-cans",
+      "mix-fan-off",
+      "mixer-paddle",
+      "moisture-spot",
+      "open-flame-source",
+      "ratio-gauge",
+      "reentry-sign",
+      "respirator-station",
+      "roller",
+      "sds-board",
+      "skip-respirator",
+      "start-fan",
+      "used-roller",
+      "waste-bin"
+    ],
+    "meshes": 185
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the mix ratio, the pot life, the ventilation requirement, the respirator called for, and the re-entry time before opening a can.",
+      "id": "sds-read",
+      "kind": "select",
+      "prompt": "Read the mix ratio, the pot life, the ventilation requirement, the respirator called for, and the re-entry time before opening a can.",
+      "target": "sds-board",
+      "title": "Read the epoxy safety data sheet",
+      "why": "A two-part epoxy is a different hazard from anything else a cement mason mixes on a slab — it is a chemical reaction with a fixed working time, not a cement product that waits patiently while the crew gets organized. The data sheet sets the ratio, the ventilation and the respirator together because none of them work as a substitute for the others."
+    },
+    {
+      "cue": "Walk the slab for moisture, the area for an ignition source, and check the fan, then click every defect you find.",
+      "id": "substrate-walk",
+      "itemNames": {
+        "fan-not-running": "the ventilation fan sitting off",
+        "moisture-spot": "a damp patch in the slab",
+        "open-flame-source": "an open flame source near the work area"
+      },
+      "itemNotes": {
+        "fan-not-running": "The ventilation fan for the bay is sitting switched off, with nothing moving air through the space yet.",
+        "moisture-spot": "A patch of the slab reads damp to the hand — epoxy applied over moisture blisters and delaminates within weeks no matter how well it was mixed.",
+        "open-flame-source": "A torch cutter is staged and lit near where the epoxy cans are about to be opened."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the slab for moisture, the area for an ignition source, and check the fan, then click every defect you find.",
+      "targets": [
+        "moisture-spot",
+        "open-flame-source",
+        "fan-not-running"
+      ],
+      "title": "Walk the slab and the space before a can opens",
+      "why": "Before any epoxy chemistry has actually started, every one of these is simple to correct. Discover them instead after the cans are already open and a damp slab becomes a coating that fails months from now, an open flame near curing vapor becomes an unplanned fire risk, and a fan that was never on becomes a room full of vapor with nowhere for it to go."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Dry the damp spot and re-test it, clear the flame source from the work area, and start the ventilation fan.",
+      "id": "fix",
+      "itemNames": {
+        "clear-flame-source": "flame source cleared from the area",
+        "dry-the-spot": "damp spot dried and re-tested",
+        "start-fan": "ventilation fan started"
+      },
+      "kind": "sequence",
+      "prompt": "Dry the damp spot and re-test it, clear the flame source from the work area, and start the ventilation fan.",
+      "targets": [
+        "dry-the-spot",
+        "clear-flame-source",
+        "start-fan"
+      ],
+      "title": "Correct what the walk found",
+      "why": "Noting the moisture, the flame source or the dead fan and moving on anyway is worse than not having checked, because the crew now treats the slab and the space as ready on the strength of a note rather than an actual correction. The spot has to actually dry, the flame source actually has to leave, and the fan actually has to be moving air before either can opens."
+    },
+    {
+      "cue": "Check the fan is running and actually moving air through the bay before opening either can.",
+      "id": "confirm-vent",
+      "kind": "select",
+      "prompt": "Check the fan is running and actually moving air through the bay before opening either can.",
+      "target": "fan-check",
+      "title": "Confirm the fan is actually moving air",
+      "why": "A fan switched on is not the same thing as a fan actually exchanging the air in a bay with limited natural airflow — a blocked intake or a fan aimed the wrong way can run for an hour and do almost nothing. Confirming moving air, not just a spinning blade, is what the SDS's ventilation requirement actually means."
+    },
+    {
+      "cue": "Put on the respirator the SDS calls for and the chemical-resistant gloves before either can is opened.",
+      "id": "don-ppe",
+      "kind": "select",
+      "prompt": "Put on the respirator the SDS calls for and the chemical-resistant gloves before either can is opened.",
+      "target": "respirator-station",
+      "title": "Don the respirator and gloves",
+      "why": "The respirator and gloves are fitted before mixing starts because the vapor concentration and the risk of skin contact are both highest in the first few minutes after the two parts meet, not sometime later once somebody notices a smell. Putting them on after the smell is already strong means the highest-exposure minutes already happened unprotected."
+    },
+    {
+      "cue": "Measure resin and hardener against the can's ratio and commit inside the manufacturer's band before mixing.",
+      "gauge": {
+        "green": [
+          0.44,
+          0.58
+        ],
+        "label": "MIX RATIO",
+        "missNote": "Off the can's ratio — remeasure resin and hardener against the label and check the gauge again.",
+        "speed": 0.68
+      },
+      "id": "mix-ratio",
+      "kind": "gauge",
+      "prompt": "Measure resin and hardener against the can's ratio and commit inside the manufacturer's band before mixing.",
+      "target": "ratio-gauge",
+      "title": "Batch the two parts to the can's ratio",
+      "why": "Epoxy cures by a chemical reaction between its two parts, and off-ratio mix does not just cure a little weaker the way an off-proportion mortar does — it can stay tacky indefinitely or cure brittle and crack under the first forklift that crosses it. The can's ratio is fixed by the manufacturer's chemistry, not adjustable by feel."
+    },
+    {
+      "cue": "Hold the paddle mixer in the batch at low speed until the two parts are fully blended, watching the pot life clock.",
+      "holdBreakNote": "The paddle came up before the batch was fully blended. Put it back down and finish the mix before the pot life runs further.",
+      "id": "mix-epoxy",
+      "kind": "hold",
+      "prompt": "Hold the paddle mixer in the batch at low speed until the two parts are fully blended, watching the pot life clock.",
+      "seconds": 5,
+      "target": "mixer-paddle",
+      "title": "Mix the batch within the pot life",
+      "why": "A slow, low-speed mix blends the two parts fully without whipping air bubbles into the batch that would otherwise show up as pinholes in the cured floor, and it has to finish and get rolled out before the pot life on the can runs out — a batch mixed too long or started too early loses its working time before it is even on the floor."
+    },
+    {
+      "cue": "Work the brush along the wall lines and the drain first, while the batch is at its freshest.",
+      "id": "cut-in-edges",
+      "kind": "turn",
+      "prompt": "Work the brush along the wall lines and the drain first, while the batch is at its freshest.",
+      "target": "cut-in-brush",
+      "title": "Cut in the edges before rolling the field",
+      "turn": {
+        "label": "CUT-IN",
+        "turns": 1
+      },
+      "why": "A roller cannot reach tight against a wall or a drain ring without leaving a starved strip, so the edges are cut in by brush from the same batch before the roller ever starts the open field — cut in after the field is rolled, the two applications meet at different ages and the seam between them reads as a visible line once the floor is finished."
+    },
+    {
+      "cue": "Work the roller in overlapping passes, keeping the wet-film thickness inside the manufacturer's band before the pot life runs out.",
+      "holdBreakNote": "The film thickness left the band while the roll kept going. Even it out before the batch runs past its pot life.",
+      "id": "roll-coat",
+      "kind": "track",
+      "prompt": "Work the roller in overlapping passes, keeping the wet-film thickness inside the manufacturer's band before the pot life runs out.",
+      "seconds": 6,
+      "target": "roller",
+      "title": "Roll the coat to an even thickness across the bay",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.46,
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "FILM THICKNESS",
+        "rise": 0.5,
+        "start": 0.2
+      },
+      "why": "Rolled too thin, the coat wears through to bare concrete at the first heavy traffic; rolled too thick, it can trap solvent as it skins over and stays soft underneath for weeks. An even pass across the whole bay, finished inside the pot life, is what keeps the floor performing the same everywhere it was coated."
+    },
+    {
+      "cue": "Carry the used roller and tray to the hazardous-waste bin the SDS calls for, not the ordinary trash.",
+      "drag": {
+        "missNote": "Not in the hazardous-waste bin — cured epoxy tools go where the SDS's disposal section sends them, not in the ordinary trash.",
+        "radius": 0.6,
+        "to": "waste-bin"
+      },
+      "id": "clean-tools",
+      "kind": "drag",
+      "prompt": "Carry the used roller and tray to the hazardous-waste bin the SDS calls for, not the ordinary trash.",
+      "target": "used-roller",
+      "title": "Bag the cured-solvent tools for disposal",
+      "why": "A roller and tray full of curing two-part epoxy keep reacting and off-gassing solvent right where they were set down, and thrown in an ordinary trash can they do that in a space nobody is ventilating on purpose. The SDS's disposal section treats them as the same hazardous waste as the uncured resin, and the hazardous-waste bin is what actually matches that."
+    },
+    {
+      "cue": "Post the re-entry sign at the bay entrance with the time the SDS sets before anyone comes back in without protection.",
+      "id": "mark-reentry",
+      "kind": "select",
+      "prompt": "Post the re-entry sign at the bay entrance with the time the SDS sets before anyone comes back in without protection.",
+      "target": "reentry-sign",
+      "title": "Mark the bay for its re-entry time",
+      "why": "A coated floor that looks dry is not the same as a floor that has actually off-gassed to a safe concentration, and the only way anyone walking up to the bay knows that is a sign that actually says so with a time on it. Posted before the crew leaves, it is what keeps the next person through the door from finding out the hard way."
+    },
+    {
+      "cue": "Record the ratio batched, the ventilation run, and the re-entry time posted.",
+      "id": "close-out",
+      "kind": "select",
+      "prompt": "Record the ratio batched, the ventilation run, and the re-entry time posted.",
+      "target": "close-log",
+      "title": "Log the coating",
+      "why": "The coating log is how the foreman and the next trade in behind the cement masons both know this floor was mixed to ratio and given its full off-gas time rather than opened up early because the schedule was tight — it is also where the damp spot and the flame source get written down so the next bay's walk starts from what this one already found."
+    },
+    {
+      "cue": "Call the foreman: bay coated, re-entry posted. Then check in with the crew about the fan and the respirator.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Call the foreman: bay coated, re-entry posted. Then check in with the crew about the fan and the respirator.",
+      "target": "crew-radio",
+      "title": "Check in with the crew and the foreman",
+      "why": "The next bay's coating and its re-entry check both get scheduled off this call, which only works if the call is honest about how the last one went. A fan needed restarting mid-mix and a respirator seal gave somebody trouble — both worth saying, along with the fact that the OPCMIA member assistance line is there for anyone the shift left on edge."
+    }
+  ],
+  "supportLine": "your OPCMIA Local 300 member assistance programme, or the employee assistance line posted on the contractor's site board",
+  "tagline": "A warehouse floor coated safely: the SDS read, the slab walked for moisture and an ignition source, ventilation running and confirmed before a can opens, the two parts batched to ratio, rolled on inside the pot life, the space kept clear until it has off-gassed, and the day logged",
+  "title": "SmartCiti.X~ Epoxy Floor Coating & Ventilation VR",
+  "trade": "Cement mason — OPCMIA Local 300, floor coating crew",
+  "underwater": null,
+  "weather": "clear"
+}

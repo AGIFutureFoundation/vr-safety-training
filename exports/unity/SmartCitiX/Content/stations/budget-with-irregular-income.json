@@ -1,0 +1,393 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "lean-month-ready",
+    "name": "Lean Month Ready",
+    "note": "A budget built on the lean month that paid a car repair from its own buffer without a payday loan"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "The Consumer Financial Protection Bureau (CFPB) budgeting guidance — tracking income and spending, putting housing, utilities, food and getting to work first when money is tight — and its warnings on payday loans, car title loans and buy-now-pay-later plans; the Truth in Lending Act as the CFPB describes it, under which a lender discloses the APR and finance charge before you sign; IRS guidance that self-employment income, including side work paid on a 1099, may require estimated tax payments during the year; the apprenticeship standard's wage schedule, which sets the rate but not the number of hours a season brings; SAMHSA's National Helpline and 988 for the stress an uneven income carries",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "CFPB",
+        "citedAs": "CFPB",
+        "id": "cfpb-consumer-guidance",
+        "title": "Consumer Financial Protection Bureau consumer guidance — credit reports and scores, debt collection, budgeting, emergency savings and payday loans"
+      },
+      {
+        "body": "CFPB",
+        "citedAs": "Truth in Lending Act",
+        "id": "cfpb-truth-in-lending",
+        "title": "The Truth in Lending Act as the CFPB describes it — the annual percentage rate and finance charge disclosed in writing before a consumer signs for credit"
+      },
+      {
+        "body": "DOL",
+        "citedAs": "apprenticeship standard",
+        "id": "dol-apprenticeship-standards",
+        "title": "Registered apprenticeship standards, as a category — the written standards a sponsor registers with the U.S. Department of Labor or a State Apprenticeship Agency: the term, on-the-job learning, related instruction, the progressive wage schedule, the ratio, the probationary period and the selection procedure"
+      },
+      {
+        "body": "IRS",
+        "citedAs": "IRS",
+        "id": "irs-consumer-guidance",
+        "title": "Internal Revenue Service guidance for workers — Form W-4 and the Tax Withholding Estimator, Form W-2, estimated tax on self-employment income, splitting a refund, free tax help, and how the IRS does and does not contact taxpayers"
+      },
+      {
+        "body": "union",
+        "citedAs": "LIUNA",
+        "id": "liuna-training-fund",
+        "title": "LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula"
+      },
+      {
+        "body": "SAMHSA",
+        "citedAs": "SAMHSA",
+        "id": "samhsa-trauma-informed",
+        "title": "SAMHSA's six principles of a trauma-informed approach"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Financial coaching",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "read-the-year",
+        "name": "Read The Year",
+        "note": "The income pattern and the leaks both found clean"
+      },
+      {
+        "id": "no-quick-cash",
+        "name": "No Quick Cash",
+        "note": "No unsafe action anywhere in the budget"
+      },
+      {
+        "id": "lean-baseline",
+        "name": "Lean Baseline",
+        "note": "The baseline committed near the middle of the lean-month band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-budget",
+        "name": "Clean Budget",
+        "note": "No corrections anywhere"
+      },
+      {
+        "id": "held-the-lean-month",
+        "name": "Held The Lean Month",
+        "note": "Every timed passage carried without a break"
+      },
+      {
+        "id": "quick-sheet",
+        "name": "Quick Sheet",
+        "note": "Finish inside 80% of par"
+      }
+    ],
+    "currency": "BUFFER",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Paycheck To Paycheck",
+      "Income Tracker",
+      "Budget Builder",
+      "Buffer Keeper",
+      "Season Budget Certified"
+    ],
+    "system": "Season Budget"
+  },
+  "hazards": {
+    "bii-best-month": "That sheet is a budget built on the best month of the year — the overtime month. A budget set at the best month is short every other month, and the difference ends up on a card or a payday loan. The CFPB's budgeting guidance starts from what actually comes in, and on uneven pay the only safe baseline is the lean month.",
+    "bii-payday-flyer": "That flyer offers a payday loan for a car repair — cash today, due in full on your next payday. The CFPB describes payday loans as short-term, high-cost loans, and gives its own worked example: a fee of fifteen dollars per hundred borrowed for two weeks works out to an APR of almost 400 percent. When the whole amount is due in two weeks on an uneven income, the loan usually gets renewed, and the fee is paid again and again.",
+    "bii-rent-to-own": "You reached to sign the rent-to-own agreement for a TV without reading it. The weekly payment looks small, but the total over the term is usually far more than the price at a store, and missing a week can mean losing the item and everything paid so far. A contract is read — term, total cost, what happens if a payment is missed — before it is signed, however friendly the salesperson.",
+    "bii-title-loan": "That card offers a loan against your car title. The CFPB warns that title loans are high-cost, short-term loans secured by the vehicle, and that borrowers who cannot repay can lose the car — the same car you need to get to the jobsite. For a construction worker, losing the truck can mean losing the next dispatch too."
+  },
+  "id": "budget-with-irregular-income",
+  "indoor": "hotel",
+  "interrupts": [
+    {
+      "after": "estimated-tax",
+      "alert": "Your phone buzzes: the mechanic says the truck needs a repair before it is safe to drive — six hundred dollars (example) — and you need it to get to the jobsite on Monday.",
+      "cue": "Pay it the way the budget was built to — not with the flyer on the fridge.",
+      "delay": 3,
+      "id": "bii-car-repair",
+      "kind": "Car repair quote",
+      "missNote": "The quote sat unanswered and, in the version where the flyer won, the repair went on a payday loan due in two weeks — on a stretch with no overtime. By the time it is paid off, the fees can cost more than the repair did.",
+      "seconds": 12,
+      "target": "bii-buffer-jar",
+      "why": "This is what the buffer is for: a real, necessary, one-time cost that would otherwise go to a payday loan. The CFPB describes payday loans as high-cost loans due in full on the next payday, which on uneven income usually means renewing and paying the fee again. Paying the repair from the buffer costs the repair; paying it with a payday loan costs the repair and then some, for months.",
+      "wrongNote": "Not that. The repair comes out of the buffer you built for exactly this — not a payday loan, and not a title loan on the truck you need."
+    },
+    {
+      "after": "slow-month",
+      "alert": "At checkout for new work boots, the screen offers: 'Split it into 4 payments — no interest! Approved in seconds.' You already have two of these running.",
+      "cue": "Check the offer against the budget sheet before you tap.",
+      "delay": 3,
+      "id": "bii-checkout-offer",
+      "kind": "Buy-now-pay-later offer",
+      "missNote": "The offer went through with a tap and a third plan joined the other two, each pulling a payment on its own schedule. In the lean month they all land in the same week, and one of them hits an account that is short.",
+      "seconds": 12,
+      "target": "bii-budget-sheet",
+      "why": "The CFPB has warned that buy-now-pay-later plans are easy to stack, can bring late fees, and can pull payments from your account on a schedule that does not match an uneven paycheck. Boots are a real work need, and the question is whether another automatic payment fits the lean month on the budget sheet. The sheet answers that; the checkout screen is designed not to ask.",
+      "wrongNote": "Not that. The answer is the budget sheet — whether another automatic payment fits the lean month — not the checkout screen's 'approved in seconds'."
+    }
+  ],
+  "lateNotes": {
+    "bii-budget-log": "The budget log is written once the plan has been through a slow month, with what really happened — not before the plan exists.",
+    "bii-surplus-cash": "Not yet. Surplus only exists once the baseline is set and the essentials are covered — move money into the buffer after the budget says what is left."
+  },
+  "name": "Budget With Irregular Income",
+  "parSeconds": 290,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "job-readiness-edition",
+    "wojrc-pathway-edition"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.2,
+    "hits": [
+      "bii-bank-folder",
+      "bii-best-month",
+      "bii-bill-calendar",
+      "bii-budget-gauge",
+      "bii-budget-log",
+      "bii-budget-sheet",
+      "bii-buffer-jar",
+      "bii-coach",
+      "bii-gap-months",
+      "bii-irs-page",
+      "bii-leak-latefee",
+      "bii-leak-overdraft",
+      "bii-leak-subscription",
+      "bii-low-month",
+      "bii-month-track",
+      "bii-payday-flyer",
+      "bii-pri-buffer",
+      "bii-pri-essentials",
+      "bii-pri-minimums",
+      "bii-pri-work",
+      "bii-rent-to-own",
+      "bii-surplus-cash",
+      "bii-tax-jar",
+      "bii-title-loan",
+      "bii-windfall"
+    ],
+    "meshes": 181
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Open the folder of bank statements and lay out twelve months of what actually came in.",
+      "id": "gather-income",
+      "kind": "select",
+      "prompt": "Open the folder of bank statements and lay out twelve months of what actually came in.",
+      "target": "bii-bank-folder",
+      "title": "Pull a full year of deposits",
+      "why": "An uneven income cannot be budgeted from one paycheck or from memory, because memory keeps the overtime months and forgets the rain weeks. The CFPB's budgeting guidance starts with tracking what really comes in, and a full year of deposits is the only record that shows a construction season honestly — the lean winter, the stretch between dispatches, and the months that were only good because of overtime."
+    },
+    {
+      "cue": "On the example income chart, find the lean month, the gap between dispatches and the one-time windfall.",
+      "id": "income-pattern",
+      "itemNames": {
+        "bii-gap-months": "the weeks between dispatches",
+        "bii-low-month": "the lean month",
+        "bii-windfall": "a one-time windfall"
+      },
+      "itemNotes": {
+        "bii-gap-months": "The dip between two jobs is the pattern a buffer exists for. It will come again next year, at about the same time.",
+        "bii-low-month": "The lowest ordinary month is the baseline. It is the month the budget has to work in without help.",
+        "bii-windfall": "The tax refund or a big overtime month is not income to plan spending around — it is what fills the buffer."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "On the example income chart, find the lean month, the gap between dispatches and the one-time windfall.",
+      "targets": [
+        "bii-low-month",
+        "bii-gap-months",
+        "bii-windfall"
+      ],
+      "title": "Read the year: lean month, gap and windfall",
+      "why": "Every uneven income has the same three shapes in it: a lean month that is the true floor, gaps that come back every year, and one-off windfalls that feel like a raise and are not. The apprenticeship standard — a LIUNA laborer's, or any other trade's — sets the rate for each period but not how many hours a season brings, so reading the year's shape is what tells you what the budget has to survive — rather than hoping next year is steadier."
+    },
+    {
+      "cue": "Commit the monthly baseline at the level of the lean month — not the average, and not the best.",
+      "gauge": {
+        "green": [
+          0.22,
+          0.4
+        ],
+        "label": "MONTHLY BASELINE (EXAMPLE)",
+        "missNote": "That baseline will not hold. Set above the lean month, the budget is short every slow month; set below what the essentials cost, it is not a budget anyone can live on.",
+        "speed": 0.6
+      },
+      "id": "set-baseline",
+      "kind": "gauge",
+      "prompt": "Commit the monthly baseline at the level of the lean month — not the average, and not the best.",
+      "target": "bii-budget-gauge",
+      "title": "Set the budget on the lean month",
+      "why": "A budget on uneven pay is set at the lean month, because that is the month it has to work without borrowing. Anything above it becomes a card balance in winter; the good months are not ignored, they are where the buffer and the savings come from. The CFPB's budgeting guidance works from real income, and the figures on the gauge are an example — your own lean month is on your own chart."
+    },
+    {
+      "cue": "On the budget sheet: housing, utilities and food; then getting to work; then the minimums; then the buffer.",
+      "id": "essentials-first",
+      "itemNames": {
+        "bii-pri-buffer": "the buffer",
+        "bii-pri-essentials": "housing, utilities and food",
+        "bii-pri-minimums": "minimum debt payments",
+        "bii-pri-work": "getting to work"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order. The essentials come first — a roof, the lights and food — then what gets you to the job, then the minimums, and whatever is left goes to the buffer.",
+      "prompt": "On the budget sheet: housing, utilities and food; then getting to work; then the minimums; then the buffer.",
+      "targets": [
+        "bii-pri-essentials",
+        "bii-pri-work",
+        "bii-pri-minimums",
+        "bii-pri-buffer"
+      ],
+      "title": "Order the budget: essentials first",
+      "why": "When money is tight the order is the plan. The CFPB's guidance on paying bills puts the essentials — housing, utilities, food and getting to work — ahead of everything else, because falling behind on those costs the most and fastest. Minimum payments come next to keep accounts current, and the buffer takes what is left. Written in order, it tells you what to pay first on a thin paycheck without a fresh decision every time."
+    },
+    {
+      "cue": "Carry the overtime month's surplus into the slow-month buffer jar before it turns into spending.",
+      "drag": {
+        "missNote": "Not in the buffer. Surplus left where it can be spent is spent; carry it all the way into the jar.",
+        "radius": 0.4,
+        "to": "bii-buffer-jar"
+      },
+      "id": "fill-buffer",
+      "kind": "drag",
+      "prompt": "Carry the overtime month's surplus into the slow-month buffer jar before it turns into spending.",
+      "target": "bii-surplus-cash",
+      "title": "Move the good month's surplus into the buffer",
+      "why": "On uneven pay, the good months have one job: fill the buffer that carries the lean ones. Money left in checking after an overtime month gets spent within weeks, which is why moving it on purpose — into a separate account, or here a jar — is the step that makes the whole budget work. The buffer is what pays for the gap between dispatches instead of a card or a loan."
+    },
+    {
+      "cue": "Hold the page open and read what the IRS says about side work paid on a 1099 and estimated tax.",
+      "holdBreakNote": "You put the page down before the part about when payments are due. That date is the part people miss — read it to the end.",
+      "id": "estimated-tax",
+      "kind": "hold",
+      "prompt": "Hold the page open and read what the IRS says about side work paid on a 1099 and estimated tax.",
+      "seconds": 6,
+      "target": "bii-irs-page",
+      "title": "Read the IRS page on self-employment income",
+      "why": "Side jobs paid on a 1099 come with no withholding, and the IRS explains that people with self-employment income may need to make estimated tax payments during the year rather than settling it all in April. Reading the IRS's own page, not a coworker's summary, is the whole point here: this station gives no tax advice of its own, only the fact that the tax on that income has to be planned for."
+    },
+    {
+      "cue": "Turn the bill calendar so each big bill falls just after the paycheck that pays it.",
+      "id": "bill-calendar",
+      "kind": "turn",
+      "prompt": "Turn the bill calendar so each big bill falls just after the paycheck that pays it.",
+      "target": "bii-bill-calendar",
+      "title": "Line the bill dates up with the paydays",
+      "turn": {
+        "axis": "y",
+        "label": "DUE DATES",
+        "turns": 1
+      },
+      "why": "On an uneven income, when a bill is due matters almost as much as how much it is. Many companies will move a due date if you ask, and lining the big bills up just after the paydays that cover them is what stops a late fee on a month that had the money, just not on the right day. The calendar makes the timing visible before it costs anything."
+    },
+    {
+      "cue": "On the example bank statement, find the unused subscription, the overdraft fee and the late fee.",
+      "id": "find-leaks",
+      "itemNames": {
+        "bii-leak-latefee": "a late fee",
+        "bii-leak-overdraft": "an overdraft fee",
+        "bii-leak-subscription": "a subscription nobody uses"
+      },
+      "itemNotes": {
+        "bii-leak-latefee": "A late fee on a bill that had the money in the account a few days later is a timing problem — exactly what the calendar step fixes.",
+        "bii-leak-overdraft": "An overdraft fee on a small purchase is one of the most expensive ways to borrow. Lining up the bills and keeping a buffer is what stops it.",
+        "bii-leak-subscription": "A subscription that renews every month and nobody uses is money leaving the lean month for nothing. Cancel it where it was started."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "On the example bank statement, find the unused subscription, the overdraft fee and the late fee.",
+      "targets": [
+        "bii-leak-subscription",
+        "bii-leak-overdraft",
+        "bii-leak-latefee"
+      ],
+      "title": "Find the three leaks in the statements",
+      "why": "Leaks are small, automatic and easy to miss, and on uneven pay they land hardest in the lean month. The CFPB's budgeting guidance is to track spending for exactly this reason. An unused subscription, an overdraft fee and a late fee together can be a real share of a thin month, and all three are fixed by things this budget already does — cancelling, a buffer and bill dates that match paydays."
+    },
+    {
+      "cue": "Put a share of the side-job pay into its own tax envelope the day it arrives.",
+      "id": "tax-envelope",
+      "kind": "select",
+      "prompt": "Put a share of the side-job pay into its own tax envelope the day it arrives.",
+      "target": "bii-tax-jar",
+      "title": "Set the tax share aside as it comes in",
+      "why": "The simplest way to be ready for the tax on 1099 income is to move a share of every side-job payment into its own place the day it comes in, so it is never mistaken for spending money. How much, and when to pay it, is the IRS's guidance — the page you just read — not this station's; the habit of setting it aside is what makes following that guidance possible."
+    },
+    {
+      "cue": "Hold the month track in the band: essentials paid, the buffer drawn down only for the gap, nothing new on credit.",
+      "holdBreakNote": "The month slipped out of band. Back to the order on the sheet: essentials, getting to work, minimums — then see what the buffer has to cover.",
+      "id": "slow-month",
+      "kind": "track",
+      "prompt": "Hold the month track in the band: essentials paid, the buffer drawn down only for the gap, nothing new on credit.",
+      "seconds": 7,
+      "target": "bii-month-track",
+      "title": "Run the budget through a slow month",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.44,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "SLOW MONTH",
+        "rise": 0.5,
+        "start": 0.16
+      },
+      "why": "A budget built for uneven pay proves itself in the slow month, not the good one. Holding the track means the essentials are paid, the buffer is used for the gap it was built for, and nothing new goes on credit. It is also the month when quick-cash offers look most reasonable, which is exactly why the plan decides in advance what the buffer is for."
+    },
+    {
+      "cue": "Go over the baseline, the buffer and the slow month with the coach, and say how the uneven pay is actually sitting with you.",
+      "id": "coach-checkin",
+      "kind": "select",
+      "prompt": "Go over the baseline, the buffer and the slow month with the coach, and say how the uneven pay is actually sitting with you.",
+      "target": "bii-coach",
+      "title": "Check in with the coach",
+      "why": "Uneven income is tiring in a way that a steady paycheck is not: every lean month brings the same worry back. The check-in covers the numbers and the worry together, because a plan made in private under stress is easier to abandon. If a lean stretch has turned into a crisis, 988 — or SAMHSA's National Helpline if drinking or using has become part of getting through it — is the right next call."
+    },
+    {
+      "cue": "Log the lean-month baseline, the buffer balance, the tax envelope, the new bill dates and what the slow month taught you.",
+      "id": "budget-log",
+      "kind": "select",
+      "prompt": "Log the lean-month baseline, the buffer balance, the tax envelope, the new bill dates and what the slow month taught you.",
+      "target": "bii-budget-log",
+      "title": "Close out the budget log",
+      "why": "The log carries the budget from one season to the next: the baseline, what the buffer held and what it paid for, the tax set aside, the bill dates you moved, and what the slow month showed. Next winter starts from this page rather than from scratch, and a coach can see in a minute whether the buffer is growing or being quietly borrowed from."
+    }
+  ],
+  "supportLine": "a money coach you trust, 988 if a lean stretch has turned into a crisis, or SAMHSA's National Helpline (1-800-662-4357, free and confidential) if drinking or using has become part of getting through it",
+  "tagline": "A year of uneven construction pay turned into a budget that holds: built on the lean month, essentials first, the good months feeding a buffer, tax set aside, bills lined up with paydays — and tested by a car repair",
+  "title": "SmartCiti.X~ Budget With Irregular Income VR",
+  "trade": "Financial coaching — budgeting on irregular construction income",
+  "underwater": null,
+  "weather": "clear"
+}

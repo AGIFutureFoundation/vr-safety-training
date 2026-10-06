@@ -23,6 +23,7 @@ namespace SafetyTraining.Runtime
             SafetyTraining.Core.TrainingSiteId.FireResponse => "Fire Response",
             SafetyTraining.Core.TrainingSiteId.ChemicalProcessing => "Chemical Processing",
             SafetyTraining.Core.TrainingSiteId.ElectricalMaintenance => "Electrical Maintenance",
+            SafetyTraining.Core.TrainingSiteId.ImmersiveLab => "Immersive Lab",
             _ => siteId.ToString()
         };
 

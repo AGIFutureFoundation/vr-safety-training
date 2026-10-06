@@ -1,0 +1,65 @@
+{
+  "id": "first-responder-refresher",
+  "title": "First Responder — Annual Refresher",
+  "version": 1,
+  "start": "stn-sizeup",
+  "meta": {
+    "audience": "A firefighter/EMT on an annual refresher, where part of the record is the department's own written assessment.",
+    "why": "Two calls run in the simulator, the department's written assessment run by the host, and a debrief station at the end. The external node is the whole reason this flow exists: the host owns the assessment and this side owns the calls, and neither pretends to run the other.",
+    "hostNotes": "On reaching `ext-assessment` the app emits smartcitix:flow.external with the node and waits. The host runs whatever `ref` names on its side and posts smartcitix:flow.resume with an outcome shaped like an attempt record (at minimum { passed }). Until that message arrives the flow does not move, and nothing here assumes anything about how the host runs it."
+  },
+  "nodes": [
+    {
+      "id": "stn-sizeup",
+      "kind": "station",
+      "app": "smartcity",
+      "ref": "structure-fire-sizeup",
+      "title": "Structure fire — size-up",
+      "why": "The first ten minutes of a residential fire: the 360, the report on the channel, the mode called out loud and the accountability check."
+    },
+    {
+      "id": "stn-ems",
+      "kind": "station",
+      "app": "smartcity",
+      "ref": "cardiac-arrest-pit-crew",
+      "title": "Cardiac arrest — pit crew",
+      "why": "The EMS half of the refresher: roles called on arrival, compressions that never really stop, and the swap caught before the depth goes shallow."
+    },
+    {
+      "id": "ext-assessment",
+      "kind": "external",
+      "app": "host",
+      "ref": "cognitionx:assessment/first-responder-refresher",
+      "title": "Written assessment (host)",
+      "why": "The department's written assessment, which lives on the host platform. This side hands the node back and waits; the ref is an opaque string the host resolves, and this repository asserts nothing about how.",
+      "params": {
+        "expects": "smartcitix:flow.resume with { nodeId, outcome: { passed, stars?, seconds? } }",
+        "timeoutNote": "There is no timeout: a flow parked on an external node stays parked until the host resumes it or an instructor restarts the flow."
+      }
+    },
+    {
+      "id": "stn-debrief",
+      "kind": "station",
+      "app": "smartcity",
+      "ref": "critical-incident-debrief",
+      "title": "Critical incident debrief",
+      "why": "What the shift costs, four hours later: the signs named, the confidentiality rule said out loud with its limits, and the duty question kept out of the room."
+    },
+    {
+      "id": "checkin-close",
+      "kind": "checkin",
+      "app": "smartcity",
+      "title": "Crew check-in",
+      "why": "The crew's own check-in and the peer-support line the department uses — the close of every station in this block, and of the refresher."
+    }
+  ],
+  "edges": [
+    { "from": "stn-sizeup", "to": "stn-ems", "when": { "passed": true } },
+    { "from": "stn-sizeup", "to": "stn-sizeup" },
+    { "from": "stn-ems", "to": "ext-assessment", "when": { "passed": true } },
+    { "from": "stn-ems", "to": "stn-ems" },
+    { "from": "ext-assessment", "to": "stn-debrief", "when": { "passed": true } },
+    { "from": "ext-assessment", "to": "stn-ems" },
+    { "from": "stn-debrief", "to": "checkin-close" }
+  ]
+}

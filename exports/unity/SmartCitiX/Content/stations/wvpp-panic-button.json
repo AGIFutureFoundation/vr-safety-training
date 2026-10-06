@@ -1,0 +1,355 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "plan-proven",
+    "name": "Plan Proven",
+    "note": "The whole workplace violence prevention plan run clean — posted, tested, walked and logged"
+  },
+  "category": "Culinary & Hospitality",
+  "certification": "Cal/OSHA's workplace violence prevention standard, 8 CCR §3342 (SB 553) — the written plan, hazard identification and correction, training, a violent-incident log and reporting without retaliation; Cal/OSHA's Injury and Illness Prevention Program, 8 CCR §3203; the UNITE HERE Local 2 contract's safety-committee language; Labor Code §6310 protection against retaliation for reporting a hazard; the ABC's RBS (Responsible Beverage Service) certification every alcohol server in California, this bartender included, is required to hold and keep current",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "Cal. ABC",
+        "citedAs": "RBS",
+        "id": "abc-rbs-training",
+        "title": "California Responsible Beverage Service Training Act — ABC RBS certification for anyone who serves alcohol"
+      },
+      {
+        "body": "Cal. Labor Code",
+        "citedAs": "Labor Code §6310",
+        "id": "labor-code-6310",
+        "title": "California Labor Code §6310 — no retaliation for reporting an unsafe condition"
+      },
+      {
+        "body": "union",
+        "citedAs": "UNITE HERE",
+        "id": "unite-here-training",
+        "title": "UNITE HERE hospitality training funds — cooks, housekeepers, bartenders and banquet staff"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Hospitality",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "four-named",
+        "name": "Four Named",
+        "note": "All four types of workplace violence named clean"
+      },
+      {
+        "id": "no-shrug",
+        "name": "No Shrug",
+        "note": "No unsafe action anywhere in the run"
+      },
+      {
+        "id": "clean-drill",
+        "name": "Clean Drill",
+        "note": "Response-time drill scored inside the target band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-plan",
+        "name": "Clean Plan",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "fast-walk",
+        "name": "Fast Walk",
+        "note": "Finished inside 80% of par"
+      },
+      {
+        "id": "six-straight",
+        "name": "Six Straight",
+        "note": "Six correct actions in a row"
+      }
+    ],
+    "currency": "WATCH",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "New to the Floor",
+      "Hazard Spotter",
+      "Button Certified",
+      "Safety Committee",
+      "Floor Watch Certified"
+    ],
+    "system": "Floor Watch"
+  },
+  "hazards": {
+    "blank-log-entry": "That page in the violent-incident log is pre-checked 'no incidents' for a shift that has not happened yet. §3342 requires every incident logged with what happened and when — a book filled in ahead of time is not a record, it is a document built to look clean during an inspection.",
+    "confront-alone": "You went out the staff gate alone to handle it yourself. The plan exists precisely so nobody has to make that call solo — the panic button, not a solo confrontation in the parking lot, is the response the standard was written around.",
+    "ignore-alarm": "That switch silences the panic alarm at the panel instead of sounding it. A control built to make an alarm quieter defeats the entire reason 8 CCR §3342 requires an actual means to summon help — the alarm is supposed to be heard, not managed down to nothing.",
+    "retaliation-note": "That note tells staff reporting an incident 'just causes problems.' Labor Code §6310 and the plan's own reporting procedure both exist to protect the person who reports a hazard or an incident — a note like that is retaliation before anyone has even reported anything."
+  },
+  "id": "wvpp-panic-button",
+  "indoor": "bar",
+  "interrupts": [
+    {
+      "after": "test-button",
+      "alert": "The panel's confirmation light stays red — dispatch never got the signal — and Danny behind the well just shrugs: 'eh, it's always a little glitchy.'",
+      "cue": "Log the failed test and escalate it. A shrug is not a fix.",
+      "delay": 2,
+      "id": "button-test-fail",
+      "kind": "Equipment fault",
+      "missNote": "The failed test went unlogged and unescalated. A button that does not work is now the plan's whole answer to a real emergency, and nobody but you knows it.",
+      "seconds": 12,
+      "target": "escalation-log",
+      "why": "A panic button that fails its own test is not a minor annoyance to work around, it is the one control the plan's whole worst-case response depends on — logging the fault and escalating it is what gets it actually repaired before the night it is needed for real.",
+      "wrongNote": "Not the button again — pressing it harder does not fix a signal that never reached dispatch. Log the fault and escalate it."
+    },
+    {
+      "after": "log-review",
+      "alert": "The patron you cut off twenty minutes ago is back, refusing to leave, and has planted himself in the staff-side gate — the only way out to the lot.",
+      "cue": "Hit the panic button. Do not go around him yourself.",
+      "delay": 3,
+      "id": "customer-blocks-gate",
+      "kind": "Customer refusing to leave",
+      "missNote": "He stayed planted in the gate the whole time with nobody alerted. A blocked exit that nobody outside the room knows about is the plan's worst-case scenario, sitting there unanswered.",
+      "seconds": 12,
+      "target": "panic-button",
+      "why": "A patron blocking the one exit and refusing to leave is exactly the Type 2 scenario the plan trains for — the panic button brings help to a chokepoint you cannot safely get past on your own, which is the entire reason it sits within reach of the bar.",
+      "wrongNote": "That does not move him. The panic button is the response — it brings help to the chokepoint instead of you trying to talk or squeeze your way past him."
+    }
+  ],
+  "lateNotes": {
+    "floodlight": "The hazard walk finds the dark fixture first — fixing a light nobody has identified yet is fixing the wrong thing.",
+    "panic-button": "The button gets tested on its own step, on its own terms — treat the interruption as the alarm it actually is when it comes."
+  },
+  "name": "WVPP & Panic Button",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "bartending-course"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.2,
+    "hits": [
+      "acknowledgment-sheet",
+      "blank-log-entry",
+      "blind-corner",
+      "closer-route",
+      "confront-alone",
+      "drill-stopwatch",
+      "eap-poster",
+      "escalation-log",
+      "escort-sign",
+      "floodlight",
+      "ignore-alarm",
+      "incident-log-book",
+      "panic-button",
+      "reporting-line",
+      "retaliation-note",
+      "smoking-light",
+      "smoking-mount",
+      "staff-gate-lock",
+      "training-binder",
+      "type-coworker",
+      "type-criminal",
+      "type-customer",
+      "type-relationship",
+      "wvpp-poster"
+    ],
+    "meshes": 152
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the plan where it is posted at the start of your shift.",
+      "id": "read-plan",
+      "kind": "select",
+      "prompt": "Read the plan where it is posted at the start of your shift.",
+      "target": "wvpp-poster",
+      "title": "Read the posted workplace violence prevention plan",
+      "why": "8 CCR §3342 requires the written plan to be posted and accessible to every employee, not filed in a binder in the office — a plan nobody on the floor has actually read protects nobody the night it is needed."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Tag all four categories on the board — the plan is not only about an angry patron.",
+      "id": "four-types",
+      "itemNames": {
+        "type-coworker": "Type 3 — worker-on-worker",
+        "type-criminal": "Type 1 — criminal intent, no legitimate business with the bar",
+        "type-customer": "Type 2 — a customer or patron being served",
+        "type-relationship": "Type 4 — a personal relationship following someone to work"
+      },
+      "kind": "sequence",
+      "prompt": "Tag all four categories on the board — the plan is not only about an angry patron.",
+      "targets": [
+        "type-criminal",
+        "type-customer",
+        "type-coworker",
+        "type-relationship"
+      ],
+      "title": "Name the four types of workplace violence the plan covers",
+      "why": "Cal/OSHA's model plan sorts workplace violence into four types — a stranger with no business there, a customer being served, one coworker against another, and a personal relationship that follows someone through the door — and the right response is different for each one."
+    },
+    {
+      "cue": "Three physical hazards are sitting in this building. Find them before the shift starts.",
+      "id": "hazard-walk",
+      "itemNames": {
+        "blind-corner": "a blind corner by the storeroom",
+        "closer-route": "an unmarked closer's route to the car",
+        "smoking-light": "a dead light over the smoking area"
+      },
+      "itemNotes": {
+        "blind-corner": "A corner nobody can see around before stepping into it is exactly the kind of physical hazard §3342 requires the walk to find and fix, the same as a wet floor or a bad lock.",
+        "closer-route": "A closer walking to their car by whatever path is dark and short is walking the hazard the plan is supposed to have already routed around.",
+        "smoking-light": "A dark smoking area is where a shift's last confrontation of the night is likeliest to happen unseen — light is a control, not decoration."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Three physical hazards are sitting in this building. Find them before the shift starts.",
+      "targets": [
+        "blind-corner",
+        "smoking-light",
+        "closer-route"
+      ],
+      "title": "Walk the building for what the plan calls a hazard",
+      "why": "§3342 requires periodic inspections that actually look for the physical conditions violence happens around — blind corners, bad lighting, unmarked routes — not just a review of the paperwork that describes the building."
+    },
+    {
+      "cue": "Carry the floodlight up to the dead fixture the walk just found.",
+      "drag": {
+        "missNote": "Not seated in the fixture — line the floodlight up with the dead mount before letting go.",
+        "radius": 0.4,
+        "to": "smoking-mount"
+      },
+      "id": "correct-hazard",
+      "kind": "drag",
+      "prompt": "Carry the floodlight up to the dead fixture the walk just found.",
+      "target": "floodlight",
+      "title": "Mount the replacement floodlight over the smoking area",
+      "why": "Finding a hazard and writing it down is half of what the standard requires — the other half is correcting it, and a lit smoking area is the correction that actually changes what happens out there at 1 a.m., not just the paperwork about it."
+    },
+    {
+      "cue": "Press and hold the panic button until the panel confirms the signal reached dispatch.",
+      "holdBreakNote": "You let go before the panel confirmed anything. A short press proves nothing either way — hold it through to the confirmation.",
+      "id": "test-button",
+      "kind": "hold",
+      "prompt": "Press and hold the panic button until the panel confirms the signal reached dispatch.",
+      "seconds": 4,
+      "target": "panic-button",
+      "title": "Test the panic button",
+      "why": "A panic button nobody has tested is a guess about whether help is one press away. Confirming the signal actually reaches the monitoring service, on a schedule, is what makes it a control instead of a decoration under the bar."
+    },
+    {
+      "cue": "Watch the sweep and commit the instant it lands inside the drill's target band.",
+      "gauge": {
+        "green": [
+          0.3,
+          0.42
+        ],
+        "label": "RESPONSE s",
+        "missNote": "Outside the drill's target band. Reset and commit only when the sweep lands inside it.",
+        "speed": 0.65
+      },
+      "id": "drill-timing",
+      "kind": "gauge",
+      "prompt": "Watch the sweep and commit the instant it lands inside the drill's target band.",
+      "target": "drill-stopwatch",
+      "title": "Time the response drill",
+      "why": "The plan's training requirement is not satisfied by handing someone a page to read — a timed walkthrough drill is what actually tells you whether the response the plan describes happens fast enough to matter."
+    },
+    {
+      "cue": "Turn the deadbolt through a full turn to lock the gate behind you.",
+      "id": "lock-gate",
+      "kind": "turn",
+      "prompt": "Turn the deadbolt through a full turn to lock the gate behind you.",
+      "target": "staff-gate-lock",
+      "title": "Secure the staff-side gate",
+      "turn": {
+        "axis": "y",
+        "label": "GATE LOCK",
+        "turns": 1
+      },
+      "why": "The staff-side gate is the one exit a hazard walk keeps coming back to — locked, it is a controlled chokepoint; propped or unlatched, it is the same opening the plan just spent two steps trying to make safer."
+    },
+    {
+      "cue": "Confirm and sign that tonight's training on the plan actually happened.",
+      "id": "training-record",
+      "kind": "select",
+      "prompt": "Confirm and sign that tonight's training on the plan actually happened.",
+      "target": "training-binder",
+      "title": "Sign the training record",
+      "why": "§3342 requires documented training on the plan, the hazards specific to this workplace, and how to use the panic button and the log — a signed record is what an inspector, and the next new hire's trainer, both actually rely on. It sits in the same binder as this bartender's ABC-issued RBS card, because both are proof a required certification actually happened rather than something assumed about the person pouring drinks."
+    },
+    {
+      "cue": "Use the posted escort line rather than walking to the car by yourself.",
+      "id": "escort-policy",
+      "kind": "select",
+      "prompt": "Use the posted escort line rather than walking to the car by yourself.",
+      "target": "escort-sign",
+      "title": "Call for an escort before closing alone",
+      "why": "The hazard walk already flagged the unlit route to the car — the plan's answer to a lone closer is an escort on request, not bravery, and posting the line where the last person out actually sees it is what makes that answer usable."
+    },
+    {
+      "cue": "Hold the book open and read through the entries before the safety-committee meeting.",
+      "holdBreakNote": "You closed the book before finishing the review. A log skimmed is a log the committee is trusting you read — hold it open through the full review.",
+      "id": "log-review",
+      "kind": "hold",
+      "prompt": "Hold the book open and read through the entries before the safety-committee meeting.",
+      "seconds": 5,
+      "target": "incident-log-book",
+      "title": "Review last month's violent-incident log",
+      "why": "The violent-incident log is what the plan's own safety review runs on — entries with what happened, when, and what changed afterward are what tell a committee whether last month's fix actually worked or just felt like it did."
+    },
+    {
+      "cue": "Show them the posted line for reporting an incident, and that using it is protected.",
+      "id": "report-no-retaliation",
+      "kind": "select",
+      "prompt": "Show them the posted line for reporting an incident, and that using it is protected.",
+      "target": "reporting-line",
+      "title": "Point a shaken coworker to the reporting line",
+      "why": "Labor Code §6310 protects anyone who reports a hazard or an incident from retaliation for reporting it — a coworker who does not know that line exists, or does not believe it is safe to use, is a plan that only works on paper."
+    },
+    {
+      "cue": "Point to the posted employee assistance line after a frightening shift.",
+      "id": "post-incident-support",
+      "kind": "select",
+      "prompt": "Point to the posted employee assistance line after a frightening shift.",
+      "target": "eap-poster",
+      "title": "Offer the post-incident support line",
+      "why": "§3342's plan does not end when the incident is over — support afterward, named and posted rather than assumed, is what keeps one bad night from becoming the reason somebody quietly stops coming to work."
+    },
+    {
+      "cue": "Sign that the plan, the button and the log were all reviewed this shift.",
+      "id": "sign-plan",
+      "kind": "select",
+      "prompt": "Sign that the plan, the button and the log were all reviewed this shift.",
+      "target": "acknowledgment-sheet",
+      "title": "Sign tonight's acknowledgment sheet",
+      "why": "A signed acknowledgment is the same kind of record the tip-out sheet and the training binder are — proof, the next time anyone asks, that the plan was a real part of tonight's shift and not just a poster on the wall."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "The workplace violence prevention plan proven, not filed: the panic button tested, the hazard walk run, the log kept honest, and nobody closing alone unescorted",
+  "title": "SmartCiti.X~ WVPP & Panic Button VR",
+  "trade": "Bartender — UNITE HERE Local 2",
+  "underwater": null,
+  "weather": "clear"
+}

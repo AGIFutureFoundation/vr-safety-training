@@ -1,0 +1,47 @@
+{
+  "id": "union-mmp",
+  "kind": "union",
+  "name": "MM&P Union Package",
+  "title": "SmartCiti.X MM&P Union Package — Powered by AGI Corp",
+  "audience": "trades",
+  "summary": "Every station the platform ties to International Organization of Masters, Mates & Pilots: the programmes whose union line names it and the stations whose own certification does.",
+  "certification": null,
+  "programmes": [],
+  "stations": [
+    {
+      "app": "smartcity",
+      "id": "bunkering-watch"
+    }
+  ],
+  "unions": [
+    "mmp"
+  ],
+  "unionLine": "International Organization of Masters, Mates & Pilots",
+  "k12Bands": [],
+  "path": "union-trades",
+  "alsoPaths": [],
+  "worlds": [
+    {
+      "world": "bayworld",
+      "sites": [
+        "port-container-terminal",
+        "island-yacht-harbor"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "plaquemines",
+      "sites": [
+        "pq-port-sulphur-terminal"
+      ]
+    }
+  ],
+  "stationNames": {
+    "bunkering-watch": "Bunkering Watch"
+  },
+  "version": "1.0.0",
+  "contentHash": "d540b77d",
+  "brand": "SmartCiti.X · Powered by AGI Corp",
+  "generator": "tools/gen_packs.mjs",
+  "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."
+}

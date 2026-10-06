@@ -1,0 +1,343 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "exposure-managed",
+    "name": "Exposure Managed",
+    "note": "A needlestick handled start to finish inside the hours that make post-exposure prophylaxis meaningful"
+  },
+  "category": "Dental & Oral Health",
+  "certification": "OSHA 29 CFR 1910.1030 bloodborne pathogens — the exposure control plan, engineering controls and the post-exposure evaluation; ISO 23908 for sharps injury protection devices; OSHA's sharps injury log recordkeeping requirement; the CDC's post-exposure prophylaxis guidance; the Dental Hygiene Board of California practice act",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "CDC",
+        "citedAs": "CDC",
+        "id": "cdc-guidance",
+        "title": "CDC infection-prevention and public-health guidance, including the Guidelines for Infection Control in Dental Health-Care Settings and Legionella control guidance"
+      },
+      {
+        "body": "ISO",
+        "citedAs": "ISO 23908",
+        "id": "iso-23908",
+        "title": "ISO 23908 — Sharps injury protection: requirements and test methods"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1030",
+        "id": "osha-1910-1030",
+        "title": "29 CFR 1910.1030 — Bloodborne pathogens"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Dental Hygiene",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "washed-not-squeezed",
+        "name": "Washed, Not Squeezed",
+        "note": "The wound washed with soap and water for the full time, nothing else done to it"
+      },
+      {
+        "id": "reported-now",
+        "name": "Reported Now",
+        "note": "The exposure reported the moment the wound was washed, not at the end of the visit"
+      },
+      {
+        "id": "log-complete",
+        "name": "Log Complete",
+        "note": "The sharps injury log closed out with the device review attached"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-response",
+        "name": "Clean Response",
+        "note": "No corrections anywhere in the response"
+      },
+      {
+        "id": "held-the-wash",
+        "name": "Held The Wash",
+        "note": "Held the wound wash the full time, first try"
+      },
+      {
+        "id": "fast-response",
+        "name": "Fast Response",
+        "note": "Complete inside 80% of par"
+      }
+    ],
+    "currency": "HOUR",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "New Hygienist",
+      "Chairside Responder",
+      "Exposure Lead",
+      "Safety Officer",
+      "Exposure Response Certified"
+    ],
+    "system": "Exposure Response"
+  },
+  "hazards": {
+    "bleach-bottle": "That is bleach. Bleach and other caustic disinfectants are never used on a needlestick wound — the CDC's guidance is soap and running water, nothing more aggressive, on a puncture that is already an open route into tissue.",
+    "recap-needle": "Recapping that needle two-handed is exactly the motion that caused this exposure in the first place. It goes into the sharps container as it is, not back under a cap held in your other hand.",
+    "sticky-note-report": "A note stuck to the supervisor's monitor is not a report. The exposure control plan requires the exposure reported to a supervisor directly and immediately, not left for someone to notice on their own time.",
+    "torn-glove": "That glove is torn at the fingertip and still on the tray where it came off. Touching a phone, a form or a patient again with a compromised glove — or no glove — spreads this exposure to everything you touch next."
+  },
+  "id": "sharps-exposure-response",
+  "indoor": "clinic",
+  "interrupts": [
+    {
+      "after": "wash-wound",
+      "alert": "The hygienist is drying their hand off already and says they'd rather just finish the scaling — the patient's already numb.",
+      "cue": "Finishing the appointment is not what happens next.",
+      "delay": 3,
+      "id": "wave-it-off",
+      "kind": "Minimising the exposure",
+      "missNote": "The scaling finished before the exposure was reported. Every minute added between the stick and the report is a minute subtracted from however many hours the plan allowed for evaluation.",
+      "seconds": 12,
+      "target": "supervisor-phone",
+      "why": "A needlestick does not wait for a convenient stopping point in someone else's treatment plan — the report starts now, while the exposure is fresh and the timeline for evaluation is still intact, not after the appointment that caused it is wrapped up.",
+      "wrongNote": "It is the phone — this gets reported before anything else continues, appointment included."
+    },
+    {
+      "after": "secure-area",
+      "alert": "While you're securing the area, you notice the sharps container this needle was headed for is already packed past its fill line.",
+      "cue": "That container should have been swapped out before this shift, not after tonight's stick.",
+      "delay": 3,
+      "id": "sharps-overfilled",
+      "kind": "Overfilled sharps container",
+      "missNote": "The overfilled container stayed in service. It is now one more sharp away from causing exactly the injury that just happened here.",
+      "seconds": 11,
+      "target": "sharps-container-swap",
+      "why": "An overfull container is a hazard for the next person to use it whether or not it caused tonight's exposure — it gets swapped for an empty one now, on the spot, not left for the next hygienist to discover the same way this one did.",
+      "wrongNote": "It is the replacement container — swap it now, before anyone else reaches for that slot."
+    }
+  ],
+  "lateNotes": {
+    "exposure-clock": "The source patient's status isn't known yet, and that shapes the evaluation — get there first.",
+    "rapid-test-kit": "There's no consent yet to test the source patient — that comes first.",
+    "sharps-injury-log": "Not yet. The exposure needs to be reported and the evaluation window addressed before this becomes a closed record."
+  },
+  "name": "Sharps Exposure Response",
+  "parSeconds": 230,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "dental-hygiene-unspoken-smiles"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2,
+    "hits": [
+      "baseline-draw",
+      "bleach-bottle",
+      "causative-needle",
+      "consent-form",
+      "container-overfilled",
+      "exposure-clock",
+      "fresh-gloves",
+      "patient",
+      "rapid-test-kit",
+      "recap-needle",
+      "scaler-down",
+      "sharps-container-swap",
+      "sharps-injury-log",
+      "shield-not-engaged",
+      "six-week-draw",
+      "sticky-note-report",
+      "supervisor-phone",
+      "torn-glove",
+      "twelve-week-draw",
+      "wound-site"
+    ],
+    "meshes": 152
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track"
+  ],
+  "steps": [
+    {
+      "cue": "Set the scaler down and step back from the patient's mouth.",
+      "id": "stop-procedure",
+      "kind": "select",
+      "prompt": "Set the scaler down and step back from the patient's mouth.",
+      "target": "scaler-down",
+      "title": "Stop the procedure safely",
+      "why": "The instrument goes down deliberately, not dropped or waved — a second sharp moving through the air in the same few seconds as the first one is how one needlestick becomes two."
+    },
+    {
+      "cue": "Tell the patient what happened and that you're stepping out briefly.",
+      "forceClass": "none",
+      "id": "reassure-patient",
+      "kind": "select",
+      "noRobot": true,
+      "prompt": "Tell the patient what happened and that you're stepping out briefly.",
+      "robotNote": "Comfort and explanation are the clinician's; a robot does not reassure the patient it was standing beside.",
+      "target": "patient",
+      "title": "Reassure the patient",
+      "why": "The patient just watched you flinch and stop mid-procedure with no explanation — a short, calm statement of what happened keeps them from imagining something worse than a stick, and keeps the room controlled while you deal with it."
+    },
+    {
+      "cue": "Keep the puncture under running water with soap for the full wash — enough pressure to rinse it, not enough to milk it.",
+      "forceClass": "light",
+      "holdBreakNote": "You came off the band. A wash that stops short has not run long enough to do what it is for, and a wash squeezed hard enough to bleed the site is not a better one.",
+      "id": "wash-wound",
+      "kind": "track",
+      "noRobot": true,
+      "prompt": "Keep the puncture under running water with soap for the full wash — enough pressure to rinse it, not enough to milk it.",
+      "robotNote": "The wound is a person's hand. First aid on anybody, staff included, is not the robot's to give.",
+      "seconds": 6,
+      "target": "wound-site",
+      "title": "Wash the wound with soap and water",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.4,
+        "green": [
+          0.3,
+          0.62
+        ],
+        "label": "WASH PRESSURE",
+        "rise": 0.5,
+        "start": 0.1
+      },
+      "why": "Soap and running water is the CDC's own guidance for a percutaneous exposure — plain, unhurried, and long enough to matter. Squeezing or milking the site to force blood out is not recommended and does not reduce the exposure; what it does do is traumatise the tissue around the puncture, which is why the band you are holding has a top end as well as a bottom one. Running water does the actual work."
+    },
+    {
+      "cue": "Take a fresh pair before you pick up a phone, a form, or the patient's chart.",
+      "id": "reglove",
+      "kind": "select",
+      "prompt": "Take a fresh pair before you pick up a phone, a form, or the patient's chart.",
+      "target": "fresh-gloves",
+      "title": "Reglove before touching anything else",
+      "why": "Everything from here — the phone, the paperwork, the patient's chart — gets touched by whatever is on your hands right now. A fresh glove is what keeps this exposure from becoming a second one on someone else's surface."
+    },
+    {
+      "cue": "Keep the needle isolated where it fell and hold the area clear until it's handled properly.",
+      "holdBreakNote": "You let the area go before it was secured — anyone walking past can now touch the device or the exposure gets contaminated further.",
+      "id": "secure-area",
+      "kind": "hold",
+      "prompt": "Keep the needle isolated where it fell and hold the area clear until it's handled properly.",
+      "seconds": 5,
+      "target": "causative-needle",
+      "title": "Secure the causative device",
+      "why": "The device that caused this is evidence for the review that comes later — whether the safety shield engaged, whether it was defective, whether the container it was headed for was already full. It stays exactly where it is until that review happens, not picked up and disposed of on reflex."
+    },
+    {
+      "cue": "Call your supervisor now, before you finish anything else.",
+      "id": "report-supervisor",
+      "kind": "select",
+      "prompt": "Call your supervisor now, before you finish anything else.",
+      "target": "supervisor-phone",
+      "title": "Report the exposure immediately",
+      "why": "The exposure control plan exists because the clock that matters — the hours to post-exposure evaluation — starts running at the stick, not at the end of the day when it's convenient to mention. Immediate report is what keeps that clock from running out unnoticed."
+    },
+    {
+      "cue": "Explain why their status matters and get consent first — then run or pull the rapid test result.",
+      "id": "source-workup",
+      "itemNames": {
+        "consent-form": "the source patient's consent",
+        "rapid-test-kit": "the source patient's rapid test"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Consent comes before the test, not after — asking permission after the sample is already drawn is not consent.",
+      "prompt": "Explain why their status matters and get consent first — then run or pull the rapid test result.",
+      "targets": [
+        "consent-form",
+        "rapid-test-kit"
+      ],
+      "title": "Get consent, then determine the source patient's status",
+      "why": "Testing the source patient requires their consent under the same rules that apply to any other test, asked for directly before anything is drawn — and a known-negative source changes the urgency of everything that follows, while an unknown or positive one means treating this as if prophylaxis may be needed until the evaluation says otherwise."
+    },
+    {
+      "cue": "Watch the hours since the stick and commit while you're still inside the plan's evaluation window.",
+      "gauge": {
+        "green": [
+          0.05,
+          0.3
+        ],
+        "label": "HOURS SINCE STICK",
+        "missNote": "That is well past the window the plan sets. Evaluation started late is evaluation that may have missed the point where prophylaxis still helps.",
+        "speed": 0.65
+      },
+      "id": "post-exposure-eval",
+      "kind": "gauge",
+      "prompt": "Watch the hours since the stick and commit while you're still inside the plan's evaluation window.",
+      "target": "exposure-clock",
+      "title": "Get to post-exposure evaluation inside the window",
+      "why": "HIV post-exposure prophylaxis is time-critical — its benefit falls the longer it is delayed, which is why the exposure control plan sets a number of hours, not a number of days, to get the exposed worker evaluated. The clock does not pause for paperwork."
+    },
+    {
+      "cue": "Enter the stick on the sharps injury log — device, location, and what happened.",
+      "id": "sharps-log",
+      "kind": "select",
+      "prompt": "Enter the stick on the sharps injury log — device, location, and what happened.",
+      "target": "sharps-injury-log",
+      "title": "Record the incident on the sharps injury log",
+      "why": "OSHA requires a sharps injury log recording the type and brand of device and the work area where the injury happened, kept confidential and separate from the general OSHA 300 log. It is what turns one stick into data a practice can actually act on."
+    },
+    {
+      "cue": "Two things about how this happened are visible right here in the room. Find them.",
+      "id": "device-review",
+      "itemNames": {
+        "container-overfilled": "the sharps container, packed past its line",
+        "shield-not-engaged": "the safety shield, never engaged"
+      },
+      "itemNotes": {
+        "container-overfilled": "This container is packed well past its fill line. A sharp forced into an already-full container is exactly how the one already inside comes back out at somebody's hand — this is very likely part of how tonight happened.",
+        "shield-not-engaged": "This device's safety shield was never activated before it went down. ISO 23908 sets the requirements a sharps injury protection feature has to meet, but the standard only reaches a device that was actually used the way it was designed — a shield found retracted is a device that was handled as if it had none."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Two things about how this happened are visible right here in the room. Find them.",
+      "targets": [
+        "shield-not-engaged",
+        "container-overfilled"
+      ],
+      "title": "Examine the device and the circumstances",
+      "why": "OSHA's bloodborne pathogens standard calls for evaluating exposure incidents to find an engineering or work-practice fix, not just to file paperwork on them — the device and the room it happened in usually already show what went wrong."
+    },
+    {
+      "cue": "Schedule the baseline draw, then the 6-week draw, then the 12-week draw.",
+      "id": "followup-schedule",
+      "itemNames": {
+        "baseline-draw": "baseline draw",
+        "six-week-draw": "6-week draw",
+        "twelve-week-draw": "12-week draw"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Baseline first, then the 6-week draw, then the 12-week draw — each one is timed to catch what the last one was too early to see.",
+      "prompt": "Schedule the baseline draw, then the 6-week draw, then the 12-week draw.",
+      "targets": [
+        "baseline-draw",
+        "six-week-draw",
+        "twelve-week-draw"
+      ],
+      "title": "Set the follow-up testing schedule",
+      "why": "A single negative test right after the stick only rules out what the exposed worker already had — seroconversion takes time, which is why the schedule runs in stages rather than ending the moment the first result comes back clean."
+    }
+  ],
+  "supportLine": "your employer's employee assistance program — the same plan that covers the exposure follow-up covers the waiting — with the ADHA's member resources behind it",
+  "tagline": "A needlestick mid-scaling: stopped safely, washed not squeezed, reported at once, the source pursued with consent, evaluation inside the hours that matter, and the stick logged and reviewed",
+  "title": "SmartCiti.X~ Sharps Exposure Response VR",
+  "trade": "Dental hygienist",
+  "underwater": null,
+  "weather": null
+}

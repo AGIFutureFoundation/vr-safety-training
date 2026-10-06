@@ -1,0 +1,63 @@
+{
+  "id": "basketball-fundamentals",
+  "title": "Basketball Fundamentals — Programme Hand-off",
+  "version": 1,
+  "start": "prog-basketball",
+  "meta": {
+    "audience": "A youth player learning the fundamentals, or a volunteer or new coach learning to run a safe session, whose record is kept on an external platform.",
+    "why": "The ten-station programme runs here; a mastery gate over the three stations that carry the programme's biggest safety calls — the opening block, the first real contact and the scrimmage — decides whether the programme is handed on. The external node is the hand-off itself: the destination platform receives the node and the outcome and resumes the flow with its own verdict.",
+    "hostNotes": "The destination is the RBI platform (named by the user; not described in this repository). Nothing here assumes how it receives or stores anything. On reaching `ext-handoff` the app emits smartcitix:flow.external with the node and waits; whatever host speaks the existing flow contract resumes it with smartcitix:flow.resume and an outcome shaped like an attempt record (at minimum { passed }). The `ref` is an opaque string for the host to resolve."
+  },
+  "nodes": [
+    {
+      "id": "prog-basketball",
+      "kind": "programme",
+      "app": "smartcity",
+      "ref": "basketball-fundamentals",
+      "title": "Basketball Fundamentals",
+      "why": "The programme itself: SmartCiti.X opens it at the first station the learner has not yet passed, exactly as its own Start button does."
+    },
+    {
+      "id": "gate-safe-session",
+      "kind": "gate",
+      "app": "smartcity",
+      "title": "Gate — run a safe youth session",
+      "why": "Three stations carry the calls that matter most in a youth gym: the floor, water and emergency plan before practice, the first contact and a knock to the head, and a heated game closed with a check-in. Mastery on all three, read off the same attempt records the certificate rests on, or the learner goes back through the programme.",
+      "params": {
+        "competency": "run-a-safe-youth-session",
+        "rule": "mastery",
+        "stations": [
+          "bb-warmup-injury-prevention-and-hydration",
+          "bb-rebounding-and-boxing-out",
+          "bb-scrimmage-and-sportsmanship-debrief"
+        ]
+      }
+    },
+    {
+      "id": "ext-handoff",
+      "kind": "external",
+      "app": "host",
+      "ref": "host:basketball-fundamentals/handoff",
+      "title": "Hand-off to the external platform (host)",
+      "why": "The programme's outcome is handed to the destination platform through the existing flow contract. This side parks on the node and waits; it asserts nothing about what the host does with it.",
+      "params": {
+        "expects": "smartcitix:flow.resume with { nodeId, outcome: { passed, stars?, seconds? } }",
+        "timeoutNote": "There is no timeout: a flow parked on an external node stays parked until the host resumes it or an instructor restarts the flow."
+      }
+    },
+    {
+      "id": "checkin-close",
+      "kind": "checkin",
+      "app": "smartcity",
+      "title": "Coach and player check-in",
+      "why": "The programme closes on the guide's check-in rather than on a score: how the learner is after the heated game and the alarms, never graded and never leaving the learner's browser."
+    }
+  ],
+  "edges": [
+    { "from": "prog-basketball", "to": "gate-safe-session" },
+    { "from": "gate-safe-session", "to": "ext-handoff", "when": { "competency": "run-a-safe-youth-session" } },
+    { "from": "gate-safe-session", "to": "prog-basketball" },
+    { "from": "ext-handoff", "to": "checkin-close", "when": { "passed": true } },
+    { "from": "ext-handoff", "to": "prog-basketball" }
+  ]
+}

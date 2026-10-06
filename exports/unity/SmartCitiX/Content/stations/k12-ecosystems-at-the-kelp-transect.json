@@ -1,0 +1,411 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "web-of-life",
+    "name": "Web of Life",
+    "note": "A kelp food web built from what the transect camera showed, with producers, consumers and decomposers named and the count kept honest"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFT",
+        "id": "aft-training",
+        "title": "AFT — American Federation of Teachers training for paraprofessionals and school-related personnel"
+      },
+      {
+        "body": "INEE",
+        "citedAs": "INEE Minimum Standards",
+        "id": "inee-minimum-standards",
+        "title": "INEE Minimum Standards for Education in emergencies, as a body whose standards a lesson is aligned to; it certifies nothing"
+      },
+      {
+        "body": "national curriculum authority",
+        "citedAs": "national curriculum framework",
+        "id": "national-curriculum-framework",
+        "title": "The national curriculum framework the school itself follows, as a category rather than any one country's document; no grade-level code is cited"
+      },
+      {
+        "body": "union",
+        "citedAs": "National Education Association",
+        "id": "nea-training",
+        "title": "NEA apprenticeship and training, as a training body"
+      },
+      {
+        "body": "UN",
+        "citedAs": "Sustainable Development Goal 4",
+        "id": "un-sdg-4-quality-education",
+        "title": "UN Sustainable Development Goal 4 (Quality Education), as a framework a lesson is aligned to; it certifies nothing"
+      },
+      {
+        "body": "UNESCO",
+        "citedAs": "UNESCO education guidance",
+        "id": "unesco-education-guidance",
+        "title": "UNESCO education guidance, as a body whose published guidance a lesson is aligned to; it certifies nothing"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Education",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "clean-read",
+        "name": "First Look",
+        "note": "Everything in the opening scan found first time"
+      },
+      {
+        "id": "no-shortcut",
+        "name": "No Shortcuts",
+        "note": "No misconception or unsafe shortcut anywhere in the run"
+      },
+      {
+        "id": "in-the-band",
+        "name": "In the Band",
+        "note": "Every gauge and meter held inside its band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-run",
+        "name": "Clean Run",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "steady-hands",
+        "name": "Steady Hands",
+        "note": "Every hold and track carried its full count"
+      },
+      {
+        "id": "quick-and-right",
+        "name": "Quick and Right",
+        "note": "Finished inside 80% of par"
+      }
+    ],
+    "currency": "SIGHTINGS",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Spotter",
+      "Counter",
+      "Recorder",
+      "Ecologist",
+      "Marine Scientist"
+    ],
+    "system": "Transect Board"
+  },
+  "hazards": {
+    "arrows-point-to-the-eater": "You drew the food-web arrow from the animal to its food. By agreement the arrow shows where the energy goes, so it points from the food to the eater: kelp to urchin, urchin to its predator. Backwards arrows make the web say the opposite of what happens.",
+    "count-what-you-expect": "You added animals to the count that you expected but did not see on the camera. A survey records what was observed along the line, nothing more; a count padded with guesses cannot show whether the forest is changing.",
+    "lean-over-the-gunwale": "You leaned over the side of the tender to look for the divers. Learners stay inside the rail on deck, wearing their lifejackets, and the camera screen shows everything the divers see; the side is the dive team's working area.",
+    "remove-one-changes-nothing": "You said taking one kind of animal out of the kelp forest would change nothing. In a food web, everything that ate it loses food and everything it ate loses a predator; one change spreads through the whole web, which is why ecologists watch every link."
+  },
+  "id": "k12-ecosystems-at-the-kelp-transect",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "hold-the-screen-view-steady-on",
+      "alert": "The tender crew raises a hand and calls that the divers are coming up.",
+      "cue": "Sit down in your place and keep clear of the side while the divers surface.",
+      "delay": 3,
+      "id": "the-dive-flag-goes-up",
+      "kind": "Dive signal",
+      "missNote": "Learners crowded the side, and the crew had to stop and move everyone back before helping the divers.",
+      "seconds": 12,
+      "target": "kek-stay-seated",
+      "why": "When divers surface, the crew needs the side clear to help them aboard. Sitting down and keeping out of the way lets the crew do that quickly and safely; crowding to watch is how a busy deck becomes a dangerous one.",
+      "wrongNote": "That keeps you in the crew's way. Sit down and keep clear. Choose the response that deals with it now."
+    },
+    {
+      "after": "follow-the-diver-along-the-line",
+      "alert": "The marine scientist points at your web and asks which way the arrow between kelp and urchin should go.",
+      "cue": "Say it points from the kelp to the urchin, because energy goes to the eater.",
+      "delay": 3,
+      "id": "the-scientist-asks-which-way",
+      "kind": "Scientist question",
+      "missNote": "You said from the urchin to the kelp, and the scientist had to explain the arrow again.",
+      "seconds": 12,
+      "target": "kek-say-arrow",
+      "why": "The scientist is checking you understand what the arrow means. Saying it follows the energy, food to eater, shows you can read and draw any food web, not just this one.",
+      "wrongNote": "That points the wrong way. Choose the response that deals with it now."
+    }
+  ],
+  "lateNotes": {
+    "kek-checkin": "The check-in comes at the very end of the trip.",
+    "kek-survey-log": "The survey record is written once the line is finished — nothing to record yet."
+  },
+  "name": "Ecosystems at the Kelp Transect",
+  "parSeconds": 330,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "k12-science"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "arrows-point-to-the-eater",
+      "count-what-you-expect",
+      "kek-arrow-dial",
+      "kek-checkin",
+      "kek-compare-card",
+      "kek-consumer",
+      "kek-decomposer",
+      "kek-fw-backwards",
+      "kek-fw-key",
+      "kek-fw-no-base",
+      "kek-fw-unseen",
+      "kek-hold-view",
+      "kek-lifejacket-card",
+      "kek-ord-follow",
+      "kek-ord-identify",
+      "kek-ord-record",
+      "kek-ord-web",
+      "kek-producer",
+      "kek-say-arrow",
+      "kek-share-board",
+      "kek-star-spot",
+      "kek-star-token",
+      "kek-stay-seated",
+      "kek-survey-log",
+      "kek-tape-line",
+      "kek-track-meter",
+      "kek-vis-meter",
+      "lean-over-the-gunwale",
+      "remove-one-changes-nothing"
+    ],
+    "meshes": 233
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Mark one producer, one consumer and one decomposer on the camera feed.",
+      "decoyNotes": {
+        "kek-tape-line": "The tape marks where the survey runs. It is not part of the ecosystem."
+      },
+      "id": "find-the-three-roles-on-the",
+      "itemNames": {
+        "kek-consumer": "an urchin grazing on the holdfast",
+        "kek-decomposer": "a crab picking over drift on the seabed",
+        "kek-producer": "the kelp fronds reaching for the light"
+      },
+      "itemNotes": {
+        "kek-consumer": "A consumer: it eats the kelp.",
+        "kek-decomposer": "Part of the clean-up crew that breaks down what dies.",
+        "kek-producer": "A producer: it makes food from sunlight."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Mark one producer, one consumer and one decomposer on the camera feed.",
+      "targets": [
+        "kek-producer",
+        "kek-consumer",
+        "kek-decomposer"
+      ],
+      "title": "Find the three roles on the transect",
+      "why": "Every ecosystem runs on three jobs. Producers, like the kelp, make food from sunlight; consumers, like urchins and fish, eat other living things; decomposers break down what dies and return it to the water. Finding one of each on the real transect shows that the diagram in the textbook is happening right below the boat."
+    },
+    {
+      "cue": "Check your lifejacket is fastened and take your place inside the rail by the screen.",
+      "id": "check-your-lifejacket-and-stay-inside",
+      "kind": "select",
+      "prompt": "Check your lifejacket is fastened and take your place inside the rail by the screen.",
+      "target": "kek-lifejacket-card",
+      "title": "Check your lifejacket and stay inside the rail",
+      "why": "On a boat above a dive, the deck crew's first rule for visitors is a fastened lifejacket and a place inside the rail. The divers depend on the tender crew's full attention, and a learner who stays put lets them give it, which is part of keeping the dive safe."
+    },
+    {
+      "cue": "Follow the line, identify each living thing, record it, then build the web.",
+      "id": "put-the-survey-method-in-order",
+      "itemNames": {
+        "kek-ord-follow": "1 · follow the transect line",
+        "kek-ord-identify": "2 · identify each living thing",
+        "kek-ord-record": "3 · record it straight away",
+        "kek-ord-web": "4 · build the food web from the record"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order. Record what the camera shows before you build the web.",
+      "prompt": "Follow the line, identify each living thing, record it, then build the web.",
+      "targets": [
+        "kek-ord-follow",
+        "kek-ord-identify",
+        "kek-ord-record",
+        "kek-ord-web"
+      ],
+      "title": "Put the survey method in order",
+      "why": "A transect survey follows a fixed line so the same place can be surveyed again and compared. Identifying each living thing as the camera passes, recording it straight away, and only then building the food web from the record keeps the web based on evidence rather than on what you expected to find."
+    },
+    {
+      "cue": "Hold the camera control steady on the tape while the diver moves along it.",
+      "holdBreakNote": "The view drifted off the tape. Bring it back to the line and hold it.",
+      "id": "hold-the-screen-view-steady-on",
+      "kind": "hold",
+      "prompt": "Hold the camera control steady on the tape while the diver moves along it.",
+      "seconds": 6,
+      "target": "kek-hold-view",
+      "title": "Hold the screen view steady on the line",
+      "why": "A survey only counts what is along the line, so the camera has to stay on the tape. Holding the view steady while the diver swims keeps the survey fair: the same strip is watched from start to end, and nothing is counted twice or missed because the camera wandered."
+    },
+    {
+      "cue": "Say what could happen to the kelp if the urchins' predator disappeared, and why.",
+      "id": "say-what-happens-if-the-urchins",
+      "kind": "select",
+      "prompt": "Say what could happen to the kelp if the urchins' predator disappeared, and why.",
+      "target": "kek-compare-card",
+      "title": "Say what happens if the urchin's predator goes",
+      "why": "With no predator, urchins can grow in number and graze the kelp faster than it regrows. Explaining that chain, predator to urchin to kelp, is understanding the web as a system rather than a list, which is what ecology is about."
+    },
+    {
+      "cue": "Look at the draft food web and mark each problem.",
+      "decoyNotes": {
+        "kek-fw-key": "A key helps anyone read the web. Keep it."
+      },
+      "id": "spot-the-problems-in-a-classmates",
+      "itemNames": {
+        "kek-fw-backwards": "an arrow pointing from eater to food",
+        "kek-fw-no-base": "no producer at the base",
+        "kek-fw-unseen": "an animal the camera never showed"
+      },
+      "itemNotes": {
+        "kek-fw-backwards": "Arrows follow the energy, food to eater.",
+        "kek-fw-no-base": "Every web starts with a producer.",
+        "kek-fw-unseen": "Only what was observed goes in."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look at the draft food web and mark each problem.",
+      "targets": [
+        "kek-fw-backwards",
+        "kek-fw-unseen",
+        "kek-fw-no-base"
+      ],
+      "title": "Spot the problems in a classmate's food web",
+      "why": "Food webs go wrong in a few ways: an arrow pointing the wrong way, an animal the camera never showed and a missing producer at the base. Spotting them in someone else's web helps you check that your own tells the truth about the transect."
+    },
+    {
+      "cue": "Turn the arrow on the web card so it points from the kelp to the urchin.",
+      "id": "turn-the-web-card-to-add",
+      "kind": "turn",
+      "prompt": "Turn the arrow on the web card so it points from the kelp to the urchin.",
+      "target": "kek-arrow-dial",
+      "title": "Turn the web card to add a link",
+      "turn": {
+        "axis": "y",
+        "label": "ENERGY",
+        "turns": 0.5
+      },
+      "why": "The arrow in a food web shows where the energy goes, so it points from the food to the animal that eats it. Turning it the right way for one link, kelp to urchin, sets the pattern for every other link you draw."
+    },
+    {
+      "cue": "Commit when the visibility bar shows the water is clear enough to count.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.58
+        ],
+        "label": "VISIBILITY",
+        "missNote": "Not clear enough to call. Wait for a steady reading before counting.",
+        "speed": 0.6
+      },
+      "id": "judge-the-visibility-before-counting",
+      "kind": "gauge",
+      "prompt": "Commit when the visibility bar shows the water is clear enough to count.",
+      "target": "kek-vis-meter",
+      "title": "Judge the visibility before counting",
+      "why": "If the water is too murky, animals are missed and the count comes out low for the wrong reason. Surveyors note the visibility before they count and write it in the record, so that a low count on a murky day is not mistaken for a real decline in the forest."
+    },
+    {
+      "cue": "Drag the sea star card to where it belongs: an eater of urchins.",
+      "drag": {
+        "missNote": "Not in its place yet. Put it where the arrow comes from the urchin.",
+        "radius": 0.45,
+        "to": "kek-star-spot"
+      },
+      "id": "place-the-sea-star-in-the",
+      "kind": "drag",
+      "prompt": "Drag the sea star card to where it belongs: an eater of urchins.",
+      "target": "kek-star-token",
+      "title": "Place the sea star in the web",
+      "why": "A predator that eats urchins keeps their numbers in check, and fewer urchins means more kelp survives. Placing it above the urchin in the web shows that chain, and it is the kind of link marine scientists watch when they ask why a kelp forest is thriving or thinning."
+    },
+    {
+      "cue": "Keep the survey marker on the diver as they move along the transect.",
+      "holdBreakNote": "The marker lost the diver. Find them again on the screen and keep pace.",
+      "id": "follow-the-diver-along-the-line",
+      "kind": "track",
+      "prompt": "Keep the survey marker on the diver as they move along the transect.",
+      "seconds": 8,
+      "target": "kek-track-meter",
+      "title": "Follow the diver along the line",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.38,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "PACE",
+        "rise": 0.46,
+        "start": 0.3
+      },
+      "why": "The diver moves steadily along the tape, and the count keeps pace with them. Following at their speed, not racing ahead to the interesting bits, is what makes every stretch of the line get the same attention."
+    },
+    {
+      "cue": "Write each kind seen, how many, the visibility and your food web.",
+      "id": "record-the-count-and-the-web",
+      "kind": "select",
+      "prompt": "Write each kind seen, how many, the visibility and your food web.",
+      "target": "kek-survey-log",
+      "title": "Record the count and the web",
+      "why": "A written survey can be compared with next season's, and only then can anyone say whether the forest is changing. Recording visibility with the count, and the web with its evidence, lets another scientist trust and reuse your work."
+    },
+    {
+      "cue": "Give your record to the marine scientist for the season's log.",
+      "id": "hand-the-record-to-the-scientist",
+      "kind": "select",
+      "prompt": "Give your record to the marine scientist for the season's log.",
+      "target": "kek-share-board",
+      "title": "Hand the record to the scientist",
+      "why": "A class record that joins the scientist's own adds another pair of eyes to the survey. Handing it over, complete and labelled, is how citizen science works: careful observation by many people building a picture no one person could."
+    },
+    {
+      "cue": "What did the camera show you that surprised you? What would you look for next time?",
+      "id": "crew-check-in",
+      "kind": "select",
+      "prompt": "What did the camera show you that surprised you? What would you look for next time?",
+      "target": "kek-checkin",
+      "title": "Check in at the end of the trip",
+      "why": "Back on the tender's deck, the survey ends the way a dive crew debriefs: each person names one thing they counted and one thing they would count differently. Hearing the group's answers shows the skipper who has grasped the transect line and who wants another pass along it."
+    }
+  ],
+  "supportLine": "your teacher, a school counsellor or a trusted adult at home — if anything in this lesson was hard, talk it through afterwards",
+  "tagline": "Every living thing on the line eats or is eaten — and learners watch from the deck, never the water",
+  "title": "SmartCiti.X~ Ecosystems at the Kelp Transect VR",
+  "trade": "Science class on the survey tender, watching the kelp transect — learner and marine scientist",
+  "underwater": null,
+  "weather": "clear"
+}

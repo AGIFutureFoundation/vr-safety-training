@@ -1,0 +1,415 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "shoulder-safe",
+    "name": "Shoulder Safe",
+    "note": "A full roadside call worked with the block, the taper and the approach all held, and the crew fit to drive home"
+  },
+  "category": "Emergency Services",
+  "certification": "NFPA 1500 for fire and EMS occupational safety, including its requirements for operations at roadway incidents — the apparatus placed as a block, the buffer and the advance taper — and NFPA's automotive ambulance standard for the vehicle itself; ANSI/ISEA 107 high-visibility safety apparel for responders working roadside; OSHA 29 CFR 1910.132 personal protective equipment and 29 CFR 1910.1030 bloodborne pathogens; NREMT certification at the EMT level; NAGE and AFSCME EMS locals as the workforce's unions; the department's own fatigue and duty-hour policy for the fitness-to-drive check at the end of a 24-hour shift.",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFSCME",
+        "id": "afscme-training",
+        "title": "AFSCME member education and safety training for public-service and air-district members"
+      },
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI/ISEA 107",
+        "id": "ansi-isea-107",
+        "title": "ANSI/ISEA 107 — High-visibility safety apparel and accessories"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 1500",
+        "id": "nfpa-1500",
+        "title": "NFPA 1500 — Fire Department Occupational Safety, Health and Wellness Program"
+      },
+      {
+        "body": "NREMT",
+        "citedAs": "NREMT",
+        "id": "nremt-certification",
+        "title": "NREMT national EMS certification at the EMT and Paramedic levels"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1030",
+        "id": "osha-1910-1030",
+        "title": "29 CFR 1910.1030 — Bloodborne pathogens"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.132",
+        "id": "osha-1910-132",
+        "title": "29 CFR 1910.132 — Personal protective equipment, general requirements"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Emergency Services",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "block-first",
+        "name": "Block First",
+        "note": "Ambulance positioned as the block before anyone steps out"
+      },
+      {
+        "id": "no-shoulder-shortcut",
+        "name": "No Shoulder Shortcut",
+        "note": "No unsafe action anywhere in the run"
+      },
+      {
+        "id": "steady-scan",
+        "name": "Steady Scan",
+        "note": "Traffic scan held in band the whole watch"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "fast-scene",
+        "name": "Fast Scene",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "clean-shift",
+        "name": "Clean Shift",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "seven-straight",
+        "name": "Seven Straight",
+        "note": "Seven correct actions in a row"
+      }
+    ],
+    "currency": "BLOCK",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "EMT Basic",
+      "Field Trained",
+      "Scene Safety Certified",
+      "Field Training Officer",
+      "Struck-By Certified"
+    ],
+    "system": "Scene Command"
+  },
+  "hazards": {
+    "frontal-headlights-on": "You left the headlights burning straight down the lane at oncoming traffic. Bright forward-facing lights at a night scene can blind and disorient a driver, or worse, draw a distracted one straight toward the brightest point — the pattern that actually protects a scene faces away from approaching traffic, not into it.",
+    "no-vest-shortcut": "You stepped out onto the shoulder without the high-visibility vest on. At night, on a live shoulder, the vest is what makes a person readable as a person from a driver's seat far enough away to actually react — skipping it for a thirty-second look is exactly the thirty seconds a struck-by happens in.",
+    "traffic-side-approach": "You walked up to the car on the traffic side instead of the curb side. The whole reason the ambulance is positioned as a block is so the crew can work from behind it — walking around to the open-lane side puts a body exactly where the block was built to keep it from being.",
+    "wheels-straight": "You left the front wheels pointed straight ahead. Turned away from the crew's working side, a struck ambulance rolls off into the shoulder instead of into the people working behind it — wheels left straight turn the truck itself into the thing that gets pushed toward the crew."
+  },
+  "id": "ambulance-scene-safety",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "traffic-watch",
+      "alert": "A passing car has drifted across the cone line instead of merging over at the taper.",
+      "cue": "Get everybody back behind the block, now.",
+      "delay": 4,
+      "id": "car-crosses-cone-line",
+      "kind": "Vehicle crossing the taper",
+      "missNote": "Everyone stayed where they were while the car passed closer than the buffer was set for. The taper did what it could; the rest of the plan depends on the crew actually moving behind the block the moment it fails, and that did not happen.",
+      "seconds": 12,
+      "target": "step-back-point",
+      "why": "A cone taper only works on drivers who are paying attention, and the one who is not is exactly the reason the block position and the buffer distance exist in the first place — the answer the instant a car crosses the line is getting bodies back behind the ambulance, not finishing whatever task was already in hand.",
+      "wrongNote": "Get behind the block — that spot, not the patient or the cones. A car already inside the buffer is not a problem the taper can still solve."
+    },
+    {
+      "after": "approach-agitated-occupant",
+      "alert": "The occupant has started shouting through the glass, and your partner has stopped moving, still several feet back from the door.",
+      "cue": "Take the lead — calm voice, and a hand on your partner's shoulder to bring them back into it.",
+      "delay": 3,
+      "id": "partner-freezes",
+      "kind": "Partner freezes",
+      "missNote": "Your partner stayed frozen at the edge of the exchange for the rest of it. Left alone in that moment, a freeze does not resolve itself — it takes someone else stepping into the lead and physically, calmly, bringing them back into the scene.",
+      "seconds": 12,
+      "target": "partner-shoulder-point",
+      "why": "A partner who freezes at a shouted threat is not failing the call, they are having a completely ordinary human reaction to one — the fix is not a lecture later, it is someone else taking the lead in the moment, in a level voice, with a hand on the shoulder that says 'I've got this' clearly enough that they can move again.",
+      "wrongNote": "It is your partner's shoulder, not the door and not the radio. Somebody has to bring them back into the moment before anything else here moves forward."
+    }
+  ],
+  "lateNotes": {
+    "alertness-test": "Finish logging the call first — the fitness-to-drive check comes right before you get back behind the wheel, not before.",
+    "radio-police-request": "Too early to call for backup — de-escalate first and call it in only once the scene actually turns.",
+    "stretcher-lock": "There's no patient loaded yet — nothing to lock down until they're actually on the stretcher."
+  },
+  "name": "Ambulance Scene Safety",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "first-responders"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.8,
+    "hits": [
+      "alertness-test",
+      "cone-line-seat",
+      "cone-set",
+      "crew-checkin-board",
+      "dim-headlights",
+      "dispatch-board",
+      "dropped-glove",
+      "forgotten-flare",
+      "frontal-headlights-on",
+      "gurney-seat",
+      "hazards-on",
+      "hivis-vest",
+      "incident-log-board",
+      "no-vest-shortcut",
+      "open-cone-gap",
+      "partner-brief-board",
+      "partner-shoulder-point",
+      "patient-figure",
+      "radio-police-request",
+      "rear-block-lighting",
+      "steering-wheel",
+      "step-back-point",
+      "stretcher-lock",
+      "traffic-scan-point",
+      "traffic-side-approach",
+      "vehicle-door-point",
+      "wheels-straight"
+    ],
+    "meshes": 217
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the dispatch board: single vehicle, disabled on the shoulder, occupant reported agitated.",
+      "id": "scene-size-up",
+      "kind": "select",
+      "prompt": "Read the dispatch board: single vehicle, disabled on the shoulder, occupant reported agitated.",
+      "target": "dispatch-board",
+      "title": "Read the call before you commit to a position",
+      "why": "What you know before the truck stops decides where it stops — a disabled vehicle with an agitated occupant, at night, on an active shoulder, changes the block position and the approach before anybody has even opened a door, and reading it now is faster than re-deciding it once you are already parked wrong."
+    },
+    {
+      "cue": "Angle the ambulance to block the lane, and turn the front wheels away from where the crew will work.",
+      "id": "position-block",
+      "kind": "turn",
+      "prompt": "Angle the ambulance to block the lane, and turn the front wheels away from where the crew will work.",
+      "target": "steering-wheel",
+      "title": "Position the ambulance as a block, wheels turned away",
+      "turn": {
+        "axis": "y",
+        "label": "WHEELS TURNED AWAY",
+        "turns": 0.4
+      },
+      "why": "Parked at an angle with the wheels turned away, the ambulance itself becomes the first line of protection — a vehicle that gets struck from behind rolls off away from the crew instead of being pushed straight into them, which is the entire reason the block position is taught as a wheel angle and not just a parking spot."
+    },
+    {
+      "cue": "Hazards on, the rear warning pattern set, then the headlights dimmed toward the crew's side.",
+      "id": "light-pattern",
+      "itemNames": {
+        "dim-headlights": "headlights dimmed",
+        "hazards-on": "hazards on",
+        "rear-block-lighting": "rear warning pattern set"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Hazards, then the rear pattern, then the headlights dimmed — dimming the headlights before the rear pattern is actually set leaves the scene under-lit at the one moment it most needs to be seen.",
+      "prompt": "Hazards on, the rear warning pattern set, then the headlights dimmed toward the crew's side.",
+      "targets": [
+        "hazards-on",
+        "rear-block-lighting",
+        "dim-headlights"
+      ],
+      "title": "Set the light pattern that warns without blinding",
+      "why": "A light pattern is aimed as carefully as it is turned on — warning lights that face oncoming traffic get a driver's attention, but bright headlights aimed straight down the lane can cause exactly the target-fixation crash the whole setup is meant to prevent, so the forward lights come down once the rear pattern is doing the warning."
+    },
+    {
+      "cue": "Vest on, before either door of the cab opens.",
+      "id": "dress-hivis",
+      "kind": "select",
+      "prompt": "Vest on, before either door of the cab opens.",
+      "target": "hivis-vest",
+      "title": "Put on the high-visibility vest before you step out",
+      "why": "ANSI/ISEA 107 sets the retroreflective area and the background colour a garment needs before it counts as high-visibility apparel, and it exists for exactly this situation — a person on a dark shoulder in a dark jacket is close to invisible to a driver until it is too late to react, so the vest goes on inside the cab, before anyone is standing on the roadway in the dark."
+    },
+    {
+      "cue": "Carry the cones out and set the taper marking the buffer, following the pattern on the board.",
+      "drag": {
+        "missNote": "Not on the taper line — cones set anywhere else do not shape traffic away from the work area.",
+        "radius": 0.6,
+        "to": "cone-line-seat"
+      },
+      "id": "cone-taper",
+      "kind": "drag",
+      "prompt": "Carry the cones out and set the taper marking the buffer, following the pattern on the board.",
+      "target": "cone-set",
+      "title": "Set the cone taper",
+      "why": "The taper is what actually moves a driver's lane choice before they reach the scene, not the ambulance's flashing lights on their own — spaced correctly along the shoulder per the pattern the board sets, the cones give an approaching driver room and time to merge over well before the buffer where the crew is working."
+    },
+    {
+      "cue": "Keep your attention moving between the vehicle and the traffic lane — don't fix on either one.",
+      "holdBreakNote": "Your attention locked onto one side or drifted off the road entirely. The whole point of the block and the taper is buying time for a scan that has to actually keep happening.",
+      "id": "traffic-watch",
+      "kind": "track",
+      "prompt": "Keep your attention moving between the vehicle and the traffic lane — don't fix on either one.",
+      "seconds": 8,
+      "target": "traffic-scan-point",
+      "title": "Split your attention between the patient and the road",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.4,
+        "green": [
+          0.3,
+          0.72
+        ],
+        "label": "SITUATIONAL SCAN",
+        "rise": 0.5,
+        "start": 0.5
+      },
+      "why": "Struck-by is a leading cause of on-duty EMS death precisely because a scene this well set up still relies on somebody actually watching the lane — locking onto the patient and never checking the road is how a driver who missed the taper gets all the way to the work area before anybody notices."
+    },
+    {
+      "cue": "Set positions: you take the patient side, your partner holds the scene-safety side.",
+      "id": "partner-position-brief",
+      "kind": "select",
+      "prompt": "Set positions: you take the patient side, your partner holds the scene-safety side.",
+      "target": "partner-brief-board",
+      "title": "Brief your partner's position before you approach",
+      "why": "A two-person unit only protects each other if both people know which job is whose before anybody moves — one approaching the vehicle, one watching the road and the scene behind you, decided out loud rather than assumed once you are already at the door."
+    },
+    {
+      "cue": "Come up on the protected side, stop short of the door, and read the occupant before opening anything.",
+      "holdBreakNote": "You opened the door before finishing the read. A few extra seconds here is what tells you whether this is a scared patient or a threat, and it is cheaper spent now than after the door is already open.",
+      "id": "approach-agitated-occupant",
+      "kind": "hold",
+      "prompt": "Come up on the protected side, stop short of the door, and read the occupant before opening anything.",
+      "seconds": 6,
+      "target": "vehicle-door-point",
+      "title": "Approach from the curb side and pause before the door",
+      "why": "An agitated occupant behind a closed door is an unknown, and the pause before opening it is what lets you actually read the situation — voice, hands, what is visible through the glass — from a position you can still step back from, rather than committing to an open door before you know what is on the other side of it."
+    },
+    {
+      "cue": "The occupant's tone has crossed from scared to threatening — call for police backup now.",
+      "id": "request-police",
+      "kind": "select",
+      "prompt": "The occupant's tone has crossed from scared to threatening — call for police backup now.",
+      "target": "radio-police-request",
+      "title": "Call for police when the scene turns",
+      "why": "The threshold for calling police is a change in the scene, not a fixed rule you wait to hit — a scene that turns threatening gets a call the moment it turns, because a unit that waits to see if it gets worse has already spent the time it needed to call for help before things escalated further."
+    },
+    {
+      "cue": "Walk or carry the patient from the vehicle to the ambulance, on the protected side the whole way.",
+      "drag": {
+        "missNote": "Not on the stretcher — a patient set down anywhere else on the shoulder is still exposed to the lane.",
+        "radius": 0.6,
+        "to": "gurney-seat"
+      },
+      "id": "move-patient-to-ambulance",
+      "kind": "drag",
+      "prompt": "Walk or carry the patient from the vehicle to the ambulance, on the protected side the whole way.",
+      "target": "patient-figure",
+      "title": "Move the patient to the ambulance",
+      "why": "The protected path from the car to the ambulance is a straight line behind the block, the same reason the block exists in the first place — cutting a corner toward the open lane to save a few steps puts the one person on scene who cannot watch for traffic themselves back into it."
+    },
+    {
+      "cue": "Load the stretcher into the ambulance and turn the floor lock until it engages.",
+      "id": "load-lock-stretcher",
+      "kind": "turn",
+      "prompt": "Load the stretcher into the ambulance and turn the floor lock until it engages.",
+      "target": "stretcher-lock",
+      "title": "Load the stretcher and confirm the lock",
+      "turn": {
+        "axis": "z",
+        "label": "STRETCHER LOCK",
+        "turns": 1
+      },
+      "why": "A stretcher that is loaded but not locked to the floor mount is still a loose several hundred pounds the moment the ambulance brakes hard, so the lock is confirmed by feel and by the indicator, not assumed because the stretcher slid into place and stopped moving on its own."
+    },
+    {
+      "cue": "Walk the shoulder once before departure: nothing left behind that turns into somebody else's hazard.",
+      "id": "final-scene-sweep",
+      "itemNames": {
+        "dropped-glove": "a dropped glove on the shoulder",
+        "forgotten-flare": "a flare still burning by the car",
+        "open-cone-gap": "a gap opened in the cone taper"
+      },
+      "itemNotes": {
+        "dropped-glove": "A used glove on the shoulder — small, but exactly the kind of debris the next unit through here does not need to be surprised by.",
+        "forgotten-flare": "A road flare still burning by the disabled car — a fire risk left behind on a scene that is supposed to be cleared, not just vacated.",
+        "open-cone-gap": "One cone has been knocked out of the taper, leaving a gap a driver could read as room to pass closer than the buffer was set for."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the shoulder once before departure: nothing left behind that turns into somebody else's hazard.",
+      "targets": [
+        "dropped-glove",
+        "open-cone-gap",
+        "forgotten-flare"
+      ],
+      "title": "Sweep the scene before you clear it",
+      "why": "A scene is not actually cleared until it has been walked, because the things worth finding — a dropped glove, a gap in the taper, a flare nobody picked up — are exactly the things easy to miss from inside the cab, and they become the next unit's problem, or the next driver's, the moment this one pulls away."
+    },
+    {
+      "cue": "Twenty-four hours in, run the reaction check and commit honestly on what it shows.",
+      "gauge": {
+        "green": [
+          0.35,
+          0.58
+        ],
+        "label": "REACTION",
+        "missNote": "Outside the band this late in a shift is exactly what the check exists to catch — a driver who reads themselves as fine is not the same test as one that actually measures the reaction.",
+        "speed": 0.62
+      },
+      "id": "fatigue-selfcheck",
+      "kind": "gauge",
+      "prompt": "Twenty-four hours in, run the reaction check and commit honestly on what it shows.",
+      "target": "alertness-test",
+      "title": "Run the fitness-to-drive check at the end of the shift",
+      "why": "Fatigue at the end of a twenty-four-hour shift does not announce itself the way it should, and this department's own fatigue policy exists because feeling capable is not the same thing as testing capable — a real check, honestly read, is what a self-assessment by feel cannot be trusted to catch on hour twenty-three."
+    },
+    {
+      "cue": "Log the scene positioning, the escalation, the police request and the outcome.",
+      "id": "operational-log",
+      "kind": "select",
+      "prompt": "Log the scene positioning, the escalation, the police request and the outcome.",
+      "target": "incident-log-board",
+      "title": "Log the call",
+      "why": "The next crew that reads this log — on this stretch of road, or on this same address — is working off exactly what got written down here, not off what anybody remembers a week later, so the escalation and the call for police both go on the record in the order they actually happened."
+    },
+    {
+      "cue": "Ask your partner how they're doing after that approach, and name the peer-support line before the truck moves.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Ask your partner how they're doing after that approach, and name the peer-support line before the truck moves.",
+      "target": "crew-checkin-board",
+      "title": "Check on your partner before the drive back",
+      "why": "An occupant who turns threatening is exactly the kind of call this department's critical-incident stress protocol is written for, and a partner who froze in the moment carries that differently than the one who kept moving — asking directly, and naming the peer-support line out loud, is what keeps a hard call from riding home unspoken."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "A night roadside call: the ambulance as the block, the light pattern, the cone taper, an agitated occupant approached from the protected side, and the fatigue check at the end of a 24-hour shift",
+  "title": "SmartCiti.X~ Ambulance Scene Safety VR",
+  "trade": "EMT — NAGE/AFSCME EMS local",
+  "underwater": null,
+  "weather": "clear"
+}

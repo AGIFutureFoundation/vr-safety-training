@@ -1,0 +1,240 @@
+{
+  "accent": "#7fd1c9",
+  "anchors": [
+    {
+      "id": "ct-bench-bay-city-college",
+      "name": "Bench · Bay City College",
+      "position": [
+        473.4,
+        248
+      ],
+      "stations": [
+        "phlebotomy",
+        "dental-careers-pathway",
+        "four-handed-dentistry",
+        "k12-circuits-at-the-electrical-bench",
+        "k12-digital-citizenship-and-online-safety"
+      ],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "fruitvale"
+    },
+    {
+      "id": "ct-bus-stop-market-street-stalls",
+      "name": "Bus stop · Market Street Stalls",
+      "position": [
+        456.6,
+        268
+      ],
+      "stations": [
+        "phlebotomy",
+        "dental-careers-pathway",
+        "four-handed-dentistry",
+        "k12-circuits-at-the-electrical-bench",
+        "k12-digital-citizenship-and-online-safety"
+      ],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "fruitvale"
+    },
+    {
+      "id": "ct-notice-board-fruitvale-community-college",
+      "name": "Union hall notice board · Fruitvale Community College",
+      "position": [
+        492.9,
+        277.4
+      ],
+      "stations": [
+        "phlebotomy",
+        "dental-careers-pathway",
+        "four-handed-dentistry",
+        "k12-circuits-at-the-electrical-bench",
+        "k12-digital-citizenship-and-online-safety"
+      ],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "fruitvale"
+    },
+    {
+      "id": "fruitvale-community-college",
+      "name": "Fruitvale Community College",
+      "position": [
+        483,
+        260
+      ],
+      "stations": [
+        "phlebotomy",
+        "dental-careers-pathway",
+        "four-handed-dentistry",
+        "k12-circuits-at-the-electrical-bench",
+        "k12-digital-citizenship-and-online-safety"
+      ],
+      "table": "BAY_SITES",
+      "world": "bayworld",
+      "zone": "fruitvale"
+    }
+  ],
+  "certification": "The CDC's Guidelines for Infection Control in Dental Health-Care Settings, OSHA 29 CFR 1910.1030 bloodborne pathogens and 1910.1200 hazard communication, the state dental board's practice act, the EPA amalgam rule (40 CFR 441), and the ADA's radiographic guidance",
+  "competency": {
+    "id": "dental-hygiene-unspoken-smiles",
+    "kind": "programme",
+    "require": 6,
+    "standards": [
+      "cdc-guidance",
+      "osha-1910-1030",
+      "osha-1910-1200",
+      "epa-40-cfr-441"
+    ],
+    "stations": [
+      "phlebotomy",
+      "operatory-turnover",
+      "instrument-reprocessing",
+      "sharps-exposure-response",
+      "patient-intake-screening",
+      "radiograph-safety",
+      "periodontal-charting",
+      "ultrasonic-scaling",
+      "aerosol-management",
+      "fluoride-and-sealants",
+      "nitrous-oxide-monitoring",
+      "chairside-emergency",
+      "amalgam-waste-handling",
+      "mobile-dental-outreach",
+      "pediatric-visit",
+      "oral-cancer-screening",
+      "dn-medical-history-and-medication-review",
+      "dn-oral-hygiene-instruction-and-motivational-interviewing",
+      "dn-public-health-dentistry-and-fluoridation-advocacy"
+    ],
+    "title": "Deliver chairside hygiene under dental infection-control practice"
+  },
+  "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
+  "guides": [
+    "seiu-training",
+    "ufcw-training",
+    "afscme-training",
+    "adha-standards",
+    "cdc-guidance",
+    "osha-1910-1030",
+    "osha-1910-1200",
+    "epa-40-cfr-441",
+    "ada-radiographic-guidance",
+    "aapd-reference-manual",
+    "hipaa-privacy-rule",
+    "iso-23908",
+    "ada-cdt-code",
+    "state-dental-board"
+  ],
+  "id": "dental-hygiene-unspoken-smiles",
+  "ladder": {
+    "atBar": 20,
+    "lessonBar": 75,
+    "lessons": 1648,
+    "levels": 20,
+    "note": "a lesson is one station step under one condition; see docs/ladders.md",
+    "partial": 0,
+    "stationsNeeded": 0,
+    "tasks": 122
+  },
+  "name": "Dental Hygiene — Unspoken Smiles",
+  "schema": "smartcitix.programme/1",
+  "stations": [
+    {
+      "app": "trades",
+      "id": "phlebotomy",
+      "why": "The bench case every clinical trade shares: sharps, bloodborne pathogens and the exposure control plan, before a single dental instrument is picked up."
+    },
+    {
+      "app": "smartcity",
+      "id": "operatory-turnover",
+      "why": "The turnover between patients: sharps and instruments contained at the point of use, the disinfectant held to its own label's contact time, barriers changed and nothing left on the tray for the next patient to find."
+    },
+    {
+      "app": "smartcity",
+      "id": "instrument-reprocessing",
+      "why": "The sterilisation centre behind that turnover: mechanical cleaning instead of a hand scrub, a chemical indicator in every pack, and the weekly spore test that is the only proof any cycle actually worked."
+    },
+    {
+      "app": "smartcity",
+      "id": "sharps-exposure-response",
+      "why": "The needlestick this whole chain exists to prevent: washed, reported at once, and into evaluation inside the hours that make post-exposure prophylaxis worth anything."
+    },
+    {
+      "app": "smartcity",
+      "id": "patient-intake-screening",
+      "why": "The first ten minutes with any patient: the history read and flagged, vitals taken, an exam done in order, and consent signed before a single instrument is picked up."
+    },
+    {
+      "app": "smartcity",
+      "id": "radiograph-safety",
+      "why": "A bitewing series taken under ALARA, so every exposure this programme's stations show is one the selection criteria actually called for."
+    },
+    {
+      "app": "smartcity",
+      "id": "periodontal-charting",
+      "why": "The full periodontal chart that a cleaning is planned around, staged and graded to the 2017 classification rather than read off a single deep number."
+    },
+    {
+      "app": "smartcity",
+      "id": "ultrasonic-scaling",
+      "why": "A scaling and root planing appointment run the way NIOSH's own ergonomics guidance and the CDC's waterline standard both assume it will be — waterline verified before the tip touches anyone, and the operator's own wrist held as carefully as the root surface."
+    },
+    {
+      "app": "smartcity",
+      "id": "aerosol-management",
+      "why": "Turning the same operatory over for an aerosol-generating procedure: the room's own air changes and a HEPA unit sized to them, an N95 seal-checked every time, and a fallow time the chair has to earn before the next patient sits down."
+    },
+    {
+      "app": "smartcity",
+      "id": "fluoride-and-sealants",
+      "why": "Preventive care on a child: a measured varnish dose for the age in the chair, then sealants etched to the label's time, rinsed to the frosted look, and recorded for the recall so the programme can show what it retained."
+    },
+    {
+      "app": "smartcity",
+      "id": "nitrous-oxide-monitoring",
+      "why": "The hygienist's own separate permit at work: screening, the fail-safe, scavenging and a titration held inside NIOSH's exposure limit and the board's ceiling on the concentration itself."
+    },
+    {
+      "app": "smartcity",
+      "id": "chairside-emergency",
+      "why": "The chair's worst afternoon: a syncope that will not resolve, an anaphylaxis to the local anaesthetic, and the office emergency kit and the AED carrying the response from there."
+    },
+    {
+      "app": "smartcity",
+      "id": "amalgam-waste-handling",
+      "why": "The mercury side of the same clinic: a certified separator, scrap routed to one labelled stream instead of the trash or the sharps, and a manifest to the recycler at the end of it."
+    },
+    {
+      "app": "smartcity",
+      "id": "mobile-dental-outreach",
+      "why": "The clinical day carried off the operatory entirely: an RDHAP's community-practice rules and the CDC's mobile-setting guidance, run from a van's side door rather than a fixed room."
+    },
+    {
+      "app": "smartcity",
+      "id": "pediatric-visit",
+      "why": "The youngest patient this programme sees: tell-show-do and a plan that bends to a five-year-old's cooperation, with the referral as the answer when a parent asks for more than a hygienist's scope allows."
+    },
+    {
+      "app": "smartcity",
+      "id": "oral-cancer-screening",
+      "why": "The screening every adult recall should already include: a fixed extraoral-to-intraoral order, a finding described in terms a surgeon can act on, and the two-week rule that decides whether it waits or it's referred today."
+    },
+    {
+      "app": "smartcity",
+      "id": "dn-medical-history-and-medication-review",
+      "why": "The review behind every safe appointment: the bag of bottles checked against the form, a blood thinner and a bone medicine flagged, the allergies read with their reactions, and the consult decision recorded as the dentist's."
+    },
+    {
+      "app": "smartcity",
+      "id": "dn-oral-hygiene-instruction-and-motivational-interviewing",
+      "why": "The flossing talk that finally changes something: permission before advice, the patient's own reasons heard and drawn out, technique shown on a model, and one small goal he chose written in his words."
+    },
+    {
+      "app": "smartcity",
+      "id": "dn-public-health-dentistry-and-fluoridation-advocacy",
+      "why": "The hygienist's work carried out to the whole community: screening data with no child left in it, the team's own claims checked first, and three honest minutes at the water board's podium."
+    }
+  ],
+  "summary": "Stations that make a hygienist's clinical day — the operatory, the sterilisation centre, the chairside procedures, the emergencies and the outreach van — into scored procedures a training programme can run and record. Every step names the guideline it stands on.",
+  "union": "SEIU and UFCW dental and clinic staff, AFSCME public-health hygienists, and the ADHA as the profession's body"
+}

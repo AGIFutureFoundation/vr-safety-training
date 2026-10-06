@@ -1,0 +1,415 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "main-isolated",
+    "name": "Main Isolated",
+    "note": "A break shut down on the valve book's own two valves, in order, with the pit proven safe and the section clamped only after the gauge read zero"
+  },
+  "category": "Water & Environmental",
+  "certification": "UWUA water utility crew training; AWWA C651 disinfecting water mains for the section's return to service; OSHA 29 CFR 1926 Subpart P excavations for the repair pit; OSHA 29 CFR 1910.147 the control of hazardous energy for locking out the isolated valves; the utility's own valve book and dispatch procedure for which two valves actually make this section",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "AWWA",
+        "citedAs": "AWWA C651",
+        "id": "awwa-c651",
+        "title": "AWWA C651 — Disinfecting water mains"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926",
+        "id": "osha-1926",
+        "title": "29 CFR 1926 — Safety and health regulations for construction"
+      },
+      {
+        "body": "union",
+        "citedAs": "UWUA",
+        "id": "uwua-training",
+        "title": "UWUA — Utility Workers Union of America training and safety education for water, gas and electric utility crews"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Water",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "book-before-boxes",
+        "name": "Book Before Boxes",
+        "note": "The valve book was read before either box lid was touched"
+      },
+      {
+        "id": "order-held",
+        "name": "Order Held",
+        "note": "Downstream closed before upstream, every time, with no unsafe action"
+      },
+      {
+        "id": "zero-before-clamp",
+        "name": "Zero Before Clamp",
+        "note": "Held the isolation watch steady before the clamp ever touched the pipe"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-shutdown",
+        "name": "Clean Shutdown",
+        "note": "No corrections from the report to the log"
+      },
+      {
+        "id": "unbroken-watch",
+        "name": "Unbroken Watch",
+        "note": "The isolation watch ran to completion without a break"
+      },
+      {
+        "id": "street-back-fast",
+        "name": "Street Back Fast",
+        "note": "Section returned to service inside 80% of par"
+      }
+    ],
+    "currency": "GPM",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Apprentice",
+      "Service Crew",
+      "Distribution Operator",
+      "Crew Lead",
+      "Distribution Authority Certified"
+    ],
+    "system": "Distribution Authority"
+  },
+  "hazards": {
+    "clamp-under-pressure": "You went to set the repair clamp on the main before the isolation watch confirmed zero. A clamp bolted onto a pipe that is still finding pressure from a valve that has not fully seated is a clamp fighting the main instead of sealing it, and the water behind that pressure has already shown once today what it does when it finds a way out.",
+    "no-traffic-control": "You went to step into the open lane before the cones and the barrier were set. A break crew works with its back to whatever is still moving in that lane, and a driver who does not yet know this block has a hole in the street has no reason to be looking for a boot in the roadway.",
+    "skip-locate-check": "You went to break ground without checking the locate ticket against the marks on the street. The marks are the only thing standing between this excavation and whatever else runs under this block — a gas main, a telecom duct, a fibre line — and a shovel that goes in before they are read finds out what is down there the hard way.",
+    "wrong-valve-order": "You went to close the upstream valve before the downstream one. The downstream valve is what stops the customers past the break from pulling flow through it while it is still open; close upstream first and the whole section between the two valves is still pressurised on the break side, with nowhere for that pressure to go but out through the failure that is already there."
+  },
+  "id": "ut-water-main-break-emergency-shutdown-and-excavation",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "isolation-watch",
+      "alert": "Dispatch is calling: a hydrant on this exact main may still be flowing for a working fire two blocks over, and they need to know before this section goes fully dead.",
+      "cue": "That call decides whether this shutdown can finish — answer the radio before you touch another valve.",
+      "delay": 3,
+      "id": "hydrant-in-use-call",
+      "kind": "Dispatch calls about a hydrant on this main",
+      "missNote": "The radio went unanswered while the shutdown carried on. Whether that hydrant was still needed for the fire two blocks over was never confirmed before the section went dead.",
+      "seconds": 13,
+      "target": "dispatch-radio",
+      "why": "A hydrant supplying a working fire is the one customer on this main that a shutdown cannot simply proceed past, and the crew standing at the valves has no way to know it is in use unless dispatch tells them — answering the radio is what keeps this shutdown from starving an engine crew that is depending on this exact section.",
+      "wrongNote": "It is the radio. Nothing at the valves themselves has changed — the question is whether this main can go dead at all right now."
+    },
+    {
+      "after": "vac-clear",
+      "alert": "A resident from the house across the street has walked past the cones and is standing right at the barrier tape, phone out, looking down into the open pit.",
+      "cue": "Get them back behind the tape before the pit opens any further.",
+      "delay": 3,
+      "id": "resident-at-tape",
+      "kind": "A resident walks up to the open pit",
+      "missNote": "The resident stayed right at the tape while the crew's attention stayed on the pit. Nobody was watching the one person on this block who did not know where the edge of the excavation actually was.",
+      "seconds": 12,
+      "target": "safety-tape",
+      "why": "An open pit next to a main that was, until minutes ago, actively failing is not a place for anyone who is not on this crew, and a resident filming from the tape line has no way to judge how close is too close — moving them back is what keeps a curious bystander from becoming the next thing this crew has to explain.",
+      "wrongNote": "It is the tape line, and the resident standing at it. The pit itself has not changed."
+    }
+  ],
+  "lateNotes": {
+    "downstream-valve": "The downstream valve closes first, before the upstream one — not together, and not upstream first.",
+    "repair-clamp": "The clamp goes on only after the isolation watch has held at zero for its full watch — not on the strength of the valves simply being closed.",
+    "upstream-valve": "The upstream valve closes second, only once the downstream valve is confirmed shut and the gauge has been read.",
+    "vac-wand": "The pit is cleared with the vacuum wand once the section is isolated, not while the main could still be moving water into it."
+  },
+  "name": "Water Main Break Emergency Shutdown & Excavation",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "water-and-gas-utility-crews"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "break-report",
+      "clamp-bolt-a",
+      "clamp-bolt-b",
+      "clamp-bolt-c",
+      "clamp-under-pressure",
+      "dispatch-radio",
+      "downstream-valve",
+      "gas-line-marking",
+      "locate-ticket",
+      "main-gauge",
+      "main-socket",
+      "no-traffic-control",
+      "outage-log",
+      "repair-clamp",
+      "safety-tape",
+      "set-barrier",
+      "set-cone-a",
+      "set-cone-b",
+      "skip-locate-check",
+      "telecom-duct",
+      "upstream-valve",
+      "vac-wand",
+      "valve-box-a",
+      "valve-box-b",
+      "wrong-valve-order"
+    ],
+    "meshes": 186
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check the break report against the valve book: which main, which two valves make the section, and any critical customer on it.",
+      "id": "break-report",
+      "kind": "select",
+      "prompt": "Check the break report against the valve book: which main, which two valves make the section, and any critical customer on it.",
+      "target": "break-report",
+      "title": "Read the break report and valve book",
+      "why": "The valve book, not the nearest box lid, is what says which two valves actually isolate this stretch of main — a distribution system is full of valves that look right and isolate the wrong section entirely, and a hydrant or a critical customer riding this main is the one fact worth knowing before anything closes."
+    },
+    {
+      "cue": "Place both cones, then set the barrier, before anyone works between them and the open street.",
+      "id": "traffic-control",
+      "itemNames": {
+        "set-barrier": "barrier set across the lane",
+        "set-cone-a": "first cone placed",
+        "set-cone-b": "second cone placed"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Both cones first, then the barrier across the lane — a barrier with no cones ahead of it gives a driver no warning before they reach it.",
+      "prompt": "Place both cones, then set the barrier, before anyone works between them and the open street.",
+      "targets": [
+        "set-cone-a",
+        "set-cone-b",
+        "set-barrier"
+      ],
+      "title": "Set the traffic control before anyone steps into the lane",
+      "why": "The crew works with its back to whatever is still moving in that lane once the pit is open, and a driver who does not yet know this block has a failure in the street has no reason to be watching for anyone in the roadway — the cones and the barrier are what make this crew visible before it is vulnerable."
+    },
+    {
+      "cue": "Check the locate ticket against the marks already on the street before any excavation begins.",
+      "id": "locate-check",
+      "kind": "select",
+      "prompt": "Check the locate ticket against the marks already on the street before any excavation begins.",
+      "target": "locate-ticket",
+      "title": "Confirm the locate ticket before breaking ground",
+      "why": "The marks are the only record of what else runs under this block — a gas main, a telecom duct, a fibre line — and reading them against the ticket now is a two-minute check against striking one of them once the vac wand or a hand tool goes into that ground."
+    },
+    {
+      "cue": "Walk the block and find the two valve box lids that match the numbers in the valve book — not just any lid in the pavement.",
+      "id": "find-valve-boxes",
+      "itemNames": {
+        "valve-box-a": "the downstream valve box the book names",
+        "valve-box-b": "the upstream valve box the book names"
+      },
+      "itemNotes": {
+        "valve-box-a": "This box lid matches the downstream valve number in the book. It closes first.",
+        "valve-box-b": "This box lid matches the upstream valve number in the book. It closes second, once the downstream side is confirmed shut."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the block and find the two valve box lids that match the numbers in the valve book — not just any lid in the pavement.",
+      "targets": [
+        "valve-box-a",
+        "valve-box-b"
+      ],
+      "title": "Find the two valve boxes the book names",
+      "why": "A distribution block can carry more valve boxes than the ones that matter to this section, and a lid worked on the strength of 'it's a valve box' rather than the number stamped in the book is how a crew isolates the wrong stretch of main while the actual break keeps running."
+    },
+    {
+      "cue": "Wind the downstream valve fully shut before touching the one upstream of the break.",
+      "id": "close-downstream",
+      "kind": "turn",
+      "prompt": "Wind the downstream valve fully shut before touching the one upstream of the break.",
+      "target": "downstream-valve",
+      "title": "Close the downstream valve first",
+      "turn": {
+        "axis": "y",
+        "label": "DOWNSTREAM VALVE",
+        "turns": 0.75
+      },
+      "why": "Closing downstream first stops the customers past the break from pulling flow through the failure while the section is still partly open — closed in the other order, the upstream side is already dead while the break is still being fed from behind it."
+    },
+    {
+      "cue": "Bring the gauge reading down to where the book says the downstream side should sit, then commit.",
+      "gauge": {
+        "green": [
+          0.12,
+          0.3
+        ],
+        "label": "SECTION PRESSURE",
+        "missNote": "Still reading pressure the downstream valve should have taken off this side — check the valve before you close the next one.",
+        "speed": 0.7
+      },
+      "id": "main-gauge-read",
+      "kind": "gauge",
+      "prompt": "Bring the gauge reading down to where the book says the downstream side should sit, then commit.",
+      "target": "main-gauge",
+      "title": "Read the main gauge before the second valve",
+      "why": "The gauge, not the feel of the wheel, is what actually says the downstream valve seated — a valve that stopped turning against grit in the seat rather than against a closed gate reads exactly like a good valve until somebody checks the number."
+    },
+    {
+      "cue": "Now the downstream side is confirmed, wind the upstream valve fully shut.",
+      "id": "close-upstream",
+      "kind": "turn",
+      "prompt": "Now the downstream side is confirmed, wind the upstream valve fully shut.",
+      "target": "upstream-valve",
+      "title": "Close the upstream valve second",
+      "turn": {
+        "axis": "y",
+        "label": "UPSTREAM VALVE",
+        "turns": 0.75
+      },
+      "why": "This is the valve that actually stops the break — closed only now, with the downstream side already proven dead, so the surge this valve stops has nowhere behind it to push a customer's service backward into."
+    },
+    {
+      "cue": "Watch the gauge stay at zero for the full watch — any creep back up means a valve has not fully seated.",
+      "holdBreakNote": "That reading crept back up during the watch — a valve is not fully seated, and it has to be found before this section counts as dead.",
+      "id": "isolation-watch",
+      "kind": "track",
+      "prompt": "Watch the gauge stay at zero for the full watch — any creep back up means a valve has not fully seated.",
+      "seconds": 7,
+      "target": "main-gauge",
+      "title": "Hold the isolation watch",
+      "track": {
+        "drift": 0.1,
+        "fall": 0.3,
+        "green": [
+          0,
+          0.12
+        ],
+        "label": "SECTION PRESSURE",
+        "rise": 0.05,
+        "start": 0.05
+      },
+      "why": "A valve that looks closed and a valve that is sealed are not always the same valve — grit, a worn seat or a gate that stopped short all read the same the instant it stops turning, and only a watch held long enough shows a slow creep back toward pressure before the pit is opened on the strength of a valve that has not actually held."
+    },
+    {
+      "cue": "Hold the vacuum wand over the standing water and mud until the pit floor is visible.",
+      "holdBreakNote": "The wand came off before the floor was visible — hold it again, a partly cleared pit still hides the break and whatever else is down there.",
+      "id": "vac-clear",
+      "kind": "hold",
+      "prompt": "Hold the vacuum wand over the standing water and mud until the pit floor is visible.",
+      "seconds": 5,
+      "target": "vac-wand",
+      "title": "Clear the pit with the vac wand",
+      "why": "A flooded pit hides the barrel, hides the break itself and hides whatever else is down there until it is cleared — the vac wand does that without a shovel finding it first, which matters most right on top of a main that just failed once already today."
+    },
+    {
+      "cue": "Before any power tool goes back into the pit, find and hand-expose what else the locate ticket said would be here.",
+      "id": "hand-expose",
+      "itemNames": {
+        "gas-line-marking": "the yellow-marked gas line crossing the pit",
+        "telecom-duct": "the telecom duct along the pit wall"
+      },
+      "itemNotes": {
+        "gas-line-marking": "A yellow-marked gas line crosses this pit close enough that anything past a hand tool near it works to the locate ticket's clearance, not to feel.",
+        "telecom-duct": "A telecom duct runs along this wall of the pit — shallow enough that widening the excavation here means hand-exposing it first, not assuming the trench box clears it."
+      },
+      "kind": "find",
+      "prompt": "Before any power tool goes back into the pit, find and hand-expose what else the locate ticket said would be here.",
+      "targets": [
+        "gas-line-marking",
+        "telecom-duct"
+      ],
+      "title": "Hand-expose what else is in this pit",
+      "why": "The locate ticket named what should be near this pit, but only hand-exposing it proves exactly where — a gas line or a duct found by a machine bucket instead of a gloved hand is found by breaking it, and this pit already sits on top of one failure for the day."
+    },
+    {
+      "cue": "Carry the repair clamp down and close it round the failed section.",
+      "drag": {
+        "missNote": "Not centred on the break — a clamp seated off to one side has nothing to seal on the failed side of the pipe.",
+        "radius": 0.45,
+        "to": "main-socket"
+      },
+      "id": "install-clamp",
+      "kind": "drag",
+      "prompt": "Carry the repair clamp down and close it round the failed section.",
+      "target": "repair-clamp",
+      "title": "Bring the repair clamp to the break",
+      "why": "The clamp goes exactly round the failed section, seated on clean barrel either side of the break, because a clamp landed off-centre bridges the failure on one side and clamps sound pipe on the other — sealing nothing where it actually needs to."
+    },
+    {
+      "cue": "Snug all round first, then cross-pattern to half torque, then cross-pattern to full.",
+      "id": "torque-clamp",
+      "itemNames": {
+        "clamp-bolt-a": "snug all round",
+        "clamp-bolt-b": "cross-pattern to half torque",
+        "clamp-bolt-c": "cross-pattern to full torque"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Snug all round, then half torque across the pattern, then full — pulling one bolt fully home first is how the gasket rolls before the rest catch up.",
+      "prompt": "Snug all round first, then cross-pattern to half torque, then cross-pattern to full.",
+      "targets": [
+        "clamp-bolt-a",
+        "clamp-bolt-b",
+        "clamp-bolt-c"
+      ],
+      "title": "Torque the clamp in pattern",
+      "why": "A gasket pulled tight on one side first rolls out of its groove on the other before the rest of the bolts ever get there — snug, half, full, across the pattern every time, is what makes the seal even instead of even everywhere except the one bolt that went home first."
+    },
+    {
+      "cue": "Reopen slowly and bring the section gauge back into its normal band without a spike.",
+      "gauge": {
+        "green": [
+          0.55,
+          0.75
+        ],
+        "label": "RETURN PRESSURE",
+        "missNote": "That climb outran the band — back off and bring it up slower, the clamp needs to seat under load, not against a spike.",
+        "speed": 0.55
+      },
+      "id": "return-to-service",
+      "kind": "gauge",
+      "prompt": "Reopen slowly and bring the section gauge back into its normal band without a spike.",
+      "target": "main-gauge",
+      "title": "Bring the section back to pressure",
+      "why": "A section reopened too fast slams a column of standing water into a clamp that has not had a moment to seat under real pressure — brought back slowly, the gauge shows a smooth climb into the normal band instead of a spike that finds whatever the torque pattern might have missed."
+    },
+    {
+      "cue": "Fill in the outage log: the valves operated, the clamp installed, and the flush point referenced for disinfection before this block's water is called good.",
+      "id": "close-out-log",
+      "kind": "select",
+      "prompt": "Fill in the outage log: the valves operated, the clamp installed, and the flush point referenced for disinfection before this block's water is called good.",
+      "target": "outage-log",
+      "title": "Complete the outage and disinfection log",
+      "why": "The next crew that reads this main's record depends on this log being honest about what actually touched the water main today — which valves closed, what the repair was, and that the section was flushed and disinfected before anybody downstream drank from it, per AWWA C651, rather than assumed clean because the pressure came back."
+    }
+  ],
+  "supportLine": "your utility's employee assistance programme, or your UWUA steward if you are not sure how to reach it",
+  "tagline": "The valve book decides which two valves make the section and the order they close in, the locate ticket is read before the pit is opened, and the clamp does not go on until the gauge — not a guess — says the main is actually at zero",
+  "title": "SmartCiti.X~ Water Main Break Emergency Shutdown VR",
+  "trade": "UWUA water distribution crew — emergency main-break response",
+  "underwater": null,
+  "weather": "rain"
+}

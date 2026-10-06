@@ -1,0 +1,389 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "gap-named",
+    "name": "Gap Named",
+    "note": "Every claim in the plan checked against the patrol's own record, every gap cited to a real authority, and the letter filed before the deadline moved"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "BAAQMD Regulation 6 and its public comment process on a site's own dust control plan; EPA's Superfund community involvement requirements under the National Contingency Plan (40 CFR Part 300); California DTSC and the Regional Water Board's oversight of the plan itself; OSHA 29 CFR 1910.120 HAZWOPER for anyone who inspects a fenceline monitor in person — not required for this desk review of the plan and the patrol's own record",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "BAAQMD",
+        "citedAs": "BAAQMD",
+        "id": "baaqmd-regulations",
+        "title": "Bay Area Air Quality Management District regulations, complaint line and Community Advisory Council process"
+      },
+      {
+        "body": "DTSC",
+        "citedAs": "DTSC",
+        "id": "dtsc-hazardous-waste-control",
+        "title": "California Department of Toxic Substances Control — state hazardous waste control rules and oversight of contaminated-site cleanups"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "HAZWOPER",
+        "id": "osha-1910-120",
+        "title": "29 CFR 1910.120 — Hazardous waste operations and emergency response (HAZWOPER)"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Environmental",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "checked-not-trusted",
+        "name": "Checked, Not Trusted",
+        "note": "Every plan claim checked against the patrol's own log before the letter was drafted"
+      },
+      {
+        "id": "never-softened",
+        "name": "Never Softened",
+        "note": "Never rubber-stamped the plan, backdated the letter, dropped a citation, or sent the draft to the contractor first"
+      },
+      {
+        "id": "scaled-true",
+        "name": "Scaled True",
+        "note": "Held the map scale and the redline correction near band centre"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-review",
+        "name": "Clean Review",
+        "note": "No corrections anywhere in the review"
+      },
+      {
+        "id": "unbroken-redline",
+        "name": "Unbroken Redline",
+        "note": "Never broke the map redline correction"
+      },
+      {
+        "id": "filed-fast",
+        "name": "Filed Fast",
+        "note": "Filed inside 80% of par"
+      }
+    ],
+    "currency": "COMMENT",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Reader",
+      "Cross-Checker",
+      "Comment Drafter",
+      "Review Lead",
+      "Plan Review Certified"
+    ],
+    "system": "Plan Review"
+  },
+  "hazards": {
+    "backdate-letter": "You set the date stamp back three days to make the letter look filed before the deadline moved. A comment letter that reaches the regulator under a false date is worse than a late one — a late letter is a missed deadline anyone can see; a backdated one is a record this desk falsified, and it poisons every honest letter this group files afterward the moment anyone checks a postmark against it.",
+    "drop-citation": "You deleted the Regulation 6 citation to make the letter read less confrontational. A comment that says the water-truck frequency looks light is an opinion a contractor can wave off; a comment that cites the specific plan clause and the regulation it's supposed to satisfy is something the regulator has to actually answer — softening the letter into a feeling instead of a citation is giving away the only thing that made it worth filing.",
+    "share-draft-with-contractor": "You emailed the draft comment letter to the contractor for their notes before it went to the regulator. This desk's whole standing is that its review is independent of the site it's reviewing — a contractor who gets to see and shape the comment before the regulator does is not being held accountable by it, they're co-authoring the record of their own accountability.",
+    "skip-patrol-log": "You reached for the APPROVED stamp before ever pulling the patrol's own log. A contractor's plan is the contractor's own account of what it does — the only way this desk finds out whether it's true is by holding it against a record the contractor didn't write, and stamping it approved without that check is trusting the plan because it's the only document in the room, not because anyone checked it."
+  },
+  "id": "dust-plan-review",
+  "indoor": "service",
+  "interrupts": [
+    {
+      "after": "redline-map",
+      "alert": "A new photo just landed in the shared drive from this morning's patrol — the fenceline monitor in it is nowhere near the pin the plan's map shows for it.",
+      "cue": "Open the photo inbox and flag it before you move on — this is a second, separate mismatch from the one you just redlined.",
+      "delay": 4,
+      "id": "monitor-photo-mismatch",
+      "kind": "New patrol photo",
+      "missNote": "The new photo sat unopened in the inbox for the rest of the review, and the letter went out naming only the mismatch already in hand — a second, freshly documented siting error that arrived in time to be cited was left out simply because nobody looked.",
+      "seconds": 14,
+      "target": "photo-inbox",
+      "why": "A plan's map is a claim about where the site says its own monitoring happens, and every photo the patrol brings back is a chance to catch that claim being wrong — flagging a new mismatch the moment it arrives, rather than only working from the record you'd already opened, is what keeps this desk's review as current as the patrol's own morning, not a day behind it.",
+      "wrongNote": "Not that — open the photo inbox. Nothing else on this desk is what a patrol member just sent in."
+    },
+    {
+      "after": "highlight-clause",
+      "alert": "An email just came in from the Air District — the comment period on this plan closes tomorrow, not next week.",
+      "cue": "Re-pin the wall calendar to the new date now — everything left on this desk has to fit before tomorrow, not next week.",
+      "delay": 4,
+      "id": "deadline-moved",
+      "kind": "Deadline moved up",
+      "missNote": "The calendar stayed on the old date and the review kept moving at a next-week pace while the real deadline was tomorrow — whatever got filed after the old estimate ran out was filed too late for the Air District to have to consider it at all.",
+      "seconds": 14,
+      "target": "calendar-tack",
+      "why": "A comment filed after the period closes is not late paperwork, it is a comment the regulator has no obligation to read at all — moving the calendar the moment the new date arrives is what keeps the rest of this review honestly scoped to what can actually get written, cited and filed in the time that's left, instead of a letter still being drafted after the window that would have made it count has already shut.",
+      "wrongNote": "Not that — re-pin the calendar. Nothing else on this desk changes what tomorrow's deadline actually requires of the rest of this review."
+    }
+  ],
+  "lateNotes": {
+    "comment-letter-pad": "Nothing to draft yet — the plan's numbers have to actually be checked against the patrol's record first, or the letter is a guess dressed up as a review.",
+    "date-stamp": "Nothing to stamp yet — sign the letter first, or a stamped, unsigned letter is just a dated blank page.",
+    "highlighter": "Nothing to highlight yet — draft the letter first, or you're marking up a clause the letter doesn't reference.",
+    "redline-pen": "Nothing to correct yet — the plan's own monitor plot has to actually be checked against the patrol's record first, or you're redlining a location you haven't confirmed is wrong.",
+    "site-map": "Unroll the map and check its scale before you read anything plotted on it — a distance read off an uncalibrated map is a guess with a ruler."
+  },
+  "name": "Dust Plan Review",
+  "parSeconds": 320,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "hunters-point-can-we-live"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.2,
+    "hits": [
+      "action-level-page",
+      "backdate-letter",
+      "calendar-tack",
+      "cite-baaqmd-reg6",
+      "cite-dtsc-oversight",
+      "comment-letter-pad",
+      "date-stamp",
+      "desk-map-socket",
+      "drop-citation",
+      "freq-page",
+      "highlighter",
+      "map-roll",
+      "notify-airdistrict-listed",
+      "notify-neighbors-listed",
+      "notify-school-listed",
+      "patrol-log-binder",
+      "photo-inbox",
+      "plan-binder",
+      "redline-pen",
+      "scale-ruler",
+      "share-draft-with-contractor",
+      "signature-line",
+      "site-map",
+      "skip-patrol-log",
+      "unsupported-claim"
+    ],
+    "meshes": 177
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the plan cover to cover once before checking any single claim in it against anything else.",
+      "id": "read-plan",
+      "kind": "select",
+      "prompt": "Read the plan cover to cover once before checking any single claim in it against anything else.",
+      "target": "plan-binder",
+      "title": "Read the contractor's dust control plan",
+      "why": "A plan read start to finish, once, is how this desk learns what the contractor is actually claiming to do — the water-truck frequency, the action level, the monitor locations, the notification list — before any of those claims get held up against the patrol's own record. Checking a single page in isolation risks missing a claim contradicted by the plan's own later section."
+    },
+    {
+      "cue": "Carry the rolled site map to the desk and lay it flat before reading anything plotted on it.",
+      "drag": {
+        "missNote": "Not flat on the desk — a map left half-rolled still hides the corner the scale bar and half the monitor pins sit in.",
+        "radius": 0.4,
+        "to": "desk-map-socket"
+      },
+      "id": "unroll-map",
+      "kind": "drag",
+      "prompt": "Carry the rolled site map to the desk and lay it flat before reading anything plotted on it.",
+      "target": "map-roll",
+      "title": "Unroll the site map",
+      "why": "A map still curled on the roll hides its own corners and its own scale bar under the curl — laying it flat on the desk is what makes every monitor pin, every property line and the scale bar itself actually readable before a single distance gets checked against it."
+    },
+    {
+      "cue": "Slide the ruler out to match the map's own printed scale bar and commit only once it lines up.",
+      "gauge": {
+        "green": [
+          0.44,
+          0.58
+        ],
+        "label": "SCALE",
+        "missNote": "Not matched to the map's own scale bar — reset the ruler and line it up again before you trust a single distance on this sheet.",
+        "speed": 0.6
+      },
+      "id": "verify-map-scale",
+      "kind": "gauge",
+      "prompt": "Slide the ruler out to match the map's own printed scale bar and commit only once it lines up.",
+      "target": "scale-ruler",
+      "title": "Calibrate the scale ruler against the map's bar",
+      "why": "Every distance this review is about to read off this map — how far a monitor actually sits from the fence line, how far a pin is from where the patrol says the real instrument stands — is only true if the ruler measuring it is set to this specific map's own scale, not to a habit carried over from the last plan this desk reviewed."
+    },
+    {
+      "cue": "Read every monitor pin the plan's map plots and compare each one against the patrol's own noted positions.",
+      "id": "check-monitor-map",
+      "kind": "select",
+      "prompt": "Read every monitor pin the plan's map plots and compare each one against the patrol's own noted positions.",
+      "target": "site-map",
+      "title": "Check the monitor locations against the map",
+      "why": "A monitor plotted downwind on a map and a monitor actually standing downwind on the ground are two different claims, and the map is the only place a plan states the first one in writing — checking each pin against what the patrol actually logged in the field is the only way this desk catches a plan that looks right on paper and isn't right on the ground."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Confirm the plan's notification list actually names the Air District, the adjacent residents and the nearby school — not just the site's own staff.",
+      "id": "check-notify-list",
+      "itemNames": {
+        "notify-airdistrict-listed": "Air District listed",
+        "notify-neighbors-listed": "adjacent residents listed",
+        "notify-school-listed": "nearby school listed"
+      },
+      "kind": "sequence",
+      "prompt": "Confirm the plan's notification list actually names the Air District, the adjacent residents and the nearby school — not just the site's own staff.",
+      "targets": [
+        "notify-airdistrict-listed",
+        "notify-neighbors-listed",
+        "notify-school-listed"
+      ],
+      "title": "Check the exceedance notification list",
+      "why": "A notification list that only calls the contractor's own project manager when a monitor alarms is a list that keeps the exceedance inside the company that caused it — checking that the Air District, the residents next to the fence and the school down the block are all actually named is what confirms the plan notifies the people an exceedance actually reaches, not just the people it's convenient to tell."
+    },
+    {
+      "cue": "Read the plan's stated wetting frequency and compare it against how often the patrol's log actually recorded a truck running.",
+      "id": "check-water-freq",
+      "kind": "select",
+      "prompt": "Read the plan's stated wetting frequency and compare it against how often the patrol's log actually recorded a truck running.",
+      "target": "freq-page",
+      "title": "Check the water-truck frequency claim",
+      "why": "A plan that specifies wetting every twenty minutes and a patrol log that only ever caught a truck running once an hour are not describing the same site — this is the check that catches a frequency written to satisfy the regulator on paper without ever describing what the crew on the ground is actually doing."
+    },
+    {
+      "cue": "Read the plan's stated PM10 action level and compare it against the number the patrol actually saw posted on the fenceline monitor.",
+      "id": "check-action-levels",
+      "kind": "select",
+      "prompt": "Read the plan's stated PM10 action level and compare it against the number the patrol actually saw posted on the fenceline monitor.",
+      "target": "action-level-page",
+      "title": "Check the posted action level",
+      "why": "A plan that states one action level and a monitor in the field posted at a different one is not a typo this desk can wave off — whichever number is actually controlling the site's own stop-work decision is the one that matters, and a mismatch here means somebody downwind is being protected by a different threshold than the one the regulator approved."
+    },
+    {
+      "cue": "Trace the redline pen from the plan's plotted pin to the patrol's GPS-noted position, keeping the correction inside the map's own scale.",
+      "holdBreakNote": "The redline drifted off the patrol's actual position — bring the pen back onto the corrected line before the correction means anything.",
+      "id": "redline-map",
+      "kind": "track",
+      "prompt": "Trace the redline pen from the plan's plotted pin to the patrol's GPS-noted position, keeping the correction inside the map's own scale.",
+      "seconds": 8,
+      "target": "redline-pen",
+      "title": "Redline the map to the patrol's actual position",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.46,
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "REDLINE",
+        "rise": 0.5,
+        "start": 0.5
+      },
+      "why": "A comment letter that says a monitor pin is wrong needs to say exactly how wrong, in the map's own units, or the contractor can dismiss it as an impression — tracing the correction to the patrol's actual noted position, at the scale this desk just calibrated, is what turns a complaint into a distance a regulator can check for themselves."
+    },
+    {
+      "cue": "Open the patrol log and confirm every gap you've found so far against a dated, timed entry — not memory of the plan alone.",
+      "id": "cross-check-patrol-log",
+      "kind": "select",
+      "prompt": "Open the patrol log and confirm every gap you've found so far against a dated, timed entry — not memory of the plan alone.",
+      "target": "patrol-log-binder",
+      "title": "Pull the patrol's own field log",
+      "why": "Everything checked so far was checked against this desk's own reading of the plan; this is the step where each of those checks gets tied to an actual dated, timed entry somebody in the field wrote down — a gap this desk remembers noticing is not the same thing as a gap this desk can cite to a regulator."
+    },
+    {
+      "cue": "Start the letter by listing every gap this review actually found, in the order the plan itself presents them.",
+      "id": "draft-comment-letter",
+      "kind": "select",
+      "prompt": "Start the letter by listing every gap this review actually found, in the order the plan itself presents them.",
+      "target": "comment-letter-pad",
+      "title": "Draft the comment letter",
+      "why": "A comment letter is only as strong as the list of specific gaps behind it — drafting from the checks this desk already ran, rather than from a general sense that the plan seemed thin, is what keeps the letter answerable to exactly what was found rather than to an impression nobody can point back to."
+    },
+    {
+      "cue": "Hold the highlighter over the exact plan clause the letter's first gap refers to until the mark is solid.",
+      "holdBreakNote": "Released early — the mark is patchy and half the clause is still unhighlighted. Hold it down until the whole line is solid.",
+      "id": "highlight-clause",
+      "kind": "hold",
+      "prompt": "Hold the highlighter over the exact plan clause the letter's first gap refers to until the mark is solid.",
+      "seconds": 5,
+      "target": "highlighter",
+      "title": "Highlight the cited clause in the plan",
+      "why": "A comment letter that cites 'the plan's water-truck section' in general is easy for a contractor to argue with; a comment letter that highlights and cites the exact clause, word for word, is not — holding the highlighter down until the mark is solid, rather than a quick pass that half-covers the line, is what makes the citation something a reader can find on the page in one look."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Attach the actual regulation each gap violates — Regulation 6 for the dust claims, DTSC's own oversight for the plan's approval — before the letter goes further.",
+      "id": "cite-authority",
+      "itemNames": {
+        "cite-baaqmd-reg6": "BAAQMD Regulation 6 cited",
+        "cite-dtsc-oversight": "DTSC oversight cited"
+      },
+      "kind": "sequence",
+      "prompt": "Attach the actual regulation each gap violates — Regulation 6 for the dust claims, DTSC's own oversight for the plan's approval — before the letter goes further.",
+      "targets": [
+        "cite-baaqmd-reg6",
+        "cite-dtsc-oversight"
+      ],
+      "title": "Cite the real authority behind each gap",
+      "why": "A letter that says a plan 'doesn't seem sufficient' is an opinion; a letter that names the specific regulation a gap falls short of is a finding the regulator has a duty to respond to — citing the real authority behind every gap is what turns this desk's review from a complaint into a record the Air District and DTSC both have to actually answer."
+    },
+    {
+      "cue": "Read back through the draft and click the one claim that isn't actually tied to a log entry or a citation.",
+      "id": "proofread",
+      "itemNames": {
+        "unsupported-claim": "uncited claim in the draft"
+      },
+      "itemNotes": {
+        "unsupported-claim": "That line in the draft states a gap but never actually cites the patrol log entry or the regulation behind it — exactly the kind of claim a contractor's own attorney will strike from consideration on sight."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Read back through the draft and click the one claim that isn't actually tied to a log entry or a citation.",
+      "targets": [
+        "unsupported-claim"
+      ],
+      "title": "Proofread the draft before it's signed",
+      "why": "Drafting the letter and proofreading it for what it can actually prove are different skills — this is the last chance to catch a sentence that sounds right but isn't tied to anything this desk can point to, before it goes out under this group's own name."
+    },
+    {
+      "cue": "Turn the stamp's date wheel to today's actual date before stamping the desk's own filed copy.",
+      "id": "stamp-letter",
+      "kind": "turn",
+      "prompt": "Turn the stamp's date wheel to today's actual date before stamping the desk's own filed copy.",
+      "target": "date-stamp",
+      "title": "Date-stamp the filed copy",
+      "turn": {
+        "axis": "z",
+        "label": "DATE",
+        "turns": 0.4
+      },
+      "why": "The filed copy's date stamp is this desk's own proof of when the letter actually went out, independent of anything the regulator's own intake system records — turning the wheel to today's real date, not whatever date would look better later, is what keeps that proof honest if the filing date is ever questioned."
+    },
+    {
+      "cue": "Sign the letter and file it with the Air District before the deadline on the calendar.",
+      "id": "sign-file",
+      "kind": "select",
+      "prompt": "Sign the letter and file it with the Air District before the deadline on the calendar.",
+      "target": "signature-line",
+      "title": "Sign and file the comment letter",
+      "why": "A signature is this desk putting its own name behind every gap the letter names — filed before the deadline, it's a record the Air District has to weigh against the plan; filed after, however well-argued, it's a letter nobody was obligated to read."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Reading a contractor's dust control plan against what the patrol actually saw: the water truck frequency, the action levels, the monitor locations on the map, the notification list, and the gaps written into a comment letter for the regulator",
+  "title": "SmartCiti.X~ Dust Plan Review VR",
+  "trade": "Community environmental monitor",
+  "underwater": null,
+  "weather": null
+}

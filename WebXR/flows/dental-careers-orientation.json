@@ -1,0 +1,62 @@
+{
+  "id": "dental-careers-orientation",
+  "title": "Dental Careers — Orientation (Unspoken Smiles)",
+  "version": 1,
+  "start": "prog-dental-careers",
+  "meta": {
+    "audience": "A student choosing between the careers the Unspoken Smiles clinic opens onto.",
+    "why": "The programme is the orientation; the branch after it is the point. A three-star intake sends the student on to the chairside and radiography work an assistant does; anything less sends them back through the shared first ten minutes before they choose a direction.",
+    "hostNotes": "The branch reads `stars` off the attempt record, which is the engine's own 0-3 verdict. A host that wants a different split changes minStars on the edges and nothing else."
+  },
+  "nodes": [
+    {
+      "id": "prog-dental-careers",
+      "kind": "programme",
+      "app": "smartcity",
+      "ref": "dental-careers-unspoken-smiles",
+      "title": "Dental Careers — Unspoken Smiles",
+      "why": "The programme itself: SmartCiti.X opens it at the first station the learner has not yet passed, exactly as its own Start button does."
+    },
+    {
+      "id": "stn-intake",
+      "kind": "station",
+      "app": "smartcity",
+      "ref": "patient-intake-screening",
+      "title": "Patient intake and screening",
+      "why": "The shared first ten minutes every dental career starts with: the history read and the vitals taken the same way, whoever is going to be doing it."
+    },
+    {
+      "id": "stn-radiograph",
+      "kind": "station",
+      "app": "smartcity",
+      "ref": "radiograph-safety",
+      "title": "Radiography — safety and technique",
+      "why": "The assisting credential's own component: a student who took the intake cleanly is ready for the room where the dose is the thing being controlled."
+    },
+    {
+      "id": "stn-reprocessing",
+      "kind": "station",
+      "app": "smartcity",
+      "ref": "instrument-reprocessing",
+      "title": "Sterilisation and instrument processing",
+      "why": "The career behind every operatory: the instrument cycle, which is where an assistant who is strong on procedure and quiet with patients often lands."
+    },
+    {
+      "id": "checkin-choice",
+      "kind": "checkin",
+      "app": "smartcity",
+      "title": "Which chair do you want?",
+      "why": "The orientation closes on the student's own answer rather than on a score: the check-in asks where they want to go next, and nothing about it is graded."
+    }
+  ],
+  "edges": [
+    { "from": "prog-dental-careers", "to": "stn-intake" },
+    { "from": "stn-intake", "to": "stn-radiograph", "when": { "passed": true, "minStars": 3 } },
+    { "from": "stn-intake", "to": "stn-reprocessing", "when": { "passed": true, "minStars": 2 } },
+    { "from": "stn-intake", "to": "stn-intake" },
+    { "from": "stn-radiograph", "to": "checkin-choice", "when": { "passed": true } },
+    { "from": "stn-radiograph", "to": "stn-reprocessing" },
+    { "from": "stn-reprocessing", "to": "checkin-choice", "when": { "passed": true } },
+    { "from": "stn-reprocessing", "to": "stn-reprocessing" }
+  ]
+}

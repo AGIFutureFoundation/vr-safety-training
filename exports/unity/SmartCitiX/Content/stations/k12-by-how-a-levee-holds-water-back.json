@@ -1,0 +1,411 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "bank-reader",
+    "name": "Bank Reader",
+    "note": "Explained why a levee is wide at its base, tested clay against sand in the model tank and flagged a wet spot for the inspector"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFT",
+        "id": "aft-training",
+        "title": "AFT — American Federation of Teachers training for paraprofessionals and school-related personnel"
+      },
+      {
+        "body": "INEE",
+        "citedAs": "INEE Minimum Standards",
+        "id": "inee-minimum-standards",
+        "title": "INEE Minimum Standards for Education in emergencies, as a body whose standards a lesson is aligned to; it certifies nothing"
+      },
+      {
+        "body": "national curriculum authority",
+        "citedAs": "national curriculum framework",
+        "id": "national-curriculum-framework",
+        "title": "The national curriculum framework the school itself follows, as a category rather than any one country's document; no grade-level code is cited"
+      },
+      {
+        "body": "union",
+        "citedAs": "National Education Association",
+        "id": "nea-training",
+        "title": "NEA apprenticeship and training, as a training body"
+      },
+      {
+        "body": "UN",
+        "citedAs": "Sustainable Development Goal 4",
+        "id": "un-sdg-4-quality-education",
+        "title": "UN Sustainable Development Goal 4 (Quality Education), as a framework a lesson is aligned to; it certifies nothing"
+      },
+      {
+        "body": "UNESCO",
+        "citedAs": "UNESCO education guidance",
+        "id": "unesco-education-guidance",
+        "title": "UNESCO education guidance, as a body whose published guidance a lesson is aligned to; it certifies nothing"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Education",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "clean-read",
+        "name": "First Look",
+        "note": "Everything in the opening scan found first time"
+      },
+      {
+        "id": "no-shortcut",
+        "name": "No Shortcuts",
+        "note": "No misconception or unsafe shortcut anywhere in the run"
+      },
+      {
+        "id": "in-the-band",
+        "name": "In the Band",
+        "note": "Every gauge and meter held inside its band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-run",
+        "name": "Clean Run",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "steady-hands",
+        "name": "Steady Hands",
+        "note": "Every hold and track carried its full count"
+      },
+      {
+        "id": "quick-and-right",
+        "name": "Quick and Right",
+        "note": "Finished inside 80% of par"
+      }
+    ],
+    "currency": "FLAGS",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Walker",
+      "Spotter",
+      "Tester",
+      "Reader",
+      "Inspector"
+    ],
+    "system": "Levee Board"
+  },
+  "hazards": {
+    "cut-the-grass-cover": "You pulled up the grass cover. The roots knit the top soil together so rain and waves do not wash it off. Bare soil wears away fast, so the crew keeps the grass short and healthy rather than removing it.",
+    "dig-at-the-wet-spot": "You started to dig at a wet spot. Digging makes an easy path for water and weakens the bank. The inspector's rule is simple: you mark the spot with a flag, call it in and step back, and the crew decides what to do.",
+    "sand-is-just-as-good": "You filled the model with loose sand. Water finds its way through the gaps between sand grains, and it carries grains with it. Packed clay has tiny gaps that hold water back, which is why the crew packs clay into the core of the bank.",
+    "wall-not-a-hill": "You said a levee holds water because it is a thin wall. A levee is a long, low hill of packed earth. Water pushes hardest near the bottom, so the bank is widest there, and its gentle sides spread that push into the ground."
+  },
+  "id": "k12-by-how-a-levee-holds-water-back",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "watch-the-dry-side-of-the",
+      "alert": "A crew mower comes along the crest path towards the group.",
+      "cue": "Step to the marked side area and wait until the mower has passed.",
+      "delay": 3,
+      "id": "a-mower-comes-along-the-crest",
+      "kind": "Crew vehicle",
+      "missNote": "Nobody stepped aside, and the mower had to stop on the crest path while the group stood in its way.",
+      "seconds": 12,
+      "target": "byl-step-aside",
+      "why": "The crest path is also the crew's road. Stepping aside together, where the driver can see everyone, keeps the path clear and safe. The lesson can wait a minute; nobody should be standing in the way of a working machine.",
+      "wrongNote": "That keeps you on the path. Step to the marked side area first. Choose the response that deals with it now."
+    },
+    {
+      "after": "follow-the-river-level-on-the",
+      "alert": "The inspector asks which part of the slope your flag is on.",
+      "cue": "Point to the flag and say whether it is high, middle or low on the slope.",
+      "delay": 3,
+      "id": "the-inspector-asks-where-the-flag-is",
+      "kind": "Inspector question",
+      "missNote": "You pointed vaguely at the bank, and the inspector could not tell which part of the slope the flag was on.",
+      "seconds": 12,
+      "target": "byl-point-flag",
+      "why": "Where a wet spot sits tells the crew a lot, because a low damp patch means something different from a high one. Saying the place clearly is the report; a flag with no words beside it leaves the crew guessing.",
+      "wrongNote": "That does not say where the flag is. Point to it and name the part of the slope. Choose the response that deals with it now."
+    }
+  ],
+  "lateNotes": {
+    "byl-checkin": "The check-in comes at the very end of the walk.",
+    "byl-levee-log": "The levee record is written once the model test is done — nothing to record yet."
+  },
+  "name": "How a Levee Holds Water Back",
+  "parSeconds": 330,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "k12-science"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "byl-base",
+      "byl-checkin",
+      "byl-core",
+      "byl-crest-card",
+      "byl-fill-meter",
+      "byl-flag",
+      "byl-grass",
+      "byl-levee-log",
+      "byl-ord-dry",
+      "byl-ord-fill",
+      "byl-ord-pack",
+      "byl-ord-wait",
+      "byl-ph-bare",
+      "byl-ph-burrow",
+      "byl-ph-damp",
+      "byl-ph-mower",
+      "byl-point-flag",
+      "byl-reason-card",
+      "byl-river-meter",
+      "byl-share-board",
+      "byl-sign",
+      "byl-step-aside",
+      "byl-tap-dial",
+      "byl-watch-dry",
+      "byl-wet-spot",
+      "cut-the-grass-cover",
+      "dig-at-the-wet-spot",
+      "sand-is-just-as-good",
+      "wall-not-a-hill"
+    ],
+    "meshes": 235
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Mark the three parts of the levee cut-away model that do the holding.",
+      "decoyNotes": {
+        "byl-sign": "Useful for visitors, but it does not hold any water back."
+      },
+      "id": "find-the-parts-of-the-levee",
+      "itemNames": {
+        "byl-base": "the wide base at the bottom",
+        "byl-core": "the packed clay core",
+        "byl-grass": "the grass cover on the slope"
+      },
+      "itemNotes": {
+        "byl-base": "Water pushes hardest down low, so the bank is widest here.",
+        "byl-core": "Tiny gaps in clay hold water back.",
+        "byl-grass": "Roots knit the top soil together."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Mark the three parts of the levee cut-away model that do the holding.",
+      "targets": [
+        "byl-base",
+        "byl-core",
+        "byl-grass"
+      ],
+      "title": "Find the parts of the levee",
+      "why": "A levee is more than a heap of dirt. The wide base spreads the water's push into the ground, the packed clay core stops water soaking through, and the grass cover holds the top soil in place. Knowing each part is what lets you explain how the whole bank does its job."
+    },
+    {
+      "cue": "Step onto the crest path beside the inspector before the walk begins.",
+      "id": "stay-on-the-crest-path-with",
+      "kind": "select",
+      "prompt": "Step onto the crest path beside the inspector before the walk begins.",
+      "target": "byl-crest-card",
+      "title": "Stay on the crest path with the inspector",
+      "why": "The inspector walks the flat path along the top of the bank, where the footing is firm and the whole slope can be seen at once. Keeping to that path means you never trample the grass cover or slip on a wet slope, and the crew always knows where everyone in the group is standing."
+    },
+    {
+      "cue": "Pack the model bank, fill the tank on one side, wait and watch, then look for water on the dry side.",
+      "id": "put-the-model-test-in-order",
+      "itemNames": {
+        "byl-ord-dry": "4 · check the dry side for water",
+        "byl-ord-fill": "2 · fill the tank on the river side",
+        "byl-ord-pack": "1 · pack the model bank firmly",
+        "byl-ord-wait": "3 · wait and watch the bank"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order. Pack the model bank before any water goes into the tank.",
+      "prompt": "Pack the model bank, fill the tank on one side, wait and watch, then look for water on the dry side.",
+      "targets": [
+        "byl-ord-pack",
+        "byl-ord-fill",
+        "byl-ord-wait",
+        "byl-ord-dry"
+      ],
+      "title": "Put the model test in order",
+      "why": "A fair model test follows the same order every time. Packing the bank first, then adding water to one side, then waiting before you look, gives the water time to show where it can creep through. Checking the dry side last is how you see whether the bank really held."
+    },
+    {
+      "cue": "Hold your eyes on the dry side of the clay bank until the timer bar fills.",
+      "holdBreakNote": "You looked away and missed the dry side. Watch it again until the bar fills.",
+      "id": "watch-the-dry-side-of-the",
+      "kind": "hold",
+      "prompt": "Hold your eyes on the dry side of the clay bank until the timer bar fills.",
+      "seconds": 6,
+      "target": "byl-watch-dry",
+      "title": "Watch the dry side of the model",
+      "why": "Water can take a while to soak through a bank, so a quick look can miss it. Watching the dry side steadily lets you see the first dark patch if one appears. Inspectors are patient in the same way, because a slow, small change is the one that matters most to spot early."
+    },
+    {
+      "cue": "Turn the tap a little so the water rises slowly beside the model bank.",
+      "id": "turn-the-tank-tap-to-add",
+      "kind": "turn",
+      "prompt": "Turn the tap a little so the water rises slowly beside the model bank.",
+      "target": "byl-tap-dial",
+      "title": "Turn the tank tap to add water slowly",
+      "turn": {
+        "axis": "y",
+        "label": "TAP",
+        "turns": 0.5
+      },
+      "why": "Adding water gently is part of a fair test. A sudden rush splashes over the top and tells you nothing about how the bank holds. A slow rise lets the water press on the bank the way a river rises over a day, so what you see is the bank's real strength."
+    },
+    {
+      "cue": "Commit when the water in the tank reaches the line the teacher drew.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.58
+        ],
+        "label": "WATER",
+        "missNote": "Not at the line. Stop the water right where the teacher's mark is.",
+        "speed": 0.6
+      },
+      "id": "stop-the-water-at-the-mark",
+      "kind": "gauge",
+      "prompt": "Commit when the water in the tank reaches the line the teacher drew.",
+      "target": "byl-fill-meter",
+      "title": "Stop the water at the mark on the tank",
+      "why": "Every group stops its water at the same line so the tests can be compared. If one tank is fuller than another, you cannot tell whether the clay or the extra water made the difference. Stopping at the line keeps one thing the same, which is what makes a test fair."
+    },
+    {
+      "cue": "Drag a flag to the damp patch on the model's dry side.",
+      "drag": {
+        "missNote": "Not on the damp patch yet. Put the flag right where the soil is darker.",
+        "radius": 0.45,
+        "to": "byl-wet-spot"
+      },
+      "id": "place-a-flag-at-the-wet",
+      "kind": "drag",
+      "prompt": "Drag a flag to the damp patch on the model's dry side.",
+      "target": "byl-flag",
+      "title": "Place a flag at the wet spot",
+      "why": "When inspectors find a wet spot on a real bank they mark it with a flag so the crew can find it again and watch it. A flag does no harm to the bank, and it tells everyone exactly where to look. Marking and reporting is always the first job, never digging."
+    },
+    {
+      "cue": "Choose the reason the clay model stayed dry when the sand model did not.",
+      "id": "say-why-the-clay-bank-held",
+      "kind": "select",
+      "prompt": "Choose the reason the clay model stayed dry when the sand model did not.",
+      "target": "byl-reason-card",
+      "title": "Say why the clay bank held better",
+      "why": "The clay and sand models got the same water, the same shape and the same wait. The only change was the soil, so the soil explains the result. Saying that clearly, with the reason that clay has tiny gaps and sand has big ones, is how a scientist turns a result into an idea."
+    },
+    {
+      "cue": "Look along the bank in the photo board and mark each thing worth reporting.",
+      "decoyNotes": {
+        "byl-ph-mower": "A short, even grass cover is what a healthy bank looks like."
+      },
+      "id": "spot-what-the-inspector-would-flag",
+      "itemNames": {
+        "byl-ph-bare": "a bare strip with no grass",
+        "byl-ph-burrow": "a small burrow hole",
+        "byl-ph-damp": "a damp patch low on the slope"
+      },
+      "itemNotes": {
+        "byl-ph-bare": "Grass holds the top soil; report the gap.",
+        "byl-ph-burrow": "Holes let water in; report it.",
+        "byl-ph-damp": "Flag it and report it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look along the bank in the photo board and mark each thing worth reporting.",
+      "targets": [
+        "byl-ph-damp",
+        "byl-ph-bare",
+        "byl-ph-burrow"
+      ],
+      "title": "Spot what the inspector would flag",
+      "why": "An inspector's walk is a search for small signs: a damp patch low on the slope, a bare strip where grass has gone, a hole an animal has dug. Each can let water in over time. Seeing them early means the crew can fix a small thing before it grows into a big job."
+    },
+    {
+      "cue": "Keep the marker on the river's level as it rises and falls against the gauge post.",
+      "holdBreakNote": "The marker slipped off the river level. Follow the water back and settle on the middle.",
+      "id": "follow-the-river-level-on-the",
+      "kind": "track",
+      "prompt": "Keep the marker on the river's level as it rises and falls against the gauge post.",
+      "seconds": 8,
+      "target": "byl-river-meter",
+      "title": "Follow the river level on the gauge post",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.38,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "RIVER",
+        "rise": 0.46,
+        "start": 0.3
+      },
+      "why": "The crew watches the river level every day, so they know when to walk the bank more often. The water never sits perfectly still, so you follow the middle of its movement. That habit of steady watching is what lets the crew get ready early and calmly."
+    },
+    {
+      "cue": "Write down both models, what happened on the dry side and where you placed the flag.",
+      "id": "record-what-you-found",
+      "kind": "select",
+      "prompt": "Write down both models, what happened on the dry side and where you placed the flag.",
+      "target": "byl-levee-log",
+      "title": "Record what you found",
+      "why": "A record lets someone who was not there see what you saw. Writing which soil you used, how long you waited and what the dry side looked like means another class can repeat the test and check it. The crew keeps the same kind of notes after every walk along the bank."
+    },
+    {
+      "cue": "Hand your flag notes to the inspector and say where the wet spot was.",
+      "id": "tell-the-inspector-what-you-flagged",
+      "kind": "select",
+      "prompt": "Hand your flag notes to the inspector and say where the wet spot was.",
+      "target": "byl-share-board",
+      "title": "Tell the inspector what you flagged",
+      "why": "A flag is only useful when the right person knows about it. Telling the inspector what you saw and where, in plain words, is how a small sign reaches the crew who can deal with it. That is the same chain every levee walk follows: see it, mark it, tell someone."
+    },
+    {
+      "cue": "What did the model show you? Which part of the levee would you explain to someone at home?",
+      "id": "crew-check-in",
+      "kind": "select",
+      "prompt": "What did the model show you? Which part of the levee would you explain to someone at home?",
+      "target": "byl-checkin",
+      "title": "Check in on the crest before you leave",
+      "why": "The levee crew ends each walk by talking it through, so the class does the same on the crest path. Each learner names one part of the bank and what it does. If someone is still unsure why the base is wide, this is the moment to go back to the model together before the group heads home."
+    }
+  ],
+  "supportLine": "your teacher, a school counsellor or a trusted adult at home — if anything in this lesson was hard, talk it through afterwards",
+  "tagline": "Wide at the bottom, packed clay inside, grass on top — and a wet spot is flagged, never dug",
+  "title": "SmartCiti.X~ How a Levee Holds Water Back VR",
+  "trade": "Science class on the levee crest with the levee inspection crew — learner and levee inspector",
+  "underwater": null,
+  "weather": "clear"
+}

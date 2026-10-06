@@ -1,0 +1,385 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "line-ready",
+    "name": "Line Ready",
+    "note": "A full line changeover with the edge honed, the PPE donned in order and the rotation actually taken on schedule"
+  },
+  "category": "Culinary & Hospitality",
+  "certification": "UFCW member training for meatpacking work; OSHA 29 CFR 1910.138 hand protection; OSHA 29 CFR 1910.132 personal protective equipment; ANSI/ISEA 105 cut-resistance ratings; USDA inspection and grading marks on meat and poultry",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI/ISEA 105",
+        "id": "ansi-isea-105",
+        "title": "ANSI/ISEA 105 — Hand protection classification, including the A1–A9 cut levels"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.132",
+        "id": "osha-1910-132",
+        "title": "29 CFR 1910.132 — Personal protective equipment, general requirements"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.138",
+        "id": "osha-1910-138",
+        "title": "29 CFR 1910.138 — Hand protection"
+      },
+      {
+        "body": "union",
+        "citedAs": "UFCW",
+        "id": "ufcw-training",
+        "title": "UFCW member training for retail food, clinic and dental support work"
+      },
+      {
+        "body": "USDA",
+        "citedAs": "USDA",
+        "id": "usda-fsis-marks",
+        "title": "USDA Food Safety and Inspection Service inspection and grading marks on meat and poultry"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Meatpacking production line",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "ppe-first",
+        "name": "PPE First",
+        "note": "Gloved and guarded before the knife was ever issued"
+      },
+      {
+        "id": "handle-first",
+        "name": "Handle First",
+        "note": "Never passed or reached for a blade the wrong way"
+      },
+      {
+        "id": "steady-hone",
+        "name": "Steady Hone",
+        "note": "Held the honing angle and the cut stroke inside the safe band every time"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-changeover",
+        "name": "Clean Changeover",
+        "note": "No corrections through the whole line changeover"
+      },
+      {
+        "id": "held-the-hold",
+        "name": "Held The Hold",
+        "note": "Never broke a timed hold early"
+      },
+      {
+        "id": "line-fast",
+        "name": "Line Ready Fast",
+        "note": "Complete inside 80% of par"
+      }
+    ],
+    "currency": "HONE",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Line Trainee",
+      "Line Cutter",
+      "Lead Cutter",
+      "Line Supervisor",
+      "Line Authority Certified"
+    ],
+    "system": "Line Authority"
+  },
+  "hazards": {
+    "blade-first-pass": "That knife is sitting blade-first, handle away, the way it should never be picked up or handed off. A blade passed or reached for edge-first hands the next set of fingers the one part of it that cuts, first.",
+    "dull-blade-forced": "That knife on the rail is visibly nicked and dulled, and it's tempting to press down harder with it rather than swap it out. A dull edge needs more downward force to make the same cut, and force is exactly what turns a slip into a laceration on a line moving at a set pace.",
+    "line-speed-override": "You cranked the speed request dial past the posted band instead of calling for a slower line. Running ahead of the band you were trained to work inside of is how a controlled cut turns into a rushed one, every single time the line is running faster than the cut in front of it.",
+    "missing-mesh-glove": "That station down the line has no mesh glove hanging at it — somebody is cutting without one. A cut-resistant glove that stays on its hook instead of a hand is exactly the gap ANSI/ISEA 105's rating was never going to close by itself."
+  },
+  "id": "gr-meatpacking-line-knife-work-and-ppe-rotation",
+  "indoor": "plant",
+  "interrupts": [
+    {
+      "after": "steel-hone",
+      "alert": "A coworker is walking up holding their knife out blade-first, about to hand it to you directly instead of using the tray.",
+      "cue": "That handoff has a blade pointed at your hand the whole way across.",
+      "delay": 4,
+      "id": "coworker-blade-first-handoff",
+      "kind": "Wrong handoff about to happen",
+      "missNote": "The handoff happened hand to hand, blade-first, before anyone redirected it. Whatever training says about the tray, a habit only holds up if it gets used the one time somebody skips it in a hurry.",
+      "seconds": 12,
+      "target": "knife-pass-tray",
+      "why": "Redirecting a direct, blade-first handoff to the tray is the exact habit this line runs on — a knife changes hands cleanly only when neither hand is ever actually in the blade's own path, and the tray is what guarantees that every time.",
+      "wrongNote": "It's the pass tray — redirect the handoff to it before that blade crosses hand to hand."
+    },
+    {
+      "after": "cut-motion",
+      "alert": "The line has visibly sped up past the posted band, and product is starting to stack up in front of your station.",
+      "cue": "That's a reason to request the band back, not a reason to rush the next several cuts.",
+      "delay": 3,
+      "id": "line-speeds-up",
+      "kind": "Line running ahead of the cut",
+      "missNote": "The rushed cuts kept pace with the line, not with the stroke you were trained to hold. Speed gained here is exactly the kind that shows up later as a slip nobody saw building.",
+      "seconds": 12,
+      "target": "speed-request-dial",
+      "why": "A line running ahead of the band is exactly what the request dial exists for — calling it in is the controlled response; racing the backed-up product with a faster, less controlled stroke is the same overreach this whole station is built to train out of you.",
+      "wrongNote": "It's the speed request dial — call for the posted band back before the rushed cuts start."
+    }
+  ],
+  "lateNotes": {
+    "cut-sleeve": "Glove first, then the sleeve over its cuff — not the other way around.",
+    "line-knife": "Not until the PPE is on. This knife doesn't get picked up bare-armed."
+  },
+  "name": "Meatpacking Line Knife Work & PPE Rotation",
+  "parSeconds": 290,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "grocery-and-meatpacking"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.7,
+    "hits": [
+      "belly-apron",
+      "blade-first-pass",
+      "clean-rail",
+      "cut-sleeve",
+      "dull-blade-forced",
+      "hand-sink",
+      "honing-steel",
+      "knife-crib",
+      "knife-pass-tray",
+      "line-board",
+      "line-knife",
+      "line-log",
+      "line-speed-dial",
+      "line-speed-override",
+      "mesh-glove",
+      "missing-mesh-glove",
+      "nicked-blade",
+      "rotation-board",
+      "sani-dip",
+      "speed-request-dial",
+      "unsheathed-spare"
+    ],
+    "meshes": 120
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check your station on the line and today's rotation schedule before anything else.",
+      "id": "line-assignment",
+      "kind": "select",
+      "prompt": "Check your station on the line and today's rotation schedule before anything else.",
+      "target": "line-board",
+      "title": "Read the line assignment board",
+      "why": "The board is what tells you which cut this station makes and when your rotation comes around — starting without reading it means guessing at both, on a line that does not slow down to let you catch up."
+    },
+    {
+      "cue": "Glove, then sleeve over its cuff, then the belly-guard apron over both — in that order.",
+      "id": "don-cut-ppe",
+      "itemNames": {
+        "belly-apron": "belly-guard apron",
+        "cut-sleeve": "cut sleeve",
+        "mesh-glove": "cut-resistant mesh glove"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Wrong order — glove first, sleeve over its cuff next, apron over both last.",
+      "prompt": "Glove, then sleeve over its cuff, then the belly-guard apron over both — in that order.",
+      "targets": [
+        "mesh-glove",
+        "cut-sleeve",
+        "belly-apron"
+      ],
+      "title": "Don PPE in order",
+      "why": "OSHA 29 CFR 1910.138 and ANSI/ISEA 105 rate each piece on its own, but the order is what makes them work together: the sleeve overlaps the glove's cuff, and the apron overlaps the sleeve, so there is no gap between them for an edge to find."
+    },
+    {
+      "cue": "Sign your knife out of the crib for this shift, per the plant's own tool-control procedure.",
+      "id": "knife-issue",
+      "kind": "select",
+      "prompt": "Sign your knife out of the crib for this shift, per the plant's own tool-control procedure.",
+      "target": "knife-crib",
+      "title": "Check out your knife",
+      "why": "A knife accounted for at check-out is a knife accounted for at check-in — tool control on a cutting line is what tells the next shift, and an inspector, that every blade issued today is a blade that came back."
+    },
+    {
+      "cue": "Draw the blade down the steel at a steady angle and hold it through the full pass count.",
+      "holdBreakNote": "Angle broke off mid-pass. Reset against the steel and hold a steady angle through the full count.",
+      "id": "steel-hone",
+      "kind": "hold",
+      "prompt": "Draw the blade down the steel at a steady angle and hold it through the full pass count.",
+      "seconds": 6,
+      "target": "honing-steel",
+      "title": "Hone the edge before the first cut",
+      "why": "A honed edge needs less force to make the same cut than a dull one does, and less force behind a knife is less force behind a slip. Honing before the first cut, not after the knife starts fighting the product, is what keeps that force low all shift."
+    },
+    {
+      "cue": "Read the line speed indicator and commit once it's inside the posted safe band for this cut.",
+      "gauge": {
+        "green": [
+          0.3,
+          0.6
+        ],
+        "label": "LINE SPEED",
+        "missNote": "Outside the posted band — flag it before the first product reaches this station, not after.",
+        "speed": 0.6
+      },
+      "id": "line-speed-check",
+      "kind": "gauge",
+      "prompt": "Read the line speed indicator and commit once it's inside the posted safe band for this cut.",
+      "target": "line-speed-dial",
+      "title": "Check the line speed against its posted band",
+      "why": "The posted band is the plant's own answer to how fast this specific cut can be made safely, and it's checked before the first product reaches your station, not discovered by falling behind on the third one."
+    },
+    {
+      "cue": "Two things at this station are wrong. Find them before the first product arrives.",
+      "decoyNotes": {
+        "clean-rail": "The rail here is clear, every knife sheathed or racked. Leave it."
+      },
+      "id": "walk-line-station",
+      "itemNames": {
+        "nicked-blade": "a visibly nicked blade left on the rail",
+        "unsheathed-spare": "a spare knife with no sheath"
+      },
+      "itemNotes": {
+        "nicked-blade": "This blade's edge is visibly chipped. A nicked edge does not get pressed into service on the next changeover — it goes back to the crib to be reground, not back onto the line.",
+        "unsheathed-spare": "A spare knife sitting loose with no sheath on the rail is a blade anyone's hand can find edge-first without meaning to."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Two things at this station are wrong. Find them before the first product arrives.",
+      "targets": [
+        "nicked-blade",
+        "unsheathed-spare"
+      ],
+      "title": "Walk the station before the line starts",
+      "why": "A changeover isn't finished when your own PPE is on — it's finished when the station around you is checked too. Two things left wrong here become the next cutter's surprise, not just yours."
+    },
+    {
+      "cue": "Draw the blade through a controlled stroke length — not a cramped one, not an overreach.",
+      "holdBreakNote": "Out of the controlled band — reset your stroke length before the off-hand drifts into the blade's own path.",
+      "id": "cut-motion",
+      "kind": "track",
+      "prompt": "Draw the blade through a controlled stroke length — not a cramped one, not an overreach.",
+      "seconds": 6,
+      "target": "line-knife",
+      "title": "Practice a controlled cutting stroke",
+      "track": {
+        "drift": 0.1,
+        "fall": 0.42,
+        "green": [
+          0.35,
+          0.62
+        ],
+        "label": "STROKE LENGTH",
+        "rise": 0.5,
+        "start": 0.15
+      },
+      "why": "A cramped stroke forces you to reposition constantly, and an overreach puts your off-hand closer to the blade's path than it needs to be — a controlled, consistent stroke length is the one that repeats safely a few hundred times a shift."
+    },
+    {
+      "cue": "Set the knife handle-first on the pass tray for the next cutter, never handed edge-out.",
+      "id": "pass-knife-safely",
+      "kind": "select",
+      "prompt": "Set the knife handle-first on the pass tray for the next cutter, never handed edge-out.",
+      "target": "knife-pass-tray",
+      "title": "Pass the knife handle-first",
+      "why": "The pass tray is what takes the handoff out of two hands entirely — a knife set down handle-first and picked up handle-first never has a moment where the blade is pointed at anybody's hand but the person already holding it."
+    },
+    {
+      "cue": "Turn the request dial to call for the line to slow to the posted band, not past it.",
+      "id": "request-speed-adjust",
+      "kind": "turn",
+      "prompt": "Turn the request dial to call for the line to slow to the posted band, not past it.",
+      "target": "speed-request-dial",
+      "title": "Request a line-speed adjustment",
+      "turn": {
+        "axis": "y",
+        "label": "SPEED REQUEST",
+        "turns": 0.5
+      },
+      "why": "The request dial is the line's own control for exactly this moment — falling behind the cut in front of you is a reason to call for the posted band to be held, not a reason to rush the next several cuts to catch back up."
+    },
+    {
+      "cue": "Drop the knife into the sanitising dip station between cuts on different product.",
+      "drag": {
+        "missNote": "Not in the dip station — the blade goes there between products, not wiped on an apron.",
+        "radius": 0.28,
+        "to": "sani-dip"
+      },
+      "id": "sanitize-knife",
+      "kind": "drag",
+      "prompt": "Drop the knife into the sanitising dip station between cuts on different product.",
+      "target": "line-knife",
+      "title": "Dip the knife between tasks",
+      "why": "A blade carries whatever it last cut into the next one it touches — the dip station between tasks is what keeps one product's contact time from becoming the next product's contamination."
+    },
+    {
+      "cue": "Check the rotation board and move to your next assigned task on schedule.",
+      "id": "rotation-schedule",
+      "kind": "select",
+      "prompt": "Check the rotation board and move to your next assigned task on schedule.",
+      "target": "rotation-board",
+      "title": "Take your scheduled rotation",
+      "why": "The rotation exists because the same motion repeated for a whole shift is what builds a repetitive strain injury nobody feels coming — taking it on schedule, not skipping it for one more cycle, is the entire point of it being scheduled at all."
+    },
+    {
+      "cue": "Sign your knife back into the crib at the end of your task on this station.",
+      "id": "return-knife",
+      "kind": "select",
+      "prompt": "Sign your knife back into the crib at the end of your task on this station.",
+      "target": "knife-crib",
+      "title": "Return your knife to the crib",
+      "why": "The knife that left the crib with your name on it is the same knife that has to come back with your name on it — tool control only works if the return happens every time, not just when nothing else is going on."
+    },
+    {
+      "cue": "Wash your hands and the sanitised tools and hold through the full wash count.",
+      "holdBreakNote": "Cut the wash short. Hold the full count — a fast rinse moves residue around instead of actually clearing it.",
+      "id": "handwash",
+      "kind": "hold",
+      "prompt": "Wash your hands and the sanitised tools and hold through the full wash count.",
+      "seconds": 6,
+      "target": "hand-sink",
+      "title": "Wash hands and tools between line changes",
+      "why": "A line change is a contact-time reset for your hands, not just your knife — a wash cut short leaves the last task's residue riding into the next one on the one tool nobody else double-checks."
+    },
+    {
+      "cue": "Sign the log to close out this changeover.",
+      "id": "sign-line-log",
+      "kind": "select",
+      "prompt": "Sign the log to close out this changeover.",
+      "target": "line-log",
+      "title": "Sign the line log",
+      "why": "The signature is the cutter taking responsibility for the whole changeover — knife issued and returned, PPE donned in order, rotation taken — and it's the record a supervisor reads if this station's history is ever questioned."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "The knife issued and honed, the cut-resistant PPE donned in order, the line speed checked against its posted band, and the rotation that keeps one motion from becoming a whole shift's injury",
+  "title": "SmartCiti.X~ Meatpacking Line Knife Work & PPE Rotation VR",
+  "trade": "Meatpacking line worker",
+  "underwater": null,
+  "weather": null
+}

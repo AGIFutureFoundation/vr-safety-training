@@ -1,0 +1,261 @@
+{
+  "id": "k12-es-what-a-trash-capture-device-does",
+  "index": "872",
+  "prefix": "est",
+  "accent": "#5c9a7a",
+  "floor": [
+    "#5a6260",
+    "#4e5654"
+  ],
+  "wall": [
+    "#e0e8e4",
+    "#ccdad4"
+  ],
+  "trade": "Science visit with the drain cleaning crew at a trash capture device — learner and cleaning crew lead",
+  "header": "Upper-primary science at the Islais Creek Pump Station site in San Francisco: how a trash capture device lets storm water through and keeps trash back, tested with a model screen and seen when the crew cleans a real one out, using only what the model and the scene show.",
+  "name": "What a Trash Capture Device Does",
+  "tagline": "A screen in the drain lets water through and keeps trash back — test one, then watch the crew clean it",
+  "badge": {
+    "id": "screen-keeper",
+    "name": "Screen Keeper",
+    "note": "Tested a model trash screen, explained why it lets water pass and keeps trash back, and helped sort what the crew cleaned out"
+  },
+  "board": {
+    "name": "Screen Board",
+    "currency": "CATCHES",
+    "ranks": [
+      "Net",
+      "Sieve",
+      "Screen",
+      "Basket",
+      "Trash Keeper"
+    ]
+  },
+  "hazards": [
+    {
+      "id": "screen-stops-the-water",
+      "label": "Say the screen stops the water too?",
+      "face": "STOPS\nWATER?",
+      "text": "You said the screen stops the water. The holes are big enough for water and small enough to keep trash back. If it stopped the water, the street would flood, so the holes are the whole idea."
+    },
+    {
+      "id": "reach-into-the-device",
+      "label": "Reach into the device to grab the trash?",
+      "face": "REACH\nIN",
+      "text": "You reached into the device. Trash can hide sharp things, and the space below the street is one only trained crew work in. The crew uses a grabber and gloves, and a truck with a vacuum lifts the rest out."
+    },
+    {
+      "id": "stand-by-the-open-lid",
+      "label": "Stand right by the open lid to see better?",
+      "face": "BY THE\nLID",
+      "text": "You stood right by the open lid. An open drain is a place to trip. The crew puts a barrier around it, and visitors watch from behind the barrier."
+    },
+    {
+      "id": "sort-with-bare-hands",
+      "label": "Sort the cleaned-out trash with bare hands?",
+      "face": "BARE\nHANDS",
+      "text": "You sorted the trash with bare hands. Drain trash can be sharp or dirty. Wear the gloves the crew gives you, and use the tongs for anything that looks sharp."
+    }
+  ],
+  "find1": {
+    "title": "Find the parts of the trash capture device",
+    "cue": "Mark the three parts that let water through and keep trash back.",
+    "why": "A trash capture device sits inside a storm drain. Water comes in through the inlet, passes through a screen full of holes, and flows on to the pipe. The trash that is too big for the holes stays behind in a basket. Each part has one job, and together they let the water go and keep the trash.",
+    "items": [
+      [
+        "inlet",
+        "the inlet where the water comes in",
+        "Rain and trash arrive here together."
+      ],
+      [
+        "screen",
+        "the screen full of small holes",
+        "Water passes and trash stays back."
+      ],
+      [
+        "basket",
+        "the basket that holds the trash",
+        "The crew empties it later."
+      ]
+    ],
+    "decoy": [
+      "sign",
+      "the street name sign",
+      "Useful for finding the drain, but not part of the device."
+    ]
+  },
+  "select1": {
+    "title": "Put on gloves before you touch the model",
+    "cue": "Put on the gloves before you pick up the model trash.",
+    "why": "The model trash is clean, but the crew never touches drain trash without gloves, so the class practises the same habit. Gloves keep hands safe from sharp edges and dirt. Making it a habit on the easy day means it happens on the real day too. Protective equipment works only when it is worn every single time, including during practice.",
+    "key": "glove-card",
+    "label": "Gloves on",
+    "face": "GLOVES\nON"
+  },
+  "seq": {
+    "title": "Put the screen test in order",
+    "cue": "Pour water with no screen, look at the jar, add the screen, then pour the same again.",
+    "why": "Pouring first with no screen shows what happens without the device. This is your control. Then you add the screen and pour the same water and trash again. The screen is the only change, so any difference in the jar belongs to the screen. Scientists call this a controlled comparison, because everything except the screen stays identical between the two pours.",
+    "oon": "Out of order. Pour with no screen first, as your control.",
+    "items": [
+      [
+        "ord-bare",
+        "pour water and model trash with no screen"
+      ],
+      [
+        "ord-look",
+        "look at what reached the jar"
+      ],
+      [
+        "ord-screen",
+        "put the screen in the model drain"
+      ],
+      [
+        "ord-again",
+        "pour the same water and trash again"
+      ]
+    ]
+  },
+  "turn": {
+    "title": "Set the pour speed and leave it",
+    "cue": "Turn the tap dial to the teacher's setting and do not touch it again.",
+    "why": "Both pours must be the same, or the test is not fair. If one pour is faster, more trash might get pushed through. Setting the tap once and leaving it keeps the flow the same, so the screen is the only thing that changes. Controlling a variable, meaning keeping it deliberately unchanged, is what makes a comparison trustworthy to other people.",
+    "key": "tap-dial",
+    "label": "Pour speed",
+    "dial": "FLOW"
+  },
+  "gauge": {
+    "title": "Read the trash left in the jar",
+    "cue": "Commit when the marker sits at the top of the trash in the jar.",
+    "why": "The jar stands for the Bay. Reading how much trash got there shows how well each pour kept trash out. Read the top of the pile at eye level, so your reading matches a classmate's. The smaller the pile, the better the screen worked. Consistent measurement habits let different observers compare their results and agree about what happened.",
+    "key": "jar-meter",
+    "label": "Trash in the jar",
+    "meter": "TRASH",
+    "miss": "Not at the top of the pile. Read where the trash stops."
+  },
+  "hold": {
+    "title": "Hold the screen in the model drain",
+    "cue": "Hold the screen flat in the model drain until its clips click.",
+    "why": "If the screen tips, trash slips round the edge and the test is spoiled. Holding it flat until the clips click keeps it snug. Real devices are bolted in for the same reason: a gap at the edge lets trash sneak past. Engineers design the fixings carefully because water pressure during heavy rainfall pushes hard against every edge.",
+    "brk": "The screen tipped before the clips clicked. Hold it flat again.",
+    "key": "screen-hold",
+    "label": "Hold the screen"
+  },
+  "drag": {
+    "title": "Set the basket under the screen",
+    "cue": "Drag the model basket to the spot under the screen.",
+    "why": "The basket catches the trash the screen stops. If it sits in the wrong place, the trash piles up on the screen and blocks the water. Under the screen, it fills up neatly, so the crew can lift it out in one go. Positioning matters in engineering: the right part in the wrong place does not do its job.",
+    "key": "basket",
+    "label": "Basket",
+    "spot": "basket-spot",
+    "spotLabel": "Under the screen",
+    "miss": "Not under the screen yet. Place the basket where the trash falls."
+  },
+  "find2": {
+    "title": "Spot the crew's cleanout steps",
+    "cue": "Watch the crew at the real device and mark each safe step they take.",
+    "why": "Cleaning out a device is a careful job. The crew sets cones so drivers slow down, puts a barrier round the open lid, and uses a vacuum truck so nobody has to climb in. Seeing each step shows that the cleanout is planned, not rushed.",
+    "items": [
+      [
+        "cones",
+        "cones and a sign in the street",
+        "Drivers slow down and go round."
+      ],
+      [
+        "barrier",
+        "a barrier round the open lid",
+        "Nobody can step into the opening."
+      ],
+      [
+        "vacuum",
+        "the vacuum truck's hose",
+        "It lifts the trash out from above."
+      ]
+    ],
+    "decoy": [
+      "radio",
+      "the truck's radio",
+      "The crew likes music, but it is not a cleanout step."
+    ]
+  },
+  "select2": {
+    "title": "Say what the screen did",
+    "cue": "Choose the sentence that says what your two pours showed.",
+    "why": "Both pours used the same water and trash. With the screen, less trash reached the jar, and the water still flowed. A good answer says that the screen kept trash back and let water through, with your jar readings as the proof. Scientists try to make conclusions that match their evidence exactly, without exaggerating what they observed.",
+    "key": "result-card",
+    "label": "State the result",
+    "face": "WHAT DID\nIT DO?"
+  },
+  "track": {
+    "title": "Follow a bottle cap to the screen",
+    "cue": "Keep the marker on the bottle cap as it floats to the screen.",
+    "why": "Following one piece of trash shows the device at work. The cap floats along with the water until it meets the screen, and there it stops while the water goes on. Watching it happen helps you explain the idea in your own words. Describing a process step by step is an important scientific skill, because it explains how a result happens.",
+    "brk": "The marker lost the cap. Find it again and follow it to the screen.",
+    "key": "cap-track",
+    "label": "Cap followed",
+    "meter": "FOLLOW"
+  },
+  "record": {
+    "title": "Record both pours side by side",
+    "cue": "Write the jar reading for the pour without the screen and the pour with it.",
+    "why": "Two columns side by side make the result easy to see and check. Anyone reading your table can see what changed and what stayed the same. The crew keeps a record too, noting how full each basket was, so they know how often to come back. Organised records also help the city decide where additional devices would be most useful.",
+    "key": "pour-log",
+    "label": "Pour record",
+    "done": "Both pours recorded"
+  },
+  "share": {
+    "title": "Sort the crew's catch into groups",
+    "cue": "With gloves and tongs, help sort the model catch into bottles, bags and leaves.",
+    "why": "Sorting shows what ends up in drains most. If most of it is wrappers, the fix starts with bins and habits on the street. The crew shares what it finds so the city knows where to put more bins and where to tell people about the drain.",
+    "key": "sort-board",
+    "label": "Sort the catch",
+    "done": "Catch sorted"
+  },
+  "checkin": {
+    "title": "Check in before the crew closes the lid",
+    "cue": "What does the screen let through? What does it keep back?",
+    "why": "The crew checks the device is closed and safe before leaving, and the class checks its ideas the same way. Each learner says what the screen lets through and what it keeps. If anyone thinks the screen stops the water too, the group sorts it out now.",
+    "label": "End-of-visit check-in"
+  },
+  "interrupts": [
+    {
+      "id": "a-truck-backs-up-to-the-drain",
+      "kind": "Truck reversing",
+      "key": "stand-clear",
+      "label": "Stand clear behind the barrier",
+      "alert": "The vacuum truck beeps and starts to back up to the drain.",
+      "cue": "Stand clear behind the barrier and wait for the truck to stop.",
+      "why": "A reversing truck has places the driver cannot see. Standing clear behind the barrier keeps the class out of those places. The crew uses a spotter to guide the driver, and everyone else waits until the beeping stops.",
+      "miss": "The class stayed by the kerb, and the spotter had to stop the truck until everyone moved back.",
+      "wrong": "That leaves you near a reversing truck. Stand clear behind the barrier. Choose the response that deals with it now.",
+      "done": "Class behind the barrier, the truck parked. The lesson carries on."
+    },
+    {
+      "id": "the-crew-lead-asks-about-the-holes",
+      "kind": "Crew question",
+      "key": "name-holes",
+      "label": "Say why the screen has holes",
+      "alert": "The crew lead asks why the screen is full of holes.",
+      "cue": "Say the holes let the water through so the street does not flood.",
+      "why": "The holes are the clever part. They are big enough for water and small enough for most trash. Without them the device would block the drain, and the street would flood in the next rain.",
+      "miss": "You could not say why the screen has holes, and the crew lead had to explain before the class could go on.",
+      "wrong": "That does not explain the holes. Say what the holes let through. Choose the response that deals with it now.",
+      "done": "Holes explained. The lesson carries on."
+    }
+  ],
+  "crew": [
+    "Science teacher",
+    "Classmate",
+    "Cleaning crew lead",
+    "Truck spotter"
+  ],
+  "guide": {
+    "start": "No screen first, then the screen.",
+    "after": "Water through, trash kept back.",
+    "hazard": "Stop. Gloves on, stay behind the barrier."
+  },
+  "lateRecord": "The pour record is written once both pours are done — nothing to record yet.",
+  "lateCheckin": "The check-in comes at the very end of the visit.",
+  "scene": "bench",
+  "order": "b"
+}

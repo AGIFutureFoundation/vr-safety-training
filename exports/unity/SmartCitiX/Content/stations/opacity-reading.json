@@ -1,0 +1,378 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "smoke-school-certified",
+    "name": "Smoke School Certified",
+    "note": "A Method 9 observation taken from the right ground, read past the steam, and averaged honestly against the permit"
+  },
+  "category": "Environmental Monitoring",
+  "certification": "AFSCME air-district inspector — certified under EPA Method 9 (40 CFR 60 Appendix A), recertified every six months by reading a smoke generator against a panel of known opacities; Bay Area Air Quality Management District Regulation 6 (particulate matter) as enforced against the plant's Title V permit; IUOE stationary engineers and USW plant crews who run the boiler this observation is taken on; OSHA 29 CFR 1910 Subpart D fall protection where the observation point is elevated",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFSCME",
+        "id": "afscme-training",
+        "title": "AFSCME member education and safety training for public-service and air-district members"
+      },
+      {
+        "body": "EPA",
+        "citedAs": "40 CFR 60",
+        "id": "epa-40-cfr-60",
+        "title": "40 CFR Part 60 — Standards of performance for new stationary sources, with the Appendix A reference test methods"
+      },
+      {
+        "body": "EPA",
+        "citedAs": "EPA Method 9",
+        "id": "epa-method-9",
+        "title": "EPA Method 9 (40 CFR Part 60 Appendix A) — visual determination of the opacity of emissions"
+      },
+      {
+        "body": "union",
+        "citedAs": "IUOE",
+        "id": "iuoe-training",
+        "title": "IUOE local training funds and the IUOE National Training Fund — operating and stationary engineer apprenticeship"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910",
+        "id": "osha-1910",
+        "title": "29 CFR 1910 — Occupational safety and health standards for general industry"
+      },
+      {
+        "body": "union",
+        "citedAs": "USW",
+        "id": "usw-mazzocchi-center",
+        "title": "USW Tony Mazzocchi Center health, safety and environmental training"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Environmental",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "sun-at-your-back",
+        "name": "Sun At Your Back",
+        "note": "Took the observation point with the sun in the 140-degree sector behind, first time"
+      },
+      {
+        "id": "read-past-the-steam",
+        "name": "Read Past The Steam",
+        "note": "Never logged a reading taken inside the condensed steam"
+      },
+      {
+        "id": "twenty-four-clean",
+        "name": "Twenty-Four Clean",
+        "note": "Held every 15-second reading close to true across the set"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-set",
+        "name": "Clean Set",
+        "note": "No corrections anywhere in the six-minute set"
+      },
+      {
+        "id": "held-the-sightline",
+        "name": "Held The Sightline",
+        "note": "Never lost the plume's densest point during the read"
+      },
+      {
+        "id": "off-the-clock",
+        "name": "Off The Clock",
+        "note": "Full observation, logged and signed, inside 80% of par"
+      }
+    ],
+    "currency": "OPACITY",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Trainee Observer",
+      "Field Observer",
+      "Certified Reader",
+      "Lead Observer",
+      "Visible Emissions Authority"
+    ],
+    "system": "Visible Emissions Authority"
+  },
+  "hazards": {
+    "backdate-cert": "You altered the date on the certification card instead of reading what it actually says. A lapsed Method 9 certification does not make a bad observer — it makes every reading that observer takes inadmissible, and a card that has been changed to hide that turns a stale certification into falsified compliance data, which is a different and much worse problem under the Clean Air Act.",
+    "elevated-no-tie": "You stepped up onto the observation platform without clipping to its anchor. The platform exists because the plaza wall blocks the sightline from ground level, and OSHA's fall-protection rule does not care that the drop is short and the visit is quick — the anchor is bolted to the rail for exactly this five minutes of standing at the edge.",
+    "haul-road": "You set the tripod up in the plant's marked haul road to get a cleaner sightline. A compliance observer standing where a loaded truck expects a clear lane is not protected by the fact that their attention is on a stopwatch and a stack instead of the road — the sightline is worth nothing to an observer who has been struck getting it.",
+    "look-into-sun": "You sighted your position by looking straight along the line to the sun. Method 9 lines an observer up from their own shadow and a compass card, never a glance at the sun itself — a moment of glare bright enough to leave an afterimage is not worth saving the ten seconds a compass reading takes."
+  },
+  "id": "opacity-reading",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "read-1",
+      "alert": "A cloud has moved in front of the sun and is passing behind the plume — the sky you are reading the plume against has gone from bright to flat in the middle of your set.",
+      "cue": "The background behind the plume just changed while you were mid-read.",
+      "delay": 3,
+      "id": "cloud-shadow",
+      "kind": "Background contrast changed",
+      "missNote": "The set closed with no flag on the readings taken while the background changed. A reviewer reading this form later has no way to know which numbers in the average were taken against a different sky than the rest, and Method 9's whole defence — that the conditions are recorded, not assumed — depends on that being written down when it happens.",
+      "seconds": 12,
+      "target": "flag-reading",
+      "why": "Method 9 reads opacity against the sky or a contrasting background, and that background is assumed to hold steady for the six minutes of a set. A cloud crossing behind the plume changes the contrast the estimate is being made against without changing the plume at all, so the readings taken in that window are flagged on the form rather than folded into the average as if nothing had happened.",
+      "wrongNote": "That does not flag the reading. The contrast changed on the sky behind the plume, and it is the affected readings on the form that get marked, not the plume itself."
+    },
+    {
+      "after": "read-2",
+      "alert": "Steam is condensing out of the flue gas right at the stack exit and is sitting in the part of the plume you are reading.",
+      "cue": "What you are reading now has steam in it, not just particulate.",
+      "delay": 4,
+      "id": "steam-plume",
+      "kind": "Steam in the plume",
+      "missNote": "The set carried on reading the steam-laden part of the plume as if it were the emission. Every 15-second reading taken in that stretch measured condensed water vapour rather than particulate, and the average built from it overstates the stack's actual opacity — the kind of error that gets a compliant plant cited for a violation it did not commit.",
+      "seconds": 13,
+      "target": "steam-clear-point",
+      "why": "Condensed steam looks exactly like particulate opacity until it has had room to re-evaporate, and Method 9 is explicit that the point read is beyond where any steam plume has visibly dissipated. Reading through it does not average out over six minutes — it reads high the whole time, because the water is there the whole time.",
+      "wrongNote": "Not there. Move the sightline past the point where the steam has visibly cleared — that is where Method 9 says the plume is read."
+    }
+  ],
+  "lateNotes": {
+    "average-calc": "There is no average to compute until both blocks of readings are logged on the form.",
+    "smoke-chart": "The densest point of the plume has to be found and the observation point has to be set before the clock on a Method 9 reading means anything.",
+    "wind-sock": "Wind, sky and background are recorded against the set that was actually read — logged before the set exists, they describe nothing."
+  },
+  "name": "Opacity Reading",
+  "parSeconds": 260,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "air-quality-monitoring"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.3,
+    "hits": [
+      "average-calc",
+      "backdate-cert",
+      "background-panel",
+      "cert-card",
+      "densest-point",
+      "elevated-no-tie",
+      "field-form",
+      "flag-reading",
+      "haul-road",
+      "look-into-sun",
+      "method9-card",
+      "obs-mark",
+      "rangefinder",
+      "sign-pen",
+      "sky-panel",
+      "smoke-chart",
+      "steam-clear-point",
+      "sun-compass",
+      "tripod",
+      "wind-sock"
+    ],
+    "meshes": 164
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read what permit condition this observation is checking and what the reference method requires.",
+      "id": "protocol",
+      "kind": "select",
+      "prompt": "Read what permit condition this observation is checking and what the reference method requires.",
+      "target": "method9-card",
+      "title": "Take the Method 9 field procedure",
+      "why": "A Method 9 reading is a legal test run against a written procedure — the sun geometry, the reading interval, the rounding to the nearest 5 percent and the averaging rule are not judgment calls made fresh on the day, they are 40 CFR 60 Appendix A, and the plant's Title V permit is what makes the number that comes out of it enforceable."
+    },
+    {
+      "cue": "Read the date on your Method 9 card against today's date.",
+      "id": "cert-check",
+      "kind": "select",
+      "prompt": "Read the date on your Method 9 card against today's date.",
+      "target": "cert-card",
+      "title": "Check your certification date",
+      "why": "A visible-emissions certification lapses six months after the smoke-school test that earned it. A reading taken by a lapsed observer is not a weaker reading, it is not a Method 9 reading at all — the card is checked before the tripod comes off the truck, not after a permit reviewer asks for it."
+    },
+    {
+      "cue": "Turn the compass card until the sun's bearing falls inside the 140-degree sector marked at your back.",
+      "id": "sun-position",
+      "kind": "turn",
+      "prompt": "Turn the compass card until the sun's bearing falls inside the 140-degree sector marked at your back.",
+      "target": "sun-compass",
+      "title": "Find where the sun has to be behind you",
+      "turn": {
+        "axis": "y",
+        "label": "SUN COMPASS",
+        "turns": 0.6
+      },
+      "why": "Read with the sun ahead of you or hard off to one side and the plume scatters the light differently than it would to an observer standing correctly, biasing the estimate before any reading is taken. The compass, not a glance at the sun, is what proves the geometry — turned to the marked sector, the reading that follows is defensible."
+    },
+    {
+      "cue": "Range the stack and commit once the reading puts the whole plume in view.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "RANGE",
+        "missNote": "Too close or too far for the whole plume to be in view at once. Range it again before the scope is set on the mark.",
+        "speed": 0.7
+      },
+      "id": "distance-check",
+      "kind": "gauge",
+      "prompt": "Range the stack and commit once the reading puts the whole plume in view.",
+      "target": "rangefinder",
+      "title": "Confirm the viewing distance",
+      "why": "Too close and the observer is reading a slice of the plume rather than its full cross-section as it leaves the stack; too far and the plume has already thinned into the sky before a percentage means anything. The rangefinder turns 'far enough' into a number instead of a guess made by eye."
+    },
+    {
+      "cue": "Lift the spotting scope off its stand and set it on the marked point at the required distance and angle from the stack.",
+      "drag": {
+        "missNote": "That is not the marked observation point. The distance and angle are set by the method, not by wherever the ground happens to be clear.",
+        "radius": 0.5,
+        "to": "obs-mark"
+      },
+      "id": "obs-point",
+      "kind": "drag",
+      "prompt": "Lift the spotting scope off its stand and set it on the marked point at the required distance and angle from the stack.",
+      "target": "tripod",
+      "title": "Carry the scope to the observation point",
+      "why": "Method 9 sets the distance and the angle the plume has to be viewed from — close enough to resolve the plume clearly, far enough and square enough that the observer is looking across it rather than down its length. A scope set up anywhere convenient is reading a different plume than the one the method describes."
+    },
+    {
+      "cue": "Look along the plume and click the point just past the stack exit where it reads darkest.",
+      "id": "densest-point",
+      "itemNames": {
+        "densest-point": "densest point of the plume"
+      },
+      "itemNotes": {
+        "densest-point": "Just past the stack exit, before the plume has had room to dilute into the sky, is where its opacity reads highest and truest — closer in it is still turbulent, further out it has already thinned."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look along the plume and click the point just past the stack exit where it reads darkest.",
+      "targets": [
+        "densest-point"
+      ],
+      "title": "Sight the plume's densest point",
+      "why": "Opacity is read at the point in the plume where it is most opaque, which sits close to the stack exit before dilution and mixing have had a chance to lighten it. A reading taken further downstream describes a plume that has already thinned on its own, not the one the stack is actually emitting."
+    },
+    {
+      "cue": "Hold the reading on the plume's densest point and keep it matched to the shade on the comparison chart.",
+      "holdBreakNote": "You looked away before the block finished. A Method 9 set is 15-second readings taken continuously — a broken block is not a shorter set, it is not a set.",
+      "id": "read-1",
+      "kind": "track",
+      "prompt": "Hold the reading on the plume's densest point and keep it matched to the shade on the comparison chart.",
+      "seconds": 8,
+      "target": "smoke-chart",
+      "title": "Read the first block: 15-second intervals",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.42,
+        "green": [
+          0.2,
+          0.45
+        ],
+        "label": "OPACITY",
+        "rise": 0.48
+      },
+      "why": "Method 9 reads opacity to the nearest 5 percent every 15 seconds, and each reading is a fresh look rather than a running impression carried over from the last one. Held loosely, the eye drifts toward what it expects to see instead of what the plume is actually doing at that instant."
+    },
+    {
+      "cue": "Hold the reading on the plume beyond where any condensed steam has cleared.",
+      "holdBreakNote": "You let the reading go before the block finished. A partial block is not half a reading, it is no reading — the interval starts over.",
+      "id": "read-2",
+      "kind": "hold",
+      "prompt": "Hold the reading on the plume beyond where any condensed steam has cleared.",
+      "seconds": 7,
+      "target": "smoke-chart",
+      "title": "Read the second block, past the steam",
+      "why": "The set is not finished at three minutes — it runs the full six, and the back half is read exactly like the front half: same point in the plume, same 15-second cadence, same comparison chart. Method 9 does not let an observer average a short set and call it representative."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Log the wind, the sky condition and the background the plume was read against — any order.",
+      "id": "field-conditions",
+      "itemNames": {
+        "background-panel": "background used for the reading",
+        "sky-panel": "sky condition",
+        "wind-sock": "wind direction and speed"
+      },
+      "itemNotes": {
+        "background-panel": "Sky or terrain, the background is recorded because it is what the plume was read against, and a different background reads a different number off the same plume.",
+        "sky-panel": "Clear, scattered or overcast — the sky condition is what tells a later reviewer how much contrast the observer actually had to read against.",
+        "wind-sock": "Wind direction is part of the record because it is also what confirms the sun-and-observer geometry actually held for the whole set."
+      },
+      "kind": "sequence",
+      "prompt": "Log the wind, the sky condition and the background the plume was read against — any order.",
+      "targets": [
+        "wind-sock",
+        "sky-panel",
+        "background-panel"
+      ],
+      "title": "Record the wind, sky and background",
+      "why": "None of these change the plume, but all three are what let somebody who was not standing here judge whether the reading is trustworthy. A number with no record of what it was read against is an opinion with a percentage sign on it."
+    },
+    {
+      "cue": "Transcribe the readings from both blocks onto the field form, to the nearest 5 percent.",
+      "id": "log",
+      "kind": "select",
+      "prompt": "Transcribe the readings from both blocks onto the field form, to the nearest 5 percent.",
+      "target": "field-form",
+      "title": "Log both blocks on the Method 9 form",
+      "why": "The field form is the record a permit reviewer actually sees, and Method 9 requires every one of the readings on it, not just the average — a form with only a final number gives nobody a way to check that the average was built honestly from what was actually seen."
+    },
+    {
+      "cue": "Average all the readings in the set and commit against Regulation 6's limit under the Title V permit.",
+      "gauge": {
+        "green": [
+          0.15,
+          0.4
+        ],
+        "label": "AVERAGE",
+        "missNote": "That average sits above what the permit allows. It gets reported as read — an observer does not tune the average to fit the limit, the limit is what the average is judged against.",
+        "speed": 0.68
+      },
+      "id": "average",
+      "kind": "gauge",
+      "prompt": "Average all the readings in the set and commit against Regulation 6's limit under the Title V permit.",
+      "target": "average-calc",
+      "title": "Average the set and compare to the permit limit",
+      "why": "Method 9's number is the average of the full set, never a single glimpse, because six minutes of readings is what separates an observation from an impression. That average is what stands or falls against the permit limit — the plant is either under it or it is not, and there is no rounding a violation away."
+    },
+    {
+      "cue": "Sign and date the completed Method 9 form.",
+      "id": "sign",
+      "kind": "select",
+      "prompt": "Sign and date the completed Method 9 form.",
+      "target": "sign-pen",
+      "title": "Sign the observation form",
+      "why": "An unsigned Method 9 form is an unattributed set of numbers. The signature is what turns six minutes of readings into a certified observer's sworn account of what the stack was doing, which is the only reason a permit reviewer can act on it at all."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "EPA Method 9 by the book: certification checked, the sun kept at your back, the plume's densest point read for six minutes, and the average carried against the permit",
+  "title": "SmartCiti.X~ Opacity Reading VR",
+  "trade": "Visible emissions observer / certified Method 9 reader",
+  "underwater": null,
+  "weather": "wind"
+}

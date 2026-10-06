@@ -1,0 +1,444 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "hands-whole",
+    "name": "Hands Whole",
+    "note": "Every jam cleared under your own lock, every guard back before the restart, and nobody reached into a running nip"
+  },
+  "category": "Culinary & Hospitality",
+  "certification": "OSHA 29 CFR 1910.212 machine guarding for the ironer's nip point and the folder's moving parts; OSHA 29 CFR 1910.147 control of hazardous energy for clearing a jam — electrical, steam and the heat no lock isolates; 29 CFR 1910.132 for dress and PPE at a nip point; ANSI Z8.1 commercial laundry equipment safety practice behind the finger guard and folder interlocks; Cal/OSHA's injury and illness prevention program, 8 CCR 3203; NIOSH guidance on heat in hot workplaces; UNITE HERE laundry training on the flatwork line",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI Z8.1",
+        "id": "ansi-z8-1",
+        "title": "ANSI Z8.1 — Safety requirements for commercial laundry and drycleaning equipment and operations"
+      },
+      {
+        "body": "Cal/OSHA",
+        "citedAs": "8 CCR 3203",
+        "id": "cal-osha-3203",
+        "title": "8 CCR 3203 — Injury and Illness Prevention Program"
+      },
+      {
+        "body": "NIOSH",
+        "citedAs": "NIOSH",
+        "id": "niosh-criteria",
+        "title": "NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.132",
+        "id": "osha-1910-132",
+        "title": "29 CFR 1910.132 — Personal protective equipment, general requirements"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.212",
+        "id": "osha-1910-212",
+        "title": "29 CFR 1910.212 — General requirements for all machines (machine guarding)"
+      },
+      {
+        "body": "union",
+        "citedAs": "UNITE HERE",
+        "id": "unite-here-training",
+        "title": "UNITE HERE hospitality training funds — cooks, housekeepers, bartenders and banquet staff"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Culinary & Hospitality",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "never-in-the-nip",
+        "name": "Never in the Nip",
+        "note": "No reach past the finger guard, no gloves at the feed, no jam cleared on a stop button, no leaning on the chest"
+      },
+      {
+        "id": "own-lock",
+        "name": "Own Lock",
+        "note": "The jam cleared under your own lock with the stop proven dead"
+      },
+      {
+        "id": "clean-line",
+        "name": "Clean Line",
+        "note": "No corrections from the machine card to the log"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "flat-feed",
+        "name": "Flat Feed",
+        "note": "The feed held in band all the way"
+      },
+      {
+        "id": "read-the-chest",
+        "name": "Read the Chest",
+        "note": "The chest reading committed inside the band first time"
+      },
+      {
+        "id": "back-in-production",
+        "name": "Back in Production",
+        "note": "The jam cleared and the line restarted inside 80% of par"
+      }
+    ],
+    "currency": "SHEETS",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Feeder",
+      "Ironer Operator",
+      "Line Lead",
+      "Laundry Supervisor",
+      "Flatwork Line Certified"
+    ],
+    "system": "Flatwork Line"
+  },
+  "hazards": {
+    "clear-on-stop-button": "You went to pull the wrapped sheet out with the ironer only stopped at its button. A stop button is a control, not an energy isolation: a coworker at the folder, a timer, or a fault can start the rolls again with your arm between them. A jam is cleared under lockout at the disconnect and the steam valve, with your own lock on, and the start proven dead.",
+    "gloves-at-feed": "You pulled on loose cotton work gloves to feed the ironer. A loose glove is the thing the feed ribbons grab first, and it takes the hand inside it into the nip before the finger guard has anything to trip on. Feeding is done bare-handed or in the close-fitting gloves the line's hazard assessment names — never loose ones.",
+    "lean-on-chest": "You braced your hip against the ironer's chest housing to reach across. The chest is steam-heated metal that holds its heat long after the rolls stop, and the housing, the end caps and the steam return line are all contact-burn surfaces. Reach from the feed side with the step, or go around.",
+    "reach-into-nip": "You reached past the finger guard to straighten a creased sheet going into the rolls. The nip between the feed roll and the heated chest pulls in whatever it touches faster than a hand can pull back, and it is hot enough to burn while it crushes. A creased sheet goes through creased, or the line is stopped; nothing is straightened past the guard."
+  },
+  "id": "hw-flatwork-ironer-and-folder-guarding",
+  "indoor": "plant",
+  "interrupts": [
+    {
+      "after": "feed-sheets",
+      "alert": "At the delivery end, your coworker has opened the folder door and is reaching in to free a sheet caught in the cross-fold while the folder is still running.",
+      "cue": "Hit the folder's emergency stop pull-cord now, then tell them to step back.",
+      "delay": 2,
+      "id": "folder-reach",
+      "kind": "Hand in the folder",
+      "missNote": "The folder kept running with your coworker's arm in it. The cross-fold blade struck on its next cycle and caught their sleeve, and they were only pulled clear because the sheet tore first.",
+      "seconds": 12,
+      "target": "folder-estop",
+      "why": "With the door interlock bypassed, the folder runs with a hand in it, and the cross-fold blade does not care whose it is. The emergency stop cord runs the length of the line so that anybody at the ironer can stop the folder in a second. Stopping it is the answer now; locking it out is the answer before anyone reaches in again.",
+      "wrongNote": "That does not stop the folder. The emergency stop pull-cord along the line is what stops it with a hand inside — pull it."
+    },
+    {
+      "after": "heat-wait",
+      "alert": "While you wait out the chest, the shift lead walks to the disconnect and reaches for your lock with the master key: 'We're behind on sheets, it's cooled enough.'",
+      "cue": "Get to the disconnect and keep your lock on — only the person who put it on takes it off, and you are about to reach into that machine.",
+      "delay": 2,
+      "id": "lock-pressure",
+      "kind": "Pressure to pull your lock",
+      "missNote": "The shift lead took your lock off and restarted the drive to 'check it' while you were reaching for the jam hook. The rolls turned under the wrap with your hand a hand's width away.",
+      "seconds": 12,
+      "target": "lock-station",
+      "why": "A lock is personal because the person whose arm goes into the machine is the only one who knows it is safe to restart. 29 CFR 1910.147 allows someone else to remove a lock only under a specific procedure when the worker is not there, never while they are standing at the rolls. Keeping the lock on is not disobedience; it is the whole point of the lock.",
+      "wrongNote": "The disconnect is the problem — somebody is taking your lock off. Get there and keep it on."
+    }
+  ],
+  "lateNotes": {
+    "jam-hook": "The hook goes in once the ironer is locked out, the start is proven dead and the chest has been given its cool-down — not while the line is live.",
+    "machine-log": "The log is written once the line is back in production, with the jam and the guard findings on it.",
+    "main-disconnect": "The disconnect goes back on at the end, once the guards are back, the crew is clear and your lock is off."
+  },
+  "name": "Flatwork Ironer & Folder Guarding",
+  "parSeconds": 270,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "hotel-workers"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "flashlight",
+        "count": 1,
+        "kit": "toolkit"
+      },
+      {
+        "builder": "radio",
+        "count": 1,
+        "kit": "toolkit"
+      }
+    ],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "chest-display",
+      "chest-endcap",
+      "clear-on-stop-button",
+      "cooldown-marker",
+      "crew-clear",
+      "crew-radio",
+      "crossfold-panel-off",
+      "exhaust-hood",
+      "feed-ribbons",
+      "finger-bar-bent",
+      "folder-estop",
+      "folder-interlock-bypass",
+      "gloves-at-feed",
+      "guards-back",
+      "hair-tied",
+      "jam-hook",
+      "jewellery-off",
+      "lean-on-chest",
+      "lock-off",
+      "lock-station",
+      "machine-card",
+      "machine-log",
+      "main-disconnect",
+      "notify-line",
+      "reach-into-nip",
+      "sleeves-snug",
+      "steam-return-line",
+      "steam-valve-lock",
+      "try-start",
+      "wrap-socket"
+    ],
+    "meshes": 179
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the card at the operator station: the chest temperature setting, the energy sources — electrical, steam, compressed air — and where each one is isolated.",
+      "id": "machine-card",
+      "kind": "select",
+      "prompt": "Read the card at the operator station: the chest temperature setting, the energy sources — electrical, steam, compressed air — and where each one is isolated.",
+      "target": "machine-card",
+      "title": "Read the ironer's machine card and lockout procedure",
+      "why": "Under 29 CFR 1910.147 a machine with more than one energy source has a written energy control procedure that names each source and its isolation point, and a flatwork ironer has at least three: the drive, the steam to the chest, and the air to the clamps. The card is that procedure at the machine. Reading it at the start of the shift means that when the sheet wraps at speed, the operator already knows which valve and which disconnect."
+    },
+    {
+      "cue": "Three things about this line's guarding are wrong. Find them before it runs.",
+      "id": "guard-walk",
+      "itemNames": {
+        "crossfold-panel-off": "the cross-fold guard panel leaning on the wall",
+        "finger-bar-bent": "the finger guard bar bent up at one end",
+        "folder-interlock-bypass": "the folder door interlock zip-tied shut"
+      },
+      "itemNotes": {
+        "crossfold-panel-off": "The panel over the cross-fold blade is off and leaning on the wall. The blade strikes the sheet into the rolls many times a minute; unguarded, it strikes whatever else is there.",
+        "finger-bar-bent": "The finger guard bar across the feed is bent up at the left end, leaving a gap where a hand reaches the nip without tripping it. It is tagged out until maintenance straightens and tests it.",
+        "folder-interlock-bypass": "Somebody has zip-tied the folder door's interlock so the folder runs with the door open. That is a guard defeated, and it is how a hand ends up in the cross-fold. It is reported and the line does not run until it is fixed."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Three things about this line's guarding are wrong. Find them before it runs.",
+      "targets": [
+        "folder-interlock-bypass",
+        "crossfold-panel-off",
+        "finger-bar-bent"
+      ],
+      "title": "Walk the ironer and folder guarding",
+      "why": "Guards come off for maintenance and do not always go back on, and interlocks get defeated by whoever found them slowing the shift down. 29 CFR 1910.212 requires the nip points and moving parts to be guarded, and ANSI Z8.1 is where the laundry industry sets out the finger guard and interlock arrangement for this exact machine. The walk is the operator's check that what protects them is actually there today."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Hair tied back and under a cap, rings and watch and lanyard off, sleeves close at the wrist.",
+      "id": "dress-for-nip",
+      "itemNames": {
+        "hair-tied": "hair tied back and under a cap",
+        "jewellery-off": "rings, watch and lanyard off",
+        "sleeves-snug": "sleeves close at the wrist"
+      },
+      "kind": "sequence",
+      "prompt": "Hair tied back and under a cap, rings and watch and lanyard off, sleeves close at the wrist.",
+      "targets": [
+        "hair-tied",
+        "jewellery-off",
+        "sleeves-snug"
+      ],
+      "title": "Dress for a nip point",
+      "why": "A nip point takes the loose thing first — a hair tie's tail, a lanyard, a ring's edge, a cuff — and the person attached to it second. Dress at an ironer is the last line of defence behind the guard, and it is the one the operator controls entirely: 29 CFR 1910.132 has the employer assess the hazards of a job, and at a flatwork ironer nothing that can be grabbed goes near the feed."
+    },
+    {
+      "cue": "Watch the chest display come up and commit when it sits at the setting the machine card gives for this linen.",
+      "gauge": {
+        "green": [
+          0.46,
+          0.62
+        ],
+        "label": "CHEST vs CARD",
+        "missNote": "Not at the machine card's setting — let the chest settle and read it again before the first sheet goes in.",
+        "speed": 0.7
+      },
+      "id": "chest-temp",
+      "kind": "gauge",
+      "prompt": "Watch the chest display come up and commit when it sits at the setting the machine card gives for this linen.",
+      "target": "chest-display",
+      "title": "Read the chest temperature against the machine card",
+      "why": "The chest runs at the temperature on the machine card because that is what dries this linen at this speed. Over it, sheets scorch and the operator stands at a hotter machine all shift; under it, damp sheets come out wet, wrap on the rolls and cause the jams this station is about. Reading the display against the card is how a hot machine stays the heat it was meant to be."
+    },
+    {
+      "cue": "Clip the corners into the spreader clamps and let the feed ribbons carry each sheet in — steady rhythm, hands at the clamps, never forward of the finger guard.",
+      "holdBreakNote": "The feed fell out of rhythm. Bunched or crooked sheets are the ones that wrap on the rolls — bring it back to a flat, steady feed with your hands at the clamps.",
+      "id": "feed-sheets",
+      "kind": "track",
+      "prompt": "Clip the corners into the spreader clamps and let the feed ribbons carry each sheet in — steady rhythm, hands at the clamps, never forward of the finger guard.",
+      "seconds": 7,
+      "target": "feed-ribbons",
+      "title": "Feed the sheets flat and steady",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.45,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "FEED",
+        "rise": 0.55,
+        "start": 0.12
+      },
+      "why": "A sheet that goes in flat and square comes out dry and folds clean; a sheet pushed in crooked creases, wraps, and becomes a jam somebody has to clear. The spreader clamps and ribbons exist so the operator's hands never go forward of the finger guard. A steady rhythm is also a hand position that does not change, which is how the guard stays between the operator and the nip."
+    },
+    {
+      "cue": "Tell the line, open the main disconnect and put your lock on it, close and lock the steam valve, then try the start button to prove it is dead.",
+      "id": "jam-lockout",
+      "itemNames": {
+        "main-disconnect": "main disconnect off, your lock on",
+        "notify-line": "line notified: ironer going down",
+        "steam-valve-lock": "steam supply valve closed and locked",
+        "try-start": "start button tried — nothing moves"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Notify, isolate the drive, isolate the steam, then prove it — the try-start comes last, when there is something to prove.",
+      "prompt": "Tell the line, open the main disconnect and put your lock on it, close and lock the steam valve, then try the start button to prove it is dead.",
+      "targets": [
+        "notify-line",
+        "main-disconnect",
+        "steam-valve-lock",
+        "try-start"
+      ],
+      "title": "A sheet has wrapped: lock the ironer out",
+      "why": "The energy control procedure is the only thing that makes it safe to put an arm into an ironer: the line is told so nobody restarts it, each energy source is isolated at its own point with the operator's own lock, and the try-start proves the isolation actually took. A stop button, a coworker watching the controls or a promise are not isolation, and 29 CFR 1910.147 exists because each of them has failed with somebody's arm in a machine."
+    },
+    {
+      "cue": "Stay at the feed side and hold until the chest display reads the machine card's safe-to-reach value — the lock stops the steam, not the heat already in the metal.",
+      "holdBreakNote": "You broke off before the chest came down to the card's safe-to-reach value. The metal is still hot enough to burn — go back and wait it out.",
+      "id": "heat-wait",
+      "kind": "hold",
+      "prompt": "Stay at the feed side and hold until the chest display reads the machine card's safe-to-reach value — the lock stops the steam, not the heat already in the metal.",
+      "seconds": 6,
+      "target": "cooldown-marker",
+      "title": "Wait out the chest's heat before reaching in",
+      "why": "Lockout isolates the steam to the chest; it does not take the heat out of a steel cylinder that has been at working temperature all morning. That stored thermal energy is still a burn hazard, and the procedure deals with it the way it deals with any stored energy: by waiting for it to dissipate to the level the machine card sets before a hand goes near the rolls. The wait is part of the lockout, not a delay to it."
+    },
+    {
+      "cue": "Take the jam hook from its holder and draw the wrapped sheet off the roll from the feed side — the hook goes in, your hand does not.",
+      "drag": {
+        "missNote": "Not on the wrap — bring the hook to the sheet where it winds onto the roll and draw it back toward you.",
+        "radius": 0.5,
+        "to": "wrap-socket"
+      },
+      "id": "jam-clear",
+      "kind": "drag",
+      "prompt": "Take the jam hook from its holder and draw the wrapped sheet off the roll from the feed side — the hook goes in, your hand does not.",
+      "target": "jam-hook",
+      "title": "Pull the wrap off with the jam hook",
+      "why": "Even locked out and cooled, the space between the rolls and the chest is tight, hot and edged, and a sheet wrapped around a roll comes away suddenly. The jam hook reaches where a hand would have to follow a sheet into the nip, and it keeps the operator's arm outside the guard line while the cloth tears loose. The flashlight on the card holder is there so nobody leans in to look."
+    },
+    {
+      "cue": "Three hot surfaces around the ironer are easy to touch while clearing. Find them before you go around.",
+      "id": "burn-surfaces",
+      "itemNames": {
+        "chest-endcap": "the chest end cap by the feed step",
+        "exhaust-hood": "the vapour exhaust hood over the delivery end",
+        "steam-return-line": "the unlagged steam return line at knee height"
+      },
+      "itemNotes": {
+        "chest-endcap": "The chest's end cap is exposed beside the step — the surface a hip or hand finds when someone leans to reach across.",
+        "exhaust-hood": "The exhaust hood over the delivery end gathers hot moist air and its metal runs hot. Nobody reaches up into it to free a sheet.",
+        "steam-return-line": "The steam return line runs bare at knee height beside the feed step. Brushed while reaching, it burns through trousers. It gets lagging on the repair order."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Three hot surfaces around the ironer are easy to touch while clearing. Find them before you go around.",
+      "targets": [
+        "steam-return-line",
+        "chest-endcap",
+        "exhaust-hood"
+      ],
+      "title": "Find the burn surfaces around the machine",
+      "why": "An ironer burns people more often than it catches them, and almost always on a surface they touched without thinking: a steam return line at knee height, an end cap beside the step, an exhaust hood reached into. Knowing where they are changes how an operator stands and reaches around the machine, and the unlagged line is a repair order that takes a burn off the shift permanently."
+    },
+    {
+      "cue": "Tools out and every guard back on, the crew told and clear of the rolls and folder, then take your own lock off.",
+      "id": "restore-guards",
+      "itemNames": {
+        "crew-clear": "crew clear of the machine, told it is restarting",
+        "guards-back": "tools out, guards back on",
+        "lock-off": "your own lock off the disconnect"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Guards, then people, then the lock — the lock is the last thing standing between the restart and whoever is still near the rolls.",
+      "prompt": "Tools out and every guard back on, the crew told and clear of the rolls and folder, then take your own lock off.",
+      "targets": [
+        "guards-back",
+        "crew-clear",
+        "lock-off"
+      ],
+      "title": "Guards back, crew clear, then your lock off",
+      "why": "Coming out of lockout is where the same machine hurts people a second time: a guard left off after a jam, a hook left in the rolls, a coworker at the folder who did not hear it was restarting. The procedure runs backwards in the same discipline — machine whole, people clear, and only then the lock, removed by the person who put it on and nobody else."
+    },
+    {
+      "cue": "Turn the main disconnect handle back to ON and bring the line up at crawl speed before production.",
+      "id": "restart",
+      "kind": "turn",
+      "prompt": "Turn the main disconnect handle back to ON and bring the line up at crawl speed before production.",
+      "target": "main-disconnect",
+      "title": "Turn the disconnect back on and restart at crawl",
+      "turn": {
+        "axis": "z",
+        "label": "DISCONNECT",
+        "turns": 0.25
+      },
+      "why": "The first turns after a jam are when a missed tool, a sheet fragment or a guard fixing that did not seat shows itself. Restarting at crawl speed with the operator watching the feed and the folder turns a hidden problem into a visible one at a speed where the finger guard and the stop can still do their jobs, before the line goes back to production speed."
+    },
+    {
+      "cue": "Write the jam, the lock-on and lock-off times, the bypassed interlock, the missing panel, the bent finger bar and the unlagged steam line.",
+      "id": "machine-log",
+      "kind": "select",
+      "prompt": "Write the jam, the lock-on and lock-off times, the bypassed interlock, the missing panel, the bent finger bar and the unlagged steam line.",
+      "target": "machine-log",
+      "title": "Log the jam, the lockout and the guard findings",
+      "why": "A laundry's machine log is how a pattern becomes visible: jams at the same point mean damp linen or worn padding, a bypassed interlock means somebody found it slowing the shift, and a bent finger guard is the near miss before a hand. Written up with lock times, it also shows the lockout was done as the procedure says, which matters to the operator the day it is questioned."
+    },
+    {
+      "cue": "Radio the supervisor that the ironer is back up with the guard findings reported, and check in with your coworker at the folder.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Radio the supervisor that the ironer is back up with the guard findings reported, and check in with your coworker at the folder.",
+      "target": "crew-radio",
+      "title": "Check in with the laundry supervisor and the folder crew",
+      "why": "The supervisor owns the repair orders for the interlock, the panel and the finger bar, and the line should not run long on promises. The coworker who reached into the folder is also the person most shaken by it; a quick check-in and the member assistance line cost nothing, and a near miss talked about is one less likely to be repeated."
+    }
+  ],
+  "supportLine": "your UNITE HERE local's member assistance line, or the employee assistance number posted by the laundry time clock",
+  "tagline": "The hotel laundry's flatwork line: guards walked and a bypassed interlock found, dressed for a nip point, the chest read against the machine card, sheets fed flat and steady while a coworker reaches into the folder, a wrapped sheet cleared under lockout at the disconnect and the steam valve with the heat waited out, the guards back before the lock comes off, and the jam logged",
+  "title": "SmartCiti.X~ Flatwork Ironer & Folder Guarding VR",
+  "trade": "Hotel laundry ironer operator — UNITE HERE laundry, flatwork line",
+  "underwater": null,
+  "weather": null
+}

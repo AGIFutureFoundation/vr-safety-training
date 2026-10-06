@@ -40,7 +40,8 @@ namespace SafetyTraining.Editor
             public Vector3 DestinationRotation { get; }
         }
 
-        public static void CreateAll(Transform warehouse, Transform fire, Transform chemical, Transform electrical)
+        public static void CreateAll(Transform warehouse, Transform fire, Transform chemical,
+            Transform electrical, Transform immersiveLab)
         {
             Create(warehouse, TrainingSiteId.Warehouse,
                 "Warehouse traffic-control sequence.",
@@ -89,6 +90,20 @@ namespace SafetyTraining.Editor
                         "Record the approved absence-of-voltage verification.", 2.35f, 0.4f, 0f),
                     Spec("Protect cable crossing", "concrete_road_barrier_1k.fbx", -1.65f, 1.8f, 0.5f, 90f,
                         "Position the protective control across the exposed cable route.", 0.3f, -0.1f, 90f)
+                });
+            Create(immersiveLab, TrainingSiteId.ImmersiveLab,
+                "Headset session readiness sequence.",
+                "Immersive lab practical complete. Play space, AR route, and headset handover are controlled.",
+                new[]
+                {
+                    Spec("Clear the play space", "old_military_crate_1k.fbx", -1.5f, 1.2f, 0.62f, 14f,
+                        "Move the loose equipment crate out of the marked play boundary.", -1.2f, -3f, 0f),
+                    Spec("Separate the AR route", "concrete_road_barrier_1k.fbx", 0.8f, 0.9f, 0.52f, 90f,
+                        "Set the barrier between the AR walkthrough route and the powered equipment lane.",
+                        1.25f, -1.9f, 90f),
+                    Spec("Record headset readiness", "clipboard_1k.fbx", -0.2f, 1.5f, 0.86f, -14f,
+                        "Sign off cleaning, boundary setup, and the comfort briefing at the hygiene station.",
+                        -3.2f, -2.05f, 0f)
                 });
         }
 

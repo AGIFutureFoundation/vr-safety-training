@@ -1,0 +1,2217 @@
+import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
+
+// Shared procedural asset kit. Every prop in the simulator is built from these
+// primitives at real-world scale in metres, so rooms stay consistent and no
+// external model files are needed.
+
+export const TAU = Math.PI * 2;
+
+// HUD tokens from DESIGN.md, reused so the web build reads like the headset build.
+export const HUD = {
+  void: "#071018", panel: "#101C27", raised: "#172735", text: "#F4F8FB",
+  muted: "#9FB0BF", accent: "#37D6C0", warn: "#F2B84B", danger: "#F0645B",
+  edge: "#426174", good: "#59C97B",
+};
+
+/**
+ * What a step kind physically asks the learner's hands to do, in one short
+ * verb for the HUD and one sentence for a first-time explainer. A room's own
+ * `cue` text always says *what* to touch; this says *how* to touch it — the
+ * part a new interaction (like turning a valve by dragging it) can't be
+ * assumed to be obvious just from staring at the 3D object.
+ */
+export const GESTURE_HINTS = {
+  select: { verb: "CLICK", tip: "Click the highlighted control to select it." },
+  sequence: { verb: "CLICK IN ORDER", tip: "Click each highlighted item, in the order the procedure calls for." },
+  find: { verb: "SEARCH & CLICK", tip: "Look around and click whatever you find wrong — some objects are decoys." },
+  gauge: { verb: "WATCH & CLICK", tip: "Watch the marker sweep the band, then click to commit while it's centred." },
+  hold: { verb: "PRESS & HOLD", tip: "Press and hold the highlighted control for the full duration — releasing early breaks it." },
+  track: { verb: "HOLD TO CORRECT", tip: "Hold to raise the value, release to let it fall, and keep it inside the band." },
+  turn: { verb: "CLICK & DRAG TO TURN", tip: "Click the control and drag in a circle around it, like turning a real wheel or handle." },
+  drag: { verb: "CLICK & DRAG TO CARRY", tip: "Click and hold the object, drag it to the marker, then let go." },
+  drive: { verb: "DRIVE THE ROUTE", tip: "W to go, S to brake, A and D to steer. Q/E mirrors, the arrows signal, H horn, Z/X gears, L lights — each at its marked point on the route." },
+};
+
+const materialCache = new Map();
+
+// -------------------------------------------------------- renderer / texture quality
+//
+// The renderer doesn't exist yet when this module (and every canvas texture
+// it or shared/textures.js paints) first loads — an app builds its
+// THREE.WebGLRenderer in app.js, after importing the asset kit. So canvas
+// textures register with whichever renderer last called setActiveRenderer()
+// and read its real anisotropy ceiling lazily, at the point they're actually
+// finished being painted, rather than needing the renderer passed through
+// every box()/decal()/facePaint() call.
+//
+// globalThis, not a module-level `let`, for the same reason
+// setActiveContext() below uses it: a SmartCiti.X sim loaded through a real
+// dynamic import() is a second copy of this module with its own scope, and
+// both copies must see the one renderer the app actually created.
+const RENDERER_KEY = "__smartcitix_active_renderer";
+/** Called once by an app right after it creates its THREE.WebGLRenderer. */
+export function setActiveRenderer(renderer) {
+  try { globalThis[RENDERER_KEY] = renderer || null; } catch { /* no global object */ }
+}
+export function getActiveRenderer() {
+  try { return globalThis[RENDERER_KEY] || null; } catch { return null; }
+}
+/** The registered renderer's own anisotropy ceiling, or a safe default
+ *  before one exists (the headless checkers, or a texture painted before the
+ *  app's renderer is up) — 8 sits comfortably inside every WebGL
+ *  implementation's actual minimum. */
+function maxAnisotropy() {
+  try {
+    const cap = getActiveRenderer()?.capabilities?.getMaxAnisotropy?.();
+    return cap > 0 ? cap : 8;
+  } catch { return 8; }
+}
+/**
+ * Mipmaps + trilinear filtering + the renderer's real anisotropy ceiling —
+ * every canvas texture the kit paints (decal/repaint panels, the per-finish
+ * surface() maps, shared/textures.js's facePaint()/paintTexture(), a
+ * figure's dressMat()) runs its texture through this once, so a station's
+ * ground and facades stay crisp close up and don't shimmer at a distance
+ * without every call site repeating the same three property sets. Wrapped in
+ * a try because the headless checkers' texture stub has none of these
+ * properties as real setters — this must still be safe to call there.
+ */
+export function applyTextureQuality(tex, o = {}) {
+  try {
+    tex.generateMipmaps = o.mipmaps ?? true;
+    if (THREE.LinearMipmapLinearFilter !== undefined) tex.minFilter = THREE.LinearMipmapLinearFilter;
+    if (THREE.LinearFilter !== undefined) tex.magFilter = THREE.LinearFilter;
+    tex.anisotropy = maxAnisotropy();
+  } catch { /* headless texture stub */ }
+  return tex;
+}
+
+// ---------------------------------------------------------------- surfaces
+//
+// Every surface in the network used to be one flat colour, which is what made
+// the scenes read as diagrams rather than places: real concrete is blotchy,
+// real steel has a grain direction, real rubber scatters light unevenly. These
+// build that variation procedurally — a roughness map and a normal map per
+// finish, drawn once into a canvas at 256 square and then shared by every
+// material that asks for the same finish.
+//
+// Sharing is the whole point. A map per material would multiply draw calls;
+// one map instance per finish means a hundred concrete surfaces still batch
+// the way they did before, and the cost is a few hundred kilobytes of texture
+// memory rather than anything the frame budget notices.
+const surfaceCache = new Map();
+// `shade` is how much the finish darkens and lightens the base colour. It is
+// the one that actually reads: roughness and normal variation change how a
+// surface catches a moving light, but a still frame of flat-coloured concrete
+// still looks like flat-coloured concrete until the colour itself varies.
+const FINISHES = {
+  // grain: 0 = isotropic speckle, 1 = horizontal brushing, -1 = vertical
+  concrete:   { speckle: 0.34, cell: 3.2, grain: 0, bump: 1.4, shade: 0.26, rough: [0.70, 0.98] },
+  asphalt:    { speckle: 0.46, cell: 2.1, grain: 0, bump: 1.8, shade: 0.30, rough: [0.80, 1.0] },
+  brushed:    { speckle: 0.16, cell: 1.0, grain: 1, bump: 0.7, shade: 0.12, rough: [0.20, 0.46] },
+  painted:    { speckle: 0.14, cell: 5.0, grain: 0, bump: 0.5, shade: 0.10, rough: [0.40, 0.64] },
+  galvanised: { speckle: 0.30, cell: 1.6, grain: 0, bump: 1.0, shade: 0.20, rough: [0.32, 0.68] },
+  rubber:     { speckle: 0.24, cell: 2.6, grain: 0, bump: 1.2, shade: 0.16, rough: [0.86, 1.0] },
+  rust:       { speckle: 0.50, cell: 2.4, grain: 0, bump: 1.9, shade: 0.38, rough: [0.72, 1.0] },
+  grating:    { speckle: 0.20, cell: 1.2, grain: -1, bump: 1.5, shade: 0.18, rough: [0.52, 0.88] },
+};
+
+function noiseCanvas(px, draw) {
+  const c = document.createElement("canvas");
+  c.width = px; c.height = px;
+  const g = c.getContext("2d");
+  draw(g, px);
+  return c;
+}
+
+/**
+ * The shared map set for one finish. Returns null when there is no canvas to
+ * draw on — the headless checkers run without one, and a station has to build
+ * there exactly as it does in a browser.
+ */
+export function surface(name) {
+  const f = FINISHES[name];
+  if (!f) return null;
+  if (surfaceCache.has(name)) return surfaceCache.get(name);
+  let set = null;
+  try {
+    const PX = 256;
+    // Value noise at two scales: broad blotches, then fine tooth.
+    const field = new Float32Array(PX * PX);
+    const lattice = (n) => {
+      const g = new Float32Array((n + 1) * (n + 1));
+      for (let i = 0; i < g.length; i++) g[i] = Math.random();
+      return (u, v) => {
+        const x = u * n, y = v * n;
+        const x0 = Math.floor(x), y0 = Math.floor(y);
+        const fx = x - x0, fy = y - y0;
+        const sx = fx * fx * (3 - 2 * fx), sy = fy * fy * (3 - 2 * fy);
+        const at = (i, j) => g[(j % (n + 1)) * (n + 1) + (i % (n + 1))];
+        return (at(x0, y0) * (1 - sx) + at(x0 + 1, y0) * sx) * (1 - sy) +
+               (at(x0, y0 + 1) * (1 - sx) + at(x0 + 1, y0 + 1) * sx) * sy;
+      };
+    };
+    const broad = lattice(Math.max(2, Math.round(8 / f.cell)));
+    const fine = lattice(Math.max(4, Math.round(48 / f.cell)));
+    for (let y = 0; y < PX; y++) {
+      for (let x = 0; x < PX; x++) {
+        // Brushing stretches the sample along one axis, which is what gives
+        // steel its direction under a moving light.
+        const u = f.grain === 1 ? x / PX / 6 : x / PX;
+        const v = f.grain === -1 ? y / PX / 6 : y / PX;
+        field[y * PX + x] = broad(u, v) * 0.6 + fine(u, v) * 0.4;
+      }
+    }
+    const [r0, r1] = f.rough;
+    const roughCanvas = noiseCanvas(PX, (g) => {
+      const img = g.createImageData(PX, PX);
+      for (let i = 0; i < PX * PX; i++) {
+        const n = (field[i] - 0.5) * f.speckle * 2;
+        const r = Math.max(0, Math.min(1, (r0 + r1) / 2 + n * (r1 - r0)));
+        const v = Math.round(r * 255);
+        img.data[i * 4] = v; img.data[i * 4 + 1] = v; img.data[i * 4 + 2] = v; img.data[i * 4 + 3] = 255;
+      }
+      g.putImageData(img, 0, 0);
+    });
+    // Normals from the height field's own slope, so the bumps line up with the
+    // roughness rather than being an unrelated pattern laid over it.
+    const normCanvas = noiseCanvas(PX, (g) => {
+      const img = g.createImageData(PX, PX);
+      const at = (x, y) => field[((y + PX) % PX) * PX + ((x + PX) % PX)];
+      for (let y = 0; y < PX; y++) {
+        for (let x = 0; x < PX; x++) {
+          const dx = (at(x + 1, y) - at(x - 1, y)) * f.bump * 4;
+          const dy = (at(x, y + 1) - at(x, y - 1)) * f.bump * 4;
+          const len = Math.hypot(dx, dy, 1);
+          const i = (y * PX + x) * 4;
+          img.data[i] = Math.round((-dx / len * 0.5 + 0.5) * 255);
+          img.data[i + 1] = Math.round((-dy / len * 0.5 + 0.5) * 255);
+          img.data[i + 2] = Math.round((1 / len * 0.5 + 0.5) * 255);
+          img.data[i + 3] = 255;
+        }
+      }
+      g.putImageData(img, 0, 0);
+    });
+    // Greyscale blotching that multiplies the material's own colour, so one
+    // map serves every colour a finish is ever used in.
+    const shadeCanvas = noiseCanvas(PX, (g) => {
+      const img = g.createImageData(PX, PX);
+      for (let i = 0; i < PX * PX; i++) {
+        const v = Math.round(Math.max(0, Math.min(1, 1 - f.shade / 2 + (field[i] - 0.5) * f.shade)) * 255);
+        img.data[i * 4] = v; img.data[i * 4 + 1] = v; img.data[i * 4 + 2] = v; img.data[i * 4 + 3] = 255;
+      }
+      g.putImageData(img, 0, 0);
+    });
+    const wrap = (c) => {
+      const t = new THREE.CanvasTexture(c);
+      t.wrapS = THREE.RepeatWrapping; t.wrapT = THREE.RepeatWrapping;
+      applyTextureQuality(t);
+      return t;
+    };
+    const shadeMap = wrap(shadeCanvas);
+    shadeMap.colorSpace = THREE.SRGBColorSpace ?? shadeMap.colorSpace;
+    set = { map: shadeMap, roughnessMap: wrap(roughCanvas), normalMap: wrap(normCanvas), bump: f.bump };
+  } catch (e) {
+    set = null;                       // headless: no canvas, so no maps
+  }
+  surfaceCache.set(name, set);
+  return set;
+}
+
+export function mat(color, o = {}) {
+  const key = [color, o.rough ?? 0.8, o.metal ?? 0, o.emissive ?? 0, o.ei ?? 1,
+    o.opacity ?? 1, o.flat ? 1 : 0, o.side ?? 0, o.finish ?? "", String(o.tile ?? 1)].join("|");
+  let m = materialCache.get(key);
+  if (!m) {
+    const skin = o.finish ? surface(o.finish) : null;
+    m = new THREE.MeshStandardMaterial({
+      color,
+      roughness: o.rough ?? 0.8,
+      metalness: o.metal ?? 0,
+      emissive: o.emissive ?? 0x000000,
+      emissiveIntensity: o.ei ?? 1,
+      transparent: (o.opacity ?? 1) < 1,
+      opacity: o.opacity ?? 1,
+      flatShading: !!o.flat,
+      side: o.side === 2 ? THREE.DoubleSide : THREE.FrontSide,
+      ...(skin ? { map: skin.map, roughnessMap: skin.roughnessMap, normalMap: skin.normalMap } : {}),
+    });
+    // `tile` may be a number or a [u, v] pair. The pair matters: a kerb is
+    // twelve metres long and half a metre tall, and tiling it equally on both
+    // axes squashes the grain into horizontal stripes that read as a defect
+    // rather than as concrete.
+    const tu = Array.isArray(o.tile) ? o.tile[0] : (o.tile ?? 1);
+    const tv = Array.isArray(o.tile) ? o.tile[1] : (o.tile ?? 1);
+    if (skin && (tu !== 1 || tv !== 1)) {
+      // A tiled material needs its own texture objects, since repeat lives on
+      // the texture rather than the material. Still one set per (finish, tile)
+      // rather than one set per surface in the scene.
+      const rm = skin.roughnessMap.clone(), nm = skin.normalMap.clone(), am = skin.map.clone();
+      rm.needsUpdate = nm.needsUpdate = am.needsUpdate = true;
+      for (const t of [rm, nm, am]) t.repeat.set(tu, tv);
+      m.roughnessMap = rm; m.normalMap = nm; m.map = am;
+    }
+    if (skin) {
+      const b = (o.bump ?? 1) * (skin.bump ?? 1);
+      m.normalScale = new THREE.Vector2(b, b);
+    }
+    materialCache.set(key, m);
+  }
+  return m;
+}
+
+// A geometry-constructor passthrough — every call site below wraps its own
+// `new THREE.XGeometry(...)` in this. It used to also add the geometry to a
+// module-level Set for later disposal, but disposeTree() below never
+// actually read that Set (it disposes by traversing the live scene graph
+// instead) — pure dead bookkeeping, removed.
+function track(geometry) { return geometry; }
+
+/**
+ * Give a mesh a material of its own.
+ *
+ * mat() returns a SHARED cached material keyed on its parameters, which is
+ * what keeps draw calls down — but it means `mesh.material.emissiveIntensity =
+ * x` in an animate loop writes to every other mesh built with the same colour
+ * and finish. The skyline beacons already cloned by hand for exactly this
+ * reason; anything else that animates a material has to do the same, and
+ * mergeStatic() reads the ownMaterial flag to know what it must leave alone.
+ */
+export function ownMaterial(mesh) {
+  mesh.material = mesh.material.clone();
+  mesh.material.userData.ownMaterial = true;
+  return mesh;
+}
+
+/**
+ * Collapse static scenery into one mesh per material.
+ *
+ * An outdoor SmartCiti.X scene was measuring 518 draw calls: 652 visible
+ * meshes, and frustum culling only takes about a fifth of those off because
+ * most of the scene is the ground and the horizon, which are always in shot. A
+ * Quest wants that number in the low hundreds.
+ *
+ * Almost all of it is scenery that never moves and is never clicked — the
+ * skyline, the district, the light masts, the site fence, the laydown. Every
+ * one of those meshes already shares a cached material with its neighbours
+ * (see mat()), so they can be baked into a single buffer per material and
+ * drawn in one call. Nothing about how the scenery is authored changes: it is
+ * still written as boxes and cylinders in readable code, and this runs once at
+ * the end of the build.
+ *
+ * What it will NOT touch, and why the caller has to be deliberate:
+ *   - anything interactive: it would lose its own transform and its id
+ *   - anything animated: a merged mesh has no separate parts to move
+ *   - anything with its own material or texture (decals, canvas panels), which
+ *     is one draw call each whatever happens
+ * Pass only subtrees that are none of those.
+ *
+ * Returns { before, after } so a caller can report what it saved. A no-op on
+ * a THREE without the geometry API (the headless checkers' stub), so the same
+ * build runs in both places.
+ */
+export function mergeStatic(root, o = {}) {
+  const probe = new THREE.BufferGeometry();
+  if (typeof probe.setAttribute !== "function" || typeof probe.applyMatrix4 !== "function") {
+    return { before: 0, after: 0, skipped: "no geometry API" };
+  }
+  root.updateMatrixWorld?.(true);
+  // `local` bakes into the subtree's OWN space instead of the world's, so the
+  // subtree keeps its transform and can still be moved, turned or driven as a
+  // unit. That is what makes ambient life affordable: a figure or a vehicle
+  // becomes two or three draw calls that still walk around, instead of twenty
+  // that cannot be merged at all because the thing moves.
+  const local = !!o.local;
+  const inverse = local && root.matrixWorld ? new THREE.Matrix4().copy(root.matrixWorld).invert() : null;
+  const buckets = new Map();
+  const doomed = [];
+  let before = 0;
+  root.traverse((o) => {
+    if (!o.isMesh) return;
+    before += 1;
+    // Leave alone anything that has to stay its own object.
+    if (o.userData?.interactiveId || o.userData?.noMerge || o.userData?.canvas) return;
+    if (!o.geometry?.attributes?.position || o.material?.userData?.ownMaterial) return;
+    if (Array.isArray(o.material)) return;
+    let list = buckets.get(o.material);
+    if (!list) { list = []; buckets.set(o.material, list); }
+    list.push(o);
+    doomed.push(o);
+  });
+
+  for (const [material, meshes] of buckets) {
+    if (meshes.length < 2) continue;
+    const positions = [], normals = [], uvs = [];
+    let ok = true;
+    for (const m of meshes) {
+      let g = m.geometry;
+      if (g.index) g = g.toNonIndexed();
+      else g = g.clone();
+      g.applyMatrix4(m.matrixWorld);
+      if (inverse) g.applyMatrix4(inverse);
+      const pos = g.getAttribute("position"), nor = g.getAttribute("normal"), uv = g.getAttribute("uv");
+      if (!pos || !nor) { ok = false; g.dispose(); break; }
+      for (let i = 0; i < pos.count; i++) {
+        positions.push(pos.getX(i), pos.getY(i), pos.getZ(i));
+        normals.push(nor.getX(i), nor.getY(i), nor.getZ(i));
+        uvs.push(uv ? uv.getX(i) : 0, uv ? uv.getY(i) : 0);
+      }
+      g.dispose();
+    }
+    if (!ok) continue;
+    const merged = new THREE.BufferGeometry();
+    merged.setAttribute("position", new THREE.Float32BufferAttribute(positions, 3));
+    merged.setAttribute("normal", new THREE.Float32BufferAttribute(normals, 3));
+    merged.setAttribute("uv", new THREE.Float32BufferAttribute(uvs, 2));
+    merged.computeBoundingSphere();
+    const one = new THREE.Mesh(merged, material);
+    // In world mode the geometry already carries its world placement, so the
+    // holder must not add a transform on top of it. In local mode the holder
+    // is the thing that moves, so it keeps updating normally.
+    if (!local) one.matrixAutoUpdate = false;
+    one.castShadow = meshes.some((m) => m.castShadow);
+    one.receiveShadow = meshes.some((m) => m.receiveShadow);
+    one.userData.merged = meshes.length;
+    root.add(one);
+    for (const m of meshes) { m.geometry.dispose(); m.parent?.remove(m); }
+  }
+
+  let after = 0;
+  root.traverse((o) => { if (o.isMesh) after += 1; });
+  void doomed;
+  return { before, after };
+}
+
+/** Dispose geometry created for a room. Materials stay cached and shared. */
+export function disposeTree(root) {
+  root.traverse((o) => {
+    if (o.isMesh || o.isLine || o.isPoints) {
+      o.geometry?.dispose();
+      if (o.material?.map && o.material.userData.ownTexture) o.material.map.dispose();
+      if (o.material?.userData.ownMaterial) o.material.dispose();
+    }
+  });
+  root.parent?.remove(root);
+}
+
+export function group(parent, x = 0, y = 0, z = 0, ry = 0) {
+  const g = new THREE.Group();
+  g.position.set(x, y, z);
+  g.rotation.y = ry;
+  parent?.add(g);
+  return g;
+}
+
+export function box(parent, w, h, d, x, y, z, color, o = {}) {
+  const m = new THREE.Mesh(track(new THREE.BoxGeometry(w, h, d)), mat(color, o));
+  m.position.set(x, y, z);
+  m.castShadow = o.cast !== false;
+  m.receiveShadow = o.receive !== false;
+  parent.add(m);
+  return m;
+}
+
+export function cyl(parent, rTop, rBot, h, x, y, z, color, o = {}) {
+  const m = new THREE.Mesh(
+    track(new THREE.CylinderGeometry(rTop, rBot, h, o.seg ?? 20, 1, !!o.open)), mat(color, o));
+  m.position.set(x, y, z);
+  m.castShadow = o.cast !== false;
+  m.receiveShadow = o.receive !== false;
+  parent.add(m);
+  return m;
+}
+
+export function ball(parent, r, x, y, z, color, o = {}) {
+  const m = new THREE.Mesh(track(new THREE.SphereGeometry(r, o.seg ?? 18, o.seg2 ?? 14)), mat(color, o));
+  m.position.set(x, y, z);
+  m.castShadow = o.cast !== false;
+  m.receiveShadow = o.receive !== false;
+  parent.add(m);
+  return m;
+}
+
+export function torus(parent, r, tube, x, y, z, color, o = {}) {
+  const m = new THREE.Mesh(track(new THREE.TorusGeometry(r, tube, o.seg ?? 10, o.seg2 ?? 24)), mat(color, o));
+  m.position.set(x, y, z);
+  m.castShadow = o.cast !== false;
+  parent.add(m);
+  return m;
+}
+
+/** Rounded slab — a box with chamfered vertical edges. Reads far better than a plain cube. */
+export function slab(parent, w, h, d, x, y, z, color, o = {}) {
+  const r = Math.min(o.radius ?? 0.02, w / 2 - 0.001, d / 2 - 0.001);
+  const shape = new THREE.Shape();
+  const hw = w / 2 - r, hd = d / 2 - r;
+  shape.moveTo(-hw - r, -hd);
+  shape.lineTo(-hw - r, hd);
+  shape.quadraticCurveTo(-hw - r, hd + r, -hw, hd + r);
+  shape.lineTo(hw, hd + r);
+  shape.quadraticCurveTo(hw + r, hd + r, hw + r, hd);
+  shape.lineTo(hw + r, -hd);
+  shape.quadraticCurveTo(hw + r, -hd - r, hw, -hd - r);
+  shape.lineTo(-hw, -hd - r);
+  shape.quadraticCurveTo(-hw - r, -hd - r, -hw - r, -hd);
+  const geo = track(new THREE.ExtrudeGeometry(shape, { depth: h, bevelEnabled: false, curveSegments: 4 }));
+  geo.rotateX(-Math.PI / 2);
+  geo.translate(0, h / 2, 0);
+  const m = new THREE.Mesh(geo, mat(color, o));
+  m.position.set(x, y, z);
+  m.castShadow = o.cast !== false;
+  m.receiveShadow = o.receive !== false;
+  parent.add(m);
+  return m;
+}
+
+/** Lathe profile — bottles, jars, funnels. `profile` is [[radius, y], ...] bottom-up. */
+export function lathe(parent, profile, x, y, z, color, o = {}) {
+  const pts = profile.map(([r, py]) => new THREE.Vector2(Math.max(r, 0.0005), py));
+  const m = new THREE.Mesh(track(new THREE.LatheGeometry(pts, o.seg ?? 20)), mat(color, o));
+  m.position.set(x, y, z);
+  m.castShadow = o.cast !== false;
+  m.receiveShadow = o.receive !== false;
+  parent.add(m);
+  return m;
+}
+
+/** Flexible run — cables, hoses, tubing. `points` are local Vector3-ish triples. */
+export function hose(parent, points, radius, color, o = {}) {
+  const curve = new THREE.CatmullRomCurve3(points.map((p) => new THREE.Vector3(...p)));
+  const m = new THREE.Mesh(
+    track(new THREE.TubeGeometry(curve, o.steps ?? 32, radius, o.seg ?? 8, false)), mat(color, o));
+  m.castShadow = o.cast !== false;
+  parent.add(m);
+  return m;
+}
+
+// ---------------------------------------------------------------- canvas art
+
+/** Painted panel: signage, dials, labels, screens. Returns the mesh; texture is owned by it. */
+export function decal(parent, w, h, x, y, z, draw, o = {}) {
+  const px = o.px ?? 512;
+  const canvas = document.createElement("canvas");
+  canvas.width = px;
+  canvas.height = Math.max(8, Math.round(px * (h / w)));
+  const g = canvas.getContext("2d");
+  draw(g, canvas.width, canvas.height);
+  const tex = new THREE.CanvasTexture(canvas);
+  applyTextureQuality(tex);
+  const material = new THREE.MeshStandardMaterial({
+    map: tex, roughness: o.rough ?? 0.7, metalness: o.metal ?? 0,
+    emissive: o.emissive ?? 0x000000, emissiveIntensity: o.ei ?? 1,
+    emissiveMap: o.glow ? tex : null,
+    transparent: !!o.transparent,
+    side: THREE.DoubleSide,
+  });
+  material.userData.ownMaterial = true;
+  material.userData.ownTexture = true;
+  const m = new THREE.Mesh(track(new THREE.PlaneGeometry(w, h)), material);
+  m.position.set(x, y, z);
+  m.castShadow = false;
+  m.receiveShadow = false;
+  m.userData.canvas = canvas;
+  m.userData.ctx = g;
+  m.userData.texture = tex;
+  parent.add(m);
+  return m;
+}
+
+export function repaint(mesh, draw) {
+  const { ctx, canvas, texture } = mesh.userData;
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  draw(ctx, canvas.width, canvas.height);
+  texture.needsUpdate = true;
+}
+
+// ---------------------------------------------------------------- surface texture helpers
+
+/**
+ * Flat gradient fill for a canvas 2D context. Falls back to a solid fill using the
+ * gradient's last stop when the context has no real gradient support (e.g. the
+ * headless mock used by the CI content checkers), so callers never need to special-case it.
+ */
+export function gradientFill(g, w, h, stops, o = {}) {
+  let grad = null;
+  try {
+    grad = o.radial
+      ? g.createRadialGradient(w / 2, h / 2, 0, w / 2, h / 2, Math.max(w, h) / 2)
+      : g.createLinearGradient(0, 0, o.horizontal ? w : 0, o.horizontal ? 0 : h);
+  } catch { grad = null; }
+  if (grad && typeof grad.addColorStop === "function") {
+    for (const [stop, color] of stops) grad.addColorStop(stop, color);
+    g.fillStyle = grad;
+  } else {
+    g.fillStyle = stops[stops.length - 1][1];
+  }
+  g.fillRect(0, 0, w, h);
+}
+
+/** Cheap grain: scattered translucent specks that break up a flat canvas fill. */
+export function noiseTexture(g, w, h, o = {}) {
+  const count = Math.round((o.density ?? 900) * (w * h) / (512 * 512));
+  const alpha = o.alpha ?? 0.05;
+  const tone = o.tone ?? "0,0,0";
+  for (let i = 0; i < count; i++) {
+    g.fillStyle = `rgba(${tone},${(Math.random() * alpha).toFixed(3)})`;
+    g.fillRect(Math.random() * w, Math.random() * h, 1, 1);
+  }
+}
+
+/**
+ * Weathering pass: soft grime blotches and drip streaks toward the lower half of a
+ * panel. Silently draws nothing where the 2D context has no gradient support, rather
+ * than throwing, so it is safe to call from code paths the headless checkers exercise.
+ */
+export function grimeOverlay(g, w, h, o = {}) {
+  const tone = o.tone ?? "18,14,9";
+  const alpha = o.alpha ?? 0.22;
+  for (let i = 0; i < (o.blotches ?? 4); i++) {
+    const x = Math.random() * w, y = h * (0.5 + Math.random() * 0.5);
+    const r = Math.min(w, h) * (0.18 + Math.random() * 0.22);
+    let grad = null;
+    try { grad = g.createRadialGradient(x, y, 0, x, y, r); } catch { grad = null; }
+    if (!grad || typeof grad.addColorStop !== "function") continue;
+    grad.addColorStop(0, `rgba(${tone},${alpha})`);
+    grad.addColorStop(1, `rgba(${tone},0)`);
+    g.fillStyle = grad;
+    g.fillRect(x - r, y - r, r * 2, r * 2);
+  }
+  for (let i = 0; i < (o.streaks ?? 3); i++) {
+    const x = w * (0.1 + Math.random() * 0.8);
+    const len = h * (0.25 + Math.random() * 0.45);
+    let grad = null;
+    try { grad = g.createLinearGradient(x, 0, x, len); } catch { grad = null; }
+    if (!grad || typeof grad.addColorStop !== "function") continue;
+    grad.addColorStop(0, `rgba(${tone},${alpha * 0.8})`);
+    grad.addColorStop(1, `rgba(${tone},0)`);
+    g.fillStyle = grad;
+    g.fillRect(x - (o.streakWidth ?? 2), 0, o.streakWidth ?? 2, len);
+  }
+}
+
+/** Standard sign face: dark plate, accent rule, centred caps text. */
+export function signFace(text, o = {}) {
+  return (g, w, h) => {
+    g.fillStyle = o.bg ?? "#0b141d";
+    g.fillRect(0, 0, w, h);
+    if (o.worn) {
+      noiseTexture(g, w, h, { density: 500, alpha: 0.05, tone: "0,0,0" });
+      grimeOverlay(g, w, h, { blotches: 2, streaks: 2, alpha: 0.16 });
+    }
+    g.fillStyle = o.accent ?? HUD.accent;
+    g.fillRect(0, h - Math.max(3, h * 0.07), w, Math.max(3, h * 0.07));
+    g.fillStyle = o.fg ?? HUD.text;
+    g.font = `600 ${Math.round(h * (o.scale ?? 0.46))}px 'Barlow Condensed', Arial, sans-serif`;
+    g.textAlign = "center";
+    g.textBaseline = "middle";
+    const lines = String(text).split("\n");
+    const step = h * 0.44;
+    lines.forEach((line, i) => g.fillText(line, w / 2, h / 2 - ((lines.length - 1) * step) / 2 + i * step));
+  };
+}
+
+/** Printed paper: permit, chart, schedule, label sheet. */
+export function paperFace(title, rows, o = {}) {
+  return (g, w, h) => {
+    g.fillStyle = o.bg ?? "#f2efe6";
+    g.fillRect(0, 0, w, h);
+    if (o.worn) {
+      noiseTexture(g, w, h, { density: 350, alpha: 0.05, tone: o.wornTone ?? "90,74,46" });
+      grimeOverlay(g, w, h, { blotches: 2, streaks: 1, tone: o.wornTone ?? "120,96,52", alpha: 0.16 });
+    }
+    g.fillStyle = o.band ?? "#22303c";
+    g.fillRect(0, 0, w, h * 0.16);
+    g.fillStyle = "#ffffff";
+    g.font = `600 ${Math.round(h * 0.1)}px 'Barlow Condensed', Arial, sans-serif`;
+    g.textAlign = "left";
+    g.textBaseline = "middle";
+    g.fillText(title, w * 0.05, h * 0.08);
+    g.fillStyle = "#1d262e";
+    g.font = `${Math.round(h * 0.062)}px Arial, sans-serif`;
+    rows.forEach((row, i) => {
+      const y = h * 0.26 + i * h * 0.1;
+      g.fillStyle = "#63707c";
+      g.fillRect(w * 0.05, y + h * 0.045, w * 0.9, 1);
+      g.fillStyle = "#1d262e";
+      g.fillText(row, w * 0.06, y);
+    });
+  };
+}
+
+// ---------------------------------------------------------------- room shells
+
+/**
+ * Enclosed room shell with floor, four walls, ceiling and a skirting rail.
+ * Rooms are built around the origin; the learner spawns near +z looking to -z.
+ */
+/**
+ * Light a room in proportion to its floor, not to a number somebody typed once.
+ *
+ * Each bay hand-placed three or four ceiling fittings, which was right for an
+ * eight-metre room and leaves a fourteen-metre one with black corners and a
+ * far wall nobody can read. This lays fittings on a grid whose spacing is
+ * fixed, so a bigger floor simply gets more of them, and adds the low
+ * hemisphere fill that stops an unlit corner going to pure black — a real shop
+ * has bounce off the walls and these rooms had none at all.
+ *
+ * Call it after spreadLayout(), so the grid is sized to the room the learner
+ * actually walks into.
+ */
+export function ceilingGrid(parent, w, d, o = {}) {
+  const spacing = o.spacing ?? 5.0;
+  const nx = Math.max(2, Math.min(3, Math.round(w / spacing)));
+  const nz = Math.max(2, Math.min(3, Math.round(d / spacing)));
+  const y = o.y ?? 2.94;
+  const cellW = w / nx, cellD = d / nz;
+  const colour = o.color ?? 0xfff4e2;
+  const lamps = [];
+  for (let i = 0; i < nx; i++) {
+    for (let j = 0; j < nz; j++) {
+      const x = (i + 0.5) * cellW - w / 2;
+      const z = (j + 0.5) * cellD - d / 2;
+      // One emissive slab per fitting, not a housing plus a lens: at ceiling
+      // height the housing is never seen, and doubling the mesh count of every
+      // fitting in every room to draw it put the colour studio over budget.
+      lamps.push(box(parent, Math.min(cellW * 0.42, 3.4), 0.05, 0.3, x, y, z, colour,
+        { cast: false, emissive: colour, ei: o.ei ?? 1.6, rough: 0.4 }));
+      // Light only a checker of the fittings, with the range to cover their
+      // neighbours. A dozen point lights in one room is a real cost on a
+      // headset and buys nothing a wider-throw half-dozen does not.
+      if ((i + j) % 2 === 0) {
+        const lamp = new THREE.PointLight(colour, o.lamp ?? 2.2, o.range ?? Math.max(14, spacing * 3.2), 2);
+        lamp.position.set(x, y - 0.2, z);
+        parent.add(lamp);
+      }
+    }
+  }
+  // Bounce. Without it a face turned away from every fitting renders black,
+  // which is the one thing a real room never does.
+  parent.add(new THREE.HemisphereLight(o.sky ?? 0xdceaf6, o.groundTone ?? 0x4a535d, o.fill ?? 0.95));
+  return lamps;
+}
+
+/**
+ * Push a room's workstations apart without resizing any of them.
+ *
+ * Every bay was laid out inside about eight metres because that is all the
+ * learner was ever allowed to walk. Making the room bigger on its own just
+ * adds an empty ring of floor: the bench, the machine, the permit board and
+ * the PPE stand all stay huddled in the middle, and the extra space reads as
+ * a mistake rather than a shop.
+ *
+ * This scales the POSITION of each thing standing on the room floor, and
+ * nothing else. A bench four metres out goes to six and a half; the bench
+ * itself, and everything parented to it, is untouched, because a child's
+ * position is local to its group. Anything already at the origin — the shell,
+ * the floor paint — does not move, which is exactly right.
+ *
+ * Call it at the end of build(), before returning, so the room a checker
+ * measures is the room the learner walks into.
+ */
+export function spreadLayout(root, k = 1) {
+  if (!(k > 0) || k === 1) return root;
+  for (const child of root.children ?? []) {
+    child.position.x *= k;
+    child.position.z *= k;
+  }
+  return root;
+}
+
+// 0xrrggbb to the "#rrggbb" a canvas context wants.
+export function hex(color) {
+  return `#${(color & 0xffffff).toString(16).padStart(6, "0")}`;
+}
+
+export function shell(parent, o = {}) {
+  const w = o.w ?? 8, d = o.d ?? 8, h = o.h ?? 3.1;
+  const g = group(parent);
+  // Finishes, not flat colour: a shop floor is sealed concrete with a tooth to
+  // it, and block walls are painted rather than poured light. The maps are
+  // shared per finish (see surface()), so this costs texture memory and not
+  // draw calls. Tiling is set against the room's size so the grain stays the
+  // same physical scale whether the bay is six metres or twelve.
+  const FLOOR_TILE = Math.max(2, Math.round(Math.max(w, d) / 2.4));
+  const WALL_TILE = Math.max(2, Math.round(Math.max(w, d) / 3.2));
+  const floor = box(g, w, 0.12, d, 0, -0.06, 0, o.floor ?? 0x3a4048,
+    { rough: o.floorRough ?? 0.85, metal: o.floorMetal ?? 0, cast: false,
+      finish: o.floorFinish ?? "concrete", tile: FLOOR_TILE });
+  floor.receiveShadow = true;
+  const wallOpts = { rough: 0.94, cast: false, finish: o.wallFinish ?? "painted", tile: WALL_TILE };
+  box(g, w, h, 0.12, 0, h / 2, -d / 2, o.wall ?? 0x5b6672, wallOpts);
+  box(g, 0.12, h, d, -w / 2, h / 2, 0, o.wall ?? 0x5b6672, wallOpts);
+  box(g, 0.12, h, d, w / 2, h / 2, 0, o.wall ?? 0x5b6672, wallOpts);
+  box(g, w, 0.12, d, 0, h, 0, o.ceiling ?? 0x2b3238, { rough: 0.96, cast: false, finish: "painted", tile: WALL_TILE });
+  if (o.backWall !== false) box(g, w, h, 0.12, 0, h / 2, d / 2, o.wall ?? 0x5b6672, wallOpts);
+  if (o.skirt !== false) {
+    box(g, w, 0.1, 0.04, 0, 0.05, -d / 2 + 0.08, o.skirtColor ?? 0x2a3038, { cast: false });
+    box(g, 0.04, 0.1, d, -w / 2 + 0.08, 0.05, 0, o.skirtColor ?? 0x2a3038, { cast: false });
+    box(g, 0.04, 0.1, d, w / 2 - 0.08, 0.05, 0, o.skirtColor ?? 0x2a3038, { cast: false });
+  }
+  // A real shop has paint on the floor, a trim line on the wall, structure in
+  // the ceiling and a way out. A room that has none of those reads as a box
+  // with props in it, so any room can ask for them here.
+  if (o.walkway) floorPaint(g, w, d, o.walkway === true ? {} : o.walkway);
+  if (o.trim) wallTrim(g, w, d, h, o.trim);
+  if (o.structure) ceilingStructure(g, w, d, h, o.structure, o.structureColor);
+  if (o.door) wayOut(g, w, d, h, o.door, o.doorColor, { daylight: o.doorDaylight });
+  return g;
+}
+
+// Floor paint: a walkway down the middle with a hazard-hatched edge either
+// side, the way a shop marks where you are allowed to stand. One decal, so it
+// costs a single mesh however detailed the marking is.
+export function floorPaint(parent, w, d, o = {}) {
+  const lane = o.lane ?? 0xf2c14b, hatch = o.hatch ?? 0xd8dde3, base = o.base ?? null;
+  const px = o.px ?? 1024;
+  // Everything here is set out in metres and converted, not in fractions of
+  // the canvas. Drawn in fractions, the same markings on a fourteen-metre
+  // floor came out as sparse white ticks scattered across it that read as
+  // litter rather than as a hazard border.
+  const perM = px / w;
+  const laneW = o.laneMetres ?? 1.9;     // a walkway you can pass someone in
+  const margin = o.marginMetres ?? 0.85; // the hazard border along the walls
+  const pitch = o.pitchMetres ?? 0.34;   // stripe spacing in that border
+  const m = decal(parent, w, d, 0, 0.012, 0, (g, cw, ch) => {
+    g.clearRect(0, 0, cw, ch);
+    if (base) { g.fillStyle = hex(base); g.fillRect(0, 0, cw, ch); }
+    const lw = laneW * perM, lx = (cw - lw) / 2;
+    g.fillStyle = `${hex(lane)}22`;
+    g.fillRect(lx, 0, lw, ch);
+    g.strokeStyle = hex(lane); g.lineWidth = Math.max(3, 0.1 * perM);
+    g.beginPath(); g.moveTo(lx, 0); g.lineTo(lx, ch); g.moveTo(lx + lw, 0); g.lineTo(lx + lw, ch); g.stroke();
+    // Hazard border: continuous diagonal stripes at a fixed pitch, so the
+    // band reads as painted-on chevrons at any room size.
+    const marg = margin * perM, step = pitch * perM;
+    g.strokeStyle = hex(hatch); g.lineWidth = Math.max(2, 0.09 * perM);
+    for (let y = -marg; y < ch + marg; y += step) {
+      g.beginPath(); g.moveTo(0, y); g.lineTo(marg, y + marg); g.stroke();
+      g.beginPath(); g.moveTo(cw, y); g.lineTo(cw - marg, y + marg); g.stroke();
+    }
+  }, { px, transparent: !base, rough: 0.9 });
+  m.rotation.x = -Math.PI / 2;
+  return m;
+}
+
+// Wall trim: the painted band at shoulder height that tells you at a glance
+// whose bay you are standing in. Three walls, three meshes.
+export function wallTrim(parent, w, d, h, color, o = {}) {
+  const y = o.y ?? Math.min(2.1, h - 0.9), t = o.thickness ?? 0.09;
+  const g = group(parent);
+  box(g, w, t, 0.02, 0, y, -d / 2 + 0.07, color, { cast: false, rough: 0.7 });
+  box(g, 0.02, t, d, -w / 2 + 0.07, y, 0, color, { cast: false, rough: 0.7 });
+  box(g, 0.02, t, d, w / 2 - 0.07, y, 0, color, { cast: false, rough: 0.7 });
+  return g;
+}
+
+// Ceiling structure: pipe runs on hangers for a plant or service room, roof
+// trusses for a shop or bay, bare for a clinic or salon that really does have
+// a flat tile ceiling.
+export function ceilingStructure(parent, w, d, h, kind, color) {
+  const g = group(parent);
+  const steel = color ?? 0x6b7581;
+  if (kind === "pipes") {
+    const runs = [[-w * 0.26, 0.20], [0, 0.13], [w * 0.24, 0.16]];
+    for (const [x, r] of runs) {
+      const pipe = cyl(g, r, r, d - 0.4, x, h - 0.34, 0, steel, { seg: 12, cast: false, rough: 0.55, metal: 0.6 });
+      pipe.rotation.x = Math.PI / 2;
+      for (const z of [-d * 0.3, 0, d * 0.3]) {
+        box(g, 0.05, 0.3, 0.05, x, h - 0.19, z, 0x4b5460, { cast: false, rough: 0.7, metal: 0.4 });
+      }
+    }
+  } else if (kind === "trusses") {
+    for (const z of [-d * 0.3, 0, d * 0.3]) {
+      box(g, w - 0.3, 0.1, 0.12, 0, h - 0.5, z, steel, { cast: false, rough: 0.6, metal: 0.5 });
+      box(g, w - 0.3, 0.1, 0.12, 0, h - 0.14, z, steel, { cast: false, rough: 0.6, metal: 0.5 });
+      for (let i = -2; i <= 2; i++) {
+        const web = box(g, 0.06, 0.42, 0.06, (i * (w - 0.8)) / 5, h - 0.32, z, steel,
+          { cast: false, rough: 0.6, metal: 0.5 });
+        web.rotation.z = i % 2 ? 0.5 : -0.5;
+      }
+    }
+  }
+  return g;
+}
+
+// A way out. Not decoration: a room with no visible exit is the one thing a
+// trainee notices as wrong, and in a hot-work or confined bay the exit is part
+// of the procedure being taught.
+export function wayOut(parent, w, d, h, kind, color, o = {}) {
+  const g = group(parent, 0, 0, d / 2 - 0.08);
+  const frame = color ?? 0x3b434d;
+  if (kind === "shutter") {
+    const dw = Math.min(2.8, w * 0.42), dh = Math.min(2.6, h - 0.25);
+    box(g, dw + 0.2, 0.14, 0.1, 0, dh + 0.08, 0, frame, { cast: false, rough: 0.7, metal: 0.4 });
+    for (let i = 0; i < 9; i++) {
+      box(g, dw, dh / 9 - 0.02, 0.06, 0, 0.08 + (i + 0.5) * (dh / 9), 0, i % 2 ? 0x8a929b : 0x7b838c,
+        { cast: false, rough: 0.6, metal: 0.45 });
+    }
+  } else if (kind === "personnel") {
+    const dw = 0.98, dh = Math.min(2.1, h - 0.4);
+    box(g, dw + 0.12, dh + 0.08, 0.08, 0, dh / 2, 0, frame, { cast: false, rough: 0.8 });
+    box(g, dw, dh, 0.05, 0, dh / 2, 0.03, 0xb8c0c8, { cast: false, rough: 0.55, metal: 0.3 });
+    cyl(g, 0.03, 0.03, 0.26, dw / 2 - 0.16, dh * 0.48, 0.09, 0xd8dde3, { seg: 10, cast: false, metal: 0.7, rough: 0.35 });
+    // Exit sign above it, lit, because that is how you find it in smoke.
+    box(g, 0.44, 0.17, 0.05, 0, dh + 0.22, 0, 0x1d6b3a, { cast: false, emissive: 0x2fbf6a, ei: 1.3, rough: 0.5 });
+  } else if (kind === "dock") {
+    const dw = Math.min(3.2, w * 0.46), dh = Math.min(2.7, h - 0.2);
+    box(g, dw + 0.3, 0.16, 0.12, 0, dh + 0.1, 0, frame, { cast: false, rough: 0.75 });
+    box(g, 0.16, dh, 0.12, -dw / 2 - 0.12, dh / 2, 0, frame, { cast: false, rough: 0.75 });
+    box(g, 0.16, dh, 0.12, dw / 2 + 0.12, dh / 2, 0, frame, { cast: false, rough: 0.75 });
+    // Daylight in the opening, so the room reads as connected to outside. A
+    // room built without that wall is already open, so it skips the pane.
+    if (o.daylight !== false) {
+      box(g, dw, dh, 0.03, 0, dh / 2, 0.02, 0xa8bccd, { cast: false, emissive: 0x8fb0c9, ei: 0.85, rough: 0.9 });
+    }
+  }
+  return g;
+}
+
+/** Recessed ceiling panel that also acts as the room's key light source. */
+export function ceilingPanel(parent, x, z, o = {}) {
+  const y = o.y ?? 3.02;
+  box(parent, o.w ?? 1.2, 0.06, o.d ?? 0.32, x, y, z, 0x22282e, { cast: false, rough: 0.6, metal: 0.5 });
+  const lens = box(parent, (o.w ?? 1.2) - 0.08, 0.03, (o.d ?? 0.32) - 0.06, x, y - 0.05, z,
+    o.color ?? 0xfff4e2, { cast: false, emissive: o.color ?? 0xfff4e2, ei: o.ei ?? 1.5, rough: 0.4 });
+  const lamp = new THREE.PointLight(o.color ?? 0xfff4e2, o.lamp ?? 1.5, o.range ?? 9, 2);
+  lamp.position.set(x, y - 0.18, z);
+  parent.add(lamp);
+  return lens;
+}
+
+// ------------------------------------------------------------ composite props
+
+/** Stainless / laminate work counter with legs, apron and optional undershelf. */
+export function counter(parent, w, d, x, z, color = 0x9aa4ad, o = {}) {
+  const g = group(parent, x, 0, z, o.ry ?? 0);
+  const hgt = o.height ?? 0.92;
+  slab(g, w, 0.05, d, 0, hgt, 0, color, { rough: o.rough ?? 0.34, metal: o.metal ?? 0.72, radius: 0.02 });
+  box(g, w - 0.06, 0.1, 0.03, 0, hgt - 0.08, -d / 2 + 0.03, color, { rough: 0.4, metal: 0.6, finish: "brushed", tile: 2 });
+  for (const sx of [-1, 1]) for (const sz of [-1, 1]) {
+    cyl(g, 0.022, 0.022, hgt - 0.05, sx * (w / 2 - 0.09), (hgt - 0.05) / 2, sz * (d / 2 - 0.09),
+      0x7c848c, { rough: 0.35, metal: 0.85, seg: 10 });
+  }
+  if (o.undershelf !== false) {
+    slab(g, w - 0.16, 0.03, d - 0.16, 0, 0.24, 0, color, { rough: 0.45, metal: 0.6, radius: 0.01 });
+  }
+  return g;
+}
+
+/** Wheeled trolley — salon trolley, phlebotomy cart, tool cart. */
+export function trolley(parent, x, z, color = 0x2b3239, o = {}) {
+  const g = group(parent, x, 0, z, o.ry ?? 0);
+  const w = o.w ?? 0.52, d = o.d ?? 0.4;
+  for (const y of [0.34, 0.6, 0.86]) slab(g, w, 0.028, d, 0, y, 0, color, { rough: 0.42, metal: 0.35, finish: "painted", tile: 2, radius: 0.015 });
+  for (const sx of [-1, 1]) for (const sz of [-1, 1]) {
+    cyl(g, 0.014, 0.014, 0.86, sx * (w / 2 - 0.03), 0.45, sz * (d / 2 - 0.03), 0x8d959d,
+      { rough: 0.3, metal: 0.9, seg: 8 });
+    const caster = cyl(g, 0.035, 0.035, 0.018, sx * (w / 2 - 0.03), 0.035, sz * (d / 2 - 0.03), 0x16191d,
+      { rough: 0.8, seg: 12 });
+    caster.rotation.z = Math.PI / 2;
+  }
+  return g;
+}
+
+/** Wall cabinet with doors and handles. */
+export function cabinet(parent, w, h, d, x, y, z, color = 0xd7dce1, o = {}) {
+  const g = group(parent, x, y, z, o.ry ?? 0);
+  box(g, w, h, d, 0, 0, 0, color, { rough: 0.55, metal: 0.1, finish: "painted", tile: 2 });
+  const gap = 0.006;
+  for (const sx of [-1, 1]) {
+    box(g, w / 2 - gap, h - 0.04, 0.018, sx * (w / 4), 0, d / 2 + 0.01, o.doorColor ?? color,
+      { rough: 0.42, metal: 0.15 });
+    box(g, 0.02, 0.11, 0.02, sx * 0.045, 0, d / 2 + 0.03, 0x8d959d, { rough: 0.3, metal: 0.9 });
+  }
+  return g;
+}
+
+// --------------------------------------------------------------------- people
+//
+// Everybody in both apps is built from the parts below, and the whole point of
+// them is that a figure has to read as a person at two metres in a headset
+// without costing more meshes than the block-and-ball stand-in it replaced.
+//
+// What each part buys, and why it is shaped the way it is:
+//   - The torso is one lathe, not a box. A revolved profile can flare at the
+//     hips, pinch at the waist, swell at the chest and then slope away into
+//     the neck, so sloped shoulders and a pelvis that meets the legs cost
+//     nothing extra. Flattened front-to-back with scale.z, because a person is
+//     not a cylinder.
+//   - The head is one lathe too: the neck widens into the jaw and the jaw into
+//     the cheeks in a single surface, which is the difference between a person
+//     and a ball on a post. Its size is deliberately close to the old sphere's,
+//     because a handful of stations hang markers (TMJ, lips, swelling tags) off
+//     `head` at coordinates that assume that surface.
+//   - Legs and arms are lathes with a joint pinch: a calf belly above a narrow
+//     knee, a forearm that pinches at the wrist and swells into a hand. One
+//     mesh each, and the silhouette bends where a body bends.
+//   - The face is a canvas decal on the front of the head: eye whites, iris,
+//     pupil and catchlight, lids and lashes, brows in the figure's own hair
+//     colour, a shaded nose, cheek and jaw, and filled lips — all from a fixed
+//     set chosen by a seed, so a crew of six is six faces. Transparent
+//     everywhere else, so the skin below shows through and the card is invisible.
+//   - The WORK DRESS is painted, not built. A coverall's reflective bands, its
+//     chest pocket flaps, its zip, the knee pads on the trousers and the gloves
+//     on the hands are all canvas on the torso, leg and arm meshes that are
+//     there anyway, so a figure in full hi-vis costs the same meshes as a
+//     figure in a t-shirt. That is the only reason those details are
+//     affordable at all across two hundred stations.
+//   - Skin, hair, hair style and the dress palette all come from the same seed
+//     when the caller does not name them, so a station gets a crew rather than
+//     sextuplets.
+//
+// Mesh budget, per figure, standing: torso, pelvis, head, ears, face, hair
+// (or a helmet and its chin strap, or a cap, a scrub cap or a dive hood), two
+// legs, two boots, two upper arms, two forearms = 14 — one over what the old
+// stand-in cost, spent entirely on the ears, and still one less than the same
+// figure in hi-vis cost before the bands were painted. The hand
+// is the end of the forearm lathe rather than a mesh of its own — the wrist
+// pinch, palm and thumb pad are in that profile — because a separate hand on
+// each arm would have made the figure 15. Safety glasses and a tool belt are
+// one mesh each, and only when a caller asks for them.
+
+/** Eight skin tones, light to dark, used when a caller does not name one. */
+export const SKIN_TONES = [
+  0xf0d2bb, 0xe3bd9b, 0xd3a37d, 0xbd8860, 0xa26d48, 0x855637, 0x6a4128, 0x4d2f1f,
+];
+/** Hair, including greys and a red — a capped scalp is one mesh, so it may as well vary. */
+export const HAIR_TONES = [
+  0x1a1512, 0x2c231d, 0x46301f, 0x6a4a2e, 0x9a7440, 0xd4bb87, 0x8f8d8a, 0xa2432c,
+];
+/**
+ * The garment over the chest when a caller does not name one. The first entry
+ * is the colour every figure used to be, so a room that was tuned against that
+ * blue-grey still has it in the mix.
+ */
+export const WORK_TONES = [
+  0x37505f, 0x3c4a57, 0x2f4a63, 0x4a5a62, 0x335a55, 0x5a4b42, 0x44543f, 0x3a4150,
+];
+/** Trousers. Work trousers are dark; the spread is deliberately narrow. */
+export const TROUSER_TONES = [
+  0x2f3740, 0x343d47, 0x293037, 0x3b4450, 0x3d4340, 0x2c3642,
+];
+
+// ------------------------------------------------------------------ outfits
+//
+// Trade-correct gear, by name, for standingFigure/standingPerson. An outfit
+// only fills in the options a caller left unnamed — `helmet: true`, `vest:
+// true` and so on mean "yes, wear this," so the figure's own seeded skin,
+// hair and cloth colour still vary the way they always have; an outfit never
+// overrides a colour or a garment the caller actually named. This is what
+// lets an existing standingFigure(...) call improve with no edit to the
+// station that makes it: the station names none of this, so it all comes
+// from the outfit its category resolves to (see outfitFromContext below).
+export const OUTFITS = {
+  construction: { helmet: true, vest: true, gloves: true, glasses: true },
+  clinical: { scrubCap: true, glasses: true, gloves: 0xe8e2d8 },
+  marine: { vest: true, gloves: true },
+  kitchen: { cap: 0xf2f0ea, gloves: 0xe8e2d8 },
+  office: {},
+  sport: {},
+  firefighter: { helmet: 0xd8342a, vest: true, bands: 0xf2c14b, gloves: 0x2b2f33, boots: 0x1b1e22 },
+  diver: { diveHood: true, mask: true, gloves: 0x2b2f33, boots: 0x2b2f33 },
+  // Loop 5 (console AVATARS, docs/avatars.md): the trades the figure lacked.
+  // Each one is held to the same 17-mesh ceiling as `construction` (a helmet
+  // is two meshes, shell and strap; glasses, a mask, a respirator, a harness
+  // and a tool belt one each; everything else is paint), so a station whose
+  // crew changes outfit never changes its mesh count.
+  // Welder: a dark hood (the helmet shell in matte black with a dark lens
+  // over the eyes) and brown leathers, gauntlet gloves.
+  welder: { helmet: 0x1f2226, mask: 0x2a1a08, cloth: 0x6b4a2e, trousers: 0x3a3127, gloves: 0x8a6a46, boots: 0x1b1e22 },
+  // Lineworker: climbing harness over arc-rated (navy, no hi-vis vest)
+  // coveralls, hard hat, leather gloves.
+  lineworker: { helmet: 0xf2c14b, harness: true, cloth: 0x2a3f6a, trousers: 0x2a3f6a, gloves: 0x8a6a46, boots: 0x1b1e22 },
+  // Laborer on silica work: half-mask respirator under the hard hat, hi-vis,
+  // gloves — the dust-control station's own PPE list.
+  silica: { helmet: 0xf2c14b, respirator: 0x9aa1a8, vest: true, gloves: true },
+  // Robot technician: bump cap, safety glasses, a tool belt whose pouch is the
+  // red lockout tag colour, tablet-grey gloves.
+  robotTech: { cap: 0x2b3542, glasses: true, toolBelt: true, pouch: 0xd8322c, cloth: 0x3a4a5a, gloves: 0x4a5a66 },
+  // AI-training specialist: a headset (the mask's wrap lens in dark matte over
+  // a dark head strap) and controller-grey gloves, plain clothes.
+  aiTrainer: { scrubCap: 0x1b1e22, mask: 0x14171a, gloves: 0x3a4150, cloth: 0x3a4150 },
+  // Port and longshore: orange hard hat and vest over dark work gear, gloves,
+  // glasses — the terminal's own colour.
+  longshore: { helmet: 0xf07a1f, vest: 0xf07a1f, bands: 0xdfe8ee, gloves: true, glasses: true, cloth: 0x2b3542 },
+  // Healthcare (nursing and support): teal scrubs, scrub cap, glasses, pale
+  // gloves — the clinical outfit's cousin, in scrubs rather than the dentist's own.
+  healthcare: { scrubCap: 0x3a8a8a, glasses: true, gloves: 0xe8e2d8, cloth: 0x3a8a8a, trousers: 0x2f6f6f },
+  // Chef: whites, a white cap, dark checked trousers, no gloves (bare hands at
+  // the pass are the convention the kitchen stations teach glove changes against).
+  chef: { cap: 0xf4f4f0, cloth: 0xf4f4f0, trousers: 0x2a2d31 },
+};
+
+// A station's own `category` (shared/curricula.js's ten-domain taxonomy)
+// maps onto an outfit directly where the trade is unambiguous; anything not
+// listed falls through to the keyword guesses below and, failing those, to
+// "office" — plain clothes, not a hard hat, because a category this cannot
+// place is exactly the case where guessing PPE would be more often wrong
+// than doing nothing.
+const CATEGORY_OUTFITS = {
+  "Construction & Structural Trades": "construction",
+  "Building Systems & Facilities": "construction",
+  "Connectivity & Telecom": "construction",
+  "Energy & Power": "construction",
+  "Manufacturing & Automation": "construction",
+  "Surface Prep & Coatings": "construction",
+  "Entertainment & Live Events": "construction",
+  "Environmental Monitoring": "construction",
+  "Mobility & Transit": "construction",
+  "Water & Environmental": "construction",
+  "Sewing & Garment Trades": "office",
+  "Maritime & Ports": "marine",
+  "Dental & Oral Health": "clinical",
+  "Healthcare Support": "healthcare",
+  "Culinary & Hospitality": "chef",
+  "Grounds & Landscaping": "construction",
+  "Youth Sports & Coaching": "sport",
+  "Emergency Services": "firefighter",
+  "Community Environmental Justice": "office",
+};
+
+/**
+ * The outfit name a free-text context (a station's category, trade or id)
+ * resolves to. Exact category text is the fast path; everything else is a
+ * keyword guess over whatever string was handed in, so a caller can pass a
+ * category, a domain, an id, or all three joined together.
+ */
+export function outfitFromContext(text = "") {
+  const raw = String(text ?? "");
+  if (CATEGORY_OUTFITS[raw]) return CATEGORY_OUTFITS[raw];
+  const t = raw.toLowerCase();
+  if (!t) return "office";
+  // A trade the context names outright beats its category: a welding station
+  // in "Construction & Structural Trades" dresses a welder, not a generic
+  // hard hat. The app passes "category | trade | union | id" (smartcity/js/
+  // app.js), so these see all four.
+  const trade = outfitFromTrade(t);
+  if (trade) return trade;
+  for (const [cat, name] of Object.entries(CATEGORY_OUTFITS)) {
+    if (t.includes(cat.toLowerCase())) return name;
+  }
+  if (/\bdive|diving|scuba|underwater\b/.test(t)) return "diver";
+  if (/marine|maritime|vessel|dock|port\b|\bbay\b|ferry|ship/.test(t)) return "marine";
+  if (/dental|oral|clinic|medical|health|hygien|patient|nurse/.test(t)) return "clinical";
+  if (/culinary|kitchen|hospitality|banquet|food|bakery|bartend|bar\b/.test(t)) return "kitchen";
+  if (/sport|coaching|basketball|athlet/.test(t)) return "sport";
+  if (/\bfire\b|firefight|hazmat|rescue/.test(t)) return "firefighter";
+  if (/construction|structural|energy|power|telecom|connectivity|manufactur|automation|surface prep|coating|environmental|water|transit|mobility|rigging|entertainment|scaffold|welding|electrical|crane/.test(t)) return "construction";
+  return "office";
+}
+
+/**
+ * The outfit a trade's own words call for, or null when the text names no
+ * trade this figure has gear for. Union names are the ones tools/unions.json
+ * carries (ILWU/ILA longshore, IBEW outside line, LIUNA laborers, UA/IBB/IW
+ * welders, NNU/CNA/SEIU-UHW nursing, UNITE HERE kitchens), by abbreviation.
+ */
+export function outfitFromTrade(t) {
+  if (/\bweld|hot[- ]work|\bibb\b|boilermaker|torch[- ]cut|\bbrazing|oxy-?fuel/.test(t)) return "welder";
+  if (/lineworker|line ?worker|lineman|\boutside line\b|pole[- ]top|transmission line|distribution line|bucket truck|climb(ing)? gear|arc[- ]rated|utility pole/.test(t)) return "lineworker";
+  if (/silica|respirable dust|drilling dust|dust control|concrete (cut|saw|grind|drill)|jackhammer|tuck ?point|masonry (cut|saw)|cement mason|\bopcmia\b/.test(t)) return "silica";
+  if (/robot|cobot|\bamr\b|automated guided|agv\b|robotics technician|robot technician/.test(t)) return "robotTech";
+  if (/ai[- ]training|ai-trainer|teleop|headset|\bvr controller|agent (supervisor|dispatch)|training specialist|behaviou?r cloning|demonstration recorder/.test(t)) return "aiTrainer";
+  if (/longshore|lasher|lashing|container terminal|\bilwu\b|\bila\b|stevedor|terminal foreman|port and terminal|gantry crane|straddle carrier/.test(t)) return "longshore";
+  if (/\bnurse|nursing|healthcare support|patient care|phlebotom|\bnnu\b|\bcna\b|seiu-uhw|\bnuhw\b|\bhospital\b|caregiver|home health/.test(t)) return "healthcare";
+  if (/\bchef\b|\bcook\b|culinary|kitchen|line cook|sous|pastry|\bbaker\b|unite here|banquet/.test(t)) return "chef";
+  return null;
+}
+
+// The station whose crew is being built right now, as free text (its
+// category, usually) — set by the app right before a room's build() runs, so
+// standingFigure can resolve an outfit without every station having to name
+// its own trade. Never used for anything else, and never trusted with more
+// than "what does this figure look like".
+//
+// Held on globalThis rather than a plain module-level variable: SmartCiti.X's
+// dist build inlines this file once for app.js/apron.js/stage.js and copies
+// it again, unmodified, for the sims that are lazy-loaded via a real
+// dynamic import() (see tools/bundle_webxr.py) — two separate module
+// instances of this same source, each with its own module scope. A `let`
+// here would only ever be seen by whichever copy set it. globalThis is the
+// one thing both copies share.
+const CONTEXT_KEY = "__smartcitix_active_context";
+/** Called by the app immediately before a station builds its scene. */
+export function setActiveContext(text) {
+  try { globalThis[CONTEXT_KEY] = text || ""; } catch { /* no global object (very old headless stub) */ }
+}
+export function getActiveContext() {
+  try { return globalThis[CONTEXT_KEY] || ""; } catch { return ""; }
+}
+
+// Brows, eye opening, lip shape and the soft shading that turns a decal into a
+// face. Six combinations is enough that a crew of six is six faces, and few
+// enough that they are all deliberately drawn rather than randomly generated.
+const FACE_SET = [
+  { brow: 0.00, open: 0.62, mouth: 0.06, ex: 0.292, mw: 0.19, lip: 0.55, browW: 1.00, lash: 0.6 },
+  { brow: 0.22, open: 0.74, mouth: 0.20, ex: 0.300, mw: 0.22, lip: 0.80, browW: 0.86, lash: 1.0 },
+  { brow: -0.20, open: 0.44, mouth: -0.10, ex: 0.284, mw: 0.17, lip: 0.42, browW: 1.18, lash: 0.3 },
+  { brow: 0.10, open: 0.56, mouth: 0.00, ex: 0.296, mw: 0.20, lip: 0.62, browW: 0.94, lash: 0.5 },
+  { brow: -0.10, open: 0.60, mouth: -0.18, ex: 0.288, mw: 0.16, lip: 0.48, browW: 1.10, lash: 0.4 },
+  { brow: 0.16, open: 0.50, mouth: 0.12, ex: 0.304, mw: 0.21, lip: 0.72, browW: 0.90, lash: 0.8 },
+];
+/** Iris colours, picked by the same seed as everything else about a figure. */
+const IRIS_TONES = ["#4a3a26", "#3c2a1f", "#5b4630", "#3f5a53", "#4c6274", "#2e2320"];
+
+// Profiles are [radius, y] bottom-up (see lathe()). Heights are in the part's
+// own space; the standing figure's absolute heights are in personTorso().
+const HEAD_PROFILE = [
+  [0.001, -0.230], [0.052, -0.214], [0.050, -0.145], [0.070, -0.120],
+  [0.098, -0.095], [0.104, -0.055], [0.111, -0.010], [0.112, 0.030],
+  [0.108, 0.070], [0.092, 0.105], [0.055, 0.124], [0.001, 0.131],
+];
+/**
+ * Six hair masses, one lathe each.
+ *
+ * A revolve is symmetric about the head's axis, so a style that hangs down the
+ * back would also hang down the face. `dz` is what buys the long ones: pushing
+ * the whole mass backwards keeps its front edge behind the face card (which
+ * sits at z 0.117) while its back edge reaches the nape, and `sx`/`sz` widen it
+ * again so it is still proud of the skull at the sides.
+ *
+ * Every profile's FIRST ring is deliberately narrower than the skull at that
+ * height, so the mass starts inside the head and the hairline is where the two
+ * surfaces cross — a smooth curve, higher at the front because of the tilt.
+ * A profile that starts flush with the skull instead gives a row of triangular
+ * teeth across the brow, because a 20-sided hair and a 14-sided head do not
+ * meet in the same places.
+ */
+const HAIR_STYLES = [
+  { // 0 — crop
+    profile: [[0.070, -0.050], [0.118, 0.022], [0.121, 0.058], [0.118, 0.090], [0.100, 0.115], [0.060, 0.132], [0.001, 0.139]],
+    sx: 1.00, sz: 1.05, dz: 0.002, tilt: -0.16,
+  },
+  { // 1 — full, swept volume: the mass the stylised references all have
+    profile: [[0.072, -0.058], [0.124, 0.018], [0.131, 0.056], [0.129, 0.092], [0.114, 0.120], [0.070, 0.141], [0.001, 0.150]],
+    sx: 1.02, sz: 1.09, dz: -0.010, tilt: -0.15,
+  },
+  { // 2 — bob, down over the ears and out at the back
+    profile: [[0.058, -0.100], [0.106, -0.082], [0.122, -0.040], [0.130, 0.006], [0.130, 0.054], [0.121, 0.094], [0.094, 0.122], [0.046, 0.139], [0.001, 0.144]],
+    sx: 1.12, sz: 1.18, dz: -0.028, tilt: -0.10,
+  },
+  { // 3 — tied up: a crop with a knot on the crown
+    profile: [[0.070, -0.050], [0.118, 0.022], [0.121, 0.058], [0.116, 0.092], [0.096, 0.114], [0.066, 0.130], [0.050, 0.140], [0.060, 0.152], [0.044, 0.167], [0.001, 0.175]],
+    sx: 1.00, sz: 1.05, dz: 0.000, tilt: -0.15,
+  },
+  { // 4 — long, to the nape
+    profile: [[0.050, -0.170], [0.094, -0.150], [0.112, -0.110], [0.126, -0.060], [0.132, 0.000], [0.130, 0.056], [0.120, 0.098], [0.090, 0.126], [0.042, 0.142], [0.001, 0.148]],
+    sx: 1.30, sz: 1.18, dz: -0.040, tilt: -0.08,
+  },
+  { // 5 — close fade
+    profile: [[0.072, -0.040], [0.116, 0.028], [0.118, 0.062], [0.115, 0.092], [0.098, 0.116], [0.058, 0.132], [0.001, 0.138]],
+    sx: 0.99, sz: 1.02, dz: 0.002, tilt: -0.18,
+  },
+];
+// A hard hat: the rim lifts into a full brim and the brim turns back into the
+// dome, all in one revolved surface, so brim and shell are a single mesh.
+const HELMET_PROFILE = [
+  [0.118, 0.034], [0.126, 0.048], [0.155, 0.064], [0.148, 0.078],
+  [0.140, 0.100], [0.118, 0.130], [0.070, 0.156], [0.001, 0.166],
+];
+// A baseball cap. The first three rings are the brim; sweep() pushes them out
+// into a peak at the front only and leaves them tucked under the crown
+// everywhere else, so cap and peak are one mesh rather than two.
+const CAP_PROFILE = [
+  [0.116, 0.030], [0.121, 0.042], [0.126, 0.058], [0.124, 0.092],
+  [0.111, 0.120], [0.074, 0.143], [0.001, 0.152],
+];
+// How far out and how far down each of those rings is carried at the front.
+// Only the first three move, so the peak is a wedge off the headband and the
+// crown above it keeps its shape.
+const CAP_PEAK_R = [0.62, 0.56, 0.16, 0, 0, 0, 0];
+const CAP_PEAK_Y = [0.022, 0.014, 0.002, 0, 0, 0, 0];
+// Safety glasses: a lens band at eye height, at full radius across the front
+// and the temples and drawn back inside the skull behind the ears, so the one
+// mesh reads as a wrap lens with arms and nothing shows at the back of the head.
+const GLASSES_PROFILE = [
+  [0.100, -0.012], [0.114, -0.004], [0.117, 0.010], [0.104, 0.018],
+];
+// A half-face respirator, revolved about the axis that points at the learner.
+const RESPIRATOR_PROFILE = [
+  [0.060, 0.000], [0.058, 0.025], [0.048, 0.055], [0.030, 0.072], [0.001, 0.078],
+];
+// Both ears, one mesh: a small pinna profile swept the whole way round the
+// head like everything else in this file, but gated by angle (earGate below)
+// so it only surfaces near the two ear positions and collapses to a sliver on
+// the skull's own axis everywhere else — the same trick the cap's peak and
+// the glasses' temples already use to keep a one-sided feature to one mesh.
+//
+// Set low, at jaw height rather than temple height: every hair style's first
+// ring sits well above here (a crop or a fade has no hair mesh at all below
+// its hairline, by design — see HAIR_STYLES), so a short style shows the ear
+// against bare skin the way it would in life, while a bob or the long style,
+// whose hair genuinely reaches this low, still covers it. Sitting the ear at
+// eye height instead put it mid-mass in every short style, where a skin-toned
+// bump broke through a lighter hair colour as a stray dark blotch.
+const EAR_PROFILE = [
+  [0.001, -0.086], [0.046, -0.076], [0.056, -0.052], [0.050, -0.028], [0.001, -0.014],
+];
+/** 1 at the two ear angles (u≈0.25 right, u≈0.75 left), 0 everywhere else. */
+function earGate(u) {
+  const r = Math.pow(Math.max(0, Math.cos((u - 0.25) * TAU)), 10);
+  const l = Math.pow(Math.max(0, Math.cos((u - 0.75) * TAU)), 10);
+  return Math.max(r, l);
+}
+const PELVIS_PROFILE = [
+  [0.001, 0.775], [0.120, 0.790], [0.148, 0.835], [0.150, 0.895],
+  [0.132, 0.935], [0.001, 0.950],
+];
+const TORSO_PROFILE = [
+  [0.001, 0.905], [0.130, 0.925], [0.148, 1.000], [0.152, 1.060],
+  [0.176, 1.160], [0.196, 1.250], [0.198, 1.300], [0.182, 1.338],
+  [0.134, 1.374], [0.062, 1.393], [0.001, 1.400],
+];
+const HARNESS_PROFILE = [
+  [0.001, 0.965], [0.130, 0.968], [0.156, 0.975], [0.158, 1.020],
+  [0.130, 1.030], [0.130, 1.252], [0.196, 1.260], [0.199, 1.292],
+  [0.130, 1.300], [0.001, 1.303],
+];
+// The upper arm. A lathe rather than a cylinder: a cylinder's flat end caps
+// sample the whole of the sleeve texture, which printed a disc of reflective
+// tape on top of each shoulder, and a revolved profile rounds the deltoid and
+// the elbow into the bargain.
+const UPPERARM_PROFILE = [
+  [0.001, -0.312], [0.038, -0.302], [0.043, -0.272], [0.045, -0.230],
+  [0.047, -0.185], [0.049, -0.140], [0.052, -0.082], [0.053, -0.030],
+  [0.044, 0.004], [0.001, 0.020],
+];
+// A tool belt over the hips: a webbing band with the pouches painted on it.
+const TOOLBELT_PROFILE = [
+  [0.001, 0.930], [0.150, 0.936], [0.172, 0.950], [0.176, 0.996],
+  [0.164, 1.014], [0.001, 1.020],
+];
+// Ankle to hip: calf belly, a narrow knee at 0.47, then the thigh.
+const LEG_PROFILE = [
+  [0.001, 0.055], [0.044, 0.075], [0.052, 0.110], [0.072, 0.260],
+  [0.074, 0.320], [0.060, 0.420], [0.057, 0.470], [0.068, 0.550],
+  [0.086, 0.700], [0.090, 0.820], [0.001, 0.870],
+];
+// Heel to toe, revolved about the axis that points forward: the step at 0.19
+// is the toe cap seam, and the taper past it is the cap itself.
+const BOOT_PROFILE = [
+  [0.001, 0.000], [0.050, 0.014], [0.062, 0.050], [0.062, 0.150],
+  [0.055, 0.190], [0.058, 0.202], [0.046, 0.238], [0.001, 0.262],
+];
+// Fingertips up to the elbow: fingers, palm, thumb pad, wrist pinch, forearm.
+const FOREARM_PROFILE = [
+  [0.001, -0.420], [0.026, -0.405], [0.040, -0.365], [0.044, -0.320],
+  [0.046, -0.285], [0.036, -0.258], [0.026, -0.243], [0.030, -0.215],
+  [0.038, -0.120], [0.047, -0.020], [0.001, 0.000],
+];
+
+/**
+ * The figure's own parts, read by tools/gen_avatars.mjs to write the sprite
+ * painter's silhouettes (shared/av-sprites.js), so a portrait or a token is
+ * drawn from exactly the profiles the 3D figure is revolved from. Data only.
+ */
+export const FIGURE_PARTS = Object.freeze({
+  HEAD_PROFILE, HAIR_STYLES, HELMET_PROFILE, CAP_PROFILE, CAP_PEAK_R, CAP_PEAK_Y, GLASSES_PROFILE,
+  RESPIRATOR_PROFILE, EAR_PROFILE, PELVIS_PROFILE, TORSO_PROFILE, HARNESS_PROFILE, TOOLBELT_PROFILE,
+  SKIN_TONES, HAIR_TONES, WORK_TONES, TROUSER_TONES, FACE_SET, IRIS_TONES,
+});
+
+/**
+ * A figure's seed. Two people standing in different places get different
+ * faces, and the same person gets the same face on every build — which the
+ * content checkers and the replay both depend on, so nothing here is random.
+ */
+export function figureSeed(x = 0, z = 0) {
+  let h = 2166136261;
+  for (const v of [Math.round(x * 97) | 0, Math.round(z * 89) | 0]) {
+    h = Math.imul(h ^ (v & 0xffff), 16777619) >>> 0;
+    h = Math.imul(h ^ ((v >>> 16) & 0xffff), 16777619) >>> 0;
+  }
+  return h >>> 0;
+}
+
+/**
+ * Skin, hair, hair style, face variant and work dress for one figure —
+ * whatever the caller left open, drawn from the palettes above by the seed.
+ */
+export function figureLook(o = {}, x = 0, z = 0) {
+  const seed = (o.seed ?? figureSeed(x, z)) >>> 0;
+  return {
+    seed,
+    skin: o.skin ?? SKIN_TONES[seed % SKIN_TONES.length],
+    hair: o.hair ?? HAIR_TONES[(seed >>> 5) % HAIR_TONES.length],
+    style: (seed >>> 3) % HAIR_STYLES.length,
+    face: (seed >>> 11) % FACE_SET.length,
+    cloth: o.cloth ?? WORK_TONES[(seed >>> 17) % WORK_TONES.length],
+    trousers: o.trousers ?? o.legs ?? TROUSER_TONES[(seed >>> 23) % TROUSER_TONES.length],
+  };
+}
+
+// ------------------------------------------------------- painted work dress
+
+/**
+ * A lathe's texture coordinate for a height in the profile's own space.
+ *
+ * LatheGeometry hands every ring the v of its INDEX in the profile, not its
+ * height, so a painter that wants a reflective band at y 1.11 has to ask the
+ * profile where that is. Everything painted on a figure goes through here.
+ */
+function profileV(profile, y) {
+  const n = profile.length;
+  for (let j = 0; j < n - 1; j++) {
+    const a = profile[j][1], b = profile[j + 1][1];
+    if ((y >= a && y <= b) || (y <= a && y >= b)) {
+      return (j + (b === a ? 0 : (y - a) / (b - a))) / (n - 1);
+    }
+  }
+  return y <= profile[0][1] ? 0 : 1;
+}
+
+/** Canvas row for a v, remembering that a CanvasTexture is uploaded flipped. */
+const rowAt = (v, h) => (1 - v) * h;
+/** Canvas column for a turn from dead ahead, −0.5 (behind) … 0 (front) … 0.5. */
+const colAt = (turn, w) => (turn + 0.5) * w;
+
+const dressCache = new Map();
+/**
+ * A cached, canvas-painted material for one part of a figure's dress.
+ *
+ * Keyed on everything the painter reads, so two people in the same coverall
+ * share one material and mergeStatic() can still bake a crowd — which is the
+ * whole reason the dress is paint and not geometry. Nothing here is flagged
+ * ownMaterial/ownTexture: like mat(), these live for the life of the page and
+ * a room's disposeTree() must leave them alone.
+ *
+ * `offset.x` is set to 0.5 so that u = 0 — which is dead ahead on every lathe
+ * and cylinder in this file — lands in the middle of the canvas, and the seam
+ * where the paint wraps ends up down the figure's back where nobody looks.
+ */
+function dressMat(key, w, h, draw, o = {}) {
+  let m = dressCache.get(key);
+  if (m) return m;
+  let tex = null;
+  try {
+    const canvas = document.createElement("canvas");
+    canvas.width = w;
+    canvas.height = h;
+    const g = canvas.getContext("2d");
+    draw(g, w, h);
+    tex = new THREE.CanvasTexture(canvas);
+    if (THREE.RepeatWrapping !== undefined) tex.wrapS = THREE.RepeatWrapping;
+    tex.offset?.set?.(0.5, 0);
+    applyTextureQuality(tex);
+    if (THREE.SRGBColorSpace !== undefined) tex.colorSpace = THREE.SRGBColorSpace;
+  } catch (e) {
+    tex = null;                       // headless: no canvas, so no paint
+  }
+  m = new THREE.MeshStandardMaterial({
+    color: tex ? 0xffffff : (o.color ?? 0xffffff),
+    map: tex,
+    roughness: o.rough ?? 0.88,
+    metalness: o.metal ?? 0,
+  });
+  dressCache.set(key, m);
+  return m;
+}
+
+/** Flat fill plus the side-to-back shading that stops a painted garment reading as a sticker. */
+function clothBase(g, w, h, css, o = {}) {
+  g.fillStyle = css;
+  g.fillRect(0, 0, w, h);
+  // Columns, not a gradient: the headless checkers' 2D context has no real
+  // gradient support and this has to run there without a special case.
+  const steps = 48;
+  for (let i = 0; i < steps; i++) {
+    const turn = -0.5 + (i + 0.5) / steps;            // −0.5 behind … 0 ahead
+    const away = Math.min(1, Math.abs(turn) * 2.1);   // 0 at the front, 1 at the back
+    g.fillStyle = `rgba(0,0,0,${(away * away * (o.shade ?? 0.34)).toFixed(3)})`;
+    g.fillRect((i / steps) * w, 0, w / steps + 1, h);
+  }
+  if (o.floorShade !== false) {
+    for (let i = 0; i < 12; i++) {
+      g.fillStyle = `rgba(0,0,0,${(0.020 * (12 - i)).toFixed(3)})`;
+      g.fillRect(0, h - (h * 0.14) * (i + 1) / 12, w, h * 0.14 / 12 + 1);
+    }
+  }
+}
+
+/** One reflective band right around a part, with the dark piping a real one is sewn between. */
+function reflectiveBand(g, w, h, v0, v1, css) {
+  const y0 = rowAt(v1, h), y1 = rowAt(v0, h);
+  g.fillStyle = "rgba(12,14,16,0.55)";
+  g.fillRect(0, y0 - Math.max(1, h * 0.006), w, (y1 - y0) + Math.max(2, h * 0.012));
+  g.fillStyle = css;
+  g.fillRect(0, y0, w, y1 - y0);
+  // Retroreflective tape is two tones: a bright core and a duller edge.
+  g.fillStyle = "rgba(255,255,255,0.34)";
+  g.fillRect(0, y0 + (y1 - y0) * 0.28, w, (y1 - y0) * 0.30);
+  g.fillStyle = "rgba(0,0,0,0.16)";
+  g.fillRect(0, y1 - (y1 - y0) * 0.16, w, (y1 - y0) * 0.16);
+}
+
+/** A stitched panel — pocket flap, knee pad, belt pouch. */
+function panel(g, x, y, pw, ph, fill, o = {}) {
+  g.fillStyle = "rgba(0,0,0,0.30)";
+  g.fillRect(x - pw / 2 + 1, y + 1, pw, ph);
+  g.fillStyle = fill;
+  g.fillRect(x - pw / 2, y, pw, ph);
+  g.strokeStyle = o.stitch ?? "rgba(0,0,0,0.42)";
+  g.lineWidth = Math.max(1, pw * 0.035);
+  g.strokeRect(x - pw / 2, y, pw, ph);
+  if (o.button) {
+    g.fillStyle = o.button;
+    g.beginPath();
+    g.arc(x, y + ph * 0.78, Math.max(1.2, pw * 0.07), 0, Math.PI * 2);
+    g.fill();
+  }
+}
+
+/**
+ * The chest: garment colour, a collar and a neck opening, a zip down the
+ * centre, chest pocket flaps and the two reflective bands that are the reason
+ * anybody can see a worker across a yard. Everything a second mesh used to do.
+ */
+function coatFace(d) {
+  return (g, w, h) => {
+    clothBase(g, w, h, hex(d.coat), { shade: 0.36 });
+    const V = (y) => profileV(TORSO_PROFILE, y);
+    // Collar and the neck hole above it.
+    g.fillStyle = "rgba(0,0,0,0.30)";
+    g.fillRect(0, 0, w, rowAt(V(1.352), h));
+    g.fillStyle = "rgba(0,0,0,0.55)";
+    g.fillRect(0, 0, w, rowAt(V(1.388), h));
+    // Shoulder seams, where the sleeve is set in.
+    g.fillStyle = "rgba(0,0,0,0.26)";
+    for (const t of [-0.25, 0.25]) g.fillRect(colAt(t, w) - w * 0.006, rowAt(V(1.342), h), w * 0.012, h * 0.22);
+    // A yoke seam across the back.
+    g.fillStyle = "rgba(0,0,0,0.22)";
+    g.fillRect(0, rowAt(V(1.300), h), w * 0.14, Math.max(1, h * 0.006));
+    g.fillRect(w * 0.86, rowAt(V(1.300), h), w * 0.14, Math.max(1, h * 0.006));
+    if (d.band) {
+      reflectiveBand(g, w, h, V(1.098), V(1.150), hex(d.band));
+      reflectiveBand(g, w, h, V(1.200), V(1.252), hex(d.band));
+    }
+    // Chest pocket flaps, above the upper band where a real coverall puts them.
+    if (d.pockets) {
+      const py = rowAt(V(1.318), h), ph = rowAt(V(1.262), h) - py;
+      for (const t of [-0.085, 0.085]) {
+        panel(g, colAt(t, w), py, w * 0.105, ph, "rgba(255,255,255,0.07)",
+          { stitch: "rgba(0,0,0,0.45)", button: "rgba(20,22,26,0.7)" });
+      }
+    }
+    // The zip, from the collar to the waist.
+    if (d.zip) {
+      const x = colAt(0, w), top = rowAt(V(1.356), h), bot = rowAt(V(0.960), h);
+      g.fillStyle = "rgba(0,0,0,0.50)";
+      g.fillRect(x - w * 0.009, top, w * 0.018, bot - top);
+      g.fillStyle = "rgba(226,234,240,0.30)";
+      g.fillRect(x - w * 0.003, top, w * 0.006, bot - top);
+      g.fillStyle = "rgba(210,220,228,0.55)";
+      g.fillRect(x - w * 0.011, top + (bot - top) * 0.14, w * 0.022, h * 0.016);
+    }
+    noiseTexture(g, w, h, { density: 1200, alpha: 0.05, tone: "0,0,0" });
+  };
+}
+
+/** Trousers: a hem, a lower-leg band, a knee-pad panel and a thigh cargo pocket. */
+function legFace(d) {
+  return (g, w, h) => {
+    clothBase(g, w, h, hex(d.trousers), { shade: 0.30, floorShade: false });
+    const V = (y) => profileV(LEG_PROFILE, y);
+    // Turn-up at the ankle.
+    g.fillStyle = "rgba(0,0,0,0.30)";
+    g.fillRect(0, rowAt(V(0.112), h), w, h - rowAt(V(0.112), h));
+    if (d.band) {
+      reflectiveBand(g, w, h, V(0.150), V(0.196), hex(d.band));
+      reflectiveBand(g, w, h, V(0.216), V(0.262), hex(d.band));
+    }
+    // Knee pad: a padded panel with three ribs, on the front of the leg only.
+    const ky = rowAt(V(0.560), h), kh = rowAt(V(0.408), h) - ky;
+    panel(g, colAt(0, w), ky, w * 0.34, kh, "rgba(0,0,0,0.20)", { stitch: "rgba(0,0,0,0.40)" });
+    g.fillStyle = "rgba(255,255,255,0.06)";
+    for (let i = 0; i < 3; i++) g.fillRect(colAt(-0.15, w), ky + kh * (0.22 + i * 0.25), w * 0.30, kh * 0.10);
+    // Cargo pocket on the outer thigh, and the seam down the leg.
+    const gy = rowAt(V(0.800), h), gh = rowAt(V(0.660), h) - gy;
+    panel(g, colAt(0.27, w), gy, w * 0.20, gh, "rgba(255,255,255,0.05)", { stitch: "rgba(0,0,0,0.38)" });
+    g.fillStyle = "rgba(0,0,0,0.26)";
+    g.fillRect(colAt(-0.27, w), 0, Math.max(1, w * 0.012), h);
+    noiseTexture(g, w, h, { density: 900, alpha: 0.05, tone: "0,0,0" });
+  };
+}
+
+/** Sleeve: a set-in shoulder, the upper-arm reflective band and the elbow. */
+function sleeveFace(d) {
+  return (g, w, h) => {
+    clothBase(g, w, h, hex(d.coat), { shade: 0.32, floorShade: false });
+    const V = (y) => profileV(UPPERARM_PROFILE, y);
+    // The shoulder seam, where the sleeve is set into the body.
+    g.fillStyle = "rgba(0,0,0,0.28)";
+    g.fillRect(0, 0, w, rowAt(V(-0.020), h));
+    if (d.band) {
+      reflectiveBand(g, w, h, V(-0.258), V(-0.218), hex(d.band));
+      reflectiveBand(g, w, h, V(-0.198), V(-0.158), hex(d.band));
+    }
+    // The elbow, which on a working sleeve is always the dirtiest part of it.
+    g.fillStyle = "rgba(0,0,0,0.24)";
+    g.fillRect(0, rowAt(V(-0.284), h), w, h - rowAt(V(-0.284), h));
+    noiseTexture(g, w, h, { density: 700, alpha: 0.05, tone: "0,0,0" });
+  };
+}
+
+/**
+ * Forearm and hand in one canvas: the sleeve runs down from the elbow to a
+ * cuff, and below the cuff is either a glove — gauntlet, knuckle shading and
+ * finger grooves — or the figure's own skin. This is what makes `gloves` cost
+ * nothing: the option used to recolour the whole lathe, arm and all.
+ */
+function forearmFace(d) {
+  return (g, w, h) => {
+    const V = (y) => profileV(FOREARM_PROFILE, y);
+    const handTop = d.glove ? V(-0.215) : V(-0.243);
+    clothBase(g, w, h, hex(d.glove ?? d.skin), { shade: d.glove ? 0.30 : 0.24, floorShade: false });
+    // Sleeve down to the cuff.
+    g.fillStyle = hex(d.coat);
+    g.fillRect(0, 0, w, rowAt(handTop, h));
+    const steps = 32;
+    for (let i = 0; i < steps; i++) {
+      const turn = -0.5 + (i + 0.5) / steps;
+      const away = Math.min(1, Math.abs(turn) * 2.1);
+      g.fillStyle = `rgba(0,0,0,${(away * away * 0.32).toFixed(3)})`;
+      g.fillRect((i / steps) * w, 0, w / steps + 1, rowAt(handTop, h));
+    }
+    // The cuff itself: a darker ring, and for a glove the gauntlet over it.
+    g.fillStyle = "rgba(0,0,0,0.32)";
+    g.fillRect(0, rowAt(handTop, h) - h * 0.03, w, h * 0.03);
+    if (d.glove) {
+      g.fillStyle = "rgba(0,0,0,0.20)";
+      g.fillRect(0, rowAt(handTop, h), w, h * 0.04);
+      // Knuckles, then the grooves between the fingers down the front.
+      g.fillStyle = "rgba(0,0,0,0.16)";
+      g.fillRect(colAt(-0.16, w), rowAt(V(-0.330), h), w * 0.32, h * 0.045);
+    }
+    g.fillStyle = "rgba(0,0,0,0.26)";
+    for (const t of [-0.10, -0.03, 0.04]) {
+      g.fillRect(colAt(t, w) - w * 0.006, rowAt(V(-0.360), h), w * 0.012, rowAt(V(-0.420), h) - rowAt(V(-0.360), h));
+    }
+    // Thumb pad, on the side the thumb is on.
+    g.fillStyle = "rgba(0,0,0,0.14)";
+    g.fillRect(colAt(0.14, w), rowAt(V(-0.320), h), w * 0.10, rowAt(V(-0.395), h) - rowAt(V(-0.320), h));
+  };
+}
+
+/** A tool belt: webbing, a buckle dead ahead, and pouches painted round the hips. */
+function toolBeltFace(d) {
+  return (g, w, h) => {
+    clothBase(g, w, h, hex(d.belt ?? 0x6a4b30), { shade: 0.30, floorShade: false });
+    const V = (y) => profileV(TOOLBELT_PROFILE, y);
+    const top = rowAt(V(1.006), h), bot = rowAt(V(0.940), h);
+    // Pouches: one on each hip and a small one behind the right.
+    for (const [t, pw] of [[-0.14, 0.14], [0.13, 0.16], [0.30, 0.09]]) {
+      panel(g, colAt(t, w), top + (bot - top) * 0.22, w * pw, (bot - top) * 0.82,
+        hex(d.pouch ?? 0xc08a4a), { stitch: "rgba(40,26,14,0.7)", button: "rgba(230,214,180,0.7)" });
+    }
+    // Buckle.
+    g.fillStyle = "rgba(214,222,228,0.85)";
+    g.fillRect(colAt(0, w) - w * 0.035, top + (bot - top) * 0.28, w * 0.07, (bot - top) * 0.40);
+    g.fillStyle = "rgba(0,0,0,0.45)";
+    g.fillRect(colAt(0, w) - w * 0.014, top + (bot - top) * 0.34, w * 0.028, (bot - top) * 0.28);
+    noiseTexture(g, w, h, { density: 700, alpha: 0.06, tone: "0,0,0" });
+  };
+}
+
+/**
+ * The dress a figure wears, resolved once so the torso, leg and arm painters
+ * all agree — and so the material cache can key on it.
+ *
+ * `cloth`/`jacket`/`vest` keep meaning what every existing caller means by
+ * them: a station that hands in `vest: 0xff7a00` gets an orange garment with
+ * the two silver bands across it, the pocket flaps and the zip, because a
+ * named vest colour IS the hi-vis garment.
+ */
+export function figureDress(o = {}) {
+  const coat = o.coat ?? 0x37505f;
+  return {
+    coat,
+    trousers: o.trousers ?? coat,
+    band: o.band ?? null,
+    glove: o.glove ?? null,
+    skin: o.skin ?? SKIN_TONES[2],
+    belt: o.belt ?? 0x6a4b30,
+    pouch: o.pouch ?? 0xc08a4a,
+    pockets: o.pockets ?? !!o.band,
+    zip: o.zip ?? true,
+  };
+}
+
+const dressKey = (d, part) =>
+  `${part}|${d.coat}|${d.trousers}|${d.band}|${d.glove}|${d.skin}|${d.belt}|${d.pouch}|${d.pockets ? 1 : 0}|${d.zip ? 1 : 0}`;
+
+// ------------------------------------------------------------- swept shapes
+
+/**
+ * A lathe whose radius, height and depth can vary with the angle round it.
+ *
+ * A revolve cannot make a baseball cap, because a cap has a peak at the front
+ * and nothing at the back, and it cannot make a pair of glasses, because the
+ * arms have to disappear into the head behind the ears. Both are one mesh
+ * here instead of two or three, which is the only budget they fit in.
+ *
+ * `shape(u, t, r, y, j)` returns `{ r, y, z }` — a radius multiplier and
+ * offsets — for the ring at turn `u` (0 = dead ahead) and profile index `j`.
+ */
+function sweep(parent, profile, shape, x, y, z, color, o = {}) {
+  const seg = o.seg ?? 18;
+  const n = profile.length;
+  const pos = [], uv = [], idx = [];
+  for (let i = 0; i <= seg; i++) {
+    const u = i / seg, phi = u * TAU;
+    const sin = Math.sin(phi), cos = Math.cos(phi);
+    for (let j = 0; j < n; j++) {
+      const [r0, y0] = profile[j];
+      const m = shape(u, j / (n - 1), r0, y0, j) || {};
+      const r = Math.max(0.0005, r0 * (m.r ?? 1));
+      pos.push(r * sin, y0 + (m.y ?? 0), r * cos + (m.z ?? 0));
+      uv.push(u, j / (n - 1));
+    }
+  }
+  for (let i = 0; i < seg; i++) {
+    for (let j = 0; j < n - 1; j++) {
+      const base = j + i * n;
+      idx.push(base, base + n, base + 1, base + n + 1, base + 1, base + n);
+    }
+  }
+  const geo = track(new THREE.BufferGeometry());
+  geo.setAttribute?.("position", new THREE.BufferAttribute(new Float32Array(pos), 3));
+  geo.setAttribute?.("uv", new THREE.BufferAttribute(new Float32Array(uv), 2));
+  geo.setIndex?.(idx);
+  geo.computeVertexNormals?.();
+  const m = new THREE.Mesh(geo, o.material ?? mat(color, o));
+  m.position.set(x, y, z);
+  m.castShadow = o.cast !== false;
+  m.receiveShadow = o.receive !== false;
+  parent.add(m);
+  return m;
+}
+
+/**
+ * A soft, edgeless blot of colour — the cheek hollow, the shadow beside the
+ * nose, the shade under a lip. Radial gradients are what this wants and what
+ * the headless checkers' 2D context does not have, so it falls back to a flat
+ * ellipse at half the strength rather than throwing or drawing nothing.
+ */
+function softBlob(g, x, y, rx, ry, rgb, a) {
+  const r = Math.max(rx, ry);
+  let grad = null;
+  try { grad = g.createRadialGradient(x, y, 0, x, y, r); } catch (e) { grad = null; }
+  if (grad && typeof grad.addColorStop === "function") {
+    grad.addColorStop(0, `rgba(${rgb},${a})`);
+    grad.addColorStop(1, `rgba(${rgb},0)`);
+    g.save();
+    g.translate(x, y);
+    g.scale(rx / r, ry / r);
+    g.translate(-x, -y);
+    g.fillStyle = grad;
+    g.beginPath();
+    g.arc(x, y, r, 0, Math.PI * 2);
+    g.fill();
+    g.restore();
+  } else {
+    g.fillStyle = `rgba(${rgb},${(a * 0.5).toFixed(3)})`;
+    g.beginPath();
+    g.ellipse(x, y, rx, ry, 0, 0, Math.PI * 2);
+    g.fill();
+  }
+}
+
+/** Brows, eyes, nose, cheeks and lips on a transparent canvas — the face painter. */
+export function faceFace(variant = 0, o = {}) {
+  const n = FACE_SET.length;
+  const f = FACE_SET[(((Math.round(variant) % n) + n) % n)];
+  const ink = o.ink ?? "#241c17";
+  const sclera = o.sclera ?? "#f2ece6";
+  const iris = o.iris ?? "#3c2a1f";
+  const browCss = o.brow ?? "#33251c";
+  const lipCss = o.lips ?? "#a75c52";
+  return (g, w, h) => {
+    const browY = 0.190 * h, eyeY = 0.400 * h, noseY = 0.625 * h, mouthY = 0.831 * h;
+    const ex = f.ex * w, rx = 0.100 * w, ry = 0.050 * h * f.open + 0.010 * h;
+    g.lineCap = "round";
+    g.lineJoin = "round";
+    // Shading first, so every feature is drawn on top of it: the hollow under
+    // each cheekbone, a flush over it, the shadow down one side of the nose,
+    // the light on its bridge and a little shade under the jaw. A flat card
+    // with only line work on it reads as a mask; this is what makes it read as
+    // a face. Everything stays well inside the card, because the feather at
+    // the end of this painter only hides an edge, it does not move one.
+    softBlob(g, w / 2 - 0.33 * w, 0.585 * h, 0.17 * w, 0.13 * h, "92,58,44", 0.22);
+    softBlob(g, w / 2 + 0.33 * w, 0.585 * h, 0.17 * w, 0.13 * h, "92,58,44", 0.22);
+    softBlob(g, w / 2 - 0.26 * w, 0.540 * h, 0.13 * w, 0.09 * h, "198,106,90", 0.18);
+    softBlob(g, w / 2 + 0.26 * w, 0.540 * h, 0.13 * w, 0.09 * h, "198,106,90", 0.18);
+    softBlob(g, w / 2 - 0.072 * w, 0.500 * h, 0.048 * w, 0.19 * h, "92,58,44", 0.34);
+    softBlob(g, w / 2 + 0.038 * w, 0.450 * h, 0.042 * w, 0.15 * h, "255,238,222", 0.24);
+    softBlob(g, w / 2, 0.662 * h, 0.085 * w, 0.030 * h, "92,58,44", 0.26);
+    softBlob(g, w / 2, 0.600 * h, 0.050 * w, 0.028 * h, "255,236,218", 0.24);
+    softBlob(g, w / 2, 0.930 * h, 0.24 * w, 0.055 * h, "92,58,44", 0.20);
+    for (const s of [-1, 1]) {
+      const cx = w / 2 + s * ex;
+      // Socket, then the white. The iris and pupil are CLIPPED to the eye
+      // opening, which is what makes an eye read as a wet ball behind two lids
+      // rather than a dark dot painted on a white one.
+      softBlob(g, cx, eyeY, rx * 1.45, ry * 2.4, "84,54,40", 0.22);
+      g.save();
+      g.beginPath();
+      g.ellipse(cx, eyeY, rx, ry, 0, 0, Math.PI * 2);
+      g.closePath();
+      g.clip?.();
+      g.fillStyle = sclera;
+      g.fillRect(cx - rx * 1.1, eyeY - ry * 1.4, rx * 2.2, ry * 2.8);
+      const ir = rx * 0.46;
+      g.fillStyle = iris;
+      g.beginPath();
+      g.ellipse(cx, eyeY + ry * 0.06, ir, ir, 0, 0, Math.PI * 2);
+      g.fill();
+      g.fillStyle = "rgba(0,0,0,0.30)";
+      g.beginPath();
+      g.ellipse(cx, eyeY + ry * 0.06, ir, ir * 0.55, 0, Math.PI, Math.PI * 2);
+      g.fill();
+      g.strokeStyle = "rgba(24,18,14,0.75)";      // limbal ring
+      g.lineWidth = ir * 0.16;
+      g.beginPath();
+      g.ellipse(cx, eyeY + ry * 0.06, ir, ir, 0, 0, Math.PI * 2);
+      g.stroke();
+      g.fillStyle = ink;
+      g.beginPath();
+      g.ellipse(cx, eyeY + ry * 0.06, ir * 0.42, ir * 0.42, 0, 0, Math.PI * 2);
+      g.fill();
+      g.fillStyle = "rgba(255,255,255,0.90)";
+      g.beginPath();
+      g.ellipse(cx - s * ir * 0.36, eyeY - ir * 0.32, ir * 0.24, ir * 0.24, 0, 0, Math.PI * 2);
+      g.fill();
+      // The shadow the upper lid casts on the eye, inside the same clip.
+      g.fillStyle = "rgba(90,62,48,0.34)";
+      g.fillRect(cx - rx * 1.1, eyeY - ry * 1.4, rx * 2.2, ry * 0.72);
+      g.restore();
+      // Upper lid: a heavy line with lashes at the outer corner. Lower lid: a
+      // light one, so the eye has a thickness rather than a painted outline.
+      g.strokeStyle = ink;
+      g.lineWidth = 0.024 * w;
+      g.beginPath();
+      g.moveTo(cx - rx * 1.06, eyeY - ry * 0.10);
+      g.quadraticCurveTo(cx, eyeY - ry * 1.55, cx + rx * 1.06, eyeY - ry * 0.10);
+      g.stroke();
+      g.strokeStyle = `rgba(36,28,23,${(0.30 + 0.45 * f.lash).toFixed(2)})`;
+      g.lineWidth = 0.014 * w;
+      g.beginPath();
+      g.moveTo(cx + s * rx * 0.96, eyeY - ry * 0.26);
+      g.lineTo(cx + s * rx * 1.30, eyeY - ry * 0.80);
+      g.stroke();
+      g.strokeStyle = "rgba(122,88,70,0.50)";
+      g.lineWidth = 0.011 * w;
+      g.beginPath();
+      g.moveTo(cx - rx * 0.88, eyeY + ry * 0.66);
+      g.quadraticCurveTo(cx, eyeY + ry * 1.34, cx + rx * 0.88, eyeY + ry * 0.66);
+      g.stroke();
+      // Brow, in the figure's own hair colour: the one feature that carries
+      // most of an expression at distance.
+      g.strokeStyle = browCss;
+      g.lineWidth = 0.042 * w * f.browW;
+      g.beginPath();
+      g.moveTo(cx - s * rx * 1.20, browY + f.brow * 0.055 * h);
+      g.quadraticCurveTo(cx - s * rx * 0.1, browY - 0.032 * h, cx + s * rx * 1.10, browY - f.brow * 0.050 * h);
+      g.stroke();
+      // Nostril, and the wing of the nose above it.
+      g.strokeStyle = "rgba(60,40,28,0.62)";
+      g.lineWidth = 0.019 * w;
+      g.beginPath();
+      g.moveTo(w / 2 + s * 0.062 * w, noseY);
+      g.quadraticCurveTo(w / 2 + s * 0.034 * w, noseY + 0.016 * h, w / 2 + s * 0.013 * w, noseY + 0.006 * h);
+      g.stroke();
+    }
+    // Lips: filled, not outlined. A cupid's bow on top, a fuller lower lip
+    // under it, the line between them, and a highlight on the lower one.
+    const mw = f.mw * w, dip = f.mouth * 0.020 * h;
+    g.fillStyle = lipCss;
+    g.beginPath();
+    g.moveTo(w / 2 - mw, mouthY - dip);
+    g.quadraticCurveTo(w / 2 - mw * 0.5, mouthY - 0.032 * h * f.lip, w / 2, mouthY - 0.012 * h * f.lip);
+    g.quadraticCurveTo(w / 2 + mw * 0.5, mouthY - 0.032 * h * f.lip, w / 2 + mw, mouthY - dip);
+    g.quadraticCurveTo(w / 2, mouthY + 0.010 * h, w / 2 - mw, mouthY - dip);
+    g.fill();
+    g.beginPath();
+    g.moveTo(w / 2 - mw * 0.94, mouthY - dip);
+    g.quadraticCurveTo(w / 2, mouthY + 0.056 * h * f.lip + dip, w / 2 + mw * 0.94, mouthY - dip);
+    g.quadraticCurveTo(w / 2, mouthY + 0.008 * h, w / 2 - mw * 0.94, mouthY - dip);
+    g.fill();
+    g.strokeStyle = "rgba(70,30,26,0.92)";
+    g.lineWidth = 0.021 * w;
+    g.beginPath();
+    g.moveTo(w / 2 - mw, mouthY - dip);
+    g.quadraticCurveTo(w / 2, mouthY + f.mouth * 0.040 * h, w / 2 + mw, mouthY - dip);
+    g.stroke();
+    softBlob(g, w / 2, mouthY + 0.028 * h, mw * 0.5, 0.012 * h, "255,232,224", 0.32);
+    softBlob(g, w / 2, mouthY + 0.066 * h, mw * 0.8, 0.018 * h, "92,58,44", 0.18);
+    // Feather the card to nothing at its edges. The card is a flat rectangle
+    // in front of a curved skull, and without this the shading stops on four
+    // straight lines that are plainly visible as a sticker on the face.
+    g.globalCompositeOperation = "destination-out";
+    const steps = 20, bx = (0.10 * w) / steps, by = (0.075 * h) / steps;
+    for (let i = 0; i < steps; i++) {
+      g.fillStyle = `rgba(0,0,0,${(1 - Math.pow(i / steps, 0.55)).toFixed(3)})`;
+      g.fillRect(i * bx, 0, bx + 1, h);
+      g.fillRect(w - (i + 1) * bx, 0, bx + 1, h);
+      g.fillRect(0, i * by, w, by + 1);
+      g.fillRect(0, h - (i + 1) * by, w, by + 1);
+    }
+    g.globalCompositeOperation = "source-over";
+  };
+}
+
+/**
+ * Head, face and headwear, built into a head group the caller owns and places
+ * — existing stations hang labels and exam markers off that group, so its
+ * position is never this function's business.
+ *
+ * `helmet` replaces the hair with a hard hat and a chin strap; `cap` replaces
+ * it with a baseball cap, `scrubCap` a soft brimless surgical cap and
+ * `diveHood` a neoprene hood — one mesh each, and only one wins, in that
+ * order (diveHood, scrubCap, cap, helmet, hair). `glasses` adds a wrap lens;
+ * `mask` replaces it with a dive mask over the same mesh, so a diver never
+ * pays for both; `respirator` adds a half mask over nose and mouth. Both ears
+ * are always there, one mesh, however the head is dressed.
+ */
+export function personHead(head, o = {}) {
+  const look = o.look ?? figureLook(o);
+  // `k` is the whole head's size. A standing figure gets an adult head at 0.9;
+  // a seated patient keeps 1.0, because a handful of dental stations pin exam
+  // markers (TMJ, lips, swelling) to coordinates on that surface.
+  const k = o.k ?? 1;
+  const skull = lathe(head, HEAD_PROFILE, 0, 0, 0, look.skin, { rough: 0.72, seg: 18 });
+  skull.scale.set(0.95 * k, k, 1.02 * k);
+  // Both ears in one sweep, gated to the two sides and pulled back a touch so
+  // they read as set behind the jaw rather than glued flat to the cheek.
+  const ears = sweep(head, EAR_PROFILE, (u) => {
+    const g = earGate(u);
+    return { r: 0.03 + g * 1.9, z: -g * 0.016 };
+  }, 0, 0, 0, look.skin, { rough: 0.72, seg: 24 });
+  ears.scale.set(0.95 * k, k, 1.02 * k);
+  // The face card sits just clear of the front of the skull. Its canvas is
+  // transparent apart from the features, so the card itself cannot be seen.
+  const face = decal(head, 0.120 * k, 0.115 * k, 0, -0.008 * k, 0.117 * k,
+    faceFace(look.face, {
+      brow: hex(look.hair),
+      iris: IRIS_TONES[((look.seed ?? 0) >>> 7) % IRIS_TONES.length],
+    }), { px: o.facePx ?? 512, transparent: true, rough: 0.68 });
+  if (o.diveHood) {
+    // A close neoprene hood: the cap's own crown with no peak carried out —
+    // the same brimless shell scrubCap uses below, sized up a little and
+    // matte rather than tucked, since a hood comes down over the ears and a
+    // hard hat's flared brim would read as a sun hat underwater.
+    const shell = sweep(head, CAP_PROFILE, () => ({ r: 1 }), 0, 0, 0,
+      o.diveHood === true ? 0x14171a : o.diveHood, { rough: 0.55, metal: 0.05, seg: 20, side: 2 });
+    shell.scale.set(1.02 * k, 1.06 * k, 1.08 * k);
+  } else if (o.scrubCap) {
+    // The cap's own crown with no peak carried out — round and brimless.
+    const shell = sweep(head, CAP_PROFILE, () => ({ r: 1 }), 0, 0, 0,
+      o.scrubCap === true ? 0x5b8fae : o.scrubCap, { rough: 0.7, seg: 20, side: 2 });
+    shell.scale.set(0.97 * k, k, 1.03 * k);
+  } else if (o.cap) {
+    const peak = (u, t, r, y, j) => {
+      // Dead ahead only, and falling away fast: a peak that reaches round to
+      // the ears is a sun hat, not a ball cap.
+      const front = Math.pow(Math.max(0, Math.cos(u * TAU)), 2.2);
+      return { r: 1 + (CAP_PEAK_R[j] ?? 0) * front, y: -(CAP_PEAK_Y[j] ?? 0) * front };
+    };
+    // Double-sided, because a peak is a plate and the underside of one is
+    // exactly the part a learner looking up at a figure would see through.
+    const shell = sweep(head, CAP_PROFILE, peak, 0, 0, 0,
+      o.cap === true ? 0xd8532a : o.cap, { rough: 0.62, seg: 20, side: 2 });
+    shell.scale.set(0.95 * k, k, 1.02 * k);
+  } else if (o.helmet) {
+    const shell = lathe(head, HELMET_PROFILE, 0, 0, 0, o.helmet, { rough: 0.42, seg: 16 });
+    shell.scale.set(0.95 * k, k, 1.02 * k);
+    // A strap under the jaw: the top of the ring is inside the shell, so all
+    // that shows is the two sides and the length under the chin. Boot black,
+    // so the two share a material and bake into one mesh.
+    const strap = torus(head, 0.110 * k, 0.0042, 0, -0.006 * k, 0.004 * k, o.strap ?? 0x1b1e22,
+      { rough: 0.7, seg: 6, seg2: 18 });
+    strap.rotation.x = 0.10;
+  } else {
+    // A hair mass, tipped back so the hairline sits above the brows in front
+    // and the volume falls behind the ears.
+    const s = HAIR_STYLES[look.style ?? 0];
+    const cap = lathe(head, s.profile, 0, 0, s.dz * k, look.hair, { rough: 0.86, seg: 20 });
+    cap.scale.set(0.95 * s.sx * k, k, 1.02 * s.sz * k);
+    cap.rotation.x = s.tilt;
+  }
+  // Full radius across the front and temples, tucked inside the skull behind
+  // the ears so the one mesh stops where a real pair of arms would — shared
+  // by safety glasses and a dive mask, which never appear on the same head.
+  const wrap = (u) => {
+    const behind = (1 - Math.cos(u * TAU)) / 2;
+    return { r: 1 - 0.26 * Math.max(0, (behind - 0.60) / 0.40) };
+  };
+  if (o.mask) {
+    // A dive mask: the same wrap, sized up over the nose, glazed a cool
+    // blue-grey rather than the hood's flat black so the two read as two
+    // parts (skirt and lens) instead of merging into one dark shape.
+    const lens = sweep(head, GLASSES_PROFILE, wrap, 0, -0.010 * k, 0,
+      o.mask === true ? 0x33434f : o.mask,
+      { rough: 0.22, metal: 0.1, opacity: 0.8, seg: 22, cast: false });
+    lens.scale.set(1.05 * k, 1.22 * k, 1.08 * k);
+  } else if (o.glasses) {
+    const lens = sweep(head, GLASSES_PROFILE, wrap, 0, 0, 0,
+      o.glasses === true ? 0xaebfcb : o.glasses,
+      { rough: 0.20, metal: 0.2, opacity: 0.42, seg: 22, cast: false });
+    // Not squeezed to 0.95 in x like the skull is: the temples have to stand
+    // off the side of the head or there is nothing to see from the front.
+    lens.scale.set(1.00 * k, k, 1.02 * k);
+  }
+  if (o.respirator) {
+    const cup = lathe(head, RESPIRATOR_PROFILE, 0, -0.045 * k, 0.055 * k,
+      o.respirator === true ? 0x9aa1a8 : o.respirator, { rough: 0.5, seg: 12 });
+    cup.rotation.x = Math.PI / 2;
+    cup.scale.set(1.15 * k, k, 0.82 * k);
+  }
+  return { skull, face, ears };
+}
+
+/**
+ * Pelvis and torso, plus whatever is worn over them. `y` shifts the whole
+ * assembly, which is how a seated figure reuses a standing figure's shape.
+ *
+ * `vis` names the colour of the two reflective bands across the chest; they
+ * are painted onto the torso now rather than revolved as a second mesh, so a
+ * hi-vis figure is one mesh cheaper than it was. `harness` lays a waist belt
+ * and a chest strap over the top in one more, and `toolBelt` a pouched belt.
+ */
+export function personTorso(parent, o = {}) {
+  const y = o.y ?? 0;
+  const cloth = o.cloth ?? 0x37505f;
+  const dress = o.dress ?? figureDress({
+    coat: o.jacket ?? cloth, trousers: o.trousers ?? cloth, band: o.vis ?? null,
+  });
+  const pelvis = lathe(parent, PELVIS_PROFILE, 0, y, 0, o.trousers ?? cloth, { rough: 0.9, seg: 12 });
+  pelvis.scale.set(1, 1, 0.72);
+  const torso = lathe(parent, TORSO_PROFILE, 0, y, 0, o.jacket ?? cloth, { rough: 0.9, seg: 14 });
+  torso.scale.set(1, 1, 0.66);
+  torso.material = dressMat(dressKey(dress, "coat"), 256, 256, coatFace(dress), { rough: 0.88 });
+  if (o.harness) {
+    const webbing = lathe(parent, HARNESS_PROFILE, 0, y, 0,
+      o.harness === true ? 0x2b2f33 : o.harness, { rough: 0.8, seg: 12 });
+    webbing.scale.set(1, 1, 0.66);
+  }
+  if (o.toolBelt) {
+    const belt = lathe(parent, TOOLBELT_PROFILE, 0, y, 0, dress.belt, { rough: 0.8, seg: 16 });
+    belt.scale.set(1, 1, 0.74);
+    belt.material = dressMat(dressKey(dress, "belt"), 256, 96, toolBeltFace(dress), { rough: 0.82 });
+  }
+  return { pelvis, torso };
+}
+
+/** Two legs and two boots, each one mesh: knee break in the leg, toe cap in the boot. */
+export function personLegs(parent, o = {}) {
+  const trousers = o.trousers ?? 0x2f3740;
+  const span = o.span ?? 0.085;
+  const y = o.y ?? 0;
+  const dress = o.dress ?? figureDress({ coat: trousers, trousers, band: o.vis ?? null });
+  const legMat = dressMat(dressKey(dress, "leg"), 128, 256, legFace(dress), { rough: 0.9 });
+  for (const sx of [-1, 1]) {
+    const leg = lathe(parent, LEG_PROFILE, sx * span, y, 0, trousers, { rough: 0.9, seg: 10 });
+    leg.material = legMat;
+    // Revolved about the axis that points forward, then squashed: the
+    // vertical squash is scale.z, because the profile's own y is now z.
+    const boot = lathe(parent, BOOT_PROFILE, sx * span, y + 0.046, -0.075,
+      o.boots ?? 0x1b1e22, { rough: 0.85, seg: 10 });
+    boot.rotation.x = Math.PI / 2;
+    boot.scale.set(0.78, 1, 0.70);
+  }
+}
+
+/**
+ * One arm, as the two groups every caller poses: `shoulder` turns at the
+ * shoulder and `fore` at the elbow. The upper arm hangs a little off the body
+ * and the forearm keeps a standing bend at the elbow, both baked into the
+ * meshes rather than the groups, so a station that poses the groups does not
+ * flatten the figure back into a cross.
+ *
+ * The sleeve, its reflective band and the glove are all paint on these two
+ * meshes; `glove` used to recolour the whole forearm, hand and all.
+ */
+export function personArm(parent, sx, o = {}) {
+  const sleeve = o.sleeve ?? 0x37505f;
+  const dress = o.dress ?? figureDress({
+    coat: sleeve, trousers: sleeve, band: o.vis ?? null, glove: o.glove ?? null, skin: o.skin,
+  });
+  const shoulder = group(parent, sx * (o.span ?? 0.166), o.y ?? 1.336, 0);
+  const upper = lathe(shoulder, UPPERARM_PROFILE, sx * 0.015, 0, 0, sleeve, { rough: 0.9, seg: 12 });
+  upper.material = dressMat(dressKey(dress, "sleeve"), 96, 160, sleeveFace(dress), { rough: 0.9 });
+  upper.rotation.z = sx * 0.10;
+  const fore = group(shoulder, sx * 0.030, -0.2985, 0);
+  const lower = lathe(fore, FOREARM_PROFILE, 0, 0, 0, dress.glove ?? dress.skin,
+    { rough: dress.glove ? 0.82 : 0.72, seg: 10 });
+  lower.material = dressMat(dressKey(dress, "fore"), 96, 192, forearmFace(dress),
+    { rough: dress.glove ? 0.84 : 0.7 });
+  lower.rotation.x = -0.16;
+  lower.scale.set(1.1, 1, 0.9);
+  return { shoulder, fore };
+}
+
+/**
+ * A standing person, with the parts a trade needs to pose them: the head and
+ * both arms are their own groups, so a room can have somebody looking at a
+ * bench, holding a tool, or turning to talk to you.
+ *
+ * Pose first, then call mergeStatic(fig.root, { local: true }) if the figure
+ * only has to move as a whole — that bakes every part that shares a material
+ * and it still walks, turns and bobs.
+ */
+export function standingPerson(parent, x, z, o = {}) {
+  const g = group(parent, x, 0, z, o.ry ?? 0);
+  const look = figureLook(o, x, z);
+  const cloth = o.cloth ?? look.cloth;
+  const legs = o.legs ?? look.trousers;
+  // The band that makes somebody visible across a shop, which is the point of
+  // putting them in the room at all.
+  const band = o.hiVis === false ? null : (o.vis ?? 0xd8e33a);
+  const dress = figureDress({
+    coat: cloth, trousers: legs, band, glove: o.gloves === true ? 0xd8a63a : (o.gloves || null),
+    skin: look.skin, belt: o.beltColor, pouch: o.pouchColor,
+  });
+  const torso = group(g, 0, 0, 0);
+  personTorso(torso, {
+    cloth, trousers: legs, jacket: cloth, harness: o.harness, vis: band, ei: 0.25,
+    toolBelt: o.toolBelt, dress,
+  });
+  personLegs(torso, { trousers: legs, boots: o.boots, dress });
+  const head = group(torso, 0, 1.52, 0);
+  personHead(head, {
+    look, k: 0.9, helmet: o.hat, cap: o.cap, glasses: o.glasses, respirator: o.respirator,
+  });
+  const arms = [];
+  for (const sx of [-1, 1]) {
+    arms.push(personArm(torso, sx, { sleeve: cloth, skin: look.skin, glove: o.gloves, dress }));
+  }
+  return { root: g, torso, head, arms };
+}
+
+/** Seated stand-in: client in a salon chair, patient in a draw chair. */
+export function seatedFigure(parent, x, y, z, o = {}) {
+  const g = group(parent, x, y, z, o.ry ?? 0);
+  const look = figureLook(o, x + z, z - y);
+  const cloth = o.cloth ?? look.cloth;
+  const dress = figureDress({
+    coat: cloth, trousers: o.legs ?? cloth, band: o.vis ?? null,
+    glove: o.gloves === true ? 0xd8a63a : (o.gloves || null), skin: look.skin,
+  });
+  const torso = group(g, 0, 0, 0);
+  // The same torso the standing figure has, dropped to sitting height, so a
+  // seated person has the same shoulders and the same waist as a standing one.
+  personTorso(torso, {
+    cloth, trousers: o.legs ?? cloth, jacket: cloth, y: -0.44, harness: o.harness,
+    vis: o.vis ?? null, toolBelt: o.toolBelt, dress,
+  });
+  const span = 0.105;
+  for (const sx of [-1, 1]) {
+    // Thigh forward from the hip to the knee, revolved about the forward axis.
+    const thigh = lathe(torso, [
+      [0.001, -0.02], [0.070, 0.01], [0.082, 0.10], [0.078, 0.28], [0.066, 0.40], [0.001, 0.425],
+    ], sx * span, 0.42, 0, cloth, { rough: 0.9, seg: 10 });
+    thigh.rotation.x = Math.PI / 2;
+    thigh.scale.set(1, 1, 0.85);
+    // Calf down from the knee, same knee-and-belly profile as standing.
+    lathe(torso, [
+      [0.001, 0.055], [0.044, 0.075], [0.052, 0.110], [0.072, 0.230],
+      [0.068, 0.330], [0.062, 0.400], [0.001, 0.430],
+    ], sx * span, 0, 0.40, cloth, { rough: 0.9, seg: 10 });
+    const boot = lathe(torso, BOOT_PROFILE, sx * span, 0.046, 0.33,
+      o.boots ?? 0x1b1e22, { rough: 0.85, seg: 10 });
+    boot.rotation.x = Math.PI / 2;
+    boot.scale.set(0.78, 1, 0.70);
+  }
+  const head = group(torso, 0, 1.06, 0.01);
+  personHead(head, {
+    look, helmet: o.hat, cap: o.cap, glasses: o.glasses, respirator: o.respirator,
+  });
+  const arms = [];
+  for (const sx of [-1, 1]) {
+    arms.push(personArm(torso, sx, {
+      span: 0.166, y: 0.893, sleeve: cloth, skin: look.skin, glove: o.gloves, dress,
+    }));
+  }
+  return { root: g, torso, head, arms };
+}
+
+// ------------------------------------------------------------------ particles
+
+/** Cheap additive point burst reused for sparks, steam and water. */
+export function particles(parent, count, color, o = {}) {
+  const positions = new Float32Array(count * 3);
+  const geo = track(new THREE.BufferGeometry());
+  geo.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+  const material = new THREE.PointsMaterial({
+    color, size: o.size ?? 0.02, transparent: true, opacity: o.opacity ?? 0.9,
+    blending: o.additive === false ? THREE.NormalBlending : THREE.AdditiveBlending,
+    depthWrite: false, sizeAttenuation: true,
+  });
+  material.userData.ownMaterial = true;
+  const points = new THREE.Points(geo, material);
+  points.frustumCulled = false;
+  points.visible = false;
+  parent.add(points);
+  const life = new Float32Array(count);
+  const vel = new Float32Array(count * 3);
+  points.userData.step = (dt, origin, spread, speed, gravity) => {
+    for (let i = 0; i < count; i++) {
+      life[i] -= dt;
+      if (life[i] <= 0) {
+        life[i] = 0.25 + Math.random() * (o.life ?? 0.6);
+        positions[i * 3] = origin.x + (Math.random() - 0.5) * spread;
+        positions[i * 3 + 1] = origin.y + (Math.random() - 0.5) * spread;
+        positions[i * 3 + 2] = origin.z + (Math.random() - 0.5) * spread;
+        vel[i * 3] = (Math.random() - 0.5) * speed;
+        vel[i * 3 + 1] = (Math.random() * 0.6 + 0.4) * speed;
+        vel[i * 3 + 2] = (Math.random() - 0.5) * speed;
+      }
+      positions[i * 3] += vel[i * 3] * dt;
+      positions[i * 3 + 1] += vel[i * 3 + 1] * dt;
+      positions[i * 3 + 2] += vel[i * 3 + 2] * dt;
+      vel[i * 3 + 1] += gravity * dt;
+    }
+    geo.attributes.position.needsUpdate = true;
+  };
+  return points;
+}
+
+/**
+ * A one-shot, self-driving particle celebration for "big moment" feedback — a
+ * hot-streak step, a rank-up, a personal best. Parented once to `parent` (any
+ * static node already in the scene, e.g. the room root); after that, call the
+ * returned `fire(localPoint)` whenever the moment happens and call `update(dt)`
+ * unconditionally from the render loop — it is a cheap no-op once the burst
+ * has finished, so the caller never needs to track whether one is playing.
+ */
+export function celebrationBurst(parent, o = {}) {
+  const points = particles(parent, o.count ?? 70, o.color ?? 0xffe37a, {
+    size: o.size ?? 0.032, life: o.life ?? 0.6, additive: o.additive !== false, opacity: o.opacity ?? 0.95,
+  });
+  const origin = new THREE.Vector3();
+  let timer = 0;
+  return {
+    fire(localPoint) {
+      origin.copy(localPoint);
+      timer = o.duration ?? 0.5;
+      points.visible = true;
+    },
+    update(dt) {
+      if (timer <= 0) { if (points.visible) points.visible = false; return; }
+      timer -= dt;
+      points.userData.step(dt, origin, o.spread ?? 0.1, o.speed ?? 1.6, o.gravity ?? -1.8);
+    },
+  };
+}
+
+// ------------------------------------------------------------------- helpers
+
+export function markInteractive(objectOrGroup, id, o = {}) {
+  objectOrGroup.userData.hitId = id;
+  objectOrGroup.userData.hitLabel = o.label ?? id;
+  return objectOrGroup;
+}
+
+export const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
+export const lerp = (a, b, t) => a + (b - a) * t;
+export const easeOut = (t) => 1 - Math.pow(1 - clamp(t, 0, 1), 3);
+export { THREE };

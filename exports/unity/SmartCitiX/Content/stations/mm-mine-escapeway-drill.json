@@ -1,0 +1,346 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "escape-drilled",
+    "name": "Escape Drilled",
+    "note": "An evacuation drill run to the plan: self-rescuer donned complete, the lifeline followed, the refuge sealed and the crew accounted for"
+  },
+  "category": "Manufacturing & Automation",
+  "certification": "UMWA health and safety training; per the mine's emergency plan and the mine safety regulations, named generically; NIOSH criteria documents on occupational safety and emergency evacuation; NIMS/ICS incident command coordination with surface command",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "NIMS/ICS",
+        "citedAs": "ICS",
+        "id": "nims-ics",
+        "title": "NIMS incident command system — the structure a multi-agency response runs inside"
+      },
+      {
+        "body": "NIOSH",
+        "citedAs": "NIOSH",
+        "id": "niosh-criteria",
+        "title": "NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards"
+      },
+      {
+        "body": "union",
+        "citedAs": "UMWA",
+        "id": "umwa-training",
+        "title": "UMWA — United Mine Workers of America health and safety training for underground and surface mine crews"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Mining",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "sealed-and-donned",
+        "name": "Sealed And Donned",
+        "note": "Self-rescuer donned complete before moving, first time"
+      },
+      {
+        "id": "never-broke-seal",
+        "name": "Never Broke Seal",
+        "note": "Never broke the SCSR seal early, misread the lifeline, pushed the blocked primary, or left the refuge unsealed"
+      },
+      {
+        "id": "unit-swapped-clean",
+        "name": "Unit Swapped Clean",
+        "note": "SCSR indicator read correctly at every changeover check"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-drill",
+        "name": "Clean Drill",
+        "note": "No corrections through the whole drill"
+      },
+      {
+        "id": "lifeline-unbroken",
+        "name": "Lifeline Unbroken",
+        "note": "The lifeline follow never broke its steady pace"
+      },
+      {
+        "id": "drill-fast",
+        "name": "Drill Fast",
+        "note": "Drill completed inside 80% of par"
+      }
+    ],
+    "currency": "AIR",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "New Miner",
+      "Section Hand",
+      "Fire Boss",
+      "Mine Examiner",
+      "Mine Escape Authority Certified"
+    ],
+    "system": "Mine Escape Authority"
+  },
+  "hazards": {
+    "blocked-primary": "You pushed into the blocked primary escapeway instead of taking the alternate. The plan names two routes out for exactly this situation, and forcing a way through debris in the primary route on the hope it clears is a bet against a route that was built to be walked away from, not tested.",
+    "fresh-air-tempt": "You reached to break the SCSR seal here, on a guess that the air must be fine by now. An SCSR is not removed until the plan or a qualified person confirms breathable air — the smell or feel of a passage is not a reading anyone can act on, and a seal broken one section too early puts the wearer back into whatever the unit was donned for in the first place.",
+    "refuge-side-hatch": "You went out the refuge's side hatch instead of sealing the door behind the crew. The hatch is not the way the refuge is meant to be sealed, and leaving it open defeats the seal the whole chamber depends on for everyone still inside it.",
+    "wrong-way-cone": "You followed the cone pointing back the way you came. A directional lifeline's cones are meant to be read by feel in low visibility, and the whole system only works if the cone that is felt is trusted over a guess about which way feels right — going by feel and then ignoring what it says is worse than not having a lifeline at all."
+  },
+  "id": "mm-mine-escapeway-drill",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "follow-lifeline",
+      "alert": "A crew member's SCSR indicator has flipped to its failure signal mid-route.",
+      "cue": "A unit has just signalled trouble, not you.",
+      "delay": 3,
+      "id": "scsr-fails",
+      "kind": "Unit signals trouble",
+      "missNote": "The crew kept moving on a unit that had already signalled failure. An SCSR does not give a second warning once it has already told you it failed, and waiting to see whether it keeps working is testing the one piece of equipment the drill cannot afford to lose.",
+      "seconds": 12,
+      "target": "changeover-cache",
+      "why": "A unit that signals failure is treated as failed immediately, not monitored a while longer to see if the signal was a fluke — the changeover cache exists on the route for exactly this moment, and reaching it before the failing unit is actually needed is the whole reason it is positioned where it is.",
+      "wrongNote": "It is the changeover cache. Nothing else gets a failing unit swapped before it actually runs out."
+    },
+    {
+      "after": "read-cone",
+      "alert": "Smoke rolls into the escapeway and visibility drops to almost nothing.",
+      "cue": "You can no longer see the person ahead of you.",
+      "delay": 4,
+      "id": "smoke-drop",
+      "kind": "Visibility drops",
+      "missNote": "The crew kept moving through zero visibility without reporting it. A call point exists precisely for the moment conditions get worse mid-route, and skipping it means command is planning a response with the last position they had, not the one that actually matters now.",
+      "seconds": 12,
+      "target": "escapeway-call-point",
+      "why": "A call point along the route is what reports a crew's position and condition the moment visibility drops, rather than waiting until the crew either reaches the refuge or does not — surface command planning a response needs to know where a crew lost visibility, not just where they eventually turned up.",
+      "wrongNote": "It is the escapeway call point. Nothing else reports your position from partway down the route."
+    }
+  ],
+  "lateNotes": {
+    "refuge-door-handle": "Not yet. The crew is inside and accounted for before the door is sealed."
+  },
+  "name": "Mine Escapeway & Self-Rescuer Drill",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "mill-and-mine"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "accounted-for-board",
+      "alternate-escapeway-marker",
+      "blocked-primary",
+      "changeover-cache",
+      "debrief-board",
+      "direction-cone",
+      "escape-plan-board",
+      "escapeway-call-point",
+      "fresh-air-tempt",
+      "lifeline-rope",
+      "mine-phone",
+      "primary-route-blocked",
+      "refuge-air-supply",
+      "refuge-door-handle",
+      "refuge-side-hatch",
+      "roster-tally",
+      "scsr-gauge",
+      "scsr-mouthpiece",
+      "scsr-noseclip",
+      "scsr-strap",
+      "wrong-way-cone"
+    ],
+    "meshes": 94
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check the primary and alternate escapeways and the nearest refuge for this section.",
+      "id": "emergency-plan",
+      "kind": "select",
+      "prompt": "Check the primary and alternate escapeways and the nearest refuge for this section.",
+      "target": "escape-plan-board",
+      "title": "Read the section's emergency plan",
+      "why": "The emergency plan names this section's actual routes and refuge, not a generic layout — a drill run from memory of a different section's plan teaches the wrong way out for the one you are actually standing in."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Mouthpiece in and sealed, nose clip on, unit strapped on — all three before moving.",
+      "id": "don-scsr",
+      "itemNames": {
+        "scsr-mouthpiece": "mouthpiece in and sealed",
+        "scsr-noseclip": "nose clip on",
+        "scsr-strap": "unit strapped and carried"
+      },
+      "kind": "sequence",
+      "prompt": "Mouthpiece in and sealed, nose clip on, unit strapped on — all three before moving.",
+      "targets": [
+        "scsr-mouthpiece",
+        "scsr-noseclip",
+        "scsr-strap"
+      ],
+      "title": "Don the self-contained self-rescuer completely",
+      "why": "The self-rescuer only works as a sealed system — a mouthpiece in without the nose clip on lets a wearer breathe around the unit rather than through it, which defeats the whole device in exactly the atmosphere it exists for. All three go on before a single step is taken toward the escapeway."
+    },
+    {
+      "cue": "Look down the primary route and click what you find.",
+      "id": "check-primary-route",
+      "itemNames": {
+        "primary-route-blocked": "debris blocking the primary escapeway"
+      },
+      "itemNotes": {
+        "primary-route-blocked": "The primary escapeway is blocked by fallen debris — exactly the situation the plan's alternate route exists for."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look down the primary route and click what you find.",
+      "targets": [
+        "primary-route-blocked"
+      ],
+      "title": "Check the primary escapeway",
+      "why": "The primary route is checked, not assumed clear, because the plan's alternate only does its job if a blocked primary is actually recognised as blocked rather than pushed through on the assumption it will open up further along."
+    },
+    {
+      "cue": "Turn into the marked alternate route now that the primary is blocked.",
+      "id": "select-alternate",
+      "kind": "select",
+      "prompt": "Turn into the marked alternate route now that the primary is blocked.",
+      "target": "alternate-escapeway-marker",
+      "title": "Take the alternate escapeway",
+      "why": "The alternate exists precisely for the moment the primary cannot be used, and taking it as soon as the primary is found blocked is what the plan is built around — a crew that keeps trying the primary has already spent time the alternate did not need to cost them."
+    },
+    {
+      "cue": "Hold the lifeline and move at a steady pace, feeling for the cones as you go.",
+      "holdBreakNote": "Pace out of band — slow enough to feel every cone, fast enough to keep moving.",
+      "id": "follow-lifeline",
+      "kind": "track",
+      "prompt": "Hold the lifeline and move at a steady pace, feeling for the cones as you go.",
+      "seconds": 6,
+      "target": "lifeline-rope",
+      "title": "Follow the directional lifeline",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.42,
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "PACE",
+        "rise": 0.5,
+        "start": 0.1
+      },
+      "why": "A lifeline followed too fast in low visibility is a lifeline whose cones get missed by feel; followed too slowly, a crew loses time it may not have to spare. The steady pace a drill is run at is what lets every cone actually be felt and read, which is the entire reason the lifeline is directional in the first place."
+    },
+    {
+      "cue": "Stop at the cone marker and confirm which way its point aims before continuing.",
+      "id": "read-cone",
+      "kind": "select",
+      "prompt": "Stop at the cone marker and confirm which way its point aims before continuing.",
+      "target": "direction-cone",
+      "title": "Read the cone by feel",
+      "why": "A directional lifeline's cones are shaped so the point can be felt in the dark, and reading the correct one is what turns a rope in your hand into an actual direction out — the system is only as good as the cone that is actually checked at every marker, not assumed from the last one."
+    },
+    {
+      "cue": "Read your unit's indicator at the marked changeover station.",
+      "gauge": {
+        "green": [
+          0.5,
+          1
+        ],
+        "label": "SCSR STATUS",
+        "missNote": "Reading says switch — swap at the cache now, not further down the route.",
+        "speed": 0.72
+      },
+      "id": "changeover-check",
+      "kind": "gauge",
+      "prompt": "Read your unit's indicator at the marked changeover station.",
+      "target": "scsr-gauge",
+      "title": "Check your SCSR at the changeover station",
+      "why": "A changeover station exists on the route for exactly the moment a unit's own indicator says it should be swapped, and the indicator is what is actually read — not how much air a wearer feels like they still have, which is a poor judge of what the chemical inside the unit is actually doing."
+    },
+    {
+      "cue": "Hold the mine phone and report your crew's status and position to the surface.",
+      "holdBreakNote": "You hung up before the call-in finished. A status report cut short tells surface command less than no call at all, because now they think they heard from you.",
+      "id": "call-checkin",
+      "kind": "hold",
+      "prompt": "Hold the mine phone and report your crew's status and position to the surface.",
+      "seconds": 5,
+      "target": "mine-phone",
+      "title": "Call out your status",
+      "why": "Surface command is coordinating every crew's evacuation at once, and a call-in is what lets the plan's own incident command actually know where each crew is — a crew that reaches the surface without ever calling in is a crew command spent the whole drill treating as still missing."
+    },
+    {
+      "cue": "Turn the handle to seal the refuge door once the whole crew is inside.",
+      "id": "seal-refuge",
+      "kind": "turn",
+      "prompt": "Turn the handle to seal the refuge door once the whole crew is inside.",
+      "target": "refuge-door-handle",
+      "title": "Seal the refuge door",
+      "turn": {
+        "axis": "y",
+        "label": "SEAL",
+        "turns": 0.5
+      },
+      "why": "The refuge only holds its own atmosphere if the door is actually sealed, and it is sealed the moment the crew is in — not left cracked in case somebody is still coming, which is what the headcount step is for instead."
+    },
+    {
+      "cue": "Check that the refuge's compressed air and scrubber system has started.",
+      "id": "verify-air-supply",
+      "kind": "select",
+      "prompt": "Check that the refuge's compressed air and scrubber system has started.",
+      "target": "refuge-air-supply",
+      "title": "Confirm the refuge's air supply is running",
+      "why": "A sealed refuge is only breathable for as long as its own air supply is actually running, and confirming that it started is what tells the crew the chamber is doing the one job it exists for, rather than just being a sealed box."
+    },
+    {
+      "cue": "Carry the roster tally to the accounted-for board and mark everyone present.",
+      "drag": {
+        "missNote": "Not on the board — the tally has to actually reach the accounted-for board to count.",
+        "radius": 0.4,
+        "to": "accounted-for-board"
+      },
+      "id": "headcount",
+      "kind": "drag",
+      "prompt": "Carry the roster tally to the accounted-for board and mark everyone present.",
+      "target": "roster-tally",
+      "title": "Take the headcount",
+      "why": "A headcount taken and reported is what turns 'the crew got out' into a fact command can act on — an evacuation that ends without a headcount leaves command guessing at exactly the question a search would otherwise have to answer."
+    },
+    {
+      "cue": "Record what worked and what did not in the escapeway and the drill.",
+      "id": "debrief-log",
+      "kind": "select",
+      "prompt": "Record what worked and what did not in the escapeway and the drill.",
+      "target": "debrief-board",
+      "title": "Log the drill debrief",
+      "why": "A drill that finds a blocked route, a hard-to-read cone or a slow changeover is only useful to the next crew if it gets written down — the debrief is what turns this run into something the mine can actually fix before a real evacuation depends on it."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "An evacuation drill to the mine's emergency plan: the self-rescuer donned complete, the alternate escapeway taken, the lifeline followed by feel, a changeover made, the refuge sealed and reported",
+  "title": "SmartCiti.X~ Mine Escapeway & Self-Rescuer Drill VR",
+  "trade": "Underground miner — mine emergency and evacuation drill",
+  "underwater": null,
+  "weather": "clear"
+}

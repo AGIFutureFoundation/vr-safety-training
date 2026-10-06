@@ -1,0 +1,64 @@
+# Documentation index
+
+Every page under `docs/`, one line each. Pages marked *generated* are written by a tool and are never edited by hand; the command that rewrites each one is named beside it.
+
+## Overview and white papers
+
+| Page | What it is |
+|---|---|
+| [product-overview.md](product-overview.md) | What SmartCiti.X is in one paragraph, the editions with their station counts, the feature list grouped by layer, the stack in one table, the deployment options, and what is verified against what is only asserted. Every number named to its source file. |
+| [WHITEPAPER.md](WHITEPAPER.md) | The platform whitepaper from the repository (2026-09-27): architecture, corpus, evidence, accountability, gamification, environments, robot data, sharing, enterprise integration, roadmap and governance, every figure sourced in `whitepaper-facts.json`. |
+| [GAME-WHITEPAPER.md](GAME-WHITEPAPER.md) | The game whitepaper (2026-09-27): Bay World, Fairway Park, the Deep and the Regatta as one free-roam training game — thesis, the worlds, quests and scoring, the unions and trades on the map, content quality, data and robots, and what the consoles list as open; every figure sourced in `game-whitepaper-facts.json`. |
+| [whitepaper/SmartCitiX-Whitepaper-v2.md](whitepaper/SmartCitiX-Whitepaper-v2.md) · [.html](whitepaper/SmartCitiX-Whitepaper-v2.html) | The white paper, second revision (2026-09-23, end of day): executive summary, the problem, the current version at 316 procedures and 29 programmes including the ladder layer, the homepage and sign-in, the scenic districts and the five newest editions, the stack, compliance posture, roadmap, forty questions and answers, a letter to investors, and appendices. The HTML is self-contained beside `whitepaper/figures/`. |
+| [whitepaper/SmartCitiX-Whitepaper.md](whitepaper/SmartCitiX-Whitepaper.md) · [.html](whitepaper/SmartCitiX-Whitepaper.html) | The first revision, written earlier the same day at 235 procedures and 24 programmes; kept in place for the record. |
+
+## Status and series
+
+| Page | What it is |
+|---|---|
+| [STATUS.md](STATUS.md) | The dated build log: live totals (stations, categories, programmes, checkers, corpus mean, standards), then one section per wave with its stations and eval scores, the checkers added, the pages to read, screenshots and what failed first. Its totals are those of the 225-procedure roster; the catalog and `node tools/check_all.mjs` are the current source. |
+| [wiki/SmartCitiX-Training-Series.md](wiki/SmartCitiX-Training-Series.md) | *Generated* (`node tools/gen_wiki.mjs`). Every training programme with its union, certifications, station table (conditions, steps, interruptions, eval score, why each station is in the programme) and a spawn screenshot per station. |
+
+## Assurance
+
+| Page | What it is |
+|---|---|
+| [compliance/README.md](compliance/README.md) | What an enterprise training office needs before running the platform: how a procedure is assured before it ships, what records exist, and the rules for real sites, consent, licensed assets and accessibility. |
+| [compliance/compliance-matrix.md](compliance/compliance-matrix.md) | *Generated* (`node tools/gen_compliance.mjs`). Every procedure with the standards its own text cites, every standard with the procedures that carry it, and the stations citing fewer than two. |
+| [standards/README.md](standards/README.md) | *Generated* (`node tools/check_standards.mjs --docs`). The standards registry: every standard, code and union programme taught against, by body and by programme, with its scope and whether the citation form is verified. |
+| [signage.md](signage.md) | The union sign and ANSI Z535 safety sign at every station pad: the trademark policy (no union logo ships; wordmarks typeset from `tools/unions.json`; a licensed deployment supplies its own files through `WebXR/assets/brand/manifest.json`), how a station's union is chosen, the category hazard table and the mesh budget rule. |
+| [proof-of-training.md](proof-of-training.md) | The mastery rule, the 34 competencies and the standards they evidence, the Proof tab, the CSV, badge and printed exports, and the scoring rubric. |
+| [course-tracking.md](course-tracking.md) | The accountability layer above proof of training: My Training's levels/lessons/time-on-task per programme, refreshers due against a platform-default interval, the printable transcript ("a record of simulator activity, not a certification"), instructor sign-off, and the streak/refresher-XP/clean-run/hazard-free-week gamification. |
+
+## Running it
+
+| Page | What it is |
+|---|---|
+| [controls.md](controls.md) | Keyboard presets, the gamepad mapping and the voice grammar: one action table for every input, and the two rules the input checker enforces. |
+| [devices.md](devices.md) | The 33 head-worn devices and six run profiles, what each device record carries, the three procurement questions the app cannot answer, a pilot short list and how to test a device. |
+| [instructor-console.md](instructor-console.md) | The instructor console: its three views, what each control does to a learner's session, what is logged where, the relay for a networked class and the observer protocol. |
+| [ei-guide.md](ei-guide.md) | The guide's emotional-intelligence layer: what it says after a hazard, a repeat or a missed interruption, and the unscored end-of-run check-in. |
+| [easter-egg.md](easter-egg.md) | The platform's four Easter eggs: the hidden arcade racer Night Highway Circuit (courses, engine classes, items, controls, the safety bonus, the honest multiplayer note); Hard Hat Hunt, a collectible in twelve stations; Foreman's Radio, a ten-question quiz built only from the standards registry; and Capstone skins, race liveries unlocked by a programme's level-20 capstone. |
+| [robot-training.md](robot-training.md) | The dental block as a robot training simulator: the embodiment schema, keep-out volumes, force classes, off-limits steps, the dataset layout and how to run an episode. |
+| [wallets-and-sharing.md](wallets-and-sharing.md) | Opt-in sharing of anonymised training engagement with agent-protocol platforms: the wallet connection (EIP-6963/EIP-1193, `personal_sign`), the consent record, what is shared and what never is, the bundle and its content hash, and how to revoke. |
+| [agent-protocols.md](agent-protocols.md) | The provider-agnostic adapter (`describe`/`offer`/`deliver`/`status`) over `virtuals`, `singularitynet`, `generic-attestation` and `cloudflare-relay` — every field unset by default, and what "configure per the provider's current documentation" means. |
+| [deploy-cloudflare.md](deploy-cloudflare.md) | Deploying the flat build on Cloudflare Pages: `wrangler.toml`, the `/api` router (health, the enterprise block injected from KV, the payments webhook), the generated `_headers`/`_redirects`, the deploy agent's build → gate → provision → deploy → configure → verify → rollback sequence (dry run by default, credentials only from the environment), the gated workflow, custom domains and previews. Nothing deploys from the repository itself. |
+| [mapbox.md](mapbox.md) | The Bay Atlas and the real-world map under Bay World: how to get a Mapbox public token, the three places it can be put (launch URL, this browser, `auth-config.json`), what is and is not sent, where Mapbox mode works and where the built-in SVG map takes over. No token ships. |
+| [underwater.md](underwater.md) | The Deep, the shared dive map under the bay: `shared/underwater-data.js`'s zones, landmarks, sites and dive lines with the depth/zone/line lookups, `shared/underwater.js`'s builder and `deepLighting` bands, the `the-deep` district, the facts rule under water (no depth, gas, decompression or current limit is ever stated) and what `check_underwater` proves. |
+| [robot-datasets.md](robot-datasets.md) | The episode recorder (`shared/episodes.js`) and the model-ready dataset exporter (`tools/export_dataset.mjs`): schema, the pose track, data minimisation, the observation/action/reward/done/info field mapping, licence and provenance. |
+
+## Unity prototype
+
+| Page | What it is |
+|---|---|
+| [modules/xr-immersive-lab.md](modules/xr-immersive-lab.md) | Curriculum for the Unity build's Immersive Lab module: XR headset safety — play-space clearance, tethers, AR route separation, hygiene and comfort handover — with objectives, layout, script, assessment and sources. |
+| [images/](images/) | The captures and the mechanics diagram the top-level README embeds for the Unity build. |
+| [unity.md](unity.md) | The Unity content bridge: `tools/export_unity.mjs` writes every station, programme, world and fleet/equipment model under `exports/unity/SmartCitiX/` as a UPM package with a C# runtime that applies the WebXR engine's step kinds, scoring and pass rule; how to run it, what is exported, what is not. |
+
+## Screenshots
+
+`screenshots/` holds the images the pages above embed, by subject: `smartcity/` (one spawn view per SmartCiti.X station, named `<station-id>_spawn.png`, plus the sample-environment view), `avatars/` (crew figures before and after, the hub guide), `console/`, `controls/`, `devices/`, `proof/` and `robot/`.
+
+## Where the rest lives
+
+The apps' own READMEs are beside the code: [`../WebXR/README.md`](../WebXR/README.md), [`../WebXR/smartcity/README.md`](../WebXR/smartcity/README.md), [`../WebXR/trades/README.md`](../WebXR/trades/README.md), [`../WebXR/ACCESSIBILITY.md`](../WebXR/ACCESSIBILITY.md) and [`../WebXR/assets/env/README.md`](../WebXR/assets/env/README.md) for the asset licence rules. The briefs the build loop and the station teams work from are under [`../tools/briefs/`](../tools/briefs/). The practitioner review packet is generated at [`../WebXR/smartcity/REVIEW.md`](../WebXR/smartcity/REVIEW.md). The Unity prototype's status is [`../STATUS.md`](../STATUS.md).

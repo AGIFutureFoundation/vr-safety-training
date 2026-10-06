@@ -1,0 +1,75 @@
+{
+  "id": "new-apprentice-safety",
+  "title": "New Apprentice — Site Safety Induction",
+  "version": 1,
+  "start": "brief-trench",
+  "meta": {
+    "audience": "A first-week apprentice on any of the trades this network covers.",
+    "why": "One habit, proven three times in three different categories, then gated on the competency rather than on attendance.",
+    "hostNotes": "The host owns nothing in this flow; every node runs in SmartCiti.X. A host that wants a lesson or an assessment in front of it adds an external node and waits for smartcitix:flow.resume."
+  },
+  "nodes": [
+    {
+      "id": "brief-trench",
+      "kind": "brief",
+      "app": "smartcity",
+      "ref": "trench-box",
+      "title": "Pre-brief: protective system in a trench",
+      "why": "Read the procedure before touching it — the flipped-classroom brief every station offers, here made the first node so the induction starts with study rather than with a score."
+    },
+    {
+      "id": "stn-trench",
+      "kind": "station",
+      "app": "smartcity",
+      "ref": "trench-box",
+      "title": "Trench box — protective system",
+      "why": "Construction and structural trades: the ground itself is the hazard, and the protective system goes in before an entrant does."
+    },
+    {
+      "id": "stn-charge",
+      "kind": "station",
+      "app": "smartcity",
+      "ref": "charge-point",
+      "title": "Charge point — isolation and discharge",
+      "why": "Energy and power: the same isolate-prove-dead habit, now with stored energy that has to be proven gone rather than assumed."
+    },
+    {
+      "id": "stn-valve",
+      "kind": "station",
+      "app": "smartcity",
+      "ref": "valve-vault",
+      "title": "Valve vault — permit-space entry",
+      "why": "Water and environmental: the habit under a permit, where the atmosphere is the thing that is isolated and proven."
+    },
+    {
+      "id": "gate-induction",
+      "kind": "gate",
+      "app": "smartcity",
+      "title": "Induction gate — isolation and entry discipline",
+      "why": "Three clean runs across three categories, or the induction is not complete. The gate reads the same attempt records the certificate claim rests on; it scores nothing of its own.",
+      "params": {
+        "competency": "isolation-and-entry-discipline",
+        "rule": "mastery",
+        "stations": ["trench-box", "charge-point", "valve-vault"]
+      }
+    },
+    {
+      "id": "checkin-close",
+      "kind": "checkin",
+      "app": "smartcity",
+      "title": "Induction check-in",
+      "why": "The crew's own end-of-block check-in: never scored, never leaves the learner's browser, and the close of the induction rather than a certificate."
+    }
+  ],
+  "edges": [
+    { "from": "brief-trench", "to": "stn-trench" },
+    { "from": "stn-trench", "to": "stn-charge", "when": { "passed": true } },
+    { "from": "stn-trench", "to": "stn-trench" },
+    { "from": "stn-charge", "to": "stn-valve", "when": { "passed": true } },
+    { "from": "stn-charge", "to": "stn-charge" },
+    { "from": "stn-valve", "to": "gate-induction", "when": { "passed": true } },
+    { "from": "stn-valve", "to": "stn-valve" },
+    { "from": "gate-induction", "to": "checkin-close", "when": { "competency": "isolation-and-entry-discipline" } },
+    { "from": "gate-induction", "to": "brief-trench" }
+  ]
+}

@@ -1,0 +1,404 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "stand-cleared",
+    "name": "Stand Cleared",
+    "note": "A roll change made locked out, zero speed proven, the crane path called clear, and the guard back before the stand turned again"
+  },
+  "category": "Manufacturing & Automation",
+  "certification": "USW Tony Mazzocchi Center health and safety training; OSHA 29 CFR 1910.147 control of hazardous energy (lockout/tagout); OSHA 29 CFR 1910.212 general machine guarding; ASME B30.2 overhead and gantry cranes",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ASME",
+        "citedAs": "ASME B30.2",
+        "id": "asme-b30-2",
+        "title": "ASME B30.2 — Overhead and gantry cranes (top running bridge, single or multiple girder, top running trolley hoist)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.212",
+        "id": "osha-1910-212",
+        "title": "29 CFR 1910.212 — General requirements for all machines (machine guarding)"
+      },
+      {
+        "body": "union",
+        "citedAs": "USW",
+        "id": "usw-mazzocchi-center",
+        "title": "USW Tony Mazzocchi Center health, safety and environmental training"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Manufacturing",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "locked-both",
+        "name": "Locked Both",
+        "note": "Drive and screwdown both locked out before the guard opened, first time"
+      },
+      {
+        "id": "clear-of-the-bite",
+        "name": "Clear Of The Bite",
+        "note": "Never reached the roll bite, the crane's load path or a pulled keeper"
+      },
+      {
+        "id": "gap-on-schedule",
+        "name": "Gap On Schedule",
+        "note": "Roll gap set inside the schedule's band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-change",
+        "name": "Clean Change",
+        "note": "No corrections through the whole roll change"
+      },
+      {
+        "id": "lift-steady",
+        "name": "Lift Steady",
+        "note": "The hoist never broke its controlled rate"
+      },
+      {
+        "id": "change-fast",
+        "name": "Change Fast",
+        "note": "Roll change inside 80% of par"
+      }
+    ],
+    "currency": "COIL",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Roll-Shop Helper",
+      "Millwright",
+      "Roll-Shop Operator",
+      "Turn Boss",
+      "Roll Shop Authority Certified"
+    ],
+    "system": "Roll Shop Authority"
+  },
+  "hazards": {
+    "chock-keeper-pulled": "You pulled the chock keeper before the sling was taking the roll's weight. The keeper is the only thing holding an unclamped roll in its housing window once the screwdown is backed off — pull it early and the roll comes out of the window on its own schedule, not the crane's.",
+    "crane-load-under": "You stood under the crane's load path while it carried the roll set across the bay. A multi-tonne load on a hook has one failure mode worth caring about, and there is no position under its path that is a safe place to be standing when it happens — you stand clear of the path, not just clear of the load.",
+    "reach-in-roll-bite": "You reached into the roll bite. Nothing about a stopped drive changes what happens if it is re-energised with a hand between the rolls — the bite is treated as live until it is locked out, proven at zero speed and guarded, never on the strength of the motor being switched off a minute ago.",
+    "screwdown-bypass": "You opened the screwdown's hydraulic bypass instead of its isolation valve. A bypass is there to let the ram move for setup under power; it does the opposite of what an isolation does, and it is one handle away from the tonnes of preset force in the screwdown finding somewhere to go while hands are at the housing."
+  },
+  "id": "mm-hot-strip-mill-stand",
+  "indoor": "plant",
+  "interrupts": [
+    {
+      "after": "rig-old-rolls",
+      "alert": "A second crane on the same runway has picked up a load two bays over and is travelling this way, straight along the path over your open stand.",
+      "cue": "A load is about to cross directly overhead.",
+      "delay": 3,
+      "id": "crane-swings",
+      "kind": "Load overhead",
+      "missNote": "The second load crossed directly overhead while your crew was still at the open housing. A crane's failure mode does not announce itself in advance, and standing under its path on the strength of it having crossed safely before is exactly the bet a hold button exists to end.",
+      "seconds": 12,
+      "target": "crane-hold-button",
+      "why": "The path you called clear was for your own lift; it says nothing about a second crane on the same runway with its own job to do. The hold button at the stand is what stops a load from crossing overhead while your crew still has the guard open and people standing at the housing.",
+      "wrongNote": "It is the crane hold button. Nothing else stops a load already moving on the runway above you."
+    },
+    {
+      "after": "screwdown-release",
+      "alert": "The pulpit calls down that the upstream stand is about to feed a bar, and from where you are it is not obvious the sequencing knows this stand is open.",
+      "cue": "The line may be about to feed a bar toward the open stand.",
+      "delay": 4,
+      "id": "line-feed-warning",
+      "kind": "Line about to feed",
+      "missNote": "The line kept running toward the open stand. A stand that is locked out is safe from its own drive turning — it is not safe from several tonnes of hot steel arriving from the stand behind it, and that is a hazard the lockout you already applied cannot answer.",
+      "seconds": 13,
+      "target": "line-stop",
+      "why": "Your lockout covers this stand's own drive; it does nothing to stop a bar arriving from an upstream stand that thinks the line is ready to run. The line stop is what actually halts the mill before hot steel reaches a housing with the guard open and hands at the chocks.",
+      "wrongNote": "It is the line stop. Nothing else reaches back up the mill to the stand that is actually about to feed."
+    }
+  ],
+  "lateNotes": {
+    "run-pendant": "Not yet. The guard is back across the bite and the lockout is off before the stand turns again.",
+    "screwdown-gauge": "The gap is set after the new rolls are coupled and pinned — a gap for rolls that are not driven yet is a number for nothing."
+  },
+  "name": "Hot-Strip Mill Stand",
+  "parSeconds": 320,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "mill-and-mine"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "rollingMillStand",
+        "count": 1,
+        "kit": "equipment"
+      }
+    ],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "chock-keeper-pulled",
+      "coupling-key-worn",
+      "crane-hoist-lever",
+      "crane-hold-button",
+      "crane-load-under",
+      "crane-phone",
+      "guard-gate",
+      "hook-point",
+      "hydraulic-isolation-valve",
+      "line-stop",
+      "motor-disconnect",
+      "new-roll-set",
+      "old-roll-set",
+      "reach-in-roll-bite",
+      "roll-socket",
+      "roll-surface-spall",
+      "run-pendant",
+      "schedule-board",
+      "screwdown-bypass",
+      "screwdown-gauge",
+      "screwdown-handwheel",
+      "spindle-coupling",
+      "spindle-lock",
+      "tach-readout"
+    ],
+    "meshes": 172
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check the gauge, the width and which roll set the schedule calls for this coil.",
+      "id": "mill-schedule",
+      "kind": "select",
+      "prompt": "Check the gauge, the width and which roll set the schedule calls for this coil.",
+      "target": "schedule-board",
+      "title": "Read the rolling schedule",
+      "why": "The schedule names the roll set this coil needs, not the set that happens to still be sitting in the stand from the last order. A roll change that starts from what is already in the housing rather than from the schedule is a bet that this coil matches the last one, and a finishing stand that rolls the wrong crown onto a strip does it to every metre before anyone downstream measures the first one."
+    },
+    {
+      "cue": "Radio the crane operator and confirm the bay's travel path is clear before the lift.",
+      "id": "call-crane",
+      "kind": "select",
+      "prompt": "Radio the crane operator and confirm the bay's travel path is clear before the lift.",
+      "target": "crane-phone",
+      "title": "Call the crane operator",
+      "why": "The crane's path across the bay crosses ground other crews use for their own work, and the operator up in the cab cannot see everyone under the hook from that angle. Calling ahead so the path is cleared before the load moves is what keeps a scheduled lift from becoming a surprise to somebody working underneath it."
+    },
+    {
+      "cue": "Open and lock the motor disconnect, lock the spindle brake, then isolate the screwdown hydraulics.",
+      "id": "lockout-drive",
+      "itemNames": {
+        "hydraulic-isolation-valve": "screwdown hydraulics isolated",
+        "motor-disconnect": "drive motor disconnect opened and locked",
+        "spindle-lock": "spindle brake locked"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Motor disconnect, then the spindle brake, then the screwdown valve — the drive is dead before the brake is trusted, and the brake is locked before the hydraulics are touched.",
+      "prompt": "Open and lock the motor disconnect, lock the spindle brake, then isolate the screwdown hydraulics.",
+      "targets": [
+        "motor-disconnect",
+        "spindle-lock",
+        "hydraulic-isolation-valve"
+      ],
+      "title": "Lock out the drive and the screwdown",
+      "why": "A stand this size stores energy two different ways — electrical in the drive motor and hydraulic in the screwdown — and one lock only covers one of them. Isolating the drive stops the rolls from turning; isolating the screwdown stops the housing from moving the gap while hands are at the chocks. Skipping either leaves exactly the hazard the other one was locked out to remove."
+    },
+    {
+      "cue": "Hold the test lead on the tachometer take-off and watch the readout settle at zero.",
+      "holdBreakNote": "You let go before the readout settled. A reading taken halfway through the coast is a reading for a spindle that has not actually stopped yet.",
+      "id": "tach-check",
+      "kind": "hold",
+      "prompt": "Hold the test lead on the tachometer take-off and watch the readout settle at zero.",
+      "seconds": 5,
+      "target": "tach-readout",
+      "title": "Prove zero speed on the tachometer",
+      "why": "A stand this size coasts for a while after the drive is cut, and a spindle that is still turning looks the same from across the floor as one that has fully stopped. The tachometer is what tells the difference, and it is watched to zero rather than guessed at, because the alternative is treating a coasting spindle as safe on nothing but how quiet it sounds."
+    },
+    {
+      "cue": "Turn the screwdown handwheel to relieve the preset load on the top backup roll chocks.",
+      "id": "screwdown-release",
+      "kind": "turn",
+      "prompt": "Turn the screwdown handwheel to relieve the preset load on the top backup roll chocks.",
+      "target": "screwdown-handwheel",
+      "title": "Back the screwdown off by hand",
+      "turn": {
+        "axis": "y",
+        "label": "SCREWDOWN",
+        "turns": 1
+      },
+      "why": "The rolls run under tonnes of preset force to hold the gap under load, and that force is still in the housing the instant the hydraulics are isolated. Backing it off by hand, slowly, is what lets that force leave the stand in a controlled turn of the wheel instead of all at once the moment somebody pulls a keeper expecting the chocks to already be free."
+    },
+    {
+      "cue": "Swing the guard away from the bite now that the stand is locked out.",
+      "id": "guard-gate",
+      "kind": "select",
+      "prompt": "Swing the guard away from the bite now that the stand is locked out.",
+      "target": "guard-gate",
+      "title": "Swing the entry guard clear",
+      "why": "The guard's interlock is what cuts the drive if it is opened while the stand is running — a backup for the moment the lockout is forgotten, not a substitute for it. Opening it only after the lockout and the zero-speed check keeps the interlock in its proper place: the thing that would have caught a mistake, not the thing the roll change is relying on."
+    },
+    {
+      "cue": "Carry the sling to the old roll necks and land it on the crane hook.",
+      "drag": {
+        "missNote": "Not on the hook — land the sling square on the hook before calling for tension.",
+        "radius": 0.4,
+        "to": "hook-point"
+      },
+      "id": "rig-old-rolls",
+      "kind": "drag",
+      "prompt": "Carry the sling to the old roll necks and land it on the crane hook.",
+      "target": "old-roll-set",
+      "title": "Rig the sling on the old roll set",
+      "why": "A sling choked around the roll necks, not the barrel, is what keeps a roll that is many times heavier than a person from rolling out of the hitch the moment it clears the housing window. The hook takes the sling's full weight before anything at the housing is disturbed, which is the whole reason the order runs sling-first."
+    },
+    {
+      "cue": "Hold the hoist control steady and lift the roll set clear of the window at a controlled rate.",
+      "holdBreakNote": "Hoist rate out of band — bring it back before the roll reaches the window edge.",
+      "id": "crane-lift-old",
+      "kind": "track",
+      "prompt": "Hold the hoist control steady and lift the roll set clear of the window at a controlled rate.",
+      "seconds": 6,
+      "target": "crane-hoist-lever",
+      "title": "Lift the old rolls clear of the housing",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.4,
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "HOIST",
+        "rise": 0.5,
+        "start": 0.1
+      },
+      "why": "A lift taken too fast can strike the housing window on the way out or swing the roll into the chocks it just cleared, and a lift taken too slow tells the rigger nothing about whether the sling is actually seated right. A controlled, steady rate is what a rigger watches the whole way, because the lift is over the instant the roll clears the window, not before."
+    },
+    {
+      "cue": "Check the new rolls and the coupling and click what is wrong.",
+      "id": "inspect-new-rolls",
+      "itemNames": {
+        "coupling-key-worn": "a worn key in the spindle coupling",
+        "roll-surface-spall": "a spall on the new work roll's barrel"
+      },
+      "itemNotes": {
+        "coupling-key-worn": "The key in the spindle coupling is visibly worn at the edges — the fit that is supposed to carry the stand's whole drive torque without play.",
+        "roll-surface-spall": "There is a spalled patch on the barrel surface of the new work roll, the kind of flaw that prints straight into every metre of strip that rolls across it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Check the new rolls and the coupling and click what is wrong.",
+      "targets": [
+        "roll-surface-spall",
+        "coupling-key-worn"
+      ],
+      "title": "Walk the new roll set before it goes in",
+      "why": "The new roll set is staged on trust that it left the roll shop ready to run, and that trust is checked here, on the stand, before it costs a coil rather than after. A flaw found on the ground beside the housing is a flaw fixed before the mill starts; the same flaw found in the finished strip is a flaw that already ran."
+    },
+    {
+      "cue": "Carry the new roll set into the housing and seat it square in the chock guides.",
+      "drag": {
+        "missNote": "Not square in the guide — reseat the roll before the chocks close on it.",
+        "radius": 0.4,
+        "to": "roll-socket"
+      },
+      "id": "rig-new-rolls",
+      "kind": "drag",
+      "prompt": "Carry the new roll set into the housing and seat it square in the chock guides.",
+      "target": "new-roll-set",
+      "title": "Set the new roll set into the housing window",
+      "why": "The chock guides in the housing window are what keep the rolls square to each other and to the strip; a roll that goes in cocked rides on the edge of its guide under load, and the first thing a cocked roll does under tonnes of force is bind, and the second is chatter into the strip."
+    },
+    {
+      "cue": "Engage the coupling onto the new roll neck and confirm the keeper pin is through.",
+      "id": "couple-spindle",
+      "kind": "select",
+      "prompt": "Engage the coupling onto the new roll neck and confirm the keeper pin is through.",
+      "target": "spindle-coupling",
+      "title": "Engage the spindle coupling",
+      "why": "The spindle carries the stand's entire drive torque into the roll, and an unpinned coupling has nothing holding it onto the neck but friction. Under load, a coupling that can walk off the neck does not do it gently — it whips, and it does it right beside where the operator is standing to make the check."
+    },
+    {
+      "cue": "Bring the screwdown up to the roll-gap setting the schedule calls for.",
+      "gauge": {
+        "green": [
+          0.45,
+          0.6
+        ],
+        "label": "ROLL GAP",
+        "missNote": "Off the schedule's gap — reset the screwdown before the test pass.",
+        "speed": 0.72
+      },
+      "id": "screwdown-gauge",
+      "kind": "gauge",
+      "prompt": "Bring the screwdown up to the roll-gap setting the schedule calls for.",
+      "target": "screwdown-gauge",
+      "title": "Set the roll gap to the schedule",
+      "why": "The roll gap is what sets the finished gauge of the strip, and it is set from the schedule's number, proven on a test pass — never nudged in by eye against how the last coil looked, because two coils that look the same from the pulpit can be tenths of a millimetre apart on the schedule."
+    },
+    {
+      "cue": "Swing the guard back across the bite before the stand turns again.",
+      "id": "guard-close",
+      "kind": "select",
+      "prompt": "Swing the guard back across the bite before the stand turns again.",
+      "target": "guard-gate",
+      "title": "Close the entry guard",
+      "why": "The guard goes back before power is restored, not after — the interlock it carries is the backup for the day the lockout gets skipped, and a backup left open on the day it is actually needed is no backup at all."
+    },
+    {
+      "cue": "Confirm the bite is clear, take your lock off, then close the motor disconnect.",
+      "id": "restore-drive",
+      "kind": "turn",
+      "prompt": "Confirm the bite is clear, take your lock off, then close the motor disconnect.",
+      "target": "motor-disconnect",
+      "title": "Remove your lock and restore the drive",
+      "turn": {
+        "axis": "y",
+        "label": "DRIVE",
+        "turns": 0.5
+      },
+      "why": "Your lock, your call — restoring power is the one action on this stand that only the person who applied the lock gets to take, because only that person actually watched the bite the whole time it was open."
+    },
+    {
+      "cue": "Hold the run pendant for a slow proof pass before the stand goes back to schedule speed.",
+      "holdBreakNote": "Released mid-pass — a proof pass stopped partway proves nothing about the far half of it.",
+      "id": "proof-pass",
+      "kind": "hold",
+      "prompt": "Hold the run pendant for a slow proof pass before the stand goes back to schedule speed.",
+      "seconds": 4,
+      "target": "run-pendant",
+      "title": "Run a slow proof pass",
+      "why": "A proof pass at a slow, watched speed is what catches a coupling that is not quite seated or a gap that is not quite right, while it is still one length of test material and not the first coil of the shift. The stand only goes back to full schedule speed once the proof pass has actually been watched, not assumed clean because the setup looked right on paper."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "A finishing-stand roll change: drive and screwdown locked out, zero speed proven, the crane path called, the old rolls rigged out and the new set coupled and set",
+  "title": "SmartCiti.X~ Hot-Strip Mill Stand VR",
+  "trade": "Hot-strip mill roll-shop operator",
+  "underwater": null,
+  "weather": null
+}

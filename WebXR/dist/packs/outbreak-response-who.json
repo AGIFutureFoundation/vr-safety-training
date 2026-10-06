@@ -1,0 +1,140 @@
+{
+  "id": "outbreak-response-who",
+  "kind": "programme",
+  "name": "Outbreak and Disease Response — WHO and UN Practice",
+  "title": "SmartCiti.X Outbreak and Disease Response — WHO and UN Practice — Powered by AGI Corp",
+  "audience": "public-health",
+  "summary": "Stations from the first alert to the last discharge: surveillance and case definition, PPE, an isolation ward, contact tracing, a treatment centre, water and sanitation, a vaccination line, risk communication, safe and dignified burial, and the after-action review.",
+  "certification": "WHO infection prevention and control guidance, WHO outbreak communication guidance, CDC isolation precautions, OSHA 29 CFR 1910.1030 and 1910.134, the Sphere Handbook's minimum standards, and IASC cluster coordination practice",
+  "programmes": [
+    "outbreak-response-who"
+  ],
+  "stations": [
+    {
+      "app": "smartcity",
+      "id": "decon-line"
+    },
+    {
+      "app": "smartcity",
+      "id": "who-surveillance-and-case-definition"
+    },
+    {
+      "app": "smartcity",
+      "id": "who-ppe-donning-and-doffing"
+    },
+    {
+      "app": "smartcity",
+      "id": "who-isolation-ward-setup"
+    },
+    {
+      "app": "smartcity",
+      "id": "who-contact-tracing-visit"
+    },
+    {
+      "app": "smartcity",
+      "id": "who-treatment-centre-triage"
+    },
+    {
+      "app": "smartcity",
+      "id": "who-water-sanitation-and-hygiene"
+    },
+    {
+      "app": "smartcity",
+      "id": "who-vaccination-line"
+    },
+    {
+      "app": "smartcity",
+      "id": "who-risk-communication-and-community-engagement"
+    },
+    {
+      "app": "smartcity",
+      "id": "who-safe-and-dignified-burial"
+    },
+    {
+      "app": "smartcity",
+      "id": "who-after-action-review"
+    }
+  ],
+  "unions": [
+    "seiu",
+    "afscme",
+    "nnu",
+    "cna"
+  ],
+  "unionLine": "SEIU and AFSCME public-health staff, NNU and CNA nurses, and the humanitarian workforce that deploys under UN clusters",
+  "k12Bands": [],
+  "path": "un-training",
+  "alsoPaths": [],
+  "worlds": [
+    {
+      "world": "bayworld",
+      "sites": [
+        "port-hazmat-response-yard",
+        "coliseum-area-hospital",
+        "emery-lab-campus"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "jefferson",
+      "sites": [
+        "jf-hospital"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "st-bernard",
+      "sites": [
+        "sb-hospital",
+        "sb-fire-station"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "st-tammany",
+      "sites": [
+        "st-hospital"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-bayview",
+      "sites": [
+        "shipyard-soil-cell"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-san-mateo-shoreline",
+      "sites": [
+        "smc-pcb-soil-sampling",
+        "smc-decon-line"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "la-shintech-plaquemine",
+      "sites": [
+        "lsp-emergency-response-station"
+      ]
+    }
+  ],
+  "stationNames": {
+    "decon-line": "Decon Line",
+    "who-surveillance-and-case-definition": "Surveillance and Case Definition",
+    "who-ppe-donning-and-doffing": "PPE Donning and Doffing",
+    "who-isolation-ward-setup": "Isolation Ward Setup",
+    "who-contact-tracing-visit": "Contact Tracing Visit",
+    "who-treatment-centre-triage": "Treatment Centre Triage",
+    "who-water-sanitation-and-hygiene": "Water, Sanitation and Hygiene",
+    "who-vaccination-line": "Vaccination Line",
+    "who-risk-communication-and-community-engagement": "Risk Communication and Community Engagement",
+    "who-safe-and-dignified-burial": "Safe and Dignified Burial",
+    "who-after-action-review": "After-Action Review"
+  },
+  "version": "1.0.0",
+  "contentHash": "2037cc30",
+  "brand": "SmartCiti.X · Powered by AGI Corp",
+  "generator": "tools/gen_packs.mjs",
+  "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."
+}

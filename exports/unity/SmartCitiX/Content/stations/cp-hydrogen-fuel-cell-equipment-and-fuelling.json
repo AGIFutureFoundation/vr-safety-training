@@ -1,0 +1,373 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "cphy-badge",
+    "name": "Clean Fill",
+    "note": "No ignition source on the island, the ground clipped first and every fitting checked with the detector, never a hand"
+  },
+  "category": "Maritime & Ports",
+  "certification": "ILWU operator training; NFPA 55 compressed gases and cryogenic fluids code for gaseous hydrogen storage and dispensing; OSHA 29 CFR 1917 marine terminals; 29 CFR 1910.178 powered industrial trucks for the operator's pre-use check; 29 CFR 1910.147 the control of hazardous energy before the fuel cell compartment is opened; NFPA 70 (NEC) for the dispenser's classified-area wiring; and the dispenser's own posted fuelling instructions",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "ILWU",
+        "id": "ilwu-pma-training",
+        "title": "ILWU-PMA joint training for longshore, crane and clerk work, and the Inlandboatmen's Union marine division"
+      },
+      {
+        "body": "NEC/NFPA 70",
+        "citedAs": "NEC",
+        "id": "nec-nfpa-70",
+        "title": "NFPA 70 — National Electrical Code"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 55",
+        "id": "nfpa-55",
+        "title": "NFPA 55 — Compressed Gases and Cryogenic Fluids Code"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.178",
+        "id": "osha-1910-178",
+        "title": "29 CFR 1910.178 — Powered industrial trucks"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1917",
+        "id": "osha-1917",
+        "title": "29 CFR 1917 — Marine terminals"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Maritime",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "cphy-clean-read",
+        "name": "Clean Read",
+        "note": "The key reading committed inside its band first time"
+      },
+      {
+        "id": "cphy-held",
+        "name": "Held Steady",
+        "note": "Every watch and hold ran unbroken"
+      },
+      {
+        "id": "cphy-safe",
+        "name": "Never a Shortcut",
+        "note": "No unsafe action reached for anywhere in the run"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "cphy-clean",
+        "name": "Clean Run",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "cphy-fast",
+        "name": "Inside Par",
+        "note": "Finished inside 80% of par"
+      }
+    ],
+    "currency": "TAG",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Yard Hand",
+      "Zero-Emission Crew",
+      "Lead Hand",
+      "Certified Hand",
+      "Journey Level"
+    ],
+    "system": "Clean Fill"
+  },
+  "hazards": {
+    "feel-for-leak": "You reached out to feel for the leak with your hand. Hydrogen burns nearly invisible and a high-pressure leak can cut skin — only the detector looks for leaks.",
+    "force-damaged-nozzle": "You pushed the nozzle with the scuffed seal onto the receptacle. A damaged seal leaks at the connection under fill pressure; use the spare and report it.",
+    "fuel-with-cell-running": "You started to connect the nozzle with the fuel cell system still running. Shut down first so the system is not drawing from the tank while it fills.",
+    "phone-on-island": "You carried your phone onto the fuelling island. Phones and other electronics are kept outside the line because a spark is all a hydrogen release needs."
+  },
+  "id": "cp-hydrogen-fuel-cell-equipment-and-fuelling",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "watch-fill-pressure",
+      "alert": "An older diesel service truck has pulled up beside the fuelling island and its driver is climbing out with a lit cigarette.",
+      "cue": "Stop the driver at the line and send them outside the island — the fill display waits for no one else.",
+      "delay": 2,
+      "id": "truck-idles-by-island",
+      "kind": "A diesel truck pulls up beside the island",
+      "missNote": "You stayed on the display while the driver walked toward the island smoking; they were at the dispenser before anyone told them to stop.",
+      "seconds": 12,
+      "target": "stop-driver",
+      "why": "A lit cigarette at the edge of a hydrogen island during a fill is the exact ignition source the painted line is meant to keep away, and stopping it at the line comes before anything else.",
+      "wrongNote": "Stop the driver first — an open flame approaching the island is answered at once."
+    },
+    {
+      "after": "detector-check-fittings",
+      "alert": "The portable hydrogen detector is beeping a low-battery warning as you start tracing the hiss near the tank rack.",
+      "cue": "Swap to the charged spare detector from the station cabinet — the trace waits.",
+      "delay": 2,
+      "id": "detector-battery-low",
+      "kind": "The portable detector warns of a low battery",
+      "missNote": "You kept tracing with the failing detector; it went quiet before it reached the tank valve and the leak read as clean.",
+      "seconds": 12,
+      "target": "spare-detector",
+      "why": "A detector running out of battery can stop reading without anyone noticing, and a silent detector over a leak looks exactly like a clean fitting; the spare is kept charged for this moment.",
+      "wrongNote": "The spare detector first — a failing instrument is swapped before its reading is trusted."
+    }
+  ],
+  "lateNotes": {},
+  "name": "Hydrogen Fuel Cell Equipment and Fuelling",
+  "parSeconds": 340,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "wojrc-pathway-edition"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 3,
+    "hits": [
+      "bonding-point",
+      "compartment-lock",
+      "dispenser-e-stop",
+      "feel-for-leak",
+      "fill-pressure-display",
+      "fill-receptacle",
+      "force-damaged-nozzle",
+      "fuel-with-cell-running",
+      "fuelling-instructions-sign",
+      "fuelling-log",
+      "ground-clamp",
+      "hydrogen-detector",
+      "island-line",
+      "lighter-bin",
+      "phone-locker",
+      "phone-on-island",
+      "scuffed-nozzle-seal",
+      "spare-detector",
+      "spare-nozzle",
+      "stop-driver",
+      "tank-valve-leak",
+      "top-pick-key"
+    ],
+    "meshes": 234
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track"
+  ],
+  "steps": [
+    {
+      "cue": "Read the posted steps: shut down, ground, connect, fill, disconnect — and where the dispenser's emergency stop is.",
+      "id": "read-fuelling-instructions",
+      "kind": "select",
+      "prompt": "Read the posted steps: shut down, ground, connect, fill, disconnect — and where the dispenser's emergency stop is.",
+      "target": "fuelling-instructions-sign",
+      "title": "Read the island's posted fuelling instructions",
+      "why": "Hydrogen dispensers differ in how their nozzles lock and how the fill is started, and the posted instructions are the station's own sequence for this dispenser; reading them each time is what keeps a habit from another island from becoming a nozzle pulled under pressure."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Phone into the locker and anything that can spark or flame into the bin before crossing the island's painted line.",
+      "id": "leave-ignition-sources",
+      "itemNames": {
+        "lighter-bin": "lighter into the bin outside the line",
+        "phone-locker": "phone into the island locker"
+      },
+      "kind": "sequence",
+      "prompt": "Phone into the locker and anything that can spark or flame into the bin before crossing the island's painted line.",
+      "targets": [
+        "phone-locker",
+        "lighter-bin"
+      ],
+      "title": "Leave ignition sources outside the island",
+      "why": "Hydrogen ignites with very little energy across a wide range of mixtures with air, so the fuelling island is kept free of sparks and flames by rule rather than judgement; the painted line is where that rule starts, and it applies to everyone crossing it."
+    },
+    {
+      "cue": "Spreader down, parking brake on, fuel cell system shut down from the key before any hose is touched.",
+      "id": "park-and-shut-down",
+      "kind": "select",
+      "prompt": "Spreader down, parking brake on, fuel cell system shut down from the key before any hose is touched.",
+      "target": "top-pick-key",
+      "title": "Park, lower the spreader, shut the machine down",
+      "why": "A top pick with its spreader raised or its fuel cell still running is a machine with stored energy and a live hydrogen supply, and the fill is done with both brought to rest; shutting down first also stops the system drawing from the tank while it is being filled."
+    },
+    {
+      "cue": "Carry the dispenser's ground clamp to the machine's bonding point and clip it on.",
+      "drag": {
+        "missNote": "Not clipped — carry the clamp all the way to the machine's marked bonding point and close it on the bare metal tab.",
+        "radius": 0.5,
+        "to": "bonding-point"
+      },
+      "id": "clip-static-ground",
+      "kind": "drag",
+      "prompt": "Carry the dispenser's ground clamp to the machine's bonding point and clip it on.",
+      "target": "ground-clamp",
+      "title": "Clip the static ground before the nozzle",
+      "why": "Gas flowing through a hose can build a static charge, and a spark at the nozzle is the ignition the whole island is designed to avoid; the ground goes on first and comes off last so the machine and dispenser stay at the same potential throughout."
+    },
+    {
+      "cue": "Check the nozzle's seal ring and the machine's receptacle for damage, dirt or ice before connecting.",
+      "id": "find-damaged-nozzle-seal",
+      "itemNames": {
+        "scuffed-nozzle-seal": "scuffed seal inside the nozzle"
+      },
+      "itemNotes": {
+        "scuffed-nozzle-seal": "The nozzle's seal ring is scuffed and flattened on one side — it may not seal against the receptacle, and a poor seal leaks at the connection under fill pressure."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Check the nozzle's seal ring and the machine's receptacle for damage, dirt or ice before connecting.",
+      "targets": [
+        "scuffed-nozzle-seal"
+      ],
+      "title": "Look into the nozzle and receptacle",
+      "why": "The connection between nozzle and receptacle holds the full fill pressure, and a damaged seal or grit on the receptacle is the most common place for a leak to start; the dispenser's spare nozzle or a call to the station tech is the answer, not a harder push."
+    },
+    {
+      "cue": "Carry the spare nozzle to the receptacle and lock it until the latch shows engaged.",
+      "drag": {
+        "missNote": "Not locked — push the nozzle squarely onto the receptacle and turn the lever until the latch shows engaged.",
+        "radius": 0.5,
+        "to": "fill-receptacle"
+      },
+      "id": "seat-nozzle",
+      "kind": "drag",
+      "prompt": "Carry the spare nozzle to the receptacle and lock it until the latch shows engaged.",
+      "target": "spare-nozzle",
+      "title": "Seat the good nozzle on the receptacle",
+      "why": "A hydrogen nozzle locks onto the receptacle mechanically before the dispenser will start, and a nozzle that is not fully locked is one the dispenser should refuse; seating it square and checking the latch indicator is how you know the dispenser's check is not the only one."
+    },
+    {
+      "cue": "Stay at the dispenser and keep the fill pressure inside its band until the dispenser stops the fill.",
+      "holdBreakNote": "The fill left its band before the dispenser stopped — stay at the display for the whole fill; that is where the emergency stop is.",
+      "id": "watch-fill-pressure",
+      "kind": "track",
+      "prompt": "Stay at the dispenser and keep the fill pressure inside its band until the dispenser stops the fill.",
+      "seconds": 6,
+      "target": "fill-pressure-display",
+      "title": "Watch the fill pressure climb to the stop",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.27,
+        "green": [
+          0.35,
+          0.62
+        ],
+        "label": "FILL",
+        "rise": 0.3,
+        "start": 0.45
+      },
+      "why": "The dispenser controls the fill rate to keep the tank inside its temperature and pressure limits, and a person standing at the display can stop it at once if the reading does something the fill should not; walking away during a fill leaves nobody at the emergency stop."
+    },
+    {
+      "cue": "Pass the portable detector over the receptacle and tank fittings and commit once the reading settles clean.",
+      "gauge": {
+        "green": [
+          0,
+          0.07
+        ],
+        "label": "H2 ppm",
+        "missNote": "The detector had not settled — hold it still at the fitting until the reading steadies before you commit.",
+        "speed": 0.6
+      },
+      "id": "detector-check-fittings",
+      "kind": "gauge",
+      "prompt": "Pass the portable detector over the receptacle and tank fittings and commit once the reading settles clean.",
+      "target": "hydrogen-detector",
+      "title": "Check each fitting with the portable detector",
+      "why": "Hydrogen is colourless and odourless, so a leak cannot be seen or smelt, and a small one can go unnoticed until it finds an ignition source; a portable detector passed slowly over each fitting after the fill is how the tank's connections are checked."
+    },
+    {
+      "cue": "A faint hiss near the tank rack — trace it with the detector, never with a hand or a rag.",
+      "id": "find-tank-valve-hiss",
+      "itemNames": {
+        "tank-valve-leak": "detector alarm at the tank valve"
+      },
+      "itemNotes": {
+        "tank-valve-leak": "The detector chirps at the tank's shut-off valve — a small leak at its packing, found by the instrument, and a reason to stop, isolate and report."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "A faint hiss near the tank rack — trace it with the detector, never with a hand or a rag.",
+      "targets": [
+        "tank-valve-leak"
+      ],
+      "title": "Trace the faint hiss with the detector",
+      "why": "A hydrogen flame burns nearly invisible in daylight and a high-pressure leak can cut skin, so a hand feeling for a leak is the one test that must never be used; the detector finds it from a safe distance and tells you which fitting to isolate."
+    },
+    {
+      "cue": "Press the island's emergency stop to shut the dispenser's supply, and call the leak in.",
+      "id": "press-dispenser-e-stop",
+      "kind": "select",
+      "prompt": "Press the island's emergency stop to shut the dispenser's supply, and call the leak in.",
+      "target": "dispenser-e-stop",
+      "title": "Press the dispenser's emergency stop",
+      "why": "The island's emergency stop closes the dispenser's supply valves and stops the fill system, and pressing it on a confirmed leak is what keeps more gas from feeding the release while the machine is made safe; it is placed where you can reach it without crossing the leak."
+    },
+    {
+      "cue": "Close the tank shut-off, key out, lock and tag the machine before the mechanic removes the compartment cover.",
+      "id": "lock-out-compartment",
+      "kind": "select",
+      "prompt": "Close the tank shut-off, key out, lock and tag the machine before the mechanic removes the compartment cover.",
+      "target": "compartment-lock",
+      "title": "Lock out before the fuel cell compartment opens",
+      "why": "The fuel cell stack and its high-voltage output stay hazardous with the machine keyed off, and 29 CFR 1910.147 controls both the gas and the electrical energy before a cover comes off; the tank shut-off is part of the isolation, not an extra."
+    },
+    {
+      "cue": "Keep the island clear behind the painted line until the station tech confirms the release has dispersed.",
+      "holdBreakNote": "People drifted back across the line before the tech gave the all clear — hold them until the release has dispersed.",
+      "id": "hold-clear-while-venting",
+      "kind": "hold",
+      "prompt": "Keep the island clear behind the painted line until the station tech confirms the release has dispersed.",
+      "seconds": 5,
+      "target": "island-line",
+      "title": "Hold everyone behind the island line while it vents",
+      "why": "Hydrogen is much lighter than air and disperses upward quickly in the open, which is why fuelling islands are outdoors and uncovered; holding people back for the short time it takes is what keeps anyone from walking into the release before it has gone."
+    },
+    {
+      "cue": "Record the machine, the fill, the swapped nozzle seal and the tank valve leak, with the time you pressed the emergency stop.",
+      "id": "log-the-fuelling",
+      "kind": "select",
+      "prompt": "Record the machine, the fill, the swapped nozzle seal and the tank valve leak, with the time you pressed the emergency stop.",
+      "target": "fuelling-log",
+      "title": "Log the fuelling and the leak",
+      "why": "The fuelling log is how the station tech knows the nozzle seal needs replacing and how the maintenance shop knows why this top pick is tagged; a leak that is only told in passing is a leak the next shift finds again."
+    }
+  ],
+  "supportLine": "your union's member assistance programme",
+  "tagline": "A hydrogen fuel cell top pick at the terminal's fuelling island: the posted instructions read, ignition sources left outside the island, the machine parked and shut down, the static ground clipped, a frosted and scuffed nozzle seal found and swapped for the spare, the nozzle seated, the fill pressure watched to the stop, the portable detector reading clean at every fitting, a hiss at the tank valve found with the detector rather than a hand, the dispenser's emergency stop pressed, the compartment locked out before the cover comes off, and the fuelling logged",
+  "title": "SmartCiti.X~ Hydrogen Fuel Cell Equipment and Fuelling VR VR",
+  "trade": "ILWU equipment operator or IAM mechanic fuelling a hydrogen fuel cell top pick at a terminal fuelling station and checking its fuel cell compartment",
+  "underwater": null,
+  "weather": "clear"
+}

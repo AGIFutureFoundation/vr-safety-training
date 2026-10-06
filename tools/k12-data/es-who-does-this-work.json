@@ -1,0 +1,261 @@
+{
+  "id": "k12-es-who-does-this-work",
+  "index": "877",
+  "prefix": "esw",
+  "accent": "#b07a4a",
+  "floor": [
+    "#665c52",
+    "#5a5046"
+  ],
+  "wall": [
+    "#e8e0d6",
+    "#d8ccbe"
+  ],
+  "trade": "Careers class at a union hall with trades crew members from Bay restoration and port work — learner and crew mentor",
+  "header": "Lower-secondary careers and life skills at the Market Street Union Hall in San Francisco (and the Mandela Parkway Union Hall where the Oakland map is loaded): the trades and crews who build and look after storm drains, rain gardens, marshes and clean ports, matched job by job, with what the U.S. EPA says about its San Francisco Bay awards and what the Port of Oakland says about its workforce partners, using only the EPA's award release and the Port of Oakland's Clean Ports announcement.",
+  "name": "Who Does This Work",
+  "tagline": "Every clean drain, rain garden and marsh is built by a crew — meet the trades and match the jobs",
+  "badge": {
+    "id": "crew-finder",
+    "name": "Crew Finder",
+    "note": "Matched Bay restoration and clean port jobs to the crews who do them, and learned how people train for that work"
+  },
+  "board": {
+    "name": "Crew Board",
+    "currency": "HARD HATS",
+    "ranks": [
+      "Visitor",
+      "Helper",
+      "Apprentice",
+      "Crew Member",
+      "Crew Leader"
+    ]
+  },
+  "hazards": [
+    {
+      "id": "only-scientists-do-it",
+      "label": "Say only scientists restore the Bay?",
+      "face": "ONLY\nSCIENTISTS?",
+      "text": "You said only scientists restore the Bay. Scientists plan and measure, and trades crews do the building: operators, labourers, landscape crews, plant operators and many more. It takes both."
+    },
+    {
+      "id": "skip-the-training",
+      "label": "Say a crew member can start without training?",
+      "face": "NO\nTRAINING?",
+      "text": "You said a new crew member can start without training. Every crew trains before the job and keeps training, from safety basics to the machines they run. Apprenticeships mix learning with paid work for exactly this reason."
+    },
+    {
+      "id": "guess-the-facts",
+      "label": "Make up a number about the projects?",
+      "face": "MAKE IT\nUP?",
+      "text": "You made up a number about the projects. Only say what a source says, and name the source. If a source does not say it, the honest answer is that we do not know yet."
+    },
+    {
+      "id": "try-on-the-harness",
+      "label": "Put on the crew's harness to try it?",
+      "face": "TRY\nHARNESS",
+      "text": "You reached for the crew's harness. Safety gear is fitted and checked by trained crew. Ask the mentor to show how it is checked, and keep your hands on the display pieces."
+    }
+  ],
+  "find1": {
+    "title": "Find the crews in the Bay projects",
+    "cue": "Mark the three crews you can see on the project photos on the wall.",
+    "why": "Bay projects need many kinds of crews. Equipment operators dig channels and move soil, landscape crews plant rain gardens and marsh grass, and treatment plant operators run the systems that clean water. Seeing each crew at work shows that caring for the Bay is a set of real jobs people train for.",
+    "items": [
+      [
+        "operator",
+        "an equipment operator in an excavator",
+        "Digs channels and moves soil."
+      ],
+      [
+        "landscape",
+        "a landscape crew planting",
+        "Plants gardens and marsh grass."
+      ],
+      [
+        "plant-op",
+        "a treatment plant operator",
+        "Runs the systems that clean water."
+      ]
+    ],
+    "decoy": [
+      "tourist",
+      "a tourist taking photos",
+      "Enjoying the Bay, but not on a crew."
+    ]
+  },
+  "select1": {
+    "title": "Greet the crew mentor",
+    "cue": "Shake hands and introduce yourself to the crew mentor.",
+    "why": "Meeting a crew mentor is a first step into any trade. A clear greeting and your name show respect and interest. Mentors help new people learn the job, and many say the best apprentices start by asking good questions. Asking the mentor how they started in their trade is often the most useful question of the visit.",
+    "key": "greet-card",
+    "label": "Mentor greeted",
+    "face": "SAY\nHELLO"
+  },
+  "seq": {
+    "title": "Put the path into a trade in order",
+    "cue": "Put the steps from learning about a trade to working on a crew in order.",
+    "why": "Most people reach a trade through a path. They learn what the trade does, take a pre-apprenticeship to get ready, start a paid apprenticeship that mixes classes with work, and then join a crew. Knowing the order helps you plan your own path.",
+    "oon": "Out of order. Start by learning what the trade does.",
+    "items": [
+      [
+        "ord-learn",
+        "learn what the trade does"
+      ],
+      [
+        "ord-pre",
+        "take a pre-apprenticeship course"
+      ],
+      [
+        "ord-app",
+        "start a paid apprenticeship"
+      ],
+      [
+        "ord-crew",
+        "join a crew on the job"
+      ]
+    ]
+  },
+  "turn": {
+    "title": "Turn the job wheel to your favourite",
+    "cue": "Turn the job wheel until it points at the job you would most like to try.",
+    "why": "Choosing a favourite job helps you notice what you enjoy, like working outdoors, running machines or caring for plants. There is no wrong choice. Careers advisers say knowing what you like is the best starting point for finding a trade that fits. Many people try more than one kind of work before they find the trade that suits them best.",
+    "key": "job-dial",
+    "label": "Job wheel",
+    "dial": "JOBS"
+  },
+  "gauge": {
+    "title": "Rate how much each job uses maths",
+    "cue": "Commit when the marker shows how much maths the chosen job uses.",
+    "why": "Almost every trade uses maths, from measuring a rain garden to reading a gauge at a treatment plant. Rating it helps you see why school subjects matter on a crew. Mentors often say the maths they use every day is measuring, adding up and reading scales.",
+    "key": "math-meter",
+    "label": "Maths in the job",
+    "meter": "MATHS",
+    "miss": "Not set yet. Ask the mentor and move the marker to match."
+  },
+  "hold": {
+    "title": "Hold up the safety gear while the mentor explains",
+    "cue": "Hold up the display hard hat while the mentor explains each piece of gear.",
+    "why": "Safety gear is part of every trade. Holding up each piece while the mentor explains it helps you remember what it is for. Crews check their gear at the start of every shift, and learning that habit early is part of training. Each piece of gear has one job, and together they protect the head, eyes, hands and feet.",
+    "brk": "The hard hat went down before the mentor finished. Hold it up again.",
+    "key": "hat-hold",
+    "label": "Hold up the gear"
+  },
+  "drag": {
+    "title": "Match a job to its crew",
+    "cue": "Drag the card that says planting a rain garden to the landscape crew.",
+    "why": "Matching jobs to crews shows how projects are shared out. Planting belongs to the landscape crew, digging to the operators and running a plant to the operators there. Knowing who does what is how crews work together safely on one site.",
+    "key": "job-card",
+    "label": "Job card",
+    "spot": "crew-spot",
+    "spotLabel": "The landscape crew",
+    "miss": "Not on the landscape crew yet. Which crew plants gardens?"
+  },
+  "find2": {
+    "title": "Spot what the sources say about the work",
+    "cue": "Read the two source cards and mark each fact they state.",
+    "why": "The U.S. EPA says its San Francisco Bay Program awarded more than eighty-two million dollars to twenty projects for water quality and habitat, including trash capture, green stormwater infrastructure, tidal marsh and wetland restoration, nutrient reduction, sediment management, fish habitat and PCB source control. Reading the source itself is how you know what is true.",
+    "items": [
+      [
+        "epa",
+        "the EPA card on the Bay awards",
+        "Twenty projects for water and habitat."
+      ],
+      [
+        "kinds",
+        "the list of kinds of work",
+        "Trash capture, gardens, marshes and more."
+      ],
+      [
+        "port",
+        "the Port of Oakland card on training",
+        "Named partners train workers."
+      ]
+    ],
+    "decoy": [
+      "rumour",
+      "a sticky note with a guess",
+      "A guess with no source is not a fact."
+    ]
+  },
+  "select2": {
+    "title": "Say who trains workers for the clean port",
+    "cue": "Choose the sentence that matches what the Port of Oakland says.",
+    "why": "The Port of Oakland says the Pacific Maritime Association provides skills and safety training on the zero-emission equipment, and the Machinists Institute helps the West Oakland Jobs Resource Center grow its pre-apprentice program to include careers affected by zero-emission vehicles. A good answer repeats what the source says and adds nothing.",
+    "key": "result-card",
+    "label": "Name the partners",
+    "face": "WHO\nTRAINS?"
+  },
+  "track": {
+    "title": "Follow one project from plan to crew",
+    "cue": "Keep the marker on the rain garden project as it moves from plan to build.",
+    "why": "A project moves through many hands. Planners draw it, a locate crew marks pipes, operators dig, and landscape crews plant. Following one project shows how every step needs trained people, and how each crew hands on to the next. A project goes well when each crew finishes its part safely and passes on clear notes to the next.",
+    "brk": "The marker lost the project. Find it again and follow it to the planting.",
+    "key": "project-track",
+    "label": "Project followed",
+    "meter": "PATH"
+  },
+  "record": {
+    "title": "Record the trades you met",
+    "cue": "Write one line for each trade you met and what it does on a Bay project.",
+    "why": "A list of trades and their jobs is a map of possible careers. Reading it later helps you remember which work sounded interesting. Careers advisers ask students to keep lists like this when they explore pathways. Looking back at a list later often reminds people of a job they had forgotten they liked.",
+    "key": "trade-log",
+    "label": "Trades record",
+    "done": "Trades recorded"
+  },
+  "share": {
+    "title": "Share one job you would try",
+    "cue": "Tell another group one Bay job you would like to try and why.",
+    "why": "Saying a goal out loud makes it real. Hearing others' choices shows how many kinds of work there are. The Port of Oakland says its clean port work will create hundreds of green jobs, with priority for people who live nearby. Hearing why a classmate likes a job can open up an idea you had not thought of yourself.",
+    "key": "share-board",
+    "label": "Share a job",
+    "done": "Job shared"
+  },
+  "checkin": {
+    "title": "Check in before leaving the hall",
+    "cue": "Name two crews who work on Bay projects. How do people train for them?",
+    "why": "The mentor checks what the class learned before they leave. Each learner names two crews and one way people train. If anyone thinks only scientists do the work, the group sorts it out now. Knowing two crews and one training path gives every learner a real starting point for their own plans.",
+    "label": "End-of-visit check-in"
+  },
+  "interrupts": [
+    {
+      "id": "the-hall-fire-drill-bell",
+      "kind": "Drill bell",
+      "key": "line-up",
+      "label": "Line up calmly at the exit",
+      "alert": "The hall's practice drill bell rings for everyone.",
+      "cue": "Line up calmly at the marked exit with the mentor.",
+      "why": "Every workplace practises leaving the building. Lining up calmly at the marked exit shows you know the plan. Crews practise the same drills on every site, and a calm line is the goal.",
+      "miss": "The class stayed seated, and the mentor had to gather everyone before leading them out.",
+      "wrong": "That ignores the drill. Line up at the exit. Choose the response that deals with it now.",
+      "done": "Class lined up and counted, the drill ended. The lesson carries on."
+    },
+    {
+      "id": "the-mentor-asks-for-a-source",
+      "kind": "Mentor question",
+      "key": "name-source",
+      "label": "Name the source for the Bay facts",
+      "alert": "The mentor asks where the facts about the Bay projects come from.",
+      "cue": "Say the facts come from the U.S. EPA's award release and the Port of Oakland.",
+      "why": "Naming the source shows you know how to check a fact. Anyone can look up the release and read it for themselves. Crews use the same habit when they check a drawing or a safety sheet before they start.",
+      "miss": "You could not name the source, and the mentor had to show the class the release before going on.",
+      "wrong": "That does not name the source. Choose the response that deals with it now.",
+      "done": "Source named. The lesson carries on."
+    }
+  ],
+  "crew": [
+    "Careers teacher",
+    "Classmate",
+    "Crew mentor",
+    "Apprentice"
+  ],
+  "guide": {
+    "start": "Every project needs a crew.",
+    "after": "Say only what a source says.",
+    "hazard": "Stop. Training first, facts with a source."
+  },
+  "lateRecord": "The trades record is written after you meet each crew — nothing to record yet.",
+  "lateCheckin": "The check-in comes at the very end of the visit.",
+  "scene": "stage",
+  "order": "b"
+}

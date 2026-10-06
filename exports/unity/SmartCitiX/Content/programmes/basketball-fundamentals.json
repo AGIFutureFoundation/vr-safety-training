@@ -1,0 +1,218 @@
+{
+  "accent": "#ff7a3b",
+  "anchors": [
+    {
+      "id": "coliseum-arena",
+      "name": "Coliseum Arena",
+      "position": [
+        568,
+        399
+      ],
+      "stations": [
+        "bb-warmup-injury-prevention-and-hydration",
+        "bb-stance-and-ball-handling",
+        "k12-measuring-and-scaling-the-court",
+        "k12-teamwork-and-feedback"
+      ],
+      "table": "BAY_SITES",
+      "world": "bayworld",
+      "zone": "coliseum"
+    },
+    {
+      "id": "ct-notice-board-coliseum-arena",
+      "name": "Union hall notice board · Coliseum Arena",
+      "position": [
+        561.2,
+        380.2
+      ],
+      "stations": [
+        "bb-warmup-injury-prevention-and-hydration",
+        "bb-stance-and-ball-handling",
+        "k12-measuring-and-scaling-the-court",
+        "k12-teamwork-and-feedback"
+      ],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "coliseum"
+    }
+  ],
+  "certification": "USA Basketball youth development guidelines for age-appropriate play, practice and rest; NFHS basketball rules and sports medicine guidance; CDC Heads Up concussion training; U.S. Center for SafeSport abuse-prevention policies; the American Red Cross first aid, CPR and AED course",
+  "competency": {
+    "id": "basketball-fundamentals",
+    "kind": "programme",
+    "require": 6,
+    "standards": [
+      "usa-basketball-youth-guidelines",
+      "cdc-heads-up",
+      "safesport-code"
+    ],
+    "stations": [
+      "bb-warmup-injury-prevention-and-hydration",
+      "bb-stance-and-ball-handling",
+      "bb-footwork-pivots-and-jump-stops",
+      "bb-passing-and-catching",
+      "bb-shooting-form-and-arc",
+      "bb-free-throw-routine",
+      "bb-defensive-stance-and-closeouts",
+      "bb-rebounding-and-boxing-out",
+      "bb-team-offense-spacing-and-screens",
+      "bb-scrimmage-and-sportsmanship-debrief",
+      "bb-reset-routine-after-a-miss",
+      "bb-pre-game-routine-and-visualisation",
+      "bb-composure-with-a-hostile-crowd-and-officials",
+      "bb-teammate-conflict-and-accountability",
+      "bb-coach-feedback-and-growth-mindset",
+      "bb-final-possession-decision-under-pressure",
+      "bb-layups-and-finishing-at-the-rim",
+      "bb-dribble-moves-and-change-of-pace",
+      "bb-pick-and-roll-communication",
+      "bb-help-defense-rotations",
+      "bb-transition-spacing-and-roles",
+      "bb-timeout-huddle-and-adjustment",
+      "bb-losing-well-and-film-review"
+    ],
+    "title": "Teach basketball fundamentals and run a youth session nobody gets hurt in"
+  },
+  "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
+  "guides": [
+    "afscme-training",
+    "seiu-training",
+    "usa-basketball-youth-guidelines",
+    "nfhs-basketball-rules",
+    "cdc-heads-up",
+    "safesport-code",
+    "red-cross-first-aid-course"
+  ],
+  "id": "basketball-fundamentals",
+  "ladder": {
+    "atBar": 20,
+    "lessonBar": 75,
+    "lessons": 1657,
+    "levels": 20,
+    "note": "a lesson is one station step under one condition; see docs/ladders.md",
+    "partial": 0,
+    "stationsNeeded": 0,
+    "tasks": 120
+  },
+  "name": "Basketball Fundamentals",
+  "schema": "smartcitix.programme/1",
+  "stations": [
+    {
+      "app": "smartcity",
+      "id": "bb-warmup-injury-prevention-and-hydration",
+      "why": "The first fifteen minutes that decide the rest: the floor walked dry, the emergency plan read, a dynamic warm-up in order and water called by the clock."
+    },
+    {
+      "app": "smartcity",
+      "id": "bb-stance-and-ball-handling",
+      "why": "The ball in the hands for the first time: balls checked, lanes spaced wide, the triple-threat stance built from the feet up and the eyes kept off the ball."
+    },
+    {
+      "app": "smartcity",
+      "id": "bb-footwork-pivots-and-jump-stops",
+      "why": "The lower body every later skill stands on: soft, balanced landings with knees over toes, a legal pivot on the ball of the foot and a jump count that is kept."
+    },
+    {
+      "app": "smartcity",
+      "id": "bb-passing-and-catching",
+      "why": "Two players and one ball in the air: a name before every pass, fingers up on every catch, speed matched to the receiver and any ball to the head taken seriously."
+    },
+    {
+      "app": "smartcity",
+      "id": "bb-shooting-form-and-arc",
+      "why": "The shot built from balance up on a hoop set to the player's age, with the arc and the release held in band and the lane under the rim kept clear."
+    },
+    {
+      "app": "smartcity",
+      "id": "bb-free-throw-routine",
+      "why": "One routine held the same way through fatigue and pressure, with a dry line, a lane that waits for the release, water between rounds and shooters rotated to rest."
+    },
+    {
+      "app": "smartcity",
+      "id": "bb-defensive-stance-and-closeouts",
+      "why": "The hardest work in practice done safely: room to slide, active hands instead of reaching, and closeouts chopped under control and never into a shooter's landing."
+    },
+    {
+      "app": "smartcity",
+      "id": "bb-rebounding-and-boxing-out",
+      "why": "The first real contact, introduced by size: the box-out built and sealed, contact kept controlled, and the signs of a concussion recognised and removed from play."
+    },
+    {
+      "app": "smartcity",
+      "id": "bb-team-offense-spacing-and-screens",
+      "why": "Five players moving together: spacing that keeps the paint clear, screens that are legal and still, and a rotation with water in it for everyone."
+    },
+    {
+      "app": "smartcity",
+      "id": "bb-scrimmage-and-sportsmanship-debrief",
+      "why": "Everything at game speed and then the close of the programme: fair teams, a game kept hard and fair, a handshake line, a debrief in order and a check-in on how everyone is."
+    },
+    {
+      "app": "smartcity",
+      "id": "bb-reset-routine-after-a-miss",
+      "why": "The seconds right after a mistake: one slow breath, a one-word cue and a physical let-it-go that turns a miss back into the next play instead of a spiral."
+    },
+    {
+      "app": "smartcity",
+      "id": "bb-pre-game-routine-and-visualisation",
+      "why": "The hour before tip-off: gear checked, a genuinely quiet visualisation, a shoot-around and a short captain's word that build a team up calmly instead of winding it up."
+    },
+    {
+      "app": "smartcity",
+      "id": "bb-composure-with-a-hostile-crowd-and-officials",
+      "why": "A bad call and a heckling parent are not an argument a player can win, so the routine underneath — a breath, a cue word, eyes back on the bench — keeps the game the one thing still in their control."
+    },
+    {
+      "app": "smartcity",
+      "id": "bb-teammate-conflict-and-accountability",
+      "why": "A shove over a loose ball does not end when the whistle blows it dead: separated first, cooled down, heard in turn and repaired for real is what actually makes two players teammates again."
+    },
+    {
+      "app": "smartcity",
+      "id": "bb-coach-feedback-and-growth-mindset",
+      "why": "The same mistake on film becomes one specific, fixable thing or a verdict on the player watching it, and the difference is entirely in how the correction is given."
+    },
+    {
+      "app": "smartcity",
+      "id": "bb-final-possession-decision-under-pressure",
+      "why": "The clock winding down does not change what the right read is, only how hard it is to make calmly, so a decision hierarchy read in order beats a shot forced the moment the pressure shows up."
+    },
+    {
+      "app": "smartcity",
+      "id": "bb-layups-and-finishing-at-the-rim",
+      "why": "The easiest drill on the practice plan is also the most collision-prone, so gather, plant, drive and a soft-touch finish are built alongside a controlled approach that keeps the line under the rim from becoming a pile-up."
+    },
+    {
+      "app": "smartcity",
+      "id": "bb-dribble-moves-and-change-of-pace",
+      "why": "A crossover only beats a defender because of what happens around it, so a believable hesitation and a sharp, controlled change of pace are drilled live against a real defensive read."
+    },
+    {
+      "app": "smartcity",
+      "id": "bb-pick-and-roll-communication",
+      "why": "Two defenders meet one screen, and whether they switch, stay or collide comes down to a word said early enough to be heard, answered, and only then acted on."
+    },
+    {
+      "app": "smartcity",
+      "id": "bb-help-defense-rotations",
+      "why": "Everybody gets beaten sometimes, so the helper steps in and says so, the next teammate rotates to the helper's man and the beaten defender trusts it and recovers to whoever is left."
+    },
+    {
+      "app": "smartcity",
+      "id": "bb-transition-spacing-and-roles",
+      "why": "A fast break is five players with five jobs, so the lanes are filled wide, the roles are held, the extra pass beats the hero shot and the finish stops inside a clear run-off."
+    },
+    {
+      "app": "smartcity",
+      "id": "bb-timeout-huddle-and-adjustment",
+      "why": "A captain gets thirty seconds of a timeout while the team is losing, and one fact, one change and one encouragement, with water in hand and nobody blamed, is all that fits."
+    },
+    {
+      "app": "smartcity",
+      "id": "bb-losing-well-and-film-review",
+      "why": "The morning after a loss is where a team learns what to do with one: each player owns a part, names one fix and thanks the teammate who covered for them, and nobody is put on trial."
+    }
+  ],
+  "summary": "Stations on an indoor court that teach players the fundamentals and teach coaches to run a session nobody gets hurt in: the floor walked before anyone runs on it, contact introduced by size and stage, every knock to the head taken out of play, water and rest on the clock, and every heated moment, alarm and parent at the door handled calmly and in view.",
+  "union": "AFSCME and SEIU parks-and-recreation staff where a public gym runs the league; the programme itself is taught against USA Basketball's youth guidelines rather than a union apprenticeship"
+}

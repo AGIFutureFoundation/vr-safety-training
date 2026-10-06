@@ -1,3 +1,4 @@
+using SafetyTraining.Core;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -64,7 +65,11 @@ namespace SafetyTraining.Runtime
             if (scoreDisplay != null)
                 scoreDisplay.text = coordinator.OverallScore.ToString("0000");
             if (progressDisplay != null)
-                progressDisplay.text = $"SESSION {elapsedSeconds / 60:00}:{elapsedSeconds % 60:00} / 20:00";
+            {
+                var targetSeconds = Mathf.RoundToInt(GuidedSessionPlan.MinimumSessionSeconds);
+                progressDisplay.text = $"SESSION {elapsedSeconds / 60:00}:{elapsedSeconds % 60:00} / " +
+                                       $"{targetSeconds / 60:00}:{targetSeconds % 60:00}";
+            }
             if (progressFill != null)
             {
                 progressFill.localScale = new Vector3(Mathf.Max(0.02f, coordinator.GuidedProgress01), 1f, 1f);

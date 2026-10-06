@@ -1,0 +1,429 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "money-in-the-open",
+    "name": "Money in the Open",
+    "note": "Every dollar decided where the public could see it, with the reasoning published and the hard call owned"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "The Ralph M. Brown Act (California Government Code section 54950 and following) for a budget hearing held in public and for documents given to a majority of the body being available to the public at the same time; the Political Reform Act, administered by the FPPC, and the municipal ethics code for a member's financial interest in a funded project and for gifts from a bidder; Robert's Rules of Order as the body's adopted practice for amendments; Title II of the ADA for budget documents in accessible formats; SEIU and AFSCME for the public-service workers whose jobs a cut touches, and the state's public-sector labour relations law for consulting them. The leadership principles practised here are principles commonly taught in civic-leadership programmes; the foundation's own curriculum is not sourced in this repository",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "DOJ",
+        "citedAs": "Title II of the ADA",
+        "id": "ada-title-ii",
+        "title": "Americans with Disabilities Act Title II — programme accessibility for public entities and their services"
+      },
+      {
+        "body": "union",
+        "citedAs": "AFSCME",
+        "id": "afscme-training",
+        "title": "AFSCME member education and safety training for public-service and air-district members"
+      },
+      {
+        "body": "California Government Code",
+        "citedAs": "Ralph M. Brown Act",
+        "id": "brown-act",
+        "title": "The Ralph M. Brown Act, California Government Code section 54950 and following — open and public meetings of local legislative bodies: the posted agenda, the public's right to comment, action only on noticed items, and the bar on serial meetings of a majority"
+      },
+      {
+        "body": "municipal ethics code",
+        "citedAs": "municipal ethics code",
+        "id": "municipal-ethics-code",
+        "title": "A city or county ethics code and the charter's ethics provisions — gifts from interested parties, lobbyist contact, misuse of public position and the revolving door; named generically, with no one jurisdiction's sections cited"
+      },
+      {
+        "body": "FPPC",
+        "citedAs": "Political Reform Act",
+        "id": "political-reform-act",
+        "title": "The Political Reform Act of 1974, administered by the Fair Political Practices Commission — annual economic-interest disclosure on the Statement of Economic Interests (Form 700), disqualification from any decision an official has a financial interest in, and gift limits and gift reporting"
+      },
+      {
+        "body": "Robert's Rules",
+        "citedAs": "Robert's Rules of Order",
+        "id": "roberts-rules",
+        "title": "Robert's Rules of Order Newly Revised — the parliamentary authority a body adopts in its own rules of procedure: a practice the body chooses, not a law"
+      },
+      {
+        "body": "union",
+        "citedAs": "SEIU",
+        "id": "seiu-training",
+        "title": "SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Civic",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "packet-public",
+        "name": "Packet Public",
+        "note": "Every document check passed before the hearing opened"
+      },
+      {
+        "id": "no-backroom",
+        "name": "No Back Room",
+        "note": "No unsafe action anywhere in the hearing"
+      },
+      {
+        "id": "owned-it",
+        "name": "Owned It",
+        "note": "The cut explained without a single deflection"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-ledger",
+        "name": "Clean Ledger",
+        "note": "No corrections anywhere in the hearing"
+      },
+      {
+        "id": "balanced",
+        "name": "Balanced",
+        "note": "The budget balanced inside the band"
+      },
+      {
+        "id": "steady-reserve",
+        "name": "Steady Reserve",
+        "note": "The testimony and the reserve both carried their full count"
+      }
+    ],
+    "currency": "LEDGER",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Committee Member",
+      "Vice Chair",
+      "Budget Chair",
+      "Finance Lead",
+      "Budget Mentor"
+    ],
+    "system": "Open Ledger"
+  },
+  "hazards": {
+    "contractor-tickets": "You took the paving contractor's game tickets. That firm is bidding on the street-repair line you are about to fund; a gift from a bidder is reportable at best and disqualifying at worst, and it hangs over every dollar in that line.",
+    "hallway-numbers": "You stepped into the hallway with two colleagues to settle the numbers. Three members of this committee agreeing the budget out of the public's sight is the deliberation the open-meeting law says belongs in the room — and the residents who testified will read the result without ever hearing the reasons.",
+    "promise-no-cuts": "You told the room nobody will lose anything. There is a gap on the screen behind you that says otherwise, and the promise lasts until the adopted budget comes out — then every service that was cut is also a promise you broke in public.",
+    "wave-off-testimony": "You waved off the library parent's testimony as \"not a budget question\". Who loses the Saturday hours is exactly the budget question; a chair who treats testimony as an interruption to the real work tells the room the numbers were settled before anybody spoke."
+  },
+  "id": "budget-tradeoff-hearing",
+  "indoor": "service",
+  "interrupts": [
+    {
+      "after": "take-testimony",
+      "alert": "During testimony, an aide slips a revised spreadsheet to three members at the table. The public copies on the documents table are still the old version.",
+      "cue": "Stop and post it: copies of the revision on the public table, and read the change aloud.",
+      "delay": 3,
+      "id": "revised-sheet-to-three",
+      "kind": "Documents the public cannot see",
+      "missNote": "The revision stayed among three members. Testimony carried on against numbers the committee had quietly replaced, and when the public finds out the budget changed mid-hearing, every vote taken tonight is in question.",
+      "seconds": 12,
+      "target": "public-copies-table",
+      "why": "A document handed to a majority of the body during a meeting belongs to the public at the same moment. Posting the revision on the public table and reading the change aloud keeps the hearing on the same numbers for everybody — and it stops the people testifying from arguing against a version of the budget the committee has already moved on from.",
+      "wrongNote": "Not the speaker at the mic — she is doing what she came to do. The revision is on the committee table; get it onto the public one."
+    },
+    {
+      "after": "hold-the-reserve",
+      "alert": "The steward from the public-service local has stood up at the back holding a sign: the positions being cut were never discussed with the workers who hold them.",
+      "cue": "Recognise her and commit, on the record, to consult the union before the cuts are final.",
+      "delay": 3,
+      "id": "steward-rises",
+      "kind": "Workers not consulted",
+      "missNote": "The steward was ignored and sat down. The committee adopted cuts to positions nobody had discussed with the workers in them, and the grievance that follows will cost more time and money than the conversation would have.",
+      "seconds": 12,
+      "target": "meet-and-confer-card",
+      "why": "Cuts that touch represented positions carry a duty to consult the union before they are final, and the workers affected are residents too. Recognising the steward, taking the point on the record and committing to consultation before adoption brings the people who will carry the cut into the decision rather than handing it to them afterwards.",
+      "wrongNote": "The reserve meter will not answer her. Recognise the steward and commit to consulting the union before the cuts are final."
+    }
+  ],
+  "lateNotes": {
+    "budget-log-board": "The budget is adopted and logged once the reasoning is published and the cut owned — not yet.",
+    "reserve-block": "The reserve decision comes after the testimony. Hear who a cut lands on before you move any money."
+  },
+  "name": "Budget Tradeoff Hearing",
+  "parSeconds": 340,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "civic-leadership-and-ei"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "balance-scale",
+      "budget-log-board",
+      "contractor-tickets",
+      "crew-checkin-board",
+      "gap-statement-card",
+      "hallway-numbers",
+      "meet-and-confer-card",
+      "one-time-costs-slot",
+      "opt-baseline",
+      "opt-cost-of-each",
+      "opt-recommendation",
+      "opt-who-is-affected",
+      "own-blame-the-state",
+      "own-here-is-why",
+      "own-we-chose",
+      "own-when-we-revisit",
+      "packet-glossy-cover",
+      "packet-large-print",
+      "packet-plain-summary",
+      "packet-posted-with-agenda",
+      "projector-knob",
+      "promise-no-cuts",
+      "public-copies-table",
+      "recusal-card",
+      "reserve-block",
+      "reserve-meter",
+      "testimony-bead",
+      "wave-off-testimony",
+      "work-assumptions",
+      "work-rejected-options",
+      "work-who-loses"
+    ],
+    "meshes": 228
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Look at the documents table. Three things decide whether residents can follow the money tonight.",
+      "decoyNotes": {
+        "packet-glossy-cover": "A glossy cover is presentation. It does not make the budget any more or less open."
+      },
+      "id": "check-the-packet",
+      "itemNames": {
+        "packet-large-print": "large-print and screen-reader copies",
+        "packet-plain-summary": "a one-page plain-language summary",
+        "packet-posted-with-agenda": "the full budget posted when the members got it"
+      },
+      "itemNotes": {
+        "packet-large-print": "Accessible copies are how a resident with low vision testifies about the same numbers as everybody else.",
+        "packet-plain-summary": "Four hundred pages is not transparency on its own. One page that says what is cut, what is kept and why is what most residents can actually use.",
+        "packet-posted-with-agenda": "The public got the same documents at the same time the committee did. A budget the public sees for the first time on the screen is not a public hearing."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look at the documents table. Three things decide whether residents can follow the money tonight.",
+      "targets": [
+        "packet-posted-with-agenda",
+        "packet-plain-summary",
+        "packet-large-print"
+      ],
+      "title": "Check the budget packet is really public",
+      "why": "Spending public money in the open begins before anybody speaks. If the committee had the full budget for a week and the public got it tonight, if the only version is four hundred pages of line items, or if a resident with low vision cannot read it, the hearing is open in form and closed in fact. The chair checks that the public holds the same numbers the members do."
+    },
+    {
+      "cue": "Turn the projector on so the gap, the options and the reserve are in front of the whole room.",
+      "id": "project-the-numbers",
+      "kind": "turn",
+      "prompt": "Turn the projector on so the gap, the options and the reserve are in front of the whole room.",
+      "target": "projector-knob",
+      "title": "Put the numbers on the screen",
+      "turn": {
+        "axis": "y",
+        "label": "SCREEN",
+        "turns": 0.5
+      },
+      "why": "A budget discussed from papers only the committee holds is a conversation the public overhears. On the screen, the gap and every option to close it are in front of every resident and on the stream, so testimony is about the same numbers the members are weighing — and nobody can later say a figure was quietly different from the one discussed."
+    },
+    {
+      "cue": "\"We are four point two million short next year. Here is why: costs up, one grant ended.\"",
+      "id": "state-the-gap",
+      "kind": "select",
+      "prompt": "\"We are four point two million short next year. Here is why: costs up, one grant ended.\"",
+      "target": "gap-statement-card",
+      "title": "State the gap plainly, with where it came from",
+      "why": "Residents can take bad news; what they cannot take is being managed. Saying the size of the gap in one plain sentence, and where it came from, treats the room as people who can reason about their own city. It also sets the frame honestly: every option that follows is a way of dividing a real shortfall, not a debate about whether one exists."
+    },
+    {
+      "cue": "Baseline first, then who each option affects, then what it saves, then the recommendation.",
+      "id": "walk-the-options",
+      "itemNames": {
+        "opt-baseline": "the baseline — what continuing costs",
+        "opt-cost-of-each": "what each option saves",
+        "opt-recommendation": "the staff recommendation, last",
+        "opt-who-is-affected": "who each option lands on"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Baseline, who is affected, what it saves, then the recommendation. Opening with the recommendation tells the room the hearing is a formality.",
+      "prompt": "Baseline first, then who each option affects, then what it saves, then the recommendation.",
+      "targets": [
+        "opt-baseline",
+        "opt-who-is-affected",
+        "opt-cost-of-each",
+        "opt-recommendation"
+      ],
+      "title": "Walk the options in an order the public can follow",
+      "why": "The order decides whether the public can judge the recommendation or only react to it. Starting from what doing nothing costs, then who each option lands on, then what it saves, lets a resident weigh the tradeoff before being told the answer. Leading with the recommendation turns the rest of the presentation into a defence of a decision the room had no part in."
+    },
+    {
+      "cue": "Commit the mix of cuts and revenue when the gap on the scale reads inside the band.",
+      "gauge": {
+        "green": [
+          0.44,
+          0.56
+        ],
+        "label": "GAP REMAINING",
+        "missNote": "Not balanced. Short, and the budget cannot be adopted; over-cut, and services go that the gap never required. Commit when the scale reads balanced.",
+        "speed": 0.6
+      },
+      "id": "balance-the-budget",
+      "kind": "gauge",
+      "prompt": "Commit the mix of cuts and revenue when the gap on the scale reads inside the band.",
+      "target": "balance-scale",
+      "title": "Balance the package",
+      "why": "A balanced budget is a legal requirement and a moral one: cutting more than the gap requires takes services from residents for no reason the committee can defend, and cutting less leaves a deficit for next year's residents to pay. The scale makes the arithmetic visible to the room, so the mix the committee commits to is one everybody watched add up."
+    },
+    {
+      "cue": "Hold your attention on the speaker at the public mic. Hear the whole two minutes.",
+      "holdBreakNote": "You turned to your notes mid-testimony. The speaker saw it. Come back to her and let her finish.",
+      "id": "take-testimony",
+      "kind": "hold",
+      "prompt": "Hold your attention on the speaker at the public mic. Hear the whole two minutes.",
+      "seconds": 8,
+      "target": "testimony-bead",
+      "title": "Take public testimony without rebutting it",
+      "why": "The people at the public microphone are the people the numbers land on: the parent who takes her kids to the library on Saturdays, the man whose street floods, the teenager in the youth programme. Hearing each of them fully, without the chair visibly waiting to rebut, is what makes the decision that follows one the room can accept even when it goes against them."
+    },
+    {
+      "cue": "Carry the reserve drawdown to the one-time costs slot — not to salaries or programmes that recur.",
+      "drag": {
+        "missNote": "Not in the one-time slot. Reserve money spent on something that recurs has to be found again next year, and the year after — the gap comes back bigger.",
+        "radius": 0.55,
+        "to": "one-time-costs-slot"
+      },
+      "id": "move-one-time-money",
+      "kind": "drag",
+      "prompt": "Carry the reserve drawdown to the one-time costs slot — not to salaries or programmes that recur.",
+      "target": "reserve-block",
+      "title": "Keep one-time money off ongoing costs",
+      "why": "Using a one-time reserve to cover an ongoing cost closes this year's gap by opening a larger one next year. Putting the drawdown against genuinely one-time costs — the equipment purchase, the deferred repair — is the discipline that keeps the city's books honest across years, and it is the kind of choice that is invisible unless somebody says it out loud in the hearing."
+    },
+    {
+      "cue": "Your house is on the block the repaving line funds. Announce it, name the interest, and leave the room for that vote.",
+      "id": "disclose-and-step-out",
+      "kind": "select",
+      "prompt": "Your house is on the block the repaving line funds. Announce it, name the interest, and leave the room for that vote.",
+      "target": "recusal-card",
+      "title": "Disclose your own interest and step out for that line",
+      "why": "A member with a financial interest in a decision sits it out, and the public is entitled to know why. Announcing the interest in plain words before the line comes up, then physically leaving the room while it is decided, is what lets the rest of the budget stand on its merits — and it is the difference between a disclosure that protects the vote and a quiet abstention that invites a challenge."
+    },
+    {
+      "cue": "Members are proposing amendments. Keep the reserve level inside the band — not drained, not hoarded.",
+      "holdBreakNote": "The reserve drifted out of policy while you were taking amendments. Bring it back inside the band before the next one is moved.",
+      "id": "hold-the-reserve",
+      "kind": "track",
+      "prompt": "Members are proposing amendments. Keep the reserve level inside the band — not drained, not hoarded.",
+      "seconds": 8,
+      "target": "reserve-meter",
+      "title": "Hold the reserve inside its floor while amendments fly",
+      "track": {
+        "drift": 0.16,
+        "fall": 0.4,
+        "green": [
+          0.3,
+          0.7
+        ],
+        "label": "RESERVE",
+        "rise": 0.48,
+        "start": 0.5
+      },
+      "why": "Every amendment wants a little of the reserve, and each one is reasonable on its own. Drained below the city's own policy floor, the reserve is not there for the storm or the recession it exists for; hoarded far above it, money sits idle while services are cut. Holding the level while amendments come and go is continuous attention, not one decision."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Assumptions, the options rejected and why, and who loses what — all three into the public record.",
+      "id": "show-your-work",
+      "itemNames": {
+        "work-assumptions": "the revenue and cost assumptions",
+        "work-rejected-options": "the options the committee rejected, and why",
+        "work-who-loses": "who loses what, stated plainly"
+      },
+      "kind": "sequence",
+      "prompt": "Assumptions, the options rejected and why, and who loses what — all three into the public record.",
+      "targets": [
+        "work-assumptions",
+        "work-rejected-options",
+        "work-who-loses"
+      ],
+      "title": "Publish the working behind the decision",
+      "why": "A budget without its working is a list of numbers the public has to take on trust. Publishing the assumptions lets residents check them; publishing the options the committee rejected shows the choice was real; stating plainly who loses what is the part most budgets bury. Spending public money in the open means the reasoning is as public as the result."
+    },
+    {
+      "cue": "Choose every statement that owns the decision. Leave the deflection where it is.",
+      "decoyNotes": {
+        "own-blame-the-state": "\"The state left us no choice\" may be partly true and is still a deflection. The committee chose which service to cut; say so."
+      },
+      "id": "own-the-cut",
+      "itemNames": {
+        "own-here-is-why": "\"Here is why, and what we protected instead.\"",
+        "own-we-chose": "\"We chose to reduce Saturday library hours.\"",
+        "own-when-we-revisit": "\"We will revisit it at mid-year, in public.\""
+      },
+      "itemNotes": {
+        "own-here-is-why": "The reason, and what the cut paid for, so residents can judge the tradeoff rather than just feel it.",
+        "own-we-chose": "\"We chose\" — not \"it was decided\", not \"the numbers forced\". The committee made this call and says so.",
+        "own-when-we-revisit": "A date to look at it again, in public, is how a hard call stays accountable after tonight."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Choose every statement that owns the decision. Leave the deflection where it is.",
+      "targets": [
+        "own-we-chose",
+        "own-here-is-why",
+        "own-when-we-revisit"
+      ],
+      "title": "Own the hard call in your own words",
+      "why": "Taking the hard call and owning it is what separates a decision from an outcome that just happened. Residents who lose a service can accept a leader who says \"we chose this, here is why, and here is when we will look again\" far more readily than one who blames the state, the last council or the numbers. Ownership is also a commitment: it is the chair's name on the reason."
+    },
+    {
+      "cue": "Record the adopted budget, each member's vote, your recusal on the repaving line and the mid-year review date.",
+      "id": "adopt-and-log",
+      "kind": "select",
+      "prompt": "Record the adopted budget, each member's vote, your recusal on the repaving line and the mid-year review date.",
+      "target": "budget-log-board",
+      "title": "Adopt the budget and log the votes by name",
+      "why": "The adopted budget and the record of how it was adopted are what the public holds the committee to for the next twelve months. Each member's vote, the recusal and its reason, and the date of the mid-year review in the minutes make the hard call traceable to the people who made it, which is exactly what owning it means once the room has emptied."
+    },
+    {
+      "cue": "Two minutes with the finance team: how did that land, and who needs a word tomorrow?",
+      "id": "crew-check-in",
+      "kind": "select",
+      "prompt": "Two minutes with the finance team: how did that land, and who needs a word tomorrow?",
+      "target": "crew-checkin-board",
+      "title": "Check in with the budget staff before you leave",
+      "why": "A night of residents describing what a cut will do to them lands on the staff who built the options as well as on the committee. Checking in with the finance team — how did it land, who needs support, the employee assistance line if it stays with anyone — is part of taking the hard call responsibly, because the people who carry it out are people too."
+    }
+  ],
+  "supportLine": "your employee assistance program, or a colleague who has voted on a hard budget and will talk it through with you",
+  "tagline": "A gap to close in front of the people it lands on: the packet public, the options costed, testimony heard, one-time money kept off ongoing costs, the reserve held, your own interest disclosed — and the cut owned out loud",
+  "title": "SmartCiti.X~ Budget Tradeoff Hearing VR",
+  "trade": "Budget committee chair",
+  "underwater": null,
+  "weather": "rain"
+}

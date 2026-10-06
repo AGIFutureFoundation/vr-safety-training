@@ -22,6 +22,7 @@ The placement tasks teach procedural hazard control: learners must select the co
 | Fire response | Clear extinguisher access → stage response kit → deliver egress checklist |
 | Chemical processing | Place containment kit → deliver GHS record → stage eyewash test kit |
 | Electrical maintenance | Place lockout/tagout kit → deliver zero-energy record → protect cable crossing |
+| Immersive lab | Clear the play space → separate the AR route from the equipment lane → record headset readiness |
 
 ## Interaction state machine
 
@@ -45,7 +46,7 @@ Interruption behavior: leaving a site, losing focus, or disabling the component 
 ## Starting values and test plan
 
 - Starting value: placement radius `0.85 m` for portable controls and `1.10 m` for large barriers/carts.
-- Micro-test: complete all 17 placements once on desktop and once with XR input. Pass when intended releases succeed at least 9/10 times without accepting visibly wrong zones.
+- Micro-test: complete all 20 placements once on desktop and once with XR input. Pass when intended releases succeed at least 9/10 times without accepting visibly wrong zones.
 - If valid drops fail, increase radius by `0.10 m`; if wrong placements pass, decrease by `0.10 m` and re-test.
 - Starting value: return/snap duration `0.28 s`. Pass when the state change reads clearly without delaying the next action; adjust in `0.05 s` steps.
 

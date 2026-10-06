@@ -1,0 +1,392 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "clean-demo",
+    "name": "Clean Demo",
+    "note": "Gave consent knowingly, drove the cobot inside its safeguards, kept bystanders out of frame and labelled every attempt honestly"
+  },
+  "category": "Manufacturing & Automation",
+  "certification": "UAW and IAM skilled-trades training as bodies; ANSI R15.06 and ISO 10218 industrial robot safety, with ISO/TS 15066 named for collaborative operation; OSHA 29 CFR 1910.212 general requirements for machines, 29 CFR 1910.147 the control of hazardous energy and 29 CFR 1910.132 personal protective equipment; the bench's written risk assessment, the manufacturer's manual and the platform's own consent rules for training data",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI R15.06",
+        "id": "ansi-r15-06",
+        "title": "ANSI/RIA R15.06 — Industrial robots and robot systems: safety requirements"
+      },
+      {
+        "body": "union",
+        "citedAs": "IAM",
+        "id": "iam-winpisinger-center",
+        "title": "IAM — the William W. Winpisinger Education and Technology Center's machinist and transportation training"
+      },
+      {
+        "body": "ISO",
+        "citedAs": "ISO 10218",
+        "id": "iso-10218",
+        "title": "ISO 10218 — Robots and robotic devices: safety requirements for industrial robots"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.132",
+        "id": "osha-1910-132",
+        "title": "29 CFR 1910.132 — Personal protective equipment, general requirements"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.212",
+        "id": "osha-1910-212",
+        "title": "29 CFR 1910.212 — General requirements for all machines (machine guarding)"
+      },
+      {
+        "body": "union",
+        "citedAs": "UAW",
+        "id": "uaw-training",
+        "title": "UAW joint apprenticeship and skilled-trades training for manufacturing and automation work"
+      }
+    ]
+  },
+  "district": "robotics-training-centre",
+  "domain": "Robotics",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "consent-first",
+        "name": "Consent First",
+        "note": "Read the consent screen before the first recording"
+      },
+      {
+        "id": "honest-label",
+        "name": "Honest Label",
+        "note": "Labelled the failed attempt as failed"
+      },
+      {
+        "id": "steady-hand",
+        "name": "Steady Hand",
+        "note": "Held the grip force near band centre"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "quick-session",
+        "name": "Inside Par",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "clean-session",
+        "name": "Clean Session",
+        "note": "Clean run, no corrections"
+      }
+    ],
+    "currency": "EP",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Observer",
+      "Consented",
+      "Demonstrator",
+      "Data Steward",
+      "Clean Demo Lead"
+    ],
+    "system": "Clean Demo"
+  },
+  "hazards": {
+    "full-speed-hazard": "That switches teleoperation to full production speed to finish the demonstrations faster. Demonstrations are recorded in the reduced-speed mode the risk assessment names, because a person learning to drive an arm makes mistakes and the speed decides how much a mistake costs.",
+    "reach-in-hazard": "That reaches across the bench to straighten a part while the cobot is enabled for teleoperation. Driving the arm from a controller does not make the space around it safe; a hand inside the reach of a moving arm is exactly what the risk assessment and the scanner zones are there to prevent.",
+    "record-coworker-hazard": "That starts recording with a coworker standing in the camera's view. Consent covers the person who gave it, nobody else: a face, a badge or a voice in the frame turns somebody's working day into training data they never agreed to.",
+    "upload-hazard": "That copies the session to a personal cloud folder to work on at home. The recordings stay on this device: there is no upload, and a copy somewhere else is a copy that revoking consent can no longer reach."
+  },
+  "id": "rp-teleop-demonstration-collection",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "scanner-hold",
+      "alert": "A visitor has stepped over the floor tape into the cobot's warning zone to watch the demonstration.",
+      "cue": "Press the bench e-stop now.",
+      "delay": 3,
+      "id": "visitor-zone",
+      "kind": "Person in zone",
+      "missNote": "You kept driving with a visitor inside the warning zone. A person who does not know the cell is answered with the e-stop first and a conversation second.",
+      "seconds": 11,
+      "target": "bench-estop",
+      "why": "The scanner slows the arm for a person in the warning zone, but someone who does not know the cell can keep walking into the protective zone and toward the gripper; stopping the demonstration and the arm before they get there costs one attempt, and an attempt is the cheapest thing in the room.",
+      "wrongNote": "Not that — a visitor walking into the zone is answered with the bench e-stop."
+    },
+    {
+      "after": "drive-track",
+      "alert": "The grip force readout has flashed red: the gripper is squeezing the part harder than the band on the task card.",
+      "cue": "Release the gripper.",
+      "delay": 3,
+      "id": "force-alarm",
+      "kind": "Over-force",
+      "missNote": "The gripper kept squeezing past its band. Over-force is answered by releasing, then labelling the attempt failed.",
+      "seconds": 11,
+      "target": "release-button",
+      "why": "An over-force grip can crack a part, drop it or teach a policy that crushing is normal, and releasing at once is what keeps the recorded attempt from becoming the example the robot copies; the attempt is then labelled failed rather than quietly kept.",
+      "wrongNote": "Not that — over-force is answered by releasing the gripper."
+    }
+  ],
+  "lateNotes": {
+    "consent-panel": "Consent is read before anything is recorded, by the person who will be recorded, and it can be revoked later from the same screen.",
+    "reduced-speed-key": "Reduced-speed mode is selected and confirmed on the pendant before the first demonstration, every session, not assumed from yesterday."
+  },
+  "name": "Collecting a Robot Demonstration Safely",
+  "parSeconds": 330,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "cobotBench",
+        "count": 1,
+        "kit": "equipment"
+      }
+    ],
+    "error": null,
+    "footprint": 2.9,
+    "hits": [
+      "badge-on-bench",
+      "bench-estop",
+      "consent-panel",
+      "coworker-in-frame",
+      "force-meter",
+      "full-speed-hazard",
+      "glasses-demo",
+      "hair-demo",
+      "label-failed-tag",
+      "label-note",
+      "label-outcome",
+      "label-rule",
+      "local-store",
+      "parts-tray",
+      "reach-in-hazard",
+      "record-coworker-hazard",
+      "reduced-speed-key",
+      "release-button",
+      "revoke-button",
+      "risk-sheet",
+      "scanner-pad",
+      "sleeves-demo",
+      "tray-fixture",
+      "upload-hazard"
+    ],
+    "meshes": 188
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track"
+  ],
+  "steps": [
+    {
+      "cue": "Read the consent screen yourself: what is recorded, where it stays, how to revoke it.",
+      "id": "consent-read",
+      "kind": "select",
+      "prompt": "Read the consent screen yourself: what is recorded, where it stays, how to revoke it.",
+      "target": "consent-panel",
+      "title": "Read the consent screen",
+      "why": "A demonstration is a recording of you working, and it can only become training data if you understood what you agreed to: what is captured, that it stays on this device, that it is never collected from minors or demo sessions, and that revoking deletes it. Consent you did not read is a signature, not a choice."
+    },
+    {
+      "cue": "Read the risk assessment for teleoperation on this bench: the zones, the mode and who may enable the arm.",
+      "id": "risk-sheet",
+      "kind": "select",
+      "prompt": "Read the risk assessment for teleoperation on this bench: the zones, the mode and who may enable the arm.",
+      "target": "risk-sheet",
+      "title": "Read the bench's risk assessment",
+      "why": "Teleoperation is a task the cell's risk assessment has to cover like any other: it decides which mode the arm runs in, where the person driving it stands and which safeguards stay active, and a demonstrator who has not read it is improvising around a machine."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Safety glasses, long hair tied back, fitted sleeves and no lanyard.",
+      "id": "ppe-demo",
+      "itemNames": {
+        "glasses-demo": "safety glasses",
+        "hair-demo": "long hair tied back",
+        "sleeves-demo": "sleeves fitted, no lanyard"
+      },
+      "kind": "sequence",
+      "prompt": "Safety glasses, long hair tied back, fitted sleeves and no lanyard.",
+      "targets": [
+        "glasses-demo",
+        "hair-demo",
+        "sleeves-demo"
+      ],
+      "title": "Dress for the bench",
+      "why": "A cobot's joints and gripper close on whatever is near them, and the things that get caught first are the loose ones — a lanyard, a cuff, a ponytail — while a dropped or flicked part is what the glasses are for; dressing for the bench is part of the demonstration, not before it."
+    },
+    {
+      "cue": "Turn the mode key to reduced speed and commit only when the pendant confirms it.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "MODE",
+        "missNote": "Not confirmed — the pendant does not show reduced speed. Do not record until it does.",
+        "speed": 0.6
+      },
+      "id": "reduced-speed",
+      "kind": "gauge",
+      "prompt": "Turn the mode key to reduced speed and commit only when the pendant confirms it.",
+      "target": "reduced-speed-key",
+      "title": "Select reduced-speed mode",
+      "why": "A person learning to drive an arm will overshoot, misjudge depth and jab the wrong axis, and reduced-speed mode is what turns those mistakes into slow, recoverable ones; it is confirmed on the pendant screen because the key position alone has been wrong before."
+    },
+    {
+      "cue": "Press and reset the bench e-stop once and watch the arm hold.",
+      "id": "estop-test",
+      "kind": "select",
+      "prompt": "Press and reset the bench e-stop once and watch the arm hold.",
+      "target": "bench-estop",
+      "title": "Test the bench e-stop",
+      "why": "The e-stop is the one control every person near the bench may use, and the only way to know it stops this arm today is to press it while nothing depends on it; a stop that has not been proven is a hope, and demonstrations are a long session of hands near a moving arm."
+    },
+    {
+      "cue": "Stand on the warning-zone tape and hold while the arm slows.",
+      "holdBreakNote": "Stepped off before the arm settled at its slowed speed. Hold until it does.",
+      "id": "scanner-hold",
+      "kind": "hold",
+      "prompt": "Stand on the warning-zone tape and hold while the arm slows.",
+      "seconds": 5,
+      "target": "scanner-pad",
+      "title": "Prove the scanner's warning zone",
+      "why": "Speed-and-separation monitoring is only a safeguard if it reacts to a real body at the real boundary, so the demonstrator steps onto the tape and watches the arm slow before trusting the zone to protect them for an hour of recording."
+    },
+    {
+      "cue": "Find what in the camera's view must not be recorded.",
+      "decoyNotes": {
+        "badge-on-bench": "A badge face-down in a tray outside the camera's view. Nothing to fix there today.",
+        "parts-tray": "The parts tray for the task. It belongs in the frame."
+      },
+      "id": "find-frame",
+      "itemNames": {
+        "coworker-in-frame": "coworker standing in the camera's view"
+      },
+      "itemNotes": {
+        "coworker-in-frame": "Only the person who consented is recorded: ask the coworker to step out of the frame, or move the camera, before recording starts."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Find what in the camera's view must not be recorded.",
+      "target": "coworker-in-frame",
+      "targets": [
+        "coworker-in-frame"
+      ],
+      "title": "Find what must not be recorded",
+      "why": "Consent belongs to one person, and a camera does not know where that person ends; a coworker's face, a badge with a name on it or a screen with someone's details turns a demonstration into a record of people who never agreed, so the frame is cleared before the red light comes on."
+    },
+    {
+      "cue": "Carry the parts tray to its marked fixture so you never reach in during a take.",
+      "drag": {
+        "missNote": "Not seated — set the parts tray in its marked fixture outside the protective zone.",
+        "radius": 0.4,
+        "to": "tray-fixture"
+      },
+      "id": "tray-place",
+      "kind": "drag",
+      "prompt": "Carry the parts tray to its marked fixture so you never reach in during a take.",
+      "target": "parts-tray",
+      "title": "Seat the parts tray",
+      "why": "Every take starts with the parts where the task card says, so the demonstrator never has to reach into the arm's space to reset between attempts; a tray that wanders is the reason people lean across benches with the arm enabled."
+    },
+    {
+      "cue": "Drive the gripper through the pick, keeping the grip force inside the band.",
+      "holdBreakNote": "The grip left the band. Release, reset the part and try the take again.",
+      "id": "drive-track",
+      "kind": "track",
+      "prompt": "Drive the gripper through the pick, keeping the grip force inside the band.",
+      "seconds": 8,
+      "target": "force-meter",
+      "title": "Drive the pick inside the force band",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.45,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "GRIP",
+        "rise": 0.4,
+        "start": 0.5
+      },
+      "why": "The policy will copy what the demonstration does, including how hard it grips, so a pick that crushes or nearly drops the part is a lesson in the wrong thing; holding the force inside the band is both the safe grip and the good example."
+    },
+    {
+      "cue": "Mark the take where the part slipped as failed, with the reason.",
+      "id": "label-failed",
+      "kind": "select",
+      "prompt": "Mark the take where the part slipped as failed, with the reason.",
+      "target": "label-failed-tag",
+      "title": "Label the failed take as failed",
+      "why": "A dataset that keeps only the successes hides how often the task goes wrong, and one that calls a failure a success teaches the robot the failure; an honest label with the reason is what lets the training filter it and the evaluation count it."
+    },
+    {
+      "anyOrder": false,
+      "cue": "Mark each take's outcome, note any safe-practice rule broken, then write a plain note.",
+      "id": "label-order",
+      "itemNames": {
+        "label-note": "plain note written",
+        "label-outcome": "outcome marked",
+        "label-rule": "safe-practice rule noted"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order — outcome first, then the rule that was broken, then the note in plain words.",
+      "prompt": "Mark each take's outcome, note any safe-practice rule broken, then write a plain note.",
+      "targets": [
+        "label-outcome",
+        "label-rule",
+        "label-note"
+      ],
+      "title": "Label the session",
+      "why": "Labels are read by people who were not there: the outcome first so a filter can sort takes, the safe-practice rule so an unsafe take is never used as an example, and a plain note so the next person knows what actually happened rather than guessing from numbers."
+    },
+    {
+      "cue": "Open the local store and confirm the session is on this device only.",
+      "id": "local-store",
+      "kind": "select",
+      "prompt": "Open the local store and confirm the session is on this device only.",
+      "target": "local-store",
+      "title": "Check where the data lives",
+      "why": "Data that stays on the device it was recorded on can be seen, counted and deleted by the person it belongs to; there is no upload here, and checking the store before leaving is how a demonstrator knows that what they consented to is what happened."
+    },
+    {
+      "cue": "Find the revoke control and read what it does: it deletes the recordings.",
+      "id": "revoke-check",
+      "kind": "select",
+      "prompt": "Find the revoke control and read what it does: it deletes the recordings.",
+      "target": "revoke-button",
+      "title": "Find the revoke control",
+      "why": "Consent that cannot be taken back is not consent, and the revoke control is the proof: it deletes the recordings from this device and marks any policy trained on them as stale, so a learner who changes their mind next week is not stuck with a decision they made today."
+    }
+  ],
+  "supportLine": "your UAW or IAM local's member assistance programme, or the employee assistance line, if being recorded at work is something you want to talk through",
+  "tagline": "Recording teleoperation demonstrations a robot will learn from: your own consent given and readable, the cell's risk assessment and reduced-speed mode checked, the scanner proven, nobody else in the camera's frame, the gripper driven inside its force band, every failed attempt labelled as failed, and the data kept on this device where revoking deletes it",
+  "title": "SmartCiti.X~ Collecting a Robot Demonstration Safely VR",
+  "trade": "AI-training specialist, teleoperation demonstrations on a cobot bench — UAW/IAM",
+  "underwater": null,
+  "weather": "overcast"
+}

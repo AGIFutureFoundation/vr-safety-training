@@ -1,0 +1,413 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "not-a-drop",
+    "name": "Not A Drop",
+    "note": "Declaration before the pump, boom before the nozzle, no phone and no engine through the transfer, and both the vent spit and the guest answered"
+  },
+  "category": "Maritime & Ports",
+  "certification": "IBU and SIU deck training; MEBA engineering watch on the tanks; USCG oil pollution prevention rules at 33 CFR 155, the declaration of inspection at 33 CFR 156.150 and the person in charge under 33 CFR 155.710 as the fuel dock's own transfer procedure mirrors them; 46 CFR 25 fire-fighting equipment for uninspected vessels; NFPA 306 control of gas hazards on vessels; IMO MARPOL; OSHA 29 CFR 1910.132 personal protective equipment",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "IBU",
+        "id": "ilwu-pma-training",
+        "title": "ILWU-PMA joint training for longshore, crane and clerk work, and the Inlandboatmen's Union marine division"
+      },
+      {
+        "body": "IMO",
+        "citedAs": "IMO MARPOL",
+        "id": "imo-marpol",
+        "title": "MARPOL — International Convention for the Prevention of Pollution from Ships"
+      },
+      {
+        "body": "union",
+        "citedAs": "MEBA",
+        "id": "meba-calhoon-school",
+        "title": "MEBA — the Calhoon MEBA Engineering School's licensed marine engineer training"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 306",
+        "id": "nfpa-306",
+        "title": "NFPA 306 — Control of Gas Hazards on Vessels"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.132",
+        "id": "osha-1910-132",
+        "title": "29 CFR 1910.132 — Personal protective equipment, general requirements"
+      },
+      {
+        "body": "union",
+        "citedAs": "SIU",
+        "id": "siu-paul-hall-center",
+        "title": "SIU — the Paul Hall Center for Maritime Training and Education's unlicensed mariner programmes"
+      },
+      {
+        "body": "USCG",
+        "citedAs": "33 CFR 155",
+        "id": "uscg-33-cfr-155",
+        "title": "33 CFR Part 155 — Oil or hazardous material pollution prevention regulations for vessels"
+      },
+      {
+        "body": "USCG",
+        "citedAs": "33 CFR 155.710",
+        "id": "uscg-33-cfr-155-710",
+        "title": "33 CFR 155.710 — Duties and qualifications of the person in charge of an oil transfer"
+      },
+      {
+        "body": "USCG",
+        "citedAs": "33 CFR 156.150",
+        "id": "uscg-33-cfr-156-150",
+        "title": "33 CFR 156.150 — Declaration of inspection before an oil transfer"
+      },
+      {
+        "body": "USCG",
+        "citedAs": "46 CFR 25",
+        "id": "uscg-46-cfr-25",
+        "title": "46 CFR Part 25 — Requirements for uninspected vessels, including lifesaving and fire-fighting equipment"
+      }
+    ]
+  },
+  "district": "Maritime & Ports",
+  "domain": "Maritime & Ports",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "declared-first",
+        "name": "Declared First",
+        "note": "The declaration signed before the nozzle came off the pump"
+      },
+      {
+        "id": "rate-in-band",
+        "name": "Rate In Band",
+        "note": "Flow rate committed inside the plan's band first time"
+      },
+      {
+        "id": "no-ignition",
+        "name": "No Ignition",
+        "note": "No phone, no engine, no wrong fill and no unattended nozzle"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-transfer",
+        "name": "Clean Transfer",
+        "note": "No corrections from the plan to the log"
+      },
+      {
+        "id": "vent-watched",
+        "name": "Vent Watched",
+        "note": "The vent watched in band the whole transfer"
+      },
+      {
+        "id": "slack-tide",
+        "name": "Slack Tide",
+        "note": "Transfer logged inside 80% of par"
+      }
+    ],
+    "currency": "KNOT",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Green Hand",
+      "Deckhand",
+      "Lead Deckhand",
+      "Transfer PIC",
+      "Fuel Dock Certified"
+    ],
+    "system": "Fuel Dock"
+  },
+  "hazards": {
+    "nozzle-latch": "You latched the nozzle open and stepped away from the fill. A latched nozzle fills until something stops it, and on a vessel the thing that stops it is fuel coming out of the vent into the water; the deckhand's hand on the nozzle is the only shut-off that reacts in time, and the fuel-dock rules and the vessel's own plan both want that hand there for every moment fuel is flowing.",
+    "phone-in-hand": "You took a phone call at the fill with the nozzle in. A phone at a fuel fill is an ignition source in the hands of somebody whose attention is now somewhere else — the vapour rising from the fill and the vent is heaviest exactly where the deckhand stands, and the person watching the vent has just stopped watching it. Phones go in the basket before the declaration is signed, for everyone on the dock and the deck.",
+    "start-key-fuelling": "You reached for the engine start while fuel was flowing. An engine started with fuel vapour in the bilge or on the side deck is the fire the whole transfer procedure exists to prevent, and the blowers that clear that vapour run after the fill cap is on, not before; nothing on the vessel that sparks — engines, generator, galley — runs until the transfer is complete and the engineer has cleared the bilge.",
+    "water-fill-cap": "You opened the water fill instead of the fuel fill for the nozzle. The two deck fittings sit within arm's reach of each other and look alike from above, and fuel into the water tank is a contaminated tank, a poisoned water system and fuel in the bilge from the overflow. The fill is identified by its marking and confirmed with the engineer below before the nozzle comes near it."
+  },
+  "id": "yc-fuel-dock-transfer-and-spill-kit",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "nozzle-in",
+      "alert": "The vent has spat — a burst of fuel from the vent fitting onto the side deck and a sheen starting on the water below it — while the nozzle is still in the fill.",
+      "cue": "Hit the pump's emergency stop on the dock, then tell the engineer; the collar and the boom do the rest.",
+      "delay": 2,
+      "id": "vent-spits",
+      "kind": "Vent spits fuel on the slow start",
+      "missNote": "The pump ran on through the spit, fuel ran off the side deck past the collar and the sheen spread beyond where the boom was staged before anyone reached the stop.",
+      "seconds": 14,
+      "target": "pump-stop",
+      "why": "A vent that spits on a slow start is a tank that is fuller than the plan said or a fill that is backing up, and either way fuel is going somewhere other than the tank right now. The emergency stop kills the pump faster than any conversation about why; the engineer is told next, the collar has caught what landed on deck and the boom goes in for what reached the water, and the transfer does not restart until the engineer has explained the gauge.",
+      "wrongNote": "The pump's emergency stop — the pump is killed first; the engineer and the boom come after the fuel has stopped moving."
+    },
+    {
+      "after": "vent-watch",
+      "alert": "A guest has come down the dock toward the fill, phone at their ear, asking how long the fuel stop will take — they are walking into the vapour zone with the transfer running.",
+      "cue": "Close the fuel-dock gate and have the attendant hold the guest at the shore end until the cap is on — without taking your eyes off the vent.",
+      "delay": 2,
+      "id": "guest-with-phone",
+      "kind": "Guest walks onto the fuel dock with a phone",
+      "missNote": "The guest reached the fill with the phone at their ear and the deckhand turned to answer them, and the engineer's stop call was missed as the vent topped up.",
+      "seconds": 14,
+      "target": "fuel-dock-gate",
+      "why": "A guest with a phone in the vapour zone is an ignition source and a distraction arriving together at the worst moment of the transfer, as the tank comes up toward full. The answer is the gate, not a conversation: the attendant holds the guest at the shore end where there is no vapour, the deckhand's eyes stay on the vent, and the guest gets their answer when the cap is on.",
+      "wrongNote": "The fuel-dock gate — the guest is held at the shore end by the attendant; the vent watch never turns round."
+    }
+  ],
+  "lateNotes": {
+    "fuel-nozzle": "The nozzle goes in once the declaration is signed, the boom is staged and the collar is on — not before.",
+    "transfer-log": "The transfer is logged once the cap is on and the spill kit has been checked back into its cabinet — last, not first."
+  },
+  "name": "Fuel Dock Transfer & Spill Kit",
+  "parSeconds": 280,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "yacht-and-charter-crew"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "motorYacht",
+        "count": 1,
+        "kit": "fleet"
+      },
+      {
+        "builder": "2.21x2.2x12",
+        "count": 1,
+        "kit": "unknown"
+      }
+    ],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "absorbent-boom",
+      "attendant-radio",
+      "boom-socket",
+      "declaration-board",
+      "fill-cap",
+      "fill-collar",
+      "fuel-dock-gate",
+      "fuel-nozzle",
+      "fuel-plan-board",
+      "nitrile-gloves",
+      "nozzle-latch",
+      "nozzle-spout-worn",
+      "phone-basket",
+      "phone-in-hand",
+      "pump-readout",
+      "pump-stop",
+      "safety-glasses",
+      "spill-kit-cabinet",
+      "start-key-fuelling",
+      "transfer-log",
+      "vent-fitting-cracked",
+      "vent-watch",
+      "water-fill-cap"
+    ],
+    "meshes": 220
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the fuel plan on the side-deck board: which tank, how much per the plan, who is below at the gauges, the rate the plan allows, and the stop signal between the deck and the engineer.",
+      "id": "fuel-plan",
+      "kind": "select",
+      "prompt": "Read the fuel plan on the side-deck board: which tank, how much per the plan, who is below at the gauges, the rate the plan allows, and the stop signal between the deck and the engineer.",
+      "target": "fuel-plan-board",
+      "title": "Read the vessel's fuel plan with the engineer",
+      "why": "A fuel transfer is two people who cannot see each other — the deckhand at the fill and the engineer at the tank gauges — moving fuel between a pump and a tank with a vent as the only warning that the tank is full, and the plan is the one place they agree the tank, the quantity and the stop signal before the nozzle moves. The pollution rules put a person in charge of every transfer and a declaration in front of it for the same reason: the time to discover a disagreement about which tank is before fuel is flowing into the wrong one."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Nitrile gloves and safety glasses on, and every phone — yours, the engineer's, the attendant's — in the basket on the dock before anything else happens.",
+      "id": "ppe-and-phones",
+      "itemNames": {
+        "nitrile-gloves": "nitrile gloves",
+        "phone-basket": "phones in the basket",
+        "safety-glasses": "safety glasses"
+      },
+      "kind": "sequence",
+      "prompt": "Nitrile gloves and safety glasses on, and every phone — yours, the engineer's, the attendant's — in the basket on the dock before anything else happens.",
+      "targets": [
+        "nitrile-gloves",
+        "safety-glasses",
+        "phone-basket"
+      ],
+      "title": "Gloves and glasses on, every phone in the basket",
+      "why": "Fuel on skin and in eyes is the ordinary injury of a fuel dock and the gloves and glasses are the whole of the protection against a nozzle that spits; the phones are the extraordinary one. A phone at the fill is both an ignition source and the end of the vent watch, and the basket on the dock is how a crew makes 'no phones' a thing that is checked rather than a thing that is said — if the basket is empty, someone still has one."
+    },
+    {
+      "cue": "Look at the fuel fill and its marking, the vent fitting and hose, and the pump's hose and nozzle: nothing cracked, nothing weeping, the fill marked for fuel.",
+      "id": "fill-and-vent-walk",
+      "itemNames": {
+        "nozzle-spout-worn": "fuel nozzle with a worn, leaking spout",
+        "vent-fitting-cracked": "cracked hose at the tank vent fitting"
+      },
+      "itemNotes": {
+        "nozzle-spout-worn": "The pump's nozzle spout is worn and weeping at the swivel — a nozzle that drips between the pump and the fill drips on the deck, on the dock and into the water for the whole transfer.",
+        "vent-fitting-cracked": "The vent hose is cracked where it meets the deck fitting — a vent that leaks puts fuel and vapour inside the hull the moment the tank tops up, where nobody at the fill can see it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look at the fuel fill and its marking, the vent fitting and hose, and the pump's hose and nozzle: nothing cracked, nothing weeping, the fill marked for fuel.",
+      "targets": [
+        "vent-fitting-cracked",
+        "nozzle-spout-worn"
+      ],
+      "title": "Walk the fill, the vent and the pump before the declaration",
+      "why": "Everything between the pump and the tank is a place fuel can go where it should not, and the walk is where a cracked vent hose or a weeping nozzle is found dry rather than with fuel already running through it. The declaration the deckhand is about to sign says the equipment has been inspected, and that is only true if the walk was done; a transfer that begins with a leaking nozzle begins with a sheen on the water and the spill kit already needed."
+    },
+    {
+      "cue": "Go through the declaration with the attendant line by line — tank, quantity per the plan, hose and fittings inspected, boom and spill kit at hand, emergency stop shown, communications agreed — and both sign before the nozzle comes off the pump.",
+      "id": "declaration",
+      "kind": "select",
+      "prompt": "Go through the declaration with the attendant line by line — tank, quantity per the plan, hose and fittings inspected, boom and spill kit at hand, emergency stop shown, communications agreed — and both sign before the nozzle comes off the pump.",
+      "target": "declaration-board",
+      "title": "Complete the declaration with the fuel-dock attendant",
+      "why": "The declaration is the fuel transfer's permit: a list of the things that have to be true before fuel moves, gone through by both parties and signed, so nobody starts a pump on an assumption about what the other side has checked. The Coast Guard's transfer rules require it for the vessels and facilities they cover and every serious fuel dock mirrors it for every vessel, because the list is the same whether the tank is large or small — the pump does not know the difference, and neither does the water."
+    },
+    {
+      "cue": "Take the boom from its rack and lay it along the dock edge on the down-current side of the fill, ready to go in the water in one movement, with its line made off to the dock.",
+      "drag": {
+        "missNote": "Not down-current of the fill — the boom waits where a sheen will go, along the dock edge with its line made off, not in its rack.",
+        "radius": 0.7,
+        "to": "boom-socket"
+      },
+      "id": "boom-staged",
+      "kind": "drag",
+      "prompt": "Take the boom from its rack and lay it along the dock edge on the down-current side of the fill, ready to go in the water in one movement, with its line made off to the dock.",
+      "target": "absorbent-boom",
+      "title": "Stage the absorbent boom along the dock edge, down-current of the fill",
+      "why": "A sheen on the water spreads with the current from the moment it lands, and a boom still in its cabinet is a boom that goes in after the sheen has reached the next berth; staged along the edge with its line made off, it goes in the water in the time it takes to push it. Down-current is where the fuel will go, so that is where the boom waits — a boom staged up-current of the fill is a boom that contains nothing."
+    },
+    {
+      "cue": "Fit the absorbent collar round the fuel fill so a spit from the nozzle or a burp from the fill lands on the collar and not on the deck and over the side.",
+      "id": "fill-collar",
+      "kind": "select",
+      "prompt": "Fit the absorbent collar round the fuel fill so a spit from the nozzle or a burp from the fill lands on the collar and not on the deck and over the side.",
+      "target": "fill-collar",
+      "title": "Fit the absorbent collar round the fill",
+      "why": "The first fuel out of a fill is a spit as the nozzle seats and the last is a burp as the tank tops up, and both go straight down the side deck and over the side into the water unless something catches them. The collar is the something: an absorbent ring that costs nothing and turns a sheen into a wet collar in a bag. The pollution rules count a sheen as a discharge, and the collar is how most of them never happen."
+    },
+    {
+      "cue": "Seat the nozzle in the fuel fill, one hand on the nozzle and the other on the trigger, and start slowly — a trickle until the engineer below confirms fuel in the right tank — and hold it there.",
+      "holdBreakNote": "The nozzle came out of the hand before the engineer confirmed the tank — a nozzle nobody is holding is a nozzle nobody can stop. Seat it, hold it, start slowly again.",
+      "id": "nozzle-in",
+      "kind": "hold",
+      "prompt": "Seat the nozzle in the fuel fill, one hand on the nozzle and the other on the trigger, and start slowly — a trickle until the engineer below confirms fuel in the right tank — and hold it there.",
+      "seconds": 5,
+      "target": "fuel-nozzle",
+      "title": "Seat the nozzle and hold it through a slow start",
+      "why": "The slow start is the check that the fuel is going where the plan says: the engineer at the gauges sees the right tank move, or does not, before enough fuel has gone anywhere to matter. The hand stays on the nozzle because the nozzle is the shut-off — the pump's emergency stop is behind the deckhand on the dock and the engineer's stop signal is a voice on the radio, and neither is as fast as a hand that lets go of a trigger."
+    },
+    {
+      "cue": "Eyes on the vent and the water below it through the transfer, calling to the engineer steadily — clear, clear, clear — as the tank comes up toward the plan's figure.",
+      "holdBreakNote": "The vent watch broke — eyes off the vent or the calls over the engineer's figure. Back on the vent, steady calls, until the engineer calls the stop.",
+      "id": "vent-watch",
+      "kind": "track",
+      "prompt": "Eyes on the vent and the water below it through the transfer, calling to the engineer steadily — clear, clear, clear — as the tank comes up toward the plan's figure.",
+      "seconds": 6,
+      "target": "vent-watch",
+      "title": "Watch the vent through the transfer and call it to the engineer",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.46,
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "VENT WATCH",
+        "rise": 0.6,
+        "start": 0.14
+      },
+      "why": "The vent is where the tank tells the deck it is full, and it tells the deck with fuel; the only way to stop a transfer before that is a person watching the vent who calls what they see and an engineer on the gauges who calls the figure. The watch is steady, out loud, and boring by design — the transfer that goes wrong is the one where the vent watch looked at the pump readout for a moment, or answered a question from the dock, exactly as the tank topped up."
+    },
+    {
+      "cue": "Read the pump's flow readout as the transfer settles and commit it against the rate the vessel's fuel plan allows for this fill and vent — not the rate the pump can give.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "FLOW RATE",
+        "missNote": "Outside the band — the rate is read once the transfer has settled and committed against the vessel's plan, not the pump's capacity.",
+        "speed": 0.7
+      },
+      "id": "rate-check",
+      "kind": "gauge",
+      "prompt": "Read the pump's flow readout as the transfer settles and commit it against the rate the vessel's fuel plan allows for this fill and vent — not the rate the pump can give.",
+      "target": "pump-readout",
+      "title": "Read the flow rate against the vessel's fuel plan",
+      "why": "The fill and the vent on a yacht can pass fuel only so fast before the fill backs up and the vent spits, and that rate is the vessel's — written in her fuel plan — rather than the pump's, which will happily deliver faster than the vent can breathe. The deckhand reads the rate and commits it against the plan's band so the pump is throttled before the vent complains, and so the engineer's figure on the gauges means what it says."
+    },
+    {
+      "cue": "Nozzle out and back on the pump, the fill cap on and turned until its seal seats, the collar bagged and the deck wiped — nothing left on the gelcoat to reach the scupper.",
+      "id": "cap-and-wipe",
+      "kind": "turn",
+      "prompt": "Nozzle out and back on the pump, the fill cap on and turned until its seal seats, the collar bagged and the deck wiped — nothing left on the gelcoat to reach the scupper.",
+      "target": "fill-cap",
+      "title": "Cap the fill, torque it and wipe the deck",
+      "turn": {
+        "label": "FILL CAP",
+        "turns": 1.25
+      },
+      "why": "A fill cap left loose is a fill that leaks in the first sea and vents into the side deck, and a wet deck round the fill is fuel that reaches the scupper and the water with the first wash-down. The cap is turned until the seal seats and checked by hand, the collar goes in the bag with the wipes, and the deck is dry before the engineer runs the blowers — the transfer is not over until nothing that came out of the nozzle is anywhere but the tank or the bag."
+    },
+    {
+      "cue": "Open the dock's spill-kit cabinet: pads, a second boom, bags and gloves all there and dry, the used collar bagged and placed for disposal, the cabinet closed and marked.",
+      "id": "spill-kit-check",
+      "kind": "select",
+      "prompt": "Open the dock's spill-kit cabinet: pads, a second boom, bags and gloves all there and dry, the used collar bagged and placed for disposal, the cabinet closed and marked.",
+      "target": "spill-kit-cabinet",
+      "title": "Prove the spill kit and put the used collar in it",
+      "why": "The spill kit is the answer to the transfer that goes wrong, and it is only an answer if it is full when it is opened in a hurry; a cabinet that was used last week and never restocked is an empty box with a label. The kit is opened and counted at the end of every transfer, the used collar goes into it for proper disposal rather than into the marina's bin, and a short kit is reported to the attendant before the yacht leaves the dock."
+    },
+    {
+      "cue": "Enter the transfer: the tank and the figure per the plan, the declaration signed, the cracked vent hose and the worn nozzle, the vent spit and the guest with the phone, and the spill kit's state.",
+      "id": "transfer-log",
+      "kind": "select",
+      "prompt": "Enter the transfer: the tank and the figure per the plan, the declaration signed, the cracked vent hose and the worn nozzle, the vent spit and the guest with the phone, and the spill kit's state.",
+      "target": "transfer-log",
+      "title": "Log the transfer",
+      "why": "The transfer log is the vessel's own record of what went into which tank and what happened while it did, and it is where a cracked vent hose becomes a job for the engineer and a worn nozzle becomes a word to the fuel dock. The spit and the guest are logged because the next deckhand taking fuel here needs to know that this vent spits near the plan's figure and that guests wander onto this dock — a thing that happened once and was not written down happens again."
+    },
+    {
+      "cue": "On the radio: the transfer is complete and logged, the cap is on, what you found on the walk, the spill kit's state, and how the deck crew are after the spit and the interruption.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "On the radio: the transfer is complete and logged, the cap is on, what you found on the walk, the spill kit's state, and how the deck crew are after the spit and the interruption.",
+      "target": "attendant-radio",
+      "title": "Check in with the attendant and the engineer",
+      "why": "The attendant releases the pump and the engineer runs the blowers on the strength of the deck's word that the fill is capped and the deck is dry, so the check-in is where three people who could not see each other agree the transfer is finished. It is also the crew's own moment: a vent spitting fuel toward the water with a guest walking up phone in hand is a small hard thing that a deckhand carries, and the union's member assistance line is there for what the radio does not carry."
+    }
+  ],
+  "supportLine": "your union hall's member assistance programme — the IBU, SIU or MEBA — with the operator's employee assistance line behind it",
+  "tagline": "Taking fuel port side to the dock: the fuel plan read, gloves and glasses on and the phones in the basket, the fill and vent walked for the cracked fitting and the worn nozzle, the declaration signed with the attendant, the boom staged and the collar fitted, the nozzle held through a slow start as the vent spits, the vent watched while a guest walks up with a phone, the rate read against the plan, the cap torqued, the spill kit proven and the transfer logged",
+  "title": "SmartCiti.X~ Fuel Dock Transfer & Spill Kit VR",
+  "trade": "Charter yacht deckhand taking fuel at the marina fuel dock, IBU and SIU trained, with the MEBA engineer below at the tank gauges",
+  "underwater": null,
+  "weather": "overcast"
+}

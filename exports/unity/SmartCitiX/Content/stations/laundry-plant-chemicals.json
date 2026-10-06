@@ -1,0 +1,410 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "clean-plant",
+    "name": "Clean Plant",
+    "note": "Lines checked, the washer loaded to weight, the ironer's guard proven, and nothing sorted bare-handed"
+  },
+  "category": "Culinary & Hospitality",
+  "certification": "OSHA's hazard communication standard, 29 CFR 1910.1200, and the SDS for every chemical the dosing system injects; OSHA's bloodborne pathogens standard, 29 CFR 1910.1030, for linen sorted off the soiled table; Cal/OSHA's Injury and Illness Prevention Program, 8 CCR 3203, and the heat-related hazard assessment a washer, a dryer and an ironer all running together put on this floor; the IWC's Wage Order 5, the Public Housekeeping Industry order, on rest breaks in a hot workroom; UNITE HERE's hotel laundry contract language on machine loads and the folding station; NFPA 96 fire protection wherever this laundry plant shares ductwork with the hotel's kitchen block.",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "Cal/OSHA",
+        "citedAs": "8 CCR 3203",
+        "id": "cal-osha-3203",
+        "title": "8 CCR 3203 — Injury and Illness Prevention Program"
+      },
+      {
+        "body": "IWC",
+        "citedAs": "Wage Order",
+        "id": "iwc-wage-orders",
+        "title": "California Industrial Welfare Commission wage orders, including Wage Order 5 for public housekeeping"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 96",
+        "id": "nfpa-96",
+        "title": "NFPA 96 — Ventilation Control and Fire Protection of Commercial Cooking Operations"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1030",
+        "id": "osha-1910-1030",
+        "title": "29 CFR 1910.1030 — Bloodborne pathogens"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1200",
+        "id": "osha-1910-1200",
+        "title": "29 CFR 1910.1200 — Hazard communication"
+      },
+      {
+        "body": "union",
+        "citedAs": "UNITE HERE",
+        "id": "unite-here-training",
+        "title": "UNITE HERE hospitality training funds — cooks, housekeepers, bartenders and banquet staff"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Culinary & Hospitality",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "lines-first",
+        "name": "Lines First",
+        "note": "Dosing lines checked before the first drum was loaded"
+      },
+      {
+        "id": "never-bare",
+        "name": "Never Bare-Handed",
+        "note": "Never a chemical, a sharp or soiled linen touched without the right glove"
+      },
+      {
+        "id": "guard-proven",
+        "name": "Guard Proven",
+        "note": "The ironer's finger guard tested and held clean"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-floor",
+        "name": "Clean Floor",
+        "note": "No corrections across the whole shift"
+      },
+      {
+        "id": "steady-pace",
+        "name": "Steady Pace",
+        "note": "Held the folding pace without breaking it"
+      },
+      {
+        "id": "loads-fast",
+        "name": "Loads Ready Fast",
+        "note": "Finished inside 80% of par"
+      }
+    ],
+    "currency": "LOADS",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Sorter",
+      "Machine Operator",
+      "Lead Operator",
+      "Floor Trainer",
+      "Laundry Plant Certified"
+    ],
+    "system": "Laundry Floor"
+  },
+  "hazards": {
+    "bare-hand-soiled": "You reached into the soiled sort bin bare-handed. OSHA's bloodborne pathogens standard treats every piece of linen on this table as though it could be contaminated, because there is no way to tell by looking — the sorting gloves staged at the table exist so a torn sheet with something sharp folded into it meets a glove first, not a hand.",
+    "chem-mix-drums": "The chlorine-based bleach drum and the acid-based sour drum are standing capped together with both draw lines loose against each other. Their SDS sheets say the same thing this plant's dosing system exists to prevent — mixed directly rather than metered separately through the injector, chlorine bleach and an acid sour give off chlorine gas on a laundry floor with people standing right next to it.",
+    "lint-clogged-duct": "The dryer's exhaust duct past the screen is packed solid with lint nobody has pulled in a long time. The screen catches what's easy to see; the fire risk NFPA fire codes are written around lives in the duct behind it, where a spark from a worn bearing has fuel with nowhere to go but back through the machine.",
+    "overloaded-washer": "That drum is stuffed well past the load line printed on the door — linen packed in by eye instead of against the scale. An unbalanced overload throws the shell off-centre at speed, and what fails first is usually the bearing or the drive belt, on a machine that costs the plant days, not the one load that was in a hurry."
+  },
+  "id": "laundry-plant-chemicals",
+  "indoor": "hotel",
+  "interrupts": [
+    {
+      "after": "fold-pace",
+      "alert": "While your hands are full at the folding table, one of the dosing lines has split at the pump fitting — chemical is spraying across the injector panel and pooling on the floor beneath it.",
+      "cue": "Shut the isolation valve at the pump now. Don't reach into the spray to catch the line.",
+      "delay": 3,
+      "id": "dosing-leak",
+      "kind": "Chemical line leak",
+      "missNote": "The line kept spraying the whole window with nobody at the valve. Chemical pooling under a pump that's still running is not a mess to mop later, it's a spill that's still getting bigger.",
+      "seconds": 12,
+      "target": "isolation-valve",
+      "why": "A split line under pump pressure keeps discharging chemical for as long as the pump keeps running, and reaching into the spray to pinch or catch the line puts concentrate directly on bare skin — the isolation valve is what actually stops the flow, and it's the control this plant's dosing system was built around for exactly this failure.",
+      "wrongNote": "That doesn't stop the leak. The isolation valve at the pump is the one control that actually cuts the flow — everything else on this panel is downstream of it."
+    },
+    {
+      "after": "finger-guard-test",
+      "alert": "A coworker is clearing a jammed sheet by reaching directly toward the ironer's feed rollers instead of stopping the machine first.",
+      "cue": "Pull the emergency stop cord now. Don't call out and wait — pull it.",
+      "delay": 3,
+      "id": "coworker-reach",
+      "kind": "Coworker reaching toward the feed rollers",
+      "missNote": "The reach continued the whole window with the rollers still turning. A jam cleared by hand on a running ironer is exactly the injury this machine's emergency stop exists to prevent, and it did nothing because nobody pulled it.",
+      "seconds": 11,
+      "target": "ironer-estop",
+      "why": "A hand reaching toward feed rollers that are still turning is seconds from being caught in them, and a shout takes longer to register and act on than a hand already reaching for a cord that stops the machine instantly — the estop pull-cord is there precisely so anyone standing nearby can end this before it becomes an injury report.",
+      "wrongNote": "That doesn't stop the rollers. The estop pull-cord is what actually kills power to the feed — pull it before saying anything else."
+    }
+  ],
+  "lateNotes": {
+    "finger-guard": "The guard is tested on its own step, held through to the rollers actually stopping, not brushed on the way past.",
+    "load-scale": "Not yet — the scale is read once the drum is actually loaded, not before, or the number means nothing."
+  },
+  "name": "Laundry Plant Chemicals",
+  "parSeconds": 290,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "hotel-workers"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "bare-hand-soiled",
+      "blocked-exit",
+      "chem-mix-drums",
+      "close-door",
+      "cracked-injector-line",
+      "crossed-injector-line",
+      "dosing-selector",
+      "finger-guard",
+      "fold-table",
+      "folded-stack",
+      "heat-monitor",
+      "hours-sheet",
+      "ironer-estop",
+      "isolation-valve",
+      "linen-cart-slot",
+      "lint-clogged-duct",
+      "lint-screen",
+      "load-linens",
+      "load-scale",
+      "open-drum-cap",
+      "overloaded-washer",
+      "sds-binder",
+      "select-cycle",
+      "sort-gloves-on",
+      "sort-linen-bag"
+    ],
+    "meshes": 162
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Open the binder and check the bleach and sour sheets before the shift starts.",
+      "id": "sds-read",
+      "kind": "select",
+      "prompt": "Open the binder and check the bleach and sour sheets before the shift starts.",
+      "target": "sds-binder",
+      "title": "Read the SDS for the dosing chemicals",
+      "why": "The safety data sheet is where the incompatibility between this plant's own chemicals actually lives — OSHA's hazard communication standard puts it on the shelf specifically so nobody on the floor has to guess which drums can share a corner of the room and which ones cannot."
+    },
+    {
+      "cue": "Trace both draw lines from their drums to the injector panel before trusting either one.",
+      "id": "injector-lines",
+      "itemNames": {
+        "cracked-injector-line": "cracked suction line on the sour draw",
+        "crossed-injector-line": "bleach line into the sour inlet"
+      },
+      "itemNotes": {
+        "cracked-injector-line": "This suction line has split just above the drum cap, pulling air on every stroke. It reads as chemical flowing on the dosing panel's own gauge while the wash itself comes out under-treated, load after load, until somebody actually traces the line.",
+        "crossed-injector-line": "This line is drawing bleach into what should be the sour inlet. Crossed like this, the dosing system meters chlorine everywhere the formula expects acid sour, and doses acid sour into the bleach cycle — the two chemicals never touch directly, but the wash comes out ruined and the drums empty at the wrong rate either way."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Trace both draw lines from their drums to the injector panel before trusting either one.",
+      "targets": [
+        "crossed-injector-line",
+        "cracked-injector-line"
+      ],
+      "title": "Check the dosing system's injector lines",
+      "why": "The injector panel is the one place on this floor where the plant's chemicals are still full strength and where two lines running side by side are simple to cross by mistake — a line checked here is the difference between the dosing system actually working and a panel confidently metering the wrong drum into every load for a whole shift."
+    },
+    {
+      "cue": "Watch the load-weight scale climb as the linen goes in and commit once it holds in the machine's rated band.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.64
+        ],
+        "label": "LOAD WEIGHT",
+        "missNote": "Over the rated line or under a worthwhile load — bring it back into the machine's own weight band before closing the door.",
+        "speed": 0.6
+      },
+      "id": "load-weight",
+      "kind": "gauge",
+      "prompt": "Watch the load-weight scale climb as the linen goes in and commit once it holds in the machine's rated band.",
+      "target": "load-scale",
+      "title": "Load the washer-extractor to the scale",
+      "why": "A washer-extractor's rated capacity is a real number on the door for a real reason — packed in by eye, an overloaded drum runs unbalanced at extraction speed, and a machine that fails at speed fails toward whoever is standing closest to it, not just toward the linen inside it."
+    },
+    {
+      "cue": "Load the linen, close and lock the door, then select the wash cycle — in that order.",
+      "id": "washer-load",
+      "itemNames": {
+        "close-door": "door closed and locked",
+        "load-linens": "linen into the drum",
+        "select-cycle": "wash cycle selected"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Linen in, door locked, then the cycle — in that order. Selecting a cycle before the door is locked is exactly the interlock this sequence exists to respect.",
+      "prompt": "Load the linen, close and lock the door, then select the wash cycle — in that order.",
+      "targets": [
+        "load-linens",
+        "close-door",
+        "select-cycle"
+      ],
+      "title": "Load, lock and select the cycle",
+      "why": "The door interlock is what keeps this drum from being selected into a spin cycle while it's still open, and the order exists precisely so that sequence can't be skipped — a cycle selected before the door locks is a cycle the machine's own safety interlock is supposed to refuse, not something a rushed operator should be finding a way around."
+    },
+    {
+      "cue": "Turn the injector's programme dial to match the wash cycle just selected.",
+      "id": "dosing-dial",
+      "kind": "turn",
+      "prompt": "Turn the injector's programme dial to match the wash cycle just selected.",
+      "target": "dosing-selector",
+      "title": "Set the dosing system to this load's programme",
+      "turn": {
+        "axis": "z",
+        "label": "DOSING PROGRAMME",
+        "turns": 0.8
+      },
+      "why": "The dosing system doses by programme number, not by guessing what's in the drum — a dial left on the previous load's setting means this load gets someone else's chemical formula, at someone else's concentration, metered in with total confidence and no warning that it's wrong."
+    },
+    {
+      "cue": "Pull the lint screen and clear it before starting the next dryer load.",
+      "id": "lint-screen",
+      "kind": "select",
+      "prompt": "Pull the lint screen and clear it before starting the next dryer load.",
+      "target": "lint-screen",
+      "title": "Clean the dryer's lint screen",
+      "why": "A loaded lint screen is the single biggest thing standing between a dryer and a duct fire — every load leaves lint behind, and clearing the screen before the next one starts is what keeps that fuel from ever building up to where the duct behind it becomes the problem."
+    },
+    {
+      "cue": "Press the finger guard bar and hold until the feed rollers actually stop turning.",
+      "holdBreakNote": "You let go before the rollers actually stopped. A guard that hasn't been proven to stop the machine is a guess about whether it works at all — hold it until the rollers are actually still.",
+      "id": "finger-guard-test",
+      "kind": "hold",
+      "prompt": "Press the finger guard bar and hold until the feed rollers actually stop turning.",
+      "seconds": 4,
+      "target": "finger-guard",
+      "title": "Test the flatwork ironer's finger guard",
+      "why": "The finger guard bar is the one thing standing between a feeding hand and rollers running hot enough to press a sheet dry — proving it actually stops the rollers before the first piece of linen goes in is what makes it a working control rather than a bar somebody assumes still does its job."
+    },
+    {
+      "cue": "Pull on the sorting gloves before touching the soiled table, then bag the linen by colour.",
+      "id": "sort-gloves",
+      "itemNames": {
+        "sort-gloves-on": "cut-resistant sorting gloves",
+        "sort-linen-bag": "soiled linen bagged by colour"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Gloves first, then the sort — touching soiled linen before the gloves are on is the exposure this sequence exists to prevent.",
+      "prompt": "Pull on the sorting gloves before touching the soiled table, then bag the linen by colour.",
+      "targets": [
+        "sort-gloves-on",
+        "sort-linen-bag"
+      ],
+      "title": "Glove up and sort the soiled linen",
+      "why": "Every piece on this table came off a room nobody has inspected, and the bloodborne pathogens standard treats it all as a possible exposure until it's through the wash — the gloves go on before the first sheet is touched, not after the first thing that draws blood turns up folded inside one."
+    },
+    {
+      "cue": "Watch the heat monitor's sweep and commit once it settles in the safe-to-continue band.",
+      "gauge": {
+        "green": [
+          0.2,
+          0.42
+        ],
+        "label": "HEAT INDEX",
+        "missNote": "Into the range where a mandatory water break applies — read it again after the break, don't push through on this reading.",
+        "speed": 0.6
+      },
+      "id": "heat-check",
+      "kind": "gauge",
+      "prompt": "Watch the heat monitor's sweep and commit once it settles in the safe-to-continue band.",
+      "target": "heat-monitor",
+      "title": "Read the floor's heat index before continuing",
+      "why": "A washer, a dryer bank and an ironer running together push this floor's heat well past the rest of the building, and Cal/OSHA's heat-illness hazard assessment exists because that heat doesn't announce itself the way an alarm does — the monitor is what tells you to take the water break the label on your own body won't ask for in time."
+    },
+    {
+      "cue": "Keep the fold rate in the steady band — rushed reaching strains the same shoulder every time, and stalling backs up the whole line.",
+      "holdBreakNote": "Pace drifted out of the steady band. Rushed reaching across the table strains the same shoulder on every fold — bring the pace back to steady rather than pushing through it.",
+      "id": "fold-pace",
+      "kind": "track",
+      "prompt": "Keep the fold rate in the steady band — rushed reaching strains the same shoulder every time, and stalling backs up the whole line.",
+      "seconds": 7,
+      "target": "fold-table",
+      "title": "Hold a steady folding pace",
+      "track": {
+        "drift": 0.08,
+        "fall": 0.38,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "FOLD PACE",
+        "rise": 0.42,
+        "start": 0.15
+      },
+      "why": "The folding station is where a laundry shift's repetitive-motion injuries actually show up, one identical fold at a time — a pace that stays in the steady band is the ergonomic answer the contract's own language on the folding station is built around, not a speed record nobody asked for."
+    },
+    {
+      "cue": "Carry the folded stack from the table to the rolling cart.",
+      "drag": {
+        "missNote": "Not on the cart — set the stack down and load it onto the cart properly, not balanced on the folding table's edge.",
+        "radius": 0.45,
+        "to": "linen-cart-slot"
+      },
+      "id": "stack-cart",
+      "kind": "drag",
+      "prompt": "Carry the folded stack from the table to the rolling cart.",
+      "target": "folded-stack",
+      "title": "Stage the folded stack on the linen cart",
+      "why": "A folded stack carried at arm's length across a wet section of floor blocks the one hand that would otherwise catch a slip — the cart carries the height and the weight instead of your wrists and your sightline, on the one floor in the plant that runs hot and occasionally damp underfoot."
+    },
+    {
+      "cue": "Check the chemical shelf and the exit route before handing the plant to the next shift.",
+      "id": "floor-walk",
+      "itemNames": {
+        "blocked-exit": "exit route blocked by a cart",
+        "open-drum-cap": "chemical drum left uncapped"
+      },
+      "itemNotes": {
+        "blocked-exit": "A cart parked square across the floor's marked exit route is the one thing standing between this plant and the door if the fire risk behind the dryer's duct ever becomes a real one.",
+        "open-drum-cap": "That bleach drum has been sitting open since the last dose. An open drum on a floor already running hot is both a fume source and a spill waiting on the next person who brushes past the shelf."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Check the chemical shelf and the exit route before handing the plant to the next shift.",
+      "targets": [
+        "open-drum-cap",
+        "blocked-exit"
+      ],
+      "title": "Walk the floor before you leave it",
+      "why": "The plant runs unattended between shifts, and an open drum or a blocked exit does not wait politely for somebody to notice — the walk-through is the last chance to catch either one before it becomes the next shift's surprise, or worse, the reason the exit route wasn't clear when it mattered."
+    },
+    {
+      "cue": "Write down the loads run and the hours worked before clocking out.",
+      "id": "hours-log",
+      "kind": "select",
+      "prompt": "Write down the loads run and the hours worked before clocking out.",
+      "target": "hours-sheet",
+      "title": "Log the shift's loads and hours",
+      "why": "The hours sheet is what the Wage Order's rest-break and premium-pay protections actually run on in a plant this hot — a shift logged honestly, load by load, is the record that proves the day's workload when a supervisor or a steward has to check it against the standard."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "The hotel laundry plant: dosing lines checked against the SDS, the washer loaded to the scale, the ironer's guard and pull-cord proven, soiled linen sorted under the bloodborne rule, and the floor's own heat kept in check",
+  "title": "SmartCiti.X~ Laundry Plant Chemicals VR",
+  "trade": "Hotel laundry attendant — UNITE HERE Local 2",
+  "underwater": null,
+  "weather": null
+}

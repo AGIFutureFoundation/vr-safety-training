@@ -1,0 +1,199 @@
+{
+  "id": "union-usw",
+  "kind": "union",
+  "name": "USW Union Package",
+  "title": "SmartCiti.X USW Union Package — Powered by AGI Corp",
+  "audience": "trades",
+  "summary": "Every station the platform ties to United Steelworkers: the programmes whose union line names it and the stations whose own certification does.",
+  "certification": null,
+  "programmes": [
+    "air-quality-monitoring",
+    "mill-and-mine"
+  ],
+  "stations": [
+    {
+      "app": "smartcity",
+      "id": "air-monitor"
+    },
+    {
+      "app": "smartcity",
+      "id": "cnc-cell"
+    },
+    {
+      "app": "smartcity",
+      "id": "lp-gas-storage-wellpad-awareness"
+    },
+    {
+      "app": "smartcity",
+      "id": "mobile-air-lab"
+    },
+    {
+      "app": "smartcity",
+      "id": "opacity-reading"
+    },
+    {
+      "app": "smartcity",
+      "id": "soil-loadout"
+    },
+    {
+      "app": "smartcity",
+      "id": "gas-leak-survey"
+    },
+    {
+      "app": "smartcity",
+      "id": "stack-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "landfill-gas"
+    },
+    {
+      "app": "smartcity",
+      "id": "mm-conveyor-fire-and-gas-monitoring"
+    },
+    {
+      "app": "smartcity",
+      "id": "mm-haul-truck-berm"
+    },
+    {
+      "app": "smartcity",
+      "id": "mm-mine-escapeway-drill"
+    },
+    {
+      "app": "smartcity",
+      "id": "mm-continuous-miner-face"
+    },
+    {
+      "app": "smartcity",
+      "id": "mm-paper-machine-dryer"
+    },
+    {
+      "app": "smartcity",
+      "id": "mm-coke-oven-heat-rotation"
+    },
+    {
+      "app": "smartcity",
+      "id": "mm-ladle-pour"
+    },
+    {
+      "app": "smartcity",
+      "id": "mm-hot-strip-mill-stand"
+    }
+  ],
+  "unions": [
+    "usw"
+  ],
+  "unionLine": "United Steelworkers",
+  "k12Bands": [],
+  "path": "union-trades",
+  "alsoPaths": [],
+  "worlds": [
+    {
+      "world": "bayworld",
+      "sites": [
+        "west-oakland-air-monitoring-post",
+        "north-shoreline-field-lab"
+      ]
+    },
+    {
+      "world": "underwater",
+      "sites": [
+        "flats-sonde-station"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-mission",
+      "sites": [
+        "soma-maker-workshop",
+        "mi-sw-islais-creek-fabrication-shop",
+        "mi-sw-south-of-market-fabrication-shop"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-bayview",
+      "sites": [
+        "hunters-point-shipyard",
+        "shipyard-soil-cell",
+        "bv-sw-islais-creek-fabrication-shop"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-west-oakland",
+      "sites": [
+        "west-oakland-air-monitoring-station"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-emeryville-berkeley",
+      "sites": [
+        "west-berkeley-maker-workshop"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-san-leandro-bay",
+      "sites": [
+        "slb-debris-haul-transfer"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-san-mateo-shoreline",
+      "sites": [
+        "smc-decon-line",
+        "smc-regulated-soil-loadout",
+        "smc-air-monitoring"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-nutrient-pilot",
+      "sites": [
+        "npp-solids-loadout"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "la-black-bayou-cameron",
+      "sites": [
+        "lbb-salt-dome-wellpad",
+        "lbb-metering-station"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "lc-lakefront-downtown",
+      "sites": [
+        "lcd-utility-locate"
+      ]
+    }
+  ],
+  "stationNames": {
+    "air-monitor": "Perimeter Air",
+    "cnc-cell": "CNC Cell",
+    "lp-gas-storage-wellpad-awareness": "Gas Storage Well Pad Safety",
+    "mobile-air-lab": "Mobile Air Lab",
+    "opacity-reading": "Opacity Reading",
+    "soil-loadout": "Soil Loadout",
+    "gas-leak-survey": "Gas Leak Survey",
+    "stack-test": "Stack Test",
+    "landfill-gas": "Landfill Gas",
+    "mm-conveyor-fire-and-gas-monitoring": "Conveyor Belt Fire & Gas Monitoring",
+    "mm-haul-truck-berm": "Haul Truck Berm & Dump Point",
+    "mm-mine-escapeway-drill": "Mine Escapeway & Self-Rescuer Drill",
+    "mm-continuous-miner-face": "Continuous Miner Face",
+    "mm-paper-machine-dryer": "Paper Machine Dryer Section",
+    "mm-coke-oven-heat-rotation": "Coke Oven Heat Rotation",
+    "mm-ladle-pour": "Ladle Pour",
+    "mm-hot-strip-mill-stand": "Hot-Strip Mill Stand"
+  },
+  "version": "1.0.0",
+  "contentHash": "62c531d6",
+  "brand": "SmartCiti.X · Powered by AGI Corp",
+  "generator": "tools/gen_packs.mjs",
+  "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."
+}

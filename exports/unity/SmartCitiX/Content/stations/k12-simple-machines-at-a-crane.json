@@ -1,0 +1,411 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "force-for-distance",
+    "name": "Force for Distance",
+    "note": "A crane's levers and pulleys explained, force traded for distance on the model and the load chart respected"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFT",
+        "id": "aft-training",
+        "title": "AFT — American Federation of Teachers training for paraprofessionals and school-related personnel"
+      },
+      {
+        "body": "INEE",
+        "citedAs": "INEE Minimum Standards",
+        "id": "inee-minimum-standards",
+        "title": "INEE Minimum Standards for Education in emergencies, as a body whose standards a lesson is aligned to; it certifies nothing"
+      },
+      {
+        "body": "national curriculum authority",
+        "citedAs": "national curriculum framework",
+        "id": "national-curriculum-framework",
+        "title": "The national curriculum framework the school itself follows, as a category rather than any one country's document; no grade-level code is cited"
+      },
+      {
+        "body": "union",
+        "citedAs": "National Education Association",
+        "id": "nea-training",
+        "title": "NEA apprenticeship and training, as a training body"
+      },
+      {
+        "body": "UN",
+        "citedAs": "Sustainable Development Goal 4",
+        "id": "un-sdg-4-quality-education",
+        "title": "UN Sustainable Development Goal 4 (Quality Education), as a framework a lesson is aligned to; it certifies nothing"
+      },
+      {
+        "body": "UNESCO",
+        "citedAs": "UNESCO education guidance",
+        "id": "unesco-education-guidance",
+        "title": "UNESCO education guidance, as a body whose published guidance a lesson is aligned to; it certifies nothing"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Education",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "clean-read",
+        "name": "First Look",
+        "note": "Everything in the opening scan found first time"
+      },
+      {
+        "id": "no-shortcut",
+        "name": "No Shortcuts",
+        "note": "No misconception or unsafe shortcut anywhere in the run"
+      },
+      {
+        "id": "in-the-band",
+        "name": "In the Band",
+        "note": "Every gauge and meter held inside its band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-run",
+        "name": "Clean Run",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "steady-hands",
+        "name": "Steady Hands",
+        "note": "Every hold and track carried its full count"
+      },
+      {
+        "id": "quick-and-right",
+        "name": "Quick and Right",
+        "note": "Finished inside 80% of par"
+      }
+    ],
+    "currency": "LIFTS",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Visitor",
+      "Rigger's Helper",
+      "Tester",
+      "Explainer",
+      "Engineer"
+    ],
+    "system": "Machine Board"
+  },
+  "hazards": {
+    "load-chart-is-a-guide": "You said the load chart is only a guide. For a crane operator it is a limit, set by the maker for each reach and configuration; going past it risks the crane tipping or failing. The science explains the chart, and the chart is obeyed.",
+    "longer-boom-lifts-more": "You said reaching further out lets the crane lift more. It is the other way round: the further the load is from the crane's base, the bigger its turning effect, so the crane can lift less at long reach. That is exactly what the operator's load chart shows.",
+    "pulley-gives-free-energy": "You said adding pulleys means less work is done. More pulley lines make the pull easier, but you pull a longer length of rope for the same lift; the work, force multiplied by distance, stays the same or a little more because of friction. Machines trade, they never give work away.",
+    "stand-under-the-load": "You stood under the suspended load to look at the pulley. Nobody stands under a load, on the model or on the quay; it is the first rule every rigger and operator learns, and the model is built so you can see the pulley from the side."
+  },
+  "id": "k12-simple-machines-at-a-crane",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "hold-the-force-meter-steady-on",
+      "alert": "A horn sounds on the quay outside and a real crane begins to move a container.",
+      "cue": "Stay back from the window and listen to the operator's instruction.",
+      "delay": 3,
+      "id": "a-horn-sounds-on-the-quay",
+      "kind": "Quay signal",
+      "missNote": "Learners crowded the window door, and the operator had to stop the talk to move them back.",
+      "seconds": 12,
+      "target": "kcr-stay-back",
+      "why": "A horn on the quay warns everyone that a lift is starting. Even inside, the rule is to stay where you are told and listen; learning to respond to signals straight away is part of being safe anywhere machines work.",
+      "wrongNote": "That takes you towards the quay. Stay back and listen. Choose the response that deals with it now."
+    },
+    {
+      "after": "lower-the-load-smoothly",
+      "alert": "The crane operator asks what happens to how much the crane can lift as the load moves further out.",
+      "cue": "Say that further out, the crane can lift less, and why.",
+      "delay": 3,
+      "id": "the-operator-asks-about-reach",
+      "kind": "Operator question",
+      "missNote": "You said it could lift more, and the operator showed you the chart going the other way.",
+      "seconds": 12,
+      "target": "kcr-say-reach",
+      "why": "The operator is checking the idea behind every load chart. Saying that a load further out has a bigger turning effect, so the crane can lift less, shows you understand why the chart looks the way it does.",
+      "wrongNote": "That has it backwards. Choose the response that deals with it now."
+    }
+  ],
+  "lateNotes": {
+    "kcr-checkin": "The check-in comes at the very end of the session.",
+    "kcr-machine-log": "The test record is written once every test is done — nothing to record yet."
+  },
+  "name": "Simple Machines at a Crane",
+  "parSeconds": 330,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "k12-science"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "kcr-cab-window",
+      "kcr-checkin",
+      "kcr-compare-card",
+      "kcr-ex-diagram",
+      "kcr-ex-free",
+      "kcr-ex-guide",
+      "kcr-ex-reach",
+      "kcr-force-hold",
+      "kcr-lever",
+      "kcr-load-card",
+      "kcr-load-token",
+      "kcr-machine-log",
+      "kcr-ord-add",
+      "kcr-ord-again",
+      "kcr-ord-one",
+      "kcr-ord-rope",
+      "kcr-pull-meter",
+      "kcr-pulley",
+      "kcr-reach-spot",
+      "kcr-say-reach",
+      "kcr-share-board",
+      "kcr-stay-back",
+      "kcr-track-meter",
+      "kcr-wheel-axle",
+      "kcr-winch-dial",
+      "load-chart-is-a-guide",
+      "longer-boom-lifts-more",
+      "pulley-gives-free-energy",
+      "stand-under-the-load"
+    ],
+    "meshes": 275
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Mark the three simple machines in the model crane.",
+      "decoyNotes": {
+        "kcr-cab-window": "It gives the operator a view, but it is not a machine."
+      },
+      "id": "find-the-simple-machines-in-the",
+      "itemNames": {
+        "kcr-lever": "the boom turning about its pivot",
+        "kcr-pulley": "the pulleys in the hook block",
+        "kcr-wheel-axle": "the winch drum and its handle"
+      },
+      "itemNotes": {
+        "kcr-lever": "A lever: a bar turning about a fixed point.",
+        "kcr-pulley": "Pulleys share the load between several lines of rope.",
+        "kcr-wheel-axle": "A wheel and axle: a big turn on the handle, a small turn on the drum."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Mark the three simple machines in the model crane.",
+      "targets": [
+        "kcr-lever",
+        "kcr-pulley",
+        "kcr-wheel-axle"
+      ],
+      "title": "Find the simple machines in the crane",
+      "why": "A crane is several simple machines working together. The boom is a lever turning about its pivot, the hook block is a set of pulleys, and the winch drum is a wheel and axle. Finding each one in the model shows that the big machines on the quay are built from ideas you can test on a bench."
+    },
+    {
+      "cue": "Read the card: never stand or reach under a suspended load.",
+      "id": "know-the-rule-never-under-a",
+      "kind": "select",
+      "prompt": "Read the card: never stand or reach under a suspended load.",
+      "target": "kcr-load-card",
+      "title": "Know the rule: never under a load",
+      "why": "A suspended load can slip, swing or drop, and the space beneath it is the most dangerous place near any crane. The rule applies to the bench model too, because the habit you practise here is the one that keeps people safe on every quay and building site."
+    },
+    {
+      "cue": "Weigh the pull with one line, add lines, weigh again, then measure the rope pulled.",
+      "id": "put-the-pulley-test-in-order",
+      "itemNames": {
+        "kcr-ord-add": "2 · add pulley lines",
+        "kcr-ord-again": "3 · measure the pull again",
+        "kcr-ord-one": "1 · measure the pull with one line",
+        "kcr-ord-rope": "4 · measure the rope you pulled"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order. Measure with one line first, so you have something to compare.",
+      "prompt": "Weigh the pull with one line, add lines, weigh again, then measure the rope pulled.",
+      "targets": [
+        "kcr-ord-one",
+        "kcr-ord-add",
+        "kcr-ord-again",
+        "kcr-ord-rope"
+      ],
+      "title": "Put the pulley test in order",
+      "why": "Measuring the pull with one line first gives a baseline to compare with. Adding lines and measuring again shows the pull getting smaller, and measuring the length of rope you had to pull shows where the trade happens: less force, more distance, and never less work."
+    },
+    {
+      "cue": "Hold the force meter still on the rope while the load hangs clear.",
+      "holdBreakNote": "The load swung and the reading jumped. Let it settle and hold still.",
+      "id": "hold-the-force-meter-steady-on",
+      "kind": "hold",
+      "prompt": "Hold the force meter still on the rope while the load hangs clear.",
+      "seconds": 6,
+      "target": "kcr-force-hold",
+      "title": "Hold the force meter steady on the rope",
+      "why": "A force meter only reads the pull correctly while the load is hanging still; any jerk or swing adds to the reading. Holding it steady until the needle settles gives a number you can compare fairly with the next test."
+    },
+    {
+      "cue": "Say why more pulley lines make the pull easier, and what you give up.",
+      "id": "say-why-more-pulleys-make-pulling",
+      "kind": "select",
+      "prompt": "Say why more pulley lines make the pull easier, and what you give up.",
+      "target": "kcr-compare-card",
+      "title": "Say why more pulleys make pulling easier",
+      "why": "More lines share the load, so each carries less and your pull is smaller, but you must pull a longer length of rope. Saying both halves, easier pull and longer rope, is understanding the trade instead of thinking the machine gives something for nothing."
+    },
+    {
+      "cue": "Look at the draft explanation and mark each problem.",
+      "decoyNotes": {
+        "kcr-ex-diagram": "A labelled diagram is good practice. Keep it."
+      },
+      "id": "spot-the-problems-in-a-classmates",
+      "itemNames": {
+        "kcr-ex-free": "a machine said to give free work",
+        "kcr-ex-guide": "the load chart called a rough guide",
+        "kcr-ex-reach": "a longer reach said to lift more"
+      },
+      "itemNotes": {
+        "kcr-ex-free": "Machines trade force for distance.",
+        "kcr-ex-guide": "The chart is a limit.",
+        "kcr-ex-reach": "Further out, the crane lifts less."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look at the draft explanation and mark each problem.",
+      "targets": [
+        "kcr-ex-free",
+        "kcr-ex-reach",
+        "kcr-ex-guide"
+      ],
+      "title": "Spot the problems in a classmate's explanation",
+      "why": "Explanations of machines go wrong in the same ways: a machine said to give free work, a longer reach said to lift more and a load chart called a rough guide. Spotting them helps you write explanations that are true as well as tidy."
+    },
+    {
+      "cue": "Turn the winch handle and watch how far it turns for a small lift.",
+      "id": "turn-the-winch-handle-to-lift",
+      "kind": "turn",
+      "prompt": "Turn the winch handle and watch how far it turns for a small lift.",
+      "target": "kcr-winch-dial",
+      "title": "Turn the winch handle to lift the load",
+      "turn": {
+        "axis": "y",
+        "label": "WINCH",
+        "turns": 0.5
+      },
+      "why": "The handle travels round a big circle while the drum winds only a little rope, which is how a small push on the handle lifts a heavy load. Feeling how many turns a short lift takes is the wheel and axle's trade, felt in your own hand."
+    },
+    {
+      "cue": "Commit when the force meter shows the steady pull with the load held still.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.58
+        ],
+        "label": "PULL",
+        "missNote": "Not the steady pull. Wait until the load hangs still before reading.",
+        "speed": 0.6
+      },
+      "id": "read-the-pull-at-the-right",
+      "kind": "gauge",
+      "prompt": "Commit when the force meter shows the steady pull with the load held still.",
+      "target": "kcr-pull-meter",
+      "title": "Read the pull at the right moment",
+      "why": "The pull needed to hold a load still is the fair measurement; the pull while starting or speeding up is larger. Reading at the steady moment is what lets you compare one line with several and see the pulleys' effect clearly."
+    },
+    {
+      "cue": "Drag the load block to the reach where the model's load chart allows it.",
+      "drag": {
+        "missNote": "Still too far out for the chart. Bring the load closer to the base.",
+        "radius": 0.45,
+        "to": "kcr-reach-spot"
+      },
+      "id": "move-the-load-closer-on-the",
+      "kind": "drag",
+      "prompt": "Drag the load block to the reach where the model's load chart allows it.",
+      "target": "kcr-load-token",
+      "title": "Move the load closer on the model boom",
+      "why": "The same load has a bigger turning effect the further out it hangs, so a crane can lift less at long reach. Moving it inside the chart's limit is exactly the decision an operator makes before every lift, with the chart, not a guess, as the guide."
+    },
+    {
+      "cue": "Keep the lowering speed steady as the model load comes down.",
+      "holdBreakNote": "The load dropped too fast and swung. Slow it and bring it back steady.",
+      "id": "lower-the-load-smoothly",
+      "kind": "track",
+      "prompt": "Keep the lowering speed steady as the model load comes down.",
+      "seconds": 8,
+      "target": "kcr-track-meter",
+      "title": "Lower the load smoothly",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.38,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "LOWERING",
+        "rise": 0.46,
+        "start": 0.3
+      },
+      "why": "Lowering smoothly keeps the load from swinging and stops sudden jerks that load the rope far more than the steady weight does. Operators lower with care for the same reason, and feeling it on the model shows why speed changes matter."
+    },
+    {
+      "cue": "Write the pull and the rope length for each number of lines.",
+      "id": "record-the-test-results",
+      "kind": "select",
+      "prompt": "Write the pull and the rope length for each number of lines.",
+      "target": "kcr-machine-log",
+      "title": "Record the test results",
+      "why": "A results table puts force and distance side by side, so the trade becomes visible: as one goes down the other goes up. Writing both for each test is what turns a demonstration into evidence someone else can check."
+    },
+    {
+      "cue": "Ask the crane operator how the load chart guides a real lift.",
+      "id": "ask-the-operator-how-they-use",
+      "kind": "select",
+      "prompt": "Ask the crane operator how the load chart guides a real lift.",
+      "target": "kcr-share-board",
+      "title": "Ask the operator how they use the chart",
+      "why": "Hearing an operator explain how they check reach, load and configuration before every lift connects the science to a skilled trade. It shows that the ideas tested on the bench are the ones professionals rely on every shift."
+    },
+    {
+      "cue": "Where else have you seen a lever or a pulley? What still puzzles you?",
+      "id": "crew-check-in",
+      "kind": "select",
+      "prompt": "Where else have you seen a lever or a pulley? What still puzzles you?",
+      "target": "kcr-checkin",
+      "title": "Check in at the end of the session",
+      "why": "The terminal shift ends with a tailgate talk, so the visit ends with one too: every learner names the machine part that made the load easier to move and says how. The riggers listening can tell straight away who has seen the trade in a lever and a pulley and who has only seen a crane."
+    }
+  ],
+  "supportLine": "your teacher, a school counsellor or a trusted adult at home — if anything in this lesson was hard, talk it through afterwards",
+  "tagline": "A machine trades force for distance, never free work — and the load chart has the last word",
+  "title": "SmartCiti.X~ Simple Machines at a Crane VR",
+  "trade": "Science class at the container terminal's training room — learner and crane operator",
+  "underwater": null,
+  "weather": "clear"
+}

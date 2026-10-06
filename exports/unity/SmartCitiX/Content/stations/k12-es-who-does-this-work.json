@@ -1,0 +1,411 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "crew-finder",
+    "name": "Crew Finder",
+    "note": "Matched Bay restoration and clean port jobs to the crews who do them, and learned how people train for that work"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFT",
+        "id": "aft-training",
+        "title": "AFT — American Federation of Teachers training for paraprofessionals and school-related personnel"
+      },
+      {
+        "body": "INEE",
+        "citedAs": "INEE Minimum Standards",
+        "id": "inee-minimum-standards",
+        "title": "INEE Minimum Standards for Education in emergencies, as a body whose standards a lesson is aligned to; it certifies nothing"
+      },
+      {
+        "body": "national curriculum authority",
+        "citedAs": "national curriculum framework",
+        "id": "national-curriculum-framework",
+        "title": "The national curriculum framework the school itself follows, as a category rather than any one country's document; no grade-level code is cited"
+      },
+      {
+        "body": "union",
+        "citedAs": "National Education Association",
+        "id": "nea-training",
+        "title": "NEA apprenticeship and training, as a training body"
+      },
+      {
+        "body": "UN",
+        "citedAs": "Sustainable Development Goal 4",
+        "id": "un-sdg-4-quality-education",
+        "title": "UN Sustainable Development Goal 4 (Quality Education), as a framework a lesson is aligned to; it certifies nothing"
+      },
+      {
+        "body": "UNESCO",
+        "citedAs": "UNESCO education guidance",
+        "id": "unesco-education-guidance",
+        "title": "UNESCO education guidance, as a body whose published guidance a lesson is aligned to; it certifies nothing"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Education",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "clean-read",
+        "name": "First Look",
+        "note": "Everything in the opening scan found first time"
+      },
+      {
+        "id": "no-shortcut",
+        "name": "No Shortcuts",
+        "note": "No misconception or unsafe shortcut anywhere in the run"
+      },
+      {
+        "id": "in-the-band",
+        "name": "In the Band",
+        "note": "Every gauge and meter held inside its band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-run",
+        "name": "Clean Run",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "steady-hands",
+        "name": "Steady Hands",
+        "note": "Every hold and track carried its full count"
+      },
+      {
+        "id": "quick-and-right",
+        "name": "Quick and Right",
+        "note": "Finished inside 80% of par"
+      }
+    ],
+    "currency": "HARD HATS",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Visitor",
+      "Helper",
+      "Apprentice",
+      "Crew Member",
+      "Crew Leader"
+    ],
+    "system": "Crew Board"
+  },
+  "hazards": {
+    "guess-the-facts": "You made up a number about the projects. Only say what a source says, and name the source. If a source does not say it, the honest answer is that we do not know yet.",
+    "only-scientists-do-it": "You said only scientists restore the Bay. Scientists plan and measure, and trades crews do the building: operators, labourers, landscape crews, plant operators and many more. It takes both.",
+    "skip-the-training": "You said a new crew member can start without training. Every crew trains before the job and keeps training, from safety basics to the machines they run. Apprenticeships mix learning with paid work for exactly this reason.",
+    "try-on-the-harness": "You reached for the crew's harness. Safety gear is fitted and checked by trained crew. Ask the mentor to show how it is checked, and keep your hands on the display pieces."
+  },
+  "id": "k12-es-who-does-this-work",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "hold-up-the-safety-gear-while",
+      "alert": "The hall's practice drill bell rings for everyone.",
+      "cue": "Line up calmly at the marked exit with the mentor.",
+      "delay": 3,
+      "id": "the-hall-fire-drill-bell",
+      "kind": "Drill bell",
+      "missNote": "The class stayed seated, and the mentor had to gather everyone before leading them out.",
+      "seconds": 12,
+      "target": "esw-line-up",
+      "why": "Every workplace practises leaving the building. Lining up calmly at the marked exit shows you know the plan. Crews practise the same drills on every site, and a calm line is the goal.",
+      "wrongNote": "That ignores the drill. Line up at the exit. Choose the response that deals with it now."
+    },
+    {
+      "after": "follow-one-project-from-plan-to",
+      "alert": "The mentor asks where the facts about the Bay projects come from.",
+      "cue": "Say the facts come from the U.S. EPA's award release and the Port of Oakland.",
+      "delay": 3,
+      "id": "the-mentor-asks-for-a-source",
+      "kind": "Mentor question",
+      "missNote": "You could not name the source, and the mentor had to show the class the release before going on.",
+      "seconds": 12,
+      "target": "esw-name-source",
+      "why": "Naming the source shows you know how to check a fact. Anyone can look up the release and read it for themselves. Crews use the same habit when they check a drawing or a safety sheet before they start.",
+      "wrongNote": "That does not name the source. Choose the response that deals with it now."
+    }
+  ],
+  "lateNotes": {
+    "esw-checkin": "The check-in comes at the very end of the visit.",
+    "esw-trade-log": "The trades record is written after you meet each crew — nothing to record yet."
+  },
+  "name": "Who Does This Work",
+  "parSeconds": 330,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "k12-literacy-and-life-skills"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "esw-checkin",
+      "esw-crew-spot",
+      "esw-epa",
+      "esw-greet-card",
+      "esw-hat-hold",
+      "esw-job-card",
+      "esw-job-dial",
+      "esw-kinds",
+      "esw-landscape",
+      "esw-line-up",
+      "esw-math-meter",
+      "esw-name-source",
+      "esw-operator",
+      "esw-ord-app",
+      "esw-ord-crew",
+      "esw-ord-learn",
+      "esw-ord-pre",
+      "esw-plant-op",
+      "esw-port",
+      "esw-project-track",
+      "esw-result-card",
+      "esw-rumour",
+      "esw-share-board",
+      "esw-tourist",
+      "esw-trade-log",
+      "guess-the-facts",
+      "only-scientists-do-it",
+      "skip-the-training",
+      "try-on-the-harness"
+    ],
+    "meshes": 297
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Mark the three crews you can see on the project photos on the wall.",
+      "decoyNotes": {
+        "esw-tourist": "Enjoying the Bay, but not on a crew."
+      },
+      "id": "find-the-crews-in-the-bay",
+      "itemNames": {
+        "esw-landscape": "a landscape crew planting",
+        "esw-operator": "an equipment operator in an excavator",
+        "esw-plant-op": "a treatment plant operator"
+      },
+      "itemNotes": {
+        "esw-landscape": "Plants gardens and marsh grass.",
+        "esw-operator": "Digs channels and moves soil.",
+        "esw-plant-op": "Runs the systems that clean water."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Mark the three crews you can see on the project photos on the wall.",
+      "targets": [
+        "esw-operator",
+        "esw-landscape",
+        "esw-plant-op"
+      ],
+      "title": "Find the crews in the Bay projects",
+      "why": "Bay projects need many kinds of crews. Equipment operators dig channels and move soil, landscape crews plant rain gardens and marsh grass, and treatment plant operators run the systems that clean water. Seeing each crew at work shows that caring for the Bay is a set of real jobs people train for."
+    },
+    {
+      "cue": "Shake hands and introduce yourself to the crew mentor.",
+      "id": "greet-the-crew-mentor",
+      "kind": "select",
+      "prompt": "Shake hands and introduce yourself to the crew mentor.",
+      "target": "esw-greet-card",
+      "title": "Greet the crew mentor",
+      "why": "Meeting a crew mentor is a first step into any trade. A clear greeting and your name show respect and interest. Mentors help new people learn the job, and many say the best apprentices start by asking good questions. Asking the mentor how they started in their trade is often the most useful question of the visit."
+    },
+    {
+      "cue": "Put the steps from learning about a trade to working on a crew in order.",
+      "id": "put-the-path-into-a-trade",
+      "itemNames": {
+        "esw-ord-app": "3 · start a paid apprenticeship",
+        "esw-ord-crew": "4 · join a crew on the job",
+        "esw-ord-learn": "1 · learn what the trade does",
+        "esw-ord-pre": "2 · take a pre-apprenticeship course"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order. Start by learning what the trade does.",
+      "prompt": "Put the steps from learning about a trade to working on a crew in order.",
+      "targets": [
+        "esw-ord-learn",
+        "esw-ord-pre",
+        "esw-ord-app",
+        "esw-ord-crew"
+      ],
+      "title": "Put the path into a trade in order",
+      "why": "Most people reach a trade through a path. They learn what the trade does, take a pre-apprenticeship to get ready, start a paid apprenticeship that mixes classes with work, and then join a crew. Knowing the order helps you plan your own path."
+    },
+    {
+      "cue": "Hold up the display hard hat while the mentor explains each piece of gear.",
+      "holdBreakNote": "The hard hat went down before the mentor finished. Hold it up again.",
+      "id": "hold-up-the-safety-gear-while",
+      "kind": "hold",
+      "prompt": "Hold up the display hard hat while the mentor explains each piece of gear.",
+      "seconds": 6,
+      "target": "esw-hat-hold",
+      "title": "Hold up the safety gear while the mentor explains",
+      "why": "Safety gear is part of every trade. Holding up each piece while the mentor explains it helps you remember what it is for. Crews check their gear at the start of every shift, and learning that habit early is part of training. Each piece of gear has one job, and together they protect the head, eyes, hands and feet."
+    },
+    {
+      "cue": "Choose the sentence that matches what the Port of Oakland says.",
+      "id": "say-who-trains-workers-for-the",
+      "kind": "select",
+      "prompt": "Choose the sentence that matches what the Port of Oakland says.",
+      "target": "esw-result-card",
+      "title": "Say who trains workers for the clean port",
+      "why": "The Port of Oakland says the Pacific Maritime Association provides skills and safety training on the zero-emission equipment, and the Machinists Institute helps the West Oakland Jobs Resource Center grow its pre-apprentice program to include careers affected by zero-emission vehicles. A good answer repeats what the source says and adds nothing."
+    },
+    {
+      "cue": "Read the two source cards and mark each fact they state.",
+      "decoyNotes": {
+        "esw-rumour": "A guess with no source is not a fact."
+      },
+      "id": "spot-what-the-sources-say-about",
+      "itemNames": {
+        "esw-epa": "the EPA card on the Bay awards",
+        "esw-kinds": "the list of kinds of work",
+        "esw-port": "the Port of Oakland card on training"
+      },
+      "itemNotes": {
+        "esw-epa": "Twenty projects for water and habitat.",
+        "esw-kinds": "Trash capture, gardens, marshes and more.",
+        "esw-port": "Named partners train workers."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Read the two source cards and mark each fact they state.",
+      "targets": [
+        "esw-epa",
+        "esw-kinds",
+        "esw-port"
+      ],
+      "title": "Spot what the sources say about the work",
+      "why": "The U.S. EPA says its San Francisco Bay Program awarded more than eighty-two million dollars to twenty projects for water quality and habitat, including trash capture, green stormwater infrastructure, tidal marsh and wetland restoration, nutrient reduction, sediment management, fish habitat and PCB source control. Reading the source itself is how you know what is true."
+    },
+    {
+      "cue": "Turn the job wheel until it points at the job you would most like to try.",
+      "id": "turn-the-job-wheel-to-your",
+      "kind": "turn",
+      "prompt": "Turn the job wheel until it points at the job you would most like to try.",
+      "target": "esw-job-dial",
+      "title": "Turn the job wheel to your favourite",
+      "turn": {
+        "axis": "y",
+        "label": "JOBS",
+        "turns": 0.5
+      },
+      "why": "Choosing a favourite job helps you notice what you enjoy, like working outdoors, running machines or caring for plants. There is no wrong choice. Careers advisers say knowing what you like is the best starting point for finding a trade that fits. Many people try more than one kind of work before they find the trade that suits them best."
+    },
+    {
+      "cue": "Commit when the marker shows how much maths the chosen job uses.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.58
+        ],
+        "label": "MATHS",
+        "missNote": "Not set yet. Ask the mentor and move the marker to match.",
+        "speed": 0.6
+      },
+      "id": "rate-how-much-each-job-uses",
+      "kind": "gauge",
+      "prompt": "Commit when the marker shows how much maths the chosen job uses.",
+      "target": "esw-math-meter",
+      "title": "Rate how much each job uses maths",
+      "why": "Almost every trade uses maths, from measuring a rain garden to reading a gauge at a treatment plant. Rating it helps you see why school subjects matter on a crew. Mentors often say the maths they use every day is measuring, adding up and reading scales."
+    },
+    {
+      "cue": "Drag the card that says planting a rain garden to the landscape crew.",
+      "drag": {
+        "missNote": "Not on the landscape crew yet. Which crew plants gardens?",
+        "radius": 0.45,
+        "to": "esw-crew-spot"
+      },
+      "id": "match-a-job-to-its-crew",
+      "kind": "drag",
+      "prompt": "Drag the card that says planting a rain garden to the landscape crew.",
+      "target": "esw-job-card",
+      "title": "Match a job to its crew",
+      "why": "Matching jobs to crews shows how projects are shared out. Planting belongs to the landscape crew, digging to the operators and running a plant to the operators there. Knowing who does what is how crews work together safely on one site."
+    },
+    {
+      "cue": "Keep the marker on the rain garden project as it moves from plan to build.",
+      "holdBreakNote": "The marker lost the project. Find it again and follow it to the planting.",
+      "id": "follow-one-project-from-plan-to",
+      "kind": "track",
+      "prompt": "Keep the marker on the rain garden project as it moves from plan to build.",
+      "seconds": 8,
+      "target": "esw-project-track",
+      "title": "Follow one project from plan to crew",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.38,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "PATH",
+        "rise": 0.46,
+        "start": 0.3
+      },
+      "why": "A project moves through many hands. Planners draw it, a locate crew marks pipes, operators dig, and landscape crews plant. Following one project shows how every step needs trained people, and how each crew hands on to the next. A project goes well when each crew finishes its part safely and passes on clear notes to the next."
+    },
+    {
+      "cue": "Write one line for each trade you met and what it does on a Bay project.",
+      "id": "record-the-trades-you-met",
+      "kind": "select",
+      "prompt": "Write one line for each trade you met and what it does on a Bay project.",
+      "target": "esw-trade-log",
+      "title": "Record the trades you met",
+      "why": "A list of trades and their jobs is a map of possible careers. Reading it later helps you remember which work sounded interesting. Careers advisers ask students to keep lists like this when they explore pathways. Looking back at a list later often reminds people of a job they had forgotten they liked."
+    },
+    {
+      "cue": "Tell another group one Bay job you would like to try and why.",
+      "id": "share-one-job-you-would-try",
+      "kind": "select",
+      "prompt": "Tell another group one Bay job you would like to try and why.",
+      "target": "esw-share-board",
+      "title": "Share one job you would try",
+      "why": "Saying a goal out loud makes it real. Hearing others' choices shows how many kinds of work there are. The Port of Oakland says its clean port work will create hundreds of green jobs, with priority for people who live nearby. Hearing why a classmate likes a job can open up an idea you had not thought of yourself."
+    },
+    {
+      "cue": "Name two crews who work on Bay projects. How do people train for them?",
+      "id": "crew-check-in",
+      "kind": "select",
+      "prompt": "Name two crews who work on Bay projects. How do people train for them?",
+      "target": "esw-checkin",
+      "title": "Check in before leaving the hall",
+      "why": "The mentor checks what the class learned before they leave. Each learner names two crews and one way people train. If anyone thinks only scientists do the work, the group sorts it out now. Knowing two crews and one training path gives every learner a real starting point for their own plans."
+    }
+  ],
+  "supportLine": "your teacher, a school counsellor or a trusted adult at home — if anything in this lesson was hard, talk it through afterwards",
+  "tagline": "Every clean drain, rain garden and marsh is built by a crew — meet the trades and match the jobs",
+  "title": "SmartCiti.X~ Who Does This Work VR",
+  "trade": "Careers class at a union hall with trades crew members from Bay restoration and port work — learner and crew mentor",
+  "underwater": null,
+  "weather": "clear"
+}

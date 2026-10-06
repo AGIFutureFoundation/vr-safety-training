@@ -1,0 +1,411 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "true-to-scale",
+    "name": "True to Scale",
+    "note": "Court measured, units kept and a scale drawing that matches"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFT",
+        "id": "aft-training",
+        "title": "AFT — American Federation of Teachers training for paraprofessionals and school-related personnel"
+      },
+      {
+        "body": "INEE",
+        "citedAs": "INEE Minimum Standards",
+        "id": "inee-minimum-standards",
+        "title": "INEE Minimum Standards for Education in emergencies, as a body whose standards a lesson is aligned to; it certifies nothing"
+      },
+      {
+        "body": "national curriculum authority",
+        "citedAs": "national curriculum framework",
+        "id": "national-curriculum-framework",
+        "title": "The national curriculum framework the school itself follows, as a category rather than any one country's document; no grade-level code is cited"
+      },
+      {
+        "body": "union",
+        "citedAs": "National Education Association",
+        "id": "nea-training",
+        "title": "NEA apprenticeship and training, as a training body"
+      },
+      {
+        "body": "UN",
+        "citedAs": "Sustainable Development Goal 4",
+        "id": "un-sdg-4-quality-education",
+        "title": "UN Sustainable Development Goal 4 (Quality Education), as a framework a lesson is aligned to; it certifies nothing"
+      },
+      {
+        "body": "UNESCO",
+        "citedAs": "UNESCO education guidance",
+        "id": "unesco-education-guidance",
+        "title": "UNESCO education guidance, as a body whose published guidance a lesson is aligned to; it certifies nothing"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Education",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "clean-read",
+        "name": "First Look",
+        "note": "Everything in the opening scan found first time"
+      },
+      {
+        "id": "no-shortcut",
+        "name": "No Shortcuts",
+        "note": "No misconception or unsafe shortcut anywhere in the run"
+      },
+      {
+        "id": "in-the-band",
+        "name": "In the Band",
+        "note": "Every gauge and meter held inside its band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-run",
+        "name": "Clean Run",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "steady-hands",
+        "name": "Steady Hands",
+        "note": "Every hold and track carried its full count"
+      },
+      {
+        "id": "quick-and-right",
+        "name": "Quick and Right",
+        "note": "Finished inside 80% of par"
+      }
+    ],
+    "currency": "UNITS",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Counter",
+      "Measurer",
+      "Surveyor",
+      "Scaler",
+      "Designer"
+    ],
+    "system": "Scale Board"
+  },
+  "hazards": {
+    "add-area-like-perimeter": "You added the sideline and the baseline and called the total the area. Adding the sides walks the perimeter, the distance a player runs around the floor; area is the hardwood itself, sideline times baseline. Mixing them is the commonest slip on a court sheet, which is why every answer carries its unit: metres around, square metres of floor.",
+    "mix-metres-and-steps": "You added a paced length to a taped one. Paces in sneakers are a fair guess, but a stride is not a metre, and a sum that mixes them looks precise while meaning nothing. Every length on the clipboard has to be in one unit, written beside the number, or the drawing will not match the hardwood.",
+    "run-across-during-play": "You walked onto the hardwood with the tape while sneakers were still squeaking. Geometry on a live court waits for the caretaker's nod: a tape across the paint is a trip line, and a player chasing a pass is watching the ball, not the floor.",
+    "scale-one-side-only": "You shrank the sideline to fit the sheet and left the baseline as it was. A scale drawing holds only when every length is divided by the same factor; scale one side alone and the drawing is a different rectangle from the floor, so every angle and ratio taken from it is false."
+  },
+  "id": "k12-measuring-and-scaling-the-court",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "hold-the-tape-taut-along-the",
+      "alert": "A ball from the practice court bounces across the tape and a younger pupil sprints after it.",
+      "cue": "Stop the reading, shout a warning, and let the caretaker clear the floor before anyone steps back on the paint.",
+      "delay": 3,
+      "id": "a-ball-rolls-onto-the-court",
+      "kind": "Ball on the court",
+      "missNote": "Nobody shouted. The pupil caught a foot on the tape and went down, and the reading was lost anyway.",
+      "seconds": 12,
+      "target": "kmc-stop-and-clear",
+      "why": "The moment anyone sprints, a tape across the hardwood becomes a trip line, and a younger pupil chasing a ball sees only the ball. Shouting, stopping and letting the caretaker clear the floor comes before any length; the sideline can be taped again, a fall on the hardwood cannot be undone.",
+      "wrongNote": "That stops nobody. Shout the warning and pause the tape."
+    },
+    {
+      "after": "keep-the-answer-close-to-the",
+      "alert": "The coach wanders over from the bleachers and asks what the floor's area will roughly be, before the multiplication is done.",
+      "cue": "Give the paced guess with its unit and say how the sneakers gave it to you.",
+      "delay": 3,
+      "id": "the-teacher-asks-for-your-estimate",
+      "kind": "Teacher question",
+      "missNote": "You had no rough figure to give, so the slip in the multiplication went unseen until it was marked.",
+      "seconds": 12,
+      "target": "kmc-say-the-estimate",
+      "why": "A coach asking for a rough figure mid-drill is testing the reasoning, not the arithmetic. Giving the paced guess with its unit, and saying how pacing produced it, shows you know roughly what the floor should come to, which is the sense that catches a slipped decimal long after the tape is rolled up.",
+      "wrongNote": "That is not a rough figure with a unit. Give the number and say how pacing gave it."
+    }
+  ],
+  "lateNotes": {
+    "kmc-checkin": "The check-in comes at the very end of the lesson.",
+    "kmc-class-record": "The class record is written once the drawing and the ratio are checked — nothing to record yet."
+  },
+  "name": "Measuring and Scaling the Court",
+  "parSeconds": 330,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "k12-practical-math"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "add-area-like-perimeter",
+      "kmc-check-meter",
+      "kmc-checkin",
+      "kmc-class-record",
+      "kmc-corner-square",
+      "kmc-drawing-spot",
+      "kmc-end-line",
+      "kmc-err-no-unit",
+      "kmc-err-one-scaled",
+      "kmc-err-perim-area",
+      "kmc-length-token",
+      "kmc-logo-centre",
+      "kmc-ok-estimate",
+      "kmc-ord-calc",
+      "kmc-ord-estimate",
+      "kmc-ord-measure",
+      "kmc-ord-record",
+      "kmc-ratio-card",
+      "kmc-say-the-estimate",
+      "kmc-scale-meter",
+      "kmc-share-board",
+      "kmc-side-line",
+      "kmc-stop-and-clear",
+      "kmc-tape-held",
+      "kmc-unit-dial",
+      "kmc-wait-for-clear",
+      "mix-metres-and-steps",
+      "run-across-during-play",
+      "scale-one-side-only"
+    ],
+    "meshes": 297
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Tap the sideline, the baseline and a corner: the three lengths an arena crew needs before the floor's area and perimeter can be worked out.",
+      "decoyNotes": {
+        "kmc-logo-centre": "The logo is interesting, but it does not change the area or the perimeter. Stick to what the question needs."
+      },
+      "id": "find-what-you-need-to-measure",
+      "itemNames": {
+        "kmc-corner-square": "a corner, to check it is square",
+        "kmc-end-line": "the short end line",
+        "kmc-side-line": "the long side line"
+      },
+      "itemNotes": {
+        "kmc-corner-square": "If the corners are not square the shape is not a rectangle, and the rectangle formulas do not apply.",
+        "kmc-end-line": "The second length. Length times width gives the area; the two added and doubled give the perimeter.",
+        "kmc-side-line": "One of the two lengths the area depends on. Measure it end to end, along the line, not across the paint."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Tap the sideline, the baseline and a corner: the three lengths an arena crew needs before the floor's area and perimeter can be worked out.",
+      "targets": [
+        "kmc-side-line",
+        "kmc-end-line",
+        "kmc-corner-square"
+      ],
+      "title": "Find what you need to measure",
+      "why": "Nobody tapes a whole basketball floor. The arena crew takes the sideline, the baseline and a corner to prove the rectangle is square; the key, the arc and the centre circle wait. Deciding which lengths matter is the first move in geometry, and it saves the sneakers, the tape and the afternoon."
+    },
+    {
+      "cue": "Catch the caretaker's eye and ask for the floor before the tape touches the hardwood.",
+      "id": "ask-the-caretaker-for-the-all",
+      "kind": "select",
+      "prompt": "Catch the caretaker's eye and ask for the floor before the tape touches the hardwood.",
+      "target": "kmc-wait-for-clear",
+      "title": "Ask the caretaker for the all-clear",
+      "why": "Hardwood is a playing surface first and a geometry lesson second. The caretaker knows when the buzzer has sounded, the players have gone to the bleachers and the mop has dried the varnish. Asking for the floor is the arena's own rule, and it comes before any tape is unrolled."
+    },
+    {
+      "cue": "Pace it in sneakers, tape it, log it with its unit, then work the arithmetic.",
+      "id": "put-the-method-in-order",
+      "itemNames": {
+        "kmc-ord-calc": "4 · calculate from the record",
+        "kmc-ord-estimate": "1 · estimate by pacing",
+        "kmc-ord-measure": "2 · measure with the tape",
+        "kmc-ord-record": "3 · record with the unit"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Not that way round. Pace the sideline first, so the paces can catch a misread tape.",
+      "prompt": "Pace it in sneakers, tape it, log it with its unit, then work the arithmetic.",
+      "targets": [
+        "kmc-ord-estimate",
+        "kmc-ord-measure",
+        "kmc-ord-record",
+        "kmc-ord-calc"
+      ],
+      "title": "Put the method in order",
+      "why": "Pacing the sideline in sneakers gives a rough length to hold the tape against, so a misread tape jumps out at once. Taping and logging with the unit keeps the numbers honest. The arithmetic waits until the clipboard is filled in, because a court worked from memory is a court worked twice."
+    },
+    {
+      "cue": "Your classmate pins the zero at the corner. Keep the tape taut along the painted sideline until the reading settles.",
+      "holdBreakNote": "The tape bowed. A bowed tape reads long; pull it flat along the paint and read again.",
+      "id": "hold-the-tape-taut-along-the",
+      "kind": "hold",
+      "prompt": "Your classmate pins the zero at the corner. Keep the tape taut along the painted sideline until the reading settles.",
+      "seconds": 6,
+      "target": "kmc-tape-held",
+      "title": "Hold the tape taut along the line",
+      "why": "A tape that sags between two corners bows like a skipping rope, and a bow is longer than the painted line beneath it. Keeping it taut and on the paint for the whole reading is the difference between the sideline's true length and a number that is always a little too big."
+    },
+    {
+      "cue": "Write sideline to baseline as a ratio, then prove the same ratio holds on the drawing.",
+      "id": "write-the-length-to-width-ratio",
+      "kind": "select",
+      "prompt": "Write sideline to baseline as a ratio, then prove the same ratio holds on the drawing.",
+      "target": "kmc-ratio-card",
+      "title": "Write the length-to-width ratio",
+      "why": "A ratio compares two lengths of the same kind, and a faithful scale drawing keeps every ratio the floor has. If sideline to baseline matches on the sheet and on the hardwood, the drawing is in proportion; if it does not, one side was scaled and the other was not."
+    },
+    {
+      "cue": "Look over the worked sheet a classmate left on the bleachers and tap each slip before the coach collects it.",
+      "decoyNotes": {
+        "kmc-ok-estimate": "Writing an estimate first is good practice. Leave it in."
+      },
+      "id": "catch-the-mistakes-in-a-classmate",
+      "itemNames": {
+        "kmc-err-no-unit": "an answer with no unit",
+        "kmc-err-one-scaled": "a drawing with one side scaled",
+        "kmc-err-perim-area": "a perimeter labelled as area"
+      },
+      "itemNotes": {
+        "kmc-err-no-unit": "A number with no unit could be a length, an area or nothing at all. Every answer carries its unit.",
+        "kmc-err-one-scaled": "Every length must be divided by the same scale factor, or the shape changes.",
+        "kmc-err-perim-area": "Adding sides gives the distance around. Area comes from length times width."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look over the worked sheet a classmate left on the bleachers and tap each slip before the coach collects it.",
+      "targets": [
+        "kmc-err-no-unit",
+        "kmc-err-perim-area",
+        "kmc-err-one-scaled"
+      ],
+      "title": "Catch the mistakes in a classmate's working",
+      "why": "Reading someone else's arithmetic means following their reasoning, not only comparing answers. On a court sheet the slips are always the same three: a missing unit, a perimeter labelled as an area, and a sideline scaled while the baseline was left alone. Spotting them on a classmate's page trains the eye for your own."
+    },
+    {
+      "cue": "Both lengths are on the clipboard. Turn the unit dial from metres to square metres before the multiplication.",
+      "id": "switch-from-length-to-area-units",
+      "kind": "turn",
+      "prompt": "Both lengths are on the clipboard. Turn the unit dial from metres to square metres before the multiplication.",
+      "target": "kmc-unit-dial",
+      "title": "Switch from length to area units",
+      "turn": {
+        "axis": "y",
+        "label": "SQ M",
+        "turns": 0.5
+      },
+      "why": "Area counts how many unit squares would tile the hardwood, so its unit is a square unit. Turning the dial before multiplying is a reminder that a length times a length is a new kind of quantity, and that the floor's area and its sideline can never share a unit."
+    },
+    {
+      "cue": "Commit when the scale factor lets the whole floor sit on the sheet with a border, and the key is still big enough to draw.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.58
+        ],
+        "label": "SCALE",
+        "missNote": "Outside the band. Too big and the floor runs off the sheet; too small and the key vanishes. Try again.",
+        "speed": 0.6
+      },
+      "id": "choose-a-scale-that-fits-the",
+      "kind": "gauge",
+      "prompt": "Commit when the scale factor lets the whole floor sit on the sheet with a border, and the key is still big enough to draw.",
+      "target": "kmc-scale-meter",
+      "title": "Choose a scale that fits the page",
+      "why": "A scale factor is a bargain. Too generous and the baseline runs off the paper; too mean and the key and the centre circle shrink to dots. Arena architects and the people who paint the lines pick round, simple factors so every helper on the crew can work the same drawing without a calculator."
+    },
+    {
+      "cue": "Drag the scaled sideline onto the sheet, then divide the baseline by the same factor and draw it too.",
+      "drag": {
+        "missNote": "Not on the sheet yet. Carry the scaled length all the way to the paper.",
+        "radius": 0.45,
+        "to": "kmc-drawing-spot"
+      },
+      "id": "place-the-scaled-length-on-the",
+      "kind": "drag",
+      "prompt": "Drag the scaled sideline onto the sheet, then divide the baseline by the same factor and draw it too.",
+      "target": "kmc-length-token",
+      "title": "Place the scaled length on the drawing",
+      "why": "Every real length divided by one scale factor gives a shape the same as the hardwood but small enough for a clipboard. Once the scaled sideline and baseline are down, any angle at a corner of the drawing is the angle at the corner of the floor, which is why a coach can plan a drill on paper."
+    },
+    {
+      "cue": "Keep the calculated area in band with the paced guess while you rework the multiplication.",
+      "holdBreakNote": "The area and the paced guess have drifted apart. Rework the multiplication and the units before you go on.",
+      "id": "keep-the-answer-close-to-the",
+      "kind": "track",
+      "prompt": "Keep the calculated area in band with the paced guess while you rework the multiplication.",
+      "seconds": 8,
+      "target": "kmc-check-meter",
+      "title": "Keep the answer close to the estimate",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.38,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "AGREE",
+        "rise": 0.46,
+        "start": 0.3
+      },
+      "why": "The paced guess is the safety net. If the calculated area is far from what the sneakers suggested, a decimal has slipped or a unit has crept in. Keeping the two in agreement while the multiplication is reworked is how an arena crew orders the right amount of varnish for the floor."
+    },
+    {
+      "cue": "Log the sideline, the baseline, their unit, the scale factor and the ratio on the clipboard.",
+      "id": "record-the-measurements-and-the-drawing",
+      "kind": "select",
+      "prompt": "Log the sideline, the baseline, their unit, the scale factor and the ratio on the clipboard.",
+      "target": "kmc-class-record",
+      "title": "Record the measurements and the drawing",
+      "why": "A floor nobody can re-measure from the clipboard is not finished. Logging both lengths with their unit, the scale factor and the ratio lets the coach, the caretaker or the next class reproduce the drawing and land on the same numbers. That is the line between a lucky guess and a measurement."
+    },
+    {
+      "cue": "Tell the class how the paced guess and the ratio proved the drawing true to the floor.",
+      "id": "show-the-class-how-you-checked",
+      "kind": "select",
+      "prompt": "Tell the class how the paced guess and the ratio proved the drawing true to the floor.",
+      "target": "kmc-share-board",
+      "title": "Show the class how you checked",
+      "why": "Saying a method aloud in front of the bleachers is the sternest test of understanding it. Showing how the paced guess caught a slipped decimal and how the ratio proved the drawing in proportion helps the classmates who stalled and fixes the idea far better than a tick on a page."
+    },
+    {
+      "cue": "Before the buzzer for the next class: what went well on the floor, what was awkward, and what would you do differently?",
+      "id": "crew-check-in",
+      "kind": "select",
+      "prompt": "Before the buzzer for the next class: what went well on the floor, what was awkward, and what would you do differently?",
+      "target": "kmc-checkin",
+      "title": "Check in at the end of the lesson",
+      "why": "A short huddle at the end of the session tells the coach who can tape a floor unaided and who wants another go. Nobody is graded in the huddle; the question is simply how it went and what to try next, with the coach or a trusted adult there for anyone who wants to talk more afterwards."
+    }
+  ],
+  "supportLine": "your teacher, a school counsellor or a trusted adult at home — if anything in this lesson was hard, talk it through afterwards",
+  "tagline": "Measure it twice, write the unit, then scale it — a court drawn to scale is a court you can reason about",
+  "title": "SmartCiti.X~ Measuring and Scaling the Court VR",
+  "trade": "Maths class on the arena court — learner and teacher",
+  "underwater": null,
+  "weather": "clear"
+}

@@ -1,0 +1,70 @@
+{
+  "at": "2026-09-28T08:49:18.420Z",
+  "commit": "688afae",
+  "minutesRequested": 1,
+  "sampleEveryS": 20,
+  "growthThresholdPct": 25,
+  "note": "JS heap from Chromium's Performance.getMetrics under SwiftShader on a shared machine; growth is compared within a run, so the absolute size is relative to this box.",
+  "runs": [
+    {
+      "id": "bayworld",
+      "name": "Bay World",
+      "minutes": 1.6,
+      "samples": [
+        {
+          "atS": 51,
+          "heapMB": 68.7,
+          "nodes": 1604,
+          "listeners": 105,
+          "geometries": 537,
+          "textures": 135,
+          "meshes": 1345,
+          "load": 15.36
+        },
+        {
+          "atS": 98,
+          "heapMB": 83.3,
+          "nodes": 3697,
+          "listeners": 109,
+          "load": 19.52
+        }
+      ],
+      "firstHeapMB": 68.7,
+      "settledHeapMB": 83.3,
+      "growthPct": 21.3,
+      "errors": [],
+      "failed": null,
+      "pass": true
+    },
+    {
+      "id": "redwood",
+      "name": "Redwood Reach",
+      "minutes": 1.6,
+      "samples": [
+        {
+          "atS": 56,
+          "heapMB": 19.4,
+          "nodes": 1312,
+          "listeners": 104,
+          "geometries": 67,
+          "textures": 2,
+          "meshes": 303,
+          "load": 23.31
+        },
+        {
+          "atS": 98,
+          "heapMB": 19,
+          "nodes": 1312,
+          "listeners": 104,
+          "load": 23.13
+        }
+      ],
+      "firstHeapMB": 19.4,
+      "settledHeapMB": 19.4,
+      "growthPct": 0,
+      "errors": [],
+      "failed": null,
+      "pass": true
+    }
+  ]
+}

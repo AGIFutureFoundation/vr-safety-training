@@ -1,0 +1,175 @@
+{
+  "accent": "#63b5f0",
+  "anchors": [
+    {
+      "id": "coliseum-elevated-transit-station",
+      "name": "Coliseum Elevated Transit Station",
+      "position": [
+        604,
+        319
+      ],
+      "stations": [
+        "track-access",
+        "signal-cabinet",
+        "bus-depot-lift"
+      ],
+      "table": "BAY_SITES",
+      "world": "bayworld",
+      "zone": "coliseum"
+    },
+    {
+      "id": "ct-bus-stop-island-ferry-landing-clock",
+      "name": "Bus stop · Ferry Landing Clock",
+      "position": [
+        172,
+        576
+      ],
+      "stations": [
+        "mw-ferry-deckhand-and-passenger-safety",
+        "tr-wheelchair-lift-and-securement-on-a-bus",
+        "forklift-dock",
+        "k12-reading-a-map-scale-in-bay-world"
+      ],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "island-harbour"
+    },
+    {
+      "id": "ct-kiosk-coliseum-elevated-transit-station",
+      "name": "Information kiosk · Coliseum Elevated Transit Station",
+      "position": [
+        621.7,
+        328.3
+      ],
+      "stations": [
+        "track-access",
+        "signal-cabinet",
+        "bus-depot-lift"
+      ],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "coliseum"
+    },
+    {
+      "id": "ct-notice-board-island-ferry-landing",
+      "name": "Union hall notice board · Island Ferry Landing",
+      "position": [
+        180.9,
+        582.9
+      ],
+      "stations": [
+        "mw-ferry-deckhand-and-passenger-safety",
+        "tr-wheelchair-lift-and-securement-on-a-bus",
+        "forklift-dock",
+        "k12-reading-a-map-scale-in-bay-world"
+      ],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "island-harbour"
+    },
+    {
+      "id": "island-ferry-landing",
+      "name": "Island Ferry Landing",
+      "position": [
+        165,
+        595
+      ],
+      "stations": [
+        "mw-ferry-deckhand-and-passenger-safety",
+        "tr-wheelchair-lift-and-securement-on-a-bus",
+        "forklift-dock",
+        "k12-reading-a-map-scale-in-bay-world"
+      ],
+      "table": "BAY_SITES",
+      "world": "bayworld",
+      "zone": "island-harbour"
+    }
+  ],
+  "certification": "FRA roadway-worker protection, FTA rail transit safety practice, FAA 14 CFR 139 airfield operations and OSHA 1910.178 for powered equipment",
+  "competency": {
+    "id": "transit-ramp",
+    "kind": "programme",
+    "require": 4,
+    "standards": [
+      "fra-49-cfr-214",
+      "faa-14-cfr-139-303",
+      "osha-1910-178"
+    ],
+    "stations": [
+      "track-access",
+      "signal-cabinet",
+      "bus-depot-lift",
+      "airport-ramp",
+      "forklift-dock",
+      "bus-yard-fuelling-and-brake-check",
+      "tr-wheelchair-lift-and-securement-on-a-bus"
+    ],
+    "title": "Take access and move equipment on live rail and airfield operations"
+  },
+  "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
+  "guides": [
+    "atu-training",
+    "twu-training",
+    "iam-winpisinger-center",
+    "bmwed-training",
+    "ibew-neca-jatc",
+    "fra-49-cfr-214",
+    "fra-49-cfr-218",
+    "faa-14-cfr-139-303",
+    "osha-1910-178",
+    "mutcd",
+    "imsa-traffic-signal"
+  ],
+  "id": "transit-ramp",
+  "ladder": {
+    "atBar": 20,
+    "lessonBar": 75,
+    "lessons": 1600,
+    "levels": 20,
+    "note": "a lesson is one station step under one condition; see docs/ladders.md",
+    "partial": 0,
+    "stationsNeeded": 0,
+    "tasks": 130
+  },
+  "name": "Transit and Ramp Operations",
+  "schema": "smartcitix.programme/1",
+  "stations": [
+    {
+      "app": "smartcity",
+      "id": "track-access",
+      "why": "Roadway-worker protection: the authority, the watchman and the clear time before the rail is occupied."
+    },
+    {
+      "app": "smartcity",
+      "id": "signal-cabinet",
+      "why": "Working inside the system that keeps trains apart, without taking the protection down with you."
+    },
+    {
+      "app": "smartcity",
+      "id": "bus-depot-lift",
+      "why": "A vehicle raised over a person, and the supports that go in before anyone is underneath."
+    },
+    {
+      "app": "smartcity",
+      "id": "airport-ramp",
+      "why": "An aircraft turn, where chocks before contact is the rule the whole ramp runs on."
+    },
+    {
+      "app": "smartcity",
+      "id": "forklift-dock",
+      "why": "The dock: a trailer that creeps and a load that tips, on the most common powered truck in the country."
+    },
+    {
+      "app": "smartcity",
+      "id": "bus-yard-fuelling-and-brake-check",
+      "why": "The yard at the end of the day, where a coach is fuelled with the engine off and a hand on the nozzle, its air brakes checked by the numbers, and a defect kept off tomorrow's road."
+    },
+    {
+      "app": "smartcity",
+      "id": "tr-wheelchair-lift-and-securement-on-a-bus",
+      "why": "The stop that makes the route accessible: the boarding pad checked clear, all four securement points locked and tensioned, and the lift watched clean back into its stow before the bus moves."
+    }
+  ],
+  "summary": "Four places where a vehicle that weighs tonnes moves near people on foot, and the protection that has to exist before anyone steps out.",
+  "union": "ATU, TWU, IAM and IBEW signal locals"
+}

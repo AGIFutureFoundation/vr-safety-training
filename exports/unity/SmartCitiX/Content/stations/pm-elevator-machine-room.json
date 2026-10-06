@@ -1,0 +1,380 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "room-as-found",
+    "name": "Room as Found",
+    "note": "A machine room checked, cleared and left locked with the controller and the mainline left to the mechanic"
+  },
+  "category": "Building Systems & Facilities",
+  "certification": "ASME A17.1 (Safety Code for Elevators and Escalators) and the state elevator code for a machine room kept locked, self-closing, clear of storage, within the equipment's temperature range and holding the maintenance control program and its records, with two-way emergency communication in every car; OSHA 29 CFR 1910.147 for the mainline disconnect that only the mechanic locks out, 29 CFR 1910.212 for guards over sheaves and ropes, and 29 CFR 1910.157 for the machine room's portable extinguisher; NFPA 72 for the smoke detection that recalls the cars in a fire; IUOE Local 39 building engineers working alongside the elevator contractor's licensed mechanics.",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ASME",
+        "citedAs": "ASME A17.1",
+        "id": "asme-a17-1",
+        "title": "ASME A17.1 — Safety Code for Elevators and Escalators"
+      },
+      {
+        "body": "union",
+        "citedAs": "IUOE",
+        "id": "iuoe-training",
+        "title": "IUOE local training funds and the IUOE National Training Fund — operating and stationary engineer apprenticeship"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 72",
+        "id": "nfpa-72",
+        "title": "NFPA 72 National Fire Alarm and Signaling Code"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.157",
+        "id": "osha-1910-157",
+        "title": "29 CFR 1910.157 — Portable fire extinguishers"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.212",
+        "id": "osha-1910-212",
+        "title": "29 CFR 1910.212 — General requirements for all machines (machine guarding)"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Property Management",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "hands-off-controller",
+        "name": "Hands Off",
+        "note": "No unsafe action anywhere in the round"
+      },
+      {
+        "id": "door-proven",
+        "name": "Door Proven",
+        "note": "Entered and proved the door in order on the first try"
+      },
+      {
+        "id": "range-true",
+        "name": "Range True",
+        "note": "Room temperature committed near band centre"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-round",
+        "name": "Clean Round",
+        "note": "No corrections anywhere"
+      },
+      {
+        "id": "quick-round",
+        "name": "Quick Round",
+        "note": "Inside 80% of par"
+      },
+      {
+        "id": "seven-straight",
+        "name": "Seven Straight",
+        "note": "Seven correct actions in a row"
+      }
+    ],
+    "currency": "ROUNDS",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Engineer Trainee",
+      "Building Engineer",
+      "Senior Engineer",
+      "Chief Engineer",
+      "Machine Room Certified"
+    ],
+    "system": "Machine Room"
+  },
+  "hazards": {
+    "controller-cabinet": "You are opening the controller cabinet. Inside are exposed live terminals at motor voltage and the safety circuits that stop a car — and the state elevator code reserves that work to a licensed elevator mechanic. A building engineer who jumps a safety circuit to 'get a car running' has turned off the one thing standing between a door and a moving car.",
+    "door-prop": "You are propping the machine room door open to let the heat out. ASME A17.1 wants that door self-closing and locked so that only authorised people ever reach the machine — a propped door lets in anyone, including children exploring a building. The fix for heat is the ventilation, not the door.",
+    "mainline-reset": "You are about to switch the mainline disconnect off and on to 'reset' a stuck car. With a passenger inside, a reset can move the car unexpectedly or strand it worse, and it hides the fault from the mechanic who has to find it. 29 CFR 1910.147 lockout on the mainline is the mechanic's; the engineer calls, reassures and waits.",
+    "sheave-reach": "You are reaching over the hoist machine towards the drive sheave to wipe the oil. The ropes and sheave can move at any moment a car is called, and they pull a hand into the groove faster than you can let go. 29 CFR 1910.212 wants that nip point guarded — and the guard is missing, which is why nobody reaches there."
+  },
+  "id": "pm-elevator-machine-room",
+  "indoor": "plant",
+  "interrupts": [
+    {
+      "after": "phone-check",
+      "alert": "The car status display flashes red: CAR 2 STOPPED BETWEEN FLOORS 6 AND 7 — EMERGENCY CALL. A resident is on the car phone, frightened.",
+      "cue": "Pick up the passenger intercom: tell them who you are, that help is coming, and to stay put.",
+      "delay": 2,
+      "id": "entrapment",
+      "kind": "Alarm — passenger trapped",
+      "missNote": "The passenger's call went unanswered for the whole window. Someone alone in a stopped car with no voice answering is exactly when people try to force the doors and climb out into the hoistway.",
+      "seconds": 13,
+      "target": "passenger-intercom",
+      "why": "Most entrapments end safely if the passenger stays inside and calm while a mechanic comes. The building engineer's part is exactly that: talk to them, tell them they are safe and help is on the way, and keep them from forcing the doors. Anything more — resets, cranking, prying doors — belongs to the mechanic or the fire department.",
+      "wrongNote": "Not that. Answer the passenger on the intercom first — reassure them, tell them help is coming, and keep them in the car."
+    },
+    {
+      "after": "vent-hold",
+      "alert": "A cable installer lets himself in with a borrowed key and says he needs to run a line up through the machine room to the roof.",
+      "cue": "Stop him and check the access sign-in: he is not an authorised person for this room.",
+      "delay": 3,
+      "id": "installer-no-permit",
+      "kind": "Contractor without a permit",
+      "missNote": "The installer carried on into the room and started pulling cable past the controller. There is now an unauthorised person and unrelated wiring in the one room the code keeps for the elevator alone.",
+      "seconds": 12,
+      "target": "access-signin",
+      "why": "ASME A17.1 keeps machine rooms for elevator equipment and authorised people only; nothing unrelated to the elevator is to be run through them. Checking the sign-in, which lists who is authorised, is the polite and firm way to turn him around — and it is also how the borrowed key gets found and taken back.",
+      "wrongNote": "That does not stop him. Check the access sign-in — he is not on it, so he is not staying."
+    }
+  ],
+  "lateNotes": {
+    "building-log": "The round goes into the log at the end, with the defects and the entrapment in it.",
+    "mr-light-switch": "The light goes off on the way out, once the round is done.",
+    "mr-thermostat": "The setpoint is adjusted once you have seen how the room holds under the fan — not guessed before you have read it."
+  },
+  "name": "Elevator Machine Room",
+  "parSeconds": 260,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "property-management"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "access-signin",
+      "building-log",
+      "car-phone-panel",
+      "controller-cabinet",
+      "corridor-socket",
+      "crew-checkin-board",
+      "door-prop",
+      "extinguisher-overdue",
+      "mainline-reset",
+      "mcp-binder",
+      "mechanic-ticket",
+      "mr-door-latch",
+      "mr-fan-control",
+      "mr-key-box",
+      "mr-light-switch",
+      "mr-thermometer",
+      "mr-thermostat",
+      "oil-on-floor",
+      "passenger-intercom",
+      "sheave-guard-missing",
+      "sheave-reach",
+      "stored-boxes"
+    ],
+    "meshes": 178
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Open the machine room's maintenance control program binder and the access log: last service, open defects, who has been in.",
+      "id": "mcp-binder",
+      "kind": "select",
+      "prompt": "Open the machine room's maintenance control program binder and the access log: last service, open defects, who has been in.",
+      "target": "mcp-binder",
+      "title": "Read the maintenance control program and access log",
+      "why": "ASME A17.1 expects each elevator to have a maintenance control program on site, with the records of what was done and when. It tells you what the mechanic last touched and what is still open; the access log tells you who has been in the room since you last were — which matters in a room nobody should enter casually."
+    },
+    {
+      "anyOrder": false,
+      "cue": "Sign the machine room key out of the key box, go in, and watch the door close and latch behind you.",
+      "id": "entry-check",
+      "itemNames": {
+        "mr-door-latch": "door closes and latches behind you",
+        "mr-key-box": "machine room key signed out"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Key first, then the door. Walking in through a door that was already unlatched is the finding — note it before you do anything else.",
+      "prompt": "Sign the machine room key out of the key box, go in, and watch the door close and latch behind you.",
+      "targets": [
+        "mr-key-box",
+        "mr-door-latch"
+      ],
+      "title": "Enter and prove the door",
+      "why": "The machine room is restricted because what is in it can kill: moving ropes, open sheaves, live controllers. A key that is signed for and a door that shuts and locks on its own are what keep it restricted. Proving the closer on the way in catches the door that has been quietly sitting unlatched since the last visit."
+    },
+    {
+      "cue": "Read the room thermometer and commit when it sits inside the equipment's rated range.",
+      "gauge": {
+        "green": [
+          0.36,
+          0.56
+        ],
+        "label": "MACHINE ROOM TEMPERATURE",
+        "missNote": "Outside the rated range. A room that hot trips drives and a room that cold condenses on the controller. Read it again and commit only inside the band.",
+        "speed": 0.5
+      },
+      "id": "room-temp",
+      "kind": "gauge",
+      "prompt": "Read the room thermometer and commit when it sits inside the equipment's rated range.",
+      "target": "mr-thermometer",
+      "title": "Read the machine room temperature",
+      "why": "Modern elevator drives and controllers are electronics, and they fault out, derate or fail early when the room overheats — usually on the hottest afternoon, with the building full. A17.1 ties the room's conditions to what the equipment is rated for, and the monthly reading is the trend that shows a failing fan before the cars start stopping."
+    },
+    {
+      "cue": "Three things in this room need reporting today. Find them — without reaching past any guard.",
+      "id": "room-walk",
+      "itemNames": {
+        "extinguisher-overdue": "extinguisher tag overdue",
+        "oil-on-floor": "oil pooling under the hoist machine",
+        "sheave-guard-missing": "sheave guard missing"
+      },
+      "itemNotes": {
+        "extinguisher-overdue": "The extinguisher's inspection tag has not been initialled in months. 29 CFR 1910.157 wants a monthly visual check — an overdue tag is an extinguisher nobody has looked at.",
+        "oil-on-floor": "Oil is pooling under the hoist machine. It is a slip hazard on a floor with open rope holes, and it is also a machine telling the mechanic that a seal is going.",
+        "sheave-guard-missing": "The guard over the drive sheave's nip point is off and not back on. Report it; do not reach anywhere near that groove."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Three things in this room need reporting today. Find them — without reaching past any guard.",
+      "targets": [
+        "oil-on-floor",
+        "sheave-guard-missing",
+        "extinguisher-overdue"
+      ],
+      "title": "Walk the machine room",
+      "why": "The building engineer does not repair elevators, but is the person in the room most often, and most elevator defects are visible long before they stop a car: oil where it should not be, a guard left off after service, a fire extinguisher nobody has checked. The walk is how they reach the mechanic's ticket instead of an accident report."
+    },
+    {
+      "cue": "Somebody has stacked boxes in the machine room. Carry them out to the corridor.",
+      "drag": {
+        "missNote": "Not out of the room yet. Carry the boxes all the way to the corridor by the door.",
+        "radius": 0.55,
+        "to": "corridor-socket"
+      },
+      "id": "clear-storage",
+      "kind": "drag",
+      "prompt": "Somebody has stacked boxes in the machine room. Carry them out to the corridor.",
+      "target": "stored-boxes",
+      "title": "Carry the stored boxes out",
+      "why": "ASME A17.1 does not allow machine rooms to be used for storage: boxes block the path to the disconnect, feed a fire in a room full of electrical equipment and hide the rope holes in the floor. Machine rooms fill up because they are locked and empty; carrying it out and finding out whose it is keeps it from coming back."
+    },
+    {
+      "cue": "Give the elevator contractor's mechanic the oil leak and the missing guard, and see them go on the contractor's ticket.",
+      "id": "report-defects",
+      "kind": "select",
+      "prompt": "Give the elevator contractor's mechanic the oil leak and the missing guard, and see them go on the contractor's ticket.",
+      "target": "mechanic-ticket",
+      "title": "Hand the defects to the mechanic",
+      "why": "Oil and guards are elevator work, and under the state elevator code only a licensed mechanic does elevator work. The engineer's job is to see that the defect is on the contractor's ticket, with a date, and to follow it up — a defect mentioned in passing to a busy mechanic is a defect nobody owns."
+    },
+    {
+      "cue": "Press and hold the emergency phone test on the communication panel until the monitoring service answers for each car.",
+      "holdBreakNote": "You let go before the monitoring service answered. Hold it until a person confirms the call for every car.",
+      "id": "phone-check",
+      "kind": "hold",
+      "prompt": "Press and hold the emergency phone test on the communication panel until the monitoring service answers for each car.",
+      "seconds": 5,
+      "target": "car-phone-panel",
+      "title": "Test the cars' emergency communication",
+      "why": "A17.1 requires every car to have two-way emergency communication, because someone trapped between floors has nothing else. A phone line can die quietly when a carrier changes service, and the test is the only proof that the button in the car actually reaches a person who can send help."
+    },
+    {
+      "cue": "Run the exhaust fan and keep the room in its band as the cars work the afternoon rush.",
+      "holdBreakNote": "The room drifted out of band. Bring the fan back to where the temperature holds and keep it there through the load.",
+      "id": "vent-hold",
+      "kind": "track",
+      "prompt": "Run the exhaust fan and keep the room in its band as the cars work the afternoon rush.",
+      "seconds": 6,
+      "target": "mr-fan-control",
+      "title": "Hold the ventilation against the afternoon load",
+      "track": {
+        "drift": 0.1,
+        "fall": 0.4,
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "MACHINE ROOM — FAN VS LOAD",
+        "rise": 0.45,
+        "start": 0.2
+      },
+      "why": "Machine room heat comes from the drives, and it climbs fastest exactly when the building is busiest. Too little air and the drives fault; too much in winter and the controllers sweat. Holding the room in band under load is what shows whether the ventilation actually keeps up, and a room that cannot be held is a work order for the HVAC side."
+    },
+    {
+      "cue": "Turn the thermostat to the setpoint that held the room in band under load.",
+      "id": "set-thermostat",
+      "kind": "turn",
+      "prompt": "Turn the thermostat to the setpoint that held the room in band under load.",
+      "target": "mr-thermostat",
+      "title": "Set the machine room thermostat",
+      "turn": {
+        "axis": "z",
+        "label": "THERMOSTAT",
+        "turns": 0.5
+      },
+      "why": "A setpoint chosen from what the room actually did under the afternoon load, rather than left wherever it was, keeps the drives inside their rated range on the days nobody is watching. It is a small adjustment that prevents a class of breakdowns that otherwise look random."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Switch the light off and pull the door closed until it latches.",
+      "id": "exit-check",
+      "itemNames": {
+        "mr-door-latch": "door closed and latched behind you",
+        "mr-light-switch": "light off"
+      },
+      "kind": "sequence",
+      "prompt": "Switch the light off and pull the door closed until it latches.",
+      "targets": [
+        "mr-light-switch",
+        "mr-door-latch"
+      ],
+      "title": "Leave the room as found",
+      "why": "The machine room door is the control that keeps everyone else out, and it only works if it latches every time somebody leaves. Checking it on the way out, as deliberately as on the way in, is what stops the room from becoming the unlocked space in the building."
+    },
+    {
+      "cue": "Log the temperature, the defects handed to the mechanic, the storage removed, the entrapment and the installer turned away.",
+      "id": "building-log",
+      "kind": "select",
+      "prompt": "Log the temperature, the defects handed to the mechanic, the storage removed, the entrapment and the installer turned away.",
+      "target": "building-log",
+      "title": "Write the round into the building log",
+      "why": "The building log is where the owner's side of the elevator record lives: what the engineer found, what was reported and when, and what happened during the entrapment. When an inspector or an insurer asks what the building knew about that oil leak, the answer is this entry."
+    },
+    {
+      "cue": "Ask the mechanic how the entrapment call went on their side, and name the member services line before you go.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Ask the mechanic how the entrapment call went on their side, and name the member services line before you go.",
+      "target": "crew-checkin-board",
+      "title": "Check in with the mechanic",
+      "why": "Talking a frightened person through an entrapment, staying calm on the phone while you cannot see them, is draining, and so is being the mechanic everyone is waiting on. A short check-in afterwards, with the support line named, lets both of them put that call down instead of carrying it into the next one."
+    }
+  ],
+  "supportLine": "IUOE Local 39's member services or your employer's EAP — talking a frightened resident through an entrapment is harder than it sounds",
+  "tagline": "A monthly machine room round: the maintenance program read, the door proven, temperature read, oil, guards and extinguisher checked, storage carried out, defects handed to the mechanic, the car phone tested, the room ventilated and left as found",
+  "title": "SmartCiti.X~ Elevator Machine Room VR",
+  "trade": "Building engineer — IUOE Local 39 stationary engineers, alongside the elevator contractor's licensed mechanic",
+  "underwater": null,
+  "weather": null
+}

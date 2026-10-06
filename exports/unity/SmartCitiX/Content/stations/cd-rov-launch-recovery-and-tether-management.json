@@ -1,0 +1,443 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "tether-in-hand",
+    "name": "Tether In Hand",
+    "note": "The ROV's tether tended from the pad to the reel, never a bight on deck, never a hand near a live thruster"
+  },
+  "category": "Maritime & Ports",
+  "certification": "Pile Drivers apprenticeship under the Carpenters (UBC) International Training Fund; OSHA 29 CFR 1910 Subpart T where an ROV works alongside divers — 29 CFR 1910.421 pre-dive planning of hazardous activities nearby, 29 CFR 1910.422 procedures during the dive (communications and the termination of the dive) and 29 CFR 1910.430 equipment; ADCI consensus standards for ROV operations on a dive site; USCG 46 CFR 197 Subpart B where the vessel is under Coast Guard jurisdiction and 33 CFR 83 for the workboat's lights and signals; the ROV manufacturer's manual and the dive plan hold every limit",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ADCI",
+        "citedAs": "ADCI",
+        "id": "adci-consensus-standards",
+        "title": "Association of Diving Contractors International — International Consensus Standards for Commercial Diving and Underwater Operations"
+      },
+      {
+        "body": "union",
+        "citedAs": "Pile Drivers",
+        "id": "carpenters-ictf",
+        "title": "United Brotherhood of Carpenters International Training Fund — carpenter, pile driver and millwright apprenticeship"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.421",
+        "id": "osha-1910-421",
+        "title": "29 CFR 1910.421 — Pre-dive procedures (emergency aid list, planning and assessment of the dive, hazardous activities nearby, the team briefing, equipment inspection and the warning signal)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.422",
+        "id": "osha-1910-422",
+        "title": "29 CFR 1910.422 — Procedures during the dive (water entry and exit, communications, decompression tables, power tools, termination of the dive)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.430",
+        "id": "osha-1910-430",
+        "title": "29 CFR 1910.430 — Diving equipment (air compressor systems and their intakes, breathing gas hoses, helmets and masks, decompression chambers, gauges and timekeeping)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.440",
+        "id": "osha-1910-440",
+        "title": "29 CFR 1910.440 — Recordkeeping for commercial diving (the dive record, decompression procedure assessments and their retention)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910 Subpart T",
+        "id": "osha-1910-subpart-t",
+        "title": "29 CFR 1910 Subpart T — Commercial diving operations (dive team qualifications, the safe practices manual, pre-dive, during-dive and post-dive procedures, equipment and the dive record)"
+      },
+      {
+        "body": "USCG",
+        "citedAs": "33 CFR 83",
+        "id": "uscg-33-cfr-83",
+        "title": "33 CFR Part 83 — Inland Navigation Rules"
+      },
+      {
+        "body": "USCG",
+        "citedAs": "46 CFR 197 Subpart B",
+        "id": "uscg-46-cfr-197-subpart-b",
+        "title": "46 CFR Part 197 Subpart B — Commercial diving operations from vessels and facilities under Coast Guard jurisdiction"
+      }
+    ]
+  },
+  "district": "Maritime & Ports",
+  "domain": "Maritime & Ports",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "found-on-the-pad",
+        "name": "Found On The Pad",
+        "note": "The cracked float and the loose termination found before the water"
+      },
+      {
+        "id": "marks-to-plan",
+        "name": "Marks To Plan",
+        "note": "The tether marks committed inside the plan's band first time"
+      },
+      {
+        "id": "clear-of-thrusters",
+        "name": "Clear Of Thrusters",
+        "note": "No hand near a live thruster, no bight, no wrap"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-flight",
+        "name": "Clean Flight",
+        "note": "No corrections from the brief to the check-in"
+      },
+      {
+        "id": "steady-payout",
+        "name": "Steady Pay-out",
+        "note": "Tether in band for the whole flight"
+      },
+      {
+        "id": "logged-fast",
+        "name": "Logged Fast",
+        "note": "ROV log written inside 80% of par"
+      }
+    ],
+    "currency": "TETHER MARKS",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Deckhand",
+      "ROV Tender",
+      "Launch Tender",
+      "Lead Tender",
+      "ROV Deck Certified"
+    ],
+    "system": "Flight Deck"
+  },
+  "hazards": {
+    "fly-to-diver": "You told the pilot to swing the vehicle round to look at the diver's bubbles on the far side of the workboat. An ROV near a diver without the supervisor's word is a tether across a diver's umbilical and thrusters beside a diver's hands; the dive plan keeps the vehicle on its own side of the boat until the supervisor says otherwise, and the tender does not redirect it.",
+    "hand-in-thruster": "You reached into a thruster's guard to pull out a strand of weed with the vehicle still powered. A thruster spins up on a pilot's thumb without a sound from the deck, and the guard is sized to keep out a rope, not a finger. Fouling is cleared with the vehicle powered down at the console and the pilot's hands off the sticks, said out loud, and with a tool rather than a hand.",
+    "stand-in-tether": "You stepped into a loop of tether on the deck while it was paying out. A tether that runs out under your feet takes an ankle with it toward the rail, and the pilot flying the vehicle feels only that the tether has gone tight. The tender stands beside the flake, feeds it from the side, and never lets a loop lie where a foot can go.",
+    "wrap-tether-hand": "You took a wrap of the tether round your hand to hold it against the pull at the rail. A vehicle that gets caught in a current or driven hard by the pilot puts its whole thrust on that wrap, and a hand cinched in a tether goes over the rail with it. The tether is held in open hands and led over the roller; if it pulls too hard to hold, the pilot is told and the reel's brake takes it."
+  },
+  "id": "cd-rov-launch-recovery-and-tether-management",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "surface-hold",
+      "alert": "A skiff has run past the apron and its wake is pushing the floating vehicle toward the pile — the pilot is fighting it on the thrusters with your tether tight.",
+      "cue": "Hit the deck kill switch to stop the thrusters, then haul the vehicle in by the tether to the fender before it strikes the pile.",
+      "delay": 2,
+      "id": "skiff-wake",
+      "kind": "Skiff's wake setting the vehicle onto the pile",
+      "missNote": "The wake carried the vehicle onto the pile with its thrusters still turning; the dome took the strike and the tether wrapped the pile's growth before the tender hauled it clear.",
+      "seconds": 14,
+      "target": "kill-switch",
+      "why": "A vehicle at the surface in a wake is a vehicle whose thrusters are half out of the water and doing nothing useful, and a pilot fighting a wake drives it into the pile as often as away. The deck kill switch stops the thrusters so the tender can haul it in by hand without a prop turning near the tether or the fender, and the vehicle rides the wake against the fender instead of the pile.",
+      "wrongNote": "The kill switch — stop the thrusters before you haul on a tether with a prop turning at the end of it."
+    },
+    {
+      "after": "tether-payout",
+      "alert": "The tether has stopped paying out and is coming up tight at the roller — the vehicle's picture shows it still trying to fly forward.",
+      "cue": "Set the reel's brake and call 'snag — stop' to the pilot on the intercom before another metre goes out or comes in.",
+      "delay": 2,
+      "id": "tether-snag",
+      "kind": "Tether snagged on the pile",
+      "missNote": "The pilot flew on against the snag until the termination pulled and the picture went dark; the vehicle was recovered by the tether alone, hand over hand, with the pile's growth wrapped round it.",
+      "seconds": 14,
+      "target": "reel-brake",
+      "why": "A tether that stops paying out while the vehicle flies on is caught on something between the roller and the vehicle, and every metre the pilot flies pulls harder on the snag and the termination. The brake stops the reel, the call stops the pilot, and only then is the snag drill worked; pulling from the deck or flying on are the two ways to part a tether at its weakest point.",
+      "wrongNote": "The reel's brake — stop the tether and call the snag to the pilot before anything else."
+    }
+  ],
+  "lateNotes": {
+    "lift-hook": "The hook goes on once the pilot has brought the vehicle to the surface.",
+    "rov-log": "The log is written once the vehicle is on the pad, rinsed and inspected.",
+    "tether-payout": "The tether is paid out once the vehicle is in the water and trimmed."
+  },
+  "name": "ROV Launch, Recovery & Tether Management",
+  "parSeconds": 320,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "commercial-diving-and-scientific-scuba"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "rov",
+        "count": 1,
+        "kit": "fleet"
+      },
+      {
+        "builder": "workboat",
+        "count": 1,
+        "kit": "fleet"
+      }
+    ],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "console-intercom",
+      "cracked-float",
+      "davit-winch",
+      "feel-slack",
+      "flake-tray",
+      "fly-to-diver",
+      "hand-in-thruster",
+      "kill-switch",
+      "lift-hook",
+      "lights-camera",
+      "loose-termination",
+      "reel-brake",
+      "reverse-path",
+      "rinse-hose",
+      "rov-bail",
+      "rov-log",
+      "rov-plan",
+      "stand-in-tether",
+      "surface-ring",
+      "team-board",
+      "tether-end",
+      "tether-marks",
+      "tether-payout",
+      "thruster-test",
+      "wrap-tether-hand"
+    ],
+    "meshes": 248
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "At the console: the vehicle's task and its working side of the boat, the diver's side, who calls a hold, the hand signals with the pilot when the intercom fails, and what ends the flight.",
+      "id": "rov-brief",
+      "kind": "select",
+      "prompt": "At the console: the vehicle's task and its working side of the boat, the diver's side, who calls a hold, the hand signals with the pilot when the intercom fails, and what ends the flight.",
+      "target": "rov-plan",
+      "title": "Read the ROV plan against the dive plan",
+      "why": "An ROV on a dive site is one of the hazardous activities nearby that 29 CFR 1910.421 has the dive team plan for, and the plan is what keeps a vehicle with spinning thrusters and a long tether on its own side of the boat from the diver. The tender reads it against the dive plan so the two agree about the sides, the holds and who has the word, before either vehicle or diver is in the water."
+    },
+    {
+      "cue": "Go round the ROV on its pad: the frame, the flotation, each thruster's guard and prop, the camera dome, the lights, the manipulator and the tether termination — hands on each.",
+      "id": "pre-dive-checks",
+      "itemNames": {
+        "cracked-float": "crack in the vehicle's flotation block",
+        "loose-termination": "tether termination loose on the vehicle"
+      },
+      "itemNotes": {
+        "cracked-float": "A crack runs through the yellow flotation block along one edge. Syntactic foam that takes on water loses its buoyancy through the flight, and a vehicle that goes heavy fights the pilot on every ascent.",
+        "loose-termination": "The tether's termination is not seated home on the vehicle's connector — a finger moves it. A termination that pulls in the water floods the connector and the flight is over with the vehicle on the bottom."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Go round the ROV on its pad: the frame, the flotation, each thruster's guard and prop, the camera dome, the lights, the manipulator and the tether termination — hands on each.",
+      "targets": [
+        "cracked-float",
+        "loose-termination"
+      ],
+      "title": "Walk round the vehicle on the pad",
+      "why": "The vehicle goes into the water only as good as the pad check, and the two faults that end a flight — a flooding termination and a float that goes heavy — are both found by a hand on the pad and neither from the console. 29 CFR 1910.430 has the dive team's equipment inspected before each use, and on a site where the vehicle works beside a diver, the ROV is that equipment."
+    },
+    {
+      "cue": "Step back, call 'clear' to the pilot, let them bump each thruster once, then have the lights and camera brought up and confirm the picture on the monitor.",
+      "id": "function-test",
+      "itemNames": {
+        "lights-camera": "lights and camera checked on the monitor",
+        "thruster-test": "thrusters bumped on the pilot's call, tender clear"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order — the thrusters are bumped first, with you clear and on a call; the picture is checked after.",
+      "prompt": "Step back, call 'clear' to the pilot, let them bump each thruster once, then have the lights and camera brought up and confirm the picture on the monitor.",
+      "targets": [
+        "thruster-test",
+        "lights-camera"
+      ],
+      "title": "Call the thruster bump clear, then check lights and camera",
+      "why": "Thrusters are tested with everyone clear and on a call, because a bump test with a hand on the frame is a hand in a prop; the tender says 'clear', the pilot says 'bumping', and only then does anything spin. Lights and camera are checked after, on the monitor, because a vehicle that goes down without a picture cannot be flown back and the tender is the one who will haul it in blind on the tether."
+    },
+    {
+      "cue": "Take the tether from the reel and flake it into the tray in figure-eights, enough for the flight per the plan, the vehicle end on top.",
+      "drag": {
+        "missNote": "Not in the tray — flake the tether down in figure-eights into the tray with the vehicle end on top.",
+        "radius": 0.55,
+        "to": "flake-tray"
+      },
+      "id": "tether-flake",
+      "kind": "drag",
+      "prompt": "Take the tether from the reel and flake it into the tray in figure-eights, enough for the flight per the plan, the vehicle end on top.",
+      "target": "tether-end",
+      "title": "Flake the tether from the reel into the tray",
+      "why": "A tether flaked in figure-eights pays out without a twist; one coiled round and round throws a kink into the water every few metres, and a kink in a tether is a bent fibre and a lost picture. The flake is sized to the plan so the tender knows when the vehicle has all it should have, and the vehicle end lies on top so the pay-out starts clean without dragging the flake across the deck."
+    },
+    {
+      "cue": "With the pilot ready and the tether in your other hand, lower the ROV on the davit winch — steady, over the side, until it floats and the hook is slack.",
+      "id": "launch-lower",
+      "kind": "turn",
+      "prompt": "With the pilot ready and the tether in your other hand, lower the ROV on the davit winch — steady, over the side, until it floats and the hook is slack.",
+      "target": "davit-winch",
+      "title": "Lower the vehicle on the davit to the water",
+      "turn": {
+        "label": "WINCH — LOWER",
+        "turns": 1.2
+      },
+      "why": "The vehicle goes over the side on the davit and not by hand, because an ROV is heavier than it looks and a rail is not a place to be holding one when the boat rolls. The winch runs steady so the vehicle does not swing into the hull, and the tender keeps the tether in the other hand so the vehicle is never off the hook without its tether tended; the hook is slack before it is released, never released to drop."
+    },
+    {
+      "cue": "Keep the tether snug with the vehicle floating at the surface off the apron while the pilot checks trim, the picture and the intercom, and confirms 'ready to dive'.",
+      "holdBreakNote": "The tether went slack or the vehicle drifted off — hold it snug at the surface until the pilot calls 'ready to dive'.",
+      "id": "surface-hold",
+      "kind": "hold",
+      "prompt": "Keep the tether snug with the vehicle floating at the surface off the apron while the pilot checks trim, the picture and the intercom, and confirms 'ready to dive'.",
+      "seconds": 5,
+      "target": "surface-ring",
+      "title": "Hold the vehicle at the surface for the pilot's trim and comms check",
+      "why": "The surface check is the last one before the vehicle is out of reach: trim wrong is a vehicle that fights the pilot all flight, and an intercom that drops is a tender and a pilot who cannot talk about the tether. The tender holds it snug at the surface where it can still be hauled in by hand, and lets it go down only on the pilot's word, because after that the tether is the only thing the tender can do anything with."
+    },
+    {
+      "cue": "Feed the tether over the roller as the pilot flies out — enough that the vehicle is never held back, never so much that a belly of slack drifts toward the pile.",
+      "holdBreakNote": "The tether went out of band — holding the vehicle back or bellying slack. Get back in step with the pilot.",
+      "id": "tether-payout",
+      "kind": "track",
+      "prompt": "Feed the tether over the roller as the pilot flies out — enough that the vehicle is never held back, never so much that a belly of slack drifts toward the pile.",
+      "seconds": 6,
+      "target": "tether-payout",
+      "title": "Pay the tether out in step with the vehicle",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.46,
+        "green": [
+          0.42,
+          0.62
+        ],
+        "label": "TETHER",
+        "rise": 0.56,
+        "start": 0.14
+      },
+      "why": "A tether held tight pulls the vehicle off its heading and drags on every thruster; a tether paid out loose lays a belly on the bottom that wraps the pile the pilot cannot see behind them. The tender feels the vehicle through the tether the way a dive tender feels a diver, matching the pay-out to the picture on the monitor and to the pilot's calls, so the tether runs clean from the roller to the vehicle."
+    },
+    {
+      "cue": "Tell the pilot 'snag — fly back along your track', watch the tether at the roller, and when it comes free take in the slack hand over hand before the pilot moves again.",
+      "id": "snag-drill",
+      "itemNames": {
+        "feel-slack": "tender feels the tether come free and takes in the slack",
+        "reverse-path": "pilot flies back along the tether's own path"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order — the pilot flies back along the tether's path first; the slack is taken in once it comes free.",
+      "prompt": "Tell the pilot 'snag — fly back along your track', watch the tether at the roller, and when it comes free take in the slack hand over hand before the pilot moves again.",
+      "targets": [
+        "reverse-path",
+        "feel-slack"
+      ],
+      "title": "Work the snag drill: back along the path, then take in the slack",
+      "why": "A snagged tether is never pulled from the deck: pulling drags the vehicle backward into whatever it is caught on and can part the tether at the termination. The pilot flies back along the path the tether took, because that is the only route that unwinds the snag, and the tender takes in the slack the moment it comes free so the same belly cannot catch twice. Then the pilot goes on, and the tender says how much came back."
+    },
+    {
+      "cue": "Read the tether's marks at the roller and commit when what is out matches the vehicle's working run in the plan, with the slack you have just recovered accounted for.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "TETHER OUT vs PLAN",
+        "missNote": "Outside the band — read the mark at the roller and match it to the run the ROV plan gives.",
+        "speed": 0.68
+      },
+      "id": "read-marks",
+      "kind": "gauge",
+      "prompt": "Read the tether's marks at the roller and commit when what is out matches the vehicle's working run in the plan, with the slack you have just recovered accounted for.",
+      "target": "tether-marks",
+      "title": "Read the tether marks against the ROV plan",
+      "why": "The tether is marked along its length so the tender knows what is out without seeing the vehicle, and the plan says how far the vehicle should be from the apron on this run. Too little out and the pilot is held short; too much and there is tether on the bottom where the pile is. Reading the marks against the plan is how the tender knows the snag drill recovered what it should and the vehicle is where the picture says."
+    },
+    {
+      "cue": "On the intercom: the pilot ends the run and brings the vehicle to the surface at the apron with lights on; you confirm the diver is clear on the other side with the supervisor before the hoist starts.",
+      "id": "recovery-call",
+      "kind": "select",
+      "prompt": "On the intercom: the pilot ends the run and brings the vehicle to the surface at the apron with lights on; you confirm the diver is clear on the other side with the supervisor before the hoist starts.",
+      "target": "console-intercom",
+      "title": "Agree the recovery with the pilot and the supervisor",
+      "why": "Recovery is the second time the vehicle and the tender's hands are close together and the first time the tether has to come in fast, so it is agreed on the intercom rather than begun on a feeling. The supervisor confirms the diver is on their own side and away from the tether's path per the dive plan, because a vehicle coming up under a hoist and a diver on an umbilical must never be in the same water."
+    },
+    {
+      "cue": "With the vehicle at the surface against the apron's fender and the pilot's hands off the sticks, reach the davit hook to the bail and close its latch.",
+      "drag": {
+        "missNote": "Not on the bail — the hook goes on the vehicle's lifting bail with its latch closed, pilot's hands off the sticks.",
+        "radius": 0.55,
+        "to": "rov-bail"
+      },
+      "id": "hook-on",
+      "kind": "drag",
+      "prompt": "With the vehicle at the surface against the apron's fender and the pilot's hands off the sticks, reach the davit hook to the bail and close its latch.",
+      "target": "lift-hook",
+      "title": "Land the davit hook on the vehicle's bail",
+      "why": "The hook goes on with the pilot's hands off the sticks and said so, because a thruster bumped while a tender leans over the rail to a floating vehicle is a hand in a prop. The bail is the one lifting point the manufacturer built for the hoist; a hook on the frame or the flotation pulls the vehicle apart on the way up. The latch closes and is checked before the winch turns."
+    },
+    {
+      "cue": "Take the tether in as the winch lifts, steady, clear of the hull, and land the vehicle on its pad without a swing.",
+      "id": "recover-hoist",
+      "kind": "turn",
+      "prompt": "Take the tether in as the winch lifts, steady, clear of the hull, and land the vehicle on its pad without a swing.",
+      "target": "davit-winch",
+      "title": "Hoist the vehicle to the pad",
+      "turn": {
+        "label": "WINCH — HOIST",
+        "turns": 1.2
+      },
+      "why": "The vehicle comes up on the winch with the tether taken in beside it so no bight is left in the water for a propeller, and it is landed on its pad rather than the deck so the frame sits on the mounts and the thrusters are off the plate. A swinging vehicle at a rail is a struck-by for the tender and a cracked dome for the vehicle; the hoist is slow and the tender's free hand steadies it, never under it."
+    },
+    {
+      "cue": "Rinse the vehicle and the tether with fresh water, look over every part you checked on the way out, and tag the cracked float and the termination for the technician.",
+      "id": "post-dive-inspect",
+      "kind": "select",
+      "prompt": "Rinse the vehicle and the tether with fresh water, look over every part you checked on the way out, and tag the cracked float and the termination for the technician.",
+      "target": "rinse-hose",
+      "title": "Rinse the vehicle and inspect it, tag the cracked float",
+      "why": "Bay water left on a vehicle eats its connectors and its bearings between flights, and the rinse is when the tender sees what the flight did: a new nick in the tether, weed in a thruster, a dome scratched on the pile. The float and the termination found on the pad are tagged rather than talked about, so the technician finds them and no one launches the vehicle tomorrow on the tender's memory."
+    },
+    {
+      "cue": "At the log: the checks, the faults tagged, the launch and recovery times, the snag and where the vehicle was, the wake at the surface, the tether marks and the diver's side confirmed.",
+      "id": "rov-log",
+      "kind": "select",
+      "prompt": "At the log: the checks, the faults tagged, the launch and recovery times, the snag and where the vehicle was, the wake at the surface, the tether marks and the diver's side confirmed.",
+      "target": "rov-log",
+      "title": "Write the ROV log and the dive record entry",
+      "why": "The vehicle's history is what the technician reads before the next flight and what the supervisor cites when the dive record asks what else was in the water; 29 CFR 1910.440 keeps the dive's record and the ROV log sits beside it. The snag and the wake go in because the next tender at this pier plans the tether's path around the pile, and the tagged faults go in so the log and the tags agree."
+    },
+    {
+      "cue": "At the team board: the vehicle tagged out for the technician, the snag and the wake, the diver's side held clear throughout, and how everyone is.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "At the team board: the vehicle tagged out for the technician, the snag and the wake, the diver's side held clear throughout, and how everyone is.",
+      "target": "team-board",
+      "title": "Check in with the pilot and the dive team",
+      "why": "The check-in is where the two crews — the ROV's and the diver's — agree what happened in the same water: the wake that pushed the vehicle toward the pile, the snag, and the fact that the vehicle never crossed to the diver's side. It is said out loud so tomorrow's plan carries it, and the Pile Drivers member assistance line is there for what the deck conversation does not settle."
+    }
+  ],
+  "supportLine": "your union hall's member assistance programme — the Pile Drivers of the Carpenters — with the employer's employee assistance line behind it",
+  "tagline": "The vehicle's line in the tender's hands: the ROV plan read against the dive plan, the cracked float and the loose termination found, thrusters and lights function-tested, the tether flaked, the vehicle lowered on the davit, held at the surface through a skiff's wake, the tether paid out in step until it snags on a pile, the snag drill worked back along the path, the marks read to the plan, the hook landed on the bail, the vehicle hoisted, rinsed, tagged and logged",
+  "title": "SmartCiti.X~ ROV Launch, Recovery & Tether Management VR",
+  "trade": "Pile Drivers of the Carpenters diver-tender working as ROV tender on a pier survey, with the ROV pilot at the console, the dive supervisor and a diver in the water off the workboat",
+  "underwater": null,
+  "weather": "clear"
+}

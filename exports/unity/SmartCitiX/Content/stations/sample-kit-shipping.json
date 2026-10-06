@@ -1,0 +1,380 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "chain-unbroken",
+    "name": "Chain Unbroken",
+    "note": "Every label matched, the cold chain running, and the custody form signed before the courier ever touched the box"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "OSHA 29 CFR 1910.1030 bloodborne pathogens for handling human biological specimens; EPA QA/QC and chain-of-custody guidance; CDC biological substance, Category B packing and shipping guidance; 45 CFR 46 informed consent underlying every specimen in the cooler",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "CDC",
+        "citedAs": "CDC",
+        "id": "cdc-guidance",
+        "title": "CDC infection-prevention and public-health guidance, including the Guidelines for Infection Control in Dental Health-Care Settings and Legionella control guidance"
+      },
+      {
+        "body": "HHS",
+        "citedAs": "45 CFR 46",
+        "id": "hhs-45-cfr-46",
+        "title": "45 CFR Part 46 — Federal Policy for the Protection of Human Subjects (the Common Rule)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1030",
+        "id": "osha-1910-1030",
+        "title": "29 CFR 1910.1030 — Bloodborne pathogens"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Environmental",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "labels-matched",
+        "name": "Labels Matched",
+        "note": "Every label cross-checked against the manifest before packing"
+      },
+      {
+        "id": "never-unsigned",
+        "name": "Never Unsigned",
+        "note": "No sample left the room without its custody form signed"
+      },
+      {
+        "id": "temp-true",
+        "name": "Temp True",
+        "note": "The scale and the logger both read inside their working band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-pack",
+        "name": "Clean Pack",
+        "note": "No corrections across the whole packing run"
+      },
+      {
+        "id": "cold-chain-held",
+        "name": "Cold Chain Held",
+        "note": "The temperature watch held steady without a break"
+      },
+      {
+        "id": "ready-fast",
+        "name": "Ready Fast",
+        "note": "Packed and handed off inside 80% of par"
+      }
+    ],
+    "currency": "CUSTODY",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Packing Trainee",
+      "Kit Handler",
+      "Field Coordinator",
+      "Lead Coordinator",
+      "Custody Certified"
+    ],
+    "system": "Sample Shipping"
+  },
+  "hazards": {
+    "release-unsigned": "You handed the box to the courier without the chain-of-custody form signed. From the moment it leaves this room, a sample with no signed record of who packed it and when is a sample that cannot be defended if its result is ever challenged — the signature is what makes the chain a chain instead of a claim.",
+    "ship-unlabeled": "You reached for the ship-it-now shortcut on a tube that was never cross-checked against the manifest. A sample without a label anyone can verify against a participant ID is a sample the lab cannot honestly attach to anyone's result — it either gets sent back or, worse, gets attached to the wrong person's file.",
+    "skip-cold-chain": "You packed the cooler without the ice packs. Urine, hair and dust-wipe samples all degrade differently once they warm past the range the lab validated its methods against, and a result run on a sample that spent transit at room temperature is a number describing decay, not exposure.",
+    "skip-secondary-pack": "You reached for the skip-the-outer-packaging shortcut and put a bare tube straight in the shipping box. UN3373's absorbent material and rigid outer packaging exist because a primary tube does crack in transit sometimes, and the secondary layer is what keeps that leak inside the box instead of on a courier's hands."
+  },
+  "id": "sample-kit-shipping",
+  "indoor": "service",
+  "interrupts": [
+    {
+      "after": "watch-temp",
+      "alert": "One of the hair-sample envelope's labels has come loose in the cold and condensation, and it's sitting half-peeled at the bottom of the cooler.",
+      "cue": "Fix the label before it separates completely and the tube goes anonymous.",
+      "delay": 2,
+      "id": "label-peels",
+      "kind": "Label failure mid-pack",
+      "missNote": "The cooler was sealed with the label still peeling loose inside it. Once that label fully separates in transit, the tube it belonged to has no way back to a participant ID, and the sample is unusable for anything the study needed it for.",
+      "seconds": 12,
+      "target": "relabel-tube",
+      "why": "A label that fails inside a sealed cooler does not announce itself again until somebody at the lab opens a bag and finds a tube with no ID on it — catching the peel now, while the tube is still identifiable by its position and the day's manifest, is the only point in the chain where it is still cheap to fix.",
+      "wrongNote": "It's the loose label in the cooler. Nothing else on this bench puts that tube's ID back where it belongs."
+    },
+    {
+      "after": "seal-cooler",
+      "alert": "The courier is already at the desk asking for today's pickup — the chain-of-custody form hasn't been signed yet.",
+      "cue": "Have the courier wait. Nothing leaves this room unsigned.",
+      "delay": 2,
+      "id": "courier-early",
+      "kind": "Early pickup",
+      "missNote": "The package went out the door with the courier before the custody form was signed. From this point forward there is no record of who actually handed these samples off, which is the one thing a chain of custody exists to prove.",
+      "seconds": 12,
+      "target": "courier-wait",
+      "why": "A courier's own schedule is not a reason to skip a signature that exists precisely to say who had the samples and when — asking them to wait the few minutes it takes to finish the custody form costs nothing next to what an unsigned hand-off costs if this shipment's results are ever questioned.",
+      "wrongNote": "Ask the courier to wait. The chain-of-custody form is what has to be finished before anything about this hand-off is real."
+    }
+  ],
+  "lateNotes": {
+    "coc-form": "There's nothing to sign yet — the package has to be weighed and its manifest started before the chain-of-custody form has anything on it to witness.",
+    "courier-desk": "The courier isn't taking this package yet — the manifest still has to be completed first.",
+    "field-log": "Nothing to log yet — the shipment has to actually leave with the courier before there's a shipment to record.",
+    "manifest-board": "The manifest is filled out after the chain of custody is signed, not before — it records what was already witnessed, not what is about to be."
+  },
+  "name": "Sample Kit Shipping",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "hunters-point-can-we-live"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "coc-form",
+      "cooler-latch",
+      "courier-desk",
+      "courier-wait",
+      "field-log",
+      "ice-packs-in",
+      "label-dust",
+      "label-hair",
+      "label-urine",
+      "logger-display",
+      "logger-start",
+      "loose-lid-latch",
+      "manifest-board",
+      "package-box",
+      "relabel-tube",
+      "release-unsigned",
+      "sample-fridge",
+      "scale-display",
+      "scale-plate",
+      "ship-unlabeled",
+      "skip-cold-chain",
+      "skip-secondary-pack",
+      "un-absorbent",
+      "un-outer",
+      "un-primary",
+      "unlabeled-spare-tube"
+    ],
+    "meshes": 154
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track"
+  ],
+  "steps": [
+    {
+      "cue": "Pull today's urine, hair and dust-wipe samples from the secure fridge before anything else.",
+      "id": "gather-kit",
+      "kind": "select",
+      "prompt": "Pull today's urine, hair and dust-wipe samples from the secure fridge before anything else.",
+      "target": "sample-fridge",
+      "title": "Retrieve today's specimens",
+      "why": "Every sample in this fridge has been sitting under refrigeration since collection, and the packing clock effectively starts the moment it comes out — the fewer minutes between the fridge and the cooler, the less of the cold chain gets spent before the cooler even has ice in it."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Cross-check the ID on each tube and envelope against today's shipping manifest — any order.",
+      "id": "verify-labels",
+      "itemNames": {
+        "label-dust": "dust-wipe ID checked",
+        "label-hair": "hair sample ID checked",
+        "label-urine": "urine sample ID checked"
+      },
+      "kind": "sequence",
+      "prompt": "Cross-check the ID on each tube and envelope against today's shipping manifest — any order.",
+      "targets": [
+        "label-urine",
+        "label-hair",
+        "label-dust"
+      ],
+      "title": "Match every label to the manifest",
+      "why": "The label is the only thing connecting a tube back to a consented, ID-assigned participant, and the manifest is the only outside record that can catch a label that was misread or mis-stuck at intake — cross-checking both, before packing, is the last point where a mismatch is cheap to fix instead of impossible to trace."
+    },
+    {
+      "cue": "Start the temperature logger first, then load the conditioned ice packs into the cooler.",
+      "id": "cold-chain",
+      "itemNames": {
+        "ice-packs-in": "ice packs loaded",
+        "logger-start": "temperature logger started"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Logger first, then the ice — a logger started after the packs are already in has no record of whatever temperature the samples sat at before it was turned on.",
+      "prompt": "Start the temperature logger first, then load the conditioned ice packs into the cooler.",
+      "targets": [
+        "logger-start",
+        "ice-packs-in"
+      ],
+      "title": "Start the logger, then load the ice",
+      "why": "The logger starts before the ice goes in so the record covers the packing itself, not just the transit that follows — a cold chain that is only proven from the moment the lid closes says nothing about whether the samples were already warming on the bench while they waited to be packed."
+    },
+    {
+      "cue": "Seal the primary tube, add the absorbent material, then close the rigid outer packaging — in that order.",
+      "id": "pack-un3373",
+      "itemNames": {
+        "un-absorbent": "absorbent material added",
+        "un-outer": "rigid outer packaging closed",
+        "un-primary": "primary receptacle sealed"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Primary receptacle, then absorbent material, then the rigid outer box — closing the outer packaging before the absorbent is inside defeats the layer that is supposed to catch a leak.",
+      "prompt": "Seal the primary tube, add the absorbent material, then close the rigid outer packaging — in that order.",
+      "targets": [
+        "un-primary",
+        "un-absorbent",
+        "un-outer"
+      ],
+      "title": "Pack to UN3373 exempt-specimen requirements",
+      "why": "UN3373's three layers each answer a different failure: the sealed primary receptacle is the sample's own container, the absorbent material catches whatever gets past it, and the rigid outer box is what a courier's van and belt sorter are actually allowed to handle roughly. Skipping the order — closing the outer box before the absorbent is in — leaves the one layer that matters most in a leak sitting empty."
+    },
+    {
+      "cue": "Keep the temperature reading in the cold-chain band while the rest of the cooler is loaded around it.",
+      "holdBreakNote": "The reading drifted out of the cold-chain band while attention was elsewhere — bring it back into range and keep watching until the packing is actually done.",
+      "id": "watch-temp",
+      "kind": "track",
+      "prompt": "Keep the temperature reading in the cold-chain band while the rest of the cooler is loaded around it.",
+      "seconds": 6,
+      "target": "logger-display",
+      "title": "Watch the logger while you finish packing",
+      "track": {
+        "drift": 0.11,
+        "fall": 0.42,
+        "green": [
+          0.15,
+          0.4
+        ],
+        "label": "COOLER TEMP",
+        "rise": 0.5,
+        "start": 0.3
+      },
+      "why": "A logger that drifts warm for even a few minutes while the cooler sits open on the bench is a gap in the record the lab will eventually ask about — watching it through the rest of the packing is what catches a pack that settled wrong before the lid ever closes on it."
+    },
+    {
+      "cue": "Hold the latch down until the cooler seats and locks.",
+      "holdBreakNote": "The latch let go before it seated — a cooler that looks closed but isn't latched is one bump from opening in transit.",
+      "id": "seal-cooler",
+      "kind": "hold",
+      "prompt": "Hold the latch down until the cooler seats and locks.",
+      "seconds": 4,
+      "target": "cooler-latch",
+      "title": "Seal the cooler",
+      "why": "A cooler that is closed but not actually latched can pop open under its own jostling in a courier's van, and a latch held only halfway looks sealed right up until the moment it isn't — holding it the full count is what confirms it actually caught."
+    },
+    {
+      "cue": "Move the sealed package onto the scale before reading its weight.",
+      "drag": {
+        "missNote": "Not centred on the scale plate. A package hanging off the edge reads a weight the courier's own manifest cannot rely on.",
+        "radius": 0.45,
+        "to": "scale-plate"
+      },
+      "id": "weigh",
+      "kind": "drag",
+      "prompt": "Move the sealed package onto the scale before reading its weight.",
+      "target": "package-box",
+      "title": "Place the package on the courier scale",
+      "why": "The courier's own paperwork needs a real weight, not an estimate written from memory — and a box that isn't actually sitting on the plate reads a number that belongs to nothing."
+    },
+    {
+      "cue": "Let the scale settle, then commit the weight for the manifest.",
+      "gauge": {
+        "green": [
+          0.28,
+          0.55
+        ],
+        "label": "PACKAGE WEIGHT",
+        "missNote": "Committed off the settled reading — a weight taken before the scale steadies is not the package's actual weight, and the courier's manifest will not match what they end up handling.",
+        "speed": 0.68
+      },
+      "id": "read-scale",
+      "kind": "gauge",
+      "prompt": "Let the scale settle, then commit the weight for the manifest.",
+      "target": "scale-display",
+      "title": "Read and commit the package weight",
+      "why": "A declared weight that does not match what the courier actually lifts is the kind of small mismatch that gets a Category B shipment flagged and delayed at the depot — reading the settled number is what keeps the paperwork and the box telling the same story."
+    },
+    {
+      "cue": "Hold the form steady while the chain-of-custody hand-off is completed and signed.",
+      "holdBreakNote": "The form was set down before the signature was complete — an unfinished signature at a hand-off is the same as no signature once the box is out the door.",
+      "id": "coc-sign",
+      "kind": "hold",
+      "prompt": "Hold the form steady while the chain-of-custody hand-off is completed and signed.",
+      "seconds": 5,
+      "target": "coc-form",
+      "title": "Sign the chain of custody at the hand-off",
+      "why": "A chain of custody is a chain precisely because every hand-off gets its own signature, time and name — this is the point where the samples leave the coordinator who packed them, and the signature here is what a lab or a hearing later can actually trace back to a real person's account of the hand-off."
+    },
+    {
+      "cue": "Fill in the tracking number, the Category B biological substance declaration and the lab's contact information.",
+      "id": "manifest",
+      "kind": "select",
+      "prompt": "Fill in the tracking number, the Category B biological substance declaration and the lab's contact information.",
+      "target": "manifest-board",
+      "title": "Complete the courier's manifest",
+      "why": "The manifest is what the courier and the receiving lab both read before anyone there has seen the actual box — a manifest that is incomplete or wrong is what gets a legitimate, correctly packed shipment held at a depot for hours while someone tries to reach the sender."
+    },
+    {
+      "cue": "Release the package to the courier now that the manifest and the custody form are both complete.",
+      "id": "hand-to-courier",
+      "kind": "select",
+      "prompt": "Release the package to the courier now that the manifest and the custody form are both complete.",
+      "target": "courier-desk",
+      "title": "Hand the package to the courier",
+      "why": "The hand-off is the last moment the coordinator has any control over the samples until the lab signs for them — releasing it only once the paperwork is actually done is what keeps that gap in control from also being a gap in the record."
+    },
+    {
+      "cue": "Check the bench and the other coolers, and click anything left the way it should not be.",
+      "id": "final-check",
+      "itemNames": {
+        "loose-lid-latch": "a second cooler's lid latch left loose",
+        "unlabeled-spare-tube": "an unlabeled spare tube left on the bench"
+      },
+      "itemNotes": {
+        "loose-lid-latch": "A second cooler staged for tomorrow's run has its latch sitting unlatched — left this way overnight, whatever is inside it rides on nothing but the lid's own weight.",
+        "unlabeled-spare-tube": "A spare tube from the kit is sitting on the bench with no ID on it at all. Anyone finding it tomorrow has no way to tell whether it's an unused spare or a sample that was never labelled."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Check the bench and the other coolers, and click anything left the way it should not be.",
+      "targets": [
+        "loose-lid-latch",
+        "unlabeled-spare-tube"
+      ],
+      "title": "Walk the packing bench before it's left for the night",
+      "why": "This bench runs more than one shipment a day, and what gets left wrong here is what the next coordinator in the room inherits without warning — the walk-round exists to catch it while the person who can still explain it is standing there."
+    },
+    {
+      "cue": "Record who packed it, the logger's readings, the custody signatures and the courier's tracking number.",
+      "id": "log-shipment",
+      "kind": "select",
+      "prompt": "Record who packed it, the logger's readings, the custody signatures and the courier's tracking number.",
+      "target": "field-log",
+      "title": "Log the shipment",
+      "why": "The log is the coordinator's own account of a shipment that has already left the building — without it, everything about how this specific box was packed exists only in memory, which is exactly the kind of gap a lab's own QA review will eventually ask someone to fill in from nothing."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Labels matched to the manifest, the cold chain running before the lid closes, UN3373 exempt-specimen packing, the chain of custody signed at the hand-off, the courier's manifest, and the logger read one last time",
+  "title": "SmartCiti.X~ Sample Kit Shipping VR",
+  "trade": "Biomonitoring field coordinator",
+  "underwater": null,
+  "weather": null
+}

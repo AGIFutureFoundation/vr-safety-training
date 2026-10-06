@@ -1,0 +1,402 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "spill-contained",
+    "name": "Spill Contained",
+    "note": "A hazardous drug spill restricted, absorbed, sealed into its own waste stream and decontaminated start to finish"
+  },
+  "category": "Healthcare Support",
+  "certification": "USP General Chapter <800> for handling hazardous drugs outside a controlled pharmacy area; OSHA 29 CFR 1910.1200 hazard communication for the spilled substance's own safety data sheet; OSHA 29 CFR 1910.134 respiratory protection where the spill calls for it; the CDC's general infection-prevention guidance for contaminated surfaces; SEIU-UHW and NUHW as the training bodies for environmental services staff",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "CDC",
+        "citedAs": "CDC",
+        "id": "cdc-guidance",
+        "title": "CDC infection-prevention and public-health guidance, including the Guidelines for Infection Control in Dental Health-Care Settings and Legionella control guidance"
+      },
+      {
+        "body": "union",
+        "citedAs": "NUHW",
+        "id": "nuhw-training",
+        "title": "NUHW member education and safety training for hospital and clinic support staff"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1200",
+        "id": "osha-1910-1200",
+        "title": "29 CFR 1910.1200 — Hazard communication"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.134",
+        "id": "osha-1910-134",
+        "title": "29 CFR 1910.134 — Respiratory protection"
+      },
+      {
+        "body": "union",
+        "citedAs": "SEIU-UHW",
+        "id": "seiu-uhw-training",
+        "title": "SEIU-UHW member education and safety training for hospital and clinic support staff"
+      },
+      {
+        "body": "USP",
+        "citedAs": "USP <800>",
+        "id": "usp-general-chapter-800",
+        "title": "USP General Chapter <800> — Hazardous Drugs: Handling in Healthcare Settings"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Healthcare Support",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "area-restricted-first",
+        "name": "Area Restricted First",
+        "note": "Nobody near the spill before the area was actually cordoned"
+      },
+      {
+        "id": "right-stream",
+        "name": "Right Stream",
+        "note": "Every bit of contaminated waste sealed into the hazardous-drug stream and nowhere else"
+      },
+      {
+        "id": "logged-clean",
+        "name": "Logged Clean",
+        "note": "The incident logged and the kit restocked before the shift moved on"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-response",
+        "name": "Clean Response",
+        "note": "No corrections anywhere in the response"
+      },
+      {
+        "id": "steady-wipe",
+        "name": "Steady Wipe",
+        "note": "Held the final decon wipe the whole time, first try"
+      },
+      {
+        "id": "fast-response",
+        "name": "Fast Response",
+        "note": "Complete inside 80% of par"
+      }
+    ],
+    "currency": "SPILL",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "New Tech",
+      "Spill Certified",
+      "Lead Tech",
+      "EVS Supervisor",
+      "Hazardous Drug Certified"
+    ],
+    "system": "Spill Response Standard"
+  },
+  "hazards": {
+    "food-drink-in-zone-decoy": "That coffee cup is sitting inside the restricted area. Nothing gets eaten, drunk, or set down open inside a zone that might still carry contamination — it comes out of the area before the response continues, not after someone almost picks it back up.",
+    "paper-towel-decoy": "That's an ordinary roll of paper towels sitting right by the spill. Paper towels don't absorb a hazardous drug spill the way the kit's own pads do, and pushing a spill around with the wrong material just spreads the contaminated area wider.",
+    "regular-trash-decoy": "That's the regular trash bin, sitting closer than the hazardous-drug waste container. Anything that touched this spill goes into the dedicated stream — dropping it in whatever bin happens to be nearest turns ordinary trash into hazardous waste nobody downstream is expecting.",
+    "wrong-glove-grade-decoy": "Those are ordinary exam gloves, not the kit's chemo-rated pair. A hazardous drug can permeate an exam glove in a way it can't get through the glove this kit was actually stocked with — the right pair is right next to the wrong one for a reason."
+  },
+  "id": "hc-hazardous-drug-spill-kit-response",
+  "indoor": "clinic",
+  "interrupts": [
+    {
+      "after": "size-check",
+      "alert": "Once you start absorbing, the spill turns out to have spread further than it first looked — past what this kit is actually rated for.",
+      "cue": "This kit doesn't stretch to cover a bigger spill than it's built for.",
+      "delay": 3,
+      "id": "spill-larger-than-expected",
+      "kind": "Spill exceeds kit rating",
+      "missNote": "The response kept going with an undersized kit stretched past its rating. Whatever the kit ran out of partway through is still sitting there, uncontained.",
+      "seconds": 12,
+      "target": "call-large-spill-response",
+      "why": "A kit rated for a certain size doesn't get pushed past that rating by using more of it than it's supposed to hold — a spill that turns out to be bigger gets escalated to the larger response this facility has for exactly that situation, not absorbed with a kit that's already running short.",
+      "wrongNote": "Call for the larger response — this kit was never rated to cover a spill this size."
+    },
+    {
+      "after": "clean-surface",
+      "alert": "A coworker walks up and leans on the counter right at the edge of the restricted zone, unaware anything happened here.",
+      "cue": "The barrier only works if it's actually enforced.",
+      "delay": 3,
+      "id": "bystander-approaches-zone",
+      "kind": "Someone approaches the restricted area",
+      "missNote": "The coworker stayed leaned against the counter, right at the edge of a zone that was supposed to be kept clear. The barrier existed on the floor but not in practice.",
+      "seconds": 11,
+      "target": "restrict-area",
+      "why": "A restricted zone that people wander up to unchallenged isn't actually restricted — reinforcing the barrier the moment someone gets close is what keeps the whole response's containment meaningful all the way through, not just at the moment it was first set up.",
+      "wrongNote": "Reinforce the barrier — a restricted zone nobody enforces isn't actually restricted."
+    }
+  ],
+  "lateNotes": {
+    "log-incident": "Not yet — the kit gets restocked before this incident is ready to close out.",
+    "restock-spill-kit": "Hold that. The final decon wipe hasn't been done yet.",
+    "spill-waste-bag": "Nothing sealed and ready yet — the waste has to actually be bagged first."
+  },
+  "name": "Hazardous Drug Spill Kit Response",
+  "parSeconds": 320,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "healthcare-support"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.5,
+    "hits": [
+      "absorb-spill",
+      "call-large-spill-response",
+      "clean-with-detergent",
+      "contaminated-linen",
+      "double-bag-waste",
+      "double-glove",
+      "final-decon-wipe",
+      "food-drink-in-zone-decoy",
+      "gown-don",
+      "gown-off-hd",
+      "haz-drug-waste-bin",
+      "identify-spill-per-sds",
+      "inner-gloves-off",
+      "log-incident",
+      "outer-gloves-off",
+      "paper-towel-decoy",
+      "regular-trash-decoy",
+      "respirator-don",
+      "respirator-off",
+      "restock-spill-kit",
+      "restrict-area",
+      "satellite-droplets",
+      "sharps-from-spill",
+      "spill-size-assessment",
+      "spill-waste-bag",
+      "wrong-glove-grade-decoy"
+    ],
+    "meshes": 158
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check the spilled item's safety data sheet before doing anything else.",
+      "id": "identify-spill",
+      "kind": "select",
+      "prompt": "Check the spilled item's safety data sheet before doing anything else.",
+      "target": "identify-spill-per-sds",
+      "title": "Identify the spill against its own SDS",
+      "why": "The SDS is what tells you this is actually a hazardous drug and not something else that happens to look similar — responding to a spill without checking what it actually is means guessing at every decision that follows, from what PPE this calls for to which waste stream it eventually goes in."
+    },
+    {
+      "cue": "Set up barriers and keep everyone clear of the spill before PPE even comes out.",
+      "id": "restrict-area",
+      "kind": "select",
+      "prompt": "Set up barriers and keep everyone clear of the spill before PPE even comes out.",
+      "target": "restrict-area",
+      "title": "Restrict the area before anyone gets close",
+      "why": "A spill nobody's cordoned off is a spill anyone can walk through, touch, or track further down the hallway without ever knowing it happened — the barrier goes up before the response starts, not once someone's already wandered through the area and carried part of it somewhere else."
+    },
+    {
+      "anyOrder": false,
+      "cue": "Gown first, then double-glove over the cuffs, then respiratory protection if the spill calls for it.",
+      "id": "ppe-don",
+      "itemNames": {
+        "double-glove": "double-glove",
+        "gown-don": "don the chemo-rated gown",
+        "respirator-don": "don respiratory protection"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Gown, then gloves over the cuffs, then respiratory protection — that order is what keeps the gap at your wrist from ever opening.",
+      "prompt": "Gown first, then double-glove over the cuffs, then respiratory protection if the spill calls for it.",
+      "targets": [
+        "gown-don",
+        "double-glove",
+        "respirator-don"
+      ],
+      "title": "Don PPE in the order that protects you",
+      "why": "USP <800> treats hazardous-drug PPE as a set donned in a specific order for a reason — a gown after gloves leaves a gap at the wrist, and respiratory protection last means it's the one thing you're not tempted to touch again once your gloved hands have already been near the spill."
+    },
+    {
+      "cue": "Assess the spill's size and confirm it's within what this kit is actually rated to handle.",
+      "gauge": {
+        "green": [
+          0.1,
+          0.55
+        ],
+        "label": "SPILL SIZE",
+        "missNote": "Committed on a spill you never actually confirmed was within this kit's rating. A spill that size needs the larger response, not a guess that this kit will stretch to cover it.",
+        "speed": 0.6
+      },
+      "id": "size-check",
+      "kind": "gauge",
+      "prompt": "Assess the spill's size and confirm it's within what this kit is actually rated to handle.",
+      "target": "spill-size-assessment",
+      "title": "Read the spill against the kit's rated capacity",
+      "why": "Every spill kit is rated for a maximum size in its own instructions — committing to clean up a spill bigger than that rating with a kit that isn't built for it just means running out of absorbent mid-response with contamination still spreading."
+    },
+    {
+      "cue": "Lay the kit's absorbent pads over the spill from the outside edge in.",
+      "id": "absorb-spill",
+      "kind": "select",
+      "prompt": "Lay the kit's absorbent pads over the spill from the outside edge in.",
+      "target": "absorb-spill",
+      "title": "Absorb the spill with the kit's own pads",
+      "why": "Working from the outside edge in is what keeps the contaminated area from spreading further while it's being absorbed — the kit's own pads are rated for this exact chemistry in a way a generic paper product never is."
+    },
+    {
+      "cue": "Use the kit's small scoop and forceps to collect broken glass or vial fragments — never by hand.",
+      "id": "collect-fragments",
+      "kind": "select",
+      "prompt": "Use the kit's small scoop and forceps to collect broken glass or vial fragments — never by hand.",
+      "target": "sharps-from-spill",
+      "title": "Collect any fragments with the kit's scoop",
+      "why": "A hazardous drug spill that includes broken glass is two hazards stacked in the same footprint — the scoop and forceps in the kit exist so no bare or gloved hand ever has to close around a fragment that's both sharp and contaminated at the same time, in the same motion."
+    },
+    {
+      "cue": "Two things near this spill are still contaminated and easy to miss. Find them.",
+      "id": "secondary-scan",
+      "itemNames": {
+        "contaminated-linen": "linen that caught part of the spill",
+        "satellite-droplets": "a trail of smaller droplets leading away from the spill"
+      },
+      "itemNotes": {
+        "contaminated-linen": "That linen caught part of the spill before you even got here — it goes into the same hazardous-drug stream as everything else this response collects, not the regular laundry bin.",
+        "satellite-droplets": "A trail of smaller droplets means this spill travelled further than the main puddle shows — the response isn't done until every one of them is found and absorbed, not just the part that was obvious from the doorway."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Two things near this spill are still contaminated and easy to miss. Find them.",
+      "targets": [
+        "contaminated-linen",
+        "satellite-droplets"
+      ],
+      "title": "Scan for where the spill actually reached",
+      "why": "A spill's visible edge is rarely its actual edge — this scan is what catches the linen it soaked into and the trail it left, because a response that stops at the obvious puddle can still leave real contamination sitting a few feet away, waiting for the next person who walks through unaware."
+    },
+    {
+      "cue": "Place every absorbent pad, glove, and contaminated item into the hazardous-drug waste bag and seal it.",
+      "id": "bag-waste",
+      "kind": "select",
+      "prompt": "Place every absorbent pad, glove, and contaminated item into the hazardous-drug waste bag and seal it.",
+      "target": "double-bag-waste",
+      "title": "Seal everything into the hazardous-drug stream",
+      "why": "Every item this spill touched — pads, gloves, linen, the gown itself — belongs in one dedicated stream, sealed, because a hazardous-drug waste bag with a gap in what it actually contains isn't a contained spill, it's a contained puddle with contaminated items still sitting around it."
+    },
+    {
+      "cue": "Wash the affected surface with detergent solution after the spill itself is fully absorbed.",
+      "id": "clean-surface",
+      "kind": "select",
+      "prompt": "Wash the affected surface with detergent solution after the spill itself is fully absorbed.",
+      "target": "clean-with-detergent",
+      "title": "Clean the surface with detergent and water",
+      "why": "Absorbing the spill removes the bulk of it; the detergent wash is what actually breaks down whatever residue is left behind on the surface itself, which is a genuinely separate step from soaking up the liquid, not a shortcut that happens automatically once the puddle itself is gone."
+    },
+    {
+      "cue": "Wipe the surface and keep steady, even pressure — not too light, not scrubbing hard enough to spread anything — for the label's full contact time.",
+      "holdBreakNote": "The wipe came off pressure before the label's contact time was up. A decon pass that stops early hasn't actually broken down what's left on the surface.",
+      "id": "final-decon",
+      "kind": "track",
+      "prompt": "Wipe the surface and keep steady, even pressure — not too light, not scrubbing hard enough to spread anything — for the label's full contact time.",
+      "seconds": 6,
+      "target": "final-decon-wipe",
+      "title": "Hold the final decon wipe to its contact time",
+      "track": {
+        "drift": 0.1,
+        "fall": 0.35,
+        "green": [
+          0.3,
+          0.6
+        ],
+        "label": "WIPE PRESSURE",
+        "rise": 0.45,
+        "start": 0.15
+      },
+      "why": "The decontaminating solution's own label sets how long it has to stay in contact with the surface to actually work, and pressure matters too — too light and it barely touches the surface, too hard and you risk spreading residue instead of lifting it."
+    },
+    {
+      "cue": "Carry the sealed waste bag to the dedicated hazardous-drug waste container, not the general or regulated one.",
+      "drag": {
+        "missNote": "Not in the hazardous-drug bin — this waste doesn't belong in general or regulated streams, only its own.",
+        "radius": 0.4,
+        "to": "haz-drug-waste-bin"
+      },
+      "id": "waste-transport",
+      "kind": "drag",
+      "prompt": "Carry the sealed waste bag to the dedicated hazardous-drug waste container, not the general or regulated one.",
+      "target": "spill-waste-bag",
+      "title": "Move the sealed bag to the hazardous-drug bin",
+      "why": "The hazardous-drug bin is tracked and disposed of under its own rule, kept entirely separate from general and regulated medical waste — a bag that ends up in the wrong container is waste that gets handled under a rule that was never written for what it actually contains."
+    },
+    {
+      "cue": "Turn the kit's restock indicator once every component is replaced.",
+      "id": "restock-kit",
+      "kind": "turn",
+      "prompt": "Turn the kit's restock indicator once every component is replaced.",
+      "target": "restock-spill-kit",
+      "title": "Restock the spill kit",
+      "turn": {
+        "axis": "y",
+        "label": "KIT RESTOCK",
+        "turns": 0.4
+      },
+      "why": "A spill kit that's been used and never restocked is a kit that looks perfectly ready sitting on its shelf and isn't — turning it back to ready is what makes sure the next spill, whenever and wherever it happens, finds a full kit waiting instead of an empty box with the label still facing out."
+    },
+    {
+      "cue": "Outer gloves first, then the gown, then respiratory protection, then the inner gloves last.",
+      "id": "doff-ppe-hd",
+      "itemNames": {
+        "gown-off-hd": "remove the gown",
+        "inner-gloves-off": "remove the inner gloves",
+        "outer-gloves-off": "remove the outer gloves",
+        "respirator-off": "remove respiratory protection"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Outer gloves, then gown, then respirator, then inner gloves last — that sequence is what keeps the most contaminated layer away from your skin the longest.",
+      "prompt": "Outer gloves first, then the gown, then respiratory protection, then the inner gloves last.",
+      "targets": [
+        "outer-gloves-off",
+        "gown-off-hd",
+        "respirator-off",
+        "inner-gloves-off"
+      ],
+      "title": "Doff PPE in the order that keeps you clean",
+      "why": "The most contaminated layer comes off first and the layer closest to your bare skin comes off last — reverse that order and a hand that just touched the outside of a contaminated gown is the hand about to touch your own face on the way to removing a respirator."
+    },
+    {
+      "cue": "Record what happened, the response taken, and that the area is cleared.",
+      "id": "log-incident",
+      "kind": "select",
+      "prompt": "Record what happened, the response taken, and that the area is cleared.",
+      "target": "log-incident",
+      "title": "Log the spill incident",
+      "why": "The log is what turns this response into something the facility can actually review — a pattern of spills in the same spot, a kit that keeps running short, a training gap — none of that is visible to anyone if this incident only exists as something you remember handling."
+    }
+  ],
+  "supportLine": "your employer's employee assistance program, or SEIU-UHW's member resources if a spill like this one has you more rattled than the shift usually is",
+  "tagline": "The area restricted first, PPE donned in order, the spill sized against the kit's own rated capacity, absorbed and collected with the kit's own tools, sealed into the hazardous-drug stream, decontaminated to the label's contact time, and logged",
+  "title": "SmartCiti.X~ Hazardous Drug Spill Kit Response VR",
+  "trade": "Environmental services technician",
+  "underwater": null,
+  "weather": null
+}

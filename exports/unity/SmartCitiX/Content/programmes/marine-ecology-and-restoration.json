@@ -1,0 +1,671 @@
+{
+  "accent": "#2e8b57",
+  "anchors": [
+    {
+      "id": "channel-buoy-tender-pier",
+      "name": "Channel Buoy Tender Pier",
+      "position": [
+        -690,
+        485
+      ],
+      "stations": [
+        "mooring-line",
+        "pilot-transfer",
+        "spill-boom-deploy",
+        "vessel-gangway-and-hatch-cover-safety",
+        "me-kelp-transect-survey-and-photo-quadrats",
+        "me-oyster-reef-monitoring-and-settlement-tiles",
+        "cd-underwater-wet-welding-and-cutting",
+        "cd-rov-launch-recovery-and-tether-management",
+        "cd-decompression-chamber-operations-and-post-dive",
+        "cd-hydraulic-tools-and-suction-hazards-underwater"
+      ],
+      "table": "BAY_SITES",
+      "world": "bayworld",
+      "zone": "outer-bay"
+    },
+    {
+      "id": "ct-bench-tidewater-shoreline-park",
+      "name": "Bench · Tidewater Shoreline Park",
+      "position": [
+        68.5,
+        289.1
+      ],
+      "stations": [
+        "dock-crane",
+        "container-lashing",
+        "shore-power-hookup",
+        "me-water-column-sampling-from-a-small-boat",
+        "me-fish-visual-census-and-data-sheet",
+        "me-invasive-species-identification-and-reporting",
+        "cd-scientific-scuba-buddy-check-and-lost-buddy-drill",
+        "cd-dive-records-and-incident-review"
+      ],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "estuary-waterfront"
+    },
+    {
+      "id": "ct-bus-stop-channel-marker",
+      "name": "Bus stop · Channel Marker",
+      "position": [
+        -961.6,
+        523.1
+      ],
+      "stations": [
+        "mooring-line",
+        "pilot-transfer",
+        "spill-boom-deploy",
+        "vessel-gangway-and-hatch-cover-safety",
+        "me-kelp-transect-survey-and-photo-quadrats",
+        "me-oyster-reef-monitoring-and-settlement-tiles",
+        "cd-underwater-wet-welding-and-cutting",
+        "cd-rov-launch-recovery-and-tether-management",
+        "cd-decompression-chamber-operations-and-post-dive",
+        "cd-hydraulic-tools-and-suction-hazards-underwater"
+      ],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "outer-bay"
+    },
+    {
+      "id": "ct-notice-board-channel-buoy-tender-pier",
+      "name": "Union hall notice board · Channel Buoy Tender Pier",
+      "position": [
+        -673.7,
+        496.6
+      ],
+      "stations": [
+        "mooring-line",
+        "pilot-transfer",
+        "spill-boom-deploy",
+        "vessel-gangway-and-hatch-cover-safety",
+        "me-kelp-transect-survey-and-photo-quadrats",
+        "me-oyster-reef-monitoring-and-settlement-tiles",
+        "cd-underwater-wet-welding-and-cutting",
+        "cd-rov-launch-recovery-and-tether-management",
+        "cd-decompression-chamber-operations-and-post-dive",
+        "cd-hydraulic-tools-and-suction-hazards-underwater"
+      ],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "outer-bay"
+    },
+    {
+      "id": "ct-notice-board-estuary-research-dock",
+      "name": "Union hall notice board · Estuary Research Dock",
+      "position": [
+        84.9,
+        318.3
+      ],
+      "stations": [
+        "dock-crane",
+        "container-lashing",
+        "shore-power-hookup",
+        "me-water-column-sampling-from-a-small-boat",
+        "me-fish-visual-census-and-data-sheet",
+        "me-invasive-species-identification-and-reporting",
+        "cd-scientific-scuba-buddy-check-and-lost-buddy-drill",
+        "cd-dive-records-and-incident-review"
+      ],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "estuary-waterfront"
+    },
+    {
+      "id": "ct-notice-board-north-shoreline-field-lab",
+      "name": "Union hall notice board · North Shoreline Field Lab",
+      "position": [
+        -752.8,
+        -580.9
+      ],
+      "stations": [
+        "air-monitor",
+        "marsh-transect-survey",
+        "eelgrass-transplant",
+        "br-water-quality-sonde-calibration-and-deploy",
+        "me-eelgrass-seed-collection-and-nursery",
+        "me-tidal-marsh-channel-restoration-day",
+        "me-shoreline-debris-and-microplastics-survey",
+        "cd-low-visibility-and-night-dive-line-work",
+        "cd-pier-piling-inspection-and-wrap-repair",
+        "k12-weather-and-the-sky"
+      ],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "north-shoreline"
+    },
+    {
+      "id": "estuary-research-dock",
+      "name": "Estuary Research Dock",
+      "position": [
+        68,
+        329
+      ],
+      "stations": [
+        "dock-crane",
+        "container-lashing",
+        "shore-power-hookup",
+        "me-water-column-sampling-from-a-small-boat",
+        "me-fish-visual-census-and-data-sheet",
+        "me-invasive-species-identification-and-reporting",
+        "cd-scientific-scuba-buddy-check-and-lost-buddy-drill",
+        "cd-dive-records-and-incident-review"
+      ],
+      "table": "BAY_SITES",
+      "world": "bayworld",
+      "zone": "estuary-waterfront"
+    },
+    {
+      "id": "north-shoreline-field-lab",
+      "name": "North Shoreline Field Lab",
+      "position": [
+        -735,
+        -590
+      ],
+      "stations": [
+        "air-monitor",
+        "marsh-transect-survey",
+        "eelgrass-transplant",
+        "br-water-quality-sonde-calibration-and-deploy",
+        "me-eelgrass-seed-collection-and-nursery",
+        "me-tidal-marsh-channel-restoration-day",
+        "me-shoreline-debris-and-microplastics-survey",
+        "cd-low-visibility-and-night-dive-line-work",
+        "cd-pier-piling-inspection-and-wrap-repair",
+        "k12-weather-and-the-sky"
+      ],
+      "table": "BAY_SITES",
+      "world": "bayworld",
+      "zone": "north-shoreline"
+    },
+    {
+      "id": "ct-buoy-eelgrass-transect",
+      "name": "Line buoy · Eelgrass Transect",
+      "position": [
+        102.4,
+        -536.8
+      ],
+      "stations": [
+        "br-beach-seine-fish-survey-and-handling",
+        "br-benthic-grab-and-invertebrate-sorting",
+        "br-restoration-data-qa-and-public-reporting",
+        "me-fish-visual-census-and-data-sheet"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": {
+        "blurb": "A soft-bottom meadow of ribbon grass swaying in the tide, with transplant plots staked along its edge.",
+        "centre": [
+          100,
+          -540
+        ],
+        "id": "eelgrass-meadow",
+        "name": "Eelgrass Meadow",
+        "palette": {
+          "accent": 5884283,
+          "seabed": 5925434,
+          "water": 2780264
+        },
+        "radius": 200
+      }
+    },
+    {
+      "id": "ct-buoy-kelp-transect",
+      "name": "Line buoy · Kelp Transect",
+      "position": [
+        -499.7,
+        -224
+      ],
+      "stations": [
+        "br-underwater-debris-survey-and-mapping",
+        "br-restoration-data-qa-and-public-reporting",
+        "me-kelp-transect-survey-and-photo-quadrats",
+        "k12-ecosystems-at-the-kelp-transect"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": {
+        "blurb": "Tall kelp anchored to a rocky rise, its canopy closing overhead into shifting green light.",
+        "centre": [
+          -500,
+          -220
+        ],
+        "id": "kelp-forest",
+        "name": "Kelp Forest",
+        "palette": {
+          "accent": 8042056,
+          "seabed": 3815978,
+          "water": 1790036
+        },
+        "radius": 200
+      }
+    },
+    {
+      "id": "ct-buoy-marsh-drift-transect",
+      "name": "Line buoy · Marsh Drift Transect",
+      "position": [
+        649,
+        -556.1
+      ],
+      "stations": [
+        "tide-gate",
+        "marsh-transect-survey",
+        "living-shoreline",
+        "me-tidal-marsh-channel-restoration-day"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": {
+        "blurb": "Where a tidal-marsh channel spills onto the flats: turbid water, a sandbar, and current that turns with the tide.",
+        "centre": [
+          650,
+          -560
+        ],
+        "id": "marsh-mouth",
+        "name": "Marsh Channel Mouth",
+        "palette": {
+          "accent": 9164453,
+          "seabed": 6969914,
+          "water": 3828314
+        },
+        "radius": 190
+      }
+    },
+    {
+      "id": "ct-buoy-seamount-ascent-line",
+      "name": "Line buoy · Seamount Ascent Line",
+      "position": [
+        603.9,
+        499.1
+      ],
+      "stations": [
+        "br-restoration-data-qa-and-public-reporting",
+        "br-hyperbaric-chamber-standby",
+        "damage-assessment-team",
+        "me-shoreline-debris-and-microplastics-survey"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": {
+        "blurb": "A rock mount rising from the deep south-east floor to a pinnacle in clearer, brighter water.",
+        "centre": [
+          650,
+          450
+        ],
+        "id": "seamount",
+        "name": "The Seamount",
+        "palette": {
+          "accent": 16747098,
+          "seabed": 4866104,
+          "water": 997956
+        },
+        "radius": 260
+      }
+    },
+    {
+      "id": "ct-buoy-seamount-transect",
+      "name": "Line buoy · Seamount Transect",
+      "position": [
+        643.9,
+        440.3
+      ],
+      "stations": [
+        "br-restoration-data-qa-and-public-reporting",
+        "br-hyperbaric-chamber-standby",
+        "damage-assessment-team",
+        "me-shoreline-debris-and-microplastics-survey"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": {
+        "blurb": "A rock mount rising from the deep south-east floor to a pinnacle in clearer, brighter water.",
+        "centre": [
+          650,
+          450
+        ],
+        "id": "seamount",
+        "name": "The Seamount",
+        "palette": {
+          "accent": 16747098,
+          "seabed": 4866104,
+          "water": 997956
+        },
+        "radius": 260
+      }
+    },
+    {
+      "id": "ct-dive-slate-eelgrass-transplant-plots",
+      "name": "Dive slate · Eelgrass Transplant Plots",
+      "position": [
+        125.3,
+        -502.6
+      ],
+      "stations": [
+        "eelgrass-transplant",
+        "br-native-planting-and-erosion-mats",
+        "me-eelgrass-seed-collection-and-nursery"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": "eelgrass-meadow"
+    },
+    {
+      "id": "ct-dive-slate-flats-sediment-core-site",
+      "name": "Dive slate · Flats Sediment Core Site",
+      "position": [
+        -132.3,
+        -247.9
+      ],
+      "stations": [
+        "br-underwater-sediment-core-sampling",
+        "br-sediment-chain-of-custody-and-lab-prep",
+        "shoreline-sediment-grab",
+        "me-water-column-sampling-from-a-small-boat"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": "tide-flats"
+    },
+    {
+      "id": "ct-dive-slate-kelp-transect-start",
+      "name": "Dive slate · Kelp Transect Start",
+      "position": [
+        -495.6,
+        -209
+      ],
+      "stations": [
+        "br-underwater-debris-survey-and-mapping",
+        "br-restoration-data-qa-and-public-reporting",
+        "me-kelp-transect-survey-and-photo-quadrats",
+        "k12-ecosystems-at-the-kelp-transect"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": "kelp-forest"
+    },
+    {
+      "id": "ct-dive-slate-marsh-mouth-tide-gate",
+      "name": "Dive slate · Marsh Mouth Tide Gate",
+      "position": [
+        643.4,
+        -523.1
+      ],
+      "stations": [
+        "tide-gate",
+        "marsh-transect-survey",
+        "living-shoreline",
+        "me-tidal-marsh-channel-restoration-day"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": "marsh-mouth"
+    },
+    {
+      "id": "ct-dive-slate-reef-ball-monitoring-plot",
+      "name": "Dive slate · Reef Ball Monitoring Plot",
+      "position": [
+        368.9,
+        5.6
+      ],
+      "stations": [
+        "oyster-reef-monitoring",
+        "ballast-water-sampling",
+        "me-oyster-reef-monitoring-and-settlement-tiles",
+        "me-invasive-species-identification-and-reporting"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": "reef-ball-field"
+    },
+    {
+      "id": "ct-survey-marker-eelgrass-fish-census-line",
+      "name": "Survey marker · Eelgrass Fish Census Line",
+      "position": [
+        71.7,
+        -576
+      ],
+      "stations": [
+        "br-beach-seine-fish-survey-and-handling",
+        "br-benthic-grab-and-invertebrate-sorting",
+        "br-restoration-data-qa-and-public-reporting",
+        "me-fish-visual-census-and-data-sheet"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": "eelgrass-meadow"
+    },
+    {
+      "id": "ct-survey-marker-seamount-capstone-survey",
+      "name": "Survey marker · Seamount Capstone Survey",
+      "position": [
+        649.7,
+        444.9
+      ],
+      "stations": [
+        "br-restoration-data-qa-and-public-reporting",
+        "br-hyperbaric-chamber-standby",
+        "damage-assessment-team",
+        "me-shoreline-debris-and-microplastics-survey"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": "seamount"
+    },
+    {
+      "id": "eelgrass-fish-census-line",
+      "name": "Eelgrass Fish Census Line",
+      "position": [
+        80,
+        -560
+      ],
+      "stations": [
+        "br-beach-seine-fish-survey-and-handling",
+        "br-benthic-grab-and-invertebrate-sorting",
+        "br-restoration-data-qa-and-public-reporting",
+        "me-fish-visual-census-and-data-sheet"
+      ],
+      "table": "DEEP_SITES",
+      "world": "underwater",
+      "zone": "eelgrass-meadow"
+    },
+    {
+      "id": "eelgrass-transplant-plots",
+      "name": "Eelgrass Transplant Plots",
+      "position": [
+        130,
+        -520
+      ],
+      "stations": [
+        "eelgrass-transplant",
+        "br-native-planting-and-erosion-mats",
+        "me-eelgrass-seed-collection-and-nursery"
+      ],
+      "table": "DEEP_SITES",
+      "world": "underwater",
+      "zone": "eelgrass-meadow"
+    },
+    {
+      "id": "flats-sediment-core-site",
+      "name": "Flats Sediment Core Site",
+      "position": [
+        -130,
+        -230
+      ],
+      "stations": [
+        "br-underwater-sediment-core-sampling",
+        "br-sediment-chain-of-custody-and-lab-prep",
+        "shoreline-sediment-grab",
+        "me-water-column-sampling-from-a-small-boat"
+      ],
+      "table": "DEEP_SITES",
+      "world": "underwater",
+      "zone": "tide-flats"
+    },
+    {
+      "id": "kelp-transect-start",
+      "name": "Kelp Transect Start",
+      "position": [
+        -480,
+        -200
+      ],
+      "stations": [
+        "br-underwater-debris-survey-and-mapping",
+        "br-restoration-data-qa-and-public-reporting",
+        "me-kelp-transect-survey-and-photo-quadrats",
+        "k12-ecosystems-at-the-kelp-transect"
+      ],
+      "table": "DEEP_SITES",
+      "world": "underwater",
+      "zone": "kelp-forest"
+    },
+    {
+      "id": "marsh-mouth-tide-gate",
+      "name": "Marsh Mouth Tide Gate",
+      "position": [
+        660,
+        -530
+      ],
+      "stations": [
+        "tide-gate",
+        "marsh-transect-survey",
+        "living-shoreline",
+        "me-tidal-marsh-channel-restoration-day"
+      ],
+      "table": "DEEP_SITES",
+      "world": "underwater",
+      "zone": "marsh-mouth"
+    },
+    {
+      "id": "reef-ball-monitoring-plot",
+      "name": "Reef Ball Monitoring Plot",
+      "position": [
+        360,
+        -10
+      ],
+      "stations": [
+        "oyster-reef-monitoring",
+        "ballast-water-sampling",
+        "me-oyster-reef-monitoring-and-settlement-tiles",
+        "me-invasive-species-identification-and-reporting"
+      ],
+      "table": "DEEP_SITES",
+      "world": "underwater",
+      "zone": "reef-ball-field"
+    },
+    {
+      "id": "seamount-capstone-survey",
+      "name": "Seamount Capstone Survey",
+      "position": [
+        640,
+        460
+      ],
+      "stations": [
+        "br-restoration-data-qa-and-public-reporting",
+        "br-hyperbaric-chamber-standby",
+        "damage-assessment-team",
+        "me-shoreline-debris-and-microplastics-survey"
+      ],
+      "table": "DEEP_SITES",
+      "world": "underwater",
+      "zone": "seamount"
+    }
+  ],
+  "certification": "Programme completion record; the field methods it rehearses answer to the permit and consultation conditions their own bodies set — BCDC, the Regional Water Quality Control Board's Section 401 certification, the Section 404 permit, USFWS and NOAA Fisheries consultation, CDFW oversight of collecting and handling — and, for the two diving stations, OSHA 29 CFR 1910.424 practice under the programme's own diving safety manual. No depth, gas or current limit is stated anywhere in the pack; those live in the dive plan",
+  "competency": {
+    "id": "marine-ecology-and-restoration",
+    "kind": "programme",
+    "require": 4,
+    "standards": [
+      "bcdc-bay-plan",
+      "rwqcb-401-certification",
+      "usace-section-404",
+      "usfws-esa",
+      "noaa-tides-and-esa",
+      "cdfw-lake-streambed-alteration",
+      "osha-1910-424"
+    ],
+    "stations": [
+      "me-kelp-transect-survey-and-photo-quadrats",
+      "me-oyster-reef-monitoring-and-settlement-tiles",
+      "me-eelgrass-seed-collection-and-nursery",
+      "me-water-column-sampling-from-a-small-boat",
+      "me-tidal-marsh-channel-restoration-day",
+      "me-fish-visual-census-and-data-sheet",
+      "me-shoreline-debris-and-microplastics-survey",
+      "me-invasive-species-identification-and-reporting"
+    ],
+    "title": "Run a repeatable field survey or restoration method on the water and keep the crew safe doing it"
+  },
+  "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
+  "guides": [
+    "afscme-training",
+    "liuna-training-fund",
+    "upte-cwa-training",
+    "seiu-1021-training",
+    "bcdc-bay-plan",
+    "rwqcb-401-certification",
+    "usace-section-404",
+    "usfws-esa",
+    "noaa-tides-and-esa",
+    "cdfw-lake-streambed-alteration",
+    "osha-1910-424"
+  ],
+  "id": "marine-ecology-and-restoration",
+  "ladder": {
+    "atBar": 20,
+    "lessonBar": 75,
+    "lessons": 1521,
+    "levels": 20,
+    "note": "a lesson is one station step under one condition; see docs/ladders.md",
+    "partial": 0,
+    "stationsNeeded": 0,
+    "tasks": 120
+  },
+  "name": "Marine Ecology & Restoration — Survey and Restoration Crews",
+  "schema": "smartcitix.programme/1",
+  "stations": [
+    {
+      "app": "smartcity",
+      "id": "me-kelp-transect-survey-and-photo-quadrats",
+      "why": "The fixed transect as the unit of monitoring: the same pins, bearing, frame and camera settings every season, swum at a pace that does not tear the canopy it counts."
+    },
+    {
+      "app": "smartcity",
+      "id": "me-oyster-reef-monitoring-and-settlement-tiles",
+      "why": "A tile's identity and wetness kept from the rack to the lab, and the fresh rack set back on the same footing at the same mark before the flood."
+    },
+    {
+      "app": "smartcity",
+      "id": "me-eelgrass-seed-collection-and-nursery",
+      "why": "Collecting to a permit's share and keeping what was cut alive: shoots cut above the sheath, bags wet and cool, hung by their labels in a tank that never stops flowing."
+    },
+    {
+      "app": "smartcity",
+      "id": "me-water-column-sampling-from-a-small-boat",
+      "why": "What makes a bottle of water evidence — the marks on the line, the rinses, the labels, the cold and the custody — on a low wet deck with the gate open."
+    },
+    {
+      "app": "smartcity",
+      "id": "me-tidal-marsh-channel-restoration-day",
+      "why": "Working a marsh by hand inside three lines drawn before the crew arrived: the alignment, the buffer nobody crosses and the tide window the permit allows."
+    },
+    {
+      "app": "smartcity",
+      "id": "me-fish-visual-census-and-data-sheet",
+      "why": "A count that means the same thing every season: one corridor, one pace, classes against a bar, counting only what crosses ahead, and the sheet written on the bottom."
+    },
+    {
+      "app": "smartcity",
+      "id": "me-shoreline-debris-and-microplastics-survey",
+      "why": "A beach tallied before it is changed and a sand sample kept honest in the wind, with sharps to the kit by tongs and unknowns flagged for the call."
+    },
+    {
+      "app": "smartcity",
+      "id": "me-invasive-species-identification-and-reporting",
+      "why": "How a sighting becomes a record: photographed to protocol, positioned, sampled only as permitted and reported to the named body before anything is touched or said."
+    }
+  ],
+  "summary": "Eight field methods a marine ecology and restoration crew runs on any survey or planting day: a kelp transect and its photo quadrats, a settlement-tile swap on a shellfish reef, seed collection and a flow-through nursery, water column sampling from a small boat, a hand-crew day opening a marsh channel, a fish visual census, a shoreline debris and microplastics survey, and the reporting method for a sighting that does not match the card. Every station teaches how a measurement is made repeatable and how a crew stays safe making it; none asserts a fact about any bay, species, count or date.",
+  "union": "AFSCME and SEIU 1021 agency and nonprofit field staff, UPTE-CWA research technicians and LIUNA habitat crews, as training bodies"
+}

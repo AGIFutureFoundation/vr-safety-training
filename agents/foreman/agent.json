@@ -1,0 +1,154 @@
+{
+  "$comment": "DRAFT. A G.A.M.E-style agent definition (goal, description, workers, functions) for the platform agent working-named Foreman. Shape only: it follows the general pattern of an agent framework where an agent has a goal and a description and delegates to workers that each own a set of functions with JSON-schema parameters. It is not a verified configuration for any SDK or protocol; every field name must be checked against the current official documentation before any integration (see docs/agent-roadmap.md). No keys, no endpoints, no wallet addresses, no network code. Every function binds to a module export in this repository, validated by tools/check_agent.mjs.",
+  "schemaVersion": 1,
+  "status": "draft",
+  "name": "Foreman",
+  "goal": "Help every learner finish the right training safely: answer their questions from the platform's own content, recommend the next station for their programme, and supervise a robot running a station in simulation, scored by the same engine a learner is scored by.",
+  "description": "Foreman is the platform agent for the SmartCiti.X Holodeck. It reads the skill registry (every station as a task graph of robot primitives, with preconditions and failure labels), the learner passport (records, programmes, awards — on the learner's device) and the station content. It never issues a certification, never moves personal data or training records off the device, and never acts on a protocol without a deployment configuring that protocol from its own current documentation.",
+  "constraints": [
+    "Consent first: nothing leaves the learner's device without their opt-in; exports are local files.",
+    "No personal data and no training records on-chain or to any agent protocol; only the anonymised crew-tag hash ever appears in a dataset.",
+    "A station a robot runs is run in simulation; a step a station marks noRobot is handed to a person, never attempted.",
+    "Passing here is evidence of a procedure, not a credential."
+  ],
+  "workers": [
+    {
+      "id": "learner-guide",
+      "description": "Answers a learner's questions and recommends what to train next, from the station content, the programmes and the learner's own passport.",
+      "functions": ["answer_learner", "recommend_next_station", "learner_progress", "describe_station"]
+    },
+    {
+      "id": "sim-supervisor",
+      "description": "Plans a station as a sequence of registry primitives, checks the preconditions in force at each step, runs a robot through the station in simulation and reports the engine's score.",
+      "functions": ["plan_station", "check_preconditions", "run_station_in_sim"]
+    },
+    {
+      "id": "data-steward",
+      "description": "Builds local dataset exports in the platform's native, LeRobot-style and RLDS-style layouts, only from synthetic rollouts or from episodes a learner has chosen to export.",
+      "functions": ["export_dataset"]
+    }
+  ],
+  "functions": [
+    {
+      "name": "describe_station",
+      "description": "A station's task graph: its primitives in step order, its preconditions (PPE, lockout), its failure labels (hazards, missed interruptions), its programmes and union.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "stationId": { "type": "string", "description": "A station id in the skill registry, e.g. valve-vault." },
+          "app": { "type": "string", "enum": ["smartcity", "trades"] }
+        },
+        "required": ["stationId"]
+      },
+      "binding": { "module": "WebXR/shared/skill-registry.js", "export": "skStation" },
+      "exampleStations": ["valve-vault", "electrical"]
+    },
+    {
+      "name": "plan_station",
+      "description": "The ordered primitive plan for a station, each node with its parameters (targets, bands, turns, tolerances), for a robot policy or a planner.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "stationId": { "type": "string" },
+          "app": { "type": "string", "enum": ["smartcity", "trades"] }
+        },
+        "required": ["stationId"]
+      },
+      "binding": { "module": "WebXR/shared/skill-registry.js", "export": "skStation" },
+      "primitives": ["reach-and-press", "ordered-reach-and-press", "search-and-press", "hold-in-band", "press-and-hold", "track-a-signal", "rotate-to-angle", "pick-and-place", "path-follow"],
+      "exampleStations": ["charge-point", "welding"]
+    },
+    {
+      "name": "check_preconditions",
+      "description": "The preconditions in force at a step of a station (PPE on, lockout applied), so a supervisor can refuse a step whose preconditions were not established.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "stationId": { "type": "string" },
+          "app": { "type": "string", "enum": ["smartcity", "trades"] },
+          "stepIndex": { "type": "integer", "minimum": 0 }
+        },
+        "required": ["stationId", "stepIndex"]
+      },
+      "binding": { "module": "WebXR/shared/skill-registry.js", "export": "skPreconditionsAt" },
+      "exampleStations": ["electrical"]
+    },
+    {
+      "name": "run_station_in_sim",
+      "description": "Run a robot policy through a station in simulation on the real procedure engine and return the engine's summary (score, stars, unsafe actions, keep-out violations, pass/fail). Deterministic for a seed.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "stationId": { "type": "string" },
+          "app": { "type": "string", "enum": ["smartcity", "trades"] },
+          "skill": { "type": "number", "minimum": 0, "maximum": 1 },
+          "seed": { "type": "integer", "minimum": 1 },
+          "embodied": { "type": "boolean", "default": true }
+        },
+        "required": ["stationId", "skill"]
+      },
+      "binding": { "module": "WebXR/shared/robot.js", "export": "runEpisode" },
+      "alsoUses": [{ "module": "WebXR/shared/robot-embodiment.js", "export": "runEmbodiedEpisode" }],
+      "primitives": ["reach-and-press", "ordered-reach-and-press", "search-and-press", "hold-in-band", "press-and-hold", "track-a-signal", "rotate-to-angle", "pick-and-place", "path-follow"],
+      "exampleStations": ["valve-vault", "plumbing"]
+    },
+    {
+      "name": "recommend_next_station",
+      "description": "The next station a learner should run in a programme: the first one in the programme's order the passport does not yet show as passed.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "programmeId": { "type": "string", "description": "A programme id, e.g. electrical-first-period." }
+        },
+        "required": ["programmeId"]
+      },
+      "binding": { "module": "WebXR/shared/passport.js", "export": "ppProgramme" },
+      "alsoUses": [{ "module": "WebXR/shared/skill-registry.js", "export": "skStationsForProgramme" }],
+      "exampleStations": ["charge-point"]
+    },
+    {
+      "name": "learner_progress",
+      "description": "The learner's own progress through a programme, read from the passport on their device.",
+      "parameters": {
+        "type": "object",
+        "properties": { "programmeId": { "type": "string" } },
+        "required": ["programmeId"]
+      },
+      "binding": { "module": "WebXR/shared/passport.js", "export": "ppProgramme" }
+    },
+    {
+      "name": "answer_learner",
+      "description": "Answer a learner's question from the platform's own content: the station's steps and their reasons, its hazards and interruptions, the programme it belongs to. Cites the station; never invents a regulation.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "question": { "type": "string", "maxLength": 500 },
+          "stationId": { "type": "string" },
+          "app": { "type": "string", "enum": ["smartcity", "trades"] }
+        },
+        "required": ["question"]
+      },
+      "binding": { "module": "WebXR/shared/skill-registry.js", "export": "skStation" },
+      "knowledge": "The Guide's knowledge base is the station content and docs/; the retrieval function over it is a roadmap item (docs/agent-roadmap.md, milestone M1)."
+    },
+    {
+      "name": "export_dataset",
+      "description": "Write a local dataset export (native shards, LeRobot-style, RLDS-style) from synthetic rollouts and any episodes a learner exported themselves. Local files only.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "formats": { "type": "array", "items": { "type": "string", "enum": ["native", "lerobot", "rlds"] } },
+          "stations": { "type": "integer", "minimum": 1 },
+          "apps": { "type": "array", "items": { "type": "string", "enum": ["smartcity", "trades"] } }
+        },
+        "required": []
+      },
+      "binding": { "module": "tools/lib/dataset_formats.mjs", "export": "createFormatWriters" }
+    }
+  ],
+  "protocols": {
+    "$comment": "Every protocol starts unconfigured; see WebXR/shared/agent-protocols.js. Nothing here is a setting.",
+    "adapters": ["virtuals", "singularitynet", "generic-attestation", "cloudflare-relay"],
+    "configured": false
+  }
+}

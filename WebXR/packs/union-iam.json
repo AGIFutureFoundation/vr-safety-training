@@ -1,0 +1,555 @@
+{
+  "id": "union-iam",
+  "kind": "union",
+  "name": "IAM Union Package",
+  "title": "SmartCiti.X IAM Union Package — Powered by AGI Corp",
+  "audience": "trades",
+  "summary": "Every station the platform ties to International Association of Machinists and Aerospace Workers: the programmes whose union line names it and the stations whose own certification does.",
+  "certification": null,
+  "programmes": [
+    "aerospace-defense-and-robotics",
+    "aviation-maintenance-and-ground",
+    "transit-ramp"
+  ],
+  "stations": [
+    {
+      "app": "smartcity",
+      "id": "signal-cabinet"
+    },
+    {
+      "app": "smartcity",
+      "id": "track-access"
+    },
+    {
+      "app": "smartcity",
+      "id": "press-brake"
+    },
+    {
+      "app": "smartcity",
+      "id": "conveyor-guard"
+    },
+    {
+      "app": "smartcity",
+      "id": "bus-depot-lift"
+    },
+    {
+      "app": "smartcity",
+      "id": "forklift-dock"
+    },
+    {
+      "app": "smartcity",
+      "id": "airport-ramp"
+    },
+    {
+      "app": "smartcity",
+      "id": "cnc-cell"
+    },
+    {
+      "app": "smartcity",
+      "id": "rt-speed-separation-monitoring-setup"
+    },
+    {
+      "app": "smartcity",
+      "id": "rt-robot-estop-recovery-and-restart"
+    },
+    {
+      "app": "smartcity",
+      "id": "rt-cobot-power-force-limit-check"
+    },
+    {
+      "app": "smartcity",
+      "id": "rt-teach-pendant-safe-jogging"
+    },
+    {
+      "app": "smartcity",
+      "id": "bus-yard-fuelling-and-brake-check"
+    },
+    {
+      "app": "smartcity",
+      "id": "tr-wheelchair-lift-and-securement-on-a-bus"
+    },
+    {
+      "app": "smartcity",
+      "id": "av-lavatory-and-potable-water-separation"
+    },
+    {
+      "app": "smartcity",
+      "id": "av-borescope-and-tool-control-inventory"
+    },
+    {
+      "app": "smartcity",
+      "id": "av-hangar-jacking-and-stands"
+    },
+    {
+      "app": "smartcity",
+      "id": "av-deicing-truck-boom-operations"
+    },
+    {
+      "app": "smartcity",
+      "id": "av-baggage-belt-loader-and-hold-loading"
+    },
+    {
+      "app": "smartcity",
+      "id": "av-ground-power-and-static-bonding-before-fuel"
+    },
+    {
+      "app": "smartcity",
+      "id": "av-pushback-tug-and-towbar-connection"
+    },
+    {
+      "app": "smartcity",
+      "id": "av-marshalling-and-wingwalker-signals"
+    },
+    {
+      "app": "smartcity",
+      "id": "ad-cobot-risk-assessment-and-speed-separation"
+    },
+    {
+      "app": "smartcity",
+      "id": "ad-payload-crane-lift-with-a-lift-plan"
+    },
+    {
+      "app": "smartcity",
+      "id": "ad-test-stand-exclusion-zone-and-holds"
+    },
+    {
+      "app": "smartcity",
+      "id": "ad-hazardous-fluid-servicing-with-a-buddy"
+    },
+    {
+      "app": "smartcity",
+      "id": "ad-depot-tool-control-and-fod-walk"
+    },
+    {
+      "app": "smartcity",
+      "id": "ad-amr-fleet-traffic-and-estop-drill"
+    },
+    {
+      "app": "smartcity",
+      "id": "ad-robot-cell-lockout-and-safe-reentry"
+    },
+    {
+      "app": "smartcity",
+      "id": "ad-cleanroom-gowning-and-esd-discipline"
+    },
+    {
+      "app": "smartcity",
+      "id": "rp-robot-policy-evaluation-review"
+    },
+    {
+      "app": "smartcity",
+      "id": "rp-teleop-demonstration-collection"
+    },
+    {
+      "app": "smartcity",
+      "id": "vb-supervising-agent-dispatched-robots"
+    }
+  ],
+  "unions": [
+    "iam"
+  ],
+  "unionLine": "International Association of Machinists and Aerospace Workers",
+  "k12Bands": [],
+  "path": "union-trades",
+  "alsoPaths": [],
+  "worlds": [
+    {
+      "world": "bayworld",
+      "sites": [
+        "west-oakland-truck-yard",
+        "west-oakland-robotics-centre",
+        "west-oakland-union-hall",
+        "coliseum-elevated-transit-station",
+        "coliseum-airfield-apron",
+        "island-ferry-landing",
+        "island-airfield-park"
+      ]
+    },
+    {
+      "world": "redwood",
+      "sites": [
+        "sawmill"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "orleans",
+      "sites": [
+        "streetcar-barn",
+        "no-sw-almonaster-corridor-distribution-warehouse"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "jefferson",
+      "sites": [
+        "jf-airport-ramp",
+        "jf-elmwood-freight",
+        "jf-transit-yard",
+        "jf-sw-west-bank-waterfront-distribution-warehouse"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "st-tammany",
+      "sites": [
+        "st-timber-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-downtown",
+      "sites": [
+        "transbay-transit-hub",
+        "cable-car-barn",
+        "dt-sw-south-of-market-fabrication-shop"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-mission",
+      "sites": [
+        "soma-maker-workshop",
+        "potrero-bus-yard",
+        "mi-sw-islais-creek-fabrication-shop",
+        "mi-sw-south-of-market-fabrication-shop",
+        "mi-sw-mission-bay-research-lab-building"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-golden-gate-park",
+      "sites": [
+        "ocean-beach-streetcar-terminal",
+        "gg-sw-sunset-bus-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-marina",
+      "sites": [
+        "cow-hollow-bus-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-bayview",
+      "sites": [
+        "third-street-rail-barn",
+        "bv-sw-islais-creek-fabrication-shop"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-outer-mission",
+      "sites": [
+        "om-transit-corridor"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-north-beach",
+      "sites": [
+        "embarcadero-pier-shed",
+        "hyde-street-cable-car-crew",
+        "powell-street-cable-car-crew"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-haight-castro",
+      "sites": [
+        "castro-station-transit",
+        "church-street-line-crew"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-sunset-south",
+      "sites": [
+        "nineteenth-avenue-line-crew"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-west-oakland",
+      "sites": [
+        "west-oakland-rail-yard",
+        "west-oakland-transit-station",
+        "mandela-parkway-warehouse-row"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-downtown-lake",
+      "sites": [
+        "uptown-bus-operations-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-fruitvale-estuary",
+      "sites": [
+        "fruitvale-transit-station",
+        "embarcadero-metal-workshop",
+        "high-street-warehouse-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-emeryville-berkeley",
+      "sites": [
+        "emeryville-rail-station",
+        "emeryville-warehouse-studios",
+        "downtown-berkeley-transit-station",
+        "west-berkeley-maker-workshop"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bay-san-pablo",
+      "sites": [
+        "richmond-transit-station",
+        "richmond-rail-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bay-san-jose",
+      "sites": [
+        "diridon-transit-hub",
+        "airport-ramp-crew",
+        "north-first-rail-barn"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-san-leandro-bay",
+      "sites": [
+        "slb-industrial-frontage-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-san-mateo-shoreline",
+      "sites": [
+        "smc-drum-staging-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "la-starbase-vermilion",
+      "sites": [
+        "lsb-propellant-tank-farm",
+        "lsb-airport-apron",
+        "lsb-vehicle-processing-hangar",
+        "lsb-laydown-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "la-black-bayou-cameron",
+      "sites": [
+        "lbb-laydown-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "la-saronic-franklin",
+      "sites": [
+        "lsf-steel-receiving-yard",
+        "lsf-tool-crib",
+        "lsf-machine-shop",
+        "lsf-security-gate"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "la-avex-new-iberia",
+      "sites": [
+        "lav-paint-hangar",
+        "lav-freighter-conversion-bay",
+        "lav-apron-work",
+        "lav-fuel-farm",
+        "lav-sheet-metal-shop",
+        "lav-composite-shop",
+        "lav-avionics-wiring",
+        "lav-ground-support-yard",
+        "lav-laydown-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "laf-downtown",
+      "sites": [
+        "lafd-traffic-signal-install",
+        "lafd-airport-ramp",
+        "lafd-thruway-warehouse"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "laf-carencro-north",
+      "sites": [
+        "lafc-industrial-park",
+        "lafc-oilfield-service-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "monroe-west-monroe",
+      "sites": [
+        "mon-airport-apron",
+        "mon-transit-shelters",
+        "mon-west-monroe-warehouse"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "la-meta-richland",
+      "sites": [
+        "lmr-laydown-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "la-delta-forge-rapides",
+      "sites": [
+        "ldf-laydown-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "la-shintech-plaquemine",
+      "sites": [
+        "lsp-laydown-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "lc-lakefront-downtown",
+      "sites": [
+        "lcd-transit-yard",
+        "lcd-westlake-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "lc-calcasieu-channel",
+      "sites": [
+        "lcc-laydown-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "lc-port-of-vinton",
+      "sites": [
+        "lpv-laydown-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "nola-french-quarter-cbd",
+      "sites": [
+        "nfq-riverfront-streetcar-track",
+        "nfq-canal-streetcar-track"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "nola-uptown-garden",
+      "sites": [
+        "nup-streetcar-overhead-wire",
+        "nup-river-wharf",
+        "nup-streetcar-barn-yard",
+        "nup-st-charles-streetcar-track"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "nola-mid-city-gentilly",
+      "sites": [
+        "nmc-canal-streetcar-track",
+        "nmc-carrollton-streetcar-wire"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "nola-bywater-lower-ninth",
+      "sites": [
+        "nbw-st-claude-streetcar-track"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "br-downtown-riverfront",
+      "sites": [
+        "brd-transit-stop-build",
+        "brd-traffic-signal-crew"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "br-north-industrial",
+      "sites": [
+        "brn-pipe-fab-shop"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "br-riverplex-ascension",
+      "sites": [
+        "brr-rail-spur",
+        "brr-laydown-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "hammond-downtown",
+      "sites": [
+        "ham-rail-crossing",
+        "ham-airport-apron"
+      ]
+    }
+  ],
+  "stationNames": {
+    "signal-cabinet": "Signal Cabinet",
+    "track-access": "Track Access",
+    "press-brake": "Press Brake",
+    "conveyor-guard": "Conveyor Guard",
+    "bus-depot-lift": "Bus Depot Lift",
+    "forklift-dock": "Forklift Dock",
+    "airport-ramp": "Airport Ramp",
+    "cnc-cell": "CNC Cell",
+    "rt-speed-separation-monitoring-setup": "Setting Up Speed-and-Separation Monitoring",
+    "rt-robot-estop-recovery-and-restart": "Bringing a Robot Back After an E-stop",
+    "rt-cobot-power-force-limit-check": "Measuring a Cobot's Contact Forces",
+    "rt-teach-pendant-safe-jogging": "Teaching a Robot from the Pendant",
+    "bus-yard-fuelling-and-brake-check": "Bus Yard Fuelling & Brake Check",
+    "tr-wheelchair-lift-and-securement-on-a-bus": "Wheelchair Lift & Securement on a Bus",
+    "av-lavatory-and-potable-water-separation": "Lavatory & Potable Water Separation",
+    "av-borescope-and-tool-control-inventory": "Borescope & Tool-Control Inventory",
+    "av-hangar-jacking-and-stands": "Hangar Jacking & Stands",
+    "av-deicing-truck-boom-operations": "De-icing Truck Boom Operations",
+    "av-baggage-belt-loader-and-hold-loading": "Baggage Belt-Loader & Hold Loading",
+    "av-ground-power-and-static-bonding-before-fuel": "Ground Power & Static Bonding Before Fuel",
+    "av-pushback-tug-and-towbar-connection": "Pushback Tug & Towbar Connection",
+    "av-marshalling-and-wingwalker-signals": "Marshalling & Wing-Walker Signals",
+    "ad-cobot-risk-assessment-and-speed-separation": "Cobot Risk Assessment & Speed-and-Separation",
+    "ad-payload-crane-lift-with-a-lift-plan": "Payload Crane Lift with a Lift Plan",
+    "ad-test-stand-exclusion-zone-and-holds": "Test Stand Exclusion Zone & Holds",
+    "ad-hazardous-fluid-servicing-with-a-buddy": "Hazardous Fluid Servicing with a Buddy",
+    "ad-depot-tool-control-and-fod-walk": "Depot Tool Control & FOD Walk",
+    "ad-amr-fleet-traffic-and-estop-drill": "AMR Fleet Traffic & E-stop Drill",
+    "ad-robot-cell-lockout-and-safe-reentry": "Robot Cell Lockout & Safe Re-entry",
+    "ad-cleanroom-gowning-and-esd-discipline": "Cleanroom Gowning & ESD Discipline",
+    "rp-robot-policy-evaluation-review": "Reviewing a Robot Policy's Evaluation",
+    "rp-teleop-demonstration-collection": "Collecting a Robot Demonstration Safely",
+    "vb-supervising-agent-dispatched-robots": "Supervising Robots Dispatched by Software Agents"
+  },
+  "version": "1.0.0",
+  "contentHash": "812e9981",
+  "brand": "SmartCiti.X · Powered by AGI Corp",
+  "generator": "tools/gen_packs.mjs",
+  "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."
+}

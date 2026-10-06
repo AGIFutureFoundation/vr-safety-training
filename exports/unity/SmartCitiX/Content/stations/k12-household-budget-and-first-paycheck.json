@@ -1,0 +1,411 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "month-planned",
+    "name": "Month Planned",
+    "note": "Pay slip read, percentages worked and a budget that balances with something saved"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFT",
+        "id": "aft-training",
+        "title": "AFT — American Federation of Teachers training for paraprofessionals and school-related personnel"
+      },
+      {
+        "body": "INEE",
+        "citedAs": "INEE Minimum Standards",
+        "id": "inee-minimum-standards",
+        "title": "INEE Minimum Standards for Education in emergencies, as a body whose standards a lesson is aligned to; it certifies nothing"
+      },
+      {
+        "body": "national curriculum authority",
+        "citedAs": "national curriculum framework",
+        "id": "national-curriculum-framework",
+        "title": "The national curriculum framework the school itself follows, as a category rather than any one country's document; no grade-level code is cited"
+      },
+      {
+        "body": "union",
+        "citedAs": "National Education Association",
+        "id": "nea-training",
+        "title": "NEA apprenticeship and training, as a training body"
+      },
+      {
+        "body": "UN",
+        "citedAs": "Sustainable Development Goal 4",
+        "id": "un-sdg-4-quality-education",
+        "title": "UN Sustainable Development Goal 4 (Quality Education), as a framework a lesson is aligned to; it certifies nothing"
+      },
+      {
+        "body": "UNESCO",
+        "citedAs": "UNESCO education guidance",
+        "id": "unesco-education-guidance",
+        "title": "UNESCO education guidance, as a body whose published guidance a lesson is aligned to; it certifies nothing"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Education",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "clean-read",
+        "name": "First Look",
+        "note": "Everything in the opening scan found first time"
+      },
+      {
+        "id": "no-shortcut",
+        "name": "No Shortcuts",
+        "note": "No misconception or unsafe shortcut anywhere in the run"
+      },
+      {
+        "id": "in-the-band",
+        "name": "In the Band",
+        "note": "Every gauge and meter held inside its band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-run",
+        "name": "Clean Run",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "steady-hands",
+        "name": "Steady Hands",
+        "note": "Every hold and track carried its full count"
+      },
+      {
+        "id": "quick-and-right",
+        "name": "Quick and Right",
+        "note": "Finished inside 80% of par"
+      }
+    ],
+    "currency": "COINS",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Saver",
+      "Planner",
+      "Budgeter",
+      "Adviser",
+      "Treasurer"
+    ],
+    "system": "Budget Board"
+  },
+  "hazards": {
+    "no-money-kept-back": "You planned to spend every coin. A month always brings something unexpected, and a budget with nothing kept back turns a small surprise into borrowing; setting a part aside first is the habit that makes a budget survive real life.",
+    "percentage-of-the-wrong-total": "You worked out the percentage of the wrong total. A percentage always means a part of a particular whole, so the first question is: per cent of what? Taking it of the net pay when the slip means the gross, or the reverse, gives an answer that looks right and is not.",
+    "plan-with-the-gross-pay": "You planned the month with the pay before deductions. The money that actually arrives is the net pay, after tax and other deductions are taken; a budget built on the bigger figure runs out before the month does. Every budget starts from what reaches the account.",
+    "share-the-account-details": "You read your account details aloud to the group. Personal financial details are private even in a practice lesson, and the habit of keeping them private is part of what the lesson teaches; the practice slip uses made-up details for exactly this reason."
+  },
+  "id": "k12-household-budget-and-first-paycheck",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "add-up-the-bills-without-skipping",
+      "alert": "A message pops up on the practice tablet saying your pay is on hold unless you send your card details.",
+      "cue": "Do not reply or click anything; show the teacher.",
+      "delay": 3,
+      "id": "a-message-asks-for-card-details",
+      "kind": "Suspicious message",
+      "missNote": "Nobody told the teacher, and a classmate typed made-up details in to see what would happen.",
+      "seconds": 12,
+      "target": "kbp-ignore-and-tell",
+      "why": "A message that creates urgency and asks for card details is a classic scam. The right response is always the same: do not reply, do not click, and show a trusted adult. Real employers and banks do not ask for details that way.",
+      "wrongNote": "That engages with the message. Do not reply; show the teacher."
+    },
+    {
+      "after": "keep-spending-on-plan-through-the",
+      "alert": "The community centre adviser asks what percentage of your pay goes on rent.",
+      "cue": "Say the percentage and which pay it is a percentage of.",
+      "delay": 3,
+      "id": "the-adviser-asks-what-percentage-rent-is",
+      "kind": "Adviser question",
+      "missNote": "You gave a percentage without saying of what, and the adviser could not tell whether it was right.",
+      "seconds": 12,
+      "target": "kbp-say-the-percentage",
+      "why": "The adviser wants two things: the percentage and what it is a percentage of. Saying both shows you understand that a percentage without its whole is meaningless, which is the idea the whole lesson rests on.",
+      "wrongNote": "That leaves out what it is a percentage of. Say both. Choose the response that deals with it now."
+    }
+  ],
+  "lateNotes": {
+    "kbp-budget-log": "The budget record is written once the budget balances — nothing to record yet.",
+    "kbp-checkin": "The check-in comes at the very end of the lesson."
+  },
+  "name": "A Household Budget and a First Paycheck",
+  "parSeconds": 330,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "k12-practical-math"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "kbp-add-bills",
+      "kbp-bud-gross",
+      "kbp-bud-needs-first",
+      "kbp-bud-no-buffer",
+      "kbp-bud-wrong-percent",
+      "kbp-budget-log",
+      "kbp-buffer-spot",
+      "kbp-check-card",
+      "kbp-checkin",
+      "kbp-deductions",
+      "kbp-employer-logo",
+      "kbp-gross",
+      "kbp-ignore-and-tell",
+      "kbp-net",
+      "kbp-ord-needs",
+      "kbp-ord-net",
+      "kbp-ord-save",
+      "kbp-ord-wants",
+      "kbp-percent-dial",
+      "kbp-private-card",
+      "kbp-save-meter",
+      "kbp-say-the-percentage",
+      "kbp-share-board",
+      "kbp-surprise-token",
+      "kbp-track-meter",
+      "no-money-kept-back",
+      "percentage-of-the-wrong-total",
+      "plan-with-the-gross-pay",
+      "share-the-account-details"
+    ],
+    "meshes": 275
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Mark the three parts of the practice pay slip you need before you can plan anything.",
+      "decoyNotes": {
+        "kbp-employer-logo": "The logo says who paid, not how much arrived. Stick to the numbers."
+      },
+      "id": "find-the-parts-of-the-pay",
+      "itemNames": {
+        "kbp-deductions": "the deductions",
+        "kbp-gross": "the gross pay",
+        "kbp-net": "the net pay"
+      },
+      "itemNotes": {
+        "kbp-deductions": "What is taken first. Gross minus deductions gives net.",
+        "kbp-gross": "What was earned before anything is taken. Not what arrives.",
+        "kbp-net": "What actually reaches the account. The budget starts here."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Mark the three parts of the practice pay slip you need before you can plan anything.",
+      "targets": [
+        "kbp-gross",
+        "kbp-deductions",
+        "kbp-net"
+      ],
+      "title": "Find the parts of the pay slip",
+      "why": "A pay slip is a small table of arithmetic. The gross pay is what was earned, the deductions are what is taken before it reaches you, and the net pay is what arrives. Finding all three first stops you planning with the wrong number, which is the commonest mistake a first-time earner makes."
+    },
+    {
+      "cue": "Net pay first, then needs, then something saved, then wants.",
+      "id": "put-the-budget-steps-in-order",
+      "itemNames": {
+        "kbp-ord-needs": "2 · cover the needs",
+        "kbp-ord-net": "1 · start from the net pay",
+        "kbp-ord-save": "3 · set something aside",
+        "kbp-ord-wants": "4 · plan the wants"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order. Start from what actually arrives, then the needs, before anything else.",
+      "prompt": "Net pay first, then needs, then something saved, then wants.",
+      "targets": [
+        "kbp-ord-net",
+        "kbp-ord-needs",
+        "kbp-ord-save",
+        "kbp-ord-wants"
+      ],
+      "title": "Put the budget steps in order",
+      "why": "The order is what makes a budget work. Starting from the net pay tells you what you actually have; covering needs such as rent, food and travel comes next because they cannot be skipped; setting something aside before the wants means saving actually happens, instead of being whatever is left."
+    },
+    {
+      "cue": "Turn the slip face down when you are not working on it.",
+      "id": "keep-your-practice-details-private",
+      "kind": "select",
+      "prompt": "Turn the slip face down when you are not working on it.",
+      "target": "kbp-private-card",
+      "title": "Keep your practice details private",
+      "why": "Keeping personal financial details private is a life skill in its own right, and it starts in practice. The slip uses made-up details, but turning it face down when you are not working on it builds the same habit you will need with a real slip, a bank card or a message asking for account details."
+    },
+    {
+      "cue": "Turn the dial from the fraction of pay spent on rent to the same amount as a percentage.",
+      "id": "turn-the-fraction-into-a-percentage",
+      "kind": "turn",
+      "prompt": "Turn the dial from the fraction of pay spent on rent to the same amount as a percentage.",
+      "target": "kbp-percent-dial",
+      "title": "Turn the fraction into a percentage",
+      "turn": {
+        "axis": "y",
+        "label": "PER CENT",
+        "turns": 0.5
+      },
+      "why": "A percentage is a fraction out of a hundred, which is why it makes different amounts easy to compare. Turning the fraction of pay spent on rent into a percentage lets you compare it with advice or with a friend's budget, even when the pay is different."
+    },
+    {
+      "cue": "Commit when the amount saved is realistic: enough to matter, not so much the needs go unpaid.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.58
+        ],
+        "label": "SAVE",
+        "missNote": "Outside the band. Too little and a surprise sinks the month; too much and the needs go unpaid. Try again.",
+        "speed": 0.6
+      },
+      "id": "choose-a-realistic-amount-to-set",
+      "kind": "gauge",
+      "prompt": "Commit when the amount saved is realistic: enough to matter, not so much the needs go unpaid.",
+      "target": "kbp-save-meter",
+      "title": "Choose a realistic amount to set aside",
+      "why": "Saving too little leaves nothing for a surprise; saving so much that the needs go unpaid leads to borrowing, which undoes the saving. A realistic amount is one the month can actually bear, and it is the same judgement adults make every month."
+    },
+    {
+      "cue": "Hold your place and add the bills on the table one by one.",
+      "holdBreakNote": "You lost your place and skipped a bill. Go back to the last one you are sure of.",
+      "id": "add-up-the-bills-without-skipping",
+      "kind": "hold",
+      "prompt": "Hold your place and add the bills on the table one by one.",
+      "seconds": 6,
+      "target": "kbp-add-bills",
+      "title": "Add up the bills without skipping one",
+      "why": "Adding a column of bills is easy to get wrong by skipping one or counting one twice. Working through them one by one, keeping your place, gives a total you can trust; it is the same care anyone takes with a real month's bills, where one forgotten bill can undo the whole plan."
+    },
+    {
+      "cue": "A surprise cost arrives. Drag it onto the amount you kept back.",
+      "drag": {
+        "missNote": "It is not covered yet. Take it all the way to what you kept back.",
+        "radius": 0.45,
+        "to": "kbp-buffer-spot"
+      },
+      "id": "cover-the-surprise-from-the-buffer",
+      "kind": "drag",
+      "prompt": "A surprise cost arrives. Drag it onto the amount you kept back.",
+      "target": "kbp-surprise-token",
+      "title": "Cover the surprise from the buffer",
+      "why": "This is what the kept-back amount is for. Covering a surprise from the buffer, rather than from the needs or by borrowing, shows the plan working exactly as designed, and it is why every budget keeps something in reserve."
+    },
+    {
+      "cue": "Look at the draft budget and mark each problem before it is handed in.",
+      "decoyNotes": {
+        "kbp-bud-needs-first": "Needs before wants is right. Keep it."
+      },
+      "id": "spot-the-problems-in-a-classmate",
+      "itemNames": {
+        "kbp-bud-gross": "a plan built on the gross pay",
+        "kbp-bud-no-buffer": "nothing kept back",
+        "kbp-bud-wrong-percent": "a percentage of the wrong total"
+      },
+      "itemNotes": {
+        "kbp-bud-gross": "The plan has to start from what arrives, the net pay.",
+        "kbp-bud-no-buffer": "One surprise and this budget is borrowing.",
+        "kbp-bud-wrong-percent": "Per cent of what? Check the whole the percentage belongs to."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look at the draft budget and mark each problem before it is handed in.",
+      "targets": [
+        "kbp-bud-gross",
+        "kbp-bud-wrong-percent",
+        "kbp-bud-no-buffer"
+      ],
+      "title": "Spot the problems in a classmate's budget",
+      "why": "Checking someone else's budget trains you to see the traps in your own. The usual problems are planning from the gross pay, a percentage taken of the wrong total and nothing kept back for surprises. Each one looks fine on paper until the month begins."
+    },
+    {
+      "cue": "Check that everything planned adds up to the net pay, no more.",
+      "id": "check-the-budget-balances",
+      "kind": "select",
+      "prompt": "Check that everything planned adds up to the net pay, no more.",
+      "target": "kbp-check-card",
+      "title": "Check the budget balances",
+      "why": "A budget balances when everything planned adds up to what arrives. Checking it before the month starts, rather than finding out at the end, is what separates a plan from a hope, and it is the same check a business does with its own accounts."
+    },
+    {
+      "cue": "Hold spending in band with the plan as the weeks go by.",
+      "holdBreakNote": "Spending drifted off the plan. Look at what changed and bring it back before the month ends.",
+      "id": "keep-spending-on-plan-through-the",
+      "kind": "track",
+      "prompt": "Hold spending in band with the plan as the weeks go by.",
+      "seconds": 8,
+      "target": "kbp-track-meter",
+      "title": "Keep spending on plan through the month",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.38,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "ON PLAN",
+        "rise": 0.46,
+        "start": 0.3
+      },
+      "why": "A plan only works if spending follows it. Checking spending against the plan as the month goes on catches drift early, when a small change fixes it, rather than at the end when the money has gone."
+    },
+    {
+      "cue": "Write down the net pay, the percentages, the buffer and how the surprise was covered.",
+      "id": "record-the-budget-and-the-working",
+      "kind": "select",
+      "prompt": "Write down the net pay, the percentages, the buffer and how the surprise was covered.",
+      "target": "kbp-budget-log",
+      "title": "Record the budget and the working",
+      "why": "A written budget, with the working shown, can be checked and improved next month. Recording how the surprise was covered shows the buffer earning its place, which is the lesson most worth keeping."
+    },
+    {
+      "cue": "Tell the class one thing that made your budget work.",
+      "id": "share-one-budgeting-tip",
+      "kind": "select",
+      "prompt": "Tell the class one thing that made your budget work.",
+      "target": "kbp-share-board",
+      "title": "Share one budgeting tip",
+      "why": "Sharing a tip helps classmates who found it hard, and saying it out loud fixes it in your own memory. The best tips are simple and anyone can use them, like starting from the net pay or keeping something back."
+    },
+    {
+      "cue": "How did the budget go? What was hard, and what would you try next time?",
+      "id": "crew-check-in",
+      "kind": "select",
+      "prompt": "How did the budget go? What was hard, and what would you try next time?",
+      "target": "kbp-checkin",
+      "title": "Check in at the end of the lesson",
+      "why": "A short check-in at the end tells the teacher who is confident and who needs another go, and it gives every learner a moment to notice what they learned. Nobody is graded here, and the teacher or a trusted adult is there for anyone who found the lesson hard and wants to talk it through."
+    }
+  ],
+  "supportLine": "your teacher, a school counsellor or a trusted adult at home — if anything in this lesson was hard, talk it through afterwards",
+  "tagline": "Read the slip, find the percentage, plan the month — and keep something back for the unexpected",
+  "title": "SmartCiti.X~ A Household Budget and a First Paycheck VR",
+  "trade": "Maths class at the community centre's money desk — learner and teacher",
+  "underwater": null,
+  "weather": "clear"
+}

@@ -1,0 +1,261 @@
+{
+  "id": "k12-map-literacy-across-eras",
+  "index": "825",
+  "prefix": "kml",
+  "accent": "#c08a4a",
+  "floor": [
+    "#78726a",
+    "#6a645c"
+  ],
+  "wall": [
+    "#ece4d4",
+    "#ded6c4"
+  ],
+  "trade": "History class in the civic centre's archive room — learner and archivist",
+  "header": "Upper-primary and lower-secondary history at a civic centre's archive room: reading maps from different eras as sources, finding the key, scale and orientation, asking who made a map and why, and comparing old and new maps of the same place. Every map in the scene is fictional and labelled as the lesson's own archive.",
+  "name": "Map Literacy Across Eras",
+  "tagline": "Every map was made by someone, for a reason — find the key, the scale and the north first",
+  "badge": {
+    "id": "map-reader",
+    "name": "Map Reader",
+    "note": "Maps from different eras read for key, scale and orientation, their makers' purposes asked and changes compared"
+  },
+  "board": {
+    "name": "Map Board",
+    "currency": "MAPS",
+    "ranks": [
+      "Browser",
+      "Reader",
+      "Comparer",
+      "Map Historian",
+      "Archivist"
+    ]
+  },
+  "hazards": [
+    {
+      "id": "north-is-always-up",
+      "label": "Assume north is at the top of the old map?",
+      "face": "NORTH\nIS UP?",
+      "text": "You assumed north was at the top of the old map. Many older maps put another direction at the top, depending on who made them and why; always find the map's own orientation mark before you read directions from it."
+    },
+    {
+      "id": "a-map-is-neutral",
+      "label": "Say a map just shows what is there?",
+      "face": "JUST\nSHOWS IT",
+      "text": "You said a map just shows what is there. Every map is made by someone for a reason, and they choose what to include, what to leave out and what to make big; reading a map as a source means asking who made it and why."
+    },
+    {
+      "id": "touch-the-map-surface",
+      "label": "Trace the old route with your finger?",
+      "face": "TRACE IT\nBY HAND",
+      "text": "You traced the route on the old map with your finger. Skin oils damage old paper and ink; in the archive you use the pointer and the clear overlay, and the archivist handles the originals."
+    },
+    {
+      "id": "old-map-is-wrong",
+      "label": "Say the old map is wrong because it differs?",
+      "face": "OLD =\nWRONG",
+      "text": "You said the old map is wrong because it differs from the new one. The place may have changed, the mapmaker may have had different tools or purposes, or both; differences are evidence to explain, not mistakes to dismiss."
+    }
+  ],
+  "find1": {
+    "title": "Find the key, the scale and the orientation",
+    "cue": "Mark the three things on the map you read before anything else.",
+    "why": "Every map has three things that tell you how to read it: a key that explains its symbols, a scale that links distances on paper to distances on the ground, and an orientation mark that shows which way is which. Reading those three first, on any map from any era, stops you misreading everything else.",
+    "items": [
+      [
+        "key",
+        "the map's key",
+        "It explains what each symbol means."
+      ],
+      [
+        "scale",
+        "the scale bar",
+        "It links map distance to real distance."
+      ],
+      [
+        "orientation",
+        "the orientation mark",
+        "It shows which direction is at the top."
+      ]
+    ],
+    "decoy": [
+      "decoration",
+      "the decorated border",
+      "Beautiful, and it may tell you about the maker, but it does not help you read distances."
+    ]
+  },
+  "select1": {
+    "title": "Follow the archive's handling rules",
+    "cue": "Read the card: no touching originals, use the pointer and the overlay.",
+    "why": "Old maps are fragile and some exist only once. Using the pointer and the clear overlay instead of fingers protects them from skin oils and tears, and it is how every archive keeps its collection readable for future learners.",
+    "key": "archive-card",
+    "label": "Pointer and overlay only",
+    "face": "NO\nTOUCHING"
+  },
+  "seq": {
+    "title": "Put the map reading in order",
+    "cue": "Read the label, find the key and scale, find the orientation, then read the map.",
+    "why": "The label tells you who made the map, when and for what, which frames everything else. Key, scale and orientation then tell you how to read it, and only then do you read routes and places. The same order works on a fictional old map, a modern street plan or a satellite image.",
+    "oon": "Out of order. Read the label and the key before you read routes.",
+    "items": [
+      [
+        "ord-label",
+        "read who made it, when and why"
+      ],
+      [
+        "ord-key",
+        "find the key and scale"
+      ],
+      [
+        "ord-orient",
+        "find the orientation"
+      ],
+      [
+        "ord-read",
+        "read routes and places"
+      ]
+    ]
+  },
+  "hold": {
+    "title": "Hold the overlay still on the map",
+    "cue": "Hold the clear overlay steady over the old map while you trace the route on it.",
+    "why": "The overlay lets you mark without touching the original, but only if it stays still. Holding it steady while you trace means your marks line up with the map, and the original stays untouched.",
+    "brk": "The overlay slipped and the trace no longer lines up. Set it back and hold it.",
+    "key": "overlay-hold",
+    "label": "Overlay held steady"
+  },
+  "turn": {
+    "title": "Turn the old map to match the new one",
+    "cue": "Turn the old map until its orientation matches the modern map beside it.",
+    "why": "Comparing two maps only works if they face the same way. Turning the old map to match the new one's orientation lines up the coast, roads and rivers, so real changes stand out instead of being hidden by a turned page.",
+    "key": "rotate-dial",
+    "label": "Rotate the old map",
+    "dial": "ORIENT"
+  },
+  "gauge": {
+    "title": "Use the scale to estimate a distance",
+    "cue": "Commit when the dividers match the scale bar for the distance you are measuring.",
+    "why": "Setting the dividers against the scale bar turns a gap on paper into a distance on the ground. Checking against the scale each time, rather than guessing, lets you compare the same route on maps drawn at different scales.",
+    "key": "scale-meter",
+    "label": "Dividers on the scale",
+    "meter": "SCALE",
+    "miss": "Not matched to the scale bar. Set the dividers against it again."
+  },
+  "drag": {
+    "title": "Match the old landmark to the new map",
+    "cue": "Drag the old map's harbour marker to the same place on the modern map.",
+    "why": "Finding the same landmark on both maps anchors the comparison. Once one place is matched, you can see what moved, grew or disappeared around it, which is how historians use maps to study change over time.",
+    "key": "harbour-token",
+    "label": "Old harbour marker",
+    "spot": "harbour-spot",
+    "spotLabel": "Same place today",
+    "miss": "Not matched yet. Find the same stretch of coast on the modern map."
+  },
+  "select2": {
+    "title": "Say why the maker drew it this way",
+    "cue": "Say one reason the old map's maker might have shown some places large and left others out.",
+    "why": "A map made for sailors shows harbours and shoals; one made for landowners shows boundaries. Asking why a maker chose what to show is reading a map as a source, and it reveals as much about the maker as about the place.",
+    "key": "compare-card",
+    "label": "Who made it, and why?",
+    "face": "WHO AND\nWHY?"
+  },
+  "find2": {
+    "title": "Spot the problems in a classmate's comparison",
+    "cue": "Look at the draft map comparison and mark each problem.",
+    "why": "Map comparisons go wrong in familiar ways: north assumed to be at the top, an old map called wrong because it differs, and no mention of who made the map. Spotting them helps you write comparisons that treat maps as the sources they are.",
+    "items": [
+      [
+        "cm-north",
+        "north assumed to be at the top",
+        "Find each map's own orientation."
+      ],
+      [
+        "cm-wrong",
+        "the old map called wrong",
+        "Differences are evidence to explain."
+      ],
+      [
+        "cm-maker",
+        "no mention of who made the map",
+        "Ask who made it and why."
+      ]
+    ],
+    "decoy": [
+      "cm-labels",
+      "both maps clearly labelled",
+      "Clear labels are good practice. Keep them."
+    ]
+  },
+  "track": {
+    "title": "Follow the old road across both maps",
+    "cue": "Keep the pointer on the old road as it crosses from the old map to the new.",
+    "why": "Following one road across two eras shows which stretches survived, which were straightened and which vanished. Tracing it carefully, without jumping to where you expect it to go, keeps your comparison based on what the maps actually show.",
+    "brk": "The pointer left the road. Find it again and follow it.",
+    "key": "track-meter",
+    "label": "Road followed",
+    "meter": "ROAD"
+  },
+  "record": {
+    "title": "Record the comparison",
+    "cue": "Write each map's maker, purpose, orientation and the changes you found.",
+    "why": "A written comparison that names each map's maker and purpose shows why they differ, not just that they do. It is the kind of record another historian can check against the maps themselves.",
+    "key": "map-log",
+    "label": "Comparison record",
+    "done": "Comparison recorded"
+  },
+  "share": {
+    "title": "Return the maps to the archivist",
+    "cue": "Hand the overlays back and let the archivist return the originals.",
+    "why": "Returning maps properly, with the archivist handling the originals, keeps the collection in order and undamaged. It finishes the lesson the way every archive visit should end, with the sources safe for the next reader.",
+    "key": "share-board",
+    "label": "Return to the archivist",
+    "done": "Maps returned"
+  },
+  "checkin": {
+    "title": "Check in at the end of the visit",
+    "cue": "What surprised you about how the place changed? What was hard to read?",
+    "why": "The archive closes its reading room by having visitors put back what they used, and the class closes by putting into words what changed between the maps and what did not. Each learner names one feature and one era; the archivist can hear who reads a map as evidence and who still reads it as a picture.",
+    "label": "End-of-visit check-in"
+  },
+  "interrupts": [
+    {
+      "id": "a-drink-appears-on-the-table",
+      "kind": "Archive rule",
+      "key": "move-drink",
+      "label": "Ask for the drink to go outside",
+      "alert": "A visitor sets an open drink down on the archive table beside an old map.",
+      "cue": "Politely ask for the drink to be taken outside and tell the archivist.",
+      "why": "One spill can ruin an old map for ever, which is why archives ban drinks at the table. Asking politely and telling the archivist protects the sources without anyone needing to feel told off.",
+      "miss": "The drink stayed on the table, was knocked over, and an old map was stained for good.",
+      "wrong": "That leaves the drink by the maps. Choose the response that deals with it now.",
+      "done": "Drink taken outside, archivist thanked you. The lesson carries on."
+    },
+    {
+      "id": "the-archivist-asks-which-way",
+      "kind": "Archivist question",
+      "key": "say-orientation",
+      "label": "Show how you found the orientation",
+      "alert": "The archivist asks how you know which way the old map faces.",
+      "cue": "Point to the orientation mark and say which direction is at the top.",
+      "why": "The archivist is checking you read the map's own mark rather than assuming. Pointing to it shows the habit that keeps every direction you read from the map correct.",
+      "miss": "You said north is always up, and the archivist showed you the mark pointing elsewhere.",
+      "wrong": "That assumes instead of reading the mark. Choose the response that deals with it now.",
+      "done": "Orientation mark found. The archivist agrees."
+    }
+  ],
+  "crew": [
+    "History teacher",
+    "Classmate",
+    "Archivist",
+    "Visitor"
+  ],
+  "guide": {
+    "start": "Key, scale, orientation.",
+    "after": "Every map has a maker and a purpose.",
+    "hazard": "Stop. Which way does this map face? Who made it?"
+  },
+  "lateRecord": "The comparison is written once both maps are read — nothing to record yet.",
+  "lateCheckin": "The check-in comes at the very end of the visit.",
+  "scene": "wall",
+  "order": "c"
+}

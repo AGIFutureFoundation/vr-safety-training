@@ -1,0 +1,425 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "same-frame",
+    "name": "Same Frame",
+    "note": "Every quadrat shot on its pin at the same frame as last season, and the canopy never torn to get there"
+  },
+  "category": "Water & Environmental",
+  "certification": "AFSCME and LIUNA monitoring and restoration crews as training bodies; OSHA 29 CFR 1910.424 SCUBA diving as the rule the buddy and standby practice answers to; the programme's own diving safety manual and dive plan for every limit; Regional Water Quality Control Board Section 401 and Section 404 monitoring conditions for the restoration the transect reports on; BCDC permit conditions; NOAA Fisheries and the U.S. Fish and Wildlife Service consultation measures for in-water work; CDFW oversight of the survey's collecting and handling",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFSCME",
+        "id": "afscme-training",
+        "title": "AFSCME member education and safety training for public-service and air-district members"
+      },
+      {
+        "body": "BCDC",
+        "citedAs": "BCDC",
+        "id": "bcdc-bay-plan",
+        "title": "San Francisco Bay Plan and BCDC permit conditions under the McAteer-Petris Act"
+      },
+      {
+        "body": "CDFW",
+        "citedAs": "CDFW",
+        "id": "cdfw-lake-streambed-alteration",
+        "title": "California Department of Fish and Wildlife oversight under the California Fish and Game Code, including Lake and Streambed Alteration Agreements (§1602) for work affecting a river, stream or lake"
+      },
+      {
+        "body": "union",
+        "citedAs": "LIUNA",
+        "id": "liuna-training-fund",
+        "title": "LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula"
+      },
+      {
+        "body": "NOAA Fisheries",
+        "citedAs": "NOAA Fisheries",
+        "id": "noaa-fisheries-mmpa-esa",
+        "title": "NOAA Fisheries (National Marine Fisheries Service) Marine Mammal Protection Act authorizations and Endangered Species Act consultation for in-water work affecting marine mammals"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.424",
+        "id": "osha-1910-424",
+        "title": "29 CFR 1910.424 — SCUBA diving"
+      },
+      {
+        "body": "RWQCB",
+        "citedAs": "Section 401",
+        "id": "rwqcb-401-certification",
+        "title": "Regional Water Quality Control Board Clean Water Act §401 certification and waste discharge requirements"
+      },
+      {
+        "body": "USACE",
+        "citedAs": "Section 404",
+        "id": "usace-section-404",
+        "title": "Clean Water Act §404 permit conditions for the discharge of dredged or fill material"
+      },
+      {
+        "body": "USFWS",
+        "citedAs": "U.S. Fish and Wildlife Service",
+        "id": "usfws-esa",
+        "title": "Endangered Species Act §7 consultation and species protection measures set by the U.S. Fish and Wildlife Service"
+      }
+    ]
+  },
+  "district": "bay-underwater",
+  "domain": "Environmental",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "on-the-pin",
+        "name": "On The Pin",
+        "note": "Every quadrat set on its own pin first time"
+      },
+      {
+        "id": "canopy-kept",
+        "name": "Canopy Kept",
+        "note": "Never a hazard, never a stipe pulled"
+      },
+      {
+        "id": "steady-swim",
+        "name": "Steady Swim",
+        "note": "The current and the pace both read inside the band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-transect",
+        "name": "Clean Transect",
+        "note": "No corrections from the plan to the log"
+      },
+      {
+        "id": "unbroken-line",
+        "name": "Unbroken Line",
+        "note": "Pace and the scale shot held the whole way"
+      },
+      {
+        "id": "logged-early",
+        "name": "Logged Early",
+        "note": "Transect logged inside 80% of par"
+      }
+    ],
+    "currency": "FRAME",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Diver Trainee",
+      "Survey Diver",
+      "Transect Lead",
+      "Monitoring Lead",
+      "Transect Certified"
+    ],
+    "system": "Transect Crew"
+  },
+  "hazards": {
+    "flash-into-the-hole": "You fired the camera's strobe straight into the crevice under the ledge to see what was in it. Anything sheltering there is part of what the plan may protect, and the survey's photo method is the fixed quadrat frame, not a hunt: a diver chasing pictures off the tape is a diver off the buddy and off the plan.",
+    "grab-the-stipe": "You took hold of a kelp stipe to steady yourself against the current. A stipe tears at the holdfast under a diver's weight, and the plant you pulled loose is one of the plants the transect exists to count next season — a survey that damages the bed it measures has spoiled its own data. Position is held with the tape, a rock or fin work, never with the canopy.",
+    "leave-the-buddy": "You swam off the transect to follow something moving in the canopy and left your buddy on the tape. The plan's buddy pair is the standby that 29 CFR 1910.424 practice rests on: two divers who can see each other. A diver alone in a kelp bed with a tangled lanyard has nobody to cut it, and the buddy left behind has to choose between the tape and a search.",
+    "slack-tape-in-canopy": "You let the transect tape go slack and drift into the canopy. A slack tape wraps stipes as the surge moves it, reads long when it is pulled straight again, and puts every quadrat pin at the wrong chainage; the tape is run taut and low, just off the substrate, and the reel is never let go of until it is clipped."
+  },
+  "id": "me-kelp-transect-survey-and-photo-quadrats",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "swim-transect",
+      "alert": "Your buddy has stopped on the tape and is signalling the turn point the dive plan set — they are showing you the gauge and the thumb.",
+      "cue": "Answer the signal: acknowledge, signal the turn to the dive, and start back along the tape together.",
+      "delay": 2,
+      "id": "buddy-turn-signal",
+      "kind": "Buddy signals the turn point",
+      "missNote": "You kept swimming to the next pin while your buddy hung on the tape signalling; the pair separated in the canopy and the turn was made late, on gas the plan had reserved for the ascent.",
+      "seconds": 14,
+      "target": "turn-signal",
+      "why": "The turn point is a limit the dive plan set before anyone got wet, and a buddy who signals it is not asking for an opinion — the pair turns, the pins not yet shot wait for the next dive the supervisor plans. A diver who waves the signal off to finish one more quadrat has left the plan and left the buddy holding a decision that was never theirs to make alone.",
+      "wrongNote": "Not that. Your buddy's turn signal is answered with the turn signal — acknowledge it and turn the dive together."
+    },
+    {
+      "after": "scale-shot",
+      "alert": "An engine has come up loud directly overhead — a vessel is passing over the transect, well inside where the dive flag should have kept it.",
+      "cue": "Stay down on the tape and send up the surface marker so the boat crew and the vessel can see where the pair is.",
+      "delay": 2,
+      "id": "vessel-overhead",
+      "kind": "Engine noise overhead",
+      "missNote": "The pair held the frame and did nothing while the vessel crossed; the boat crew could not tell the surface where the divers were, and the ascent that followed was made under a hull nobody had warned off.",
+      "seconds": 14,
+      "target": "smb-reel",
+      "why": "A diver cannot see a hull from under a canopy and cannot outswim one; the safe response to engine noise overhead is to stay on the bottom, hold the tape and send the marker up so the surface knows exactly where the pair is. Surfacing to look is how a diver meets the propeller. The marker goes up from the reel, not the diver, and the ascent waits for the supervisor's line once the noise has passed.",
+      "wrongNote": "Not that. The surface marker is what tells the surface where you are — send it up from the reel and stay on the tape."
+    }
+  ],
+  "lateNotes": {
+    "photo-slate": "The slate is written after the scale shot is held — the frame number and the tag go on the slate together, not from memory.",
+    "quadrat-1": "Quadrats are photographed once the transect has been swum end to end — the swim is what finds the pins and the damage before the camera comes out.",
+    "survey-bag": "The bag goes up once the slate is written; nothing leaves the bottom before the record of it does.",
+    "transect-reel": "The tape goes out once the bearing is set on the bezel — a tape run before the heading is a line to nowhere the next survey can find."
+  },
+  "name": "Kelp Transect Survey & Photo Quadrats",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "marine-ecology-and-restoration"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "0.53x0.1x0.53",
+        "count": 3,
+        "kit": "unknown"
+      }
+    ],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "buddy-signal",
+      "camera-housing",
+      "canopy-gap",
+      "compass-bezel",
+      "current-meter",
+      "dive-log-slate",
+      "downline-clip",
+      "far-pin",
+      "flash-into-the-hole",
+      "grab-the-stipe",
+      "leave-the-buddy",
+      "photo-slate",
+      "quadrat-1",
+      "quadrat-2",
+      "quadrat-3",
+      "scale-bar-hold",
+      "slack-tape-in-canopy",
+      "slate-check",
+      "smb-reel",
+      "survey-bag",
+      "survey-plan-board",
+      "tagged-holdfast",
+      "tape-swim",
+      "transect-reel",
+      "transect-reel-check",
+      "turn-signal"
+    ],
+    "meshes": 274
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check the transect number, its bearing and pin count, the quadrat frame and camera settings, and the dive plan's limits as the supervisor briefed them.",
+      "id": "survey-plan",
+      "kind": "select",
+      "prompt": "Check the transect number, its bearing and pin count, the quadrat frame and camera settings, and the dive plan's limits as the supervisor briefed them.",
+      "target": "survey-plan-board",
+      "title": "Read the survey plan against the dive plan",
+      "why": "A monitoring transect is worth having only if it is the same transect every season: the same start pin, the same bearing, the same frame at the same pins with the same camera settings. The survey plan fixes all of that, and the dive plan fixes the limits the survey has to fit inside — how long the pair may work the tape is a number the supervisor holds, not a number the diver improvises when the light is good. Reading both before the reel comes out is what keeps the science and the safety inside one plan."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Housing latched and strobe firing, slate and pencil on their lanyard, reel free-running with its clip.",
+      "id": "kit-check",
+      "itemNames": {
+        "camera-housing": "camera housing and strobe",
+        "slate-check": "slate and pencil",
+        "transect-reel-check": "transect reel and clip"
+      },
+      "kind": "sequence",
+      "prompt": "Housing latched and strobe firing, slate and pencil on their lanyard, reel free-running with its clip.",
+      "targets": [
+        "camera-housing",
+        "slate-check",
+        "transect-reel-check"
+      ],
+      "title": "Check the survey kit before leaving the downline",
+      "why": "Everything the survey needs went down clipped to the diver, and a housing that fogs, a slate with no pencil or a reel that jams at the first pin turns a dive the plan allotted into a wasted one. The kit is checked at the downline because that is where an aborted survey costs the least: a diver who discovers the strobe is dead at the third quadrat has used the bottom time the plan gave for three quadrats on none."
+    },
+    {
+      "cue": "Watch the drift on the current meter's streamer and commit the reading against the working window the dive plan gives.",
+      "gauge": {
+        "green": [
+          0.36,
+          0.56
+        ],
+        "label": "CURRENT",
+        "missNote": "Outside the plan's working window — the tape would bow and the frame would lift. Read the meter again and hold the survey if it stays over.",
+        "speed": 0.7
+      },
+      "id": "read-current",
+      "kind": "gauge",
+      "prompt": "Watch the drift on the current meter's streamer and commit the reading against the working window the dive plan gives.",
+      "target": "current-meter",
+      "title": "Read the current against the plan's working window",
+      "why": "The plan's working window is the current a buddy pair can hold a taut tape and a steady frame in; past it the tape bows, the quadrat frame lifts and the divers burn gas fighting to stay on the pin. The number that ends the survey lives in the dive plan the supervisor holds, not in the diver's judgement of how it feels — the meter is read and committed so the decision is the plan's, made before the tape goes out."
+    },
+    {
+      "cue": "Turn the bezel to the bearing the survey plan gives for this transect, so the needle sits in the lubber line when you face the far pin.",
+      "id": "set-bearing",
+      "kind": "turn",
+      "prompt": "Turn the bezel to the bearing the survey plan gives for this transect, so the needle sits in the lubber line when you face the far pin.",
+      "target": "compass-bezel",
+      "title": "Set the transect bearing on your compass",
+      "turn": {
+        "label": "COMPASS BEZEL",
+        "turns": 0.75
+      },
+      "why": "The transect's bearing is what makes this season's tape lie along last season's pins, and in the shade of a canopy the compass is the only thing that keeps the line straight between one pin and the next. It is set before the reel is touched, because a tape run out even a few degrees off puts the quadrat pins off the line and the next crew swims past them without knowing."
+    },
+    {
+      "cue": "Pay the tape out from the start pin along the bearing, taut and just off the substrate, and clip the reel to the far pin.",
+      "drag": {
+        "missNote": "Not clipped to the far pin — the tape is a fixed line only once it is made fast at both ends.",
+        "radius": 0.5,
+        "to": "far-pin"
+      },
+      "id": "run-tape",
+      "kind": "drag",
+      "prompt": "Pay the tape out from the start pin along the bearing, taut and just off the substrate, and clip the reel to the far pin.",
+      "target": "transect-reel",
+      "title": "Run the transect tape out to the far pin",
+      "why": "The tape is the survey's ruler, and the far pin is what turns it from a line a diver happens to be holding into a fixed transect the plan can quote. It is run low and taut so the surge cannot drift it into the canopy, and it is clipped rather than laid down, because a tape that pulls free mid-survey means every quadrat after it is at a chainage nobody can repeat."
+    },
+    {
+      "cue": "Swim along the tape at a pace your buddy holds beside you, fins clear of the holdfasts, scanning a metre either side for the pins and for damage.",
+      "holdBreakNote": "The pace broke out of band — either racing into the canopy or stalled behind the buddy. Settle on the tape and take it up again.",
+      "id": "swim-transect",
+      "kind": "track",
+      "prompt": "Swim along the tape at a pace your buddy holds beside you, fins clear of the holdfasts, scanning a metre either side for the pins and for damage.",
+      "seconds": 6,
+      "target": "tape-swim",
+      "title": "Swim the transect steadily, reading the canopy both sides",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.46,
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "PACE ALONG THE TAPE",
+        "rise": 0.56,
+        "start": 0.14
+      },
+      "why": "The first pass finds the quadrat pins, the tagged plants and anything the plan wants noted — and it is swum slowly and level so the fins do not tear blades or stir the bottom into the frame the camera is about to shoot. Faster costs gas the plan did not count and misses pins under the canopy; slower spends bottom time on a stretch with nothing to record. The pace is set by the buddy pair and the visibility, not by the tape's length."
+    },
+    {
+      "cue": "Set the frame on pin 1, shoot it square from above at the plan's height, then pin 2, then pin 3 — the same frame, the same angle, every time.",
+      "id": "photo-quadrats",
+      "itemNames": {
+        "quadrat-1": "quadrat frame on pin 1",
+        "quadrat-2": "quadrat frame on pin 2",
+        "quadrat-3": "quadrat frame on pin 3"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order — pin 1, then 2, then 3, so the camera's frame numbers and the slate's pins agree without reconstruction.",
+      "prompt": "Set the frame on pin 1, shoot it square from above at the plan's height, then pin 2, then pin 3 — the same frame, the same angle, every time.",
+      "targets": [
+        "quadrat-1",
+        "quadrat-2",
+        "quadrat-3"
+      ],
+      "title": "Set and photograph the quadrats pin by pin",
+      "why": "The quadrat photographs are the survey's data: the same half-metre of bed shot from the same height at the same three pins every season is what lets the programme say whether the bed is changing, and a frame set beside the pin because the pin was under a blade is a photograph of somewhere else. They are taken in pin order so the frame numbers on the camera match the pins on the slate without anyone reconstructing the sequence on the boat."
+    },
+    {
+      "cue": "Along the tape, pick out the tag left by the last survey and note the chainage where the canopy thins to bare rock.",
+      "id": "find-tags",
+      "itemNames": {
+        "canopy-gap": "the stretch of transect where the canopy thins to bare rock",
+        "tagged-holdfast": "the numbered tag on a holdfast from the last survey"
+      },
+      "itemNotes": {
+        "canopy-gap": "A length of the tape where the canopy stops and bare rock begins. The survey records where the edge falls on the tape as a chainage, not a story about why — the reason is for the programme's scientists to argue from the data.",
+        "tagged-holdfast": "A numbered cattle tag zip-tied to a holdfast by the last crew. It is the fixed point that lets this season's frame be compared to last season's — its number goes on the slate beside the quadrat it sits in."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Along the tape, pick out the tag left by the last survey and note the chainage where the canopy thins to bare rock.",
+      "targets": [
+        "tagged-holdfast",
+        "canopy-gap"
+      ],
+      "title": "Find the tagged holdfast and the canopy edge",
+      "why": "A fixed transect earns its keep by what can be found again: a tagged plant is the anchor that ties this season's frames to last season's, and the chainage where the canopy stops is the one number that shows whether an edge is moving. Both are recorded as what and where — a tag number and a tape reading — because the survey's job is to make an observation the next crew can repeat, not to explain it on the bottom."
+    },
+    {
+      "cue": "Hold the housing square over the frame with the scale bar in shot and keep it there for the full count — no drift, no tilt.",
+      "holdBreakNote": "The housing drifted off square before the count was done — the scale bar would read wrong across the frame. Settle over the frame and hold again.",
+      "id": "scale-shot",
+      "kind": "hold",
+      "prompt": "Hold the housing square over the frame with the scale bar in shot and keep it there for the full count — no drift, no tilt.",
+      "seconds": 5,
+      "target": "scale-bar-hold",
+      "title": "Hold the camera steady for the scale shot",
+      "why": "The scale bar in the frame is what lets anyone measure from the photograph later, and a shot taken while the camera drifts or tilts has a scale bar that reads a different length at one edge than the other. Holding square for the full count is the diver's own proof that the frame was shot as the plan says; a rushed shot cannot be told from a careful one on the boat, only in the analysis months later when it is too late to return."
+    },
+    {
+      "cue": "Write pin by pin: the frame numbers the camera gave, the tag number at its pin, the canopy edge's chainage and the visibility and current as you found them.",
+      "id": "write-slate",
+      "kind": "select",
+      "prompt": "Write pin by pin: the frame numbers the camera gave, the tag number at its pin, the canopy edge's chainage and the visibility and current as you found them.",
+      "target": "photo-slate",
+      "title": "Write the frame numbers, the tag and the chainages on the slate",
+      "why": "The camera knows its frame numbers and the tape knows its chainages, but only the slate ties one to the other, and a slate written on the boat from memory is where quadrat two's frames end up filed under pin three. It is written on the bottom, beside the tape, while anything unclear can still be looked at again, so the record that reaches the programme's database is the record that was true where it was made."
+    },
+    {
+      "cue": "Unclip the reel, wind the tape in taut, and clip the bag with the reel and the frame to the downline's travelling clip to go up with you.",
+      "drag": {
+        "missNote": "Not on the downline clip — the bag rides the downline up, not the diver's hand.",
+        "radius": 0.5,
+        "to": "downline-clip"
+      },
+      "id": "bag-up",
+      "kind": "drag",
+      "prompt": "Unclip the reel, wind the tape in taut, and clip the bag with the reel and the frame to the downline's travelling clip to go up with you.",
+      "target": "survey-bag",
+      "title": "Clip the survey bag to the downline",
+      "why": "The tape and the frame go up on the downline rather than in a diver's hands, so nothing is left in the bed to wrap the canopy and nothing changes a diver's buoyancy on the ascent the plan was written for. The pins stay; everything the crew brought goes home the way it came, and the next survey finds the bed as this one left it."
+    },
+    {
+      "cue": "Face your buddy at the downline: exchange the okay, confirm you both have what the plan says you need for the ascent, and agree the ascent on the supervisor's line.",
+      "id": "buddy-checkin",
+      "kind": "select",
+      "prompt": "Face your buddy at the downline: exchange the okay, confirm you both have what the plan says you need for the ascent, and agree the ascent on the supervisor's line.",
+      "target": "buddy-signal",
+      "title": "Check in with your buddy before the ascent",
+      "why": "The ascent is made as a pair on the plan the supervisor holds, and the check-in is where a buddy who has been quiet on the tape says whether that quiet was concentration or trouble. A survey dive puts two people head-down in a canopy for the whole bottom time, and the moment at the downline is the crew's own — with the AFSCME or LIUNA member assistance line there afterwards for whatever the debrief on the boat does not settle."
+    },
+    {
+      "cue": "On the boat's log slate: transect number, pins photographed, frames, tags found, the canopy edge chainage, the boat overhead and the turn signal, and the visibility and current as read.",
+      "id": "dive-log",
+      "kind": "select",
+      "prompt": "On the boat's log slate: transect number, pins photographed, frames, tags found, the canopy edge chainage, the boat overhead and the turn signal, and the visibility and current as read.",
+      "target": "dive-log-slate",
+      "title": "Log the transect for the programme and the dive record",
+      "why": "The dive record and the survey record are two documents that have to agree: the supervisor's log is what 29 CFR 1910.424 practice and the programme's diving safety manual ask for, and the survey log is what the restoration's Section 401 monitoring conditions are answered from. Writing both while the pair is still on deck is how the boat overhead and the early turn become part of the record instead of a story told later."
+    }
+  ],
+  "supportLine": "your union hall's member assistance programme — AFSCME or LIUNA, whichever your crew works under — with the employer's employee assistance line behind it",
+  "tagline": "The survey plan read against the dive plan, the kit checked, the current read, the tape run out on its bearing, the canopy swum steady, three quadrats shot to the same frame, the tagged holdfast found again, the camera held for the scale shot while a boat passes overhead, the slate written, the tape bagged, the buddy checked and the dive logged",
+  "title": "SmartCiti.X~ Kelp Transect Survey & Photo Quadrats VR",
+  "trade": "Scientific diver on a restoration monitoring crew, running a fixed kelp transect with a buddy beside them and the boat crew overhead",
+  "underwater": {
+    "bottomTimeSeconds": 600,
+    "depthLabel": "Per dive plan"
+  },
+  "weather": "clear"
+}

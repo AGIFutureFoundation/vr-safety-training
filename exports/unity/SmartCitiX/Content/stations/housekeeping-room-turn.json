@@ -1,0 +1,403 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "clean-turn",
+    "name": "Clean Turn",
+    "note": "The whole room turned on time, on technique, with nothing reached across and nothing touched bare-handed"
+  },
+  "category": "Culinary & Hospitality",
+  "certification": "Cal/OSHA's hotel housekeeping musculoskeletal injury prevention standard, 8 CCR 3345, and the written injury-prevention plan, long-handled tools and repetitive-task limits it requires; OSHA's bloodborne pathogens standard, 29 CFR 1910.1030, for a sharp found in a room; OSHA's hazard communication standard, 29 CFR 1910.1200, and the SDS for every bathroom chemical on the cart; the IWC's Wage Order 5, the Public Housekeeping Industry order, on room quotas, rest breaks and premium pay; UNITE HERE's hotel housekeeping contract language on room assignments and a lone attendant's right to a working panic device; the hotel-worker panic-button ordinances a number of California cities have adopted at UNITE HERE's initiative for room attendants working alone.",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "Cal/OSHA",
+        "citedAs": "8 CCR 3345",
+        "id": "cal-osha-3345",
+        "title": "8 CCR 3345 — Hotel housekeeping musculoskeletal injury prevention programme"
+      },
+      {
+        "body": "IWC",
+        "citedAs": "Wage Order",
+        "id": "iwc-wage-orders",
+        "title": "California Industrial Welfare Commission wage orders, including Wage Order 5 for public housekeeping"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1030",
+        "id": "osha-1910-1030",
+        "title": "29 CFR 1910.1030 — Bloodborne pathogens"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1200",
+        "id": "osha-1910-1200",
+        "title": "29 CFR 1910.1200 — Hazard communication"
+      },
+      {
+        "body": "union",
+        "citedAs": "UNITE HERE",
+        "id": "unite-here-training",
+        "title": "UNITE HERE hospitality training funds — cooks, housekeepers, bartenders and banquet staff"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Culinary & Hospitality",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "walked-not-reached",
+        "name": "Walked, Not Reached",
+        "note": "Never once reached across the bed instead of walking around it"
+      },
+      {
+        "id": "belt-proven",
+        "name": "Belt Proven",
+        "note": "The panic device tested and confirmed before the first room"
+      },
+      {
+        "id": "clean-room",
+        "name": "Clean Room",
+        "note": "No corrections across the whole turn"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "quota-pace",
+        "name": "Quota Pace",
+        "note": "Turned the room inside 80% of par"
+      },
+      {
+        "id": "eight-straight",
+        "name": "Eight Straight",
+        "note": "Eight correct actions in a row"
+      },
+      {
+        "id": "no-second-look",
+        "name": "No Second Look",
+        "note": "The room check clean on the first pass"
+      }
+    ],
+    "currency": "ROOMS",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "New Hire",
+      "Room Attendant",
+      "Section Lead",
+      "Floor Supervisor",
+      "Room Attendant Certified"
+    ],
+    "system": "Room Attendant"
+  },
+  "hazards": {
+    "bare-hand-chem": "You reached into the caddy for the toilet bowl cleaner bare-handed. The label's own precautionary statement calls for gloves before contact, and a splash off the bottle's own rim is concentrate, not the diluted solution it becomes once it's actually on a surface.",
+    "chem-mix": "The chlorine-based bathroom disinfectant and the acid-based bowl cleaner are standing capped together on the caddy with both nozzles loose. Their SDS sheets both say the same thing in different words: mixed, they give off chlorine gas, and a caddy is exactly the closed space where that gas has nowhere to go but into the face of whoever opens it next.",
+    "razor-in-trash": "A guest's used disposable razor is sitting loose in the general waste bag, blade exposed. OSHA's bloodborne pathogens standard treats a discarded razor the same as any other sharp — it goes into the room's sharps container, not into a bag that the next person to touch it has no way of knowing carries a blade.",
+    "reach-across-bed": "That's reaching all the way across the mattress instead of walking around to the far side. Cal/OSHA's hotel housekeeping standard exists because this exact motion, repeated on every bed of every room on a section, is what turns an ordinary shift into a shoulder or a low-back claim — the extra four steps around the foot of the bed are the whole injury-prevention plan for this one task."
+  },
+  "id": "housekeeping-room-turn",
+  "indoor": "hotel",
+  "interrupts": [
+    {
+      "after": "chem-dwell",
+      "alert": "The room's guest has come back for a forgotten bag and is standing squarely in the open doorway, not moving — you're alone in the room with the only way out blocked.",
+      "cue": "Hit the panic device on your belt. Do not try to talk or squeeze your way past.",
+      "delay": 3,
+      "id": "guest-returns",
+      "kind": "Guest blocks the door",
+      "missNote": "The guest stayed in the doorway the whole window with nobody alerted. A blocked door that nobody outside the room knows about is the worst case the ordinance exists to prevent, sitting there unanswered.",
+      "seconds": 12,
+      "target": "panic-belt",
+      "why": "A guest blocking the one exit while you're alone in the room is exactly the scenario the belt-worn device and the panic-button ordinances were built around — pressing it brings help to a doorway you cannot safely get past on your own, which is the entire reason the device rides on your belt instead of staying in a drawer at the desk.",
+      "wrongNote": "That doesn't clear the doorway. The panic device is the response — it brings help to the door instead of you trying to talk or squeeze your way past somebody blocking it."
+    },
+    {
+      "after": "strip-bed",
+      "alert": "A used syringe falls out of the sheets as you pull them back — it's lying on the exposed mattress, needle end up.",
+      "cue": "Don't touch it bare-handed. Get the sharps container off the cart.",
+      "delay": 3,
+      "id": "sharp-found",
+      "kind": "Sharp found in the linen",
+      "missNote": "The syringe sat on the open mattress while the strip continued around it. A needle nobody has contained yet is a stick waiting for the next hand that touches that bed, including your own.",
+      "seconds": 12,
+      "target": "sharps-container",
+      "why": "OSHA's bloodborne pathogens standard treats a found needle as an exposure risk the moment it's discovered, not the moment somebody is stuck by it — the sharps container is what lets you clear it off the mattress without your hand or a bare fold of the sheet ever making contact with the point.",
+      "wrongNote": "Not that — leave it where it fell. The sharps container is what picks it up safely; nothing else on this cart is rated to touch it."
+    }
+  ],
+  "lateNotes": {
+    "panic-belt": "Not yet — the device gets tested on its own step, held through to the dispatch confirmation, not pressed on the way past.",
+    "thermostat-dial": "The setback goes on the way out, once the room is actually clean — turning it back now just means walking past a cold room to keep working in it."
+  },
+  "name": "Housekeeping Room Turn",
+  "parSeconds": 280,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "hotel-workers"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "assignment-board",
+      "bare-hand-chem",
+      "bowl-cleaner",
+      "cart",
+      "chem-gloves",
+      "chem-mix",
+      "corner-foot",
+      "corner-head",
+      "dnd-sign-wrong",
+      "door-announce",
+      "door-enter",
+      "door-knock",
+      "duvet-fold",
+      "fan-timer",
+      "fresh-sheet",
+      "item-under-bed",
+      "long-handle-brush",
+      "mattress-socket",
+      "panic-belt",
+      "quota-sheet",
+      "razor-in-trash",
+      "reach-across-bed",
+      "remote-dirty",
+      "sharps-container",
+      "strip-technique",
+      "thermostat-dial"
+    ],
+    "meshes": 171
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read tonight's section board: which rooms are checkout, which are stay-over, and the quota for the shift.",
+      "id": "room-status",
+      "kind": "select",
+      "prompt": "Read tonight's section board: which rooms are checkout, which are stay-over, and the quota for the shift.",
+      "target": "assignment-board",
+      "title": "Check the room's status before knocking",
+      "why": "A checkout room and an occupied stay-over get knocked on the same way, but everything after the knock is different — what gets stripped versus refreshed, and whether the room is even supposed to be empty. The board is what tells you which room you are about to walk into before your hand is on the door."
+    },
+    {
+      "cue": "Leave the cart parked in the corridor, not wheeled into the room.",
+      "id": "cart-stage",
+      "kind": "select",
+      "prompt": "Leave the cart parked in the corridor, not wheeled into the room.",
+      "target": "cart",
+      "title": "Stage the cart in the corridor",
+      "why": "A cart parked across the doorway is a second exit blocked and a trip hazard on a floor a guest or another attendant is also walking, and every linen and chemical you need is reachable from the corridor without ever bringing the whole cart inside. What comes into the room comes in your hands, in the amount this room actually needs."
+    },
+    {
+      "cue": "Pull the belt pack from the cart's charging dock and hold it until the panel confirms the signal reached dispatch.",
+      "holdBreakNote": "You let go before the panel confirmed the signal. A short press proves nothing either way — hold it through to the confirmation before it goes on your belt for the rest of the shift.",
+      "id": "panic-test",
+      "kind": "hold",
+      "prompt": "Pull the belt pack from the cart's charging dock and hold it until the panel confirms the signal reached dispatch.",
+      "seconds": 4,
+      "target": "panic-belt",
+      "title": "Test the panic device on the belt",
+      "why": "This device is the whole answer the panic-button ordinances and the union contract give a room attendant working alone behind a closed door — and a device nobody has proven live today is a guess about whether help is one press away. Confirming it before the first room, not assuming it from yesterday's shift, is what makes it a control instead of a badge on the belt."
+    },
+    {
+      "anyOrder": false,
+      "cue": "Knock, say who you are, wait for an answer, and only then open the door.",
+      "id": "knock-announce-enter",
+      "itemNames": {
+        "door-announce": "announce \"Housekeeping!\"",
+        "door-enter": "wait, then enter",
+        "door-knock": "knock, twice, clearly"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Knock, announce, then wait and enter — in that order. Opening the door before you've announced yourself defeats the entire reason you knocked.",
+      "prompt": "Knock, say who you are, wait for an answer, and only then open the door.",
+      "targets": [
+        "door-knock",
+        "door-announce",
+        "door-enter"
+      ],
+      "title": "Knock, announce, and only then enter",
+      "why": "A guest who stepped back into the room for a forgotten bag, or who is still asleep past checkout, has no way of knowing this door is about to open unless you tell them first — the knock-and-announce is what turns a closed door into a warning instead of a surprise, for the guest and for you both."
+    },
+    {
+      "cue": "Strip the near side, then walk around the foot of the bed to strip the far side — keep the pace steady, not rushed and not reaching across.",
+      "holdBreakNote": "Pace drifted out of the steady band. Rushing the corners or reaching across the mattress is the exact twisting motion this technique exists to design out — bring it back to a steady walk-around.",
+      "id": "strip-bed",
+      "kind": "track",
+      "prompt": "Strip the near side, then walk around the foot of the bed to strip the far side — keep the pace steady, not rushed and not reaching across.",
+      "seconds": 6,
+      "target": "strip-technique",
+      "title": "Strip the bed by walking around it",
+      "track": {
+        "drift": 0.1,
+        "fall": 0.4,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "STRIP TECHNIQUE",
+        "rise": 0.45,
+        "start": 0.15
+      },
+      "why": "Reaching and twisting across a queen mattress to strip the far side, bed after bed, room after room, is the exact repetitive motion Cal/OSHA's hotel housekeeping standard was written to design out — walking the four steps around the foot of the bed at a steady pace keeps your spine facing the work instead of twisted over it, and it costs seconds against a whole shift of shoulders."
+    },
+    {
+      "cue": "Carry the fresh fitted sheet from the linen shelf and set it onto the mattress corner.",
+      "drag": {
+        "missNote": "Not seated on the mattress corner — line the fitted corner up with the mattress before letting go, not tossed across the middle.",
+        "radius": 0.5,
+        "to": "mattress-socket"
+      },
+      "id": "fitted-sheet",
+      "kind": "drag",
+      "prompt": "Carry the fresh fitted sheet from the linen shelf and set it onto the mattress corner.",
+      "target": "fresh-sheet",
+      "title": "Fit the fresh sheet to the mattress",
+      "why": "The fitted-sheet technique the injury-prevention plan calls for starts the corner at the near side and lets the elastic do the reaching the far corners would otherwise cost your back — a sheet thrown flat and yanked into place from one side is the same twisting motion the walk-around was just built to avoid."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Tuck a hospital corner at the head, then the foot, walking around rather than leaning across.",
+      "id": "tuck-corners",
+      "itemNames": {
+        "corner-foot": "hospital corner, foot side",
+        "corner-head": "hospital corner, head side"
+      },
+      "kind": "sequence",
+      "prompt": "Tuck a hospital corner at the head, then the foot, walking around rather than leaning across.",
+      "targets": [
+        "corner-head",
+        "corner-foot"
+      ],
+      "title": "Tuck the top sheet's hospital corners",
+      "why": "A hospital corner tucked tight is what keeps the top sheet from working loose by the time the next guest checks in, and tucking it from the side you're standing on — not leaning across the mattress to reach the far corner — is the same walk-around discipline the strip already put in place."
+    },
+    {
+      "cue": "Square the duvet's decorative fold and arrange the pillows against the headboard.",
+      "id": "top-linens",
+      "kind": "select",
+      "prompt": "Square the duvet's decorative fold and arrange the pillows against the headboard.",
+      "target": "duvet-fold",
+      "title": "Set the duvet fold and the pillows",
+      "why": "The fold and the pillow arrangement are the one thing a guest actually looks at when the door opens, and it's the last honest chance to catch a stray stain or a torn duvet cover before the room is called finished rather than after a guest calls the front desk about it."
+    },
+    {
+      "cue": "Turn the fan's timer dial on before opening a single bottle in the bathroom.",
+      "id": "bath-fan",
+      "kind": "turn",
+      "prompt": "Turn the fan's timer dial on before opening a single bottle in the bathroom.",
+      "target": "fan-timer",
+      "title": "Run the bathroom exhaust fan before any chemical",
+      "turn": {
+        "axis": "z",
+        "label": "EXHAUST FAN TIMER",
+        "turns": 0.75
+      },
+      "why": "A hotel bathroom is a sealed tile box with one door, and every chemical on this caddy is labelled for use with adequate ventilation — the fan running before the first bottle opens is what that label actually means in a room with no window, not an optional courtesy once the smell is already noticeable."
+    },
+    {
+      "cue": "Pull on the chemical-resistant gloves before touching a single bottle on the caddy.",
+      "id": "glove-up",
+      "kind": "select",
+      "prompt": "Pull on the chemical-resistant gloves before touching a single bottle on the caddy.",
+      "target": "chem-gloves",
+      "title": "Glove up before the chemicals",
+      "why": "Every bottle on this caddy — the bowl cleaner, the disinfectant, the glass cleaner — is something a bare hand was never rated for, and the gloves are staged on the caddy itself specifically so putting them on is the thing that happens before the caddy is opened, not sometime after."
+    },
+    {
+      "cue": "Apply the cleaner to the bowl and hold off flushing until the label's own contact time has run.",
+      "holdBreakNote": "Flushed before the label's dwell time ran. The chemical needs the seconds the label lists to actually work — give it the full hold, not a quick splash and rinse.",
+      "id": "chem-dwell",
+      "kind": "hold",
+      "prompt": "Apply the cleaner to the bowl and hold off flushing until the label's own contact time has run.",
+      "seconds": 5,
+      "target": "bowl-cleaner",
+      "title": "Apply the bowl cleaner for its label dwell time",
+      "why": "A disinfectant's label dwell time is the manufacturer's own tested minimum for actually killing what it claims to kill — wiped or flushed the instant it's applied, it has done nothing but change the smell of the bathroom, and the next guest is checking into a bowl that was cleaned in name only."
+    },
+    {
+      "cue": "Take the long-handled tub brush off the caddy rather than kneeling over the rim.",
+      "id": "tub-tool",
+      "kind": "select",
+      "prompt": "Take the long-handled tub brush off the caddy rather than kneeling over the rim.",
+      "target": "long-handle-brush",
+      "title": "Reach for the long-handled tool at the tub",
+      "why": "Scrubbing a tub kneeling and bent over the rim, room after room, is the second repetitive-motion injury the hotel housekeeping standard names by name — the long-handled brush is the engineering control the standard's own injury-prevention plan requires the employer to provide for exactly this task, and it is on the caddy so there is never a reason to kneel instead."
+    },
+    {
+      "cue": "Three things are wrong with this room before it's ready for the next guest. Find them.",
+      "id": "room-check",
+      "itemNames": {
+        "dnd-sign-wrong": "the previous guest's door sign still hanging",
+        "item-under-bed": "a guest's forgotten item under the bed",
+        "remote-dirty": "the TV remote, not wiped down"
+      },
+      "itemNotes": {
+        "dnd-sign-wrong": "The old guest's door sign is still on the handle. Left there, it tells the front desk and the next room attendant this room is still occupied when it is standing empty and clean.",
+        "item-under-bed": "A phone charger left under the bed frame is a lost item the front desk will be fielding a call about within the hour — found now, it goes to lost-and-found instead of the next guest's vacuum bag.",
+        "remote-dirty": "The remote is the single most-handled surface in the room that housekeeping controls directly — skipped, it carries the last guest's hands straight into the next one's."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Three things are wrong with this room before it's ready for the next guest. Find them.",
+      "targets": [
+        "remote-dirty",
+        "dnd-sign-wrong",
+        "item-under-bed"
+      ],
+      "title": "Check the room before calling it done",
+      "why": "The room check is the last set of eyes on this room before a guest's, and every one of these three is invisible from the doorway — the walk-through is what catches them while they're still this attendant's problem instead of a guest complaint or a lost-and-found ticket two shifts from now."
+    },
+    {
+      "cue": "Turn the thermostat to the vacant-room setback before pulling the door shut.",
+      "id": "thermostat-setback",
+      "kind": "turn",
+      "prompt": "Turn the thermostat to the vacant-room setback before pulling the door shut.",
+      "target": "thermostat-dial",
+      "title": "Set the thermostat back on the way out",
+      "turn": {
+        "axis": "z",
+        "label": "THERMOSTAT",
+        "turns": 0.5
+      },
+      "why": "An empty room run at full heat or air conditioning between check-out and the next guest is energy nobody is using, and the setback is standard practice on a section — turned back now, on a clean room, it costs one more guest nothing and the hotel nothing between now and check-in."
+    },
+    {
+      "cue": "Mark the room complete and the time on the section sheet.",
+      "id": "quota-log",
+      "kind": "select",
+      "prompt": "Mark the room complete and the time on the section sheet.",
+      "target": "quota-sheet",
+      "title": "Log the room against the shift's quota",
+      "why": "The quota sheet is what the Wage Order's room-count and rest-break protections actually run on — a section logged honestly, room by room, is the record that proves the shift's workload when anyone, from a supervisor to a steward, has to check it against the standard."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "A guest room turned under the hotel housekeeping injury-prevention standard: cart staged, panic device tested, knock-and-announce, the bed walked rather than reached across, chemicals to the label, and the room logged against quota",
+  "title": "SmartCiti.X~ Housekeeping Room Turn VR",
+  "trade": "Hotel housekeeper — UNITE HERE Local 2",
+  "underwater": null,
+  "weather": null
+}

@@ -1,0 +1,411 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "pause-and-check",
+    "name": "Pause and Check",
+    "note": "A strong passphrase set, a scam spotted, a claim checked before sharing and a trusted adult told"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFT",
+        "id": "aft-training",
+        "title": "AFT — American Federation of Teachers training for paraprofessionals and school-related personnel"
+      },
+      {
+        "body": "INEE",
+        "citedAs": "INEE Minimum Standards",
+        "id": "inee-minimum-standards",
+        "title": "INEE Minimum Standards for Education in emergencies, as a body whose standards a lesson is aligned to; it certifies nothing"
+      },
+      {
+        "body": "national curriculum authority",
+        "citedAs": "national curriculum framework",
+        "id": "national-curriculum-framework",
+        "title": "The national curriculum framework the school itself follows, as a category rather than any one country's document; no grade-level code is cited"
+      },
+      {
+        "body": "union",
+        "citedAs": "National Education Association",
+        "id": "nea-training",
+        "title": "NEA apprenticeship and training, as a training body"
+      },
+      {
+        "body": "UN",
+        "citedAs": "Sustainable Development Goal 4",
+        "id": "un-sdg-4-quality-education",
+        "title": "UN Sustainable Development Goal 4 (Quality Education), as a framework a lesson is aligned to; it certifies nothing"
+      },
+      {
+        "body": "UNESCO",
+        "citedAs": "UNESCO education guidance",
+        "id": "unesco-education-guidance",
+        "title": "UNESCO education guidance, as a body whose published guidance a lesson is aligned to; it certifies nothing"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Education",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "clean-read",
+        "name": "First Look",
+        "note": "Everything in the opening scan found first time"
+      },
+      {
+        "id": "no-shortcut",
+        "name": "No Shortcuts",
+        "note": "No misconception or unsafe shortcut anywhere in the run"
+      },
+      {
+        "id": "in-the-band",
+        "name": "In the Band",
+        "note": "Every gauge and meter held inside its band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-run",
+        "name": "Clean Run",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "steady-hands",
+        "name": "Steady Hands",
+        "note": "Every hold and track carried its full count"
+      },
+      {
+        "id": "quick-and-right",
+        "name": "Quick and Right",
+        "note": "Finished inside 80% of par"
+      }
+    ],
+    "currency": "CHECKS",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Newcomer",
+      "Checker",
+      "Guardian",
+      "Mentor",
+      "Digital Citizen"
+    ],
+    "system": "Safety Board"
+  },
+  "hazards": {
+    "click-the-prize-link": "You clicked the link in a message saying you had won a prize. Messages that rush you with prizes or threats are a common trick to steal accounts; pause, do not click, and show a trusted adult or delete it.",
+    "same-password-everywhere": "You used the same password for every account. If one site leaks it, every account is open; a different strong passphrase for each, kept in a safe place or a password manager a trusted adult helps you set up, keeps one leak from becoming many.",
+    "share-before-checking": "You shared a shocking post before checking it. Posts built to shock spread fast whether they are true or not; check who made it and whether trusted sources agree, and if you cannot tell, do not pass it on.",
+    "share-your-home-address": "You shared where you live with someone you only know online. Personal details like your address, school or phone number stay private; people online are not always who they say they are, and a trusted adult can help if someone keeps asking."
+  },
+  "id": "k12-digital-citizenship-and-online-safety",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "hold-off-clicking-while-you-check",
+      "alert": "On the practice chat, a new contact nobody knows asks for a photo and says to keep it secret.",
+      "cue": "Stop replying and tell the tutor straight away.",
+      "delay": 3,
+      "id": "a-stranger-asks-for-a-photo",
+      "kind": "Unsafe request",
+      "missNote": "The chat carried on, and the request got more pushy before anyone told an adult.",
+      "seconds": 12,
+      "target": "kdc-tell-adult",
+      "why": "Anyone who asks you to keep a secret from adults is a warning sign. Stopping and telling a trusted adult at once is always the right move, and you will never be in trouble for asking for help.",
+      "wrongNote": "That keeps the chat going. Stop and tell the tutor. Choose the response that deals with it now."
+    },
+    {
+      "after": "keep-a-group-chat-kind",
+      "alert": "The digital skills tutor asks how you would check whether a link in a message is safe.",
+      "cue": "Say you would pause, check the sender and what it asks, and ask an adult if unsure.",
+      "delay": 3,
+      "id": "the-tutor-asks-about-the-link",
+      "kind": "Tutor question",
+      "missNote": "You said you would just click and see, and the tutor showed you where that link really went.",
+      "seconds": 12,
+      "target": "kdc-say-check",
+      "why": "The tutor is checking you have a routine, not just a feeling. Naming the steps shows you can deal with a new message you have never seen before.",
+      "wrongNote": "That clicks without checking. Choose the response that deals with it now."
+    }
+  ],
+  "lateNotes": {
+    "kdc-checkin": "The check-in comes at the very end of the lesson.",
+    "kdc-safety-log": "The checklist is written once the checks are done — nothing to record yet."
+  },
+  "name": "Digital Citizenship and Online Safety",
+  "parSeconds": 330,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "k12-literacy-and-life-skills"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "click-the-prize-link",
+      "kdc-asks-password",
+      "kdc-checkin",
+      "kdc-compare-card",
+      "kdc-hold-off",
+      "kdc-logo",
+      "kdc-odd-sender",
+      "kdc-ord-asks",
+      "kdc-ord-decide",
+      "kdc-ord-pause",
+      "kdc-ord-sender",
+      "kdc-pf-hobby",
+      "kdc-pf-public",
+      "kdc-pf-school",
+      "kdc-pf-street",
+      "kdc-privacy-dial",
+      "kdc-report-spot",
+      "kdc-rush",
+      "kdc-safety-log",
+      "kdc-say-check",
+      "kdc-scam-token",
+      "kdc-share-board",
+      "kdc-strength-meter",
+      "kdc-tell-adult",
+      "kdc-track-meter",
+      "kdc-trusted-card",
+      "same-password-everywhere",
+      "share-before-checking",
+      "share-your-home-address"
+    ],
+    "meshes": 240
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Mark the three warning signs in the practice message on screen.",
+      "decoyNotes": {
+        "kdc-logo": "Logos are easy to copy, so a logo alone proves nothing either way."
+      },
+      "id": "find-the-warning-signs-in-a",
+      "itemNames": {
+        "kdc-asks-password": "a request for your password",
+        "kdc-odd-sender": "a sender address that does not match",
+        "kdc-rush": "a demand to act right now"
+      },
+      "itemNotes": {
+        "kdc-asks-password": "No real service asks for it by message.",
+        "kdc-odd-sender": "Check who really sent it.",
+        "kdc-rush": "Rushing you is a classic pressure trick."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Mark the three warning signs in the practice message on screen.",
+      "targets": [
+        "kdc-rush",
+        "kdc-odd-sender",
+        "kdc-asks-password"
+      ],
+      "title": "Find the warning signs in a message",
+      "why": "Scam messages often share the same signs: they rush you to act now, they come from an address that does not quite match who they claim to be, and they ask for a password or personal detail. Spotting those three signs lets you stop before you click, which is the single most useful online safety habit."
+    },
+    {
+      "cue": "Read the card: if something online worries you, tell a trusted adult.",
+      "id": "know-who-your-trusted-adults-are",
+      "kind": "select",
+      "prompt": "Read the card: if something online worries you, tell a trusted adult.",
+      "target": "kdc-trusted-card",
+      "title": "Know who your trusted adults are",
+      "why": "Online problems are much easier to sort out with help, and nobody should face them alone. Knowing before anything happens who your trusted adults are, a parent, carer, teacher or tutor, means you know exactly where to go if something feels wrong."
+    },
+    {
+      "cue": "Pause, check who sent it, check what it asks, then decide or ask for help.",
+      "id": "put-the-pause-and-check-routine",
+      "itemNames": {
+        "kdc-ord-asks": "3 · check what it asks for",
+        "kdc-ord-decide": "4 · decide, or ask a trusted adult",
+        "kdc-ord-pause": "1 · pause before clicking",
+        "kdc-ord-sender": "2 · check who sent it"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order. Pause first, before anything else.",
+      "prompt": "Pause, check who sent it, check what it asks, then decide or ask for help.",
+      "targets": [
+        "kdc-ord-pause",
+        "kdc-ord-sender",
+        "kdc-ord-asks",
+        "kdc-ord-decide"
+      ],
+      "title": "Put the pause-and-check routine in order",
+      "why": "Pausing first stops the rush that scams depend on. Checking the sender and what the message asks for reveals most tricks, and then you can decide calmly, or ask a trusted adult if you are unsure. The same routine works for messages, links and posts."
+    },
+    {
+      "cue": "Keep your hand off the link while you check the message.",
+      "holdBreakNote": "Your cursor drifted onto the link. Move it away and keep checking.",
+      "id": "hold-off-clicking-while-you-check",
+      "kind": "hold",
+      "prompt": "Keep your hand off the link while you check the message.",
+      "seconds": 6,
+      "target": "kdc-hold-off",
+      "title": "Hold off clicking while you check",
+      "why": "A scam works when you click before thinking. Deliberately holding off while you check the sender and the request gives your judgement time to catch up with the message's pressure, and it costs nothing if the message turns out to be real."
+    },
+    {
+      "cue": "Say two ways to check whether a surprising post is true before sharing it.",
+      "id": "say-how-to-check-a-claim",
+      "kind": "select",
+      "prompt": "Say two ways to check whether a surprising post is true before sharing it.",
+      "target": "kdc-compare-card",
+      "title": "Say how to check a claim before sharing",
+      "why": "Checking who made a post and whether trusted sources report the same thing catches most false claims. Saying how you would check, not just that you would, is the skill that stops you passing on something untrue to people who trust you."
+    },
+    {
+      "cue": "Look at the invented practice profile and mark each problem.",
+      "decoyNotes": {
+        "kdc-pf-hobby": "Sharing a hobby with friends is fine. Keep it."
+      },
+      "id": "spot-the-problems-in-a-practice",
+      "itemNames": {
+        "kdc-pf-public": "the profile set to public",
+        "kdc-pf-school": "the school name in the bio",
+        "kdc-pf-street": "a street sign in a photo"
+      },
+      "itemNotes": {
+        "kdc-pf-public": "Set it to people you know.",
+        "kdc-pf-school": "Keep school and location private.",
+        "kdc-pf-street": "Photos can give away where you live."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look at the invented practice profile and mark each problem.",
+      "targets": [
+        "kdc-pf-school",
+        "kdc-pf-street",
+        "kdc-pf-public"
+      ],
+      "title": "Spot the problems in a practice profile",
+      "why": "Profiles give away more than people realise: a school name, a home street in a photo, a public setting. Spotting them on a practice profile teaches you to check your own before strangers can."
+    },
+    {
+      "cue": "Turn the practice profile's privacy dial from public to friends only.",
+      "id": "turn-the-privacy-setting-to-friends",
+      "kind": "turn",
+      "prompt": "Turn the practice profile's privacy dial from public to friends only.",
+      "target": "kdc-privacy-dial",
+      "title": "Turn the privacy setting to friends only",
+      "turn": {
+        "axis": "y",
+        "label": "PRIVACY",
+        "turns": 0.5
+      },
+      "why": "A public profile can be seen by anyone, including strangers. Setting it to people you actually know limits who can see your posts and details, and checking that setting on every new account is a habit worth having for life."
+    },
+    {
+      "cue": "Commit when the strength meter shows a strong passphrase.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.58
+        ],
+        "label": "STRENGTH",
+        "missNote": "Not strong enough yet. Add another unrelated word.",
+        "speed": 0.6
+      },
+      "id": "make-the-passphrase-strong-enough",
+      "kind": "gauge",
+      "prompt": "Commit when the strength meter shows a strong passphrase.",
+      "target": "kdc-strength-meter",
+      "title": "Make the passphrase strong enough",
+      "why": "A passphrase made of several unrelated words is long and hard to guess, yet easy for you to remember. Watching the strength meter rise as you add words shows why length matters more than a single odd symbol."
+    },
+    {
+      "cue": "Drag the scam message to the report folder instead of replying.",
+      "drag": {
+        "missNote": "Not reported yet. Put it in the report folder, not the reply box.",
+        "radius": 0.45,
+        "to": "kdc-report-spot"
+      },
+      "id": "move-the-scam-message-to-report",
+      "kind": "drag",
+      "prompt": "Drag the scam message to the report folder instead of replying.",
+      "target": "kdc-scam-token",
+      "title": "Move the scam message to report",
+      "why": "Reporting a scam helps the service block it for others, while replying tells the sender your account is active. Moving it to report and then deleting it is the safe way to deal with it, and showing a trusted adult is always fine too."
+    },
+    {
+      "cue": "Keep the chat's tone in the kind band as messages come in, stepping in gently when it slips.",
+      "holdBreakNote": "The chat turned unkind. Step in gently or tell a trusted adult.",
+      "id": "keep-a-group-chat-kind",
+      "kind": "track",
+      "prompt": "Keep the chat's tone in the kind band as messages come in, stepping in gently when it slips.",
+      "seconds": 8,
+      "target": "kdc-track-meter",
+      "title": "Keep a group chat kind",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.38,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "KINDNESS",
+        "rise": 0.46,
+        "start": 0.3
+      },
+      "why": "Group chats can turn unkind quickly, and people often go along with it. Keeping your own messages kind, and gently stepping in or telling an adult when others are unkind, is what being a good digital citizen looks like day to day."
+    },
+    {
+      "cue": "Write the checks you will use: pause, sender, request, privacy, passphrase.",
+      "id": "record-your-safety-checklist",
+      "kind": "select",
+      "prompt": "Write the checks you will use: pause, sender, request, privacy, passphrase.",
+      "target": "kdc-safety-log",
+      "title": "Record your safety checklist",
+      "why": "A short personal checklist makes good habits automatic. Writing it in your own words helps you remember it when a real message arrives and you have only a moment to decide."
+    },
+    {
+      "cue": "Pick one tip you would teach a younger learner and practise saying it.",
+      "id": "share-one-tip-with-a-younger",
+      "kind": "select",
+      "prompt": "Pick one tip you would teach a younger learner and practise saying it.",
+      "target": "kdc-share-board",
+      "title": "Share one tip with a younger learner",
+      "why": "Teaching someone else is one of the best ways to remember something yourself. Choosing one clear tip and saying it simply prepares you to help a younger brother, sister or friend stay safe too."
+    },
+    {
+      "cue": "Is there anything online that worries you? Who would you tell?",
+      "id": "crew-check-in",
+      "kind": "select",
+      "prompt": "Is there anything online that worries you? Who would you tell?",
+      "target": "kdc-checkin",
+      "title": "Check in at the end of the lesson",
+      "why": "The session ends with each learner describing one choice they made online today and what they would do if a message worried them. Saying who they would go to, at school or at home, is the point; the college's IT staff listen for the learners who can name a person and not just a button."
+    }
+  ],
+  "supportLine": "your teacher, a school counsellor or a trusted adult at home — if anything in this lesson was hard, talk it through afterwards",
+  "tagline": "Pause before you click, share or post — and tell a trusted adult when something feels wrong",
+  "title": "SmartCiti.X~ Digital Citizenship and Online Safety VR",
+  "trade": "Life-skills class in the community college's computer lab — learner and digital skills tutor",
+  "underwater": null,
+  "weather": "clear"
+}

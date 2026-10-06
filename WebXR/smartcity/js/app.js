@@ -1,0 +1,5061 @@
+import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
+import { ctlMount } from "../../shared/controls.js";
+import { gdMount } from "../../shared/guide.js";
+import { disposeTree, decal, repaint, HUD, clamp, easeOut, celebrationBurst, GESTURE_HINTS, setActiveRenderer } from "../../shared/kit.js";
+import { Session, Progress, Sfx, UNIVERSAL_AWARDS, placeVehicle, DRIVE_CHECK_NAMES } from "../../shared/game.js";
+import { speak, speechSupported } from "../../shared/voice-assist.js";
+import { TrainingRecords, toCSV, toXAPI, toOpenBadges, earnedCertifications, download } from "../../shared/records.js";
+import {
+  MASTERY, RUBRIC, COMPETENCIES, competencyStatus, newlyDemonstrated, transcript,
+  toProofCSV, toCompetencyBadges, toCompetencyXAPI, standard, clockText as mmss,
+} from "../../shared/competency.js";
+import { Identity } from "../../shared/identity.js";
+import { ppRecordStation, ppReturnTarget } from "../../shared/passport.js";
+import { Auth, availableProviders, makeAuthEnv, providerById } from "../../shared/auth.js";
+import { Lrs } from "../../shared/lrs.js";
+import { Wallet, makeWalletEnv } from "../../shared/wallet.js";
+import { ShareEngagement, LICENCES as SHARE_LICENCES } from "../../shared/share-engagement.js";
+import { Adapters as AGENT_ADAPTERS } from "../../shared/agent-protocols.js";
+import { RobotAgent, observe } from "../../shared/robot.js";
+import { buildEmbodiment, observeEmbodied, probeSkill, DIFFICULTY_LADDER } from "../../shared/robot-embodiment.js";
+import { attachEpisodeRecorder, EpisodeStore, EPISODE_SCHEMA_VERSION } from "../../shared/episodes.js";
+// DATAWORKS: nothing is recorded without the learner's opt-in (and never for K-12, signed-out or demo sessions).
+import { dxCollecting } from "../../shared/dx-data.js";
+// SILICA: the opt-in reaction-time eval for stations that declare reactionEval (docs/consoles/SILICA.md).
+import { silRecordRun } from "../../shared/sil-reaction.js";
+import { Platform, FLOW_LOAD, FLOW_START, FLOW_RESUME, FLOW_STATE } from "../../shared/platform.js";
+
+import { Perf } from "../../shared/perf.js";
+import { createBroadcaster } from "../../shared/observer.js";
+import { createFlowRunner, outcomeFromRecord, acknowledgedOutcome, parseFlowLink, nodeLabel } from "../../shared/flowhub.js";
+import { createAnnouncer, createTargetCursor, describeTarget, reducedMotion, escapeHtml } from "../../shared/a11y.js";
+import { createHandInput, HAND_HINTS } from "../../shared/hands.js";
+import { buildStage, timeOfDay } from "./stage.js";
+import { DISTRICTS } from "./districts.js";
+import { CITY, stationPad, standingFigure, setActiveContext, animateCrew } from "./citykit.js";
+import { pickup, sedan, cargoVan, boxTruck } from "../../shared/fleet.js";
+import { buildHub } from "./hub.js";
+import { buildGallery, GALLERY_KINDS } from "./gallery.js";
+import { SIMS_META } from "./sims-meta.js";
+import { CURRICULA, allProgress, curriculumProgress } from "./curricula.js";
+import { LADDER_BY_PROGRAMME, LADDER_STANDARDS } from "./ladders.js";
+import {
+  levelState, levelBadge, levelXAPI, nextTask, startLevelRun, recordTask, levelResult, levelTag,
+  parseLevelRef, readLevelRun, writeLevelRun, clearLevelRun, ladderLevel,
+  LADDER_LEVELS, LESSON_BAR, CONDITION_KEYS, conditionParams, conditionFromQuery, conditionLabel,
+  levelMilestone, milestoneConfettiSvg,
+} from "../../shared/ladder.js";
+import { makeVariant } from "../../shared/variants.js";
+import { faultFromQuery, faultedRoom } from "../../shared/faults.js";
+import {
+  allMyTraining, refresherLabel, trainingStreak, buildTranscript, transcriptHtml, SignOffs,
+  streakBonusXp, cleanRunBadges, hazardFreeWeekBadge, onTimeRefreshers, programmeLeaderboard,
+} from "../../shared/tracking.js";
+import { environmentFor, loadEnvironment } from "../../shared/environment.js";
+import { WEATHER_KINDS, buildWeather } from "../../shared/weather.js";
+import { eventsFromQuery, eventsEnabled, varyInterruptTiming, createEventScheduler } from "../../shared/events.js";
+import { splitByRole } from "../../shared/crew.js";
+import { detectDevice, applyProfile, weatherUnder, themeScene, describeDevice, DEVICES, PROFILES } from "../../shared/devices.js";
+import { eiLine, CHECKIN_OPTIONS, checkInPrompt, recordCheckIn } from "../../shared/ei-guide.js";
+import {
+  createGamepad, describeGamepadMap, describeBindings, describeInputs,
+  loadBindings, saveBindings, resetBindings, remapAction, actionForKey, keyToken, prettyKey,
+  parseVoice, matchTargetName, INPUT_ACTIONS, KEYBOARD_PRESETS, PRESET_IDS, PAD_LABELS,
+  VOICE_GRAMMAR, VOICE_HELP_LINE, CHECKIN_QUESTION, CHECKIN_REPLIES,
+  DRIVE_ACTIONS, DRIVE_KEYS, DRIVE_GAMEPAD_MAP, driveActionForKey, driveInputFrom, describeDriveBindings,
+} from "../../shared/input.js";
+import { CustomScenarios, buildCustomRoom, newScenarioId, estimateParSeconds } from "./scenarios.js";
+import { createStore } from "./store.js";
+import { mountUI, stripHtml, introMenu, diveReadout, courtReadout } from "./react-ui.js";
+// Easter eggs (docs/easter-egg.md, "Inside the apps"): Photo Mode, the Golden
+// Wrench, the Crane Claw and Night Shift. UNIONS_BY_ID is the one small data
+// lookup mountSmartCityEggs needs to caption a photo with the station's own
+// union abbreviation — everything else it does is self-contained.
+import { mountSmartCityEggs } from "../../shared/eggs-app.js";
+import { recordLedgerFind } from "../../shared/eggs.js";
+// Hidden treasures (shared/treasures.js, docs/treasures.md).
+import { tzPlantHost } from "../../shared/treasures.js";
+import { UNIONS_BY_ID } from "../../shared/unions.js";
+
+// The 20 sims are lazy-loaded: SIMS_META (see tools/gen_sims_meta.mjs) is the
+// small, always-available metadata every display surface (hub kiosks,
+// leaderboards, the tour, the editor's base-simulator picker) actually needs;
+// a sim's real module — its steps, hazards and build() — is only fetched via
+// loadSim() the moment a player actually enters it. This is why
+// dist/smartcity-x.html ships as a folder (index.html + sims/ + citykit.js +
+// gamify.js) rather than one self-contained file: see tools/bundle_webxr.py.
+const SIMS_META_BY_ID = Object.fromEntries(SIMS_META.map((s) => [s.id, s]));
+// The programme whose stations carry robot-training metadata — patient
+// keep-out volumes, per-step force classes and the steps a robot must never
+// perform. See WebXR/shared/robot-embodiment.js and docs/robot-training.md.
+const ROBOT_PROGRAMME = "dental-hygiene-unspoken-smiles";
+// Crew tags and custom-scenario names are learner-typed text that ends up
+// inside HTML template strings (results card, leaderboards) rendered via
+// react-ui.js's dangerouslySetInnerHTML — escape before interpolating so a
+// tag like `<b>` typed as a crew name renders literally instead of as
+// markup on a shared kiosk's next screen.
+const AR_DIORAMA_SCALE = 0.34; // tabletop scale so a 2 m station fits on a desk
+
+const simModuleCache = new Map();
+function loadSim(id) {
+  if (simModuleCache.has(id)) return simModuleCache.get(id);
+  const exportName = `SIM_${id.toUpperCase().replace(/-/g, "_")}`;
+  const promise = import(`./sims/${id}.js`).then((mod) => mod[exportName]);
+  simModuleCache.set(id, promise);
+  return promise;
+}
+
+// The 20 built-in stations plus whatever the learner has built in the
+// scenario editor — the hub, the leaderboard and every sim lookup work off
+// this combined roster so a custom drill is a first-class citizen everywhere
+// a built-in one is, with zero special-casing downstream. This is metadata
+// only (never a custom room's full steps/build) — see loadSim()/findSim()
+// for what actually runs a station.
+// Cached rather than rebuilt on every call: this is read on every HUD sync —
+// several times a second during an active run with combos and streaks
+// firing. Invalidated only where the roster can actually change: saving or
+// deleting a custom scenario.
+let allSimsCache = null;
+function invalidateSimsCache() { allSimsCache = null; }
+function customRoomMeta(entry) {
+  const base = SIMS_META_BY_ID[entry.baseId];
+  if (!base) return null;
+  return {
+    ...base,
+    id: `custom:${entry.id}`,
+    index: "★",
+    domain: "Custom",
+    name: entry.name,
+    title: `${entry.name} — Custom Drill`,
+    tagline: entry.tagline?.trim() || `A custom drill built from ${base.name}: ${entry.stepIds.length} of ${base.stepCount} steps.`,
+    parSeconds: entry.parSeconds ?? estimateParSeconds(base.parSeconds, base.stepCount, entry.stepIds.length),
+    isCustom: true,
+    baseId: base.id,
+    baseName: base.name,
+  };
+}
+function allSims() {
+  if (!allSimsCache) allSimsCache = [...SIMS_META, ...CustomScenarios.list().map(customRoomMeta).filter(Boolean)];
+  return allSimsCache;
+}
+/** True the instant a real or custom sim COULD be entered, with no fetch —
+ * used to decide hub-vs-enter before actually awaiting findSim(). */
+function simExists(id) {
+  if (SIMS_META_BY_ID[id]) return true;
+  if (typeof id === "string" && id.startsWith("custom:")) {
+    const entry = CustomScenarios.get(id.slice(7));
+    return !!(entry && SIMS_META_BY_ID[entry.baseId]);
+  }
+  return false;
+}
+async function findSim(id) {
+  if (SIMS_META_BY_ID[id]) return loadSim(id);
+  if (typeof id === "string" && id.startsWith("custom:")) {
+    const entry = CustomScenarios.get(id.slice(7));
+    if (!entry) return null;
+    const base = await loadSim(entry.baseId);
+    if (!base) return null;
+    return buildCustomRoom(base, entry);
+  }
+  return null;
+}
+
+Progress.load();
+
+// Launch identity (an LMS/portal URL or an embedding page's postMessage)
+// overrides the self-typed crew tag and locks the field: the record must be
+// attributable to the person the host launched, not whatever got typed.
+function identityLabel() {
+  const id = Identity.current;
+  if (!id) return "";
+  const host = id.homePage ? ` · ${new URL(id.homePage).host}` : "";
+  return `Launched as ${id.name}${id.id !== id.name ? ` (${id.id})` : ""}${host}`;
+}
+function applyIdentity() {
+  const tag = Identity.tag();
+  if (tag) Progress.setPlayerName(tag);
+}
+Identity.load();
+applyIdentity();
+Identity.listen(() => {
+  applyIdentity();
+  store.patch("intro", { playerName: Progress.playerName, identityLocked: true, identityLabel: identityLabel() });
+});
+
+// ------------------------------------------------------------------ renderer
+
+// preserveDrawingBuffer: Photo Mode (shared/eggs-app.js) reads the canvas back
+// with toDataURL() outside the render loop; without this the drawing buffer
+// can already be cleared by the time it does.
+const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: "high-performance", preserveDrawingBuffer: true });
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+renderer.setSize(innerWidth, innerHeight);
+renderer.setClearColor(0x000000, 0);
+// Registered once so every canvas texture the asset kit paints (shared/kit.js,
+// shared/textures.js) can read this renderer's real anisotropy ceiling instead
+// of a hardcoded guess. See setActiveRenderer() in shared/kit.js.
+setActiveRenderer(renderer);
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+// The device in front of the learner's eye decides pixel ratio, shadows,
+// weather, skyline, HUD scale and background: a monocular hardhat display
+// and a see-through visor get a different run from a desktop (shared/devices.js).
+// Both are `let`, not `const`: an instructor console can set the profile the
+// next station runs under (CMD_PROFILE), which is the same call with a device
+// taken from the table instead of from this browser.
+let DEVICE = detectDevice();
+let PROFILE = applyProfile(DEVICE, { renderer });
+// Filmic tone mapping + correct sRGB output is a post-process color-grading
+// step, not a lighting change — every prop's existing MeshStandardMaterial
+// and every scene's existing light intensities stay exactly as tuned, but
+// highlights roll off instead of clipping and colors read as real materials
+// instead of flat, washed-out fills.
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.5;
+renderer.xr.enabled = true;
+document.getElementById("stage").appendChild(renderer.domElement);
+
+const scene = new THREE.Scene();
+const rig = new THREE.Group();
+const camera = new THREE.PerspectiveCamera(72, innerWidth / innerHeight, 0.02, 90);
+camera.position.set(0, 1.62, 0);
+camera.rotation.order = "YXZ";
+rig.add(camera);
+scene.add(rig);
+
+// The placement anchor: everything the learner sees hangs off this. In AR it is
+// repositioned to the surface the learner taps; in VR/flat it stays at the origin
+// of the digital-twin plaza built by stage.js.
+const placement = new THREE.Group();
+scene.add(placement);
+const worldRoot = new THREE.Group();
+placement.add(worldRoot);
+
+// -------------------------------------------------------- first/third person
+//
+// Flat mode only — VR/AR keep the headset's own head pose untouched (see
+// startXr(), which resets this on entry). `?view=third` in the URL, or a
+// choice saved in this browser, picks the starting view; `V`, a gamepad
+// button, "third person"/"first person" by voice and the HUD button
+// (react-ui.js) all flip it after that. See toggleView()/updateViewCamera().
+const VIEW_STORAGE_KEY = "smartcitix-view-v1";
+const EYE_HEIGHT = 1.62;
+function loadViewMode() {
+  const q = new URLSearchParams(location.search).get("view");
+  if (q === "third" || q === "first") return q;
+  try { return localStorage.getItem(VIEW_STORAGE_KEY) === "third" ? "third" : "first"; } catch { return "first"; }
+}
+function saveViewMode(mode) { try { localStorage.setItem(VIEW_STORAGE_KEY, mode); } catch { /* ignore */ } }
+let viewMode = loadViewMode();
+
+// The learner's own figure, in the crew vest, riding the rig the way a hand
+// or a controller does: a child of it, so it walks and turns for free and
+// never needs rebuilding when a station changes underneath it. Hidden in
+// first person, in AR/VR, and while driving (the learner is inside the cab).
+const learnerFigure = standingFigure(rig, 0, 0, { ry: 0, vest: 0xf2c14b, cloth: 0x2b3138, atStation: true });
+learnerFigure.name = "smartcity-learner-figure";
+learnerFigure.visible = false;
+
+// --------------------------------------------------------------- HUD binding
+//
+// app.js never touches the DOM directly for UI chrome any more — it writes
+// state into this store, and react-ui.js (mounted near the bottom of this
+// file) renders it. The Three.js scene, Session wiring and render loop below
+// are otherwise unchanged.
+
+const store = createStore({
+  hud: {
+    room: "SMARTCITI.X",
+    step: "Choose a station",
+    cue: "Select a kiosk to start that station's procedure and rank ladder.",
+    gestureVerb: "", gestureVisible: false,
+    score: "----", comboText: "", comboHot: false, comboFire: false,
+    fillPct: 0, count: "0/20 CLEARED", timer: "",
+    railState: "neutral", feedbackHtml: "Loading the training campus…",
+    scorePops: [],
+    dive: null,
+    court: null,
+    // Random events (shared/events.js): what the run's own seed has staged so
+    // far this attempt — the debrief and the events HUD chip both read this.
+    events: [],
+  },
+  gestureTip: { html: "", show: false },
+  // The drive HUD (a 'drive' step): speed and band, lane offset, next check.
+  drive: { visible: false },
+  arPrompt: { visible: false },
+  scaleRow: { visible: false },
+  intro: {
+    visible: true,
+    arDisabled: true, arText: "Enter AR",
+    vrDisabled: true, vrText: "Enter VR",
+    playerName: Progress.playerName === "YOU" ? "" : Progress.playerName,
+    identityLocked: !!Identity.current, identityLabel: identityLabel(),
+  },
+  results: { visible: false, html: "", showNext: false, retryPrimary: true, nextLabel: "Next stop →" },
+  // Flipped-classroom pre-brief: a station's steps and the reason for each,
+  // shown before the first run of that station (see shared/game.js).
+  prebrief: { visible: false, id: "", name: "", trade: "", category: "", tagline: "", certification: "", steps: [], hazardCount: 0 },
+  // A flat briefing station (room.flat): dossier + knowledge check rendered as a
+  // card instead of a walkable scene, scored by the same Session.
+  flat: { visible: false, name: "", category: "", tagline: "", certification: "", dossier: [], stepIndex: 0, stepCount: 0, question: "", cue: "", options: [], picked: [], feedback: null },
+  leaderboard: { visible: false, html: "" },
+  records: {
+    visible: false, tab: "attempts", rows: [], summary: [], total: 0, passes: 0, credentials: [], episodes: 0,
+    // The proof tier (shared/competency.js): competency cards, the transcript
+    // and the rubric that explains why a run counted. `rule` and `rubric` are
+    // static, carried in the slice so react-ui.js reads only the store.
+    proof: {
+      competencies: [], transcript: [], demonstrated: 0, consistent: 0,
+      rule: MASTERY.text, rubric: RUBRIC.lines,
+    },
+    lrs: { configured: false, host: null, authed: false, pending: 0, last: null, endpointDraft: "", authDraft: "", busy: false, error: null },
+  },
+  programs: { visible: false, rows: [], assigned: null, assignedBy: null },
+  // My Training (shared/tracking.js, docs/course-tracking.md): one card per
+  // touched programme — levels, lessons, measured time on task, refreshers
+  // due, badges and standards evidenced — plus the platform-wide streak and
+  // the accountability bonuses/badges it earns.
+  training: {
+    visible: false, rows: [], streak: { days: 0, active: false, lastDay: null },
+    streakBonusXp: 0, hazardFreeWeek: null,
+  },
+  // Sign-in (shared/auth.js): only the options this deployment configured and
+  // this browser can actually do, plus the one line that says where the
+  // credential is verified — which is never here.
+  signin: { visible: false, providers: [], session: null, field: "", fieldFor: null, message: "" },
+  // Opt-in sharing of anonymised training engagement with agent-protocol
+  // platforms (shared/share-engagement.js, shared/agent-protocols.js,
+  // shared/wallet.js). Default off; nothing here is sent anywhere until a
+  // press of Share, and this slice only ever mirrors what those modules
+  // already hold.
+  share: {
+    visible: false, wallet: null, walletBusy: false, walletMessage: "",
+    consent: null, licence: "CC0", receipts: [], busy: false, message: "",
+  },
+  // The dental programme's robot-training card: a headless calibration of
+  // every station in the block, run in slices on this thread so the panel can
+  // show the difficulty curve filling in rather than freezing until it is done.
+  robotTraining: {
+    programme: ROBOT_PROGRAMME, running: false, done: 0, total: 0, station: "", note: "",
+    ladder: DIFFICULTY_LADDER, curve: [], stations: [],
+  },
+  // Flows: the host-orchestrated graphs (shared/flowhub.js). One row per
+  // loaded flow, the node standing now and the path that got there.
+  flows: { visible: false, rows: [], current: null, note: "", error: "" },
+  editor: {
+    visible: false,
+    baseOptions: SIMS_META.map((s) => ({ id: s.id, label: `${s.name} — ${s.trade}` })),
+    baseValue: "",
+    stepsVisible: false,
+    steps: [],
+    name: "", par: "", tagline: "",
+    error: "",
+    library: [],
+  },
+  resetProgressText: "Reset progress",
+  voice: { supported: !!(window.SpeechRecognition || window.webkitSpeechRecognition), listening: false, heard: "", error: "" },
+  // First- vs third-person (see updateViewCamera()): the HUD toggle button
+  // beside the controls button reads this.
+  view: { mode: viewMode },
+  // The controls panel (shared/input.js): which tabs this device is offered,
+  // the live keyboard bindings, whatever pad is plugged in, and the grammar.
+  // `numbers` puts an index badge on every hub card and panel button, which a
+  // voice-first monocular profile turns on by itself.
+  controls: {
+    visible: false, tab: "keyboard", tabs: ["keyboard", "gamepad", "voice"],
+    deviceLine: "", inputSource: "profile", hands: false, voiceFirst: false,
+    preset: "standard", presets: [], rows: [], remapping: null, remapNote: "",
+    gamepad: { connected: false, id: "", vendor: "generic", vendorName: "Generic", mapping: "", buttons: [], axes: [] },
+    padMap: [], grammar: [], heard: "",
+    // A voice-first monocular display gets the numbers without being asked:
+    // reading a number off a card is the only quick way to choose one there.
+    numbers: PROFILE.id === "assisted",
+  },
+});
+let vrHudDirty = true;
+
+function setRail(kind, html) {
+  store.patch("hud", { railState: kind, feedbackHtml: html });
+  vrHudDirty = true;
+}
+
+
+// ---------------------------------------------------- interruption alarm
+// An interruption arrives mid-step and runs on its own clock (see the
+// interrupt layer in shared/game.js). It gets its own loud banner rather
+// than the feedback rail, because the whole point is that it is not part of
+// the step the learner is working on.
+const alarmEl = {
+  root: document.getElementById("alarm"),
+  kind: document.getElementById("alarm-kind"),
+  left: document.getElementById("alarm-left"),
+  body: document.getElementById("alarm-body"),
+  cue: document.getElementById("alarm-cue"),
+  fill: document.getElementById("alarm-fill"),
+};
+function showAlarm(it) {
+  if (!alarmEl.root) return;
+  alarmEl.kind.textContent = it.kind ?? "Interruption";
+  alarmEl.body.textContent = it.alert ?? "";
+  alarmEl.cue.textContent = it.cue ?? "Deal with it now — the procedure can wait.";
+  alarmEl.left.textContent = `${Math.ceil(it.seconds ?? 12)}s`;
+  alarmEl.fill.style.width = "100%";
+  alarmEl.root.hidden = false;
+}
+function hideAlarm() { if (alarmEl.root) alarmEl.root.hidden = true; }
+function syncAlarm(s) {
+  const it = s?.activeInterrupt;
+  if (!it || !alarmEl.root || alarmEl.root.hidden) return;
+  const total = it.seconds ?? 12;
+  const left = Math.max(0, it.left ?? total);
+  alarmEl.left.textContent = `${Math.ceil(left)}s`;
+  alarmEl.fill.style.width = `${Math.max(0, (left / total) * 100).toFixed(1)}%`;
+}
+
+function syncHud() {
+  const s = state.session;
+  if (!s) {
+    store.patch("hud", {
+      room: "SMARTCITI.X",
+      step: "Choose a station",
+      cue: "Select a kiosk to start that station's procedure and rank ladder.",
+      score: "----", comboText: `LV ${Progress.level} · ${Progress.levelName.toUpperCase()}`, comboHot: false, comboFire: false,
+      count: `${Progress.roomsClearedIn(allSims().map((s) => s.id))}/${allSims().length} CLEARED`,
+      fillPct: (Progress.roomsClearedIn(allSims().map((s) => s.id)) / allSims().length) * 100,
+      timer: "",
+      gestureVisible: false,
+      dive: null,
+      court: null,
+    });
+    vrHudDirty = true;
+    return;
+  }
+  const rank = Progress.simRank(s.room.id, s.room.game);
+  const secs = Math.floor(s.elapsed);
+  const patch = {
+    room: levelHudLabel(s) ?? (state.tour ? `TOUR ${state.tour.i + 1}/${SIMS_META.length} · ${s.room.title.toUpperCase()}` : s.room.title.toUpperCase()),
+    // A level has one shared score across its tasks: what the chain has banked
+    // so far plus the station on screen now.
+    score: String(Math.round(s.score + levelBanked(s))).padStart(4, "0"),
+    comboText: s.comboLabel ? `${s.comboLabel.toUpperCase()} ×${s.combo.toFixed(1)}` : rank.name,
+    comboHot: s.streak >= 4,
+    comboFire: s.combo >= 1.8,
+    count: `STEP ${Math.min(s.index + 1, s.steps.length)}/${s.steps.length}`,
+    fillPct: s.progress01 * 100,
+    timer: `${String(Math.floor(secs / 60)).padStart(2, "0")}:${String(secs % 60).padStart(2, "0")} / ${
+      String(Math.floor(s.room.parSeconds / 60)).padStart(2, "0")}:${String(s.room.parSeconds % 60).padStart(2, "0")}`,
+    // A station in the bay-underwater district may declare
+    // room.underwater = { depthLabel, bottomTimeSeconds }; the chip shows
+    // exactly that against this run's own clock, and nothing when it is unset.
+    dive: diveReadout(s.room.underwater, s.elapsed),
+    // A station on the gym-court district gets the scoreboard chip: the
+    // district names the labels, and drills, fouls and clock are this run's.
+    court: courtReadout(state.stage?.scoreboard, s),
+  };
+  const step = s.step;
+  if (step) {
+    let cue = step.cue;
+    if (step.kind === "sequence" || step.kind === "find") cue += `  (${s.sequence.length}/${step.targets.length})`;
+    if (step.kind === "hold" || step.kind === "track") cue += `  (${s.holdFor.toFixed(1)}s / ${step.seconds}s)`;
+    if (step.kind === "turn" && s.turn) cue += `  (${Math.round((s.turn.amount / s.turn.required) * 100)}%)`;
+    if (step.kind === "drive" && s.drive) cue += `  (${Math.round((s.drive.s / Math.max(0.01, s.drive.total)) * 100)}% of the route)`;
+    const hint = GESTURE_HINTS[step.kind];
+    patch.step = step.title;
+    patch.cue = cue;
+    patch.gestureVerb = hint?.verb ?? "";
+    patch.gestureVisible = !!hint;
+  }
+  store.patch("hud", patch);
+  vrHudDirty = true;
+}
+
+// ------------------------------------------------------------- world objects
+
+const state = {
+  mode: "flat",          // "ar" | "vr" | "flat"
+  roomRoot: null,
+  api: null,
+  room: null,
+  session: null,
+  hits: {},
+  selectables: [],
+  hovered: null,
+  paused: true,
+  placed: false,          // AR: has the learner tapped a surface yet
+  stage: null,
+  eventsScheduler: null,  // the live run's ambient-event scheduler (shared/events.js), or null when events are off
+  tour: null,             // { i } while walking the built-in curriculum in order
+  level: null,            // a ladder level run (shared/ladder.js) while a level chain is being played
+};
+
+const hint = new THREE.Group();
+const hintRing = new THREE.Mesh(
+  new THREE.TorusGeometry(0.42, 0.022, 8, 36),
+  new THREE.MeshBasicMaterial({ color: 0x4fd1ff, transparent: true, opacity: 0.85 }));
+hintRing.rotation.x = -Math.PI / 2;
+hint.add(hintRing);
+const hintPip = new THREE.Mesh(new THREE.OctahedronGeometry(0.07), new THREE.MeshBasicMaterial({ color: 0x4fd1ff }));
+hint.add(hintPip);
+hint.visible = false;
+worldRoot.add(hint);
+const hintTargets = [];
+
+const gauge = new THREE.Group();
+gauge.visible = false;
+const gaugePanel = decal(gauge, 0.62, 0.2, 0, 0, 0, () => {}, { px: 512, glow: true, ei: 0.5 });
+const gaugeReadout = decal(gauge, 0.28, 0.09, 0, 0.16, 0.002, () => {}, { px: 256, glow: true, ei: 0.7 });
+const gaugeMarker = new THREE.Mesh(new THREE.BoxGeometry(0.012, 0.1, 0.014), new THREE.MeshBasicMaterial({ color: 0xffffff }));
+gaugeMarker.position.z = 0.006;
+gauge.add(gaugeMarker);
+worldRoot.add(gauge);
+let gaugeReadoutAt = 0;
+
+// A hot-streak or a satisfying carry/turn completion gets a one-shot particle
+// burst right where the learner's hands are — anchored to worldRoot so a
+// world position just needs converting into its local space to fire it.
+const burst = celebrationBurst(worldRoot, { color: 0xffe37a });
+let lastActivatedId = null;
+function burstAtHit(id) {
+  const obj = id && state.hits[id];
+  if (!obj) return;
+  const p = new THREE.Vector3();
+  obj.getWorldPosition(p);
+  worldRoot.worldToLocal(p);
+  burst.fire(p);
+}
+
+// One-time, just-in-time teaching: the first time a learner's own play
+// history ever reaches a given step kind, explain the physical gesture it
+// wants — after that it never interrupts again, trusting the HUD gesture
+// chip (and by then, muscle memory) to carry it.
+const GESTURE_SEEN_KEY = "smartcity-gestures-seen";
+let gestureTipTimer = null;
+function hasSeenGesture(kind) {
+  try { return JSON.parse(localStorage.getItem(GESTURE_SEEN_KEY) || "[]").includes(kind); }
+  catch (_) { return true; } // if storage is blocked, don't nag every single step
+}
+function markGestureSeen(kind) {
+  try {
+    const seen = new Set(JSON.parse(localStorage.getItem(GESTURE_SEEN_KEY) || "[]"));
+    seen.add(kind);
+    localStorage.setItem(GESTURE_SEEN_KEY, JSON.stringify([...seen]));
+  } catch (_) { /* ignore */ }
+}
+function maybeShowGestureTip(kind) {
+  const hint = GESTURE_HINTS[kind];
+  if (!hint || hasSeenGesture(kind)) return;
+  markGestureSeen(kind);
+  store.patch("gestureTip", { html: `<b>${hint.verb}</b><br>${hint.tip}`, show: true });
+  clearTimeout(gestureTipTimer);
+  gestureTipTimer = setTimeout(() => store.patch("gestureTip", { show: false }), 5200);
+}
+
+function paintGaugeBand(step) {
+  const [lo, hi] = step.gauge.green ?? [0.44, 0.62];
+  repaint(gaugePanel, (g, w, h) => {
+    g.fillStyle = "rgba(6,14,20,0.94)"; g.fillRect(0, 0, w, h);
+    g.strokeStyle = HUD.edge; g.lineWidth = 3; g.strokeRect(1.5, 1.5, w - 3, h - 3);
+    g.fillStyle = HUD.muted;
+    g.font = `600 ${Math.round(h * 0.17)}px 'Barlow Condensed', Arial, sans-serif`;
+    g.textAlign = "left"; g.textBaseline = "middle";
+    g.fillText(step.gauge.label ?? "SET THE VALUE", w * 0.05, h * 0.2);
+    const barY = h * 0.5, barH = h * 0.3, x0 = w * 0.05, x1 = w * 0.95;
+    g.fillStyle = "#1d2833"; g.fillRect(x0, barY - barH / 2, x1 - x0, barH);
+    g.fillStyle = "rgba(89,201,123,0.85)";
+    g.fillRect(x0 + (x1 - x0) * lo, barY - barH / 2, (x1 - x0) * (hi - lo), barH);
+    g.strokeStyle = HUD.good; g.lineWidth = 2;
+    g.strokeRect(x0 + (x1 - x0) * lo, barY - barH / 2, (x1 - x0) * (hi - lo), barH);
+    g.fillStyle = HUD.muted;
+    g.font = `${Math.round(h * 0.14)}px Arial, sans-serif`;
+    g.textAlign = "center";
+    g.fillText("select to commit", w / 2, h * 0.87);
+  });
+}
+function placeGauge(targetObj) {
+  if (!targetObj) return;
+  const boxHelper = new THREE.Box3().setFromObject(targetObj);
+  const c = boxHelper.getCenter(new THREE.Vector3());
+  gauge.position.set(c.x, Math.min(Math.max(boxHelper.max.y + 0.3, 1.0), 2.0), c.z);
+}
+
+// ------------------------------------------------------------ scene lifecycle
+
+function clearRoom() {
+  stopRobot();
+  if (state.roomRoot) { disposeTree(state.roomRoot); state.roomRoot = null; }
+  if (state.stage) { disposeTree(state.stage.root); state.stage = null; }
+  state.api = null;
+  state.hits = {};
+  state.selectables = [];
+  state.hovered = null;
+  hint.visible = false;
+  gauge.visible = false;
+  store.patch("flat", { visible: false });
+  // Random events: whatever this run's ambient scheduler had left to fire
+  // dies with the station — an in-flight vehicle or a still-walking crew
+  // figure belonged to the stage just disposed above, so nothing left ticking
+  // in ambientAnimators can safely touch it any more.
+  state.eventsScheduler = null;
+  ambientAnimators.length = 0;
+}
+
+function collectSelectables() {
+  state.selectables = [];
+  for (const id of Object.keys(state.hits)) {
+    state.hits[id].traverse((o) => { if (o.isMesh) state.selectables.push(o); });
+  }
+}
+
+function resetPlacement() {
+  placement.position.set(0, 0, 0);
+  placement.quaternion.identity();
+  placement.scale.setScalar(state.mode === "ar" ? AR_DIORAMA_SCALE : 1);
+  state.placed = state.mode !== "ar";
+}
+
+/**
+ * The tab title and description follow the open station (console WAYFINDER-2,
+ * on Trade Skills' wfRoomMeta): a ?sim= link names its station from first
+ * paint, and leaving to the hub restores the page's own stamped text. Every
+ * word is the station's own name and tagline.
+ */
+function wfSimMeta(sim) {
+  const d = document.querySelector('meta[name="description"]');
+  wfSimMeta.hub ??= { title: document.title, desc: d?.content ?? "" };
+  document.title = sim ? `${sim.name} — SmartCiti.X` : wfSimMeta.hub.title;
+  if (d) d.content = sim ? `${sim.name}: ${sim.tagline ?? ""}`.slice(0, 155) : wfSimMeta.hub.desc;
+}
+
+function enterHub() {
+  if (state.room) wfSimMeta(null); // only when leaving a station: enterHub() also runs at start
+  clearRoom();
+  state.session = null;
+  state.room = null;
+  const stage = buildStage(worldRoot, state.mode, scene);
+  state.stage = stage;
+  applyStageCamera(stage);
+  const root = new THREE.Group();
+  worldRoot.add(root);
+  state.roomRoot = root;
+  state.api = buildHub(root, allSims());
+  state.hits = state.api.hits;
+  collectSelectables();
+  resetPlacement();
+  if (state.mode !== "ar") { rig.position.set(0.4, 0, 4.9); rig.rotation.y = 0; }
+  else { rig.position.set(0, 0, 0); }
+  yaw = 0; pitch = 0;
+  camera.rotation.set(0, 0, 0);
+  store.patch("arPrompt", { visible: state.mode === "ar" });
+  store.patch("scaleRow", { visible: state.mode === "ar" });
+  setRail("neutral", `<b>SmartCiti.X training campus.</b> ${allSims().length} stations across ${categoryCount()} categories, each with its own rank ladder. Select a kiosk to begin.${PROFILE.id === "desktop" ? "" : ` <span class="muted">Device: ${escapeHtml(describeDevice(DEVICE, PROFILE))}</span>`}`);
+  syncHud();
+}
+
+/** Most stages sit inside a 90 m view; a district that looks further (a bridge
+ *  deck with the bay below it) or much less far (the bottom of the bay) says
+ *  so, and the camera follows it for as long as that stage stands. */
+function applyStageCamera(stage) {
+  const far = stage?.far ?? 90;
+  if (camera.far !== far) { camera.far = far; camera.updateProjectionMatrix(); }
+}
+
+// `?district=<id>` builds one stage district with no station on it — the
+// hub's empty pad where the station would stand — so the scene team can look
+// at, walk and screenshot a district on its own (`&time=` and `&weather=`
+// still apply). Anything that is not a district id falls through to the hub.
+let districtPreview = new URLSearchParams(location.search).get("district");
+if (districtPreview && !Object.prototype.hasOwnProperty.call(DISTRICTS, districtPreview)) districtPreview = null;
+function enterDistrictPreview(id) {
+  clearRoom();
+  state.session = null;
+  state.room = null;
+  const horizon = { skyline: PROFILE.skyline, district: PROFILE.skyline };
+  const stage = buildStage(worldRoot, state.mode, scene, CITY.accent, id, null, null, horizon);
+  state.stage = stage;
+  applyStageCamera(stage);
+  if (state.mode !== "ar") themeScene(PROFILE, scene, stage.root, THREE);
+  const root = new THREE.Group();
+  worldRoot.add(root);
+  state.roomRoot = root;
+  stationPad(root, 1.75, CITY.accent);
+  state.api = { hits: {} };
+  state.hits = {};
+  collectSelectables();
+  resetPlacement();
+  if (state.mode !== "ar") {
+    const spawn = stage.spawn ?? { x: 0, z: 4.9, ry: 0 };
+    rig.position.set(spawn.x, 0, spawn.z);
+    rig.rotation.y = spawn.ry ?? 0;
+  } else rig.position.set(0, 0, 0);
+  yaw = 0; pitch = 0;
+  camera.rotation.set(0, 0, 0);
+  syncHud();
+  store.patch("hud", { room: `${id} · preview`, step: "District preview", cue: "No station is loaded: the pad marks where one would stand. Walk with WASD, drag to look.", count: "", fillPct: 0 });
+  const wx = stage.weather;
+  setRail("neutral", `<b>District preview:</b> ${escapeHtml(id)}.${wx && wx.kind !== "clear" ? ` <b>${escapeHtml(wx.label)}:</b> ${escapeHtml(wx.note)}` : ""}`);
+}
+
+// `?gallery=fleet|equipment|toolkit` lays every builder of one shared kit
+// (shared/fleet.js, equipment.js, toolkit.js) out on a plaza with no apron or
+// district, each labelled with its name and the meshes it cost here, for
+// screenshots and for the teams retrofitting stations with them. It is not a
+// station: no steps, nothing to click. `window.__gallery.focus(key)` frames
+// one builder for a thumbnail; `.overview()` goes back to the whole layout.
+let galleryPreview = new URLSearchParams(location.search).get("gallery");
+if (galleryPreview && !Object.prototype.hasOwnProperty.call(GALLERY_KINDS, galleryPreview)) galleryPreview = null;
+function lookFrom(eye, target) {
+  rig.position.set(eye[0], eye[1] - 1.62, eye[2]);
+  rig.rotation.y = 0;
+  const dx = target[0] - eye[0], dy = target[1] - eye[1], dz = target[2] - eye[2];
+  yaw = Math.atan2(-dx, -dz);
+  pitch = Math.atan2(dy, Math.hypot(dx, dz));
+  camera.rotation.set(pitch, yaw, 0, "YXZ");
+}
+function enterGallery(kind) {
+  clearRoom();
+  state.session = null;
+  state.room = null;
+  const stage = buildStage(worldRoot, state.mode, scene, CITY.accent, null, "clear", null, { skyline: PROFILE.skyline, district: false, apron: false });
+  stage.roam = 200;
+  state.stage = stage;
+  applyStageCamera(stage);
+  if (camera.far < 160) { camera.far = 160; camera.updateProjectionMatrix(); }
+  if (state.mode !== "ar") themeScene(PROFILE, scene, stage.root, THREE);
+  const root = new THREE.Group();
+  worldRoot.add(root);
+  state.roomRoot = root;
+  const gallery = buildGallery(root, kind);
+  state.api = { hits: {} };
+  state.hits = {};
+  collectSelectables();
+  resetPlacement();
+  const showAll = () => { for (const it of gallery.items) { it.group.visible = true; it.label.visible = true; } };
+  const overview = () => { showAll(); lookFrom(gallery.overview.eye, gallery.overview.target); };
+  if (state.mode !== "ar") overview();
+  const report = gallery.items.map((it) => ({ key: it.key, meshes: it.meshes, declared: it.declared }));
+  window.__gallery = {
+    kind, report, overview,
+    keys: gallery.items.map((it) => it.key),
+    focus(key, o = {}) {
+      const it = gallery.items.find((i) => i.key === key);
+      if (!it) return false;
+      // A thumbnail shows the one builder: its neighbours and every label hide.
+      for (const other of gallery.items) { other.group.visible = o.solo === false || other === it; other.label.visible = o.solo === false; }
+      const [w, h, l] = it.footprint;
+      const size = Math.max(w, h, l);
+      const dist = o.dist ?? (kind === "toolkit" ? size * 1.1 + 0.12 : size * 1.05 + 2.2);
+      const turn = o.turn ?? 0.62, rise = o.rise ?? 0.42;
+      const [cx, cy, cz] = it.centre;
+      lookFrom([cx + Math.sin(turn) * Math.cos(rise) * dist, cy + Math.sin(rise) * dist, cz + Math.cos(turn) * Math.cos(rise) * dist], [cx, cy * (kind === "toolkit" ? 1 : 0.8), cz]);
+      return true;
+    },
+  };
+  syncHud();
+  const over = report.filter((r) => r.meshes > r.declared);
+  store.patch("hud", { room: `${kind} gallery`, step: "Kit gallery", cue: `${report.length} builders from shared/${kind}.js. Walk with WASD, drag to look.`, count: "", fillPct: 0 });
+  setRail(over.length ? "warn" : "neutral", `<b>Kit gallery:</b> ${escapeHtml(kind)} — ${report.length} builders, ${report.reduce((s, r) => s + r.meshes, 0)} meshes.${over.length ? ` Over their declared count: ${escapeHtml(over.map((r) => r.key).join(", "))}.` : ""}`);
+}
+
+// Bumped on every call so a station whose dynamic import is still in flight
+// can tell, once it resolves, whether it is still the one the player wants —
+// two quick kiosk picks in a row must not race and land in the wrong room.
+let enterSimToken = 0;
+async function enterSim(id, { briefed = false } = {}) {
+  const myToken = ++enterSimToken;
+  setRail("neutral", "<b>Loading station…</b>");
+  let room = await findSim(id);
+  if (myToken !== enterSimToken) return; // superseded by a later pick
+  if (!room) { enterHub(); return; }
+  // The run's condition (shared/ladder.js), read from the query a ladder task
+  // or a track page's deep link set: ?time= and ?weather= are read by the
+  // stage itself; ?variant= builds a shared/variants.js assessment variant
+  // (same procedure, no hints, tighter clock, alarms rehung) that keeps the
+  // station's id so the record and the level still name the station;
+  // ?hazard=assess pins assessed hazard mode; ?interrupt=<id> fires one
+  // declared interruption off its authored step (see onStep below).
+  const urlQuery = new URLSearchParams(location.search);
+  state.condition = conditionFromQuery(location.search);
+  state.hazardPinned = urlQuery.get("hazard") === "assess";
+  state.urlInterrupt = urlQuery.get("interrupt");
+  const variantLevel = urlQuery.get("variant");
+  if (variantLevel && room.steps?.length && !room.isVariant) {
+    const v = makeVariant(room, { seed: urlQuery.get("seed") ?? room.id, level: variantLevel });
+    if (v) room = { ...v, id: room.id, variantId: v.id };
+  }
+  // ?fault=<id> runs the station with one of its declared faults
+  // (shared/faults.js, docs/districts.md): one step's answer rewritten here,
+  // the scene changed by the station's own onFault() once it is built.
+  const urlFault = faultFromQuery(location.search);
+  if (urlFault && room.steps?.length) room = faultedRoom(room, urlFault);
+  // Random events (shared/events.js, docs/events.md): on by default past
+  // level 10 of a ladder and for an assessment variant, off in the base run,
+  // and always off when the instructor is already driving this run's own
+  // interruption — a live CMD_INTERRUPT, or a ladder task's own ?interrupt=
+  // condition. `?events=` always overrides, except that instructor case.
+  const eventsSeed = urlQuery.get("seed") ?? room.id;
+  const runEventsOn = eventsEnabled({
+    explicit: eventsFromQuery(location.search),
+    ladderLevel: state.level?.level ?? null,
+    isVariant: !!room.isVariant,
+    instructorArmed: !!state.urlInterrupt,
+  });
+  if (runEventsOn && room.steps?.length) room = varyInterruptTiming(room, { seed: eventsSeed });
+  const flat = !!(room.flat ?? SIMS_META_BY_ID[room.baseId]?.flat);
+  if (flat && state.mode !== "flat") {
+    // A dossier card cannot be shown inside an immersive session; say so
+    // instead of dropping the learner into an empty scene.
+    setRail("warn", `<b>${escapeHtml(room.name ?? room.title)}</b> is a flat briefing station — it runs on screen, not in AR/VR. Exit the headset view to open it.`);
+    return;
+  }
+  // First run of a station on screen: offer the pre-brief before anything
+  // is built, so the timer isn't running while the learner reads. A robot
+  // trainee has no brief to read.
+  if (!briefed && !flat && !robot.active && state.mode === "flat" && !Progress.isBriefed(room.id)) { showPreBrief(room); return; }
+  clearRoom();
+  // A station stands in its category's district unless it names another:
+  // a marsh crew is filed under Water & Environmental, whose horizon is a
+  // treatment works, and belongs in front of the bay instead.
+  // A licensed real-world model around the station, when the station (or the
+  // URL, for a preview) asks for one, replaces the generated horizon; a
+  // device profile that cannot carry the horizon leaves it out too.
+  // An instructor console can set the run profile and the weather for the next
+  // station (CMD_PROFILE / CMD_WEATHER in shared/observer.js). Both land here,
+  // where the stage is built, so the learner sees the change the moment they
+  // walk in rather than on some later reload.
+  if (instructorDeviceId) {
+    const device = deviceForInstructor(instructorDeviceId);
+    if (device) { DEVICE = device; PROFILE = applyProfile(DEVICE, { renderer }); }
+  }
+  const stationWeather = instructorWeather ?? room.weather;
+  coachedHazards.clear();
+  const envSpec = state.mode !== "ar" ? environmentFor(room) : null;
+  const horizon = { skyline: PROFILE.skyline && (envSpec ? !!envSpec.skyline : true), district: PROFILE.skyline && (envSpec ? !!envSpec.district : true) };
+  // The stage stands the station's union sign and safety sign beside the
+  // pad (shared/signage.js); the safety sign is confirmed or taken down
+  // below once the station has been built and its mesh count is known.
+  // A driving course is its own site: a station that declares `apron: false`
+  // keeps the plaza but not the gate, laydown and fence the apron lays across
+  // the ground its route is driven over.
+  // Set before the stage builds: the site apron stands its own generic
+  // worker (shared/citykit.js's apron), and that figure resolves its trade
+  // dress from this the same as the station's own crew does.
+  setActiveContext([room.category, room.trade, room.union, room.domain, room.id].filter(Boolean).join(" | "));
+  const stage = buildStage(worldRoot, state.mode, scene, room.accent, room.district ?? room.category, weatherUnder(PROFILE, stationWeather), room.indoor, { ...horizon, station: room, ...(room.apron === false ? { apron: false } : {}) });
+  state.stage = stage;
+  applyStageCamera(stage);
+  if (state.mode !== "ar") themeScene(PROFILE, scene, stage.root, THREE);
+  // The model arrives after the station is playable; a failure is reported
+  // on the rail and the station plays on.
+  if (envSpec) {
+    loadEnvironment(stage.root, envSpec, stage)
+      .then(() => setRail("ok", `Environment loaded: <b>${escapeHtml(envSpec.url)}</b>`))
+      .catch((e) => { console.warn("[environment]", e); setRail("warn", escapeHtml(e.message)); });
+  }
+  Perf.reset();
+  const root = new THREE.Group();
+  worldRoot.add(root);
+  state.roomRoot = root;
+  state.room = room;
+  wfSimMeta(SIMS_META_BY_ID[id] ?? room);
+  state.api = room.build(root);
+  state.hits = state.api.hits;
+  tzPlantHost(root, THREE, `smartcity/${room.id}`); // off the interaction system, like the hard hats
+  if (room.activeFault) {
+    state.api.onFault?.(room.activeFault);
+    setRail("warn", `<b>${escapeHtml(room.faultLabel ?? room.activeFault)}</b> — ${escapeHtml(room.faultNote ?? "")}`);
+  }
+  // Now the station's own count is known: the safety sign stays only if the
+  // station and its two signs still fit the headset budget (the same rule
+  // tools/check_budget.mjs enforces).
+  if (stage.signage) {
+    let stationMeshes = 0;
+    root.traverse((o) => { if (o.isMesh || o.isPoints || o.isLine) stationMeshes += 1; });
+    stage.signage.fit(stationMeshes);
+  }
+  collectSelectables();
+  resetPlacement();
+  if (flat) {
+    hint.visible = false; gauge.visible = false;
+    store.patch("flat", {
+      visible: true, name: room.name ?? room.title, category: room.category ?? "", tagline: room.tagline ?? "",
+      certification: room.certification ?? "", dossier: room.dossier ?? SIMS_META_BY_ID[room.baseId]?.dossier ?? [],
+      stepIndex: 0, stepCount: room.steps.length, question: "", cue: "", options: [], picked: [], feedback: null,
+    });
+  }
+
+  if (state.mode !== "ar") {
+    // A shift starts at the gate, not standing on the work. The stage says
+    // where that is — outside the site apron for an outdoor station, at the
+    // door for an indoor one (see apron.js and interiors.js).
+    const spawn = stage.spawn ?? { x: 0, z: (room.footprint ?? 2) + 1.4, ry: 0 };
+    rig.position.set(spawn.x, 0, spawn.z);
+    rig.rotation.y = spawn.ry ?? 0;
+  } else {
+    rig.position.set(0, 0, 0);
+  }
+  yaw = 0; pitch = 0;
+  camera.rotation.set(0, 0, 0);
+  document.documentElement.style.setProperty("--accent", room.accentCss);
+  store.patch("arPrompt", { visible: state.mode === "ar" });
+  store.patch("scaleRow", { visible: state.mode === "ar" });
+
+  state.session = new Session(room, {
+    // A drive step reports the vehicle's pose every tick; the vehicle is the
+    // station's own registered group, moved where the engine says it is.
+    onDrive: (step, s, ds) => {
+      const vehicle = state.hits[step.target];
+      if (vehicle && s.drive?.pose) placeVehicle(vehicle, s.drive.pose, ds);
+      state.api.onDrive?.(step, s);
+    },
+    onStep: (step, s) => {
+      state.api.onStep?.(step, s);
+      // ?interrupt=<id>: the declared interruption is armed on the first step
+      // after the opening one that neither is its authored step nor holds the
+      // control that answers it — the same arm-now path CMD_INTERRUPT takes —
+      // and re-armed on each later step until it has fired.
+      const inj = state.urlInterrupt ? s.interrupts?.find((i) => i.id === state.urlInterrupt) : null;
+      if (inj && !inj.fired && (s.index | 0) >= 1 && step.id !== inj.after && step.target !== inj.target && !(step.targets ?? []).includes(inj.target)) {
+        inj.armedAt = s.elapsed + (inj.delay ?? 3);
+      }
+      // A new step means a new set of controls; re-point the keyboard cursor
+      // and read the step out for anyone not watching the screen.
+      kbCursor.set(targetsForStep(step));
+      kbCarrying = null;
+      srAnnouncer.say(`Step ${(s.index | 0) + 1} of ${s.steps.length}. ${step.title}. ${step.cue}`);
+      if (kbActive && kbCursor.current) kbFocus(kbCursor.current, { announceIt: false });
+      if (flat) { flatSyncStep(step, s); syncHud(); return; }
+      updateHintForStep(step);
+      if (step.kind === "gauge") { paintGaugeBand(step); placeGauge(state.hits[step.target]); gauge.visible = true; }
+      else gauge.visible = false;
+      maybeShowGestureTip(step.kind);
+      syncHud();
+    },
+    onFeedback: (fb, s) => {
+      state.api.onFeedback?.(fb, s);
+      setRail(fb.kind === "ok" ? "ok" : fb.kind === "danger" ? "danger" : fb.kind === "partial" ? "neutral" : "warn", fb.text);
+      if (fb.kind === "danger") { flashDanger(); srAnnouncer.alert(fb.text); if (fb.speech) announce(fb.speech); }
+      if (fb.kind === "ok" && fb.points) {
+        scorePop(`+${fb.points}`, fb.combo >= 1.6);
+        if (fb.combo >= 1.6 && !flat && !reducedMotion()) burstAtHit(lastActivatedId);
+      }
+      if (flat) store.patch("flat", { feedback: { kind: fb.kind, html: fb.text }, picked: [...s.sequence] });
+      syncHud();
+    },
+    onStepComplete: (step, s) => {
+      state.api.onStepComplete?.(step, s);
+      observer.step({ stepId: step.id, stepTitle: step.title, ...observerSnapshot() });
+      Platform.progress({ sim: room.id, step: step.id, index: s.index + 1, count: s.steps.length, score: s.score, errors: s.errors });
+    },
+    onInterrupt: (it) => {
+      // The station makes it visible in the world: a fan that stops, a lock
+      // that is gone off the hasp. An alarm you can only read is a caption.
+      state.api?.onInterrupt?.(it, state.session);
+      showAlarm(it);
+      srAnnouncer.alert(`${it.kind ?? "Interruption"}. ${it.alert}`);
+      announce(`${it.kind ?? "Interruption"}. ${it.alert}`);
+      flashDanger();
+      kbCursor.set(targetsForStep({ target: it.target }));
+      observer.hazard({ hazardId: it.id, note: it.alert ?? "", ...observerSnapshot() });
+    },
+    onInterruptEnd: (it) => {
+      state.api?.onInterruptEnd?.(it, state.session); hideAlarm(); kbCursor.set(targetsForStep(state.session?.step ?? {}));
+      // The guide speaks to a missed or mis-answered interruption the way a
+      // peer-support trainer would: what happened, what wins next time, no
+      // blame. An answered one needs nothing said — the scene already showed it.
+      if (it.resolved === "missed" || it.resolved === "wrong") {
+        const line = eiLine(it.resolved, { kind: it.kind, seed: state.session?.interruptLog?.length ?? 0 });
+        setRail("warn", line);
+        announce(line);
+      }
+    },
+    onHazard: (hitId, s) => {
+      state.api.onHazard?.(hitId, s);
+      // Coaching mode (CMD_HAZARD_MODE): the unsafe action is still explained —
+      // the station's own call-out already ran — but it is taken back off the
+      // unsafe count, so the run can still end as a pass and the learner works
+      // on through it. The same hazard twice is explained once.
+      if (hazardMode === "coach" && !levelNoCoaching() && !state.hazardPinned) {
+        s.hazardHits = Math.max(0, (s.hazardHits | 0) - 1);
+        s.stepHazards = Math.max(0, (s.stepHazards | 0) - 1);
+        const firstTime = !coachedHazards.has(hitId);
+        coachedHazards.add(hitId);
+        if (firstTime) {
+          setRail("warn", `<b>Coaching:</b> ${escapeHtml(room.hazards?.[hitId] ?? "that is the unsafe way to do it")} <span class="muted">Not counted against this run.</span>`);
+          announce(`Coaching. ${room.hazards?.[hitId] ?? "That is the unsafe way to do it."} Not counted against this run.`);
+        }
+      }
+      observer.hazard({ hazardId: hitId, note: room.hazards?.[hitId] ?? "", ...observerSnapshot() });
+      // The hazard text itself is spoken by the station's own call-out; the
+      // guide adds its line after the first repeat, when the setup — not the
+      // hands — is usually what is wrong.
+      const count = s.hazardHits | 0;
+      if (count >= 2) announce(eiLine("hazard", { count, seed: count }));
+      else setRail("warn", eiLine("hazard", { count: 1, seed: s.errors | 0 }));
+    },
+    onFinish: (s, summary) => {
+      observer.finish({
+        passed: s.stars >= 2 && s.hazardHits === 0, stars: s.stars | 0, score: s.score | 0,
+        seconds: Math.round(s.elapsed ?? 0),
+        verdict: s.hazardHits > 0 ? `${s.hazardHits} unsafe action${s.hazardHits === 1 ? "" : "s"}` : `${s.stars} star${s.stars === 1 ? "" : "s"}, clean`,
+      });
+      // Cue-to-answer times as a DATAWORKS episode — inert unless the learner opted in (dxCollecting).
+      if (room.reactionEval) { try { silRecordRun(s, room); } catch (_) { /* never block the results */ } }
+      showResults(s, summary);
+    },
+  });
+  // Episode recording (shared/episodes.js): a compact per-decision trajectory
+  // for this run, in the same shape tools/robot_train.mjs's headless rollouts
+  // write, so a live session and a synthetic one merge into one dataset (see
+  // tools/export_dataset.mjs). Wraps the session's own action methods — no
+  // other call site changes — and persists on the session's own onFinish.
+  state.episodeRec = episodesOn && dxCollecting() ? attachEpisodeRecorder(state.session, {
+    app: "smartcity", station: room.id, room, api: state.api,
+    crewTag: Progress.playerName,
+    viewMode: () => (renderer.xr.isPresenting ? "vr" : (state.mode === "ar" ? "ar" : "desktop")),
+    env: () => ({ weather: state.stage?.weather?.kind ?? null, timeOfDay: timeOfDay(), eventSeed: eventsSeed }),
+  }) : null;
+  state.session.start();
+  // Random events: the ambient half (see the interrupt-timing half above).
+  // Built fresh for every station, always — when events are off this just
+  // holds an empty timeline, so tickAmbientAnimators/performAmbientEvent
+  // never have anything to do.
+  store.patch("hud", { events: [] });
+  state.eventsScheduler = createEventScheduler(room, {
+    seed: eventsSeed,
+    enabled: runEventsOn,
+    parSeconds: room.parSeconds,
+    weatherKinds: room.indoor ? [] : WEATHER_KINDS,
+    night: timeOfDay() === "night",
+    hasRoad: ambientHasRoad(room),
+    radioLine: radioLineFor(room),
+  });
+  armQueuedLevelInterrupts(room.id);
+  if (robot.active) startRobot(room);
+  if (!flat) faceFirstTask();
+  // Conditions are part of the brief: every station declares the weather its
+  // procedure is actually written for, and what that weather means for the work.
+  const wx = state.stage?.weather;
+  const wxLine = wx && wx.kind !== "clear" ? ` <b>${escapeHtml(wx.label)}:</b> ${escapeHtml(wx.note)}` : "";
+  observer.hello({ learner: Progress.playerName, station: room.id, stationName: room.name ?? room.title });
+  setRail("neutral", `<b>${escapeHtml(room.title)}</b> — ${escapeHtml(room.tagline)}. ${state.mode === "ar" ? "Tap a surface to place the station." : "Follow the procedure in order."}${wxLine}`);
+  syncHud();
+}
+
+function faceFirstTask() {
+  if (state.mode === "ar") return;
+  const first = hintTargets[0];
+  if (!first) return;
+  const p = new THREE.Vector3();
+  first.getWorldPosition(p);
+  const dx = p.x - rig.position.x, dz = p.z - rig.position.z;
+  if (Math.hypot(dx, dz) < 0.2) return;
+  rig.rotation.y = Math.atan2(-dx, -dz);
+}
+
+function updateHintForStep(step) {
+  hintTargets.length = 0;
+  // A "find" step marked noHint is a search-among-decoys exercise (GESTURE_HINTS.find
+  // literally tells the learner "some objects are decoys") — ringing the correct
+  // targets would hand over the answer, so it gets no objective ring at all.
+  if (!step || (step.kind === "find" && step.noHint) || levelNoCoaching()) { hint.visible = false; return; }
+  const ids = step.kind === "sequence" || step.kind === "find" ? step.targets : [step.target];
+  for (const id of ids) if (state.hits[id]) hintTargets.push(state.hits[id]);
+  hint.visible = hintTargets.length > 0;
+}
+
+function flashDanger() {
+  document.body.classList.add("danger-flash");
+  setTimeout(() => document.body.classList.remove("danger-flash"), 420);
+}
+
+// -------------------------------------------------------------- random events
+//
+// shared/events.js decides WHEN a beat fires and WHICH one; everything here
+// is the other half — turning a fired beat into something the learner can
+// actually see or hear. Every renderer below is deliberately small and
+// disposable: it lives in ambientAnimators only until its own step() says
+// it is done, then removes exactly what it added and nothing else. None of
+// this ever touches state.session, state.hits or the station's own scoring —
+// see shared/events.js's rule 1.
+
+const ambientAnimators = []; // { t, step(elapsed, dt) -> done, cleanup() }
+
+/** Where an ambient prop or light is parented — the stage's own root when the
+ *  station has one (so it is disposed with the stage on the way out), the
+ *  shared world group otherwise. */
+function ambientParent() {
+  return state.stage?.root ?? worldRoot;
+}
+
+function tickAmbientAnimators(dt) {
+  for (let i = ambientAnimators.length - 1; i >= 0; i--) {
+    const a = ambientAnimators[i];
+    a.t += dt;
+    let done = false;
+    try { done = !!a.step(a.t, dt); } catch (_) { done = true; }
+    if (done) { ambientAnimators.splice(i, 1); try { a.cleanup?.(); } catch (_) { /* ignore */ } }
+  }
+}
+
+function shiftAmbientWeather(kind) {
+  if (!kind || !WEATHER_KINDS.includes(kind) || !state.stage) return;
+  const parent = ambientParent();
+  const prev = state.stage.weather;
+  try {
+    const next = buildWeather(parent, scene, kind, {});
+    state.stage.weather = next;
+    if (prev?.root) disposeTree(prev.root);
+  } catch (_) { /* a stage that cannot rebuild its weather just keeps its own */ }
+}
+
+const AMBIENT_VEHICLE_BUILDERS = { pickup, sedan, cargoVan, boxTruck };
+
+/** A kit vehicle crosses well behind the station pad and is gone — never on
+ *  the pad itself, so it can never be mistaken for a registered interactable. */
+function spawnAmbientVehicle(kind) {
+  const build = AMBIENT_VEHICLE_BUILDERS[kind] ?? pickup;
+  const parent = ambientParent();
+  let rig = null;
+  try { rig = build(parent, -13, 0, 9.6, {}); } catch (_) { return; }
+  if (!rig) return;
+  rig.rotation.y = Math.PI / 2;
+  ambientAnimators.push({
+    t: 0,
+    step(elapsed) { rig.position.x = -13 + 26 * Math.min(1, elapsed / 4.5); return elapsed >= 4.5; },
+    cleanup() { try { parent.remove(rig); disposeTree(rig); } catch (_) { /* ignore */ } },
+  });
+}
+
+/** A crew figure walks across the background, then turns to watch for a
+ *  moment before the beat ends and it is removed. */
+function spawnAmbientCrew() {
+  const parent = ambientParent();
+  let figure = null;
+  try { figure = standingFigure(parent, -6.5, 8.6, { ry: Math.PI / 2, vest: 0xf2c14b, cloth: 0x2b3138 }); } catch (_) { return; }
+  if (!figure) return;
+  ambientAnimators.push({
+    t: 0,
+    step(elapsed) {
+      if (elapsed < 2.6) figure.position.x = -6.5 + 5.5 * (elapsed / 2.6);
+      else figure.rotation.y = Math.PI * 1.5; // turns to watch the station
+      return elapsed >= 5.4;
+    },
+    cleanup() { try { parent.remove(figure); disposeTree(figure); } catch (_) { /* ignore */ } },
+  });
+}
+
+/** A short-lived point light near the pad, flickering — never one of the
+ *  station's own registered lights, so nothing about the procedure changes. */
+function spawnAmbientMastFlicker() {
+  const parent = ambientParent();
+  let light = null;
+  try { light = new THREE.PointLight(0xfff3d0, 0, 14); light.position.set(0, 4.4, -6); parent.add(light); }
+  catch (_) { return; }
+  ambientAnimators.push({
+    t: 0,
+    step(elapsed) { light.intensity = elapsed < 1.2 ? (Math.sin(elapsed * 42) > 0 ? 2.2 : 0.1) : 0; return elapsed >= 1.3; },
+    cleanup() { try { parent.remove(light); } catch (_) { /* ignore */ } },
+  });
+}
+
+/** Turn one fired ambient event (shared/events.js) into scene/sound and log
+ *  it on the events HUD chip. Called from the frame loop; never called for a
+ *  station's own declared interruption, which has its own alarm path. */
+function performAmbientEvent(entry) {
+  store.patch("hud", (prev) => ({ events: [...(prev.events ?? []), entry.text].slice(-4) }));
+  switch (entry.kind) {
+    case "weather-shift": shiftAmbientWeather(entry.payload?.weatherKind); break;
+    case "vehicle-pass": spawnAmbientVehicle(entry.payload?.vehicleKind); break;
+    case "crew-walkthrough": spawnAmbientCrew(); break;
+    case "mast-light": spawnAmbientMastFlicker(); break;
+    case "dropped-tool": Sfx.bad(); break;
+    case "radio-call": announce(entry.text); break;
+    default: break;
+  }
+}
+
+/** Whether this station's district has traffic to pass — every outdoor pad
+ *  has a laydown/access road behind it except the two special-cased grounds
+ *  that plainly do not: the bay floor and the gym court. */
+function ambientHasRoad(room) {
+  const d = room.district ?? room.category ?? null;
+  return !room.indoor && d !== "bay-underwater" && d !== "gym-court";
+}
+
+/** A short, real line the station could plausibly say over the radio — its
+ *  own supportLine, or (failing that) the duty the station's own crew split
+ *  (shared/crew.js) hands the counterpart role. Never invented: a station
+ *  with neither gets no radio-call event (see events.js's eligible()). */
+function radioLineFor(room) {
+  const support = room.supportLine ?? SIMS_META_BY_ID[room.baseId ?? room.id]?.supportLine;
+  if (support) return support;
+  try {
+    const split = splitByRole(room);
+    if (split.split) return split.roles[1]?.post ?? split.roles[0]?.post ?? null;
+  } catch (_) { /* a station this cannot read gets no radio-call event */ }
+  return null;
+}
+
+// ------------------------------------------------------------------- results
+
+/** The step-by-step review under the score: where the run went slow, and
+ *  where it went wrong. Built from the session's own step log, so it says
+ *  the same thing the exported record and the xAPI statement say. */
+function renderDebrief(s) {
+  const d = s.debrief();
+  if (!d.steps.length) return "";
+  const worst = d.steps.reduce((m, st) => Math.max(m, st.seconds), 0) || 1;
+  const rows = d.steps.map((st, i) => {
+    const bar = Math.max(4, Math.round((st.seconds / worst) * 100));
+    const tone = st.hazards ? "bad" : st.corrections ? "warn" : "ok";
+    const note = st.hazards
+      ? `${st.hazards} unsafe`
+      : st.corrections ? `${st.corrections} correction${st.corrections === 1 ? "" : "s"}` : "clean";
+    return `<li class="db-row ${tone}">
+      <span class="db-n">${i + 1}</span>
+      <span class="db-title">${escapeHtml(st.title)}</span>
+      <span class="db-bar"><i style="width:${bar}%"></i></span>
+      <span class="db-time">${st.seconds.toFixed(1)}s</span>
+      <span class="db-note">${note}</span>
+    </li>`;
+  }).join("");
+  const head = `${d.cleanSteps} of ${d.totalSteps} steps clean · median ${d.medianSeconds.toFixed(1)}s`;
+  const slow = d.slowest ? `<p class="res-note">Longest step: <b>${escapeHtml(d.slowest.title)}</b> at ${d.slowest.seconds.toFixed(1)}s.</p>` : "";
+  const bad = d.worst ? `<p class="res-note">Most trouble: <b>${escapeHtml(d.worst.title)}</b> — ${d.worst.hazards ? `${d.worst.hazards} unsafe action${d.worst.hazards === 1 ? "" : "s"}` : `${d.worst.corrections} correction${d.worst.corrections === 1 ? "" : "s"}`}.</p>` : "";
+  // Interruptions get their own lines: they are the part of the run that was
+  // not on the procedure, and how long you took to notice is the whole score.
+  const iv = d.interrupts;
+  const ivRows = iv ? iv.log.map((l) => {
+    const tone = l.outcome === "answered" ? "ok" : "bad";
+    const label = l.outcome === "answered" ? `caught in ${l.seconds.toFixed(1)}s`
+      : l.outcome === "wrong" ? "wrong response" : "missed it";
+    return `<li class="db-row ${tone}">
+      <span class="db-n">!</span>
+      <span class="db-title">${escapeHtml(l.alert ?? l.id)}</span>
+      <span class="db-note">${label}</span>
+    </li>`;
+  }).join("") : "";
+  const ivBlock = iv ? `<p class="res-note"><b>Interruptions:</b> ${iv.answered} of ${iv.total} caught${iv.missed ? `, ${iv.missed} missed` : ""}${iv.wrong ? `, ${iv.wrong} answered wrong` : ""}.</p>
+    <ol class="db-list">${ivRows}</ol>` : "";
+  // Random events (shared/events.js): named here too, so a run that felt
+  // different is not left unexplained — none of it scored, all of it real.
+  const ev = state.eventsScheduler?.log ?? [];
+  const evBlock = ev.length ? `<p class="res-note"><b>This run's events:</b></p>
+    <ul class="db-list">${ev.map((e) => `<li class="db-row"><span class="db-n">·</span><span class="db-title">${escapeHtml(e.text)}</span></li>`).join("")}</ul>` : "";
+  return `<details class="debrief" open>
+    <summary>Step-by-step debrief — ${head}</summary>
+    <ol class="db-list">${rows}</ol>${slow}${bad}${ivBlock}${evBlock}
+  </details>`;
+}
+
+/**
+ * The station after `roomId` in the programme this run belongs to — the one
+ * the learner followed here (?programme= or an instructor's assignment) when
+ * it holds the station, else the first programme that does — as
+ * { href, label, programme }, or null at a programme's end. A SmartCiti.X
+ * station stays on this page (?sim=), a Trade Skills room opens that app
+ * (?room=); either keeps the world's ?from= and ?return= so "Back to <world>"
+ * still leads home after it (console POLISH).
+ */
+function thNextStation(roomId) {
+  const holds = (c) => c.stations.some((x) => x.id === roomId);
+  const pick = CURRICULA.find((c) => c.id === assignedProgram && holds(c)) ?? CURRICULA.find(holds);
+  if (!pick) return null;
+  const next = pick.stations[pick.stations.findIndex((x) => x.id === roomId) + 1];
+  if (!next) return null;
+  const here = new URLSearchParams(location.search);
+  const keep = ["from", "return"].filter((k) => here.get(k)).map((k) => `&${k}=${encodeURIComponent(here.get(k))}`).join("");
+  const id = encodeURIComponent(next.id);
+  const href = next.app === "trades" ? `../trades/index.html?room=${id}${keep}` : `${location.pathname}?sim=${id}${keep}`;
+  const meta = SIMS_META_BY_ID[next.id];
+  return { href, label: meta?.title ?? meta?.name ?? next.id.replace(/-/g, " "), programme: pick.name ?? pick.id };
+}
+
+function showResults(s, summary) {
+  const room = s.room;
+  const rank = Progress.simRank(room.id, room.game);
+  const stars = "★★★".slice(0, s.stars) + "☆☆☆".slice(0, 3 - s.stars);
+  const mins = Math.floor(s.elapsed / 60), secs = Math.round(s.elapsed % 60);
+  const earnedNames = s.earned
+    .map((id) => [...(room.game?.badges ?? []), ...(room.game?.challenges ?? []), ...UNIVERSAL_AWARDS].find((a) => a.id === id))
+    .filter(Boolean);
+  // A station played as the task a level run stands on is part of that level:
+  // its record carries the ladder tag and the run moves on. Anything else —
+  // the same station played on the side — is an ordinary attempt.
+  const levelTask = state.level ? nextTask(state.level) : null;
+  const inLevel = !!levelTask && levelTask.app === "smartcity" && levelTask.id === room.id;
+  const bodyHtml = `
+    ${s.leveledUp ? `<div class="rank-up">LEVEL UP — ${escapeHtml(s.levelName.toUpperCase())} (LEVEL ${s.level})</div>` : ""}
+    ${s.rankedUp ? `<div class="rank-up">RANK UP — ${escapeHtml(rank.name.toUpperCase())}</div>` : ""}
+    <div class="res-stars">${stars}</div>
+    <h2>${escapeHtml(room.title)}</h2>
+    <p class="res-trade">${escapeHtml(room.game?.system ?? "")} · ${escapeHtml(rank.name)}</p>
+    <dl class="res-grid">
+      <div><dt>Score</dt><dd>${s.score}</dd></div>
+      <div><dt>Time</dt><dd>${mins}:${String(secs).padStart(2, "0")}</dd></div>
+      <div><dt>Errors</dt><dd>${s.errors}</dd></div>
+      <div><dt>${room.game?.currency ?? "XP"}</dt><dd>${rank.xp}</dd></div>
+      <div><dt>Personal best</dt><dd>${summary.best}</dd></div>
+      <div><dt>Best combo</dt><dd>×${s.peakCombo.toFixed(1)}</dd></div>
+      ${s.preparedBonus ? `<div><dt>Prepared bonus</dt><dd>+${s.preparedBonus}</dd></div>` : ""}
+    </dl>
+    ${earnedNames.length ? `<div class="res-badges">${earnedNames.map((a) =>
+      `<p class="res-badge"><b>${a.name}</b><span>${a.note}</span></p>`).join("")}</div>` : ""}
+    <p class="res-note">${s.errors === 0
+      ? "Clean run: every control taken in order, no unsafe action."
+      : `${s.errors} correction${s.errors === 1 ? "" : "s"} — re-run for a cleaner pass.`}</p>
+    ${s.leaderboard?.madeBoard
+      ? `<p class="res-note"><b>New #${s.leaderboard.rank} on the local leaderboard</b> for ${escapeHtml(room.title)}, crew tag ${escapeHtml(Progress.playerName)}.</p>`
+      : ""}
+    ${renderDebrief(s)}
+    ${renderCheckIn(s)}
+    ${state.tour ? renderTourFooter() : ""}
+    ${inLevel ? renderLevelFooter(levelTask, s) : ""}
+    ${ppRunnerReturn ? `<p class="res-note res-return muted">This run is on your passport; the board in ${escapeHtml(ppRunnerReturn.label.replace(/^Back to /, ""))} is marked and paid once.</p>` : ""}`;
+  // Where the learner stood on every competency BEFORE this run, so a
+  // competency this run just earned can be told apart from one they already
+  // had (see shared/competency.js and the Proof tab).
+  const competencyBefore = competencyStatus(TrainingRecords.list());
+  // The auditable record of this attempt — separate from the gamified
+  // Progress profile, exportable as CSV or xAPI from the Training Records
+  // overlay. Custom scenarios record under their base station's category.
+  // Written through the learner passport (shared/passport.js): one record per
+  // attempt, stamped with the world whose board launched it (`?from=`), and
+  // joined to this run's episode when one is being recorded.
+  const attempt = ppRecordStation({
+    source: ppRunnerReturn?.from ?? ppRunnerFrom ?? "smartcity",
+    app: "smartcity", learner: Progress.playerName,
+    learnerName: Identity.current?.name, learnerId: Identity.current?.id, homePage: Identity.current?.homePage,
+    simId: room.id, simName: room.name ?? room.title, category: room.category ?? SIMS_META_BY_ID[room.baseId]?.category,
+    trade: room.trade, certification: room.certification ?? SIMS_META_BY_ID[room.baseId]?.certification,
+    system: room.game?.system,
+    score: s.score, stars: s.stars, errors: s.errors, hazardHits: s.hazardHits, holdBreaks: s.holdBreaks,
+    seconds: Math.round(s.elapsed), parSeconds: room.parSeconds,
+    badges: earnedNames.map((a) => a.name), level: s.level, levelName: s.levelName,
+    debrief: s.debrief(),
+    // Every instructor command this attempt answered, in order. An attempt
+    // driven from a console is auditable as such: what was sent, when, and
+    // with what detail (see shared/observer.js, docs/instructor-console.md).
+    instructorActions: [...instructorActions],
+    hazardMode: (inLevel && !state.level.coaching) || state.hazardPinned ? "assess" : hazardMode,
+    condition: state.condition ?? "base",
+    // Random events (shared/events.js): what this run's own seed staged, in
+    // order — never a step, never a hazard, just what the scene did while the
+    // learner worked. Empty whenever events were off for this attempt.
+    events: state.eventsScheduler?.log ?? [],
+    ...(room.variant ? { variant: { level: room.variant.level, seed: room.variant.seed, differs: room.variant.differs } } : {}),
+    ...(inLevel ? { ladder: levelTag(state.level, levelTask.index) } : {}),
+  }, { episode: state.episodeRec?.episode ?? null });
+  instructorActions = [];
+  if (inLevel) { state.level = recordTask(state.level, attempt); writeLevelRun(state.level); }
+  // Hand the attempt to the hosting LMS page, if there is one and it told
+  // us who the learner is — only ever to that origin (see identity.js).
+  Identity.emit("smartcitix:record", { record: attempt });
+  Perf.logRun({ app: "smartcity", simId: room.id, mode: state.mode, presenting: renderer.xr.isPresenting, seconds: Math.round(s.elapsed) });
+  // A passing run on a station with a real certification is a portable
+  // credential: hand the Open Badges assertion to the host ecosystem too.
+  if (attempt.passed && attempt.certification) Identity.emit("smartcitix:credential", { assertion: toOpenBadges([attempt], xapiOpts())[0] });
+  shipToLrs([attempt]);
+  announceNewCompetencies(competencyBefore);
+  renderPrograms();
+  // A flow standing on this station moves now, on the same verdict the record
+  // carries — a flow never scores anything of its own. The run moves and the
+  // host hears the transition immediately; the next node is not opened over the
+  // top of the results card, it waits for "Next stop" or the panel's Continue.
+  flowOnAttempt(attempt);
+  const touring = !!state.tour;
+  const tourDone = touring && state.tour.i + 1 >= SIMS_META.length;
+  levelCard = null;
+  const levelNext = inLevel ? nextTask(state.level) : null;
+  store.patch("results", {
+    visible: true,
+    html: bodyHtml,
+    // The flow's next node is offered on the same button the guided tour uses:
+    // the learner reads the verdict, then goes on when they are ready. A level
+    // run uses the same button for its next task, then for the level's results.
+    showNext: (touring && !tourDone) || flowPending || inLevel,
+    retryPrimary: !flowPending && !inLevel && (!touring || tourDone),
+    // The next station in this run's programme, and the way home to the world
+    // that launched it (console POLISH): links, so they work as links do.
+    nextStation: flowPending || inLevel || touring ? null : thNextStation(room.id),
+    returnTo: ppRunnerReturn ? { url: ppRunnerReturn.url, label: ppRunnerReturn.label } : null,
+    nextLabel: flowPending ? `Continue the flow → ${flowNextLabel()}`
+      : inLevel ? (levelNext ? `Next task → ${levelTaskName(levelNext)}` : "Level results →")
+      : "Next stop →",
+  });
+  state.paused = true;
+  announce(`${room.title} complete. ${s.stars} star${s.stars === 1 ? "" : "s"}.` +
+    (s.leveledUp ? ` Level up — ${s.levelName}, level ${s.level}.` : "") +
+    (s.rankedUp ? ` Rank up — ${rank.name}.` : "") +
+    (earnedNames.length ? ` ${earnedNames.map((a) => a.name).join(", ")} earned.` : "") +
+    (s.leaderboard?.madeBoard ? ` New number ${s.leaderboard.rank} on the local leaderboard.` : ""));
+}
+
+/** The guide's closing line and the end-of-run check-in. The check-in is
+ * never scored and never leaves the learner's browser; a rough run (a hazard
+ * hit or a missed interruption) adds the pointer to real peer support. */
+function renderCheckIn(s) {
+  const missed = s.interruptLog?.some((l) => l.outcome === "missed") ?? false;
+  const rough = (s.hazardHits | 0) > 0 || missed;
+  const support = s.room.supportLine ?? SIMS_META_BY_ID[s.room.baseId ?? s.room.id]?.supportLine;
+  return `
+    <p class="res-note res-guide">${escapeHtml(eiLine("finish", { clean: !rough }))}</p>
+    <div class="res-checkin" data-rough="${rough ? 1 : 0}">
+      <p class="res-checkin-q">${escapeHtml(checkInPrompt({ rough, supportLine: support }))}</p>
+      <div class="res-checkin-row">${CHECKIN_OPTIONS.map((o) =>
+        `<button type="button" data-checkin="${o.id}" data-sim="${escapeHtml(s.room.id)}">${escapeHtml(o.label)}</button>`).join("")}</div>
+      <p class="res-checkin-reply" aria-live="polite"></p>
+    </div>`;
+}
+
+// The results card is plain HTML inside the React overlay, so the check-in
+// buttons are handled by delegation; one answer per card, remembered locally.
+addEventListener("click", (e) => {
+  const btn = e.target?.closest?.("#results-body [data-checkin]");
+  if (!btn) return;
+  const opt = CHECKIN_OPTIONS.find((o) => o.id === btn.dataset.checkin);
+  if (!opt) return;
+  const box = btn.closest(".res-checkin");
+  recordCheckIn({ simId: btn.dataset.sim, choice: opt.id, rough: box?.dataset.rough === "1" });
+  for (const b of box.querySelectorAll("[data-checkin]")) { b.disabled = true; b.classList.toggle("picked", b === btn); }
+  const reply = box.querySelector(".res-checkin-reply");
+  if (reply) reply.textContent = opt.reply;
+  announce(opt.reply);
+});
+
+/** Progress line shown on the results card while a guided tour is running. */
+function renderTourFooter() {
+  const done = state.tour.i + 1;
+  const tourDone = done >= SIMS_META.length;
+  return `<p class="res-note" style="color:var(--accent) !important">${
+    tourDone
+      ? `<b>That's all ${SIMS_META.length} stations.</b> The guided tour ends here — nice work.`
+      : `<b>Guided tour: stop ${done} of ${SIMS_META.length} complete.</b> Next up: ${SIMS_META[done].name}.`
+  }</p>`;
+}
+
+// ----------------------------------------------------------------- leaderboards
+
+function renderLeaderboards() {
+  const roster = allSims();
+  const standing = Progress.suiteStanding(roster.map((s) => s.id));
+  const cards = roster.map((room) => {
+    const board = Progress.leaderboard(room.id);
+    const rows = board.length
+      ? `<table class="lb-table"><thead><tr><th>#</th><th>Crew</th><th>Score</th><th>Stars</th></tr></thead><tbody>${
+          board.map((e, i) => `<tr class="${e.name === Progress.playerName ? "me" : ""}">
+            <td>${i + 1}</td><td>${escapeHtml(e.name)}</td><td>${e.score}</td><td>${"★".repeat(e.stars)}</td></tr>`).join("")}
+        </tbody></table>`
+      : `<p class="lb-empty">No runs yet — be first.</p>`;
+    return `<div class="lb-card" style="--tint:${room.accentCss}"><h3>${escapeHtml(room.name)}</h3>
+      <div class="lb-top">${escapeHtml(room.game?.system ?? "")}</div>${rows}</div>`;
+  }).join("");
+  const html = `
+    <div class="eyebrow">SmartCiti.X · suite standing</div>
+    <h2 class="lb-h1">Leaderboards</h2>
+    <p class="lead">Local to this device — every board here lives in this browser only.
+      ${standing.simsPlayed}/${roster.length} districts played · ${standing.totalRuns} runs ·
+      ${standing.totalStars}★ earned · best-score sum ${standing.totalScore}.</p>
+    <div class="lb-grid">${cards}</div>`;
+  store.patch("leaderboard", { html });
+}
+// Both reachable mid-run (voice only — there's no button once a session is
+// active), so a session must not keep ticking behind the modal: a hold/track
+// timer would keep counting, and a drag/turn left mid-gesture would drift.
+// Remembering the prior value rather than forcing false on close matters for
+// the hub's own "Leaderboards"/"Create a scenario" buttons, reachable before
+// begin() has ever run — closing the modal there must leave the intro screen
+// exactly as paused as it already was, not wake the camera up behind it.
+let pausedBeforeOverlay = false;
+function viewLeaderboard() {
+  pausedBeforeOverlay = state.paused;
+  state.paused = true;
+  renderLeaderboards();
+  store.patch("leaderboard", { visible: true });
+}
+function closeLeaderboard() { state.paused = pausedBeforeOverlay; store.patch("leaderboard", { visible: false }); }
+
+// ------------------------------------------------------------ flat stations
+//
+// A station with `flat: true` (see sims/hunters-point.js) has no walkable
+// scene: a dossier and a knowledge check render as a card, and every answer
+// is an invisible interactable the ordinary Session scores. Selecting an
+// option is activate() — same path a kiosk click takes — so hazards, combos,
+// records and the ladder all behave exactly as in a 3D station.
+
+function categoryCount() { return new Set(allSims().map((s) => s.category).filter(Boolean)).size; }
+function flatSyncStep(step, s) {
+  store.patch("flat", {
+    stepIndex: s.index, stepCount: s.steps.length,
+    question: step.title, cue: step.cue,
+    options: (step.options ?? []).map((o) => ({ id: o.id, label: o.label })),
+    picked: [], feedback: null,
+  });
+}
+function flatSelect(id) { if (state.session && !state.paused) activate(id); }
+
+// ---------------------------------------------------------- robot trainee
+//
+// ?robot=<skill 0..1> lets a software agent (shared/robot.js) run the station
+// live in the browser through the same activate / press / rotate / drop
+// paths a learner's clicks take, so the scene, HUD, records and ladder all
+// react exactly as they would to a person. Every decision is logged with its
+// observation to window.__smartcityRobot.log — the same trajectory shape
+// tools/robot_train.mjs writes headlessly at scale.
+
+const robotParam = new URLSearchParams(location.search).get("robot");
+const robot = { active: robotParam != null, skill: Math.max(0, Math.min(1, parseFloat(robotParam) || 0.85)), timer: null, agent: null, log: [], seed: 1 };
+
+// ?episodes=off turns off the background episode recorder (shared/
+// episodes.js): a kiosk that wants nothing written to this browser beyond the
+// training record itself, or a developer isolating an unrelated repro.
+const episodesOn = new URLSearchParams(location.search).get("episodes") !== "off";
+function stopRobot() { if (robot.timer) { clearInterval(robot.timer); robot.timer = null; } robot.agent = null; clearRobotOverlay(); }
+function startRobot(room) {
+  stopRobot();
+  const session = state.session;
+  buildRobotOverlay(room);
+  robot.agent = new RobotAgent({
+    skill: robot.skill, seed: robot.seed++,
+    hitIds: Object.keys(state.hits), hazardIds: Object.keys(room.hazards ?? {}).filter((id) => state.hits[id]),
+  });
+  robot.log = [];
+  setRail("neutral", `<b>Robot trainee</b> running ${escapeHtml(room.name ?? room.title)} at skill ${robot.skill.toFixed(2)} — every decision is logged to <code>window.__smartcityRobot.log</code>.`);
+  robot.timer = setInterval(() => {
+    const s = state.session;
+    if (!s || s !== session || s.finished || state.paused) { if (!s || s.finished) stopRobot(); return; }
+    const before = s.score;
+    // The embodied observation when the overlay is up (it carries the pose the
+    // marker draws), the plain one otherwise — same policy either way.
+    const obs = robotOverlay ? observeEmbodied(s, state.api, { room }) : observe(s);
+    if (robotOverlay) showRobotPose(obs.pose);
+    const a = robot.agent.act(s);
+    if (a.type === "wait") return;
+    if (a.type === "select") activate(a.id);
+    else if (a.type === "commit") { if (s.gauge) s.gauge.t = a.at; activate(a.id); }
+    else if (a.type === "press") pressStart(a.id);
+    else if (a.type === "release") pressEnd();
+    else if (a.type === "rotate") { lastActivatedId = a.id; s.rotate(a.id, a.delta); syncHud(); }
+    else if (a.type === "drop") { lastActivatedId = a.id; s.dropAt(a.id, a.distance); syncHud(); }
+    robot.log.push({ t: +s.elapsed.toFixed(2), obs, action: a, reward: s.score - before });
+  }, 320);
+}
+
+// ------------------------------------------------- the robot's own view
+//
+// Two things a person watching a robot episode has to be able to see, because
+// they are the two things that decide whether the run was acceptable: where the
+// robot must not go, and where it is about to put its hand. The keep-out volumes
+// are drawn as translucent spheres around the people in the room, and the
+// current step's target pose as a marker on the contact point with a stalk along
+// the approach normal — the same numbers shared/robot-embodiment.js writes into
+// a trajectory, drawn rather than logged.
+let robotOverlay = null;
+function clearRobotOverlay() {
+  if (!robotOverlay) return;
+  robotOverlay.root.parent?.remove(robotOverlay.root);
+  disposeTree(robotOverlay.root);
+  robotOverlay = null;
+}
+function buildRobotOverlay(room) {
+  clearRobotOverlay();
+  if (!state.roomRoot || !state.api) return null;
+  let emb;
+  try { emb = buildEmbodiment(room, state.api, { root: state.roomRoot }); }
+  catch (err) { console.warn("[robot] embodiment", err); return null; }
+  const root = new THREE.Group();
+  root.renderOrder = 4;
+  state.roomRoot.add(root);
+  for (const zone of emb.keepOut) {
+    // Warmer for the patient, cooler for anyone else at work in the room: the
+    // boundary is the same, the reason for it is not.
+    const colour = zone.source === "userData.crew" ? 0x7ee6ff : 0xff7a4d;
+    const shell = new THREE.Mesh(
+      new THREE.SphereGeometry(zone.radius, 18, 14),
+      new THREE.MeshBasicMaterial({ color: colour, transparent: true, opacity: 0.22, depthWrite: false, side: THREE.DoubleSide }));
+    shell.position.set(...zone.center);
+    root.add(shell);
+    const edge = new THREE.Mesh(
+      new THREE.TorusGeometry(zone.radius, 0.005, 6, 40),
+      new THREE.MeshBasicMaterial({ color: colour, transparent: true, opacity: 0.75, depthWrite: false }));
+    edge.rotation.x = -Math.PI / 2;
+    edge.position.set(...zone.center);
+    root.add(edge);
+  }
+  const marker = new THREE.Group();
+  const ring = new THREE.Mesh(
+    new THREE.TorusGeometry(0.075, 0.009, 6, 28),
+    new THREE.MeshBasicMaterial({ color: 0x9dff8f, transparent: true, opacity: 0.95, depthWrite: false }));
+  const pip = new THREE.Mesh(new THREE.OctahedronGeometry(0.026),
+    new THREE.MeshBasicMaterial({ color: 0x9dff8f, depthWrite: false }));
+  const stalk = new THREE.Mesh(
+    new THREE.CylinderGeometry(0.005, 0.005, 1, 6),
+    new THREE.MeshBasicMaterial({ color: 0x9dff8f, transparent: true, opacity: 0.6, depthWrite: false }));
+  marker.add(ring, pip, stalk);
+  marker.visible = false;
+  root.add(marker);
+  robotOverlay = { root, marker, ring, pip, stalk, emb };
+  return robotOverlay;
+}
+/** Put the marker on the pose the robot is working, pointing the way in. */
+function showRobotPose(pose) {
+  if (!robotOverlay) return;
+  const { marker, ring, stalk } = robotOverlay;
+  if (!pose) { marker.visible = false; return; }
+  marker.visible = true;
+  marker.position.set(...pose.position);
+  const n = new THREE.Vector3(...pose.normal);
+  // The ring lies on the surface (its own axis is the approach normal) and the
+  // stalk runs from the contact point out to the standoff the robot stages at.
+  ring.lookAt(n.clone().add(ring.position));
+  const len = Math.max(0.02, pose.standoff ?? 0.12);
+  stalk.scale.set(1, len, 1);
+  stalk.position.copy(n.clone().multiplyScalar(len / 2));
+  stalk.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), n.clone().normalize());
+}
+
+// ------------------------------------------- robot training on a programme
+//
+// A headless calibration of a whole programme, run from the programme panel:
+// every station built off-screen, played by the policy at each rung of the
+// difficulty ladder, and the success rate at each rung drawn as a small chart.
+// It runs on this thread in slices — one probe per animation frame — rather
+// than in a Worker, because a Worker cannot import the station modules (they
+// reach three.js through the same CDN URL the page does) and a progress line
+// the panel keeps updating is the honest version of the same thing.
+const robotTraining = { cancel: false, running: false };
+function robotProgramme() { return CURRICULA.find((c) => c.id === ROBOT_PROGRAMME) ?? null; }
+function robotCurveFrom(stations) {
+  return DIFFICULTY_LADDER.map((skill) => {
+    const rows = stations.map((st) => st.probes.find((p) => p.skill === skill)).filter(Boolean);
+    const rate = rows.length ? rows.reduce((n, r) => n + r.successRate, 0) / rows.length : 0;
+    const violations = rows.reduce((n, r) => n + r.keepOutViolations, 0);
+    return { skill, pct: Math.round(rate * 100), stations: rows.length, keepOutViolations: violations };
+  });
+}
+const nextFrame = () => new Promise((done) => requestAnimationFrame(() => done()));
+async function startRobotTraining() {
+  const programme = robotProgramme();
+  if (!programme || robotTraining.running) return;
+  const ids = programme.stations.filter((st) => st.app === "smartcity").map((st) => st.id);
+  robotTraining.running = true; robotTraining.cancel = false;
+  store.patch("robotTraining", { running: true, done: 0, total: ids.length, station: "", curve: [], stations: [], note: "" });
+  const stations = [];
+  for (const id of ids) {
+    if (robotTraining.cancel) break;
+    const room = await loadSim(id).catch(() => null);
+    if (!room) continue;
+    store.patch("robotTraining", { station: room.name ?? room.title });
+    await nextFrame();
+    const root = new THREE.Group();
+    let api;
+    setActiveContext([room.category, room.trade, room.union, room.domain, room.id].filter(Boolean).join(" | "));
+    try { api = room.build(root); } catch (err) { console.warn("[robot training]", id, err); disposeTree(root); continue; }
+    const probes = [];
+    for (const skill of DIFFICULTY_LADDER) {
+      if (robotTraining.cancel) break;
+      probes.push(probeSkill(room, api, { skill, episodes: 3, seed: 11, SessionClass: Session, root }));
+      // One probe per frame: the panel stays live and the chart fills in.
+      await nextFrame();
+    }
+    disposeTree(root);
+    const noRobot = room.steps.filter((st) => st.noRobot).length;
+    stations.push({ id, name: room.name ?? room.title, probes, steps: room.steps.length, noRobot });
+    store.patch("robotTraining", { done: stations.length, stations: stations.map((st) => ({
+      id: st.id, name: st.name, steps: st.steps, noRobot: st.noRobot,
+      best: st.probes.reduce((a, b) => (b.successRate > a.successRate ? b : a), st.probes[0] ?? { skill: 0, successRate: 0 }),
+      violations: st.probes.reduce((n, pr) => n + pr.keepOutViolations, 0),
+    })), curve: robotCurveFrom(stations) });
+  }
+  const offLimits = stations.reduce((n, st) => n + st.noRobot, 0);
+  const violations = stations.reduce((n, st) => n + st.probes.reduce((m, pr) => m + pr.keepOutViolations, 0), 0);
+  const violations1 = stations.map((st) => st.probes.find((pr) => pr.skill === 1)).filter(Boolean);
+  const expertViolations = violations1.reduce((n, pr) => n + pr.keepOutViolations, 0);
+  robotTraining.running = false;
+  store.patch("robotTraining", {
+    running: false, station: "",
+    note: robotTraining.cancel
+      ? `Stopped after ${stations.length} of ${ids.length} stations.`
+      : `${stations.length} stations calibrated · ${offLimits} steps a robot must never perform · ` +
+        `${violations} keep-out violation${violations === 1 ? "" : "s"}` +
+        (violations === 0 ? "." : expertViolations === 0 ? ", none of them at expert skill." : `, ${expertViolations} of them at expert skill — that is a station to fix.`),
+  });
+}
+function stopRobotTraining() { robotTraining.cancel = true; }
+// ------------------------------------------------- instructor mode
+//
+// A live feed of this session for an instructor console (WebXR/instructor/),
+// and the commands that console can send back. On one machine the transport is
+// a BroadcastChannel; with ?relay=<ws url> the same envelope also goes over a
+// WebSocket. Nothing about a command is silent: each one lands in front of the
+// learner AND is appended to this attempt's training record as an
+// instructorAction, so a driven run is never mistaken for an unaided one.
+// See shared/observer.js.
+const observer = createBroadcaster("smartcity", { learner: Progress.playerName });
+let observerFrozen = false;
+let hazardMode = "assess";       // "coach" warns once and does not score it
+let instructorWeather = null;    // the kind the NEXT station is built under
+let instructorDeviceId = null;   // the device profile the NEXT station runs under
+let assignedProgram = null;      // a programme pinned in the learner's panel
+// Ladder state (see the ladders section below), declared here so a command
+// arriving before that section has run finds it initialised.
+let ladderOpen = null;          // the programme whose Ladder view is expanded
+let assignedLevel = null;       // a level an instructor named with CMD_ASSIGN programme:level
+let levelCard = null;           // { programme, level, passed } while a level's results card is up
+let lastLevelAssertion = null;  // the badge on that card, for its download button
+const levelQueued = new Map();  // task id -> interruption ids an instructor fired ahead of that task
+let assignedBy = null;           // "instructor" or "link" — why it is pinned
+let instructorActions = [];      // this attempt's commands, for the record
+const coachedHazards = new Set(); // hazards already explained in coach mode
+
+/** One command, recorded and answered: the learner sees it, the console hears
+ *  what happened, and the attempt's record carries it. */
+function logInstructorAction(cmd, detail, { ok = true, note = "" } = {}) {
+  instructorActions.push({ cmd, at: new Date().toISOString(), detail: detail ?? "" });
+  if (instructorActions.length > 80) instructorActions.shift();
+  observer.action({ cmd, detail: detail ?? "", ok, note, ...(observerSnapshot() ?? {}) });
+}
+
+/** The device record behind a CMD_PROFILE detail: a device id from the table,
+ *  or a bare run-profile id, which is what a console picker offers when the
+ *  instructor cares about the profile and not the hardware. */
+function deviceForInstructor(id) {
+  if (DEVICES[id]) return { id, ...DEVICES[id], how: "instructor" };
+  if (PROFILES[id]) {
+    return {
+      id, brand: "—", product: PROFILES[id].label, kind: PROFILES[id].label, class: "flat",
+      profile: id, xr: "unknown", ua: null,
+      input: { primary: "mouse", voiceFirst: false, controllers: false, hands: false, keyboard: true, gaze: false },
+      safety: { ansiZ87: false, intrinsicallySafe: false, helmetMount: false },
+      how: "instructor",
+    };
+  }
+  return null;
+}
+
+observer.onCommand((cmd) => {
+  if (cmd.kind === "note" && cmd.text) {
+    setRail("warn", `<b>Instructor:</b> ${escapeHtml(cmd.text)}`);
+    announce(`Instructor: ${cmd.text}`);
+    logInstructorAction("note", cmd.text, { note: "shown on the rail" });
+    return;
+  }
+  if (cmd.kind === "freeze") {
+    observerFrozen = cmd.on;
+    state.paused = cmd.on ? true : pausedBeforeOverlay;
+    setRail(cmd.on ? "warn" : "neutral", cmd.on
+      ? "<b>Held by the instructor.</b> The clock is stopped until they release it."
+      : "<b>Released.</b> Carry on from where you stopped.");
+    logInstructorAction("freeze", cmd.on ? "on" : "off", { note: cmd.on ? "session held" : "session released" });
+    return;
+  }
+  if (cmd.kind === "open") {
+    const id = cmd.detail ?? "";
+    const programme = CURRICULA.find((c) => c.id === id);
+    if (programme) {
+      // A programme opens at the first station the learner has not yet passed,
+      // which is where its own Start button goes.
+      const progress = curriculumProgress(programme, TrainingRecords.list());
+      const next = progress.next ?? programme.stations[0];
+      if (!next) { logInstructorAction("open", id, { ok: false, note: "programme has no stations" }); return; }
+      if (next.app === "trades") {
+        logInstructorAction("open", id, { note: `Trade Skills room ${next.id} — opening that app` });
+        location.href = `../trades/index.html?room=${encodeURIComponent(next.id)}`;
+        return;
+      }
+      setRail("neutral", `<b>Instructor:</b> ${escapeHtml(programme.name)} — opening ${escapeHtml(next.id.replace(/-/g, " "))}.`);
+      openForInstructor(next.id);
+      logInstructorAction("open", id, { note: `programme opened at ${next.id}` });
+      return;
+    }
+    if (!simExists(id)) { logInstructorAction("open", id, { ok: false, note: "unknown station or programme" }); return; }
+    setRail("neutral", `<b>Instructor:</b> opening ${escapeHtml(SIMS_META_BY_ID[id]?.name ?? id)}.`);
+    openForInstructor(id);
+    logInstructorAction("open", id, { note: "station opened" });
+    return;
+  }
+  if (cmd.kind === "interrupt") {
+    const s = state.session;
+    // "task/id" names an interruption of one task in a level chain; a bare id
+    // is looked up in the station on screen first.
+    const [taskPart, idPart] = String(cmd.detail ?? "").includes("/") ? String(cmd.detail).split("/") : [null, cmd.detail];
+    const here = !taskPart || taskPart === s?.room?.id;
+    const it = here ? s?.interrupts?.find((i) => i.id === idPart) : null;
+    if (!s || s.finished || !it) {
+      // Mid-chain: a level 15+ chain declares every task's interruptions, so one
+      // belonging to a task still to come is queued and fires the moment that
+      // task's station starts — the same arm-now path as a live one.
+      const run = state.level;
+      const t = run && run.level >= 15 ? nextTask(run) : null;
+      const later = t ? run.tasks.slice(t.index + (s && !s.finished && s.room.id === t.id ? 1 : 0)).map((x) => x.id) : [];
+      const q = t ? run.interruptions.find((i) => i.id === idPart && (!taskPart || i.task === taskPart) && later.includes(i.task)) : null;
+      if (q) {
+        levelQueued.set(q.task, [...(levelQueued.get(q.task) ?? []), q.id]);
+        logInstructorAction("interrupt", cmd.detail, { note: `queued for ${q.task}, a later task in level ${run.level}; it fires when that station starts` });
+        return;
+      }
+      logInstructorAction("interrupt", cmd.detail, { ok: false, note: "no such interruption in this station" + (run ? " or in this level's remaining tasks" : "") });
+      return;
+    }
+    if (it.fired) { logInstructorAction("interrupt", cmd.detail, { ok: false, note: "already fired" }); return; }
+    // Arm it for right now and let the engine fire it on the next tick: the
+    // learner gets the same banner, the same clock, the same scoring and the
+    // same scene change a naturally-timed one produces (see the interrupt
+    // layer in shared/game.js). Nothing here shortcuts that path.
+    it.armedAt = s.elapsed;
+    if (observerFrozen) { observerFrozen = false; state.paused = false; }
+    // From here on the instructor is staging this run's interruptions
+    // themselves — a randomly-timed ambient beat must not land on top of one
+    // they just armed. Whatever already fired stays; nothing more will.
+    state.eventsScheduler?.disable();
+    logInstructorAction("interrupt", cmd.detail, { note: "armed for now; the station fires it" });
+    return;
+  }
+  if (cmd.kind === "weather") {
+    if (!WEATHER_KINDS.includes(cmd.detail)) { logInstructorAction("weather", cmd.detail, { ok: false, note: "unknown weather kind" }); return; }
+    instructorWeather = cmd.detail;
+    setRail("neutral", `<b>Instructor:</b> the next station runs in ${escapeHtml(cmd.detail)}.`);
+    announce(`Instructor: the next station runs in ${cmd.detail}.`);
+    logInstructorAction("weather", cmd.detail, { note: "set for the next station" });
+    return;
+  }
+  if (cmd.kind === "profile") {
+    const device = deviceForInstructor(cmd.detail);
+    if (!device) { logInstructorAction("profile", cmd.detail, { ok: false, note: "unknown device or profile id" }); return; }
+    instructorDeviceId = cmd.detail;
+    setRail("neutral", `<b>Instructor:</b> the next station runs on the ${escapeHtml(PROFILES[device.profile]?.label ?? device.profile)} profile.`);
+    announce(`Instructor: the next station runs on the ${PROFILES[device.profile]?.label ?? device.profile} profile.`);
+    logInstructorAction("profile", cmd.detail, { note: `profile ${device.profile} set for the next station` });
+    return;
+  }
+  if (cmd.kind === "hazard-mode") {
+    const mode = cmd.detail === "coach" ? "coach" : cmd.detail === "assess" ? "assess" : null;
+    if (!mode) { logInstructorAction("hazard-mode", cmd.detail, { ok: false, note: "mode is coach or assess" }); return; }
+    hazardMode = mode;
+    coachedHazards.clear();
+    setRail("neutral", mode === "coach"
+      ? "<b>Instructor: coaching mode.</b> An unsafe action is explained once and does not count against this run."
+      : "<b>Instructor: assessed mode.</b> An unsafe action counts, as it does in a real assessment.");
+    announce(mode === "coach" ? "Coaching mode. Unsafe actions are explained, not scored." : "Assessed mode. Unsafe actions count.");
+    logInstructorAction("hazard-mode", mode, { note: mode === "coach" ? "hazards warn once" : "hazards score" });
+    return;
+  }
+  if (cmd.kind === "assign") {
+    // "programme" pins a programme; "programme:level" also opens its ladder at
+    // that rung. An assignment never unlocks a level — only passing the one
+    // below does — so a locked level is pinned and says what it is waiting on.
+    const ref = parseLevelRef(cmd.detail);
+    const programme = CURRICULA.find((c) => c.id === (ref?.programme ?? cmd.detail));
+    if (!programme) { logInstructorAction("assign", cmd.detail, { ok: false, note: "unknown programme" }); return; }
+    assignedProgram = programme.id;
+    assignedBy = "instructor";
+    assignedLevel = ref?.level ?? null;
+    if (ref) ladderOpen = programme.id;
+    renderPrograms();
+    if (ref) {
+      const st = levelState(LADDER_BY_PROGRAMME[programme.id], TrainingRecords.list())[ref.level - 1];
+      const lv = LADDER_BY_PROGRAMME[programme.id].levels[ref.level - 1];
+      setRail("neutral", `<b>Instructor assigned:</b> ${escapeHtml(programme.name)}, level ${ref.level} — ${escapeHtml(lv.title)}. ` +
+        (st.state === "locked" ? `It opens when level ${ref.level - 1} is passed.` : "Start it from its ladder in your training programmes."));
+      announce(`Instructor assigned ${programme.name}, level ${ref.level}. ${st.state === "locked" ? "It is locked until the level below is passed." : "It is open."}`);
+      logInstructorAction("assign", `${programme.id}:${ref.level}`, { note: `pinned with its ladder open at level ${ref.level} (${st.state})` });
+      return;
+    }
+    setRail("neutral", `<b>Instructor assigned:</b> ${escapeHtml(programme.name)} — pinned at the top of your training programmes.`);
+    announce(`Instructor assigned ${programme.name}. It is pinned in your training programmes.`);
+    logInstructorAction("assign", programme.id, { note: "pinned in the programmes panel" });
+    return;
+  }
+  if (cmd.kind === "flow") {
+    // The console hands over the whole graph, not a name: a flow is not in any
+    // roster here. It is validated against the catalog before it can run, and a
+    // refusal says why on the console's own log.
+    const res = flowRunner.load(cmd.flow, { validateAgainst: FLOW_CATALOG });
+    if (!res.ok) { logInstructorAction("flow", cmd.detail, { ok: false, note: res.errors?.[0] ?? "flow refused" }); return; }
+    const started = flowRunner.start(res.flow.id, { restart: true });
+    renderFlows();
+    setRail("neutral", `<b>Instructor:</b> flow ${escapeHtml(res.flow.title)} — starting at ${escapeHtml(nodeLabel(flowRunner.current().node))}.`);
+    announce(`Instructor loaded the flow ${res.flow.title}.`);
+    logInstructorAction("flow", res.flow.id, {
+      ok: started.ok !== false,
+      note: started.ok === false ? started.reason : `flow started at ${flowRunner.current().run?.nodeId ?? res.flow.start}`,
+    });
+  }
+});
+
+/** CMD_OPEN's own path into a station: the same one the platform channel uses,
+ *  so an instructor and an LMS cannot land a learner in different states. */
+function openForInstructor(id) {
+  if (!renderer.xr.isPresenting) state.mode = "flat";
+  if (store.get().intro.visible) { store.patch("intro", { visible: false }); pendingEnter = null; deepLink = null; Sfx.ensure(); }
+  store.patch("results", { visible: false }); store.patch("prebrief", { visible: false });
+  observerFrozen = false;
+  state.paused = false;
+  enterSim(id, { briefed: true });
+}
+
+addEventListener("pagehide", () => observer.close());
+
+/** The station itself, for the console's per-learner panel: the steps in
+ *  order, the interruptions it declares and which have gone off. Sent with
+ *  every hello, including the one a roll call triggers. */
+/** The flow's position, safe to ask for before the runner below is built. */
+function flowLive() {
+  try { return flowRunner.current(); } catch (_) { return { flow: null, run: null, node: null }; }
+}
+
+observer.describes(() => {
+  const s = state.session;
+  const live = flowLive();
+  const settings = {
+    hazardMode, weather: instructorWeather, profile: instructorDeviceId, assigned: assignedProgram,
+    // Where the learner's flow stands, so the console's row says which node of
+    // which flow this run belongs to rather than just naming a station.
+    flow: live.flow?.id ?? null,
+    flowNode: live.node ? `${live.node.kind}: ${nodeLabel(live.node)}` : null,
+    ...levelDescription(),
+  };
+  if (!s) return { steps: [], interrupts: [], fired: [], ...settings };
+  return {
+    steps: (s.steps ?? []).map((st) => ({ id: st.id, title: st.title, kind: st.kind })),
+    interrupts: (s.interrupts ?? []).map((i) => ({ id: i.id, kind: i.kind ?? "Interruption", alert: i.alert ?? "", after: i.after ?? "" })),
+    fired: (s.interrupts ?? []).filter((i) => i.fired).map((i) => i.id),
+    ...settings,
+    ...(observerSnapshot() ?? {}),
+  };
+});
+
+/** Where a level run stands, for the console: the level, the task, and — on a
+ *  level 7+ chain — every interruption its tasks declare, so CMD_INTERRUPT can
+ *  name one ("task/id") for a task still to come. */
+function levelDescription() {
+  const run = state.level;
+  if (!run) return { level: null };
+  const t = nextTask(run);
+  const ladder = LADDER_BY_PROGRAMME[run.programme];
+  return {
+    level: `${run.programme}:${run.level}`,
+    levelTask: t ? `${t.index + 1}/${t.of}` : "results",
+    levelInterrupts: run.level >= 15 ? run.interruptions.map((i) => {
+      const row = Object.entries(ladder?.stations ?? {}).find(([k]) => k.endsWith(`:${i.task}`))?.[1];
+      const decl = row?.interrupts?.find((d) => d.id === i.id);
+      return { task: i.task, id: i.id, kind: decl?.kind ?? "Interruption", ref: `${i.task}/${i.id}` };
+    }) : [],
+  };
+}
+
+/** One snapshot of where this learner is, for the console. */
+function observerSnapshot() {
+  const s = state.session;
+  if (!s) return null;
+  const iv = s.interruptLog ?? [];
+  return {
+    stepIndex: (s.index | 0) + 1,
+    stepCount: s.steps?.length ?? 0,
+    stepTitle: s.step?.title ?? "",
+    score: s.score | 0, stars: s.stars | 0, errors: s.errors | 0,
+    hazardHits: s.hazardHits | 0, seconds: Math.round(s.elapsed ?? 0),
+    answered: iv.filter((l) => l.outcome === "answered").length,
+    interruptTotal: s.interrupts?.length ?? 0,
+    fired: (s.interrupts ?? []).filter((i) => i.fired).map((i) => i.id),
+    hazardMode,
+  };
+}
+
+window.__smartcityRobot = {
+  get active() { return robot.active; }, get skill() { return robot.skill; },
+  get log() { return robot.log; }, get running() { return !!robot.timer; },
+  get keepOut() { return robotOverlay?.emb.keepOut ?? null; },
+  get marker() { return robotOverlay ? { visible: robotOverlay.marker.visible, position: robotOverlay.marker.position.toArray() } : null; },
+  training: { start: startRobotTraining, stop: stopRobotTraining, get state() { return store.get().robotTraining; } },
+};
+
+// -------------------------------------------------------- platform channel
+//
+// A hosting platform that has established the learner's identity (from its
+// own origin) can drive this app and hear back — open a station, return to
+// the hub, ask for state or the roster. See shared/platform.js and
+// smartcity/catalog.json for the full surface.
+
+function platformState() {
+  const s = state.session;
+  return {
+    room: state.room ? { id: state.room.id, name: state.room.name ?? state.room.title, category: state.room.category ?? null } : null,
+    mode: state.mode, intro: store.get().intro.visible,
+    stepIndex: s ? s.index : null, stepCount: s ? s.steps.length : null, stepId: s?.step?.id ?? null,
+    score: s?.score ?? null, finished: s?.finished ?? null,
+    level: Progress.level, levelName: Progress.levelName, xp: Progress.data.xp, learner: Progress.playerName,
+    records: TrainingRecords.count(), lrs: Lrs.status().configured,
+  };
+}
+Platform.init({
+  app: "smartcity",
+  onCommand(type, data, reply) {
+    if (type === "smartcitix:open") {
+      const id = String(data.sim ?? data.room ?? "");
+      if (!simExists(id)) { reply("smartcitix:state", { ...platformState(), error: `unknown station: ${id}` }); return; }
+      if (!renderer.xr.isPresenting) state.mode = "flat";
+      if (store.get().intro.visible) { store.patch("intro", { visible: false }); pendingEnter = null; deepLink = null; Sfx.ensure(); }
+      store.patch("results", { visible: false }); store.patch("prebrief", { visible: false });
+      state.paused = false;
+      enterSim(id, { briefed: !!data.skipBrief });
+      return;
+    }
+    if (type === "smartcitix:hub") { if (!store.get().intro.visible) backToHub(); reply("smartcitix:state", platformState()); return; }
+    if (type === "smartcitix:status") { reply("smartcitix:state", platformState()); return; }
+    if (type === "smartcitix:catalog") {
+      reply("smartcitix:catalog", { stations: allSims().map((s) => ({ id: s.id, name: s.name, category: s.category ?? null, trade: s.trade ?? null, certification: s.certification ?? null, flat: !!s.flat, custom: !!s.isCustom })) });
+      return;
+    }
+    // ---- the flow channel (platform protocol 2, see shared/flowhub.js) ----
+    if (type === FLOW_LOAD) {
+      const res = flowRunner.load(data.flow, { validateAgainst: FLOW_CATALOG });
+      renderFlows();
+      if (!res.ok) { reply("smartcitix:state", { ...platformState(), error: `flow refused: ${(res.errors ?? []).join("; ")}` }); return; }
+      reply(FLOW_STATE, { flow: res.state, transition: null });
+      return;
+    }
+    if (type === FLOW_START) {
+      const res = flowRunner.start(data.flowId ?? null, { restart: !!data.restart });
+      renderFlows();
+      if (res.ok === false) reply("smartcitix:state", { ...platformState(), error: `flow.start: ${res.reason}` });
+      return;
+    }
+    if (type === FLOW_RESUME) {
+      // The host finished the external node it was handed. It cannot resume any
+      // other node, so a stray resume can never skip a station still owed.
+      const res = flowRunner.resume({ nodeId: data.nodeId ?? null, outcome: data.outcome ?? null });
+      renderFlows();
+      if (res.ok === false) reply("smartcitix:state", { ...platformState(), error: `flow.resume: ${res.reason}` });
+    }
+  },
+});
+
+// ------------------------------------------------------------- pre-brief
+//
+// Flipped classroom: before the first run of a station the learner is
+// offered the procedure itself — every step and the reason behind it — as
+// study material. Reading it stamps the profile (Progress.markBriefed); the
+// run that follows starts `prepared`, earns the engine-wide Prepared award
+// and a score bonus. Skipping is allowed and costs only that.
+
+function showPreBrief(room) {
+  state.pendingBrief = room.id;
+  const meta = SIMS_META_BY_ID[room.baseId] ?? {};
+  store.patch("prebrief", {
+    visible: true, id: room.id, name: room.name ?? room.title, trade: room.trade ?? meta.trade ?? "",
+    category: room.category ?? meta.category ?? "", tagline: room.tagline ?? "",
+    certification: room.certification ?? meta.certification ?? "",
+    steps: room.steps.map((s) => ({ id: s.id, title: s.title, why: s.why })),
+    hazardCount: Object.keys(room.hazards ?? {}).length,
+  });
+}
+function prebriefStart() {
+  const id = state.pendingBrief; if (!id) return;
+  Progress.markBriefed(id);
+  store.patch("prebrief", { visible: false });
+  // A brief that is a flow's own node is finished by reading it; the flow then
+  // says what comes next (which may well be this same station).
+  if (flowBriefAnswered()) return;
+  enterSim(id, { briefed: true });
+}
+function prebriefSkip() {
+  const id = state.pendingBrief; if (!id) return;
+  store.patch("prebrief", { visible: false });
+  if (flowBriefAnswered()) return;
+  enterSim(id, { briefed: true });
+}
+function prebriefClose() { state.pendingBrief = null; store.patch("prebrief", { visible: false }); }
+
+// ---------------------------------------------------------- training records
+//
+// The instructor/compliance view of the same runs the leaderboards celebrate:
+// every attempt with its pass verdict, rolled up per category, exportable as
+// CSV (spreadsheet/HR) or xAPI statements (Learning Record Store). Rendered
+// from plain data by react-ui.js — no HTML strings, so nothing to escape.
+
+function renderRecords() {
+  const list = TrainingRecords.list();
+  const rows = list.slice(-200).reverse().map((r) => ({
+    id: r.id, at: r.at, simName: r.simName ?? r.simId, category: r.category ?? "—",
+    score: r.score | 0, stars: r.stars | 0, errors: r.errors | 0, hazardHits: r.hazardHits | 0,
+    seconds: r.seconds | 0, passed: !!r.passed, learner: r.learner ?? "",
+  }));
+  store.patch("records", {
+    rows, summary: TrainingRecords.summary(list),
+    credentials: earnedCertifications(list).map((r) => ({ id: r.id, certification: r.certification, simName: r.simName ?? r.simId, at: r.at, app: r.app })),
+    total: list.length, passes: list.filter((r) => r.passed).length,
+    proof: renderProof(list),
+    episodes: EpisodeStore.count(),
+  });
+}
+
+// ------------------------------------------------------------------ proof tab
+//
+// The competency tier (shared/competency.js). Plain data again — a station
+// name, a learner's crew tag and a standard's title all arrive here as text
+// and are rendered as text nodes by react-ui.js, never as markup.
+function renderProof(list = TrainingRecords.list()) {
+  const status = competencyStatus(list);
+  // Most-advanced first, and a competency nobody has touched is not shown at
+  // all: thirty-three empty cards teach nothing.
+  const competencies = COMPETENCIES
+    .map((c) => {
+      const st = status[c.id];
+      return {
+        id: c.id, title: c.title, kind: c.kind, status: st.status,
+        demonstrated: st.demonstrated, consistent: st.consistent,
+        stationsMet: st.stationsMet, require: st.require, total: st.total,
+        masteryRuns: st.masteryRuns, attempts: st.attempts, days: st.days, earnedAt: st.earnedAt,
+        standards: c.standards.map((id) => {
+          const s = standard(id);
+          return { id: s.id, label: `${s.body} — ${s.title}`, source: s.source };
+        }),
+        stations: c.stations.map((id) => {
+          const s = st.stations[id];
+          return {
+            id, mastery: !!s?.masteryAt,
+            attempted: !!s,
+            note: s ? (s.masteryAt ? `mastery on ${String(s.masteryAt).slice(0, 10)}` : (s.best?.reason ?? "attempted")) : null,
+          };
+        }),
+      };
+    })
+    .filter((c) => c.attempts > 0)
+    .sort((a, b) => (b.demonstrated - a.demonstrated) || (b.stationsMet - a.stationsMet) || (b.attempts - a.attempts));
+  return {
+    competencies,
+    transcript: transcript(list, { learner: Identity.current?.name ?? Progress.playerName }),
+    demonstrated: competencies.filter((c) => c.demonstrated).length,
+    consistent: competencies.filter((c) => c.consistent).length,
+    rule: MASTERY.text,
+    rubric: RUBRIC.lines,
+  };
+}
+function setRecordsTab(tab) { store.patch("records", { tab: tab === "proof" ? "proof" : "attempts" }); }
+
+/**
+ * A competency the run just earned, handed on the two ways this engine hands
+ * anything on: to the embedding page (Identity.emit, only ever to the
+ * learner's own home origin) and to the Learning Record Store, as an xAPI
+ * statement with verb "achieved" through the same queue the per-attempt
+ * statements use — so a competency earned on a kiosk with no network still
+ * reaches the LRS on the next connection.
+ *
+ * Only a competency that was NOT demonstrated before this run is announced:
+ * earning it is an event, having it is a state.
+ */
+function announceNewCompetencies(before) {
+  const list = TrainingRecords.list();
+  const after = competencyStatus(list);
+  const earned = newlyDemonstrated(before, after);
+  if (!earned.length) return;
+  const assertions = toCompetencyBadges(list, proofOpts());
+  const byId = Object.fromEntries(assertions.map((a) => [a.competency.id, a]));
+  for (const id of earned) {
+    Identity.emit("smartcitix:competency", {
+      competency: {
+        id, title: after[id].title, kind: after[id].kind, status: after[id].status,
+        standards: after[id].standards, stationsMet: after[id].stationsMet, require: after[id].require,
+        earnedAt: after[id].earnedAt, masteryRule: MASTERY.text,
+      },
+      assertion: byId[id] ?? null,
+    });
+  }
+  const { statements } = toCompetencyXAPI(list, { ...proofOpts(), only: earned });
+  if (statements.length && Lrs.configured) {
+    refreshLrs({ busy: true });
+    Lrs.enqueue(statements);
+    Lrs.flush().then(() => refreshLrs({ busy: false }));
+  }
+  const first = after[earned[0]];
+  announce(earned.length === 1
+    ? `Competency demonstrated: ${first.title}.`
+    : `${earned.length} competencies demonstrated, including ${first.title}.`);
+}
+function viewRecords() {
+  pausedBeforeOverlay = state.paused;
+  state.paused = true;
+  renderRecords();
+  store.patch("records", { visible: true });
+}
+function closeRecords() { state.paused = pausedBeforeOverlay; store.patch("records", { visible: false }); }
+
+// ---------------------------------------------------------- programmes
+//
+// The ordered sets of stations a training centre runs as a block (see
+// curricula.js). Progress is read from the same training record the
+// certificate claim rests on — a station counts when it has a passing
+// attempt — so a programme can never show complete on stations that were
+// only played.
+function renderPrograms() {
+  // A programme an instructor assigned (CMD_ASSIGN) is pinned: marked as
+  // assigned and sorted to the top, so the learner opens the panel and sees
+  // the block they were put on rather than hunting for it among 23. The
+  // dental block is the one with a robot-training card: its stations are
+  // the ones annotated for an embodied trainee (see docs/robot-training.md).
+  const records = TrainingRecords.list();
+  const rows = allProgress(records).map((r) => ({
+    ...r, assigned: r.id === assignedProgram, assignedBy, robot: r.id === ROBOT_PROGRAMME,
+    ladder: ladderRows(r.id, records),
+    ladderOpen: ladderOpen === r.id,
+    assignedLevel: r.id === assignedProgram ? assignedLevel : null,
+  }));
+  rows.sort((a, b) => (a.assigned === b.assigned ? 0 : a.assigned ? -1 : 1));
+  store.patch("programs", { rows, assigned: assignedProgram, assignedBy, assignedLevel });
+}
+function viewPrograms() {
+  pausedBeforeOverlay = state.paused;
+  state.paused = true;
+  renderPrograms();
+  store.patch("programs", { visible: true });
+}
+function closePrograms() { state.paused = pausedBeforeOverlay; store.patch("programs", { visible: false }); }
+/** Open the next unfinished station in a programme, here or in Trade Skills. */
+function programStart(app, id) {
+  closePrograms();
+  if (app === "trades") { location.href = `../trades/index.html?room=${encodeURIComponent(id)}`; return; }
+  store.patch("intro", { visible: false });
+  pendingEnter = null; deepLink = null;
+  Sfx.ensure();
+  enterSim(id);
+}
+
+// ------------------------------------------------------------- my training
+//
+// The union-accountability card (shared/tracking.js, docs/course-tracking.md):
+// one row per programme the learner has touched, read from the same records
+// and ladders the Programmes card already reads — levels, lessons, measured
+// time on task, the last station, the next level, badges, standards
+// evidenced, refreshers due, and any instructor sign-off on file — plus the
+// platform-wide streak and the accountability bonuses/badges it earns.
+
+/** Every LADDER_BY_PROGRAMME entry, as a plain array (curricula.js keys
+ *  programmes by id; tracking.js takes a list). */
+function allLadders() { return Object.values(LADDER_BY_PROGRAMME); }
+
+function renderMyTraining() {
+  const list = TrainingRecords.list();
+  const ladders = allLadders();
+  const rows = allMyTraining(list, { curricula: CURRICULA, ladders, standardsById: LADDER_STANDARDS }).map((p) => {
+    const curriculum = CURRICULA.find((c) => c.id === p.id);
+    const ladder = LADDER_BY_PROGRAMME[p.id];
+    const due = p.refreshersDue;
+    return {
+      ...p,
+      dueLabel: due.length ? refresherLabel({ days: due[0].dueDays, isDefault: due[0].isDefaultInterval }) : null,
+      cleanRunBadges: cleanRunBadges(list, curriculum),
+      onTimeRefreshers: onTimeRefreshers(list, { curriculum, ladder }),
+      signOffs: SignOffs.list().filter((s) => s.programme === p.id)
+        .sort((a, b) => String(b.at ?? "").localeCompare(String(a.at ?? ""))),
+      leaderboard: programmeLeaderboard(list, { curriculum, ladder }).slice(0, 5),
+    };
+  });
+  const streak = trainingStreak(list);
+  store.patch("training", {
+    rows, streak, streakBonusXp: streakBonusXp(streak.days),
+    hazardFreeWeek: hazardFreeWeekBadge(list),
+  });
+}
+function viewMyTraining() {
+  pausedBeforeOverlay = state.paused;
+  state.paused = true;
+  renderMyTraining();
+  store.patch("training", { visible: true });
+}
+function closeMyTraining() { state.paused = pausedBeforeOverlay; store.patch("training", { visible: false }); }
+
+/** JSON export — the same shape records.js stores, plus the roll-up above. */
+function exportTranscriptJson() {
+  const list = TrainingRecords.list();
+  if (!list.length) return;
+  const data = buildTranscript(list, { learner: Identity.current?.name ?? Progress.playerName, curricula: CURRICULA, ladders: allLadders(), standardsById: LADDER_STANDARDS });
+  download(`smartcitix-training-activity-${stamp()}.json`, JSON.stringify(data, null, 2), "application/json");
+}
+
+/**
+ * Print the training activity record — attempts, levels, badges, standards
+ * and time on task, plainly labelled "a record of simulator activity on
+ * this platform, not a certification." transcriptHtml() escapes every
+ * learner-, note- and station-supplied value before it is written, the same
+ * guarantee printTranscript() above gets from building the DOM by hand.
+ */
+function printTrainingTranscript() {
+  const list = TrainingRecords.list();
+  if (!list.length) return;
+  const data = buildTranscript(list, { learner: Identity.current?.name ?? Progress.playerName, curricula: CURRICULA, ladders: allLadders(), standardsById: LADDER_STANDARDS });
+  const win = window.open("", "_blank");
+  if (!win) { announce("The transcript window was blocked. Allow pop-ups for this page, or export the JSON instead."); return; }
+  win.document.open();
+  win.document.write(transcriptHtml(data));
+  win.document.close();
+  win.focus();
+  setTimeout(() => { try { win.print(); } catch (_) { /* the learner can print it themselves */ } }, 120);
+}
+
+// ---------------------------------------------------------------- ladders
+//
+// Every programme is a twenty-level ladder (smartcity/js/ladders.js, generated by
+// tools/gen_ladders.mjs; the rules in shared/ladder.js). A level is a chain of
+// tasks run back to back like the guided tour — one shared score, one results
+// card, one badge — and it passes only when every task in one run of it is a
+// mastery run (shared/competency.js). Level 1 is always open; nothing but
+// passing the level below opens the next, instructor assignments included.
+//
+// A level run lives in one localStorage key (shared/ladder.js LEVEL_RUN_KEY),
+// so a chain that names a Trade Skills room survives the trip there and back:
+// that app records the task into the same run and sends the learner back here
+// with ?level_resume=1.
+
+/** The twenty rungs of one programme's ladder, for the Ladder view. Plain data only. */
+function ladderRows(programmeId, records) {
+  const ladder = LADDER_BY_PROGRAMME[programmeId];
+  if (!ladder) return [];
+  const states = levelState(ladder, records);
+  return ladder.levels.map((lv, i) => ({
+    n: lv.n, title: lv.title, state: states[i].state, passedAt: states[i].passedAt,
+    steps: lv.steps, lessons: lv.lessons ?? lv.steps, partial: !!lv.partial, shortfall: lv.shortfall | 0,
+    coaching: lv.coaching !== false, band: lv.band,
+    interruptions: (lv.interruptions ?? []).length, standards: (lv.standards ?? []).length,
+    tasks: lv.tasks.map((t) => ({
+      app: t.app, id: t.id, steps: t.steps, condition: t.condition ?? "base", conditionLabel: conditionLabel(t.condition ?? "base"),
+      name: ladder.stations[`${t.app}:${t.id}`]?.name ?? t.id,
+    })),
+  }));
+}
+function toggleLadder(id) { ladderOpen = ladderOpen === id ? null : id; renderPrograms(); }
+
+function levelTaskName(t) {
+  return LADDER_BY_PROGRAMME[state.level?.programme]?.stations[`${t.app}:${t.id}`]?.name ?? SIMS_META_BY_ID[t.id]?.name ?? t.id;
+}
+/** What the chain has banked before the station on screen. */
+function levelBanked(s) {
+  if (!state.level || !s) return 0;
+  const a = state.level.attempts ?? [];
+  // Once the station has finished its own attempt is already in the run.
+  const before = s.finished && a.length && a[a.length - 1].simId === s.room.id ? a.slice(0, -1) : a;
+  return before.reduce((x, y) => x + (y.score | 0), 0);
+}
+function levelHudLabel(s) {
+  const t = state.level ? nextTask(state.level) : null;
+  if (!t || t.id !== s.room.id) return null;
+  return `LEVEL ${state.level.level} · TASK ${t.index + 1}/${t.of} · ${s.room.title.toUpperCase()}`;
+}
+/** True while the station on screen is a task of a level that runs with no coaching (the capstone). */
+function levelNoCoaching() {
+  const t = state.level && !state.level.coaching ? nextTask(state.level) : null;
+  return !!t && t.id === state.room?.id;
+}
+/**
+ * Put a level task's condition on the address bar (shared/ladder.js
+ * conditionParams): every condition key cleared, then the task's own set, so
+ * the stage, the variant builder and the hazard and interruption hooks read
+ * the same query a track page's deep link carries. `null` clears them all.
+ */
+function setConditionQuery(condition, { seed = null } = {}) {
+  try {
+    const url = new URL(location.href);
+    for (const k of CONDITION_KEYS) url.searchParams.delete(k);
+    for (const [k, v] of condition ? conditionParams(condition, { seed }) : []) url.searchParams.set(k, v);
+    history.replaceState(history.state, "", url);
+  } catch (_) { /* a sandboxed frame may refuse; the station runs as authored */ }
+}
+
+/** Start level `n` of a programme's ladder from task 1. Refused, with the reason, while it is locked. */
+function startLevel(programmeId, n) {
+  const ladder = LADDER_BY_PROGRAMME[programmeId];
+  const level = ladderLevel(ladder, n);
+  if (!level) return false;
+  const st = levelState(ladder, TrainingRecords.list())[n - 1];
+  if (st.state === "locked") {
+    setRail("warn", `<b>Level ${n} is locked.</b> Pass level ${n - 1} first — every task in one run of it a mastery run.`);
+    announce(`Level ${n} is locked. Pass level ${n - 1} first.`);
+    return false;
+  }
+  const run = startLevelRun(ladder, n);
+  state.level = run;
+  state.tour = null;
+  levelCard = null;
+  levelQueued.clear();
+  writeLevelRun(run);
+  closePrograms();
+  store.patch("results", { visible: false });
+  store.patch("intro", { visible: false });
+  pendingEnter = null; deepLink = null;
+  state.paused = false;
+  Sfx.ensure();
+  const program = CURRICULA.find((c) => c.id === programmeId);
+  setRail("neutral", `<b>${escapeHtml(program?.name ?? programmeId)} — Level ${n}: ${escapeHtml(level.title)}.</b> ` +
+    `${level.tasks.length} task${level.tasks.length === 1 ? "" : "s"}, ${level.lessons ?? level.steps} lessons, one shared score.` +
+    (level.coaching === false ? " No coaching: no hint ring, no pre-brief, every unsafe action counts." : ""));
+  announce(`Level ${n}, ${level.title}. ${level.tasks.length} tasks, ${level.lessons ?? level.steps} lessons.`);
+  runLevelTask();
+  return true;
+}
+
+/** Open the task the run stands on, here or in Trade Skills; with none left, the level's results. */
+function runLevelTask() {
+  const run = state.level;
+  const t = nextTask(run);
+  if (!run) return;
+  if (!t) { showLevelResults(); return; }
+  // A variant's seed is the run's own, so a retry of the level meets new
+  // alarm positions and one run is reproducible from its record.
+  setConditionQuery(t.condition ?? "base", { seed: `${run.id}-${t.index}` });
+  if (t.app !== "smartcity") {
+    writeLevelRun(run);
+    setRail("neutral", `<b>Level ${run.level}:</b> task ${t.index + 1} is ${escapeHtml(levelTaskName(t))} in Trade Skills — opening it. You come back here after it.`);
+    location.href = `../${t.app}/index.html?room=${encodeURIComponent(t.id)}&level=${encodeURIComponent(`${run.programme}:${run.level}`)}`;
+    return;
+  }
+  // A no-coaching level skips the pre-brief: the capstone assesses what the
+  // learner brings, not what they have just read.
+  enterSim(t.id, { briefed: !run.coaching });
+}
+
+/** Leave a level run (back to the campus): the run is dropped, the attempts already played stay on the record. */
+function abandonLevel() {
+  if (!state.level && !levelCard) return;
+  setConditionQuery(null);
+  state.level = null;
+  levelCard = null;
+  levelQueued.clear();
+  clearLevelRun();
+}
+
+/** An interruption an instructor fired ahead of its task, armed the moment that task's station starts. */
+function armQueuedLevelInterrupts(roomId) {
+  const ids = levelQueued.get(roomId);
+  const s = state.session;
+  if (!ids || !s) return;
+  levelQueued.delete(roomId);
+  for (const id of ids) {
+    const it = s.interrupts.find((i) => i.id === id && !i.fired);
+    if (it) it.armedAt = s.elapsed;
+  }
+}
+
+/** The line under a task's results inside a level: where the chain stands and what the score is so far. */
+function renderLevelFooter(t, s) {
+  const run = state.level;
+  const banked = (run.attempts ?? []).reduce((a, x) => a + (x.score | 0), 0) + (s.score | 0);
+  const next = run.tasks[t.index + 1];
+  return `<p class="res-note" style="color:var(--accent) !important"><b>Level ${run.level} · task ${t.index + 1} of ${t.of} complete.</b> ` +
+    `Level score so far ${banked}. ${next ? `Next task: ${escapeHtml(levelTaskName(next))}.` : "That was the last task — the level's results are next."}</p>`;
+}
+
+/** The level's results card: per-task rows, the shared score, the verdict, the badge on a pass. */
+function showLevelResults() {
+  const run = state.level;
+  if (!run) return;
+  const ladder = LADDER_BY_PROGRAMME[run.programme];
+  const level = ladderLevel(ladder, run.level);
+  const result = levelResult(run);
+  const opts = proofOpts();
+  const assertion = result.passed ? levelBadge(level, { result, programmeName: ladder.name, standards: LADDER_STANDARDS, ...opts }) : null;
+  lastLevelAssertion = assertion;
+  // Handed on the two ways this engine hands anything on: to the embedding
+  // page, and to the LRS queue as an xAPI statement (passed or failed).
+  Identity.emit("smartcitix:level", {
+    level: {
+      programme: run.programme, n: run.level, title: level.title, passed: result.passed, score: result.score,
+      seconds: result.seconds, steps: result.steps, partial: !!level.partial, run: run.id,
+      tasks: result.rows.map((r) => ({ id: r.id, app: r.app, attempt: r.attemptId ?? null, mastery: r.mastery, reason: r.reason ?? null })),
+      standards: level.standards,
+    },
+    assertion,
+  });
+  const statement = levelXAPI(level, result, { ...opts, programmeName: ladder.name, assertion });
+  if (Lrs.configured) {
+    refreshLrs({ busy: true });
+    Lrs.enqueue([statement]);
+    Lrs.flush().then(() => refreshLrs({ busy: false }));
+  }
+  const rows = result.rows.map((r, i) => {
+    const iv = r.interrupts;
+    const ivText = iv ? `${iv.answered}/${iv.answered + iv.wrong + iv.missed}` : "—";
+    return `<tr class="${r.mastery ? "ok" : "bad"}">
+      <td>${i + 1}</td>
+      <td>${escapeHtml(ladder.stations[`${r.app}:${r.id}`]?.name ?? r.id)}${r.app === "trades" ? ' <span class="muted">Trade Skills</span>' : ""} <span class="muted">· ${escapeHtml(conditionLabel(r.condition))}</span></td>
+      <td>${r.steps}</td><td>${r.played ? r.score : "—"}</td><td>${r.played ? "★".repeat(r.stars) || "☆" : "—"}</td>
+      <td>${r.played ? r.hazardHits : "—"}</td><td>${ivText}</td>
+      <td>${r.played ? `${mmss(r.seconds)} / ${r.parSeconds ? mmss(r.parSeconds) : "—"}` : "—"}</td>
+      <td>${r.mastery ? "✓ mastery" : escapeHtml(r.reason ?? "not played")}</td>
+    </tr>`;
+  }).join("");
+  const stdNames = level.standards.map((id) => LADDER_STANDARDS[id] ? `${LADDER_STANDARDS[id].body} ${LADDER_STANDARDS[id].title}` : id);
+  // A small celebration at levels 5, 10, 15 and 20 — informative, not just
+  // decorative: the quote is that level's own first station's own first
+  // step's own reason, never an invented fact (shared/ladder.js's
+  // levelMilestone(), generated by tools/gen_ladder_milestones.mjs).
+  const milestone = result.passed ? levelMilestone(run.programme, run.level) : null;
+  const milestoneHtml = milestone ? `
+    <div class="milestone-banner" role="status">
+      ${milestoneConfettiSvg(run.programme, run.level)}
+      <div class="milestone-badge"><span class="at-i at-i--medal" aria-hidden="true"></span> LEVEL ${run.level} MILESTONE</div>
+      <p class="milestone-quote">“${escapeHtml(milestone.quote)}”<br><span class="muted">— ${escapeHtml(milestone.stationName)}, ${escapeHtml(ladder.name)}</span></p>
+    </div>` : "";
+  const nextLine = result.passed
+    ? (run.level < LADDER_LEVELS ? `Level ${run.level + 1} is open.` : "That was the capstone — the whole ladder is climbed.")
+    : `Level ${run.level + 1 <= LADDER_LEVELS ? run.level + 1 : run.level} stays ${run.level < LADDER_LEVELS ? "locked" : "unearned"} until every task in one run of this level is a mastery run. First miss: <b>${escapeHtml(ladder.stations[`smartcity:${result.shortfall?.task}`]?.name ?? ladder.stations[`trades:${result.shortfall?.task}`]?.name ?? result.shortfall?.task ?? "")}</b> — ${escapeHtml(result.shortfall?.reason ?? "")}`;
+  const html = `
+    <div class="rank-up${result.passed ? "" : " lvl-miss"}">${result.passed ? `LEVEL ${run.level} PASSED` : `LEVEL ${run.level} NOT YET`}</div>
+    ${milestoneHtml}
+    <p class="res-trade">${escapeHtml(ladder.name)} · ladder</p>
+    <h2>Level ${run.level}: ${escapeHtml(level.title)}</h2>
+    <p class="res-note">${level.tasks.length} task${level.tasks.length === 1 ? "" : "s"} back to back · ${level.lessons ?? level.steps} lessons${level.coaching === false ? " · no coaching" : ""}${level.partial ? ` · <b>partial</b>: ${level.shortfall} lessons short of the ${LESSON_BAR}-lesson bar` : ""}</p>
+    <dl class="res-grid">
+      <div><dt>Level score</dt><dd>${result.score}</dd></div>
+      <div><dt>Time</dt><dd>${mmss(result.seconds)}</dd></div>
+      <div><dt>Par</dt><dd>${mmss(result.parSeconds)}</dd></div>
+      <div><dt>Mastered</dt><dd>${result.mastered}/${result.rows.length}</dd></div>
+      <div><dt>Unsafe</dt><dd>${result.hazardHits}</dd></div>
+    </dl>
+    <table class="lvl-table" aria-label="Tasks in this level">
+      <thead><tr><th>#</th><th>Task</th><th>Steps</th><th>Score</th><th>Stars</th><th>Unsafe</th><th>Alarms</th><th>Time / par</th><th>Mastery</th></tr></thead>
+      <tbody>${rows}</tbody>
+    </table>
+    <p class="res-note">${nextLine}</p>
+    ${assertion ? `<div class="res-badges"><p class="res-badge"><b>Level badge — ${escapeHtml(assertion.badge.name)}</b>
+      <span>Open Badges 2.0 assertion carrying the level, its ${level.tasks.length} tasks and ${level.standards.length} standards; handed to your learning platform and the LRS.</span>
+      <button type="button" class="small" data-level-badge="1">Download badge</button></p></div>` : ""}
+    ${stdNames.length ? `<details class="debrief"><summary>Standards evidenced — ${stdNames.length}</summary><ul class="lvl-std">${stdNames.map((n) => `<li>${escapeHtml(n)}</li>`).join("")}</ul></details>` : ""}
+    <p class="res-note muted">${escapeHtml(MASTERY.text)}</p>`;
+  levelCard = { programme: run.programme, level: run.level, passed: result.passed };
+  state.level = null;
+  setConditionQuery(null);
+  clearLevelRun();
+  levelQueued.clear();
+  renderPrograms();
+  store.patch("results", {
+    visible: true, html,
+    showNext: result.passed && run.level < LADDER_LEVELS,
+    retryPrimary: !result.passed,
+    nextLabel: `Start level ${run.level + 1} →`,
+  });
+  state.paused = true;
+  announce(result.passed
+    ? `Level ${run.level} passed. Level score ${result.score}. ${run.level < LADDER_LEVELS ? `Level ${run.level + 1} is open.` : "Ladder complete."}`
+    : `Level ${run.level} not yet. ${result.mastered} of ${result.rows.length} tasks at mastery.`);
+}
+
+addEventListener("click", (e) => {
+  if (!e.target?.closest?.("#results-body [data-level-badge]") || !lastLevelAssertion) return;
+  download(`level-badge-${lastLevelAssertion.level.programme}-${lastLevelAssertion.level.n}.json`, JSON.stringify(lastLevelAssertion, null, 2), "application/json");
+});
+
+// ------------------------------------------------------------------- flows
+//
+// A flow is a host's ordered graph of nodes with a condition on every edge
+// (shared/flowhub.js). SmartCiti.X runs the nodes that are its to run — a
+// station, a station's pre-brief, a programme, a check-in — evaluates a gate
+// against the same attempt records the certificate claim rests on, hands an
+// external node back to the host, and follows the portal's own cross-app link
+// when the next node belongs to Trade Skills or Holodeck. The run itself lives
+// in one localStorage key so it survives that app switch.
+//
+// The protocol is platform.js's (FLOW_LOAD / FLOW_START / FLOW_RESUME in,
+// FLOW_STATE / FLOW_DONE / FLOW_EXTERNAL out) and the instructor console's
+// CMD_FLOW lands in the same place. Nothing here knows anything about how a
+// host's own orchestrator is built; see docs/flowhub.md.
+
+// Flows are validated against the network's real roster. The generated catalog
+// is the only place the Trade Skills rooms are also listed, so it is fetched
+// when it can be; until then (and in the bundled single-file build, where the
+// file sits one folder up) the local roster is the floor.
+let FLOW_CATALOG = {
+  stations: SIMS_META.map((s) => ({ app: "smartcity", id: s.id })),
+  curricula: CURRICULA.map((c) => ({ id: c.id })),
+};
+// The one URL where this page's catalog actually is, or null where none ships.
+// It used to try "./catalog.json" and "../catalog.json" both, so every load
+// of the bundled page logged a 404 for smartcity/dist/catalog.json (FIXRIG).
+// tools/check_smartcity.mjs runs this function against the three page paths.
+function scFlowCatalogUrl(pathname) {
+  if (/\/smartcity\/dist\/[^/]*$/.test(pathname)) return "../catalog.json"; // WebXR/smartcity/dist/smartcity-x.html
+  if (/\/smartcity\/(index\.html)?$/.test(pathname)) return "./catalog.json"; // the modular source page
+  return null; // the flat build (WebXR/dist/) ships no catalog: the local roster stands
+}
+{
+  const url = scFlowCatalogUrl(location.pathname);
+  if (url) fetch(url).then((r) => (r.ok ? r.json() : null)).then((cat) => {
+    if (cat?.stations?.length) FLOW_CATALOG = cat;
+  }).catch(() => { /* offline — the local roster stands */ });
+}
+
+let flowBriefNode = null; // the flow node a pre-brief on screen belongs to
+let flowPending = false;  // the run has moved; the learner has not yet been sent on
+
+const flowRunner = createFlowRunner({
+  app: "smartcity",
+  enter: flowEnter,
+  onState: (state, transition) => { Platform.flowState(state, transition); renderFlows(); flowTellObserver(state); },
+  onExternal: (payload) => {
+    Platform.flowExternal(payload);
+    const label = payload.node?.title ?? payload.node?.ref ?? payload.nodeId;
+    store.patch("results", { visible: false });
+    store.patch("flows", { note: `Waiting on your platform: ${label}. The flow continues when it sends the result back.` });
+    setRail("neutral", `<b>Flow:</b> ${escapeHtml(String(label))} runs on your learning platform. This station waits for its result.`);
+    announce(`Flow paused. ${label} runs on your learning platform.`);
+    viewFlows();
+  },
+  onDone: (state) => {
+    Platform.flowDone(state);
+    store.patch("flows", { note: `Flow complete: ${state.title ?? state.flowId}.` });
+    setRail("ok", `<b>Flow complete:</b> ${escapeHtml(String(state.title ?? state.flowId))}.`);
+    announce(`Flow complete: ${state.title ?? state.flowId}.`);
+    viewFlows();
+  },
+});
+
+/** Do here whatever the node the run is standing on means. */
+function flowEnter(node, { href }) {
+  if (href) {
+    // A node in Trade Skills or Holodeck: the portal's own cross-app link,
+    // carrying the flow and node ids. The run is already saved under the one
+    // localStorage key, so the other app picks it up on load.
+    flowBriefNode = null;
+    setRail("neutral", `<b>Flow:</b> next is ${escapeHtml(nodeLabel(node))} in ${escapeHtml(String(node.app))} — opening that app.`);
+    location.href = href;
+    return true;
+  }
+  if (node.kind === "station") { flowBriefNode = null; openForInstructor(node.ref); return true; }
+  if (node.kind === "brief") { flowBriefNode = node.id; flowOpenBrief(node.ref); return true; }
+  if (node.kind === "programme") { flowBriefNode = null; return flowEnterProgramme(node); }
+  if (node.kind === "checkin") {
+    flowBriefNode = null;
+    store.patch("results", { visible: false });
+    store.patch("flows", { note: `${nodeLabel(node)} — answer the check-in, then Continue. It is never scored and never leaves this browser.` });
+    viewFlows();
+    return true;
+  }
+  return false;
+}
+
+/** A brief node: the station's own pre-brief, with nothing else entered. */
+async function flowOpenBrief(id) {
+  if (!simExists(id)) { store.patch("flows", { error: `no station ${id} for this flow's brief` }); return; }
+  store.patch("intro", { visible: false });
+  store.patch("results", { visible: false });
+  const room = await findSim(id);
+  if (room) showPreBrief(room);
+}
+
+/** A programme node opens at the first station of it the learner has not passed. */
+function flowEnterProgramme(node) {
+  const programme = CURRICULA.find((c) => c.id === node.ref);
+  if (!programme) { store.patch("flows", { error: `no programme ${node.ref}` }); return false; }
+  assignedProgram = programme.id;
+  renderPrograms();
+  const progress = curriculumProgress(programme, TrainingRecords.list());
+  const next = progress.next ?? programme.stations[0];
+  if (!next) { store.patch("flows", { error: `programme ${node.ref} has no stations` }); return false; }
+  if (next.app !== "smartcity") {
+    location.href = `../${next.app}/index.html?room=${encodeURIComponent(next.id)}`;
+    return true;
+  }
+  setRail("neutral", `<b>Flow:</b> ${escapeHtml(programme.name)} — opening ${escapeHtml(next.id.replace(/-/g, " "))}.`);
+  openForInstructor(next.id);
+  return true;
+}
+
+/**
+ * A finished attempt, offered to the flow. It only counts when the flow is
+ * actually standing on that node: a learner who wanders off to another station
+ * mid-flow has not completed the one the flow asked for.
+ */
+function flowOnAttempt(attempt) {
+  const { flow, run, node } = flowRunner.current();
+  if (!flow || !run || run.done || !node) return;
+  if (node.kind === "station") {
+    if (node.ref !== attempt.simId) return;
+    flowRunner.complete(outcomeFromRecord(attempt), { enterNode: false });
+    flowPending = !flowRunner.current().run?.done;
+    return;
+  }
+  if (node.kind === "programme") {
+    const programme = CURRICULA.find((c) => c.id === node.ref);
+    if (!programme || !programme.stations.some((s) => s.id === attempt.simId)) return;
+    const progress = curriculumProgress(programme, TrainingRecords.list());
+    // A programme node is done when the programme is: until then the flow
+    // stays on it and the block's next station is what "Next stop" opens.
+    if (!progress.complete) { flowPending = true; return; }
+    flowRunner.complete(outcomeFromRecord(attempt), { enterNode: false });
+    flowPending = !flowRunner.current().run?.done;
+  }
+}
+
+/** What the results card's Continue button says it will open. */
+function flowNextLabel() {
+  const node = flowRunner.current().node;
+  return node ? nodeLabel(node) : "next node";
+}
+
+/** Open the node the flow is now standing on — the results card's "Next stop"
+ *  and the Flows panel's "Continue" are the same act. */
+function flowResume() {
+  flowPending = false;
+  const { flow, run, node } = flowRunner.current();
+  if (!flow || !run) return false;
+  if (run.done) { viewFlows(); return true; }
+  if (node?.kind === "programme") { flowEnterProgramme(node); return true; }
+  const r = flowRunner.resumeHere();
+  if (r.ok === false) { store.patch("flows", { error: r.reason ?? "the flow could not continue" }); viewFlows(); }
+  return true;
+}
+
+/** A pre-brief that belonged to a flow's brief node: read is the outcome. */
+function flowBriefAnswered() {
+  if (!flowBriefNode) return false;
+  const nodeId = flowBriefNode;
+  flowBriefNode = null;
+  flowRunner.complete(acknowledgedOutcome({ why: "pre-brief read" }), { nodeId });
+  return true;
+}
+
+/**
+ * Tell the instructor console where the flow stands. A transition happens once
+ * per node, so this is a hello rather than a throttled heartbeat, and it
+ * carries the same fields describeStation() puts on every hello.
+ */
+function flowTellObserver(state) {
+  if (!state) return;
+  observer.hello({});
+}
+
+function renderFlows() {
+  const rows = flowRunner.rows();
+  const { flow } = flowRunner.current();
+  store.patch("flows", { rows, current: flow?.id ?? null });
+}
+function viewFlows() {
+  pausedBeforeOverlay = state.paused;
+  state.paused = true;
+  renderFlows();
+  store.patch("flows", { visible: true });
+}
+function closeFlows() { state.paused = pausedBeforeOverlay; store.patch("flows", { visible: false }); }
+/** Continue: answer a check-in node, or stand on the current node again. */
+function flowContinue(flowId = null) {
+  if (flowId) flowRunner.select(flowId);
+  const { run, node } = flowRunner.current();
+  store.patch("flows", { error: "" });
+  if (!run) { const r = flowRunner.start(flowId); if (!r.ok) store.patch("flows", { error: r.reason }); renderFlows(); return; }
+  closeFlows();
+  if (node?.kind === "checkin") { flowPending = false; flowRunner.complete(acknowledgedOutcome({ why: "check-in answered" })); return; }
+  flowResume();
+}
+function flowRestart(flowId = null) {
+  closeFlows();
+  const r = flowRunner.restart(flowId);
+  if (!r.ok) { store.patch("flows", { error: r.reason ?? "the flow could not restart" }); viewFlows(); }
+}
+function flowSelect(flowId) { if (flowRunner.select(flowId)) renderFlows(); }
+
+// A flow node in another app hands back the same way it went out: the link
+// carried the flow and node ids, and the run waited in localStorage.
+{
+  const link = parseFlowLink(location.search);
+  if (link.flowId) {
+    const restored = flowRunner.restore(link);
+    if (restored.ok) {
+      renderFlows();
+      // The station on the link is the flow's node; entering it is the flow
+      // continuing, not a deep link the learner typed.
+      queueMicrotask(() => flowRunner.resumeHere());
+    } else {
+      store.patch("flows", { error: restored.reason });
+    }
+  }
+}
+
+function stamp() { return new Date().toISOString().slice(0, 10); }
+function exportRecordsCsv() {
+  download(`smartcitix-training-records-${stamp()}.csv`, toCSV(TrainingRecords.list()), "text/csv");
+}
+function exportRecordsXapi() {
+  const statements = toXAPI(TrainingRecords.list(), { actorName: Progress.playerName, homePage: location.origin });
+  download(`smartcitix-xapi-statements-${stamp()}.json`, JSON.stringify(statements, null, 2), "application/json");
+}
+function exportCredentials() {
+  const assertions = toOpenBadges(TrainingRecords.list(), xapiOpts());
+  if (!assertions.length) return;
+  download(`smartcitix-credentials-${stamp()}.json`, JSON.stringify(assertions, null, 2), "application/json");
+}
+// Robot/model training episodes (shared/episodes.js): a local download only —
+// nothing here ever makes a network call. tools/export_dataset.mjs is the
+// path from this file to a model-ready dataset shard.
+function exportEpisodesJson() {
+  const episodes = EpisodeStore.list();
+  if (!episodes.length) return;
+  download(`smartcitix-episodes-${stamp()}.json`, JSON.stringify({ schemaVersion: EPISODE_SCHEMA_VERSION, exportedAt: new Date().toISOString(), episodes }, null, 2), "application/json");
+}
+// ---------------------------------------------------------------- proof export
+function proofOpts() {
+  return {
+    ...xapiOpts(),
+    learnerHome: Identity.current?.homePage ?? null,
+    learnerId: Identity.current?.id ?? null,
+    learnerName: Identity.current?.name ?? null,
+  };
+}
+function exportProofCsv() {
+  const rows = transcript(TrainingRecords.list(), { learner: Identity.current?.name ?? Progress.playerName });
+  if (!rows.length) return;
+  download(`smartcitix-proof-transcript-${stamp()}.csv`, toProofCSV(rows), "text/csv");
+}
+function exportCompetencyBadges() {
+  const assertions = toCompetencyBadges(TrainingRecords.list(), proofOpts());
+  if (!assertions.length) return;
+  download(`smartcitix-competency-badges-${stamp()}.json`, JSON.stringify(assertions, null, 2), "application/json");
+}
+
+/**
+ * Print the transcript.
+ *
+ * Built as DOM in a new window, every value set through createTextNode or
+ * textContent — never innerHTML. A learner's crew tag, a station name and a
+ * standard's title are all untrusted as far as this function is concerned
+ * (the interface brief's rule, and the same reason the Records table is built
+ * from elements): a transcript is the one artefact that gets printed, mailed
+ * and filed, so it is the last place to hand markup a chance to run.
+ */
+function printTranscript() {
+  const rows = transcript(TrainingRecords.list(), { learner: Identity.current?.name ?? Progress.playerName });
+  if (!rows.length) return;
+  const win = window.open("", "_blank");
+  if (!win) { announce("The transcript window was blocked. Allow pop-ups for this page, or export the CSV instead."); return; }
+  const doc = win.document;
+  const el = (tag, text = null, parent = null) => {
+    const node = doc.createElement(tag);
+    if (text != null) node.appendChild(doc.createTextNode(String(text)));
+    if (parent) parent.appendChild(node);
+    return node;
+  };
+  doc.title = "SmartCiti.X — proof of training transcript";
+  const style = doc.createElement("style");
+  style.textContent = `
+    body{ font:13px/1.5 "Helvetica Neue", Arial, sans-serif; color:#111; margin:32px; max-width:1000px }
+    h1{ font-size:21px; margin:0 0 2px; text-transform:uppercase; letter-spacing:.04em }
+    h2{ font-size:15px; margin:22px 0 2px; page-break-after:avoid }
+    .eyebrow{ font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:#666 }
+    .rule{ border:1px solid #ccc; border-left:3px solid #111; padding:8px 11px; margin:12px 0 18px; font-size:11.5px; background:#f7f7f7 }
+    .chip{ display:inline-block; border:1px solid #111; border-radius:9px; padding:0 7px; font-size:10px;
+      letter-spacing:.1em; text-transform:uppercase; margin-left:8px; vertical-align:2px }
+    .meta{ color:#555; font-size:11.5px; margin:2px 0 6px }
+    ul.std{ margin:4px 0 8px 18px; padding:0; font-size:11.5px; color:#333 }
+    table{ border-collapse:collapse; width:100%; margin:4px 0 10px; font-size:11px }
+    th,td{ border:1px solid #bbb; padding:4px 6px; text-align:left; vertical-align:top }
+    th{ background:#eee; font-size:10px; letter-spacing:.08em; text-transform:uppercase }
+    td.no{ color:#444 } tr.no td{ background:#fbfbfb }
+    section{ page-break-inside:avoid }
+    footer{ margin-top:24px; border-top:1px solid #ccc; padding-top:8px; font-size:10.5px; color:#555 }
+    @media print{ body{ margin:12mm } }`;
+  doc.head.appendChild(style);
+  el("div", "SmartCiti.X ~VR Simulators · proof of training", doc.body).className = "eyebrow";
+  el("h1", "Competency transcript", doc.body);
+  el("div", `${rows[0].learner} · ${rows.filter((r) => r.demonstrated).length} of ${rows.length} competencies demonstrated · printed ${new Date().toLocaleString()}`, doc.body).className = "meta";
+  el("div", MASTERY.text, doc.body).className = "rule";
+
+  for (const row of rows) {
+    const section = el("section", null, doc.body);
+    const head = el("h2", row.competency.title, section);
+    el("span", row.status, head).className = "chip";
+    el("div", `${row.competency.id} · ${row.stationsMet} of ${row.require} required stations demonstrated ` +
+      `(${row.total} named) · mastery runs on ${row.days} day${row.days === 1 ? "" : "s"}` +
+      (row.earnedAt ? ` · earned ${String(row.earnedAt).slice(0, 10)}` : ""), section).className = "meta";
+    const stds = el("ul", null, section);
+    stds.className = "std";
+    for (const s of row.standards) {
+      el("li", `${s.body} — ${s.title}${s.source === "unverified" ? " (citation form unverified)" : ""}`, stds);
+    }
+    const table = el("table", null, section);
+    const thead = el("tr", null, el("thead", null, table));
+    for (const h of ["When", "Station", "Score", "Stars", "Unsafe", "Interruptions", "Time", "Par", "Counted", "Why not"]) el("th", h, thead);
+    const tbody = el("tbody", null, table);
+    for (const e of row.evidence) {
+      const tr = el("tr", null, tbody);
+      if (!e.mastery) tr.className = "no";
+      const iv = e.interrupts;
+      el("td", String(e.at ?? "").replace("T", " ").slice(0, 16), tr);
+      el("td", e.stationName ?? e.stationId, tr);
+      el("td", e.score, tr);
+      el("td", e.stars, tr);
+      el("td", e.hazardHits, tr);
+      el("td", iv ? `${iv.answered} answered, ${iv.wrong} wrong, ${iv.missed} missed` : "none fired", tr);
+      el("td", mmss(e.seconds), tr);
+      el("td", e.parSeconds ? mmss(e.parSeconds) : "—", tr);
+      el("td", e.mastery ? "mastery" : "no", tr);
+      el("td", e.reason ?? "", tr).className = "no";
+    }
+  }
+  el("footer",
+    "A demonstrated competency evidences readiness against the standards named above under the mastery rule stated at the top of this " +
+    "transcript. It is not a licence or a certification issued by those bodies. Records are held in the learner's own browser; this " +
+    "transcript is a print of what was exported.", doc.body);
+  win.focus();
+  setTimeout(() => { try { win.print(); } catch (_) { /* the learner can print it themselves */ } }, 120);
+}
+
+function clearRecords() {
+  if (!TrainingRecords.count()) return;
+  if (!confirm("Delete every training record on this device? Export first if you need them.")) return;
+  TrainingRecords.clear();
+  renderRecords();
+}
+
+// ------------------------------------------------------------------- sign-in
+//
+// A static page cannot verify anybody, so this dialog does exactly two things:
+// it collects a credential from an option the deployment configured, and it
+// hands the result to Identity in the same shape a launch URL would (see
+// shared/auth.js and docs/sign-in.md). Where each credential is actually
+// verified is printed next to the option that produces it.
+
+// This page sits one directory below the deployment's auth-config.json; the
+// bundler rewrites that path for the dist folders, which are flat.
+const authEnv = makeAuthEnv({ configUrl: "../auth-config.json" });
+function signInOptions() {
+  return availableProviders(Auth.config, authEnv)
+    .map((p) => ({ id: p.id, label: p.label, note: p.note, short: p.short, needs: p.needs ?? null }));
+}
+function refreshSignIn(extra = {}) {
+  store.patch("signin", {
+    providers: signInOptions(),
+    session: Auth.session ? { name: Auth.session.name, line: Auth.describe() } : null,
+    ...extra,
+  });
+}
+function viewSignIn() {
+  pausedBeforeOverlay = state.paused;
+  state.paused = true;
+  refreshSignIn({ visible: true, message: "", field: "", fieldFor: null });
+}
+function closeSignIn() { state.paused = pausedBeforeOverlay; store.patch("signin", { visible: false }); }
+function setSignInField(value) { store.patch("signin", { field: String(value ?? "").slice(0, 200) }); }
+/** An adopted identity reaches the crew tag and the intro card the same way a launch URL's does. */
+function afterSignIn() {
+  applyIdentity();
+  store.patch("intro", { playerName: Progress.playerName, identityLocked: !!Identity.current, identityLabel: identityLabel() });
+}
+async function signInWith(id) {
+  const provider = providerById(id);
+  const slice = store.get().signin;
+  // An option that needs something typed (an address, a passkey label) asks
+  // for it first and is chosen again once it is there.
+  if (provider?.needs && slice.fieldFor !== id) {
+    store.patch("signin", { fieldFor: id, field: "", message: `Type it in, then choose ${provider.short} again.` });
+    return;
+  }
+  store.patch("signin", { message: "Working…" });
+  const result = await Auth.signIn(id, { email: slice.field, name: slice.field });
+  if (result.kind === "signed-in") {
+    afterSignIn();
+    refreshSignIn({ message: "", field: "", fieldFor: null });
+    announce(`Signed in as ${Auth.session.name}.`);
+    closeSignIn();
+    return;
+  }
+  refreshSignIn({ message: result.reason ?? result.note ?? "" });
+}
+function signOutOfAuth() {
+  const alsoRecords = TrainingRecords.count() > 0
+    && confirm("Signed out. Also delete the training records stored in this browser? Cancel keeps them.");
+  Auth.signOut({ clearRecords: alsoRecords });
+  if (alsoRecords) renderRecords();
+  afterSignIn();
+  refreshSignIn({ message: "Signed out." });
+  announce("Signed out.");
+}
+// The configuration lives beside the page (WebXR/auth-config.json) and is read
+// once; until it arrives the dialog simply lists fewer options.
+Auth.loadConfig(authEnv).then(() => {
+  if (Auth.load()) afterSignIn();
+  refreshSignIn();
+});
+
+// ------------------------------------------------------------------ live LRS
+//
+// The step after exporting a file: with an endpoint connected, each finished
+// attempt is sent as an xAPI statement the moment it happens, and anything
+// that fails to send waits in a local queue for the next try. Configured on
+// the records overlay, by the launch URL (endpoint only), or by the embedding
+// page from the learner's home origin — see shared/lrs.js.
+
+function xapiOpts() { return { actorName: Progress.playerName, homePage: location.origin }; }
+function refreshLrs(extra = {}) {
+  const s = Lrs.status();
+  store.patch("records", { lrs: { ...store.get().records.lrs, configured: s.configured, host: s.host, authed: s.authed, pending: s.pending, last: s.last, ...extra } });
+}
+function shipToLrs(records) {
+  if (!Lrs.configured) return;
+  refreshLrs({ busy: true });
+  Lrs.ship(records, xapiOpts()).then(() => refreshLrs({ busy: false }));
+}
+function lrsSetEndpoint(v) { refreshLrs({ endpointDraft: v, error: null }); }
+function lrsSetAuth(v) { refreshLrs({ authDraft: v }); }
+function lrsConnect() {
+  const d = store.get().records.lrs;
+  const cfg = Lrs.configure({ endpoint: d.endpointDraft, auth: d.authDraft });
+  if (!cfg) { refreshLrs({ error: "The endpoint must be an https URL (http is allowed on localhost only)." }); return; }
+  refreshLrs({ error: null, authDraft: "", busy: true });
+  Lrs.flush().then(() => refreshLrs({ busy: false }));
+}
+function lrsDisconnect() { Lrs.disconnect(); refreshLrs({ error: null, busy: false }); }
+function lrsSendAll() { shipToLrs(TrainingRecords.list()); }
+
+Lrs.load();
+Lrs.listen(() => Identity.current?.homePage, () => { refreshLrs(); Lrs.flush().then(() => refreshLrs()); });
+refreshLrs();
+if (Lrs.pending()) Lrs.flush().then(() => refreshLrs());
+
+// ------------------------------------------------- share to train agents & robots
+//
+// Opt-in sharing of anonymised training engagement (shared/share-engagement.js)
+// with agent-protocol platforms (shared/agent-protocols.js), by way of a
+// wallet a person connects themselves (shared/wallet.js). Default is off;
+// this section only ever mirrors those modules' own state into the "share"
+// slice for react-ui.js, and every network call still happens inside them.
+
+function refreshShare(extra = {}) {
+  store.patch("share", {
+    wallet: Wallet.describe(), consent: ShareEngagement.consent, receipts: ShareEngagement.receipts(),
+    ...extra,
+  });
+}
+function viewShare() {
+  pausedBeforeOverlay = state.paused;
+  state.paused = true;
+  refreshShare({ visible: true, message: "" });
+}
+function closeShare() { state.paused = pausedBeforeOverlay; store.patch("share", { visible: false }); }
+function setShareLicence(v) { store.patch("share", { licence: SHARE_LICENCES.includes(v) ? v : store.get().share.licence }); }
+
+async function connectWallet() {
+  refreshShare({ walletBusy: true, walletMessage: "" });
+  const result = await Wallet.connect({ env: makeWalletEnv() });
+  refreshShare({ walletBusy: false, walletMessage: result.connected ? "" : (result.reason || "") });
+}
+function disconnectWallet() { Wallet.disconnect(); refreshShare({}); }
+Wallet.onChange = () => refreshShare({});
+
+async function optInShare() {
+  const licence = store.get().share.licence;
+  refreshShare({ busy: true, message: "" });
+  const result = await ShareEngagement.optIn({ licence, wallet: Wallet });
+  refreshShare({ busy: false, message: result.ok ? "" : (result.reason || "") });
+}
+function revokeShare() {
+  ShareEngagement.revoke();
+  refreshShare({ message: "Consent revoked. Anything already shared is not un-sent." });
+}
+async function shareNow() {
+  refreshShare({ busy: true, message: "" });
+  const result = await ShareEngagement.share(AGENT_ADAPTERS["cloudflare-relay"]);
+  refreshShare({ busy: false, message: result.ok ? "Shared." : (result.receipt?.reason || result.result?.reason || "Nothing was sent.") });
+}
+
+refreshShare();
+
+// ------------------------------------------------------------- scenario editor
+//
+// A custom scenario never invents new steps or new 3D content — it curates
+// and reorders the real steps a real station already has, so it plays
+// through the exact same engine, hazards and rank system as the original.
+
+let edOrder = []; // [{ id, title, kind, on }] — the checklist's live working order
+
+function edPopulateBaseOptions() {
+  store.patch("editor", { baseValue: "", stepsVisible: false });
+}
+
+function edRenderSteps() {
+  store.patch("editor", { steps: edOrder.map((s) => ({ ...s })) });
+}
+
+async function edLoadBase(simId) {
+  if (!SIMS_META_BY_ID[simId]) { store.patch("editor", { baseValue: simId, stepsVisible: false }); return; }
+  store.patch("editor", { baseValue: simId, stepsVisible: false });
+  const sim = await loadSim(simId);
+  // The picker may have moved on to a different (or no) base while this
+  // station's module was still in flight — a stale response must not clobber
+  // whatever the editor is showing now.
+  if (store.get().editor.baseValue !== simId) return;
+  if (!sim) { store.patch("editor", { error: "Could not load that simulator." }); return; }
+  edOrder = sim.steps.map((s) => ({ id: s.id, title: s.title, kind: s.kind, on: true }));
+  store.patch("editor", { name: "", tagline: "", par: "", error: "", stepsVisible: true });
+  edRenderSteps();
+}
+
+function edToggleStep(i, on) { edOrder[i].on = on; edRenderSteps(); }
+function edMoveStep(i, dir) {
+  const j = i + dir;
+  if (j < 0 || j >= edOrder.length) return;
+  [edOrder[i], edOrder[j]] = [edOrder[j], edOrder[i]];
+  edRenderSteps();
+}
+function edSetName(v) { store.patch("editor", { name: v }); }
+function edSetPar(v) { store.patch("editor", { par: v }); }
+function edSetTagline(v) { store.patch("editor", { tagline: v }); }
+function edSelectBase(v) { edLoadBase(v); }
+
+function edValidate() {
+  const ed = store.get().editor;
+  if (!ed.baseValue) return "Pick a base simulator first.";
+  if (!ed.name.trim()) return "Give the scenario a name.";
+  if (!edOrder.some((s) => s.on)) return "Keep at least one step.";
+  // A number input can still hold an unparseable transient value (a bare
+  // "-", for instance) — catch it here rather than silently saving a NaN
+  // par time that would poison every future run's score (timeBonus = NaN).
+  if (ed.par && !Number.isFinite(Number(ed.par))) return "Par time must be a number, or left blank.";
+  return null;
+}
+
+function edEnter(customId) {
+  store.patch("editor", { visible: false });
+  pendingEnter = customId;
+  begin();
+}
+
+function edSave(andPlay) {
+  const err = edValidate();
+  if (err) { store.patch("editor", { error: err }); return; }
+  const ed = store.get().editor;
+  const par = ed.par ? Math.max(30, Math.min(900, Number(ed.par))) : null;
+  const entry = {
+    id: newScenarioId(),
+    baseId: ed.baseValue,
+    name: ed.name.trim(),
+    tagline: ed.tagline.trim(),
+    stepIds: edOrder.filter((s) => s.on).map((s) => s.id),
+    parSeconds: par,
+    createdAt: Date.now(),
+  };
+  CustomScenarios.save(entry);
+  invalidateSimsCache();
+  edRenderLibrary();
+  if (andPlay) edEnter(`custom:${entry.id}`);
+  else store.patch("editor", { error: "", stepsVisible: false, baseValue: "" });
+}
+function edSavePlay() { edSave(true); }
+function edSaveOnly() { edSave(false); }
+function edCancel() { store.patch("editor", { stepsVisible: false, baseValue: "" }); }
+
+function edRenderLibrary() {
+  const list = CustomScenarios.list();
+  const library = list.map((entry) => {
+    const base = SIMS_META_BY_ID[entry.baseId];
+    return {
+      id: entry.id,
+      name: entry.name,
+      baseName: base ? base.name : "base simulator removed",
+      stepCount: entry.stepIds.length,
+      playable: !!base,
+    };
+  });
+  store.patch("editor", { library });
+}
+
+function edPlayLibrary(id) { edEnter(`custom:${id}`); }
+function edDeleteLibrary(id) { CustomScenarios.remove(id); invalidateSimsCache(); edRenderLibrary(); }
+
+function openEditor() {
+  pausedBeforeOverlay = state.paused;
+  state.paused = true;
+  edPopulateBaseOptions();
+  edRenderLibrary();
+  store.patch("editor", { visible: true });
+}
+function closeEditor() { state.paused = pausedBeforeOverlay; store.patch("editor", { visible: false }); }
+
+// Mirrors the original <input> semantics: every keystroke updates the field
+// as typed (untransformed, so typing "JOHN SMITH" keeps its space), and only
+// losing focus — like the native "change" event — commits it through
+// Progress.setPlayerName's trim/case/length normalization.
+function setPlayerNameDraft(v) { store.patch("intro", { playerName: v }); }
+function commitPlayerName() {
+  Progress.setPlayerName(store.get().intro.playerName);
+  store.patch("intro", { playerName: Progress.playerName });
+}
+
+function retryResult() {
+  // Inside a level, or on a level's results card, "retry" is the level: a
+  // level is one run of its whole chain, never a task re-played on its own.
+  const again = state.level ?? levelCard;
+  if (again) { startLevel(again.programme, again.level); return; }
+  store.patch("results", { visible: false });
+  state.paused = false;
+  enterSim(state.room.id);
+}
+function backToHub() {
+  state.tour = null;
+  abandonLevel();
+  store.patch("results", { visible: false });
+  state.paused = false;
+  enterHub();
+}
+function nextTourStop() {
+  // The same button carries a flow's next node; a flow takes precedence,
+  // because a learner put on a flow is being driven by it.
+  if (flowPending) { store.patch("results", { visible: false }); state.paused = false; flowResume(); return; }
+  if (state.level) { store.patch("results", { visible: false }); state.paused = false; runLevelTask(); return; }
+  if (levelCard?.passed && levelCard.level < 10) { startLevel(levelCard.programme, levelCard.level + 1); return; }
+  if (!state.tour) return;
+  state.tour.i += 1;
+  const next = SIMS_META[state.tour.i];
+  store.patch("results", { visible: false });
+  state.paused = false;
+  if (next) enterSim(next.id);
+  else { state.tour = null; enterHub(); }
+}
+function startTour() {
+  // Only force flat mode when nothing real is presenting — state.mode only
+  // ever becomes "ar"/"vr" once an actual immersive session is live
+  // (startXr()), so overwriting it unconditionally here would desync the
+  // mode flag from a still-running AR/VR session if "tour" is said mid-run,
+  // rather than genuinely switching out of it.
+  if (!renderer.xr.isPresenting) state.mode = "flat";
+  state.tour = { i: 0 };
+  pendingEnter = SIMS_META[0].id;
+  begin();
+}
+
+// --------------------------------------------------------------- interaction
+
+const raycaster = new THREE.Raycaster();
+raycaster.far = 14;
+const pointerNdc = new THREE.Vector2(0, 0);
+
+// Scratch objects reused every frame by the hot paths below (controller
+// raycasting, the hint marker, the gauge marker) instead of allocating a new
+// Vector3/Box3/Matrix4 each call — this runs at frame rate in VR, and
+// garbage-collector pauses are exactly the kind of stutter that's
+// uncomfortable in a headset.
+const _scratchM4 = new THREE.Matrix4();
+const _scratchV1 = new THREE.Vector3();
+const _scratchV2 = new THREE.Vector3();
+const _scratchBox = new THREE.Box3();
+const _crewLearnerPos = new THREE.Vector3();
+
+function findHit(intersections) {
+  for (const it of intersections) {
+    let o = it.object, visible = true, found = null;
+    while (o) {
+      if (o.visible === false) { visible = false; break; }
+      if (!found && o.userData.hitId) found = o.userData.hitId;
+      o = o.parent;
+    }
+    if (visible && found) return { id: found, object: it.object };
+  }
+  return null;
+}
+function castFromCamera() { raycaster.setFromCamera(pointerNdc, camera); return findHit(raycaster.intersectObjects(state.selectables, false)); }
+function castFromController(controller) {
+  _scratchM4.identity().extractRotation(controller.matrixWorld);
+  raycaster.ray.origin.setFromMatrixPosition(controller.matrixWorld);
+  raycaster.ray.direction.set(0, 0, -1).applyMatrix4(_scratchM4);
+  return findHit(raycaster.intersectObjects(state.selectables, false));
+}
+
+function setHover(id) {
+  if (state.hovered === id) return;
+  if (state.hovered && state.hits[state.hovered]) tint(state.hits[state.hovered], false);
+  state.hovered = id;
+  if (state.hovered && state.hits[state.hovered]) tint(state.hits[state.hovered], true);
+  const step = state.session?.step;
+  // A grab cursor on the live target of a turn/drag step signals "manipulate
+  // this," distinct from the plain pointer every click-style target gets —
+  // the same object shouldn't look identically interactive for two very
+  // different physical gestures.
+  const manipulable = step && id === step.target && (step.kind === "turn" || step.kind === "drag");
+  document.body.style.cursor = id ? (manipulable ? "grab" : "pointer") : "default";
+}
+function tint(root, on) {
+  root.traverse((o) => {
+    if (!o.isMesh || !o.material || o.material.emissive === undefined) return;
+    if (o.material.map) return;
+    if (on) {
+      if (!o.userData.baseMaterial) o.userData.baseMaterial = o.material;
+      const c = o.userData.baseMaterial.clone();
+      c.userData.ownMaterial = true;
+      c.emissive = new THREE.Color(0x4fd1ff);
+      c.emissiveIntensity = 0.4;
+      o.material = c;
+    } else if (o.userData.baseMaterial) {
+      if (o.material !== o.userData.baseMaterial) o.material.dispose();
+      o.material = o.userData.baseMaterial;
+    }
+  });
+}
+
+function activate(id) {
+  if (!id) return;
+  if (!state.session) {
+    if (id.startsWith("enter-")) { Sfx.good(); enterSim(id.slice(6)); }
+    return;
+  }
+  lastActivatedId = id;
+  state.session.select(id);
+  syncHud();
+}
+
+/** A floating "+120" over the score chip — cheap, satisfying, no 3D cost. */
+let scorePopSeq = 0;
+function scorePop(text, big) {
+  const id = ++scorePopSeq;
+  store.patch("hud", (hud) => ({ scorePops: [...hud.scorePops, { id, text, big }] }));
+  setTimeout(() => {
+    store.patch("hud", (hud) => ({ scorePops: hud.scorePops.filter((p) => p.id !== id) }));
+  }, 900);
+}
+function pressStart(id) {
+  const s = state.session;
+  if (!s || !s.step) return;
+  if ((s.step.kind === "hold" || s.step.kind === "track") && id === s.step.target) s.setHolding(true);
+}
+function pressEnd() { state.session?.setHolding(false); }
+
+// ---------------------------------------------------- turn & drag: embodied interaction
+//
+// A 'select' step is a click; these two kinds ask for something closer to a
+// real hand: spinning a valve wheel by dragging it round, or picking an object
+// up and carrying it to where it belongs. Both route through the same
+// pointer/controller plumbing the rest of the app already uses — a raycast
+// finds what you grabbed, then every frame moves or rotates it while you hold.
+
+let dragState = null;   // { id, object, homeLocal, controller, plane }
+let turnState = null;   // { id, cx, cy, lastAngle } — desktop only; VR tracks per-controller
+const returning = [];   // objects springing back to homeLocal after a missed drop
+
+function beginDrag(id, controller) {
+  const obj = state.hits[id];
+  if (!obj || !state.session?.canDrag(id)) return false;
+  const worldPos = new THREE.Vector3();
+  obj.getWorldPosition(worldPos);
+  const plane = new THREE.Plane(new THREE.Vector3(0, 1, 0));
+  plane.setFromNormalAndCoplanarPoint(plane.normal, worldPos);
+  dragState = { id, object: obj, homeLocal: obj.position.clone(), controller: controller ?? null, plane };
+  document.body.style.cursor = "grabbing";
+  state.api?.onDragStart?.(id);
+  return true;
+}
+
+function updateDrag() {
+  if (!dragState) return;
+  const { object, plane, controller } = dragState;
+  let ok;
+  if (controller) {
+    _scratchM4.identity().extractRotation(controller.matrixWorld);
+    raycaster.ray.origin.setFromMatrixPosition(controller.matrixWorld);
+    raycaster.ray.direction.set(0, 0, -1).applyMatrix4(_scratchM4);
+    ok = raycaster.ray.intersectPlane(plane, _scratchV1);
+  } else {
+    raycaster.setFromCamera(pointerNdc, camera);
+    ok = raycaster.ray.intersectPlane(plane, _scratchV1);
+  }
+  if (!ok) return;
+  const local = _scratchV2.copy(_scratchV1);
+  object.parent.worldToLocal(local);
+  local.y = dragState.homeLocal.y; // carried along the ground, not lifted or dropped
+  object.position.copy(local);
+}
+
+function endDrag() {
+  if (!dragState) return;
+  const { id, object, homeLocal } = dragState;
+  const step = state.session?.step;
+  let result = null;
+  if (step?.kind === "drag" && step.target === id) {
+    const socket = state.hits[step.drag?.to];
+    let dist = null;
+    if (socket) {
+      // Horizontal alignment only — a carried object is dragged along a fixed
+      // height while its socket (a trench floor, a shaft, a mounting point)
+      // often sits at a different height, so the vertical gap between the
+      // carry plane and the resting spot must never count against the player.
+      const a = new THREE.Vector3(); object.getWorldPosition(a); a.y = 0;
+      const b = new THREE.Vector3(); socket.getWorldPosition(b); b.y = 0;
+      dist = a.distanceTo(b);
+    }
+    lastActivatedId = id;
+    result = state.session.dropAt(id, dist);
+    if (result?.kind === "ok" && socket) {
+      // Snap to the socket's full transform, not just its position, so a
+      // plate or panel that has to sit a particular way round lands correctly
+      // — matching world rotation converted into the object's own parent
+      // space, exactly like the position conversion just above it.
+      const snapped = new THREE.Vector3(); socket.getWorldPosition(snapped);
+      object.parent.worldToLocal(snapped);
+      object.position.copy(snapped);
+      const socketQuat = new THREE.Quaternion(); socket.getWorldQuaternion(socketQuat);
+      const parentQuat = new THREE.Quaternion(); object.parent.getWorldQuaternion(parentQuat);
+      object.quaternion.copy(parentQuat.invert().multiply(socketQuat));
+    }
+  }
+  if (result?.kind !== "ok") returning.push({ object, from: object.position.clone(), to: homeLocal.clone(), t: 0 });
+  state.api?.onDragEnd?.(id, result?.kind === "ok");
+  dragState = null;
+  document.body.style.cursor = "default";
+  syncHud();
+}
+
+function beginTurn(id, clientX, clientY) {
+  const obj = state.hits[id];
+  if (!obj || state.session?.step?.kind !== "turn" || state.session.step.target !== id) return false;
+  const p = new THREE.Vector3();
+  obj.getWorldPosition(p);
+  p.project(camera);
+  const r = canvas.getBoundingClientRect();
+  const cx = (p.x * 0.5 + 0.5) * r.width + r.left;
+  const cy = (-p.y * 0.5 + 0.5) * r.height + r.top;
+  turnState = { id, cx, cy, lastAngle: Math.atan2(clientY - cy, clientX - cx) };
+  document.body.style.cursor = "grabbing";
+  return true;
+}
+
+function updateTurn(clientX, clientY) {
+  if (!turnState) return;
+  const angle = Math.atan2(clientY - turnState.cy, clientX - turnState.cx);
+  let delta = angle - turnState.lastAngle;
+  if (delta > Math.PI) delta -= Math.PI * 2;
+  if (delta < -Math.PI) delta += Math.PI * 2;
+  turnState.lastAngle = angle;
+  lastActivatedId = turnState.id;
+  state.session?.rotate(turnState.id, delta / (Math.PI * 2));
+  syncHud();
+}
+
+function endTurn() { turnState = null; document.body.style.cursor = "default"; }
+
+/** Drive the actual mesh rotation from engine state — a pure reflection, never
+ * the source of truth, so the checker's direct rotate() calls stay in sync
+ * with whatever the 3D scene shows a real player. */
+function syncTurnVisual() {
+  const s = state.session;
+  if (s?.step?.kind !== "turn" || !s.turn) return;
+  const obj = state.hits[s.step.target];
+  if (!obj) return;
+  const node = obj.userData.wheel ?? obj;
+  const axis = s.step.turn?.axis ?? "y";
+  node.rotation[axis] = s.turn.amount * Math.PI * 2 * (s.step.turn?.reverse ? -1 : 1);
+}
+
+// Desktop -------------------------------------------------------------------
+
+let yaw = 0, pitch = 0, dragging = false, lastX = 0, lastY = 0, downAt = 0, downId = null;
+const keys = Object.create(null);
+// SmartCiti.X is the only one of the three apps with real text inputs (the
+// crew-tag name field, the scenario editor's name/tagline/par fields) — WASD,
+// M and Escape must stay text while one of those has focus, not drive the
+// rig, toggle mute, or discard whatever the learner is typing.
+function isTypingTarget(e) {
+  const tag = e.target?.tagName;
+  return tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT";
+}
+// ------------------------------------------------------- keyboard operation
+//
+// The whole procedure is operable without a pointer: Tab walks the controls
+// this step can act on, in the order the procedure names them; Enter takes
+// the one in focus; the arrows work an analogue control; the space bar is the
+// hold. The focused control is tinted the same way a hover tints it, and is
+// read out through the live region. See shared/a11y.js for why the flat mode
+// is the accessible path and the headset modes are not.
+const kbCursor = createTargetCursor();
+let kbActive = false;          // the learner has used the keyboard at least once
+let kbCarrying = null;         // the id picked up by Enter on a drag step
+
+/** The controls this step can act on, in procedure order, plus a drag socket. */
+function targetsForStep(step) {
+  if (!step) return [];
+  const base = step.kind === "sequence" || step.kind === "find"
+    ? [...(step.targets ?? [])]
+    : step.target ? [step.target] : [];
+  if (step.kind === "drag" && step.drag?.to) base.push(step.drag.to);
+  return base.filter((id) => state.hits[id]);
+}
+/** Readable names for the controls, from the step's own item names. */
+function targetNames(step) {
+  return { ...(step?.itemNames ?? {}) };
+}
+function kbFocus(id, { announceIt = true } = {}) {
+  if (!id) return;
+  kbActive = true;
+  kbCursor.focus(id);
+  setHover(id);
+  if (!announceIt) return;
+  const step = state.session?.step;
+  const pos = [kbCursor.index + 1, kbCursor.ids.length];
+  srAnnouncer.say(describeTarget(id, step, { names: targetNames(step), position: pos }));
+}
+function kbStep(dir) {
+  const step = state.session?.step;
+  kbCursor.set(targetsForStep(step));
+  const id = dir > 0 ? kbCursor.next() : kbCursor.prev();
+  kbFocus(id);
+}
+/** Enter: take the focused control the way this step expects. */
+function kbActivate() {
+  const s = state.session;
+  const id = kbCursor.current;
+  if (!s || !s.step || !id) return;
+  const step = s.step;
+  if (step.kind === "drag") {
+    if (!kbCarrying && id === step.target) {
+      kbCarrying = id;
+      srAnnouncer.say(`Picked up. Tab to where it belongs, then press Enter to place it.`);
+      return;
+    }
+    if (kbCarrying) { s.dropAt(id, 0); kbCarrying = null; syncHud(); return; }
+  }
+  lastActivatedId = id;
+  activate(id);
+}
+/** Arrows: work an analogue control — a gauge reading or a valve's turns. */
+function kbAdjust(delta) {
+  const s = state.session;
+  const step = s?.step;
+  if (!step) return false;
+  if (step.kind === "gauge" && s.gauge) {
+    s.gauge.t = Math.max(0, Math.min(1, s.gauge.t + delta * 0.04));
+    s.gauge.dir = 0;  // the arrows take over from the sweep
+    syncHud();
+    return true;
+  }
+  if (step.kind === "track" && s.track) {
+    s.track.v = Math.max(0, Math.min(1, s.track.v + delta * 0.05));
+    return true;
+  }
+  if (step.kind === "turn") { s.rotate(step.target, delta * 0.08); syncHud(); return true; }
+  return false;
+}
+
+/** Put the cursor somewhere sensible before acting on it. A pad's A button
+ * and a "hold" key with nothing yet focused used to do nothing at all; now
+ * they take the first control the step names, which is what a learner means. */
+function ensureFocus() {
+  if (kbCursor.current) return kbCursor.current;
+  kbCursor.set(targetsForStep(state.session?.step));
+  const id = kbCursor.current;
+  if (id) kbFocus(id);
+  return id;
+}
+
+/** A turn step, from a key or a bumper: the same rotate() a mouse arc or a
+ * wrist roll calls, in fixed increments. */
+function kbTurn(dir, scale = 1) {
+  const s = state.session;
+  if (s?.step?.kind !== "turn") return false;
+  lastActivatedId = s.step.target;
+  s.rotate(s.step.target, dir * 0.08 * Math.max(0.25, scale));
+  syncHud();
+  return true;
+}
+
+// -------------------------------------------- bindings, the pad, one router
+//
+// Every device that is not a hand speaks through runAction(): a key resolved
+// through the saved bindings, a gamepad button edge-detected by
+// shared/input.js, or a voice command that only ever navigates. One router is
+// what makes the interface brief's fallback rule structural rather than
+// aspirational — an action a pad can reach is an action a key can reach,
+// because they are the same action.
+
+let bindings = loadBindings();
+let remapping = null;         // the action the panel is waiting for a key for
+let lastSpoken = "";          // what "repeat" says again
+let hudZoom = 1;              // what "bigger"/"smaller" set outside AR
+
+/** True while the flat-mode step actions should reach the procedure. Anything
+ * that pauses the world — an overlay, the pre-brief, the instructor's freeze,
+ * the results card — also parks the input, so a key press cannot work a
+ * control the learner cannot see. */
+function canOperate() {
+  const ui = store.get();
+  return !!state.session && !renderer.xr.isPresenting && !state.paused
+    && !ui.prebrief.visible && !ui.controls.visible;
+}
+
+/** The Escape path: topmost overlay first, so an overlay opened mid-run
+ * closes rather than ejecting the learner to the hub underneath it. */
+function backAction() {
+  const ui = store.get();
+  if (ui.controls.visible) { closeControls(); return true; }
+  if (ui.prebrief.visible) { prebriefClose(); return true; }
+  if (ui.records.visible) { closeRecords(); return true; }
+  if (ui.training.visible) { closeMyTraining(); return true; }
+  if (ui.leaderboard.visible) { closeLeaderboard(); return true; }
+  if (ui.programs.visible) { closePrograms(); return true; }
+  if (ui.flows.visible) { closeFlows(); return true; }
+  if (ui.editor.visible) { closeEditor(); return true; }
+  if (state.session) { state.tour = null; store.patch("results", { visible: false }); enterHub(); return true; }
+  return false;
+}
+
+/**
+ * One action, whatever produced it. Returns true when it did something, which
+ * is what tells the keyboard handler whether to swallow the key.
+ * `info` carries a pad's `{ value, phase, repeat, analog }`.
+ */
+function runAction(action, info = {}) {
+  switch (action) {
+    case "controls": toggleControls(); return true;
+    case "back": return backAction();
+    case "mute":
+      Sfx.muted = !Sfx.muted;
+      srAnnouncer.say(Sfx.muted ? "Muted." : "Sound on.");
+      return true;
+    case "voice": toggleVoice(); return true;
+    case "speakHint": Sfx.ensure(); announce(currentHintLine()); return true;
+    case "view": toggleView(); return true;
+    default: break;
+  }
+  if (!canOperate()) return false;
+  switch (action) {
+    case "focusNext": kbStep(1); return true;
+    case "focusPrev": kbStep(-1); return true;
+    case "activate": ensureFocus(); kbActivate(); return true;
+    case "hold": {
+      if (info.phase === "end") { pressEnd(); return true; }
+      if (info.repeat) return true;   // a held key repeats; the hold is already on
+      const id = ensureFocus();
+      if (id) pressStart(id);
+      return true;
+    }
+    case "adjustUp":
+    case "adjustDown": {
+      const magnitude = info.analog ? Math.max(0.3, Math.min(1, info.value ?? 1)) : 1;
+      const dir = action === "adjustUp" ? 1 : -1;
+      if (state.session?.step?.kind === "turn") return kbTurn(dir, magnitude);
+      const did = kbAdjust(dir * magnitude);
+      if (did) kbActive = true;
+      return did;
+    }
+    case "turnLeft": return kbTurn(-1, info.analog ? info.value : 1);
+    case "turnRight": return kbTurn(1, info.analog ? info.value : 1);
+    default: return false;
+  }
+}
+
+// ------------------------------------------------------------ driving
+//
+// A drive step (shared/game.js) is the learner at the wheel. Throttle, brake
+// and steer are continuous, read every frame from whatever is driving — the
+// keys held down, the pad's sticks, the on-screen pedals on a phone, or a
+// controller's thumbstick in a headset — and handed to Session.driveInput().
+// The checks (mirrors, signals, horn, gears, lights) and the radio are
+// discrete, from shared/input.js's drive table. The vehicle itself is moved
+// by the onDrive hook above; the camera eases round to keep it in view.
+
+const DRIVE_CONTINUOUS = new Set(DRIVE_ACTIONS.filter((a) => a.continuous).map((a) => a.id));
+const driveHeld = Object.create(null);
+const driveTouch = { throttle: false, brake: false, steer: 0, active: false };
+let xrDrive = null;
+let driveWasOn = false;
+let driveHudAt = 0;
+let lastDriveCheck = null;
+
+function driving() {
+  return !!(state.session && !state.session.finished && state.session.step?.kind === "drive" && state.session.drive);
+}
+
+/** A check, the radio, the two pad buttons that leave, or the view toggle —
+ *  none of those is a check on the route, so they run the same handler the
+ *  step-action pad and keyboard use instead of falling through to driveCheck. */
+function driveDiscrete(action) {
+  if (action === "back" || action === "controls" || action === "view") { runAction(action); return; }
+  const s = state.session;
+  if (!driving() || !canOperate()) return;
+  if (action === "radio") {
+    const fb = s.driveControl("radio");
+    if (!fb) setRail("neutral", "Radio keyed — nothing on this stretch of the route needs a call.");
+  } else {
+    s.driveCheck(action);
+    lastDriveCheck = { kind: action, at: elapsedTotal };
+  }
+  state.api.onDriveCheck?.(action, s);
+  syncDriveHud(true);
+  syncHud();
+}
+
+const drivePad = createGamepad({
+  getGamepads: () => fakePads ?? (navigator.getGamepads ? navigator.getGamepads() : []),
+  bindings: DRIVE_GAMEPAD_MAP,
+  axisBindings: [],
+  shouldPoll: () => !renderer.xr.isPresenting && driving(),
+  onAction: (action) => driveDiscrete(action),
+});
+
+/** Once per frame, before the Session ticks. */
+function driveFrame() {
+  const s = state.session;
+  if (!driving()) {
+    if (driveWasOn) {
+      driveWasOn = false;
+      for (const k of Object.keys(driveHeld)) driveHeld[k] = false;
+      store.patch("drive", { visible: false });
+    }
+    return;
+  }
+  if (!driveWasOn) { driveWasOn = true; syncDriveHud(true); }
+  const pad = drivePad.snapshot();
+  let input = driveInputFrom({ held: driveHeld, pad: pad?.connected ? pad : null, touch: driveTouch.active ? driveTouch : null });
+  if (renderer.xr.isPresenting && xrDrive) input = { ...xrDrive };
+  s.driveInput(input);
+}
+
+/** Keep the vehicle in view in flat mode, unless the learner is looking round. */
+function driveCamera(dt) {
+  if (!driving() || renderer.xr.isPresenting || state.mode === "ar" || dragging) return;
+  const vehicle = state.hits[state.session.step.target];
+  if (!vehicle) return;
+  // Walk the learner to the edge of the pad nearest the vehicle — the spot a
+  // road trainer would stand to watch — so a route that starts across the
+  // yard is not driven from the gate. The roam clamp still applies.
+  vehicle.getWorldPosition(_scratchV1);
+  if (state.roomRoot) {
+    state.roomRoot.getWorldPosition(_scratchV2);
+    const vx = _scratchV1.x - _scratchV2.x, vz = _scratchV1.z - _scratchV2.z;
+    const dist = Math.hypot(vx, vz);
+    if (dist > 0.5) {
+      const reach = Math.min(Math.max(0, dist - 3), (state.room?.footprint ?? 2) - 0.2);
+      const tx = _scratchV2.x + (vx / dist) * reach, tz = _scratchV2.z + (vz / dist) * reach;
+      const km = Math.min(1, dt * 1.6);
+      rig.position.x += (tx - rig.position.x) * km;
+      rig.position.z += (tz - rig.position.z) * km;
+      clampRoam();
+    }
+  }
+  vehicle.getWorldPosition(_scratchV1);
+  rig.worldToLocal(_scratchV1);
+  const dx = _scratchV1.x - camera.position.x, dz = _scratchV1.z - camera.position.z;
+  const dy = (_scratchV1.y + 0.8) - camera.position.y;
+  const wantYaw = Math.atan2(-dx, -dz);
+  const wantPitch = clamp(Math.atan2(dy, Math.hypot(dx, dz)), -0.9, 0.4);
+  let dyaw = wantYaw - yaw;
+  while (dyaw > Math.PI) dyaw -= Math.PI * 2;
+  while (dyaw < -Math.PI) dyaw += Math.PI * 2;
+  const k = Math.min(1, dt * 2.2);
+  yaw += dyaw * k;
+  pitch += (wantPitch - pitch) * k;
+  camera.rotation.set(pitch, yaw, 0);
+}
+
+/** The drive HUD: speed against the band, where the vehicle sits in its
+ * lane, how far along the route, and the next check the route asks for. */
+function syncDriveHud(force = false) {
+  const s = state.session;
+  const d = s?.drive;
+  if (!d || !driving()) return;
+  if (!force && elapsedTotal - driveHudAt < 0.1) return;
+  driveHudAt = elapsedTotal;
+  const [lo, hi] = d.band;
+  const next = d.plan.find((c) => !c.done && !c.missed) ?? null;
+  const keyFor = (id) => prettyKey((DRIVE_KEYS[id] ?? [])[0] ?? "");
+  store.patch("drive", {
+    visible: true,
+    label: d.label,
+    reverse: d.reverse,
+    started: d.started,
+    units: d.units,
+    speed: Math.round(d.speed),
+    band: `${lo}–${hi}`,
+    bandLabel: d.bandLabel ?? "",
+    bandState: d.speed > hi ? "fast" : d.speed < lo ? (d.reachedBand ? "slow" : "ramp") : "ok",
+    offset: clamp(d.offset / (d.laneWidth / 2), -1.6, 1.6),
+    laneState: Math.abs(d.offset) <= d.laneWidth / 2 ? "ok" : "out",
+    progressPct: Math.round((d.s / Math.max(0.01, d.total)) * 100),
+    next: next ? {
+      kind: next.kind, name: DRIVE_CHECK_NAMES[next.kind] ?? next.kind, key: keyFor(next.kind),
+      now: d.s >= next.from && d.s <= next.to,
+      metres: Math.max(0, Math.round((next.from - d.s) * 10) / 10),
+    } : null,
+    done: d.plan.filter((c) => c.done).length,
+    total: d.plan.length,
+    flash: lastDriveCheck && elapsedTotal - lastDriveCheck.at < 0.6 ? lastDriveCheck.kind : null,
+    touch: driveTouch.active || (typeof matchMedia === "function" && matchMedia("(pointer: coarse)").matches),
+    goKey: keyFor("throttle"), brakeKey: keyFor("brake"), steerKeys: `${keyFor("steerLeft")}/${keyFor("steerRight")}`,
+    checks: DRIVE_ACTIONS.filter((a) => a.group !== "drive").map((a) => ({ id: a.id, label: a.label, key: keyFor(a.id) })),
+  });
+}
+
+// -------------------------------------------------------- first/third person
+//
+// The camera stays a child of `rig` throughout (see the top of this file):
+// first person is the original fixed local position, and third person only
+// moves that same local position back and up, so every existing raycast —
+// clicking, hovering, the gaze cursor, the pointer aiming a control — keeps
+// working exactly as it does today, just from further back. VR/AR never call
+// any of this; startXr() resets the position and hides the figure on entry.
+
+const chaseRaycaster = new THREE.Raycaster();
+const _chaseEye = new THREE.Vector3();
+const _chaseDesired = new THREE.Vector3();
+const _chaseDir = new THREE.Vector3();
+const _chaseAim = new THREE.Vector3();
+const _chaseToAim = new THREE.Vector3();
+const _chaseFwd = new THREE.Vector3();
+const CHASE_BACK = 3.0, CHASE_UP = 0.85;             // behind and above the learner, walking
+const CHASE_BACK_DRIVE = 5.4, CHASE_UP_DRIVE = 2.35; // a vehicle needs more clearance
+
+function setViewMode(mode, { announceIt = true } = {}) {
+  const next = mode === "third" ? "third" : "first";
+  if (next === viewMode) return;
+  viewMode = next;
+  saveViewMode(viewMode);
+  store.patch("view", { mode: viewMode });
+  if (viewMode === "first") {
+    camera.position.set(0, EYE_HEIGHT, 0);
+    camera.rotation.set(pitch, yaw, 0);
+    learnerFigure.visible = false;
+  }
+  if (announceIt) srAnnouncer.say(viewMode === "third" ? "Third-person view." : "First-person view.");
+}
+function toggleView() { setViewMode(viewMode === "third" ? "first" : "third"); }
+
+/** An approximation, not a full IK rig, but enough that the figure visibly
+ *  reaches toward whatever the keyboard cursor is on — the same shoulder
+ *  rotation a station already uses to pose an NPC's arm (shared/kit.js). */
+function poseFigureHands() {
+  const arms = learnerFigure.userData.arms;
+  if (!arms) return;
+  arms[0].shoulder.rotation.set(0, 0, 0);
+  arms[1].shoulder.rotation.set(0, 0, 0);
+  const hit = kbCursor.current && state.hits[kbCursor.current];
+  if (!hit) return;
+  hit.getWorldPosition(_chaseDesired);
+  learnerFigure.worldToLocal(_chaseDesired);
+  const lx = _chaseDesired.x, ly = _chaseDesired.y - 1.35, lz = _chaseDesired.z;
+  const flat = Math.hypot(lx, lz) || 1e-4;
+  const side = lx >= 0 ? 1 : 0;   // arms[0] is the left arm (sx=-1), arms[1] the right (sx=1)
+  const horiz = Math.max(-1, Math.min(1, lx / flat));
+  const vert = Math.max(-1.4, Math.min(0.6, Math.atan2(ly, flat)));
+  const shoulder = arms[side].shoulder;
+  shoulder.rotation.x = -1.15 + vert * 0.55;
+  shoulder.rotation.z = (side === 1 ? 1 : -1) * Math.abs(horiz) * 0.55;
+}
+
+/** Behind and above the rig (walking) or the vehicle (a drive step, since
+ *  driveCamera() above already keeps the rig close to it and looking at it),
+ *  pulled in by a raycast whenever a wall or a vehicle sits between the eye
+ *  and the desired spot — "a simple raycast is enough". Flat mode only. */
+function updateViewCamera() {
+  if (viewMode !== "third") {
+    camera.position.set(0, EYE_HEIGHT, 0);
+    camera.rotation.x = pitch;
+    learnerFigure.visible = false;
+    return;
+  }
+  const drive = driving();
+  learnerFigure.visible = !drive;
+  if (!drive) learnerFigure.rotation.y = yaw;
+  rig.updateMatrixWorld(true);
+  if (!drive) poseFigureHands();
+  const back = drive ? CHASE_BACK_DRIVE : CHASE_BACK;
+  const up = drive ? CHASE_UP_DRIVE : CHASE_UP;
+  _chaseEye.set(0, EYE_HEIGHT, 0);
+  rig.localToWorld(_chaseEye);
+  // Over the right shoulder on foot, so the figure stands left of centre and
+  // clear of the caption card; a vehicle is framed square from behind.
+  const side = drive ? 0 : 0.7;
+  _chaseDesired.set(Math.sin(yaw) * back + Math.cos(yaw) * side, EYE_HEIGHT + up, Math.cos(yaw) * back - Math.sin(yaw) * side);
+  rig.localToWorld(_chaseDesired);
+  _chaseDir.subVectors(_chaseDesired, _chaseEye);
+  const full = _chaseDir.length();
+  if (full < 1e-4) { camera.position.set(0, EYE_HEIGHT, 0); return; }
+  _chaseDir.normalize();
+  let dist = full;
+  chaseRaycaster.set(_chaseEye, _chaseDir);
+  chaseRaycaster.far = full;
+  chaseRaycaster.near = 0.05;
+  const blocker = chaseRaycaster.intersectObject(worldRoot, true).find((h) => h.distance > 0.1);
+  if (blocker) dist = Math.max(0.35, blocker.distance - 0.18);
+  _chaseDesired.copy(_chaseEye).addScaledVector(_chaseDir, dist);
+  // Walking: never let the chase camera step outside the same roam circle
+  // that limits where the learner can walk. A gate is a gap in the fence
+  // line on purpose (apron.js) — a raycast alone would happily thread it and
+  // leave the camera outside the site looking back in, so the roam limit
+  // stands in for a wall there the way it already does for the learner's own
+  // feet (clampRoam() above). A drive route runs well past that circle, so
+  // the vehicle's chase camera relies on the raycast alone.
+  if (!drive) {
+    const limit = state.stage?.roam ?? (state.session ? (state.room?.footprint ?? 2) + 2.4 : 9.5);
+    const flat = Math.hypot(_chaseDesired.x, _chaseDesired.z);
+    if (flat > limit) { _chaseDesired.x *= limit / flat; _chaseDesired.z *= limit / flat; }
+  }
+  // What the chase camera looks at: the vehicle's cab on a drive step, or the
+  // figure's own chest on foot. `_chaseDesired` is still the world-space
+  // camera position at this point, so this runs before it is converted back
+  // to rig-local space below.
+  const vehicle = drive ? state.hits[state.session?.step?.target] : null;
+  _chaseFwd.set(-Math.sin(yaw), 0, -Math.cos(yaw)).applyQuaternion(rig.quaternion);
+  if (vehicle) { vehicle.getWorldPosition(_chaseAim); _chaseAim.y += 1.35; }
+  else {
+    // On foot the camera looks past the figure's shoulder at what the learner
+    // is facing, not down at the figure: the aim sits a stride ahead at chest
+    // height, so even a camera pulled in close by a wall keeps a gentle tilt.
+    _chaseAim.set(rig.position.x + _chaseFwd.x * 1.8, 1.3, rig.position.z + _chaseFwd.z * 1.8);
+  }
+  _chaseToAim.subVectors(_chaseAim, _chaseDesired);
+  // Yaw is untouched — the chase camera looks the same way the learner is
+  // already facing or steering, it just needs to tilt down enough to catch
+  // whatever it should. Projecting the offset onto that same forward axis
+  // (rather than a full look-at, which would swing the yaw to stare at the
+  // figure behind the lens) is what keeps this a tilt and not a spin.
+  const ahead = Math.max(0.4, _chaseToAim.dot(_chaseFwd));
+  const tiltPitch = clamp(Math.atan2(_chaseToAim.y, ahead), -1.4, 0.6);
+  rig.worldToLocal(_chaseDesired);
+  camera.position.copy(_chaseDesired);
+  // Purely a render-time angle: `pitch` itself, and everything that reads it
+  // for movement or turning, is untouched, and every raycast still follows
+  // this same camera, so a click or a hover still lands on exactly what the
+  // third-person view shows.
+  camera.rotation.x = tiltPitch;
+}
+
+function onKeyDown(e) {
+  if (isTypingTarget(e)) return;
+  keys[e.code] = true;
+  const token = keyToken(e);
+  // Click-to-remap: while the panel is waiting, this press is data, not a
+  // command, so nothing it happens to be bound to runs.
+  if (remapping) {
+    e.preventDefault?.();
+    if (/^(Shift|Control|Alt|Meta)(Left|Right)$/.test(e.code)) return;
+    if (e.code === "Escape") { remapping = null; syncControlsPanel({ remapNote: "Remap cancelled — nothing changed." }); return; }
+    const action = remapping;
+    remapping = null;
+    bindings = saveBindings(remapAction(bindings, action, token));
+    syncControlsPanel({ remapNote: `${prettyKey(token)} now runs “${ACTION_LABELS[action] ?? action}”.` });
+    return;
+  }
+  // While a drive step is live the drive table is read first: WASD drive the
+  // vehicle instead of walking the learner, and the checks have their keys.
+  if (driving() && canOperate()) {
+    const da = driveActionForKey(token);
+    if (da) {
+      e.preventDefault?.();
+      keys[e.code] = false;
+      if (DRIVE_CONTINUOUS.has(da)) driveHeld[da] = true;
+      else if (!e.repeat) driveDiscrete(da);
+      return;
+    }
+  }
+  const action = actionForKey(bindings, token);
+  if (!action) return;
+  // Tab must not walk the browser's own focus while it is walking the step's
+  // controls, and the space bar must not scroll the page — but a key that did
+  // nothing (Tab at the hub, with no station running) is left to the browser.
+  if (runAction(action, { source: "key", repeat: !!e.repeat })) e.preventDefault?.();
+}
+
+function onKeyUp(e) {
+  if (isTypingTarget(e)) return;
+  keys[e.code] = false;
+  const da = driveActionForKey(e.code ?? "");
+  if (da && DRIVE_CONTINUOUS.has(da) && driveHeld[da]) { driveHeld[da] = false; e.preventDefault?.(); return; }
+  if (actionForKey(bindings, keyToken(e)) === "hold" && state.session) { e.preventDefault?.(); pressEnd(); }
+}
+
+addEventListener("keydown", onKeyDown);
+addEventListener("keyup", onKeyUp);
+
+// ------------------------------------------------------- the controls panel
+//
+// Opened from the toolbar button, the bound key (`/` or F1 by default), a
+// pad's Start button, or the voice command "controls". It is an overlay like
+// the others, so it pauses the world and Escape closes it topmost-first.
+
+const ACTION_LABELS = Object.fromEntries(INPUT_ACTIONS.map((a) => [a.id, a.label]));
+let tabPicked = false;   // has the learner chosen a tab, or is the device choosing
+
+function syncControlsPanel(extra = {}) {
+  store.patch("controls", {
+    preset: bindings.preset,
+    presets: PRESET_IDS.map((id) => ({ id, label: KEYBOARD_PRESETS[id].label, note: KEYBOARD_PRESETS[id].note })),
+    rows: describeBindings(bindings),
+    remapping,
+    ...extra,
+  });
+}
+
+function openControls() {
+  pausedBeforeOverlay = state.paused;
+  state.paused = true;
+  // Which tabs this device is offered, and in what order: a DEVICES entry's
+  // own `input` object when it has one, the run profile otherwise. The app
+  // never sniffs the hardware itself (shared/devices.js owns that).
+  const io = describeInputs(DEVICE, PROFILE);
+  // Until the learner picks a tab themselves, the panel opens on the one the
+  // device leads with: a voice-first monocular should not open on a keyboard
+  // page nobody on that device can read comfortably.
+  const held = tabPicked ? store.get().controls.tab : null;
+  store.patch("controls", {
+    visible: true,
+    tabs: io.tabs,
+    tab: io.tabs.includes(held) ? held : io.tabs[0],
+    inputSource: io.source, hands: io.hands, voiceFirst: io.voiceFirst,
+    deviceLine: describeDevice(DEVICE, PROFILE),
+    padMap: describeGamepadMap(gamepad.vendor),
+    grammar: VOICE_GRAMMAR.map((g) => ({ type: g.type, say: g.phrases, what: g.what, scope: g.scope })),
+    heard: store.get().voice.heard,
+    remapNote: "",
+  });
+  syncControlsPanel();
+  srAnnouncer.say("Controls. Keyboard, gamepad and voice.");
+}
+function closeControls() {
+  remapping = null;
+  state.paused = pausedBeforeOverlay;
+  store.patch("controls", { visible: false, remapping: null, remapNote: "" });
+}
+function toggleControls() { if (store.get().controls.visible) closeControls(); else openControls(); }
+function controlsTab(tab) { tabPicked = true; store.patch("controls", { tab }); }
+function controlsPreset(id) {
+  bindings = saveBindings({ preset: id, keys: KEYBOARD_PRESETS[id]?.keys });
+  remapping = null;
+  syncControlsPanel({ remapNote: `${KEYBOARD_PRESETS[bindings.preset].label} preset loaded.` });
+}
+function controlsRemap(action) {
+  remapping = remapping === action ? null : action;
+  syncControlsPanel({ remapNote: remapping ? `Press the key for “${ACTION_LABELS[action] ?? action}”. Esc cancels.` : "" });
+}
+function controlsResetBindings() {
+  bindings = resetBindings(bindings.preset);
+  remapping = null;
+  syncControlsPanel({ remapNote: "Back to this preset's own keys." });
+}
+function controlsNumbers(on) {
+  store.patch("controls", { numbers: !!on });
+  srAnnouncer.say(on ? "Numbers shown." : "Numbers hidden.");
+}
+
+// ----------------------------------------------------------- the gamepad
+//
+// Flat/desktop mode only: inside an immersive session the controllers arrive
+// as XRInputSource.gamepad and xrMove() below already reads those. The
+// mapping, the deadzone and the edge detection are all in shared/input.js so
+// tools/check_input.mjs can drive them with a fake pad.
+
+let fakePads = null;            // set only by the headless test hook
+let padReadoutAt = 0;
+
+function padLook({ dx = 0, dy = 0, dt = 1 / 60 } = {}) {
+  if (renderer.xr.isPresenting) return;
+  yaw -= dx * 2.6 * dt;
+  pitch = clamp(pitch - dy * 2.0 * dt, -1.2, 1.2);
+  camera.rotation.set(pitch, yaw, 0);
+}
+function padWalk({ dx = 0, dy = 0, dt = 1 / 60 } = {}) {
+  if (renderer.xr.isPresenting || state.mode === "ar") return;
+  const speed = 2.6 * dt;
+  const f = _scratchV1.set(-Math.sin(yaw), 0, -Math.cos(yaw));
+  const r = _scratchV2.set(-f.z, 0, f.x);
+  rig.position.addScaledVector(f, -dy * speed);
+  rig.position.addScaledVector(r, dx * speed);
+  clampRoam();
+}
+
+const gamepad = createGamepad({
+  getGamepads: () => fakePads ?? (navigator.getGamepads ? navigator.getGamepads() : []),
+  shouldPoll: () => !renderer.xr.isPresenting && !driving(),
+  onAction: (action, info) => {
+    if (action === "look") { padLook(info); return; }
+    if (action === "walk") { padWalk(info); return; }
+    runAction(action, info);
+  },
+  onConnect: (snap) => {
+    store.patch("controls", {
+      gamepad: { ...snap, vendorName: PAD_LABELS[snap.vendor]?.name ?? "Generic" },
+      padMap: describeGamepadMap(snap.vendor),
+    });
+    if (snap.connected) srAnnouncer.say(`${PAD_LABELS[snap.vendor]?.name ?? "A"} gamepad connected. Start opens the controls panel.`);
+  },
+});
+
+function pollGamepad(dt) {
+  // While a drive step is live the drive table owns the pad (see driveFrame).
+  if (driving()) { const ds = drivePad.poll(dt); return ds; }
+  const snap = gamepad.poll(dt);
+  // The live readout only matters while the panel is open, and a React render
+  // per frame for a button nobody is watching is pure waste.
+  if (!snap || !store.get().controls.visible) return;
+  if (elapsedTotal - padReadoutAt < 0.08) return;
+  padReadoutAt = elapsedTotal;
+  store.patch("controls", { gamepad: { ...snap, vendorName: PAD_LABELS[snap.vendor]?.name ?? "Generic" } });
+}
+
+// Publish the bindings once at start-up, not only when the panel opens: the
+// HUD's crib line in the corner names the live keys, and on a saved non-default
+// preset the defaults would be a lie.
+syncControlsPanel({ padMap: describeGamepadMap(gamepad.vendor) });
+
+const canvas = renderer.domElement;
+canvas.addEventListener("pointerdown", (e) => {
+  if (renderer.xr.isPresenting) return;
+  updateNdc(e);
+  const hit = castFromCamera();
+  if (hit?.id && beginDrag(hit.id, null)) { downAt = performance.now(); return; }
+  if (hit?.id && beginTurn(hit.id, e.clientX, e.clientY)) { downAt = performance.now(); return; }
+  dragging = true; lastX = e.clientX; lastY = e.clientY; downAt = performance.now();
+  downId = hit?.id ?? null;
+  if (downId) pressStart(downId);
+});
+addEventListener("pointerup", (e) => {
+  if (renderer.xr.isPresenting) return;
+  if (dragState) { endDrag(); return; }
+  if (turnState) { endTurn(); return; }
+  dragging = false; pressEnd();
+  if (performance.now() - downAt < 280 && downId) {
+    updateNdc(e);
+    const hit = castFromCamera();
+    if (hit && hit.id === downId) activate(hit.id);
+  }
+  downId = null;
+});
+// A touch can be cancelled by the OS (an incoming call, a system gesture) with
+// no pointerup at all — without this a phone could get stuck mid-drag/turn.
+addEventListener("pointercancel", () => {
+  if (renderer.xr.isPresenting) return;
+  if (dragState) { endDrag(); return; }
+  if (turnState) { endTurn(); return; }
+  dragging = false; pressEnd();
+  downId = null;
+});
+addEventListener("pointermove", (e) => {
+  if (renderer.xr.isPresenting) return;
+  updateNdc(e);
+  if (turnState) { updateTurn(e.clientX, e.clientY); return; }
+  if (dragState) return; // followed every frame in the render loop instead
+  if (dragging) {
+    yaw -= (e.clientX - lastX) * 0.0038;
+    pitch = clamp(pitch - (e.clientY - lastY) * 0.0038, -1.2, 1.2);
+    lastX = e.clientX; lastY = e.clientY;
+    camera.rotation.set(pitch, yaw, 0);
+  }
+});
+function updateNdc(e) {
+  const r = canvas.getBoundingClientRect();
+  pointerNdc.set(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1);
+}
+function desktopMove(dt) {
+  const speed = (keys.ShiftLeft ? 4.4 : 2.6) * dt;
+  const f = _scratchV1.set(-Math.sin(yaw), 0, -Math.cos(yaw));
+  const r = _scratchV2.set(-f.z, 0, f.x);
+  if (keys.KeyW || keys.ArrowUp) rig.position.addScaledVector(f, speed);
+  if (keys.KeyS || keys.ArrowDown) rig.position.addScaledVector(f, -speed);
+  if (keys.KeyD || keys.ArrowRight) rig.position.addScaledVector(r, speed);
+  if (keys.KeyA || keys.ArrowLeft) rig.position.addScaledVector(r, -speed);
+  clampRoam();
+}
+// How far the learner may walk. The stage owns this now: the site apron's
+// fence line outdoors, the room's walls indoors. It used to be the station's
+// own footprint plus 2.4m, which fenced the learner into the middle of a
+// 15-metre plaza and made every station a diorama you turned on the spot in.
+// Shared with the gamepad's right stick, which walks the same rig.
+function clampRoam() {
+  const limit = state.stage?.roam ?? (state.session ? (state.room?.footprint ?? 2) + 2.4 : 9.5);
+  const len = Math.hypot(rig.position.x, rig.position.z);
+  if (len > limit) { rig.position.x *= limit / len; rig.position.z *= limit / len; }
+}
+
+// XR controllers (VR) --------------------------------------------------------
+
+const controllers = [];
+for (let i = 0; i < 2; i++) {
+  const c = renderer.xr.getController(i);
+  const line = new THREE.Line(
+    new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, 0, -5)]),
+    new THREE.LineBasicMaterial({ color: 0x4fd1ff, transparent: true, opacity: 0.7 }));
+  c.add(line);
+  c.add(new THREE.Mesh(new THREE.SphereGeometry(0.012, 10, 10), new THREE.MeshBasicMaterial({ color: 0x4fd1ff })));
+  c.addEventListener("selectstart", () => {
+    if (state.mode === "ar" && !state.placed) { placeFromReticle(); return; }
+    const hit = castFromController(c);
+    if (hit?.id && beginDrag(hit.id, c)) return;
+    if (hit?.id && state.session?.step?.kind === "turn" && state.session.step.target === hit.id) {
+      c.userData.turning = true; c.userData.lastRoll = c.rotation.z;
+      return;
+    }
+    c.userData.downId = hit?.id ?? null;
+    if (hit?.id) pressStart(hit.id);
+  });
+  c.addEventListener("selectend", () => {
+    pressEnd();
+    if (dragState?.controller === c) { endDrag(); return; }
+    if (c.userData.turning) { c.userData.turning = false; return; }
+    if (state.mode === "ar" && !state.placed) return;
+    const hit = castFromController(c);
+    if (hit && hit.id === c.userData.downId) activate(hit.id);
+    c.userData.downId = null;
+  });
+  rig.add(c);
+  controllers.push(c);
+}
+// XR hands -------------------------------------------------------------------
+//
+// The same verbs as the controllers, driven by the learner's actual hands on a
+// headset that tracks them. A pinch is the trigger, a fist is the grip, and a
+// wrist roll while gripping turns whatever a turn step is asking for — which
+// is the gesture the real tool needs anyway. Nothing below knows or cares
+// which device produced the verb. See shared/hands.js.
+const handInput = createHandInput(renderer, rig, {
+  decorate(hand) {
+    // Joint spheres, so the learner can see where the runtime thinks their
+    // hand is. Cheap: twenty-five instances of one geometry and one material.
+    const geo = new THREE.SphereGeometry(0.008, 8, 6);
+    const matl = new THREE.MeshBasicMaterial({ color: 0x4fd1ff, transparent: true, opacity: 0.85 });
+    const dots = new THREE.InstancedMesh(geo, matl, 25);
+    dots.frustumCulled = false;
+    dots.userData.handDots = true;
+    hand.add(dots);
+  },
+  onSelectStart(hand) {
+    if (state.mode === "ar" && !state.placed) { placeFromReticle(); return; }
+    const hit = castFromController(hand);
+    hand.userData.downId = hit?.id ?? null;
+    if (hit?.id) pressStart(hit.id);
+  },
+  onSelectEnd(hand) {
+    pressEnd();
+    if (state.mode === "ar" && !state.placed) return;
+    const hit = castFromController(hand);
+    if (hit && hit.id === hand.userData.downId) activate(hit.id);
+    hand.userData.downId = null;
+  },
+  onGrabStart(hand) {
+    const hit = castFromController(hand);
+    if (hit?.id && beginDrag(hit.id, hand)) return;
+    // A fist on a turn step's target takes hold of it; the roll below turns it.
+    if (hit?.id && state.session?.step?.kind === "turn" && state.session.step.target === hit.id) {
+      hand.userData.turning = hit.id;
+    }
+  },
+  onGrabEnd(hand) {
+    if (dragState?.controller === hand) { endDrag(); return; }
+    hand.userData.turning = null;
+  },
+  onRoll(hand, delta) {
+    if (hand.userData.turning) state.session?.rotate(hand.userData.turning, delta / (Math.PI * 2));
+  },
+  onPose(hand, pose) {
+    // Point to aim: the ray only shows when the learner is actually pointing,
+    // so an open hand at rest does not paint a line across the station.
+    const dots = hand.children.find((c) => c.userData?.handDots);
+    if (dots) dots.visible = pose.tracked;
+    hand.userData.pose = pose;
+  },
+});
+void HAND_HINTS;
+
+let snapReady = true;
+function xrMove(dt) {
+  if (state.mode === "ar") return; // AR: the learner physically walks
+  const session = renderer.xr.getSession();
+  if (!session) return;
+  // At the wheel the thumbsticks drive instead of walking: either stick
+  // forward to go and back to brake, sideways to steer; a trigger brakes.
+  if (driving()) {
+    let throttle = 0, steer = 0, brake = false;
+    for (const source of session.inputSources) {
+      const gp = source.gamepad;
+      if (!gp || gp.axes.length < 2) continue;
+      const fourAxis = gp.axes.length >= 4;
+      const ax = fourAxis ? gp.axes[2] : gp.axes[0], ay = fourAxis ? gp.axes[3] : gp.axes[1];
+      if (Math.abs(ax) > 0.2) steer = ax;
+      if (Math.abs(ay) > 0.2) throttle = -ay;
+      if (gp.buttons?.[0]?.pressed) brake = true;
+    }
+    xrDrive = { throttle: brake ? -1 : throttle, steer, brake };
+    return;
+  }
+  xrDrive = null;
+  for (const source of session.inputSources) {
+    const gp = source.gamepad;
+    if (!gp || gp.axes.length < 2) continue;
+    const fourAxis = gp.axes.length >= 4;
+    const axX = fourAxis ? gp.axes[2] : gp.axes[0];
+    const axY = fourAxis ? gp.axes[3] : gp.axes[1];
+    if (source.handedness === "left") {
+      const head = _scratchV1;
+      camera.getWorldDirection(head); head.y = 0;
+      if (head.lengthSq() < 1e-6) continue;
+      head.normalize();
+      const right = _scratchV2.set(-head.z, 0, head.x);
+      rig.position.addScaledVector(head, -axY * 2.2 * dt);
+      rig.position.addScaledVector(right, axX * 2.2 * dt);
+    } else if (source.handedness === "right") {
+      if (Math.abs(axX) < 0.35) snapReady = true;
+      else if (snapReady) { rig.rotation.y -= Math.sign(axX) * (Math.PI / 6); snapReady = false; }
+    }
+  }
+}
+
+// ------------------------------------------------------------------ AR mode
+
+let xrSession = null, hitTestSource = null, refSpace = null, viewerSpace = null;
+const reticle = new THREE.Mesh(
+  new THREE.RingGeometry(0.06, 0.08, 32),
+  new THREE.MeshBasicMaterial({ color: 0x4fd1ff, transparent: true, opacity: 0.9 }));
+reticle.rotation.x = -Math.PI / 2;
+reticle.visible = false;
+scene.add(reticle);
+let lastHitPose = null;
+
+function placeFromReticle() {
+  if (!lastHitPose || state.placed) return;
+  placement.position.set(lastHitPose.x, lastHitPose.y, lastHitPose.z);
+  placement.quaternion.set(0, 0, 0, 1); // upright, ignore surface tilt for stable footing
+  state.placed = true;
+  reticle.visible = false;
+  store.patch("arPrompt", { visible: false });
+  Sfx.good();
+}
+function scaleUp() { placement.scale.multiplyScalar(1.15); }
+function scaleDown() { placement.scale.multiplyScalar(1 / 1.15); }
+
+async function startXr(mode) {
+  const opts = mode === "ar"
+    ? { requiredFeatures: ["hit-test"], optionalFeatures: ["local-floor", "dom-overlay", "hand-tracking"], domOverlay: { root: document.body } }
+    : { optionalFeatures: ["local-floor", "bounded-floor", "hand-tracking"] };
+  const session = await navigator.xr.requestSession(mode === "ar" ? "immersive-ar" : "immersive-vr", opts);
+  xrSession = session;
+  await renderer.xr.setSession(session);
+  state.mode = mode;
+  // VR/AR are untouched by the flat-mode third-person view: the headset owns
+  // the camera pose from here, so any chase-camera offset is dropped and the
+  // figure (which only ever stands in for the flat-mode eye) is hidden.
+  camera.position.set(0, EYE_HEIGHT, 0);
+  learnerFigure.visible = false;
+  if (mode === "ar") {
+    refSpace = renderer.xr.getReferenceSpace();
+    viewerSpace = await session.requestReferenceSpace("viewer");
+    hitTestSource = await session.requestHitTestSource({ space: viewerSpace });
+  }
+  begin();
+  vrPanel.visible = true;
+  vrHudDirty = true;
+  session.addEventListener("end", () => {
+    vrPanel.visible = false;
+    hitTestSource = null;
+    xrSession = null;
+  });
+}
+
+// In-headset / in-AR HUD panel, low-centre so it never masks the work surface.
+const vrCanvas = document.createElement("canvas");
+vrCanvas.width = 1024; vrCanvas.height = 340;
+const vrCtx = vrCanvas.getContext("2d");
+const vrTexture = new THREE.CanvasTexture(vrCanvas);
+const vrPanel = new THREE.Mesh(new THREE.PlaneGeometry(0.9, 0.3), new THREE.MeshBasicMaterial({ map: vrTexture, transparent: true, toneMapped: false }));
+vrPanel.position.set(0, -0.4, -1.0);
+vrPanel.rotation.x = -0.35;
+vrPanel.renderOrder = 10;
+vrPanel.visible = false;
+camera.add(vrPanel);
+
+function wrapText(g, text, x, y, maxWidth, lineHeight, maxLines) {
+  const words = String(text).split(/\s+/);
+  let line = "", lines = 0;
+  for (const word of words) {
+    if (g.measureText(line + word).width > maxWidth) {
+      g.fillText(line, x, y); y += lineHeight; line = ""; lines++;
+      if (lines >= maxLines) { g.fillText("…", x, y); return; }
+    }
+    line += word + " ";
+  }
+  g.fillText(line, x, y);
+}
+function drawVrHud() {
+  const g = vrCtx, w = vrCanvas.width, h = vrCanvas.height;
+  const accent = state.room?.accentCss ?? HUD.accent;
+  const hud = store.get().hud;
+  g.clearRect(0, 0, w, h);
+  g.fillStyle = "rgba(10,17,23,0.9)"; g.fillRect(0, 0, w, h);
+  const stateColour = { ok: HUD.good, warn: HUD.warn, danger: HUD.danger, neutral: HUD.edge }[hud.railState] ?? HUD.edge;
+  g.fillStyle = stateColour; g.fillRect(0, 0, 12, h);
+  g.fillStyle = accent;
+  g.font = `600 34px 'Barlow Condensed', Arial, sans-serif`;
+  g.textAlign = "left"; g.textBaseline = "middle";
+  g.fillText(hud.room, 36, 40);
+  g.fillStyle = HUD.text;
+  g.font = `600 40px 'Barlow Condensed', Arial, sans-serif`;
+  g.fillText(hud.step, 36, 90);
+  g.fillStyle = HUD.muted; g.font = `26px Arial, sans-serif`;
+  wrapText(g, hud.cue, 36, 140, w - 300, 32, 3);
+  g.fillStyle = HUD.text; g.font = `26px Arial, sans-serif`;
+  wrapText(g, stripHtml(hud.feedbackHtml), 36, 236, w - 300, 30, 2);
+  g.textAlign = "right"; g.fillStyle = accent;
+  g.font = `600 56px 'Barlow Condensed', Arial, sans-serif`;
+  g.fillText(hud.score, w - 34, 62);
+  g.fillStyle = HUD.muted; g.font = `600 26px 'Barlow Condensed', Arial, sans-serif`;
+  g.fillText(hud.comboText, w - 34, 108);
+  g.fillText(hud.count + "   " + hud.timer, w - 34, 144);
+  if (hud.dive) {
+    g.fillStyle = hud.dive.state === "over" ? HUD.danger : hud.dive.state === "warn" ? HUD.warn : "#4fd6c8";
+    g.fillText(`${hud.dive.depth ? `DEPTH ${hud.dive.depth}   ` : ""}BOTTOM ${hud.dive.bottom}`, w - 34, 180);
+  }
+  g.textAlign = "left";
+  g.fillStyle = "#1d2833"; g.fillRect(36, h - 34, w - 70, 10);
+  g.fillStyle = accent;
+  g.fillRect(36, h - 34, (w - 70) * (state.session ? state.session.progress01 : Progress.roomsClearedIn(allSims().map((s) => s.id)) / allSims().length), 10);
+  if (Perf.enabled) { g.fillStyle = HUD.muted; g.font = "22px ui-monospace, Menlo, Consolas, monospace"; g.fillText(Perf.text(), 36, h - 58); }
+  vrTexture.needsUpdate = true;
+}
+
+// -------------------------------------------------------------------- intro
+
+let deepLink = new URLSearchParams(location.search).get("sim");
+if (deepLink && SIMS_META_BY_ID[deepLink]) wfSimMeta(SIMS_META_BY_ID[deepLink]); // the station's name from first paint
+// The round trip (docs/interop.md): a job board opens a station with
+// `?from=<world>&return=<the world's page>#site=<id>`; the finished run's
+// results card then offers "Back to <world>". Only a same-origin return is
+// honoured (ppReturnTarget), so the parameter can never redirect off-site.
+const ppRunnerFrom = new URLSearchParams(location.search).get("from");
+const ppRunnerReturn = ppReturnTarget(location.search, location.href);
+// A programme deep link (?programme=<id>, from the homepage's programme rail)
+// opens the programmes panel with that block pinned to the top — the same
+// treatment an instructor's assignment gets, so the learner lands on the block
+// they were sent to instead of hunting for it among two dozen.
+let programmeLink = new URLSearchParams(location.search).get("programme");
+if (!CURRICULA.some((c) => c.id === programmeLink)) programmeLink = null;
+if (programmeLink) { assignedProgram = programmeLink; assignedBy = "link"; }
+// ?programme=<id>&level=<n> (a track page's level link) also opens that
+// programme's ladder at that rung. Like CMD_ASSIGN it never unlocks anything.
+{
+  const n = Number(new URLSearchParams(location.search).get("level"));
+  if (programmeLink && Number.isInteger(n) && n >= 1 && n <= LADDER_LEVELS) { assignedLevel = n; ladderOpen = programmeLink; }
+}
+let pendingEnter = null; // set by the scenario editor's "Save & play" / "Play"
+// Back from a Trade Skills task inside a level (?level_resume=1): the run in
+// storage already carries that task's attempt, so the chain carries on here.
+if (new URLSearchParams(location.search).get("level_resume")) {
+  const run = readLevelRun();
+  if (run && LADDER_BY_PROGRAMME[run.programme]) {
+    state.level = run;
+    queueMicrotask(() => {
+      store.patch("intro", { visible: false });
+      state.paused = false;
+      runLevelTask();
+    });
+  }
+}
+function begin() {
+  store.patch("intro", { visible: false });
+  state.paused = false;
+  Sfx.ensure();
+  if (state.mode === "ar") {
+    resetPlacement();
+    store.patch("arPrompt", { visible: true });
+    store.patch("scaleRow", { visible: true });
+  }
+  if (galleryPreview && !pendingEnter && !deepLink) {
+    const kind = galleryPreview;
+    galleryPreview = null;
+    enterGallery(kind);
+    return;
+  }
+  if (districtPreview && !pendingEnter && !deepLink) {
+    const id = districtPreview;
+    districtPreview = null;
+    enterDistrictPreview(id);
+    return;
+  }
+  if (programmeLink && !pendingEnter && !deepLink) {
+    programmeLink = null;
+    enterHub();
+    viewPrograms();
+    return;
+  }
+  const target = pendingEnter ?? deepLink;
+  // One-shot, like pendingEnter: otherwise the next bare begin() — e.g.
+  // enterFlat() from the voice "hub" command once no session is active —
+  // would silently re-enter the ?sim= station instead of landing on the hub.
+  pendingEnter = null;
+  deepLink = null;
+  if (target && simExists(target)) enterSim(target);
+  else enterHub();
+}
+
+function enterFlat() { state.mode = "flat"; begin(); }
+function resetProgress() {
+  Progress.reset(); state.api?.refresh?.(); syncHud();
+  store.set({ resetProgressText: "Progress cleared" });
+}
+if (navigator.xr?.isSessionSupported) {
+  navigator.xr.isSessionSupported("immersive-ar").then((ok) => {
+    store.patch("intro", ok ? { arDisabled: false } : { arText: "AR unavailable here" });
+  }).catch(() => store.patch("intro", { arText: "AR unavailable here" }));
+  navigator.xr.isSessionSupported("immersive-vr").then((ok) => {
+    store.patch("intro", ok ? { vrDisabled: false } : { vrText: "VR unavailable here" });
+  }).catch(() => store.patch("intro", { vrText: "VR unavailable here" }));
+} else {
+  store.patch("intro", { arText: "AR unavailable here", vrText: "VR unavailable here" });
+}
+async function enterAr() {
+  try { await startXr("ar"); }
+  catch (err) { begin(); setRail("warn", `<b>Could not start AR.</b> ${err?.message ?? err}. Falling back to the desktop view.`); }
+}
+async function enterVr() {
+  try { await startXr("vr"); }
+  catch (err) { begin(); setRail("warn", `<b>Could not start VR.</b> ${err?.message ?? err}. Falling back to the desktop view.`); }
+}
+
+// ------------------------------------------------------------------- voice
+//
+// Navigation and assistive narration only, deliberately: "go to the valve
+// vault," "leaderboards," "guided tour," "campus," "hint," "brief," "status."
+// Every navigation command routes through the exact same action a click
+// already triggers — nothing new to verify in the procedure engine itself.
+// This never activates a step inside a running procedure; the hands-on
+// click/drag/turn is the point of a hands-on trainer, and voice-skipping it
+// would undermine the training, not assist it. "Hint"/"brief"/"status" only
+// ever read something back — they change nothing in the session.
+
+/** Speak a line unless the player has muted the room with M. */
+const srAnnouncer = createAnnouncer();
+function announce(text) {
+  // Everything spoken is also written to the live region, so a screen reader
+  // user gets it whether or not the synthesised voice is on or muted.
+  lastSpoken = text;   // what the voice command "repeat" says again
+  srAnnouncer.say(text);
+  if (!Sfx.muted) speak(text);
+}
+
+/** The line the speaker button/voice "hint" command reads back: the live
+ * step's title and cue while a procedure is running, otherwise how to start one. */
+function currentHintLine() {
+  const s = state.session;
+  if (s?.step) return `${s.step.title}. ${s.step.cue}`;
+  return "Select a station kiosk to begin its procedure.";
+}
+
+function speakBrief() {
+  if (!state.room) return `${allSims().length} simulators on the campus. Say a station name to begin, like ${SIMS_META[0].name}.`;
+  return `${state.room.trade}. ${state.room.tagline}.`;
+}
+
+function speakStatus() {
+  const ids = allSims().map((s) => s.id);
+  return `${Progress.roomsClearedIn(ids)} of ${allSims().length} stations cleared. ${Progress.starsIn(ids)} stars. ` +
+    `Level ${Progress.level}, ${Progress.levelName}.`;
+}
+
+/** The live step read back in full: where the learner is in the procedure,
+ * what the step is called and what it asks for. "read step", and the F-key
+ * or the pad's Y button, all land here. */
+function currentStepLine() {
+  const s = state.session;
+  if (!s?.step) return currentHintLine();
+  const names = targetNames(s.step);
+  const focused = kbCursor.current ? ` Focused: ${names[kbCursor.current] ?? String(kbCursor.current).replace(/[-_]/g, " ")}.` : "";
+  return `Step ${Math.min(s.index + 1, s.steps.length)} of ${s.steps.length}. ${s.step.title}. ${s.step.cue}.${focused}`;
+}
+
+/** The controls the live step names, as `{ id, name }` — what "focus the tag
+ * bag" and "where is the gauge" are matched against. */
+function stepTargets() {
+  const step = state.session?.step;
+  if (!step) return [];
+  const names = targetNames(step);
+  return targetsForStep(step).map((id) => ({ id, name: names[id] ?? String(id).replace(/[-_]/g, " ") }));
+}
+
+/** Where a control is from where the learner is standing and looking. This
+ * only describes; the hands still have to go there. */
+function describeWhere(id, name) {
+  const obj = state.hits[id];
+  if (!obj) return `I cannot see the ${name} from here.`;
+  const there = obj.getWorldPosition(new THREE.Vector3());
+  const here = camera.getWorldPosition(new THREE.Vector3());
+  const look = camera.getWorldDirection(new THREE.Vector3());
+  look.y = 0;
+  const to = there.clone().sub(here);
+  const metres = Math.hypot(to.x, to.z);
+  to.y = 0;
+  let side = "straight ahead";
+  if (look.lengthSq() > 1e-6 && to.lengthSq() > 1e-6) {
+    look.normalize(); to.normalize();
+    const dot = look.x * to.x + look.z * to.z;
+    const cross = look.z * to.x - look.x * to.z;
+    const angle = Math.atan2(cross, dot) * (180 / Math.PI);
+    if (Math.abs(angle) > 140) side = "behind you";
+    else if (angle > 35) side = "to your right";
+    else if (angle < -35) side = "to your left";
+    else if (Math.abs(angle) > 12) side = angle > 0 ? "slightly right" : "slightly left";
+  }
+  const height = there.y - here.y;
+  const level = height > 0.5 ? ", above head height" : height < -0.6 ? ", down at your feet" : "";
+  return `The ${name} is about ${metres < 1 ? "a metre" : `${metres.toFixed(1)} metres`} away, ${side}${level}.`;
+}
+
+/** Bigger / smaller: the diorama in AR, the 2D chrome everywhere else. On a
+ * monocular hardhat display this is the command a learner reaches for most. */
+function scaleView(dir) {
+  if (state.mode === "ar" && state.placed) {
+    if (dir > 0) scaleUp(); else scaleDown();
+    return dir > 0 ? "Larger." : "Smaller.";
+  }
+  hudZoom = clamp(hudZoom + dir * 0.15, 0.8, 2.2);
+  const root = document.documentElement;
+  root.dataset.hudZoom = "1";
+  root.style.setProperty("--hud-scale", String((PROFILE.hudScale ?? 1) * hudZoom));
+  return `Display at ${Math.round(hudZoom * 100)} per cent.`;
+}
+
+const VoiceSR = window.SpeechRecognition || window.webkitSpeechRecognition;
+let voiceRecognition = null;
+if (VoiceSR) {
+  voiceRecognition = new VoiceSR();
+  voiceRecognition.lang = "en-US";
+  voiceRecognition.interimResults = false;
+  voiceRecognition.maxAlternatives = 1;
+  voiceRecognition.onresult = (e) => {
+    const transcript = e.results?.[0]?.[0]?.transcript ?? "";
+    store.patch("voice", { heard: transcript, listening: false, error: "" });
+    handleVoiceCommand(transcript);
+  };
+  voiceRecognition.onerror = (e) => {
+    store.patch("voice", { listening: false, error: `Voice error: ${e.error ?? "unknown"}.` });
+  };
+  voiceRecognition.onend = () => store.patch("voice", { listening: false });
+}
+
+function toggleVoice() {
+  if (!voiceRecognition) return;
+  if (store.get().voice.listening) { voiceRecognition.stop(); return; }
+  Sfx.ensure();
+  try {
+    store.patch("voice", { listening: true, heard: "", error: "" });
+    voiceRecognition.start();
+  } catch (err) {
+    store.patch("voice", { listening: false, error: String(err?.message ?? err) });
+  }
+}
+
+/** Longest name first, so "dock crane" cannot shadow-match inside a longer
+ * phrase that happens to contain it as a substring. */
+const VOICE_SIMS = [...SIMS_META].sort((a, b) => b.name.length - a.name.length);
+
+/** The numbered menu "select item N" resolves against: the intro panel's own
+ * buttons first, then every station card, in exactly the order react-ui.js
+ * badges them (introMenu() is the single source of that order, so the badge a
+ * learner reads and the number this resolves can never drift apart). */
+function voiceMenu() {
+  return introMenu().map((entry) => ({
+    ...entry,
+    run: entry.kind === "sim"
+      ? () => { pendingEnter = entry.id; begin(); announce(`Entering ${SIMS_META_BY_ID[entry.id]?.name ?? entry.label}.`); }
+      : () => { const fn = uiActions[entry.action]; if (fn) { fn(); announce(`${entry.label}.`); } },
+  }));
+}
+
+/** Station names stay here — this module owns the roster (the built-ins plus
+ * the learner's own custom drills) — and everything else is delegated to the
+ * grammar in shared/input.js. */
+function parseVoiceCommand(text) {
+  const lower = String(text ?? "").toLowerCase();
+  const sim = VOICE_SIMS.find((s) => lower.includes(s.name.toLowerCase()));
+  if (sim) return { type: "sim", id: sim.id };
+  return parseVoice(text, { menu: voiceMenu(), targets: stepTargets() });
+}
+
+function handleVoiceCommand(text) {
+  const cmd = parseVoiceCommand(text);
+  store.patch("controls", { heard: String(text ?? "") });
+  switch (cmd.type) {
+    case "sim": pendingEnter = cmd.id; begin(); announce(`Entering ${SIMS_META_BY_ID[cmd.id]?.name ?? "station"}.`); return;
+    case "hub": if (state.session) backToHub(); else enterFlat(); announce("Back at the campus."); return;
+    case "leaderboard": viewLeaderboard(); return;
+    case "records": viewRecords(); return;
+    case "programs": viewPrograms(); return;
+    case "tour": startTour(); announce("Starting the guided tour."); return;
+    case "editor": openEditor(); return;
+    case "reset": resetProgress(); announce("Progress cleared."); return;
+    case "help": announce(VOICE_HELP_LINE); return;
+    case "hint": announce(currentHintLine()); return;
+    case "brief": announce(speakBrief()); return;
+    case "status": announce(speakStatus()); return;
+    case "controls": openControls(); announce("Controls panel open."); return;
+    case "readStep": announce(currentStepLine()); return;
+    case "repeat": announce(lastSpoken || currentHintLine()); return;
+    case "mute": Sfx.muted = true; srAnnouncer.say("Muted."); return;
+    case "unmute": Sfx.muted = false; announce("Sound on."); return;
+    case "bigger": announce(scaleView(1)); return;
+    case "smaller": announce(scaleView(-1)); return;
+    case "thirdPerson": setViewMode("third", { announceIt: false }); announce("Third-person view."); return;
+    case "firstPerson": setViewMode("first", { announceIt: false }); announce("First-person view."); return;
+    case "showNumbers": controlsNumbers(cmd.on); return;
+    case "checkIn": announce(CHECKIN_QUESTION); return;
+    case "checkInAnswer": announce(CHECKIN_REPLIES[cmd.answer] ?? CHECKIN_REPLIES.steady); return;
+    case "selectItem": {
+      const item = cmd.item;
+      if (!item) { announce(`There is no item ${cmd.index} on this screen. Say "show numbers" to see them.`); return; }
+      item.run();
+      return;
+    }
+    // Focus and "where is" are the whole of what voice may do to a procedure:
+    // they move the keyboard cursor and describe. Taking the control is a
+    // hand's job — see the interface brief.
+    case "next": case "previous": {
+      if (!canOperate()) { announce("No station is running. Say a station name to begin."); return; }
+      kbStep(cmd.type === "next" ? 1 : -1);
+      return;
+    }
+    case "focus": {
+      if (!canOperate()) { announce("No station is running yet."); return; }
+      const hit = matchTargetName(cmd.name, stepTargets());
+      if (!hit) { announce(`This step does not name a ${cmd.name}. Say "read step" for what it asks for.`); return; }
+      kbCursor.set(targetsForStep(state.session?.step));
+      kbFocus(hit.id);
+      lastSpoken = `Focused ${hit.name}.`;
+      return;
+    }
+    case "whereIs": {
+      const hit = matchTargetName(cmd.name, stepTargets());
+      if (!hit) { announce(`I cannot place a ${cmd.name} in this step.`); return; }
+      announce(describeWhere(hit.id, hit.name));
+      return;
+    }
+    default: break;
+  }
+  store.patch("voice", { error: `Didn't recognize "${text}" — say "help" for the full list, or "controls" for the panel.` });
+  announce('Didn\'t catch that. Say "help" for commands.');
+}
+
+// Hoisted rather than passed inline: voiceMenu() runs the same handlers by
+// name when a learner says "select item 4", so the panel's buttons and the
+// voice path cannot diverge.
+const uiActions = {
+  viewLeaderboard, closeLeaderboard,
+  viewRecords, closeRecords, exportRecordsCsv, exportRecordsXapi, exportCredentials, exportEpisodesJson, clearRecords,
+  setRecordsTab, exportProofCsv, exportCompetencyBadges, printTranscript,
+  viewMyTraining, closeMyTraining, exportTranscriptJson, printTrainingTranscript,
+  viewPrograms, closePrograms, programStart, toggleLadder, startLevel,
+  viewSignIn, closeSignIn, signInWith, setSignInField, signOutOfAuth,
+  viewShare, closeShare, connectWallet, disconnectWallet, setShareLicence, optInShare, revokeShare, shareNow,
+  startRobotTraining, stopRobotTraining,
+  viewFlows, closeFlows, flowContinue, flowRestart, flowSelect,
+  prebriefStart, prebriefSkip, prebriefClose,
+  lrsSetEndpoint, lrsSetAuth, lrsConnect, lrsDisconnect, lrsSendAll,
+  openEditor, closeEditor, edSelectBase, edToggleStep, edMoveStep,
+  edSetName, edSetPar, edSetTagline, edSavePlay, edSaveOnly, edCancel,
+  edPlayLibrary, edDeleteLibrary,
+  setPlayerNameDraft, commitPlayerName,
+  retryResult, backToHub, nextTourStop, startTour, flatSelect,
+  enterAr, enterVr, enterFlat, resetProgress,
+  scaleUp, scaleDown, toggleVoice,
+  speechSupported, speakHint: () => { Sfx.ensure(); speak(currentHintLine()); },
+  openControls, closeControls, controlsTab, controlsPreset, controlsRemap, controlsResetBindings,
+  toggleView,
+  // The drive HUD's buttons: on-screen pedals and wheel for a phone, and a
+  // button per check for anyone without the keys to hand.
+  driveTouch: (patch) => { Object.assign(driveTouch, { active: true }, patch ?? {}); },
+  driveCheck: (kind) => driveDiscrete(kind),
+};
+mountUI(store, uiActions);
+
+// Test-only hook: headless test runners can't grant microphone permission
+// or produce a real SpeechRecognition result, but the interesting logic is
+// the command parsing/routing in handleVoiceCommand, not the browser's own
+// recognizer — so expose that directly, the same pattern as Holodeck's
+// window.__holodeckTest.
+window.__smartcityVoiceTest = { simulate: (text) => handleVoiceCommand(text) };
+
+// Test-only hook for the deep input layer: a headless runner cannot plug in a
+// gamepad or hold a key down, but it can hand the poller a fake Standard
+// Gamepad and push synthetic key events through the very same handlers a real
+// press reaches. Nothing here is a shortcut past the bindings or the edge
+// detection — `gamepad()` calls the real poll, `key()` calls the real keydown
+// handler — so a passing drive proves the wiring, not a stub.
+window.__smartcityInputTest = {
+  /** Feed one fake pad (or an array, nulls allowed) and poll it. */
+  gamepad: (fakePad, { polls = 1, dt = 1 / 60 } = {}) => {
+    fakePads = fakePad == null ? null : (Array.isArray(fakePad) ? fakePad : [fakePad]);
+    let snap = null;
+    for (let i = 0; i < polls; i++) snap = pollGamepad(dt) ?? gamepad.snapshot();
+    return { snapshot: gamepad.snapshot(), focus: kbCursor.current, snap };
+  },
+  /** "Tab", "Shift+Tab", "KeyM"… down then up, unless `up: false`. */
+  key: (code, { up = true, repeat = false } = {}) => {
+    const raw = String(code ?? "");
+    const shifted = raw.startsWith("Shift+");
+    const event = { code: shifted ? raw.slice(6) : raw, shiftKey: shifted, repeat, target: document.body, preventDefault() {} };
+    onKeyDown(event);
+    if (up) onKeyUp(event);
+    return { action: actionForKey(bindings, keyToken(event)), focus: kbCursor.current };
+  },
+  voice: (text) => handleVoiceCommand(text),
+  bindings: () => bindings,
+  preset: (id) => { controlsPreset(id); return bindings.preset; },
+  pad: () => gamepad.snapshot(),
+  action: (name, info) => runAction(name, info ?? {}),
+  focus: () => ({ ids: kbCursor.ids, index: kbCursor.index, current: kbCursor.current, active: kbActive }),
+  controls: () => store.get().controls,
+  menu: () => voiceMenu().map((m, i) => ({ index: i + 1, kind: m.kind, id: m.id, label: m.label })),
+};
+
+// Test-only hook: precisely clicking a 3D object's exact screen position
+// from an automated browser test is brittle, but the click/turn handlers
+// just forward to state.session.select()/rotate() — the same calls this
+// exposes directly, so a test can drive the real Session and verify the
+// UI reacts correctly without needing to replicate the camera projection.
+// Same pattern as Holodeck's window.__holodeckTest.
+window.__smartcityTest = {
+  // A drive step's live state, and the on-screen pedals, for a live test.
+  drive: () => {
+    const d = state.session?.drive;
+    return d ? { s: d.s, total: d.total, speed: d.speed, offset: d.offset, band: d.band, started: d.started, pose: d.pose, plan: d.plan.map((c) => ({ kind: c.kind, done: c.done, missed: c.missed })), live: driving(), lookingRound: dragging, yaw, paused: state.paused } : null;
+  },
+  driveTouch: (patch) => { Object.assign(driveTouch, patch ?? {}); return { ...driveTouch }; },
+  driveCheck: (kind) => driveDiscrete(kind),
+  select: (id) => state.session?.select(id),
+  rotate: (id, delta) => state.session?.rotate(id, delta),
+  press: (id) => pressStart(id),
+  release: () => pressEnd(),
+  session: () => state.session,
+  // Random events (shared/events.js): the live run's scheduler, for a live
+  // test to read its timeline/log without waiting out the whole run, and to
+  // render one of the timeline's own (seeded) entries on demand — the same
+  // performAmbientEvent() path the scheduler's own tick() calls — for a
+  // verification screenshot that cannot wait out a real run's clock.
+  events: () => state.eventsScheduler ? { enabled: state.eventsScheduler.enabled, timeline: state.eventsScheduler.timeline, log: state.eventsScheduler.log } : null,
+  fireAmbientForTest: (entry) => performAmbientEvent(entry),
+  // Scene and camera for live verification scripts (screenshots of the
+  // stage districts, headset-budget spot checks); read-only by convention.
+  scene: () => scene,
+  camera: () => camera,
+  // The renderer itself, for the frame-time harness (tools/measure_frames.mjs).
+  renderer: () => renderer,
+  // What the renderer actually did for the last frame. A visual upgrade that
+  // claims to cost texture memory rather than draw calls has to be checkable,
+  // and renderer.info is the only honest place to check it.
+  renderInfo: () => ({
+    calls: renderer.info.render.calls,
+    triangles: renderer.info.render.triangles,
+    textures: renderer.info.memory.textures,
+    geometries: renderer.info.memory.geometries,
+    programs: renderer.info.programs?.length ?? null,
+  }),
+  stage: () => state.stage,
+  // The flow runner, so a live browser test can drive a host's flow the way a
+  // host would and read back exactly what the panel and the channel report.
+  flow: () => ({
+    state: flowRunner.state(), rows: flowRunner.rows(),
+    current: (() => { const c = flowRunner.current(); return { flowId: c.flow?.id ?? null, nodeId: c.run?.nodeId ?? null, kind: c.node?.kind ?? null, done: !!c.run?.done }; })(),
+  }),
+  // The same two handlers the panel's own buttons run, so a live test drives the
+  // real actions rather than a copy of them.
+  flowContinue: () => flowContinue(),
+  openFlows: () => viewFlows(),
+  // The station's built controls by id, the group they live in, and the THREE
+  // namespace — so a live probe can raycast from the camera to a control and
+  // see whether anything is in front of it. The headless checkers know where
+  // a control IS; only the renderer knows whether it can be reached. These
+  // were missing, and the probe that wanted them reported "no test hook" and
+  // then printed a clean bill of health, which is the worst of both.
+  hits: () => state.hits,
+  stationRoot: () => state.roomRoot,
+  THREE: () => THREE,
+  perf: () => Perf.snapshot({ enabled: Perf.enabled, log: Perf.list().length }),
+  // The keyboard cursor, so an accessibility test can assert that Tab walks
+  // the controls the procedure names rather than the scene-graph order.
+  keyboard: () => ({ ids: kbCursor.ids, index: kbCursor.index, current: kbCursor.current, active: kbActive }),
+  // Course tracking (shared/tracking.js, docs/course-tracking.md): seed an
+  // attempt or an instructor sign-off straight into the training record for
+  // a verification screenshot, without playing a whole station. Same pattern
+  // as every other hook here — it calls the real functions the UI itself
+  // calls, so a seeded run exercises the same maths a played one would.
+  seedRecord: (entry) => { const r = TrainingRecords.record(entry); if (store.get().training.visible) renderMyTraining(); return r; },
+  seedSignOff: (entry) => { const r = SignOffs.add(entry); if (store.get().training.visible) renderMyTraining(); return r; },
+  myTraining: () => store.get().training,
+  openMyTraining: () => viewMyTraining(),
+};
+Perf.mountOverlay();
+
+// --------------------------------------------------------------- frame loop
+
+addEventListener("resize", () => {
+  camera.aspect = innerWidth / innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth, innerHeight);
+});
+
+const clock = new THREE.Clock();
+let elapsedTotal = 0;
+let lastDiveSecond = -1;
+
+renderer.setAnimationLoop((_, frame) => {
+  const rawDt = clock.getDelta();
+  const dt = Math.min(rawDt, 0.05);
+  elapsedTotal += dt;
+  const presenting = renderer.xr.isPresenting;
+  // Headset-pass instrument (?perf=1): real frame time, not the clamped one.
+  Perf.frame(rawDt);
+  if (Perf.sample(renderer, elapsedTotal) && presenting) vrHudDirty = true;
+
+  // AR hit-test: keep the reticle tracking the tapped surface until placed.
+  if (state.mode === "ar" && presenting && frame && hitTestSource && !state.placed) {
+    const results = frame.getHitTestResults(hitTestSource);
+    if (results.length) {
+      const pose = results[0].getPose(refSpace);
+      if (pose) {
+        lastHitPose = pose.transform.position;
+        reticle.visible = true;
+        reticle.position.set(pose.transform.position.x, pose.transform.position.y, pose.transform.position.z);
+      }
+    } else reticle.visible = false;
+  } else reticle.visible = false;
+
+  // The pad is polled every frame, paused or not: Start has to be able to open
+  // the controls panel from the intro card, and Back has to close it again.
+  // Inside an immersive session the poller stands down (the XR input sources
+  // own the controllers) — see createGamepad's `shouldPoll`.
+  if (!presenting) pollGamepad(dt);
+
+  if (!state.paused) {
+    if (presenting) { xrMove(dt); handInput.update(); } else if (!driving()) desktopMove(dt);
+    driveFrame();
+    if (state.session && !state.session.finished) {
+      state.session.tick(dt);
+      // Low-rate pose track (~4 Hz, see shared/episodes.js): camera always,
+      // controllers and hands only while actually presenting, so a desktop
+      // run's track carries just the camera it actually has.
+      state.episodeRec?.tick(dt, presenting ? { camera, controllers, hands: handInput.hands } : { camera });
+      syncAlarm(state.session);
+      if (driving()) { driveCamera(dt); syncDriveHud(); }
+      if (state.session.step?.kind === "hold" || state.session.step?.kind === "track" || state.session.step?.kind === "drive") syncHud();
+      // The bottom-time chip counts in whole seconds; refresh it once a second.
+      else if ((state.room?.underwater || state.stage?.scoreboard) && Math.floor(state.session.elapsed) !== lastDiveSecond) { lastDiveSecond = Math.floor(state.session.elapsed); syncHud(); }
+      // Random events: the ambient scheduler's own clock is the session's —
+      // it never fires once the session is finished or mid-interrupt (see
+      // shared/events.js's tick()), so this can run unconditionally here.
+      const firedAmbient = state.eventsScheduler?.tick(state.session);
+      if (firedAmbient) performAmbientEvent(firedAmbient);
+    }
+    tickAmbientAnimators(dt);
+  }
+
+  // Third-person camera: after driveCamera() (above) has this frame's yaw and
+  // pitch settled on a drive step, so the chase view sits behind whatever the
+  // learner is actually looking at. VR/AR never reach this — presenting owns
+  // the camera pose, and AR walks the learner physically.
+  if (!presenting && state.mode !== "ar") updateViewCamera();
+
+  const canInteract = state.mode !== "ar" || state.placed;
+  let hovering = null;
+  if (canInteract) {
+    if (presenting) { for (const c of controllers) { const hit = castFromController(c); if (hit) { hovering = hit.id; break; } } }
+    else hovering = castFromCamera()?.id ?? null;
+  }
+  setHover(hovering);
+
+  if (hint.visible && hintTargets.length && canInteract) {
+    let best = null, bestDist = Infinity;
+    camera.getWorldPosition(_scratchV1);
+    for (const t of hintTargets) {
+      t.getWorldPosition(_scratchV2);
+      const d = _scratchV2.distanceToSquared(_scratchV1);
+      if (d < bestDist) { bestDist = d; best = t; }
+    }
+    if (best) {
+      _scratchBox.setFromObject(best);
+      const c = _scratchBox.getCenter(_scratchV1);
+      hint.position.set(c.x, 0.02, c.z);
+      hintPip.position.set(0, Math.max(_scratchBox.max.y + 0.18, 0.6) + Math.sin(elapsedTotal * 2.6) * 0.05, 0);
+      hintPip.rotation.y = elapsedTotal * 1.4;
+      hintRing.scale.setScalar(1 + Math.sin(elapsedTotal * 2.2) * 0.06);
+    }
+  }
+
+  const gg = state.session?.gauge;
+  if (gauge.visible && gg && canInteract) {
+    const halfWidth = 0.62 * 0.45;
+    gaugeMarker.position.x = -halfWidth + gg.t * halfWidth * 2;
+    const inBand = gg.t >= gg.green[0] && gg.t <= gg.green[1];
+    gaugeMarker.material.color.set(inBand ? 0x59c97b : 0xffffff);
+    camera.getWorldPosition(_scratchV1);
+    gauge.lookAt(_scratchV1.x, gauge.position.y, _scratchV1.z);
+    if (elapsedTotal - gaugeReadoutAt > 0.08) {
+      gaugeReadoutAt = elapsedTotal;
+      const text = state.session.step?.gauge?.readout?.(gg.t) ?? `${Math.round(gg.t * 100)}%`;
+      repaint(gaugeReadout, (ctx, w, h) => {
+        ctx.fillStyle = "rgba(6,14,20,0.95)"; ctx.fillRect(0, 0, w, h);
+        ctx.fillStyle = inBand ? HUD.good : HUD.text;
+        ctx.font = `600 ${Math.round(h * 0.66)}px 'Barlow Condensed', Arial, sans-serif`;
+        ctx.textAlign = "center"; ctx.textBaseline = "middle";
+        ctx.fillText(text, w / 2, h * 0.56);
+      });
+    }
+  }
+
+  if (canInteract) {
+    // Continuous twist-to-open: sample controller roll each frame while a
+    // 'turn' step's target is grabbed, same idea as the desktop screen-angle
+    // drag but driven by wrist rotation instead of mouse position.
+    if (presenting) {
+      for (const c of controllers) {
+        if (!c.userData.turning) continue;
+        let d = c.rotation.z - c.userData.lastRoll;
+        c.userData.lastRoll = c.rotation.z;
+        if (d > Math.PI) d -= Math.PI * 2;
+        if (d < -Math.PI) d += Math.PI * 2;
+        const targetId = state.session?.step?.target;
+        if (targetId) { lastActivatedId = targetId; state.session.rotate(targetId, d / (Math.PI * 2)); syncHud(); }
+      }
+    }
+    updateDrag();
+    syncTurnVisual();
+  }
+  for (let i = returning.length - 1; i >= 0; i--) {
+    const r = returning[i];
+    r.t = Math.min(1, r.t + dt / 0.3);
+    r.object.position.lerpVectors(r.from, r.to, easeOut(r.t));
+    if (r.t >= 1) returning.splice(i, 1);
+  }
+  burst.update(dt);
+
+  if (canInteract) state.api?.animate?.(elapsedTotal, dt, state.session);
+  if (state.session && !state.session.finished) { const snap = observerSnapshot(); if (snap) observer.state(snap); }
+  state.stage?.animate?.(elapsedTotal, dt);
+  if (state.roomRoot) {
+    camera.getWorldPosition(_crewLearnerPos);
+    animateCrew(state.roomRoot, elapsedTotal, dt, _crewLearnerPos, reducedMotion());
+  }
+
+  if (presenting && vrHudDirty) { drawVrHud(); vrHudDirty = false; }
+  renderer.render(scene, camera);
+});
+
+state.paused = true;
+
+// Mount the in-app Easter eggs (docs/easter-egg.md). `state` is handed over
+// by reference, so this module always sees the live room/stage/hits without
+// app.js calling back into it at every transition. The station's own union
+// sign (shared/signage.js, built inside buildStage) already carries the
+// union id — this just turns it into the abbreviation a photo caption reads.
+mountSmartCityEggs({
+  THREE, renderer, camera, worldRoot, state, store, SIMS_META, TrainingRecords,
+  unionAbbrev: () => UNIONS_BY_ID[state.stage?.signage?.plan?.unionId]?.abbrev ?? "",
+  onEggFound: (id, programme) => recordLedgerFind(id, programme),
+});
+
+// The shared control grammar and help overlay (shared/controls.js, docs/ui-review.md).
+// The Guide (shared/guide.js): the floating help button and its question panel.
+gdMount();
+ctlMount({
+  world: "SmartCiti.X",
+  helpWhen: () => !state.session,
+  except: {
+    interact: "In a station Tab walks the step's controls and Enter takes the one in focus; E turns a valve clockwise.",
+    map: "Stations have no map: M mutes the sound.",
+    help: "In a station H reads the step aloud; the ? button (or / and F1) opens help there.",
+    quality: "Q turns a valve anticlockwise in a station; quality follows the device.",
+  },
+  unique: [
+    { label: "Focus the next / previous control", keys: ["Tab", "Shift+Tab"], pad: "D-pad left / right", touch: "Tap it" },
+    { label: "Take the focused control", keys: ["Enter"], pad: "A", touch: "Tap it" },
+    { label: "Press and hold", keys: ["Space"], pad: "Hold A", touch: "Hold it" },
+    { label: "Controls and remapping panel", keys: ["/", "F1"], pad: "Start", touch: "Keyboard button" },
+  ],
+});

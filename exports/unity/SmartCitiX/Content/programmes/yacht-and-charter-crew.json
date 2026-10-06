@@ -1,0 +1,246 @@
+{
+  "accent": "#2b6f9e",
+  "anchors": [
+    {
+      "id": "ct-dock-box-estuary-marina-boatyard",
+      "name": "Dock box · Marina Boatyard",
+      "position": [
+        105.1,
+        264.4
+      ],
+      "stations": [],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "estuary-waterfront"
+    },
+    {
+      "id": "ct-dock-box-island-yacht-harbor",
+      "name": "Dock box · Island Yacht Harbor",
+      "position": [
+        106.1,
+        655.4
+      ],
+      "stations": [],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "island-harbour"
+    },
+    {
+      "id": "ct-dock-box-north-marina-pier",
+      "name": "Dock box · North Marina Pier",
+      "position": [
+        -798.9,
+        -624.6
+      ],
+      "stations": [],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "north-shoreline"
+    },
+    {
+      "id": "ct-dock-box-south-shoreline-marina",
+      "name": "Dock box · South Shoreline Marina",
+      "position": [
+        791.1,
+        705.4
+      ],
+      "stations": [],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "south-shoreline"
+    },
+    {
+      "id": "ct-notice-board-island-yacht-harbor",
+      "name": "Union hall notice board · Island Yacht Harbor",
+      "position": [
+        85.1,
+        638.2
+      ],
+      "stations": [
+        "mooring-line",
+        "mw-workboat-towing-and-line-handling",
+        "mw-ferry-deckhand-and-passenger-safety",
+        "bunkering-watch",
+        "yc-pre-departure-safety-briefing-and-guest-count",
+        "yc-line-handling-and-docking-in-crosswind",
+        "yc-fuel-dock-transfer-and-spill-kit",
+        "yc-engine-room-pre-start-and-bilge-check",
+        "yc-man-overboard-recovery-drill",
+        "yc-galley-fire-and-fixed-system",
+        "yc-tender-launch-and-guest-transfer",
+        "yc-shore-power-connection-and-in-water-electrical-safety"
+      ],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "island-harbour"
+    },
+    {
+      "id": "ct-tool-crib-estuary-marina-boatyard",
+      "name": "Tool crib · Marina Boatyard",
+      "position": [
+        98.8,
+        268.3
+      ],
+      "stations": [
+        "br-dive-site-hazard-assessment-and-jsa",
+        "br-surface-supplied-dive-station-setup",
+        "yc-pre-departure-safety-briefing-and-guest-count",
+        "yc-line-handling-and-docking-in-crosswind",
+        "yc-fuel-dock-transfer-and-spill-kit",
+        "yc-engine-room-pre-start-and-bilge-check",
+        "yc-man-overboard-recovery-drill",
+        "yc-galley-fire-and-fixed-system",
+        "yc-tender-launch-and-guest-transfer",
+        "yc-shore-power-connection-and-in-water-electrical-safety"
+      ],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "estuary-waterfront"
+    },
+    {
+      "id": "estuary-marina-boatyard",
+      "name": "Marina Boatyard",
+      "position": [
+        104,
+        249
+      ],
+      "stations": [
+        "br-dive-site-hazard-assessment-and-jsa",
+        "br-surface-supplied-dive-station-setup",
+        "yc-pre-departure-safety-briefing-and-guest-count",
+        "yc-line-handling-and-docking-in-crosswind",
+        "yc-fuel-dock-transfer-and-spill-kit",
+        "yc-engine-room-pre-start-and-bilge-check",
+        "yc-man-overboard-recovery-drill",
+        "yc-galley-fire-and-fixed-system",
+        "yc-tender-launch-and-guest-transfer",
+        "yc-shore-power-connection-and-in-water-electrical-safety"
+      ],
+      "table": "BAY_SITES",
+      "world": "bayworld",
+      "zone": "estuary-waterfront"
+    },
+    {
+      "id": "island-yacht-harbor",
+      "name": "Island Yacht Harbor",
+      "position": [
+        105,
+        640
+      ],
+      "stations": [
+        "mooring-line",
+        "mw-workboat-towing-and-line-handling",
+        "mw-ferry-deckhand-and-passenger-safety",
+        "bunkering-watch",
+        "yc-pre-departure-safety-briefing-and-guest-count",
+        "yc-line-handling-and-docking-in-crosswind",
+        "yc-fuel-dock-transfer-and-spill-kit",
+        "yc-engine-room-pre-start-and-bilge-check",
+        "yc-man-overboard-recovery-drill",
+        "yc-galley-fire-and-fixed-system",
+        "yc-tender-launch-and-guest-transfer",
+        "yc-shore-power-connection-and-in-water-electrical-safety"
+      ],
+      "table": "BAY_SITES",
+      "world": "bayworld",
+      "zone": "island-harbour"
+    }
+  ],
+  "certification": "IBU and SIU deck training and MEBA engineering practice for charter yacht crew, tested against USCG 33 CFR 83 Inland Navigation Rules, 33 CFR 155 and 33 CFR 156.150 for the fuel transfer, 46 CFR 25 and 46 CFR 199 for lifesaving and fire-fighting equipment as the vessel's certificate applies them, NFPA 306 for gas hazards below decks, NFPA 70E for the shore-power connection, OSHA 29 CFR 1910.147 the control of hazardous energy, 29 CFR 1910.95 occupational noise exposure, 29 CFR 1910.157 portable fire extinguishers and 29 CFR 1910.132 personal protective equipment, and IMO STCW basic safety training, across eight jobs a deckhand, mate, engineer and steward actually rotate through on a mid-size motor yacht",
+  "competency": {
+    "id": "yacht-and-charter-crew",
+    "kind": "programme",
+    "require": 4,
+    "standards": [
+      "uscg-46-cfr-25",
+      "uscg-33-cfr-83",
+      "uscg-33-cfr-155",
+      "nfpa-306",
+      "osha-1910-147"
+    ],
+    "stations": [
+      "yc-pre-departure-safety-briefing-and-guest-count",
+      "yc-line-handling-and-docking-in-crosswind",
+      "yc-fuel-dock-transfer-and-spill-kit",
+      "yc-engine-room-pre-start-and-bilge-check",
+      "yc-man-overboard-recovery-drill",
+      "yc-galley-fire-and-fixed-system",
+      "yc-tender-launch-and-guest-transfer",
+      "yc-shore-power-connection-and-in-water-electrical-safety"
+    ],
+    "title": "Count, moor, fuel, start, recover, fight fire, launch and connect a charter yacht as her deck, steward and engineering crew"
+  },
+  "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
+  "guides": [
+    "ilwu-pma-training",
+    "siu-paul-hall-center",
+    "meba-calhoon-school",
+    "uscg-33-cfr-83",
+    "uscg-33-cfr-155",
+    "uscg-33-cfr-156-150",
+    "uscg-46-cfr-25",
+    "uscg-46-cfr-199",
+    "nfpa-306",
+    "nfpa-70e",
+    "osha-1910-147",
+    "osha-1910-132",
+    "imo-stcw"
+  ],
+  "id": "yacht-and-charter-crew",
+  "ladder": {
+    "atBar": 20,
+    "lessonBar": 75,
+    "lessons": 1552,
+    "levels": 20,
+    "note": "a lesson is one station step under one condition; see docs/ladders.md",
+    "partial": 0,
+    "stationsNeeded": 0,
+    "tasks": 120
+  },
+  "name": "Yacht & Charter Crew",
+  "schema": "smartcitix.programme/1",
+  "stations": [
+    {
+      "app": "smartcity",
+      "id": "yc-pre-departure-safety-briefing-and-guest-count",
+      "why": "Every head counted against the manifest with the gangway chained through a late arrival, the life jacket shown on a person from the locker the guests will use, and the standing orders read back to the captain before a line moves."
+    },
+    {
+      "app": "smartcity",
+      "id": "yc-line-handling-and-docking-in-crosswind",
+      "why": "Coming alongside with the wind on the beam: the spring passed first from outside the bight, the stern line hitched and tended through a wake, and the gap called steadily to a captain who cannot see it."
+    },
+    {
+      "app": "smartcity",
+      "id": "yc-fuel-dock-transfer-and-spill-kit",
+      "why": "The declaration signed and the boom staged down-current before the nozzle moves, the vent watched with a hand on the trigger, and the pump killed at its stop the moment the vent spits."
+    },
+    {
+      "app": "smartcity",
+      "id": "yc-engine-room-pre-start-and-bilge-check",
+      "why": "The bilge sniffed and the blower run before anything sparks, the pump proven on its float, the valves opened in the checklist's order, and a dripping filter answered at the tank shut-off rather than with a rag."
+    },
+    {
+      "app": "smartcity",
+      "id": "yc-man-overboard-recovery-drill",
+      "why": "The ring thrown first and the spotter's arm never dropped, the approach called from downwind, and nobody on the swim platform until the indicator and the captain say the shafts are stopped."
+    },
+    {
+      "app": "smartcity",
+      "id": "yc-galley-fire-and-fixed-system",
+      "why": "The galley fuel shut before the blanket, the extinguisher swept at the base, the fixed system pulled with the door shut, and the hatch cracked to the plan rather than thrown wide on a pan that may reflash."
+    },
+    {
+      "app": "smartcity",
+      "id": "yc-tender-launch-and-guest-transfer",
+      "why": "The tender walked for the missing plug in her chocks, lowered steady on the davit with a tag line for the swing, loaded to the plate and no further, and every guest across with bags passed first and two hands free."
+    },
+    {
+      "app": "smartcity",
+      "id": "yc-shore-power-connection-and-in-water-electrical-safety",
+      "why": "Breaker off before the cord moves, boat end locked before the dock end goes in, the polarity and leakage watched at the panel, nobody in the water at the berth, and a reported tingle treated as the emergency it is."
+    }
+  ],
+  "summary": "Eight jobs on a mid-size motor yacht at her marina berth and under way on the estuary: the charter briefing with every head counted against the manifest, coming alongside on the spring in a crosswind, the fuel transfer declared and boomed before the nozzle moves, the engine room sniffed and blown before the key, the person-overboard drill with the ring thrown first and the propellers stopped before the platform, the galley fire with the fuel off before the blanket, the tender lowered steady and every guest across with two hands free, and shore power connected boat end first with a tingle in the water treated as an emergency. No fuel quantity, wind speed, weight or voltage is ever stated — those live in the vessel's plans, the captain's standing orders and the tender's plate.",
+  "union": "IBU, SIU and MEBA as training bodies for charter yacht deck, steward and engineering crew"
+}

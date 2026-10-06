@@ -1,0 +1,409 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "measured-distance",
+    "name": "Measured Distance",
+    "note": "Sized the fields from the stopping distance, found the shadow and walked every field before committing"
+  },
+  "category": "Manufacturing & Automation",
+  "certification": "UAW and IAM skilled-trades training as bodies; ISO/TS 15066 for collaborative robot applications (speed and separation monitoring) and ISO 10218 with ANSI R15.06 for the robot system and its integration; OSHA 29 CFR 1910.212 general requirements for machines and 29 CFR 1910.132 personal protective equipment; the cell's written risk assessment, the scanner manufacturer's manual and the robot manufacturer's manual",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI R15.06",
+        "id": "ansi-r15-06",
+        "title": "ANSI/RIA R15.06 — Industrial robots and robot systems: safety requirements"
+      },
+      {
+        "body": "union",
+        "citedAs": "IAM",
+        "id": "iam-winpisinger-center",
+        "title": "IAM — the William W. Winpisinger Education and Technology Center's machinist and transportation training"
+      },
+      {
+        "body": "ISO",
+        "citedAs": "ISO 10218",
+        "id": "iso-10218",
+        "title": "ISO 10218 — Robots and robotic devices: safety requirements for industrial robots"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.132",
+        "id": "osha-1910-132",
+        "title": "29 CFR 1910.132 — Personal protective equipment, general requirements"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.212",
+        "id": "osha-1910-212",
+        "title": "29 CFR 1910.212 — General requirements for all machines (machine guarding)"
+      },
+      {
+        "body": "union",
+        "citedAs": "UAW",
+        "id": "uaw-training",
+        "title": "UAW joint apprenticeship and skilled-trades training for manufacturing and automation work"
+      }
+    ]
+  },
+  "district": "robotics-training-centre",
+  "domain": "Robotics",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "reach-first",
+        "name": "Reach First",
+        "note": "Marked the arm's reach before sizing a field"
+      },
+      {
+        "id": "shadow-found",
+        "name": "Shadow Found",
+        "note": "Found the scanner's blind spot before the walk test"
+      },
+      {
+        "id": "steady-walk",
+        "name": "Steady Walk",
+        "note": "Held the approach speed inside the test band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "quick-fields",
+        "name": "Inside Par",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "clean-fields",
+        "name": "Clean Set-up",
+        "note": "Clean run, no corrections"
+      }
+    ],
+    "currency": "SP",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Observer",
+      "Field Setter",
+      "Field Walker",
+      "Integrator",
+      "Measured Distance Lead"
+    ],
+    "system": "Measured Distance"
+  },
+  "hazards": {
+    "default-field-hazard": "That loads the scanner's factory default fields and calls them good. The protective field is sized from this arm's stopping distance at this speed with this payload, worked out in the risk assessment; a default is a shape that fits no cell in particular.",
+    "mute-on-hazard": "That leaves muting enabled from the commissioning run so parts carts stop tripping the field. Muting is the scanner choosing to ignore an intrusion; a field that ignores carts also ignores the person pushing one.",
+    "shrink-field-hazard": "That shrinks the protective field so the operator can stand closer to the bench and work faster. A smaller field means the arm gets less distance to stop in, and the stopping distance did not change because the operator wanted to be closer.",
+    "skip-walk-hazard": "That commits the configuration from the screen without walking the fields. The screen shows the fields the scanner thinks it has; a person with a test piece shows the fields it actually has, including the shadow the screen cannot draw."
+  },
+  "id": "rt-speed-separation-monitoring-setup",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "walk-hold",
+      "alert": "A coworker pushing a parts cart has walked into the scanner's shadow behind the cabinet, heading for the bench.",
+      "cue": "Press the cell e-stop now.",
+      "delay": 3,
+      "id": "cart-shadow",
+      "kind": "Person in shadow",
+      "missNote": "You kept the walk test running with someone in the scanner's shadow. A person where the scanner cannot see is answered with the cell e-stop.",
+      "seconds": 11,
+      "target": "cell-estop",
+      "why": "A person in the shadow is a person the scanner cannot slow the arm for, and the walk test is running with the arm live; the e-stop stops the arm the way the protective field should have, and the shadow is dealt with by moving the cabinet or adding a scanner, with the arm stopped.",
+      "wrongNote": "Not that — a person in the shadow is answered with the cell e-stop."
+    },
+    {
+      "after": "stop-track",
+      "alert": "The stop-distance readout has gone red: the arm came to rest inside the mark where it should already have been stopped.",
+      "cue": "Increase the protective field.",
+      "delay": 3,
+      "id": "late-stop",
+      "kind": "Stop too late",
+      "missNote": "The arm kept stopping inside the mark and the test went on. A late stop is answered by increasing the protective field and measuring again.",
+      "seconds": 11,
+      "target": "protective-dial",
+      "why": "A stop that lands inside the mark means the field is too small for this arm's stopping distance at this speed, and the honest correction is a bigger field or a slower arm, never a mark moved to where the arm happened to stop; the field is increased, the test rerun, and both results recorded.",
+      "wrongNote": "Not that — a late stop is answered at the protective-field setting."
+    }
+  ],
+  "lateNotes": {
+    "muting-switch": "Muting is confirmed off, with the indicator read, before the walk test; a muted field passes every walk test and protects nobody.",
+    "ssm-sheet": "The stopping distance and the approach speed the risk assessment used are read before any field is drawn; the fields are their consequence, not a judgement by eye."
+  },
+  "name": "Setting Up Speed-and-Separation Monitoring",
+  "parSeconds": 340,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "cobotBench",
+        "count": 1,
+        "kit": "equipment"
+      }
+    ],
+    "error": null,
+    "footprint": 2.9,
+    "hits": [
+      "cable-tray",
+      "cell-estop",
+      "commit-key",
+      "default-field-hazard",
+      "glasses-ssm",
+      "mute-on-hazard",
+      "muting-switch",
+      "protective-dial",
+      "reach-marker",
+      "reach-spot",
+      "record-fields",
+      "record-sign",
+      "record-walks",
+      "reflective-sign",
+      "shadow-cabinet",
+      "sheet-panel",
+      "shoes-ssm",
+      "shrink-field-hazard",
+      "skip-walk-hazard",
+      "ssm-sheet",
+      "stop-readout",
+      "test-piece",
+      "vest-ssm",
+      "walk-front",
+      "walk-shadow-side",
+      "walk-side",
+      "warning-dial"
+    ],
+    "meshes": 218
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track"
+  ],
+  "steps": [
+    {
+      "cue": "Read the risk assessment's stopping distance for this arm and the approach speed it assumed for a person.",
+      "id": "ssm-read",
+      "kind": "select",
+      "prompt": "Read the risk assessment's stopping distance for this arm and the approach speed it assumed for a person.",
+      "target": "ssm-sheet",
+      "title": "Read the stopping distance and approach speed",
+      "why": "Speed and separation monitoring works only if the protective field is at least as deep as the distance the arm needs to stop plus the distance a person covers while it does, and both of those were worked out in the risk assessment for this arm, this speed and this payload; the fields are drawn from that sheet, and an integrator who draws them by eye is drawing a hope."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Safety glasses, a high-visibility vest and safety shoes.",
+      "id": "ppe-ssm",
+      "itemNames": {
+        "glasses-ssm": "safety glasses",
+        "shoes-ssm": "safety shoes",
+        "vest-ssm": "high-visibility vest"
+      },
+      "kind": "sequence",
+      "prompt": "Safety glasses, a high-visibility vest and safety shoes.",
+      "targets": [
+        "glasses-ssm",
+        "vest-ssm",
+        "shoes-ssm"
+      ],
+      "title": "Dress for the walk tests",
+      "why": "A field walk is a person deliberately approaching a live arm, over and over, in a bay with carts and cable trays; the vest is for the coworkers driving those carts, the shoes for the tray edges, and the glasses because the arm is cycling a part while you walk at it."
+    },
+    {
+      "cue": "Place the reach mark at the farthest point the tool can swing to with its longest tool fitted.",
+      "drag": {
+        "missNote": "Not placed — the reach mark goes at the farthest point the tool can swing to, not where the bench ends.",
+        "radius": 0.4,
+        "to": "reach-spot"
+      },
+      "id": "reach-mark",
+      "kind": "drag",
+      "prompt": "Place the reach mark at the farthest point the tool can swing to with its longest tool fitted.",
+      "target": "reach-marker",
+      "title": "Mark the arm's reach on the floor",
+      "why": "Every field is measured outward from where the arm can actually hurt someone, which is the tool's farthest sweep with the longest tool fitted, not the edge of the bench the arm is bolted to; marking it on the floor turns a number in a manual into a line the fields can be sized from and walked against."
+    },
+    {
+      "cue": "Set the protective field so it reaches at least the stopping distance plus the approach allowance beyond the reach mark.",
+      "gauge": {
+        "green": [
+          0.56,
+          0.74
+        ],
+        "label": "PROTECT",
+        "missNote": "The protective field does not match the sheet. A shallower field is a stop that arrives late.",
+        "speed": 0.6
+      },
+      "id": "protective-set",
+      "kind": "gauge",
+      "prompt": "Set the protective field so it reaches at least the stopping distance plus the approach allowance beyond the reach mark.",
+      "target": "protective-dial",
+      "title": "Set the protective field",
+      "why": "The protective field is the stop: when it is broken, the arm must come to rest before the person reaches the mark, and the only way that happens is if the field is as deep as the stopping distance plus the ground a person covers while the arm stops; a field set from the sheet is a stop that arrives in time, and the readback confirms the scanner took the depth."
+    },
+    {
+      "cue": "Set the warning field outside the protective field so the arm slows before it has to stop.",
+      "gauge": {
+        "green": [
+          0.6,
+          0.8
+        ],
+        "label": "WARN",
+        "missNote": "The warning field is not outside the protective field. Set it wider before the walk.",
+        "speed": 0.6
+      },
+      "id": "warning-set",
+      "kind": "gauge",
+      "prompt": "Set the warning field outside the protective field so the arm slows before it has to stop.",
+      "target": "warning-dial",
+      "title": "Set the warning field outside it",
+      "why": "The warning field is the slow-down: a person entering it brings the arm to its reduced speed, which shortens the stopping distance before the protective field is ever touched, and it has to sit wholly outside the protective field or the arm is asked to slow and stop in the same instant; the gap between the two is the margin the cell actually runs on."
+    },
+    {
+      "cue": "Check the muting switch and its indicator: off, before any test.",
+      "id": "muting-off",
+      "kind": "select",
+      "prompt": "Check the muting switch and its indicator: off, before any test.",
+      "target": "muting-switch",
+      "title": "Confirm muting is off",
+      "why": "Muting tells the scanner to ignore an intrusion for a while, and a scanner left muted from commissioning passes every walk test while protecting nobody; the switch and the indicator are both read because a switch can be off while a configuration still mutes a field on a timer."
+    },
+    {
+      "cue": "Find where the scanner cannot see a person approaching.",
+      "decoyNotes": {
+        "cable-tray": "The cable tray is below the scanner's plane and does not block it. It stays.",
+        "reflective-sign": "The reflective sign faces away from the scanner and casts no shadow on an approach path. Nothing to move there today."
+      },
+      "id": "find-shadow",
+      "itemNames": {
+        "shadow-cabinet": "the cabinet casting a scanner shadow toward the bench"
+      },
+      "itemNotes": {
+        "shadow-cabinet": "Behind the cabinet the scanner sees nothing: the cabinet moves, a second scanner is added or the approach is fenced before the fields are trusted."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Find where the scanner cannot see a person approaching.",
+      "target": "shadow-cabinet",
+      "targets": [
+        "shadow-cabinet"
+      ],
+      "title": "Find where the scanner cannot see",
+      "why": "A scanner sees in straight lines from one point on the bench front, and anything solid between it and the floor it is meant to watch casts a shadow where a person can walk right up to the arm unseen; the shadow is found by eye and by walking, because the configuration screen draws the fields the scanner wants, not the ones the room allows."
+    },
+    {
+      "cue": "Press the cell e-stop once, watch the arm hold, and reset it before the walk tests start.",
+      "id": "estop-ssm",
+      "kind": "select",
+      "prompt": "Press the cell e-stop once, watch the arm hold, and reset it before the walk tests start.",
+      "target": "cell-estop",
+      "title": "Prove the cell e-stop",
+      "why": "The walk tests send a person toward a live arm on purpose to see whether the fields stop it, and the e-stop is what ends a test where they do not; it is pressed once before the first walk so the integrator knows that today's circuit stops this arm, not because the screen says so."
+    },
+    {
+      "cue": "Carry the test piece into the warning field at the sheet's approach speed and hold while the arm slows.",
+      "holdBreakNote": "Stepped out before the arm settled at reduced speed. Walk the warning field again at the sheet's speed.",
+      "id": "walk-hold",
+      "kind": "hold",
+      "prompt": "Carry the test piece into the warning field at the sheet's approach speed and hold while the arm slows.",
+      "seconds": 5,
+      "target": "test-piece",
+      "title": "Walk the warning field with the test piece",
+      "why": "The test piece is the size of a leg so the scanner sees what it will have to see, and the walk is at the approach speed the sheet assumed, because a slower walk flatters the field; holding inside the warning field until the arm settles at reduced speed is how the warning field is proved as a slow-down rather than a line on a screen."
+    },
+    {
+      "cue": "Walk into the protective field and watch the stop-distance readout stay outside the reach mark.",
+      "holdBreakNote": "The arm stopped inside the mark. Increase the field or lower the speed, then measure again.",
+      "id": "stop-track",
+      "kind": "track",
+      "prompt": "Walk into the protective field and watch the stop-distance readout stay outside the reach mark.",
+      "seconds": 8,
+      "target": "stop-readout",
+      "title": "Measure where the arm stops",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.45,
+        "green": [
+          0.4,
+          0.64
+        ],
+        "label": "STOP",
+        "rise": 0.4,
+        "start": 0.5
+      },
+      "why": "The protective field is proved by where the arm comes to rest when a person walks into it, and the readout compares that to the mark on the floor; an arm that stops outside the mark every time is a field sized right, and one that lands inside it even once is a field or a speed that has to change before anyone shares the bench."
+    },
+    {
+      "anyOrder": false,
+      "cue": "Repeat the walk from the front, the open side and the side the shadow was on.",
+      "id": "approach-order",
+      "itemNames": {
+        "walk-front": "approach from the front",
+        "walk-shadow-side": "approach from the side the shadow was on",
+        "walk-side": "approach from the open side"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order — front first, then the open side, then the side the shadow was on.",
+      "prompt": "Repeat the walk from the front, the open side and the side the shadow was on.",
+      "targets": [
+        "walk-front",
+        "walk-side",
+        "walk-shadow-side"
+      ],
+      "title": "Walk every approach",
+      "why": "A field proved from one direction is proved for one direction; people come at a bench from wherever their work takes them, and the approach that was in shadow a minute ago is the one most worth walking now that the cabinet has moved."
+    },
+    {
+      "cue": "Commit the field configuration and read back its checksum on the screen.",
+      "id": "commit-config",
+      "kind": "select",
+      "prompt": "Commit the field configuration and read back its checksum on the screen.",
+      "target": "commit-key",
+      "title": "Commit the configuration under its checksum",
+      "why": "The scanner's configuration is what will protect the next shift, and a checksum is how anyone later can tell whether the fields running are the fields that were walked; committing without reading it back leaves a configuration that may be the one tested, or the one before it."
+    },
+    {
+      "anyOrder": false,
+      "cue": "Write the field depths and checksum, every walk with where the arm stopped, then sign and date.",
+      "id": "record-ssm",
+      "itemNames": {
+        "record-fields": "field depths and the checksum",
+        "record-sign": "signature and date",
+        "record-walks": "each walk and where the arm stopped"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order — the fields and checksum, then the walks as measured, then sign and date.",
+      "prompt": "Write the field depths and checksum, every walk with where the arm stopped, then sign and date.",
+      "targets": [
+        "record-fields",
+        "record-walks",
+        "record-sign"
+      ],
+      "title": "Record the set-up",
+      "why": "The record is read when the cell changes or someone is hurt: the fields and the checksum that identifies them, every walk including the one that stopped inside the mark before the field grew, and who stood here; it is what turns a configuration into a safeguard someone can audit."
+    }
+  ],
+  "supportLine": "your UAW or IAM local's training coordinator, or the employee assistance line, if a close call with a robot that did not stop is still with you",
+  "tagline": "Configuring the area scanner around a shared cobot cell: the arm's reach marked on the floor, the protective field sized from the stopping distance the risk assessment worked out, the warning field outside it, the scanner's blind spot found behind a cabinet, muting confirmed off, every field walked with a test piece, the stop measured, and the configuration committed under its checksum",
+  "title": "SmartCiti.X~ Setting Up Speed-and-Separation Monitoring VR",
+  "trade": "Robot integrator, area-scanner fields for a shared cobot cell — UAW/IAM",
+  "underwater": null,
+  "weather": "overcast"
+}

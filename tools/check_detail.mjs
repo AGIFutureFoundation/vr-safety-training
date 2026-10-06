@@ -1,0 +1,379 @@
+/**
+ * DETAIL's proof (docs/consoles/DETAIL.md): procedural detail ×100 on the 4096 m maps without breaking the budgets.
+ *
+ *  1. Ratio: per map per tier, DETAIL's instances over every chunk (the nearest ring's density) against the unmodified
+ *     engine's (tools/detail-baseline.json, massing + FACADES): ≥ 100× high, ≥ 25× balanced, ≥ 5× low. Every map in
+ *     the tree must have a baseline row. Sampled (DETAIL-2): a stratified one-in-four sample, judged on its −3σ lower
+ *     bound; a map whose bound falls short is walked in full and judged exactly. `--full` walks every chunk.
+ *  2. Budgets: the pool is ≤ 16 InstancedMeshes; Σ capacity × triangles per tier ≤ DT_BUDGET.triangles; every family's
+ *     geometry is 2–24 triangles and matches DT_FAMILIES; full streamed builds of the five densest maps (start + every
+ *     site, FACADES and the pool mounted) stay ≤ 260 meshes and ≤ 400,000 triangles, the pool's live triangles within
+ *     its tier budget.
+ *  3. Time: per-chunk generation at the high tier, median and worst over the walk's chunks, under DT_BUDGET, in this
+ *     process's CPU time (the machine is shared: other load stretches the wall clock, which is reported beside it).
+ *  4. Determinism: the same chunk twice gives the same digest; a lower tier and a farther ring are never larger.
+ *  5. Wiring: the parishes app mounts the pool, the bundle lists dt-detail.js, check_all and the checkers baseline list
+ *     this checker, the TradeQuest export carries the generator's parameters.
+ *
+ *     node tools/check_detail.mjs
+ */
+import { readFileSync, existsSync } from "node:fs";
+import { dirname, join } from "node:path";
+import { fileURLToPath, pathToFileURL } from "node:url";
+import os from "node:os";
+
+const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
+const imp = (p) => import(pathToFileURL(join(ROOT, "WebXR", p)).href);
+const THREE = await imp("vendor/three/dist/three.module.min.js");
+const E = await imp("shared/np-parish.js");
+const R = await imp("shared/np-parishes.js");
+const W = await imp("shared/np-world.js");
+await imp("shared/fc-facades.js");
+const D = await imp("shared/dt-detail.js");
+const CW = await imp("shared/cw-cityworks.js");
+
+let pass = 0, fail = 0;
+const check = (ok, msg) => { if (ok) pass++; else { fail++; console.log(`FAIL ${msg}`); } };
+const note = (msg) => console.log(`  ${msg}`);
+const TIERS = ["low", "balanced", "high"];
+const base = JSON.parse(readFileSync(join(ROOT, "tools", "detail-baseline.json"), "utf8")).maps;
+
+// 2a. the pool and its geometry
+check(D.DT_FAMILIES.length <= D.DT_BUDGET.maxMeshes && D.DT_BUDGET.maxMeshes <= 16, `the pool is ${D.DT_FAMILIES.length} InstancedMeshes (≤ 16)`);
+const geos = D.dtGeometries(THREE);
+for (const f of D.DT_FAMILIES) {
+  const g = geos[f.id], tri = g ? (g.index ? g.index.count : g.attributes.position.count) / 3 : 0;
+  check(tri >= 2 && tri <= 24 && tri === f.tris, `${f.id}: ${tri} triangles an instance (2–24, declared ${f.tris})`);
+}
+for (const t of TIERS) {
+  const tri = D.DT_FAMILIES.reduce((s, f) => s + (D.DT_CAPACITY[t][f.id] ?? 0) * f.tris, 0);
+  check(tri <= D.DT_BUDGET.triangles[t], `${t}: the pool's full capacity is ${tri} triangles (≤ ${D.DT_BUDGET.triangles[t]})`);
+  note(`${t}: capacity ${D.DT_FAMILIES.reduce((s, f) => s + (D.DT_CAPACITY[t][f.id] ?? 0), 0)} instances, ${tri} triangles`);
+}
+
+// 1 + 3. the ratio walk and generation time, sampled (DETAIL-2; one pass per chunk tallies every tier). One chunk in
+// four: in every 2×2 block of chunks one chunk, its place in the block drawn from the map id (a stratified sample, 64 of
+// 256). The map's total is estimated as 4 × the sample's sum and the proof uses its lower bound, the estimate less 3
+// standard errors (the simple-random-sample formula with the finite-population correction; stratifying only narrows the
+// true spread, so the bound is conservative). A map whose lower bound misses any tier's target is walked in full (every
+// chunk, exact) and judged on that. `--full` walks every chunk of every map (the old, exact walk).
+const FULL = process.argv.includes("--full");
+const S = E.NP_CHUNKS_PER_SIDE, NCH = S * S;
+const idHash = (id) => { let h = 2166136261 >>> 0; for (const c of id) h = Math.imul(h ^ c.charCodeAt(0), 16777619) >>> 0; return h; };
+function dtSample(p) {
+  const out = [];
+  if (FULL) { for (let cz = 0; cz < S; cz++) for (let cx = 0; cx < S; cx++) out.push([cx, cz]); return out; }
+  const h0 = idHash(p.id);
+  for (let bz = 0; bz < S; bz += 2) for (let bx = 0; bx < S; bx += 2) { const h = Math.imul(h0 ^ (bx * 31 + bz * 977), 2654435761) >>> 0; out.push([bx + ((h >>> 7) & 1), bz + ((h >>> 11) & 1)]); }
+  return out;
+}
+const genMs = [], genAll = [];
+const ratios = {};
+let walkedFull = 0;
+const tWalk = performance.now();
+for (const p of R.NP_PARISHES) {
+  const b = base[p.id];
+  check(!!b, `${p.id}: has a baseline row in tools/detail-baseline.json (tools/dt_measure.mjs --missing adds one)`);
+  const seen = new Set(), per = { low: [], balanced: [], high: [] };
+  const gen = (cx, cz) => {
+    const c0 = process.cpuUsage(), t0 = performance.now();
+    const det = D.dtDetailForChunk(p, cx, cz, "high", { tally: true });
+    const ms = performance.now() - t0, c = process.cpuUsage(c0);
+    genMs.push(ms); genAll.push({ p, cx, cz, ms, cpu: (c.user + c.system) / 1000 }); seen.add(cx + cz * S);
+    return det;
+  };
+  for (const [cx, cz] of dtSample(p)) { const det = gen(cx, cz); for (const t of TIERS) per[t].push(det.tiers[t]); }
+  const n = per.high.length, est = {};
+  for (const t of TIERS) {
+    const mean = per[t].reduce((a, v) => a + v, 0) / n;
+    const s2 = n > 1 ? per[t].reduce((a, v) => a + (v - mean) ** 2, 0) / (n - 1) : 0;
+    const total = mean * NCH, se = n >= NCH ? 0 : NCH * Math.sqrt((1 - n / NCH) * s2 / n);
+    est[t] = { total, lb: total - 3 * se };
+  }
+  ratios[p.id] = {};
+  if (!b) continue;
+  let exact = n >= NCH;
+  if (TIERS.some((t) => b[t]?.instances && est[t].lb / b[t].instances < D.DT_BUDGET.ratio[t])) {
+    // The bound is short: walk the rest of the map and judge the exact totals.
+    const tot = Object.fromEntries(TIERS.map((t) => [t, per[t].reduce((a, v) => a + v, 0)]));
+    for (let cz = 0; cz < S; cz++) for (let cx = 0; cx < S; cx++) { if (seen.has(cx + cz * S)) continue; const det = gen(cx, cz); for (const t of TIERS) tot[t] += det.tiers[t]; }
+    for (const t of TIERS) est[t] = { total: tot[t], lb: tot[t] };
+    exact = true; walkedFull++;
+  }
+  for (const t of TIERS) {
+    const bi = b[t]?.instances;
+    if (!bi) continue;
+    const r = est[t].total / bi, lb = est[t].lb / bi;
+    ratios[p.id][t] = r;
+    check(lb >= D.DT_BUDGET.ratio[t], exact
+      ? `${p.id}/${t}: ${Math.round(est[t].total)} detail instances over every chunk = ${r.toFixed(1)}× the baseline's ${bi} (≥ ${D.DT_BUDGET.ratio[t]}×)`
+      : `${p.id}/${t}: ${r.toFixed(1)}× the baseline's ${bi}, estimated from ${n} of ${NCH} chunks; lower bound (−3σ) ${lb.toFixed(1)}× (≥ ${D.DT_BUDGET.ratio[t]}×)`);
+  }
+}
+note(`ratio walk: ${genMs.length} chunks in ${((performance.now() - tWalk) / 1000).toFixed(1)} s (${FULL ? "every chunk" : `one in four; ${walkedFull} map(s) walked in full`})`);
+for (const t of TIERS) {
+  const rs = Object.entries(ratios).filter(([, v]) => v[t]).sort((a, b) => a[1][t] - b[1][t]);
+  if (rs.length) note(`${t}: ratio min ${rs[0][1][t].toFixed(1)}× (${rs[0][0]}), median ${rs[rs.length >> 1][1][t].toFixed(1)}×, max ${rs[rs.length - 1][1][t].toFixed(1)}×`);
+}
+genMs.sort((a, b) => a - b);
+// Generation cost is judged on this process's CPU time (process.cpuUsage), not the wall clock: the machine is shared by
+// several consoles, and other processes' load stretches the wall clock but not the CPU time a chunk costs (DETAIL-2;
+// the wall-clock figures are reported beside it). The worst chunk: the 8 slowest by CPU are re-timed three times and
+// each keeps its median.
+const cpuMs = genAll.map((g) => g.cpu).sort((a, b) => a - b);
+const cpuOf = (p, cx, cz) => { const c0 = process.cpuUsage(); D.dtDetailForChunk(p, cx, cz, "high"); const c = process.cpuUsage(c0); return (c.user + c.system) / 1000; };
+const slow = genAll.sort((a, b) => b.cpu - a.cpu).slice(0, 8).map(({ p, cx, cz }) => [0, 1, 2].map(() => cpuOf(p, cx, cz)).sort((a, b) => a - b)[1]);
+const med = cpuMs[cpuMs.length >> 1], worst = Math.max(...slow), p95 = cpuMs[Math.floor(cpuMs.length * 0.95)];
+// The CPU budgets are judged in full on the machines the gate runs on before every push (the dev containers). A
+// GitHub-hosted runner is different hardware from run to run: the same, unchanged generator measured a 7.3 ms median on
+// one runner and 13.7 ms on the next, while the dev container measures 8.5 ms; and neither an arithmetic loop nor an
+// allocation-heavy one predicts that spread (a square-root loop ran faster on the 13.7 ms runner than here). So on a
+// hosted runner (GITHUB_ACTIONS) the budgets stay judged as a regression tripwire at twice their value, just above the
+// observed runner spread; the strict figures are reported beside it and judged where the gate runs.
+const onHostedRunner = process.env.GITHUB_ACTIONS === "true";
+const hwFactor = onHostedRunner ? 2 : 1;
+const genBudget = D.DT_BUDGET.genMs * hwFactor, genWorstBudget = D.DT_BUDGET.genWorstMs * hwFactor;
+if (onHostedRunner) note(`hosted runner (${os.cpus()[0]?.model ?? "unknown CPU"}, ${os.cpus().length} cores): generation budgets judged as a ×2 tripwire (median ≤ ${genBudget} ms, worst ≤ ${genWorstBudget} ms); strict budgets ${D.DT_BUDGET.genMs} / ${D.DT_BUDGET.genWorstMs} ms are judged by the pre-push gate`);
+const wMed = genMs[genMs.length >> 1], wP95 = genMs[Math.floor(genMs.length * 0.95)], wMax = genMs[genMs.length - 1];
+note(`generation per chunk at high (CPU): median ${med.toFixed(1)} ms, p95 ${p95.toFixed(1)} ms, worst (re-timed) ${worst.toFixed(1)} ms; wall clock: median ${wMed.toFixed(1)} ms, p95 ${wP95.toFixed(1)} ms, single-run max ${wMax.toFixed(1)} ms`);
+check(med <= genBudget, `generation per chunk at high: median ${med.toFixed(1)} ms CPU (≤ ${genBudget} ms${onHostedRunner ? " on a hosted runner, ×2 tripwire" : ""}) over ${cpuMs.length} chunks (the walk's; wall clock ${wMed.toFixed(1)} ms)`);
+check(worst <= genWorstBudget, `generation per chunk at high: worst ${worst.toFixed(1)} ms CPU (≤ ${genWorstBudget} ms, median of 3 re-timings of the 8 slowest; wall-clock single-run max ${wMax.toFixed(1)} ms)`);
+
+// 4. determinism and nesting
+for (const p of R.NP_PARISHES) {
+  const cx = 7 + (p.id.length % 3), cz = 8 - (p.id.length % 2);
+  const a = D.dtDetailForChunk(p, cx, cz, "high"), b2 = D.dtDetailForChunk(p, cx, cz, "high");
+  check(D.dtDigest(a) === D.dtDigest(b2) && a.count === b2.count, `${p.id}: chunk ${cx},${cz} is deterministic (${a.count} instances, digest ${D.dtDigest(a)})`);
+  const lo = D.dtDetailForChunk(p, cx, cz, "low").count, ba = D.dtDetailForChunk(p, cx, cz, "balanced").count, far = D.dtDetailForChunk(p, cx, cz, "high", { ring: 1 }).count;
+  check(lo <= ba && ba <= a.count && far <= a.count, `${p.id}: low ${lo} ≤ balanced ${ba} ≤ high ${a.count}; ring 1 ${far} ≤ ring 0`);
+}
+
+// 6. the Louisiana rows (DETAIL-2): every variant row is in the table; keyed by region and district, never by map id
+for (const [, , row] of D.DT_VARIANTS) check(Array.isArray(D.DT_TABLE[row]) && D.DT_TABLE[row].length > 0, `variant row "${row}" is in DT_TABLE`);
+for (const row of ["cypress", "bayouedge", "bayoushore", "crabwater"]) check(Array.isArray(D.DT_TABLE[row]), `the Louisiana water row "${row}" is in DT_TABLE`);
+check(!/\b(la|laf|lc|nola|monroe)-[a-z-]+/.test(readFileSync(join(ROOT, "WebXR", "shared", "dt-detail.js"), "utf8").replace(/\/\*[\s\S]*?\*\//g, "")), "dt-detail.js keys nothing by a map id");
+const laRows = {};
+for (const p of R.NP_PARISHES) {
+  const v = D.dtVariants(p);
+  const la = D.DT_LA_REGIONS.test(p.region ?? "new-orleans");
+  check(v.la === la, `${p.id}: Louisiana rows ${la ? "on" : "off"} by its region (${p.region ?? "new-orleans"})`);
+  for (const d of p.districts ?? []) {
+    const want = la ? D.DT_VARIANTS.find(([ch, re]) => ch === d.character && (!re || re.test(d.name ?? "")))?.[2] ?? null : null;
+    if (want) { check(v.rows.get(`${d.id}|${d.name}`) === want, `${p.id}: "${d.name}" takes the ${want} row`); (laRows[want] ??= new Set()).add(p.id); }
+  }
+}
+note(`Louisiana rows in use: ${Object.entries(laRows).map(([r, s]) => `${r} ${s.size}`).join(", ")}`);
+for (const row of ["cane", "rice", "apron", "hangar", "slipway", "piperack", "gallery"]) check(laRows[row]?.size > 0, `the ${row} row is used by at least one map`);
+
+// 6b. the gallery faces the street (SURVEYOR-2): on every drawn quarter block of every gallery district (after CITYWORKS'
+// cwMassFilter, as the app builds), the gallery's face is
+// the one the ray to the nearest street leaves the block through, its outward normal points at the street, and its deck
+// stands nearer the street than the block's centre. The old rule (always the local +z face) is counted for the record.
+{
+  let blocks = 0, facing = 0, nearer = 0, oldOk = 0;
+  for (const id of laRows.gallery ?? []) {
+    const p = R.npParish(id), v = D.dtVariants(p), drawn = CW.cwMassFilter(p);
+    for (const d of p.districts ?? []) {
+      if (d.character !== "quarter" || v.rows.get(`${d.id}|${d.name}`) !== "gallery") continue;
+      const xs = d.poly.map((q) => q[0]), zs = d.poly.map((q) => q[1]), half = E.NP_SIZE / 2;
+      const c0 = Math.max(0, Math.floor((Math.min(...xs) + half) / E.NP_CHUNK)), c1 = Math.min(S - 1, Math.floor((Math.max(...xs) + half) / E.NP_CHUNK));
+      const r0 = Math.max(0, Math.floor((Math.min(...zs) + half) / E.NP_CHUNK)), r1 = Math.min(S - 1, Math.floor((Math.max(...zs) + half) / E.NP_CHUNK));
+      for (let cz = r0; cz <= r1; cz++) for (let cx = c0; cx <= c1; cx++) for (const s of E.npMassingForChunk(p, cx, cz)) {
+        if (s.kind !== "quarterBlock" || !drawn(s) || E.npDistrictAt(p, s.x, s.z)?.id !== d.id) continue;
+        const g = D.dtGalleryFace(p, s);
+        if (!g.street) continue;
+        blocks++;
+        const dx = g.street[0] - s.x, dz = g.street[1] - s.z, c = Math.cos(s.rot), sn = Math.sin(s.rot);
+        const lx = c * dx - sn * dz, lz = sn * dx + c * dz, hx = 8 * s.s, hz = 6 * s.s;
+        const exit = Math.abs(lz) * hx >= Math.abs(lx) * hz ? (lz >= 0 ? 0 : 2) : (lx >= 0 ? 1 : 3);
+        const nx = Math.sin(g.yaw), nz = Math.cos(g.yaw); // the chosen face's outward normal in the world
+        if (g.face === exit && nx * dx + nz * dz > 0) facing++;
+        const deckX = s.x + nx * (g.hd + 0.65), deckZ = s.z + nz * (g.hd + 0.65);
+        if (Math.hypot(g.street[0] - deckX, g.street[1] - deckZ) < Math.hypot(dx, dz)) nearer++;
+        if (exit === 0) oldOk++;
+      }
+    }
+  }
+  check(blocks > 0 && facing === blocks, `gallery: ${facing} of ${blocks} quarter blocks put the gallery on the face toward the nearest street`);
+  check(blocks > 0 && nearer === blocks, `gallery: ${nearer} of ${blocks} gallery decks stand nearer the street than the block's centre`);
+  note(`gallery: the old local +z rule faced the street on ${oldOk} of ${blocks} blocks`);
+}
+
+// 2b. full streamed builds of the five densest maps (start + every site, FACADES mounted), bounded (DETAIL-2): the engine is
+// built without the pool and the pool's worst case is added — its DT_FAMILIES.length meshes and its whole capacity's
+// triangles (2a proves Σ capacity × triangles ≤ DT_BUDGET; the pool can never draw more than its capacity). That bound
+// is sound and needs no detail generation, which was ~95 % of this section's time. One live build (the densest map at
+// every tier, the start and two sites, the pool mounted) proves the pool fills, stays in budget and unhooks on dispose.
+const tBuild = performance.now();
+const worst5 = Object.entries(base).sort((a, b) => b[1].high.instances - a[1].high.instances).slice(0, 5).map(([id]) => id);
+const capTris = Object.fromEntries(TIERS.map((t) => [t, D.DT_FAMILIES.reduce((s, f) => s + (D.DT_CAPACITY[t][f.id] ?? 0) * f.tris, 0)]));
+for (const id of worst5) for (const tier of TIERS) {
+  const p = R.npParish(id);
+  const root = new THREE.Group();
+  check(!W.NP_MASSING_HOOKS.chunkLoaded, `${id}/${tier}: built without the pool (its worst case is added)`);
+  const start = E.npStartSite(p) ?? p.sites[0];
+  const world = W.npBuildParish(root, THREE, p, { tier, start: start.position });
+  let wm = 0, wt = 0;
+  for (const s of [start, ...p.sites]) {
+    world.update(s.position[0], s.position[1], 999);
+    const st = world.stats();
+    wm = Math.max(wm, st.meshes); wt = Math.max(wt, st.triangles);
+  }
+  world.dispose?.();
+  const bm = wm + D.DT_FAMILIES.length, bt = wt + capTris[tier];
+  check(bm <= E.NP_BUDGET.drawCalls, `${id}/${tier}: at most ${E.NP_BUDGET.drawCalls} meshes with the pool (worst ${wm} + the pool's ${D.DT_FAMILIES.length} = ${bm})`);
+  check(bt <= E.NP_BUDGET.triangles, `${id}/${tier}: at most ${E.NP_BUDGET.triangles} triangles with the pool full (worst ${wt} + capacity ${capTris[tier]} = ${bt})`);
+  note(`${id}/${tier}: worst ${wm} meshes / ${wt} triangles without the pool; bound with it full ${bm} / ${bt}`);
+}
+{
+  const id = worst5[0], p = R.npParish(id);
+  for (const tier of TIERS) {
+    const root = new THREE.Group();
+    const pool = D.dtMountDetail(root, THREE, p, { tier });
+    const start = E.npStartSite(p) ?? p.sites[0];
+    const world = W.npBuildParish(root, THREE, p, { tier, start: start.position });
+    let wm = 0, wt = 0, wd = 0, wdi = 0;
+    for (const s of [start, ...p.sites.slice(0, 2)]) {
+      world.update(s.position[0], s.position[1], 999);
+      pool.drain(); // SMOOTH: generation is time-sliced across frames; finish it for the measurement
+      const st = world.stats(), ps = pool.stats();
+      wm = Math.max(wm, st.meshes); wt = Math.max(wt, st.triangles); wd = Math.max(wd, ps.triangles); wdi = Math.max(wdi, st.detailInstances);
+    }
+    check(wm <= E.NP_BUDGET.drawCalls && wt <= E.NP_BUDGET.triangles, `${id}/${tier} live: ${wm} meshes (≤ ${E.NP_BUDGET.drawCalls}), ${wt} triangles (≤ ${E.NP_BUDGET.triangles}) with the pool`);
+    check(wd <= D.DT_BUDGET.triangles[tier] && wdi > 0, `${id}/${tier} live: the pool's triangles ${wd} (≤ ${D.DT_BUDGET.triangles[tier]}), ${wdi} detail instances drawn`);
+    note(`${id}/${tier} live: worst ${wm} meshes / ${wt} triangles; pool ${wdi} instances / ${wd} triangles`);
+    pool.dispose(); world.dispose?.();
+    check(!W.NP_MASSING_HOOKS.chunkLoaded && !W.NP_MASSING_HOOKS.streamed, `${id}/${tier}: dispose() clears the streaming hooks`);
+  }
+}
+note(`full builds (${worst5.join(", ")}): ${((performance.now() - tBuild) / 1000).toFixed(1)} s`);
+
+// 7. SMOOTH: generation off the frame. (a) The resumable generator yielding at every checkpoint (deadline 0) returns
+// exactly the one-shot chunk. (b) A walk on the densest map (start -> two sites, 6 m a frame, the app's two chunk builds
+// a frame) with the one-shot pool and with the time-sliced pool: once the queue is empty the sliced pool holds the same
+// instances (counts, matrices, colours), and no frame's pool exceeds its capacity. (c) No frame spends more than
+// DT_BUDGET.frameMs[tier] on detail, proven twice: on a virtual clock (every clock read costs 10 µs, so time is the
+// work done between checkpoints — deterministic, whatever the machine's load), the worst frame is inside the budget;
+// on the real clock, three runs, each frame's wall time less any garbage-collector pause inside it (node's gc entries),
+// the median run's 99th-percentile frame is inside the budget, and the worst frames are reported (the machine is
+// shared: a preempted frame stretches the wall clock by the scheduler's slice, which no budget can prevent).
+//
+// The real-clock rule (console CI-GREEN): the real clock is judged only when the machine is measurably quiet, and
+// reported otherwise. The one-minute load average alone was not a sound test of that: it lags by a minute, and on a
+// CI runner check_all's own pool fills every core while the average still reads at or under the core count (the 3.02 ms
+// against 3 ms that failed PR #1 was measured beside three other checkers on four shared vCPUs). So four signals, any
+// one of which marks the run contended:
+//   1. the load average over the core count (PROVING's rule, kept);
+//   2. other runnable tasks right now (/proc/loadavg's fourth field, less this process) at or over half the cores —
+//      another checker or a browser is on the cores while we walk;
+//   3. CPU steal (/proc/stat) over 1% of the CPU time elapsed during the walks — the hypervisor took the core;
+//   4. a calibration loop (a fixed arithmetic workload under a millisecond) timed beside every real-clock walk running
+//      over 1.5× its fastest time in this process — preemption measured the way a frame feels it.
+// The virtual clock is the budget that always judges, on every machine; nothing here touches it. The real clock, when
+// quiet, is judged against the same budget as before.
+const tSmooth = performance.now();
+{
+  let chunksChecked = 0, yields = 0, same = 0;
+  for (const p of R.NP_PARISHES.filter((_, i) => i % 4 === 0)) for (const [cx, cz] of [[8, 8], [5, 11]]) {
+    const one = D.dtDetailForChunk(p, cx, cz, "high");
+    const g = D.dtDetailSteps(p, cx, cz, "high", { slice: { deadline: 0 } });
+    let r = g.next(), y = 0; while (!r.done) { y++; r = g.next(); }
+    chunksChecked++; yields += y; if (D.dtDigest(r.value) === D.dtDigest(one) && r.value.count === one.count) same++;
+  }
+  check(same === chunksChecked && yields > chunksChecked * 10, `sliced generation: ${same}/${chunksChecked} chunks identical to the one-shot, yielding ${yields} times (${(yields / chunksChecked).toFixed(0)} a chunk)`);
+}
+const { PerformanceObserver } = await import("node:perf_hooks");
+const { loadavg, availableParallelism } = await import("node:os");
+// The contention probes beside the real-clock walks (the rule is in the comment above): other runnable tasks now, CPU
+// steal, a calibration loop. Linux /proc where it exists; elsewhere those two probes read as quiet and the others decide.
+const procRunnable = () => { try { return Number(readFileSync("/proc/loadavg", "utf8").split(/\s+/)[3].split("/")[0]) || 0; } catch { return 0; } };
+const procSteal = () => { try { const c = readFileSync("/proc/stat", "utf8").split("\n")[0].trim().split(/\s+/).slice(1).map(Number); return { steal: c[7] ?? 0, total: c.reduce((a, b) => a + b, 0) }; } catch { return null; } };
+let calibSink = 0;
+const calibMs = () => { const t0 = performance.now(); let s = 0; for (let i = 1; i <= 150000; i++) s += Math.sqrt(i) / i; calibSink += s; return performance.now() - t0; };
+const calibBase = Math.min(...Array.from({ length: 7 }, calibMs));
+const gcs = [];
+const gcObs = new PerformanceObserver((list) => { for (const e of list.getEntries()) gcs.push([e.startTime, e.startTime + e.duration]); });
+gcObs.observe({ entryTypes: ["gc"] });
+function smoothWalk(p, tier, frameMs, vclock = null) {
+  const root = new THREE.Group();
+  const pool = D.dtMountDetail(root, THREE, p, { tier, frameMs, clock: vclock });
+  const inner = W.NP_MASSING_HOOKS.streamed, rec = [];
+  W.NP_MASSING_HOOKS.streamed = vclock
+    ? (a) => { const v0 = vclock.t; inner(a); rec.push([0, 0, vclock.t - v0]); }
+    : (a) => { const t0 = performance.now(); inner(a); const t1 = performance.now(); rec.push([t0, t1, t1 - t0]); };
+  const start = E.npStartSite(p) ?? p.sites[0];
+  const world = W.npBuildParish(root, THREE, p, { tier, start: start.position });
+  let capOk = true, x = start.position[0], z = start.position[1];
+  for (const s of p.sites.slice(0, 2)) {
+    const [tx, tz] = s.position, n = Math.max(1, Math.ceil(Math.hypot(tx - x, tz - z) / 6)), x0 = x, z0 = z;
+    for (let i = 1; i <= n; i++) { x = x0 + (tx - x0) * i / n; z = z0 + (tz - z0) * i / n; world.update(x, z, 2); capOk &&= pool.capacityOk(); }
+  }
+  let idle = 0;
+  while ((world.update(x, z, 2) > 0 || pool.stats().pending) && idle < 20000) { idle++; capOk &&= pool.capacityOk(); }
+  pool.flush(); capOk &&= pool.capacityOk();
+  const st = pool.stats();
+  const snap = pool.meshes.map((m) => ({ n: m.count, mats: m.instanceMatrix.array.slice(0, m.count * 16), cols: m.instanceColor.array.slice(0, m.count * 3) }));
+  pool.dispose();
+  return { st, snap, rec, capOk, idle };
+}
+const sameSnap = (a, b) => a.every((s, i) => s.n === b[i].n && s.mats.every((v, k) => v === b[i].mats[k]) && s.cols.every((v, k) => v === b[i].cols[k]));
+const pct = (xs, f) => { const v = [...xs].sort((u, w) => u - w); return v[Math.min(v.length - 1, Math.floor(v.length * f))]; };
+const smoothWorst = {};
+for (const tier of ["high", "low"]) {
+  const id = worst5[0], p = R.npParish(id), budget = D.DT_BUDGET.frameMs[tier];
+  check(budget > 0 && budget <= 4, `${tier}: the detail frame budget is ${budget} ms (0 < ms ≤ 4)`);
+  const ref = smoothWalk(p, tier, Infinity);
+  // (c1) the virtual clock
+  const vclock = { t: 0, now() { this.t += 0.01; return this.t; } };
+  const virt = smoothWalk(p, tier, budget, vclock);
+  const vWorst = Math.max(...virt.rec.slice(1).map((r) => r[2]));
+  // (c2) the real clock, three runs, the contention probes beside each
+  const runs = [], calibs = [], runnables = [], steal0 = procSteal();
+  for (let k = 0; k < 3; k++) {
+    runnables.push(procRunnable()); calibs.push(calibMs());
+    gcs.length = 0;
+    const run = smoothWalk(p, tier, budget);
+    calibs.push(calibMs());
+    await new Promise((r) => setImmediate(r)); // gc entries arrive asynchronously
+    const frames = run.rec.slice(1).map(([a, b]) => Math.max(0, b - a - gcs.reduce((s, [g0, g1]) => s + Math.max(0, Math.min(b, g1) - Math.max(a, g0)), 0)));
+    runs.push({ run, worst: Math.max(...frames), p99: pct(frames, 0.99), p50: pct(frames, 0.5), over: frames.filter((f) => f > budget).length, n: frames.length });
+  }
+  const all = [virt, ...runs.map((r) => r.run)];
+  check(all.every((r) => sameSnap(ref.snap, r.snap)), `${id}/${tier}: the time-sliced pool ends identical to the one-shot fill (${ref.st.instances} instances in ${ref.st.chunks} chunks; every family's count, matrices and colours; 4 sliced runs)`);
+  check(all.every((r) => r.capOk) && ref.capOk, `${id}/${tier}: no frame's pool exceeds its capacity (every family ≤ DT_CAPACITY on every one of ${all.reduce((s, r) => s + r.rec.length, 0)} sliced frames)`);
+  check(vWorst <= budget, `${id}/${tier}: on the virtual clock no frame spends more than ${budget} ms on detail (worst ${vWorst.toFixed(2)} ms over ${virt.rec.length - 1} frames; the one-shot fill's worst ${Math.max(...ref.rec.slice(1).map((r) => r[2])).toFixed(1)} ms real)`);
+  const p99s = runs.map((r) => r.p99), medP99 = pct(p99s, 0.5);
+  smoothWorst[tier] = { budget, vWorst, p99s, worsts: runs.map((r) => r.worst), p50s: runs.map((r) => r.p50), over: runs.map((r) => r.over), n: runs.map((r) => r.n), gen: runs[0].run.st.genMedianMs, slices: runs[0].run.st.slices / Math.max(1, ref.st.chunks), flush: runs[0].run.st.flushWorstMs };
+  const W7 = smoothWorst[tier];
+  // Judged only on a measurably quiet machine (the four signals in the comment above); under contention reported, with the reasons.
+  const cores = availableParallelism(), load = loadavg()[0], steal1 = procSteal();
+  const others = Math.max(0, Math.max(...runnables) - 1);
+  const stealShare = steal0 && steal1 ? (steal1.steal - steal0.steal) / Math.max(1, steal1.total - steal0.total) : 0;
+  const calibRatio = Math.max(...calibs) / Math.max(0.01, calibBase);
+  const busy = [];
+  if (load > cores) busy.push(`load ${load.toFixed(1)} over ${cores} cores`);
+  if (others >= Math.ceil(cores / 2)) busy.push(`${others} other runnable task(s) on ${cores} cores`);
+  if (stealShare > 0.01) busy.push(`cpu steal ${(stealShare * 100).toFixed(1)}%`);
+  if (calibRatio > 1.5) busy.push(`calibration loop ${calibRatio.toFixed(2)}× its fastest time`);
+  const realMsg = `${id}/${tier}: on the real clock the 99th-percentile frame is ${medP99.toFixed(2)} ms (≤ ${budget} ms; median of 3 runs: ${p99s.map((v) => v.toFixed(2)).join(" / ")} ms, gc pauses excluded; load ${load.toFixed(1)} on ${cores} cores, ${others} other runnable, steal ${(stealShare * 100).toFixed(1)}%, calibration ${calibRatio.toFixed(2)}× of ${calibBase.toFixed(2)} ms)`;
+  if (!busy.length) check(medP99 <= budget, realMsg); else note(`reported, not judged (contended: ${busy.join("; ")}): ${realMsg}`);
+  note(`${id}/${tier}: virtual-clock worst frame ${W7.vWorst.toFixed(2)} ms (budget ${budget}); real frames median ${W7.p50s.map((v) => v.toFixed(2)).join(" / ")} ms, worst ${W7.worsts.map((v) => v.toFixed(1)).join(" / ")} ms (preemption on a shared machine), over budget ${W7.over.join(" / ")} of ${W7.n.join(" / ")}; a chunk ${W7.gen.toFixed(1)} ms over ${W7.slices.toFixed(1)} slices; refill pass worst ${W7.flush.toFixed(2)} ms (split across frames by family)`);
+}
+gcObs.disconnect();
+note(`smooth walks: ${((performance.now() - tSmooth) / 1000).toFixed(1)} s`);
+
+// 5. wiring
+const app = readFileSync(join(ROOT, "WebXR", "parishes", "js", "app.js"), "utf8");
+check((app.match(/world\.update\(np\.x, np\.z, 2\)/g) ?? []).length === 1, "the parishes app streams once a frame (one world.update(np.x, np.z, 2); a second one doubled the detail budget)");
+check(/import \{[^}]*dtMountDetail[^}]*\} from "\.\.\/\.\.\/shared\/dt-detail\.js"/.test(app) && /dtMountDetail\(/.test(app), "the parishes app mounts the detail pool");
+check(app.indexOf("dtMountDetail(") > -1 && app.indexOf("dtMountDetail(") < app.indexOf("npBuildParish(root"), "the pool is mounted before the parish builds");
+const bundle = readFileSync(join(ROOT, "tools", "bundle_webxr.py"), "utf8");
+check(bundle.includes('SHARED / "dt-detail.js"') && bundle.indexOf('SHARED / "dt-detail.js"') > bundle.indexOf('SHARED / "np-world.js"'), "the bundle lists dt-detail.js after np-world.js");
+check(readFileSync(join(ROOT, "tools", "check_all.mjs"), "utf8").includes('"check_detail.mjs"'), "check_all lists check_detail");
+check(/"check_detail\.mjs":\s*\d+/.test(readFileSync(join(ROOT, "docs", "perf", "checkers-baseline.json"), "utf8")), "the checkers baseline has check_detail");
+const tq = ["tools/tq_bridge.mjs", "tools/gen_tq_export.mjs"].map((f) => existsSync(join(ROOT, f)) ? readFileSync(join(ROOT, f), "utf8") : "").join("\n");
+check(/DT_DENSITY|dtExportParams/.test(tq), "the TradeQuest export carries the detail generator's parameters");
+check(typeof D.dtExportParams === "function" && !JSON.stringify(D.dtExportParams()).includes("mats"), "dtExportParams() is parameters only (no instances)");
+
+console.log(`DETAIL: ${pass} pass, ${fail} fail`);
+process.exit(fail ? 1 : 0);

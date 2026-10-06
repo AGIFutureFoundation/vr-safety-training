@@ -1,0 +1,391 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "upwind",
+    "name": "Upwind",
+    "note": "Read the permit and the SDS, proved the oxygen monitor, planned the upwind route and never walked into the vapour"
+  },
+  "category": "Energy & Power",
+  "certification": "UA pipe trades training as a body; NFPA 55 Compressed Gases and Cryogenic Fluids Code; OSHA 29 CFR 1910.1200 hazard communication, 29 CFR 1910.132 personal protective equipment and 29 CFR 1910.151 medical services and first aid; ANSI Z358.1 emergency eyewash and shower equipment; the safety data sheet for the cryogenic liquid the area permit names",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI Z358.1",
+        "id": "ansi-z358-1",
+        "title": "ANSI/ISEA Z358.1 — Emergency eyewash and shower equipment"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 55",
+        "id": "nfpa-55",
+        "title": "NFPA 55 — Compressed Gases and Cryogenic Fluids Code"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1200",
+        "id": "osha-1910-1200",
+        "title": "29 CFR 1910.1200 — Hazard communication"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.132",
+        "id": "osha-1910-132",
+        "title": "29 CFR 1910.132 — Personal protective equipment, general requirements"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.151",
+        "id": "osha-1910-151",
+        "title": "29 CFR 1910.151 — Medical services and first aid"
+      },
+      {
+        "body": "union",
+        "citedAs": "UA",
+        "id": "ua-apprenticeship",
+        "title": "UA — United Association plumber, pipefitter and HVAC service apprenticeship standards and UA Star certification"
+      }
+    ]
+  },
+  "district": "aerospace-depot",
+  "domain": "Energy",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "permit-first",
+        "name": "Permit First",
+        "note": "Read the area permit before crossing the fence line"
+      },
+      {
+        "id": "never-in-cloud",
+        "name": "Never in the Cloud",
+        "note": "Answered every vapour release from upwind"
+      },
+      {
+        "id": "steady-sample",
+        "name": "Steady Sample",
+        "note": "Held the oxygen sample near band centre"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "quick-induction",
+        "name": "Inside Par",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "clean-induction",
+        "name": "Clean Shift",
+        "note": "Clean run, no corrections"
+      }
+    ],
+    "currency": "O2",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Visitor",
+      "Area Inducted",
+      "Support Crew",
+      "Crew Lead",
+      "Upwind Certified"
+    ],
+    "system": "Upwind"
+  },
+  "hazards": {
+    "pit-entry-hazard": "That climbs down into the valve pit to read a gauge. Cold vapour pools in pits, trenches and low ground, and a space that is open to the sky can still hold an atmosphere that is not safe to enter without testing and a permit.",
+    "tight-gloves-hazard": "That pulls on tight leather work gloves for the fence-line walk. A splash of cryogenic liquid can be held against the skin by a tight glove; insulated gloves are worn loose so they can be thrown off in a second.",
+    "touch-frost-hazard": "That puts a bare hand on a frosted line. Frost on a pipe means the metal is cold enough to freeze skin to it on contact, and the ice that looks harmless is the warning, not the danger itself.",
+    "walk-in-fog-hazard": "That walks into the white vapour to see where it is coming from. The fog is condensed moisture from the air; the gas that made it is invisible, heavier than air while cold, and can leave too little oxygen to breathe well before anyone feels short of breath."
+  },
+  "id": "lp-cryogenic-propellant-awareness",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "o2-hold",
+      "alert": "Your personal oxygen monitor is alarming low while you stand at the fence line by the low ground.",
+      "cue": "Walk to the upwind muster marker now.",
+      "delay": 3,
+      "id": "o2-alarm",
+      "kind": "Low oxygen",
+      "missNote": "You stayed at the fence line with the monitor alarming. The alarm is answered by walking upwind first and asking why second.",
+      "seconds": 11,
+      "target": "upwind-marker",
+      "why": "A low-oxygen alarm near cryogenic storage means gas has displaced the air where you are standing, and the only answer that does not depend on knowing why is to leave on the upwind route you planned, because judgement is one of the first things a thin atmosphere takes away.",
+      "wrongNote": "Not that — a low-oxygen alarm is answered by walking to the upwind marker."
+    },
+    {
+      "after": "o2-track",
+      "alert": "A relief vent on the tank farm has lifted and a white cloud is rolling along the ground toward the laydown.",
+      "cue": "Sound the stop-work horn so the crew moves upwind.",
+      "delay": 3,
+      "id": "relief-lifts",
+      "kind": "Vapour release",
+      "missNote": "The cloud drifted toward the crew with no stop-work call. What you see from the fence line has to reach the people downwind.",
+      "seconds": 11,
+      "target": "stop-work-horn",
+      "why": "A relief lifting is equipment doing its job, but the cloud it makes can drift across the people working downwind who cannot see what you see, and the stop-work horn is what turns one person's view of the cloud into the whole crew walking out of its path.",
+      "wrongNote": "That isn't it — the drifting cloud is answered with the stop-work horn."
+    }
+  ],
+  "lateNotes": {
+    "area-permit-board": "The area permit is read before the fence line is crossed, every shift, because the tanks' state and the exclusion zones change with the work.",
+    "cryo-gloves": "Insulated cryogenic gloves are worn loose, cuffs outside the sleeves, so a splash runs off and the glove comes off in one pull."
+  },
+  "name": "Cryogenic Propellant Awareness",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.9,
+    "hits": [
+      "area-permit-board",
+      "cryo-gloves",
+      "cryo-shield",
+      "cuffs-out",
+      "dry-line",
+      "exclusion-cone",
+      "frosted-line",
+      "handover-log",
+      "o2-hold-pad",
+      "o2-meter",
+      "o2-track-meter",
+      "pit-entry-hazard",
+      "radio-control",
+      "relieved-line",
+      "safety-shower",
+      "sds-cryo",
+      "stop-work-horn",
+      "tight-gloves-hazard",
+      "touch-frost-hazard",
+      "trapped-line",
+      "upwind-marker",
+      "vent-zone",
+      "walk-in-fog-hazard",
+      "windsock"
+    ],
+    "meshes": 221
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track"
+  ],
+  "steps": [
+    {
+      "cue": "Read the area permit at the gate: the exclusion zones, the muster point and who controls the tanks.",
+      "id": "area-permit",
+      "kind": "select",
+      "prompt": "Read the area permit at the gate: the exclusion zones, the muster point and who controls the tanks.",
+      "target": "area-permit-board",
+      "title": "Read the area permit",
+      "why": "The area permit is where the operator of the storage area writes down what is live today, where the exclusion zones sit and who has authority over the tanks, and a support crew that has not read it is working next to equipment on assumptions nobody has checked since yesterday."
+    },
+    {
+      "cue": "Read the SDS for the cryogenic liquid the permit names before you go near the fence.",
+      "id": "sds-cryo",
+      "kind": "select",
+      "prompt": "Read the SDS for the cryogenic liquid the permit names before you go near the fence.",
+      "target": "sds-cryo",
+      "title": "Read the safety data sheet",
+      "why": "Each cryogenic liquid has its own mix of hazards — some displace oxygen, some enrich it and make ordinary materials burn fiercely, all of them freeze tissue on contact — and the safety data sheet is what tells you which of those applies here and what first aid it needs."
+    },
+    {
+      "cue": "Bump-test your personal oxygen monitor and commit only once it reads in the green.",
+      "gauge": {
+        "green": [
+          0.44,
+          0.62
+        ],
+        "label": "O2 MONITOR",
+        "missNote": "Not in the green — take the monitor back to the crib; do not cross the fence with it.",
+        "speed": 0.6
+      },
+      "id": "bump-test",
+      "kind": "gauge",
+      "prompt": "Bump-test your personal oxygen monitor and commit only once it reads in the green.",
+      "target": "o2-meter",
+      "title": "Bump-test the oxygen monitor",
+      "why": "An oxygen monitor that has not been bump-tested may show a normal reading in air that is not normal, and near cryogenic storage the monitor is the only sense you have for a gas you cannot see or smell, so it is proven before it is trusted."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Loose insulated gloves, a face shield over glasses, trouser cuffs outside the boots.",
+      "id": "ppe-cryo",
+      "itemNames": {
+        "cryo-gloves": "loose insulated gloves",
+        "cryo-shield": "face shield over safety glasses",
+        "cuffs-out": "trouser cuffs outside the boots"
+      },
+      "kind": "sequence",
+      "prompt": "Loose insulated gloves, a face shield over glasses, trouser cuffs outside the boots.",
+      "targets": [
+        "cryo-gloves",
+        "cryo-shield",
+        "cuffs-out"
+      ],
+      "title": "Dress for a splash",
+      "why": "Cryogenic PPE is about where a splash goes: a face shield keeps it off the eyes, loose gloves can be flung off rather than holding liquid against the hand, and cuffs outside the boots stop a spill running down inside them where it would sit against the skin."
+    },
+    {
+      "cue": "Read the windsock and pick the upwind route to the muster marker before you start.",
+      "id": "wind-check",
+      "kind": "select",
+      "prompt": "Read the windsock and pick the upwind route to the muster marker before you start.",
+      "target": "windsock",
+      "title": "Read the windsock and plan upwind",
+      "why": "A vapour cloud moves with the wind and hugs the ground while it is cold, so the escape route has to be chosen before anything happens, from the windsock you can see now, rather than guessed at while the cloud is already rolling toward you."
+    },
+    {
+      "cue": "Find the line you must not touch.",
+      "decoyNotes": {
+        "dry-line": "A dry, ambient line with no frost on it. Nothing to flag there today."
+      },
+      "id": "find-frost",
+      "itemNames": {
+        "frosted-line": "frosting transfer line"
+      },
+      "itemNotes": {
+        "frosted-line": "A frosting line is carrying very cold liquid or gas right now: flag it, keep hands and tools off it and tell the area controller."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Find the line you must not touch.",
+      "target": "frosted-line",
+      "targets": [
+        "frosted-line"
+      ],
+      "title": "Find the line you must not touch",
+      "why": "Frost on the outside of a line is the plainest sign that what is inside is cold enough to freeze skin and to make carbon steel brittle, and spotting it from a distance is how a support crew keeps a ladder, a hand or a sling off a pipe that cannot take it."
+    },
+    {
+      "cue": "Carry the cone to the edge of the relief-vent exclusion zone.",
+      "drag": {
+        "missNote": "Not placed — set the cone at the edge of the relief-vent exclusion zone.",
+        "radius": 0.4,
+        "to": "vent-zone"
+      },
+      "id": "cone-vent",
+      "kind": "drag",
+      "prompt": "Carry the cone to the edge of the relief-vent exclusion zone.",
+      "target": "exclusion-cone",
+      "title": "Mark the vent exclusion zone",
+      "why": "Relief vents can lift without warning when a tank warms, and marking the exclusion zone around their discharge keeps the laydown, the crane path and the crew's walking route out of the one place a release is certain to go first."
+    },
+    {
+      "cue": "Hold the monitor at the fence line by the low ground while it samples.",
+      "holdBreakNote": "Moved off before the sample settled. Hold it until the reading is steady.",
+      "id": "o2-hold",
+      "kind": "hold",
+      "prompt": "Hold the monitor at the fence line by the low ground while it samples.",
+      "seconds": 5,
+      "target": "o2-hold-pad",
+      "title": "Sample the low ground",
+      "why": "Cold vapour is heavier than air and settles in hollows, trenches and pits before it spreads, so the monitor is held low and long enough to read the air a kneeling worker would breathe, not only the air at head height."
+    },
+    {
+      "cue": "Walk the fence line keeping the monitor's sample flow inside the band.",
+      "holdBreakNote": "The sample flow left the band. Slow down and clear the inlet before you go on.",
+      "id": "o2-track",
+      "kind": "track",
+      "prompt": "Walk the fence line keeping the monitor's sample flow inside the band.",
+      "seconds": 8,
+      "target": "o2-track-meter",
+      "title": "Walk the fence line sampling",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.45,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "SAMPLE",
+        "rise": 0.4,
+        "start": 0.5
+      },
+      "why": "A pumped sample only reads the air it draws, and walking too fast or blocking the inlet starves it, so holding the flow in band along the whole fence line is what makes a clear reading mean the air really is clear."
+    },
+    {
+      "cue": "Find the length of line shut in between two valves with no relief fitted.",
+      "decoyNotes": {
+        "relieved-line": "A section between two valves with its relief device fitted. Nothing to flag there."
+      },
+      "id": "find-trapped",
+      "itemNames": {
+        "trapped-line": "line shut between two valves with no relief"
+      },
+      "itemNotes": {
+        "trapped-line": "Cryogenic liquid shut between two closed valves warms and expands; a section with no relief device is reported to the area controller, never opened or heated by the support crew."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Find the length of line shut in between two valves with no relief fitted.",
+      "targets": [
+        "trapped-line"
+      ],
+      "title": "Find the trapped section",
+      "why": "Liquid trapped between two closed valves keeps warming and turning to gas, and without a relief device the pressure in that short length has nowhere to go, which is why the support crew's job is to recognise it and report it rather than touch a valve that is not theirs."
+    },
+    {
+      "anyOrder": false,
+      "cue": "Sound the stop-work horn, walk upwind to the marker, then call the area controller.",
+      "id": "release-drill",
+      "itemNames": {
+        "radio-control": "area controller called",
+        "stop-work-horn": "stop-work horn sounded",
+        "upwind-marker": "crew walked upwind to the marker"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order — sound the horn, walk upwind, then call the area controller from the marker.",
+      "prompt": "Sound the stop-work horn, walk upwind to the marker, then call the area controller.",
+      "targets": [
+        "stop-work-horn",
+        "upwind-marker",
+        "radio-control"
+      ],
+      "title": "Run the release drill",
+      "why": "In a release the order matters: the horn warns the people who cannot see the cloud, walking upwind takes everyone out of it, and the call to the area controller is made from the marker, where you can describe what you saw without breathing it."
+    },
+    {
+      "cue": "Find the nearest safety shower and eyewash and walk the route to it once.",
+      "id": "shower-check",
+      "kind": "select",
+      "prompt": "Find the nearest safety shower and eyewash and walk the route to it once.",
+      "target": "safety-shower",
+      "title": "Locate the safety shower",
+      "why": "Tepid water is the first aid for a cryogenic splash on skin or eyes, and the seconds spent finding the shower after a splash are seconds the tissue keeps freezing, so the route is walked once on a calm day to make it automatic."
+    },
+    {
+      "cue": "Log the frosting line, the trapped section and the release drill for the area controller.",
+      "id": "handover",
+      "kind": "select",
+      "prompt": "Log the frosting line, the trapped section and the release drill for the area controller.",
+      "target": "handover-log",
+      "title": "Log what you saw",
+      "why": "The area controller owns the tanks and the lines, and the support crew's observations only change anything once they are written down and handed over, so the frost, the trapped section and the drill go on the log before the crew leaves the fence line."
+    }
+  ],
+  "supportLine": "your UA local's member assistance programme, or the site's employee assistance line if a release or a near miss is what stayed with you",
+  "tagline": "Working beside a cryogenic storage area without being part of it: the area permit and the safety data sheet read, an oxygen monitor bump-tested, loose insulated gloves and a face shield, an upwind escape planned, frost and trapped lines recognised, and a vapour cloud answered by walking upwind and calling it in",
+  "title": "SmartCiti.X~ Cryogenic Propellant Awareness VR",
+  "trade": "Launch-site support crew, cryogenic-safety awareness — UA",
+  "underwater": null,
+  "weather": "overcast"
+}

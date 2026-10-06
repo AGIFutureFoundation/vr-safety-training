@@ -1,0 +1,271 @@
+{
+  "id": "port-operations",
+  "kind": "programme",
+  "name": "Port and Terminal Operations",
+  "title": "SmartCiti.X Port and Terminal Operations — Powered by AGI Corp",
+  "audience": "trades",
+  "summary": "A ship comes alongside, is secured, is fuelled, is worked and leaves. Its stations follow that order, each with a different way to put oil or steel where it should not be.",
+  "certification": "USCG 33 CFR 155/156 oil transfer, IMO Cargo Securing Manual practice, and OSHA 1917 marine terminals",
+  "programmes": [
+    "port-operations"
+  ],
+  "stations": [
+    {
+      "app": "smartcity",
+      "id": "mooring-line"
+    },
+    {
+      "app": "smartcity",
+      "id": "bunkering-watch"
+    },
+    {
+      "app": "smartcity",
+      "id": "container-lashing"
+    },
+    {
+      "app": "smartcity",
+      "id": "dock-crane"
+    },
+    {
+      "app": "smartcity",
+      "id": "vessel-gangway-and-hatch-cover-safety"
+    },
+    {
+      "app": "smartcity",
+      "id": "po-lashing-gear-inspection-and-tagging"
+    },
+    {
+      "app": "smartcity",
+      "id": "po-yard-hostler-and-pedestrian-separation"
+    }
+  ],
+  "unions": [
+    "ilwu",
+    "meba",
+    "siu",
+    "teamsters"
+  ],
+  "unionLine": "ILWU longshore, MEBA and SIU marine engineers, IBT terminal drivers",
+  "k12Bands": [],
+  "path": "union-trades",
+  "alsoPaths": [],
+  "worlds": [
+    {
+      "world": "bayworld",
+      "sites": [
+        "port-container-terminal",
+        "estuary-research-dock",
+        "island-yacht-harbor",
+        "south-shoreline-marina",
+        "channel-buoy-tender-pier"
+      ]
+    },
+    {
+      "world": "underwater",
+      "sites": [
+        "approach-buoy-tender-station",
+        "reef-ball-placement-site"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "orleans",
+      "sites": [
+        "port-terminal",
+        "canal-lock",
+        "ferry-landing"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "jefferson",
+      "sites": [
+        "jf-harvey-canal-yard",
+        "jf-sw-west-bank-waterfront-workboat-landing"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "st-bernard",
+      "sites": [
+        "sb-chalmette-ferry",
+        "sb-sw-shell-beach-workboat-landing"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "plaquemines",
+      "sites": [
+        "pq-intracoastal-lock",
+        "pq-belle-chasse-ferry",
+        "pq-port-sulphur-terminal"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-downtown",
+      "sites": [
+        "embarcadero-piers",
+        "ferry-building-landing"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-mission",
+      "sites": [
+        "dogpatch-shipyard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-bayview",
+      "sites": [
+        "port-southern-terminals"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-north-beach",
+      "sites": [
+        "wharf-fishing-fleet",
+        "embarcadero-pier-shed"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-west-oakland",
+      "sites": [
+        "outer-harbor-container-terminal",
+        "seventh-street-marine-terminal",
+        "port-truck-staging-yard",
+        "oak-port-ze-equipment-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bay-san-pablo",
+      "sites": [
+        "richmond-harbour-terminal"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "la-starbase-vermilion",
+      "sites": [
+        "lsb-shipping-dock"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "la-black-bayou-cameron",
+      "sites": [
+        "lbb-barge-landing"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "la-saronic-franklin",
+      "sites": [
+        "lsf-outfitting-pier",
+        "lsf-crane-rail"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "la-shintech-plaquemine",
+      "sites": [
+        "lsp-river-dock"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "lc-lakefront-downtown",
+      "sites": [
+        "lcd-marina-dock",
+        "lcd-westlake-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "lc-calcasieu-channel",
+      "sites": [
+        "lcc-marine-offload",
+        "lcc-waterway-landing"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "lc-port-of-vinton",
+      "sites": [
+        "lpv-barge-berth-build"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "nola-french-quarter-cbd",
+      "sites": [
+        "nfq-river-wharf-crew",
+        "nfq-ferry-landing"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "nola-uptown-garden",
+      "sites": [
+        "nup-river-wharf"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "nola-bywater-lower-ninth",
+      "sites": [
+        "nbw-wharf-crew",
+        "nbw-algiers-ferry-landing",
+        "nbw-canal-lock-crew"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "br-downtown-riverfront",
+      "sites": [
+        "brd-port-allen-landing"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "br-north-industrial",
+      "sites": [
+        "brn-river-terminal",
+        "brn-truck-gate"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "br-riverplex-ascension",
+      "sites": [
+        "brr-river-dock"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "hammond-downtown",
+      "sites": [
+        "ham-truck-yard"
+      ]
+    }
+  ],
+  "stationNames": {
+    "mooring-line": "Mooring Line",
+    "bunkering-watch": "Bunkering Watch",
+    "container-lashing": "Container Lashing",
+    "dock-crane": "Dock Crane",
+    "vessel-gangway-and-hatch-cover-safety": "Vessel Gangway & Hatch Cover Safety",
+    "po-lashing-gear-inspection-and-tagging": "Lashing Gear Inspection & Tagging",
+    "po-yard-hostler-and-pedestrian-separation": "Yard Hostler & Pedestrian Separation"
+  },
+  "version": "1.0.0",
+  "contentHash": "0c103d0b",
+  "brand": "SmartCiti.X · Powered by AGI Corp",
+  "generator": "tools/gen_packs.mjs",
+  "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."
+}

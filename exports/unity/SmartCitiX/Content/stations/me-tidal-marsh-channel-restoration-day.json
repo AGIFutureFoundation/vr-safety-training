@@ -1,0 +1,411 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "channel-by-hand",
+    "name": "Channel By Hand",
+    "note": "A channel opened inside the window with every boot on the path, every plug in order and every bucket of spoil in its zone"
+  },
+  "category": "Water & Environmental",
+  "certification": "LIUNA and AFSCME restoration and habitat crews as training bodies; OSHA 29 CFR 1910.132 personal protective equipment for mud, water and hand tools; Section 404 permit conditions for placing and moving material in the marsh; Regional Water Quality Control Board Section 401 conditions on turbidity and spoil; BCDC permit conditions; the U.S. Fish and Wildlife Service and NOAA Fisheries consultation measures that set the work window and the nesting buffer; CDFW oversight of the channel work",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFSCME",
+        "id": "afscme-training",
+        "title": "AFSCME member education and safety training for public-service and air-district members"
+      },
+      {
+        "body": "BCDC",
+        "citedAs": "BCDC",
+        "id": "bcdc-bay-plan",
+        "title": "San Francisco Bay Plan and BCDC permit conditions under the McAteer-Petris Act"
+      },
+      {
+        "body": "CDFW",
+        "citedAs": "CDFW",
+        "id": "cdfw-lake-streambed-alteration",
+        "title": "California Department of Fish and Wildlife oversight under the California Fish and Game Code, including Lake and Streambed Alteration Agreements (§1602) for work affecting a river, stream or lake"
+      },
+      {
+        "body": "union",
+        "citedAs": "LIUNA",
+        "id": "liuna-training-fund",
+        "title": "LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula"
+      },
+      {
+        "body": "NOAA Fisheries",
+        "citedAs": "NOAA Fisheries",
+        "id": "noaa-fisheries-mmpa-esa",
+        "title": "NOAA Fisheries (National Marine Fisheries Service) Marine Mammal Protection Act authorizations and Endangered Species Act consultation for in-water work affecting marine mammals"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.132",
+        "id": "osha-1910-132",
+        "title": "29 CFR 1910.132 — Personal protective equipment, general requirements"
+      },
+      {
+        "body": "RWQCB",
+        "citedAs": "Section 401",
+        "id": "rwqcb-401-certification",
+        "title": "Regional Water Quality Control Board Clean Water Act §401 certification and waste discharge requirements"
+      },
+      {
+        "body": "USACE",
+        "citedAs": "Section 404",
+        "id": "usace-section-404",
+        "title": "Clean Water Act §404 permit conditions for the discharge of dredged or fill material"
+      },
+      {
+        "body": "USFWS",
+        "citedAs": "U.S. Fish and Wildlife Service",
+        "id": "usfws-esa",
+        "title": "Endangered Species Act §7 consultation and species protection measures set by the U.S. Fish and Wildlife Service"
+      }
+    ]
+  },
+  "district": "Environmental Monitoring",
+  "domain": "Environmental",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "plugs-in-order",
+        "name": "Plugs In Order",
+        "note": "Cut, placed and tamped in order first time"
+      },
+      {
+        "id": "marsh-kept",
+        "name": "Marsh Kept",
+        "note": "Never a hazard, never a boot off the path"
+      },
+      {
+        "id": "true-staff",
+        "name": "True Staff",
+        "note": "The staff read inside the working band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-day",
+        "name": "Clean Day",
+        "note": "No corrections from the plan to the log"
+      },
+      {
+        "id": "steady-rod",
+        "name": "Steady Rod",
+        "note": "The path walked and the rod held without a break"
+      },
+      {
+        "id": "out-before-flood",
+        "name": "Out Before The Flood",
+        "note": "Day logged inside 80% of par"
+      }
+    ],
+    "currency": "PLUG",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Marsh Hand",
+      "Channel Hand",
+      "Crew Lead",
+      "Restoration Lead",
+      "Marsh Certified"
+    ],
+    "system": "Marsh Crew"
+  },
+  "hazards": {
+    "into-the-buffer": "You walked into the flagged nesting buffer to see what the monitor had spotted. The buffer is a line the U.S. Fish and Wildlife Service and CDFW measures drew around a place the crew does not go; the monitor is the one person whose job is to look, and a crew lead inside the buffer is the incident that closes the work window for everyone.",
+    "into-the-soft-mud": "You stepped into the channel bed to reach the far stake. Channel mud here is soft enough to take a leg to the thigh and hold it while the tide comes back, and a crew member stuck in it is a rescue the day was not planned for; the channel is worked from its banks, with the plank and the rod, and nobody stands in the cut.",
+    "off-the-path": "You cut across the marsh plain to the channel instead of walking the flagged path. The plain's surface is a mat of roots that takes a season to heal from one crew's shortcuts, and the flagged path is where the plan agreed with the permit that boots may go; a channel opened by a crew that trampled the marsh around it is a restoration with a footprint the monitoring will find.",
+    "spoil-in-the-channel": "You tipped the spoil bucket beside the cut instead of carrying it to the spoil zone. Spoil left at the channel's edge is back in the channel on the first flood, as turbidity the Section 401 conditions count and as the plug of mud the work was opening; every bucket goes to the zone the plan marked, however far it is."
+  },
+  "id": "me-tidal-marsh-channel-restoration-day",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "walk-path",
+      "alert": "The water at the channel mouth has started back in ahead of the table — the staff is climbing while the crew is still on the plank.",
+      "cue": "Sound the recall horn so the crew on the far bank starts back now, tools or no tools.",
+      "delay": 2,
+      "id": "tide-turning-early",
+      "kind": "Tide turning ahead of the table",
+      "missNote": "The crew kept working on the far bank while the channel filled behind them; the walk back was made through water over the plank with tools in both hands, and two people went in to the waist.",
+      "seconds": 14,
+      "target": "recall-horn",
+      "why": "A marsh plain floods from its channels outward, and a crew on the far side of a cut with the tide coming is a crew whose way back is filling first; the recall is sounded the moment the staff shows the turn, not when the water is at the plank. Tools left on the bank are found on the next low water — a crew member caught on the wrong side of a channel in chest waders is not.",
+      "wrongNote": "Not that. The recall horn is what reaches a crew on the far bank with their heads down — sound it."
+    },
+    {
+      "after": "rod-hold",
+      "alert": "The monitor is on the radio — a bird has come down inside the buffer and they are calling a stop on the cut.",
+      "cue": "Raise the stop-work flag and hold the crew where they stand until the monitor clears the work.",
+      "delay": 2,
+      "id": "bird-in-the-buffer",
+      "kind": "Monitor calls a stop",
+      "missNote": "The crew kept cutting through the monitor's call; the stop was logged as ignored, and the permit's work window was closed for the crew by the agency the next morning.",
+      "seconds": 14,
+      "target": "stop-flag",
+      "why": "The monitor's stop is the U.S. Fish and Wildlife Service and CDFW measures working as written: the crew stops, stays where it is, and waits, however close to grade the cut is. The flag goes up so every crew member sees the stop without a shout across the plain, and nobody moves toward the buffer to look — the monitor's report is the record, and the crew's stillness is what keeps the window open for tomorrow.",
+      "wrongNote": "Not that. The stop-work flag — up, and the crew holds where it stands until the monitor clears it."
+    }
+  ],
+  "lateNotes": {
+    "alignment-stake": "The alignment is staked once the path has been walked to the cut — stakes set from the wrong side of the plain are set through it.",
+    "plug-cut": "Plugs are cut once the fence post is in — a channel opened before the silt fence is up sends the first flood's mud straight onto the plain.",
+    "spoil-bucket": "Spoil is carried once the shot is taken — the rod reads the cut as it is, not as it will be after the next bucket."
+  },
+  "name": "Tidal Marsh Channel Restoration Day",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "marine-ecology-and-restoration"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "radio",
+        "count": 1,
+        "kit": "toolkit"
+      }
+    ],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "access-path",
+      "alignment-stake",
+      "buffer-flag",
+      "buried-line-marker",
+      "crew-radio",
+      "day-log",
+      "fence-post-auger",
+      "gloves-on",
+      "into-the-buffer",
+      "into-the-soft-mud",
+      "marsh-plan-board",
+      "off-the-path",
+      "plug-cut",
+      "plug-place",
+      "plug-tamp",
+      "recall-horn",
+      "spoil-bucket",
+      "spoil-in-the-channel",
+      "spoil-zone",
+      "station-flag",
+      "stop-flag",
+      "survey-rod",
+      "tide-staff",
+      "vest-on",
+      "waders-on"
+    ],
+    "meshes": 259
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check the channel alignment and its stakes, the spoil zone, the silt fence line, the nesting buffer the monitor holds, and the tide window the permit gives for the day.",
+      "id": "marsh-plan",
+      "kind": "select",
+      "prompt": "Check the channel alignment and its stakes, the spoil zone, the silt fence line, the nesting buffer the monitor holds, and the tide window the permit gives for the day.",
+      "target": "marsh-plan-board",
+      "title": "Read the restoration plan and the permit's work window",
+      "why": "A hand crew on a marsh works inside three lines drawn before anyone arrived: the alignment the channel follows, the buffer nobody crosses, and the tide window the permit allows. The plan holds all three and the monitor holds the buffer; reading it at the truck is how the lead arrives knowing where every boot and every bucket may go, and when the crew must be back on the levee whatever is left undone."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Chest waders with the belt cinched tight, work gloves for the tools and the plugs, and the work vest over everything — on at the truck, not at the water.",
+      "id": "marsh-kit",
+      "itemNames": {
+        "gloves-on": "work gloves",
+        "vest-on": "work vest over the waders",
+        "waders-on": "chest waders with the belt cinched"
+      },
+      "kind": "sequence",
+      "prompt": "Chest waders with the belt cinched tight, work gloves for the tools and the plugs, and the work vest over everything — on at the truck, not at the water.",
+      "targets": [
+        "waders-on",
+        "gloves-on",
+        "vest-on"
+      ],
+      "title": "Waders, gloves and the vest before the levee",
+      "why": "Waders that fill are an anchor, and the belt is what keeps them from filling when a crew member goes down in a channel; the vest over them is what floats a person whose waders have filled anyway. 29 CFR 1910.132 asks the employer to have looked at this marsh and decided, and this is what the decision looks like — put on at the truck because nobody cinches a belt properly standing in mud."
+    },
+    {
+      "cue": "Read the water on the staff at the channel mouth and commit it against the low-water window the permit's tide table gives.",
+      "gauge": {
+        "green": [
+          0.34,
+          0.54
+        ],
+        "label": "TIDE STAFF",
+        "missNote": "Outside the working window — read the staff again and start only when the water stands inside the plan's band.",
+        "speed": 0.7
+      },
+      "id": "read-staff",
+      "kind": "gauge",
+      "prompt": "Read the water on the staff at the channel mouth and commit it against the low-water window the permit's tide table gives.",
+      "target": "tide-staff",
+      "title": "Read the tide staff against the working window",
+      "why": "The tide table is a prediction and the staff is the water; the crew works to the staff because the wind and the barometer do not read the table. Reading and committing it at the start sets how long the crew has in the cut, and a reading taken now is a decision made on the levee rather than one made late with the tide already in the channel and the tools on the far bank."
+    },
+    {
+      "cue": "Lead the crew along the flags at a pace that keeps every boot on the plank and the matting — no long steps, no shortcuts.",
+      "holdBreakNote": "The pace broke — hurrying off the plank or stalled. Find the next flag and take it up again.",
+      "id": "walk-path",
+      "kind": "track",
+      "prompt": "Lead the crew along the flags at a pace that keeps every boot on the plank and the matting — no long steps, no shortcuts.",
+      "seconds": 6,
+      "target": "access-path",
+      "title": "Walk the flagged access path to the cut",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.45,
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "PACE ON THE PLANK",
+        "rise": 0.55,
+        "start": 0.14
+      },
+      "why": "The path is planked and flagged so the crew's footfalls land on the same strip of marsh every day, and the strip is where the plan agreed with the permit that the marsh would take the damage. A steady pace keeps a crew carrying tools and buckets from long steps onto the root mat or into the soft ground beside the plank; hurrying to beat the tide is how the marsh around a channel gets trampled and a crew member goes in to the knee."
+    },
+    {
+      "cue": "Carry the stake to the next station the plan marks on the alignment and set it at the flag — from the bank, not the cut.",
+      "drag": {
+        "missNote": "Not at the station flag — the stake goes at the flag the plan set, not where the mud looks firm.",
+        "radius": 0.55,
+        "to": "station-flag"
+      },
+      "id": "stake-alignment",
+      "kind": "drag",
+      "prompt": "Carry the stake to the next station the plan marks on the alignment and set it at the flag — from the bank, not the cut.",
+      "target": "alignment-stake",
+      "title": "Set the alignment stake at the channel's next station",
+      "why": "The channel follows an alignment surveyed from the plan, and each stake is a station the crew cuts to and the survey shoots back to; a stake set where the cut looked easiest is a channel that wanders off its design gradient and holds water where it should drain. It is set from the bank because the cut's bed is soft, and a stake driven while standing in the bed is driven by somebody who may not get out of it."
+    },
+    {
+      "cue": "Turn the post auger until the fence post is seated to its mark, downslope of the cut and inside the fence line the plan drew.",
+      "id": "drive-post",
+      "kind": "turn",
+      "prompt": "Turn the post auger until the fence post is seated to its mark, downslope of the cut and inside the fence line the plan drew.",
+      "target": "fence-post-auger",
+      "title": "Drive the silt fence post at the cut's downslope edge",
+      "turn": {
+        "label": "POST AUGER",
+        "turns": 0.8
+      },
+      "why": "The silt fence catches the first flood's mud before it spreads across the plain, and it works only if its posts are seated deep enough to hold a fabric full of wet sediment; a post pushed in by hand leans over on the first tide and the fence lies down. It is driven downslope of the cut, on the line the plan drew, because a fence upslope protects nothing and one placed by eye is in the way of the next stake."
+    },
+    {
+      "cue": "Before the first plug is cut, find the monitor's buffer flag line and the marker where the alignment crosses a buried line.",
+      "id": "find-flags",
+      "itemNames": {
+        "buffer-flag": "the monitor's nesting buffer flag line",
+        "buried-line-marker": "the marker for a buried line crossing the alignment"
+      },
+      "itemNotes": {
+        "buffer-flag": "The line of flags the monitor set this morning around the buffer. Nobody in the crew crosses it, and the monitor moves it if what they see moves; the lead's job is to know where it is today, not where it was on the plan.",
+        "buried-line-marker": "A utility marker where something buried crosses the alignment. The plan noted it and the hand crew works the cut to a shallower depth across it — nothing is dug there without the locate ticket the plan references."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Before the first plug is cut, find the monitor's buffer flag line and the marker where the alignment crosses a buried line.",
+      "targets": [
+        "buffer-flag",
+        "buried-line-marker"
+      ],
+      "title": "Find the buffer flags and the buried-line marker",
+      "why": "Two lines on the plan are drawn by other people and can move: the buffer is where the monitor says it is today, and the buried line is where the locate ticket says it is, not where the map guesses. A lead who finds both before the crew's tools are in the ground is a lead who never has to explain a crew inside the buffer or a shovel through a cable — the plan referenced both; the ground shows them."
+    },
+    {
+      "cue": "For each plug: cut it whole from the channel bed with the spade, carry it to the planting flag on the bank and set it root-down, then tamp it and water it — one plug at a time.",
+      "id": "plug-chain",
+      "itemNames": {
+        "plug-cut": "marsh plug cut from the channel bed",
+        "plug-place": "plug set on the bank at the planting flag",
+        "plug-tamp": "plug tamped in and watered"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order — cut, place, then tamp. A plug tamped before it is set is crushed, and one left on the bank dries out.",
+      "prompt": "For each plug: cut it whole from the channel bed with the spade, carry it to the planting flag on the bank and set it root-down, then tamp it and water it — one plug at a time.",
+      "targets": [
+        "plug-cut",
+        "plug-place",
+        "plug-tamp"
+      ],
+      "title": "Cut, place and tamp each plug in order",
+      "why": "The channel's spoil is the plain's planting stock: a plug cut whole from the bed and set on the bank the same hour is a plant moved, not a plant killed, and the order is what keeps it alive. Cut, then place, then tamp — a plug tamped before it is set is a plug crushed, and one cut and left on the bank while the next is dug is a plug drying in the wind with its roots in the air."
+    },
+    {
+      "cue": "Set the rod on the channel bed at the stake, hold it plumb against the bubble for the full count while the instrument reads it.",
+      "holdBreakNote": "The rod came off plumb before the shot was taken — the bed would read high. Set it on the bubble and hold again.",
+      "id": "rod-hold",
+      "kind": "hold",
+      "prompt": "Set the rod on the channel bed at the stake, hold it plumb against the bubble for the full count while the instrument reads it.",
+      "seconds": 5,
+      "target": "survey-rod",
+      "title": "Hold the survey rod plumb on the cut for the shot",
+      "why": "The channel is cut to a gradient, and the only way anyone knows the bed is at grade is the shot taken on a rod held plumb on it; a rod leaning even a little reads high and the crew cuts a bed that ponds. Holding still for the full count is what the instrument needs and what the crew's next hour is planned on — a hurried shot cannot be told from a careful one until the first flood shows where the water stands."
+    },
+    {
+      "cue": "Carry the bucket of loose spoil along the plank to the spoil zone the plan marked and tip it inside the zone's flags.",
+      "drag": {
+        "missNote": "Not in the spoil zone — the bucket is tipped inside the zone's flags, not on the bank beside the cut.",
+        "radius": 0.6,
+        "to": "spoil-zone"
+      },
+      "id": "carry-spoil",
+      "kind": "drag",
+      "prompt": "Carry the bucket of loose spoil along the plank to the spoil zone the plan marked and tip it inside the zone's flags.",
+      "target": "spoil-bucket",
+      "title": "Carry the spoil bucket to the spoil zone",
+      "why": "What the plugs did not use is spoil, and spoil left at the cut is back in the channel on the first tide as mud and as the turbidity the Section 401 conditions count against the project. The zone is where the plan and the Section 404 permit agreed the material may sit; the walk is long on purpose, because the near bank is the one place the spoil must not be."
+    },
+    {
+      "cue": "On the radio: the cut is at grade to the stake, the fence is up, spoil is in the zone, the crew is walking out on the plank, and how everyone is after the early tide and the stop.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "On the radio: the cut is at grade to the stake, the fence is up, spoil is in the zone, the crew is walking out on the plank, and how everyone is after the early tide and the stop.",
+      "target": "crew-radio",
+      "title": "Call the crew and the monitor before the walk out",
+      "why": "The monitor watched the buffer all day and the crew watched the cut; the call is where the two accounts meet and where the lead hears whether anyone is cold, cut or shaken before the walk out. An early tide and a stop-work in one day is a hard day, and saying so is part of it — the LIUNA or AFSCME member assistance line is there for whatever the drive home does not settle."
+    },
+    {
+      "cue": "Log the staff readings, the stations staked and cut, the fence line, plugs cut and placed, the buffer's position and the stop, the shot, the spoil carried, and the tide's early turn.",
+      "id": "day-log",
+      "kind": "select",
+      "prompt": "Log the staff readings, the stations staked and cut, the fence line, plugs cut and placed, the buffer's position and the stop, the shot, the spoil carried, and the tide's early turn.",
+      "target": "day-log",
+      "title": "Write the day log for the permit record",
+      "why": "The Section 404 and Section 401 conditions this channel is being opened under are answered from day logs like this one, and so is the question the monitoring crew will ask in a year about why the channel holds water at one station. It is written on the levee while the marks are in sight, because a log written at the yard records the memory of a cut rather than the cut."
+    }
+  ],
+  "supportLine": "your union hall's member assistance programme — LIUNA or AFSCME, whichever your crew works under — with the employer's employee assistance line behind it",
+  "tagline": "The plan and the window read, waders and vest on, the staff read, the flagged path walked while the tide turns early, the alignment staked, the fence post driven, the buffer flag and the buried-line marker found, plugs cut, placed and tamped in order, the rod held for the shot while a bird lands in the buffer, spoil carried to its zone, the crew called and the day logged",
+  "title": "SmartCiti.X~ Tidal Marsh Channel Restoration Day VR",
+  "trade": "Hand-crew lead on a tidal marsh restoration, opening a channel by hand inside the permit's work window with a monitor watching the nesting buffer",
+  "underwater": null,
+  "weather": "clear"
+}

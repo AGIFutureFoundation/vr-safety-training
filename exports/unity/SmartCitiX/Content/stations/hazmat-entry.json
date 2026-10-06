@@ -1,0 +1,401 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "entry-certified",
+    "name": "Entry Certified",
+    "note": "A Level A entry made and reversed with the air managed, the buddy kept and the decon line walked"
+  },
+  "category": "Emergency Services",
+  "certification": "IAFF / IAEP — hazardous materials technician; OSHA 29 CFR 1910.120(q) HAZWOPER emergency response; NFPA 472/1072 competencies; 1910.134 respiratory protection for the SCBA",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "IAEP",
+        "id": "iaff-training",
+        "title": "IAFF training programmes, including Fire Ground Survival and the peer support model"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 472",
+        "id": "nfpa-472",
+        "title": "NFPA 472 — Competence of Responders to Hazardous Materials/WMD Incidents (consolidated into NFPA 470)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "HAZWOPER",
+        "id": "osha-1910-120",
+        "title": "29 CFR 1910.120 — Hazardous waste operations and emergency response (HAZWOPER)"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Emergency response",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "air-managed",
+        "name": "Air Managed",
+        "note": "Turned around on the rule of thirds, not on the low-air alarm"
+      },
+      {
+        "id": "never-alone",
+        "name": "Never Alone",
+        "note": "Never separated from the buddy or entered without backup"
+      },
+      {
+        "id": "suit-tight",
+        "name": "Suit Tight",
+        "note": "Suit pressure-tested inside the acceptance band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-entry",
+        "name": "Clean Entry",
+        "note": "Clean run, no corrections"
+      },
+      {
+        "id": "held-the-test",
+        "name": "Held The Test",
+        "note": "Held the suit pressure test the full count"
+      },
+      {
+        "id": "out-on-time",
+        "name": "Out On Time",
+        "note": "Back through decon inside 80% of par"
+      }
+    ],
+    "currency": "PSI",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Operations",
+      "Technician",
+      "Entry Team Lead",
+      "Hazmat Officer",
+      "Entry Authority Certified"
+    ],
+    "system": "Entry Authority"
+  },
+  "hazards": {
+    "low-air-push": "You pushed past the point where you should have turned around. The rule of thirds exists precisely because the trip out takes as long as the trip in, and decontamination afterward takes longer than both combined — spending air past that third is spending air you were going to need just to reach the cordon alive.",
+    "skip-backup": "You made entry with nobody dressed out at the line to back you up. A backup pair isn't a formality — they're the only ones equipped to reach you once you're sealed inside a suit, in an atmosphere nobody else can enter. Two go in, and two more stand dressed and ready, prepared to come get them.",
+    "skip-decon": "You crossed out of the hot zone bypassing the decontamination passage entirely. Whatever's riding on that suit travels with you — into the rehab area, onto the apparatus, and onto everyone standing there who never put a suit on in the first place.",
+    "solo-entry": "You left your partner behind inside the hot zone. Inside a Level A suit you can barely hear, you can't turn your head, and you can't easily check your own air gauge — your partner is the one who reads it for you and who drags you clear if you go down. Splitting up is how entrants end up found rather than rescued."
+  },
+  "id": "hazmat-entry",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "identify",
+      "alert": "Your partner has stopped moving and is slumped against the trailer. Inside a suit, you can't tell if they're even answering you.",
+      "cue": "The other half of your entry pair isn't right.",
+      "delay": 4,
+      "id": "buddy-down",
+      "kind": "Entrant in trouble",
+      "missNote": "You kept working the objective. They happened to still be upright at the turnaround, which was luck, nothing more — an entrant who collapses inside a sealed suit needs the backup pair, a physical drag to the cordon, and a decontamination pass they're in no state to help with.",
+      "seconds": 11,
+      "target": "buddy-check",
+      "why": "Heat stress inside a Level A suit can go from fine to unconscious faster than almost anything else on a hazmat scene, and the wearer usually can't feel it building. Your partner is watching you for exactly this reason — so the instant they go down, everything else stops with them.",
+      "wrongNote": "It is your buddy. Nothing in this hot zone outranks the other person in it."
+    },
+    {
+      "after": "mitigate",
+      "alert": "The wind has swung, and vapour is drifting straight across the decontamination passage and the backup team's position.",
+      "cue": "Your way out just walked into the plume.",
+      "delay": 3,
+      "id": "wind-shift",
+      "kind": "Plume over the corridor",
+      "missNote": "The passage stayed put. You walked out through the plume with the backup pair standing in it, and none of them were dressed for an airborne exposure — the original zone map said they wouldn't need to be.",
+      "seconds": 11,
+      "target": "warm-line",
+      "why": "Zones get drawn against whatever wind was blowing when the tape first went down. A shift can put the passage, the backup pair and the support area downwind of the release — right as two people in suits running low on air are about to walk straight through it.",
+      "wrongNote": "It is the warm zone line. The corridor has to move before anyone walks it."
+    }
+  ],
+  "lateNotes": {
+    "hot-zone-entry": "Entry happens after the suit is tested, the buddy is dressed and the backup is standing by.",
+    "suit-don": "The suit goes on after the zones are set and the entry brief is done."
+  },
+  "name": "Hazmat Entry",
+  "parSeconds": 280,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.2,
+    "hits": [
+      "air-gauge",
+      "backup-team",
+      "buddy-check",
+      "cold-line",
+      "decon-corridor",
+      "entry-brief",
+      "hot-line",
+      "hot-zone-entry",
+      "leaking-drum",
+      "low-air-push",
+      "medical",
+      "overpack-drum",
+      "overpack-lid",
+      "placard",
+      "scba-doff",
+      "scba-don",
+      "skip-backup",
+      "skip-decon",
+      "solo-entry",
+      "suit-doff",
+      "suit-don",
+      "suit-gauge",
+      "suit-tester",
+      "warm-line",
+      "wash-wand"
+    ],
+    "meshes": 225
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track"
+  ],
+  "steps": [
+    {
+      "cue": "Note the objective, who's going in, and the working time the cylinders allow.",
+      "id": "iap",
+      "kind": "select",
+      "prompt": "Note the objective, who's going in, and the working time the cylinders allow.",
+      "target": "entry-brief",
+      "title": "Read the entry brief and the air budget",
+      "why": "A hazmat entry pair commits to one job and turns around the instant it's done, or the instant the air runs low — settled on paper before anyone's sealed into a suit: once the faceplate closes there's no pausing to renegotiate the plan, and nothing said through a fogged visor will alter it."
+    },
+    {
+      "cue": "Hot zone first, then the warm zone with the decontamination passage inside it, then cold.",
+      "id": "zones",
+      "itemNames": {
+        "cold-line": "cold zone and support",
+        "hot-line": "hot zone line",
+        "warm-line": "warm zone / decon corridor"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Hot, then warm, then cold — the boundaries are drawn outward from the release, not guessed at from the edges in.",
+      "prompt": "Hot zone first, then the warm zone with the decontamination passage inside it, then cold.",
+      "targets": [
+        "hot-line",
+        "warm-line",
+        "cold-line"
+      ],
+      "title": "Set the three zones, outward",
+      "why": "Zones get marked starting at the release and working outward, so the passage between them exists by the time an entry pair needs to walk it. Mark them from the outside in and that passage can end up sitting inside the very contamination it was supposed to keep out."
+    },
+    {
+      "cue": "SCBA on, then the encapsulating suit zipped over the top, sealed by your partner.",
+      "id": "suit-zip",
+      "itemNames": {
+        "buddy-check": "buddy checks the seal",
+        "scba-don": "SCBA on",
+        "suit-don": "suit over it"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Air on, then the suit over it, then the buddy checks the seal — closing the suit before the air is on traps a cylinder you cannot reach to fix.",
+      "prompt": "SCBA on, then the encapsulating suit zipped over the top, sealed by your partner.",
+      "targets": [
+        "scba-don",
+        "suit-don",
+        "buddy-check"
+      ],
+      "title": "Dress out — air first, suit over it",
+      "why": "A Level A suit is fully sealed, so the air cylinder has to go on before the zipper closes — reach for it afterward and there's no getting to it. That's also why the seal check falls to somebody else: nobody can twist far enough to inspect their own back once that suit is closed."
+    },
+    {
+      "cue": "Inflate to the test pressure and hold steady while the gauge is watched.",
+      "holdBreakNote": "The test was cut short. A suit that has not held for the full count has not been tested.",
+      "id": "pressure-test",
+      "kind": "hold",
+      "prompt": "Inflate to the test pressure and hold steady while the gauge is watched.",
+      "seconds": 5,
+      "target": "suit-tester",
+      "title": "Pressure-test the suit",
+      "why": "An encapsulating suit only protects while it's holding pressure, and this test is what finds the bad seam, the loose glove ring or the failed zip before the hot zone finds it for you. Cut the hold short and none of that gets proven — a suit that hasn't held for the full count hasn't really been tested."
+    },
+    {
+      "cue": "Commit on how far the pressure fell across the test period.",
+      "gauge": {
+        "green": [
+          0.06,
+          0.24
+        ],
+        "label": "DROP",
+        "missNote": "That drop is outside the allowance — the suit has a leak. It does not go into the hot zone.",
+        "speed": 0.72
+      },
+      "id": "test-read",
+      "kind": "gauge",
+      "prompt": "Commit on how far the pressure fell across the test period.",
+      "target": "suit-gauge",
+      "title": "Read the suit test",
+      "why": "What's being read is a drop, not a raw pressure figure: a suit that loses more than the allowance across that period has a leak somewhere a visual check will never catch on its own, however carefully the seams get looked over first."
+    },
+    {
+      "cue": "Get a second pair dressed and on air at the hot cordon before anyone crosses it.",
+      "id": "backup",
+      "kind": "select",
+      "prompt": "Get a second pair dressed and on air at the hot cordon before anyone crosses it.",
+      "target": "backup-team",
+      "title": "Stand the backup team up at the line",
+      "why": "Two go in, and two more stand ready to pull them out. The backup pair dresses out before entry begins, not after somebody calls for them — a full Level A ensemble simply takes longer to don than most emergencies are willing to wait."
+    },
+    {
+      "cue": "Read both entrants' cylinders and record the working pressure.",
+      "gauge": {
+        "green": [
+          0.72,
+          0.92
+        ],
+        "label": "START psi",
+        "missNote": "That is not a full cylinder. It gets changed before entry, not rationed during it.",
+        "speed": 0.7
+      },
+      "id": "air-start",
+      "kind": "gauge",
+      "prompt": "Read both entrants' cylinders and record the working pressure.",
+      "target": "air-gauge",
+      "title": "Log the starting air",
+      "why": "Entry control runs off a figure logged at the cordon before anyone crosses it, and the turnaround point gets computed from that number. An entrant whose faceplate is fogging and whose gloves are too thick to feel a dial depends entirely on somebody outside having written it down beforehand."
+    },
+    {
+      "cue": "Cross the hot cordon side by side, and don't drift apart.",
+      "id": "hot-zone-entry",
+      "kind": "select",
+      "prompt": "Cross the hot cordon side by side, and don't drift apart.",
+      "target": "hot-zone-entry",
+      "title": "Make entry with your partner",
+      "why": "The pair crosses together and stays within arm's reach the whole way. Inside a Level A suit, sight is a fogged faceplate and hearing is close to nothing, so staying physically near each other is the only signal that gets through at all."
+    },
+    {
+      "cue": "Locate what's leaking and what it is, without touching either.",
+      "id": "identify",
+      "itemNames": {
+        "leaking-drum": "the leaking drum",
+        "placard": "the shipping placard"
+      },
+      "itemNotes": {
+        "leaking-drum": "The second drum from the left is weeping at the chime. That is the source, and it is smaller than the pool it has made.",
+        "placard": "The placard on the trailer gives the UN number. That is what the reference the officer is holding is keyed on."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Locate what's leaking and what it is, without touching either.",
+      "targets": [
+        "leaking-drum",
+        "placard"
+      ],
+      "title": "Identify the product and the source",
+      "why": "The first objective is information, not action: a product read off the placard and a source pinpointed on sight are worth more to command in the opening minutes than anything two gloved hands could physically do to the spill itself."
+    },
+    {
+      "cue": "A third to get in, a third to get out, a third held in reserve — commit once you've read the turnaround point.",
+      "gauge": {
+        "green": [
+          0.6,
+          0.76
+        ],
+        "label": "REMAINING",
+        "missNote": "Past the turnaround. The entry is over; whatever is unfinished stays unfinished.",
+        "speed": 0.75
+      },
+      "id": "air-check",
+      "kind": "gauge",
+      "prompt": "A third to get in, a third to get out, a third held in reserve — commit once you've read the turnaround point.",
+      "target": "air-gauge",
+      "title": "Check air against the rule of thirds",
+      "why": "Getting out takes as long as getting in did, and decontamination afterward takes longer than either — so the turnaround point sits at one third of the cylinder, and that's a call made off the gauge, never off how close the objective feels to being finished."
+    },
+    {
+      "cue": "Get the drum into the overpack and the lid seated, inside the air you've got left.",
+      "drag": {
+        "missNote": "Not seated in the overpack — a lid resting on a drum is not containment.",
+        "radius": 0.5,
+        "to": "overpack-drum"
+      },
+      "id": "mitigate",
+      "kind": "drag",
+      "prompt": "Get the drum into the overpack and the lid seated, inside the air you've got left.",
+      "target": "overpack-lid",
+      "title": "Overpack the leaking drum",
+      "why": "A leaking drum goes whole into a larger sealed drum rather than being patched at the source. It's the one fix a two-person Level A team can reliably finish within a third of a cylinder of air, without needing tools this suit and these gloves can't really use."
+    },
+    {
+      "cue": "Leave the way the plan called for, into the passage, with your partner beside you.",
+      "id": "exit",
+      "kind": "select",
+      "prompt": "Leave the way the plan called for, into the passage, with your partner beside you.",
+      "target": "decon-corridor",
+      "title": "Exit through the decontamination passage",
+      "why": "There's exactly one way out of a hot zone and it runs through decontamination. Cross the cordon anywhere else and everything that suit picked up rides straight along to people who never suited up at all."
+    },
+    {
+      "cue": "Hold the wand steady in the target range, working from the head downward.",
+      "holdBreakNote": "The wash rate dropped out of the band before the pass was done. Gross decon stopped partway is contamination on the lower half of a suit that was never washed at all.",
+      "id": "decon",
+      "kind": "track",
+      "prompt": "Hold the wand steady in the target range, working from the head downward.",
+      "seconds": 6,
+      "target": "wash-wand",
+      "title": "Gross decon, top down",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.4,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "WASH",
+        "rise": 0.5
+      },
+      "why": "Working from the head down means nothing runs onto a section that's been rinsed clean, and holding a rate that rinses rather than aerosolises keeps the contamination in the wash water, not in the air both of you are breathing next to it."
+    },
+    {
+      "cue": "Suit off with help first, then air off, then the post-entry check.",
+      "id": "doff",
+      "itemNames": {
+        "medical": "post-entry medical",
+        "scba-doff": "SCBA off last",
+        "suit-doff": "suit off, assisted"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Suit off first with help, air off last, medical after both — pulling the air before the contaminated suit is off puts an unprotected face right where the suit sheds.",
+      "prompt": "Suit off with help first, then air off, then the post-entry check.",
+      "targets": [
+        "suit-doff",
+        "scba-doff",
+        "medical"
+      ],
+      "title": "Doff in order, air last",
+      "why": "Air stays on until the suit is fully off — the outer skin of that suit is the contaminated layer, and pulling it away is the one instant it brushes against everything and everyone nearby. The medical check comes after both steps: heat exhaustion inside a sealed suit can be far along before it's obvious to the wearer."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Level A entry on air: zones set, suit checked and pressure-tested, buddy and backup in place, air managed to the rule of thirds, out through decon",
+  "title": "SmartCiti.X~ Hazmat Entry VR",
+  "trade": "Hazardous materials technician",
+  "underwater": null,
+  "weather": "wind"
+}

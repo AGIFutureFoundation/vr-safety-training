@@ -1,0 +1,405 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "cold-and-capped",
+    "name": "Cold and Uncapped",
+    "note": "The cold chain proven, every vial checked, every syringe straight into the box uncapped, and every person watched before they went home"
+  },
+  "category": "Emergency Services",
+  "certification": "WHO immunization practice as the national programme adopts it for an outbreak response — the cold chain, the vaccine vial monitor, auto-disable syringes, safety boxes, screening and consent, and observation for adverse events following immunization; WHO infection prevention and control guidance for injection safety and hand hygiene; OSHA 29 CFR 1910.1030 for sharps, the prohibition on recapping a used needle by hand and the post-exposure pathway, and 29 CFR 1910.134 where the session's risk assessment calls for respirators; CDC isolation precautions for anyone who arrives unwell; WHO outbreak communication guidance for answering hesitant questions at the table; the Sphere Handbook's health standards and IASC cluster coordination for the Health Cluster partners who run a campaign together; worked by NNU/CNA nurses with SEIU and AFSCME public-health staff",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFSCME",
+        "id": "afscme-training",
+        "title": "AFSCME member education and safety training for public-service and air-district members"
+      },
+      {
+        "body": "CDC",
+        "citedAs": "CDC",
+        "id": "cdc-guidance",
+        "title": "CDC infection-prevention and public-health guidance, including the Guidelines for Infection Control in Dental Health-Care Settings and Legionella control guidance"
+      },
+      {
+        "body": "IASC",
+        "citedAs": "IASC",
+        "id": "iasc-cluster-coordination",
+        "title": "Inter-Agency Standing Committee (IASC) cluster approach and cluster coordination guidance"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1030",
+        "id": "osha-1910-1030",
+        "title": "29 CFR 1910.1030 — Bloodborne pathogens"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.134",
+        "id": "osha-1910-134",
+        "title": "29 CFR 1910.134 — Respiratory protection"
+      },
+      {
+        "body": "union",
+        "citedAs": "SEIU",
+        "id": "seiu-training",
+        "title": "SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members"
+      },
+      {
+        "body": "Sphere",
+        "citedAs": "Sphere Handbook",
+        "id": "sphere-handbook",
+        "title": "The Sphere Handbook: Humanitarian Charter and Minimum Standards in Humanitarian Response"
+      },
+      {
+        "body": "WHO",
+        "citedAs": "WHO",
+        "id": "who-guidance",
+        "title": "World Health Organization technical and field guidance for health emergencies and outbreak response"
+      },
+      {
+        "body": "WHO",
+        "citedAs": "WHO infection prevention and control guidance",
+        "id": "who-ipc-guidance",
+        "title": "WHO guidance on infection prevention and control in health care"
+      },
+      {
+        "body": "WHO",
+        "citedAs": "WHO outbreak communication guidance",
+        "id": "who-outbreak-communication",
+        "title": "WHO outbreak communication guidance"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Emergency Services",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "chain-held",
+        "name": "Chain Held",
+        "note": "The carrier temperature committed inside the label's range"
+      },
+      {
+        "id": "no-recap",
+        "name": "No Recap",
+        "note": "No recapped needle, no stale vial, nobody sent home early, no overfilled box"
+      },
+      {
+        "id": "vials-read",
+        "name": "Vials Read",
+        "note": "Both bad vials found first time"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-session",
+        "name": "Clean Session",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "eyes-on",
+        "name": "Eyes On",
+        "note": "Observation area watched without a dropout"
+      },
+      {
+        "id": "session-fast",
+        "name": "Session Fast",
+        "note": "Finished inside 85% of par"
+      }
+    ],
+    "currency": "DOSE",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Recorder",
+      "Vaccinator",
+      "Team Lead",
+      "Session Supervisor",
+      "Vaccine Table Certified"
+    ],
+    "system": "Vaccine Table"
+  },
+  "hazards": {
+    "wvl-overfull-box": "You tried to force another syringe into a safety box already past its fill line. An overfilled box is where needles poke back out through the opening and through the cardboard, into the hand pushing them in or the worker who carries it away; it is closed at the line and replaced.",
+    "wvl-recap": "You started to push the cap back onto the used needle with two hands. A needle recapped by hand is the classic needlestick: the cap misses, the point goes into the hand holding it. OSHA 29 CFR 1910.1030 bars recapping used needles by hand, and an auto-disable syringe goes straight into the safety box at the point of use, uncapped.",
+    "wvl-skip-observation": "You waved the vaccinated person straight out of the door. Everyone vaccinated waits in the observation area for the period the programme sets, because the rare serious reaction happens soon after the injection — in a hall with the anaphylaxis kit, not on a bus home.",
+    "wvl-stale-vial": "You reached for the opened vial left on the table from yesterday's session with no time written on it. An opened multi-dose vial is kept or discarded strictly by the programme's multi-dose vial rules, and one with no opening time on it cannot be shown to meet them; it goes in the discard, not in an arm."
+  },
+  "id": "who-vaccination-line",
+  "indoor": "clinic",
+  "interrupts": [
+    {
+      "after": "draw-dose",
+      "alert": "The recorder's spare carrier at the next table has been left standing open in the sun from the window, its thermometer creeping up.",
+      "cue": "Close the spare carrier now — the vials inside are taking heat.",
+      "delay": 2,
+      "id": "carrier-left-open",
+      "kind": "Open carrier",
+      "missNote": "The spare carrier stood open through the session. By the afternoon its vial monitors had darkened toward the discard point, and a box of doses meant for the next village went into the discard instead.",
+      "seconds": 13,
+      "target": "wvl-spare-carrier",
+      "why": "The cold chain is broken by small things: a lid left open for ten minutes, a carrier set in a patch of sun. Closing it the moment it is seen costs a step away from the table; leaving it costs every vial inside it the heat their monitors will show tomorrow.",
+      "wrongNote": "Not that. The spare carrier on the next table is the one standing open — close it."
+    },
+    {
+      "after": "observation",
+      "alert": "A young man in the observation area has gone grey and sweaty and slid sideways off his chair.",
+      "cue": "Get the anaphylaxis kit to him and call the team lead — now.",
+      "delay": 3,
+      "id": "person-collapses",
+      "kind": "Adverse event",
+      "missNote": "The kit stayed on the wall while people wondered whether he had just fainted. He had not; the minutes lost before treatment started were the ones that mattered most, and the event had to be investigated as a delay.",
+      "seconds": 13,
+      "target": "wvl-aefi-kit",
+      "why": "Most people who feel faint after an injection have simply fainted, but a serious reaction starts the same way and it is treated fast or not at all. The kit is on the wall of the observation area so the first person who sees it can reach it without leaving him — and the event is recorded and reported afterwards.",
+      "wrongNote": "Not that. The anaphylaxis kit is on the observation-area wall — bring it to him."
+    }
+  ],
+  "lateNotes": {
+    "wvl-carrier-latch": "Close the carrier after the vials have been checked and the good one taken out — not before you have looked at them.",
+    "wvl-used-syringe": "The syringe goes to the box once the dose has been drawn and given; there is nothing to dispose of before that."
+  },
+  "name": "Vaccination Line",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "outbreak-response-who"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "wvl-aefi-kit",
+      "wvl-box-seal",
+      "wvl-card",
+      "wvl-carrier-latch",
+      "wvl-carrier-thermo",
+      "wvl-crew-board",
+      "wvl-handrub",
+      "wvl-observation-area",
+      "wvl-overfull-box",
+      "wvl-recap",
+      "wvl-safety-box",
+      "wvl-scr-consent",
+      "wvl-scr-contra",
+      "wvl-scr-identity",
+      "wvl-session-board",
+      "wvl-session-log",
+      "wvl-skip-observation",
+      "wvl-spare-carrier",
+      "wvl-stale-vial",
+      "wvl-syringe",
+      "wvl-used-syringe",
+      "wvl-vial-expired",
+      "wvl-vial-vvm"
+    ],
+    "meshes": 274
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read today's plan: who is eligible, the vaccine and dose, the screening questions and the observation period.",
+      "id": "session-plan",
+      "kind": "select",
+      "prompt": "Read today's plan: who is eligible, the vaccine and dose, the screening questions and the observation period.",
+      "target": "wvl-session-board",
+      "title": "Read the session plan",
+      "why": "An outbreak vaccination session is run to a plan set by the national programme — who is eligible today, what the dose is, what counts as a reason to defer, how long people wait afterwards. Reading it before the first person sits down is what makes every vaccinator on the line give the same answer to the same question."
+    },
+    {
+      "cue": "Read the carrier thermometer and commit when it sits inside the range printed on the vaccine's label — 2 to 8 °C for this one.",
+      "gauge": {
+        "green": [
+          0.16,
+          0.61
+        ],
+        "label": "CARRIER",
+        "missNote": "Outside the label's range. The carrier is not proven — read it again, and if it is really out, report it and quarantine the vaccine.",
+        "speed": 0.55
+      },
+      "id": "cold-chain",
+      "kind": "gauge",
+      "prompt": "Read the carrier thermometer and commit when it sits inside the range printed on the vaccine's label — 2 to 8 °C for this one.",
+      "target": "wvl-carrier-thermo",
+      "title": "Prove the cold chain",
+      "why": "Vaccine that has been too warm or frozen can look exactly like vaccine that works. The only proof is the temperature record, read and committed before any vial comes out; a carrier outside the label's range is reported and quarantined, because a dose that has lost its potency protects nobody while everyone believes it did."
+    },
+    {
+      "cue": "Look at each vial in the carrier and pick out any past its monitor's discard point or its expiry date.",
+      "id": "vvm-check",
+      "itemNames": {
+        "wvl-vial-expired": "expired vial",
+        "wvl-vial-vvm": "vial past its monitor's discard point"
+      },
+      "itemNotes": {
+        "wvl-vial-expired": "The expiry date on the label passed last month.",
+        "wvl-vial-vvm": "Its vaccine vial monitor has darkened to the discard point — it has had more heat than it can take."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look at each vial in the carrier and pick out any past its monitor's discard point or its expiry date.",
+      "targets": [
+        "wvl-vial-vvm",
+        "wvl-vial-expired"
+      ],
+      "title": "Check every vial before use",
+      "why": "The vaccine vial monitor records the heat each vial has actually had, even when the carrier looks fine, and the expiry date is on every label for a reason. Checking both before a vial is opened means the only vials that reach the table are the ones that can still do their job."
+    },
+    {
+      "cue": "With a good vial out, turn the carrier latch until the lid seals.",
+      "id": "carrier-latch",
+      "kind": "turn",
+      "prompt": "With a good vial out, turn the carrier latch until the lid seals.",
+      "target": "wvl-carrier-latch",
+      "title": "Close the carrier",
+      "turn": {
+        "axis": "z",
+        "label": "LATCH",
+        "turns": 0.5
+      },
+      "why": "Every minute a carrier stands open in a warm hall is heat the vaccine inside it accumulates, and the vial monitors keep count. Closing the lid after each vial is taken — rather than leaving it open for convenience — is what keeps the vials at the bottom of the carrier usable at the end of the day."
+    },
+    {
+      "cue": "Confirm who they are and that they are eligible, ask the plan's questions about reasons to defer, then ask for consent.",
+      "id": "screen",
+      "itemNames": {
+        "wvl-scr-consent": "consent",
+        "wvl-scr-contra": "reasons to defer",
+        "wvl-scr-identity": "identity and eligibility"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Identity and eligibility, then reasons to defer, then consent — consent is asked last, once they know what they are agreeing to.",
+      "prompt": "Confirm who they are and that they are eligible, ask the plan's questions about reasons to defer, then ask for consent.",
+      "targets": [
+        "wvl-scr-identity",
+        "wvl-scr-contra",
+        "wvl-scr-consent"
+      ],
+      "title": "Screen and ask consent",
+      "why": "The order keeps the conversation honest: eligibility first so nobody is vaccinated outside the plan, the deferral questions next so a reason not to vaccinate today is heard before anything else, and consent last — asked of a person who now knows what they are agreeing to and has had a chance to ask."
+    },
+    {
+      "cue": "Rub your hands before you prepare the dose for this person.",
+      "id": "hand-hygiene",
+      "kind": "select",
+      "prompt": "Rub your hands before you prepare the dose for this person.",
+      "target": "wvl-handrub",
+      "title": "Hand hygiene before the injection",
+      "why": "Hand hygiene before a clean procedure is one of WHO's five moments, and an injection is exactly that: a break in someone's skin. Doing it for each person, not once per session, is what keeps the vaccinator's hands from carrying anything from the last arm to the next syringe."
+    },
+    {
+      "cue": "Hold steady while the auto-disable syringe draws exactly the dose on the plan.",
+      "holdBreakNote": "You stopped before the dose was drawn. Hold steady until the syringe reaches the dose on the plan.",
+      "id": "draw-dose",
+      "kind": "hold",
+      "prompt": "Hold steady while the auto-disable syringe draws exactly the dose on the plan.",
+      "seconds": 4,
+      "target": "wvl-syringe",
+      "title": "Draw the dose with an auto-disable syringe",
+      "why": "An auto-disable syringe locks after one use, which is what makes it impossible to reuse by mistake at the end of a long day. Drawing the dose steadily and exactly means each person gets what the plan says, and the vial yields the number of doses the programme counted on."
+    },
+    {
+      "cue": "Carry the used syringe straight to the safety box at your elbow — uncapped — and drop it in.",
+      "drag": {
+        "missNote": "Not into the box. A used needle goes straight into the safety box, uncapped — nowhere in between.",
+        "radius": 0.4,
+        "to": "wvl-safety-box"
+      },
+      "id": "dispose",
+      "kind": "drag",
+      "prompt": "Carry the used syringe straight to the safety box at your elbow — uncapped — and drop it in.",
+      "target": "wvl-used-syringe",
+      "title": "Straight into the safety box",
+      "why": "The safety point in injection work is the few seconds between the needle leaving the arm and it being inside a puncture-resistant box. A box at the vaccinator's elbow and a syringe dropped in uncapped, one-handed, is how that window stays closed; it is the whole design of the station."
+    },
+    {
+      "cue": "Fill in the person's vaccination card and mark the tally sheet.",
+      "id": "record",
+      "kind": "select",
+      "prompt": "Fill in the person's vaccination card and mark the tally sheet.",
+      "target": "wvl-card",
+      "title": "Record the dose",
+      "why": "The card is the person's proof of what they received and when their next dose is due, if there is one. The tally sheet is what tells the response how many people were reached today and how many doses were used — a coverage figure that decides where the teams go tomorrow."
+    },
+    {
+      "cue": "Keep your eyes on the people waiting in the observation area, and stay in the band.",
+      "holdBreakNote": "Your attention left the observation area. Bring it back — the reaction you are watching for starts quietly.",
+      "id": "observation",
+      "kind": "track",
+      "prompt": "Keep your eyes on the people waiting in the observation area, and stay in the band.",
+      "seconds": 7,
+      "target": "wvl-observation-area",
+      "title": "Watch the observation area",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.45,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "WATCH",
+        "rise": 0.55,
+        "start": 0.2
+      },
+      "why": "People wait after vaccination so that a rare serious reaction happens where staff can see it and treat it at once. That only works if somebody is actually watching the chairs, not just sitting near them — reactions start quietly, with a person going pale or getting up unsteadily."
+    },
+    {
+      "cue": "When the box reaches its printed fill line, close and seal it and start a new one.",
+      "id": "box-seal",
+      "kind": "select",
+      "prompt": "When the box reaches its printed fill line, close and seal it and start a new one.",
+      "target": "wvl-box-seal",
+      "title": "Close the safety box at the fill line",
+      "why": "The fill line is set so the box can be closed without anyone pushing needles down to make room. Closing it at the line, sealing it and starting a fresh box keeps sharps inside something no hand has to press on, all the way to the incinerator or pit."
+    },
+    {
+      "cue": "At the break, check in with the team — hands, backs and heads — and point anyone who needs it to staff care.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "At the break, check in with the team — hands, backs and heads — and point anyone who needs it to staff care.",
+      "target": "wvl-crew-board",
+      "title": "Check in with the vaccination team",
+      "why": "A vaccination line is hundreds of the same careful movement, hours of hesitant questions and sometimes open hostility at the door. Checking in at the break — and naming staff care out loud — is how the team notices the vaccinator whose attention is slipping before a needle does."
+    },
+    {
+      "cue": "Hold the session log open and read back doses given, vials opened and discarded, the cold-chain readings and any adverse event before you sign.",
+      "holdBreakNote": "You signed without reading it back. Open the log and read the doses, vials and events out before signing.",
+      "id": "closing-log",
+      "kind": "hold",
+      "prompt": "Hold the session log open and read back doses given, vials opened and discarded, the cold-chain readings and any adverse event before you sign.",
+      "seconds": 4,
+      "target": "wvl-session-log",
+      "title": "Close the session log",
+      "why": "The session log ties the doses given to the vials opened and the temperatures read, which is how a wasted vial, a cold-chain break or an adverse event gets followed up. Read back before signing, the numbers either reconcile or they tell you exactly where to look."
+    }
+  ],
+  "supportLine": "your agency's staff welfare or staff counsellor service, or the peer-support contact named at your deployment briefing",
+  "tagline": "An outbreak vaccination session: the plan read, the cold chain proven, vials checked, each person screened and consenting, an auto-disable syringe straight into the safety box, the card kept and the observation area watched",
+  "title": "SmartCiti.X~ Vaccination Line VR",
+  "trade": "Vaccinator — NNU/CNA nurses, SEIU and AFSCME public-health staff, and the humanitarian workforce deployed under IASC clusters",
+  "underwater": null,
+  "weather": "clear"
+}

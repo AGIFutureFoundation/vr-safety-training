@@ -1,0 +1,646 @@
+{
+  "id": "situational-awareness",
+  "kind": "programme",
+  "name": "Situational Awareness — Interruption Drill",
+  "title": "SmartCiti.X Situational Awareness — Interruption Drill — Powered by AGI Corp",
+  "audience": "responders",
+  "summary": "Twenty-two procedures that interrupt you while you work. Every station in this block is one you may already know the order of — the block is not testing the order. It is testing whether you notice the alarm, the person in the wrong place or the thing that moved while your hands and eyes were somewhere else. Miss one and it scores as an unsafe action, because that is what it is.",
+  "certification": "OSHA 1926.20(b)(2) competent-person hazard recognition and the human-factors component every one of these standards assumes: NFPA 70E, 1910.146 permit spaces, 1926.651 excavations, 1926.1400 cranes, NFPA 25 impairment control",
+  "programmes": [
+    "situational-awareness"
+  ],
+  "stations": [
+    {
+      "app": "trades",
+      "id": "electrical"
+    },
+    {
+      "app": "trades",
+      "id": "welding"
+    },
+    {
+      "app": "smartcity",
+      "id": "trench-box"
+    },
+    {
+      "app": "smartcity",
+      "id": "crane-yard"
+    },
+    {
+      "app": "smartcity",
+      "id": "chlorine-room"
+    },
+    {
+      "app": "smartcity",
+      "id": "confined-rescue"
+    },
+    {
+      "app": "smartcity",
+      "id": "substation-switching"
+    },
+    {
+      "app": "smartcity",
+      "id": "airport-ramp"
+    },
+    {
+      "app": "smartcity",
+      "id": "fire-pump"
+    },
+    {
+      "app": "smartcity",
+      "id": "tower-climb"
+    },
+    {
+      "app": "smartcity",
+      "id": "elevator-pit"
+    },
+    {
+      "app": "smartcity",
+      "id": "boiler-room"
+    },
+    {
+      "app": "smartcity",
+      "id": "forklift-dock"
+    },
+    {
+      "app": "trades",
+      "id": "phlebotomy"
+    },
+    {
+      "app": "smartcity",
+      "id": "transformer-vault"
+    },
+    {
+      "app": "smartcity",
+      "id": "wind-nacelle"
+    },
+    {
+      "app": "smartcity",
+      "id": "digester-gas"
+    },
+    {
+      "app": "smartcity",
+      "id": "data-hall"
+    },
+    {
+      "app": "smartcity",
+      "id": "steel-erector"
+    },
+    {
+      "app": "smartcity",
+      "id": "triage-point"
+    },
+    {
+      "app": "smartcity",
+      "id": "dock-crane"
+    },
+    {
+      "app": "smartcity",
+      "id": "press-brake"
+    }
+  ],
+  "unions": [
+    "ibew",
+    "ua",
+    "liuna",
+    "ironworkers",
+    "iaff"
+  ],
+  "unionLine": "Cross-craft — run as a refresher block by IBEW, UA, LIUNA, Ironworkers and IAFF locals",
+  "k12Bands": [],
+  "path": "first-responders",
+  "alsoPaths": [
+    "disaster-relief"
+  ],
+  "worlds": [
+    {
+      "world": "bayworld",
+      "sites": [
+        "port-container-terminal",
+        "estuary-research-dock",
+        "downtown-tower-site",
+        "downtown-central-plant",
+        "lake-loop-boathouse",
+        "west-oakland-substation-yard",
+        "west-oakland-truck-yard",
+        "west-oakland-union-hall",
+        "fruitvale-community-college",
+        "fruitvale-fire-station",
+        "bridge-approach-toll-plaza",
+        "island-ferry-landing",
+        "south-treatment-plant"
+      ]
+    },
+    {
+      "world": "underwater",
+      "sites": [
+        "shelf-checkout-site"
+      ]
+    },
+    {
+      "world": "summit",
+      "sites": [
+        "water-plant",
+        "dam",
+        "substation",
+        "ridge-line"
+      ]
+    },
+    {
+      "world": "redwood",
+      "sites": [
+        "sawmill",
+        "substation"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "orleans",
+      "sites": [
+        "port-terminal",
+        "hospital-district",
+        "no-sw-almonaster-corridor-distribution-warehouse",
+        "no-sw-lakeview-and-gentilly-substation",
+        "no-sw-mid-city-community-clinic"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "jefferson",
+      "sites": [
+        "jf-airport-ramp",
+        "jf-elmwood-freight",
+        "jf-sw-west-bank-waterfront-distribution-warehouse",
+        "jf-sw-kenner-airport-side-substation",
+        "jf-sw-metairie-substation"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "st-bernard",
+      "sites": [
+        "sb-hospital",
+        "sb-sw-arabi-and-chalmette-community-clinic",
+        "sb-sw-refinery-corridor-substation",
+        "sb-sw-violet-and-poydras-substation"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "plaquemines",
+      "sites": [
+        "pq-buras-substation"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "st-tammany",
+      "sites": [
+        "st-hospital",
+        "st-timber-yard",
+        "st-lacombe-substation",
+        "st-sw-slidell-community-clinic"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-downtown",
+      "sites": [
+        "embarcadero-piers",
+        "cathedral-hill-hospital",
+        "financial-district-high-rise",
+        "dt-sw-south-of-market-fabrication-shop"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-mission",
+      "sites": [
+        "mission-bay-construction-site",
+        "soma-maker-workshop",
+        "potrero-hospital-campus",
+        "dogpatch-shipyard",
+        "islais-creek-pump-station",
+        "mi-sw-islais-creek-fabrication-shop",
+        "mi-sw-south-of-market-fabrication-shop",
+        "mi-sw-rincon-high-rise-site",
+        "mi-sw-mission-community-clinic"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-golden-gate-park",
+      "sites": [
+        "parnassus-hospital-campus",
+        "lone-mountain-university-campus",
+        "gg-sw-sunset-community-clinic",
+        "gg-sw-sunset-substation",
+        "gg-sw-lone-mountain-campus-central-plant"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-marina",
+      "sites": [
+        "ma-sw-western-addition-community-clinic",
+        "ma-sw-inner-richmond-substation"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-bayview",
+      "sites": [
+        "port-southern-terminals",
+        "third-street-rail-barn",
+        "bv-sw-excelsior-community-clinic"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-outer-mission",
+      "sites": [
+        "om-planted-sidewalk-filtration",
+        "om-underground-infiltration-site",
+        "om-sewer-crew-yard",
+        "om-underdrain-piping-crew"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-north-beach",
+      "sites": [
+        "embarcadero-pier-shed",
+        "chinatown-community-clinic"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-haight-castro",
+      "sites": [
+        "duboce-hospital-campus"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-sunset-south",
+      "sites": [
+        "sf-state-campus-plant"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-west-oakland",
+      "sites": [
+        "outer-harbor-container-terminal",
+        "mandela-parkway-warehouse-row",
+        "emeryville-shoreline-substation"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-downtown-lake",
+      "sites": [
+        "downtown-high-rise-site",
+        "laney-college-campus",
+        "lakeside-tower-plant-room"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-fruitvale-estuary",
+      "sites": [
+        "embarcadero-metal-workshop",
+        "high-street-warehouse-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-emeryville-berkeley",
+      "sites": [
+        "emeryville-warehouse-studios",
+        "west-berkeley-maker-workshop",
+        "ashby-hospital-campus"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bay-san-pablo",
+      "sites": [
+        "san-pablo-hospital-campus",
+        "annex-substation",
+        "sp-gsi-bioretention-build"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bay-san-jose",
+      "sites": [
+        "valley-medical-campus",
+        "airport-ramp-crew"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-san-leandro-bay",
+      "sites": [
+        "slb-storm-drain-crew",
+        "slb-industrial-frontage-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-san-mateo-shoreline",
+      "sites": [
+        "smc-drum-staging-yard",
+        "smc-excavation-cell"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-nutrient-pilot",
+      "sites": [
+        "npp-operator-rounds",
+        "npp-chemical-feed-building",
+        "npp-aeration-basin-deck",
+        "npp-digester-complex",
+        "npp-electrical-substation",
+        "npp-maintenance-shop"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "la-starbase-vermilion",
+      "sites": [
+        "lsb-pad-foundation-pour",
+        "lsb-power-plant-build",
+        "lsb-shipping-dock",
+        "lsb-airport-apron",
+        "lsb-vehicle-processing-hangar",
+        "lsb-laydown-yard",
+        "lsb-substation-build",
+        "lsb-crane-pad"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "la-black-bayou-cameron",
+      "sites": [
+        "lbb-compressor-station",
+        "lbb-pipeline-spread",
+        "lbb-laydown-yard",
+        "lbb-control-building",
+        "lbb-barge-landing",
+        "lbb-substation-build"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "la-saronic-franklin",
+      "sites": [
+        "lsf-new-slip-build",
+        "lsf-hull-fabrication",
+        "lsf-marine-electrical",
+        "lsf-steel-receiving-yard",
+        "lsf-plate-cutting-shop",
+        "lsf-outfitting-pier",
+        "lsf-crane-rail",
+        "lsf-first-aid-station",
+        "lsf-site-utilities",
+        "lsf-security-gate"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "la-avex-new-iberia",
+      "sites": [
+        "lav-hangar-steel",
+        "lav-apron-work",
+        "lav-avionics-wiring",
+        "lav-site-utilities",
+        "lav-laydown-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "laf-downtown",
+      "sites": [
+        "lafd-streetscape-utilities",
+        "lafd-electrical-service-upgrade",
+        "lafd-drainage-coulee",
+        "lafd-crane-lift-zone",
+        "lafd-airport-ramp",
+        "lafd-thruway-warehouse"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "laf-carencro-north",
+      "sites": [
+        "lafc-industrial-park",
+        "lafc-fabrication-shop",
+        "lafc-substation-tie-in",
+        "lafc-drainage-coulee",
+        "lafc-water-tower",
+        "lafc-oilfield-service-yard",
+        "lafc-crane-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "monroe-west-monroe",
+      "sites": [
+        "mon-riverfront-streetscape",
+        "mon-airport-apron",
+        "mon-substation-build",
+        "mon-west-monroe-warehouse"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sm-unspoken-smiles",
+      "sites": [
+        "sm-clinic-service-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "la-meta-richland",
+      "sites": [
+        "lmr-duct-bank-crew",
+        "lmr-substation-build",
+        "lmr-laydown-yard",
+        "lmr-crane-pad",
+        "lmr-transmission-line-crew",
+        "lmr-generator-yard",
+        "lmr-fire-protection-riser"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "la-delta-forge-rapides",
+      "sites": [
+        "ldf-steel-erection",
+        "ldf-network-cabling",
+        "ldf-substation-build",
+        "ldf-laydown-yard",
+        "ldf-duct-bank-crew",
+        "ldf-fire-protection-crew"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "la-shintech-plaquemine",
+      "sites": [
+        "lsp-process-unit-build",
+        "lsp-river-dock",
+        "lsp-laydown-yard",
+        "lsp-electrical-substation",
+        "lsp-emergency-response-station"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "lc-lakefront-downtown",
+      "sites": [
+        "lcd-downtown-high-rise",
+        "lcd-streetscape-crew",
+        "lcd-hospital-campus",
+        "lcd-westlake-yard",
+        "lcd-substation",
+        "lcd-union-hall"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "lc-calcasieu-channel",
+      "sites": [
+        "lcc-lng-module-set",
+        "lcc-marine-offload",
+        "lcc-pipe-rack",
+        "lcc-laydown-yard",
+        "lcc-crane-pad",
+        "lcc-hydrotest",
+        "lcc-substation-build",
+        "lcc-control-building",
+        "lcc-flare-area-build",
+        "lcc-fire-water-station"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "lc-port-of-vinton",
+      "sites": [
+        "lpv-sheet-pile-wall",
+        "lpv-crane-and-rigging",
+        "lpv-drainage-culvert",
+        "lpv-laydown-yard",
+        "lpv-utility-extension",
+        "lpv-warehouse-build",
+        "lpv-vinton-main-street",
+        "lpv-rice-field-crew"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "nola-french-quarter-cbd",
+      "sites": [
+        "nfq-river-wharf-crew",
+        "nfq-electrical-vault"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "nola-uptown-garden",
+      "sites": [
+        "nup-hospital-campus",
+        "nup-river-wharf"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "nola-mid-city-gentilly",
+      "sites": [
+        "nmc-substation",
+        "nmc-hospital-campus"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "nola-bywater-lower-ninth",
+      "sites": [
+        "nbw-wharf-crew"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "br-downtown-riverfront",
+      "sites": [
+        "brd-riverfront-crane-work",
+        "brd-high-rise-steel",
+        "brd-water-main-replacement",
+        "brd-substation"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "br-north-industrial",
+      "sites": [
+        "brn-pipe-fab-shop",
+        "brn-river-terminal",
+        "brn-tank-farm-maintenance",
+        "brn-substation",
+        "brn-welding-school"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "br-riverplex-ascension",
+      "sites": [
+        "brr-utility-corridor",
+        "brr-substation-build",
+        "brr-laydown-yard",
+        "brr-crane-pad",
+        "brr-water-intake",
+        "brr-fire-water-station"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "hammond-downtown",
+      "sites": [
+        "ham-hangar-build",
+        "ham-warehouse-steel",
+        "ham-substation"
+      ]
+    }
+  ],
+  "stationNames": {
+    "electrical": "Isolation Bay",
+    "welding": "Weld Bay",
+    "trench-box": "Trench Box",
+    "crane-yard": "Crane Yard",
+    "chlorine-room": "Chlorine Room",
+    "confined-rescue": "Confined Rescue",
+    "substation-switching": "Substation Switching",
+    "airport-ramp": "Airport Ramp",
+    "fire-pump": "Fire Pump",
+    "tower-climb": "Tower Climb",
+    "elevator-pit": "Elevator Pit",
+    "boiler-room": "Boiler Room",
+    "forklift-dock": "Forklift Dock",
+    "phlebotomy": "Draw Station",
+    "transformer-vault": "Transformer Vault",
+    "wind-nacelle": "Wind Nacelle",
+    "digester-gas": "Digester Gas",
+    "data-hall": "Data Hall",
+    "steel-erector": "Steel Erector",
+    "triage-point": "Triage Point",
+    "dock-crane": "Dock Crane",
+    "press-brake": "Press Brake"
+  },
+  "version": "1.0.0",
+  "contentHash": "59b586ed",
+  "brand": "SmartCiti.X · Powered by AGI Corp",
+  "generator": "tools/gen_packs.mjs",
+  "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."
+}

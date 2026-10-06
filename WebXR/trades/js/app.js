@@ -1,0 +1,1744 @@
+import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
+// Hidden treasures (shared/treasures.js, docs/treasures.md).
+import { tzPlantHost } from "../../shared/treasures.js";
+import { ctlMount } from "../../shared/controls.js";
+import { gdMount } from "../../shared/guide.js";
+import { disposeTree, decal, repaint, box, cyl, torus, ball, group, mat, HUD, clamp, easeOut, celebrationBurst, GESTURE_HINTS, setActiveRenderer } from "../../shared/kit.js";
+import { Session, Progress, Sfx } from "../../shared/game.js";
+import { speak, speechSupported } from "../../shared/voice-assist.js";
+import { TrainingRecords } from "../../shared/records.js";
+import { ppRecordStation, ppReturnTarget } from "../../shared/passport.js";
+import { Identity } from "../../shared/identity.js";
+import { Lrs } from "../../shared/lrs.js";
+import { Platform, FLOW_LOAD, FLOW_START, FLOW_RESUME, FLOW_STATE } from "../../shared/platform.js";
+import { createFlowRunner, outcomeFromRecord, parseFlowLink, nodeLabel } from "../../shared/flowhub.js";
+import { nextTask, recordTask, levelTag, readLevelRun, writeLevelRun, parseLevelRef } from "../../shared/ladder.js";
+import { createBroadcaster } from "../../shared/observer.js";
+import { createAnnouncer, createTargetCursor, describeTarget, reducedMotion, escapeHtml } from "../../shared/a11y.js";
+import { Perf } from "../../shared/perf.js";
+import { detectDevice, applyProfile } from "../../shared/devices.js";
+import { buildHub } from "./hub.js";
+import { ROOM_ELECTRICAL } from "./rooms/electrical.js";
+import { ROOM_SALON } from "./rooms/salon.js";
+import { ROOM_KITCHEN } from "./rooms/kitchen.js";
+import { ROOM_PHLEBOTOMY } from "./rooms/phlebotomy.js";
+import { ROOM_WELDING } from "./rooms/welding.js";
+import { ROOM_DEVOPS } from "./rooms/devops.js";
+import { ROOM_PLUMBING } from "./rooms/plumbing.js";
+import { ROOM_PRESSURE_WASHER } from "./rooms/pressure-washer.js";
+import { ROOM_PAINT_SPRAYER } from "./rooms/paint-sprayer.js";
+
+const ROOMS = [ROOM_ELECTRICAL, ROOM_SALON, ROOM_KITCHEN, ROOM_PHLEBOTOMY, ROOM_WELDING, ROOM_DEVOPS, ROOM_PLUMBING, ROOM_PRESSURE_WASHER, ROOM_PAINT_SPRAYER];
+const ROOM_BY_ID = Object.fromEntries(ROOMS.map((r) => [r.id, r]));
+// Progress is a profile shared with SmartCiti.X and Holodeck (see
+// shared/game.js) — scope "X/N" readouts to this app's own rooms so a
+// learner who has also played the sibling app doesn't see an inflated count.
+const ROOM_IDS = ROOMS.map((r) => r.id);
+
+Progress.load();
+// A launch identity (LMS URL or embedding page — see shared/identity.js)
+// names the learner on this app's records; there is no crew-tag field here.
+Identity.load();
+if (Identity.tag()) Progress.setPlayerName(Identity.tag());
+Identity.listen(() => { if (Identity.tag()) Progress.setPlayerName(Identity.tag()); });
+// Live LRS delivery, configured by launch URL or the embedding page; a
+// queue left by an earlier tab is retried on load.
+Lrs.load();
+Lrs.listen(() => Identity.current?.homePage, () => Lrs.flush());
+if (Lrs.pending()) Lrs.flush();
+
+// ------------------------------------------------------------------ renderer
+
+const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: "high-performance" });
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+renderer.setSize(innerWidth, innerHeight);
+// See setActiveRenderer() in shared/kit.js: every canvas texture the asset
+// kit paints reads this renderer's real anisotropy ceiling through it.
+setActiveRenderer(renderer);
+const DEVICE_PROFILE = applyProfile(detectDevice(), { renderer });
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+// Filmic tone mapping + correct sRGB output is a post-process color-grading
+// step, not a lighting change — every prop's existing material and every
+// room's existing light intensities stay exactly as tuned, but highlights
+// roll off instead of clipping and colors read as real materials instead
+// of flat, washed-out fills.
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.5;
+renderer.xr.enabled = true;
+renderer.xr.setFoveation(0.6);
+document.getElementById("stage").appendChild(renderer.domElement);
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x0a1016);
+scene.fog = new THREE.Fog(0x0a1016, 16, 40);
+
+const rig = new THREE.Group();
+const camera = new THREE.PerspectiveCamera(72, innerWidth / innerHeight, 0.04, 90);
+camera.position.set(0, 1.62, 0);
+camera.rotation.order = "YXZ";
+rig.add(camera);
+scene.add(rig);
+
+// --------------------------------------------------------------- HUD binding
+
+const ui = {
+  room: document.getElementById("hud-room"),
+  step: document.getElementById("hud-step"),
+  cue: document.getElementById("hud-cue"),
+  feedback: document.getElementById("hud-feedback"),
+  score: document.getElementById("hud-score"),
+  combo: document.getElementById("hud-combo"),
+  fill: document.getElementById("hud-fill"),
+  count: document.getElementById("hud-count"),
+  timer: document.getElementById("hud-timer"),
+  rail: document.getElementById("hud-rail"),
+  panel: document.getElementById("hud"),
+  results: document.getElementById("results"),
+  resultsBody: document.getElementById("results-body"),
+  intro: document.getElementById("intro"),
+  prebrief: document.getElementById("prebrief"),
+  prebriefBody: document.getElementById("prebrief-body"),
+  hint: document.getElementById("hud-hint"),
+  gesture: document.getElementById("hud-gesture"),
+  gestureTip: document.getElementById("gesture-tip"),
+};
+let vrHudDirty = true;
+
+function setRail(kind, html) {
+  ui.rail.dataset.state = kind;
+  ui.feedback.innerHTML = html;
+  vrHudDirty = true;
+}
+
+
+// ---------------------------------------------------- interruption alarm
+// An interruption arrives mid-step and runs on its own clock (see the
+// interrupt layer in shared/game.js). It gets its own loud banner rather
+// than the feedback rail, because the whole point is that it is not part of
+// the step the learner is working on.
+const alarmEl = {
+  root: document.getElementById("alarm"),
+  kind: document.getElementById("alarm-kind"),
+  left: document.getElementById("alarm-left"),
+  body: document.getElementById("alarm-body"),
+  cue: document.getElementById("alarm-cue"),
+  fill: document.getElementById("alarm-fill"),
+};
+function showAlarm(it) {
+  if (!alarmEl.root) return;
+  alarmEl.kind.textContent = it.kind ?? "Interruption";
+  alarmEl.body.textContent = it.alert ?? "";
+  alarmEl.cue.textContent = it.cue ?? "Deal with it now — the procedure can wait.";
+  alarmEl.left.textContent = `${Math.ceil(it.seconds ?? 12)}s`;
+  alarmEl.fill.style.width = "100%";
+  alarmEl.root.hidden = false;
+}
+function hideAlarm() { if (alarmEl.root) alarmEl.root.hidden = true; }
+function syncAlarm(s) {
+  const it = s?.activeInterrupt;
+  if (!it || !alarmEl.root || alarmEl.root.hidden) return;
+  const total = it.seconds ?? 12;
+  const left = Math.max(0, it.left ?? total);
+  alarmEl.left.textContent = `${Math.ceil(left)}s`;
+  alarmEl.fill.style.width = `${Math.max(0, (left / total) * 100).toFixed(1)}%`;
+}
+
+function syncHud() {
+  const s = state.session;
+  if (!s) {
+    ui.room.textContent = "TRAINING HUB";
+    ui.step.textContent = "Choose a trade";
+    ui.cue.textContent = "Walk into a doorway to start that room's procedure.";
+    ui.score.textContent = String(Progress.data.xp).padStart(4, "0");
+    ui.combo.textContent = `LV ${Progress.level}`;
+    ui.count.textContent = `${Progress.roomsClearedIn(ROOM_IDS)}/${ROOMS.length} ROOMS · ${Progress.starsIn(ROOM_IDS)}★`;
+    ui.fill.style.width = `${(Progress.roomsClearedIn(ROOM_IDS) / ROOMS.length) * 100}%`;
+    ui.timer.textContent = "";
+    ui.gesture.hidden = true;
+    vrHudDirty = true;
+    return;
+  }
+  ui.room.textContent = s.room.title.toUpperCase();
+  ui.score.textContent = String(Math.round(s.score)).padStart(4, "0");
+  ui.combo.textContent = s.comboLabel ? `${s.comboLabel.toUpperCase()} ×${s.combo.toFixed(1)}` : (s.combo > 1.05 ? `×${s.combo.toFixed(1)}` : "×1.0");
+  ui.combo.classList.toggle("hot", s.streak >= 4);
+  ui.combo.classList.toggle("fire", s.combo >= 1.8);
+  ui.count.textContent = `STEP ${Math.min(s.index + 1, s.steps.length)}/${s.steps.length}`;
+  ui.fill.style.width = `${s.progress01 * 100}%`;
+  const secs = Math.floor(s.elapsed);
+  ui.timer.textContent = `${String(Math.floor(secs / 60)).padStart(2, "0")}:${String(secs % 60).padStart(2, "0")} / ${
+    String(Math.floor(s.room.parSeconds / 60)).padStart(2, "0")}:${String(s.room.parSeconds % 60).padStart(2, "0")}`;
+  const step = s.step;
+  if (step) {
+    ui.step.textContent = step.title;
+    let cue = step.cue;
+    if (step.kind === "sequence") cue += `  (${s.sequence.length}/${step.targets.length})`;
+    if (step.kind === "hold") cue += `  (${s.holdFor.toFixed(1)}s / ${step.seconds}s)`;
+    if (step.kind === "turn" && s.turn) cue += `  (${Math.round((s.turn.amount / s.turn.required) * 100)}%)`;
+    ui.cue.textContent = cue;
+    const hint = GESTURE_HINTS[step.kind];
+    ui.gesture.textContent = hint?.verb ?? "";
+    ui.gesture.hidden = !hint;
+  }
+  vrHudDirty = true;
+}
+
+// ------------------------------------------------------------- world objects
+
+const worldRoot = new THREE.Group();
+scene.add(worldRoot);
+
+const state = {
+  roomRoot: null,
+  api: null,
+  room: null,
+  session: null,
+  hits: {},
+  selectables: [],
+  hovered: null,
+  paused: true,
+};
+
+// Objective marker: floor ring plus a bobbing diamond over the live target.
+const hint = new THREE.Group();
+const hintRing = new THREE.Mesh(
+  new THREE.TorusGeometry(0.42, 0.022, 8, 36),
+  new THREE.MeshBasicMaterial({ color: 0x37d6c0, transparent: true, opacity: 0.85 }));
+hintRing.rotation.x = -Math.PI / 2;
+hint.add(hintRing);
+const hintPip = new THREE.Mesh(
+  new THREE.OctahedronGeometry(0.07),
+  new THREE.MeshBasicMaterial({ color: 0x37d6c0 }));
+hint.add(hintPip);
+hint.visible = false;
+worldRoot.add(hint);
+const hintTargets = [];
+
+// Gauge widget: static band panel, geometry marker, and a slow-refresh readout.
+const gauge = new THREE.Group();
+gauge.visible = false;
+const gaugePanel = decal(gauge, 0.62, 0.2, 0, 0, 0, () => {}, { px: 512, glow: true, ei: 0.5 });
+const gaugeReadout = decal(gauge, 0.28, 0.09, 0, 0.16, 0.002, () => {}, { px: 256, glow: true, ei: 0.7 });
+const gaugeMarker = new THREE.Mesh(
+  new THREE.BoxGeometry(0.012, 0.1, 0.014),
+  new THREE.MeshBasicMaterial({ color: 0xffffff }));
+gaugeMarker.position.z = 0.006;
+gauge.add(gaugeMarker);
+worldRoot.add(gauge);
+let gaugeReadoutAt = 0;
+
+// A hot-streak or a satisfying carry/turn completion gets a one-shot particle
+// burst right where the learner's hands are — anchored to worldRoot so a
+// world position just needs converting into its local space to fire it.
+const burst = celebrationBurst(worldRoot, { color: 0xffe37a });
+let lastActivatedId = null;
+function burstAtHit(id) {
+  const obj = id && state.hits[id];
+  if (!obj) return;
+  const p = new THREE.Vector3();
+  obj.getWorldPosition(p);
+  worldRoot.worldToLocal(p);
+  burst.fire(p);
+}
+
+// One-time, just-in-time teaching: the first time a learner's own play
+// history ever reaches a given step kind, explain the physical gesture it
+// wants — after that it never interrupts again, trusting the HUD gesture
+// chip (and by then, muscle memory) to carry it.
+const GESTURE_SEEN_KEY = "trades-gestures-seen";
+let gestureTipTimer = null;
+function hasSeenGesture(kind) {
+  try { return JSON.parse(localStorage.getItem(GESTURE_SEEN_KEY) || "[]").includes(kind); }
+  catch (_) { return true; } // if storage is blocked, don't nag every single step
+}
+function markGestureSeen(kind) {
+  try {
+    const seen = new Set(JSON.parse(localStorage.getItem(GESTURE_SEEN_KEY) || "[]"));
+    seen.add(kind);
+    localStorage.setItem(GESTURE_SEEN_KEY, JSON.stringify([...seen]));
+  } catch (_) { /* ignore */ }
+}
+function maybeShowGestureTip(kind) {
+  const hint = GESTURE_HINTS[kind];
+  if (!hint || hasSeenGesture(kind)) return;
+  markGestureSeen(kind);
+  ui.gestureTip.innerHTML = `<b>${hint.verb}</b><br>${hint.tip}`;
+  ui.gestureTip.classList.add("show");
+  clearTimeout(gestureTipTimer);
+  gestureTipTimer = setTimeout(() => ui.gestureTip.classList.remove("show"), 5200);
+}
+
+function paintGaugeBand(step) {
+  const [lo, hi] = step.gauge.green ?? [0.44, 0.62];
+  repaint(gaugePanel, (g, w, h) => {
+    g.fillStyle = "rgba(10,17,23,0.94)"; g.fillRect(0, 0, w, h);
+    g.strokeStyle = HUD.edge; g.lineWidth = 3; g.strokeRect(1.5, 1.5, w - 3, h - 3);
+    g.fillStyle = HUD.muted;
+    g.font = `600 ${Math.round(h * 0.17)}px 'Barlow Condensed', Arial, sans-serif`;
+    g.textAlign = "left"; g.textBaseline = "middle";
+    g.fillText(step.gauge.label ?? "SET THE VALUE", w * 0.05, h * 0.2);
+    const barY = h * 0.5, barH = h * 0.3, x0 = w * 0.05, x1 = w * 0.95;
+    g.fillStyle = "#1d2833"; g.fillRect(x0, barY - barH / 2, x1 - x0, barH);
+    g.fillStyle = "rgba(89,201,123,0.85)";
+    g.fillRect(x0 + (x1 - x0) * lo, barY - barH / 2, (x1 - x0) * (hi - lo), barH);
+    g.strokeStyle = HUD.good; g.lineWidth = 2;
+    g.strokeRect(x0 + (x1 - x0) * lo, barY - barH / 2, (x1 - x0) * (hi - lo), barH);
+    g.fillStyle = HUD.muted;
+    g.font = `${Math.round(h * 0.14)}px Arial, sans-serif`;
+    g.textAlign = "center";
+    g.fillText("select to commit", w / 2, h * 0.87);
+  });
+}
+
+function placeGauge(targetObj) {
+  if (!targetObj) return;
+  const boxHelper = new THREE.Box3().setFromObject(targetObj);
+  const c = boxHelper.getCenter(new THREE.Vector3());
+  const top = boxHelper.max.y;
+  gauge.position.set(c.x, Math.min(Math.max(top + 0.3, 1.15), 2.0), c.z);
+}
+
+// ------------------------------------------------------------ room lifecycle
+
+function clearRoom() {
+  if (state.roomRoot) {
+    disposeTree(state.roomRoot);
+    state.roomRoot = null;
+  }
+  state.api = null;
+  state.hits = {};
+  state.selectables = [];
+  state.hovered = null;
+  hint.visible = false;
+  gauge.visible = false;
+}
+
+function collectSelectables() {
+  state.selectables = [];
+  for (const id of Object.keys(state.hits)) {
+    state.hits[id].traverse((o) => { if (o.isMesh) state.selectables.push(o); });
+  }
+}
+
+function enterHub() {
+  if (state.room) wfRoomMeta(null); // leaving a room; a ?room= link keeps its name until the room opens
+  clearRoom();
+  state.session = null;
+  state.room = null;
+  const root = new THREE.Group();
+  worldRoot.add(root);
+  state.roomRoot = root;
+  state.api = buildHub(root, ROOMS);
+  state.hits = state.api.hits;
+  collectSelectables();
+  rig.position.set(0.4, 0, 4.9);
+  rig.rotation.y = 0;
+  camera.rotation.set(0, 0, 0);
+  yaw = 0; pitch = 0;
+  scene.background = new THREE.Color(0x0a1016);
+  scene.fog = new THREE.Fog(0x0a1016, 16, 46);
+  document.body.dataset.accent = "#37d6c0";
+  document.documentElement.style.setProperty("--accent", "#37d6c0");
+  setRail("neutral", `<b>Training hub.</b> ${ROOMS.length} trades, one procedure each. Step into a doorway to begin — the room scores every action against the real order of operations.`);
+  syncHud();
+}
+
+// Instructor mode: the same live feed SmartCiti.X publishes, so one console
+// sees a class working across both apps. See shared/observer.js.
+const observer = createBroadcaster("trades", { learner: Progress.playerName });
+addEventListener("pagehide", () => observer.close());
+
+// ------------------------------------------------------------------- flows
+//
+// A host's flow (shared/flowhub.js) can send a learner through rooms here as
+// part of a graph that also crosses SmartCiti.X — which is what a real
+// apprenticeship does. This app answers flow.load/start/resume on the platform
+// channel and CMD_FLOW from the instructor console, runs the rooms that are its
+// to run, and follows the portal's own cross-app link when the next node is
+// another app's. The run waits in the one localStorage key across that switch.
+let FLOW_CATALOG = { stations: ROOMS.map((r) => ({ app: "trades", id: r.id })), curricula: [] };
+for (const url of ["../smartcity/catalog.json", "./catalog.json"]) {
+  fetch(url).then((r) => (r.ok ? r.json() : null)).then((cat) => {
+    if (cat?.stations?.length) FLOW_CATALOG = cat;
+  }).catch(() => { /* offline or a bundled build — the local roster stands */ });
+}
+
+const flowRunner = createFlowRunner({
+  app: "trades",
+  enter: (node, { href }) => {
+    if (href) {
+      setRail("neutral", `<b>Flow:</b> next is ${escapeHtml(nodeLabel(node))} in ${escapeHtml(String(node.app))} — opening that app.`);
+      location.href = href;
+      return true;
+    }
+    if (node.kind !== "station" || !ROOM_BY_ID[node.ref]) {
+      // A brief, a programme, a gate or a check-in belongs to SmartCiti.X: it
+      // owns the pre-brief, the programmes and the records panel. Hand the
+      // whole flow back there rather than pretending to run the node here.
+      setRail("neutral", `<b>Flow:</b> ${escapeHtml(nodeLabel(node))} runs in SmartCiti.X — opening it.`);
+      location.href = `../smartcity/index.html?flow=${encodeURIComponent(flowRunner.current().flow?.id ?? "")}&node=${encodeURIComponent(node.id)}`;
+      return true;
+    }
+    if (!ui.intro.hidden) begin();
+    ui.results.hidden = true; hidePreBrief(); state.paused = false;
+    setRail("neutral", `<b>Flow:</b> ${escapeHtml(ROOM_BY_ID[node.ref].title)}.`);
+    enterRoom(node.ref, { briefed: true });
+    return true;
+  },
+  onState: (state_, transition) => { Platform.flowState(state_, transition); observer.hello({}); },
+  onExternal: (payload) => {
+    Platform.flowExternal(payload);
+    setRail("neutral", `<b>Flow:</b> ${escapeHtml(String(payload.node?.title ?? payload.nodeId))} runs on your learning platform. This app waits for its result.`);
+  },
+  onDone: (state_) => {
+    Platform.flowDone(state_);
+    setRail("ok", `<b>Flow complete:</b> ${escapeHtml(String(state_.title ?? state_.flowId))}.`);
+  },
+});
+
+let flowPending = false; // the run has moved; the learner has not yet been sent on
+
+/**
+ * A finished attempt, offered to a flow standing on this very room. The run
+ * moves at once, so the host hears the transition on the same verdict the
+ * record carries; the next node is not opened over the top of the results card.
+ * The rail says what is next and the learner goes on from the results buttons.
+ */
+function flowOnAttempt(attempt) {
+  const { flow, run, node } = flowRunner.current();
+  if (!flow || !run || run.done || node?.kind !== "station") return;
+  if (node.ref !== attempt.simId) return;
+  flowRunner.complete(outcomeFromRecord(attempt), { enterNode: false });
+  const now = flowRunner.current();
+  flowPending = !now.run?.done;
+  if (flowPending && now.node) {
+    setRail("neutral", `<b>Flow:</b> next is ${escapeHtml(nodeLabel(now.node))}. Leave this room to go on.`);
+  }
+}
+
+/** Open the node the flow now stands on — what leaving the results card means
+ *  while a flow is running. Returns true when the flow took over. */
+function flowResume() {
+  if (!flowPending) return false;
+  flowPending = false;
+  const r = flowRunner.resumeHere();
+  if (r.ok === false) { setRail("warn", `<b>Flow:</b> ${escapeHtml(r.reason ?? "could not continue")}`); return false; }
+  return true;
+}
+// The commands this app answers: a note, a hold, opening a room, and firing
+// one of the current room's declared interruptions now. Each one is appended
+// to the attempt's training record as an instructorAction.
+let instructorActions = [];
+function logInstructorAction(cmd, detail, { ok = true, note = "" } = {}) {
+  instructorActions.push({ cmd, at: new Date().toISOString(), detail: detail ?? "" });
+  if (instructorActions.length > 80) instructorActions.shift();
+  observer.action({ cmd, detail: detail ?? "", ok, note, ...(observerSnapshot() ?? {}) });
+}
+observer.onCommand((cmd) => {
+  if (cmd.kind === "note" && cmd.text) {
+    setRail("warn", `<b>Instructor:</b> ${escapeHtml(cmd.text)}`);
+    logInstructorAction("note", cmd.text, { note: "shown on the rail" });
+    return;
+  }
+  if (cmd.kind === "freeze") {
+    state.paused = !!cmd.on;
+    setRail(cmd.on ? "warn" : "neutral", cmd.on
+      ? "<b>Held by the instructor.</b> The clock is stopped until they release it."
+      : "<b>Released.</b> Carry on from where you stopped.");
+    logInstructorAction("freeze", cmd.on ? "on" : "off", { note: cmd.on ? "session held" : "session released" });
+    return;
+  }
+  if (cmd.kind === "open") {
+    const id = cmd.detail ?? "";
+    if (ROOM_BY_ID[id]) {
+      if (!ui.intro.hidden) begin();
+      ui.results.hidden = true; hidePreBrief(); state.paused = false;
+      setRail("neutral", `<b>Instructor:</b> opening ${escapeHtml(ROOM_BY_ID[id].title)}.`);
+      enterRoom(id, { briefed: true });
+      logInstructorAction("open", id, { note: "room opened" });
+      return;
+    }
+    // A SmartCiti.X station id is not a room here; the console addresses the
+    // whole network, so hand the learner over to the app that owns it rather
+    // than reporting nothing.
+    logInstructorAction("open", id, { note: "not a Trade Skills room — opening SmartCiti.X" });
+    location.href = `../smartcity/index.html?sim=${encodeURIComponent(id)}`;
+    return;
+  }
+  if (cmd.kind === "interrupt") {
+    const s = state.session;
+    const it = s?.interrupts?.find((i) => i.id === cmd.detail);
+    if (!s || s.finished || !it) { logInstructorAction("interrupt", cmd.detail, { ok: false, note: "no such interruption in this room" }); return; }
+    if (it.fired) { logInstructorAction("interrupt", cmd.detail, { ok: false, note: "already fired" }); return; }
+    // Armed for now; the engine fires it on the next tick exactly as it would
+    // a naturally-timed one (see the interrupt layer in shared/game.js).
+    it.armedAt = s.elapsed;
+    state.paused = false;
+    logInstructorAction("interrupt", cmd.detail, { note: "armed for now; the room fires it" });
+    return;
+  }
+  if (cmd.kind === "flow") {
+    // The same flow the console can send to any app on this engine. Trade
+    // Skills validates it against its own rooms plus the generated catalog and
+    // runs the nodes that are its; a node in SmartCiti.X or Holodeck becomes
+    // the cross-app link this app already knows how to follow.
+    const res = flowRunner.load(cmd.flow, { validateAgainst: FLOW_CATALOG });
+    if (!res.ok) { logInstructorAction("flow", cmd.detail, { ok: false, note: res.errors?.[0] ?? "flow refused" }); return; }
+    const started = flowRunner.start(res.flow.id, { restart: true });
+    setRail("neutral", `<b>Instructor:</b> flow ${escapeHtml(res.flow.title)} — starting at ${escapeHtml(nodeLabel(flowRunner.current().node))}.`);
+    logInstructorAction("flow", res.flow.id, {
+      ok: started.ok !== false,
+      note: started.ok === false ? started.reason : `flow started at ${flowRunner.current().run?.nodeId ?? res.flow.start}`,
+    });
+  }
+});
+/** The room itself, for the console's per-learner panel. */
+/** The flow's position, safe to ask for before the runner above is built. */
+function flowLive() {
+  try { return flowRunner.current(); } catch (_) { return { flow: null, run: null, node: null }; }
+}
+
+observer.describes(() => {
+  const s = state.session;
+  const live = flowLive();
+  // Where the learner's flow stands, so the console's row names the node of the
+  // flow rather than only the room.
+  const flowFields = { flow: live.flow?.id ?? null, flowNode: live.node ? `${live.node.kind}: ${nodeLabel(live.node)}` : null };
+  if (!s) return { steps: [], interrupts: [], fired: [], ...flowFields };
+  return {
+    ...flowFields,
+    steps: (s.steps ?? []).map((st) => ({ id: st.id, title: st.title, kind: st.kind })),
+    interrupts: (s.interrupts ?? []).map((i) => ({ id: i.id, kind: i.kind ?? "Interruption", alert: i.alert ?? "", after: i.after ?? "" })),
+    fired: (s.interrupts ?? []).filter((i) => i.fired).map((i) => i.id),
+    ...(observerSnapshot() ?? {}),
+  };
+});
+function observerSnapshot() {
+  const s = state.session;
+  if (!s) return null;
+  const iv = s.interruptLog ?? [];
+  return {
+    stepIndex: (s.index | 0) + 1, stepCount: s.steps?.length ?? 0, stepTitle: s.step?.title ?? "",
+    score: s.score | 0, stars: s.stars | 0, errors: s.errors | 0,
+    hazardHits: s.hazardHits | 0, seconds: Math.round(s.elapsed ?? 0),
+    answered: iv.filter((l) => l.outcome === "answered").length,
+    interruptTotal: s.interrupts?.length ?? 0,
+    fired: (s.interrupts ?? []).filter((i) => i.fired).map((i) => i.id),
+  };
+}
+
+function enterRoom(id, { briefed = false } = {}) {
+  const room = ROOM_BY_ID[id];
+  if (!room) return;
+  // Flipped classroom: the first run of a room is offered as study material
+  // first — every step and its reason. Reading it stamps the shared profile
+  // and the run starts `prepared` (see shared/game.js).
+  if (!briefed && !Progress.isBriefed(room.id) && !renderer.xr.isPresenting) { showPreBrief(room); return; }
+  clearRoom();
+  const root = new THREE.Group();
+  worldRoot.add(root);
+  state.roomRoot = root;
+  state.room = room;
+  wfRoomMeta(room);
+  state.api = room.build(root);
+  state.hits = state.api.hits;
+  tzPlantHost(root, THREE, `trades/${room.id}`); // off the interaction system, like the hard hats
+  Perf.reset();
+  collectSelectables();
+
+  rig.position.set(room.spawn.x, 0, room.spawn.z);
+  rig.rotation.y = room.spawn.ry ?? 0;
+  yaw = 0; pitch = 0;
+  camera.rotation.set(0, 0, 0);
+  scene.background = new THREE.Color(0x080d12);
+  scene.fog = new THREE.Fog(0x080d12, 14, 32);
+  document.documentElement.style.setProperty("--accent", room.accentCss);
+
+  observer.hello({ learner: Progress.playerName, station: room.id, stationName: room.title });
+  state.session = new Session(room, {
+    onStep: (step, s) => {
+      state.api.onStep?.(step, s);
+      kbCursor.set(targetsForStep(step));
+      kbCarrying = null;
+      srAnnouncer.say(`Step ${(s.index | 0) + 1} of ${s.steps.length}. ${step.title}. ${step.cue}`);
+      if (kbActive && kbCursor.current) kbFocus(kbCursor.current, { announceIt: false });
+      updateHintForStep(step);
+      if (step.kind === "gauge") {
+        paintGaugeBand(step);
+        placeGauge(state.hits[step.target]);
+        gauge.visible = true;
+      } else gauge.visible = false;
+      maybeShowGestureTip(step.kind);
+      syncHud();
+    },
+    onFeedback: (fb, s) => {
+      state.api.onFeedback?.(fb, s);
+      setRail(fb.kind === "ok" ? "ok" : fb.kind === "danger" ? "danger" : fb.kind === "partial" ? "neutral" : "warn", fb.text);
+      if (fb.kind === "danger") srAnnouncer.alert(fb.text);
+      if (fb.kind === "danger") { flashDanger(); if (fb.speech) announce(fb.speech); }
+      if (fb.kind === "ok" && fb.points) {
+        scorePop(`+${fb.points}`, fb.combo >= 1.6);
+        if (fb.combo >= 1.6) burstAtHit(lastActivatedId);
+      }
+      syncHud();
+    },
+    onStepComplete: (step, s) => {
+      observer.step({ stepId: step.id, stepTitle: step.title, ...observerSnapshot() });
+      state.api.onStepComplete?.(step, s);
+      Platform.progress({ room: room.id, step: step.id, index: s.index + 1, count: s.steps.length, score: s.score, errors: s.errors });
+    },
+    onInterrupt: (it, s) => {
+      // The station makes it visible in the world: a fan that stops, a lock
+      // that is gone off the hasp. An alarm you can only read is a caption.
+      state.api?.onInterrupt?.(it, state.session);
+      showAlarm(it);
+      srAnnouncer.alert(`${it.kind ?? "Interruption"}. ${it.alert}`);
+      announce(`${it.kind ?? "Interruption"}. ${it.alert}`);
+      kbCursor.set(targetsForStep({ target: it.target }));
+      void s;
+    },
+    onInterruptEnd: (it) => { state.api?.onInterruptEnd?.(it, state.session); hideAlarm(); kbCursor.set(targetsForStep(state.session?.step ?? {})); },
+    onHazard: (hitId, s) => {
+      state.api.onHazard?.(hitId, s);
+      observer.hazard({ hazardId: hitId, note: room.hazards?.[hitId] ?? "", ...observerSnapshot() });
+    },
+    onFinish: (s, summary) => {
+      observer.finish({
+        passed: s.stars >= 2 && s.hazardHits === 0, stars: s.stars | 0, score: s.score | 0,
+        seconds: Math.round(s.elapsed ?? 0),
+        verdict: s.hazardHits > 0 ? `${s.hazardHits} unsafe action${s.hazardHits === 1 ? "" : "s"}` : `${s.stars} star${s.stars === 1 ? "" : "s"}, clean`,
+      });
+      showResults(s, summary);
+    },
+  });
+  state.session.start();
+  faceFirstTask();
+  setRail("neutral", `<b>${room.title}</b> — ${room.tagline}. Follow the procedure in order; the room will tell you why each step matters.`);
+  syncHud();
+}
+
+// Host platform channel (see shared/platform.js): open a room, return to the
+// hub, report state — only from the origin that established the learner.
+Platform.init({
+  app: "trades",
+  onCommand(type, data, reply) {
+    const s = state.session;
+    const snapshot = () => ({
+      room: state.room ? { id: state.room.id, name: state.room.title, category: state.room.category ?? "Trade Skills Simulator" } : null,
+      intro: !ui.intro.hidden, stepIndex: s ? s.index : null, stepCount: s ? s.steps.length : null, score: s?.score ?? null, finished: s?.finished ?? null,
+      level: Progress.level, levelName: Progress.levelName, xp: Progress.data.xp, learner: Progress.playerName, records: TrainingRecords.count(),
+    });
+    if (type === "smartcitix:open") {
+      const id = String(data.room ?? data.sim ?? "");
+      if (!ROOM_BY_ID[id]) { reply("smartcitix:state", { ...snapshot(), error: `unknown room: ${id}` }); return; }
+      if (!ui.intro.hidden) begin();
+      ui.results.hidden = true; hidePreBrief(); state.paused = false;
+      enterRoom(id, { briefed: !!data.skipBrief });
+      return;
+    }
+    if (type === "smartcitix:hub") { if (ui.intro.hidden) { ui.results.hidden = true; enterHub(); } reply("smartcitix:state", snapshot()); return; }
+    if (type === "smartcitix:status") { reply("smartcitix:state", snapshot()); return; }
+    if (type === "smartcitix:catalog") { reply("smartcitix:catalog", { rooms: ROOMS.map((r) => ({ id: r.id, name: r.title, trade: r.trade, category: r.category ?? "Trade Skills Simulator", certification: r.certification ?? null })) }); return; }
+    // ---- the flow channel (platform protocol 2, see shared/flowhub.js) ----
+    if (type === FLOW_LOAD) {
+      const res = flowRunner.load(data.flow, { validateAgainst: FLOW_CATALOG });
+      if (!res.ok) { reply("smartcitix:state", { ...snapshot(), error: `flow refused: ${(res.errors ?? []).join("; ")}` }); return; }
+      reply(FLOW_STATE, { flow: res.state, transition: null });
+      return;
+    }
+    if (type === FLOW_START) {
+      const res = flowRunner.start(data.flowId ?? null, { restart: !!data.restart });
+      if (res.ok === false) reply("smartcitix:state", { ...snapshot(), error: `flow.start: ${res.reason}` });
+      return;
+    }
+    if (type === FLOW_RESUME) {
+      const res = flowRunner.resume({ nodeId: data.nodeId ?? null, outcome: data.outcome ?? null });
+      if (res.ok === false) reply("smartcitix:state", { ...snapshot(), error: `flow.resume: ${res.reason}` });
+    }
+  },
+});
+
+// A flow node handed over from another app: the link carried the flow and node
+// ids, and the run itself waited in the one localStorage key.
+{
+  const link = parseFlowLink(location.search);
+  if (link.flowId) {
+    const restored = flowRunner.restore(link);
+    if (restored.ok) queueMicrotask(() => flowRunner.resumeHere());
+    else setRail("warn", `<b>Flow:</b> ${escapeHtml(restored.reason)}`);
+  }
+}
+
+const esc = (v) => String(v ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+let pendingBrief = null;
+function showPreBrief(room) {
+  pendingBrief = room.id;
+  const hazards = Object.keys(room.hazards ?? {}).length;
+  ui.prebriefBody.innerHTML = `
+    <div class="eyebrow">${esc(room.trade)} · pre-brief · learn it first, then prove it</div>
+    <h2>${esc(room.title)}</h2>
+    <p class="res-trade">${esc(room.tagline)}</p>
+    ${room.certification ? `<p class="fineprint" style="color:var(--accent);font-style:italic">${esc(room.union ? `${room.union} · ` : "")}${esc(room.certification)}</p>` : ""}
+    <p class="fineprint">The procedure below is the real order of operations for this room, with the reason behind each step.
+    Read it now and the run that follows starts prepared: the Prepared award and a 10% score bonus on that run.
+    ${hazards} seeded hazard${hazards === 1 ? "" : "s"} wait in the room — the brief does not name them.</p>
+    <ol class="prebrief-steps">${room.steps.map((s) => `<li><b>${esc(s.title)}</b><span>${esc(s.why)}</span></li>`).join("")}</ol>`;
+  ui.prebrief.hidden = false;
+}
+function hidePreBrief() { ui.prebrief.hidden = true; }
+document.getElementById("prebrief-start").addEventListener("click", () => {
+  const id = pendingBrief; if (!id) return;
+  Progress.markBriefed(id); hidePreBrief(); enterRoom(id, { briefed: true });
+});
+document.getElementById("prebrief-skip").addEventListener("click", () => {
+  const id = pendingBrief; if (!id) return;
+  hidePreBrief(); enterRoom(id, { briefed: true });
+});
+document.getElementById("prebrief-close").addEventListener("click", () => { pendingBrief = null; hidePreBrief(); });
+
+/**
+ * Turn the learner toward the opening task. Rooms author where you stand; the
+ * first thing you are asked to do decides which way you are looking, so nobody
+ * starts a run staring at a blank wall.
+ */
+function faceFirstTask() {
+  const first = hintTargets[0];
+  if (!first) return;
+  const p = new THREE.Vector3();
+  first.getWorldPosition(p);
+  const dx = p.x - rig.position.x, dz = p.z - rig.position.z;
+  if (Math.hypot(dx, dz) < 0.2) return;
+  rig.rotation.y = Math.atan2(-dx, -dz);
+}
+
+function updateHintForStep(step) {
+  hintTargets.length = 0;
+  if (!step) { hint.visible = false; return; }
+  const ids = step.kind === "sequence" ? step.targets : [step.target];
+  for (const id of ids) if (state.hits[id]) hintTargets.push(state.hits[id]);
+  hint.visible = hintTargets.length > 0;
+}
+
+function flashDanger() {
+  document.body.classList.add("danger-flash");
+  setTimeout(() => document.body.classList.remove("danger-flash"), 420);
+}
+
+// ------------------------------------------------------------------- results
+
+/** The step-by-step review under the score: where the run went slow, and
+ *  where it went wrong. Built from the session's own step log, so it says
+ *  the same thing the exported record and the xAPI statement say. */
+function renderDebrief(s) {
+  const d = s.debrief();
+  if (!d.steps.length) return "";
+  const worst = d.steps.reduce((m, st) => Math.max(m, st.seconds), 0) || 1;
+  const rows = d.steps.map((st, i) => {
+    const bar = Math.max(4, Math.round((st.seconds / worst) * 100));
+    const tone = st.hazards ? "bad" : st.corrections ? "warn" : "ok";
+    const note = st.hazards
+      ? `${st.hazards} unsafe`
+      : st.corrections ? `${st.corrections} correction${st.corrections === 1 ? "" : "s"}` : "clean";
+    return `<li class="db-row ${tone}">
+      <span class="db-n">${i + 1}</span>
+      <span class="db-title">${escapeHtml(st.title)}</span>
+      <span class="db-bar"><i style="width:${bar}%"></i></span>
+      <span class="db-time">${st.seconds.toFixed(1)}s</span>
+      <span class="db-note">${note}</span>
+    </li>`;
+  }).join("");
+  const head = `${d.cleanSteps} of ${d.totalSteps} steps clean · median ${d.medianSeconds.toFixed(1)}s`;
+  const slow = d.slowest ? `<p class="res-note">Longest step: <b>${escapeHtml(d.slowest.title)}</b> at ${d.slowest.seconds.toFixed(1)}s.</p>` : "";
+  const bad = d.worst ? `<p class="res-note">Most trouble: <b>${escapeHtml(d.worst.title)}</b> — ${d.worst.hazards ? `${d.worst.hazards} unsafe action${d.worst.hazards === 1 ? "" : "s"}` : `${d.worst.corrections} correction${d.worst.corrections === 1 ? "" : "s"}`}.</p>` : "";
+  // Interruptions get their own lines: they are the part of the run that was
+  // not on the procedure, and how long you took to notice is the whole score.
+  const iv = d.interrupts;
+  const ivRows = iv ? iv.log.map((l) => {
+    const tone = l.outcome === "answered" ? "ok" : "bad";
+    const label = l.outcome === "answered" ? `caught in ${l.seconds.toFixed(1)}s`
+      : l.outcome === "wrong" ? "wrong response" : "missed it";
+    return `<li class="db-row ${tone}">
+      <span class="db-n">!</span>
+      <span class="db-title">${escapeHtml(l.alert ?? l.id)}</span>
+      <span class="db-note">${label}</span>
+    </li>`;
+  }).join("") : "";
+  const ivBlock = iv ? `<p class="res-note"><b>Interruptions:</b> ${iv.answered} of ${iv.total} caught${iv.missed ? `, ${iv.missed} missed` : ""}${iv.wrong ? `, ${iv.wrong} answered wrong` : ""}.</p>
+    <ol class="db-list">${ivRows}</ol>` : "";
+  return `<details class="debrief" open>
+    <summary>Step-by-step debrief — ${head}</summary>
+    <ol class="db-list">${rows}</ol>${slow}${bad}${ivBlock}
+  </details>`;
+}
+
+function showResults(s, summary) {
+  const stars = "★★★".slice(0, s.stars) + "☆☆☆".slice(0, 3 - s.stars);
+  const mins = Math.floor(s.elapsed / 60), secs = Math.round(s.elapsed % 60);
+  ui.resultsBody.innerHTML = `
+    <div class="res-stars">${stars}</div>
+    <h2>${s.room.title} complete</h2>
+    <p class="res-trade">${s.room.trade}</p>
+    <dl class="res-grid">
+      <div><dt>Score</dt><dd>${s.score}</dd></div>
+      <div><dt>Time</dt><dd>${mins}:${String(secs).padStart(2, "0")}</dd></div>
+      <div><dt>Errors</dt><dd>${s.errors}</dd></div>
+      <div><dt>Time bonus</dt><dd>+${s.timeBonus ?? 0}</dd></div>
+      <div><dt>Personal best</dt><dd>${summary.best}</dd></div>
+      <div><dt>Best combo</dt><dd>×${s.peakCombo.toFixed(1)}</dd></div>
+      ${s.preparedBonus ? `<div><dt>Prepared bonus</dt><dd>+${s.preparedBonus}</dd></div>` : ""}
+    </dl>
+    ${s.badgeEarned ? `<p class="res-badge">Badge earned — <b>${s.room.badge.name}</b><span>${s.room.badge.note}</span></p>` : ""}
+    <p class="res-note">${s.errors === 0
+      ? "Clean run: every control taken in order, no unsafe action."
+      : `${s.errors} correction${s.errors === 1 ? "" : "s"} — re-run it to clear the room without a penalty.`}</p>
+    ${renderDebrief(s)}
+    ${lkTradesReturn ? `<p class="res-note res-return"><a id="res-return" href="${escapeHtml(lkTradesReturn.url)}"
+      style="display:inline-block;padding:8px 14px;border-radius:8px;background:var(--accent);color:#04121a;font-weight:700;text-decoration:none">${escapeHtml(lkTradesReturn.label)}</a>
+      <span class="muted">This run is on your passport; the board there is marked and paid once.</span></p>` : ""}`;
+  ui.results.hidden = false;
+  state.paused = true;
+  // Same attempt record SmartCiti.X writes. Every room names the union and
+  // certification it maps to; the seven original rooms roll up under one
+  // category, the surface-prep bays carry their own.
+  Perf.logRun({ app: "trades", simId: state.room?.id, mode: renderer.xr.isPresenting ? "vr" : "flat",
+    presenting: renderer.xr.isPresenting, seconds: Math.round(s.elapsed ?? 0) });
+  const attempt = ppRecordStation({
+    // Stamped with the world whose board launched it (`?from=`), as SmartCiti.X does.
+    source: lkTradesReturn?.from ?? lkTradesFrom ?? "trades",
+    app: "trades", learner: Progress.playerName,
+    learnerName: Identity.current?.name, learnerId: Identity.current?.id, homePage: Identity.current?.homePage,
+    simId: s.room.id, simName: s.room.title, category: s.room.category ?? "Trade Skills Simulator", trade: s.room.trade,
+    certification: s.room.certification, union: s.room.union,
+    score: s.score, stars: s.stars, errors: s.errors, hazardHits: s.hazardHits, holdBreaks: s.holdBreaks,
+    seconds: Math.round(s.elapsed), parSeconds: s.room.parSeconds,
+    badges: s.badgeEarned ? [s.room.badge.name] : [], level: s.level, levelName: s.levelName,
+    debrief: s.debrief(),
+    instructorActions: [...instructorActions],
+    ...(levelHere(s.room.id) ? { ladder: levelTag(levelRunHere, nextTask(levelRunHere).index) } : {}),
+  });
+  instructorActions = [];
+  levelOnAttempt(attempt);
+  Identity.emit("smartcitix:record", { record: attempt });
+  // A flow standing on this room moves now, on the same verdict the record
+  // carries — a flow never scores anything of its own.
+  flowOnAttempt(attempt);
+  Lrs.ship([attempt], { actorName: Progress.playerName, homePage: location.origin });
+  announce(`${s.room.title} complete. ${s.stars} star${s.stars === 1 ? "" : "s"}.` +
+    (s.badgeEarned ? ` Badge earned — ${s.room.badge.name}.` : ""));
+}
+
+// ------------------------------------------------------------ ladder levels
+//
+// A SmartCiti.X ladder level (shared/ladder.js) can chain a room from here.
+// That app saves the level run and opens this one with ?room=<id>&level=
+// <programme:level>; the attempt here is tagged into the same run, and leaving
+// the results card goes back to SmartCiti.X, which carries the chain on. Only
+// a link that names the level picks the run up, so a stale run in storage
+// never folds an ordinary room played here into a level.
+const levelLink = parseLevelRef(new URLSearchParams(location.search).get("level"));
+let levelRunHere = levelLink ? readLevelRun() : null;
+if (levelRunHere && (levelRunHere.programme !== levelLink.programme || levelRunHere.level !== levelLink.level)) levelRunHere = null;
+let levelReturn = false;
+function levelHere(roomId) {
+  const t = levelRunHere ? nextTask(levelRunHere) : null;
+  return !!t && t.app === "trades" && t.id === roomId;
+}
+function levelOnAttempt(attempt) {
+  if (!levelHere(attempt.simId)) return;
+  const t = nextTask(levelRunHere);
+  levelRunHere = recordTask(levelRunHere, attempt);
+  writeLevelRun(levelRunHere);
+  levelReturn = true;
+  ui.resultsBody.insertAdjacentHTML("beforeend",
+    `<p class="res-note" style="color:var(--accent)"><b>Level ${levelRunHere.level} · task ${t.index + 1} of ${t.of} complete.</b> ` +
+    `Back to SmartCiti.X for ${nextTask(levelRunHere) ? "the next task" : "the level's results"}.</p>`);
+  document.getElementById("res-hub").textContent = "Back to the level →";
+}
+
+document.getElementById("res-retry").addEventListener("click", () => {
+  ui.results.hidden = true;
+  state.paused = false;
+  enterRoom(state.room.id);
+});
+document.getElementById("res-hub").addEventListener("click", () => {
+  if (levelReturn) { location.href = "../smartcity/index.html?level_resume=1"; return; }
+  ui.results.hidden = true;
+  state.paused = false;
+  // On a flow, leaving the room is the flow going on rather than a walk back to
+  // the hub — the learner was put on an order of work, not left to browse.
+  if (flowResume()) return;
+  enterHub();
+});
+
+// --------------------------------------------------------------- interaction
+
+const raycaster = new THREE.Raycaster();
+raycaster.far = 14;
+const pointerNdc = new THREE.Vector2(0, 0);
+
+// Scratch objects reused every frame by the hot paths below (controller
+// raycasting, the hint marker, the gauge marker) instead of allocating a new
+// Vector3/Box3/Matrix4 each call — this runs at frame rate in VR, and
+// garbage-collector pauses are exactly the kind of stutter that's
+// uncomfortable in a headset.
+const _scratchM4 = new THREE.Matrix4();
+const _scratchV1 = new THREE.Vector3();
+const _scratchV2 = new THREE.Vector3();
+const _scratchBox = new THREE.Box3();
+let _hintBoxFor = null, _hintBoxAt = -1;
+
+function findHit(intersections) {
+  for (const it of intersections) {
+    // three.js raycasts hidden meshes too, and rooms hide props until a step
+    // reveals them — walk the chain and drop anything not actually on screen.
+    let o = it.object, visible = true, found = null;
+    while (o) {
+      if (o.visible === false) { visible = false; break; }
+      if (!found && o.userData.hitId) found = o.userData.hitId;
+      o = o.parent;
+    }
+    if (visible && found) return { id: found, object: it.object };
+  }
+  return null;
+}
+
+function castFromCamera() {
+  raycaster.setFromCamera(pointerNdc, camera);
+  return findHit(raycaster.intersectObjects(state.selectables, false));
+}
+
+function castFromController(controller) {
+  _scratchM4.identity().extractRotation(controller.matrixWorld);
+  raycaster.ray.origin.setFromMatrixPosition(controller.matrixWorld);
+  raycaster.ray.direction.set(0, 0, -1).applyMatrix4(_scratchM4);
+  return findHit(raycaster.intersectObjects(state.selectables, false));
+}
+
+function setHover(id) {
+  if (state.hovered === id) return;
+  if (state.hovered && state.hits[state.hovered]) tint(state.hits[state.hovered], false);
+  state.hovered = id;
+  if (state.hovered && state.hits[state.hovered]) tint(state.hits[state.hovered], true);
+  const step = state.session?.step;
+  const manipulable = step && id === step.target && (step.kind === "turn" || step.kind === "drag");
+  document.body.style.cursor = id ? (manipulable ? "grab" : "pointer") : "default";
+}
+
+function tint(root, on) {
+  root.traverse((o) => {
+    if (!o.isMesh || !o.material || o.material.emissive === undefined) return;
+    if (o.material.map) return;   // canvas decals own their texture; cloning it leaks
+    if (on) {
+      if (!o.userData.baseMaterial) o.userData.baseMaterial = o.material;
+      const clone = o.userData.baseMaterial.clone();
+      clone.userData.ownMaterial = true;
+      clone.emissive = new THREE.Color(0x37d6c0);
+      clone.emissiveIntensity = 0.4;
+      o.material = clone;
+    } else if (o.userData.baseMaterial) {
+      if (o.material !== o.userData.baseMaterial) o.material.dispose();
+      o.material = o.userData.baseMaterial;
+    }
+  });
+}
+
+function activate(id) {
+  if (!id) return;
+  if (!state.session) {
+    if (id.startsWith("door-")) { Sfx.good(); enterRoom(id.slice(5)); }
+    return;
+  }
+  lastActivatedId = id;
+  state.session.select(id);
+  syncHud();
+}
+
+/** A floating "+120" over the score chip — cheap, satisfying, no 3D cost. */
+function scorePop(text, big) {
+  const el = document.createElement("div");
+  el.className = big ? "score-pop big" : "score-pop";
+  el.textContent = text;
+  ui.score.parentElement.appendChild(el);
+  setTimeout(() => el.remove(), 900);
+}
+
+function pressStart(id) {
+  const s = state.session;
+  if (!s || !s.step) return;
+  if (s.step.kind === "hold" && id === s.step.target) s.setHolding(true);
+}
+function pressEnd() {
+  state.session?.setHolding(false);
+}
+
+// ---------------------------------------------------- turn & drag: embodied interaction
+//
+// A 'select' step is a click; these two kinds ask for something closer to a
+// real hand: spinning a valve wheel by dragging it round, or picking an object
+// up and carrying it to where it belongs. Both route through the same
+// pointer/controller plumbing the rest of the app already uses — a raycast
+// finds what you grabbed, then every frame moves or rotates it while you hold.
+
+let dragState = null;   // { id, object, homeLocal, controller, plane }
+let turnState = null;   // { id, cx, cy, lastAngle } — desktop only; VR tracks per-controller
+const returning = [];   // objects springing back to homeLocal after a missed drop
+
+function beginDrag(id, controller) {
+  const obj = state.hits[id];
+  if (!obj || !state.session?.canDrag(id)) return false;
+  const worldPos = new THREE.Vector3();
+  obj.getWorldPosition(worldPos);
+  const plane = new THREE.Plane(new THREE.Vector3(0, 1, 0));
+  plane.setFromNormalAndCoplanarPoint(plane.normal, worldPos);
+  dragState = { id, object: obj, homeLocal: obj.position.clone(), controller: controller ?? null, plane };
+  document.body.style.cursor = "grabbing";
+  state.api?.onDragStart?.(id);
+  return true;
+}
+
+function updateDrag() {
+  if (!dragState) return;
+  const { object, plane, controller } = dragState;
+  let ok;
+  if (controller) {
+    _scratchM4.identity().extractRotation(controller.matrixWorld);
+    raycaster.ray.origin.setFromMatrixPosition(controller.matrixWorld);
+    raycaster.ray.direction.set(0, 0, -1).applyMatrix4(_scratchM4);
+    ok = raycaster.ray.intersectPlane(plane, _scratchV1);
+  } else {
+    raycaster.setFromCamera(pointerNdc, camera);
+    ok = raycaster.ray.intersectPlane(plane, _scratchV1);
+  }
+  if (!ok) return;
+  const local = _scratchV2.copy(_scratchV1);
+  object.parent.worldToLocal(local);
+  local.y = dragState.homeLocal.y; // carried along the ground, not lifted or dropped
+  object.position.copy(local);
+}
+
+function endDrag() {
+  if (!dragState) return;
+  const { id, object, homeLocal } = dragState;
+  const step = state.session?.step;
+  let result = null;
+  if (step?.kind === "drag" && step.target === id) {
+    const socket = state.hits[step.drag?.to];
+    let dist = null;
+    if (socket) {
+      // Horizontal alignment only — a carried object is dragged along a fixed
+      // height while its socket (a trench floor, a shaft, a mounting point)
+      // often sits at a different height, so the vertical gap between the
+      // carry plane and the resting spot must never count against the player.
+      const a = new THREE.Vector3(); object.getWorldPosition(a); a.y = 0;
+      const b = new THREE.Vector3(); socket.getWorldPosition(b); b.y = 0;
+      dist = a.distanceTo(b);
+    }
+    lastActivatedId = id;
+    result = state.session.dropAt(id, dist);
+    if (result?.kind === "ok" && socket) {
+      // Snap to the socket's full transform, not just its position, so a
+      // plate or panel that has to sit a particular way round lands correctly
+      // — matching world rotation converted into the object's own parent
+      // space, exactly like the position conversion just above it.
+      const snapped = new THREE.Vector3(); socket.getWorldPosition(snapped);
+      object.parent.worldToLocal(snapped);
+      object.position.copy(snapped);
+      const socketQuat = new THREE.Quaternion(); socket.getWorldQuaternion(socketQuat);
+      const parentQuat = new THREE.Quaternion(); object.parent.getWorldQuaternion(parentQuat);
+      object.quaternion.copy(parentQuat.invert().multiply(socketQuat));
+    }
+  }
+  if (result?.kind !== "ok") returning.push({ object, from: object.position.clone(), to: homeLocal.clone(), t: 0 });
+  state.api?.onDragEnd?.(id, result?.kind === "ok");
+  dragState = null;
+  document.body.style.cursor = "default";
+  syncHud();
+}
+
+function beginTurn(id, clientX, clientY) {
+  const obj = state.hits[id];
+  if (!obj || state.session?.step?.kind !== "turn" || state.session.step.target !== id) return false;
+  const p = new THREE.Vector3();
+  obj.getWorldPosition(p);
+  p.project(camera);
+  const r = canvas.getBoundingClientRect();
+  const cx = (p.x * 0.5 + 0.5) * r.width + r.left;
+  const cy = (-p.y * 0.5 + 0.5) * r.height + r.top;
+  turnState = { id, cx, cy, lastAngle: Math.atan2(clientY - cy, clientX - cx) };
+  document.body.style.cursor = "grabbing";
+  return true;
+}
+
+function updateTurn(clientX, clientY) {
+  if (!turnState) return;
+  const angle = Math.atan2(clientY - turnState.cy, clientX - turnState.cx);
+  let delta = angle - turnState.lastAngle;
+  if (delta > Math.PI) delta -= Math.PI * 2;
+  if (delta < -Math.PI) delta += Math.PI * 2;
+  turnState.lastAngle = angle;
+  lastActivatedId = turnState.id;
+  state.session?.rotate(turnState.id, delta / (Math.PI * 2));
+  syncHud();
+}
+
+function endTurn() { turnState = null; document.body.style.cursor = "default"; }
+
+/** Drive the actual mesh rotation from engine state — a pure reflection, never
+ * the source of truth, so the checker's direct rotate() calls stay in sync
+ * with whatever the 3D scene shows a real player. */
+function syncTurnVisual() {
+  const s = state.session;
+  if (s?.step?.kind !== "turn" || !s.turn) return;
+  const obj = state.hits[s.step.target];
+  if (!obj) return;
+  const node = obj.userData.wheel ?? obj;
+  const axis = s.step.turn?.axis ?? "y";
+  node.rotation[axis] = s.turn.amount * Math.PI * 2 * (s.step.turn?.reverse ? -1 : 1);
+}
+
+// Desktop input -------------------------------------------------------------
+
+let yaw = 0, pitch = 0, dragging = false, lastX = 0, lastY = 0, downAt = 0, downId = null;
+const keys = Object.create(null);
+// ------------------------------------------------------- keyboard operation
+//
+// The same keyboard path SmartCiti.X offers, on the same shared helpers:
+// Tab walks the controls this step can act on in procedure order, Enter
+// takes the focused one, Space held is a hold, the arrows work an analogue
+// control. Every announcement also reaches a live region. See
+// shared/a11y.js and WebXR/ACCESSIBILITY.md.
+const srAnnouncer = createAnnouncer();
+const kbCursor = createTargetCursor();
+let kbActive = false, kbCarrying = null;
+
+function targetsForStep(step) {
+  if (!step) return [];
+  const base = step.kind === "sequence" || step.kind === "find"
+    ? [...(step.targets ?? [])]
+    : step.target ? [step.target] : [];
+  if (step.kind === "drag" && step.drag?.to) base.push(step.drag.to);
+  return base.filter((id) => state.hits[id]);
+}
+function kbFocus(id, { announceIt = true } = {}) {
+  if (!id) return;
+  kbActive = true;
+  kbCursor.focus(id);
+  setHover(id);
+  if (!announceIt) return;
+  const step = state.session?.step;
+  srAnnouncer.say(describeTarget(id, step, { names: { ...(step?.itemNames ?? {}) }, position: [kbCursor.index + 1, kbCursor.ids.length] }));
+}
+function kbStep(dir) {
+  kbCursor.set(targetsForStep(state.session?.step));
+  kbFocus(dir > 0 ? kbCursor.next() : kbCursor.prev());
+}
+function kbActivate() {
+  const s = state.session, id = kbCursor.current;
+  if (!s || !s.step || !id) return;
+  if (s.step.kind === "drag") {
+    if (!kbCarrying && id === s.step.target) { kbCarrying = id; srAnnouncer.say("Picked up. Tab to where it belongs, then press Enter to place it."); return; }
+    if (kbCarrying) { s.dropAt(id, 0); kbCarrying = null; syncHud(); return; }
+  }
+  lastActivatedId = id;
+  activate(id);
+}
+function kbAdjust(delta) {
+  const s = state.session, step = s?.step;
+  if (!step) return false;
+  if (step.kind === "gauge" && s.gauge) { s.gauge.t = Math.max(0, Math.min(1, s.gauge.t + delta * 0.04)); s.gauge.dir = 0; syncHud(); return true; }
+  if (step.kind === "track" && s.track) { s.track.v = Math.max(0, Math.min(1, s.track.v + delta * 0.05)); return true; }
+  if (step.kind === "turn") { s.rotate(step.target, delta * 0.08); syncHud(); return true; }
+  return false;
+}
+
+addEventListener("keydown", (e) => {
+  keys[e.code] = true;
+  if (e.code === "Escape" && !ui.prebrief.hidden) { pendingBrief = null; hidePreBrief(); return; }
+  if (e.code === "Escape" && state.session) { ui.results.hidden = true; enterHub(); }
+  if (e.code === "KeyM") { Sfx.muted = !Sfx.muted; ui.hint.textContent = Sfx.muted ? "sound off" : "sound on"; }
+  // --- keyboard operation of the running procedure ---
+  const tag = e.target?.tagName;
+  if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return;
+  if (!state.session || renderer.xr.isPresenting || !ui.prebrief.hidden) return;
+  if (e.code === "Tab") { e.preventDefault(); kbStep(e.shiftKey ? -1 : 1); return; }
+  if (e.code === "Enter" || e.code === "NumpadEnter") { e.preventDefault(); kbActivate(); return; }
+  if (e.code === "Space") { e.preventDefault(); if (!e.repeat && kbCursor.current) pressStart(kbCursor.current); return; }
+  if (e.code === "ArrowUp" || e.code === "ArrowDown") { if (kbAdjust(e.code === "ArrowUp" ? 1 : -1)) { e.preventDefault(); kbActive = true; } return; }
+  if (e.code === "ArrowRight" || e.code === "ArrowLeft") { e.preventDefault(); kbStep(e.code === "ArrowRight" ? 1 : -1); }
+});
+addEventListener("keyup", (e) => {
+  keys[e.code] = false;
+  if (e.code === "Space" && state.session) { e.preventDefault(); pressEnd(); }
+});
+
+const canvas = renderer.domElement;
+canvas.addEventListener("pointerdown", (e) => {
+  if (renderer.xr.isPresenting) return;
+  updateNdc(e);
+  const hit = castFromCamera();
+  if (hit?.id && beginDrag(hit.id, null)) { downAt = performance.now(); return; }
+  if (hit?.id && beginTurn(hit.id, e.clientX, e.clientY)) { downAt = performance.now(); return; }
+  dragging = true; lastX = e.clientX; lastY = e.clientY; downAt = performance.now();
+  downId = hit?.id ?? null;
+  if (downId) pressStart(downId);
+});
+addEventListener("pointerup", (e) => {
+  if (renderer.xr.isPresenting) return;
+  if (dragState) { endDrag(); return; }
+  if (turnState) { endTurn(); return; }
+  dragging = false;
+  pressEnd();
+  if (performance.now() - downAt < 280 && downId) {
+    updateNdc(e);
+    const hit = castFromCamera();
+    if (hit && hit.id === downId) activate(hit.id);
+  }
+  downId = null;
+});
+// A touch can be cancelled by the OS (an incoming call, a system gesture) with
+// no pointerup at all — without this a phone could get stuck mid-drag/turn.
+addEventListener("pointercancel", () => {
+  if (renderer.xr.isPresenting) return;
+  if (dragState) { endDrag(); return; }
+  if (turnState) { endTurn(); return; }
+  dragging = false;
+  pressEnd();
+  downId = null;
+});
+addEventListener("pointermove", (e) => {
+  if (renderer.xr.isPresenting) return;
+  updateNdc(e);
+  if (turnState) { updateTurn(e.clientX, e.clientY); return; }
+  if (dragState) return; // followed every frame in the render loop instead
+  if (dragging) {
+    yaw -= (e.clientX - lastX) * 0.0038;
+    pitch = clamp(pitch - (e.clientY - lastY) * 0.0038, -1.2, 1.2);
+    lastX = e.clientX; lastY = e.clientY;
+    camera.rotation.set(pitch, yaw, 0);
+  }
+});
+function updateNdc(e) {
+  const r = canvas.getBoundingClientRect();
+  pointerNdc.set(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1);
+}
+
+function desktopMove(dt) {
+  const speed = (keys.ShiftLeft ? 4.4 : 2.6) * dt;
+  const f = _scratchV1.set(-Math.sin(yaw), 0, -Math.cos(yaw));
+  const r = _scratchV2.set(-f.z, 0, f.x);
+  if (keys.KeyW || keys.ArrowUp) rig.position.addScaledVector(f, speed);
+  if (keys.KeyS || keys.ArrowDown) rig.position.addScaledVector(f, -speed);
+  if (keys.KeyD || keys.ArrowRight) rig.position.addScaledVector(r, speed);
+  if (keys.KeyA || keys.ArrowLeft) rig.position.addScaledVector(r, -speed);
+  clampRig();
+}
+
+// A room is a rectangle, so the learner is held inside that rectangle, an
+// arm's length off the walls. It used to be a 3.6m circle in the middle of an
+// 8-to-10m room, which fenced everyone into the centre third of the floor and
+// made every bay a diorama you turned on the spot in — you could not walk to
+// the permit board, only look at it.
+const WALL_GAP = 0.85;
+function clampRig() {
+  const size = state.session ? state.room?.size : null;
+  if (size) {
+    const hx = size.w / 2 - WALL_GAP, hz = size.d / 2 - WALL_GAP;
+    rig.position.x = Math.max(-hx, Math.min(hx, rig.position.x));
+    rig.position.z = Math.max(-hz, Math.min(hz, rig.position.z));
+    return;
+  }
+  const limit = state.session ? 3.6 : 6.6;
+  const len = Math.hypot(rig.position.x, rig.position.z);
+  if (len > limit) { rig.position.x *= limit / len; rig.position.z *= limit / len; }
+}
+
+// XR input ------------------------------------------------------------------
+
+const controllers = [];
+for (let i = 0; i < 2; i++) {
+  const c = renderer.xr.getController(i);
+  const line = new THREE.Line(
+    new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, 0, -5)]),
+    new THREE.LineBasicMaterial({ color: 0x37d6c0, transparent: true, opacity: 0.7 }));
+  c.add(line);
+  c.add(new THREE.Mesh(new THREE.SphereGeometry(0.012, 10, 10), new THREE.MeshBasicMaterial({ color: 0x37d6c0 })));
+  // A stubby grip so the hand reads as holding something.
+  const grip = new THREE.Mesh(new THREE.CapsuleGeometry(0.021, 0.07, 4, 8),
+    new THREE.MeshStandardMaterial({ color: 0x1d242b, roughness: 0.6 }));
+  grip.rotation.x = 0.5;
+  grip.position.set(0, -0.012, 0.03);
+  c.add(grip);
+  c.addEventListener("selectstart", () => {
+    const hit = castFromController(c);
+    if (hit?.id && beginDrag(hit.id, c)) return;
+    if (hit?.id && state.session?.step?.kind === "turn" && state.session.step.target === hit.id) {
+      c.userData.turning = true; c.userData.lastRoll = c.rotation.z;
+      return;
+    }
+    c.userData.downId = hit?.id ?? null;
+    if (hit?.id) pressStart(hit.id);
+  });
+  c.addEventListener("selectend", () => {
+    pressEnd();
+    if (dragState?.controller === c) { endDrag(); return; }
+    if (c.userData.turning) { c.userData.turning = false; return; }
+    const hit = castFromController(c);
+    if (hit && hit.id === c.userData.downId) activate(hit.id);
+    c.userData.downId = null;
+  });
+  rig.add(c);
+  controllers.push(c);
+}
+
+let snapReady = true;
+function xrMove(dt) {
+  const session = renderer.xr.getSession();
+  if (!session) return;
+  for (const source of session.inputSources) {
+    const gp = source.gamepad;
+    if (!gp || gp.axes.length < 2) continue;
+    const fourAxis = gp.axes.length >= 4;
+    const axX = fourAxis ? gp.axes[2] : gp.axes[0];
+    const axY = fourAxis ? gp.axes[3] : gp.axes[1];
+    if (source.handedness === "left") {
+      const head = _scratchV1;
+      camera.getWorldDirection(head);
+      head.y = 0;
+      if (head.lengthSq() < 1e-6) continue;
+      head.normalize();
+      const right = _scratchV2.set(-head.z, 0, head.x);
+      rig.position.addScaledVector(head, -axY * 2.2 * dt);
+      rig.position.addScaledVector(right, axX * 2.2 * dt);
+      clampRig();
+    } else if (source.handedness === "right") {
+      if (Math.abs(axX) < 0.35) snapReady = true;
+      else if (snapReady) { rig.rotation.y -= Math.sign(axX) * (Math.PI / 6); snapReady = false; }
+    }
+  }
+}
+
+// In-headset HUD panel, low-centre so it never masks the work surface.
+const vrCanvas = document.createElement("canvas");
+vrCanvas.width = 1024; vrCanvas.height = 340;
+const vrCtx = vrCanvas.getContext("2d");
+const vrTexture = new THREE.CanvasTexture(vrCanvas);
+const vrPanel = new THREE.Mesh(
+  new THREE.PlaneGeometry(0.9, 0.3),
+  new THREE.MeshBasicMaterial({ map: vrTexture, transparent: true, toneMapped: false }));
+vrPanel.position.set(0, -0.4, -1.0);
+vrPanel.rotation.x = -0.35;
+vrPanel.renderOrder = 10;
+vrPanel.visible = false;
+camera.add(vrPanel);
+
+function drawVrHud() {
+  const g = vrCtx, w = vrCanvas.width, h = vrCanvas.height;
+  const accent = state.room?.accentCss ?? HUD.accent;
+  g.clearRect(0, 0, w, h);
+  g.fillStyle = "rgba(16,28,39,0.9)"; g.fillRect(0, 0, w, h);
+  const stateColour = { ok: HUD.good, warn: HUD.warn, danger: HUD.danger, neutral: HUD.edge }[ui.rail.dataset.state] ?? HUD.edge;
+  g.fillStyle = stateColour; g.fillRect(0, 0, 12, h);
+  g.fillStyle = accent;
+  g.font = `600 34px 'Barlow Condensed', Arial, sans-serif`;
+  g.textAlign = "left"; g.textBaseline = "middle";
+  g.fillText(ui.room.textContent, 36, 40);
+  g.fillStyle = HUD.text;
+  g.font = `600 40px 'Barlow Condensed', Arial, sans-serif`;
+  g.fillText(ui.step.textContent, 36, 90);
+  g.fillStyle = HUD.muted;
+  g.font = `26px Arial, sans-serif`;
+  wrapText(g, ui.cue.textContent, 36, 140, w - 300, 32, 3);
+  g.fillStyle = HUD.text;
+  g.font = `26px Arial, sans-serif`;
+  wrapText(g, ui.feedback.textContent, 36, 236, w - 300, 30, 2);
+  g.textAlign = "right";
+  g.fillStyle = accent;
+  g.font = `600 56px 'Barlow Condensed', Arial, sans-serif`;
+  g.fillText(ui.score.textContent, w - 34, 62);
+  g.fillStyle = HUD.muted;
+  g.font = `600 28px 'Barlow Condensed', Arial, sans-serif`;
+  g.fillText(`${ui.combo.textContent}   ${ui.count.textContent}`, w - 34, 110);
+  g.fillText(ui.timer.textContent, w - 34, 148);
+  g.textAlign = "left";
+  g.fillStyle = "#1d2833"; g.fillRect(36, h - 34, w - 70, 10);
+  g.fillStyle = accent;
+  g.fillRect(36, h - 34, (w - 70) * (state.session ? state.session.progress01 : Progress.roomsClearedIn(ROOM_IDS) / ROOMS.length), 10);
+  vrTexture.needsUpdate = true;
+}
+
+function wrapText(g, text, x, y, maxWidth, lineHeight, maxLines) {
+  const words = String(text).split(/\s+/);
+  let line = "", lines = 0;
+  for (const word of words) {
+    if (g.measureText(line + word).width > maxWidth) {
+      g.fillText(line, x, y);
+      y += lineHeight; line = ""; lines++;
+      if (lines >= maxLines) { g.fillText("…", x, y); return; }
+    }
+    line += word + " ";
+  }
+  g.fillText(line, x, y);
+}
+
+// -------------------------------------------------------------------- intro
+
+// ?room=<id> opens straight into one trade, so a single bay can be linked or
+// embedded on its own without the learner walking the hub first.
+const deepLink = new URLSearchParams(location.search).get("room");
+// Each room names itself in the tab and the page description while it is open,
+// and a ?room= link carries that room's name from the first paint (console
+// WAYFINDER); the hub puts the page's own title back.
+// A function declaration, so enterHub() may call it before this line runs.
+function wfRoomMeta(room) {
+  const d = document.querySelector('meta[name="description"]');
+  wfRoomMeta.hub ??= { title: document.title, desc: d?.content ?? "" };
+  document.title = room ? `${room.title} — Trade Skills Simulator` : wfRoomMeta.hub.title;
+  if (d) d.content = room ? `${room.title}: ${room.tagline ?? ""}`.slice(0, 155) : wfRoomMeta.hub.desc;
+}
+if (deepLink && ROOM_BY_ID[deepLink]) wfRoomMeta(ROOM_BY_ID[deepLink]);
+// The round trip (docs/interop.md): a world's job board opens a room with
+// `?room=<id>&from=<world>&return=<the world's page>#site=<id>`; the results
+// card then offers "Back to <world>". Only a same-origin return is honoured
+// (the passport's ppReturnTarget), so the parameter never redirects off-site.
+const lkTradesFrom = new URLSearchParams(location.search).get("from");
+const lkTradesReturn = ppReturnTarget(location.search, location.href);
+function begin() {
+  ui.intro.hidden = true;
+  state.paused = false;
+  Sfx.ensure();
+  if (deepLink && ROOM_BY_ID[deepLink]) enterRoom(deepLink);
+}
+
+const enterVrBtn = document.getElementById("enter-vr");
+document.getElementById("enter-flat").addEventListener("click", begin);
+document.getElementById("reset-progress").addEventListener("click", () => {
+  Progress.reset();
+  state.api?.refresh?.();
+  syncHud();
+  document.getElementById("reset-progress").textContent = "Progress cleared";
+});
+if (navigator.xr?.isSessionSupported) {
+  navigator.xr.isSessionSupported("immersive-vr").then((ok) => {
+    if (ok) enterVrBtn.disabled = false;
+    else enterVrBtn.textContent = "VR unavailable in this browser";
+  }).catch(() => { enterVrBtn.textContent = "VR unavailable in this browser"; });
+} else {
+  enterVrBtn.textContent = "VR unavailable in this browser";
+}
+enterVrBtn.addEventListener("click", async () => {
+  try {
+    const session = await navigator.xr.requestSession("immersive-vr",
+      { optionalFeatures: ["local-floor", "bounded-floor", "hand-tracking"] });
+    await renderer.xr.setSession(session);
+    begin();
+    vrPanel.visible = true;
+    vrHudDirty = true;
+    session.addEventListener("end", () => { vrPanel.visible = false; });
+  } catch (err) {
+    begin();
+    setRail("warn", `<b>Could not start the VR session.</b> ${err?.message ?? err}. Open this page in its own tab in a WebXR browser and try again.`);
+  }
+});
+
+// --------------------------------------------------------------- voice nav
+//
+// Web Speech API driving navigation and assistive narration only — jump to a
+// named room, back to the hub, reset progress, or ask the room to talk back
+// (a hint, a briefing, current status). Deliberately never used to activate
+// a step inside a running procedure: saying "open the valve" instead of
+// actually turning it would defeat the point of a hands-on trainer.
+
+const voiceBtn = document.getElementById("voice-btn");
+const voiceHeard = document.getElementById("voice-heard");
+const speakBtn = document.getElementById("speak-btn");
+const VoiceSR = window.SpeechRecognition || window.webkitSpeechRecognition;
+let voiceRecognition = null;
+
+function setVoiceHeard(text, isError) {
+  if (!voiceHeard) return;
+  voiceHeard.textContent = text;
+  voiceHeard.classList.toggle("error", !!isError);
+  voiceHeard.hidden = !text;
+}
+
+/** Speak a line unless the player has muted the room with M. */
+function announce(text) {
+  srAnnouncer.say(text);
+  if (!Sfx.muted) speak(text);
+}
+
+if (VoiceSR && voiceBtn) {
+  voiceBtn.hidden = false;
+  voiceRecognition = new VoiceSR();
+  voiceRecognition.lang = "en-US";
+  voiceRecognition.interimResults = false;
+  voiceRecognition.maxAlternatives = 1;
+  voiceRecognition.onresult = (e) => {
+    const transcript = e.results?.[0]?.[0]?.transcript ?? "";
+    setVoiceHeard(transcript, false);
+    handleVoiceCommand(transcript);
+  };
+  voiceRecognition.onerror = (e) => {
+    voiceBtn.classList.remove("listening");
+    setVoiceHeard(`Voice error: ${e.error ?? "unknown"}.`, true);
+  };
+  voiceRecognition.onend = () => voiceBtn.classList.remove("listening");
+  voiceBtn.addEventListener("click", toggleVoice);
+}
+
+if (speechSupported && speakBtn) {
+  speakBtn.hidden = false;
+  speakBtn.addEventListener("click", () => { Sfx.ensure(); speak(currentHintLine()); });
+}
+
+function toggleVoice() {
+  if (!voiceRecognition) return;
+  if (voiceBtn.classList.contains("listening")) { voiceRecognition.stop(); return; }
+  Sfx.ensure();
+  try {
+    setVoiceHeard("", false);
+    voiceBtn.classList.add("listening");
+    voiceRecognition.start();
+  } catch (err) {
+    voiceBtn.classList.remove("listening");
+    setVoiceHeard(String(err?.message ?? err), true);
+  }
+}
+
+const VOICE_ROOMS = [...ROOMS].sort((a, b) => b.title.length - a.title.length);
+function parseVoiceCommand(text) {
+  const lower = text.toLowerCase();
+  const room = VOICE_ROOMS.find((r) => lower.includes(r.title.toLowerCase()));
+  if (room) return { type: "room", id: room.id };
+  if (/\b(hub|campus|home|back)\b/.test(lower)) return { type: "hub" };
+  if (/\breset\b/.test(lower)) return { type: "reset" };
+  if (/\b(help|commands|what can i say)\b/.test(lower)) return { type: "help" };
+  if (/\b(hint|what now|what next|current step|repeat)\b/.test(lower)) return { type: "hint" };
+  if (/\b(brief|briefing|about this room)\b/.test(lower)) return { type: "brief" };
+  if (/\b(status|progress|score)\b/.test(lower)) return { type: "status" };
+  return { type: "unknown" };
+}
+
+/** The line the hint button/voice command reads back: the live step's title
+ * and cue while a procedure is running, otherwise how to get one started. */
+function currentHintLine() {
+  const s = state.session;
+  if (s?.step) return `${s.step.title}. ${s.step.cue}`;
+  return "Walk into a doorway to start a room's procedure.";
+}
+
+function speakBrief() {
+  if (!state.room) return `${ROOMS.length} trades to choose from. Say a trade name to begin, like ${ROOMS[0].title}.`;
+  return `${state.room.trade}. ${state.room.tagline}.`;
+}
+
+function speakStatus() {
+  return `${Progress.roomsClearedIn(ROOM_IDS)} of ${ROOMS.length} rooms complete. ${Progress.starsIn(ROOM_IDS)} stars. Level ${Progress.level}.`;
+}
+
+const VOICE_HELP = 'Say a trade name, "hub," "reset," "hint," "brief," "status," or "help."';
+
+function goLive() {
+  if (!ui.intro.hidden) { ui.intro.hidden = true; state.paused = false; Sfx.ensure(); }
+  ui.results.hidden = true;
+}
+
+function handleVoiceCommand(text) {
+  const cmd = parseVoiceCommand(text);
+  if (cmd.type === "room") {
+    goLive();
+    enterRoom(cmd.id);
+    announce(`Entering ${ROOM_BY_ID[cmd.id].title}.`);
+    return;
+  }
+  if (cmd.type === "hub") { goLive(); state.paused = false; enterHub(); announce("Back at the training hub."); return; }
+  if (cmd.type === "reset") {
+    Progress.reset();
+    state.api?.refresh?.();
+    syncHud();
+    announce("Progress cleared.");
+    return;
+  }
+  if (cmd.type === "help") { announce(VOICE_HELP); return; }
+  if (cmd.type === "hint") { announce(currentHintLine()); return; }
+  if (cmd.type === "brief") { announce(speakBrief()); return; }
+  if (cmd.type === "status") { announce(speakStatus()); return; }
+  setVoiceHeard(`Didn't recognize "${text}" — try a room name, "hub," "reset," "hint," "brief," "status," or "help."`, true);
+  announce('Didn\'t catch that. Say "help" for commands.');
+}
+
+window.__tradesVoiceTest = { simulate: (text) => handleVoiceCommand(text) };
+
+// Test-only hook: precisely clicking a 3D object's exact screen position
+// from an automated browser test is brittle, but the click/turn handlers
+// just forward to state.session.select()/rotate() — the same calls this
+// exposes directly, so a test can drive the real Session and verify the
+// UI reacts correctly without needing to replicate the camera projection.
+// Same pattern as Holodeck's window.__holodeckTest.
+window.__tradesTest = {
+  select: (id) => state.session?.select(id),
+  rotate: (id, delta) => state.session?.rotate(id, delta),
+  press: (id) => pressStart(id),
+  release: () => pressEnd(),
+  session: () => state.session,
+  // Parity with SmartCiti.X's hook, so one harness can measure either app's
+  // scene: mesh and light counts, the live room, and where the learner stands.
+  scene: () => scene,
+  camera: () => camera,
+  rig: () => rig,
+  // The renderer, for the frame-time harness (tools/measure_frames.mjs) to
+  // read renderer.info; read-only by convention.
+  renderer: () => renderer,
+  room: () => state.room,
+  // The way home the results card offers (`?from=` + `?return=`), or null.
+  returnTarget: () => lkTradesReturn,
+  perf: () => Perf.snapshot({ enabled: Perf.enabled, log: Perf.list().length }),
+};
+
+// --------------------------------------------------------------- frame loop
+
+addEventListener("resize", () => {
+  camera.aspect = innerWidth / innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth, innerHeight);
+});
+
+const clock = new THREE.Clock();
+let elapsedTotal = 0;
+
+Perf.mountOverlay();
+
+renderer.setAnimationLoop(() => {
+  const rawDt = clock.getDelta();
+  const dt = Math.min(rawDt, 0.05);
+  elapsedTotal += dt;
+  const presenting = renderer.xr.isPresenting;
+  // Headset-pass instrument (?perf=1): the real frame time, not the clamped
+  // one. SmartCiti.X has had this since the perf pass; a Trade Skills room
+  // could not be measured on a Quest at all, which is the app whose rooms just
+  // got 1.62x bigger.
+  Perf.frame(rawDt);
+  Perf.sample(renderer, elapsedTotal);
+
+  if (!state.paused) {
+    if (presenting) xrMove(dt);
+    else desktopMove(dt);
+    if (state.session && !state.session.finished) {
+      state.session.tick(dt);
+      syncAlarm(state.session);
+      if (state.session.step?.kind === "hold") syncHud();
+    }
+  }
+
+  // Hover from whichever pointer is live.
+  let hovering = null;
+  if (presenting) {
+    for (const c of controllers) {
+      const hit = castFromController(c);
+      if (hit) { hovering = hit.id; break; }
+    }
+  } else {
+    hovering = castFromCamera()?.id ?? null;
+  }
+  setHover(hovering);
+
+  // Objective marker rides the nearest live target.
+  if (hint.visible && hintTargets.length) {
+    let best = null, bestDist = Infinity;
+    camera.getWorldPosition(_scratchV1);
+    for (const t of hintTargets) {
+      t.getWorldPosition(_scratchV2);
+      const d = _scratchV2.distanceToSquared(_scratchV1);
+      if (d < bestDist) { bestDist = d; best = t; }
+    }
+    if (best) {
+      // setFromObject() walks the whole target subtree; do it when the
+      // target changes and then only a few times a second, not every frame.
+      if (best !== _hintBoxFor || elapsedTotal - _hintBoxAt > 0.25) {
+        _scratchBox.setFromObject(best);
+        _hintBoxFor = best; _hintBoxAt = elapsedTotal;
+      }
+      const c = _scratchBox.getCenter(_scratchV1);
+      hint.position.set(c.x, 0.02, c.z);
+      hintPip.position.set(0, Math.max(_scratchBox.max.y + 0.18, 0.6) + Math.sin(elapsedTotal * 2.6) * 0.05, 0);
+      hintPip.rotation.y = elapsedTotal * 1.4;
+      hintRing.scale.setScalar(1 + Math.sin(elapsedTotal * 2.2) * 0.06);
+    }
+  }
+
+  // Gauge marker and readout.
+  const g = state.session?.gauge;
+  if (gauge.visible && g) {
+    const halfWidth = 0.62 * 0.45;
+    gaugeMarker.position.x = -halfWidth + g.t * halfWidth * 2;
+    const inBand = g.t >= g.green[0] && g.t <= g.green[1];
+    gaugeMarker.material.color.set(inBand ? 0x59c97b : 0xffffff);
+    camera.getWorldPosition(_scratchV1);
+    gauge.lookAt(_scratchV1.x, gauge.position.y, _scratchV1.z);
+    if (elapsedTotal - gaugeReadoutAt > 0.08) {
+      gaugeReadoutAt = elapsedTotal;
+      const text = state.session.step?.gauge?.readout?.(g.t) ?? `${Math.round(g.t * 100)}%`;
+      repaint(gaugeReadout, (ctx, w, h) => {
+        ctx.fillStyle = "rgba(10,17,23,0.95)"; ctx.fillRect(0, 0, w, h);
+        ctx.fillStyle = inBand ? HUD.good : HUD.text;
+        ctx.font = `600 ${Math.round(h * 0.66)}px 'Barlow Condensed', Arial, sans-serif`;
+        ctx.textAlign = "center"; ctx.textBaseline = "middle";
+        ctx.fillText(text, w / 2, h * 0.56);
+      });
+    }
+  }
+
+  // Continuous twist-to-open: sample controller roll each frame while a
+  // 'turn' step's target is grabbed, same idea as the desktop screen-angle
+  // drag but driven by wrist rotation instead of mouse position.
+  if (presenting) {
+    for (const c of controllers) {
+      if (!c.userData.turning) continue;
+      let d = c.rotation.z - c.userData.lastRoll;
+      c.userData.lastRoll = c.rotation.z;
+      if (d > Math.PI) d -= Math.PI * 2;
+      if (d < -Math.PI) d += Math.PI * 2;
+      const targetId = state.session?.step?.target;
+      if (targetId) { lastActivatedId = targetId; state.session.rotate(targetId, d / (Math.PI * 2)); syncHud(); }
+    }
+  }
+  updateDrag();
+  syncTurnVisual();
+  for (let i = returning.length - 1; i >= 0; i--) {
+    const r = returning[i];
+    r.t = Math.min(1, r.t + dt / 0.3);
+    r.object.position.lerpVectors(r.from, r.to, easeOut(r.t));
+    if (r.t >= 1) returning.splice(i, 1);
+  }
+  burst.update(dt);
+
+  state.api?.animate?.(elapsedTotal, dt, state.session);
+
+  if (presenting && vrHudDirty) { drawVrHud(); vrHudDirty = false; }
+  renderer.render(scene, camera);
+});
+
+// Kick off in the hub so the first frame already shows all the trades.
+enterHub();
+state.paused = true;
+
+// The shared control grammar and help overlay (shared/controls.js, docs/ui-review.md).
+// The Guide (shared/guide.js): the floating help button and its question panel.
+gdMount();
+ctlMount({
+  world: "Trade Skills",
+  helpWhen: () => !state.session,
+  except: {
+    interact: "In a room Tab walks the step's controls and Enter takes the one in focus.",
+    map: "The rooms have no map: M mutes the sound.",
+    help: "In a room H reads the step aloud; the ? button opens help there.",
+    quality: "Q turns a valve anticlockwise in a room; quality follows the device.",
+  },
+  unique: [
+    { label: "Focus the next / previous control", keys: ["Tab", "Shift+Tab"], pad: "D-pad left / right", touch: "Tap it" },
+    { label: "Take the focused control", keys: ["Enter"], pad: "A", touch: "Tap it" },
+    { label: "Press and hold", keys: ["Space"], pad: "Hold A", touch: "Hold it" },
+  ],
+});

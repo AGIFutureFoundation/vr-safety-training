@@ -1,0 +1,455 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "clean-service",
+    "name": "Clean Service",
+    "note": "The assembly passed on real numbers, every cross-connection found, and the hot loop left hot at the heater and safe at the tap"
+  },
+  "category": "Building Systems & Facilities",
+  "certification": "ANSI/ASSE 1013 reduced-pressure principle assemblies and the ASSE 5110 tester qualification behind the annual field test; ASSE 1020 for the courtyard irrigation vacuum breaker; AWWA M14 cross-connection control as the water purveyor enforces it; NSF/ANSI 61 for anything wetted by drinking water; ASHRAE 188 and CDC Legionella guidance for the hot-water loop; OSHA 29 CFR 1910.147 lockout and 29 CFR 1910.1200 hazard communication in the water room; IUOE stationary engineer training, the apartment association's CAMT credential and the local housing code's hot-water requirement at every tap",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ASHRAE",
+        "citedAs": "ASHRAE 188",
+        "id": "ashrae-188",
+        "title": "ANSI/ASHRAE 188 — Legionellosis: risk management for building water systems"
+      },
+      {
+        "body": "ASSE",
+        "citedAs": "ANSI/ASSE 1013",
+        "id": "asse-1013",
+        "title": "ASSE 1013 — Reduced pressure principle backflow preventers"
+      },
+      {
+        "body": "ASSE",
+        "citedAs": "ASSE 1020",
+        "id": "asse-1020",
+        "title": "ASSE 1020 — Pressure vacuum breaker assemblies"
+      },
+      {
+        "body": "ASSE",
+        "citedAs": "ASSE 5110",
+        "id": "asse-5110",
+        "title": "ASSE 5110 — Backflow prevention assembly tester professional qualification"
+      },
+      {
+        "body": "AWWA",
+        "citedAs": "AWWA M14",
+        "id": "awwa-m14",
+        "title": "AWWA M14 — Backflow prevention and cross-connection control manual"
+      },
+      {
+        "body": "CDC",
+        "citedAs": "CDC",
+        "id": "cdc-guidance",
+        "title": "CDC infection-prevention and public-health guidance, including the Guidelines for Infection Control in Dental Health-Care Settings and Legionella control guidance"
+      },
+      {
+        "body": "union",
+        "citedAs": "IUOE",
+        "id": "iuoe-training",
+        "title": "IUOE local training funds and the IUOE National Training Fund — operating and stationary engineer apprenticeship"
+      },
+      {
+        "body": "NSF",
+        "citedAs": "NSF/ANSI 61",
+        "id": "nsf-ansi-61",
+        "title": "NSF/ANSI/CAN 61 — Drinking water system components: health effects"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1200",
+        "id": "osha-1910-1200",
+        "title": "29 CFR 1910.1200 — Hazard communication"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      },
+      {
+        "body": "union",
+        "citedAs": "SEIU",
+        "id": "seiu-training",
+        "title": "SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Building Systems & Facilities",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "read-the-relief",
+        "name": "Read the Relief",
+        "note": "Relief valve opening point read inside the band first time"
+      },
+      {
+        "id": "dry-hands",
+        "name": "Dry Hands",
+        "note": "No unsafe act anywhere in the water room"
+      },
+      {
+        "id": "gentle-header",
+        "name": "Gentle Header",
+        "note": "Brought the header back without breaking the band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-test",
+        "name": "Clean Test",
+        "note": "No corrections across the whole test"
+      },
+      {
+        "id": "steady-kit",
+        "name": "Steady Kit",
+        "note": "Held the check reading without breaking it"
+      },
+      {
+        "id": "quick-turn",
+        "name": "Water Back Fast",
+        "note": "Finished inside 80% of par"
+      }
+    ],
+    "currency": "PSID",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Helper",
+      "Maintenance Tech",
+      "Building Engineer",
+      "Chief Engineer",
+      "Water Room Certified"
+    ],
+    "system": "Water Room"
+  },
+  "hazards": {
+    "live-starter-door": "You opened the booster pump starter with the disconnect still on. There is line voltage on the contactor behind that door and two motors that can start on a pressure call at any second — the starter is opened under your own lock and tag, or it stays shut.",
+    "relief-port-cap": "You reached to cap the dripping relief port. That drip is the assembly doing its one job — the relief valve dumps water to atmosphere whenever the zone between the checks threatens to flow backwards, and a cap or a hard-piped drain turns the only visible warning into a silent path for building water to reach the street main.",
+    "shot-feeder-cap": "You started unscrewing the boiler's chemical shot feeder cap without isolating and bleeding it first. The pot is at system pressure and full of treatment chemical whose sheet warns of eye damage — the cap comes off only after both valves are closed and the bleed has proved it empty.",
+    "tp-lever-lift": "You lifted the water heater's temperature-and-pressure relief lever by hand with your face over the discharge. That tank is stored at Legionella-control temperature, well above scald point, and a sticky T&P that finally lets go discharges near-boiling water down the pipe and across whoever is standing at it."
+  },
+  "id": "pm-domestic-water-and-backflow",
+  "indoor": "plant",
+  "interrupts": [
+    {
+      "after": "hold-first-check",
+      "alert": "While you hold the kit, the porter comes in and opens the hose bibb on the header to fill a mop bucket — right where you are reading the first check.",
+      "cue": "Close the hose bibb and hang the do-not-operate tag on it. Don't shout across the room with your hands on the kit.",
+      "delay": 3,
+      "id": "porter-at-bibb",
+      "kind": "Porter filling a bucket on the isolated header",
+      "missNote": "The bibb ran the whole window with the kit still on. The reading you were holding is now a measurement of a mop bucket filling, and the test has to start again from the relief point.",
+      "seconds": 12,
+      "target": "hose-bibb-valve",
+      "why": "Water drawn from the header during the test moves the needle and turns a good first check into a failed reading — or worse, hides a real leak behind a pressure drop you did not cause. The tag on the bibb is what keeps it closed for the rest of the test without anyone having to remember.",
+      "wrongNote": "That doesn't stop the draw. The hose bibb on the header is what's pulling water through the assembly — close it and tag it."
+    },
+    {
+      "after": "reopen-header",
+      "alert": "As the header refills, the booster panel's low-suction beacon starts flashing — the lead pump is trying to run on a header that has not come back yet.",
+      "cue": "Put the booster's hand-off-auto switch to OFF until suction recovers. Keep your other hand off the shutoff.",
+      "delay": 3,
+      "id": "booster-suction-alarm",
+      "kind": "Booster low-suction alarm",
+      "missNote": "The lead pump ran on empty suction the whole window. That grinding was cavitation, and the seal the pump just ran dry is the next work order — along with the top floors that lost pressure while it happened.",
+      "seconds": 12,
+      "target": "booster-hoa",
+      "why": "A centrifugal pump running on starved suction cavitates: vapour bubbles collapse against the impeller and eat it, and the seal runs dry within minutes. The low-suction cutout is there for exactly this, and switching the pump off until the header is back is cheaper than a rebuilt impeller and a building with no water pressure above the fourth floor.",
+      "wrongNote": "That won't stop the pump. The hand-off-auto switch on the booster panel is what takes the lead pump off a starved header."
+    }
+  ],
+  "lateNotes": {
+    "mixing-valve": "The mixing valve is set against a heater that has been read first; set it before that and you are mixing down a temperature you have not measured.",
+    "test-kit": "Not yet — the kit has nothing to read until the hoses are on the test cocks and the relief point is recorded."
+  },
+  "name": "Domestic Water & Backflow",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "property-management"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.5,
+    "hits": [
+      "booster-hoa",
+      "building-log",
+      "bypass-jumper",
+      "dead-leg",
+      "flush-test-cocks",
+      "header-gauge",
+      "heater-thermometer",
+      "high-hose-tc2",
+      "hose-bibb-valve",
+      "hot-return-reading",
+      "live-starter-door",
+      "lobby-board-slot",
+      "low-hose-tc3",
+      "mixing-valve",
+      "porter-checkin",
+      "purveyor-notice",
+      "purveyor-report",
+      "relief-gauge",
+      "relief-port-cap",
+      "shot-feeder-cap",
+      "shutoff-notice",
+      "shutoff-two",
+      "submerged-hose",
+      "tag-assembly",
+      "test-kit",
+      "tp-lever-lift"
+    ],
+    "meshes": 198
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Open the water purveyor's notice and last year's tag before touching the assembly.",
+      "id": "read-notice",
+      "kind": "select",
+      "prompt": "Open the water purveyor's notice and last year's tag before touching the assembly.",
+      "target": "purveyor-notice",
+      "title": "Read the purveyor's annual test notice",
+      "why": "The purveyor's notice is where the building's legal obligation actually starts: which assembly, which serial number, the date the result is due and the tester qualification they accept. Last year's tag tells you what the relief valve and first check read then, so a reading that has drifted this year means something instead of being a number with nothing to compare it to."
+    },
+    {
+      "cue": "Carry the shutoff notice to the lobby board slot so residents know the water goes off.",
+      "drag": {
+        "missNote": "Not on the board — a notice left on the bench is a notice no resident will ever read before their water stops.",
+        "radius": 0.5,
+        "to": "lobby-board-slot"
+      },
+      "id": "post-shutoff",
+      "kind": "drag",
+      "prompt": "Carry the shutoff notice to the lobby board slot so residents know the water goes off.",
+      "target": "shutoff-notice",
+      "title": "Post the water-interruption notice",
+      "why": "Closing the downstream shutoff drops pressure to every apartment above this room, and a resident halfway through a shower, a dialysis patient running a home machine or a restaurant tenant mid-service all deserve to know before it happens. The local housing code treats water as an essential service, and a posted, timed notice is what makes a planned interruption a planned one."
+    },
+    {
+      "cue": "Find what connects building water to something it should never touch.",
+      "id": "walk-cross-connections",
+      "itemNames": {
+        "bypass-jumper": "jumper hose around the assembly",
+        "submerged-hose": "hose submerged in the chemical mop sink"
+      },
+      "itemNotes": {
+        "bypass-jumper": "Somebody ran a garden hose from upstream of shutoff one to downstream of shutoff two, around the whole assembly. While it is connected the RP protects nothing — the building's water has a path to the main that no check valve ever sees.",
+        "submerged-hose": "A hose from the hose bibb is lying under the surface of a mop sink full of floor stripper. With no vacuum breaker on the bibb, a pressure drop anywhere upstream can siphon that sink straight back into the building's cold water."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Find what connects building water to something it should never touch.",
+      "targets": [
+        "submerged-hose",
+        "bypass-jumper"
+      ],
+      "title": "Walk the room for cross-connections",
+      "why": "An RP assembly that tests perfectly still protects nothing if the room around it has a way for contaminated water to go around or back through it. AWWA's cross-connection manual is built on the fact that backflow incidents almost always start with a hose, a bypass or a fixture nobody thought of as plumbing, so the walk comes before the test, not after it."
+    },
+    {
+      "cue": "Turn the downstream shutoff closed so the assembly is isolated for the test.",
+      "id": "close-shutoff-two",
+      "kind": "turn",
+      "prompt": "Turn the downstream shutoff closed so the assembly is isolated for the test.",
+      "target": "shutoff-two",
+      "title": "Close shutoff valve number two",
+      "turn": {
+        "axis": "y",
+        "label": "SHUTOFF #2",
+        "turns": 0.8
+      },
+      "why": "The field test measures the checks and the relief valve against each other with no flow through the assembly, and shutoff number two is what stops the building drawing water through it while the gauge reads. Left open, every toilet flushed upstairs moves the needle and the relief point you record is a reading of somebody's plumbing, not of the valve."
+    },
+    {
+      "cue": "Flush the test cocks, then the high-side hose on test cock two and the low-side on three.",
+      "id": "rig-test-kit",
+      "itemNames": {
+        "flush-test-cocks": "test cocks flushed",
+        "high-hose-tc2": "high hose on test cock 2",
+        "low-hose-tc3": "low hose on test cock 3"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Flush first, then high on two, then low on three — rigging before flushing drives the grit into the kit, and swapping the hoses reads the differential backwards.",
+      "prompt": "Flush the test cocks, then the high-side hose on test cock two and the low-side on three.",
+      "targets": [
+        "flush-test-cocks",
+        "high-hose-tc2",
+        "low-hose-tc3"
+      ],
+      "title": "Flush the test cocks and rig the differential kit",
+      "why": "Grit sitting in a test cock gets blown into the gauge's needle valves the moment a hose goes on, and a fouled kit reads a good assembly as failed or a failed one as good. High side on the zone upstream of the first check and low side in the zone between the checks is what makes the gauge read the first check's differential rather than line pressure."
+    },
+    {
+      "cue": "Bleed the high side down slowly and commit when the relief valve starts to drip.",
+      "gauge": {
+        "green": [
+          0.2,
+          0.4
+        ],
+        "label": "RELIEF OPENS AT",
+        "missNote": "Outside the passing band — either the relief opened too early or you committed before the first drip. Reset the kit and read it again.",
+        "speed": 0.55
+      },
+      "id": "relief-point",
+      "kind": "gauge",
+      "prompt": "Bleed the high side down slowly and commit when the relief valve starts to drip.",
+      "target": "relief-gauge",
+      "title": "Read the relief valve opening point",
+      "why": "The relief valve has to open while there is still a real pressure difference across the first check, so that water between the checks is dumped to the floor drain before it can ever flow back toward the main. An opening point below the minimum the assembly's standard sets means the valve would let the zone go backwards before it relieved, and the assembly fails the test however good the checks look."
+    },
+    {
+      "cue": "Keep the kit's valves closed and hold while the first check's differential settles.",
+      "holdBreakNote": "You opened the kit before the reading settled. A differential that has not steadied could be a check leaking slowly past its seat — hold it through.",
+      "id": "hold-first-check",
+      "kind": "hold",
+      "prompt": "Keep the kit's valves closed and hold while the first check's differential settles.",
+      "seconds": 5,
+      "target": "test-kit",
+      "title": "Hold the first check reading steady",
+      "why": "A first check that is fouled or has a nicked seat will read high for a second and then creep down as water leaks past it, and only a reading held long enough to settle tells a tight check from a leaking one. The tester's qualification exists because a quick glance at a moving needle is how failed assemblies get tagged as passed."
+    },
+    {
+      "cue": "Open shutoff two slowly and keep the header pressure in the band as the risers refill.",
+      "holdBreakNote": "The header left the band. Too fast is water hammer on every riser; too slow and the booster cavitates on empty suction — bring it back inside the band.",
+      "id": "reopen-header",
+      "kind": "track",
+      "prompt": "Open shutoff two slowly and keep the header pressure in the band as the risers refill.",
+      "seconds": 7,
+      "target": "header-gauge",
+      "title": "Reopen the supply and bring the header back gently",
+      "track": {
+        "drift": 0.1,
+        "fall": 0.36,
+        "green": [
+          0.4,
+          0.64
+        ],
+        "label": "HEADER PRESSURE",
+        "rise": 0.44,
+        "start": 0.2
+      },
+      "why": "The risers above this room have drained down during the test, and slamming the shutoff open sends a pressure surge up forty feet of pipe that hammers every fixture and can crack a tired fitting on the top floor. Brought back slowly, the air works out through the fixtures and the booster sees suction it can actually use."
+    },
+    {
+      "cue": "Find where the loop is not doing what the building's Legionella plan says it does.",
+      "id": "walk-hot-loop",
+      "itemNames": {
+        "dead-leg": "capped dead leg off the riser",
+        "hot-return-reading": "return line reading cold"
+      },
+      "itemNotes": {
+        "dead-leg": "A branch capped off where an old laundry hookup was removed. Water in it never moves, never gets hot, and seeds the whole loop every time it is disturbed.",
+        "hot-return-reading": "The recirculation return reads barely warm — the loop is not circulating to the far risers, and water sitting lukewarm in them is the temperature band Legionella grows in."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Find where the loop is not doing what the building's Legionella plan says it does.",
+      "targets": [
+        "hot-return-reading",
+        "dead-leg"
+      ],
+      "title": "Walk the hot-water loop against the water management plan",
+      "why": "ASHRAE 188 asks a building to know where its water sits still and lukewarm, because that is where Legionella grows, and then to control it. A cold return and a dead leg are exactly the two findings a water management plan is meant to turn up — they are also invisible from the heater, which will keep reading hot while the far risers are not."
+    },
+    {
+      "cue": "Watch the thermometer settle and commit inside the plan's storage band.",
+      "gauge": {
+        "green": [
+          0.6,
+          0.8
+        ],
+        "label": "STORAGE TEMP",
+        "missNote": "Outside the plan's storage band — too cool grows bacteria in the tank, too hot wastes energy and stresses the mixing valve. Read it again.",
+        "speed": 0.55
+      },
+      "id": "read-heater",
+      "kind": "gauge",
+      "prompt": "Watch the thermometer settle and commit inside the plan's storage band.",
+      "target": "heater-thermometer",
+      "title": "Read the water heater's storage temperature",
+      "why": "Stored hot enough, water in the tank kills Legionella rather than growing it; stored at a comfortable tap temperature, the tank becomes an incubator. The plan sets the storage band and the mixing valve takes it back down for the residents, so the heater is read on its own, against the plan, before anyone touches the mix."
+    },
+    {
+      "cue": "Turn the master mixing valve down until delivered water reads at the tap-safe setting.",
+      "id": "set-mixing-valve",
+      "kind": "turn",
+      "prompt": "Turn the master mixing valve down until delivered water reads at the tap-safe setting.",
+      "target": "mixing-valve",
+      "title": "Set the master mixing valve for delivery",
+      "turn": {
+        "axis": "z",
+        "label": "MIXED DELIVERY",
+        "turns": 0.6
+      },
+      "why": "Water stored at control temperature scalds a child's skin in a few seconds, and the master mixing valve is the one device between that tank and every bathtub in the building. Setting it after reading the heater — not by feel, not by habit — is how the building keeps the tank hot enough for the plan and the tap cool enough for the people using it."
+    },
+    {
+      "cue": "Hang the dated test tag on the assembly, then complete the purveyor's report.",
+      "id": "tag-and-report",
+      "itemNames": {
+        "purveyor-report": "result on the purveyor's form",
+        "tag-assembly": "test tag on the assembly"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Tag the assembly first, then the form — the form records what the tag says, not the other way round.",
+      "prompt": "Hang the dated test tag on the assembly, then complete the purveyor's report.",
+      "targets": [
+        "tag-assembly",
+        "purveyor-report"
+      ],
+      "title": "Tag the assembly and fill in the purveyor's form",
+      "why": "The tag tells the next person in the room what was measured, by whom and when; the purveyor's form is what the water system itself relies on to know the building is not a risk to the main. One without the other leaves either the room or the utility guessing, and a result that never reaches the purveyor is, as far as they are concerned, a test that never happened."
+    },
+    {
+      "cue": "Tell the porter the mop sink hose is off-limits until a vacuum breaker goes on, and ask how the shift is going.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Tell the porter the mop sink hose is off-limits until a vacuum breaker goes on, and ask how the shift is going.",
+      "target": "porter-checkin",
+      "title": "Check in with the porter before the water room closes",
+      "why": "The porter is the person most likely to put that hose back in the sink tomorrow morning, and a finding that only lives in the engineer's head is a finding that repeats. Checking in is also the moment to ask how a colleague is actually doing — SEIU building staff work alone in basements and on night shifts, and a question asked in person catches what a work order never will."
+    },
+    {
+      "cue": "Log the readings, the cross-connections found, the heater and delivery temperatures and the shutoff times.",
+      "id": "building-log",
+      "kind": "select",
+      "prompt": "Log the readings, the cross-connections found, the heater and delivery temperatures and the shutoff times.",
+      "target": "building-log",
+      "title": "Enter the test in the building log",
+      "why": "The building log is the continuity between shifts, between engineers and between years: next year's tester compares against these numbers, the water management plan's verification lives here, and if a resident ever falls ill the log is the record of what the building actually did. IUOE stationary engineer training treats the log as part of the job, not paperwork after it."
+    }
+  ],
+  "supportLine": "your union steward or member-assistance contact, or your employer's employee assistance program",
+  "tagline": "The building's water room: the RP assembly tested to its numbers, cross-connections walked, the booster brought back gently, the hot loop held hot and delivered safe, and the test on the purveyor's form",
+  "title": "SmartCiti.X~ Domestic Water & Backflow VR",
+  "trade": "Building stationary engineer — IUOE Local 39, with SEIU building staff and a CAMT-credentialed maintenance technician",
+  "underwater": null,
+  "weather": null
+}

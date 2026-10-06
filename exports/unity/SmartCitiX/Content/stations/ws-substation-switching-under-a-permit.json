@@ -1,0 +1,371 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "switched-to-order",
+    "name": "Switched to the Order",
+    "note": "Every step repeated back, the breaker proven open before the disconnect, and the gap grounded before the permit went out"
+  },
+  "category": "Energy & Power",
+  "certification": "IBEW/NECA JATC substation training as a body; 29 CFR 1910.269 for switching, clearances, grounding and the permit; NFPA 70E for the arc-rated PPE and the absence-of-voltage test; the NESC (IEEE C2) for the substation's own clearances; NETA acceptance and maintenance testing practice for the ground set and the detector; every voltage, rating and approach distance per the switching order and the site's tables",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "IBEW/NECA JATC",
+        "id": "ibew-neca-jatc",
+        "title": "IBEW/NECA Joint Apprenticeship and Training Committee — inside and outside wireman apprenticeship standards, taught from the electrical training ALLIANCE curriculum"
+      },
+      {
+        "body": "IEEE",
+        "citedAs": "IEEE C2",
+        "id": "ieee-c2-nesc",
+        "title": "IEEE C2 — National Electrical Safety Code (NESC)"
+      },
+      {
+        "body": "NETA",
+        "citedAs": "NETA",
+        "id": "neta-ats",
+        "title": "NETA Acceptance Testing Specifications (ATS) and Maintenance Testing Specifications (MTS) for electrical power equipment"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 70E",
+        "id": "nfpa-70e",
+        "title": "NFPA 70E — Standard for Electrical Safety in the Workplace"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.269",
+        "id": "osha-1910-269",
+        "title": "29 CFR 1910.269 — Electric power generation, transmission and distribution"
+      }
+    ]
+  },
+  "district": "wind-farm",
+  "domain": "Energy",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "proven-open",
+        "name": "Proven Open",
+        "note": "The breaker was proven open before the disconnect moved"
+      },
+      {
+        "id": "to-the-letter",
+        "name": "To the Letter",
+        "note": "No unsafe action was recorded"
+      },
+      {
+        "id": "steady-watch",
+        "name": "Steady Watch",
+        "note": "Held the work-zone watch steady"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-order",
+        "name": "Clean Order",
+        "note": "No corrections from the order to the permit"
+      },
+      {
+        "id": "unbroken-grounds",
+        "name": "Unbroken Grounds",
+        "note": "The grounds went on without a break"
+      },
+      {
+        "id": "brisk-switching",
+        "name": "Brisk Switching",
+        "note": "Switched and permitted inside 80% of par"
+      }
+    ],
+    "currency": "STEPS",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Trainee",
+      "Switchman",
+      "Substation Electrician",
+      "Lead Switchman",
+      "Switching Authority Certified"
+    ],
+    "system": "Switching Authority"
+  },
+  "hazards": {
+    "disconnect-under-load": "You went to open the disconnect with the breaker still closed. A disconnect is not built to interrupt load current; opened under load it draws an arc across the blades toward the person on the handle.",
+    "ground-before-test": "You went to hang the grounds without testing for absence of voltage. A ground clamp put onto a live conductor is a fault at the end of a stick in your hands.",
+    "reach-past-barrier": "You went to reach past the barrier toward the live bus next to the work zone. The barrier marks the approach distance the order and the site's tables set; inside it, a person is part of the circuit.",
+    "switch-without-order": "You went to operate equipment with no written order in hand and no word from the switching authority. Switching from memory, or from what looks obvious in the yard, is how the wrong breaker opens and the wrong line stays live."
+  },
+  "id": "ws-substation-switching-under-a-permit",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "ground-clamps",
+      "alert": "A contractor's driver has opened the substation gate and is walking in to ask for directions.",
+      "cue": "Stop them at the gate — close and chain it.",
+      "delay": 3,
+      "id": "visitor-at-gate",
+      "kind": "A visitor opens the substation gate",
+      "missNote": "The visitor walked into the yard with the gate open behind them, an untrained person heading toward approach distances they cannot see.",
+      "seconds": 11,
+      "target": "substation-gate",
+      "why": "A substation is a place where an untrained person can walk inside an approach distance without knowing it exists; the gate and the chain are what keep the yard to the people who are qualified and on the permit.",
+      "wrongNote": "It is the gate. The grounds are on; the visitor is the new hazard."
+    },
+    {
+      "after": "zone-watch",
+      "alert": "An annunciator in the control house is alarming on the adjacent bay.",
+      "cue": "Call the switching authority on the radio before anyone does anything else.",
+      "delay": 3,
+      "id": "annunciator-alarm",
+      "kind": "An annunciator alarms in the control house",
+      "missNote": "The alarm went unreported while the crew carried on, next to a permit area whose surrounding system may just have changed.",
+      "seconds": 12,
+      "target": "switching-radio",
+      "why": "An alarm on an adjacent bay may mean the system around the work zone has changed, and only the switching authority can see the whole system. The call goes first; nobody resets or investigates an alarm next to a permit area on their own.",
+      "wrongNote": "It is the radio to the switching authority. The work-zone watch does not tell anyone about the alarm."
+    }
+  ],
+  "lateNotes": {
+    "disconnect-handle": "The disconnect opens only once the breaker has been proven open — never before, whatever the order's line numbers look like.",
+    "ground-stick": "The grounds go on only after the absence-of-voltage test, never before it."
+  },
+  "name": "Collector Substation Switching Under a Permit",
+  "parSeconds": 320,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "wind-and-data-infrastructure"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "radio",
+        "count": 1,
+        "kit": "toolkit"
+      }
+    ],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "arc-face-shield",
+      "arc-rated-clothing",
+      "breaker-open-control",
+      "breaker-position-indicator",
+      "cracked-clamp-jaw",
+      "disconnect-handle",
+      "disconnect-lock",
+      "disconnect-tag",
+      "disconnect-under-load",
+      "frayed-ground-cable",
+      "ground-before-test",
+      "ground-stick",
+      "hold-switching-card",
+      "permit-board",
+      "reach-past-barrier",
+      "rubber-gloves",
+      "substation-gate",
+      "switch-without-order",
+      "switching-order",
+      "switching-radio",
+      "voltage-detector",
+      "work-zone-meter"
+    ],
+    "meshes": 158
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the switching order through: every step, every device by its name, and the permit it leads to.",
+      "id": "read-order",
+      "kind": "select",
+      "prompt": "Read the switching order through: every step, every device by its name, and the permit it leads to.",
+      "target": "switching-order",
+      "title": "Read the switching order",
+      "why": "The order is the only thing that says which devices open, in which sequence and for whom; reading it through before the first step catches a wrong device name or a missing step while it is still paper, not while a switch handle is in your hand."
+    },
+    {
+      "cue": "Put on the arc-rated clothing, then the face shield and hood, then air-test and put on the rubber gloves.",
+      "id": "ppe",
+      "itemNames": {
+        "arc-face-shield": "arc-rated face shield and hood on",
+        "arc-rated-clothing": "arc-rated clothing on",
+        "rubber-gloves": "rubber insulating gloves air-tested and on"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Clothing, then the face protection, then the tested gloves — the gloves go on last so they are not damaged dressing.",
+      "prompt": "Put on the arc-rated clothing, then the face shield and hood, then air-test and put on the rubber gloves.",
+      "targets": [
+        "arc-rated-clothing",
+        "arc-face-shield",
+        "rubber-gloves"
+      ],
+      "title": "Dress for the switching",
+      "why": "Switching is the moment an arc is most likely if anything is wrong, and the arc-rated PPE is chosen for the energy this equipment can release; the gloves are air-tested every time because a pinhole is invisible until it is in contact with a live part."
+    },
+    {
+      "cue": "Call the switching authority, read the first step back and wait for the word to proceed.",
+      "id": "repeat-back",
+      "kind": "select",
+      "prompt": "Call the switching authority, read the first step back and wait for the word to proceed.",
+      "target": "switching-radio",
+      "title": "Repeat the step back to the authority",
+      "why": "Three-part communication — the authority says it, you repeat it, the authority confirms — catches a misheard device name before it becomes a wrong operation, and waiting for the word keeps one person in charge of the system's state."
+    },
+    {
+      "cue": "Operate the breaker open from the control house panel, standing out of line of the gear.",
+      "id": "open-breaker",
+      "kind": "select",
+      "prompt": "Operate the breaker open from the control house panel, standing out of line of the gear.",
+      "target": "breaker-open-control",
+      "title": "Open the breaker",
+      "why": "The breaker is the device built to interrupt load, so it opens first; operating it from the control panel, out of line of the gear, puts distance between the person and the equipment at the one moment it is doing its hardest work."
+    },
+    {
+      "cue": "Check the breaker's position indicator and flags both show open before going on.",
+      "id": "verify-open",
+      "kind": "select",
+      "prompt": "Check the breaker's position indicator and flags both show open before going on.",
+      "target": "breaker-position-indicator",
+      "title": "Prove the breaker open",
+      "why": "A control switch that has been turned is not a breaker that has opened; the position indicator and the mechanical flags are the breaker's own report, and both must agree before the disconnect — which cannot break load — is touched."
+    },
+    {
+      "cue": "Turn the disconnect's operating handle to open it fully, watching the blades clear.",
+      "id": "open-disconnect",
+      "kind": "turn",
+      "prompt": "Turn the disconnect's operating handle to open it fully, watching the blades clear.",
+      "target": "disconnect-handle",
+      "title": "Open the disconnect",
+      "turn": {
+        "axis": "z",
+        "label": "DISCONNECT",
+        "turns": 0.5
+      },
+      "why": "The disconnect makes the visible gap that proves isolation to anyone who looks; it is opened only after the breaker because it is built to isolate a de-energised circuit, and the blades are watched to confirm every phase has cleared."
+    },
+    {
+      "cue": "Lock the disconnect handle open, then hang the hold tag named on the order.",
+      "id": "lock-disconnect",
+      "itemNames": {
+        "disconnect-lock": "disconnect handle locked",
+        "disconnect-tag": "hold tag hung"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Lock, then tag — the tag names a device that is already secured.",
+      "prompt": "Lock the disconnect handle open, then hang the hold tag named on the order.",
+      "targets": [
+        "disconnect-lock",
+        "disconnect-tag"
+      ],
+      "title": "Lock and tag the open disconnect",
+      "why": "The lock stops the disconnect being closed while the crew works beyond it, and the tag names the order and the person holding it, so nobody closes it on the strength of a guess that the work is done."
+    },
+    {
+      "cue": "Prove the detector on a known source, test each phase, then prove the detector again — commit when it reads absent.",
+      "gauge": {
+        "green": [
+          0.2,
+          0.45
+        ],
+        "label": "ABSENCE OF VOLTAGE",
+        "missNote": "That is not an absent reading — nothing gets grounded until the source is found.",
+        "speed": 0.55
+      },
+      "id": "absence-test",
+      "kind": "gauge",
+      "prompt": "Prove the detector on a known source, test each phase, then prove the detector again — commit when it reads absent.",
+      "target": "voltage-detector",
+      "title": "Test for absence of voltage",
+      "why": "An open disconnect can still leave a conductor live through back-feed or induction from the next circuit, and a detector can fail silently; proving it before and after is what makes an absent reading mean absent."
+    },
+    {
+      "cue": "Check the ground set before it goes on and find what takes it out of service.",
+      "id": "inspect-grounds",
+      "itemNames": {
+        "cracked-clamp-jaw": "a cracked jaw on a ground clamp",
+        "frayed-ground-cable": "a frayed ground cable at the ferrule"
+      },
+      "itemNotes": {
+        "cracked-clamp-jaw": "The jaw is cracked through; under fault current it can open and let the ground go. This clamp comes out of service.",
+        "frayed-ground-cable": "Strands are broken at the ferrule — this cable may not carry fault current long enough for protection to clear, and it comes out of the set."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Check the ground set before it goes on and find what takes it out of service.",
+      "targets": [
+        "frayed-ground-cable",
+        "cracked-clamp-jaw"
+      ],
+      "title": "Inspect the ground set",
+      "why": "Grounds exist for the worst moment — an accidental re-energisation — and must carry fault current until the protection clears; a frayed cable or a cracked jaw fails exactly then, so the set is inspected before each use, not after."
+    },
+    {
+      "cue": "Hold the hot stick steady and hang the grounds: ground end first, then each phase.",
+      "holdBreakNote": "The stick came off before the clamp was tight — hang it again until it bites.",
+      "id": "ground-clamps",
+      "kind": "hold",
+      "prompt": "Hold the hot stick steady and hang the grounds: ground end first, then each phase.",
+      "seconds": 5,
+      "target": "ground-stick",
+      "title": "Hang the grounds",
+      "why": "The ground end goes on first so the set is already bonded to earth when each phase clamp touches its conductor; reversed, the set could be energised in the worker's hands. Held steady on a stick keeps the approach distance the order sets."
+    },
+    {
+      "cue": "Keep watch on the work-zone boundary as the crew sets up — everyone inside the grounded zone, nobody at the live bus.",
+      "holdBreakNote": "The watch broke — someone is near the boundary; bring the crew back inside the grounded zone.",
+      "id": "zone-watch",
+      "kind": "track",
+      "prompt": "Keep watch on the work-zone boundary as the crew sets up — everyone inside the grounded zone, nobody at the live bus.",
+      "seconds": 7,
+      "target": "work-zone-meter",
+      "title": "Hold the work-zone boundary",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.3,
+        "green": [
+          0.35,
+          0.65
+        ],
+        "label": "WORK ZONE",
+        "rise": 0.05,
+        "start": 0.5
+      },
+      "why": "The permit covers a grounded zone, and the live bus next to it is still live; the watch keeps crew and long tools inside the zone the grounds protect, which is the boundary the whole switching sequence was done to create."
+    },
+    {
+      "cue": "Issue the permit to the crew lead: the zone, the grounds by location, and who holds the order.",
+      "id": "issue-permit",
+      "kind": "select",
+      "prompt": "Issue the permit to the crew lead: the zone, the grounds by location, and who holds the order.",
+      "target": "permit-board",
+      "title": "Issue the permit",
+      "why": "The permit is the formal hand-over of a safe zone from the switchman to the crew, and it lists exactly what protects them; when the work ends, the same permit is surrendered before a single ground comes off, so the reverse sequence starts from a known state."
+    }
+  ],
+  "supportLine": "your employer's employee assistance programme, or your IBEW steward if you are not sure how to reach it",
+  "tagline": "A written order switched step by step with every step repeated back, the breaker proven open before the disconnect moves, the gap locked, tested and grounded, and a permit issued only then",
+  "title": "SmartCiti.X~ Collector Substation Switching Under a Permit VR",
+  "trade": "IBEW substation electrician",
+  "underwater": null,
+  "weather": "overcast"
+}

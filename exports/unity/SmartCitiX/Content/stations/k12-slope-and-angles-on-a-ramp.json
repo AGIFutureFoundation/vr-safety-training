@@ -1,0 +1,411 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "rise-over-run",
+    "name": "Rise over Run",
+    "note": "A ramp's slope worked out from its own rise and run, compared with its angle and checked against the plan's limit"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFT",
+        "id": "aft-training",
+        "title": "AFT — American Federation of Teachers training for paraprofessionals and school-related personnel"
+      },
+      {
+        "body": "INEE",
+        "citedAs": "INEE Minimum Standards",
+        "id": "inee-minimum-standards",
+        "title": "INEE Minimum Standards for Education in emergencies, as a body whose standards a lesson is aligned to; it certifies nothing"
+      },
+      {
+        "body": "national curriculum authority",
+        "citedAs": "national curriculum framework",
+        "id": "national-curriculum-framework",
+        "title": "The national curriculum framework the school itself follows, as a category rather than any one country's document; no grade-level code is cited"
+      },
+      {
+        "body": "union",
+        "citedAs": "National Education Association",
+        "id": "nea-training",
+        "title": "NEA apprenticeship and training, as a training body"
+      },
+      {
+        "body": "UN",
+        "citedAs": "Sustainable Development Goal 4",
+        "id": "un-sdg-4-quality-education",
+        "title": "UN Sustainable Development Goal 4 (Quality Education), as a framework a lesson is aligned to; it certifies nothing"
+      },
+      {
+        "body": "UNESCO",
+        "citedAs": "UNESCO education guidance",
+        "id": "unesco-education-guidance",
+        "title": "UNESCO education guidance, as a body whose published guidance a lesson is aligned to; it certifies nothing"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Education",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "clean-read",
+        "name": "First Look",
+        "note": "Everything in the opening scan found first time"
+      },
+      {
+        "id": "no-shortcut",
+        "name": "No Shortcuts",
+        "note": "No misconception or unsafe shortcut anywhere in the run"
+      },
+      {
+        "id": "in-the-band",
+        "name": "In the Band",
+        "note": "Every gauge and meter held inside its band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-run",
+        "name": "Clean Run",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "steady-hands",
+        "name": "Steady Hands",
+        "note": "Every hold and track carried its full count"
+      },
+      {
+        "id": "quick-and-right",
+        "name": "Quick and Right",
+        "note": "Finished inside 80% of par"
+      }
+    ],
+    "currency": "LEVELS",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Visitor",
+      "Measurer",
+      "Setter-out",
+      "Checker",
+      "Engineer"
+    ],
+    "system": "Ramp Board"
+  },
+  "hazards": {
+    "divide-run-by-rise": "You divided the run by the rise. Slope is rise over run: how far up for every step along. Turned upside down, a gentle ramp looks steep and a steep one looks gentle, which is exactly backwards when someone is pushing a wheelchair up it.",
+    "duck-under-the-barrier": "You ducked under the barrier to reach the ramp the crew is building. Visitors stay in the visitor bay while plant and people are moving; the engineer brings the measurements to you, and the scale model on the bench is there for the hands-on part.",
+    "mix-the-units": "You measured the rise in one unit and the run in another and divided anyway. A slope is a comparison of two lengths, so both must be in the same unit first; mixed units give a number that means nothing.",
+    "steeper-is-just-quicker": "You said a steeper ramp is better because it takes less room. A ramp is built for the people who use it: the plan sets how steep it may be so that a wheelchair user, a parent with a buggy or a worker with a trolley can use it safely, and shorter is not the goal."
+  },
+  "id": "k12-slope-and-angles-on-a-ramp",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "hold-the-level-on-the-model",
+      "alert": "A reversing alarm sounds from a dumper near the edge of the visitor bay.",
+      "cue": "Step back from the barrier and wait for the banksman's all-clear.",
+      "delay": 3,
+      "id": "a-reversing-alarm-sounds",
+      "kind": "Reversing plant",
+      "missNote": "You stayed leaning on the barrier, and the banksman had to stop the dumper and move the group back.",
+      "seconds": 12,
+      "target": "ksr-step-back",
+      "why": "A reversing alarm means a driver with limited view is moving. Stepping back and waiting for the banksman, the person guiding the driver, keeps the space behind the machine clear; leaning over to watch is how people end up where a driver cannot see them.",
+      "wrongNote": "That does not clear the space. Step back and wait for the all-clear. Choose the response that deals with it now."
+    },
+    {
+      "after": "keep-the-model-ramp-inside-the",
+      "alert": "The site engineer asks you what the model ramp's slope is and how you know.",
+      "cue": "Say the slope as rise over run, with both lengths in the same unit.",
+      "delay": 3,
+      "id": "the-engineer-asks-for-the-slope",
+      "kind": "Engineer question",
+      "missNote": "You gave a number with no method, and the engineer could not tell whether it was the right way up.",
+      "seconds": 12,
+      "target": "ksr-say-slope",
+      "why": "The engineer is checking that the slope was found the right way up and with matched units. Giving it as rise over run, and naming the unit, shows both, and it is the form the crew needs to set out the real ramp.",
+      "wrongNote": "That answer skips how you found it. Say rise over run. Choose the response that deals with it now."
+    }
+  ],
+  "lateNotes": {
+    "ksr-checkin": "The check-in comes at the very end of the visit.",
+    "ksr-ramp-log": "The slope record is written once the check is done — nothing to record yet."
+  },
+  "name": "Slope and Angles on a Ramp",
+  "parSeconds": 330,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "k12-practical-math"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "divide-run-by-rise",
+      "duck-under-the-barrier",
+      "ksr-angle-dial",
+      "ksr-barrier-card",
+      "ksr-checkin",
+      "ksr-compare-card",
+      "ksr-level",
+      "ksr-ord-compare",
+      "ksr-ord-divide",
+      "ksr-ord-measure",
+      "ksr-ord-units",
+      "ksr-protractor",
+      "ksr-ramp-log",
+      "ksr-rise",
+      "ksr-rod",
+      "ksr-run",
+      "ksr-run-spot",
+      "ksr-say-slope",
+      "ksr-share-board",
+      "ksr-sl-sketch",
+      "ksr-sl-sloping",
+      "ksr-sl-units",
+      "ksr-sl-upside",
+      "ksr-step-back",
+      "ksr-title-block",
+      "ksr-track-meter",
+      "ksr-unit",
+      "mix-the-units",
+      "steeper-is-just-quicker"
+    ],
+    "meshes": 235
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Mark the three things on the ramp drawing you need before working out its slope.",
+      "decoyNotes": {
+        "ksr-title-block": "Useful for knowing which drawing this is, but it holds no length for the slope."
+      },
+      "id": "find-what-the-ramp-drawing-gives",
+      "itemNames": {
+        "ksr-rise": "the rise marked on the drawing",
+        "ksr-run": "the run marked on the drawing",
+        "ksr-unit": "the unit the drawing uses"
+      },
+      "itemNotes": {
+        "ksr-rise": "How far up the ramp climbs, top of the ramp to the ground.",
+        "ksr-run": "How far along the ground the ramp travels.",
+        "ksr-unit": "Both lengths must be in this unit before you divide."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Mark the three things on the ramp drawing you need before working out its slope.",
+      "targets": [
+        "ksr-rise",
+        "ksr-run",
+        "ksr-unit"
+      ],
+      "title": "Find what the ramp drawing gives you",
+      "why": "A slope needs two lengths and one agreement. The drawing gives the rise, how far the ramp climbs, and the run, how far along the ground it goes, and it states the unit both are measured in. Find those three first and the rest is one division; miss one and every later step is built on a guess."
+    },
+    {
+      "cue": "Take your place behind the barrier before the engineer starts.",
+      "id": "stay-behind-the-barrier-in-the",
+      "kind": "select",
+      "prompt": "Take your place behind the barrier before the engineer starts.",
+      "target": "ksr-barrier-card",
+      "title": "Stay behind the barrier in the visitor bay",
+      "why": "A construction site is a workplace with moving plant, and the visitor bay is where learners stand so that the crew can work and nobody walks into a machine's path. Starting behind the barrier every time is the same rule the site's own workers follow when they keep to marked walkways."
+    },
+    {
+      "cue": "Measure the rise and run, match the units, divide rise by run, then compare with the plan.",
+      "id": "put-the-slope-method-in-order",
+      "itemNames": {
+        "ksr-ord-compare": "4 · compare with the plan's limit",
+        "ksr-ord-divide": "3 · divide the rise by the run",
+        "ksr-ord-measure": "1 · measure the rise and the run",
+        "ksr-ord-units": "2 · put both in the same unit"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order. Measure both lengths and match their units before you divide.",
+      "prompt": "Measure the rise and run, match the units, divide rise by run, then compare with the plan.",
+      "targets": [
+        "ksr-ord-measure",
+        "ksr-ord-units",
+        "ksr-ord-divide",
+        "ksr-ord-compare"
+      ],
+      "title": "Put the slope method in order",
+      "why": "Measuring both lengths first, putting them in the same unit, and only then dividing rise by run gives a slope you can trust. Comparing it with the limit the plan sets is the last step, and the one that matters to the person using the ramp: a correct number is only useful if you check it against what the ramp is allowed to be."
+    },
+    {
+      "cue": "Hold the spirit level flat on the base of the model ramp until the bubble settles.",
+      "holdBreakNote": "The level tipped and the bubble ran to one end. Set it flat and hold it again.",
+      "id": "hold-the-level-on-the-model",
+      "kind": "hold",
+      "prompt": "Hold the spirit level flat on the base of the model ramp until the bubble settles.",
+      "seconds": 6,
+      "target": "ksr-level",
+      "title": "Hold the level on the model ramp",
+      "why": "The run is measured along level ground, so the base has to be level before any length means anything. A spirit level's bubble sits in the middle only when the surface is flat, and holding it still until it settles is how setters-out on a real site start every ramp and every floor."
+    },
+    {
+      "cue": "Two ramps climb the same rise; one has a longer run. Say which is steeper, and why.",
+      "id": "say-which-ramp-is-steeper",
+      "kind": "select",
+      "prompt": "Two ramps climb the same rise; one has a longer run. Say which is steeper, and why.",
+      "target": "ksr-compare-card",
+      "title": "Say which ramp is steeper",
+      "why": "For the same rise, a longer run means a smaller rise for each step along, so the ramp with the longer run is gentler. Saying why, in terms of rise for each step along, is the understanding that lets you compare any two slopes without drawing them."
+    },
+    {
+      "cue": "Look at the draft slope calculation and mark each problem.",
+      "decoyNotes": {
+        "ksr-sl-sketch": "A labelled sketch is good practice. Keep it."
+      },
+      "id": "spot-the-problems-in-a-classmates",
+      "itemNames": {
+        "ksr-sl-sloping": "the sloping length used as the run",
+        "ksr-sl-units": "a rise and a run in different units",
+        "ksr-sl-upside": "the run divided by the rise"
+      },
+      "itemNotes": {
+        "ksr-sl-sloping": "The run is measured flat along the ground.",
+        "ksr-sl-units": "Same unit before you divide.",
+        "ksr-sl-upside": "Slope is rise over run."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look at the draft slope calculation and mark each problem.",
+      "targets": [
+        "ksr-sl-upside",
+        "ksr-sl-units",
+        "ksr-sl-sloping"
+      ],
+      "title": "Spot the problems in a classmate's slope sheet",
+      "why": "Slope calculations go wrong in the same few ways: the fraction written upside down, two lengths in different units, and the sloping length used in place of the run. Finding them in someone else's working is practice at checking your own before it goes to anyone who will build from it."
+    },
+    {
+      "cue": "Turn the dial until the model ramp matches the angle on the drawing.",
+      "id": "turn-the-model-ramp-to-the",
+      "kind": "turn",
+      "prompt": "Turn the dial until the model ramp matches the angle on the drawing.",
+      "target": "ksr-angle-dial",
+      "title": "Turn the model ramp to the drawing's angle",
+      "turn": {
+        "axis": "y",
+        "label": "ANGLE",
+        "turns": 0.5
+      },
+      "why": "The angle a ramp makes with the ground and its slope describe the same steepness in two languages: a steeper ramp has both a bigger angle and a bigger rise for each step along. Turning the model until it matches the drawing lets you see that link rather than just calculate it."
+    },
+    {
+      "cue": "Commit when the protractor's pointer sits on the angle the drawing shows.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.58
+        ],
+        "label": "ANGLE",
+        "missNote": "Off the mark. Line the base up with the ground and read from the side that starts at zero.",
+        "speed": 0.6
+      },
+      "id": "read-the-angle-on-the-protractor",
+      "kind": "gauge",
+      "prompt": "Commit when the protractor's pointer sits on the angle the drawing shows.",
+      "target": "ksr-protractor",
+      "title": "Read the angle on the protractor",
+      "why": "Reading an angle means lining the protractor's base with the ground and reading where the ramp crosses the scale, from the correct side. Reading from the wrong side of the scale gives the angle's partner instead, which is the commonest protractor slip and is easy to catch by asking whether the ramp looks gentle or steep."
+    },
+    {
+      "cue": "Drag the measuring rod to lie along the ground under the ramp, not up its surface.",
+      "drag": {
+        "missNote": "Not along the run yet. Lay the rod flat on the ground under the ramp.",
+        "radius": 0.45,
+        "to": "ksr-run-spot"
+      },
+      "id": "place-the-measuring-rod-along-the",
+      "kind": "drag",
+      "prompt": "Drag the measuring rod to lie along the ground under the ramp, not up its surface.",
+      "target": "ksr-rod",
+      "title": "Place the measuring rod along the run",
+      "why": "The run is the horizontal distance, measured flat along the ground under the ramp, not the sloping length up its surface. The sloping length is always a little longer, and using it instead of the run makes a ramp look gentler than it is, which is the wrong way to be wrong."
+    },
+    {
+      "cue": "Hold the model's slope inside the band as the engineer adds weight to the top.",
+      "holdBreakNote": "The model drifted past the limit. Bring it back inside the band before the next check.",
+      "id": "keep-the-model-ramp-inside-the",
+      "kind": "track",
+      "prompt": "Hold the model's slope inside the band as the engineer adds weight to the top.",
+      "seconds": 8,
+      "target": "ksr-track-meter",
+      "title": "Keep the model ramp inside the plan's limit",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.38,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "SLOPE",
+        "rise": 0.46,
+        "start": 0.3
+      },
+      "why": "A ramp has to stay inside its slope limit along its whole length, not just where it was measured. Holding the model steady as it is loaded shows how a small sag or lift changes the slope, which is why a site engineer checks a ramp at more than one point before anyone uses it."
+    },
+    {
+      "cue": "Write the rise, the run, their unit, the slope and whether it meets the plan's limit.",
+      "id": "record-the-slope-and-the-check",
+      "kind": "select",
+      "prompt": "Write the rise, the run, their unit, the slope and whether it meets the plan's limit.",
+      "target": "ksr-ramp-log",
+      "title": "Record the slope and the check",
+      "why": "A written record shows how the answer was reached, so anyone can check it or reuse it. Writing the unit and the comparison with the plan's limit, not just the final number, turns a sum into a check that a site engineer could actually sign off."
+    },
+    {
+      "cue": "Tell the engineer the slope, how you found it and whether the ramp meets its limit.",
+      "id": "explain-your-answer-to-the-engineer",
+      "kind": "select",
+      "prompt": "Tell the engineer the slope, how you found it and whether the ramp meets its limit.",
+      "target": "ksr-share-board",
+      "title": "Explain your answer to the engineer",
+      "why": "Explaining aloud is how you find out whether you really understand. Saying the slope, the method and the comparison in your own words lets the engineer hear where the reasoning holds and where it wobbles, and it is how engineers on real sites hand information to the crew."
+    },
+    {
+      "cue": "How did the slope work go? What was hard, and what would you try next time?",
+      "id": "crew-check-in",
+      "kind": "select",
+      "prompt": "How did the slope work go? What was hard, and what would you try next time?",
+      "target": "ksr-checkin",
+      "title": "Check in at the end of the visit",
+      "why": "Before the group leaves the visitor bay, everyone names the measurement that surprised them and the one they would take again more carefully. Saying it out loud fixes the idea of rise over run far better than a worksheet, and it shows the site supervisor which learners want another turn at the model ramp."
+    }
+  ],
+  "supportLine": "your teacher, a school counsellor or a trusted adult at home — if anything in this lesson was hard, talk it through afterwards",
+  "tagline": "Rise over run, both in the same unit — and stay behind the barrier while the crew works",
+  "title": "SmartCiti.X~ Slope and Angles on a Ramp VR",
+  "trade": "Maths class at the construction site's visitor bay — learner and site engineer",
+  "underwater": null,
+  "weather": "clear"
+}

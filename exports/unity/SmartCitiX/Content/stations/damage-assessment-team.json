@@ -1,0 +1,407 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "sweep-complete",
+    "name": "Sweep Complete",
+    "note": "One structure classified, photographed and logged without a hazard being touched or an unsafe building entered"
+  },
+  "category": "Emergency Services",
+  "certification": "FEMA's Preliminary Damage Assessment classification for Individual Assistance — affected, minor, major and destroyed — run here under a NIMS/ICS block assignment (FEMA IS-100/IS-700); the National Electrical Safety Code (NESC) rule, matched by OSHA 29 CFR 1926.416, that any downed conductor is treated as energized until the utility itself says otherwise; the American Red Cross's disaster-assessment team protocol pairing every assessor with a buddy and routing every visibly unsafe structure to a qualified inspector instead of a walk-through; the AFSCME and LIUNA safety language covering the disaster-relief crews who run these sweeps",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFSCME",
+        "id": "afscme-training",
+        "title": "AFSCME member education and safety training for public-service and air-district members"
+      },
+      {
+        "body": "FEMA",
+        "citedAs": "FEMA",
+        "id": "fema-is-courses",
+        "title": "FEMA Emergency Management Institute IS-100 and IS-700 independent-study courses in ICS and NIMS"
+      },
+      {
+        "body": "IEEE",
+        "citedAs": "NESC",
+        "id": "ieee-c2-nesc",
+        "title": "IEEE C2 — National Electrical Safety Code (NESC)"
+      },
+      {
+        "body": "union",
+        "citedAs": "LIUNA",
+        "id": "liuna-training-fund",
+        "title": "LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula"
+      },
+      {
+        "body": "NIMS/ICS",
+        "citedAs": "ICS",
+        "id": "nims-ics",
+        "title": "NIMS incident command system — the structure a multi-agency response runs inside"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.416",
+        "id": "osha-1926-416",
+        "title": "29 CFR 1926.416 — General requirements for electrical work practices in construction"
+      },
+      {
+        "body": "Red Cross",
+        "citedAs": "Red Cross",
+        "id": "red-cross-disaster-services",
+        "title": "American Red Cross shelter operations, Disaster Mental Health and first aid/CPR course standards"
+      }
+    ]
+  },
+  "district": "Environmental Monitoring",
+  "domain": "Emergency Services",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "clearance-held",
+        "name": "Clearance Held",
+        "note": "Never closed the gap on the downed line before it was called in"
+      },
+      {
+        "id": "never-inside",
+        "name": "Never Inside",
+        "note": "No unsafe action anywhere in the run"
+      },
+      {
+        "id": "classification-true",
+        "name": "Classification True",
+        "note": "Called the structure's category on the first sweep of the dial"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-sweep",
+        "name": "Clean Sweep",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "steady-buddy",
+        "name": "Steady Buddy",
+        "note": "Held both timed watches the full duration"
+      },
+      {
+        "id": "one-pass",
+        "name": "One Pass",
+        "note": "Classified, documented and logged inside 80% of par"
+      }
+    ],
+    "currency": "ASSESS",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Assessment Trainee",
+      "Field Assessor",
+      "Team Lead",
+      "Sector Coordinator",
+      "Damage Assessment Certified"
+    ],
+    "system": "Block Sweep"
+  },
+  "hazards": {
+    "close-to-downed-line": "You stepped past the clearance marker to get a closer look at the wire. Every downed conductor is treated as energized until the utility that owns it says otherwise, whether or not it is sparking, moving or looks dead lying in the grass — the clearance distance is what stands between a good story about a close call and a fatality on this block.",
+    "enter-unsafe-structure": "You went in through the door instead of assessing this house from outside. A structure with visible major damage gets classified, photographed and referred to a qualified inspector precisely because an assessment team cannot know from the street whether the floor, the stairs or the roof itself will hold a person's weight — going inside to confirm the damage is how an assessor becomes the next casualty the sweep is trying to prevent.",
+    "flame-near-gas-smell": "You struck a lighter to see better near where the gas smell is strongest. An assessment team's only tool for a suspected gas leak is its nose and its distance from the source — any spark, flame or even a phone call made standing over the smell can be the ignition source for a leak nobody has confirmed the size of yet.",
+    "split-from-buddy": "You walked around to the back of the property alone, out of your buddy's sight. The buddy system exists because a damaged structure with hidden hazards — a collapsed step, a live wire under debris, an unstable overhang — is exactly the kind of place where the person who needs help is the one nobody else knew had gone missing."
+  },
+  "id": "damage-assessment-team",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "maintain-clearance",
+      "alert": "The downed line just arced against the wet grass — whatever doubt there was about it being live is gone.",
+      "cue": "Do not touch anything near it. Get the utility called in now.",
+      "delay": 2,
+      "id": "downed-line-energized",
+      "kind": "Downed line confirmed energized",
+      "missNote": "The line kept arcing in the wet grass with nobody calling it in. A confirmed energized conductor a storm crew has not been told about is a hazard sitting on this block for every team, resident and utility worker who walks past it after you leave.",
+      "seconds": 12,
+      "target": "report-radio",
+      "why": "An arc is the line answering the only question the clearance distance was ever hedging against, and the only correct response to it is the same one the rule already called for — call the utility in immediately and hold the clearance, because nothing this team carries can make a live conductor safe to approach.",
+      "wrongNote": "That does not answer the line. Get on the radio and report it to the utility — nothing else on this block does anything for a live conductor."
+    },
+    {
+      "after": "resident-conversation",
+      "alert": "The resident asks you to just run in and grab her medication from the kitchen counter — \"it'll take you two seconds.\"",
+      "cue": "Say no gently, and offer what you can actually do instead.",
+      "delay": 3,
+      "id": "resident-wants-entry",
+      "kind": "Resident asks the team to go inside",
+      "missNote": "Somebody went in for the medication anyway. A resident's genuine, reasonable-sounding request does not change what a street assessment can safely confirm about the floor two steps past that door.",
+      "seconds": 13,
+      "target": "decline-and-refer",
+      "why": "Two seconds inside a structure this team has not classified as safe is exactly how an assessor becomes a second emergency at an address that already has one — declining kindly and pointing to what the referral card and a qualified inspector can actually do for her is the honest answer, not the compassionate-sounding one that risks a second casualty at this house.",
+      "wrongNote": "That does not answer her, and it does not send anyone inside either. Decline gently and point her to what the referral card can actually get her."
+    }
+  ],
+  "lateNotes": {
+    "gps-lock": "There is no reading to lock yet — classify the structure first, or the GPS point has nothing to attach to."
+  },
+  "name": "Damage Assessment Team",
+  "parSeconds": 320,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "first-responders"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "assignment-board",
+      "buddy-partner",
+      "camera-photo",
+      "classification-dial",
+      "clearance-marker",
+      "close-to-downed-line",
+      "crew-checkin-board",
+      "decline-and-refer",
+      "downed-line",
+      "enter-unsafe-structure",
+      "explain-limits",
+      "explain-purpose",
+      "flame-near-gas-smell",
+      "gas-odor-source",
+      "gps-lock",
+      "hand-referral",
+      "placard",
+      "ppe-gloves",
+      "ppe-helmet",
+      "ppe-vest",
+      "report-radio",
+      "resident-driveway",
+      "sector-log",
+      "split-from-buddy",
+      "unstable-porch",
+      "upload-panel"
+    ],
+    "meshes": 178
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track"
+  ],
+  "steps": [
+    {
+      "cue": "Sign into the sector board and read which block this team is assessing.",
+      "id": "ics-assignment",
+      "kind": "select",
+      "prompt": "Sign into the sector board and read which block this team is assessing.",
+      "target": "assignment-board",
+      "title": "Check in and take today's block assignment",
+      "why": "A damage-assessment team that shows up and picks its own block is a team the incident commander cannot account for — the assignment board is what puts this sweep on the same map as every other team's, so the same structure never gets swept twice while another one goes unseen all day."
+    },
+    {
+      "cue": "Pair up with your buddy and confirm you are working this block together.",
+      "id": "buddy-check",
+      "kind": "select",
+      "prompt": "Pair up with your buddy and confirm you are working this block together.",
+      "target": "buddy-partner",
+      "title": "Confirm your buddy before you leave the truck",
+      "why": "The Red Cross's own assessment protocol pairs every assessor with a buddy for the same reason a confined-space entry never sends one person down alone — a damaged block hides hazards that are not obvious from a distance, and the buddy is who notices when something has gone wrong with you before you can call it in yourself."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Hard hat, hi-vis vest, cut-resistant gloves — any order, all three before you leave the truck.",
+      "id": "ppe-donning",
+      "itemNames": {
+        "ppe-gloves": "cut-resistant gloves",
+        "ppe-helmet": "hard hat",
+        "ppe-vest": "hi-vis vest"
+      },
+      "kind": "sequence",
+      "prompt": "Hard hat, hi-vis vest, cut-resistant gloves — any order, all three before you leave the truck.",
+      "targets": [
+        "ppe-helmet",
+        "ppe-vest",
+        "ppe-gloves"
+      ],
+      "title": "Put on the team's PPE",
+      "why": "A post-storm block is a field of debris nobody has cleared yet — nails through boards, glass in the grass, overhead limbs still hanging by a thread — and the helmet, the vest that keeps you visible to the utility trucks and other crews working the same street, and the gloves are what let this team touch anything on that block at all."
+    },
+    {
+      "cue": "Look over the property from the sidewalk. Three hazards have to be found before the team gets any closer.",
+      "id": "hazard-scan",
+      "itemNames": {
+        "downed-line": "a downed power line",
+        "gas-odor-source": "the source of a gas smell",
+        "unstable-porch": "a porch roof hanging loose"
+      },
+      "itemNotes": {
+        "downed-line": "Lying across the front yard, half-buried in storm debris — it does not have to be sparking to be live.",
+        "gas-odor-source": "A cracked meter connection at the side of the house, the smell strongest right at the fitting.",
+        "unstable-porch": "The porch roof has pulled away from the house on one side and is holding on the other — exactly the kind of hazard the street view has to catch before anyone walks under it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look over the property from the sidewalk. Three hazards have to be found before the team gets any closer.",
+      "targets": [
+        "downed-line",
+        "gas-odor-source",
+        "unstable-porch"
+      ],
+      "title": "Scan the block from the street before approaching anything",
+      "why": "Every hazard this scan is built to catch — a downed line, a gas smell, a hanging structure — is meant to be found from a safe distance, on purpose, because the whole value of scanning first is deciding where not to walk before anybody is standing under or beside the thing that could hurt them."
+    },
+    {
+      "cue": "Stand at the clearance marker and hold position while your buddy calls the line in.",
+      "holdBreakNote": "You stepped off the marker before the line was actually called in. A clearance distance that gets closed the moment nobody is watching was never really being held.",
+      "id": "maintain-clearance",
+      "kind": "hold",
+      "prompt": "Stand at the clearance marker and hold position while your buddy calls the line in.",
+      "seconds": 5,
+      "target": "clearance-marker",
+      "title": "Hold the marked clearance from the downed line",
+      "why": "The clearance distance only protects anybody if it is actually held, not just noted — standing at the marker while the call goes out is what keeps a team member from drifting closer out of curiosity in the minute it takes the utility's own dispatcher to answer."
+    },
+    {
+      "cue": "Sweep the dial through the categories and commit once it reads this structure's actual damage.",
+      "gauge": {
+        "green": [
+          0.52,
+          0.74
+        ],
+        "label": "PDA CATEGORY",
+        "missNote": "That does not match what is actually standing in front of you. Sweep the dial again and commit only once it reads this structure's real category.",
+        "speed": 0.55
+      },
+      "id": "classify-structure",
+      "kind": "gauge",
+      "prompt": "Sweep the dial through the categories and commit once it reads this structure's actual damage.",
+      "target": "classification-dial",
+      "title": "Classify the structure's damage from the street",
+      "why": "FEMA's own Preliminary Damage Assessment scale — affected, minor, major, destroyed — exists so that every team on every block classifies damage the same way, and the number that reaches the county's request for federal disaster assistance means the same thing no matter which assessor wrote it down. Calling it from a genuine read of the structure, not from a guess, is what keeps that number honest."
+    },
+    {
+      "cue": "Take the photo first, then lock the GPS coordinate to the same spot.",
+      "id": "document-structure",
+      "itemNames": {
+        "camera-photo": "photograph the structure",
+        "gps-lock": "lock the GPS point"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Photo first, then the GPS lock — a coordinate with no photo behind it proves a location was visited, not what was actually found there.",
+      "prompt": "Take the photo first, then lock the GPS coordinate to the same spot.",
+      "targets": [
+        "camera-photo",
+        "gps-lock"
+      ],
+      "title": "Photograph the structure, then lock its GPS point",
+      "why": "The photo is what lets anyone reviewing this record later see the same damage the classification was based on, and the GPS point is what puts that photo at the right address on the county's map instead of an approximate one — taken in that order, the two together are what turn a category on a dial into a record somebody else can actually act on."
+    },
+    {
+      "cue": "Approach the driveway, not the damaged structure, and introduce the team.",
+      "id": "meet-resident",
+      "kind": "select",
+      "prompt": "Approach the driveway, not the damaged structure, and introduce the team.",
+      "target": "resident-driveway",
+      "title": "Meet the resident at the driveway",
+      "why": "Meeting a resident at the driveway rather than walking straight up to their damaged home is a small choice that says a great deal — it puts the conversation on ground the resident is still standing on by choice, rather than starting the encounter by walking toward the thing that just wrecked their week."
+    },
+    {
+      "cue": "Hold your attention on the resident and let them say what they need to before you explain anything.",
+      "holdBreakNote": "You moved into the explanation before the resident had finished. Whatever gets said next lands better once they have actually been heard first.",
+      "id": "resident-conversation",
+      "kind": "hold",
+      "prompt": "Hold your attention on the resident and let them say what they need to before you explain anything.",
+      "seconds": 5,
+      "target": "resident-driveway",
+      "title": "Hold space for what the resident wants to say first",
+      "why": "A resident standing in their own driveway after a storm usually has something they need to say before they can hear anything a stranger with a clipboard has to tell them — holding that space for a few seconds instead of moving straight into the script is what makes the explanation that follows actually land."
+    },
+    {
+      "cue": "Say what the assessment is for, then say plainly what it is not, then hand over the referral card.",
+      "id": "explain-role",
+      "itemNames": {
+        "explain-limits": "explain what this team does not do",
+        "explain-purpose": "explain what this team does",
+        "hand-referral": "hand over the referral card"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Purpose, then limits, then the referral card — handing over the card before the resident understands what this visit does and does not mean turns a piece of paper into a promise nobody made.",
+      "prompt": "Say what the assessment is for, then say plainly what it is not, then hand over the referral card.",
+      "targets": [
+        "explain-purpose",
+        "explain-limits",
+        "hand-referral"
+      ],
+      "title": "Tell the resident plainly what this team is and is not",
+      "why": "A resident who thinks this visit is an insurance adjuster's or a repair crew's is a resident who will be angry at the wrong thing later — saying plainly that this is a count for disaster assistance, not a repair estimate and not a guarantee of aid, before handing over the card with the actual resources on it, is what keeps today's honesty from turning into tomorrow's broken promise."
+    },
+    {
+      "cue": "Post the damage placard on the exterior — do not go in to confirm anything first.",
+      "id": "placard-post",
+      "kind": "select",
+      "prompt": "Post the damage placard on the exterior — do not go in to confirm anything first.",
+      "target": "placard",
+      "title": "Placard the structure from outside",
+      "why": "The placard is what tells the next person on this block — another team, a utility crew, the resident's own family — what this structure was found to be without anyone having to repeat the assessment or, worse, repeat the mistake of going inside to check. It goes up from the outside, because that is the only vantage point this assessment was ever supposed to use."
+    },
+    {
+      "cue": "Keep the tablet's signal steady until the record finishes uploading.",
+      "holdBreakNote": "The signal dropped before the upload finished. A structure this team already classified, photographed and referred correctly still is not on the map until the record actually finishes uploading.",
+      "id": "upload-sync",
+      "kind": "track",
+      "prompt": "Keep the tablet's signal steady until the record finishes uploading.",
+      "seconds": 6,
+      "target": "upload-panel",
+      "title": "Hold a signal and upload the finished record",
+      "track": {
+        "drift": 0.1,
+        "fall": 0.5,
+        "green": [
+          0.7,
+          1
+        ],
+        "label": "UPLOAD",
+        "rise": 0.4,
+        "start": 0.2
+      },
+      "why": "A record still sitting on a tablet in the truck is a record the county's damage map does not have yet, and a post-storm block is exactly where cell signal is least reliable — holding position long enough for a clean upload, rather than driving off the moment the bar appears to move, is what actually gets this structure onto the map instead of losing it to a dropped connection."
+    },
+    {
+      "cue": "Record the classification, the address point and the referral given in the sector log.",
+      "id": "handover-log",
+      "kind": "select",
+      "prompt": "Record the classification, the address point and the referral given in the sector log.",
+      "target": "sector-log",
+      "title": "Log the structure to the sector's running tally",
+      "why": "The sector coordinator is building a running tally out of every team's log, and a structure this team correctly classified in the field is worth nothing to that tally until it is actually written into it — the log is what turns one team's afternoon into the county's real picture of the block."
+    },
+    {
+      "cue": "Ask your buddy how that one actually was, and name the peer-support line before you move on.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Ask your buddy how that one actually was, and name the peer-support line before you move on.",
+      "target": "crew-checkin-board",
+      "title": "Check in with your buddy before the next address",
+      "why": "Standing in a stranger's driveway and telling them plainly that their home is a total loss is not a neutral thing to do over and over down a block, and the Red Cross's own critical-incident support line and the AFSCME/LIUNA peer-support contacts exist because the team doing the telling is carrying something too. Checking in with your buddy between addresses is what keeps that weight from just accumulating unspoken all day."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "A post-storm block sweep: buddied and briefed, hazards found from the street, a structure classified and photographed with a GPS point, the resident met and told the truth, an unsafe structure never entered, and the record uploaded",
+  "title": "SmartCiti.X~ Damage Assessment Team VR",
+  "trade": "Disaster relief worker — AFSCME / LIUNA with the Red Cross volunteer workforce",
+  "underwater": null,
+  "weather": "overcast"
+}

@@ -1,0 +1,413 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "rail-certified",
+    "name": "Rail Certified",
+    "note": "Five customers down the rail, every call right, the round poured to spec and the count logged"
+  },
+  "category": "Culinary & Hospitality",
+  "certification": "The California ABC Responsible Beverage Service Training Program Act — Business and Professions Code §25658 (sale to a minor), §25602 (sale to an obviously intoxicated person) and §25631 (hours of sale); the California Retail Food Code (CalCode) for glassware and ice; the UNITE HERE Local 2 contract's service standards; the county Environmental Health department and the local police non-emergency line as the numbers behind the bar",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "Cal. ABC",
+        "citedAs": "§25602",
+        "id": "abc-25602",
+        "title": "California Business and Professions Code §25602 — sale to an obviously intoxicated person"
+      },
+      {
+        "body": "Cal. ABC",
+        "citedAs": "§25631",
+        "id": "abc-25631",
+        "title": "California Business and Professions Code §25631 — hours of legal sale of alcoholic beverages"
+      },
+      {
+        "body": "Cal. ABC",
+        "citedAs": "§25658",
+        "id": "abc-25658",
+        "title": "California Business and Professions Code §25658 — sale or furnishing of alcohol to a person under 21"
+      },
+      {
+        "body": "Cal. ABC",
+        "citedAs": "RBS",
+        "id": "abc-rbs-training",
+        "title": "California Responsible Beverage Service Training Act — ABC RBS certification for anyone who serves alcohol"
+      },
+      {
+        "body": "CalCode",
+        "citedAs": "CalCode",
+        "id": "calcode-retail-food",
+        "title": "California Retail Food Code (Health and Safety Code Division 104, Part 7) — the FDA Food Code as California adopts it"
+      },
+      {
+        "body": "union",
+        "citedAs": "UNITE HERE",
+        "id": "unite-here-training",
+        "title": "UNITE HERE hospitality training funds — cooks, housekeepers, bartenders and banquet staff"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Hospitality",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "carded-clean",
+        "name": "Carded Clean",
+        "note": "The ID check answered without a correction"
+      },
+      {
+        "id": "no-over-service",
+        "name": "No Over-Service",
+        "note": "No unsafe action anywhere in the run"
+      },
+      {
+        "id": "to-spec",
+        "name": "To Spec",
+        "note": "The jigger pour scored inside the top band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-rail",
+        "name": "Clean Rail",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "fast-rail",
+        "name": "Fast Rail",
+        "note": "The whole rail closed inside 80% of par"
+      },
+      {
+        "id": "eight-straight",
+        "name": "Eight Straight",
+        "note": "Eight correct actions in a row"
+      }
+    ],
+    "currency": "POUR",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Barback",
+      "Rail Trained",
+      "Service Certified",
+      "Shift Lead",
+      "RBS Certified"
+    ],
+    "system": "Rail Standing"
+  },
+  "hazards": {
+    "pour-fourth-anyway": "You poured a fourth round for a patron already showing the signs of intoxication. §25602 makes it unlawful to sell or furnish alcohol to a person who is obviously intoxicated — the fourth pour does not wait for a fall or a slurred word to become the wrong call, the third round's own signs already were it.",
+    "reserve-the-unattended-drink": "You picked the unattended drink back up and served it to its owner. A drink that sat on the rail out of anyone's sight, even for a minute, is a drink you can no longer vouch for — pouring it out and starting over costs one drink; handing back a possibly tampered one risks a great deal more.",
+    "send-drink-out-the-door": "You sent a poured drink out the front door for someone who was never at the bar to be carded or read. An on-sale licence covers alcohol served to a patron you can actually see, and handing a drink off to someone waiting outside is exactly the gap §25658 and §25602 exist to close — you have no idea how old they are or how many they have already had elsewhere.",
+    "serve-the-minor": "You poured alcohol for a patron whose own ID puts them under 21. Business and Professions Code §25658 makes furnishing alcohol to a minor a crime and a licence violation regardless of how confident, well-dressed or insistent they are — the ID's birthdate decides this, not your read of the room."
+  },
+  "id": "rbs-service-capstone",
+  "indoor": "bar",
+  "interrupts": [
+    {
+      "after": "pour-the-draft",
+      "alert": "The fourth-drink customer just slid their glass three seats down to the kid you carded and refused twenty minutes ago.",
+      "cue": "Reclaim the glass. Do not restart the pour you're holding.",
+      "delay": 3,
+      "id": "slide-to-minor",
+      "kind": "Customer passing a drink to a minor",
+      "missNote": "The glass sat in front of the minor the whole time and nobody took it back. Carding someone means nothing if the same drink reaches them anyway, three seats and one slide later.",
+      "seconds": 12,
+      "target": "reclaim-glass",
+      "why": "A refused sale does not end at your side of the bar if the glass can just be passed down the rail — reclaiming it in the moment is the only thing that actually keeps the minor from drinking it, and it is worth breaking off a pour for.",
+      "wrongNote": "Not the tap — the pour in your hands isn't the problem. Reclaim the glass that's now sitting in front of a minor."
+    },
+    {
+      "after": "shake-margarita",
+      "alert": "The friend from outside just walked up to the door with the carried-out drink already in hand, about to head back out with it.",
+      "cue": "Stop the hand-off at the door. Do not pour anything new.",
+      "delay": 2,
+      "id": "friend-at-door",
+      "kind": "Carry-out already in hand",
+      "missNote": "The drink went out the door anyway. Refusing the pour at the bar means nothing if the glass leaves the building five minutes later regardless.",
+      "seconds": 12,
+      "target": "door-intercept",
+      "why": "The refusal upstream already answered whether that drink should exist — the only thing left to do is stop it from actually leaving the building, at the door, before it is out of your sight and anyone's control for good.",
+      "wrongNote": "Pouring another drink does not undo this one leaving. Stop the hand-off at the door — that is the only response that still matters here."
+    }
+  ],
+  "lateNotes": {
+    "draft-tap": "The order gets taken before the tap gets touched — you cannot pour what nobody has ordered yet.",
+    "fresh-pour-5": "The old glass goes in the dump sink before a fresh one gets poured — pouring a replacement next to the original doesn't answer the hazard.",
+    "jigger": "The tequila gets measured after the tap pour is running clean, not before — one drink at a time down the rail.",
+    "shaker": "The shake comes after the jigger is poured to the line — shaking an empty tin proves nothing."
+  },
+  "name": "RBS Service Capstone",
+  "parSeconds": 340,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "bartending-course"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.3,
+    "hits": [
+      "close-round-log",
+      "door-intercept",
+      "draft-tap",
+      "dump-sink",
+      "fresh-pour-5",
+      "id-birthdate",
+      "id-hologram",
+      "jigger",
+      "order-cabernet",
+      "order-lager",
+      "order-margarita",
+      "patron-id-1",
+      "pour-fourth-anyway",
+      "pour-soda-1",
+      "pour-wine",
+      "reclaim-glass",
+      "refuse-fourth",
+      "refuse-takeout",
+      "reserve-the-unattended-drink",
+      "send-drink-out-the-door",
+      "serve-the-minor",
+      "shaker",
+      "stranger-hand",
+      "tap-handle",
+      "unattended-glass"
+    ],
+    "meshes": 187
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Ask for ID before this order goes any further.",
+      "id": "card-the-rail",
+      "kind": "select",
+      "prompt": "Ask for ID before this order goes any further.",
+      "target": "patron-id-1",
+      "title": "Card the first seat before pouring anything",
+      "why": "An RBS-trained bartender cards on the way to the first pour, not after a drink is already in front of someone — asking is free, and it is the only thing standing between a normal Tuesday and a citation under §25658."
+    },
+    {
+      "cue": "Two things about this ID are worth a second look before you decide.",
+      "id": "verify-id",
+      "itemNames": {
+        "id-birthdate": "a birthdate that doesn't clear 21",
+        "id-hologram": "a security hologram that doesn't sit right"
+      },
+      "itemNotes": {
+        "id-birthdate": "The math is the whole check — today's date against the birthdate on the card, not the photo, not the confidence of the person holding it.",
+        "id-hologram": "A real state ID's security hologram shifts and layers under light in a specific way; a card where it doesn't is worth a second look before anything else about the ID is trusted."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Two things about this ID are worth a second look before you decide.",
+      "targets": [
+        "id-birthdate",
+        "id-hologram"
+      ],
+      "title": "Check the ID itself, not just the face on it",
+      "why": "RBS training exists because a confident patron and a bad ID look exactly like a confident patron and a good one — the birthdate and the card's own security features are what the decision is actually built on, not how sure they sound asking."
+    },
+    {
+      "cue": "The birthdate doesn't clear 21 — pour the soda, not the drink they ordered.",
+      "id": "refuse-minor-soda",
+      "kind": "select",
+      "prompt": "The birthdate doesn't clear 21 — pour the soda, not the drink they ordered.",
+      "target": "pour-soda-1",
+      "title": "Refuse the pour and offer a soda instead",
+      "why": "Once the ID says under 21, the only lawful pour for that seat is something without alcohol in it — §25658 does not carve out an exception for a patron who is polite about being refused, and a soda on the house costs a great deal less than what a citation does."
+    },
+    {
+      "cue": "Three drinks in and slower on the fourth order — decline it and offer water instead.",
+      "id": "cut-off-fourth",
+      "kind": "select",
+      "prompt": "Three drinks in and slower on the fourth order — decline it and offer water instead.",
+      "target": "refuse-fourth",
+      "title": "Cut off the fourth round at the next seat",
+      "why": "§25602 puts the line at obviously intoxicated, not falling down — slowed speech, a flat hand steadying against the bar and a fourth order arriving is already past that line, and the lawful response is water and a straight answer, not a fourth pour."
+    },
+    {
+      "cue": "The seat next to the door wants a drink carried out to someone waiting in the lot — decline it.",
+      "id": "refuse-carryout",
+      "kind": "select",
+      "prompt": "The seat next to the door wants a drink carried out to someone waiting in the lot — decline it.",
+      "target": "refuse-takeout",
+      "title": "Decline the drink for the friend outside",
+      "why": "A patron you have carded and can watch is the only person an on-sale licence covers — a drink carried out the door to somebody waiting outside is served to an age and a sobriety you cannot verify at all, which is exactly the gap RBS training is built to close."
+    },
+    {
+      "cue": "Ring in the three drinks in the order the table asked for them.",
+      "id": "take-round-order",
+      "itemNames": {
+        "order-cabernet": "a glass of cabernet",
+        "order-lager": "a draft lager",
+        "order-margarita": "a margarita"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Ring the round in the order it was asked — a beer, a wine, a margarita, in that order, not whichever one comes to mind first.",
+      "prompt": "Ring in the three drinks in the order the table asked for them.",
+      "targets": [
+        "order-lager",
+        "order-cabernet",
+        "order-margarita"
+      ],
+      "title": "Take the round for the seat that's just fine",
+      "why": "A round taken in the order it was asked for is what keeps three drinks going out to three right people instead of a guess at the end — the easiest seat on the rail is still worth getting exactly right."
+    },
+    {
+      "cue": "Turn the tap handle open a smooth quarter turn.",
+      "id": "open-draft-tap",
+      "kind": "turn",
+      "prompt": "Turn the tap handle open a smooth quarter turn.",
+      "target": "draft-tap",
+      "title": "Open the draft tap for the lager",
+      "turn": {
+        "axis": "x",
+        "label": "DRAFT TAP",
+        "turns": 0.5
+      },
+      "why": "A tap opened in one smooth motion pours a clean glass; one bumped open in stages pours mostly foam — the turn is the whole technique, not a formality before the real work starts."
+    },
+    {
+      "cue": "Keep the glass tilted against the flow and hold the fill inside the band as the foam settles.",
+      "holdBreakNote": "The fill drifted out of band. Too slow and it's mostly foam, too fast and it's over the rim — bring it back into the band and hold it there.",
+      "id": "pour-the-draft",
+      "kind": "track",
+      "prompt": "Keep the glass tilted against the flow and hold the fill inside the band as the foam settles.",
+      "seconds": 6,
+      "target": "tap-handle",
+      "title": "Hold the pour steady down the glass wall",
+      "track": {
+        "drift": 0.08,
+        "fall": 0.4,
+        "green": [
+          0.42,
+          0.62
+        ],
+        "label": "FILL LEVEL",
+        "rise": 0.5,
+        "start": 0.15
+      },
+      "why": "A lager poured straight down the middle is mostly head by the time it settles; held against the wall of a tilted glass at a steady rate, the same tap pours a full glass with a finger of foam on top — the technique is entirely in holding it steady."
+    },
+    {
+      "cue": "Watch the pour climb the jigger and commit the instant it reaches the marked line.",
+      "gauge": {
+        "green": [
+          0.36,
+          0.46
+        ],
+        "label": "TEQUILA oz",
+        "missNote": "Off the line. Reset the jigger and commit only when the pour reaches the marked measure.",
+        "speed": 0.7
+      },
+      "id": "jigger-tequila",
+      "kind": "gauge",
+      "prompt": "Watch the pour climb the jigger and commit the instant it reaches the marked line.",
+      "target": "jigger",
+      "title": "Measure the tequila to the line",
+      "why": "A margarita poured to spec is a jigger's worth of tequila, not a four-count free pour — the measured line is what keeps the drink the same glass to glass and keeps the bar's own pour cost where it is supposed to be."
+    },
+    {
+      "cue": "Seal the tin and hold a hard shake for the full count.",
+      "holdBreakNote": "You broke the seal early. An unfinished shake is a warm, undiluted drink — reseal the tin and shake it through the full count.",
+      "id": "shake-margarita",
+      "kind": "hold",
+      "prompt": "Seal the tin and hold a hard shake for the full count.",
+      "seconds": 4,
+      "target": "shaker",
+      "title": "Shake the margarita over ice",
+      "why": "A margarita shaken hard for a full count chills, dilutes and aerates the drink all at once — a short shake leaves it warm and flat, which is a worse drink for the same three ingredients and the same jigger of tequila."
+    },
+    {
+      "cue": "Pour the glass of cabernet to the line etched on the glass.",
+      "id": "pour-the-cabernet",
+      "kind": "select",
+      "prompt": "Pour the glass of cabernet to the line etched on the glass.",
+      "target": "pour-wine",
+      "title": "Pour the cabernet to the standard line",
+      "why": "A wine pour to the etched line is the same five ounces every time, which is what makes the round's price and the bar's pour cost both mean something — eyeballing it drink to drink is how both start drifting without anyone deciding they should."
+    },
+    {
+      "cue": "Something at the far end of the rail needs a second look before that seat's owner comes back.",
+      "id": "spot-unattended",
+      "itemNames": {
+        "stranger-hand": "someone's hand lingering near a glass that isn't theirs",
+        "unattended-glass": "a drink left alone on the rail"
+      },
+      "itemNotes": {
+        "stranger-hand": "A hand resting near a glass that belongs to somebody else, at a bar this busy, is worth noticing before it becomes the reason the glass can't be trusted.",
+        "unattended-glass": "A full drink sitting alone while its owner is away from the seat is exactly the drink you cannot vouch for a minute from now."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Something at the far end of the rail needs a second look before that seat's owner comes back.",
+      "targets": [
+        "unattended-glass",
+        "stranger-hand"
+      ],
+      "title": "Watch the rail, not just the ticket in front of you",
+      "why": "Responsible service does not stop at the pour — a rail watched the whole length of the bar is what catches a drink that has gone unattended before its owner ever has to ask whether it is still safe to drink."
+    },
+    {
+      "cue": "Carry the glass to the dump sink rather than setting it back down.",
+      "drag": {
+        "missNote": "Not over the sink — carry it fully to the drain before letting go.",
+        "radius": 0.4,
+        "to": "dump-sink"
+      },
+      "id": "dump-unattended",
+      "kind": "drag",
+      "prompt": "Carry the glass to the dump sink rather than setting it back down.",
+      "target": "unattended-glass",
+      "title": "Dump the unattended drink",
+      "why": "Once a full drink has been out of its owner's sight, the only responsible move is pouring it out — there is no way to inspect a glass for what might have been added to it, so the house absorbs the cost of the pour instead of the patron absorbing the risk."
+    },
+    {
+      "cue": "Pour a fresh glass of the same drink once the old one is gone.",
+      "id": "fresh-pour-5",
+      "kind": "select",
+      "prompt": "Pour a fresh glass of the same drink once the old one is gone.",
+      "target": "fresh-pour-5",
+      "title": "Pour their replacement",
+      "why": "A fresh pour, poured and handed over in view of the seat it belongs to, is what turns an uncomfortable moment into routine good service — the patron loses nothing but the wait, and never has to know how close the alternative came to their glass."
+    },
+    {
+      "cue": "Enter tonight's pour count and close the round on the POS.",
+      "id": "close-round-log",
+      "kind": "select",
+      "prompt": "Enter tonight's pour count and close the round on the POS.",
+      "target": "close-round-log",
+      "title": "Log the round and close it out",
+      "why": "A logged pour count is what the bar's own inventory control and the county's ABC records both run on — a round closed out honestly, drink for drink, is the last step of the same responsible-service habit that carded the first seat."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "One pass down the rail — an ID check, a cut-off, a carry-out refused, a round poured to spec, and a drink nobody should ever hand back",
+  "title": "SmartCiti.X~ RBS Service Capstone VR",
+  "trade": "Bartender — UNITE HERE Local 2",
+  "underwater": null,
+  "weather": "clear"
+}

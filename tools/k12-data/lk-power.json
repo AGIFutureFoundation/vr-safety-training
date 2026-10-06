@@ -1,0 +1,146 @@
+{
+  "id": "k12-lk-where-a-data-center-gets-its-power",
+  "index": "966",
+  "prefix": "lke",
+  "accent": "#d8a33a",
+  "floor": ["#6e7076", "#606268"],
+  "wall": ["#e6e2d8", "#d4cfc2"],
+  "trade": "Science lesson on energy and electricity with a power and cooling crew — learner and electrician",
+  "header": "Lower-secondary science on the energy that runs a big computer building, as general science: how energy stored in natural gas becomes electricity at a power plant, travels on lines through a substation, turns into heat inside computers, and is carried away by a cooling plant, and why gas can be stored underground in a salt dome, worked on a model power path in the scene.",
+  "name": "Where a Data Center Gets Its Power",
+  "tagline": "Energy changes form but never vanishes — follow it from stored gas to hot chips and back out as heat",
+  "badge": { "id": "energy-tracker", "name": "Energy Tracker", "note": "Followed energy from a store to a spinning generator, through a substation to computer chips and out through the cooling plant" },
+  "board": { "name": "Energy Board", "currency": "SPARKS", "ranks": ["Spark", "Current", "Circuit", "Grid", "Power Tracker"] },
+  "hazards": [
+    { "id": "open-the-substation-gate", "label": "Open the substation fence to look closer?", "face": "OPEN\nGATE", "text": "You went for the substation gate. The equipment inside carries electricity at very high voltage, and it can jump through the air to anyone who gets too close. Only trained electricians go inside, under a permit, and everyone else stays outside the fence." },
+    { "id": "energy-gets-used-up", "label": "Say the energy just gets used up?", "face": "USED\nUP?", "text": "You said the energy is used up. Energy never disappears; it changes form. In the computers almost all of the electrical energy turns into heat, which is why the building needs such a big cooling plant to carry that heat away." },
+    { "id": "touch-a-fallen-line", "label": "Pick up the fallen wire in the model?", "face": "PICK\nUP", "text": "You reached for the fallen line. A line on the ground may still be live, and the ground around it can carry electricity too. Stay far back, keep others back and tell an adult to call the power company." },
+    { "id": "unplug-to-save-power", "label": "Pull the plug on a server rack to save power?", "face": "PULL\nPLUG", "text": "You went to pull a plug in the model data hall. The servers are doing work for many people, and only the operations crew switches equipment, following a plan. Saving energy is a good idea, but it is done by design, not by unplugging." }
+  ],
+  "find1": {
+    "title": "Find the energy stores in the model",
+    "cue": "Mark the three places where energy is stored before it becomes electricity or heat.",
+    "why": "Energy is stored in many forms. Natural gas holds chemical energy that is released when it burns. A battery holds chemical energy that can flow out as electricity. Sunlight falling on a solar panel carries light energy. A power system starts from stores like these and changes the energy into electricity people can use.",
+    "items": [
+      ["gas", "the gas store", "Chemical energy released by burning."],
+      ["battery", "the battery bank", "Chemical energy stored for later."],
+      ["sun", "the solar panel in sunlight", "Light energy turned to electricity."]
+    ],
+    "decoy": ["fence", "the fence around the yard", "It keeps people safe, but it stores no energy."]
+  },
+  "select1": {
+    "title": "Stay outside the fence with the electrician",
+    "cue": "Stand with the electrician at the yellow line outside the substation fence.",
+    "why": "The substation is where electricity from the long lines is changed to a voltage the building can use. The equipment inside carries so much electrical energy that the fence and the yellow line are there to keep people well back. The electrician explains from outside the fence, which is exactly where the class should be.",
+    "key": "line-card",
+    "label": "Behind the line",
+    "face": "OUTSIDE\nTHE FENCE"
+  },
+  "seq": {
+    "title": "Put the power path in order",
+    "cue": "Order the steps from stored gas to a working computer chip.",
+    "why": "Electricity has a path. At the power plant, burning gas heats and spins a turbine, and the turbine turns a generator that makes electricity. Long lines carry it to a substation, which changes the voltage. Cables bring it into the building, where the computers use it and turn it into heat. Each step changes the energy into the next form.",
+    "oon": "Out of order. The energy starts in the stored gas, before the plant spins anything.",
+    "items": [
+      ["ord-burn", "gas burns and spins a turbine"],
+      ["ord-generate", "the generator makes electricity"],
+      ["ord-substation", "the substation changes the voltage"],
+      ["ord-chip", "computers use it and give off heat"]
+    ]
+  },
+  "hold": {
+    "title": "Hold the crank to light the bulbs",
+    "cue": "Keep turning the hand-crank generator steadily until every bulb is lit.",
+    "why": "A generator turns movement into electricity. When you keep turning the crank, your muscles supply the energy, and the bulbs glow as long as you keep going. Stop, and they go out. A power plant does the same job with a huge turbine instead of your arm, turning all day and night.",
+    "brk": "The crank stopped and the bulbs went dark. Keep turning steadily.",
+    "key": "crank-hold",
+    "label": "Hold the crank turning"
+  },
+  "turn": {
+    "title": "Turn the dial to share out the load",
+    "cue": "Turn the load dial until the model's supply matches the computers' demand.",
+    "why": "Electricity has to be made at the same moment it is used. If the computers need more than the supply gives, the lights dim; if the supply is too high, it is wasted. Operators keep supply and demand matched all day. Turning the dial to balance them shows why a big building needs careful planning with the power company.",
+    "key": "load-dial",
+    "label": "Load dial",
+    "dial": "LOAD"
+  },
+  "gauge": {
+    "title": "Read the cooling water temperature",
+    "cue": "Commit when the marker sits at the reading on the cooling loop's thermometer.",
+    "why": "The computers turn electricity into heat, and the heat has to go somewhere. Water flows past the equipment, warms up and carries the heat to the cooling plant. Reading the thermometer on the loop shows how much heat the water is carrying. Technicians check it so the computers never get too hot.",
+    "key": "temp-meter",
+    "label": "Cooling water temperature",
+    "meter": "TEMP",
+    "miss": "Not at the reading yet. Read where the liquid stops in the thermometer."
+  },
+  "drag": {
+    "title": "Place the gas store in the salt dome",
+    "cue": "Drag the model gas store into the space hollowed out inside the salt dome.",
+    "why": "Deep under parts of the Louisiana coast are huge underground bodies of salt called salt domes. Salt is so tightly packed that gas cannot leak through it. Engineers can hollow out a cave inside the salt with water and keep natural gas there until it is needed. Placing the store shows why salt makes a good sealed box.",
+    "key": "gas-store",
+    "label": "Gas store",
+    "spot": "dome-spot",
+    "spotLabel": "The space in the salt",
+    "miss": "Not inside the salt yet. Place it in the hollow space."
+  },
+  "select2": {
+    "title": "Say where the electrical energy ends up",
+    "cue": "Choose the sentence that says what happens to the energy the computers use.",
+    "why": "You felt the warm air and read the warm water. A good answer says that the electrical energy does not vanish: almost all of it turns into heat inside the computers, and the cooling plant carries that heat out of the building. It says what the model showed and nothing more.",
+    "key": "result-card",
+    "label": "State where it goes",
+    "face": "WHERE DOES\nIT GO?"
+  },
+  "find2": {
+    "title": "Spot the jobs that keep the power on",
+    "cue": "Look around the model campus and mark three kinds of work that keep the building running.",
+    "why": "A big computer building needs many trades. Electricians install and look after the wiring and switchgear. Heating and cooling technicians run the chillers and pumps. Network technicians connect the servers so they can talk to one another. These are kinds of work people train for, and each one uses the science in this lesson.",
+    "items": [
+      ["electrician", "an electrician at the switchgear", "Keeps the power flowing."],
+      ["hvac", "a cooling technician at the chiller", "Carries the heat away."],
+      ["network", "a network technician at a rack", "Connects the computers."]
+    ],
+    "decoy": ["visitor", "a visitor at the front desk", "Welcome, but not keeping the power on."]
+  },
+  "track": {
+    "title": "Follow the heat out of the building",
+    "cue": "Keep the marker on the warm water as it flows from the computers to the cooling tower.",
+    "why": "Following the warm water shows the last step of the energy's journey. It leaves the computers, travels to the cooling plant, and gives up its heat to the outside air. Then the cooled water flows back to pick up more. The loop never stops while the computers are working.",
+    "brk": "The marker lost the warm water. Find it again and follow it to the tower.",
+    "key": "heat-track",
+    "label": "Heat followed",
+    "meter": "FOLLOW"
+  },
+  "record": {
+    "title": "Record each form the energy took",
+    "cue": "Write one line each for stored, moving, electrical and heat energy.",
+    "why": "Naming each form in order shows the whole journey in a few lines. Anyone reading your record can see that the energy was never lost, only changed. Engineers draw the same kind of energy path when they plan a building, so they know how much power and cooling it will need.",
+    "key": "energy-log",
+    "label": "Energy record",
+    "done": "Energy path recorded"
+  },
+  "share": {
+    "title": "Compare energy paths with another group",
+    "cue": "Put your energy path next to another group's and check that nothing went missing.",
+    "why": "If two groups tracked the same energy, their paths should match. Comparing them catches a step one group forgot. Crews check each other's plans in the same way before work starts, because a second pair of eyes spots gaps that the first one missed.",
+    "key": "share-board",
+    "label": "Compare paths",
+    "done": "Paths compared"
+  },
+  "checkin": {
+    "title": "Check in before leaving the campus",
+    "cue": "Where does the energy start and where does it end? Why does the building need cooling?",
+    "why": "The electrician finishes the tour by checking what the class understood. Each learner names the first and last form of the energy and one reason for the cooling plant. If anyone still thinks the energy just gets used up, the group sorts it out now.",
+    "label": "End-of-tour check-in"
+  },
+  "interrupts": [
+    { "id": "a-storm-rolls-in-over-the-yard", "kind": "Weather", "key": "go-inside", "label": "Move indoors with the class", "alert": "Thunder rumbles and dark clouds roll over the substation yard.", "cue": "Walk with the class into the building and wait until the storm has passed.", "why": "If you can hear thunder, lightning is close enough to reach you, and tall metal equipment and open yards are the wrong place to be. Moving indoors straight away is what the crew does too.", "miss": "The class stayed in the open yard while the thunder got closer. When you hear thunder, go inside a building straight away and stay there until the storm has passed.", "wrong": "That keeps the class outside. Move indoors now. Choose the response that deals with it now.", "done": "Class indoors, the storm passed. The lesson carries on." },
+    { "id": "the-electrician-asks-about-the-generator", "kind": "Crew question", "key": "name-motion", "label": "Say a generator turns motion into electricity", "alert": "The electrician asks what a generator actually does.", "cue": "Say that a generator turns spinning motion into electrical energy.", "why": "The crank showed it: turning made the bulbs glow. Every power plant, whatever its fuel, spins a generator. Knowing that links the whole energy path together.", "miss": "You could not say what a generator does, and the electrician explained before the tour went on.", "wrong": "That does not describe the generator. Say what it turns into what. Choose the response that deals with it now.", "done": "Generator explained. The lesson carries on." }
+  ],
+  "crew": ["Science teacher", "Classmate", "Electrician", "Cooling technician"],
+  "guide": { "start": "Outside the fence with the electrician.", "after": "Energy changes form; it never vanishes.", "hazard": "Stop. Stay behind the yellow line." },
+  "lateRecord": "The energy record is written once you have followed the whole path — nothing to record yet.",
+  "lateCheckin": "The check-in comes at the very end of the tour.",
+  "scene": "bench",
+  "order": "a"
+}

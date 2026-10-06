@@ -1,0 +1,386 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "sheet-signed",
+    "name": "Sheet Signed",
+    "note": "A full night's tip-out, breaks and split shift closed out clean, with the steward's sign-off on it"
+  },
+  "category": "Culinary & Hospitality",
+  "certification": "California Labor Code §351 (tips are the property of the employee, no employer credit against wages, card tips paid no later than the next regular payday) and §2810.5 wage notice; IWC Wage Order 5 on meal periods, rest periods and the split-shift premium; the federal Fair Labor Standards Act's own tip-credit and tip-pooling rule at 29 CFR Part 531, the floor California's stricter statute sits on top of; the UNITE HERE Local 2 contract's tip-pooling and grievance language; the California Labor Commissioner's (DLSE) tip-pooling guidance; California ABC's mandatory RBS certification for anyone pouring on this licensed floor",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "Cal. ABC",
+        "citedAs": "RBS",
+        "id": "abc-rbs-training",
+        "title": "California Responsible Beverage Service Training Act — ABC RBS certification for anyone who serves alcohol"
+      },
+      {
+        "body": "DOL",
+        "citedAs": "29 CFR 531.52",
+        "id": "dol-29-cfr-531-52",
+        "title": "29 CFR 531.52 — General characteristics of tips"
+      },
+      {
+        "body": "IWC",
+        "citedAs": "Wage Order 5",
+        "id": "iwc-wage-orders",
+        "title": "California Industrial Welfare Commission wage orders, including Wage Order 5 for public housekeeping"
+      },
+      {
+        "body": "Cal. Labor Code",
+        "citedAs": "Labor Code §351",
+        "id": "labor-code-351",
+        "title": "California Labor Code §351 — gratuities are the sole property of the employee"
+      },
+      {
+        "body": "Cal. Labor Code",
+        "citedAs": "Labor Code §512",
+        "id": "labor-code-512",
+        "title": "California Labor Code §512 — meal periods"
+      },
+      {
+        "body": "union",
+        "citedAs": "UNITE HERE",
+        "id": "unite-here-training",
+        "title": "UNITE HERE hospitality training funds — cooks, housekeepers, bartenders and banquet staff"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Hospitality",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "open-count",
+        "name": "Open Count",
+        "note": "The jar counted in the open, clean"
+      },
+      {
+        "id": "no-skim",
+        "name": "No Skim",
+        "note": "No unsafe action anywhere in the run"
+      },
+      {
+        "id": "dead-centre-split",
+        "name": "Dead Centre Split",
+        "note": "Tip-out percentage set exactly to the contract figure"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-sheet",
+        "name": "Clean Sheet",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "fast-close",
+        "name": "Fast Close",
+        "note": "Closed out inside 80% of par"
+      },
+      {
+        "id": "six-straight",
+        "name": "Six Straight",
+        "note": "Six correct actions in a row"
+      }
+    ],
+    "currency": "TIPS",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Rail Hand",
+      "Tip-Out Trusted",
+      "Sheet Keeper",
+      "Shop Steward's Right Hand",
+      "Ledger Certified"
+    ],
+    "system": "House Ledger"
+  },
+  "hazards": {
+    "break-waiver-blank": "That meal-break waiver is pre-signed and blank, ready to attach to any shift. A waiver is only lawful for a shift of six hours or less, and only when the employee actually agrees to skip that specific break — a standing blank one signs away a right nobody was asked about that day.",
+    "cash-skim": "A folded bill was tucked out of the count before anyone saw the jar. The whole reason the count happens on the bar top in front of whoever is around is that a tip counted where it cannot be seen is a tip somebody can argue never existed — skimming it defeats the one thing that protects the count.",
+    "late-card-tips": "That note holds the card tip total over to a later pay period. Labor Code §351 requires card tips to be paid no later than the next regular payday after the card transaction — sitting on them because payroll is easier next month is exactly the delay the statute was written to stop.",
+    "role-manager": "You put the shift manager in the tip pool. Labor Code §351 bars anyone with the authority to hire, fire, discipline or direct the work from taking any share of the tips their staff earned, no matter how busy the floor was or whether they poured a single drink themselves."
+  },
+  "id": "tip-pool-labor",
+  "indoor": "bar",
+  "interrupts": [
+    {
+      "after": "jar-count",
+      "alert": "The shift manager's hand is in the tip jar behind you — he says he's only grabbing quarters to make change for the register.",
+      "cue": "Ring him off. Do not go back to the jar yourself.",
+      "delay": 3,
+      "id": "manager-reach",
+      "kind": "Manager taking from the pool",
+      "missNote": "The hand stayed in the jar the whole time and nobody said a word. A skim that goes unchallenged in the moment is a skim that happened, whatever gets sorted out on paper afterward.",
+      "seconds": 12,
+      "target": "call-out-manager",
+      "why": "Whatever the reason given, a manager's hand in the pool is the exact thing §351 and the contract both forbid — the response is calling him off in the moment, in front of whoever is around, not quietly finishing the count around him and sorting it out later.",
+      "wrongNote": "That is not the response. Call him off — reaching into the jar yourself to check what he took only puts a second hand where one already should not have been."
+    },
+    {
+      "after": "card-tips",
+      "alert": "The table of six from the corner is at the bar, insisting the 20% gratuity on their bill is a mistake they never agreed to.",
+      "cue": "Pull up the printed disclosure, not the register override.",
+      "delay": 3,
+      "id": "grat-dispute",
+      "kind": "Customer disputing a charge",
+      "missNote": "The dispute went unanswered while the count kept running. A party left believing they were overcharged, with nothing shown to them that says otherwise, is a chargeback and a bad review nobody had to earn.",
+      "seconds": 12,
+      "target": "check-copy",
+      "why": "An auto-gratuity on a party this size is disclosed on the menu the table already ordered from, and showing them the printed line is the whole answer — it is a service charge policy applied correctly, not a bartender's mistake to apologise the cost of away.",
+      "wrongNote": "Not the register. Pulling up the printed disclosure proves the charge was policy, not a keystroke — voiding it without showing them that trains every future table that arguing works."
+    }
+  ],
+  "lateNotes": {
+    "cash-share-barback": "The bartenders' share goes into its envelope first — the barback's follows once that split is on the table.",
+    "cash-share-bartenders": "The envelopes come after the percentage is set and committed — dragging cash before the split is decided just moves an unknown number.",
+    "post-board": "The steward reviews the sheet before it goes on the board — posting first and correcting after is the wrong order for the one check meant to catch the mistake before anyone sees it.",
+    "tip-scale": "The percentage gets set after the roles are named, not before — you cannot split a pool you have not yet said who is in it."
+  },
+  "name": "Tip Pool & Labor",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "bartending-course"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.2,
+    "hits": [
+      "break-waiver-blank",
+      "call-out-manager",
+      "cash-share-barback",
+      "cash-share-bartenders",
+      "cash-skim",
+      "check-copy",
+      "envelope-barback",
+      "envelope-bartenders",
+      "envelope-manager",
+      "grievance-log",
+      "late-card-tips",
+      "pos-terminal",
+      "post-board",
+      "role-barback",
+      "role-bartender",
+      "role-busser",
+      "role-manager",
+      "safe-dial",
+      "sched-rest-break",
+      "sched-split-shift",
+      "split-shift-line",
+      "steward-phone",
+      "time-clock-meal",
+      "tip-jar",
+      "tip-out-sheet",
+      "tip-scale"
+    ],
+    "meshes": 216
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Dump the jar on the bar top and hold the count until it is done, where anyone can see it.",
+      "holdBreakNote": "You stopped mid-count. A jar counted halfway and set down is a number nobody else can vouch for — start the count again and carry it through.",
+      "id": "jar-count",
+      "kind": "hold",
+      "prompt": "Dump the jar on the bar top and hold the count until it is done, where anyone can see it.",
+      "seconds": 5,
+      "target": "tip-jar",
+      "title": "Count the cash tip jar in the open",
+      "why": "California Labor Code §351 makes every tip the property of the employees who earned it, never the house's — counting the jar openly on the bar top, not in a back room by yourself, is what keeps that ownership from turning into a dispute nobody can settle afterward."
+    },
+    {
+      "cue": "Hold the report key until the shift's card tip total prints.",
+      "holdBreakNote": "The report cut off before the total printed. A partial slip proves nothing — hold it through to the printed figure.",
+      "id": "card-tips",
+      "kind": "hold",
+      "prompt": "Hold the report key until the shift's card tip total prints.",
+      "seconds": 4,
+      "target": "pos-terminal",
+      "title": "Print the card tip report",
+      "why": "Card tips run through the point of sale, and §351 requires the employer to pay them out no later than the next regular payday — federal law sets a similar floor at 29 CFR 531.52, but California's is the stricter clock that actually governs here. The printed total is the only record anyone can hold the house to that deadline with, so it comes off the machine before the sheet is built around a guess."
+    },
+    {
+      "cue": "Carry the counted totals to the back office and open the sheet.",
+      "id": "tip-out-sheet",
+      "kind": "select",
+      "prompt": "Carry the counted totals to the back office and open the sheet.",
+      "target": "tip-out-sheet",
+      "title": "Open tonight's tip-out sheet at the desk",
+      "why": "A tip-out sheet is a written record of who got what and why, made the same night the money moved — it is what turns 'I think that's right' into something the Labor Commissioner, the steward or a skeptical barback can actually check."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Tag every role that actually works the service chain — nobody with authority over the floor belongs on this board.",
+      "id": "eligible-roles",
+      "itemNames": {
+        "role-barback": "barbacks",
+        "role-bartender": "bartenders",
+        "role-busser": "bussers"
+      },
+      "kind": "sequence",
+      "prompt": "Tag every role that actually works the service chain — nobody with authority over the floor belongs on this board.",
+      "targets": [
+        "role-bartender",
+        "role-barback",
+        "role-busser"
+      ],
+      "title": "Name who lawfully shares the pool",
+      "why": "A lawful pool is limited to people in the chain of service who do not direct or discipline anyone else's work — bartenders, barbacks and bussers all touch the same tables the tip came from, and every one of them pouring on this floor also holds the ABC-mandated RBS certification that keeps the bar's own license in good standing. The moment someone with hiring or firing authority is added, the whole pool is unlawful, not just their share of it."
+    },
+    {
+      "cue": "Watch the dial and commit the moment it lands on the figure the contract sets.",
+      "gauge": {
+        "green": [
+          0.28,
+          0.36
+        ],
+        "label": "TIP-OUT %",
+        "missNote": "Off the contract figure. Set it again and commit only when the dial reads the percentage the contract actually calls for.",
+        "speed": 0.7
+      },
+      "id": "tip-out-percent",
+      "kind": "gauge",
+      "prompt": "Watch the dial and commit the moment it lands on the figure the contract sets.",
+      "target": "tip-scale",
+      "title": "Set the barback tip-out to the contract percentage",
+      "why": "The percentage a bartender tips out to the barback is written into the Local 2 contract, not decided at the bar on a busy night — setting it anywhere off that figure shorts one of them and is exactly the kind of thing a steward's review exists to catch before it becomes a pattern."
+    },
+    {
+      "cue": "Carry the counted stack to the envelope marked for the bartenders.",
+      "drag": {
+        "missNote": "Not lined up with the bartenders' envelope — carry it fully into the slot before letting go.",
+        "radius": 0.4,
+        "to": "envelope-bartenders"
+      },
+      "id": "split-bartenders",
+      "kind": "drag",
+      "prompt": "Carry the counted stack to the envelope marked for the bartenders.",
+      "target": "cash-share-bartenders",
+      "title": "Drag the bartenders' share into their envelope",
+      "why": "Each share goes into its own envelope the same night it is counted, labelled for the people it belongs to — a sheet that says who got what is only honest if the cash it describes actually moved that way."
+    },
+    {
+      "cue": "Carry the barback's cut, set by the gauge, into their envelope.",
+      "drag": {
+        "missNote": "Not lined up with the barback's envelope — bring it fully into the slot before letting go.",
+        "radius": 0.4,
+        "to": "envelope-barback"
+      },
+      "id": "split-barback",
+      "kind": "drag",
+      "prompt": "Carry the barback's cut, set by the gauge, into their envelope.",
+      "target": "cash-share-barback",
+      "title": "Drag the barback's share into their envelope",
+      "why": "The barback's envelope gets exactly the percentage the contract sets, no more and no less — the same open handling that protects the bartenders' share is the only thing that protects theirs, since they are rarely the one holding the jar."
+    },
+    {
+      "cue": "Two problems are sitting in the schedule sheet. Find them before the paperwork goes up.",
+      "id": "sched-review",
+      "itemNames": {
+        "sched-rest-break": "a rest break never logged",
+        "sched-split-shift": "an unpaid split shift with no premium noted"
+      },
+      "itemNotes": {
+        "sched-rest-break": "A ten-minute paid rest break for every four hours worked is required whether or not the floor was slow enough to notice it was skipped — an unlogged one is not proof it happened.",
+        "sched-split-shift": "A shift broken by more than an hour of unpaid time between the lunch rush and the dinner rush is a split shift under Wage Order 5, and it earns a premium the schedule has to show, not assume."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Two problems are sitting in the schedule sheet. Find them before the paperwork goes up.",
+      "targets": [
+        "sched-split-shift",
+        "sched-rest-break"
+      ],
+      "title": "Read tonight's schedule before you sign off on it",
+      "why": "The sheet is only as honest as the schedule it is built from — a split shift with no premium and a rest break nobody logged are both wage claims waiting to happen, and they are far cheaper to fix tonight than after a pay period has already gone out wrong."
+    },
+    {
+      "cue": "Check the time clock shows a real thirty-minute meal punch before the fifth hour.",
+      "id": "meal-break",
+      "kind": "select",
+      "prompt": "Check the time clock shows a real thirty-minute meal punch before the fifth hour.",
+      "target": "time-clock-meal",
+      "title": "Confirm the meal break actually punched",
+      "why": "Labor Code §512 and Wage Order 5 require an unpaid thirty-minute meal period starting before the end of the fifth hour worked — a shift that ran through it owes a full hour of premium pay, and the only proof either way is the actual punch on the clock, not what anyone remembers."
+    },
+    {
+      "cue": "Add the extra hour the schedule check found.",
+      "id": "split-shift-premium",
+      "kind": "select",
+      "prompt": "Add the extra hour the schedule check found.",
+      "target": "split-shift-line",
+      "title": "Enter the split-shift premium on the timesheet",
+      "why": "Wage Order 5 owes one additional hour at minimum wage for a shift split by an unpaid break of more than an hour — leaving it off the timesheet does not make the shift not a split shift, it just means the paycheck is short until somebody catches it."
+    },
+    {
+      "cue": "Spin the dial through a full turn to set the lock once every envelope is filled.",
+      "id": "lock-safe",
+      "kind": "turn",
+      "prompt": "Spin the dial through a full turn to set the lock once every envelope is filled.",
+      "target": "safe-dial",
+      "title": "Lock tonight's proceeds in the safe",
+      "turn": {
+        "axis": "y",
+        "label": "SAFE DIAL",
+        "turns": 1
+      },
+      "why": "Once the split is bagged, the night's cash goes into the safe under dual control rather than sitting in an unlocked desk drawer between now and the morning drop — the count you just made is only as good as where it spends the rest of the night."
+    },
+    {
+      "cue": "Call the steward to review the split before anyone else sees it.",
+      "id": "steward-notify",
+      "kind": "select",
+      "prompt": "Call the steward to review the split before anyone else sees it.",
+      "target": "steward-phone",
+      "title": "Call the shop steward before the sheet is posted",
+      "why": "The Local 2 contract puts a steward's review between the counting and the posting for exactly this reason — a mistake caught on a phone call costs nobody anything, and one caught after the sheet is already on the wall is a grievance instead."
+    },
+    {
+      "cue": "Open the grievance log and record tonight's interruption by name, time and what was taken.",
+      "id": "grievance-form",
+      "kind": "select",
+      "prompt": "Open the grievance log and record tonight's interruption by name, time and what was taken.",
+      "target": "grievance-log",
+      "title": "Log the grievance step for the manager's hand in the jar",
+      "why": "A manager's hand in the tip jar is a contract violation the grievance procedure exists to answer, on top of whatever §351 already says — a written entry tonight, while everyone remembers it the same way, is what a shop steward actually has to work with at Step One."
+    },
+    {
+      "cue": "Pin the finished, steward-reviewed sheet where the whole shift can check it.",
+      "id": "post-sheet",
+      "kind": "select",
+      "prompt": "Pin the finished, steward-reviewed sheet where the whole shift can check it.",
+      "target": "post-board",
+      "title": "Post the signed tip-out sheet",
+      "why": "A tip-out sheet nobody but the closer ever sees is a ledger the crew has to take on faith. Posted where everyone can check their own math, it is the difference between a night that was split fairly and a night everyone was simply told was split fairly."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Closing paperwork behind the bar: the jar counted open, a lawful pool split, breaks and split shift entered straight, and the steward standing behind the sheet",
+  "title": "SmartCiti.X~ Tip Pool & Labor VR",
+  "trade": "Bartender — UNITE HERE Local 2",
+  "underwater": null,
+  "weather": "clear"
+}

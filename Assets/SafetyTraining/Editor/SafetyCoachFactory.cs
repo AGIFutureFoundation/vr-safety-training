@@ -14,6 +14,8 @@ namespace SafetyTraining.Editor
             "Assets/ThirdParty/MicrosoftRocketbox/Construction_Female_01/Export/Construction_Female_01.fbx";
         public const string FireCoachPath =
             "Assets/ThirdParty/MicrosoftRocketbox/Fire_Female_01/Export/Fire_Female_01.fbx";
+        public const string TechnicianCoachPath =
+            "Assets/ThirdParty/MicrosoftRocketbox/Construction_Male_01/Export/Construction_Male_01.fbx";
         const string ControllerPath = "Assets/SafetyTraining/Generated/NpcLocomotion.controller";
         const string IdlePath =
             "Assets/ThirdParty/UnityPeopleSansPeople/Animations/Stand--Idle.anim.fbx";

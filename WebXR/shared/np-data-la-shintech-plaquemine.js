@@ -1,0 +1,97 @@
+// Plaquemine expansion site — a Louisiana development site on the parish schema (console SITES-NORTH, docs/consoles/SITES-NORTH.md,
+// docs/parishes.md). A stylised 4096 m map, not a survey: Plaquemine, the Mississippi River, Bayou Plaquemine, the Plaquemine Lock and
+// the state highway appear only by their public names as places; every coordinate is approximate (three decimals, `approximate: true`)
+// and exists only to place the map. One north-up uniform scale (three real metres per map metre, x east, +z south). The river's bends,
+// the levees' lines, the field canal, the town grid and every building and site are PROCEDURAL; the project layout is
+// ILLUSTRATIVE (no site plan is published): the project layout is illustrative; the parish, waterways and towns are real.
+// Water and road layout checked against Copernicus Sentinel-2 imagery (Contains modified Copernicus Sentinel data 2026).
+// The project, as the facts file states it: the Shintech expansion, Plaquemine, Iberville Parish (Capital Region), $3.4 billion; 163
+// direct new jobs, 725 retained, 655 indirect (818 total new opportunities); first phase 2030 — sources: opportunitylouisiana.gov news;
+// lailluminator.com; wafb.com 2026-03-05. A trade reference only: the platform has no partnership with the company. Process safety is
+// taught as awareness from the catalog's sourced stations; the company's own process is never described. Pure data, no imports.
+export const NP_LA_SHINTECH_PLAQUEMINE = {
+  id: "la-shintech-plaquemine",
+  name: "Plaquemine Expansion Site",
+  region: "louisiana-sites",
+  size: 4096,
+  scale: 3,
+  relief: "3dep", // BACKDROPS-2: real relief from the committed USGS 3DEP grid (assets/geo/<id>.relief.json, bd2-relief-data.js)
+  blurb: "Plaquemine in Iberville Parish on the Mississippi's west bank: the river and its levees, Bayou Plaquemine and the old lock, the town, and fields south of town where a chemical plant expansion is being built — the process unit, the pipe rack, the control room, the river dock and the tank farm (process safety awareness only). The project layout is illustrative; the parish, waterways and towns are real.",
+  start: "lsp-workforce-centre",
+  anchors: [
+    {"xz":[160,-705],"lonlat":[-91.235,30.289],"approximate":true,"name":"Plaquemine"},
+    {"xz":[224,-891],"lonlat":[-91.233,30.294],"approximate":true,"name":"the Mississippi River off Plaquemine"},
+    {"xz":[-1218,519],"lonlat":[-91.278,30.256],"approximate":true,"name":"Bayou Plaquemine south-west of town"},
+    {"xz":[1218,1484],"lonlat":[-91.202,30.23],"approximate":true,"name":"the state highway south-east of Plaquemine"},
+    {"xz":[1282,-1039],"lonlat":[-91.2,30.298],"approximate":true,"name":"the east bank inside the bend"},
+    {"xz":[-353,-1930],"lonlat":[-91.251,30.322],"approximate":true,"name":"the state highway north of Plaquemine"},
+  ],
+  hills: [],
+  water: [
+    {"id":"mississippi-river","name":"the Mississippi River","kind":"river","width":260,"poly":[[2048,-1860],[1300,-1830],[614,-1745],[330,-1460],[210,-1050],[260,-720],[520,-460],[1024,-300],[1536,-250],[2048,-280]]},
+    {"id":"bayou-plaquemine","name":"Bayou Plaquemine","kind":"bayou","width":26,"poly":[[-2048,870],[-1540,700],[-1000,340],[-700,0],[-360,-560],[-100,-760],[20,-840]]},
+    {"id":"west-field-canal","name":"a field drainage canal west of town (procedural)","kind":"canal","width":12,"poly":[[-2048,-1200],[-1300,-1100],[-800,-1300],[-600,-2048]]},
+  ],
+  levees: [
+    {"id":"west-bank-levee","name":"the Mississippi River levee, town side","height":5,"pts":[[2048,-1670],[1315,-1641],[682,-1567],[494,-1365],[399,-1032],[428,-808],[612,-626],[1062,-486],[1540,-440],[2037,-470]]},
+    {"id":"east-bank-levee","name":"the Mississippi River levee, inside the bend","height":5,"pts":[[2040,-2048],[1285,-2019],[546,-1923],[166,-1555],[21,-1068],[92,-632],[428,-294],[986,-114],[1532,-60],[2048,-90]]},
+  ],
+  roads: [
+    {"id":"louisiana-highway-one","name":"Louisiana Highway One","kind":"avenue","pts":[[-410,-2048],[-260,-1500],[-170,-1000],[-100,-600],[250,-280],[650,20],[1000,860],[1485,2048]]},
+    {"id":"west-bank-river-road","name":"the town-side River Road","kind":"riverroad","pts":[[2048,-1625],[1319,-1596],[698,-1525],[1072,-530],[1541,-485],[2034,-515]]},
+    {"id":"east-bank-river-road","name":"the River Road inside the bend","kind":"riverroad","pts":[[2038,-2048],[1281,-2048],[528,-1969],[123,-1581],[-29,-1073],[48,-608],[404,-250],[975,-65],[1531,-10],[2048,-40]]},
+    {"id":"plaquemine-main-street","name":"Plaquemine's main street (procedural grid)","kind":"street","pts":[[-520,-300],[-120,-560]]},
+    {"id":"south-town-street","name":"a town street south of the bayou (procedural)","kind":"street","pts":[[-560,-100],[150,-160]]},
+    {"id":"plant-access-road","name":"the plant access road (illustrative)","kind":"street","pts":[[-450,380],[700,330],[900,500]]},
+  ],
+  districts: [
+    {"id":"plaquemine-town","name":"Plaquemine","character":"downtown","poly":[[-600,-1100],[-150,-1100],[-60,-640],[300,-300],[250,0],[-600,0]]},
+    {"id":"plaquemine-north","name":"north Plaquemine (procedural)","character":"suburb","poly":[[-600,-2048],[300,-2048],[0,-1500],[-150,-1100],[-600,-1100]]},
+    {"id":"east-bank-point","name":"the east bank inside the bend (procedural fields)","character":"garden","poly":[[560,-1330],[1300,-1600],[2048,-1620],[2048,-520],[1060,-520],[640,-660],[480,-800]]},
+    {"id":"plant-expansion","name":"the plant expansion (illustrative)","character":"industrial","poly":[[-600,300],[700,280],[1000,860],[1250,1600],[-600,1600]]},
+    {"id":"river-dock","name":"the river dock at the levee (illustrative)","character":"port","poly":[[900,-60],[1400,-30],[1400,180],[900,180]]},
+    {"id":"south-east-fields","name":"the fields south-east of town (procedural)","character":"garden","poly":[[1050,200],[2048,150],[2048,2048],[1485,2048],[1000,860]]},
+    {"id":"west-fields","name":"the fields west of town (procedural)","character":"garden","poly":[[-2048,-2048],[-600,-2048],[-600,2048],[-2048,2048]]},
+  ],
+  sites: [
+    {"id":"lsp-workforce-centre","name":"Plaquemine Workforce Centre","kind":"campus","position":[-300,-250],"trades":["ua","ibew","liuna"],"programmes":["job-readiness-edition","plumbers-and-pipefitters"],"stations":["jobsite-orientation-and-osha-10","hazwoper-site-orientation","apprenticeship-standards-reading","union-hall-and-dispatch"],"blurb":"The workforce centre on the edge of Plaquemine: site orientation, the plant-site hazard briefing and the apprenticeship board before the bus to the expansion."},
+    {"id":"lsp-gate-and-badging","name":"Gate and Badging","kind":"office","position":[600,230],"trades":["spfpa","teamsters"],"programmes":["situational-awareness","hazmat-environmental"],"stations":["hazwoper-site-orientation","tdl-hazmat-labeling-and-segregation","tdl-pretrip-inspection"],"blurb":"The plant gate: badges, the site safety briefing, and every load's hazard placards checked before a truck rolls in."},
+    {"id":"lsp-process-unit-build","name":"Process Unit Build","kind":"construction","position":[100,700],"trades":["ua","ironworkers","ibb"],"programmes":["plumbers-and-pipefitters","insulators-and-boilermakers","bridge-and-structural"],"stations":["ib-pressure-vessel-confined-entry-and-hot-work","steel-erector","scaffold-erection","cs-permit-entry-and-attendant-duties"],"blurb":"A new process unit's structure and vessels going up: steel set, vessels entered only on a permit, and hot work watched. Process safety awareness only: the plant's own process is not taught here."},
+    {"id":"lsp-pipe-rack-crew","name":"Pipe Rack Crew","kind":"construction","position":[350,800],"trades":["ua","ironworkers","iuoe"],"programmes":["plumbers-and-pipefitters","rigging-lifting","fall-protection"],"stations":["rl-critical-lift-plan-and-signalperson","leading-edge-and-horizontal-lifeline","ib-hydrostatic-test-and-inspector-witness","chain-hoist"],"blurb":"The pipe rack that carries lines across the unit: spools lifted on a plan, fitters tied off on the rack, and every line pressure-tested before it is signed."},
+    {"id":"lsp-control-room","name":"Control Room Build-Out","kind":"office","position":[400,450],"trades":["ibew","ifpte"],"programmes":["electrical-first-period","stationary-engineer"],"stations":["motor-control-center","arc-flash-label-study","se-building-automation-alarm-triage"],"blurb":"The control room's gear and screens being installed: panels torqued, arc-flash labels posted and the alarm screens tested before operators move in."},
+    {"id":"lsp-river-dock","name":"River Dock","kind":"port","position":[1150,80],"trades":["ila","siu","iuoe"],"programmes":["port-operations","rigging-lifting"],"stations":["mooring-line","dock-crane","vessel-gangway-and-hatch-cover-safety","yc-fuel-dock-transfer-and-spill-kit"],"blurb":"The dock at the Mississippi levee east of town: barges moored with lines kept out of the snap-back zone, the dock crane's picks planned, and the spill kit by the transfer."},
+    {"id":"lsp-tank-farm","name":"Tank Farm","kind":"chemical","position":[500,1150],"trades":["ua","ibb","iupat"],"programmes":["hazmat-environmental","confined-space","insulators-and-boilermakers"],"stations":["tank-lining","cs-ventilation-and-air-monitoring-plan","drum-sampling-and-overpack","ib-pressure-vessel-confined-entry-and-hot-work"],"blurb":"New storage tanks inside their containment walls: shells welded, linings applied with the air tested and ventilated. Process safety awareness only: no product or process is described."},
+    {"id":"lsp-laydown-yard","name":"Laydown Yard","kind":"staging","position":[-250,1250],"trades":["teamsters","iuoe"],"programmes":["warehouse-and-logistics-automation","rigging-lifting"],"stations":["forklift-dock","tdl-cargo-securement-and-hours","crane-yard"],"blurb":"Pipe spools, steel and valves staged for the unit: forklift lanes marked, loads strapped and every pick planned from the yard."},
+    {"id":"lsp-heavy-lift-crane-pad","name":"Heavy-Lift Crane Pad","kind":"construction","position":[-150,600],"trades":["iuoe","ironworkers"],"programmes":["rigging-lifting","heavy-equipment-operators"],"stations":["op-crawler-crane-assembly-and-load-chart","rl-critical-lift-plan-and-signalperson","rigging-loft"],"blurb":"The big crawler crane's mat for setting vessels: ground bearing checked, the critical lift plan signed, and the rigging inspected before the vessel leaves its saddles."},
+    {"id":"lsp-rail-yard","name":"Rail Spur Yard","kind":"rail","position":[-700,1100],"trades":["smart-td","bmwed","teamsters"],"programmes":["railroad-crafts"],"stations":["ra-blue-flag-protection-in-the-yard","ra-roadway-worker-protection-and-job-briefing","ra-switch-inspection-and-lubrication","ra-hand-brake-and-securement-on-a-grade"],"blurb":"The plant's rail spur west of the highway: blue flags up before anyone goes between cars, the job briefing, and hand brakes set on every car left standing."},
+    {"id":"lsp-electrical-substation","name":"Plant Substation","kind":"substation","position":[100,1300],"trades":["ibew","iuoe"],"programmes":["electrical-first-period","energy-transition"],"stations":["substation-switching","ws-substation-switching-under-a-permit","transformer-vault"],"blurb":"The expansion's substation: switching under a permit, the transformer vault locked, and the boundary taped before any work."},
+    {"id":"lsp-insulation-crew","name":"Insulation Crew","kind":"workshop","position":[150,1000],"trades":["insulators","iupat"],"programmes":["insulators-and-boilermakers"],"stations":["ib-mechanical-insulation-pipe-and-jacketing","ib-firestop-and-fire-wrap-installation","ib-asbestos-glovebag-removal-on-a-pipe"],"blurb":"The insulators' shop and the lines they cover: pipe insulated and jacketed, fire wrap on the steel, and old lagging handled only by the glovebag method."},
+    {"id":"lsp-scaffold-yard","name":"Scaffold Yard","kind":"yard","position":[-500,520],"trades":["carpenters","liuna"],"programmes":["fall-protection","builders-trades"],"stations":["scaffold-erection","fp-anchor-selection-and-rescue-plan","masonry-silica-scaffold"],"blurb":"The scaffold builders' yard: tubes and planks inspected, tags written for every scaffold, and the rescue plan ready before anyone climbs."},
+    {"id":"lsp-hydrotest-crew","name":"Hydrotest Crew","kind":"utility","position":[650,1450],"trades":["ua","ibb"],"programmes":["plumbers-and-pipefitters","insulators-and-boilermakers"],"stations":["ib-hydrostatic-test-and-inspector-witness","pl-hydronic-boiler-piping-and-hydrotest","pl-natural-gas-pressure-test-and-leak-check"],"blurb":"The crew proving new lines and vessels with water pressure: the area barricaded, the gauges watched and the inspector witnessing before anything is signed off."},
+    {"id":"lsp-levee-crossing","name":"Levee Crossing","kind":"levee","position":[1500,80],"trades":["liuna","iuoe"],"programmes":["bay-restoration-maritime-underwater","heavy-equipment-operators"],"stations":["br-levee-inspection-and-seepage","op-excavator-trench-and-utility-locate","br-cold-water-immersion-and-mob-recovery"],"blurb":"Where the dock's lines and road cross the Mississippi River levee east of town: the levee's crown kept whole, seepage watched, and a throw line kept ready on the river side."},
+    {"id":"lsp-emergency-response-station","name":"Emergency Response Station","kind":"fire-station","position":[650,650],"trades":["iaff","naemt"],"programmes":["first-responders","hazmat-environmental"],"stations":["hz-level-b-entry-and-scba-change-out","decon-line","structure-fire-sizeup","triage-point"],"blurb":"The site's emergency station: the brigade's suits and air, the decon line laid out, and drills run so everyone knows the muster point."},
+    {"id":"lsp-cooling-tower-build","name":"Cooling Tower Build","kind":"construction","position":[-200,900],"trades":["carpenters","ua","ironworkers"],"programmes":["stationary-engineer","fall-protection","builders-trades"],"stations":["cooling-tower","formwork-shoring","leading-edge-and-horizontal-lifeline"],"blurb":"A cooling tower rising beside the unit: the basin formed and poured, the frame built with every worker tied off, and the fill set from inside a guarded deck."},
+  ],
+  landmarks: [
+    {"id":"illustrative-layout-sign","name":"a sign: the project layout is illustrative; the parish, waterways and towns are real","position":[480,250],"kind":"point"},
+    {"id":"plaquemine-place","name":"Plaquemine","position":[-150,-400],"kind":"place"},
+    {"id":"plaquemine-lock","name":"the Plaquemine Lock","position":[-20,-870],"kind":"canal"},
+    {"id":"mississippi-west-bank","name":"the Mississippi's bank at Plaquemine","position":[125,-655],"kind":"river"},
+    {"id":"bayou-plaquemine-bank","name":"the Bayou Plaquemine bank","position":[-640,40],"kind":"canal"},
+    {"id":"west-field-canal-bank","name":"the field canal bank (procedural)","position":[-1300,-1040],"kind":"canal"},
+    {"id":"east-bank-place","name":"the east bank inside the bend","position":[1280,-1024],"kind":"shore"},
+  ],
+  connectors: [
+    {"id":"la-sp-highway-one-north","kind":"road","name":"Louisiana Highway One north toward Port Allen and Baton Rouge","from":{"parish":"la-shintech-plaquemine","position":[-410,-2040]},"to":{"parish":"capital-region-west-bank","position":null,"lonlat":[-91.253,30.325]},"lonlat":[-91.253,30.325],"approximate":true},
+    {"id":"la-sp-highway-one-south","kind":"road","name":"Louisiana Highway One south along the river parishes","from":{"parish":"la-shintech-plaquemine","position":[1480,2040]},"to":{"parish":"capital-region-south","position":null,"lonlat":[-91.194,30.215]},"lonlat":[-91.194,30.215],"approximate":true},
+  ],
+  fieldLessons: [
+    {"id":"la-lsp-fl-river-levee","title":"The Great River's Levee","site":"lsp-levee-crossing","landmark":"mississippi-west-bank","k12":"k12-by-how-a-levee-holds-water-back","station":"br-levee-inspection-and-seepage","trade":"Levee crews","tradeLine":"A levee crew keeps the crown whole where pipes and roads cross it, because a weak spot can let the river through.","minutes":3,"steps":["Climb the road onto the levee and look at the wide brown river beyond it.","The levee is packed earth; it keeps the high river out of the town and the plant.","Where a road or pipe crosses, the crew checks the ground after every high river for wet spots."],"check":{"q":"Why does a crew check the levee where pipes cross it?","options":["A crossing can become a weak spot for water","To count the barges","To paint the pipes"],"answer":0,"why":"Anything that cuts through a levee must be watched so the river cannot find a path."}},
+    {"id":"la-lsp-fl-reading-labels","title":"Reading a Hazard Label","site":"lsp-gate-and-badging","k12":"k12-reading-instructions-and-safety-labels","station":"tdl-hazmat-labeling-and-segregation","trade":"Truck drivers and gate staff","tradeLine":"A driver and the gate check every hazard placard, because the label tells everyone what is inside and how to stay safe.","minutes":3,"steps":["Look at the diamond-shaped placards on the trucks waiting at the gate.","Each colour and picture tells what kind of hazard the load carries.","The gate checks the label against the paperwork before the truck may drive in."],"check":{"q":"What does a hazard placard tell you?","options":["What kind of danger the load has","Who owns the truck","How fast the truck can go"],"answer":0,"why":"Placards warn workers and responders what is inside so they can act safely."}},
+    {"id":"la-lsp-fl-barges-on-the-river","title":"Barges on the River","site":"lsp-river-dock","k12":"k12-by-the-rivers-current-and-a-pilots-job","station":"mooring-line","trade":"Dock workers and deckhands","tradeLine":"A deckhand stays out of the snap-back zone when mooring, because a line under load can whip back if it parts.","minutes":3,"steps":["Watch the barges tied up along the dock and the river flowing past them.","The current pushes on the barges, so thick lines hold them to the dock.","The crew stands clear of the lines' path when they are pulled tight."],"check":{"q":"Where should a deckhand stand when a mooring line is pulled tight?","options":["Out of the line's snap-back path","Right beside the line","On top of the line"],"answer":0,"why":"A tight line that breaks whips back hard, so the crew stays out of its path."}},
+  ],
+  gated: [
+    {"id":"la-lsp-gated-vessel-set","kind":"side-quest","title":"Setting the First Vessel","world":"parishes","parish":"la-shintech-plaquemine","site":"lsp-heavy-lift-crane-pad","siteName":"Heavy-Lift Crane Pad","summary":"Help the heavy-lift crew set a vessel on its foundation.","gate":{"stations":["op-crawler-crane-assembly-and-load-chart","rl-critical-lift-plan-and-signalperson"],"note":"Finish the crawler crane and critical lift stations before the vessel is set"}},
+    {"id":"la-lsp-gated-hydrotest","kind":"side-quest","title":"Proving the Lines","world":"parishes","parish":"la-shintech-plaquemine","site":"lsp-hydrotest-crew","siteName":"Hydrotest Crew","summary":"Hydrotest a new line with the fitters and the inspector.","gate":{"stations":["ib-hydrostatic-test-and-inspector-witness","scaffold-erection"],"note":"Walk the hydrostatic test and scaffold stations before the test"}},
+  ],
+};

@@ -1,0 +1,401 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "taper-to-the-plan",
+    "name": "Taper To The Plan",
+    "note": "A closure set with the traffic, a taper measured to the plan's length, and a traveller run and parked without a correction"
+  },
+  "category": "Construction & Structural Trades",
+  "certification": "Ironworkers and IMPACT bridge crew training; MUTCD Part 6 temporary traffic control for the advance warning, the arrow board, the taper and the buffer; ANSI/ASSP A10.47 work zone safety for highway construction; ANSI/ISEA 107 high-visibility apparel; OSHA 29 CFR 1926 and 29 CFR 1926.502 for the traveller's fall protection; 29 CFR 1926.106 for work over water; the owner's traveller operating procedure",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI/ISEA 107",
+        "id": "ansi-isea-107",
+        "title": "ANSI/ISEA 107 — High-visibility safety apparel and accessories"
+      },
+      {
+        "body": "union",
+        "citedAs": "Ironworkers",
+        "id": "ironworkers-impact",
+        "title": "Ironworkers and IMPACT — apprenticeship and safety training for structural, ornamental and reinforcing ironwork"
+      },
+      {
+        "body": "MUTCD",
+        "citedAs": "MUTCD",
+        "id": "mutcd",
+        "title": "Manual on Uniform Traffic Control Devices — temporary traffic control for work zones (Part 6)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926",
+        "id": "osha-1926",
+        "title": "29 CFR 1926 — Safety and health regulations for construction"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.106",
+        "id": "osha-1926-106",
+        "title": "29 CFR 1926.106 — Working over or near water"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.502",
+        "id": "osha-1926-502",
+        "title": "29 CFR 1926.502 — Fall protection systems criteria and practices"
+      }
+    ]
+  },
+  "district": "golden-gate-deck",
+  "domain": "Construction",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "with-the-traffic",
+        "name": "With The Traffic",
+        "note": "Closure devices set in the order traffic meets them"
+      },
+      {
+        "id": "smooth-run",
+        "name": "Smooth Run",
+        "note": "Traveller run held inside its speed band"
+      },
+      {
+        "id": "never-in-the-lane",
+        "name": "Never In The Lane",
+        "note": "Never stood with your back to traffic or stepped into an open lane"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-closure",
+        "name": "Clean Closure",
+        "note": "No corrections from the plan to the log"
+      },
+      {
+        "id": "steady-traveller",
+        "name": "Steady Traveller",
+        "note": "The traveller run never dropped out of band"
+      },
+      {
+        "id": "closure-inside-par",
+        "name": "Closure Inside Par",
+        "note": "Logged inside 80% of par"
+      }
+    ],
+    "currency": "CONE",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Cone Setter",
+      "Flagger",
+      "Closure Lead",
+      "Traveller Operator",
+      "Closure Crew Certified"
+    ],
+    "system": "Closure Crew"
+  },
+  "hazards": {
+    "back-to-traffic": "You stood in the lane line facing the work with your back to the open lanes. Traffic beside a closure is moving at speed past people who are concentrating on something else, and the one rule that costs nothing is to face it: a worker who can see a vehicle drifting toward the cones has a second to move, and one with their back to it has none. High-visibility apparel makes you seen; facing traffic lets you see.",
+    "cone-from-open-lane": "You stepped out past the channelising line into an open lane to fetch a cone that had rolled there. That cone is now traffic's problem, not yours: a person in an open lane beside a closure is a person drivers have not been warned about, and they are travelling too fast to react. It is called to the flagger and retrieved when traffic is held, or left.",
+    "short-taper": "You started the taper here, with the cones bunched into a fraction of the length the plan calls for. A taper is the distance traffic has to merge out of a closed lane, and it is set from the speed of that traffic: cut short, it turns a merge into a swerve, and the drivers who do not make it arrive in the buffer and then in the work space. The plan's length is measured, not paced by eye.",
+    "untethered-traveller-tool": "The traveller's spanner is lying loose on its platform grating, with the deck edge and the strait beyond. A traveller rides and sways on the cable, and anything loose on it walks to the low side; a tool that goes off a traveller falls onto the lanes this closure is protecting, or past the railing onto the water. It rides tethered to the traveller rail."
+  },
+  "id": "gg-deck-lane-closure-and-traveller",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "spot-truck",
+      "alert": "A cyclist has come off the sidewalk through the barrier gap and is riding into the closure — straight across the path of the reversing truck.",
+      "cue": "Raise the stop paddle and call the truck to stop — the cyclist is behind it.",
+      "delay": 2,
+      "id": "cyclist-in-closure",
+      "kind": "Cyclist in the closure",
+      "missNote": "The truck kept reversing with a cyclist crossing behind it, and the only person who could see both of them did not stop either.",
+      "seconds": 12,
+      "target": "stop-paddle",
+      "why": "A cyclist who has ridden into a closure does not know a truck is reversing, and the truck's driver cannot see them. The stop paddle is the signal both of them understand: it stops the truck through the driver's mirror and it stops the cyclist on sight. The spot is not abandoned — the paddle goes up from the spotter's position, and the truck moves again only when the cyclist is out of its path.",
+      "wrongNote": "The stop paddle — the truck has to stop before anything else, and the paddle is what its driver is watching for."
+    },
+    {
+      "after": "run-traveller",
+      "alert": "A fog bank rolls in off the strait and over the railing — the traveller's far end and the flagger at the closure disappear into grey.",
+      "cue": "Switch the traveller's beacon on and slow the run — the flagger and the traffic below have to be able to see it.",
+      "delay": 3,
+      "id": "fog-on-the-run",
+      "kind": "Fog bank rolling in",
+      "missNote": "The traveller ran on into the fog with no beacon, invisible to the flagger and to the traffic beside the closure, at a speed set for clear air.",
+      "seconds": 13,
+      "target": "beacon-switch",
+      "why": "In fog a traveller moving over the lanes is a moving load nobody below can see, and the crew aboard can no longer see the flagger or the closure edge. The beacon makes the traveller visible through the grey to the flagger and to traffic in the open lanes, and the run slows because stopping distance in fog is the distance you can see, which has just shrunk.",
+      "wrongNote": "The beacon switch — before anything else, the traveller has to be visible through the fog."
+    }
+  ],
+  "lateNotes": {
+    "closure-log": "The closure is logged once it has been taken down and the lanes are open again.",
+    "rail-chock": "The chock goes in once the traveller has been run to its parking position and its brake is set.",
+    "traveller-drive": "The traveller runs once its rail clamps are released and the closure below it has been walked."
+  },
+  "name": "Deck Lane Closure & Traveller",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "bay-area-union-edition"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.8,
+    "hits": [
+      "advance-sign",
+      "arrow-board-switch",
+      "arrow-lamp-out",
+      "back-to-traffic",
+      "beacon-switch",
+      "buffer-cone",
+      "buffer-mark",
+      "closure-log",
+      "closure-plan",
+      "closure-radio",
+      "cone-from-open-lane",
+      "cone-knocked-over",
+      "rail-chock",
+      "rail-clamp-screw",
+      "short-taper",
+      "sign-sandbag-missing",
+      "stop-paddle",
+      "taper-cone",
+      "taper-wheel",
+      "traveller-brake",
+      "traveller-drive",
+      "traveller-tag",
+      "truck-backup-spot",
+      "untethered-traveller-tool"
+    ],
+    "meshes": 219
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the plan: which lanes close, the advance warning distance, the arrow board, the taper length for this road's speed, the buffer, and the flagger's position.",
+      "id": "tcp",
+      "kind": "select",
+      "prompt": "Read the plan: which lanes close, the advance warning distance, the arrow board, the taper length for this road's speed, the buffer, and the flagger's position.",
+      "target": "closure-plan",
+      "title": "Read the traffic control plan for the closure",
+      "why": "A lane closure on a bridge deck is designed before it is set: MUTCD Part 6 ties the advance warning distance, the taper length and the buffer to the speed of the traffic passing it, and the plan puts those numbers on paper for this deck. The crew sets the plan, not a closure that looks about right, because the lengths are what give a driver at speed time to see, decide and merge."
+    },
+    {
+      "cue": "Set the advance warning sign first, then switch the arrow board on, then lay the taper from its upstream end.",
+      "id": "set-closure",
+      "itemNames": {
+        "advance-sign": "advance warning sign",
+        "arrow-board-switch": "arrow board on, arrow showing the merge",
+        "taper-cone": "taper cones, first cone upstream"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Advance sign first, then the arrow board, then the taper — a device set before its warning is a surprise to the next driver.",
+      "prompt": "Set the advance warning sign first, then switch the arrow board on, then lay the taper from its upstream end.",
+      "targets": [
+        "advance-sign",
+        "arrow-board-switch",
+        "taper-cone"
+      ],
+      "title": "Set the closure in the order traffic meets it",
+      "why": "A closure is put up in the order traffic meets it, so that at every moment during the set-up a driver has already been warned about whatever is ahead of them. Cones laid before the sign is up are cones nobody was told to expect, placed by a crew standing in a lane nobody has been told is closing. ANSI/ASSP A10.47 and the plan both follow the traffic."
+    },
+    {
+      "cue": "Walk the measuring wheel along the taper, behind the cones, and commit the length when it reads inside the band for the plan.",
+      "gauge": {
+        "green": [
+          0.5,
+          0.72
+        ],
+        "label": "TAPER · % OF PLAN LENGTH",
+        "missNote": "That taper is short of the plan's length — or the wheel ran off the line. Re-lay the cones out to the plan's length before anyone works behind them.",
+        "speed": 0.66
+      },
+      "id": "measure-taper",
+      "kind": "gauge",
+      "prompt": "Walk the measuring wheel along the taper, behind the cones, and commit the length when it reads inside the band for the plan.",
+      "target": "taper-wheel",
+      "title": "Measure the taper against the plan's length",
+      "why": "The taper is the part of a closure people shorten without meaning to: the cones run out, or the next light standard is in the way, and a taper paced by eye comes up short every time. Measured with the wheel from behind the channelising line, it is either the plan's length or a correction to make before the crew goes to work behind it."
+    },
+    {
+      "cue": "Carry the buffer cone to the painted mark where the buffer ends and the work space begins.",
+      "drag": {
+        "missNote": "Not on the mark — the buffer's end is the painted mark, not wherever the cone happens to stop.",
+        "radius": 0.45,
+        "to": "buffer-mark"
+      },
+      "id": "buffer",
+      "kind": "drag",
+      "prompt": "Carry the buffer cone to the painted mark where the buffer ends and the work space begins.",
+      "target": "buffer-cone",
+      "title": "Mark the end of the buffer space",
+      "why": "The buffer is the empty length between the taper and the work, and it exists so a vehicle that fails the merge runs out of momentum in open space rather than among the crew. Nothing is parked or stacked in it and nobody works in it, and its end is marked so everyone can see where the work space starts."
+    },
+    {
+      "cue": "Stand at the spotter's position where the driver can see you in the mirror and hold the spot while the truck reverses in behind the buffer.",
+      "holdBreakNote": "You left the spotter's position with the truck still reversing — the driver lost the only eyes behind the truck. Hold the spot until it stops.",
+      "id": "spot-truck",
+      "kind": "hold",
+      "prompt": "Stand at the spotter's position where the driver can see you in the mirror and hold the spot while the truck reverses in behind the buffer.",
+      "seconds": 5,
+      "target": "truck-backup-spot",
+      "title": "Spot the crew truck back into the closure",
+      "why": "A truck reversing into a closure is backing toward a crew it cannot see behind it, through a space the crew has been using as a walkway. The spotter stands where the driver's mirror shows them, holds the spot for the whole reverse and stops the truck the moment anyone crosses behind it, because the most common way a work zone injures its own crew is its own vehicles."
+    },
+    {
+      "cue": "Walk the closure from behind the channelising line and find what is not as the plan set it: the cones, the sign's ballast, the arrow board.",
+      "id": "walk-closure",
+      "itemNames": {
+        "arrow-lamp-out": "a dark lamp in the arrow board's arrow",
+        "cone-knocked-over": "a taper cone knocked flat",
+        "sign-sandbag-missing": "the advance sign's stand without its sandbag"
+      },
+      "itemNotes": {
+        "arrow-lamp-out": "One lamp in the arrow's head is dark. An arrow with a gap in it reads as a flashing bar, not a direction, and the arrow is the device that tells drivers which way to merge.",
+        "cone-knocked-over": "A cone in the taper has been knocked flat, leaving a gap in the line a driver reads as the edge of the lane. It is stood back up from behind the line, not from the lane.",
+        "sign-sandbag-missing": "The advance warning sign's stand has no sandbag on its leg. On a bridge deck the wind off the strait takes an unweighted sign down, and a warning lying flat is no warning."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the closure from behind the channelising line and find what is not as the plan set it: the cones, the sign's ballast, the arrow board.",
+      "targets": [
+        "cone-knocked-over",
+        "sign-sandbag-missing",
+        "arrow-lamp-out"
+      ],
+      "title": "Walk the closure from behind the line",
+      "why": "A closure starts to fail the moment it is set: a passing truck clips a cone, the wind works at a sign, a lamp dies. The crew walks it before the work starts and at intervals after, from behind the line, because MUTCD Part 6 devices are only doing their job while they are where the plan put them and working as they were set."
+    },
+    {
+      "cue": "Read the traveller's inspection tag: wheels, brake, rail clamps, guardrails and anchor points checked today, and signed.",
+      "id": "traveller-tag",
+      "kind": "select",
+      "prompt": "Read the traveller's inspection tag: wheels, brake, rail clamps, guardrails and anchor points checked today, and signed.",
+      "target": "traveller-tag",
+      "title": "Check the traveller's pre-use inspection tag",
+      "why": "A traveller is a suspended platform that carries people over the lanes and the water on nothing but the cable, its wheels and its brake, and it is inspected before each shift's use rather than assumed from yesterday's. The tag is the record that a named person looked at the parts that hold the platform to the cable today; an unsigned tag is a platform nobody has vouched for."
+    },
+    {
+      "cue": "Back the parking clamp screws off the cable, both ends, until the traveller is held only by its brake.",
+      "id": "release-clamps",
+      "kind": "turn",
+      "prompt": "Back the parking clamp screws off the cable, both ends, until the traveller is held only by its brake.",
+      "target": "rail-clamp-screw",
+      "title": "Release the traveller's parking clamps",
+      "turn": {
+        "label": "PARKING CLAMPS",
+        "turns": 1
+      },
+      "why": "The parking clamps hold the traveller to the cable when it is not in use, so wind cannot move it overnight. They come off one end and then the other while the brake is still set, so there is no moment when the traveller is held by nothing; only when both clamps are clear is the traveller ready to run on its brake and drive."
+    },
+    {
+      "cue": "Run the traveller on its pendant to the work position, holding the speed inside the band — no lurches, no creeping.",
+      "holdBreakNote": "The speed left the band and the platform started to swing. Ease back into the band and let it settle.",
+      "id": "run-traveller",
+      "kind": "track",
+      "prompt": "Run the traveller on its pendant to the work position, holding the speed inside the band — no lurches, no creeping.",
+      "seconds": 7,
+      "target": "traveller-drive",
+      "title": "Run the traveller along the cable at a controlled speed",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.44,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "TRAVELLER SPEED",
+        "rise": 0.56,
+        "start": 0.1
+      },
+      "why": "A traveller moving on the cable swings its platform, and the swing grows with every lurch of the drive. Held at a steady speed inside the operating band, the platform stays under its carriage and the crew aboard keeps their footing; a traveller jerked on and off the drive swings into the suspender ropes and makes every person on it hold on instead of look."
+    },
+    {
+      "cue": "At the work position set the brake, then put the cable chock in against the downhill wheel.",
+      "id": "park",
+      "itemNames": {
+        "rail-chock": "cable chock in against the wheel",
+        "traveller-brake": "traveller brake set"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Brake first — the chock goes against a wheel that has already stopped.",
+      "prompt": "At the work position set the brake, then put the cable chock in against the downhill wheel.",
+      "targets": [
+        "traveller-brake",
+        "rail-chock"
+      ],
+      "title": "Park the traveller: brake, then chock",
+      "why": "On a sloping cable a traveller always wants to run downhill, and the brake is what stops it; the chock is what holds it if the brake is knocked off or slips while the crew works. The brake goes on first because a chock set against a moving wheel is a chock thrown off the cable, and a crew does not step off the carriage until both are in."
+    },
+    {
+      "cue": "With the work finished, pick up the taper from the work end back, then switch the arrow board off, and take the advance sign down last.",
+      "id": "take-down",
+      "itemNames": {
+        "advance-sign": "advance warning sign last",
+        "arrow-board-switch": "arrow board off",
+        "taper-cone": "taper cones, from the work end back"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Taper first, sign last — the warning stays up until the last device it warns about is off the deck.",
+      "prompt": "With the work finished, pick up the taper from the work end back, then switch the arrow board off, and take the advance sign down last.",
+      "targets": [
+        "taper-cone",
+        "arrow-board-switch",
+        "advance-sign"
+      ],
+      "title": "Take the closure down against the order it went up",
+      "why": "The closure comes down in the reverse of the order it went up, so the warning is the last thing traffic loses: while cones are still on the deck, the arrow board and the sign are still telling drivers to expect them. A sign taken down first leaves a crew picking up cones in a lane nobody has been warned about."
+    },
+    {
+      "cue": "Record the times the lanes closed and opened, the taper length measured, the defects found on the walk, and the traveller's run and parking.",
+      "id": "closure-log",
+      "kind": "select",
+      "prompt": "Record the times the lanes closed and opened, the taper length measured, the defects found on the walk, and the traveller's run and parking.",
+      "target": "closure-log",
+      "title": "Log the closure and the traveller run",
+      "why": "The closure log is the record the owner and the traffic authority read if anything happened in or near the closure: when it went up, how long the taper actually was, what had been knocked over and when it was put right. The traveller's run and parking position go with it, so the next crew knows where the traveller is and what was checked before it moved."
+    },
+    {
+      "cue": "Call the flagger and the operator on the closure channel: lanes open, traveller parked and chocked, and how the crew is.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Call the flagger and the operator on the closure channel: lanes open, traveller parked and chocked, and how the crew is.",
+      "target": "closure-radio",
+      "title": "Check in with the flagger and the traveller operator",
+      "why": "The flagger is the last person on the deck and leaves on the call, and the operator needs to hear the traveller's parking has been checked by someone else. A shift beside moving traffic, with a cyclist in the closure and the deck gone grey in fog, is one people carry home, so the crew checks in before the truck pulls out; the Ironworkers' member assistance line is there if it stays."
+    }
+  ],
+  "supportLine": "the Ironworkers' member assistance programme through your local, and the crew's peer-support contact",
+  "tagline": "The lanes closed before the cable is worked: the traffic control plan read, the advance sign, arrow board and taper set with the traffic, the taper measured, the buffer marked, the truck spotted in while a cyclist rides into the closure, the closure walked, the traveller released and run while a fog bank rolls in, parked and chocked, and the closure taken down in reverse",
+  "title": "SmartCiti.X~ Deck Lane Closure & Traveller VR",
+  "trade": "Ironworkers and IMPACT — traveller crew setting their own lane closure, with a flagger on the closure and the traveller operator",
+  "underwater": null,
+  "weather": "overcast"
+}

@@ -1,0 +1,435 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "gavel-held-lightly",
+    "name": "Gavel Held Lightly",
+    "note": "A whole meeting chaired in the open: every speaker heard, nothing acted on that was not noticed, and each vote announced"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "The Ralph M. Brown Act (California Government Code section 54950 and following) for the posted agenda, public comment and the bar on serial meetings; Robert's Rules of Order as the parliamentary authority the body adopts in its own rules — a practice, not a law; Title II of the ADA for interpreters, captions and an accessible room; the Political Reform Act and the city ethics code for a gift from anyone with business before the body; SAMHSA's trauma-informed care principles for residents who testify about harm; SEIU and AFSCME for the clerks and staff who run the room. The leadership principles practised here are principles commonly taught in civic-leadership programmes; the foundation's own curriculum is not sourced in this repository",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "DOJ",
+        "citedAs": "Title II of the ADA",
+        "id": "ada-title-ii",
+        "title": "Americans with Disabilities Act Title II — programme accessibility for public entities and their services"
+      },
+      {
+        "body": "union",
+        "citedAs": "AFSCME",
+        "id": "afscme-training",
+        "title": "AFSCME member education and safety training for public-service and air-district members"
+      },
+      {
+        "body": "California Government Code",
+        "citedAs": "Ralph M. Brown Act",
+        "id": "brown-act",
+        "title": "The Ralph M. Brown Act, California Government Code section 54950 and following — open and public meetings of local legislative bodies: the posted agenda, the public's right to comment, action only on noticed items, and the bar on serial meetings of a majority"
+      },
+      {
+        "body": "municipal ethics code",
+        "citedAs": "city ethics code",
+        "id": "municipal-ethics-code",
+        "title": "A city or county ethics code and the charter's ethics provisions — gifts from interested parties, lobbyist contact, misuse of public position and the revolving door; named generically, with no one jurisdiction's sections cited"
+      },
+      {
+        "body": "FPPC",
+        "citedAs": "Political Reform Act",
+        "id": "political-reform-act",
+        "title": "The Political Reform Act of 1974, administered by the Fair Political Practices Commission — annual economic-interest disclosure on the Statement of Economic Interests (Form 700), disqualification from any decision an official has a financial interest in, and gift limits and gift reporting"
+      },
+      {
+        "body": "Robert's Rules",
+        "citedAs": "Robert's Rules",
+        "id": "roberts-rules",
+        "title": "Robert's Rules of Order Newly Revised — the parliamentary authority a body adopts in its own rules of procedure: a practice the body chooses, not a law"
+      },
+      {
+        "body": "SAMHSA",
+        "citedAs": "trauma-informed care",
+        "id": "samhsa-trauma-informed",
+        "title": "SAMHSA's six principles of a trauma-informed approach"
+      },
+      {
+        "body": "union",
+        "citedAs": "SEIU",
+        "id": "seiu-training",
+        "title": "SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Civic",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "noticed-right",
+        "name": "Noticed Right",
+        "note": "Every notice condition confirmed before the gavel came down"
+      },
+      {
+        "id": "never-cut-off",
+        "name": "Never Cut Off",
+        "note": "No unsafe action anywhere in the meeting"
+      },
+      {
+        "id": "steady-chair",
+        "name": "Steady Chair",
+        "note": "The speaker's time and the room's order both carried their full count"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-minutes",
+        "name": "Clean Minutes",
+        "note": "No corrections anywhere in the meeting"
+      },
+      {
+        "id": "even-clock",
+        "name": "Even Clock",
+        "note": "Speaker time set inside the band"
+      },
+      {
+        "id": "nine-straight",
+        "name": "Nine Straight",
+        "note": "Nine correct actions in a row"
+      }
+    ],
+    "currency": "TRUST",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Member",
+      "Vice Chair",
+      "Chair",
+      "Presiding Officer",
+      "Mentor Chair"
+    ],
+    "system": "Open Chamber"
+  },
+  "hazards": {
+    "applicant-gift": "You took the gift bag from the applicant whose permit is on tonight's agenda. A gift from somebody with business before the body is reportable at best and disqualifying at worst, and the gallery watched it change hands.",
+    "cut-off-speaker": "You cut in on a resident mid-sentence to correct her figures. The time was hers, the facts can be answered by staff afterwards, and a chair who talks over the public teaches the whole gallery that the podium is a formality — the next resident edits herself before she even starts.",
+    "promise-from-dais": "You promised from the dais that the road would be fixed next month. That item is not on tonight's agenda, the money is not yours alone to move, and a promise the body has not voted on is a promise it can break — the resident will remember who made it.",
+    "sidebar-huddle": "You stepped off the dais to talk the item over with two colleagues. Three of five is a majority of this body, and a majority deliberating out of the public's hearing is exactly what the open-meeting law forbids, recess or no recess."
+  },
+  "id": "public-meeting-chair",
+  "indoor": "service",
+  "interrupts": [
+    {
+      "after": "hear-the-speaker",
+      "alert": "While the resident is speaking, the member beside you has turned to her neighbour and passed a folded note about how to vote on the item.",
+      "cue": "Bring it onto the record: ask the members to hold their discussion for deliberation, in public.",
+      "delay": 3,
+      "id": "side-conversation-on-dais",
+      "kind": "Private conversation on the dais",
+      "missNote": "The note went back and forth for the rest of her time. She finished speaking to two members who were not listening, the gallery saw a decision being made in whispers, and nothing about it will ever be in the minutes.",
+      "seconds": 12,
+      "target": "side-talk-gavel",
+      "why": "A private exchange on the dais about the item is deliberation the public cannot hear, happening while a resident is addressing the body — both a discourtesy to her and a small version of the serial meeting the law forbids. Naming it lightly and asking members to save it for deliberation keeps the conversation in the room where it belongs.",
+      "wrongNote": "Not the podium — the speaker is doing nothing wrong. The side conversation is on the dais; address the members, lightly, and give the resident her time back."
+    },
+    {
+      "after": "keep-order",
+      "alert": "A man in the gallery has stood up and is shouting over the speaker at the podium, pointing at the dais.",
+      "cue": "Warn once from the chair, in the rules' words, and offer a short recess — do not trade shouts.",
+      "delay": 3,
+      "id": "gallery-outburst",
+      "kind": "Disruption in the gallery",
+      "missNote": "The shouting ran on over the resident at the podium until she gave up and sat down. The meeting did not stop; it just stopped being a meeting anybody could take part in, and the chair was the only person with the standing to say so.",
+      "seconds": 12,
+      "target": "warning-recess-card",
+      "why": "The body may act against a disruption that actually prevents the meeting from going on, and the fair way to do it is graduated: one clear warning in the words of the adopted rules, a short recess if it continues, and removal only as the last step. Answering shout for shout makes the chair a participant, and it teaches the gallery that volume is how you get the floor.",
+      "wrongNote": "Turning the order meter is not a response to one person shouting. Use the warning in the rules — then the recess if it continues."
+    }
+  ],
+  "lateNotes": {
+    "late-item-card": "The late item gets handled when it is raised, not before — first hear the speaker who is at the podium now.",
+    "minutes-log-board": "The minutes close once the vote is announced and the correspondence has been checked; there is nothing to record yet."
+  },
+  "name": "Public Meeting Chair",
+  "parSeconds": 330,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "civic-leadership-and-ei"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "applicant-gift",
+      "broadcast-knob",
+      "comment-timer",
+      "crew-checkin-board",
+      "critic-reply-card",
+      "cut-off-speaker",
+      "future-agenda-tray",
+      "item-debate-vote",
+      "item-motion-second",
+      "item-public-comment",
+      "item-staff-report",
+      "late-item-card",
+      "listen-point",
+      "minutes-log-board",
+      "notice-agenda-posted",
+      "notice-comment-cards",
+      "notice-interpreter",
+      "notice-parking-sign",
+      "order-meter",
+      "promise-from-dais",
+      "roll-call-card",
+      "serial-dinner-three",
+      "serial-hub-spoke",
+      "serial-posted-memo",
+      "serial-reply-all",
+      "side-talk-gavel",
+      "sidebar-huddle",
+      "vote-abstain",
+      "vote-ayes",
+      "vote-noes",
+      "warning-recess-card"
+    ],
+    "meshes": 288
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Look around the chamber. Three things decide whether this meeting is open to the public at all.",
+      "decoyNotes": {
+        "notice-parking-sign": "Validated parking is a courtesy. It is not part of whether this meeting was properly noticed or whether the public can take part in it."
+      },
+      "id": "read-the-notice",
+      "itemNames": {
+        "notice-agenda-posted": "the agenda, posted in public three days out",
+        "notice-comment-cards": "speaker cards at the door",
+        "notice-interpreter": "the interpreter and captions somebody asked for"
+      },
+      "itemNotes": {
+        "notice-agenda-posted": "Posted where anyone can read it, seventy-two hours before a regular meeting. Everything the body acts on tonight has to be on that sheet.",
+        "notice-comment-cards": "Cards at the door let people ask to speak without having to catch the chair's eye — and nobody is required to give a name to be heard.",
+        "notice-interpreter": "A resident asked in advance for an interpreter and live captions. The meeting is not open to her unless they are both here and working."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look around the chamber. Three things decide whether this meeting is open to the public at all.",
+      "targets": [
+        "notice-agenda-posted",
+        "notice-interpreter",
+        "notice-comment-cards"
+      ],
+      "title": "Confirm the meeting is properly open before you sit down",
+      "why": "A meeting that was not noticed properly, that a resident who asked for an interpreter cannot follow, or that gives people no way to ask to speak is not an open meeting whatever the minutes later say. Every action taken at it is exposed to challenge, and more to the point, the residents who were shut out know it. The chair checks before the gavel, not after a complaint."
+    },
+    {
+      "cue": "Turn the chamber console up — the room, the captions and the stream all run off it.",
+      "id": "go-live",
+      "kind": "turn",
+      "prompt": "Turn the chamber console up — the room, the captions and the stream all run off it.",
+      "target": "broadcast-knob",
+      "title": "Bring the room mics and the broadcast live",
+      "turn": {
+        "axis": "y",
+        "label": "ROOM + STREAM",
+        "turns": 0.6
+      },
+      "why": "The public who could not get off work tonight are watching the stream, and the captioner is working from the same feed. A chair who starts talking before the mics are live has opened the meeting to the people in the room and nobody else — and the first thing the stream records is somebody asking whether it has started."
+    },
+    {
+      "cue": "Gavel once, call the roll aloud, and say that a quorum is present.",
+      "id": "call-to-order",
+      "kind": "select",
+      "prompt": "Gavel once, call the roll aloud, and say that a quorum is present.",
+      "target": "roll-call-card",
+      "title": "Call to order, take the roll, confirm a quorum",
+      "why": "Nothing the body does counts without a quorum, and the roll called out loud is how the room and the record both know who is here to vote. It is also the first time the public hears each member's name tonight, which matters: a resident who wants to follow up needs to know who was in the seat when the vote was taken."
+    },
+    {
+      "cue": "Staff first, then the public, then a motion and a second, then debate and the vote.",
+      "id": "run-the-item",
+      "itemNames": {
+        "item-debate-vote": "debate, then the vote",
+        "item-motion-second": "a motion and a second",
+        "item-public-comment": "public comment on the item",
+        "item-staff-report": "staff report — what is being decided"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Staff report, public comment, motion and second, then debate and the vote. Taking a motion before the public has spoken tells every speaker that they are addressing a decision already made.",
+      "prompt": "Staff first, then the public, then a motion and a second, then debate and the vote.",
+      "targets": [
+        "item-staff-report",
+        "item-public-comment",
+        "item-motion-second",
+        "item-debate-vote"
+      ],
+      "title": "Take the item in the order the rules set",
+      "why": "The order is the fairness. Staff explains what is actually on the table so the public comment is about the real proposal; the public speaks before a motion exists, while minds can still change; a motion and a second prove at least two members want to act; debate happens on something specific. Robert's Rules is only the body's adopted practice, but a chair who skips around in it tells the room the outcome was settled somewhere else."
+    },
+    {
+      "cue": "Set the podium timer inside the band the body's rules allow — then it is the same for every speaker.",
+      "gauge": {
+        "green": [
+          0.27,
+          0.46
+        ],
+        "label": "SPEAKER TIME",
+        "missNote": "Outside the band. Too short and a resident cannot finish a thought; too long with a full gallery and the last speakers go home unheard. Set it inside the rules and hold it for everyone.",
+        "speed": 0.6
+      },
+      "id": "set-speaker-time",
+      "kind": "gauge",
+      "prompt": "Set the podium timer inside the band the body's rules allow — then it is the same for every speaker.",
+      "target": "comment-timer",
+      "title": "Set one speaker time and apply it to everyone",
+      "why": "A reasonable time limit is allowed; an uneven one is not. The same clock for the neighbour you agree with and the one who has come to shout at you is what makes the limit defensible, and it is what lets the last speaker on a long night believe she is being treated like the first. The chair sets it once, says it out loud, and does not bend it for friends."
+    },
+    {
+      "cue": "Hold your attention on the podium. Do not respond, do not correct, do not look at your phone.",
+      "holdBreakNote": "You looked away from the podium mid-sentence. She saw it, and so did the gallery. Bring your attention back and give her the rest of her time.",
+      "id": "hear-the-speaker",
+      "kind": "hold",
+      "prompt": "Hold your attention on the podium. Do not respond, do not correct, do not look at your phone.",
+      "seconds": 8,
+      "target": "listen-point",
+      "title": "Hear the speaker to the bell",
+      "why": "Listening first is the whole job at this moment. The resident has waited two hours and has two and a half minutes; the respect in the room is set by whether the chair is visibly hearing her. Corrections and answers come from staff afterwards, on the record, where they can be checked — not from the dais in the middle of her time, where they read as an argument she is not allowed to win."
+    },
+    {
+      "cue": "A member wants to act tonight on something that was not posted. Move it to the future-agenda tray.",
+      "drag": {
+        "missNote": "Not in the tray. An item that was not on the posted agenda can be raised, briefly answered by staff and scheduled — it cannot be deliberated or acted on tonight.",
+        "radius": 0.6,
+        "to": "future-agenda-tray"
+      },
+      "id": "refer-late-item",
+      "kind": "drag",
+      "prompt": "A member wants to act tonight on something that was not posted. Move it to the future-agenda tray.",
+      "target": "late-item-card",
+      "title": "Send the late request to a future agenda",
+      "why": "The public read the posted agenda to decide whether to come. Acting tonight on something that was not on it takes a decision in front of people who were told it was not happening — and the neighbours who stayed home because it was not listed are the ones it affects. Referring it to a noticed future meeting is how the body keeps faith with the agenda it published."
+    },
+    {
+      "cue": "A speaker has just criticised the council by name. Thank her, ask staff to follow up, and move on.",
+      "id": "thank-the-critic",
+      "kind": "select",
+      "prompt": "A speaker has just criticised the council by name. Thank her, ask staff to follow up, and move on.",
+      "target": "critic-reply-card",
+      "title": "Thank a critical speaker and route the question",
+      "why": "The open-meeting law protects criticism of the body and its policies, and the chair's job is to make that protection real in the room. Thanking the critic, asking staff to answer the factual question in writing and moving on shows the gallery that the podium is safe for the people who disagree with you — which is the only way a chair ever hears the thing they most need to hear."
+    },
+    {
+      "cue": "Hold the room inside the band: firm enough that speakers can be heard, light enough that nobody is gavelled for clapping.",
+      "holdBreakNote": "The room got away from you, one way or the other. Bring it back to the band with the same tone for everyone — not louder, and not by pretending it is not happening.",
+      "id": "keep-order",
+      "kind": "track",
+      "prompt": "Hold the room inside the band: firm enough that speakers can be heard, light enough that nobody is gavelled for clapping.",
+      "seconds": 8,
+      "target": "order-meter",
+      "title": "Keep the room in order through a heated item",
+      "track": {
+        "drift": 0.16,
+        "fall": 0.4,
+        "green": [
+          0.3,
+          0.7
+        ],
+        "label": "ORDER",
+        "rise": 0.48,
+        "start": 0.5
+      },
+      "why": "Order is a band, not a switch. Let it slip and the loudest people in the gallery decide who gets heard; clamp down too hard and the chair is gavelling residents for applause, which the room remembers longer than the item. The skill is continuous and quiet — a look, a reminder of the rules, the same tone for everyone — so that the gavel is almost never needed."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Announce the result so the room and the stream both hear how each member voted.",
+      "id": "announce-the-vote",
+      "itemNames": {
+        "vote-abstain": "who abstained or stepped out, and why",
+        "vote-ayes": "who voted aye, by name",
+        "vote-noes": "who voted no, by name"
+      },
+      "kind": "sequence",
+      "prompt": "Announce the result so the room and the stream both hear how each member voted.",
+      "targets": [
+        "vote-ayes",
+        "vote-noes",
+        "vote-abstain"
+      ],
+      "title": "State the vote of every member aloud",
+      "why": "The public is entitled to know how each member voted, and the only place that becomes real is the chair's voice at the moment of the vote. \"Motion carries\" tells the gallery nothing about who to thank or who to call; names in the record do. An abstention or a recusal is announced with its reason, so nobody has to guess whether a member simply did not want to be counted."
+    },
+    {
+      "cue": "Read the file the clerk hands you. Mark every contact that became a meeting of a majority outside the room.",
+      "decoyNotes": {
+        "serial-posted-memo": "A staff memo sent to every member and posted with the agenda packet is exactly how information is supposed to reach a body — in the open, for the public too."
+      },
+      "id": "spot-the-serial-meeting",
+      "itemNames": {
+        "serial-dinner-three": "three members at dinner discussing the item",
+        "serial-hub-spoke": "staff carrying each member's position to the others",
+        "serial-reply-all": "a reply-all thread among three members"
+      },
+      "itemNotes": {
+        "serial-dinner-three": "A dinner is fine. A majority of the body discussing tomorrow's item over it is not.",
+        "serial-hub-spoke": "A staffer who polls each member and reports the count back to the others is the hub of a serial meeting, even if no two members ever speak.",
+        "serial-reply-all": "Three of five members replying to each other about how to vote is a majority deliberating by email — a meeting nobody noticed."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Read the file the clerk hands you. Mark every contact that became a meeting of a majority outside the room.",
+      "targets": [
+        "serial-reply-all",
+        "serial-hub-spoke",
+        "serial-dinner-three"
+      ],
+      "title": "Check the correspondence file for anything that was a meeting in disguise",
+      "why": "Counting the votes before the vote is a leadership skill, and done in public it is simply listening to colleagues on the record. Done by polling a majority privately — by email chain, by a staffer carrying positions between offices, over dinner — it is a serial meeting, and it hollows out everything the public just watched. The chair is the person who has to notice and say so."
+    },
+    {
+      "cue": "Adjourn, then give the clerk the actions, the votes by name and the items referred to future agendas.",
+      "id": "close-the-minutes",
+      "kind": "select",
+      "prompt": "Adjourn, then give the clerk the actions, the votes by name and the items referred to future agendas.",
+      "target": "minutes-log-board",
+      "title": "Close the meeting and log the action minutes",
+      "why": "The minutes are what the meeting was, for everybody who was not in the room and for whoever reads them in three years. Actions, each member's vote, the late item referred rather than acted on, and a fair note of who spoke are the record a resident can hold the body to. A chair who leaves them for the clerk to reconstruct has left the most important part of the meeting to memory."
+    },
+    {
+      "cue": "Two minutes at the clerk's table: how did that meeting land on both of you?",
+      "id": "crew-check-in",
+      "kind": "select",
+      "prompt": "Two minutes at the clerk's table: how did that meeting land on both of you?",
+      "target": "crew-checkin-board",
+      "title": "Check in with the clerk before you leave",
+      "why": "A heated meeting lands on the staff who ran it as much as on the chair, and the clerk sat through every word of the outburst too. Asking how it landed, and naming the employee assistance line if it stays with either of you, is the difference between a support programme that exists on paper and one that people actually use after a night like this."
+    }
+  ],
+  "supportLine": "your employee assistance program, or the colleague who has chaired a hard meeting before and will pick up the phone",
+  "tagline": "Chair a public meeting people trust: notice checked, the room live, every speaker heard to the bell, a late item sent to the next agenda, order kept without a heavy gavel — and every vote stated out loud",
+  "title": "SmartCiti.X~ Public Meeting Chair VR",
+  "trade": "Presiding officer — council or commission chair",
+  "underwater": null,
+  "weather": "overcast"
+}

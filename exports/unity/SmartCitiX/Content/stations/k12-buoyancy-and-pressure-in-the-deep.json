@@ -1,0 +1,411 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "float-or-sink",
+    "name": "Float or Sink",
+    "note": "Predictions made, tested fairly and explained with the upward push of the water"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFT",
+        "id": "aft-training",
+        "title": "AFT — American Federation of Teachers training for paraprofessionals and school-related personnel"
+      },
+      {
+        "body": "INEE",
+        "citedAs": "INEE Minimum Standards",
+        "id": "inee-minimum-standards",
+        "title": "INEE Minimum Standards for Education in emergencies, as a body whose standards a lesson is aligned to; it certifies nothing"
+      },
+      {
+        "body": "national curriculum authority",
+        "citedAs": "national curriculum framework",
+        "id": "national-curriculum-framework",
+        "title": "The national curriculum framework the school itself follows, as a category rather than any one country's document; no grade-level code is cited"
+      },
+      {
+        "body": "union",
+        "citedAs": "National Education Association",
+        "id": "nea-training",
+        "title": "NEA apprenticeship and training, as a training body"
+      },
+      {
+        "body": "UN",
+        "citedAs": "Sustainable Development Goal 4",
+        "id": "un-sdg-4-quality-education",
+        "title": "UN Sustainable Development Goal 4 (Quality Education), as a framework a lesson is aligned to; it certifies nothing"
+      },
+      {
+        "body": "UNESCO",
+        "citedAs": "UNESCO education guidance",
+        "id": "unesco-education-guidance",
+        "title": "UNESCO education guidance, as a body whose published guidance a lesson is aligned to; it certifies nothing"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Education",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "clean-read",
+        "name": "First Look",
+        "note": "Everything in the opening scan found first time"
+      },
+      {
+        "id": "no-shortcut",
+        "name": "No Shortcuts",
+        "note": "No misconception or unsafe shortcut anywhere in the run"
+      },
+      {
+        "id": "in-the-band",
+        "name": "In the Band",
+        "note": "Every gauge and meter held inside its band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-run",
+        "name": "Clean Run",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "steady-hands",
+        "name": "Steady Hands",
+        "note": "Every hold and track carried its full count"
+      },
+      {
+        "id": "quick-and-right",
+        "name": "Quick and Right",
+        "note": "Finished inside 80% of par"
+      }
+    ],
+    "currency": "BUBBLES",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Observer",
+      "Predictor",
+      "Tester",
+      "Explainer",
+      "Scientist"
+    ],
+    "system": "Buoyancy Board"
+  },
+  "hazards": {
+    "change-two-things-at-once": "You swapped the shape and the material in one drop. When two things alter at once, the tank cannot tell you which one made the difference; an honest trial alters one thing and keeps the rest exactly as it was.",
+    "heavy-things-always-sink": "You said heavy things always sink. Whether something rides or sinks depends on how much water it shoves aside compared with its own weight, which is why an iron ship rides the swell while a pebble drops to the seabed. Heavy on its own decides nothing; the shape and the room it takes up in the water matter too.",
+    "lean-over-the-viewing-rail": "You leaned over the viewing rail. The rail is there because the lip beyond it is a drop into deep water, and the guide carries the tank to the bench so nobody ever needs to lean; the whole visit happens on the dry side of the rail.",
+    "say-pressure-is-the-same-everywhere": "You said the water squeezes the same at every depth. The deeper a diver goes, the more water is stacked above, and the harder it squeezes from every side; that is why the lowest hole in the corked bottle jets furthest, and why the hulls that work in deep water are built so thick."
+  },
+  "id": "k12-buoyancy-and-pressure-in-the-deep",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "watch-the-boat-settle-without-touching",
+      "alert": "The tank brims over and water runs across the platform decking towards the rail.",
+      "cue": "Stop pouring, step back off the wet decking and tell the guide.",
+      "delay": 3,
+      "id": "the-tank-starts-to-overflow",
+      "kind": "Overflow",
+      "missNote": "Nobody told the guide, and a classmate slipped on the wet decking by the rail. Next time, stop the trial and deal with it first.",
+      "seconds": 12,
+      "target": "kbd-stop-and-tell-guide",
+      "why": "Water across the decking beside a rail is a slip in exactly the wrong spot. Stopping the pour, stepping back and telling the guide, who has the mop and the wet-floor sign, comes before any drop in the tank.",
+      "wrongNote": "That does not deal with the water on the decking. Stop and tell the guide. Choose the response that deals with it now."
+    },
+    {
+      "after": "keep-your-observations-matched-to-what",
+      "alert": "The platform guide asks how a great iron ship can ride the sea when an iron nut sinks in the tank.",
+      "cue": "Answer with the hull's shape and the water's upthrust, not with weight alone.",
+      "delay": 3,
+      "id": "the-guide-asks-why-ships-float",
+      "kind": "Guide question",
+      "missNote": "You said the ship was lighter than it looks, which is not why it rides. Next time, stop the trial and deal with it first.",
+      "seconds": 12,
+      "target": "kbd-explain-push",
+      "why": "The guide is asking whether the hull-and-block reading carries over to something new. Saying that the ship's hollow hull shoves aside a great deal of water, so the upthrust balances its weight, shows the idea has left the tank and reached the sea.",
+      "wrongNote": "That is weight alone. Use the hull's shape and the water's upthrust."
+    }
+  ],
+  "lateNotes": {
+    "kbd-checkin": "The check-in comes at the very end of the lesson.",
+    "kbd-lab-log": "The lab record is written once the tests are done — nothing to record yet."
+  },
+  "name": "Buoyancy and Pressure in the Deep",
+  "parSeconds": 330,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "k12-science"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "change-two-things-at-once",
+      "heavy-things-always-sink",
+      "kbd-block",
+      "kbd-boat",
+      "kbd-bottle",
+      "kbd-checkin",
+      "kbd-con-ignored",
+      "kbd-con-prediction",
+      "kbd-con-unfair",
+      "kbd-con-weight",
+      "kbd-depth-card",
+      "kbd-explain-push",
+      "kbd-lab-log",
+      "kbd-load-meter",
+      "kbd-ord-change",
+      "kbd-ord-explain",
+      "kbd-ord-observe",
+      "kbd-ord-predict",
+      "kbd-platform-sign",
+      "kbd-rail-card",
+      "kbd-result-token",
+      "kbd-results-spot",
+      "kbd-shape-dial",
+      "kbd-share-board",
+      "kbd-stop-and-tell-guide",
+      "kbd-track-meter",
+      "kbd-watch-boat",
+      "lean-over-the-viewing-rail",
+      "say-pressure-is-the-same-everywhere"
+    ],
+    "meshes": 233
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Tap the three things on the bench that will go into the tank: the solid block, the hull shaped from the same stuff, and the corked bottle with air inside.",
+      "decoyNotes": {
+        "kbd-platform-sign": "Part of the platform, not the test. Choose the objects on the bench."
+      },
+      "id": "find-what-you-will-test",
+      "itemNames": {
+        "kbd-block": "the solid block",
+        "kbd-boat": "the same material shaped as a boat",
+        "kbd-bottle": "the sealed bottle of air"
+      },
+      "itemNotes": {
+        "kbd-block": "A solid lump of material. Predict: float or sink?",
+        "kbd-boat": "The same material, a different shape. This is the interesting one.",
+        "kbd-bottle": "Mostly air inside. Predict what happens and why."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Tap the three things on the bench that will go into the tank: the solid block, the hull shaped from the same stuff, and the corked bottle with air inside.",
+      "targets": [
+        "kbd-block",
+        "kbd-boat",
+        "kbd-bottle"
+      ],
+      "title": "Find what you will test",
+      "why": "A trial in the tank starts by choosing what to drop in. Here it is a solid block, the very same material hammered into a hollow hull, and a corked bottle full of air. Each differs from the next in one useful way, which is what lets the tank teach something rather than merely splash."
+    },
+    {
+      "cue": "Stand behind the viewing rail; the guide carries the tank to the bench on the dry side.",
+      "id": "take-your-place-behind-the-viewing",
+      "kind": "select",
+      "prompt": "Stand behind the viewing rail; the guide carries the tank to the bench on the dry side.",
+      "target": "kbd-rail-card",
+      "title": "Take your place behind the viewing rail",
+      "why": "The viewing rail marks the lip of a drop into deep water, and every visit to the platform begins behind it. The guide carries the tank to the bench precisely so curiosity never has to lean over the lip; keeping the platform's rule comes before any trial in the tank."
+    },
+    {
+      "cue": "Write the guess, alter one thing, drop it in and keep eyes on it, then explain with the water's upthrust.",
+      "id": "put-the-test-in-order",
+      "itemNames": {
+        "kbd-ord-change": "2 · change one thing",
+        "kbd-ord-explain": "4 · explain",
+        "kbd-ord-observe": "3 · observe",
+        "kbd-ord-predict": "1 · predict"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Not that way round. Write the guess before the drop, or the tank cannot surprise you.",
+      "prompt": "Write the guess, alter one thing, drop it in and keep eyes on it, then explain with the water's upthrust.",
+      "targets": [
+        "kbd-ord-predict",
+        "kbd-ord-change",
+        "kbd-ord-observe",
+        "kbd-ord-explain"
+      ],
+      "title": "Put the test in order",
+      "why": "Writing the guess down before anything touches the tank means the water can surprise you, and surprise is where the learning lives. Altering a single thing keeps the trial honest, keeping eyes on the tank keeps the notes honest, and explaining with the water's upthrust turns a splash into understanding."
+    },
+    {
+      "cue": "Hands off: keep eyes on the hull until it settles and its waterline stops moving.",
+      "holdBreakNote": "You nudged the hull and the waterline jumped. Hands off and let it settle again.",
+      "id": "watch-the-boat-settle-without-touching",
+      "kind": "hold",
+      "prompt": "Hands off: keep eyes on the hull until it settles and its waterline stops moving.",
+      "seconds": 6,
+      "target": "kbd-watch-boat",
+      "title": "Watch the boat settle without touching it",
+      "why": "Left alone, a hull sinks until the water's upthrust balances its weight, and the waterline it settles at shows that balance. A finger on the rim spoils the reading; patient waiting is what lets the balance the whole platform is about show itself in the tank."
+    },
+    {
+      "cue": "The corked bottle jets furthest from its lowest hole. Say why.",
+      "id": "explain-the-squirting-bottle",
+      "kind": "select",
+      "prompt": "The corked bottle jets furthest from its lowest hole. Say why.",
+      "target": "kbd-depth-card",
+      "title": "Explain the squirting bottle",
+      "why": "The lowest hole has the most water stacked above it, so the water there squeezes hardest and jets furthest. Explaining that with the weight of water pressing down from above is the understanding of pressure this platform aims at, with no figures needed: deeper means more squeeze."
+    },
+    {
+      "cue": "Look over the verdict a classmate wrote on the bench and tap each slip before it goes on the chart.",
+      "decoyNotes": {
+        "kbd-con-prediction": "Writing the prediction first is good practice. Keep it."
+      },
+      "id": "spot-the-problems-in-a-classmate",
+      "itemNames": {
+        "kbd-con-ignored": "a result that did not fit, left out",
+        "kbd-con-unfair": "a conclusion from an unfair test",
+        "kbd-con-weight": "floating explained by weight alone"
+      },
+      "itemNotes": {
+        "kbd-con-ignored": "Odd results are kept and discussed, not hidden.",
+        "kbd-con-unfair": "Two things changed at once. Which one made the difference?",
+        "kbd-con-weight": "Weight is only half of it. Where is the water's upward push?"
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look over the verdict a classmate wrote on the bench and tap each slip before it goes on the chart.",
+      "targets": [
+        "kbd-con-weight",
+        "kbd-con-unfair",
+        "kbd-con-ignored"
+      ],
+      "title": "Spot the problems in a classmate's conclusion",
+      "why": "A verdict should follow from the tank and lean on the right idea. The usual slips are blaming weight alone for a sinking, drawing a verdict from a trial that altered two things at once, and leaving out a reading that did not suit. Catching them on a classmate's sheet makes your own verdicts sturdier."
+    },
+    {
+      "cue": "Turn the dial from the solid block to the hull hammered from the same stuff.",
+      "id": "turn-the-block-into-a-boat",
+      "kind": "turn",
+      "prompt": "Turn the dial from the solid block to the hull hammered from the same stuff.",
+      "target": "kbd-shape-dial",
+      "title": "Turn the block into a boat",
+      "turn": {
+        "axis": "y",
+        "label": "BOAT",
+        "turns": 0.5
+      },
+      "why": "Altering only the shape, with the same material and the same amount, is the one-change trial that proves shape decides it. A hollow hull shoves aside far more water, so the water shoves back harder, and the very stuff that sank as a block rides as a hull. That is why an iron ship floats while an iron bolt drops to the seabed."
+    },
+    {
+      "cue": "Commit when the cargo has the hull riding low, its waterline near the rim but still afloat.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.58
+        ],
+        "label": "CARGO",
+        "missNote": "Outside the band. Too light a load teaches nothing; too heavy and the tank has it. Load the hull again.",
+        "speed": 0.6
+      },
+      "id": "load-the-boat-until-it-sits",
+      "kind": "gauge",
+      "prompt": "Commit when the cargo has the hull riding low, its waterline near the rim but still afloat.",
+      "target": "kbd-load-meter",
+      "title": "Load the boat until it sits low but still floats",
+      "why": "Every crate of cargo makes the hull ride lower as it shoves aside more water to balance the added weight. Stopping while the rim is still dry shows that balance at its edge, and it is the idea behind the load line painted on a real ship's side. Crews read that line so a hull is never loaded so deep that a wave comes over the rim."
+    },
+    {
+      "cue": "Drag your reading card onto the tank-side chart beside the other groups' cards.",
+      "drag": {
+        "missNote": "Not on the chart yet. Carry the card all the way to the tank-side chart.",
+        "radius": 0.45,
+        "to": "kbd-results-spot"
+      },
+      "id": "put-your-result-on-the-class",
+      "kind": "drag",
+      "prompt": "Drag your reading card onto the tank-side chart beside the other groups' cards.",
+      "target": "kbd-result-token",
+      "title": "Put your result on the class board",
+      "why": "A single reading may be a fluke; a chart of every group's readings shows a pattern. Sliding your card beside the others is how a finding earns trust, and it lets the platform spot a reading that wants a second drop in the tank. Cards side by side show which findings hold water and which were flukes."
+    },
+    {
+      "cue": "Keep your notes in band with what the tank actually shows as each object settles to its waterline.",
+      "holdBreakNote": "Your notes have drifted from the tank. Look at the waterline again and write what you see.",
+      "id": "keep-your-observations-matched-to-what",
+      "kind": "track",
+      "prompt": "Keep your notes in band with what the tank actually shows as each object settles to its waterline.",
+      "seconds": 8,
+      "target": "kbd-track-meter",
+      "title": "Keep your observations matched to what you see",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.38,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "HONEST",
+        "rise": 0.46,
+        "start": 0.3
+      },
+      "why": "It is easy to write down what the guess said instead of what the tank shows. Keeping the notes matched to the waterline, surprises included, is the honesty that makes a reading from the platform worth trusting. A surprise is often where the best question of the whole visit is hiding."
+    },
+    {
+      "cue": "Write each guess, what the tank did, and the explanation in terms of the water's upthrust.",
+      "id": "record-predictions-results-and-explanations",
+      "kind": "select",
+      "prompt": "Write each guess, what the tank did, and the explanation in terms of the water's upthrust.",
+      "target": "kbd-lab-log",
+      "title": "Record predictions, results and explanations",
+      "why": "Writing the guess beside what the tank did shows where your thinking changed, which is the real proof of learning on the platform. Anyone with the same block, hull and bottle can repeat the drop from your sheet and weigh your explanation against their own tank."
+    },
+    {
+      "cue": "Explain to the group why the hull rides when the block of the same stuff sinks.",
+      "id": "explain-the-boat-to-the-class",
+      "kind": "select",
+      "prompt": "Explain to the group why the hull rides when the block of the same stuff sinks.",
+      "target": "kbd-share-board",
+      "title": "Explain the boat to the class",
+      "why": "Explaining the hull and the block to the group, in terms of the water's upthrust, is the surest sign the idea has landed. Classmates whose guess was wrong learn most from an explanation built on the very objects they watched settle. The real objects keep the explanation honest, because anyone can hold it against the tank."
+    },
+    {
+      "cue": "Before the group leaves the platform: what did the tank do that you did not expect, and what would you drop in next?",
+      "id": "crew-check-in",
+      "kind": "select",
+      "prompt": "Before the group leaves the platform: what did the tank do that you did not expect, and what would you drop in next?",
+      "target": "kbd-checkin",
+      "title": "Check in at the end of the lesson",
+      "why": "A short round before the group leaves the platform lets the teacher hear which ideas landed and which did not, and gives every learner a moment to name one thing they would drop into the tank next time. Nobody is marked on the platform, and the teacher or a trusted adult is there for anyone who wants to talk more afterwards."
+    }
+  ],
+  "supportLine": "your teacher, a school counsellor or a trusted adult at home — if anything in this lesson was hard, talk it through afterwards",
+  "tagline": "Float or sink is a push-up against a pull-down — and deeper water pushes harder",
+  "title": "SmartCiti.X~ Buoyancy and Pressure in the Deep VR",
+  "trade": "Science class at the Deep's viewing platform — learner and teacher",
+  "underwater": null,
+  "weather": "clear"
+}

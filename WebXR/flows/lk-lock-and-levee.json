@@ -1,0 +1,104 @@
+{
+  "id": "lk-lock-and-levee",
+  "title": "Louisiana Lesson — How a Lock Lifts a Boat",
+  "version": 1,
+  "start": "brief",
+  "meta": {
+    "audience": "A learner or a small group at a Louisiana map site, upper primary; a teacher or a union hall can run it with a class code.",
+    "why": "One idea about the places the Louisiana maps show, taught at a mapped site, checked with one question, then used straight away in a two-minute game.",
+    "hostNotes": "The SmartCiti.X side of the flow contract only (docs/flowhub.md, docs/k12.md): nothing here states how Cognition.X or any other host stores or presents it. The apply node is external: the host runs LA-COHORTS' game (WebXR/shared/lco-la-flows.js) and posts the resume.",
+    "lowConnectivity": "Works offline once the page has loaded; the run waits in this browser's own storage.",
+    "lacohorts": {
+      "lesson": "lk-lesson-lock-and-levee",
+      "theme": "rivers, levees and locks",
+      "map": "nola-bywater-lower-ninth",
+      "site": "nbw-canal-lock-crew",
+      "band": "upper primary",
+      "programme": "k12-practical-math",
+      "generated": "tools/gen_lco_flows.mjs"
+    }
+  },
+  "nodes": [
+    {
+      "id": "brief",
+      "kind": "brief",
+      "app": "smartcity",
+      "ref": "k12-lk-how-a-lock-lifts-a-boat",
+      "title": "Pre-brief — How a Lock Lifts a Boat",
+      "why": "The station's own study card, read first, so the learner knows the one idea the lesson is for."
+    },
+    {
+      "id": "lesson",
+      "kind": "station",
+      "app": "smartcity",
+      "ref": "k12-lk-how-a-lock-lifts-a-boat",
+      "title": "How a Lock Lifts a Boat",
+      "why": "The K-12 station itself, launched from its mapped site; a run that does not pass goes back to the brief."
+    },
+    {
+      "id": "check",
+      "kind": "checkin",
+      "app": "smartcity",
+      "title": "Check question — How a Lock Lifts a Boat",
+      "why": "One question on the idea just taught, answered before the game; a wrong answer shows the why and asks again. Never scored against anyone.",
+      "params": {
+        "check": {
+          "q": "Why does only one gate open at a time?",
+          "options": [
+            "So water does not rush through",
+            "To save paint",
+            "So boats go faster"
+          ],
+          "answer": 0,
+          "why": "One shut gate holds the high water back while the level changes gently."
+        }
+      }
+    },
+    {
+      "id": "apply",
+      "kind": "external",
+      "app": "host",
+      "ref": "lco-apply-lock-keeper",
+      "title": "Apply it — Lock Keeper",
+      "why": "A two-minute game that uses the idea just taught; the passport records the lesson and the game.",
+      "params": {
+        "parish": "nola-bywater-lower-ninth",
+        "site": "nbw-canal-lock-crew",
+        "minutes": 2,
+        "idea": "One gate at a time, and only when the levels match."
+      }
+    },
+    {
+      "id": "close",
+      "kind": "checkin",
+      "app": "smartcity",
+      "title": "End-of-lesson check-in",
+      "why": "The lesson closes on the learner's own answer about how it went, not on a score."
+    }
+  ],
+  "edges": [
+    {
+      "from": "brief",
+      "to": "lesson"
+    },
+    {
+      "from": "lesson",
+      "to": "check",
+      "when": {
+        "passed": true
+      }
+    },
+    {
+      "from": "lesson",
+      "to": "brief"
+    },
+    {
+      "from": "check",
+      "to": "apply"
+    },
+    {
+      "from": "apply",
+      "to": "close"
+    }
+  ]
+}

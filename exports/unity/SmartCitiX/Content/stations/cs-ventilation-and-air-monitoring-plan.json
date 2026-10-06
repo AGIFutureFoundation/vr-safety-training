@@ -1,0 +1,462 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "air-to-the-corners",
+    "name": "Air to the Corners",
+    "note": "The dry well ventilated to its plan, read at every level, watched the whole entry, and emptied the moment the blower stopped"
+  },
+  "category": "Water & Environmental",
+  "certification": "OSHA 29 CFR 1910.146 permit-required confined spaces — forced-air ventilation, pre-entry testing and continuous or periodic monitoring against the permit's acceptable conditions; OSHA 29 CFR 1926 Subpart AA where the entry is construction work, with its emphasis on continuous monitoring; ANSI Z117.1 ventilation and testing practice; NIOSH confined-space criteria on stratified atmospheres and short-circuited ventilation; LIUNA, IUOE and UA confined-space training",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI Z117.1",
+        "id": "ansi-z117-1",
+        "title": "ANSI/ASSP Z117.1 — Safety requirements for entering confined spaces"
+      },
+      {
+        "body": "union",
+        "citedAs": "IUOE",
+        "id": "iuoe-training",
+        "title": "IUOE local training funds and the IUOE National Training Fund — operating and stationary engineer apprenticeship"
+      },
+      {
+        "body": "union",
+        "citedAs": "LIUNA",
+        "id": "liuna-training-fund",
+        "title": "LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula"
+      },
+      {
+        "body": "NIOSH",
+        "citedAs": "NIOSH",
+        "id": "niosh-criteria",
+        "title": "NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.146",
+        "id": "osha-1910-146",
+        "title": "29 CFR 1910.146 — Permit-required confined spaces"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926 Subpart AA",
+        "id": "osha-1926-subpart-aa",
+        "title": "OSHA 29 CFR 1926 Subpart AA — Confined spaces in construction"
+      },
+      {
+        "body": "union",
+        "citedAs": "UA",
+        "id": "ua-apprenticeship",
+        "title": "UA — United Association plumber, pipefitter and HVAC service apprenticeship standards and UA Star certification"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Water & Environmental",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "clean-intake",
+        "name": "Clean Intake",
+        "note": "No generator at the intake, no duct left at the collar, no entry before the purge, no monitor left topside"
+      },
+      {
+        "id": "every-level",
+        "name": "Every Level",
+        "note": "Top, middle and bottom read in order, first time"
+      },
+      {
+        "id": "clean-plan",
+        "name": "Clean Plan",
+        "note": "No corrections from the plan to the log"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "steady-watch",
+        "name": "Steady Watch",
+        "note": "The monitoring held in band the whole entry"
+      },
+      {
+        "id": "worst-reading",
+        "name": "Worst Reading",
+        "note": "The bottom reading committed inside the band first time"
+      },
+      {
+        "id": "pumps-back",
+        "name": "Pumps Back",
+        "note": "Plan to log inside 80% of par"
+      }
+    ],
+    "currency": "PURGES",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Blower Hand",
+      "Gas Tester",
+      "Ventilation Lead",
+      "Entry Supervisor",
+      "Confined Space Air Qualified"
+    ],
+    "system": "Dry Well Air"
+  },
+  "hazards": {
+    "duct-at-collar": "You left the supply duct hanging just inside the hatch. Air pushed in at the top of a deep room comes straight back out of the same opening, and the heavy gases and stale air at the bottom — where the pumps are and where the fitter will kneel — never move. The duct goes to the bottom, to the far corner from the hatch, so the air sweeps the whole room on its way out.",
+    "enter-before-purge": "You were about to send the fitter down with the purge only partly run. The permit sets how long the blower runs before entry for this space and this blower because that is what it takes to change the air in it; cut short, the readings at the hatch look fine while the bottom is still what it was overnight.",
+    "generator-at-intake": "You started the blower with the generator parked beside it, exhaust toward the intake. A blower delivers whatever is at its intake to the bottom of the dry well, and generator exhaust is carbon monoxide: parked there, the ventilation meant to keep the space safe fills it with a gas nobody can see or smell. The generator goes downwind and well away, exhaust pointed off.",
+    "monitor-topside": "You left the four-gas monitor on the hatch coaming. A monitor at the top reads the air coming out of the hatch, not the air the entrant breathes at the bottom. It goes down with the entrant, clipped in the breathing zone, so its alarm is about the air in their lungs."
+  },
+  "id": "cs-ventilation-and-air-monitoring-plan",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "purge",
+      "alert": "The wind has swung round. The vacuum truck idling on the road is now blowing its exhaust straight across the blower's intake.",
+      "cue": "Move the blower to the new upwind spot with its intake back in clean air — then restart the purge clock.",
+      "delay": 2,
+      "id": "plume-over-intake",
+      "kind": "Exhaust over the intake",
+      "missNote": "The blower pushed the truck's exhaust into the dry well for the rest of the purge. The bottom reading came up with carbon monoxide on it and the whole purge had to be run again with the entry held.",
+      "seconds": 12,
+      "target": "intake-new-spot",
+      "why": "The plan put the blower upwind of today's wind, not of every wind. When the wind swings, the intake can end up downwind of an exhaust, and the blower dutifully delivers carbon monoxide to the bottom of the dry well. Moving it to the new upwind side and re-running the purge is the fix; the purge that ran on dirty air did not count.",
+      "wrongNote": "That does not clean the intake. Move the blower to the new upwind spot so it is drawing clean air again."
+    },
+    {
+      "after": "monitor",
+      "alert": "The generator coughs and dies. The blower spins down and the duct goes limp over the coaming while the fitter is at the bottom.",
+      "cue": "Recall the fitter now with the horn and the radio — the permit's conditions assumed the blower running.",
+      "delay": 2,
+      "id": "blower-fails",
+      "kind": "Ventilation failed",
+      "missNote": "Nobody recalled the fitter. They kept working in still air until the monitor on their chest alarmed on low oxygen, and climbed the ladder light-headed.",
+      "seconds": 12,
+      "target": "recall-horn",
+      "why": "The readings that made entry acceptable were taken with forced air running, and the permit's conditions assumed it would keep running. When it stops, the space begins returning to what it was, and the entrant is recalled immediately rather than waiting for the monitor to confirm it. Restarting the generator is the next job, not the first one.",
+      "wrongNote": "The blower is down with the fitter below. Sound the recall — getting them out comes before getting the generator going."
+    }
+  ],
+  "lateNotes": {
+    "blower-off": "The blower stays on until the entrant is out of the dry well — it comes off last, not first.",
+    "sample-bottom": "The levels are read after the purge has run for the time on the permit, not while the space is still being purged.",
+    "vent-log": "The log is written at the end, once the entrant is out and the blower off, with the failure and the readings on it."
+  },
+  "name": "Ventilation & Air Monitoring Plan",
+  "parSeconds": 280,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "confined-space"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "generatorTrailer",
+        "count": 1,
+        "kit": "equipment"
+      },
+      {
+        "builder": "cargoVan",
+        "count": 1,
+        "kit": "fleet"
+      },
+      {
+        "builder": "fourGasMeter",
+        "count": 1,
+        "kit": "toolkit"
+      },
+      {
+        "builder": "radio",
+        "count": 1,
+        "kit": "toolkit"
+      }
+    ],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "alarm-card",
+      "blower",
+      "blower-intake",
+      "blower-mark",
+      "blower-off",
+      "bottom-display",
+      "coupling-leak",
+      "crew-radio",
+      "duct-at-collar",
+      "duct-bottom",
+      "duct-coupling",
+      "duct-crushed",
+      "duct-no-kinks",
+      "duct-pulled-up",
+      "duct-recovered",
+      "enter-before-purge",
+      "entrant-clear",
+      "entrant-monitor",
+      "generator-at-intake",
+      "intake-new-spot",
+      "monitor-topside",
+      "pipe-chase",
+      "purge-timer",
+      "recall-horn",
+      "sample-bottom",
+      "sample-middle",
+      "sample-top",
+      "sump-pit",
+      "valve-gallery",
+      "vent-log",
+      "vent-plan"
+    ],
+    "meshes": 200
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the permit's ventilation and monitoring plan: supply air ducted to the bottom, the purge time before entry, continuous monitoring during entry, and the alarm setpoints — each as the permit sets them.",
+      "id": "vent-plan",
+      "kind": "select",
+      "prompt": "Read the permit's ventilation and monitoring plan: supply air ducted to the bottom, the purge time before entry, continuous monitoring during entry, and the alarm setpoints — each as the permit sets them.",
+      "target": "vent-plan",
+      "title": "Read the ventilation plan on the permit",
+      "why": "Forced-air ventilation is only a control if it is planned: which way the air moves, where it enters and leaves, how long it runs before anyone goes in, and how the crew will know it is still working. 29 CFR 1910.146 has the employer write the conditions that make entry acceptable, and the ventilation plan and its numbers are part of them. The crew reads the plan rather than inventing one at the hatch."
+    },
+    {
+      "cue": "Three places in this dry well will hold stale air whatever the blower does unless the duct is run for them. Find them.",
+      "id": "dead-corners",
+      "itemNames": {
+        "pipe-chase": "the pipe chase up the far wall",
+        "sump-pit": "the sump pit below the floor",
+        "valve-gallery": "the valve gallery behind the pumps"
+      },
+      "itemNotes": {
+        "pipe-chase": "The pipe chase is a narrow vertical void up the far wall. Stale air hangs in it; it is a place the monitor goes, not somewhere the flow can be assumed.",
+        "sump-pit": "The sump is a pit below the dry well floor where heavy gases pool and air barely reaches. The duct's end goes near it, and it is read on its own.",
+        "valve-gallery": "The valve gallery behind the pumps is a pocket the air will skip if the duct ends by the ladder. The duct runs past the pumps to it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Three places in this dry well will hold stale air whatever the blower does unless the duct is run for them. Find them.",
+      "targets": [
+        "sump-pit",
+        "valve-gallery",
+        "pipe-chase"
+      ],
+      "title": "Find the dead corners the air will skip",
+      "why": "Air takes the shortest path from where it goes in to where it comes out, and a deep room full of pumps has pockets the flow never reaches: a sump, a gallery behind machinery, a pipe chase. NIOSH's work on confined-space ventilation is largely about exactly this — short-circuiting and dead zones — and the plan only works if the duct is placed to sweep them."
+    },
+    {
+      "cue": "Carry the electric blower to its mark upwind of the hatch, clear of the road and well away from the generator.",
+      "drag": {
+        "missNote": "Not on the upwind mark — set the blower on the painted mark upwind of the hatch, clear of the generator's exhaust side.",
+        "radius": 0.55,
+        "to": "blower-mark"
+      },
+      "id": "blower-place",
+      "kind": "drag",
+      "prompt": "Carry the electric blower to its mark upwind of the hatch, clear of the road and well away from the generator.",
+      "target": "blower",
+      "title": "Set the blower upwind of the hatch",
+      "why": "The blower is only as clean as the air at its intake. Upwind of the hatch, it draws the air the wind is bringing rather than the air leaving the dry well or passing traffic's exhaust; away from the generator, it never sees carbon monoxide. Where it stands is most of whether the ventilation makes the space better or worse."
+    },
+    {
+      "cue": "Turn the blower so its intake faces into the wind, away from the hatch, the road and the generator.",
+      "id": "intake-turn",
+      "kind": "turn",
+      "prompt": "Turn the blower so its intake faces into the wind, away from the hatch, the road and the generator.",
+      "target": "blower-intake",
+      "title": "Turn the intake into clean air",
+      "turn": {
+        "axis": "y",
+        "label": "BLOWER INTAKE",
+        "turns": 0.5
+      },
+      "why": "A blower upwind with its intake facing back toward the hatch can still pull the dry well's own discharge around into it. The intake faces the clean air — into the wind, away from anything that exhausts — so what goes down the duct is what everyone on the surface is breathing. It is a small turn and it is the difference between ventilating and recirculating."
+    },
+    {
+      "cue": "Clamp the duct to the blower outlet, run it over the coaming without a kink, and lower its end to the bottom far corner by the sump.",
+      "id": "duct-run",
+      "itemNames": {
+        "duct-bottom": "duct end at the bottom far corner by the sump",
+        "duct-coupling": "duct clamped on the blower outlet",
+        "duct-no-kinks": "duct run straight over the coaming, no kinks"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Coupling, then the run, then the end at the bottom — a duct lowered before it is clamped just pours the blower's air onto the pad.",
+      "prompt": "Clamp the duct to the blower outlet, run it over the coaming without a kink, and lower its end to the bottom far corner by the sump.",
+      "targets": [
+        "duct-coupling",
+        "duct-no-kinks",
+        "duct-bottom"
+      ],
+      "title": "Run the duct: coupled, kink-free, to the bottom far corner",
+      "why": "A loose coupling blows half the air onto the pad, a kink at the coaming throttles the rest, and a duct end left near the ladder short-circuits what is left straight back out of the hatch. Coupled, straight and at the bottom far corner, the air travels the length of the room, pushing the stale air ahead of it past the pumps and out at the top, which is the flow the plan was drawn for."
+    },
+    {
+      "cue": "Start the blower and hold on the purge timer until it reaches the purge time written on the permit — nobody goes down before it does.",
+      "holdBreakNote": "You broke off the purge before the permit's time. The bottom of the dry well has not been changed yet — go back and let it run the full time.",
+      "id": "purge",
+      "kind": "hold",
+      "prompt": "Start the blower and hold on the purge timer until it reaches the purge time written on the permit — nobody goes down before it does.",
+      "seconds": 6,
+      "target": "purge-timer",
+      "title": "Run the purge for the time the permit sets",
+      "why": "The purge time on the permit is what it takes this blower to change the air in this space enough times to clear what built up while it was sealed. The readings that decide entry are taken after it, with the blower still running. Cutting it short is the most common way a space that read clean at the hatch still kills someone at the bottom."
+    },
+    {
+      "cue": "Lower the sample line and let the pump draw at the top, then mid-depth, then the bottom by the sump — oxygen, flammables, then toxics at each.",
+      "id": "level-readings",
+      "itemNames": {
+        "sample-bottom": "reading at the bottom by the sump",
+        "sample-middle": "reading at mid-depth",
+        "sample-top": "reading at the top"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Top, middle, bottom — read on the way down so the line is never dragged back up through a layer it has not sampled.",
+      "prompt": "Lower the sample line and let the pump draw at the top, then mid-depth, then the bottom by the sump — oxygen, flammables, then toxics at each.",
+      "targets": [
+        "sample-top",
+        "sample-middle",
+        "sample-bottom"
+      ],
+      "title": "Four-gas readings top, middle and bottom",
+      "why": "The air in a deep room layers: lighter gases high, heavier ones and oxygen-poor air low, so one reading at the hatch describes the hatch. Reading down the shaft level by level, waiting at each for the pump to draw the sample up the line, is the practice ANSI Z117.1 and NIOSH teach — and the entry decision is made on the worst of them, which is usually the last."
+    },
+    {
+      "cue": "Watch the bottom reading settle and commit only when every gas is inside the acceptable conditions written on the permit.",
+      "gauge": {
+        "green": [
+          0.46,
+          0.62
+        ],
+        "label": "BOTTOM vs PERMIT",
+        "missNote": "Not inside the permit's limits — keep the blower running, let the reading settle and read the bottom again before anyone goes down.",
+        "speed": 0.7
+      },
+      "id": "bottom-reading",
+      "kind": "gauge",
+      "prompt": "Watch the bottom reading settle and commit only when every gas is inside the acceptable conditions written on the permit.",
+      "target": "bottom-display",
+      "title": "Commit the bottom reading against the permit",
+      "why": "The acceptable conditions on the permit are the line, and the bottom reading is the one that has to be inside it, because that is where the fitter will kneel at the pump. A reading still climbing or falling is not a reading yet. If it will not settle inside the permit's limits after the purge, the answer is more ventilation and another reading, not a more generous interpretation of the numbers."
+    },
+    {
+      "cue": "Check the monitor's alarm settings for each gas against the setpoints the permit lists before it goes down with the fitter.",
+      "id": "alarm-setpoints",
+      "kind": "select",
+      "prompt": "Check the monitor's alarm settings for each gas against the setpoints the permit lists before it goes down with the fitter.",
+      "target": "alarm-card",
+      "title": "Match the monitor's alarm setpoints to the permit",
+      "why": "The monitor that goes down with the entrant is the continuous half of the plan, and it only protects them if it alarms at the numbers the permit sets. A monitor last configured for a different job alarms too late or so often that people start ignoring it. Checking its setpoints against the permit takes seconds and is the only way to know what its alarm actually means today."
+    },
+    {
+      "cue": "The fitter is at the pump with the monitor clipped in the breathing zone; keep watching the readings and the blower as the work goes on.",
+      "holdBreakNote": "The watch slipped — either the readings were not being looked at, or only one gas was. Bring it back to all four gases and the blower.",
+      "id": "monitor",
+      "kind": "track",
+      "prompt": "The fitter is at the pump with the monitor clipped in the breathing zone; keep watching the readings and the blower as the work goes on.",
+      "seconds": 7,
+      "target": "entrant-monitor",
+      "title": "Keep monitoring while the fitter works",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.45,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "MONITOR",
+        "rise": 0.55,
+        "start": 0.12
+      },
+      "why": "A dry well changes while people work in it: a seal opened on a pump releases gas, a wet well level rises behind the wall, a blower slows. Continuous monitoring, which the construction rule in 29 CFR 1926 Subpart AA leans on especially hard, is what turns the plan from a snapshot at entry into a watch, and it only works if somebody on top is actually watching."
+    },
+    {
+      "cue": "Three things have gone wrong with the ventilation since the entry started. Find them.",
+      "id": "duct-walk",
+      "itemNames": {
+        "coupling-leak": "air leaking at the blower coupling",
+        "duct-crushed": "the duct crushed under a cart wheel",
+        "duct-pulled-up": "the duct end pulled up off the bottom"
+      },
+      "itemNotes": {
+        "coupling-leak": "The clamp at the blower outlet has slipped and air is blowing out onto the pad. The blower is running; the dry well is not getting it.",
+        "duct-crushed": "A parts cart has been parked on the duct where it crosses the pad. Crushed, it passes a fraction of the air the plan assumed.",
+        "duct-pulled-up": "Somebody has pulled the duct end up to get it out of the way of the pump work — it now ends halfway up the shaft, short-circuiting."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Three things have gone wrong with the ventilation since the entry started. Find them.",
+      "targets": [
+        "duct-crushed",
+        "duct-pulled-up",
+        "coupling-leak"
+      ],
+      "title": "Walk the duct during the entry",
+      "why": "The blower's noise is reassuring and tells the crew nothing about whether air is reaching the bottom. Ducts get parked on, pulled up and knocked loose during the work, and each one quietly returns the dry well toward what it was before the purge. Walking the duct from the outlet to the end during the entry is how the plan stays the plan."
+    },
+    {
+      "cue": "The fitter climbs out and is clear of the hatch, then the blower goes off, then the duct comes up and the hatch is closed.",
+      "id": "shutdown",
+      "itemNames": {
+        "blower-off": "blower off",
+        "duct-recovered": "duct recovered, hatch closed",
+        "entrant-clear": "fitter out and clear of the hatch"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Entrant out first — the blower keeps running until nobody is below the hatch.",
+      "prompt": "The fitter climbs out and is clear of the hatch, then the blower goes off, then the duct comes up and the hatch is closed.",
+      "targets": [
+        "entrant-clear",
+        "blower-off",
+        "duct-recovered"
+      ],
+      "title": "Shut down in order: entrant out, blower off, duct up",
+      "why": "The blower is the last thing standing between the entrant and the air the dry well makes on its own, so it stays on until they are out and clear. Switching it off to save a minute while someone is still on the ladder puts them in a space whose conditions the permit no longer describes. Duct up and hatch shut last, so the opening is guarded until nothing is left in it."
+    },
+    {
+      "cue": "Record the readings at each level and through the entry, the plume over the intake, the blower failure and the recall, and the duct problems you found, and close the permit.",
+      "id": "vent-log",
+      "kind": "select",
+      "prompt": "Record the readings at each level and through the entry, the plume over the intake, the blower failure and the recall, and the duct problems you found, and close the permit.",
+      "target": "vent-log",
+      "title": "Log the readings, the plume, the failure and the duct",
+      "why": "The readings through an entry are the record of what this dry well's air did with the plan in place, and the next crew's best starting point. The plume, the blower failure and the duct problems each change the plan for next time — a different blower spot on a west wind, a generator with fuel for the job, a guard over the duct where carts cross. Written now, they become the next permit's plan."
+    },
+    {
+      "cue": "Radio the entry supervisor that the permit is closed and the pumps can be returned, and check in with the fitter about the recall.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Radio the entry supervisor that the permit is closed and the pumps can be returned, and check in with the fitter about the recall.",
+      "target": "crew-radio",
+      "title": "Check in with the entry supervisor and the fitter",
+      "why": "Operations have held the station's pumps for the entry and release them on this call. The fitter was recalled up a ladder with the blower dead and the monitor about to be the only thing between them and the dry well's air; that stays with a person, and the member assistance programme on the back of the permit is there for exactly that."
+    }
+  ],
+  "supportLine": "your LIUNA, IUOE or UA local's member assistance programme, or the employee assistance line on the back of the entry permit",
+  "tagline": "A pump station dry well ventilated to a plan: the dead corners found, the blower set upwind with its intake in clean air, the duct run to the bottom far corner, the purge run for the time the permit sets while the wind swings an exhaust plume over the intake, four-gas readings top, middle and bottom, the alarms matched to the permit, monitoring kept up until the blower dies, the duct walked, and the shutdown done in order",
+  "title": "SmartCiti.X~ Ventilation & Air Monitoring Plan VR",
+  "trade": "Confined-space entry crew — LIUNA or IUOE pump station crew, gas tester and blower operator, with a UA fitter entering",
+  "underwater": null,
+  "weather": "wind"
+}

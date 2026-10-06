@@ -1,0 +1,440 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "certificate-read",
+    "name": "Certificate Read",
+    "note": "Hot work done inside the four corners of a Marine Chemist's certificate — the right spaces, the right finding, inside the hours"
+  },
+  "category": "Maritime & Ports",
+  "certification": "IBB — International Brotherhood of Boilermakers, Iron Ship Builders, Blacksmiths, Forgers and Helpers; OSHA 29 CFR 1915 Subpart B confined and enclosed spaces in shipyard employment (1915.12 testing before entry, 1915.14 hot work, 1915.15 maintenance of safe conditions); 1915 Subpart D welding, cutting and heating; 1915.503 precautions for hot work and 1915.504 fire watches; NFPA 306 control of gas hazards on vessels and the Marine Chemist certificate; USCG requirements for hot work aboard inspected tank vessels",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 306",
+        "id": "nfpa-306",
+        "title": "NFPA 306 — Control of Gas Hazards on Vessels"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1915",
+        "id": "osha-1915",
+        "title": "29 CFR 1915 — Occupational safety and health standards for shipyard employment"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Maritime",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "both-sides",
+        "name": "Both Sides Watched",
+        "note": "A fire watch posted on the far side of the boundary as well as beside the arc"
+      },
+      {
+        "id": "nothing-in-the-space",
+        "name": "Nothing In The Space",
+        "note": "Never brought a cylinder in or left a hose down the hole"
+      },
+      {
+        "id": "steady-travel",
+        "name": "Steady Travel",
+        "note": "The cut run at a speed that severed rather than gouged"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-burn",
+        "name": "Clean Burn",
+        "note": "Clean run, no corrections"
+      },
+      {
+        "id": "stood-the-watch",
+        "name": "Stood The Watch",
+        "note": "Stayed the full post-arc fire watch without stepping off it"
+      },
+      {
+        "id": "inside-the-hours",
+        "name": "Inside The Hours",
+        "note": "Finished and cleared inside 80% of par, well short of the certificate's expiry"
+      }
+    ],
+    "currency": "AMPS",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Yard Helper",
+      "Fitter",
+      "Boilermaker",
+      "Lead Boilermaker",
+      "Hot Work Certified"
+    ],
+    "system": "Gas Free Engineering"
+  },
+  "hazards": {
+    "cut-uncertified": "You put heat into the longitudinal bulkhead to tack a staging clip on. No. 3 wing tank is on the other side of that plate and it is not on this certificate at any finding — it was never tested, because nobody told the chemist that anybody would be heating this boundary. A boundary is only as safe as the space behind it, and the certificate is the only thing that says what is behind it.",
+    "cylinder-in-tank": "You took the oxygen and fuel gas bottles down the trunk with you. Cylinders stay outside the space — only the torch and the hose go in. A fuel gas leak inside a closed tank builds a mixture nobody can see, and an oxygen leak is worse in a way people underestimate: an oxygen-enriched space makes your own overalls burn like paper, and a spark that would have died on the plate takes the man wearing them.",
+    "expired-cert": "The certificate ran out at 1800 and you carried on cutting. A Marine Chemist's certificate is issued for a stated period because a tank does not stay gas free on its own — residues keep giving off vapour, the ventilation pattern shifts as the work moves, and cargo lines weep. Past the expiry the paper says nothing about the space you are standing in; the chemist comes back and re-tests before another arc is struck.",
+    "hose-left-in": "You left the hoses coiled in the tank over the break. A cutting hose that weeps overnight in a closed space has twelve hours to fill the low corners of it, and the man who comes back after lunch strikes his striker in a tank that was gas free when he left it. Hoses come out with you and the bottles get shut at the valve, every break, not just at the end of the shift.",
+    "vent-off": "You shut the blower down with work still going on in the space. Read the conditions on the certificate: it is issued for a ventilated space and it is void the moment the ventilation stops. Turning that fan off does not make the certificate a bit less true — it makes it no longer a certificate, and everything done after it is uncertified hot work in a cargo tank."
+  },
+  "id": "shipyard-hotwork",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "shield",
+      "alert": "The blower up on deck has tripped. The duct sock has gone soft on the tank bottom and the note of the fan is gone.",
+      "cue": "The air has stopped moving and you are one step away from striking an arc.",
+      "delay": 3,
+      "id": "vent-trip",
+      "kind": "Ventilation failure",
+      "missNote": "You finished dressing the staging and lit up in a tank with no air moving through it. Cutting fume and the vapour coming off the residues had nowhere to go but the corner you were kneeling in, the certificate covering the job expired the moment the blower did, and the tank you climbed out of at the end of the shift was not the tank the chemist tested.",
+      "seconds": 12,
+      "target": "trunk-ladder",
+      "why": "The certificate is issued on the condition that the mechanical ventilation runs continuously. The moment it stops the paper covering this job stops with it, and the space starts going back to whatever the residues want it to be — so nothing gets lit, the space is cleared up the trunk, and nobody comes back down until the fan is running and the chemist has said so again.",
+      "wrongNote": "It is the trunk ladder. A dead fan is not something to fix from down here — it is something to leave for, and the way out is the way you came in."
+    },
+    {
+      "after": "watch-after",
+      "alert": "The watch in the void is calling through the plate: the coating on the back of the bulkhead is smoking where the cut ran.",
+      "cue": "Something is alight on the side of the boundary you cannot see.",
+      "delay": 3,
+      "id": "void-smoke",
+      "kind": "Fire on the far side",
+      "missNote": "Nobody put it out. Blistered coating in a void smoulders behind steel where no one can see a flame, and by the time smoke reaches the deck it is a fire in a space that is certified for workers, has one access and now has hot plate between it and the man who has to go in.",
+      "seconds": 12,
+      "target": "void-extinguisher",
+      "why": "Coating on the reverse of a heated plate cooks off and then catches, and it does it after the arc has stopped rather than during it. That is the whole reason a watch is posted on the far side with an extinguisher in reach: the fire starts where the welder cannot see it and at the moment everyone has decided the hot work is finished.",
+      "wrongNote": "It is the extinguisher in the void, in the hands of the watch who is already standing there. That is what the second watch was posted for."
+    }
+  ],
+  "lateNotes": {
+    "cutting-torch": "The torch is coupled up and the arc struck after the certificate is read, the space is ventilated and both fire watches are posted — not before.",
+    "gas-hose": "The hose goes down the trunk after the bottles are racked and secured on deck and the lines have been leak-tested."
+  },
+  "name": "Shipyard Hot Work",
+  "parSeconds": 310,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.2,
+    "hits": [
+      "anemometer",
+      "bilge-well",
+      "blower-damper",
+      "cable-penetration",
+      "cert-expiry",
+      "cert-finding",
+      "cert-spaces",
+      "chemist-cert",
+      "chemist-radio",
+      "cut-uncertified",
+      "cutting-torch",
+      "cylinder-in-tank",
+      "cylinder-valves",
+      "deck-rack",
+      "double-bottom-manhole",
+      "expired-cert",
+      "fire-blanket",
+      "fire-watch-timer",
+      "flashback-arrestors",
+      "gas-cart",
+      "gas-hose",
+      "hose-gauge",
+      "hose-left-in",
+      "staging-timber",
+      "tank-bottom",
+      "trunk-ladder",
+      "vent-duct",
+      "vent-off",
+      "void-extinguisher",
+      "void-hatch",
+      "watch-inside",
+      "watch-void"
+    ],
+    "meshes": 272
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Before a tool goes down the trunk, find the four things on that board that decide whether this job happens at all.",
+      "id": "cert-read",
+      "itemNames": {
+        "cert-expiry": "the expiry and conditions",
+        "cert-finding": "the finding against each space",
+        "cert-spaces": "the list of spaces",
+        "chemist-cert": "the certificate itself"
+      },
+      "itemNotes": {
+        "cert-expiry": "Issued 0700, expires 1800 this date, and only while the mechanical ventilation stated on it is running. Both of those are conditions, not notes — if either fails the certificate has failed with it.",
+        "cert-finding": "No. 3 centre and the double bottom read SAFE FOR WORKERS, SAFE FOR HOT WORK. The aft void reads SAFE FOR WORKERS only. Those are two different findings and only one of them lets you strike an arc.",
+        "cert-spaces": "Three spaces are named individually: No. 3 centre cargo tank, No. 3 double bottom beneath it, and the aft void at frame 74. No. 3 wing tank, on the other side of the longitudinal bulkhead, is not on it at all — a space that is not on the list has not been tested, whatever the space next to it says.",
+        "chemist-cert": "Signed by a Marine Chemist certified by the NFPA board, for this vessel, at this berth, on this date. You do not test this space and decide for yourself — OSHA 1915.14 makes this piece of paper the thing that permits hot work here, and your job on it is to read it rather than argue with it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Before a tool goes down the trunk, find the four things on that board that decide whether this job happens at all.",
+      "targets": [
+        "chemist-cert",
+        "cert-spaces",
+        "cert-finding",
+        "cert-expiry"
+      ],
+      "title": "Read the Marine Chemist's certificate, line by line",
+      "why": "A certificate is not a pass, it is a set of findings with a shelf life, written under NFPA 306 by somebody who is not in your trade and not on your schedule. People read the first line, see their own tank, see the word SAFE and go to work — and the failure is always in the part they did not read: an adjacent space with a lesser finding, or an hour that has already gone past."
+    },
+    {
+      "cue": "The insert you are cutting is in the aft boundary, and the void behind it is certified for workers only. Get it tested for hot work before anything is lit.",
+      "id": "recall-chemist",
+      "kind": "select",
+      "prompt": "The insert you are cutting is in the aft boundary, and the void behind it is certified for workers only. Get it tested for hot work before anything is lit.",
+      "target": "chemist-radio",
+      "title": "Call the chemist back for the void behind the plate",
+      "why": "Safe for Workers means you may breathe in there. It says nothing about what is on the plating or in the corners once the other side of it goes to a few hundred degrees. Heating a boundary is hot work in both spaces, so both spaces need the hot work finding, and the only person who can give it is the chemist who wrote the certificate."
+    },
+    {
+      "cue": "Carry the duct end down to the bottom of the tank, away from the trunk.",
+      "drag": {
+        "missNote": "The duct end is still up near the trunk — that is a circuit of clean air back out of the hatch, not a ventilated tank.",
+        "radius": 0.5,
+        "to": "tank-bottom"
+      },
+      "id": "duct",
+      "kind": "drag",
+      "prompt": "Carry the duct end down to the bottom of the tank, away from the trunk.",
+      "target": "vent-duct",
+      "title": "Run the ventilation duct to the low corner",
+      "why": "Air short-circuits. A duct dropped through the hatch and left hanging blows straight back up the same hole and ventilates nothing, while the heavy vapour sits in the bottom where the residues are and where you are about to kneel. The discharge goes to the far low corner so the whole space turns over."
+    },
+    {
+      "cue": "Throw the damper open and leave it open — this runs the whole time anyone is in the space.",
+      "id": "blower",
+      "kind": "turn",
+      "prompt": "Throw the damper open and leave it open — this runs the whole time anyone is in the space.",
+      "target": "blower-damper",
+      "title": "Open the damper and put the blower on line",
+      "turn": {
+        "axis": "y",
+        "label": "DAMPER",
+        "turns": 1.5
+      },
+      "why": "The certificate is conditional on continuous mechanical ventilation. Continuous means through the cut, through the breaks and through the fire watch afterwards; there is no part of this job where it is reasonable for that fan to be off."
+    },
+    {
+      "cue": "Read the velocity at the duct discharge and commit it.",
+      "gauge": {
+        "green": [
+          0.52,
+          0.76
+        ],
+        "label": "DUCT m/s",
+        "missNote": "Not enough air at the discharge — find the flat in the duct or the rag over the intake before anybody goes back down.",
+        "speed": 0.72
+      },
+      "id": "airflow",
+      "kind": "gauge",
+      "prompt": "Read the velocity at the duct discharge and commit it.",
+      "target": "anemometer",
+      "title": "Prove the air is actually moving",
+      "why": "This is not an atmosphere test — that belongs to the chemist and it is already done. It is a check that the thing the certificate is conditional on is working: a crushed duct or a blocked intake reads as a fan that sounds fine and moves nothing."
+    },
+    {
+      "cue": "Cart to the rack by the hatch, upright, chained, valves where somebody topside can reach them.",
+      "drag": {
+        "missNote": "Not in the rack. Loose bottles on a steel deck fall over, and a knocked-off valve turns a cylinder into something that goes through a bulkhead.",
+        "radius": 0.5,
+        "to": "deck-rack"
+      },
+      "id": "cylinders",
+      "kind": "drag",
+      "prompt": "Cart to the rack by the hatch, upright, chained, valves where somebody topside can reach them.",
+      "target": "gas-cart",
+      "title": "Rack the bottles on deck, outside the space",
+      "why": "The cylinders never enter the space; only the torch and the hose do. Outside, a leak dilutes into the open and a man on deck can shut it off at the valve. Inside, the same leak is contained by the tank itself, and in a fire the person who has to close that valve is the one who cannot get to it."
+    },
+    {
+      "cue": "Pressurise both hoses, shut the valves and commit on the pressure drop.",
+      "gauge": {
+        "green": [
+          0.03,
+          0.2
+        ],
+        "label": "DROP psi",
+        "missNote": "That line is losing pressure. It is changed on deck now, not nursed through the shift.",
+        "speed": 0.7
+      },
+      "id": "hose-test",
+      "kind": "gauge",
+      "prompt": "Pressurise both hoses, shut the valves and commit on the pressure drop.",
+      "target": "hose-gauge",
+      "title": "Leak-test the lines before they go down the hole",
+      "why": "A hose tested on deck is a hose you know about. The same hose tested by lowering it into a closed tank and waiting is a hose you find out about later, from the far end of a shift, when the low corner has had an hour to collect what came out of it."
+    },
+    {
+      "cue": "Arrestors on at the regulators, then the hose down the trunk, then couple the torch on at the bottom.",
+      "id": "rig-torch",
+      "itemNames": {
+        "cutting-torch": "torch coupled at the bottom",
+        "flashback-arrestors": "flashback arrestors at the regulators",
+        "gas-hose": "hose lowered down the trunk"
+      },
+      "kind": "sequence",
+      "prompt": "Arrestors on at the regulators, then the hose down the trunk, then couple the torch on at the bottom.",
+      "targets": [
+        "flashback-arrestors",
+        "gas-hose",
+        "cutting-torch"
+      ],
+      "title": "Rig the gear from the deck down",
+      "why": "In that order, because the protection goes on at the end you can still reach. A flashback travels back up the hose towards the bottles, and the arrestor is what stops it at the regulator rather than at the cylinder standing next to your mate on deck."
+    },
+    {
+      "anyOrder": true,
+      "cue": "One in here with you, one in the void behind the plate you are about to heat.",
+      "id": "watches",
+      "itemNames": {
+        "watch-inside": "fire watch in the tank",
+        "watch-void": "fire watch in the void, the other side of the plate"
+      },
+      "kind": "sequence",
+      "prompt": "One in here with you, one in the void behind the plate you are about to heat.",
+      "targets": [
+        "watch-inside",
+        "watch-void"
+      ],
+      "title": "Post a fire watch on both sides of the boundary",
+      "why": "The man behind the hood is looking at an arc through a dark lens and can see neither where his sparks land nor the plate going red on the far side. OSHA 1915.504 wants a watch where slag and sparks can reach — and a heated boundary reaches into the space behind it whether or not anything falls through the penetrations in it."
+    },
+    {
+      "cue": "Carry the blanket over the timber staging below the insert.",
+      "drag": {
+        "missNote": "The staging is still bare under the cut. Slag will find it.",
+        "radius": 0.5,
+        "to": "staging-timber"
+      },
+      "id": "shield",
+      "kind": "drag",
+      "prompt": "Carry the blanket over the timber staging below the insert.",
+      "target": "fire-blanket",
+      "title": "Cover the staging under the cut",
+      "why": "Cutting slag leaves the plate at the temperature of molten steel and falls straight down. Wooden staging under a burn takes it and smoulders inside the grain for an hour, which is a fire that starts after everybody has gone home and in a space with one way out of it."
+    },
+    {
+      "cue": "Hold the trigger and keep the travel steady down the cut line.",
+      "id": "cut",
+      "kind": "track",
+      "prompt": "Hold the trigger and keep the travel steady down the cut line.",
+      "seconds": 6,
+      "target": "cutting-torch",
+      "title": "Burn the insert out",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.44,
+        "green": [
+          0.42,
+          0.62
+        ],
+        "label": "TRAVEL",
+        "rise": 0.56
+      },
+      "why": "Travel speed is the whole quality of an oxy-fuel cut. Too fast and the kerf does not sever, so the plate hangs on and has to be re-cut with the heat already in it; too slow and the cut widens, the plate takes far more heat than the job needs, and that surplus heat is exactly what goes through to the space on the other side."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Arc out, and before the watch clock starts: open up the void aft and the double bottom under the cut and put a light in both.",
+      "id": "boundaries",
+      "itemNames": {
+        "double-bottom-manhole": "the double bottom, through the manhole in the tank floor",
+        "void-hatch": "the void aft, through its own access"
+      },
+      "kind": "sequence",
+      "prompt": "Arc out, and before the watch clock starts: open up the void aft and the double bottom under the cut and put a light in both.",
+      "targets": [
+        "void-hatch",
+        "double-bottom-manhole"
+      ],
+      "title": "Look into the spaces the heat went into",
+      "why": "The certificate named those two spaces separately because they are separately capable of catching fire. Heat conducts through the plate you were cutting and falls through anything the tank bottom has a hole in, and neither space announces itself — the only way anyone learns what happened in there is by opening it and looking while there is still somebody on the job to deal with it."
+    },
+    {
+      "cue": "Start the watch clock and stay on the post, both sides, for the full period.",
+      "holdBreakNote": "You stepped off the watch early. The clock runs from the last arc, and a watch that ends when the welder packs up is not a fire watch, it is a ceremony.",
+      "id": "watch-after",
+      "kind": "hold",
+      "prompt": "Start the watch clock and stay on the post, both sides, for the full period.",
+      "seconds": 6,
+      "target": "fire-watch-timer",
+      "title": "Stand the fire watch after the arc stops",
+      "why": "Nothing in this job catches fire while the torch is lit — the watch exists for the half hour afterwards, when the plate is still hot enough to light the coating on the far side and everybody has decided the job is over. OSHA 1915.504 keeps a fire watch on after the hot work finishes for exactly that reason, and the yard keeps it on both sides of the boundary for the same reason it posted two."
+    },
+    {
+      "cue": "Shut the valves at the bottles, bleed the lines through the torch, then draw the hose back up out of the tank.",
+      "id": "break-out",
+      "itemNames": {
+        "cutting-torch": "lines bled at the torch",
+        "cylinder-valves": "bottle valves shut on deck",
+        "gas-hose": "hose drawn out of the space"
+      },
+      "kind": "sequence",
+      "prompt": "Shut the valves at the bottles, bleed the lines through the torch, then draw the hose back up out of the tank.",
+      "targets": [
+        "cylinder-valves",
+        "cutting-torch",
+        "gas-hose"
+      ],
+      "title": "Break the gear out at the end of the shift",
+      "why": "That order leaves nothing charged and nothing in the space. Shutting the valve first means what you bleed is only what is in the hose; drawing the hose out last means the tank goes overnight empty of everything that could leak into it. This is the step that gets skipped, and skipping it is how a space that was gas free at knock-off is not gas free in the morning, with nobody in it and nobody watching it."
+    },
+    {
+      "cue": "Go round the boundary and the bottom of the tank with a light; click what has to be dealt with before anybody leaves.",
+      "id": "walk",
+      "itemNames": {
+        "bilge-well": "the stripping well under the cut",
+        "cable-penetration": "the cable transit through the boundary"
+      },
+      "itemNotes": {
+        "bilge-well": "The stripping well directly under the cut still has oily scale in the bottom of it. It was outside the blanket and out of the watch's sight, and it has been collecting slag all afternoon.",
+        "cable-penetration": "There is an unsealed cable transit through the aft bulkhead a metre from the cut. Everything you thought the boundary was holding back — sparks, slag, heat — had an open hole to go through into the void."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Go round the boundary and the bottom of the tank with a light; click what has to be dealt with before anybody leaves.",
+      "targets": [
+        "cable-penetration",
+        "bilge-well"
+      ],
+      "title": "Walk the space before the watch is stood down",
+      "why": "A boundary is drawn on a plan and never on the steel. Penetrations, transits and the wells under the frames are where the heat and the slag actually went, and they are found by somebody walking the space with a torch at the end of the job, not by the certificate that was written at seven in the morning."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Burning an insert out of a tank boundary on a Marine Chemist's certificate: read the findings space by space, get the void behind the plate certified, ventilate continuously, bottles on deck, fire watch both sides and after",
+  "title": "SmartCiti.X~ Shipyard Hot Work VR",
+  "trade": "Shipyard boilermaker / marine welder",
+  "underwater": null,
+  "weather": "overcast"
+}

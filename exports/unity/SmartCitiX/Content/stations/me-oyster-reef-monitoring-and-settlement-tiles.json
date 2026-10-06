@@ -1,0 +1,444 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "tile-chain-kept",
+    "name": "Tile Chain Kept",
+    "note": "Every tile kept wet, labelled and in order from the reef to the bag, and the fresh rack back on its own footing at its mark"
+  },
+  "category": "Water & Environmental",
+  "certification": "AFSCME and LIUNA monitoring and habitat crews as training bodies; OSHA 29 CFR 1910.132 personal protective equipment for shell, cold water and the skiff; Regional Water Quality Control Board Section 401 and Section 404 monitoring conditions the tile record answers; BCDC permit conditions for the reef; NOAA Fisheries and the U.S. Fish and Wildlife Service consultation measures for the work window; CDFW oversight of the collecting and handling the tiles involve",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFSCME",
+        "id": "afscme-training",
+        "title": "AFSCME member education and safety training for public-service and air-district members"
+      },
+      {
+        "body": "BCDC",
+        "citedAs": "BCDC",
+        "id": "bcdc-bay-plan",
+        "title": "San Francisco Bay Plan and BCDC permit conditions under the McAteer-Petris Act"
+      },
+      {
+        "body": "CDFW",
+        "citedAs": "CDFW",
+        "id": "cdfw-lake-streambed-alteration",
+        "title": "California Department of Fish and Wildlife oversight under the California Fish and Game Code, including Lake and Streambed Alteration Agreements (§1602) for work affecting a river, stream or lake"
+      },
+      {
+        "body": "union",
+        "citedAs": "LIUNA",
+        "id": "liuna-training-fund",
+        "title": "LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula"
+      },
+      {
+        "body": "NOAA Fisheries",
+        "citedAs": "NOAA Fisheries",
+        "id": "noaa-fisheries-mmpa-esa",
+        "title": "NOAA Fisheries (National Marine Fisheries Service) Marine Mammal Protection Act authorizations and Endangered Species Act consultation for in-water work affecting marine mammals"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.132",
+        "id": "osha-1910-132",
+        "title": "29 CFR 1910.132 — Personal protective equipment, general requirements"
+      },
+      {
+        "body": "RWQCB",
+        "citedAs": "Section 401",
+        "id": "rwqcb-401-certification",
+        "title": "Regional Water Quality Control Board Clean Water Act §401 certification and waste discharge requirements"
+      },
+      {
+        "body": "USACE",
+        "citedAs": "Section 404",
+        "id": "usace-section-404",
+        "title": "Clean Water Act §404 permit conditions for the discharge of dredged or fill material"
+      },
+      {
+        "body": "USFWS",
+        "citedAs": "U.S. Fish and Wildlife Service",
+        "id": "usfws-esa",
+        "title": "Endangered Species Act §7 consultation and species protection measures set by the U.S. Fish and Wildlife Service"
+      }
+    ]
+  },
+  "district": "Environmental Monitoring",
+  "domain": "Environmental",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "in-order",
+        "name": "In Order",
+        "note": "Every tile labelled, shot and bagged in rack order first time"
+      },
+      {
+        "id": "reef-kept",
+        "name": "Reef Kept",
+        "note": "Never a hazard, never a mound crossed"
+      },
+      {
+        "id": "true-window",
+        "name": "True Window",
+        "note": "The tide staff read inside the working band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-swap",
+        "name": "Clean Swap",
+        "note": "No corrections from the plan to the log"
+      },
+      {
+        "id": "steady-board",
+        "name": "Steady Board",
+        "note": "The path walked and the board held without a break"
+      },
+      {
+        "id": "off-before-flood",
+        "name": "Off Before The Flood",
+        "note": "Swap logged inside 80% of par"
+      }
+    ],
+    "currency": "TILE",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Field Hand",
+      "Tile Tech",
+      "Reef Tech",
+      "Monitoring Lead",
+      "Reef Certified"
+    ],
+    "system": "Reef Crew"
+  },
+  "hazards": {
+    "bare-hand-on-shell": "You reached bare-handed into the reef to free the rack's foot. Cured shell has edges that open a glove, let alone a hand, in cold water where you will not feel the cut until it is bleeding — the gloves stay on for anything touching the reef, and the foot is freed with the pry bar, not fingers.",
+    "cross-the-mounds": "You stepped straight over the reef mounds to reach the rack instead of walking the flagged path round them. Live shell breaks under a boot the way it breaks under a wave, and a reef trodden down by the crew that monitors it stops being a fair test of the restoration; the path is flagged so the same few square metres take every footfall.",
+    "rack-anywhere": "You set the fresh rack on a flat bit of rock that looked about right instead of the marked footing. A settlement rack is a fixed station precisely so the same footing at the same height and orientation is sampled every time; a rack set anywhere else produces a tile count that cannot be compared with the last one, and the trend the plan exists to build breaks at this swap.",
+    "tiles-in-the-sun": "You laid the wet tiles out on the skiff's thwart to dry off before photographing them. Whatever has settled on a tile is alive in a film of water, and a tile that dries is a tile whose record is gone before the camera reaches it; tiles go from the rack into the wet tray and from the tray into the bag, wet the whole way."
+  },
+  "id": "me-oyster-reef-monitoring-and-settlement-tiles",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "walk-path",
+      "alert": "Behind you the skiff has swung off the reef's edge — its anchor is dragging and the tender is hauling on the line alone.",
+      "cue": "Stop on the path and take up the skiff's bow line where it is tied off on the reef so the boat comes back to the landing.",
+      "delay": 2,
+      "id": "skiff-dragging",
+      "kind": "Skiff dragging its anchor",
+      "missNote": "The skiff drifted off the landing while you finished the crossing, and the crew was left on a reef with the flood running and the boat two hundred hard strokes away for a tender rowing alone.",
+      "seconds": 14,
+      "target": "bow-line",
+      "why": "The skiff is the crew's way off the reef before the flood, and a boat dragging its anchor on a rising tide drifts further every minute the crew spends finishing the crossing. The bow line was tied off on the reef for exactly this, so a technician on the path can bring the boat back without stepping into the water — the tender on the anchor and the technician on the bow line is two people holding the boat, which is what it takes.",
+      "wrongNote": "Not that. The bow line tied off on the reef is what brings the skiff back to the landing — take it up."
+    },
+    {
+      "after": "board-hold",
+      "alert": "The water has come up the rock faster than the staff reading promised — it is lapping at the wet tray's feet with tiles still in it.",
+      "cue": "Lift the tray by its handle onto the high rock beside you before the next surge reaches it.",
+      "delay": 2,
+      "id": "flood-at-tray",
+      "kind": "Flood reaching the tray",
+      "missNote": "The next surge lifted the tray and turned it; three tiles went into the pool between the mounds, and which slot each had come from was gone with them.",
+      "seconds": 14,
+      "target": "tray-handle",
+      "why": "A tray of tiles lifted by the tide is a tray of tiles scattered across the reef with their positions lost, and a technician who keeps photographing while the water climbs is choosing one frame over the whole rack. The tray goes to the high rock the plan marked for it — one lift, then the work carries on there or the crew calls the swap and finishes on the boat, per the tide, not per how close to done it felt.",
+      "wrongNote": "Not that. The tray's handle is what moves the tiles to the high rock in one lift — take it before the surge does."
+    }
+  ],
+  "lateNotes": {
+    "photo-board": "The board is held once the tiles are labelled — a photograph of an unlabelled tile is a picture of nothing the lab can file.",
+    "rack-card": "The card is written once the fresh rack is set; the record says what is on the reef now, not what was about to be.",
+    "rack-deployed": "The rack is lifted once the reef has been crossed on its path — nothing is carried until the technician is standing where the plan says.",
+    "rack-fresh": "The fresh rack goes in after its orientation mark is turned to the footing's — set first and turned after, and the tiles face a different way to last time."
+  },
+  "name": "Oyster Reef Monitoring & Settlement Tiles",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "marine-ecology-and-restoration"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "skiff",
+        "count": 1,
+        "kit": "fleet"
+      },
+      {
+        "builder": "radio",
+        "count": 1,
+        "kit": "toolkit"
+      },
+      {
+        "builder": "0.9x0.82x0.3",
+        "count": 2,
+        "kit": "unknown"
+      }
+    ],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "bare-hand-on-shell",
+      "board-hold",
+      "boots-on",
+      "bow-line",
+      "cooler-lid",
+      "cross-the-mounds",
+      "gloves-on",
+      "label-pen",
+      "orientation-mark",
+      "photo-board",
+      "pry-bar-stow",
+      "rack-anywhere",
+      "rack-card",
+      "rack-deployed",
+      "rack-footing",
+      "rack-fresh",
+      "reef-path",
+      "sample-bag",
+      "skiff-radio",
+      "tide-staff",
+      "tile-cracked",
+      "tile-plan-board",
+      "tile-unlabelled",
+      "tiles-in-the-sun",
+      "tray-handle",
+      "tray-stow",
+      "vest-on",
+      "wet-tray"
+    ],
+    "meshes": 276
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check which rack is due, how many tiles it holds and in what order, the footing's orientation mark, and the low-water window the tide table gives for the crossing.",
+      "id": "tile-plan",
+      "kind": "select",
+      "prompt": "Check which rack is due, how many tiles it holds and in what order, the footing's orientation mark, and the low-water window the tide table gives for the crossing.",
+      "target": "tile-plan-board",
+      "title": "Read the tile plan and the tide window",
+      "why": "A settlement-tile record works only if every tile keeps its identity from the reef to the lab — rack, row and position — and if the rack goes back on the same footing facing the same way. The plan holds those facts; the tide table holds the other constraint, a window that opens and closes without regard to how the swap is going. Reading both before the skiff touches the reef is how the crew arrives knowing what it will lift, what it will set, and when it must be back in the boat."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Cut-resistant gloves, felt-soled boots for the wet rock, and the work vest zipped — every one on before a foot leaves the skiff.",
+      "id": "kit-on",
+      "itemNames": {
+        "boots-on": "felt-soled reef boots",
+        "gloves-on": "cut-resistant gloves",
+        "vest-on": "work vest"
+      },
+      "kind": "sequence",
+      "prompt": "Cut-resistant gloves, felt-soled boots for the wet rock, and the work vest zipped — every one on before a foot leaves the skiff.",
+      "targets": [
+        "gloves-on",
+        "boots-on",
+        "vest-on"
+      ],
+      "title": "Gloves, reef boots and the work vest before the reef",
+      "why": "The reef is sharp shell on slick rock beside deep cold water, and 29 CFR 1910.132 asks the employer to have assessed exactly that: the gloves against the shell, the boots against the slick, the vest for the moment a technician leaning over a rack steps off the edge into water that takes the use of the hands in minutes. They go on in the skiff because a glove pulled on with a hand already bleeding is a bandage, not protection."
+    },
+    {
+      "cue": "Read where the water stands on the staff at the reef edge and commit it against the low-water window the plan gives.",
+      "gauge": {
+        "green": [
+          0.34,
+          0.54
+        ],
+        "label": "TIDE STAFF",
+        "missNote": "Outside the working window. Read the staff again and go only when the water stands inside the plan's band.",
+        "speed": 0.7
+      },
+      "id": "read-staff",
+      "kind": "gauge",
+      "prompt": "Read where the water stands on the staff at the reef edge and commit it against the low-water window the plan gives.",
+      "target": "tide-staff",
+      "title": "Read the tide staff against the working window",
+      "why": "The tide table is a prediction of the moon's pull; the staff is where the water actually is this morning after the wind and the pressure have had their say, and the two disagree often enough that the staff is what the crew works to. Reading it before the crossing sets how long the rack can be off its footing, and a reading committed now is a decision the crew made on the reef's edge rather than one made late with the tray already awash."
+    },
+    {
+      "cue": "Follow the flags at a pace that keeps both feet on the marked rock — no long steps, no shortcuts over the mounds.",
+      "holdBreakNote": "The pace broke — hurrying off the flags or stalled mid-reef. Find the next flag and take it up again.",
+      "id": "walk-path",
+      "kind": "track",
+      "prompt": "Follow the flags at a pace that keeps both feet on the marked rock — no long steps, no shortcuts over the mounds.",
+      "seconds": 6,
+      "target": "reef-path",
+      "title": "Walk the flagged path across the reef",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.45,
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "PACE ON THE PATH",
+        "rise": 0.55,
+        "start": 0.14
+      },
+      "why": "The path is flagged so the crew's footfalls land on the same few metres of bare rock every visit and the shell they are here to measure is never under a boot; walking it steadily keeps a technician carrying a tray from a long step onto a mound or a slick patch. The pace is set by the footing and the load, not by the tide — a hurried crossing is how the reef gets trampled and the tray gets dropped."
+    },
+    {
+      "cue": "Free the rack's feet with the pry bar, lift it level by both uprights and set it in the wet tray with its tiles still hanging.",
+      "drag": {
+        "missNote": "Not in the wet tray — the rack goes straight into reef water, not onto the rock or the deck.",
+        "radius": 0.55,
+        "to": "wet-tray"
+      },
+      "id": "lift-rack",
+      "kind": "drag",
+      "prompt": "Free the rack's feet with the pry bar, lift it level by both uprights and set it in the wet tray with its tiles still hanging.",
+      "target": "rack-deployed",
+      "title": "Lift the deployed rack into the wet tray",
+      "why": "The rack comes off its footing level and goes straight into a tray of reef water so the tiles never dry and never touch each other, because a tile face rubbed against its neighbour has lost part of the record the lab will count. It is lifted by the uprights and not the crossbar the tiles hang from, and it goes to the tray, not the deck: the tray is what keeps the chain wet from here to the bag."
+    },
+    {
+      "cue": "Look across both rows in the tray for a broken tile and a tile that has lost its label; note them on the card before a tile leaves its slot.",
+      "id": "inspect-tiles",
+      "itemNames": {
+        "tile-cracked": "the tile with a corner broken off",
+        "tile-unlabelled": "the tile whose label has gone"
+      },
+      "itemNotes": {
+        "tile-cracked": "A tile with a corner broken away since it was hung. It is still counted — the lab scores what is left and records the loss of area — but the break goes on the card now so nobody later mistakes a smaller tile for a smaller count.",
+        "tile-unlabelled": "A tile whose engraved tag has come off. Its position on the rack is still its identity, so it is labelled from the rack diagram before it moves — the one thing that cannot be recovered later is which slot it hung in."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look across both rows in the tray for a broken tile and a tile that has lost its label; note them on the card before a tile leaves its slot.",
+      "targets": [
+        "tile-cracked",
+        "tile-unlabelled"
+      ],
+      "title": "Inspect the tiles in the tray before anything moves",
+      "why": "The rack diagram on the card is the only record of which tile hung where, and it is true only while the tiles are still hanging; a damaged or unlabelled tile found after the rack has been stripped is a tile whose position is a guess. Inspecting in the tray, in the rack, before anything moves is how a lost label costs a minute on the reef instead of the whole tile's data in the lab."
+    },
+    {
+      "cue": "For each tile in turn: confirm or re-engrave its label, shoot it face-up on the grid board with the card in frame, and bag it wet in the cooler.",
+      "id": "label-shoot-bag",
+      "itemNames": {
+        "label-pen": "engraving pen — rack, row, slot on the tile",
+        "photo-board": "grid photo board with the scale and the card",
+        "sample-bag": "labelled bag in the cooler"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order — label first, then the board, then the bag. A photograph of an unlabelled tile is a picture the lab cannot file.",
+      "prompt": "For each tile in turn: confirm or re-engrave its label, shoot it face-up on the grid board with the card in frame, and bag it wet in the cooler.",
+      "targets": [
+        "label-pen",
+        "photo-board",
+        "sample-bag"
+      ],
+      "title": "Label, photograph and bag each tile in rack order",
+      "why": "The three steps are one chain and their order is the method: a tile is photographed only once its label is on it, so the photograph carries its identity, and bagged only once it is photographed, so the bag holds a tile the lab can match to a frame. Doing it tile by tile in rack order means the card, the camera and the cooler agree without anyone reconstructing the sequence on the drive back."
+    },
+    {
+      "cue": "Hold the board level and square under the camera with the scale and the card in frame for the full count — no tilt, no shadow across the tile.",
+      "holdBreakNote": "The board tilted before the count was done — the grid would read unevenly across the tile. Level it and hold again.",
+      "id": "board-hold",
+      "kind": "hold",
+      "prompt": "Hold the board level and square under the camera with the scale and the card in frame for the full count — no tilt, no shadow across the tile.",
+      "seconds": 5,
+      "target": "board-hold",
+      "title": "Hold the grid board square for the tile shot",
+      "why": "The lab counts recruits from the photograph against the grid, and a board that tilts or drifts during the shot puts the grid's squares at different sizes across the tile; a shadow from the technician's own head hides the corner the count needed. Holding square for the full count is the reef-side proof that the frame is one the lab can score — a rushed shot cannot be told from a careful one until the count is being argued over months later."
+    },
+    {
+      "cue": "Turn the fresh rack until the arrow on its crossbar lines up with the painted mark on the footing.",
+      "id": "orient-rack",
+      "kind": "turn",
+      "prompt": "Turn the fresh rack until the arrow on its crossbar lines up with the painted mark on the footing.",
+      "target": "orientation-mark",
+      "title": "Turn the fresh rack to the footing's orientation mark",
+      "turn": {
+        "label": "RACK ORIENTATION",
+        "turns": 0.7
+      },
+      "why": "The tiles hang face-down and the side of the rack that faces the channel sees a different flow from the side that faces the shore; a rack set ninety degrees from last time samples a different reef in the same spot. The orientation mark is painted on the footing so every crew sets the rack the same way without knowing why — it is turned to the mark before it is set, because a rack turned after setting scours the footing it is meant to sit still on."
+    },
+    {
+      "cue": "Carry the fresh rack level by its uprights and set its feet on the marked footing, arrow to the mark, tiles clear of the rock.",
+      "drag": {
+        "missNote": "Not on the footing — the rack's feet go on the marked footing, arrow to the mark, nowhere else.",
+        "radius": 0.55,
+        "to": "rack-footing"
+      },
+      "id": "set-rack",
+      "kind": "drag",
+      "prompt": "Carry the fresh rack level by its uprights and set its feet on the marked footing, arrow to the mark, tiles clear of the rock.",
+      "target": "rack-fresh",
+      "title": "Set the fresh rack on its footing",
+      "why": "The footing is the fixed point of the whole record — the same height above the bed, the same exposure, the same neighbours — and the fresh rack going onto it is what makes the next swap comparable with this one. It is set by its feet so the tiles hang free of the rock, because a tile touching the reef is a tile whose face is settled on from both sides and cannot be scored against the others."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Latch the cooler over the bagged tiles, empty and stow the tray, and put the pry bar back in the skiff before the crossing back.",
+      "id": "stow-kit",
+      "itemNames": {
+        "cooler-lid": "cooler lid latched",
+        "pry-bar-stow": "pry bar back in the skiff",
+        "tray-stow": "wet tray emptied and stowed"
+      },
+      "kind": "sequence",
+      "prompt": "Latch the cooler over the bagged tiles, empty and stow the tray, and put the pry bar back in the skiff before the crossing back.",
+      "targets": [
+        "cooler-lid",
+        "tray-stow",
+        "pry-bar-stow"
+      ],
+      "title": "Stow the cooler, the tray and the pry bar",
+      "why": "The crossing back is made with the flood coming and the hands full, and loose kit on a reef is kit that ends up in the water or under a boot. The cooler is latched so the bagged tiles stay wet and cold on the run in, the tray is emptied so nothing spills reef water full of shell into the skiff, and the pry bar goes back where the next technician looks for it."
+    },
+    {
+      "cue": "On the radio: rack swapped and card written, two of you crossing back now, and how the crew is after the flood reached the tray.",
+      "id": "tender-checkin",
+      "kind": "select",
+      "prompt": "On the radio: rack swapped and card written, two of you crossing back now, and how the crew is after the flood reached the tray.",
+      "target": "skiff-radio",
+      "title": "Call the tender before the crossing back",
+      "why": "The tender has held the skiff on the reef's edge through the whole swap and is the one person who can see the flood and the crew at once; the call tells them the crossing is starting so the boat is held where the path meets the water, not drifting off it. It is also the crew's own check-in — a flood at the tray is a frightening minute, and saying so on the radio is part of the job, with the AFSCME or LIUNA member assistance line behind it for whatever the drive back does not settle."
+    },
+    {
+      "cue": "On the card: rack and footing, tiles bagged in order, the broken corner and the re-labelled tile, the fresh rack's set time and mark, the staff readings, and the flood at the tray.",
+      "id": "swap-log",
+      "kind": "select",
+      "prompt": "On the card: rack and footing, tiles bagged in order, the broken corner and the re-labelled tile, the fresh rack's set time and mark, the staff readings, and the flood at the tray.",
+      "target": "rack-card",
+      "title": "Write the rack card and the swap log",
+      "why": "The card travels with the cooler to the lab and the log stays with the programme, and both have to say the same thing: which tiles came off which footing, in what condition, and what went back. The Section 401 and Section 404 monitoring conditions this reef was built under are answered from records like this one, and the flood reaching the tray goes in as well — the next crew plans its window from what happened to this one."
+    }
+  ],
+  "supportLine": "your union hall's member assistance programme — AFSCME or LIUNA, whichever your crew works under — with the employer's employee assistance line behind it",
+  "tagline": "The tile plan and the tide window read, gloves, boots and vest on, the reef crossed on its path, the rack lifted into the wet tray, the cracked and the unlabelled tile found, each tile labelled, shot on the grid and bagged in order, the board held square while the flood reaches the tray, the fresh rack turned to its mark and set on its footing, the kit stowed, the tender called and the swap logged",
+  "title": "SmartCiti.X~ Oyster Reef Monitoring & Settlement Tiles VR",
+  "trade": "Field technician on a shellfish-reef monitoring crew, swapping settlement tiles at low water from a skiff held by a tender",
+  "underwater": null,
+  "weather": "fog"
+}

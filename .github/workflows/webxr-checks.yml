@@ -1,0 +1,44 @@
+name: WebXR checks
+
+# Quality gate for the WebXR apps: every content/engine checker must pass,
+# and the committed generated files (dist bundles, sims-meta.js) must match
+# what the source would generate — a stale bundle is a silent deploy of old
+# code, so it fails the build here rather than in someone's headset.
+
+on:
+  push:
+    paths: ["WebXR/**", "tools/**", ".github/workflows/webxr-checks.yml"]
+  pull_request:
+    paths: ["WebXR/**", "tools/**", ".github/workflows/webxr-checks.yml"]
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      # The browser checkers find Playwright through tools/lib/pw.mjs: the
+      # PLAYWRIGHT_MODULE env, then `playwright` in node_modules (this install),
+      # then the maintainers' container path. Pinned to the version that
+      # container has, so a checker's browser behaves the same in both places.
+      - name: Playwright and its Chromium
+        run: |
+          npm i --no-save --no-package-lock --no-audit --no-fund playwright@1.56.1
+          npx playwright install --with-deps chromium
+
+      - name: Engine and content checkers
+        run: node tools/check_all.mjs
+
+      - name: Generated files are fresh
+        run: |
+          node tools/gen_sims_meta.mjs
+          node tools/gen_catalog.mjs
+          python3 tools/bundle_webxr.py
+          git diff --exit-code --stat -I "generatedAt" -- WebXR/smartcity/js/sims-meta.js WebXR/smartcity/catalog.json WebXR/*/dist \
+            || { echo "::error::sims-meta.js, catalog.json or a dist bundle is stale — run 'node tools/gen_sims_meta.mjs && node tools/gen_catalog.mjs && python3 tools/bundle_webxr.py' and commit."; exit 1; }
