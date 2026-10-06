@@ -1,0 +1,370 @@
+{
+ "schema": "smartcitix.holodeck.agent-task@1/baselines",
+ "generator": "tools/ag_eval.mjs",
+ "config": {
+  "stations": 10,
+  "seeds": [
+   1,
+   2,
+   3
+  ],
+  "dt": 0.05,
+  "maxSteps": 900,
+  "hintCost": 0.02,
+  "pass": "finished && stars >= 2 && hazardHits === 0 (shared/robot.js runEpisode's rule)"
+ },
+ "baselines": {
+  "random": "uniform random over select/confirm/press/release/wait/inspect and the visible ids",
+  "expert": "scripted expert reading the station's step list (privileged: sees target ids) — an upper bound, not a learner",
+  "retrieval": "word-overlap retrieval (IDF-weighted) over the step's title, cue and sourced why text; inspects before touching; hint only when nothing matches. No language model.",
+  "retrieval-ask": "the same retrieval heuristic, also asking for a hint whenever the runner-up is within 1.5 of the best match"
+ },
+ "summary": {
+  "random": {
+   "episodes": 30,
+   "successRate": 0,
+   "finishRate": 0,
+   "meanSteps": 900,
+   "meanStepsWhenPassed": null,
+   "hazardHitsPerEpisode": 71.47,
+   "errorsPerEpisode": 419.87,
+   "hintsPerEpisode": 0,
+   "meanStationScore": 0
+  },
+  "expert": {
+   "episodes": 30,
+   "successRate": 1,
+   "finishRate": 1,
+   "meanSteps": 264,
+   "meanStepsWhenPassed": 264,
+   "hazardHitsPerEpisode": 0,
+   "errorsPerEpisode": 0,
+   "hintsPerEpisode": 0,
+   "meanStationScore": 3281
+  },
+  "retrieval": {
+   "episodes": 30,
+   "successRate": 0.1,
+   "finishRate": 1,
+   "meanSteps": 325.5,
+   "meanStepsWhenPassed": 312,
+   "hazardHitsPerEpisode": 0.9,
+   "errorsPerEpisode": 18.2,
+   "hintsPerEpisode": 1.1,
+   "meanStationScore": 2044
+  },
+  "retrieval-ask": {
+   "episodes": 30,
+   "successRate": 0.4,
+   "finishRate": 1,
+   "meanSteps": 283.6,
+   "meanStepsWhenPassed": 314,
+   "hazardHitsPerEpisode": 0.3,
+   "errorsPerEpisode": 3,
+   "hintsPerEpisode": 7.8,
+   "meanStationScore": 2676
+  }
+ },
+ "perStation": {
+  "robot-cell": {
+   "random": {
+    "passed": 0,
+    "of": 3,
+    "meanSteps": 900,
+    "hints": 0,
+    "hazardHits": 260
+   },
+   "expert": {
+    "passed": 3,
+    "of": 3,
+    "meanSteps": 67,
+    "hints": 0,
+    "hazardHits": 0
+   },
+   "retrieval": {
+    "passed": 0,
+    "of": 3,
+    "meanSteps": 91,
+    "hints": 3,
+    "hazardHits": 0
+   },
+   "retrieval-ask": {
+    "passed": 0,
+    "of": 3,
+    "meanSteps": 85,
+    "hints": 18,
+    "hazardHits": 0
+   }
+  },
+  "tw-palletizer-cell-fenced-access-permit": {
+   "random": {
+    "passed": 0,
+    "of": 3,
+    "meanSteps": 900,
+    "hints": 0,
+    "hazardHits": 213
+   },
+   "expert": {
+    "passed": 3,
+    "of": 3,
+    "meanSteps": 182,
+    "hints": 0,
+    "hazardHits": 0
+   },
+   "retrieval": {
+    "passed": 0,
+    "of": 3,
+    "meanSteps": 246,
+    "hints": 9,
+    "hazardHits": 0
+   },
+   "retrieval-ask": {
+    "passed": 0,
+    "of": 3,
+    "meanSteps": 203,
+    "hints": 24,
+    "hazardHits": 0
+   }
+  },
+  "tw-amr-traffic-zone-entry-and-lockout": {
+   "random": {
+    "passed": 0,
+    "of": 3,
+    "meanSteps": 900,
+    "hints": 0,
+    "hazardHits": 238
+   },
+   "expert": {
+    "passed": 3,
+    "of": 3,
+    "meanSteps": 315,
+    "hints": 0,
+    "hazardHits": 0
+   },
+   "retrieval": {
+    "passed": 0,
+    "of": 3,
+    "meanSteps": 354,
+    "hints": 9,
+    "hazardHits": 0
+   },
+   "retrieval-ask": {
+    "passed": 3,
+    "of": 3,
+    "meanSteps": 330,
+    "hints": 21,
+    "hazardHits": 0
+   }
+  },
+  "ad-cobot-risk-assessment-and-speed-separation": {
+   "random": {
+    "passed": 0,
+    "of": 3,
+    "meanSteps": 900,
+    "hints": 0,
+    "hazardHits": 187
+   },
+   "expert": {
+    "passed": 3,
+    "of": 3,
+    "meanSteps": 294,
+    "hints": 0,
+    "hazardHits": 0
+   },
+   "retrieval": {
+    "passed": 0,
+    "of": 3,
+    "meanSteps": 358,
+    "hints": 0,
+    "hazardHits": 3
+   },
+   "retrieval-ask": {
+    "passed": 0,
+    "of": 3,
+    "meanSteps": 314,
+    "hints": 30,
+    "hazardHits": 3
+   }
+  },
+  "ad-amr-fleet-traffic-and-estop-drill": {
+   "random": {
+    "passed": 0,
+    "of": 3,
+    "meanSteps": 900,
+    "hints": 0,
+    "hazardHits": 196
+   },
+   "expert": {
+    "passed": 3,
+    "of": 3,
+    "meanSteps": 293,
+    "hints": 0,
+    "hazardHits": 0
+   },
+   "retrieval": {
+    "passed": 0,
+    "of": 3,
+    "meanSteps": 340,
+    "hints": 0,
+    "hazardHits": 6
+   },
+   "retrieval-ask": {
+    "passed": 0,
+    "of": 3,
+    "meanSteps": 317,
+    "hints": 30,
+    "hazardHits": 0
+   }
+  },
+  "ad-robot-cell-lockout-and-safe-reentry": {
+   "random": {
+    "passed": 0,
+    "of": 3,
+    "meanSteps": 900,
+    "hints": 0,
+    "hazardHits": 223
+   },
+   "expert": {
+    "passed": 3,
+    "of": 3,
+    "meanSteps": 294,
+    "hints": 0,
+    "hazardHits": 0
+   },
+   "retrieval": {
+    "passed": 3,
+    "of": 3,
+    "meanSteps": 312,
+    "hints": 0,
+    "hazardHits": 0
+   },
+   "retrieval-ask": {
+    "passed": 3,
+    "of": 3,
+    "meanSteps": 311,
+    "hints": 12,
+    "hazardHits": 0
+   }
+  },
+  "k12-rp-how-a-robot-knows-to-stop": {
+   "random": {
+    "passed": 0,
+    "of": 3,
+    "meanSteps": 900,
+    "hints": 0,
+    "hazardHits": 181
+   },
+   "expert": {
+    "passed": 3,
+    "of": 3,
+    "meanSteps": 319.7,
+    "hints": 0,
+    "hazardHits": 0
+   },
+   "retrieval": {
+    "passed": 0,
+    "of": 3,
+    "meanSteps": 519.3,
+    "hints": 9,
+    "hazardHits": 6
+   },
+   "retrieval-ask": {
+    "passed": 0,
+    "of": 3,
+    "meanSteps": 351.7,
+    "hints": 45,
+    "hazardHits": 3
+   }
+  },
+  "rp-construction-drilling-robot-setup": {
+   "random": {
+    "passed": 0,
+    "of": 3,
+    "meanSteps": 900,
+    "hints": 0,
+    "hazardHits": 243
+   },
+   "expert": {
+    "passed": 3,
+    "of": 3,
+    "meanSteps": 292,
+    "hints": 0,
+    "hazardHits": 0
+   },
+   "retrieval": {
+    "passed": 0,
+    "of": 3,
+    "meanSteps": 410,
+    "hints": 3,
+    "hazardHits": 6
+   },
+   "retrieval-ask": {
+    "passed": 0,
+    "of": 3,
+    "meanSteps": 309,
+    "hints": 18,
+    "hazardHits": 3
+   }
+  },
+  "rp-robot-policy-evaluation-review": {
+   "random": {
+    "passed": 0,
+    "of": 3,
+    "meanSteps": 900,
+    "hints": 0,
+    "hazardHits": 178
+   },
+   "expert": {
+    "passed": 3,
+    "of": 3,
+    "meanSteps": 292,
+    "hints": 0,
+    "hazardHits": 0
+   },
+   "retrieval": {
+    "passed": 0,
+    "of": 3,
+    "meanSteps": 313,
+    "hints": 0,
+    "hazardHits": 0
+   },
+   "retrieval-ask": {
+    "passed": 3,
+    "of": 3,
+    "meanSteps": 309,
+    "hints": 12,
+    "hazardHits": 0
+   }
+  },
+  "rp-teleop-demonstration-collection": {
+   "random": {
+    "passed": 0,
+    "of": 3,
+    "meanSteps": 900,
+    "hints": 0,
+    "hazardHits": 225
+   },
+   "expert": {
+    "passed": 3,
+    "of": 3,
+    "meanSteps": 291,
+    "hints": 0,
+    "hazardHits": 0
+   },
+   "retrieval": {
+    "passed": 0,
+    "of": 3,
+    "meanSteps": 312,
+    "hints": 0,
+    "hazardHits": 6
+   },
+   "retrieval-ask": {
+    "passed": 3,
+    "of": 3,
+    "meanSteps": 306,
+    "hints": 24,
+    "hazardHits": 0
+   }
+  }
+ }
+}
