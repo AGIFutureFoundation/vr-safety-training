@@ -976,6 +976,8 @@ APPS = {
             SHARED / "dx-data.js",
             SHARED / "dx-consent-ui.js",
             SHARED / "dx-world.js",
+            # COLEARN: behaviour cloning, the robot-demonstrates ghost and the bandit tutor (after rb-env.js and dx-data.js).
+            SHARED / "col-learn.js",
             # CLASSROOMS: rooms that teach (after by-parish-lessons, es-bay-lessons, ps-projectsim and cg-runner).
             SHARED / "cr-classrooms.js",
             # LA-ROOMS: the Louisiana rooms' dressers (after ix-interiors.js and lp-programme-data.js).

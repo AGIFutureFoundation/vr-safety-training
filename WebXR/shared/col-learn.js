@@ -69,15 +69,17 @@ const COL_DIRS = { N: [0, -1], S: [0, 1], E: [1, 0], W: [-1, 0] };
 export const COL_FEATURES = {
   "rb-cell-entry": {
     names: ["atGate", "nearPost", "estopTested", "estopped", "locked", "verified", "inside", "jam", "restarted"],
-    text: [["you are at the cell gate", "you are still walking up to the gate"], ["the e-stop post is in reach", "the e-stop post is out of reach"],
-      ["the e-stop has been tested", "the e-stop has not been tested yet"], ["the robot is e-stopped", "the robot is not stopped"],
-      ["your lock is on the gate", "no lock is on"], ["zero energy is verified", "zero energy is not verified yet"],
-      ["you are inside the cell", "you are outside the cell"], ["the jam is still there", "the jam is cleared"], ["the cell has restarted", "the cell has not restarted"]],
+    mid: [0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5],
+    text: [["it is at the cell gate", "it is still walking up to the gate"], ["the e-stop post is in reach", "the e-stop post is out of reach"],
+      ["the e-stop has been tested", "the e-stop has not been tested yet"], ["the cell robot is e-stopped", "the cell robot is not stopped"],
+      ["a personal lock is on the gate", "no lock is on"], ["zero energy is verified", "zero energy is not verified yet"],
+      ["it is inside the cell", "it is outside the cell"], ["the jam is still there", "the jam is cleared"], ["the cell has restarted", "the cell has not restarted"]],
     of: (o) => [o.distance <= o.gate + 0.01, o.distance <= o.estopPost + 0.01, o.estopTested, o.estopped, o.locked, o.verified, o.inside, o.jam, o.restarted].map((b) => (b ? 1 : 0)),
   },
   "rb-cobot-zone-setup": {
     names: ["zoneWalked", "stopRatio", "warnGap", "scannerTested", "estopTested"],
     weights: [1, 2, 1, 1, 1],
+    mid: [0.5, 0.05, 0.45, 0.5, 0.5],
     text: [["the zone walk has measured the stopping time", "the stopping time is not measured yet"], ["the stop zone covers the stopping distance", "the stop zone is short of the stopping distance"],
       ["the warning zone sits well outside the stop zone", "the warning zone is too close to the stop zone"], ["the area scanner is tested", "the area scanner is not tested"], ["the e-stop is tested", "the e-stop is not tested"]],
     of: (o) => [o.tested["zone-walk"] ? 1 : 0, o.requiredStop ? colClip(o.stop / o.requiredStop, 0, 2) - 1 : -1, colClip(o.warn - o.stop, -1, 2) / 2, o.tested.scanner ? 1 : 0, o.tested.estop ? 1 : 0],
@@ -85,6 +87,7 @@ export const COL_FEATURES = {
   "rb-teleop-pick-place": {
     names: ["toGoalX", "toGoalY", "toGoalZ", "atGoal", "carrying", "x", "z", "afterStop"],
     weights: [6, 6, 6, 2, 2, 4, 4, 2],
+    mid: [0.01, 0.01, 0.01, 0.5, 0.5, 0, 0, 0.5],
     text: [["the goal is to the right", "the goal is to the left"], ["the goal is above", "the goal is below"], ["the goal is ahead", "the goal is behind"],
       ["the gripper is at the goal", "the gripper is away from the goal"], ["a part is in the gripper", "the gripper is empty"],
       ["the gripper is on the fixture side", "the gripper is on the bin side"], ["the gripper is near the teammate's side", "the gripper is on the far side, clear of the teammate"],
@@ -96,18 +99,19 @@ export const COL_FEATURES = {
     },
   },
   "rb-amr-fleet-routing": {
-    names: ["goalE", "goalS", "freeN", "freeS", "freeE", "freeW", "walkwayAheadBusy", "onWalkway"],
-    weights: [2, 2, 1, 1, 1, 1, 2, 1],
+    names: ["goalE", "goalS", "freeN", "freeS", "freeE", "freeW", "walkwayBusyEast", "walkwayBusyWest", "onWalkway"],
+    weights: [2, 2, 1, 1, 1, 1, 4, 4, 1],
+    mid: [0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5],
     text: [["the drop-off is to the east", "the drop-off is not to the east"], ["the drop-off is to the south", "the drop-off is to the north or level"],
       ["north is clear", "north is blocked"], ["south is clear", "south is blocked"], ["east is clear", "east is blocked"], ["west is clear", "west is blocked"],
-      ["a person is crossing the walkway just ahead", "the walkway ahead is clear"], ["this robot is on the walkway", "this robot is off the walkway"]],
+      ["a person is crossing the walkway just east", "the walkway east is clear"], ["a person is crossing the walkway just west", "the walkway west is clear"], ["this robot is on the walkway", "this robot is off the walkway"]],
     perRobot: (o) => {
       const occ = new Set(o.robots.filter((r) => !r.delivered).map((r) => r.at.join(",")));
       return o.robots.map((r) => {
         const [x, y] = r.at;
         const free = (d) => { const nx = x + COL_DIRS[d][0], ny = y + COL_DIRS[d][1]; return nx >= 0 && ny >= 0 && nx < o.width && ny < o.height && !COL_SHELF(nx, ny) && !occ.has(`${nx},${ny}`) ? 1 : 0; };
-        const busyAhead = o.personOnWalkway && x !== o.walkwayColumn && (x + 1 === o.walkwayColumn || x - 1 === o.walkwayColumn) ? 1 : 0;
-        return { delivered: r.delivered, f: [Math.sign(r.goal[0] - x), Math.sign(r.goal[1] - y), free("N"), free("S"), free("E"), free("W"), busyAhead, x === o.walkwayColumn ? 1 : 0] };
+        const busyE = o.personOnWalkway && x + 1 === o.walkwayColumn ? 1 : 0, busyW = o.personOnWalkway && x - 1 === o.walkwayColumn ? 1 : 0;
+        return { delivered: r.delivered, f: [Math.sign(r.goal[0] - x), Math.sign(r.goal[1] - y), free("N"), free("S"), free("E"), free("W"), busyE, busyW, x === o.walkwayColumn ? 1 : 0] };
       });
     },
   },
@@ -236,9 +240,18 @@ export function colTrain(sc, demos, { k = 5, seed = 1, onlySuccessful = true, ma
 
 function colNeighbours(model, x) {
   const w = model.weights;
-  const ds = model.rows.map((r, i) => { let s = 0; for (let f = 0; f < x.length; f++) { const d = (x[f] - r.x[f]) * w[f]; s += d * d; } return { i, d: Math.sqrt(s) }; });
-  ds.sort((a, b) => a.d - b.d || a.i - b.i);
-  return ds.slice(0, model.k).map((n) => ({ ...n, row: model.rows[n.i] }));
+  // Top-k by insertion (ties keep the lower row index), not a full sort: this runs every step.
+  const best = [];
+  for (let i = 0; i < model.rows.length; i++) {
+    const rx = model.rows[i].x; let s = 0;
+    for (let f = 0; f < x.length; f++) { const d = (x[f] - rx[f]) * w[f]; s += d * d; }
+    if (best.length === model.k && s >= best[best.length - 1].s) continue;
+    let j = best.length; best.push(null);
+    while (j > 0 && best[j - 1].s > s) { best[j] = best[j - 1]; j -= 1; }
+    best[j] = { i, s };
+    if (best.length > model.k) best.pop();
+  }
+  return best.map((n) => ({ i: n.i, d: Math.sqrt(n.s), row: model.rows[n.i] }));
 }
 
 function colVote(nb) {
@@ -249,12 +262,26 @@ function colVote(nb) {
 }
 
 /** The trained policy: observation -> action. */
-export function colPolicy(model) {
+/** The trained policy: observation -> action. `shield` (AMR only) adds a HEURISTIC reservation layer
+ * on top of the cloned moves: robots claim cells in id order and a robot whose next cell (or swap) is
+ * already claimed waits. It is a rule, not learning, and the eval reports BC with and without it. */
+export function colPolicy(model, { shield = false } = {}) {
   const sc = model.scenario;
   return (obs) => {
     if (!model.rows.length) return { type: "wait" };
     if (sc === "rb-amr-fleet-routing") {
       const moves = COL_FEATURES[sc].perRobot(obs).map((r) => (r.delivered ? "wait" : colVote(colNeighbours(model, r.f)).label));
+      if (shield) {
+        const claim = new Set(), key = (p) => p.join(","), moving = new Map();
+        obs.robots.forEach((r, i) => { if (r.delivered || moves[i] === "wait") claim.add(key(r.at)); });
+        obs.robots.forEach((r, i) => {
+          if (r.delivered || moves[i] === "wait") return;
+          const d = COL_DIRS[moves[i]], nx = [r.at[0] + d[0], r.at[1] + d[1]];
+          const swap = moving.get(key(nx)) === key(r.at);
+          if (claim.has(key(nx)) || swap) { moves[i] = "wait"; claim.add(key(r.at)); return; }
+          claim.add(key(nx)); moving.set(key(r.at), key(nx));
+        });
+      }
       return { type: "route", moves };
     }
     const { label, ps } = colVote(colNeighbours(model, COL_FEATURES[sc].of(obs)));
@@ -299,7 +326,8 @@ export function colEvalScenario(sc, { demos = 40, seed = 1, heldOut = 60, onlySu
   const bc = colEvalPolicy(sc, () => colPolicy(model), { seeds });
   const random = colEvalPolicy(sc, (s) => colRandomPolicy(sc, s), { seeds });
   const expert = colEvalPolicy(sc, (s) => { const env = rbEnv(sc, { seed: s }); return rbPolicy(env, { skill: 1, seed: s }); }, { seeds });
-  return { scenario: sc, demos: model.demos, demosOffered: ds.length, rows: model.rows.length, bc, random, expert, gapToExpert: colR3(expert.success - bc.success), modelHash: colHash(model) };
+  const bcShield = sc === "rb-amr-fleet-routing" ? colEvalPolicy(sc, () => colPolicy(model, { shield: true }), { seeds }) : null;
+  return { scenario: sc, demos: model.demos, demosOffered: ds.length, rows: model.rows.length, bc, bcShield, random, expert, gapToExpert: colR3(expert.success - bc.success), modelHash: colHash(model) };
 }
 
 // ================================================================ agent explains robot
@@ -327,7 +355,7 @@ export function colExplain(model, obs, robot = 0) {
   const meanOf = (rows, f) => (rows.length ? rows.reduce((n, r) => n + r.x[f], 0) / rows.length : 0);
   const why = F.names.map((name, f) => ({ name, f, score: Math.abs(meanOf(same, f) - meanOf(other, f)) * (model.weights[f] ?? 1) * (Math.abs(x[f] - meanOf(other, f)) > 1e-9 ? 1 : 0) }))
     .filter((w) => w.score > 0).sort((a, b) => b.score - a.score || a.f - b.f).slice(0, 3)
-    .map((w) => { const t = F.text[w.f]; const high = x[w.f] > (sc === "rb-cobot-zone-setup" && w.f === 1 ? 0.05 : sc === "rb-cobot-zone-setup" && w.f === 2 ? 0.45 : 0.5) || (sc === "rb-teleop-pick-place" && w.f < 3 && x[w.f] > 0.01); return { feature: w.name, value: colR3(x[w.f]), says: t ? t[high ? 0 : 1] : w.name }; });
+    .map((w) => { const t = F.text[w.f]; const high = x[w.f] > (F.mid?.[w.f] ?? 0.5); return { feature: w.name, value: colR3(x[w.f]), says: t ? t[high ? 0 : 1] : w.name }; });
   const agree = nb.filter((n) => n.row.label === label).length;
   const verb = COL_ACTION_TEXT[label] ?? label;
   const text = `The robot chose to ${verb} because ${why.map((w) => w.says).join(", ") || "this matches its demonstrations"}. ` +
@@ -481,13 +509,15 @@ const COL_CSS = `.col-panel{font:14px/1.4 system-ui,sans-serif;display:grid;gap:
 export function colMountCoLearn(el, { reducedMotion = false, capture = null, storage = null, seed = 7001 } = {}) {
   if (!el || typeof document === "undefined") return null;
   const sc = "rb-cell-entry";
-  const model = colTrain(sc, colDemosFromEpisodes(colSyntheticDemos(sc, { n: 30, seed: 1 }), sc).demos, { seed: 1 });
-  // A learner's own consented episodes join the demonstrations only while collecting (colLocalDemos checks).
-  colLocalDemos(sc).then((eps) => { if (eps.length) { const extra = colDemosFromEpisodes(eps, sc).demos; Object.assign(model, colTrain(sc, [...colDemosFromEpisodes(colSyntheticDemos(sc, { n: 30, seed: 1 }), sc).demos, ...extra], { seed: 1 })); } }).catch(() => {});
+  // Trained on first use, not at boot. A learner's own consented episodes join only while collecting (colLocalDemos checks).
+  let model = null;
+  const base = () => colDemosFromEpisodes(colSyntheticDemos(sc, { n: 30, seed: 1 }), sc).demos;
+  const getModel = () => (model ??= colTrain(sc, base(), { seed: 1 }));
+  colLocalDemos(sc).then((eps) => { if (eps.length) model = colTrain(sc, [...base(), ...colDemosFromEpisodes(eps, sc).demos], { seed: 1 }); }).catch(() => {});
   const box = document.createElement("section");
   box.className = "col-panel"; box.id = "col-colearn";
   box.innerHTML = `<style>${COL_CSS}</style><h3>Co-learning: watch the robot, then try</h3>
-<p class="col-note">The robot's policy is behaviour cloning (nearest-neighbour) from ${model.demos} synthetic demonstrations; the tutor is a bandit over hint styles. Both run on this device.</p>
+<p class="col-note">The robot's policy is behaviour cloning (nearest-neighbour) from synthetic demonstrations (plus your own, only if you opted in to data sharing); the tutor is a bandit over hint styles. Both run on this device.</p>
 <div class="col-track" aria-hidden="true"><span class="col-gate" style="left:85%"></span><span class="col-dot" style="left:0%"></span></div>
 <div class="col-say" aria-live="polite"></div>
 <div class="col-row"><button data-col="watch">Watch the robot</button><button data-col="next">Next</button><button data-col="try">Your turn</button></div>
@@ -497,7 +527,7 @@ export function colMountCoLearn(el, { reducedMotion = false, capture = null, sto
   const place = (o) => { dot.style.left = `${colClip(85 - ((o.inside ? 0 : o.distance) - o.gate) / 14 * 85, 0, 95)}%`; };
   let frames = [], fi = 0, timer = null;
   const show = () => { const f = frames[fi]; if (!f) return; place(f.observation); say.textContent = f.explain; };
-  const watch = () => { frames = colGhost(model, { seed }); fi = 0; show(); clearInterval(timer); if (!reducedMotion) timer = setInterval(() => { if (fi < frames.length - 1) { fi += 1; show(); } else clearInterval(timer); }, 900); };
+  const watch = () => { frames = colGhost(getModel(), { seed }); fi = 0; show(); clearInterval(timer); if (!reducedMotion) timer = setInterval(() => { if (fi < frames.length - 1) { fi += 1; show(); } else clearInterval(timer); }, 900); };
   const tutor = colTutor({ storage });
   const tryIt = () => {
     clearInterval(timer); acts.hidden = false; hintEl.hidden = true;
@@ -515,7 +545,7 @@ export function colMountCoLearn(el, { reducedMotion = false, capture = null, sto
       steps.push({ t: r.info.t, observation: obs, action: t === "walk" ? { type: "walk", d: 1 } : { type: t }, reward: r.reward, done: r.done, info: { outcome: r.info.violations.length ? "hazard" : ok ? "ok" : "wrong", unsafe: r.info.violations.length > 0 } });
       obs = r.observation; place(obs);
       if (ok && !(t === "walk" && obs.distance > obs.gate + 0.01)) stepIdx += 1;
-      if (!ok) { const h = tutor.hint(want.id); hintEl.hidden = false; hintEl.textContent = h.style === "show" ? `${h.text} ${colExplain(model, steps[steps.length - 1].observation).text}` : h.text; }
+      if (!ok) { const h = tutor.hint(want.id); hintEl.hidden = false; hintEl.textContent = h.style === "show" ? `${h.text} ${colExplain(getModel(), steps[steps.length - 1].observation).text}` : h.text; }
       else hintEl.hidden = true;
       say.textContent = r.done ? (env.summary().passed ? "Clean pass — every practice kept." : "Finished, with practices to review.") : `Done: ${COL_ACTION_TEXT[t]}.`;
       tutor.save();
@@ -523,5 +553,5 @@ export function colMountCoLearn(el, { reducedMotion = false, capture = null, sto
     };
   };
   box.addEventListener("click", (ev) => { const b = ev.target.closest("button")?.dataset.col; if (b === "watch") watch(); else if (b === "next" && frames.length) { fi = Math.min(frames.length - 1, fi + 1); show(); } else if (b === "try") tryIt(); });
-  return { el: box, model, watch, tryIt, tutor };
+  return { el: box, get model() { return getModel(); }, watch, tryIt, tutor };
 }
