@@ -30,6 +30,7 @@ import { speak, stopSpeaking, speechSupported } from "./voice-assist.js";
 import { trT, trLang, trApply } from "./i18n.js";
 // Secret questions answered with registry lore (shared/treasures.js, docs/treasures.md).
 import { tzGuideLore } from "./treasures.js";
+import { avSpriteSvg, AV_GUIDE_LOOK } from "./av-sprites.js";
 
 const gdHasDom = typeof document !== "undefined";
 const gdPosKey = "holodeck-guide-pos-v1";
@@ -238,6 +239,7 @@ const gdCss = `
 #gd-panel[hidden]{display:none}
 #gd-panel header{display:flex;align-items:center;gap:8px;padding:10px 12px;border-bottom:1px solid rgba(160,210,235,.25)}
 #gd-panel h2{margin:0;font-size:16px;flex:1}
+#gd-panel .gd-face{display:inline-flex;flex:none;border-radius:50%;overflow:hidden}#gd-panel .gd-face svg{display:block}
 #gd-panel .gd-log{flex:1;overflow:auto;padding:10px 12px;display:flex;flex-direction:column;gap:8px}
 #gd-panel .gd-msg{padding:8px 10px;border-radius:10px;background:#12303f;max-width:92%}
 #gd-panel .gd-msg.gd-you{align-self:flex-end;background:#1d4a5e}
@@ -419,7 +421,7 @@ export function gdMount(opts = {}) {
   panel.id = "gd-panel"; panel.hidden = true;
   panel.setAttribute("role", "dialog"); panel.setAttribute("aria-modal", "false"); panel.setAttribute("aria-labelledby", "gd-title");
   const Rec = gdRecognition();
-  panel.innerHTML = `<header><h2 id="gd-title" data-tr="guide.btn">Guide</h2>
+  panel.innerHTML = `<header><span class="gd-face" aria-hidden="true">${avSpriteSvg(AV_GUIDE_LOOK, { kind: "token", size: 30 })}</span><h2 id="gd-title" data-tr="guide.btn">Guide</h2>
 <button type="button" id="gd-voice" aria-pressed="false" aria-label="Read answers aloud" data-tr="guide.voice" data-tr-aria="guide.voiceAria"${speechSupported ? "" : " hidden"}>Voice</button>
 <button type="button" id="gd-close" aria-label="Close the Guide" data-tr="common.close" data-tr-aria="guide.closeAria">Close</button></header>
 <div class="gd-log" aria-live="polite"></div>

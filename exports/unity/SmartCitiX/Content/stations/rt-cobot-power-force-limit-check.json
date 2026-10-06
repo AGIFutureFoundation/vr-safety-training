@@ -1,0 +1,410 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "soft-contact",
+    "name": "Soft Contact",
+    "note": "Measured both contact cases for the right body region and let the readings, not the brochure, decide"
+  },
+  "category": "Manufacturing & Automation",
+  "certification": "UAW and IAM skilled-trades training as bodies; ISO/TS 15066 for collaborative robot applications (power and force limiting, body regions), with ANSI R15.06 and ISO 10218 for the robot and its integration; OSHA 29 CFR 1910.212 general requirements for machines and 29 CFR 1910.132 personal protective equipment; the application's written risk assessment, the measuring device's manual and the manufacturer's manual",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI R15.06",
+        "id": "ansi-r15-06",
+        "title": "ANSI/RIA R15.06 — Industrial robots and robot systems: safety requirements"
+      },
+      {
+        "body": "union",
+        "citedAs": "IAM",
+        "id": "iam-winpisinger-center",
+        "title": "IAM — the William W. Winpisinger Education and Technology Center's machinist and transportation training"
+      },
+      {
+        "body": "ISO",
+        "citedAs": "ISO 10218",
+        "id": "iso-10218",
+        "title": "ISO 10218 — Robots and robotic devices: safety requirements for industrial robots"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.132",
+        "id": "osha-1910-132",
+        "title": "29 CFR 1910.132 — Personal protective equipment, general requirements"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.212",
+        "id": "osha-1910-212",
+        "title": "29 CFR 1910.212 — General requirements for all machines (machine guarding)"
+      },
+      {
+        "body": "union",
+        "citedAs": "UAW",
+        "id": "uaw-training",
+        "title": "UAW joint apprenticeship and skilled-trades training for manufacturing and automation work"
+      }
+    ]
+  },
+  "district": "robotics-training-centre",
+  "domain": "Robotics",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "region-first",
+        "name": "Region First",
+        "note": "Set the device for the body region before the first contact"
+      },
+      {
+        "id": "two-cases",
+        "name": "Two Cases",
+        "note": "Measured transient and quasi-static contact as separate tests"
+      },
+      {
+        "id": "steady-reading",
+        "name": "Steady Reading",
+        "note": "Held the reading inside the card's band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "quick-verify",
+        "name": "Inside Par",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "clean-verify",
+        "name": "Clean Verification",
+        "note": "Clean run, no corrections"
+      }
+    ],
+    "currency": "FP",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Observer",
+      "Device Holder",
+      "Measurer",
+      "Verifier",
+      "Soft Contact Lead"
+    ],
+    "system": "Soft Contact"
+  },
+  "hazards": {
+    "brochure-hazard": "That signs the verification from the robot's brochure, which says the arm is collaborative. A collaborative robot is only a collaborative application once this tool, this payload, this speed and this bench have been measured; the brochure measured none of them.",
+    "hand-test-hazard": "That checks the contact force by letting the arm press on a hand to feel how hard it is. The measuring device exists so no part of a person is the test piece; a hand reads pain, not force, and gives one person's number for everyone's body.",
+    "head-region-hazard": "That runs the contact test with the device set for the hand while the arm's path crosses head height. The limits differ by body region, and the region the arm can actually reach is what is set; a hand setting at head height approves a contact the risk assessment forbids.",
+    "skip-quasi-hazard": "That measures the transient bump and skips the quasi-static case because the arm never pins anything. The arm pins whatever gets between the tool and the fixture, and the clamping case is the one that keeps pushing; both cases are measured because they fail differently."
+  },
+  "id": "rt-cobot-power-force-limit-check",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "contact-hold",
+      "alert": "A coworker has reached in to steady the measuring device as the arm comes down on it.",
+      "cue": "Press the bench e-stop now.",
+      "delay": 3,
+      "id": "steady-hand",
+      "kind": "Hand near contact",
+      "missNote": "You let the test run with a hand on the device. A person reaching into the contact point is answered with the bench e-stop.",
+      "seconds": 11,
+      "target": "bench-estop",
+      "why": "The contact test drives the tool onto the device on purpose, and a hand holding that device is where the tool lands; the bench e-stop stops the approach before the next motion, and the device is re-seated with the arm stopped rather than steadied with the arm moving.",
+      "wrongNote": "Not that — a hand at the contact point is answered with the bench e-stop."
+    },
+    {
+      "after": "reading-track",
+      "alert": "The device readout has gone red: the quasi-static reading is above the band on the card.",
+      "cue": "Turn the speed override down.",
+      "delay": 3,
+      "id": "over-band",
+      "kind": "Reading over band",
+      "missNote": "The reading stayed over the band and the test went on. An over-band reading is answered by reducing the speed override, then re-measuring.",
+      "seconds": 11,
+      "target": "speed-override",
+      "why": "A reading over the band is the application failing its own verification in real time, and the quantity the integrator can change on the spot is speed; the override comes down, the test is rerun, and the result is recorded as it was measured — over, then corrected — not quietly repeated until it passes.",
+      "wrongNote": "Not that — an over-band reading is answered at the speed override."
+    }
+  ],
+  "lateNotes": {
+    "calibration-tag": "The measuring device's calibration tag is checked before the first reading; an uncalibrated device gives a confident number that means nothing.",
+    "risk-assessment-card": "The body regions and the force band come from this application's risk assessment, read first; the device is set from the card, not from a default."
+  },
+  "name": "Measuring a Cobot's Contact Forces",
+  "parSeconds": 330,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "cobotBench",
+        "count": 1,
+        "kit": "equipment"
+      }
+    ],
+    "error": null,
+    "footprint": 2.9,
+    "hits": [
+      "bench-estop",
+      "brochure-hazard",
+      "calibration-tag",
+      "clamp-device",
+      "contact-point",
+      "edge-cover",
+      "fixture-clamp-edge",
+      "force-readout",
+      "glasses-verify",
+      "gripper-finger-edge",
+      "hand-test-hazard",
+      "head-region-hazard",
+      "measuring-device",
+      "mode-readout",
+      "part-tray-verify",
+      "record-quasi",
+      "record-transient",
+      "region-dial",
+      "regions-panel",
+      "result-device",
+      "result-readings",
+      "result-sign",
+      "risk-assessment-card",
+      "run-key",
+      "shoes-verify",
+      "skip-quasi-hazard",
+      "sleeves-verify",
+      "speed-override"
+    ],
+    "meshes": 204
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track"
+  ],
+  "steps": [
+    {
+      "cue": "Read which body regions the arm can touch in this application and the force band set for each.",
+      "id": "risk-regions",
+      "kind": "select",
+      "prompt": "Read which body regions the arm can touch in this application and the force band set for each.",
+      "target": "risk-assessment-card",
+      "title": "Read the body regions on the risk assessment",
+      "why": "Power and force limiting is only a safeguard against the contacts the application can actually make, and the risk assessment names them: which parts of a person are in the arm's reach at which points of the task, and what the allowed band is for each; the device is set from that list, and a region not on it is a reason to stop and ask."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Safety glasses, fitted sleeves with no lanyard, safety shoes.",
+      "id": "ppe-verify",
+      "itemNames": {
+        "glasses-verify": "safety glasses",
+        "shoes-verify": "safety shoes",
+        "sleeves-verify": "fitted sleeves, no lanyard"
+      },
+      "kind": "sequence",
+      "prompt": "Safety glasses, fitted sleeves with no lanyard, safety shoes.",
+      "targets": [
+        "glasses-verify",
+        "sleeves-verify",
+        "shoes-verify"
+      ],
+      "title": "Dress for the shared bench",
+      "why": "A verification session puts a person closer to a moving arm than production ever will, and for longer; the glasses are for a part that pops out of a test grip, the fitted sleeves for a gripper that closes on cloth, and the shoes for a measuring stand that gets knocked off the bench."
+    },
+    {
+      "cue": "Read the calibration tag on the measuring device and confirm it is in date.",
+      "id": "calibration",
+      "kind": "select",
+      "prompt": "Read the calibration tag on the measuring device and confirm it is in date.",
+      "target": "calibration-tag",
+      "title": "Check the device's calibration tag",
+      "why": "The whole verification rests on one instrument's numbers, and a force-and-pressure device drifts, gets dropped and ages its springs; a tag in date is the only evidence that today's reading relates to the band on the card at all."
+    },
+    {
+      "cue": "Set the device's spring and pad for the body region the arm reaches here, and commit when it reads back.",
+      "gauge": {
+        "green": [
+          0.44,
+          0.62
+        ],
+        "label": "REGION",
+        "missNote": "Not set — the device reads back a different body region. Set it for the region the arm reaches before measuring.",
+        "speed": 0.6
+      },
+      "id": "region-set",
+      "kind": "gauge",
+      "prompt": "Set the device's spring and pad for the body region the arm reaches here, and commit when it reads back.",
+      "target": "region-dial",
+      "title": "Set the device for the body region",
+      "why": "Each body region has its own spring constant and pad on the device because the body is stiffer at the shin than at the hand, and a reading taken with the wrong set is a number for a region that was not at risk; the readback confirms the set, not the dial's detent."
+    },
+    {
+      "cue": "Carry the measuring device to the contact point where the tool meets the fixture and seat it on its stand.",
+      "drag": {
+        "missNote": "Not seated — the device goes where the tool meets the fixture, the spot a hand would be caught.",
+        "radius": 0.4,
+        "to": "contact-point"
+      },
+      "id": "device-seat",
+      "kind": "drag",
+      "prompt": "Carry the measuring device to the contact point where the tool meets the fixture and seat it on its stand.",
+      "target": "measuring-device",
+      "title": "Seat the device at the contact point",
+      "why": "The device measures the contact that happens where it sits, so it goes where a person's hand would be during the task — between tool and fixture — not somewhere convenient; a measurement taken a hand's width away is a measurement of a different contact."
+    },
+    {
+      "cue": "Confirm the arm is in its collaborative setting at the speed the card names, read back on the pendant.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.58
+        ],
+        "label": "MODE",
+        "missNote": "The pendant does not read the collaborative setting at the card's speed. Do not run the contact until it does.",
+        "speed": 0.6
+      },
+      "id": "collab-mode",
+      "kind": "gauge",
+      "prompt": "Confirm the arm is in its collaborative setting at the speed the card names, read back on the pendant.",
+      "target": "mode-readout",
+      "title": "Confirm collaborative mode and the test speed",
+      "why": "The force the arm delivers depends on the speed and the mode it runs in, and the verification is of the settings production will use; a test at a gentler setting than production approves a contact nobody will ever make."
+    },
+    {
+      "cue": "Press the bench e-stop once, watch the arm hold, then reset.",
+      "id": "estop-prove",
+      "kind": "select",
+      "prompt": "Press the bench e-stop once, watch the arm hold, then reset.",
+      "target": "bench-estop",
+      "title": "Prove the bench e-stop",
+      "why": "This test drives the arm into an object on purpose, and the stop is what ends the test if the object turns out to be a person; it is pressed once before the first contact so the integrator knows the circuit, not the brochure, stops this arm today."
+    },
+    {
+      "cue": "Hold the run key while the arm makes its transient contact with the device and the reading settles.",
+      "holdBreakNote": "Released before the reading settled. Reset the device and run the transient case again.",
+      "id": "contact-hold",
+      "kind": "hold",
+      "prompt": "Hold the run key while the arm makes its transient contact with the device and the reading settles.",
+      "seconds": 5,
+      "target": "run-key",
+      "title": "Run the transient contact",
+      "why": "The transient case is the bump: the arm meets the device and the device is free to move away, as a hand would be knocked aside. It is held through the whole approach because the peak comes in the first instant, and letting go early records an approach, not a contact."
+    },
+    {
+      "anyOrder": false,
+      "cue": "Record the transient reading, clamp the device so it cannot move, then run the quasi-static case.",
+      "id": "case-order",
+      "itemNames": {
+        "clamp-device": "clamp the device so it cannot move",
+        "record-quasi": "run and record the quasi-static reading",
+        "record-transient": "record the transient reading"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order — record the transient result, clamp the device, then run the quasi-static case.",
+      "prompt": "Record the transient reading, clamp the device so it cannot move, then run the quasi-static case.",
+      "targets": [
+        "record-transient",
+        "clamp-device",
+        "record-quasi"
+      ],
+      "title": "Record the transient case, then set up the quasi-static one",
+      "why": "Quasi-static contact is the pinch: the device, like a hand against the fixture, cannot move away and the arm keeps pushing until it stops itself. It is a different failure with its own band, and the two readings are recorded as two results so a pass on the bump never hides a fail on the pinch."
+    },
+    {
+      "cue": "Hold the quasi-static contact and keep the reading inside the card's band for the whole dwell.",
+      "holdBreakNote": "The reading left the band during the dwell. Reduce the override and run the quasi-static case again.",
+      "id": "reading-track",
+      "kind": "track",
+      "prompt": "Hold the quasi-static contact and keep the reading inside the card's band for the whole dwell.",
+      "seconds": 8,
+      "target": "force-readout",
+      "title": "Watch the quasi-static reading inside the band",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.45,
+        "green": [
+          0.38,
+          0.6
+        ],
+        "label": "FORCE",
+        "rise": 0.4,
+        "start": 0.5
+      },
+      "why": "The quasi-static case lasts as long as the arm pushes, and a reading that starts inside the band and creeps over during the dwell is a fail; watching the whole dwell is how the test measures what a pinned hand would feel, not what the first half-second felt like."
+    },
+    {
+      "cue": "Find the edge on the tooling that would turn an allowed contact into a cut.",
+      "decoyNotes": {
+        "fixture-clamp-edge": "The fixture clamp is radiused and sits under the tool path. Nothing to cover there today.",
+        "part-tray-verify": "The parts tray holds the test parts. It is not in the contact path."
+      },
+      "id": "find-edge",
+      "itemNames": {
+        "gripper-finger-edge": "exposed sharp edge on the gripper finger"
+      },
+      "itemNotes": {
+        "gripper-finger-edge": "A force inside the band through a sharp edge still cuts: the finger gets its rounded cover before the result is signed."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Find the edge on the tooling that would turn an allowed contact into a cut.",
+      "target": "gripper-finger-edge",
+      "targets": [
+        "gripper-finger-edge"
+      ],
+      "title": "Find the edge that would turn contact into a cut",
+      "why": "The force band assumes contact through a blunt surface spread over the pad, and the same force through a sharp edge or a small point is a cut or a puncture at a reading that passes; the tooling is walked for edges because the device cannot see what shape pressed on it."
+    },
+    {
+      "cue": "Fit the rounded cover over the finger edge and check it cannot work loose.",
+      "id": "edge-cover",
+      "kind": "select",
+      "prompt": "Fit the rounded cover over the finger edge and check it cannot work loose.",
+      "target": "edge-cover",
+      "title": "Fit the rounded cover",
+      "why": "A cover is how a contact that must stay possible is made survivable: it spreads the force over an area and takes the edge out of the equation, and it is checked for a secure fit because a cover that drops off mid-shift leaves the edge in the path with the verification still signed."
+    },
+    {
+      "anyOrder": false,
+      "cue": "Write both readings as measured, the device's serial and calibration, then sign and date.",
+      "id": "record-result",
+      "itemNames": {
+        "result-device": "device serial and calibration",
+        "result-readings": "both readings as measured",
+        "result-sign": "signature and date"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order — the readings as measured, then the device and its calibration, then sign and date.",
+      "prompt": "Write both readings as measured, the device's serial and calibration, then sign and date.",
+      "targets": [
+        "result-readings",
+        "result-device",
+        "result-sign"
+      ],
+      "title": "Record the verification",
+      "why": "A verification is a record someone else will read when the application changes or someone is hurt: the readings as measured including the over-band one that was corrected, the device that measured them and its calibration, and who stood here; a signed page with one tidy number tells that reader nothing."
+    }
+  ],
+  "supportLine": "your UAW or IAM local's training coordinator, or the employee assistance line, if a contact injury on a shared cell is something you want to talk through",
+  "tagline": "Verifying a power-and-force-limited cobot before people share its bench: body regions read from the risk assessment, the measuring device set for the region and seated where contact happens, transient and quasi-static contact measured separately, every reading judged against the card's band, a sharp tool edge found and covered, and the result recorded with the device's calibration",
+  "title": "SmartCiti.X~ Measuring a Cobot's Contact Forces VR",
+  "trade": "Cobot integrator, power-and-force-limiting verification on a shared bench — UAW/IAM",
+  "underwater": null,
+  "weather": "overcast"
+}

@@ -41,6 +41,22 @@
     },
     {
       "app": "smartcity",
+      "id": "rt-speed-separation-monitoring-setup"
+    },
+    {
+      "app": "smartcity",
+      "id": "rt-robot-estop-recovery-and-restart"
+    },
+    {
+      "app": "smartcity",
+      "id": "rt-cobot-power-force-limit-check"
+    },
+    {
+      "app": "smartcity",
+      "id": "rt-teach-pendant-safe-jogging"
+    },
+    {
+      "app": "smartcity",
       "id": "ml-suspicious-package-protocol"
     },
     {
@@ -186,6 +202,10 @@
     {
       "app": "smartcity",
       "id": "rp-teleop-demonstration-collection"
+    },
+    {
+      "app": "smartcity",
+      "id": "vb-supervising-agent-dispatched-robots"
     }
   ],
   "unions": [],
@@ -452,6 +472,10 @@
     "conveyor-guard": "Conveyor Guard",
     "forklift-dock": "Forklift Dock",
     "cnc-cell": "CNC Cell",
+    "rt-speed-separation-monitoring-setup": "Setting Up Speed-and-Separation Monitoring",
+    "rt-robot-estop-recovery-and-restart": "Bringing a Robot Back After an E-stop",
+    "rt-cobot-power-force-limit-check": "Measuring a Cobot's Contact Forces",
+    "rt-teach-pendant-safe-jogging": "Teaching a Robot from the Pendant",
     "ml-suspicious-package-protocol": "Suspicious Package Protocol",
     "sm-kitchen-exhaust-and-fire-wrap": "Kitchen Exhaust and Fire Wrap",
     "sm-air-balancing-and-testing": "Air Balancing and Testing",
@@ -488,10 +512,11 @@
     "ad-robot-cell-lockout-and-safe-reentry": "Robot Cell Lockout & Safe Re-entry",
     "ad-cleanroom-gowning-and-esd-discipline": "Cleanroom Gowning & ESD Discipline",
     "rp-robot-policy-evaluation-review": "Reviewing a Robot Policy's Evaluation",
-    "rp-teleop-demonstration-collection": "Collecting a Robot Demonstration Safely"
+    "rp-teleop-demonstration-collection": "Collecting a Robot Demonstration Safely",
+    "vb-supervising-agent-dispatched-robots": "Supervising Robots Dispatched by Software Agents"
   },
   "version": "1.0.0",
-  "contentHash": "95bc08ad",
+  "contentHash": "5cc2559a",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."

@@ -1,0 +1,390 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "the-governor-holds",
+    "name": "The Governor Holds",
+    "note": "Checked who asked, what for and with which policy, kept the robot to the sim and its limits, stopped it on a deviation and logged every decision"
+  },
+  "category": "Manufacturing & Automation",
+  "certification": "UAW and IAM skilled-trades training as bodies; ANSI/RIA R15.06 and ISO 10218 for the integrated robot system, its safeguarding and the written risk assessment that sets its speed and separation limits; OSHA 29 CFR 1910.212 for machine guarding and 29 CFR 1910.147 for hazardous-energy control when anyone enters the bench; plus this platform's own dispatch rules: allowlist, consent lineage, append-only audit, simulated robots only",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "IAM",
+        "id": "iam-winpisinger-center",
+        "title": "IAM — the William W. Winpisinger Education and Technology Center's machinist and transportation training"
+      },
+      {
+        "body": "ISO",
+        "citedAs": "ISO 10218",
+        "id": "iso-10218",
+        "title": "ISO 10218 — Robots and robotic devices: safety requirements for industrial robots"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.212",
+        "id": "osha-1910-212",
+        "title": "29 CFR 1910.212 — General requirements for all machines (machine guarding)"
+      },
+      {
+        "body": "union",
+        "citedAs": "UAW",
+        "id": "uaw-training",
+        "title": "UAW joint apprenticeship and skilled-trades training for manufacturing and automation work"
+      }
+    ]
+  },
+  "district": "robotics-training-centre",
+  "domain": "Robotics",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "who-asked",
+        "name": "Who Asked",
+        "note": "Read the job card before anything else"
+      },
+      {
+        "id": "off-list",
+        "name": "Off the List",
+        "note": "Found the job asking for a task not on the allowlist"
+      },
+      {
+        "id": "steady-watch",
+        "name": "Steady Watch",
+        "note": "Kept the separation readout near band centre"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "quick-review",
+        "name": "Inside Par",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "clean-review",
+        "name": "Clean Review",
+        "note": "Clean run, no corrections"
+      }
+    ],
+    "currency": "GV",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Observer",
+      "Reviewer",
+      "Supervisor",
+      "Dispatch Lead",
+      "Safety Sign-off"
+    ],
+    "system": "The Governor Holds"
+  },
+  "hazards": {
+    "auto-approve-hazard": "That switches the queue to approve every job from this agent automatically. A software agent can be wrong, out of date or misconfigured, and it cannot see the person walking into the cell; the human review of each job is the safeguard the agent does not have.",
+    "clear-log-hazard": "That clears the audit log to tidy the screen. The log is append-only on purpose: every allow, refuse and stop is chained to the line before it, so anyone can later see which agent asked for what and who decided, and a cleared log hides exactly what a review needs.",
+    "inside-zone-hazard": "That walks onto the taped floor beside the bench to get a closer look at the simulated run. A dispatcher keeps the same footing a technician would on live equipment, because habits built at a sim desk follow people onto real floors, and nobody predicts a policy's next move from inches away.",
+    "physical-route-hazard": "That routes the job to the physical cell. A command that starts with a software agent reaches only the simulated robot in this setup; driving a real arm would need a named human approver at the site, and that path is locked off by design."
+  },
+  "id": "vb-supervising-agent-dispatched-robots",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "watch-hold",
+      "alert": "The simulated arm has turned off its planned path toward the teammate's keep-out zone on the bench.",
+      "cue": "Press the run e-stop now.",
+      "delay": 3,
+      "id": "deviation",
+      "kind": "Unsafe deviation",
+      "missNote": "The run went on after the arm turned toward the keep-out zone. The e-stop wins: stop first, investigate second.",
+      "seconds": 11,
+      "target": "run-estop",
+      "why": "A deviation from the planned path means the policy is acting on something nobody reviewed, and the e-stop is the one control that outranks the agent, the policy and the governor's own decision; stopping costs a re-run in the sim, while letting it continue teaches everyone that the stop is optional.",
+      "wrongNote": "Not that — an unsafe deviation is answered with the run e-stop."
+    },
+    {
+      "after": "separation-track",
+      "alert": "The client agent has re-sent the same job asking for full speed with a person inside the warning distance.",
+      "cue": "Refuse the re-sent job.",
+      "delay": 3,
+      "id": "resend-fast",
+      "kind": "Agent re-sends faster",
+      "missNote": "The faster re-send sat in the queue unanswered. Refuse it: inside the warning distance only the reduced speed is allowed.",
+      "seconds": 11,
+      "target": "refuse-key",
+      "why": "An agent that re-sends a refused or slowed job at a higher speed is optimising for its own task, not for the person in the warning zone; inside the warning distance the speed is capped at the reduced speed, and the refusal is logged so the pattern is visible to whoever reviews that agent next.",
+      "wrongNote": "Not that — a faster re-send with a person in the warning zone is answered by refusing the job."
+    }
+  ],
+  "lateNotes": {
+    "approve-key": "Approval is given under the supervisor's own name, for the simulated robot only, after every governor check passed.",
+    "job-card": "The job card is read first: which agent asked, which task, which site, at what speed, with which policy."
+  },
+  "name": "Supervising Robots Dispatched by Software Agents",
+  "parSeconds": 340,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "cobotBench",
+        "count": 1,
+        "kit": "equipment"
+      }
+    ],
+    "error": null,
+    "footprint": 2.9,
+    "hits": [
+      "agent-registry",
+      "approve-key",
+      "audit-log",
+      "auto-approve-hazard",
+      "clear-log-hazard",
+      "eval-card",
+      "eval-memo",
+      "eval-slot",
+      "gov-allowlist",
+      "gov-estop",
+      "gov-limits",
+      "gov-lineage",
+      "inside-zone-hazard",
+      "job-card",
+      "job-entry",
+      "job-offlist",
+      "job-route",
+      "physical-route-hazard",
+      "physical-switch",
+      "plaque-a",
+      "plaque-b",
+      "plaque-c",
+      "refuse-key",
+      "run-estop",
+      "run-screen",
+      "separation-meter",
+      "speed-dial",
+      "watch-pad"
+    ],
+    "meshes": 196
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track"
+  ],
+  "steps": [
+    {
+      "cue": "Read the job card: which agent asked, the task, the site, the speed and the policy.",
+      "id": "job-card",
+      "kind": "select",
+      "prompt": "Read the job card: which agent asked, the task, the site, the speed and the policy.",
+      "target": "job-card",
+      "title": "Read the incoming job",
+      "why": "Every job that arrives from a software agent starts as a request, not an order, and the job card is where it says who is asking and for what; a supervisor who reads it first can match the request to the site, the task to the allowlist and the policy to its lineage before anything is allowed to move."
+    },
+    {
+      "cue": "Find the client agent in the site's agent registry and read what it is allowed to request.",
+      "id": "client-check",
+      "kind": "select",
+      "prompt": "Find the client agent in the site's agent registry and read what it is allowed to request.",
+      "target": "agent-registry",
+      "title": "Check who asked",
+      "why": "An agent that is not in the registry has no history anyone can audit and no list of tasks it may ask for, so its job is refused before any detail is weighed; checking the registry is the same step as checking a contractor's sign-in sheet before letting them near a machine."
+    },
+    {
+      "cue": "Find the queued job asking for a task that is not on the allowlist.",
+      "decoyNotes": {
+        "job-entry": "A cell-entry job with lockout and verify, on the allowlist for the cell. Nothing to flag there.",
+        "job-route": "A routing job for the warehouse robots, on the allowlist for that rig. Nothing to flag there."
+      },
+      "id": "find-offlist",
+      "itemNames": {
+        "job-offlist": "queued job asking for a task not on the allowlist"
+      },
+      "itemNotes": {
+        "job-offlist": "This job asks the robot to run with the area scanner bypassed. That task is not on the allowlist for any rig, so the governor refuses it and the refusal is logged."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Find the queued job asking for a task that is not on the allowlist.",
+      "target": "job-offlist",
+      "targets": [
+        "job-offlist"
+      ],
+      "title": "Find the job that is not on the allowlist",
+      "why": "An allowlist means a task is refused unless it was reviewed and written down beforehand, which is the opposite of trusting a request because it sounds routine; a job asking to bypass a safeguard is exactly the kind a software agent might generate from a badly worded goal, and it never reaches the robot."
+    },
+    {
+      "cue": "Read the eval card: held-out results against the random baseline and the scripted expert, and the violations.",
+      "id": "eval-card",
+      "kind": "select",
+      "prompt": "Read the eval card: held-out results against the random baseline and the scripted expert, and the violations.",
+      "target": "eval-card",
+      "title": "Read the policy's eval card",
+      "why": "The policy that will drive the simulated robot has to show what it does on seeds it never saw, measured against a floor and a ceiling, with its safe-practice violations counted beside its successes; an agent's job that names a policy with no eval card, or only a success figure, is not ready to run."
+    },
+    {
+      "cue": "Find the policy trained on revoked demonstrations.",
+      "decoyNotes": {
+        "plaque-b": "The policy retrained after the revocation was applied. It may run.",
+        "plaque-c": "The scripted expert, written by hand and trained on no one's data. It may run."
+      },
+      "id": "find-stale",
+      "itemNames": {
+        "plaque-a": "policy trained on revoked demonstrations"
+      },
+      "itemNotes": {
+        "plaque-a": "A policy trained on demonstrations whose consent was later revoked is stale. The governor refuses any job that names it until it is retrained without them."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Find the policy trained on revoked demonstrations.",
+      "target": "plaque-a",
+      "targets": [
+        "plaque-a"
+      ],
+      "title": "Find the stale policy",
+      "why": "Revoking consent deletes the recordings, but a policy trained on them still carries what it copied, so the lineage board marks it stale and the governor refuses it; catching the stale policy is how a person's withdrawn consent actually reaches the robot an agent wants to run."
+    },
+    {
+      "cue": "Set the governor's speed limit to the value in the site's risk assessment and commit when it matches.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "LIMIT",
+        "missNote": "The dial does not match the risk assessment. Set the limit from the sheet, not from the agent's request.",
+        "speed": 0.6
+      },
+      "id": "speed-gauge",
+      "kind": "gauge",
+      "prompt": "Set the governor's speed limit to the value in the site's risk assessment and commit when it matches.",
+      "target": "speed-dial",
+      "title": "Set the speed limit from the risk assessment",
+      "why": "The speed a job may ask for is capped by the site's written risk assessment, not by what the agent requests or what the robot can do; setting the cap from the sheet before the job runs means a request above it is refused by rule, and the supervisor never has to argue a number with software in the moment."
+    },
+    {
+      "anyOrder": false,
+      "cue": "Check the e-stop status, then the allowlist, then speed and separation, then the policy lineage.",
+      "id": "governor-order",
+      "itemNames": {
+        "gov-allowlist": "allowlist",
+        "gov-estop": "e-stop status",
+        "gov-limits": "speed and separation",
+        "gov-lineage": "policy lineage"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order — the e-stop comes first: check it, then the allowlist, the limits and the lineage.",
+      "prompt": "Check the e-stop status, then the allowlist, then speed and separation, then the policy lineage.",
+      "targets": [
+        "gov-estop",
+        "gov-allowlist",
+        "gov-limits",
+        "gov-lineage"
+      ],
+      "title": "Walk the governor's checks in order",
+      "why": "The governor checks the e-stop first because a held stop overrides every other answer: there is no task, speed or policy that makes it right to move a robot someone has stopped; walking the checks in the same order the software does is how a supervisor learns to read its refusals."
+    },
+    {
+      "cue": "Confirm the physical-robot switch is locked off and names a human approver.",
+      "id": "physical-lock",
+      "kind": "select",
+      "prompt": "Confirm the physical-robot switch is locked off and names a human approver.",
+      "target": "physical-switch",
+      "title": "Confirm the physical path is locked off",
+      "why": "A command that starts with a software agent reaches only the simulated robot here; sending one to a real arm would need a named human approver at the site on top of every governor rule, and that path ships disabled, so the supervisor confirms the lock rather than assuming it."
+    },
+    {
+      "cue": "Approve the job for the simulated robot under your own name.",
+      "id": "approve",
+      "kind": "select",
+      "prompt": "Approve the job for the simulated robot under your own name.",
+      "target": "approve-key",
+      "title": "Approve the job for the sim, under your name",
+      "why": "Approval moves the job from negotiation to the work phase and is written into the audit log with the supervisor's name, so responsibility for letting software drive a robot, even a simulated one, sits with a person who read the evidence rather than with the agent that asked."
+    },
+    {
+      "cue": "Hold at the watch point outside the zone while the simulated run starts.",
+      "holdBreakNote": "Stepped away from the watch point before the run settled. Hold until it does.",
+      "id": "watch-hold",
+      "kind": "hold",
+      "prompt": "Hold at the watch point outside the zone while the simulated run starts.",
+      "seconds": 5,
+      "target": "watch-pad",
+      "title": "Watch the run from outside the zone",
+      "why": "A run dispatched by an agent is watched by a person who can stop it, from a place the robot cannot reach; the governor checks every step, but only the supervisor can see that a move is wrong for a reason no rule anticipated."
+    },
+    {
+      "cue": "Keep the separation readout in its band while the run continues at reduced speed.",
+      "holdBreakNote": "The separation readout left its band. Bring it back before the run resumes.",
+      "id": "separation-track",
+      "kind": "track",
+      "prompt": "Keep the separation readout in its band while the run continues at reduced speed.",
+      "seconds": 8,
+      "target": "separation-meter",
+      "title": "Keep the separation in band",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.45,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "SEPARATION",
+        "rise": 0.4,
+        "start": 0.5
+      },
+      "why": "Inside the warning distance the robot runs at the reduced speed and inside the stop distance it holds a protective stop; tracking the separation readout keeps the supervisor's attention on the person and the robot rather than on the job's progress bar."
+    },
+    {
+      "cue": "Carry the evaluation memo to the job's evaluation slot: completed, or rejected with the reason.",
+      "drag": {
+        "missNote": "Not placed — set the evaluation memo in the job's evaluation slot.",
+        "radius": 0.4,
+        "to": "eval-slot"
+      },
+      "id": "file-eval",
+      "kind": "drag",
+      "prompt": "Carry the evaluation memo to the job's evaluation slot: completed, or rejected with the reason.",
+      "target": "eval-memo",
+      "title": "File the evaluation",
+      "why": "The evaluation closes the job: completed only if the run finished with every safe practice kept and no stop, rejected otherwise with the reason in plain words; filing it is how the client agent, the site and the next reviewer learn what happened rather than what was hoped."
+    },
+    {
+      "cue": "Check the audit log: every allow, refuse and stop is there and the chain is intact.",
+      "id": "audit-check",
+      "kind": "select",
+      "prompt": "Check the audit log: every allow, refuse and stop is there and the chain is intact.",
+      "target": "audit-log",
+      "title": "Check the audit chain",
+      "why": "Each audit line carries a hash of the line before it, so a missing or edited decision breaks the chain where anyone can see it; checking it at the end of a job confirms that the record of who asked, what the governor decided and who approved will still be there when someone needs it."
+    }
+  ],
+  "supportLine": "a steward at your UAW or IAM local, or the employee assistance line, if supervising automated equipment you did not program is weighing on you",
+  "tagline": "Reviewing a robot job sent by a software agent before the site's own agent may run it in the sim: who asked and what for, the task checked against the allowlist, the policy's eval card and lineage read and a stale policy caught, the site's speed and separation limits set from the risk assessment, the physical-robot path confirmed locked off, the run watched from outside the zone and stopped on a deviation, and the evaluation filed in the audit log",
+  "title": "SmartCiti.X~ Supervising Robots Dispatched by Software Agents VR",
+  "trade": "Robot safety supervisor and AI-training specialist, software-agent dispatch review — UAW/IAM",
+  "underwater": null,
+  "weather": "overcast"
+}

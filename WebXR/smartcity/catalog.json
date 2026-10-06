@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 727
+      "stations": 732
     },
     "trades": {
       "entry": "trades/index.html",
@@ -242,6 +242,10 @@
         "conveyor-guard",
         "forklift-dock",
         "cnc-cell",
+        "rt-speed-separation-monitoring-setup",
+        "rt-robot-estop-recovery-and-restart",
+        "rt-cobot-power-force-limit-check",
+        "rt-teach-pendant-safe-jogging",
         "ml-suspicious-package-protocol",
         "sm-kitchen-exhaust-and-fire-wrap",
         "sm-air-balancing-and-testing",
@@ -278,7 +282,8 @@
         "ad-robot-cell-lockout-and-safe-reentry",
         "ad-cleanroom-gowning-and-esd-discipline",
         "rp-robot-policy-evaluation-review",
-        "rp-teleop-demonstration-collection"
+        "rp-teleop-demonstration-collection",
+        "vb-supervising-agent-dispatched-robots"
       ]
     },
     {
@@ -10285,6 +10290,315 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "rt-speed-separation-monitoring-setup",
+      "name": "Setting Up Speed-and-Separation Monitoring",
+      "title": "SmartCiti.X~ Setting Up Speed-and-Separation Monitoring VR",
+      "tagline": "Configuring the area scanner around a shared cobot cell: the arm's reach marked on the floor, the protective field sized from the stopping distance the risk assessment worked out, the warning field outside it, the scanner's blind spot found behind a cabinet, muting confirmed off, every field walked with a test piece, the stop measured, and the configuration committed under its checksum",
+      "category": "Manufacturing & Automation",
+      "domain": "Robotics",
+      "trade": "Robot integrator, area-scanner fields for a shared cobot cell — UAW/IAM",
+      "union": null,
+      "certification": "UAW and IAM skilled-trades training as bodies; ISO/TS 15066 for collaborative robot applications (speed and separation monitoring) and ISO 10218 with ANSI R15.06 for the robot system and its integration; OSHA 29 CFR 1910.212 general requirements for machines and 29 CFR 1910.132 personal protective equipment; the cell's written risk assessment, the scanner manufacturer's manual and the robot manufacturer's manual",
+      "accent": "#9b7fe0",
+      "parSeconds": 340,
+      "weather": "overcast",
+      "indoor": null,
+      "district": "robotics-training-centre",
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "drag",
+        "gauge",
+        "find",
+        "hold",
+        "track"
+      ],
+      "badge": {
+        "id": "measured-distance",
+        "name": "Measured Distance",
+        "note": "Sized the fields from the stopping distance, found the shadow and walked every field before committing"
+      },
+      "meshes": 218,
+      "lights": 0,
+      "overBudget": false,
+      "index": "rt-4",
+      "flat": false,
+      "system": "Measured Distance",
+      "currency": "SP",
+      "ranks": [
+        "Observer",
+        "Field Setter",
+        "Field Walker",
+        "Integrator",
+        "Measured Distance Lead"
+      ],
+      "awards": [
+        {
+          "id": "reach-first",
+          "name": "Reach First",
+          "note": "Marked the arm's reach before sizing a field"
+        },
+        {
+          "id": "shadow-found",
+          "name": "Shadow Found",
+          "note": "Found the scanner's blind spot before the walk test"
+        },
+        {
+          "id": "steady-walk",
+          "name": "Steady Walk",
+          "note": "Held the approach speed inside the test band"
+        },
+        {
+          "id": "quick-fields",
+          "name": "Inside Par",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "clean-fields",
+          "name": "Clean Set-up",
+          "note": "Clean run, no corrections"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=rt-speed-separation-monitoring-setup"
+    },
+    {
+      "app": "smartcity",
+      "id": "rt-robot-estop-recovery-and-restart",
+      "name": "Bringing a Robot Back After an E-stop",
+      "title": "SmartCiti.X~ Bringing a Robot Back After an E-stop VR",
+      "tagline": "Recovering a stopped robot cell without making it a second incident: the reason found before anything is reset, every person near the cell accounted for, the obstruction cleared under your own lock, the e-stop and the safety circuit reset from outside, the first cycle at reduced speed with a hand on the stop, and the event written down",
+      "category": "Manufacturing & Automation",
+      "domain": "Robotics",
+      "trade": "Robot operator, recovering a fenced cell after an emergency stop — UAW/IAM",
+      "union": null,
+      "certification": "UAW and IAM skilled-trades training as bodies; ANSI R15.06 and ISO 10218 for industrial robot systems, including restart from outside the safeguarded space; OSHA 29 CFR 1910.147 the control of hazardous energy for the entry to clear the cell, 29 CFR 1910.212 general requirements for machines and 29 CFR 1910.132 personal protective equipment; the cell's written risk assessment, its restart procedure and the manufacturer's manual",
+      "accent": "#e0634a",
+      "parSeconds": 350,
+      "weather": "clear",
+      "indoor": null,
+      "district": "robotics-factory",
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "gauge",
+        "drag",
+        "hold",
+        "turn",
+        "track"
+      ],
+      "badge": {
+        "id": "reason-first",
+        "name": "Reason First",
+        "note": "Found why the cell stopped and who was near it before touching a reset"
+      },
+      "meshes": 210,
+      "lights": 0,
+      "overBudget": false,
+      "index": "rt-3",
+      "flat": false,
+      "system": "Reason First",
+      "currency": "RP",
+      "ranks": [
+        "Bystander",
+        "Reporter",
+        "Recoverer",
+        "Restart Lead",
+        "Reason First"
+      ],
+      "awards": [
+        {
+          "id": "no-blind-reset",
+          "name": "No Blind Reset",
+          "note": "Read the stop log before any reset"
+        },
+        {
+          "id": "headcount",
+          "name": "Headcount",
+          "note": "Accounted for everyone before entering"
+        },
+        {
+          "id": "slow-first",
+          "name": "Slow First Cycle",
+          "note": "Ran the first cycle at reduced speed with a hand on the stop"
+        },
+        {
+          "id": "quick-recover",
+          "name": "Inside Par",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "clean-recover",
+          "name": "Clean Recovery",
+          "note": "Clean run, no corrections"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=rt-robot-estop-recovery-and-restart"
+    },
+    {
+      "app": "smartcity",
+      "id": "rt-cobot-power-force-limit-check",
+      "name": "Measuring a Cobot's Contact Forces",
+      "title": "SmartCiti.X~ Measuring a Cobot's Contact Forces VR",
+      "tagline": "Verifying a power-and-force-limited cobot before people share its bench: body regions read from the risk assessment, the measuring device set for the region and seated where contact happens, transient and quasi-static contact measured separately, every reading judged against the card's band, a sharp tool edge found and covered, and the result recorded with the device's calibration",
+      "category": "Manufacturing & Automation",
+      "domain": "Robotics",
+      "trade": "Cobot integrator, power-and-force-limiting verification on a shared bench — UAW/IAM",
+      "union": null,
+      "certification": "UAW and IAM skilled-trades training as bodies; ISO/TS 15066 for collaborative robot applications (power and force limiting, body regions), with ANSI R15.06 and ISO 10218 for the robot and its integration; OSHA 29 CFR 1910.212 general requirements for machines and 29 CFR 1910.132 personal protective equipment; the application's written risk assessment, the measuring device's manual and the manufacturer's manual",
+      "accent": "#5bb7d9",
+      "parSeconds": 330,
+      "weather": "overcast",
+      "indoor": null,
+      "district": "robotics-training-centre",
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "gauge",
+        "drag",
+        "hold",
+        "track",
+        "find"
+      ],
+      "badge": {
+        "id": "soft-contact",
+        "name": "Soft Contact",
+        "note": "Measured both contact cases for the right body region and let the readings, not the brochure, decide"
+      },
+      "meshes": 204,
+      "lights": 0,
+      "overBudget": false,
+      "index": "rt-2",
+      "flat": false,
+      "system": "Soft Contact",
+      "currency": "FP",
+      "ranks": [
+        "Observer",
+        "Device Holder",
+        "Measurer",
+        "Verifier",
+        "Soft Contact Lead"
+      ],
+      "awards": [
+        {
+          "id": "region-first",
+          "name": "Region First",
+          "note": "Set the device for the body region before the first contact"
+        },
+        {
+          "id": "two-cases",
+          "name": "Two Cases",
+          "note": "Measured transient and quasi-static contact as separate tests"
+        },
+        {
+          "id": "steady-reading",
+          "name": "Steady Reading",
+          "note": "Held the reading inside the card's band"
+        },
+        {
+          "id": "quick-verify",
+          "name": "Inside Par",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "clean-verify",
+          "name": "Clean Verification",
+          "note": "Clean run, no corrections"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=rt-cobot-power-force-limit-check"
+    },
+    {
+      "app": "smartcity",
+      "id": "rt-teach-pendant-safe-jogging",
+      "name": "Teaching a Robot from the Pendant",
+      "title": "SmartCiti.X~ Teaching a Robot from the Pendant VR",
+      "tagline": "Jogging an industrial arm from inside its cell to teach a path: manual reduced speed selected and read back, the pendant e-stop proven, the enabling device held in the middle for every move, a second person on the outside stop, an escape route that stays open, and automatic mode restored only from outside with the gate shut",
+      "category": "Manufacturing & Automation",
+      "domain": "Robotics",
+      "trade": "Robot programmer, teaching points inside a fenced industrial cell — UAW/IAM",
+      "union": null,
+      "certification": "UAW and IAM skilled-trades training as bodies; ANSI R15.06 and ISO 10218 for industrial robots and their integration, with the manual reduced-speed mode and the enabling device described in the manufacturer's manual; OSHA 29 CFR 1910.212 general requirements for machines, 29 CFR 1910.147 the control of hazardous energy and 29 CFR 1910.132 personal protective equipment; the cell's written risk assessment and the site's teach-mode procedure",
+      "accent": "#f0a63a",
+      "parSeconds": 340,
+      "weather": "clear",
+      "indoor": null,
+      "district": "robotics-factory",
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "gauge",
+        "find",
+        "drag",
+        "hold",
+        "track"
+      ],
+      "badge": {
+        "id": "enabled-hand",
+        "name": "Enabled Hand",
+        "note": "Taught a path at reduced speed with the enabling device held, the pendant stop proven and the escape route open"
+      },
+      "meshes": 207,
+      "lights": 0,
+      "overBudget": false,
+      "index": "rt-1",
+      "flat": false,
+      "system": "Enabled Hand",
+      "currency": "TP",
+      "ranks": [
+        "Visitor",
+        "Pendant Holder",
+        "Teacher",
+        "Cell Lead",
+        "Enabled Hand"
+      ],
+      "awards": [
+        {
+          "id": "mode-first",
+          "name": "Mode First",
+          "note": "Read back manual reduced speed before touching a jog key"
+        },
+        {
+          "id": "three-position",
+          "name": "Three Positions",
+          "note": "Proved the enabling device releases and panics"
+        },
+        {
+          "id": "outside-auto",
+          "name": "Outside Only",
+          "note": "Restored automatic mode from outside the gate"
+        },
+        {
+          "id": "quick-teach",
+          "name": "Inside Par",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "clean-teach",
+          "name": "Clean Teach",
+          "note": "Clean run, no corrections"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=rt-teach-pendant-safe-jogging"
     },
     {
       "app": "smartcity",
@@ -37581,7 +37895,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 254,
+      "meshes": 259,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -38241,7 +38555,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 262,
+      "meshes": 267,
       "lights": 0,
       "overBudget": false,
       "index": "100",
@@ -66423,6 +66737,83 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=rp-teleop-demonstration-collection"
+    },
+    {
+      "app": "smartcity",
+      "id": "vb-supervising-agent-dispatched-robots",
+      "name": "Supervising Robots Dispatched by Software Agents",
+      "title": "SmartCiti.X~ Supervising Robots Dispatched by Software Agents VR",
+      "tagline": "Reviewing a robot job sent by a software agent before the site's own agent may run it in the sim: who asked and what for, the task checked against the allowlist, the policy's eval card and lineage read and a stale policy caught, the site's speed and separation limits set from the risk assessment, the physical-robot path confirmed locked off, the run watched from outside the zone and stopped on a deviation, and the evaluation filed in the audit log",
+      "category": "Manufacturing & Automation",
+      "domain": "Robotics",
+      "trade": "Robot safety supervisor and AI-training specialist, software-agent dispatch review — UAW/IAM",
+      "union": null,
+      "certification": "UAW and IAM skilled-trades training as bodies; ANSI/RIA R15.06 and ISO 10218 for the integrated robot system, its safeguarding and the written risk assessment that sets its speed and separation limits; OSHA 29 CFR 1910.212 for machine guarding and 29 CFR 1910.147 for hazardous-energy control when anyone enters the bench; plus this platform's own dispatch rules: allowlist, consent lineage, append-only audit, simulated robots only",
+      "accent": "#5ec8d8",
+      "parSeconds": 340,
+      "weather": "overcast",
+      "indoor": null,
+      "district": "robotics-training-centre",
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "find",
+        "gauge",
+        "sequence",
+        "hold",
+        "track",
+        "drag"
+      ],
+      "badge": {
+        "id": "the-governor-holds",
+        "name": "The Governor Holds",
+        "note": "Checked who asked, what for and with which policy, kept the robot to the sim and its limits, stopped it on a deviation and logged every decision"
+      },
+      "meshes": 196,
+      "lights": 0,
+      "overBudget": false,
+      "index": "vb-1",
+      "flat": false,
+      "system": "The Governor Holds",
+      "currency": "GV",
+      "ranks": [
+        "Observer",
+        "Reviewer",
+        "Supervisor",
+        "Dispatch Lead",
+        "Safety Sign-off"
+      ],
+      "awards": [
+        {
+          "id": "who-asked",
+          "name": "Who Asked",
+          "note": "Read the job card before anything else"
+        },
+        {
+          "id": "off-list",
+          "name": "Off the List",
+          "note": "Found the job asking for a task not on the allowlist"
+        },
+        {
+          "id": "steady-watch",
+          "name": "Steady Watch",
+          "note": "Kept the separation readout near band centre"
+        },
+        {
+          "id": "quick-review",
+          "name": "Inside Par",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "clean-review",
+          "name": "Clean Review",
+          "note": "Clean run, no corrections"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=vb-supervising-agent-dispatched-robots"
     },
     {
       "app": "trades",

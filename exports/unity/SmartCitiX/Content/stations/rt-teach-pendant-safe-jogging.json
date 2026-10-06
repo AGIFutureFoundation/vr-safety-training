@@ -1,0 +1,405 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "enabled-hand",
+    "name": "Enabled Hand",
+    "note": "Taught a path at reduced speed with the enabling device held, the pendant stop proven and the escape route open"
+  },
+  "category": "Manufacturing & Automation",
+  "certification": "UAW and IAM skilled-trades training as bodies; ANSI R15.06 and ISO 10218 for industrial robots and their integration, with the manual reduced-speed mode and the enabling device described in the manufacturer's manual; OSHA 29 CFR 1910.212 general requirements for machines, 29 CFR 1910.147 the control of hazardous energy and 29 CFR 1910.132 personal protective equipment; the cell's written risk assessment and the site's teach-mode procedure",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI R15.06",
+        "id": "ansi-r15-06",
+        "title": "ANSI/RIA R15.06 — Industrial robots and robot systems: safety requirements"
+      },
+      {
+        "body": "union",
+        "citedAs": "IAM",
+        "id": "iam-winpisinger-center",
+        "title": "IAM — the William W. Winpisinger Education and Technology Center's machinist and transportation training"
+      },
+      {
+        "body": "ISO",
+        "citedAs": "ISO 10218",
+        "id": "iso-10218",
+        "title": "ISO 10218 — Robots and robotic devices: safety requirements for industrial robots"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.132",
+        "id": "osha-1910-132",
+        "title": "29 CFR 1910.132 — Personal protective equipment, general requirements"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.212",
+        "id": "osha-1910-212",
+        "title": "29 CFR 1910.212 — General requirements for all machines (machine guarding)"
+      },
+      {
+        "body": "union",
+        "citedAs": "UAW",
+        "id": "uaw-training",
+        "title": "UAW joint apprenticeship and skilled-trades training for manufacturing and automation work"
+      }
+    ]
+  },
+  "district": "robotics-factory",
+  "domain": "Robotics",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "mode-first",
+        "name": "Mode First",
+        "note": "Read back manual reduced speed before touching a jog key"
+      },
+      {
+        "id": "three-position",
+        "name": "Three Positions",
+        "note": "Proved the enabling device releases and panics"
+      },
+      {
+        "id": "outside-auto",
+        "name": "Outside Only",
+        "note": "Restored automatic mode from outside the gate"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "quick-teach",
+        "name": "Inside Par",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "clean-teach",
+        "name": "Clean Teach",
+        "note": "Clean run, no corrections"
+      }
+    ],
+    "currency": "TP",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Visitor",
+      "Pendant Holder",
+      "Teacher",
+      "Cell Lead",
+      "Enabled Hand"
+    ],
+    "system": "Enabled Hand"
+  },
+  "hazards": {
+    "auto-mode-hazard": "That leaves the mode selector in automatic while someone steps through the gate with the pendant. In automatic the arm runs its programme at full speed on the first signal it gets; teaching happens in manual reduced speed, chosen and read back on the pendant before the gate opens.",
+    "gate-prop-hazard": "That props the cell gate open with a wedge so it is quicker to go in and out while teaching. The gate interlock is what keeps the arm from running automatically with a person inside; wedging it open is choosing to work without it.",
+    "second-pendant-hazard": "That hands a second person a pendant so two people can teach faster. One pendant has motion control at a time; a second enabled pendant means a move can come from someone who cannot see where your body is.",
+    "tape-enable-hazard": "That tapes the enabling device down so both hands are free for the jog keys. The enabling device is the only thing that stops the arm the instant your hand flinches or lets go, and a taped switch turns a three-position safeguard into a piece of tape."
+  },
+  "id": "rt-teach-pendant-safe-jogging",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "jog-track",
+      "alert": "A coworker has opened the gate and is walking in to steady the part you are teaching to.",
+      "cue": "Press the pendant e-stop now.",
+      "delay": 3,
+      "id": "coworker-reaches",
+      "kind": "Person in cell",
+      "missNote": "You kept jogging with a coworker inside the fence. A second person entering the cell is answered with the pendant e-stop first.",
+      "seconds": 11,
+      "target": "pendant-estop",
+      "why": "A second person inside a cell under manual control is a body the person holding the pendant cannot watch while watching the tool; the pendant e-stop drops the arm's power before the next jog key does anything, and the conversation about the gate happens with the arm stopped.",
+      "wrongNote": "Not that — someone walking into the cell is answered with the e-stop in your hand."
+    },
+    {
+      "after": "enable-hold",
+      "alert": "The arm has started moving faster than the reduced speed on the pendant readout.",
+      "cue": "Release the enabling device.",
+      "delay": 3,
+      "id": "speed-jump",
+      "kind": "Unexpected speed",
+      "missNote": "The arm kept moving faster than reduced speed. An unexpected speed is answered by letting go of the enabling device.",
+      "seconds": 11,
+      "target": "enable-release",
+      "why": "A speed the readout did not promise means the mode, the override or the controller is not in the state you checked, and the enabling device is built so that opening your hand stops motion at once; releasing it costs nothing and investigating with the arm still moving costs the arm's reach.",
+      "wrongNote": "Not that — unexpected motion under manual control is answered by releasing the enabling device."
+    }
+  ],
+  "lateNotes": {
+    "mode-selector": "Manual reduced speed is selected and read back on the pendant screen before the gate opens, not after the first jog surprises you.",
+    "pendant-estop": "The pendant's own e-stop is pressed and reset once before teaching so you know the stop in your hand works today."
+  },
+  "name": "Teaching a Robot from the Pendant",
+  "parSeconds": 340,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "robotCell",
+        "count": 1,
+        "kit": "equipment"
+      }
+    ],
+    "error": null,
+    "footprint": 2.9,
+    "hits": [
+      "auto-mode-hazard",
+      "auto-restore",
+      "boots-teach",
+      "close-gate",
+      "enable-mid",
+      "enable-panic",
+      "enable-release",
+      "fixture-stand",
+      "gate-prop-hazard",
+      "glasses-teach",
+      "gloves-teach",
+      "mode-selector",
+      "outside-estop-post",
+      "part-cart-in-route",
+      "pendant-cable-loop",
+      "pendant-estop",
+      "pendant-hook",
+      "readout-panel",
+      "record-key",
+      "second-pendant-hazard",
+      "speed-readout",
+      "stand-marker",
+      "stand-spot",
+      "step-out",
+      "tape-enable-hazard",
+      "teach-plan-sheet"
+    ],
+    "meshes": 207
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track"
+  ],
+  "steps": [
+    {
+      "cue": "Read the teach plan: which points change, who is the second person, where the escape route runs.",
+      "id": "teach-plan",
+      "kind": "select",
+      "prompt": "Read the teach plan: which points change, who is the second person, where the escape route runs.",
+      "target": "teach-plan-sheet",
+      "title": "Read the teach plan and risk assessment",
+      "why": "Teaching inside a cell is the one time a person stands within the arm's reach while it can move, so the risk assessment names the mode, the second person at the outside stop and the route out, and a programmer who starts without reading it is relying on how yesterday's cell was set up rather than how this one is."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Safety glasses, snug gloves without loose cuffs, safety boots.",
+      "id": "ppe-teach",
+      "itemNames": {
+        "boots-teach": "safety boots",
+        "glasses-teach": "safety glasses",
+        "gloves-teach": "snug gloves, no cuffs"
+      },
+      "kind": "sequence",
+      "prompt": "Safety glasses, snug gloves without loose cuffs, safety boots.",
+      "targets": [
+        "glasses-teach",
+        "gloves-teach",
+        "boots-teach"
+      ],
+      "title": "Dress for the cell",
+      "why": "Inside a cell the floor carries fixtures, cable tracks and the base of the arm, and the tool can carry a part with edges; glasses for the part, boots for the fixtures, and gloves that fit so a cuff cannot be caught between the tool and the work while you lean in to see a point."
+    },
+    {
+      "cue": "Turn the mode selector to manual reduced speed and commit when the pendant reads it back.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.58
+        ],
+        "label": "MODE",
+        "missNote": "The pendant does not read manual reduced speed. Nobody enters until it does.",
+        "speed": 0.6
+      },
+      "id": "mode-select",
+      "kind": "gauge",
+      "prompt": "Turn the mode selector to manual reduced speed and commit when the pendant reads it back.",
+      "target": "mode-selector",
+      "title": "Select manual reduced speed",
+      "why": "Reduced speed is what makes a jog mistake inside the cell survivable: the arm moves slowly enough to let go, step back or stop it, and the setting is confirmed on the pendant screen because a selector can sit in a detent that the controller did not accept."
+    },
+    {
+      "cue": "Press the pendant e-stop, watch the stack light drop to red, then reset it.",
+      "id": "pendant-estop-test",
+      "kind": "select",
+      "prompt": "Press the pendant e-stop, watch the stack light drop to red, then reset it.",
+      "target": "pendant-estop",
+      "title": "Prove the pendant e-stop",
+      "why": "The stop in your hand is the one you will reach for inside the cell, and the only way to know that today's pendant, cable and safety circuit stop this arm is to press it once while nothing is at stake; a stop that has not been tried is a guess."
+    },
+    {
+      "anyOrder": false,
+      "cue": "Prove the enabling device: motion only in the middle, stopped when released, stopped when squeezed through.",
+      "id": "enable-test",
+      "itemNames": {
+        "enable-mid": "middle position: motion allowed",
+        "enable-panic": "squeezed through: motion stops",
+        "enable-release": "released: motion stops"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order — prove the middle position first, then that releasing stops, then that squeezing through stops.",
+      "prompt": "Prove the enabling device: motion only in the middle, stopped when released, stopped when squeezed through.",
+      "targets": [
+        "enable-mid",
+        "enable-release",
+        "enable-panic"
+      ],
+      "title": "Test the enabling device's three positions",
+      "why": "The three-position enabling device protects against two reflexes at once — letting go and clenching — and both are tested before teaching because a switch that only stops on release leaves the clench, which is the reflex a startled hand actually makes, unprotected."
+    },
+    {
+      "cue": "Have the second person stand at the outside e-stop with a clear view of you and the arm.",
+      "id": "second-person",
+      "kind": "select",
+      "prompt": "Have the second person stand at the outside e-stop with a clear view of you and the arm.",
+      "target": "outside-estop-post",
+      "title": "Station the second person at the outside e-stop",
+      "why": "The person inside watches the tool and the point; the person outside watches the person. A second person at a stop they can reach without stepping through the gate is how a slip, a snag or a collapse inside the cell gets a stop pressed by someone who is not the one in trouble."
+    },
+    {
+      "cue": "Find what blocks the escape route inside the cell.",
+      "decoyNotes": {
+        "fixture-stand": "The fixture stand is where it is bolted and the route runs past it. It stays.",
+        "pendant-cable-loop": "The pendant cable hangs on its hook clear of the floor. Nothing to move there today."
+      },
+      "id": "find-route",
+      "itemNames": {
+        "part-cart-in-route": "part cart parked across the escape route"
+      },
+      "itemNotes": {
+        "part-cart-in-route": "Roll the cart outside the fence before anyone enters; the route out is kept clear for the whole teach session."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Find what blocks the escape route inside the cell.",
+      "target": "part-cart-in-route",
+      "targets": [
+        "part-cart-in-route"
+      ],
+      "title": "Find what blocks the escape route",
+      "why": "An escape route inside a cell is the path you take when the arm does something you did not teach it, and it has to be walkable without looking down; a cart, a cable or a crate across it turns a step back into a fall under a moving arm."
+    },
+    {
+      "cue": "Place the standing mark where you can see the tool centre point and step back out of the arm's reach.",
+      "drag": {
+        "missNote": "Not placed — the standing mark goes where you can see the tool and still step back out of reach.",
+        "radius": 0.4,
+        "to": "stand-spot"
+      },
+      "id": "position-mark",
+      "kind": "drag",
+      "prompt": "Place the standing mark where you can see the tool centre point and step back out of the arm's reach.",
+      "target": "stand-marker",
+      "title": "Set your standing mark",
+      "why": "Where you stand decides whether a wrong jog comes toward you or past you; the mark goes where the tool is visible, the arm cannot trap you against the fence or the fixture, and one step back takes you out of reach — chosen before the first move, not improvised during it."
+    },
+    {
+      "cue": "Hold the enabling device in its middle position and watch the pendant show motion allowed.",
+      "holdBreakNote": "The enabling device left its middle position. Settle the grip before the arm moves.",
+      "id": "enable-hold",
+      "kind": "hold",
+      "prompt": "Hold the enabling device in its middle position and watch the pendant show motion allowed.",
+      "seconds": 5,
+      "target": "enable-mid",
+      "title": "Hold the enabling device in the middle",
+      "why": "Every jog inside the cell happens only while the enabling device sits in its middle position, so the hand learns the grip before the arm moves: light enough not to squeeze through, firm enough not to drop, and watched on the readout rather than felt."
+    },
+    {
+      "cue": "Jog the tool toward the new point, keeping the readout inside the reduced-speed band.",
+      "holdBreakNote": "The speed left the reduced band. Release, re-check the override and jog again.",
+      "id": "jog-track",
+      "kind": "track",
+      "prompt": "Jog the tool toward the new point, keeping the readout inside the reduced-speed band.",
+      "seconds": 8,
+      "target": "speed-readout",
+      "title": "Jog to the new point inside reduced speed",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.45,
+        "green": [
+          0.32,
+          0.56
+        ],
+        "label": "SPEED",
+        "rise": 0.4,
+        "start": 0.45
+      },
+      "why": "The override and the jog increment both change how far the arm travels per key press, and a programmer watching the point can creep the speed up without noticing; keeping the readout inside the band is how a teach move stays a move you can stop with your hand."
+    },
+    {
+      "cue": "Record the taught point and read its label back on the pendant.",
+      "id": "record-point",
+      "kind": "select",
+      "prompt": "Record the taught point and read its label back on the pendant.",
+      "target": "record-key",
+      "title": "Record the point",
+      "why": "A point recorded under the wrong label is a path the arm will run to the wrong place at full speed in automatic; reading the label back while you are still inside and slow is the cheapest moment to catch it."
+    },
+    {
+      "anyOrder": false,
+      "cue": "Step out, latch the gate, then and only then turn the mode selector back to automatic.",
+      "id": "exit-order",
+      "itemNames": {
+        "auto-restore": "return the mode to automatic from outside",
+        "close-gate": "close and latch the gate",
+        "step-out": "step out through the gate"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order — step out, latch the gate, then select automatic from outside.",
+      "prompt": "Step out, latch the gate, then and only then turn the mode selector back to automatic.",
+      "targets": [
+        "step-out",
+        "close-gate",
+        "auto-restore"
+      ],
+      "title": "Leave the cell before restoring automatic",
+      "why": "Automatic mode is the arm running its programme at its programmed speed, and the order exists so that the first automatic cycle can never start with the person who taught the path still inside: out, gate latched and interlock made, then the selector."
+    },
+    {
+      "cue": "Hang the pendant on its hook outside the fence with the cable off the floor.",
+      "id": "pendant-hook",
+      "kind": "select",
+      "prompt": "Hang the pendant on its hook outside the fence with the cable off the floor.",
+      "target": "pendant-hook",
+      "title": "Hang the pendant on its hook",
+      "why": "A pendant left on a fixture inside the cell is a reason for the next person to open the gate in automatic to fetch it, and a cable on the floor is the snag the escape route check just removed; the hook outside is where the pendant lives between teach sessions."
+    }
+  ],
+  "supportLine": "your UAW or IAM local's apprenticeship coordinator, or the employee assistance line, if a near-miss inside a cell is still with you",
+  "tagline": "Jogging an industrial arm from inside its cell to teach a path: manual reduced speed selected and read back, the pendant e-stop proven, the enabling device held in the middle for every move, a second person on the outside stop, an escape route that stays open, and automatic mode restored only from outside with the gate shut",
+  "title": "SmartCiti.X~ Teaching a Robot from the Pendant VR",
+  "trade": "Robot programmer, teaching points inside a fenced industrial cell — UAW/IAM",
+  "underwater": null,
+  "weather": "clear"
+}

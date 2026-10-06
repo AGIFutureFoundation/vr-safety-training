@@ -1,0 +1,421 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "reason-first",
+    "name": "Reason First",
+    "note": "Found why the cell stopped and who was near it before touching a reset"
+  },
+  "category": "Manufacturing & Automation",
+  "certification": "UAW and IAM skilled-trades training as bodies; ANSI R15.06 and ISO 10218 for industrial robot systems, including restart from outside the safeguarded space; OSHA 29 CFR 1910.147 the control of hazardous energy for the entry to clear the cell, 29 CFR 1910.212 general requirements for machines and 29 CFR 1910.132 personal protective equipment; the cell's written risk assessment, its restart procedure and the manufacturer's manual",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI R15.06",
+        "id": "ansi-r15-06",
+        "title": "ANSI/RIA R15.06 — Industrial robots and robot systems: safety requirements"
+      },
+      {
+        "body": "union",
+        "citedAs": "IAM",
+        "id": "iam-winpisinger-center",
+        "title": "IAM — the William W. Winpisinger Education and Technology Center's machinist and transportation training"
+      },
+      {
+        "body": "ISO",
+        "citedAs": "ISO 10218",
+        "id": "iso-10218",
+        "title": "ISO 10218 — Robots and robotic devices: safety requirements for industrial robots"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.132",
+        "id": "osha-1910-132",
+        "title": "29 CFR 1910.132 — Personal protective equipment, general requirements"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.212",
+        "id": "osha-1910-212",
+        "title": "29 CFR 1910.212 — General requirements for all machines (machine guarding)"
+      },
+      {
+        "body": "union",
+        "citedAs": "UAW",
+        "id": "uaw-training",
+        "title": "UAW joint apprenticeship and skilled-trades training for manufacturing and automation work"
+      }
+    ]
+  },
+  "district": "robotics-factory",
+  "domain": "Robotics",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "no-blind-reset",
+        "name": "No Blind Reset",
+        "note": "Read the stop log before any reset"
+      },
+      {
+        "id": "headcount",
+        "name": "Headcount",
+        "note": "Accounted for everyone before entering"
+      },
+      {
+        "id": "slow-first",
+        "name": "Slow First Cycle",
+        "note": "Ran the first cycle at reduced speed with a hand on the stop"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "quick-recover",
+        "name": "Inside Par",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "clean-recover",
+        "name": "Clean Recovery",
+        "note": "Clean run, no corrections"
+      }
+    ],
+    "currency": "RP",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Bystander",
+      "Reporter",
+      "Recoverer",
+      "Restart Lead",
+      "Reason First"
+    ],
+    "system": "Reason First"
+  },
+  "hazards": {
+    "blind-reset-hazard": "That resets the e-stop and presses start because the line is waiting. A stop that nobody understands is a stop that will happen again, or worse, one that will not: an e-stop pressed because someone was inside is cleared without knowing where they are now.",
+    "bypass-curtain-hazard": "That holds a key in the muting switch so the curtain stops tripping while the cell is cleared. Muting a safeguard to get past it is working without the safeguard, and the person who muted it is the one standing in the beam.",
+    "reach-through-hazard": "That reaches through the light curtain to flick the dropped part out of the beam. The curtain stopped the arm once; a hand through it while the stop is being reset is a hand inside the cell at the moment power comes back.",
+    "reset-inside-hazard": "That resets the stop from the pendant while still inside the fence to save a walk. Reset and restart happen from outside the safeguarded space because the first thing a restarted cell does is move, and the person resetting it must not be where it moves."
+  },
+  "id": "rt-robot-estop-recovery-and-restart",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "clear-hold",
+      "alert": "A coworker outside is reaching for the e-stop reset to get the line going while you are still inside the cell.",
+      "cue": "Press the pendant e-stop you carry.",
+      "delay": 3,
+      "id": "helper-reset",
+      "kind": "Reset attempted",
+      "missNote": "You kept working inside while someone reached for the reset. A reset attempted with you inside is answered with the pendant e-stop you carry.",
+      "seconds": 11,
+      "target": "pendant-estop",
+      "why": "Your lock keeps the disconnect open, so the arm cannot power up, but a reset attempt with a person inside is a failure of the restart procedure in progress; the stop in your hand holds the cell in a known state and ends the attempt without anyone shouting over a fence.",
+      "wrongNote": "Not that — a reset attempt while you are inside is answered with the pendant e-stop."
+    },
+    {
+      "after": "first-cycle-track",
+      "alert": "On the first cycle the arm has swung toward the gate instead of toward the fixture.",
+      "cue": "Press the outside e-stop.",
+      "delay": 3,
+      "id": "wrong-path",
+      "kind": "Unexpected motion",
+      "missNote": "The arm kept swinging toward the gate. An unexpected path on the first cycle is answered with the e-stop under your hand.",
+      "seconds": 11,
+      "target": "outside-estop",
+      "why": "A restarted programme can resume from the wrong step or with a lost position, and the first cycle is watched at reduced speed with a hand on the stop for exactly this; the arm heading somewhere it was never taught is answered by stopping it, then finding out why from the controller, not by watching to see where it goes.",
+      "wrongNote": "Not that — unexpected motion on restart is answered at the outside e-stop."
+    }
+  ],
+  "lateNotes": {
+    "disconnect-lock": "The clearing entry is made under your own lock on the disconnect, with the key in your pocket, not under the e-stop alone.",
+    "stop-log": "The controller's stop log is read first, before any reset: which stop fired, from which device, at what step of the programme."
+  },
+  "name": "Bringing a Robot Back After an E-stop",
+  "parSeconds": 350,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "robotCell",
+        "count": 1,
+        "kit": "equipment"
+      }
+    ],
+    "error": null,
+    "footprint": 2.9,
+    "hits": [
+      "blind-reset-hazard",
+      "boots-recover",
+      "bypass-curtain-hazard",
+      "call-out",
+      "coolant-drip",
+      "curtain-receiver",
+      "cycle-meter",
+      "disconnect-lock",
+      "dropped-part",
+      "estop-reset",
+      "event-log",
+      "gate-stop",
+      "glasses-recover",
+      "gloves-recover",
+      "headcount-board",
+      "log-panel",
+      "outside-estop",
+      "pendant-estop",
+      "pendant-holder",
+      "reach-through-hazard",
+      "remove-hold",
+      "remove-lock",
+      "reset-inside-hazard",
+      "speed-dial",
+      "step-outside",
+      "stop-log",
+      "verify-meter",
+      "wedge-marker"
+    ],
+    "meshes": 210
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the controller's stop log: which stop fired, from where, at which step of the programme.",
+      "id": "read-log",
+      "kind": "select",
+      "prompt": "Read the controller's stop log: which stop fired, from where, at which step of the programme.",
+      "target": "stop-log",
+      "title": "Read the stop log before touching anything",
+      "why": "The controller knows which device opened the safety circuit and when, and that is the difference between a dropped part in a light curtain, a pressed button with a person behind it and a fault in the safeguard itself; each of those is recovered differently, and resetting before reading treats them all as the same inconvenience."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Safety glasses, cut-resistant gloves, safety boots.",
+      "id": "ppe-recover",
+      "itemNames": {
+        "boots-recover": "safety boots",
+        "glasses-recover": "safety glasses",
+        "gloves-recover": "cut-resistant gloves"
+      },
+      "kind": "sequence",
+      "prompt": "Safety glasses, cut-resistant gloves, safety boots.",
+      "targets": [
+        "glasses-recover",
+        "gloves-recover",
+        "boots-recover"
+      ],
+      "title": "Dress to enter the cell",
+      "why": "Clearing a stopped cell means handling the part the arm dropped, which may have sharp edges where the gripper let go of it, and walking a floor with cable tracks and a fixture base; the gloves are for the part, the boots for the floor, the glasses for whatever springs when the part is freed."
+    },
+    {
+      "anyOrder": false,
+      "cue": "Call out, check the headcount board against who is here, and find out who holds the pendant.",
+      "id": "account-people",
+      "itemNames": {
+        "call-out": "call out to the cell",
+        "headcount-board": "check the names on the headcount board",
+        "pendant-holder": "find who holds the pendant"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order — call out first, then the board, then find who holds the pendant.",
+      "prompt": "Call out, check the headcount board against who is here, and find out who holds the pendant.",
+      "targets": [
+        "call-out",
+        "headcount-board",
+        "pendant-holder"
+      ],
+      "title": "Account for everyone who was near the cell",
+      "why": "An e-stop is pressed by a person for a reason, and the first question is whether a person is inside or hurt: a call into the cell, the names on the board against the people standing here, and the pendant, because whoever holds it either pressed the stop or was inside when someone else did."
+    },
+    {
+      "cue": "Find what caused the stop.",
+      "decoyNotes": {
+        "coolant-drip": "A coolant drip under the fixture is a housekeeping job for after the restart, not the cause of the stop.",
+        "curtain-receiver": "The light-curtain receiver's indicator shows the curtain is healthy and simply interrupted. Nothing to repair there today."
+      },
+      "id": "find-cause",
+      "itemNames": {
+        "dropped-part": "a part dropped into the light curtain's beam"
+      },
+      "itemNotes": {
+        "dropped-part": "A part in the beam opened the curtain and stopped the arm; it is cleared from inside under lockout, never through the beam."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Find what caused the stop.",
+      "target": "dropped-part",
+      "targets": [
+        "dropped-part"
+      ],
+      "title": "Find what caused the stop",
+      "why": "The log says the light curtain opened, and the floor says why: a part the gripper dropped is lying in the beam. Seeing the cause with your own eyes is what separates a stop you understand from a stop you are guessing about, and it decides whether the recovery is a clearing entry or a maintenance call."
+    },
+    {
+      "cue": "Open the robot disconnect and hang your own lock and tag on it.",
+      "id": "lockout",
+      "kind": "select",
+      "prompt": "Open the robot disconnect and hang your own lock and tag on it.",
+      "target": "disconnect-lock",
+      "title": "Lock out the cell to enter",
+      "why": "An e-stop removes power from the drives but leaves the controller live and anyone outside able to reset it, and a clearing entry is an entry into the arm's reach; the disconnect under your own lock is what makes the cell yours while you are inside, whatever anyone outside presses."
+    },
+    {
+      "cue": "Try to jog the arm from the pendant and confirm the drives show no power before entering.",
+      "gauge": {
+        "green": [
+          0,
+          0.18
+        ],
+        "label": "DRIVES",
+        "missNote": "The drives still show power. Do not enter — find the energy source you missed.",
+        "speed": 0.6
+      },
+      "id": "verify-zero",
+      "kind": "gauge",
+      "prompt": "Try to jog the arm from the pendant and confirm the drives show no power before entering.",
+      "target": "verify-meter",
+      "title": "Verify zero energy",
+      "why": "A lock on a disconnect proves you turned a handle, not that the drives are dead; trying to move the arm and reading the drive status is the test that catches a wrong disconnect, a second feed or a controller still holding a charged axis, and it happens before the gate opens."
+    },
+    {
+      "cue": "Set the gate hold so the gate stays open while you are inside.",
+      "drag": {
+        "missNote": "Not placed — the gate hold goes at the gate so it cannot swing shut behind you.",
+        "radius": 0.4,
+        "to": "gate-stop"
+      },
+      "id": "escape-mark",
+      "kind": "drag",
+      "prompt": "Set the gate hold so the gate stays open while you are inside.",
+      "target": "wedge-marker",
+      "title": "Hold the gate open behind you",
+      "why": "A gate that swings shut behind you closes the interlock, which is the controller's one signal that nobody is inside; the hold keeps the gate open and the route out clear, and it is placed before you step through rather than wished for from inside."
+    },
+    {
+      "cue": "Lift the dropped part out of the curtain's beam and carry it out of the cell.",
+      "holdBreakNote": "The part slipped before it was clear of the beam. Set it down safely and lift again.",
+      "id": "clear-hold",
+      "kind": "hold",
+      "prompt": "Lift the dropped part out of the curtain's beam and carry it out of the cell.",
+      "seconds": 5,
+      "target": "dropped-part",
+      "title": "Clear the part from the beam",
+      "why": "The part is picked up from inside, with the arm dead and your lock on the disconnect, and carried out so nothing is left in the beam or on the floor for the next cycle; it is done steadily because a second drop under the fixture is a second entry."
+    },
+    {
+      "anyOrder": false,
+      "cue": "Step outside, close the gate, remove the hold, then take your lock off the disconnect.",
+      "id": "exit-unlock",
+      "itemNames": {
+        "remove-hold": "take the gate hold away",
+        "remove-lock": "remove your lock from the disconnect",
+        "step-outside": "step outside and close the gate"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order — step out and close the gate, remove the hold, then and only then remove your lock.",
+      "prompt": "Step outside, close the gate, remove the hold, then take your lock off the disconnect.",
+      "targets": [
+        "step-outside",
+        "remove-hold",
+        "remove-lock"
+      ],
+      "title": "Leave the cell and remove your lock last",
+      "why": "The lock comes off last because it is the one thing that keeps power away from the arm while a person could still be inside; the order puts the body outside and the gate closed before the energy is given back, every time, so there is never a moment with power available and the gate open."
+    },
+    {
+      "cue": "Twist the e-stop to release it, then press the safety-circuit reset on the panel outside.",
+      "id": "reset-circuit",
+      "kind": "turn",
+      "prompt": "Twist the e-stop to release it, then press the safety-circuit reset on the panel outside.",
+      "target": "estop-reset",
+      "title": "Reset the e-stop and the safety circuit from outside",
+      "turn": {
+        "label": "RELEASE",
+        "turns": 1
+      },
+      "why": "Releasing the mushroom button does nothing by itself; the safety circuit has to be reset from the panel, and both happen outside the fence with the gate closed, because the arm can move the moment the circuit is made and the person making it must not be where it moves."
+    },
+    {
+      "cue": "Set the override to reduced speed and commit when the pendant reads it back.",
+      "gauge": {
+        "green": [
+          0.3,
+          0.48
+        ],
+        "label": "SPEED",
+        "missNote": "The pendant does not read reduced speed. The first cycle waits until it does.",
+        "speed": 0.6
+      },
+      "id": "reduced-restart",
+      "kind": "gauge",
+      "prompt": "Set the override to reduced speed and commit when the pendant reads it back.",
+      "target": "speed-dial",
+      "title": "Select reduced speed for the first cycle",
+      "why": "A programme resuming after a stop may be at the wrong step or have lost its position, and the first cycle is where that shows; at reduced speed a wrong move can be stopped before it reaches anything, and the readback confirms the controller took the setting rather than the dial sitting on a number."
+    },
+    {
+      "cue": "Start the cycle and keep your hand on the outside e-stop, watching the arm's path match the programme.",
+      "holdBreakNote": "The arm left its programmed path. Stop, re-read the programme step and run the cycle again.",
+      "id": "first-cycle-track",
+      "kind": "track",
+      "prompt": "Start the cycle and keep your hand on the outside e-stop, watching the arm's path match the programme.",
+      "seconds": 8,
+      "target": "cycle-meter",
+      "title": "Watch the first cycle with a hand on the stop",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.45,
+        "green": [
+          0.36,
+          0.62
+        ],
+        "label": "PATH",
+        "rise": 0.4,
+        "start": 0.5
+      },
+      "why": "The first cycle after a stop is a test, not production: the operator stands at the stop and watches the arm go where the programme says, ready to end it the instant it does not; a cycle that completes under this watch is the proof that the cell is back, and a cycle that does not is caught before it costs more than a part."
+    },
+    {
+      "cue": "Record the stop: the cause, who was near, what was cleared and how the restart went.",
+      "id": "log-event",
+      "kind": "select",
+      "prompt": "Record the stop: the cause, who was near, what was cleared and how the restart went.",
+      "target": "event-log",
+      "title": "Write the event down",
+      "why": "A dropped part in a beam once is a part; three times is a gripper, a fixture or a programme problem, and the only way anyone sees the pattern is a written record of each stop with its cause and its recovery, read by the people who can change the cell rather than remembered by the one who cleared it."
+    }
+  ],
+  "supportLine": "your UAW or IAM local's safety representative, or the employee assistance line, if an e-stop you had to press is still on your mind",
+  "tagline": "Recovering a stopped robot cell without making it a second incident: the reason found before anything is reset, every person near the cell accounted for, the obstruction cleared under your own lock, the e-stop and the safety circuit reset from outside, the first cycle at reduced speed with a hand on the stop, and the event written down",
+  "title": "SmartCiti.X~ Bringing a Robot Back After an E-stop VR",
+  "trade": "Robot operator, recovering a fenced cell after an emergency stop — UAW/IAM",
+  "underwater": null,
+  "weather": "clear"
+}

@@ -20,6 +20,22 @@
     },
     {
       "app": "smartcity",
+      "id": "rt-speed-separation-monitoring-setup"
+    },
+    {
+      "app": "smartcity",
+      "id": "rt-robot-estop-recovery-and-restart"
+    },
+    {
+      "app": "smartcity",
+      "id": "rt-cobot-power-force-limit-check"
+    },
+    {
+      "app": "smartcity",
+      "id": "rt-teach-pendant-safe-jogging"
+    },
+    {
+      "app": "smartcity",
       "id": "ad-cobot-risk-assessment-and-speed-separation"
     },
     {
@@ -57,6 +73,10 @@
     {
       "app": "smartcity",
       "id": "rp-teleop-demonstration-collection"
+    },
+    {
+      "app": "smartcity",
+      "id": "vb-supervising-agent-dispatched-robots"
     }
   ],
   "unions": [
@@ -133,6 +153,10 @@
   "stationNames": {
     "robot-cell": "Robot Cell",
     "conveyor-guard": "Conveyor Guard",
+    "rt-speed-separation-monitoring-setup": "Setting Up Speed-and-Separation Monitoring",
+    "rt-robot-estop-recovery-and-restart": "Bringing a Robot Back After an E-stop",
+    "rt-cobot-power-force-limit-check": "Measuring a Cobot's Contact Forces",
+    "rt-teach-pendant-safe-jogging": "Teaching a Robot from the Pendant",
     "ad-cobot-risk-assessment-and-speed-separation": "Cobot Risk Assessment & Speed-and-Separation",
     "ad-payload-crane-lift-with-a-lift-plan": "Payload Crane Lift with a Lift Plan",
     "ad-test-stand-exclusion-zone-and-holds": "Test Stand Exclusion Zone & Holds",
@@ -142,10 +166,11 @@
     "ad-robot-cell-lockout-and-safe-reentry": "Robot Cell Lockout & Safe Re-entry",
     "ad-cleanroom-gowning-and-esd-discipline": "Cleanroom Gowning & ESD Discipline",
     "rp-robot-policy-evaluation-review": "Reviewing a Robot Policy's Evaluation",
-    "rp-teleop-demonstration-collection": "Collecting a Robot Demonstration Safely"
+    "rp-teleop-demonstration-collection": "Collecting a Robot Demonstration Safely",
+    "vb-supervising-agent-dispatched-robots": "Supervising Robots Dispatched by Software Agents"
   },
   "version": "1.0.0",
-  "contentHash": "3553dbf9",
+  "contentHash": "1a28369c",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."
