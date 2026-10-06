@@ -153,6 +153,8 @@ APPS = {
             SHARED / "episodes.js",
             # DATAWORKS: the consent gate the recorder checks before it attaches.
             SHARED / "dx-data.js",
+            # SILICA: the opt-in reaction-time eval (docs/consoles/SILICA.md); reads dx-data.js above.
+            SHARED / "sil-reaction.js",
             SHARED / "perf.js",
             SHARED / "weather.js",
             SHARED / "environment.js",

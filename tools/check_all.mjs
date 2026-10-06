@@ -82,6 +82,8 @@ const CHECKERS = [
   "check_walkable.mjs",
   // ROBOTICS: the gym API, robot sites and games, rollouts in the dataset schema (docs/consoles/ROBOTICS.md).
   "check_robotics.mjs",
+  // SILICA: the ConstructionVR drilling-dust study as a station, the opt-in reaction-time eval, aggregates only (docs/consoles/SILICA.md).
+  "check_silica.mjs",
   // REACTOR: the engine's hot-path shortcuts are exact, and the per-map boot and streaming profile (docs/consoles/REACTOR.md).
   "check_reactor.mjs",
   // CLEANPORTS: zero-emission port stations, drivables and the WOJRC zero-emission careers level (docs/consoles/CLEANPORTS.md).
