@@ -83,6 +83,7 @@ APPS = {
             # the records, identity and every world's ledger, after its deps.
             SHARED / "passport-programmes.js",
             SHARED / "passport.js",
+            SHARED / "av-sprites.js",
             SHARED / "account.js",
             SHARED / "controls.js",
             WEBXR / "trades/js/app.js",
@@ -201,6 +202,7 @@ APPS = {
             # the records, identity and every world's ledger, after its deps.
             SHARED / "passport-programmes.js",
             SHARED / "passport.js",
+            SHARED / "av-sprites.js",
             SHARED / "account.js",
             SHARED / "controls.js",
             WEBXR / "smartcity/js/app.js",
@@ -325,6 +327,7 @@ APPS = {
             WEBXR / "instructor/js/governance.js",
             # The account chip controls.js mounts (shared/account.js) and what it reads.
             SHARED / "auth.js",
+            SHARED / "av-sprites.js",
             SHARED / "account.js",
             SHARED / "controls.js",
             WEBXR / "instructor/js/app.js",
@@ -377,6 +380,7 @@ APPS = {
             # the records, identity and every world's ledger, after its deps.
             SHARED / "passport-programmes.js",
             SHARED / "passport.js",
+            SHARED / "av-sprites.js",
             SHARED / "account.js",
             SHARED / "controls.js",
             WEBXR / "holodeck/js/app.js",
@@ -405,6 +409,7 @@ APPS = {
             SHARED / "identity.js",
             SHARED / "records.js",
             SHARED / "auth.js",
+            SHARED / "av-sprites.js",
             SHARED / "account.js",
             SHARED / "controls.js",
             WEBXR / "arcade/js/app.js",
@@ -450,6 +455,7 @@ APPS = {
             SHARED / "passport.js",
             # The account chip controls.js mounts (shared/account.js) and what it reads.
             SHARED / "auth.js",
+            SHARED / "av-sprites.js",
             SHARED / "account.js",
             SHARED / "controls.js",
             SHARED / "links.js",
@@ -509,6 +515,7 @@ APPS = {
             # The account chip controls.js mounts (shared/account.js) and what it reads.
             SHARED / "identity.js",
             SHARED / "auth.js",
+            SHARED / "av-sprites.js",
             SHARED / "account.js",
             SHARED / "controls.js",
             WEBXR / "race/js/app.js",
@@ -566,6 +573,7 @@ APPS = {
             SHARED / "links.js",
             # NPC characters (console GRIOT): the generated roster, then the engine, after crew.js and links.js.
             SHARED / "npc-data.js",
+            SHARED / "av-characters.js",
             SHARED / "npc.js",
             WEBXR / "bayworld/js/sim.js",
             SHARED / "field-lessons.js",
@@ -584,6 +592,7 @@ APPS = {
             SHARED / "field-kiosk.js",  # K-12 field lessons in play (kiosks, the lesson screen)
             # The account chip controls.js mounts (shared/account.js) and what it reads.
             SHARED / "auth.js",
+            SHARED / "av-sprites.js",
             SHARED / "account.js",
             SHARED / "controls.js",
             # Skill gates (docs/skill-gates.md): the engine, the side games, the lock UI.
@@ -662,6 +671,7 @@ APPS = {
             SHARED / "field-kiosk.js",  # K-12 field lessons in play (kiosks, the lesson screen)
             # The account chip controls.js mounts (shared/account.js) and what it reads.
             SHARED / "auth.js",
+            SHARED / "av-sprites.js",
             SHARED / "account.js",
             SHARED / "controls.js",
             # Skill gates (docs/skill-gates.md): the engine, the side games, the lock UI.
@@ -715,12 +725,14 @@ APPS = {
             SHARED / "sc-scholar.js",  # SCHOLAR: the K-12 lesson session and its scoring
             SHARED / "sc-session-ui.js",
             SHARED / "auth.js",
+            SHARED / "av-sprites.js",
             SHARED / "account.js",
             SHARED / "controls.js",
             SHARED / "links.js",
             # NPC characters (console GRIOT): the avatar space, the generated roster, then the engine.
             SHARED / "crew.js",
             SHARED / "npc-data.js",
+            SHARED / "av-characters.js",
             SHARED / "npc.js",
             SHARED / "side-games-data.js",
             SHARED / "side-game-mechanics.js",
@@ -766,6 +778,7 @@ APPS = {
             # NPC characters (console GRIOT): the avatar space, the generated roster, then the engine.
             SHARED / "crew.js",
             SHARED / "npc-data.js",
+            SHARED / "av-characters.js",
             SHARED / "npc.js",
             SHARED / "gate-names-data.js",
             SHARED / "skill-gates.js",
@@ -774,6 +787,7 @@ APPS = {
             SHARED / "skill-gates-ui.js",
             WEBXR / "summit/js/state.js",
             SHARED / "auth.js",
+            SHARED / "av-sprites.js",
             SHARED / "account.js",
             SHARED / "controls.js",
             WEBXR / "summit/js/app.js",
@@ -916,6 +930,7 @@ APPS = {
             # MOTORPOOL's board (pure registry and the DOM-only board; no builder, so no kit weight).
             SHARED / "crew.js",
             SHARED / "npc-data.js",
+            SHARED / "av-characters.js",
             SHARED / "npc.js",
             # TYCOON (the Packs run): the Crew Credits play economy (after npc-data.js, np-parishes.js and passport.js).
             SHARED / "ty-economy.js",
@@ -969,6 +984,7 @@ APPS = {
             SHARED / "ux-menu.js",
             WEBXR / "parishes/js/state.js",
             SHARED / "auth.js",
+            SHARED / "av-sprites.js",
             SHARED / "account.js",
             SHARED / "controls.js",
             # DEAN (docs/modules.md): versions and assigned modules applied at load (after org.js, which account.js brings).
@@ -1020,6 +1036,7 @@ APPS = {
             SHARED / "identity.js",
             SHARED / "records.js",
             SHARED / "auth.js",
+            SHARED / "av-sprites.js",
             SHARED / "account.js",
             SHARED / "controls.js",
             SHARED / "links.js",
@@ -1052,6 +1069,7 @@ APPS = {
             SHARED / "treasures.js",
             SHARED / "crew.js",
             SHARED / "org.js",
+            SHARED / "av-sprites.js",
             SHARED / "account.js",
             SHARED / "theme.js",
             SHARED / "controls.js",
@@ -1108,6 +1126,7 @@ APPS = {
             SHARED / "passport.js",
             # The account chip controls.js mounts (shared/account.js) and what it reads.
             SHARED / "auth.js",
+            SHARED / "av-sprites.js",
             SHARED / "account.js",
             SHARED / "controls.js",
             # Skill gates (docs/skill-gates.md): the engine, the side games, the lock UI.

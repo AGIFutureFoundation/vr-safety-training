@@ -840,7 +840,7 @@ async function enterSim(id, { briefed = false } = {}) {
   // Set before the stage builds: the site apron stands its own generic
   // worker (shared/citykit.js's apron), and that figure resolves its trade
   // dress from this the same as the station's own crew does.
-  setActiveContext(room.category ?? room.trade ?? room.domain ?? room.id ?? "");
+  setActiveContext([room.category, room.trade, room.union, room.domain, room.id].filter(Boolean).join(" | "));
   const stage = buildStage(worldRoot, state.mode, scene, room.accent, room.district ?? room.category, weatherUnder(PROFILE, stationWeather), room.indoor, { ...horizon, station: room, ...(room.apron === false ? { apron: false } : {}) });
   state.stage = stage;
   applyStageCamera(stage);
@@ -1650,7 +1650,7 @@ async function startRobotTraining() {
     await nextFrame();
     const root = new THREE.Group();
     let api;
-    setActiveContext(room.category ?? room.trade ?? room.domain ?? room.id ?? "");
+    setActiveContext([room.category, room.trade, room.union, room.domain, room.id].filter(Boolean).join(" | "));
     try { api = room.build(root); } catch (err) { console.warn("[robot training]", id, err); disposeTree(root); continue; }
     const probes = [];
     for (const skill of DIFFICULTY_LADDER) {
