@@ -79,6 +79,7 @@ import { sgWaysFor } from "./sg-ways.js";
 // ...and BAYMAP's ways from the Oakland districts to their Bay World counterparts.
 import { bmWaysFor } from "./bm-ways.js";
 import { npGeoToXz, npToGeo } from "./np-geo.js";
+import { BD2_RELIEF } from "./bd2-relief-data.js";
 
 /** Every parish, in the selector's order. */
 export const NP_PARISHES = [
@@ -96,6 +97,10 @@ export const NP_PARISHES = [
   NP_NOLA_FRENCH_QUARTER_CBD, NP_NOLA_UPTOWN_GARDEN, NP_NOLA_MID_CITY_GENTILLY, NP_NOLA_BYWATER_LOWER_NINTH,
   NP_BR_DOWNTOWN_RIVERFRONT, NP_BR_NORTH_INDUSTRIAL, NP_BR_RIVERPLEX_ASCENSION, NP_HAMMOND_DOWNTOWN,
 ];
+
+// BACKDROPS-2 (docs/geo.md §4): a map whose data opts in with relief: "3dep" carries its committed USGS 3DEP grid as
+// `reliefGrid` (np-parish.js npDemSampler scales it). A map without the flag, or without a committed grid, stays schematic.
+for (const p of NP_PARISHES) if (p.relief === "3dep" && BD2_RELIEF[p.id] && !p.reliefGrid) p.reliefGrid = BD2_RELIEF[p.id];
 
 /** The regions, in the selector's order: id, name, the page title, and what one map is called. */
 export const NP_REGIONS = [
