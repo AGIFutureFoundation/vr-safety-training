@@ -153,6 +153,7 @@
     <button id="tab-cohort" role="tab" aria-selected="false" aria-controls="view-cohort">Cohorts</button>
     <button id="tab-billing" role="tab" aria-selected="false" aria-controls="view-billing">Billing</button>
     <button id="tab-dean" role="tab" aria-selected="false" aria-controls="view-dean">Versions &amp; modules</button>
+    <button id="tab-governance" role="tab" aria-selected="false" aria-controls="view-governance">Data governance</button>
   </div>
   <p class="fine" id="en-deployment" hidden></p>
 
@@ -309,6 +310,13 @@
       <p class="fine">Versions and modules across every world (<a href="../../docs/modules.md">docs/modules.md</a>): which packs, worlds and paths a class or organisation sees, modules of lessons, stations and field lessons from any world with a due date and a required score, assigned to a cohort's invite code, carried between devices as a file, and progress per learner from each learner's own shared snapshot. SmartCiti.X · Powered by AGI Corp.</p>
     </section>
     <div id="dn-root"></div>
+  </section>
+
+  <section id="view-governance" role="tabpanel" aria-labelledby="tab-governance" hidden>
+    <section class="panel">
+      <p class="fine">Training-data governance for robot and agent training (<a href="../../docs/enterprise.md">docs/enterprise.md</a>, <a href="../../docs/billing-adapters.md">docs/billing-adapters.md</a>): the organisation's consent registry, dataset cards, lineage from dataset to policy to eval, the robot fleet and agent registry in the sim, one-tap revoke and an append-only audit log. Kept with the signed-in profile on this device; nothing about a person leaves it. SmartCiti.X · Powered by AGI Corp.</p>
+    </section>
+    <div id="ent3-root"></div>
   </section>
 
   <p class="fine">Without a relay this console is same-origin and same-device: it uses a browser BroadcastChannel, which does not cross the network. A hall with a row of laptops, or headsets mirrored to one screen, is covered by that alone. To watch from another machine, run <code>node tools/relay_server.mjs</code> and open both the console and each learner's app with <code>?relay=ws://&lt;host&gt;:8787</code> — the same JSON envelope then also travels over the WebSocket (see <a href="../../docs/instructor-console.md">docs/instructor-console.md</a>). When a simulator is embedded in a learning platform, the same events are already sent to the host page, which is the third honest path. <a href="../portal/index.html">Back to the network portal</a>. Programme bundles for a cohort: <a href="../packs/index.html">Holodeck Packs</a> (SmartCiti.X · Powered by AGI Corp).</p>
