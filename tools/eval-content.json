@@ -7142,6 +7142,58 @@
     },
     {
       "app": "smartcity",
+      "id": "k12-sil-dust-you-cannot-see-at-a-building-site",
+      "name": "Dust You Cannot See at a Building Site",
+      "category": "Community Environmental Justice",
+      "steps": 13,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 8,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 290,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 235,
+          "materials": 112,
+          "interactables": 29
+        },
+        "originality": {
+          "score": 0.09047619047619054,
+          "nearest": "k12-es-clean-air-at-the-port",
+          "similarity": 0.3219047619047619
+        }
+      }
+    },
+    {
+      "app": "smartcity",
       "id": "k12-lk-how-a-lock-lifts-a-boat",
       "name": "How a Lock Lifts a Boat",
       "category": "Community Environmental Justice",
@@ -9573,7 +9625,7 @@
         },
         "scene": {
           "score": 1,
-          "meshes": 270,
+          "meshes": 260,
           "materials": 83,
           "interactables": 28
         },
@@ -13434,6 +13486,58 @@
     },
     {
       "app": "smartcity",
+      "id": "k12-es-clean-air-at-the-port",
+      "name": "Clean Air at the Port",
+      "category": "Community Environmental Justice",
+      "steps": 13,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 8,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 251,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 233,
+          "materials": 110,
+          "interactables": 28
+        },
+        "originality": {
+          "score": 0.09047619047619054,
+          "nearest": "k12-sil-dust-you-cannot-see-at-a-building-site",
+          "similarity": 0.3219047619047619
+        }
+      }
+    },
+    {
+      "app": "smartcity",
       "id": "k12-es-mud-on-the-move",
       "name": "Mud on the Move",
       "category": "Community Environmental Justice",
@@ -14102,9 +14206,61 @@
           "interactables": 29
         },
         "originality": {
-          "score": 0.3278195488721805,
-          "nearest": "k12-lk-how-a-lock-lifts-a-boat",
-          "similarity": 0.2744360902255639
+          "score": 0.21744186046511627,
+          "nearest": "k12-rp-how-a-robot-knows-to-stop",
+          "similarity": 0.29651162790697677
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-lk-how-a-wing-lifts-an-aircraft",
+      "name": "How a Wing Lifts an Aircraft",
+      "category": "Community Environmental Justice",
+      "steps": 13,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 8,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 296,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 240,
+          "materials": 119,
+          "interactables": 29
+        },
+        "originality": {
+          "score": 0.41747211895910796,
+          "nearest": "k12-rp-how-a-robot-knows-to-stop",
+          "similarity": 0.25650557620817843
         }
       }
     },
@@ -18829,7 +18985,7 @@
         },
         "scene": {
           "score": 1,
-          "meshes": 248,
+          "meshes": 267,
           "materials": 92,
           "interactables": 29
         },
@@ -23573,6 +23729,58 @@
       }
     },
     {
+      "app": "smartcity",
+      "id": "k12-rp-how-a-robot-knows-to-stop",
+      "name": "How a Robot Knows to Stop",
+      "category": "Community Environmental Justice",
+      "steps": 13,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 8,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 278,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 240,
+          "materials": 119,
+          "interactables": 29
+        },
+        "originality": {
+          "score": 0.21744186046511627,
+          "nearest": "k12-lk-why-a-steel-boat-floats",
+          "similarity": 0.29651162790697677
+        }
+      }
+    },
+    {
       "app": "trades",
       "id": "paint-sprayer",
       "name": "Coatings Bay",
@@ -24042,30 +24250,30 @@
     },
     {
       "app": "smartcity",
-      "id": "k12-lk-how-a-wing-lifts-an-aircraft",
-      "name": "How a Wing Lifts an Aircraft",
-      "category": "Community Environmental Justice",
-      "steps": 13,
+      "id": "sil-concrete-drilling-and-silica-dust-cues",
+      "name": "Concrete Drilling & Silica Dust Cues",
+      "category": "Construction & Structural Trades",
+      "steps": 14,
       "score": 97,
       "d": {
         "variety": {
-          "score": 0.9375,
+          "score": 1,
           "distinct": 8,
-          "longestRun": 3
+          "longestRun": 2
         },
         "decisions": {
-          "score": 1,
+          "score": 0.95,
           "hazards": 4,
           "interrupts": 2
         },
         "explanation": {
           "score": 1,
-          "medianWhy": 296,
+          "medianWhy": 354,
           "thin": 0
         },
         "grounding": {
           "score": 1,
-          "authorities": 4
+          "authorities": 5
         },
         "standards": {
           "score": 1,
@@ -24081,14 +24289,14 @@
         },
         "scene": {
           "score": 1,
-          "meshes": 240,
-          "materials": 119,
-          "interactables": 29
+          "meshes": 250,
+          "materials": 115,
+          "interactables": 28
         },
         "originality": {
-          "score": 0.5069216757741348,
-          "nearest": "k12-es-mud-on-the-move",
-          "similarity": 0.23861566484517305
+          "score": 0.484370477568741,
+          "nearest": "k12-sil-dust-you-cannot-see-at-a-building-site",
+          "similarity": 0.24312590448625182
         }
       }
     },
@@ -31633,58 +31841,6 @@
       }
     },
     {
-      "app": "smartcity",
-      "id": "k12-es-clean-air-at-the-port",
-      "name": "Clean Air at the Port",
-      "category": "Community Environmental Justice",
-      "steps": 13,
-      "score": 97,
-      "d": {
-        "variety": {
-          "score": 0.9375,
-          "distinct": 8,
-          "longestRun": 3
-        },
-        "decisions": {
-          "score": 1,
-          "hazards": 4,
-          "interrupts": 2
-        },
-        "explanation": {
-          "score": 1,
-          "medianWhy": 251,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 1,
-          "authorities": 4
-        },
-        "standards": {
-          "score": 1,
-          "cited": 6,
-          "inScope": 6,
-          "outOfScope": 0,
-          "unregistered": 0
-        },
-        "feedback": {
-          "score": 1,
-          "want": 11,
-          "got": 11
-        },
-        "scene": {
-          "score": 1,
-          "meshes": 233,
-          "materials": 110,
-          "interactables": 28
-        },
-        "originality": {
-          "score": 0.4402343750000001,
-          "nearest": "k12-es-where-the-storm-drain-goes",
-          "similarity": 0.251953125
-        }
-      }
-    },
-    {
       "app": "trades",
       "id": "electrical",
       "name": "Isolation Bay",
@@ -37401,6 +37557,162 @@
           "score": 0.5364779874213838,
           "nearest": "et-ev-fleet-depot-charging-and-arc-flash",
           "similarity": 0.23270440251572327
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "rp-construction-drilling-robot-setup",
+      "name": "Ceiling-Drilling Robot Set-Up",
+      "category": "Construction & Structural Trades",
+      "steps": 12,
+      "score": 98,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 257,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 198,
+          "materials": 85,
+          "interactables": 24
+        },
+        "originality": {
+          "score": 0.5905109489051095,
+          "nearest": "sil-concrete-drilling-and-silica-dust-cues",
+          "similarity": 0.22189781021897811
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "rp-robot-policy-evaluation-review",
+      "name": "Reviewing a Robot Policy's Evaluation",
+      "category": "Manufacturing & Automation",
+      "steps": 13,
+      "score": 98,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 263,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 194,
+          "materials": 102,
+          "interactables": 29
+        },
+        "originality": {
+          "score": 0.5578680203045686,
+          "nearest": "rp-teleop-demonstration-collection",
+          "similarity": 0.22842639593908629
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "rp-teleop-demonstration-collection",
+      "name": "Collecting a Robot Demonstration Safely",
+      "category": "Manufacturing & Automation",
+      "steps": 13,
+      "score": 98,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 261,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "standards": {
+          "score": 1,
+          "cited": 7,
+          "inScope": 7,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 188,
+          "materials": 93,
+          "interactables": 24
+        },
+        "originality": {
+          "score": 0.5578680203045686,
+          "nearest": "rp-robot-policy-evaluation-review",
+          "similarity": 0.22842639593908629
         }
       }
     },

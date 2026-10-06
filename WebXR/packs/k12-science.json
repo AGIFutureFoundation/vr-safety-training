@@ -104,6 +104,10 @@
     },
     {
       "app": "smartcity",
+      "id": "k12-rp-how-a-robot-knows-to-stop"
+    },
+    {
+      "app": "smartcity",
       "id": "k12-lk-building-new-marsh-on-the-coast"
     },
     {
@@ -163,6 +167,13 @@
     },
     {
       "world": "parishes",
+      "parish": "la-saronic-franklin",
+      "sites": [
+        "lsf-workforce-centre"
+      ]
+    },
+    {
+      "world": "parishes",
       "parish": "lc-calcasieu-channel",
       "sites": [
         "lcc-tank-foundation"
@@ -193,13 +204,14 @@
     "k12-es-plastics-and-the-bay": "Plastics and the Bay",
     "k12-es-clean-air-at-the-port": "Clean Air at the Port",
     "k12-sil-dust-you-cannot-see-at-a-building-site": "Dust You Cannot See at a Building Site",
+    "k12-rp-how-a-robot-knows-to-stop": "How a Robot Knows to Stop",
     "k12-lk-building-new-marsh-on-the-coast": "Building New Marsh on the Coast",
     "k12-lk-where-a-data-center-gets-its-power": "Where a Data Center Gets Its Power",
     "k12-lk-how-a-wing-lifts-an-aircraft": "How a Wing Lifts an Aircraft",
     "k12-lk-why-a-steel-boat-floats": "Why a Steel Boat Floats"
   },
   "version": "1.0.0",
-  "contentHash": "f6f35a33",
+  "contentHash": "538267b7",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."

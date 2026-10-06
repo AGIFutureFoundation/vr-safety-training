@@ -69,6 +69,13 @@ Minutes are this guide's planning allowances, not facts about any place or progr
      - 3 min — Check question, read aloud: "How does a drilling crew keep dust out of the air?" A wrong answer hears the why and tries again; never scored against anyone. → lesson — lk-lesson-dust-you-cannot-see (`lk-lesson-dust-you-cannot-see`)
      - 2 min — Apply it: Dust Catcher — Walk the drilling bay with the crew and check how the dust is caught before anyone can breathe it. → game — Dust Catcher (`lco-apply-dust-catcher`)
      - 5 min — Close: each learner says how it went, and one sentence about the work: A drilling crew catches dust at the drill with a shroud, a vacuum or water, so nobody breathes it.
+  8. Lesson 8: How a Robot Knows to Stop (37 minutes planned)
+     - 10 min — Sign in with the class code; one learner retells the last lesson's idea.
+     - 5 min — Look at the place first: robots and the people who work beside them. Read the pre-brief of "How a Robot Knows to Stop" together. → flow — lk-robot-knows-to-stop (`lk-robot-knows-to-stop`)
+     - 12 min — Run the station; a run that does not pass goes back to the brief. → station — How a Robot Knows to Stop (`k12-rp-how-a-robot-knows-to-stop`)
+     - 3 min — Check question, read aloud: "What does a robot do when a person walks into its stop zone?" A wrong answer hears the why and tries again; never scored against anyone. → lesson — lk-lesson-robot-knows-to-stop (`lk-lesson-robot-knows-to-stop`)
+     - 2 min — Apply it: Zone Walk — Walk toward a model robot cell with the technician and check what the robot does in each zone. → game — Zone Walk (`lco-apply-zone-walk`)
+     - 5 min — Close: each learner says how it went, and one sentence about the work: A robotics technician sets the zones around a robot and is the one who starts it again after a stop.
 - **Debrief prompts:**
   - What was the one idea, in your own words?
   - Where on the map did you see it, and who does that work?

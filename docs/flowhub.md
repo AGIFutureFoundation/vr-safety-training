@@ -461,7 +461,7 @@ alone) → the closing check-in. SmartCiti.X side of the contract only.
 
 One flow per LA-K12 Louisiana lesson, generated from `LK_LESSONS` in `WebXR/shared/lk-la-lessons.js` and the apply games in
 `WebXR/shared/lco-la-flows.js` by `node tools/gen_lco_flows.mjs`: `lk-new-marsh.json`, `lk-lock-and-levee.json`,
-`lk-power-path.json`, `lk-wing-lift.json`, `lk-steel-hull.json`, `lk-crews-behind-the-build.json` and `lk-dust-you-cannot-see.json` (SILICA's drilling-dust lesson). Same shape as the
+`lk-power-path.json`, `lk-wing-lift.json`, `lk-steel-hull.json`, `lk-crews-behind-the-build.json`, `lk-dust-you-cannot-see.json` (SILICA's drilling-dust lesson) and `lk-robot-knows-to-stop.json` (ROBOPROG's robot-zones lesson). Same shape as the
 Bay ecology flows: pre-brief → the station (back to the brief until passed) → a check question (`checkin` with
 `params.check`, three options) → the hand-off to the two-minute apply game (an `external` node whose `ref` is an
 `lco-apply-` game at the lesson's first fixed anchor; three rounds that use the lesson's one idea) → the closing check-in.

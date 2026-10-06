@@ -1,0 +1,371 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "clear-below",
+    "name": "Clear Below",
+    "note": "Read the deck scan, kept the zone under the mast clear, ran the dust collection and isolated the battery for every bit change"
+  },
+  "category": "Construction & Structural Trades",
+  "certification": "Carpenters (UBC) and IBEW apprenticeship training as bodies; OSHA 29 CFR 1926.1153 respirable crystalline silica in construction (its Table 1 names the controls for drilling into concrete), 29 CFR 1926.416 electrical safety-related work practices and 29 CFR 1926.21 safety training and education; ANSI A10.9 concrete and masonry work; the robot maker's manual and the site's work plan for the deck",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI A10.9",
+        "id": "ansi-a10-9",
+        "title": "ANSI/ASSP A10.9 — Concrete and masonry construction safety requirements"
+      },
+      {
+        "body": "union",
+        "citedAs": "UBC",
+        "id": "carpenters-ictf",
+        "title": "United Brotherhood of Carpenters International Training Fund — carpenter, pile driver and millwright apprenticeship"
+      },
+      {
+        "body": "union",
+        "citedAs": "IBEW",
+        "id": "ibew-neca-jatc",
+        "title": "IBEW/NECA Joint Apprenticeship and Training Committee — inside and outside wireman apprenticeship standards, taught from the electrical training ALLIANCE curriculum"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.1153",
+        "id": "osha-1926-1153",
+        "title": "29 CFR 1926.1153 — Respirable crystalline silica in construction"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.21",
+        "id": "osha-1926-21",
+        "title": "29 CFR 1926.21 — Safety training and education in construction"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.416",
+        "id": "osha-1926-416",
+        "title": "29 CFR 1926.416 — General requirements for electrical work practices in construction"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Construction",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "scan-first",
+        "name": "Scan First",
+        "note": "Read the deck scan before the robot moved"
+      },
+      {
+        "id": "zone-kept",
+        "name": "Zone Kept",
+        "note": "Stopped the robot when someone walked under the mast"
+      },
+      {
+        "id": "steady-flow",
+        "name": "Steady Flow",
+        "note": "Held the vacuum flow near band centre"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "quick-setup",
+        "name": "Inside Par",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "clean-setup",
+        "name": "Clean Set-Up",
+        "note": "Clean run, no corrections"
+      }
+    ],
+    "currency": "AN",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Labour Hand",
+      "Zone Keeper",
+      "Robot Operator",
+      "Layout Lead",
+      "Clear Below Certified"
+    ],
+    "system": "Clear Below"
+  },
+  "hazards": {
+    "dry-sweep-hazard": "That sweeps the drilling dust into a pile with a broom. Concrete dust carries respirable crystalline silica, and dry sweeping lifts the finest part of it into the air the crew breathes; the cleanup is done with a vacuum fitted with a HEPA filter.",
+    "live-bit-change-hazard": "That changes the drill bit with the battery still connected and the robot only paused. A paused robot can resume on a command from the tablet, and the hands on the bit are the closest thing to the motor when it does.",
+    "skip-scan-hazard": "That starts drilling straight from the layout without reading the deck scan. A layout shows where the anchors should go, not what is already inside the slab, and a bit that finds a live conduit or a stressed tendon finds it the hard way.",
+    "under-mast-hazard": "That walks under the raised mast to pick up a dropped anchor while the robot is drilling. The drill head, the bit and the concrete chips all come down from above, and the barricade exists so that nobody's head is ever where the robot is working."
+  },
+  "id": "rp-construction-drilling-robot-setup",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "enable-hold",
+      "alert": "An electrician has ducked under the barricade tape and is walking toward the robot's mast to reach a ladder.",
+      "cue": "Press the remote e-stop now.",
+      "delay": 3,
+      "id": "walker-under-mast",
+      "kind": "Person in zone",
+      "missNote": "The robot kept working with a person inside the barricade. A person in the zone is answered with the e-stop first, and the barricade checked second.",
+      "seconds": 11,
+      "target": "remote-estop",
+      "why": "The robot has no idea a person has entered the zone under its mast; it will keep drilling and dropping chips on its programmed positions, and the remote e-stop in the operator's hand is the fastest way to make the drill head stop before the person arrives beneath it.",
+      "wrongNote": "Not that — someone under the barricade is answered with the remote e-stop."
+    },
+    {
+      "after": "drill-track",
+      "alert": "The vacuum's flow alarm has gone off: the filter is loading and dust is escaping round the shroud.",
+      "cue": "Stop the drill.",
+      "delay": 3,
+      "id": "vac-clog",
+      "kind": "Dust collection",
+      "missNote": "The drill ran on with the vacuum alarm sounding. A dust control that has stopped working means the drilling stops too.",
+      "seconds": 11,
+      "target": "drill-stop",
+      "why": "The silica table's control for drilling assumes the dust collector is actually pulling air, and a clogged filter means the shroud is now just a cup that lets dust out around the bit; stopping the drill until the filter is cleaned keeps the control the plan relied on true.",
+      "wrongNote": "Not that — a clogged dust collector is answered by stopping the drill."
+    }
+  ],
+  "lateNotes": {
+    "barricade-stand": "The barricade goes up around the robot's whole reach before the mast rises, and stays until the mast is down.",
+    "scan-report": "The deck scan is read against the layout before the robot drives to the first hole, every pour and every bay."
+  },
+  "name": "Ceiling-Drilling Robot Set-Up",
+  "parSeconds": 320,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.9,
+    "hits": [
+      "barricade-stand",
+      "battery-isolator",
+      "bit-holder",
+      "drill-stop",
+      "dry-sweep-hazard",
+      "dust-shroud",
+      "ear-deck",
+      "enable-pad",
+      "glasses-deck",
+      "handover-log",
+      "hardhat-deck",
+      "hepa-vac",
+      "hole-a",
+      "hole-b",
+      "hole-c",
+      "live-bit-change-hazard",
+      "remote-estop",
+      "scan-report",
+      "skip-scan-hazard",
+      "total-station",
+      "under-mast-hazard",
+      "vac-flow-meter",
+      "work-plan-board",
+      "zone-corner"
+    ],
+    "meshes": 198
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track"
+  ],
+  "steps": [
+    {
+      "cue": "Read the work plan: the bay, the anchor layout, the robot's zone and who runs it.",
+      "id": "work-plan",
+      "kind": "select",
+      "prompt": "Read the work plan: the bay, the anchor layout, the robot's zone and who runs it.",
+      "target": "work-plan-board",
+      "title": "Read the work plan for the deck",
+      "why": "A drilling robot carries out a layout without judgement, so everything it should not do has to be settled in the plan first: which bay is ready, where the anchors go, how big the robot's zone is and which trained operator holds the controller, because nobody can renegotiate those once the mast is up."
+    },
+    {
+      "cue": "Read the scan of the slab for embedded conduit, tendons and rebar against the layout.",
+      "id": "deck-scan",
+      "kind": "select",
+      "prompt": "Read the scan of the slab for embedded conduit, tendons and rebar against the layout.",
+      "target": "scan-report",
+      "title": "Read the deck scan",
+      "why": "The layout says where anchors should go, the scan says what is already inside the slab, and only the two read together tell the operator whether a hole will meet concrete or meet a live conduit, a post-tensioned tendon or a rebar mat that has to be avoided."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Hard hat, safety glasses and hearing protection.",
+      "id": "ppe-deck",
+      "itemNames": {
+        "ear-deck": "hearing protection",
+        "glasses-deck": "safety glasses",
+        "hardhat-deck": "hard hat"
+      },
+      "kind": "sequence",
+      "prompt": "Hard hat, safety glasses and hearing protection.",
+      "targets": [
+        "hardhat-deck",
+        "glasses-deck",
+        "ear-deck"
+      ],
+      "title": "Dress for overhead drilling",
+      "why": "Overhead drilling sends chips and dust downward and fills a concrete bay with noise, so the hard hat, the glasses and the hearing protection are worn by everyone inside the work area, operator included, even though the robot is the one holding the drill."
+    },
+    {
+      "cue": "Carry the barricade stand to the corner mark so the tape encloses the robot's full reach.",
+      "drag": {
+        "missNote": "Not placed — set the barricade stand at the corner mark of the robot's reach.",
+        "radius": 0.4,
+        "to": "zone-corner"
+      },
+      "id": "barricade",
+      "kind": "drag",
+      "prompt": "Carry the barricade stand to the corner mark so the tape encloses the robot's full reach.",
+      "target": "barricade-stand",
+      "title": "Barricade the robot's reach",
+      "why": "The zone under a drilling mast is the one place on the deck nobody should stand, and a barricade around the robot's whole reach is what makes that visible to trades who are busy with their own work and have never seen this robot before."
+    },
+    {
+      "cue": "Check the robot's position against the control points and commit only when the readout is in the green.",
+      "gauge": {
+        "green": [
+          0.44,
+          0.62
+        ],
+        "label": "POSITION",
+        "missNote": "Not in the green — the robot's position does not match the control points. Re-check before any hole.",
+        "speed": 0.6
+      },
+      "id": "localise",
+      "kind": "gauge",
+      "prompt": "Check the robot's position against the control points and commit only when the readout is in the green.",
+      "target": "total-station",
+      "title": "Check the robot's position on the control points",
+      "why": "The robot drills where it believes it is, so a position check against the site's control points is what links the holes to the layout; drilling from a wrong position puts every anchor in the wrong place and can move a hole onto the service the scan said to avoid."
+    },
+    {
+      "cue": "Connect the drill's shroud to the vacuum dust collector and confirm it is running.",
+      "id": "dust-shroud",
+      "kind": "select",
+      "prompt": "Connect the drill's shroud to the vacuum dust collector and confirm it is running.",
+      "target": "dust-shroud",
+      "title": "Connect the dust collection",
+      "why": "Drilling into concrete makes respirable silica dust, and the silica standard's table pairs drilling with a dust collection system at the bit; a robot drilling dozens of holes in a row multiplies the dust, so the shroud and vacuum are connected and running before the first hole."
+    },
+    {
+      "cue": "Find the layout hole that lands on an embedded service in the scan.",
+      "decoyNotes": {
+        "hole-a": "A hole clear of everything in the scan. It stays in the job.",
+        "hole-b": "A hole near rebar but clear of conduit and tendons in the scan today. It stays in the job."
+      },
+      "id": "find-conflict",
+      "itemNames": {
+        "hole-c": "layout hole over embedded conduit"
+      },
+      "itemNotes": {
+        "hole-c": "A layout hole that lands on an embedded service is removed from the robot's job and referred back for a new position; it is never drilled 'carefully'."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Find the layout hole that lands on an embedded service in the scan.",
+      "target": "hole-c",
+      "targets": [
+        "hole-c"
+      ],
+      "title": "Find the hole you must not drill",
+      "why": "One conflicting hole is enough to cut a live conduit or damage a tendon, and the robot will drill it as readily as any other; taking that position out of the job before the robot starts is how the scan's warning reaches the drill."
+    },
+    {
+      "cue": "Hold the controller's enable while the robot drives to the first position.",
+      "holdBreakNote": "Let go before the robot reached its position. Hold enable until it stops.",
+      "id": "enable-hold",
+      "kind": "hold",
+      "prompt": "Hold the controller's enable while the robot drives to the first position.",
+      "seconds": 5,
+      "target": "enable-pad",
+      "title": "Hold enable while it drives to hole one",
+      "why": "The robot travels under the operator's continuous permission, so holding enable while it drives keeps a person watching the whole move, ready to let go if a cable, a pallet or a person turns up in its path between the staging area and the first hole."
+    },
+    {
+      "cue": "Keep the dust collector's flow inside the band while the first holes are drilled.",
+      "holdBreakNote": "The flow left the band. Stop, check the filter and the shroud seal, then resume.",
+      "id": "drill-track",
+      "kind": "track",
+      "prompt": "Keep the dust collector's flow inside the band while the first holes are drilled.",
+      "seconds": 8,
+      "target": "vac-flow-meter",
+      "title": "Watch the vacuum flow through the first holes",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.45,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "VAC FLOW",
+        "rise": 0.4,
+        "start": 0.5
+      },
+      "why": "The dust control works only while the vacuum is pulling enough air at the shroud, and watching the flow through the first holes is how the operator learns whether the filter, the hose and the seal are good enough for the rest of the bay before the dust tells them otherwise."
+    },
+    {
+      "anyOrder": false,
+      "cue": "Stop the drill and lower the mast, isolate and lock the battery, then change the bit.",
+      "id": "bit-change",
+      "itemNames": {
+        "battery-isolator": "battery isolated and locked",
+        "bit-holder": "bit changed",
+        "drill-stop": "drill stopped and mast lowered"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order — stop and lower first, isolate and lock the battery, then change the bit.",
+      "prompt": "Stop the drill and lower the mast, isolate and lock the battery, then change the bit.",
+      "targets": [
+        "drill-stop",
+        "battery-isolator",
+        "bit-holder"
+      ],
+      "title": "Change the bit the safe way",
+      "why": "A worn bit is changed with hands right at the drill head, so the energy behind it has to be gone, not paused: the mast comes down to a reachable height, the battery isolator is opened and locked so the tablet cannot restart it, and only then does anyone touch the chuck."
+    },
+    {
+      "cue": "Clean the dust on the deck and the robot with the HEPA-filtered vacuum.",
+      "id": "hepa-clean",
+      "kind": "select",
+      "prompt": "Clean the dust on the deck and the robot with the HEPA-filtered vacuum.",
+      "target": "hepa-vac",
+      "title": "Clean up with the HEPA vacuum",
+      "why": "The dust that escaped is still silica on the floor and on the robot, and a broom or compressed air puts it straight back into the air; a vacuum with a HEPA filter is how the crew cleans without undoing the dust control they ran all shift."
+    },
+    {
+      "cue": "Log the holes drilled, the one removed for the conduit, and the bit changes for the foreperson.",
+      "id": "handover",
+      "kind": "select",
+      "prompt": "Log the holes drilled, the one removed for the conduit, and the bit changes for the foreperson.",
+      "target": "handover-log",
+      "title": "Log the as-drilled holes",
+      "why": "The anchors will be loaded by another crew who never saw the scan, so the as-drilled record, with the removed hole and the reason, is how the conflict and the work done reach them; the robot keeps its own log, but the foreperson signs the one people read."
+    }
+  ],
+  "supportLine": "your Carpenters or IBEW local's member assistance programme, or the site's employee assistance line, if a near miss on the deck is what stayed with you",
+  "tagline": "Setting up a mobile ceiling-drilling robot on a concrete deck: the scan for embedded conduit and tendons read before any hole, the work zone barricaded so nobody stands under the mast, the robot's position checked against control points, the drill's vacuum dust collection running, a bit changed only with the battery isolated, and the dust cleaned with a vacuum instead of a broom",
+  "title": "SmartCiti.X~ Ceiling-Drilling Robot Set-Up VR",
+  "trade": "Construction robot operator, ceiling-drilling robot for anchor layout — Carpenters/IBEW",
+  "underwater": null,
+  "weather": "overcast"
+}

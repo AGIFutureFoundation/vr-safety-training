@@ -138,7 +138,7 @@ const out = {};
       const covered = new Set();
       for (const l of all) {
         if (l.type === "lesson") { asLesson++; check(lessonIds.has(l.id) && scIds.has(l.id), where, `lesson ${l.id} is not a session lesson on ${p.id}`); covered.add(l.id.split("@")[0]); }
-        else if (l.type === "flow") { asFlow++; check(STATIONS.has(l.id) && /^k12-lk-/.test(l.id), where, `flow launch ${l.id} is not a Louisiana K-12 station`); covered.add(LK.lkLessonById(l.id)?.id); }
+        else if (l.type === "flow") { asFlow++; check(STATIONS.has(l.id) && LK.LK_LESSONS.some((x) => x.station === l.id), where, `flow launch ${l.id} is not a Louisiana K-12 station`); covered.add(LK.lkLessonById(l.id)?.id); }
         else check(false, where, `launch type ${l.type} on the Louisiana board`);
       }
       check(LK.LK_LESSONS.every((l) => covered.has(l.id)), where, "the board does not carry all six Louisiana lessons");

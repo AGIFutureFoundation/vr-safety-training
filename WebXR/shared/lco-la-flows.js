@@ -93,6 +93,14 @@ export const LCO_APPLY_GAMES = [
       [["  ✓ the card  ▶ the drill"], "The drill has a shroud with a hose to a vacuum. What does it do?", "Pulls most of the dust away right where it is made.", "Makes the drill quieter, nothing else."],
       [["  ✓ the card  ✓ the drill  ▶ the breeze", "  breeze ─▶ from the open door"], "You want to watch the drilling. Where do you stand?", "On the side the breeze comes from, behind the crew leader.", "Downwind, where the dust drifts."],
     ]),
+  lcoGame("zone-walk", "lk-lesson-robot-knows-to-stop", "Zone Walk", "inspection-grid",
+    "Sensors see a person near, so the robot slows, then stops.",
+    "Walk toward a model robot cell with the technician and check what the robot does in each zone.",
+    [
+      [["  robot arm at work · floor scanner", "  ▶ the scanner"], "The floor scanner points across the floor. What is it for?", "It tells the robot when a person is near.", "It makes the floor look tidy."],
+      [["  ✓ the scanner  ▶ the warning zone", "  yellow line on the floor"], "You step over the yellow line. What does the robot do?", "It slows down while you are in the warning zone.", "It goes faster to finish sooner."],
+      [["  ✓ the scanner  ✓ the warning zone  ▶ the start button", "  robot stopped · holding still"], "The robot has stopped. Who starts it again?", "The trained person in charge, after checking that everyone is clear.", "Anyone nearby who wants it to start."],
+    ]),
 ];
 
 /** Lesson id → flow id (WebXR/flows/<flow>.json). */

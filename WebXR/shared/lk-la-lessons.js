@@ -87,6 +87,14 @@ export const LK_LESSONS = [
     check: lkQ("How does a drilling crew keep dust out of the air?", ["Catch it at the drill", "Blow it away", "Sweep it with a dry brush"], 0, "Catching dust where it is made stops it before anyone can breathe it."),
     anchors: [lkA("lc-calcasieu-channel", "lcc-tank-foundation")],
     character: { kinds: ["construction"] } },
+  { id: "lk-lesson-robot-knows-to-stop", theme: "robots and the people who work beside them", station: "k12-rp-how-a-robot-knows-to-stop", programme: "k12-science", band: "upper primary", minutes: 3,
+    programmeWhy: "Learners walk toward a model robot cell at a shipyard training centre, watch it slow and stop in zones around it, find its sensors and say who may start it again (console ROBOPROG).",
+    title: "How a Robot Knows to Stop", trade: "Robotics technicians",
+    tradeLine: "A robotics technician sets the zones around a robot and is the one who starts it again after a stop.",
+    steps: ["Find the sensors that tell the robot someone is near.", "Walk closer and watch the robot slow, then stop.", "Only the trained person in charge starts it again."],
+    check: lkQ("What does a robot do when a person walks into its stop zone?", ["It stops and holds still", "It speeds up", "It keeps working the same"], 0, "The sensors see a person in the stop zone, so the robot stops and waits."),
+    anchors: [lkA("la-saronic-franklin", "lsf-workforce-centre")],
+    character: { kinds: ["campus", "school"], idPattern: "workforce" } },
 ];
 
 export function lkLessons() { return LK_LESSONS; }
