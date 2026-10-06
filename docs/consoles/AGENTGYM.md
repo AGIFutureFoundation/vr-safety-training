@@ -119,6 +119,18 @@ Reading the table honestly:
    bundler copy. **Observe:** 30 passed, 1 failed (docs/perf/agent-baselines.json not yet written).
 6. **Reason:** the after numbers on every station. **Act:** `node tools/ag_eval.mjs --seeds 3`. **Observe:**
    721 × 3 = 2,163 episodes per baseline in 187 s: expert 100.0%, retrieval-ask 11.5% (9.92 hints/ep), retrieval 0.6% (cycle 2: 0.7%; hazards/ep 0.88 → 0.79, errors/ep 23.7 → 21.7), random 0.0%. Written to docs/perf/agent-baselines.json. check_agentgym 33 passed, 0 failed.
+7. **Reason:** find where retrieval's corrections come from before tuning further. **Act:** count wrong and
+   unsafe touches by step kind over every 15th station (49 stations, seed 1). **Observe:** the worst rates
+   were:
+   - find: 261 corrections on 70 steps (3.7 per step)
+   - sequence: 203 on 87 (2.3)
+   - track: 70 on 46 (1.5)
+   - select: 254 on 222 (1.1)
+   - interrupts: 40 in total
+
+   Find and sequence cues name a category ("the hazards", "the waypoints") rather than the objects, so word
+   overlap cannot separate them. That is the next feature (see Left). The heuristic was not changed in this
+   cycle.
 
 ## Checkers
 
