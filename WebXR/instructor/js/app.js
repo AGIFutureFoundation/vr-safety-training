@@ -22,6 +22,8 @@ import { pmMountBillingView, pmSetConfig } from "./billing.js";
 import { Auth } from "../../shared/auth.js";
 // DEAN (docs/modules.md): versions, modules and progress across every world.
 import { dnMountView } from "./dean.js";
+// ENTERPRISE-3 (docs/enterprise.md section 6): the Data governance tab — consent registry, dataset cards, lineage, fleet, revoke, audit, billing status.
+import { ent3MountGovernanceView } from "./governance.js";
 import { PP_PROGRAMMES } from "../../shared/passport-programmes.js";
 
 // The instructor console. It owns no simulation and no records: it listens to
@@ -574,7 +576,7 @@ fetch("../flows/index.json")
 // ---------------------------------------------------------------------- views
 
 function render() {
-  for (const [name, tab, panel] of [["live", "tab-live", "view-live"], ["roster", "tab-roster", "view-roster"], ["log", "tab-log", "view-log"], ["cohort", "tab-cohort", "view-cohort"], ["billing", "tab-billing", "view-billing"], ["dean", "tab-dean", "view-dean"]]) {
+  for (const [name, tab, panel] of [["live", "tab-live", "view-live"], ["roster", "tab-roster", "view-roster"], ["log", "tab-log", "view-log"], ["cohort", "tab-cohort", "view-cohort"], ["billing", "tab-billing", "view-billing"], ["dean", "tab-dean", "view-dean"], ["governance", "tab-governance", "view-governance"]]) {
     $(tab).setAttribute("aria-selected", String(view === name));
     $(panel).hidden = view !== name;
   }
@@ -591,6 +593,7 @@ $("tab-log").addEventListener("click", () => setView("log"));
 $("tab-cohort").addEventListener("click", () => setView("cohort"));
 $("tab-billing").addEventListener("click", () => setView("billing"));
 $("tab-dean").addEventListener("click", () => setView("dean"));
+$("tab-governance").addEventListener("click", () => setView("governance"));
 
 $("send").addEventListener("click", () => {
   const text = $("note").value.trim();
@@ -665,11 +668,13 @@ enMountCohortView($("en-root"), { toast });
 pmMountBillingView($("pm-root"), { toast });
 // DEAN's tab (docs/modules.md). PACKS' pkPacks and SCHOLAR's scSessions register through dnUsePacks/dnUseSessions once merged.
 var dnView = dnMountView($("dn-root"), { toast });
+var ent3Tab = ent3MountGovernanceView($("ent3-root"), { toast });
 function enApplyDeployment() {
   const e = Auth.config?.enterprise ?? null;
   enSetEnterprise(e);
   pmSetConfig({ enterprise: e, payments: Auth.config?.payments ?? null });
   dnView?.setEnterprise(e);
+  ent3Tab?.setConfig(Auth.config ?? null);
   const line = $("en-deployment");
   if (e?.organisation) {
     line.hidden = false;

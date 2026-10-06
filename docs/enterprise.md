@@ -171,3 +171,37 @@ exactly two methods; then a learner joins the sample cohort from the dialog (a w
 and the homepage's continue strip shows the card with one rung per station, the join audited as `member-join` on that
 device and no snapshot stored. The console bundle's three.js import is answered from `WebXR/vendor/three/` so the run
 makes no external request. ~15 s on the shared machine.
+
+## 6. Training-data governance, the fleet registry and billing adapters (ENTERPRISE-3)
+
+The layer for **robot and agent training** on top of DATAWORKS' consented episodes (docs/consoles/DATAWORKS.md) and
+ROBOTICS' robot sites (docs/consoles/ROBOTICS.md). Module `WebXR/shared/ent3-governance.js`, the console's
+**Data governance** tab (`WebXR/instructor/js/governance.js`), checker `node tools/check_enterprise3.mjs`, console log
+`docs/consoles/ENTERPRISE-3.md`. It is a **registry, not a training system**: it records what other modules did and
+trains or runs nothing itself.
+
+- **Store** — `ent3-governance-v1`, through `gtStorage()` (listed in `GT_PROFILE_KEYS`): `consents`, `datasets`,
+  `policies` (each with its `evals`), `deployments`, `audit`. No network code.
+- **Consent registry** — DATAWORKS receipt metadata only: `{ orgId, consentId, licence, at, statementHash, adult,
+  state, revokedAt }`. A record with any personal field (name, e-mail, session hash, episodes, location …), a
+  non-adult or K-12 flag, or a licence DATAWORKS does not offer is refused. `ent3RegisterLocalConsent(orgId)` registers
+  this device's own DATAWORKS consent.
+- **Dataset cards** — `ent3DatasetCard(id)` is DATAWORKS' `dxDatasetCard()` datasheet (every `DX_CARD_SECTIONS`
+  heading) with a governance section: status, consents held, revoked consents to rebuild without, policies trained.
+- **Lineage** — `ent3Lineage()`: consent → dataset (`consent-in`) → policy (`trained-on`, and `based-on` between
+  policies) → eval (`evaluated-by`) → robot site (`deployed-to`); `ent3LineageRows()` flattens dataset → policy → evals.
+  A policy names its method from `ENT3_METHODS` (scripted, behaviour cloning kNN/MLP, bandit tutor, heuristic tutor,
+  random baseline); an eval says whether it was measured or is a sample figure, and the console labels sample figures.
+- **Revoke** — `ent3Revoke({ consentId })` (or `{ datasetId }`): the consent is revoked for good, every dataset that
+  held it needs a rebuild, every policy trained on such a dataset or based on a stale policy is marked **stale**
+  (transitive closure), every deployment of a stale policy is flagged, and if it is this device's own DATAWORKS consent
+  `dxRevoke()` deletes the local episodes. A stale policy cannot be deployed.
+- **Fleet / agent registry** — `ent3Deploy({ policyId, siteId })` over `RB_SITES` (the five robot sites in the sim);
+  `ent3Fleet()` gives one row per site with the deployed policy version, its latest eval and the stale flag. Agent
+  tutors (`kind: "agent"`) are listed beside the robots.
+- **Audit** — append-only and hash-chained: each line carries the FNV-1a pair hash of the line before;
+  `ent3VerifyAudit()` re-walks it and finds an edited or deleted line. No clear or edit is exported. Tamper-evident on
+  the device, not cryptographic proof.
+- **Billing adapters** — `WebXR/shared/ent3-billing.js`, off by default, Chargebee (subscriptions and entitlements) and
+  PayPal (invoices) as request descriptors sent only to the deployment's own proxy; mock provider for tests; no key, no
+  price, no Crew Credits. See `docs/billing-adapters.md`.

@@ -314,6 +314,13 @@ APPS = {
             SHARED / "dn-modules.js",
             SHARED / "dn-index.js",
             WEBXR / "instructor/js/dean.js",
+            # ENTERPRISE-3 (docs/consoles/ENTERPRISE-3.md): the governance registry reads DATAWORKS' cards
+            # and ROBOTICS' sites; the billing adapters have no imports; then the Data governance tab.
+            SHARED / "dx-data.js",
+            SHARED / "rb-robotics-data.js",
+            SHARED / "ent3-governance.js",
+            SHARED / "ent3-billing.js",
+            WEBXR / "instructor/js/governance.js",
             # The account chip controls.js mounts (shared/account.js) and what it reads.
             SHARED / "auth.js",
             SHARED / "account.js",

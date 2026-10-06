@@ -155,6 +155,7 @@
     <button id="tab-cohort" role="tab" aria-selected="false" aria-controls="view-cohort">Cohorts</button>
     <button id="tab-billing" role="tab" aria-selected="false" aria-controls="view-billing">Billing</button>
     <button id="tab-dean" role="tab" aria-selected="false" aria-controls="view-dean">Versions &amp; modules</button>
+    <button id="tab-governance" role="tab" aria-selected="false" aria-controls="view-governance">Data governance</button>
   </div>
   <p class="fine" id="en-deployment" hidden></p>
 
@@ -311,6 +312,13 @@
       <p class="fine">Versions and modules across every world (<code>docs/modules.md</code>): which packs, worlds and paths a class or organisation sees, modules of lessons, stations and field lessons from any world with a due date and a required score, assigned to a cohort's invite code, carried between devices as a file, and progress per learner from each learner's own shared snapshot. SmartCiti.X · Powered by AGI Corp.</p>
     </section>
     <div id="dn-root"></div>
+  </section>
+
+  <section id="view-governance" role="tabpanel" aria-labelledby="tab-governance" hidden>
+    <section class="panel">
+      <p class="fine">Training-data governance for robot and agent training (<code>docs/enterprise.md</code>, <code>docs/billing-adapters.md</code>): the organisation's consent registry, dataset cards, lineage from dataset to policy to eval, the robot fleet and agent registry in the sim, one-tap revoke and an append-only audit log. Kept with the signed-in profile on this device; nothing about a person leaves it. SmartCiti.X · Powered by AGI Corp.</p>
+    </section>
+    <div id="ent3-root"></div>
   </section>
 
   <p class="fine">Without a relay this console is same-origin and same-device: it uses a browser BroadcastChannel, which does not cross the network. A hall with a row of laptops, or headsets mirrored to one screen, is covered by that alone. To watch from another machine, run <code>node tools/relay_server.mjs</code> and open both the console and each learner's app with <code>?relay=ws://&lt;host&gt;:8787</code> — the same JSON envelope then also travels over the WebSocket (see <code>docs/instructor-console.md</code>). When a simulator is embedded in a learning platform, the same events are already sent to the host page, which is the third honest path. <a href="../../portal/index.html">Back to the network portal</a>. Programme bundles for a cohort: <a href="../../packs/index.html">Holodeck Packs</a> (SmartCiti.X · Powered by AGI Corp).</p>
@@ -836,6 +844,8 @@ const GT_REGISTRY_KEY = "vr-training-profiles-v1";
 /** The stores that are private to a profile. Everything else passes through untouched. */
 const GT_PROFILE_KEYS = [
   "vr-training-records-v1",
+  // ENTERPRISE-3's training-data governance registry (shared/ent3-governance.js).
+  "ent3-governance-v1",
   "vr-passport-v1",
   "qm-side-games-v1",
   "vr-training-episodes-v1", "vr-training-episodes-current-v1",
@@ -78191,6 +78201,1395 @@ function dnMountView(root, { toast = null } = {}) {
 }
 
 
+/* ===== shared/dx-data.js ===== */
+// DATAWORKS (docs/consoles/DATAWORKS.md, docs/robot-datasets.md "The consented data system"):
+// one consented data system across every world — consent, capture, local storage, export and
+// analysis — built on robotics-dataset practice (RLDS / LeRobot-style episodes of
+// observation/action/reward/done steps, explicit units and frames, a versioned schema,
+// provenance and a consent receipt on every episode).
+//
+// PRIVACY IS THE FIRST REQUIREMENT, NOT A FEATURE:
+//   * Nothing is recorded before an explicit opt-in (dxOptIn). The default is off.
+//   * K-12, signed-out and demo sessions are never collected. When a signal cannot be read it
+//     counts as "unknown", and unknown never collects (dxEligibility).
+//   * No name, no free text, no voice, no real-world location — only the in-world position a
+//     station already reports. Episodes carry a per-profile salted session hash, never an id.
+//   * A consent receipt travels inside every human episode.
+//   * One tap revokes and deletes everything local (dxRevoke).
+//   * Storage is local only (IndexedDB, localStorage fallback, memory for headless), capped with
+//     oldest-first eviction. THIS MODULE CONTAINS NO NETWORK CODE. An upload endpoint exists only as
+//     a documented configuration hook (DX_UPLOAD_HOOK); none ships.
+//
+// SEAMS (plain, dependency-free data and pure functions — ROBOTICS' gym / rb_rollout and
+// TQ-BRIDGE's shared export code against these):
+//   DX_SCHEMA                      { id, version, units, frames, episodeFields, stepFields, ... }
+//   dxMakeEpisode(meta, steps)     -> a schema-shaped episode (synthetic rollouts: source "synthetic", consent null)
+//   dxValidateEpisode(ep)          -> { ok, errors[] }
+//   dxExportFiles(episodes, opts)  -> { files: [{ path, text }], manifest, card }   (JSON Lines shards by split)
+//   dxParseJsonl(text)             -> episodes[]
+//   dxDatasetCard(manifest)        -> Markdown datasheet with every DX_CARD_SECTIONS heading
+//   dxAnalyze(episodes)            -> success / safe-practice rates, step durations, interruptions,
+//                                     error taxonomy, action distribution, quality flags, split
+//   dxEligibility(signals?)        -> { eligible, reason, signals }
+//   dxOptIn({ licence, adult })    -> { ok, consent } | { ok: false, reason }
+//   dxRevoke()                     -> deletes consent, every stored episode and the legacy episode log
+//   dxCollecting()                 -> true only when eligible AND opted in
+//   dxRecorder(meta)               -> { active, step(...), finish(summary), abort() }  (no-op when not collecting)
+//   dxStore                        -> async { put, list, clear, bytes, backend }
+//
+// Every top-level name carries the dx/DX_ prefix (the bundler shares one scope).
+
+
+// ======================================================================= the schema (plain data)
+
+const DX_SCHEMA_ID = "smartcitix.holodeck.episode";
+const DX_SCHEMA_VERSION = "2.0.0";
+
+/** The published schema. Plain JSON-safe data: BRIDGE exports it verbatim, ROBOTICS writes to it. */
+const DX_SCHEMA = Object.freeze({
+  id: DX_SCHEMA_ID,
+  version: DX_SCHEMA_VERSION,
+  supersedes: { id: "vr-training-episodes", version: 1, note: "shared/episodes.js EPISODE_SCHEMA_VERSION 1 records convert with dxFromLegacy() (shared/dx-capture.js)" },
+  layout: "One JSON object per line (JSON Lines); one line = one episode; `steps` is the RLDS-style step list.",
+  units: {
+    time: "s (seconds; step `t` is seconds since the episode started, simulation clock)",
+    wallClock: "ISO-8601 UTC strings (startedAt, endedAt)",
+    distance: "m (metres)",
+    angle: "rad (radians); orientations as unit quaternions [x, y, z, w]",
+    speed: "m/s",
+    force: "N (newtons; only where a station declares a force ceiling)",
+    reward: "points (the engine's own score delta for the step; dimensionless)",
+  },
+  frames: {
+    world: "right-handed, +Y up, metres, origin at the world/map origin the scene is built around (three.js convention); in-world only — never a real-world coordinate",
+    station: "positions inside a station are in that station's room frame (origin at the room centre floor, +Z toward the learner's start)",
+    robot: "robot joint/end-effector values are in the robot's base frame as shared/robot-embodiment.js defines",
+  },
+  sources: ["human", "synthetic"],
+  kinds: ["station", "lesson", "drill", "robot-game", "gym", "field"],
+  episodeFields: {
+    schema: { type: "string", required: true, doc: `always "${DX_SCHEMA_ID}"` },
+    schemaVersion: { type: "string", required: true, doc: "semver of this schema" },
+    episodeId: { type: "string", required: true, doc: "random per episode; never derived from a person" },
+    sessionHash: { type: "string|null", required: true, doc: "salted per-profile hash of the play session; the train/validation split key. null for synthetic" },
+    source: { type: "string", required: true, doc: "human | synthetic" },
+    world: { type: "string", required: true, doc: "which world: parishes, smartcity, robotics, bayworld, …" },
+    map: { type: "string|null", required: false, doc: "map/parish id inside the world, when there is one" },
+    kind: { type: "string", required: true, doc: "station | lesson | drill | robot-game | gym | field" },
+    scenario: { type: "string", required: true, doc: "station, lesson, drill or robot scenario id" },
+    startedAt: { type: "string", required: true, doc: "ISO-8601 UTC" },
+    endedAt: { type: "string|null", required: true, doc: "ISO-8601 UTC; null when the episode was cut off" },
+    durationS: { type: "number", required: true, doc: "seconds" },
+    steps: { type: "array", required: true, doc: "the step list (see stepFields)" },
+    summary: { type: "object", required: true, doc: "{ success, safePractice, score, errors, hazardHits, interrupts: { answered, missed, wrong }, truncated }" },
+    consent: { type: "object|null", required: true, doc: "the consent receipt (dxReceipt) for human episodes; null only for synthetic" },
+    provenance: { type: "object", required: true, doc: "{ generator, generatorVersion, recordedWith, seed?, policy?, createdAt, notes? }" },
+  },
+  stepFields: {
+    t: { type: "number", required: true, doc: "seconds since episode start" },
+    observation: { type: "object", required: true, doc: "shared/robot.js observe() / observeEmbodied() shape, or a game's own observation; in-world values only" },
+    action: { type: "object", required: true, doc: "{ type, ...params } — shared/robot.js applyAction() shapes (select, commit, press, release, rotate, drop, drive, check, wait) or a robot-game action" },
+    reward: { type: "number", required: true, doc: "points" },
+    done: { type: "boolean", required: true, doc: "true on the last step only" },
+    info: { type: "object", required: true, doc: "{ outcome?: ok|wrong|hazard|timeout|keep-out|…, hazard?, clean?, interrupt?: { id, outcome, responseS }, unsafe? }" },
+  },
+  neverCollected: ["name", "crew tag in plain text", "e-mail", "free text", "voice or audio", "camera image", "real-world location", "account or wallet id"],
+});
+
+/** The dataset card's required datasheet sections, in order. The checker asserts each heading. */
+const DX_CARD_SECTIONS = Object.freeze([
+  "Motivation", "Composition", "Collection process", "Consent", "De-identification",
+  "Licence", "Known gaps and biases", "Intended uses", "Out-of-scope uses", "Schema, units and frames",
+  "Provenance", "Maintenance",
+]);
+
+/** The only licences offered (the same two shared/share-engagement.js offers). */
+const DX_LICENCES = Object.freeze(["CC0-1.0", "CC-BY-4.0"]);
+
+/** What an opted-in learner shares, and what is never collected — the consent panel shows these verbatim. */
+const DX_COLLECTS = Object.freeze([
+  "which station, lesson, drill or robot game you played and in which world",
+  "each decision you made (the action), what the scene showed at that moment and the score change",
+  "timing in seconds, interruptions answered or missed, safe-practice flags",
+  "your in-world position and view direction during a station (never a real-world location)",
+]);
+const DX_NEVER = DX_SCHEMA.neverCollected;
+
+/**
+ * The upload hook — documented, NOT shipped. A deployment that wants episodes to leave the browser
+ * adds `{ "dataworks": { "upload": { "endpoint": "https://…", "licence": "CC0-1.0" } } }` to its
+ * own deployment config (the tools/seo-config.json style) and writes its own uploader against
+ * dxExportFiles(). This module never reads that file and has no fetch/XHR/beacon call.
+ */
+const DX_UPLOAD_HOOK = Object.freeze({
+  shipped: false,
+  configKey: "dataworks.upload.endpoint",
+  configStyle: "tools/seo-config.json",
+  contract: "POST one manifest + its JSON Lines shards (dxExportFiles output) to an https endpoint the deployment owns; only after the learner presses an explicit share button; refuse when dxCollecting() is false.",
+});
+/** Validates a deployment's configured endpoint (https only) and returns it, or null. Does not send anything. */
+function dxUploadEndpoint(config) {
+  const url = config?.dataworks?.upload?.endpoint;
+  return typeof url === "string" && /^https:\/\/[^\s]+$/.test(url) ? url : null;
+}
+
+// ======================================================================= small helpers
+
+function dxFnv(s) {
+  let h = 0x811c9dc5;
+  for (let i = 0; i < s.length; i += 1) { h ^= s.charCodeAt(i); h = Math.imul(h, 0x01000193) >>> 0; }
+  return h.toString(16).padStart(8, "0");
+}
+function dxRandId(n = 8) {
+  const b = new Uint8Array(n);
+  try { globalThis.crypto.getRandomValues(b); } catch (_) { for (let i = 0; i < n; i += 1) b[i] = Math.floor(Math.random() * 256); }
+  return [...b].map((x) => x.toString(16).padStart(2, "0")).join("");
+}
+function dxNum(v, d = 0) { const n = Number(v); return Number.isFinite(n) ? n : d; }
+const dxRound = (n, p = 3) => Math.round(dxNum(n) * 10 ** p) / 10 ** p;
+function dxLs() { try { return gtStorage(); } catch (_) { return null; } }
+function dxGetJson(key, fallback = null) { try { const v = JSON.parse(dxLs()?.getItem(key) ?? "null"); return v ?? fallback; } catch (_) { return fallback; } }
+function dxSetJson(key, v) { try { dxLs()?.setItem(key, JSON.stringify(v)); return true; } catch (_) { return false; } }
+function dxDel(key) { try { dxLs()?.removeItem(key); } catch (_) { /* ignore */ } }
+
+// ======================================================================= eligibility
+
+const DX_CONSENT_KEY = "dx-consent-v1";
+const DX_EPISODES_KEY = "dx-episodes-v1";
+const DX_SALT_KEY = "dx-session-salt-v1";
+/** Keys dxRevoke() removes besides its own: the legacy episode log and share consent (same data class). */
+const DX_LEGACY_KEYS = Object.freeze([
+  "vr-training-episodes-v1", "vr-training-episodes-current-v1", "vr-training-episode-salt-v1",
+  "vr-training-share-consent-v1", "vr-training-share-receipts-v1",
+]);
+
+/**
+ * Read the signals that decide whether this session may be offered collection at all. Each is
+ * true / false / null (unknown). Any read that throws yields null, and null never collects.
+ *   demo      shared/profiles.js gtIsDemo()
+ *   signedIn  shared/profiles.js gtProfile().kind === "account"
+ *   k12       a K-12 surface or classroom: ?k12 / ?audience=k12|classroom|kids on the URL, a SCHOLAR
+ *             K-12 session on this profile, or DEAN's active version scoped to a class code
+ *   adult     the adult attestation the learner gave in the consent panel (stored consent)
+ */
+function dxReadSignals({ search = null } = {}) {
+  const s = { demo: null, signedIn: null, k12: null, adult: null };
+  try { s.demo = !!gtIsDemo(); } catch (_) { s.demo = null; }
+  try { s.signedIn = gtProfile().kind === "account"; } catch (_) { s.signedIn = null; }
+  try {
+    const q = new URLSearchParams(search ?? globalThis.location?.search ?? "");
+    const aud = (q.get("audience") || "").toLowerCase();
+    let k12 = q.has("k12") || q.has("kids") || ["k12", "k-12", "classroom", "kids", "school"].includes(aud);
+    const sc = dxGetJson("vr-scholar-v1", null);
+    if (Array.isArray(sc?.sessions) && sc.sessions.length) k12 = true;
+    const dn = dxGetJson("vr-dean-v1", null);
+    const active = dn?.versions?.find?.((v) => v.id === dn.active);
+    if (active?.scope?.kind === "class") k12 = true;
+    s.k12 = k12;
+  } catch (_) { s.k12 = null; }
+  const c = dxGetJson(DX_CONSENT_KEY, null);
+  s.adult = c ? c.adult === true : null;
+  return s;
+}
+
+/**
+ * Whether this session may be collected. `stage: "offer"` ignores the adult attestation (the
+ * panel is where it is given); `stage: "collect"` needs every signal to be a definite yes/no in the
+ * permitting direction. Unknown never collects.
+ */
+function dxEligibility(signals = dxReadSignals(), { stage = "collect" } = {}) {
+  const sg = { ...signals };
+  const no = (reason, text) => ({ eligible: false, reason, text, signals: sg });
+  if (sg.demo !== false) return no(sg.demo ? "demo" : "unknown-demo", "The free demo keeps nothing, so nothing is collected.");
+  if (sg.signedIn !== true) return no(sg.signedIn === false ? "signed-out" : "unknown-sign-in", "Sign in to be offered data sharing; signed-out play is never collected.");
+  if (sg.k12 !== false) return no(sg.k12 ? "k12" : "unknown-k12", "K-12 and classroom sessions are never collected.");
+  if (stage === "collect" && sg.adult !== true) return no("age-unknown", "Collection needs your own adult (18+) confirmation in the consent panel.");
+  return { eligible: true, reason: "ok", text: "Eligible", signals: sg };
+}
+
+// ======================================================================= consent
+
+function dxConsentStatement({ licence, at }) {
+  return [
+    "I am 18 or older and I opt in to record my SmartCiti.X Holodeck training episodes on this device",
+    "(decisions, in-world observations, timing and scores — no name, no free text, no voice, no real-world location)",
+    "for building robot- and model-training datasets.",
+    `Licence for anything I later choose to export or share: ${licence}.`,
+    "Nothing leaves this device unless I export it myself. I can revoke at any time, which deletes every stored episode.",
+    `At: ${at}`,
+  ].join("\n");
+}
+
+function dxConsent() { return dxGetJson(DX_CONSENT_KEY, null); }
+
+/** The receipt stored inside every human episode: enough to show what was agreed, nothing about who. */
+function dxReceipt(consent = dxConsent()) {
+  if (!consent) return null;
+  return {
+    consentId: consent.id, at: consent.at, licence: consent.licence, adult: consent.adult === true,
+    statementHash: consent.statementHash, schema: `${DX_SCHEMA_ID}@${DX_SCHEMA_VERSION}`,
+    collects: "DX_COLLECTS", never: DX_NEVER.slice(), revocable: true, storage: "local-only",
+  };
+}
+
+/** Opt in: needs an eligible session, a licence from DX_LICENCES and the adult attestation. Local write only. */
+function dxOptIn({ licence, adult = false, signals = null, now = () => new Date() } = {}) {
+  if (!DX_LICENCES.includes(licence)) return { ok: false, reason: `Choose a licence: ${DX_LICENCES.join(" or ")}.` };
+  if (adult !== true) return { ok: false, reason: "Confirm you are 18 or older — otherwise nothing is collected." };
+  const el = dxEligibility(signals ?? dxReadSignals(), { stage: "offer" });
+  if (!el.eligible) return { ok: false, reason: el.text, eligibility: el };
+  const at = now().toISOString();
+  const statement = dxConsentStatement({ licence, at });
+  const consent = { v: 1, id: dxRandId(8), at, licence, adult: true, statement, statementHash: dxFnv(statement) + dxFnv(statement.split("").reverse().join("")), schema: DX_SCHEMA_ID, schemaVersion: DX_SCHEMA_VERSION };
+  dxSetJson(DX_CONSENT_KEY, consent);
+  return { ok: true, consent };
+}
+
+/** One-tap revoke: the consent, every dx episode (both backends) and the legacy episode log go. */
+async function dxRevoke({ store = dxStore } = {}) {
+  dxDel(DX_CONSENT_KEY);
+  dxDel(DX_SALT_KEY);
+  for (const k of DX_LEGACY_KEYS) dxDel(k);
+  dxLiveRecorders.forEach((r) => r.abort());
+  dxLiveRecorders.clear();
+  await store.clear();
+  return { ok: true, remaining: (await store.list()).length };
+}
+
+/** True only when the session is eligible AND the learner has opted in. Checked at every capture. */
+function dxCollecting(signals = null) {
+  const c = dxConsent();
+  if (!c || c.adult !== true || c.schema !== DX_SCHEMA_ID) return false;
+  return dxEligibility(signals ?? dxReadSignals()).eligible;
+}
+
+/** The salted per-profile session hash: the split key. Rotates on revoke; never derived from an id. */
+function dxSessionHash() {
+  let salt = dxGetJson(DX_SALT_KEY, null);
+  if (!salt) { salt = dxRandId(12); dxSetJson(DX_SALT_KEY, salt); }
+  const day = new Date().toISOString().slice(0, 10);
+  return `s-${dxFnv(`${salt}|${day}`)}${dxFnv(`${day}|${salt}`)}`;
+}
+
+// ======================================================================= episodes
+
+/** Build a schema-shaped episode. Human episodes get the receipt automatically when collecting. */
+function dxMakeEpisode(meta = {}, steps = []) {
+  const clean = steps.map((s, i) => ({
+    t: dxRound(s.t ?? i, 3),
+    observation: s.observation ?? s.obs ?? {},
+    action: s.action ?? { type: "wait" },
+    reward: dxNum(s.reward, 0),
+    done: i === steps.length - 1 ? s.done !== false && !meta.truncated : false,
+    info: s.info ?? {},
+  }));
+  const sm = meta.summary ?? {};
+  const hazards = clean.filter((s) => s.info?.hazard).length;
+  const source = meta.source === "synthetic" ? "synthetic" : "human";
+  const startedAt = meta.startedAt ?? new Date().toISOString();
+  const durationS = dxRound(meta.durationS ?? (clean.length ? clean[clean.length - 1].t : 0), 2);
+  return {
+    schema: DX_SCHEMA_ID, schemaVersion: DX_SCHEMA_VERSION,
+    episodeId: meta.episodeId ?? `ep-${dxRandId(8)}`,
+    sessionHash: source === "synthetic" ? (meta.sessionHash ?? null) : (meta.sessionHash ?? dxSessionHash()),
+    source, world: meta.world ?? "unknown", map: meta.map ?? null, kind: meta.kind ?? "station",
+    scenario: meta.scenario ?? "unknown",
+    startedAt, endedAt: meta.truncated ? null : (meta.endedAt ?? startedAt), durationS,
+    steps: clean,
+    summary: {
+      success: sm.success ?? !!sm.passed ?? false,
+      safePractice: sm.safePractice ?? ((sm.hazardHits ?? hazards) === 0 && !clean.some((s) => s.info?.unsafe)),
+      score: dxNum(sm.score, clean.reduce((n, s) => n + s.reward, 0)),
+      errors: dxNum(sm.errors, clean.filter((s) => s.info?.clean === false).length),
+      hazardHits: dxNum(sm.hazardHits, hazards),
+      interrupts: { answered: dxNum(sm.interrupts?.answered), missed: dxNum(sm.interrupts?.missed), wrong: dxNum(sm.interrupts?.wrong) },
+      truncated: !!meta.truncated,
+    },
+    consent: source === "synthetic" ? null : (meta.consent ?? dxReceipt()),
+    provenance: {
+      generator: meta.generator ?? "shared/dx-data.js", generatorVersion: DX_SCHEMA_VERSION,
+      recordedWith: meta.recordedWith ?? (source === "synthetic" ? "headless" : "browser"),
+      ...(meta.seed != null ? { seed: meta.seed } : {}), ...(meta.policy ? { policy: meta.policy } : {}),
+      createdAt: meta.createdAt ?? new Date().toISOString(), ...(meta.notes ? { notes: meta.notes } : {}),
+    },
+  };
+}
+
+const DX_FORBIDDEN_KEYS = /^(name|learnerName|learner|crewTag|email|e-mail|freeText|text|note|voice|audio|image|lat|lng|lon|latitude|longitude|geo|address|wallet|accountId|userId)$/i;
+
+/** Schema validation — required fields and types, step shape, consent on human episodes, no personal keys. */
+function dxValidateEpisode(ep) {
+  const errors = [];
+  const typeOk = (v, t) => t.split("|").some((one) => (one === "null" ? v === null : one === "array" ? Array.isArray(v) : one === "object" ? v !== null && typeof v === "object" && !Array.isArray(v) : typeof v === one));
+  if (!ep || typeof ep !== "object") return { ok: false, errors: ["not an object"] };
+  for (const [k, f] of Object.entries(DX_SCHEMA.episodeFields)) {
+    if (!(k in ep)) { if (f.required) errors.push(`missing ${k}`); continue; }
+    if (!typeOk(ep[k], f.type)) errors.push(`${k} should be ${f.type}`);
+  }
+  if (ep.schema !== DX_SCHEMA_ID) errors.push(`schema is ${ep.schema}`);
+  if (typeof ep.schemaVersion === "string" && ep.schemaVersion.split(".")[0] !== DX_SCHEMA_VERSION.split(".")[0]) errors.push(`schemaVersion ${ep.schemaVersion} is not major ${DX_SCHEMA_VERSION.split(".")[0]}`);
+  if (!DX_SCHEMA.sources.includes(ep.source)) errors.push(`source ${ep.source}`);
+  if (ep.source === "human" && !ep.consent?.consentId) errors.push("human episode without a consent receipt");
+  if (ep.source === "synthetic" && ep.consent) errors.push("synthetic episode carries a consent receipt");
+  (ep.steps ?? []).forEach((s, i) => {
+    for (const [k, f] of Object.entries(DX_SCHEMA.stepFields)) if (!(k in s) || !typeOk(s[k], f.type)) errors.push(`step ${i}: ${k} should be ${f.type}`);
+    if (s.done && i !== ep.steps.length - 1) errors.push(`step ${i}: done before the last step`);
+  });
+  const walk = (v, path, depth) => {
+    if (depth > 6 || !v || typeof v !== "object") return;
+    for (const [k, x] of Object.entries(v)) {
+      if (DX_FORBIDDEN_KEYS.test(k) && x != null && x !== "") errors.push(`personal-looking field ${path}${k}`);
+      walk(x, `${path}${k}.`, depth + 1);
+    }
+  };
+  walk({ ...ep, consent: null, provenance: null }, "", 0);
+  return { ok: errors.length === 0, errors };
+}
+
+// ======================================================================= recording (buffered)
+
+const dxLiveRecorders = new Set();
+const dxIdle = (fn) => (typeof globalThis.requestIdleCallback === "function" ? globalThis.requestIdleCallback(fn, { timeout: 2000 }) : setTimeout(fn, 0));
+
+/**
+ * A buffered recorder. When dxCollecting() is false at creation it is inert — `active: false`,
+ * every call a no-op, nothing buffered. step() only pushes to memory; finish() hands the episode to
+ * dxStore on an idle callback, never inside a frame. Consent is re-checked at finish, so a revoke
+ * mid-episode discards it.
+ */
+function dxRecorder(meta = {}, { store = dxStore, signals = null, clock = () => Date.now() } = {}) {
+  if (!dxCollecting(signals)) return { active: false, step() {}, finish() { return null; }, abort() {}, episode: null };
+  const t0 = clock();
+  const startedAt = new Date(t0).toISOString();
+  const steps = [];
+  let done = false;
+  const rec = {
+    active: true, episode: null,
+    step(observation, action, reward = 0, info = {}) {
+      if (done) return;
+      steps.push({ t: (clock() - t0) / 1000, observation, action, reward, info });
+    },
+    finish(summary = {}, { truncated = false } = {}) {
+      if (done) return rec.episode;
+      done = true; dxLiveRecorders.delete(rec);
+      if (!dxCollecting(signals)) return null;
+      rec.episode = dxMakeEpisode({ ...meta, startedAt, endedAt: new Date(clock()).toISOString(), durationS: (clock() - t0) / 1000, summary, truncated, source: "human" }, steps);
+      const ep = rec.episode;
+      dxIdle(() => { if (dxCollecting(signals)) store.put(ep); });
+      return ep;
+    },
+    abort() { done = true; steps.length = 0; dxLiveRecorders.delete(rec); },
+  };
+  dxLiveRecorders.add(rec);
+  return rec;
+}
+
+// ======================================================================= storage (local only)
+
+const DX_MAX_BYTES = 4_000_000;      // IndexedDB budget (JSON length)
+const DX_MAX_BYTES_LS = 1_000_000;   // localStorage fallback budget
+const DX_MAX_EPISODES = 600;
+
+/** Oldest-first eviction to fit both caps. Pure: returns the kept list. */
+function dxEvict(list, { maxBytes = DX_MAX_BYTES, maxEpisodes = DX_MAX_EPISODES } = {}) {
+  const out = list.slice().sort((a, b) => String(a.startedAt).localeCompare(String(b.startedAt)));
+  const size = (x) => JSON.stringify(x).length;
+  let total = out.reduce((n, e) => n + size(e), 0);
+  while (out.length > maxEpisodes || (out.length > 1 && total > maxBytes)) total -= size(out.shift());
+  return out;
+}
+
+/** In-memory backend (headless and the last resort). */
+function dxMemBackend() {
+  let list = [];
+  return { kind: "memory", async all() { return list.slice(); }, async save(l) { list = l.slice(); }, async clear() { list = []; } };
+}
+/** localStorage backend through shared/profiles.js gtStorage (per profile; never the demo — collection refuses it). */
+function dxLsBackend() {
+  return {
+    kind: "localStorage", maxBytes: DX_MAX_BYTES_LS,
+    async all() { return dxGetJson(DX_EPISODES_KEY, []); },
+    async save(l) { if (!dxSetJson(DX_EPISODES_KEY, l)) dxSetJson(DX_EPISODES_KEY, dxEvict(l, { maxBytes: DX_MAX_BYTES_LS / 2 })); },
+    async clear() { dxDel(DX_EPISODES_KEY); },
+  };
+}
+/** IndexedDB backend: one database per profile namespace, one object store, the list under one key. */
+function dxIdbBackend(idb = globalThis.indexedDB) {
+  let ns = "device";
+  try { ns = gtProfile().ns || gtProfile().kind; } catch (_) { /* default */ }
+  const name = `dx-episodes-${ns}`;
+  const open = () => new Promise((res, rej) => {
+    const r = idb.open(name, 1);
+    r.onupgradeneeded = () => r.result.createObjectStore("episodes");
+    r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error);
+  });
+  const tx = async (mode, fn) => { const db = await open(); return new Promise((res, rej) => { const t = db.transaction("episodes", mode); const s = t.objectStore("episodes"); const out = fn(s); t.oncomplete = () => { db.close(); res(out?.result); }; t.onerror = () => { db.close(); rej(t.error); }; }); };
+  return {
+    kind: "indexedDB", name, maxBytes: DX_MAX_BYTES,
+    async all() { return (await tx("readonly", (s) => s.get("list"))) ?? []; },
+    async save(l) { await tx("readwrite", (s) => s.put(l, "list")); },
+    async clear() { await tx("readwrite", (s) => s.delete("list")); try { idb.deleteDatabase(name); } catch (_) { /* ignore */ } },
+  };
+}
+
+/** Make a store over a backend. put() validates and evicts; nothing here touches the network. */
+function dxMakeStore(backend) {
+  const b = backend;
+  return {
+    get backend() { return b.kind; },
+    async put(ep) {
+      if (!dxValidateEpisode(ep).ok) return false;
+      const list = (await b.all()).filter((e) => e.episodeId !== ep.episodeId);
+      await b.save(dxEvict([...list, ep], { maxBytes: b.maxBytes ?? DX_MAX_BYTES }));
+      return true;
+    },
+    async list() { return b.all(); },
+    async bytes() { return JSON.stringify(await b.all()).length; },
+    async clear() { await b.clear(); },
+  };
+}
+
+function dxPickBackend() {
+  try { if (globalThis.indexedDB?.open) return dxIdbBackend(); } catch (_) { /* fall through */ }
+  try { if (globalThis.localStorage) return dxLsBackend(); } catch (_) { /* fall through */ }
+  return dxMemBackend();
+}
+/** The page's store: IndexedDB, else localStorage, else memory. Swap with dxUseStore() in tests. */
+let dxStore = dxMakeStore(dxPickBackend());
+function dxUseStore(s) { dxStore = s; return s; }
+
+// ======================================================================= split, export, card
+
+const DX_VALIDATION_PERCENT = 20;
+/** Train/validation by session hash, so one session never straddles the split. Synthetic: by seed or id. */
+function dxSplitOf(ep, pct = DX_VALIDATION_PERCENT) {
+  const key = ep.sessionHash ?? `${ep.provenance?.seed ?? ""}|${ep.episodeId}`;
+  return parseInt(dxFnv(String(key)), 16) % 100 < pct ? "validation" : "train";
+}
+
+function dxToJsonl(episodes) { return episodes.map((e) => JSON.stringify(e)).join("\n") + (episodes.length ? "\n" : ""); }
+function dxParseJsonl(text) { return String(text).split(/\r?\n/).filter((l) => l.trim()).map((l) => JSON.parse(l)); }
+
+/** JSON Lines shards (split × shardSize), a manifest and the dataset card. Pure — the page downloads, tools write. */
+function dxExportFiles(episodes, { shardSize = 250, name = "smartcitix-holodeck-episodes", createdAt = new Date().toISOString(), generator = "shared/dx-data.js" } = {}) {
+  const valid = episodes.filter((e) => dxValidateEpisode(e).ok);
+  const bySplit = { train: [], validation: [] };
+  for (const e of valid) bySplit[dxSplitOf(e)].push(e);
+  const files = [], shards = [];
+  for (const [split, list] of Object.entries(bySplit)) {
+    const n = Math.max(1, Math.ceil(list.length / shardSize));
+    if (!list.length) continue;
+    for (let i = 0; i < n; i += 1) {
+      const part = list.slice(i * shardSize, (i + 1) * shardSize);
+      const path = `data/${split}-${String(i).padStart(5, "0")}-of-${String(n).padStart(5, "0")}.jsonl`;
+      const text = dxToJsonl(part);
+      files.push({ path, text });
+      shards.push({ path, split, episodes: part.length, steps: part.reduce((k, e) => k + e.steps.length, 0), bytes: text.length, fnv: dxFnv(text) });
+    }
+  }
+  const licences = [...new Set(valid.map((e) => (e.source === "synthetic" ? "CC0-1.0" : e.consent?.licence)).filter(Boolean))];
+  const manifest = {
+    name, createdAt, generator, schema: { id: DX_SCHEMA_ID, version: DX_SCHEMA_VERSION },
+    units: DX_SCHEMA.units, frames: DX_SCHEMA.frames,
+    counts: {
+      episodes: valid.length, rejected: episodes.length - valid.length,
+      human: valid.filter((e) => e.source === "human").length, synthetic: valid.filter((e) => e.source === "synthetic").length,
+      train: bySplit.train.length, validation: bySplit.validation.length,
+      steps: valid.reduce((k, e) => k + e.steps.length, 0),
+      worlds: [...new Set(valid.map((e) => e.world))].sort(), scenarios: [...new Set(valid.map((e) => e.scenario))].length,
+    },
+    split: { key: "sessionHash", validationPercent: DX_VALIDATION_PERCENT },
+    licences, consentReceipts: valid.filter((e) => e.consent).length,
+    upload: { shipped: false, hook: DX_UPLOAD_HOOK.configKey },
+    shards,
+  };
+  const card = dxDatasetCard(manifest);
+  files.push({ path: "manifest.json", text: JSON.stringify(manifest, null, 2) + "\n" });
+  files.push({ path: "DATASET_CARD.md", text: card });
+  return { files, manifest, card };
+}
+
+/** The datasheet (Gebru et al. "Datasheets for Datasets" sections, adapted). Every DX_CARD_SECTIONS heading appears. */
+function dxDatasetCard(m = { counts: {}, licences: [], shards: [] }) {
+  const c = m.counts ?? {};
+  const body = {
+    "Motivation": `Episodes of people and scripted policies practising workplace-safety procedures in the SmartCiti.X Holodeck, for training and evaluating robot and software agents on safe practice (stop, isolate, verify before acting). Built by the DATAWORKS layer; not a certification of any person.`,
+    "Composition": `${c.episodes ?? 0} episodes (${c.human ?? 0} human, ${c.synthetic ?? 0} synthetic), ${c.steps ?? 0} steps, ${c.scenarios ?? 0} scenarios across worlds: ${(c.worlds ?? []).join(", ") || "none"}. One JSON Lines line per episode; each episode is a list of steps with observation, action, reward (points), done and info. Split by session hash: ${c.train ?? 0} train / ${c.validation ?? 0} validation.`,
+    "Collection process": `Human episodes are recorded in the browser only after an explicit opt-in, buffered in memory and written to local storage (IndexedDB, localStorage fallback) off the render loop. Synthetic episodes come from headless rollouts (shared/robot.js policies, ROBOTICS' rb_rollout) with their seed in provenance.`,
+    "Consent": `Off by default. A learner opts in from the Me tab after confirming they are 18 or older and choosing a licence (${DX_LICENCES.join(" or ")}). K-12, classroom, signed-out and demo sessions are never collected, and an unreadable signal counts as "do not collect". Every human episode carries its consent receipt (consent id, time, licence, statement hash). One tap revokes and deletes every stored episode. ${m.consentReceipts ?? 0} receipts in this export.`,
+    "De-identification": `No name, e-mail, crew tag, free text, voice, camera image, account/wallet id or real-world location is collected. Positions are in-world coordinates only. Sessions are keyed by a salted per-profile hash that rotates daily and on revoke; the salt never leaves the device. This is data minimisation, not anonymisation proof: small cohorts may still be re-identifiable from timing patterns.`,
+    "Licence": `${(m.licences ?? []).join(", ") || "none"}. Synthetic rollouts are CC0-1.0. Human episodes carry the licence their learner chose, per episode, in the consent receipt.`,
+    "Known gaps and biases": `Learners who opt in are self-selected adults on devices that can run WebXR; stations and worlds are unevenly covered; synthetic policies model a single skill parameter, not a real learner; scoring reflects this engine's rules, not a standards body's; phone and headset users produce different timing distributions.`,
+    "Intended uses": `Training and evaluating agents and robots on safe-practice procedure following; studying where learners hesitate or err so stations can be improved; benchmarking policies on the same scenarios as people.`,
+    "Out-of-scope uses": `Assessing, ranking, hiring, disciplining or identifying any individual; certification or licensing decisions; inferring age, identity, health or location; any use that re-links episodes to a person.`,
+    "Schema, units and frames": `Schema ${m.schema?.id ?? DX_SCHEMA_ID}@${m.schema?.version ?? DX_SCHEMA_VERSION}. Units: time in seconds, distance in metres, angles in radians (quaternions [x,y,z,w]), speed m/s, force N, reward in points. Frames: world is right-handed +Y up in metres (three.js), in-world only. Full field list in manifest.json and docs/robot-datasets.md.`,
+    "Provenance": `Each episode's provenance names its generator, version, recorder (browser or headless), seed and policy when synthetic, and creation time. Shards: ${(m.shards ?? []).map((s) => `${s.path} (${s.episodes})`).join("; ") || "none"}.`,
+    "Maintenance": `Maintained with the SmartCiti.X Holodeck repository. The schema is versioned (semver); a major bump means a converter is required. No upload endpoint ships; a deployment may configure ${DX_UPLOAD_HOOK.configKey} and is then responsible for the transfer and its own retention policy.`,
+  };
+  const lines = [`# Dataset card — ${m.name ?? "SmartCiti.X Holodeck episodes"}`, "", `Created ${m.createdAt ?? "—"} by ${m.generator ?? "shared/dx-data.js"}.`, ""];
+  for (const h of DX_CARD_SECTIONS) lines.push(`## ${h}`, "", body[h], "");
+  return lines.join("\n");
+}
+
+// ======================================================================= analysis
+
+const DX_IDLE_GAP_S = 60;   // a gap between steps longer than this flags the episode idle
+
+const dxMean = (a) => (a.length ? a.reduce((n, x) => n + x, 0) / a.length : 0);
+function dxQuantile(a, q) { if (!a.length) return 0; const s = a.slice().sort((x, y) => x - y); return s[Math.min(s.length - 1, Math.floor(q * (s.length - 1) + 0.5))]; }
+
+/** The key two episodes share when they are the same episode recorded twice. */
+function dxDedupeKey(ep) {
+  const basis = [ep.world, ep.scenario, ep.startedAt, ep.sessionHash ?? "", ep.steps?.length ?? 0, ep.summary?.score ?? ""].join("|");
+  return dxFnv(basis) + dxFnv(basis.split("").reverse().join(""));
+}
+
+/** Per-episode quality flags: truncated, idle, duplicate. */
+function dxQualityFlags(episodes) {
+  const seen = new Map();
+  return episodes.map((ep) => {
+    const flags = [];
+    const steps = ep.steps ?? [];
+    if (ep.summary?.truncated || !steps.length || !steps[steps.length - 1].done || ep.endedAt == null) flags.push("truncated");
+    const gaps = steps.slice(1).map((s, i) => s.t - steps[i].t);
+    if (!steps.length || steps.every((s) => s.action?.type === "wait") || gaps.some((g) => g > DX_IDLE_GAP_S)) flags.push("idle");
+    const k = dxDedupeKey(ep);
+    if (seen.has(k)) flags.push("duplicate"); else seen.set(k, ep.episodeId);
+    return { episodeId: ep.episodeId, flags };
+  });
+}
+
+/** All the analysis numbers, headless and in the page alike. */
+function dxAnalyze(episodes) {
+  const eps = episodes.filter((e) => e && Array.isArray(e.steps));
+  const by = (keyFn) => {
+    const m = {};
+    for (const e of eps) {
+      const k = keyFn(e);
+      const r = (m[k] ??= { episodes: 0, success: 0, safe: 0, durations: [] });
+      r.episodes += 1; if (e.summary?.success) r.success += 1; if (e.summary?.safePractice) r.safe += 1; r.durations.push(dxNum(e.durationS));
+    }
+    for (const r of Object.values(m)) { r.successRate = dxRound(r.success / r.episodes); r.safeRate = dxRound(r.safe / r.episodes); r.meanDurationS = dxRound(dxMean(r.durations), 2); delete r.durations; }
+    return m;
+  };
+  const stepDur = [];
+  const actions = {}, errors = {};
+  const it = { answered: 0, missed: 0, wrong: 0, responses: [] };
+  for (const e of eps) {
+    e.steps.forEach((s, i) => {
+      if (i > 0) stepDur.push(dxRound(s.t - e.steps[i - 1].t, 3));
+      const a = s.action?.type ?? "none"; actions[a] = (actions[a] ?? 0) + 1;
+      const inf = s.info ?? {};
+      if (inf.hazard) errors.hazard = (errors.hazard ?? 0) + 1;
+      else if (inf.clean === false || (inf.outcome && inf.outcome !== "ok")) { const k = inf.outcome || "error"; errors[k] = (errors[k] ?? 0) + 1; }
+      if (inf.interrupt?.responseS != null) it.responses.push(dxNum(inf.interrupt.responseS));
+    });
+    const si = e.summary?.interrupts ?? {};
+    it.answered += dxNum(si.answered); it.missed += dxNum(si.missed); it.wrong += dxNum(si.wrong);
+  }
+  const itTotal = it.answered + it.missed + it.wrong;
+  const flags = dxQualityFlags(eps);
+  const flagCounts = { truncated: 0, idle: 0, duplicate: 0 };
+  for (const f of flags) for (const x of f.flags) flagCounts[x] += 1;
+  const split = { train: 0, validation: 0 };
+  const sessions = { train: new Set(), validation: new Set() };
+  for (const e of eps) { const s = dxSplitOf(e); split[s] += 1; sessions[s].add(e.sessionHash ?? e.episodeId); }
+  const overlap = [...sessions.train].filter((x) => sessions.validation.has(x)).length;
+  return {
+    schema: `${DX_SCHEMA_ID}@${DX_SCHEMA_VERSION}`,
+    total: eps.length,
+    bySource: { human: eps.filter((e) => e.source === "human").length, synthetic: eps.filter((e) => e.source === "synthetic").length },
+    successRate: eps.length ? dxRound(eps.filter((e) => e.summary?.success).length / eps.length) : 0,
+    safeRate: eps.length ? dxRound(eps.filter((e) => e.summary?.safePractice).length / eps.length) : 0,
+    byScenario: by((e) => e.scenario), byWorld: by((e) => e.world), byKind: by((e) => e.kind),
+    stepDurations: { n: stepDur.length, meanS: dxRound(dxMean(stepDur)), medianS: dxRound(dxQuantile(stepDur, 0.5)), p90S: dxRound(dxQuantile(stepDur, 0.9)) },
+    interrupts: { answered: it.answered, missed: it.missed, wrong: it.wrong, responseRate: itTotal ? dxRound(it.answered / itTotal) : null, meanResponseS: it.responses.length ? dxRound(dxMean(it.responses)) : null },
+    errors, actions,
+    flags: flagCounts, flagged: flags.filter((f) => f.flags.length),
+    split: { ...split, sessionOverlap: overlap, key: "sessionHash", validationPercent: DX_VALIDATION_PERCENT },
+  };
+}
+
+// ======================================================================= synthetic fixture
+
+/**
+ * A deterministic synthetic fixture (source "synthetic", no consent, no person): the checker's analysis
+ * ground truth, the page's "sample" view and `tools/dx_analyze.mjs --fixture`. Episode i plays scenario
+ * i % 3; every 4th episode has a hazard (unsafe, not a success); every 5th answers an interruption in 4 s;
+ * episode 7 is truncated, episode 9 idles 90 s mid-run and episode 11 is a duplicate of episode 10.
+ */
+function dxSyntheticFixture(n = 12, { seed = 7, createdAt = "2026-01-01T00:00:00.000Z" } = {}) {
+  const scen = ["rb-amr-fleet-routing", "ad-robot-cell-lockout-and-safe-reentry", "parish-lesson-levee"];
+  const worlds = ["robotics", "smartcity", "parishes"];
+  const out = [];
+  for (let i = 0; i < n; i += 1) {
+    if (i === 11 && out[10]) { out.push({ ...JSON.parse(JSON.stringify(out[10])), episodeId: "fx-11" }); continue; }
+    const hazard = i % 4 === 3, late = i % 5 === 4;
+    const steps = [];
+    let t = 0;
+    for (let k = 0; k < 4; k += 1) {
+      t += 1 + (k % 2) * 0.5 + (i === 9 && k === 2 ? 90 : 0);
+      const info = k === 2 && hazard ? { outcome: "hazard", hazard: true, clean: false }
+        : k === 1 && late ? { outcome: "ok", clean: true, interrupt: { id: "radio-call", outcome: "answered", responseS: 4 } }
+        : { outcome: "ok", clean: true };
+      steps.push({ t, observation: { stepIndex: k, pos: [k, 0, -k] }, action: { type: k === 3 ? "commit" : k === 2 ? "press" : "select", id: `s${k}` }, reward: info.hazard ? -50 : 100, info });
+    }
+    out.push(dxMakeEpisode({
+      source: "synthetic", episodeId: `fx-${i}`, sessionHash: `fx-session-${Math.floor(i / 2)}`,
+      world: worlds[i % 3], kind: i % 3 === 2 ? "lesson" : i % 3 === 0 ? "robot-game" : "station", scenario: scen[i % 3],
+      startedAt: `2026-01-01T00:${String(i).padStart(2, "0")}:00.000Z`, endedAt: `2026-01-01T00:${String(i).padStart(2, "0")}:30.000Z`,
+      truncated: i === 7, seed: seed * 1000 + i, policy: "fixture", generator: "dxSyntheticFixture", recordedWith: "headless", createdAt,
+      summary: { success: !hazard, safePractice: !hazard, hazardHits: hazard ? 1 : 0, errors: hazard ? 1 : 0, interrupts: late ? { answered: 1, missed: 0, wrong: 0 } : { answered: 0, missed: i % 6 === 5 ? 1 : 0, wrong: 0 } },
+    }, steps));
+  }
+  return out;
+}
+
+
+/* ===== shared/rb-robotics-data.js ===== */
+// ROBOTICS (docs/consoles/ROBOTICS.md, docs/robot-training.md "Robotics
+// scenarios and the gym API"): the robotics scenarios, games and world sites
+// as plain, dependency-free data. TQ-BRIDGE exports this file's RB_* values
+// once to exports/shared/ for SmartCiti.X TradeQuest; nothing here imports
+// anything, so a Node script, a browser page and the bridge all read it as is.
+//
+// Facts rule: the sites name real places only by the map site they sit
+// beside (an existing catalog site id) and describe nothing about them; every
+// robot, cell and zone here is procedural, and every number is a simulation
+// parameter labelled procedural — not a figure from any standard, maker or
+// real site. Kids rule: the text is plain and calm — the robots here always
+// slow and stop for people; nothing is framed as a danger to be afraid of.
+// Names prefixed `rb`/`RB_` (the bundler shares one scope).
+
+/** The schema ids an rbEnv episode carries. `dataset` is the version of the
+ * dataset layer's episode format (tools/export_dataset.mjs SCHEMA_VERSION /
+ * shared/episodes.js EPISODE_SCHEMA_VERSION) this env writes; `env` versions
+ * the observation and action shapes below. tools/check_robotics.mjs fails if
+ * `dataset` drifts from export_dataset.mjs, so a bump there is seen here. */
+const RB_SCHEMA = { env: "rb-env/1", dataset: 1, frame: "scenario metres, +y up, origin at the work cell's floor centre", units: { distance: "m", speed: "m/s", force: "N (procedural)", time: "s" } };
+
+/** Simulated force ceilings per shared/robot-embodiment.js FORCE_CLASSES, in
+ * newtons — procedural simulation parameters, not a rating of any gripper. */
+const RB_FORCE_N = { none: 0, light: 12, firm: 40 };
+
+/** Speed-and-separation defaults for the world sites and the cell-entry
+ * scenario (procedural): inside `warn` metres the robot runs at reduced
+ * speed; inside `stop` it holds a protective stop until the person steps back. */
+const RB_SSM = { warn: 6, stop: 2.5, reducedSpeed: 0.3, fullSpeed: 1 };
+
+/** Safe-practice rule ids and their reward weights. Every penalty is a missed
+ * practice, never harm: the robot always stops for a person, so "entered a
+ * live cell" means the learner skipped the lockout, not that anything happened. */
+const RB_RULES = {
+  "enter-live-cell": { weight: -3, text: "Entered the cell before it was stopped and locked out." },
+  "skip-estop-test": { weight: -2, text: "Finished without testing the e-stop first." },
+  "skip-scanner-test": { weight: -1, text: "Committed the zones without testing the area scanner." },
+  "lockout-order": { weight: -1, text: "Tried to lock out before the robot was stopped." },
+  "no-verify": { weight: -1, text: "Entered without a try-start check for zero energy." },
+  "over-force": { weight: -1, text: "Gripped harder than the part's force limit." },
+  "keep-out": { weight: -2, text: "Moved the gripper into a person's keep-out space; the robot held a protective stop." },
+  "conflict": { weight: -1, text: "Two robots were sent to the same spot; both held and waited." },
+  "yield-missed": { weight: -1, text: "Sent a robot into the walkway while a person was crossing; it held and waited." },
+  "zone-too-small": { weight: -2, text: "Stop zone smaller than the robot needs to come to rest at that speed." },
+  "warn-inside-stop": { weight: -1, text: "Warning zone set inside the stop zone." },
+  "restart-with-lock": { weight: -1, text: "Tried to restart while a lock was still on." },
+  "left-locked": { weight: -1, text: "Left without removing your own lock and restarting the cell." },
+  "hazard": { weight: -1, text: "Chose an unsafe option at the station (station scenarios)." },
+};
+
+/**
+ * Scenarios. `kind: "game"` runs on rb-env.js's own simulation; `kind:
+ * "station"` wraps a catalog station's Session through shared/robot.js
+ * observe()/applyAction() and shared/robot-embodiment.js observeEmbodied()
+ * (the caller hands in the built room, see rbEnv). `maxSteps` bounds every
+ * episode; `station` names the catalog station the scenario teaches beside.
+ */
+const RB_SCENARIOS = [
+  {
+    id: "rb-teleop-pick-place", kind: "game", name: "Teleop Pick-and-Place",
+    blurb: "Guide a robot gripper to move parts from the bin to the fixture, gripping each part within its force limit and keeping clear of your teammate's space.",
+    station: "ad-cobot-risk-assessment-and-speed-separation", maxSteps: 400, dt: 0.1,
+    params: { parts: 3, speed: 0.12, tolerance: 0.04, teammateRadius: 0.45 },
+    actions: ["move {dx,dy,dz} (m, capped at params.speed per step)", "grip {force} (N)", "release", "estop", "reset", "wait"],
+    safePractice: ["over-force", "keep-out"],
+  },
+  {
+    id: "rb-amr-fleet-routing", kind: "game", name: "AMR Fleet Routing",
+    blurb: "Route a small fleet of warehouse robots to their drop-offs without two robots claiming the same spot, and hold them at the walkway while a person crosses.",
+    station: "ad-amr-fleet-traffic-and-estop-drill", maxSteps: 120, dt: 1,
+    params: { width: 9, height: 7, robots: 3, walkwayColumn: 4 },
+    actions: ["route {moves: [N|S|E|W|wait per robot]}", "estop", "wait"],
+    safePractice: ["conflict", "yield-missed"],
+  },
+  {
+    id: "rb-cobot-zone-setup", kind: "game", name: "Cobot Safety-Zone Setup",
+    blurb: "Set a cobot's warning and stop zones for its speed, test the area scanner and the e-stop, then commit the setup.",
+    station: "ad-cobot-risk-assessment-and-speed-separation", maxSteps: 40, dt: 1,
+    params: { intrusion: 0.2 },
+    actions: ["set {param: warn|stop|speed, value}", "test {what: scanner|estop|zone-walk}", "commit", "wait"],
+    safePractice: ["zone-too-small", "warn-inside-stop", "skip-scanner-test", "skip-estop-test"],
+  },
+  {
+    id: "rb-cell-entry", kind: "game", name: "Robot Cell Entry",
+    blurb: "Walk up to a working robot cell, watch it slow and stop as you near, test the e-stop, lock out, check for zero energy, clear the jam and restart safely.",
+    station: "ad-robot-cell-lockout-and-safe-reentry", maxSteps: 160, dt: 0.5,
+    params: { start: 14, cellEdge: 1.2, walk: 1 },
+    actions: ["walk {d} (m, + toward the cell)", "test-estop", "press-estop", "lockout", "verify", "enter", "clear-jam", "exit", "remove-lock", "restart", "wait"],
+    safePractice: ["enter-live-cell", "skip-estop-test", "lockout-order", "no-verify", "restart-with-lock", "left-locked"],
+  },
+  { id: "rb-station-robot-cell", kind: "station", name: "Robot Cell Lockout & Safe Re-entry (station)", station: "ad-robot-cell-lockout-and-safe-reentry", maxSteps: 20000, dt: 0.05, safePractice: ["hazard"] },
+  { id: "rb-station-amr-fleet", kind: "station", name: "AMR Fleet Traffic & E-stop Drill (station)", station: "ad-amr-fleet-traffic-and-estop-drill", maxSteps: 20000, dt: 0.05, safePractice: ["hazard"] },
+  { id: "rb-station-cobot", kind: "station", name: "Cobot Risk Assessment & Speed-and-Separation (station)", station: "ad-cobot-risk-assessment-and-speed-separation", maxSteps: 20000, dt: 0.05, safePractice: ["hazard"] },
+];
+
+/**
+ * Robotics sites in the parish-engine maps. Each sits beside an existing map
+ * site (`anchor`, a catalog site id) at a small procedural offset, runs one
+ * procedural rig (an AMR on a loop, a cobot arm cycling, a gantry traversing)
+ * with speed-and-separation zones, an e-stop post and a lockout point at the
+ * cell gate, and links the scenario and station it teaches.
+ */
+const RB_SITES = [
+  { id: "rb-site-west-oakland-port-automation", parish: "oak-west-oakland", anchor: "outer-harbor-container-terminal", offset: [34, 26], rig: "gantry", name: "Port Automation Yard (procedural)", scenario: "rb-amr-fleet-routing", station: "ad-amr-fleet-traffic-and-estop-drill" },
+  { id: "rb-site-west-oakland-warehouse", parish: "oak-west-oakland", anchor: "mandela-parkway-warehouse-row", offset: [-30, 24], rig: "amr", name: "Automated Warehouse Aisle (procedural)", scenario: "rb-amr-fleet-routing", station: "ad-amr-fleet-traffic-and-estop-drill" },
+  { id: "rb-site-san-jose-robotics-lab", parish: "bay-san-jose", anchor: "university-campus-plant-sj", offset: [30, -26], rig: "cobot", name: "Campus Robotics Lab (procedural)", scenario: "rb-cobot-zone-setup", station: "ad-cobot-risk-assessment-and-speed-separation" },
+  { id: "rb-site-orleans-warehouse", parish: "orleans", anchor: "no-sw-almonaster-corridor-distribution-warehouse", offset: [32, 28], rig: "amr", name: "Distribution Robot Aisle (procedural)", scenario: "rb-amr-fleet-routing", station: "ad-amr-fleet-traffic-and-estop-drill" },
+  { id: "rb-site-soma-robot-cell", parish: "sf-downtown", anchor: "dt-sw-south-of-market-fabrication-shop", offset: [-28, 26], rig: "cell", name: "Fabrication Robot Cell (procedural)", scenario: "rb-cell-entry", station: "ad-robot-cell-lockout-and-safe-reentry" },
+];
+
+/** In-world safe-practice scoring for a site visit (rb-world.js): each
+ * practice observed earns its points; out of 100. */
+const RB_SITE_PRACTICES = [
+  { id: "slowed", points: 20, text: "Watched the robot slow as you entered the warning zone." },
+  { id: "estop-test", points: 25, text: "Pressed and reset the e-stop to test it." },
+  { id: "lockout", points: 30, text: "Locked out at the gate before entering the cell." },
+  { id: "restart", points: 25, text: "Removed your lock and restarted from outside." },
+];
+
+/** Plain accessor for bridges: everything above as one object. */
+function rbSharedData() {
+  return { schema: RB_SCHEMA, forceN: RB_FORCE_N, ssm: RB_SSM, rules: RB_RULES, scenarios: RB_SCENARIOS, sites: RB_SITES, sitePractices: RB_SITE_PRACTICES };
+}
+
+
+/* ===== shared/ent3-governance.js ===== */
+// Training-data governance for organisations (console ENTERPRISE-3,
+// docs/enterprise.md section 6, docs/consoles/ENTERPRISE-3.md): which consented
+// learners' episodes went into which dataset, which dataset trained which robot
+// policy or agent tutor, how each was evaluated, where each policy is deployed
+// in the sim's robot sites, and an append-only audit log of every change.
+//
+// What this is, named plainly:
+//   * a REGISTRY, not a training system. It records what other modules did
+//     (DATAWORKS' consented episodes, ROBOTICS' rollouts, COLEARN's behaviour-
+//     cloning policies and tutors) and never trains or runs anything itself;
+//   * the consent registry keeps DATAWORKS' receipt METADATA only (consent id,
+//     time, licence, statement hash, adult flag) — never a name, an e-mail, an
+//     episode or anything that points back at a person. Adults only; a receipt
+//     flagged K-12 is refused, as DATAWORKS refuses the collection itself;
+//   * revoke is one tap: the consent is marked revoked, every dataset holding it
+//     needs a rebuild without it, every policy trained on such a dataset — or
+//     based on such a policy, transitively — is marked STALE, and every
+//     deployment of a stale policy is flagged. When the revoked consent is this
+//     device's own DATAWORKS consent, dxRevoke() deletes the local episodes too;
+//   * the audit log is append-only: each line carries the FNV-1a hash of the
+//     line before it, ent3VerifyAudit() re-walks the chain, and this module
+//     exports no way to clear or edit it. A local tamper-evidence aid, not
+//     cryptographic proof (FNV is not a secure hash);
+//   * no network code. Everything lives in one store, `ent3-governance-v1`,
+//     through profiles.js's gtStorage() (a profile key like vr-org-v1).
+//
+// SEAMS (code against these):
+//   ent3RegisterConsent({ orgId, consentId, licence, at, statementHash, adult })   -> { ok, reason? }
+//   ent3RegisterDataset({ id, orgId, name, source, episodes, steps, consentIds, licences, scenarios, worlds, generator? }) -> { ok }
+//   ent3RegisterPolicy({ id, version, name, method, trainedOn: [datasetId], basedOn?: [policyId], kind? }) -> { ok }
+//   ent3RecordEval(policyId, { suite, metric, value, n, seeds?, baseline?, measured, at? })  -> { ok }
+//   ent3Deploy({ policyId, siteId })  -> { ok }   (siteId from RB_SITES)
+//   ent3Revoke({ consentId } | { datasetId }, reason) -> { revokedConsents, datasetsAffected, policiesStale, deploymentsFlagged }
+//   ent3Lineage() -> { nodes: [{ id, type, label, status }], edges: [{ from, to, kind }] }
+//   ent3Fleet() -> one row per robot site: { siteId, name, parish, rig, deployment, evalScore, stale }
+//   ent3AuditList(), ent3VerifyAudit() -> { ok, brokenAt }
+//
+// Every top-level name starts with `ent3`/`ENT3_` (the bundler shares one scope).
+
+
+
+
+const ENT3_KEY = "ent3-governance-v1";
+const ENT3_SCHEMA_VERSION = 1;
+
+/** The training methods a registered policy may name — each for what it is. */
+const ENT3_METHODS = Object.freeze([
+  { id: "scripted", label: "Scripted policy (hand-written rules, the demonstration expert)" },
+  { id: "behaviour-cloning-knn", label: "Behaviour cloning — k-nearest-neighbour over demonstrations" },
+  { id: "behaviour-cloning-mlp", label: "Behaviour cloning — a small multilayer perceptron" },
+  { id: "bandit-tutor", label: "Agent tutor — a multi-armed bandit over hint styles" },
+  { id: "heuristic-tutor", label: "Agent tutor — per-step error rates that re-order hints" },
+  { id: "random-baseline", label: "Random baseline (uniform over legal actions)" },
+]);
+const ENT3_METHOD_IDS = new Set(ENT3_METHODS.map((m) => m.id));
+const ENT3_PERSONAL = /^(name|learnerName|learner|crewTag|email|e-mail|freeText|text|voice|audio|image|lat|lng|lon|latitude|longitude|geo|address|wallet|accountId|userId|sessionHash|episodes|k12)$/i;
+
+// ------------------------------------------------------------------ store
+
+let ent3Storage = null;
+/** Point the registry at a Storage-shaped object (tests); null returns to gtStorage(). */
+function ent3UseStorage(s) { ent3Storage = s ?? null; }
+function ent3Store() { if (ent3Storage) return ent3Storage; try { return gtStorage(); } catch (_) { return null; } }
+
+function ent3Text(v, max = 120) { return String(v ?? "").replace(/[\u0000-\u001f\u007f<>]/g, "").trim().slice(0, max); }
+function ent3Id(v) { const t = ent3Text(v, 80); return /^[A-Za-z0-9][A-Za-z0-9._:@-]*$/.test(t) ? t : null; }
+function ent3Now() { return new Date().toISOString(); }
+
+function ent3Empty() { return { v: ENT3_SCHEMA_VERSION, consents: [], datasets: [], policies: [], deployments: [], audit: [] }; }
+
+function ent3Load() {
+  try {
+    const raw = JSON.parse(ent3Store()?.getItem(ENT3_KEY) || "null");
+    if (!raw || raw.v !== ENT3_SCHEMA_VERSION) return ent3Empty();
+    const arr = (k) => (Array.isArray(raw[k]) ? raw[k] : []);
+    return { v: ENT3_SCHEMA_VERSION, consents: arr("consents"), datasets: arr("datasets"), policies: arr("policies"), deployments: arr("deployments"), audit: arr("audit") };
+  } catch (_) { return ent3Empty(); }
+}
+function ent3Save(state) {
+  try { ent3Store()?.setItem(ENT3_KEY, JSON.stringify(state)); } catch (_) { /* private mode */ }
+  try { globalThis.dispatchEvent?.(new CustomEvent("ent3:change")); } catch (_) { /* headless */ }
+}
+
+// ------------------------------------------------------------------ audit (append-only, hash-chained)
+
+function ent3Fnv(s) {
+  let h = 0x811c9dc5;
+  for (let i = 0; i < s.length; i += 1) { h ^= s.charCodeAt(i); h = Math.imul(h, 0x01000193) >>> 0; }
+  return h.toString(16).padStart(8, "0");
+}
+function ent3LineHash(line) { const body = `${line.seq}|${line.at}|${line.action}|${line.detail}|${line.prev}`; return ent3Fnv(body) + ent3Fnv(body.split("").reverse().join("")); }
+
+function ent3Audit(state, action, detail, at = ent3Now()) {
+  const last = state.audit[state.audit.length - 1];
+  const line = { seq: state.audit.length, at, action, detail: ent3Text(detail, 240), prev: last ? last.hash : "genesis" };
+  line.hash = ent3LineHash(line);
+  state.audit.push(line);
+  return line;
+}
+
+/** The audit log, oldest first (a copy). */
+function ent3AuditList() { return ent3Load().audit.map((a) => ({ ...a })); }
+
+/** Re-walk the chain: every line's hash, its back-link and its sequence. */
+function ent3VerifyAudit(list = null) {
+  const audit = list ?? ent3Load().audit;
+  let prev = "genesis";
+  for (let i = 0; i < audit.length; i += 1) {
+    const a = audit[i];
+    if (a.seq !== i || a.prev !== prev || ent3LineHash(a) !== a.hash) return { ok: false, brokenAt: i, lines: audit.length };
+    prev = a.hash;
+  }
+  return { ok: true, brokenAt: null, lines: audit.length };
+}
+
+// ------------------------------------------------------------------ consent registry
+
+/** Register a DATAWORKS consent receipt's metadata for an organisation. */
+function ent3RegisterConsent(r = {}, { at = null } = {}) {
+  const extra = Object.keys(r).filter((k) => ENT3_PERSONAL.test(k));
+  if (extra.length) return { ok: false, reason: `a consent record carries no personal field (${extra.join(", ")})` };
+  if (r.adult !== true) return { ok: false, reason: "adults only: DATAWORKS never collects without the learner's own 18+ confirmation" };
+  if (!DX_LICENCES.includes(r.licence)) return { ok: false, reason: `licence must be one DATAWORKS offers: ${DX_LICENCES.join(" or ")}` };
+  const orgId = ent3Id(r.orgId); const consentId = ent3Id(r.consentId);
+  if (!orgId || !consentId) return { ok: false, reason: "orgId and consentId are required" };
+  const state = ent3Load();
+  if (state.consents.some((c) => c.consentId === consentId)) return { ok: false, reason: "that consent is already registered" };
+  const rec = { orgId, consentId, licence: r.licence, at: ent3Text(r.at, 40) || ent3Now(), statementHash: ent3Text(r.statementHash, 64), adult: true, state: "active", revokedAt: null };
+  state.consents.push(rec);
+  ent3Audit(state, "consent-register", `${consentId} (${rec.licence}) for ${orgId}`, at ?? ent3Now());
+  ent3Save(state);
+  return { ok: true, consent: { ...rec } };
+}
+
+/** Register this device's own DATAWORKS consent (if any) for an organisation. */
+function ent3RegisterLocalConsent(orgId) {
+  const c = (() => { try { return dxConsent(); } catch (_) { return null; } })();
+  if (!c) return { ok: false, reason: "no DATAWORKS consent on this device" };
+  return ent3RegisterConsent({ orgId, consentId: c.id, licence: c.licence, at: c.at, statementHash: c.statementHash, adult: c.adult === true });
+}
+
+function ent3Consents(orgId = null) { return ent3Load().consents.filter((c) => !orgId || c.orgId === orgId).map((c) => ({ ...c })); }
+
+// ------------------------------------------------------------------ datasets and cards
+
+/** Register a dataset (a manifest: counts, the consents it holds, licences). */
+function ent3RegisterDataset(d = {}, { at = null } = {}) {
+  const id = ent3Id(d.id);
+  if (!id) return { ok: false, reason: "a dataset needs an id" };
+  const state = ent3Load();
+  if (state.datasets.some((x) => x.id === id)) return { ok: false, reason: "that dataset is already registered" };
+  const consentIds = (Array.isArray(d.consentIds) ? d.consentIds : []).map(ent3Id).filter(Boolean);
+  const unknown = consentIds.filter((c) => !state.consents.some((k) => k.consentId === c && k.state === "active"));
+  if (unknown.length) return { ok: false, reason: `consents not registered or revoked: ${unknown.join(", ")}` };
+  const source = ["human", "synthetic", "mixed"].includes(d.source) ? d.source : (consentIds.length ? "human" : "synthetic");
+  if (source !== "synthetic" && !consentIds.length) return { ok: false, reason: "a human dataset must name the consents it holds" };
+  const rec = {
+    id, orgId: ent3Id(d.orgId), name: ent3Text(d.name, 100) || id, source,
+    episodes: Math.max(0, Math.floor(Number(d.episodes) || 0)), steps: Math.max(0, Math.floor(Number(d.steps) || 0)),
+    consentIds, licences: (d.licences ?? []).filter((l) => DX_LICENCES.includes(l)),
+    scenarios: (d.scenarios ?? []).map((s) => ent3Text(s, 80)).slice(0, 40), worlds: (d.worlds ?? []).map((s) => ent3Text(s, 40)).slice(0, 20),
+    generator: ent3Text(d.generator, 80) || null, status: "current", revokedConsents: [], createdAt: ent3Text(d.createdAt, 40) || (at ?? ent3Now()),
+  };
+  state.datasets.push(rec);
+  ent3Audit(state, "dataset-register", `${id}: ${rec.episodes} episodes, ${consentIds.length} consents, ${source}`, at ?? ent3Now());
+  ent3Save(state);
+  return { ok: true, dataset: { ...rec } };
+}
+
+function ent3Datasets() { return ent3Load().datasets.map((d) => ({ ...d })); }
+function ent3Dataset(id) { const d = ent3Load().datasets.find((x) => x.id === id); return d ? { ...d } : null; }
+
+/** DATAWORKS' datasheet for a registered dataset, with its governance lines appended. */
+function ent3DatasetCard(id) {
+  const state = ent3Load();
+  const d = state.datasets.find((x) => x.id === id);
+  if (!d) return null;
+  const human = d.source === "synthetic" ? 0 : d.episodes;
+  const card = dxDatasetCard({
+    name: `${d.name} (${d.id})`, createdAt: d.createdAt, generator: d.generator ?? "shared/ent3-governance.js",
+    schema: { id: DX_SCHEMA_ID, version: DX_SCHEMA_VERSION },
+    counts: { episodes: d.episodes, human, synthetic: d.episodes - human, steps: d.steps, scenarios: d.scenarios.length, worlds: d.worlds },
+    licences: d.licences, consentReceipts: d.consentIds.length, shards: [],
+  });
+  const used = state.policies.filter((p) => p.trainedOn.includes(d.id)).map((p) => `${p.id}@${p.version} (${p.status})`);
+  return `${card}\n## Governance (ENTERPRISE-3 registry)\n\nDataset id ${d.id}; status ${d.status}; consents held ${d.consentIds.length}${d.revokedConsents.length ? `; revoked since registration ${d.revokedConsents.length} (rebuild without them before reuse)` : ""}. Trained: ${used.join(", ") || "no registered policy"}.\n`;
+}
+
+// ------------------------------------------------------------------ policies and evals
+
+function ent3RegisterPolicy(p = {}, { at = null } = {}) {
+  const id = ent3Id(p.id);
+  if (!id) return { ok: false, reason: "a policy needs an id" };
+  if (!ENT3_METHOD_IDS.has(p.method)) return { ok: false, reason: `method must be one of ${[...ENT3_METHOD_IDS].join(", ")}` };
+  const state = ent3Load();
+  if (state.policies.some((x) => x.id === id)) return { ok: false, reason: "that policy is already registered" };
+  const trainedOn = (p.trainedOn ?? []).map(ent3Id).filter(Boolean);
+  const basedOn = (p.basedOn ?? []).map(ent3Id).filter(Boolean);
+  if (!trainedOn.length && p.method !== "random-baseline" && p.method !== "scripted") return { ok: false, reason: "a learned policy must name the datasets it was trained on" };
+  const missing = trainedOn.filter((d) => !state.datasets.some((x) => x.id === d)).concat(basedOn.filter((b) => !state.policies.some((x) => x.id === b)));
+  if (missing.length) return { ok: false, reason: `unknown lineage: ${missing.join(", ")}` };
+  const badDs = trainedOn.filter((d) => state.datasets.find((x) => x.id === d).status !== "current");
+  const badBase = basedOn.filter((b) => state.policies.find((x) => x.id === b).status !== "current");
+  if (badDs.length || badBase.length) return { ok: false, reason: `lineage is revoked or stale: ${[...badDs, ...badBase].join(", ")}` };
+  const rec = { id, version: ent3Text(p.version, 20) || "1", name: ent3Text(p.name, 100) || id, method: p.method, kind: p.kind === "agent" ? "agent" : "robot", trainedOn, basedOn, evals: [], status: "current", staleReason: null, createdAt: at ?? ent3Now() };
+  state.policies.push(rec);
+  ent3Audit(state, "policy-register", `${id}@${rec.version} (${rec.method}) trained on ${trainedOn.join(", ") || "nothing"}${basedOn.length ? `, based on ${basedOn.join(", ")}` : ""}`, at ?? ent3Now());
+  ent3Save(state);
+  return { ok: true, policy: { ...rec } };
+}
+
+function ent3Policies() { return ent3Load().policies.map((p) => ({ ...p, evals: p.evals.map((e) => ({ ...e })) })); }
+
+/** Record an evaluation. `measured: false` marks illustrative sample figures, shown as such. */
+function ent3RecordEval(policyId, e = {}) {
+  const state = ent3Load();
+  const p = state.policies.find((x) => x.id === policyId);
+  if (!p) return { ok: false, reason: "unknown policy" };
+  const value = Number(e.value);
+  if (!Number.isFinite(value)) return { ok: false, reason: "an eval needs a numeric value" };
+  const rec = { suite: ent3Text(e.suite, 120), metric: ent3Text(e.metric, 60) || "score", value, n: Math.max(0, Math.floor(Number(e.n) || 0)), seeds: Array.isArray(e.seeds) ? e.seeds.slice(0, 50).map(Number) : [], baseline: e.baseline != null && Number.isFinite(Number(e.baseline)) ? Number(e.baseline) : null, measured: e.measured === true, at: ent3Text(e.at, 40) || ent3Now() };
+  p.evals.push(rec);
+  ent3Audit(state, "policy-eval", `${p.id}@${p.version}: ${rec.metric} ${rec.value} on ${rec.suite} (n=${rec.n}${rec.measured ? "" : ", sample figure"})`, rec.at);
+  ent3Save(state);
+  return { ok: true, eval: { ...rec } };
+}
+
+// ------------------------------------------------------------------ fleet / agent registry
+
+function ent3Deploy({ policyId, siteId } = {}, { at = null } = {}) {
+  const site = RB_SITES.find((s) => s.id === siteId);
+  if (!site) return { ok: false, reason: "unknown robot site" };
+  const state = ent3Load();
+  const p = state.policies.find((x) => x.id === policyId);
+  if (!p) return { ok: false, reason: "unknown policy" };
+  if (p.status !== "current") return { ok: false, reason: `policy ${p.id} is ${p.status}: retrain before deploying` };
+  state.deployments = state.deployments.filter((d) => d.siteId !== siteId);
+  state.deployments.push({ siteId, policyId: p.id, version: p.version, at: at ?? ent3Now() });
+  ent3Audit(state, "deploy", `${p.id}@${p.version} -> ${siteId} (sim)`, at ?? ent3Now());
+  ent3Save(state);
+  return { ok: true };
+}
+
+/** One row per robot site in the sim: what is deployed, its latest eval, whether it is stale. */
+function ent3Fleet() {
+  const state = ent3Load();
+  return RB_SITES.map((s) => {
+    const d = state.deployments.find((x) => x.siteId === s.id) ?? null;
+    const p = d ? state.policies.find((x) => x.id === d.policyId) : null;
+    const last = p?.evals?.length ? p.evals[p.evals.length - 1] : null;
+    return { siteId: s.id, name: s.name, parish: s.parish, rig: s.rig, scenario: s.scenario, deployment: d ? { ...d, method: p?.method ?? null } : null, evalScore: last ? last.value : null, evalMeasured: last ? last.measured : null, stale: !!p && p.status !== "current" };
+  });
+}
+
+// ------------------------------------------------------------------ lineage
+
+function ent3Lineage() {
+  const state = ent3Load();
+  const nodes = []; const edges = [];
+  for (const c of state.consents) nodes.push({ id: `consent:${c.consentId}`, type: "consent", label: c.consentId, status: c.state });
+  for (const d of state.datasets) {
+    nodes.push({ id: d.id, type: "dataset", label: d.name, status: d.status });
+    for (const c of d.consentIds) edges.push({ from: `consent:${c}`, to: d.id, kind: "consent-in" });
+  }
+  for (const p of state.policies) {
+    nodes.push({ id: p.id, type: "policy", label: `${p.name} @${p.version}`, status: p.status });
+    for (const d of p.trainedOn) edges.push({ from: d, to: p.id, kind: "trained-on" });
+    for (const b of p.basedOn) edges.push({ from: b, to: p.id, kind: "based-on" });
+    p.evals.forEach((e, i) => { const id = `eval:${p.id}:${i}`; nodes.push({ id, type: "eval", label: `${e.metric} ${e.value} — ${e.suite}`, status: e.measured ? "measured" : "sample" }); edges.push({ from: p.id, to: id, kind: "evaluated-by" }); });
+  }
+  for (const d of state.deployments) { const id = `site:${d.siteId}`; if (!nodes.some((n) => n.id === id)) nodes.push({ id, type: "site", label: d.siteId, status: "sim" }); edges.push({ from: d.policyId, to: id, kind: "deployed-to" }); }
+  return { nodes, edges };
+}
+
+/** Flat rows for the console: dataset id -> policy id -> evals. */
+function ent3LineageRows() {
+  const state = ent3Load(); const rows = [];
+  for (const p of state.policies) for (const d of p.trainedOn) {
+    const ds = state.datasets.find((x) => x.id === d);
+    rows.push({ datasetId: d, datasetStatus: ds?.status ?? "missing", policyId: p.id, version: p.version, method: p.method, status: p.status, evals: p.evals.map((e) => ({ ...e })), sites: state.deployments.filter((x) => x.policyId === p.id).map((x) => x.siteId) });
+  }
+  return rows;
+}
+
+// ------------------------------------------------------------------ revoke
+
+function ent3MarkStale(state, at) {
+  const stale = [];
+  let grew = true;
+  while (grew) {
+    grew = false;
+    for (const p of state.policies) {
+      if (p.status === "stale") continue;
+      const ds = p.trainedOn.find((d) => state.datasets.find((x) => x.id === d)?.status !== "current");
+      const base = p.basedOn.find((b) => state.policies.find((x) => x.id === b)?.status === "stale");
+      if (ds || base) {
+        p.status = "stale"; p.staleReason = ds ? `trained on ${ds}, which holds a revoked consent` : `based on ${base}, which is stale`;
+        stale.push(p.id); grew = true;
+        ent3Audit(state, "policy-stale", `${p.id}@${p.version}: ${p.staleReason}`, at);
+      }
+    }
+  }
+  return stale;
+}
+
+/**
+ * One-tap revoke of a consent (or a whole dataset). Returns what changed.
+ * A revoked consent is never reactivated; datasets that held it need a rebuild
+ * (a new dataset id) and policies trained on them are stale until retrained.
+ */
+function ent3Revoke(target = {}, reason = "", { at = null } = {}) {
+  const when = at ?? ent3Now();
+  const state = ent3Load();
+  const out = { ok: true, revokedConsents: [], datasetsAffected: [], policiesStale: [], deploymentsFlagged: [], localDeleted: false };
+  if (target.consentId) {
+    const c = state.consents.find((x) => x.consentId === target.consentId);
+    if (!c) return { ...out, ok: false, reason: "unknown consent" };
+    if (c.state !== "revoked") { c.state = "revoked"; c.revokedAt = when; out.revokedConsents.push(c.consentId); ent3Audit(state, "consent-revoke", `${c.consentId}${reason ? `: ${reason}` : ""}`, when); }
+    for (const d of state.datasets) if (d.consentIds.includes(c.consentId) && !d.revokedConsents.includes(c.consentId)) {
+      d.revokedConsents.push(c.consentId); d.status = "needs-rebuild"; out.datasetsAffected.push(d.id);
+      ent3Audit(state, "dataset-revoke", `${d.id} holds ${c.consentId}: rebuild without it`, when);
+    }
+    try { if (dxConsent()?.id === c.consentId) { dxRevoke(); out.localDeleted = true; } } catch (_) { /* no local consent */ }
+  } else if (target.datasetId) {
+    const d = state.datasets.find((x) => x.id === target.datasetId);
+    if (!d) return { ...out, ok: false, reason: "unknown dataset" };
+    if (d.status !== "withdrawn") { d.status = "withdrawn"; out.datasetsAffected.push(d.id); ent3Audit(state, "dataset-withdraw", `${d.id}${reason ? `: ${reason}` : ""}`, when); }
+  } else return { ...out, ok: false, reason: "name a consentId or a datasetId" };
+  out.policiesStale = ent3MarkStale(state, when);
+  const stale = new Set(state.policies.filter((p) => p.status === "stale").map((p) => p.id));
+  out.deploymentsFlagged = state.deployments.filter((d) => stale.has(d.policyId)).map((d) => d.siteId);
+  if (out.deploymentsFlagged.length) ent3Audit(state, "deploy-flag", `stale policy deployed at ${out.deploymentsFlagged.join(", ")}`, when);
+  ent3Save(state);
+  return out;
+}
+
+// ------------------------------------------------------------------ sample
+
+/**
+ * A labelled sample for the console's empty state and the checker: one
+ * organisation, three consent receipts (sample metadata, no person), a
+ * synthetic rollout dataset, a consented human dataset, a behaviour-cloning
+ * policy, a tutor and a fine-tune, two deployments. Eval figures here are
+ * marked `measured: false` — the console shows them as sample figures.
+ * Idempotent.
+ */
+function ent3LoadSample({ at = null } = {}) {
+  if (ent3Load().datasets.some((d) => d.id === "ds-sample-human-cell-entry")) return false;
+  const t = at ?? ent3Now(); const o = { at: t };
+  for (const [i, lic] of [["1", "CC0-1.0"], ["2", "CC-BY-4.0"], ["3", "CC0-1.0"]]) ent3RegisterConsent({ orgId: "org-sample", consentId: `sample-consent-${i}`, licence: lic, at: t, statementHash: `sample${i}`, adult: true }, o);
+  ent3RegisterDataset({ id: "ds-sample-synthetic-rollouts", orgId: "org-sample", name: "Robot-game rollouts (synthetic, tools/rb_rollout.mjs)", source: "synthetic", episodes: 42, steps: 5856, consentIds: [], licences: ["CC0-1.0"], scenarios: ["rb-teleop-pick-place", "rb-amr-fleet-routing", "rb-cobot-zone-setup", "rb-cell-entry"], worlds: ["robotics"], generator: "tools/rb_rollout.mjs" }, o);
+  ent3RegisterDataset({ id: "ds-sample-human-cell-entry", orgId: "org-sample", name: "Consented cell-entry episodes (sample)", source: "human", episodes: 18, steps: 1440, consentIds: ["sample-consent-1", "sample-consent-2", "sample-consent-3"], licences: ["CC0-1.0", "CC-BY-4.0"], scenarios: ["rb-cell-entry"], worlds: ["robotics", "smartcity"] }, o);
+  ent3RegisterPolicy({ id: "pol-sample-bc-knn-cell", version: "1", name: "Cell entry — behaviour cloning (kNN)", method: "behaviour-cloning-knn", trainedOn: ["ds-sample-human-cell-entry", "ds-sample-synthetic-rollouts"] }, o);
+  ent3RegisterPolicy({ id: "pol-sample-bc-knn-cell-ft", version: "2", name: "Cell entry — kNN, fine-tuned on new rollouts", method: "behaviour-cloning-knn", trainedOn: ["ds-sample-synthetic-rollouts"], basedOn: ["pol-sample-bc-knn-cell"] }, o);
+  ent3RegisterPolicy({ id: "pol-sample-amr-scripted", version: "1", name: "AMR routing — scripted expert", method: "scripted", trainedOn: ["ds-sample-synthetic-rollouts"] }, o);
+  ent3RegisterPolicy({ id: "tutor-sample-bandit", version: "1", name: "Hint tutor — bandit over hint styles", method: "bandit-tutor", kind: "agent", trainedOn: ["ds-sample-human-cell-entry"] }, o);
+  ent3RecordEval("pol-sample-bc-knn-cell", { suite: "rb-cell-entry held-out seeds (sample)", metric: "success rate", value: 0.75, n: 8, baseline: 0, measured: false, at: t });
+  ent3RecordEval("pol-sample-bc-knn-cell-ft", { suite: "rb-cell-entry held-out seeds (sample)", metric: "success rate", value: 0.875, n: 8, measured: false, at: t });
+  ent3RecordEval("pol-sample-amr-scripted", { suite: "rb-amr-fleet-routing seeds (sample)", metric: "success rate", value: 1, n: 8, measured: false, at: t });
+  ent3RecordEval("tutor-sample-bandit", { suite: "simulated learners (sample)", metric: "mean steps-to-pass", value: 6.5, n: 50, baseline: 7.25, measured: false, at: t });
+  ent3Deploy({ policyId: "pol-sample-bc-knn-cell-ft", siteId: "rb-site-soma-robot-cell" }, o);
+  ent3Deploy({ policyId: "pol-sample-amr-scripted", siteId: "rb-site-west-oakland-warehouse" }, o);
+  const s = ent3Load(); ent3Audit(s, "sample-load", "sample governance registry (org-sample)", t); ent3Save(s);
+  return true;
+}
+
+
+/* ===== shared/ent3-billing.js ===== */
+// Billing adapters for organisation seat licences — OFF BY DEFAULT (console
+// ENTERPRISE-3, docs/billing-adapters.md). A design with a mock provider and
+// tests; it follows shared/mapbox.js's rule: nothing ships that could reach a
+// vendor, and nothing is requested until a deployment configures it.
+//
+// The rules this module keeps, and tools/check_enterprise3.mjs proves:
+//
+//   - Off unless the deployment's auth-config.json carries a `billing` block
+//     (it does not out of the box). ent3BillingConfig() returns null for the
+//     public build, and an adapter made from null answers every call with
+//     { ok: false, off: true } before touching anything.
+//   - No key ships, ever. A block with a field named like a key, secret,
+//     token, password or credential, or a value shaped like a live/test key,
+//     is refused whole. Chargebee and PayPal both need SERVER-SIDE secrets, so
+//     the browser never talks to either: it sends a plain request DESCRIPTOR
+//     ({ provider, resource, action, body }) to the deployment's own https
+//     proxy (`proxyEndpoint`, never a vendor host), and only through a
+//     `transport` function the deployment hands in. This module has no fetch.
+//   - The deployment's server maps each descriptor to the vendor's current API
+//     (Chargebee: subscriptions with a per-seat item quantity, and entitlements
+//     on a seat feature; PayPal: draft invoices) using its own credentials. The
+//     descriptor names are this design's, not the vendors' endpoint paths.
+//   - No price appears in the public build: descriptors carry seat counts and
+//     references, never an amount — the vendor's catalogue (or the server)
+//     prices the seat. The mock's invoices have `amount: null`.
+//   - Crew Credits (TYCOON's play currency) never touch billing: any call that
+//     names them is refused, and this module does not read the play economy.
+//
+// Every top-level name starts with `ent3`/`ENT3_` (the bundler shares one scope).
+
+const ENT3_BILLING_PROVIDERS = Object.freeze(["mock", "chargebee", "paypal"]);
+/** The entitlement feature a seat licence grants (Chargebee "feature" in the server's catalogue). */
+const ENT3_SEAT_FEATURE = "holodeck-seats";
+const ENT3_MAX_SEATS = 1000;
+
+/** What each provider does in this design. */
+const ENT3_BILLING_CAPABILITIES = Object.freeze({
+  mock: ["seat-licence", "set-seats", "entitlements", "invoice"],
+  chargebee: ["seat-licence", "set-seats", "entitlements"],
+  paypal: ["seat-licence", "invoice"],
+});
+
+const ENT3_SECRET_FIELD = /(key|secret|token|password|passwd|credential|bearer|auth)/i;
+const ENT3_SECRET_VALUE = /^(sk|rk|pk|live|test)_[A-Za-z0-9]{8,}|^[A-Za-z0-9+/_-]{40,}={0,2}$/;
+const ENT3_VENDOR_HOST = /(^|\.)(chargebee\.com|paypal\.com|paypalobjects\.com|braintreegateway\.com)$/i;
+const ENT3_CREW = /crew[\s_-]?credit/i;
+
+function ent3BillText(v, max = 80) { return String(v ?? "").replace(/[\u0000-\u001f\u007f<>]/g, "").trim().slice(0, max); }
+
+/** Clean one `billing` block; null when absent, unknown, or carrying anything secret. */
+function ent3CleanBilling(block) {
+  if (!block || typeof block !== "object" || Array.isArray(block)) return null;
+  for (const [k, v] of Object.entries(block)) {
+    if (ENT3_SECRET_FIELD.test(k)) return null;
+    if (typeof v === "string" && ENT3_SECRET_VALUE.test(v.trim()) && k !== "proxyEndpoint") return null;
+    if (typeof v === "string" && ENT3_CREW.test(v)) return null;
+  }
+  const provider = ENT3_BILLING_PROVIDERS.includes(block.provider) ? block.provider : null;
+  if (!provider) return null;
+  if (provider === "mock") return { provider };
+  let url = null;
+  try { url = new URL(String(block.proxyEndpoint ?? "")); } catch (_) { return null; }
+  if (url.protocol !== "https:" || ENT3_VENDOR_HOST.test(url.hostname) || url.username || url.password || url.search) return null;
+  const out = { provider, proxyEndpoint: url.href.replace(/\/$/, "") };
+  for (const k of ["site", "subscriptionRef", "itemPriceRef", "invoicerRef"]) if (block[k] != null) out[k] = ent3BillText(block[k], 80);
+  return out;
+}
+
+/** The deployment's billing config from a parsed auth-config.json, or null (the public build). */
+function ent3BillingConfig(authConfig) { return ent3CleanBilling(authConfig?.billing ?? null); }
+
+function ent3Seats(v) { const n = Number(v); return Number.isInteger(n) && n >= 0 && n <= ENT3_MAX_SEATS ? n : null; }
+function ent3NamesCrew(args) { try { return ENT3_CREW.test(JSON.stringify(args ?? {})); } catch (_) { return true; } }
+
+/**
+ * An adapter over a cleaned config (or { provider: "mock" }). Options:
+ * `transport(endpoint, descriptor) -> Promise<{ ok, data }>` — the only way a
+ * hosted provider is reached; `now()` for deterministic tests.
+ * Interface: describe(), getSeatLicence(orgId), setSeats(orgId, seats),
+ * listEntitlements(orgId), createInvoice({ orgId, seats, reference }).
+ */
+function ent3BillingAdapter(config, { transport = null, now = null } = {}) {
+  const cfg = config?.provider === "mock" ? { provider: "mock" } : ent3CleanBilling(config);
+  const clock = () => (typeof now === "function" ? now() : new Date().toISOString());
+  const provider = cfg?.provider ?? null;
+  const caps = provider ? ENT3_BILLING_CAPABILITIES[provider] : [];
+  const mock = { subs: new Map(), invoices: [] };
+  const off = () => ({ ok: false, off: true, reason: "billing is not configured for this deployment (no billing block in auth-config.json)" });
+  const crew = () => ({ ok: false, reason: "Crew Credits are play currency and never touch billing" });
+  const unsupported = (what) => ({ ok: false, unsupported: true, reason: `${provider} does not ${what} in this design (see docs/billing-adapters.md)` });
+
+  async function send(resource, action, body) {
+    if (typeof transport !== "function") return { ok: false, reason: "no transport: a hosted provider is reached only through the deployment's own transport and proxy" };
+    const descriptor = { provider, resource, action, body };
+    try {
+      const r = await transport(cfg.proxyEndpoint, descriptor);
+      return r && r.ok ? { ok: true, data: r.data ?? {} } : { ok: false, reason: r?.reason ?? "the deployment's proxy refused" };
+    } catch (e) { return { ok: false, reason: `transport failed: ${ent3BillText(e?.message, 120)}` }; }
+  }
+
+  return {
+    provider,
+    enabled: !!provider,
+    describe() { return { provider, enabled: !!provider, capabilities: caps.slice(), proxy: cfg?.proxyEndpoint ?? null, prices: "never in the public build" }; },
+
+    async getSeatLicence(orgId) {
+      if (!provider) return off();
+      const org = ent3BillText(orgId, 80);
+      if (provider === "mock") { const s = mock.subs.get(org); return { ok: true, seats: s?.seats ?? 0, status: s ? "active" : "none" }; }
+      const r = provider === "chargebee"
+        ? await send("subscription", "retrieve", { orgRef: org, subscriptionRef: cfg.subscriptionRef ?? null })
+        : await send("invoice", "search-paid", { orgRef: org });
+      return r.ok ? { ok: true, seats: ent3Seats(r.data.seats) ?? 0, status: ent3BillText(r.data.status, 20) || "unknown" } : r;
+    },
+
+    async setSeats(orgId, seats) {
+      if (!provider) return off();
+      if (ent3NamesCrew({ orgId, seats })) return crew();
+      const n = ent3Seats(seats);
+      if (n == null) return { ok: false, reason: `seats must be a whole number from 0 to ${ENT3_MAX_SEATS}` };
+      const org = ent3BillText(orgId, 80);
+      if (provider === "paypal") return unsupported("hold a seat quantity (it invoices; create an invoice instead)");
+      if (provider === "mock") { mock.subs.set(org, { seats: n, at: clock() }); return { ok: true, seats: n }; }
+      const r = await send("subscription", "update-seat-quantity", { orgRef: org, subscriptionRef: cfg.subscriptionRef ?? null, itemPriceRef: cfg.itemPriceRef ?? null, quantity: n });
+      return r.ok ? { ok: true, seats: ent3Seats(r.data.seats) ?? n } : r;
+    },
+
+    async listEntitlements(orgId) {
+      if (!provider) return off();
+      const org = ent3BillText(orgId, 80);
+      if (provider === "paypal") return unsupported("keep entitlements (seats come from paid invoices)");
+      if (provider === "mock") { const s = mock.subs.get(org); return { ok: true, entitlements: s ? [{ feature: ENT3_SEAT_FEATURE, value: s.seats }] : [] }; }
+      const r = await send("subscription-entitlements", "list", { orgRef: org, subscriptionRef: cfg.subscriptionRef ?? null, feature: ENT3_SEAT_FEATURE });
+      return r.ok ? { ok: true, entitlements: (Array.isArray(r.data.entitlements) ? r.data.entitlements : []).map((e) => ({ feature: ent3BillText(e.feature, 60), value: e.value })) } : r;
+    },
+
+    async createInvoice(args = {}) {
+      if (!provider) return off();
+      if (ent3NamesCrew(args)) return crew();
+      const n = ent3Seats(args.seats);
+      if (!n) return { ok: false, reason: `an invoice needs 1 to ${ENT3_MAX_SEATS} seats` };
+      const org = ent3BillText(args.orgId, 80); const reference = ent3BillText(args.reference, 80) || null;
+      if (provider === "chargebee") return unsupported("raise a free-standing invoice (it invoices from the subscription; set seats instead)");
+      if (provider === "mock") {
+        const invoice = { id: `inv-mock-${String(mock.invoices.length + 1).padStart(4, "0")}`, orgId: org, seats: n, reference, amount: null, status: "draft", at: clock() };
+        mock.invoices.push(invoice);
+        return { ok: true, invoice: { ...invoice } };
+      }
+      const r = await send("invoice", "create-draft", { orgRef: org, invoicerRef: cfg.invoicerRef ?? null, reference, items: [{ name: "Holodeck seat licence", quantity: n }] });
+      return r.ok ? { ok: true, invoice: { id: ent3BillText(r.data.invoiceId, 80), orgId: org, seats: n, reference, amount: null, status: "draft", at: clock() } } : r;
+    },
+  };
+}
+
+
+/* ===== instructor/js/governance.js ===== */
+// The "Data governance" view of the instructor console (console ENTERPRISE-3,
+// docs/enterprise.md section 6): an organisation's consent registry, its
+// dataset cards (DATAWORKS' datasheets), lineage from dataset id to policy id
+// to eval, the robot fleet / agent registry over the sim's robot sites, one-tap
+// revoke, the append-only audit log with its chain check, and the billing
+// adapter's status (off unless the deployment configures it).
+//
+// Built from createElement/textContent only — tools/check_console.mjs forbids
+// markup from strings on this page, and every id and name here is untrusted.
+// Every top-level name starts with `ent3` (the bundler shares one scope).
+
+
+
+function ent3El(tag, cls, text) { const node = document.createElement(tag); if (cls) node.className = cls; if (text !== undefined) node.textContent = text; return node; }
+const ent3View = { root: null, toast: null, config: null, card: null };
+
+function ent3Say(t) { try { ent3View.toast?.(t); } catch (_) { /* no toast */ } }
+function ent3Btn(label, onClick, cls = "small") { const b = ent3El("button", cls, label); b.type = "button"; b.addEventListener("click", onClick); return b; }
+function ent3Panel(title, note) { const p = ent3El("section", "panel"); p.append(ent3El("h2", null, title)); if (note) p.append(ent3El("p", "fine", note)); return p; }
+function ent3Table(headers, rows, empty) {
+  const wrap = ent3El("div", "ent3-scroll"); const t = ent3El("table");
+  const hr = ent3El("tr"); for (const h of headers) hr.append(ent3El("th", null, h)); const th = ent3El("thead"); th.append(hr); t.append(th);
+  const tb = ent3El("tbody");
+  for (const cells of rows) { const tr = ent3El("tr"); for (const c of cells) { const td = ent3El("td"); if (c && c.nodeType) td.append(c); else td.textContent = String(c ?? ""); tr.append(td); } tb.append(tr); }
+  if (!rows.length) { const tr = ent3El("tr"); const td = ent3El("td", "muted", empty); td.colSpan = headers.length; tr.append(td); tb.append(tr); }
+  t.append(tb); wrap.append(t); return wrap;
+}
+function ent3Method(id) { return ENT3_METHODS.find((m) => m.id === id)?.label ?? id; }
+function ent3Score(e) { return e ? `${e.metric} ${e.value}${e.measured ? "" : " (sample figure)"} — ${e.suite}, n=${e.n}` : "no eval"; }
+
+function ent3Render() {
+  const root = ent3View.root; if (!root) return;
+  const consents = ent3Consents(); const datasets = ent3Datasets(); const policies = ent3Policies();
+  const out = [];
+
+  const intro = ent3Panel("Training-data governance", "A registry, not a training system: it records which consented learners' episodes (DATAWORKS receipts — consent id, time, licence, statement hash; never a name or an episode) went into which dataset, which dataset trained which robot policy or agent tutor, how each was evaluated and where it runs in the sim. Revoking a consent marks every dataset holding it for rebuild and every policy trained on it — or based on such a policy — stale. Kept with the signed-in profile on this device; nothing is sent anywhere.");
+  if (!datasets.length) intro.append(ent3Btn("Load the sample registry", () => { ent3LoadSample(); ent3Say("Sample registry loaded (sample figures are marked)."); ent3Render(); }));
+  out.push(intro);
+
+  const cp = ent3Panel("Consent registry", "Adults only, opt-in only; K-12, demo and signed-out sessions are never collected (DATAWORKS). Revoke is one tap and cannot be undone.");
+  cp.append(ent3Table(["Consent", "Organisation", "Licence", "Given", "State", ""], consents.map((c) => [c.consentId, c.orgId, c.licence, c.at.slice(0, 10), c.state === "revoked" ? `revoked ${String(c.revokedAt).slice(0, 10)}` : "active",
+    c.state === "revoked" ? "" : ent3Btn("Revoke", () => { const r = ent3Revoke({ consentId: c.consentId }, "revoked from the console"); ent3Say(`Revoked ${c.consentId}: ${r.datasetsAffected.length} dataset(s) to rebuild, ${r.policiesStale.length} policy(ies) stale, ${r.deploymentsFlagged.length} deployment(s) flagged.`); ent3Render(); }, "small danger")]), "No consents registered."));
+  out.push(cp);
+
+  const dp = ent3Panel("Datasets and their cards", "Each card is DATAWORKS' datasheet (every required section) with the registry's governance lines.");
+  dp.append(ent3Table(["Dataset", "Source", "Episodes", "Consents", "Status", ""], datasets.map((d) => [d.id, d.source, d.episodes, d.consentIds.length, d.status, ent3Btn(ent3View.card === d.id ? "Hide card" : "Card", () => { ent3View.card = ent3View.card === d.id ? null : d.id; ent3Render(); })]), "No datasets registered."));
+  if (ent3View.card) { const pre = ent3El("pre", "ent3-card", ent3DatasetCard(ent3View.card) ?? ""); pre.tabIndex = 0; dp.append(pre); }
+  out.push(dp);
+
+  const lp = ent3Panel("Lineage: dataset → policy → eval", "Methods are named for what they are (behaviour cloning, a scripted expert, a bandit tutor). Figures marked \"sample\" are illustrative; measured figures come from rb-env rollouts on held-out seeds.");
+  lp.append(ent3Table(["Dataset", "Policy", "Method", "Status", "Latest eval", "Deployed at"], ent3LineageRows().map((r) => [`${r.datasetId} (${r.datasetStatus})`, `${r.policyId} @${r.version}`, ent3Method(r.method), r.status, ent3Score(r.evals[r.evals.length - 1]), r.sites.join(", ") || "—"]), "No policies registered."));
+  out.push(lp);
+
+  const fp = ent3Panel("Robot fleet and agent registry (sim)", "Which policy version runs at each robot site in the parish maps, with its latest eval. A stale policy cannot be deployed; a deployed one that goes stale is flagged here.");
+  const current = policies.filter((p) => p.status === "current" && p.kind === "robot");
+  fp.append(ent3Table(["Site", "Map", "Rig", "Policy", "Eval", "Flag", ""], ent3Fleet().map((r) => {
+    const sel = ent3El("select"); sel.setAttribute("aria-label", `Policy for ${r.name}`);
+    for (const p of [{ id: "", name: "Deploy a policy…" }, ...current]) { const o = ent3El("option", null, p.id ? `${p.id} @${p.version}` : p.name); o.value = p.id; sel.append(o); }
+    sel.addEventListener("change", () => { if (!sel.value) return; const res = ent3Deploy({ policyId: sel.value, siteId: r.siteId }); ent3Say(res.ok ? `Deployed ${sel.value} to ${r.name} (sim).` : res.reason); ent3Render(); });
+    return [r.name, r.parish, r.rig, r.deployment ? `${r.deployment.policyId} @${r.deployment.version}` : "—", r.evalScore == null ? "—" : `${r.evalScore}${r.evalMeasured ? "" : " (sample)"}`, r.stale ? "STALE — retrain" : (r.deployment ? "ok" : ""), sel];
+  }), "No robot sites."));
+  const agents = policies.filter((p) => p.kind === "agent");
+  fp.append(ent3El("h3", null, "Agent tutors"));
+  fp.append(ent3Table(["Agent", "Method", "Status", "Latest eval"], agents.map((p) => [`${p.id} @${p.version}`, ent3Method(p.method), p.status, ent3Score(p.evals[p.evals.length - 1])]), "No agent tutors registered."));
+  out.push(fp);
+
+  const bp = ent3Panel("Billing adapters", "Organisation seat licences through Chargebee (subscriptions and entitlements) or PayPal (invoices) — off unless this deployment's auth-config.json has a billing block. No key ships; the browser only ever sends a request description to the deployment's own proxy. Crew Credits are play currency and never touch billing. No price is shown here.");
+  const d = ent3BillingAdapter(ent3BillingConfig(ent3View.config)).describe();
+  bp.append(ent3El("p", null, d.enabled ? `Provider: ${d.provider} · capabilities: ${d.capabilities.join(", ")} · proxy: ${d.proxy ?? "on-device mock"}` : "Billing: off (not configured for this deployment)."));
+  out.push(bp);
+
+  const ap = ent3Panel("Audit log (append-only)", "Every registry change, oldest first. Each line carries the hash of the one before it; the check below re-walks the chain. Tamper-evident on this device, not cryptographic proof.");
+  const v = ent3VerifyAudit();
+  ap.append(ent3El("p", v.ok ? "ent3-ok" : "ent3-bad", v.ok ? `Chain verified: ${v.lines} line(s) intact.` : `Chain broken at line ${v.brokenAt} of ${v.lines}.`));
+  ap.append(ent3Table(["#", "When", "Action", "Detail"], ent3AuditList().slice(-60).reverse().map((a) => [a.seq, a.at.slice(0, 19).replace("T", " "), a.action, a.detail]), "Nothing recorded yet."));
+  out.push(ap);
+
+  root.replaceChildren(...out);
+}
+
+const ENT3_CSS = "#ent3-root .ent3-scroll{overflow-x:auto}#ent3-root pre.ent3-card{white-space:pre-wrap;max-height:360px;overflow:auto;background:var(--bg,transparent);border:1px solid var(--edge);border-radius:10px;padding:12px;font-size:12px}#ent3-root .ent3-ok{color:var(--ok,inherit)}#ent3-root .ent3-bad{color:var(--danger,inherit);font-weight:600}#ent3-root h2{font-size:16px;margin:0 0 6px}#ent3-root h3{font-size:14px;margin:14px 0 6px}#ent3-root select{max-width:220px}";
+
+/** Mount the view; `config` is the parsed auth-config (for the billing block). Returns { render, setConfig }. */
+function ent3MountGovernanceView(root, { toast = null, config = null } = {}) {
+  if (!root) return null;
+  ent3View.root = root; ent3View.toast = toast; ent3View.config = config;
+  if (!document.getElementById("ent3-style")) { const s = document.createElement("style"); s.id = "ent3-style"; s.textContent = ENT3_CSS; document.head.appendChild(s); }
+  try { addEventListener("gt:profile", ent3Render); } catch (_) { /* headless */ }
+  ent3Render();
+  return { render: ent3Render, setConfig: (c) => { ent3View.config = c ?? null; ent3Render(); } };
+}
+
+
 /* ===== shared/auth.js ===== */
 /**
  * Sign-in options for a static training page — honestly scoped.
@@ -80953,6 +82352,8 @@ function ctlMount(opts = {}) {
 
 // DEAN (docs/modules.md): versions, modules and progress across every world.
 
+// ENTERPRISE-3 (docs/enterprise.md section 6): the Data governance tab — consent registry, dataset cards, lineage, fleet, revoke, audit, billing status.
+
 
 // The instructor console. It owns no simulation and no records: it listens to
 // the sessions it can hear — other tabs on this machine over a
@@ -81504,7 +82905,7 @@ fetch("../../flows/index.json")
 // ---------------------------------------------------------------------- views
 
 function render() {
-  for (const [name, tab, panel] of [["live", "tab-live", "view-live"], ["roster", "tab-roster", "view-roster"], ["log", "tab-log", "view-log"], ["cohort", "tab-cohort", "view-cohort"], ["billing", "tab-billing", "view-billing"], ["dean", "tab-dean", "view-dean"]]) {
+  for (const [name, tab, panel] of [["live", "tab-live", "view-live"], ["roster", "tab-roster", "view-roster"], ["log", "tab-log", "view-log"], ["cohort", "tab-cohort", "view-cohort"], ["billing", "tab-billing", "view-billing"], ["dean", "tab-dean", "view-dean"], ["governance", "tab-governance", "view-governance"]]) {
     $(tab).setAttribute("aria-selected", String(view === name));
     $(panel).hidden = view !== name;
   }
@@ -81521,6 +82922,7 @@ $("tab-log").addEventListener("click", () => setView("log"));
 $("tab-cohort").addEventListener("click", () => setView("cohort"));
 $("tab-billing").addEventListener("click", () => setView("billing"));
 $("tab-dean").addEventListener("click", () => setView("dean"));
+$("tab-governance").addEventListener("click", () => setView("governance"));
 
 $("send").addEventListener("click", () => {
   const text = $("note").value.trim();
@@ -81595,11 +82997,13 @@ enMountCohortView($("en-root"), { toast });
 pmMountBillingView($("pm-root"), { toast });
 // DEAN's tab (docs/modules.md). PACKS' pkPacks and SCHOLAR's scSessions register through dnUsePacks/dnUseSessions once merged.
 var dnView = dnMountView($("dn-root"), { toast });
+var ent3Tab = ent3MountGovernanceView($("ent3-root"), { toast });
 function enApplyDeployment() {
   const e = Auth.config?.enterprise ?? null;
   enSetEnterprise(e);
   pmSetConfig({ enterprise: e, payments: Auth.config?.payments ?? null });
   dnView?.setEnterprise(e);
+  ent3Tab?.setConfig(Auth.config ?? null);
   const line = $("en-deployment");
   if (e?.organisation) {
     line.hidden = false;

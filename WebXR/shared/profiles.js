@@ -32,6 +32,8 @@ export const GT_REGISTRY_KEY = "vr-training-profiles-v1";
 /** The stores that are private to a profile. Everything else passes through untouched. */
 export const GT_PROFILE_KEYS = [
   "vr-training-records-v1",
+  // ENTERPRISE-3's training-data governance registry (shared/ent3-governance.js).
+  "ent3-governance-v1",
   "vr-passport-v1",
   "qm-side-games-v1",
   "vr-training-episodes-v1", "vr-training-episodes-current-v1",
