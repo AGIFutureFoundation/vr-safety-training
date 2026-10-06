@@ -218,12 +218,12 @@ export const SIM_SIL_CONCRETE_DRILLING_AND_SILICA_DUST_CUES = {
       id: "dust-drift",
       kind: "Another crew's dust drifts onto your work area (passive cue)",
       after: "core-feed", delay: 2, seconds: 12,
-      alert: "A crew grinding at the far wall has started without a shroud, and their dust is drifting across the core toward you on the draught.",
-      cue: "Step back to the upwind marker, out of the plume, and call the stop from there.",
-      target: "upwind-marker",
-      why: "This dust is not yours, which is exactly why it is easy to keep working through it: your own controls are fine and the cloud seems like someone else's problem. Respirable silica does not care whose tool made it. Moving upwind out of it first and then calling the stop to that crew's lead protects your lungs now and fixes the source.",
+      alert: "A crew grinding by the open bay has started without a shroud, and the draught is carrying their dust west across the core toward you.",
+      cue: "Step across to the clear-air marker, out of the plume's path, and call the stop from there.",
+      target: "clear-air-marker",
+      why: "This dust is not yours, which is exactly why it is easy to keep working through it: your own controls are fine and the cloud seems like someone else's problem. Respirable silica does not care whose tool made it. Moving out of its path first and then calling the stop to that crew's lead protects your lungs now and fixes the source.",
       missNote: "You kept coring while the other crew's dust rolled across the work area; the haze settled over the core drill and the slurry ring before anyone called it.",
-      wrongNote: "The upwind marker — get out of the plume first, then call the stop.",
+      wrongNote: "The clear-air marker — get out of the plume's path first, then call the stop.",
     },
   ],
 
@@ -378,10 +378,10 @@ export const SIM_SIL_CONCRETE_DRILLING_AND_SILICA_DUST_CUES = {
     const upwindMarker = group(g, 2.8, 0.02, 0.2, 0);
     cyl(upwindMarker, 0.03, 0.03, 1.1, 0, 0.55, 0, 0x59c97b, { rough: 0.5, seg: 8 });
     const markerFlag = box(upwindMarker, 0.26, 0.16, 0.01, 0.13, 1.0, 0, 0x59c97b, { rough: 0.6 });
-    reg(hits, upwindMarker, "upwind-marker");
+    reg(hits, upwindMarker, "clear-air-marker");
     const stopFlag = box(upwindMarker, 0.26, 0.16, 0.01, 0.13, 1.0, 0.012, 0xd2312b, { rough: 0.6 });
     stopFlag.visible = false;
-    holoTag(upwindMarker, "upwind marker", 0, 1.3, 0, { css: "#59c97b", w: 0.24 });
+    holoTag(upwindMarker, "clear-air marker", 0, 1.3, 0, { css: "#59c97b", w: 0.28 });
 
     // ------------------------------------------------------------- rig-mounted core drill, water, slurry
     const rig = group(g, -0.8, 0.02, -1.4, 0);
@@ -406,17 +406,18 @@ export const SIM_SIL_CONCRETE_DRILLING_AND_SILICA_DUST_CUES = {
     holoTag(wetVac, "wet vacuum", 0, 0.62, 0, { css: SILD_CSS, w: 0.22 });
 
     // ------------------------------------------------------------- the neighbouring crew and their grinder
-    const neighbour = standingFigure(g, -3.0, -2.5, { ry: 0.8, cloth: 0x5a4a3a, vest: 0xf27a1a, helmet: 0xf2f2f2, gloves: true });
+    const neighbour = standingFigure(g, 2.0, -1.85, { ry: -0.6, cloth: 0x5a4a3a, vest: 0xf27a1a, helmet: 0xf2f2f2, gloves: true });
     holoTag(neighbour, "next crew — grinding", 0, 1.95, 0, { css: SILD_CSS, w: 0.32 });
-    const grinder = box(g, 0.2, 0.08, 0.1, -2.7, 0.95, -2.5, 0x2f6f9f, { rough: 0.5 });
-    void grinder;
 
     // ------------------------------------------------------------- dust: own plume, drift plume, core water
-    const plume = particles(g, 60, 0xd8d2c4, { size: 0.035, life: 1.1, additive: false, opacity: 0.45 });
-    const drift = particles(g, 44, 0xcfc9bb, { size: 0.045, life: 1.6, additive: false, opacity: 0.35 });
+    const plume = particles(g, 60, 0xd8d2c4, { size: 0.07, life: 1.3, additive: false, opacity: 0.65 });
+    const drift = particles(g, 44, 0xcfc9bb, { size: 0.08, life: 1.8, additive: false, opacity: 0.55 });
     const coreWater = particles(g, 28, 0x8fb8d8, { size: 0.02, life: 0.5, additive: false, opacity: 0.5 });
-    const driftHaze = box(g, 3.2, 1.4, 1.6, -1.6, 0.8, -1.6, 0xcfc9bb, { rough: 1, opacity: 0.16, transparent: true, cast: false });
+    const driftHaze = box(g, 3.2, 1.4, 1.4, 0.4, 0.8, -1.8, 0xbdb6a6, { rough: 1, opacity: 0.3, transparent: true, cast: false });
     driftHaze.visible = false;
+    // The plume the loose hose lets out: a grey column over the hole (a still shape, so it reads under reduced motion too).
+    const plumeHaze = cyl(g, 0.32, 0.07, 0.9, 0.34, 0.55, 0.84, 0xbdb6a6, { rough: 1, opacity: 0.38, transparent: true, cast: false, seg: 14, open: true });
+    plumeHaze.visible = false;
 
     // ------------------------------------------------------------- dust monitor, plan, log, radio, decon
     const monitor = group(g, -3.85, 0.02, 0.2, Math.PI / 2);
@@ -461,7 +462,7 @@ export const SIM_SIL_CONCRETE_DRILLING_AND_SILICA_DUST_CUES = {
     holoTag(decon, "wash hands and face", 0.3, 1.18, 0, { css: SILD_CSS, w: 0.32 });
     for (const x of [-0.4, 0.4]) box(decon, 0.04, 0.8, 0.04, x, 0.4, 0, 0x8b949d, { rough: 0.5, metal: 0.6 });
 
-    const laborer = standingFigure(g, 0.0, 2.3, { ry: Math.PI, cloth: 0x4a4038, vest: SILD_PAL.accent, helmet: 0xf2f2f2, gloves: true });
+    const laborer = standingFigure(g, -2.5, 1.2, { ry: 2.4, cloth: 0x4a4038, vest: SILD_PAL.accent, helmet: 0xf2f2f2, gloves: true });
     holoTag(laborer, "laborer", 0, 1.9, 0, { css: SILD_CSS, w: 0.18 });
     for (const [x, z] of [[3.4, 2.2], [-3.4, 2.5], [2.6, 1.8]]) cone(g, x, z);
 
@@ -480,7 +481,7 @@ export const SIM_SIL_CONCRETE_DRILLING_AND_SILICA_DUST_CUES = {
 
     const drillOrigin = new THREE.Vector3(0.28, 0.12, 0.9);
     const coreOrigin = new THREE.Vector3(-0.75, 0.1, -1.4);
-    const driftOrigin = new THREE.Vector3(-2.6, 1.0, -2.3);
+    const driftOrigin = new THREE.Vector3(2.0, 1.0, -2.0);
     let hoseLoose = false, drifting = false, driftT = 0;
     return {
       hits,
@@ -496,12 +497,12 @@ export const SIM_SIL_CONCRETE_DRILLING_AND_SILICA_DUST_CUES = {
       },
       onHazard() {},
       onInterrupt(it) {
-        if (it.id === "shroud-hose-off") { hoseOn.visible = false; hoseOff.visible = true; hoseLoose = true; repaint(monitorFace, signFace("DUST —\nHIGH", { bg: "#3a0d0d", accent: "#d2312b", fg: "#ffd6d6", scale: 0.32 })); }
+        if (it.id === "shroud-hose-off") { hoseOn.visible = false; hoseOff.visible = true; plumeHaze.visible = true; hoseLoose = true; repaint(monitorFace, signFace("DUST —\nHIGH", { bg: "#3a0d0d", accent: "#d2312b", fg: "#ffd6d6", scale: 0.32 })); }
         if (it.id === "dust-drift") { drifting = true; driftT = 0; driftHaze.visible = true; repaint(monitorFace, signFace("DUST —\nHIGH", { bg: "#3a0d0d", accent: "#d2312b", fg: "#ffd6d6", scale: 0.32 })); }
       },
       onInterruptEnd(it) {
         if (it.resolved !== "answered") return;
-        if (it.id === "shroud-hose-off") { hoseOff.visible = false; hoseOn.visible = true; hoseLoose = false; plume.visible = false; }
+        if (it.id === "shroud-hose-off") { hoseOff.visible = false; hoseOn.visible = true; plumeHaze.visible = false; hoseLoose = false; plume.visible = false; }
         if (it.id === "dust-drift") { drifting = false; driftHaze.visible = false; drift.visible = false; markerFlag.visible = false; stopFlag.visible = true; }
         repaint(monitorFace, signFace("DUST —\nLOW", { bg: "#0d1c24", accent: "#59c97b", fg: "#bfeaf7", scale: 0.32 }));
       },
@@ -513,7 +514,7 @@ export const SIM_SIL_CONCRETE_DRILLING_AND_SILICA_DUST_CUES = {
         if (gg && !gg.committed && step?.id === "collector-airflow") dial.rotation.y = gg.t * Math.PI * 1.5;
         // Own plume: only when the hose is off (the shroud captures the rest).
         plume.visible = hoseLoose && !reduce;
-        if (plume.visible) plume.userData.step(dt, drillOrigin, 0.08, 0.5, 0.2);
+        if (plume.visible) plume.userData.step(dt, drillOrigin, 0.12, 0.7, 0.2);
         // Core water at the bit while coring.
         coreWater.visible = step?.id === "core-feed" && !!session?.holding && !reduce;
         if (coreWater.visible) coreWater.userData.step(dt, coreOrigin, 0.1, 0.2, -2);
@@ -522,7 +523,7 @@ export const SIM_SIL_CONCRETE_DRILLING_AND_SILICA_DUST_CUES = {
         drift.visible = drifting && !reduce;
         if (drift.visible) {
           driftT = Math.min(1, driftT + dt / 6);
-          driftOrigin.set(-2.6 + driftT * 2.2, 1.0, -2.3 + driftT * 0.9);
+          driftOrigin.set(2.0 - driftT * 2.8, 1.0, -2.0 + driftT * 0.6);
           drift.userData.step(dt, driftOrigin, 0.6, 0.15, 0);
         }
         void CITY; void t;

@@ -37,7 +37,9 @@ Pour site (`lcc-tank-foundation`, `np-data-lc-calcasieu-channel.js`).
 3. Reason: programme, pack and a Louisiana construction site; check = gen_catalog / gen_packs and the registry section of check_silica. Observed: builders-trades (61 programmes, 783 entries resolved), 6 packs, `lcc-tank-foundation` (kind construction).
 4. Reason: the reaction-time eval must reuse the engine's own cue timer and DATAWORKS' gate, never a new store; check = check_silica privacy section. Observed: no consent / demo / signed-out / K-12 / unknown → null; opted in → valid episode with a consent receipt and `info.interrupt.responseS` per cue; revoke deletes; no network code.
 5. Reason: prove the eval measures what it claims; check = seeded scripted-agent runs plus a calibration agent that waits a known delay. Observed: 18/18 runs finish; the scripted agent answers in the tick a cue fires (median 0 s, both conditions — expected, it is not a person); injected 0.5/1.5/3/6 s read back exactly; a 13 s wait reads as missed (12 s window). check_silica 40 passed, 0 failed.
-6. Reason: nothing neighbouring regressed; check = the single checkers that read the catalog, packs, maps and DATAWORKS. Observed: see "Checkers" below.
+6. Reason: the station has to work under a mouse in the flat build, not only headless; check = `python3 tools/bundle_webxr.py`, serve on 9032, drive every step and answer both cues, screenshot spawn and each cue. Observed: FINISHED, 14 steps, both cues answered, 0 page errors — but the laborer figure stood in the spawn sightline, the neighbouring crew stood inside a mesh (check_layout ✗) and sat downwind of the learner, contradicting the drift cue, and the hose-off plume was too faint to read.
+7. Reason: fix what the drive showed; check = check_layout, a re-drive and the screenshots. Observed: figures moved to clear spots (clear_spot), the grinding crew moved upwind by the open bay so the draught really carries its dust to the core, the cue's answer renamed the clear-air marker, a still grey column added over the hole when the hose pops (reads under reduced motion), particles larger; check_layout 0 ✗, re-drive FINISHED with 0 page errors, eval_content still 97.
+8. Reason: nothing neighbouring regressed; check = the single checkers that read the catalog, packs, maps, budgets and DATAWORKS. Observed: see "Checkers" below.
 
 ## Seams
 
@@ -60,3 +62,17 @@ Pour site (`lcc-tank-foundation`, `np-data-lc-calcasieu-channel.js`).
 
 - `node tools/check_silica.mjs` — 40 passed, 0 failed.
 - `node tools/check_smartcity.mjs` — All 722 simulators pass.
+- `node tools/check_packs.mjs` — all 51903 checks pass (after the rebundle; before it, 1 failed: the flat packs page was stale).
+- `node tools/check_dataworks.mjs` — 59 passed, 0 failed.
+- `node tools/check_standards.mjs` — all standards checks pass.
+- `node tools/check_budget.mjs` — all 731 stations inside budget.
+- `node tools/check_parishes.mjs` — 62987 passed, 0 failed.
+- `node tools/check_layout.mjs` — 0 failures (1 before cycle 7).
+- `node tools/eval_content.mjs --station sil-concrete-drilling-and-silica-dust-cues` — 97.
+
+## Left
+
+- A K-12 awareness version (dust and lungs, no fear framing) was not built this loop.
+- `eval_worlds` was not run (the station sits on an existing site; no world geometry changed).
+- The study's instruction to participants is not in its scripts; if the study team publishes it, the cue wording here
+  should be checked against it.
