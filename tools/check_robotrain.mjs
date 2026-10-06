@@ -15,6 +15,11 @@
  *                 held-out seeds, both above the random floor, with the expert ceiling — printed
  *   5  programme: rp-programme.js stays guarded (imports only competency.js and the data), the generated page shows the loop live,
  *                 the recorder live and the gaps covered; rt-teleop.js is in the parishes bundle list and mounted guarded
+ *   7  loop 6:    XR pose source, rig follow, second task, COLEARN provider, K-12 lesson (ROBOTRAIN-2)
+ *   8  loop 7:    the last mile in the app (ROBOTRAIN-3): the provider trains on the learner's own consented takes (signed out →
+ *                 synthetic; opted in with takes → "your N takes"; revoke → synthetic, takes gone), the panel and the app carry the
+ *                 label, the WebXR session loop feeds teleop.xr from session.requestAnimationFrame only, the pad drives the cell
+ *                 task with its own HUD line and replays the policy as a ghost on the same rig
  *   6  hygiene:   no network call, no import alias, no model identifier, no affiliation wording in any ROBOTRAIN file
  *
  *     node tools/check_robotrain.mjs
@@ -214,9 +219,82 @@ check(rp.RP_TRACKS.every((t) => t.levels.aware.includes("k12-rt-a-robot-waits-fo
 const K12 = read("WebXR/smartcity/js/sims/k12-rt-a-robot-waits-for-a-grown-ups-ok.js");
 check(/grown-up in charge/i.test(K12) && /stop/i.test(K12) && !/\bdanger|injur|kill/i.test(K12), "k12", "the K-12 station teaches the grown-up's OK and the stop without fear framing");
 
+// ---------------------------------------------------------------- 8 loop 7 (ROBOTRAIN-3): the learning loop's last mile in the app
+// 8a consented local takes train the provider: signed-out → synthetic; opted-in with takes → trained on them, named honestly; revoke → synthetic and the takes gone
+const store8 = dx.dxMakeStore(dx.dxMemBackend());
+const sigOut = { demo: false, signedIn: false, k12: false, adult: null }, sigIn = { demo: false, signedIn: true, k12: false, adult: true };
+const srcOut = vbc.vbColearnLocalSource({ store: store8, signals: sigOut }), provOut = vbc.vbColearnProvider({ demosFor: srcOut.demosFor });
+const cOut = await srcOut.refresh();
+check(Object.values(cOut).every((n) => n === 0) && provOut.modelFor("rb-cell-entry").provenance.own === false && /synthetic demonstrations/.test(provOut.describe("rb-cell-entry")) && !/your /.test(provOut.describe("rb-cell-entry")), "lastmile", `signed out: no takes read, the provider says synthetic (${provOut.describe("rb-cell-entry")})`);
+check(dx.dxOptIn({ licence: "CC0-1.0", adult: true, signals: { ...sigIn, adult: null } }).ok, "lastmile", "opt-in");
+const srcIn = vbc.vbColearnLocalSource({ store: store8, signals: sigIn }), provIn = vbc.vbColearnProvider({ demosFor: srcIn.demosFor });
+const N8 = 12;
+for (let k = 0; k < N8; k++) {
+  const e8 = rb.rbEnv("rb-cell-entry", { seed: 900 + k }), r8 = rt.rtRecorder(e8, { store: store8, signals: sigIn }), h8 = rt.rtScriptedHumanCell(e8, { seed: 900 + k, skill: 1 });
+  let d8 = false; for (let i = 0; i < 400 && !d8; i++) d8 = r8.step(h8(r8.observation)).done;
+  check(!!r8.finish(), "lastmile", `take ${k}: the opted-in cell take is kept`);
+}
+await new Promise((res) => setTimeout(res, 30));
+const cIn = await srcIn.refresh();
+check((await store8.list()).length === N8 && cIn["rb-cell-entry"] === N8, "lastmile", `opted in: ${N8} takes stored and read (${JSON.stringify(cIn)})`);
+const mOwn = provIn.modelFor("rb-cell-entry"), descOwn = provIn.describe("rb-cell-entry");
+check(mOwn.provenance.own === true && mOwn.provenance.n === N8 && mOwn.demos >= 1 && new RegExp(`your ${N8} takes`).test(provIn.describe("rb-cell-entry")), "lastmile", `the provider trains on the learner's own takes and says so (${provIn.describe("rb-cell-entry")})`);
+check(provIn.modelFor("rb-cobot-zone-setup").provenance.own === false, "lastmile", "a task with no takes stays on synthetic demonstrations");
+const jobOwn = vbb.vbRunJob(vbc.vbSafeJobFor("rb-cell-entry", 0, "vb-colearn-bc-knn"), vbg.vbGovernor(), { supervisor: "Supervisor (check)", policyFor: provIn.policyFor });
+check(jobOwn.phase === "COMPLETED" && jobOwn.deliverable.episode.steps.length > 0 && jobOwn.deliverable.episode.steps.every((s) => !!s.info.governor), "lastmile", `a job provided by the policy trained on the learner's takes completes with the governor on every step (${jobOwn.phase}, ${jobOwn.deliverable?.episode?.steps?.length} steps)`);
+// a new take retrains: the model key follows the take set
+const e9 = rb.rbEnv("rb-cell-entry", { seed: 999 }), r9 = rt.rtRecorder(e9, { store: store8, signals: sigIn }), h9 = rt.rtScriptedHumanCell(e9, { seed: 999, skill: 1 });
+let d9 = false; for (let i = 0; i < 400 && !d9; i++) d9 = r9.step(h9(r9.observation)).done; r9.finish();
+await new Promise((res) => setTimeout(res, 30)); await srcIn.refresh();
+check(provIn.modelFor("rb-cell-entry") !== mOwn && provIn.modelFor("rb-cell-entry").provenance.n === N8 + 1, "lastmile", "a new take retrains the provider (the model follows the take set)");
+await dx.dxRevoke({ store: store8 });
+const cRev = await srcIn.refresh();
+check((await store8.list()).length === 0 && !dx.dxCollecting(sigIn) && Object.values(cRev).every((n) => n === 0) && provIn.modelFor("rb-cell-entry").provenance.own === false && /synthetic demonstrations/.test(provIn.describe("rb-cell-entry")), "lastmile", `revoke: takes gone (${(await store8.list()).length}), not collecting, the provider is back on synthetic (${provIn.describe("rb-cell-entry")})`);
+check(/your \d+ take/.test(vbc.vbColearnDescribe({ provenance: { own: true, n: 3, kept: 2 } })) && /synthetic/.test(vbc.vbColearnDescribe(null)), "lastmile", "vbColearnDescribe names the source");
+// 8b the panel and the app carry the honest label and the consented source
+check(/providerLabel = null/.test(PANEL) && /providerLabel\(r\.taskType\)/.test(PANEL), "lastmile", "the panel's card asks the provider what it trained on");
+check(/vbColearnLocalSource\(\)/.test(APP) && /demosFor: vbLocal\.demosFor/.test(APP) && /providerLabel: vbProvider \?/.test(APP) && /onChange: \(\) => \{ vbLocal\?\.refresh\(\)/.test(APP) && /onTake: \(\) => \{ vbLocal\?\.refresh\(\)/.test(APP), "lastmile", "the app wires the consented source to the provider, the consent panel and the pad");
+// 8c the WebXR session loop: the session's requestAnimationFrame feeds teleop.xr; nothing runs outside a session
+check(/function npXRFrame\(t, xrFrame\)/.test(APP) && /s\.requestAnimationFrame\(npXRFrame\)/.test(APP) && /teleop\.xr\(xrFrame, npXR\.refSpace\)/.test(APP) && /if \(!npXR\.session\) requestAnimationFrame\(frame\)/.test(APP), "xrloop", "the app's XR frame loop runs on the session's requestAnimationFrame and feeds the pad");
+check((APP.split("\n").filter((l) => !/^\s*\/\//.test(l)).join("\n").match(/teleop\.xr\(/g) ?? []).length === 1 && /isSessionSupported\("immersive-vr"\)/.test(APP) && /requestSession\("immersive-vr"/.test(APP) && /__parishTest\.xr = npXRTest/.test(APP), "xrloop", "teleop.xr is called from the XR frame loop only; Enter VR appears only when supported; the loop is exposed for the headless proof");
+// 8d the pad takes the cell task, with its own HUD line, and the ghost replays the policy on the same rig
+const dom8 = (tag) => { const h = {}; const n = { tagName: tag, ownerDocument: { createElement: dom8 }, style: {}, dataset: {}, children: [], append(...c) { n.children.push(...c); }, appendChild(c) { n.children.push(c); }, setAttribute(k, v) { n[k] = v; }, addEventListener(k, f) { h[k] = f; }, handlers: h, getBoundingClientRect: () => ({ left: 0, top: 0, width: 200, height: 160 }), set innerHTML(v) { n.children.length = 0; }, textContent: "", value: "", disabled: false, title: "" }; return n; };
+const host8 = dom8("div"), rig8 = { rotation: { x: 0, y: 0, z: 0 }, userData: {}, children: [{ userData: { pivot: true }, rotation: { x: 0, y: 0, z: 0 } }] };
+let took = null;
+const pad8 = rt.rtMountTeleop(host8, { reducedMotion: true, store: store8, signals: sigOut, rig: rig8, task: "rb-cell-entry", onTake: (ep, t) => { took = { ep, t }; }, modelFor: (sc) => provIn.modelFor(sc) });
+check(pad8 && pad8.task() === "rb-cell-entry" && JSON.stringify(pad8.tasks) === JSON.stringify(rt.RT_TASK_IDS) && pad8.pose().p[2] === rt.RT_REST_POSE["rb-cell-entry"][2], "pad", "the pad mounts on the cell task");
+pad8.start(5);
+const padEl = host8.children.find((c) => c.className === "rt-pad");
+const envP = rb.rbEnv("rb-cell-entry", { seed: 5 }), humP = rt.rtScriptedHumanCell(envP, { seed: 5, skill: 1 }); let obsP = envP.reset(), fedP = 0;
+for (let i = 0; i < 200 && !took; i++) {
+  const p = humP(obsP);
+  const src = { handedness: "right", gripSpace: {}, gamepad: { buttons: [{ value: p.trigger }, { value: p.squeeze }, {}, { pressed: false }, { pressed: false }] } };
+  pad8.xr({ session: { inputSources: [src] }, getPose: () => ({ transform: { position: { x: p.p[0] + rt.RT_XR_FRAME.origin[0], y: p.p[1], z: p.p[2] + rt.RT_XR_FRAME.origin[2] } } }) }, {});
+  pad8.step(); fedP++;
+  obsP = envP.step(rt.rtPoseToActionCell(p, obsP)).observation;
+}
+check(!!took && took.t.scenario === "rb-cell-entry" && took.ep === null && took.t.steps > 0 && /restarted/.test(pad8.status()) && /cell entry/.test(pad8.status()), "pad", `the cell task runs on the pad through the XR seam to the restart, with its own HUD line (${fedP} frames; "${pad8.status()}")`);
+check(/cell entry: inside the cell/.test(rt.rtHudLine("rb-cell-entry", { inside: true, distance: 0, estopTested: true, estopped: true, locked: true, verified: true, jam: true, restarted: false })) && /placed 1\/3/.test(rt.rtHudLine("rb-teleop-pick-place", { placed: 1, remaining: 2 })), "pad", "rtHudLine per task");
+// the pointer path on the cell task: a left press on the e-stop tests it, a right press holds it
+pad8.start(6); for (let i = 0; i < 30; i++) { padEl.handlers.wheel({ deltaY: -1, preventDefault() {} }); pad8.step(); } // the walker starts 12 m or more out; the walk stops at the gate
+const xy = { clientX: (0.5 / 1.4 + 0.5) * 200, clientY: ((1.0 - 1.1) / 1.2 + 0.5) * 160, pointerType: "mouse" };
+padEl.handlers.pointermove(xy); padEl.handlers.pointerdown({ ...xy, button: 0 }); pad8.step(); const stLight = pad8.status(); padEl.handlers.pointerup({ pointerType: "mouse" });
+padEl.handlers.pointerdown({ ...xy, button: 2 }); pad8.step(); const stFirm = pad8.status(); padEl.handlers.pointerup({ pointerType: "mouse" }); pad8.stop();
+check(/e-stop tested/.test(stLight) && /stopped/.test(stFirm) && pad8.source() === "pointer", "pad", `pointer on the cell pad: light press tests the e-stop, firm press holds it ("${stFirm}")`);
+const ghostN = pad8.demonstrate(7001);
+check(ghostN > 5 && /Robot demonstrates back/.test(pad8.status()) && /step 1\//.test(pad8.status()), "pad", `the ghost replays the policy's run (${ghostN} frames; "${pad8.status().slice(0, 80)}")`);
+let gk = 1; while (pad8.ghost()) gk++;
+check(gk === ghostN && /done/.test(pad8.status()), "pad", `the ghost steps to the end (${gk}/${ghostN})`);
+pad8.task("rb-teleop-pick-place"); pad8.start(7001);
+pad8.demonstrate(7001); pad8.ghost();
+check(rig8.userData.rtDriven === true && rig8.rotation.y !== 0, "pad", "on the arm task the ghost drives the same rig (rtFollowRig)");
+pad8.stop();
+const padClick = host8.children.find((c) => c.className === "rt-row")?.children.find((c) => c.className === "rt-ghost");
+check(!!padClick && typeof padClick.handlers.click === "function", "pad", "one button: Robot demonstrates back");
+
 // ---------------------------------------------------------------- 6 hygiene
 function FILES_RT() { return read("WebXR/shared/rt-teleop.js"); }
-const FILES = { rt: read("WebXR/shared/rt-teleop.js"), vbc: read("WebXR/shared/vb-colearn.js"), console: read("docs/consoles/ROBOTRAIN.md"), console2: read("docs/consoles/ROBOTRAIN-2.md"), data: DATA, fns: FNS, gen: read("tools/gen_robotics_programme.mjs"), page: PAGE, handbook: DOC, ...Object.fromEntries(GAPS.map((id) => [id, read(`WebXR/smartcity/js/sims/${id}.js`)])) };
+const FILES = { rt: read("WebXR/shared/rt-teleop.js"), vbc: read("WebXR/shared/vb-colearn.js"), console: read("docs/consoles/ROBOTRAIN.md"), console2: read("docs/consoles/ROBOTRAIN-2.md"), console3: read("docs/consoles/ROBOTRAIN-3.md"), data: DATA, fns: FNS, gen: read("tools/gen_robotics_programme.mjs"), page: PAGE, handbook: DOC, ...Object.fromEntries(GAPS.map((id) => [id, read(`WebXR/smartcity/js/sims/${id}.js`)])) };
 for (const [k, v] of Object.entries(FILES)) {
   check(v.length > 0, "hygiene", `${k}: missing`);
   check(!/\bfetch\s*\(|XMLHttpRequest|sendBeacon|WebSocket\s*\(|navigator\.sendBeacon/.test(v), "hygiene", `${k}: a network call`);
@@ -226,6 +304,7 @@ for (const [k, v] of Object.entries(FILES)) {
 check(!/import\s*\{[^}]*\sas\s/.test(FILES.rt) && !/import\s*\{[^}]*\sas\s/.test(FILES.vbc), "hygiene", "an import alias in rt-teleop.js or vb-colearn.js");
 check([...FILES.vbc.matchAll(/^export (?:const|function|let) (\w+)/gm)].every((m) => /^(vb|VB_)/.test(m[1])), "hygiene", "every export of vb-colearn.js is prefixed vb/VB_");
 check(FILES.console2.includes("## Cycles") && FILES.console2.includes("## Seams") && /before/.test(FILES.console2) && /after/.test(FILES.console2), "hygiene", "docs/consoles/ROBOTRAIN-2.md lacks Cycles, Seams or before/after evals");
+check(FILES.console3.includes("## Cycles") && FILES.console3.includes("## Seams") && /before/.test(FILES.console3) && /after/.test(FILES.console3), "hygiene", "docs/consoles/ROBOTRAIN-3.md lacks Cycles, Seams or before/after evals");
 check(!/claude-(opus|sonnet|haiku)|\bopus[- ]\d|\bsonnet[- ]\d|\bhaiku[- ]\d|\bgpt-\d/i.test(read("tools/check_robotrain.mjs")), "hygiene", "checker: a model identifier");
 check(/^(export (const|function|let) (rt|RT_)|import |\/\/|\/\*| \*|\s*$|const rt|[})\]]|\s)/m.test(FILES.rt) && [...FILES.rt.matchAll(/^export (?:const|function|let) (\w+)/gm)].every((m) => /^(rt|RT_)/.test(m[1])), "hygiene", "every export of rt-teleop.js is prefixed rt/RT_");
 check(/adults only/.test(FILES.rt) && /revoking deletes/.test(FILES.rt) && /no upload endpoint/.test(FILES.rt), "hygiene", "rt-teleop.js states the data rules");
@@ -233,4 +312,4 @@ check(FILES.console.includes("## Cycles") && FILES.console.includes("## Seams"),
 
 const fmt = (x) => `success ${x.success} clean ${x.clean} steps ${x.meanSteps}`;
 if (fails.length) { for (const f of fails.slice(0, 40)) console.log("FAIL", f); console.log(`check_robotrain: FAILED ${fails.length} of ${checks} checks`); process.exit(1); }
-console.log(`check_robotrain: ok — ${checks} checks · gap coverage before ${before.covered}/${before.of} → after ${after.covered}/${after.of} (${after.gaps.map((g) => `${g.gap}: ${g.id} in ${inLevels(g.id).length} level(s)`).join("; ")}) · meshes ${GAPS.map((id) => meshCounts[id]).join("/")} · programme coverage ${cov.covered}/${cov.of} · recorded vs synthetic BC on ${cmp.heldOut} held-out seeds (N=${cmp.n}, stand-in labelled synthetic): recorded ${fmt(cmp.recorded)} (kept ${cmp.recorded.kept}/${cmp.recorded.offered}) · synthetic ${fmt(cmp.synthetic)} (kept ${cmp.synthetic.kept}/${cmp.synthetic.offered}) · random ${cmp.random.success} · expert ${cmp.expert.success} · recorder inert without consent, human take valid with receipt, revoke deletes · page: loop 5/5 live, recorder live, gaps 4/4 · loop 6: XR pose source pure (grip + trigger/squeeze/e-stop), rig follows the pose with 0 new meshes · cell entry through the pose path: recorded ${fmt(cmp2.recorded)} (kept ${cmp2.recorded.kept}/${cmp2.recorded.offered}) · synthetic ${fmt(cmp2.synthetic)} · random ${cmp2.random.success} · expert ${cmp2.expert.success} · COLEARN provider on seeded safe jobs: completed ${pc.totals.colearn.completed}/${pc.totals.colearn.of} vs scripted ${pc.totals.scripted.completed}/${pc.totals.scripted.of} (${Object.entries(pc.tasks).map(([k, t]) => `${k} ${t.colearn.completed}/${t.scripted.completed}`).join(", ")}), governor verdict on ${pc.governor.stepsMonitored}/${pc.governor.stepsRun} steps · K-12 lesson lk-lesson-robot-waits-for-ok on ${lesson?.station}`);
+console.log(`check_robotrain: ok — ${checks} checks · gap coverage before ${before.covered}/${before.of} → after ${after.covered}/${after.of} (${after.gaps.map((g) => `${g.gap}: ${g.id} in ${inLevels(g.id).length} level(s)`).join("; ")}) · meshes ${GAPS.map((id) => meshCounts[id]).join("/")} · programme coverage ${cov.covered}/${cov.of} · recorded vs synthetic BC on ${cmp.heldOut} held-out seeds (N=${cmp.n}, stand-in labelled synthetic): recorded ${fmt(cmp.recorded)} (kept ${cmp.recorded.kept}/${cmp.recorded.offered}) · synthetic ${fmt(cmp.synthetic)} (kept ${cmp.synthetic.kept}/${cmp.synthetic.offered}) · random ${cmp.random.success} · expert ${cmp.expert.success} · recorder inert without consent, human take valid with receipt, revoke deletes · page: loop 5/5 live, recorder live, gaps 4/4 · loop 6: XR pose source pure (grip + trigger/squeeze/e-stop), rig follows the pose with 0 new meshes · cell entry through the pose path: recorded ${fmt(cmp2.recorded)} (kept ${cmp2.recorded.kept}/${cmp2.recorded.offered}) · synthetic ${fmt(cmp2.synthetic)} · random ${cmp2.random.success} · expert ${cmp2.expert.success} · COLEARN provider on seeded safe jobs: completed ${pc.totals.colearn.completed}/${pc.totals.colearn.of} vs scripted ${pc.totals.scripted.completed}/${pc.totals.scripted.of} (${Object.entries(pc.tasks).map(([k, t]) => `${k} ${t.colearn.completed}/${t.scripted.completed}`).join(", ")}), governor verdict on ${pc.governor.stepsMonitored}/${pc.governor.stepsRun} steps · K-12 lesson lk-lesson-robot-waits-for-ok on ${lesson?.station} · loop 7 last mile: signed out → synthetic; opted in with ${N8} takes → "${descOwn.replace(/^.*trained on /, "")}", job ${jobOwn.phase} with the governor on ${jobOwn.deliverable?.episode?.steps?.length}/${jobOwn.deliverable?.episode?.steps?.length} steps; revoke → synthetic, takes 0 · XR loop on session.requestAnimationFrame, teleop.xr called from it only · pad: cell task through the XR seam (${fedP} frames), ghost ${ghostN} frames on the same rig`);

@@ -335,6 +335,8 @@ export function rtMountTeleop(el, { seed = 7001, store = dxStore, signals = null
     task(id) { return id ? setTask(id) : sc; },
     start(s = seed) {
       api.stop(); ghostStop();
+      // a fresh take starts from the rest pose with the trigger open and the pad as the source; an XR frame takes over on the next frame
+      pose = { p: RT_REST_POSE[sc].slice(), trigger: 0, squeeze: 0.5, estop: false }; source = "pointer"; xrLast = 0; touches = 0;
       env = rbEnv(sc, { seed: s });
       rec = rtRecorder(env, { store, signals });
       if (rig) rtFollowRig(rig, rec.observation);
@@ -348,9 +350,11 @@ export function rtMountTeleop(el, { seed = 7001, store = dxStore, signals = null
     xr(frame, refSpace) {
       const sources = [...(frame?.session?.inputSources ?? [])];
       const src = sources.find((s) => s.handedness === hand) ?? sources[0];
-      const xp = src ? rtXRPose(src, frame, refSpace) : null;
+      // On the cell task the frame is floor-based (a local-floor space): the controller's height is the hand's height at the post's
+      // controls (RT_CELL_CONTROLS y, metres above the floor), its x the hand's offset, its z the body's place along the approach.
+      const xp = src ? rtXRPose(src, frame, refSpace, isCell() ? { origin: [RT_XR_FRAME.origin[0], 0, RT_XR_FRAME.origin[2]] } : {}) : null;
       if (!xp) { if (xrLast && Date.now() - xrLast > 1500) source = "pointer"; return null; }
-      pose = { p: isCell() ? [xp.p[0], xp.p[1] + 0.9, pose.p[2]] : xp.p, trigger: xp.trigger, squeeze: xp.squeeze, estop: pose.estop || xp.estop }; source = "xr"; xrLast = Date.now();
+      pose = { p: xp.p, trigger: xp.trigger, squeeze: xp.squeeze, estop: pose.estop || xp.estop }; source = "xr"; xrLast = Date.now();
       return api.pose();
     },
     source() { return source; },
