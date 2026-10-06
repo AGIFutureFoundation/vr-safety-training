@@ -1,12 +1,17 @@
-"""GEO (docs/geo.md), item 4 proof: real relief from USGS 3DEP for one map, baked as a height grid in the map's scene frame.
+"""GEO (docs/geo.md §4) and BACKDROPS-2: real relief from USGS 3DEP, baked as a height grid in the map's scene frame.
 
 Reads the USGS 3DEP 1/3 arc-second DEM (public domain; AWS prd-tnm, cloud-optimised GeoTIFF) over the map's lon/lat box
 and samples it on a GRID x GRID lattice over the field through the map's affine fit (row = scene z, column = scene x,
-corners included), written as integer decimetres to WebXR/assets/geo/<map>.relief.json. Not wired into the engine yet:
-the grid is the input a later hook hands to np-parish.js's NP_TERRAIN_HOOKS.relief the way RELIEF's Mapbox relief is
-(scaled into the map's schematic range, pads terraced, water level). No figure is ever quoted from it.
+corners included), written as integer decimetres to WebXR/assets/geo/<map>.relief.json.
 
-Usage: python3 tools/geo_relief.py maps.json la-shintech-plaquemine [--out WebXR/assets/geo] [--grid 65]
+Wired into the engine (BACKDROPS-2), opt-in per map: a map whose data says relief: "3dep" gets its committed grid through
+WebXR/shared/bd2-relief-data.js (written by --module from the committed grids), np-parishes.js attaches it as
+`reliefGrid`, and np-parish.js (npDemSampler) scales it into the map's schematic range the way RELIEF's Mapbox relief is
+(pads terraced, water level). No figure is ever quoted from it.
+
+Usage:
+  python3 tools/geo_relief.py maps.json <map-id> [--out WebXR/assets/geo] [--grid 65]   # bake one map's grid
+  python3 tools/geo_relief.py maps.json --module                                        # rewrite bd2-relief-data.js
 """
 import argparse, json, math, os, sys
 import numpy as np
@@ -24,9 +29,32 @@ def tiles_for(w, s, e, n):
     return out
 
 
+MODULE = "WebXR/shared/bd2-relief-data.js"
+
+
+def write_module(maps_path, geo_dir, out=MODULE):
+    """BACKDROPS-2: the engine's copy of the committed grids, for every map whose data says relief: "3dep"."""
+    ids = sorted(m["id"] for m in json.load(open(maps_path)) if m.get("relief") == "3dep")
+    grids = {}
+    for i in ids:
+        r = json.load(open(os.path.join(geo_dir, f"{i}.relief.json")))
+        grids[i] = {"grid": r["grid"], "heights": r["heights"], "tiles": r["tiles"], "credit": r["credit"]}
+    head = ("// BACKDROPS-2 (docs/geo.md §4): the committed USGS 3DEP height grids for the maps whose data says relief: \"3dep\".\n"
+            "// Written by `python3 tools/geo_relief.py --module maps.json` from WebXR/assets/geo/<id>.relief.json (do not edit by hand;\n"
+            "// check_geo proves the two match). Integer decimetres, row = scene z, column = scene x, corners included, over the whole\n"
+            "// field. np-parishes.js attaches each grid to its map as `reliefGrid`; np-parish.js scales it into the schematic range.\n"
+            "// Heights: USGS 3D Elevation Program, 1/3 arc-second (public domain). No figure is ever quoted from them. Pure data.\n")
+    body = "export const BD2_RELIEF = {\n" + "".join(f"  {json.dumps(k)}: {json.dumps(v, separators=(',', ':'))},\n" for k, v in grids.items()) + "};\n"
+    with open(out, "w") as fh: fh.write(head + body)
+    print(f"[geo-relief] {out}: {', '.join(ids)} ({os.path.getsize(out) // 1024} KB)")
+    return 0
+
+
 def main():
-    ap = argparse.ArgumentParser(); ap.add_argument("maps"); ap.add_argument("map"); ap.add_argument("--out", default="WebXR/assets/geo"); ap.add_argument("--grid", type=int, default=65)
+    ap = argparse.ArgumentParser(); ap.add_argument("maps"); ap.add_argument("map", nargs="?"); ap.add_argument("--out", default="WebXR/assets/geo"); ap.add_argument("--grid", type=int, default=65)
+    ap.add_argument("--module", action="store_true", help="write WebXR/shared/bd2-relief-data.js from the committed grids")
     a = ap.parse_args()
+    if a.module: return write_module(a.maps, a.out)
     import rasterio
     from rasterio.windows import from_bounds
     mp = next(m for m in json.load(open(a.maps)) if m["id"] == a.map)

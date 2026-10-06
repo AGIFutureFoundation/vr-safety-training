@@ -305,6 +305,7 @@ APPS = {
             SHARED / "np-data-br-riverplex-ascension.js",
             SHARED / "np-data-hammond-downtown.js",
             SHARED / "bm-ways.js",
+            SHARED / "bd2-relief-data.js",  # BACKDROPS-2: the committed 3DEP grids np-parishes.js attaches
             SHARED / "np-parishes.js",
             SHARED / "links.js",
             SHARED / "side-game-mechanics.js",
@@ -847,6 +848,7 @@ APPS = {
             SHARED / "np-data-bay-san-jose.js",
             SHARED / "np-data-bay-san-pablo.js",
             SHARED / "bm-ways.js",
+            SHARED / "bd2-relief-data.js",  # BACKDROPS-2: the committed 3DEP grids np-parishes.js attaches
             SHARED / "np-parishes.js",
             # LANDMARKS: the landmark kit np-world.js draws a registry kind with (before np-world.js).
             SHARED / "lm-landmarks.js",
@@ -1433,6 +1435,7 @@ DIST_SHARED = [
     "sg-ways.js",
     "bm-ways.js",
     "np-geo.js",
+    "bd2-relief-data.js",
     "np-parishes.js",
     "links.js",
     "side-game-mechanics.js",

@@ -15,9 +15,12 @@
  *  5. **Nearest-map arithmetic.** Inside a box: that map, 0 m, and a pin that round-trips through np-geo.js;
  *     outside: the haversine distance to the clamped box point, checked against an independent formula.
  *  6. **The live layer asks nothing until switched on**, then only the GEO_LIVE hosts, at most 16 tiles.
- *  7. **The baked backdrops**: every Louisiana map has <map>.jpg (512 px, quality <= 80, <= 90 KB) and a sidecar
- *     with scenes, date, cloud cover and the credit; the total stays inside the stated budget; the credit is on
- *     the page next to the image; the satellite ground is off by default; the bundler lists the module.
+ *  7. **The baked backdrops** (BACKDROPS-2: every map): each map that may carry one has <map>.jpg at its budget tier's
+ *     size, quality and byte cap (tools/geo_budget.json) and a sidecar with scenes, date, cloud cover and the credit;
+ *     representative and procedural maps have none on disk and the app requests none; the total stays inside the stated
+ *     budget; the credit is on the page next to the image; the satellite ground is off by default; the bundler lists it.
+ *  8. **Real relief** (BACKDROPS-2): the maps whose data says relief: "3dep" carry their committed USGS 3DEP grid, the
+ *     engine's copy matches it, the engine scales it like RELIEF's Mapbox relief, pads stay flat and water level.
  */
 import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import { dirname, join } from "node:path";
@@ -26,7 +29,6 @@ import { fileURLToPath } from "node:url";
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const WEBXR = join(ROOT, "WebXR"), SHARED = join(WEBXR, "shared"), GEO_DIR = join(WEBXR, "assets", "geo");
 const LA_REGIONS = ["louisiana-sites", "louisiana-cities", "new-orleans-districts"];
-const BUDGET_KB = 1600; // all baked backdrops together (17 Louisiana maps at <= 90 KB each fit with room)
 const realLog = console.log;
 let pass = 0, fail = 0;
 const check = (ok, what) => { if (ok) pass++; else { fail++; realLog(`FAIL ${what}`); } };
@@ -190,44 +192,104 @@ live.show(null);
 check(live.shown() === null, "it switches off again");
 check(!/geoMountLive\([^)]*\)\.show\(/.test(app) && !/\.show\("(usgs|gibs)"\)/.test(app), "the app never switches the live layer on by itself");
 
-// ------------------------------------------------------------------ 7. the baked backdrops
+// ------------------------------------------------------------------ 7. the baked backdrops (every map; BACKDROPS-2)
 const jpegInfo = (buf) => { for (let i = 2; i < buf.length - 9;) { if (buf[i] !== 0xff) return null; const m = buf[i + 1], len = buf.readUInt16BE(i + 2); if (m >= 0xc0 && m <= 0xc2) return { h: buf.readUInt16BE(i + 5), w: buf.readUInt16BE(i + 7) }; i += 2 + len; } return null; };
+const BUD = JSON.parse(readFileSync(join(ROOT, "tools", "geo_budget.json"), "utf8"));
+const BUDGET_KB = BUD.totalKb;
+const boxKm = (m) => { const b = npBounds(m); return (b.maxLon - b.minLon) * 111.32 * Math.cos(((b.minLat + b.maxLat) / 2) * Math.PI / 180); };
+const tierFor = (m) => BUD.tiers.find((t) => (!t.regions || t.regions.includes(m.region)) && (!t.minKm || boxKm(m) >= t.minKm));
+const noBackdrop = (m) => BUD.none.regions.includes(m.region) || BUD.none.flags.some((f) => m[f] === true);
 const la = NP_PARISHES.filter((m) => LA_REGIONS.includes(m.region));
-let total = 0, good = 0;
-for (const m of la) {
-  const jp = join(GEO_DIR, `${m.id}.jpg`), js = join(GEO_DIR, `${m.id}.json`);
+const wantMaps = NP_PARISHES.filter((m) => !noBackdrop(m)), noneMaps = NP_PARISHES.filter(noBackdrop);
+let total = 0, good = 0, laGood = 0;
+const perTier = {};
+for (const m of wantMaps) {
+  const jp = join(GEO_DIR, `${m.id}.jpg`), js = join(GEO_DIR, `${m.id}.json`), t = tierFor(m);
   if (!existsSync(jp) || !existsSync(js)) { check(false, `${m.id}: backdrop and sidecar exist`); continue; }
   const buf = readFileSync(jp), side = JSON.parse(readFileSync(js, "utf8")), info = jpegInfo(buf);
   total += buf.length;
-  const ok = info?.w === 512 && info?.h === 512 && buf.length <= 90_000 && side.quality <= 80 && side.bytes === buf.length
+  (perTier[t.id] ??= { n: 0, bytes: 0 }); perTier[t.id].n++; perTier[t.id].bytes += buf.length;
+  const ok = !!t && info?.w === t.px && info?.h === t.px && buf.length <= t.maxBytes && buf.length <= BUD.maxBytes && side.quality <= t.maxQ && side.bytes === buf.length
     && side.attribution === G.GEO_CREDIT && Array.isArray(side.scenes) && side.scenes.length && side.scenes.every((s) => s.scene && s.datetime && typeof s.cloud_cover === "number")
-    && /^2026-\d{2}-\d{2}$/.test(side.date) && typeof side.cloud_cover === "number" && side.coverage >= 0.95 && side.map === m.id;
-  check(ok, `${m.id}: 512 px, q<=80, <=90 KB, sidecar with scenes, date, cloud cover and the credit`);
-  if (ok) good++;
+    && /^2026-\d{2}-\d{2}$/.test(side.date) && typeof side.cloud_cover === "number" && side.coverage >= 0.95 && side.map === m.id && side.local_cloud <= 0.12;
+  check(ok, `${m.id}: tier ${t?.id} (${t?.px} px, q<=${t?.maxQ}, <=${Math.round((t?.maxBytes ?? 0) / 1000)} KB), local cloud <= 0.12, sidecar with scenes, date, cloud cover and the credit`);
+  if (ok) { good++; if (LA_REGIONS.includes(m.region)) laGood++; }
 }
-check(la.length >= 17, `at least the 17 Louisiana maps are baked (${la.length})`);
+check(la.length >= 21 && laGood === la.length, `every Louisiana map is baked (${laGood}/${la.length})`);
+check(good === wantMaps.length, `every map that may carry a backdrop has one (${good}/${wantMaps.length}); ${noneMaps.length} get none`);
+for (const [id, v] of Object.entries(perTier)) check(v.bytes <= v.n * BUD.tiers.find((t) => t.id === id).maxBytes, `tier ${id}: ${v.n} maps, ${Math.round(v.bytes / 1024)} KB inside ${v.n} x its cap`);
+// Representative and procedural maps: no real backdrop on disk, and the app requests none for them.
+check(noneMaps.length >= 3 && noneMaps.some((m) => m.id === "sm-unspoken-smiles") && noneMaps.every((m) => m.representative === true || m.procedural === true || m.region === "programmes"), `the maps with no real backdrop are the representative and procedural ones (${noneMaps.map((m) => m.id).join(", ")})`);
+for (const m of noneMaps) check(!existsSync(join(GEO_DIR, `${m.id}.jpg`)) && !existsSync(join(GEO_DIR, `${m.id}.json`)) && G.geoBackdropAllowed(m) === false, `${m.id}: no real backdrop (${m.representative ? "representative" : "procedural"}), none on disk, geoBackdropAllowed false`);
+check(wantMaps.every((m) => G.geoBackdropAllowed(m) === true), "every other map is allowed its backdrop");
+check(/\(geoBackdropAllowed\(parish\) \? geoLoadBackdrop\(parish\.id\) : Promise\.resolve\(null\)\)/.test(app), "the app asks for a backdrop only when the map is allowed one");
+{
+  const before = requests.length;
+  const none = await Promise.all(noneMaps.map((m) => (G.geoBackdropAllowed(m) ? G.geoLoadBackdrop(m.id) : Promise.resolve(null))));
+  check(none.every((x) => x === null) && requests.length === before, "loading the excluded maps the app's way requests no image");
+}
 const allJpg = readdirSync(GEO_DIR).filter((f) => f.endsWith(".jpg"));
 const allKb = allJpg.reduce((s, f) => s + statSync(join(GEO_DIR, f)).size, 0) / 1024;
 check(allKb <= BUDGET_KB, `all baked backdrops together stay inside the ${BUDGET_KB} KB budget (${allKb.toFixed(0)} KB, ${allJpg.length} maps)`);
 check(allJpg.every((f) => existsSync(join(GEO_DIR, f.replace(/\.jpg$/, ".json")))), "every backdrop has its sidecar");
+check(allJpg.every((f) => wantMaps.some((m) => `${m.id}.jpg` === f)), "no stray backdrop: every picture belongs to a registered map that may carry one");
 const html = PAGE_SRC[1];
 check(html.includes('id="geo-credit"') && html.indexOf('id="geo-credit"') - html.indexOf('id="map-canvas"') < 200 && html.includes(G.GEO_CREDIT), "the credit sits under the map canvas");
 check(/id="geo-ground" type="button" aria-pressed="false">Satellite ground: off/.test(html) && html.includes('id="geo-ground-credit"'), "the satellite ground is a toggle, off by default, with its own credit line");
 check(/let geoBackdrop = null, geoPin = null, geoGroundOn = false/.test(app) && !/geoGroundOn = true/.test(app), "the app starts with the satellite ground off");
 check(/\$\("geo-credit"\)\.hidden = !geoSat/.test(app), "the credit shows whenever the backdrop is drawn");
 check(html.includes('id="geo-find"') && html.includes('id="geo-live"'), "Find me is in the Map tab and the live layer in the map screen");
-// Item 4 proof: one map's real relief from USGS 3DEP, baked in the scene frame (not wired into the engine yet).
+// ------------------------------------------------------------------ 8. real relief from USGS 3DEP (BACKDROPS-2)
 {
-  const rp = join(GEO_DIR, "la-shintech-plaquemine.relief.json");
-  const rel = existsSync(rp) ? JSON.parse(readFileSync(rp, "utf8")) : null;
-  check(rel && rel.grid === 65 && rel.heights.length === 65 * 65 && rel.heights.every(Number.isInteger) && rel.units === "decimetres", "the 3DEP relief proof: a 65 x 65 integer grid in the scene frame");
-  check(rel && /USGS 3D Elevation Program/.test(rel.credit) && /public domain/.test(rel.credit) && rel.tiles.every((t) => /^n\d{2}w\d{3}$/.test(t)), "the relief names its source, credit and 3DEP tiles");
-  check(rel && new Set(rel.heights).size > 20, "the relief is real data, not a flat fill");
+  const E = await import("../WebXR/shared/np-parish.js");
+  const RL = await import("../WebXR/shared/rl-relief.js");
+  const { BD2_RELIEF } = await import("../WebXR/shared/bd2-relief-data.js");
+  const on = NP_PARISHES.filter((m) => m.relief === "3dep");
+  check(on.length >= 2 && on.every((m) => LA_REGIONS.includes(m.region)), `relief is opt-in per map: ${on.length} Louisiana maps say relief: "3dep" (${on.map((m) => m.id).join(", ")})`);
+  check(NP_PARISHES.filter((m) => m.reliefGrid).every((m) => m.relief === "3dep"), "no map without the flag carries a grid");
+  check(Object.keys(BD2_RELIEF).sort().join() === on.map((m) => m.id).sort().join(), "the engine's grid module holds exactly the opted-in maps");
+  check(E.NP_DEM.flatCap === RL.RL_FLAT_CAP && E.NP_DEM.maxRatio === RL.RL_MAX_RATIO && E.NP_DEM.shore === RL.RL_SHORE && E.NP_DEM.grid === RL.RL_GRID, "the 3DEP relief is scaled with RELIEF's constants (flat cap, ratio, shore fade, grid)");
+  for (const m of on) {
+    const rp = join(GEO_DIR, `${m.id}.relief.json`);
+    const rel = existsSync(rp) ? JSON.parse(readFileSync(rp, "utf8")) : null;
+    check(rel && rel.map === m.id && rel.grid === 65 && rel.heights.length === 65 * 65 && rel.heights.every(Number.isInteger) && rel.units === "decimetres", `${m.id}: a committed 65 x 65 integer grid in the scene frame`);
+    check(rel && /USGS 3D Elevation Program/.test(rel.credit) && /public domain/.test(rel.credit) && rel.tiles.every((t) => /^n\d{2}w\d{3}$/.test(t)), `${m.id}: the relief names its source, credit and 3DEP tiles`);
+    check(rel && new Set(rel.heights).size > 20, `${m.id}: the relief is real data, not a flat fill`);
+    check(rel && m.reliefGrid === BD2_RELIEF[m.id] && JSON.stringify(BD2_RELIEF[m.id].heights) === JSON.stringify(rel.heights), `${m.id}: the engine's copy matches the committed grid`);
+    const s = E.npDemSampler(m);
+    const half = (m.size ?? 4096) / 2;
+    let mx = 0, mn = Infinity, wetBad = 0, wetN = 0;
+    const wet = [];
+    for (let j = 0; j <= 40; j++) for (let i = 0; i <= 40; i++) {
+      const x = -half + (i / 40) * 2 * half, z = -half + (j / 40) * 2 * half, r = E.npDemRise(m, x, z);
+      mx = Math.max(mx, r); mn = Math.min(mn, r);
+      if (E.npWaterAt(m, x, z)) wet.push([x, z, E.npHeightAt(m, x, z)]);
+    }
+    // Water keeps its level: every open-water and wetland point has the same height with and without the relief.
+    const grid = m.reliefGrid; delete m.reliefGrid;
+    for (const [x, z, h] of wet) { wetN++; if (Math.abs(E.npHeightAt(m, x, z) - h) > 1e-9) wetBad++; }
+    m.reliefGrid = grid;
+    check(s && s.scale <= RL.RL_MAX_RATIO && mn >= 0 && mx <= s.cap + 1e-9 && mx > 0.5, `${m.id}: the rise stays in the schematic range (0 .. ${s?.cap} m, never more than ${RL.RL_MAX_RATIO} map m per real m) and is not flat`);
+    check(wetN > 10 && wetBad === 0, `${m.id}: water stays level: ${wetN} water points have the same height with and without the relief`);
+    const x0 = -half * 0.5, z0 = half * 0.3;
+    check(Math.abs(E.npGroundRise(m, x0, z0) - Math.max(E.npHillRise(m, x0, z0), E.npDemRise(m, x0, z0))) < 1e-9, `${m.id}: the ground rises by the higher of the hills and the relief`);
+    let padBad = 0;
+    for (const st of m.sites) { const h0 = E.npHeightAt(m, ...st.position); if (Math.abs(E.npHeightAt(m, st.position[0] + 20, st.position[1]) - h0) >= 0.6 || Math.abs(E.npHeightAt(m, st.position[0], st.position[1] - 20) - h0) >= 0.6 || h0 <= E.NP_WATER_Y) padBad++; }
+    check(padBad === 0, `${m.id}: every site's pad stays flat and dry on the relief (${m.sites.length} sites)`);
+    const saved = E.NP_TERRAIN_HOOKS.relief; E.NP_TERRAIN_HOOKS.relief = () => 99;
+    const stacked = E.npGroundRise(m, x0, z0); E.NP_TERRAIN_HOOKS.relief = saved;
+    check(stacked < 99, `${m.id}: a viewer's Mapbox relief never stacks on the committed grid`);
+  }
+  const flat = NP_PARISHES.find((m) => m.id === "la-delta-forge-rapides");
+  check(flat && !flat.reliefGrid && E.npDemSampler(flat) === null && E.npDemRise(flat, 0, 0) === 0, "a map without the flag keeps its schematic ground (no sampler, no rise)");
+  const relSrc = readFileSync(join(ROOT, "tools", "geo_relief.py"), "utf8");
+  check(/def write_module/.test(relSrc) && /bd2-relief-data\.js/.test(relSrc), "geo_relief.py writes the engine's grid module from the committed grids");
 }
 const bundler = readFileSync(join(ROOT, "tools", "bundle_webxr.py"), "utf8");
 check(/SHARED \/ "geo-locate\.js"/.test(bundler), "the bundler lists geo-locate.js");
-check(!/claude-|opus|sonnet|haiku/i.test(src + readFileSync(join(ROOT, "tools", "geo_bake.py"), "utf8")), "no model identifier in the GEO files");
+check((bundler.match(/"bd2-relief-data\.js",\s*(#[^\n]*)?\n\s*(SHARED \/ )?"np-parishes\.js"/g) || []).length === (bundler.match(/"np-parishes\.js",/g) || []).length, "every bundle that lists np-parishes.js lists the grid module right before it");
+check(!/claude-|opus|sonnet|haiku/i.test(src + ["geo_bake.py", "geo_relief.py", "geo_maps.mjs", "geo_budget.json"].map((f) => readFileSync(join(ROOT, "tools", f), "utf8")).join("") + readFileSync(join(SHARED, "bd2-relief-data.js"), "utf8")), "no model identifier in the GEO and BACKDROPS-2 files");
 
 console.log = realLog;
-console.log(`check_geo: ${pass} passed, ${fail} failed · ${good}/${la.length} Louisiana backdrops, ${allJpg.length} baked in all, ${allKb.toFixed(0)} KB of ${BUDGET_KB} KB`);
+console.log(`check_geo: ${pass} passed, ${fail} failed · ${good}/${wantMaps.length} backdrops (${laGood}/${la.length} Louisiana), ${noneMaps.length} maps with none, ${allJpg.length} baked in all, ${allKb.toFixed(0)} KB of ${BUDGET_KB} KB`);
 process.exit(fail ? 1 : 0);

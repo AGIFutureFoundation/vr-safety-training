@@ -19,7 +19,7 @@ import { NP_PARISHES, npParish, npResolveConnectors, npRegion, npRegionOf, npReg
 import { NP_SIZE, NP_ROAD_KINDS, npHeightAt, npWaterAt, npDistrictAt, npHillAt, npPlace, npStartSite } from "../../shared/np-parish.js";
 import { npSatelliteUrl, npGroundUvMatrix, npScale } from "../../shared/np-geo.js";
 // GEO (docs/geo.md): opt-in Find me (memory only), the baked Sentinel-2 backdrop and the live satellite layer (off by default).
-import { GEO_CREDIT, geoAllowed, geoIsK12, geoMountFindMe, geoLoadBackdrop, geoMountLive } from "../../shared/geo-locate.js";
+import { GEO_CREDIT, geoAllowed, geoIsK12, geoMountFindMe, geoLoadBackdrop, geoBackdropAllowed, geoMountLive } from "../../shared/geo-locate.js";
 import { gtProfile } from "../../shared/profiles.js";
 import { dnVersion } from "../../shared/dn-modules.js";
 import { rlPrepareRelief, RL_BUDGET } from "../../shared/rl-relief.js";
@@ -288,7 +288,7 @@ const NW_MODE_TOAST = { wade: "Wading: slower going — keep your footing and wa
 // default), the opt-in Find me (a trusted press, memory only, never stored, sent or logged; off in demo and signed-out
 // sessions, and in K-12 class sessions unless the teacher's DEAN version turns it on) and the live layer (off by default).
 let geoBackdrop = null, geoPin = null, geoGroundOn = false, geoBeacon = null;
-geoLoadBackdrop(parish.id).then((img) => { geoBackdrop = img; if (img && np.modal === "map") npRenderMap(); const b = $("geo-ground"); if (b) b.disabled = !img; });
+(geoBackdropAllowed(parish) ? geoLoadBackdrop(parish.id) : Promise.resolve(null)).then((img) => { geoBackdrop = img; if (img && np.modal === "map") npRenderMap(); const b = $("geo-ground"); if (b) b.disabled = !img; });
 {
   const gb = $("geo-ground");
   if (gb) {
