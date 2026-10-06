@@ -188,7 +188,7 @@ export const SIM_RP_CONSTRUCTION_DRILLING_ROBOT_SETUP = {
     faultLamp.visible = false;
     const fore = standingFigure(g, -3.9, 0.8, { ry: 1.2, cloth: 0x2b3138, helmet: 0xf2f2f2 });
     holoTag(fore, "foreperson", 0, 1.95, 0.15, { css: "#ffb35c", w: 0.3 });
-    const faultOn = /[?&]fault=conduit-hit(&|$)/.test(globalThis.location?.search ?? "");
+    const faultOn = new URLSearchParams(globalThis.location?.search ?? "").get("fault") === "conduit-hit";
     const fStep = SIM_RP_CONSTRUCTION_DRILLING_ROBOT_SETUP.steps.find((s) => s.id === "find-conflict");
     const fDecl = SIM_RP_CONSTRUCTION_DRILLING_ROBOT_SETUP.faults[0];
     if (fStep) { fStep.targets = [faultOn ? fDecl.target : fDecl.from]; fStep.target = fStep.targets[0]; fStep.cue = faultOn ? fDecl.note : fDecl.cue; }

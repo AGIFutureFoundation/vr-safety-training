@@ -181,7 +181,7 @@ export const SIM_RP_TELEOP_DEMONSTRATION_COLLECTION = {
     faultLamp.visible = false;
     const lead = standingFigure(g, -3.9, 0.8, { ry: 1.2, cloth: 0x2b3138, helmet: 0xf2f2f2 });
     holoTag(lead, "data steward", 0, 1.95, 0.15, { css: "#8fd17a", w: 0.3 });
-    const faultOn = /[?&]fault=badge-in-frame(&|$)/.test(globalThis.location?.search ?? "");
+    const faultOn = new URLSearchParams(globalThis.location?.search ?? "").get("fault") === "badge-in-frame";
     const fStep = SIM_RP_TELEOP_DEMONSTRATION_COLLECTION.steps.find((s) => s.id === "find-frame");
     const fDecl = SIM_RP_TELEOP_DEMONSTRATION_COLLECTION.faults[0];
     if (fStep) { fStep.targets = [faultOn ? fDecl.target : fDecl.from]; fStep.target = fStep.targets[0]; fStep.cue = faultOn ? fDecl.note : fDecl.cue; }
