@@ -1,7 +1,7 @@
 {
   "protocol": 2,
   "network": "SmartCiti.X ~VR Simulators (Powered by AGI Corp & Visko)",
-  "generatedAt": "2026-09-29",
+  "generatedAt": "2026-10-06",
   "apps": {
     "smartcity": {
       "entry": "smartcity/index.html",
@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 721
+      "stations": 722
     },
     "trades": {
       "entry": "trades/index.html",
@@ -350,6 +350,7 @@
         "trench-box",
         "scaffold-erection",
         "concrete-pour",
+        "sil-concrete-drilling-and-silica-dust-cues",
         "bk-bioretention-rain-garden-excavation",
         "leading-edge-and-horizontal-lifeline",
         "gg-pile-driver-fender-repair",
@@ -3239,12 +3240,17 @@
           "app": "smartcity",
           "id": "or-ranch-road-grading-and-culvert",
           "why": "The operating engineer's own station, off the slab entirely: a crown cut to the plan on open range, a culvert set in a trench respected as an excavation, and a school bus on the same road escorted through on the flagger's call."
+        },
+        {
+          "app": "smartcity",
+          "id": "sil-concrete-drilling-and-silica-dust-cues",
+          "why": "The laborers' own silica station: anchor holes drilled under a shroud and vacuumed rather than blown out, a pipe core drilled wet to Table 1, and two dust cues — one from your own drill, one drifting in from the next crew — timed the way the ConstructionVR study timed them."
         }
       ],
       "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
       "ladder": {
         "levels": 20,
-        "lessons": 1633,
+        "lessons": 1644,
         "tasks": 120,
         "atBar": 20,
         "partial": 0,
@@ -10264,6 +10270,89 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "sil-concrete-drilling-and-silica-dust-cues",
+      "name": "Concrete Drilling & Silica Dust Cues",
+      "title": "SmartCiti.X~ Concrete Drilling & Silica Dust Cues VR",
+      "tagline": "Anchor holes and a pipe core drilled under the silica rule: the shroud, the collector and the half-mask checked before any bit turns, the holes vacuumed rather than blown out, the core drilled wet, and two dust cues — one you raise yourself, one that drifts in from the next crew — answered as fast as you notice them",
+      "category": "Construction & Structural Trades",
+      "domain": "Construction & Structural Trades",
+      "trade": "Construction laborer — LIUNA, concrete drilling and anchor setting",
+      "union": null,
+      "certification": "LIUNA Training as a training body for construction laborers; OSHA 29 CFR 1926.1153 respirable crystalline silica in construction — Table 1's entries for handheld and stand-mounted drills (shroud or cowling with a dust collection system, and a HEPA-filtered vacuum to clean holes) and for rig-mounted core saws or drills (integrated water delivery), the housekeeping limits on dry sweeping and compressed air, and the written exposure control plan; OSHA 29 CFR 1926.103 respiratory protection, which applies 29 CFR 1910.134 fit testing and seal checks to construction; ANSI A10.9 concrete and masonry work; NIOSH guidance on engineering controls for silica dust from drilling; the tool, dust collector and anchor manufacturers' instructions for airflow and depth",
+      "accent": "#d9a441",
+      "parSeconds": 320,
+      "weather": "clear",
+      "indoor": "plant",
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "find",
+        "sequence",
+        "drag",
+        "gauge",
+        "turn",
+        "hold",
+        "track"
+      ],
+      "badge": {
+        "id": "caught-the-plume",
+        "name": "Caught The Plume",
+        "note": "Both dust cues answered inside their window, no dry cleanup, the shroud on every hole — first time"
+      },
+      "meshes": 245,
+      "lights": 0,
+      "overBudget": false,
+      "index": "970",
+      "flat": false,
+      "system": "Dust Crew",
+      "currency": "HOLE",
+      "ranks": [
+        "Helper",
+        "Driller",
+        "Laborer",
+        "Lead Laborer",
+        "Dust Crew Certified"
+      ],
+      "awards": [
+        {
+          "id": "walked-the-kit",
+          "name": "Walked The Kit",
+          "note": "The torn shroud skirt, the choked filter and the broom all found before the first hole, first time"
+        },
+        {
+          "id": "never-blown",
+          "name": "Never Blown, Never Swept",
+          "note": "No compressed air in a hole, no broom on silica dust, no drilling with the shroud off, the mask strapped every time"
+        },
+        {
+          "id": "in-the-band",
+          "name": "In The Band",
+          "note": "Collector airflow and core water both held where the manufacturers put them"
+        },
+        {
+          "id": "clean-holes",
+          "name": "Clean Holes",
+          "note": "No corrections through the whole station"
+        },
+        {
+          "id": "steady-core",
+          "name": "Steady Core",
+          "note": "The core drill's water and feed held for the whole cut"
+        },
+        {
+          "id": "quick-crew",
+          "name": "Quick Crew",
+          "note": "Drilled, cored, cleaned and logged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=sil-concrete-drilling-and-silica-dust-cues"
     },
     {
       "app": "smartcity",
@@ -37394,7 +37483,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 269,
+      "meshes": 259,
       "lights": 0,
       "overBudget": false,
       "index": "92",
