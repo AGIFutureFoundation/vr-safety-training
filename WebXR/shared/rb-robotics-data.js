@@ -46,6 +46,13 @@ export const RB_RULES = {
   "restart-with-lock": { weight: -1, text: "Tried to restart while a lock was still on." },
   "left-locked": { weight: -1, text: "Left without removing your own lock and restarting the cell." },
   "hazard": { weight: -1, text: "Chose an unsafe option at the station (station scenarios)." },
+  "person-in-barricade": { weight: -3, text: "Ran the drill while a person was inside the barricade; the robot held until they stepped out." },
+  "drill-unscanned": { weight: -2, text: "Drilled before the deck was scanned for embedded services." },
+  "no-barricade": { weight: -2, text: "Drilled before the barricade around the robot's reach was set." },
+  "dust-off": { weight: -1, text: "Drilled with the dust collection switched off." },
+  "bit-change-live": { weight: -2, text: "Changed the drill bit without isolating the battery first." },
+  "crossing-stop-zone": { weight: -3, text: "Drove toward the pedestrian crossing while a person was on it; the gantry held in the stop zone." },
+  "pinned-keep-out": { weight: -2, text: "Drove into the keep-out around a pinned container where a lashing crew works; the gantry held." },
 };
 
 /**
@@ -88,6 +95,22 @@ export const RB_SCENARIOS = [
     actions: ["walk {d} (m, + toward the cell)", "test-estop", "press-estop", "lockout", "verify", "enter", "clear-jam", "exit", "remove-lock", "restart", "wait"],
     safePractice: ["enter-live-cell", "skip-estop-test", "lockout-order", "no-verify", "restart-with-lock", "left-locked"],
   },
+  {
+    id: "rb-construction-drilling", kind: "game", name: "Ceiling-Drilling Robot Set-Up",
+    blurb: "Set a ceiling-drilling robot to work on a concrete deck: scan the deck, set the barricade, switch the dust collection on, drill the layout and change a worn bit with the battery isolated. Hold the robot whenever a person steps inside the barricade.",
+    station: "rp-construction-drilling-robot-setup", maxSteps: 80, dt: 1,
+    params: { holes: 6, bitLife: 3, personPeriod: 9, personStay: 2 },
+    actions: ["scan", "barricade", "dust-on", "drill", "hold", "isolate", "change-bit", "restore", "estop", "wait"],
+    safePractice: ["person-in-barricade", "drill-unscanned", "no-barricade", "dust-off", "bit-change-live"],
+  },
+  {
+    id: "rb-port-gantry", kind: "game", name: "Port Automation Lane",
+    blurb: "Drive an automated stacking gantry along a container-yard lane: carry each container to its bay, slow and hold in the stop zone while a person is on the crossing, and keep out of the lane around a pinned container.",
+    station: "ad-amr-fleet-traffic-and-estop-drill", maxSteps: 160, dt: 1,
+    params: { width: 12, lanes: 2, crossingColumn: 6, stopZone: 2, jobs: 2, keepOutSpan: 2 },
+    actions: ["move {dir: N|S|E|W}", "hold", "lift", "set", "estop", "wait"],
+    safePractice: ["crossing-stop-zone", "pinned-keep-out"],
+  },
   { id: "rb-station-robot-cell", kind: "station", name: "Robot Cell Lockout & Safe Re-entry (station)", station: "ad-robot-cell-lockout-and-safe-reentry", maxSteps: 20000, dt: 0.05, safePractice: ["hazard"] },
   { id: "rb-station-amr-fleet", kind: "station", name: "AMR Fleet Traffic & E-stop Drill (station)", station: "ad-amr-fleet-traffic-and-estop-drill", maxSteps: 20000, dt: 0.05, safePractice: ["hazard"] },
   { id: "rb-station-cobot", kind: "station", name: "Cobot Risk Assessment & Speed-and-Separation (station)", station: "ad-cobot-risk-assessment-and-speed-separation", maxSteps: 20000, dt: 0.05, safePractice: ["hazard"] },
@@ -101,10 +124,11 @@ export const RB_SCENARIOS = [
  * cell gate, and links the scenario and station it teaches.
  */
 export const RB_SITES = [
-  { id: "rb-site-west-oakland-port-automation", parish: "oak-west-oakland", anchor: "outer-harbor-container-terminal", offset: [34, 26], rig: "gantry", name: "Port Automation Yard (procedural)", scenario: "rb-amr-fleet-routing", station: "ad-amr-fleet-traffic-and-estop-drill" },
+  { id: "rb-site-west-oakland-port-automation", parish: "oak-west-oakland", anchor: "outer-harbor-container-terminal", offset: [34, 26], rig: "gantry", name: "Port Automation Yard (procedural)", scenario: "rb-port-gantry", station: "ad-amr-fleet-traffic-and-estop-drill" },
   { id: "rb-site-west-oakland-warehouse", parish: "oak-west-oakland", anchor: "mandela-parkway-warehouse-row", offset: [-30, 24], rig: "amr", name: "Automated Warehouse Aisle (procedural)", scenario: "rb-amr-fleet-routing", station: "ad-amr-fleet-traffic-and-estop-drill" },
   { id: "rb-site-san-jose-robotics-lab", parish: "bay-san-jose", anchor: "university-campus-plant-sj", offset: [30, -26], rig: "cobot", name: "Campus Robotics Lab (procedural)", scenario: "rb-cobot-zone-setup", station: "ad-cobot-risk-assessment-and-speed-separation" },
   { id: "rb-site-orleans-warehouse", parish: "orleans", anchor: "no-sw-almonaster-corridor-distribution-warehouse", offset: [32, 28], rig: "amr", name: "Distribution Robot Aisle (procedural)", scenario: "rb-amr-fleet-routing", station: "ad-amr-fleet-traffic-and-estop-drill" },
+  { id: "rb-site-richland-drilling-robot", parish: "la-meta-richland", anchor: "lmr-data-hall-fitout", offset: [30, 28], rig: "cobot", name: "Ceiling-Drilling Robot Deck (procedural)", scenario: "rb-construction-drilling", station: "rp-construction-drilling-robot-setup" },
   { id: "rb-site-soma-robot-cell", parish: "sf-downtown", anchor: "dt-sw-south-of-market-fabrication-shop", offset: [-28, 26], rig: "cell", name: "Fabrication Robot Cell (procedural)", scenario: "rb-cell-entry", station: "ad-robot-cell-lockout-and-safe-reentry" },
 ];
 

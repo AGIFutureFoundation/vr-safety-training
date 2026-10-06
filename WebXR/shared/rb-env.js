@@ -427,6 +427,172 @@ function rbCellSim(sc) {
   };
 }
 
+
+// --------------------------------------- game: construction ceiling-drilling robot (ROBOSCENARIOS)
+
+/** A ceiling-drilling robot on a concrete deck (procedural). A worker steps inside the barricade now and then on a
+ * seeded schedule; while they are inside the robot holds and a drill command is a missed practice, never harm. */
+function rbDrillSim(sc) {
+  const P = sc.params;
+  let s;
+  const personInside = () => ((s.tick + s.phase) % s.period) < P.personStay;
+  const DRILL = [0, 2.4, 0];
+  const keepOutOf = (inside) => ({ zones: 1, inside: inside ? "person-0" : null, part: "bystander", authorised: true, nearest: { id: "barricade", clearance: inside ? 0 : 1 } });
+  return {
+    init(seed) {
+      const R = rng(seed * 7877 + 13);
+      s = { tick: 0, phase: Math.floor(R() * P.personPeriod), period: P.personPeriod + Math.floor(R() * 4), holes: P.holes + Math.floor(R() * 3), drilled: 0, scanned: false, barricaded: false, dust: false, wear: 0, isolated: false, bitChanges: 0, credited: {} };
+    },
+    observe() {
+      const inside = personInside();
+      return {
+        scenario: sc.id, tick: s.tick, holesTotal: s.holes, drilled: s.drilled, remaining: s.holes - s.drilled,
+        scanned: s.scanned, barricaded: s.barricaded, dust: s.dust, bitWear: rbR3(s.wear / P.bitLife), bitWorn: s.wear >= P.bitLife, isolated: s.isolated, personInside: inside,
+        grasp: null, maxForce: "none", pose: rbPose(DRILL), keepOut: keepOutOf(inside),
+      };
+    },
+    apply(a) {
+      const out = { reward: -0.01, violations: [], maxForce: "none", operator: "human", feedback: a.type, pose: rbPose(DRILL) };
+      const credit = (k, r) => { if (!s.credited[k]) { s.credited[k] = true; out.reward += r; } };
+      const inside = personInside();
+      switch (a.type) {
+        case "scan": s.scanned = true; credit("scan", 0.2); out.feedback = "deck-scanned"; break;
+        case "barricade": s.barricaded = true; credit("barricade", 0.2); out.feedback = "barricade-set"; break;
+        case "dust-on": s.dust = true; credit("dust", 0.1); out.feedback = "dust-collection-on"; break;
+        case "hold": case "estop": out.feedback = inside ? "held-for-person" : "held"; if (inside) credit("hold", 0.2); break;
+        case "isolate": s.isolated = true; out.feedback = "battery-isolated"; break;
+        case "change-bit": if (!s.isolated) out.violations.push("bit-change-live"); s.wear = 0; s.bitChanges += 1; out.feedback = s.isolated ? "bit-changed" : "bit-changed-live"; break;
+        case "restore": s.isolated = false; out.feedback = "battery-restored"; break;
+        case "drill":
+          if (inside) { out.violations.push("person-in-barricade"); out.feedback = "robot-held-person-inside"; break; }
+          if (s.isolated) { out.feedback = "battery-isolated"; break; }
+          if (s.drilled >= s.holes) { out.feedback = "layout-done"; break; }
+          if (s.wear >= P.bitLife) { out.feedback = "bit-worn"; break; }
+          if (!s.scanned) out.violations.push("drill-unscanned");
+          if (!s.barricaded) out.violations.push("no-barricade");
+          if (!s.dust) out.violations.push("dust-off");
+          s.drilled += 1; s.wear += 1; out.reward += 1; out.feedback = "hole-drilled"; break;
+        default: break;
+      }
+      out.keepOut = keepOutOf(inside);
+      s.tick += 1;
+      return out;
+    },
+    finished() { return s.drilled >= s.holes && !s.isolated; },
+    passed() { return s.drilled >= s.holes && !s.isolated; },
+    expert(o, R, skill) {
+      const lapse = R() < (1 - skill) * 0.4;
+      // A lapse is the shortcut: drill (or swap the bit) now, whatever is still undone.
+      if (lapse) return o.bitWorn ? { type: "change-bit" } : o.isolated ? { type: "restore" } : { type: "drill" };
+      if (o.personInside) return { type: "hold" };
+      if (!o.scanned) return { type: "scan" };
+      if (!o.barricaded) return { type: "barricade" };
+      if (o.bitWorn && o.remaining > 0) return o.isolated ? { type: "change-bit" } : { type: "isolate" };
+      if (o.isolated) return { type: "restore" };
+      if (!o.dust) return { type: "dust-on" };
+      if (o.remaining > 0) return { type: "drill" };
+      return { type: "wait" };
+    },
+  };
+}
+
+// ------------------------------------------------ game: port automation lane (ROBOSCENARIOS)
+
+const RB_LANE_DIRS = { N: [0, -1], S: [0, 1], E: [1, 0], W: [-1, 0] };
+
+/** One automated stacking gantry in a two-lane container yard (procedural): lane 0 is the travel lane, lane 1 the
+ * stack lane with the bays. A pedestrian crossing spans both lanes at one column on a seeded schedule; a pinned
+ * container's keep-out covers a span of the stack lane. Driving into either is held by the gantry and scored as a
+ * missed practice. */
+function rbPortSim(sc) {
+  const P = sc.params, W = P.width, H = P.lanes, C = P.crossingColumn;
+  let s;
+  const personOn = () => ((s.tick + s.phase) % s.period) < s.stay;
+  const keepOut = (x, y) => y === H - 1 && x >= s.ko && x < s.ko + P.keepOutSpan;
+  const inside = (x, y) => x >= 0 && y >= 0 && x < W && y < H;
+  const job = () => s.jobs[s.done] ?? null;
+  const clearance = () => (s.at[1] === H - 1 ? Math.max(0, Math.min(Math.abs(s.at[0] - s.ko), Math.abs(s.at[0] - (s.ko + P.keepOutSpan - 1)))) : 1);
+  return {
+    init(seed) {
+      const R = rng(seed * 6151 + 29);
+      const ko = R() < 0.5 ? 2 + Math.floor(R() * 2) : 8 + Math.floor(R() * 2);
+      const bays = [];
+      for (let x = 1; x < W - 1; x++) if (Math.abs(x - C) > 1 && !(x >= ko && x < ko + P.keepOutSpan)) bays.push(x);
+      const pick = () => bays.splice(Math.floor(R() * bays.length), 1)[0];
+      s = { tick: 0, phase: Math.floor(R() * 10), period: 10 + Math.floor(R() * 5), stay: 3, ko, at: [0, 0], carrying: false, done: 0, jobs: Array.from({ length: P.jobs }, (_, i) => ({ id: `box-${i}`, from: pick(), to: pick() })) };
+    },
+    observe() {
+      const j = job(), on = personOn();
+      return {
+        scenario: sc.id, tick: s.tick, width: W, lanes: H, crossingColumn: C, stopZone: P.stopZone, personOnCrossing: on,
+        pinned: [s.ko, s.ko + P.keepOutSpan - 1], at: s.at.slice(), carrying: s.carrying, goal: j ? [s.carrying ? j.to : j.from, H - 1] : s.at.slice(),
+        job: j ? { id: j.id, from: j.from, to: j.to } : null, delivered: s.done, remaining: s.jobs.length - s.done,
+        grasp: s.carrying ? GRASP_BY_KIND.drag : null, maxForce: "none", pose: null,
+        keepOut: { zones: on ? 2 : 1, inside: null, part: on ? "bystander" : "pinned-container", authorised: true, nearest: { id: "pinned-container", clearance: clearance() } },
+      };
+    },
+    apply(a) {
+      const out = { reward: -0.01, violations: [], maxForce: "none", feedback: a.type };
+      const on = personOn(), j = job();
+      if (a.type === "move") {
+        const d = RB_LANE_DIRS[a.dir];
+        if (!d) out.feedback = "unknown-direction";
+        else {
+          const nx = s.at[0] + d[0], ny = s.at[1] + d[1];
+          if (!inside(nx, ny)) out.feedback = "edge-of-yard";
+          else if (nx === C && s.at[0] !== C && on) { out.violations.push("crossing-stop-zone"); out.feedback = "held-at-crossing"; }
+          else if (keepOut(nx, ny)) { out.violations.push("pinned-keep-out"); out.feedback = "held-at-keep-out"; }
+          else { s.at = [nx, ny]; out.feedback = Math.abs(nx - C) <= P.stopZone && nx !== C ? "in-stop-zone" : "moved"; }
+        }
+      } else if (a.type === "hold" || a.type === "estop") {
+        const inZone = on && Math.abs(s.at[0] - C) <= P.stopZone && s.at[0] !== C;
+        out.feedback = inZone ? "held-in-stop-zone" : "held";
+        if (inZone) out.reward += 0.05;
+      } else if (a.type === "lift") {
+        if (!j || s.carrying) out.feedback = "nothing-to-lift";
+        else if (s.at[0] !== j.from || s.at[1] !== H - 1) out.feedback = "not-at-bay";
+        else { s.carrying = true; out.reward += 0.5; out.feedback = "lifted"; }
+      } else if (a.type === "set") {
+        if (!j || !s.carrying) out.feedback = "nothing-to-set";
+        else if (s.at[0] !== j.to || s.at[1] !== H - 1) out.feedback = "not-at-bay";
+        else { s.carrying = false; s.done += 1; out.reward += 1; out.feedback = "set-down"; }
+      }
+      out.grasp = s.carrying ? GRASP_BY_KIND.drag : null;
+      out.keepOut = { zones: on ? 2 : 1, inside: null, part: on ? "bystander" : "pinned-container", authorised: true, nearest: { id: "pinned-container", clearance: clearance() } };
+      s.tick += 1;
+      return out;
+    },
+    finished() { return s.done >= s.jobs.length; },
+    passed() { return s.done >= s.jobs.length; },
+    expert(o, R, skill) {
+      const lapse = R() < (1 - skill) * 0.5;
+      const j = o.job; if (!j) return { type: "wait" };
+      const goal = [o.carrying ? j.to : j.from, o.lanes - 1];
+      if (o.at[0] === goal[0] && o.at[1] === goal[1]) return { type: o.carrying ? "set" : "lift" };
+      // BFS through free cells; a careful driver treats the crossing as blocked while a person is on it.
+      const ko = (x, y) => y === o.lanes - 1 && x >= o.pinned[0] && x <= o.pinned[1];
+      const blocked = (x, y) => !lapse && (ko(x, y) || (o.personOnCrossing && x === o.crossingColumn));
+      const key = (x, y) => `${x},${y}`, start = key(...o.at), gk = key(...goal), prev = new Map([[start, null]]), queue = [o.at];
+      while (queue.length) {
+        const [x, y] = queue.shift();
+        if (key(x, y) === gk) break;
+        for (const [dn, [dx, dy]] of Object.entries(RB_LANE_DIRS)) {
+          const nx = x + dx, ny = y + dy, k = key(nx, ny);
+          if (nx < 0 || ny < 0 || nx >= o.width || ny >= o.lanes || prev.has(k) || blocked(nx, ny)) continue;
+          prev.set(k, [key(x, y), dn]); queue.push([nx, ny]);
+        }
+      }
+      const first = (target) => { let k = target; while (prev.get(k) && prev.get(k)[0] !== start) k = prev.get(k)[0]; return prev.get(k)?.[1] ?? null; };
+      if (prev.has(gk)) return { type: "move", dir: first(gk) };
+      // The crossing is busy between here and the bay: drive up to the stop zone's edge on the travel lane, then hold there.
+      const side = Math.sign(o.crossingColumn - o.at[0]) || 1, waitAt = key(o.crossingColumn - side, 0);
+      if (start === waitAt || Math.abs(o.at[0] - o.crossingColumn) <= 1) return { type: "hold" };
+      const dir = prev.has(waitAt) ? first(waitAt) : null;
+      return dir ? { type: "move", dir } : { type: "hold" };
+    },
+  };
+}
+
 // --------------------------------------------------------- station scenarios
 
 function rbStationSim(sc, bind) {
@@ -466,7 +632,7 @@ function rbStationSim(sc, bind) {
   };
 }
 
-const RB_SIMS = { "rb-teleop-pick-place": rbTeleopSim, "rb-amr-fleet-routing": rbAmrSim, "rb-cobot-zone-setup": rbCobotSim, "rb-cell-entry": rbCellSim };
+const RB_SIMS = { "rb-teleop-pick-place": rbTeleopSim, "rb-amr-fleet-routing": rbAmrSim, "rb-cobot-zone-setup": rbCobotSim, "rb-cell-entry": rbCellSim, "rb-construction-drilling": rbDrillSim, "rb-port-gantry": rbPortSim };
 
 /**
  * Build an environment for a scenario id. Options: `seed` (default 1) and,
