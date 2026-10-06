@@ -675,8 +675,10 @@ export function standingFigure(parent, x, z, o = {}) {
   if (crew) g.userData.crew = true;
   const outfit = OUTFITS[o.outfit ?? outfitFromContext(getActiveContext())] ?? OUTFITS.office;
   const look = figureLook(o, x, z);
-  const cloth = o.cloth ?? look.cloth;
-  const trousers = o.trousers ?? look.trousers;
+  // An outfit may name a garment colour (a welder's leathers, a chef's whites)
+  // where the caller left it unnamed; a colour the caller named still wins.
+  const cloth = o.cloth ?? outfit.cloth ?? look.cloth;
+  const trousers = o.trousers ?? outfit.trousers ?? look.trousers;
   const lying = !!o.lying;
   const body = group(g, 0, 0, 0);
   if (lying) { body.rotation.x = -Math.PI / 2; body.position.set(0, 0.16, 0); }
@@ -698,15 +700,16 @@ export function standingFigure(parent, x, z, o = {}) {
     band: vestColor ? (o.bands ?? outfit.bands ?? 0xdfe8ee) : null,
     glove: gloves,
     skin: look.skin,
+    pouch: o.pouch ?? outfit.pouch,
   });
   const { torso } = personTorso(body, {
-    cloth, trousers, harness: o.harness, jacket: vestColor ?? cloth,
-    vis: dress.band, ei: 0.45, toolBelt: o.toolBelt, dress,
+    cloth, trousers, harness: o.harness ?? outfit.harness, jacket: vestColor ?? cloth,
+    vis: dress.band, ei: 0.45, toolBelt: o.toolBelt ?? outfit.toolBelt, dress,
   });
   personLegs(body, { trousers, dress, boots });
   const head = group(body, 0, 1.5, 0);
   personHead(head, {
-    look, k: 0.9, helmet, cap, scrubCap, diveHood, glasses, mask, respirator: o.respirator, facePx: o.facePx,
+    look, k: 0.9, helmet, cap, scrubCap, diveHood, glasses, mask, respirator: o.respirator ?? outfit.respirator, facePx: o.facePx,
   });
   // Kept as [{shoulder, fore}, ...] (left first, then right) rather than
   // discarded like most callers do: the third-person chase view (app.js)

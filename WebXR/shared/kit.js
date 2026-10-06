@@ -1009,6 +1009,35 @@ export const OUTFITS = {
   sport: {},
   firefighter: { helmet: 0xd8342a, vest: true, bands: 0xf2c14b, gloves: 0x2b2f33, boots: 0x1b1e22 },
   diver: { diveHood: true, mask: true, gloves: 0x2b2f33, boots: 0x2b2f33 },
+  // Loop 5 (console AVATARS, docs/avatars.md): the trades the figure lacked.
+  // Each one is held to the same 17-mesh ceiling as `construction` (a helmet
+  // is two meshes, shell and strap; glasses, a mask, a respirator, a harness
+  // and a tool belt one each; everything else is paint), so a station whose
+  // crew changes outfit never changes its mesh count.
+  // Welder: a dark hood (the helmet shell in matte black with a dark lens
+  // over the eyes) and brown leathers, gauntlet gloves.
+  welder: { helmet: 0x1f2226, mask: 0x2a1a08, cloth: 0x6b4a2e, trousers: 0x3a3127, gloves: 0x8a6a46, boots: 0x1b1e22 },
+  // Lineworker: climbing harness over arc-rated (navy, no hi-vis vest)
+  // coveralls, hard hat, leather gloves.
+  lineworker: { helmet: 0xf2c14b, harness: true, cloth: 0x2a3f6a, trousers: 0x2a3f6a, gloves: 0x8a6a46, boots: 0x1b1e22 },
+  // Laborer on silica work: half-mask respirator under the hard hat, hi-vis,
+  // gloves — the dust-control station's own PPE list.
+  silica: { helmet: 0xf2c14b, respirator: 0x9aa1a8, vest: true, gloves: true },
+  // Robot technician: bump cap, safety glasses, a tool belt whose pouch is the
+  // red lockout tag colour, tablet-grey gloves.
+  robotTech: { cap: 0x2b3542, glasses: true, toolBelt: true, pouch: 0xd8322c, cloth: 0x3a4a5a, gloves: 0x4a5a66 },
+  // AI-training specialist: a headset (the mask's wrap lens in dark matte over
+  // a dark head strap) and controller-grey gloves, plain clothes.
+  aiTrainer: { scrubCap: 0x1b1e22, mask: 0x14171a, gloves: 0x3a4150, cloth: 0x3a4150 },
+  // Port and longshore: orange hard hat and vest over dark work gear, gloves,
+  // glasses — the terminal's own colour.
+  longshore: { helmet: 0xf07a1f, vest: 0xf07a1f, bands: 0xdfe8ee, gloves: true, glasses: true, cloth: 0x2b3542 },
+  // Healthcare (nursing and support): teal scrubs, scrub cap, glasses, pale
+  // gloves — the clinical outfit's cousin, in scrubs rather than the dentist's own.
+  healthcare: { scrubCap: 0x3a8a8a, glasses: true, gloves: 0xe8e2d8, cloth: 0x3a8a8a, trousers: 0x2f6f6f },
+  // Chef: whites, a white cap, dark checked trousers, no gloves (bare hands at
+  // the pass are the convention the kitchen stations teach glove changes against).
+  chef: { cap: 0xf4f4f0, cloth: 0xf4f4f0, trousers: 0x2a2d31 },
 };
 
 // A station's own `category` (shared/curricula.js's ten-domain taxonomy)
@@ -1031,7 +1060,9 @@ const CATEGORY_OUTFITS = {
   "Sewing & Garment Trades": "office",
   "Maritime & Ports": "marine",
   "Dental & Oral Health": "clinical",
-  "Culinary & Hospitality": "kitchen",
+  "Healthcare Support": "healthcare",
+  "Culinary & Hospitality": "chef",
+  "Grounds & Landscaping": "construction",
   "Youth Sports & Coaching": "sport",
   "Emergency Services": "firefighter",
   "Community Environmental Justice": "office",
@@ -1048,6 +1079,12 @@ export function outfitFromContext(text = "") {
   if (CATEGORY_OUTFITS[raw]) return CATEGORY_OUTFITS[raw];
   const t = raw.toLowerCase();
   if (!t) return "office";
+  // A trade the context names outright beats its category: a welding station
+  // in "Construction & Structural Trades" dresses a welder, not a generic
+  // hard hat. The app passes "category | trade | union | id" (smartcity/js/
+  // app.js), so these see all four.
+  const trade = outfitFromTrade(t);
+  if (trade) return trade;
   for (const [cat, name] of Object.entries(CATEGORY_OUTFITS)) {
     if (t.includes(cat.toLowerCase())) return name;
   }
@@ -1059,6 +1096,24 @@ export function outfitFromContext(text = "") {
   if (/\bfire\b|firefight|hazmat|rescue/.test(t)) return "firefighter";
   if (/construction|structural|energy|power|telecom|connectivity|manufactur|automation|surface prep|coating|environmental|water|transit|mobility|rigging|entertainment|scaffold|welding|electrical|crane/.test(t)) return "construction";
   return "office";
+}
+
+/**
+ * The outfit a trade's own words call for, or null when the text names no
+ * trade this figure has gear for. Union names are the ones tools/unions.json
+ * carries (ILWU/ILA longshore, IBEW outside line, LIUNA laborers, UA/IBB/IW
+ * welders, NNU/CNA/SEIU-UHW nursing, UNITE HERE kitchens), by abbreviation.
+ */
+export function outfitFromTrade(t) {
+  if (/\bweld|hot[- ]work|\bibb\b|boilermaker|torch[- ]cut|\bbrazing|oxy-?fuel/.test(t)) return "welder";
+  if (/lineworker|line ?worker|lineman|\boutside line\b|pole[- ]top|transmission line|distribution line|bucket truck|climb(ing)? gear|arc[- ]rated|utility pole/.test(t)) return "lineworker";
+  if (/silica|respirable dust|drilling dust|dust control|concrete (cut|saw|grind|drill)|jackhammer|tuck ?point|masonry (cut|saw)|cement mason|\bopcmia\b/.test(t)) return "silica";
+  if (/robot|cobot|\bamr\b|automated guided|agv\b|robotics technician|robot technician/.test(t)) return "robotTech";
+  if (/ai[- ]training|ai-trainer|teleop|headset|\bvr controller|agent (supervisor|dispatch)|training specialist|behaviou?r cloning|demonstration recorder/.test(t)) return "aiTrainer";
+  if (/longshore|lasher|lashing|container terminal|\bilwu\b|\bila\b|stevedor|terminal foreman|port and terminal|gantry crane|straddle carrier/.test(t)) return "longshore";
+  if (/\bnurse|nursing|healthcare support|patient care|phlebotom|\bnnu\b|\bcna\b|seiu-uhw|\bnuhw\b|hospital|caregiver|home health/.test(t)) return "healthcare";
+  if (/\bchef\b|\bcook\b|culinary|kitchen|line cook|sous|pastry|\bbaker\b|unite here|banquet/.test(t)) return "chef";
+  return null;
 }
 
 // The station whose crew is being built right now, as free text (its
@@ -1242,6 +1297,17 @@ const FOREARM_PROFILE = [
   [0.046, -0.285], [0.036, -0.258], [0.026, -0.243], [0.030, -0.215],
   [0.038, -0.120], [0.047, -0.020], [0.001, 0.000],
 ];
+
+/**
+ * The figure's own parts, read by tools/gen_avatars.mjs to write the sprite
+ * painter's silhouettes (shared/av-sprites.js), so a portrait or a token is
+ * drawn from exactly the profiles the 3D figure is revolved from. Data only.
+ */
+export const FIGURE_PARTS = Object.freeze({
+  HEAD_PROFILE, HAIR_STYLES, HELMET_PROFILE, CAP_PROFILE, CAP_PEAK_R, CAP_PEAK_Y, GLASSES_PROFILE,
+  RESPIRATOR_PROFILE, EAR_PROFILE, PELVIS_PROFILE, TORSO_PROFILE, HARNESS_PROFILE, TOOLBELT_PROFILE,
+  SKIN_TONES, HAIR_TONES, WORK_TONES, TROUSER_TONES, FACE_SET, IRIS_TONES,
+});
 
 /**
  * A figure's seed. Two people standing in different places get different
