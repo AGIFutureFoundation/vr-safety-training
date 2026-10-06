@@ -27,7 +27,7 @@
 import { rng } from "./robot.js";
 import { rbEnv, rbPolicy, rbRollout, rbScenario } from "./rb-env.js";
 import { dxMakeEpisode, dxRecorder, dxCollecting, dxStore } from "./dx-data.js";
-import { colDemosFromEpisodes, colSyntheticDemos, colTrain, colPolicy, colEvalPolicy, colRandomPolicy, colHeldOut } from "./col-learn.js";
+import { colDemosFromEpisodes, colSyntheticDemos, colTrain, colPolicy, colEvalPolicy, colRandomPolicy, colHeldOut, colGhost } from "./col-learn.js";
 
 export const RT_VERSION = "rt/1";
 export const RT_SCENARIO = "rb-teleop-pick-place";
@@ -261,35 +261,81 @@ export function rtCompareAll(opts = {}) {
   return Object.fromEntries(RT_TASK_IDS.map((sc) => [sc, rtCompare({ ...opts, scenario: sc })]));
 }
 
+/** The pad's HUD line per task (pure over the observation): what the learner is doing and where the task stands. */
+export function rtHudLine(sc, obs, { recording = false, source = "pointer", feedback = null } = {}) {
+  const head = `${recording ? "Recording" : "Not recording"} · ${source} · ${feedback ?? "…"}`;
+  if (sc === "rb-cell-entry") {
+    const where = obs.inside ? "inside the cell" : `${obs.distance} m from the cell`;
+    const state = [obs.estopTested ? "e-stop tested" : null, obs.estopped ? "stopped" : null, obs.locked ? "locked out" : null, obs.verified ? "verified" : null, obs.jam ? "jam" : "jam cleared", obs.restarted ? "restarted" : null].filter(Boolean).join(", ");
+    return `${head} · cell entry: ${where} · ${state}`;
+  }
+  return `${head} · placed ${obs.placed}/${obs.placed + obs.remaining}`;
+}
+
+/** The pad's default pose per task (the hand at rest in that task's frame). */
+export const RT_REST_POSE = Object.freeze({ "rb-teleop-pick-place": [0, 0.3, -0.35], "rb-cell-entry": [0, 0.9, -8] });
+
 /**
- * A minimal in-page driver: the mouse or a finger (pointer events; touch-action none) over `el` is the hand in the bench
- * frame; pointerdown closes the trigger, the wheel (or a second finger) sets the squeeze, a double-click is the e-stop. In
- * WebXR, `api.xr(frame, refSpace)` reads the session's controllers through rtXRPose each frame and takes over the pose. With
- * `rig` (a ROBOTICS site's drawn rig, rbMountRobotics().rigNode(id)) the arm follows the effector live. Records through
- * rtRecorder, so nothing is kept unless the learner is collecting.
- * Returns { start(seed), step(), pose(), xr(frame, refSpace), source(), stop(), status(), rig() }.
+ * A minimal in-page driver: the mouse or a finger (pointer events; touch-action none) over `el` is the hand in the task's frame;
+ * pointerdown closes the trigger, the wheel (or a second finger) sets the squeeze, a double-click is the e-stop. In WebXR,
+ * `api.xr(frame, refSpace)` reads the session's controllers through rtXRPose each frame and takes over the pose. With `rig` (a
+ * ROBOTICS site's drawn rig, rbMountRobotics().rigNode(id)) the arm follows the effector live. Records through rtRecorder, so
+ * nothing is kept unless the learner is collecting.
+ *
+ * Loop 7 (ROBOTRAIN-3): `task` picks the task (every RT_TASKS id; the select on the pad switches it) — on the cell task the pad's
+ * x/y are the hand's offset from the body (the e-stop post's controls at RT_CELL_CONTROLS), the wheel walks the body along the
+ * approach (up: toward the cell), a right-button press is the firm squeeze (press-estop), a left press the light one (test);
+ * `onTake(episode | null, summary)` fires when a take ends (the app re-reads the learner's consented takes for the provider);
+ * `demonstrate()` replays the policy's run as a GHOST on the same rig — `modelFor(sc)` (vb-colearn.js' provider) or, without
+ * it, a COLEARN model on synthetic demonstrations — one frame at a time with the explanation on the status line.
+ * Returns { start(seed), step(), pose(), xr(frame, refSpace), source(), stop(), status(), rig(), task(id?), demonstrate(), ghost(), tasks }.
  */
-export function rtMountTeleop(el, { seed = 7001, store = dxStore, signals = null, reducedMotion = false, rig = null, hand = "right" } = {}) {
+export function rtMountTeleop(el, { seed = 7001, store = dxStore, signals = null, reducedMotion = false, rig = null, hand = "right", task = RT_SCENARIO, onTake = null, modelFor = null } = {}) {
   if (!el || typeof el.addEventListener !== "function") return null;
   const doc = el.ownerDocument;
   el.innerHTML = "";
   const status = doc.createElement("p"); status.className = "at-muted rt-status"; status.textContent = "Teleoperation: not recording (opt in on the Me tab to record takes; adults only, local only).";
+  const row = doc.createElement("div"); row.className = "rt-row"; row.style.cssText = "display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:4px 0;";
+  const sel = doc.createElement("select"); sel.className = "rt-task"; sel.setAttribute("aria-label", "Teleoperation task");
+  for (const id of RT_TASK_IDS) { const o = doc.createElement("option"); o.value = id; o.textContent = id === RT_SCENARIO ? "Teleop pick-and-place (the arm)" : "Robot cell entry (walk, controls)"; sel.append(o); }
+  const bGhost = doc.createElement("button"); bGhost.type = "button"; bGhost.className = "rt-ghost"; bGhost.textContent = "Robot demonstrates back"; bGhost.disabled = true;
+  bGhost.title = "After a take: the trained policy replays its own run on this rig, one step at a time, with its explanation.";
+  row.append(sel, bGhost);
   const pad = doc.createElement("div"); pad.className = "rt-pad"; pad.setAttribute("role", "application"); pad.setAttribute("aria-label", "Teleoperation pad: move the pointer to drive the gripper, hold to grip, wheel to set the grip force, double-click for e-stop");
   pad.style.cssText = "position:relative;height:160px;border:1px solid var(--at-border, #555);border-radius:8px;touch-action:none;";
-  el.append(status, pad);
-  let env = null, rec = null, pose = { p: [0, 0.3, -0.35], trigger: 0, squeeze: 0.5, estop: false }, timer = null, source = "pointer", xrLast = 0, touches = 0;
+  el.append(status, row, pad);
+  let sc = RT_TASKS[task] ? task : RT_SCENARIO;
+  let env = null, rec = null, pose = { p: RT_REST_POSE[sc].slice(), trigger: 0, squeeze: 0.5, estop: false }, timer = null, source = "pointer", xrLast = 0, touches = 0;
+  let ghost = { frames: [], i: -1, timer: null, model: null }, lastTake = null;
+  const isCell = () => sc === "rb-cell-entry";
+  const setTask = (id) => {
+    if (!RT_TASKS[id]) return sc;
+    api.stop(); sc = id; sel.value = id; pose = { p: RT_REST_POSE[sc].slice(), trigger: 0, squeeze: 0.5, estop: false };
+    pad.setAttribute("aria-label", isCell() ? "Cell-entry pad: the pointer is your hand at the e-stop post (left press: light squeeze, right press: firm), the wheel walks you toward the cell" : "Teleoperation pad: move the pointer to drive the gripper, hold to grip, wheel to set the grip force, double-click for e-stop");
+    status.textContent = `Task: ${isCell() ? "Robot cell entry" : "Teleop pick-and-place"} · not started.`;
+    return sc;
+  };
   const tick = () => {
     if (!rec) return;
     const r = rec.step(pose);
     pose.estop = false;
     if (rig) rtFollowRig(rig, rec.observation);
-    status.textContent = `${rec.active ? "Recording" : "Not recording"} · ${source} · ${r.feedback ?? "…"} · placed ${rec.observation.placed}/${rec.observation.placed + rec.observation.remaining}`;
+    status.textContent = rtHudLine(sc, rec.observation, { recording: rec.active, source, feedback: r.feedback });
     if (r.done) api.stop();
   };
+  const ghostStop = () => { if (ghost.timer) { clearInterval(ghost.timer); ghost.timer = null; } if (ghost.frames.length && rig) rtReleaseRig(rig); ghost.frames = []; ghost.i = -1; };
+  const ghostShow = () => {
+    const f = ghost.frames[ghost.i]; if (!f) return;
+    if (rig && f.observation?.effector) rtFollowRig(rig, f.observation);
+    const src = ghost.model?.provenance?.own ? `your ${ghost.model.provenance.n} takes` : "synthetic demonstrations";
+    status.textContent = `Robot demonstrates back (${src}) · step ${ghost.i + 1}/${ghost.frames.length} · ${f.action ? f.action.type : "done"} · ${f.explain}`;
+  };
   const api = {
+    tasks: RT_TASK_IDS,
+    task(id) { return id ? setTask(id) : sc; },
     start(s = seed) {
-      api.stop();
-      env = rbEnv(RT_SCENARIO, { seed: s });
+      api.stop(); ghostStop();
+      env = rbEnv(sc, { seed: s });
       rec = rtRecorder(env, { store, signals });
       if (rig) rtFollowRig(rig, rec.observation);
       status.textContent = rec.active ? "Recording this take on this device (revoke on the Me tab deletes it)." : "Not recording: this take is practice only.";
@@ -304,20 +350,53 @@ export function rtMountTeleop(el, { seed = 7001, store = dxStore, signals = null
       const src = sources.find((s) => s.handedness === hand) ?? sources[0];
       const xp = src ? rtXRPose(src, frame, refSpace) : null;
       if (!xp) { if (xrLast && Date.now() - xrLast > 1500) source = "pointer"; return null; }
-      pose = { p: xp.p, trigger: xp.trigger, squeeze: xp.squeeze, estop: pose.estop || xp.estop }; source = "xr"; xrLast = Date.now();
+      pose = { p: isCell() ? [xp.p[0], xp.p[1] + 0.9, pose.p[2]] : xp.p, trigger: xp.trigger, squeeze: xp.squeeze, estop: pose.estop || xp.estop }; source = "xr"; xrLast = Date.now();
       return api.pose();
     },
     source() { return source; },
     rig() { return rig; },
-    stop() { if (timer) { clearInterval(timer); timer = null; } const ep = rec ? rec.finish() : null; rec = null; if (rig) rtReleaseRig(rig); return ep; },
+    stop() {
+      if (timer) { clearInterval(timer); timer = null; }
+      const had = !!rec, steps = rec ? rec.steps() : 0;
+      const ep = rec ? rec.finish() : null; rec = null; if (rig) rtReleaseRig(rig);
+      if (had && steps > 0) { lastTake = { scenario: sc, steps, kept: !!ep }; bGhost.disabled = false; try { onTake?.(ep, lastTake); } catch (_) { /* never blocks the pad */ } }
+      return ep;
+    },
     status() { return status.textContent; },
+    /** The ghost: the policy's own run on this task replayed on the same rig, with its explanation per step. Returns the frame count. */
+    demonstrate(s = seed) {
+      api.stop(); ghostStop();
+      let model = null;
+      if (modelFor) { try { model = modelFor(sc) ?? null; } catch (_) { model = null; } }
+      if (!model) { model = colTrain(sc, colDemosFromEpisodes(colSyntheticDemos(sc, { n: 30, seed: 1 }), sc).demos, { seed: 1 }); model.provenance = { own: false, source: "synthetic human stand-in (colSyntheticDemos)", n: 30, kept: model.demos }; }
+      ghost = { frames: colGhost(model, { seed: s }), i: 0, timer: null, model };
+      ghostShow();
+      if (!reducedMotion && typeof setInterval === "function") ghost.timer = setInterval(() => { if (ghost.i < ghost.frames.length - 1) { ghost.i += 1; ghostShow(); } else ghostStop(); }, 400);
+      return ghost.frames.length;
+    },
+    /** Step the ghost by hand (reduced motion, or a headless drive): the next frame, or null when it has ended. */
+    ghost() { if (!ghost.frames.length) return null; if (ghost.i < ghost.frames.length - 1) { ghost.i += 1; ghostShow(); return ghost.frames[ghost.i]; } ghostStop(); return null; },
+    lastTake() { return lastTake; },
   };
-  const fromPad = (e) => { if (source === "xr" && Date.now() - xrLast < 1500) return; source = e.pointerType === "touch" ? "touch" : "pointer"; const b = pad.getBoundingClientRect(); pose.p = [rtR3(((e.clientX - b.left) / b.width - 0.5) * 1.2), 0.1, rtR3(((e.clientY - b.top) / b.height - 0.5) * 0.9)]; };
+  const fromPad = (e) => {
+    if (source === "xr" && Date.now() - xrLast < 1500) return;
+    source = e.pointerType === "touch" ? "touch" : "pointer"; const b = pad.getBoundingClientRect();
+    const u = (e.clientX - b.left) / b.width - 0.5, v = (e.clientY - b.top) / b.height - 0.5;
+    pose.p = isCell() ? [rtR3(u * 1.4), rtR3(1.0 - v * 1.2), pose.p[2]] : [rtR3(u * 1.2), 0.1, rtR3(v * 0.9)];
+  };
   pad.addEventListener("pointermove", fromPad);
-  pad.addEventListener("pointerdown", (e) => { fromPad(e); if (e.pointerType === "touch") { touches += 1; if (touches >= 2) pose.squeeze = rtR3(pose.squeeze + 0.15 > 1 ? 0.2 : pose.squeeze + 0.15); } pose.trigger = 1; });
+  pad.addEventListener("pointerdown", (e) => { fromPad(e); if (e.pointerType === "touch") { touches += 1; if (touches >= 2) pose.squeeze = rtR3(pose.squeeze + 0.15 > 1 ? 0.2 : pose.squeeze + 0.15); } else if (isCell()) pose.squeeze = e.button === 2 ? 0.9 : 0.2; pose.trigger = 1; });
   pad.addEventListener("pointerup", (e) => { if (e.pointerType === "touch") touches = Math.max(0, touches - 1); if (!touches) pose.trigger = 0; });
   pad.addEventListener("pointercancel", () => { touches = 0; pose.trigger = 0; });
-  pad.addEventListener("wheel", (e) => { pose.squeeze = rtClip(pose.squeeze + (e.deltaY < 0 ? 0.05 : -0.05), 0, 1); e.preventDefault(); }, { passive: false });
-  pad.addEventListener("dblclick", () => { pose.estop = true; });
+  pad.addEventListener("contextmenu", (e) => { if (isCell()) e.preventDefault(); });
+  pad.addEventListener("wheel", (e) => {
+    if (isCell()) { const d = rec?.observation?.distance ?? -pose.p[2]; pose.p[2] = rtR3(rtClip(pose.p[2] + (e.deltaY < 0 ? 1 : -1), -Math.max(d, 1) - 2, 0)); }
+    else pose.squeeze = rtClip(pose.squeeze + (e.deltaY < 0 ? 0.05 : -0.05), 0, 1);
+    e.preventDefault();
+  }, { passive: false });
+  pad.addEventListener("dblclick", () => { if (!isCell()) pose.estop = true; });
+  sel.addEventListener("change", () => setTask(sel.value));
+  bGhost.addEventListener("click", () => api.demonstrate());
+  setTask(sc);
   return api;
 }

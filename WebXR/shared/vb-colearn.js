@@ -13,14 +13,22 @@
 // consented local episodes instead (COLEARN's colLocalDemos, which returns nothing unless the learner is collecting);
 // nothing here reads a store, uploads or fetches anything.
 //
+// Loop 7 (ROBOTRAIN-3, docs/consoles/ROBOTRAIN-3.md): the last mile. vbColearnLocalSource() reads the learner's OWN consented
+// takes through COLEARN's colLocalDemos (nothing unless dxCollecting(): adult, signed in, not K-12, not the demo, opted in) and
+// hands them to the provider as `demosFor`; the model is keyed by the takes it saw, so a new take retrains and a revoke (the
+// store emptied, the consent gone) drops back to synthetic demonstrations. vbColearnDescribe(model) names the source honestly:
+// "your 12 takes" or "synthetic demonstrations".
+//
 // SEAM:
 //   vbColearnModel(sc, { n, seed, skill, demosFor })            -> plain-JSON COLEARN model (cached per key)
-//   vbColearnProvider({ n, seed, skill, demosFor })              -> { policyFor(policyId, env, seed), models(), id }
+//   vbColearnProvider({ n, seed, skill, demosFor })              -> { policyFor(policyId, env, seed), modelFor(sc), describe(sc), models(), id }
+//   vbColearnLocalSource({ store, signals })                     -> { refresh(): Promise<{ [sc]: count }>, demosFor(sc), count(sc), tag(sc), clear() }
+//   vbColearnDescribe(model)                                      -> "your N takes (...)" | "synthetic demonstrations (scripted stand-in...)"
 //   vbProviderCompare({ jobsPerTask, seed, n, skill })           -> { tasks: { [sc]: { scripted, colearn } }, totals, governor: { stepsRun, stepsMonitored, everyStep } }
 //
 // Every top-level name starts with `vb`/`VB_` (the bundler shares one scope); imports are plain (no `as` alias).
 
-import { colSyntheticDemos, colDemosFromEpisodes, colTrain, colPolicy, COL_SCENARIOS } from "./col-learn.js";
+import { colSyntheticDemos, colDemosFromEpisodes, colLocalDemos, colTrain, colPolicy, COL_SCENARIOS } from "./col-learn.js";
 import { vbGovernor } from "./vb-governor.js";
 import { vbRunJob } from "./vb-bridge.js";
 import { RB_SITES } from "./rb-robotics-data.js";
@@ -32,19 +40,70 @@ export const VB_COLEARN_SCRIPTED_ID = "vb-scripted-expert";
 export const VB_COLEARN_LABEL = "COLEARN behaviour-cloning policy (k-nearest-neighbour), trained on synthetic demonstrations labelled as a stand-in";
 
 const vbModels = new Map();
+export const VB_SOURCE_OWN = "your takes (consented, on this device)";
+export const VB_SOURCE_SYNTHETIC = "synthetic human stand-in (colSyntheticDemos)";
 
-/** One COLEARN model per task, trained on clean passes only; cached by (task, n, seed, skill, source). */
+/**
+ * One COLEARN model per task, trained on clean passes only; cached by (task, n, seed, skill, source). `demosFor(sc)` may return
+ * COLEARN demos (from colDemosFromEpisodes) or `{ demos, tag }`, where `tag` names the set so a changed set retrains. Handed-in
+ * demos train the model only when at least one clean pass is among them; otherwise the synthetic demonstrations do, and the
+ * provenance says so.
+ */
 export function vbColearnModel(sc, { n = 40, seed = 1, skill = 0.85, demosFor = null } = {}) {
   if (!COL_SCENARIOS.includes(sc)) return null;
-  const key = `${sc}|${n}|${seed}|${skill}|${demosFor ? "handed-in" : "synthetic"}`;
+  let own = null, tag = "synthetic";
+  if (demosFor) { try { const r = demosFor(sc) ?? null; own = Array.isArray(r) ? r : r?.demos ?? null; tag = r?.tag ?? (own?.length ? `handed-in:${own.length}` : "synthetic"); } catch (_) { own = null; } }
+  if (!Array.isArray(own) || !own.length) { own = null; tag = "synthetic"; }
+  const key = `${sc}|${n}|${seed}|${skill}|${tag}`;
   if (vbModels.has(key)) return vbModels.get(key);
-  let demos = null;
-  if (demosFor) { try { demos = demosFor(sc) ?? null; } catch (_) { demos = null; } }
-  if (!Array.isArray(demos) || !demos.length) demos = colDemosFromEpisodes(colSyntheticDemos(sc, { n, seed, skill }), sc).demos;
-  const model = colTrain(sc, demos, { seed, onlySuccessful: true });
-  model.provenance = { source: demosFor && Array.isArray(demos) ? "handed-in demonstrations" : "synthetic human stand-in (colSyntheticDemos)", n: demos.length, kept: model.demos, skill };
+  let model = own ? colTrain(sc, own, { seed, onlySuccessful: true }) : null;
+  if (model && model.demos > 0) {
+    model.provenance = { source: VB_SOURCE_OWN, own: true, n: own.length, kept: model.demos, skill: null };
+  } else {
+    const synth = colDemosFromEpisodes(colSyntheticDemos(sc, { n, seed, skill }), sc).demos;
+    model = colTrain(sc, synth, { seed, onlySuccessful: true });
+    model.provenance = { source: VB_SOURCE_SYNTHETIC, own: false, n: synth.length, kept: model.demos, skill, ownOffered: own ? own.length : 0 };
+  }
   vbModels.set(key, model);
   return model;
+}
+
+/** What the card says the model was trained on, honestly: the learner's own takes, or the synthetic stand-in. */
+export function vbColearnDescribe(model) {
+  const p = model?.provenance;
+  if (!p) return "synthetic demonstrations (scripted stand-in)";
+  if (p.own) return `your ${p.n} take${p.n === 1 ? "" : "s"} (${p.kept} clean pass${p.kept === 1 ? "" : "es"} kept; consented, on this device)`;
+  return `synthetic demonstrations (scripted stand-in${p.ownOffered ? `; your ${p.ownOffered} take${p.ownOffered === 1 ? "" : "s"} had no clean pass yet` : ""})`;
+}
+
+/**
+ * The learner's own consented takes as a `demosFor` source. `refresh()` re-reads the local DX store through colLocalDemos (which
+ * returns nothing unless dxCollecting()) for every task COLEARN has features for; `demosFor(sc)` is synchronous for the provider
+ * and returns `{ demos, tag }` or null. Revoke empties the store and the consent, so the next refresh clears every task and the
+ * provider is back on synthetic demonstrations. Nothing here writes, uploads or fetches anything.
+ */
+export function vbColearnLocalSource({ store = null, signals = null } = {}) {
+  const byTask = new Map();
+  const opts = store ? { store, signals } : { signals };
+  return {
+    async refresh() {
+      const counts = {};
+      for (const sc of COL_SCENARIOS) {
+        let eps = [];
+        try { eps = await colLocalDemos(sc, opts); } catch (_) { eps = []; }
+        if (!eps.length) { byTask.delete(sc); counts[sc] = 0; continue; }
+        const d = colDemosFromEpisodes(eps, sc);
+        const ids = eps.map((e) => e.episodeId).sort();
+        byTask.set(sc, { demos: d.demos, tag: `own:${ids.length}:${ids.join(",")}`, n: eps.length, refused: d.refused.length });
+        counts[sc] = d.demos.length;
+      }
+      return counts;
+    },
+    demosFor(sc) { const r = byTask.get(sc); return r ? { demos: r.demos, tag: r.tag } : null; },
+    count(sc) { return byTask.get(sc)?.demos.length ?? 0; },
+    tag(sc) { return byTask.get(sc)?.tag ?? "synthetic"; },
+    clear() { byTask.clear(); },
+  };
 }
 
 /**
@@ -60,6 +119,10 @@ export function vbColearnProvider(opts = {}) {
       const model = vbColearnModel(env.scenario.id, opts);
       return model ? colPolicy(model) : null;
     },
+    /** The model the provider would run for a task right now (trains lazily; the teleop pad's ghost replays it). */
+    modelFor(sc) { return vbColearnModel(sc, opts); },
+    /** The card's provider line for a task: what the policy is and what it was trained on, honestly. */
+    describe(sc) { const m = vbColearnModel(sc, opts); return m ? `COLEARN behaviour-cloning policy (k-nearest-neighbour), trained on ${vbColearnDescribe(m)}` : null; },
     models() { return [...vbModels.values()].map((m) => ({ scenario: m.scenario, rows: m.rows.length, kept: m.demos, provenance: m.provenance })); },
   };
 }
