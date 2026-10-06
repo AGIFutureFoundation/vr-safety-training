@@ -95,3 +95,6 @@ pending; one whose map is present but lacks the site is an error.
   six stations on port 9013 inside the time box.
 - CLASSROOMS boards do not yet list the Louisiana lessons (the workforce-centre `school` sites on the AVEX and Saronic maps are
   candidates).
+- Closed by LA-COHORTS (`docs/consoles/LA-COHORTS.md`): FlowHub flows `lk-*` and two-minute apply games for the six lessons
+  (played in COGNITION's runner on the maps), a Louisiana lessons board in every K-12 classroom on a Louisiana map, and
+  cohort guides (`WebXR/louisiana/cohorts.html`).

@@ -24,6 +24,7 @@
 
 import { byLessonsFor, BY_BAND_CEILING } from "./by-parish-lessons.js";
 import { esSessionLessons } from "./es-bay-lessons.js";
+import { LK_LESSONS, LK_REGIONS, lkSessionLessons } from "./lk-la-lessons.js"; // LA-COHORTS: the Louisiana lessons on the boards
 import { cgLessonsAt } from "./cg-runner.js";
 import { PS_SIMS } from "./ps-projectsim-data.js";
 
@@ -90,7 +91,27 @@ export function crLessonText(l) { return [`${l.title}.`, ...(l.steps ?? []), l.c
 
 /** The session lessons a parish's rooms can open (the same list the parishes app registers with SCHOLAR). */
 export function crLessonsOf(parish) {
-  return [...(parish.fieldLessons ?? []), ...byLessonsFor(parish.id), ...esSessionLessons(parish.id)].filter((l) => l && l.id && l.title);
+  return [...(parish.fieldLessons ?? []), ...byLessonsFor(parish.id), ...esSessionLessons(parish.id), ...crLkLessonsOf(parish)].filter((l) => l && l.id && l.title);
+}
+/** LA-K12's session lessons on this map (docs/consoles/LA-K12.md), looked up on the parish given, never a global. */
+export function crLkLessonsOf(parish) {
+  return parish?.id ? lkSessionLessons(parish.id, { npParish: (id) => (id === parish.id ? parish : null) }) : [];
+}
+/**
+ * LA-COHORTS: the Louisiana lessons board of a K-12 classroom on a Louisiana map (LK_REGIONS): the lessons that start a
+ * SCHOLAR session on this map first (as lessons), then every other Louisiana lesson's K-12 station (as a flow launch), so
+ * the whole set of six is on the board wherever the room stands. Null off the Louisiana maps.
+ */
+export function crLouisianaBoard(parish, band = CR_K12_BAND) {
+  if (!LK_REGIONS.test(String(parish?.region ?? ""))) return null;
+  const ceil = BY_BAND_CEILING[band] ?? 8;
+  const here = crLkLessonsOf(parish).filter((l) => crGrade(crLessonText(l)) <= ceil);
+  const seen = new Set(here.map((l) => l.id.split("@")[0]));
+  const launches = [...new Map(here.map((l) => [l.id.split("@")[0], { type: "lesson", id: l.id }])).values(),
+    ...LK_LESSONS.filter((l) => !seen.has(l.id)).map((l) => ({ type: "flow", id: l.station }))];
+  if (!launches.length) return null;
+  const first = here[0]?.title ?? LK_LESSONS.find((l) => l.station === launches[0].id)?.title;
+  return { id: "lkboard", kind: "board", label: `Louisiana lessons: ${first} and more`, at: [-3.3, -4.2], launch: launches[0], more: launches.slice(1) };
 }
 /** Lessons within a band's reading ceiling, the site's own first, then the easiest. */
 export function crK12Lessons(parish, siteId, band = CR_K12_BAND) {
@@ -104,7 +125,8 @@ const crR = (n) => Math.round(n * 100) / 100;
 
 function crK12Room(parish, site) {
   const lessons = crK12Lessons(parish, site.id);
-  const board = lessons[0] ?? null;
+  // The main board keeps the parish's own field, BAYOU or ESTUARY lesson; the Louisiana lessons have their own board.
+  const board = lessons.find((l) => !/^lk-lesson-/.test(l.id)) ?? lessons[0] ?? null;
   const lab = lessons.find((l) => /^k12-/.test(l.k12 ?? "")) ?? null;
   const siteK12 = (site.stations ?? []).find((s) => /^k12-/.test(s)) ?? lab?.k12 ?? null;
   const flow = cgLessonsAt({ world: "parishes", parish: parish.id }).find((l) => /^k12-/.test(l.station ?? "")) ?? null;
@@ -112,6 +134,8 @@ function crK12Room(parish, site) {
   if (board) fx.push({ id: "board", kind: "board", label: `Board: ${board.title}`, at: [0, -4.2], launch: { type: "lesson", id: board.id } });
   if (lab) fx.push({ id: "bench", kind: "bench", label: `Science bench: the lab step (${lab.title})`, at: [3.4, -1.5], launch: { type: "station", id: lab.k12 } });
   if (siteK12) fx.push({ id: "reading", kind: "reading", label: "Reading corner", at: [-3.4, 2.6], launch: { type: "station", id: siteK12 } });
+  const lkb = crLouisianaBoard(parish);
+  if (lkb) fx.push(lkb);
   if (flow) fx.push({ id: "flow", kind: "desk", label: `Learning desk: ${flow.title ?? flow.station}`, at: [3.2, 2.8], launch: { type: "flow", id: flow.station } });
   return { id: `cr-k12-${site.id}`, kind: "k12", parish: parish.id, site: site.id, name: `Classroom at ${site.name.replace(/^an? /, "")}`, band: CR_K12_BAND, size: [10, 10], fixtures: fx };
 }

@@ -96,6 +96,8 @@ const CHECKERS = [
   "check_academy.mjs",
   // LA-PROGRAMME: the Louisiana programme — facts, guarded map/site ids, matrix, pathways, sims (docs/consoles/LA-PROGRAMME.md).
   "check_la_programme.mjs",
+  // LA-COHORTS: Louisiana lesson flows and apply games, classroom boards, Home links, cohort run sheets (docs/consoles/LA-COHORTS.md).
+  "check_la_cohorts.mjs",
   "check_geo.mjs",
   "check_sky.mjs",
   "check_regatta.mjs",

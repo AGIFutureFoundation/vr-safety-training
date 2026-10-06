@@ -29,6 +29,8 @@ const FL = await import("../WebXR/shared/field-lessons.js");
 const BY = await import("../WebXR/shared/by-parish-lessons.js");
 const { RW_FIELD_LESSONS } = await import("../WebXR/redwood/js/rw-lore-data.js");
 const { NP_PARISHES } = await import("../WebXR/shared/np-parishes.js");
+// LA-K12's Louisiana lessons: their places (fixed anchors and the character fallback, guarded by the maps in the tree)
+const LK = await import("../WebXR/shared/lk-la-lessons.js");
 const city = await loadSmartCity();
 const ROOMS = new Map(city.ROOMS.map((r) => [r.id, r]));
 const STATIONS = new Map(catalog.stations.map((s) => [s.id, s]));
@@ -131,6 +133,8 @@ for (const c of K12) {
       // the ten parish and district maps: their own field lessons, then the site boards that launch the station
       ...NP_PARISHES.flatMap((p) => (p.fieldLessons ?? []).filter((l) => (l.k12 ?? l.station) === id).map((l) => ({ world: "parishes", parish: p.id, site: l.site, lesson: l.id }))),
       ...NP_PARISHES.flatMap((p) => p.sites.filter((s) => (s.stations ?? []).includes(id)).map((s) => ({ world: "parishes", parish: p.id, site: s.id, board: true }))),
+      // LA-K12's Louisiana lessons at their places on the maps in the tree (LA-COHORTS: so the runner offers them there)
+      ...LK.LK_LESSONS.filter((l) => l.station === id).flatMap((l) => NP_PARISHES.flatMap((p) => LK.lkPlacesOn(l, p).map((a) => ({ world: "parishes", parish: a.map, site: a.site, lesson: LK.lkAnchorLessonId(l, a) })))),
     ];
     lessons.push({
       id: `cg-${c.id}-${id.replace(/^k12-/, "")}`, station: id, title: STATIONS.get(id)?.name ?? id,

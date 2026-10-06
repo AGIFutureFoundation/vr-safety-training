@@ -68,23 +68,36 @@ const byEsc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;",
 /** Plain-DOM panel for the agent (no three.js, no emoji). Re-renders on every choice. */
 export function byMountFlowAgent(el, agent) {
   if (!el || !agent) return null;
+  // A game with rounds (say().game, e.g. LA-COHORTS' apply games through COGNITION's runner) is played round by round:
+  // one right move of two per round, a miss stays on the round with a nudge; Done shows once every round is played.
+  const play = { id: null, i: 0, miss: false };
   const render = () => {
     const s = agent.say();
     const opts = (s.options ?? []).map((o, i) => `<button type="button" data-by-answer="${i}">${byEsc(o)}</button>`).join(" ");
-    const game = s.apply?.kind === "mini-game" ? byApplyGame(s.apply.id) : null;
+    const rounds = agent.phase === "apply" && Array.isArray(s.game?.steps) ? s.game.steps : [];
+    if (s.game?.id !== play.id) { play.id = s.game?.id ?? null; play.i = 0; play.miss = false; }
+    const r = rounds[play.i];
+    const roundHtml = rounds.length ? (r
+      ? `<pre class="by-board">${byEsc(r.board.join("\n"))}</pre><p class="by-line">${byEsc(r.prompt)}</p>${play.miss ? `<p class="by-note">Not that one: try the other move.</p>` : ""}<p>${r.options.map((o, k) => `<button type="button" data-by-round="${k}">${byEsc(o.text)}</button>`).join(" ")}</p>`
+      : `<p class="by-note">Every round played.</p>`) : "";
+    const game = s.game ?? (s.apply?.kind === "mini-game" ? byApplyGame(s.apply.id) : null);
     el.innerHTML = `<div class="by-agent"><p class="by-who">${byEsc(s.who)}</p><p class="by-line">${byEsc(s.line)}</p>`
       + (s.note ? `<p class="by-note">${byEsc(s.note)}</p>` : "")
       + (s.href ? `<p><a href="${byEsc(s.href)}">Open the station</a></p>` : "")
       + (game ? `<p class="by-game">${byEsc(game.summary)}</p>` : "")
+      + roundHtml
       + (opts ? `<p>${opts}</p>` : "")
       + (agent.phase === "lesson" ? `<p><button type="button" data-by-ev="passed">I passed the station</button> <button type="button" data-by-ev="retry">Read the brief again</button></p>` : "")
-      + (["greet", "brief", "apply", "close"].includes(agent.phase) ? `<p><button type="button" data-by-ev="${agent.phase === "apply" ? "done" : "go"}">${agent.phase === "apply" ? "Done" : "Next"}</button></p>` : "")
+      + (["greet", "brief", "apply", "close"].includes(agent.phase) && !(rounds.length && r) ? `<p><button type="button" data-by-ev="${agent.phase === "apply" ? "done" : "go"}">${agent.phase === "apply" ? "Done" : "Next"}</button></p>` : "")
       + `</div>`;
   };
   el.addEventListener("click", (e) => {
     const b = e.target.closest?.("button");
     if (!b) return;
-    if (b.dataset.byAnswer != null) agent.next({ answer: Number(b.dataset.byAnswer) });
+    if (b.dataset.byRound != null) {
+      const opt = agent.say().game?.steps?.[play.i]?.options?.[Number(b.dataset.byRound)];
+      if (opt?.safe) { play.i++; play.miss = false; } else play.miss = true;
+    } else if (b.dataset.byAnswer != null) agent.next({ answer: Number(b.dataset.byAnswer) });
     else if (b.dataset.byEv === "passed") agent.next({ passed: true });
     else if (b.dataset.byEv === "retry") agent.next({ passed: false });
     else if (b.dataset.byEv === "done") agent.next({ done: true });

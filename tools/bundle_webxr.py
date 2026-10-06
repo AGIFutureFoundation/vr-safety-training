@@ -899,6 +899,7 @@ APPS = {
             SHARED / "sc-session-ui.js",
             SHARED / "es-bay-lessons.js",  # ESTUARY: the Bay ecology lessons the SCHOLAR panel mounts
             SHARED / "lk-la-lessons.js",  # LA-K12: the Louisiana K-12 lessons the SCHOLAR panel mounts
+            SHARED / "lco-la-flows.js",  # LA-COHORTS: the Louisiana lessons' flows and apply games (the runner's games hook)
             SHARED / "dw-regions.js",  # DEEPWATER: the shoreline dive entries and their in-world markers
             # ASSAYER (the Bayou run): GRIOT's characters on the parish sites (after crew.js and links.js) and
             # MOTORPOOL's board (pure registry and the DOM-only board; no builder, so no kit weight).

@@ -1,0 +1,104 @@
+{
+  "id": "lk-wing-lift",
+  "title": "Louisiana Lesson — What Lifts a Wing",
+  "version": 1,
+  "start": "brief",
+  "meta": {
+    "audience": "A learner or a small group at a Louisiana map site, lower secondary; a teacher or a union hall can run it with a class code.",
+    "why": "One idea about the places the Louisiana maps show, taught at a mapped site, checked with one question, then used straight away in a two-minute game.",
+    "hostNotes": "The SmartCiti.X side of the flow contract only (docs/flowhub.md, docs/k12.md): nothing here states how Cognition.X or any other host stores or presents it. The apply node is external: the host runs LA-COHORTS' game (WebXR/shared/lco-la-flows.js) and posts the resume.",
+    "lowConnectivity": "Works offline once the page has loaded; the run waits in this browser's own storage.",
+    "lacohorts": {
+      "lesson": "lk-lesson-wing-lift",
+      "theme": "flight and aircraft",
+      "map": "la-avex-new-iberia",
+      "site": "lav-apron-work",
+      "band": "lower secondary",
+      "programme": "k12-science",
+      "generated": "tools/gen_lco_flows.mjs"
+    }
+  },
+  "nodes": [
+    {
+      "id": "brief",
+      "kind": "brief",
+      "app": "smartcity",
+      "ref": "k12-lk-how-a-wing-lifts-an-aircraft",
+      "title": "Pre-brief — What Lifts a Wing",
+      "why": "The station's own study card, read first, so the learner knows the one idea the lesson is for."
+    },
+    {
+      "id": "lesson",
+      "kind": "station",
+      "app": "smartcity",
+      "ref": "k12-lk-how-a-wing-lifts-an-aircraft",
+      "title": "What Lifts a Wing",
+      "why": "The K-12 station itself, launched from its mapped site; a run that does not pass goes back to the brief."
+    },
+    {
+      "id": "check",
+      "kind": "checkin",
+      "app": "smartcity",
+      "title": "Check question — What Lifts a Wing",
+      "why": "One question on the idea just taught, answered before the game; a wrong answer shows the why and asks again. Never scored against anyone.",
+      "params": {
+        "check": {
+          "q": "When does an aircraft leave the ground?",
+          "options": [
+            "When lift is bigger than weight",
+            "When the engine is loud",
+            "When the flaps are up"
+          ],
+          "answer": 0,
+          "why": "The wheels lift once the wings' upward push beats the pull of weight."
+        }
+      }
+    },
+    {
+      "id": "apply",
+      "kind": "external",
+      "app": "host",
+      "ref": "lco-apply-walk-round",
+      "title": "Apply it — Walk-Round",
+      "why": "A two-minute game that uses the idea just taught; the passport records the lesson and the game.",
+      "params": {
+        "parish": "la-avex-new-iberia",
+        "site": "lav-apron-work",
+        "minutes": 2,
+        "idea": "A moving wing pushes air down, and the air pushes the wing up."
+      }
+    },
+    {
+      "id": "close",
+      "kind": "checkin",
+      "app": "smartcity",
+      "title": "End-of-lesson check-in",
+      "why": "The lesson closes on the learner's own answer about how it went, not on a score."
+    }
+  ],
+  "edges": [
+    {
+      "from": "brief",
+      "to": "lesson"
+    },
+    {
+      "from": "lesson",
+      "to": "check",
+      "when": {
+        "passed": true
+      }
+    },
+    {
+      "from": "lesson",
+      "to": "brief"
+    },
+    {
+      "from": "check",
+      "to": "apply"
+    },
+    {
+      "from": "apply",
+      "to": "close"
+    }
+  ]
+}
