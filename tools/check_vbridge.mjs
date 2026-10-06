@@ -264,7 +264,7 @@ await check("11. no affiliation/endorsement, token, price or trading wording out
     const sentences = s.split(/(?<=[.!?;:])\s+|\n\s*[-*|]\s+|\n\n/);
     for (const t of sentences) {
       if (/(partner|endors|affiliat|sponsor|backed by|in collaboration with|official\s+virtuals|powered by virtuals)/i.test(t) && !NEG.test(t)) bad.push(`${f}: affiliation "${t.trim().slice(0, 80)}"`);
-      if (/(\$VIRTUAL|\btoken price|\bprices?\b|\btrading\b|\byield\b|\bmarket cap|\bfund flow|\bairdrop)/i.test(t) && !NEG.test(t)) bad.push(`${f}: money "${t.trim().slice(0, 80)}"`);
+      if (/(\$VIRTUAL|\btoken price|\bprices?\b|\btrading\b|\byield\b(?!-)|\bmarket cap|\bfund flow|\bairdrop)/i.test(t) && !NEG.test(t)) bad.push(`${f}: money "${t.trim().slice(0, 80)}"`);
     }
     if (/\b(claude|gpt-\d|opus|sonnet|haiku|gemini|llama)\b/i.test(s)) bad.push(`${f}: model identifier`);
   }

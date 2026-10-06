@@ -22,9 +22,11 @@ robot would need a named human approver, and that path ships disabled (`VB_PHYSI
 
 | File | What it is |
 |---|---|
+| `WebXR/shared/vb-shared-data.js` | The plain, dependency-free data: phases, roles, memo types, governor rules, tasks, rig limits, the physical-path flag, and `VB_SHARED` (all of it as one object, read by the TradeQuest export) |
 | `WebXR/shared/vb-governor.js` | The safety governor: nine enumerated refusal reasons, the run monitor, a hash-chained decision log, ENTERPRISE-3 hooks (guarded) |
 | `WebXR/shared/vb-bridge.js` | The job model: phases, roles, memos, deliverables (RLDS/LeRobot-style episode plus eval card), deterministic under a seed |
 | `WebXR/shared/vb-providers.js` | Where jobs come from, off by default: `mock` and the `acp-proxy` descriptor; the GAME function export and executor |
+| `WebXR/shared/vb-panel.js` | "Agent jobs (simulated robots)" in the parishes app's drills menu: a seeded queue of mock agent jobs to approve or refuse, step through, e-stop and evaluate |
 | `exports/shared/vb-game-functions.json` | Every allowlisted robot action as a GAME-style function (written by `node tools/vb_export_game.mjs`) |
 | `WebXR/smartcity/js/sims/vb-supervising-agent-dispatched-robots.js` | The station "Supervising Robots Dispatched by Software Agents" |
 | `tools/check_vbridge.mjs` | The checker and the adversarial eval |
@@ -152,6 +154,16 @@ zone, a task not on the allowlist, a stale policy, the e-stop held, and a physic
 boundary. It also runs 200 seeded safe jobs, many sitting exactly on a limit. Before this work there was no governor:
 every job would have reached the robot (0/200 blocked). After: see `docs/consoles/VBRIDGE.md` for the figures the
 checker prints.
+
+## Related work in this repository
+
+- `docs/virtuals/strategy.md`, `agents/smartcitix/` and `tools/check_virtuals.mjs` (console VIRTUALS) describe SmartCiti.X
+  as a provider agent of training services, with local offering stubs. This bridge is the robot-dispatch side of the
+  same plan. It shares no code with that package, and it adds nothing to the token or pricing material.
+- `WebXR/shared/agent-protocols.js` holds the unconfigured share adapters for consented learning bundles. It does not
+  dispatch robots.
+- ENTERPRISE-3's registry (`ent3-governance.js`) gained one export, `ent3AuditAppend(action, detail, { at })`. It is
+  append-only like every other audit line.
 
 ## Credits and licences
 
