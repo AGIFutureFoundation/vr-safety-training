@@ -534,6 +534,9 @@ export function colMountCoLearn(el, { reducedMotion = false, capture = null, sto
     const env = rbEnv(sc, { seed: seed + 1 }); let obs = env.reset(); const steps = [];
     let stepIdx = 0;
     place(obs); say.textContent = "Your turn: do the cell entry the way the robot did.";
+    // The per-step error table re-orders review: with history, the step missed most so far is previewed first.
+    const top = tutor.nextReview()[0], seen = tutor.state.steps[top]?.errors > 0;
+    if (seen) { const h = tutor.hint(top); hintEl.hidden = false; hintEl.textContent = `Review first: ${h.text}`; }
     acts.innerHTML = COL_TUTOR_STEPS.map((s) => `<button data-act="${s.action}">${COL_ACTION_TEXT[s.action]}</button>`).join("");
     acts.onclick = (ev) => {
       const t = ev.target.closest("button")?.dataset.act; if (!t) return;

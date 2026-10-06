@@ -34,7 +34,8 @@ const signIn = () => localStorage.setItem("vr-training-auth-v1", JSON.stringify(
 const dx = await import("../WebXR/shared/dx-data.js");
 const { GT_PROFILE_KEYS } = await import("../WebXR/shared/profiles.js");
 const C = await import("../WebXR/shared/col-learn.js");
-const { rbEnv, rbPolicy } = await import("../WebXR/shared/rb-env.js");
+const { rbEnv } = await import("../WebXR/shared/rb-env.js");
+const { colEvalAll, COL_EVAL_PATH } = await import("./col_eval.mjs");
 
 console.log("check_colearn — humans, robots and agents learning from each other");
 
@@ -81,19 +82,16 @@ const g1 = C.colHash(C.colGhost(mk(1), { seed: 7001 })), g2 = C.colHash(C.colGho
 check(g1 === g2, `the robot-demonstrates ghost replays identically (hash ${g1})`);
 check(C.colHash(C.colTutorSim({ learners: 40 })) === C.colHash(C.colTutorSim({ learners: 40 })), "the tutor simulation is deterministic by seed");
 
-// 4–5 policy evals
+// 4–5 policy evals (tools/col_eval.mjs computes them; docs/evals/colearn.json must match a live run)
 console.log("4 behaviour cloning versus random and the expert (held-out seeds 7001–7060)");
-const table = [];
-for (const sc of C.COL_SCENARIOS) {
-  const t0 = Date.now();
-  const f = C.colEvalScenario(sc, { onlySuccessful: true });
-  const u = C.colEvalScenario(sc, { onlySuccessful: false });
-  table.push({ sc, f, u });
-  check(f.bc.success > f.random.success, `${sc}: BC ${f.bc.success} > random ${f.random.success}; expert ${f.expert.success}; gap to expert ${f.gapToExpert}${f.bcShield ? `; BC + reservation shield ${f.bcShield.success}` : ""} (${f.demos}/${f.demosOffered} demos kept, ${f.rows} rows, ${Date.now() - t0} ms)`);
-}
+const t0 = Date.now();
+const EV = colEvalAll();
+for (const p of EV.policies) check(p.bcFiltered.success > p.random.success, `${p.scenario}: BC ${p.bcFiltered.success} > random ${p.random.success}; expert ${p.expert.success}; gap to expert ${p.gapToExpert}${p.bcFilteredShield ? `; BC + reservation shield ${p.bcFilteredShield.success}` : ""} (${p.demosKept}/${p.demosOffered} demos kept, ${p.rows} rows)`);
 console.log("5 filtered versus unfiltered demonstrations");
-for (const { sc, f, u } of table) check(f.bc.success >= u.bc.success, `${sc}: cloning clean passes only ${f.bc.success} >= cloning every demonstration ${u.bc.success}`);
-check(table.every(({ f }) => f.expert.success >= f.bc.success - 0.02), `the scripted expert stays the ceiling (mean gap ${(table.reduce((n, { f }) => n + f.gapToExpert, 0) / table.length).toFixed(3)})`);
+for (const p of EV.policies) check(p.bcFiltered.success >= p.bcUnfiltered.success, `${p.scenario}: cloning clean passes only ${p.bcFiltered.success} >= cloning every demonstration ${p.bcUnfiltered.success}`);
+check(EV.policies.every((p) => p.expert.success >= p.bcFiltered.success - 0.02), `the scripted expert stays the ceiling (mean gap ${(EV.policies.reduce((n, p) => n + p.gapToExpert, 0) / EV.policies.length).toFixed(3)}; eval ${Date.now() - t0} ms)`);
+let committed = null; try { committed = readFileSync(COL_EVAL_PATH, "utf8"); } catch (_) { /* missing */ }
+check(committed === JSON.stringify(EV, null, 2) + "\n", "docs/evals/colearn.json matches a live run byte for byte (node tools/col_eval.mjs regenerates it)");
 
 // 6 explanations
 console.log("6 explanations");
@@ -127,11 +125,10 @@ check(C.COL_TUTOR_STEPS.every((s) => C.COL_HINT_STYLES.every((k) => typeof s[k] 
 
 // 8 tutor simulation
 console.log("8 tutor simulation (simulated learners — colTutorSim's own response model)");
-const sim = C.colTutorSim({ learners: 300 });
+const sim = EV.tutor.mixed, tb = EV.tutor.tellBest;
 const ci = (s) => `${s.mean} [${s.lo}, ${s.hi}]`;
 check(sim.gain.mistakes.lo > 0, `mixed learners (n=${sim.learners}): mistakes static ${ci(sim.static.mistakes)} → adaptive ${ci(sim.adaptive.mistakes)}; gain ${ci(sim.gain.mistakes)} (95% CI, paired)`);
 check(sim.gain.attempts.mean > 0 && sim.gain.attempts.lo <= sim.gain.attempts.mean && sim.gain.attempts.mean <= sim.gain.attempts.hi, `steps to pass static ${ci(sim.static.attempts)} → adaptive ${ci(sim.adaptive.attempts)}; gain ${ci(sim.gain.attempts)}; hints given static ${sim.static.hints.mean} vs adaptive ${sim.adaptive.hints.mean}`);
-const tb = C.colTutorSim({ learners: 300, population: "tell-best" });
 check(tb.gain.attempts.mean < sim.gain.attempts.mean, `honest limit: when the static "tell" hint is already best for everyone, adaptive gains ${ci(tb.gain.attempts)} steps and ${ci(tb.gain.mistakes)} mistakes (exploration costs)`);
 
 // 9 no network
@@ -151,6 +148,7 @@ check(at("col-learn.js") > at("rb-env.js") && at("col-learn.js") > at("dx-data.j
 const app = readFileSync(join(ROOT, "WebXR", "parishes", "js", "app.js"), "utf8");
 check(/colMountCoLearn\(\$\("menu-drills"\), \{ reducedMotion: npReduced, capture: \(steps, meta\) => dxCaptureRollout\(steps, meta\) \}\)/.test(app), "the parishes app mounts the panel in the drills menu; a finished try goes only through dxCaptureRollout (inert unless opted in)");
 check(/if \(!reducedMotion\) timer = setInterval/.test(src) && /prefers-reduced-motion: reduce/.test(src), "reduced motion: the ghost does not autoplay (Next steps it) and the dot does not animate");
+check(/tutor\.nextReview\(\)\[0\]/.test(src) && /Review first: /.test(src), "the panel previews the learner's most-missed step first (the per-step error table re-orders review)");
 const dw = readFileSync(join(SHARED, "dx-world.js"), "utf8");
 check(/export function dxCaptureRollout[\s\S]{0,80}if \(!dxCollecting\(\)\) return null;/.test(dw), "dxCaptureRollout returns before recording when not collecting");
 
