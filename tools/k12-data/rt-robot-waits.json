@@ -1,0 +1,146 @@
+{
+  "id": "k12-rt-a-robot-waits-for-a-grown-ups-ok",
+  "index": "rt-5",
+  "prefix": "rtk",
+  "accent": "#5ec8d8",
+  "floor": ["#646a70", "#565c62"],
+  "wall": ["#dfe8ea", "#cbd6d9"],
+  "trade": "Science and careers lesson on who may tell a robot what to do, with a robot supervisor at a training lab — learner and robot supervisor",
+  "header": "Upper-primary science and careers at a robotics training lab: a helper program on a screen asks a practice robot to do a job, a rule checker looks at the job first, the grown-up in charge says OK or no, and a watcher keeps a hand near the stop while the robot works; worked with a job screen, a rule-checker box with lamps, an OK desk and a small practice robot behind a keep-away ring in the scene. The K-12 version of the agent-supervision station (console ROBOTRAIN-2, docs/consoles/VBRIDGE.md). The robot is a practice robot; no real machine is moved.",
+  "name": "A Robot Waits for a Grown-up's OK",
+  "tagline": "A program asks, a rule checker looks, a grown-up says OK — then the robot works while someone watches",
+  "badge": { "id": "ok-keeper", "name": "OK Keeper", "note": "Followed a robot job from the program's ask to the grown-up's OK, found the reasons the rule checker says no and kept a hand near the stop" },
+  "board": { "name": "OK Desk Board", "currency": "CHECKS", "ranks": ["Visitor", "Looker", "Checker", "Watcher", "OK Keeper"] },
+  "hazards": [
+    { "id": "press-ok-yourself", "label": "Press the OK button because the program asked nicely?", "face": "PRESS\nOK", "text": "You went to press OK. A polite ask is still only an ask. The OK belongs to the grown-up in charge, who has looked at the job, the ring and the stop lamp first. A visitor never gives a robot its OK, however friendly the message on the screen looks." },
+    { "id": "program-is-the-boss", "label": "Say the program is the boss of the robot?", "face": "PROGRAM\nIS BOSS", "text": "You said the program is in charge. It is not. A program can ask for a job, and that is all. The rule checker can say no, the grown-up can say no, and the stop button wins over everything. People stay in charge of what a robot does, every single time." },
+    { "id": "cover-the-stop", "label": "Put a cup over the stop button so nobody bumps it?", "face": "COVER\nSTOP", "text": "You covered the stop button. The stop button must be easy to reach and easy to see for the whole job. Covering it makes the robot harder to stop, not safer. The supervisor keeps it clear and keeps a hand near it while the robot works." },
+    { "id": "start-with-a-friend-inside", "label": "Let the job start while a classmate stands inside the ring?", "face": "FRIEND\nINSIDE", "text": "You let the job start with someone inside the ring. The rule checker would say no to that, and so would the grown-up. The ring is the robot's keep-away space. Nobody is inside it when a job starts, and the job waits until the space is clear." }
+  ],
+  "find1": {
+    "title": "Find who is in the loop",
+    "cue": "Mark the job screen, the rule-checker box and the OK desk around the practice robot.",
+    "why": "A robot job does not go straight from a program to a robot. It passes through a loop of people and checks. The job screen is where the helper program writes its ask. The rule-checker box looks at the ask and lights a lamp. The OK desk is where the grown-up in charge sits and decides. Finding all three shows you the whole path.",
+    "items": [
+      ["screen", "the job screen where the program asks", "Shows the job the program wants done."],
+      ["checker", "the rule-checker box with its lamps", "Looks at every job before anyone sees it."],
+      ["desk", "the OK desk with the supervisor", "Where the grown-up in charge says OK or no."]
+    ],
+    "decoy": ["trolley", "the snack trolley by the door", "Nice at break time, but not part of the loop."]
+  },
+  "select1": {
+    "title": "Stand at the OK desk",
+    "cue": "Join the supervisor at the OK desk, outside the keep-away ring.",
+    "why": "The OK desk sits outside the ring on purpose. From there the supervisor can see the robot, the ring, the stop button and the screen all at once. Standing beside the supervisor lets you watch a real decision being made, and it keeps you where the robot's space stays clear.",
+    "key": "ok-desk",
+    "label": "At the OK desk",
+    "face": "OK\nDESK"
+  },
+  "seq": {
+    "title": "Put a robot job's journey in order",
+    "cue": "Order what happens from the program's ask to the robot's work.",
+    "why": "A job travels in steps. First the program asks for it. Next the rule checker looks at it and lights green or red. Then the grown-up in charge reads it and says OK or no. Only then does the robot start, and someone watches it the whole way with a hand near the stop. Each step waits for the one before it.",
+    "oon": "Out of order. The rule checker looks before the grown-up decides, and the robot starts last.",
+    "items": [
+      ["ord-ask", "the helper program asks for a job"],
+      ["ord-check", "the rule checker looks and lights a lamp"],
+      ["ord-ok", "the grown-up in charge says OK or no"],
+      ["ord-work", "the robot works while a watcher stays near the stop"]
+    ]
+  },
+  "hold": {
+    "title": "Keep a hand near the stop",
+    "cue": "Hold the watcher's pad while the practice robot does its job.",
+    "why": "Saying OK is not the end of the grown-up's work. Someone watches the robot for the whole job, with a hand near the stop button. Holding the watcher's pad shows what that feels like: steady, patient and ready. If anything looks wrong, the watcher presses stop and the robot holds still at once.",
+    "brk": "Your hand left the watcher's pad while the robot was still working. Stay with it until the job ends.",
+    "key": "watch-pad",
+    "label": "Watch the job"
+  },
+  "select2": {
+    "title": "Pick the job that gets a no",
+    "cue": "Choose the job card the rule checker and the grown-up would turn down.",
+    "why": "Not every ask gets an OK. A job that wants the robot to go fast while a person stands close gets a no. So does a job that is not on the list of things this robot is allowed to do. Picking the card that gets a no shows you understand that the answer depends on the rules, not on how nicely the program asks.",
+    "key": "no-card",
+    "label": "The job that gets a no",
+    "face": "THIS ONE\nGETS A NO"
+  },
+  "find2": {
+    "title": "Find the reasons the checker says no",
+    "cue": "Mark the three lamps on the rule-checker box that mean no.",
+    "why": "The rule checker has a lamp for each reason it can say no. One lamp means the stop button is pressed, and nothing moves until a person resets it. One means somebody is standing too close to the robot. One means the job is not on the list this robot is allowed to do. When any of these lamps is lit, the job waits.",
+    "items": [
+      ["lamp-stop", "the stop lamp", "The stop button is pressed, so nothing moves."],
+      ["lamp-close", "the too-close lamp", "Somebody is inside the keep-away ring."],
+      ["lamp-list", "the not-on-the-list lamp", "The job is not one this robot may do."]
+    ],
+    "decoy": ["paint", "the robot's orange paint", "It helps people see the robot, but it is not a reason to say no."]
+  },
+  "turn": {
+    "title": "Turn the dial to set the keep-away ring",
+    "cue": "Turn the model dial slowly to make the keep-away ring wider around the practice robot.",
+    "why": "The keep-away ring is the space the robot needs to itself while it works. The rule checker uses the ring to decide whether somebody is too close. Turning the dial shows the ring growing on the floor. In a real lab, trained people set the ring from how fast the robot moves and how quickly it can stop, and they test it before anyone relies on it.",
+    "key": "ring-dial",
+    "label": "Ring dial",
+    "dial": "RING"
+  },
+  "gauge": {
+    "title": "Read the speed on the job card",
+    "cue": "Commit when the marker on the speed meter sits inside the slow band the job is allowed.",
+    "why": "Every job card says how fast the robot may move. The rule checker compares that speed with the limit for this robot and this lab. Reading the meter shows that the OK comes from a measurement that anyone can check, not from a guess. A job that asks for more speed than the band allows gets a no.",
+    "key": "speed-meter",
+    "label": "Job speed",
+    "meter": "SPEED",
+    "miss": "Not inside the slow band yet. Read where the marker sits on the meter."
+  },
+  "drag": {
+    "title": "Put the job card in the OK tray",
+    "cue": "Drag the checked job card from the screen onto the tray on the OK desk.",
+    "why": "A job that has passed the rule checker is still only an ask until the grown-up in charge has read it. Moving the card to the OK tray is how the lab shows whose turn it is to decide. The card waits in the tray while the supervisor looks at the ring, the lamps and the stop, and then says OK or no.",
+    "key": "job-card",
+    "label": "Job card",
+    "spot": "ok-tray",
+    "spotLabel": "The OK tray",
+    "miss": "Not in the tray yet. Place the job card on the tray at the OK desk."
+  },
+  "track": {
+    "title": "Follow the robot as it works",
+    "cue": "Keep the marker on the practice robot's gripper from the first move to the last.",
+    "why": "Watching the robot for the whole job is part of the OK. The supervisor follows the gripper and compares what the robot does with what the job card said it would do. If the robot does something the card did not say, the watcher presses stop. Following the gripper from start to finish shows how much attention a watcher gives.",
+    "brk": "The marker lost the gripper. Find it again and follow it to the end of the job.",
+    "key": "job-track",
+    "label": "Job followed",
+    "meter": "FOLLOW"
+  },
+  "record": {
+    "title": "Write down the decision and the reason",
+    "cue": "Write what the grown-up decided about the job and the reason behind it.",
+    "why": "Every decision at the OK desk goes in the logbook: what the program asked, what the rule checker showed, what the grown-up said and why. A logbook like this lets anyone check later that the rules were followed. Robot labs keep records of every job for the same reason, so the next person knows what happened.",
+    "key": "ok-log",
+    "label": "Decision record",
+    "done": "Decision and reason recorded"
+  },
+  "share": {
+    "title": "Swap a question with a partner",
+    "cue": "Ask a partner one question about who may say OK to a robot, then answer one of theirs.",
+    "why": "Asking and answering questions shows what you understand and what you still wonder about. A good question might be what happens if the program asks again after a no. Robot teams ask each other questions like this before every new job, because asking early is how problems get found while they are still small.",
+    "key": "share-board",
+    "label": "Swap questions",
+    "done": "Questions swapped"
+  },
+  "checkin": {
+    "title": "Check in at the OK desk",
+    "cue": "Who says OK before a robot starts a job a program asked for? What always wins?",
+    "why": "The supervisor ends the visit by checking what everyone learned. Each learner says who gives the OK and what wins over everything else. If anyone still thinks the program is in charge of the robot, the group talks it through together before leaving the lab.",
+    "label": "OK desk check-in"
+  },
+  "interrupts": [
+    { "id": "the-program-sends-a-faster-job", "kind": "Rule check", "key": "say-no", "label": "Say no to the faster job", "alert": "The helper program has sent the same job again and asks for the robot to go faster.", "cue": "Say no: the faster job is over the speed band, so it waits.", "why": "A program can ask again, and it can ask for more. The rules do not change because it asked. The speed band is the same as before, so the faster job gets a no from the rule checker and from the grown-up. Saying no out loud shows you know the answer comes from the rules.", "miss": "The faster job sat on the screen with nobody saying no, and the supervisor turned it down before the class went on.", "wrong": "That does not answer the faster ask. Say no to it. Choose the response that deals with it now.", "done": "The faster job got its no. The lesson carries on." },
+    { "id": "a-classmate-steps-inside-the-ring", "kind": "Robot stop", "key": "press-stop", "label": "Press stop and wait for the all-clear", "alert": "A classmate has stepped inside the keep-away ring while the practice robot is working.", "cue": "Press the stop and wait on the OK side of the ring while the supervisor clears the space.", "why": "When a person is inside the ring, the robot stops. The stop button is the fastest way, and the watcher's hand is already near it. After the stop, nobody rushes in to help. Everyone stays outside the ring while the supervisor checks the space, and only then does the job carry on.", "miss": "The robot kept working with someone inside the ring until the supervisor pressed stop. The watcher presses stop first.", "wrong": "That moves more people toward the robot. Press stop and wait. Choose the response that deals with it now.", "done": "The robot stopped and the ring was cleared. The lesson carries on." }
+  ],
+  "crew": ["Science teacher", "Classmate", "Robot supervisor", "Robot technician"],
+  "guide": { "start": "At the OK desk with the supervisor.", "after": "A program asks; the checker looks; the grown-up decides; the stop wins.", "hazard": "Stop. The OK is not yours to give." },
+  "lateRecord": "The decision record is written once the grown-up has decided about a job — nothing to record yet.",
+  "lateCheckin": "The check-in comes at the end, at the OK desk.",
+  "scene": "lab",
+  "order": "b"
+}
