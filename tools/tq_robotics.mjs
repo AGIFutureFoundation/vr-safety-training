@@ -109,12 +109,20 @@ function tqrAgentGym(root, robotStations) {
   try { b = readJson(root, source); } catch (e) { return pending(source, `unreadable: ${String(e.message).slice(0, 100)}`); }
   if (!b?.summary) return pending(source, "docs/perf/agent-baselines.json is not in the tree");
   const policies = Object.keys(b.summary);
-  const rows = {}, missing = [];
+  // A supplement for the programme's robot stations: the same harness, config and seeds (tools/ag_eval.mjs --stations <the ten>), kept
+  // beside the full run because the full run predates four of the programme's stations. Rows the full run has win; they are identical.
+  const supFile = "docs/perf/agent-baselines-robotics.json";
+  let sup = null;
+  try { sup = readJson(root, supFile); } catch (_) { sup = null; }
+  const sameConfig = sup?.config && JSON.stringify(sup.config.seeds) === JSON.stringify(b.config.seeds) && sup.config.dt === b.config.dt && sup.config.maxSteps === b.config.maxSteps && sup.config.hintCost === b.config.hintCost;
+  const raw = {}, rows = {}, missing = [];
   for (const id of Object.keys(robotStations ?? {})) {
-    const s = b.perStation?.[id];
+    const s = b.perStation?.[id] ?? (sameConfig ? sup.perStation?.[id] : null);
     if (!s) { missing.push(id); continue; }
+    raw[id] = s;
     rows[id] = Object.fromEntries(policies.map((p) => [p, `${s[p]?.passed ?? 0}/${s[p]?.of ?? 0}`]));
   }
+  const robotRate = Object.fromEntries(policies.map((p) => { const rs = Object.values(raw); const of = rs.reduce((a, s) => a + (s[p]?.of ?? 0), 0); return [p, { passed: rs.reduce((a, s) => a + (s[p]?.passed ?? 0), 0), of }]; }));
   const total = (p) => Object.values(b.perStation ?? {}).reduce((a, s) => a + (s[p]?.passed ?? 0), 0);
   const admitted = tqrAdmit("agentGym", {
     schema: b.schema, generator: b.generator,
@@ -122,7 +130,7 @@ function tqrAgentGym(root, robotStations) {
     baselines: b.baselines,
     summary: Object.fromEntries(policies.map((p) => [p, { episodes: b.summary[p].episodes, successRate: r3(b.summary[p].successRate), finishRate: r3(b.summary[p].finishRate), hazardHitsPerEpisode: r3(b.summary[p].hazardHitsPerEpisode) }])),
     passedEpisodes: Object.fromEntries(policies.map((p) => [p, total(p)])),
-    robotStations: { measured: Object.keys(rows).length, of: Object.keys(robotStations ?? {}).length, passedOfEpisodes: rows, notYetBaselined: missing },
+    robotStations: { measured: Object.keys(rows).length, of: Object.keys(robotStations ?? {}).length, passedOfEpisodes: rows, notYetBaselined: missing, rate: Object.fromEntries(Object.entries(robotRate).map(([p, v]) => [p, r3(v.of ? v.passed / v.of : 0)])), episodes: Object.fromEntries(Object.entries(robotRate).map(([p, v]) => [p, v.of])), supplement: sameConfig ? supFile : null },
     note: "No language model is called: random, a scripted expert (privileged, an upper bound), and word-overlap retrieval. The full per-station table stays in docs/perf/agent-baselines.json.",
   });
   return admitted.data ? { status: "ready", source, data: admitted.data } : pending(source, admitted.why);

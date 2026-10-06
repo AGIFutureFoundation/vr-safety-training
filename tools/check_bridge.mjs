@@ -216,6 +216,9 @@ await section(9, "robotics facets (TQ-ROBOTICS): programme, AGENTGYM, COLEARN, g
   ok(Object.keys(base.summary).every((p) => A.summary[p]?.episodes === base.summary[p].episodes && Math.abs(A.summary[p].successRate - base.summary[p].successRate) < 0.001), `the four baselines' summary matches: ${Object.entries(A.summary).map(([p, s]) => `${p} ${s.successRate}`).join(", ")}`);
   const rs = A.robotStations;
   ok(rs.measured + rs.notYetBaselined.length === rs.of && rs.of === Object.keys(P.robotStations).length && Object.values(rs.passedOfEpisodes).every((r) => Object.values(r).every((x) => x.endsWith(`/${base.config.seeds.length}`))), `robot stations: ${rs.measured} measured of ${rs.of}; not yet baselined: ${rs.notYetBaselined.join(", ") || "none"}`);
+  const sup = JSON.parse(readFileSync(join(ROOT, "docs/perf/agent-baselines-robotics.json"), "utf8"));
+  ok(rs.supplement === "docs/perf/agent-baselines-robotics.json" && rs.notYetBaselined.length === 0 && sup.config.stations === rs.of && Object.keys(sup.summary).every((p) => Math.abs(sup.summary[p].successRate - rs.rate[p]) < 0.001 && sup.summary[p].episodes === rs.episodes[p]), `all ${rs.of} robot stations are baselined (the supplement is the same harness and seeds); on them: ${Object.entries(rs.rate).map(([p, v]) => `${p} ${v}`).join(", ")}`);
+  ok(Object.keys(base.perStation).filter((id) => sup.perStation[id]).every((id) => JSON.stringify(base.perStation[id]) === JSON.stringify(sup.perStation[id])), "the supplement agrees with the full run on every station both hold (deterministic)");
   ok(/No language model/.test(A.note) && !("perStation" in A), "no language model is claimed, and the 271 KB per-station table is summarised, not copied");
 
   // COLEARN
