@@ -18,8 +18,9 @@
 import { existsSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 import { pathToFileURL } from "node:url";
+import { tqrFacets, TQR_FACETS, TQR_VB_NAMES } from "./tq_robotics.mjs";
 
-export const TQ_VERSION = "2.0.0";
+export const TQ_VERSION = "2.1.0";
 /** The export's size budget: the written JSON file (indent 1) must stay at or under this many bytes. */
 export const TQ_BUDGET_BYTES = 768 * 1024;
 /** And gzipped (what a site actually transfers). */
@@ -27,6 +28,12 @@ export const TQ_BUDGET_GZIP_BYTES = 128 * 1024;
 export const TQ_STATUSES = ["ready", "partial", "pending"];
 
 export const TQ_CHANGELOG = [
+  { version: "2.1.0", date: "2026-10-06", by: "TQ-ROBOTICS", changes: [
+    "Fills `robotics` beyond the gym scenarios: `robotics.data.facets` (status and source per facet) and the facets `programme` (tracks, five levels, credentials, stations, standards by name, the learning loop), `agentGym` (AGENTGYM's baselines: config, summary, the robot stations' rows), `colearn` (behaviour cloning against random and the scripted expert on held-out seeds) and, guarded until VBRIDGE publishes them, `governor` (the safety governor's rule list) and `jobs` (the job phases and roles). The scenarios, sites, rules and ssm keys are unchanged.",
+    "`robotics.status` is `partial` while any facet is pending and `ready` when all six are filled; re-running tools/export_shared.mjs fills a guarded facet with no code change.",
+    "Additive only: every 2.0 field keeps its name and shape, so v1 and v2.0 readers are unaffected. The adapter (1.1.0) adds the registries `pathways`, `credentials` and `launch`.",
+    "A robotics facet that holds a key-, seed- or wallet-address-shaped string, or is over its byte cap, is refused and left pending: the export carries ids, names, numbers and rule text only.",
+  ] },
   { version: "2.0.0", date: "2026-09-29", by: "TQ-BRIDGE", changes: [
     "Adds `sections`: status (ready | partial | pending), owner and sources per section; a pending section fills in when its owner merges and the exporter is re-run.",
     "Adds `maps`: the parish-engine maps by region with sites (kind, stations), landmarks (lm kind) and hills.",
@@ -44,7 +51,7 @@ export const TQ_SECTIONS = {
   palette: { owner: "PALETTE", files: ["pa-palette.js", /^pa-.*\.js$/], exports: ["PA_SHARED", "PA_CATEGORIES"] },
   facades: { owner: "FACADES + DETAIL (dt-detail.js: generator parameters only)", files: ["fc-facades.js", /^fc-.*\.js$/, "dt-detail.js"], exports: ["dtExportParams", "FC_SHARED", "FC_DETAIL_KINDS", "FC_KINDS", "FC_DETAILS", "FC_SIGN_WORDS", "FC_SIGN_TRADES", "FC_SIGNS", "FC_GENERIC_SIGNS", "FC_KITS"] },
   vehicles: { owner: "Motor Pool (drivables-data) + MOTORWORKS (mv-*)", files: ["drivables-data.js", /^mv-.*\.js$/], exports: ["MV_SHARED", "MV_CLASSES", "MV_VEHICLE_CLASSES", "MV_HANDLING", "MV_SITE_RULES", "DV_DRIVABLES"] },
-  robotics: { owner: "ROBOTICS", files: [/^rb-.*\.js$/], exports: ["RB_SHARED", "rbSharedData", "RB_SCENARIOS", "rbScenarios"] },
+  robotics: { owner: "ROBOTICS (+ ROBOPROG, AGENTGYM, COLEARN facets; VBRIDGE governor and jobs, guarded)", files: [/^rb-.*\.js$/, /^vb-.*\.js$/], exports: ["RB_SHARED", "rbSharedData", "RB_SCENARIOS", "rbScenarios", ...TQR_VB_NAMES] },
   dataset: { owner: "dataset layer (episodes, robot-embodiment) + DATAWORKS (dx-*)", files: ["episodes.js", "robot-embodiment.js", /^dx-.*\.js$/], exports: ["DX_SHARED", "DX_EPISODE_SCHEMA", "DX_SCHEMA", "DX_DATASET_CARD", "DX_DATASET_CARD_TEMPLATE", "dxDatasetCardTemplate", "dxDatasetCard", "DX_CARD_SECTIONS", "EPISODE_SCHEMA_VERSION", "observationSchema", "actionSpace"] },
 };
 
@@ -146,17 +153,24 @@ async function tqVehicles(shared) {
   }, { note: "Drive profiles are the game's own arcade units (world metres per second and radians per second), not vehicle specifications. Every drivable is gated on its pre-trip station(s)." });
 }
 
-async function tqRobotics(shared) {
+async function tqRobotics(shared, root) {
   const { found, sources } = await tqReadSection(shared, "robotics");
   let S = null;
-  try { S = found.RB_SHARED ? call(found.RB_SHARED) : found.rbSharedData ? plain(found.rbSharedData()) : null; } catch (_) { S = null; }
+  try { S = found.RB_SHARED ? plain(call(found.RB_SHARED)) : found.rbSharedData ? plain(found.rbSharedData()) : null; } catch (_) { S = null; }
   const v = S?.scenarios ?? found.RB_SCENARIOS ?? found.rbScenarios;
   if (v === undefined) return section("robotics", "pending", sources, null);
   try {
     const list = plain(call(v));
     const scenarios = (Array.isArray(list) ? list : Object.entries(list).map(([id, s]) => ({ id, ...s })));
-    const { scenarios: _s, ...rest } = S ?? {};
-    return section("robotics", "ready", sources, { scenarios, api: S?.api ?? "rbEnv(scenarioId) → { reset(seed), step(action) → { observation, reward, done, info } }", ...rest });
+    const rest = Object.fromEntries(Object.entries(S ?? {}).filter(([k]) => k !== "scenarios" && !TQR_FACETS.includes(k)));
+    // TQ-ROBOTICS: the programme, AGENTGYM, COLEARN and (guarded) VBRIDGE facets, from the owners' own files.
+    const F = await tqrFacets({ shared, root, owner: S, found });
+    const facets = { scenarios: { status: "ready", source: S?.scenarios ? "WebXR/shared/rb-robotics-data.js" : "rb-* scenarios export" }, ...Object.fromEntries(Object.entries(F).map(([k, f]) => [k, { status: f.status, source: f.source, ...(f.why ? { why: f.why } : {}) }])) };
+    const all = Object.values(facets).every((f) => f.status === "ready");
+    return section("robotics", all ? "ready" : "partial", sources, {
+      scenarios, api: S?.api ?? "rbEnv(scenarioId) → { reset(seed), step(action) → { observation, reward, done, info } }", ...rest,
+      facets, ...Object.fromEntries(TQR_FACETS.filter((k) => k !== "scenarios").map((k) => [k, F[k].status === "ready" ? F[k].data : null])),
+    }, { note: "Robots are simulated; no scenario, station or job harms a person. A command from a software agent reaches a simulated robot only, through a safety governor. No token, price or payment appears here, and no key or wallet address ships." });
   } catch (e) { return section("robotics", "pending", [...sources, { error: String(e.message).slice(0, 160) }], null); }
 }
 
@@ -181,8 +195,8 @@ async function tqDataset(shared) {
 }
 
 /** Extend DEAN's v1 document to v2 (every v1 field kept). */
-export async function tqExtend(v1, { shared }) {
-  const [maps, palette, facades, vehicles, robotics, dataset] = await Promise.all([tqMaps(shared), tqPalette(shared), tqFacades(shared), tqVehicles(shared), tqRobotics(shared), tqDataset(shared)]);
+export async function tqExtend(v1, { shared, root = join(shared, "..", "..") }) {
+  const [maps, palette, facades, vehicles, robotics, dataset] = await Promise.all([tqMaps(shared), tqPalette(shared), tqFacades(shared), tqVehicles(shared), tqRobotics(shared, root), tqDataset(shared)]);
   const all = { maps, palette, facades, vehicles, robotics, dataset };
   const sections = Object.fromEntries(Object.entries(all).map(([k, s]) => [k, { status: s.status, owner: s.owner, sources: s.sources.map((r) => r.file).filter(Boolean) }]));
   sections.packs = { status: v1.packs?.length ? "ready" : "pending", owner: "PACKS (pk-packs) via DEAN", sources: ["WebXR/shared/pk-packs.js"] };
@@ -235,6 +249,17 @@ export function tqSchemaV2(v1Schema) {
         } } },
       } },
       vehiclesData: { type: "object", required: ["drivables", "classes", "motorworks"], properties: { drivables: { type: "array", items: { type: "object", required: ["id", "name", "medium", "class", "gate", "profile"], properties: { id, medium: { enum: ["road", "rail", "site", "water"] }, gate: { type: "object", required: ["stations"] } } } } } },
+      // TQ-ROBOTICS (2.1.0): the robotics section's data. The 2.0 keys (scenarios, api, schema, forceN, ssm, rules, sites, sitePractices) are unchanged; the facets are additive.
+      roboticsData: { type: "object", required: ["scenarios", "api", "facets"], properties: {
+        scenarios: { type: "array", items: { type: "object", required: ["id"], properties: { id: { type: "string", pattern: "^rb-[a-z0-9-]+$" } } } },
+        facets: { type: "object", required: TQR_FACETS, properties: Object.fromEntries(TQR_FACETS.map((k) => [k, { type: "object", required: ["status", "source"], properties: { status: STATUS } }])) },
+      } },
+      roboticsProgramme: { type: "object", required: ["name", "brand", "standards", "levels", "credentials", "tracks", "coverage"], properties: {
+        levels: { type: "array", items: { type: "object", required: ["id", "title", "requiredScore"], properties: { id } } },
+        tracks: { type: "array", items: { type: "object", required: ["id", "title", "scenario", "ladder"], properties: { id, ladder: { type: "array", items: { type: "object", required: ["level", "stations", "capstone", "credential"], properties: { level: id } } } } } },
+      } },
+      roboticsAgentGym: { type: "object", required: ["schema", "config", "summary", "robotStations"], properties: { summary: { type: "object" } } },
+      roboticsColearn: { type: "object", required: ["version", "data", "policies"], properties: { policies: { type: "array", items: { type: "object", required: ["scenario", "random", "expert", "bc"] } } } },
     },
   };
 }
@@ -244,6 +269,19 @@ export function tqValidate(doc, schema, validate) {
   const bad = validate(doc, schema);
   if (doc.maps?.status !== "pending" && doc.maps?.data) bad.push(...validate(doc.maps.data, schema.$defs.mapsData, "$.maps.data"));
   if (doc.vehicles?.status !== "pending" && doc.vehicles?.data) bad.push(...validate(doc.vehicles.data, schema.$defs.vehiclesData, "$.vehicles.data"));
+  const rb = doc.robotics;
+  if (rb?.status !== "pending" && rb?.data) {
+    bad.push(...validate(rb.data, schema.$defs.roboticsData, "$.robotics.data"));
+    const defs = { programme: "roboticsProgramme", agentGym: "roboticsAgentGym", colearn: "roboticsColearn" };
+    for (const k of TQR_FACETS) {
+      const f = rb.data.facets?.[k];
+      if (!f) continue;
+      if (k !== "scenarios" && (f.status === "ready") !== (rb.data[k] !== null && rb.data[k] !== undefined)) bad.push(`$.robotics.data.${k}: a ${f.status} facet ${f.status === "ready" ? "needs" : "carries no"} data`);
+      if (f.status === "ready" && defs[k] && rb.data[k]) bad.push(...validate(rb.data[k], schema.$defs[defs[k]], `$.robotics.data.${k}`));
+    }
+    const all = TQR_FACETS.every((k) => rb.data.facets?.[k]?.status === "ready");
+    if ((rb.status === "ready") !== all) bad.push(`$.robotics: status ${rb.status} disagrees with its facets (ready only when all ${TQR_FACETS.length} are ready)`);
+  }
   for (const k of ["maps", "palette", "facades", "vehicles", "robotics", "dataset"]) {
     const s = doc[k];
     if (s && s.status === "pending" && s.data !== null) bad.push(`$.${k}: a pending section carries data null`);

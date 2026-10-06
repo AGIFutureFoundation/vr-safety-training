@@ -1,0 +1,10 @@
+# TQ-ROBOTICS: robotics in the shared export, for TradeQuest (`tqr`, 9043)
+
+Loop 5, SmartCiti.X Holodeck · Powered by AGI Corp. Base c472f079 (fast-forwarded from 589f0d87). Contract: `docs/tradequest-bridge.md`.
+
+Eval (defined before the work): the six robotics facets the section should carry (`scenarios`, `programme`, `agentGym`, `colearn`, `governor`, `jobs`), each ready or pending, plus the bytes the export uses. Before: 1 of 6 facets (scenarios only), export 666,763 B (651.1 KiB of 768 KiB; gzip 113.9 of 128 KiB), `check_bridge` 85/86 (the committed file was stale against a fresh build).
+
+## Cycles
+
+1. Reason: the robotics section carries only the gym scenarios; add four owner-sourced facets (programme from `rp-programme.js`, AGENTGYM baselines, COLEARN results) plus two VBRIDGE-guarded ones (governor, jobs), each `ready` or `pending` with its source, and keep the 2.0 keys; proof = `export_shared --check` prints robotics facets and the bytes. Act: `tools/tq_robotics.mjs` (`tqrFacets`, byte caps, key-shape refusal), `tqRobotics` in `tq_bridge.mjs`, version 2.1.0 + changelog. Observe: `robotics partial` (4 of 6 facets ready; governor and jobs pending: no `vb-*.js` in the tree), 673.7 KiB of 768 (gzip 119.0 of 128), valid; the programme facet is the largest at 15.9 KB raw.
+2. Reason: the new data must be schema-checked and the status must follow the facets; proof = `tqValidate` fails a facet with data but status pending and a robotics `ready` with a pending facet. Act: `$defs` roboticsData/Programme/AgentGym/Colearn and the consistency rules in `tqValidate`; the guard test in `check_bridge` §4 now expects robotics `partial` in a scratch tree. Observe: `check_bridge: 86/86`, export valid.

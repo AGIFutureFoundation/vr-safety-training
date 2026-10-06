@@ -87,7 +87,8 @@ await section(4, "the guard: owners that merge later fill in with no code change
   writeFileSync(join(dir, "rb-scenarios.js"), `export function rbScenarios() { return [{ id: "rb-pick-place", title: "Pick and place" }]; }\n`);
   writeFileSync(join(dir, "dx-dataworks.js"), `export const DX_SHARED = { episodeSchema: { id: "dx-episode-v1" }, datasetCard: { sections: ["motivation"] } };\n`);
   const later = await tq.tqExtend(v1, { shared: dir });
-  ok(["palette", "facades", "vehicles", "robotics", "dataset"].every((k) => later[k].status === "ready"), `with the owners' modules present: ${["palette", "facades", "vehicles", "robotics", "dataset"].map((k) => `${k} ${later[k].status}`).join(", ")}`);
+  // robotics is `partial` here: the scenarios are in, but the programme, AGENTGYM, COLEARN and VBRIDGE facets read files this scratch tree lacks (section 9 proves the full tree).
+  ok(["palette", "facades", "vehicles", "dataset"].every((k) => later[k].status === "ready") && later.robotics.status === "partial", `with the owners' modules present: ${["palette", "facades", "vehicles", "robotics", "dataset"].map((k) => `${k} ${later[k].status}`).join(", ")}`);
   ok(later.maps.status === "pending" && later.maps.data === null, "a tree without np-parishes.js marks maps pending");
   ok(later.palette.data.categories["creole-pastel"] && later.facades.data.signs.length === 2 && later.robotics.data.scenarios[0].id === "rb-pick-place", "the owners' data is carried as-is");
   ok(validate(later).length === 0, `the filled document validates (${validate(later).slice(0, 2).join("; ")})`);

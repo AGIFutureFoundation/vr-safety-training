@@ -635,6 +635,243 @@
           }
         }
       }
+    },
+    "roboticsData": {
+      "type": "object",
+      "required": [
+        "scenarios",
+        "api",
+        "facets"
+      ],
+      "properties": {
+        "scenarios": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "id"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^rb-[a-z0-9-]+$"
+              }
+            }
+          }
+        },
+        "facets": {
+          "type": "object",
+          "required": [
+            "scenarios",
+            "programme",
+            "agentGym",
+            "colearn",
+            "governor",
+            "jobs"
+          ],
+          "properties": {
+            "scenarios": {
+              "type": "object",
+              "required": [
+                "status",
+                "source"
+              ],
+              "properties": {
+                "status": {
+                  "enum": [
+                    "ready",
+                    "partial",
+                    "pending"
+                  ]
+                }
+              }
+            },
+            "programme": {
+              "type": "object",
+              "required": [
+                "status",
+                "source"
+              ],
+              "properties": {
+                "status": {
+                  "enum": [
+                    "ready",
+                    "partial",
+                    "pending"
+                  ]
+                }
+              }
+            },
+            "agentGym": {
+              "type": "object",
+              "required": [
+                "status",
+                "source"
+              ],
+              "properties": {
+                "status": {
+                  "enum": [
+                    "ready",
+                    "partial",
+                    "pending"
+                  ]
+                }
+              }
+            },
+            "colearn": {
+              "type": "object",
+              "required": [
+                "status",
+                "source"
+              ],
+              "properties": {
+                "status": {
+                  "enum": [
+                    "ready",
+                    "partial",
+                    "pending"
+                  ]
+                }
+              }
+            },
+            "governor": {
+              "type": "object",
+              "required": [
+                "status",
+                "source"
+              ],
+              "properties": {
+                "status": {
+                  "enum": [
+                    "ready",
+                    "partial",
+                    "pending"
+                  ]
+                }
+              }
+            },
+            "jobs": {
+              "type": "object",
+              "required": [
+                "status",
+                "source"
+              ],
+              "properties": {
+                "status": {
+                  "enum": [
+                    "ready",
+                    "partial",
+                    "pending"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "roboticsProgramme": {
+      "type": "object",
+      "required": [
+        "name",
+        "brand",
+        "standards",
+        "levels",
+        "credentials",
+        "tracks",
+        "coverage"
+      ],
+      "properties": {
+        "levels": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "title",
+              "requiredScore"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[a-z0-9-]+$"
+              }
+            }
+          }
+        },
+        "tracks": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "title",
+              "scenario",
+              "ladder"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[a-z0-9-]+$"
+              },
+              "ladder": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "level",
+                    "stations",
+                    "capstone",
+                    "credential"
+                  ],
+                  "properties": {
+                    "level": {
+                      "type": "string",
+                      "pattern": "^[a-z0-9-]+$"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "roboticsAgentGym": {
+      "type": "object",
+      "required": [
+        "schema",
+        "config",
+        "summary",
+        "robotStations"
+      ],
+      "properties": {
+        "summary": {
+          "type": "object"
+        }
+      }
+    },
+    "roboticsColearn": {
+      "type": "object",
+      "required": [
+        "version",
+        "data",
+        "policies"
+      ],
+      "properties": {
+        "policies": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "scenario",
+              "random",
+              "expert",
+              "bc"
+            ]
+          }
+        }
+      }
     }
   }
 }
