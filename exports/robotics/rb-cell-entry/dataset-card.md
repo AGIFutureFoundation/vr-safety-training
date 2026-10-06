@@ -1,0 +1,78 @@
+# Dataset card — Robot Cell Entry — synthetic demonstrations (rb-cell-entry)
+
+Created 2026-01-01T00:00:00.000Z by shared/col-learn.js colSyntheticDemos (via tools/rb_export.mjs).
+
+## Motivation
+
+Episodes of people and scripted policies practising workplace-safety procedures in the SmartCiti.X Holodeck, for training and evaluating robot and software agents on safe practice (stop, isolate, verify before acting). Built by the DATAWORKS layer; not a certification of any person.
+
+## Composition
+
+40 episodes (0 human, 40 synthetic), 1206 steps, 1 scenarios across worlds: robotics. One JSON Lines line per episode; each episode is a list of steps with observation, action, reward (points), done and info. Split by session hash: 40 train / 0 validation.
+
+## Collection process
+
+Human episodes are recorded in the browser only after an explicit opt-in, buffered in memory and written to local storage (IndexedDB, localStorage fallback) off the render loop. Synthetic episodes come from headless rollouts (shared/robot.js policies, ROBOTICS' rb_rollout) with their seed in provenance.
+
+## Consent
+
+Off by default. A learner opts in from the Me tab after confirming they are 18 or older and choosing a licence (CC0-1.0 or CC-BY-4.0). K-12, classroom, signed-out and demo sessions are never collected, and an unreadable signal counts as "do not collect". Every human episode carries its consent receipt (consent id, time, licence, statement hash). One tap revokes and deletes every stored episode. 0 receipts in this export.
+
+## De-identification
+
+No name, e-mail, crew tag, free text, voice, camera image, account/wallet id or real-world location is collected. Positions are in-world coordinates only. Sessions are keyed by a salted per-profile hash that rotates daily and on revoke; the salt never leaves the device. This is data minimisation, not anonymisation proof: small cohorts may still be re-identifiable from timing patterns.
+
+## Licence
+
+CC0-1.0. Synthetic rollouts are CC0-1.0. Human episodes carry the licence their learner chose, per episode, in the consent receipt.
+
+## Known gaps and biases
+
+Learners who opt in are self-selected adults on devices that can run WebXR; stations and worlds are unevenly covered; synthetic policies model a single skill parameter, not a real learner; scoring reflects this engine's rules, not a standards body's; phone and headset users produce different timing distributions.
+
+## Intended uses
+
+Training and evaluating agents and robots on safe-practice procedure following; studying where learners hesitate or err so stations can be improved; benchmarking policies on the same scenarios as people.
+
+## Out-of-scope uses
+
+Assessing, ranking, hiring, disciplining or identifying any individual; certification or licensing decisions; inferring age, identity, health or location; any use that re-links episodes to a person.
+
+## Schema, units and frames
+
+Schema smartcitix.holodeck.episode@2.0.0. Units: time in seconds, distance in metres, angles in radians (quaternions [x,y,z,w]), speed m/s, force N, reward in points. Frames: world is right-handed +Y up in metres (three.js), in-world only. Full field list in manifest.json and docs/robot-datasets.md.
+
+## Provenance
+
+Each episode's provenance names its generator, version, recorder (browser or headless), seed and policy when synthetic, and creation time. Shards: rlds/episodes.jsonl (sample) (3).
+
+## Maintenance
+
+Maintained with the SmartCiti.X Holodeck repository. The schema is versioned (semver); a major bump means a converter is required. No upload endpoint ships; a deployment may configure dataworks.upload.endpoint and is then responsible for the transfer and its own retention policy.
+
+## Source
+
+Headless rollouts of the gym scenario `rb-cell-entry` (Robot Cell Entry, beside the catalog station `ad-robot-cell-lockout-and-safe-reentry`) in `WebXR/shared/rb-env.js`, driven by the scripted expert at skill 0.85 with action noise 0.3 (`shared/col-learn.js colSyntheticDemos`). This is the exact set `tools/col_eval.mjs` trains the k-NN clone on.
+
+## Synthetic label
+
+Every episode carries `source: "synthetic"`, `consent: null` and a provenance policy line naming the stand-in. No person was recorded. The label is checked by `tools/check_roboexport.mjs`.
+
+## Seeds
+
+Demonstrations: 40 seeds, 100004–100043 (seed × 100003 + k + 1). Held-out evaluation seeds: 7001–7060, never used to make demonstrations. Deterministic: `colSyntheticDemos("rb-cell-entry", { n: 40, seed: 1, skill: 0.85, noise: 0.3 })` reproduces the set (hash `a7384dff3383d9bf`).
+
+## Counts
+
+40 episodes, 1206 steps; 24 episodes passed clean and are kept for filtered behaviour cloning (584 training rows after the wait filter). 3 episodes (77 steps) are written here as a sample in `lerobot/` and `rlds/`.
+
+## Licence of the simulated data
+
+CC0-1.0. Generated data, no person involved.
+
+## What this dataset is not
+
+- Not recorded from any person: every episode is generated by a scripted policy.
+- Not a measurement of any physical robot, site or machine; the scenario is procedural.
+- Not a certification of safe practice; the rules are this engine's, not a standards body's.
+- Not large: the set is a few thousand steps on a small discrete task and does not generalise beyond it.

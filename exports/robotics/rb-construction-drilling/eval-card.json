@@ -1,0 +1,80 @@
+{
+  "v": "rx/1",
+  "scenario": "rb-construction-drilling",
+  "name": "Ceiling-Drilling Robot Set-Up",
+  "station": "rp-construction-drilling-robot-setup",
+  "policy": {
+    "id": "rx-bc-rb-construction-drilling",
+    "version": "2f23e1ab",
+    "method": "behaviour-cloning-knn",
+    "file": "rb-construction-drilling/policy.json",
+    "modelHash": "2f23e1aba60c630b"
+  },
+  "dataSource": {
+    "id": "rx-ds-rb-construction-drilling",
+    "source": "synthetic",
+    "file": "rb-construction-drilling/dataset.json",
+    "demosOffered": 40,
+    "demosKept": 17,
+    "rows": 320
+  },
+  "seeds": {
+    "heldOut": "7001-7060",
+    "n": 60
+  },
+  "results": {
+    "random": {
+      "n": 60,
+      "success": 0,
+      "clean": 0,
+      "meanSteps": 59.283
+    },
+    "expert": {
+      "n": 60,
+      "success": 1,
+      "clean": 1,
+      "meanSteps": 17.767
+    },
+    "bcFiltered": {
+      "n": 60,
+      "success": 1,
+      "clean": 1,
+      "meanSteps": 17.767
+    },
+    "bcUnfiltered": {
+      "n": 60,
+      "success": 1,
+      "clean": 1,
+      "meanSteps": 17.767
+    },
+    "gapToExpert": 0
+  },
+  "invariants": {
+    "rules": [
+      "person-in-barricade",
+      "drill-unscanned",
+      "no-barricade",
+      "dust-off",
+      "bit-change-live"
+    ],
+    "unit": "violation steps (a held protective stop repeats every step)",
+    "policyViolations": 0,
+    "policyViolationsByRule": {},
+    "policyEpisodesWithViolations": 0,
+    "policySteps": 1066,
+    "expertViolations": 0,
+    "expertEpisodesWithViolations": 0,
+    "expertSteps": 1066,
+    "of": 60
+  },
+  "lineage": {
+    "datasetId": "rx-ds-rb-construction-drilling",
+    "policyId": "rx-bc-rb-construction-drilling",
+    "sites": [
+      "rb-site-richland-drilling-robot"
+    ],
+    "auditHead": "be5576c2dba2fbc6",
+    "auditLines": 25
+  },
+  "measuredOn": "the simulated scenario only; no hardware run has happened"
+}

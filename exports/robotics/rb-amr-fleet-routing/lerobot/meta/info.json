@@ -1,0 +1,79 @@
+{
+  "layout": "LeRobot-style episode layout, JSON Lines values (not the parquet on-disk format of any framework)",
+  "schemaVersion": 1,
+  "generatedAt": "2026-01-01T00:00:00.000Z",
+  "fps": 20,
+  "chunks_size": 1000,
+  "total_episodes": 3,
+  "total_frames": 45,
+  "total_tasks": 1,
+  "total_chunks": 1,
+  "data_path": "data/chunk-{episode_chunk:03d}/episode_{episode_index:06d}.jsonl",
+  "features": {
+    "observation": {
+      "dtype": "json",
+      "note": "WebXR/shared/robot.js observe() or robot-embodiment.js observeEmbodied()"
+    },
+    "action": {
+      "dtype": "json",
+      "note": "one of robot.js applyAction() shapes"
+    },
+    "reward": {
+      "dtype": "float",
+      "shape": [
+        1
+      ]
+    },
+    "done": {
+      "dtype": "bool",
+      "shape": [
+        1
+      ]
+    },
+    "primitive": {
+      "dtype": "string",
+      "note": "WebXR/shared/skill-registry.js SK_PRIMITIVES id"
+    },
+    "language_instruction": {
+      "dtype": "string",
+      "note": "the step's cue, or the live interruption's cue"
+    },
+    "index": {
+      "dtype": "int"
+    },
+    "episode_index": {
+      "dtype": "int"
+    },
+    "frame_index": {
+      "dtype": "int"
+    },
+    "timestamp": {
+      "dtype": "float"
+    },
+    "task_index": {
+      "dtype": "int"
+    }
+  },
+  "episodeLabels": [
+    "station",
+    "app",
+    "programmes",
+    "union",
+    "hazards",
+    "hazardsHit",
+    "interruptions",
+    "interruptionsSeen",
+    "sourceApp",
+    "licence",
+    "consent",
+    "crewTagHash",
+    "source"
+  ],
+  "licence": {
+    "synthetic": "CC0-1.0",
+    "human": "unasserted — whoever distributes this must hold the exporting learner's or hall's permission"
+  },
+  "notice": "Not a certification. Local file only; nothing here was sent anywhere.",
+  "sample": "3 of 40 synthetic demonstrations; the full set is reproduced by seed (dataset.json)",
+  "label": "synthetic"
+}
