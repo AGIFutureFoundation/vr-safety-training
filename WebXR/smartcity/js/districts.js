@@ -729,16 +729,21 @@ function oceanDataCenter(g, env) {
 // cells stand out in the ring past the station, and nothing is named after
 // any real plant, agency site or programme.
 
-/** A sealed-concrete hall floor, a slab whose top face is y = 0. */
-function orbHallFloor(g, w, d, tone = 0x8d949a) {
+/** A sealed-concrete hall floor, a slab whose top face is y = 0. `tone` is a
+ * CSS colour string: the canvas faces (citykit pavingFace / paintedSteelFace)
+ * hand it to addColorStop, which throws on a number (FIXRIG: 0x8d949a arrived
+ * as "9278618" and every station in these halls stayed on "Loading station…";
+ * tools/check_smartcity.mjs now builds every district against a canvas that
+ * rejects a non-colour stop). */
+function orbHallFloor(g, w, d, tone = "#8d949a") {
   const m = box(g, w, 0.2, d, 0, -0.1, 0, 0xffffff, { rough: 0.8, cast: false });
-  m.material = texturedMat(surfaceTexture((cx, cw, ch) => pavingFace(cx, cw, ch, { base: tone }), { repeat: 10, px: 512 }), { rough: 0.8, metal: 0.05, color: 0xffffff });
+  m.material = texturedMat(surfaceTexture((cx, cw, ch) => pavingFace(cx, cw, ch, { base: tone, base2: tone }), { repeat: 10, px: 512 }), { rough: 0.8, metal: 0.05, color: 0xffffff });
   m.receiveShadow = true;
   return m;
 }
-/** A hall's back and side walls in painted steel, with a column line. */
+/** A hall's back and side walls in painted steel, with a column line (`tone`: a CSS colour string). */
 function orbHallWalls(g, w, d, h, tone) {
-  const wm = texturedMat(surfaceTexture((cx, cw, ch) => paintedSteelFace(cx, cw, ch, { base: tone }), { repeat: 4, px: 256 }), { rough: 0.7, metal: 0.25, color: 0xffffff });
+  const wm = texturedMat(surfaceTexture((cx, cw, ch) => paintedSteelFace(cx, cw, ch, { base: tone, base2: tone }), { repeat: 4, px: 256 }), { rough: 0.7, metal: 0.25, color: 0xffffff });
   const back = box(g, w, h, 0.3, 0, h / 2, -d / 2, 0xffffff, { rough: 0.7 }); back.material = wm;
   for (const sx of [-1, 1]) { const s = box(g, 0.3, h, d, sx * w / 2, h / 2, 0, 0xffffff, { rough: 0.7 }); s.material = wm; }
   for (let i = 0; i < 4; i++) box(g, 0.4, h, 0.4, -w / 2 + 3 + i * (w - 6) / 3, h / 2, -d / 2 + 0.6, 0x3b4148, { rough: 0.6, metal: 0.4 });
@@ -774,7 +779,7 @@ function orbAmrLane(g, z, x0, x1, n = 3) {
 function orbRobotFactory(g) {
   flood(g, 0, 16, -14, 0xe9f1f7, 1.1);
   orbHallFloor(g, 44, 40);
-  orbHallWalls(g, 44, 40, 9, 0x4a5561);
+  orbHallWalls(g, 44, 40, 9, "#4a5561");
   const arms = [orbCellSilhouette(g, -10, -11, 0.2), orbCellSilhouette(g, 0, -13), orbCellSilhouette(g, 10, -11, -0.2, 0xf0b323)];
   const bots = orbAmrLane(g, -6.5, -18, 18, 3);
   // The cobot bench and the teach-pendant station off to the sides.
@@ -790,8 +795,8 @@ function orbRobotFactory(g) {
 }
 function orbTrainingCentre(g) {
   flood(g, 0, 14, -12, 0xfff4e2, 1.0);
-  orbHallFloor(g, 36, 34, 0x9aa0a4);
-  orbHallWalls(g, 36, 34, 7, 0x5a6470);
+  orbHallFloor(g, 36, 34, "#9aa0a4");
+  orbHallWalls(g, 36, 34, 7, "#5a6470");
   // The classroom cell: rows of desks facing a demonstrator arm.
   const demo = orbCellSilhouette(g, -8, -10, 0.3, 0x3a78c9);
   for (let r = 0; r < 2; r++) for (let c = 0; c < 3; c++) box(g, 1.2, 0.75, 0.6, -12 + c * 1.6, 0.375, -4 - r * 1.3, 0xc8b89a, { rough: 0.7 });
@@ -808,8 +813,8 @@ function orbTrainingCentre(g) {
 }
 function orbAerospaceDepot(g) {
   flood(g, 0, 18, -16, 0xeef4ff, 1.1);
-  orbHallFloor(g, 48, 42, 0x969ea3);
-  orbHallWalls(g, 48, 42, 11, 0x5d6772);
+  orbHallFloor(g, 48, 42, "#969ea3");
+  orbHallWalls(g, 48, 42, 11, "#5d6772");
   // A cleanroom module against the back wall, white, with a filter-lit ceiling.
   box(g, 10, 4, 6, -12, 2, -16, 0xeef1f3, { rough: 0.5 });
   box(g, 8, 0.06, 0.1, -12, 3.2, -12.95, 0xe8f0ff, { emissive: 0xe8f0ff, ei: 0.6 });
