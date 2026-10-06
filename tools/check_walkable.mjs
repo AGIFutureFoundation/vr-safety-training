@@ -131,8 +131,7 @@ check("html", html.includes('id="wk-fade"'), "the crossing fade layer is on the 
 
 // ------------------------------------------------------------ the browser round trip
 if (!process.argv.includes("--no-browser")) {
-  const PW = process.env.PLAYWRIGHT_MODULE || "/opt/node22/lib/node_modules/playwright/index.mjs";
-  const EXE = process.env.CHROMIUM_PATH || "/opt/pw-browsers/chromium";
+  const { pwModule, pwExecutable, PW, EXE } = await import(new URL("./lib/pw.mjs", import.meta.url).href);
   const TYPES = { ".html": "text/html", ".js": "application/javascript", ".mjs": "application/javascript", ".json": "application/json", ".css": "text/css", ".png": "image/png", ".svg": "image/svg+xml" };
   const server = createServer((req, res) => {
     const path = normalize(decodeURIComponent(new URL(req.url, "http://x").pathname)).replace(/^([/\\])+/, "");
@@ -145,7 +144,7 @@ if (!process.argv.includes("--no-browser")) {
   const base = `${origin}/parishes/parishes.html`;
   const THREE_SRC = readFileSync(join(WEBXR, "vendor/three/dist/three.module.min.js"), "utf8");
   let browser = null;
-  try { const { chromium } = await import(PW); browser = await chromium.launch({ executablePath: EXE, args: ["--use-gl=swiftshader", "--enable-unsafe-swiftshader", "--no-sandbox"] }); }
+  try { const { chromium } = await pwModule(); browser = await chromium.launch({ executablePath: pwExecutable(), args: ["--use-gl=swiftshader", "--enable-unsafe-swiftshader", "--no-sandbox"] }); }
   catch (e) { check("browser", false, `could not launch headless Chromium: ${String(e.message).split("\n")[0]}`); }
   if (browser) {
     // Jefferson's crossing into Orleans: open Orleans as the carry URL does, then walk back into the crossing.

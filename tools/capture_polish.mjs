@@ -20,8 +20,7 @@ const WEBXR = join(ROOT, "WebXR");
 const DIST = process.env.POLISH_DIST || join(WEBXR, "dist");
 const OUT = join(ROOT, "docs", "img", "polish");
 const LABEL = process.argv[2] || "after";
-const PW = process.env.PLAYWRIGHT_MODULE || "/opt/node22/lib/node_modules/playwright/index.mjs";
-const EXE = process.env.CHROMIUM_PATH || "/opt/pw-browsers/chromium";
+const { pwModule, pwExecutable, PW, EXE } = await import(new URL("./lib/pw.mjs", import.meta.url).href);
 
 export const TH_SHOTS = [
   { id: "home", page: "index.html", start: [], settle: 1200 },
@@ -43,8 +42,8 @@ const server = createServer((req, res) => {
 });
 await new Promise((r) => server.listen(0, "127.0.0.1", r));
 const base = `http://127.0.0.1:${server.address().port}`;
-const { chromium } = await import(PW);
-const browser = await chromium.launch({ executablePath: EXE, args: ["--use-gl=swiftshader", "--enable-unsafe-swiftshader", "--no-sandbox"] });
+const { chromium } = await pwModule();
+const browser = await chromium.launch({ executablePath: pwExecutable(), args: ["--use-gl=swiftshader", "--enable-unsafe-swiftshader", "--no-sandbox"] });
 const THREE_SRC = readFileSync(join(WEBXR, "vendor/three/dist/three.module.min.js"), "utf8");
 const REACT = Object.fromEntries(["react.production.min.js", "react-dom.production.min.js"].map((f) => [f, readFileSync(join(WEBXR, "vendor/react/dist", f), "utf8")]));
 mkdirSync(OUT, { recursive: true });

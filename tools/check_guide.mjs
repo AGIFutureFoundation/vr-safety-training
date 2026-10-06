@@ -32,8 +32,7 @@ const here = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(here, "..");
 const WEBXR = join(ROOT, "WebXR");
 const DIST = join(WEBXR, "dist");
-const PW = process.env.PLAYWRIGHT_MODULE || "/opt/node22/lib/node_modules/playwright/index.mjs";
-const EXE = process.env.CHROMIUM_PATH || "/opt/pw-browsers/chromium";
+const { pwModule, pwExecutable, PW, EXE } = await import(new URL("./lib/pw.mjs", import.meta.url).href);
 
 let failures = 0, passes = 0;
 function check(ok, what, detail = "") {
@@ -167,8 +166,8 @@ await new Promise((r) => server.listen(0, "127.0.0.1", r));
 const base = `http://127.0.0.1:${server.address().port}`;
 let browser;
 try {
-  const { chromium } = await import(PW);
-  browser = await chromium.launch({ executablePath: EXE, args: ["--use-gl=swiftshader", "--enable-unsafe-swiftshader", "--no-sandbox"] });
+  const { chromium } = await pwModule();
+  browser = await chromium.launch({ executablePath: pwExecutable(), args: ["--use-gl=swiftshader", "--enable-unsafe-swiftshader", "--no-sandbox"] });
 } catch (e) {
   server.close();
   console.log(`✗ could not launch headless Chromium (${PW}, ${EXE}): ${String(e.message).split("\n")[0]}`);

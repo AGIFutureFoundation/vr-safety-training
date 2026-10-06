@@ -314,13 +314,12 @@ for (const ch of GR_ROSTER) {
 // ------------------------------------------------------------ phone render
 let phone = "skipped (no headless Chromium here)";
 {
-  const PW = process.env.PLAYWRIGHT_MODULE || "/opt/node22/lib/node_modules/playwright/index.mjs";
-  const EXE = process.env.CHROMIUM_PATH || "/opt/pw-browsers/chromium";
+  const { pwModule, pwExecutable, PW, EXE } = await import(new URL("./lib/pw.mjs", import.meta.url).href);
   if (existsSync(PW) && existsSync(EXE)) {
     let browser = null;
     try {
-      const { chromium } = await import(PW);
-      browser = await chromium.launch({ executablePath: EXE, args: ["--no-sandbox"] });
+      const { chromium } = await pwModule();
+      browser = await chromium.launch({ executablePath: pwExecutable(), args: ["--no-sandbox"] });
       const page = await browser.newPage({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true, deviceScaleFactor: 1 });
       const ch = GR_ROSTER.reduce((a, c) => (c.pack.reduce((n, l) => Math.max(n, l.text.length), 0) > a.pack.reduce((n, l) => Math.max(n, l.text.length), 0) ? c : a));
       const d = S.grDialogue(ch, { seed: 1 });

@@ -1,10 +1,10 @@
 // Drive one station through every step in the real browser build, the way the
 // promo recorder does. A step-kind change is exactly the sort of edit that
 // checks clean headless and then does not work under a mouse.
-import { chromium } from "/opt/node22/lib/node_modules/playwright/index.mjs";
+import { pwLaunch } from "../lib/pw.mjs";
 import { makePage } from "./pro/helpers.mjs";
 const sim = process.argv[2];
-const browser = await chromium.launch({ executablePath: "/opt/pw-browsers/chromium", args: ["--use-gl=swiftshader", "--enable-unsafe-swiftshader"] });
+const browser = await pwLaunch({ args: ["--use-gl=swiftshader", "--enable-unsafe-swiftshader"] });
 const { context, page } = await makePage(browser, { viewport: { width: 1280, height: 720 } });
 page.on("pageerror", (e) => console.log("PAGEERROR:", e.message));
 await context.addInitScript((sid) => { try {

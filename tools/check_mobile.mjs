@@ -33,8 +33,7 @@ import { fileURLToPath } from "node:url";
 const here = dirname(fileURLToPath(import.meta.url));
 const WEBXR = join(here, "..", "WebXR");
 const THREE_FILE = join(WEBXR, "vendor/three/dist/three.module.min.js");
-const PW = process.env.PLAYWRIGHT_MODULE || "/opt/node22/lib/node_modules/playwright/index.mjs";
-const EXE = process.env.CHROMIUM_PATH || "/opt/pw-browsers/chromium";
+const { pwModule, pwExecutable, PW, EXE } = await import(new URL("./lib/pw.mjs", import.meta.url).href);
 
 // Each game: its dist page, how to start it, and the HUD's fixed panels.
 const GAMES_ALL = [
@@ -83,8 +82,8 @@ const base = `http://127.0.0.1:${server.address().port}`;
 
 let chromium, browser;
 try {
-  ({ chromium } = await import(PW));
-  browser = await chromium.launch({ executablePath: EXE, args: ["--use-gl=swiftshader", "--enable-unsafe-swiftshader", "--no-sandbox"] });
+  ({ chromium } = await pwModule());
+  browser = await chromium.launch({ executablePath: pwExecutable(), args: ["--use-gl=swiftshader", "--enable-unsafe-swiftshader", "--no-sandbox"] });
 } catch (e) {
   server.close();
   die(`could not launch headless Chromium (${PW}, ${EXE}): ${String(e.message).split("\n")[0]}`);

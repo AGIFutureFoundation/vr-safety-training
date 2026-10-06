@@ -216,8 +216,9 @@ if (process.argv.includes("--live")) {
   await new Promise((r) => { server.once("error", () => server.listen(0, "127.0.0.1", r)); server.listen(Number(process.env.HV_PORT || 9005), "127.0.0.1", r); });
   const base = `http://127.0.0.1:${server.address().port}`;
   const THREE_SRC = readFileSync(join(WEBXR, "vendor/three/dist/three.module.min.js"), "utf8");
-  const { chromium } = await import(process.env.PLAYWRIGHT_MODULE || "/opt/node22/lib/node_modules/playwright/index.mjs");
-  const browser = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH || "/opt/pw-browsers/chromium", args: ["--use-gl=swiftshader", "--enable-unsafe-swiftshader", "--no-sandbox"] });
+  const { pwModule, pwExecutable } = await import(new URL("./lib/pw.mjs", import.meta.url).href);
+  const { chromium } = await pwModule();
+  const browser = await chromium.launch({ executablePath: pwExecutable(), args: ["--use-gl=swiftshader", "--enable-unsafe-swiftshader", "--no-sandbox"] });
   const runFish = async (page, id) => {
     await page.evaluate((sid) => window.__parishTest.harvest.play(sid, "fish"), id);
     for (let i = 0; i < 10; i++) {

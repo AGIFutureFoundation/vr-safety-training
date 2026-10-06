@@ -33,6 +33,9 @@ tools/out/
 # One Holodeck Pack exported alone (tools/export_pack.mjs) — rebuilt on demand, never committed.
 exports/packs/
 
+# Playwright installed beside the repo for the browser checkers (CI: npm i --no-save playwright; tools/lib/pw.mjs)
+node_modules/
+
 # Python bytecode (rewritten on every bundle run)
 __pycache__/
 *.pyc

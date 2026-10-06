@@ -23,6 +23,15 @@ jobs:
         with:
           python-version: "3.12"
 
+      # The browser checkers find Playwright through tools/lib/pw.mjs: the
+      # PLAYWRIGHT_MODULE env, then `playwright` in node_modules (this install),
+      # then the maintainers' container path. Pinned to the version that
+      # container has, so a checker's browser behaves the same in both places.
+      - name: Playwright and its Chromium
+        run: |
+          npm i --no-save --no-package-lock --no-audit --no-fund playwright@1.56.1
+          npx playwright install --with-deps chromium
+
       - name: Engine and content checkers
         run: node tools/check_all.mjs
 

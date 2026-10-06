@@ -1,7 +1,7 @@
 // Quick review clips: for each station id, a title card over the spawn view,
 // then the first steps of a real run — about ten seconds each, one webm per
 // station under review/<series>/raw/<id>/. build_review.py assembles them.
-import { chromium } from "/opt/node22/lib/node_modules/playwright/index.mjs";
+import { pwLaunch } from "../lib/pw.mjs";
 import { mkdirSync, existsSync, rmSync, readdirSync, renameSync } from "node:fs";
 import { makePage, makeOverlay, LANDSCAPE } from "../pro/helpers.mjs";
 const [series, ...ids] = process.argv.slice(2);
@@ -9,7 +9,7 @@ const BASE = "/tmp/claude-0/-home-user-vr-safety-training/a03145a7-edb6-5a38-ad6
 const META = JSON.parse(await (await import("node:fs/promises")).readFile("/home/user/vr-safety-training/WebXR/smartcity/catalog.json", "utf8"));
 const byId = new Map(META.stations.map((s) => [s.id, s]));
 const SC_URL = "http://localhost:8970/smartcity/dist/smartcity-x.html";
-const browser = await chromium.launch({ executablePath: "/opt/pw-browsers/chromium", args: ["--use-gl=swiftshader", "--enable-unsafe-swiftshader"] });
+const browser = await pwLaunch({ args: ["--use-gl=swiftshader", "--enable-unsafe-swiftshader"] });
 async function stepOnce(page) {
   return page.evaluate(() => {
     const t = window.__smartcityTest; const s = t?.session(); if (!s || s.finished) return false;
