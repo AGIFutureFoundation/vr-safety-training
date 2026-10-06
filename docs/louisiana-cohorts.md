@@ -62,6 +62,13 @@ Minutes are this guide's planning allowances, not facts about any place or progr
      - 3 min — Check question, read aloud: "What is an apprenticeship?" A wrong answer hears the why and tries again; never scored against anyone. → lesson — lk-lesson-crews-behind-the-build (`lk-lesson-crews-behind-the-build`)
      - 2 min — Apply it: Build Order — Put the crews of a big build in order, then plan a first step into a trade. → game — Build Order (`lco-apply-build-order`)
      - 5 min — Close: each learner says how it went, and one sentence about the work: A coordinator shows how people start in a trade: basics first, then paid learning on the job and in class.
+  7. Lesson 7: Dust You Cannot See (37 minutes planned)
+     - 10 min — Sign in with the class code; one learner retells the last lesson's idea.
+     - 5 min — Look at the place first: air and dust on a building site. Read the pre-brief of "Dust You Cannot See" together. → flow — lk-dust-you-cannot-see (`lk-dust-you-cannot-see`)
+     - 12 min — Run the station; a run that does not pass goes back to the brief. → station — Dust You Cannot See at a Building Site (`k12-sil-dust-you-cannot-see-at-a-building-site`)
+     - 3 min — Check question, read aloud: "How does a drilling crew keep dust out of the air?" A wrong answer hears the why and tries again; never scored against anyone. → lesson — lk-lesson-dust-you-cannot-see (`lk-lesson-dust-you-cannot-see`)
+     - 2 min — Apply it: Dust Catcher — Walk the drilling bay with the crew and check how the dust is caught before anyone can breathe it. → game — Dust Catcher (`lco-apply-dust-catcher`)
+     - 5 min — Close: each learner says how it went, and one sentence about the work: A drilling crew catches dust at the drill with a shroud, a vacuum or water, so nobody breathes it.
 - **Debrief prompts:**
   - What was the one idea, in your own words?
   - Where on the map did you see it, and who does that work?
@@ -188,10 +195,11 @@ Minutes are this guide's planning allowances, not facts about any place or progr
      - 20 min — Station: brief the hazards together, then each learner runs it; a failed run is retried after the debrief of what went wrong. → station — Formwork Shoring (`formwork-shoring`)
      - 20 min — Station: brief the hazards together, then each learner runs it; a failed run is retried after the debrief of what went wrong. → station — Crawler Crane Assembly & Load Chart (`op-crawler-crane-assembly-and-load-chart`)
      - 15 min — Debrief the session with the prompts below.
-  4. Construction trades · Apprentice · session 4 (65 minutes planned)
+  4. Construction trades · Apprentice · session 4 (85 minutes planned)
      - 10 min — Sign in with the class code; recap the last session's debrief in one minute each.
      - 20 min — Station: brief the hazards together, then each learner runs it; a failed run is retried after the debrief of what went wrong. → station — Rebar Tying & Impalement Protection (`bt-rebar-tying-and-impalement-protection`)
      - 20 min — Capstone station: run it once as practice, then once for the record. → station — Mass Timber Panel Set (`mass-timber-panel-set`)
+     - 20 min — Capstone station: run it once as practice, then once for the record. → station — Masonry Silica Scaffold (`masonry-silica-scaffold`)
      - 15 min — Debrief the session with the prompts below.
   5. Construction trades · Apprentice · session 5 (85 minutes planned)
      - 10 min — Sign in with the class code; recap the last session's debrief in one minute each.
@@ -204,7 +212,7 @@ Minutes are this guide's planning allowances, not facts about any place or progr
   - Which gate had to be done before anything else, and why?
   - Who had the authority to stop the work, and when did they use it?
   - What would you tell a new crew member on day one about this work?
-- **Assessment:** Every station passed with a module score of 80 or more; every simulation at 80 or more with no order-gate penalty. The level ends in the builders-trades competency — 4 mastery runs, 3 in the pathway and 1 in the capstone — and the cohort certificate.
+- **Assessment:** Every station passed with a module score of 80 or more; every simulation at 80 or more with no order-gate penalty. The level ends in the builders-trades competency — 5 mastery runs, 3 in the pathway and 2 in the capstone — and the cohort certificate.
 - **Close-out:**
   - Every learner at a module score of 80 or more on mod-lp-construction-appr, recorded on the class code.
   - The level's competency (builders-trades) on each learner's record, with the cohort certificate.

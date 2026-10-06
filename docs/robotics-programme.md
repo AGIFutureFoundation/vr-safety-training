@@ -40,10 +40,10 @@ Total: 30/30 track levels covered.
 ## The learning loop (AI-training level)
 
 - **Consent first** — `dx-data.js` `dxOptIn()`; station `rp-teleop-demonstration-collection`. An adult, signed-in learner opts in on DATAWORKS' consent screen; K-12, demo and signed-out sessions never collect. The data stays on the device and revoking deletes it.
-- **Demonstrate** — `col-learn.js` `colDemosFromEpisodes()` (pending in this build); station `rp-teleop-demonstration-collection`. Consented teleoperation episodes become demonstrations; an episode without a consent receipt is refused. Tests use synthetic demonstrations from the scripted expert with noise (colSyntheticDemos), labelled synthetic.
-- **Train a policy (behaviour cloning)** — `col-learn.js` `colTrain()` (pending in this build); station `rp-robot-policy-evaluation-review`. A k-nearest-neighbour behaviour-cloning policy copies what the demonstrations did in similar moments. It does not plan and does not generalise beyond its demonstrations.
-- **Evaluate on held-out seeds** — `col-learn.js` `colEvalScenario()` (pending in this build); station `rp-robot-policy-evaluation-review`. The policy runs on seeds it never saw, against the scripted expert and a random baseline; the success rate and the gap to the expert are reported as measured.
-- **The robot demonstrates back** — `col-learn.js` `colGhost()` (pending in this build); station `rp-robot-policy-evaluation-review`. The trained policy replays a task as a ghost, with a plain-language explanation of each choice from its features (colExplain, a heuristic, no language model), so the learner can watch it and then try it.
+- **Demonstrate** — `col-learn.js` `colDemosFromEpisodes()`; station `rp-teleop-demonstration-collection`. Consented teleoperation episodes become demonstrations; an episode without a consent receipt is refused. Tests use synthetic demonstrations from the scripted expert with noise (colSyntheticDemos), labelled synthetic.
+- **Train a policy (behaviour cloning)** — `col-learn.js` `colTrain()`; station `rp-robot-policy-evaluation-review`. A k-nearest-neighbour behaviour-cloning policy copies what the demonstrations did in similar moments. It does not plan and does not generalise beyond its demonstrations.
+- **Evaluate on held-out seeds** — `col-learn.js` `colEvalScenario()`; station `rp-robot-policy-evaluation-review`. The policy runs on seeds it never saw, against the scripted expert and a random baseline; the success rate and the gap to the expert are reported as measured.
+- **The robot demonstrates back** — `col-learn.js` `colGhost()`; station `rp-robot-policy-evaluation-review`. The trained policy replays a task as a ghost, with a plain-language explanation of each choice from its features (colExplain, a heuristic, no language model), so the learner can watch it and then try it.
 
 Data rules (DATAWORKS): opt-in only, adults only, never in K-12, demo or signed-out sessions; local only, no upload endpoint; revoking deletes the data and marks dependent policies stale.
 
@@ -437,12 +437,13 @@ Kinds of work: ceiling-drilling and layout robots, remote demolition machines, s
   - `br-drone-shoreline-survey` Drone Shoreline Survey — FAA 14 CFR Part 107 small unmanned aircraft systems rule and today's LAANC airspace authorization
   - `formwork-shoring` Formwork Shoring (capstone) — United Brotherhood of Carpenters shoring and forming standards
   - `mass-timber-panel-set` Mass Timber Panel Set (capstone) — UBC carpenters — mass timber erection crew
+  - `masonry-silica-scaffold` Masonry Silica Scaffold (capstone) — International Union of Bricklayers and Allied Craftworkers apprenticeship standards
 - **Consent:** This level collects no training data.
 - **Debrief prompts:**
   - Where was the safeguarded space, and what kept people out of it while the robot could move?
   - What had to be true before anyone went in, and who checked it?
   - What would you tell a new operator about this cell on day one?
-- **Assessment:** Every station passed with a module score of 75 or more. The level ends in the builders-trades competency — 4 mastery runs, 2 in the level and 2 in the capstone — and the cohort certificate.
+- **Assessment:** Every station passed with a module score of 75 or more. The level ends in the builders-trades competency — 5 mastery runs, 2 in the level and 3 in the capstone — and the cohort certificate.
 
 #### `mod-rp-construction-robotics-technician` — Robot technician
 

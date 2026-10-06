@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 723
+      "stations": 727
     },
     "trades": {
       "entry": "trades/index.html",
@@ -276,7 +276,9 @@
         "ad-test-stand-exclusion-zone-and-holds",
         "ad-amr-fleet-traffic-and-estop-drill",
         "ad-robot-cell-lockout-and-safe-reentry",
-        "ad-cleanroom-gowning-and-esd-discipline"
+        "ad-cleanroom-gowning-and-esd-discipline",
+        "rp-robot-policy-evaluation-review",
+        "rp-teleop-demonstration-collection"
       ]
     },
     {
@@ -409,7 +411,8 @@
         "rf-standing-seam-metal-panel-and-clip",
         "rf-hot-asphalt-kettle-and-mop",
         "rf-single-ply-tpo-heat-welding-and-seam-probe",
-        "rf-torch-applied-membrane-and-fire-watch"
+        "rf-torch-applied-membrane-and-fire-watch",
+        "rp-construction-drilling-robot-setup"
       ]
     },
     {
@@ -680,7 +683,8 @@
         "k12-es-the-tidal-marsh-nursery",
         "k12-es-rain-gardens-a-sponge-in-the-sidewalk",
         "k12-es-what-a-trash-capture-device-does",
-        "k12-es-where-the-storm-drain-goes"
+        "k12-es-where-the-storm-drain-goes",
+        "k12-rp-how-a-robot-knows-to-stop"
       ]
     },
     {
@@ -37572,7 +37576,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 255,
+      "meshes": 266,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -38232,7 +38236,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 272,
+      "meshes": 267,
       "lights": 0,
       "overBudget": false,
       "index": "100",
@@ -66100,6 +66104,320 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=k12-es-where-the-storm-drain-goes"
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-rp-how-a-robot-knows-to-stop",
+      "name": "How a Robot Knows to Stop",
+      "title": "SmartCiti.X~ How a Robot Knows to Stop VR",
+      "tagline": "Walk toward the robot, watch it slow and stop — then meet the people who keep robots safe",
+      "category": "Community Environmental Justice",
+      "domain": "Education",
+      "trade": "Science and careers lesson on robot sensing with a robotics technician at a training lab — learner and robot technician",
+      "union": null,
+      "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+      "accent": "#5fae8a",
+      "parSeconds": 330,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "select",
+        "sequence",
+        "hold",
+        "turn",
+        "gauge",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "zone-reader",
+        "name": "Zone Reader",
+        "note": "Watched the robot slow and stop as people came near, found its sensors and said who may start it again"
+      },
+      "meshes": 240,
+      "lights": 0,
+      "overBudget": false,
+      "index": "rp-4",
+      "flat": false,
+      "system": "Robot Lab Board",
+      "currency": "SPARKS",
+      "ranks": [
+        "Visitor",
+        "Watcher",
+        "Helper",
+        "Lab Partner",
+        "Zone Reader"
+      ],
+      "awards": [
+        {
+          "id": "clean-read",
+          "name": "First Look",
+          "note": "Everything in the opening scan found first time"
+        },
+        {
+          "id": "no-shortcut",
+          "name": "No Shortcuts",
+          "note": "No misconception or unsafe shortcut anywhere in the run"
+        },
+        {
+          "id": "in-the-band",
+          "name": "In the Band",
+          "note": "Every gauge and meter held inside its band"
+        },
+        {
+          "id": "clean-run",
+          "name": "Clean Run",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "steady-hands",
+          "name": "Steady Hands",
+          "note": "Every hold and track carried its full count"
+        },
+        {
+          "id": "quick-and-right",
+          "name": "Quick and Right",
+          "note": "Finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=k12-rp-how-a-robot-knows-to-stop"
+    },
+    {
+      "app": "smartcity",
+      "id": "rp-construction-drilling-robot-setup",
+      "name": "Ceiling-Drilling Robot Set-Up",
+      "title": "SmartCiti.X~ Ceiling-Drilling Robot Set-Up VR",
+      "tagline": "Setting up a mobile ceiling-drilling robot on a concrete deck: the scan for embedded conduit and tendons read before any hole, the work zone barricaded so nobody stands under the mast, the robot's position checked against control points, the drill's vacuum dust collection running, a bit changed only with the battery isolated, and the dust cleaned with a vacuum instead of a broom",
+      "category": "Construction & Structural Trades",
+      "domain": "Construction",
+      "trade": "Construction robot operator, ceiling-drilling robot for anchor layout — Carpenters/IBEW",
+      "union": null,
+      "certification": "Carpenters (UBC) and IBEW apprenticeship training as bodies; OSHA 29 CFR 1926.1153 respirable crystalline silica in construction (its Table 1 names the controls for drilling into concrete), 29 CFR 1926.416 electrical safety-related work practices and 29 CFR 1926.21 safety training and education; ANSI A10.9 concrete and masonry work; the robot maker's manual and the site's work plan for the deck",
+      "accent": "#ffb35c",
+      "parSeconds": 320,
+      "weather": "overcast",
+      "indoor": null,
+      "district": null,
+      "steps": 12,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "drag",
+        "gauge",
+        "find",
+        "hold",
+        "track"
+      ],
+      "badge": {
+        "id": "clear-below",
+        "name": "Clear Below",
+        "note": "Read the deck scan, kept the zone under the mast clear, ran the dust collection and isolated the battery for every bit change"
+      },
+      "meshes": 198,
+      "lights": 0,
+      "overBudget": false,
+      "index": "rp-3",
+      "flat": false,
+      "system": "Clear Below",
+      "currency": "AN",
+      "ranks": [
+        "Labour Hand",
+        "Zone Keeper",
+        "Robot Operator",
+        "Layout Lead",
+        "Clear Below Certified"
+      ],
+      "awards": [
+        {
+          "id": "scan-first",
+          "name": "Scan First",
+          "note": "Read the deck scan before the robot moved"
+        },
+        {
+          "id": "zone-kept",
+          "name": "Zone Kept",
+          "note": "Stopped the robot when someone walked under the mast"
+        },
+        {
+          "id": "steady-flow",
+          "name": "Steady Flow",
+          "note": "Held the vacuum flow near band centre"
+        },
+        {
+          "id": "quick-setup",
+          "name": "Inside Par",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "clean-setup",
+          "name": "Clean Set-Up",
+          "note": "Clean run, no corrections"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=rp-construction-drilling-robot-setup"
+    },
+    {
+      "app": "smartcity",
+      "id": "rp-robot-policy-evaluation-review",
+      "name": "Reviewing a Robot Policy's Evaluation",
+      "title": "SmartCiti.X~ Reviewing a Robot Policy's Evaluation VR",
+      "tagline": "Deciding whether a learned robot policy may run a supervised trial: the dataset card and its consent read, the lineage traced and a policy built on revoked data caught, held-out results compared with a random baseline and the scripted expert, violations counted as well as successes, a failing episode replayed and explained, and a supervised trial run at reduced speed with an enabling device before anyone signs",
+      "category": "Manufacturing & Automation",
+      "domain": "Robotics",
+      "trade": "AI-training specialist and robot safety lead, policy evaluation review — UAW/IAM",
+      "union": null,
+      "certification": "UAW and IAM skilled-trades training as bodies; ANSI R15.06 and ISO 10218 industrial robot safety (the integrated cell and its risk assessment), with ISO/TS 15066 named for collaborative operation; OSHA 29 CFR 1910.212 general requirements for machines and 29 CFR 1910.147 the control of hazardous energy; the bench's written risk assessment, its release criteria and the platform's own consent and dataset-card rules",
+      "accent": "#b79cff",
+      "parSeconds": 330,
+      "weather": "overcast",
+      "indoor": null,
+      "district": "robotics-training-centre",
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "find",
+        "gauge",
+        "sequence",
+        "hold",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "measured-not-claimed",
+        "name": "Measured, Not Claimed",
+        "note": "Traced the lineage, compared the policy with both baselines on held-out seeds, replayed its failure and signed only what was measured"
+      },
+      "meshes": 194,
+      "lights": 0,
+      "overBudget": false,
+      "index": "rp-2",
+      "flat": false,
+      "system": "Measured, Not Claimed",
+      "currency": "EV",
+      "ranks": [
+        "Reader",
+        "Reviewer",
+        "Evaluator",
+        "Release Reviewer",
+        "Safety Sign-off"
+      ],
+      "awards": [
+        {
+          "id": "card-first",
+          "name": "Card First",
+          "note": "Read the dataset card before the results"
+        },
+        {
+          "id": "stale-caught",
+          "name": "Stale Caught",
+          "note": "Found the policy trained on revoked data"
+        },
+        {
+          "id": "steady-enable",
+          "name": "Steady Enable",
+          "note": "Held the enabling device near band centre"
+        },
+        {
+          "id": "quick-review",
+          "name": "Inside Par",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "clean-review",
+          "name": "Clean Review",
+          "note": "Clean run, no corrections"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=rp-robot-policy-evaluation-review"
+    },
+    {
+      "app": "smartcity",
+      "id": "rp-teleop-demonstration-collection",
+      "name": "Collecting a Robot Demonstration Safely",
+      "title": "SmartCiti.X~ Collecting a Robot Demonstration Safely VR",
+      "tagline": "Recording teleoperation demonstrations a robot will learn from: your own consent given and readable, the cell's risk assessment and reduced-speed mode checked, the scanner proven, nobody else in the camera's frame, the gripper driven inside its force band, every failed attempt labelled as failed, and the data kept on this device where revoking deletes it",
+      "category": "Manufacturing & Automation",
+      "domain": "Robotics",
+      "trade": "AI-training specialist, teleoperation demonstrations on a cobot bench — UAW/IAM",
+      "union": null,
+      "certification": "UAW and IAM skilled-trades training as bodies; ANSI R15.06 and ISO 10218 industrial robot safety, with ISO/TS 15066 named for collaborative operation; OSHA 29 CFR 1910.212 general requirements for machines, 29 CFR 1910.147 the control of hazardous energy and 29 CFR 1910.132 personal protective equipment; the bench's written risk assessment, the manufacturer's manual and the platform's own consent rules for training data",
+      "accent": "#8fd17a",
+      "parSeconds": 330,
+      "weather": "overcast",
+      "indoor": null,
+      "district": "robotics-training-centre",
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "gauge",
+        "hold",
+        "find",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "clean-demo",
+        "name": "Clean Demo",
+        "note": "Gave consent knowingly, drove the cobot inside its safeguards, kept bystanders out of frame and labelled every attempt honestly"
+      },
+      "meshes": 188,
+      "lights": 0,
+      "overBudget": false,
+      "index": "rp-1",
+      "flat": false,
+      "system": "Clean Demo",
+      "currency": "EP",
+      "ranks": [
+        "Observer",
+        "Consented",
+        "Demonstrator",
+        "Data Steward",
+        "Clean Demo Lead"
+      ],
+      "awards": [
+        {
+          "id": "consent-first",
+          "name": "Consent First",
+          "note": "Read the consent screen before the first recording"
+        },
+        {
+          "id": "honest-label",
+          "name": "Honest Label",
+          "note": "Labelled the failed attempt as failed"
+        },
+        {
+          "id": "steady-hand",
+          "name": "Steady Hand",
+          "note": "Held the grip force near band centre"
+        },
+        {
+          "id": "quick-session",
+          "name": "Inside Par",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "clean-session",
+          "name": "Clean Session",
+          "note": "Clean run, no corrections"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=rp-teleop-demonstration-collection"
     },
     {
       "app": "trades",

@@ -85,6 +85,14 @@ export const LCO_APPLY_GAMES = [
       [["  ✓ survey  ✓ ground work  ▶ next"], "The ground is ready. Who comes next?", "The concrete and steel crews, who build the frame.", "The electricians, before there are any walls."],
       [["  workforce centre · notice board"], "A friend wants to start in a trade. What is a good first step?", "Learn the basics, then apply for an apprenticeship.", "Turn up at a site and ask to start work today."],
     ]),
+  lcoGame("dust-catcher", "lk-lesson-dust-you-cannot-see", "Dust Catcher", "inspection-grid",
+    "Catch dust where it is made, and stand where the breeze comes from.",
+    "Walk the drilling bay with the crew and check how the dust is caught before anyone can breathe it.",
+    [
+      [["  drill on the wall · dark card below", "  ▶ the card"], "Fine grey dust is landing on the dark card. What does that tell you?", "The drill is making dust that floats in the air.", "Nothing; the card was dirty already."],
+      [["  ✓ the card  ▶ the drill"], "The drill has a shroud with a hose to a vacuum. What does it do?", "Pulls most of the dust away right where it is made.", "Makes the drill quieter, nothing else."],
+      [["  ✓ the card  ✓ the drill  ▶ the breeze", "  breeze ─▶ from the open door"], "You want to watch the drilling. Where do you stand?", "On the side the breeze comes from, behind the crew leader.", "Downwind, where the dust drifts."],
+    ]),
 ];
 
 /** Lesson id → flow id (WebXR/flows/<flow>.json). */

@@ -49,6 +49,14 @@
     {
       "app": "smartcity",
       "id": "ad-cleanroom-gowning-and-esd-discipline"
+    },
+    {
+      "app": "smartcity",
+      "id": "rp-robot-policy-evaluation-review"
+    },
+    {
+      "app": "smartcity",
+      "id": "rp-teleop-demonstration-collection"
     }
   ],
   "unions": [
@@ -132,10 +140,12 @@
     "ad-depot-tool-control-and-fod-walk": "Depot Tool Control & FOD Walk",
     "ad-amr-fleet-traffic-and-estop-drill": "AMR Fleet Traffic & E-stop Drill",
     "ad-robot-cell-lockout-and-safe-reentry": "Robot Cell Lockout & Safe Re-entry",
-    "ad-cleanroom-gowning-and-esd-discipline": "Cleanroom Gowning & ESD Discipline"
+    "ad-cleanroom-gowning-and-esd-discipline": "Cleanroom Gowning & ESD Discipline",
+    "rp-robot-policy-evaluation-review": "Reviewing a Robot Policy's Evaluation",
+    "rp-teleop-demonstration-collection": "Collecting a Robot Demonstration Safely"
   },
   "version": "1.0.0",
-  "contentHash": "5fbff851",
+  "contentHash": "3553dbf9",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."
