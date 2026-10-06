@@ -30814,5 +30814,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "vb-supervising-agent-dispatched-robots",
+    "index": "vb-1",
+    "domain": "Robotics",
+    "trade": "Robot safety supervisor and AI-training specialist, software-agent dispatch review — UAW/IAM",
+    "category": "Manufacturing & Automation",
+    "certification": "UAW and IAM skilled-trades training as bodies; ANSI/RIA R15.06 and ISO 10218 for the integrated robot system, its safeguarding and the written risk assessment that sets its speed and separation limits; OSHA 29 CFR 1910.212 for machine guarding and 29 CFR 1910.147 for hazardous-energy control when anyone enters the bench; plus this platform's own dispatch rules: allowlist, consent lineage, append-only audit, simulated robots only",
+    "name": "Supervising Robots Dispatched by Software Agents",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "robotics-training-centre",
+    "title": "SmartCiti.X~ Supervising Robots Dispatched by Software Agents VR",
+    "tagline": "Reviewing a robot job sent by a software agent before the site's own agent may run it in the sim: who asked and what for, the task checked against the allowlist, the policy's eval card and lineage read and a stale policy caught, the site's speed and separation limits set from the risk assessment, the physical-robot path confirmed locked off, the run watched from outside the zone and stopped on a deviation, and the evaluation filed in the audit log",
+    "accent": 6211800,
+    "accentCss": "#5ec8d8",
+    "parSeconds": 340,
+    "badge": {
+      "id": "the-governor-holds",
+      "name": "The Governor Holds",
+      "note": "Checked who asked, what for and with which policy, kept the robot to the sim and its limits, stopped it on a deviation and logged every decision"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "The Governor Holds",
+      "currency": "GV",
+      "ranks": [
+        "Observer",
+        "Reviewer",
+        "Supervisor",
+        "Dispatch Lead",
+        "Safety Sign-off"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

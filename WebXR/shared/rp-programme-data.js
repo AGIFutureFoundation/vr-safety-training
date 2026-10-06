@@ -54,14 +54,15 @@ export const RP_ROBOT_STATIONS = {
   "rp-robot-policy-evaluation-review": "robot policy evaluation",
   "rp-construction-drilling-robot-setup": "construction robot",
   "k12-rp-how-a-robot-knows-to-stop": "robot sensing (K-12 awareness)",
+  "vb-supervising-agent-dispatched-robots": "robots dispatched by software agents (VBRIDGE governor, simulated robots only)",
 };
 /** The station ids this console authored (kept so the checker can hold them to the station brief). */
 export const RP_NEW_STATIONS = ["rp-teleop-demonstration-collection", "rp-robot-policy-evaluation-review", "rp-construction-drilling-robot-setup", "k12-rp-how-a-robot-knows-to-stop"];
 
 // The awareness level's classroom stations (shared by every track) — K-12 science, reading and careers.
 const RP_K12 = ["k12-rp-how-a-robot-knows-to-stop", "k12-simple-machines-at-a-crane", "k12-circuits-at-the-electrical-bench", "k12-reading-instructions-and-safety-labels", "k12-es-who-does-this-work"];
-// The AI-training level's two loop stations, appended to each track's own robot stations.
-const RP_AI = ["rp-teleop-demonstration-collection", "rp-robot-policy-evaluation-review"];
+// The AI-training level's loop stations (the two ROBOPROG loop stations and VBRIDGE's agent-dispatch supervision), appended to each track's own robot stations.
+const RP_AI = ["rp-teleop-demonstration-collection", "rp-robot-policy-evaluation-review", "vb-supervising-agent-dispatched-robots"];
 
 /**
  * Tracks. `levels[level]` lists stations in ladder order; `credentials[level]` lists competency candidates (the best overlap

@@ -33,7 +33,7 @@ A level is covered when one of its own stations (capstones not counted) is a rob
 | Robot operator | 6/6 | 11 |
 | Robot technician | 6/6 | 13 |
 | Integrator / safety lead | 6/6 | 17 |
-| AI-training specialist | 6/6 | 18 |
+| AI-training specialist | 6/6 | 24 |
 
 Total: 30/30 track levels covered.
 
@@ -154,6 +154,7 @@ Kinds of work: fenced robot cells, palletizers, press and machine tending. Stand
   - `robot-cell` Robot Cell (robot) — UAW — ANSI/RIA R15.06 robot safety qualified
   - `rp-teleop-demonstration-collection` Collecting a Robot Demonstration Safely (robot) — UAW and IAM skilled-trades training as bodies
   - `rp-robot-policy-evaluation-review` Reviewing a Robot Policy's Evaluation (robot) — UAW and IAM skilled-trades training as bodies
+  - `vb-supervising-agent-dispatched-robots` Supervising Robots Dispatched by Software Agents (robot) — UAW and IAM skilled-trades training as bodies
   - `ad-robot-cell-lockout-and-safe-reentry` Robot Cell Lockout & Safe Re-entry (robot) (capstone) — UAW and IAM skilled-trades training as bodies
   - `ad-amr-fleet-traffic-and-estop-drill` AMR Fleet Traffic & E-stop Drill (robot) (capstone) — UAW and IAM skilled-trades training as bodies
   - `ad-cobot-risk-assessment-and-speed-separation` Cobot Risk Assessment & Speed-and-Separation (robot) (capstone) — UAW and IAM skilled-trades training as bodies
@@ -267,6 +268,7 @@ Kinds of work: cobot workcells shared with people: speed and separation, power a
   - `ad-cobot-risk-assessment-and-speed-separation` Cobot Risk Assessment & Speed-and-Separation (robot) — UAW and IAM skilled-trades training as bodies
   - `rp-teleop-demonstration-collection` Collecting a Robot Demonstration Safely (robot) — UAW and IAM skilled-trades training as bodies
   - `rp-robot-policy-evaluation-review` Reviewing a Robot Policy's Evaluation (robot) — UAW and IAM skilled-trades training as bodies
+  - `vb-supervising-agent-dispatched-robots` Supervising Robots Dispatched by Software Agents (robot) — UAW and IAM skilled-trades training as bodies
   - `ad-robot-cell-lockout-and-safe-reentry` Robot Cell Lockout & Safe Re-entry (robot) (capstone) — UAW and IAM skilled-trades training as bodies
   - `ad-amr-fleet-traffic-and-estop-drill` AMR Fleet Traffic & E-stop Drill (robot) (capstone) — UAW and IAM skilled-trades training as bodies
   - `ad-cleanroom-gowning-and-esd-discipline` Cleanroom Gowning & ESD Discipline (capstone) — IAM and UAW aerospace assembly training as bodies
@@ -381,6 +383,7 @@ Kinds of work: autonomous mobile robots in aisles and yards, charging, mixed tra
   - `ad-amr-fleet-traffic-and-estop-drill` AMR Fleet Traffic & E-stop Drill (robot) — UAW and IAM skilled-trades training as bodies
   - `rp-teleop-demonstration-collection` Collecting a Robot Demonstration Safely (robot) — UAW and IAM skilled-trades training as bodies
   - `rp-robot-policy-evaluation-review` Reviewing a Robot Policy's Evaluation (robot) — UAW and IAM skilled-trades training as bodies
+  - `vb-supervising-agent-dispatched-robots` Supervising Robots Dispatched by Software Agents (robot) — UAW and IAM skilled-trades training as bodies
   - `ad-robot-cell-lockout-and-safe-reentry` Robot Cell Lockout & Safe Re-entry (robot) (capstone) — UAW and IAM skilled-trades training as bodies
   - `ad-cobot-risk-assessment-and-speed-separation` Cobot Risk Assessment & Speed-and-Separation (robot) (capstone) — UAW and IAM skilled-trades training as bodies
   - `ad-cleanroom-gowning-and-esd-discipline` Cleanroom Gowning & ESD Discipline (capstone) — IAM and UAW aerospace assembly training as bodies
@@ -497,6 +500,7 @@ Kinds of work: ceiling-drilling and layout robots, remote demolition machines, s
   - `rp-construction-drilling-robot-setup` Ceiling-Drilling Robot Set-Up (robot) — Carpenters (UBC) and IBEW apprenticeship training as bodies
   - `rp-teleop-demonstration-collection` Collecting a Robot Demonstration Safely (robot) — UAW and IAM skilled-trades training as bodies
   - `rp-robot-policy-evaluation-review` Reviewing a Robot Policy's Evaluation (robot) — UAW and IAM skilled-trades training as bodies
+  - `vb-supervising-agent-dispatched-robots` Supervising Robots Dispatched by Software Agents (robot) — UAW and IAM skilled-trades training as bodies
   - `ad-robot-cell-lockout-and-safe-reentry` Robot Cell Lockout & Safe Re-entry (robot) (capstone) — UAW and IAM skilled-trades training as bodies
   - `ad-amr-fleet-traffic-and-estop-drill` AMR Fleet Traffic & E-stop Drill (robot) (capstone) — UAW and IAM skilled-trades training as bodies
   - `ad-cobot-risk-assessment-and-speed-separation` Cobot Risk Assessment & Speed-and-Separation (robot) (capstone) — UAW and IAM skilled-trades training as bodies
@@ -611,6 +615,7 @@ Kinds of work: service under lockout, jams, e-stop recovery and restart from out
   - `ad-robot-cell-lockout-and-safe-reentry` Robot Cell Lockout & Safe Re-entry (robot) — UAW and IAM skilled-trades training as bodies
   - `rp-teleop-demonstration-collection` Collecting a Robot Demonstration Safely (robot) — UAW and IAM skilled-trades training as bodies
   - `rp-robot-policy-evaluation-review` Reviewing a Robot Policy's Evaluation (robot) — UAW and IAM skilled-trades training as bodies
+  - `vb-supervising-agent-dispatched-robots` Supervising Robots Dispatched by Software Agents (robot) — UAW and IAM skilled-trades training as bodies
   - `ad-amr-fleet-traffic-and-estop-drill` AMR Fleet Traffic & E-stop Drill (robot) (capstone) — UAW and IAM skilled-trades training as bodies
   - `ad-cobot-risk-assessment-and-speed-separation` Cobot Risk Assessment & Speed-and-Separation (robot) (capstone) — UAW and IAM skilled-trades training as bodies
   - `ad-cleanroom-gowning-and-esd-discipline` Cleanroom Gowning & ESD Discipline (capstone) — IAM and UAW aerospace assembly training as bodies
@@ -723,6 +728,7 @@ Kinds of work: teleoperation demonstrations, labelling, consent and dataset card
   - `ad-cobot-risk-assessment-and-speed-separation` Cobot Risk Assessment & Speed-and-Separation (robot) — UAW and IAM skilled-trades training as bodies
   - `rp-teleop-demonstration-collection` Collecting a Robot Demonstration Safely (robot) — UAW and IAM skilled-trades training as bodies
   - `rp-robot-policy-evaluation-review` Reviewing a Robot Policy's Evaluation (robot) — UAW and IAM skilled-trades training as bodies
+  - `vb-supervising-agent-dispatched-robots` Supervising Robots Dispatched by Software Agents (robot) — UAW and IAM skilled-trades training as bodies
   - `ad-robot-cell-lockout-and-safe-reentry` Robot Cell Lockout & Safe Re-entry (robot) (capstone) — UAW and IAM skilled-trades training as bodies
   - `ad-amr-fleet-traffic-and-estop-drill` AMR Fleet Traffic & E-stop Drill (robot) (capstone) — UAW and IAM skilled-trades training as bodies
   - `ad-cleanroom-gowning-and-esd-discipline` Cleanroom Gowning & ESD Discipline (capstone) — IAM and UAW aerospace assembly training as bodies
