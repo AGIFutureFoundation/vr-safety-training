@@ -8,6 +8,11 @@ import {
 } from "../citykit.js";
 import { simTitle, system, AWARD } from "../gamify.js";
 
+// Deterministic "random" for the scatter: the same scene on every build, so the catalog's headless mesh count
+// (tools/gen_catalog.mjs) is reproducible and the committed catalog equals a fresh build on any machine.
+let mtsSeed = 0;
+const mtsRandom = () => { mtsSeed = (mtsSeed + 0x6d2b79f5) >>> 0; let t = mtsSeed; t = Math.imul(t ^ (t >>> 15), t | 1); t ^= t + Math.imul(t ^ (t >>> 7), t | 61); return ((t ^ (t >>> 14)) >>> 0) / 4294967296; };
+
 // SmartCiti.X~ Marsh Transect Survey VR — Environmental Monitoring, station
 // ninety-two.
 //
@@ -30,13 +35,13 @@ const MTS_ACCENT = 0x748a3c;
  *  of thin boxes at varied heights and tilts, so pickleweed, cordgrass and
  *  the invasive hybrid all read as planted vegetation rather than a lawn. */
 function mtsGrassClump(parent, x, z, o = {}) {
-  const c = group(parent, x, o.y ?? 0, z, Math.random() * Math.PI);
+  const c = group(parent, x, o.y ?? 0, z, mtsRandom() * Math.PI);
   const n = o.n ?? 12, tone = o.tone ?? 0x5d7a3a, tip = o.tip ?? 0x8a8f4a;
   for (let i = 0; i < n; i++) {
-    const a = (i / n) * Math.PI * 2, r = 0.05 + Math.random() * (o.spread ?? 0.16), hh = (o.h ?? 0.3) + Math.random() * (o.hVar ?? 0.18);
+    const a = (i / n) * Math.PI * 2, r = 0.05 + mtsRandom() * (o.spread ?? 0.16), hh = (o.h ?? 0.3) + mtsRandom() * (o.hVar ?? 0.18);
     const b = box(c, o.w ?? 0.02, hh, o.w ?? 0.008, Math.cos(a) * r, hh / 2, Math.sin(a) * r, i % 3 ? tone : tip, { rough: 0.9, cast: false });
-    b.rotation.z = (Math.random() - 0.5) * 0.4;
-    b.rotation.x = (Math.random() - 0.5) * 0.3;
+    b.rotation.z = (mtsRandom() - 0.5) * 0.4;
+    b.rotation.x = (mtsRandom() - 0.5) * 0.3;
   }
   return c;
 }
@@ -222,6 +227,7 @@ export const SIM_MARSH_TRANSECT_SURVEY = {
   ],
 
   build(root) {
+    mtsSeed = 0x9e3779b9; // the same scatter on every build
     const hits = {};
     const g = group(root);
     stationPad(g, 2.4, MTS_ACCENT);
@@ -257,9 +263,9 @@ export const SIM_MARSH_TRANSECT_SURVEY = {
     // district's own clump style — background vegetation distinct from the
     // three specific clumps the cover-estimate step reads.
     for (let i = 0; i < 9; i++) {
-      const gx = (Math.random() - 0.5) * 4.6, gz = -0.9 + Math.random() * 1.7;
+      const gx = (mtsRandom() - 0.5) * 4.6, gz = -0.9 + mtsRandom() * 1.7;
       if (Math.abs(gx) < 0.35 && gz > -0.6 && gz < 0.9) continue; // keep the tape line clear
-      mtsGrassClump(g, gx, gz, { n: 5 + Math.floor(Math.random() * 3), h: 0.16 + Math.random() * 0.16, spread: 0.1, tone: Math.random() > 0.5 ? 0x5d7a3a : 0x6f5a3a });
+      mtsGrassClump(g, gx, gz, { n: 5 + Math.floor(mtsRandom() * 3), h: 0.16 + mtsRandom() * 0.16, spread: 0.1, tone: mtsRandom() > 0.5 ? 0x5d7a3a : 0x6f5a3a });
     }
 
     // -------------------------------------------------------- upland station

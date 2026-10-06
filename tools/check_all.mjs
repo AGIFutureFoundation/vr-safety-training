@@ -5,6 +5,7 @@
  *     node tools/check_all.mjs
  *     CHECK_JOBS=1 node tools/check_all.mjs      # the old one-at-a-time run
  *     CHECK_JOBS=4 node tools/check_all.mjs      # a fixed pool of four
+ *     CHECK_ONLY=check_mobile.mjs node tools/check_all.mjs   # re-measure one checker; only its row in checkers-last.json changes
  *
  * Console PROVING (docs/consoles/PROVING.md): the checkers are independent
  * processes that never write into the tree (each writes under its own
@@ -28,7 +29,7 @@ import { spawn } from "node:child_process";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { availableParallelism, loadavg } from "node:os";
-import { mkdirSync, writeFileSync } from "node:fs";
+import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const CHECKERS = [
@@ -201,15 +202,26 @@ function jobLimit(running) {
   return Math.max(1, Math.min(MAX_JOBS, Math.floor(CORES - others + 0.5)));
 }
 
+// Each checker's own load window (the one-minute average at its start and end, and the peak the five-second sampler
+// saw while it ran), recorded beside its time so check_proving can judge a time only when the machine was quiet
+// during that checker — console CI-GREEN: a run-level "quiet at both ends" let a time measured under a mid-run load
+// spike be judged against the baseline.
+const live = new Set();
 function runOne(name) {
   return new Promise((resolve) => {
-    const started = Date.now();
+    const started = Date.now(), loadStart = loadavg()[0], win = { peak: loadStart };
+    live.add(win);
     let out = "";
+    const finish = (ok, text) => {
+      live.delete(win);
+      const loadEnd = loadavg()[0];
+      resolve({ name, ok, ms: Date.now() - started, out: text, loadStart: +loadStart.toFixed(2), loadEnd: +loadEnd.toFixed(2), loadPeak: +Math.max(win.peak, loadEnd).toFixed(2) });
+    };
     const child = spawn(process.execPath, [join(here, name)], { stdio: ["ignore", "pipe", "pipe"] });
     child.stdout.on("data", (d) => { out += d; });
     child.stderr.on("data", (d) => { out += d; });
-    child.on("close", (status) => resolve({ name, ok: status === 0, ms: Date.now() - started, out: out.trim() }));
-    child.on("error", (e) => resolve({ name, ok: false, ms: Date.now() - started, out: String(e) }));
+    child.on("close", (status) => finish(status === 0, out.trim()));
+    child.on("error", (e) => finish(false, String(e)));
   });
 }
 
@@ -227,11 +239,17 @@ const loadAtStart = loadavg()[0];
 // The load's peak across the run, sampled every five seconds: other work that starts and stops mid-run (a console's
 // own checkers) leaves both ends quiet, and check_proving judges a run's times only when the peak stayed low too.
 let loadPeak = loadAtStart;
-const loadSampler = setInterval(() => { loadPeak = Math.max(loadPeak, loadavg()[0]); }, 5000);
+const loadSampler = setInterval(() => { const l = loadavg()[0]; loadPeak = Math.max(loadPeak, l); for (const w of live) w.peak = Math.max(w.peak, l); }, 5000);
 loadSampler.unref();
-for (const name of SERIAL_FIRST) report(await runOne(name));
+// CHECK_ONLY=check_mobile.mjs,check_ui.mjs re-measures the named checkers alone and updates only their rows in
+// docs/perf/checkers-last.json (each row carries its own load window); the rest of the record stands.
+const ONLY = (process.env.CHECK_ONLY ?? "").split(",").map((s) => s.trim()).filter(Boolean);
+const unknown = ONLY.filter((n) => !CHECKERS.includes(n));
+if (unknown.length) { console.log(`CHECK_ONLY names checkers not in the list: ${unknown.join(", ")}`); process.exit(2); }
+const RUN = ONLY.length ? CHECKERS.filter((n) => ONLY.includes(n)) : CHECKERS;
+for (const name of SERIAL_FIRST.filter((n) => RUN.includes(n))) report(await runOne(name));
 
-const queue = CHECKERS.filter((n) => !SERIAL_FIRST.includes(n));
+const queue = RUN.filter((n) => !SERIAL_FIRST.includes(n));
 let running = 0, runningWeight = 0, peak = 0;
 const limitsSeen = [];
 await new Promise((done) => {
@@ -252,17 +270,25 @@ await new Promise((done) => {
 
 const wallMs = Date.now() - wallStart;
 const sumMs = [...results.values()].reduce((a, r) => a + r.ms, 0);
-const record = {
+const row = (n) => { const r = results.get(n); return { ms: r?.ms ?? null, ok: r?.ok ?? false, loadStart: r?.loadStart ?? null, loadEnd: r?.loadEnd ?? null, loadPeak: r?.loadPeak ?? null }; };
+const LAST = join(here, "..", "docs", "perf", "checkers-last.json");
+let record = {
   at: new Date().toISOString(), cores: CORES, maxJobs: MAX_JOBS, peakParallel: peak,
   loadAvgStart: +loadAtStart.toFixed(2), loadAvgEnd: +loadavg()[0].toFixed(2), loadAvgPeak: +Math.max(loadPeak, loadavg()[0]).toFixed(2), wallMs, sumMs,
-  checkers: Object.fromEntries(CHECKERS.map((n) => [n, { ms: results.get(n)?.ms ?? null, ok: results.get(n)?.ok ?? false }])),
+  checkers: Object.fromEntries(CHECKERS.map((n) => [n, row(n)])),
 };
+if (ONLY.length) {
+  // A partial run: only the named rows change; the full run's record (its times, load and wall) stands around them.
+  let prev = null;
+  try { prev = JSON.parse(readFileSync(LAST, "utf8")); } catch { /* no record yet: the partial rows stand alone */ }
+  record = { ...(prev ?? record), checkers: { ...(prev?.checkers ?? {}), ...Object.fromEntries(RUN.map((n) => [n, row(n)])) }, remeasured: { at: record.at, checkers: RUN } };
+}
 try {
   mkdirSync(join(here, "..", "docs", "perf"), { recursive: true });
-  writeFileSync(join(here, "..", "docs", "perf", "checkers-last.json"), JSON.stringify(record, null, 2) + "\n");
+  writeFileSync(LAST, JSON.stringify(record, null, 2) + "\n");
 } catch { /* a read-only checkout still gets its verdict */ }
 
 const sec = (ms) => (ms / 1000).toFixed(1);
 console.log(`\n${sec(wallMs)} s wall for ${sec(sumMs)} s of checker time (up to ${peak} at once on ${CORES} cores; load ${loadAtStart.toFixed(1)} → ${loadavg()[0].toFixed(1)}).`);
-console.log(failed ? `\n${failed} checker(s) failed.` : `\nAll ${CHECKERS.length} checkers pass.`);
+console.log(failed ? `\n${failed} checker(s) failed.` : `\nAll ${RUN.length} checkers pass.`);
 process.exit(failed ? 1 : 0);
