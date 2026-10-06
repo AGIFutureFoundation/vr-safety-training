@@ -8,4 +8,5 @@
 - `docs/perf/agent-baselines-robotics.json` covers all 16 `RP_ROBOT_STATIONS` (regenerate with `ag_eval --seeds 3 --stations <ids>`).
 - Changing `RB_SCENARIOS`/`RB_SITES` stales `exports/shared/holodeck-shared.json` and `vb-game-functions.json`: re-run
   `tools/export_shared.mjs` and `tools/vb_export_game.mjs` or `check_bridge`/`check_vbridge` fail.
+- Side-game boards for both scenarios live in `rb-world.js` `RB_GAME_MECHANICS` (6 games on 5 maps).
 - Checker: `tools/check_roboscenarios.mjs` (10 checks, no suite load).
