@@ -1,0 +1,261 @@
+{
+  "id": "k12-sil-dust-you-cannot-see-at-a-building-site",
+  "index": "971",
+  "prefix": "sld",
+  "accent": "#d9a441",
+  "floor": [
+    "#8f8a80",
+    "#7f7a70"
+  ],
+  "wall": [
+    "#e6e0d2",
+    "#d6d0c2"
+  ],
+  "trade": "Science visit with a concrete drilling crew at a building site — learner and crew lead",
+  "header": "Lower-secondary science at a building site (the Tank Foundation Pour site on the Lake Charles map): why drilling concrete makes dust too fine to see, how builders keep it out of the air with a vacuum shroud and water, and why standing where the breeze comes from matters, using only what the scene shows and OSHA's public description of its silica rule for construction. The awareness version of the Concrete Drilling & Silica Dust Cues station.",
+  "name": "Dust You Cannot See at a Building Site",
+  "tagline": "Drilling concrete makes dust finer than you can see — find out how builders catch it before anyone breathes it",
+  "badge": {
+    "id": "dust-catcher",
+    "name": "Dust Catcher",
+    "note": "Compared a model drill with and without its dust shroud, followed the breeze and explained how builders keep fine dust out of the air"
+  },
+  "board": {
+    "name": "Dust Board",
+    "currency": "CLEAR AIR",
+    "ranks": [
+      "Speck",
+      "Puff",
+      "Breeze",
+      "Clear Air",
+      "Dust Catcher"
+    ]
+  },
+  "hazards": [
+    {
+      "id": "blow-the-dust-away",
+      "label": "Blow the dust off the card to clean it?",
+      "face": "BLOW\nIT?",
+      "text": "You went to blow the dust off the card. Blowing lifts the finest dust into the air, where people breathe it. Builders use a special vacuum to pick dust up instead, and the class does the same with the little vacuum."
+    },
+    {
+      "id": "walk-under-the-drill",
+      "label": "Step up to the crew's drill for a closer look?",
+      "face": "CLOSER?",
+      "text": "You started toward the crew's real drill. The crew is working, and visitors watch from behind the rope with the crew lead. Everything the class needs to see is on the model bench."
+    },
+    {
+      "id": "dust-is-just-dirt",
+      "label": "Say concrete dust is just dirt and nothing more?",
+      "face": "JUST\nDIRT?",
+      "text": "You said concrete dust is just dirt. Concrete has sand and stone in it, and drilling grinds some of that into dust finer than you can see. That fine dust is why builders catch it at the drill instead of letting it float around."
+    },
+    {
+      "id": "sweep-the-floor-dry",
+      "label": "Sweep the dusty bench with a dry brush?",
+      "face": "DRY\nBRUSH?",
+      "text": "You picked up a dry brush to sweep the bench. A dry brush throws fine dust back into the air. Builders use a vacuum or a damp cloth, so the dust ends up in the bag and not in anyone's breath."
+    }
+  ],
+  "find1": {
+    "title": "Find the tools that catch the dust",
+    "cue": "Mark the three things the crew uses to keep drilling dust out of the air.",
+    "why": "A crew drilling concrete has more than one way to catch dust. A shroud around the drill bit pulls dust into a vacuum hose, a water line keeps a bigger drill wet so the dust turns to mud, and a special vacuum cleans the holes afterwards. Each one stops dust before it reaches the air people breathe.",
+    "items": [
+      [
+        "shroud",
+        "the shroud around the drill bit",
+        "It pulls dust into the vacuum hose."
+      ],
+      [
+        "water",
+        "the water line on the core drill",
+        "It turns the dust into wet mud."
+      ],
+      [
+        "hepa",
+        "the dust-catching vacuum",
+        "Its filter keeps the finest dust inside."
+      ]
+    ],
+    "decoy": [
+      "radio",
+      "the crew's radio",
+      "Useful for talking, but it catches no dust."
+    ]
+  },
+  "select1": {
+    "title": "Stand behind the rope with the crew lead",
+    "cue": "Stand behind the rope at the edge of the work area with the crew lead.",
+    "why": "A building site is busy, with tools running and people carrying heavy things. Standing behind the rope keeps the class clear of the crew's work and out of their way. The crew lead watches the site so the class can watch the lesson. Watching from the rope also gives the best view of the whole site at once.",
+    "key": "rope-card",
+    "label": "Behind the rope",
+    "face": "BEHIND\nTHE ROPE"
+  },
+  "seq": {
+    "title": "Put the dust test in order",
+    "cue": "Lay a clean dark card, drill the model without the shroud, look at the card, then a fresh card and drill with the shroud on.",
+    "why": "A fair test changes only one thing. A clean dark card each time shows exactly how much dust landed. Drilling once without the shroud and once with it, on the same model block for the same time, shows what the shroud catches, because the shroud is the only change. Without the clean card, old dust would mix into the new reading.",
+    "oon": "Out of order. Start with a clean dark card beside the model block.",
+    "items": [
+      [
+        "ord-card",
+        "lay a clean dark card beside the block"
+      ],
+      [
+        "ord-bare",
+        "drill the model block without the shroud"
+      ],
+      [
+        "ord-look",
+        "look at the dust on the card"
+      ],
+      [
+        "ord-shroud",
+        "lay a fresh card and drill with the shroud on"
+      ]
+    ]
+  },
+  "turn": {
+    "title": "Set the drill timer and leave it",
+    "cue": "Turn the timer dial to the teacher's setting for both runs.",
+    "why": "Both runs must last the same time, or the test is not fair. A longer run would leave more dust on the card whatever else happened. Setting the timer once for both runs keeps the time the same, so only the shroud changes. Scientists call this keeping everything else the same.",
+    "key": "timer-dial",
+    "label": "Drill timer",
+    "dial": "TIME"
+  },
+  "gauge": {
+    "title": "Read the dust on the card",
+    "cue": "Commit when the marker matches the card's colour on the grey scale.",
+    "why": "Matching the card against a grey scale turns what you see into a reading you can compare. A grey card means more dust landed, and a dark clean card means less. Real dust monitors on building sites do the same job much more precisely, and they can measure dust far too fine to see.",
+    "key": "dust-meter",
+    "label": "Card reading",
+    "meter": "DUST",
+    "miss": "Not matched yet. Slide the marker to the grey that looks like the card."
+  },
+  "hold": {
+    "title": "Hold the model drill square to the block",
+    "cue": "Hold the model drill flat against the block until the timer ends.",
+    "why": "The shroud only catches dust when it sits flat on the surface. If the drill tips, a gap opens and dust escapes past the shroud. Holding it square is the same skill the real crew uses, and it is what makes the test honest. A steady hand matters more than a fast one here.",
+    "brk": "The drill tipped and the shroud lifted. Hold it flat again until the timer ends.",
+    "key": "drill-hold",
+    "label": "Hold the model drill"
+  },
+  "drag": {
+    "title": "Move the bench to where the breeze comes from",
+    "cue": "Drag the model bench to the side of the work area the breeze blows from.",
+    "why": "No dust catcher is perfect, and the breeze carries whatever escapes. Working on the side the breeze comes from sends that little bit of dust away from you instead of into your face. Builders choose where to stand for the same reason. Watching the flag or a strip of tape on a fence shows which way the breeze is blowing.",
+    "key": "bench",
+    "label": "Model bench",
+    "spot": "breeze-side",
+    "spotLabel": "Where the breeze comes from",
+    "miss": "That side puts the dust in the breeze's path toward you. Move to where the breeze comes from."
+  },
+  "find2": {
+    "title": "Spot how the crew protects their breathing",
+    "cue": "Look across the site and mark each thing the crew does for clean air.",
+    "why": "The national rule for silica dust on building sites asks builders to catch dust at many tools with water or a vacuum, and to clean up without dry sweeping or blowing. When a job still makes dust, the crew's written plan can ask for a fitted mask too. Each of these keeps the air clean where people work, and the plan on the board says which one goes with which tool.",
+    "items": [
+      [
+        "mask",
+        "a fitted dust mask on the shelf",
+        "Worn when the plan asks for it."
+      ],
+      [
+        "vac",
+        "a vacuum cleaning the floor",
+        "No dry sweeping on a dusty floor."
+      ],
+      [
+        "plan",
+        "the dust plan on the board",
+        "It says which tool gets which dust catcher."
+      ]
+    ],
+    "decoy": [
+      "cone",
+      "an orange cone",
+      "It marks the edge of the work, but it does not catch dust."
+    ]
+  },
+  "select2": {
+    "title": "Say what your cards showed",
+    "cue": "Choose the sentence that says what the two runs showed.",
+    "why": "Both runs lasted the same time on the same block with clean cards. The card from the run without the shroud came out greyer, and the card from the run with the shroud stayed darker. A good answer says the shroud caught much of the dust, and it does not claim more than the two cards showed.",
+    "key": "result-card",
+    "label": "State the result",
+    "face": "WHICH CARD\nWAS CLEANER?"
+  },
+  "track": {
+    "title": "Follow the dust puff on the breeze",
+    "cue": "Keep the marker on the dust puff as the breeze carries it across the site.",
+    "why": "Dust does not stay where it is made. A breeze carries it across the site to people who are not even drilling. Following the puff shows why one crew's dust is everyone's business, and why builders catch it at the drill instead of hoping it blows away.",
+    "brk": "The marker lost the puff. Find it again and follow it with the breeze.",
+    "key": "puff-track",
+    "label": "Puff followed",
+    "meter": "BREEZE"
+  },
+  "record": {
+    "title": "Record the crew's dust plan in your own words",
+    "cue": "Write the ways the crew keeps dust out of the air, and name where you learned them.",
+    "why": "Writing the plan in your own words shows you understood it, and naming the source shows where it came from. A careful scientist or reporter always says where a fact came from, so someone else can check it. Your record can list the shroud, the water, the vacuum and the place to stand, each in one short line.",
+    "key": "plan-log",
+    "label": "Dust plan record",
+    "done": "Plan recorded"
+  },
+  "share": {
+    "title": "Share one way to keep dust out of the air",
+    "cue": "Tell another group one way builders stop drilling dust from reaching people.",
+    "why": "Workers, neighbours and visitors all share the air around a building site. Sharing ways to catch dust helps the class see that small habits, like using a vacuum instead of a brush, keep the air clean for everyone. Hearing another group's way often reminds you of one you forgot.",
+    "key": "share-board",
+    "label": "Share a way",
+    "done": "Way shared"
+  },
+  "checkin": {
+    "title": "Check in before leaving the site",
+    "cue": "How does the crew catch drilling dust? Why does it matter where you stand?",
+    "why": "The crew talks over each visit before the class leaves the site. Each learner names a way to catch dust and says why the breeze matters. If anyone thinks the dust is just dirt, the group sorts it out now. Then everyone leaves knowing the same few habits.",
+    "label": "End-of-visit check-in"
+  },
+  "interrupts": [
+    {
+      "id": "the-vacuum-hose-slips-off",
+      "kind": "Hose off",
+      "key": "stop-drill",
+      "label": "Stop the model drill",
+      "alert": "The little vacuum hose slips off the model drill's shroud and a puff of dust appears.",
+      "cue": "Stop the model drill first, then fix the hose.",
+      "why": "When the hose comes off, the shroud stops catching dust. Stopping the drill stops the dust right away, and then the hose goes back on. The real crew does exactly the same when their hose slips.",
+      "miss": "The model drill kept running while the hose hung loose, and a little cloud settled on the bench.",
+      "wrong": "That leaves the drill running. Stop the drill first. Choose the response that deals with it now.",
+      "done": "Drill stopped and the hose back on. The lesson carries on."
+    },
+    {
+      "id": "dust-drifts-from-another-crew",
+      "kind": "Drifting dust",
+      "key": "step-aside",
+      "label": "Step out of the dust's path",
+      "alert": "Dust from another crew's work drifts toward the class on the breeze.",
+      "cue": "Step aside out of the dust's path with the crew lead, who asks the other crew to stop.",
+      "why": "Dust from someone else's tool is still dust to breathe. Stepping out of its path is the quick fix, and asking the other crew to catch their dust fixes the cause. Speaking up about dust is part of working safely together.",
+      "miss": "The class stayed in the dust's path until the crew lead moved everyone aside.",
+      "wrong": "That stays in the dust's path. Step aside first. Choose the response that deals with it now.",
+      "done": "Class out of the dust's path, the other crew stopped. The lesson carries on."
+    }
+  ],
+  "crew": [
+    "Science teacher",
+    "Classmate",
+    "Drilling crew lead",
+    "Laborer"
+  ],
+  "guide": {
+    "start": "Same time, clean card each run.",
+    "after": "Catch dust at the drill.",
+    "hazard": "Stop. Behind the rope."
+  },
+  "lateRecord": "The dust plan record is written after both drill runs — nothing to record yet.",
+  "lateCheckin": "The check-in comes at the very end of the visit.",
+  "scene": "bench",
+  "order": "c"
+}

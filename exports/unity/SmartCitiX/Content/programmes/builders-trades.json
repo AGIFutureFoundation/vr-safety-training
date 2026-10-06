@@ -38,7 +38,7 @@
   "competency": {
     "id": "builders-trades",
     "kind": "programme",
-    "require": 4,
+    "require": 5,
     "standards": [
       "osha-1926-subpart-q",
       "osha-1926-subpart-l",
@@ -53,7 +53,8 @@
       "bt-formwork-stripping-and-reshoring",
       "bt-rebar-tying-and-impalement-protection",
       "bt-masonry-wall-layout-and-mortar",
-      "or-ranch-road-grading-and-culvert"
+      "or-ranch-road-grading-and-culvert",
+      "sil-concrete-drilling-and-silica-dust-cues"
     ],
     "title": "Form, shore, set and cut to the engineer's drawings without breathing silica"
   },
@@ -77,7 +78,7 @@
   "ladder": {
     "atBar": 20,
     "lessonBar": 75,
-    "lessons": 1633,
+    "lessons": 1644,
     "levels": 20,
     "note": "a lesson is one station step under one condition; see docs/ladders.md",
     "partial": 0,
@@ -126,6 +127,11 @@
       "app": "smartcity",
       "id": "or-ranch-road-grading-and-culvert",
       "why": "The operating engineer's own station, off the slab entirely: a crown cut to the plan on open range, a culvert set in a trench respected as an excavation, and a school bus on the same road escorted through on the flagger's call."
+    },
+    {
+      "app": "smartcity",
+      "id": "sil-concrete-drilling-and-silica-dust-cues",
+      "why": "The laborers' own silica station: anchor holes drilled under a shroud and vacuumed rather than blown out, a pipe core drilled wet to Table 1, and two dust cues — one from your own drill, one drifting in from the next crew — timed the way the ConstructionVR study timed them."
     }
   ],
   "summary": "The building trades' own stations: formwork and shoring to the engineer's drawings, a mass-timber panel picked and set, and masonry on a scaffold under the silica rule — beside the concrete pour and scaffold erection the construction programme already teaches.",

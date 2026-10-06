@@ -77,6 +77,11 @@ const packs = readdirSync(join(ROOT, "WebXR/packs")).filter((f) => f.endsWith(".
 check(packs.length >= 1, `in ${packs.length} pack(s): ${packs.slice(0, 4).join(", ")}${packs.length > 4 ? ", …" : ""}`);
 const laSites = readdirSync(SHARED).filter((f) => /^np-data-l[a-z]-/.test(f) && readFileSync(join(SHARED, f), "utf8").includes(`"${ID}"`));
 const siteLine = laSites.length ? readFileSync(join(SHARED, laSites[0]), "utf8").split("\n").find((l) => l.includes(`"${ID}"`)) : "";
+const K12 = "k12-sil-dust-you-cannot-see-at-a-building-site";
+const k12Room = city.ROOMS.find((r) => r.id === K12);
+const k12Progs = catalog.curricula.filter((c) => c.audience === "classroom" && c.stations.some((s) => s.id === K12)).map((c) => c.id);
+check(!!k12Room && k12Progs.length >= 1 && siteLine.includes(K12) && (k12Room.steps ?? []).length >= 12,
+  `K-12 awareness version ${K12}: ${(k12Room?.steps ?? []).length} steps, in ${k12Progs.join(", ")}, on the same site (check_k12 owns its reading level and no-figures rules)`);
 check(laSites.length >= 1 && /"kind":"construction"/.test(siteLine), `on a Louisiana construction site: ${laSites.join(", ")} (${siteLine.match(/"id":"([^"]+)"/)?.[1] ?? "?"})`);
 
 // ------------------------------------------------------------------ 3 eval (synthetic agent runs)

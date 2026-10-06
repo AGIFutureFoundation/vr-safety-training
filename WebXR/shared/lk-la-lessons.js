@@ -79,6 +79,14 @@ export const LK_LESSONS = [
     check: lkQ("What is an apprenticeship?", ["Paid learning on the job and in class", "A short visit", "A test with no training"], 0, "Apprentices earn while they learn beside skilled workers and in class."),
     anchors: [lkA("la-shintech-plaquemine", "lsp-workforce-centre"), lkA("la-meta-richland", "lmr-workforce-centre"), lkA("la-delta-forge-rapides", "ldf-workforce-centre"), lkA("la-avex-new-iberia", "lav-workforce-centre"), lkA("la-saronic-franklin", "lsf-workforce-centre"), lkA("la-starbase-vermilion", "lsb-workforce-trailer"), lkA("la-black-bayou-cameron", "lbb-workforce-trailer"), lkA("nola-french-quarter-cbd", "nfq-workforce-centre")],
     character: { kinds: ["campus", "school"], idPattern: "workforce" } },
+  { id: "lk-lesson-dust-you-cannot-see", theme: "air and dust on a building site", station: "k12-sil-dust-you-cannot-see-at-a-building-site", programme: "k12-science", band: "lower secondary", minutes: 3,
+    programmeWhy: "Learners run a fair test with a model drill and its dust shroud, follow the breeze across a building site and name the habits a drilling crew uses to keep fine dust out of the air (console SILICA).",
+    title: "Dust You Cannot See", trade: "Concrete drilling crews",
+    tradeLine: "A drilling crew catches dust at the drill with a shroud, a vacuum or water, so nobody breathes it.",
+    steps: ["Look at the dust that lands on a dark card.", "A shroud on the drill pulls most of that dust away.", "Standing where the breeze comes from keeps the rest off you."],
+    check: lkQ("How does a drilling crew keep dust out of the air?", ["Catch it at the drill", "Blow it away", "Sweep it with a dry brush"], 0, "Catching dust where it is made stops it before anyone can breathe it."),
+    anchors: [lkA("lc-calcasieu-channel", "lcc-tank-foundation")],
+    character: { kinds: ["construction"] } },
 ];
 
 export function lkLessons() { return LK_LESSONS; }

@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 722
+      "stations": 723
     },
     "trades": {
       "entry": "trades/index.html",
@@ -556,6 +556,7 @@
     {
       "name": "Community Environmental Justice",
       "stations": [
+        "k12-sil-dust-you-cannot-see-at-a-building-site",
         "k12-lk-the-crews-behind-a-big-build",
         "k12-lk-why-a-steel-boat-floats",
         "k12-lk-how-a-wing-lifts-an-aircraft",
@@ -5998,6 +5999,11 @@
         },
         {
           "app": "smartcity",
+          "id": "k12-sil-dust-you-cannot-see-at-a-building-site",
+          "why": "A model drill run with and without its dust shroud over clean dark cards, the breeze followed across a building site, and the habits a drilling crew uses to keep fine dust out of everyone's air."
+        },
+        {
+          "app": "smartcity",
           "id": "k12-lk-building-new-marsh-on-the-coast",
           "why": "Learners see why a coastal marsh shrinks and how a restoration crew builds new marsh from mud, water and grass, the science behind the coast's restoration work."
         },
@@ -10270,6 +10276,89 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-sil-dust-you-cannot-see-at-a-building-site",
+      "name": "Dust You Cannot See at a Building Site",
+      "title": "SmartCiti.X~ Dust You Cannot See at a Building Site VR",
+      "tagline": "Drilling concrete makes dust finer than you can see — find out how builders catch it before anyone breathes it",
+      "category": "Community Environmental Justice",
+      "domain": "Education",
+      "trade": "Science visit with a concrete drilling crew at a building site — learner and crew lead",
+      "union": null,
+      "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+      "accent": "#d9a441",
+      "parSeconds": 330,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "sequence",
+        "select",
+        "turn",
+        "gauge",
+        "hold",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "dust-catcher",
+        "name": "Dust Catcher",
+        "note": "Compared a model drill with and without its dust shroud, followed the breeze and explained how builders keep fine dust out of the air"
+      },
+      "meshes": 235,
+      "lights": 0,
+      "overBudget": false,
+      "index": "971",
+      "flat": false,
+      "system": "Dust Board",
+      "currency": "CLEAR AIR",
+      "ranks": [
+        "Speck",
+        "Puff",
+        "Breeze",
+        "Clear Air",
+        "Dust Catcher"
+      ],
+      "awards": [
+        {
+          "id": "clean-read",
+          "name": "First Look",
+          "note": "Everything in the opening scan found first time"
+        },
+        {
+          "id": "no-shortcut",
+          "name": "No Shortcuts",
+          "note": "No misconception or unsafe shortcut anywhere in the run"
+        },
+        {
+          "id": "in-the-band",
+          "name": "In the Band",
+          "note": "Every gauge and meter held inside its band"
+        },
+        {
+          "id": "clean-run",
+          "name": "Clean Run",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "steady-hands",
+          "name": "Steady Hands",
+          "note": "Every hold and track carried its full count"
+        },
+        {
+          "id": "quick-and-right",
+          "name": "Quick and Right",
+          "note": "Finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=k12-sil-dust-you-cannot-see-at-a-building-site"
     },
     {
       "app": "smartcity",
@@ -37483,7 +37572,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 260,
+      "meshes": 257,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -38143,7 +38232,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 272,
+      "meshes": 267,
       "lights": 0,
       "overBudget": false,
       "index": "100",

@@ -30604,5 +30604,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "k12-sil-dust-you-cannot-see-at-a-building-site",
+    "index": "971",
+    "domain": "Education",
+    "trade": "Science visit with a concrete drilling crew at a building site — learner and crew lead",
+    "category": "Community Environmental Justice",
+    "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+    "name": "Dust You Cannot See at a Building Site",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Dust You Cannot See at a Building Site VR",
+    "tagline": "Drilling concrete makes dust finer than you can see — find out how builders catch it before anyone breathes it",
+    "accent": 14263361,
+    "accentCss": "#d9a441",
+    "parSeconds": 330,
+    "badge": {
+      "id": "dust-catcher",
+      "name": "Dust Catcher",
+      "note": "Compared a model drill with and without its dust shroud, followed the breeze and explained how builders keep fine dust out of the air"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Dust Board",
+      "currency": "CLEAR AIR",
+      "ranks": [
+        "Speck",
+        "Puff",
+        "Breeze",
+        "Clear Air",
+        "Dust Catcher"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
