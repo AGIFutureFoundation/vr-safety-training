@@ -14,6 +14,7 @@ import { readFileSync, writeFileSync, mkdtempSync, rmSync, existsSync } from "no
 import { tmpdir } from "node:os";
 import { join, dirname } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
+import { THREE_STUB as HL_THREE_STUB } from "./lib/headless.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const WEBXR = join(ROOT, "WebXR");
@@ -1066,6 +1067,73 @@ for (const sim of suite.SIMS) {
     }
   }
   if (failures === before) console.log(`  ✓ programme summaries${" ".repeat(27)} ${counted} stated station count(s), each equal to its programme's list`);
+}
+
+// The station page's load path (FIXRIG). Two things kept the 3D page from
+// loading headless: a district handed a number (0x8d949a, "9278618") to a
+// canvas face that passes it to addColorStop, which throws in a browser — the
+// stub canvas above accepts anything, so no checker saw it — and the page
+// fetched smartcity/dist/catalog.json, which does not exist. Here every
+// district is built against a canvas whose gradients reject a stop that is
+// not a CSS colour string, and the catalog URL the page picks is run for the
+// three page paths and must name a file that exists (or nothing).
+{
+  const before = failures;
+  const CSS_COLOUR = /^(#([0-9a-f]{3}|[0-9a-f]{4}|[0-9a-f]{6}|[0-9a-f]{8})|(rgba?|hsla?)\([^)]*\)|[a-z]+)$/i;
+  const bad = [];
+  const strictGradient = () => ({ addColorStop(_o, c) { if (typeof c !== "string" || !CSS_COLOUR.test(c.trim())) { bad.push(String(c)); throw new SyntaxError(`addColorStop: '${c}' could not be parsed as a color`); } } });
+  const strictCtx = new Proxy({}, {
+    get(_t, prop) {
+      if (prop === "measureText") return () => ({ width: 10 });
+      if (prop === "createLinearGradient" || prop === "createRadialGradient") return strictGradient;
+      if (prop === "canvas") return { width: 1, height: 1 };
+      return () => {};
+    },
+    set() { return true; },
+  });
+  const laxDocument = globalThis.document;
+  globalThis.document = { createElement: () => ({ width: 0, height: 0, getContext: () => strictCtx }) };
+  const STAGE_MODULES = ["shared/kit.js", "shared/textures.js", "shared/perf.js", "shared/a11y.js", "shared/weather.js", "shared/fleet.js", "shared/equipment.js", "shared/props.js", "shared/fairway-data.js", "shared/fairway.js", "shared/bayworld-data.js", "shared/bayworld.js", "shared/underwater-data.js", "shared/underwater.js", "smartcity/js/citykit.js", "smartcity/js/ambient.js",
+    "smartcity/js/apron.js", "smartcity/js/interiors.js", "smartcity/js/districts.js", "smartcity/js/stage.js"];
+  // The same stub check_districts builds the stage against (tools/lib/headless.mjs, with its Color, Fog and AmbientLight).
+  // (plus an animated texture's offset and repeat, which a district's animate frame moves).
+  const stub = HL_THREE_STUB
+  .replace("export class CanvasTexture { constructor(){this.needsUpdate=false;this.userData={};}", "export class CanvasTexture { constructor(){this.needsUpdate=false;this.userData={};this.offset=new Vec2();this.repeat=new Vec2(1,1);}")
+  .replace("class Color { constructor(v=0){this.v=v;} set(v){this.v=v;return this;} }",
+    "class Color { constructor(v=0){this.set(v);} set(v){this.v=typeof v==='number'?v:(v&&v.v)||0;this.r=((this.v>>16)&255)/255;this.g=((this.v>>8)&255)/255;this.b=(this.v&255)/255;this.isColor=true;return this;} setHex(v){return this.set(v);} getHex(){return (Math.round(this.r*255)<<16)|(Math.round(this.g*255)<<8)|Math.round(this.b*255);} copy(c){this.r=c.r;this.g=c.g;this.b=c.b;return this;} multiplyScalar(k){this.r*=k;this.g*=k;this.b*=k;return this;} lerp(c,t){this.r+=(c.r-this.r)*t;this.g+=(c.g-this.g)*t;this.b+=(c.b-this.b)*t;return this;} }")
+  + "\nexport class Fog { constructor(color,near,far){this.color=color;this.near=near;this.far=far;} }\nexport class AmbientLight extends Obj3D { constructor(c,i){super();this.color=c;this.intensity=i;} }\n";
+  writeFileSync(join(dir, "three-mock-stage.mjs"), stub);
+  const body = STAGE_MODULES.map((rel) => strip(readFileSync(join(WEBXR, rel), "utf8"))).join("\n\n");
+  writeFileSync(join(dir, "stage-suite.mjs"), `import * as THREE from "./three-mock-stage.mjs";\n\n${body}\n\nexport { DISTRICTS, buildStage, THREE };`);
+  let built = 0;
+  try {
+    const D = await import(pathToFileURL(join(dir, "stage-suite.mjs")).href);
+    const laxLocation = globalThis.location;
+    globalThis.location = { search: "?time=day", pathname: "/smartcity/index.html", href: "http://localhost/smartcity/index.html" };
+    // Each district the way the page builds it: the real stage around it, in VR mode (the station page's own path).
+    for (const id of Object.keys(D.DISTRICTS)) {
+      try { const stage = D.buildStage(new D.THREE.Group(), "vr", { background: null, fog: null }, 0x4fd1ff, id, null, null, {}); stage.animate?.(1, 0.25); built += 1; }
+      catch (e) { fail(`district ${id}`, `build threw against a strict canvas — ${e.message} (a canvas face was handed a non-colour stop: pass CSS colour strings, not 0x numbers)`); }
+    }
+    globalThis.location = laxLocation;
+  } catch (e) { fail("districts", `the district suite did not load: ${e.message}`); }
+  globalThis.document = laxDocument;
+
+  const app = readFileSync(join(WEBXR, "smartcity/js/app.js"), "utf8");
+  const src = app.match(/^function scFlowCatalogUrl\(pathname\) \{[\s\S]*?^\}$/m)?.[0];
+  if (!src) fail("catalog", "app.js has no scFlowCatalogUrl(pathname) — the page's catalog URL is no longer one checked function");
+  else {
+    const pick = new Function(`${src}\nreturn scFlowCatalogUrl;`)();
+    const cases = [["/smartcity/index.html", "WebXR/smartcity/index.html"], ["/smartcity/", "WebXR/smartcity/index.html"], ["/smartcity/dist/smartcity-x.html", "WebXR/smartcity/dist/smartcity-x.html"], ["/dist/smartcity-x.html", "WebXR/dist/smartcity-x.html"]];
+    for (const [path, page] of cases) {
+      const url = pick(path);
+      if (url === null) { if (path.startsWith("/smartcity/")) fail("catalog", `${path}: no catalog URL, but WebXR/smartcity/catalog.json sits beside it`); continue; }
+      const file = join(ROOT, dirname(page), url);
+      if (!existsSync(file)) fail("catalog", `${path} fetches ${url} → ${file.slice(ROOT.length + 1)}, which does not exist (a 404 on every load)`);
+    }
+    if (/\["\.\/catalog\.json",\s*"\.\.\/catalog\.json"\]/.test(app)) fail("catalog", "app.js still tries both ./catalog.json and ../catalog.json — one of them is a 404 on every load");
+  }
+  if (failures === before) console.log(`  ✓ station load path${" ".repeat(27)} ${built} districts build against a strict canvas (no non-colour gradient stop); the catalog URL resolves on the source and dist pages, none on the flat build`);
 }
 
 console.log(failures ? `\n${failures} problem(s) found.` : `\nAll ${suite.SIMS.length} simulators pass.`);

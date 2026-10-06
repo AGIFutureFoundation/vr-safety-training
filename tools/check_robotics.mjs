@@ -11,7 +11,7 @@ import { join } from "node:path";
 import { ROOT, loadSmartCity } from "./lib/headless.mjs";
 import { RB_SCENARIOS, RB_SITES, RB_RULES, RB_SCHEMA, RB_SSM, rbSharedData } from "../WebXR/shared/rb-robotics-data.js";
 import { rbEnv, rbRollout, rbPolicy, rbSsmMode } from "../WebXR/shared/rb-env.js";
-import { rbSitesFor, rbGamesFor, rbRegisterMechanics, rbMountRobotics, rbSiteState, rbSiteEvent, rbSiteScore, RB_GAME_MECHANICS, RB_MESHES_PER_SITE } from "../WebXR/shared/rb-world.js";
+import { rbSitesFor, rbGamesFor, rbRegisterMechanics, rbMountRobotics, rbSiteState, rbSiteEvent, rbSiteScore, RB_GAME_MECHANICS, RB_MESHES_PER_SITE, RB_RIG_TYPES } from "../WebXR/shared/rb-world.js";
 import { FORCE_CLASSES, GRASP_BY_KIND } from "../WebXR/shared/robot-embodiment.js";
 import { QM_MECHANICS, qmMechanicSteps } from "../WebXR/shared/side-game-mechanics.js";
 import { npParish } from "../WebXR/shared/np-parishes.js";
@@ -230,6 +230,53 @@ check(`budgets: at most ${RB_MESHES_PER_SITE} meshes per site (phone tier ≤ 3)
     }
   }
   return out.join(", ");
+});
+
+// 8b. Each site draws its own declared rig (FIXRIG: `rig: null` once overwrote
+// the type, so every site drew the same small arm and the AMR and gantry never
+// moved). A recording stub keeps geometry arguments and colours, so a rig's
+// drawing has a signature; two different types must never share one.
+check("rigs: every site draws its declared rig (arm, AMR, gantry, fenced cell), no two types draw identically, and the AMR and gantry travel", () => {
+  const recThree = (() => {
+    class O { constructor() { this.children = []; this.position = { x: 0, y: 0, z: 0, set(x, y, z) { this.x = x; this.y = y; this.z = z; } }; this.rotation = { x: 0, y: 0, z: 0 }; this.userData = {}; this.name = ""; } add(c) { this.children.push(c); c.parent = this; } }
+    const G = (kind) => class { constructor(...a) { this.sig = `${kind}(${a.join(",")})`; } };
+    const M = class { constructor(o) { Object.assign(this, o); } };
+    return { Group: O, Mesh: class extends O { constructor(g, m) { super(); this.isMesh = true; this.geometry = g; this.material = m; } }, BoxGeometry: G("box"), RingGeometry: G("ring"), CylinderGeometry: G("cyl"), MeshLambertMaterial: M };
+  })();
+  const COMMON = new Set(["rb-pad", "rb-zone-warn", "rb-zone-stop", "rb-estop"]);
+  const MUST = { amr: "rb-amr", gantry: "rb-gantry-beam", cobot: "rb-arm", cell: "rb-cell-arm" };
+  const sigs = {}; const travelled = {}; let n = 0;
+  for (const s of RB_SITES) ok(RB_RIG_TYPES.includes(s.rig), `${s.id}: declared rig "${s.rig}" is not a known type (${RB_RIG_TYPES.join(", ")})`);
+  for (const tier of ["balanced", "low"]) {
+    for (const id of [...new Set(RB_SITES.map((s) => s.parish))]) {
+      const root = new recThree.Group();
+      const w = rbMountRobotics({ three: recThree, root, parish: npParish(id), tier });
+      for (const site of w.sites) {
+        const decl = RB_SITES.find((x) => x.id === site.id).rig;
+        ok(site.rig === decl, `${site.id}: mount reports rig "${site.rig}", RB_SITES declares "${decl}" — the declared rig is ignored`);
+        const g = root.children.find((c) => c.name === site.id);
+        const rig = g.children.find((c) => c.name.startsWith("rb-rig-"));
+        ok(rig && rig.name === `rb-rig-${decl}`, `${site.id}: drew ${rig?.name ?? "no rig"} for declared "${decl}" — the declared rig is ignored`);
+        const meshes = [...g.children.filter((c) => c.isMesh && !COMMON.has(c.name)), ...(rig?.children ?? [])];
+        ok(meshes.some((m) => m.name === MUST[decl]), `${site.id}: no ${MUST[decl]} mesh for a "${decl}" rig`);
+        if (decl === "cell" && tier === "balanced") ok(meshes.some((m) => m.name === "rb-cell-fence"), `${site.id}: a cell without its fence`);
+        const sig = meshes.map((m) => `${m.name}:${m.geometry.sig}:${m.material.color}`).sort().join("|");
+        const key = `${tier}/${decl}`;
+        ok(!sigs[key] || sigs[key] === sig, `${site.id}: two "${decl}" sites draw differently`);
+        sigs[key] = sig; n += 1;
+        if (tier === "balanced") {
+          const p0 = JSON.stringify(rig.position); w.animate(1.3, site.position[0] + 100, site.position[1]);
+          travelled[decl] = (travelled[decl] ?? false) || JSON.stringify(rig.position) !== p0;
+        }
+      }
+    }
+    const kinds = Object.keys(sigs).filter((k) => k.startsWith(`${tier}/`));
+    for (let i = 0; i < kinds.length; i++) for (let j = i + 1; j < kinds.length; j++) ok(sigs[kinds[i]] !== sigs[kinds[j]], `${tier}: rig types ${kinds[i]} and ${kinds[j]} draw identically`);
+  }
+  const declared = new Set(RB_SITES.map((s) => s.rig));
+  for (const k of ["amr", "gantry"]) if (declared.has(k)) ok(travelled[k], `the ${k} rig does not travel (its position never changes)`);
+  for (const k of ["cobot", "cell"]) if (declared.has(k)) ok(!travelled[k], `the ${k} arm drifts off its base`);
+  return `${n} site draws over 2 tiers; ${declared.size} declared types (${[...declared].sort().join(", ")}) all distinct; AMR and gantry travel`;
 });
 
 // 9. Site-visit scoring.

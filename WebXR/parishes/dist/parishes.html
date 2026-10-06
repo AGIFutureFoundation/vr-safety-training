@@ -155635,6 +155635,63 @@ function rbSiteScore(st) {
   return Math.max(0, Math.min(100, n));
 }
 
+// ---------------------------------------------------------------- the rigs
+
+/** The rig types a site may declare (RB_SITES[].rig). Each draws its own
+ * shape and moves its own way; tools/check_robotics.mjs fails if two types
+ * draw identically or if a site's declared type is not the one drawn. */
+const RB_RIG_TYPES = ["cobot", "amr", "gantry", "cell"];
+
+/** Draw a site's rig into `g` as a group named `rb-rig-<kind>`; returns the
+ * group. Meshes (balanced / phone): cobot 3 / 2, amr 3 / 1, gantry 4 / 1,
+ * cell 3 / 2 plus the fence on `g` (balanced only). With the pad, two zone
+ * rings and the e-stop post every site stays within RB_MESHES_PER_SITE, and
+ * the phone tier within three. An unknown kind throws, so a typo in RB_SITES
+ * can never fall back to a look-alike arm. */
+function rbDrawRig(T, g, kind, lean, add, mat) {
+  if (!RB_RIG_TYPES.includes(kind)) throw new Error(`rb-world: unknown rig type "${kind}"`);
+  const rig = new T.Group(); rig.name = `rb-rig-${kind}`; rig.userData.rbRig = kind; g.add(rig);
+  if (kind === "amr") {
+    // A low orange carrier box driving a loop, with a scanner puck and a blue deck.
+    add(rig, new T.BoxGeometry(1.2, 0.45, 0.8), mat(0xf2a33a), 0, 0.3, 0, "rb-amr");
+    if (!lean) {
+      add(rig, new T.CylinderGeometry(0.14, 0.14, 0.12, 12), mat(0x22272d), 0.42, 0.59, 0, "rb-amr-scanner");
+      add(rig, new T.BoxGeometry(0.9, 0.06, 0.6), mat(0x3a8fd8), -0.1, 0.56, 0, "rb-amr-deck");
+    }
+  } else if (kind === "gantry") {
+    // A yellow bridge on two legs traversing the yard, with a trolley under the beam.
+    add(rig, new T.BoxGeometry(12, 0.5, 0.6), mat(0xe0c341), 0, 5, 0, "rb-gantry-beam");
+    if (!lean) {
+      add(rig, new T.BoxGeometry(0.4, 5, 0.4), mat(0x6b7178), -6, 2.5, 0, "rb-gantry-leg");
+      add(rig, new T.BoxGeometry(0.4, 5, 0.4), mat(0x6b7178), 6, 2.5, 0, "rb-gantry-leg");
+      add(rig, new T.BoxGeometry(1.2, 0.8, 1), mat(0x3d4650), 0, 4.35, 0, "rb-gantry-trolley");
+    }
+  } else if (kind === "cobot") {
+    // A small white collaborative arm on a pedestal, with a blue tool flange.
+    add(rig, new T.CylinderGeometry(0.35, 0.45, 0.8, 12), mat(0x5d6a78), 0, 0.4, 0, "rb-arm-base");
+    const arm = add(rig, new T.BoxGeometry(0.25, 0.25, 1.6), mat(0xf0f0f0), 0, 1, 0.8, "rb-arm"); arm.userData.pivot = true;
+    if (!lean) add(rig, new T.CylinderGeometry(0.12, 0.12, 0.3, 10), mat(0x3a8fd8), 0, 1, 1.65, "rb-arm-tool");
+  } else {
+    // A heavier orange industrial arm on a block base, inside a see-through fence with a gate.
+    add(rig, new T.BoxGeometry(1.1, 1, 1.1), mat(0x4a5058), 0, 0.5, 0, "rb-cell-base");
+    const arm = add(rig, new T.BoxGeometry(0.45, 0.45, 1.8), mat(0xe2701f), 0, 1.4, 0.9, "rb-cell-arm"); arm.userData.pivot = true;
+    if (!lean) {
+      add(rig, new T.BoxGeometry(0.6, 0.35, 0.3), mat(0x2e3338), 0, 1.4, 1.75, "rb-cell-tool");
+      const fence = add(g, new T.BoxGeometry(RB_SSM.stop * 2 - 1, 1.8, RB_SSM.stop * 2 - 1), mat(0xe8d34a, { transparent: true, opacity: 0.25 }), 0, 0.9, 0, "rb-cell-fence"); fence.userData.gate = true;
+    }
+  }
+  return rig;
+}
+
+/** Pose a rig for its phase (no allocation): the AMR drives an ellipse, the
+ * gantry traverses back and forth, the arms sweep about their bases. */
+function rbPoseRig(rig, kind, phase) {
+  if (kind === "amr") { rig.position.set(Math.cos(phase) * 5, 0, Math.sin(phase) * 3.5); rig.rotation.y = -phase; }
+  else if (kind === "gantry") rig.position.z = Math.sin(phase) * 4;
+  else if (kind === "cell") rig.rotation.y = Math.sin(phase * 0.8) * 1.6;
+  else rig.rotation.y = Math.sin(phase) * 1.2;
+}
+
 // --------------------------------------------------------------- the mount
 
 /**
@@ -155644,7 +155701,9 @@ function rbSiteScore(st) {
 function rbMountRobotics({ three = null, root = null, parish, el = null, tier = "balanced", reducedMotion = false, toast = null, stationHref = null } = {}) {
   rbRegisterMechanics();
   const T = three, lean = tier === "low";
-  const sites = rbSitesFor(parish).map((s) => ({ ...s, y: Math.max(0, npHeightAt(parish, s.position[0], s.position[1])), st: rbSiteState(), phase: 0, rig: null }));
+  // `rig` stays the site's declared type (RB_SITES[].rig); the drawn group lives in `node`.
+  // (It used to be overwritten with `rig: null` here, so every site drew the same arm.)
+  const sites = rbSitesFor(parish).map((s) => ({ ...s, y: Math.max(0, npHeightAt(parish, s.position[0], s.position[1])), st: rbSiteState(), phase: 0, node: null }));
   let meshes = 0;
   const mat = (c, o = {}) => new T.MeshLambertMaterial({ color: c, ...o });
   const add = (parent, geo, m, x, y, z, name) => { const mesh = new T.Mesh(geo, m); mesh.position.set(x, y, z); mesh.name = name; parent.add(mesh); meshes += 1; return mesh; };
@@ -155657,15 +155716,7 @@ function rbMountRobotics({ three = null, root = null, parish, el = null, tier = 
     }
     const post = add(g, new T.CylinderGeometry(0.12, 0.12, 1.2, 10), mat(0xd8322a), RB_SSM.warn + 1, 0.6, 0, "rb-estop");
     post.userData.rbSite = s.id;
-    const rig = new T.Group(); rig.name = `rb-rig-${s.rig}`; g.add(rig);
-    if (s.rig === "amr") add(rig, new T.BoxGeometry(1.2, 0.45, 0.8), mat(0xf2a33a), 0, 0.3, 0, "rb-amr");
-    else if (s.rig === "gantry") { add(rig, new T.BoxGeometry(12, 0.5, 0.6), mat(0xe0c341), 0, 5, 0, "rb-gantry-beam"); if (!lean) add(rig, new T.BoxGeometry(0.4, 5, 0.4), mat(0x6b7178), -6, 2.5, 0, "rb-gantry-leg"); }
-    else {
-      add(rig, new T.CylinderGeometry(0.35, 0.45, 0.8, 12), mat(0x5d6a78), 0, 0.4, 0, "rb-arm-base");
-      const arm = add(rig, new T.BoxGeometry(0.25, 0.25, 1.6), mat(0xf0f0f0), 0, 1, 0.8, "rb-arm"); arm.userData.pivot = true;
-      if (s.rig === "cell" && !lean) { const fence = add(g, new T.BoxGeometry(RB_SSM.stop * 2 - 1, 1.8, RB_SSM.stop * 2 - 1), mat(0xe8d34a, { transparent: true, opacity: 0.25 }), 0, 0.9, 0, "rb-cell-fence"); fence.userData.gate = true; }
-    }
-    s.rig = rig;
+    s.node = rbDrawRig(T, g, s.rig, lean, add, mat);
   }
 
   const note = (t) => { if (t) toast?.(t, 3200); };
@@ -155686,10 +155737,7 @@ function rbMountRobotics({ three = null, root = null, parish, el = null, tier = 
       }
       const speed = s.st.estopped || s.st.locked ? 0 : rbSsmMode(d).speed;
       if (!reducedMotion) s.phase += dt * speed * 0.6;
-      const rig = s.rig; if (!rig || !rig.children) continue;
-      if (s.rig && rig.name === "rb-rig-amr") { const a = s.phase; rig.position.set(Math.cos(a) * 5, 0, Math.sin(a) * 3.5); rig.rotation.y = -a; }
-      else if (rig.name === "rb-rig-gantry") rig.position.z = Math.sin(s.phase) * 4;
-      else rig.rotation.y = Math.sin(s.phase) * 1.2;
+      if (s.node) rbPoseRig(s.node, s.rig, s.phase);
     }
   }
 
@@ -155709,7 +155757,7 @@ function rbMountRobotics({ three = null, root = null, parish, el = null, tier = 
   renderPanel();
 
   return {
-    sites: sites.map((s) => ({ id: s.id, rig: s.rig?.name ?? null, position: s.position, y: s.y, scenario: s.scenario, station: s.station })),
+    sites: sites.map((s) => ({ id: s.id, rig: s.rig, node: s.node?.name ?? null, position: s.position, y: s.y, scenario: s.scenario, station: s.station })),
     meshes, animate, act,
     state: (id) => sites.find((s) => s.id === id)?.st ?? null,
     score: (id) => { const s = sites.find((x) => x.id === id); return s ? rbSiteScore(s.st) : null; },

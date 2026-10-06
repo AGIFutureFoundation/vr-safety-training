@@ -2568,10 +2568,20 @@ let FLOW_CATALOG = {
   stations: SIMS_META.map((s) => ({ app: "smartcity", id: s.id })),
   curricula: CURRICULA.map((c) => ({ id: c.id })),
 };
-for (const url of ["./catalog.json", "../catalog.json"]) {
-  fetch(url).then((r) => (r.ok ? r.json() : null)).then((cat) => {
+// The one URL where this page's catalog actually is, or null where none ships.
+// It used to try "./catalog.json" and "../catalog.json" both, so every load
+// of the bundled page logged a 404 for smartcity/dist/catalog.json (FIXRIG).
+// tools/check_smartcity.mjs runs this function against the three page paths.
+function scFlowCatalogUrl(pathname) {
+  if (/\/smartcity\/dist\/[^/]*$/.test(pathname)) return "../catalog.json"; // WebXR/smartcity/dist/smartcity-x.html
+  if (/\/smartcity\/(index\.html)?$/.test(pathname)) return "./catalog.json"; // the modular source page
+  return null; // the flat build (WebXR/dist/) ships no catalog: the local roster stands
+}
+{
+  const url = scFlowCatalogUrl(location.pathname);
+  if (url) fetch(url).then((r) => (r.ok ? r.json() : null)).then((cat) => {
     if (cat?.stations?.length) FLOW_CATALOG = cat;
-  }).catch(() => { /* offline, or a bundled build — the local roster stands */ });
+  }).catch(() => { /* offline — the local roster stands */ });
 }
 
 let flowBriefNode = null; // the flow node a pre-brief on screen belongs to
