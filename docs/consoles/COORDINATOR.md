@@ -83,3 +83,98 @@ Every team keeps its own console under this folder (see `tools/briefs/console-br
 - Timing baselines: the rules were applied as written. Eight checkers were rebaselined at c0883a3 and six more at 96a7f4e2, only those that grow with the map count, taken from quiet runs.
 - The detail generation budget went from 12 to 14 ms for the Louisiana rows. The next step is moving generation to a worker.
 - The TradeQuest shared export is now written as compact JSON: 646 KiB of 768.
+
+## 29 Sep 17:00 – 6 Oct 04:50 UTC — loop 3 (rooms, cohorts, backdrops, survey) and loop 4 (robotics, agents, enterprise) pushed at d5b3c548 and 7d8a7214
+
+- Loop 3 consoles:
+  - SURVEYOR: survey and ranked defects.
+  - SMOOTH: streaming and frame pacing.
+  - LA-ROOMS: Louisiana interiors.
+  - LA-COHORTS: cohort run sheets, the K-12 classroom guide, and FlowHub flows with apply games for the Louisiana lessons.
+  - BACKDROPS-2: satellite backdrops on 43 maps, 2,363 of 2,600 KB, tiers in `tools/geo_budget.json`.
+- Loop 3 gate fixes:
+  - Hammond's procedural creek narrowed to 8 m, so the inland rule holds.
+  - The check_interiors streaming-guard regex widened.
+  - The cohort guides page mounts the shared top bar and is listed as a document page in check_links.
+  - Pushed at d5b3c548.
+- Loop 4 consoles:
+  - COLEARN: behaviour cloning, the robot-demonstrates ghost, the bandit tutor and policy explanations.
+  - SILICA: ConstructionVR's drilling-dust study as a station and a K-12 station. Only aggregates are used, and they train nothing.
+  - ENTERPRISE-3: consent registry, lineage, hash-chained audit, revoke-marks-stale, billing adapter descriptors. No live calls.
+  - AGENTGYM: agent task API with baselines over 721 stations.
+  - ROBOPROG: the Robotics & Human–Robot Collaboration Programme, 6 × 5 levels, coverage 15/30 → 30/30.
+  - FIXRIG: robot rigs drawn by declared type; robot-hall stations load.
+  - PITCHREEL: the 110 s reel, kept outside the repo.
+- Loop 4 gate fixes:
+  - SILICA's and ROBOPROG's K-12 stations became Louisiana lessons (Dust Catcher, Zone Walk), so they sit in classroom programmes with flows, packs and units.
+  - check_la_cohorts tests lesson membership instead of the `k12-lk-` prefix.
+  - The policy-review wall was brought within reach.
+  - The stale generated flow was removed.
+  - check_interop `--write` added to the regen.
+  - check_detail's real-clock p99 miss on la-saronic-franklin was load noise: virtual-clock frames were identical on the base. No rebaseline.
+  - Pushed at 7d8a7214.
+
+## 6 Oct 04:20–05:55 UTC — loop 5: robot training, on-chain agents through a safety governor, characters
+
+- Consoles and models:
+  - VBRIDGE (opus).
+  - ROBOTRAIN (fable).
+  - TQ-ROBOTICS (sonnet).
+  - AVATARS (fable).
+  - PITCHREEL-2 (sonnet; outputs kept outside the repo).
+- VBRIDGE:
+  - ACP-shaped job model over the gym.
+  - The governor: 9 refusal reasons; the e-stop wins; the physical path is disabled; audit to ENTERPRISE-3.
+  - Providers are off by default: mock, an acp-proxy descriptor, and a GAME function export.
+  - The supervisor station scores 98.
+  - Eval: 200/200 unsafe jobs blocked, 0/200 safe jobs blocked.
+  - No keys, chain calls, token or affiliation wording. Virtuals' SDKs were read from `$SP/loop5/vendor/`, not bundled. whitepaper.virtuals.io is blocked by egress policy.
+- ROBOTRAIN:
+  - Four gap stations, scoring 96–98.
+  - The `rt-teleop.js` recorder works through DATAWORKS consent.
+  - Recorded vs synthetic behaviour cloning: 0.967 = 0.967 on 60 held-out seeds, with the stand-in labelled synthetic.
+  - The programme loop is 5/5 live.
+- TQ-ROBOTICS:
+  - Shared contract 2.1.0: robotics facets (programme, AGENTGYM, COLEARN, governor, jobs), with a key-shape and byte-cap refusal at the boundary.
+  - TradeQuest adapter 1.1.0: pathways, credentials and launch links.
+  - Baselines added for all 10 robot stations.
+- AVATARS:
+  - 57-entry character registry, with procedural SVG sprites drawn from the 3D figure's own parts.
+  - Atlas: 155.9 of 160 KiB.
+  - 8 new trade outfits within the 17-mesh cap.
+  - All 736 stations are dressed by trade.
+  - Sprites wired into the account chip, the Guide, NPC dialogue, rosters and robot sites.
+- Merge:
+  - VBRIDGE and ROBOTRAIN collided on the programme, bundler, app and station lists; resolved as unions.
+  - The guide KB hit its 672 KB cap. Generated programme docs and the bridge doc now carry two sections each.
+- Disk:
+  - At the user's request, 18 merged worktrees were removed: 4.9 GB → 22 GB free.
+  - Old capture clips cleared from scratch.
+- Voice-over:
+  - The script is in `$SP/loop5/voiceover.txt`; the reel's `compose_reel.py --voice` mixes it.
+  - Not generated: the Higgsfield workspace has 0 credits, and the voice-over needs 10.
+
+## 6 Oct 08:05–09:40 UTC — loop 6: investor deck on robot and human training; CI made reproducible
+
+- Consoles:
+  - CI-GREEN (fable): `tools/lib/pw.mjs` resolves Playwright through the env, node_modules, then /opt, and 27 scripts were switched to it. The workflow installs playwright@1.56.1 with Chromium.
+  - CI-GREEN also fixed:
+    - the street stamps the shared export needs are committed to `tools/tcacademy-streets.json`, so it no longer reads a scratch path;
+    - check_detail uses a four-signal contention test;
+    - check_proving judges only quiet per-checker load windows;
+    - two simulators scattered grass with random seeds; they are now seeded, so the catalog rebuilds byte-identically.
+  - ROBOTRAIN-2 (fable):
+    - a WebXR controller pose source, with the rig following it and 0 new meshes;
+    - the COLEARN-trained provider in the agent-jobs panel: 28/30 seeded safe jobs, with the governor on all 413 steps;
+    - a K-12 "robot waits for a grown-up's OK" Louisiana lesson, scoring 95;
+    - rtCompare on cell entry: 1.0 = 1.0.
+  - WHITEPAPER-R (sonnet; scratch only): six investor sections. 302 figures, 100% sourced. Every OSHA, BLS and eCFR fetch was blocked by egress, so no external figures were used.
+  - CAPTURE-R (sonnet; scratch only): ten stills and the 30 s "your hands teach the robot" clip, from a 2D viewer that drives the real modules and is labelled as such.
+- Narration: the Kokoro open-weights voice (Apache-2.0), run locally after the user asked for a free voice that isn't Higgsfield. It is mixed onto the 110 s reel.
+- Gate fixes:
+  - the guide KB reached its 672 KB cap again; the generated ladders doc now carries two sections;
+  - check_investor went stale because eval_content rewrites scores during check_all; the investor files were regenerated after the gate.
+- PR #1:
+  - CI had been red for many runs on this branch; the causes above were fixed at source;
+  - `github-advanced-security` failed on the Copilot service's monthly quota (HTTP 402), which needs the account owner;
+  - a Wefunder answers draft is kept in scratch. It contains only repo facts; terms and team are left to the founders.
