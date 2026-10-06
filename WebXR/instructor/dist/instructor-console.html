@@ -46813,7 +46813,12 @@ function enMembersTable(root, view) {
     const tdName = enEl("td");
     const face = enEl("span", "en-face"); face.setAttribute("aria-hidden", "true");
     let seed = 0; for (const ch of String(m.id)) seed = (Math.imul(seed, 31) + ch.charCodeAt(0)) >>> 0;
-    try { face.innerHTML = avSpriteSvg(avLookFromOutfit(/instructor/i.test(m.role) ? "construction" : "office", seed), { kind: "token", size: 24 }); } catch (_) { /* stub DOM */ }
+    try {
+      // The sprite goes in as an image (an SVG data URL), never as markup: the console builds no HTML from strings.
+      const img = enEl("img"); img.setAttribute("alt", ""); img.setAttribute("width", "24"); img.setAttribute("height", "24");
+      img.setAttribute("src", `data:image/svg+xml;charset=utf-8,${encodeURIComponent(avSpriteSvg(avLookFromOutfit(/instructor/i.test(m.role) ? "construction" : "office", seed), { kind: "token", size: 24 }))}`);
+      face.append(img);
+    } catch (_) { /* stub DOM */ }
     tdName.append(face, " ", `${m.name}${m.local ? " (this device)" : ""}`);
     tr.append(tdName);
     const role = enSelect(EN_ROLES.map((r) => [r, r]), m.role);

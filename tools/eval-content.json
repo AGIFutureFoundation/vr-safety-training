@@ -3553,6 +3553,58 @@
       }
     },
     {
+      "app": "smartcity",
+      "id": "ad-robot-cell-lockout-and-safe-reentry",
+      "name": "Robot Cell Lockout & Safe Re-entry",
+      "category": "Manufacturing & Automation",
+      "steps": 14,
+      "score": 93,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.8150000000000002,
+          "medianWhy": 213,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 193,
+          "materials": 84,
+          "interactables": 27
+        },
+        "originality": {
+          "score": 0.1405458089668618,
+          "nearest": "rt-robot-estop-recovery-and-restart",
+          "similarity": 0.31189083820662766
+        }
+      }
+    },
+    {
       "app": "trades",
       "id": "devops",
       "name": "Deploy Bay",
@@ -3653,6 +3705,58 @@
           "score": 0.35546218487394976,
           "nearest": "manhole-entry-and-atmospheric-monitoring",
           "similarity": 0.2689075630252101
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "robot-cell",
+      "name": "Robot Cell",
+      "category": "Manufacturing & Automation",
+      "steps": 14,
+      "score": 94,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 6,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.85,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 299,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 4,
+          "inScope": 4,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 9,
+          "got": 9
+        },
+        "scene": {
+          "score": 0.9681818181818183,
+          "meshes": 198,
+          "materials": 84,
+          "interactables": 20
+        },
+        "originality": {
+          "score": 0.38782161234991425,
+          "nearest": "rt-robot-estop-recovery-and-restart",
+          "similarity": 0.2624356775300172
         }
       }
     },
@@ -6726,58 +6830,6 @@
     },
     {
       "app": "smartcity",
-      "id": "robot-cell",
-      "name": "Robot Cell",
-      "category": "Manufacturing & Automation",
-      "steps": 14,
-      "score": 95,
-      "d": {
-        "variety": {
-          "score": 1,
-          "distinct": 6,
-          "longestRun": 2
-        },
-        "decisions": {
-          "score": 0.85,
-          "hazards": 4,
-          "interrupts": 2
-        },
-        "explanation": {
-          "score": 1,
-          "medianWhy": 299,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 1,
-          "authorities": 5
-        },
-        "standards": {
-          "score": 1,
-          "cited": 4,
-          "inScope": 4,
-          "outOfScope": 0,
-          "unregistered": 0
-        },
-        "feedback": {
-          "score": 1,
-          "want": 9,
-          "got": 9
-        },
-        "scene": {
-          "score": 0.9681818181818183,
-          "meshes": 198,
-          "materials": 84,
-          "interactables": 20
-        },
-        "originality": {
-          "score": 0.5003220611916265,
-          "nearest": "tw-palletizer-cell-fenced-access-permit",
-          "similarity": 0.23993558776167473
-        }
-      }
-    },
-    {
-      "app": "smartcity",
       "id": "tower-climb",
       "name": "Tower Climb",
       "category": "Connectivity & Telecom",
@@ -7186,9 +7238,9 @@
           "interactables": 29
         },
         "originality": {
-          "score": 0.09047619047619054,
+          "score": 0.09353612167300379,
           "nearest": "k12-es-clean-air-at-the-port",
-          "similarity": 0.3219047619047619
+          "similarity": 0.32129277566539927
         }
       }
     },
@@ -13278,58 +13330,6 @@
     },
     {
       "app": "smartcity",
-      "id": "ad-robot-cell-lockout-and-safe-reentry",
-      "name": "Robot Cell Lockout & Safe Re-entry",
-      "category": "Manufacturing & Automation",
-      "steps": 14,
-      "score": 95,
-      "d": {
-        "variety": {
-          "score": 1,
-          "distinct": 7,
-          "longestRun": 2
-        },
-        "decisions": {
-          "score": 1,
-          "hazards": 4,
-          "interrupts": 2
-        },
-        "explanation": {
-          "score": 0.8150000000000002,
-          "medianWhy": 213,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 1,
-          "authorities": 6
-        },
-        "standards": {
-          "score": 1,
-          "cited": 6,
-          "inScope": 6,
-          "outOfScope": 0,
-          "unregistered": 0
-        },
-        "feedback": {
-          "score": 1,
-          "want": 11,
-          "got": 11
-        },
-        "scene": {
-          "score": 1,
-          "meshes": 193,
-          "materials": 84,
-          "interactables": 27
-        },
-        "originality": {
-          "score": 0.41673003802281394,
-          "nearest": "ws-nacelle-lockout-and-yaw-brake-fault",
-          "similarity": 0.25665399239543724
-        }
-      }
-    },
-    {
-      "app": "smartcity",
       "id": "ws-crah-alarm-response-in-a-live-hall",
       "name": "CRAH Alarm Response in a Live Hall",
       "category": "Connectivity & Telecom",
@@ -13530,9 +13530,9 @@
           "interactables": 28
         },
         "originality": {
-          "score": 0.09047619047619054,
+          "score": 0.09353612167300379,
           "nearest": "k12-sil-dust-you-cannot-see-at-a-building-site",
-          "similarity": 0.3219047619047619
+          "similarity": 0.32129277566539927
         }
       }
     },
@@ -14105,6 +14105,110 @@
           "score": 0.12857142857142873,
           "nearest": "av-marshalling-and-wingwalker-signals",
           "similarity": 0.3142857142857143
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "rt-robot-estop-recovery-and-restart",
+      "name": "Bringing a Robot Back After an E-stop",
+      "category": "Manufacturing & Automation",
+      "steps": 13,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 290,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "standards": {
+          "score": 1,
+          "cited": 7,
+          "inScope": 7,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 12,
+          "got": 12
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 210,
+          "materials": 106,
+          "interactables": 28
+        },
+        "originality": {
+          "score": 0.1405458089668618,
+          "nearest": "ad-robot-cell-lockout-and-safe-reentry",
+          "similarity": 0.31189083820662766
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "rt-teach-pendant-safe-jogging",
+      "name": "Teaching a Robot from the Pendant",
+      "category": "Manufacturing & Automation",
+      "steps": 13,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 1
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 260,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "standards": {
+          "score": 1,
+          "cited": 7,
+          "inScope": 7,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 207,
+          "materials": 98,
+          "interactables": 26
+        },
+        "originality": {
+          "score": 0.15841784989858027,
+          "nearest": "rt-robot-estop-recovery-and-restart",
+          "similarity": 0.30831643002028397
         }
       }
     },
@@ -18985,7 +19089,7 @@
         },
         "scene": {
           "score": 1,
-          "meshes": 267,
+          "meshes": 256,
           "materials": 92,
           "interactables": 29
         },
@@ -23462,9 +23566,9 @@
           "interactables": 30
         },
         "originality": {
-          "score": 0.5745019920318726,
-          "nearest": "ad-amr-fleet-traffic-and-estop-drill",
-          "similarity": 0.2250996015936255
+          "score": 0.5560157790927023,
+          "nearest": "rt-speed-separation-monitoring-setup",
+          "similarity": 0.22879684418145957
         }
       }
     },
@@ -24294,9 +24398,9 @@
           "interactables": 28
         },
         "originality": {
-          "score": 0.484370477568741,
+          "score": 0.4771345875542693,
           "nearest": "k12-sil-dust-you-cannot-see-at-a-building-site",
-          "similarity": 0.24312590448625182
+          "similarity": 0.24457308248914617
         }
       }
     },
@@ -31841,6 +31945,58 @@
       }
     },
     {
+      "app": "smartcity",
+      "id": "rp-teleop-demonstration-collection",
+      "name": "Collecting a Robot Demonstration Safely",
+      "category": "Manufacturing & Automation",
+      "steps": 13,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 261,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "standards": {
+          "score": 1,
+          "cited": 7,
+          "inScope": 7,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 188,
+          "materials": 93,
+          "interactables": 24
+        },
+        "originality": {
+          "score": 0.41508379888268165,
+          "nearest": "rt-teach-pendant-safe-jogging",
+          "similarity": 0.2569832402234637
+        }
+      }
+    },
+    {
       "app": "trades",
       "id": "electrical",
       "name": "Isolation Bay",
@@ -32253,6 +32409,110 @@
           "score": 0.6482200647249192,
           "nearest": "press-brake",
           "similarity": 0.21035598705501618
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "rt-speed-separation-monitoring-setup",
+      "name": "Setting Up Speed-and-Separation Monitoring",
+      "category": "Manufacturing & Automation",
+      "steps": 13,
+      "score": 98,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 302,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 12,
+          "got": 12
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 218,
+          "materials": 108,
+          "interactables": 27
+        },
+        "originality": {
+          "score": 0.4969924812030077,
+          "nearest": "rt-cobot-power-force-limit-check",
+          "similarity": 0.24060150375939848
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "rt-cobot-power-force-limit-check",
+      "name": "Measuring a Cobot's Contact Forces",
+      "category": "Manufacturing & Automation",
+      "steps": 13,
+      "score": 98,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 1
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 267,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 12,
+          "got": 12
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 204,
+          "materials": 100,
+          "interactables": 28
+        },
+        "originality": {
+          "score": 0.4764932562620425,
+          "nearest": "rt-teach-pendant-safe-jogging",
+          "similarity": 0.24470134874759153
         }
       }
     },
@@ -37658,16 +37918,16 @@
           "interactables": 29
         },
         "originality": {
-          "score": 0.5578680203045686,
-          "nearest": "rp-teleop-demonstration-collection",
-          "similarity": 0.22842639593908629
+          "score": 0.4760416666666668,
+          "nearest": "vb-supervising-agent-dispatched-robots",
+          "similarity": 0.24479166666666666
         }
       }
     },
     {
       "app": "smartcity",
-      "id": "rp-teleop-demonstration-collection",
-      "name": "Collecting a Robot Demonstration Safely",
+      "id": "vb-supervising-agent-dispatched-robots",
+      "name": "Supervising Robots Dispatched by Software Agents",
       "category": "Manufacturing & Automation",
       "steps": 13,
       "score": 98,
@@ -37678,13 +37938,13 @@
           "longestRun": 2
         },
         "decisions": {
-          "score": 0.9884615384615384,
+          "score": 1,
           "hazards": 4,
           "interrupts": 2
         },
         "explanation": {
           "score": 1,
-          "medianWhy": 261,
+          "medianWhy": 276,
           "thin": 0
         },
         "grounding": {
@@ -37693,26 +37953,26 @@
         },
         "standards": {
           "score": 1,
-          "cited": 7,
-          "inScope": 7,
+          "cited": 6,
+          "inScope": 6,
           "outOfScope": 0,
           "unregistered": 0
         },
         "feedback": {
           "score": 1,
-          "want": 10,
-          "got": 10
+          "want": 11,
+          "got": 11
         },
         "scene": {
           "score": 1,
-          "meshes": 188,
-          "materials": 93,
-          "interactables": 24
+          "meshes": 196,
+          "materials": 100,
+          "interactables": 28
         },
         "originality": {
-          "score": 0.5578680203045686,
+          "score": 0.4760416666666668,
           "nearest": "rp-robot-policy-evaluation-review",
-          "similarity": 0.22842639593908629
+          "similarity": 0.24479166666666666
         }
       }
     },

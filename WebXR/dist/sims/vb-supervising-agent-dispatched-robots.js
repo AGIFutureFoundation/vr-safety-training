@@ -97,23 +97,23 @@ export const SIM_VB_SUPERVISING_AGENT_DISPATCHED_ROBOTS = {
     stationPad(g, 2.9, ACC);
     const floor = box(g, 9.2, 0.12, 9.2, 0, 0.06, 0, 0xffffff, { rough: 0.6 });
     floor.material = texturedMat(surfaceTexture((cx, w, h) => tileFace(cx, w, h, { tiles: 8, tile: 0xc6ced4, grout: "#86909a" }), { repeat: 5, px: 512 }), { rough: 0.55, metal: 0.05, color: 0xffffff });
-    const wall = box(g, 9.2, 4.2, 0.2, 0, 2.1, -7.2, 0xffffff, { rough: 0.75 });
+    const wall = box(g, 9.2, 4.2, 0.2, 0, 2.1, -5.6, 0xffffff, { rough: 0.75 });
     wall.material = texturedMat(surfaceTexture((cx, w, h) => blockFace(cx, w, h, { rows: 5, cols: 8, block: 0x7f8a94 }), { repeat: 3, px: 512 }), { rough: 0.75, metal: 0.05, color: 0xffffff });
     const deck = box(g, 1.4, 0.03, 0.8, -3.6, 0.13, 3.4, 0xffffff, { rough: 0.7, cast: false });
     deck.material = texturedMat(surfaceTexture((cx, w, h) => gratingFace(cx, w, h, {}), { repeat: 2, px: 256 }), { rough: 0.7, metal: 0.4, color: 0xffffff });
-    holoTag(g, "agent dispatch desk — procedural, simulated robot only", 3.2, 3.7, -7.05, { css: "#5ec8d8", w: 0.7 });
+    holoTag(g, "agent dispatch desk — procedural, simulated robot only", 3.2, 3.7, -5.45, { css: "#5ec8d8", w: 0.7 });
     const rig = cobotBench(g, 0, 0, -3.6, {});
     const P = rig.userData.parts ?? {};
     // the dispatch wall: three queued jobs, three policy plaques, the run screen
     const cap = {};
-    const plaque = (id, label, x, y, colour, w = 0.5, h = 0.34) => { const p = box(g, w, h, 0.04, x, y, -7.05, colour, { rough: 0.5 }); decal(p, w - 0.06, h - 0.06, 0, 0, 0.022, signFace(label, { bg: "#0d1a1f", accent: "#5ec8d8", scale: 0.24 }), { px: 256 }); reg(hits, p, id); cap[id] = p; return p; };
+    const plaque = (id, label, x, y, colour, w = 0.5, h = 0.34) => { const p = box(g, w, h, 0.04, x, y, -5.45, colour, { rough: 0.5 }); decal(p, w - 0.06, h - 0.06, 0, 0, 0.022, signFace(label, { bg: "#0d1a1f", accent: "#5ec8d8", scale: 0.24 }), { px: 256 }); reg(hits, p, id); cap[id] = p; return p; };
     plaque("job-route", "JOB 1 · ROUTE\nAMR AISLE", -1.6, 2.5, 0x1d3a42);
     plaque("job-offlist", "JOB 2 · RUN\nSCANNER OFF", -1.0, 2.5, 0x1d3a42);
     plaque("job-entry", "JOB 3 · CELL\nENTRY + LOTO", -0.4, 2.5, 0x1d3a42);
     plaque("plaque-a", "POLICY A\nLINEAGE: D-03", -1.6, 1.8, 0x22303a);
     plaque("plaque-b", "POLICY B\nLINEAGE: D-04", -1.0, 1.8, 0x22303a);
     plaque("plaque-c", "POLICY C\nSCRIPTED", -0.4, 1.8, 0x22303a);
-    const run = holoPanel(g, 0.9, 0.55, 1.4, 2.1, -6.9, (ctx, w, h) => {
+    const run = holoPanel(g, 0.9, 0.55, 1.4, 2.1, -5.3, (ctx, w, h) => {
       ctx.fillStyle = "rgba(8,20,26,0.92)"; ctx.fillRect(0, 0, w, h); ctx.fillStyle = "#5ec8d8"; ctx.fillRect(0, 0, w, 5);
       ctx.fillStyle = "#e3f7fb"; ctx.font = `600 ${Math.round(h * 0.1)}px 'Barlow Condensed', Arial, sans-serif`; ctx.textAlign = "left"; ctx.textBaseline = "middle";
       ctx.fillText("SIM RUN · JOB PHASES", w * 0.06, h * 0.14);
@@ -185,13 +185,13 @@ export const SIM_VB_SUPERVISING_AGENT_DISPATCHED_ROBOTS = {
     for (const sx of [-0.35, 0.35]) { box(g, 0.5, 0.3, 0.03, 3.4 + sx, 1.0, -4.8, 0x0e1a1f, { rough: 0.4 }); box(g, 0.05, 0.12, 0.05, 3.4 + sx, 0.83, -4.8, 0x2b2f34, { rough: 0.5 }); }
     box(g, 0.45, 0.06, 0.45, 3.4, 0.46, -4.0, 0x1d3a42, { rough: 0.7 });
     cyl(g, 0.03, 0.03, 0.42, 3.4, 0.22, -4.0, 0x2b2f34, { rough: 0.5, seg: 8 });
-    for (let i = 0; i < 12; i++) box(g, 0.24, 0.32, 0.04, -4.2 + (i % 6) * 0.3, 1.0 + Math.floor(i / 6) * 0.4, -7.05, [0x3a78c9, 0x5ec8d8, 0x6d767e][i % 3], { rough: 0.8 });
+    for (let i = 0; i < 12; i++) box(g, 0.24, 0.32, 0.04, -4.2 + (i % 6) * 0.3, 1.0 + Math.floor(i / 6) * 0.4, -5.45, [0x3a78c9, 0x5ec8d8, 0x6d767e][i % 3], { rough: 0.8 });
     const faultLamp = ball(g, 0.07, 3.4, 2.0, -3.2, 0xd2312b, { emissive: 0xd2312b, ei: 1.6, seg: 12 });
     faultLamp.visible = false;
-    const resendCard = box(g, 0.5, 0.34, 0.04, 0.4, 2.5, -7.0, 0x6a2a2a, { rough: 0.5 });
+    const resendCard = box(g, 0.5, 0.34, 0.04, 0.4, 2.5, -5.4, 0x6a2a2a, { rough: 0.5 });
     decal(resendCard, 0.44, 0.28, 0, 0, 0.022, signFace("RE-SENT\nFULL SPEED", { bg: "#3a0f0f", accent: "#ffffff", scale: 0.24 }), { px: 256 });
     resendCard.visible = false;
-    const mate = standingFigure(g, 1.1, -3.0, { ry: -0.9, cloth: 0x3a4a5a, helmet: 0xf0b323 });
+    const mate = standingFigure(g, 2.2, -2.2, { ry: -0.9, cloth: 0x3a4a5a, helmet: 0xf0b323 });
     holoTag(mate, "bench teammate", 0, 1.95, 0.15, { css: "#5ec8d8", w: 0.34 });
     const lead = standingFigure(g, -3.9, 0.8, { ry: 1.2, cloth: 0x2b3138, helmet: 0xf2f2f2 });
     holoTag(lead, "dispatch lead", 0, 1.95, 0.15, { css: "#5ec8d8", w: 0.32 });
