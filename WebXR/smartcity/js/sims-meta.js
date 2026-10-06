@@ -30653,7 +30653,7 @@ export const SIMS_META = [
     "domain": "Construction",
     "trade": "Construction robot operator, ceiling-drilling robot for anchor layout — Carpenters/IBEW",
     "category": "Construction & Structural Trades",
-    "certification": "Carpenters (UBC) and IBEW apprenticeship training as bodies; OSHA 29 CFR 1926.1153 respirable crystalline silica in construction (its Table 1 names the controls for drilling into concrete), 29 CFR 1926.416 electrical safety-related work practices, 29 CFR 1926.21 safety training and education and 29 CFR 1926.102 eye and face protection; ANSI A10.9 concrete and masonry work; the robot maker's manual and the site's work plan for the deck",
+    "certification": "Carpenters (UBC) and IBEW apprenticeship training as bodies; OSHA 29 CFR 1926.1153 respirable crystalline silica in construction (its Table 1 names the controls for drilling into concrete), 29 CFR 1926.416 electrical safety-related work practices and 29 CFR 1926.21 safety training and education; ANSI A10.9 concrete and masonry work; the robot maker's manual and the site's work plan for the deck",
     "name": "Ceiling-Drilling Robot Set-Up",
     "weather": "overcast",
     "indoor": null,
@@ -30679,6 +30679,48 @@ export const SIMS_META = [
         "Robot Operator",
         "Layout Lead",
         "Clear Below Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "k12-rp-how-a-robot-knows-to-stop",
+    "index": "rp-4",
+    "domain": "Education",
+    "trade": "Science and careers lesson on robot sensing with a robotics technician at a training lab — learner and robot technician",
+    "category": "Community Environmental Justice",
+    "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+    "name": "How a Robot Knows to Stop",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ How a Robot Knows to Stop VR",
+    "tagline": "Walk toward the robot, watch it slow and stop — then meet the people who keep robots safe",
+    "accent": 6270602,
+    "accentCss": "#5fae8a",
+    "parSeconds": 330,
+    "badge": {
+      "id": "zone-reader",
+      "name": "Zone Reader",
+      "note": "Watched the robot slow and stop as people came near, found its sensors and said who may start it again"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Robot Lab Board",
+      "currency": "SPARKS",
+      "ranks": [
+        "Visitor",
+        "Watcher",
+        "Helper",
+        "Lab Partner",
+        "Zone Reader"
       ],
       "rankAt": [
         0,

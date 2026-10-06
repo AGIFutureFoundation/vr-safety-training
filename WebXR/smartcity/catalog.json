@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 724
+      "stations": 725
     },
     "trades": {
       "entry": "trades/index.html",
@@ -558,6 +558,7 @@
     {
       "name": "Community Environmental Justice",
       "stations": [
+        "k12-rp-how-a-robot-knows-to-stop",
         "k12-lk-the-crews-behind-a-big-build",
         "k12-lk-why-a-steel-boat-floats",
         "k12-lk-how-a-wing-lifts-an-aircraft",
@@ -10267,6 +10268,89 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-rp-how-a-robot-knows-to-stop",
+      "name": "How a Robot Knows to Stop",
+      "title": "SmartCiti.X~ How a Robot Knows to Stop VR",
+      "tagline": "Walk toward the robot, watch it slow and stop — then meet the people who keep robots safe",
+      "category": "Community Environmental Justice",
+      "domain": "Education",
+      "trade": "Science and careers lesson on robot sensing with a robotics technician at a training lab — learner and robot technician",
+      "union": null,
+      "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+      "accent": "#5fae8a",
+      "parSeconds": 330,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "select",
+        "sequence",
+        "hold",
+        "turn",
+        "gauge",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "zone-reader",
+        "name": "Zone Reader",
+        "note": "Watched the robot slow and stop as people came near, found its sensors and said who may start it again"
+      },
+      "meshes": 240,
+      "lights": 0,
+      "overBudget": false,
+      "index": "rp-4",
+      "flat": false,
+      "system": "Robot Lab Board",
+      "currency": "SPARKS",
+      "ranks": [
+        "Visitor",
+        "Watcher",
+        "Helper",
+        "Lab Partner",
+        "Zone Reader"
+      ],
+      "awards": [
+        {
+          "id": "clean-read",
+          "name": "First Look",
+          "note": "Everything in the opening scan found first time"
+        },
+        {
+          "id": "no-shortcut",
+          "name": "No Shortcuts",
+          "note": "No misconception or unsafe shortcut anywhere in the run"
+        },
+        {
+          "id": "in-the-band",
+          "name": "In the Band",
+          "note": "Every gauge and meter held inside its band"
+        },
+        {
+          "id": "clean-run",
+          "name": "Clean Run",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "steady-hands",
+          "name": "Steady Hands",
+          "note": "Every hold and track carried its full count"
+        },
+        {
+          "id": "quick-and-right",
+          "name": "Quick and Right",
+          "note": "Finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=k12-rp-how-a-robot-knows-to-stop"
     },
     {
       "app": "smartcity",
@@ -37628,7 +37712,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 263,
+      "meshes": 260,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -38288,7 +38372,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 267,
+      "meshes": 262,
       "lights": 0,
       "overBudget": false,
       "index": "100",
