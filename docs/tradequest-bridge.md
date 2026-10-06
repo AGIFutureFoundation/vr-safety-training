@@ -45,8 +45,8 @@ sections with no code change** — `check_bridge` §4 proves this against a scra
 ## Size budget
 
 The written file (JSON, indent 1) must stay **≤ 768 KiB** and **≤ 128 KiB gzipped**; the exporter refuses to
-write past it and `check_bridge` §7 fails. Today: BYTES_NOW KiB (gzip GZ_NOW KiB). v1 was 344 KiB and `maps` adds about
-172 KiB. The gzip budget is the tight one: after the robotics facets about GZ_HEAD KiB gzipped remains. An owner that
+write past it and `check_bridge` §7 fails. Today: 674.2 KiB (gzip 119.0 KiB). v1 was 344 KiB and `maps` adds about
+172 KiB. The gzip budget is the tight one: after the robotics facets about 9.0 KiB gzipped remains. An owner that
 needs more should export ids and names, not geometry and not tables: every robotics facet has its own byte cap
 (`TQR_FACET_CAP` in `tools/tq_robotics.mjs`) and a facet over it is refused and left pending, so one owner cannot spend
 the whole budget.

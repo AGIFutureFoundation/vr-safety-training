@@ -12,3 +12,20 @@ Eval (defined before the work): the six robotics facets the section should carry
 4. Reason: every claim needs a checker line; proof = `check_bridge` §9 passes, including VBRIDGE stand-ins that fill the guarded facets, the key-shape and byte-cap refusals, and a 2.0 and a v1 document still adapting. Act: §9 (47 checks), docs/tradequest-bridge.md "The robotics section (2.1.0)" with the `VB_SHARED` seam. Observe: first run 131/133 (the contract doc did not name the new registries; my own note held the words token and price), fixed; `check_bridge: 133/133 checks, 0 failed · robotics facets 4/6 (27.2 KiB; all six with VBRIDGE stand-ins 27.6 KiB) · 673.7 KiB (gzip 119.0)`; `check_dean 3361/3361`, `check_robotics 19/19`, `check_robotics_programme 685`, `check_colearn 42/42`.
 5. Reason: the guarded facets must work with VBRIDGE's real files, not only my stand-ins; proof = a rehearsal over my tree plus its three `vb-*.js` (read from its worktree via symlinks, nothing copied) fills `governor` and `jobs`, validates and stays in budget. Act: `tqrExtras` reads its named exports (`VB_PHYSICAL`, `VB_TASKS`, `VB_RIG_LIMITS`, `VB_SCHEMA`, `VB_MOVES`, ...) as detail; `check_bridge` §9 gets a stand-in with VBRIDGE's own export shape and a check that the physical path stays disabled. Observe: rehearsal `robotics ready`, 6/6 facets, 9 rules (estop-held … inside-separation), 7 phases, valid, 676.5 KiB, no key-shaped or token/price words; `check_bridge: 134/134`.
 6. Reason: the export showed four of the ten programme robot stations had no AGENTGYM baseline (the full run of 721 stations predates ROBOPROG's four new stations), so the robotics facet could not say how the baselines do on robot stations; proof = `check_bridge` reports all ten baselined and their pass rates match the harness. Act: ran the existing `tools/ag_eval.mjs --seeds 3 --stations <the ten>` (3.4 s, same config and seeds) into `docs/perf/agent-baselines-robotics.json`, left AGENTGYM's full file untouched, and the facet reads the supplement for rows the full run lacks. Observe: the six rows both files hold are identical (deterministic); on the ten robot stations random 0, scripted expert 1, retrieval 0.1, retrieval-ask 0.4 (30 episodes each) against 0 / 1 / 0.006 / 0.115 over all 721 stations; `check_bridge: 136/136`, `check_agentgym: 33/33`.
+
+## Eval, before to after
+
+| Measure | Before (c472f079, fresh build) | After |
+|---|---|---|
+| Robotics facets ready (scenarios, programme, agentGym, colearn, governor, jobs) | 1 of 6 | 4 of 6 in this tree; 6 of 6 rehearsed with VBRIDGE's own `vb-*.js` |
+| Sections ready (of 8) | 8 (robotics held the scenarios only) | 7 here, robotics `partial` until VBRIDGE merges; 8 once it does |
+| Programme robot stations with an AGENTGYM baseline | 6 of 10 | 10 of 10 |
+| Robotics section | 6.3 KiB | 27.6 KiB |
+| Export bytes | 667,238 B (651.6 KiB of 768; gzip 114.1 of 128) | 690,349 B (674.2 KiB of 768; gzip 119.0 of 128); 676.5 KiB with VBRIDGE |
+| `check_bridge` | 85 of 86 (committed file stale) | 136 of 136 |
+
+## Seams
+
+- `tqrFacets({ shared, root, owner, found })` (tools/tq_robotics.mjs) builds the programme, agentGym, colearn, governor and jobs facets; `tqrRefuse(value)` is the key-shape screen; `TQR_FACET_CAP` the byte caps.
+- Owner seam: `RB_SHARED` may carry any facet itself and wins; VBRIDGE's seam is `VB_SHARED = { phases, roles, governor: { rules } }`, else its named exports (`VB_REASONS`, `VB_PHASES`, `VB_ROLES`, `VB_PHYSICAL`, `VB_TASKS`, `VB_RIG_LIMITS`, `VB_SCHEMA`, `VB_TERMINAL`, `VB_MOVES`, `VB_MEMO_TYPES`, `VB_DEADLINE_TICKS`).
+- `tqAdapt(v2)` adds the registries `pathways`, `credentials` and `launch`; `tqStationLaunch(id)` and `tqPlaceLaunch(place, site)` are the link forms.
