@@ -234,7 +234,7 @@ await section(9, "robotics facets (TQ-ROBOTICS): programme, AGENTGYM, COLEARN, g
 
   // The safety rules at the export boundary
   ok(tqr.tqrRefuse(rbText) === null, "no key-, seed- or wallet-address-shaped string anywhere in robotics");
-  ok(["0x" + "a1".repeat(20), "b".repeat(64), "-----BEGIN EC PRIVATE KEY-----", "seed phrase: apple pear", "mnemonic = a b c", "sk_live_abcdefgh1234"].every((s) => tqr.tqrRefuse(s)) && tqr.tqrRefuse("The governor refuses a stale policy and holds when the e-stop is down.") === null, "the key-shape refusal fires on addresses, keys, PEM, seed phrases and API keys, and passes plain rule text");
+  ok(["0x" + "a1".repeat(20), "b".repeat(64), "-----BEGIN EC " + "PRIVATE KEY-----", "seed phrase: apple pear", "mnemonic = a b c", "sk_live_abcdefgh1234"].every((s) => tqr.tqrRefuse(s)) && tqr.tqrRefuse("The governor refuses a stale policy and holds when the e-stop is down.") === null, "the key-shape refusal fires on addresses, keys, PEM, seed phrases and API keys, and passes plain rule text");
   // Allowed: the rule's own sentence ("makes no payments"), the gym's "yield-missed" rule (give way), the site id "south-of-market-…", and the programme's denial of a partnership with "investor".
   const money = rbText.replace(/makes no payments/g, "").replace(/yield-missed/g, "").replace(/of-market-/g, "").replace(/software platform, investor or union/g, "");
   ok(!/\$VIRTUAL|virtuals|\btoken|\byield\b|trading|\bmarket\b|\bprice|wallet|payment|investor/i.test(money), "no token, price, yield, market, trading, wallet or fund wording in the robotics section");

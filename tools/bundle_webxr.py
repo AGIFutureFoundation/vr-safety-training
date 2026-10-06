@@ -1460,6 +1460,8 @@ DIST_SHARED = [
     # (docs/consoles/COMPASS.md), for the homepage, the track pages and every
     # bundle's panel.
     "guide.js", "voice-assist.js", "guide-kb.js",
+    # AVATARS: the sprite painter the account chip and the Guide import
+    "av-sprites.js",
     "controls.js", "account.js", "profiles.js",
     # STORYLINE: the homepage world cards' path chip. st-paths.js honours a teacher's locked version (DEAN's dn-modules.js,
     # which reads profiles.js, passport-programmes.js and org.js), so the chip needs DEAN's module beside it.
