@@ -115,5 +115,7 @@ $("ag-rate").addEventListener("click", async () => {
 reasons(); show();
 dxMountConsent($("ag-consent"));
 </script>
+<script type="module">import { ctlMount } from "../shared/controls.js"; ctlMount({ world: "the Agent Gym walkthrough page", except: { move: "A page, not a world: the arrow keys step the walkthrough.", look: "Scroll the page." } });</script>
+<script type="module">import { gdMount } from "../shared/guide.js"; gdMount({ root: "../" });</script>
 </body>
 </html>
