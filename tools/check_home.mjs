@@ -724,8 +724,7 @@ await check("in a browser: no overlap, no sideways scroll, readable text, a live
   const { createServer } = await import("node:http");
   const { statSync, mkdirSync } = await import("node:fs");
   const { extname, normalize } = await import("node:path");
-  const PW = process.env.PLAYWRIGHT_MODULE || "/opt/node22/lib/node_modules/playwright/index.mjs";
-  const EXE = process.env.CHROMIUM_PATH || "/opt/pw-browsers/chromium";
+  const { pwModule, pwExecutable, PW, EXE } = await import(new URL("./lib/pw.mjs", import.meta.url).href);
   const TYPES = { ".html": "text/html", ".js": "application/javascript", ".json": "application/json", ".css": "text/css", ".jpg": "image/jpeg" };
   const server = createServer((req, res) => {
     const path = normalize(decodeURIComponent(new URL(req.url, "http://x").pathname)).replace(/^([/\\])+/, "");
@@ -738,8 +737,8 @@ await check("in a browser: no overlap, no sideways scroll, readable text, a live
   const base = `http://127.0.0.1:${server.address().port}`;
   let browser;
   try {
-    const { chromium } = await import(PW);
-    browser = await chromium.launch({ executablePath: EXE, args: ["--no-sandbox"] });
+    const { chromium } = await pwModule();
+    browser = await chromium.launch({ executablePath: pwExecutable(), args: ["--no-sandbox"] });
   } catch (e) { server.close(); throw new Error(`could not launch headless Chromium (${PW}, ${EXE}): ${String(e.message).split("\n")[0]}`); }
   const problems = [];
   try {
@@ -850,8 +849,7 @@ await check("in a browser: the hero loop plays and its button pauses it, cards w
   const { createServer } = await import("node:http");
   const { statSync } = await import("node:fs");
   const { extname, normalize } = await import("node:path");
-  const PW = process.env.PLAYWRIGHT_MODULE || "/opt/node22/lib/node_modules/playwright/index.mjs";
-  const EXE = process.env.CHROMIUM_PATH || "/opt/pw-browsers/chromium";
+  const { pwModule, pwExecutable, PW, EXE } = await import(new URL("./lib/pw.mjs", import.meta.url).href);
   const TYPES = { ".html": "text/html", ".js": "application/javascript", ".json": "application/json", ".css": "text/css", ".jpg": "image/jpeg", ".mp4": "video/mp4", ".webm": "video/webm" };
   const server = createServer((req, res) => {
     const path = normalize(decodeURIComponent(new URL(req.url, "http://x").pathname)).replace(/^([/\\])+/, "");
@@ -862,8 +860,8 @@ await check("in a browser: the hero loop plays and its button pauses it, cards w
   });
   await new Promise((r) => server.listen(0, "127.0.0.1", r));
   const base = `http://127.0.0.1:${server.address().port}`;
-  const { chromium } = await import(PW);
-  const browser = await chromium.launch({ executablePath: EXE, args: ["--no-sandbox", "--autoplay-policy=no-user-gesture-required"] });
+  const { chromium } = await pwModule();
+  const browser = await chromium.launch({ executablePath: pwExecutable(), args: ["--no-sandbox", "--autoplay-policy=no-user-gesture-required"] });
   const problems = [];
   try {
     for (const motion of ["no-preference", "reduce"]) {

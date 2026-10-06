@@ -327,8 +327,7 @@ await check("in a browser: the block on the homepage, in the dialog and in the c
   const { statSync, mkdirSync } = await import("node:fs");
   const { extname, normalize } = await import("node:path");
   const WEBXR = join(ROOT, "WebXR");
-  const PW = process.env.PLAYWRIGHT_MODULE || "/opt/node22/lib/node_modules/playwright/index.mjs";
-  const EXE = process.env.CHROMIUM_PATH || "/opt/pw-browsers/chromium";
+  const { pwModule, pwExecutable, PW, EXE } = await import(new URL("./lib/pw.mjs", import.meta.url).href);
   const TYPES = { ".html": "text/html", ".js": "application/javascript", ".json": "application/json", ".css": "text/css", ".jpg": "image/jpeg", ".png": "image/png", ".svg": "image/svg+xml" };
   const server = createServer((req, res) => {
     const path = normalize(decodeURIComponent(new URL(req.url, "http://x").pathname)).replace(/^([/\\])+/, "");
@@ -341,8 +340,8 @@ await check("in a browser: the block on the homepage, in the dialog and in the c
   const base = `http://127.0.0.1:${server.address().port}`;
   let browser;
   try {
-    const { chromium } = await import(PW);
-    browser = await chromium.launch({ executablePath: EXE, args: ["--no-sandbox"] });
+    const { chromium } = await pwModule();
+    browser = await chromium.launch({ executablePath: pwExecutable(), args: ["--no-sandbox"] });
   } catch (e) { server.close(); throw new Error(`could not launch headless Chromium (${PW}, ${EXE}): ${String(e.message).split("\n")[0]}`); }
   const homeHtml = read("WebXR/dist/index.html");
   const progIds = [...new Set([...homeHtml.matchAll(/data-tr="prog\.([a-z0-9-]+)\./g)].map((m) => m[1]))].filter((id) => PP_PROGRAMMES[id]);

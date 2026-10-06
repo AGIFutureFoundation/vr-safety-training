@@ -259,10 +259,9 @@ function encode(id) {
 // ------------------------------------------------------------------ main
 if (!flag("--encode")) {
   await new Promise((r) => server.listen(PORT, "127.0.0.1", r));
-  const PW = process.env.PLAYWRIGHT_MODULE || "/opt/node22/lib/node_modules/playwright/index.mjs";
-  const EXE = process.env.CHROMIUM_PATH || "/opt/pw-browsers/chromium";
-  const { chromium } = await import(PW);
-  const browser = await chromium.launch({ executablePath: EXE, args: ["--use-gl=swiftshader", "--enable-unsafe-swiftshader", "--no-sandbox"] });
+  const { pwModule, pwExecutable, PW, EXE } = await import(new URL("./lib/pw.mjs", import.meta.url).href);
+  const { chromium } = await pwModule();
+  const browser = await chromium.launch({ executablePath: pwExecutable(), args: ["--use-gl=swiftshader", "--enable-unsafe-swiftshader", "--no-sandbox"] });
   const queue = [...slots], par = Number(process.env.CN_PARALLEL || 2);
   const worker = async () => { while (queue.length) { const id = queue.shift(); try { await record(browser, id); } catch (e) { console.error(id, "failed:", e.message); process.exitCode = 1; } } };
   await Promise.all(Array.from({ length: Math.min(par, slots.length) }, worker));

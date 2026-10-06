@@ -54,8 +54,7 @@ const ROOT = join(here, "..");
 const WEBXR = join(ROOT, "WebXR");
 const DIST = join(WEBXR, "dist");
 const THREE_FILE = join(WEBXR, "vendor/three/dist/three.module.min.js");
-const PW = process.env.PLAYWRIGHT_MODULE || "/opt/node22/lib/node_modules/playwright/index.mjs";
-const EXE = process.env.CHROMIUM_PATH || "/opt/pw-browsers/chromium";
+const { pwModule, pwExecutable, PW, EXE } = await import(new URL("./lib/pw.mjs", import.meta.url).href);
 
 let failures = 0, passes = 0;
 const pending = [];
@@ -270,8 +269,8 @@ for (const [world, repoPage, flatPage, build] of WORLDS) {
 // One browser, one context, one page, reused for every load in turn.
 let chromium, browser;
 try {
-  ({ chromium } = await import(PW));
-  browser = await chromium.launch({ executablePath: EXE, args: ["--use-gl=swiftshader", "--enable-unsafe-swiftshader", "--no-sandbox"] });
+  ({ chromium } = await pwModule());
+  browser = await chromium.launch({ executablePath: pwExecutable(), args: ["--use-gl=swiftshader", "--enable-unsafe-swiftshader", "--no-sandbox"] });
 } catch (e) {
   for (const s of Object.values(servers)) s.server.close();
   die(`could not launch headless Chromium (${PW}, ${EXE}): ${String(e.message).split("\n")[0]}`);

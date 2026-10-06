@@ -14,6 +14,7 @@ import { dirname, join, extname, normalize } from "node:path";
 import { fileURLToPath } from "node:url";
 import { execFileSync } from "node:child_process";
 import { loadavg } from "node:os";
+import { pwLaunch, PW, EXE } from "./pw.mjs";
 
 const here = dirname(fileURLToPath(import.meta.url));
 export const PV_ROOT = join(here, "..", "..");
@@ -21,8 +22,6 @@ export const PV_WEBXR = join(PV_ROOT, "WebXR");
 export const PV_DIST = join(PV_WEBXR, "dist");
 const THREE_FILE = join(PV_WEBXR, "vendor/three/dist/three.module.min.js");
 const REACT_DIR = join(PV_WEBXR, "vendor/react/dist");
-const PW = process.env.PLAYWRIGHT_MODULE || "/opt/node22/lib/node_modules/playwright/index.mjs";
-const EXE = process.env.CHROMIUM_PATH || "/opt/pw-browsers/chromium";
 
 const TYPES = { ".html": "text/html", ".js": "application/javascript", ".mjs": "application/javascript", ".json": "application/json", ".css": "text/css",
   ".png": "image/png", ".jpg": "image/jpeg", ".svg": "image/svg+xml", ".glb": "model/gltf-binary", ".wasm": "application/wasm", ".webm": "video/webm", ".mp4": "video/mp4" };
@@ -51,9 +50,8 @@ export async function pvServe(port = Number(process.env.PV_PORT) || 0) {
 /** Launch the one headless Chromium. Throws with a clear message when it cannot. */
 export async function pvLaunch() {
   if (!existsSync(THREE_FILE)) throw new Error(`the vendored three.js is missing at ${THREE_FILE}`);
-  let chromium;
-  try { ({ chromium } = await import(PW)); } catch (e) { throw new Error(`Playwright is not at ${PW}: ${String(e.message).split("\n")[0]}`); }
-  return chromium.launch({ executablePath: EXE, args: ["--use-gl=swiftshader", "--enable-unsafe-swiftshader", "--no-sandbox"] });
+  try { return await pwLaunch({ args: ["--use-gl=swiftshader", "--enable-unsafe-swiftshader", "--no-sandbox"] }); }
+  catch (e) { throw new Error(`could not launch headless Chromium (Playwright ${PW}, Chromium ${EXE}): ${String(e.message).split("\n")[0]}`); }
 }
 
 const THREE_SRC = existsSync(THREE_FILE) ? readFileSync(THREE_FILE, "utf8") : "";

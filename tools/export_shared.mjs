@@ -9,6 +9,7 @@
  *
  *     node tools/export_shared.mjs            # write both files
  *     node tools/export_shared.mjs --check    # build and validate, write nothing (exit 1 on a schema error)
+ *     node tools/export_shared.mjs --refresh-streets [dir]   # first copy the street artifact's stamps into tools/tcacademy-streets.json
  *
  * v2 (console TQ-BRIDGE, docs/tradequest-bridge.md): `dnBuildShared()` still builds the v1 document;
  * `dnBuildSharedV2()` extends it through tools/tq_bridge.mjs (maps, palette, facades, vehicles, robotics,
@@ -28,6 +29,27 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const SHARED = join(ROOT, "WebXR/shared");
 export const DN_SHARED_VERSION = "1.0.0";
 const OUT = join(ROOT, "exports/shared");
+const STREETS_FILE = join(ROOT, "tools/tcacademy-streets.json");
+
+/** The committed provenance of the Trade Craft Academy street artifact: `[{ parish, fips, sourceStamp, frameOrigin }]`. */
+export function dnStreetsProvenance() {
+  try { return JSON.parse(readFileSync(STREETS_FILE, "utf8")).files ?? []; } catch (_) { return []; }
+}
+
+/** Copy the artifact's stamps and frame origins into tools/tcacademy-streets.json; `dir` holds `<fips>.json` files.
+ *  Returns the rows written, or null when the artifact is not on this machine (the committed copy stands). */
+export function dnRefreshStreets(dir, fipsByParish) {
+  if (!existsSync(dir)) return null;
+  const files = Object.entries(fipsByParish).map(([parish, fips]) => {
+    const f = join(dir, `${fips}.json`);
+    let sourceStamp = null, frameOrigin = null;
+    if (existsSync(f)) { try { const d = JSON.parse(readFileSync(f, "utf8")); sourceStamp = d.source_stamp ?? null; const o = typeof d.frame_origin === "string" ? JSON.parse(d.frame_origin) : d.frame_origin; frameOrigin = o ? [o.lng, o.lat] : null; } catch (_) { /* unreadable: keep null */ } }
+    return { parish, fips, sourceStamp, frameOrigin };
+  });
+  const prev = (() => { try { return JSON.parse(readFileSync(STREETS_FILE, "utf8")); } catch (_) { return {}; } })();
+  writeFileSync(STREETS_FILE, JSON.stringify({ what: prev.what ?? "Provenance of the Trade Craft Academy street artifact.", files }, null, 2).replace(/\[\n\s+(-?\d[^\]]*?)\n\s+\]/g, (m, inner) => `[${inner.replace(/,\n\s+/g, ", ")}]`) + "\n");
+  return files;
+}
 
 // A headless storage for the modules that read gtStorage at import time.
 if (!globalThis.localStorage) { const m = new Map(); globalThis.localStorage = { getItem: (k) => m.get(k) ?? null, setItem: (k, v) => m.set(k, String(v)), removeItem: (k) => m.delete(k) }; }
@@ -82,13 +104,11 @@ export async function dnBuildShared() {
   const catalog = JSON.parse(readFileSync(join(ROOT, "WebXR/smartcity/catalog.json"), "utf8"));
   const index = dnLessonIndex({ catalogIds: catalog.stations.map((s) => s.id) });
   const packs = dnPacks();
-  const SP = process.env.SP ?? "/tmp/claude-0/-home-user-vr-safety-training/a03145a7-edb6-5a38-ad6a-02d8825a11f7/scratchpad";
-  const streets = Object.entries(DN_PARISH_FIPS).map(([parish, fips]) => {
-    const f = join(SP, `packs/tcacademy/parishes/maps/streets/${fips}.json`);
-    let stamp = null, origin = null;
-    if (existsSync(f)) { try { const d = JSON.parse(readFileSync(f, "utf8")); stamp = d.source_stamp ?? null; origin = d.frame_origin ? [d.frame_origin.lng, d.frame_origin.lat] : null; } catch (_) { /* unreadable */ } }
-    return { parish, fips, sourceStamp: stamp, frameOrigin: origin };
-  });
+  // The street artifact's provenance comes from the committed copy (tools/tcacademy-streets.json), never from the
+  // artifact's own files: those live outside the repo, so a build that read them differed between the machine that
+  // holds them and a clean checkout (CI's). `--refresh-streets` copies them in when they are present.
+  const known = new Map(dnStreetsProvenance().map((s) => [s.fips, s]));
+  const streets = Object.entries(DN_PARISH_FIPS).map(([parish, fips]) => ({ parish, fips, sourceStamp: known.get(fips)?.sourceStamp ?? null, frameOrigin: known.get(fips)?.frameOrigin ?? null }));
   return {
     contract: "smartcitix-holodeck-shared",
     version: DN_SHARED_VERSION,
@@ -122,6 +142,13 @@ export async function dnBuildSharedV2() { return tqExtend(await dnBuildShared(),
 export const dnSharedText = (doc) => `{\n${Object.entries(doc).map(([k, v]) => `${JSON.stringify(k)}:${JSON.stringify(v)}`).join(",\n")}\n}\n`;
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+  if (process.argv.includes("--refresh-streets")) {
+    const at = process.argv.indexOf("--refresh-streets");
+    const dir = process.argv[at + 1] && !process.argv[at + 1].startsWith("--") ? process.argv[at + 1] : join(process.env.SP ?? "/tmp/claude-0/-home-user-vr-safety-training/a03145a7-edb6-5a38-ad6a-02d8825a11f7/scratchpad", "packs/tcacademy/parishes/maps/streets");
+    const { DN_PARISH_FIPS } = await import(pathToFileURL(join(SHARED, "dn-index.js")).href);
+    const rows = dnRefreshStreets(dir, DN_PARISH_FIPS);
+    console.log(rows ? `export_shared: tools/tcacademy-streets.json refreshed from ${dir} (${rows.filter((r) => r.sourceStamp).length}/${rows.length} stamped)` : `export_shared: ${dir} is not on this machine; tools/tcacademy-streets.json kept`);
+  }
   const doc = await dnBuildSharedV2();
   const bad = [...dnValidateSchema(doc), ...tqValidate(doc, TQ_SHARED_SCHEMA_V2, dnValidateSchema)];
   const text = dnSharedText(doc);

@@ -217,8 +217,7 @@ if (process.argv.includes("--browser")) {
   const { createServer } = await import("node:http");
   const { existsSync, statSync } = await import("node:fs");
   const { extname, normalize } = await import("node:path");
-  const PW = process.env.PLAYWRIGHT_MODULE || "/opt/node22/lib/node_modules/playwright/index.mjs";
-  const EXE = process.env.CHROMIUM_PATH || "/opt/pw-browsers/chromium";
+  const { pwModule, pwExecutable, PW, EXE } = await import(new URL("./lib/pw.mjs", import.meta.url).href);
   const TYPES = { ".html": "text/html", ".js": "application/javascript", ".json": "application/json", ".css": "text/css", ".png": "image/png", ".jpg": "image/jpeg", ".webp": "image/webp", ".svg": "image/svg+xml" };
   const server = createServer((req, res) => {
     const path = normalize(decodeURIComponent(new URL(req.url, "http://x").pathname)).replace(/^([/\\])+/, "");
@@ -231,8 +230,8 @@ if (process.argv.includes("--browser")) {
   const THREE_SRC = readFileSync(join(WEBXR, "vendor/three/dist/three.module.min.js"), "utf8");
   let browser;
   try {
-    const { chromium } = await import(PW);
-    browser = await chromium.launch({ executablePath: EXE, args: ["--use-gl=swiftshader", "--enable-unsafe-swiftshader", "--no-sandbox"] });
+    const { chromium } = await pwModule();
+    browser = await chromium.launch({ executablePath: pwExecutable(), args: ["--use-gl=swiftshader", "--enable-unsafe-swiftshader", "--no-sandbox"] });
     const ctx = await browser.newContext({ viewport: { width: 1024, height: 700 } });
     await ctx.route("**/*", (route) => {
       const u = route.request().url();

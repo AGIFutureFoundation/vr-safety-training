@@ -8,6 +8,11 @@ import {
 } from "../citykit.js";
 import { simTitle, system, AWARD } from "../gamify.js";
 
+// Deterministic "random" for the scatter: the same scene on every build, so the catalog's headless mesh count
+// (tools/gen_catalog.mjs) is reproducible and the committed catalog equals a fresh build on any machine.
+let sprSeed = 0;
+const sprRandom = () => { sprSeed = (sprSeed + 0x6d2b79f5) >>> 0; let t = sprSeed; t = Math.imul(t ^ (t >>> 15), t | 1); t ^= t + Math.imul(t ^ (t >>> 7), t | 61); return ((t ^ (t >>> 14)) >>> 0) / 4294967296; };
+
 // SmartCiti.X~ Spartina Removal VR — Water & Environmental, station one hundred.
 //
 // Invasive hybrid Spartina (cordgrass) control in a generic restored tidal
@@ -208,6 +213,7 @@ export const SIM_SPARTINA_REMOVAL = {
   ],
 
   build(root) {
+    sprSeed = 0x9e3779b9; // the same scatter on every build
     const hits = {};
     const g = group(root);
     stationPad(g, 2.6, SPT_ACCENT);
@@ -221,9 +227,9 @@ export const SIM_SPARTINA_REMOVAL = {
     const padTex = surfaceTexture((cx, w, h) => {
       cx.fillStyle = "#4a4a4c"; cx.fillRect(0, 0, w, h);
       for (let i = 0; i < 900; i++) {
-        const v = Math.random();
+        const v = sprRandom();
         cx.fillStyle = `rgba(${v > 0.5 ? "90,90,92" : "40,40,42"},${(0.05 + v * 0.08).toFixed(3)})`;
-        cx.fillRect(Math.random() * w, Math.random() * h, 2 + Math.random() * 5, 1 + Math.random() * 2);
+        cx.fillRect(sprRandom() * w, sprRandom() * h, 2 + sprRandom() * 5, 1 + sprRandom() * 2);
       }
     }, { repeat: 3, px: 256 });
     const pad = box(g, 5.4, 0.02, 1.7, 0, 0.251, 1.55, 0x4a4a4c, { rough: 0.9, cast: false });
@@ -239,8 +245,8 @@ export const SIM_SPARTINA_REMOVAL = {
     const waterTex = surfaceTexture((cx, w, h) => {
       cx.fillStyle = "#123a3e"; cx.fillRect(0, 0, w, h);
       for (let i = 0; i < 24; i++) {
-        cx.strokeStyle = "rgba(170,215,220,0.10)"; cx.lineWidth = 1 + Math.random() * 2;
-        cx.beginPath(); const y = Math.random() * h;
+        cx.strokeStyle = "rgba(170,215,220,0.10)"; cx.lineWidth = 1 + sprRandom() * 2;
+        cx.beginPath(); const y = sprRandom() * h;
         cx.moveTo(0, y); cx.bezierCurveTo(w * 0.25, y + 14, w * 0.75, y - 14, w, y); cx.stroke();
       }
     }, { repeat: 3, px: 256 });
@@ -255,22 +261,22 @@ export const SIM_SPARTINA_REMOVAL = {
     // Small clumps of thin, leaning blades — the terrain a Spartina crew
     // actually works, rather than a bare mudflat.
     function clump(parent, x, z, o = {}) {
-      const cg = group(parent, x, o.y ?? 0.06, z, Math.random() * Math.PI);
+      const cg = group(parent, x, o.y ?? 0.06, z, sprRandom() * Math.PI);
       const n = o.n ?? 5, h0 = o.h ?? 0.34, col = o.color ?? 0x6f8a3f;
       for (let i = 0; i < n; i++) {
-        const a = (i / n) * Math.PI * 2 + Math.random() * 0.6;
-        const r = 0.03 + Math.random() * 0.06;
-        const bh = h0 * (0.75 + Math.random() * 0.5);
+        const a = (i / n) * Math.PI * 2 + sprRandom() * 0.6;
+        const r = 0.03 + sprRandom() * 0.06;
+        const bh = h0 * (0.75 + sprRandom() * 0.5);
         const blade = cyl(cg, 0.006, 0.014, bh, Math.cos(a) * r, bh / 2, Math.sin(a) * r, col, { rough: 0.9, seg: 5 });
-        blade.rotation.x = (Math.random() - 0.5) * 0.35;
-        blade.rotation.z = (Math.random() - 0.5) * 0.35;
+        blade.rotation.x = (sprRandom() - 0.5) * 0.35;
+        blade.rotation.z = (sprRandom() - 0.5) * 0.35;
       }
       return cg;
     }
     const clumpField = group(g, 0, 0, 0);
     for (let i = 0; i < 13; i++) {
-      const x = (Math.random() - 0.5) * 4.6;
-      const z = -0.5 - Math.random() * 2.4;
+      const x = (sprRandom() - 0.5) * 4.6;
+      const z = -0.5 - sprRandom() * 2.4;
       if (Math.hypot(x - 0.9, z + 1.7) < 0.55) continue; // keep the nest clearing open
       clump(clumpField, x, z, { color: i % 3 === 0 ? 0x7a8a48 : 0x5f7a3a });
     }
@@ -390,7 +396,7 @@ export const SIM_SPARTINA_REMOVAL = {
     // Drift card, downwind of the sweep.
     const driftCard = group(g, -1.8, 0.06, -1.85);
     box(driftCard, 0.14, 0.1, 0.006, 0, 0.05, 0, 0xf4efe0, { rough: 0.55 });
-    for (let i = 0; i < 10; i++) ball(driftCard, 0.004, (Math.random() - 0.5) * 0.11, 0.02 + (Math.random() - 0.5) * 0.07, 0.004, 0x2a6a8a, { rough: 0.8 });
+    for (let i = 0; i < 10; i++) ball(driftCard, 0.004, (sprRandom() - 0.5) * 0.11, 0.02 + (sprRandom() - 0.5) * 0.07, 0.004, 0x2a6a8a, { rough: 0.8 });
     holoTag(driftCard, "drift card — read the catch", 0, 0.24, 0, { css: "#c9a227", w: 0.44 });
     reg(hits, driftCard, "drift-card");
     const driftInst = instrument(driftCard, 0.14, 0.06, 0, { ry: 0.4, idle: "-- pts", color: 0xc9a227, w: 0.1, d: 0.16 });

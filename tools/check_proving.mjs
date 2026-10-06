@@ -135,17 +135,26 @@ if (checkersBase) {
   if (last) {
     // A run is judged only if the machine was quiet at both ends and its sampled peak stayed within half again the
     // cores (the suite itself keeps up to one job per core busy): other work mid-run inflates every time it overlaps.
+    // Where a row carries its own load window (check_all records the load at each checker's start and end and the
+    // sampled peak while it ran — console CI-GREEN), that window decides for that row: a time measured while the
+    // load was over the core count is recorded, not judged, whatever the run's ends read. Rows without a window
+    // (older records) fall back to the run-level rule.
     const load = Math.max(last.loadAvgStart, last.loadAvgEnd ?? 0);
     const quiet = load <= last.cores && (last.loadAvgPeak ?? 0) <= last.cores * 1.5;
     if (!quiet) console.log(`  · the last check_all ran at load ${last.loadAvgStart}→${last.loadAvgEnd} (peak ${last.loadAvgPeak ?? "not sampled"}) on ${last.cores} cores — its times are recorded, not judged`);
-    else {
-      const slow = [];
-      for (const [n, v] of Object.entries(last.checkers)) {
-        const b = checkersBase.checkers[n];
-        if (b && v.ms !== null && v.ms > Math.max(b * 1.2, b + 1500)) slow.push(`${n} ${v.ms} ms vs ${b} ms`);
-      }
-      check(slow.length === 0, "no checker took more than 20% longer than its baseline", slow.join("; "));
+    const slow = [], unjudged = [];
+    let judged = 0;
+    for (const [n, v] of Object.entries(last.checkers)) {
+      const b = checkersBase.checkers[n];
+      if (!b || v.ms === null) continue;
+      const own = typeof v.loadPeak === "number";
+      const rowQuiet = own ? Math.max(v.loadStart ?? 0, v.loadEnd ?? 0, v.loadPeak) <= last.cores : quiet;
+      if (!rowQuiet) { if (own) unjudged.push(`${n} ${v.ms} ms at load ${v.loadStart}→${v.loadEnd} (peak ${v.loadPeak})`); continue; }
+      judged += 1;
+      if (v.ms > Math.max(b * 1.2, b + 1500)) slow.push(`${n} ${v.ms} ms vs ${b} ms`);
     }
+    if (unjudged.length) console.log(`  · measured under load on ${last.cores} cores, recorded not judged: ${unjudged.join("; ")}`);
+    if (judged) check(slow.length === 0, `no checker took more than 20% longer than its baseline (${judged} judged${unjudged.length ? `, ${unjudged.length} reported` : ""})`, slow.join("; "));
     console.log(`  · last check_all: ${(last.wallMs / 1000).toFixed(0)} s wall for ${(last.sumMs / 1000).toFixed(0)} s of checker time, up to ${last.peakParallel} at once, load ${last.loadAvgStart}→${last.loadAvgEnd}`);
   } else console.log("  · no docs/perf/checkers-last.json yet — check_all writes it");
 }

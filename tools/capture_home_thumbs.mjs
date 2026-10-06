@@ -21,8 +21,7 @@ import { fileURLToPath } from "node:url";
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const WEBXR = join(ROOT, "WebXR");
 const OUT = join(WEBXR, "home", "img");
-const PW = process.env.PLAYWRIGHT_MODULE || "/opt/node22/lib/node_modules/playwright/index.mjs";
-const EXE = process.env.CHROMIUM_PATH || "/opt/pw-browsers/chromium";
+const { pwModule, pwExecutable, PW, EXE } = await import(new URL("./lib/pw.mjs", import.meta.url).href);
 export const HM_THUMB_MAX = 60 * 1024;
 
 // Each world: its dist page, the buttons a player presses to get in, and how
@@ -59,8 +58,8 @@ async function main() {
   const REACT_DIR = join(WEBXR, "vendor/react/dist");
   const REACT_SRC = { "react.production.min.js": readFileSync(join(REACT_DIR, "react.production.min.js"), "utf8"),
     "react-dom.production.min.js": readFileSync(join(REACT_DIR, "react-dom.production.min.js"), "utf8") };
-  const { chromium } = await import(PW);
-  const browser = await chromium.launch({ executablePath: EXE, args: ["--use-gl=swiftshader", "--enable-unsafe-swiftshader", "--no-sandbox"] });
+  const { chromium } = await pwModule();
+  const browser = await chromium.launch({ executablePath: pwExecutable(), args: ["--use-gl=swiftshader", "--enable-unsafe-swiftshader", "--no-sandbox"] });
   mkdirSync(OUT, { recursive: true });
   const only = process.env.HM_ONLY ? process.env.HM_ONLY.split(",") : null;
   const shrink = await browser.newPage();

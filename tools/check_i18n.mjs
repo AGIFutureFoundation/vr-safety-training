@@ -57,8 +57,7 @@ const tracks = join(WEBXR, "dist", "tracks");
 if (existsSync(tracks)) for (const f of readdirSync(tracks).filter((x) => x.endsWith(".html")).slice(0, 5)) check(readFileSync(join(tracks, f), "utf8").includes("shared/controls.js"), `tracks/${f} mounts the chrome (and so the picker)`);
 
 // ---------------------------------------------------------------- headless
-const PW = process.env.PLAYWRIGHT_MODULE || "/opt/node22/lib/node_modules/playwright/index.mjs";
-const EXE = process.env.CHROMIUM_PATH || "/opt/pw-browsers/chromium";
+const { pwModule, pwExecutable, PW, EXE } = await import(new URL("./lib/pw.mjs", import.meta.url).href);
 const THREE_FILE = join(WEBXR, "vendor/three/dist/three.module.min.js");
 const TYPES = { ".html": "text/html", ".js": "application/javascript", ".json": "application/json", ".css": "text/css", ".jpg": "image/jpeg", ".png": "image/png", ".svg": "image/svg+xml", ".glb": "model/gltf-binary" };
 const server = createServer((req, res) => {
@@ -71,8 +70,8 @@ await new Promise((r) => server.listen(0, "127.0.0.1", r));
 const base = `http://127.0.0.1:${server.address().port}`;
 let browser;
 try {
-  const { chromium } = await import(PW);
-  browser = await chromium.launch({ executablePath: EXE, args: ["--use-gl=swiftshader", "--enable-unsafe-swiftshader", "--no-sandbox"] });
+  const { chromium } = await pwModule();
+  browser = await chromium.launch({ executablePath: pwExecutable(), args: ["--use-gl=swiftshader", "--enable-unsafe-swiftshader", "--no-sandbox"] });
 } catch (e) {
   server.close(); console.log(`✗ could not launch headless Chromium: ${String(e.message).split("\n")[0]}`); console.log("check_i18n: FAILED"); process.exit(1);
 }
