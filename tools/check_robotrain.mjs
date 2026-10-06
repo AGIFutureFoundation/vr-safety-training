@@ -177,7 +177,7 @@ check(/rigNode:/.test(read("WebXR/shared/rb-world.js")) && /rtDriven/.test(read(
 check(/rtMountTeleop\(host, \{[^}]*rig:/.test(APP) && /rigNode\(/.test(APP), "rig", "the parishes app hands a robot site's rig to the teleop mount");
 check(!/new T\.Mesh|new THREE\.Mesh|Geometry\(/.test(FILES_RT()), "rig", "rt-teleop.js adds no mesh");
 // 7c the second task: the cell-entry pose path finishes a take and clones as well as synthetic demonstrations
-check(JSON.stringify(rt.RT_TASK_IDS) === JSON.stringify(["rb-teleop-pick-place", "rb-cell-entry"]), "task2", `RT_TASKS are ${rt.RT_TASK_IDS.join(",")}`);
+check(JSON.stringify(rt.RT_TASK_IDS.slice(0, 2)) === JSON.stringify(["rb-teleop-pick-place", "rb-cell-entry"]) && rt.RT_TASK_IDS.length >= 2, "task2", `RT_TASKS are ${rt.RT_TASK_IDS.join(",")}`);
 const envC = rb.rbEnv("rb-cell-entry", { seed: 5 }), humanC = rt.rtScriptedHumanCell(envC, { seed: 5, skill: 1 });
 const rollC = rb.rbRollout(envC, { seed: 5, policy: (o) => rt.rtPoseToActionCell(humanC(o), o) });
 check(rollC.summary.passed && rollC.summary.violationCount === 0, "task2", `the scripted walker passes cell entry through the pose path (${JSON.stringify(rollC.summary)})`);
@@ -189,7 +189,7 @@ check(rt.rtPoseToActionCell({ p: [0, 0.9, -obsC.distance + 1.6], trigger: 0, squ
 const cmp2 = rt.rtCompare({ n: 40, heldOut: 60, scenario: "rb-cell-entry" });
 check(cmp2.recorded.success > cmp2.random.success && cmp2.synthetic.success > cmp2.random.success, "task2", `cell BC above random: recorded ${cmp2.recorded.success}, synthetic ${cmp2.synthetic.success}, random ${cmp2.random.success}`);
 check(cmp2.recorded.success >= cmp2.synthetic.success - 0.1 && cmp2.expert.success >= cmp2.recorded.success - 0.05, "task2", `cell recorded takes within 0.1 of synthetic (${cmp2.recorded.success} vs ${cmp2.synthetic.success}), expert ${cmp2.expert.success}`);
-check(Object.keys(rt.rtCompareAll({ n: 4, heldOut: 3 })).length === 2, "task2", "rtCompareAll reports both tasks");
+check(Object.keys(rt.rtCompareAll({ n: 4, heldOut: 3 })).length === rt.RT_TASK_IDS.length, "task2", `rtCompareAll reports every task (${rt.RT_TASK_IDS.length})`);
 // 7d the COLEARN-trained policy runs as the agent-jobs provider, the governor on every step
 const vbc = await imp("WebXR/shared/vb-colearn.js"), vbb = await imp("WebXR/shared/vb-bridge.js"), vbg = await imp("WebXR/shared/vb-governor.js");
 const prov = vbc.vbColearnProvider();

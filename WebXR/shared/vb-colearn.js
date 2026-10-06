@@ -24,7 +24,7 @@ import { colSyntheticDemos, colDemosFromEpisodes, colTrain, colPolicy, COL_SCENA
 import { vbGovernor } from "./vb-governor.js";
 import { vbRunJob } from "./vb-bridge.js";
 import { RB_SITES } from "./rb-robotics-data.js";
-import { VB_RIG_LIMITS } from "./vb-shared-data.js";
+import { VB_RIG_LIMITS, VB_TASKS } from "./vb-shared-data.js";
 
 export const VB_COLEARN_POLICY_ID = "vb-colearn-bc-knn";
 export const VB_COLEARN_SCRIPTED_ID = "vb-scripted-expert";
@@ -85,7 +85,7 @@ export function vbProviderCompare({ jobsPerTask = 10, seed = 1, n = 40, skill = 
   let stepsMonitored = 0, stepsRun = 0;
   const totals = { scripted: { completed: 0, of: 0 }, colearn: { completed: 0, of: 0 } };
   for (const sc of COL_SCENARIOS) {
-    if (!RB_SITES.some((s) => s.scenario === sc)) continue;
+    if (!RB_SITES.some((s) => s.scenario === sc) || !VB_TASKS[sc]) continue; // only tasks the governor allowlists (VB_TASKS) run as jobs
     const row = { scripted: { completed: 0, of: 0, halted: 0 }, colearn: { completed: 0, of: 0, halted: 0, trainedOn: null } };
     for (const [who, policyId, policyFor] of [["scripted", VB_COLEARN_SCRIPTED_ID, null], ["colearn", VB_COLEARN_POLICY_ID, provider.policyFor]]) {
       for (let k = 0; k < jobsPerTask; k++) {

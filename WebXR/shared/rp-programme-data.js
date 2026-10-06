@@ -123,7 +123,7 @@ export const RP_TRACKS = [
     },
     credentials: { aware: ["k12-science", "k12-literacy-and-life-skills"], operator: ["warehouse-and-logistics-automation", "aerospace-defense-and-robotics"], technician: ["warehouse-and-logistics-automation"], integrator: ["warehouse-and-logistics-automation"], "ai-training": ["aerospace-defense-and-robotics", "warehouse-and-logistics-automation"] } },
   { id: "construction-robotics", title: "Construction robotics (drilling, layout, demolition)", kinds: "ceiling-drilling and layout robots, remote demolition machines, survey drones on a live site",
-    standards: ["iso-10218-2", "osha-1910-147"], scenario: "rb-cobot-zone-setup", rbSites: [],
+    standards: ["iso-10218-2", "osha-1910-147"], scenario: "rb-construction-drilling", rbSites: ["rb-site-richland-drilling-robot"],
     levels: {
       aware: RP_K12,
       operator: ["rp-construction-drilling-robot-setup", "bt-masonry-wall-layout-and-mortar", "concrete-pour", "br-drone-shoreline-survey"],

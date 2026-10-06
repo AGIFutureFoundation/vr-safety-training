@@ -46,7 +46,7 @@ import { gtStorage } from "./profiles.js";
 
 export const COL_VERSION = "col/1";
 /** The robot-game scenarios COLEARN learns (the station wrappers need the full suite; not here). */
-export const COL_SCENARIOS = ["rb-cell-entry", "rb-cobot-zone-setup", "rb-teleop-pick-place", "rb-amr-fleet-routing"];
+export const COL_SCENARIOS = ["rb-cell-entry", "rb-cobot-zone-setup", "rb-teleop-pick-place", "rb-amr-fleet-routing", "rb-construction-drilling", "rb-port-gantry"];
 const COL_FIXED_TIME = "2026-01-01T00:00:00.000Z";
 const colR3 = (n) => Math.round(n * 1000) / 1000;
 const colClip = (v, a, b) => Math.max(a, Math.min(b, v));
@@ -115,6 +115,37 @@ export const COL_FEATURES = {
       });
     },
   },
+  // ROBOSCENARIOS (loop 7): the ceiling-drilling robot's set-up state, one row per step; "hold" is the robot held for a person.
+  "rb-construction-drilling": {
+    names: ["scanned", "barricaded", "dust", "personInside", "holesLeft", "bitWorn", "isolated"],
+    weights: [2, 2, 1, 6, 1, 3, 3],
+    mid: [0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5],
+    text: [["the deck is scanned", "the deck is not scanned yet"], ["the barricade is set", "no barricade is set"], ["the dust collection is on", "the dust collection is off"],
+      ["a person is inside the barricade", "nobody is inside the barricade"], ["holes remain in the layout", "the layout is drilled"], ["the bit is worn", "the bit is good"],
+      ["the battery is isolated", "the battery is live"]],
+    of: (o) => [o.scanned, o.barricaded, o.dust, o.personInside, o.remaining > 0, o.bitWorn, o.isolated].map((b) => (b ? 1 : 0)),
+  },
+  // The port gantry: where the bay is, what is free around it, whether the crossing ahead is busy and the keep-out is next door.
+  "rb-port-gantry": {
+    names: ["goalE", "goalS", "atGoal", "carrying", "freeN", "freeS", "crossingBusyE", "crossingBusyW", "keepOutE", "keepOutW", "inStopZone", "keepOutBetween", "crossingBetween", "keepOutS"],
+    weights: [3, 3, 4, 2, 1, 1, 6, 6, 3, 3, 1, 4, 4, 4],
+    mid: [0, 0, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5],
+    text: [["the bay is to the east", "the bay is to the west"], ["the bay is in the stack lane below", "the bay is level with the gantry"], ["the gantry is at the bay", "the gantry is away from the bay"],
+      ["a container is lifted", "the spreader is empty"], ["the travel lane above is clear", "nothing to the north"], ["the stack lane below is clear", "nothing to the south"],
+      ["a person is on the crossing just east", "the crossing east is clear"], ["a person is on the crossing just west", "the crossing west is clear"],
+      ["the pinned container's keep-out is just east", "no keep-out east"], ["the pinned container's keep-out is just west", "no keep-out west"],
+      ["the gantry is in the stop zone", "the gantry is outside the stop zone"], ["the pinned container's columns lie between the gantry and the bay", "no pinned container lies between the gantry and the bay"],
+      ["a person is on the crossing between the gantry and the bay", "no busy crossing lies between the gantry and the bay"], ["the pinned container is right below in the stack lane", "the stack lane below is not pinned"]],
+    of: (o) => {
+      const [x, y] = o.at, g = o.goal, stack = o.lanes - 1;
+      const ko = (nx) => (y === stack && nx >= o.pinned[0] && nx <= o.pinned[1] ? 1 : 0);
+      const between = (c) => (Math.min(x, g[0]) < c && c < Math.max(x, g[0]) ? 1 : 0);
+      const koBetween = between(o.pinned[0]) || between(o.pinned[1]) ? 1 : 0;
+      return [Math.sign(g[0] - x), Math.sign(g[1] - y), x === g[0] && y === g[1] ? 1 : 0, o.carrying ? 1 : 0, y > 0 ? 1 : 0, y < stack ? 1 : 0,
+        o.personOnCrossing && x + 1 === o.crossingColumn ? 1 : 0, o.personOnCrossing && x - 1 === o.crossingColumn ? 1 : 0, ko(x + 1), ko(x - 1), Math.abs(x - o.crossingColumn) <= o.stopZone && x !== o.crossingColumn ? 1 : 0,
+        koBetween, o.personOnCrossing ? between(o.crossingColumn) : 0, y < stack && x >= o.pinned[0] && x <= o.pinned[1] ? 1 : 0];
+    },
+  },
   // A catalog station wrapped by rb-env (rb-station-*), read from shared/robot.js observe() fields only, so a
   // human station episode captured by DATAWORKS (dx-capture.js, kind "station") reads the same as a rollout.
   station: {
@@ -159,6 +190,7 @@ function colRows(sc, obs, action) {
     if (action.type === "test") label = `test-${action.what}`;
     if (action.type === "set") { label = `set-${action.param}`; p = action.param === "stop" ? { ratio: obs.requiredStop ? action.value / obs.requiredStop : 1 } : action.param === "warn" ? { gap: action.value - obs.stop } : { value: action.value }; }
   }
+  if (sc === "rb-port-gantry" && action.type === "move") label = `move-${action.dir}`;
   if (sc === "rb-teleop-pick-place") {
     if (action.type === "move") p = { dx: +action.dx || 0, dy: +action.dy || 0, dz: +action.dz || 0 };
     if (action.type === "grip") p = { ratio: obs.part ? action.force / obs.part.ceilingN : 0.6 };
@@ -186,6 +218,7 @@ function colAction(sc, label, ps, obs) {
     if (label === "set-speed") return { type: "set", param: "speed", value: colR3(mean("value") || 1) };
     return { type: label };
   }
+  if (sc === "rb-port-gantry") return label.startsWith("move-") ? { type: "move", dir: label.slice(5) } : { type: label };
   if (sc === "rb-teleop-pick-place") {
     if (label === "move") return { type: "move", dx: colR3(mean("dx")), dy: colR3(mean("dy")), dz: colR3(mean("dz")) };
     if (label === "grip") return { type: "grip", force: colR3((obs.part?.ceilingN ?? 12) * (mean("ratio") || 0.6)) };
@@ -336,6 +369,8 @@ export function colRandomPolicy(sc, seed = 1, { ids = [] } = {}) {
     if (colIsStation(sc)) { const t = pick(["select", "select", "press", "release", "wait", "commit", "drop"]); const id = pick(ids.length ? ids : ["none"]); return t === "commit" ? { type: t, id, at: colR3(R()) } : t === "drop" ? { type: t, id, distance: colR3(R()) } : t === "wait" || t === "release" ? { type: t } : { type: t, id }; }
     if (sc === "rb-cell-entry") { const t = pick(["walk", "walk", "test-estop", "press-estop", "lockout", "verify", "enter", "clear-jam", "exit", "remove-lock", "restart", "wait"]); return t === "walk" ? { type: "walk", d: colR3(R() * 2 - 0.5) } : { type: t }; }
     if (sc === "rb-cobot-zone-setup") { const t = pick(["set", "set", "test", "commit"]); return t === "set" ? { type: "set", param: pick(["warn", "stop", "speed"]), value: colR3(R() * 4) } : t === "test" ? { type: "test", what: pick(["scanner", "estop", "zone-walk"]) } : { type: "commit" }; }
+    if (sc === "rb-construction-drilling") return { type: pick(["scan", "barricade", "dust-on", "drill", "drill", "drill", "hold", "isolate", "change-bit", "restore", "wait"]) };
+    if (sc === "rb-port-gantry") { const t = pick(["move", "move", "move", "move", "hold", "lift", "set"]); return t === "move" ? { type: "move", dir: pick(["N", "S", "E", "W"]) } : { type: t }; }
     if (sc === "rb-teleop-pick-place") { const t = pick(["move", "move", "move", "grip", "release"]); return t === "move" ? { type: "move", dx: colR3((R() - 0.5) * 0.24), dy: colR3((R() - 0.5) * 0.24), dz: colR3((R() - 0.5) * 0.24) } : t === "grip" ? { type: "grip", force: colR3(R() * 45) } : { type: t }; }
     return { type: "route", moves: o.robots.map(() => pick(["N", "S", "E", "W", "wait"])) };
   };
@@ -395,6 +430,9 @@ const COL_ACTION_TEXT = {
   "test-zone-walk": "walk the zone to measure the stopping time", "set-stop": "set the stop zone", "set-warn": "set the warning zone", "test-scanner": "test the area scanner", "test-estop-cobot": "test the e-stop", commit: "commit the setup",
   move: "move the gripper", grip: "grip the part", release: "release the part", reset: "reset after the stop",
   N: "drive north", S: "drive south", E: "drive east", W: "drive west",
+  scan: "scan the deck for embedded services", barricade: "set the barricade around the reach", "dust-on": "switch the dust collection on", drill: "drill the next hole",
+  hold: "hold the robot", isolate: "isolate the battery", "change-bit": "change the drill bit", restore: "put the battery back on",
+  "move-N": "drive to the travel lane", "move-S": "drive to the stack lane", "move-E": "drive east along the lane", "move-W": "drive west along the lane", lift: "lift the container", set: "set the container down",
 };
 
 /**
@@ -431,7 +469,7 @@ export function colGhost(model, { seed = 7001 } = {}) {
     const r = env.step(action);
     frames.push({ observation: obs, action, explain: explain.text, reward: r.reward, done: r.done, violations: r.info.violations ?? [] });
     obs = r.observation;
-    if (r.done) { frames.push({ observation: obs, action: null, explain: env.summary().passed ? "Done — the cell is restarted and every practice was kept." : "The episode ended without a clean pass.", reward: 0, done: true, violations: [], summary: env.summary() }); break; }
+    if (r.done) { frames.push({ observation: obs, action: null, explain: env.summary().passed ? (model.scenario === "rb-cell-entry" ? "Done — the cell is restarted and every practice was kept." : "Done — the task is finished and every practice was kept.") : "The episode ended without a clean pass.", reward: 0, done: true, violations: [], summary: env.summary() }); break; }
   }
   return frames;
 }

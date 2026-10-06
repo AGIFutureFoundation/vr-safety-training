@@ -146,6 +146,72 @@
       },
       "gapToExpert": 0.183,
       "modelHash": "91a7b57c6a817b04"
+    },
+    {
+      "scenario": "rb-construction-drilling",
+      "demosOffered": 40,
+      "demosKept": 17,
+      "rows": 320,
+      "random": {
+        "n": 60,
+        "success": 0,
+        "clean": 0,
+        "meanSteps": 59.283
+      },
+      "expert": {
+        "n": 60,
+        "success": 1,
+        "clean": 1,
+        "meanSteps": 17.767
+      },
+      "bcFiltered": {
+        "n": 60,
+        "success": 1,
+        "clean": 1,
+        "meanSteps": 17.767
+      },
+      "bcUnfiltered": {
+        "n": 60,
+        "success": 1,
+        "clean": 1,
+        "meanSteps": 17.767
+      },
+      "bcFilteredShield": null,
+      "gapToExpert": 0,
+      "modelHash": "2f23e1aba60c630b"
+    },
+    {
+      "scenario": "rb-port-gantry",
+      "demosOffered": 40,
+      "demosKept": 25,
+      "rows": 623,
+      "random": {
+        "n": 60,
+        "success": 0,
+        "clean": 0.167,
+        "meanSteps": 160
+      },
+      "expert": {
+        "n": 60,
+        "success": 1,
+        "clean": 1,
+        "meanSteps": 27.8
+      },
+      "bcFiltered": {
+        "n": 60,
+        "success": 1,
+        "clean": 1,
+        "meanSteps": 27.7
+      },
+      "bcUnfiltered": {
+        "n": 60,
+        "success": 1,
+        "clean": 1,
+        "meanSteps": 27.917
+      },
+      "bcFilteredShield": null,
+      "gapToExpert": 0,
+      "modelHash": "d9e4b96357ba131b"
     }
   ],
   "stations": [

@@ -113,10 +113,67 @@ export function rtScriptedHumanCell(env, { seed = 1, skill = 0.85, tremor = 0.01
   };
 }
 
+/**
+ * ROBOSCENARIOS (loop 7): two more tasks through the pose path.
+ * The drilling robot's pendant: the pose is the operator's hand over a panel of controls, [x, y] offsets from the body
+ * (metres); a closed trigger with the hand on a control is that control's command. The e-stop pose holds the robot.
+ */
+export const RT_DRILL_CONTROLS = Object.freeze({ scan: [-0.6, 1.0], barricade: [-0.3, 1.0], dust: [0, 1.0], drill: [0.3, 1.0], hold: [0.6, 1.0], isolate: [-0.3, 1.3], bit: [0, 1.3], restore: [0.3, 1.3] });
+const rtNearDrillControl = (pose, reach = 0.12) => Object.entries(RT_DRILL_CONTROLS).find(([, c]) => Math.hypot(pose.p[0] - c[0], pose.p[1] - c[1]) <= reach)?.[0] ?? null;
+const RT_DRILL_ACTION = Object.freeze({ scan: "scan", barricade: "barricade", dust: "dust-on", drill: "drill", hold: "hold", isolate: "isolate", bit: "change-bit", restore: "restore" });
+export function rtPoseToActionDrill(pose, obs) {
+  if (pose.estop) return { type: "hold" };
+  const ctl = (pose.trigger ?? 0) >= 0.5 ? rtNearDrillControl(pose) : null;
+  void obs;
+  return ctl ? { type: RT_DRILL_ACTION[ctl] } : { type: "wait" };
+}
+/** The scripted "human" at the pendant: the expert's intent through a reaching hand with lag and tremor (labelled synthetic). */
+export function rtScriptedHumanDrill(env, { seed = 1, skill = 0.85, tremor = 0.012, lag = 0.3 } = {}) {
+  const intent = rbPolicy(env, { skill, seed }), R = rng(seed * 61 + 13);
+  const CTL = Object.fromEntries(Object.entries(RT_DRILL_ACTION).map(([k, v]) => [v, k]));
+  const hand = [0, 0.8];
+  return (obs) => {
+    const a = intent(obs), ctl = CTL[a.type] ?? null;
+    const tgt = ctl ? RT_DRILL_CONTROLS[ctl] : [0, 0.8];
+    for (let i = 0; i < 2; i++) hand[i] = hand[i] + (tgt[i] - hand[i]) * (1 - lag) + (R() - 0.5) * tremor;
+    const near = ctl && Math.hypot(hand[0] - tgt[0], hand[1] - tgt[1]) <= 0.1;
+    return { p: [rtR3(hand[0]), rtR3(hand[1]), 0], trigger: near ? 1 : 0, squeeze: 0, estop: false };
+  };
+}
+/**
+ * The port gantry's joystick: p[0]/p[2] is the stick's deflection (east/west, north/south in the yard frame), the trigger
+ * is the drive enable, a squeeze works the spreader (lift when empty, set when loaded). Trigger closed with the stick
+ * centred holds the gantry; trigger open is nothing.
+ */
+export function rtPoseToActionPort(pose, obs, { deadband = 0.15 } = {}) {
+  if (pose.estop) return { type: "hold" };
+  if ((pose.squeeze ?? 0) >= 0.5) return { type: obs.carrying ? "set" : "lift" };
+  if ((pose.trigger ?? 0) < 0.5) return { type: "wait" };
+  const dx = pose.p[0], dz = pose.p[2];
+  if (Math.max(Math.abs(dx), Math.abs(dz)) < deadband) return { type: "hold" };
+  return { type: "move", dir: Math.abs(dx) >= Math.abs(dz) ? (dx > 0 ? "E" : "W") : (dz > 0 ? "S" : "N") };
+}
+const RT_STICK = Object.freeze({ E: [0.6, 0], W: [-0.6, 0], N: [0, -0.6], S: [0, 0.6] });
+/** The scripted "human" on the joystick: the expert's intent as stick deflections with lag and tremor (labelled synthetic). */
+export function rtScriptedHumanPort(env, { seed = 1, skill = 0.85, tremor = 0.012, lag = 0.3 } = {}) {
+  const intent = rbPolicy(env, { skill, seed }), R = rng(seed * 61 + 13);
+  const stick = [0, 0];
+  return (obs) => {
+    const a = intent(obs);
+    const tgt = a.type === "move" ? RT_STICK[a.dir] : [0, 0];
+    for (let i = 0; i < 2; i++) stick[i] = stick[i] + (tgt[i] - stick[i]) * (1 - lag) + (R() - 0.5) * tremor;
+    const settled = Math.hypot(stick[0] - tgt[0], stick[1] - tgt[1]) <= 0.2;
+    const lifting = a.type === "lift" || a.type === "set";
+    return { p: [rtR3(stick[0]), 0, rtR3(stick[1])], trigger: !lifting && settled && (a.type === "move" || a.type === "hold") ? 1 : 0, squeeze: lifting ? 0.9 : 0.1, estop: false };
+  };
+}
+
 /** The tasks the pose path covers: the pose → action mapping and the scripted stand-in for each. */
 export const RT_TASKS = Object.freeze({
   "rb-teleop-pick-place": { poseToAction: rtPoseToAction, human: rtScriptedHuman, frame: "bench: p is the hand (m)" },
   "rb-cell-entry": { poseToAction: rtPoseToActionCell, human: rtScriptedHumanCell, frame: "approach: p is [hand x, hand y, body z]" },
+  "rb-construction-drilling": { poseToAction: rtPoseToActionDrill, human: rtScriptedHumanDrill, frame: "pendant: p is [hand x, hand y, 0] over the control panel" },
+  "rb-port-gantry": { poseToAction: rtPoseToActionPort, human: rtScriptedHumanPort, frame: "joystick: p is [east-west, 0, north-south] deflection" },
 });
 export const RT_TASK_IDS = Object.freeze(Object.keys(RT_TASKS));
 function rtTask(sc) { const t = RT_TASKS[sc]; if (!t) throw new Error(`rt-teleop: no pose mapping for ${sc}`); return t; }

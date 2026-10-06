@@ -2,7 +2,7 @@
  "schema": "smartcitix.holodeck.agent-task@1/baselines",
  "generator": "tools/ag_eval.mjs",
  "config": {
-  "stations": 10,
+  "stations": 16,
   "seeds": [
    1,
    2,
@@ -21,48 +21,48 @@
  },
  "summary": {
   "random": {
-   "episodes": 30,
+   "episodes": 48,
    "successRate": 0,
    "finishRate": 0,
    "meanSteps": 900,
    "meanStepsWhenPassed": null,
-   "hazardHitsPerEpisode": 71.47,
-   "errorsPerEpisode": 419.87,
+   "hazardHitsPerEpisode": 67.98,
+   "errorsPerEpisode": 421.21,
    "hintsPerEpisode": 0,
-   "meanStationScore": 0
+   "meanStationScore": 4
   },
   "expert": {
-   "episodes": 30,
+   "episodes": 48,
    "successRate": 1,
    "finishRate": 1,
-   "meanSteps": 264,
-   "meanStepsWhenPassed": 264,
+   "meanSteps": 279,
+   "meanStepsWhenPassed": 279,
    "hazardHitsPerEpisode": 0,
    "errorsPerEpisode": 0,
    "hintsPerEpisode": 0,
-   "meanStationScore": 3281
+   "meanStationScore": 3347
   },
   "retrieval": {
-   "episodes": 30,
-   "successRate": 0.1,
+   "episodes": 48,
+   "successRate": 0.063,
    "finishRate": 1,
-   "meanSteps": 325.5,
+   "meanSteps": 333.9,
    "meanStepsWhenPassed": 312,
-   "hazardHitsPerEpisode": 0.9,
-   "errorsPerEpisode": 18.2,
-   "hintsPerEpisode": 1.1,
-   "meanStationScore": 2044
+   "hazardHitsPerEpisode": 1.13,
+   "errorsPerEpisode": 20.69,
+   "hintsPerEpisode": 1,
+   "meanStationScore": 1949
   },
   "retrieval-ask": {
-   "episodes": 30,
-   "successRate": 0.4,
+   "episodes": 48,
+   "successRate": 0.313,
    "finishRate": 1,
-   "meanSteps": 283.6,
-   "meanStepsWhenPassed": 314,
-   "hazardHitsPerEpisode": 0.3,
-   "errorsPerEpisode": 3,
-   "hintsPerEpisode": 7.8,
-   "meanStationScore": 2676
+   "meanSteps": 300.9,
+   "meanStepsWhenPassed": 312.6,
+   "hazardHitsPerEpisode": 0.63,
+   "errorsPerEpisode": 4.81,
+   "hintsPerEpisode": 8.69,
+   "meanStationScore": 2563
   }
  },
  "perStation": {
@@ -94,6 +94,156 @@
     "meanSteps": 85,
     "hints": 18,
     "hazardHits": 0
+   }
+  },
+  "k12-rt-a-robot-waits-for-a-grown-ups-ok": {
+   "random": {
+    "passed": 0,
+    "of": 3,
+    "meanSteps": 900,
+    "hints": 0,
+    "hazardHits": 181
+   },
+   "expert": {
+    "passed": 3,
+    "of": 3,
+    "meanSteps": 319.7,
+    "hints": 0,
+    "hazardHits": 0
+   },
+   "retrieval": {
+    "passed": 0,
+    "of": 3,
+    "meanSteps": 405.7,
+    "hints": 9,
+    "hazardHits": 6
+   },
+   "retrieval-ask": {
+    "passed": 0,
+    "of": 3,
+    "meanSteps": 362.7,
+    "hints": 36,
+    "hazardHits": 6
+   }
+  },
+  "rt-speed-separation-monitoring-setup": {
+   "random": {
+    "passed": 0,
+    "of": 3,
+    "meanSteps": 900,
+    "hints": 0,
+    "hazardHits": 188
+   },
+   "expert": {
+    "passed": 3,
+    "of": 3,
+    "meanSteps": 320,
+    "hints": 0,
+    "hazardHits": 0
+   },
+   "retrieval": {
+    "passed": 0,
+    "of": 3,
+    "meanSteps": 356,
+    "hints": 0,
+    "hazardHits": 6
+   },
+   "retrieval-ask": {
+    "passed": 0,
+    "of": 3,
+    "meanSteps": 342,
+    "hints": 21,
+    "hazardHits": 6
+   }
+  },
+  "rt-robot-estop-recovery-and-restart": {
+   "random": {
+    "passed": 0,
+    "of": 3,
+    "meanSteps": 900,
+    "hints": 0,
+    "hazardHits": 183
+   },
+   "expert": {
+    "passed": 3,
+    "of": 3,
+    "meanSteps": 293,
+    "hints": 0,
+    "hazardHits": 0
+   },
+   "retrieval": {
+    "passed": 0,
+    "of": 3,
+    "meanSteps": 335,
+    "hints": 3,
+    "hazardHits": 6
+   },
+   "retrieval-ask": {
+    "passed": 0,
+    "of": 3,
+    "meanSteps": 314,
+    "hints": 36,
+    "hazardHits": 3
+   }
+  },
+  "rt-cobot-power-force-limit-check": {
+   "random": {
+    "passed": 0,
+    "of": 3,
+    "meanSteps": 900,
+    "hints": 0,
+    "hazardHits": 183
+   },
+   "expert": {
+    "passed": 3,
+    "of": 3,
+    "meanSteps": 308,
+    "hints": 0,
+    "hazardHits": 0
+   },
+   "retrieval": {
+    "passed": 0,
+    "of": 3,
+    "meanSteps": 359.7,
+    "hints": 3,
+    "hazardHits": 3
+   },
+   "retrieval-ask": {
+    "passed": 0,
+    "of": 3,
+    "meanSteps": 341,
+    "hints": 30,
+    "hazardHits": 3
+   }
+  },
+  "rt-teach-pendant-safe-jogging": {
+   "random": {
+    "passed": 0,
+    "of": 3,
+    "meanSteps": 900,
+    "hints": 0,
+    "hazardHits": 202
+   },
+   "expert": {
+    "passed": 3,
+    "of": 3,
+    "meanSteps": 293,
+    "hints": 0,
+    "hazardHits": 0
+   },
+   "retrieval": {
+    "passed": 0,
+    "of": 3,
+    "meanSteps": 319,
+    "hints": 0,
+    "hazardHits": 3
+   },
+   "retrieval-ask": {
+    "passed": 0,
+    "of": 3,
+    "meanSteps": 312,
+    "hints": 30,
+    "hazardHits": 3
    }
   },
   "tw-palletizer-cell-fenced-access-permit": {
@@ -363,6 +513,36 @@
     "of": 3,
     "meanSteps": 306,
     "hints": 24,
+    "hazardHits": 0
+   }
+  },
+  "vb-supervising-agent-dispatched-robots": {
+   "random": {
+    "passed": 0,
+    "of": 3,
+    "meanSteps": 900,
+    "hints": 0,
+    "hazardHits": 182
+   },
+   "expert": {
+    "passed": 3,
+    "of": 3,
+    "meanSteps": 291,
+    "hints": 0,
+    "hazardHits": 0
+   },
+   "retrieval": {
+    "passed": 0,
+    "of": 3,
+    "meanSteps": 311,
+    "hints": 0,
+    "hazardHits": 3
+   },
+   "retrieval-ask": {
+    "passed": 3,
+    "of": 3,
+    "meanSteps": 307,
+    "hints": 30,
     "hazardHits": 0
    }
   }
