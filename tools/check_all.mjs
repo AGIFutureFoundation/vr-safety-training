@@ -105,6 +105,8 @@ const CHECKERS = [
   "check_robotics_programme.mjs",
   // ROBOTRAIN: the four gap stations, the controller-pose teleoperation recorder, recorded vs synthetic BC (docs/consoles/ROBOTRAIN.md).
   "check_robotrain.mjs",
+  // VBRIDGE: software-agent jobs reach simulated robots only, through the safety governor (docs/consoles/VBRIDGE.md).
+  "check_vbridge.mjs",
   // LA-COHORTS: Louisiana lesson flows and apply games, classroom boards, Home links, cohort run sheets (docs/consoles/LA-COHORTS.md).
   "check_la_cohorts.mjs",
   "check_geo.mjs",

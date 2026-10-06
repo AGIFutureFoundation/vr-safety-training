@@ -1005,6 +1005,12 @@ APPS = {
             SHARED / "col-learn.js",
             # ROBOTRAIN: the controller-pose teleoperation recorder over the gym (after col-learn.js; records only through dx-data.js).
             SHARED / "rt-teleop.js",
+            # VBRIDGE: agent jobs to simulated robots through the safety governor (after rb-env.js, col-learn.js; ENTERPRISE-3's registry for the audit log).
+            SHARED / "ent3-governance.js",
+            SHARED / "vb-shared-data.js",
+            SHARED / "vb-governor.js",
+            SHARED / "vb-bridge.js",
+            SHARED / "vb-panel.js",
             # CLASSROOMS: rooms that teach (after by-parish-lessons, es-bay-lessons, ps-projectsim and cg-runner).
             SHARED / "cr-classrooms.js",
             # LA-ROOMS: the Louisiana rooms' dressers (after ix-interiors.js and lp-programme-data.js).

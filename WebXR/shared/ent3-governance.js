@@ -102,6 +102,21 @@ function ent3Audit(state, action, detail, at = ent3Now()) {
 /** The audit log, oldest first (a copy). */
 export function ent3AuditList() { return ent3Load().audit.map((a) => ({ ...a })); }
 
+/**
+ * Append one line to the audit log from another module (VBRIDGE's safety
+ * governor writes every dispatch decision here). Append-only, like every other
+ * line: there is still no way to clear or edit the chain. `action` is a short
+ * id ("vb-allow", "vb-refuse", "vb-estop"); `detail` is plain text, no person.
+ */
+export function ent3AuditAppend(action, detail, { at = null } = {}) {
+  const id = ent3Id(action);
+  if (!id) return { ok: false, reason: "an audit line needs an action id" };
+  const state = ent3Load();
+  const line = ent3Audit(state, id, detail, at ?? ent3Now());
+  ent3Save(state);
+  return { ok: true, line: { ...line } };
+}
+
 /** Re-walk the chain: every line's hash, its back-link and its sequence. */
 export function ent3VerifyAudit(list = null) {
   const audit = list ?? ent3Load().audit;
