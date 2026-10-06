@@ -44,6 +44,8 @@ export const GT_PROFILE_KEYS = [
   "redwood-career-v1",
   // The learner's own avatar style (shared/crew.js's CT_AVATAR_KEY), picked on the account chip.
   "vr-avatar-style-v1",
+  // COLEARN's adaptive tutor counts (shared/col-learn.js COL_TUTOR_KEY): per learner, local only.
+  "col-tutor-v1",
   // The organisation layer (shared/org.js, docs/enterprise.md): organisations, cohorts, members, audit.
   "vr-org-v1",
   // Seat billing (shared/payments.js, docs/payments.md): checkout sessions, receipts, licences, the budget agent.

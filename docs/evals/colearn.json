@@ -1,0 +1,345 @@
+{
+  "eval": "COLEARN co-learning",
+  "version": "col/1",
+  "generator": "tools/col_eval.mjs",
+  "learners": {
+    "robot": "behaviour cloning, k-nearest neighbours (k=5) over hand-written features",
+    "tutor": "UCB1 bandit over hint styles + per-step error table",
+    "explanations": "heuristic feature attribution, fixed phrases, no model call",
+    "shield": "reservation rule (AMR only), not learnt"
+  },
+  "data": "synthetic demonstrations (scripted expert at skill 0.85 with action noise), labelled synthetic; held-out seeds 7001-7060",
+  "policies": [
+    {
+      "scenario": "rb-cell-entry",
+      "demosOffered": 40,
+      "demosKept": 24,
+      "rows": 584,
+      "random": {
+        "n": 60,
+        "success": 0,
+        "clean": 0.05,
+        "meanSteps": 159.4
+      },
+      "expert": {
+        "n": 60,
+        "success": 1,
+        "clean": 1,
+        "meanSteps": 22.583
+      },
+      "bcFiltered": {
+        "n": 60,
+        "success": 1,
+        "clean": 1,
+        "meanSteps": 24.583
+      },
+      "bcUnfiltered": {
+        "n": 60,
+        "success": 1,
+        "clean": 1,
+        "meanSteps": 23.583
+      },
+      "bcFilteredShield": null,
+      "gapToExpert": 0,
+      "modelHash": "31f876a605368d44"
+    },
+    {
+      "scenario": "rb-cobot-zone-setup",
+      "demosOffered": 40,
+      "demosKept": 39,
+      "rows": 241,
+      "random": {
+        "n": 60,
+        "success": 0.05,
+        "clean": 0.05,
+        "meanSteps": 4.367
+      },
+      "expert": {
+        "n": 60,
+        "success": 1,
+        "clean": 1,
+        "meanSteps": 6
+      },
+      "bcFiltered": {
+        "n": 60,
+        "success": 1,
+        "clean": 1,
+        "meanSteps": 6.05
+      },
+      "bcUnfiltered": {
+        "n": 60,
+        "success": 1,
+        "clean": 1,
+        "meanSteps": 6.05
+      },
+      "bcFilteredShield": null,
+      "gapToExpert": 0,
+      "modelHash": "52faed1b6ea1f4eb"
+    },
+    {
+      "scenario": "rb-teleop-pick-place",
+      "demosOffered": 40,
+      "demosKept": 19,
+      "rows": 984,
+      "random": {
+        "n": 60,
+        "success": 0,
+        "clean": 0.533,
+        "meanSteps": 400
+      },
+      "expert": {
+        "n": 60,
+        "success": 0.983,
+        "clean": 0.983,
+        "meanSteps": 51.05
+      },
+      "bcFiltered": {
+        "n": 60,
+        "success": 0.967,
+        "clean": 0.967,
+        "meanSteps": 62.633
+      },
+      "bcUnfiltered": {
+        "n": 60,
+        "success": 0,
+        "clean": 0,
+        "meanSteps": 400
+      },
+      "bcFilteredShield": null,
+      "gapToExpert": 0.016,
+      "modelHash": "d9b2001591c00551"
+    },
+    {
+      "scenario": "rb-amr-fleet-routing",
+      "demosOffered": 40,
+      "demosKept": 37,
+      "rows": 1168,
+      "random": {
+        "n": 60,
+        "success": 0,
+        "clean": 0,
+        "meanSteps": 120
+      },
+      "expert": {
+        "n": 60,
+        "success": 1,
+        "clean": 1,
+        "meanSteps": 13.85
+      },
+      "bcFiltered": {
+        "n": 60,
+        "success": 0.817,
+        "clean": 0.817,
+        "meanSteps": 24.65
+      },
+      "bcUnfiltered": {
+        "n": 60,
+        "success": 0.6,
+        "clean": 0.6,
+        "meanSteps": 15.5
+      },
+      "bcFilteredShield": {
+        "n": 60,
+        "success": 0.867,
+        "clean": 0.917,
+        "meanSteps": 26.117
+      },
+      "gapToExpert": 0.183,
+      "modelHash": "91a7b57c6a817b04"
+    }
+  ],
+  "stations": [
+    {
+      "scenario": "rb-station-robot-cell",
+      "station": "ad-robot-cell-lockout-and-safe-reentry",
+      "demosOffered": 20,
+      "demosKept": 13,
+      "rows": 3717,
+      "random": {
+        "n": 10,
+        "success": 0,
+        "clean": 0,
+        "meanSteps": 20000
+      },
+      "expert": {
+        "n": 10,
+        "success": 1,
+        "clean": 1,
+        "meanSteps": 278
+      },
+      "bcFiltered": {
+        "n": 10,
+        "success": 1,
+        "clean": 1,
+        "meanSteps": 278
+      },
+      "gapToExpert": 0,
+      "modelHash": "10fa790f52017137"
+    },
+    {
+      "scenario": "rb-station-amr-fleet",
+      "station": "ad-amr-fleet-traffic-and-estop-drill",
+      "demosOffered": 20,
+      "demosKept": 6,
+      "rows": 1680,
+      "random": {
+        "n": 10,
+        "success": 0,
+        "clean": 0,
+        "meanSteps": 20000
+      },
+      "expert": {
+        "n": 10,
+        "success": 1,
+        "clean": 1,
+        "meanSteps": 278
+      },
+      "bcFiltered": {
+        "n": 10,
+        "success": 1,
+        "clean": 1,
+        "meanSteps": 278
+      },
+      "gapToExpert": 0,
+      "modelHash": "8bd01eff3776b06f"
+    },
+    {
+      "scenario": "rb-station-cobot",
+      "station": "ad-cobot-risk-assessment-and-speed-separation",
+      "demosOffered": 20,
+      "demosKept": 12,
+      "rows": 3501,
+      "random": {
+        "n": 10,
+        "success": 0,
+        "clean": 0,
+        "meanSteps": 20000
+      },
+      "expert": {
+        "n": 10,
+        "success": 1,
+        "clean": 1,
+        "meanSteps": 279
+      },
+      "bcFiltered": {
+        "n": 10,
+        "success": 1,
+        "clean": 1,
+        "meanSteps": 279
+      },
+      "gapToExpert": 0,
+      "modelHash": "50572e6935df6069"
+    }
+  ],
+  "tutor": {
+    "mixed": {
+      "learners": 300,
+      "population": "mixed",
+      "seed": 11,
+      "model": "simulated learners (colTutorSim's own response model)",
+      "static": {
+        "attempts": {
+          "mean": 64.577,
+          "lo": 60.445,
+          "hi": 68.708
+        },
+        "mistakes": {
+          "mean": 10.41,
+          "lo": 9.674,
+          "hi": 11.146
+        },
+        "hints": {
+          "mean": 10.41,
+          "lo": 9.674,
+          "hi": 11.146
+        },
+        "passRate": 1
+      },
+      "adaptive": {
+        "attempts": {
+          "mean": 59.897,
+          "lo": 56.41,
+          "hi": 63.384
+        },
+        "mistakes": {
+          "mean": 9.03,
+          "lo": 8.427,
+          "hi": 9.633
+        },
+        "hints": {
+          "mean": 12.44,
+          "lo": 11.64,
+          "hi": 13.24
+        },
+        "passRate": 1
+      },
+      "gain": {
+        "attempts": {
+          "mean": 4.68,
+          "lo": 0.25,
+          "hi": 9.11
+        },
+        "mistakes": {
+          "mean": 1.38,
+          "lo": 0.661,
+          "hi": 2.099
+        }
+      }
+    },
+    "tellBest": {
+      "learners": 300,
+      "population": "tell-best",
+      "seed": 11,
+      "model": "simulated learners (colTutorSim's own response model)",
+      "static": {
+        "attempts": {
+          "mean": 54.513,
+          "lo": 51.431,
+          "hi": 57.596
+        },
+        "mistakes": {
+          "mean": 7.947,
+          "lo": 7.444,
+          "hi": 8.449
+        },
+        "hints": {
+          "mean": 7.947,
+          "lo": 7.444,
+          "hi": 8.449
+        },
+        "passRate": 1
+      },
+      "adaptive": {
+        "attempts": {
+          "mean": 58.35,
+          "lo": 54.876,
+          "hi": 61.824
+        },
+        "mistakes": {
+          "mean": 8.75,
+          "lo": 8.15,
+          "hi": 9.35
+        },
+        "hints": {
+          "mean": 11.98,
+          "lo": 11.192,
+          "hi": 12.768
+        },
+        "passRate": 1
+      },
+      "gain": {
+        "attempts": {
+          "mean": -3.837,
+          "lo": -7.639,
+          "hi": -0.034
+        },
+        "mistakes": {
+          "mean": -0.803,
+          "lo": -1.388,
+          "hi": -0.218
+        }
+      }
+    },
+    "note": "simulated learners from colTutorSim's own response model; not measurements of people"
+  }
+}
