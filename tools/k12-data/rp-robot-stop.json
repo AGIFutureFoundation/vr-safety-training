@@ -1,0 +1,146 @@
+{
+  "id": "k12-rp-how-a-robot-knows-to-stop",
+  "index": "rp-4",
+  "prefix": "rpk",
+  "accent": "#5fae8a",
+  "floor": ["#6a6f73", "#5c6165"],
+  "wall": ["#e2e7e4", "#cfd8d3"],
+  "trade": "Science and careers lesson on robot sensing with a robotics technician at a training lab — learner and robot technician",
+  "header": "Upper-primary and lower-secondary science at a robotics training lab: how a robot senses that a person is near, why it slows and stops in zones around it, who is allowed to start it again, and the people who build, mend and teach robots, worked with a small robot arm behind a fence and a floor scanner in the scene. ROBOPROG's awareness level (docs/robotics-programme.md).",
+  "name": "How a Robot Knows to Stop",
+  "tagline": "Walk toward the robot, watch it slow and stop — then meet the people who keep robots safe",
+  "badge": { "id": "zone-reader", "name": "Zone Reader", "note": "Watched the robot slow and stop as people came near, found its sensors and said who may start it again" },
+  "board": { "name": "Robot Lab Board", "currency": "SPARKS", "ranks": ["Visitor", "Watcher", "Helper", "Lab Partner", "Zone Reader"] },
+  "hazards": [
+    { "id": "reach-through-the-fence", "label": "Reach through the fence to touch the robot arm?", "face": "REACH\nIN", "text": "You reached toward the fence to touch the arm. A robot arm can move quickly and does not feel you the way a person would. The fence and the zones are there so hands stay outside; the technician shows the arm up close only when it is switched off and locked." },
+    { "id": "robots-see-like-people", "label": "Say the robot sees people just like we do?", "face": "SEES\nLIKE US", "text": "You said the robot sees like a person. It does not. Its sensors measure things like distance or light and send numbers to its controller. It only knows what its sensors tell it, which is why the zones and the stop button matter so much." },
+    { "id": "press-start-yourself", "label": "Press the start button after the robot stops?", "face": "PRESS\nSTART", "text": "You went to press start. Only the trained person in charge starts a robot again, after checking that everyone is out of the zones. A visitor never presses start, even when the robot looks ready." },
+    { "id": "hide-from-the-scanner", "label": "Duck low to sneak past the floor scanner?", "face": "SNEAK\nPAST", "text": "You tried to sneak past the scanner. The scanner is how the robot knows someone is near. Tricking it does not make the robot safe, it only makes it blind. Walk where everyone can be seen, and let the scanner do its job." }
+  ],
+  "find1": {
+    "title": "Find the robot's sensors",
+    "cue": "Mark the floor scanner, the light curtain and the camera around the robot cell.",
+    "why": "A robot cannot see or hear like you. It uses sensors: a floor scanner that measures how far away things are, a light curtain that notices when a beam is broken, and sometimes a camera. Each one sends a signal to the robot's controller, which decides whether to keep going, slow down or stop.",
+    "items": [
+      ["scanner", "the floor scanner near the base", "Measures how far away people are."],
+      ["curtain", "the light curtain at the gate", "Notices when a beam is broken."],
+      ["camera", "the camera above the cell", "Watches the work area."]
+    ],
+    "decoy": ["fan", "the cooling fan on the wall", "It keeps the lab cool, but it is not a sensor."]
+  },
+  "select1": {
+    "title": "Stand on the visitor line",
+    "cue": "Join the technician on the painted visitor line outside the fence.",
+    "why": "Robot labs have painted lines that show where visitors stand. The line is outside every zone, so the robot can keep working while you watch. The technician explains from the line too, because everyone, even the experts, follows the same rules near a working robot.",
+    "key": "line-card",
+    "label": "On the visitor line",
+    "face": "VISITOR\nLINE"
+  },
+  "seq": {
+    "title": "Put the robot's reactions in order",
+    "cue": "Order what the robot does as a person walks closer and closer.",
+    "why": "The robot reacts in steps. Far away, it works at its normal speed. When someone enters the warning zone, it slows down. If they come into the stop zone, it stops and holds still. Only after the person leaves and the technician checks does it start again. Each step depends on how close the person is.",
+    "oon": "Out of order. The robot slows down before it stops.",
+    "items": [
+      ["ord-work", "the robot works at normal speed"],
+      ["ord-slow", "a person enters the warning zone and it slows"],
+      ["ord-stop", "a person enters the stop zone and it stops"],
+      ["ord-restart", "the technician checks the zones and restarts it"]
+    ]
+  },
+  "hold": {
+    "title": "Hold still in the warning zone",
+    "cue": "Stand still on the yellow warning zone and hold while the robot slows down.",
+    "why": "Standing still in the warning zone lets you watch the robot change speed because of you. The scanner measured your distance, the controller compared it with the zone, and the arm slowed. Holding still long enough shows that the robot keeps slowing for as long as someone is close.",
+    "brk": "You stepped off before the robot finished slowing. Hold still on the yellow zone.",
+    "key": "warn-hold",
+    "label": "Hold in the warning zone"
+  },
+  "select2": {
+    "title": "Say who may start the robot again",
+    "cue": "Choose the sentence that says who restarts the robot and what they check first.",
+    "why": "When a robot stops for a person, starting it again is a decision, not a button anyone can press. A good answer says the trained person in charge restarts it, and only after checking that nobody is inside the zones. It uses what you saw when the technician walked round the fence.",
+    "key": "who-card",
+    "label": "Who restarts it",
+    "face": "WHO MAY\nRESTART?"
+  },
+  "find2": {
+    "title": "Spot the people who work with robots",
+    "cue": "Look round the lab and mark three kinds of work people do with robots.",
+    "why": "Many people work with robots. Operators run them and keep the area clear. Technicians mend them and check the sensors. Robot trainers show robots how to do a task and test whether they learned it well. These are jobs people train for, and each one uses the ideas in this lesson.",
+    "items": [
+      ["operator", "an operator at the control panel", "Runs the robot and keeps the area clear."],
+      ["technician", "a technician checking a sensor", "Mends the robot and tests its sensors."],
+      ["trainer", "a robot trainer with a controller", "Shows the robot a task and tests it."]
+    ],
+    "decoy": ["plant", "a plant by the window", "Nice to have, but not a robot job."]
+  },
+  "turn": {
+    "title": "Turn the dial to set the warning zone",
+    "cue": "Turn the model dial slowly to make the warning zone bigger around the robot.",
+    "why": "A bigger warning zone gives the robot more room to slow down before anyone gets close. Turning the dial on the model shows the yellow ring growing. Real zones are set by trained people using the robot's speed and how quickly it can stop, and they are tested before anyone relies on them.",
+    "key": "zone-dial",
+    "label": "Zone dial",
+    "dial": "ZONE"
+  },
+  "gauge": {
+    "title": "Read the distance on the scanner screen",
+    "cue": "Commit when the marker shows the person standing outside the stop zone.",
+    "why": "The scanner screen shows how far away the nearest person is. When the marker sits outside the red stop zone, the robot is allowed to keep moving slowly. Reading the screen shows that the robot's choice comes from a measurement, not from guessing, which is why a working sensor matters.",
+    "key": "range-meter",
+    "label": "Scanner distance",
+    "meter": "RANGE",
+    "miss": "Not outside the stop zone yet. Read where the marker sits."
+  },
+  "drag": {
+    "title": "Move the cone back to the line",
+    "cue": "Drag the traffic cone back onto the painted visitor line.",
+    "why": "Cones and lines only work if they stay where they belong. A cone pushed inside the zone could make people think the safe area is bigger than it is. Putting it back on the line keeps the message clear for the next visitor, just as technicians do at the start of every shift.",
+    "key": "cone",
+    "label": "Traffic cone",
+    "spot": "line-spot",
+    "spotLabel": "The visitor line",
+    "miss": "Not on the line yet. Place the cone on the painted visitor line."
+  },
+  "track": {
+    "title": "Follow the robot arm as it moves",
+    "cue": "Keep the marker on the robot's gripper as it picks up a block and puts it down.",
+    "why": "Following the gripper shows how the arm moves in arcs, not straight lines, which is why the zones are round. The arm can swing farther than it looks. Watching it from the line helps you see why nobody stands near a robot that is working, even when it seems far away.",
+    "brk": "The marker lost the gripper. Find it again and follow it.",
+    "key": "arm-track",
+    "label": "Gripper followed",
+    "meter": "FOLLOW"
+  },
+  "record": {
+    "title": "Record what made the robot slow and stop",
+    "cue": "Write what the robot did when you were far, in the warning zone and in the stop zone.",
+    "why": "Three short lines tell the story: far away it worked, in the warning zone it slowed, in the stop zone it stopped. A record like this lets you check your thinking later. Technicians keep records of every sensor test for the same reason, so the next person knows it was checked.",
+    "key": "robot-log",
+    "label": "Zone record",
+    "done": "Zone test recorded"
+  },
+  "share": {
+    "title": "Swap a question with a partner",
+    "cue": "Ask a partner one question about how robots sense people, then answer one of theirs.",
+    "why": "Asking and answering questions shows what you understand and what you still wonder about. A good question might be what happens if a sensor breaks. Robot teams ask each other questions all the time, because asking early is how problems get found before anyone is near the arm.",
+    "key": "share-board",
+    "label": "Swap questions",
+    "done": "Questions swapped"
+  },
+  "checkin": {
+    "title": "Check in at the visitor line",
+    "cue": "How does the robot know you are near? Who may start it again?",
+    "why": "The technician ends the visit by checking what everyone learned. Each learner names one sensor and says who restarts the robot. If anyone still thinks the robot sees like a person, the group works it out together before leaving the lab.",
+    "label": "Visitor-line check-in"
+  },
+  "interrupts": [
+    { "id": "the-robot-stops-for-a-visitor", "kind": "Robot stop", "key": "stay-on-line", "label": "Stay on the line and wait", "alert": "The robot has stopped because a visitor stepped too close to the gate.", "cue": "Stay on the visitor line and wait while the technician checks the zones.", "why": "When a robot stops for a person, the safe thing is to stay put and let the person in charge check. Moving around, or going to look, only adds more people near the robot. Waiting on the line shows you understand that a stop is the robot doing its job.", "miss": "The class drifted toward the gate after the stop. When a robot stops, stay on the line and wait for the technician.", "wrong": "That moves people toward the robot. Stay on the line. Choose the response that deals with it now.", "done": "Class waited, the zones were checked. The lesson carries on." },
+    { "id": "the-technician-asks-about-sensors", "kind": "Crew question", "key": "name-sensor", "label": "Say the scanner measures how far people are", "alert": "The technician asks how the robot knew to slow down.", "cue": "Say the floor scanner measured how far away the person was and the robot slowed for the zone.", "why": "Knowing that a sensor measured a distance shows you understand the robot is not guessing. It follows rules about zones using numbers from its sensors. That is the main idea of this lesson.", "miss": "You could not say how the robot knew, and the technician explained before the class went on.", "wrong": "That does not say how the robot knew. Name the sensor. Choose the response that deals with it now.", "done": "Sensor named. The lesson carries on." }
+  ],
+  "crew": ["Science teacher", "Classmate", "Robot technician", "Robot operator"],
+  "guide": { "start": "On the visitor line with the technician.", "after": "Sensors measure; the robot slows and stops by zone.", "hazard": "Stop. Hands stay outside the fence." },
+  "lateRecord": "The zone record is written once you have watched the robot slow and stop — nothing to record yet.",
+  "lateCheckin": "The check-in comes at the end, at the visitor line.",
+  "scene": "lab",
+  "order": "a"
+}
