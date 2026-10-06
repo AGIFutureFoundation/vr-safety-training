@@ -123,10 +123,21 @@ const cpuMs = genAll.map((g) => g.cpu).sort((a, b) => a - b);
 const cpuOf = (p, cx, cz) => { const c0 = process.cpuUsage(); D.dtDetailForChunk(p, cx, cz, "high"); const c = process.cpuUsage(c0); return (c.user + c.system) / 1000; };
 const slow = genAll.sort((a, b) => b.cpu - a.cpu).slice(0, 8).map(({ p, cx, cz }) => [0, 1, 2].map(() => cpuOf(p, cx, cz)).sort((a, b) => a - b)[1]);
 const med = cpuMs[cpuMs.length >> 1], worst = Math.max(...slow), p95 = cpuMs[Math.floor(cpuMs.length * 0.95)];
+// The CPU budget is stated in reference-machine milliseconds: this repository's dev container, where a fixed arithmetic
+// loop (150 000 square roots) takes DT_CPU_REF_MS at its fastest of 15. On slower hardware (a GitHub-hosted runner can
+// be either faster or about twice as slow as the dev machine, run to run) the same chunk costs proportionally more CPU
+// time, so the budget scales by that measured speed factor. It never scales below 1: on a machine as fast as the
+// reference or faster, the budget is exactly DT_BUDGET's.
+const DT_CPU_REF_MS = 0.96;
+const cpuSpeedLoop = () => { const c0 = process.cpuUsage(); let s = 0; for (let i = 1; i <= 150000; i++) s += Math.sqrt(i) / i; const c = process.cpuUsage(c0); return [(c.user + c.system) / 1000, s]; };
+const cpuSpeedMs = Math.min(...Array.from({ length: 15 }, () => cpuSpeedLoop()[0]).filter((v) => v > 0));
+const cpuFactor = Math.max(1, (Number.isFinite(cpuSpeedMs) ? cpuSpeedMs : DT_CPU_REF_MS) / DT_CPU_REF_MS);
+const genBudget = D.DT_BUDGET.genMs * cpuFactor, genWorstBudget = D.DT_BUDGET.genWorstMs * cpuFactor;
+note(`CPU speed: the reference loop took ${Number.isFinite(cpuSpeedMs) ? cpuSpeedMs.toFixed(2) : "n/a"} ms (reference ${DT_CPU_REF_MS} ms), so the generation budgets scale ×${cpuFactor.toFixed(2)}: median ≤ ${genBudget.toFixed(1)} ms, worst ≤ ${genWorstBudget.toFixed(0)} ms`);
 const wMed = genMs[genMs.length >> 1], wP95 = genMs[Math.floor(genMs.length * 0.95)], wMax = genMs[genMs.length - 1];
 note(`generation per chunk at high (CPU): median ${med.toFixed(1)} ms, p95 ${p95.toFixed(1)} ms, worst (re-timed) ${worst.toFixed(1)} ms; wall clock: median ${wMed.toFixed(1)} ms, p95 ${wP95.toFixed(1)} ms, single-run max ${wMax.toFixed(1)} ms`);
-check(med <= D.DT_BUDGET.genMs, `generation per chunk at high: median ${med.toFixed(1)} ms CPU (≤ ${D.DT_BUDGET.genMs} ms) over ${cpuMs.length} chunks (the walk's; wall clock ${wMed.toFixed(1)} ms)`);
-check(worst <= D.DT_BUDGET.genWorstMs, `generation per chunk at high: worst ${worst.toFixed(1)} ms CPU (≤ ${D.DT_BUDGET.genWorstMs} ms, median of 3 re-timings of the 8 slowest; wall-clock single-run max ${wMax.toFixed(1)} ms)`);
+check(med <= genBudget, `generation per chunk at high: median ${med.toFixed(1)} ms CPU (≤ ${genBudget.toFixed(1)} ms: ${D.DT_BUDGET.genMs} ms × CPU factor ${cpuFactor.toFixed(2)}) over ${cpuMs.length} chunks (the walk's; wall clock ${wMed.toFixed(1)} ms)`);
+check(worst <= genWorstBudget, `generation per chunk at high: worst ${worst.toFixed(1)} ms CPU (≤ ${genWorstBudget.toFixed(0)} ms, median of 3 re-timings of the 8 slowest; wall-clock single-run max ${wMax.toFixed(1)} ms)`);
 
 // 4. determinism and nesting
 for (const p of R.NP_PARISHES) {
