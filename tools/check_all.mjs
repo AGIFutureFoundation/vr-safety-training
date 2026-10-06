@@ -84,6 +84,8 @@ const CHECKERS = [
   "check_robotics.mjs",
   // COLEARN: behaviour cloning from consented/synthetic demonstrations, the robot-demonstrates ghost, the bandit tutor (docs/consoles/COLEARN.md).
   "check_colearn.mjs",
+  // AGENTGYM: stations as agent tasks — determinism, scoring parity with the human station, offline, consented ratings (docs/consoles/AGENTGYM.md).
+  "check_agentgym.mjs",
   // REACTOR: the engine's hot-path shortcuts are exact, and the per-map boot and streaming profile (docs/consoles/REACTOR.md).
   "check_reactor.mjs",
   // CLEANPORTS: zero-emission port stations, drivables and the WOJRC zero-emission careers level (docs/consoles/CLEANPORTS.md).

@@ -1133,7 +1133,7 @@ APPS = {
 # "flows" is not an app but is reached the same way: the instructor console
 # fetches "../flows/index.json", which needs the same one-level fixup in dist.
 SIBLING_APP_DIRS = [*APPS, "portal", "verify", "instructor", "flows", "packs"]
-SIBLING_APP_DIRS = [*APPS, "portal", "verify", "instructor", "flows", "packs", "scholar", "data"]  # scholar: the K-12 scoreboard (SCHOLAR); data: the DATAWORKS analysis page
+SIBLING_APP_DIRS = [*APPS, "portal", "verify", "instructor", "flows", "packs", "scholar", "data", "agentgym"]  # scholar: the K-12 scoreboard (SCHOLAR); data: the DATAWORKS analysis page; agentgym: AGENTGYM's walkthrough page
 AUTH_CONFIG = "auth-config.json"
 # The apps whose bundle reads the sign-in configuration, and therefore need a
 # copy of it beside the bundle. A deployment edits the copy it serves.
@@ -1453,6 +1453,9 @@ DIST_SHARED = [
     # DATAWORKS' analysis page (WebXR/data/index.html, copied beside the homepage): the data system core and consent panel.
     "dx-data.js",
     "dx-consent-ui.js",
+    # AGENTGYM's walkthrough page (WebXR/agentgym/index.html): recorded agent runs and consented ratings.
+    "ag-feedback.js",
+    "ag-walkthroughs.js",
     # ESTUARY's Bay ecology lessons, which the scoreboard's lesson index reads.
     "es-bay-lessons.js",
     # LA-K12's Louisiana K-12 lessons, which the scoreboard's lesson index reads.
@@ -1600,6 +1603,9 @@ def build_combined() -> int:
     # DATAWORKS' analysis page (WebXR/data/index.html): its ../shared/ imports resolve against DIST/shared.
     (DIST / "data").mkdir(parents=True, exist_ok=True)
     (DIST / "data" / "index.html").write_bytes((WEBXR / "data" / "index.html").read_bytes())
+    # AGENTGYM's walkthrough page (WebXR/agentgym/index.html): its ../shared/ imports resolve against DIST/shared.
+    (DIST / "agentgym").mkdir(parents=True, exist_ok=True)
+    (DIST / "agentgym" / "index.html").write_bytes((WEBXR / "agentgym" / "index.html").read_bytes())
     # sc-lessons.js reads Redwood Reach's site and field-lesson data from ../redwood/js/ (pure data, no imports of their own).
     (DIST / "redwood" / "js").mkdir(parents=True, exist_ok=True)
     for _rw in ("rw-data.js", "rw-lore-data.js"):
