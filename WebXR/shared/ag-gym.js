@@ -31,6 +31,8 @@
 //                       overlap with the step's sourced text, inspects before it
 //                       touches, and asks for a hint when nothing matches.
 //                       No language model; no network.
+//   retrieval-ask     — the same heuristic, but it asks for a hint whenever it is
+//                       unsure (runner-up within AG_ASK_MARGIN of the best match).
 //   agAdapterPolicy   — a hook for an external agent, OFF by default
 //                       (AG_ADAPTER.enabled === false); it must be handed a
 //                       synchronous decide(obs) function by the deployment.
@@ -47,6 +49,8 @@ export const AG_ACTIONS = Object.freeze(["select", "inspect", "confirm", "hint",
 export const AG_HINT_COST = 0.02;
 export const AG_DT = 0.05;
 export const AG_MAX_STEPS = 900;
+/** The retrieval heuristic asks for a hint when the runner-up scores within this of the best (0 = never; see docs/consoles/AGENTGYM.md Cycles). */
+export const AG_RETRIEVAL_MARGIN = 0;
 
 /** The external-agent adapter. Off by default; no network path exists in this module. */
 export const AG_ADAPTER = Object.freeze({
@@ -258,9 +262,10 @@ export function agTokens(text) {
  * the best one once before touching it; ask for a hint when nothing overlaps
  * or every candidate has been refused.
  */
-export function agRetrievalPolicy(env, { seed = 1, margin = 0 } = {}) {
+export function agRetrievalPolicy(env, { seed = 1, margin = AG_RETRIEVAL_MARGIN, useIdf = true } = {}) {
   const R = rng(seed * 668265263 + 7);
-  let key = null, refused = new Set(), inspected = new Set(), lastTouched = null, hinted = null;
+  let key = null, refused = new Set(), inspected = new Set(), lastTouched = null, hinted = null, idf = null;
+  const used = new Set();
   const byName = () => { const m = new Map(); for (const v of env.observe().visible) m.set(v.name, v.id); return m; };
   return (obs) => {
     if (obs.finished || obs.kind === null) return { type: "wait" };
@@ -281,12 +286,20 @@ export function agRetrievalPolicy(env, { seed = 1, margin = 0 } = {}) {
     const q1 = obs.interrupt ? [] : agTokens(obs.why);
     const done = new Set(obs.progress?.done ?? []);
     const known = new Set(obs.hazardsKnown);
+    // Words shared by many objects (valve, panel) say little: weight each by its inverse frequency among the visible names.
+    if (!idf) {
+      const df = new Map();
+      for (const v of obs.visible) for (const w of new Set([...agTokens(v.id), ...agTokens(v.name)])) df.set(w, (df.get(w) ?? 0) + 1);
+      idf = (w) => (useIdf ? Math.log(1 + obs.visible.length / (df.get(w) ?? 1)) : 1);
+    }
+    if (obs.feedback?.kind === "ok" && lastTouched) used.add(lastTouched);
     const cands = obs.visible.filter((v) => !known.has(v.id) && !refused.has(v.id) && !done.has(v.id)).map((v) => {
       const toks = new Set([...agTokens(v.id), ...agTokens(v.name)]);
       let s = 0, first = Infinity;
-      q2.forEach((w, i) => { if (toks.has(w)) { s += 2; first = Math.min(first, i); } });
-      q1.forEach((w, i) => { if (toks.has(w)) { s += 1; first = Math.min(first, q2.length + i); } });
-      return { id: v.id, s: s / Math.sqrt(toks.size || 1), first };
+      q2.forEach((w, i) => { if (toks.has(w)) { s += 2 * idf(w); first = Math.min(first, i); } });
+      q1.forEach((w, i) => { if (toks.has(w)) { s += idf(w); first = Math.min(first, q2.length + i); } });
+      // An object already used for an earlier step is a less likely answer now (but still possible: lock, then unlock).
+      return { id: v.id, s: (s / Math.sqrt(toks.size || 1)) * (useIdf && used.has(v.id) ? 0.6 : 1), first };
     }).filter((c) => c.s > 0);
     // A strict sequence follows the order the text mentions things in; everything else takes the best match.
     const ordered = obs.kind === "sequence" && !obs.anyOrder && !obs.interrupt;
@@ -308,7 +321,12 @@ export function agAdapterPolicy(env, { enabled = AG_ADAPTER.enabled, decide = nu
   return (obs) => { const a = decide(obs); return a && AG_ACTIONS.includes(a.type) ? a : { type: "wait" }; };
 }
 
-export const AG_BASELINES = Object.freeze({ random: agRandomPolicy, expert: agExpertPolicy, retrieval: agRetrievalPolicy });
+/** "retrieval-ask": the same heuristic, asking for a hint whenever the runner-up is within AG_ASK_MARGIN of the best. */
+export const AG_ASK_MARGIN = 1.5;
+export const AG_BASELINES = Object.freeze({
+  random: agRandomPolicy, expert: agExpertPolicy, retrieval: agRetrievalPolicy,
+  "retrieval-ask": (env, o = {}) => agRetrievalPolicy(env, { margin: AG_ASK_MARGIN, ...o }),
+});
 
 /** Run one episode: { summary, steps: [{ observation, action, reward, done, info }] }. */
 export function agRun(env, policyName = "expert", { seed = env.seed, policy = null, keepSteps = true } = {}) {
