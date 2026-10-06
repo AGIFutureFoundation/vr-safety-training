@@ -170,7 +170,7 @@ async function tqRobotics(shared, root) {
     return section("robotics", all ? "ready" : "partial", sources, {
       scenarios, api: S?.api ?? "rbEnv(scenarioId) → { reset(seed), step(action) → { observation, reward, done, info } }", ...rest,
       facets, ...Object.fromEntries(TQR_FACETS.filter((k) => k !== "scenarios").map((k) => [k, F[k].status === "ready" ? F[k].data : null])),
-    }, { note: "Robots are simulated; no scenario, station or job harms a person. A command from a software agent reaches a simulated robot only, through a safety governor. No token, price or payment appears here, and no key or wallet address ships." });
+    }, { note: "Robots are simulated; no scenario, station or job harms a person. A command from a software agent reaches a simulated robot only, through a safety governor. The build holds no keys, signs nothing and makes no payments." });
   } catch (e) { return section("robotics", "pending", [...sources, { error: String(e.message).slice(0, 160) }], null); }
 }
 

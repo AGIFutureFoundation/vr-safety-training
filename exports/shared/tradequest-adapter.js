@@ -15,10 +15,17 @@
 //     tq.registries.places.items[0].sites[0].stations;   // station ids at a site
 //     tq.stationIndex["dock-crane"];                      // where a station plays
 //     tq.pending;                                         // registries still waiting on an owner
+//
+// 1.1.0 (console TQ-ROBOTICS) adds three registries read from the robotics `programme` facet:
+//     tq.registries.pathways.items[0].levels[1].stations[0].launch;   // "smartcity-x.html?sim=<station>&from=tradequest"
+//     tq.registries.credentials.items[0].earnedAt;                    // [{ pathway, level }]
+//     tq.registries.launch.items;                                     // station and site links, relative to the Holodeck's deployed root
+// and the `scenarios` registry carries the AGENTGYM and COLEARN summaries and, when VBRIDGE has published them, the
+// safety governor's rules and the job phases. A 2.0 or v1 document still adapts: the new registries read `pending`.
 
-export const TQ_ADAPTER_VERSION = "1.0.0";
+export const TQ_ADAPTER_VERSION = "1.1.0";
 export const TQ_CONTRACT = "smartcitix-holodeck-shared";
-export const TQ_REGISTRIES = ["places", "courses", "paths", "finishes", "kit", "fleet", "scenarios", "dataset"];
+export const TQ_REGISTRIES = ["places", "courses", "paths", "finishes", "kit", "fleet", "scenarios", "dataset", "pathways", "credentials", "launch"];
 
 /** The Holodeck region → the TradeQuest campus a place is offered under (AUTHORED routing, not geography; null = no campus yet). */
 export const TQ_CAMPUS_BY_REGION = {
@@ -111,7 +118,79 @@ function fleet(doc) {
 
 function scenarios(doc) {
   const s = sec(doc, "robotics");
-  return registry("scenarios", "PROCEDURAL", s.status, arr(s.data?.scenarios).slice(), { api: s.data?.api ?? null, note: "Robots never harm people in any scenario; scoring is on safe practice." });
+  const d = s.status === "pending" ? null : s.data;
+  const f = (k) => (d?.facets?.[k]?.status === "ready" ? d[k] : null);
+  return registry("scenarios", "PROCEDURAL", s.status, arr(d?.scenarios).slice(), {
+    api: d?.api ?? null, rules: d?.rules ?? null, ssm: d?.ssm ?? null,
+    // The facets of the robotics section (2.1.0): null while pending; `facets` says which and why.
+    facets: d?.facets ?? null, agentGym: f("agentGym"), colearn: f("colearn"), governor: f("governor"), jobs: f("jobs"),
+    note: "Robots never harm people in any scenario; scoring is on safe practice. A command from a software agent reaches a simulated robot only, through the safety governor.",
+  });
+}
+
+/** Where the Holodeck's pages take a TradeQuest learner. Paths are relative to the Holodeck's deployed root; TradeQuest adds its own base. No host is named here. */
+export const TQ_LAUNCH = { station: "smartcity-x.html?sim=", place: "parishes.html?parish=", from: "tradequest" };
+const q = encodeURIComponent;
+export const tqStationLaunch = (id) => `${TQ_LAUNCH.station}${q(id)}&from=${TQ_LAUNCH.from}`;
+export const tqPlaceLaunch = (place, site = null) => `${TQ_LAUNCH.place}${q(place)}${site ? `&site=${q(site)}` : ""}&from=${TQ_LAUNCH.from}`;
+
+const roboticsFacet = (doc, k) => {
+  const s = sec(doc, "robotics");
+  return s.status !== "pending" && s.data?.facets?.[k]?.status === "ready" ? s.data[k] : null;
+};
+const has = (o, k) => Object.prototype.hasOwnProperty.call(o ?? {}, k);
+
+/** The robotics pathway catalogue: six tracks, five levels each, with stations (and launch links), standards by name and the credential each level ends in. */
+function pathways(doc) {
+  const P = roboticsFacet(doc, "programme");
+  const std = new Map(arr(P?.standards).map((x) => [x.id, x.label]));
+  const lv = new Map(arr(P?.levels).map((x) => [x.id, x]));
+  const robot = P?.robotStations ?? {};
+  const items = arr(P?.tracks).map((t) => ({
+    id: t.id, title: t.title, kinds: t.kinds, scenario: t.scenario,
+    standards: arr(t.standards).map((id) => ({ id, label: std.get(id) ?? id })),
+    sites: arr(t.rbSites).slice(),
+    levels: arr(t.ladder).map((r) => ({
+      id: r.level, title: lv.get(r.level)?.title ?? r.level, requiredScore: lv.get(r.level)?.requiredScore ?? null, dueDays: lv.get(r.level)?.dueDays ?? null,
+      stations: arr(r.stations).map((id) => ({ id, robot: has(robot, id), launch: tqStationLaunch(id) })),
+      capstone: arr(r.capstone).slice(), credential: r.credential ?? null, earnable: !!r.earnable, collectsData: r.level === "ai-training",
+    })),
+  }));
+  return registry("pathways", "AUTHORED", P ? "ready" : "pending", items, {
+    levels: arr(P?.levels).map((x) => ({ id: x.id, title: x.title })), standards: arr(P?.standards).map((x) => ({ id: x.id, label: x.label })),
+    loop: arr(P?.loop).slice(), coverage: P?.coverage ?? null, consent: P?.consent ?? null, note: P?.note ?? null,
+  });
+}
+
+/** The credentials the pathways end in (ids on the SmartCiti.X competency layer; TradeQuest maps them to its own names). */
+function credentials(doc) {
+  const P = roboticsFacet(doc, "programme");
+  const items = Object.entries(P?.credentials ?? {}).map(([id, c]) => ({
+    id, title: c.title, require: c.require,
+    earnedAt: arr(P?.tracks).flatMap((t) => arr(t.ladder).filter((r) => r.credential === id).map((r) => ({ pathway: t.id, level: r.level }))),
+  })).sort((a, b) => (a.id < b.id ? -1 : 1));
+  return registry("credentials", "AUTHORED", P ? "ready" : "pending", items, { note: "Competency ids; a credential is earned by passing its stations at the level's required score. No payment, token or ranking is attached." });
+}
+
+/** Station and site launch links for the robotics pathways, with where each station plays. */
+function launch(doc, placesRegistry) {
+  const P = roboticsFacet(doc, "programme");
+  const idx = tqStationIndex(placesRegistry);
+  const where = new Map();
+  for (const t of arr(P?.tracks)) for (const r of arr(t.ladder)) for (const id of [...arr(r.stations), ...arr(r.capstone)]) {
+    if (!where.has(id)) where.set(id, []);
+    where.get(id).push({ pathway: t.id, level: r.level });
+  }
+  for (const id of Object.keys(P?.robotStations ?? {})) if (!where.has(id)) where.set(id, []);
+  const stations = [...where.keys()].sort().map((id) => ({
+    id, kind: "station", launch: tqStationLaunch(id), robot: has(P?.robotStations, id), robotKind: P?.robotStations?.[id] ?? null,
+    pathways: where.get(id), places: (idx[id] ?? []).map((p) => ({ ...p })),
+  }));
+  const rb = sec(doc, "robotics");
+  const sites = P ? arr(rb.data?.sites).map((s) => ({ id: s.id, kind: "site", name: s.name, rig: s.rig ?? null, place: s.parish, scenario: s.scenario ?? null, station: s.station ?? null, launch: tqPlaceLaunch(s.parish, s.anchor) })) : [];
+  return registry("launch", "AUTHORED", P ? "ready" : "pending", [...stations, ...sites], {
+    base: { ...TQ_LAUNCH }, note: "Paths are relative to the Holodeck's deployed root; the site adds its own base. A site opens its map at the building the robot rig stands beside. Every robot in a station or site is simulated.",
+  });
 }
 
 function dataset(doc) {
@@ -134,7 +213,8 @@ export function tqStationIndex(placesRegistry) {
 export function tqAdapt(doc) {
   const acc = tqAccepts(doc);
   if (!acc.ok) throw new Error(`tradequest-adapter: ${acc.why}`);
-  const registries = { places: places(doc), courses: courses(doc), paths: paths(doc), finishes: finishes(doc), kit: kit(doc), fleet: fleet(doc), scenarios: scenarios(doc), dataset: dataset(doc) };
+  const placesRegistry = places(doc);
+  const registries = { places: placesRegistry, courses: courses(doc), paths: paths(doc), finishes: finishes(doc), kit: kit(doc), fleet: fleet(doc), scenarios: scenarios(doc), dataset: dataset(doc), pathways: pathways(doc), credentials: credentials(doc), launch: launch(doc, placesRegistry) };
   return {
     pack: "holodeck-shared",
     packVersion: doc.version,
