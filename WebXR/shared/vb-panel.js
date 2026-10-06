@@ -34,7 +34,7 @@ export const VB_PANEL_QUEUE = Object.freeze([
 
 const VB_PANEL_CSS = ".vb-panel{font:13px/1.4 system-ui,sans-serif;padding:10px;border:1px solid #2c5a63;border-radius:10px;background:#0b1a1f;color:#dff6fa;margin:8px 0}.vb-panel h3{margin:0 0 6px;font-size:15px}.vb-panel .vb-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}.vb-panel button{background:#16343b;color:#dff6fa;border:1px solid #3d7480;border-radius:6px;padding:5px 9px;cursor:pointer}.vb-panel button[data-vb=estop]{background:#7a1717;border-color:#d2312b}.vb-panel .vb-note{opacity:.8;font-size:12px}.vb-panel .vb-card{white-space:pre-line;margin-top:6px}.vb-panel .vb-phase{font-weight:600;color:#5ec8d8}";
 
-export function vbMountDispatch(el, { reducedMotion = false, ent3 = null, stationHref = null, policyFor = null } = {}) {
+export function vbMountDispatch(el, { reducedMotion = false, ent3 = null, stationHref = null, policyFor = null, providerLabel = null } = {}) {
   if (!el || typeof document === "undefined") return null;
   const gov = vbGovernor({ ent3 });
   const box = document.createElement("section");
@@ -61,7 +61,9 @@ export function vbMountDispatch(el, { reducedMotion = false, ent3 = null, statio
     phase.textContent = `Phase: ${job.phase}`;
     const r = job.request;
     const lines = [`From: ${job.client.id} (mock client agent)`, `Task: ${VB_TASKS[r.taskType]?.label ?? r.taskType}`, `Site: ${siteName(r.siteId)}`, `Speed ${r.speed} m/s · nearest person ${r.nearestPersonM} m · policy ${r.policyId} · target ${r.target.kind}`];
-    lines.push(`Provider: ${r.policyId === "vb-colearn-bc-knn" ? (policyFor ? "COLEARN-trained behaviour-cloning policy (synthetic demonstrations, labelled as a stand-in)" : "COLEARN policy requested, no learned provider mounted: the scripted expert runs") : r.policyId === "vb-scripted-lapsing" ? "scripted expert that lapses" : "scripted expert"}`);
+    // ROBOTRAIN-3: `providerLabel(taskType)` (vb-colearn.js' describe) names the training data honestly — the learner's own consented takes, or the synthetic stand-in.
+    let learned = null; if (policyFor && providerLabel) { try { learned = providerLabel(r.taskType); } catch (_) { learned = null; } }
+    lines.push(`Provider: ${r.policyId === "vb-colearn-bc-knn" ? (policyFor ? learned ?? "COLEARN-trained behaviour-cloning policy (synthetic demonstrations, labelled as a stand-in)" : "COLEARN policy requested, no learned provider mounted: the scripted expert runs") : r.policyId === "vb-scripted-lapsing" ? "scripted expert that lapses" : "scripted expert"}`);
     if (job.governor) lines.push(job.governor.decision === "refuse" ? `Governor: REFUSED — ${VB_REASONS.find((x) => x.id === job.governor.primary)?.text ?? job.governor.primary}` : "Governor: allowed in the sim. Your decision.");
     if (job.phase === "TRANSACTION" && frames.length) lines.push(`Run: step ${fi + 1} of ${frames.length}${frames[fi]?.info?.violations?.length ? ` — deviation: ${frames[fi].info.violations[0]}` : ""}`);
     if (job.evaluation) lines.push(`Evaluation: ${job.evaluation.accepted ? "completed" : "rejected"} — ${job.evaluation.reason}`);

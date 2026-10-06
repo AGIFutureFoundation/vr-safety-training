@@ -76,7 +76,7 @@ import { colMountCoLearn } from "../../shared/col-learn.js";
 import { rtMountTeleop } from "../../shared/rt-teleop.js";
 import { ent3AuditAppend, ent3Policies, ent3Fleet } from "../../shared/ent3-governance.js";
 import { vbMountDispatch } from "../../shared/vb-panel.js";
-import { vbColearnProvider } from "../../shared/vb-colearn.js";
+import { vbColearnProvider, vbColearnLocalSource } from "../../shared/vb-colearn.js";
 // CLEANPORTS: key the zero-emission port stations to BAYMAP's West Oakland sites (a no-op until that map merges).
 cpPlaceInParish(npParish);
 // BAYQUEST: the Bay Program play board (games, the Bay Keeper's Trail, Crew Credits) under the ledger; importing it
@@ -803,9 +803,50 @@ function frame(now) {
   if (npHudT > 0.25 && np.playing) { npHudT = 0; npHud(); }
   npRenderer.render(scene, camera);
   uxAnchorPrompt();
-  requestAnimationFrame(frame);
+  if (!npXR.session) requestAnimationFrame(frame); // ROBOTRAIN-3: inside an XR session the session's own frame loop drives this (npXRFrame)
 }
 requestAnimationFrame(frame);
+
+// ROBOTRAIN-3 (docs/consoles/ROBOTRAIN-3.md): the WebXR session loop. While an immersive session is active, the session's own
+// requestAnimationFrame loop runs the world frame and feeds the teleop pad's controller source (`teleop.xr(frame, refSpace)`,
+// rt-teleop.js), so the arm rig follows the controller. Nothing here runs outside a session: `npXR.session` is null, the
+// window's requestAnimationFrame drives `frame`, and `teleop.xr` is never called. The "Enter VR" button appears only when
+// `navigator.xr` says immersive-vr is supported. The headless proof hands `npXRBegin` a stubbed session (`__parishTest.xr`).
+var npXR = { session: null, refSpace: null, frames: 0, fed: 0, ended: 0 };
+function npXRFrame(t, xrFrame) {
+  const s = npXR.session;
+  if (!s || !xrFrame) return;
+  npXR.frames += 1;
+  const teleop = window.__parishTest?.teleop;
+  if (teleop && npXR.refSpace) { try { if (teleop.xr(xrFrame, npXR.refSpace)) npXR.fed += 1; } catch (_) { /* a frame without a pose */ } }
+  frame(typeof t === "number" ? t : performance.now());
+  if (npXR.session === s) s.requestAnimationFrame(npXRFrame);
+}
+function npXREnd() {
+  const s = npXR.session; if (!s) return;
+  npXR.session = null; npXR.refSpace = null; npXR.ended += 1;
+  try { npRenderer.xr.enabled = false; } catch (_) { /* renderer without an XR manager */ }
+  requestAnimationFrame(frame);
+}
+async function npXRBegin(session) {
+  if (!session || npXR.session) return false;
+  npXR.session = session; npXR.frames = 0; npXR.fed = 0;
+  try { npXR.refSpace = await session.requestReferenceSpace("local-floor"); } catch (_) { try { npXR.refSpace = await session.requestReferenceSpace("local"); } catch (_) { npXR.refSpace = null; } }
+  try { session.addEventListener?.("end", npXREnd); } catch (_) { /* a stub without events */ }
+  try { npRenderer.xr.enabled = true; await npRenderer.xr.setSession(session); } catch (_) { try { npRenderer.xr.enabled = false; } catch (_) { /* fine */ } } // a stub or an unsupported renderer path: the controller feed and the world frame still run
+  if (npXR.session !== session) return false;
+  session.requestAnimationFrame(npXRFrame);
+  return true;
+}
+var npXRTest = { begin: npXRBegin, end: () => { const s = npXR.session; if (s?.end) { try { s.end(); } catch (_) { /* stub */ } } npXREnd(); }, state: () => ({ active: !!npXR.session, frames: npXR.frames, fed: npXR.fed, ended: npXR.ended, refSpace: !!npXR.refSpace }) }; // exposed as window.__parishTest.xr beside the teleop mount
+if (typeof navigator !== "undefined" && navigator.xr?.isSessionSupported) {
+  navigator.xr.isSessionSupported("immersive-vr").then((ok) => {
+    if (!ok) return;
+    const b = document.createElement("button"); b.className = "btn"; b.id = "menu-enter-vr"; b.type = "button"; b.textContent = "Enter VR";
+    b.addEventListener("click", () => navigator.xr.requestSession("immersive-vr", { optionalFeatures: ["local-floor"] }).then((s) => { npXRBegin(s); npBegin(); }).catch((e) => npToast(`VR did not start: ${e?.message ?? e}`)));
+    $("menu-start")?.parentElement?.append(b);
+  }).catch(() => {});
+}
 
 // SCHOLAR: a K-12 lesson session when the learner reaches a site with a field lesson, a BAYOU lesson or an ESTUARY lesson.
 const scSession = scMountSession({
@@ -1075,13 +1116,21 @@ window.__parishTest.robotics = rbWorld;
 window.__parishTest.colearn = colMountCoLearn($("menu-drills"), { reducedMotion: npReduced, capture: (steps, meta) => dxCaptureRollout(steps, meta) });
 // ROBOTRAIN (docs/consoles/ROBOTRAIN.md): drive the teleop arm from a pointer pose; a take is kept only through DATAWORKS' recorder (inert unless opted in).
 // ROBOTRAIN-2: the pointer pad and touch drive the pose here; a WebXR session added to this app calls teleop.xr(frame, refSpace) from its frame callback and the controller takes over. The nearest arm rig on this map follows the pose live (no new mesh).
-window.__parishTest.teleop = (() => { try { const host = document.createElement("div"); host.id = "rt-teleop"; $("menu-drills")?.append(host); const rtSite = rbWorld?.sites?.find((s) => s.rig === "cobot" || s.rig === "cell") ?? null; return rtMountTeleop(host, { reducedMotion: npReduced, rig: rtSite ? rbWorld.rigNode(rtSite.id) : null }); } catch (_) { return null; } })();
+// ROBOTRAIN-3: the pad drives the cell-entry task too (the select on the pad), the XR session loop above feeds it, a finished take
+// re-reads the learner's consented takes for the provider (vbLocal), and "Robot demonstrates back" replays the provider's policy as a ghost on the same rig.
+window.__parishTest.teleop = (() => { try { const host = document.createElement("div"); host.id = "rt-teleop"; $("menu-drills")?.append(host); const rtSite = rbWorld?.sites?.find((s) => s.rig === "cobot" || s.rig === "cell") ?? null; return rtMountTeleop(host, { reducedMotion: npReduced, rig: rtSite ? rbWorld.rigNode(rtSite.id) : null, task: rtSite?.rig === "cell" ? "rb-cell-entry" : "rb-teleop-pick-place", onTake: () => { vbLocal?.refresh().catch(() => {}); }, modelFor: (sc) => vbProvider?.modelFor(sc) ?? null }); } catch (_) { return null; } })();
 // VBRIDGE (docs/consoles/VBRIDGE.md): supervise jobs a mock software agent sends to the robot sites — the safety governor checks
 // each (e-stop wins, allowlist, limits, stale lineage), simulated robots only; every decision goes to ENTERPRISE-3's audit log.
 // ROBOTRAIN-2: jobs that name the COLEARN policy run a behaviour-cloning policy as the provider (trained lazily on synthetic demonstrations); guarded.
-var vbProvider = (() => { try { return vbColearnProvider(); } catch (_) { return null; } })();
-window.__parishTest.vbridge = vbMountDispatch($("menu-drills"), { reducedMotion: npReduced, ent3: { auditAppend: ent3AuditAppend, policies: ent3Policies, fleet: ent3Fleet }, stationHref: (id) => npLink(id), policyFor: vbProvider ? (policyId, env, seed) => vbProvider.policyFor(policyId, env, seed) : null });
+// ROBOTRAIN-3: the provider trains on the learner's OWN consented takes when there are any (vbColearnLocalSource reads the local DX
+// store only while dxCollecting(): adult, signed in, not K-12, not the demo, opted in; revoke empties it → synthetic again); the card says which.
+var vbLocal = (() => { try { return vbColearnLocalSource(); } catch (_) { return null; } })();
+var vbProvider = (() => { try { return vbColearnProvider(vbLocal ? { demosFor: vbLocal.demosFor } : {}); } catch (_) { return null; } })();
+vbLocal?.refresh().catch(() => {});
+window.__parishTest.vbridge = vbMountDispatch($("menu-drills"), { reducedMotion: npReduced, ent3: { auditAppend: ent3AuditAppend, policies: ent3Policies, fleet: ent3Fleet }, stationHref: (id) => npLink(id), policyFor: vbProvider ? (policyId, env, seed) => vbProvider.policyFor(policyId, env, seed) : null, providerLabel: vbProvider ? (sc) => vbProvider.describe(sc) : null });
 window.__parishTest.vbColearn = vbProvider;
+window.__parishTest.vbLocal = vbLocal;
+window.__parishTest.xr = npXRTest;
 // PACKS: the Holodeck Packs that play in this map (docs/consoles/PACKS.md), the chosen STORYLINE path's first.
 npMountPacks($("menu-packs"), parish.id);
 // COGNITION: the K-12 learning module runner — this parish's lessons, each flow played through its GRIOT guide (docs/consoles/COGNITION.md).
@@ -1154,7 +1203,7 @@ function uxOpenMenu() {
   $("menu-start").focus();
 }
 uxPassport();
-dxMountConsent($("menu-dataworks")); // DATAWORKS: the consent panel in the Me tab (off by default)
+dxMountConsent($("menu-dataworks"), { onChange: () => { vbLocal?.refresh().catch(() => {}); } }); // DATAWORKS: the consent panel in the Me tab (off by default); ROBOTRAIN-3: opt-in or revoke re-reads the learner's takes for the provider
 $("ux-menu-open").addEventListener("click", uxOpenMenu);
 $("ux-open-map").addEventListener("click", () => npToggle("map"));
 $("ux-open-ways").addEventListener("click", () => npToggle("parishes"));
