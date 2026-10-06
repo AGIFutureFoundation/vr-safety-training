@@ -56,9 +56,11 @@ across every one of the eight outfits below.
 
 ## Outfits
 
-`OUTFITS` (`shared/kit.js`) is eight named gear presets — `construction`,
-`clinical`, `marine`, `kitchen`, `office`, `sport`, `firefighter`, `diver` —
-each one only the options a caller left unnamed:
+`OUTFITS` (`shared/kit.js`) is sixteen named gear presets — the original
+eight (`construction`, `clinical`, `marine`, `kitchen`, `office`, `sport`,
+`firefighter`, `diver`) and the eight loop 5 added for the trades the figure
+lacked (console AVATARS, `docs/consoles/AVATARS.md`) — each one only the
+options a caller left unnamed:
 
 | Outfit | Gear |
 |---|---|
@@ -70,14 +72,36 @@ each one only the options a caller left unnamed:
 | `sport` | (plain clothes) |
 | `firefighter` | red helmet, hi-vis vest and bands, dark gloves |
 | `diver` | neoprene hood, dive mask, dark gloves |
+| `welder` | dark hood (the helmet shell in matte black, a dark lens over the eyes), brown leathers, gauntlet gloves |
+| `lineworker` | climbing harness over arc-rated navy coveralls, hard hat, leather gloves |
+| `silica` | half-mask respirator under the hard hat, hi-vis, gloves (the dust-control stations' own PPE list) |
+| `robotTech` | bump cap, safety glasses, tool belt with the pouch in lockout-tag red, tablet-grey gloves |
+| `aiTrainer` | a headset (the mask's wrap lens, matte, over a dark head strap), controller-grey gloves, plain clothes |
+| `longshore` | orange hard hat and vest over dark work gear, gloves, glasses |
+| `healthcare` | teal scrubs, scrub cap, glasses, pale gloves |
+| `chef` | whites, a white cap, dark trousers, bare hands |
+
+An outfit may now also name `cloth`, `trousers`, `harness`, `toolBelt`,
+`pouch` and `respirator`; a colour or a garment the caller named still wins.
+Every one of the sixteen stays inside the 17-mesh ceiling (worst 16): a helmet
+is two meshes, a mask, glasses, respirator, harness or tool belt one each, and
+everything else is paint, so a station whose crew changes outfit never
+changes its mesh count (`tools/check_crew.mjs`, `tools/check_avatars.mjs`).
 
 A station names an outfit explicitly (`standingFigure(g, x, z, { outfit:
 "marine" })`), or names nothing and gets one anyway: `setActiveContext()`
 (called from `smartcity/js/app.js` right before a station's stage and its
-`build()` run) hands `standingFigure` the station's own category, and
-`outfitFromContext()` resolves it — an exact match against the ten-category
-taxonomy first, then a keyword guess, and `office` (plain clothes, no PPE)
-rather than a guessed hard hat when nothing is recognised. Whatever the
+`build()` run) hands `standingFigure` the station's category, trade, union,
+domain and id joined with ` | `, and `outfitFromContext()` resolves it — the
+trade's own words first (`outfitFromTrade()`: welding, lineworker, silica,
+robot, AI-training, longshore, nursing, chef, with the union abbreviations
+`tools/unions.json` carries — ILWU, IBEW, LIUNA, UA, IBB, NNU, UNITE HERE —
+as evidence too), then an exact category match, then a keyword guess, and
+`office` (plain clothes, no PPE) rather than a guessed hard hat when nothing
+is recognised. Across the 736 stations that gives construction 332, office
+133, chef 52, marine 50, clinical 36, longshore 26, healthcare 24,
+firefighter 23, sport 23, silica 13, welder 11, robotTech 9, lineworker 3,
+aiTrainer 1 (`check_avatars` prints the tally). Whatever the
 outfit supplies, an option the station *did* name always wins — an existing
 `standingFigure(g, x, z, { cloth: 0x2f5f70 })` call improves with no edit to
 the station that makes it, because the dentist keeps their own teal scrubs
@@ -165,7 +189,30 @@ budget and the headless checkers cannot see:
   receivers, the coach and the athletic trainer, all `sport` (plain
   clothes) — the outfit system's job here is to add nothing.
 
+## Characters and sprites (loop 5)
+
+`WebXR/shared/av-characters.js` is the registry: every named character
+(GRIOT's 34), the learner, the six crew-role archetypes, three instructor
+roles, five robot personas (the robotics sites' rigs: AMR, gantry, cobot,
+cell robot, teleop arm) and eight software agents (the Guide, the task agent,
+the robot learner, the tutor, and the ACP-shaped client, provider, evaluator
+and safety governor), each with its role, trade, union (only an id from
+`tools/unions.json`, or null), kit.js outfit, crew.js PPE, palette and sprite
+id. `WebXR/shared/av-sprites.js` paints a portrait or a token for any of them
+as SVG, from the same revolved profiles the figure above is built from (the
+generated block copies `FIGURE_PARTS` and `OUTFITS` out of kit.js; the
+checker fails when it drifts). Robots are drawn as their rig and agents as a
+badge, with no face. One atlas, `WebXR/assets/avatars/av-atlas.svg` with
+`av-atlas.json`, holds every frame under 160 KiB. The sprites appear in the
+account chip and avatar picker, the Guide panel, NPC dialogue, the cohort
+roster, the robotics-sites panel and `WebXR/avatars/index.html`. No image
+files, no third-party art, no likeness of anyone real. Details and the eval:
+`docs/consoles/AVATARS.md`.
+
 ## Checks
+
+- `node tools/check_avatars.mjs` — the registry, the sprites, the atlas, the
+  outfit resolver across every station, and the wiring.
 
 - `node tools/check_budget.mjs` — every station's mesh count, this figure
   included, against its existing per-app ceiling.
