@@ -93,7 +93,8 @@ having it in front of the robot. No person was measured anywhere here; every "hu
 3. Reason: a COLEARN policy as the provider completes seeded safe jobs under the governor; check: `vbProviderCompare` + `check_vbridge`. Observed: scripted 30/30, COLEARN 28/30 (AMR 8/10, 2 governor halts), 318 ms; the first "governor checks" count read the audit log, which holds only refusals and stops (32 lines) — replaced by `info.governor` on every step: 413/413; `check_vbridge` 14/0 unchanged.
 4. Reason: a pure XR pose and a rig that follows with no new mesh; check: stubs through `rtXRPose` / `rtFollowRig`. Observed: grip (0.2, 1.25, −0.8) → bench [0.2, 0.25, −0.3], trigger 0.8, squeeze 0.3, e-stop from the face button; null without a space; the rig stub's yaw/pitch set and `rtDriven` true, released to 0.
 5. Reason: a second task through the pose path trains as well as synthetic demonstrations; check: `rtCompareAll`. Observed first: the scripted walker passes cell entry (31 steps, score 1.79, 0 violations) but the clone of its takes scored **0** (160 steps, walking in place at the gate: a stray walk after `remove-lock` from the body drifting while inside) → the body holds while inside → recorded **1.0** vs synthetic 1.0, random 0, expert 1; teleop unchanged at 0.967/0.967. Committed 582c4516.
-6. Reason: one gate proves all of it and the neighbours stay green; check: `check_robotrain` (section 7), `check_imports`, `check_robotics`, `check_robotics_programme`, `check_smartcity`. Observed: see the hand-back (`check_imports` "All 1103 modules call only what they declare or import", `check_robotics` 19/0, `check_robotics_programme` ok 713).
+6. Reason: one gate proves all of it and the neighbours stay green; check: `check_robotrain` (section 7), `check_imports`, `check_robotics`, `check_robotics_programme`, `check_smartcity`. Observed: `check_robotrain` ok, **253 checks** (was 214), 2.0 s; `check_imports` "All 1103 modules call only what they declare or import"; `check_robotics` 19/0; `check_robotics_programme` ok 713; `check_smartcity` "All 733 simulators pass"; `check_vbridge` 14/0 with its EVAL unchanged (200/200 blocked, 0/200 false blocks, 50/50 completed). Committed 94860ddc.
+7. Reason: it must hold in the real build, not only in stubs; check: the parishes bundle (scratch only) driven headlessly on port 9052 at `?parish=sf-downtown` (the Fabrication Robot Cell site). Observed: the mount found `rb-rig-cell` (8 robot meshes on the map, the budget), `start()` flagged it driven, a pointer move on the pad turned its yaw by 0.3 rad and pitched the arm, a touch pointer read as `touch`, an XR frame stub took the pose over (`source() === "xr"`, status "Not recording · xr · moved"), `stop()` kept no episode (signed out → inert) and released the rig; the panel's seventh job named `vb-colearn-bc-knn`, the card read "Provider: COLEARN-trained behaviour-cloning policy (synthetic demonstrations, labelled as a stand-in)", approve → step ×25 → **COMPLETED** with `info.governor` on 25/25 steps, audit chain intact (7 lines); 0 page errors, 0 requests off localhost. The bundler's dist output was reverted afterwards.
 
 ## Seams
 
@@ -112,11 +113,10 @@ having it in front of the robot. No person was measured anywhere here; every "hu
 
 ## Left
 
-- The parishes app has no WebXR render loop, so the controller source is exercised with stubs (the checker) and the pad in the
-  page; a headless browser drive of the pad with the rig following (port 9052) was not done in this hour.
+- The parishes app has no WebXR render loop, so the controller source is exercised with stubs (the checker and the headless
+  drive of the built page, cycle 7); a real headset session is the next proof.
 - The teleop pad drives the pick-and-place task only; the cell-entry pose path runs in the eval and the API, not on the pad.
 - The COLEARN provider trains on synthetic demonstrations in the page; wiring `colLocalDemos` through `demosFor` (consented,
   local, adult-only episodes) is a one-line follow-up once a learner has takes.
-- `check_smartcity` over all 733 simulators was started at the end of the hour (see the hand-back for its line).
 - The generated dist bundles (parishes, smartcity) are rebuilt by the coordinator at integration; only `WebXR/dist/packs/` was
   re-synced here, because `check_packs` reads it.
