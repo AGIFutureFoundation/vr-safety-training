@@ -30814,5 +30814,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "rt-teach-pendant-safe-jogging",
+    "index": "rt-1",
+    "domain": "Robotics",
+    "trade": "Robot programmer, teaching points inside a fenced industrial cell — UAW/IAM",
+    "category": "Manufacturing & Automation",
+    "certification": "UAW and IAM skilled-trades training as bodies; ANSI R15.06 and ISO 10218 for industrial robots and their integration, with the manual reduced-speed mode and the enabling device described in the manufacturer's manual; OSHA 29 CFR 1910.212 general requirements for machines, 29 CFR 1910.147 the control of hazardous energy and 29 CFR 1910.132 personal protective equipment; the cell's written risk assessment and the site's teach-mode procedure",
+    "name": "Teaching a Robot from the Pendant",
+    "weather": "clear",
+    "indoor": null,
+    "district": "robotics-factory",
+    "title": "SmartCiti.X~ Teaching a Robot from the Pendant VR",
+    "tagline": "Jogging an industrial arm from inside its cell to teach a path: manual reduced speed selected and read back, the pendant e-stop proven, the enabling device held in the middle for every move, a second person on the outside stop, an escape route that stays open, and automatic mode restored only from outside with the gate shut",
+    "accent": 15771194,
+    "accentCss": "#f0a63a",
+    "parSeconds": 340,
+    "badge": {
+      "id": "enabled-hand",
+      "name": "Enabled Hand",
+      "note": "Taught a path at reduced speed with the enabling device held, the pendant stop proven and the escape route open"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Enabled Hand",
+      "currency": "TP",
+      "ranks": [
+        "Visitor",
+        "Pendant Holder",
+        "Teacher",
+        "Cell Lead",
+        "Enabled Hand"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

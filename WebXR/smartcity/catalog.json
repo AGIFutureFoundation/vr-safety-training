@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 727
+      "stations": 728
     },
     "trades": {
       "entry": "trades/index.html",
@@ -242,6 +242,7 @@
         "conveyor-guard",
         "forklift-dock",
         "cnc-cell",
+        "rt-teach-pendant-safe-jogging",
         "ml-suspicious-package-protocol",
         "sm-kitchen-exhaust-and-fire-wrap",
         "sm-air-balancing-and-testing",
@@ -10280,6 +10281,83 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "rt-teach-pendant-safe-jogging",
+      "name": "Teaching a Robot from the Pendant",
+      "title": "SmartCiti.X~ Teaching a Robot from the Pendant VR",
+      "tagline": "Jogging an industrial arm from inside its cell to teach a path: manual reduced speed selected and read back, the pendant e-stop proven, the enabling device held in the middle for every move, a second person on the outside stop, an escape route that stays open, and automatic mode restored only from outside with the gate shut",
+      "category": "Manufacturing & Automation",
+      "domain": "Robotics",
+      "trade": "Robot programmer, teaching points inside a fenced industrial cell — UAW/IAM",
+      "union": null,
+      "certification": "UAW and IAM skilled-trades training as bodies; ANSI R15.06 and ISO 10218 for industrial robots and their integration, with the manual reduced-speed mode and the enabling device described in the manufacturer's manual; OSHA 29 CFR 1910.212 general requirements for machines, 29 CFR 1910.147 the control of hazardous energy and 29 CFR 1910.132 personal protective equipment; the cell's written risk assessment and the site's teach-mode procedure",
+      "accent": "#f0a63a",
+      "parSeconds": 340,
+      "weather": "clear",
+      "indoor": null,
+      "district": "robotics-factory",
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "gauge",
+        "find",
+        "drag",
+        "hold",
+        "track"
+      ],
+      "badge": {
+        "id": "enabled-hand",
+        "name": "Enabled Hand",
+        "note": "Taught a path at reduced speed with the enabling device held, the pendant stop proven and the escape route open"
+      },
+      "meshes": 207,
+      "lights": 0,
+      "overBudget": false,
+      "index": "rt-1",
+      "flat": false,
+      "system": "Enabled Hand",
+      "currency": "TP",
+      "ranks": [
+        "Visitor",
+        "Pendant Holder",
+        "Teacher",
+        "Cell Lead",
+        "Enabled Hand"
+      ],
+      "awards": [
+        {
+          "id": "mode-first",
+          "name": "Mode First",
+          "note": "Read back manual reduced speed before touching a jog key"
+        },
+        {
+          "id": "three-position",
+          "name": "Three Positions",
+          "note": "Proved the enabling device releases and panics"
+        },
+        {
+          "id": "outside-auto",
+          "name": "Outside Only",
+          "note": "Restored automatic mode from outside the gate"
+        },
+        {
+          "id": "quick-teach",
+          "name": "Inside Par",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "clean-teach",
+          "name": "Clean Teach",
+          "note": "Clean run, no corrections"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=rt-teach-pendant-safe-jogging"
     },
     {
       "app": "smartcity",
@@ -37576,7 +37654,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 266,
+      "meshes": 251,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -38236,7 +38314,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 267,
+      "meshes": 252,
       "lights": 0,
       "overBudget": false,
       "index": "100",
