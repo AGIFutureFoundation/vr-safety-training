@@ -122,8 +122,11 @@ export const VB_SHARED = {
 ```
 
 Without `VB_SHARED` the bridge reads `VB_PHASES` / `VB_JOB_PHASES` / `vbPhases`, `VB_ROLES`, and `VB_GOVERNOR_RULES` /
-`VB_REASONS` / `VB_RULES` / `vbGovernorRules` from any `WebXR/shared/vb-*.js`. Extra keys on `governor` and on `jobs` travel
-as they are, inside the facet's byte cap.
+`VB_REASONS` / `VB_RULES` / `vbGovernorRules` from any `WebXR/shared/vb-*.js`, and the detail VBRIDGE's modules export
+today: `VB_PHYSICAL` (the physical-robot switch, shipped disabled), `VB_TASKS` (the allowlist), `VB_RIG_LIMITS` into
+`governor`; `VB_SCHEMA`, `VB_TERMINAL`, `VB_MOVES`, `VB_MEMO_TYPES`, `VB_DEADLINE_TICKS` into `jobs`. Rehearsed against
+VBRIDGE's own files (read from its worktree, not copied): both facets ready, 9 rules, 7 phases, 676.5 KiB in all. Extra
+keys on `governor` and on `jobs` travel as they are, inside the facet's byte cap.
 
 **What the section never carries.** It is simulation and policy data only. A facet that holds a key-shaped,
 seed-phrase-shaped, PEM or wallet-address-shaped string, or an API-key-shaped one, is refused (`tqrRefuse`): the facet is

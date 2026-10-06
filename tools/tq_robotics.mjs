@@ -32,7 +32,9 @@ export const TQR_GUARDED = ["governor", "jobs"];
 /** Per-facet cap on the serialised bytes (summarise rather than copy large tables). */
 export const TQR_FACET_CAP = { scenarios: 16 * 1024, programme: 24 * 1024, agentGym: 6 * 1024, colearn: 8 * 1024, governor: 12 * 1024, jobs: 12 * 1024 };
 /** The named exports read from a `vb-*.js` module when it has no `VB_SHARED`. */
-export const TQR_VB_NAMES = ["VB_SHARED", "VB_PHASES", "VB_ROLES", "VB_JOB_PHASES", "VB_GOVERNOR_RULES", "VB_REASONS", "VB_RULES", "vbPhases", "vbGovernorRules"];
+export const TQR_VB_NAMES = ["VB_SHARED", "VB_PHASES", "VB_ROLES", "VB_JOB_PHASES", "VB_GOVERNOR_RULES", "VB_REASONS", "VB_RULES", "vbPhases", "vbGovernorRules",
+  // Optional detail VBRIDGE's modules already export: the physical-path switch, the task allowlist, the rig limits, the job schema and moves.
+  "VB_PHYSICAL", "VB_TASKS", "VB_RIG_LIMITS", "VB_SCHEMA", "VB_TERMINAL", "VB_MOVES", "VB_MEMO_TYPES", "VB_DEADLINE_TICKS"];
 
 const plain = (v) => JSON.parse(JSON.stringify(v));
 const call = (v, ...a) => (typeof v === "function" ? v(...a) : v);
@@ -150,6 +152,11 @@ function tqrColearn(root) {
 
 // ---------------------------------------------------------------- VBRIDGE (guarded)
 
+/** The optional detail keys VBRIDGE's named exports carry (`{ key: "VB_NAME" }`), skipping any the seam object already set. */
+function tqrExtras(found, names, seam) {
+  return Object.fromEntries(Object.entries(names).filter(([k, n]) => found?.[n] !== undefined && !(seam && typeof seam === "object" && k in seam)).map(([k, n]) => [k, plain(call(found[n]))]));
+}
+
 /** Governor rules and job phases from a `vb-*` module's exports (`found`, as tq_bridge read them). */
 function tqrVbridge(found, ownerFacets) {
   const sourceVb = "WebXR/shared/vb-*.js";
@@ -162,12 +169,12 @@ function tqrVbridge(found, ownerFacets) {
       if (name === "governor") {
         const g = V?.governor;
         const rules = g?.rules ?? V?.governorRules ?? found?.VB_GOVERNOR_RULES ?? found?.VB_REASONS ?? found?.VB_RULES ?? found?.vbGovernorRules;
-        if (rules !== undefined) v = { ...(g && typeof g === "object" && !Array.isArray(g) ? g : {}), rules: plain(call(rules)) };
+        if (rules !== undefined) v = { ...(g && typeof g === "object" && !Array.isArray(g) ? g : {}), rules: plain(call(rules)), ...tqrExtras(found, { physical: "VB_PHYSICAL", tasks: "VB_TASKS", limits: "VB_RIG_LIMITS" }, g) };
       } else {
         const j = V?.jobs ?? (V?.phases !== undefined ? { phases: V.phases, roles: V.roles } : undefined);
         const phases = j?.phases ?? found?.VB_PHASES ?? found?.VB_JOB_PHASES ?? found?.vbPhases;
         const roles = j?.roles ?? found?.VB_ROLES;
-        if (phases !== undefined) v = { ...(j && typeof j === "object" && !Array.isArray(j) ? j : {}), phases: plain(call(phases)), ...(roles !== undefined ? { roles: plain(call(roles)) } : {}) };
+        if (phases !== undefined) v = { ...(j && typeof j === "object" && !Array.isArray(j) ? j : {}), phases: plain(call(phases)), ...(roles !== undefined ? { roles: plain(call(roles)) } : {}), ...tqrExtras(found, { schema: "VB_SCHEMA", terminal: "VB_TERMINAL", moves: "VB_MOVES", memoTypes: "VB_MEMO_TYPES", deadlineTicks: "VB_DEADLINE_TICKS" }, j) };
       }
     } catch (e) { out[name] = pending(sourceVb, `import or read failed: ${String(e.message).slice(0, 100)}`); continue; }
     if (v === undefined) { out[name] = pending(sourceVb, "VBRIDGE has not published this yet: no vb-*.js module in the tree exports it (VB_SHARED.governor.rules / VB_SHARED.phases)"); continue; }

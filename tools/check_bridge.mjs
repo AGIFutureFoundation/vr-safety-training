@@ -266,6 +266,12 @@ await section(9, "robotics facets (TQ-ROBOTICS): programme, AGENTGYM, COLEARN, g
   const r2 = await tq.tqExtend(v1, t2);
   rmSync(t2.base, { recursive: true, force: true });
   ok(r2.robotics.data.facets.governor.status === "ready" && r2.robotics.data.facets.jobs.status === "ready" && r2.robotics.data.jobs.roles.length === 3, "the named exports (VB_PHASES, VB_ROLES, vbGovernorRules) fill the same facets when VB_SHARED is absent");
+  // The shape VBRIDGE's modules export today (named, frozen constants): reasons as { id, text }, phases in capitals, roles as an object, the physical switch.
+  const t6 = tree("vb-named", { "vb-standin-shape.js": `export const VB_REASONS = ${JSON.stringify(rules)};\nexport const VB_PHASES = ${JSON.stringify(phases.map((p) => p.toUpperCase()))};\nexport const VB_ROLES = { client: "an external agent", provider: "a robot-site agent", evaluator: "the scoring" };\nexport const VB_PHYSICAL = { enabled: false, requires: "a named human approver" };\nexport const VB_TASKS = { "rb-cell-entry": { label: "Cell entry", rigs: ["cell"] } };\nexport const VB_MOVES = { REQUEST: ["NEGOTIATION"] };\n` });
+  const r6 = await tq.tqExtend(v1, t6);
+  rmSync(t6.base, { recursive: true, force: true });
+  ok(r6.robotics.status === "ready" && r6.robotics.data.governor.rules.length === rules.length && r6.robotics.data.governor.physical.enabled === false && r6.robotics.data.governor.tasks["rb-cell-entry"] && r6.robotics.data.jobs.phases[0] === "REQUEST" && r6.robotics.data.jobs.roles.provider && r6.robotics.data.jobs.moves.REQUEST, "VBRIDGE's own export shape (VB_REASONS, VB_PHASES, VB_ROLES, VB_PHYSICAL, VB_TASKS, VB_MOVES) fills both facets with its detail");
+  if (d.governor?.physical) ok(d.governor.physical.enabled === false, "the physical-robot path ships disabled in the exported governor");
   const t3 = tree("refused", { "vb-standin-bad.js": `export const VB_SHARED = { phases: ["request"], governor: { rules: [{ id: "x", text: "key 0x${"ab".repeat(20)}" }] } };\n` });
   const r3x = await tq.tqExtend(v1, t3);
   rmSync(t3.base, { recursive: true, force: true });
