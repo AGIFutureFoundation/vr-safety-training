@@ -130,6 +130,7 @@
     "check_robotics.mjs": 6230,
     "check_colearn.mjs": 31500,
     "check_agentgym.mjs": 5200,
+    "check_silica.mjs": 4900,
     "check_geo.mjs": 560
   },
   "notes": {
@@ -152,6 +153,7 @@
     "check_walkable.mjs": "2026-09-29 08:45 UTC: new (console WALKABLE). 33 s in the full gate: every connector's round trip over 25 maps plus the atlas; the browser stage is opt-in.",
     "check_robotics.mjs": "2026-09-29 08:45 UTC: new (console ROBOTICS). The gym API's scenarios reset, step and finish headlessly, deterministic by seed.",
     "check_colearn.mjs": "2026-10-06 03:26 UTC: new (console COLEARN). 31.5 s wall (11 s CPU) on a loaded machine: loads the SmartCiti.X suite for the three station wrappers (a random policy runs each to the 20,000-step cap), trains and evaluates BC on 60 held-out seeds per game, filtered and unfiltered, 2 x 300 simulated tutor learners, and compares docs/evals/colearn.json.",
-    "check_agentgym.mjs": "2026-10-06 03:50 UTC: new (console AGENTGYM). 5.2 s standalone under load ~13: 5 stations x 4 baselines x 2 seeds twice, two small evals, 15 parity replays, consent tests in memory."
+    "check_agentgym.mjs": "2026-10-06 03:50 UTC: new (console AGENTGYM). 5.2 s standalone under load ~13: 5 stations x 4 baselines x 2 seeds twice, two small evals, 15 parity replays, consent tests in memory.",
+    "check_silica.mjs": "2026-10-06 03:40 UTC: new (console SILICA). 4.9 s standalone: the SmartCiti.X suite load, 18 seeded agent runs plus 5 calibration runs of the drilling station, the consent gate, and the study aggregates (recomputed when the read-only clone is present)."
   }
 }

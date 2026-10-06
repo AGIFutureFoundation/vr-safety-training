@@ -30562,5 +30562,89 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "sil-concrete-drilling-and-silica-dust-cues",
+    "index": "970",
+    "domain": "Construction & Structural Trades",
+    "trade": "Construction laborer — LIUNA, concrete drilling and anchor setting",
+    "category": "Construction & Structural Trades",
+    "certification": "LIUNA Training as a training body for construction laborers; OSHA 29 CFR 1926.1153 respirable crystalline silica in construction — Table 1's entries for handheld and stand-mounted drills (shroud or cowling with a dust collection system, and a HEPA-filtered vacuum to clean holes) and for rig-mounted core saws or drills (integrated water delivery), the housekeeping limits on dry sweeping and compressed air, and the written exposure control plan; OSHA 29 CFR 1926.103 respiratory protection, which applies 29 CFR 1910.134 fit testing and seal checks to construction; ANSI A10.9 concrete and masonry work; NIOSH guidance on engineering controls for silica dust from drilling; the tool, dust collector and anchor manufacturers' instructions for airflow and depth",
+    "name": "Concrete Drilling & Silica Dust Cues",
+    "weather": "clear",
+    "indoor": "plant",
+    "district": null,
+    "title": "SmartCiti.X~ Concrete Drilling & Silica Dust Cues VR",
+    "tagline": "Anchor holes and a pipe core drilled under the silica rule: the shroud, the collector and the half-mask checked before any bit turns, the holes vacuumed rather than blown out, the core drilled wet, and two dust cues — one you raise yourself, one that drifts in from the next crew — answered as fast as you notice them",
+    "accent": 14263361,
+    "accentCss": "#d9a441",
+    "parSeconds": 320,
+    "badge": {
+      "id": "caught-the-plume",
+      "name": "Caught The Plume",
+      "note": "Both dust cues answered inside their window, no dry cleanup, the shroud on every hole — first time"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Dust Crew",
+      "currency": "HOLE",
+      "ranks": [
+        "Helper",
+        "Driller",
+        "Laborer",
+        "Lead Laborer",
+        "Dust Crew Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "k12-sil-dust-you-cannot-see-at-a-building-site",
+    "index": "971",
+    "domain": "Education",
+    "trade": "Science visit with a concrete drilling crew at a building site — learner and crew lead",
+    "category": "Community Environmental Justice",
+    "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+    "name": "Dust You Cannot See at a Building Site",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Dust You Cannot See at a Building Site VR",
+    "tagline": "Drilling concrete makes dust finer than you can see — find out how builders catch it before anyone breathes it",
+    "accent": 14263361,
+    "accentCss": "#d9a441",
+    "parSeconds": 330,
+    "badge": {
+      "id": "dust-catcher",
+      "name": "Dust Catcher",
+      "note": "Compared a model drill with and without its dust shroud, followed the breeze and explained how builders keep fine dust out of the air"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Dust Board",
+      "currency": "CLEAR AIR",
+      "ranks": [
+        "Speck",
+        "Puff",
+        "Breeze",
+        "Clear Air",
+        "Dust Catcher"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

@@ -21,6 +21,8 @@ import { buildEmbodiment, observeEmbodied, probeSkill, DIFFICULTY_LADDER } from 
 import { attachEpisodeRecorder, EpisodeStore, EPISODE_SCHEMA_VERSION } from "../../shared/episodes.js";
 // DATAWORKS: nothing is recorded without the learner's opt-in (and never for K-12, signed-out or demo sessions).
 import { dxCollecting } from "../../shared/dx-data.js";
+// SILICA: the opt-in reaction-time eval for stations that declare reactionEval (docs/consoles/SILICA.md).
+import { silRecordRun } from "../../shared/sil-reaction.js";
 import { Platform, FLOW_LOAD, FLOW_START, FLOW_RESUME, FLOW_STATE } from "../../shared/platform.js";
 
 import { Perf } from "../../shared/perf.js";
@@ -997,6 +999,8 @@ async function enterSim(id, { briefed = false } = {}) {
         seconds: Math.round(s.elapsed ?? 0),
         verdict: s.hazardHits > 0 ? `${s.hazardHits} unsafe action${s.hazardHits === 1 ? "" : "s"}` : `${s.stars} star${s.stars === 1 ? "" : "s"}, clean`,
       });
+      // Cue-to-answer times as a DATAWORKS episode — inert unless the learner opted in (dxCollecting).
+      if (room.reactionEval) { try { silRecordRun(s, room); } catch (_) { /* never block the results */ } }
       showResults(s, summary);
     },
   });

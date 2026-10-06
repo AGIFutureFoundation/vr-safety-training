@@ -86,6 +86,8 @@ const CHECKERS = [
   "check_colearn.mjs",
   // AGENTGYM: stations as agent tasks — determinism, scoring parity with the human station, offline, consented ratings (docs/consoles/AGENTGYM.md).
   "check_agentgym.mjs",
+  // SILICA: the ConstructionVR drilling-dust study as a station, the opt-in reaction-time eval, aggregates only (docs/consoles/SILICA.md).
+  "check_silica.mjs",
   // REACTOR: the engine's hot-path shortcuts are exact, and the per-map boot and streaming profile (docs/consoles/REACTOR.md).
   "check_reactor.mjs",
   // CLEANPORTS: zero-emission port stations, drivables and the WOJRC zero-emission careers level (docs/consoles/CLEANPORTS.md).

@@ -651,6 +651,7 @@ export const CURRICULA = [
       { app: "smartcity", id: "bt-rebar-tying-and-impalement-protection", why: "The steel the pour buries: a slab mat placed off walk boards and tied to the drawing, beside a row of dowels guarded by rated impalement caps rather than the mushrooms that only stop a scratch." },
       { app: "smartcity", id: "bt-masonry-wall-layout-and-mortar", why: "Where a bricklayer's wall begins: laid out square off the gridlines, dry-bonded, batched to the specification's proportions with the dust kept wet, and braced per the bracing plan inside its limited access zone." },
       { app: "smartcity", id: "or-ranch-road-grading-and-culvert", why: "The operating engineer's own station, off the slab entirely: a crown cut to the plan on open range, a culvert set in a trench respected as an excavation, and a school bus on the same road escorted through on the flagger's call." },
+      { app: "smartcity", id: "sil-concrete-drilling-and-silica-dust-cues", why: "The laborers' own silica station: anchor holes drilled under a shroud and vacuumed rather than blown out, a pipe core drilled wet to Table 1, and two dust cues — one from your own drill, one drifting in from the next crew — timed the way the ConstructionVR study timed them." },
     ],
   },
   {
@@ -1448,6 +1449,7 @@ export const CURRICULA = [
       { app: "smartcity", id: "k12-es-the-bay-food-web", why: "A Bay food web built on a board with arrows that follow the food energy, and the links spotted live from behind the pier rail." },
       { app: "smartcity", id: "k12-es-plastics-and-the-bay", why: "A float test in salty water, plastics sorted into floaters and sinkers, and a paired shoreline sweep with gloves, tongs and a sharps tub." },
       { app: "smartcity", id: "k12-es-clean-air-at-the-port", why: "Diesel and electric model trucks compared with clean filters, the breeze followed from the port to homes, and what the Port of Oakland says its Clean Ports award pays for." },
+      { app: "smartcity", id: "k12-sil-dust-you-cannot-see-at-a-building-site", why: "A model drill run with and without its dust shroud over clean dark cards, the breeze followed across a building site, and the habits a drilling crew uses to keep fine dust out of everyone's air." },
       { app: "smartcity", id: "k12-lk-building-new-marsh-on-the-coast", why: "Learners see why a coastal marsh shrinks and how a restoration crew builds new marsh from mud, water and grass, the science behind the coast's restoration work." },
       { app: "smartcity", id: "k12-lk-where-a-data-center-gets-its-power", why: "Learners follow energy from a store to a generator, through a substation to computers and out as heat, general science for the power and cooling trades." },
       { app: "smartcity", id: "k12-lk-how-a-wing-lifts-an-aircraft", why: "Learners balance the four forces and find the wing tilt that gives lift, the science an aircraft mechanic checks on every walk-round." },
