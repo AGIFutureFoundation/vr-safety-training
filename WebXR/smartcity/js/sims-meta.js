@@ -30604,5 +30604,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "rp-robot-policy-evaluation-review",
+    "index": "rp-2",
+    "domain": "Robotics",
+    "trade": "AI-training specialist and robot safety lead, policy evaluation review — UAW/IAM",
+    "category": "Manufacturing & Automation",
+    "certification": "UAW and IAM skilled-trades training as bodies; ANSI R15.06 and ISO 10218 industrial robot safety (the integrated cell and its risk assessment), with ISO/TS 15066 named for collaborative operation; OSHA 29 CFR 1910.212 general requirements for machines and 29 CFR 1910.147 the control of hazardous energy; the bench's written risk assessment, its release criteria and the platform's own consent and dataset-card rules",
+    "name": "Reviewing a Robot Policy's Evaluation",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "robotics-training-centre",
+    "title": "SmartCiti.X~ Reviewing a Robot Policy's Evaluation VR",
+    "tagline": "Deciding whether a learned robot policy may run a supervised trial: the dataset card and its consent read, the lineage traced and a policy built on revoked data caught, held-out results compared with a random baseline and the scripted expert, violations counted as well as successes, a failing episode replayed and explained, and a supervised trial run at reduced speed with an enabling device before anyone signs",
+    "accent": 12033279,
+    "accentCss": "#b79cff",
+    "parSeconds": 330,
+    "badge": {
+      "id": "measured-not-claimed",
+      "name": "Measured, Not Claimed",
+      "note": "Traced the lineage, compared the policy with both baselines on held-out seeds, replayed its failure and signed only what was measured"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Measured, Not Claimed",
+      "currency": "EV",
+      "ranks": [
+        "Reader",
+        "Reviewer",
+        "Evaluator",
+        "Release Reviewer",
+        "Safety Sign-off"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
