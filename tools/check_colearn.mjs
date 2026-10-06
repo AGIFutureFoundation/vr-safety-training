@@ -85,8 +85,9 @@ check(C.colHash(C.colTutorSim({ learners: 40 })) === C.colHash(C.colTutorSim({ l
 // 4–5 policy evals (tools/col_eval.mjs computes them; docs/evals/colearn.json must match a live run)
 console.log("4 behaviour cloning versus random and the expert (held-out seeds 7001–7060)");
 const t0 = Date.now();
-const EV = colEvalAll();
+const EV = await colEvalAll();
 for (const p of EV.policies) check(p.bcFiltered.success > p.random.success, `${p.scenario}: BC ${p.bcFiltered.success} > random ${p.random.success}; expert ${p.expert.success}; gap to expert ${p.gapToExpert}${p.bcFilteredShield ? `; BC + reservation shield ${p.bcFilteredShield.success}` : ""} (${p.demosKept}/${p.demosOffered} demos kept, ${p.rows} rows)`);
+for (const p of EV.stations) check(p.bcFiltered.success > p.random.success && p.demosKept > 0, `${p.scenario} (station ${p.station}, learnt from its station episodes): BC ${p.bcFiltered.success} > random ${p.random.success}; expert ${p.expert.success}; gap ${p.gapToExpert} (${p.demosKept}/${p.demosOffered} demos, ${p.bcFiltered.n} held-out seeds)`);
 console.log("5 filtered versus unfiltered demonstrations");
 for (const p of EV.policies) check(p.bcFiltered.success >= p.bcUnfiltered.success, `${p.scenario}: cloning clean passes only ${p.bcFiltered.success} >= cloning every demonstration ${p.bcUnfiltered.success}`);
 check(EV.policies.every((p) => p.expert.success >= p.bcFiltered.success - 0.02), `the scripted expert stays the ceiling (mean gap ${(EV.policies.reduce((n, p) => n + p.gapToExpert, 0) / EV.policies.length).toFixed(3)}; eval ${Date.now() - t0} ms)`);

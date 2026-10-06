@@ -42,6 +42,19 @@ expert. Success = finished with every safe practice kept.
 | Teleop Pick-and-Place | 0.00 | 0.00 | **0.967** (19/40) | 0.983 | 0.016 |
 | AMR Fleet Routing | 0.00 | 0.45 → 0.60 with cycle-4 features | **0.817** (37/40); 0.867 with the reservation shield | 1.00 | 0.183 |
 
+Station wrappers (`rb-station-*`): the robot learns a catalog station from that station's episodes — the same
+`kind: "station"` episodes DATAWORKS captures from consented adult learners (`dx-capture.js`), read through
+`shared/robot.js observe()` fields only. Here the demonstrations are synthetic (robot.js `RobotAgent` at skill 0.85);
+20 demonstrations, 10 held-out seeds (a random policy runs to the 20,000-step cap, so fewer seeds than the games).
+Picks inside a sequence step are learnt by their place among the remaining targets, and an interruption's answer
+relative to the interruption.
+
+| Station scenario (catalog station) | Random | BC, clean passes only | Scripted expert | Gap |
+|---|---|---|---|---|
+| rb-station-robot-cell (ad-robot-cell-lockout-and-safe-reentry) | 0.00 | **1.00** (13/20 demos kept) | 1.00 | 0.000 |
+| rb-station-amr-fleet (ad-amr-fleet-traffic-and-estop-drill) | 0.00 | **1.00** (6/20) | 1.00 | 0.000 |
+| rb-station-cobot (ad-cobot-risk-assessment-and-speed-separation) | 0.00 | **1.00** (12/20) | 1.00 | 0.000 |
+
 Tutor, simulated learners (300, paired: each learner replayed with the same random stream under both tutors).
 The learner model is ours (three learner types, each helped most by a different hint style; harder steps are the
 e-stop test, lockout and verify). Steps to pass = step attempts until one run with no mistake. Means with 95%
@@ -67,6 +80,7 @@ about two more hints per learner (the review hint). These are simulation results
 7. Reason: prove it as one checker and in the real page; check = check_colearn, the parishes bundle, a headless smoke run → Act: `tools/check_colearn.mjs`, bundle list, parishes mount → Observe: check_colearn 37 passed, 0 failed (6.4 s); bundle 175 modules; on the built page the panel mounts in `#menu-drills`, trains in 30 ms, a wrong first move gets a "show" hint with the robot's explanation, a scripted try ends "Clean pass", tutor counts saved, no page errors, no new external request.
 8. Reason: nothing next door regressed; check = neighbours' single checkers → Observe: check_robotics 18 passed, 0 failed; check_dataworks 59/0; check_enterprise "All organisation-layer checks pass" (GT_PROFILE_KEYS grew by one); check_interface 21/0.
 9. Reason: the per-step error table should change what the learner sees, and every quoted figure should trace to a file; check = smoke + byte-for-byte eval file → Act: "Review first" preview of the most-missed step when "Your turn" opens; `tools/col_eval.mjs` writes `docs/evals/colearn.json`, the checker compares it with a live run and reuses it (one eval pass, not two) → Observe: smoke "Review first: How do you know the e-stop works before you rely on it?" (bandit picked "ask"), no page errors; check_colearn 39 passed, 0 failed in 3.0 s.
+10. Reason: the brief's first loop is human *station* episodes → robot; the station wrappers were left out; check = BC success on rb-station-* → Act: a shared station feature table over robot.js observe() fields, `colDemosFromEpisodes` accepting the wrapper's catalog station (kind "station"), absolute target ids as labels → Observe: 0 on robot cell — it re-selected an already-picked PPE item forever ("partial"). Act: label picks by place among the remaining targets ("@r0") and interruption answers as "@interrupt" → Observe: robot cell 1.00, AMR fleet 1.00, cobot 1.00 on 10 held-out seeds (random 0, expert 1); unfiltered demos on robot cell 0 (the lapses' hazard picks are copied) — filtered stays the default. check_colearn 42 passed, 0 failed.
 
 ## Seams
 
@@ -80,8 +94,8 @@ about two more hints per learner (the review hint). These are simulation results
 
 ## Left
 
-- The station-wrapper scenarios (`rb-station-*`) need the full SmartCiti.X suite; BC over human station episodes
-  (DATAWORKS `kind: "station"`) is the next step — the feature table would come from `robot.js observe()`.
+- Station BC is evaluated on 10 held-out seeds only (random rollouts are slow at the 20,000-step cap); the station
+  ghost is not in the panel (the panel's ghost is Robot Cell Entry).
 - AMR: 7–8 of 60 held-out seeds still end truncated (robots waiting on each other); a per-robot BC cannot coordinate.
 - The ghost is a schematic track, not the 3D rig at a robot site; mounting the replay on `rb-world.js`' cell rig is next.
 - The tutor runs on the cell-entry procedure only; other stations' steps would need their hint table.

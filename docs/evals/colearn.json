@@ -148,6 +148,89 @@
       "modelHash": "91a7b57c6a817b04"
     }
   ],
+  "stations": [
+    {
+      "scenario": "rb-station-robot-cell",
+      "station": "ad-robot-cell-lockout-and-safe-reentry",
+      "demosOffered": 20,
+      "demosKept": 13,
+      "rows": 3717,
+      "random": {
+        "n": 10,
+        "success": 0,
+        "clean": 0,
+        "meanSteps": 20000
+      },
+      "expert": {
+        "n": 10,
+        "success": 1,
+        "clean": 1,
+        "meanSteps": 278
+      },
+      "bcFiltered": {
+        "n": 10,
+        "success": 1,
+        "clean": 1,
+        "meanSteps": 278
+      },
+      "gapToExpert": 0,
+      "modelHash": "10fa790f52017137"
+    },
+    {
+      "scenario": "rb-station-amr-fleet",
+      "station": "ad-amr-fleet-traffic-and-estop-drill",
+      "demosOffered": 20,
+      "demosKept": 6,
+      "rows": 1680,
+      "random": {
+        "n": 10,
+        "success": 0,
+        "clean": 0,
+        "meanSteps": 20000
+      },
+      "expert": {
+        "n": 10,
+        "success": 1,
+        "clean": 1,
+        "meanSteps": 278
+      },
+      "bcFiltered": {
+        "n": 10,
+        "success": 1,
+        "clean": 1,
+        "meanSteps": 278
+      },
+      "gapToExpert": 0,
+      "modelHash": "8bd01eff3776b06f"
+    },
+    {
+      "scenario": "rb-station-cobot",
+      "station": "ad-cobot-risk-assessment-and-speed-separation",
+      "demosOffered": 20,
+      "demosKept": 12,
+      "rows": 3501,
+      "random": {
+        "n": 10,
+        "success": 0,
+        "clean": 0,
+        "meanSteps": 20000
+      },
+      "expert": {
+        "n": 10,
+        "success": 1,
+        "clean": 1,
+        "meanSteps": 279
+      },
+      "bcFiltered": {
+        "n": 10,
+        "success": 1,
+        "clean": 1,
+        "meanSteps": 279
+      },
+      "gapToExpert": 0,
+      "modelHash": "50572e6935df6069"
+    }
+  ],
   "tutor": {
     "mixed": {
       "learners": 300,

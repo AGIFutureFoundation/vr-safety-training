@@ -40,7 +40,7 @@
 // Every top-level name is prefixed col/COL_ (the bundler shares one scope).
 
 import { rng } from "./robot.js";
-import { rbEnv, rbPolicy, rbRollout } from "./rb-env.js";
+import { rbEnv, rbPolicy, rbRollout, rbScenario } from "./rb-env.js";
 import { dxMakeEpisode, dxValidateEpisode, dxCollecting, dxStore } from "./dx-data.js";
 import { gtStorage } from "./profiles.js";
 
@@ -115,17 +115,45 @@ export const COL_FEATURES = {
       });
     },
   },
+  // A catalog station wrapped by rb-env (rb-station-*), read from shared/robot.js observe() fields only, so a
+  // human station episode captured by DATAWORKS (dx-capture.js, kind "station") reads the same as a rollout.
+  station: {
+    names: ["stepIndex", "remaining", "gaugeT", "gaugeInGreen", "trackOffset", "holding", "holdProgress", "turnProgress", "interrupt"],
+    weights: [3, 1, 2, 2, 4, 2, 2, 2, 6],
+    mid: [99, 0.5, 0.5, 0.5, 0, 0.5, 0.5, 0.5, 0.5],
+    text: [["it is late in the procedure", "it is early in the procedure"], ["targets remain in this step", "nothing remains in this step"], ["the gauge needle has moved", "the gauge needle is at rest"],
+      ["the gauge needle is in the green band", "the gauge needle is outside the green band"], ["the reading is above the band", "the reading is below the band"], ["the control is held", "the control is not held"],
+      ["the hold is nearly done", "the hold has just started"], ["the turn is nearly done", "the turn has just started"], ["a time-limited interruption needs an answer", "no interruption is waiting"]],
+    of: (o) => {
+      const g = o.gauge, tr = o.track, mid = (b) => (b ? (b[0] + b[1]) / 2 : 0);
+      return [o.stepIndex ?? 0, (o.remaining ?? []).length, g ? g.t : -1, g && g.t >= g.green[0] && g.t <= g.green[1] ? 1 : 0, tr ? colClip((tr.v - mid(tr.green)) * 5, -1, 1) : 0,
+        (tr?.holding || o.hold?.holding) ? 1 : 0, o.hold ? colClip(o.hold.holdFor / (o.hold.seconds || 1), 0, 1) : 0, o.turn ? colClip(o.turn.amount / (o.turn.required || 1), 0, 1) : 0, o.interrupt ? 1 : 0];
+    },
+  },
 };
+
+/** The feature table for a scenario: its own, or the shared station table for an rb-station-* wrapper. */
+export function colF(sc) { return COL_FEATURES[sc] ?? (String(sc).startsWith("rb-station-") ? COL_FEATURES.station : null); }
+const colIsStation = (sc) => String(sc).startsWith("rb-station-");
 
 /** The feature rows and labels of one demonstration step. */
 function colRows(sc, obs, action) {
-  const F = COL_FEATURES[sc];
+  const F = colF(sc);
   if (sc === "rb-amr-fleet-routing") {
     if (action.type !== "route") return [];
     return F.perRobot(obs).flatMap((r, i) => (r.delivered ? [] : [{ x: r.f, label: action.moves?.[i] ?? "wait", p: null }]));
   }
   const x = F.of(obs);
   let label = action.type, p = null;
+  if (colIsStation(sc)) {
+    // An answer to an interruption is learnt relative to it ("@interrupt"), so a different interruption still gets its own target.
+    // A pick inside a sequence/find step is learnt by its place among the targets still remaining ("@r0" = the first).
+    const ri = (obs.remaining ?? []).indexOf(action.id);
+    label = action.id ? (obs.interrupt && action.id === obs.interrupt.target ? `${action.type}:@interrupt` : ri >= 0 ? `${action.type}:@r${ri}` : `${action.type}:${action.id}`) : action.type;
+    const gm = obs.gauge ? (obs.gauge.green[0] + obs.gauge.green[1]) / 2 : 0.5;
+    p = action.type === "commit" ? { at: (+action.at || 0) - gm } : action.type === "drop" ? { distance: +action.distance || 0 } : action.type === "rotate" ? { delta: +action.delta || 0 } : null;
+    return [{ x, label, p }];
+  }
   if (sc === "rb-cell-entry" && action.type === "walk") p = { d: +action.d || 0 };
   if (sc === "rb-cobot-zone-setup") {
     if (action.type === "test") label = `test-${action.what}`;
@@ -141,6 +169,15 @@ function colRows(sc, obs, action) {
 /** A label plus the neighbours' parameters back to an env action. */
 function colAction(sc, label, ps, obs) {
   const mean = (k) => (ps.length ? ps.reduce((n, p) => n + (p?.[k] ?? 0), 0) / ps.length : 0);
+  if (colIsStation(sc)) {
+    const [type, idRaw] = label.split(":");
+    const id = idRaw === "@interrupt" ? obs.interrupt?.target ?? null : /^@r\d+$/.test(idRaw ?? "") ? (obs.remaining ?? [])[+idRaw.slice(2)] ?? (obs.remaining ?? [])[0] ?? null : idRaw;
+    if (!id) return { type };
+    if (type === "commit") return { type, id, at: colR3((obs.gauge ? (obs.gauge.green[0] + obs.gauge.green[1]) / 2 : 0.5) + mean("at")) };
+    if (type === "drop") return { type, id, distance: colR3(mean("distance")) };
+    if (type === "rotate") return { type, id, delta: colR3(mean("delta")) };
+    return { type, id };
+  }
   if (sc === "rb-cell-entry") return label === "walk" ? { type: "walk", d: colR3(mean("d") || 1) } : { type: label };
   if (sc === "rb-cobot-zone-setup") {
     if (label.startsWith("test-")) return { type: "test", what: label.slice(5) };
@@ -173,15 +210,15 @@ function colNoisy(sc, a, R, noise) {
  * grips too hard) with action noise, written through dxMakeEpisode so they take
  * exactly the path a consented human episode takes.
  */
-export function colSyntheticDemos(sc, { n = 40, seed = 1, skill = 0.85, noise = 0.3 } = {}) {
+export function colSyntheticDemos(sc, { n = 40, seed = 1, skill = 0.85, noise = 0.3, station = null } = {}) {
   const eps = [];
   for (let k = 0; k < n; k++) {
     const s = seed * 100003 + k + 1;
-    const env = rbEnv(sc, { seed: s });
+    const env = rbEnv(sc, { seed: s, station });
     const base = rbPolicy(env, { skill, seed: s }), R = rng(s * 31 + 7);
     const { steps, summary } = rbRollout(env, { seed: s, policy: (o) => colNoisy(sc, base(o), R, noise) });
     eps.push(dxMakeEpisode({
-      source: "synthetic", world: "robotics", kind: "robot-game", scenario: sc, episodeId: `col-${sc}-${s}`,
+      source: "synthetic", world: "robotics", kind: colIsStation(sc) ? "station" : "robot-game", scenario: colIsStation(sc) ? rbScenario(sc).station : sc, episodeId: `col-${sc}-${s}`,
       startedAt: COL_FIXED_TIME, endedAt: COL_FIXED_TIME, createdAt: COL_FIXED_TIME, truncated: summary.truncated,
       summary: { success: summary.passed, safePractice: summary.violationCount === 0, score: summary.score },
       generator: "shared/col-learn.js colSyntheticDemos", recordedWith: "headless", seed: s,
@@ -203,8 +240,10 @@ export function colDemosFromEpisodes(episodes, sc) {
     const v = dxValidateEpisode(ep);
     if (!v.ok) { refused.push({ id, why: v.errors[0] }); continue; }
     if (ep.source === "human" && !(ep.consent?.consentId && ep.consent?.adult === true)) { refused.push({ id, why: "no adult consent receipt" }); continue; }
-    if (ep.scenario !== sc) { refused.push({ id, why: `scenario ${ep.scenario}` }); continue; }
-    if (!["robot-game", "gym"].includes(ep.kind)) { refused.push({ id, why: `kind ${ep.kind}` }); continue; }
+    // A station wrapper learns from that catalog station's episodes (kind "station", scenario = the station id).
+    const want = colIsStation(sc) ? rbScenario(sc)?.station : sc, kinds = colIsStation(sc) ? ["station"] : ["robot-game", "gym"];
+    if (ep.scenario !== want) { refused.push({ id, why: `scenario ${ep.scenario}` }); continue; }
+    if (!kinds.includes(ep.kind)) { refused.push({ id, why: `kind ${ep.kind}` }); continue; }
     demos.push({ id, source: ep.source, success: !!ep.summary.success, clean: !!ep.summary.safePractice, steps: ep.steps.map((s) => ({ observation: s.observation, action: s.action })) });
   }
   return { demos, refused };
@@ -214,7 +253,8 @@ export function colDemosFromEpisodes(episodes, sc) {
 export async function colLocalDemos(sc, { store = dxStore, signals = null } = {}) {
   if (!dxCollecting(signals)) return [];
   const all = await store.list();
-  return all.filter((e) => e.scenario === sc && e.source === "human");
+  const want = colIsStation(sc) ? rbScenario(sc)?.station : sc;
+  return all.filter((e) => e.scenario === want && e.source === "human");
 }
 
 // ================================================================ behaviour cloning (k-NN)
@@ -225,12 +265,12 @@ export async function colLocalDemos(sc, { store = dxStore, signals = null } = {}
  * demonstrations that passed with clean safe practice (filtered BC).
  */
 export function colTrain(sc, demos, { k = 5, seed = 1, onlySuccessful = true, maxPoints = 4000 } = {}) {
-  const F = COL_FEATURES[sc];
+  const F = colF(sc);
   if (!F) throw new Error(`colTrain: no features for ${sc}`);
   const used = demos.filter((d) => !onlySuccessful || (d.success && d.clean));
   let rows = [];
   for (const d of used) for (const s of d.steps) rows.push(...colRows(sc, s.observation, s.action));
-  rows = rows.filter((r) => r.label !== "wait" || sc === "rb-amr-fleet-routing");
+  rows = rows.filter((r) => r.label !== "wait" || sc === "rb-amr-fleet-routing" || colIsStation(sc));
   const R = rng(seed * 7 + 3);
   for (let i = rows.length - 1; i > 0; i--) { const j = Math.floor(R() * (i + 1)); [rows[i], rows[j]] = [rows[j], rows[i]]; }
   if (rows.length > maxPoints) rows = rows.slice(0, maxPoints);
@@ -284,15 +324,16 @@ export function colPolicy(model, { shield = false } = {}) {
       }
       return { type: "route", moves };
     }
-    const { label, ps } = colVote(colNeighbours(model, COL_FEATURES[sc].of(obs)));
+    const { label, ps } = colVote(colNeighbours(model, colF(sc).of(obs)));
     return colAction(sc, label, ps, obs);
   };
 }
 
 /** A seeded random policy over a scenario's action space: the floor any learner must beat. */
-export function colRandomPolicy(sc, seed = 1) {
+export function colRandomPolicy(sc, seed = 1, { ids = [] } = {}) {
   const R = rng(seed * 9973 + 5), pick = (a) => a[Math.floor(R() * a.length)];
   return (o) => {
+    if (colIsStation(sc)) { const t = pick(["select", "select", "press", "release", "wait", "commit", "drop"]); const id = pick(ids.length ? ids : ["none"]); return t === "commit" ? { type: t, id, at: colR3(R()) } : t === "drop" ? { type: t, id, distance: colR3(R()) } : t === "wait" || t === "release" ? { type: t } : { type: t, id }; }
     if (sc === "rb-cell-entry") { const t = pick(["walk", "walk", "test-estop", "press-estop", "lockout", "verify", "enter", "clear-jam", "exit", "remove-lock", "restart", "wait"]); return t === "walk" ? { type: "walk", d: colR3(R() * 2 - 0.5) } : { type: t }; }
     if (sc === "rb-cobot-zone-setup") { const t = pick(["set", "set", "test", "commit"]); return t === "set" ? { type: "set", param: pick(["warn", "stop", "speed"]), value: colR3(R() * 4) } : t === "test" ? { type: "test", what: pick(["scanner", "estop", "zone-walk"]) } : { type: "commit" }; }
     if (sc === "rb-teleop-pick-place") { const t = pick(["move", "move", "move", "grip", "release"]); return t === "move" ? { type: "move", dx: colR3((R() - 0.5) * 0.24), dy: colR3((R() - 0.5) * 0.24), dz: colR3((R() - 0.5) * 0.24) } : t === "grip" ? { type: "grip", force: colR3(R() * 45) } : { type: t }; }
@@ -301,11 +342,25 @@ export function colRandomPolicy(sc, seed = 1) {
 }
 
 /** Success over seeds: `policyFor(seed)` builds the policy for that episode. */
-export function colEvalPolicy(sc, policyFor, { seeds = [] } = {}) {
+export function colEvalPolicy(sc, policyFor, { seeds = [], station = null } = {}) {
   let success = 0, clean = 0, steps = 0;
   for (const s of seeds) {
-    const env = rbEnv(sc, { seed: s });
+    const env = rbEnv(sc, { seed: s, station });
     const r = rbRollout(env, { seed: s, policy: policyFor(s) });
+    if (r.summary.passed) success += 1;
+    if (r.summary.violationCount === 0) clean += 1;
+    steps += r.summary.steps;
+  }
+  const n = seeds.length || 1;
+  return { n: seeds.length, success: colR3(success / n), clean: colR3(clean / n), meanSteps: colR3(steps / n) };
+}
+
+/** The scripted expert (skill 1) on the same seeds: the ceiling. */
+function colEvalExpert(sc, seeds, station) {
+  let success = 0, clean = 0, steps = 0;
+  for (const s of seeds) {
+    const env = rbEnv(sc, { seed: s, station });
+    const r = rbRollout(env, { seed: s, skill: 1 });
     if (r.summary.passed) success += 1;
     if (r.summary.violationCount === 0) clean += 1;
     steps += r.summary.steps;
@@ -318,14 +373,16 @@ export function colEvalPolicy(sc, policyFor, { seeds = [] } = {}) {
 export const colHeldOut = (n = 60, base = 7001) => Array.from({ length: n }, (_, i) => base + i);
 
 /** The whole eval for one scenario: BC versus random and the scripted expert on held-out seeds. */
-export function colEvalScenario(sc, { demos = 40, seed = 1, heldOut = 60, onlySuccessful = true, skill = 0.85, noise = 0.3 } = {}) {
-  const eps = colSyntheticDemos(sc, { n: demos, seed, skill, noise });
+export function colEvalScenario(sc, { demos = 40, seed = 1, heldOut = 60, onlySuccessful = true, skill = 0.85, noise = 0.3, station = null } = {}) {
+  const eps = colSyntheticDemos(sc, { n: demos, seed, skill, noise, station });
   const { demos: ds } = colDemosFromEpisodes(eps, sc);
   const model = colTrain(sc, ds, { seed, onlySuccessful });
   const seeds = colHeldOut(heldOut);
-  const bc = colEvalPolicy(sc, () => colPolicy(model), { seeds });
-  const random = colEvalPolicy(sc, (s) => colRandomPolicy(sc, s), { seeds });
-  const expert = colEvalPolicy(sc, (s) => { const env = rbEnv(sc, { seed: s }); return rbPolicy(env, { skill: 1, seed: s }); }, { seeds });
+  const ids = station ? Object.keys(station.api?.hits ?? {}) : [];
+  const bc = colEvalPolicy(sc, () => colPolicy(model), { seeds, station });
+  const random = colEvalPolicy(sc, (s) => colRandomPolicy(sc, s, { ids }), { seeds, station });
+  // The expert needs the env it acts in (a station's RobotAgent reads the live session), so it is built inside the rollout.
+  const expert = colEvalExpert(sc, seeds, station);
   const bcShield = sc === "rb-amr-fleet-routing" ? colEvalPolicy(sc, () => colPolicy(model, { shield: true }), { seeds }) : null;
   return { scenario: sc, demos: model.demos, demosOffered: ds.length, rows: model.rows.length, bc, bcShield, random, expert, gapToExpert: colR3(expert.success - bc.success), modelHash: colHash(model) };
 }
@@ -347,7 +404,7 @@ const COL_ACTION_TEXT = {
  * the nearest demonstrated moments agree.
  */
 export function colExplain(model, obs, robot = 0) {
-  const sc = model.scenario, F = COL_FEATURES[sc];
+  const sc = model.scenario, F = colF(sc);
   const x = sc === "rb-amr-fleet-routing" ? F.perRobot(obs)[robot]?.f ?? F.names.map(() => 0) : F.of(obs);
   const nb = colNeighbours(model, x), { label, ps } = colVote(nb);
   const action = sc === "rb-amr-fleet-routing" ? { type: "route", robot, move: label } : colAction(sc, label, ps, obs);
