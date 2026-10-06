@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 728
+      "stations": 729
     },
     "trades": {
       "entry": "trades/index.html",
@@ -242,6 +242,7 @@
         "conveyor-guard",
         "forklift-dock",
         "cnc-cell",
+        "rt-cobot-power-force-limit-check",
         "rt-teach-pendant-safe-jogging",
         "ml-suspicious-package-protocol",
         "sm-kitchen-exhaust-and-fire-wrap",
@@ -10281,6 +10282,83 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "rt-cobot-power-force-limit-check",
+      "name": "Measuring a Cobot's Contact Forces",
+      "title": "SmartCiti.X~ Measuring a Cobot's Contact Forces VR",
+      "tagline": "Verifying a power-and-force-limited cobot before people share its bench: body regions read from the risk assessment, the measuring device set for the region and seated where contact happens, transient and quasi-static contact measured separately, every reading judged against the card's band, a sharp tool edge found and covered, and the result recorded with the device's calibration",
+      "category": "Manufacturing & Automation",
+      "domain": "Robotics",
+      "trade": "Cobot integrator, power-and-force-limiting verification on a shared bench — UAW/IAM",
+      "union": null,
+      "certification": "UAW and IAM skilled-trades training as bodies; ISO/TS 15066 for collaborative robot applications (power and force limiting, body regions), with ANSI R15.06 and ISO 10218 for the robot and its integration; OSHA 29 CFR 1910.212 general requirements for machines and 29 CFR 1910.132 personal protective equipment; the application's written risk assessment, the measuring device's manual and the manufacturer's manual",
+      "accent": "#5bb7d9",
+      "parSeconds": 330,
+      "weather": "overcast",
+      "indoor": null,
+      "district": "robotics-training-centre",
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "gauge",
+        "drag",
+        "hold",
+        "track",
+        "find"
+      ],
+      "badge": {
+        "id": "soft-contact",
+        "name": "Soft Contact",
+        "note": "Measured both contact cases for the right body region and let the readings, not the brochure, decide"
+      },
+      "meshes": 204,
+      "lights": 0,
+      "overBudget": false,
+      "index": "rt-2",
+      "flat": false,
+      "system": "Soft Contact",
+      "currency": "FP",
+      "ranks": [
+        "Observer",
+        "Device Holder",
+        "Measurer",
+        "Verifier",
+        "Soft Contact Lead"
+      ],
+      "awards": [
+        {
+          "id": "region-first",
+          "name": "Region First",
+          "note": "Set the device for the body region before the first contact"
+        },
+        {
+          "id": "two-cases",
+          "name": "Two Cases",
+          "note": "Measured transient and quasi-static contact as separate tests"
+        },
+        {
+          "id": "steady-reading",
+          "name": "Steady Reading",
+          "note": "Held the reading inside the card's band"
+        },
+        {
+          "id": "quick-verify",
+          "name": "Inside Par",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "clean-verify",
+          "name": "Clean Verification",
+          "note": "Clean run, no corrections"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=rt-cobot-power-force-limit-check"
     },
     {
       "app": "smartcity",
@@ -37654,7 +37732,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 251,
+      "meshes": 264,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -38314,7 +38392,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 252,
+      "meshes": 272,
       "lights": 0,
       "overBudget": false,
       "index": "100",

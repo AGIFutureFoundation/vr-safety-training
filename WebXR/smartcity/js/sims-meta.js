@@ -30856,5 +30856,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "rt-cobot-power-force-limit-check",
+    "index": "rt-2",
+    "domain": "Robotics",
+    "trade": "Cobot integrator, power-and-force-limiting verification on a shared bench — UAW/IAM",
+    "category": "Manufacturing & Automation",
+    "certification": "UAW and IAM skilled-trades training as bodies; ISO/TS 15066 for collaborative robot applications (power and force limiting, body regions), with ANSI R15.06 and ISO 10218 for the robot and its integration; OSHA 29 CFR 1910.212 general requirements for machines and 29 CFR 1910.132 personal protective equipment; the application's written risk assessment, the measuring device's manual and the manufacturer's manual",
+    "name": "Measuring a Cobot's Contact Forces",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "robotics-training-centre",
+    "title": "SmartCiti.X~ Measuring a Cobot's Contact Forces VR",
+    "tagline": "Verifying a power-and-force-limited cobot before people share its bench: body regions read from the risk assessment, the measuring device set for the region and seated where contact happens, transient and quasi-static contact measured separately, every reading judged against the card's band, a sharp tool edge found and covered, and the result recorded with the device's calibration",
+    "accent": 6010841,
+    "accentCss": "#5bb7d9",
+    "parSeconds": 330,
+    "badge": {
+      "id": "soft-contact",
+      "name": "Soft Contact",
+      "note": "Measured both contact cases for the right body region and let the readings, not the brochure, decide"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Soft Contact",
+      "currency": "FP",
+      "ranks": [
+        "Observer",
+        "Device Holder",
+        "Measurer",
+        "Verifier",
+        "Soft Contact Lead"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
