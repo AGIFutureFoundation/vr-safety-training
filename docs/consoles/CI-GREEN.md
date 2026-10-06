@@ -43,7 +43,8 @@ virtual-clock or content budget changed.
 3. `tools/lib/pw.mjs` + 27 scripts switched by script → every file parses; check_interface 21/21 through the resolver (105 s under load 12).
 4. check_detail four-signal rule → 479 pass, 0 fail; the real clock reported "contended: load 21.9 over 4 cores; 2 other runnable; calibration 5.94×" — the right verdict on this machine; virtual-clock worst 2.80/3 ms (high), 1.80/2 ms (low), unchanged.
 5. Generators on 9f0592cd → catalog.json differed (two mesh counts) → Math.random in two sims → seeded → two regenerations `cmp` identical, bundles rebuilt and committed.
-6. check_all per-checker load windows + CHECK_ONLY; check_proving per-row rule → syntax clean; check_mobile re-measured alone (its row carries its load window; see the hand-back for the result).
+6. check_all per-checker load windows + CHECK_ONLY; check_proving per-row rule → check_mobile re-measured alone: 491127 ms at load 11.1→36.0 (peak 43.1) on 4 cores, recorded; check_proving 162 checks pass, "measured under load, recorded not judged: check_mobile.mjs" (the baseline unchanged at 51957 ms).
+7. The switched browser checkers one at a time at load 30–40: check_walkable 2732/0, check_seo 4536 pass / 1 fail (treasures.html layout shift 0.185 under load — a timing measurement to confirm on CI, not a resolver fault); the rest in the hand-back.
 
 ## Seams
 - `tools/lib/pw.mjs`: `pwModule()`, `pwExecutable()`, `pwLaunch(opts)`, `PW`, `EXE`.
