@@ -9,7 +9,8 @@
       "name": "Teleop Pick-and-Place (sim)",
       "description": "Guide a robot gripper to move parts from the bin to the fixture, gripping each part within its force limit and keeping clear of your teammate's space. Simulated robot only; every call passes the Holodeck safety governor.",
       "sites": [
-        "rb-site-san-jose-robotics-lab"
+        "rb-site-san-jose-robotics-lab",
+        "rb-site-richland-drilling-robot"
       ],
       "functions": [
         {
@@ -181,7 +182,8 @@
       "name": "Cobot Safety-Zone Setup (sim)",
       "description": "Set a cobot's warning and stop zones for its speed, test the area scanner and the e-stop, then commit the setup. Simulated robot only; every call passes the Holodeck safety governor.",
       "sites": [
-        "rb-site-san-jose-robotics-lab"
+        "rb-site-san-jose-robotics-lab",
+        "rb-site-richland-drilling-robot"
       ],
       "functions": [
         {

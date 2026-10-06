@@ -272,6 +272,8 @@ for (;;) { const { observation, reward, done, info } = env.step(policy(obs)); ob
 | `rb-amr-fleet-routing` | game | route a fleet on a grid without two robots claiming one cell, hold at the walkway while a person crosses | conflict, yield-missed |
 | `rb-cobot-zone-setup` | game | size the stop zone for speed and measured stop time, warning zone outside it, test scanner and e-stop before commit | zone-too-small, warn-inside-stop, skip-scanner-test, skip-estop-test |
 | `rb-cell-entry` | game | speed-and-separation on approach, test the e-stop, stop, lock out, try-start, enter, clear, exit, remove lock, restart | enter-live-cell, skip-estop-test, lockout-order, no-verify, restart-with-lock, left-locked |
+| `rb-construction-drilling` | game | a ceiling-drilling robot on a deck: scan, barricade, dust collection on, drill the layout, change a worn bit with the battery isolated; hold while a person is inside the barricade (ROBOSCENARIOS) | person-in-barricade, drill-unscanned, no-barricade, dust-off, bit-change-live |
+| `rb-port-gantry` | game | an automated stacking gantry in a two-lane container yard: carry containers bay to bay, hold in the stop zone while a person is on the crossing, keep out of the lane around a pinned container (ROBOSCENARIOS) | crossing-stop-zone, pinned-keep-out |
 | `rb-station-*` | station | the three catalog stations (robot cell, AMR fleet, cobot) through robot.js `observe`/`applyAction` and `observeEmbodied` | the station's hazards |
 
 Observations carry the embodiment vocabulary (`grasp`, `maxForce`, `pose`, and a `keepOut` account in
