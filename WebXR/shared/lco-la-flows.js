@@ -101,6 +101,14 @@ export const LCO_APPLY_GAMES = [
       [["  ✓ the scanner  ▶ the warning zone", "  yellow line on the floor"], "You step over the yellow line. What does the robot do?", "It slows down while you are in the warning zone.", "It goes faster to finish sooner."],
       [["  ✓ the scanner  ✓ the warning zone  ▶ the start button", "  robot stopped · holding still"], "The robot has stopped. Who starts it again?", "The trained person in charge, after checking that everyone is clear.", "Anyone nearby who wants it to start."],
     ]),
+  lcoGame("ok-desk", "lk-lesson-robot-waits-for-ok", "OK Desk", "switching-order",
+    "A program asks, the checker looks, the grown-up decides, and the stop wins.",
+    "Sit at the OK desk with the supervisor and decide what happens to each job a helper program asks the practice robot to do.",
+    [
+      [["  job screen: move the boxes · checker lamps dark", "  OK desk · supervisor · stop button"], "A helper program has asked for a job. What happens first?", "The rule checker looks at the job and lights a lamp.", "The robot starts straight away, because the program asked."],
+      [["  checker: too-close lamp lit", "  a classmate inside the keep-away ring"], "The too-close lamp is lit. What does the grown-up say?", "No for now; the job waits until the ring is clear.", "OK; the robot will steer round them."],
+      [["  job running · watcher's hand near the stop", "  program asks again: the same job, faster"], "The program asks for the same job faster. What is the call?", "Say no; the speed band has not changed.", "Say OK; it asked nicely."],
+    ]),
 ];
 
 /** Lesson id → flow id (WebXR/flows/<flow>.json). */

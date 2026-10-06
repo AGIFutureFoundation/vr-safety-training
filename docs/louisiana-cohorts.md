@@ -76,6 +76,13 @@ Minutes are this guide's planning allowances, not facts about any place or progr
      - 3 min — Check question, read aloud: "What does a robot do when a person walks into its stop zone?" A wrong answer hears the why and tries again; never scored against anyone. → lesson — lk-lesson-robot-knows-to-stop (`lk-lesson-robot-knows-to-stop`)
      - 2 min — Apply it: Zone Walk — Walk toward a model robot cell with the technician and check what the robot does in each zone. → game — Zone Walk (`lco-apply-zone-walk`)
      - 5 min — Close: each learner says how it went, and one sentence about the work: A robotics technician sets the zones around a robot and is the one who starts it again after a stop.
+  9. Lesson 9: A Robot Waits for a Grown-up's OK (37 minutes planned)
+     - 10 min — Sign in with the class code; one learner retells the last lesson's idea.
+     - 5 min — Look at the place first: robots, helper programs and the people in charge. Read the pre-brief of "A Robot Waits for a Grown-up's OK" together. → flow — lk-robot-waits-for-ok (`lk-robot-waits-for-ok`)
+     - 12 min — Run the station; a run that does not pass goes back to the brief. → station — A Robot Waits for a Grown-up's OK (`k12-rt-a-robot-waits-for-a-grown-ups-ok`)
+     - 3 min — Check question, read aloud: "Who says OK before the robot starts a job a program asked for?" A wrong answer hears the why and tries again; never scored against anyone. → lesson — lk-lesson-robot-waits-for-ok (`lk-lesson-robot-waits-for-ok`)
+     - 2 min — Apply it: OK Desk — Sit at the OK desk with the supervisor and decide what happens to each job a helper program asks the practice robot to do. → game — OK Desk (`lco-apply-ok-desk`)
+     - 5 min — Close: each learner says how it went, and one sentence about the work: A robot supervisor reads every job a program asks for, says OK or no, and watches the robot with a hand near the stop.
 - **Debrief prompts:**
   - What was the one idea, in your own words?
   - Where on the map did you see it, and who does that work?

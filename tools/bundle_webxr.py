@@ -1010,6 +1010,8 @@ APPS = {
             SHARED / "vb-shared-data.js",
             SHARED / "vb-governor.js",
             SHARED / "vb-bridge.js",
+            # ROBOTRAIN-2: the COLEARN-trained policy as the agent-jobs provider (after col-learn.js and vb-bridge.js).
+            SHARED / "vb-colearn.js",
             SHARED / "vb-panel.js",
             # CLASSROOMS: rooms that teach (after by-parish-lessons, es-bay-lessons, ps-projectsim and cg-runner).
             SHARED / "cr-classrooms.js",

@@ -210,6 +210,8 @@ export function rbDrawRig(T, g, kind, lean, add, mat) {
 /** Pose a rig for its phase (no allocation): the AMR drives an ellipse, the
  * gantry traverses back and forth, the arms sweep about their bases. */
 export function rbPoseRig(rig, kind, phase) {
+  // ROBOTRAIN-2: while a teleoperation pose drives this rig (rt-teleop.js rtFollowRig), the sweep leaves it alone.
+  if (rig.userData?.rtDriven) return;
   if (kind === "amr") { rig.position.set(Math.cos(phase) * 5, 0, Math.sin(phase) * 3.5); rig.rotation.y = -phase; }
   else if (kind === "gantry") rig.position.z = Math.sin(phase) * 4;
   else if (kind === "cell") rig.rotation.y = Math.sin(phase * 0.8) * 1.6;
@@ -284,6 +286,8 @@ export function rbMountRobotics({ three = null, root = null, parish, el = null, 
   return {
     sites: sites.map((s) => ({ id: s.id, rig: s.rig, node: s.node?.name ?? null, position: s.position, y: s.y, scenario: s.scenario, station: s.station })),
     meshes, animate, act,
+    /** The drawn rig group of a site (the three.js node), for a pose source to drive live; null headless. */
+    rigNode: (id) => sites.find((s) => s.id === id)?.node ?? null,
     state: (id) => sites.find((s) => s.id === id)?.st ?? null,
     score: (id) => { const s = sites.find((x) => x.id === id); return s ? rbSiteScore(s.st) : null; },
     games: () => rbGamesFor(parish),

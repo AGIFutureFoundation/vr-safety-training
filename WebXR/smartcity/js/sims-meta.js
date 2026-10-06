@@ -31024,5 +31024,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "k12-rt-a-robot-waits-for-a-grown-ups-ok",
+    "index": "rt-5",
+    "domain": "Education",
+    "trade": "Science and careers lesson on who may tell a robot what to do, with a robot supervisor at a training lab — learner and robot supervisor",
+    "category": "Community Environmental Justice",
+    "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+    "name": "A Robot Waits for a Grown-up's OK",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ A Robot Waits for a Grown-up's OK VR",
+    "tagline": "A program asks, a rule checker looks, a grown-up says OK — then the robot works while someone watches",
+    "accent": 6211800,
+    "accentCss": "#5ec8d8",
+    "parSeconds": 330,
+    "badge": {
+      "id": "ok-keeper",
+      "name": "OK Keeper",
+      "note": "Followed a robot job from the program's ask to the grown-up's OK, found the reasons the rule checker says no and kept a hand near the stop"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "OK Desk Board",
+      "currency": "CHECKS",
+      "ranks": [
+        "Visitor",
+        "Looker",
+        "Checker",
+        "Watcher",
+        "OK Keeper"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

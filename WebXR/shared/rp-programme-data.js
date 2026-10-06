@@ -54,6 +54,7 @@ export const RP_ROBOT_STATIONS = {
   "rp-robot-policy-evaluation-review": "robot policy evaluation",
   "rp-construction-drilling-robot-setup": "construction robot",
   "k12-rp-how-a-robot-knows-to-stop": "robot sensing (K-12 awareness)",
+  "k12-rt-a-robot-waits-for-a-grown-ups-ok": "supervising agent-dispatched robots (K-12 awareness)",
   "rt-teach-pendant-safe-jogging": "industrial robot cell (teach pendant, enabling device, reduced speed)",
   "rt-cobot-power-force-limit-check": "collaborative robot (power and force limiting)",
   "rt-robot-estop-recovery-and-restart": "industrial robot cell (e-stop recovery and restart)",
@@ -81,7 +82,7 @@ export const RP_TELEOP_RECORDER = { module: "rt-teleop.js", fn: "rtRecorder", st
   what: "A controller (or mouse) pose drives the Teleop Pick-and-Place arm; each take is recorded as a demonstration through DATAWORKS' recorder, so nothing is kept unless an adult, signed-in learner has opted in, and revoking deletes it. Tests use a scripted human stand-in, labelled synthetic." };
 
 // The awareness level's classroom stations (shared by every track) — K-12 science, reading and careers.
-const RP_K12 = ["k12-rp-how-a-robot-knows-to-stop", "k12-simple-machines-at-a-crane", "k12-circuits-at-the-electrical-bench", "k12-reading-instructions-and-safety-labels", "k12-es-who-does-this-work"];
+const RP_K12 = ["k12-rp-how-a-robot-knows-to-stop", "k12-rt-a-robot-waits-for-a-grown-ups-ok", "k12-simple-machines-at-a-crane", "k12-circuits-at-the-electrical-bench", "k12-reading-instructions-and-safety-labels", "k12-es-who-does-this-work"];
 // The AI-training level's loop stations (the two ROBOPROG loop stations and VBRIDGE's agent-dispatch supervision), appended to each track's own robot stations.
 const RP_AI = ["rp-teleop-demonstration-collection", "rp-robot-policy-evaluation-review", "vb-supervising-agent-dispatched-robots"];
 
