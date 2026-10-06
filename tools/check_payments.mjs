@@ -432,10 +432,11 @@ await check("the Worker handler: ROUTES and default handle(); 503 with no secret
 await check("no learner surface imports the billing modules; no network call in them; the checker is in check_all", () => {
   const files = execFileSync("git", ["ls-files", "WebXR"], { cwd: ROOT, encoding: "utf8" }).split("\n").filter((f) => /\.(js|html)$/.test(f) && !f.includes("/dist/") && existsSync(join(ROOT, f)));
   // pm-membership.js is the one learner-side module: a person's own upgrade (docs/payments.md §7); worlds and games never import it (check 11).
-  const allowed = new Set(["WebXR/shared/pm-agent.js", "WebXR/shared/pm-membership.js", "WebXR/instructor/js/billing.js", "WebXR/instructor/js/app.js"]);
+  // ENTERPRISE-3: the console's Data governance tab shows the seat-licence adapter's status (shared/ent3-billing.js, docs/billing-adapters.md) — a coordinator surface like billing.js.
+  const allowed = new Set(["WebXR/shared/pm-agent.js", "WebXR/shared/pm-membership.js", "WebXR/instructor/js/billing.js", "WebXR/instructor/js/app.js", "WebXR/instructor/js/governance.js"]);
   const importRe = /import[^;]*?from\s+["'][^"']*(?:payments|pm-agent|billing)\.js["']/;
   for (const f of files) if (importRe.test(readFileSync(join(ROOT, f), "utf8"))) assert(allowed.has(f), `${f} imports the billing modules — a learner surface must not`);
-  for (const f of ["WebXR/shared/payments.js", "WebXR/shared/pm-agent.js", "WebXR/instructor/js/billing.js"]) {
+  for (const f of ["WebXR/shared/payments.js", "WebXR/shared/pm-agent.js", "WebXR/instructor/js/billing.js", "WebXR/shared/ent3-billing.js"]) {
     const code = read(f).replace(/^\s*\/\/.*$/gm, "");
     for (const api of ["fetch(", "XMLHttpRequest", "sendBeacon", "WebSocket", "EventSource", "import(", "<img", ".src =", "location.href =", "location.assign", "window.open"]) assert(!code.includes(api), `${f} reaches for ${api}`);
   }

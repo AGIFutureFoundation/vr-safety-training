@@ -151,6 +151,8 @@ const CHECKERS = [
   "check_bridge.mjs",
   // Enterprise seat billing: the payments block, the adapter and mock, the budget agent, the Billing tab, the Worker handler (docs/payments.md).
   "check_payments.mjs",
+  // ENTERPRISE-3: training-data governance (consent registry, dataset cards, lineage, audit chain, revoke), the robot fleet registry and the off-by-default billing adapters (docs/billing-adapters.md).
+  "check_enterprise3.mjs",
   // 21 languages: the tables, the picker, RTL and a headless language switch (docs/i18n.md).
   "check_i18n.mjs",
   // Titles, descriptions, canonical, Open Graph, JSON-LD, the sitemap and phone usability on every page (docs/consoles/WAYFINDER.md).
