@@ -188,7 +188,7 @@ const mePanel = html.slice(meStart, html.indexOf('role="tabpanel"', meStart + 20
 check(meStart > 0 && mePanel.includes('id="menu-dataworks"'), "the consent panel mount #menu-dataworks sits inside the Me tab");
 check(readFileSync(join(ROOT, "tools", "check_interface.mjs"), "utf8").includes('"menu-dataworks"'), "check_interface lists menu-dataworks");
 const app = readFileSync(join(ROOT, "WebXR", "parishes", "js", "app.js"), "utf8");
-check(/dxMountConsent\(\$\("menu-dataworks"\)\)/.test(app) && app.includes("dxCaptureLesson(") && app.includes("dxCaptureDrill("), "the parishes app mounts the panel and captures lessons and drills (gated)");
+check(/dxMountConsent\(\$\("menu-dataworks"\)[,)]/.test(app) && app.includes("dxCaptureLesson(") && app.includes("dxCaptureDrill("), "the parishes app mounts the panel and captures lessons and drills (gated)");
 const page = join(ROOT, "WebXR", "data", "index.html");
 const pageSrc = existsSync(page) ? readFileSync(page, "utf8") : "";
 check(pageSrc.includes('class="home-chip"') && pageSrc.includes("ctlMount(") && pageSrc.includes("gdMount(") && pageSrc.includes("design.css") && pageSrc.includes("dxAnalyze"), "WebXR/data/index.html: design system, Home chip, ctlMount, gdMount, dxAnalyze");
