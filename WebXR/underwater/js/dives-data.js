@@ -832,11 +832,6 @@ export const DV_SIDE_DIVES = [
       },
       {
         "type": "station",
-        "target": "k12-lk-where-a-data-center-gets-its-power",
-        "text": "Learners follow energy from a store to a generator, through a substation to computers and out as heat, general science for the power and cooling trades."
-      },
-      {
-        "type": "station",
         "target": "k12-lk-how-a-wing-lifts-an-aircraft",
         "text": "Learners balance the four forces and find the wing tilt that gives lift, the science an aircraft mechanic checks on every walk-round."
       },
@@ -844,6 +839,11 @@ export const DV_SIDE_DIVES = [
         "type": "station",
         "target": "k12-lk-why-a-steel-boat-floats",
         "text": "Learners shape a hull that floats, load it to its mark and launch it down a slip, the science behind a bayou shipyard's work."
+      },
+      {
+        "type": "station",
+        "target": "k12-rt-a-robot-waits-for-a-grown-ups-ok",
+        "text": "Learners follow a robot job from a helper program's ask, through a rule checker and the grown-up's OK, to a watched run with a hand near the stop, and say who stays in charge of a robot (console ROBOTRAIN, second loop)."
       },
       {
         "type": "talk",

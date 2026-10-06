@@ -95,6 +95,14 @@ export const LK_LESSONS = [
     check: lkQ("What does a robot do when a person walks into its stop zone?", ["It stops and holds still", "It speeds up", "It keeps working the same"], 0, "The sensors see a person in the stop zone, so the robot stops and waits."),
     anchors: [lkA("la-saronic-franklin", "lsf-workforce-centre")],
     character: { kinds: ["campus", "school"], idPattern: "workforce" } },
+  { id: "lk-lesson-robot-waits-for-ok", theme: "robots, helper programs and the people in charge", station: "k12-rt-a-robot-waits-for-a-grown-ups-ok", programme: "k12-science", band: "upper primary", minutes: 3,
+    programmeWhy: "Learners follow a robot job from a helper program's ask, through a rule checker and the grown-up's OK, to a watched run with a hand near the stop, and say who stays in charge of a robot (console ROBOTRAIN, second loop).",
+    title: "A Robot Waits for a Grown-up's OK", trade: "Robot supervisors",
+    tradeLine: "A robot supervisor reads every job a program asks for, says OK or no, and watches the robot with a hand near the stop.",
+    steps: ["Find the screen where the helper program asks for a job.", "The rule checker looks first, then the grown-up says OK or no.", "The robot works only while a watcher stays near the stop."],
+    check: lkQ("Who says OK before the robot starts a job a program asked for?", ["The grown-up in charge", "The program itself", "The robot"], 0, "A program can only ask. The grown-up in charge reads the job and gives the OK, and the stop always wins."),
+    anchors: [lkA("la-meta-richland", "lmr-workforce-centre")],
+    character: { kinds: ["campus", "school"], idPattern: "workforce" } },
 ];
 
 export function lkLessons() { return LK_LESSONS; }

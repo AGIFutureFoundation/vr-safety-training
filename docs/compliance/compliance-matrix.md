@@ -1,6 +1,6 @@
 # SmartCiti.X compliance matrix
 
-_Generated from the station sources by `tools/gen_compliance.mjs` on 2026-10-06: 741 procedures, 251 distinct standards cited. A citation appears here only where a station's own text names it; the matrix is a map of what is taught, not a certification of compliance._
+_Generated from the station sources by `tools/gen_compliance.mjs` on 2026-10-06: 742 procedures, 251 distinct standards cited. A citation appears here only where a station's own text names it; the matrix is a map of what is taught, not a certification of compliance._
 
 ## How a procedure earns its place
 
@@ -1446,6 +1446,7 @@ Every station names the union and the certification a worker in that role holds,
 | Where a Data Center Gets Its Power | Science lesson on energy and electricity with a power and cooling crew — learner and electrician | — |
 | How a Wing Lifts an Aircraft | Science lesson on flight with an aircraft maintenance crew at a regional airport — learner and aircraft mechanic | — |
 | Why a Steel Boat Floats | Science and making lesson with a shipyard crew on a Louisiana bayou — learner and shipfitter | — |
+| A Robot Waits for a Grown-up's OK | Science and careers lesson on who may tell a robot what to do, with a robot supervisor at a training lab — learner and robot supervisor | — |
 
 ### K-12 History and Civics
 
@@ -1487,6 +1488,7 @@ Every station names the union and the certification a worker in that role holds,
 - Perimeter Air (smartcity): 29 CFR 1910.120
 - Sampling Well (smartcity): 29 CFR 1910.120
 - Microwave Backhaul (smartcity): 29 CFR 1910.268
+- A Robot Waits for a Grown-up's OK (smartcity): none
 - Dust You Cannot See at a Building Site (smartcity): none
 - The Crews Behind a Big Build (smartcity): none
 - Why a Steel Boat Floats (smartcity): none
