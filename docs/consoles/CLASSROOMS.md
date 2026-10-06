@@ -51,3 +51,7 @@ Rooms where the learning happens, on the parish maps, generic by kind and never 
    fixture actions, worst 22 meshes (cap 120)`, `ok — 1122 passed, 0 failed`; file removed again.
 6. Reason: readable launch labels. Act: simulation names from PS_SIMS, ROBOTICS game titles. Observe: check_classrooms ok,
    K-12 live run unchanged.
+
+LA-COHORTS added the Louisiana lessons board (`crLouisianaBoard`, fixture `lkboard`): every K-12 classroom on a Louisiana map
+lists LA-K12's six lessons (those on its map as SCHOLAR lessons, the rest as their K-12 stations); the main board keeps the
+parish's own lesson. See `docs/consoles/LA-COHORTS.md`.

@@ -63,3 +63,27 @@ figure, company name or employer's hiring; places are named as places.
    "Why Steel Can Float" through brief, station, check, three rounds of "Load to the Mark" and the close, "Lesson complete",
    0 page errors; check_la_cohorts ok 2063 (6 flows played to the end headlessly, rounds in the apply phase, and the plain
    line without the hook); check_cognition 603/0; check_k12, check_flowhub, check_classrooms, check_imports pass.
+
+## Seams
+- `WebXR/shared/lco-la-flows.js`: `LCO_APPLY_GAMES`, `LCO_FLOW_OF`, `lcoFlowFor(lesson)`, `lcoApplyGame(id)`, `lcoGameFor(lesson)`,
+  `lcoApplySteps(id)` → `[{ board, prompt, options: [{ text, safe }] }]`, `lcoApplyFor(lesson)` → `{ kind: "mini-game", id, game,
+  steps, minutes }`, `lcoGameLookup(ref)` → `{ id, title, summary, idea, minutes, steps }` (COGNITION's runner hook),
+  `lcoSessionLessons(parishId, opts)` → `lkSessionLessons` plus `flow` and `apply`.
+- COGNITION: `cgMountRunner(el, { …, games })` / `cgFlowRunner(flow, { …, games })` — optional; the apply phase's `say()` carries
+  `game`, and `byMountFlowAgent` plays its rounds. The parishes app passes `games: lcoGameLookup`.
+- CLASSROOMS: `crLkLessonsOf(parish)` (in `crLessonsOf`) and `crLouisianaBoard(parish)` → the `lkboard` fixture
+  `{ id: "lkboard", kind: "board", label, at, launch, more }` in every K-12 classroom on a Louisiana map.
+- `WebXR/shared/lco-cohorts.js`: `lcoRunSheets(opts)`, `lcoClassroomGuide()`, `lcoClassroomModule()`, `lcoSetUpClassroom({ en, dn },
+  { orgName, seats, startDate })`, `lcoGuide(id)` (shapes at the top of the module); page `WebXR/louisiana/cohorts.html`,
+  handbook `docs/louisiana-cohorts.md`, both from `node tools/gen_lco_guides.mjs`.
+- Home: `aside.louisiana` / `aside.cohorts` in both layouts of `tools/gen_home.mjs` (`#hm-louisiana` in the programme finder).
+- Generators to re-run after a change: `gen_lco_flows.mjs` (lessons or games), `gen_cg_units.mjs` (flows), `gen_lco_guides.mjs`
+  (templates, lessons or games), `gen_la_programme.mjs`, `gen_home.mjs`.
+
+## Left
+- `python3 tools/bundle_webxr.py` at integration: the parishes bundle now carries `lco-la-flows.js` and the app's `games` hook;
+  only `WebXR/dist/index.html` was refreshed here (a verbatim copy of `WebXR/home.html`, as the bundler does).
+- The Louisiana programme page and the cohort guides are not bundled into `dist/`; the flat Home names them where they live
+  in the repository (like the portal and the Safety Campus page).
+- The instructor console (`WebXR/instructor/index.html`) does not yet link the cohort guides (it links the Packs page).
+- The SCHOLAR session panel does not play apply games; `lcoSessionLessons` carries `flow` and `apply` for it when it does.
