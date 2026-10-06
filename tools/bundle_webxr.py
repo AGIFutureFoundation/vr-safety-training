@@ -987,6 +987,12 @@ APPS = {
             SHARED / "dx-world.js",
             # COLEARN: behaviour cloning, the robot-demonstrates ghost and the bandit tutor (after rb-env.js and dx-data.js).
             SHARED / "col-learn.js",
+            # VBRIDGE: agent jobs to simulated robots through the safety governor (after rb-env.js, col-learn.js; ENTERPRISE-3's registry for the audit log).
+            SHARED / "ent3-governance.js",
+            SHARED / "vb-shared-data.js",
+            SHARED / "vb-governor.js",
+            SHARED / "vb-bridge.js",
+            SHARED / "vb-panel.js",
             # CLASSROOMS: rooms that teach (after by-parish-lessons, es-bay-lessons, ps-projectsim and cg-runner).
             SHARED / "cr-classrooms.js",
             # LA-ROOMS: the Louisiana rooms' dressers (after ix-interiors.js and lp-programme-data.js).

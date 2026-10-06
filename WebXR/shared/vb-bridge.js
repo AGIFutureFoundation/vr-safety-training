@@ -38,30 +38,8 @@
 
 import { rbEnv, rbPolicy } from "./rb-env.js";
 import { RB_SITES } from "./rb-robotics-data.js";
-import { VB_TASKS } from "./vb-governor.js";
+import { VB_TASKS, VB_SCHEMA, VB_PHASES, VB_TERMINAL, VB_MOVES, VB_DEADLINE_TICKS } from "./vb-shared-data.js";
 
-export const VB_SCHEMA = "smartcitix.holodeck.vb-job@1";
-/** ACP's job phases, by the SDK's enum numbers (acp-node src/contractClients/baseAcpContractClient.ts AcpJobPhases). */
-export const VB_PHASES = Object.freeze(["REQUEST", "NEGOTIATION", "TRANSACTION", "EVALUATION", "COMPLETED", "REJECTED", "EXPIRED"]);
-export const VB_TERMINAL = Object.freeze(["COMPLETED", "REJECTED", "EXPIRED"]);
-/** The three roles, and who plays each here. */
-export const VB_ROLES = Object.freeze({
-  client: "an external software agent that asks for a robot task (mocked in this build)",
-  provider: "a SmartCiti.X robot-site agent that runs a policy on the SIMULATED robot",
-  evaluator: "the scenario's own safe-practice scoring (rb-env summary) and the human supervisor's filed evaluation",
-});
-/** Memo kinds used here (a subset of the SDK's MemoType, the non-payment ones). */
-export const VB_MEMO_TYPES = Object.freeze(["MESSAGE", "OBJECT", "NOTIFICATION"]);
-/** Legal phase moves. */
-export const VB_MOVES = Object.freeze({ REQUEST: ["NEGOTIATION", "REJECTED", "EXPIRED"], NEGOTIATION: ["TRANSACTION", "REJECTED", "EXPIRED"], TRANSACTION: ["EVALUATION", "REJECTED", "EXPIRED"], EVALUATION: ["COMPLETED", "REJECTED"] });
-/** Ticks a job may sit in a non-terminal phase before it expires. */
-export const VB_DEADLINE_TICKS = 50;
-/** Provider policies a job may name. */
-export const VB_POLICIES = Object.freeze({
-  "vb-scripted-expert": "the scripted safe-practice expert (rbPolicy skill 1)",
-  "vb-colearn-bc-knn": "a COLEARN behaviour-cloning policy (k-nearest-neighbour); the caller hands in colPolicy via policyFor",
-  "vb-scripted-lapsing": "the scripted expert at skill 0.5 — it lapses, for supervisor practice",
-});
 
 function vbHash(v) {
   const s = JSON.stringify(v);

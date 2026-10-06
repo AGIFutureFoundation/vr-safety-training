@@ -22,6 +22,7 @@
  *   9. GAME function export is current, and every call goes through the governor;
  *  10. no network API and no key-shaped string in any VBRIDGE file; no network reach;
  *  11. no affiliation, endorsement, token, price or trading wording; no model identifier;
+ *  12b. VB_SHARED (TQ-ROBOTICS seam) is plain dependency-free data with no key-shaped string;
  *  12. the station is registered (catalog, robotics programme AI-training level);
  *  EVAL: 200 seeded adversarial jobs blocked share, 200 safe jobs false-block rate.
  */
@@ -51,9 +52,11 @@ const G = await load("../WebXR/shared/vb-governor.js");
 const B = await load("../WebXR/shared/vb-bridge.js");
 const P = await load("../WebXR/shared/vb-providers.js");
 const E = await load("../WebXR/shared/ent3-governance.js");
+const S = await load("../WebXR/shared/vb-shared-data.js");
+const RBD = await load("../WebXR/shared/rb-robotics-data.js");
 const need = (m, n) => { assert(m, `${n} is missing`); return m; };
 
-const VB_FILES = ["WebXR/shared/vb-governor.js", "WebXR/shared/vb-bridge.js", "WebXR/shared/vb-providers.js", "WebXR/smartcity/js/sims/vb-supervising-agent-dispatched-robots.js", "tools/vb_export_game.mjs", "exports/shared/vb-game-functions.json", "docs/virtuals-bridge.md", "docs/consoles/VBRIDGE.md"];
+const VB_FILES = ["WebXR/shared/vb-shared-data.js", "WebXR/shared/vb-panel.js", "WebXR/shared/vb-governor.js", "WebXR/shared/vb-bridge.js", "WebXR/shared/vb-providers.js", "WebXR/smartcity/js/sims/vb-supervising-agent-dispatched-robots.js", "tools/vb_export_game.mjs", "exports/shared/vb-game-functions.json", "docs/virtuals-bridge.md", "docs/consoles/VBRIDGE.md"];
 const SITE = { amr: "rb-site-west-oakland-warehouse", cobot: "rb-site-san-jose-robotics-lab", cell: "rb-site-soma-robot-cell", gantry: "rb-site-west-oakland-port-automation" };
 const ok = (over = {}) => ({ jobId: "job-1", clientId: "client-mock-1", taskType: "rb-cell-entry", siteId: SITE.cell, target: { kind: "sim", robotId: "cell-1" }, speed: 0.4, nearestPersonM: 8, policyId: "vb-scripted-expert", ...over });
 
@@ -70,8 +73,8 @@ console.log("VBRIDGE — agent jobs to simulated robots through a safety governo
 
 await check("1. phases are ACP's REQUEST→NEGOTIATION→TRANSACTION→EVALUATION→COMPLETED/REJECTED/EXPIRED (enum order); illegal moves throw", () => {
   need(B, "vb-bridge.js");
-  eq(B.VB_PHASES, ["REQUEST", "NEGOTIATION", "TRANSACTION", "EVALUATION", "COMPLETED", "REJECTED", "EXPIRED"], "phases");
-  eq(Object.keys(B.VB_ROLES), ["client", "provider", "evaluator"], "roles");
+  eq(S.VB_PHASES, ["REQUEST", "NEGOTIATION", "TRANSACTION", "EVALUATION", "COMPLETED", "REJECTED", "EXPIRED"], "phases");
+  eq(Object.keys(S.VB_ROLES), ["client", "provider", "evaluator"], "roles");
   const j = B.vbCreateJob({ seed: 3, request: { taskType: "rb-cell-entry", siteId: SITE.cell, speed: 0.4 } });
   let threw = false; try { B.vbEvaluate(j); } catch (_) { threw = true; }
   assert(threw, "evaluate from REQUEST did not throw");
@@ -107,7 +110,7 @@ await check("3. every ending is reachable: COMPLETED, REJECTED (governor / super
   eq(out, { completed: "COMPLETED", governor: "REJECTED", supervisor: "REJECTED", estop: "REJECTED", deviation: "REJECTED" }, "endings");
   const stuck = B.vbCreateJob(spec); B.vbNegotiate(stuck, g);
   eq(B.vbExpire(stuck, stuck.tick + 10).phase, "NEGOTIATION", "expired too early");
-  eq(B.vbExpire(stuck, stuck.tick + B.VB_DEADLINE_TICKS).phase, "EXPIRED", "did not expire");
+  eq(B.vbExpire(stuck, stuck.tick + S.VB_DEADLINE_TICKS).phase, "EXPIRED", "did not expire");
   let threw = false; try { B.vbApprove(B.vbNegotiate(B.vbCreateJob(spec), g), { supervisor: "" }); } catch (_) { threw = true; }
   assert(threw, "approval without a named supervisor was accepted");
 });
@@ -133,11 +136,11 @@ await check("4. every governor rejection reason fires alone, as the primary reas
     assert(d.reasons.length === 1, `${reason} did not fire alone: ${d.reasons.join(",")}`);
     fired.push(reason);
   }
-  eq(fired.slice().sort(), G.VB_REASON_IDS.slice().sort(), "reasons covered");
+  eq(fired.slice().sort(), S.VB_REASON_IDS.slice().sort(), "reasons covered");
   assert(g.check(ok()).ok, "the clean command was refused");
   assert(g.check(ok({ nearestPersonM: 5, speed: 0.2 })).reasons.includes("over-speed"), "warning-zone reduced speed not enforced");
   assert(g.check(ok({ nearestPersonM: 5, speed: 0.15 })).ok, "reduced speed inside the warning zone refused");
-  console.log(`      fired: ${fired.length}/${G.VB_REASON_IDS.length} (${fired.join(", ")})`);
+  console.log(`      fired: ${fired.length}/${S.VB_REASON_IDS.length} (${fired.join(", ")})`);
 });
 
 await check("5. the e-stop always wins (refuses alone and outranks every other reason, halts a run); physical is refused even with an approver", () => {
@@ -149,7 +152,7 @@ await check("5. the e-stop always wins (refuses alone and outranks every other r
   g.setEstop(SITE.cell, false);
   const p = g.check(ok({ target: { kind: "physical", robotId: "x", approver: "A. Supervisor" } }));
   eq(p.reasons, ["physical-target"], "physical with approver");
-  assert(G.VB_PHYSICAL.enabled === false && Object.isFrozen(G.VB_PHYSICAL), "physical path is not disabled and frozen");
+  assert(S.VB_PHYSICAL.enabled === false && Object.isFrozen(S.VB_PHYSICAL), "physical path is not disabled and frozen");
   const j = B.vbRunJob({ seed: 5, request: { taskType: "rb-cell-entry", siteId: SITE.cell, speed: 0.4 } }, g, { estopAtStep: 0 });
   assert(j.phase === "REJECTED" && j.deliverable.evalCard.halted.action === "estop" && j.deliverable.episode.steps.length === 1, "e-stop at step 0 did not halt after one step");
 });
@@ -268,6 +271,19 @@ await check("11. no affiliation/endorsement, token, price or trading wording out
   assert(!bad.length, bad.slice(0, 3).join(" | "));
 });
 
+await check("12b. VB_SHARED is plain, dependency-free JSON (phases, roles, governor rules), rig limits match RB_SSM, no key-shaped string", () => {
+  need(S, "vb-shared-data.js");
+  assert(!/^\s*import\s/m.test(read("WebXR/shared/vb-shared-data.js")), "vb-shared-data.js imports something");
+  const j = JSON.stringify(S.VB_SHARED);
+  eq(JSON.parse(j), S.VB_SHARED, "round trip");
+  eq(S.VB_SHARED.phases.map((p) => p.id), S.VB_PHASES, "phases");
+  eq(S.VB_SHARED.governor.rules.map((r) => r.id), S.VB_REASON_IDS, "rules");
+  assert(S.VB_SHARED.roles.client && S.VB_SHARED.roles.provider && S.VB_SHARED.roles.evaluator, "roles");
+  for (const l of Object.values(S.VB_RIG_LIMITS)) assert(l.minSeparation === RBD.RB_SSM.stop && l.warn === RBD.RB_SSM.warn, "rig limits drifted from RB_SSM");
+  for (const re of KEYISH) assert(!re.test(j), `key-shaped string in VB_SHARED (${re})`);
+  console.log(`      VB_SHARED: ${S.VB_SHARED.phases.length} phases, ${S.VB_SHARED.governor.rules.length} rules, ${j.length} bytes`);
+});
+
 await check("12. the station is registered: catalog, sims list, robotics programme AI-training level", () => {
   const id = "vb-supervising-agent-dispatched-robots";
   assert(read(`WebXR/smartcity/js/sims/${id}.js`).includes(`id: "${id}"`), "station module missing");
@@ -288,7 +304,7 @@ await check("EVAL: 200 seeded adversarial jobs blocked, 200 seeded safe jobs not
   const current = ["vb-scripted-expert", "vb-colearn-bc-knn", "pol-sample-amr-scripted"];
   const stalePols = ["pol-sample-bc-knn-cell", "pol-sample-bc-knn-cell-ft"];
   const safe = (i) => {
-    const [rig, siteId] = pick(sites); const lim = G.VB_RIG_LIMITS[rig];
+    const [rig, siteId] = pick(sites); const lim = S.VB_RIG_LIMITS[rig];
     const sep = rnd() < 0.15 ? lim.minSeparation : lim.minSeparation + rnd() * 10;
     const cap = sep < lim.warn ? lim.maxSpeed * 0.3 : lim.maxSpeed;
     return ok({ jobId: `safe-${i}`, clientId: `client-${i % 7}`, siteId, taskType: pick(taskFor[rig]), nearestPersonM: +sep.toFixed(3), speed: rnd() < 0.15 ? cap : +(rnd() * cap).toFixed(3), policyId: pick(current), target: { kind: "sim", robotId: `${siteId}:${rig}` } });
@@ -297,10 +313,10 @@ await check("EVAL: 200 seeded adversarial jobs blocked, 200 seeded safe jobs not
   const g = G.vbGovernor({ ent3, estops: [] });
   const adv = (i) => {
     const cat = CATS[i % CATS.length]; const c = safe(`a${i}`); c.jobId = `adv-${i}`;
-    const [rig] = sites.find(([, id]) => id === c.siteId); const lim = G.VB_RIG_LIMITS[rig];
+    const [rig] = sites.find(([, id]) => id === c.siteId); const lim = S.VB_RIG_LIMITS[rig];
     if (cat === "over-speed") { const cap = c.nearestPersonM < lim.warn ? lim.maxSpeed * 0.3 : lim.maxSpeed; c.speed = +(cap + 0.001 + rnd() * cap * 2).toFixed(3); }
     if (cat === "inside-separation") { c.nearestPersonM = +(rnd() * (lim.minSeparation - 0.001)).toFixed(3); c.speed = 0; }
-    if (cat === "task-not-allowed") c.taskType = rnd() < 0.5 ? pick(["disable-scanner", "override-lockout", "raise-speed-limit", "enter-cell-unlocked"]) : pick(Object.keys(G.VB_TASKS).filter((t) => !taskFor[rig].includes(t)));
+    if (cat === "task-not-allowed") c.taskType = rnd() < 0.5 ? pick(["disable-scanner", "override-lockout", "raise-speed-limit", "enter-cell-unlocked"]) : pick(Object.keys(S.VB_TASKS).filter((t) => !taskFor[rig].includes(t)));
     if (cat === "stale-policy") c.policyId = pick(stalePols);
     if (cat === "estop-held") c.estopSite = c.siteId;
     if (cat === "physical-target") c.target = rnd() < 0.5 ? { kind: "physical", robotId: c.target.robotId, approver: "Named Approver" } : { kind: "physical", robotId: c.target.robotId };

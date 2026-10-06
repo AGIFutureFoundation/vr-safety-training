@@ -37,46 +37,8 @@
 // Every top-level name starts with `vb`/`VB_` (the bundler shares one scope).
 
 import { RB_SITES, RB_SSM } from "./rb-robotics-data.js";
+import { VB_REASONS, VB_REASON_IDS, VB_PHYSICAL, VB_TASKS, VB_RIG_LIMITS, VB_PROVIDER_POLICIES } from "./vb-shared-data.js";
 
-/** Every reason the governor can refuse, in precedence order (the first that applies is `primary`). */
-export const VB_REASONS = Object.freeze([
-  { id: "estop-held", text: "The site's e-stop is held. The e-stop always wins; nothing moves until a person resets it." },
-  { id: "physical-target", text: "The command names a physical robot. Agent commands reach simulated robots only; a physical robot would need a named human approver, and that path is disabled in this build." },
-  { id: "malformed", text: "The command is missing a field the governor needs (job, client, task, site, robot, speed, separation or policy)." },
-  { id: "unknown-site", text: "No robot site with that id exists in the sim." },
-  { id: "task-not-allowed", text: "That task type is not on the allowlist for this site's rig." },
-  { id: "unregistered-policy", text: "The policy is not in the registry, so nobody can say what it was trained on." },
-  { id: "stale-policy", text: "The policy is stale: it was trained on (or built from) data whose consent was revoked. Retrain before it runs." },
-  { id: "over-speed", text: "The requested speed is above the site's limit (or above the reduced speed with a person inside the warning distance)." },
-  { id: "inside-separation", text: "A person is closer than the site's minimum separation distance. The robot holds a protective stop." },
-]);
-export const VB_REASON_IDS = Object.freeze(VB_REASONS.map((r) => r.id));
-
-/** The physical-robot path: needs a named human approver and ships disabled. Frozen; there is no setter. */
-export const VB_PHYSICAL = Object.freeze({ enabled: false, requires: "a named human approver at the site, on top of every governor rule", note: "disabled in this build: agent commands reach simulated robots only" });
-
-/** Task types an agent may request (the robot gym's game scenarios), and the rigs that do each. */
-export const VB_TASKS = Object.freeze({
-  "rb-amr-fleet-routing": { label: "Route warehouse robots to drop-offs", rigs: ["amr", "gantry"] },
-  "rb-cobot-zone-setup": { label: "Set and test a cobot's safety zones", rigs: ["cobot"] },
-  "rb-teleop-pick-place": { label: "Pick and place parts within force limits", rigs: ["cobot"] },
-  "rb-cell-entry": { label: "Cell entry with lockout, verify and restart", rigs: ["cell"] },
-});
-
-/** Per-rig limits (procedural simulation parameters, not ratings of any machine). */
-export const VB_RIG_LIMITS = Object.freeze({
-  amr: { maxSpeed: 1.0, minSeparation: RB_SSM.stop, warn: RB_SSM.warn },
-  gantry: { maxSpeed: 0.8, minSeparation: RB_SSM.stop, warn: RB_SSM.warn },
-  cobot: { maxSpeed: 0.25, minSeparation: RB_SSM.stop, warn: RB_SSM.warn },
-  cell: { maxSpeed: 0.5, minSeparation: RB_SSM.stop, warn: RB_SSM.warn },
-});
-
-/** The provider's own policy table, used when no ENTERPRISE-3 registry is handed in. */
-export const VB_PROVIDER_POLICIES = Object.freeze([
-  { id: "vb-scripted-expert", method: "scripted", status: "current" },
-  { id: "vb-colearn-bc-knn", method: "behaviour-cloning-knn", status: "current" },
-  { id: "vb-scripted-lapsing", method: "scripted", status: "current" },
-]);
 
 const VB_FIELDS = ["jobId", "clientId", "taskType", "siteId", "policyId"];
 

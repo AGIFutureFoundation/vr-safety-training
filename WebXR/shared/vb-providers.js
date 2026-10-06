@@ -26,7 +26,7 @@
 
 import { RB_SCENARIOS, RB_SITES } from "./rb-robotics-data.js";
 import { rbEnv } from "./rb-env.js";
-import { VB_TASKS } from "./vb-governor.js";
+import { VB_TASKS } from "./vb-shared-data.js";
 
 export const VB_PROVIDER_KINDS = Object.freeze(["mock", "acp-proxy"]);
 const VB_SECRET_FIELD = /(key|secret|token|password|passwd|credential|bearer|auth|seed|mnemonic|wallet|private|signer|session.?entity)/i;

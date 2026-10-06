@@ -103,6 +103,8 @@ const CHECKERS = [
   // LA-PROGRAMME: the Louisiana programme — facts, guarded map/site ids, matrix, pathways, sims (docs/consoles/LA-PROGRAMME.md).
   "check_la_programme.mjs",
   "check_robotics_programme.mjs",
+  // VBRIDGE: software-agent jobs reach simulated robots only, through the safety governor (docs/consoles/VBRIDGE.md).
+  "check_vbridge.mjs",
   // LA-COHORTS: Louisiana lesson flows and apply games, classroom boards, Home links, cohort run sheets (docs/consoles/LA-COHORTS.md).
   "check_la_cohorts.mjs",
   "check_geo.mjs",
