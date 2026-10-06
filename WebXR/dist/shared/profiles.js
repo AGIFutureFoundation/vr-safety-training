@@ -32,6 +32,8 @@ export const GT_REGISTRY_KEY = "vr-training-profiles-v1";
 /** The stores that are private to a profile. Everything else passes through untouched. */
 export const GT_PROFILE_KEYS = [
   "vr-training-records-v1",
+  // ENTERPRISE-3's training-data governance registry (shared/ent3-governance.js).
+  "ent3-governance-v1",
   "vr-passport-v1",
   "qm-side-games-v1",
   "vr-training-episodes-v1", "vr-training-episodes-current-v1",
@@ -42,6 +44,8 @@ export const GT_PROFILE_KEYS = [
   "redwood-career-v1",
   // The learner's own avatar style (shared/crew.js's CT_AVATAR_KEY), picked on the account chip.
   "vr-avatar-style-v1",
+  // COLEARN's adaptive tutor counts (shared/col-learn.js COL_TUTOR_KEY): per learner, local only.
+  "col-tutor-v1",
   // The organisation layer (shared/org.js, docs/enterprise.md): organisations, cohorts, members, audit.
   "vr-org-v1",
   // Seat billing (shared/payments.js, docs/payments.md): checkout sessions, receipts, licences, the budget agent.

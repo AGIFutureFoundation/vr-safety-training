@@ -2383,11 +2383,6 @@ export const SIDE_QUESTS = [
       },
       {
         "type": "station",
-        "target": "bt-rebar-tying-and-impalement-protection",
-        "text": "The steel the pour buries: a slab mat placed off walk boards and tied to the drawing, beside a row of dowels guarded by rated impalement caps rather than the mushrooms that only stop a scratch."
-      },
-      {
-        "type": "station",
         "target": "bt-masonry-wall-layout-and-mortar",
         "text": "Where a bricklayer's wall begins: laid out square off the gridlines, dry-bonded, batched to the specification's proportions with the dust kept wet, and braced per the bracing plan inside its limited access zone."
       },
@@ -2395,6 +2390,11 @@ export const SIDE_QUESTS = [
         "type": "station",
         "target": "or-ranch-road-grading-and-culvert",
         "text": "The operating engineer's own station, off the slab entirely: a crown cut to the plan on open range, a culvert set in a trench respected as an excavation, and a school bus on the same road escorted through on the flagger's call."
+      },
+      {
+        "type": "station",
+        "target": "sil-concrete-drilling-and-silica-dust-cues",
+        "text": "The laborers' own silica station: anchor holes drilled under a shroud and vacuumed rather than blown out, a pipe core drilled wet to Table 1, and two dust cues — one from your own drill, one drifting in from the next crew — timed the way the ConstructionVR study timed them."
       },
       {
         "type": "talk",

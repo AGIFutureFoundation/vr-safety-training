@@ -211,12 +211,13 @@ Awareness / K-12 on the Louisiana maps (LA-K12, SCHOLAR sessions at the map site
   - `op-crawler-crane-assembly-and-load-chart` Crawler Crane Assembly & Load Chart — IUOE Local 3 operating engineer training
   - `bt-rebar-tying-and-impalement-protection` Rebar Tying & Impalement Protection — Ironworkers IMPACT reinforcing (rodbuster) apprenticeship and LIUNA Training laborer curricula
   - `mass-timber-panel-set` Mass Timber Panel Set (capstone) — UBC carpenters — mass timber erection crew
+  - `masonry-silica-scaffold` Masonry Silica Scaffold (capstone) — International Union of Bricklayers and Allied Craftworkers apprenticeship standards
 - **Simulations:** `projectsim:lp-sim-duct-bank-excavation` (pass 80, order gates enforced), `projectsim:lp-sim-data-hall-energised-work` (pass 80, order gates enforced)
 - **Debrief prompts:**
   - Which gate had to be done before anything else, and why?
   - Who had the authority to stop the work, and when did they use it?
   - What would you tell a new crew member on day one about this work?
-- **Assessment:** Every station passed with a module score of 80 or more; every simulation at 80 or more with no order-gate penalty. The level ends in the builders-trades competency — 4 mastery runs, 3 in the pathway and 1 in the capstone — and the cohort certificate.
+- **Assessment:** Every station passed with a module score of 80 or more; every simulation at 80 or more with no order-gate penalty. The level ends in the builders-trades competency — 5 mastery runs, 3 in the pathway and 2 in the capstone — and the cohort certificate.
 
 #### `mod-lp-construction-jw` — Journeyworker refresher
 

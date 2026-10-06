@@ -694,6 +694,8 @@ const GT_REGISTRY_KEY = "vr-training-profiles-v1";
 /** The stores that are private to a profile. Everything else passes through untouched. */
 const GT_PROFILE_KEYS = [
   "vr-training-records-v1",
+  // ENTERPRISE-3's training-data governance registry (shared/ent3-governance.js).
+  "ent3-governance-v1",
   "vr-passport-v1",
   "qm-side-games-v1",
   "vr-training-episodes-v1", "vr-training-episodes-current-v1",
@@ -704,6 +706,8 @@ const GT_PROFILE_KEYS = [
   "redwood-career-v1",
   // The learner's own avatar style (shared/crew.js's CT_AVATAR_KEY), picked on the account chip.
   "vr-avatar-style-v1",
+  // COLEARN's adaptive tutor counts (shared/col-learn.js COL_TUTOR_KEY): per learner, local only.
+  "col-tutor-v1",
   // The organisation layer (shared/org.js, docs/enterprise.md): organisations, cohorts, members, audit.
   "vr-org-v1",
   // Seat billing (shared/payments.js, docs/payments.md): checkout sessions, receipts, licences, the budget agent.
@@ -22616,10 +22620,10 @@ const TZ_TREASURES = [
   },
   "hint": "Crews keep a kit near every Louisiana site. Walk the sites.",
   "reveal": "chest",
-  "lesson": "The same floor finished by machine: a walk-behind trowel walked, guarded and pitched to the manufacturer's bands with nobody's hand ever near a turning blade.",
+  "lesson": "The laborers' own silica station: anchor holes drilled under a shroud and vacuumed rather than blown out, a pipe core drilled wet to Table 1, and two dust cues — one from your own drill, one drifting in from the next crew — timed the way the ConstructionVR study timed them.",
   "source": {
    "file": "WebXR/smartcity/js/curricula.js",
-   "station": "cm-power-trowel-operation-and-guarding"
+   "station": "sil-concrete-drilling-and-silica-dust-cues"
   },
   "place": {
    "id": "lsb-concrete-batch-plant",
@@ -23938,7 +23942,12 @@ const TZ_TREASURES = [
  },
  {
   "set": "bay-kits-la-avex-new-iberia",
-  "gate": null,
+  "gate": {
+   "stations": [
+    "cm-power-trowel-operation-and-guarding"
+   ],
+   "note": "The Hangar Foundation crew keeps this kit for people who have done the job there."
+  },
   "id": "tz-parish-la-avex-new-iberia-lav-hangar-foundation",
   "name": "Crew Kit: Hangar Foundation",
   "surface": "parishes",
@@ -23955,10 +23964,10 @@ const TZ_TREASURES = [
   },
   "hint": "Crews keep a kit near every Louisiana site. Walk the sites.",
   "reveal": "chest",
-  "lesson": "Cement mason's work beside a live lane: a curb and gutter run set to the grade sheet's line, struck to the form's face and broomed, with the crew never in the machine's path or the travel lane.",
+  "lesson": "The same floor finished by machine: a walk-behind trowel walked, guarded and pitched to the manufacturer's bands with nobody's hand ever near a turning blade.",
   "source": {
    "file": "WebXR/smartcity/js/curricula.js",
-   "station": "cm-curb-and-gutter-forms-and-finish"
+   "station": "cm-power-trowel-operation-and-guarding"
   },
   "place": {
    "id": "lav-hangar-foundation",
@@ -24146,10 +24155,10 @@ const TZ_TREASURES = [
   },
   "hint": "Crews keep a kit near every Louisiana site. Walk the sites.",
   "reveal": "chest",
-  "lesson": "The programme's closer: a slab talked through a hard freeze under blankets and a vented heater, with the protection held until the cold weather plan's own strength is actually confirmed.",
+  "lesson": "Cement mason's work beside a live lane: a curb and gutter run set to the grade sheet's line, struck to the form's face and broomed, with the crew never in the machine's path or the travel lane.",
   "source": {
    "file": "WebXR/smartcity/js/curricula.js",
-   "station": "cm-cold-weather-curing-and-blankets"
+   "station": "cm-curb-and-gutter-forms-and-finish"
   },
   "place": {
    "id": "lav-taxiway-connector",
@@ -26264,12 +26273,20 @@ const TZ_TREASURES = [
   },
   "hint": "Crews keep a kit near every Louisiana site. Walk the sites.",
   "reveal": "chest",
-  "lesson": "Longshore, crane and clerk work, trained jointly with the PMA.",
+  "lesson": "The programme's closer: a slab talked through a hard freeze under blankets and a vented heater, with the protection held until the cold weather plan's own strength is actually confirmed.",
   "source": {
-   "file": "tools/unions.json",
-   "union": "ilwu"
+   "file": "WebXR/smartcity/js/curricula.js",
+   "station": "cm-cold-weather-curing-and-blankets"
   },
-  "place": null
+  "place": {
+   "id": "lmr-concrete-batch-plant",
+   "stations": [
+    "concrete-pour",
+    "cm-slab-screed-bull-float-and-trowel",
+    "cm-power-trowel-operation-and-guarding",
+    "cm-concrete-saw-cutting-with-water-and-silica-control"
+   ]
+  }
  },
  {
   "set": "bay-kits-la-meta-richland",
@@ -28069,12 +28086,22 @@ const TZ_TREASURES = [
   },
   "hint": "Crews keep a kit near every Louisiana site. Walk the sites.",
   "reveal": "chest",
-  "lesson": "Longshore, crane and clerk work, trained jointly with the PMA.",
+  "lesson": "A model drill run with and without its dust shroud over clean dark cards, the breeze followed across a building site, and the habits a drilling crew uses to keep fine dust out of everyone's air.",
   "source": {
-   "file": "tools/unions.json",
-   "union": "ilwu"
+   "file": "WebXR/smartcity/js/curricula.js",
+   "station": "k12-sil-dust-you-cannot-see-at-a-building-site"
   },
-  "place": null
+  "place": {
+   "id": "lcc-tank-foundation",
+   "stations": [
+    "concrete-pour",
+    "formwork-shoring",
+    "bt-rebar-tying-and-impalement-protection",
+    "cm-concrete-saw-cutting-with-water-and-silica-control",
+    "sil-concrete-drilling-and-silica-dust-cues",
+    "k12-sil-dust-you-cannot-see-at-a-building-site"
+   ]
+  }
  },
  {
   "set": "bay-kits-lc-calcasieu-channel",
@@ -37231,6 +37258,19 @@ const TZ_GATED = [
     "cm-epoxy-floor-coating-and-ventilation"
    ],
    "note": "The Paint Hangar crew keeps this kit for people who have done the job there."
+  }
+ },
+ {
+  "id": "tz-parish-la-avex-new-iberia-lav-hangar-foundation",
+  "kind": "treasure",
+  "title": "Crew Kit: Hangar Foundation",
+  "world": "treasures",
+  "surface": "parishes",
+  "gate": {
+   "stations": [
+    "cm-power-trowel-operation-and-guarding"
+   ],
+   "note": "The Hangar Foundation crew keeps this kit for people who have done the job there."
   }
  },
  {
