@@ -155227,6 +155227,13 @@ const RB_RULES = {
   "restart-with-lock": { weight: -1, text: "Tried to restart while a lock was still on." },
   "left-locked": { weight: -1, text: "Left without removing your own lock and restarting the cell." },
   "hazard": { weight: -1, text: "Chose an unsafe option at the station (station scenarios)." },
+  "person-in-barricade": { weight: -3, text: "Ran the drill while a person was inside the barricade; the robot held until they stepped out." },
+  "drill-unscanned": { weight: -2, text: "Drilled before the deck was scanned for embedded services." },
+  "no-barricade": { weight: -2, text: "Drilled before the barricade around the robot's reach was set." },
+  "dust-off": { weight: -1, text: "Drilled with the dust collection switched off." },
+  "bit-change-live": { weight: -2, text: "Changed the drill bit without isolating the battery first." },
+  "crossing-stop-zone": { weight: -3, text: "Drove toward the pedestrian crossing while a person was on it; the gantry held in the stop zone." },
+  "pinned-keep-out": { weight: -2, text: "Drove into the keep-out around a pinned container where a lashing crew works; the gantry held." },
 };
 
 /**
@@ -155269,6 +155276,22 @@ const RB_SCENARIOS = [
     actions: ["walk {d} (m, + toward the cell)", "test-estop", "press-estop", "lockout", "verify", "enter", "clear-jam", "exit", "remove-lock", "restart", "wait"],
     safePractice: ["enter-live-cell", "skip-estop-test", "lockout-order", "no-verify", "restart-with-lock", "left-locked"],
   },
+  {
+    id: "rb-construction-drilling", kind: "game", name: "Ceiling-Drilling Robot Set-Up",
+    blurb: "Set a ceiling-drilling robot to work on a concrete deck: scan the deck, set the barricade, switch the dust collection on, drill the layout and change a worn bit with the battery isolated. Hold the robot whenever a person steps inside the barricade.",
+    station: "rp-construction-drilling-robot-setup", maxSteps: 80, dt: 1,
+    params: { holes: 6, bitLife: 3, personPeriod: 9, personStay: 2 },
+    actions: ["scan", "barricade", "dust-on", "drill", "hold", "isolate", "change-bit", "restore", "estop", "wait"],
+    safePractice: ["person-in-barricade", "drill-unscanned", "no-barricade", "dust-off", "bit-change-live"],
+  },
+  {
+    id: "rb-port-gantry", kind: "game", name: "Port Automation Lane",
+    blurb: "Drive an automated stacking gantry along a container-yard lane: carry each container to its bay, slow and hold in the stop zone while a person is on the crossing, and keep out of the lane around a pinned container.",
+    station: "ad-amr-fleet-traffic-and-estop-drill", maxSteps: 160, dt: 1,
+    params: { width: 12, lanes: 2, crossingColumn: 6, stopZone: 2, jobs: 2, keepOutSpan: 2 },
+    actions: ["move {dir: N|S|E|W}", "hold", "lift", "set", "estop", "wait"],
+    safePractice: ["crossing-stop-zone", "pinned-keep-out"],
+  },
   { id: "rb-station-robot-cell", kind: "station", name: "Robot Cell Lockout & Safe Re-entry (station)", station: "ad-robot-cell-lockout-and-safe-reentry", maxSteps: 20000, dt: 0.05, safePractice: ["hazard"] },
   { id: "rb-station-amr-fleet", kind: "station", name: "AMR Fleet Traffic & E-stop Drill (station)", station: "ad-amr-fleet-traffic-and-estop-drill", maxSteps: 20000, dt: 0.05, safePractice: ["hazard"] },
   { id: "rb-station-cobot", kind: "station", name: "Cobot Risk Assessment & Speed-and-Separation (station)", station: "ad-cobot-risk-assessment-and-speed-separation", maxSteps: 20000, dt: 0.05, safePractice: ["hazard"] },
@@ -155282,10 +155305,11 @@ const RB_SCENARIOS = [
  * cell gate, and links the scenario and station it teaches.
  */
 const RB_SITES = [
-  { id: "rb-site-west-oakland-port-automation", parish: "oak-west-oakland", anchor: "outer-harbor-container-terminal", offset: [34, 26], rig: "gantry", name: "Port Automation Yard (procedural)", scenario: "rb-amr-fleet-routing", station: "ad-amr-fleet-traffic-and-estop-drill" },
+  { id: "rb-site-west-oakland-port-automation", parish: "oak-west-oakland", anchor: "outer-harbor-container-terminal", offset: [34, 26], rig: "gantry", name: "Port Automation Yard (procedural)", scenario: "rb-port-gantry", station: "ad-amr-fleet-traffic-and-estop-drill" },
   { id: "rb-site-west-oakland-warehouse", parish: "oak-west-oakland", anchor: "mandela-parkway-warehouse-row", offset: [-30, 24], rig: "amr", name: "Automated Warehouse Aisle (procedural)", scenario: "rb-amr-fleet-routing", station: "ad-amr-fleet-traffic-and-estop-drill" },
   { id: "rb-site-san-jose-robotics-lab", parish: "bay-san-jose", anchor: "university-campus-plant-sj", offset: [30, -26], rig: "cobot", name: "Campus Robotics Lab (procedural)", scenario: "rb-cobot-zone-setup", station: "ad-cobot-risk-assessment-and-speed-separation" },
   { id: "rb-site-orleans-warehouse", parish: "orleans", anchor: "no-sw-almonaster-corridor-distribution-warehouse", offset: [32, 28], rig: "amr", name: "Distribution Robot Aisle (procedural)", scenario: "rb-amr-fleet-routing", station: "ad-amr-fleet-traffic-and-estop-drill" },
+  { id: "rb-site-richland-drilling-robot", parish: "la-meta-richland", anchor: "lmr-data-hall-fitout", offset: [30, 28], rig: "cobot", name: "Ceiling-Drilling Robot Deck (procedural)", scenario: "rb-construction-drilling", station: "rp-construction-drilling-robot-setup" },
   { id: "rb-site-soma-robot-cell", parish: "sf-downtown", anchor: "dt-sw-south-of-market-fabrication-shop", offset: [-28, 26], rig: "cell", name: "Fabrication Robot Cell (procedural)", scenario: "rb-cell-entry", station: "ad-robot-cell-lockout-and-safe-reentry" },
 ];
 
@@ -155733,6 +155757,172 @@ function rbCellSim(sc) {
   };
 }
 
+
+// --------------------------------------- game: construction ceiling-drilling robot (ROBOSCENARIOS)
+
+/** A ceiling-drilling robot on a concrete deck (procedural). A worker steps inside the barricade now and then on a
+ * seeded schedule; while they are inside the robot holds and a drill command is a missed practice, never harm. */
+function rbDrillSim(sc) {
+  const P = sc.params;
+  let s;
+  const personInside = () => ((s.tick + s.phase) % s.period) < P.personStay;
+  const DRILL = [0, 2.4, 0];
+  const keepOutOf = (inside) => ({ zones: 1, inside: inside ? "person-0" : null, part: "bystander", authorised: true, nearest: { id: "barricade", clearance: inside ? 0 : 1 } });
+  return {
+    init(seed) {
+      const R = rng(seed * 7877 + 13);
+      s = { tick: 0, phase: Math.floor(R() * P.personPeriod), period: P.personPeriod + Math.floor(R() * 4), holes: P.holes + Math.floor(R() * 3), drilled: 0, scanned: false, barricaded: false, dust: false, wear: 0, isolated: false, bitChanges: 0, credited: {} };
+    },
+    observe() {
+      const inside = personInside();
+      return {
+        scenario: sc.id, tick: s.tick, holesTotal: s.holes, drilled: s.drilled, remaining: s.holes - s.drilled,
+        scanned: s.scanned, barricaded: s.barricaded, dust: s.dust, bitWear: rbR3(s.wear / P.bitLife), bitWorn: s.wear >= P.bitLife, isolated: s.isolated, personInside: inside,
+        grasp: null, maxForce: "none", pose: rbPose(DRILL), keepOut: keepOutOf(inside),
+      };
+    },
+    apply(a) {
+      const out = { reward: -0.01, violations: [], maxForce: "none", operator: "human", feedback: a.type, pose: rbPose(DRILL) };
+      const credit = (k, r) => { if (!s.credited[k]) { s.credited[k] = true; out.reward += r; } };
+      const inside = personInside();
+      switch (a.type) {
+        case "scan": s.scanned = true; credit("scan", 0.2); out.feedback = "deck-scanned"; break;
+        case "barricade": s.barricaded = true; credit("barricade", 0.2); out.feedback = "barricade-set"; break;
+        case "dust-on": s.dust = true; credit("dust", 0.1); out.feedback = "dust-collection-on"; break;
+        case "hold": case "estop": out.feedback = inside ? "held-for-person" : "held"; if (inside) credit("hold", 0.2); break;
+        case "isolate": s.isolated = true; out.feedback = "battery-isolated"; break;
+        case "change-bit": if (!s.isolated) out.violations.push("bit-change-live"); s.wear = 0; s.bitChanges += 1; out.feedback = s.isolated ? "bit-changed" : "bit-changed-live"; break;
+        case "restore": s.isolated = false; out.feedback = "battery-restored"; break;
+        case "drill":
+          if (inside) { out.violations.push("person-in-barricade"); out.feedback = "robot-held-person-inside"; break; }
+          if (s.isolated) { out.feedback = "battery-isolated"; break; }
+          if (s.drilled >= s.holes) { out.feedback = "layout-done"; break; }
+          if (s.wear >= P.bitLife) { out.feedback = "bit-worn"; break; }
+          if (!s.scanned) out.violations.push("drill-unscanned");
+          if (!s.barricaded) out.violations.push("no-barricade");
+          if (!s.dust) out.violations.push("dust-off");
+          s.drilled += 1; s.wear += 1; out.reward += 1; out.feedback = "hole-drilled"; break;
+        default: break;
+      }
+      out.keepOut = keepOutOf(inside);
+      s.tick += 1;
+      return out;
+    },
+    finished() { return s.drilled >= s.holes && !s.isolated; },
+    passed() { return s.drilled >= s.holes && !s.isolated; },
+    expert(o, R, skill) {
+      const lapse = R() < (1 - skill) * 0.4;
+      // A lapse is the shortcut: drill (or swap the bit) now, whatever is still undone.
+      if (lapse) return o.bitWorn ? { type: "change-bit" } : o.isolated ? { type: "restore" } : { type: "drill" };
+      if (o.personInside) return { type: "hold" };
+      if (!o.scanned) return { type: "scan" };
+      if (!o.barricaded) return { type: "barricade" };
+      if (o.bitWorn && o.remaining > 0) return o.isolated ? { type: "change-bit" } : { type: "isolate" };
+      if (o.isolated) return { type: "restore" };
+      if (!o.dust) return { type: "dust-on" };
+      if (o.remaining > 0) return { type: "drill" };
+      return { type: "wait" };
+    },
+  };
+}
+
+// ------------------------------------------------ game: port automation lane (ROBOSCENARIOS)
+
+const RB_LANE_DIRS = { N: [0, -1], S: [0, 1], E: [1, 0], W: [-1, 0] };
+
+/** One automated stacking gantry in a two-lane container yard (procedural): lane 0 is the travel lane, lane 1 the
+ * stack lane with the bays. A pedestrian crossing spans both lanes at one column on a seeded schedule; a pinned
+ * container's keep-out covers a span of the stack lane. Driving into either is held by the gantry and scored as a
+ * missed practice. */
+function rbPortSim(sc) {
+  const P = sc.params, W = P.width, H = P.lanes, C = P.crossingColumn;
+  let s;
+  const personOn = () => ((s.tick + s.phase) % s.period) < s.stay;
+  const keepOut = (x, y) => y === H - 1 && x >= s.ko && x < s.ko + P.keepOutSpan;
+  const inside = (x, y) => x >= 0 && y >= 0 && x < W && y < H;
+  const job = () => s.jobs[s.done] ?? null;
+  const clearance = () => (s.at[1] === H - 1 ? Math.max(0, Math.min(Math.abs(s.at[0] - s.ko), Math.abs(s.at[0] - (s.ko + P.keepOutSpan - 1)))) : 1);
+  return {
+    init(seed) {
+      const R = rng(seed * 6151 + 29);
+      const ko = R() < 0.5 ? 2 + Math.floor(R() * 2) : 8 + Math.floor(R() * 2);
+      const bays = [];
+      for (let x = 1; x < W - 1; x++) if (Math.abs(x - C) > 1 && !(x >= ko && x < ko + P.keepOutSpan)) bays.push(x);
+      const pick = () => bays.splice(Math.floor(R() * bays.length), 1)[0];
+      s = { tick: 0, phase: Math.floor(R() * 10), period: 10 + Math.floor(R() * 5), stay: 3, ko, at: [0, 0], carrying: false, done: 0, jobs: Array.from({ length: P.jobs }, (_, i) => ({ id: `box-${i}`, from: pick(), to: pick() })) };
+    },
+    observe() {
+      const j = job(), on = personOn();
+      return {
+        scenario: sc.id, tick: s.tick, width: W, lanes: H, crossingColumn: C, stopZone: P.stopZone, personOnCrossing: on,
+        pinned: [s.ko, s.ko + P.keepOutSpan - 1], at: s.at.slice(), carrying: s.carrying, goal: j ? [s.carrying ? j.to : j.from, H - 1] : s.at.slice(),
+        job: j ? { id: j.id, from: j.from, to: j.to } : null, delivered: s.done, remaining: s.jobs.length - s.done,
+        grasp: s.carrying ? GRASP_BY_KIND.drag : null, maxForce: "none", pose: null,
+        keepOut: { zones: on ? 2 : 1, inside: null, part: on ? "bystander" : "pinned-container", authorised: true, nearest: { id: "pinned-container", clearance: clearance() } },
+      };
+    },
+    apply(a) {
+      const out = { reward: -0.01, violations: [], maxForce: "none", feedback: a.type };
+      const on = personOn(), j = job();
+      if (a.type === "move") {
+        const d = RB_LANE_DIRS[a.dir];
+        if (!d) out.feedback = "unknown-direction";
+        else {
+          const nx = s.at[0] + d[0], ny = s.at[1] + d[1];
+          if (!inside(nx, ny)) out.feedback = "edge-of-yard";
+          else if (nx === C && s.at[0] !== C && on) { out.violations.push("crossing-stop-zone"); out.feedback = "held-at-crossing"; }
+          else if (keepOut(nx, ny)) { out.violations.push("pinned-keep-out"); out.feedback = "held-at-keep-out"; }
+          else { s.at = [nx, ny]; out.feedback = Math.abs(nx - C) <= P.stopZone && nx !== C ? "in-stop-zone" : "moved"; }
+        }
+      } else if (a.type === "hold" || a.type === "estop") {
+        const inZone = on && Math.abs(s.at[0] - C) <= P.stopZone && s.at[0] !== C;
+        out.feedback = inZone ? "held-in-stop-zone" : "held";
+        if (inZone) out.reward += 0.05;
+      } else if (a.type === "lift") {
+        if (!j || s.carrying) out.feedback = "nothing-to-lift";
+        else if (s.at[0] !== j.from || s.at[1] !== H - 1) out.feedback = "not-at-bay";
+        else { s.carrying = true; out.reward += 0.5; out.feedback = "lifted"; }
+      } else if (a.type === "set") {
+        if (!j || !s.carrying) out.feedback = "nothing-to-set";
+        else if (s.at[0] !== j.to || s.at[1] !== H - 1) out.feedback = "not-at-bay";
+        else { s.carrying = false; s.done += 1; out.reward += 1; out.feedback = "set-down"; }
+      }
+      out.grasp = s.carrying ? GRASP_BY_KIND.drag : null;
+      out.keepOut = { zones: on ? 2 : 1, inside: null, part: on ? "bystander" : "pinned-container", authorised: true, nearest: { id: "pinned-container", clearance: clearance() } };
+      s.tick += 1;
+      return out;
+    },
+    finished() { return s.done >= s.jobs.length; },
+    passed() { return s.done >= s.jobs.length; },
+    expert(o, R, skill) {
+      const lapse = R() < (1 - skill) * 0.5;
+      const j = o.job; if (!j) return { type: "wait" };
+      const goal = [o.carrying ? j.to : j.from, o.lanes - 1];
+      if (o.at[0] === goal[0] && o.at[1] === goal[1]) return { type: o.carrying ? "set" : "lift" };
+      // BFS through free cells; a careful driver treats the crossing as blocked while a person is on it.
+      const ko = (x, y) => y === o.lanes - 1 && x >= o.pinned[0] && x <= o.pinned[1];
+      const blocked = (x, y) => !lapse && (ko(x, y) || (o.personOnCrossing && x === o.crossingColumn));
+      const key = (x, y) => `${x},${y}`, start = key(...o.at), gk = key(...goal), prev = new Map([[start, null]]), queue = [o.at];
+      while (queue.length) {
+        const [x, y] = queue.shift();
+        if (key(x, y) === gk) break;
+        for (const [dn, [dx, dy]] of Object.entries(RB_LANE_DIRS)) {
+          const nx = x + dx, ny = y + dy, k = key(nx, ny);
+          if (nx < 0 || ny < 0 || nx >= o.width || ny >= o.lanes || prev.has(k) || blocked(nx, ny)) continue;
+          prev.set(k, [key(x, y), dn]); queue.push([nx, ny]);
+        }
+      }
+      const first = (target) => { let k = target; while (prev.get(k) && prev.get(k)[0] !== start) k = prev.get(k)[0]; return prev.get(k)?.[1] ?? null; };
+      if (prev.has(gk)) return { type: "move", dir: first(gk) };
+      // The crossing is busy between here and the bay: drive up to the stop zone's edge on the travel lane, then hold there.
+      const side = Math.sign(o.crossingColumn - o.at[0]) || 1, waitAt = key(o.crossingColumn - side, 0);
+      if (start === waitAt || Math.abs(o.at[0] - o.crossingColumn) <= 1) return { type: "hold" };
+      const dir = prev.has(waitAt) ? first(waitAt) : null;
+      return dir ? { type: "move", dir } : { type: "hold" };
+    },
+  };
+}
+
 // --------------------------------------------------------- station scenarios
 
 function rbStationSim(sc, bind) {
@@ -155772,7 +155962,7 @@ function rbStationSim(sc, bind) {
   };
 }
 
-const RB_SIMS = { "rb-teleop-pick-place": rbTeleopSim, "rb-amr-fleet-routing": rbAmrSim, "rb-cobot-zone-setup": rbCobotSim, "rb-cell-entry": rbCellSim };
+const RB_SIMS = { "rb-teleop-pick-place": rbTeleopSim, "rb-amr-fleet-routing": rbAmrSim, "rb-cobot-zone-setup": rbCobotSim, "rb-cell-entry": rbCellSim, "rb-construction-drilling": rbDrillSim, "rb-port-gantry": rbPortSim };
 
 /**
  * Build an environment for a scenario id. Options: `seed` (default 1) and,
@@ -155894,6 +156084,39 @@ const RB_GAME_MECHANICS = {
           "Two robots want the same cell next.", "Give one the right of way and hold the other for a moment.", "Send both and let their scanners sort it out."),
         rbStepOf(item.id, 2, [`  fleet: ${rbWord(n)} robots`, "  one robot has left its marked lane"],
           "A robot is outside its lane.", "Press the fleet stop, walk the lane with the lead, then resume.", "Walk over and push it back into the lane while it is live."),
+      ];
+    },
+  },
+  // ROBOSCENARIOS (loop 7): boards for the drilling robot and the port lane, read from an rbEnv run as the others are.
+  "rb-construction-drilling": {
+    name: "Ceiling-drilling robot set-up", blurb: "Scan the deck, barricade the reach, dust collection on, and hold the robot while anyone is inside the barricade.", match: /(?!)/,
+    build(item) {
+      const env = rbEnv("rb-construction-drilling", { seed: rbHashId(item.id) % 997 + 1 });
+      const o = env.observe();
+      return [
+        rbStepOf(item.id, 0, ["  deck: [robot] ···· anchor layout ····", `  holes in the layout: ${rbWord(Math.min(o.holesTotal, 6))} or more`, "  deck scan: not done"],
+          "The robot is on its control points. What comes first?", "Scan the deck for embedded services and set the barricade before any drilling.", "Start the first hole now; the scan can run while it drills."),
+        rbStepOf(item.id, 1, ["  barricade set · dust collection: off"],
+          "Ready to drill the first hole.", "Switch the dust collection on and watch the vacuum flow before the bit touches the deck.", "Drill the first hole dry to check the layout, then switch the vacuum on."),
+        rbStepOf(item.id, 2, ["  a worker has stepped inside the barricade"],
+          "Someone is inside the barricade while the robot is running.", "Hold the robot and wait until they are back outside the barricade.", "Keep drilling; the robot's own sensors will stop it."),
+        rbStepOf(item.id, 3, ["  the bit is worn after its holes"],
+          "The bit needs changing.", "Isolate the battery, change the bit, then put the battery back on.", "Change the bit with the battery on so the layout resumes faster."),
+      ];
+    },
+  },
+  "rb-port-gantry": {
+    name: "Port automation lane", blurb: "Carry each container to its bay, hold in the stop zone while a person is on the crossing, and keep out of the pinned container's lane.", match: /(?!)/,
+    build(item) {
+      const env = rbEnv("rb-port-gantry", { seed: rbHashId(item.id) % 997 + 1 });
+      const o = env.observe();
+      return [
+        rbStepOf(item.id, 0, ["  yard: [gantry] → → | crossing | → → [bay]", "  a person is on the crossing"],
+          "The gantry reaches the stop zone before the crossing.", "Hold in the stop zone until the crossing is clear, then drive on.", "Roll through slowly; the person can see the gantry coming."),
+        rbStepOf(item.id, 1, [`  stack lane: [bay] ···· [pinned container ×${rbWord(o.pinned[1] - o.pinned[0] + 1)}] ···· [gantry]`, "  a lashing crew is working at the pinned container"],
+          "The pinned container is between the gantry and its bay.", "Switch to the travel lane and drive round the keep-out, then come back to the stack lane.", "Drive straight along the stack lane; the gantry stops if anyone is close."),
+        rbStepOf(item.id, 2, ["  gantry at the bay, spreader over the container"],
+          "Lifting the container.", "Lift once the spreader is locked on and the lane beside is clear.", "Lift as soon as the spreader touches so the move stays on schedule."),
       ];
     },
   },
@@ -163973,7 +164196,7 @@ function dxCaptureRollout(steps, meta = {}) {
 
 const COL_VERSION = "col/1";
 /** The robot-game scenarios COLEARN learns (the station wrappers need the full suite; not here). */
-const COL_SCENARIOS = ["rb-cell-entry", "rb-cobot-zone-setup", "rb-teleop-pick-place", "rb-amr-fleet-routing"];
+const COL_SCENARIOS = ["rb-cell-entry", "rb-cobot-zone-setup", "rb-teleop-pick-place", "rb-amr-fleet-routing", "rb-construction-drilling", "rb-port-gantry"];
 const COL_FIXED_TIME = "2026-01-01T00:00:00.000Z";
 const colR3 = (n) => Math.round(n * 1000) / 1000;
 const colClip = (v, a, b) => Math.max(a, Math.min(b, v));
@@ -164042,6 +164265,37 @@ const COL_FEATURES = {
       });
     },
   },
+  // ROBOSCENARIOS (loop 7): the ceiling-drilling robot's set-up state, one row per step; "hold" is the robot held for a person.
+  "rb-construction-drilling": {
+    names: ["scanned", "barricaded", "dust", "personInside", "holesLeft", "bitWorn", "isolated"],
+    weights: [2, 2, 1, 6, 1, 3, 3],
+    mid: [0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5],
+    text: [["the deck is scanned", "the deck is not scanned yet"], ["the barricade is set", "no barricade is set"], ["the dust collection is on", "the dust collection is off"],
+      ["a person is inside the barricade", "nobody is inside the barricade"], ["holes remain in the layout", "the layout is drilled"], ["the bit is worn", "the bit is good"],
+      ["the battery is isolated", "the battery is live"]],
+    of: (o) => [o.scanned, o.barricaded, o.dust, o.personInside, o.remaining > 0, o.bitWorn, o.isolated].map((b) => (b ? 1 : 0)),
+  },
+  // The port gantry: where the bay is, what is free around it, whether the crossing ahead is busy and the keep-out is next door.
+  "rb-port-gantry": {
+    names: ["goalE", "goalS", "atGoal", "carrying", "freeN", "freeS", "crossingBusyE", "crossingBusyW", "keepOutE", "keepOutW", "inStopZone", "keepOutBetween", "crossingBetween", "keepOutS"],
+    weights: [3, 3, 4, 2, 1, 1, 6, 6, 3, 3, 1, 4, 4, 4],
+    mid: [0, 0, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5],
+    text: [["the bay is to the east", "the bay is to the west"], ["the bay is in the stack lane below", "the bay is level with the gantry"], ["the gantry is at the bay", "the gantry is away from the bay"],
+      ["a container is lifted", "the spreader is empty"], ["the travel lane above is clear", "nothing to the north"], ["the stack lane below is clear", "nothing to the south"],
+      ["a person is on the crossing just east", "the crossing east is clear"], ["a person is on the crossing just west", "the crossing west is clear"],
+      ["the pinned container's keep-out is just east", "no keep-out east"], ["the pinned container's keep-out is just west", "no keep-out west"],
+      ["the gantry is in the stop zone", "the gantry is outside the stop zone"], ["the pinned container's columns lie between the gantry and the bay", "no pinned container lies between the gantry and the bay"],
+      ["a person is on the crossing between the gantry and the bay", "no busy crossing lies between the gantry and the bay"], ["the pinned container is right below in the stack lane", "the stack lane below is not pinned"]],
+    of: (o) => {
+      const [x, y] = o.at, g = o.goal, stack = o.lanes - 1;
+      const ko = (nx) => (y === stack && nx >= o.pinned[0] && nx <= o.pinned[1] ? 1 : 0);
+      const between = (c) => (Math.min(x, g[0]) < c && c < Math.max(x, g[0]) ? 1 : 0);
+      const koBetween = between(o.pinned[0]) || between(o.pinned[1]) ? 1 : 0;
+      return [Math.sign(g[0] - x), Math.sign(g[1] - y), x === g[0] && y === g[1] ? 1 : 0, o.carrying ? 1 : 0, y > 0 ? 1 : 0, y < stack ? 1 : 0,
+        o.personOnCrossing && x + 1 === o.crossingColumn ? 1 : 0, o.personOnCrossing && x - 1 === o.crossingColumn ? 1 : 0, ko(x + 1), ko(x - 1), Math.abs(x - o.crossingColumn) <= o.stopZone && x !== o.crossingColumn ? 1 : 0,
+        koBetween, o.personOnCrossing ? between(o.crossingColumn) : 0, y < stack && x >= o.pinned[0] && x <= o.pinned[1] ? 1 : 0];
+    },
+  },
   // A catalog station wrapped by rb-env (rb-station-*), read from shared/robot.js observe() fields only, so a
   // human station episode captured by DATAWORKS (dx-capture.js, kind "station") reads the same as a rollout.
   station: {
@@ -164086,6 +164340,7 @@ function colRows(sc, obs, action) {
     if (action.type === "test") label = `test-${action.what}`;
     if (action.type === "set") { label = `set-${action.param}`; p = action.param === "stop" ? { ratio: obs.requiredStop ? action.value / obs.requiredStop : 1 } : action.param === "warn" ? { gap: action.value - obs.stop } : { value: action.value }; }
   }
+  if (sc === "rb-port-gantry" && action.type === "move") label = `move-${action.dir}`;
   if (sc === "rb-teleop-pick-place") {
     if (action.type === "move") p = { dx: +action.dx || 0, dy: +action.dy || 0, dz: +action.dz || 0 };
     if (action.type === "grip") p = { ratio: obs.part ? action.force / obs.part.ceilingN : 0.6 };
@@ -164113,6 +164368,7 @@ function colAction(sc, label, ps, obs) {
     if (label === "set-speed") return { type: "set", param: "speed", value: colR3(mean("value") || 1) };
     return { type: label };
   }
+  if (sc === "rb-port-gantry") return label.startsWith("move-") ? { type: "move", dir: label.slice(5) } : { type: label };
   if (sc === "rb-teleop-pick-place") {
     if (label === "move") return { type: "move", dx: colR3(mean("dx")), dy: colR3(mean("dy")), dz: colR3(mean("dz")) };
     if (label === "grip") return { type: "grip", force: colR3((obs.part?.ceilingN ?? 12) * (mean("ratio") || 0.6)) };
@@ -164263,6 +164519,8 @@ function colRandomPolicy(sc, seed = 1, { ids = [] } = {}) {
     if (colIsStation(sc)) { const t = pick(["select", "select", "press", "release", "wait", "commit", "drop"]); const id = pick(ids.length ? ids : ["none"]); return t === "commit" ? { type: t, id, at: colR3(R()) } : t === "drop" ? { type: t, id, distance: colR3(R()) } : t === "wait" || t === "release" ? { type: t } : { type: t, id }; }
     if (sc === "rb-cell-entry") { const t = pick(["walk", "walk", "test-estop", "press-estop", "lockout", "verify", "enter", "clear-jam", "exit", "remove-lock", "restart", "wait"]); return t === "walk" ? { type: "walk", d: colR3(R() * 2 - 0.5) } : { type: t }; }
     if (sc === "rb-cobot-zone-setup") { const t = pick(["set", "set", "test", "commit"]); return t === "set" ? { type: "set", param: pick(["warn", "stop", "speed"]), value: colR3(R() * 4) } : t === "test" ? { type: "test", what: pick(["scanner", "estop", "zone-walk"]) } : { type: "commit" }; }
+    if (sc === "rb-construction-drilling") return { type: pick(["scan", "barricade", "dust-on", "drill", "drill", "drill", "hold", "isolate", "change-bit", "restore", "wait"]) };
+    if (sc === "rb-port-gantry") { const t = pick(["move", "move", "move", "move", "hold", "lift", "set"]); return t === "move" ? { type: "move", dir: pick(["N", "S", "E", "W"]) } : { type: t }; }
     if (sc === "rb-teleop-pick-place") { const t = pick(["move", "move", "move", "grip", "release"]); return t === "move" ? { type: "move", dx: colR3((R() - 0.5) * 0.24), dy: colR3((R() - 0.5) * 0.24), dz: colR3((R() - 0.5) * 0.24) } : t === "grip" ? { type: "grip", force: colR3(R() * 45) } : { type: t }; }
     return { type: "route", moves: o.robots.map(() => pick(["N", "S", "E", "W", "wait"])) };
   };
@@ -164322,6 +164580,9 @@ const COL_ACTION_TEXT = {
   "test-zone-walk": "walk the zone to measure the stopping time", "set-stop": "set the stop zone", "set-warn": "set the warning zone", "test-scanner": "test the area scanner", "test-estop-cobot": "test the e-stop", commit: "commit the setup",
   move: "move the gripper", grip: "grip the part", release: "release the part", reset: "reset after the stop",
   N: "drive north", S: "drive south", E: "drive east", W: "drive west",
+  scan: "scan the deck for embedded services", barricade: "set the barricade around the reach", "dust-on": "switch the dust collection on", drill: "drill the next hole",
+  hold: "hold the robot", isolate: "isolate the battery", "change-bit": "change the drill bit", restore: "put the battery back on",
+  "move-N": "drive to the travel lane", "move-S": "drive to the stack lane", "move-E": "drive east along the lane", "move-W": "drive west along the lane", lift: "lift the container", set: "set the container down",
 };
 
 /**
@@ -164358,7 +164619,7 @@ function colGhost(model, { seed = 7001 } = {}) {
     const r = env.step(action);
     frames.push({ observation: obs, action, explain: explain.text, reward: r.reward, done: r.done, violations: r.info.violations ?? [] });
     obs = r.observation;
-    if (r.done) { frames.push({ observation: obs, action: null, explain: env.summary().passed ? "Done — the cell is restarted and every practice was kept." : "The episode ended without a clean pass.", reward: 0, done: true, violations: [], summary: env.summary() }); break; }
+    if (r.done) { frames.push({ observation: obs, action: null, explain: env.summary().passed ? (model.scenario === "rb-cell-entry" ? "Done — the cell is restarted and every practice was kept." : "Done — the task is finished and every practice was kept.") : "The episode ended without a clean pass.", reward: 0, done: true, violations: [], summary: env.summary() }); break; }
   }
   return frames;
 }
@@ -164659,10 +164920,67 @@ function rtScriptedHumanCell(env, { seed = 1, skill = 0.85, tremor = 0.012, lag 
   };
 }
 
+/**
+ * ROBOSCENARIOS (loop 7): two more tasks through the pose path.
+ * The drilling robot's pendant: the pose is the operator's hand over a panel of controls, [x, y] offsets from the body
+ * (metres); a closed trigger with the hand on a control is that control's command. The e-stop pose holds the robot.
+ */
+const RT_DRILL_CONTROLS = Object.freeze({ scan: [-0.6, 1.0], barricade: [-0.3, 1.0], dust: [0, 1.0], drill: [0.3, 1.0], hold: [0.6, 1.0], isolate: [-0.3, 1.3], bit: [0, 1.3], restore: [0.3, 1.3] });
+const rtNearDrillControl = (pose, reach = 0.12) => Object.entries(RT_DRILL_CONTROLS).find(([, c]) => Math.hypot(pose.p[0] - c[0], pose.p[1] - c[1]) <= reach)?.[0] ?? null;
+const RT_DRILL_ACTION = Object.freeze({ scan: "scan", barricade: "barricade", dust: "dust-on", drill: "drill", hold: "hold", isolate: "isolate", bit: "change-bit", restore: "restore" });
+function rtPoseToActionDrill(pose, obs) {
+  if (pose.estop) return { type: "hold" };
+  const ctl = (pose.trigger ?? 0) >= 0.5 ? rtNearDrillControl(pose) : null;
+  void obs;
+  return ctl ? { type: RT_DRILL_ACTION[ctl] } : { type: "wait" };
+}
+/** The scripted "human" at the pendant: the expert's intent through a reaching hand with lag and tremor (labelled synthetic). */
+function rtScriptedHumanDrill(env, { seed = 1, skill = 0.85, tremor = 0.012, lag = 0.3 } = {}) {
+  const intent = rbPolicy(env, { skill, seed }), R = rng(seed * 61 + 13);
+  const CTL = Object.fromEntries(Object.entries(RT_DRILL_ACTION).map(([k, v]) => [v, k]));
+  const hand = [0, 0.8];
+  return (obs) => {
+    const a = intent(obs), ctl = CTL[a.type] ?? null;
+    const tgt = ctl ? RT_DRILL_CONTROLS[ctl] : [0, 0.8];
+    for (let i = 0; i < 2; i++) hand[i] = hand[i] + (tgt[i] - hand[i]) * (1 - lag) + (R() - 0.5) * tremor;
+    const near = ctl && Math.hypot(hand[0] - tgt[0], hand[1] - tgt[1]) <= 0.1;
+    return { p: [rtR3(hand[0]), rtR3(hand[1]), 0], trigger: near ? 1 : 0, squeeze: 0, estop: false };
+  };
+}
+/**
+ * The port gantry's joystick: p[0]/p[2] is the stick's deflection (east/west, north/south in the yard frame), the trigger
+ * is the drive enable, a squeeze works the spreader (lift when empty, set when loaded). Trigger closed with the stick
+ * centred holds the gantry; trigger open is nothing.
+ */
+function rtPoseToActionPort(pose, obs, { deadband = 0.15 } = {}) {
+  if (pose.estop) return { type: "hold" };
+  if ((pose.squeeze ?? 0) >= 0.5) return { type: obs.carrying ? "set" : "lift" };
+  if ((pose.trigger ?? 0) < 0.5) return { type: "wait" };
+  const dx = pose.p[0], dz = pose.p[2];
+  if (Math.max(Math.abs(dx), Math.abs(dz)) < deadband) return { type: "hold" };
+  return { type: "move", dir: Math.abs(dx) >= Math.abs(dz) ? (dx > 0 ? "E" : "W") : (dz > 0 ? "S" : "N") };
+}
+const RT_STICK = Object.freeze({ E: [0.6, 0], W: [-0.6, 0], N: [0, -0.6], S: [0, 0.6] });
+/** The scripted "human" on the joystick: the expert's intent as stick deflections with lag and tremor (labelled synthetic). */
+function rtScriptedHumanPort(env, { seed = 1, skill = 0.85, tremor = 0.012, lag = 0.3 } = {}) {
+  const intent = rbPolicy(env, { skill, seed }), R = rng(seed * 61 + 13);
+  const stick = [0, 0];
+  return (obs) => {
+    const a = intent(obs);
+    const tgt = a.type === "move" ? RT_STICK[a.dir] : [0, 0];
+    for (let i = 0; i < 2; i++) stick[i] = stick[i] + (tgt[i] - stick[i]) * (1 - lag) + (R() - 0.5) * tremor;
+    const settled = Math.hypot(stick[0] - tgt[0], stick[1] - tgt[1]) <= 0.2;
+    const lifting = a.type === "lift" || a.type === "set";
+    return { p: [rtR3(stick[0]), 0, rtR3(stick[1])], trigger: !lifting && settled && (a.type === "move" || a.type === "hold") ? 1 : 0, squeeze: lifting ? 0.9 : 0.1, estop: false };
+  };
+}
+
 /** The tasks the pose path covers: the pose → action mapping and the scripted stand-in for each. */
 const RT_TASKS = Object.freeze({
   "rb-teleop-pick-place": { poseToAction: rtPoseToAction, human: rtScriptedHuman, frame: "bench: p is the hand (m)" },
   "rb-cell-entry": { poseToAction: rtPoseToActionCell, human: rtScriptedHumanCell, frame: "approach: p is [hand x, hand y, body z]" },
+  "rb-construction-drilling": { poseToAction: rtPoseToActionDrill, human: rtScriptedHumanDrill, frame: "pendant: p is [hand x, hand y, 0] over the control panel" },
+  "rb-port-gantry": { poseToAction: rtPoseToActionPort, human: rtScriptedHumanPort, frame: "joystick: p is [east-west, 0, north-south] deflection" },
 });
 const RT_TASK_IDS = Object.freeze(Object.keys(RT_TASKS));
 function rtTask(sc) { const t = RT_TASKS[sc]; if (!t) throw new Error(`rt-teleop: no pose mapping for ${sc}`); return t; }
@@ -164807,35 +165125,84 @@ function rtCompareAll(opts = {}) {
   return Object.fromEntries(RT_TASK_IDS.map((sc) => [sc, rtCompare({ ...opts, scenario: sc })]));
 }
 
+/** The pad's HUD line per task (pure over the observation): what the learner is doing and where the task stands. */
+function rtHudLine(sc, obs, { recording = false, source = "pointer", feedback = null } = {}) {
+  const head = `${recording ? "Recording" : "Not recording"} · ${source} · ${feedback ?? "…"}`;
+  if (sc === "rb-cell-entry") {
+    const where = obs.inside ? "inside the cell" : `${obs.distance} m from the cell`;
+    const state = [obs.estopTested ? "e-stop tested" : null, obs.estopped ? "stopped" : null, obs.locked ? "locked out" : null, obs.verified ? "verified" : null, obs.jam ? "jam" : "jam cleared", obs.restarted ? "restarted" : null].filter(Boolean).join(", ");
+    return `${head} · cell entry: ${where} · ${state}`;
+  }
+  return `${head} · placed ${obs.placed}/${obs.placed + obs.remaining}`;
+}
+
+/** The pad's default pose per task (the hand at rest in that task's frame). */
+const RT_REST_POSE = Object.freeze({ "rb-teleop-pick-place": [0, 0.3, -0.35], "rb-cell-entry": [0, 0.9, -8] });
+
 /**
- * A minimal in-page driver: the mouse or a finger (pointer events; touch-action none) over `el` is the hand in the bench
- * frame; pointerdown closes the trigger, the wheel (or a second finger) sets the squeeze, a double-click is the e-stop. In
- * WebXR, `api.xr(frame, refSpace)` reads the session's controllers through rtXRPose each frame and takes over the pose. With
- * `rig` (a ROBOTICS site's drawn rig, rbMountRobotics().rigNode(id)) the arm follows the effector live. Records through
- * rtRecorder, so nothing is kept unless the learner is collecting.
- * Returns { start(seed), step(), pose(), xr(frame, refSpace), source(), stop(), status(), rig() }.
+ * A minimal in-page driver: the mouse or a finger (pointer events; touch-action none) over `el` is the hand in the task's frame;
+ * pointerdown closes the trigger, the wheel (or a second finger) sets the squeeze, a double-click is the e-stop. In WebXR,
+ * `api.xr(frame, refSpace)` reads the session's controllers through rtXRPose each frame and takes over the pose. With `rig` (a
+ * ROBOTICS site's drawn rig, rbMountRobotics().rigNode(id)) the arm follows the effector live. Records through rtRecorder, so
+ * nothing is kept unless the learner is collecting.
+ *
+ * Loop 7 (ROBOTRAIN-3): `task` picks the task (every RT_TASKS id; the select on the pad switches it) — on the cell task the pad's
+ * x/y are the hand's offset from the body (the e-stop post's controls at RT_CELL_CONTROLS), the wheel walks the body along the
+ * approach (up: toward the cell), a right-button press is the firm squeeze (press-estop), a left press the light one (test);
+ * `onTake(episode | null, summary)` fires when a take ends (the app re-reads the learner's consented takes for the provider);
+ * `demonstrate()` replays the policy's run as a GHOST on the same rig — `modelFor(sc)` (vb-colearn.js' provider) or, without
+ * it, a COLEARN model on synthetic demonstrations — one frame at a time with the explanation on the status line.
+ * Returns { start(seed), step(), pose(), xr(frame, refSpace), source(), stop(), status(), rig(), task(id?), demonstrate(), ghost(), tasks }.
  */
-function rtMountTeleop(el, { seed = 7001, store = dxStore, signals = null, reducedMotion = false, rig = null, hand = "right" } = {}) {
+function rtMountTeleop(el, { seed = 7001, store = dxStore, signals = null, reducedMotion = false, rig = null, hand = "right", task = RT_SCENARIO, onTake = null, modelFor = null } = {}) {
   if (!el || typeof el.addEventListener !== "function") return null;
   const doc = el.ownerDocument;
   el.innerHTML = "";
   const status = doc.createElement("p"); status.className = "at-muted rt-status"; status.textContent = "Teleoperation: not recording (opt in on the Me tab to record takes; adults only, local only).";
+  const row = doc.createElement("div"); row.className = "rt-row"; row.style.cssText = "display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:4px 0;";
+  const sel = doc.createElement("select"); sel.className = "rt-task"; sel.setAttribute("aria-label", "Teleoperation task");
+  sel.style.cssText = "min-height:44px;padding:8px 10px;font:inherit;max-width:100%;"; // a 44 px touch target on phones (check_interface)
+  for (const id of RT_TASK_IDS) { const o = doc.createElement("option"); o.value = id; o.textContent = id === RT_SCENARIO ? "Teleop pick-and-place (the arm)" : "Robot cell entry (walk, controls)"; sel.append(o); }
+  const bGhost = doc.createElement("button"); bGhost.type = "button"; bGhost.className = "rt-ghost"; bGhost.textContent = "Robot demonstrates back"; bGhost.disabled = true;
+  bGhost.title = "After a take: the trained policy replays its own run on this rig, one step at a time, with its explanation.";
+  row.append(sel, bGhost);
   const pad = doc.createElement("div"); pad.className = "rt-pad"; pad.setAttribute("role", "application"); pad.setAttribute("aria-label", "Teleoperation pad: move the pointer to drive the gripper, hold to grip, wheel to set the grip force, double-click for e-stop");
   pad.style.cssText = "position:relative;height:160px;border:1px solid var(--at-border, #555);border-radius:8px;touch-action:none;";
-  el.append(status, pad);
-  let env = null, rec = null, pose = { p: [0, 0.3, -0.35], trigger: 0, squeeze: 0.5, estop: false }, timer = null, source = "pointer", xrLast = 0, touches = 0;
+  el.append(status, row, pad);
+  let sc = RT_TASKS[task] ? task : RT_SCENARIO;
+  let env = null, rec = null, pose = { p: RT_REST_POSE[sc].slice(), trigger: 0, squeeze: 0.5, estop: false }, timer = null, source = "pointer", xrLast = 0, touches = 0;
+  let ghost = { frames: [], i: -1, timer: null, model: null }, lastTake = null;
+  const isCell = () => sc === "rb-cell-entry";
+  const setTask = (id) => {
+    if (!RT_TASKS[id]) return sc;
+    api.stop(); sc = id; sel.value = id; pose = { p: RT_REST_POSE[sc].slice(), trigger: 0, squeeze: 0.5, estop: false };
+    pad.setAttribute("aria-label", isCell() ? "Cell-entry pad: the pointer is your hand at the e-stop post (left press: light squeeze, right press: firm), the wheel walks you toward the cell" : "Teleoperation pad: move the pointer to drive the gripper, hold to grip, wheel to set the grip force, double-click for e-stop");
+    status.textContent = `Task: ${isCell() ? "Robot cell entry" : "Teleop pick-and-place"} · not started.`;
+    return sc;
+  };
   const tick = () => {
     if (!rec) return;
     const r = rec.step(pose);
     pose.estop = false;
     if (rig) rtFollowRig(rig, rec.observation);
-    status.textContent = `${rec.active ? "Recording" : "Not recording"} · ${source} · ${r.feedback ?? "…"} · placed ${rec.observation.placed}/${rec.observation.placed + rec.observation.remaining}`;
+    status.textContent = rtHudLine(sc, rec.observation, { recording: rec.active, source, feedback: r.feedback });
     if (r.done) api.stop();
   };
+  const ghostStop = () => { if (ghost.timer) { clearInterval(ghost.timer); ghost.timer = null; } if (ghost.frames.length && rig) rtReleaseRig(rig); ghost.frames = []; ghost.i = -1; };
+  const ghostShow = () => {
+    const f = ghost.frames[ghost.i]; if (!f) return;
+    if (rig && f.observation?.effector) rtFollowRig(rig, f.observation);
+    const src = ghost.model?.provenance?.own ? `your ${ghost.model.provenance.n} takes` : "synthetic demonstrations";
+    status.textContent = `Robot demonstrates back (${src}) · step ${ghost.i + 1}/${ghost.frames.length} · ${f.action ? f.action.type : "done"} · ${f.explain}`;
+  };
   const api = {
+    tasks: RT_TASK_IDS,
+    task(id) { return id ? setTask(id) : sc; },
     start(s = seed) {
-      api.stop();
-      env = rbEnv(RT_SCENARIO, { seed: s });
+      api.stop(); ghostStop();
+      // a fresh take starts from the rest pose with the trigger open and the pad as the source; an XR frame takes over on the next frame
+      pose = { p: RT_REST_POSE[sc].slice(), trigger: 0, squeeze: 0.5, estop: false }; source = "pointer"; xrLast = 0; touches = 0;
+      env = rbEnv(sc, { seed: s });
       rec = rtRecorder(env, { store, signals });
       if (rig) rtFollowRig(rig, rec.observation);
       status.textContent = rec.active ? "Recording this take on this device (revoke on the Me tab deletes it)." : "Not recording: this take is practice only.";
@@ -164848,23 +165215,58 @@ function rtMountTeleop(el, { seed = 7001, store = dxStore, signals = null, reduc
     xr(frame, refSpace) {
       const sources = [...(frame?.session?.inputSources ?? [])];
       const src = sources.find((s) => s.handedness === hand) ?? sources[0];
-      const xp = src ? rtXRPose(src, frame, refSpace) : null;
+      // On the cell task the frame is floor-based (a local-floor space): the controller's height is the hand's height at the post's
+      // controls (RT_CELL_CONTROLS y, metres above the floor), its x the hand's offset, its z the body's place along the approach.
+      const xp = src ? rtXRPose(src, frame, refSpace, isCell() ? { origin: [RT_XR_FRAME.origin[0], 0, RT_XR_FRAME.origin[2]] } : {}) : null;
       if (!xp) { if (xrLast && Date.now() - xrLast > 1500) source = "pointer"; return null; }
       pose = { p: xp.p, trigger: xp.trigger, squeeze: xp.squeeze, estop: pose.estop || xp.estop }; source = "xr"; xrLast = Date.now();
       return api.pose();
     },
     source() { return source; },
     rig() { return rig; },
-    stop() { if (timer) { clearInterval(timer); timer = null; } const ep = rec ? rec.finish() : null; rec = null; if (rig) rtReleaseRig(rig); return ep; },
+    stop() {
+      if (timer) { clearInterval(timer); timer = null; }
+      const had = !!rec, steps = rec ? rec.steps() : 0;
+      const ep = rec ? rec.finish() : null; rec = null; if (rig) rtReleaseRig(rig);
+      if (had && steps > 0) { lastTake = { scenario: sc, steps, kept: !!ep }; bGhost.disabled = false; try { onTake?.(ep, lastTake); } catch (_) { /* never blocks the pad */ } }
+      return ep;
+    },
     status() { return status.textContent; },
+    /** The ghost: the policy's own run on this task replayed on the same rig, with its explanation per step. Returns the frame count. */
+    demonstrate(s = seed) {
+      api.stop(); ghostStop();
+      let model = null;
+      if (modelFor) { try { model = modelFor(sc) ?? null; } catch (_) { model = null; } }
+      if (!model) { model = colTrain(sc, colDemosFromEpisodes(colSyntheticDemos(sc, { n: 30, seed: 1 }), sc).demos, { seed: 1 }); model.provenance = { own: false, source: "synthetic human stand-in (colSyntheticDemos)", n: 30, kept: model.demos }; }
+      ghost = { frames: colGhost(model, { seed: s }), i: 0, timer: null, model };
+      ghostShow();
+      if (!reducedMotion && typeof setInterval === "function") ghost.timer = setInterval(() => { if (ghost.i < ghost.frames.length - 1) { ghost.i += 1; ghostShow(); } else ghostStop(); }, 400);
+      return ghost.frames.length;
+    },
+    /** Step the ghost by hand (reduced motion, or a headless drive): the next frame, or null when it has ended. */
+    ghost() { if (!ghost.frames.length) return null; if (ghost.i < ghost.frames.length - 1) { ghost.i += 1; ghostShow(); return ghost.frames[ghost.i]; } ghostStop(); return null; },
+    lastTake() { return lastTake; },
   };
-  const fromPad = (e) => { if (source === "xr" && Date.now() - xrLast < 1500) return; source = e.pointerType === "touch" ? "touch" : "pointer"; const b = pad.getBoundingClientRect(); pose.p = [rtR3(((e.clientX - b.left) / b.width - 0.5) * 1.2), 0.1, rtR3(((e.clientY - b.top) / b.height - 0.5) * 0.9)]; };
+  const fromPad = (e) => {
+    if (source === "xr" && Date.now() - xrLast < 1500) return;
+    source = e.pointerType === "touch" ? "touch" : "pointer"; const b = pad.getBoundingClientRect();
+    const u = (e.clientX - b.left) / b.width - 0.5, v = (e.clientY - b.top) / b.height - 0.5;
+    pose.p = isCell() ? [rtR3(u * 1.4), rtR3(1.0 - v * 1.2), pose.p[2]] : [rtR3(u * 1.2), 0.1, rtR3(v * 0.9)];
+  };
   pad.addEventListener("pointermove", fromPad);
-  pad.addEventListener("pointerdown", (e) => { fromPad(e); if (e.pointerType === "touch") { touches += 1; if (touches >= 2) pose.squeeze = rtR3(pose.squeeze + 0.15 > 1 ? 0.2 : pose.squeeze + 0.15); } pose.trigger = 1; });
+  pad.addEventListener("pointerdown", (e) => { fromPad(e); if (e.pointerType === "touch") { touches += 1; if (touches >= 2) pose.squeeze = rtR3(pose.squeeze + 0.15 > 1 ? 0.2 : pose.squeeze + 0.15); } else if (isCell()) pose.squeeze = e.button === 2 ? 0.9 : 0.2; pose.trigger = 1; });
   pad.addEventListener("pointerup", (e) => { if (e.pointerType === "touch") touches = Math.max(0, touches - 1); if (!touches) pose.trigger = 0; });
   pad.addEventListener("pointercancel", () => { touches = 0; pose.trigger = 0; });
-  pad.addEventListener("wheel", (e) => { pose.squeeze = rtClip(pose.squeeze + (e.deltaY < 0 ? 0.05 : -0.05), 0, 1); e.preventDefault(); }, { passive: false });
-  pad.addEventListener("dblclick", () => { pose.estop = true; });
+  pad.addEventListener("contextmenu", (e) => { if (isCell()) e.preventDefault(); });
+  pad.addEventListener("wheel", (e) => {
+    if (isCell()) { const d = rec?.observation?.distance ?? -pose.p[2]; pose.p[2] = rtR3(rtClip(pose.p[2] + (e.deltaY < 0 ? 1 : -1), -Math.max(d, 1) - 2, 0)); }
+    else pose.squeeze = rtClip(pose.squeeze + (e.deltaY < 0 ? 0.05 : -0.05), 0, 1);
+    e.preventDefault();
+  }, { passive: false });
+  pad.addEventListener("dblclick", () => { if (!isCell()) pose.estop = true; });
+  sel.addEventListener("change", () => setTask(sel.value));
+  bGhost.addEventListener("click", () => api.demonstrate());
+  setTask(sc);
   return api;
 }
 
@@ -165675,9 +166077,17 @@ function vbJobSummary(job) {
 // consented local episodes instead (COLEARN's colLocalDemos, which returns nothing unless the learner is collecting);
 // nothing here reads a store, uploads or fetches anything.
 //
+// Loop 7 (ROBOTRAIN-3, docs/consoles/ROBOTRAIN-3.md): the last mile. vbColearnLocalSource() reads the learner's OWN consented
+// takes through COLEARN's colLocalDemos (nothing unless dxCollecting(): adult, signed in, not K-12, not the demo, opted in) and
+// hands them to the provider as `demosFor`; the model is keyed by the takes it saw, so a new take retrains and a revoke (the
+// store emptied, the consent gone) drops back to synthetic demonstrations. vbColearnDescribe(model) names the source honestly:
+// "your 12 takes" or "synthetic demonstrations".
+//
 // SEAM:
 //   vbColearnModel(sc, { n, seed, skill, demosFor })            -> plain-JSON COLEARN model (cached per key)
-//   vbColearnProvider({ n, seed, skill, demosFor })              -> { policyFor(policyId, env, seed), models(), id }
+//   vbColearnProvider({ n, seed, skill, demosFor })              -> { policyFor(policyId, env, seed), modelFor(sc), describe(sc), models(), id }
+//   vbColearnLocalSource({ store, signals })                     -> { refresh(): Promise<{ [sc]: count }>, demosFor(sc), count(sc), tag(sc), clear() }
+//   vbColearnDescribe(model)                                      -> "your N takes (...)" | "synthetic demonstrations (scripted stand-in...)"
 //   vbProviderCompare({ jobsPerTask, seed, n, skill })           -> { tasks: { [sc]: { scripted, colearn } }, totals, governor: { stepsRun, stepsMonitored, everyStep } }
 //
 // Every top-level name starts with `vb`/`VB_` (the bundler shares one scope); imports are plain (no `as` alias).
@@ -165693,19 +166103,70 @@ const VB_COLEARN_SCRIPTED_ID = "vb-scripted-expert";
 const VB_COLEARN_LABEL = "COLEARN behaviour-cloning policy (k-nearest-neighbour), trained on synthetic demonstrations labelled as a stand-in";
 
 const vbModels = new Map();
+const VB_SOURCE_OWN = "your takes (consented, on this device)";
+const VB_SOURCE_SYNTHETIC = "synthetic human stand-in (colSyntheticDemos)";
 
-/** One COLEARN model per task, trained on clean passes only; cached by (task, n, seed, skill, source). */
+/**
+ * One COLEARN model per task, trained on clean passes only; cached by (task, n, seed, skill, source). `demosFor(sc)` may return
+ * COLEARN demos (from colDemosFromEpisodes) or `{ demos, tag }`, where `tag` names the set so a changed set retrains. Handed-in
+ * demos train the model only when at least one clean pass is among them; otherwise the synthetic demonstrations do, and the
+ * provenance says so.
+ */
 function vbColearnModel(sc, { n = 40, seed = 1, skill = 0.85, demosFor = null } = {}) {
   if (!COL_SCENARIOS.includes(sc)) return null;
-  const key = `${sc}|${n}|${seed}|${skill}|${demosFor ? "handed-in" : "synthetic"}`;
+  let own = null, tag = "synthetic";
+  if (demosFor) { try { const r = demosFor(sc) ?? null; own = Array.isArray(r) ? r : r?.demos ?? null; tag = r?.tag ?? (own?.length ? `handed-in:${own.length}` : "synthetic"); } catch (_) { own = null; } }
+  if (!Array.isArray(own) || !own.length) { own = null; tag = "synthetic"; }
+  const key = `${sc}|${n}|${seed}|${skill}|${tag}`;
   if (vbModels.has(key)) return vbModels.get(key);
-  let demos = null;
-  if (demosFor) { try { demos = demosFor(sc) ?? null; } catch (_) { demos = null; } }
-  if (!Array.isArray(demos) || !demos.length) demos = colDemosFromEpisodes(colSyntheticDemos(sc, { n, seed, skill }), sc).demos;
-  const model = colTrain(sc, demos, { seed, onlySuccessful: true });
-  model.provenance = { source: demosFor && Array.isArray(demos) ? "handed-in demonstrations" : "synthetic human stand-in (colSyntheticDemos)", n: demos.length, kept: model.demos, skill };
+  let model = own ? colTrain(sc, own, { seed, onlySuccessful: true }) : null;
+  if (model && model.demos > 0) {
+    model.provenance = { source: VB_SOURCE_OWN, own: true, n: own.length, kept: model.demos, skill: null };
+  } else {
+    const synth = colDemosFromEpisodes(colSyntheticDemos(sc, { n, seed, skill }), sc).demos;
+    model = colTrain(sc, synth, { seed, onlySuccessful: true });
+    model.provenance = { source: VB_SOURCE_SYNTHETIC, own: false, n: synth.length, kept: model.demos, skill, ownOffered: own ? own.length : 0 };
+  }
   vbModels.set(key, model);
   return model;
+}
+
+/** What the card says the model was trained on, honestly: the learner's own takes, or the synthetic stand-in. */
+function vbColearnDescribe(model) {
+  const p = model?.provenance;
+  if (!p) return "synthetic demonstrations (scripted stand-in)";
+  if (p.own) return `your ${p.n} take${p.n === 1 ? "" : "s"} (${p.kept} clean pass${p.kept === 1 ? "" : "es"} kept; consented, on this device)`;
+  return `synthetic demonstrations (scripted stand-in${p.ownOffered ? `; your ${p.ownOffered} take${p.ownOffered === 1 ? "" : "s"} had no clean pass yet` : ""})`;
+}
+
+/**
+ * The learner's own consented takes as a `demosFor` source. `refresh()` re-reads the local DX store through colLocalDemos (which
+ * returns nothing unless dxCollecting()) for every task COLEARN has features for; `demosFor(sc)` is synchronous for the provider
+ * and returns `{ demos, tag }` or null. Revoke empties the store and the consent, so the next refresh clears every task and the
+ * provider is back on synthetic demonstrations. Nothing here writes, uploads or fetches anything.
+ */
+function vbColearnLocalSource({ store = null, signals = null } = {}) {
+  const byTask = new Map();
+  const opts = store ? { store, signals } : { signals };
+  return {
+    async refresh() {
+      const counts = {};
+      for (const sc of COL_SCENARIOS) {
+        let eps = [];
+        try { eps = await colLocalDemos(sc, opts); } catch (_) { eps = []; }
+        if (!eps.length) { byTask.delete(sc); counts[sc] = 0; continue; }
+        const d = colDemosFromEpisodes(eps, sc);
+        const ids = eps.map((e) => e.episodeId).sort();
+        byTask.set(sc, { demos: d.demos, tag: `own:${ids.length}:${ids.join(",")}`, n: eps.length, refused: d.refused.length });
+        counts[sc] = d.demos.length;
+      }
+      return counts;
+    },
+    demosFor(sc) { const r = byTask.get(sc); return r ? { demos: r.demos, tag: r.tag } : null; },
+    count(sc) { return byTask.get(sc)?.demos.length ?? 0; },
+    tag(sc) { return byTask.get(sc)?.tag ?? "synthetic"; },
+    clear() { byTask.clear(); },
+  };
 }
 
 /**
@@ -165721,6 +166182,10 @@ function vbColearnProvider(opts = {}) {
       const model = vbColearnModel(env.scenario.id, opts);
       return model ? colPolicy(model) : null;
     },
+    /** The model the provider would run for a task right now (trains lazily; the teleop pad's ghost replays it). */
+    modelFor(sc) { return vbColearnModel(sc, opts); },
+    /** The card's provider line for a task: what the policy is and what it was trained on, honestly. */
+    describe(sc) { const m = vbColearnModel(sc, opts); return m ? `COLEARN behaviour-cloning policy (k-nearest-neighbour), trained on ${vbColearnDescribe(m)}` : null; },
     models() { return [...vbModels.values()].map((m) => ({ scenario: m.scenario, rows: m.rows.length, kept: m.demos, provenance: m.provenance })); },
   };
 }
@@ -165746,7 +166211,7 @@ function vbProviderCompare({ jobsPerTask = 10, seed = 1, n = 40, skill = 0.85 } 
   let stepsMonitored = 0, stepsRun = 0;
   const totals = { scripted: { completed: 0, of: 0 }, colearn: { completed: 0, of: 0 } };
   for (const sc of COL_SCENARIOS) {
-    if (!RB_SITES.some((s) => s.scenario === sc)) continue;
+    if (!RB_SITES.some((s) => s.scenario === sc) || !VB_TASKS[sc]) continue; // only tasks the governor allowlists (VB_TASKS) run as jobs
     const row = { scripted: { completed: 0, of: 0, halted: 0 }, colearn: { completed: 0, of: 0, halted: 0, trainedOn: null } };
     for (const [who, policyId, policyFor] of [["scripted", VB_COLEARN_SCRIPTED_ID, null], ["colearn", VB_COLEARN_POLICY_ID, provider.policyFor]]) {
       for (let k = 0; k < jobsPerTask; k++) {
@@ -165803,7 +166268,7 @@ const VB_PANEL_QUEUE = Object.freeze([
 
 const VB_PANEL_CSS = ".vb-panel{font:13px/1.4 system-ui,sans-serif;padding:10px;border:1px solid #2c5a63;border-radius:10px;background:#0b1a1f;color:#dff6fa;margin:8px 0}.vb-panel h3{margin:0 0 6px;font-size:15px}.vb-panel .vb-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}.vb-panel button{background:#16343b;color:#dff6fa;border:1px solid #3d7480;border-radius:6px;padding:5px 9px;cursor:pointer}.vb-panel button[data-vb=estop]{background:#7a1717;border-color:#d2312b}.vb-panel .vb-note{opacity:.8;font-size:12px}.vb-panel .vb-card{white-space:pre-line;margin-top:6px}.vb-panel .vb-phase{font-weight:600;color:#5ec8d8}";
 
-function vbMountDispatch(el, { reducedMotion = false, ent3 = null, stationHref = null, policyFor = null } = {}) {
+function vbMountDispatch(el, { reducedMotion = false, ent3 = null, stationHref = null, policyFor = null, providerLabel = null } = {}) {
   if (!el || typeof document === "undefined") return null;
   const gov = vbGovernor({ ent3 });
   const box = document.createElement("section");
@@ -165830,7 +166295,9 @@ function vbMountDispatch(el, { reducedMotion = false, ent3 = null, stationHref =
     phase.textContent = `Phase: ${job.phase}`;
     const r = job.request;
     const lines = [`From: ${job.client.id} (mock client agent)`, `Task: ${VB_TASKS[r.taskType]?.label ?? r.taskType}`, `Site: ${siteName(r.siteId)}`, `Speed ${r.speed} m/s · nearest person ${r.nearestPersonM} m · policy ${r.policyId} · target ${r.target.kind}`];
-    lines.push(`Provider: ${r.policyId === "vb-colearn-bc-knn" ? (policyFor ? "COLEARN-trained behaviour-cloning policy (synthetic demonstrations, labelled as a stand-in)" : "COLEARN policy requested, no learned provider mounted: the scripted expert runs") : r.policyId === "vb-scripted-lapsing" ? "scripted expert that lapses" : "scripted expert"}`);
+    // ROBOTRAIN-3: `providerLabel(taskType)` (vb-colearn.js' describe) names the training data honestly — the learner's own consented takes, or the synthetic stand-in.
+    let learned = null; if (policyFor && providerLabel) { try { learned = providerLabel(r.taskType); } catch (_) { learned = null; } }
+    lines.push(`Provider: ${r.policyId === "vb-colearn-bc-knn" ? (policyFor ? learned ?? "COLEARN-trained behaviour-cloning policy (synthetic demonstrations, labelled as a stand-in)" : "COLEARN policy requested, no learned provider mounted: the scripted expert runs") : r.policyId === "vb-scripted-lapsing" ? "scripted expert that lapses" : "scripted expert"}`);
     if (job.governor) lines.push(job.governor.decision === "refuse" ? `Governor: REFUSED — ${VB_REASONS.find((x) => x.id === job.governor.primary)?.text ?? job.governor.primary}` : "Governor: allowed in the sim. Your decision.");
     if (job.phase === "TRANSACTION" && frames.length) lines.push(`Run: step ${fi + 1} of ${frames.length}${frames[fi]?.info?.violations?.length ? ` — deviation: ${frames[fi].info.violations[0]}` : ""}`);
     if (job.evaluation) lines.push(`Evaluation: ${job.evaluation.accepted ? "completed" : "rejected"} — ${job.evaluation.reason}`);
@@ -167860,9 +168327,50 @@ function frame(now) {
   if (npHudT > 0.25 && np.playing) { npHudT = 0; npHud(); }
   npRenderer.render(scene, camera);
   uxAnchorPrompt();
-  requestAnimationFrame(frame);
+  if (!npXR.session) requestAnimationFrame(frame); // ROBOTRAIN-3: inside an XR session the session's own frame loop drives this (npXRFrame)
 }
 requestAnimationFrame(frame);
+
+// ROBOTRAIN-3 (docs/consoles/ROBOTRAIN-3.md): the WebXR session loop. While an immersive session is active, the session's own
+// requestAnimationFrame loop runs the world frame and feeds the teleop pad's controller source (`teleop.xr(frame, refSpace)`,
+// rt-teleop.js), so the arm rig follows the controller. Nothing here runs outside a session: `npXR.session` is null, the
+// window's requestAnimationFrame drives `frame`, and `teleop.xr` is never called. The "Enter VR" button appears only when
+// `navigator.xr` says immersive-vr is supported. The headless proof hands `npXRBegin` a stubbed session (`__parishTest.xr`).
+var npXR = { session: null, refSpace: null, frames: 0, fed: 0, ended: 0 };
+function npXRFrame(t, xrFrame) {
+  const s = npXR.session;
+  if (!s || !xrFrame) return;
+  npXR.frames += 1;
+  const teleop = window.__parishTest?.teleop;
+  if (teleop && npXR.refSpace) { try { if (teleop.xr(xrFrame, npXR.refSpace)) npXR.fed += 1; } catch (_) { /* a frame without a pose */ } }
+  frame(typeof t === "number" ? t : performance.now());
+  if (npXR.session === s) s.requestAnimationFrame(npXRFrame);
+}
+function npXREnd() {
+  const s = npXR.session; if (!s) return;
+  npXR.session = null; npXR.refSpace = null; npXR.ended += 1;
+  try { npRenderer.xr.enabled = false; } catch (_) { /* renderer without an XR manager */ }
+  requestAnimationFrame(frame);
+}
+async function npXRBegin(session) {
+  if (!session || npXR.session) return false;
+  npXR.session = session; npXR.frames = 0; npXR.fed = 0;
+  try { npXR.refSpace = await session.requestReferenceSpace("local-floor"); } catch (_) { try { npXR.refSpace = await session.requestReferenceSpace("local"); } catch (_) { npXR.refSpace = null; } }
+  try { session.addEventListener?.("end", npXREnd); } catch (_) { /* a stub without events */ }
+  try { npRenderer.xr.enabled = true; await npRenderer.xr.setSession(session); } catch (_) { try { npRenderer.xr.enabled = false; } catch (_) { /* fine */ } } // a stub or an unsupported renderer path: the controller feed and the world frame still run
+  if (npXR.session !== session) return false;
+  session.requestAnimationFrame(npXRFrame);
+  return true;
+}
+var npXRTest = { begin: npXRBegin, end: () => { const s = npXR.session; if (s?.end) { try { s.end(); } catch (_) { /* stub */ } } npXREnd(); }, state: () => ({ active: !!npXR.session, frames: npXR.frames, fed: npXR.fed, ended: npXR.ended, refSpace: !!npXR.refSpace }) }; // exposed as window.__parishTest.xr beside the teleop mount
+if (typeof navigator !== "undefined" && navigator.xr?.isSessionSupported) {
+  navigator.xr.isSessionSupported("immersive-vr").then((ok) => {
+    if (!ok) return;
+    const b = document.createElement("button"); b.className = "btn"; b.id = "menu-enter-vr"; b.type = "button"; b.textContent = "Enter VR";
+    b.addEventListener("click", () => navigator.xr.requestSession("immersive-vr", { optionalFeatures: ["local-floor"] }).then((s) => { npXRBegin(s); npBegin(); }).catch((e) => npToast(`VR did not start: ${e?.message ?? e}`)));
+    $("menu-start")?.parentElement?.append(b);
+  }).catch(() => {});
+}
 
 // SCHOLAR: a K-12 lesson session when the learner reaches a site with a field lesson, a BAYOU lesson or an ESTUARY lesson.
 const scSession = scMountSession({
@@ -168132,13 +168640,21 @@ window.__parishTest.robotics = rbWorld;
 window.__parishTest.colearn = colMountCoLearn($("menu-drills"), { reducedMotion: npReduced, capture: (steps, meta) => dxCaptureRollout(steps, meta) });
 // ROBOTRAIN (docs/consoles/ROBOTRAIN.md): drive the teleop arm from a pointer pose; a take is kept only through DATAWORKS' recorder (inert unless opted in).
 // ROBOTRAIN-2: the pointer pad and touch drive the pose here; a WebXR session added to this app calls teleop.xr(frame, refSpace) from its frame callback and the controller takes over. The nearest arm rig on this map follows the pose live (no new mesh).
-window.__parishTest.teleop = (() => { try { const host = document.createElement("div"); host.id = "rt-teleop"; $("menu-drills")?.append(host); const rtSite = rbWorld?.sites?.find((s) => s.rig === "cobot" || s.rig === "cell") ?? null; return rtMountTeleop(host, { reducedMotion: npReduced, rig: rtSite ? rbWorld.rigNode(rtSite.id) : null }); } catch (_) { return null; } })();
+// ROBOTRAIN-3: the pad drives the cell-entry task too (the select on the pad), the XR session loop above feeds it, a finished take
+// re-reads the learner's consented takes for the provider (vbLocal), and "Robot demonstrates back" replays the provider's policy as a ghost on the same rig.
+window.__parishTest.teleop = (() => { try { const host = document.createElement("div"); host.id = "rt-teleop"; $("menu-drills")?.append(host); const rtSite = rbWorld?.sites?.find((s) => s.rig === "cobot" || s.rig === "cell") ?? null; return rtMountTeleop(host, { reducedMotion: npReduced, rig: rtSite ? rbWorld.rigNode(rtSite.id) : null, task: rtSite?.rig === "cell" ? "rb-cell-entry" : "rb-teleop-pick-place", onTake: () => { vbLocal?.refresh().catch(() => {}); }, modelFor: (sc) => vbProvider?.modelFor(sc) ?? null }); } catch (_) { return null; } })();
 // VBRIDGE (docs/consoles/VBRIDGE.md): supervise jobs a mock software agent sends to the robot sites — the safety governor checks
 // each (e-stop wins, allowlist, limits, stale lineage), simulated robots only; every decision goes to ENTERPRISE-3's audit log.
 // ROBOTRAIN-2: jobs that name the COLEARN policy run a behaviour-cloning policy as the provider (trained lazily on synthetic demonstrations); guarded.
-var vbProvider = (() => { try { return vbColearnProvider(); } catch (_) { return null; } })();
-window.__parishTest.vbridge = vbMountDispatch($("menu-drills"), { reducedMotion: npReduced, ent3: { auditAppend: ent3AuditAppend, policies: ent3Policies, fleet: ent3Fleet }, stationHref: (id) => npLink(id), policyFor: vbProvider ? (policyId, env, seed) => vbProvider.policyFor(policyId, env, seed) : null });
+// ROBOTRAIN-3: the provider trains on the learner's OWN consented takes when there are any (vbColearnLocalSource reads the local DX
+// store only while dxCollecting(): adult, signed in, not K-12, not the demo, opted in; revoke empties it → synthetic again); the card says which.
+var vbLocal = (() => { try { return vbColearnLocalSource(); } catch (_) { return null; } })();
+var vbProvider = (() => { try { return vbColearnProvider(vbLocal ? { demosFor: vbLocal.demosFor } : {}); } catch (_) { return null; } })();
+vbLocal?.refresh().catch(() => {});
+window.__parishTest.vbridge = vbMountDispatch($("menu-drills"), { reducedMotion: npReduced, ent3: { auditAppend: ent3AuditAppend, policies: ent3Policies, fleet: ent3Fleet }, stationHref: (id) => npLink(id), policyFor: vbProvider ? (policyId, env, seed) => vbProvider.policyFor(policyId, env, seed) : null, providerLabel: vbProvider ? (sc) => vbProvider.describe(sc) : null });
 window.__parishTest.vbColearn = vbProvider;
+window.__parishTest.vbLocal = vbLocal;
+window.__parishTest.xr = npXRTest;
 // PACKS: the Holodeck Packs that play in this map (docs/consoles/PACKS.md), the chosen STORYLINE path's first.
 npMountPacks($("menu-packs"), parish.id);
 // COGNITION: the K-12 learning module runner — this parish's lessons, each flow played through its GRIOT guide (docs/consoles/COGNITION.md).
@@ -168211,7 +168727,7 @@ function uxOpenMenu() {
   $("menu-start").focus();
 }
 uxPassport();
-dxMountConsent($("menu-dataworks")); // DATAWORKS: the consent panel in the Me tab (off by default)
+dxMountConsent($("menu-dataworks"), { onChange: () => { vbLocal?.refresh().catch(() => {}); } }); // DATAWORKS: the consent panel in the Me tab (off by default); ROBOTRAIN-3: opt-in or revoke re-reads the learner's takes for the provider
 $("ux-menu-open").addEventListener("click", uxOpenMenu);
 $("ux-open-map").addEventListener("click", () => npToggle("map"));
 $("ux-open-ways").addEventListener("click", () => npToggle("parishes"));

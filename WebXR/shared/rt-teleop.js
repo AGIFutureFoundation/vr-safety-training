@@ -354,6 +354,7 @@ export function rtMountTeleop(el, { seed = 7001, store = dxStore, signals = null
   const status = doc.createElement("p"); status.className = "at-muted rt-status"; status.textContent = "Teleoperation: not recording (opt in on the Me tab to record takes; adults only, local only).";
   const row = doc.createElement("div"); row.className = "rt-row"; row.style.cssText = "display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:4px 0;";
   const sel = doc.createElement("select"); sel.className = "rt-task"; sel.setAttribute("aria-label", "Teleoperation task");
+  sel.style.cssText = "min-height:44px;padding:8px 10px;font:inherit;max-width:100%;"; // a 44 px touch target on phones (check_interface)
   for (const id of RT_TASK_IDS) { const o = doc.createElement("option"); o.value = id; o.textContent = id === RT_SCENARIO ? "Teleop pick-and-place (the arm)" : "Robot cell entry (walk, controls)"; sel.append(o); }
   const bGhost = doc.createElement("button"); bGhost.type = "button"; bGhost.className = "rt-ghost"; bGhost.textContent = "Robot demonstrates back"; bGhost.disabled = true;
   bGhost.title = "After a take: the trained policy replays its own run on this rig, one step at a time, with its explanation.";

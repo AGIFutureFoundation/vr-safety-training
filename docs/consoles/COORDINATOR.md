@@ -178,3 +178,15 @@ Every team keeps its own console under this folder (see `tools/briefs/console-br
   - CI had been red for many runs on this branch; the causes above were fixed at source;
   - `github-advanced-security` failed on the Copilot service's monthly quota (HTTP 402), which needs the account owner;
   - a Wefunder answers draft is kept in scratch. It contains only repo facts; terms and team are left to the founders.
+
+## 6 Oct 10:40–12:00 UTC — loop 7: robot scenarios with results, the learning loop's last mile, whitepaper round two, reel v3
+
+- Consoles:
+  - ROBOSCENARIOS (fable): `rb-construction-drilling` and `rb-port-gantry` gym scenarios with scripted experts; a drilling-robot site on la-meta-richland; the port yard runs the lane scenario. Behaviour cloning on both: random 0 / clone 1.000 / expert 1.000 on 60 held-out seeds (17/40 and 25/40 demonstrations kept, all synthetic and labelled). The expert broke no invariant (barricade, crossing, keep-out) in 2,734 steps. The first port clone drove into the keep-out from the travel lane; a keep-out distance feature fixed it. Teleop tasks for both; agent baselines for 16 programme robot stations (was 10); `tools/check_roboscenarios.mjs`.
+  - ROBOTRAIN-3 (fable): a consented learner's own takes train the agent-jobs provider, named honestly on the card; a new take retrains, revoke deletes and reverts to synthetic. The WebXR session loop feeds `teleop.xr` from `session.requestAnimationFrame`; the pad drives the cell-entry task; one button replays the policy as a ghost. check_robotrain 253 → 291. Open: the in-page card after a take was proven in Node but not observed in the headless page (the recorder writes on an idle slot the busy page never granted).
+  - WHITEPAPER-R2 (sonnet; scratch only): personas, pairs, FAQ and glossary, plus six refreshed sections; 629 figures, 100% sourced through the verifier; 68 station references resolving; stale loop-6 claims corrected.
+  - CAPTURE-R2 (sonnet; scratch only): reel v3 with 12 of 16 segments from the product's own three.js scene (the loop-6 scratch viewer is gone), 8 stills, the same narration; the end card keeps the platform name so it matches the audio.
+- Merge: both repo consoles fast-forwarded or merged clean onto a8c677ed.
+- Gate fixes: check_dataworks accepts an options argument on the parishes consent mount.
+- PR #1: both `checks` runs green on a8c677ed; Tenki approved; `github-advanced-security` still blocked by the Copilot quota (owner action).
+- The user's "110 minute video" was kept at 110 seconds and said so; a long-form walkthrough would be a separate loop.

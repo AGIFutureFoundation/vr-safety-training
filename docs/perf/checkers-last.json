@@ -1,930 +1,937 @@
 {
-  "at": "2026-10-06T09:32:22.413Z",
+  "at": "2026-10-06T11:40:31.233Z",
   "cores": 4,
   "maxJobs": 4,
   "peakParallel": 4,
-  "loadAvgStart": 4.72,
-  "loadAvgEnd": 3.21,
-  "loadAvgPeak": 7.57,
-  "wallMs": 1590298,
-  "sumMs": 1816282,
+  "loadAvgStart": 5.34,
+  "loadAvgEnd": 3.23,
+  "loadAvgPeak": 5.99,
+  "wallMs": 1615371,
+  "sumMs": 1810987,
   "checkers": {
     "check_parse.mjs": {
-      "ms": 124158,
+      "ms": 144043,
       "ok": true,
-      "loadStart": 4.72,
-      "loadEnd": 3.47,
-      "loadPeak": 4.83
+      "loadStart": 5.34,
+      "loadEnd": 4.57,
+      "loadPeak": 5.68
     },
     "check_imports.mjs": {
-      "ms": 4794,
+      "ms": 5572,
       "ok": true,
-      "loadStart": 3.47,
-      "loadEnd": 3.27,
-      "loadPeak": 3.47
+      "loadStart": 4.57,
+      "loadEnd": 4.84,
+      "loadPeak": 4.84
     },
     "check_smartcity.mjs": {
-      "ms": 9959,
+      "ms": 7743,
       "ok": true,
-      "loadStart": 3.27,
+      "loadStart": 4.84,
+      "loadEnd": 4.94,
+      "loadPeak": 4.94
+    },
+    "check_trades.mjs": {
+      "ms": 259,
+      "ok": true,
+      "loadStart": 4.94,
+      "loadEnd": 4.94,
+      "loadPeak": 4.94
+    },
+    "check_holodeck.mjs": {
+      "ms": 315,
+      "ok": true,
+      "loadStart": 4.94,
+      "loadEnd": 5.34,
+      "loadPeak": 5.34
+    },
+    "check_records.mjs": {
+      "ms": 455,
+      "ok": true,
+      "loadStart": 5.34,
+      "loadEnd": 5.34,
+      "loadPeak": 5.34
+    },
+    "check_identity.mjs": {
+      "ms": 449,
+      "ok": true,
+      "loadStart": 5.34,
+      "loadEnd": 5.34,
+      "loadPeak": 5.34
+    },
+    "check_lrs.mjs": {
+      "ms": 348,
+      "ok": true,
+      "loadStart": 5.34,
+      "loadEnd": 5.34,
+      "loadPeak": 5.34
+    },
+    "check_share.mjs": {
+      "ms": 693,
+      "ok": true,
+      "loadStart": 5.34,
+      "loadEnd": 5.34,
+      "loadPeak": 5.34
+    },
+    "check_episodes.mjs": {
+      "ms": 3412,
+      "ok": true,
+      "loadStart": 5.34,
+      "loadEnd": 5.07,
+      "loadPeak": 5.34
+    },
+    "check_dataset_tools.mjs": {
+      "ms": 3011,
+      "ok": true,
+      "loadStart": 5.07,
+      "loadEnd": 5.07,
+      "loadPeak": 5.07
+    },
+    "check_dataworks.mjs": {
+      "ms": 423,
+      "ok": false,
+      "loadStart": 5.07,
+      "loadEnd": 5.07,
+      "loadPeak": 5.07
+    },
+    "check_robot.mjs": {
+      "ms": 10180,
+      "ok": true,
+      "loadStart": 5.07,
+      "loadEnd": 5.99,
+      "loadPeak": 5.99
+    },
+    "check_agent.mjs": {
+      "ms": 1844,
+      "ok": true,
+      "loadStart": 5.99,
+      "loadEnd": 5.91,
+      "loadPeak": 5.99
+    },
+    "check_virtuals.mjs": {
+      "ms": 897,
+      "ok": true,
+      "loadStart": 5.91,
+      "loadEnd": 5.91,
+      "loadPeak": 5.91
+    },
+    "check_platform.mjs": {
+      "ms": 1056,
+      "ok": true,
+      "loadStart": 5.91,
+      "loadEnd": 5.91,
+      "loadPeak": 5.91
+    },
+    "check_lti.mjs": {
+      "ms": 369,
+      "ok": true,
+      "loadStart": 5.91,
+      "loadEnd": 5.91,
+      "loadPeak": 5.91
+    },
+    "check_orbis_stable.mjs": {
+      "ms": 89,
+      "ok": true,
+      "loadStart": 5.91,
+      "loadEnd": 5.91,
+      "loadPeak": 5.91
+    },
+    "check_verify.mjs": {
+      "ms": 102,
+      "ok": true,
+      "loadStart": 5.91,
+      "loadEnd": 5.91,
+      "loadPeak": 5.91
+    },
+    "check_observer.mjs": {
+      "ms": 63,
+      "ok": true,
+      "loadStart": 5.91,
+      "loadEnd": 5.91,
+      "loadPeak": 5.91
+    },
+    "check_budget.mjs": {
+      "ms": 4821,
+      "ok": true,
+      "loadStart": 5.91,
+      "loadEnd": 5.6,
+      "loadPeak": 5.91
+    },
+    "check_layout.mjs": {
+      "ms": 4589,
+      "ok": true,
+      "loadStart": 5.6,
+      "loadEnd": 5.23,
+      "loadPeak": 5.6
+    },
+    "check_interrupts.mjs": {
+      "ms": 13457,
+      "ok": true,
+      "loadStart": 5.23,
+      "loadEnd": 4.37,
+      "loadPeak": 5.23
+    },
+    "check_events.mjs": {
+      "ms": 131,
+      "ok": true,
+      "loadStart": 4.37,
       "loadEnd": 4.37,
       "loadPeak": 4.37
     },
-    "check_trades.mjs": {
-      "ms": 278,
+    "check_lessons.mjs": {
+      "ms": 128,
       "ok": true,
-      "loadStart": 3.27,
-      "loadEnd": 3.27,
-      "loadPeak": 3.27
-    },
-    "check_holodeck.mjs": {
-      "ms": 287,
-      "ok": true,
-      "loadStart": 3.27,
-      "loadEnd": 3.27,
-      "loadPeak": 3.27
-    },
-    "check_records.mjs": {
-      "ms": 445,
-      "ok": true,
-      "loadStart": 3.27,
-      "loadEnd": 3.27,
-      "loadPeak": 3.27
-    },
-    "check_identity.mjs": {
-      "ms": 47,
-      "ok": true,
-      "loadStart": 3.27,
-      "loadEnd": 3.27,
-      "loadPeak": 3.27
-    },
-    "check_lrs.mjs": {
-      "ms": 45,
-      "ok": true,
-      "loadStart": 3.27,
-      "loadEnd": 3.27,
-      "loadPeak": 3.27
-    },
-    "check_share.mjs": {
-      "ms": 897,
-      "ok": true,
-      "loadStart": 3.27,
-      "loadEnd": 3.27,
-      "loadPeak": 3.27
-    },
-    "check_episodes.mjs": {
-      "ms": 4037,
-      "ok": true,
-      "loadStart": 3.27,
-      "loadEnd": 4.05,
-      "loadPeak": 4.05
-    },
-    "check_dataset_tools.mjs": {
-      "ms": 3721,
-      "ok": true,
-      "loadStart": 3.27,
-      "loadEnd": 4.05,
-      "loadPeak": 4.05
-    },
-    "check_dataworks.mjs": {
-      "ms": 626,
-      "ok": true,
-      "loadStart": 3.27,
-      "loadEnd": 3.27,
-      "loadPeak": 3.27
-    },
-    "check_robot.mjs": {
-      "ms": 12090,
-      "ok": true,
-      "loadStart": 3.27,
-      "loadEnd": 4.26,
+      "loadStart": 4.37,
+      "loadEnd": 4.37,
       "loadPeak": 4.37
     },
-    "check_agent.mjs": {
-      "ms": 1895,
-      "ok": true,
-      "loadStart": 4.26,
-      "loadEnd": 4.26,
-      "loadPeak": 4.26
-    },
-    "check_virtuals.mjs": {
-      "ms": 973,
-      "ok": true,
-      "loadStart": 4.26,
-      "loadEnd": 4.26,
-      "loadPeak": 4.26
-    },
-    "check_platform.mjs": {
-      "ms": 1075,
-      "ok": true,
-      "loadStart": 4.26,
-      "loadEnd": 4.16,
-      "loadPeak": 4.26
-    },
-    "check_lti.mjs": {
-      "ms": 310,
-      "ok": true,
-      "loadStart": 4.16,
-      "loadEnd": 4.16,
-      "loadPeak": 4.16
-    },
-    "check_orbis_stable.mjs": {
-      "ms": 80,
-      "ok": true,
-      "loadStart": 4.16,
-      "loadEnd": 4.16,
-      "loadPeak": 4.16
-    },
-    "check_verify.mjs": {
-      "ms": 99,
-      "ok": true,
-      "loadStart": 4.16,
-      "loadEnd": 4.16,
-      "loadPeak": 4.16
-    },
-    "check_observer.mjs": {
-      "ms": 86,
-      "ok": true,
-      "loadStart": 4.16,
-      "loadEnd": 4.16,
-      "loadPeak": 4.16
-    },
-    "check_budget.mjs": {
-      "ms": 5468,
-      "ok": true,
-      "loadStart": 4.16,
-      "loadEnd": 3.99,
-      "loadPeak": 4.16
-    },
-    "check_layout.mjs": {
-      "ms": 5040,
-      "ok": true,
-      "loadStart": 3.99,
-      "loadEnd": 4.23,
-      "loadPeak": 4.23
-    },
-    "check_interrupts.mjs": {
-      "ms": 14592,
-      "ok": true,
-      "loadStart": 4.23,
-      "loadEnd": 4.42,
-      "loadPeak": 4.42
-    },
-    "check_events.mjs": {
-      "ms": 195,
-      "ok": true,
-      "loadStart": 4.42,
-      "loadEnd": 4.42,
-      "loadPeak": 4.42
-    },
-    "check_lessons.mjs": {
-      "ms": 153,
-      "ok": true,
-      "loadStart": 4.42,
-      "loadEnd": 4.42,
-      "loadPeak": 4.42
-    },
     "check_hands.mjs": {
-      "ms": 55,
+      "ms": 54,
       "ok": true,
-      "loadStart": 4.42,
-      "loadEnd": 4.42,
-      "loadPeak": 4.42
+      "loadStart": 4.37,
+      "loadEnd": 4.37,
+      "loadPeak": 4.37
     },
     "check_variants.mjs": {
-      "ms": 1154,
+      "ms": 1018,
       "ok": true,
-      "loadStart": 4.42,
-      "loadEnd": 4.42,
-      "loadPeak": 4.42
+      "loadStart": 4.37,
+      "loadEnd": 4.37,
+      "loadPeak": 4.37
     },
     "check_incidents.mjs": {
-      "ms": 19561,
+      "ms": 17582,
       "ok": true,
-      "loadStart": 4.42,
-      "loadEnd": 4.47,
-      "loadPeak": 4.47
+      "loadStart": 4.37,
+      "loadEnd": 3.55,
+      "loadPeak": 4.37
     },
     "check_crew.mjs": {
-      "ms": 1287,
+      "ms": 1189,
       "ok": true,
-      "loadStart": 4.47,
-      "loadEnd": 4.47,
-      "loadPeak": 4.47
+      "loadStart": 3.55,
+      "loadEnd": 3.55,
+      "loadPeak": 3.55
     },
     "check_avatars.mjs": {
-      "ms": 1009,
+      "ms": 1018,
       "ok": true,
-      "loadStart": 4.47,
-      "loadEnd": 4.47,
-      "loadPeak": 4.47
+      "loadStart": 3.55,
+      "loadEnd": 3.55,
+      "loadPeak": 3.55
     },
     "check_devices.mjs": {
-      "ms": 50,
+      "ms": 56,
       "ok": true,
-      "loadStart": 4.47,
-      "loadEnd": 4.47,
-      "loadPeak": 4.47
+      "loadStart": 3.55,
+      "loadEnd": 3.55,
+      "loadPeak": 3.55
     },
     "check_input.mjs": {
-      "ms": 69,
+      "ms": 68,
       "ok": true,
-      "loadStart": 4.47,
-      "loadEnd": 4.47,
-      "loadPeak": 4.47
+      "loadStart": 3.55,
+      "loadEnd": 3.55,
+      "loadPeak": 3.55
     },
     "check_standards.mjs": {
-      "ms": 429,
+      "ms": 485,
       "ok": true,
-      "loadStart": 3.27,
-      "loadEnd": 3.27,
-      "loadPeak": 3.27
+      "loadStart": 4.84,
+      "loadEnd": 4.84,
+      "loadPeak": 4.84
     },
     "check_console.mjs": {
-      "ms": 120,
+      "ms": 121,
       "ok": true,
-      "loadStart": 4.47,
-      "loadEnd": 4.47,
-      "loadPeak": 4.47
+      "loadStart": 3.55,
+      "loadEnd": 3.55,
+      "loadPeak": 3.55
     },
     "check_competency.mjs": {
-      "ms": 194,
+      "ms": 130,
       "ok": true,
-      "loadStart": 4.47,
-      "loadEnd": 4.47,
-      "loadPeak": 4.47
+      "loadStart": 3.55,
+      "loadEnd": 3.55,
+      "loadPeak": 3.55
     },
     "check_models.mjs": {
-      "ms": 543,
+      "ms": 399,
       "ok": true,
-      "loadStart": 4.47,
-      "loadEnd": 4.43,
-      "loadPeak": 4.47
+      "loadStart": 3.55,
+      "loadEnd": 3.55,
+      "loadPeak": 3.55
     },
     "check_flowhub.mjs": {
-      "ms": 151,
+      "ms": 138,
       "ok": true,
-      "loadStart": 4.43,
-      "loadEnd": 4.43,
-      "loadPeak": 4.43
+      "loadStart": 3.55,
+      "loadEnd": 3.55,
+      "loadPeak": 3.55
     },
     "check_k12.mjs": {
-      "ms": 1670,
+      "ms": 1635,
       "ok": true,
-      "loadStart": 4.43,
-      "loadEnd": 4.43,
-      "loadPeak": 4.43
+      "loadStart": 3.55,
+      "loadEnd": 3.35,
+      "loadPeak": 3.55
     },
     "check_scholar.mjs": {
-      "ms": 1198,
+      "ms": 1111,
       "ok": true,
-      "loadStart": 4.43,
-      "loadEnd": 4.43,
-      "loadPeak": 4.43
+      "loadStart": 3.35,
+      "loadEnd": 3.35,
+      "loadPeak": 3.35
     },
     "check_home.mjs": {
-      "ms": 38119,
+      "ms": 35808,
       "ok": true,
-      "loadStart": 4.43,
-      "loadEnd": 4.76,
-      "loadPeak": 5.1
+      "loadStart": 3.35,
+      "loadEnd": 4.72,
+      "loadPeak": 4.72
     },
     "check_districts.mjs": {
-      "ms": 2309,
+      "ms": 2741,
       "ok": true,
-      "loadStart": 4.76,
-      "loadEnd": 4.76,
-      "loadPeak": 4.76
+      "loadStart": 4.72,
+      "loadEnd": 4.72,
+      "loadPeak": 4.72
     },
     "check_ladders.mjs": {
-      "ms": 2821,
+      "ms": 3271,
       "ok": true,
-      "loadStart": 4.76,
-      "loadEnd": 4.78,
-      "loadPeak": 4.78
+      "loadStart": 4.72,
+      "loadEnd": 5.06,
+      "loadPeak": 5.06
     },
     "check_tracks.mjs": {
-      "ms": 1088,
+      "ms": 1227,
       "ok": true,
-      "loadStart": 4.78,
-      "loadEnd": 4.78,
-      "loadPeak": 4.78
+      "loadStart": 5.06,
+      "loadEnd": 5.06,
+      "loadPeak": 5.06
     },
     "check_signage.mjs": {
-      "ms": 11007,
+      "ms": 11566,
       "ok": true,
-      "loadStart": 4.78,
-      "loadEnd": 5.12,
-      "loadPeak": 5.12
+      "loadStart": 5.06,
+      "loadEnd": 5.54,
+      "loadPeak": 5.58
     },
     "check_fleet.mjs": {
-      "ms": 559,
+      "ms": 512,
       "ok": true,
-      "loadStart": 5.12,
-      "loadEnd": 5.12,
-      "loadPeak": 5.12
+      "loadStart": 5.54,
+      "loadEnd": 5.54,
+      "loadPeak": 5.54
     },
     "check_race.mjs": {
-      "ms": 10287,
+      "ms": 8046,
       "ok": true,
-      "loadStart": 5.12,
-      "loadEnd": 5.41,
-      "loadPeak": 5.41
+      "loadStart": 5.54,
+      "loadEnd": 5.65,
+      "loadPeak": 5.65
     },
     "check_arcade.mjs": {
-      "ms": 318,
+      "ms": 294,
       "ok": true,
-      "loadStart": 5.41,
-      "loadEnd": 5.41,
-      "loadPeak": 5.41
+      "loadStart": 5.65,
+      "loadEnd": 5.65,
+      "loadPeak": 5.65
     },
     "check_eggs.mjs": {
-      "ms": 1757,
+      "ms": 1544,
       "ok": true,
-      "loadStart": 5.41,
-      "loadEnd": 5.13,
-      "loadPeak": 5.41
+      "loadStart": 5.65,
+      "loadEnd": 5.84,
+      "loadPeak": 5.84
     },
     "check_eggs_app.mjs": {
-      "ms": 250,
+      "ms": 245,
       "ok": true,
-      "loadStart": 5.13,
-      "loadEnd": 5.13,
-      "loadPeak": 5.13
+      "loadStart": 5.84,
+      "loadEnd": 5.84,
+      "loadPeak": 5.84
     },
     "check_treasures.mjs": {
-      "ms": 732,
+      "ms": 570,
       "ok": true,
-      "loadStart": 5.13,
-      "loadEnd": 5.13,
-      "loadPeak": 5.13
+      "loadStart": 5.84,
+      "loadEnd": 5.84,
+      "loadPeak": 5.84
     },
     "check_props.mjs": {
-      "ms": 215,
+      "ms": 180,
       "ok": true,
-      "loadStart": 5.13,
-      "loadEnd": 5.13,
-      "loadPeak": 5.13
+      "loadStart": 5.84,
+      "loadEnd": 5.84,
+      "loadPeak": 5.84
     },
     "check_textures.mjs": {
-      "ms": 665,
+      "ms": 518,
       "ok": true,
-      "loadStart": 5.13,
-      "loadEnd": 5.13,
-      "loadPeak": 5.13
+      "loadStart": 5.84,
+      "loadEnd": 5.84,
+      "loadPeak": 5.84
     },
     "check_fairway_game.mjs": {
       "ms": 184,
       "ok": true,
-      "loadStart": 5.13,
-      "loadEnd": 5.13,
-      "loadPeak": 5.13
+      "loadStart": 5.84,
+      "loadEnd": 5.84,
+      "loadPeak": 5.84
     },
     "check_fairway.mjs": {
-      "ms": 215,
+      "ms": 242,
       "ok": true,
-      "loadStart": 5.13,
-      "loadEnd": 5.13,
-      "loadPeak": 5.13
+      "loadStart": 5.84,
+      "loadEnd": 5.84,
+      "loadPeak": 5.84
     },
     "check_bayworld_game.mjs": {
-      "ms": 599,
+      "ms": 655,
       "ok": true,
-      "loadStart": 5.13,
-      "loadEnd": 5.13,
-      "loadPeak": 5.13
+      "loadStart": 5.84,
+      "loadEnd": 5.84,
+      "loadPeak": 5.84
     },
     "check_bay_quests.mjs": {
-      "ms": 393,
+      "ms": 377,
       "ok": true,
-      "loadStart": 5.13,
-      "loadEnd": 5.13,
-      "loadPeak": 5.13
+      "loadStart": 5.84,
+      "loadEnd": 5.84,
+      "loadPeak": 5.84
     },
     "check_bayworld.mjs": {
-      "ms": 483,
+      "ms": 590,
       "ok": true,
-      "loadStart": 5.13,
-      "loadEnd": 5.52,
-      "loadPeak": 5.52
+      "loadStart": 5.84,
+      "loadEnd": 5.84,
+      "loadPeak": 5.84
     },
     "check_mapbox.mjs": {
-      "ms": 26303,
+      "ms": 5704,
       "ok": true,
-      "loadStart": 5.52,
-      "loadEnd": 5.4,
-      "loadPeak": 5.76
+      "loadStart": 5.84,
+      "loadEnd": 5.17,
+      "loadPeak": 5.84
     },
     "check_gates.mjs": {
-      "ms": 405,
+      "ms": 272,
       "ok": true,
-      "loadStart": 5.4,
-      "loadEnd": 5.4,
-      "loadPeak": 5.4
+      "loadStart": 5.17,
+      "loadEnd": 5.17,
+      "loadPeak": 5.17
     },
     "check_parish_play.mjs": {
-      "ms": 318,
+      "ms": 215,
       "ok": true,
-      "loadStart": 5.4,
-      "loadEnd": 5.4,
-      "loadPeak": 5.4
+      "loadStart": 5.17,
+      "loadEnd": 5.17,
+      "loadPeak": 5.17
     },
     "check_playlayer.mjs": {
-      "ms": 365,
+      "ms": 187,
       "ok": true,
-      "loadStart": 5.4,
-      "loadEnd": 5.4,
-      "loadPeak": 5.4
+      "loadStart": 5.17,
+      "loadEnd": 5.17,
+      "loadPeak": 5.17
     },
     "check_tycoon.mjs": {
-      "ms": 563,
+      "ms": 326,
       "ok": true,
-      "loadStart": 5.4,
+      "loadStart": 5.17,
+      "loadEnd": 5.17,
+      "loadPeak": 5.17
+    },
+    "check_krewe.mjs": {
+      "ms": 7595,
+      "ok": true,
+      "loadStart": 5.17,
+      "loadEnd": 4.92,
+      "loadPeak": 5.17
+    },
+    "check_menagerie.mjs": {
+      "ms": 1505,
+      "ok": true,
+      "loadStart": 4.92,
+      "loadEnd": 4.6,
+      "loadPeak": 4.92
+    },
+    "check_storyline.mjs": {
+      "ms": 446,
+      "ok": true,
+      "loadStart": 4.6,
+      "loadEnd": 4.6,
+      "loadPeak": 4.6
+    },
+    "check_drills.mjs": {
+      "ms": 150,
+      "ok": true,
+      "loadStart": 4.6,
+      "loadEnd": 4.6,
+      "loadPeak": 4.6
+    },
+    "check_bayquest.mjs": {
+      "ms": 621,
+      "ok": true,
+      "loadStart": 4.6,
+      "loadEnd": 4.6,
+      "loadPeak": 4.6
+    },
+    "check_projectsim.mjs": {
+      "ms": 201,
+      "ok": true,
+      "loadStart": 4.6,
+      "loadEnd": 4.6,
+      "loadPeak": 4.6
+    },
+    "check_classrooms.mjs": {
+      "ms": 384,
+      "ok": true,
+      "loadStart": 4.6,
+      "loadEnd": 4.6,
+      "loadPeak": 4.6
+    },
+    "check_drivables.mjs": {
+      "ms": 342,
+      "ok": true,
+      "loadStart": 4.6,
+      "loadEnd": 4.6,
+      "loadPeak": 4.6
+    },
+    "check_newton.mjs": {
+      "ms": 1070,
+      "ok": true,
+      "loadStart": 4.6,
+      "loadEnd": 4.6,
+      "loadPeak": 4.6
+    },
+    "check_motorworks.mjs": {
+      "ms": 545,
+      "ok": true,
+      "loadStart": 4.6,
+      "loadEnd": 4.6,
+      "loadPeak": 4.6
+    },
+    "check_walkable.mjs": {
+      "ms": 36938,
+      "ok": true,
+      "loadStart": 4.6,
+      "loadEnd": 3.75,
+      "loadPeak": 4.63
+    },
+    "check_robotics.mjs": {
+      "ms": 2374,
+      "ok": true,
+      "loadStart": 3.75,
+      "loadEnd": 3.75,
+      "loadPeak": 3.75
+    },
+    "check_colearn.mjs": {
+      "ms": 10056,
+      "ok": true,
+      "loadStart": 3.75,
+      "loadEnd": 3.33,
+      "loadPeak": 3.75
+    },
+    "check_agentgym.mjs": {
+      "ms": 5245,
+      "ok": true,
+      "loadStart": 3.33,
+      "loadEnd": 3.46,
+      "loadPeak": 3.46
+    },
+    "check_silica.mjs": {
+      "ms": 1477,
+      "ok": true,
+      "loadStart": 3.33,
+      "loadEnd": 3.46,
+      "loadPeak": 3.46
+    },
+    "check_reactor.mjs": {
+      "ms": 19848,
+      "ok": true,
+      "loadStart": 3.33,
+      "loadEnd": 3.62,
+      "loadPeak": 3.82
+    },
+    "check_cleanports.mjs": {
+      "ms": 18139,
+      "ok": true,
+      "loadStart": 3.33,
+      "loadEnd": 3.62,
+      "loadPeak": 3.82
+    },
+    "check_unity_export.mjs": {
+      "ms": 7084,
+      "ok": true,
+      "loadStart": 3.46,
+      "loadEnd": 3.82,
+      "loadPeak": 3.82
+    },
+    "check_packs.mjs": {
+      "ms": 947,
+      "ok": true,
+      "loadStart": 3.46,
+      "loadEnd": 3.46,
+      "loadPeak": 3.46
+    },
+    "check_cognition.mjs": {
+      "ms": 1468,
+      "ok": true,
+      "loadStart": 3.46,
+      "loadEnd": 3.82,
+      "loadPeak": 3.82
+    },
+    "check_bayprogram.mjs": {
+      "ms": 3998,
+      "ok": true,
+      "loadStart": 3.62,
+      "loadEnd": 3.41,
+      "loadPeak": 3.62
+    },
+    "check_academy.mjs": {
+      "ms": 300,
+      "ok": true,
+      "loadStart": 3.41,
+      "loadEnd": 3.41,
+      "loadPeak": 3.41
+    },
+    "check_la_programme.mjs": {
+      "ms": 376,
+      "ok": true,
+      "loadStart": 3.41,
+      "loadEnd": 3.41,
+      "loadPeak": 3.41
+    },
+    "check_robotics_programme.mjs": {
+      "ms": 1496,
+      "ok": true,
+      "loadStart": 3.41,
+      "loadEnd": 3.41,
+      "loadPeak": 3.41
+    },
+    "check_robotrain.mjs": {
+      "ms": 3264,
+      "ok": true,
+      "loadStart": 3.41,
+      "loadEnd": 3.54,
+      "loadPeak": 3.54
+    },
+    "check_roboscenarios.mjs": {
+      "ms": 343,
+      "ok": true,
+      "loadStart": 3.41,
+      "loadEnd": 3.41,
+      "loadPeak": 3.41
+    },
+    "check_vbridge.mjs": {
+      "ms": 854,
+      "ok": true,
+      "loadStart": 3.41,
+      "loadEnd": 3.41,
+      "loadPeak": 3.41
+    },
+    "check_la_cohorts.mjs": {
+      "ms": 523,
+      "ok": true,
+      "loadStart": 3.41,
+      "loadEnd": 3.41,
+      "loadPeak": 3.41
+    },
+    "check_geo.mjs": {
+      "ms": 788,
+      "ok": true,
+      "loadStart": 3.41,
+      "loadEnd": 3.41,
+      "loadPeak": 3.41
+    },
+    "check_sky.mjs": {
+      "ms": 115,
+      "ok": true,
+      "loadStart": 3.41,
+      "loadEnd": 3.41,
+      "loadPeak": 3.41
+    },
+    "check_regatta.mjs": {
+      "ms": 1065,
+      "ok": true,
+      "loadStart": 3.41,
+      "loadEnd": 3.41,
+      "loadPeak": 3.41
+    },
+    "check_underwater.mjs": {
+      "ms": 383,
+      "ok": true,
+      "loadStart": 3.41,
+      "loadEnd": 3.41,
+      "loadPeak": 3.41
+    },
+    "check_underwater_game.mjs": {
+      "ms": 533,
+      "ok": true,
+      "loadStart": 3.41,
+      "loadEnd": 3.41,
+      "loadPeak": 3.41
+    },
+    "check_dive_quests.mjs": {
+      "ms": 147,
+      "ok": true,
+      "loadStart": 3.41,
+      "loadEnd": 3.41,
+      "loadPeak": 3.41
+    },
+    "check_redwood.mjs": {
+      "ms": 183,
+      "ok": true,
+      "loadStart": 3.41,
+      "loadEnd": 3.41,
+      "loadPeak": 3.41
+    },
+    "check_summit.mjs": {
+      "ms": 437,
+      "ok": true,
+      "loadStart": 3.41,
+      "loadEnd": 3.54,
+      "loadPeak": 3.54
+    },
+    "check_parishes.mjs": {
+      "ms": 37362,
+      "ok": true,
+      "loadStart": 3.41,
+      "loadEnd": 4.56,
+      "loadPeak": 4.56
+    },
+    "check_palette.mjs": {
+      "ms": 3509,
+      "ok": true,
+      "loadStart": 3.41,
+      "loadEnd": 3.54,
+      "loadPeak": 3.54
+    },
+    "check_landmarks.mjs": {
+      "ms": 33758,
+      "ok": true,
+      "loadStart": 4.56,
+      "loadEnd": 3.57,
+      "loadPeak": 5.16
+    },
+    "check_interiors.mjs": {
+      "ms": 329,
+      "ok": true,
+      "loadStart": 3.57,
+      "loadEnd": 3.57,
+      "loadPeak": 3.57
+    },
+    "check_la_rooms.mjs": {
+      "ms": 1093,
+      "ok": true,
+      "loadStart": 3.57,
+      "loadEnd": 3.57,
+      "loadPeak": 3.57
+    },
+    "check_parish_data.mjs": {
+      "ms": 169,
+      "ok": true,
+      "loadStart": 3.57,
+      "loadEnd": 3.57,
+      "loadPeak": 3.57
+    },
+    "check_smiles.mjs": {
+      "ms": 196,
+      "ok": true,
+      "loadStart": 3.57,
+      "loadEnd": 3.57,
+      "loadPeak": 3.57
+    },
+    "check_terraform.mjs": {
+      "ms": 50924,
+      "ok": true,
+      "loadStart": 3.57,
+      "loadEnd": 2.23,
+      "loadPeak": 3.57
+    },
+    "check_cityworks.mjs": {
+      "ms": 63486,
+      "ok": true,
+      "loadStart": 2.23,
+      "loadEnd": 5.45,
+      "loadPeak": 5.45
+    },
+    "check_atmos.mjs": {
+      "ms": 24126,
+      "ok": true,
+      "loadStart": 2.23,
+      "loadEnd": 3.81,
+      "loadPeak": 3.81
+    },
+    "check_facades.mjs": {
+      "ms": 7251,
+      "ok": true,
+      "loadStart": 2.23,
+      "loadEnd": 2.96,
+      "loadPeak": 2.96
+    },
+    "check_detail.mjs": {
+      "ms": 59509,
+      "ok": true,
+      "loadStart": 2.23,
       "loadEnd": 5.4,
       "loadPeak": 5.4
     },
-    "check_krewe.mjs": {
-      "ms": 9749,
-      "ok": true,
-      "loadStart": 5.4,
+    "check_interface.mjs": {
+      "ms": 62352,
+      "ok": false,
+      "loadStart": 2.96,
       "loadEnd": 5.41,
       "loadPeak": 5.45
     },
-    "check_menagerie.mjs": {
-      "ms": 2011,
+    "check_harvest.mjs": {
+      "ms": 1459,
       "ok": true,
       "loadStart": 5.41,
       "loadEnd": 5.41,
       "loadPeak": 5.41
     },
-    "check_storyline.mjs": {
-      "ms": 642,
+    "check_npc.mjs": {
+      "ms": 1294,
       "ok": true,
       "loadStart": 5.41,
-      "loadEnd": 5.22,
+      "loadEnd": 5.38,
       "loadPeak": 5.41
     },
-    "check_drills.mjs": {
-      "ms": 169,
-      "ok": true,
-      "loadStart": 5.22,
-      "loadEnd": 5.22,
-      "loadPeak": 5.22
-    },
-    "check_bayquest.mjs": {
-      "ms": 1028,
-      "ok": true,
-      "loadStart": 5.22,
-      "loadEnd": 5.22,
-      "loadPeak": 5.22
-    },
-    "check_projectsim.mjs": {
-      "ms": 248,
-      "ok": true,
-      "loadStart": 5.22,
-      "loadEnd": 5.22,
-      "loadPeak": 5.22
-    },
-    "check_classrooms.mjs": {
-      "ms": 446,
-      "ok": true,
-      "loadStart": 5.22,
-      "loadEnd": 5.22,
-      "loadPeak": 5.22
-    },
-    "check_drivables.mjs": {
-      "ms": 494,
-      "ok": true,
-      "loadStart": 5.22,
-      "loadEnd": 5.22,
-      "loadPeak": 5.22
-    },
-    "check_newton.mjs": {
-      "ms": 1751,
-      "ok": true,
-      "loadStart": 5.22,
-      "loadEnd": 5.22,
-      "loadPeak": 5.22
-    },
-    "check_motorworks.mjs": {
-      "ms": 1058,
-      "ok": true,
-      "loadStart": 5.22,
-      "loadEnd": 5.52,
-      "loadPeak": 5.52
-    },
-    "check_walkable.mjs": {
-      "ms": 47969,
-      "ok": true,
-      "loadStart": 5.52,
-      "loadEnd": 7.52,
-      "loadPeak": 7.57
-    },
-    "check_robotics.mjs": {
-      "ms": 2638,
-      "ok": true,
-      "loadStart": 7.52,
-      "loadEnd": 7.4,
-      "loadPeak": 7.52
-    },
-    "check_colearn.mjs": {
-      "ms": 11914,
-      "ok": true,
-      "loadStart": 7.4,
-      "loadEnd": 6.89,
-      "loadPeak": 7.4
-    },
-    "check_agentgym.mjs": {
-      "ms": 4074,
-      "ok": true,
-      "loadStart": 6.89,
-      "loadEnd": 6.42,
-      "loadPeak": 6.89
-    },
-    "check_silica.mjs": {
-      "ms": 1172,
-      "ok": true,
-      "loadStart": 6.42,
-      "loadEnd": 6.42,
-      "loadPeak": 6.42
-    },
-    "check_reactor.mjs": {
-      "ms": 16564,
-      "ok": true,
-      "loadStart": 6.42,
-      "loadEnd": 5.37,
-      "loadPeak": 6.42
-    },
-    "check_cleanports.mjs": {
-      "ms": 13080,
-      "ok": true,
-      "loadStart": 5.37,
-      "loadEnd": 4.4,
-      "loadPeak": 5.37
-    },
-    "check_unity_export.mjs": {
-      "ms": 5580,
-      "ok": true,
-      "loadStart": 4.4,
-      "loadEnd": 4.13,
-      "loadPeak": 4.4
-    },
-    "check_packs.mjs": {
-      "ms": 825,
-      "ok": true,
-      "loadStart": 4.13,
-      "loadEnd": 4.13,
-      "loadPeak": 4.13
-    },
-    "check_cognition.mjs": {
-      "ms": 1239,
-      "ok": true,
-      "loadStart": 4.13,
-      "loadEnd": 3.88,
-      "loadPeak": 4.13
-    },
-    "check_bayprogram.mjs": {
-      "ms": 4533,
-      "ok": true,
-      "loadStart": 3.88,
-      "loadEnd": 3.64,
-      "loadPeak": 3.88
-    },
-    "check_academy.mjs": {
-      "ms": 559,
-      "ok": true,
-      "loadStart": 3.64,
-      "loadEnd": 3.64,
-      "loadPeak": 3.64
-    },
-    "check_la_programme.mjs": {
-      "ms": 563,
-      "ok": true,
-      "loadStart": 3.64,
-      "loadEnd": 3.64,
-      "loadPeak": 3.64
-    },
-    "check_robotics_programme.mjs": {
-      "ms": 1264,
-      "ok": true,
-      "loadStart": 3.64,
-      "loadEnd": 3.64,
-      "loadPeak": 3.64
-    },
-    "check_robotrain.mjs": {
-      "ms": 2535,
-      "ok": true,
-      "loadStart": 3.64,
-      "loadEnd": 3.64,
-      "loadPeak": 3.64
-    },
-    "check_vbridge.mjs": {
-      "ms": 621,
-      "ok": true,
-      "loadStart": 3.64,
-      "loadEnd": 3.43,
-      "loadPeak": 3.64
-    },
-    "check_la_cohorts.mjs": {
-      "ms": 461,
-      "ok": true,
-      "loadStart": 3.43,
-      "loadEnd": 3.43,
-      "loadPeak": 3.43
-    },
-    "check_geo.mjs": {
-      "ms": 1181,
-      "ok": true,
-      "loadStart": 3.43,
-      "loadEnd": 3.43,
-      "loadPeak": 3.43
-    },
-    "check_sky.mjs": {
-      "ms": 160,
-      "ok": true,
-      "loadStart": 3.43,
-      "loadEnd": 3.43,
-      "loadPeak": 3.43
-    },
-    "check_regatta.mjs": {
-      "ms": 1233,
-      "ok": true,
-      "loadStart": 3.43,
-      "loadEnd": 3.43,
-      "loadPeak": 3.43
-    },
-    "check_underwater.mjs": {
-      "ms": 695,
-      "ok": true,
-      "loadStart": 3.43,
-      "loadEnd": 3.43,
-      "loadPeak": 3.43
-    },
-    "check_underwater_game.mjs": {
-      "ms": 480,
-      "ok": true,
-      "loadStart": 3.43,
-      "loadEnd": 3.43,
-      "loadPeak": 3.43
-    },
-    "check_dive_quests.mjs": {
-      "ms": 162,
-      "ok": true,
-      "loadStart": 3.43,
-      "loadEnd": 3.43,
-      "loadPeak": 3.43
-    },
-    "check_redwood.mjs": {
-      "ms": 259,
-      "ok": true,
-      "loadStart": 3.43,
-      "loadEnd": 3.43,
-      "loadPeak": 3.43
-    },
-    "check_summit.mjs": {
-      "ms": 673,
-      "ok": true,
-      "loadStart": 3.43,
-      "loadEnd": 3.43,
-      "loadPeak": 3.43
-    },
-    "check_parishes.mjs": {
-      "ms": 36392,
-      "ok": true,
-      "loadStart": 3.43,
-      "loadEnd": 3.08,
-      "loadPeak": 3.56
-    },
-    "check_palette.mjs": {
-      "ms": 6068,
-      "ok": true,
-      "loadStart": 3.43,
-      "loadEnd": 3.56,
-      "loadPeak": 3.56
-    },
-    "check_landmarks.mjs": {
-      "ms": 36676,
-      "ok": true,
-      "loadStart": 3.43,
-      "loadEnd": 3.08,
-      "loadPeak": 3.56
-    },
-    "check_interiors.mjs": {
-      "ms": 863,
-      "ok": true,
-      "loadStart": 3.43,
-      "loadEnd": 3.43,
-      "loadPeak": 3.43
-    },
-    "check_la_rooms.mjs": {
-      "ms": 1716,
-      "ok": true,
-      "loadStart": 3.43,
-      "loadEnd": 3.43,
-      "loadPeak": 3.43
-    },
-    "check_parish_data.mjs": {
-      "ms": 275,
-      "ok": true,
-      "loadStart": 3.43,
-      "loadEnd": 3.56,
-      "loadPeak": 3.56
-    },
-    "check_smiles.mjs": {
-      "ms": 236,
-      "ok": true,
-      "loadStart": 3.08,
-      "loadEnd": 3.08,
-      "loadPeak": 3.08
-    },
-    "check_terraform.mjs": {
-      "ms": 59931,
-      "ok": true,
-      "loadStart": 3.08,
-      "loadEnd": 3.55,
-      "loadPeak": 3.77
-    },
-    "check_cityworks.mjs": {
-      "ms": 54488,
-      "ok": true,
-      "loadStart": 3.08,
-      "loadEnd": 3.33,
-      "loadPeak": 3.77
-    },
-    "check_atmos.mjs": {
-      "ms": 21214,
-      "ok": true,
-      "loadStart": 3.08,
-      "loadEnd": 3.55,
-      "loadPeak": 3.74
-    },
-    "check_facades.mjs": {
-      "ms": 9599,
-      "ok": true,
-      "loadStart": 3.08,
-      "loadEnd": 3.74,
-      "loadPeak": 3.74
-    },
-    "check_detail.mjs": {
-      "ms": 47443,
-      "ok": true,
-      "loadStart": 3.33,
-      "loadEnd": 4.21,
-      "loadPeak": 4.33
-    },
-    "check_interface.mjs": {
-      "ms": 55089,
-      "ok": true,
-      "loadStart": 3.33,
-      "loadEnd": 4.4,
-      "loadPeak": 4.43
-    },
-    "check_harvest.mjs": {
-      "ms": 2391,
-      "ok": true,
-      "loadStart": 3.33,
-      "loadEnd": 3.33,
-      "loadPeak": 3.33
-    },
-    "check_npc.mjs": {
-      "ms": 2066,
-      "ok": true,
-      "loadStart": 3.33,
-      "loadEnd": 3.55,
-      "loadPeak": 3.55
-    },
     "check_investor.mjs": {
-      "ms": 977,
-      "ok": false,
-      "loadStart": 4.4,
-      "loadEnd": 4.4,
-      "loadPeak": 4.4
+      "ms": 957,
+      "ok": true,
+      "loadStart": 5.38,
+      "loadEnd": 5.38,
+      "loadPeak": 5.38
     },
     "check_mobile.mjs": {
-      "ms": 210305,
+      "ms": 197970,
       "ok": true,
-      "loadStart": 4.4,
-      "loadEnd": 4.58,
-      "loadPeak": 4.58
+      "loadStart": 5.38,
+      "loadEnd": 3.97,
+      "loadPeak": 5.38
     },
     "check_interop.mjs": {
-      "ms": 268,
+      "ms": 306,
       "ok": true,
-      "loadStart": 3.27,
-      "loadEnd": 3.27,
-      "loadPeak": 3.27
+      "loadStart": 4.84,
+      "loadEnd": 4.84,
+      "loadPeak": 4.84
     },
     "check_ui.mjs": {
-      "ms": 219558,
+      "ms": 223979,
       "ok": true,
-      "loadStart": 4.58,
-      "loadEnd": 3.31,
-      "loadPeak": 4.58
+      "loadStart": 3.97,
+      "loadEnd": 3.15,
+      "loadPeak": 4.17
     },
     "check_guide.mjs": {
-      "ms": 45785,
+      "ms": 48633,
       "ok": true,
-      "loadStart": 3.31,
-      "loadEnd": 2.73,
-      "loadPeak": 3.31
+      "loadStart": 3.15,
+      "loadEnd": 2.78,
+      "loadPeak": 3.15
     },
     "check_links.mjs": {
-      "ms": 409805,
+      "ms": 421474,
       "ok": true,
-      "loadStart": 2.73,
-      "loadEnd": 3.4,
-      "loadPeak": 3.76
+      "loadStart": 2.78,
+      "loadEnd": 4.88,
+      "loadPeak": 5.22
     },
     "check_treasures_live.mjs": {
-      "ms": 31594,
+      "ms": 33074,
       "ok": true,
-      "loadStart": 3.4,
-      "loadEnd": 4.2,
-      "loadPeak": 4.22
+      "loadStart": 4.88,
+      "loadEnd": 4.97,
+      "loadPeak": 5.07
     },
     "check_auth.mjs": {
-      "ms": 1410,
+      "ms": 945,
       "ok": true,
-      "loadStart": 3.4,
-      "loadEnd": 3.4,
-      "loadPeak": 3.4
+      "loadStart": 4.97,
+      "loadEnd": 4.97,
+      "loadPeak": 4.97
     },
     "check_enterprise.mjs": {
-      "ms": 7462,
+      "ms": 6036,
       "ok": true,
-      "loadStart": 3.4,
-      "loadEnd": 3.7,
-      "loadPeak": 3.85
+      "loadStart": 4.97,
+      "loadEnd": 5.05,
+      "loadPeak": 5.05
     },
     "check_dean.mjs": {
-      "ms": 411,
+      "ms": 340,
       "ok": true,
-      "loadStart": 3.4,
-      "loadEnd": 3.4,
-      "loadPeak": 3.4
+      "loadStart": 5.05,
+      "loadEnd": 5.05,
+      "loadPeak": 5.05
     },
     "check_bridge.mjs": {
-      "ms": 1662,
+      "ms": 971,
       "ok": true,
-      "loadStart": 3.4,
-      "loadEnd": 3.85,
-      "loadPeak": 3.85
+      "loadStart": 5.05,
+      "loadEnd": 5.05,
+      "loadPeak": 5.05
     },
     "check_payments.mjs": {
-      "ms": 1655,
+      "ms": 1478,
       "ok": true,
-      "loadStart": 3.4,
-      "loadEnd": 3.85,
-      "loadPeak": 3.85
+      "loadStart": 5.05,
+      "loadEnd": 4.72,
+      "loadPeak": 5.05
     },
     "check_enterprise3.mjs": {
-      "ms": 227,
+      "ms": 230,
       "ok": true,
-      "loadStart": 4.2,
-      "loadEnd": 3.94,
-      "loadPeak": 4.2
+      "loadStart": 4.72,
+      "loadEnd": 4.72,
+      "loadPeak": 4.72
     },
     "check_i18n.mjs": {
-      "ms": 20298,
+      "ms": 19722,
       "ok": true,
-      "loadStart": 3.94,
-      "loadEnd": 3.84,
-      "loadPeak": 4.35
+      "loadStart": 4.72,
+      "loadEnd": 4.59,
+      "loadPeak": 5.25
     },
     "check_seo.mjs": {
-      "ms": 67692,
+      "ms": 67716,
       "ok": true,
-      "loadStart": 3.84,
-      "loadEnd": 3.4,
-      "loadPeak": 3.84
+      "loadStart": 4.59,
+      "loadEnd": 3.43,
+      "loadPeak": 4.63
     },
     "check_design.mjs": {
-      "ms": 1188,
+      "ms": 1379,
       "ok": true,
-      "loadStart": 3.4,
-      "loadEnd": 3.4,
-      "loadPeak": 3.4
+      "loadStart": 3.43,
+      "loadEnd": 3.43,
+      "loadPeak": 3.43
     },
     "check_worlds_detail.mjs": {
-      "ms": 985,
+      "ms": 742,
       "ok": true,
-      "loadStart": 3.4,
-      "loadEnd": 3.4,
-      "loadPeak": 3.4
+      "loadStart": 3.43,
+      "loadEnd": 3.43,
+      "loadPeak": 3.43
     },
     "check_deploy.mjs": {
-      "ms": 3561,
+      "ms": 2090,
       "ok": true,
-      "loadStart": 3.4,
-      "loadEnd": 3.21,
-      "loadPeak": 3.4
+      "loadStart": 3.43,
+      "loadEnd": 3.23,
+      "loadPeak": 3.43
     },
     "check_proving.mjs": {
-      "ms": 167,
+      "ms": 161,
       "ok": true,
-      "loadStart": 3.4,
-      "loadEnd": 3.4,
-      "loadPeak": 3.4
+      "loadStart": 3.43,
+      "loadEnd": 3.43,
+      "loadPeak": 3.43
     }
   }
 }

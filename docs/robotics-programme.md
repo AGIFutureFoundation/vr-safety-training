@@ -415,7 +415,7 @@ Kinds of work: autonomous mobile robots in aisles and yards, charging, mixed tra
 
 ### Construction robotics (drilling, layout, demolition)
 
-Kinds of work: ceiling-drilling and layout robots, remote demolition machines, survey drones on a live site. Standards named: ISO 10218-2, OSHA 29 CFR 1910.147. Gym scenario: `rb-cobot-zone-setup`.
+Kinds of work: ceiling-drilling and layout robots, remote demolition machines, survey drones on a live site. Standards named: ISO 10218-2, OSHA 29 CFR 1910.147. Gym scenario: `rb-construction-drilling`.
 
 #### `mod-rp-construction-robotics-aware` — Awareness / K-12
 
