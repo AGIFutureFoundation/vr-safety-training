@@ -30940,5 +30940,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "rt-speed-separation-monitoring-setup",
+    "index": "rt-4",
+    "domain": "Robotics",
+    "trade": "Robot integrator, area-scanner fields for a shared cobot cell — UAW/IAM",
+    "category": "Manufacturing & Automation",
+    "certification": "UAW and IAM skilled-trades training as bodies; ISO/TS 15066 for collaborative robot applications (speed and separation monitoring) and ISO 10218 with ANSI R15.06 for the robot system and its integration; OSHA 29 CFR 1910.212 general requirements for machines and 29 CFR 1910.132 personal protective equipment; the cell's written risk assessment, the scanner manufacturer's manual and the robot manufacturer's manual",
+    "name": "Setting Up Speed-and-Separation Monitoring",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "robotics-training-centre",
+    "title": "SmartCiti.X~ Setting Up Speed-and-Separation Monitoring VR",
+    "tagline": "Configuring the area scanner around a shared cobot cell: the arm's reach marked on the floor, the protective field sized from the stopping distance the risk assessment worked out, the warning field outside it, the scanner's blind spot found behind a cabinet, muting confirmed off, every field walked with a test piece, the stop measured, and the configuration committed under its checksum",
+    "accent": 10190816,
+    "accentCss": "#9b7fe0",
+    "parSeconds": 340,
+    "badge": {
+      "id": "measured-distance",
+      "name": "Measured Distance",
+      "note": "Sized the fields from the stopping distance, found the shadow and walked every field before committing"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Measured Distance",
+      "currency": "SP",
+      "ranks": [
+        "Observer",
+        "Field Setter",
+        "Field Walker",
+        "Integrator",
+        "Measured Distance Lead"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
