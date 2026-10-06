@@ -30898,5 +30898,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "rt-robot-estop-recovery-and-restart",
+    "index": "rt-3",
+    "domain": "Robotics",
+    "trade": "Robot operator, recovering a fenced cell after an emergency stop — UAW/IAM",
+    "category": "Manufacturing & Automation",
+    "certification": "UAW and IAM skilled-trades training as bodies; ANSI R15.06 and ISO 10218 for industrial robot systems, including restart from outside the safeguarded space; OSHA 29 CFR 1910.147 the control of hazardous energy for the entry to clear the cell, 29 CFR 1910.212 general requirements for machines and 29 CFR 1910.132 personal protective equipment; the cell's written risk assessment, its restart procedure and the manufacturer's manual",
+    "name": "Bringing a Robot Back After an E-stop",
+    "weather": "clear",
+    "indoor": null,
+    "district": "robotics-factory",
+    "title": "SmartCiti.X~ Bringing a Robot Back After an E-stop VR",
+    "tagline": "Recovering a stopped robot cell without making it a second incident: the reason found before anything is reset, every person near the cell accounted for, the obstruction cleared under your own lock, the e-stop and the safety circuit reset from outside, the first cycle at reduced speed with a hand on the stop, and the event written down",
+    "accent": 14705482,
+    "accentCss": "#e0634a",
+    "parSeconds": 350,
+    "badge": {
+      "id": "reason-first",
+      "name": "Reason First",
+      "note": "Found why the cell stopped and who was near it before touching a reset"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Reason First",
+      "currency": "RP",
+      "ranks": [
+        "Bystander",
+        "Reporter",
+        "Recoverer",
+        "Restart Lead",
+        "Reason First"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
