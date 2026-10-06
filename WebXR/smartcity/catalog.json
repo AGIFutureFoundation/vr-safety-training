@@ -1,7 +1,7 @@
 {
   "protocol": 2,
   "network": "SmartCiti.X ~VR Simulators (Powered by AGI Corp & Visko)",
-  "generatedAt": "2026-09-29",
+  "generatedAt": "2026-10-06",
   "apps": {
     "smartcity": {
       "entry": "smartcity/index.html",
@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 721
+      "stations": 722
     },
     "trades": {
       "entry": "trades/index.html",
@@ -242,6 +242,7 @@
         "conveyor-guard",
         "forklift-dock",
         "cnc-cell",
+        "rp-teleop-demonstration-collection",
         "ml-suspicious-package-protocol",
         "sm-kitchen-exhaust-and-fire-wrap",
         "sm-air-balancing-and-testing",
@@ -10264,6 +10265,83 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "rp-teleop-demonstration-collection",
+      "name": "Collecting a Robot Demonstration Safely",
+      "title": "SmartCiti.X~ Collecting a Robot Demonstration Safely VR",
+      "tagline": "Recording teleoperation demonstrations a robot will learn from: your own consent given and readable, the cell's risk assessment and reduced-speed mode checked, the scanner proven, nobody else in the camera's frame, the gripper driven inside its force band, every failed attempt labelled as failed, and the data kept on this device where revoking deletes it",
+      "category": "Manufacturing & Automation",
+      "domain": "Robotics",
+      "trade": "AI-training specialist, teleoperation demonstrations on a cobot bench — UAW/IAM",
+      "union": null,
+      "certification": "UAW and IAM skilled-trades training as bodies; ANSI R15.06 and ISO 10218 industrial robot safety, with ISO/TS 15066 named for collaborative operation; OSHA 29 CFR 1910.212 general requirements for machines, 29 CFR 1910.147 the control of hazardous energy and 29 CFR 1910.132 personal protective equipment; the bench's written risk assessment, the manufacturer's manual and the platform's own consent rules for training data",
+      "accent": "#8fd17a",
+      "parSeconds": 330,
+      "weather": "overcast",
+      "indoor": null,
+      "district": "robotics-training-centre",
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "gauge",
+        "hold",
+        "find",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "clean-demo",
+        "name": "Clean Demo",
+        "note": "Gave consent knowingly, drove the cobot inside its safeguards, kept bystanders out of frame and labelled every attempt honestly"
+      },
+      "meshes": 188,
+      "lights": 0,
+      "overBudget": false,
+      "index": "rp-1",
+      "flat": false,
+      "system": "Clean Demo",
+      "currency": "EP",
+      "ranks": [
+        "Observer",
+        "Consented",
+        "Demonstrator",
+        "Data Steward",
+        "Clean Demo Lead"
+      ],
+      "awards": [
+        {
+          "id": "consent-first",
+          "name": "Consent First",
+          "note": "Read the consent screen before the first recording"
+        },
+        {
+          "id": "honest-label",
+          "name": "Honest Label",
+          "note": "Labelled the failed attempt as failed"
+        },
+        {
+          "id": "steady-hand",
+          "name": "Steady Hand",
+          "note": "Held the grip force near band centre"
+        },
+        {
+          "id": "quick-session",
+          "name": "Inside Par",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "clean-session",
+          "name": "Clean Session",
+          "note": "Clean run, no corrections"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=rp-teleop-demonstration-collection"
     },
     {
       "app": "smartcity",
@@ -37394,7 +37472,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 269,
+      "meshes": 257,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -38054,7 +38132,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 272,
+      "meshes": 267,
       "lights": 0,
       "overBudget": false,
       "index": "100",

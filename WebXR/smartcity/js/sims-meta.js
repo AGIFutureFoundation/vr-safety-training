@@ -30562,5 +30562,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "rp-teleop-demonstration-collection",
+    "index": "rp-1",
+    "domain": "Robotics",
+    "trade": "AI-training specialist, teleoperation demonstrations on a cobot bench — UAW/IAM",
+    "category": "Manufacturing & Automation",
+    "certification": "UAW and IAM skilled-trades training as bodies; ANSI R15.06 and ISO 10218 industrial robot safety, with ISO/TS 15066 named for collaborative operation; OSHA 29 CFR 1910.212 general requirements for machines, 29 CFR 1910.147 the control of hazardous energy and 29 CFR 1910.132 personal protective equipment; the bench's written risk assessment, the manufacturer's manual and the platform's own consent rules for training data",
+    "name": "Collecting a Robot Demonstration Safely",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "robotics-training-centre",
+    "title": "SmartCiti.X~ Collecting a Robot Demonstration Safely VR",
+    "tagline": "Recording teleoperation demonstrations a robot will learn from: your own consent given and readable, the cell's risk assessment and reduced-speed mode checked, the scanner proven, nobody else in the camera's frame, the gripper driven inside its force band, every failed attempt labelled as failed, and the data kept on this device where revoking deletes it",
+    "accent": 9425274,
+    "accentCss": "#8fd17a",
+    "parSeconds": 330,
+    "badge": {
+      "id": "clean-demo",
+      "name": "Clean Demo",
+      "note": "Gave consent knowingly, drove the cobot inside its safeguards, kept bystanders out of frame and labelled every attempt honestly"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Clean Demo",
+      "currency": "EP",
+      "ranks": [
+        "Observer",
+        "Consented",
+        "Demonstrator",
+        "Data Steward",
+        "Clean Demo Lead"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
