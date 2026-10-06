@@ -13,7 +13,7 @@
 import { writeFileSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
-import { COL_SCENARIOS, COL_VERSION, colEvalScenario, colTutorSim } from "../WebXR/shared/col-learn.js";
+import { COL_SCENARIOS, COL_VARIANTS, COL_VERSION, colEvalScenario, colTutorSim } from "../WebXR/shared/col-learn.js";
 import { RB_SCENARIOS } from "../WebXR/shared/rb-robotics-data.js";
 import { loadSmartCity } from "./lib/headless.mjs";
 
@@ -40,11 +40,19 @@ export async function colEvalAll() {
     const u = colEvalScenario(sc, { onlySuccessful: false });
     return { scenario: sc, demosOffered: f.demosOffered, demosKept: f.demos, rows: f.rows, random: f.random, expert: f.expert, bcFiltered: f.bc, bcUnfiltered: u.bc, bcFilteredShield: f.bcShield, gapToExpert: f.gapToExpert, modelHash: f.modelHash };
   });
+  // ROBOTRAIN-4: the harder variants (rbEnv("<scenario>#hard")), measured the same way; the gap to the expert is the result, whatever it is.
+  const variants = COL_VARIANTS.map(({ scenario, variant }) => {
+    const id = `${scenario}#${variant}`;
+    const f = colEvalScenario(id, { onlySuccessful: true });
+    const u = colEvalScenario(id, { onlySuccessful: false });
+    return { scenario, variant, id, demosOffered: f.demosOffered, demosKept: f.demos, rows: f.rows, random: f.random, expert: f.expert, bcFiltered: f.bc, bcUnfiltered: u.bc, gapToExpert: f.gapToExpert, modelHash: f.modelHash };
+  });
   return {
     eval: "COLEARN co-learning", version: COL_VERSION, generator: "tools/col_eval.mjs",
     learners: { robot: "behaviour cloning, k-nearest neighbours (k=5) over hand-written features", tutor: "UCB1 bandit over hint styles + per-step error table", explanations: "heuristic feature attribution, fixed phrases, no model call", shield: "reservation rule (AMR only), not learnt" },
     data: "synthetic demonstrations (scripted expert at skill 0.85 with action noise), labelled synthetic; held-out seeds 7001-7060",
     policies,
+    variants,
     stations: await colEvalStations(),
     tutor: { mixed: colTutorSim({ learners: 300 }), tellBest: colTutorSim({ learners: 300, population: "tell-best" }), note: "simulated learners from colTutorSim's own response model; not measurements of people" },
   };

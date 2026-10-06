@@ -164,11 +164,16 @@ export const COL_FEATURES = {
 };
 
 /** The feature table for a scenario: its own, or the shared station table for an rb-station-* wrapper. */
-export function colF(sc) { return COL_FEATURES[sc] ?? (String(sc).startsWith("rb-station-") ? COL_FEATURES.station : null); }
+/** ROBOTRAIN-4: a scenario id without its variant suffix ("rb-port-gantry#hard" → "rb-port-gantry"); a variant shares its base's features, labels and random policy. */
+export const colBase = (sc) => String(sc).split("#")[0];
+/** The harder variants measured beside the base scenarios (rbEnv(`${scenario}#${variant}`)). */
+export const COL_VARIANTS = [{ scenario: "rb-construction-drilling", variant: "hard" }, { scenario: "rb-port-gantry", variant: "hard" }];
+export function colF(sc) { const b = colBase(sc); return COL_FEATURES[b] ?? (String(b).startsWith("rb-station-") ? COL_FEATURES.station : null); }
 const colIsStation = (sc) => String(sc).startsWith("rb-station-");
 
 /** The feature rows and labels of one demonstration step. */
-function colRows(sc, obs, action) {
+function colRows(sc0, obs, action) {
+  const sc = colBase(sc0);
   const F = colF(sc);
   if (sc === "rb-amr-fleet-routing") {
     if (action.type !== "route") return [];
@@ -199,7 +204,8 @@ function colRows(sc, obs, action) {
 }
 
 /** A label plus the neighbours' parameters back to an env action. */
-function colAction(sc, label, ps, obs) {
+function colAction(sc0, label, ps, obs) {
+  const sc = colBase(sc0);
   const mean = (k) => (ps.length ? ps.reduce((n, p) => n + (p?.[k] ?? 0), 0) / ps.length : 0);
   if (colIsStation(sc)) {
     const [type, idRaw] = label.split(":");
@@ -230,7 +236,8 @@ function colAction(sc, label, ps, obs) {
 // ================================================================ demonstrations
 
 /** Action noise for synthetic "human" demonstrations: a small wobble on moves and, rarely, a wasted wait. */
-function colNoisy(sc, a, R, noise) {
+function colNoisy(sc0, a, R, noise) {
+  const sc = colBase(sc0);
   if (R() < noise * 0.25) return { type: "wait" };
   if (sc === "rb-teleop-pick-place" && a.type === "move") { const j = () => (R() - 0.5) * noise * 0.04; return { ...a, dx: colR3(a.dx + j()), dy: colR3(a.dy + j()), dz: colR3(a.dz + j()) }; }
   if (sc === "rb-cell-entry" && a.type === "walk") return { ...a, d: colR3(colClip(a.d - R() * noise * 0.5, 0.3, 1)) };
@@ -303,7 +310,7 @@ export function colTrain(sc, demos, { k = 5, seed = 1, onlySuccessful = true, ma
   const used = demos.filter((d) => !onlySuccessful || (d.success && d.clean));
   let rows = [];
   for (const d of used) for (const s of d.steps) rows.push(...colRows(sc, s.observation, s.action));
-  rows = rows.filter((r) => r.label !== "wait" || sc === "rb-amr-fleet-routing" || colIsStation(sc));
+  rows = rows.filter((r) => r.label !== "wait" || colBase(sc) === "rb-amr-fleet-routing" || colIsStation(sc));
   const R = rng(seed * 7 + 3);
   for (let i = rows.length - 1; i > 0; i--) { const j = Math.floor(R() * (i + 1)); [rows[i], rows[j]] = [rows[j], rows[i]]; }
   if (rows.length > maxPoints) rows = rows.slice(0, maxPoints);
@@ -339,11 +346,11 @@ function colVote(nb) {
  * on top of the cloned moves: robots claim cells in id order and a robot whose next cell (or swap) is
  * already claimed waits. It is a rule, not learning, and the eval reports BC with and without it. */
 export function colPolicy(model, { shield = false } = {}) {
-  const sc = model.scenario;
+  const sc = colBase(model.scenario);
   return (obs) => {
     if (!model.rows.length) return { type: "wait" };
     if (sc === "rb-amr-fleet-routing") {
-      const moves = COL_FEATURES[sc].perRobot(obs).map((r) => (r.delivered ? "wait" : colVote(colNeighbours(model, r.f)).label));
+      const moves = colF(sc).perRobot(obs).map((r) => (r.delivered ? "wait" : colVote(colNeighbours(model, r.f)).label));
       if (shield) {
         const claim = new Set(), key = (p) => p.join(","), moving = new Map();
         obs.robots.forEach((r, i) => { if (r.delivered || moves[i] === "wait") claim.add(key(r.at)); });
@@ -363,8 +370,8 @@ export function colPolicy(model, { shield = false } = {}) {
 }
 
 /** A seeded random policy over a scenario's action space: the floor any learner must beat. */
-export function colRandomPolicy(sc, seed = 1, { ids = [] } = {}) {
-  const R = rng(seed * 9973 + 5), pick = (a) => a[Math.floor(R() * a.length)];
+export function colRandomPolicy(sc0, seed = 1, { ids = [] } = {}) {
+  const sc = colBase(sc0), R = rng(seed * 9973 + 5), pick = (a) => a[Math.floor(R() * a.length)];
   return (o) => {
     if (colIsStation(sc)) { const t = pick(["select", "select", "press", "release", "wait", "commit", "drop"]); const id = pick(ids.length ? ids : ["none"]); return t === "commit" ? { type: t, id, at: colR3(R()) } : t === "drop" ? { type: t, id, distance: colR3(R()) } : t === "wait" || t === "release" ? { type: t } : { type: t, id }; }
     if (sc === "rb-cell-entry") { const t = pick(["walk", "walk", "test-estop", "press-estop", "lockout", "verify", "enter", "clear-jam", "exit", "remove-lock", "restart", "wait"]); return t === "walk" ? { type: "walk", d: colR3(R() * 2 - 0.5) } : { type: t }; }
@@ -418,7 +425,7 @@ export function colEvalScenario(sc, { demos = 40, seed = 1, heldOut = 60, onlySu
   const random = colEvalPolicy(sc, (s) => colRandomPolicy(sc, s, { ids }), { seeds, station });
   // The expert needs the env it acts in (a station's RobotAgent reads the live session), so it is built inside the rollout.
   const expert = colEvalExpert(sc, seeds, station);
-  const bcShield = sc === "rb-amr-fleet-routing" ? colEvalPolicy(sc, () => colPolicy(model, { shield: true }), { seeds }) : null;
+  const bcShield = colBase(sc) === "rb-amr-fleet-routing" ? colEvalPolicy(sc, () => colPolicy(model, { shield: true }), { seeds }) : null;
   return { scenario: sc, demos: model.demos, demosOffered: ds.length, rows: model.rows.length, bc, bcShield, random, expert, gapToExpert: colR3(expert.success - bc.success), modelHash: colHash(model) };
 }
 
@@ -442,7 +449,7 @@ const COL_ACTION_TEXT = {
  * the nearest demonstrated moments agree.
  */
 export function colExplain(model, obs, robot = 0) {
-  const sc = model.scenario, F = colF(sc);
+  const sc = colBase(model.scenario), F = colF(sc);
   const x = sc === "rb-amr-fleet-routing" ? F.perRobot(obs)[robot]?.f ?? F.names.map(() => 0) : F.of(obs);
   const nb = colNeighbours(model, x), { label, ps } = colVote(nb);
   const action = sc === "rb-amr-fleet-routing" ? { type: "route", robot, move: label } : colAction(sc, label, ps, obs);
@@ -469,7 +476,7 @@ export function colGhost(model, { seed = 7001 } = {}) {
     const r = env.step(action);
     frames.push({ observation: obs, action, explain: explain.text, reward: r.reward, done: r.done, violations: r.info.violations ?? [] });
     obs = r.observation;
-    if (r.done) { frames.push({ observation: obs, action: null, explain: env.summary().passed ? (model.scenario === "rb-cell-entry" ? "Done — the cell is restarted and every practice was kept." : "Done — the task is finished and every practice was kept.") : "The episode ended without a clean pass.", reward: 0, done: true, violations: [], summary: env.summary() }); break; }
+    if (r.done) { frames.push({ observation: obs, action: null, explain: env.summary().passed ? (colBase(model.scenario) === "rb-cell-entry" ? "Done — the cell is restarted and every practice was kept." : "Done — the task is finished and every practice was kept.") : "The episode ended without a clean pass.", reward: 0, done: true, violations: [], summary: env.summary() }); break; }
   }
   return frames;
 }

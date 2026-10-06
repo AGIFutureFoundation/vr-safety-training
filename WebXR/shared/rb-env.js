@@ -26,14 +26,27 @@
 
 import { rng, observe, applyAction, RobotAgent } from "./robot.js";
 import { observeEmbodied, zoneAt, nearestZone, GRASP_BY_KIND, STANDOFF, ZONE_RADIUS } from "./robot-embodiment.js";
-import { RB_SCENARIOS, RB_RULES, RB_FORCE_N, RB_SSM, RB_SCHEMA } from "./rb-robotics-data.js";
+import { RB_SCENARIOS, RB_RULES, RB_FORCE_N, RB_SSM, RB_SCHEMA, RB_CELL_CONTROLS } from "./rb-robotics-data.js";
 
 const rbR3 = (n) => Math.round(n * 1000) / 1000;
 const rbV3 = (v) => v.map(rbR3);
 const rbD3 = (a, b) => Math.hypot(a[0] - b[0], a[1] - b[1], a[2] - b[2]);
 
 /** A scenario's plain data by id, or null. */
-export function rbScenario(id) { return RB_SCENARIOS.find((s) => s.id === id) ?? null; }
+/** A scenario by id. ROBOTRAIN-4: `<id>#<variant>` (e.g. "rb-port-gantry#hard") is the scenario with that variant's
+ * parameter overrides merged in — `id` keeps the full string, `base` the scenario's own id, `variant` the name. */
+export function rbScenario(id) {
+  const [base, variant] = String(id).split("#");
+  const sc = RB_SCENARIOS.find((s) => s.id === base) ?? null;
+  if (!sc || !variant) return sc;
+  const v = sc.variants?.[variant];
+  if (!v) return null;
+  return { ...sc, id: `${base}#${variant}`, base: sc.id, variant, name: `${sc.name} (${variant})`, params: { ...sc.params, ...v } };
+}
+/** The scenario's own id without a variant suffix. */
+export const rbBaseId = (id) => String(id).split("#")[0];
+/** Every `<id>#<variant>` the scenarios declare (the harder versions, measured separately). */
+export function rbVariantIds() { return RB_SCENARIOS.flatMap((s) => Object.keys(s.variants ?? {}).map((v) => `${s.id}#${v}`)); }
 
 /**
  * The speed-and-separation mode for a person `distance` metres from a robot:
@@ -344,13 +357,14 @@ function rbCobotSim(sc) {
 
 // ------------------------------------------------------- game: robot cell entry
 
+const RB_CELL_HAND = { "test-estop": "estop", "press-estop": "estop", lockout: "lock", "remove-lock": "lock", verify: "verify", enter: "gate", exit: "gate", "clear-jam": "jam", restart: "restart" };
 function rbCellSim(sc) {
   const P = sc.params, GATE = RB_SSM.stop - 0.5, POST = GATE + 1;
   let s;
   return {
     init(seed) {
       const R = rng(seed * 32452843 + 9);
-      s = { d: P.start + Math.floor(R() * 4), mode: "full", estopTested: false, estopped: false, locked: false, verified: false, inside: false, jam: true, restarted: false, slowedSeen: false, credited: {} };
+      s = { d: P.start + Math.floor(R() * 4), mode: "full", estopTested: false, estopped: false, locked: false, verified: false, inside: false, jam: true, restarted: false, slowedSeen: false, credited: {}, hand: "rest" };
       s.mode = rbSsmMode(s.d).mode;
     },
     observe() {
@@ -361,6 +375,9 @@ function rbCellSim(sc) {
         robotMode: mode, robotSpeed: mode === "full" || mode === "reduced" ? (s.estopped || s.locked ? 0 : ssm.speed) : 0,
         estopTested: s.estopTested, estopped: s.estopped, locked: s.locked, verified: s.verified, inside: s.inside, jam: s.jam, restarted: s.restarted,
         grasp: null, maxForce: "none", pose: null,
+        // ROBOTRAIN-4: the walker's body on the approach line (the cell at the origin, the approach along −z) and the hand at the
+        // last control used ([x, y] from the body, RB_CELL_CONTROLS), so a replayed run can be drawn as a figure.
+        walker: { at: [0, 0, rbR3(-(s.inside ? 0 : s.d))], hand: RB_CELL_CONTROLS[s.hand].slice(), control: s.hand },
         keepOut: { zones: 1, inside: s.inside || s.d <= RB_SSM.stop ? "person-0" : null, part: "bystander", authorised: true, nearest: { id: "person-0", clearance: rbR3((s.inside ? 0 : s.d) - RB_SSM.stop) } },
       };
     },
@@ -368,6 +385,7 @@ function rbCellSim(sc) {
       const out = { reward: -0.01, violations: [], maxForce: "none", operator: "human", feedback: a.type };
       const credit = (k, r) => { if (!s.credited[k]) { s.credited[k] = true; out.reward += r; } };
       const nearPost = !s.inside && s.d <= POST + 0.01;
+      s.hand = RB_CELL_HAND[a.type] ?? "rest";
       switch (a.type) {
         case "walk": {
           if (s.inside) { out.feedback = "inside"; break; }
@@ -435,19 +453,22 @@ function rbCellSim(sc) {
 function rbDrillSim(sc) {
   const P = sc.params;
   let s;
-  const personInside = () => ((s.tick + s.phase) % s.period) < P.personStay;
+  const personInside = () => s.people.some((p) => s.tick >= p.from && ((s.tick + p.phase) % p.period) < p.stay);
   const DRILL = [0, 2.4, 0];
   const keepOutOf = (inside) => ({ zones: 1, inside: inside ? "person-0" : null, part: "bystander", authorised: true, nearest: { id: "barricade", clearance: inside ? 0 : 1 } });
   return {
     init(seed) {
       const R = rng(seed * 7877 + 13);
-      s = { tick: 0, phase: Math.floor(R() * P.personPeriod), period: P.personPeriod + Math.floor(R() * 4), holes: P.holes + Math.floor(R() * 3), drilled: 0, scanned: false, barricaded: false, dust: false, wear: 0, isolated: false, bitChanges: 0, credited: {} };
+      s = { tick: 0, people: [{ from: 0, phase: Math.floor(R() * P.personPeriod), period: P.personPeriod + Math.floor(R() * 4), stay: P.personStay }], holes: P.holes + Math.floor(R() * 3), drilled: 0, scanned: false, barricaded: false, dust: false, wear: 0, isolated: false, bitChanges: 0, credited: {}, wearSteps: [] };
+      // `hard`: a second person who first steps in at a seeded step, with their own period and stay; a bit that wears at a seeded rate per hole.
+      for (let k = 1; k < (P.people ?? 1); k++) s.people.push({ from: 2 + Math.floor(R() * 12), phase: Math.floor(R() * 7), period: 6 + Math.floor(R() * 6), stay: 1 + Math.floor(R() * 3) });
+      if (P.wearRate === "random") s.wearSteps = Array.from({ length: 40 }, () => rbR3(0.5 + R()));
     },
     observe() {
       const inside = personInside();
       return {
         scenario: sc.id, tick: s.tick, holesTotal: s.holes, drilled: s.drilled, remaining: s.holes - s.drilled,
-        scanned: s.scanned, barricaded: s.barricaded, dust: s.dust, bitWear: rbR3(s.wear / P.bitLife), bitWorn: s.wear >= P.bitLife, isolated: s.isolated, personInside: inside,
+        scanned: s.scanned, barricaded: s.barricaded, dust: s.dust, bitWear: rbR3(s.wear / P.bitLife), bitWorn: s.wear >= P.bitLife, isolated: s.isolated, personInside: inside, people: s.people.length,
         grasp: null, maxForce: "none", pose: rbPose(DRILL), keepOut: keepOutOf(inside),
       };
     },
@@ -471,7 +492,7 @@ function rbDrillSim(sc) {
           if (!s.scanned) out.violations.push("drill-unscanned");
           if (!s.barricaded) out.violations.push("no-barricade");
           if (!s.dust) out.violations.push("dust-off");
-          s.drilled += 1; s.wear += 1; out.reward += 1; out.feedback = "hole-drilled"; break;
+          s.drilled += 1; s.wear = rbR3(s.wear + (s.wearSteps.length ? s.wearSteps[s.drilled % s.wearSteps.length] : 1)); out.reward += 1; out.feedback = "hole-drilled"; break;
         default: break;
       }
       out.keepOut = keepOutOf(inside);
@@ -507,7 +528,8 @@ const RB_LANE_DIRS = { N: [0, -1], S: [0, 1], E: [1, 0], W: [-1, 0] };
 function rbPortSim(sc) {
   const P = sc.params, W = P.width, H = P.lanes, C = P.crossingColumn;
   let s;
-  const personOn = () => ((s.tick + s.phase) % s.period) < s.stay;
+  const personOn = () => s.peds.some((p) => ((s.tick + p.phase) % p.period) < p.stay);
+  const obstructed = (x, y) => !!s.obstruction && s.obstruction[0] === x && s.obstruction[1] === y;
   const keepOut = (x, y) => y === H - 1 && x >= s.ko && x < s.ko + P.keepOutSpan;
   const inside = (x, y) => x >= 0 && y >= 0 && x < W && y < H;
   const job = () => s.jobs[s.done] ?? null;
@@ -519,13 +541,17 @@ function rbPortSim(sc) {
       const bays = [];
       for (let x = 1; x < W - 1; x++) if (Math.abs(x - C) > 1 && !(x >= ko && x < ko + P.keepOutSpan)) bays.push(x);
       const pick = () => bays.splice(Math.floor(R() * bays.length), 1)[0];
-      s = { tick: 0, phase: Math.floor(R() * 10), period: 10 + Math.floor(R() * 5), stay: 3, ko, at: [0, 0], carrying: false, done: 0, jobs: Array.from({ length: P.jobs }, (_, i) => ({ id: `box-${i}`, from: pick(), to: pick() })) };
+      s = { tick: 0, peds: [{ phase: Math.floor(R() * 10), period: 10 + Math.floor(R() * 5), stay: 3 }], ko, at: [0, 0], carrying: false, done: 0, jobs: Array.from({ length: P.jobs }, (_, i) => ({ id: `box-${i}`, from: pick(), to: pick() })), obstruction: null };
+      // `hard`: a second pedestrian with their own seeded timing on the same crossing; a travel-lane cell the gantry cannot enter,
+      // seeded outside the stop zone and clear of the pinned span and its neighbours (so the yard is never cut in two).
+      for (let k = 1; k < (P.pedestrians ?? 1); k++) s.peds.push({ phase: Math.floor(R() * 12), period: 7 + Math.floor(R() * 7), stay: 2 + Math.floor(R() * 2) });
+      if (P.obstruction) { const cols = []; for (let x = 1; x < W - 1; x++) if (Math.abs(x - C) > P.stopZone && !(x >= ko - 1 && x <= ko + P.keepOutSpan)) cols.push(x); s.obstruction = [cols[Math.floor(R() * cols.length)], 0]; }
     },
     observe() {
       const j = job(), on = personOn();
       return {
         scenario: sc.id, tick: s.tick, width: W, lanes: H, crossingColumn: C, stopZone: P.stopZone, personOnCrossing: on,
-        pinned: [s.ko, s.ko + P.keepOutSpan - 1], at: s.at.slice(), carrying: s.carrying, goal: j ? [s.carrying ? j.to : j.from, H - 1] : s.at.slice(),
+        pinned: [s.ko, s.ko + P.keepOutSpan - 1], at: s.at.slice(), carrying: s.carrying, goal: j ? [s.carrying ? j.to : j.from, H - 1] : s.at.slice(), obstruction: s.obstruction ? s.obstruction.slice() : null, pedestrians: s.peds.length,
         job: j ? { id: j.id, from: j.from, to: j.to } : null, delivered: s.done, remaining: s.jobs.length - s.done,
         grasp: s.carrying ? GRASP_BY_KIND.drag : null, maxForce: "none", pose: null,
         keepOut: { zones: on ? 2 : 1, inside: null, part: on ? "bystander" : "pinned-container", authorised: true, nearest: { id: "pinned-container", clearance: clearance() } },
@@ -540,6 +566,7 @@ function rbPortSim(sc) {
         else {
           const nx = s.at[0] + d[0], ny = s.at[1] + d[1];
           if (!inside(nx, ny)) out.feedback = "edge-of-yard";
+          else if (obstructed(nx, ny)) out.feedback = "blocked-lane";
           else if (nx === C && s.at[0] !== C && on) { out.violations.push("crossing-stop-zone"); out.feedback = "held-at-crossing"; }
           else if (keepOut(nx, ny)) { out.violations.push("pinned-keep-out"); out.feedback = "held-at-keep-out"; }
           else { s.at = [nx, ny]; out.feedback = Math.abs(nx - C) <= P.stopZone && nx !== C ? "in-stop-zone" : "moved"; }
@@ -571,7 +598,8 @@ function rbPortSim(sc) {
       if (o.at[0] === goal[0] && o.at[1] === goal[1]) return { type: o.carrying ? "set" : "lift" };
       // BFS through free cells; a careful driver treats the crossing as blocked while a person is on it.
       const ko = (x, y) => y === o.lanes - 1 && x >= o.pinned[0] && x <= o.pinned[1];
-      const blocked = (x, y) => !lapse && (ko(x, y) || (o.personOnCrossing && x === o.crossingColumn));
+      const wall = (x, y) => !!o.obstruction && o.obstruction[0] === x && o.obstruction[1] === y;
+      const blocked = (x, y) => wall(x, y) || (!lapse && (ko(x, y) || (o.personOnCrossing && x === o.crossingColumn)));
       const key = (x, y) => `${x},${y}`, start = key(...o.at), gk = key(...goal), prev = new Map([[start, null]]), queue = [o.at];
       while (queue.length) {
         const [x, y] = queue.shift();
@@ -641,7 +669,7 @@ const RB_SIMS = { "rb-teleop-pick-place": rbTeleopSim, "rb-amr-fleet-routing": r
 export function rbEnv(scenarioId, { seed = 1, station = null } = {}) {
   const sc = rbScenario(scenarioId);
   if (!sc) throw new Error(`rbEnv: unknown scenario ${scenarioId}`);
-  const sim = sc.kind === "station" ? rbStationSim(sc, station) : RB_SIMS[sc.id]?.(sc);
+  const sim = sc.kind === "station" ? rbStationSim(sc, station) : RB_SIMS[sc.base ?? sc.id]?.(sc);
   if (!sim) throw new Error(`rbEnv: no simulation for ${scenarioId}`);
   const env = rbWrap(sc, sim, seed >>> 0);
   env.reset();
