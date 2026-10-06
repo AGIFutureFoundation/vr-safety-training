@@ -64,7 +64,7 @@ export const SIM_RT_ROBOT_ESTOP_RECOVERY_AND_RESTART = {
 
   lateNotes: {
     "stop-log": "The controller's stop log is read first, before any reset: which stop fired, from which device, at what step of the programme.",
-    "operator-lock": "The clearing entry is made under your own lock on the disconnect, with the key in your pocket, not under the e-stop alone.",
+    "disconnect-lock": "The clearing entry is made under your own lock on the disconnect, with the key in your pocket, not under the e-stop alone.",
   },
 
   interrupts: [
