@@ -160,6 +160,19 @@ for (const pg of pages) {
           let meshes = 0; T.scene?.traverse((o) => { if (o.isMesh && o.visible) meshes++; }); out._sceneMeshes = meshes;
           // The duplicate-key test handle (a merge artifact) drops the streets and ground updates on teleport.
           out._teleportUpdatesStreets = /cwStreetsMount|tfLand/.test(String(T.teleport));
+          // SURVEYOR-2: eye clearance at the arrival point — rays through the upper half of the frame (the horizon and
+          // above, so the ground under the eye never counts); a hit nearer than 2 m is a mesh over or against the
+          // camera (the la-avex black triangle was a parked cab 1 m above the eye).
+          if (T.THREE && T.camera && T.scene) {
+            const rc = new T.THREE.Raycaster(); let near = null;
+            T.scene.updateMatrixWorld(true);
+            for (let i = 0; i < 7; i++) for (let j = 0; j < 4; j++) {
+              rc.setFromCamera(new T.THREE.Vector2(-0.9 + i * 0.3, 0.05 + j * 0.3), T.camera);
+              const h = rc.intersectObjects(T.scene.children, true).find((x) => x.object.visible && x.distance > 0.05);
+              if (h && (!near || h.distance < near.d)) near = { d: +h.distance.toFixed(2), mesh: h.object.name || h.object.parent?.name || h.object.type };
+            }
+            out._eye = near ? { ...near, blocked: near.d < 2 } : { d: null, blocked: false };
+          }
           // Motor Pool, Crew Credits and the map open without an error.
           const tries = {};
           for (const [k, fn] of [["motorPool", () => T.motorPool?.()], ["ledger", () => T.tycoon?.open?.()], ["map", () => T.openMap?.()]]) {
@@ -175,7 +188,7 @@ for (const pg of pages) {
     } catch (e) { errors.push(`navigation: ${String(e.message).split("\n")[0].slice(0, 160)}`); }
     await context.close();
     row.vps[`${vp.width}x${vp.height}`] = r;
-    console.log(`  ${pg.id.padEnd(22)} ${String(vp.width).padStart(4)}  errors ${errors.length}  boot ${r.bootMs ?? "—"} ms  frame ${r.frameMs ?? "—"} ms  calls ${r.calls ?? "—"}  tris ${r.triangles ?? "—"}  buttons ${r.buttonCount ?? "—"}${errors.length ? "  · " + errors[0] : ""}`);
+    console.log(`  ${pg.id.padEnd(22)} ${String(vp.width).padStart(4)}  errors ${errors.length}  boot ${r.bootMs ?? "—"} ms  frame ${r.frameMs ?? "—"} ms  calls ${r.calls ?? "—"}  tris ${r.triangles ?? "—"}  buttons ${r.buttonCount ?? "—"}${r.features?._eye ? `  eye ${r.features._eye.d ?? "clear"}${r.features._eye.blocked ? " BLOCKED by " + r.features._eye.mesh : ""}` : ""}${errors.length ? "  · " + errors[0] : ""}`);
   }
   results.pages[pg.id] = row;
 }
@@ -185,5 +198,6 @@ results.at = new Date().toISOString();
 writeFileSync(OUT, JSON.stringify(results, null, 1));
 const n = Object.values(results.pages).reduce((s, p) => s + Object.values(p.vps).filter((v) => !v.errors.length).length, 0);
 const all = Object.values(results.pages).reduce((s, p) => s + Object.keys(p.vps).length, 0);
-console.log(`sv_survey: ${Object.keys(results.pages).length} pages, ${n}/${all} views without a page error → ${OUT.replace(ROOT + "/", "")}`);
+const blocked = Object.values(results.pages).flatMap((p) => Object.entries(p.vps).filter(([, v]) => v.features?._eye?.blocked).map(([k, v]) => `${p.id}@${k} (${v.features._eye.mesh} ${v.features._eye.d} m)`));
+console.log(`sv_survey: ${Object.keys(results.pages).length} pages, ${n}/${all} views without a page error, ${blocked.length} with a mesh within 2 m of the arriving eye${blocked.length ? ": " + blocked.slice(0, 5).join(", ") : ""} → ${OUT.replace(ROOT + "/", "")}`);
 process.exit(0);
