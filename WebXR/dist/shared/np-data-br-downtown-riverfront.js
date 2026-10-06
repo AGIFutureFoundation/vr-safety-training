@@ -10,6 +10,7 @@ export const NP_BR_DOWNTOWN_RIVERFRONT = {
   region: "louisiana-cities",
   size: 4096,
   scale: 1.5,
+  relief: "3dep", // BACKDROPS-2: real relief from the committed USGS 3DEP grid (assets/geo/<id>.relief.json, bd2-relief-data.js)
   blurb: "Downtown Baton Rouge at street scale: the State Capitol and its grounds, the Old State Capitol, the Mississippi riverfront and its levee path, the interstate bridge to the west bank at Port Allen, and the streets of the downtown grid. Trades sites for high-rise steel, streetscape and utility crews, bridge painting and riverfront crane work. The site layouts are illustrative (procedural); the river, streets and places are real.",
   start: "brd-workforce-centre",
   anchors: [

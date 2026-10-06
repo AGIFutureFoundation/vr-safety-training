@@ -51755,9 +51755,10 @@ const PROGRAMME_COMPETENCIES = [
     standards: ["osha-1926-subpart-q", "osha-1926-subpart-l", "osha-1926-1153", "ansi-a10-9"],
     stations: [
       "concrete-pour", "formwork-shoring", "mass-timber-panel-set", "masonry-silica-scaffold",
-      "bt-formwork-stripping-and-reshoring", "bt-rebar-tying-and-impalement-protection", "bt-masonry-wall-layout-and-mortar", "or-ranch-road-grading-and-culvert"
+      "bt-formwork-stripping-and-reshoring", "bt-rebar-tying-and-impalement-protection", "bt-masonry-wall-layout-and-mortar", "or-ranch-road-grading-and-culvert",
+      "sil-concrete-drilling-and-silica-dust-cues"
     ],
-    require: 4,
+    require: 5,
   },
   {
     id: "first-responders",
@@ -87543,6 +87544,48 @@ const SIMS_META = [
         "Pre-Apprentice",
         "Apprentice",
         "Crew Matcher"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "sil-concrete-drilling-and-silica-dust-cues",
+    "index": "970",
+    "domain": "Construction & Structural Trades",
+    "trade": "Construction laborer — LIUNA, concrete drilling and anchor setting",
+    "category": "Construction & Structural Trades",
+    "certification": "LIUNA Training as a training body for construction laborers; OSHA 29 CFR 1926.1153 respirable crystalline silica in construction — Table 1's entries for handheld and stand-mounted drills (shroud or cowling with a dust collection system, and a HEPA-filtered vacuum to clean holes) and for rig-mounted core saws or drills (integrated water delivery), the housekeeping limits on dry sweeping and compressed air, and the written exposure control plan; OSHA 29 CFR 1926.103 respiratory protection, which applies 29 CFR 1910.134 fit testing and seal checks to construction; ANSI A10.9 concrete and masonry work; NIOSH guidance on engineering controls for silica dust from drilling; the tool, dust collector and anchor manufacturers' instructions for airflow and depth",
+    "name": "Concrete Drilling & Silica Dust Cues",
+    "weather": "clear",
+    "indoor": "plant",
+    "district": null,
+    "title": "SmartCiti.X~ Concrete Drilling & Silica Dust Cues VR",
+    "tagline": "Anchor holes and a pipe core drilled under the silica rule: the shroud, the collector and the half-mask checked before any bit turns, the holes vacuumed rather than blown out, the core drilled wet, and two dust cues — one you raise yourself, one that drifts in from the next crew — answered as fast as you notice them",
+    "accent": 14263361,
+    "accentCss": "#d9a441",
+    "parSeconds": 320,
+    "badge": {
+      "id": "caught-the-plume",
+      "name": "Caught The Plume",
+      "note": "Both dust cues answered inside their window, no dry cleanup, the shroud on every hole — first time"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Dust Crew",
+      "currency": "HOLE",
+      "ranks": [
+        "Helper",
+        "Driller",
+        "Laborer",
+        "Lead Laborer",
+        "Dust Crew Certified"
       ],
       "rankAt": [
         0,
