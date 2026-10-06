@@ -8,7 +8,7 @@ import {
 } from "../citykit.js";
 import { simTitle, system, AWARD } from "../gamify.js";
 
-// SmartCiti.X~ K-12 — A Robot Waits for a Grown-up's OK. Upper-primary science and careers at a robotics training lab: a helper program on a screen asks a practice robot to do a job, a rule checker looks at the job first, the grown-up in charge says OK or no, and a watcher keeps a hand near the stop while the robot works; worked with a job screen, a rule-checker box with lamps, an OK desk and a small practice robot behind a keep-away ring in the scene. The K-12 version of the agent-supervision station (console ROBOTRAIN-2, docs/consoles/VBRIDGE.md). The robot is a practice robot; no real machine is moved.
+// SmartCiti.X~ K-12 — A Robot Waits for a Grown-up's OK. Upper-primary science and careers at a robotics training lab: a helper program on a screen asks a practice robot to do a job, a rule checker looks at the job first, the grown-up in charge says OK or no, and a watcher keeps a hand near the stop while the robot works; worked with a job screen, a rule-checker box with lamps, an OK desk and a small practice robot behind a keep-away ring in the scene. The K-12 version of the agent-supervision station (console ROBOTRAIN, second loop; docs/consoles/VBRIDGE.md). The robot is a practice robot; no real machine is moved.
 //
 // Every person, place and document in this station is invented. No statistic,
 // date, figure or quotation is asserted as fact; any number the learner works

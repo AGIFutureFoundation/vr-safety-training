@@ -76,6 +76,7 @@ import { colMountCoLearn } from "../../shared/col-learn.js";
 import { rtMountTeleop } from "../../shared/rt-teleop.js";
 import { ent3AuditAppend, ent3Policies, ent3Fleet } from "../../shared/ent3-governance.js";
 import { vbMountDispatch } from "../../shared/vb-panel.js";
+import { vbColearnProvider } from "../../shared/vb-colearn.js";
 // CLEANPORTS: key the zero-emission port stations to BAYMAP's West Oakland sites (a no-op until that map merges).
 cpPlaceInParish(npParish);
 // BAYQUEST: the Bay Program play board (games, the Bay Keeper's Trail, Crew Credits) under the ledger; importing it
@@ -1076,7 +1077,10 @@ window.__parishTest.colearn = colMountCoLearn($("menu-drills"), { reducedMotion:
 window.__parishTest.teleop = (() => { try { const host = document.createElement("div"); host.id = "rt-teleop"; $("menu-drills")?.append(host); return rtMountTeleop(host, { reducedMotion: npReduced }); } catch (_) { return null; } })();
 // VBRIDGE (docs/consoles/VBRIDGE.md): supervise jobs a mock software agent sends to the robot sites — the safety governor checks
 // each (e-stop wins, allowlist, limits, stale lineage), simulated robots only; every decision goes to ENTERPRISE-3's audit log.
-window.__parishTest.vbridge = vbMountDispatch($("menu-drills"), { reducedMotion: npReduced, ent3: { auditAppend: ent3AuditAppend, policies: ent3Policies, fleet: ent3Fleet }, stationHref: (id) => npLink(id) });
+// ROBOTRAIN-2: jobs that name the COLEARN policy run a behaviour-cloning policy as the provider (trained lazily on synthetic demonstrations); guarded.
+var vbProvider = (() => { try { return vbColearnProvider(); } catch (_) { return null; } })();
+window.__parishTest.vbridge = vbMountDispatch($("menu-drills"), { reducedMotion: npReduced, ent3: { auditAppend: ent3AuditAppend, policies: ent3Policies, fleet: ent3Fleet }, stationHref: (id) => npLink(id), policyFor: vbProvider ? (policyId, env, seed) => vbProvider.policyFor(policyId, env, seed) : null });
+window.__parishTest.vbColearn = vbProvider;
 // PACKS: the Holodeck Packs that play in this map (docs/consoles/PACKS.md), the chosen STORYLINE path's first.
 npMountPacks($("menu-packs"), parish.id);
 // COGNITION: the K-12 learning module runner — this parish's lessons, each flow played through its GRIOT guide (docs/consoles/COGNITION.md).
