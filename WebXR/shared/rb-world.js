@@ -82,6 +82,39 @@ export const RB_GAME_MECHANICS = {
       ];
     },
   },
+  // ROBOSCENARIOS (loop 7): boards for the drilling robot and the port lane, read from an rbEnv run as the others are.
+  "rb-construction-drilling": {
+    name: "Ceiling-drilling robot set-up", blurb: "Scan the deck, barricade the reach, dust collection on, and hold the robot while anyone is inside the barricade.", match: /(?!)/,
+    build(item) {
+      const env = rbEnv("rb-construction-drilling", { seed: rbHashId(item.id) % 997 + 1 });
+      const o = env.observe();
+      return [
+        rbStepOf(item.id, 0, ["  deck: [robot] ···· anchor layout ····", `  holes in the layout: ${rbWord(Math.min(o.holesTotal, 6))} or more`, "  deck scan: not done"],
+          "The robot is on its control points. What comes first?", "Scan the deck for embedded services and set the barricade before any drilling.", "Start the first hole now; the scan can run while it drills."),
+        rbStepOf(item.id, 1, ["  barricade set · dust collection: off"],
+          "Ready to drill the first hole.", "Switch the dust collection on and watch the vacuum flow before the bit touches the deck.", "Drill the first hole dry to check the layout, then switch the vacuum on."),
+        rbStepOf(item.id, 2, ["  a worker has stepped inside the barricade"],
+          "Someone is inside the barricade while the robot is running.", "Hold the robot and wait until they are back outside the barricade.", "Keep drilling; the robot's own sensors will stop it."),
+        rbStepOf(item.id, 3, ["  the bit is worn after its holes"],
+          "The bit needs changing.", "Isolate the battery, change the bit, then put the battery back on.", "Change the bit with the battery on so the layout resumes faster."),
+      ];
+    },
+  },
+  "rb-port-gantry": {
+    name: "Port automation lane", blurb: "Carry each container to its bay, hold in the stop zone while a person is on the crossing, and keep out of the pinned container's lane.", match: /(?!)/,
+    build(item) {
+      const env = rbEnv("rb-port-gantry", { seed: rbHashId(item.id) % 997 + 1 });
+      const o = env.observe();
+      return [
+        rbStepOf(item.id, 0, ["  yard: [gantry] → → | crossing | → → [bay]", "  a person is on the crossing"],
+          "The gantry reaches the stop zone before the crossing.", "Hold in the stop zone until the crossing is clear, then drive on.", "Roll through slowly; the person can see the gantry coming."),
+        rbStepOf(item.id, 1, [`  stack lane: [bay] ···· [pinned container ×${rbWord(o.pinned[1] - o.pinned[0] + 1)}] ···· [gantry]`, "  a lashing crew is working at the pinned container"],
+          "The pinned container is between the gantry and its bay.", "Switch to the travel lane and drive round the keep-out, then come back to the stack lane.", "Drive straight along the stack lane; the gantry stops if anyone is close."),
+        rbStepOf(item.id, 2, ["  gantry at the bay, spreader over the container"],
+          "Lifting the container.", "Lift once the spreader is locked on and the lane beside is clear.", "Lift as soon as the spreader touches so the move stays on schedule."),
+      ];
+    },
+  },
   "rb-cobot-zone-setup": {
     name: "Cobot safety-zone setup", blurb: "Size the stop zone for the robot's speed, test the scanner and the e-stop, then commit.", match: /(?!)/,
     build(item) {

@@ -100,9 +100,15 @@ the rule; no person is ever harmed in the sim.
    not become a job.
 7. Reason: one checker proves it; check = `check_roboscenarios` → Act: the checker (the first run caught a wrong field for the
    synthetic label, and the model-name regex matching its own source) → Observe: 10 passed, 0 failed, 0.2–0.4 s.
+8. Reason: the port yard lost its side-game board when its scenario changed (`rbGamesFor` filters on `RB_GAME_MECHANICS`: 4 games
+   on 5 maps, was 5); check = `check_robotics` 10 (≥ 3 steps, one safe move, no digits, gated on the station) → Act: boards for
+   `rb-construction-drilling` (scan first, dust on, hold for the worker inside, isolate before the bit change) and `rb-port-gantry`
+   (hold in the stop zone, round the pinned container by the travel lane, lift when locked on) in `rb-world.js` → Observe:
+   `check_robotics` 19/0 — **6 games on 5 maps**, Kids rule 136 strings; `check_parish_play` and `check_classrooms` pass.
 
 ## Seams
 
+- `RB_GAME_MECHANICS["rb-construction-drilling" | "rb-port-gantry"]` — side-game boards in `rb-world.js` (the Richland deck and the port yard each carry one).
 - `rbEnv("rb-construction-drilling" | "rb-port-gantry", { seed })` — `WebXR/shared/rb-env.js`; rules and scenario data in
   `rb-robotics-data.js` (`RB_RULES`: `person-in-barricade`, `drill-unscanned`, `no-barricade`, `dust-off`, `bit-change-live`,
   `crossing-stop-zone`, `pinned-keep-out`); sites `rb-site-west-oakland-port-automation` (scenario changed) and
@@ -119,8 +125,6 @@ the rule; no person is ever harmed in the sim.
 
 ## Left
 
-- The port yard's side game (`rbGamesFor`) is gone with the scenario change: `RB_GAME_MECHANICS` has no board for the lane scenario
-  (4 games on 5 maps, was 5). A board for it, and one for the drilling robot, is the next small step.
 - The drilling-robot site draws the cobot rig (an arm on a base); a mast-on-a-carrier rig type would need `rbDrawRig` and
   `check_robotics` 8b's type table.
 - `rtMountTeleop` (the pad) drives pick-and-place only; the pendant and joystick tasks run in the eval and the API.
