@@ -49,7 +49,7 @@ No language model is called anywhere in this work, and the external-agent hook s
   baseline and writes `docs/perf/agent-baselines.json` (deterministic, with no wall-clock fields).
   - `--legacy` adds the pre-existing `shared/robot.js` RobotAgent for comparison.
   - `--limit`, `--stations`, `--baselines` and `--margin` select subsets for quick cycles.
-- `tools/check_agentgym.mjs`: the checker (31 checks; see Checkers).
+- `tools/check_agentgym.mjs`: the checker (33 checks; see Checkers).
 
 ## Privacy (DATAWORKS' rules, unchanged)
 
@@ -72,16 +72,18 @@ and the cap is 900 decisions.
 | Stations usable as agent tasks with text observations | 0 | 721 | | | | | |
 | Legacy RobotAgent skill 1 (direct Session access, not the task API) | 100% (124 decisions) | n/a | | | | | |
 | Legacy RobotAgent skill 0 | 0% | n/a | | | | | |
-| random | n/a | RANDOM_SR | RANDOM_CI | RANDOM_ST | RANDOM_HZ | RANDOM_ER | 0 |
-| expert (scripted, privileged) | n/a | EXPERT_SR | EXPERT_CI | EXPERT_ST | EXPERT_HZ | EXPERT_ER | 0 |
-| retrieval | n/a | RETR_SR | RETR_CI | RETR_ST | RETR_HZ | RETR_ER | RETR_HI |
-| retrieval-ask | n/a | ASK_SR | ASK_CI | ASK_ST | ASK_HZ | ASK_ER | ASK_HI |
+| random | n/a | 0.0% | 0.0–0.2% | 899.6 | 70.95 | 417.7 | 0 |
+| expert (scripted, privileged) | n/a | 100.0% | 99.8–100.0% | 299.1 | 0 | 0 | 0 |
+| retrieval | n/a | 0.6% | 0.4–1.0% | 354.8 | 0.79 | 21.7 | 1.21 |
+| retrieval-ask | n/a | 11.5% | 10.2–12.9% | 327.7 | 0.36 | 4.75 | 9.92 |
 
 Reading the table honestly:
 - The scripted expert passing every episode shows that the task API exposes everything a station needs: text,
   objects, controls and interruptions.
 - The retrieval heuristic finishes almost every station (99.7%), but it makes too many wrong touches for two
-  stars.
+  stars (21.7 corrections per episode).
+- Asking when unsure (retrieval-ask) lifts success to 11.5% and cuts corrections to 4.75 per episode, at
+  9.9 hints per episode.
 - Its success is bought with hints: on a 46-station subset, raising the ask margin from 0 to 1.0 took success
   from 0% to 34.8% at 13.4 hints per episode, close to one hint per station step.
 - That gap between expert and retrieval is what a learned agent would have to close.
@@ -116,13 +118,13 @@ Reading the table honestly:
    check_agentgym.mjs, ag-feedback.js (ratings as DX episodes, preference pairs), the walkthrough page and the
    bundler copy. **Observe:** 30 passed, 1 failed (docs/perf/agent-baselines.json not yet written).
 6. **Reason:** the after numbers on every station. **Act:** `node tools/ag_eval.mjs --seeds 3`. **Observe:**
-   FINAL_LINE. check_agentgym CHECK_LINE.
+   721 × 3 = 2,163 episodes per baseline in 187 s: expert 100.0%, retrieval-ask 11.5% (9.92 hints/ep), retrieval 0.6% (cycle 2: 0.7%; hazards/ep 0.88 → 0.79, errors/ep 23.7 → 21.7), random 0.0%. Written to docs/perf/agent-baselines.json. check_agentgym 33 passed, 0 failed.
 
 ## Checkers
 
-- `node tools/check_agentgym.mjs`: CHECK_LINE
-- `node tools/check_dataworks.mjs` (DATAWORKS, whose store and schema the ratings use): DX_LINE
-- `node tools/check_robotics.mjs` (the env pattern this follows; untouched): RB_LINE
+- `node tools/check_agentgym.mjs`: 33 passed, 0 failed
+- `node tools/check_dataworks.mjs` (DATAWORKS, whose store and schema the ratings use): 59 passed, 0 failed
+- `node tools/check_robotics.mjs` (the env pattern this follows; untouched): 18 passed, 0 failed
 
 ## Seams
 
