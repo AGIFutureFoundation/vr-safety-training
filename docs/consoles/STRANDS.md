@@ -22,6 +22,15 @@ A Python-first harness for robots on the strands-robots `Policy` / `AgentTool` i
 7. **A guard that never fires proves nothing** → the selftest now trips each guard on purpose (a fake credential name, `/dev/ttySELFTEST`, a socket to a documentation address, `serial.Serial`) and requires each to be caught → 5 of 5 caught, then the records are cleared before the real run. The selftest is 27 of 27.
 8. **Are the adapters compatible with the real `Policy`?** → in scratch only, I loaded the wheel's `policies/__init__.py` by file path (nothing installed) → `POLICY_BASE` read "importable", all 6 adapters subclass the real class, and the real `MockPolicy` ran on the simulated arm (0 of 3, physical 0, every step checked).
 
+## Integration with ARENA-2 (measured)
+
+ARENA-2's branch changes `ra-arena.js` and `ra-lm.js` to add ra-lm-h. I copied this tree to scratch and overlaid ARENA-2's two files at its head 3325b914. On that combined tree:
+
+- `ra_export_weights.mjs --check`: all 13 files were identical, ra-lm included, so its "hidden 0 is ra-lm exactly" holds for the exported build.
+- The selftest: 27 of 27, with Python-vs-`raRun` parity 16 of 16.
+
+The check for this seam is `check_strands`. At integration it reruns the weights rebuild, which must hash-equal `raBuild`, and the `js_run` parity against whatever `ra-arena.js` is in the tree. A change on ARENA-2's side that moves a clone or ra-lm fails it.
+
 ## Evals
 
 | Eval | Before → after | Source |
