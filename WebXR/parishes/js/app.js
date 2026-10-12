@@ -36,9 +36,10 @@ import { tfWind, tfReducedMotion } from "../../shared/tf-water.js";
 import { tfWaterDepthAt, tfFlowAt, tfLitterAt } from "../../shared/tf-terraform.js";
 import { tfMountTerraform, tfMountRain } from "../../shared/tf-world.js";
 import { cwMassFilter, cwStreets, cwColliders, cwSidewalkAt, cwSiteBuilding, cwDoorOf } from "../../shared/cw-cityworks.js";
-import { ixMountInteriors, ixTycoonStyle, ixDoorSpot, ixRegisterDresser, IX_KIND_STYLE } from "../../shared/ix-interiors.js";
+import { ixMountInteriors, ixTycoonStyle, ixDoorSpot, ixRegisterDresser, IX_KIND_STYLE, IX_STYLES, ixStyleFor } from "../../shared/ix-interiors.js";
 // ROBO-INTERIORS: a walk-in robotics room behind a door beside each robot site's pad (docs/consoles/ROBO-INTERIORS.md).
 import { ixrRegisterDressers, ixrDoorsFor, ixrSceneSite, ixrMeasure, ixrWalkAll, IXR_ROOMS } from "../../shared/ixr-robo-interiors.js";
+import { hd2RegisterSkins, HD2_SKIN_STYLES } from "../../shared/hd2-room-skins.js";
 import { rbSitesFor } from "../../shared/rb-world.js";
 import { cwMountStreets } from "../../shared/cw-streets-world.js";
 import { grMount } from "../../shared/npc.js";
@@ -1071,6 +1072,10 @@ void larDressed;
 // ROBO-INTERIORS: the six robotics rooms' dresser (props, the canvas texture set, the agent spots where the hive's avatars stand).
 var ixrDressed = ixrRegisterDressers(typeof ixRegisterDresser === "function" ? { ixRegisterDresser } : null);
 void ixrDressed;
+// ENV-HD-2: the same canvas texture set on the most-visited INTERIORS rooms (workshop, plant room, port shed, civic lobby,
+// classroom, apparatus bay, transit barn, clinic, warehouse): maps only, no mesh added; registered after the other dressers.
+var hd2Skinned = hd2RegisterSkins(typeof ixRegisterDresser === "function" ? { ixRegisterDresser } : null);
+void hd2Skinned;
 var crWorld = crMountClassrooms({
   three: THREE, scene, root, parish, tier: npTierName, toast: npToast, launch: crLaunch, passive: crDressed.length > 0,
   groundAt: (x, z) => Math.max(npHeightAt(parish, x, z), 0.2),
@@ -1194,6 +1199,37 @@ Object.defineProperty(fxSceneHandle, "children", { get: () => scene.children });
 window.__parishTest.threeScene = scene;
 window.__parishTest.scene = fxSceneHandle;
 { const q = npParams.get("scene"); if (q && q.includes(":")) { const [sid, shot] = q.split(":"); window.__parishTest.scene(sid, shot); } }
+// ENV-HD-2 (docs/consoles/ENV-HD-2.md): capture presets for the reel and the deck. `room(styleId)` opens a skinned INTERIORS
+// room (a site of that style on this map, else the map's first site, opened with the style) and stands the camera in the
+// door-side corner looking across to the far corner; `hood(siteId)` frames a robot site's neighbourhood from high above,
+// behind its wide shot, so the sheds and towers within 150 m (the robotics facade variant) are in frame.
+window.__parishTest.hd2 = {
+  styles: Object.keys(HD2_SKIN_STYLES),
+  room(styleId) {
+    const st = IX_STYLES[styleId]; if (!st) return null;
+    const site = parish.sites.find((s) => ixStyleFor(s.kind, s.id) === styleId) ?? parish.sites[0];
+    if (!site) return null;
+    if (ixWorld.inside()) { const p = ixWorld.exit(); np.x = p.x; np.z = p.z; np.yaw = p.yaw; np.pitch = p.pitch; }
+    npKeys.clear();
+    const room = ixWorld.enter(site, { x: np.x, z: np.z, yaw: np.yaw, pitch: np.pitch }, { style: styleId });
+    if (!room) return null;
+    const x = st.w / 2 - 1.3, z = st.d / 2 - 1.7;
+    ixWorld.pose.x = x; ixWorld.pose.z = z; np.yaw = Math.atan2(2 * x, 2 * z); np.pitch = -0.1; np.near = null;
+    const menu = document.getElementById("menu"); if (menu && !np.playing) menu.hidden = true; // a clean frame (Esc brings it back)
+    document.getElementById("toast")?.classList.remove("on");
+    return { style: styleId, site: site.id, meshes: room.meshes(), skin: room.hd2 ?? null };
+  },
+  hood(siteId, { back = 110, up = 62 } = {}) {
+    const sc = fxSitesFor(parish).some((s) => s.id === siteId) ? fxScene(parish, siteId, "wide") : null;
+    if (!sc) return { ok: false };
+    const dx = sc.position[0] - sc.target[0], dz = sc.position[2] - sc.target[2], L = Math.hypot(dx, dz) || 1;
+    np.x = sc.target[0]; np.z = sc.target[2];
+    world.update(np.x, np.z, 999); cwStreetsMount.update(np.x, np.z, 999); tfLand.update(np.x, np.z, 99); atmos.update(np.x, np.z);
+    fxShot = { ...sc, position: [sc.target[0] + dx / L * back, sc.target[1] + up, sc.target[2] + dz / L * back] };
+    const menu = document.getElementById("menu"); if (menu && !np.playing) menu.hidden = true;
+    return { ok: true, ...fxShot };
+  },
+};
 // COLEARN (docs/consoles/COLEARN.md): watch the robot's cloned policy do the cell entry, then try it with the bandit tutor;
 // a finished try becomes a consented episode only through DATAWORKS' capture (inert unless opted in).
 window.__parishTest.colearn = colMountCoLearn($("menu-drills"), { reducedMotion: npReduced, capture: (steps, meta) => dxCaptureRollout(steps, meta) });

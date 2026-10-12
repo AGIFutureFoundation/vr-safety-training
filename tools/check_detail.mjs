@@ -14,6 +14,7 @@
  *  4. Determinism: the same chunk twice gives the same digest; a lower tier and a farther ring are never larger.
  *  5. Wiring: the parishes app mounts the pool, the bundle lists dt-detail.js, check_all and the checkers baseline list
  *     this checker, the TradeQuest export carries the generator's parameters.
+ *  6. Lots (ENV-HD-2): no scattered prop inside a robotics building lot (fxLayoutsFor lots, fxColliders boxes), every tier.
  *
  *     node tools/check_detail.mjs
  */
@@ -374,6 +375,37 @@ check(/"check_detail\.mjs":\s*\d+/.test(readFileSync(join(ROOT, "docs", "perf", 
 const tq = ["tools/tq_bridge.mjs", "tools/gen_tq_export.mjs"].map((f) => existsSync(join(ROOT, f)) ? readFileSync(join(ROOT, f), "utf8") : "").join("\n");
 check(/DT_DENSITY|dtExportParams/.test(tq), "the TradeQuest export carries the detail generator's parameters");
 check(typeof D.dtExportParams === "function" && !JSON.stringify(D.dtExportParams()).includes("mats"), "dtExportParams() is parameters only (no instances)");
+
+// 6. ENV-HD-2: no scattered prop inside a robotics building lot (ROBO-EXTERIORS' fxLayoutsFor lots and fxColliders boxes),
+// on every tier at the nearest ring, over every chunk a lot touches (at f4884d71: 834 props inside the six lots at high).
+{
+  const FX = await imp("shared/fx-exteriors.js");
+  let inside = 0, lots = 0, chunks = 0, kept = 0;
+  for (const p of R.NP_PARISHES) {
+    if (!FX.fxSitesFor(p).length) continue;
+    const rects = [];
+    for (const l of FX.fxLayoutsFor(p)) { rects.push(l.lot); for (const b of l.boxes) rects.push([b.min[0], b.min[2], b.max[0], b.max[2]]); lots++; }
+    check(D.dtLotRects(p).length === rects.length, `${p.id}: dtLotRects reads ${rects.length} lot rects and boxes`);
+    const keys = new Set();
+    for (const r of rects) for (const x of [r[0], r[2]]) for (const z of [r[1], r[3]]) { const c = E.npChunkOf(x, z); keys.add(`${c.cx},${c.cz}`); }
+    for (const k of keys) {
+      const [cx, cz] = k.split(",").map(Number); chunks++;
+      for (const tier of TIERS) {
+        const det = D.dtDetailForChunk(p, cx, cz, tier, { ring: 0 });
+        let n = 0;
+        for (const f of Object.values(det.families)) for (let i = 0; i < f.n; i++) {
+          const x = f.mats[i * 16 + 12], z = f.mats[i * 16 + 14];
+          if (rects.some((r) => x > r[0] && x < r[2] && z > r[1] && z < r[3])) n++;
+        }
+        if (tier === "high") kept += det.count;
+        inside += n;
+        if (n) check(false, `${p.id} ${k}/${tier}: ${n} scattered props inside a robotics lot`);
+      }
+    }
+  }
+  const msg = `scattered props inside robotics lots: ${inside} (${lots} lots, ${chunks} chunks, every tier at ring 0; ${kept} props kept round them at high)`;
+  check(lots === 6 && inside === 0, msg); note(msg);
+}
 
 console.log(`DETAIL: ${pass} pass, ${fail} fail`);
 process.exit(fail ? 1 : 0);

@@ -109,6 +109,7 @@
     "check_interiors.mjs": 1500,
     "check_la_rooms.mjs": 1500,
     "check_robo_interiors.mjs": 1500,
+    "check_room_skins.mjs": 1500,
     "check_npc.mjs": 1332,
     "check_terraform.mjs": 69431,
     "check_cityworks.mjs": 58400,
@@ -171,6 +172,7 @@
     "check_vbridge.mjs": "2026-10-06 04:35 UTC: new (console VBRIDGE). 0.4-0.6 s standalone: governor reasons, job lifecycles, provider configs, the GAME export compare, 200 adversarial + 200 safe governor checks and 50 sim lifecycles.",
     "check_silica.mjs": "2026-10-06 03:40 UTC: new (console SILICA). 4.9 s standalone: the SmartCiti.X suite load, 18 seeded agent runs plus 5 calibration runs of the drilling station, the consent gate, and the study aggregates (recomputed when the read-only clone is present).",
     "check_robo_interiors.mjs": "2026-10-12 (console ROBO-INTERIORS): new. An ESTIMATE (about 1.5 s standalone headless on a loaded shared machine), to re-measure on a quiet gate: six robotics rooms built and furnished on three tiers, budgets and texture bytes measured, 70 A* walks with NEWTON's avatar step, door spots on five maps, the mount round trip; the --browser walk-through is opt-in and not in the gate.",
+    "check_room_skins.mjs": "2026-10-12 (console ENV-HD-2, loop 10 round 2): new. An ESTIMATE (about 1.5 s standalone headless on a loaded shared machine), to re-measure on a quiet gate: nine INTERIORS styles built with and without the skin on three tiers (CLASSROOMS' and LA-ROOMS' dressers registered), meshes, triangles, lights and texture bytes compared; no browser.",
     "check_exteriors.mjs": "2026-10-12 (ROBO-EXTERIORS, loop 10): new. An estimate to re-measure on a quiet gate: 2.5 s standalone at load 6.6 on the shared four-core box (six lots, three tiers of builds, fifteen streamed builds at the robot sites, scenes, wiring); no browser.",
     "check_omega_hive.mjs": "2026-10-12 10:40 UTC: new (console OMEGA-HIVE). An ESTIMATE from one standalone run (about 7.4 s wall on a shared four-core machine with six consoles working); re-measure on a quiet gate. Three 200-job hive days, 200 short seeded days for the distinctiveness corpus, a 40-job day through ENTERPRISE-3's audit log in memory, voice stubs; no browser, no suite load."
   }

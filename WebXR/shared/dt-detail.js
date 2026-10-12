@@ -20,6 +20,10 @@
  *       copy of the finished chunks' arrays, nearest ring first) and generates queued chunks, time-sliced, until
  *       DT_BUDGET.frameMs[tier] is spent (SMOOTH). drain() finishes the queue at once. Call it before npBuildParish.
  *
+ * Lots (ENV-HD-2): no candidate is kept inside a robotics building's lot — ROBO-EXTERIORS' `fxLayoutsFor(parish)` lot
+ * rectangles and their `fxColliders` boxes, grown by DT_LOT_MARGIN (`dtLotRects(parish)`, cached per map). The test runs
+ * after a candidate's random draws, so the tiers and rings stay subsets of one another.
+ *
  * Budget: tiny geometry (2–20 triangles an instance), no textures, two shared materials; the visible set's triangles are
  * capped by the capacities (DT_BUDGET.triangles per tier, tools/check_detail.mjs proves Σ capacity × triangles ≤ it).
  * Colours: vegetation and street kit from a fixed natural range; fences, mailboxes, roof kit, containers and site
@@ -30,6 +34,7 @@ import { NP_SIZE, NP_CHUNK, NP_ROAD_KINDS, NP_MASSING, npPrepare, npHeightAt, np
 import { NP_MASSING_HOOKS } from "./np-world.js";
 import { cwNearestLine } from "./cw-cityworks.js";
 import { PA_CATEGORIES, paRegionCategories, paRegionOf } from "./pa-palette-data.js";
+import { fxSitesFor, fxLayoutsFor } from "./fx-exteriors.js";
 
 /** The detail families, one InstancedMesh each in the pool (triangles an instance; `flat` = double-sided). */
 export const DT_FAMILIES = [
@@ -313,6 +318,10 @@ function* dtSteps(bufs, parish, cx, cz, tier, { ring = 0, spots = null, tally = 
   const out = () => { const families = {}; let count = 0; DT_FAMILIES.forEach((f, i) => { families[f.id] = bufs[i].trim(); count += bufs[i].n; }); const counts = {}; tierIds.forEach((t, i) => { counts[t] = tierN[i]; }); return { families, count, tiers: counts }; };
   if (keepP <= 0) return out();
   const x0 = -NP_SIZE / 2 + cx * NP_CHUNK, z0 = -NP_SIZE / 2 + cz * NP_CHUNK;
+  // ENV-HD-2: the robotics lots touching this chunk (usually none), grown by the margin, as a flat array
+  const lotList = dtLotRects(parish).filter((r) => r[2] + DT_LOT_MARGIN > x0 && r[0] - DT_LOT_MARGIN < x0 + NP_CHUNK && r[3] + DT_LOT_MARGIN > z0 && r[1] - DT_LOT_MARGIN < z0 + NP_CHUNK);
+  const nLots = lotList.length, lots = new Float64Array(nLots * 4);
+  lotList.forEach((r, i) => { lots[i * 4] = r[0] - DT_LOT_MARGIN; lots[i * 4 + 1] = r[1] - DT_LOT_MARGIN; lots[i * 4 + 2] = r[2] + DT_LOT_MARGIN; lots[i * 4 + 3] = r[3] + DT_LOT_MARGIN; });
   const rng = npRng((prep.seed ^ Math.imul(cx + 101, 0x9e3779b1) ^ Math.imul(cz + 211, 0x85ebca77) ^ 0xd7a11) >>> 0);
   const region = dtRegionColours(parish);
   // Heights on a 16 m grid, bilinear between (the nearest ring's terrain uses the same step).
@@ -345,6 +354,7 @@ function* dtSteps(bufs, parish, cx, cz, tier, { ring = 0, spots = null, tally = 
     // Every candidate draws its numbers first, then one threshold keeps it: lower tiers and farther rings are subsets.
     const u = rng(), a = rng(), b = rng(), e = rng();
     work++;
+    if (nLots) for (let q = 0; q < nLots * 4; q += 4) if (x > lots[q] && x < lots[q + 2] && z > lots[q + 1] && z < lots[q + 3]) return;
     for (let q = 0; q < nT; q++) if (u < tierP[q]) tierN[q]++;
     if (u >= keepP) return;
     const sc = extra ?? DT_SCALE[kind] ?? [1, 1, 1], k = 1 - jit + a * jit * 2;
@@ -488,6 +498,27 @@ function* dtSteps(bufs, parish, cx, cz, tier, { ring = 0, spots = null, tally = 
     }
   }
   return out();
+}
+
+/** ENV-HD-2: how far round a robotics lot DETAIL keeps clear (metres: a prop's half-width). */
+export const DT_LOT_MARGIN = 0.5;
+const dtLotCache = new Map();
+/** The robotics building lots on a map as [x0, z0, x1, z1] rects (each lot and its solid boxes), cached per map. */
+export function dtLotRects(parish) {
+  const id = parish?.id;
+  if (!id) return [];
+  if (dtLotCache.has(id)) return dtLotCache.get(id);
+  let out = [];
+  try {
+    if (fxSitesFor(parish).length) {
+      for (const l of fxLayoutsFor(parish)) {
+        if (Array.isArray(l.lot)) out.push([l.lot[0], l.lot[1], l.lot[2], l.lot[3]]);
+        for (const b of l.boxes ?? []) out.push([b.min[0], b.min[2], b.max[0], b.max[2]]);
+      }
+    }
+  } catch { out = []; }
+  dtLotCache.set(id, out);
+  return out;
 }
 
 /** A stable digest of a chunk's detail (determinism checks). */

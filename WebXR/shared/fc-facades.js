@@ -13,6 +13,15 @@
  * atlas). Near ring only (FC_NEAR_RING); the phone tier ("low") keeps each kit's two cheapest details and no signs.
  * `group.userData.fc` = { kits, signs: [{ word, type, x, z }], triangles, meshes }; `group.dispose()` frees what the chunk owns.
  *
+ * Kit resolvers (ENV-HD-2): `FC_KIT_RESOLVERS` is consulted, in order, when fcDetails buckets a spot —
+ *
+ *     resolver({ parish, kind, spot, group }) -> a group key of FC_KITS[kind] | null      (the first non-null wins)
+ *
+ * The built-in one, `fcRoboticsGroup`, gives sheds and towers within FC_ROBOTICS.radius (150 m) of a robot site
+ * (RB_SITES, the same anchor + offset positions ROBO-EXTERIORS builds at) the robotics variant: skylights, roof plant and
+ * dock bumpers on sheds; a plant louvre band and a roof plant screen on towers. The robotics kits keep the generic kits'
+ * two cheapest details, so on the phone tier a robotics spot shares the generic bucket (no extra mesh).
+ *
  * Everything here is procedural and generic: nothing models a real building, and the signs name generic trades only
  * (FC_SIGN_WORDS) — never a real business or brand. TYCOON's player-opened businesses keep their own sign at their
  * listing's site (parishes app, `tySignsFor`). The data (FC_DETAIL_KINDS, FC_KITS, FC_SIGN_WORDS, FC_SIGN_COLOURS,
@@ -20,6 +29,7 @@
  */
 import { NP_MASSING_HOOKS } from "./np-world.js";
 import { npDistrictAt } from "./np-parish.js";
+import { RB_SITES } from "./rb-robotics-data.js";
 
 /** The detail kinds FACADES draws (plain data; `stretch` = drawn in the building's unit-height space). */
 export const FC_DETAIL_KINDS = [
@@ -40,6 +50,10 @@ export const FC_DETAIL_KINDS = [
   { id: "rollUpDoor", label: "Roll-up doors", note: "loading doors with a lintel on sheds and warehouses" },
   { id: "loadingDock", label: "Loading dock", note: "a raised dock apron in front of the doors (port sheds)" },
   { id: "tankRail", label: "Tank rail and ladder", note: "a top guard rail and a ladder on a storage tank" },
+  { id: "skylights", label: "Skylights", note: "glazed roof lights along a shed's ridge (robotics variant)" },
+  { id: "roofPlant", label: "Roof plant", note: "air-handling units and a louvred plant screen on a flat roof (robotics variant)" },
+  { id: "dockBumpers", label: "Dock bumpers and lights", note: "rubber bumpers either side of each loading door and a dock light above (robotics variant)" },
+  { id: "louvreBand", label: "Plant louvre band", note: "a band of plant-room louvres under a tower's roof line (robotics variant)" },
 ];
 
 /**
@@ -51,8 +65,9 @@ export const FC_KITS = {
   quarterBlock: { "new-orleans": ["cornice", "awning", "windowGrid", "shutters", "gallery"], bay: ["cornice", "awning", "windowGrid", "bayWindow", "fireEscape"] },
   gardenHouse: { "new-orleans": ["windowGrid", "shutters", "stoop", "porch"], bay: ["windowGrid", "bayWindow", "stoop", "porch"] },
   suburbHouse: { "new-orleans": ["windowGrid", "shutters", "stoop", "porch"], bay: ["windowGrid", "bayWindow", "stoop", "balcony"] },
-  shed: { "new-orleans": ["windowBand", "rollUpDoor", "parapet"], bay: ["windowBand", "rollUpDoor", "parapet"], port: ["windowBand", "rollUpDoor", "loadingDock"] },
-  tower: { "new-orleans": ["mullions", "cornice"], bay: ["mullions", "cornice", "fireEscape", "roofTank"] },
+  shed: { "new-orleans": ["windowBand", "rollUpDoor", "parapet"], bay: ["windowBand", "rollUpDoor", "parapet"], port: ["windowBand", "rollUpDoor", "loadingDock"],
+    robotics: ["windowBand", "rollUpDoor", "roofPlant", "skylights", "dockBumpers"] },
+  tower: { "new-orleans": ["mullions", "cornice"], bay: ["mullions", "cornice", "fireEscape", "roofTank"], robotics: ["cornice", "mullions", "roofPlant", "louvreBand"] },
   campusBlock: { "new-orleans": ["windowBand", "cornice", "parapet"], bay: ["windowBand", "cornice", "parapet"] },
   tank: { "new-orleans": ["tankRail"], bay: ["tankRail"] },
 };
@@ -75,6 +90,8 @@ export const FC_BUDGET = {
   signShare: 0.35,
   signKinds: ["quarterBlock", "tower"],
 };
+/** ENV-HD-2: the robotics variant's reach (metres from a robot site) and the massing kinds that take it (plain data). */
+export const FC_ROBOTICS = { radius: 150, kinds: ["shed", "tower"], group: "robotics" };
 
 // -------------------------------------------------------------------- kits
 
@@ -84,7 +101,7 @@ const FC_BODY = {
   shed: { w: 40, d: 22, h: 1, unit: true }, tower: { w: 22, d: 22, h: 1, unit: true }, campusBlock: { w: 28, d: 18, h: 1, unit: true },
   tank: { w: 18, d: 18, h: 1, unit: true },
 };
-const FC_C = { glass: 0x2b3440, glassBay: 0x35434f, trim: 0xefe9dc, shutterNo: 0x2f5d45, iron: 0x23262a, awning: 0x8c3b2e, stone: 0x9a938a, door: 0x6d7378, steel: 0xb8bcc0, wood: 0x7a5a3c, tank: 0x6b5140, dock: 0x8a8f94 };
+const FC_C = { glass: 0x2b3440, glassBay: 0x35434f, trim: 0xefe9dc, shutterNo: 0x2f5d45, iron: 0x23262a, awning: 0x8c3b2e, stone: 0x9a938a, door: 0x6d7378, steel: 0xb8bcc0, wood: 0x7a5a3c, tank: 0x6b5140, dock: 0x8a8f94, sky: 0x8fb3c9, plant: 0x9aa3ab, louvre: 0x5d656d, bumper: 0x1f2124, lamp: 0xe8b923 };
 
 const fcCache = new WeakMap(); // THREE -> { kits: Map, mat, signMat }
 function fcStore(THREE) { let s = fcCache.get(THREE); if (!s) { s = { kits: new Map(), mat: null, signMat: null, parts: new Map() }; fcCache.set(THREE, s); } return s; }
@@ -157,6 +174,23 @@ function fcDetailParts(THREE, id, kind, b) {
     for (const u of [-12, 0, 12]) onFace(f, u, 0.28, 4.2, 0.56, FC_C.door);
   } else if (id === "loadingDock") {
     box(34, 0.13, 3, FC_C.dock, 0, 0.065, fd + 1.5);
+  } else if (id === "skylights") { // unit-height space on a shed's roof (y = 1): four glazed lights along the ridge
+    for (const x of [-13.5, -4.5, 4.5, 13.5]) box(5, 0.03, 2.2, FC_C.sky, x, 1.012, 0);
+  } else if (id === "roofPlant") { // unit-height space: a louvred screen box and two air-handling units on the flat roof
+    const hu = kind === "tower" ? 0.03 : 0.16, x0 = b.w * 0.18, z0 = -b.d * 0.18;
+    box(b.w * 0.3, hu, b.d * 0.26, FC_C.louvre, x0, 1 + hu / 2 - 0.004, z0);
+    box(b.w * 0.12, hu * 0.7, b.d * 0.12, FC_C.plant, -x0, 1 + hu * 0.35 - 0.004, z0);
+    box(b.w * 0.12, hu * 0.7, b.d * 0.12, FC_C.plant, -x0 * 0.2, 1 + hu * 0.35 - 0.004, -z0);
+  } else if (id === "dockBumpers") { // unit-height space on the shed's front: bumpers either side of each door, a light above
+    const f = faces[0];
+    for (const u of [-12, 0, 12]) {
+      box(0.35, 0.09, 0.3, FC_C.bumper, f[1] + u - 2.35, 0.1, f[2] + 0.15); box(0.35, 0.09, 0.3, FC_C.bumper, f[1] + u + 2.35, 0.1, f[2] + 0.15);
+      box(0.45, 0.025, 0.35, FC_C.lamp, f[1] + u + 2.6, 0.62, f[2] + 0.18);
+    }
+  } else if (id === "louvreBand") { // unit-height space under a tower's cornice: a louvre band round the plant floor
+    const y = 0.955, t = 0.03;
+    box(b.w + 0.1, t, 0.12, FC_C.louvre, 0, y, fd + 0.06); box(b.w + 0.1, t, 0.12, FC_C.louvre, 0, y, -fd - 0.06);
+    box(0.12, t, b.d + 0.1, FC_C.louvre, fw + 0.06, y, 0); box(0.12, t, b.d + 0.1, FC_C.louvre, -fw - 0.06, y, 0);
   } else if (id === "tankRail") { // unit-height space on the unit cylinder of radius 9
     P.push([new THREE.CylinderGeometry(9.25, 9.25, 0.04, 12, 1, true), FC_C.steel, M(0, 1.02, 0)]);
     box(0.5, 1, 0.12, FC_C.steel, 0, 0.5, 9.1);
@@ -189,6 +223,45 @@ function fcMergeParts(THREE, parts) {
 
 /** The region group a parish's kits read: New Orleans or the Bay Area. */
 export function fcRegionGroup(parish) { return /^(new-orleans|louisiana)/.test(parish?.region ?? "new-orleans") ? "new-orleans" : "bay"; }
+
+// -------------------------------------------------------------------- kit resolvers (ENV-HD-2)
+
+/** The robot sites' positions on a map (RB_SITES' anchor + offset, as ROBO-EXTERIORS resolves them), cached per map. */
+const fcRobotCache = new Map();
+export function fcRobotSitesFor(parish) {
+  const id = parish?.id;
+  if (!id) return [];
+  if (fcRobotCache.has(id)) return fcRobotCache.get(id);
+  const out = [];
+  for (const r of RB_SITES ?? []) {
+    if (r.parish !== id) continue;
+    const a = (parish.sites ?? []).find((x) => x.id === r.anchor);
+    if (a) out.push({ id: r.id, x: a.position[0] + (r.offset?.[0] ?? 0), z: a.position[1] + (r.offset?.[1] ?? 0) });
+  }
+  fcRobotCache.set(id, out);
+  return out;
+}
+
+/** The built-in resolver: a shed or tower within FC_ROBOTICS.radius of a robot site takes the robotics variant. */
+export function fcRoboticsGroup({ parish, kind, spot } = {}) {
+  if (!FC_ROBOTICS.kinds.includes(kind) || !spot) return null;
+  const r2 = FC_ROBOTICS.radius * FC_ROBOTICS.radius;
+  for (const r of fcRobotSitesFor(parish)) { const dx = spot.x - r.x, dz = spot.z - r.z; if (dx * dx + dz * dz <= r2) return FC_ROBOTICS.group; }
+  return null;
+}
+
+/** Resolvers consulted in order when fcDetails buckets a spot: ({ parish, kind, spot, group }) -> FC_KITS group | null. */
+export const FC_KIT_RESOLVERS = [fcRoboticsGroup];
+
+/** The kit group a spot takes: the first resolver's answer that names a kit of this kind, else the district's default. */
+export function fcKitGroupFor(parish, kind, spot, group) {
+  for (const fn of FC_KIT_RESOLVERS) {
+    let g = null;
+    try { g = fn({ parish, kind, spot, group }); } catch { g = null; }
+    if (g && FC_KITS[kind]?.[g]) return g;
+  }
+  return group;
+}
 
 /** The detail ids of one kit on a tier (the phone tier keeps the two cheapest). */
 export function fcKitDetails(kind, group, tier = "high") {
@@ -311,8 +384,12 @@ export function fcDetails({ THREE, parish, chunk, spots, tier = "high" } = {}) {
   for (const [kind, list] of Object.entries(drawn)) {
     if (!FC_BODY[kind]) continue;
     for (const s of list) {
-      let g = regionGroup;
-      if (kind === "shed" && npDistrictAt(parish, s.x, s.z)?.character === "port") g = "port";
+      let base = regionGroup;
+      if (kind === "shed" && npDistrictAt(parish, s.x, s.z)?.character === "port") base = "port";
+      // a resolver may name a variant (ENV-HD-2: robotics near a robot site); where the variant's details on this tier
+      // are the default kit's (the phone tier keeps the two cheapest), the spot stays in the default bucket — no extra mesh
+      let g = fcKitGroupFor(parish, kind, s, base);
+      if (g !== base && fcKitDetails(kind, g, tierKey).slice().sort().join() === fcKitDetails(kind, base, tierKey).slice().sort().join()) g = base;
       const k = `${kind}|${g}`; if (!buckets.has(k)) buckets.set(k, { kind, g, list: [] }); buckets.get(k).list.push(s);
     }
   }
