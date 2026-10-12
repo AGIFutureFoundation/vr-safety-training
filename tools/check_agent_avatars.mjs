@@ -556,14 +556,20 @@ const HDV = {};
   const wg = AA.aaMountAgentAvatars({ three: RTS, parent: new RT.Group(), agents: OHA, source: hv, siteAt, tier: "high", hd: true });
   const evs = []; hv.on("*", (e) => evs.push(e));
   let tg = 0; wg.animate(tg, 0, null);
-  for (let s = 0; s < 120; s += 1) { hv.step(); for (let k = 0; k < 10; k += 1) { tg += 0.1; wg.animate(tg, 0.1, null); } }
+  const seen = []; // every frame: each agent's gesture as posed
+  for (let s = 0; s < 120; s += 1) { hv.step(); for (let k = 0; k < 10; k += 1) { tg += 0.1; wg.animate(tg, 0.1, null); for (const a of OHA) seen.push([tg, a.id, wg.state(a.id).gesture]); } }
   const gl = wg.gestureLog();
+  // a refusal's stop hand is never cut short by a bid's raise or an award's accept (those wait behind it)
+  const stopsG = gl.filter((g) => g.kind === "stop");
+  let cut = 0; for (const g of stopsG) if (seen.some(([t, id, k]) => id === g.agent && t >= g.start + 0.05 && t < g.end - 0.05 && (k === "raise" || k === "accept"))) cut += 1;
+  const waited = gl.filter((g) => g.queued).length, dropped = gl.filter((g) => g.dropped).length;
+  ok(cut === 0 && stopsG.length > 0, `a stop hand holds its full ${AA.AA_GESTURE_MS.stop} ms: ${stopsG.length - cut} of ${stopsG.length}; ${waited} raise/accept gestures waited behind one (${dropped} replaced while waiting by a newer one)`);
   const want = { bid: "raise", award: "accept", refused: "stop", approved: "approve", complete: "nod" };
   const rows = Object.entries(want).map(([on, kind]) => {
     const n = on === "approved" ? evs.filter((e) => e.type === "speak" && e.about === "approved").length : evs.filter((e) => e.type === on).length;
-    const got = gl.filter((g) => g.on === on && g.kind === kind).length; return { on, kind, n, got };
+    const fired = gl.filter((g) => g.on === on && g.kind === kind); return { on, kind, n, got: fired.length, shown: fired.filter((g) => !g.dropped).length };
   });
-  ok(rows.every((r) => r.got === r.n && r.n > 0), `gestures from the hive's events (seed ${HIVE_SEED}, 120 steps): ${rows.map((r) => `${r.on} → ${r.kind} ${r.got} of ${r.n}`).join(", ")}`);
+  ok(rows.every((r) => r.got === r.n && r.n > 0), `gestures from the hive's events (seed ${HIVE_SEED}, 120 steps): ${rows.map((r) => `${r.on} → ${r.kind} ${r.got} of ${r.n}`).join(", ")}`, `shown in full or after a stop: ${rows.map((r) => `${r.kind} ${r.shown}`).join(", ")}`);
   HDV.gestures = rows;
   wg.dispose();
   // the pose each gesture makes (one agent, each event once, sampled mid-gesture in figure space)

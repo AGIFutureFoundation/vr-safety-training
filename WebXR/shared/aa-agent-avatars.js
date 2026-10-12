@@ -395,10 +395,21 @@ export function aaMountAgentAvatars({ three = null, parent = null, agents = [], 
   }
 
   // ---- the events
-  /** Start a gesture (the latest event wins) and log it with the event that raised it. */
+  /** Start a gesture and log it with the event that raised it. The latest event wins, except that a refusal's stop hand is never
+   * cut short by a bid's raise or an award's accept: that one waits and follows the stop (at most one waits; a newer one
+   * replaces it). */
   function gesture(f, kind, ev, extra = {}) {
-    f.gesture = { kind, start: clock, end: clock + (AA_GESTURE_MS[kind] ?? 1000) / 1000 };
-    gestureLog.push({ agent: f.agent.id, ...f.gesture, on: ev?.type === "speak" ? ev.about ?? "speak" : ev?.type ?? null, jobId: ev?.jobId ?? null, ...extra });
+    const on = ev?.type === "speak" ? ev.about ?? "speak" : ev?.type ?? null, ms = (AA_GESTURE_MS[kind] ?? 1000) / 1000;
+    const cur = f.gesture && clock < f.gesture.end ? f.gesture : null;
+    if (cur?.kind === "stop" && (kind === "raise" || kind === "accept")) {
+      if (f.nextGesture) f.nextGesture.entry.dropped = true; // a newer one replaces the one waiting
+      const entry = { agent: f.agent.id, kind, start: cur.end, end: cur.end + ms, on, jobId: ev?.jobId ?? null, queued: true, ...extra };
+      f.nextGesture = { kind, ms, entry }; gestureLog.push(entry);
+      return;
+    }
+    if (f.nextGesture && kind !== "raise" && kind !== "accept") { f.nextGesture.entry.dropped = true; f.nextGesture = null; } // a newer stop or nod
+    f.gesture = { kind, start: clock, end: clock + ms };
+    gestureLog.push({ agent: f.agent.id, ...f.gesture, on, jobId: ev?.jobId ?? null, ...extra });
     poseGesture(f);
   }
   function handle(ev) {
@@ -490,7 +501,14 @@ export function aaMountAgentAvatars({ three = null, parent = null, agents = [], 
     for (const s of sources) s.poll?.();
     for (const f of figures.values()) {
       tickTalk(f);
-      if (f.gesture && clock >= f.gesture.end) f.gesture = null;
+      if (f.gesture && clock >= f.gesture.end) {
+        const prevEnd = f.gesture.end; f.gesture = null;
+        if (f.nextGesture) { // the gesture that waited behind a stop hand starts where the stop ended
+          const n = f.nextGesture; f.nextGesture = null;
+          f.gesture = { kind: n.kind, start: prevEnd, end: prevEnd + n.ms }; n.entry.start = prevEnd; n.entry.end = prevEnd + n.ms;
+          if (clock >= f.gesture.end) f.gesture = null;
+        }
+      }
       if (f.walk) {
         const w = f.walk, k = aaClamp((clock - w.start) / w.dur, 0, 1);
         if (w.pts) { // along the route's legs, at the same speed
@@ -582,7 +600,7 @@ export function aaMountAgentAvatars({ three = null, parent = null, agents = [], 
     release(id) {
       const f = figures.get(id); if (!f) return false;
       if (f.site != null) freeSlot(f.site, f.slot);
-      f.site = null; f.walk = null; f.offMap = true; f.visible = false; f.talk = null; f.queue.length = 0; f.caption = null; f.gesture = null;
+      f.site = null; f.walk = null; f.offMap = true; f.visible = false; f.talk = null; f.queue.length = 0; f.caption = null; f.gesture = null; f.nextGesture = null;
       if (f.fig) {
         const g = f.fig.group; g.parent?.remove(g);
         g.traverse((o) => { o.geometry?.dispose?.(); o.material?.map?.dispose?.(); o.material?.dispose?.(); });
