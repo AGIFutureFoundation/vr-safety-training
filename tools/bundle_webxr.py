@@ -328,6 +328,7 @@ APPS = {
             # The account chip controls.js mounts (shared/account.js) and what it reads.
             SHARED / "auth.js",
             SHARED / "av-sprites.js",
+            SHARED / "aa-agent-portraits.js",  # AGENT-AVATARS: the agent roster's portraits on the governance tab (read at render time)
             SHARED / "account.js",
             SHARED / "controls.js",
             WEBXR / "instructor/js/app.js",
@@ -1021,6 +1022,10 @@ APPS = {
             SHARED / "oh-voice.js",
             SHARED / "oh-hive.js",
             SHARED / "oh-panel.js",
+            # AGENT-AVATARS (docs/consoles/AGENT-AVATARS.md): the agents' portraits, then their figures (after crew.js,
+            # av-sprites.js, rb-robotics-data.js and vb-shared-data.js).
+            SHARED / "aa-agent-portraits.js",
+            SHARED / "aa-agent-avatars.js",
             # CLASSROOMS: rooms that teach (after by-parish-lessons, es-bay-lessons, ps-projectsim and cg-runner).
             SHARED / "cr-classrooms.js",
             # LA-ROOMS: the Louisiana rooms' dressers (after ix-interiors.js and lp-programme-data.js).
