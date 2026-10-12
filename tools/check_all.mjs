@@ -118,6 +118,8 @@ const CHECKERS = [
   "check_hive_world.mjs",
   // VOICES: GRIOT's characters speak their own pack lines in on-device voices — profiles, local voices only, verbatim, off by default, the talk light (docs/consoles/VOICES.md).
   "check_voices.mjs",
+  // HIVE-3: visitors in the robotics rooms, the hive's remembered settings per profile, the panel in Spanish, "A day in the hive" (docs/consoles/HIVE-3.md).
+  "check_hive3.mjs",
   // LA-COHORTS: Louisiana lesson flows and apply games, classroom boards, Home links, cohort run sheets (docs/consoles/LA-COHORTS.md).
   "check_la_cohorts.mjs",
   "check_geo.mjs",

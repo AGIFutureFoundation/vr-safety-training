@@ -188,6 +188,24 @@ let ctxA = null;
   await context.close();
 }
 
+// ------------------------------------------------------------------------------------------------ D. the panel on a phone
+{
+  console.log("D. the hive panel at 390x844 with touch (signed in): every button at least 44 px, no sideways scroll");
+  const context = await pvContext(browser, { viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true, deviceScaleFactor: 2 });
+  await context.addInitScript(() => { try { localStorage.setItem("vr-training-auth-v1", JSON.stringify({ id: "learner-h3-drive" })); } catch (_) { /* storage blocked */ } });
+  const { page } = await open(parishUrl("sf-downtown"), { ctx: context });
+  const r = await page.evaluate(() => {
+    try { window.__parishTest.ux?.select?.("learn"); } catch (_) { /* older menu */ }
+    const box = document.getElementById("oh-hive");
+    const btns = [...(box?.querySelectorAll("button") ?? [])].map((b) => { const q = b.getBoundingClientRect(); return { t: (b.dataset.oh || b.textContent).slice(0, 20), w: Math.round(q.width), h: Math.round(q.height) }; });
+    const lang = btns.find((b) => b.t === "language");
+    return { n: btns.length, small: btns.filter((b) => b.h < 43.5 || b.w < 43.5), lang, hscroll: document.documentElement.scrollWidth > innerWidth + 1 };
+  });
+  want(r.n >= 5 && r.small.length === 0 && r.lang && r.lang.h >= 44, `hive panel buttons >= 44 px: ${r.n - r.small.length} of ${r.n} (the new language button ${r.lang ? `${r.lang.w}x${r.lang.h}` : "missing"})`, r.small.map((b) => `${b.t}:${b.w}x${b.h}`).join(", ") || undefined);
+  want(!r.hscroll, "no horizontal scroll at 390x844 with the hive panel in the Learn tab");
+  await context.close();
+}
+
 console.log(`\npage errors ${out.pageErrors.length}${out.pageErrors.length ? `: ${out.pageErrors.slice(0, 5).join(" | ")}` : ""}; off-host requests ${out.offHost.length}${out.offHost.length ? `: ${out.offHost.slice(0, 3).join(" ")}` : ""}`);
 if (out.pageErrors.length || out.offHost.length) out.fails += 1;
 console.log(`drive_hive3: ${out.fails ? `${out.fails} failed` : "all steps pass"}`);

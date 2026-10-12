@@ -177,3 +177,128 @@ ok(V.budgetSteps > 0 && V.budgetOk === V.budgetSteps, `every room inside IX_BUDG
   m.dispose();
   ok(m.avatars.sources() === 0, "dispose detaches the room's figures and its presence from the hive");
 }
+
+// ------------------------------------------------------------------------------------------------ 2. remembered settings
+console.log("\n2. remembered settings (stubbed localStorage and sessionStorage)");
+delete globalThis.document;
+const mkStore = () => { const m = new Map(); return { m, getItem: (k) => (m.has(k) ? m.get(k) : null), setItem: (k, v) => m.set(k, String(v)), removeItem: (k) => m.delete(k), key: (i) => [...m.keys()][i] ?? null, get length() { return m.size; }, clear: () => m.clear() }; };
+const LS = mkStore(), SS = mkStore();
+globalThis.localStorage = LS; globalThis.sessionStorage = SS; globalThis.window ??= globalThis;
+const GT = await imp("shared/profiles.js");
+const AUTH_KEY = "vr-training-auth-v1";
+const signIn = (id) => LS.setItem(AUTH_KEY, JSON.stringify({ id }));
+const adult = { demo: false, signedIn: true, k12: false, adult: null };
+const settingsNow = (signals) => H3.h3Settings({ storage: GT.gtStorage(), signals, profile: GT.gtProfile(), demo: false });
+const h3Keys = (st) => [...st.m.keys()].filter((k) => k.startsWith(H3.H3_SETTINGS_KEY));
+{
+  signIn("learner-a");
+  const s1 = settingsNow(adult);
+  const wrote = s1.write({ voice: true }) && s1.write({ supervise: true }) && s1.write({ lang: "es" });
+  const keys = h3Keys(LS);
+  const back = settingsNow(adult).read(); // a reload: a new reader over the same device storage
+  ok(wrote && back.voice === true && back.supervise === true && back.lang === "es", "a signed-in adult profile: voice, supervise every job and the language survive a reload", JSON.stringify(back));
+  ok(keys.length === 1 && /^h3-hive-settings-v1::id-[0-9a-f]{16}$/.test(keys[0]) && h3Keys(SS).length === 0, "stored on this device under the profile's own namespaced key only (no learner id in the key, nothing in sessionStorage)", keys.join(", "));
+  ok(GT.GT_PROFILE_KEYS.includes(H3.H3_SETTINGS_KEY), "the key is one of profiles.js GT_PROFILE_KEYS (private to a profile)");
+  signIn("learner-b");
+  ok(Object.keys(settingsNow(adult).read()).length === 0, "another signed-in profile on the same device reads nothing of the first one's");
+  signIn("learner-a");
+  // sign-out clears it (auth.js signOut, the real one)
+  let signedOut = null;
+  try { const AU = await imp("shared/auth.js"); AU.Auth.session = { id: "learner-a", provider: "demo" }; AU.Auth.signOut(); signedOut = true; } catch (e) { signedOut = String(e?.message ?? e); }
+  signIn("learner-a");
+  ok(signedOut === true && Object.keys(settingsNow(adult).read()).length === 0 && h3Keys(LS).length === 0, "sign-out (auth.js Auth.signOut) removes them; signing in again finds nothing", signedOut === true ? "" : String(signedOut));
+}
+{
+  // demo, K-12, signed out, unknown: nothing read, nothing written, anywhere
+  LS.clear(); SS.clear();
+  const cases = [];
+  signIn("learner-c");
+  cases.push(["demo (?demo)", H3.h3Settings({ storage: GT.gtStorage(), signals: adult, profile: GT.gtProfile(), demo: true })]);
+  cases.push(["demo (signals)", H3.h3Settings({ storage: GT.gtStorage(), signals: { ...adult, demo: true }, profile: GT.gtProfile() })]);
+  cases.push(["K-12", H3.h3Settings({ storage: GT.gtStorage(), signals: { ...adult, k12: true }, profile: GT.gtProfile() })]);
+  cases.push(["unknown signals", H3.h3Settings({ storage: GT.gtStorage(), signals: { demo: null, signedIn: null, k12: null }, profile: GT.gtProfile() })]);
+  LS.removeItem(AUTH_KEY);
+  cases.push(["signed out", H3.h3Settings({ storage: GT.gtStorage(), signals: { ...adult, signedIn: false }, profile: GT.gtProfile() })]);
+  SS.setItem("vr-training-demo-v1", "1");
+  cases.push(["demo profile", H3.h3Settings({ storage: GT.gtStorage(), signals: { ...adult, demo: true }, profile: GT.gtProfile() })]);
+  SS.removeItem("vr-training-demo-v1");
+  const res = cases.map(([label, s]) => ({ label, allowed: s.allowed, wrote: s.write({ voice: true, supervise: true, lang: "es" }), read: Object.keys(s.read()).length, reason: s.reason }));
+  ok(res.every((r) => !r.allowed && !r.wrote && r.read === 0) && h3Keys(LS).length === 0 && h3Keys(SS).length === 0, `demo, K-12, signed-out and unknown sessions store and read nothing: ${res.length} of ${cases.length} (${res.map((r) => `${r.label} → ${r.reason}`).join("; ")})`);
+}
+{
+  const src = read("WebXR/shared/h3-hive-day.js").replace(/\/\/.*$/gm, "");
+  ok(!/\b(fetch|XMLHttpRequest|WebSocket|sendBeacon|EventSource|navigator\.|import\()/.test(src) && !/^import /m.test(src), "h3-hive-day.js imports nothing and has no network call (never uploaded)");
+}
+
+// ------------------------------------------------------------------------------------------------ 3. the panel in Spanish
+console.log("\n3. the hive panel in Spanish");
+{
+  const EN = H3.H3_PANEL_TEXT.en, ES = H3.H3_PANEL_TEXT.es;
+  const probe = (v) => (typeof v === "function" ? String(v.length === 3 ? v(7, { completed: 1, refused: 2, vetoed: 3, declined: 4, awaitingApproval: 5 }, { lines: 9, ok: true }) : v(v.length === 1 ? { jobId: "J-1", task: "Task", siteName: "Site" } : 2)) : String(v));
+  const keys = Object.keys(EN).filter((k) => k !== "review");
+  const enStrings = keys.map((k) => probe(EN[k])).filter(Boolean);
+  const covered = keys.filter((k) => ES[k] != null && typeof ES[k] === typeof EN[k] && probe(ES[k]) && probe(ES[k]) !== probe(EN[k]));
+  ok(covered.length === keys.length, `Spanish UI strings covered: ${covered.length} of ${keys.length}`, keys.filter((k) => !covered.includes(k)).join(", "));
+  const leaks = keys.filter((k) => { const t = probe(ES[k]); return ["software agents managing", "Seven software agents", "Home:", "Voice:", "Supervise every job", "Approve", "Decline", "Waiting for you", "completed", "audit chain", "Language: English", "Run 2 steps"].some((e) => t.includes(e)); });
+  ok(leaks.length === 0, "no English UI phrase inside a Spanish string", leaks.join(", "));
+  const roles = OHD.OH_AGENTS.filter((a) => H3.h3RoleIn(a, "es") && H3.h3RoleIn(a, "es") !== a.role && H3.h3RoleIn(a, "en") === a.role);
+  ok(roles.length === OHD.OH_AGENTS.length, `the agents' role sentences in Spanish: ${roles.length} of ${OHD.OH_AGENTS.length}; English unchanged`);
+  const chipWords = ["warm", "reserved", "formal", "casual", "detailed", "brief", "cautious", "brisk"];
+  const chipsOk = chipWords.filter((c) => H3.h3ChipIn(c, "es") && H3.h3ChipIn(c, "en") === c);
+  const chipsUsed = new Set(OHD.OH_AGENTS.flatMap((a) => OHD.ohTraitChips(a.traits)));
+  ok(chipsOk.length === chipWords.length && [...chipsUsed].every((c) => chipWords.includes(c)), `personality chips in Spanish: ${chipsOk.length} of ${chipWords.length} (every chip the roster shows: ${[...chipsUsed].join(", ")})`);
+  ok(EN.note.startsWith("Seven software agents, not people, coordinate the robot jobs") && EN.approve === "Approve (simulated only)" && EN.label === OHD.OH_AGENT_LABEL && probe(EN.voice) === "Voice: on" && EN.review === "", "English is the panel's text as it was (note, labels, buttons)");
+  ok(/native speaker/.test(ES.review) === false && /hablante nativo/.test(ES.review), "the Spanish panel carries the note that it awaits a native speaker's review");
+  const panel = read("WebXR/shared/oh-panel.js");
+  const literal = ["\"Step\"", "`Run ${OH_RUN_STEPS} steps`", "\"Voice: off\"", "\"Approve (simulated only)\"", "\"Decline\"", "`Waiting for you", "\"Agent captions\"", "`Home: "];
+  ok(literal.every((l) => !panel.includes(l)) && /T\.status\(hive\.now\(\), m, v\)/.test(panel) && /h3RoleIn\(a, hiveLang\)/.test(panel), "oh-panel.js draws every UI string from the language's table (no English literal left)");
+}
+
+// ------------------------------------------------------------------------------------------------ 5. "A day in the hive"
+console.log("\n5. \"A day in the hive\" (the scene's hive, paced by its beats)");
+{
+  const runScene = (seed) => {
+    const hive = H3.h3SceneHive(OHH.ohHive, { seed });
+    for (let i = 0; i < H3.H3_SCENE_PROLOGUE_STEPS; i += 1) hive.step();
+    const pre = hive.jobs().map((j) => `${j.n}:${j.status}:${j.winner ?? ""}`).join(",");
+    const R = H3.h3SceneRelay(hive);
+    const beats = [];
+    for (const b of H3.H3_SCENE.beats) {
+      R.step(b.steps);
+      if (b.id === "approved") { const p = hive.pending()[0]; if (p) hive.approve(p.jobId); }
+      const ev = b.id === "arrive" ? R.releaseThrough("speak") : b.id === "bids" ? R.releaseRun("bid") : b.id === "award" ? R.releaseThrough("award") : b.id === "walk-out" ? R.releaseThrough("move") : b.id === "refusal" ? R.releaseThrough("refused") : R.releaseAll();
+      beats.push({ id: b.id, at: b.at, ev: ev.map((e) => `${e.type}:${e.agent}:${e.to ?? ""}:${e.reason ?? ""}`) });
+    }
+    return { pre, beats, m: hive.metrics(), v: hive.verify(), events: hive.events().map((e) => `${e.t}|${e.type}|${e.agent}|${e.jobId ?? ""}|${e.text ?? ""}`) };
+  };
+  const a = runScene(1), b = runScene(1);
+  ok(JSON.stringify(a.events) === JSON.stringify(b.events) && a.events.length > 0, `deterministic for a seed: the same ${a.events.length} events (and words) on two runs of seed 1`);
+  const story = (r) => {
+    const f = (id, s) => (r.beats.find((x) => x.id === id)?.ev ?? []).some((e) => e.startsWith(s));
+    return r.pre.startsWith("0:running:oh-maintenance-planner") && f("arrive", "speak:oh-dispatcher") && f("bids", "bid:") && f("award", "award:oh-maintenance-planner") && f("walk-out", "move:oh-maintenance-planner:rb-site-richland-drilling-robot")
+      && f("refusal", "refused:oh-dispatcher:rb-site-soma-robot-cell:inside-separation") && f("approval", "approval-request:oh-consent-keeper:rb-site-soma-robot-cell:physical-target")
+      && f("walk-in", "move:oh-maintenance-planner:rb-site-soma-robot-cell") && r.beats.find((x) => x.id === "run").ev.some((e) => e.startsWith("dispatch:oh-maintenance-planner:rb-site-soma-robot-cell")) && r.m.physicalDispatched === 0 && r.v.ok;
+  };
+  const seeds = [1, 2, 3, 7, 42];
+  const told = seeds.filter((s) => story(runScene(s)));
+  ok(told.length === seeds.length, `the story holds for seeds ${seeds.join(", ")}: ${told.length} of ${seeds.length} (the planner wins and walks out, the governor refuses a person 1.2 m from the robot, a physical-robot job asks the learner, the approved simulated run dispatches; physical dispatches 0, audit chain intact)`);
+  const at = H3.H3_SCENE.beats.map((x) => x.at);
+  ok(H3.H3_SCENE.duration >= 20 && H3.H3_SCENE.duration <= 30 && at.every((t, i) => i === 0 || t > at[i - 1]) && at[at.length - 1] <= H3.H3_SCENE.duration, `the scene lasts ${H3.H3_SCENE.duration} s with ${at.length} beats in order`);
+  const app = read("WebXR/parishes/js/app.js");
+  ok(/window\.__parishTest\.hiveScene = /.test(app) && /h3SceneSay\("The governor refuses"/.test(app) && /h3SceneSay\("You approve: a simulated run only"/.test(app) && /VB_REASONS\.find/.test(app), "the page plays it (window.__parishTest.hiveScene) with the refusal's reason and the approval captioned");
+}
+
+// ------------------------------------------------------------------------------------------------ 6. the wiring
+console.log("\n6. the wiring");
+{
+  const app = read("WebXR/parishes/js/app.js"), bundler = read("tools/bundle_webxr.py"), all = read("tools/check_all.mjs"), base = JSON.parse(read("docs/perf/checkers-baseline.json")), auth = read("WebXR/shared/auth.js");
+  ok(/settings: h3Prefs/.test(app) && /h3Settings\(\{ storage: gtStorage\(\), signals: dxReadSignals\(\), profile: gtProfile\(\), demo: npParams\.has\("demo"\) \}\)/.test(app), "the parishes app hands the panel this profile's settings (gtStorage, DATAWORKS' signals, the ?demo flag)");
+  ok(/onTalk: \(id, on\) => \{ if \(on\) \{ aaWorld\?\.talkStart\(id\); hwRoomMount\?\.avatars\?\.talkStart\(id\);/.test(app) && /const hv = h3Scene\?\.relay \?\? window\.__parishTest\?\.hive\?\.hive/.test(app), "the voice's onstart/onend reach the room figures' talk light; the room follows the scene's hive while it plays");
+  const i3 = bundler.indexOf('SHARED / "h3-hive-day.js"'), iPanel = bundler.indexOf('SHARED / "oh-panel.js"'), iHw = bundler.indexOf('SHARED / "hw-hive-world.js"');
+  ok(i3 > 0 && i3 < iPanel && i3 < iHw, "h3-hive-day.js is in the parishes bundle before oh-panel.js and hw-hive-world.js");
+  ok(/"check_hive3\.mjs"/.test(all) && Number.isFinite(base.checkers?.["check_hive3.mjs"] ?? base["check_hive3.mjs"]) && /ESTIMATE/.test(base.notes?.["check_hive3.mjs"] ?? ""), "check_all lists check_hive3.mjs and the baseline row is labelled an estimate");
+  ok(/gtStorage\(\)\?\.removeItem\("h3-hive-settings-v1"\)/.test(auth) && auth.indexOf('removeItem("h3-hive-settings-v1")') < auth.indexOf("localStorage.removeItem(AUTH_KEY)"), "auth.js signOut clears the hive settings before the session key goes");
+}
+
+console.log(`\ncheck_hive3: ${failures ? `${passes} passed, ${failures} failed` : `all ${passes} checks pass`}.`);
+process.exit(failures ? 1 : 0);
