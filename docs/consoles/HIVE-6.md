@@ -90,6 +90,11 @@ comes first, the physical path stays disabled. `aa-*.js` were not edited (AVATAR
 - `h6-console-moods.png`: the instructor console's Omega Hive tab, "Moods and the morning briefing (read-only)" at hive minute 120:
   each agent's mood and its cause ("concerned — after the governor's refusal of vbjob-241c… (physical-target) at 01:56", "relieved —
   after a clean audit at 01:54 (160 chain lines intact)") and the seven briefing lines.
+- `h6-briefing-wall-balanced.png` and `h6-briefing-room-balanced.png` (drive 3, balanced, 57 s, page errors 0, off-host 0; in the page
+  85 meshes, 4,394 triangles built, 2.77 MiB, 7 briefing turns): the small console cards in words ("Ivo · software agent · Queue 0 ·
+  00:00 Supervisor (this device) h…", "Tamsa … 00:00 I start with vbjob-1cc7b1…") and the small wall's cut captions
+  ("… (software agent) · mo…", "physical dispatches 0"). In the close view Ivo's figure stands in the left foreground; in the front
+  view the figures' labels cover part of the wall.
 
 ## Read honestly
 
