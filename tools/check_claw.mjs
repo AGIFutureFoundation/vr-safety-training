@@ -245,7 +245,7 @@ await check("6 people beside robots: learner values only when eligible; counts o
 await check("7 wiring: the parishes mount and its gate, the instructor tab, the bundle lists, check_all, the estimated baseline row", () => {
   const app = src("WebXR/parishes/js/app.js");
   ok(/ocMountClaw\(\$\("menu-drills"\)/.test(app) && /ocMountWorld\(/.test(app) && /ocWorldLoop\(/.test(app), "parishes mounts");
-  ok(/var ocHuman = [^\n]*!npParams\.has\("demo"\) && dxEligibility\(dxReadSignals\(\), \{ stage: "offer" \}\)\.eligible === true[^\n]*: null/.test(app), "the learner gate (DATAWORKS eligibility, not demo)");
+  ok(/var ocHuman = [^\n]*!npParams\.has\("demo"\) && dxEligibility\(dxReadSignals\(\), \{ stage: "collect" \}\)\.eligible === true && !!dxConsent\(\)[^\n]*: null/.test(app), "the learner gate (DATAWORKS' collect-stage eligibility: signed in, adult, not K-12 or demo, and opted in)");
   const idx = src("WebXR/instructor/index.html"), ia = src("WebXR/instructor/js/app.js");
   ok(/id="tab-claw"/.test(idx) && /id="view-claw"/.test(idx) && /id="oc-root"/.test(idx), "instructor tab markup");
   ok(/\["claw", "tab-claw", "view-claw"\]/.test(ia) && /ocMountClaw\(\$\("oc-root"\), \{ record: OC_RECORD, human: null \}\)/.test(ia), "instructor tab wiring, no learner data");

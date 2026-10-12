@@ -7,7 +7,7 @@ Read `docs/consoles/OMEGA-CLAW.md` (Read honestly, Seams, Left) and `docs/omega-
    - Then run it once. `ocClaw` refuses spent seeds, so a new claw instance must start from the new protocol's seeds only.
    - Check: `check_claw` gains a protocol-2 section: the ancestry check, N comparisons run once, the verdicts re-derive, and refusals still 3 of 3.
    - Check: report the small model's success against the clone as measured, whatever it is.
-2. **People beside robots with a real opted-in learner.** Drive the parishes page with a DATAWORKS opt-in adult profile (the `dx-data.js` signals) and a few drills recorded through `drRecord`.
+2. **People beside robots through the real drills.** Round 6b's drive (`$SP/loop10/oc/drive_people.mjs`) opted in through the consent panel, but it wrote fixture drill results straight to `vr-passport-drills-v1`. Drive it again with drills actually played and recorded through `drRecord`, and with tutor attempts through `colTutor().record` + `save()`. Also consider refreshing the panel's people block when the learner opts in, without a reload.
    - Check: the panel's practice block shows those drills, with `data-learner="local"`.
    - Check: with the same profile in `?demo` or K-12, it shows nothing.
    - Check: 0 requests leave the page.
