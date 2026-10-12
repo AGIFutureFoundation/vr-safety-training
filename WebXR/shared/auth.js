@@ -36,6 +36,7 @@
 
 import { Identity, cleanOrigin } from "./identity.js";
 import { TrainingRecords } from "./records.js";
+import { gtStorage } from "./profiles.js";
 
 /** One versioned key. A shape change gets a new suffix, not a migration. */
 const AUTH_KEY = "vr-training-auth-v1";
@@ -698,6 +699,8 @@ export const Auth = {
     // Records are private to the signed-in identity (shared/profiles.js), so
     // the ones cleared are that person's, before their session key goes.
     if (clearRecords) TrainingRecords.clear();
+    // HIVE-3: the hive panel's remembered settings (h3-hive-day.js) belong to this profile and go with its session.
+    try { gtStorage()?.removeItem("h3-hive-settings-v1"); } catch (_) { /* storage blocked */ }
     this.session = null;
     try { localStorage.removeItem(AUTH_KEY); } catch (_) { /* ignore */ }
     Identity.clear();

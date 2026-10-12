@@ -11,38 +11,48 @@
 // size × device pixel ratio; the badge SVG stays as the fallback), and "Supervise every job" (off by default) makes every
 // governor-allowed job wait in the queue for the learner's approval (ohHive's setSupervise).
 //
-// SEAM: ohMountHive(el, { reducedMotion, audit, seed, nJobs, synth, Utterance, supervise }) ->
-//         { hive, step(), run(n), approve(jobId), decline(jobId), voice(on), supervise(on), voiceController, state(), captions(), el } | null
+// HIVE-3: the panel's own text and the agents' role sentences follow the hive's language (h3PanelText, h3RoleIn, h3ChipIn: English
+// unchanged, Spanish machine-assisted and awaiting a native speaker's review); `settings` (h3Settings) remembers voice, "supervise
+// every job" and the language for a signed-in adult profile on this device, and a language button switches it (the page reloads).
+//
+// SEAM: ohMountHive(el, { reducedMotion, audit, seed, nJobs, synth, Utterance, supervise, lang, settings, reload }) ->
+//         { hive, step(), run(n), approve(jobId), decline(jobId), voice(on), supervise(on), language(code), lang, voiceController, state(), captions(), el } | null
 //
 // Every top-level name starts with `oh`/`OH_` (the bundler shares one scope).
 
 import { RB_SITES } from "./rb-robotics-data.js";
-import { OH_AGENTS, OH_FEATURE, OH_AGENT_LABEL, ohTraitChips, ohLangFor, ohAgentIn } from "./oh-hive-data.js";
+import { OH_AGENTS, OH_FEATURE, OH_AGENT_LABEL, OH_LANGS, ohTraitChips, ohLangFor, ohAgentIn } from "./oh-hive-data.js";
 import { ohSay } from "./oh-say.js";
 import { ohHive } from "./oh-hive.js";
 import { ohVoiceController } from "./oh-voice.js";
 import { avAgentLook, avSpriteSvg } from "./av-sprites.js";
 import { aaPortraitImg } from "./aa-agent-portraits.js";
+import { h3PanelText, h3RoleIn, h3ChipIn } from "./h3-hive-day.js";
 
 export const OH_FEED_MAX = 40;
 export const OH_RUN_STEPS = 10;
 const OH_PANEL_CSS = ".oh-panel{font:13px/1.4 system-ui,sans-serif;padding:10px;border:1px solid #4a3f7a;border-radius:10px;background:#120f22;color:#ece8ff;margin:8px 0}.oh-panel h3{margin:0 0 6px;font-size:15px}.oh-panel .oh-note{opacity:.85;font-size:12px;margin:0 0 6px}.oh-panel .oh-roster{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:6px}.oh-panel .oh-card{display:flex;gap:6px;align-items:flex-start;border:1px solid #3a335f;border-radius:8px;padding:5px;background:#1b1733;position:relative}.oh-panel .oh-card svg,.oh-panel .oh-card img{flex:0 0 auto;border-radius:6px}.oh-panel .oh-name{font-weight:600}.oh-panel .oh-label{display:inline-block;font-size:10px;letter-spacing:.02em;text-transform:uppercase;background:#2f2a52;border:1px solid #6d62b8;border-radius:4px;padding:0 4px;margin-left:4px}.oh-panel .oh-role{font-size:11px;opacity:.85}.oh-panel .oh-chip{display:inline-block;font-size:10px;border-radius:9px;padding:0 6px;margin:2px 3px 0 0;background:#2a2547}.oh-panel .oh-talk{position:absolute;top:5px;right:5px;width:8px;height:8px;border-radius:50%;background:#3a335f}.oh-panel .oh-card[data-talking=true] .oh-talk{background:#8fe3ff}.oh-panel .oh-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}.oh-panel button{background:#2a2450;color:#ece8ff;border:1px solid #6d62b8;border-radius:6px;padding:5px 9px;cursor:pointer}.oh-panel button[aria-pressed=true]{background:#4b3fa0}.oh-panel .oh-feed{max-height:180px;overflow-y:auto;border:1px solid #3a335f;border-radius:6px;padding:4px 6px;margin-top:6px;background:#0d0b19}.oh-panel .oh-feed p{margin:2px 0}.oh-panel .oh-queue{margin-top:6px}.oh-panel .oh-req{border:1px solid #8a6d2a;border-radius:6px;padding:5px;margin-top:4px;background:#1f1a10}.oh-panel .oh-status{margin-top:6px;font-size:12px;opacity:.9}";
 
-export function ohMountHive(el, { reducedMotion = false, audit = null, seed = 1, nJobs = 200, ticksPerDay = 480, synth, Utterance, onTalk = null, supervise = false, lang = null } = {}) {
+export function ohMountHive(el, { reducedMotion = false, audit = null, seed = 1, nJobs = 200, ticksPerDay = 480, synth, Utterance, onTalk = null, supervise = false, lang = null, settings = null, reload = null } = {}) {
   if (!el || typeof document === "undefined") return null;
+  let prefs = {}; try { prefs = settings?.read?.() ?? {}; } catch (_) { prefs = {}; } // HIVE-3: this profile's remembered choices (none outside its gate)
+  if (typeof prefs.supervise === "boolean") supervise = prefs.supervise;
   // VOICES: the hive speaks the page's language when it has one (English by default, or Spanish); the voice then asks for a local
   // voice of that language, and with none the agent is silent and its caption still shows.
+  if (typeof prefs.lang === "string") lang = prefs.lang; // HIVE-3: the language this profile chose wins over the page's
   const hiveLang = ohLangFor(lang ?? document.documentElement?.lang ?? "en");
+  const T = h3PanelText(hiveLang);
   const hive = ohHive({ seed, audit, nJobs, ticksPerDay, supervise, ...(hiveLang === "en" ? {} : { say: (a, ev) => ohSay(a, ev, { lang: hiveLang }), agents: OH_AGENTS.map((a) => ohAgentIn(a, hiveLang)), supervisor: "Supervisor (este dispositivo)" }) });
   const voice = ohVoiceController({ ...(synth !== undefined ? { synth } : {}), ...(Utterance !== undefined ? { Utterance } : {}), enabled: false });
   const captions = [];
   const siteName = (id) => RB_SITES.find((s) => s.id === id)?.name ?? id;
   const mk = (tag, cls, text) => { const n = document.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = text; return n; };
 
-  const box = mk("section", "oh-panel"); box.id = "oh-hive"; box.setAttribute("aria-label", `${OH_FEATURE}: software agents managing the simulated robots`);
+  const box = mk("section", "oh-panel"); box.id = "oh-hive"; box.lang = OH_LANGS[hiveLang]?.tag ?? "en-US"; box.dataset.lang = hiveLang; box.setAttribute("aria-label", T.aria(OH_FEATURE));
   const style = document.createElement("style"); style.textContent = OH_PANEL_CSS; box.appendChild(style);
-  box.appendChild(mk("h3", null, `${OH_FEATURE} — software agents managing the simulated robots`));
-  box.appendChild(mk("p", "oh-note", "Seven software agents, not people, coordinate the robot jobs at the Holodeck's six robot sites. Every job passes the safety governor; anything that would touch a physical robot comes to you as a question, and approving lets only the simulated job run. Lines are written on this device from each agent's persona and the job's own data, with no model or network call. Voice is off until you turn it on, captions always show, and nothing listens."));
+  box.appendChild(mk("h3", null, T.heading(OH_FEATURE)));
+  box.appendChild(mk("p", "oh-note", T.note));
+  if (T.review) box.appendChild(mk("p", "oh-note oh-review", T.review));
 
   const roster = mk("div", "oh-roster"); roster.setAttribute("role", "list");
   const cards = new Map();
@@ -50,14 +60,14 @@ export function ohMountHive(el, { reducedMotion = false, audit = null, seed = 1,
     const card = mk("div", "oh-card"); card.setAttribute("role", "listitem"); card.dataset.agent = a.id; card.dataset.talking = "false";
     const pic = mk("div", "oh-pic");
     let img = null; try { img = typeof aaPortraitImg === "function" ? aaPortraitImg(a, { size: 48 }) : null; } catch (_) { img = null; }
-    if (img) { img.title = `${a.name}, ${OH_AGENT_LABEL}`; pic.appendChild(img); } // the 2× portrait (HIVE-IN-WORLD)
-    else pic.innerHTML = avSpriteSvg(avAgentLook(a.avatar.glyph, a.avatar.accent), { kind: "portrait", size: 48, title: `${a.name}, ${OH_AGENT_LABEL}` }); // the badge fallback
+    if (img) { img.title = `${a.name}, ${T.label}`; pic.appendChild(img); } // the 2× portrait (HIVE-IN-WORLD)
+    else pic.innerHTML = avSpriteSvg(avAgentLook(a.avatar.glyph, a.avatar.accent), { kind: "portrait", size: 48, title: `${a.name}, ${T.label}` }); // the badge fallback
     const body = mk("div");
-    const name = mk("div", "oh-name", a.name); name.appendChild(mk("span", "oh-label", OH_AGENT_LABEL));
+    const name = mk("div", "oh-name", a.name); name.appendChild(mk("span", "oh-label", hiveLang === "en" ? OH_AGENT_LABEL : T.label));
     body.appendChild(name);
-    body.appendChild(mk("div", "oh-role", a.role));
-    body.appendChild(mk("div", "oh-role", `Home: ${siteName(a.homeSite)}`));
-    const chips = mk("div"); for (const c of ohTraitChips(a.traits)) chips.appendChild(mk("span", "oh-chip", c)); body.appendChild(chips);
+    body.appendChild(mk("div", "oh-role", h3RoleIn(a, hiveLang)));
+    body.appendChild(mk("div", "oh-role", T.home(siteName(a.homeSite))));
+    const chips = mk("div"); for (const c of ohTraitChips(a.traits)) chips.appendChild(mk("span", "oh-chip", h3ChipIn(c, hiveLang))); body.appendChild(chips);
     card.append(pic, body, mk("span", "oh-talk"));
     card.querySelector(".oh-talk").setAttribute("aria-hidden", "true");
     roster.appendChild(card); cards.set(a.id, card);
@@ -65,16 +75,17 @@ export function ohMountHive(el, { reducedMotion = false, audit = null, seed = 1,
   box.appendChild(roster);
 
   const row = mk("div", "oh-row");
-  const bStep = mk("button", null, "Step"); bStep.type = "button"; bStep.dataset.oh = "step";
-  const bRun = mk("button", null, `Run ${OH_RUN_STEPS} steps`); bRun.type = "button"; bRun.dataset.oh = "run";
-  const bVoice = mk("button", null, "Voice: off"); bVoice.type = "button"; bVoice.dataset.oh = "voice"; bVoice.setAttribute("aria-pressed", "false");
+  const bStep = mk("button", null, T.step); bStep.type = "button"; bStep.dataset.oh = "step";
+  const bRun = mk("button", null, T.run(OH_RUN_STEPS)); bRun.type = "button"; bRun.dataset.oh = "run";
+  const bVoice = mk("button", null, T.voice(false)); bVoice.type = "button"; bVoice.dataset.oh = "voice"; bVoice.setAttribute("aria-pressed", "false");
   const bSup = mk("button", null, ""); bSup.type = "button"; bSup.dataset.oh = "supervise";
-  const supText = (on) => { bSup.textContent = `Supervise every job: ${on ? "on" : "off"}`; bSup.setAttribute("aria-pressed", String(on)); bSup.title = on ? "Every job waits for your approval before it runs." : "Routine simulated jobs the governor allows run under your standing approval; requests that name a physical robot always ask you."; };
+  const supText = (on) => { bSup.textContent = T.supervise(on); bSup.setAttribute("aria-pressed", String(on)); bSup.title = on ? T.superviseOn : T.superviseOff; };
   supText(hive.supervising());
-  row.append(bStep, bRun, bVoice, bSup);
+  const bLang = mk("button", null, T.language); bLang.type = "button"; bLang.dataset.oh = "language"; bLang.title = T.languageTitle; // HIVE-3
+  row.append(bStep, bRun, bVoice, bSup, bLang);
   box.appendChild(row);
   const queueBox = mk("div", "oh-queue"); queueBox.setAttribute("aria-live", "polite"); box.appendChild(queueBox);
-  const feed = mk("div", "oh-feed"); feed.setAttribute("aria-live", "polite"); feed.setAttribute("aria-label", "Agent captions"); box.appendChild(feed);
+  const feed = mk("div", "oh-feed"); feed.setAttribute("aria-live", "polite"); feed.setAttribute("aria-label", T.feed); box.appendChild(feed);
   const status = mk("div", "oh-status"); box.appendChild(status);
   el.appendChild(box);
 
@@ -96,14 +107,12 @@ export function ohMountHive(el, { reducedMotion = false, audit = null, seed = 1,
     queueBox.textContent = "";
     const pend = hive.pending();
     if (!pend.length) return;
-    queueBox.appendChild(mk("div", "oh-name", `Waiting for you (${pend.length})`));
+    queueBox.appendChild(mk("div", "oh-name", T.waiting(pend.length)));
     for (const r of pend) {
       const req = mk("div", "oh-req"); req.dataset.job = r.jobId; req.dataset.reason = r.reason;
-      req.appendChild(mk("div", null, r.reason === "supervise"
-        ? `${r.jobId} · ${r.task} at ${r.siteName}. The governor allowed it and you supervise every job: approve to let it run on the simulated robot, or decline.`
-        : `${r.jobId} · ${r.task} at ${r.siteName}. It names a physical robot; that path is disabled in this build. Approve to run it on the simulated robot only, or decline.`));
-      const ok = mk("button", null, "Approve (simulated only)"); ok.type = "button"; ok.dataset.oh = "approve";
-      const no = mk("button", null, "Decline"); no.type = "button"; no.dataset.oh = "decline";
+      req.appendChild(mk("div", null, r.reason === "supervise" ? T.askSupervise(r) : T.askPhysical(r)));
+      const ok = mk("button", null, T.approve); ok.type = "button"; ok.dataset.oh = "approve";
+      const no = mk("button", null, T.decline); no.type = "button"; no.dataset.oh = "decline";
       ok.onclick = () => api.approve(r.jobId); no.onclick = () => api.decline(r.jobId);
       const br = mk("div", "oh-row"); br.append(ok, no); req.appendChild(br);
       queueBox.appendChild(req);
@@ -112,12 +121,12 @@ export function ohMountHive(el, { reducedMotion = false, audit = null, seed = 1,
   function render() {
     renderQueue();
     const m = hive.metrics(); const v = hive.verify();
-    status.textContent = `Step ${hive.now()} · completed ${m.completed} · refused ${m.refused} · vetoed ${m.vetoed} · declined ${m.declined} · waiting for you ${m.awaitingApproval} · audit chain ${v.lines} line(s), ${v.ok ? "intact" : "BROKEN"}`;
+    status.textContent = T.status(hive.now(), m, v);
   }
 
   let timer = null;
   const api = {
-    hive, el: box, voiceController: voice,
+    hive, el: box, voiceController: voice, lang: hiveLang, settings,
     step() { const ev = hive.step(); render(); return ev; },
     run(n = OH_RUN_STEPS) {
       clearInterval(timer);
@@ -132,9 +141,11 @@ export function ohMountHive(el, { reducedMotion = false, audit = null, seed = 1,
     },
     approve(jobId) { const r = hive.approve(jobId); render(); return r; },
     decline(jobId) { const r = hive.decline(jobId); render(); return r; },
-    voice(on) { const v = voice.setEnabled(on); bVoice.textContent = `Voice: ${v ? "on" : "off"}`; bVoice.setAttribute("aria-pressed", String(v)); return v; },
-    supervise(on) { const v = hive.setSupervise(on); supText(v); render(); return v; },
-    state() { return { t: hive.now(), metrics: hive.metrics(), verify: hive.verify(), pending: hive.pending(), voice: voice.enabled(), supervise: hive.supervising(), captions: captions.length }; },
+    voice(on, { remember = true } = {}) { const v = voice.setEnabled(on); bVoice.textContent = T.voice(v); bVoice.setAttribute("aria-pressed", String(v)); if (remember) { try { settings?.write?.({ voice: v }); } catch (_) { /* nothing kept */ } } return v; },
+    supervise(on) { const v = hive.setSupervise(on); supText(v); render(); try { settings?.write?.({ supervise: v }); } catch (_) { /* nothing kept */ } return v; },
+    /** HIVE-3: switch the hive's language; it is kept for this profile and applies on the reload that follows. */
+    language(code) { const l = ohLangFor(code); let kept = false; try { kept = !!settings?.write?.({ lang: l }); } catch (_) { kept = false; } if (kept && l !== hiveLang) { try { (reload ?? (() => location.reload()))(); } catch (_) { /* headless */ } } return { lang: l, kept }; },
+    state() { return { t: hive.now(), metrics: hive.metrics(), verify: hive.verify(), pending: hive.pending(), voice: voice.enabled(), supervise: hive.supervising(), lang: hiveLang, remembered: settings?.allowed === true, captions: captions.length }; },
     captions() { return captions.slice(); },
     stop() { clearInterval(timer); voice.stop(); },
   };
@@ -142,6 +153,8 @@ export function ohMountHive(el, { reducedMotion = false, audit = null, seed = 1,
   bRun.onclick = () => api.run(OH_RUN_STEPS);
   bVoice.onclick = () => api.voice(!voice.enabled());
   bSup.onclick = () => api.supervise(!hive.supervising());
+  bLang.onclick = () => api.language(hiveLang === "es" ? "en" : "es");
+  if (prefs.voice === true) api.voice(true, { remember: false }); // remembered from an earlier visit by this profile
   render();
   return api;
 }
