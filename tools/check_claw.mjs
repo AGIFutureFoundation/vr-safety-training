@@ -14,6 +14,8 @@
  *   6. people beside robots: learner values only when eligible, counts only in the chain
  *   7. wiring: the parishes mount and its gate, the instructor tab, the bundle lists, check_all and the estimated baseline row
  *   8. controls at least 44 px; hygiene: no model identifier, no claim wording
+ *   9. protocol 2 (round 7): seeds only through ARENA-2's committed declaration (8ea01d3c), which precedes the protocol,
+ *      which precedes its record; N comparisons run once; verdicts re-derive; refusals 3 of 3 plus not-held-out; chain intact
  * Run: node tools/check_claw.mjs   (OC_ROOT=<tree> runs it against another checkout, for a before measurement)
  */
 import { readFileSync } from "node:fs";
@@ -269,6 +271,62 @@ await check("8 controls at least 44 px; no model identifier and no claim wording
   let n = 0;
   for (const f of files) { const t = src(f); if (!t) continue; n += 1; ok(!MODEL.test(t), `${f}: model identifier`); ok(!CLAIM.test(t), `${f}: claim wording`); }
   return `${n} files clean`;
+});
+
+// 9 — protocol 2 (round 7)
+const REC2 = json("docs/evals/claw2.json");
+await check("9 protocol 2: seeds only through ARENA-2's committed declaration; declared before its one run; N run once; verdicts re-derive; refusals 3 of 3 (+ not-held-out); chain intact", () => {
+  need(OC); ok(OC.OC_PROTOCOL_2, "OC_PROTOCOL_2 missing"); ok(REC2, "docs/evals/claw2.json missing");
+  const P = OC.OC_PROTOCOL_2;
+  ok(REC2.dev === false, "the record is a development run");
+  ok(REC2.protocol.hash === OC.ocHash(P), `protocol 2 hash ${REC2.protocol.hash} != current ${OC.ocHash(P)} (changed after the run)`);
+  const decl = json(P.seedSource.file); ok(decl?.protocol?.seeds?.gym, `${P.seedSource.file} missing`);
+  const [a, b] = String(decl.protocol.seeds.gym).split("–").map(Number);
+  ok(P.seeds[0] === a && P.seeds[P.seeds.length - 1] === b && P.seeds.length === b - a + 1, `seeds ${P.seeds[0]}–${P.seeds[P.seeds.length - 1]} != declared ${decl.protocol.seeds.gym}`);
+  ok(!P.seeds.some((s) => OC.OC_HELD_OUT.includes(s)), "protocol 2 reuses protocol 1's seeds");
+  let note = "git not available (archive): ancestry not checked";
+  try {
+    const git = (...x) => execFileSync("git", x, { cwd: ROOT, encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] }).trim();
+    const p = git("log", "--format=%H", "--reverse", "-S", "export const OC_PROTOCOL_2", "--", "WebXR/shared/oc-claw.js").split("\n")[0];
+    const r = git("log", "--format=%H", "--reverse", "--diff-filter=A", "--", "docs/evals/claw2.json").split("\n")[0];
+    const s = git("log", "--format=%H", "--reverse", "--diff-filter=A", "--", P.seedSource.file).split("\n")[0];
+    if (p && r && s) {
+      ok(p !== r, "protocol 2 and its record landed in the same commit");
+      const anc = (x, y) => { try { git("merge-base", "--is-ancestor", x, y); return true; } catch (_) { return false; } };
+      ok(s.startsWith(P.seedSource.commit), `the declaration file was added in ${s.slice(0, 8)}, not ${P.seedSource.commit}`);
+      ok(anc(s, p), `ARENA-2's declaration ${s.slice(0, 8)} is not an ancestor of protocol 2's ${p.slice(0, 8)}`);
+      ok(anc(p, r), `protocol 2's commit ${p.slice(0, 8)} is not an ancestor of its record's ${r.slice(0, 8)}`);
+      note = `declaration ${s.slice(0, 8)} -> protocol ${p.slice(0, 8)} -> record ${r.slice(0, 8)}`;
+    }
+  } catch (e) { if (/ancestor|same commit|added in/.test(String(e?.message))) throw e; }
+  const decls = OC.ocProtocolDeclarations(P);
+  const N = decls.reduce((n, d) => n + d.challengers.length, 0);
+  ok(REC2.counts.declaredComparisons === N && REC2.comparisons.length === N && REC2.counts.comparisonsRunOnce === N, `comparisons ${REC2.comparisons.length} != declared ${N}`);
+  ok(REC2.runs.length === decls.length && decls.every((d) => REC2.declarations.some((x) => x.id === d.id && x.hash)), "declarations and runs");
+  ok(REC2.declarations.every((d) => d.seedRange === `${a}–${b}` || /probe/.test(d.id)), "every comparison on ARENA-2's declared seeds");
+  ok(REC2.audit.ok && REC2.audit.declaredFirst && REC2.audit.seedOnce && REC2.audit.heldOnly, "audit flags");
+  const ex = REC2.counts.exercised; ok(ex.undeclared && ex["seed-reused"] && ex["rule-broken"] && ex["not-held-out"], `exercised ${JSON.stringify(ex)}`);
+  ok(REC2.probes.find((x) => x.kind === "runs-added-by-probes")?.n === 0, "the probes ran nothing");
+  const claw = OC.ocClaw({ arena: stubArena() });
+  for (const c of REC2.comparisons) {
+    const run = REC2.runs.find((r) => r.declId === c.declId);
+    ok(claw.judge(run.results.find((x) => x.modelId === c.challenger), run.results.find((x) => x.modelId === c.incumbent)) === c.verdict, `${c.declId} ${c.challenger}: ${c.verdict} does not re-derive`);
+  }
+  const clear = REC2.promotions.filter((x) => x.cCi[0] > x.iCi[1] && x.ruleBreaks === 0 && x.governorChecked === x.steps && x.physical === 0).length;
+  ok(clear === REC2.promotions.length, "a protocol-2 promotion without a clear interval");
+  let steps = 0, checked = 0, phys = 0;
+  for (const r of REC2.runs) for (const x of r.results) { steps += x.steps; checked += x.governorChecked; phys += x.physical; }
+  ok(steps === checked && steps === REC2.counts.stepsRun && phys === 0, `governor ${checked}/${steps}, physical ${phys}`);
+  ok(REC2.world.physicalDispatched === 0 && REC2.world.governorEveryStep && REC2.world.stepsMonitored === REC2.world.steps, "protocol-2 world: governor and physical");
+  const ch = OC.ocVerifyChain(REC2.chain); ok(ch.ok, `protocol-2 chain broken at ${ch.brokenAt}`);
+  const lm = REC2.runs.map((r) => r.results.find((x) => x.modelId === "ra-lm")).filter((x) => x && x.applicable);
+  ok(lm.length === decls.length, `ra-lm applicable on ${lm.length} of ${decls.length} scenarios`);
+  const N1 = REC ? REC.counts.declaredComparisons : 0;
+  evals.push(`declared comparisons: ${N1} -> ${N1 + N} (protocol 2: ${N} on ${a}–${b}, run once ${REC2.counts.comparisonsRunOnce}/${N}, ${REC2.counts.episodes} episodes)`);
+  evals.push(`protocol 2 refusals exercised: 3/3 (+ not-held-out) ${JSON.stringify(REC2.counts.refusalsByReason)}; promotions ${REC2.promotions.length}, clear ${clear}/${REC2.promotions.length}`);
+  evals.push(`small model (ra-lm) vs clone (bc), measured once on ${a}–${b}: ${REC2.smallModel.map((s) => `${s.scenarioId} ${s.lm} vs ${s.bc} (${s.verdict})`).join("; ")}`);
+  evals.push(`protocol 2 governor ${checked}/${steps} steps, physical ${phys}; world ${REC2.world.minutes} min, ${REC2.world.completed} jobs, governor ${REC2.world.stepsMonitored}/${REC2.world.steps}, physical dispatches ${REC2.world.physicalDispatched}; chain intact (${ch.lines} lines)`);
+  return `${note}; ${N} comparisons, verdicts re-derived, ${REC2.promotions.length} promotions, chain ${ch.lines} lines intact`;
 });
 
 for (const e of evals) console.log(`EVAL ${e}`);
