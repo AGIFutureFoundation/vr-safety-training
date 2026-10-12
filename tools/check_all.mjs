@@ -123,6 +123,8 @@ const CHECKERS = [
   "check_hive4.mjs",
   // HIVE-5: the hive in its operations room (seven agents at their consoles, the screens painted from the hive), the console tab live on this device, home after a job outdoors (docs/consoles/HIVE-5.md).
   "check_hive5.mjs",
+  // OMEGA-CLAW: five software agents declare, train, run once on held-out seeds, audit and promote robot models through ROBO-ARENA; refusals with reasons; the persistent robot world on the parishes page (docs/consoles/OMEGA-CLAW.md).
+  "check_claw.mjs",
   // LA-COHORTS: Louisiana lesson flows and apply games, classroom boards, Home links, cohort run sheets (docs/consoles/LA-COHORTS.md).
   "check_la_cohorts.mjs",
   "check_geo.mjs",

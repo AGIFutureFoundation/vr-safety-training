@@ -148,7 +148,8 @@
     "check_voices.mjs": 3500,
     "check_hive3.mjs": 5000,
     "check_hive4.mjs": 30000,
-    "check_hive5.mjs": 20000
+    "check_hive5.mjs": 20000,
+    "check_claw.mjs": 6000
   },
   "notes": {
     "check_agent_avatars.mjs": "2026-10-12 (loop 10): new (console AGENT-AVATARS). 1.5 s is an ESTIMATE, not a measurement; re-measure on a quiet gate. Imports the avatar, portrait, registry and VBRIDGE modules (no station suite, no browser), mounts a fixture hive on the three.js stub and samples 60 s of events at 20 Hz, runs two VBRIDGE jobs and mounts the robotics sites of five maps on a stub for their per-site counts. 2026-10-12 (loop 10 round 4, console AVATARS-HD): raised to 4 s, still an ESTIMATE, not a measurement: section 9 imports the vendored three.js, builds the seven figures on each tier, rasterises 14 silhouettes and 22 portraits and runs the hive 120 steps. Re-measure on a quiet gate. 2026-10-12 (loop 10 round 5, console AVATARS-HD-2): raised to 7 s, still an ESTIMATE, not a measurement: section 9 adds two 60 s runs of the real hive through the voice controller at 60 Hz and builds the six robotics rooms on high and balanced with three figures each (21 room builds). Re-measure on a quiet gate.",
@@ -186,6 +187,7 @@
     "check_voices.mjs": "2026-10-12 (console VOICES, loop 10 round 2): new. An ESTIMATE: about 2.7-4.4 s wall standalone at load 8-10 on the shared four-core machine (the profile and device-voice logic, one headless suite load of crew, links, npc-data, oh-voice, vc-voices and npc on the three.js stub, 34 characters mounted across four worlds, stubbed speechSynthesis, and the hive's Spanish days: one 480-step day and 100 short seeded days for the personality check); no browser. Re-measure on a quiet gate.",
     "check_hive3.mjs": "2026-10-12 (console HIVE-3, loop 10 round 3): new. 5 s is an ESTIMATE from one standalone run (about 4.1 s wall at load average 10 on the shared four-core machine); re-measure on a quiet gate. Builds the six robotics rooms on three tiers with the vendored three.js and runs a seeded 480-step hive day through them with ixrMeasure at every step, a reduced-motion day in the cell hall, the settings over stubbed storage with the real profiles.js and auth.js, the Spanish tables, and the scene hive for five seeds; no browser.",
     "check_hive4.mjs": "2026-10-12 (console HIVE-4, loop 10 round 4): new. 30 s is an ESTIMATE, not a measurement; re-measure on a quiet gate. Runs a seeded 480-step hive day with and without the talk, five shorter talk days, 101 persona days for the trait-recovery fit and test, and a stubbed voice queue; no browser.",
-    "check_hive5.mjs": "2026-10-12 (console HIVE-5, loop 10 round 5): new. 20 s is an ESTIMATE, not a measurement; re-measure on a quiet gate. Builds the hive operations room on three tiers with seven figures and steps a seeded 480-step day in it twice (high and balanced), a 40-step console-link run and a 480-step homeward day with the outdoor figures; no browser."
+    "check_hive5.mjs": "2026-10-12 (console HIVE-5, loop 10 round 5): new. 20 s is an ESTIMATE, not a measurement; re-measure on a quiet gate. Builds the hive operations room on three tiers with seven figures and steps a seeded 480-step day in it twice (high and balanced), a 40-step console-link run and a 480-step homeward day with the outdoor figures; no browser.",
+    "check_claw.mjs": "2026-10-12 (console OMEGA-CLAW, loop 10 round 6b): new. 6 s is an ESTIMATE, not a measurement; re-measure on a quiet gate. Reads docs/evals/claw.json (no arena run), runs the claw on a stub arena twice, two 700-minute persistent worlds and a replay, a fake-page loop; git log for the protocol ancestry; no browser."
   }
 }
