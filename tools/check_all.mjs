@@ -206,6 +206,8 @@ const CHECKERS = [
   "check_worlds_detail.mjs",
   // The Cloudflare deployment: wrangler.toml, the edge files, the /api router, the deploy agent's plan (docs/deploy-cloudflare.md).
   "check_deploy.mjs",
+  // The Akamai Cloud deploy path: both workflows gated on their secrets, the agent and the GPU job dry by default, no token literal anywhere (docs/deploy-akamai.md).
+  "check_deploy_akamai.mjs",
   // The perf files, their budgets and the checkers' own speed (docs/consoles/PROVING.md).
   "check_proving.mjs",
 ];

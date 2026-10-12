@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "akamai-cloud": {
+      "command": "uvx",
+      "args": ["akamai-cloud-mcp"],
+      "env": {
+        "LINODE_TOKEN": "${LINODE_TOKEN_READONLY}"
+      }
+    }
+  }
+}
