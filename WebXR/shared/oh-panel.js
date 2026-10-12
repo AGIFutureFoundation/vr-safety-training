@@ -63,7 +63,7 @@ export function ohMountHive(el, { reducedMotion = false, audit = null, seed = 1,
     if (img) { img.title = `${a.name}, ${T.label}`; pic.appendChild(img); } // the 2× portrait (HIVE-IN-WORLD)
     else pic.innerHTML = avSpriteSvg(avAgentLook(a.avatar.glyph, a.avatar.accent), { kind: "portrait", size: 48, title: `${a.name}, ${T.label}` }); // the badge fallback
     const body = mk("div");
-    const name = mk("div", "oh-name", a.name); name.appendChild(mk("span", "oh-label", hiveLang === "en" ? OH_AGENT_LABEL : T.label));
+    const name = mk("div", "oh-name", a.name); name.appendChild(hiveLang === "en" ? mk("span", "oh-label", OH_AGENT_LABEL) : mk("span", "oh-label", T.label));
     body.appendChild(name);
     body.appendChild(mk("div", "oh-role", h3RoleIn(a, hiveLang)));
     body.appendChild(mk("div", "oh-role", T.home(siteName(a.homeSite))));

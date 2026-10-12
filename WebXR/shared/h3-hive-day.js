@@ -34,7 +34,7 @@
 //   h3RoleIn(agent, lang) / h3ChipIn(chip, lang) -> the role sentence / a personality chip in that language
 //   H3_SCENE                                the scene's beats (ids, start seconds, camera shot) and its duration
 //   h3SceneJobs(seed)                       -> the scene's seeded job list (ohHive's `jobs` shape)
-//   h3SceneHive(ohHive, { seed, audit })    -> a hive over those jobs (the caller hands in ohHive: no import cycle)
+//   h3SceneHive(makeHive, { seed })         -> a hive over those jobs (the caller hands in OMEGA-HIVE's ohHive: no import)
 
 export const H3_ROOM_FIGURES = 3;
 
@@ -244,10 +244,10 @@ export function h3SceneJobs(seed = 1) {
   ];
 }
 
-/** A hive over the scene's jobs (the caller hands in ohHive, so this module imports nothing). No audit log: the scene writes
+/** A hive over the scene's jobs (the caller hands in OMEGA-HIVE's hive factory, so this module imports nothing). No audit log: the scene writes
  * nothing to the learner's governance registry; the hive keeps its own chain. */
-export function h3SceneHive(ohHive, { seed = 1 } = {}) {
-  return typeof ohHive === "function" ? ohHive({ seed, jobs: h3SceneJobs(seed), nJobs: 6, ticksPerDay: 60 }) : null;
+export function h3SceneHive(makeHive, { seed = 1 } = {}) {
+  return typeof makeHive === "function" ? makeHive({ seed, jobs: h3SceneJobs(seed), nJobs: 6, ticksPerDay: 60 }) : null;
 }
 
 /**
