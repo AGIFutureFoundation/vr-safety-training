@@ -1,0 +1,84 @@
+name: Deploy to Akamai Cloud
+
+# Console AKAMAI (docs/deploy-akamai.md). Off the default path: this workflow runs only when the owner starts it
+# by hand (workflow_dispatch); nothing on a push triggers it. To make it follow pushes, the owner adds a `push:`
+# trigger like the one in deploy-cloudflare.yml — a deliberate, reviewed change.
+#
+# Gated on its secrets exactly like the Cloudflare workflow: the first job only asks whether LINODE_TOKEN,
+# AK_S3_ACCESS_KEY_ID and AK_S3_SECRET_ACCESS_KEY are all present (and the four AK_* variables are set). A fork
+# or a checkout without them runs nothing else and stays green. With them, the checker suite runs first and
+# gates the upload; the agent uploads, verifies through the CDN, and rolls back to its snapshot if the verify
+# fails. The agent reads every credential from the environment by name and never prints one.
+# tools/check_deploy_akamai.mjs proves the gating by running the probe below with and without the secrets.
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-akamai
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  secrets:
+    name: Are the Akamai Cloud secrets present?
+    runs-on: ubuntu-latest
+    outputs:
+      have_secrets: ${{ steps.probe.outputs.have_secrets }}
+    steps:
+      - id: probe
+        env:
+          HAVE_TOKEN: ${{ secrets.LINODE_TOKEN != '' }}
+          HAVE_KEY_ID: ${{ secrets.AK_S3_ACCESS_KEY_ID != '' }}
+          HAVE_KEY_SECRET: ${{ secrets.AK_S3_SECRET_ACCESS_KEY != '' }}
+          HAVE_VARS: ${{ vars.AK_BUCKET != '' && vars.AK_REGION != '' && vars.AK_S3_ENDPOINT != '' && vars.AK_CDN_HOSTNAME != '' }}
+        run: |
+          if [ "$HAVE_TOKEN" = "true" ] && [ "$HAVE_KEY_ID" = "true" ] && [ "$HAVE_KEY_SECRET" = "true" ] && [ "$HAVE_VARS" = "true" ]; then
+            echo "have_secrets=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "have_secrets=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::LINODE_TOKEN, AK_S3_ACCESS_KEY_ID, AK_S3_SECRET_ACCESS_KEY and the AK_* variables are not all set — nothing is deployed."
+          fi
+
+  deploy:
+    name: Gate on the suite, then upload, verify, roll back on failure
+    needs: secrets
+    if: ${{ needs.secrets.outputs.have_secrets == 'true' }}
+    runs-on: ubuntu-latest
+    environment: akamai
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: The S3-compatible CLI is present
+        run: aws --version
+
+      - name: Build the flat folder
+        run: python3 tools/bundle_webxr.py
+
+      - name: The checker suite
+        run: node tools/check_all.mjs
+
+      - name: Deploy agent (build and gate already done above)
+        env:
+          LINODE_TOKEN: ${{ secrets.LINODE_TOKEN }}
+          AK_S3_ACCESS_KEY_ID: ${{ secrets.AK_S3_ACCESS_KEY_ID }}
+          AK_S3_SECRET_ACCESS_KEY: ${{ secrets.AK_S3_SECRET_ACCESS_KEY }}
+          AK_BUCKET: ${{ vars.AK_BUCKET }}
+          AK_REGION: ${{ vars.AK_REGION }}
+          AK_S3_ENDPOINT: ${{ vars.AK_S3_ENDPOINT }}
+          AK_CDN_HOSTNAME: ${{ vars.AK_CDN_HOSTNAME }}
+        run: node tools/ak_deploy.mjs --apply --skip-build --skip-gate --log akamai-deploy-run.md
+
+      - name: Run log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: akamai-deploy-run
+          path: akamai-deploy-run.md
