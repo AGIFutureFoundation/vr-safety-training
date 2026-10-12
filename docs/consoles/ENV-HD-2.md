@@ -55,7 +55,7 @@
 | room styles with the high-detail texture set | 6 (ROBO-INTERIORS' robotics rooms) | **15** (+ workshop, plant room, port shed, civic lobby, classroom, apparatus bay, transit barn, clinic, warehouse) | `node tools/check_room_skins.mjs` ("6 → 15") |
 | meshes / triangles / lights per room, nine styles × three tiers | — | **identical** with and without the skin (27 of 27 builds) | `check_room_skins` (one line per style and tier) |
 | texture bytes per room (every texture, shell signs included) | 1.33 MiB on every tier (the shell's two signs) | high **17.33 MiB** (tile rooms 12.00 MiB in the page; budget 24 MiB), balanced and low **2.33 MiB** (budget 3 MiB) | `check_room_skins` (allocation), drive (canvases the page drew: 17.33 MiB on high) |
-| captures at 1920×1080 | 0 | **11**: 9 rooms + the West Oakland warehouse's neighbourhood by day and night; 0 failed, page errors 0, external requests 0 | `node tools/drive_hd2_captures.mjs 9103 high $SP/loop10/hd2` (146 s at load 0.5 → 6.8; rooms re-shot with a clean frame: 99 s at load 6.0 → 10.0) |
+| captures at 1920×1080 | 0 | **13**: 9 rooms + the West Oakland warehouse's and the San José lab's neighbourhoods by day and night; 0 failed, page errors 0, external requests 0 | `node tools/drive_hd2_captures.mjs 9103 high $SP/loop10/hd2` (146 s at load 0.5 → 6.8; rooms re-shot with a clean frame: 99 s at load 6.0 → 10.0) |
 | texture bytes per room in the built page (high, measured canvases) | — | industrial rooms and the classroom and clinic 17.33 MiB, civic lobby 12.00 MiB (no metal props) — ≤ 24 MiB | the drive's room lines |
 | `check_facades` | 2,860 pass | **2,957** pass | `node tools/check_facades.mjs` |
 | `check_exteriors` | 259 pass | 259 pass | `node tools/check_exteriors.mjs` |
@@ -85,6 +85,12 @@ eleven) and `drive-rooms-final.txt` (the rooms re-shot after the room preset lea
 | warehouse | 17 | 20 | 968 | 17.33 MiB |
 | West Oakland warehouse neighbourhood, day | — | 248 | 168,064 | 10 robotics-variant buildings in the streamed scene |
 | the same, night | — | 251 | 169,548 | windows lit (ATMOS's clock) |
+| San José robotics lab neighbourhood (towers), day | — | 196 | 129,691 | 28 robotics-variant towers in the streamed scene |
+| the same, night | — | 201 | 200,013 | windows lit |
+
+The San José pair (`hood-rb-site-san-jose-robotics-lab-{day,night}-high.png`, drive line in `logs/drive3-sanjose.txt`: 2
+captures, 0 failed, page errors 0, external requests 0, 153 s, load 3.6 → 10.0) is a bonus: at 62 m the camera sits below
+most of the towers, so it reads as a plaza among towers with roof plant on the lower roofs rather than an overview.
 
 ## Cycles
 1. Reason: neighbouring sheds and towers take a robotics variant through a resolver, with the phone tier untouched; proof =
