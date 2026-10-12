@@ -29,6 +29,7 @@
 // Every top-level name starts with `vb`/`VB_` (the bundler shares one scope); imports are plain (no `as` alias).
 
 import { colSyntheticDemos, colDemosFromEpisodes, colLocalDemos, colTrain, colPolicy, COL_SCENARIOS } from "./col-learn.js";
+import { dxFlush } from "./dx-data.js";
 import { vbGovernor } from "./vb-governor.js";
 import { vbRunJob } from "./vb-bridge.js";
 import { RB_SITES } from "./rb-robotics-data.js";
@@ -87,6 +88,9 @@ export function vbColearnLocalSource({ store = null, signals = null } = {}) {
   const opts = store ? { store, signals } : { signals };
   return {
     async refresh() {
+      // ROBOTRAIN-4: a take just finished may still be parked for the recorder's idle slot; run those writes first so this read
+      // sees them (the flush records nothing new — it is the same consent-checked put, only now).
+      try { await dxFlush(); } catch (_) { /* nothing parked */ }
       const counts = {};
       for (const sc of COL_SCENARIOS) {
         let eps = [];

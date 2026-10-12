@@ -30,7 +30,8 @@
 //   dxOptIn({ licence, adult })    -> { ok, consent } | { ok: false, reason }
 //   dxRevoke()                     -> deletes consent, every stored episode and the legacy episode log
 //   dxCollecting()                 -> true only when eligible AND opted in
-//   dxRecorder(meta)               -> { active, step(...), finish(summary), abort() }  (no-op when not collecting)
+//   dxRecorder(meta)               -> { active, step(...), finish(summary), abort(), written }  (no-op when not collecting)
+//   dxFlush()                      -> Promise<n>: run the parked store writes now (same consent check; records nothing new)
 //   dxStore                        -> async { put, list, clear, bytes, backend }
 //
 // Every top-level name carries the dx/DX_ prefix (the bundler shares one scope).
@@ -347,6 +348,37 @@ export function dxValidateEpisode(ep) {
 
 const dxLiveRecorders = new Set();
 const dxIdle = (fn) => (typeof globalThis.requestIdleCallback === "function" ? globalThis.requestIdleCallback(fn, { timeout: 2000 }) : setTimeout(fn, 0));
+const dxCancelIdle = (h) => { try { if (typeof globalThis.cancelIdleCallback === "function" && typeof h === "number") globalThis.cancelIdleCallback(h); else clearTimeout(h); } catch (_) { /* ignore */ } };
+
+/**
+ * ROBOTRAIN-4: the store write is OBSERVABLE without changing what is written. finish() still hands the episode to the
+ * store on an idle slot; the write is also parked here so dxFlush() can run it now (the app awaits it before it re-reads
+ * the store), and the page's `visibilitychange` (hidden) and `pagehide` run it too, so a take is not lost when the page is
+ * put away before an idle slot comes. A flush records nothing new: it runs the same consent-checked put the idle slot
+ * would have run (dxCollecting is re-checked at write time, so a revoke in between discards the take).
+ */
+const dxPendingWrites = new Set();
+export function dxPendingCount() { return dxPendingWrites.size; }
+let dxFlushChain = Promise.resolve(0);
+export function dxFlush() {
+  // Flushes queue behind one another, so two callers (the pad's onTake and the Me tab's refresh) never race the same writes.
+  dxFlushChain = dxFlushChain.catch(() => 0).then(async () => {
+    const pending = [...dxPendingWrites]; dxPendingWrites.clear();
+    let written = 0;
+    for (const w of pending) { dxCancelIdle(w.handle); if (await w.run()) written += 1; }
+    return written;
+  });
+  return dxFlushChain;
+}
+let dxFlushHooked = false;
+function dxHookFlush() {
+  if (dxFlushHooked || typeof globalThis.addEventListener !== "function") return;
+  dxFlushHooked = true;
+  try {
+    globalThis.addEventListener("pagehide", () => { dxFlush().catch(() => {}); });
+    globalThis.document?.addEventListener?.("visibilitychange", () => { if (globalThis.document.visibilityState === "hidden") dxFlush().catch(() => {}); });
+  } catch (_) { /* no page */ }
+}
 
 /**
  * A buffered recorder. When dxCollecting() is false at creation it is inert — `active: false`,
@@ -372,7 +404,19 @@ export function dxRecorder(meta = {}, { store = dxStore, signals = null, clock =
       if (!dxCollecting(signals)) return null;
       rec.episode = dxMakeEpisode({ ...meta, startedAt, endedAt: new Date(clock()).toISOString(), durationS: (clock() - t0) / 1000, summary, truncated, source: "human" }, steps);
       const ep = rec.episode;
-      dxIdle(() => { if (dxCollecting(signals)) store.put(ep); });
+      // The parked write: the idle slot or dxFlush() runs it, whichever comes first, once; `written` resolves with the result.
+      const w = { handle: null, run: null };
+      let ran = false;
+      rec.written = new Promise((res) => {
+        w.run = async () => {
+          if (ran) return false; ran = true; dxPendingWrites.delete(w);
+          let ok = false; try { ok = dxCollecting(signals) ? !!(await store.put(ep)) : false; } catch (_) { ok = false; }
+          res(ok); return ok;
+        };
+      });
+      w.handle = dxIdle(() => { w.run(); });
+      dxPendingWrites.add(w);
+      dxHookFlush();
       return ep;
     },
     abort() { done = true; steps.length = 0; dxLiveRecorders.delete(rec); },
@@ -432,14 +476,17 @@ export function dxIdbBackend(idb = globalThis.indexedDB) {
 /** Make a store over a backend. put() validates and evicts; nothing here touches the network. */
 export function dxMakeStore(backend) {
   const b = backend;
+  // Writes are serialised (read list → save list is not atomic on any backend; two concurrent puts would drop one episode).
+  let queue = Promise.resolve();
+  const putNow = async (ep) => {
+    if (!dxValidateEpisode(ep).ok) return false;
+    const list = (await b.all()).filter((e) => e.episodeId !== ep.episodeId);
+    await b.save(dxEvict([...list, ep], { maxBytes: b.maxBytes ?? DX_MAX_BYTES }));
+    return true;
+  };
   return {
     get backend() { return b.kind; },
-    async put(ep) {
-      if (!dxValidateEpisode(ep).ok) return false;
-      const list = (await b.all()).filter((e) => e.episodeId !== ep.episodeId);
-      await b.save(dxEvict([...list, ep], { maxBytes: b.maxBytes ?? DX_MAX_BYTES }));
-      return true;
-    },
+    put(ep) { const r = queue.catch(() => false).then(() => putNow(ep)); queue = r.catch(() => false); return r; },
     async list() { return b.all(); },
     async bytes() { return JSON.stringify(await b.all()).length; },
     async clear() { await b.clear(); },

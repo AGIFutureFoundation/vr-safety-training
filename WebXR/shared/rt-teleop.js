@@ -22,10 +22,15 @@
 // along the approach plus the hand reaching for the post's controls (RT_TASKS). rtCompare() takes a `scenario`;
 // rtCompareAll() reports both tasks.
 //
+// Loop 8 (ROBOTRAIN-4, docs/consoles/ROBOTRAIN-4.md): the cell task's ghost drives the rig AND a walker figure — the cell-entry
+// observation carries `walker { at, hand, control }` (rb-env.js), rtFollowRig moves an optional `walker` node (the app's
+// figure, a sibling of the rig) along the approach with its hand at the control, and poses the cell arm by the robot's mode.
+//
 // No network call, no upload, no model call. Every top-level name is prefixed rt/RT_ (the bundler shares one scope).
 
 import { rng } from "./robot.js";
 import { rbEnv, rbPolicy, rbRollout, rbScenario } from "./rb-env.js";
+import { RB_CELL_CONTROLS } from "./rb-robotics-data.js";
 import { dxMakeEpisode, dxRecorder, dxCollecting, dxStore } from "./dx-data.js";
 import { colDemosFromEpisodes, colSyntheticDemos, colTrain, colPolicy, colEvalPolicy, colRandomPolicy, colHeldOut, colGhost } from "./col-learn.js";
 
@@ -68,7 +73,7 @@ export function rtPoseToAction(pose, obs, { speed = rbScenario(RT_SCENARIO).para
  * The controls a walker's hand can reach on the cell's e-stop post and gate, as [x, y] offsets from the body (metres).
  * The e-stop is one button: a light squeeze on it is the test (press and reset), a firm squeeze holds it in.
  */
-export const RT_CELL_CONTROLS = Object.freeze({ estop: [0.5, 1.1], lock: [-0.5, 1.0], verify: [-0.5, 1.4], gate: [0, 1.0], jam: [0, 0.6], restart: [0.5, 1.4] });
+export const RT_CELL_CONTROLS = Object.freeze(Object.fromEntries(Object.entries(RB_CELL_CONTROLS).filter(([k]) => k !== "rest"))); // the sim's table (rb-robotics-data.js) minus the rest pose
 const rtNearControl = (pose, reach = 0.25) => Object.entries(RT_CELL_CONTROLS).find(([, c]) => Math.hypot(pose.p[0] - c[0], pose.p[1] - c[1]) <= reach)?.[0] ?? null;
 
 /**
@@ -201,7 +206,8 @@ export function rtXRPose(inputSource, frame, refSpace, { origin = RT_XR_FRAME.or
  * (the child flagged `userData.pivot`) pitches with its height. No mesh is added; `rig.userData.rtDriven` tells rb-world's
  * sweep to leave the rig alone until rtReleaseRig. Pure given a node with `rotation` and `children`. Returns { yaw, pitch }.
  */
-export function rtFollowRig(rig, obs) {
+export function rtFollowRig(rig, obs, { walker = null } = {}) {
+  if (obs?.walker) return rtFollowCell(rig, obs, walker);
   if (!rig?.rotation || !obs?.effector) return null;
   const [x, y, z] = obs.effector;
   const yaw = rtR3(Math.atan2(-x, z + 0.6)), pitch = rtR3(rtClip(-(y - 0.3) * 1.5, -0.9, 0.6));
@@ -211,11 +217,37 @@ export function rtFollowRig(rig, obs) {
   if (arm?.rotation) arm.rotation.x = pitch;
   return { yaw, pitch };
 }
-export function rtReleaseRig(rig) {
+export function rtReleaseRig(rig, walker = null) {
+  if (walker) walker.visible = false;
   if (!rig) return;
   if (rig.userData) rig.userData.rtDriven = false;
   const arm = (rig.children ?? []).find((c) => c.userData?.pivot);
   if (arm?.rotation) arm.rotation.x = 0;
+}
+
+/**
+ * The cell task on the rig and the walker figure (ROBOTRAIN-4). The cell arm is posed by the robot's mode — sweeping mid-arc at
+ * full speed, square to the gate and slowed inside the warning zone, parked (pitched down) when protective-stopped, e-stopped or
+ * locked out, back to the arc on restart — and `walker` (any node with `position`; a child flagged `userData.hand` is the hand)
+ * stands on the approach at obs.walker.at with the hand at the control in use. Pure given plain nodes. Returns { yaw, pitch, at }.
+ */
+export function rtFollowCell(rig, obs, walker = null) {
+  const w = obs?.walker; if (!w) return null;
+  const mode = obs.robotMode ?? "full";
+  const yaw = mode === "full" && !obs.restarted ? 0.8 : 0, pitch = mode === "full" ? 0 : mode === "reduced" ? -0.3 : 0.6;
+  if (rig?.rotation) {
+    rig.userData = rig.userData ?? {}; rig.userData.rtDriven = true;
+    rig.rotation.y = yaw;
+    const arm = (rig.children ?? []).find((c) => c.userData?.pivot);
+    if (arm?.rotation) arm.rotation.x = pitch;
+  }
+  if (walker?.position) {
+    walker.visible = true;
+    if (typeof walker.position.set === "function") walker.position.set(w.at[0], w.at[1], w.at[2]); else { walker.position.x = w.at[0]; walker.position.y = w.at[1]; walker.position.z = w.at[2]; }
+    const hand = (walker.children ?? []).find((c) => c.userData?.hand);
+    if (hand?.position) { if (typeof hand.position.set === "function") hand.position.set(w.hand[0], w.hand[1], 0.2); else { hand.position.x = w.hand[0]; hand.position.y = w.hand[1]; hand.position.z = 0.2; } }
+  }
+  return { yaw, pitch, at: w.at.slice(), control: w.control };
 }
 
 /**
@@ -345,9 +377,10 @@ export const RT_REST_POSE = Object.freeze({ "rb-teleop-pick-place": [0, 0.3, -0.
  * `onTake(episode | null, summary)` fires when a take ends (the app re-reads the learner's consented takes for the provider);
  * `demonstrate()` replays the policy's run as a GHOST on the same rig — `modelFor(sc)` (vb-colearn.js' provider) or, without
  * it, a COLEARN model on synthetic demonstrations — one frame at a time with the explanation on the status line.
- * Returns { start(seed), step(), pose(), xr(frame, refSpace), source(), stop(), status(), rig(), task(id?), demonstrate(), ghost(), tasks }.
+ * `walker` (ROBOTRAIN-4) is the app's figure for the cell task: a take and the ghost move it along the approach (rtFollowCell).
+ * Returns { start(seed), step(), pose(), xr(frame, refSpace), source(), stop(), status(), rig(), walker(), task(id?), demonstrate(), ghost(), tasks }.
  */
-export function rtMountTeleop(el, { seed = 7001, store = dxStore, signals = null, reducedMotion = false, rig = null, hand = "right", task = RT_SCENARIO, onTake = null, modelFor = null } = {}) {
+export function rtMountTeleop(el, { seed = 7001, store = dxStore, signals = null, reducedMotion = false, rig = null, walker = null, hand = "right", task = RT_SCENARIO, onTake = null, modelFor = null } = {}) {
   if (!el || typeof el.addEventListener !== "function") return null;
   const doc = el.ownerDocument;
   el.innerHTML = "";
@@ -377,15 +410,15 @@ export function rtMountTeleop(el, { seed = 7001, store = dxStore, signals = null
     if (!rec) return;
     const r = rec.step(pose);
     pose.estop = false;
-    if (rig) rtFollowRig(rig, rec.observation);
+    if (rig || walker) rtFollowRig(rig, rec.observation, { walker });
     status.textContent = rtHudLine(sc, rec.observation, { recording: rec.active, source, feedback: r.feedback });
     if (r.done) api.stop();
   };
-  const ghostStop = () => { if (ghost.timer) { clearInterval(ghost.timer); ghost.timer = null; } if (ghost.frames.length && rig) rtReleaseRig(rig); ghost.frames = []; ghost.i = -1; };
+  const ghostStop = () => { if (ghost.timer) { clearInterval(ghost.timer); ghost.timer = null; } if (ghost.frames.length && (rig || walker)) rtReleaseRig(rig, walker); ghost.frames = []; ghost.i = -1; };
   const ghostShow = () => {
     const f = ghost.frames[ghost.i]; if (!f) return;
-    if (rig && f.observation?.effector) rtFollowRig(rig, f.observation);
-    const src = ghost.model?.provenance?.own ? `your ${ghost.model.provenance.n} takes` : "synthetic demonstrations";
+    if ((rig || walker) && (f.observation?.effector || f.observation?.walker)) rtFollowRig(rig, f.observation, { walker });
+    const src = ghost.model?.provenance?.own ? `your ${ghost.model.provenance.n} take${ghost.model.provenance.n === 1 ? "" : "s"}` : "synthetic demonstrations";
     status.textContent = `Robot demonstrates back (${src}) · step ${ghost.i + 1}/${ghost.frames.length} · ${f.action ? f.action.type : "done"} · ${f.explain}`;
   };
   const api = {
@@ -397,7 +430,7 @@ export function rtMountTeleop(el, { seed = 7001, store = dxStore, signals = null
       pose = { p: RT_REST_POSE[sc].slice(), trigger: 0, squeeze: 0.5, estop: false }; source = "pointer"; xrLast = 0; touches = 0;
       env = rbEnv(sc, { seed: s });
       rec = rtRecorder(env, { store, signals });
-      if (rig) rtFollowRig(rig, rec.observation);
+      if (rig || walker) rtFollowRig(rig, rec.observation, { walker });
       status.textContent = rec.active ? "Recording this take on this device (revoke on the Me tab deletes it)." : "Not recording: this take is practice only.";
       if (!reducedMotion && typeof setInterval === "function") timer = setInterval(tick, 100);
       return rec.active;
@@ -417,10 +450,11 @@ export function rtMountTeleop(el, { seed = 7001, store = dxStore, signals = null
     },
     source() { return source; },
     rig() { return rig; },
+    walker() { return walker; },
     stop() {
       if (timer) { clearInterval(timer); timer = null; }
       const had = !!rec, steps = rec ? rec.steps() : 0;
-      const ep = rec ? rec.finish() : null; rec = null; if (rig) rtReleaseRig(rig);
+      const ep = rec ? rec.finish() : null; rec = null; if (rig || walker) rtReleaseRig(rig, walker);
       if (had && steps > 0) { lastTake = { scenario: sc, steps, kept: !!ep }; bGhost.disabled = false; try { onTake?.(ep, lastTake); } catch (_) { /* never blocks the pad */ } }
       return ep;
     },

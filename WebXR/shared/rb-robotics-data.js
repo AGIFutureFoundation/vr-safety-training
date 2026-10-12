@@ -28,6 +28,11 @@ export const RB_FORCE_N = { none: 0, light: 12, firm: 40 };
  * speed; inside `stop` it holds a protective stop until the person steps back. */
 export const RB_SSM = { warn: 6, stop: 2.5, reducedSpeed: 0.3, fullSpeed: 1 };
 
+/** ROBOTRAIN-4: the controls a walker's hand reaches on the cell's e-stop post and gate, as [x, y] offsets from the body
+ * (metres). The cell-entry observation reports the hand at the last control used (`walker.hand`), so a replayed policy run
+ * can be drawn as a walker figure; rt-teleop.js reads the same table for the pad (RT_CELL_CONTROLS). */
+export const RB_CELL_CONTROLS = Object.freeze({ estop: [0.5, 1.1], lock: [-0.5, 1.0], verify: [-0.5, 1.4], gate: [0, 1.0], jam: [0, 0.6], restart: [0.5, 1.4], rest: [0, 0.9] });
+
 /** Safe-practice rule ids and their reward weights. Every penalty is a missed
  * practice, never harm: the robot always stops for a person, so "entered a
  * live cell" means the learner skipped the lockout, not that anything happened. */
@@ -99,7 +104,10 @@ export const RB_SCENARIOS = [
     id: "rb-construction-drilling", kind: "game", name: "Ceiling-Drilling Robot Set-Up",
     blurb: "Set a ceiling-drilling robot to work on a concrete deck: scan the deck, set the barricade, switch the dust collection on, drill the layout and change a worn bit with the battery isolated. Hold the robot whenever a person steps inside the barricade.",
     station: "rp-construction-drilling-robot-setup", maxSteps: 80, dt: 1,
-    params: { holes: 6, bitLife: 3, personPeriod: 9, personStay: 2 },
+    params: { holes: 6, bitLife: 3, personPeriod: 9, personStay: 2, people: 1, wearRate: 1 },
+    // ROBOTRAIN-4 `hard` (rbEnv("rb-construction-drilling#hard")): a second person who enters the barricade on their own seeded
+    // schedule (a random first step, period and stay), and a bit that wears at a seeded random rate per hole (0.5–1.5 of a life unit).
+    variants: { hard: { people: 2, wearRate: "random" } },
     actions: ["scan", "barricade", "dust-on", "drill", "hold", "isolate", "change-bit", "restore", "estop", "wait"],
     safePractice: ["person-in-barricade", "drill-unscanned", "no-barricade", "dust-off", "bit-change-live"],
   },
@@ -107,7 +115,10 @@ export const RB_SCENARIOS = [
     id: "rb-port-gantry", kind: "game", name: "Port Automation Lane",
     blurb: "Drive an automated stacking gantry along a container-yard lane: carry each container to its bay, slow and hold in the stop zone while a person is on the crossing, and keep out of the lane around a pinned container.",
     station: "ad-amr-fleet-traffic-and-estop-drill", maxSteps: 160, dt: 1,
-    params: { width: 12, lanes: 2, crossingColumn: 6, stopZone: 2, jobs: 2, keepOutSpan: 2 },
+    params: { width: 12, lanes: 2, crossingColumn: 6, stopZone: 2, jobs: 2, keepOutSpan: 2, pedestrians: 1, obstruction: false },
+    // ROBOTRAIN-4 `hard` (rbEnv("rb-port-gantry#hard")): a second pedestrian on the crossing with their own seeded timing, and a
+    // lane obstruction (a seeded travel-lane cell the gantry cannot enter, so a move is a detour through the stack lane).
+    variants: { hard: { pedestrians: 2, obstruction: true } },
     actions: ["move {dir: N|S|E|W}", "hold", "lift", "set", "estop", "wait"],
     safePractice: ["crossing-stop-zone", "pinned-keep-out"],
   },
