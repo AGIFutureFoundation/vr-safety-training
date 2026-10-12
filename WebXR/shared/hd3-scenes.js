@@ -105,8 +105,12 @@ export function hd3Scene(parish, siteId, shot = "wide") {
   const cands = [];
   for (const lat of [11, -11, 17, -17, 5, -5, 0]) for (const extra of [0, -3, 3]) cands.push([tx + ux * (back + extra) + vx * lat, tz + uz * (back + extra) + vz * lat]);
   for (const dist of [28, 34, 24]) for (const da of bearings) cands.push([tx + Math.sin(a0 + da) * dist, tz + Math.cos(a0 + da) * dist]);
-  for (const [px, pz] of cands) {
-    if (!hd3Clear(parish, px, pz, 1.2, -1)) continue;
+  // ENV-HD-5: a first pass keeps the camera 3.5 m clear of any building's grown footprint and 12 m from the site's own
+  // building, so its wall does not fill the frame's near side (the hospital campus's camera stood 8.3 m from it); the old
+  // 1.2 m pass is the fallback
+  const ownD = (px, pz) => (b ? Math.hypot(Math.max(Math.abs(px - b.cx) - b.w / 2, 0), Math.max(Math.abs(pz - b.cz) - b.d / 2, 0)) : 99);
+  for (const [m, own] of [[3.5, 12], [1.2, 0]]) for (const [px, pz] of cands) {
+    if (ownD(px, pz) < own || !hd3Clear(parish, px, pz, m, -1)) continue;
     if (![0.2, 0.35, 0.5, 0.65].every((t) => hd3Clear(parish, px + (tx - px) * t, pz + (tz - pz) * t, 0.8, -1))) continue;
     return out([px, Math.max(y, npHeightAt(parish, px, pz)) + 1.7, pz], y + 3.2, 62);
   }

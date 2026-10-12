@@ -214,6 +214,11 @@ check(FX.fxScene(R.npParish("orleans"), "rb-site-soma-robot-cell", "wide") === n
     const framed = pr.shot === "wide" ? d > 50 && s.position[1] > gy + 20 : d > 12 && d < 50 && Math.abs(s.position[1] - gy - 1.7) < 0.05;
     const dry = s && !E.npWaterAt(p, s.position[0], s.position[2]);
     if (check(ok && framed && dry && toSite < 20, `${pr.siteId}: the ${pr.shot} shot is set (camera ${d.toFixed(0)} m from the subject, ${(s?.position[1] - gy).toFixed(1)} m above the ground, dry), deterministic`)) hd3Shots++;
+    if (pr.shot === "street") { // ENV-HD-5: the site's own wall does not fill the street shot's near side (the hospital's camera stood 8.3 m from it)
+      let ob = null; try { ob = CW.cwSiteBuilding(p, i); } catch { ob = null; }
+      const od = ob ? Math.hypot(Math.max(Math.abs(s.position[0] - ob.cx) - ob.w / 2, 0), Math.max(Math.abs(s.position[2] - ob.cz) - ob.d / 2, 0)) : 99;
+      check(od >= 12, `${pr.siteId}: the street camera stands ${od.toFixed(1)} m from the site's own building (>= 12 m)`);
+    }
   }
   check(H.hd3Scene(R.npParish("orleans"), "bridge-yard", "wide") === null && H.hd3Scene(R.npParish("orleans"), "port-terminal", "door") === null, "a non-robot scene asked on the wrong map, or for an unknown shot, is null");
   check(hd3Shots === 14, `non-robot scene presets: ${hd3Shots} of 14 (ENV-HD-3's 6 + ENV-HD-5's 8)`);

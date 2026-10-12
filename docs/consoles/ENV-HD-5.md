@@ -70,7 +70,14 @@
    the identical builds (18 of 18) and lists the balanced fixtures per room (§5). Observe: "ENV-HD-4: all 127 checks pass"
    (118 before); balanced robot rooms 18–20 → 19–21 meshes, +132–228 triangles (1,016–2,340 → 1,148–2,568), lights 2 → 2,
    texture bytes unchanged (2.33–2.67 MiB); the ops room on balanced 21 → 22 meshes, 1,334 → 1,538 triangles, inside its
-   stated budget (40 / 6,000 / 2 / 3 MiB). Pass.
+   stated budget (40 / 6,000 / 2 / 3 MiB). Pass; committed 1cc43e0a.
+5. Reason: the scene stills must read well, not only be set; proof = looking at drive B's frames, then
+   `check_exteriors`. Observe (drive B, first 8 frames): the hospital campus's street shot stood 8.3 m from the site's own
+   building, whose 24 m wall filled the left 45 % of the frame (a probe of every street camera: the other six stand 16–36
+   m from theirs). Act: the street solver's first pass now asks 12 m from the site's own building and 3.5 m clear of every
+   grown footprint, the old 1.2 m pass the fallback; `check_exteriors` checks every street camera ≥ 12 m from its own
+   building. Observe: only the hospital's street camera moves (14 presets compared before → after; 8.3 → 19.7 m); "all 309
+   checks pass". Re-shot in drive C.
 
 ## Seams
 - `lar-rooms.js`: `LAR_SIGN_PX` (`{ high: [512, 120], balanced: [256, 60], low: [256, 60] }`), `larSignMaterial(THREE, text,
