@@ -31,6 +31,11 @@
  *  10. HIVE-7: the Spanish hive (the panel's Spanish configuration, moods and the briefing on, approvals in the window): no English
  *      fragment in a Spanish line but names (site and agent names, the supervisor) and ids (job ids, reason ids); the mood words and
  *      phrases and the briefing kinds are Spanish.
+ *  11. HIVE-8: the page's hives with moods on. The panel's hive has run with moods since HIVE-6; the scripted scene's hive
+ *      (h3SceneHive) now takes `moods: true` and the page passes it. With the option off the scene's hive and its relay are
+ *      byte-identical (digests at the base a10f1ff8); with it on the beats are unchanged, every mood change reaches the relay's
+ *      listeners with its cause, the relay's mood(id) is the mood released so far, and the cell hall's figures (the page's room
+ *      mount through hwSyncRoom on the relay) receive mood events, 0 -> N, inside IX_BUDGET.
  */
 import { readFileSync, existsSync } from "node:fs";
 import { join, dirname } from "node:path";
@@ -471,6 +476,82 @@ await check("10 HIVE-7: Spanish lines carry no English fragment but names and id
   ok(!wbad.length, `Spanish phrase lists with English: ${wbad.join(" | ")}`);
   evals.push(`Spanish lines without an English fragment but names and ids (seeds 1-2, moods, briefing, approvals in the window): ${clean} of ${n} (briefing turns ${briefN}, corrections ${fixes}); phrase lists ${words.length} of ${words.length}`);
   return `${clean}/${n} lines; ${words.length} phrases and words; briefing ${briefN}; corrections ${fixes}`;
+});
+
+// ------------------------------------------------------------------------------------------------ 11. the page's hives with moods on
+await check("11 HIVE-8: the page's hives with moods on: the scene's hive (h3SceneHive moods) through its relay to the cell hall's figures, 0 -> N; default byte-identical", async () => {
+  const H3 = await imp("WebXR/shared/h3-hive-day.js");
+  const app = read("WebXR/parishes/js/app.js"), panel = read("WebXR/shared/oh-panel.js");
+  ok(/h3SceneHive\(ohHive, \{ seed: Number\(seed\) \|\| 1, moods: true \}\)/.test(app), "the page's scene hive turns moods on (app.js h3SceneHive(ohHive, { seed, moods: true }))");
+  ok(/homeward: true, moods: true, briefing: true/.test(panel) && /const hv = h3Scene\?\.relay \?\? window\.__parishTest\?\.hive\?\.hive/.test(app), "the panel's hive runs with moods (HIVE-6), and the rooms follow the scene's relay while it plays, else the panel's hive");
+  // the default call is what it was: the scene's events and the relay's releases, seeds 1, 2, 3, 7, 42 (digests measured at the base a10f1ff8)
+  const BASE = ["13307c627db527be", "e689091a0e9127fb", "ba4f0b271cdaf417", "4772e790a9254cb2", "fb9b7fae429a81b4"];
+  const SEEDS = [1, 2, 3, 7, 42];
+  const beat = (R, hive, b) => {
+    R.step(b.steps);
+    if (b.id === "approved") { const p = hive.pending()[0]; if (p) hive.approve(p.jobId); }
+    return b.id === "arrive" ? R.releaseThrough("speak") : b.id === "bids" ? R.releaseRun("bid") : b.id === "award" ? R.releaseThrough("award") : b.id === "walk-out" ? R.releaseThrough("move") : b.id === "refusal" ? R.releaseThrough("refused") : R.releaseAll();
+  };
+  const scene = (seed, moods, onRelay = null) => {
+    const hive = H3.h3SceneHive(H.ohHive, moods ? { seed, moods: true } : { seed });
+    for (let i = 0; i < H3.H3_SCENE_PROLOGUE_STEPS; i += 1) hive.step();
+    const n0 = hive.events().length, R = H3.h3SceneRelay(hive), got = []; R.on("mood", (e) => got.push(e));
+    const ctl = onRelay?.(R) ?? null;
+    const beats = H3.H3_SCENE.beats.map((b) => { const ev = beat(R, hive, b); ctl?.after?.(b, ev); return { id: b.id, ev: ev.filter((e) => e.type !== "mood").map((e) => `${e.type}:${e.agent}:${e.to ?? ""}:${e.reason ?? ""}:${e.jobId ?? ""}`) }; });
+    return { hive, R, got, beats, after: hive.events().slice(n0).filter((e) => e.type === "mood").length, m: hive.metrics(), v: hive.verify() };
+  };
+  const digests = SEEDS.map((seed) => {
+    const hive = H3.h3SceneHive(H.ohHive, { seed });
+    for (let i = 0; i < H3.H3_SCENE_PROLOGUE_STEPS; i += 1) hive.step();
+    const R = H3.h3SceneRelay(hive), rel = H3.H3_SCENE.beats.map((b) => `${b.id}:${beat(R, hive, b).length}`);
+    ok(R.mood("oh-dispatcher") === null, "the relay reads no mood for a hive without moods");
+    return fnv(JSON.stringify(hive.events()) + "|" + rel.join(","));
+  });
+  ok(digests.every((d, i) => d === BASE[i]), `the scene's hive and relay with moods off: byte-identical ${digests.filter((d, i) => d === BASE[i]).length} of ${SEEDS.length} (${digests.join(", ")})`);
+  // moods on: the same story beat by beat, the mood changes released with their causes, the relay's mood(id) = the hive's at the end
+  let same = 0, moodsOn = 0, endEq = 0, endN = 0;
+  for (const seed of SEEDS) {
+    const off = scene(seed, false), on = scene(seed, true);
+    if (on.beats.every((b, i) => JSON.stringify(b.ev) === JSON.stringify(off.beats[i].ev))) same += 1;
+    ok(off.got.length === 0 && on.got.length > 0, `seed ${seed}: mood events to the relay's listeners ${off.got.length} (off) -> ${on.got.length} (on)`);
+    ok(on.got.length === on.after, `seed ${seed}: every mood change after the prologue reaches the relay's listeners (${on.got.length} of ${on.after})`);
+    moodsOn += on.got.length;
+    for (const a of on.hive.agents) { endN += 1; if (on.R.mood(a.id)?.mood === on.hive.mood(a.id).mood) endEq += 1; }
+    ok(on.m.physicalDispatched === 0 && on.v.ok && on.m.dispatchedChecked === on.m.dispatched, `seed ${seed}: governor checked ${on.m.dispatchedChecked} of ${on.m.dispatched}, physical ${on.m.physicalDispatched}, chain ${on.v.ok}`);
+  }
+  ok(same === SEEDS.length, `the scene's beats with moods on = off (non-mood events, beat by beat): ${same} of ${SEEDS.length}`);
+  ok(endEq === endN, `the relay's mood(id) = the hive's mood(id) after the last beat: ${endEq} of ${endN}`);
+  // the cell hall's figures (the page's room mount, aaRoomAvatarMount, through hwSyncRoom on the relay): mood events received, off -> on
+  const THREE = await imp("WebXR/vendor/three/dist/three.module.min.js");
+  const IX = await imp("WebXR/shared/ix-interiors.js"), IXR = await imp("WebXR/shared/ixr-robo-interiors.js"), HD2 = await imp("WebXR/shared/hd2-room-skins.js");
+  const HD4 = await imp("WebXR/shared/hd4-rooms.js"), HW = await imp("WebXR/shared/hw-hive-world.js"), AA = await imp("WebXR/shared/aa-agent-avatars.js");
+  const DESK = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36";
+  const fake = () => { const ctx = new Proxy({}, { get: (_t, k) => (k === "measureText" ? (s) => ({ width: String(s).length * 6 }) : typeof k === "string" && k.startsWith("create") ? () => ({ addColorStop() {} }) : k === "getImageData" ? (x, y, w, h) => ({ data: new Uint8ClampedArray(Math.max(4, 4 * (w | 0) * (h | 0))) }) : () => {}), set: () => true }); return { width: 0, height: 0, getContext: () => ctx }; };
+  const dressers = (() => { const d = {}; const r = { ixRegisterDresser: (st, fn) => (d[st] ??= []).push(fn) }; IXR.ixrRegisterDressers(r); HD4.hd4RegisterDressers(r, { ultra: false, ua: DESK }); HD2.hd2RegisterSkins(r); return d; })();
+  const rb = RB.RB_SITES.find((s) => s.id === H3.H3_SCENE.site);
+  const figs = { off: 0, on: 0, agree: 0, checks: 0, budget: 0, beats: 0 };
+  globalThis.document = { createElement: fake };
+  try {
+    for (const moods of [false, true]) for (const seed of SEEDS) {
+      let room = null, mount = null, t = 0;
+      scene(seed, moods, (R) => {
+        room = IX.ixBuild(H3.H3_SCENE.style, { three: THREE, tier: "high", site: IXR.ixrSiteFor(rb, null), dressers });
+        mount = HW.hwSyncRoom(null, { room, three: THREE, agents: R.agents, source: R, tier: "high", mount: AA.aaRoomAvatarMount() });
+        return { after: () => {
+          for (let k = 0; k < 4; k += 1) { t += 0.5; mount.animate(t, 0.5); }
+          figs.beats += 1; const m = IXR.ixrMeasure(room); if (m.triangles <= IX.IX_BUDGET.triangles.high && m.meshes <= IX.IX_BUDGET.meshes) figs.budget += 1;
+          if (moods) for (const a of R.agents) { const s = mount.avatars.state(a.id); if (!mount.avatars.figure(a.id) || s?.mood == null) continue; figs.checks += 1; if (s.mood === R.mood(a.id)?.mood) figs.agree += 1; }
+        } };
+      });
+      figs[moods ? "on" : "off"] += mount.avatars.moodLog().length;
+      mount.dispose();
+    }
+  } finally { delete globalThis.document; }
+  ok(figs.off === 0 && figs.on > 0, `the cell hall's figures received mood events: ${figs.off} (moods off) -> ${figs.on} (moods on), seeds ${SEEDS.join(", ")}`);
+  ok(figs.checks > 0 && figs.agree === figs.checks, `a figure that took a mood shows the relay's released mood: ${figs.agree} of ${figs.checks} beat-checks`);
+  ok(figs.budget === figs.beats, `the cell hall with the scene's figures inside IX_BUDGET (high): ${figs.budget} of ${figs.beats} beats`);
+  evals.push(`the page's scene hive with moods on (h3SceneHive moods, seeds ${SEEDS.join(", ")}): mood events to the relay ${moodsOn}; the cell hall's figures received ${figs.off} -> ${figs.on} (headless, room open through every beat), figure mood = released mood ${figs.agree} of ${figs.checks}; beats unchanged ${same} of ${SEEDS.length}; the default call byte-identical ${SEEDS.length} of ${SEEDS.length}`);
+  return `default byte-identical ${SEEDS.length}/${SEEDS.length}; beats unchanged ${same}/${SEEDS.length}; relay mood events ${moodsOn}; figures ${figs.off} -> ${figs.on}, agree ${figs.agree}/${figs.checks}; relay mood(id) = hive ${endEq}/${endN}; cell hall in budget ${figs.budget}/${figs.beats}`;
 });
 
 console.log(`\n${passed} passed, ${failed} failed`);

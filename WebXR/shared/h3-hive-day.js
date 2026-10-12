@@ -36,7 +36,7 @@
 //   h3SceneJobs(seed)                       -> the scene's seeded job list (ohHive's `jobs` shape)
 //   h3SceneHive(makeHive, { seed, moods })  -> a hive over those jobs (the caller hands in OMEGA-HIVE's ohHive: no import); HIVE-8: moods
 //   H3_SCENE_PROLOGUE_STEPS                 4: hive steps taken before the scene's clock starts
-//   h3SceneRelay(hive)                      -> { on, off, agents, jobs(), agentState(id), pending(), step(n), releaseThrough(type|fn),
+//   h3SceneRelay(hive)                      -> { on, off, agents, jobs(), agentState(id), pending(), mood(id), step(n), releaseThrough(type|fn),
 //                                                releaseRun(type), releaseAll(), held(), released(), dispose() }: the hive's events,
 //                                                held per step and handed on beat by beat
 
@@ -264,7 +264,11 @@ export function h3SceneHive(makeHive, { seed = 1, moods = false } = {}) {
 export function h3SceneRelay(hive) {
   const held = [], out = [], listeners = new Map();
   const unsub = hive && typeof hive.on === "function" ? hive.on("*", (e) => held.push(e)) : null;
-  const emit = (e) => { out.push(e); for (const fn of [...(listeners.get(e.type) ?? []), ...(listeners.get("*") ?? [])]) { try { fn(e); } catch (_) { /* a listener never stops the scene */ } } return e; };
+  // HIVE-8: each agent's mood as released so far (a hive with moods only): seeded from the hive when the relay is made, then each
+  // released mood change; a mount opened mid-scene reads it (as h5MountOpsRoom reads hive.mood), never a change still held.
+  const moodNow = new Map();
+  for (const a of hive?.agents ?? []) { let m = null; try { m = hive?.mood?.(a.id) ?? null; } catch (_) { m = null; } if (m?.mood) moodNow.set(a.id, m); }
+  const emit = (e) => { if (e.type === "mood" && e.agent) moodNow.set(e.agent, { mood: e.mood, cause: e.cause ?? null }); out.push(e); for (const fn of [...(listeners.get(e.type) ?? []), ...(listeners.get("*") ?? [])]) { try { fn(e); } catch (_) { /* a listener never stops the scene */ } } return e; };
   // HIVE-8: a mood change follows its cause at once (HIVE-6's emit), so it travels with the cause as the speak lines do; a hive
   // without moods has no mood events, and the relay hands on exactly what it did before.
   const follows = (e) => e.type === "speak" || e.type === "mood";
@@ -280,6 +284,7 @@ export function h3SceneRelay(hive) {
     on(type, fn) { if (typeof fn === "function") { if (!listeners.has(type)) listeners.set(type, []); listeners.get(type).push(fn); } return () => this.off(type, fn); },
     off(type, fn) { const xs = listeners.get(type); if (xs) listeners.set(type, xs.filter((f) => f !== fn)); },
     jobs: () => hive?.jobs?.() ?? [], agentState: (id) => hive?.agentState?.(id) ?? null, pending: () => hive?.pending?.() ?? [],
+    mood: (id) => moodNow.get(id) ?? null, // HIVE-8: null for a hive without moods (as hive.mood is)
     step(n = 1) { for (let i = 0; i < n; i += 1) hive?.step?.(); return held.length; },
     releaseThrough,
     /** Every held event of a run of `type` (consecutive bids), with their speak lines. */
