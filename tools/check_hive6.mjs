@@ -24,6 +24,10 @@
  *      seeded day to its refusals: each figure's mood equals the hive's mood(id) (N of N agents at every sampled minute), its glow
  *      brightness follows H5_MOOD_GLOW (hue unchanged, never above the built colour), reduced motion holds it steady, and the room's
  *      meshes and triangles are unchanged by the moods (no geometry) and inside IX_BUDGET.
+ *   9. HIVE-7: moods on the live console link. The panel's hive (moods and the briefing on) through h5LivePublisher and a fake
+ *      BroadcastChannel to h5LiveReader: every snapshot's moods equal the hive's mood(id) (N of N agents per snapshot), the causes
+ *      carry only the hive's own fields, the briefing captions are the hive's, a hive without moods sends the old shape, and the tab
+ *      takes the live moods from the reader's snapshot (the replay stays the fallback; nothing posted or stored).
  */
 import { readFileSync, existsSync } from "node:fs";
 import { join, dirname } from "node:path";
@@ -365,6 +369,44 @@ await check("8 HIVE-7: the figures show the mood: figure mood = hive mood(id) N 
     }
   } finally { delete globalThis.document; }
   return out.join("; ");
+});
+
+// ------------------------------------------------------------------------------------------------ 9. moods on the live link
+await check("9 HIVE-7: moods on the live console link: each snapshot's moods = the panel hive's mood(id) N of N; receive only, replay fallback", async () => {
+  const L = await imp("WebXR/shared/h5-hive-live.js");
+  const bus = new Map();
+  class FakeChannel { constructor(name) { this.name = name; this.onmessage = null; (bus.get(name) ?? bus.set(name, new Set()).get(name)).add(this); } postMessage(d) { const data = JSON.parse(JSON.stringify(d)); for (const c of bus.get(this.name)) if (c !== this) c.onmessage?.({ data }); } close() { bus.get(this.name)?.delete(this); } }
+  const got = [];
+  const reader = L.h5LiveReader({ Channel: FakeChannel, onSnapshot: (x) => { if (x) got.push({ x, want: hive.agents.map((a) => hive.mood(a.id).mood) }); } });
+  const hive = H.ohHive({ seed: 3, decide: standIn, ...PANEL, moods: true, briefing: true });
+  const brief = hive.brief();
+  const pub = L.h5LivePublisher({ hive, Channel: FakeChannel, setTimer: () => 1, clearTimer: () => {} });
+  pub.set(true);
+  for (let k = 0; k < 240; k += 1) { hive.step(); await Promise.resolve(); }
+  let snaps = 0, agentsOk = 0, agentsAll = 0, causesOk = 0;
+  const CAUSE_KEYS = new Set(["type", "t", "jobId", "reason", "by", "lines", "mood", "held"]);
+  for (const { x, want } of got) {
+    snaps += 1;
+    ok(Array.isArray(x.moods) && x.moods.length === 7, `a snapshot with ${x.moods?.length ?? 0} moods`);
+    x.moods.forEach((m, i) => { agentsAll += 1; if (m.agent === hive.agents[i].id && m.mood === want[i]) agentsOk += 1; if (!m.cause || Object.keys(m.cause).every((k) => CAUSE_KEYS.has(k))) causesOk += 1; });
+  }
+  ok(snaps > 50 && agentsOk === agentsAll, `live moods = the hive's mood(id) ${agentsOk} of ${agentsAll} over ${snaps} snapshots`);
+  ok(causesOk === agentsAll, `causes carry only the hive's own fields ${causesOk} of ${agentsAll}`);
+  const last = reader.snapshot();
+  const changes = hive.events().filter((e) => e.type === "mood").length;
+  ok(last.moodChanges === changes && new Set(last.moods.map((m) => m.mood)).size >= 2, `the day's mood changes ${last.moodChanges} = ${changes}; moods in the last snapshot ${[...new Set(last.moods.map((m) => m.mood))].join(", ")}`);
+  ok(last.briefing.length === 7 && last.briefing.every((b, i) => b.caption === brief[i].caption && b.turn === brief[i].briefing.turn), `the live briefing is the hive's own 7 captions (${last.briefing.length})`);
+  const keys = Object.keys(last).sort().join(",");
+  ok(keys === "at,briefing,jobs,lines,metrics,moodChanges,moods,pending,refusals,schema,t", `a moods snapshot's keys: ${keys}`);
+  const plain = L.h5LiveSnapshot(H.ohHive({ seed: 3, ...PANEL }));
+  ok(Object.keys(plain).sort().join(",") === "at,jobs,lines,metrics,pending,refusals,schema,t", "a hive without moods sends the old shape");
+  pub.set(false);
+  ok(reader.snapshot() === null, "off: the tab drops the live moods (back to the replay)");
+  reader.close();
+  const tab = read("WebXR/instructor/js/h4-hive.js");
+  ok(/h4MoodPanel\(seed, [^;]*reader\.snapshot\(\)/.test(tab) && /function h4LiveMoodPanel\(live\)/.test(tab) && /Array\.isArray\(live\.moods\)/.test(tab) && !/postMessage|localStorage|sessionStorage|indexedDB/.test(tab), "the tab's moods panel reads the live snapshot when it carries moods, else the replay; posts and stores nothing");
+  evals.push(`moods on the live console link (seed 3, panel hive, 240 minutes): live moods = hive mood(id) ${agentsOk} of ${agentsAll} (${snaps} snapshots x 7 agents); mood changes ${changes}; briefing 7 of 7 captions; 0 requests, 0 storage`);
+  return `${agentsOk}/${agentsAll} over ${snaps} snapshots; changes ${changes}; briefing 7/7; old shape without moods; dropped on off`;
 });
 
 console.log(`\n${passed} passed, ${failed} failed`);

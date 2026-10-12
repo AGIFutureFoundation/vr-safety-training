@@ -53,13 +53,16 @@ function h4MoodCause(c) {
   if (c.type === "expired") return `the ${c.mood} mood ran out at ${ohClock(c.t)}`;
   return `holding ${(c.held ?? []).length} job(s) at ${ohClock(c.t)}${(c.held ?? []).length ? `: ${c.held.join(", ")}` : ""}`;
 }
-/** HIVE-6: the moods and the morning briefing of the seeded day at hive minute n (a replay with moods and the briefing on). */
-function h4MoodPanel(seed, n) {
+/** HIVE-6: the moods and the morning briefing of the seeded day at hive minute n (a replay with moods and the briefing on).
+ * HIVE-7: with a live snapshot that carries moods (the learner's own hive, h5LiveSnapshot), the moods and the briefing are the live
+ * hive's; without one the replay stays. Receive only: nothing is stored or sent. */
+function h4MoodPanel(seed, n, live = null) {
+  if (live && Array.isArray(live.moods)) return h4LiveMoodPanel(live);
   const hv = ohHive({ seed, audit: null, exchanges: true, memory: true, variety: true, homeward: true, moods: true, briefing: true });
   const brief = hv.brief() ?? [];
   hv.run(n);
   const ev = hv.events(), changes = ev.filter((e) => e.type === "mood");
-  const sec = h4El("section", "panel"); sec.id = "h4-moods";
+  const sec = h4El("section", "panel"); sec.id = "h4-moods"; sec.dataset.live = "false";
   sec.append(h4El("h2", null, "Moods and the morning briefing (read-only)"));
   sec.append(h4El("p", "fine", `A replay of the same seeded day (seed ${seed}) with moods and the briefing on, to hive minute ${n} (${ohClock(n)}). Each mood comes only from the hive's own events: busy while an agent holds two jobs or more, concerned after a refusal or a veto that names it, relieved after a clean audit, calm otherwise. Safety lines carry no mood phrase. Mood changes so far: ${changes.length}.`));
   const rows = hv.agents.map((a) => { const md = hv.mood(a.id); return [a.name, "software agent", md?.mood ?? "calm", h4MoodCause(md?.cause)]; });
@@ -68,7 +71,22 @@ function h4MoodPanel(seed, n) {
   const ol = h4El("ol", "h4-lines"); ol.id = "h4-briefing";
   for (const e of brief) { const li = h4El("li", null, e.caption); li.dataset.turn = String(e.briefing?.turn ?? ""); ol.append(li); }
   sec.append(ol);
-  return { sec, changes: changes.length, brief: brief.length };
+  return { sec, changes: changes.length, brief: brief.length, live: false, rows: rows.map((r) => r[2]) };
+}
+/** HIVE-7: the live hive's moods and briefing, from the snapshot only. */
+function h4LiveMoodPanel(live) {
+  const name = (id) => OH_AGENTS.find((a) => a.id === id)?.name ?? id;
+  const brief = Array.isArray(live.briefing) ? live.briefing : [];
+  const sec = h4El("section", "panel"); sec.id = "h4-moods"; sec.dataset.live = "true";
+  sec.append(h4El("h2", null, "Moods and the morning briefing (live, read-only)"));
+  sec.append(h4El("p", "fine", `Live: the learner's own hive on this device at hive minute ${live.t} (${ohClock(live.t)}). Each mood comes only from that hive's own events: busy while an agent holds two jobs or more, concerned after a refusal or a veto that names it, relieved after a clean audit, calm otherwise. Safety lines carry no mood phrase. Mood changes so far: ${Number(live.moodChanges) || 0}. Nothing is stored; this tab only reads.`));
+  const rows = live.moods.map((x) => [name(x.agent), "software agent", x.mood ?? "calm", h4MoodCause(x.cause)]);
+  sec.append(h4Table(["Agent", "", "Mood", "Because"], rows, "No agents."));
+  sec.append(h4El("h3", null, brief.length ? `Morning briefing (hive minute ${brief[0].t}, ${brief.length} turns, one at a time)` : "Morning briefing: none in the learner's hive (it runs once, when the learner enters the operations room in the hive's first 30 minutes)"));
+  const ol = h4El("ol", "h4-lines"); ol.id = "h4-briefing";
+  for (const e of brief) { const li = h4El("li", null, e.caption); li.dataset.turn = String(e.turn ?? ""); ol.append(li); }
+  sec.append(ol);
+  return { sec, changes: Number(live.moodChanges) || 0, brief: brief.length, live: true, rows: rows.map((r) => r[2]) };
 }
 
 export function h4MountHiveTab(root, { seed = H4_TAB_SEED, steps = 120, Channel } = {}) {
@@ -120,7 +138,7 @@ export function h4MountHiveTab(root, { seed = H4_TAB_SEED, steps = 120, Channel 
     const m = v.m, c = (k) => (Number.isFinite(m?.[k]) ? m[k] : "–");
     intro.append(h4El("p", "fine", `Completed ${c("completed")} · refused by the governor ${c("refused")} · vetoed ${c("vetoed")} · waiting for the learner ${c("awaitingApproval")} · exchanges ${c("exchanges")} · memory lines ${c("memories")} · dispatched steps checked ${c("dispatchedChecked")} of ${c("dispatched")} · physical dispatches ${c("physicalDispatched")}.`));
     out.push(intro);
-    try { const mp = h4MoodPanel(seed, v.live ? Math.min(480, Math.max(1, Number(v.t) || 1)) : n); out.push(mp.sec); moodInfo = { changes: mp.changes, brief: mp.brief }; } catch (_) { moodInfo = null; } // HIVE-6
+    try { const mp = h4MoodPanel(seed, v.live ? Math.min(480, Math.max(1, Number(v.t) || 1)) : n, v.live ? reader.snapshot() : null); out.push(mp.sec); moodInfo = { changes: mp.changes, brief: mp.brief, live: mp.live, moods: mp.rows }; } catch (_) { moodInfo = null; } // HIVE-6; HIVE-7: live when the snapshot carries moods
 
     const cp = h4El("section", "panel"); cp.append(h4El("h2", null, "Agents"));
     const cards = h4El("div", "h4-cards"); cards.setAttribute("role", "list");

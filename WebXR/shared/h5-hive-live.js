@@ -12,7 +12,9 @@
 //
 // SEAMS (every top-level name carries h5/H5_: the bundler shares one scope):
 //   H5_LIVE_CHANNEL, H5_LIVE_SCHEMA, H5_LIVE_TEXT (the toggle's words, en and es), H5_LIVE_STALE_MS
-//   h5LiveSnapshot(hive, { maxLines, at })  -> { schema, at, t, lines, refusals, jobs, pending, metrics } from the hive's own data
+//   h5LiveSnapshot(hive, { maxLines, at })  -> { schema, at, t, lines, refusals, jobs, pending, metrics } from the hive's own data;
+//                                             HIVE-7: a hive with moods on (HIVE-6) adds { moods, moodChanges, briefing }: each agent's
+//                                             mood and its recorded cause (hive.mood(id)), the day's mood changes, the briefing captions
 //   h5LivePublisher({ hive, Channel, everyMs, setTimer, clearTimer }) -> { enabled(), set(on), publish(), posts(), dispose() }
 //   h5MountLiveToggle(panel, publisher)     -> the toggle button in the hive panel's row (the panel's 44 px rule on a phone)
 //   h5LiveReader({ Channel, onSnapshot, staleMs, now }) -> { snapshot(), live(), count(), close() }   (receive only)
@@ -27,11 +29,30 @@ export const H5_LIVE_TEXT = Object.freeze({
 
 const h5LiveTry = (fn, d) => { try { const v = fn(); return v ?? d; } catch (_) { return d; } };
 
+/** HIVE-7: a mood's recorded cause, the hive's own fields only (type, time, job, reason, by, held jobs, chain lines, mood). */
+function h5LiveCause(c) {
+  if (!c || typeof c !== "object") return null;
+  const o = {};
+  for (const k of ["type", "t", "jobId", "reason", "by", "lines", "mood"]) if (c[k] !== undefined && c[k] !== null) o[k] = c[k];
+  if (Array.isArray(c.held)) o.held = c.held.slice(0, 8).map(String);
+  return o;
+}
+/** HIVE-7: the moods part of a snapshot (only for a hive with moods on): each agent's mood and cause, the changes, the briefing. */
+function h5LiveMoods(hive, ev) {
+  if (!h5LiveTry(() => hive.moods, false)) return null;
+  const roster = h5LiveTry(() => hive.agents, []) ?? [];
+  const moods = roster.map((a) => { const md = h5LiveTry(() => hive.mood(a.id), null); return { agent: a.id, mood: md?.mood ?? "calm", cause: h5LiveCause(md?.cause) }; });
+  const briefing = ev.filter((e) => e.type === "speak" && e.briefing).map((e) => ({ t: e.t, agent: e.agent, turn: e.briefing.turn, caption: String(e.caption ?? e.text ?? "") }));
+  return { moods, moodChanges: ev.filter((e) => e.type === "mood").length, briefing };
+}
+
 /** What the tab may show: the panel's own lines, refusals, held jobs, waiting requests and counts (no learner identity). */
 export function h5LiveSnapshot(hive, { maxLines = 140, at = Date.now() } = {}) {
   const ev = h5LiveTry(() => hive.events(), []);
   const m = h5LiveTry(() => hive.metrics(), {});
+  const md = h5LiveMoods(hive, ev);
   return {
+    ...(md ?? {}),
     schema: H5_LIVE_SCHEMA, at, t: h5LiveTry(() => hive.now(), 0),
     lines: ev.filter((e) => e.type === "speak").slice(-maxLines).map((e) => ({ t: e.t, agent: e.agent, caption: String(e.caption ?? e.text ?? ""), x: e.exchange ? e.exchange.turn : null, memory: !!e.memory })),
     refusals: ev.filter((e) => e.type === "refused").slice(-40).map((e) => ({ t: e.t, jobId: e.jobId ?? null, site: e.siteName ?? e.to ?? "", by: e.by ?? "", reason: e.veto ?? e.reason ?? "" })),
