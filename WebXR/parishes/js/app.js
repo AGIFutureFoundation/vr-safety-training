@@ -297,7 +297,7 @@ try {
   const home = hd4OpsHome(), blds = parish.sites.map((_, i) => { try { return cwSiteBuilding(parish, i); } catch { return null; } }).filter(Boolean);
   const blocked = (x, z) => blds.some((b) => Math.abs(x - b.cx) < b.w / 2 + 0.6 && Math.abs(z - b.cz) < b.d / 2 + 0.6) || tfWaterDepthAt(parish, x, z) > 0.02;
   const spot = home ? hd4OpsDoor({ doors: ixrDoors, homeSite: home.id, blocked, colliders: fxColliders(parish) }) : null;
-  if (spot) hd4OpsDoors.push({ site: hd4OpsSite(home, parish), x: spot.x, z: spot.z, face: spot.face, style: HD4_OPS_STYLE, title: "Hive operations room (procedural)" });
+  if (spot) hd4OpsDoors.push({ site: hd4OpsSite(home, parish), x: spot.x, z: spot.z, face: spot.face, style: HD4_OPS_STYLE, title: "Hive operations room" }); // the title is the shell sign's first line (it says "generic" below)
 } catch (e) { console.warn("hd4 ops door:", e); }
 const ixWorld = ixMountInteriors({
   three: THREE, scene, hide: [root], tier: npTierName,
@@ -1299,7 +1299,7 @@ window.__parishTest.hd4 = {
     if (!site) return null;
     if (ixWorld.inside()) { const p = ixWorld.exit(); np.x = p.x; np.z = p.z; np.yaw = p.yaw; np.pitch = p.pitch; }
     npKeys.clear();
-    const room = ixWorld.enter(site, { x: np.x, z: np.z, yaw: np.yaw, pitch: np.pitch }, { style: HD4_OPS_STYLE, title: "Hive operations room (procedural)" });
+    const room = ixWorld.enter(site, { x: np.x, z: np.z, yaw: np.yaw, pitch: np.pitch }, { style: HD4_OPS_STYLE, title: "Hive operations room" });
     if (!room) return null;
     ixWorld.pose.x = -6.6; ixWorld.pose.z = 5.4; np.yaw = Math.atan2(-6.6, 8.4); np.pitch = -0.1; np.near = null; npHud();
     const menu = document.getElementById("menu"); if (menu && !np.playing) menu.hidden = true;
