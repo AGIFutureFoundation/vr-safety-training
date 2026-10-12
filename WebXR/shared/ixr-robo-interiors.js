@@ -122,7 +122,7 @@ export const IXR_ROOMS = {
       { id: "ixr-bay-board", name: "at the lockout board", role: "maintenance-planner", x: -6.4, z: -0.6, yaw: Math.PI / 2 },
       { id: "ixr-bay-stand", name: "by the maintenance stand", role: "auditor", x: 1.4, z: -0.6, yaw: -0.74 },
     ] },
-    camera: { x: -4.0, z: 5.2, yaw: -0.641, pitch: -0.12 },
+    camera: { x: 3.6, z: 5.0, yaw: 0.68, pitch: -0.12 },
     floor: [["band", 3.6, -3.2, 3.4, 3.4, 0.25], ["box", 0, 0, 14, 12, 0.08, IXR_Y], ["box", 5.8, -0.2, 1.8, 1.4, 0.06, IXR_W]],
   },
 };

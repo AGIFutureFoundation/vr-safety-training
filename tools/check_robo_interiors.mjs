@@ -84,6 +84,10 @@ for (const st of STYLES) {
     table.push({ st, tier, meshes: m.meshes, tris: m.triangles, lights, tex: texBytes, props: room.ixr.tags.length, inst: m.instances, actions: room.actions.length });
   }
 }
+// The 1024 px set is for the desktop high tier only: the phone, balanced and a standalone headset browser keep 256 px.
+check(IXR.ixrTexRes("high", "Mozilla/5.0 (X11; Linux x86_64)") === 1024 && IXR.ixrTexRes("high", "Mozilla/5.0 (Linux; Android 12; Quest 3) OculusBrowser/33.0") === 256 &&
+  IXR.ixrTexRes("high", "Mozilla/5.0 (Linux; Android 11; PICO 4) AppleWebKit") === 256 && IXR.ixrTexRes("balanced", "") === 256 && IXR.ixrTexRes("low", "") === 256,
+  "texture resolution: 1024 px on the desktop high tier only; 256 px on the phone, balanced and headset browsers");
 // The brief's must-haves per room (by prop tag).
 const MUST = {
   "ixr-cell-hall": ["perimeter guard fence", "light-curtain posts", "e-stop posts", "teach-pendant cart", "cell robot"],

@@ -63,6 +63,10 @@ civic-lobby. All 62 site kinds on the 22 maps map to one of them (`IX_KIND_STYLE
 wetlands open the field office or shed they would have). CLASSROOMS owns the teaching content (K-12 classrooms, union craft
 bays, programme rooms) through `ixRegisterDresser`; these styles stay generic.
 
+ROBO-INTERIORS (loop 10) added six robotics styles — `ixr-cell-hall`, `ixr-cobot-lab`, `ixr-amr-warehouse`,
+`ixr-port-control`, `ixr-drilling-deck`, `ixr-maint-bay` — one per ROBOTICS site, opened from a door spot beside the
+robot site's pad and furnished by `ixr-robo-interiors.js` (see `docs/consoles/ROBO-INTERIORS.md`).
+
 ## Cycles
 
 1. Reason: smallest end-to-end slice — shell + one style + mount + checker proving enter → walk → launch → exit. Act:
