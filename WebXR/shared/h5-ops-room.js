@@ -8,7 +8,8 @@
 //    jobs and metrics (h5HiveModel), never invented, and drawn through hd4OpsScreens(room).paint(...). The canvases are the room's
 //    own (ENV-HD-4 allocated and counted them), so painting adds no texture byte. Words appear only on the screens (the console's
 //    own UI text), never on floors or walls. Small screens (balanced and the phone: 128 × 64 cells, a 256 × 64 wall) take the
-//    agent's colour, the trait bars and a talk light without words.
+//    agent's colour, the trait bars and a talk light; HIVE-6 adds a compact card in words there (name,
+//    "software agent", the queue and its first job, the last line's head; the wall: the last captions and refusals by job id).
 // 2. The hive stands in its room. When the learner enters, every agent that holds no job stands at its console's spot, facing the
 //    video wall. An agent the hive gives a job walks out through the door and is released; when its last job ends it walks back in
 //    to its console (h3RoomPresence, the rooms' own presence). The figures are AGENT-AVATARS' figures, lightened for this room by
@@ -150,11 +151,20 @@ export function h5PaintConsole(g, w, h, card, text = H5_SCREEN_TEXT[card?.lang] 
   const acc = h5Hex(card.accent), band = Math.max(3, Math.round(h * 0.16));
   g.fillStyle = acc; g.fillRect(0, 0, w, band);
   const traits = ["warmth", "formality", "verbosity", "caution"];
-  if (w < 256) { // a small screen: no words, the agent's colour, its trait bars and a talk light
-    traits.forEach((k, i) => { const v = Math.max(0, Math.min(1, Number(card.traits?.[k]) || 0)); g.fillStyle = "#24364a"; g.fillRect(w * 0.08, h * (0.3 + i * 0.15), w * 0.5, h * 0.08); g.fillStyle = acc; g.fillRect(w * 0.08, h * (0.3 + i * 0.15), w * 0.5 * v, h * 0.08); });
-    g.fillStyle = card.talking ? "#8fe3ff" : "#3a4b5e"; g.beginPath(); g.arc(w * 0.8, h * 0.55, h * 0.12, 0, Math.PI * 2); g.fill();
-    for (let k = 0; k < Math.min(3, card.queue.length); k += 1) { g.fillStyle = "#37d6c0"; g.fillRect(w * 0.7 + k * w * 0.07, h * 0.8, w * 0.05, h * 0.08); }
-    return 0;
+  if (w < 256) { // HIVE-6: a small screen (balanced, 128 × 64): a compact card in words (name, "software agent", the queue and its
+    // first job, the last line's head), the agent's colour, its trait bars and a talk light; the same canvas, no byte added
+    const s2 = w / 128, fnt = (px, bold = false) => `${bold ? "700 " : ""}${Math.max(6, Math.round(px * s2))}px system-ui, sans-serif`;
+    let n = 0; const say = (t, x, y, maxW) => { g.fillText(h5Fit(g, t, maxW), x, y); n += 1; };
+    const hb = Math.max(band, Math.round(12 * s2)); g.fillStyle = acc; g.fillRect(0, 0, w, hb);
+    g.textBaseline = "middle";
+    g.fillStyle = "#0b1018"; g.font = fnt(10, true); say(card.name, 4 * s2, hb / 2, w * 0.6);
+    g.fillStyle = "#c9d6e3"; g.font = fnt(8); say(card.label, 4 * s2, hb + 7 * s2, w - 8 * s2);
+    g.fillStyle = "#e8eef4"; say(`${text.queue} ${card.queue.length}${card.queue[0] ? ` · ${card.queue[0].jobId}` : ""}`, 4 * s2, hb + 17 * s2, w - 8 * s2);
+    const last = card.lines[card.lines.length - 1];
+    g.fillStyle = "#b7c7d8"; g.font = fnt(7); say(last ? `${last.clock} ${last.text}` : text.quiet, 4 * s2, hb + 27 * s2, w - 8 * s2);
+    traits.forEach((k, i) => { const v = Math.max(0, Math.min(1, Number(card.traits?.[k]) || 0)); g.fillStyle = "#24364a"; g.fillRect(w * 0.04, h * (0.8 + i * 0.05), w * 0.5, h * 0.03); g.fillStyle = acc; g.fillRect(w * 0.04, h * (0.8 + i * 0.05), w * 0.5 * v, h * 0.03); });
+    g.fillStyle = card.talking ? "#8fe3ff" : "#3a4b5e"; g.beginPath(); g.arc(w * 0.88, h * 0.86, h * 0.08, 0, Math.PI * 2); g.fill();
+    return n;
   }
   let words = 0;
   const S = w / 512; // 512 × 256 is the desktop high tier's cell
@@ -198,10 +208,20 @@ export function h5PaintWall(g, w, h, model, text = H5_SCREEN_TEXT[model?.lang] ?
   if (!model) return 0;
   const half = w / 2;
   const accent = (id) => h5Hex(agents.find((a) => a.id === id)?.avatar?.accent ?? 0x8fd3ff);
-  if (w < 1024) { // a small wall: the feed as coloured ticks, the refusals as amber ticks, no words
-    model.feed(8).forEach((l, i) => { g.fillStyle = accent(l.agent); g.fillRect(half * 0.08, h * (0.1 + i * 0.1), half * 0.8, h * 0.06); });
-    model.refusals(6).forEach((r, i) => { g.fillStyle = "#ffb347"; g.fillRect(half * 1.08, h * (0.12 + i * 0.13), half * 0.6, h * 0.08); });
-    return 0;
+  if (w < 1024) { // HIVE-6: a small wall (balanced, 256 × 64): the feed's last captions and the last refusals by job id, in words
+    const s2 = h / 64, fnt = (px, bold = false) => `${bold ? "700 " : ""}${Math.max(6, Math.round(px * s2))}px system-ui, sans-serif`;
+    let n = 0; const say = (t, x, y, maxW) => { g.fillText(h5Fit(g, t, maxW), x, y); n += 1; };
+    g.textBaseline = "middle";
+    g.fillStyle = "#16263a"; g.fillRect(0, 0, half, 11 * s2); g.fillStyle = "#2a2116"; g.fillRect(half, 0, half, 11 * s2);
+    g.fillStyle = "#e8eef4"; g.font = fnt(8, true); say(`${text.feed} · ${ohClock(model.t)}`, 3 * s2, 6 * s2, half - 6 * s2);
+    g.fillStyle = "#ffd9a0"; say(text.refusals, half + 3 * s2, 6 * s2, half - 6 * s2);
+    g.font = fnt(7);
+    model.feed(4).forEach((l, i) => { g.fillStyle = accent(l.agent); g.fillRect(2 * s2, (15 + i * 12) * s2, 2 * s2, 8 * s2); g.fillStyle = "#dfe8f1"; say(`${l.clock} ${l.caption}`, 6 * s2, (19 + i * 12) * s2, half - 9 * s2); });
+    const refs = model.refusals(3);
+    if (!refs.length) { g.fillStyle = "#c9d6e3"; say(text.noRefusals, half + 3 * s2, 19 * s2, half - 6 * s2); }
+    refs.forEach((r, i) => { g.fillStyle = "#ffb347"; g.fillRect(half + 2 * s2, (15 + i * 12) * s2, 2 * s2, 8 * s2); g.fillStyle = "#f2f5f8"; say(`${r.clock} ${r.jobId}`, half + 6 * s2, (19 + i * 12) * s2, half - 9 * s2); });
+    if (model.metrics) { g.fillStyle = "#9fe6d8"; say(text.counts(model.metrics)[1].split(" · ").pop(), half + 3 * s2, 58 * s2, half - 6 * s2); }
+    return n;
   }
   let words = 0;
   const S = h / 256;

@@ -3,7 +3,7 @@
  * HIVE-5 — the hive in its own room, live (docs/consoles/HIVE-5.md). Single checker; never run check_all here. Headless, no browser.
  *   1. the operations room's screens show the hive: seven console cells and the video wall painted from the hive's own data
  *      (each card's name, "software agent" label, lines and queue; the wall's feed and the governor's refusals with reasons), on
- *      the room's own canvases (texture bytes unchanged, inside IXR_TEX_BUDGET); small screens take no words;
+ *      the room's own canvases (texture bytes unchanged, inside IXR_TEX_BUDGET); small screens carry a compact card in words (HIVE-6);
  *   2. the hive stands in its room: through hwSyncRoom, seven agents at their seven consoles on entering (high and balanced; the
  *      phone tier builds none), each at its role's spot facing the video wall; the room inside IX_BUDGET and IXR_TEX_BUDGET with
  *      seven figures (lightened) speaking, and at every step of a seeded day in which agents walk out to jobs and back;
@@ -128,8 +128,19 @@ await check("1 the operations room's screens show the hive (7 consoles + the wal
       out.push(`high: ${scr.canvas.log.length} words on 7 console cells, ${wall.length} on the wall; ${refs.length} refusals, ${feed.length} feed lines`);
       evals.push(`ops-room screens painted from the hive: 0 -> ${n} (7 consoles + the wall), texture bytes unchanged ${fmtB(before.bytes)} (IXR_TEX_BUDGET ${fmtB(IXR.IXR_TEX_BUDGET.high)}), high tier`);
     } else {
-      ok(scr.canvas.log.length === 0 && scr.wall.canvas.log.length === 0, "balanced: small screens take no words");
-      out.push(`balanced: ${n} painted, no words (128 × 64 cells)`);
+      // HIVE-6 changed this: the small screens (128 × 64 cells, a 256 × 64 wall) now carry a compact card in words, on the same
+      // canvases (bytes unchanged above). Each cell names its agent and says "software agent"; the wall shows the feed and refusals.
+      const model = O.h5HiveModel(hive, hive.agents);
+      for (const cell of scr.cells) {
+        const words = scr.canvas.log.filter((l) => l.ox === cell.x && l.oy === cell.y).map((l) => l.text);
+        const a = hive.agents.find((x) => x.id === cell.agentId), card = model.card(a.id);
+        ok(words.some((w) => w.startsWith(a.name.slice(0, 3))) && words.some((w) => /software agent/.test(w)), `balanced ${a.id}: the small card names the agent and says "software agent" (${words.slice(0, 2).join(" | ")})`);
+        ok(!card.queue.length || words.some((w) => w.includes(card.queue[0].jobId.slice(0, 6))), `balanced ${a.id}: the small card shows its first held job`);
+      }
+      const wall = scr.wall.canvas.log.map((l) => l.text), refs = model.refusals(3);
+      ok(wall.some((w) => /^Today's feed/.test(w)) && wall.some((w) => /^Governor refusals/.test(w)), "balanced: the small wall's two panels");
+      ok(refs.every((r) => wall.some((w) => w.includes(r.jobId.slice(0, 10)))), "balanced: the small wall lists the last refusals by job id");
+      out.push(`balanced: ${n} painted, with words: ${scr.canvas.log.length} on 7 small cells (128 × 64), ${wall.length} on the small wall (256 × 64)`);
     }
     mount.dispose();
   }
@@ -269,7 +280,7 @@ await check("5 wiring and hygiene: bundles, app, hwSyncRoom, prefix, no alias, n
   const at = (s, f) => s.indexOf(`SHARED / "${f}"`);
   ok(at(par, "h5-ops-room.js") > at(par, "hd4-rooms.js") && at(par, "h5-ops-room.js") > at(par, "aa-agent-avatars.js") && at(par, "h5-ops-room.js") > at(par, "h3-hive-day.js") && at(par, "h5-ops-room.js") < at(par, "hw-hive-world.js") && at(par, "h5-hive-live.js") > 0 && at(par, "h5-hive-live.js") < par.indexOf('"parishes/js/app.js"'), "the parishes bundle lists h5-ops-room.js (after hd4-rooms, before hw-hive-world) and h5-hive-live.js");
   ok(at(ins, "h5-hive-live.js") > 0 && at(ins, "h5-hive-live.js") < ins.indexOf('"instructor/js/h4-hive.js"'), "the instructor bundle lists h5-hive-live.js before the tab");
-  ok(/if \(h5IsOpsRoom\(room\) && agents\?\.length\) return h5MountOpsRoom\(/.test(hw), "hwSyncRoom hands the ops room to h5MountOpsRoom");
+  ok(/if \(h5IsOpsRoom\(room\) && agents\?\.length\) \{ \/\/ HIVE-5[^\n]*\n\s*const m = h5MountOpsRoom\(\{ three, room, agents, source, tier, reducedMotion, mount \}\);/.test(hw), "hwSyncRoom hands the ops room to h5MountOpsRoom"); // HIVE-6: the mount is kept to hold the briefing, then returned
   ok(/homeward: true/.test(panel), "the panel's hive walks agents home (homeward: true)");
   ok(/^import \{ h5LivePublisher, h5MountLiveToggle \} from "\.\.\/\.\.\/shared\/h5-hive-live\.js";$/m.test(app) && /const p = window\.__parishTest\.hive; if \(!p\?\.hive\) return null; const pub = h5LivePublisher\(\{ hive: p\.hive \}\); h5MountLiveToggle\(p, pub\); addEventListener\("pagehide", \(\) => pub\.set\(false\)\)/.test(app), "the app: the link only where the hive panel is mounted, off when the page goes");
   ok(/@media \(pointer:coarse\),\(max-width:600px\)\{\.oh-panel button\{min-height:44px;min-width:44px\}\}/.test(panel) && /panel\?\.el\?\.querySelector\?\.\("\.oh-row"\)/.test(read("WebXR/shared/h5-hive-live.js")), "the link's button sits in the panel's row (the panel's 44 px rule on a phone)");

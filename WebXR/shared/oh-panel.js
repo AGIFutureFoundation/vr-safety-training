@@ -19,6 +19,10 @@
 // variety }) are on here. A reply sits indented under its opener in the feed; memory lines are in italics. No new UI text.
 // HIVE-5: `homeward: true` too: an agent whose last job has ended walks back to its home site (outdoors as in the rooms), with a line.
 //
+// HIVE-6: `moods: true` and `briefing: true` too. Each card shows its agent's mood (from the hive's mood events, with the cause as
+// its title); with voice on, a line is spoken at the mood's rate and pitch (h6VoicedAgent: inside the gentle band, a safety line
+// never faster or higher). The briefing runs when the learner enters the operations room at the start of the day (hw-hive-world.js).
+//
 // AVATARS-HD-2: with voice on, `onTalk(agentId, on, line)` hears onstart (true) and onend (false) with the line ({ text, jobId }), and
 // `onWord(agentId, charIndex, line)` hears each word boundary of the line being spoken, so a figure's light and mouth follow the voice.
 //
@@ -35,9 +39,12 @@ import { ohVoiceController } from "./oh-voice.js";
 import { avAgentLook, avSpriteSvg } from "./av-sprites.js";
 import { aaPortraitImg } from "./aa-agent-portraits.js";
 import { h3PanelText, h3RoleIn, h3ChipIn } from "./h3-hive-day.js";
+import { h6VoicedAgent } from "./h6-moods.js";
 
 export const OH_FEED_MAX = 40;
 export const OH_RUN_STEPS = 10;
+/** HIVE-6: the mood chip's words (Spanish machine-assisted, like the rest of the pack). */
+export const OH_MOOD_WORDS = Object.freeze({ en: Object.freeze({ label: "mood", calm: "calm", busy: "busy", concerned: "concerned", relieved: "relieved" }), es: Object.freeze({ label: "ánimo", calm: "tranquilo", busy: "ocupado", concerned: "preocupado", relieved: "aliviado" }) });
 const OH_PANEL_CSS = ".oh-panel{font:13px/1.4 system-ui,sans-serif;padding:10px;border:1px solid #4a3f7a;border-radius:10px;background:#120f22;color:#ece8ff;margin:8px 0}.oh-panel h3{margin:0 0 6px;font-size:15px}.oh-panel .oh-note{opacity:.85;font-size:12px;margin:0 0 6px}.oh-panel .oh-roster{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:6px}.oh-panel .oh-card{display:flex;gap:6px;align-items:flex-start;border:1px solid #3a335f;border-radius:8px;padding:5px;background:#1b1733;position:relative}.oh-panel .oh-card svg,.oh-panel .oh-card img{flex:0 0 auto;border-radius:6px}.oh-panel .oh-name{font-weight:600}.oh-panel .oh-label{display:inline-block;font-size:10px;letter-spacing:.02em;text-transform:uppercase;background:#2f2a52;border:1px solid #6d62b8;border-radius:4px;padding:0 4px;margin-left:4px}.oh-panel .oh-role{font-size:11px;opacity:.85}.oh-panel .oh-chip{display:inline-block;font-size:10px;border-radius:9px;padding:0 6px;margin:2px 3px 0 0;background:#2a2547}.oh-panel .oh-talk{position:absolute;top:5px;right:5px;width:8px;height:8px;border-radius:50%;background:#3a335f}.oh-panel .oh-card[data-talking=true] .oh-talk{background:#8fe3ff}.oh-panel .oh-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}.oh-panel button{background:#2a2450;color:#ece8ff;border:1px solid #6d62b8;border-radius:6px;padding:5px 9px;cursor:pointer}.oh-panel button[aria-pressed=true]{background:#4b3fa0}.oh-panel .oh-feed{max-height:180px;overflow-y:auto;border:1px solid #3a335f;border-radius:6px;padding:4px 6px;margin-top:6px;background:#0d0b19}.oh-panel .oh-feed p{margin:2px 0}.oh-panel .oh-feed p.oh-x[data-turn=\"1\"]{margin-left:14px;border-left:2px solid #6d62b8;padding-left:6px}.oh-panel .oh-feed p[data-memory=true]{font-style:italic}.oh-panel .oh-queue{margin-top:6px}.oh-panel .oh-req{border:1px solid #8a6d2a;border-radius:6px;padding:5px;margin-top:4px;background:#1f1a10}.oh-panel .oh-status{margin-top:6px;font-size:12px;opacity:.9}@media (pointer:coarse),(max-width:600px){.oh-panel button{min-height:44px;min-width:44px}}"; // HIVE-3: 44 px touch targets on a phone (the language button and the rest)
 
 export function ohMountHive(el, { reducedMotion = false, audit = null, seed = 1, nJobs = 200, ticksPerDay = 480, synth, Utterance, onTalk = null, onWord = null, supervise = false, lang = null, settings = null, reload = null } = {}) {
@@ -49,7 +56,7 @@ export function ohMountHive(el, { reducedMotion = false, audit = null, seed = 1,
   if (typeof prefs.lang === "string") lang = prefs.lang; // HIVE-3: the language this profile chose wins over the page's
   const hiveLang = ohLangFor(lang ?? document.documentElement?.lang ?? "en");
   const T = h3PanelText(hiveLang);
-  const hive = ohHive({ seed, audit, nJobs, ticksPerDay, supervise, exchanges: true, memory: true, variety: true, homeward: true, ...(hiveLang === "en" ? {} : { say: (a, ev) => ohSay(a, ev, { lang: hiveLang }), agents: OH_AGENTS.map((a) => ohAgentIn(a, hiveLang)), supervisor: "Supervisor (este dispositivo)" }) });
+  const hive = ohHive({ seed, audit, nJobs, ticksPerDay, supervise, exchanges: true, memory: true, variety: true, homeward: true, moods: true, briefing: true, ...(hiveLang === "en" ? {} : { say: (a, ev) => ohSay(a, ev, { lang: hiveLang }), agents: OH_AGENTS.map((a) => ohAgentIn(a, hiveLang)), supervisor: "Supervisor (este dispositivo)" }) });
   const voice = ohVoiceController({ ...(synth !== undefined ? { synth } : {}), ...(Utterance !== undefined ? { Utterance } : {}), enabled: false });
   const captions = [];
   const siteName = (id) => RB_SITES.find((s) => s.id === id)?.name ?? id;
@@ -75,6 +82,8 @@ export function ohMountHive(el, { reducedMotion = false, audit = null, seed = 1,
     body.appendChild(mk("div", "oh-role", h3RoleIn(a, hiveLang)));
     body.appendChild(mk("div", "oh-role", T.home(siteName(a.homeSite))));
     const chips = mk("div"); for (const c of ohTraitChips(a.traits)) chips.appendChild(mk("span", "oh-chip", h3ChipIn(c, hiveLang))); body.appendChild(chips);
+    const MW = OH_MOOD_WORDS[hiveLang] ?? OH_MOOD_WORDS.en; // HIVE-6: the agent's mood, from the hive's mood events
+    const moodChip = mk("span", "oh-chip oh-mood", `${MW.label}: ${MW.calm}`); moodChip.dataset.mood = "calm"; body.appendChild(moodChip);
     card.append(pic, body, mk("span", "oh-talk"));
     card.querySelector(".oh-talk").setAttribute("aria-hidden", "true");
     roster.appendChild(card); cards.set(a.id, card);
@@ -96,6 +105,11 @@ export function ohMountHive(el, { reducedMotion = false, audit = null, seed = 1,
   const status = mk("div", "oh-status"); box.appendChild(status);
   el.appendChild(box);
 
+  hive.on("mood", (e) => { // HIVE-6
+    const chip = cards.get(e.agent)?.querySelector(".oh-mood"); if (!chip) return;
+    const MW = OH_MOOD_WORDS[hiveLang] ?? OH_MOOD_WORDS.en;
+    chip.textContent = `${MW.label}: ${MW[e.mood] ?? e.mood}`; chip.dataset.mood = e.mood; chip.title = `${e.cause?.type ?? ""}${e.cause?.jobId ? ` ${e.cause.jobId}` : ""}`;
+  });
   hive.on("speak", (e) => {
     const a = ohAgentIn(OH_AGENTS.find((x) => x.id === e.agent), hiveLang); // the agent as it speaks this language: its voice asks for a local voice of it
     captions.push({ t: e.t, agent: e.agent, text: e.text, caption: e.caption });
@@ -109,7 +123,7 @@ export function ohMountHive(el, { reducedMotion = false, audit = null, seed = 1,
     if (a && voice.enabled()) {
       const card = cards.get(a.id);
       const line = { text: e.text, jobId: e.jobId ?? null }; // AVATARS-HD-2: the line, so the page matches the voice to the figure's line
-      voice.say(a, e.text, { onstart: () => { if (card) card.dataset.talking = "true"; try { onTalk?.(a.id, true, line); } catch (_) { /* a listener never stops the voice */ } }, onboundary: (b) => { if (b?.name && b.name !== "word") return; try { onWord?.(a.id, Number.isFinite(b?.charIndex) ? b.charIndex : null, line); } catch (_) { /* ignore */ } }, onend: () => { if (card) card.dataset.talking = "false"; try { onTalk?.(a.id, false, line); } catch (_) { /* ignore */ } } });
+      voice.say(h6VoicedAgent(a, e.mood, e.about), e.text, { onstart: () => { if (card) card.dataset.talking = "true"; try { onTalk?.(a.id, true, line); } catch (_) { /* a listener never stops the voice */ } }, onboundary: (b) => { if (b?.name && b.name !== "word") return; try { onWord?.(a.id, Number.isFinite(b?.charIndex) ? b.charIndex : null, line); } catch (_) { /* ignore */ } }, onend: () => { if (card) card.dataset.talking = "false"; try { onTalk?.(a.id, false, line); } catch (_) { /* ignore */ } } });
     }
   });
 
