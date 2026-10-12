@@ -384,6 +384,16 @@ export function ocVerifyChain(lines = []) {
   return { ok: true, brokenAt: null, lines: lines.length };
 }
 
+/**
+ * A page's check of a trimmed record: its last line re-hashed on this device matches the head hash and the line count.
+ * The full chain is re-walked by check_claw from the committed JSON; the page says so.
+ */
+export function ocVerifyHead(head, tail = []) {
+  const l = tail[tail.length - 1];
+  if (!head || !l) return { ok: false, lines: head?.lines ?? 0, hash: head?.hash ?? null };
+  return { ok: ocLineHash(l) === l.hash && l.hash === head.hash && l.seq === head.lines - 1, lines: head.lines, hash: head.hash };
+}
+
 // ------------------------------------------------------------------ people and robots in one report
 
 /** The tutor's cell-entry steps and the drills map onto robot scenarios by procedure. */
@@ -413,6 +423,57 @@ export function ocPracticeNeeds({ runs = [], promoted = {}, human = null, below 
   }
   const summary = `robots need practice on ${robots.length} scenario${robots.length === 1 ? "" : "s"}; ${eligible ? `people on ${people.length} item${people.length === 1 ? "" : "s"} from this device's own drills and tutor` : "learner results not shown (not opted in on this device)"}`;
   return { robots, people, learnerData: eligible ? "local" : "none", summary };
+}
+
+/**
+ * The learner stations that match a robot scenario: the robot stations (RP_ROBOT_STATIONS) at the operator and technician
+ * levels of every robotics-programme track whose `scenario` is the scenario's base (a hard variant shares its base's).
+ * `tracks` is RP_TRACKS and `isRobot` rpIsRobotStation (shared/rp-programme-data.js), injected so this module keeps no import.
+ */
+export function ocScenarioDrills(tracks = [], isRobot = () => true) {
+  const out = {};
+  for (const t of tracks) {
+    if (!t?.scenario) continue;
+    const xs = (out[t.scenario] ??= []);
+    for (const lv of ["operator", "technician"]) for (const id of t.levels?.[lv] ?? []) if (isRobot(id) && !xs.includes(id)) xs.push(id);
+  }
+  return out;
+}
+/** ocScenarioDrills(RP_TRACKS, rpIsRobotStation), frozen for the page (check_claw 10 re-derives it from the programme). */
+export const OC_SCENARIO_DRILLS = Object.freeze({
+  "rb-cell-entry": ["robot-cell", "rt-robot-estop-recovery-and-restart", "tw-palletizer-cell-fenced-access-permit", "ad-robot-cell-lockout-and-safe-reentry", "rt-teach-pendant-safe-jogging", "tw-amr-traffic-zone-entry-and-lockout"],
+  "rb-cobot-zone-setup": ["ad-cobot-risk-assessment-and-speed-separation", "robot-cell", "rt-cobot-power-force-limit-check", "ad-robot-cell-lockout-and-safe-reentry"],
+  "rb-amr-fleet-routing": ["ad-amr-fleet-traffic-and-estop-drill", "tw-amr-traffic-zone-entry-and-lockout"],
+  "rb-construction-drilling": ["rp-construction-drilling-robot-setup"],
+  "rb-teleop-pick-place": ["ad-cobot-risk-assessment-and-speed-separation", "rp-teleop-demonstration-collection", "robot-cell", "ad-robot-cell-lockout-and-safe-reentry", "ad-amr-fleet-traffic-and-estop-drill"],
+});
+
+/**
+ * People and robots side by side, one row per robot scenario. Robot: the model the scenario runs (promoted or incumbent),
+ * its measured success and interval, and a gap when success is under `below` or any rule broke. People: the matching
+ * learner stations (OC_SCENARIO_DRILLS; none for a scenario no track covers, which is itself a gap in the programme), and,
+ * only when the learner is eligible, which of them this device's own records show passed. `human.stations` is
+ * { [stationId]: { passed, best } } from the device's training records; nothing is read or shown when not eligible.
+ */
+export function ocSideBySide({ runs = [], promoted = {}, human = null, drills = OC_SCENARIO_DRILLS, below = 0.9 } = {}) {
+  const eligible = !!human?.eligible;
+  return runs.map((r) => {
+    const id = promoted[r.scenarioId];
+    const x = r.results.find((y) => y.modelId === id) ?? null;
+    const robot = x ? { modelId: x.modelId, k: x.k, n: x.n, rate: x.rate, ci: x.ci, ruleBreaks: x.ruleBreaks, gap: x.rate < below || x.ruleBreaks > 0, why: x.ruleBreaks > 0 ? `${x.ruleBreaks} rule breaks` : x.rate < below ? `success ${x.rate} under ${below}` : "at the mark" } : null;
+    const base = String(r.scenarioId).split("#")[0];
+    const stations = [...(drills[base] ?? [])];
+    let people;
+    if (!stations.length) people = { stations, gap: true, why: "no learner station in the programme matches this scenario yet", learner: null };
+    else if (!eligible) people = { stations, gap: null, why: `${stations.length} matching station${stations.length === 1 ? "" : "s"}`, learner: null };
+    else {
+      const rec = human.stations ?? {};
+      const passed = stations.filter((s) => rec[s]?.passed);
+      const todo = stations.filter((s) => !rec[s]?.passed);
+      people = { stations, gap: todo.length > 0, why: `${passed.length} of ${stations.length} passed on this device`, learner: { passed, todo } };
+    }
+    return { scenarioId: r.scenarioId, robot, people };
+  });
 }
 
 // ------------------------------------------------------------------ the declared protocol (committed before any held-out run)

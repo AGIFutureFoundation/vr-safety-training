@@ -92,7 +92,7 @@ import { dxCaptureLesson, dxCaptureDrill, dxCaptureRollout } from "../../shared/
 import { colMountCoLearn, colTutor } from "../../shared/col-learn.js";
 // OMEGA-CLAW (docs/consoles/OMEGA-CLAW.md): the claw's read-only panel and the persistent robot world (mounted at the end of this file).
 import { raBuild } from "../../shared/ra-arena.js";
-import { OC_RECORD } from "../../shared/oc-claw-record.js";
+import { OC_RECORD, OC_RECORDS } from "../../shared/oc-claw-record.js";
 import { ocWorldLoop } from "../../shared/oc-world.js";
 import { ocMountClaw, ocMountWorld } from "../../shared/oc-panel.js";
 import { rtMountTeleop } from "../../shared/rt-teleop.js";
@@ -1796,8 +1796,8 @@ function uxAnchorPrompt() {
 // the hive's jobs with the promoted model per task, paused while the tab is hidden, nothing uploaded, the governor on every step.
 // The learner's own drill and tutor results reach the panel only through DATAWORKS' gate (opted-in adults; never K-12, demo or
 // signed out), and stay on this device. The world starts a few seconds after load so it never competes with the first frames.
-var ocHuman = (() => { try { const ok = !npParams.has("demo") && dxEligibility(dxReadSignals(), { stage: "collect" }).eligible === true && !!dxConsent(); return ok ? { eligible: true, drills: drLoad(), tutor: colTutor().state } : null; } catch (_) { return null; } })();
-window.__parishTest.claw = (() => { try { return ocMountClaw($("menu-drills"), { record: OC_RECORD, human: ocHuman }); } catch (_) { return null; } })();
+var ocHuman = (() => { try { const ok = !npParams.has("demo") && dxEligibility(dxReadSignals(), { stage: "collect" }).eligible === true && !!dxConsent(); return ok ? { eligible: true, drills: drLoad(), tutor: colTutor().state, stations: (() => { const m = {}; for (const r of ppRecords()) { const x = (m[r.simId] ??= { passed: false, best: 0 }); if (r.passed) x.passed = true; if (Number.isFinite(r.score)) x.best = Math.max(x.best, r.score); } return m; })() } : null; } catch (_) { return null; } })();
+window.__parishTest.claw = (() => { try { return ocMountClaw($("menu-drills"), { record: OC_RECORD, records: OC_RECORDS, human: ocHuman }); } catch (_) { return null; } })();
 window.__parishTest.clawWorld = null;
 var ocWorldStart = () => { try { if (window.__parishTest.clawWorld) return window.__parishTest.clawWorld; const promoted = Object.fromEntries(["rb-cell-entry", "rb-cobot-zone-setup", "rb-teleop-pick-place", "rb-amr-fleet-routing"].map((sc) => [sc, OC_RECORD.promoted?.[sc] ?? OC_RECORD.protocol.incumbent])); const loop = ocWorldLoop({ seed: 1, promoted, policyFor: (m, sc, env, seed) => { const b = raBuild(m, sc); return b?.policyFor ? b.policyFor(seed) : null; } }); window.__parishTest.clawWorld = { loop, view: ocMountWorld($("menu-drills"), { loop }) }; return window.__parishTest.clawWorld; } catch (_) { return null; } };
 window.__parishTest.clawWorldStart = ocWorldStart;

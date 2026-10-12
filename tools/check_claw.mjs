@@ -82,7 +82,8 @@ await check("1 five software agents, labelled, invented names apart from the hiv
   const hive = new Set((HD.OH_AGENTS ?? []).map((a) => a.name));
   ok(A.every((a) => !hive.has(a.name)) && new Set(A.map((a) => a.name)).size === 5, "names distinct from the hive's and each other");
   const NET = /\b(fetch|XMLHttpRequest|WebSocket|EventSource|sendBeacon|importScripts)\s*\(|navigator\.sendBeacon|https?:\/\//;
-  const KEY = new RegExp(["api[_-]?key", "authori" + "zation:", "bear" + "er ", "sk-[A-Za-z0-9]{8}"].join("|"), "i");
+  // The key-prefix pattern starts at a word boundary: unanchored it matched inside the station id "ri·sk-assessment".
+  const KEY = new RegExp(["api[_-]?key", "authori" + "zation:", "bear" + "er ", "\\bsk-[A-Za-z0-9]{8}"].join("|"), "i");
   for (const f of OC_FILES) { const t = src(f).replace(/\/\/.*$/gm, ""); ok(t, `${f} missing`); ok(!NET.test(t), `${f}: network code`); ok(!KEY.test(t), `${f}: key wording`); }
   return `${A.map((a) => `${a.name} (${a.key})`).join(", ")}; ${OC_FILES.length} modules: no network code, no key`;
 });
@@ -250,7 +251,7 @@ await check("7 wiring: the parishes mount and its gate, the instructor tab, the 
   ok(/var ocHuman = [^\n]*!npParams\.has\("demo"\) && dxEligibility\(dxReadSignals\(\), \{ stage: "collect" \}\)\.eligible === true && !!dxConsent\(\)[^\n]*: null/.test(app), "the learner gate (DATAWORKS' collect-stage eligibility: signed in, adult, not K-12 or demo, and opted in)");
   const idx = src("WebXR/instructor/index.html"), ia = src("WebXR/instructor/js/app.js");
   ok(/id="tab-claw"/.test(idx) && /id="view-claw"/.test(idx) && /id="oc-root"/.test(idx), "instructor tab markup");
-  ok(/\["claw", "tab-claw", "view-claw"\]/.test(ia) && /ocMountClaw\(\$\("oc-root"\), \{ record: OC_RECORD, human: null \}\)/.test(ia), "instructor tab wiring, no learner data");
+  ok(/\["claw", "tab-claw", "view-claw"\]/.test(ia) && /ocMountClaw\(\$\("oc-root"\), \{ record: OC_RECORD, records: OC_RECORDS, human: null \}\)/.test(ia), "instructor tab wiring, no learner data");
   const b = src("tools/bundle_webxr.py");
   for (const f of ["rt6-learn.js", "rt7-learn.js", "rt8-learn.js", "ra-lm.js", "ra-arena.js", "oc-claw.js", "oc-world.js", "oc-claw-record.js", "oc-panel.js"]) ok(b.includes(`SHARED / "${f}"`), `bundle list: ${f}`);
   ok(b.indexOf('SHARED / "oh-hive.js"') < b.indexOf('SHARED / "oc-world.js"'), "oc-world.js after oh-hive.js");
@@ -327,6 +328,40 @@ await check("9 protocol 2: seeds only through ARENA-2's committed declaration; d
   evals.push(`small model (ra-lm) vs clone (bc), measured once on ${a}–${b}: ${REC2.smallModel.map((s) => `${s.scenarioId} ${s.lm} vs ${s.bc} (${s.verdict})`).join("; ")}`);
   evals.push(`protocol 2 governor ${checked}/${steps} steps, physical ${phys}; world ${REC2.world.minutes} min, ${REC2.world.completed} jobs, governor ${REC2.world.stepsMonitored}/${REC2.world.steps}, physical dispatches ${REC2.world.physicalDispatched}; chain intact (${ch.lines} lines)`);
   return `${note}; ${N} comparisons, verdicts re-derived, ${REC2.promotions.length} promotions, chain ${ch.lines} lines intact`;
+});
+
+// 10 — people and robots side by side; the trimmed page module
+await check("10 side by side: each robot scenario with its learner stations (from the programme), gaps for both, learner values only when eligible; the page module trimmed to chain heads", async () => {
+  need(OC); ok(REC2, "docs/evals/claw2.json missing");
+  const RP = need(await imp("WebXR/shared/rp-programme-data.js"));
+  const derived = OC.ocScenarioDrills(RP.RP_TRACKS, (id) => Object.prototype.hasOwnProperty.call(RP.RP_ROBOT_STATIONS, id));
+  ok(JSON.stringify(derived) === JSON.stringify(OC.OC_SCENARIO_DRILLS), `OC_SCENARIO_DRILLS differs from the programme's tracks: ${JSON.stringify(derived)}`);
+  const no = OC.ocSideBySide({ runs: REC2.runs, promoted: REC2.promoted, human: { eligible: false, stations: { "robot-cell": { passed: true } } } });
+  ok(no.length === REC2.runs.length && no.every((x) => x.robot && x.people), "a row per scenario with both sides");
+  ok(no.every((x) => x.people.learner === null), "ineligible: no learner value");
+  const uncovered = no.filter((x) => !x.people.stations.length).map((x) => x.scenarioId);
+  ok(uncovered.every((sc) => no.find((x) => x.scenarioId === sc).people.gap === true), "an uncovered scenario shows as a programme gap");
+  const yes = OC.ocSideBySide({ runs: REC2.runs, promoted: REC2.promoted, human: { eligible: true, stations: { "robot-cell": { passed: true, best: 90 }, "rt-teach-pendant-safe-jogging": { passed: false, best: 60 } } } });
+  const ce = yes.find((x) => x.scenarioId === "rb-cell-entry");
+  ok(ce.people.learner.passed.join() === "robot-cell" && ce.people.learner.todo.includes("rt-teach-pendant-safe-jogging") && ce.people.gap === true, `cell entry learner side ${JSON.stringify(ce.people)}`);
+  ok(yes.every((x, i) => JSON.stringify(x.robot) === JSON.stringify(no[i].robot)), "the robot side does not depend on the learner");
+  const robotGaps = no.filter((x) => x.robot.gap).map((x) => x.scenarioId);
+  const app = src("WebXR/parishes/js/app.js");
+  ok(/var ocHuman = [^\n]*dxConsent\(\); return ok \? \{ eligible: true, [^\n]*stations: [^\n]*ppRecords\(\)[^\n]*: null;/.test(app), "the learner's station records are read only inside the DATAWORKS gate");
+  ok(/ocMountClaw\(\$\("menu-drills"\), \{ record: OC_RECORD, records: OC_RECORDS, human: ocHuman \}\)/.test(app), "parishes passes both records");
+  // The page module: both records, each chain trimmed to its head, the head matching the committed record.
+  const M = need(await imp("WebXR/shared/oc-claw-record.js"));
+  ok(M.OC_RECORDS?.length === 2 && M.OC_RECORD === M.OC_RECORDS[1], "two records, the latest first shown");
+  for (const [m, full] of [[M.OC_RECORDS[0], REC], [M.OC_RECORDS[1], REC2]]) {
+    ok(!("chain" in m) && m.chainHead.lines === full.chain.length && m.chainHead.hash === full.chain[full.chain.length - 1].hash, `${m.protocol.version}: head does not match the committed chain`);
+    ok(OC.ocVerifyHead(m.chainHead, m.chainTail).ok, `${m.protocol.version}: head check`);
+    const bad = [{ ...m.chainTail[0], detail: m.chainTail[0].detail + "x" }]; ok(!OC.ocVerifyHead(m.chainHead, bad).ok, "a tampered last line is caught");
+  }
+  const bytes = Buffer.byteLength(src("WebXR/shared/oc-claw-record.js"));
+  const full = (r) => Buffer.byteLength(JSON.stringify(r.chain));
+  evals.push(`people beside robots, per scenario: ${no.length} rows; robot gaps ${robotGaps.length} (${robotGaps.join(", ")}); scenarios with no matching learner station ${uncovered.length} (${uncovered.join(", ")}); learner side only when eligible (fixture: cell entry 1 of ${ce.people.stations.length} passed)`);
+  evals.push(`page module: 2 records in ${bytes} B; chains trimmed to head + last line (full chains ${full(REC)} B and ${full(REC2)} B stay in docs/evals/claw.json and claw2.json)`);
+  return `${no.length} rows; robot gaps ${robotGaps.length}; uncovered ${uncovered.length}; module ${bytes} B`;
 });
 
 for (const e of evals) console.log(`EVAL ${e}`);

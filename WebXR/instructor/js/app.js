@@ -28,7 +28,7 @@ import { OH_AGENTS } from "../../shared/oh-hive-data.js"; // OMEGA-HIVE: the hiv
 // HIVE-4: the Omega Hive tab (read-only, local: a replay of the hive's seeded day, its refusals and the evals JSON).
 import { h4MountHiveTab } from "./h4-hive.js";
 import { ocMountClaw } from "../../shared/oc-panel.js"; // OMEGA-CLAW: the Omega Claw tab
-import { OC_RECORD } from "../../shared/oc-claw-record.js";
+import { OC_RECORD, OC_RECORDS } from "../../shared/oc-claw-record.js";
 import { PP_PROGRAMMES } from "../../shared/passport-programmes.js";
 
 // The instructor console. It owns no simulation and no records: it listens to
@@ -603,7 +603,7 @@ $("tab-governance").addEventListener("click", () => setView("governance"));
 $("tab-hive").addEventListener("click", () => setView("hive"));
 // OMEGA-CLAW: the Omega Claw tab, mounted the first time it opens (read-only; the record, no learner data on the console).
 var ocTab = null;
-$("tab-claw").addEventListener("click", () => { if (!ocTab) { try { ocTab = ocMountClaw($("oc-root"), { record: OC_RECORD, human: null }); } catch (_) { ocTab = null; } } setView("claw"); });
+$("tab-claw").addEventListener("click", () => { if (!ocTab) { try { ocTab = ocMountClaw($("oc-root"), { record: OC_RECORD, records: OC_RECORDS, human: null }); } catch (_) { ocTab = null; } } setView("claw"); });
 
 $("send").addEventListener("click", () => {
   const text = $("note").value.trim();
