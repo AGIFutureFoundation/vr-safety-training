@@ -619,7 +619,7 @@ function npUse() {
   const n = np.near;
   if (!n) return;
   if (n.kind === "walkin") { const p = lxRoom?.enter(n.door, { x: np.x, z: np.z }); if (p) { np.x = p.x; np.z = p.z; np.yaw = 0; np.near = { kind: "walkout", at: [0, 0] }; npToast(`${lxRoom.room.label}. E: go back outside.`, 5000); } return; }
-  if (n.kind === "door") { npKeys.clear(); ixWorld.enter(n.site, { x: np.x, z: np.z, yaw: np.yaw, pitch: np.pitch }, { style: n.style, title: n.title }); np.near = null; }
+  if (n.kind === "door") { npKeys.clear(); ixWorld.enter(n.site, { x: np.x, z: np.z, yaw: np.yaw, pitch: np.pitch }, { style: n.style, title: n.title }); np.near = null; npHud(); }
   else if (n.kind === "board") npOpenBoard(n.site);
   else if (n.kind === "lesson") npOpenLesson(n.lesson);
   else if (n.kind === "vehicle") mvUse(n.park);
@@ -718,8 +718,11 @@ function npHud() {
   let near = parish.sites[0], nd = Infinity;
   for (const p of [...parish.sites, ...parish.landmarks]) { const dd = Math.hypot(np.x - p.position[0], np.z - p.position[1]); if (dd < nd) { nd = dd; near = p; } }
   const hill = w ? null : npHillAt(parish, np.x, np.z);
-  $("hud-zone").textContent = w ? w.name ?? w.kind : hill ? `${hill.name} · ${d?.name ?? parish.name}` : d?.name ?? parish.name;
-  $("hud-near").textContent = `${near.name} · ${Math.round(nd)} m`;
+  // HIVE-IN-WORLD: inside a room the location chip names the room, generic by kind (its style's label), not the street outside;
+  // the outdoor names come back on exit, since they are recomputed here every time.
+  const ixIn = ixWorld.inside() ? ixWorld.room : null;
+  $("hud-zone").textContent = ixIn ? ixIn.style?.label ?? "Inside" : w ? w.name ?? w.kind : hill ? `${hill.name} · ${d?.name ?? parish.name}` : d?.name ?? parish.name;
+  $("hud-near").textContent = ixIn ? `generic room · ${ixIn.site?.name ?? parish.name}` : `${near.name} · ${Math.round(nd)} m`;
   $("hud-alt").textContent = `${h.toFixed(1)} m`;
   $("hud-lessons").textContent = `${(parish.fieldLessons ?? []).filter((l) => np.state.lessons.includes(l.id)).length}/${(parish.fieldLessons ?? []).length}`;
   $("hud-visited").textContent = `${(np.state.visited[parish.id] ?? []).length}/${parish.sites.length}`;
@@ -1161,7 +1164,7 @@ window.__parishTest.ixScene = (styleId) => {
   const room = ixWorld.enter(site, { x: np.x, z: np.z, yaw: np.yaw, pitch: np.pitch }, { style: styleId });
   if (!room) return null;
   const c = IXR_ROOMS[styleId].camera;
-  ixWorld.pose.x = c.x; ixWorld.pose.z = c.z; np.yaw = c.yaw; np.pitch = c.pitch; np.near = null;
+  ixWorld.pose.x = c.x; ixWorld.pose.z = c.z; np.yaw = c.yaw; np.pitch = c.pitch; np.near = null; npHud(); // HIVE-IN-WORLD: the chip names the room
   return { style: styleId, site: site.id, here: !!site.here, meshes: room.meshes(), spots: room.spots?.agent?.length ?? 0, camera: { ...c } };
 };
 window.__parishTest.roboInteriors = {
@@ -1266,7 +1269,7 @@ var hwReturned = (() => {
     if (!d) return null;
     window.__parishTest.teleport(d.x, d.z);
     const room = ixWorld.enter(d.site, { x: d.x, z: d.z, yaw: np.yaw, pitch: np.pitch }, { style: d.style, title: d.title });
-    np.near = null; hwSync();
+    np.near = null; hwSync(); npHud();
     return room ? { style: room.id, site: d.site.id } : null;
   } catch (_) { return null; }
 })();
