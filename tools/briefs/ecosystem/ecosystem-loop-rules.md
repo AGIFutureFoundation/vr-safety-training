@@ -32,4 +32,5 @@ These are briefs for loop agents that a session **with push access** to the name
 | Stations and blocks | `stations/registry/stations.json` | `data/blocks.csv` (`grade`, `transfer_check`) | `WebXR/shared/eco-blocks.js`, `docs/ecosystem/blocks-match.json` |
 | Learner profile and skill graph | `control/lpa.mjs`, `control/graph.mjs` | themes × bands | `competency.js`, `rp-programme-data.js` |
 | Agents | `agents/registry/*.json` | `apps/flow-hub/` | `oh-hive-data.js`, `agents/` |
+| Flow orchestration | none | `apps/flow-hub/` | `WebXR/shared/flowhub.js` (protocol 2), `docs/flowhub.md` |
 | Router.X | none | none | expected interface only, **not yet built** |

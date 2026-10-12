@@ -53,7 +53,7 @@
 
 | Eval | Before | After | Source |
 |---|---|---|---|
-| Ecosystem seams documented, with sources | 0 | 10 | `docs/ecosystem.md` seam table |
+| Ecosystem seams documented, with sources | 0 | 11 | `docs/ecosystem.md` seam table |
 | Union and trade stations mapped to blocks | 0 of 670 | 214 of 670 (456 unmatched, listed with a reason) | `docs/ecosystem/blocks-match.json`, `check_eco` 1 |
 | Robotics programme adult skills mapped | 0 of 24 | 24 of 24 (6 awareness / K-12 levels excluded) | same |
 | Extract size and provenance | none | 91 blocks, 73.0 KB, commit, licence and attribution | `check_eco` 1 |

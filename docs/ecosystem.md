@@ -30,8 +30,9 @@ The table counts the seams. Each one has a section below that gives the shape on
 | 8 | Transfer check | `control/gates.mjs` (assessment gates) | `transfer_check` per block | the instructor console's sign-off (`tracking.js`) | shown read-only |
 | 9 | Trades network | `unions/` (roster, halls) | `data/unions/trade_unions.json`, `apps/trades-network/` | `WebXR/packs` kind "union" (`unions`, `unionLine`) | documented, not wired |
 | 10 | Router.X | none | none | the expected interface below | **absent: not yet built** |
+| 11 | Flow orchestration (FlowHub) | none | `apps/flow-hub/` (built from `data/blocks.csv` by `tools/build_flow_hub.py`; a blocks browser and flow engine) | `WebXR/shared/flowhub.js` (flow schema, platform protocol 2), `docs/flowhub.md` | documented; the two do not speak each other's protocol yet |
 
-**Seams documented: 0 → 10**, each with its sources.
+**Seams documented: 0 → 11**, each with its sources.
 
 ### 1–2. Learner profile and skill graph
 
@@ -70,6 +71,10 @@ SmartCiti.X keeps advisors and crews as JSON registries with `contract`, `honest
 ### 9. Trades network
 
 Cognition.X's Trades Network has 222 union and trade entries in 6 regions (`data/unions/trade_unions.json`: `regions`, `families`). SmartCiti.X has its own union roster (`unions/`). This repo's union packs carry `unions` and `unionLine`. **Nothing is joined.** Joining them would put union names next to this platform's stations, and this repo's rules forbid naming unions or trade bodies in its content. The Cognition.X brief keeps any such join on the Cognition.X side.
+
+### 11. Flow orchestration (FlowHub)
+
+This repo's `WebXR/shared/flowhub.js` defines its side of a flow contract (`flow = { id, title, version, start, nodes, edges, meta? }`, node kinds `station | programme | brief | checkin | gate | external`, over the `smartcitix:*` platform channel, protocol 2). Its header says, written before the clone was read, that "no FlowHub specification exists in this repository". At 47c1820 Cognition.X ships `apps/flow-hub/`: a single-file app built from the blocks dataset (`tools/build_flow_hub.py`, compact payload `{ version, bands, levels, packs: [{ name, slug, kind, blocks, tracks, loose }] }`) with its own flow engine and agents. **Neither implements the other's messages.** The blocks bridge (seam 6) is the first shared key between them: a station id on this side, a `block_id` on that side. A Flow Hub node of kind `external` pointing at a station id is the natural join. It is left to the Cognition.X brief, and nothing here assumes Flow Hub's internals. Cognition.X also carries a pack named "SmartCiti.X : New Orleans Trades" (`NOLATRADES`, 250 blocks, school bands K–2 … 11–12 only). The bridge does not map to it, because it has no adult band and no rule states one.
 
 ### 10. Router.X: absent, interface not yet built
 
