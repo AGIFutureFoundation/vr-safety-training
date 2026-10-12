@@ -77,8 +77,15 @@ for (const [p, l] of layouts) {
   check(Math.hypot(ox - px, oz - pz) < Math.hypot(l.x - px, l.z - pz), `${l.id}: the door (${l.door.face} face) is on the side facing the pad`);
   const solids = [...near, ...FX.fxColliders(p)];
   check(!solids.some((b) => inBox(b, ox, oz)), `${l.id}: the door's outside spot is open`);
-  let blocked = 0; for (let t = 0; t <= 1; t += 0.02) { const x = px + (ox - px) * t, z = pz + (oz - pz) * t; if (solids.some((b) => inBox(b, x, z, 0.3))) blocked++; }
-  check(blocked === 0, `${l.id}: the walk from the pad to the door is open (${blocked} blocked samples)`);
+  // the approach (straight, or an L round a corner) re-checked here against every building collider and the kit's own solids
+  const path = l.approach ?? [];
+  let blocked = 0, len = 0;
+  for (let i = 1; i < path.length; i++) {
+    const [ax, az] = path[i - 1], [bx, bz] = path[i], n = Math.ceil(Math.hypot(bx - ax, bz - az)); len += Math.hypot(bx - ax, bz - az);
+    for (let k = 0; k <= n; k++) { const x = ax + (bx - ax) * k / n, z = az + (bz - az) * k / n; if (Math.hypot(x - px, z - pz) >= 3 && solids.some((b) => inBox(b, x, z, 0.3))) blocked++; }
+  }
+  const ends = path.length >= 2 && Math.hypot(path[0][0] - px, path[0][1] - pz) < 0.01 && Math.hypot(path.at(-1)[0] - ox, path.at(-1)[1] - oz) < 0.01;
+  check(ends && blocked === 0, `${l.id}: the walk from the pad to the door is open (${path.length === 2 ? "straight" : "round one corner"}, ${len.toFixed(0)} m, ${blocked} blocked samples)`);
   check(JSON.stringify(FX.fxDoorFor(p, l.id)) === JSON.stringify(l.door), `${l.id}: fxDoorFor returns the lot's door`);
 }
 

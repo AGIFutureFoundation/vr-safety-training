@@ -30,13 +30,14 @@ import { npHeightAt, npWaterAt, npChunkOf, npMassingForChunk, NP_SIZE } from "./
 import { cwMassFilter, cwSpotBoxes, cwSiteBuilding, cwNearestLine, CW_KERB, CW_SIDEWALK } from "./cw-cityworks.js";
 import { atLightsOn } from "./at-atmos.js";
 
-/** The five building kinds (plain data): footprint w × d (m, the kind's whole lot incl. its yard items), body height h. */
+/** The five building kinds (plain data): footprint w × d (m), body height h; the lot adds `front` m of yard toward the pad
+ * (truck court, apron, signs) and `side` m each side (EV chargers) — the clearance test covers the whole lot. */
 export const FX_KINDS = {
-  fabHall: { label: "Fabrication hall", w: 30, d: 20, h: 9, details: ["tilt-up panels", "roll-up doors", "roof plant", "skylights", "parapet", "entrance canopy"] },
-  researchLab: { label: "Research lab", w: 24, d: 16, h: 12, details: ["curtain-wall mullions", "entrance canopy", "roof plant screen"] },
-  distWarehouse: { label: "Distribution warehouse", w: 40, d: 22, h: 10, details: ["dock doors", "dock bumpers", "dock lights", "raised dock", "truck-court markings", "corrugated cladding"] },
-  portTower: { label: "Port control tower", w: 34, d: 10, h: 20, details: ["control tower", "glazed cab", "crane rails", "container-stack edge", "base building"] },
-  constructionSite: { label: "Construction site", w: 40, d: 18, h: 10.2, details: ["site hoarding", "scaffold", "concrete frame", "site cabin", "water-filled barriers"] },
+  fabHall: { label: "Fabrication hall", w: 30, d: 20, h: 9, front: 5, side: 5, details: ["tilt-up panels", "roll-up doors", "roof plant", "skylights", "parapet", "entrance canopy"] },
+  researchLab: { label: "Research lab", w: 24, d: 16, h: 12, front: 7, side: 5, details: ["curtain-wall mullions", "entrance canopy", "roof plant screen"] },
+  distWarehouse: { label: "Distribution warehouse", w: 40, d: 22, h: 10, front: 12, side: 4, details: ["dock doors", "dock bumpers", "dock lights", "raised dock", "truck-court markings", "corrugated cladding"] },
+  portTower: { label: "Port control tower", w: 34, d: 10, h: 20, front: 1, side: 1, details: ["control tower", "glazed cab", "crane rails", "container-stack edge", "base building"] },
+  constructionSite: { label: "Construction site", w: 40, d: 18, h: 10.2, front: 4, side: 1, details: ["site hoarding", "scaffold", "concrete frame", "site cabin", "water-filled barriers"] },
 };
 /** Which kind each robot site gets. */
 export const FX_SITE_KIND = {
@@ -96,20 +97,20 @@ function fxObstacles(parish, x, z) {
   let per = fxNearCache.get(parish); if (!per) fxNearCache.set(parish, (per = new Map()));
   const { cx, cz, key } = npChunkOf(x, z);
   if (per.has(key)) return per.get(key);
-  const keep = cwMassFilter(parish), rects = [];
+  const keep = cwMassFilter(parish), rects = [], trees = [];
   for (let dx = -1; dx <= 1; dx++) for (let dz = -1; dz <= 1; dz++) {
     for (const spot of npMassingForChunk(parish, cx + dx, cz + dz)) {
       if (!keep(spot)) continue;
       const boxes = cwSpotBoxes(spot);
       if (boxes.length) for (const b of boxes) rects.push([b.min[0] - 2, b.min[2] - 2, b.max[0] + 2, b.max[2] + 2]);
-      else rects.push([spot.x - 4, spot.z - 4, spot.x + 4, spot.z + 4]); // a tree or reed: keep its crown clear
+      else trees.push([spot.x - 4, spot.z - 4, spot.x + 4, spot.z + 4]); // a tree or reed: keep its crown clear of the lot
     }
   }
   (parish.sites ?? []).forEach((s, i) => {
     try { const b = cwSiteBuilding(parish, i); rects.push([b.cx - b.w / 2 - 3, b.cz - b.d / 2 - 3, b.cx + b.w / 2 + 3, b.cz + b.d / 2 + 3]); } catch { /* a site without a building */ }
     rects.push([s.position[0] - 3, s.position[1] + 3, s.position[0] + 3, s.position[1] + 9]); // the job board on its post
   });
-  const out = { rects };
+  const out = { rects, trees };
   per.set(key, out);
   return out;
 }
@@ -124,7 +125,9 @@ function fxBlocked(parish, site, x, z, w, d, yaw, others) {
   const ox = Math.max(box[0], Math.min(px, box[2])), oz = Math.max(box[1], Math.min(pz, box[3]));
   if (Math.hypot(ox - px, oz - pz) < RB_SSM.warn + 3) return "warning zone";
   for (const o of others) if (fxHit(box, o)) return "another robot site";
-  for (const r of fxObstacles(parish, x, z).rects) if (fxHit(box, r)) return "a building or tree";
+  const ob = fxObstacles(parish, x, z);
+  for (const r of ob.rects) if (fxHit(box, r)) return "a building";
+  for (const r of ob.trees) if (fxHit(box, r)) return "a tree";
   for (const [u, v] of [[0, 0], [-0.5, -0.5], [0.5, -0.5], [0.5, 0.5], [-0.5, 0.5], [0, -0.5], [0, 0.5], [-0.5, 0], [0.5, 0]]) {
     const [rx, rz] = fxRot(yaw, u * w, v * d), sx = x + rx, sz = z + rz;
     if (npWaterAt(parish, sx, sz)) return "water";
@@ -143,11 +146,12 @@ export function fxSiteLayout(parish, site, others = []) {
   // the port tower stands east or west of the yard: the gantry's crane rails run north–south through the pad
   const dirs = kind === "portTower" ? ["e", "w"] : ["n", "e", "w", "s"];
   let pick = null, firstWhy = null;
-  search: for (const gap of [4, 9, 15, 22, 30]) for (const dir of dirs) for (const slide of [0, -12, 12]) {
+  search: for (const gap of [4, 9, 15, 22, 30, 40, 50]) for (const dir of dirs) for (const slide of [0, -12, 12, -24, 24, -36, 36]) {
     const yaw = { n: 0, s: Math.PI, e: -Math.PI / 2, w: Math.PI / 2 }[dir];
-    const reach = (dir === "n" || dir === "s" ? 6 : 8) + gap + K.d / 2;
+    const reach = (dir === "n" || dir === "s" ? 6 : 8) + gap + K.front + K.d / 2;
     const x = px + (dir === "e" ? reach : dir === "w" ? -reach : slide), z = pz + (dir === "n" ? -reach : dir === "s" ? reach : slide);
-    const why = fxBlocked(parish, site, x, z, K.w, K.d, yaw, others);
+    const [fx0, fz0] = fxRot(yaw, 0, K.front / 2);
+    const why = fxBlocked(parish, site, x + fx0, z + fz0, K.w + 2 * K.side, K.d + K.front, yaw, others) ?? fxCorridor(parish, site, x, z, yaw, kind, K);
     if (!why) { pick = { x, z, yaw, dir, gap }; break search; }
     firstWhy ??= why;
   }
@@ -156,7 +160,7 @@ export function fxSiteLayout(parish, site, others = []) {
   let y = Infinity;
   for (const [u, v] of [[0, 0], [-0.5, -0.5], [0.5, -0.5], [0.5, 0.5], [-0.5, 0.5]]) { const [rx, rz] = fxRot(pick.yaw, u * K.w, v * K.d); y = Math.min(y, npHeightAt(parish, pick.x + rx, pick.z + rz)); }
   y = Math.max(0, y) - 0.15;
-  const doorLocal = { fabHall: [10, K.d / 2], researchLab: [0, K.d / 2], distWarehouse: [16.5, K.d / 2], portTower: [-12, 4], constructionSite: [5.5, 9] }[kind];
+  const doorLocal = fxDoorLocal(kind, K);
   const [dx, dz] = fxRot(pick.yaw, doorLocal[0], doorLocal[1]), [ox, oz] = fxRot(pick.yaw, doorLocal[0], doorLocal[1] + 1.4);
   const face = { n: "s", s: "n", e: "w", w: "e" }[pick.dir]; // the door faces the pad
   const boxes = fxSolids(kind, K).map(([lx, lz, bw, bd, bh]) => {
@@ -164,11 +168,37 @@ export function fxSiteLayout(parish, site, others = []) {
     return { min: [a[0], y, a[1]], max: [a[2], y + bh, a[3]], kind: `fx-${kind}`, id: site.id };
   });
   boxes[0].door = { x: pick.x + dx, z: pick.z + dz, face };
-  return { id: site.id, parish: parish.id, kind, label: K.label, x: pick.x, z: pick.z, y, yaw: pick.yaw, dir: pick.dir, gap: pick.gap, w: K.w, d: K.d, h: K.h,
+  const [lx0, lz0] = fxRot(pick.yaw, 0, K.front / 2);
+  const lot = fxAabb(pick.x + lx0, pick.z + lz0, K.w + 2 * K.side, K.d + K.front, pick.yaw);
+  const approach = fxApproach(parish, site, pick.x, pick.z, pick.yaw, kind, K) ?? [[px, pz], [pick.x + ox, pick.z + oz]];
+  return { id: site.id, parish: parish.id, kind, label: K.label, x: pick.x, z: pick.z, y, yaw: pick.yaw, dir: pick.dir, gap: pick.gap, w: K.w, d: K.d, h: K.h, lot, approach,
     pad: [px, Math.max(0, npHeightAt(parish, px, pz)), pz], door: { x: pick.x + dx, z: pick.z + dz, face, out: [pick.x + ox, pick.z + oz] }, boxes, clear, why: clear ? null : firstWhy };
 }
 
 /** The solid parts of a kind, as [local x, local z, w, d, h] (the first one carries the door). */
+function fxDoorLocal(kind, K) { return { fabHall: [10, K.d / 2], researchLab: [0, K.d / 2], distWarehouse: [16.5, K.d / 2], portTower: [-12, 4], constructionSite: [5.5, 9] }[kind]; }
+/** The open walk from the pad to a candidate's door: straight, or an L round a corner (null when none is open). Checked
+ * against massing and site buildings (trees can be walked round) and the lot's own solids. */
+function fxApproach(parish, site, x, z, yaw, kind, K) {
+  const [px, pz] = site.position, [dx, dz] = fxDoorLocal(kind, K), [ox, oz] = fxRot(yaw, dx, dz + 1.4), ex = x + ox, ez = z + oz;
+  const own = fxSolids(kind, K).map(([lx, lz, bw, bd]) => { const [rx, rz] = fxRot(yaw, lx, lz); return fxAabb(x + rx, z + rz, bw, bd, yaw, 0.4); });
+  const open = (ax, az, bx, bz) => {
+    const n = Math.max(2, Math.ceil(Math.hypot(bx - ax, bz - az) / 1));
+    for (let i = 0; i <= n; i++) {
+      const sx = ax + (bx - ax) * i / n, sz = az + (bz - az) * i / n, pt = [sx - 0.3, sz - 0.3, sx + 0.3, sz + 0.3];
+      if (Math.hypot(sx - px, sz - pz) < 3) continue; // the walk starts on the pad
+      if (own.some((r) => fxHit(pt, r)) || fxObstacles(parish, sx, sz).rects.some((r) => fxHit(pt, [r[0] + 1.5, r[1] + 1.5, r[2] - 1.5, r[3] - 1.5]))) return false;
+    }
+    return true;
+  };
+  for (const path of [[[px, pz], [ex, ez]], [[px, pz], [ex, pz], [ex, ez]], [[px, pz], [px, ez], [ex, ez]]]) {
+    let ok = true;
+    for (let i = 1; i < path.length && ok; i++) ok = open(path[i - 1][0], path[i - 1][1], path[i][0], path[i][1]);
+    if (ok) return path;
+  }
+  return null;
+}
+function fxCorridor(parish, site, x, z, yaw, kind, K) { return fxApproach(parish, site, x, z, yaw, kind, K) ? null : "the walk to the door"; }
 function fxSolids(kind, K) {
   if (kind === "portTower") return [[-12, 0, 10, 8, 4], [6.3, 0, 25.6, 2.6, 5.2], [-12, 0, 5, 5, K.h]];
   if (kind === "constructionSite") return [[0, 0, 24.2, 18, 2.4], [16.5, 0, 6, 2.6, 2.6]];
@@ -185,7 +215,8 @@ export function fxLayoutsFor(parish) {
   for (const s of fxSitesFor(parish)) {
     const l = fxSiteLayout(parish, s, others);
     if (!l) continue;
-    out.push(l); others.push(fxAabb(l.x, l.z, l.w, l.d, l.yaw, 3), [s.position[0] - 11, s.position[1] - 9, s.position[0] + 11, s.position[1] + 9]);
+    const K = FX_KINDS[l.kind], [fx0, fz0] = fxRot(l.yaw, 0, K.front / 2);
+    out.push(l); others.push(fxAabb(l.x + fx0, l.z + fz0, l.w + 2 * K.side, l.d + K.front, l.yaw, 3), [s.position[0] - 11, s.position[1] - 9, s.position[0] + 11, s.position[1] + 9]);
   }
   fxLayoutCache.set(parish, out);
   return out;
@@ -327,6 +358,8 @@ export function fxBuildSite(THREE, l, tier = "high") {
   const yard = (x, y, z, ry = 0) => new THREE.Matrix4().makeRotationY(ry).setPosition(x, y, z);
   // box / cylinder in the building's frame (B) or the pad's frame (Y); `keep` = also on the phone tier
   const B = (w, h, d, col, x, y, z, keep = false, ry = 0) => { if (lean && !keep) return; put(new THREE.BoxGeometry(w, h, d), col, local(x, y, z, ry)); };
+  const hi = tier === "high";
+  const H = (w, h, d, col, x, y, z, ry = 0) => { if (hi) put(new THREE.BoxGeometry(w, h, d), col, local(x, y, z, ry)); };
   const Y = (w, h, d, col, x, y, z, keep = false, ry = 0) => { if (lean && !keep) return; put(new THREE.BoxGeometry(w, h, d), col, yard(x, y, z, ry)); };
   const Cyl = (r, h, col, x, y, z, seg = 6) => { if (lean) return; put(new THREE.CylinderGeometry(r, r, h, seg), col, local(x, y, z)); };
   // a textured quad (the skin) facing local +z after `ry`; on the phone tier quads are dropped (the body colours stay)
@@ -376,6 +409,13 @@ export function fxBuildSite(THREE, l, tier = "high") {
     bollards([-11.2, -4.8, -2.2, 4.2, 8, 12], D + 2.4);
     charger(W + 2.5, D - 3, -Math.PI / 2); charger(W + 2.5, D - 8, -Math.PI / 2);
     sign("robot", 6.5, D + 3.2, 0); sign("vehicle", -3.5, D + 3.2, 0); sign("walkway", 13, D + 2.2, 0);
+    // high tier: downpipes, a sunshade over the clerestory band, door guide rails, skylight frames, plant louvres, wall lamps
+    for (const x of [-W + 0.4, -W / 3, W / 3, W - 0.4]) H(0.16, K.h, 0.16, FX_C.steel, x, K.h / 2, D + 0.12);
+    H(K.w * 0.9, 0.08, 0.7, FX_C.steel, 0, K.h * 0.83, D + 0.35);
+    for (const x of [-8, 1]) { H(0.18, 5.6, 0.22, FX_C.dark, x - 2.6, 2.8, D + 0.1); H(0.18, 5.6, 0.22, FX_C.dark, x + 2.6, 2.8, D + 0.1); H(0.3, 0.2, 0.3, FX_C.white, x, 6.2, D + 0.3); }
+    for (const z of [-5, 0, 5]) { H(K.w * 0.6, 0.08, 0.08, FX_C.steel, -2, K.h + 0.54, z - 0.7); H(K.w * 0.6, 0.08, 0.08, FX_C.steel, -2, K.h + 0.54, z + 0.7); for (let i = 0; i < 6; i++) H(0.06, 0.5, 1.45, FX_C.steel, -2 - K.w * 0.3 + i * K.w * 0.12, K.h + 0.3, z); }
+    for (let i = 0; i < 7; i++) H(0.05, 1.2, 2, FX_C.dark, -7.4 + i * 0.45, K.h + 0.8, -1.88);
+    H(0.3, 0.2, 0.3, FX_C.white, 10, 3.4, D + 0.2);
   } else if (l.kind === "researchLab") {
     B(K.w, K.h, K.d, FX_C.labWall, 0, K.h / 2, 0, true);
     wrap("curtain", K.w, K.d, K.h - 0.6, 0.6, 6);
@@ -386,6 +426,11 @@ export function fxBuildSite(THREE, l, tier = "high") {
     bollards([-6, -4, 4, 6, 8, -8], D + 4.6);
     charger(W + 2.5, D - 2, -Math.PI / 2); charger(W + 2.5, D - 7, -Math.PI / 2);
     sign("robot", 5.5, D + 5.4, 0); sign("walkway", -5.5, D + 5.4, 0);
+    // high tier: spandrel ledges, rooftop panels on frames, planters and a bike rack on the plaza
+    for (const y of [4.1, 7.9]) H(K.w + 0.4, 0.12, 0.45, FX_C.white, 0, y, D + 0.25);
+    for (let i = 0; i < 6; i++) { H(1.6, 0.06, 1.0, FX_C.cab, -8.5 + (i % 3) * 2, K.h + 0.6, -5 + Math.floor(i / 3) * 1.6, 0); H(0.06, 0.5, 0.06, FX_C.steel, -8.5 + (i % 3) * 2, K.h + 0.3, -5.4 + Math.floor(i / 3) * 1.6); }
+    for (const x of [-7.5, 7.5]) { H(2.2, 0.7, 1.2, FX_C.frame, x, 0.35, D + 3.2); H(2, 0.15, 1, FX_C.green, x, 0.75, D + 3.2); }
+    for (let i = 0; i < 5; i++) { H(0.06, 0.8, 0.06, FX_C.steel, -10.6 + i * 0.7, 0.4, D + 1.2); H(0.06, 0.8, 0.06, FX_C.steel, -10.6 + i * 0.7, 0.4, D + 1.9); H(0.06, 0.06, 0.76, FX_C.steel, -10.6 + i * 0.7, 0.8, D + 1.55); }
   } else if (l.kind === "distWarehouse") {
     B(K.w, K.h, K.d, FX_C.shed, 0, K.h / 2, 0, true);
     B(K.w, 0.7, 0.3, FX_C.roof, 0, K.h + 0.35, D - 0.15); B(K.w, 0.7, 0.3, FX_C.roof, 0, K.h + 0.35, -D + 0.15); B(1.6, 1.2, 1.6, FX_C.plant, -8, K.h + 0.6, 0); B(1.6, 1.2, 1.6, FX_C.plant, 8, K.h + 0.6, 0);
@@ -395,12 +440,17 @@ export function fxBuildSite(THREE, l, tier = "high") {
       Q("dockDoor", 3.2, 3.4, x, 2.9, D + 0.06); B(3.2, 3.4, 0.08, FX_C.dark, x, 2.9, D + 0.04, true);
       B(0.3, 0.5, 0.3, FX_C.dark, x - 1.3, 0.9, D + 1.75); B(0.3, 0.5, 0.3, FX_C.dark, x + 1.3, 0.9, D + 1.75);
       B(0.28, 0.22, 0.34, FX_C.yellow, x + 2.1, 4.4, D + 0.2);
-      QF("truckCourt", 3.6, 14, x, D + 8.8);
+      QF("truckCourt", 3.6, 10, x, D + 6.8);
     }
     Q("door", 1.3, 2.5, 16.5, 1.25, D + 0.06); B(3, 0.15, 1.6, FX_C.canopy, 16.5, 3.0, D + 0.8);
     bollards([14.6, 15.2, 17.8, 18.4], D + 1.8);
-    charger(W + 2.5, D - 3, -Math.PI / 2); charger(W + 2.5, D - 8, -Math.PI / 2);
+    charger(W + 1.6, D - 3, -Math.PI / 2); charger(W + 1.6, D - 8, -Math.PI / 2);
     sign("vehicle", 11.5, D + 3.4, 0); sign("walkway", 19.2, D + 2.4, 0);
+    // high tier: dock shelters round each door, dock leveller plates, downpipes, a parked trailer at the first dock
+    for (const x of [-16.5, -8.5, -0.5, 7.5]) { H(3.9, 0.45, 0.5, FX_C.dark, x, 4.85, D + 0.3); H(0.35, 3.6, 0.5, FX_C.dark, x - 1.78, 2.95, D + 0.3); H(0.35, 3.6, 0.5, FX_C.dark, x + 1.78, 2.95, D + 0.3); H(2.6, 0.05, 1.3, FX_C.steel, x, 1.22, D + 0.95); }
+    for (const x of [-W + 0.4, -12.5, 3.5, W - 0.4]) H(0.16, K.h, 0.16, FX_C.steel, x, K.h / 2, D + 0.12);
+    H(2.5, 2.8, 10, FX_C.white, -16.5, 2.6, D + 6.8); H(2.3, 0.3, 9.4, FX_C.dark, -16.5, 1.05, D + 6.8);
+    for (const z of [D + 9.6, D + 10.8]) for (const x of [-17.6, -15.4]) Cyl(0.5, 0.3, FX_C.dark, x, 0.5, z, 8);
   } else if (l.kind === "portTower") {
     B(10, 4, 8, FX_C.wall, -12, 2, 0, true); wrap("corrugated", 10, 8, 4, 0, 5, [0, 1, 2, 3], -12, 0); Q("door", 1.3, 2.5, -12, 1.25, 4.06);
     B(5, K.h, 5, FX_C.tower, -12, K.h / 2, 0, true);
@@ -413,6 +463,11 @@ export function fxBuildSite(THREE, l, tier = "high") {
     sign("vehicle", 9.5, 10, Math.PI, "y"); sign("walkway", -9.5, 10, Math.PI, "y");
     bollards([-9, -6, -3], 5.5);
     charger(-5, -2.5, Math.PI / 2); charger(-5, 2.5, Math.PI / 2);
+    // high tier: cab mullions, a walkway rail round the cab, container door ends and twist-lock castings, shaft stair windows
+    for (let i = 0; i < 4; i++) for (const f of [0, 1, 2, 3]) { const [ox, oz] = fxRot([0, Math.PI, Math.PI / 2, -Math.PI / 2][f], -3.4 + i * 2.27, 4.56); H(0.1, 2.6, 0.1, FX_C.white, -12 + ox, K.h + 1.85, oz); }
+    for (const f of [0, 1, 2, 3]) { const ry = [0, Math.PI, Math.PI / 2, -Math.PI / 2][f], [ox, oz] = fxRot(ry, 0, 5.2); H(10.4, 0.06, 0.06, FX_C.steel, -12 + ox, K.h + 0.9, oz, ry); }
+    for (let i = 0; i < 4; i++) for (let k = 0; k < 2; k++) { H(0.06, 2.3, 2.3, FX_C.dark, 0.3 + i * 6.4 + 3.02, 1.27 + k * 2.6, 0); H(0.06, 2.3, 2.3, FX_C.dark, 0.3 + i * 6.4 - 3.02, 1.27 + k * 2.6, 0); }
+    for (let y = 6; y < K.h - 1; y += 3) H(0.6, 1.2, 0.05, FX_C.cab, -12, y, 2.53);
   } else if (l.kind === "constructionSite") {
     // the concrete frame (two slabs poured, the third floor's columns up)
     for (const x of [-8, -2.7, 2.7, 8]) for (const z of [-5, 0, 5]) B(0.4, K.h, 0.4, FX_C.frame, x, K.h / 2, z, x === -8 || x === 8);
@@ -434,6 +489,12 @@ export function fxBuildSite(THREE, l, tier = "high") {
     B(6, 2.6, 2.5, FX_C.white, 16.5, 1.6, 0, true); Q("cabin", 6, 2.6, 16.5, 1.6, 1.29); B(1.2, 0.3, 0.8, FX_C.steel, 18, 0.15, 1.7);
     sign("helmet", 2, hz + 0.3, 0, "b", 1.6); sign("robot", 8.6, hz + 0.3, 0, "b", 1.6); sign("walkway", 14, 3, 0, "b", 1.6);
     bollards([1.8, 8.6], hz + 2.2);
+    // high tier: scaffold braces and toe boards, hoarding posts, rebar starters on the top floor, a material hoist
+    for (let i = 0; i < 9; i += 2) H(0.05, 2.9, 0.05, FX_C.steel, -8 + i * 2, 3, 7.25, 0);
+    for (const y of [2, 4, 6, 8]) H(18, 0.15, 0.03, FX_C.yellow, 0, y + 0.12, 7.28);
+    for (let i = 0; i <= 8; i++) { H(0.12, 2.5, 0.12, FX_C.steel, -12.1 + i * 3.02, 1.25, hz - 0.1); H(0.12, 2.5, 0.12, FX_C.steel, -12.1 + i * 3.02, 1.25, -hz + 0.1); }
+    for (const x of [-8, -2.7, 2.7, 8]) for (const z of [-5, 0, 5]) H(0.04, 0.9, 0.04, FX_C.rust, x + 0.12, K.h + 0.45, z + 0.12);
+    H(1.6, K.h + 2, 1.6, FX_C.yellow, -10.4, (K.h + 2) / 2, -3); H(1.4, 1.2, 1.4, FX_C.steel, -10.4, 4.2, -3);
   }
 
   const group = new THREE.Group(); group.name = `fx-site-${l.id}`;
