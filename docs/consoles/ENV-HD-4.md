@@ -69,13 +69,14 @@
 | robot rooms with lighting | **0** | **6 of 6** (panels, a pendant over every station pad with a pool, 3 beacons, 1 task spotlight) | `check_hd4` §5 |
 | hive operations room | none | **new**: high 25 meshes / 2,022 triangles / 3 lights / 18.67 MiB; balanced 21 / 1,334 / 2 / 2.42 MiB; low 20 / 954 / 1 / 2.42 MiB (stated budget 40 meshes, 6,000 / 6,000 / 3,000 triangles, 3 / 2 / 1 lights, 24 / 3 / 3 MiB); 7 consoles, 7 spots (one per role), walkable from the door to every pad and spot, 11 of 11 on each tier | `check_hd4` §6 |
 | frame time on the capture machine (SwiftShader software GL, 1920 × 1080; `hd4.frameTime(12)`: the view rendered 12 times, each waiting on the GPU) | — | high → Ultra on the same views: West Oakland warehouse, night wide shot **1,490 ms → 1,424 ms** median (p90 1,744 → 1,693; 240 draw calls both; load 10.7 / 9.7); cell hall **864 ms → 894 ms** (p90 1,002 → 1,186; 25 → 27 draw calls, 2,184 → 3,588 triangles; load 14.1 / 11.5). The difference is inside the shared machine's noise; Ultra's measured cost here is texture memory (+17 MiB of facade atlas a map, +32 MiB a room) and two draw calls a room. Not a GPU frame budget | `node tools/drive_hd4_scenes.mjs 9123 high $SP/loop10/hd4 oak-west-oakland all rooms high time` (drive B) and `… oak-west-oakland night rooms ultra time rb-site-west-oakland-warehouse` (drive C) |
-| page errors / external requests in the drives | — | PAGE_ERRORS | the drives' last lines |
+| page errors / external requests in the drives | — | **0 / 0** in every completed drive: B 19 captures, C 8, D 31, 0 failed (E was stopped after 2 re-shots for the earlier hand-back) | the drives' last lines (`$SP/loop10/hd4/driveB.txt` … `driveE.txt`) |
+| stills at 1920 × 1080 | 0 | **51** (36 of 36 exterior presets, 7 lit rooms, 8 Ultra), every frame looked at | the drives; the table below |
 | `check_hd4` | — | **118** pass | `node tools/check_hd4.mjs` |
 | `check_interiors` | 925 pass | **957** pass (the ops room's style on both tiers) | `$SP/loop10/hd4/before-check_interiors.txt`; `node tools/check_interiors.mjs` |
 | `check_room_skins` | 382 pass | **401** pass (the ops room takes the tile set: 26 of 26 styles) | `$SP/loop10/hd4/before-check_room_skins.txt`; `node tools/check_room_skins.mjs` |
 | `check_robo_interiors` · `check_exteriors` · `check_la_rooms` · `check_classrooms` · `check_hive_world` · `check_walkable --no-browser` | 302 · 278 · 3,787 · 2,057 · — · 2,720 (ENV-HD-3's figure) | **302 · 278 · 3,787 · 2,057 · 35 · 2,720** pass | before logs in `$SP/loop10/hd4/`; each checker |
 | `check_newton` · `check_imports` · `check_parse` | — | **60 checks, 0 failed · all 1,122 modules · all 2,701 modules** | each checker |
-| `check_interface` | — | INTERFACE | `UX_PORT=9123 node tools/check_interface.mjs` |
+| `check_interface` | — | **OK — 21 passed, 0 failed**: touch targets at 390 × 844 186 of 186 ≥ 44 px (the Ultra button is hidden there), no horizontal scroll, no page errors on desktop or phone | `UX_PORT=9123 node tools/check_interface.mjs` (`$SP/loop10/hd4/check_interface.txt`) |
 
 ## Stills
 All 1920 × 1080 JPEG (q92; the machine's disk is shared) from the built parishes page on the desktop high tier (headless
@@ -95,7 +96,64 @@ Chromium, SwiftShader), the page's buttons hidden for the still, named `<site>-w
    agents' colours, the video wall either side of the honesty sign, pendant task lights.
 For Ultra, `room-ixr-cell-hall-lit-ultra.jpg` shows the trusses and cable trays over the robot cell.
 
-STILLS_TABLE
+51 stills: all 36 exterior presets, the seven lit rooms on high, and the Ultra pass (the warehouse at night and the seven
+rooms). The dawn and fog-at-dawn stills of San José and West Oakland (drives B and D) predate `hd4DawnSky` (their dawn sky
+is the plain low-sun band); SoMa's (drive E) and Richland's and Orleans' (drive D, after the rebuild) have it. The room
+stills predate the sign fit (the ops room's and the drilling deck's sign titles touch the sign's edges).
+
+| still (`$SP/loop10/hd4/`) | preset id | look | draw calls | triangles | fog density | site lights / room | drive |
+|---|---|---|---|---|---|---|---|
+| `orleans-warehouse-wide-dawn-dawn.jpg` | `rb-site-orleans-warehouse:wide:dawn` | dawn | 207 | 177,193 | 0 | 0.6 | D |
+| `orleans-warehouse-wide-day-day.jpg` | `rb-site-orleans-warehouse:wide:day` | day | 204 | 187,633 | 0 | 0 | D |
+| `orleans-warehouse-wide-dusk-dusk.jpg` | `rb-site-orleans-warehouse:wide:dusk` | dusk | 218 | 195,363 | 0 | 0.85 | D |
+| `orleans-warehouse-wide-night-night.jpg` | `rb-site-orleans-warehouse:wide:night` | night | 215 | 190,889 | 0 | 1 | D |
+| `orleans-warehouse-wide-fog-dawn.jpg` | `rb-site-orleans-warehouse:wide:fog` | fog | 212 | 193,733 | 0.75 | 0.6 | D |
+| `orleans-warehouse-wide-rain-dusk.jpg` | `rb-site-orleans-warehouse:wide:rain` | rain | 232 | 196,993 | 0.5 | 0.85 | D |
+| `richland-drilling-robot-wide-dawn-dawn.jpg` | `rb-site-richland-drilling-robot:wide:dawn` | dawn | 172 | 108,621 | 0 | 0.6 | D |
+| `richland-drilling-robot-wide-day-day.jpg` | `rb-site-richland-drilling-robot:wide:day` | day | 171 | 153,589 | 0 | 0 | D |
+| `richland-drilling-robot-wide-dusk-dusk.jpg` | `rb-site-richland-drilling-robot:wide:dusk` | dusk | 176 | 155,541 | 0 | 0.85 | D |
+| `richland-drilling-robot-wide-night-night.jpg` | `rb-site-richland-drilling-robot:wide:night` | night | 173 | 149,853 | 0 | 1 | D |
+| `richland-drilling-robot-wide-fog-dawn.jpg` | `rb-site-richland-drilling-robot:wide:fog` | fog | 176 | 154,317 | 0.75 | 0.6 | D |
+| `richland-drilling-robot-wide-rain-dusk.jpg` | `rb-site-richland-drilling-robot:wide:rain` | rain | 199 | 155,585 | 0.5 | 0.85 | D |
+| `san-jose-robotics-lab-wide-dawn-dawn.jpg` | `rb-site-san-jose-robotics-lab:wide:dawn` | dawn | 185 | 176,619 | 0 | 0.6 | D |
+| `san-jose-robotics-lab-wide-day-day.jpg` | `rb-site-san-jose-robotics-lab:wide:day` | day | 188 | 199,997 | 0 | 0 | D |
+| `san-jose-robotics-lab-wide-dusk-dusk.jpg` | `rb-site-san-jose-robotics-lab:wide:dusk` | dusk | 189 | 215,251 | 0 | 0.85 | D |
+| `san-jose-robotics-lab-wide-night-night.jpg` | `rb-site-san-jose-robotics-lab:wide:night` | night | 190 | 210,079 | 0 | 1 | D |
+| `san-jose-robotics-lab-wide-fog-dawn.jpg` | `rb-site-san-jose-robotics-lab:wide:fog` | fog | 193 | 216,905 | 0.75 | 0.6 | D |
+| `san-jose-robotics-lab-wide-rain-dusk.jpg` | `rb-site-san-jose-robotics-lab:wide:rain` | rain | 216 | 221,727 | 0.5 | 0.85 | D |
+| `soma-robot-cell-wide-dawn-dawn.jpg` | `rb-site-soma-robot-cell:wide:dawn` | dawn | 183 | 150,255 | 0 | 0.6 | E |
+| `soma-robot-cell-wide-day-day.jpg` | `rb-site-soma-robot-cell:wide:day` | day | 190 | 159,379 | 0 | 0 | D |
+| `soma-robot-cell-wide-dusk-dusk.jpg` | `rb-site-soma-robot-cell:wide:dusk` | dusk | 187 | 167,539 | 0 | 0.85 | D |
+| `soma-robot-cell-wide-night-night.jpg` | `rb-site-soma-robot-cell:wide:night` | night | 185 | 160,711 | 0 | 1 | D |
+| `soma-robot-cell-wide-fog-dawn.jpg` | `rb-site-soma-robot-cell:wide:fog` | fog | 185 | 157,349 | 0.75 | 0.6 | E |
+| `soma-robot-cell-wide-rain-dusk.jpg` | `rb-site-soma-robot-cell:wide:rain` | rain | 211 | 172,689 | 0.5 | 0.85 | D |
+| `west-oakland-port-automation-wide-dawn-dawn.jpg` | `rb-site-west-oakland-port-automation:wide:dawn` | dawn | 234 | 146,685 | 0 | 0.6 | B |
+| `west-oakland-port-automation-wide-day-day.jpg` | `rb-site-west-oakland-port-automation:wide:day` | day | 231 | 158,491 | 0 | 0 | B |
+| `west-oakland-port-automation-wide-dusk-dusk.jpg` | `rb-site-west-oakland-port-automation:wide:dusk` | dusk | 236 | 163,865 | 0 | 0.85 | B |
+| `west-oakland-port-automation-wide-night-night.jpg` | `rb-site-west-oakland-port-automation:wide:night` | night | 233 | 157,251 | 0 | 1 | B |
+| `west-oakland-port-automation-wide-fog-dawn.jpg` | `rb-site-west-oakland-port-automation:wide:fog` | fog | 236 | 165,103 | 0.75 | 0.6 | B |
+| `west-oakland-port-automation-wide-rain-dusk.jpg` | `rb-site-west-oakland-port-automation:wide:rain` | rain | 259 | 165,231 | 0.5 | 0.85 | B |
+| `west-oakland-warehouse-wide-dawn-dawn.jpg` | `rb-site-west-oakland-warehouse:wide:dawn` | dawn | 241 | 168,295 | 0 | 0.6 | B |
+| `west-oakland-warehouse-wide-day-day.jpg` | `rb-site-west-oakland-warehouse:wide:day` | day | 238 | 171,273 | 0 | 0 | B |
+| `west-oakland-warehouse-wide-dusk-dusk.jpg` | `rb-site-west-oakland-warehouse:wide:dusk` | dusk | 243 | 177,071 | 0 | 0.85 | B |
+| `west-oakland-warehouse-wide-night-night.jpg` | `rb-site-west-oakland-warehouse:wide:night` | night | 240 | 169,187 | 0 | 1 | B |
+| `west-oakland-warehouse-wide-fog-dawn.jpg` | `rb-site-west-oakland-warehouse:wide:fog` | fog | 243 | 174,231 | 0.75 | 0.6 | B |
+| `west-oakland-warehouse-wide-rain-dusk.jpg` | `rb-site-west-oakland-warehouse:wide:rain` | rain | 266 | 177,119 | 0.5 | 0.85 | B |
+| `west-oakland-warehouse-wide-night-night-ultra.jpg` | `rb-site-west-oakland-warehouse:wide:night` + `?ultra=1` | night, Ultra | 240 | 163,983 | 0 | 1 | C |
+| `room-ixr-cell-hall-lit.jpg` | `ixScene('ixr-cell-hall')` | lit | 25 | 2,184 | | 3 lights, 22.67 MiB | D |
+| `room-ixr-cobot-lab-lit.jpg` | `ixScene('ixr-cobot-lab')` | lit | 23 | 1,748 | | 3 lights, 17.33 MiB | D |
+| `room-ixr-amr-warehouse-lit.jpg` | `ixScene('ixr-amr-warehouse')` | lit | 22 | 2,716 | | 3 lights, 17.33 MiB | D |
+| `room-ixr-port-control-lit.jpg` | `ixScene('ixr-port-control')` | lit | 24 | 1,320 | | 3 lights, 18.67 MiB | D |
+| `room-ixr-drilling-deck-lit.jpg` | `ixScene('ixr-drilling-deck')` | lit | 23 | 1,864 | | 3 lights, 17.33 MiB | D |
+| `room-ixr-maint-bay-lit.jpg` | `ixScene('ixr-maint-bay')` | lit | 22 | 2,068 | | 3 lights, 17.33 MiB | D |
+| `room-hd4-hive-ops-lit.jpg` | `hd4.opsRoom()` | lit | 25 | 1,982 | | 3 lights, 18.67 MiB | D |
+| `room-ixr-cell-hall-lit-ultra.jpg` | `ixScene('ixr-cell-hall')` + `?ultra=1` | lit, Ultra | 27 | 3,588 | | 3 lights, 54.67 MiB | C |
+| `room-ixr-cobot-lab-lit-ultra.jpg` | `ixScene('ixr-cobot-lab')` + `?ultra=1` | lit, Ultra | 25 | 2,684 | | 3 lights, 49.33 MiB | C |
+| `room-ixr-amr-warehouse-lit-ultra.jpg` | `ixScene('ixr-amr-warehouse')` + `?ultra=1` | lit, Ultra | 24 | 4,660 | | 3 lights, 49.33 MiB | C |
+| `room-ixr-port-control-lit-ultra.jpg` | `ixScene('ixr-port-control')` + `?ultra=1` | lit, Ultra | 26 | 2,232 | | 3 lights, 50.67 MiB | C |
+| `room-ixr-drilling-deck-lit-ultra.jpg` | `ixScene('ixr-drilling-deck')` + `?ultra=1` | lit, Ultra | 25 | 3,244 | | 3 lights, 49.33 MiB | C |
+| `room-ixr-maint-bay-lit-ultra.jpg` | `ixScene('ixr-maint-bay')` + `?ultra=1` | lit, Ultra | 24 | 3,004 | | 3 lights, 49.33 MiB | C |
+| `room-hd4-hive-ops-lit-ultra.jpg` | `hd4.opsRoom()` + `?ultra=1` | lit, Ultra | 25 | 1,982 | | 3 lights, 18.67 MiB | C |
 
 ## Cycles
 1. Reason: an opt-in Ultra setting that can never reach the phone tier, balanced or a headset, with its budget measured, not
@@ -140,10 +198,19 @@ STILLS_TABLE
    noise of high (row above). The trusses and cable trays read clearly in the cell hall; the roof railings and plant are
    small in the 16 m wide shot (they are near-camera detail). Pass.
 8. Reason: the other four maps' robot sites under the six looks (the remaining 24 presets); proof = drive D's ok lines and
-   the frames. DRIVE_D
+   the frames. Act: `node tools/drive_hd4_scenes.mjs 9123 high $SP/loop10/hd4 sf-downtown,bay-san-jose,la-meta-richland,orleans
+   all rooms high notime` (the rooms last, with the tuned pools and beacons). Observe: "31 captures, 0 failed, page errors 0,
+   external requests 0, 640 s, load 5.67"; every frame looked at: the fabrication hall, the research lab among the San José
+   towers (a street tree stands in front of it in the preset's framing), the construction site and the Orleans warehouse
+   under all six looks; the re-shot rooms show the softer pools. Found by eye: a long first line on a room's sign ran off
+   both edges (the ops room's and the drilling deck's) → `ixSignMaterial` condenses a line to the sign's width (2c99bdfc),
+   re-shot in drive F.
 9. Reason: dawn and dusk must read apart (drive B's frames: they differed only in the light level, both on sky.js's low-sun
    band); proof = `check_hd4` (the dome turned half round and tinted, the disc untouched) and the re-shot dawn frames. Act:
-   `hd4DawnSky` called from the sky hook at dawn. Observe: `check_hd4` 118 pass; DRIVE_E
+   `hd4DawnSky` called from the sky hook at dawn. Observe: `check_hd4` 118 pass; Richland's and Orleans' dawn frames (drive D,
+   after the rebuild) and SoMa's (drive E) show a rose-violet dawn with the sun out of the west; drive E was stopped after
+   two re-shots when the hand-back moved to 15:20, so San José's and West Oakland's dawn frames keep the plain low-sun sky.
+   Committed 6bed5356.
 
 ## Seams
 - **HIVE-4 (the hive console's content on the ops room's screens).** `hd4OpsScreens(room)` →
@@ -193,8 +260,10 @@ STILLS_TABLE
 - **Dawn borrows sky.js's low-sun band**: the app turns that dome half round (the sun in the east) and tints it rose-violet
   (`hd4DawnSky`), but the light on the buildings is dusk's (the sun light's direction and colour are the app's own and were
   not changed); a true "dawn" band in sky.js's `SKY_TIME` would be cleaner, and sky.js is shared with other worlds.
-- **Room pools and beacons were tuned after drive B**; the high-tier room stills from drive B show the earlier, brighter
-  pools; drive D re-shoots the rooms with the tuned ones (the Ultra room stills of drive C already have them).
+- **Stills not re-shot after the last two fixes** (the hand-back moved to 15:20): San José's and West Oakland's dawn and
+  fog-at-dawn frames predate `hd4DawnSky`, and the room frames predate the sign fit (the ops room's and the drilling deck's
+  sign titles touch the sign's edges). `node tools/drive_hd4_scenes.mjs 9123 high <dir> bay-san-jose,oak-west-oakland
+  dawn,fog rooms high notime` after `python3 tools/bundle_webxr.py parishes` re-shoots both (about 8 minutes).
 - **Not run here** (the shared machine): `check_mobile` (drives the dist pages and rewrites `docs/perf/phone-maps.json`),
   `check_walkable`'s browser leg, `eval_worlds`. The phone tier is proven unchanged by `check_hd4` §3 (robot rooms
   identical on the phone tier, balanced and a headset browser; no site lights there; Ultra never offered there).
