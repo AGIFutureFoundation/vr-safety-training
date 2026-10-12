@@ -8,9 +8,18 @@
 // room's meshes and triangles are exactly what they were. Rooms stay generic by kind: every texture is drawn from code (no
 // image file, no logo, no words, no company, union or trade-body name) and nothing models a real building.
 //
+// ENV-HD-3 (docs/consoles/ENV-HD-3.md) put the set on every other INTERIORS style: the kitchen (a stainless variant: brushed
+// metal on counters, hoods, racks and cabinets), the union hall, the six Louisiana rooms of LA-ROOMS, and TYCOON's rented
+// room and shop (25 of 25 styles), with a third set, "hall" (a plank floor and the painted block wall), for the halls and
+// the rented room. The skin is budget-aware: it adds a map only while the room stays inside HD2_TEX_BUDGET with everything
+// already in it counted (the shell's two signs and, in a Louisiana room, LA-ROOMS' name-sign canvases), floor first.
+//
 // SEAMS (every top-level name is hd2/HD2_-prefixed: the bundler shares one scope; three.js comes from the caller):
-//   HD2_SKIN_STYLES                 plain data: style id -> { set: "industrial" | "tile", sites } (sites = how many parish-engine
-//                                     sites open the style, counted over the ten maps when this was written: why these first)
+//   HD2_SKIN_STYLES                 plain data: style id -> { set: "industrial" | "tile" | "hall", sites, metal? } (sites = how many
+//                                     parish-engine sites open the style, counted over the maps: why these first; metal = the
+//                                     prop kinds that take brushed metal when not the default rack/machine/tank/cabinet/hood)
+//   HD2_SIGN_BYTES                  GPU bytes of one LA-ROOMS name-sign canvas per tier (512 x 120, the phone 256 x 60, mips)
+//   hd2RoomBytes(group, tier)       -> texture bytes a room already carries before the skin (shell signs + LA name signs)
 //   HD2_TEX_BUDGET                  GPU texture bytes per room per tier (w × h × 4, × 4/3 with a mip chain), every texture in
 //                                     the room counted, the shell's two 512 × 256 signs included: high 24 MiB, balanced and
 //                                     low 3 MiB (ROBO-INTERIORS' IXR_TEX_BUDGET, the same rooms' budget)
@@ -24,8 +33,10 @@
 
 import { ixrTexRes, ixrSetTexture, ixrFloorTexture } from "./ixr-robo-interiors.js";
 
-/** The styles skinned, most-visited first (site counts over the ten maps: workshop 167, plant room 139, port shed 124, civic
- *  lobby 108, classroom 62, apparatus bay 55, transit barn 53, clinic 52, warehouse 47). */
+/** The styles skinned, most-visited first (site counts over the maps: workshop 167, plant room 139, port shed 124, civic
+ *  lobby 108, classroom 62, apparatus bay 55, transit barn 53, clinic 52, warehouse 47; ENV-HD-3: kitchen 23, Louisiana
+ *  crafts hall 9, union hall 6, hangar 4, compressor building 4, fabrication shop 4, control room 3, data hall 3, and
+ *  TYCOON's rented room and shop, which no map site opens). */
 export const HD2_SKIN_STYLES = {
   "workshop": { set: "industrial", sites: 167 },
   "plant-room": { set: "industrial", sites: 139 },
@@ -36,11 +47,33 @@ export const HD2_SKIN_STYLES = {
   "transit-barn": { set: "industrial", sites: 53 },
   "clinic": { set: "tile", sites: 52 },
   "warehouse": { set: "industrial", sites: 47 },
+  "kitchen": { set: "tile", sites: 23, metal: ["counter", "hood", "rack", "cabinet"] },
+  "lar-craft-hall": { set: "hall", sites: 9 },
+  "union-hall": { set: "hall", sites: 6 },
+  "lar-hangar": { set: "industrial", sites: 4 },
+  "lar-compressor": { set: "industrial", sites: 4 },
+  "lar-fab-shop": { set: "industrial", sites: 4 },
+  "lar-control-room": { set: "tile", sites: 3 },
+  "lar-data-hall": { set: "tile", sites: 3 },
+  "rented-room": { set: "hall", sites: 0 },
+  "shop": { set: "tile", sites: 0 },
 };
 export const HD2_TEX_BUDGET = { high: 24 * 1024 * 1024, balanced: 3 * 1024 * 1024, low: 3 * 1024 * 1024 };
+/** One LA-ROOMS name-sign canvas (lar-rooms.js larSignMaterial: 512 x 120, 256 x 60 on the phone tier), with mips. */
+export const HD2_SIGN_BYTES = { high: Math.round(512 * 120 * 4 * 4 / 3), balanced: Math.round(512 * 120 * 4 * 4 / 3), low: Math.round(256 * 60 * 4 * 4 / 3) };
+const HD2_SHELL_BYTES = 2 * Math.round(512 * 256 * 4 * 4 / 3); // the shell's two 512 x 256 signs (IXR_SHELL_SIGNS)
+const hd2MapBytes = (res) => Math.round(res * res * 4 * 4 / 3);
+/** Texture bytes a room carries before the skin, counted the same way headless and in the page: the shell's two signs and one
+ *  canvas per LA-ROOMS name sign (headless, LA-ROOMS draws a flat panel instead, so its canvases are counted by mesh). */
+export function hd2RoomBytes(group, tier = "high") {
+  let signs = 0;
+  group?.traverse?.((o) => { if (o.isMesh && /^lar-sign-/.test(o.name)) signs++; });
+  return HD2_SHELL_BYTES + signs * (HD2_SIGN_BYTES[tier] ?? HD2_SIGN_BYTES.high);
+}
 
 const HD2_Y = "#f2c14b", HD2_W = "#eef2f4";
 const HD2_METAL_PROPS = /^ix-dress-(rack|machine|tank|cabinet|hood)$/;
+const hd2MetalTest = (spec) => (spec.metal ? new RegExp(`^ix-dress-(${spec.metal.join("|")})$`) : HD2_METAL_PROPS);
 
 /** An industrial room's floor marks (room-local metres, the door on +z): a hatched door apron, a yellow walkway from the door
  *  to the back wall, a dashed perimeter keep-clear line, and per kind a bay line or a keep-clear box. */
@@ -108,6 +141,35 @@ function hd2TileFloor(THREE, styleId, room, res) {
   }
   return hd2Texture(THREE, c, res, res, `hd2-tile-floor-${styleId}`);
 }
+/** A plank floor for the whole room (ENV-HD-3's hall set: 0.18 m boards along x, staggered butt joints, a fine grain, a tone
+ *  per board), tinted from the style's floor colour. */
+function hd2PlankFloor(THREE, styleId, room, res) {
+  const c = hd2Canvas(res, res);
+  if (c) {
+    const rng = hd2Rng(styleId.length * 173 + 11);
+    const g = c.getContext("2d"), { w, d } = room, sx = res / w, sz = res / d;
+    const base = new THREE.Color(room.style.floor), tone = new THREE.Color();
+    g.fillStyle = `#${base.getHexString()}`; g.fillRect(0, 0, res, res);
+    const bw = 0.18, lw = Math.max(1, res / 1000);
+    for (let r = 0; r * bw < d; r++) {
+      let x = -rng() * 2.4;
+      while (x < w) {
+        const len = 1.6 + rng() * 1.6;
+        tone.copy(base).multiplyScalar(0.9 + rng() * 0.18);
+        g.fillStyle = `#${tone.getHexString()}`; g.fillRect(x * sx, r * bw * sz, len * sx, bw * sz);
+        g.fillStyle = "rgba(30,20,12,0.10)";
+        for (let k = 0; k < 3; k++) g.fillRect(x * sx, (r * bw + bw * (0.2 + rng() * 0.6)) * sz, len * sx, lw);
+        g.fillStyle = "rgba(25,16,10,0.45)"; g.fillRect((x + len) * sx - lw, r * bw * sz, lw, bw * sz);
+        x += len;
+      }
+      g.fillStyle = "rgba(25,16,10,0.4)"; g.fillRect(0, r * bw * sz, res, lw);
+    }
+    hd2Noise(g, res, rng, res * res / 60, 0.06, "255,240,220", "40,26,16");
+    const sheen = g.createLinearGradient(0, 0, res, res); sheen.addColorStop(0, "rgba(255,255,255,0.06)"); sheen.addColorStop(0.5, "rgba(255,255,255,0)"); sheen.addColorStop(1, "rgba(255,255,255,0.05)");
+    g.fillStyle = sheen; g.fillRect(0, 0, res, res);
+  }
+  return hd2Texture(THREE, c, res, res, `hd2-plank-floor-${styleId}`);
+}
 /** A painted block wall (tileable, one tile = 2 m: 0.4 × 0.2 m blocks in running bond), cached per size; a clone per room. */
 function hd2BlockWall(THREE, res, repeat) {
   const key = `block@${res}`;
@@ -133,30 +195,40 @@ function hd2BlockWall(THREE, res, repeat) {
   return t;
 }
 
-/** The skin: texture maps on the meshes that are already in the room (see the header). */
+/** The skin: texture maps on the meshes that are already in the room (see the header). Budget-aware: a map is set only while
+ *  the room's texture bytes (hd2RoomBytes, plus the maps set so far) stay inside HD2_TEX_BUDGET[tier]; floor, walls, metal. */
 export function hd2SkinRoom({ three: THREE, group, room, tier = "high" } = {}) {
   const styleId = room?.id, spec = HD2_SKIN_STYLES[styleId];
   if (!THREE || !group || !spec) return null;
-  const res = ixrTexRes(tier), maps = [];
+  const res = ixrTexRes(tier), maps = [], skipped = [], budget = HD2_TEX_BUDGET[tier] ?? HD2_TEX_BUDGET.high;
+  let bytes = hd2RoomBytes(group, tier);
+  const fits = () => bytes + hd2MapBytes(res) <= budget;
   const floor = group.getObjectByName("ix-floor"), wall = group.getObjectByName("ix-wall-0");
   if (floor?.material) {
-    floor.material.map = spec.set === "industrial" ? ixrFloorTexture(THREE, styleId, room, res, hd2FloorMarks(styleId, room)) : hd2TileFloor(THREE, styleId, room, res);
-    floor.material.color.set(0xffffff); floor.material.roughness = spec.set === "industrial" ? 0.55 : 0.6; floor.material.needsUpdate = true;
-    maps.push(floor.material.map.name);
+    if (fits()) {
+      floor.material.map = spec.set === "industrial" ? ixrFloorTexture(THREE, styleId, room, res, hd2FloorMarks(styleId, room))
+        : spec.set === "hall" ? hd2PlankFloor(THREE, styleId, room, res) : hd2TileFloor(THREE, styleId, room, res);
+      floor.material.color.set(0xffffff); floor.material.roughness = spec.set === "industrial" ? 0.55 : spec.set === "hall" ? 0.7 : 0.6; floor.material.needsUpdate = true;
+      maps.push(floor.material.map.name); bytes += hd2MapBytes(res);
+    } else skipped.push("floor");
   }
   if (wall?.material) { // the four walls share one material in ixBuild
-    const rep = [Math.max(room.w, room.d) / 2, room.h / 2];
-    wall.material.map = spec.set === "industrial" ? ixrSetTexture(THREE, "concrete", res, rep) : hd2BlockWall(THREE, res, rep);
-    wall.material.needsUpdate = true; maps.push(wall.material.map.name);
+    if (fits()) {
+      const rep = [Math.max(room.w, room.d) / 2, room.h / 2];
+      wall.material.map = spec.set === "industrial" ? ixrSetTexture(THREE, "concrete", res, rep) : hd2BlockWall(THREE, res, rep);
+      wall.material.needsUpdate = true; maps.push(wall.material.map.name); bytes += hd2MapBytes(res);
+    } else skipped.push("walls");
   }
-  let metal = null;
-  group.traverse((o) => {
-    if (!o.isMesh || !HD2_METAL_PROPS.test(o.name) || !o.material || Array.isArray(o.material)) return;
-    metal ??= ixrSetTexture(THREE, "metal", res, [1, 1]);
-    o.material.map = metal; o.material.roughness = 0.5; o.material.metalness = 0.15; o.material.needsUpdate = true;
-  });
-  if (metal) maps.push(metal.name);
-  room.hd2 = { style: styleId, set: spec.set, res, maps };
+  const metalTest = hd2MetalTest(spec), props = [];
+  group.traverse((o) => { if (o.isMesh && metalTest.test(o.name) && o.material && !Array.isArray(o.material)) props.push(o); });
+  if (props.length) {
+    if (fits()) {
+      const metal = ixrSetTexture(THREE, "metal", res, [1, 1]);
+      for (const o of props) { o.material.map = metal; o.material.roughness = spec.metal ? 0.38 : 0.5; o.material.metalness = spec.metal ? 0.3 : 0.15; o.material.needsUpdate = true; }
+      maps.push(metal.name); bytes += hd2MapBytes(res);
+    } else skipped.push("metal");
+  }
+  room.hd2 = { style: styleId, set: spec.set, res, maps, skipped, bytes, budget };
   return room.hd2;
 }
 

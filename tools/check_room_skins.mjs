@@ -10,6 +10,11 @@
  *  3. the floor, the walls and the metal props carry the set at the tier's resolution (1024 px desktop high, 256 px elsewhere);
  *  4. texture bytes per room per tier (every texture in the room, the shell's two signs included) inside HD2_TEX_BUDGET;
  *  5. procedural: no fillText, no loader, no image or model file, no URL; plain data; wiring (app, bundle, check_all, baseline).
+ * ENV-HD-3 (docs/consoles/ENV-HD-3.md): every INTERIORS style now carries a set (the kitchen's stainless variant, the halls'
+ * plank floor, the six Louisiana rooms built with LA-ROOMS' dressers on a map that opens them), and the skin is budget-aware:
+ * the maps it sets are exactly the ones that fit under HD2_TEX_BUDGET with the room's own textures counted (the shell's
+ * signs and LA-ROOMS' name-sign canvases, which headless builds draw as flat panels), and a room the skin leaves over its
+ * budget is one that was over before the skin (reported, with the bytes).
  *
  *     node tools/check_room_skins.mjs
  */
@@ -42,14 +47,16 @@ check(styles.some((s) => HD.HD2_SKIN_STYLES[s].set === "tile" && /classroom/.tes
 const count = {};
 for (const p of R.NP_PARISHES) for (const s of p.sites ?? []) { const st = IX.ixStyleFor(s.kind, s.id); count[st] = (count[st] ?? 0) + 1; }
 for (const s of styles) check(HD.HD2_SKIN_STYLES[s].sites === (count[s] ?? 0), `${s}: opens ${count[s] ?? 0} sites (HD2_SKIN_STYLES says ${HD.HD2_SKIN_STYLES[s].sites})`);
-const minSkinned = Math.min(...styles.map((s) => count[s] ?? 0));
+const minSkinned = Math.min(...styles.map((s) => count[s] ?? 0).filter((n) => n > 0));
 const unskinned = Object.entries(count).filter(([s]) => !styles.includes(s) && !/^ixr-/.test(s)).sort((a, b) => b[1] - a[1]);
 check(unskinned.every(([, n]) => n < minSkinned), `every unskinned style opens fewer sites than the least-visited skinned one (${minSkinned}): ${unskinned.map(([s, n]) => `${s} ${n}`).join(", ")}`);
 const covered = styles.reduce((a, s) => a + (count[s] ?? 0), 0), all = Object.values(count).reduce((a, n) => a + n, 0);
-note(`skinned: ${styles.map((s) => `${s} ${count[s]}`).join(", ")} — ${covered} of ${all} site doors (${(100 * covered / all).toFixed(1)} %)`);
+note(`skinned: ${styles.map((s) => `${s} ${count[s] ?? 0}`).join(", ")} — ${covered} of ${all} site doors (${(100 * covered / all).toFixed(1)} %)`);
 const withSet = Object.keys(IXR.IXR_ROOMS).length + styles.length;
-check(withSet === 6 + styles.length, `room styles with the high-detail texture set: 6 → ${withSet} (ROBO-INTERIORS' six robotics rooms + ${styles.length} skinned here)`);
-note(`room styles with the high-detail texture set: 6 → ${withSet}`);
+check(withSet === 6 + styles.length, `room styles with the high-detail texture set: ${withSet} (ROBO-INTERIORS' six robotics rooms + ${styles.length} skinned here)`);
+const allStyles = Object.keys(IX.IX_STYLES), bare = allStyles.filter((s) => !styles.includes(s) && !IXR.IXR_ROOMS[s]);
+check(bare.length === 0 && withSet === allStyles.length, `every INTERIORS style carries a set: ${withSet} of ${allStyles.length}${bare.length ? ` (bare: ${bare.join(", ")})` : ""}`);
+note(`room styles with the high-detail texture set: 6 (ROBO-INTERIORS) → 15 (ENV-HD-2) → ${withSet} (ENV-HD-3)`);
 const plain = { HD2_SKIN_STYLES: HD.HD2_SKIN_STYLES, HD2_TEX_BUDGET: HD.HD2_TEX_BUDGET };
 check(JSON.stringify(JSON.parse(JSON.stringify(plain))) === JSON.stringify(plain), "the data is plain JSON");
 check(HD.HD2_TEX_BUDGET.high <= IXR.IXR_TEX_BUDGET.high && HD.HD2_TEX_BUDGET.low <= IXR.IXR_TEX_BUDGET.low && HD.HD2_TEX_BUDGET.balanced <= IXR.IXR_TEX_BUDGET.balanced, "HD2_TEX_BUDGET is no larger than ROBO-INTERIORS' room budget on any tier");
@@ -63,6 +70,17 @@ const got = HD.hd2RegisterSkins({ ixRegisterDresser: skinned.ixRegisterDresser }
 check(got.length === styles.length, `hd2RegisterSkins registers ${got.length} styles`);
 check(HD.hd2RegisterSkins(null).length === 0, "hd2RegisterSkins(null) registers none (guarded)");
 const signBytes = IXR.IXR_SHELL_SIGNS.reduce((a, [w, h]) => a + Math.round(w * h * 4 * 4 / 3), 0);
+// LA-ROOMS: each Louisiana style built on a map that opens it, with its dressers registered for that map (base and skinned)
+const larSite = {};
+for (const p of R.NP_PARISHES) for (const s of p.sites ?? []) { const st = IX.ixStyleFor(s.kind, s.id); if (/^lar-/.test(st) && styles.includes(st) && !larSite[st]) larSite[st] = { p, s }; }
+for (const st of Object.keys(larSite)) {
+  const { p } = larSite[st];
+  LAR.larRegisterDressers({ ixRegisterDresser: (s2, fn) => { if (s2 === st) (base.d[s2] ??= []).push(fn); } }, { parish: p });
+  LAR.larRegisterDressers({ ixRegisterDresser: (s2, fn) => { if (s2 === st) (skinned.d[s2] ??= []).unshift(fn); } }, { parish: p });
+}
+const larSignBytes = (tier) => Math.round((tier === "low" ? 256 * 60 : 512 * 120) * 4 * 4 / 3); // lar-rooms.js larSignMaterial
+const mapBytes = (res) => Math.round(res * res * 4 * 4 / 3);
+let overBefore = [];
 const counts = (room) => { let meshes = 0, triangles = 0, lights = 0; room.group.traverse((o) => { if (o.isLight) lights++; if (!o.isMesh) return; meshes++; const g = o.geometry; triangles += (g.index ? g.index.count : g.attributes.position.count) / 3 * (o.isInstancedMesh ? o.count : 1); }); return { meshes, triangles, lights }; };
 // a dressed site for each style where CLASSROOMS furnishes one on Orleans (else the generic room)
 const crSite = {};
@@ -70,7 +88,7 @@ for (const r of CR.crRoomsFor(orleans)) { const s = orleans.sites.find((x) => x.
 const rows = [], byTier = { high: 0, balanced: 0, low: 0 };
 for (const st of styles) {
   for (const tier of ["high", "balanced", "low"]) {
-    const site = crSite[st] ? { ...crSite[st], stations: [] } : null;
+    const site = crSite[st] ? { ...crSite[st], stations: [] } : larSite[st] ? { ...larSite[st].s, stations: [] } : null;
     const a = IX.ixBuild(st, { three: THREE, tier, site, dressers: base.d });
     const b = IX.ixBuild(st, { three: THREE, tier, site, dressers: skinned.d });
     if (!a || !b) { check(false, `${st}/${tier}: builds`); continue; }
@@ -79,22 +97,36 @@ for (const st of styles) {
     check(cb.meshes <= IX.IX_BUDGET.meshes, `${st}/${tier}: ${cb.meshes} meshes ≤ IX_BUDGET ${IX.IX_BUDGET.meshes}`);
     const res = IXR.ixrTexRes(tier, "");
     const m = IXR.ixrMeasure(b), m0 = IXR.ixrMeasure(a);
-    const set = HD.HD2_SKIN_STYLES[st].set;
-    const floorOk = m.textures.some((t) => (set === "industrial" ? /^ixr-floor-/ : /^hd2-tile-floor-/).test(t.name) && t.w === res);
-    const wallOk = m.textures.some((t) => (set === "industrial" ? /concrete/ : /hd2-block-wall/).test(t.name) && t.w === res);
-    const metalProps = []; b.group.traverse((o) => { if (o.isMesh && /^ix-dress-(rack|machine|tank|cabinet|hood)$/.test(o.name)) metalProps.push(o); });
-    const metalOk = metalProps.every((o) => /metal/.test(o.material.map?.name ?? "") && o.material.map.image?.width === res);
-    check(floorOk && wallOk && metalOk, `${st}/${tier}: floor, walls and ${metalProps.length} metal prop mesh(es) carry the ${set} set at ${res} px`);
-    check(b.hd2?.res === res && b.hd2?.style === st, `${st}/${tier}: room.hd2 reports the skin`);
-    const bytes = m.textureBytes + signBytes;
-    check(bytes <= HD.HD2_TEX_BUDGET[tier], `${st}/${tier}: texture bytes ${fmtB(bytes)} ≤ ${fmtB(HD.HD2_TEX_BUDGET[tier])}`);
-    byTier[tier] = Math.max(byTier[tier], bytes);
-    if (tier !== "balanced") rows.push(`${st.padEnd(14)} ${tier.padEnd(5)} meshes ${String(cb.meshes).padStart(3)} (=)  tris ${String(cb.triangles).padStart(5)} (=)  textures ${fmtB(m0.textureBytes + signBytes)} → ${fmtB(bytes)}${crSite[st] ? "  (CLASSROOMS-dressed)" : ""}`);
+    const spec = HD.HD2_SKIN_STYLES[st], set = spec.set;
+    const metalRe = spec.metal ? new RegExp(`^ix-dress-(${spec.metal.join("|")})$`) : /^ix-dress-(rack|machine|tank|cabinet|hood)$/;
+    const metalProps = []; b.group.traverse((o) => { if (o.isMesh && metalRe.test(o.name)) metalProps.push(o); });
+    // the room's own textures: measured maps (headless stubs) + the shell's signs + LA-ROOMS' name-sign canvases
+    let larSigns = 0; a.group.traverse((o) => { if (o.isMesh && /^lar-sign-/.test(o.name)) larSigns++; });
+    const before = m0.textureBytes + signBytes + larSigns * larSignBytes(tier);
+    // the maps that fit, computed here independently: floor, walls, metal (if the room has metal props), each only while it fits
+    const want = []; let acc = before;
+    for (const k of ["floor", "walls", ...(metalProps.length ? ["metal"] : [])]) if (acc + mapBytes(res) <= HD.HD2_TEX_BUDGET[tier]) { want.push(k); acc += mapBytes(res); }
+    const floorRe = set === "industrial" ? /^ixr-floor-/ : set === "hall" ? /^hd2-plank-floor-/ : /^hd2-tile-floor-/;
+    const has = {
+      floor: m.textures.some((t) => floorRe.test(t.name) && t.w === res),
+      walls: m.textures.some((t) => (set === "industrial" ? /concrete/ : /hd2-block-wall/).test(t.name) && t.w === res),
+      metal: metalProps.length > 0 && metalProps.every((o) => /metal/.test(o.material.map?.name ?? "") && o.material.map.image?.width === res),
+    };
+    const got = ["floor", "walls", "metal"].filter((k) => has[k]);
+    check(got.join() === want.join(), `${st}/${tier}: the ${set} set at ${res} px on ${got.join(", ") || "nothing"} (${metalProps.length} metal prop mesh(es)); the maps that fit the budget: ${want.join(", ") || "none"}`);
+    check(b.hd2?.res === res && b.hd2?.style === st && b.hd2.maps.length === want.length, `${st}/${tier}: room.hd2 reports the skin (${b.hd2?.maps.length} maps${b.hd2?.skipped?.length ? `, skipped over budget: ${b.hd2.skipped.join(", ")}` : ""})`);
+    const bytes = m.textureBytes + signBytes + larSigns * larSignBytes(tier);
+    check(bytes === acc && Math.abs((b.hd2?.bytes ?? -1) - bytes) <= 4, `${st}/${tier}: the skin's own byte count matches the measure (${fmtB(b.hd2?.bytes ?? 0)} vs ${fmtB(bytes)})`);
+    if (before > HD.HD2_TEX_BUDGET[tier]) { overBefore.push(`${st}/${tier} ${fmtB(before)} (${larSigns} LA name signs)`); check(bytes === before, `${st}/${tier}: over budget before the skin (${fmtB(before)}: ${larSigns} LA-ROOMS name signs), and the skin adds nothing`); }
+    else check(bytes <= HD.HD2_TEX_BUDGET[tier], `${st}/${tier}: texture bytes ${fmtB(bytes)} ≤ ${fmtB(HD.HD2_TEX_BUDGET[tier])}`);
+    if (before <= HD.HD2_TEX_BUDGET[tier]) byTier[tier] = Math.max(byTier[tier], bytes);
+    if (tier !== "balanced") rows.push(`${st.padEnd(16)} ${tier.padEnd(5)} meshes ${String(cb.meshes).padStart(3)} (=)  tris ${String(cb.triangles).padStart(5)} (=)  textures ${fmtB(before)} → ${fmtB(bytes)}${crSite[st] ? "  (CLASSROOMS-dressed)" : larSite[st] ? `  (LA-ROOMS-dressed, ${larSite[st].p.id}, ${larSigns} name signs)` : ""}${b.hd2?.skipped?.length ? `  skipped: ${b.hd2.skipped.join(", ")}` : ""}`);
   }
 }
 console.log("  style          tier  meshes      tris        texture bytes (shell signs included) before → after");
 for (const r of rows) console.log(`  ${r}`);
 note(`worst texture bytes per room: high ${fmtB(byTier.high)} (budget ${fmtB(HD.HD2_TEX_BUDGET.high)}), balanced ${fmtB(byTier.balanced)} (budget ${fmtB(HD.HD2_TEX_BUDGET.balanced)}), low ${fmtB(byTier.low)} (budget ${fmtB(HD.HD2_TEX_BUDGET.low)}); headless stubs measure the size each canvas allocates (w × h × 4 × 4/3)`);
+note(`rooms over their budget before the skin (the skin adds nothing there): ${overBefore.length ? overBefore.join("; ") : "none"}`);
 
 // 5. procedural and wired
 const src = readFileSync(join(WEBXR, "shared/hd2-room-skins.js"), "utf8");
