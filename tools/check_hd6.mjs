@@ -3,9 +3,13 @@
  * ENV-HD-6 (docs/consoles/ENV-HD-6.md): buildings that read as their kind. Headless (no browser):
  *   1. the kind cues — the busiest park, fire station, hospital and school (HD3_SCENE_SITES' "kind" entries) each take a cue
  *      on high and balanced, inside HD6_KIND_BUDGET per site; nothing on the phone tier or in a headset browser;
+ *      ENV-HD-7: every site of the four kinds on all 46 maps takes a cue (fitted group by group, a group that cannot fit is
+ *      skipped), the presets keep ENV-HD-6's placements (the school's yard faces its street camera);
  *   2. where the cues stand — every part off the carriageways, out of the water, clear of the other buildings (massing and
- *      catalog sites) and of the site's job board;
- *   3. the chunk budgets — FACADES' details in each cued site's chunks plus the cue mesh inside FC_BUDGET on every tier;
+ *      catalog sites), of the other sites' cues and of the site's job board — at every cued site;
+ *   3. the chunk budgets — FACADES' details in each cued chunk plus the cue mesh (every site's cue parts and lamps in that
+ *      chunk, summed) inside FC_BUDGET on every tier, on every map;
+ *   3b. ENV-HD-7: the H sign at night — the sign's parts drawn unlit (a second material on the same mesh), 0 lights, 0 textures;
  *   4. the board lamps — every site board's lit face (ATMOS's "site" lamp at y + 6.5) has a post, an arm and a housing over it;
  *   5. Ultra — the four kinds' hero buildings in one 2048 px atlas inside HD6_KIND_BUDGET.ultra (a canvas stub);
  *   6. assets and wiring — no words drawn, generic by kind, the app mounts it, the bundler lists it, every name prefixed.
@@ -48,74 +52,160 @@ check(K.HD6_KINDS.length === 4 && specs.length === 4 && specs.every((s) => K.HD6
 check(B.meshesPerMap.low === 0 && B.trianglesPerSite.low === 0 && B.lampTriangles.low === 0 && B.lights === 0 && B.textureBytes === 0, "the stated budget: nothing on the phone tier, no light, no texture off Ultra");
 let cued = 0;
 const perSite = [];
-for (const spec of specs) {
-  const p = R.npParish(spec.parish), sites = K.hd6KindSites(p), site = sites.find((s) => s.id === spec.id);
-  if (!check(!!site && site.kind === spec.kind, `${spec.id}: the ${spec.kind} site on ${spec.parish} is cued`)) continue;
-  const row = { id: spec.id, kind: spec.kind };
-  for (const tier of ["balanced", "high"]) {
-    const parts = K.hd6CueParts(p, site, tier), tris = parts.length * 12;
-    row[tier] = tris;
-    check(parts.length > 0 && tris <= B.trianglesPerSite[tier], `${spec.id}/${tier}: ${parts.length} parts, ${tris} triangles <= ${B.trianglesPerSite[tier]}`);
-    check(parts.every((q) => q.size.every((v) => v > 0 && v < 30) && q.at.every(Number.isFinite)), `${spec.id}/${tier}: every part has a finite place and a size under 30 m`);
-  }
-  check(row.balanced < row.high, `${spec.id}: balanced takes the lighter build (${row.balanced} < ${row.high} triangles)`);
-  // 2. where the cues stand
-  const parts = K.hd6CueParts(p, site, "high"), b = site.b, board = boardsOf(p)[site.index];
-  const others = [];
-  for (let i = 0; i < p.sites.length; i++) if (i !== site.index) { try { const o = CW.cwSiteBuilding(p, i); others.push([o.cx - o.w / 2, o.cz - o.d / 2, o.cx + o.w / 2, o.cz + o.d / 2]); } catch { /* none */ } }
-  const { cx, cz } = E.npChunkOf(b.cx, b.cz), keep = CW.cwMassFilter(p);
-  for (let dx = -1; dx <= 1; dx++) for (let dz = -1; dz <= 1; dz++) for (const m of E.npMassingForChunk(p, cx + dx, cz + dz)) if (keep(m)) for (const bx of CW.cwSpotBoxes(m)) others.push([bx.min[0], bx.min[2], bx.max[0], bx.max[2]]);
-  let onRoad = 0, wet = 0, clash = 0, nearBoard = 0;
-  for (const q of parts) {
-    const f = footprint(q);
-    for (const [x, z] of [[f[0], f[1]], [f[2], f[1]], [f[2], f[3]], [f[0], f[3]], [(f[0] + f[2]) / 2, (f[1] + f[3]) / 2]]) {
-      const n = CW.cwNearestLine(p, x, z, 60, (l) => l.cls !== "ferry");
-      if (n && n.d < (n.line.width ?? 10) / 2) { onRoad++; break; }
+const hdr = (id) => { const p = R.npParish(id); return { p, sites: K.hd6KindSites(p) }; };
+// ENV-HD-7: every site of the four kinds on every map (fitted in the build's order, sharing the map's `taken` list)
+const ALL = R.npParishIds();
+const tally = Object.fromEntries(K.HD6_KINDS.map((k) => [k, { sites: 0, cued: 0, full: 0 }]));
+const fitted = new Map(); // parish id -> [{ site, balanced: {parts, skipped}, high: {parts, skipped} }]
+let faults = { road: 0, water: 0, building: 0, board: 0, cue: 0, buried: 0, over: 0 }, partsSeen = 0, catalog = 0;
+for (const id of ALL) {
+  const { p, sites } = hdr(id);
+  catalog += p.sites.filter((s) => K.HD6_KINDS.includes(s.kind)).length;
+  const rows = [], taken = { balanced: [], high: [] };
+  for (const site of sites) {
+    const row = { site };
+    for (const tier of ["balanced", "high"]) row[tier] = K.hd6FitCue(p, site, tier, taken[tier]);
+    rows.push(row);
+    const t = tally[site.kind]; t.sites++;
+    if (row.high.parts.length && row.balanced.parts.length) t.cued++;
+    if (!row.high.skipped.length) t.full++;
+    for (const tier of ["balanced", "high"]) if (row[tier].parts.length * 12 > B.trianglesPerSite[tier]) faults.over++;
+    // 2. where the cues stand (re-tested here against everything placed before it on the map, as the build places them)
+    const board = boardsOf(p)[site.index], b = site.b;
+    const before = rows.slice(0, -1).flatMap((r) => r.high.parts.map(footprint));
+    const ctx = { obstacles: K.hd6Obstacles(p, site), board: [board.x, board.z], taken: before };
+    for (const q of row.high.parts) {
+      partsSeen++;
+      const f = K.hd6PartFault(p, q, ctx);
+      // a group on the building itself (within 0.5 m of its walls) may stand over water or at a carriageway's edge where the
+      // engine's own building does (HD6_ON_BUILDING); every free-standing group (yard, pavilion, lane, canopy ...) may not
+      if (f && !((f === "water" || f === "road") && K.HD6_ON_BUILDING.includes(q.group))) faults[f]++;
+      const fp = footprint(q);
+      if (fp[0] > b.cx - b.w / 2 + 0.2 && fp[2] < b.cx + b.w / 2 - 0.2 && fp[1] > b.cz - b.d / 2 + 0.2 && fp[3] < b.cz + b.d / 2 - 0.2 && q.at[1] - q.size[1] / 2 < b.y + b.h - 0.1) faults.buried++;
     }
-    if (E.npWaterAt(p, (f[0] + f[2]) / 2, (f[1] + f[3]) / 2)) wet++;
-    if (others.some((o) => hit(f, o))) clash++;
-    if (hit(f, [board.x - 1.3 - 1.5, board.z - 0.1 - 1.5, board.x + 1.3 + 1.5, board.z + 0.1 + 1.5])) nearBoard++;
   }
-  check(onRoad === 0, `${spec.id}: no part stands on a carriageway (${onRoad} of ${parts.length})`);
-  check(wet === 0, `${spec.id}: no part stands in the water (${wet})`);
-  check(clash === 0, `${spec.id}: no part runs into another building, massing or catalog site (${clash} of ${parts.length}; ${others.length} boxes near)`);
-  check(nearBoard === 0, `${spec.id}: every part is >= 1.5 m from the job board (${nearBoard})`);
-  const inside = parts.filter((q) => { const f = footprint(q); return f[0] > b.cx - b.w / 2 + 0.2 && f[2] < b.cx + b.w / 2 - 0.2 && f[1] > b.cz - b.d / 2 + 0.2 && f[3] < b.cz + b.d / 2 - 0.2 && q.at[1] - q.size[1] / 2 < b.y + b.h - 0.1; });
-  check(inside.length === 0, `${spec.id}: nothing is buried inside the building's walls (${inside.length})`);
-  cued++;
-  perSite.push(row);
+  fitted.set(id, rows);
 }
-check(cued === 4, `kinds with a cue: 0 -> ${cued} of 4`);
-note(`cue triangles per site (balanced / high): ${perSite.map((r) => `${r.kind} ${r.balanced} / ${r.high}`).join(", ")} (budget ${B.trianglesPerSite.balanced} / ${B.trianglesPerSite.high})`);
+for (const k of K.HD6_KINDS) {
+  const t = tally[k];
+  check(t.sites > 0 && t.cued === t.sites, `${k}: every site on every map takes a cue (${t.cued} of ${t.sites}; ${t.full} with every part group, the rest skip a group that cannot fit)`);
+}
+check(Object.values(tally).reduce((a, t) => a + t.sites, 0) === catalog, `every catalog site of the four kinds is considered (${catalog} on ${ALL.length} maps)`);
+check(faults.over === 0, `every cued site inside HD6_KIND_BUDGET's triangles per site (${faults.over} over)`);
+check(faults.road === 0, `no cue part on a carriageway at any site (${faults.road} of ${partsSeen})`);
+check(faults.water === 0, `no cue part in the water (${faults.water})`);
+check(faults.building === 0, `no cue part runs into another building, massing or catalog site (${faults.building})`);
+check(faults.cue === 0, `no cue part runs into another site's cue (${faults.cue})`);
+check(faults.board === 0, `every cue part >= 1.5 m from its job board (${faults.board})`);
+check(faults.buried === 0, `nothing buried inside a building's walls (${faults.buried})`);
+// the independent re-test of §2 (ENV-HD-6's own road / water / building / board test, not the module's) at every site
+{
+  let bad = 0, n = 0;
+  for (const id of ALL) {
+    const p = R.npParish(id), boards = boardsOf(p);
+    for (const { site, high } of fitted.get(id)) {
+      const others = [];
+      for (let i = 0; i < p.sites.length; i++) if (i !== site.index) { try { const o = CW.cwSiteBuilding(p, i); others.push([o.cx - o.w / 2, o.cz - o.d / 2, o.cx + o.w / 2, o.cz + o.d / 2]); } catch { /* none */ } }
+      const { cx, cz } = E.npChunkOf(site.b.cx, site.b.cz), keep = CW.cwMassFilter(p);
+      for (let dx = -1; dx <= 1; dx++) for (let dz = -1; dz <= 1; dz++) for (const m of E.npMassingForChunk(p, cx + dx, cz + dz)) if (keep(m)) for (const bx of CW.cwSpotBoxes(m)) others.push([bx.min[0], bx.min[2], bx.max[0], bx.max[2]]);
+      const board = boards[site.index];
+      for (const q of high.parts) {
+        n++;
+        const f = footprint(q);
+        let road = false;
+        for (const [x, z] of [[f[0], f[1]], [f[2], f[1]], [f[2], f[3]], [f[0], f[3]], [(f[0] + f[2]) / 2, (f[1] + f[3]) / 2]]) { const nl = CW.cwNearestLine(p, x, z, 60, (l) => l.cls !== "ferry"); if (nl && nl.d < (nl.line.width ?? 10) / 2) road = true; }
+        const wet = E.npWaterAt(p, (f[0] + f[2]) / 2, (f[1] + f[3]) / 2) && !K.HD6_ON_BUILDING.includes(q.group);
+        if ((road && !K.HD6_ON_BUILDING.includes(q.group)) || wet || others.some((o) => hit(f, o)) || hit(f, [board.x - 2.8, board.z - 1.6, board.x + 2.8, board.z + 1.6])) bad++;
+      }
+    }
+  }
+  check(bad === 0, `ENV-HD-6's own placement test at every cued site: ${bad} of ${n} parts on a road, in water, in a building or by a board`);
+}
+// the presets: each is still cued, inside budget, balanced lighter; the three that are not the school keep ENV-HD-6's parts
+for (const spec of specs) {
+  const rows = fitted.get(spec.parish) ?? [], row = rows.find((r) => r.site.id === spec.id);
+  if (!check(!!row && row.site.kind === spec.kind && row.site.hero, `${spec.id}: the ${spec.kind} site on ${spec.parish} is cued (a preset)`)) continue;
+  check(rows[0].site.hero, `${spec.parish}: the presets are fitted first (they keep their ground)`);
+  const r = { id: spec.id, kind: spec.kind, balanced: row.balanced.parts.length * 12, high: row.high.parts.length * 12 };
+  check(row.high.skipped.length === 0 && row.balanced.skipped.length === 0, `${spec.id}: every part group fits (${row.high.skipped.join(", ") || "none skipped"})`);
+  check(r.balanced < r.high, `${spec.id}: balanced takes the lighter build (${r.balanced} < ${r.high} triangles)`);
+  {
+    const p = R.npParish(spec.parish), key = (q) => q.at.map((v) => v.toFixed(3)).join(",");
+    const same = JSON.stringify(row.high.parts.map(key).sort()) === JSON.stringify(K.hd6CueParts(p, row.site, "high").filter((q) => !["wallsign", "entry"].includes(q.group)).map(key).sort());
+    check(same, `${spec.id}: ENV-HD-6's placement kept (every part where it was; the fallbacks unused)`);
+  }
+  cued++;
+  perSite.push(r);
+}
+check(cued === 4, `presets with a cue: ${cued} of 4`);
+// ENV-HD-7: the school's street shot — NEWTON's parked site cars stood between the camera and the entrance canopy
+{
+  const p = R.npParish("sf-mission"), cam = H3.hd3Scene(p, "mission-school-campus", "street"), rects = H3.hd3PropRects(p);
+  const [px, , pz] = cam.position, [tx, , tz] = cam.target;
+  let blocked = 0;
+  for (let k = 0; k <= 20; k++) { const t = 0.8 * k / 20, x = px + (tx - px) * t, z = pz + (tz - pz) * t; if (rects.some((r) => hit([x - 0.8, z - 0.8, x + 0.8, z + 0.8], r))) blocked++; }
+  check(blocked === 0, `mission-school-campus: the street camera's sight line clears NEWTON's parked site cars (${blocked} of 21 samples blocked; camera ${px.toFixed(1)}, ${pz.toFixed(1)})`);
+  let all = 0, clear = 0;
+  for (const spec of H3.HD3_SCENE_SITES) {
+    const q = R.npParish(spec.parish), c = H3.hd3Scene(q, spec.id, "street"), rr = H3.hd3PropRects(q);
+    all++;
+    if (![0, 0.2, 0.35, 0.5, 0.65, 0.8].some((t) => { const x = c.position[0] + (c.target[0] - c.position[0]) * t, z = c.position[2] + (c.target[2] - c.position[2]) * t; return rr.some((r) => hit([x - 0.8, z - 0.8, x + 0.8, z + 0.8], r)); })) clear++;
+  }
+  check(clear === all, `street cameras with a sight line clear of the site cars: ${clear} of ${all}`);
+}
+note(`cue triangles per preset (balanced / high): ${perSite.map((r) => `${r.kind} ${r.balanced} / ${r.high}`).join(", ")} (budget ${B.trianglesPerSite.balanced} / ${B.trianglesPerSite.high})`);
+note(`sites cued by kind (ENV-HD-6: 1 each): ${K.HD6_KINDS.map((k) => `${k} ${tally[k].cued} of ${tally[k].sites}`).join(", ")}`);
 
 // 1b, 3, 4. the built mesh per map and tier, the chunk budgets, the lamps
 const maps = [...new Set(specs.map((s) => s.parish))];
-for (const id of maps) {
+let signMaps = 0;
+for (const id of ALL) {
+  const full = maps.includes(id); // the three preset maps get every line; the other 43 are summarised per check
+
   const p = R.npParish(id), boards = boardsOf(p), sites = K.hd6KindSites(p);
   for (const tier of TIERS) {
     const m = K.hd6Build({ THREE, parish: p, boards, tier, ua: "Mozilla/5.0 (X11; Linux x86_64) Chrome/126.0" });
     if (tier === "low") { check(m === null, `${id}/low: the phone tier builds nothing here`); continue; }
+    if (!m && !sites.length && !boards.length) continue;
     if (!check(!!m && m.isMesh && !m.isInstancedMesh, `${id}/${tier}: one merged mesh`)) continue;
     const tris = m.geometry.attributes.position.count / 3, model = m.userData.hd6.triangles;
     check(tris === model, `${id}/${tier}: triangles measured ${tris} = model ${model}`);
     const lampTris = boards.length * 4 * 12;
     check(lampTris / boards.length <= B.lampTriangles[tier], `${id}/${tier}: ${boards.length} board lamps, ${lampTris / boards.length} triangles each <= ${B.lampTriangles[tier]}`);
-    check(!m.material.map && m.material.vertexColors, `${id}/${tier}: vertex colours, no texture`);
+    const mats = [].concat(m.material);
+    check(mats.every((x) => !x.map && x.vertexColors), `${id}/${tier}: vertex colours, no texture (${mats.length} material${mats.length > 1 ? "s" : ""})`);
+    // 3b. the H sign at night: the sign's parts are group 1, drawn by an unlit material; nothing else is
+    const signs = sites.filter((s) => s.kind === "hospital").length, glow = m.userData.hd6.signTriangles;
+    if (signs) {
+      const hasSign = fitted.get(id).some((r) => r.site.kind === "hospital" && r[tier].parts.some((q) => q.glow));
+      check(!hasSign || (mats.length === 2 && mats[1].isMeshBasicMaterial && m.geometry.groups.length === 2 && m.geometry.groups[1].count === glow * 3 && glow > 0), `${id}/${tier}: the H signs (${glow} triangles) are drawn unlit as group 1, the rest Lambert as group 0`);
+      if (hasSign && tier === "high") signMaps++;
+    } else check(mats.length === 1 && glow === 0, `${id}/${tier}: no hospital, one material`);
+    check(m.userData.hd6.drawCalls === mats.length && m.userData.hd6.drawCalls <= 2, `${id}/${tier}: ${m.userData.hd6.drawCalls} draw call(s) for the cue mesh (lit + sign), 0 lights`);
     check(K.hd6Build({ THREE, parish: p, boards, tier, ua: QUEST }) === null, `${id}/${tier}: a headset browser builds nothing here`);
     // the chunk budgets: the cue mesh is charged to each cued site's chunks (building, cue footprint), on top of FACADES there
-    for (const s of sites) {
-      const parts = K.hd6CueParts(p, s, tier), keys = new Set();
-      for (const q of parts) { const f = footprint(q); for (const [x, z] of [[f[0], f[1]], [f[2], f[3]], [f[0], f[3]], [f[2], f[1]]]) keys.add(E.npChunkOf(x, z).key); }
-      for (const key of keys) {
-        const [cx, cz] = key.split(",").map(Number);
-        const spots = E.npMassingForChunk(p, cx, cz).filter(CW.cwMassFilter(p));
-        const det = spots.length ? F.fcDetails({ THREE, parish: p, chunk: { cx, cz, key, ring: 0, lod: 0 }, spots, tier }) : null;
-        const dm = det?.userData.fc.meshes ?? 0, dt = det?.userData.fc.triangles ?? 0;
-        const lamps = boards.filter((bd) => E.npChunkOf(bd.x, bd.z).key === key).length * 48, ct = parts.length * 12 + lamps;
-        check(dm + 1 <= F.FC_BUDGET.meshesPerChunk[tier] && dt + ct <= F.FC_BUDGET.trianglesPerChunk[tier], `${s.id}/${tier}: chunk ${key} FACADES ${dm} + cue 1 meshes <= ${F.FC_BUDGET.meshesPerChunk[tier]}, ${dt} + ${ct} triangles <= ${F.FC_BUDGET.trianglesPerChunk[tier]}`);
-        det?.dispose?.();
-      }
+    // ENV-HD-7: a chunk may hold parts of several sites' cues: each site's whole cue is charged to every chunk it touches,
+    // summed over the sites touching it, plus the lamps there
+    const perChunk = new Map();
+    for (const { site, [tier]: fit } of fitted.get(id)) {
+      const keys = new Set();
+      for (const q of fit.parts) { const f = footprint(q); for (const [x, z] of [[f[0], f[1]], [f[2], f[3]], [f[0], f[3]], [f[2], f[1]]]) keys.add(E.npChunkOf(x, z).key); }
+      for (const key of keys) { const c = perChunk.get(key) ?? { tris: 0, ids: [] }; c.tris += fit.parts.length * 12; c.ids.push(site.id); perChunk.set(key, c); }
     }
+    let worst = null, bad = 0;
+    for (const [key, c] of perChunk) {
+      const [cx, cz] = key.split(",").map(Number);
+      const spots = E.npMassingForChunk(p, cx, cz).filter(CW.cwMassFilter(p));
+      const det = spots.length ? F.fcDetails({ THREE, parish: p, chunk: { cx, cz, key, ring: 0, lod: 0 }, spots, tier }) : null;
+      const dm = det?.userData.fc.meshes ?? 0, dt = det?.userData.fc.triangles ?? 0;
+      const lamps = boards.filter((bd) => E.npChunkOf(bd.x, bd.z).key === key).length * 48, ct = c.tris + lamps;
+      const ok = dm + 1 <= F.FC_BUDGET.meshesPerChunk[tier] && dt + ct <= F.FC_BUDGET.trianglesPerChunk[tier];
+      if (!ok) bad++;
+      if (!worst || dt + ct > worst.t) worst = { key, t: dt + ct, dm, ids: c.ids };
+      if (full) check(ok, `${id}/${tier}: chunk ${key} (${c.ids.length} site${c.ids.length > 1 ? "s" : ""}) FACADES ${dm} + cue 1 meshes <= ${F.FC_BUDGET.meshesPerChunk[tier]}, ${dt} + ${ct} triangles <= ${F.FC_BUDGET.trianglesPerChunk[tier]}`);
+      det?.dispose?.();
+    }
+    if (!full) check(bad === 0, `${id}/${tier}: ${perChunk.size} cued chunks inside FC_BUDGET (worst ${worst ? `${worst.key}: ${worst.t} triangles, ${worst.dm} + 1 meshes` : "none"})`);
     m.geometry.dispose();
   }
   // the board lamps: a post beside every board, its housing directly over ATMOS's lit face (y + 6.5, 0.5 m tall)
@@ -126,8 +216,9 @@ for (const id of maps) {
     const ok = Math.abs(pole.at[1] - pole.size[1] / 2 - bd.y) < 0.01 && pole.at[1] + pole.size[1] / 2 >= arm.at[1] && Math.abs(housing.at[0] - bd.x) < 0.01 && housing.at[1] - housing.size[1] / 2 >= face.y1 - 0.01 && housing.at[1] - housing.size[1] / 2 - face.y1 < 0.05 && Math.abs(pole.at[0] - bd.x) > 1.3 + 0.08;
     if (ok) lit++;
   }
-  check(lit === boards.length, `${id}: every board lamp has a post from the ground, an arm and a housing over its lit face (${lit} of ${boards.length}); night lamp bars floating: ${boards.length - lit}`);
+  if (full || lit !== boards.length) check(lit === boards.length, `${id}: every board lamp has a post from the ground, an arm and a housing over its lit face (${lit} of ${boards.length}); night lamp bars floating: ${boards.length - lit}`);
 }
+check(signMaps > 0, `the H sign at night: lit on ${signMaps} maps with a hospital (0 lights, 0 texture bytes; ENV-HD-6: by the street lamps only)`);
 { // the ATMOS lamp this draws a post for is where hd6LampParts assumes (at-world.js: y + 6.5, 1.4 x 0.5 m)
   const at = readFileSync(join(WEBXR, "shared/at-world.js"), "utf8");
   check(/y: s\.y \+ 6\.5, z: s\.z, yaw: 0, w: 1\.4, h: 0\.5, kind: "site"/.test(at), "ATMOS's site lamp is the 1.4 x 0.5 m face at y + 6.5 over the board (the post's assumption)");
@@ -142,7 +233,7 @@ for (const id of maps) {
   for (const id of maps) {
     const p = R.npParish(id), m = K.hd6UltraShells({ THREE, parish: p, doc });
     if (!check(!!m, `${id}: Ultra builds the hero buildings' facade shells`)) continue;
-    const u = m.userData.hd6, sites = K.hd6KindSites(p).length;
+    const u = m.userData.hd6, sites = K.hd6HeroSites(p).length;
     n += sites;
     check(u.atlasPx === 2048 && m.material.map?.image?.width === 2048, `${id}: Ultra's atlas is 2048 px`);
     check(u.textureBytes <= B.ultra.textureBytes, `${id}: Ultra's atlas ${(u.textureBytes / 1048576).toFixed(2)} MiB <= ${(B.ultra.textureBytes / 1048576).toFixed(0)} MiB`);
