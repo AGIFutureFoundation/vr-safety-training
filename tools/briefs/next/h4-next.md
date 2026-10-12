@@ -4,15 +4,13 @@ Read `docs/consoles/HIVE-4.md` (Declaration, Evals, Seams, Left) and `docs/conso
 (`exchanges`, `memory`, `variety`, `ohRecall`, `OH_FLOOR`), `oh-say.js` (`OH_CORES_TALK`, `OH_SECOND`, `ohSayMore`),
 `WebXR/instructor/js/h4-hive.js` and `tools/check_hive4.mjs`. Single checkers only; rebuild the bundles before any drive.
 
-1. **The talk in Spanish.** Add `talk` and `second` packs to `OH_PACKS.es` (handoff, confirm, question_far, question_load, answer,
-   report, ack, memory, memory_reset), machine-assisted and marked for a native speaker's review.
-   - Check: `check_voices` §10 still passes; a Spanish talk day in `check_hive4` §2 and §3 grounds N of N with every sentence in band.
+1. **A native speaker's review of the Spanish talk** (`OH_CORES_TALK_ES`, `OH_SECOND_ES`, `OH_TASK_NOUNS_ES`): keep the slots.
+   - Check: `check_hive4` 3b still grounds N of N with every sentence in band and 0 English fragments; `check_voices` 10/0.
 2. **Figures follow the floor.** AVATARS-HD's mouth and gestures can start each speak event at `floor.startMs` when voice is off, so
    the two speakers of an exchange take turns in the world too.
    - Check: in a drive with voice off, no two figures' talk windows overlap within a step (N of N steps).
-3. **The steward's repetition.** distinct-2 for the steward fell (0.145 -> 0.097) because it now asks about 100 questions a day from
-   six templates. Add question variants or ask less often (a cooldown like the memory's).
-   - Check: `check_hive4` §7 shows 7 of 7 agents at or above the before figure, and §2 still grounds N of N.
+3. **No pad twice in one line.** The padding can repeat a pad across a line's sentences (round 3's grammar does too).
+   - Check: a new check_hive4 line counts lines with a repeated pad: 0; bands still hold; report the trait-recovery change.
 4. **The console tab, live.** Today it replays the seeded day. Read the learner's own hive lines when the console runs on the same
    device (only through a consented, local channel), and keep the replay as the fallback.
    - Check: `check_console` and `check_hive4` §8 pass; nothing is written by the tab.

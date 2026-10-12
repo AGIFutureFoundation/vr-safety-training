@@ -8,6 +8,9 @@
   and `floor`; captions read "<speaker> (software agent) to <addressee>: …".
 - Memory: `ohRecall(chain, agentId, taskType)` joins oh-award and oh-complete lines; the line says the count, the last site
   and its hive-clock time (`ohClock`). check_hive4 re-derives all three from the chain prefix (`logSeq`) with its own parser.
-- Spanish: no talk cores yet; an exchange falls back to the single round-3 line and no memory line is said.
+- Spanish: `OH_CORES_TALK_ES`, `OH_SECOND_ES` and `OH_TASK_NOUNS_ES` (by the event's `taskType`); captions use "a" for "to".
+- The steward questions at most one bid every `OH_QUESTION_COOLDOWN` (6) hive minutes.
+- Trait recovery readings, all reported: first 0.963/0.812/0.979/0.804, after the band fix 0.958/0.795/0.980/0.798, now
+  0.959/0.832/0.977/0.799 (fewer questions in the re-said days). No tuning on the held-out seeds.
 - Trait recovery was declared in ca8e2deb before the first held-out run; the first run's numbers are the reported ones.
 - The instructor tab is `WebXR/instructor/js/h4-hive.js` (read-only replay, `audit: null`, the evals JSON by fetch).

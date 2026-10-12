@@ -45,18 +45,19 @@ as before, separates the wording from the new lines.
 
 | Measure | Before (048869d5) | After | Source |
 |---|---|---|---|
-| Exchanges per seeded day (seed 7, 200 jobs) | 0 | **316** (handoff 173, question 103, report 40); seeds 1–5 at 120 jobs: 212, 198, 194, 179, 191 | check_hive4 2 |
-| Exchange lines grounded (facts re-derived from the award, the winning bid or the chain) | n/a | **632 of 632**; 943 of 943 sentences in the speaker's band | check_hive4 2 |
-| Turn-taking | n/a | 316 of 316 replies directly after their opener; 0 overlaps over 1,410 lines on the floor; stubbed voice: 76 of 76 in order, local only, at most 1 at once | check_hive4 2, 5 |
+| Exchanges per seeded day (seed 7, 200 jobs) | 0 | **258** (handoff 173, question 45, report 40); seeds 1–5 at 120 jobs: 174, 163, 162, 156, 158 | check_hive4 2 |
+| Exchange lines grounded (facts re-derived from the award, the winning bid or the chain) | n/a | **516 of 516**; 776 of 776 sentences in the speaker's band | check_hive4 2 |
+| Turn-taking | n/a | 258 of 258 replies directly after their opener; 0 overlaps over 1,294 lines on the floor; stubbed voice: 56 of 56 in order, local only, at most 1 at once | check_hive4 2, 5 |
 | Memory references per seeded day | 0 | **36**, from 4 agents; **36 of 36** grounded in the chain prefix; planted errors caught 3 of 3 | check_hive4 3 |
+| Spanish: exchanges and memory references (the panel's Spanish hive, seed 7) | 0 and 0 (an exchange fell back to the single round-3 line) | **258 and 36**; 516 of 516 and 36 of 36 grounded; 869 of 869 sentences in band; 0 English fragments but names; captions "… (software agent) a …" | check_hive4 3b |
 | Governor with the talk on | 161 of 161 checked, 3,631 of 3,631 steps, 0 physical | **161 of 161, 3,631 of 3,631, 0 physical**; outcomes identical; e-stop held: 0 runs | check_hive4 4 |
-| Trait recovery, Spearman, held-out personas 51–100 | not measured | **first run** (right after the declaration): warmth 0.963, formality 0.812, verbosity 0.979, caution 0.804. **Final** (after the band fix in cycle 3, which changed the padding only): warmth 0.958, formality 0.795, verbosity 0.980, caution 0.798. The seven agents (n = 7): 0.964, 0.929, 1, 0.643 | check_hive4 6 |
-| Distinct-2 per agent (fact-masked) | Orrin 0.057, Selka 0.145, Brann 0.078, Ivo 0.237, Tamsa 0.060, Quen 0.116, Lio 0.050 | Orrin 0.077, **Selka 0.097 (down)**, Brann 0.144, Ivo 0.320, Tamsa 0.102, Quen 0.155, Lio 0.102; variety only on the same events: 7 of 7 up | check_hive4 7 |
-| Omega Hive tab | none | 7 cards (7 portraits, 7 "software agent" labels), 65 lines (33 exchange turns, 3 memory), 20 refusals, 10 eval rows; 0 buttons; phone: tab 96×44, select 116×44, no sideways scroll; page errors 0, off-host 0 | drive `$SP/loop10/h4/drive_stills.mjs` part I |
+| Trait recovery, Spearman, held-out personas 51–100 | not measured | **Now:** warmth 0.959, formality 0.832, verbosity 0.977, caution 0.799. Earlier readings, all reported: the first run right after the declaration 0.963, 0.812, 0.979, 0.804; after the band fix (padding only) 0.958, 0.795, 0.980, 0.798; the current figures follow the steward's question cooldown (fewer questions in the re-said days). The seven agents (n = 7): 0.964, 0.929, 1, 0.643 | check_hive4 6 |
+| Distinct-2 per agent (fact-masked) | Orrin 0.057, Selka 0.145, Brann 0.078, Ivo 0.237, Tamsa 0.060, Quen 0.116, Lio 0.050 | Orrin 0.075, Selka 0.159, Brann 0.161, Ivo 0.320, Tamsa 0.110, Quen 0.155, Lio 0.115: **7 of 7 up** (before the steward's cooldown the steward fell to 0.097); variety only on the same events: 7 of 7 up | check_hive4 7 |
+| Omega Hive tab | none | 7 cards (7 portraits, 7 "software agent" labels), 65 lines (32 exchange turns, 3 memory), 20 refusals, 12 eval rows; 0 buttons; phone: tab 96×44, select 116×44, no sideways scroll; page errors 0, off-host 0 | drive `$SP/loop10/h4/drive_stills.mjs` part I |
 
 **Read honestly.** Trait recovery is high because the style grammar is a deterministic function of the traits and the features read
-that grammar's vocabulary; it shows the traits reach the text, not that the text is natural. The steward repeats more with the talk
-on: it now asks about a hundred questions a day from six templates. The question rule (contested, another map or a load) is a
+that grammar's vocabulary; it shows the traits reach the text, not that the text is natural. The steward first repeated more with the talk
+on (about a hundred questions a day from six templates); a cooldown and more variants fixed that (cycle 9). The question rule (contested, another map or a load) is a
 rule, not a judgement. The learner in the checker is a seeded stand-in.
 
 ## Cycles
@@ -78,10 +79,18 @@ rule, not a judgement. The learner in the checker is a seeded stand-in.
    step t=133 (Selka questions Brann, both at the SoMa cell, neither moves), poll until both bubbles show their turn. Observe: the
    first frame from the room's preset camera had Brann standing in front of Selka; the second, framed from the side, stood inside
    the cell's fence with a post through Brann's bubble; the third, from the far side, shows both figures and both labelled bubbles.
+8. Reason: the talk in Spanish, with the same slots and the same strict grounding. Check: check_hive4 3b on the panel's Spanish hive.
+   Act: `OH_CORES_TALK_ES`, `OH_SECOND_ES`, `OH_TASK_NOUNS_ES` (a task kind is named by the event's task type, so no English noun is
+   left in a Spanish line) and the caption's connector by language ("a"). Observe: passed on the first run (632 of 632 and 36 of 36
+   grounded, 1,037 of 1,037 in band, 0 English fragments); check_voices 10/0 and check_omega_hive 15/0 unchanged.
+9. Reason: the steward's repetition. Check: check_hive4 7 shows 7 of 7 agents at or above the before figure. Act: the steward questions
+   at most one bid every 6 hive minutes (`OH_QUESTION_COOLDOWN`), with two more question variants per kind and two more answers (true
+   under tied bids: "no bid beat …"), in both languages. Observe: questions 103 -> 45 a day, the steward 0.145 -> 0.159, 7 of 7 up.
+   The t=133 exchange survived the cooldown with new wording, so the cell-hall still was taken again on the rebuilt bundle.
 
 ## Checkers (single runs)
 
-- `node tools/check_hive4.mjs`: 10 passed, 0 failed.
+- `node tools/check_hive4.mjs`: 11 passed, 0 failed.
 - `node tools/check_omega_hive.mjs` 15/0; `check_voices` 10/0; `check_hive_world` all 35 pass; `check_console` all pass.
 - `node tools/check_imports.mjs`: all 1,119 modules; `node tools/check_newton.mjs`: all pass; `node tools/check_parse.mjs`: all 2,698
   shipped modules parse.
@@ -92,8 +101,8 @@ rule, not a judgement. The learner in the checker is a seeded stand-in.
 
 - `h4-world-exchange.png`: the cell hall (sf-downtown, seed 1, hive minute 133). Selka (software agent · safety steward) and Brann
   (software agent · maintenance planner) side by side, each under a bubble that names speaker and addressee: "Selka (software agent)
-  to Brann: Confirming: Brann, with a load of 1, can you take…" and "Brann (software agent) to Selka: Selka, 0.35 was the best bid on
-  vbjob-bf093c8598b20171, with skill…". The camera was placed by the drive; page errors 0, off-host 0.
+  to Brann: For the record, Brann, your load is 1; is a bid of 0.35…" and "Brann (software agent) to Selka: It holds, Selka: skill 1
+  and the top bid at 0.35. Thanks for checking with…". The camera was placed by the drive; page errors 0, off-host 0.
 - `h4-panel-memory.png`: the Omega Hive panel (the menu's Learn tab), the feed at hive minute 16 with Lio's memory line in italics
   ("That makes 2 routing runs for me today. Last one: Automated Warehouse Aisle (procedural), 00:09 hive time.") and the auditor's
   report with the dispatcher's reply indented under it.
@@ -105,11 +114,14 @@ rule, not a judgement. The learner in the checker is a seeded stand-in.
 - `ohHive({ exchanges, memory, variety })`; speak events carry `exchange: { id, kind, turn, of, with }`, `toAgent`, `floor: { startMs,
   endMs }` and, for memory, `memory: true`, `count`, `kinds`, `lastSite`, `lastSiteId`, `lastJobId`, `lastAt`, `clock`, `logSeq`.
   AVATARS-HD: start a figure's mouth at `floor.startMs` when voice is off so the two speakers take turns in the world.
-- `ohRecall(chain, agentId, taskType)`, `ohClock(at)`, `ohLineMs(text)`, `OH_FLOOR`, `OH_EXCHANGES`, `OH_TASK_NOUNS`.
+- `ohRecall(chain, agentId, taskType)`, `ohClock(at)`, `ohLineMs(text)`, `OH_FLOOR`, `OH_EXCHANGES`, `OH_TASK_NOUNS`,
+  `OH_QUESTION_COOLDOWN`; Spanish: `OH_CORES_TALK_ES`, `OH_SECOND_ES`, `OH_TASK_NOUNS_ES` in `OH_PACKS.es` (memory events carry `taskType`).
 - `h4MountHiveTab(root, { seed, steps })`; the portrait is `aaPortraitImg` (swap in AVATARS-HD's export when it lands).
 
 ## Left
 
-- Spanish has no talk cores: an exchange falls back to the round-3 line and no memory line is said.
-- The steward's repetition (above); the tab replays a seeded day rather than reading the learner's own hive.
+- The Spanish talk lines are machine-assisted and need a native speaker's review, like the rest of the Spanish pack.
+- A pad can repeat across the sentences of one line (the round-3 grammar does the same); the padding could skip pads already used in
+  the line.
+- The tab replays a seeded day rather than reading the learner's own hive.
 - Dist bundles were rebuilt for the drive and are not committed. The `check_hive4` baseline row is an estimate.
