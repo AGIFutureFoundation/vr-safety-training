@@ -150,7 +150,7 @@ function raWrapClone(m, sc) { const mm = { ...m, scenario: sc }; return { policy
 
 /** Build (or fetch) the model behind `modelId` for `sc`; returns { policyFor(seed), hash, size } or null when n/a. */
 export function raBuild(modelId, sc, { station = null, lmOptions = {} } = {}) {
-  const key = `${modelId}|${sc}`;
+  const key = modelId === "ra-lm" ? `${modelId}|${sc}|${lmOptions.blankText ? "blank" : "text"}|${lmOptions.stationFor ? "stations" : "gym"}` : `${modelId}|${sc}`;
   if (RA_CACHE.has(key)) return RA_CACHE.get(key);
   const st = raIsStation(sc);
   let out = null;
@@ -162,8 +162,13 @@ export function raBuild(modelId, sc, { station = null, lmOptions = {} } = {}) {
   else if (modelId === "dagger-r1" || modelId === "dagger-r3") { if (!st) out = raWrapClone(raDagger(sc, modelId === "dagger-r1" ? 1 : 3), sc); }
   else if (modelId === "step-reward") { if (!st) out = raWrapClone(raStepReward(sc), sc); }
   else if (modelId === "ra-lm") {
-    const m = raLmTrain({ station, ...lmOptions, demosFor: (b) => raDemos(b, raIsStation(b) ? station : null).demos });
-    out = m ? { policyFor: () => raLmPolicy(m, sc), hash: colHash(m.w), size: m.w.length, model: m } : null;
+    // One model for every task (cached once): `lmOptions.texts` (raLmTaskTexts) is required, `stationFor(sc)` adds the
+    // station tasks, `consented` hands in consented takes, `blankText` is the ablation. Without texts it is not applicable.
+    const { stationFor = null, ...rest } = lmOptions;
+    const mkey = `ra-lm|model|${rest.blankText ? "blank" : "text"}|${stationFor ? "stations" : "gym"}`;
+    if (!RA_CACHE.has(mkey)) RA_CACHE.set(mkey, raLmTrain({ ...rest, station: !!stationFor, demosFor: (b) => raDemos(b, raIsStation(b) ? stationFor?.(b) ?? null : null).demos }));
+    const m = RA_CACHE.get(mkey);
+    out = m && (m.labelsByTask[sc] || m.labelsByTask[colBase(sc)]) ? { policyFor: () => raLmPolicy(m, sc), hash: colHash(m.w), size: m.params, model: m } : null;
   } else throw new Error(`raRun: unknown model ${modelId}`);
   RA_CACHE.set(key, out);
   return out;
