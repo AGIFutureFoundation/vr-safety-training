@@ -85,3 +85,36 @@ round on `rb-port-gantry#hard` (round 0 0.717, as published; round 1 **0.583**) 
 - It is developed on training seeds 101–130. Then it is measured once on the supplement's seeds 1–3 (the eval's "N of 3")
   and once on 7061–7120.
 - k is fixed here. A bug fix found on the training seeds is written in the Cycles. k and the rule's form do not change.
+
+## Amended before running (written 16:20 UTC; still before any run on 7061–7120 or on seeds 1–3)
+
+Both amendments come from training-side evidence only: the synthetic pairs, and training seeds 101–130. No held-out seed and
+none of seeds 1–3 had been run. They replace the rules above where they differ. I am stating them because the declaration
+above promised the rule's form would not change.
+
+**Item 1, the oversampling rule.** The rule above draws only from pair i's own two runs. It gave a broken rule in only
+**23 of 200** pairs on AMR and **48 of 200** on AMR hard: only 19 and 39 of the 100 even pairs had a rule-broken step in
+either run. That is far from "about half". The amended rule:
+- For an even i, window A starts 0, 1 or 2 steps before a rule-broken step drawn uniformly from every rule-broken step of the
+  400 synthetic runs (ROBOTRAIN-6's 200 pairs × 2 runs, the same synthetic runs). Window B starts uniformly in run b of
+  pair i.
+- For an odd i, both windows start uniformly in pair i's runs, as in ROBOTRAIN-7.
+- The generator stays `rng(seed·7907 + 31)`. Measured on the pairs (training side): a broken rule in **104 of 200** pairs on
+  AMR and **105 of 200** on AMR hard. The threshold (P < 0.25), the arms A/B/C and the baselines are unchanged.
+
+**Item 4, the reactive agent.** On training seeds 101–130 the declared rule changed nothing: 16/30, the same 14 runs at
+the step cap. The traces showed two stalls.
+- **12 of the 14 were a pallet dead end, not robots blocking each other.** A robot entered (1, y) with the pallet at (2, y).
+  It then had shelves or the grid edge on both sides, and ROBOTRAIN-7's pallet rule had no side to step to. Amendment: the
+  pallet rule looks **two cells ahead** in the robot's row, not one, so the robot changes rows in column 0 before it enters
+  the dead end.
+- **The other stalls were head-on blocks in column 5** (seeds 101, 111 and 113). The declared rule never counted them: the
+  "first productive cell" was a shelf, so no robot stood on it. Two amendments:
+  - The first productive cell is the first productive move whose cell is open floor (inside, no shelf, no pallet).
+  - Only a robot that moves **later in the move order** than its blocker, or one blocked by a parked robot, steps aside. In a
+    mutual block, if both stepped aside at once they would come back to the same block.
+- k = 3 and the right-angle sidestep are unchanged.
+- After the amendments, training seeds 101–130 give **29/30**, 0 violations and 19.1 mean steps. The one failure (seed 123)
+  is a robot at (7, 3) bound for (8, 6). A parked robot holds (8, 3) and both side cells are shelves, so it has no right-angle
+  cell to step to. It is left as it is.
+- It is then measured once on seeds 1–3 and once on 7061–7120, as declared.
