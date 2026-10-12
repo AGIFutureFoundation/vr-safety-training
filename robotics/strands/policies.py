@@ -11,7 +11,14 @@ The models are this repository's own, trained here (ra-arena.js) and exported to
     bc, dagger-r1, dagger-r3   k-nearest-neighbour behaviour clones (same distance, tie order and vote as COLEARN)
     ra-lm                      the small language-conditioned model trained here (a masked softmax over the task's
                                own text x scene features; not a large language model). The user's instruction picks
-                               the scenario (harness.py); the model reads the scenario's task-text vector.
+                               the scenario (harness.py); the model reads the scenario's task-text vector. The
+                               gym-only build (texts without the station suite).
+    ra-lm@stations             the same model as the arena publishes it: texts with the stations' step and hazard
+                               texts, trained on the six gym tasks and the three station tasks. On a station the
+                               instruction vector follows the drill step (``text_keys`` from the bridge).
+    ra-lm-h                    ARENA-2's ra-lm-h (one declared change: a hidden layer h = tanh(V.[s,1]) between the
+                               scene and the same bilinear head; on a station a pending interruption's own text is
+                               added to the instruction), in the arena's published build (stations).
     expert                     the scripted expert, an upper bound. It reads the simulator's own state, so the
                                adapter asks the bridge to run it ({"expert": true}); it has no weights.
     random                     a seeded random policy over the scenario's action space (Python's own generator, so
@@ -157,13 +164,49 @@ class KnnClonePolicy(_Adapter):
 
 
 class SmallLmPolicy(_Adapter):
-    """The small language-conditioned model trained here (not a large language model), from exported weights."""
+    """The small language-conditioned model trained here (not a large language model), from exported weights.
+
+    ``SmallLmPolicy()`` is the gym-only ra-lm; ``SmallLmPolicy("ra-lm", "stations")`` the arena's published build;
+    ``SmallLmPolicy("ra-lm-h", "stations")`` ra-lm-h (hidden layer). The file's ``build`` field says which."""
 
     model_id = "ra-lm"
 
-    def __init__(self) -> None:
+    def __init__(self, model_id: str = "ra-lm", build: str = "gym") -> None:
         super().__init__()
-        self.m = _load("ra-lm.json.gz")
+        self.build = build
+        self.model_id = model_id if build == "gym" else f"{model_id}@{build}" if model_id == "ra-lm" else model_id
+        self.m = _load("ra-lm.json.gz" if (model_id, build) == ("ra-lm", "gym") else f"{model_id}@{build}.json.gz")
+        self.H = int(self.m.get("H") or 0)
+        self.V = self.m.get("V")
+
+    def _hidden(self, s: List[float]) -> List[float]:
+        """[tanh(V.[s,1]), 1], the same summation order as ra-lm.js raLmHidden."""
+        if not self.H:
+            return s
+        V, Sin, h = self.V, len(s), []
+        for j in range(self.H):
+            u, o = 0.0, j * Sin
+            for c in range(Sin):
+                u += V[o + c] * s[c]
+            h.append(math.tanh(u))
+        h.append(1.0)
+        return h
+
+    def _t(self, sc: str, base: str, obs: Dict[str, Any]) -> List[float]:
+        """The instruction vector: the task's, or on a station the exported (step, interrupt) vector (raLmT)."""
+        t = self.m["taskVectors"].get(sc) or self.m["taskVectors"][base]
+        combos = (self.m.get("tCombos") or {}).get(sc)
+        tk = obs.get("text_keys")
+        if not combos or not tk:
+            return t
+        step, intr = tk.get("stepId") or "", tk.get("interruptId") or ""
+        key = f"{step}|{intr}"
+        if key in combos:
+            return combos[key]
+        # A step or interruption the model has no text for counts as absent (raLmT adds nothing for it).
+        sk = step if f"{step}|" in combos else ""
+        ik = intr if f"|{intr}" in combos else ""
+        return combos.get(f"{sk}|{ik}", t)
 
     def _scene(self, x: List[float]) -> List[float]:
         D = self.m["D"]
@@ -194,9 +237,10 @@ class SmallLmPolicy(_Adapter):
         mask = [labels.index(l) for l in self.m["labelsByTask"].get(task, [])]
         if not mask:
             return [{"type": "wait"}]
-        t = self.m["taskVectors"].get(sc) or self.m["taskVectors"][base]
+        t = self._t(sc, base, observation_dict)
 
-        def pick(s: List[float]) -> str:
+        def pick(s0: List[float]) -> str:
+            s = self._hidden(s0)
             best, bl = -math.inf, -1
             for l in mask:
                 v = self._logit(l, t, s)
@@ -238,11 +282,23 @@ class RandomPolicy(_Adapter):
     def begin_episode(self, scenario: str, seed: int) -> None:
         super().begin_episode(scenario, seed)
         self.R = random.Random(int(seed) * 9973 + 5)
+        self.ids: List[str] = []
 
     async def get_actions(self, observation_dict: Dict[str, Any], instruction: str, **kwargs) -> List[Dict[str, Any]]:
         R = getattr(self, "R", None) or random.Random(1)
         b = _base(observation_dict.get("scenario") or self.scenario or "")
         r3 = lambda v: round(v, 3)  # noqa: E731
+        if b.startswith("rb-station-"):
+            # The station's hit targets come with the reset observation (bridge `ids`), as colRandomPolicy's `ids`.
+            if observation_dict.get("ids"):
+                self.ids = list(observation_dict["ids"])
+            t = R.choice(["select", "select", "press", "release", "wait", "commit", "drop"])
+            i = R.choice(getattr(self, "ids", None) or ["none"])
+            if t == "commit":
+                return [{"type": t, "id": i, "at": r3(R.random())}]
+            if t == "drop":
+                return [{"type": t, "id": i, "distance": r3(R.random())}]
+            return [{"type": t}] if t in ("wait", "release") else [{"type": t, "id": i}]
         if b == "rb-teleop-pick-place":
             t = R.choice(["move", "move", "move", "grip", "release"])
             if t == "move":
@@ -272,7 +328,9 @@ def strands_mock_policy() -> Optional[Any]:
         return None
 
 
-POLICY_IDS = ["random", "bc", "dagger-r1", "dagger-r3", "ra-lm", "expert"]
+POLICY_IDS = ["random", "bc", "dagger-r1", "dagger-r3", "ra-lm", "ra-lm@stations", "ra-lm-h", "expert"]
+# The policies that apply on the three robot stations (the DAgger clones are gym-only in the arena, raModels gymOnly).
+STATION_POLICY_IDS = ["random", "bc", "ra-lm@stations", "ra-lm-h", "expert"]
 
 
 def load_policy(policy_id: str) -> Any:
@@ -281,6 +339,10 @@ def load_policy(policy_id: str) -> Any:
         return KnnClonePolicy(policy_id)
     if policy_id == "ra-lm":
         return SmallLmPolicy()
+    if policy_id == "ra-lm@stations":
+        return SmallLmPolicy("ra-lm", "stations")
+    if policy_id in ("ra-lm-h", "ra-lm-h@stations"):
+        return SmallLmPolicy("ra-lm-h", "stations")
     if policy_id == "expert":
         return ScriptedExpertPolicy()
     if policy_id == "random":

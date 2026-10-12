@@ -23,8 +23,14 @@
  *   {"op":"bye"}                                     -> { ok, network } and exit
  *
  * No network: fetch, net, tls, http, https and dgram are replaced at start with functions that throw and count; the
- * count is in every summary (expected 0). No environment variable is read. Station scenarios need the full suite and
- * are refused here with a reason.
+ * count is in every summary (expected 0). No environment variable is read.
+ *
+ * Stations (STRANDS-2): the three rb-station-* scenarios load the headless station suite the first time one is reset,
+ * built exactly as tools/arena_eval.mjs raStations() builds it (that function is imported, not copied). A station
+ * observation adds `text_keys` ({ stepId, interruptId }: the drill step and pending interruption the small model's
+ * instruction vector reads) and, on reset only, `ids` (the station's hit targets, for the random floor).
+ * `js_run` takes `build`: "gym" (the default, task texts without stations: the gym-only ra-lm export) or "stations"
+ * (raTexts() + stationFor, as tools/arena_eval.mjs runs the arena's published ra-lm and ra-lm-h).
  *
  *     printf '{"op":"reset","scenario":"rb-teleop-pick-place","seed":1}\n{"op":"step","action":{"expert":true}}\n' | node tools/ra_bridge.mjs
  */
@@ -53,7 +59,13 @@ const { VB_RIG_LIMITS, VB_TASKS } = await import("../WebXR/shared/vb-shared-data
 const { raSiteFor, raScenarios, raRun } = await import("../WebXR/shared/ra-arena.js");
 const { raLmTaskTexts } = await import("../WebXR/shared/ra-lm.js");
 
-export const ST_BRIDGE_VERSION = "st-bridge/1";
+export const ST_BRIDGE_VERSION = "st-bridge/2";
+let stEnvsP = null;
+/** The station environments (raStations from tools/arena_eval.mjs, the arena's own construction), loaded once. */
+function stEnvs() {
+  if (!stEnvsP) stEnvsP = import("./arena_eval.mjs").then(async (m) => ({ envs: await m.raStations(), texts: m.raTexts() }));
+  return stEnvsP;
+}
 const r3 = (n) => Math.round(n * 1000) / 1000;
 const isStation = (sc) => String(sc).startsWith("rb-station-");
 
@@ -66,6 +78,7 @@ function stObs(sc, obs, t) {
   const out = { scenario: sc, t, feature_names: F.names };
   if (base === "rb-amr-fleet-routing") out.robots = F.perRobot(obs).map((r) => (r.delivered ? null : r.f));
   else out.features = F.of(obs);
+  if (isStation(sc)) out.text_keys = { stepId: obs.stepId ?? null, interruptId: obs.interrupt?.id ?? null };
   if (base === "rb-teleop-pick-place") {
     const e = obs.effector ?? [0, 0, 0];
     out.state = { "ee.x": e[0], "ee.y": e[1], "ee.z": e[2], "gripper.pos": obs.carrying ? 1 : 0 };
@@ -73,18 +86,21 @@ function stObs(sc, obs, t) {
   return out;
 }
 
-function stReset({ scenario, seed }) {
+async function stReset({ scenario, seed }) {
   const sc = String(scenario ?? "");
   if (!rbScenario(sc)) return { ok: false, error: `unknown scenario ${sc}` };
-  if (isStation(sc)) return { ok: false, error: `${sc} is a catalog station: it needs the full station suite, which this bridge does not load` };
+  const station = isStation(sc) ? (await stEnvs()).envs[sc] ?? null : null;
+  if (isStation(sc) && !station) return { ok: false, error: `${sc}: the headless station suite has no such station` };
   const s = Number(seed) >>> 0;
   const site = raSiteFor(sc), lim = site ? VB_RIG_LIMITS[site.rig] : null;
-  const env = rbEnv(sc, { seed: s });
+  const env = rbEnv(sc, { seed: s, station });
   const obs = env.reset(s);
   const R = rng(s * 2654435761 + 1);
   const job = { jobId: `ra-${sc}-${s}`, siteId: site?.id ?? "none", speed: lim ? r3(lim.maxSpeed * 0.5) : 0, nearestPersonM: 8, target: { kind: "sim" } };
   ep = { sc, seed: s, env, obs, R, gov: vbGovernor(), job, i: 0, steps: 0, checked: 0, ruleBreaks: 0, physical: 0, stop: null, done: false };
-  return { ok: true, obs: stObs(sc, obs, 0), maxSteps: env.scenario.maxSteps, siteId: job.siteId, physical: 0 };
+  const o0 = stObs(sc, obs, 0);
+  if (station) o0.ids = Object.keys(station.api?.hits ?? {});
+  return { ok: true, obs: o0, maxSteps: env.scenario.maxSteps, siteId: job.siteId, physical: 0 };
 }
 
 function stDecode(a) {
@@ -133,16 +149,19 @@ function stCheck(c) {
   return { ok: true, decision: d.decision, reasons: d.reasons, primary: d.primary, text: d.text, physical: 0 };
 }
 
-function stJsRun({ model, scenario, seeds }) {
-  // ra-lm: the gym-only build, the same one tools/ra_export_weights.mjs exports (task texts without the station suite).
-  const lmOptions = String(model) === "ra-lm" ? { texts: raLmTaskTexts(() => null) } : {};
-  const r = raRun({ modelId: String(model), scenarioId: String(scenario), seeds: (seeds ?? []).map(Number), lmOptions });
-  return { ok: true, result: { ...r, perSeed: r.perSeed.map((p) => ({ seed: p.seed, success: p.success, steps: p.steps, ruleBreaks: p.ruleBreaks, stopped: p.stopped })) } };
+async function stJsRun({ model, scenario, seeds, build = "gym" }) {
+  // build "gym": ra-lm's gym-only build (task texts without the station suite), as robotics/strands/weights/ra-lm.json.gz.
+  // build "stations": the arena's published build (raTexts() + stationFor), as tools/arena_eval.mjs runs ra-lm and ra-lm-h.
+  const sc = String(scenario), lm = String(model).startsWith("ra-lm");
+  const st = build === "stations" || isStation(sc) ? await stEnvs() : null;
+  const lmOptions = !lm ? {} : build === "stations" ? { texts: st.texts, stationFor: (x) => st.envs[x] ?? null } : { texts: raLmTaskTexts(() => null) };
+  const r = raRun({ modelId: String(model), scenarioId: sc, seeds: (seeds ?? []).map(Number), station: isStation(sc) ? st.envs[sc] : null, lmOptions });
+  return { ok: true, build, result: { ...r, perSeed: r.perSeed.map((p) => ({ seed: p.seed, success: p.success, steps: p.steps, ruleBreaks: p.ruleBreaks, stopped: p.stopped })) } };
 }
 
-function stHandle(msg) {
+async function stHandle(msg) {
   switch (msg.op) {
-    case "hello": return { ok: true, version: ST_BRIDGE_VERSION, scenarios: raScenarios().filter((s) => s.kind === "gym").map((s) => s.id), physical: 0 };
+    case "hello": return { ok: true, version: ST_BRIDGE_VERSION, scenarios: raScenarios().map((s) => s.id), physical: 0 };
     case "reset": return stReset(msg);
     case "step": return stStep(msg);
     case "summary": return stSummary();
@@ -154,10 +173,14 @@ function stHandle(msg) {
 }
 
 const rl = createInterface({ input: process.stdin, terminal: false });
+let stChain = Promise.resolve();
 rl.on("line", (line) => {
   if (!line.trim()) return;
-  let out;
-  try { out = stHandle(JSON.parse(line)); } catch (e) { out = { ok: false, error: String(e?.message ?? e) }; }
-  process.stdout.write(JSON.stringify(out) + "\n");
-  if (out.bye) process.exit(0);
+  // One request at a time, in order (a station reset awaits the suite's first load).
+  stChain = stChain.then(async () => {
+    let out;
+    try { out = await stHandle(JSON.parse(line)); } catch (e) { out = { ok: false, error: String(e?.message ?? e) }; }
+    process.stdout.write(JSON.stringify(out) + "\n");
+    if (out.bye) process.exit(0);
+  });
 });

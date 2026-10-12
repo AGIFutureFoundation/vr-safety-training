@@ -5,16 +5,21 @@
  *      physical 0; serial and camera never opened (patched); hardware refused with the governor's reason; deterministic
  *      for a seed; the Python adapters reproduce raRun; compare rows valid; the sample runs; no credential read from the
  *      environment; network 0
- *   2. the exported weights match a fresh build (node tools/ra_export_weights.mjs --check)
+ *   2. the exported weights match a fresh build (node tools/ra_export_weights.mjs --check; STRANDS-2: with the station
+ *      clones, ra-lm@stations and ra-lm-h@stations)
  *   3. docs/evals/strands.json: rows in arena.json's shape with Wilson intervals, physical 0, every step governor-checked;
  *      a heldOut block only after both declarations, and its declaration commit is an ancestor of the results commit
  *   4. honesty in code and docs: no import of a strands_harness package; the docs say it does not exist, simulated only,
  *      no hosted model; no environment read in the bridge; no model identifier
  *   5. wiring: check_all lists this checker, an estimated baseline row, CI sets up Python 3
+ *   6. STRANDS-2: the LeRobot-style JSONL exporter (robotics/strands/lerobot_jsonl.py, standard library only) on the
+ *      committed sample and on the full set (node tools/ra_dataset.mjs --full into a temp dir): round-trip counts equal
+ *      index.json's, every row valid, leakage 0
  * Run: node tools/check_strands.mjs
  */
-import { readFileSync, existsSync, readdirSync } from "node:fs";
+import { readFileSync, existsSync, readdirSync, mkdtempSync, rmSync } from "node:fs";
 import { dirname, join } from "node:path";
+import { tmpdir } from "node:os";
 import { fileURLToPath } from "node:url";
 import { execFileSync } from "node:child_process";
 
@@ -42,7 +47,9 @@ check("python3 robotics/strands/selftest.py passes with no third-party package",
 });
 const need = ["no third-party package imported", "physical dispatches 0", "serial ports and cameras never opened", "hardware refused (port)", "hardware refused (physical)",
   "guards are live (credential read, device open, socket, serial use each caught when tripped)", "deterministic for a seed", "Python adapters reproduce raRun per seed", "compare rows valid (arena.json row shape, Wilson 95%)", "the sample runs",
-  "no API key or credential read from the environment", "network calls 0 (Python sockets and the bridge)", "policies runnable through the Policy interface", "every step governor-checked"];
+  "no API key or credential read from the environment", "network calls 0 (Python sockets and the bridge)", "policies runnable through the Policy interface", "every step governor-checked",
+  // STRANDS-2: stations through the bridge, the arena's published ra-lm build and ra-lm-h
+  "station scenarios through the bridge", "station parity with raRun per seed", "published ra-lm build and ra-lm-h reproduce raRun on the gym scenarios", "seed gate: stations dev only, protocol-3 seeds refused"];
 for (const n of need) check(`selftest: ${n}`, () => { const r = st?.results.find((x) => x.check === n); assert(r, "missing"); assert(r.ok, r.detail); return r.detail?.slice(0, 90); });
 
 // 2. weights
@@ -57,7 +64,7 @@ check("exported weights match a fresh build", () => {
 const ROW = ["rank", "modelId", "scenarios", "episodes", "success", "ci95", "ruleBreaks", "ruleBreaksPerEpisode", "meanSteps", "stops", "governorChecked", "physical", "perScenario"];
 check("docs/evals/strands.json rows valid, physical 0, every step governor-checked", () => {
   const d = JSON.parse(read("docs/evals/strands.json"));
-  const blocks = ["dev", "heldOut"].filter((b) => d[b]);
+  const blocks = ["dev", "devStations", "heldOut"].filter((b) => d[b]);
   assert(d.dev, "no dev block");
   for (const b of blocks) {
     for (const r of d[b].leaderboard) {
@@ -68,6 +75,7 @@ check("docs/evals/strands.json rows valid, physical 0, every step governor-check
     assert(t.physical === 0 && t.stepsRun === t.stepsChecked && t.networkBlocked === 0 && t.auditChainsOk, `${b} totals`);
   }
   if (d.dev) assert(d.dev.results.every((r) => r.perSeed.every((p) => p.seed >= 1 && p.seed <= 20)), "dev seeds outside 1-20");
+  if (d.devStations) assert(d.devStations.results.every((r) => r.scenarioId.startsWith("rb-station-") && r.perSeed.every((p) => p.seed >= 1 && p.seed <= 20)), "devStations: a non-station row or a seed outside 1-20");
   return blocks.map((b) => `${b}: ${d[b].leaderboard.length} rows, ${d[b].totals.episodes} episodes`).join("; ");
 });
 check("held-out rows only after both declarations were committed", () => {
@@ -122,6 +130,30 @@ check("check_all lists check_strands, estimated baseline row, CI sets up Python 
   const b = JSON.parse(read("docs/perf/checkers-baseline.json"));
   assert(JSON.stringify(b).includes("check_strands.mjs") && /ESTIMATE/.test(JSON.stringify(b).split("check_strands.mjs").slice(-1)[0].slice(0, 300)), "baseline row");
   assert(/setup-python/.test(read(".github/workflows/webxr-checks.yml")), "CI python");
+});
+
+// 6. the LeRobot-style JSONL exporter
+const lrRun = (args) => { let out; try { out = execFileSync("python3", ["robotics/strands/lerobot_jsonl.py", "--check", ...args], { cwd: ROOT, encoding: "utf8", env: ENV, timeout: 300000 }); } catch (e) { out = e.stdout ?? ""; } return JSON.parse(out.trim().split("\n").pop()); };
+check("LeRobot-style JSONL exporter: committed sample round-trips, rows valid, leakage 0", () => {
+  const tmp = mkdtempSync(join(tmpdir(), "st2-lr-"));
+  try { const r = lrRun(["exports/robotics/arena", join(tmp, "out"), "--sample"]); assert(r.ok, r.problems.join("; ")); return `${r.episodes} episodes, ${r.frames} frames, rows ${r.rowsValid}, leakage ${r.leakage}`; }
+  finally { rmSync(tmp, { recursive: true, force: true }); }
+});
+check("LeRobot-style JSONL exporter: full set counts equal index.json, rows valid, leakage 0", () => {
+  const tmp = mkdtempSync(join(tmpdir(), "st2-lr-"));
+  try {
+    execFileSync("node", ["tools/ra_dataset.mjs", "--full", "--out", join(tmp, "ds")], { cwd: ROOT, encoding: "utf8", env: ENV, timeout: 300000 });
+    const r = lrRun([join(tmp, "ds"), join(tmp, "out")]); assert(r.ok, r.problems.join("; "));
+    return `${r.episodes} episodes, ${r.frames} frames, ${r.scenarios} scenarios, rows ${r.rowsValid}, leakage ${r.leakage}`;
+  } finally { rmSync(tmp, { recursive: true, force: true }); }
+});
+check("the exporter takes no new dependency", () => {
+  const s = read("robotics/strands/lerobot_jsonl.py");
+  const mods = [...s.matchAll(/^\s*(?:from|import)\s+([a-zA-Z_][\w.]*)/gm)].map((m) => m[1].split(".")[0]);
+  const std = new Set(["__future__", "json", "re", "shutil", "sys", "pathlib", "typing"]);
+  const extra = mods.filter((m) => !std.has(m));
+  assert(!extra.length, `imports ${extra.join(", ")}`);
+  return `imports: ${[...new Set(mods)].join(", ")}`;
 });
 
 console.log(`\ncheck_strands: ${passes} pass, ${failures} fail (${((Date.now() - t0) / 1000).toFixed(1)} s)`);

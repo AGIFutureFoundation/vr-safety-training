@@ -1,6 +1,6 @@
 # strands-robots and this repository's simulated robots
 
-STRANDS, loop 10 round 7. Code: `robotics/strands/` (Python 3.11, standard library only, numpy optional), `tools/ra_bridge.mjs`, `tools/ra_export_weights.mjs`. Check: `node tools/check_strands.mjs`, which runs `python3 robotics/strands/selftest.py`.
+STRANDS, loop 10 round 7; stations, the arena's published ra-lm build, ra-lm-h and a LeRobot-style JSONL exporter added by STRANDS-2 in round 8. Code: `robotics/strands/` (Python 3.11, standard library only, numpy optional), `tools/ra_bridge.mjs`, `tools/ra_export_weights.mjs`. Check: `node tools/check_strands.mjs`, which runs `python3 robotics/strands/selftest.py`.
 
 ## What strands-robots is
 
@@ -18,7 +18,7 @@ Its interface, as read from 0.3.8:
 - **No hosted model.** By default a Strands `Agent` calls a hosted model, which needs credentials. Nothing here builds an Agent or calls any model service. The harness picks a scenario from the instruction with a fixed rule table, not a language model. The bridge is started with `PATH` as its only environment variable. The selftest guards `os.environ` and finds no credential-like read.
 - **strands-robots is not installed.** `policies.py` subclasses `strands_robots.policies.Policy` when the package can be imported. Otherwise it uses an identical local abstract base, and `POLICY_BASE` says which (here: the local base). `strands_robots.MockPolicy` runs through the same adapter path when installed. Here it is skipped and the checks report it as skipped.
 - **One scratch check against the real class.** This was not installed, not committed and not part of CI. We loaded only the wheel's `strands_robots/policies/__init__.py` (standard library plus numpy) by file path, so the package's own `__init__`, which imports lerobot, never ran. With it, `POLICY_BASE` read `strands_robots.policies.Policy (importable)`, and all 6 adapters were subclasses of the real `Policy`. bc and ra-lm gave the same results as with the local base (so100, seeds 1–3: 2 of 3 each). The real `MockPolicy` then ran on the simulated arm through the joint-key mapping: 0 of 3 succeeded (two ran to the 400-step cap, one was halted by the governor after a rule break). Physical was 0, every step was governor-checked, and the network count was 0. MockPolicy uses numpy's unseeded generator, so its runs are not deterministic.
-- **The models are this repository's.** They are trained here by `ra-arena.js` on synthetic demonstrations: the behaviour clone, DAgger rounds 1 and 3, the small language-conditioned model (`ra-lm`, a masked softmax over task text × scene features, not a large language model), the scripted expert as an upper bound, and a random floor. The exported `ra-lm` is the gym-only build. The arena's published ra-lm rows also trained on three station tasks.
+- **The models are this repository's.** They are trained here by `ra-arena.js` on synthetic demonstrations: the behaviour clone, DAgger rounds 1 and 3, the small language-conditioned model (`ra-lm`, a masked softmax over task text × scene features, not a large language model), the scripted expert as an upper bound, and a random floor. The exported `ra-lm` is the gym-only build. Round 8 adds `ra-lm@stations`, the build the arena publishes (texts with the three stations' step and hazard texts, trained on the six gym tasks and the three station tasks), and ARENA-2's `ra-lm-h` (the same model plus one declared change, a hidden layer), in that published build. Each weights file states its build.
 
 ## Mapping
 
@@ -31,10 +31,17 @@ Its interface, as read from 0.3.8:
 | `execute` / `start` / `status` / `stop`, `stream(tool_use, ...)` | same four actions; `stream` yields one result dict | |
 | `robot.get_observation()` | bridge `obs`: `features` (COLEARN's named scene features) or `robots` (AMR, per robot); `state` on the arm (`ee.x`, `ee.y`, `ee.z`, `gripper.pos`) | |
 | `robot.send_action(action_dict)` | bridge `step`: an env action, `{label, params}`, `{moves}` (AMR) or `{expert: true}` | a joint-key dict (MockPolicy) maps to a move/grip on the arm |
-| `Policy` | `KnnClonePolicy` (bc, dagger-r1, dagger-r3), `SmallLmPolicy` (ra-lm), `ScriptedExpertPolicy`, `RandomPolicy` | weights from `tools/ra_export_weights.mjs` |
+| `Policy` | `KnnClonePolicy` (bc, dagger-r1, dagger-r3), `SmallLmPolicy` (ra-lm, ra-lm@stations, ra-lm-h), `ScriptedExpertPolicy`, `RandomPolicy` | weights from `tools/ra_export_weights.mjs` |
+| (no equivalent) | the three robot stations: `cobot` → `rb-station-cobot`, `amr` → `rb-station-amr-fleet`, `cell` → `rb-station-robot-cell` | the bridge loads the headless station suite with `tools/arena_eval.mjs` `raStations()`; station observations add `text_keys` (drill step, pending interruption) |
 | safety | VBRIDGE governor `monitor()` on every step in the bridge, as `raEpisode` | `physical: 0` on every reply; network calls blocked and counted (0) |
 
 The Python adapters reproduce the arena's own `raRun` per seed: the same success, steps and rule breaks for bc, dagger-r1, ra-lm and the expert on all four robot types (16 of 16 on seeds 1–3 in the selftest; also checked on seeds 1–5 during the build). Each exported clone's content hash equals `raBuild`'s.
+
+Round 8 (STRANDS-2), on development seeds 1–3:
+
+- **Stations.** bc, ra-lm@stations, ra-lm-h and the expert reproduce `raRun` on all three robot stations: 12 of 12 (model × station). The station clones' hashes equal `raBuild`'s.
+- **The published ra-lm build and ra-lm-h on the gym scenarios.** 8 of 8 (two models × four robot types) in the selftest, and 12 of 12 including the two hard variants during the build. The instruction vector on a station follows the drill step (and, for ra-lm-h, a pending interruption's text). The exporter writes those vectors with `raLmT`'s own arithmetic (`tCombos`), so Python does not re-normalise them. ra-lm-h's `tanh` is Python's `math.tanh`; no argmax flipped on these seeds.
+- On these seeds the station episodes have the same length for every seed (for example 279 steps on the cobot station for bc). The stations appear to vary little with the seed, so three station seeds are weak evidence.
 
 ## Results (docs/evals/strands.json)
 
@@ -49,6 +56,8 @@ The Python adapters reproduce the arena's own `raRun` per seed: the same success
 | ra-lm (gym-only build) | 0.692 [0.604, 0.767] | 0.733 [0.685, 0.776] |
 | random | 0.000 [0.000, 0.031] | 0.003 [0.000, 0.016] |
 
+Stations (`devStations`, dev seeds 1–3, 9 episodes per policy): bc 1.000 [0.701, 1]; expert 1.000 [0.701, 1]; ra-lm-h 1.000 [0.701, 1]; ra-lm@stations 0.667 [0.354, 0.879] (the cobot station 0 of 3, one rule break in each episode); random 0.000 [0, 0.299]. 10,660 of 10,660 steps were governor-checked, physical 0, network 0. Development seeds only: the stations were not in the held-out declaration, and the seed gate refuses a held-out seed on a station. Round 8's protocol-3 seeds (7241–7300) belong to ROBOLEARN-9; the gate refuses them here.
+
 On the held-out seeds, 97,289 of 97,289 steps were governor-checked, with 0 physical dispatches and 0 network calls. The held-out run used ARENA-2's committed declaration (`docs/evals/arena-declared-r7.json`, 8ea01d3c) and this harness's own declaration (`docs/evals/strands-declared.json`, committed in e38fa35c before the run). It ran once, and the seed gate refuses a second run. The learners' intervals overlap, so no ranking claim is made between them. This run checks the harness: the Python path reproduces the arena. It is not a new model.
 
 ## How an owner with hardware would connect it
@@ -57,7 +66,7 @@ This is outside this repository and not run here. Install strands-robots in the 
 
 ## LeRobot-style dataset mapping (from tools/ra_dataset.mjs)
 
-The arena dataset (`exports/robotics/arena/`, schema `smartcitix.robotics.arena-episode@1`) has one JSONL line per step. In a LeRobot-style episode table, the fields would map like this:
+The arena dataset (`exports/robotics/arena/`, schema `smartcitix.robotics.arena-episode@2` since ARENA-2; station lines carry `step`) has one JSONL line per step. In a LeRobot-style episode table, the fields would map like this:
 
 | ra_dataset field | LeRobot-style field | Note |
 |---|---|---|
@@ -73,4 +82,12 @@ The arena dataset (`exports/robotics/arena/`, schema `smartcitix.robotics.arena-
 | `source`, `consent` | extra columns + dataset card | every line in this version is synthetic, with `consent: null` |
 | (none) | `observation.images.*` | the sim has no cameras |
 
-No exporter was written. LeRobot's own format stores tables in Parquet, which needs a dependency this repository does not take. This table is the mapping only.
+**The exporter (round 8): `robotics/strands/lerobot_jsonl.py`, standard library only.** LeRobot's own format stores frame tables in Parquet, which needs a dependency this repository does not take. So the exporter writes LeRobot's layout with JSON Lines in place of Parquet: `meta/info.json`, `meta/tasks.jsonl`, `meta/episodes.jsonl`, `meta/actions.jsonl` and `data/chunk-000/episode_NNNNNN.jsonl`. It is LeRobot-style, and LeRobot's loader will not read it as it is. Frame fields: `index`, `episode_index`, `frame_index`, `timestamp` (stations: `t` × 0.05 s; the gym games are turn-based, so `timestamp` = `frame_index`), `task_index`, `observation.state` (AMR: the robots' vectors concatenated, a delivered robot zero-filled, plus `observation.robots_active`), `action` (the env action as taken), `action.label` and `action.index` (a per-scenario table), `next.reward`, `next.done`, `rules.unsafe`, `rules.outcome`, `station.step`, `source`, `consent` and `split`.
+
+```
+node tools/ra_dataset.mjs --full --out /tmp/ds        # the full set, outside the repo
+python3 robotics/strands/lerobot_jsonl.py --check /tmp/ds /tmp/ds-lerobot
+python3 robotics/strands/lerobot_jsonl.py --check exports/robotics/arena /tmp/sample-lerobot --sample
+```
+
+The check compares the read-back with `index.json`. Full set: 441 of 441 episodes and 35,102 of 35,102 frames, per split and scenario. Every row has the documented fields, and leakage is 0: no episode is in two splits, and none comes from an arena held-out seed (7121–7300). The committed sample gives 21 episodes and 761 frames. `check_strands` runs both.

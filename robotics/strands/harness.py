@@ -12,6 +12,10 @@ the instruction picks a scenario by a fixed rule table, and the policy runs on t
 intervals) to docs/evals/strands.json. Development seeds 1-20 always; the held-out seeds 7181-7240 only through
 ARENA-2's committed declaration (docs/evals/arena-declared-r7.json) and this harness's own committed declaration
 (docs/evals/strands-declared.json), and only once.
+
+Stations (STRANDS-2): the three robot stations run through the same bridge on development seeds only (the arena's
+own convention for stations in development is seeds 1-3). They were not in this harness's held-out declaration, so a
+held-out seed on a station is refused. Round 8's protocol-3 seeds 7241-7300 belong to ROBOLEARN-9 and are refused.
 """
 
 from __future__ import annotations
@@ -42,11 +46,29 @@ RULES: List[Dict[str, Any]] = [
     {"scenario": "rb-port-gantry", "words": ["container", "gantry", "bay", "crane", "spreader", "stack"]},
 ]
 HARD_WORDS = ["hard", "busy", "harder"]
+# Station rules: checked first when the instruction names a station or a drill.
+STATION_WORDS = ["station", "drill"]
+STATION_RULES: List[Dict[str, Any]] = [
+    {"scenario": "rb-station-robot-cell", "words": ["lockout", "re-entry", "reentry", "robot cell", "cell"]},
+    {"scenario": "rb-station-amr-fleet", "words": ["amr", "fleet", "traffic", "warehouse"]},
+    {"scenario": "rb-station-cobot", "words": ["cobot", "risk assessment", "separation", "speed-and-separation"]},
+]
+STATION_DEV_SEEDS = [1, 2, 3]
+PROTOCOL3_SEEDS = list(range(7241, 7301))
 
 
 def pick_scenario(instruction: str, tool: Optional[SimRobot] = None) -> Dict[str, Any]:
     """The scenario for an instruction by the rule table; restricted to what ``tool`` runs when given."""
     text = " " + re.sub(r"[^a-z0-9\- ]", " ", str(instruction).lower()) + " "
+    if any(f" {w}" in text for w in STATION_WORDS):
+        for i, rule in enumerate(STATION_RULES):
+            hit = [w for w in rule["words"] if f" {w}" in text]
+            if not hit:
+                continue
+            sc = rule["scenario"]
+            if tool is not None and sc not in tool.scenarios:
+                return {"scenario": None, "rule": f"station-{i}", "matched": hit, "refused": f"{tool.robot_type} does not run {sc} (it runs {', '.join(tool.scenarios)})"}
+            return {"scenario": sc, "rule": f"station-{i}", "matched": hit, "refused": None}
     for i, rule in enumerate(RULES):
         hit = [w for w in rule["words"] if f" {w}" in text]
         if not hit:
@@ -143,7 +165,7 @@ def leaderboard(results: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
 
 
 def _robot_for(sc: str) -> str:
-    for rt in ("so100", "cobot", "amr", "gantry"):
+    for rt in ("so100", "cobot", "amr", "gantry", "cell"):
         if sc in ROBOT_TYPES[rt]["scenarios"]:
             return rt
     raise ValueError(f"no simulated robot type runs {sc}")
@@ -158,11 +180,17 @@ def _committed(path: str) -> Optional[str]:
         return None
 
 
-def seed_gate(seeds: Sequence[int]) -> Dict[str, Any]:
-    """Development seeds 1-20 always. Held-out 7181-7240 only with both declarations committed and no earlier run."""
+def seed_gate(seeds: Sequence[int], scenarios: Optional[Sequence[str]] = None) -> Dict[str, Any]:
+    """Development seeds 1-20 always. Held-out 7181-7240 only with both declarations committed and no earlier run.
+    Stations: development seeds only (not in the held-out declaration). Protocol-3 seeds 7241-7300: never here."""
     s = set(int(x) for x in seeds)
+    stations = [sc for sc in (scenarios or []) if str(sc).startswith("rb-station-")]
+    if s & set(PROTOCOL3_SEEDS):
+        return {"ok": False, "reason": "seeds 7241-7300 are round 8's protocol-3 held-out seeds; only ROBOLEARN-9 declares and runs them"}
     if s <= set(DEV_SEEDS):
         return {"ok": True, "split": "dev"}
+    if stations:
+        return {"ok": False, "reason": f"station scenarios run on development seeds only ({', '.join(stations)} were not in a held-out declaration)"}
     if s <= set(HELD_OUT):
         a, b = _committed(ARENA_DECLARED), _committed(STRANDS_DECLARED)
         if not a:
@@ -177,9 +205,10 @@ def seed_gate(seeds: Sequence[int]) -> Dict[str, Any]:
 
 
 def compare(policies: Sequence[str], scenarios: Sequence[str], seeds: Sequence[int], *, write: bool = True,
-            path: Path = EVAL_PATH, log=None) -> Dict[str, Any]:
-    """Run every policy on every scenario over the seeds through the simulated robots; leaderboard rows to strands.json."""
-    gate = seed_gate(seeds)
+            path: Path = EVAL_PATH, log=None, block_key: Optional[str] = None) -> Dict[str, Any]:
+    """Run every policy on every scenario over the seeds through the simulated robots; leaderboard rows to strands.json
+    (in the block named by the seed split, or ``block_key``, e.g. "devStations")."""
+    gate = seed_gate(seeds, scenarios)
     if not gate["ok"]:
         raise PermissionError(gate["reason"])
     t0 = time.time()
@@ -224,6 +253,6 @@ def compare(policies: Sequence[str], scenarios: Sequence[str], seeds: Sequence[i
             "governor": "tools/ra_bridge.mjs: vbGovernor.monitor on every step, as ra-arena.js raEpisode (seeded safe simulated job, a broken rule halts with a protective stop); target always the simulator",
             "honesty": "simulated only; no strands_harness package exists (create_harness is this repo's); no hosted or large language model; strands-robots not installed; ra-lm is the gym-only build of the small model trained here",
         })
-        doc[gate["split"]] = block
+        doc[block_key or gate["split"]] = block
         path.write_text(json.dumps(doc, indent=1, ensure_ascii=False) + "\n")
     return block

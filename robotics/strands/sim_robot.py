@@ -9,8 +9,13 @@ Robot types (generic, by kind; no product is simulated):
 
     so100, so100_follower, so101, so101_follower  -> the arena's desktop arm, teleop pick-and-place
                                                      (a generic six-joint arm; the sim exposes its effector in metres)
-    cobot                                          -> cobot safety-zone set-up
-    amr                                            -> AMR fleet routing (and its hard variant)
+    cobot                                          -> cobot safety-zone set-up; the cobot station (rb-station-cobot)
+    amr                                            -> AMR fleet routing (and its hard variant); the AMR station
+                                                      (rb-station-amr-fleet)
+    cell                                           -> the robot cell lockout and re-entry station (rb-station-robot-cell)
+
+The three stations are the catalog drills the arena wraps (rb-env station scenarios); the bridge loads the headless
+station suite for them the first time one is reset.
     gantry                                         -> port gantry lane (and its hard variant)
 
 Any other type is refused with a reason. A request for real hardware (a ``port``, ``cameras``, ``physical=True`` or
@@ -37,8 +42,9 @@ ROBOT_TYPES: Dict[str, Dict[str, Any]] = {
     "so100_follower": {"scenarios": ["rb-teleop-pick-place"], "kind": "desktop arm (generic six-joint arm, by kind)"},
     "so101": {"scenarios": ["rb-teleop-pick-place"], "kind": "desktop arm (generic six-joint arm, by kind)"},
     "so101_follower": {"scenarios": ["rb-teleop-pick-place"], "kind": "desktop arm (generic six-joint arm, by kind)"},
-    "cobot": {"scenarios": ["rb-cobot-zone-setup"], "kind": "collaborative arm cell (zone set-up)"},
-    "amr": {"scenarios": ["rb-amr-fleet-routing", "rb-amr-fleet-routing#hard"], "kind": "warehouse mobile robots (fleet)"},
+    "cobot": {"scenarios": ["rb-cobot-zone-setup", "rb-station-cobot"], "kind": "collaborative arm cell (zone set-up; the cobot risk-assessment station)"},
+    "amr": {"scenarios": ["rb-amr-fleet-routing", "rb-amr-fleet-routing#hard", "rb-station-amr-fleet"], "kind": "warehouse mobile robots (fleet; the AMR traffic and e-stop station)"},
+    "cell": {"scenarios": ["rb-station-robot-cell"], "kind": "industrial robot cell (the lockout and safe re-entry station)"},
     "gantry": {"scenarios": ["rb-port-gantry", "rb-port-gantry#hard"], "kind": "port gantry crane lane"},
 }
 # State keys a joint-style policy (strands_robots.MockPolicy) is given on the desktop arm: the effector in metres

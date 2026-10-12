@@ -6,6 +6,8 @@ Checks: no third-party package needed or imported; serial ports, cameras and soc
 and refuse); no credential-like environment variable read (os.environ guarded); hardware refused with the governor's
 reason; unknown robot types refused; physical 0; deterministic for a seed; the Python adapters reproduce the arena's
 own raRun per seed; compare rows valid; the seed gate; the user's sample runs.
+STRANDS-2: the three robot stations through the bridge; station parity with raRun (bc, ra-lm@stations, ra-lm-h, expert
+on dev seeds 1-3); the arena's published ra-lm build and ra-lm-h reproduce raRun on the gym scenarios too.
 """
 
 from __future__ import annotations
@@ -197,6 +199,42 @@ ok("Python adapters reproduce raRun per seed", not mism, f"{n_par - len(mism)} o
 ok("physical dispatches 0", phys == 0 and a1["physical"] == 0, str(phys))
 ok("every step governor-checked", a1["governorChecked"] == a1["steps"] and b1["governorChecked"] == b1["steps"])
 
+# ------------------------------------------------------------------ STRANDS-2: stations, the published ra-lm build, ra-lm-h
+from robotics.strands.policies import STATION_POLICY_IDS  # noqa: E402
+
+st_scen = {"cobot": "rb-station-cobot", "amr": "rb-station-amr-fleet", "cell": "rb-station-robot-cell"}
+st_robots = {rt: SimRobot(rt, scenario=sc) for rt, sc in st_scen.items()}
+st_runs = [st_robots[rt].run_episode(load_policy("expert"), "run the station drill", seed=1) for rt in st_scen]
+ok("station scenarios through the bridge", all(r["success"] and r["physical"] == 0 and r["governorChecked"] == r["steps"] and r["chainOk"] for r in st_runs),
+   f"{sum(r['success'] for r in st_runs)} of {len(st_runs)}: " + "; ".join(f"{sc} {r['steps']} steps" for sc, r in zip(st_scen.values(), st_runs)))
+oracle = st_robots["cobot"].bridge  # one bridge for every js_run, so the JS side trains each model once
+st_mism, st_n, seeds_dev = [], 0, [1, 2, 3]
+for rt, sc in st_scen.items():
+    for pid in ("bc", "ra-lm@stations", "ra-lm-h", "expert"):
+        py = [st_robots[rt].run_episode(load_policy(pid), "x", seed=s, scenario=sc) for s in seeds_dev]
+        js = oracle.call({"op": "js_run", "model": pid.split("@")[0], "scenario": sc, "seeds": seeds_dev, "build": "stations"})["result"]["perSeed"]
+        st_n += 1
+        phys += sum(p["physical"] for p in py)
+        net += sum(p["network"] for p in py)
+        if [(p["success"], p["steps"], p["ruleBreaks"]) for p in py] != [(p["success"], p["steps"], p["ruleBreaks"]) for p in js]:
+            st_mism.append(f"{pid}@{sc}")
+ok("station parity with raRun per seed", not st_mism, f"{st_n - len(st_mism)} of {st_n} (model x station, dev seeds 1-3)" + (f"; differ: {st_mism}" if st_mism else ""))
+gy_mism, gy_n = [], 0
+for rt, sc in scen.items():
+    for pid in ("ra-lm@stations", "ra-lm-h"):
+        py = [robots[rt].run_episode(load_policy(pid), "x", seed=s) for s in seeds]
+        js = oracle.call({"op": "js_run", "model": pid.split("@")[0], "scenario": sc, "seeds": seeds, "build": "stations"})["result"]["perSeed"]
+        gy_n += 1
+        phys += sum(p["physical"] for p in py)
+        if [(p["success"], p["steps"], p["ruleBreaks"]) for p in py] != [(p["success"], p["steps"], p["ruleBreaks"]) for p in js]:
+            gy_mism.append(f"{pid}@{sc}")
+ok("published ra-lm build and ra-lm-h reproduce raRun on the gym scenarios", not gy_mism, f"{gy_n - len(gy_mism)} of {gy_n} (model x scenario, dev seeds 1-3)" + (f"; differ: {gy_mism}" if gy_mism else ""))
+ok("station policies listed", set(STATION_POLICY_IDS) <= set(policies.POLICY_IDS), ", ".join(STATION_POLICY_IDS))
+ok("seed gate: stations dev only, protocol-3 seeds refused", seed_gate([1, 2, 3], ["rb-station-cobot"])["ok"] and not seed_gate([7181], ["rb-station-cobot"])["ok"]
+   and not seed_gate([7241])["ok"] and not seed_gate([7300], ["rb-teleop-pick-place"])["ok"])
+ok("station rule table", pick_scenario("run the cobot station drill")["scenario"] == "rb-station-cobot" and pick_scenario("robot cell lockout drill")["scenario"] == "rb-station-robot-cell"
+   and pick_scenario("AMR fleet traffic station")["scenario"] == "rb-station-amr-fleet" and pick_scenario("pick up the red cube")["scenario"] == "rb-teleop-pick-place")
+
 # ------------------------------------------------------------------ harness: rules, compare rows, seed gate
 cases = {"pick up the red cube": "rb-teleop-pick-place", "route the warehouse robots to the drop-off": "rb-amr-fleet-routing",
          "move the container to the bay": "rb-port-gantry", "set the cobot's stop zone": "rb-cobot-zone-setup",
@@ -228,7 +266,7 @@ env = {"PATH": _real_environ.get("PATH", "/usr/bin:/bin")}
 out = subprocess.run([sys.executable, str(HERE / "examples" / "pick_red_cube.py")], capture_output=True, text=True, timeout=120, env=env, cwd=str(ROOT))
 ok("the sample runs", out.returncode == 0 and "succeeded" in out.stdout and "physical 0" in out.stdout, out.stdout.strip()[:160] or out.stderr[-200:])
 
-closing = [rb.close() for rb in [arm, *robots.values()]]
+closing = [rb.close() for rb in [arm, *robots.values(), *st_robots.values()]]
 net += sum(c.get("network", 0) for c in closing)
 
 # ------------------------------------------------------------------ guards' verdicts
