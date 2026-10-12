@@ -1127,8 +1127,10 @@ window.__parishTest.robotics = rbWorld;
 var fxWorld = null, fxShot = null;
 try { fxWorld = fxMountExteriors({ THREE, root, parish, tier: npTierName, hour: AT_BUCKET_HOUR[NP_TIMES[np.timeIdx]] ?? 12 }); } catch (e) { console.warn("fx-exteriors:", e); }
 window.__parishTest.exteriors = fxWorld;
-/** `__parishTest.scene(siteId, shot)`: frame a robot site ("wide" or "door"); a site on another map returns its URL. */
-window.__parishTest.scene = (siteId, shot = "wide") => {
+/** `__parishTest.scene(siteId, shot)`: frame a robot site ("wide" or "door"); a site on another map returns its URL. The
+ * handle used to be the THREE.Scene itself: it stays reachable as `__parishTest.threeScene`, and the old readers' calls
+ * (traverse, getObjectByName, getObjectById, children) are delegated to it, so check_harvest's live leg reads it as before. */
+const fxSceneHandle = (siteId, shot = "wide") => {
   if (!fxSitesFor(parish).some((s) => s.id === siteId)) {
     const other = fxSiteParish(siteId);
     return other ? { ok: false, parish: other, href: `?parish=${encodeURIComponent(other)}&scene=${encodeURIComponent(siteId)}:${shot}` } : { ok: false, reason: "unknown site" };
@@ -1140,6 +1142,10 @@ window.__parishTest.scene = (siteId, shot = "wide") => {
   fxShot = sc;
   return { ok: true, ...sc };
 };
+for (const k of ["traverse", "getObjectByName", "getObjectById"]) fxSceneHandle[k] = (...args) => scene[k](...args);
+Object.defineProperty(fxSceneHandle, "children", { get: () => scene.children });
+window.__parishTest.threeScene = scene;
+window.__parishTest.scene = fxSceneHandle;
 { const q = npParams.get("scene"); if (q && q.includes(":")) { const [sid, shot] = q.split(":"); window.__parishTest.scene(sid, shot); } }
 // COLEARN (docs/consoles/COLEARN.md): watch the robot's cloned policy do the cell entry, then try it with the bandit tutor;
 // a finished try becomes a consented episode only through DATAWORKS' capture (inert unless opted in).

@@ -92,21 +92,28 @@ for (const [p, l] of layouts) {
 // 3. budgets per site and the chunk with FACADES
 const perTier = { low: [], balanced: [], high: [] };
 for (const [p, l] of layouts) {
-  const counts = {};
+  const counts = {}, chunkRow = [];
   for (const tier of TIERS) {
     const g = FX.fxBuildSite(THREE, l, tier), fx = g.userData.fx;
     counts[tier] = fx; perTier[tier].push(fx.triangles);
     check(fx.meshes <= FX.FX_BUDGET.meshesPerSite[tier], `${l.id}/${tier}: ${fx.meshes} meshes ≤ ${FX.FX_BUDGET.meshesPerSite[tier]}`);
     check(fx.triangles <= FX.FX_BUDGET.trianglesPerSite[tier], `${l.id}/${tier}: ${fx.triangles} triangles ≤ ${FX.FX_BUDGET.trianglesPerSite[tier]}`);
     check(g.children.every((o) => o.isMesh && !o.isInstancedMesh && o.material), `${l.id}/${tier}: merged meshes only`);
-    const { cx, cz, key } = E.npChunkOf(l.pad[0], l.pad[2]);
-    const spots = E.npMassingForChunk(p, cx, cz).filter(CW.cwMassFilter(p));
-    const det = F.fcDetails({ THREE, parish: p, chunk: { cx, cz, key, ring: 0, lod: 0 }, spots, tier });
-    const dm = det?.userData.fc.meshes ?? 0, dt = det?.userData.fc.triangles ?? 0;
-    check(dm + fx.meshes <= F.FC_BUDGET.meshesPerChunk[tier], `${l.id}/${tier}: chunk ${key} FACADES ${dm} + kit ${fx.meshes} meshes ≤ FC_BUDGET ${F.FC_BUDGET.meshesPerChunk[tier]}`);
-    check(dt + fx.triangles <= F.FC_BUDGET.trianglesPerChunk[tier], `${l.id}/${tier}: chunk ${key} FACADES ${dt} + kit ${fx.triangles} triangles ≤ FC_BUDGET ${F.FC_BUDGET.trianglesPerChunk[tier]}`);
-    det?.dispose(); g.dispose();
+    // the whole kit is charged to every chunk it touches (the pad's and the lot's), on top of FACADES' details there
+    const keys = [...new Set([E.npChunkOf(l.pad[0], l.pad[2]).key, E.npChunkOf(l.lot[0], l.lot[1]).key, E.npChunkOf(l.lot[2], l.lot[3]).key, E.npChunkOf(l.lot[0], l.lot[3]).key, E.npChunkOf(l.lot[2], l.lot[1]).key])];
+    for (const key of keys) {
+      const [cx, cz] = key.split(",").map(Number);
+      const spots = E.npMassingForChunk(p, cx, cz).filter(CW.cwMassFilter(p));
+      const det = spots.length ? F.fcDetails({ THREE, parish: p, chunk: { cx, cz, key, ring: 0, lod: 0 }, spots, tier }) : null;
+      const dm = det?.userData.fc.meshes ?? 0, dt = det?.userData.fc.triangles ?? 0;
+      check(dm + fx.meshes <= F.FC_BUDGET.meshesPerChunk[tier], `${l.id}/${tier}: chunk ${key} FACADES ${dm} + kit ${fx.meshes} meshes ≤ FC_BUDGET ${F.FC_BUDGET.meshesPerChunk[tier]}`);
+      check(dt + fx.triangles <= F.FC_BUDGET.trianglesPerChunk[tier], `${l.id}/${tier}: chunk ${key} FACADES ${dt} + kit ${fx.triangles} triangles ≤ FC_BUDGET ${F.FC_BUDGET.trianglesPerChunk[tier]}`);
+      chunkRow.push(`${tier} ${key} ${dm}+${fx.meshes} meshes / ${dt}+${fx.triangles} tris`);
+      det?.dispose();
+    }
+    g.dispose();
   }
+  note(`${l.id} chunks (FACADES + kit vs FC_BUDGET ${F.FC_BUDGET.meshesPerChunk.low}/${F.FC_BUDGET.meshesPerChunk.high} meshes, ${F.FC_BUDGET.trianglesPerChunk.low}/${F.FC_BUDGET.trianglesPerChunk.high} tris): ${chunkRow.join("; ")}`);
   check(counts.low.meshes === 1 && counts.low.triangles < counts.balanced.triangles, `${l.id}: the phone kit is the cheapest (${counts.low.meshes} mesh / ${counts.low.triangles} tris vs balanced ${counts.balanced.meshes} / ${counts.balanced.triangles}, high ${counts.high.meshes} / ${counts.high.triangles})`);
 }
 note(`triangles per site: low ${perTier.low.join("/")}, balanced ${perTier.balanced.join("/")}, high ${perTier.high.join("/")}`);
@@ -176,6 +183,7 @@ check(/import\s*\{[^}]*\bfxMountExteriors\b[^}]*\}\s*from\s*"\.\.\/\.\.\/shared\
 check(/fxMountExteriors\(\{/.test(app) && /__parishTest\.scene\s*=/.test(app) && /__parishTest\.exteriors\s*=/.test(app), "the app mounts the kit and exposes __parishTest.scene and .exteriors");
 check(/fxColliders\(parish\)/.test(app) && /wkColliderSeam\([^;]*fxSolid/.test(app), "the app makes the buildings solid through WALKABLE's collider seam");
 check(/fxWorld\?\.setHour\(atHour\)/.test(app), "the app hands the sky's hour to the lit windows");
+check(/__parishTest\.threeScene\s*=\s*scene/.test(app) && /fxSceneHandle\[k\]\s*=/.test(app), "the old scene handle stays reachable (threeScene, and traverse/getObjectByName delegated)");
 const bundler = readFileSync(join(ROOT, "tools/bundle_webxr.py"), "utf8");
 const irb = bundler.indexOf('SHARED / "rb-world.js"'), ifx = bundler.indexOf('SHARED / "fx-exteriors.js"');
 check(irb > 0 && ifx > irb && bundler.indexOf('SHARED / "cw-cityworks.js"') < ifx && bundler.indexOf('SHARED / "at-atmos.js"') < ifx, "the bundler lists fx-exteriors.js after its imports");
