@@ -91,6 +91,7 @@ for (const [p, l] of layouts) {
 
 // 3. budgets per site and the chunk with FACADES
 const perTier = { low: [], balanced: [], high: [] };
+const worstChunk = { low: [0, ""], balanced: [0, ""], high: [0, ""] }; // ENV-HD-3: the worst robot-site chunk per tier (FACADES + kit meshes)
 for (const [p, l] of layouts) {
   const counts = {}, chunkRow = [];
   for (const tier of TIERS) {
@@ -109,6 +110,7 @@ for (const [p, l] of layouts) {
       check(dm + fx.meshes <= F.FC_BUDGET.meshesPerChunk[tier], `${l.id}/${tier}: chunk ${key} FACADES ${dm} + kit ${fx.meshes} meshes ≤ FC_BUDGET ${F.FC_BUDGET.meshesPerChunk[tier]}`);
       check(dt + fx.triangles <= F.FC_BUDGET.trianglesPerChunk[tier], `${l.id}/${tier}: chunk ${key} FACADES ${dt} + kit ${fx.triangles} triangles ≤ FC_BUDGET ${F.FC_BUDGET.trianglesPerChunk[tier]}`);
       chunkRow.push(`${tier} ${key} ${dm}+${fx.meshes} meshes / ${dt}+${fx.triangles} tris`);
+      if (dm + fx.meshes > worstChunk[tier][0]) worstChunk[tier] = [dm + fx.meshes, `${l.id} ${key}`];
       det?.dispose();
     }
     g.dispose();
@@ -116,6 +118,8 @@ for (const [p, l] of layouts) {
   note(`${l.id} chunks (FACADES + kit vs FC_BUDGET ${F.FC_BUDGET.meshesPerChunk.low}/${F.FC_BUDGET.meshesPerChunk.high} meshes, ${F.FC_BUDGET.trianglesPerChunk.low}/${F.FC_BUDGET.trianglesPerChunk.high} tris): ${chunkRow.join("; ")}`);
   check(counts.low.meshes === 1 && counts.low.triangles < counts.balanced.triangles, `${l.id}: the phone kit is the cheapest (${counts.low.meshes} mesh / ${counts.low.triangles} tris vs balanced ${counts.balanced.meshes} / ${counts.balanced.triangles}, high ${counts.high.meshes} / ${counts.high.triangles})`);
 }
+check(worstChunk.high[0] < F.FC_BUDGET.meshesPerChunk.high, `worst robot-site chunk on high: ${worstChunk.high[0]} meshes (FACADES + kit), below FC_BUDGET ${F.FC_BUDGET.meshesPerChunk.high} (${worstChunk.high[1]})`);
+note(`worst robot-site chunk, FACADES + kit meshes: low ${worstChunk.low[0]} (${worstChunk.low[1]}), balanced ${worstChunk.balanced[0]} (${worstChunk.balanced[1]}), high ${worstChunk.high[0]} (${worstChunk.high[1]})`);
 note(`triangles per site: low ${perTier.low.join("/")}, balanced ${perTier.balanced.join("/")}, high ${perTier.high.join("/")}`);
 note(`texture bytes per map (planned atlas + quarter-size glow mask, RGBA, mipmapped): low 0, balanced ${Math.round((512 ** 2 + 128 ** 2) * 4 * 4 / 3)}, high ${Math.round((1024 ** 2 + 256 ** 2) * 4 * 4 / 3)} (budget ${FX.FX_BUDGET.textureBytes.balanced} / ${FX.FX_BUDGET.textureBytes.high}; the browser drive measures the canvases drawn)`);
 check((1024 ** 2 + 256 ** 2) * 4 * 4 / 3 <= FX.FX_BUDGET.textureBytes.high && (512 ** 2 + 128 ** 2) * 4 * 4 / 3 <= FX.FX_BUDGET.textureBytes.balanced, "the atlas sizes fit the stated texture budgets");
@@ -167,6 +171,42 @@ for (const [p, l] of layouts) for (const shot of FX.FX_SHOTS) {
 }
 check(shots === 12, `scene presets: ${shots} of 12`);
 check(FX.fxScene(R.npParish("orleans"), "rb-site-soma-robot-cell", "wide") === null && FX.fxSiteParish("rb-site-soma-robot-cell") === "sf-downtown", "a scene asked on the wrong map is null and names its map");
+// ENV-HD-3: two establishing shots for each of the three busiest non-robot sites (hd3-scenes.js), through the same handle
+{
+  const H = await imp("shared/hd3-scenes.js");
+  const all = {};
+  for (const p of R.NP_PARISHES) for (const s of p.sites ?? []) all[s.id] = { p, s, n: (s.stations ?? []).length };
+  const robotAnchors = new Set(RD.RB_SITES.map((r) => r.anchor));
+  const nonRobot = Object.values(all).filter((x) => !robotAnchors.has(x.s.id)).sort((a, b) => b.n - a.n);
+  check(H.HD3_SCENE_SITES.length === 3 && new Set(H.HD3_SCENE_SITES.map((x) => x.kind)).size === 3, `three non-robot locations, three kinds (${H.HD3_SCENE_SITES.map((x) => x.kind).join(", ")})`);
+  for (const spec of H.HD3_SCENE_SITES) {
+    const got = all[spec.id];
+    check(!!got && got.p.id === spec.parish && got.s.kind === spec.kind && got.n === spec.stations && !robotAnchors.has(spec.id), `${spec.id}: a ${spec.kind} site on ${spec.parish} with ${got?.n} catalog stations, not a robot site`);
+    const busiestOfKind = nonRobot.find((x) => x.s.kind === spec.kind);
+    check(got && got.n >= nonRobot[2].n && got.n === busiestOfKind.n, `${spec.id}: among the busiest non-robot sites (${got?.n} stations; the busiest of its kind has ${busiestOfKind?.n}; third busiest overall ${nonRobot[2].n})`);
+  }
+  let hd3Shots = 0;
+  for (const pr of H.hd3ScenePresets()) {
+    const p = R.npParish(pr.parish), i = p.sites.findIndex((s) => s.id === pr.siteId), site = p.sites[i];
+    const s = H.hd3Scene(p, pr.siteId, pr.shot), s2 = H.hd3Scene(p, pr.siteId, pr.shot);
+    const ok = s && [...s.position, ...s.target].every(Number.isFinite) && JSON.stringify(s) === JSON.stringify(s2);
+    const d = s ? Math.hypot(s.position[0] - s.target[0], s.position[2] - s.target[2]) : 0, gy = s ? E.npHeightAt(p, s.position[0], s.position[2]) : 0;
+    const toSite = s ? Math.hypot(s.target[0] - site.position[0], s.target[2] - site.position[1]) : 99;
+    const framed = pr.shot === "wide" ? d > 50 && s.position[1] > gy + 20 : d > 12 && d < 50 && Math.abs(s.position[1] - gy - 1.7) < 0.05;
+    const dry = s && !E.npWaterAt(p, s.position[0], s.position[2]);
+    if (check(ok && framed && dry && toSite < 20, `${pr.siteId}: the ${pr.shot} shot is set (camera ${d.toFixed(0)} m from the subject, ${(s?.position[1] - gy).toFixed(1)} m above the ground, dry), deterministic`)) hd3Shots++;
+  }
+  check(H.hd3Scene(R.npParish("orleans"), "bridge-yard", "wide") === null && H.hd3Scene(R.npParish("orleans"), "port-terminal", "door") === null, "a non-robot scene asked on the wrong map, or for an unknown shot, is null");
+  check(hd3Shots === 6, `non-robot scene presets: ${hd3Shots} of 6`);
+  note(`scene presets: 12 (ROBO-EXTERIORS, six robot sites x wide/door) -> ${shots + hd3Shots} (+ ${H.HD3_SCENE_SITES.map((x) => `${x.label.toLowerCase()} on ${x.parish} (${x.stations} stations)`).join(", ")}, x ${H.HD3_SHOTS.join("/")})`);
+  const appSrc = readFileSync(join(WEBXR, "parishes/js/app.js"), "utf8");
+  check(/import\s*\{[^}]*\bhd3Scene\b[^}]*\}\s*from\s*"\.\.\/\.\.\/shared\/hd3-scenes\.js"/.test(appSrc) && /hd3Scene\(parish, siteId, shot\)/.test(appSrc) && /__parishTest\.scenePresets\s*=/.test(appSrc), "the app routes __parishTest.scene to the non-robot presets and lists every preset");
+  const bsrc = readFileSync(join(ROOT, "tools/bundle_webxr.py"), "utf8"), ih = bsrc.indexOf('SHARED / "hd3-scenes.js"');
+  check(ih > bsrc.indexOf('SHARED / "cw-cityworks.js"') && ih > bsrc.indexOf('SHARED / "np-parish.js"') && ih > 0, "the bundler lists hd3-scenes.js after its imports");
+  const hsrc = readFileSync(join(WEBXR, "shared/hd3-scenes.js"), "utf8");
+  const tops = [...hsrc.matchAll(/^(?:export\s+)?(?:const|let|var|function)\s+([A-Za-z_$][\w$]*)/gm)].map((m) => m[1]);
+  check(tops.every((n) => /^(hd3|HD3_)/.test(n)) && !/import\s*\{[^}]*\bas\b/.test(hsrc), `hd3-scenes.js: every top-level name carries the hd3 prefix (${tops.length}), no import aliases`);
+}
 
 // 6. determinism
 {

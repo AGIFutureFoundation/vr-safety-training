@@ -137,6 +137,13 @@ export function mgBayMap({ roads = [], sites = [], zoneAt = () => "downtown", ro
 
 function mgSeedOf(id, seed = 0) { return [...String(id)].reduce((s, ch) => (s * 31 + ch.charCodeAt(0)) >>> 0, 101 + seed); }
 function mgInBox(x, z, boxes) { for (const b of boxes ?? []) if (x >= b.min[0] && x <= b.max[0] && z >= b.min[2] && z <= b.max[2]) return true; return false; }
+/** ENV-HD-3: robotics lots ([[x0, z0, x1, z1]], ROBO-EXTERIORS' lot rectangles and fxColliders boxes, as DETAIL's dtLotRects
+ *  gives them; the parishes app passes `lots`) as boxes grown by MG_LOT_MARGIN: no animal or person is placed inside one,
+ *  and nothing that walks steps into one (fliers may cross over). */
+export const MG_LOT_MARGIN = 0.5;
+export function mgLotBoxes(lots, m = MG_LOT_MARGIN) {
+  return (lots ?? []).map((r) => ({ min: [r[0] - m, -1e4, r[1] - m], max: [r[2] + m, 1e4, r[3] + m], kind: "fx-lot" }));
+}
 
 /** The ground a kind may stand on at (x, z): fliers anywhere, swimmers only on open water, waders on land or wetland, the rest dry land. */
 export function mgGroundOk(map, kind, x, z) {
@@ -161,7 +168,8 @@ export function mgPlan(map, o = {}) {
   const cands = [];
   const sites = map.sites ?? [];
   const nearSite = (x, z) => { let d = Infinity; for (const s of sites) d = Math.min(d, Math.hypot(x - s.x, z - s.z)); return d; };
-  const boxesAt = (x, z) => { try { return o.colliders?.(npChunkOf(x, z).key) ?? []; } catch { return []; } };
+  const lotBoxes = mgLotBoxes(o.lots);
+  const boxesAt = (x, z) => { let b; try { b = o.colliders?.(npChunkOf(x, z).key) ?? []; } catch { b = []; } return lotBoxes.length ? [...b, ...lotBoxes] : b; };
   const add = (kind, x, z, heading, why, extra = {}) => {
     if (!mgGroundOk(map, kind, x, z) || mgInBox(x, z, boxesAt(x, z))) return;
     cands.push({ kind, x, z, heading, why, ...extra, pri: rng() * (1 + nearSite(x, z) / 350) });
@@ -427,8 +435,9 @@ export function mgMountLife(o = {}) {
   if (!three || !map) return { animate() {}, counts: () => ({}), stats: () => ({ drawCalls: 0, triangles: 0, agents: 0 }), agents: [], meshes: [], dispose() {} };
   const still = !!(o.still ?? mgReducedMotion());
   const colliders = typeof o.colliders === "function" ? o.colliders : null;
-  const boxesAt = colliders ? (x, z) => { try { return colliders(npChunkOf(x, z).key) ?? []; } catch { return []; } } : null;
-  const plan = mgPlan(map, { tier: o.tier, night: o.night, seed: o.seed, sidewalkAt: o.sidewalkAt, colliders });
+  const lotBoxes = mgLotBoxes(o.lots);
+  const boxesAt = colliders || lotBoxes.length ? (x, z) => { let b; try { b = colliders?.(npChunkOf(x, z).key) ?? []; } catch { b = []; } return lotBoxes.length ? [...b, ...lotBoxes] : b; } : null;
+  const plan = mgPlan(map, { tier: o.tier, night: o.night, seed: o.seed, sidewalkAt: o.sidewalkAt, colliders, lots: o.lots });
   const agents = plan.map((p, i) => mgAgent(p, i));
   const groundAt = o.groundAt ?? (() => 0);
   const group = new three.Group(); group.name = "mg-life";

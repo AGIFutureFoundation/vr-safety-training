@@ -30,6 +30,13 @@ import { MV_SITE_RULES, MV_BUDGET, mvProfile, mvLivery, mvRuleFor } from "./mv-m
 
 /** Clearance (m) past a road's half width that a parked footprint keeps from the centreline. */
 export const MV_ROAD_MARGIN = 1.5;
+/** ENV-HD-3: a parked vehicle keeps this far outside every robotics lot (`lots` = [[x0, z0, x1, z1]], ROBO-EXTERIORS' lot
+ *  rectangles and their fxColliders boxes, as DETAIL's dtLotRects gives them); the app passes them, absent = no lots. */
+export const MV_LOT_MARGIN = 0.5;
+export function mvInLots(x, z, lots, m = MV_LOT_MARGIN) {
+  for (const r of lots ?? []) if (x >= r[0] - m && x <= r[2] + m && z >= r[1] - m && z <= r[3] + m) return true;
+  return false;
+}
 /**
  * Where the parishes app sets the player down at a site (the start and fast travel: app.js puts the eye 16 m on +z from
  * the site). SURVEYOR-2: the first ring's bearing 0 was 1 m from it, so a parked cab stood over the arriving camera (the
@@ -68,13 +75,14 @@ function mvPick(site, rule) {
   return ids.find((id) => (dvById(id).gate?.stations ?? []).some((s) => stations.has(s))) ?? ids[0] ?? null;
 }
 
-function mvFootprintOk(parish, world, x, z, heading, dims) {
+function mvFootprintOk(parish, world, x, z, heading, dims, lots = null) {
   const [w, h, l] = dims;
   const fx = Math.sin(heading), fz = Math.cos(heading), rx = Math.cos(heading), rz = -Math.sin(heading);
   const pts = [[0, 0], [1, 1], [1, -1], [-1, 1], [-1, -1]].map(([a, b]) => [x + rx * a * (w / 2 + 0.5) + fx * b * (l / 2 + 0.5), z + rz * a * (w / 2 + 0.5) + fz * b * (l / 2 + 0.5)]);
   let lo = Infinity, hi = -Infinity;
   for (const [px, pz] of pts) {
     if (Math.abs(px) > NP_SIZE / 2 - 24 || Math.abs(pz) > NP_SIZE / 2 - 24) return false;
+    if (lots && mvInLots(px, pz, lots)) return false; // ENV-HD-3: never inside a robotics lot
     if (npWaterAt(parish, px, pz) || (world.waterDepthAt(px, pz) || 0) > 0.02) return false; // dry: no water polygon (marsh too), no depth
     const c = mvRoadClearance(parish, px, pz);
     if (c.clear < MV_ROAD_MARGIN) return false;
@@ -89,7 +97,7 @@ function mvFootprintOk(parish, world, x, z, heading, dims) {
  * name the vehicle's own gate station come first; one vehicle per site, no
  * drivable more than twice per map, capped per tier (MV_BUDGET.perMap).
  */
-export function mvPlacements(parish, world, { tier = "balanced" } = {}) {
+export function mvPlacements(parish, world, { tier = "balanced", lots = null } = {}) {
   const cap = MV_BUDGET.perMap[tier] ?? MV_BUDGET.perMap.balanced;
   const cands = [];
   parish.sites.forEach((site, order) => {
@@ -121,7 +129,7 @@ export function mvPlacements(parish, world, { tier = "balanced" } = {}) {
         const rc = mvRoadClearance(parish, x, z);
         let heading = a;
         if (rc.road) { const p = npPolyPointAt(rc.road.pts, npPolyDistance(x, z, rc.road.pts).t); if (typeof p?.yaw === "number") heading = p.yaw; }
-        if (mvFootprintOk(parish, world, x, z, heading, dims)) spot = { x, z, heading };
+        if (mvFootprintOk(parish, world, x, z, heading, dims, lots)) spot = { x, z, heading };
       }
       if (spot) break;
     }
@@ -152,10 +160,10 @@ export function mvPaletteCategories() {
 }
 
 /** Mount the parked vehicles in a parish page (see the header). */
-export function mvMountMotorworks({ three, root, parish, world, tier = "balanced", categories = undefined, region = null } = {}) {
+export function mvMountMotorworks({ three, root, parish, world, tier = "balanced", categories = undefined, region = null, lots = null } = {}) {
   const T = three;
   const cats = categories === undefined ? mvPaletteCategories() : categories;
-  const parked = mvPlacements(parish, world, { tier }).map((p, i) => {
+  const parked = mvPlacements(parish, world, { tier, lots }).map((p, i) => {
     const character = npDistrictAt(parish, p.x, p.z)?.character ?? null;
     const drive = mvDriveEntry(p.entry, { region: region ?? parish.region ?? "new-orleans", character, seed: p.id }, cats);
     return { ...p, index: i, character, drive, colour: drive.kit.opts.livery.colour, hidden: false };

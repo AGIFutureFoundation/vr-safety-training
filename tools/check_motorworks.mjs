@@ -236,6 +236,31 @@ const { npWaterAt, npHeightAt } = await imp("shared/np-parish.js");
   check("doc", /## Cycles/.test(doc) && /## Seams/.test(doc), "docs/consoles/MOTORWORKS.md has Cycles and Seams");
 }
 
+// ENV-HD-3: parked vehicles never inside a robotics lot (ROBO-EXTERIORS' lots as DETAIL's dtLotRects gives them)
+{
+  const { dtLotRects } = await imp("shared/dt-detail.js");
+  const corners = (v) => { const [w, , l] = v.dims, fx = Math.sin(v.heading), fz = Math.cos(v.heading), rx = Math.cos(v.heading), rz = -Math.sin(v.heading); return [[0, 0], [1, 1], [1, -1], [-1, 1], [-1, -1]].map(([a, b]) => [v.x + rx * a * w / 2 + fx * b * l / 2, v.z + rz * a * w / 2 + fz * b * l / 2]); };
+  const inLot = (v, lots) => corners(v).some(([x, z]) => lots.some((r) => x >= r[0] && x <= r[2] && z >= r[1] && z <= r[3]));
+  let before = 0, after = 0, mapsWith = 0, parkedNear = 0; const where = [];
+  for (const p of NP_PARISHES) {
+    const lots = dtLotRects(p); if (!lots.length) continue;
+    mapsWith++;
+    const world = N.nwParishWorld(p);
+    for (const tier of ["low", "balanced", "high"]) {
+      const b = MW.mvPlacements(p, world, { tier }), a = MW.mvPlacements(p, world, { tier, lots });
+      const bin = b.filter((v) => inLot(v, lots)), ain = a.filter((v) => inLot(v, lots));
+      before += bin.length; after += ain.length; parkedNear += a.length;
+      for (const v of bin) where.push(`${p.id}/${tier} ${v.site}`);
+      check("lots", ain.length === 0, `${p.id}/${tier}: ${ain.length} parked vehicle(s) inside a robotics lot (${ain.map((v) => v.id).join(", ")})`);
+      check("lots", a.every((v) => !MW.mvInLots(v.x, v.z, lots)), `${p.id}/${tier}: every parked vehicle's centre outside the lots`);
+    }
+  }
+  check("lots", mapsWith > 0, `maps with robotics lots: ${mapsWith}`);
+  say(`ENV-HD-3 lots: parked vehicles inside a robotics lot, before ${before} -> after ${after} (${mapsWith} maps x 3 tiers, ${parkedNear} vehicles parked on them after)${where.length ? `; before: ${where.join(", ")}` : ""}`);
+  const app = readFileSync(join(WEBXR, "parishes/js/app.js"), "utf8");
+  check("lots", /mvMountMotorworks\([^)]*lots: fxLots/.test(app) && /mvPlacements\([^;]*lots: fxLots/.test(app), "the parishes app passes the robotics lots to MOTORWORKS (mount and the walk's parked boxes)");
+}
+
 console.log(`\n  ${passed} checks · ${failed} failed`);
 if (failed) process.exit(1);
 console.log("All MOTORWORKS checks pass.");

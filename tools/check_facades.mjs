@@ -79,7 +79,7 @@ for (const p of R.NP_PARISHES) {
       worstMesh[tier] = Math.max(worstMesh[tier], fc.meshes); worstTri[tier] = Math.max(worstTri[tier], fc.triangles);
       check(fc.meshes <= F.FC_BUDGET.meshesPerChunk[tier], `${p.id}/${d.character}/${tier}: ${fc.meshes} detail meshes ≤ ${F.FC_BUDGET.meshesPerChunk[tier]}`);
       check(fc.triangles <= F.FC_BUDGET.trianglesPerChunk[tier], `${p.id}/${d.character}/${tier}: ${fc.triangles} detail triangles ≤ ${F.FC_BUDGET.trianglesPerChunk[tier]}`);
-      check(g.children.every((o) => o.isInstancedMesh || o.name === "fc-signs"), `${p.id}/${d.character}/${tier}: instanced kits and one merged sign mesh only`);
+      check(g.children.every((o) => o.isInstancedMesh || o.name === "fc-signs" || (tier !== "low" && /^fc-[A-Za-z]+-merged$/.test(o.name))), `${p.id}/${d.character}/${tier}: instanced kits, a merged mesh per kind only where variants meet off the phone tier, one merged sign mesh`);
       if (tier === "low") check(fc.signs.length === 0, `${p.id}/${d.character}/low: no signs on the phone tier`);
       for (const s of fc.signs) { signWords.add(s.word); signCount++; check(F.FC_SIGN_WORDS.includes(s.word), `${p.id}: sign "${s.word}" is a generic trade`); }
       const far = F.fcDetails({ THREE, parish: p, chunk: { cx: ix, cz: iz, key: `${ix},${iz}`, ring: F.FC_BUDGET.nearRing[tier] + 1, lod: 2 }, spots, tier });
@@ -138,6 +138,7 @@ for (const id of ["orleans", "sf-downtown", "oak-west-oakland"]) {
   }
   const resolvers = F.FC_KIT_RESOLVERS.slice();
   let near = 0, nearRob = 0, farRob = 0, maps = 0, lowSame = 0, lowTried = 0, worst = { low: [0, 0], high: [0, 0] };
+  let mergedChunks = 0, canopyTowers = 0, robTowers = 0;
   for (const p of R.NP_PARISHES) {
     const sites = F.fcRobotSitesFor(p); if (!sites.length) continue;
     maps++;
@@ -150,7 +151,14 @@ for (const id of ["orleans", "sf-downtown", "oak-west-oakland"]) {
       const hi = F.fcDetails({ THREE, parish: p, chunk, spots, tier: "high" });
       const isNear = (s) => F.FC_ROBOTICS.kinds.includes(s.kind) && sites.some((r) => Math.hypot(s.x - r.x, s.z - r.z) <= R2);
       const nearHere = spots.filter(isNear).length; near += nearHere;
-      let rob = 0; for (const o of hi?.children ?? []) if (/-robotics$/.test(o.name)) rob += o.count;
+      let rob = 0; for (const o of hi?.children ?? []) rob += o.userData.fcGroups ? (o.userData.fcGroups.robotics ?? 0) : /-robotics$/.test(o.name) ? o.count : 0;
+      // ENV-HD-3: one mesh per kind in a robotics chunk (generic and robotics merged), and the robotics towers' canopies
+      if (hi) {
+        const perKind = {}; for (const o of hi.children) if (o.name !== "fc-signs") { const k = o.name.split("-")[1]; perKind[k] = (perKind[k] ?? 0) + 1; }
+        if (hi.children.some((o) => o.userData.fcGroups?.robotics)) { mergedChunks++; check(Object.values(perKind).every((n) => n === 1), `${p.id} ${key}/high: one detail mesh per massing kind (${Object.entries(perKind).map(([k, n]) => `${k} ${n}`).join(", ")})`); }
+        for (const o of hi.children) if (o.name === "fc-tower-merged") canopyTowers += o.userData.fcGroups.robotics ?? 0;
+        robTowers += spots.filter((s) => s.kind === "tower" && isNear(s)).length;
+      }
       nearRob += Math.min(rob, nearHere); farRob += Math.max(0, rob - nearHere);
       for (const tier of ["low", "high"]) {
         const g = tier === "high" ? hi : F.fcDetails({ THREE, parish: p, chunk, spots, tier });
@@ -174,6 +182,18 @@ for (const id of ["orleans", "sf-downtown", "oak-west-oakland"]) {
   check(near > 0 && nearRob === near, `buildings near robot sites with a robotics variant: ${nearRob} of ${near} (sheds and towers within ${F.FC_ROBOTICS.radius} m, ${maps} maps, high tier)`);
   check(farRob === 0, `robotics variants beyond ${F.FC_ROBOTICS.radius} m of a robot site: ${farRob}`);
   check(lowTried > 0 && lowSame === lowTried, `phone tier unchanged by the robotics variant: ${lowSame} of ${lowTried} chunks build the same details`);
+  check(robTowers > 0 && canopyTowers === robTowers, `robotics towers with an entrance canopy (high): ${canopyTowers} of ${robTowers}`);
+  check(mergedChunks > 0, `chunks where generic and robotics variants meet, drawn one mesh per kind: ${mergedChunks}`);
+  {
+    const kit = F.fcKit(THREE, "tower", "robotics", "high"), lo = F.fcKit(THREE, "tower", "robotics", "low");
+    const bb = (g) => { g.computeBoundingBox(); return g.boundingBox; };
+    const roof = kit.roof && bb(kit.roof), base = kit.base && bb(kit.base), body = kit.body && bb(kit.body);
+    check(!!roof && roof.max.y - roof.min.y > 1.5 && roof.max.y - roof.min.y < 3 && F.fcDetailPlace("tower", "roofPlant") === "roof", `the robotics tower's roof plant is an unstretched roof item sized by footprint: ${roof ? (roof.max.y - roof.min.y).toFixed(2) : "-"} m tall on any tower, ${roof ? (roof.max.x - roof.min.x).toFixed(1) : "-"} m across`);
+    check(!!base && base.max.y > 4 && base.max.y < 5 && F.fcDetailPlace("tower", "canopy") === "base", `the entrance canopy is an unstretched base item: top at ${base ? base.max.y.toFixed(2) : "-"} m`);
+    check(!!body && body.max.y <= 1.001, `the stretched tower body stays in unit-height space (top ${body ? body.max.y.toFixed(3) : "-"})`);
+    check(!lo.roof && !lo.base, "the phone tier's tower kit has no roof plant and no canopy");
+    note(`ENV-HD-3: robotics towers with an entrance canopy ${canopyTowers} of ${robTowers}; ${mergedChunks} robotics chunks drawn one mesh per kind (generic and robotics merged); tower roof plant ${roof ? (roof.max.y - roof.min.y).toFixed(2) : "-"} m tall on every tower height, canopy top ${base ? base.max.y.toFixed(2) : "-"} m`);
+  }
   note(`robotics variant: ${nearRob} of ${near} sheds/towers within ${F.FC_ROBOTICS.radius} m; worst chunk there low ${worst.low[0]} meshes / ${worst.low[1]} tris (${worst.low[2] ?? "-"}), high ${worst.high[0]} meshes / ${worst.high[1]} tris (${worst.high[2] ?? "-"})`);
 }
 

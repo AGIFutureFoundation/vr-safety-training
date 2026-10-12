@@ -27,7 +27,7 @@ import { npBuildParish, npWaterShapes } from "../../shared/np-world.js";
 // FACADES: exterior detail and generic storefront signs on the massing (sets NP_MASSING_HOOKS.details; docs/consoles/FACADES.md).
 import { fcDetails } from "../../shared/fc-facades.js";
 // DETAIL: seeded instanced scatter (street kit, yards, roofs, vegetation, marsh, farm, industry, site clutter), one pool.
-import { dtMountDetail } from "../../shared/dt-detail.js";
+import { dtMountDetail, dtLotRects } from "../../shared/dt-detail.js";
 import { paMount } from "../../shared/pa-palette.js";
 import { PA_CATEGORIES } from "../../shared/pa-palette-data.js";
 // LANDMARKS-2: walk-in landmark interiors (market hall, lamp room, pier shed, glasshouse) — generic, schematic rooms.
@@ -75,6 +75,7 @@ import { drMountDrills, drSetRecorder } from "../../shared/dr-drills.js";
 import { rbMountRobotics, rbGamesFor, rbRegisterMechanics } from "../../shared/rb-world.js";
 // ROBO-EXTERIORS: the robot sites' buildings from outside, their streetscape, night windows and establishing shots.
 import { fxMountExteriors, fxColliders, fxScene, fxSitesFor, fxSiteParish, fxDoorFor, FX_SHOTS } from "../../shared/fx-exteriors.js";
+import { hd3Scene, hd3ScenePresets, HD3_SCENE_SITES, HD3_SHOTS } from "../../shared/hd3-scenes.js";
 import { uxMountTabs, uxOnboarding } from "../../shared/ux-menu.js";
 import { dxMountConsent } from "../../shared/dx-consent-ui.js";
 import { dxFlush, dxPendingCount, dxStore, dxReadSignals, dxEligibility } from "../../shared/dx-data.js";
@@ -221,8 +222,11 @@ let atWeatherNow = null, atSoundT = 1, atMix = null;
 const npReduced = typeof matchMedia === "function" && matchMedia("(prefers-reduced-motion: reduce)").matches;
 // WALKABLE: MOTORWORKS' parked vehicles are solid in the walk (the module guarded: absent until MOTORWORKS merges).
 // (Static now that MOTORWORKS is merged: the same placements its mount parks, checked against TERRAFORM's water depth.)
+// ENV-HD-3: ROBO-EXTERIORS' robotics lots (DETAIL's dtLotRects) keep parked vehicles and street life out of the lots.
+let fxLots = [];
+try { fxLots = dtLotRects(parish); } catch { fxLots = []; }
 let wkParked = [];
-try { wkParked = mvPlacements(parish, { waterDepthAt: (x, z) => tfWaterDepthAt(parish, x, z) }, { tier: npTierName }); } catch { wkParked = []; }
+try { wkParked = mvPlacements(parish, { waterDepthAt: (x, z) => tfWaterDepthAt(parish, x, z) }, { tier: npTierName, lots: fxLots }); } catch { wkParked = []; }
 let fxSolid = []; // ROBO-EXTERIORS: the robot-site buildings (pure lots, no three.js) are solid in the walk too
 try { fxSolid = fxColliders(parish); } catch { fxSolid = []; }
 const wkColliders = wkColliderSeam(cwColliders, nwParishColliders, [...(wkSolidBoxes(wkParked, (x, z) => npHeightAt(parish, x, z)) ?? []), ...fxSolid]);
@@ -236,7 +240,7 @@ nwPhys.place(np.x, np.z);
 // MOTORWORKS (docs/consoles/MOTORWORKS.md): parked Motor Pool vehicles of fitting classes at fitting sites, two
 // instanced meshes per map; E at one walks its pre-trip on the board (the gate contract) and drives it from its bay
 // with its class's handling. PALETTE's colour categories give the liveries when that module is on the page (guarded).
-const mvPark = mvMountMotorworks({ three: THREE, root, parish, world: nwPhys.world, tier: npTierName, categories: PA_CATEGORIES });
+const mvPark = mvMountMotorworks({ three: THREE, root, parish, world: nwPhys.world, tier: npTierName, categories: PA_CATEGORIES, lots: fxLots });
 let mvPending = null, mvDriving = null;
 function mvExitDrive() {
   const out = nwPhys.exitDrive();
@@ -409,6 +413,7 @@ function mgRemount() {
     groundAt: (x, z) => Math.max(npHeightAt(parish, x, z), 0),
     sidewalkAt: typeof cwSide === "function" ? (x, z) => cwSide(parish, x, z) : undefined,
     colliders: typeof cwCol === "function" ? (key) => cwCol(parish, key) : undefined,
+    lots: fxLots, // ENV-HD-3: never inside a robotics lot
     pos: () => (np.playing && !np.modal ? [np.x, np.z] : null),
     threats: () => (nwPhys.driving() ? [[nwPhys.vehicle.x, nwPhys.vehicle.z]] : []), // NEWTON's vehicle while the learner drives
   });
@@ -1196,6 +1201,19 @@ window.__parishTest.exteriors = fxWorld;
  * handle used to be the THREE.Scene itself: it stays reachable as `__parishTest.threeScene`, and the old readers' calls
  * (traverse, getObjectByName, getObjectById, children) are delegated to it, so check_harvest's live leg reads it as before. */
 const fxSceneHandle = (siteId, shot = "wide") => {
+  // ENV-HD-3: the three busiest non-robot sites take two establishing shots each ("wide", "street"), by day or night
+  const hd3 = HD3_SCENE_SITES.find((s) => s.id === siteId);
+  if (hd3) {
+    if (hd3.parish !== parish.id) return { ok: false, parish: hd3.parish, href: `?parish=${encodeURIComponent(hd3.parish)}&scene=${encodeURIComponent(siteId)}:${shot}` };
+    const sc = hd3Scene(parish, siteId, shot);
+    if (!sc) return { ok: false, reason: `unknown shot (${HD3_SHOTS.join(", ")})` };
+    np.x = sc.target[0]; np.z = sc.target[2];
+    world.update(np.x, np.z, 999); cwStreetsMount.update(np.x, np.z, 999); tfLand.update(np.x, np.z, 99); atmos.update(np.x, np.z);
+    fxShot = sc;
+    const menu = document.getElementById("menu"); if (menu && !np.playing) menu.hidden = true;
+    document.getElementById("toast")?.classList.remove("on");
+    return { ok: true, ...sc };
+  }
   if (!fxSitesFor(parish).some((s) => s.id === siteId)) {
     const other = fxSiteParish(siteId);
     return other ? { ok: false, parish: other, href: `?parish=${encodeURIComponent(other)}&scene=${encodeURIComponent(siteId)}:${shot}` } : { ok: false, reason: "unknown site" };
@@ -1212,6 +1230,11 @@ for (const k of ["traverse", "getObjectByName", "getObjectById"]) fxSceneHandle[
 Object.defineProperty(fxSceneHandle, "children", { get: () => scene.children });
 window.__parishTest.threeScene = scene;
 window.__parishTest.scene = fxSceneHandle;
+/** Every establishing-shot preset the scene handle frames: ROBO-EXTERIORS' 12 (six robot sites x wide/door) + ENV-HD-3's 6. */
+window.__parishTest.scenePresets = () => [
+  ...NP_PARISHES.flatMap((p) => { try { return fxSitesFor(p).flatMap((s) => FX_SHOTS.map((shot) => ({ siteId: s.id, shot, parish: p.id }))); } catch { return []; } }),
+  ...hd3ScenePresets(),
+];
 { const q = npParams.get("scene"); if (q && q.includes(":")) { const [sid, shot] = q.split(":"); window.__parishTest.scene(sid, shot); } }
 // ENV-HD-2 (docs/consoles/ENV-HD-2.md): capture presets for the reel and the deck. `room(styleId)` opens a skinned INTERIORS
 // room (a site of that style on this map, else the map's first site, opened with the style) and stands the camera in the

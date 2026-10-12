@@ -22,6 +22,13 @@
  * dock bumpers on sheds; a plant louvre band and a roof plant screen on towers. The robotics kits keep the generic kits'
  * two cheapest details, so on the phone tier a robotics spot shares the generic bucket (no extra mesh).
  *
+ * One mesh per kind where variants meet (ENV-HD-3): off the phone tier, a kind whose spots in a chunk fall in more than
+ * one kit bucket (generic and robotics), or whose kit carries ground-floor items, is drawn as ONE merged mesh named
+ * "fc-<kind>-merged" (each spot's body, roof and base parts baked in world space; `userData.fcGroups` = { group: spots }),
+ * instead of one InstancedMesh per bucket and part. The robotics tower kit gains an entrance canopy with lobby glazing
+ * (a "base" item, drawn unstretched at the tower's foot) and its roof plant moves to the unstretched roof items, so both
+ * are sized by the footprint, never by the tower's 30-120 m height. The phone tier builds exactly what it built before.
+ *
  * Everything here is procedural and generic: nothing models a real building, and the signs name generic trades only
  * (FC_SIGN_WORDS) — never a real business or brand. TYCOON's player-opened businesses keep their own sign at their
  * listing's site (parishes app, `tySignsFor`). The data (FC_DETAIL_KINDS, FC_KITS, FC_SIGN_WORDS, FC_SIGN_COLOURS,
@@ -54,6 +61,7 @@ export const FC_DETAIL_KINDS = [
   { id: "roofPlant", label: "Roof plant", note: "air-handling units and a louvred plant screen on a flat roof (robotics variant)" },
   { id: "dockBumpers", label: "Dock bumpers and lights", note: "rubber bumpers either side of each loading door and a dock light above (robotics variant)" },
   { id: "louvreBand", label: "Plant louvre band", note: "a band of plant-room louvres under a tower's roof line (robotics variant)" },
+  { id: "canopy", label: "Entrance canopy", note: "a canopy on two posts over a tower's ground-floor entrance, with lobby glazing (robotics variant)" },
 ];
 
 /**
@@ -67,7 +75,7 @@ export const FC_KITS = {
   suburbHouse: { "new-orleans": ["windowGrid", "shutters", "stoop", "porch"], bay: ["windowGrid", "bayWindow", "stoop", "balcony"] },
   shed: { "new-orleans": ["windowBand", "rollUpDoor", "parapet"], bay: ["windowBand", "rollUpDoor", "parapet"], port: ["windowBand", "rollUpDoor", "loadingDock"],
     robotics: ["windowBand", "rollUpDoor", "roofPlant", "skylights", "dockBumpers"] },
-  tower: { "new-orleans": ["mullions", "cornice"], bay: ["mullions", "cornice", "fireEscape", "roofTank"], robotics: ["cornice", "mullions", "roofPlant", "louvreBand"] },
+  tower: { "new-orleans": ["mullions", "cornice"], bay: ["mullions", "cornice", "fireEscape", "roofTank"], robotics: ["cornice", "mullions", "roofPlant", "canopy", "louvreBand"] },
   campusBlock: { "new-orleans": ["windowBand", "cornice", "parapet"], bay: ["windowBand", "cornice", "parapet"] },
   tank: { "new-orleans": ["tankRail"], bay: ["tankRail"] },
 };
@@ -176,11 +184,20 @@ function fcDetailParts(THREE, id, kind, b) {
     box(34, 0.13, 3, FC_C.dock, 0, 0.065, fd + 1.5);
   } else if (id === "skylights") { // unit-height space on a shed's roof (y = 1): four glazed lights along the ridge
     for (const x of [-13.5, -4.5, 4.5, 13.5]) box(5, 0.03, 2.2, FC_C.sky, x, 1.012, 0);
-  } else if (id === "roofPlant") { // unit-height space: a louvred screen box and two air-handling units on the flat roof
-    const hu = kind === "tower" ? 0.03 : 0.16, x0 = b.w * 0.18, z0 = -b.d * 0.18;
+  } else if (id === "roofPlant" && kind === "tower") { // ENV-HD-3: a roof item (unstretched, y = 0 at the roof): metres, sized by footprint
+    const x0 = b.w * 0.18, z0 = -b.d * 0.18;
+    box(b.w * 0.3, 2.4, b.d * 0.26, FC_C.louvre, x0, 1.15, z0);
+    box(b.w * 0.12, 1.7, b.d * 0.12, FC_C.plant, -x0, 0.8, z0);
+    box(b.w * 0.12, 1.7, b.d * 0.12, FC_C.plant, -x0 * 0.2, 0.8, -z0);
+  } else if (id === "roofPlant") { // unit-height space on a shed: a louvred screen box and two air-handling units on the flat roof
+    const hu = 0.16, x0 = b.w * 0.18, z0 = -b.d * 0.18;
     box(b.w * 0.3, hu, b.d * 0.26, FC_C.louvre, x0, 1 + hu / 2 - 0.004, z0);
     box(b.w * 0.12, hu * 0.7, b.d * 0.12, FC_C.plant, -x0, 1 + hu * 0.35 - 0.004, z0);
     box(b.w * 0.12, hu * 0.7, b.d * 0.12, FC_C.plant, -x0 * 0.2, 1 + hu * 0.35 - 0.004, -z0);
+  } else if (id === "canopy") { // ENV-HD-3: a base item (unstretched, y = 0 at the foot): a canopy on two posts over the front door, lobby glazing
+    box(9, 0.35, 3.4, FC_C.steel, 0, 4.4, fd + 1.7);
+    box(0.3, 4.2, 0.3, FC_C.iron, -4.1, 2.1, fd + 3.1); box(0.3, 4.2, 0.3, FC_C.iron, 4.1, 2.1, fd + 3.1);
+    quad(8, 3.8, FC_C.glass, 0, 2.0, fd + 0.06, 0);
   } else if (id === "dockBumpers") { // unit-height space on the shed's front: bumpers either side of each door, a light above
     const f = faces[0];
     for (const u of [-12, 0, 12]) {
@@ -214,6 +231,33 @@ function fcMergeParts(THREE, parts) {
     o += g.attributes.position.count; g.dispose();
   }
   for (const [geo] of parts) geo.dispose();
+  const out = new THREE.BufferGeometry();
+  out.setAttribute("position", new THREE.BufferAttribute(pos, 3));
+  out.setAttribute("color", new THREE.BufferAttribute(col, 3));
+  out.computeVertexNormals();
+  return out;
+}
+
+/** ENV-HD-3: bake every spot of one kind in a chunk (all its kit buckets; body, roof and base parts) into one non-indexed,
+ *  vertex-coloured geometry in world space. `place(spot, part)` returns the part's Matrix4 (reused; applied at once). */
+function fcBakeKind(THREE, arr, place) {
+  let total = 0;
+  for (const { kit, list } of arr) for (const part of ["body", "roof", "base"]) if (kit[part]) total += kit[part].attributes.position.count * list.length;
+  const pos = new Float32Array(total * 3), col = new Float32Array(total * 3), p = new THREE.Vector3();
+  let o = 0;
+  for (const { kit, list } of arr) for (const part of ["body", "roof", "base"]) {
+    const g = kit[part]; if (!g) continue;
+    const src = g.attributes.position.array, cs = g.attributes.color.array, n = g.attributes.position.count;
+    for (const s of list) {
+      const m = place(s, part);
+      for (let i = 0; i < n; i++) {
+        p.set(src[i * 3], src[i * 3 + 1], src[i * 3 + 2]).applyMatrix4(m);
+        pos[(o + i) * 3] = p.x; pos[(o + i) * 3 + 1] = p.y; pos[(o + i) * 3 + 2] = p.z;
+      }
+      col.set(cs, o * 3);
+      o += n;
+    }
+  }
   const out = new THREE.BufferGeometry();
   out.setAttribute("position", new THREE.BufferAttribute(pos, 3));
   out.setAttribute("color", new THREE.BufferAttribute(col, 3));
@@ -269,16 +313,26 @@ export function fcKitDetails(kind, group, tier = "high") {
   return tier === "low" ? set.slice(0, 2) : set;
 }
 
-/** A cached kit: { body, roof } merged geometries for (kind, group, tier); `roof` holds the unstretched roof items of a unit kind. */
+/** Where a detail's parts are drawn on a unit (stretched) kind: "body" (unit-height space), "roof" (unstretched, at y + h) or
+ *  "base" (unstretched, at the foot). Non-unit kinds draw everything in the body. */
+export function fcDetailPlace(kind, id) {
+  if (!FC_BODY[kind]?.unit) return "body";
+  if (id === "roofTank" || (id === "roofPlant" && kind === "tower")) return "roof";
+  return id === "canopy" ? "base" : "body";
+}
+
+/** A cached kit: { body, roof, base } merged geometries for (kind, group, tier); `roof` holds the unstretched roof items of a
+ *  unit kind, `base` its unstretched ground-floor items (ENV-HD-3: the robotics tower's entrance canopy). */
 export function fcKit(THREE, kind, group, tier = "high") {
   const st = fcStore(THREE), key = `${kind}/${group}/${tier === "low" ? "low" : "high"}`;
   if (st.kits.has(key)) return st.kits.get(key);
   const b = FC_BODY[kind]; let kit = null;
   if (b) {
     const ids = fcKitDetails(kind, group, tier);
-    const bodyParts = [], roofParts = [];
-    for (const id of ids) (b.unit && id === "roofTank" ? roofParts : bodyParts).push(...fcDetailParts(THREE, id, kind, b));
-    kit = { ids, body: bodyParts.length ? fcMergeParts(THREE, bodyParts) : null, roof: roofParts.length ? fcMergeParts(THREE, roofParts) : null };
+    const parts = { body: [], roof: [], base: [] };
+    for (const id of ids) parts[fcDetailPlace(kind, id)].push(...fcDetailParts(THREE, id, kind, b));
+    const merged = (list) => (list.length ? fcMergeParts(THREE, list) : null);
+    kit = { ids, body: merged(parts.body), roof: merged(parts.roof), base: merged(parts.base) };
   }
   st.kits.set(key, kit);
   return kit;
@@ -396,20 +450,41 @@ export function fcDetails({ THREE, parish, chunk, spots, tier = "high" } = {}) {
   const m4 = new THREE.Matrix4(), q = new THREE.Quaternion(), up = new THREE.Vector3(0, 1, 0), v = new THREE.Vector3(), sc = new THREE.Vector3();
   const kits = [];
   let triangles = 0;
-  for (const { kind, g, list } of buckets.values()) {
-    const kit = fcKit(THREE, kind, g, tierKey);
+  const perKind = new Map();
+  for (const bk of buckets.values()) {
+    const kit = fcKit(THREE, bk.kind, bk.g, tierKey);
     if (!kit) continue;
-    kits.push(`${kind}/${g}`);
+    kits.push(`${bk.kind}/${bk.g}`);
+    if (!perKind.has(bk.kind)) perKind.set(bk.kind, []);
+    perKind.get(bk.kind).push({ ...bk, kit });
+  }
+  // a spot's matrix for one part: the body in the building's unit-height space, roof and base items unstretched
+  const place = (s, part, unit) => {
+    q.setFromAxisAngle(up, s.rot);
+    if (part === "body") return m4.compose(v.set(s.x, s.y - 0.15, s.z), q, unit ? sc.set(s.s, s.h, s.s) : sc.set(s.s, s.s, s.s));
+    return m4.compose(v.set(s.x, s.y - 0.15 + (part === "roof" ? s.h : 0), s.z), q, sc.set(s.s, 1, s.s));
+  };
+  for (const [kind, arr] of perKind) {
     const unit = FC_BODY[kind].unit;
-    if (kit.body) {
-      const im = new THREE.InstancedMesh(kit.body, st.mat, list.length);
-      list.forEach((s, i) => { q.setFromAxisAngle(up, s.rot); m4.compose(v.set(s.x, s.y - 0.15, s.z), q, unit ? sc.set(s.s, s.h, s.s) : sc.set(s.s, s.s, s.s)); im.setMatrixAt(i, m4); });
-      im.name = `fc-${kind}-${g}`; im.userData.fcKit = kit.ids; group.add(im); triangles += fcTri(kit.body) * list.length;
+    // ENV-HD-3: variants of one kind in one chunk (or ground-floor items) -> one merged mesh, off the phone tier
+    if (tierKey !== "low" && (arr.length > 1 || arr.some((b) => b.kit.base))) {
+      const geo = fcBakeKind(THREE, arr, (s, part) => place(s, part, unit));
+      const mesh = new THREE.Mesh(geo, st.mat);
+      mesh.name = `fc-${kind}-merged`; mesh.userData.fcOwned = true;
+      mesh.userData.fcGroups = Object.fromEntries(arr.map((b) => [b.g, b.list.length]));
+      mesh.userData.fcKit = [...new Set(arr.flatMap((b) => b.kit.ids))];
+      group.add(mesh); triangles += fcTri(geo);
+      continue;
     }
-    if (kit.roof) {
-      const im = new THREE.InstancedMesh(kit.roof, st.mat, list.length);
-      list.forEach((s, i) => { q.setFromAxisAngle(up, s.rot); m4.compose(v.set(s.x, s.y - 0.15 + s.h, s.z), q, sc.set(s.s, 1, s.s)); im.setMatrixAt(i, m4); });
-      im.name = `fc-${kind}-${g}-roof`; group.add(im); triangles += fcTri(kit.roof) * list.length;
+    for (const { g, list, kit } of arr) {
+      for (const part of ["body", "roof", "base"]) {
+        if (!kit[part]) continue;
+        const im = new THREE.InstancedMesh(kit[part], st.mat, list.length);
+        list.forEach((s, i) => im.setMatrixAt(i, place(s, part, unit)));
+        im.name = part === "body" ? `fc-${kind}-${g}` : `fc-${kind}-${g}-${part}`;
+        if (part === "body") im.userData.fcKit = kit.ids;
+        group.add(im); triangles += fcTri(kit[part]) * list.length;
+      }
     }
   }
   // signs over ground-floor shops (not on the phone tier)
@@ -422,7 +497,7 @@ export function fcDetails({ THREE, parish, chunk, spots, tier = "high" } = {}) {
   }
   if (!group.children.length) return null;
   group.userData.fc = { kits, signs, triangles: Math.round(triangles), meshes: group.children.length };
-  group.dispose = () => { for (const o of group.children) { if (o.name === "fc-signs") o.geometry.dispose(); o.dispose?.(); } };
+  group.dispose = () => { for (const o of group.children) { if (o.name === "fc-signs" || o.userData.fcOwned) o.geometry.dispose(); o.dispose?.(); } };
   return group;
 }
 
