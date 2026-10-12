@@ -1,0 +1,21 @@
+# STRANDS-2 memory
+
+- Prefix `st2`; no port. Owns `robotics/strands/`, `tools/ra_bridge.mjs`, `tools/ra_export_weights.mjs`, `tools/check_strands.mjs`, `docs/strands-robots.md` and `docs/evals/strands*.json`. `ra-*.js` and `tools/arena_eval.mjs` belong to the arena console: import them, never edit them.
+- Bridge `st-bridge/2`:
+  - stations load lazily through `arena_eval.mjs` `raStations()`/`raTexts()`; the first station reset takes about 1.2 s;
+  - requests run on a promise chain, one at a time, in order;
+  - station obs: `text_keys {stepId, interruptId}`; reset obs also has `ids`;
+  - `js_run {build: "gym"|"stations"}`. ra-lm-h exists only in the stations build.
+- Weights (18 files):
+  - `ra-lm.json.gz` is the gym-only build (round 7, unchanged);
+  - `ra-lm@stations.json.gz` / `ra-lm-h@stations.json.gz` are the arena's published builds, with `tCombos[sc]["step|interrupt"]`, the normalised instruction vectors computed with raLmT's own JS expression. Python looks a vector up; it never re-normalises one;
+  - station clones `bc--rb-station-*` use RA_STATION_DEMOS = 20 and the station env in colSyntheticDemos.
+- Policy ids: random, bc, dagger-r1, dagger-r3, ra-lm, ra-lm@stations, ra-lm-h, expert. Stations take random, bc, ra-lm@stations, ra-lm-h and expert (the DAgger and step-reward clones are gym-only).
+- Robot types: cobot (+rb-station-cobot), amr (+rb-station-amr-fleet), cell (rb-station-robot-cell).
+- Seeds:
+  - dev 1–20, stations 1–3 by convention;
+  - stations never held out;
+  - 7181–7240 already ran once;
+  - 7241–7300 are ROBOLEARN-9's protocol 3, and the gate refuses them. Protocol 3 (ec8bf4c5) allows STRANDS-2 one parity check on 7241–7300 for bc and ra-lm-h, citing ec8bf4c5, with counts equal to `claw3.json`. Not done: claw3.json was not out and ec8bf4c5 is not on this branch.
+- Timing: selftest ~2–2.5 min (the ra-lm-h JS training ~11 s per bridge, so use one bridge as the oracle); weights `--check` ~20 s; `ra_dataset --full` ~22 s; the exporter on the full set ~4 s, writing 16 MB (delete it after).
+- Gotcha: the worktree guard refuses compound shell commands with heredocs at times. Write the edit scripts into `$SP/loop10/st/` with the Write tool and run them plainly.

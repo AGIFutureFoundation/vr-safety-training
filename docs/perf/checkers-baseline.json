@@ -157,7 +157,7 @@
     "check_eco.mjs": 4000,
     "check_claw.mjs": 6000,
     "check_whitepaper_page.mjs": 6000,
-    "check_strands.mjs": 60000
+    "check_strands.mjs": 240000
   },
   "notes": {
     "check_deploy_akamai.mjs": "2026-10-12 (loop 10 round 6c, console AKAMAI): new. 12 s is an ESTIMATE, not a measurement (about 12 s wall standalone on the loaded shared machine), to re-measure on a quiet gate: parses both deploy workflows with python3 and runs each probe step under bash three times, imports the deploy agent and the training job, runs ten dry runs in child processes behind a recording PATH, and runs five repository-wide text searches for credential literals. No suite load, no browser, no network.",
@@ -204,6 +204,6 @@
     "check_eco.mjs": "2026-10-12 (console ECOSYSTEM, loop 10 round 7): new. 4 s is an ESTIMATE, not a measurement; re-measure on a quiet gate. Matches 670 stations against the 91-block extract, replays one 160-step hive day through the bus adapter, and re-extracts from the sibling clones only when they are present.",
     "check_claw.mjs": "2026-10-12 (console OMEGA-CLAW, loop 10 round 6b): new. 6 s is an ESTIMATE, not a measurement; re-measure on a quiet gate. Reads docs/evals/claw.json (no arena run), runs the claw on a stub arena twice, two 700-minute persistent worlds and a replay, a fake-page loop; git log for the protocol ancestry; no browser.",
     "check_whitepaper_page.mjs": "2026-10-12 (console SEO-WHITEPAPER, loop 10 round 6c): new. 6 s is an ESTIMATE, not a measurement; re-measure on a quiet gate. Reads the page and every file it cites (the tracked-file list once), then opens the page twice in headless Chromium with JavaScript off (390 x 844 and 1920 x 1080, no SwiftShader).",
-    "check_strands.mjs": "2026-10-12 (console STRANDS, loop 10 round 7): new. 60 s is an ESTIMATE, not a measurement (the selftest took about 29 s and the weights rebuild about 14 s standalone on the shared machine); re-measure on a quiet gate. Runs python3 robotics/strands/selftest.py (stdlib only: about 60 short simulated episodes through node tools/ra_bridge.mjs and one example run), rebuilds the exported weights in memory, reads docs/evals/strands.json and git log; no browser."
+    "check_strands.mjs": "2026-10-12 (console STRANDS, loop 10 round 7): new. 60 s is an ESTIMATE, not a measurement (the selftest took about 29 s and the weights rebuild about 14 s standalone on the shared machine); re-measure on a quiet gate. Runs python3 robotics/strands/selftest.py (stdlib only: about 60 short simulated episodes through node tools/ra_bridge.mjs and one example run), rebuilds the exported weights in memory, reads docs/evals/strands.json and git log; no browser. Round 8 (console STRANDS-2): raised to 240 s, still an ESTIMATE, not a measurement (one standalone run on the loaded shared machine took about 270 s): the selftest adds station episodes (about 280 steps each) and ra-lm-h, which trains about 11 s in the bridge; the weights rebuild loads the station suite and trains two more small models; a new leg runs node tools/ra_dataset.mjs --full into a temp dir (about 22 s) and the stdlib LeRobot-style exporter on it. Re-measure on a quiet gate."
   }
 }

@@ -12,10 +12,14 @@
  *   4. honesty in code and docs: no import of a strands_harness package; the docs say it does not exist, simulated only,
  *      no hosted model; no environment read in the bridge; no model identifier
  *   5. wiring: check_all lists this checker, an estimated baseline row, CI sets up Python 3
+ *   6. STRANDS-2: the LeRobot-style JSONL exporter (robotics/strands/lerobot_jsonl.py, standard library only) on the
+ *      committed sample and on the full set (node tools/ra_dataset.mjs --full into a temp dir): round-trip counts equal
+ *      index.json's, every row valid, leakage 0
  * Run: node tools/check_strands.mjs
  */
-import { readFileSync, existsSync, readdirSync } from "node:fs";
+import { readFileSync, existsSync, readdirSync, mkdtempSync, rmSync } from "node:fs";
 import { dirname, join } from "node:path";
+import { tmpdir } from "node:os";
 import { fileURLToPath } from "node:url";
 import { execFileSync } from "node:child_process";
 
@@ -126,6 +130,30 @@ check("check_all lists check_strands, estimated baseline row, CI sets up Python 
   const b = JSON.parse(read("docs/perf/checkers-baseline.json"));
   assert(JSON.stringify(b).includes("check_strands.mjs") && /ESTIMATE/.test(JSON.stringify(b).split("check_strands.mjs").slice(-1)[0].slice(0, 300)), "baseline row");
   assert(/setup-python/.test(read(".github/workflows/webxr-checks.yml")), "CI python");
+});
+
+// 6. the LeRobot-style JSONL exporter
+const lrRun = (args) => { let out; try { out = execFileSync("python3", ["robotics/strands/lerobot_jsonl.py", "--check", ...args], { cwd: ROOT, encoding: "utf8", env: ENV, timeout: 300000 }); } catch (e) { out = e.stdout ?? ""; } return JSON.parse(out.trim().split("\n").pop()); };
+check("LeRobot-style JSONL exporter: committed sample round-trips, rows valid, leakage 0", () => {
+  const tmp = mkdtempSync(join(tmpdir(), "st2-lr-"));
+  try { const r = lrRun(["exports/robotics/arena", join(tmp, "out"), "--sample"]); assert(r.ok, r.problems.join("; ")); return `${r.episodes} episodes, ${r.frames} frames, rows ${r.rowsValid}, leakage ${r.leakage}`; }
+  finally { rmSync(tmp, { recursive: true, force: true }); }
+});
+check("LeRobot-style JSONL exporter: full set counts equal index.json, rows valid, leakage 0", () => {
+  const tmp = mkdtempSync(join(tmpdir(), "st2-lr-"));
+  try {
+    execFileSync("node", ["tools/ra_dataset.mjs", "--full", "--out", join(tmp, "ds")], { cwd: ROOT, encoding: "utf8", env: ENV, timeout: 300000 });
+    const r = lrRun([join(tmp, "ds"), join(tmp, "out")]); assert(r.ok, r.problems.join("; "));
+    return `${r.episodes} episodes, ${r.frames} frames, ${r.scenarios} scenarios, rows ${r.rowsValid}, leakage ${r.leakage}`;
+  } finally { rmSync(tmp, { recursive: true, force: true }); }
+});
+check("the exporter takes no new dependency", () => {
+  const s = read("robotics/strands/lerobot_jsonl.py");
+  const mods = [...s.matchAll(/^\s*(?:from|import)\s+([a-zA-Z_][\w.]*)/gm)].map((m) => m[1].split(".")[0]);
+  const std = new Set(["__future__", "json", "re", "shutil", "sys", "pathlib", "typing"]);
+  const extra = mods.filter((m) => !std.has(m));
+  assert(!extra.length, `imports ${extra.join(", ")}`);
+  return `imports: ${[...new Set(mods)].join(", ")}`;
 });
 
 console.log(`\ncheck_strands: ${passes} pass, ${failures} fail (${((Date.now() - t0) / 1000).toFixed(1)} s)`);
