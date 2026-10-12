@@ -170,6 +170,20 @@ Takes the warehouse and port routing jobs and moves totes between the robot site
 | “A day in the hive”, a seeded scene for the video reviews over its own hive: seconds; beats in order; events, identical on repeated runs of one seed; seeds on which its story holds; page errors; requests to another host | 27; 12; 69; 5 of 5; 0; 0 | `docs/consoles/HIVE-3.md` | observed |
 | The worst room over the hive’s day, the cell hall with 3 visitors at most: meshes (budget 120), triangles (budget 6,000) and texture MiB (budget 24) on the high tier; texture MiB on the balanced tier (budget 3) | 47; 4,712; 23.92; 2.98 | `docs/consoles/HIVE-3.md` | observed |
 | Checker checks | 32 passed | `tools/check_hive3.mjs` | count |
+| **Round four: the hive talks to itself, remembers its day and has a console tab** | | | |
+| Agent-to-agent exchanges in a seeded 200 -job day, before → after: handoffs 173, questions 45, reports 40; and on 5 further seeds at 120 jobs | 0 → 258; 174, 163, 162, 156, 158 | `docs/consoles/HIVE-4.md` | simulated |
+| Exchange lines whose every fact is re-derived from the award, the winning bid or the chain; sentences inside the speaker’s band | 516 of 516; 776 of 776 | `docs/consoles/HIVE-4.md` | count |
+| Turn-taking: replies directly after their opener; lines overlapping on the floor (over 1,294 lines); with a stubbed speech engine, exchange lines spoken in order, on the on-device voice only and one line at a time | 258 of 258; 0; 56 of 56 | `docs/consoles/HIVE-4.md` | simulated |
+| Memory references to the agent’s own earlier jobs that day, before → after, from 4 agents; grounded in the hive’s own chain (count, last site, hive-clock time); planted errors the grounding check caught | 0 → 36; 36 of 36; 3 of 3 | `docs/consoles/HIVE-4.md` | simulated |
+| In Spanish (the panel’s Spanish hive, same seed): exchanges and memory references per day, before → after; lines grounded (exchange; memory); sentences in the speaker’s band; English fragments but names | 0 → 258; 0 → 36; 516 of 516; 36 of 36; 869 of 869; 0 | `docs/consoles/HIVE-4.md` | simulated |
+| The governor with the talk on: jobs checked before dispatch; run steps monitored; physical dispatches (outcomes identical to the quiet hive) | 161 of 161; 3,631 of 3,631; 0 | `docs/consoles/HIVE-4.md` | simulated |
+| Trait recovery from text, declared at 14:14 UTC before the held-out run: a ridge regressor on 8 text features fitted on seeds 1 to 50, Spearman rank correlation on the 51 to 100 held-out personas (now, after the steward’s question cooldown): warmth; formality; verbosity; caution | 0.959; 0.832; 0.977; 0.799 | `docs/consoles/HIVE-4.md` | simulated |
+| The same test, first run right after the declaration; and after a fix that changed the padding only (warmth; formality; verbosity; caution each time) | 0.963; 0.812; 0.979; 0.804 and 0.958; 0.795; 0.980; 0.798 | `docs/consoles/HIVE-4.md` | simulated |
+| The 7 real agents as a secondary check (too small to be the claim): warmth; formality; verbosity; caution | 0.964; 0.929; 1; 0.643 | `docs/consoles/HIVE-4.md` | simulated |
+| Repetition: distinct-2 per agent (fact-masked), the default hive → the panel’s configuration: Orrin; Selka; Brann; Ivo; Tamsa; Quen; Lio; and with wording variety alone on the same events. The steward’s question cooldown (at most one question every 6 hive minutes) took it from 0.097 to 0.159, and the questions it asks a day from 103 to 45 | 0.057 → 0.075; 0.145 → 0.159; 0.078 → 0.161; 0.237 → 0.320; 0.060 → 0.110; 0.116 → 0.155; 0.050 → 0.115; 7 of 7 up; variety alone 7 of 7 up | `docs/consoles/HIVE-4.md` | simulated |
+| The instructor console’s Omega Hive tab, driven in a headless page: agent cards with portraits and the “software agent” label; lines shown (exchange turns; memory lines); governor refusals listed; eval rows read from a committed JSON; buttons; page errors | 7; 65 (32; 3); 20; 12; 0; 0 | `docs/consoles/HIVE-4.md` | observed |
+| On a phone, the tab and its selector, in pixels (width by height) | 96×44; 116×44 | `docs/consoles/HIVE-4.md` | observed |
+| Checker checks; the default hive’s day byte-identical to the base (digest 703aa91da7bb9439); stills at 1920×1080 taken and looked at | 11 passed; 4 stills | `tools/check_hive4.mjs` | count |
 | **What the panel costs** | | | |
 | Meshes, lights, triangles, draw calls and texture bytes the panel adds on the desktop or phone tier, mounted and after 60 hive steps | 0 | `docs/consoles/OMEGA-HIVE.md` | observed |
 | The desktop world it was measured in: meshes; triangles; draw calls | 312; 114,395; 137 | `docs/consoles/OMEGA-HIVE.md` | observed |
@@ -207,13 +221,17 @@ Both columns run behind the same governor, steward and approvals, with a capacit
 
 - The rooms send an agent home when its last job ends; outdoors, a figure still stays where the hive last moved it, because the hive has no “go home” move.
 
+- Trait recovery is high because the style grammar is a deterministic function of the traits and the features read that grammar’s vocabulary: it shows that the traits reach the text, not that the text is natural. Every reading is reported (the first run right after the declaration, the run after a fix to the padding, and the current one after the steward’s cooldown).
+
+- The talk first made the safety steward repeat more: it asked about a hundred questions a day from six templates and its distinct-2 fell to 0.097. A cooldown of one question every 6 hive minutes with more variants lifted it (0.145 → 0.159), at the price of fewer questions (103 → 45 a day). The rule that decides when it asks is a rule, not a judgement, and the learner in the checker is a seeded stand-in.
+
 ### What it is not
 
 ### It is: Not people
 
-The agents are software, and the page says so on every card and in every caption. Their names are invented, they are drawn with a hologram tint and a visor and halo rather than a face, and their portraits are badges.
+The agents are software, and the page says so on every card and in every caption. Their names are invented, they are drawn with a hologram tint and a visor and halo rather than a face, and their portraits are badges. The desktop high tier’s newer figure adds eyes, brows and a mouth on its visor band so that the mouth can follow the words, on a porcelain shell with no skin tone and the same label, and its portraits are drawn from that figure.
 
-Source: `docs/omega-hive.md`
+Source: `docs/omega-hive.md`, `docs/consoles/AVATARS-HD.md`
 
 ### It is: Not a language model
 
@@ -251,7 +269,7 @@ The avatar layer puts a labelled hologram figure at a robot site on the balanced
 
 ### Instructor console and Guide
 
-The Data governance tab lists the agents with their portraits, and the Guide answers “What is the Omega Hive?” from its on-device knowledge base. Both were wired when round one was integrated; the console page has not yet been driven with the full roster.
+The Data governance tab lists the agents with their portraits, and the Guide answers “What is the Omega Hive?” from its on-device knowledge base. Both were wired when round one was integrated; the console page has not yet been driven with the full roster. `HIVE-4` adds an Omega Hive tab to the console (merged): read-only, with a card for each of the 7 agents, their lines, the governor’s refusals and the evals table read from a committed JSON file; its drive on a headless page found page errors 0.
 
 ### The game’s characters
 
@@ -269,13 +287,19 @@ The same voice controller speaks the 34 game characters’ own knowledge-pack li
 
 - *Planned* What the learner turns on is remembered on the parishes page only: Bay World, Summit and Redwood have no hive panel.
 
-**Round two of this loop** is merged into the integration head (`de429b36`): `HIVE-IN-WORLD` (note last committed in `0c834a8a`); `VOICES` (note last committed in `dc890479`). Each figure from it is checked by phrase against that console’s committed note, not re-run from a branch; a note that is edited later stops the build.
+- *Planned* The Spanish exchange and memory lines are machine-assisted, like the rest of the Spanish text; a pad can repeat across the sentences of one line, as in the round before.
 
-**Round three of this loop** is merged into the integration head (`de429b36`), and each figure from it is checked by phrase against that console’s committed note, a committed data file or a commit message, not re-run from a branch: `HIVE-3` (its last commit `bb5011ca`, 8 commits since the head that round started from; its console note is committed; merged into the integration head). A note that is edited later stops the build.
+- *Planned* The console tab replays a seeded day rather than reading the learner’s own hive.
+
+**Round two of this loop** is merged into the integration head (`54c3f318`): `HIVE-IN-WORLD` (note last committed in `0c834a8a`); `VOICES` (note last committed in `dc890479`). Each figure from it is checked by phrase against that console’s committed note, not re-run from a branch; a note that is edited later stops the build.
+
+**Round three of this loop** is merged into the integration head (`54c3f318`), and each figure from it is checked by phrase against that console’s committed note, a committed data file or a commit message, not re-run from a branch: `HIVE-3` (its last commit `bb5011ca`, 8 commits since the head that round started from; its console note is committed; merged into the integration head). A note that is edited later stops the build.
+
+**Round four ** of this loop is **merged** into the integration head (`54c3f318`) and is read from it with a read-only git show: `HIVE-4` (its own commits end at `507a9448`, 8 commits of its own; its console note is committed; merged). Each figure is checked by phrase against that console’s note or its commit messages, and a rebuild re-reads the final state.
 
 Sources: `docs/consoles/OMEGA-HIVE.md`, `docs/omega-hive.md`, `docs/consoles/AGENT-AVATARS.md`, `WebXR/shared/oh-hive-data.js`, `tools/check_omega_hive.mjs`. The figures are read from those notes and files by the script that built this page. The seeded runs are simulations; no person was measured, and no hardware is involved.
 
 
 ---
 
-_Every figure on this page was checked against the repository file named beside it when the page was built (head `de429b36`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._
+_Every figure on this page was checked against the repository file named beside it when the page was built (head `54c3f318`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._

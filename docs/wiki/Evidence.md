@@ -66,7 +66,7 @@ Every number in this whitepaper comes from the repository file named beside it; 
 | **Platform: counts and content scores** | | | |
 | Scored training stations; programmes | 742 · 61 | `docs/investor/platform-summary.json` | count |
 | Content evaluation over 742 stations: mean; scoring 95 or more; 90 to 94; below 90 | 95.8 · 612 · 126 · 4 | `docs/investor/platform-summary.json` | content score |
-| Quality-gate checkers in the full run | 141 | `tools/check_all.mjs` | count |
+| Quality-gate checkers in the full run | 143 | `tools/check_all.mjs` | count |
 | Robotics facets ready in the shared export; robot sites; gym scenarios | 6 of 6 · 6 · 9 | `exports/shared/holodeck-shared.json` | count |
 | Character registry entries with a sprite; figure fits the role, before and after | 57 · 23 of 57 → 57 of 57 | `docs/consoles/AVATARS.md` | count |
 | **Robot-training stations: content score (steps, hazards, interruptions)** | | | |
@@ -223,10 +223,46 @@ Every number in this whitepaper comes from the repository file named beside it; 
 | Ratings an opted-in adult makes → pairs they become; ratings collected before opt-in, for K-12, for demo, signed out, and after a revoke | 2 → 1; 0 | `docs/consoles/ROBOTRAIN-7.md` | observed |
 | Colearn checker checks, before and after; roboscenarios checker checks | 55 → 61; 13 | `docs/consoles/ROBOTRAIN-7.md` | count |
 | Reactive agent that reads only the safety fields, passed of 3 seeds: drilling; port; fleet routing (random 0 of 3 and the expert 3 of 3 on each); hard variants with a third baseline | 3 of 3; 3 of 3; 1 of 3; 0 → 3 | `docs/perf/agent-baselines-robotics.json` | simulated |
+| **`HIVE-4`: the hive’s voices, memory and console (its committed note)** | | | |
+| Agent-to-agent exchanges in a seeded 200 -job day, before and after (handoffs 173, questions 45, reports 40); 5 further seeds at 120 jobs | 0 → 258; 174, 163, 162, 156, 158 | `docs/consoles/HIVE-4.md` | simulated |
+| Exchange lines grounded; sentences inside the speaker’s band; replies directly after their opener; lines overlapping on the floor (of 1,294) | 516 of 516; 776 of 776; 258 of 258; 0 | `docs/consoles/HIVE-4.md` | count |
+| Exchange lines spoken with a stubbed speech engine (one on-device and one network voice): in order, on the on-device voice only, one line at a time | 56 of 56 | `docs/consoles/HIVE-4.md` | simulated |
+| Memory references per seeded day, before and after; grounded in the chain; planted errors caught | 0 → 36; 36 of 36; 3 of 3 | `docs/consoles/HIVE-4.md` | simulated |
+| Spanish (the panel’s Spanish hive, same seed): exchanges and memory references per day, before and after; lines grounded (exchange; memory); sentences in the speaker’s band; English fragments but names | 0 → 258; 0 → 36; 516 of 516; 36 of 36; 869 of 869; 0 | `docs/consoles/HIVE-4.md` | simulated |
+| The steward’s question cooldown (at most one question every 6 hive minutes) with more variants: questions a day before and after; the steward’s distinct-2 before the cooldown, with it, and the default hive | 103 → 45; 0.097 → 0.159 (default 0.145) | `docs/consoles/HIVE-4.md` | simulated |
+| Governor with the talk on: jobs checked; run steps monitored; physical dispatches | 161 of 161; 3,631 of 3,631; 0 | `docs/consoles/HIVE-4.md` | simulated |
+| Declared at 14:14 UTC before the held-out run: trait recovery from 8 text features, ridge regression fitted on seeds 1 to 50, scored by Spearman rank correlation on held-out seeds 51 to 100 | 51 –100 | `docs/consoles/HIVE-4.md` | count |
+| Trait recovery, now (after the steward’s question cooldown): warmth; formality; verbosity; caution | 0.959; 0.832; 0.977; 0.799 | `docs/consoles/HIVE-4.md` | simulated |
+| Trait recovery, the first run right after the declaration: warmth; formality; verbosity; caution | 0.963; 0.812; 0.979; 0.804 | `docs/consoles/HIVE-4.md` | simulated |
+| Trait recovery after a fix that changed the padding only: warmth; formality; verbosity; caution | 0.958; 0.795; 0.980; 0.798 | `docs/consoles/HIVE-4.md` | simulated |
+| The 7 real agents, as a secondary check: warmth; formality; verbosity; caution | 0.964; 0.929; 1; 0.643 | `docs/consoles/HIVE-4.md` | simulated |
+| Distinct-2 per agent (fact-masked), the default hive → the panel’s configuration: Orrin; Selka; Brann; Ivo; Tamsa; Quen; Lio; agents above their default figure with the talk on; agents that rise with wording variety alone on the same events | 0.057 → 0.075; 0.145 → 0.159; 0.078 → 0.161; 0.237 → 0.320; 0.060 → 0.110; 0.116 → 0.155; 0.050 → 0.115; 7 of 7; 7 of 7 | `docs/consoles/HIVE-4.md` | simulated |
+| The console’s Omega Hive tab in a headless drive: cards; lines (exchange turns; memory); refusals listed; eval rows from the committed JSON; buttons; page errors; stills at 1920×1080 taken and looked at | 7; 65 (32; 3); 20; 12; 0; 0; 4 | `docs/consoles/HIVE-4.md` | observed |
+| Checker checks (`check_hive4`); neighbours: omega-hive; voices; hive-world; modules importing only what they declare; shipped modules that parse; interface | 11; 15; 10; 35; 1,119; 2,698; 21 | `docs/consoles/HIVE-4.md` | count |
+| **`AVATARS-HD`: the agents in high resolution (its committed note)** | | | |
+| Triangles per figure on the high tier, before → after (mean; worst; the console’s budget); meshes and sprites (3 + 2, of 12); draw calls silent / speaking, before → after | 1,012 → 2,693; 2,774; 3,000; 9 / 11 → 3 / 5 | `docs/consoles/AVATARS-HD.md` | count |
+| The built page at `sf-downtown` with 6 figures in view: draw calls without → with the agents (balanced; high); triangles (balanced; high); the phone tier | 195 → 249; 194 → 212; 116,754 → 121,974; 163,576 → 179,864; 154 / 56,062 unchanged | `docs/consoles/AVATARS-HD.md` | observed |
+| Distinct silhouettes among the 21 pairs (front-view overlap at most 0.9); most alike pair; median overlap | 18 of 21 → 21 of 21; 1.000 → 0.844; 0.828 → 0.677 | `docs/consoles/AVATARS-HD.md` | count |
+| Personality in the body, Spearman ρ over the 7 agents: caution with an upright posture; warmth with an open stance; verbosity with hand motion while speaking; formality with a tidy silhouette | 0.89; 1.00; 1.00; 0.93 | `docs/consoles/AVATARS-HD.md` | simulated |
+| Mouth timing: with a stubbed voice, ms from a word boundary and boundaries inside 25 ms; with the voice off, ms from a caption word onset and onsets in time; gaps in which the mouth closes | 15.3; 20 of 20; 20.0; 20 of 20; 19 of 19 | `docs/consoles/AVATARS-HD.md` | simulated |
+| Gestures in a real hive run of 120 steps (a seeded stand-in learner who approves): bids; awards; refusals; approvals; completions; each gesture’s pose measured on the bones | 200 of 200; 67 of 67; 20 of 20; 47 of 47; 45 of 45; 5 of 5 | `docs/consoles/AVATARS-HD.md` | simulated |
+| A refusal’s stop hand held for its full 1.8 s, every frame sampled in the same run, before → after the console’s fix | 15 of 20 → 20 of 20 | `docs/consoles/AVATARS-HD.md` | simulated |
+| Portraits drawn from the figure, at 96 px and 144 px, distinct; roster cards drawn from it in the built console; head and hands against the game’s 12 skin tones, the closest (the floor was 0.15) | 22 of 22; 11 of 11; 11 of 11; 0.177 | `docs/consoles/AVATARS-HD.md` | observed |
+| Word boundaries the real voice controller forwards to the figure; page errors and off-host requests in the console’s drive of the built pages | 0; 0; 0 | `docs/consoles/AVATARS-HD.md` | observed |
+| Checker checks (`check_agent_avatars`), before → after; neighbours: `check_hive_world`; `check_hive3`; modules importing only what they declare; shipped modules that parse | 70 → 92; 35; 32; 1,119; 2,698 | `docs/consoles/AVATARS-HD.md` | count |
+| **`ENV-HD-4`: scenes inside and out, and an opt-in Ultra setting (its committed note)** | | | |
+| Ultra: facade atlas px, robot-room floor and wall px (high tier → Ultra); facade texture MiB a map at Ultra against its limit | 1,024 → 2,048; 1,024 → 2,048; 22.67 of 24 | `docs/consoles/ENV-HD-4.md` | count |
+| Ultra at the 6 robot sites: triangles added (against a limit of 6,000); at the robot rooms: triangles added (limit 2,500), texture MiB a room (limit 64) | 1,344 –2,892; 912 –1,944; 49.33 –54.67 | `docs/consoles/ENV-HD-4.md` | count |
+| Looks; exterior presets before → after; site lights on the West Oakland map: triangles (limit 1,200 a site), real lights, texture bytes | 6; 0 → 36; 880; 0; 0 | `docs/consoles/ENV-HD-4.md` | count |
+| Robot rooms with lighting before → after; lights a room on the high tier (before → after; limit 3); phone, balanced and headset builds of the rooms (18 of 18 unchanged) | 0 → 6 of 6; 2 → 3; identical | `docs/consoles/ENV-HD-4.md` | count |
+| Frame time on the console’s capture machine (a shared software renderer: not a graphics-card budget), median ms, high → Ultra: the West Oakland warehouse at night (240 draw calls in both); the cell hall (25 → 27 draw calls) | 1,490 → 1,424; 864 → 894 | `docs/consoles/ENV-HD-4.md` | observed |
+| The hive operations room on the high tier: meshes; triangles; lights; texture MiB; consoles and agent spots | 25; 2,022; 3; 18.67; 7 | `docs/consoles/ENV-HD-4.md` | count |
+| Stills at 1920 × 1080, every frame looked at (36 of 36 exterior presets, 7 lit rooms, 8 with Ultra); page errors and external requests in the console’s capture drives | 51; 0; 0 | `docs/consoles/ENV-HD-4.md` | observed |
+| Checker checks (`check_hd4`); neighbours: interiors; room skins; robot interiors; exteriors; Louisiana rooms; modules importing only what they declare; the interface check | 118; 925 → 957; 382 → 401; 302; 278; 3,787; 1,122; 21 | `docs/consoles/ENV-HD-4.md` | count |
 
 Simulated: produced by the simulator on seeded runs, with synthetic demonstrations or simulated learners. Count: read from the data the repository ships. Content score: the platform's own station evaluation, scored out of 100. Each value is re-checked against its file by the build script that wrote this table. The scripted expert sees the targets, so it is a ceiling and not a competitor.
 
 
 ---
 
-_Every figure on this page was checked against the repository file named beside it when the page was built (head `de429b36`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._
+_Every figure on this page was checked against the repository file named beside it when the page was built (head `54c3f318`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._

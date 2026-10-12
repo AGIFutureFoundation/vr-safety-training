@@ -98378,6 +98378,9 @@ const IX_STYLES = {
   "ixr-port-control":  { label: "Port control room", w: 16, d: 12, h: 3.8, wall: 0xdcdfe2, floor: 0x4d5660, ceiling: 0xe8eaec, trim: 0x2f6f8c, accent: 0x4fb8c9, lamp: 0xf2f6fa, dress: [] },
   "ixr-drilling-deck": { label: "Ceiling-drilling deck", w: 20, d: 16, h: 4.2, wall: 0xa9adb0, floor: 0x8d9093, ceiling: 0x9a9ea2, trim: 0xf2c14b, accent: 0xe8b923, lamp: 0xf2f2ea, dress: [] },
   "ixr-maint-bay":     { label: "Robot maintenance bay", w: 16, d: 14, h: 5.2, wall: 0xc4cad0, floor: 0x56606a, ceiling: 0x8f989f, trim: 0xf2c14b, accent: 0x3a8fd8, lamp: 0xf2f8ff, dress: [] },
+  // ENV-HD-4 (docs/consoles/ENV-HD-4.md): the Omega Hive's operations room, generic by kind — a control room where the seven
+  // software agents' consoles stand; hd4-rooms.js furnishes it (dresser) and its screens are the seam for the hive's console.
+  "hd4-hive-ops":      { label: "Hive operations room", w: 18, d: 14, h: 4.2, wall: 0xd9dde2, floor: 0x4a535c, ceiling: 0xe4e7ea, trim: 0x2f6f8c, accent: 0x7b6cf0, lamp: 0xf2f6fa, dress: [] },
   "shop":         { label: "Rented shop", w: 11, d: 9, h: 3.6, wall: 0xf0ebe0, floor: 0x9a8f80, ceiling: 0xf4f1ea, trim: 0x2f6f8c, accent: 0xf2c14b, lamp: 0xfff4e0,
     dress: [["counter", "front"], ["rack", "wall:4"], ["crate", "row:2"]] },
 };
@@ -98470,6 +98473,8 @@ const IX_FEATURES = {
   "ixr-port-control":  [[15.4, 0.08, 0.4, 0, 0.95, -0.97, "trim"], [0.05, 0.1, 3.4, 0.99, 2.8, -0.1, "dark"], [0.05, 0.1, 3.4, 0.99, 1.0, -0.1, "dark"]],
   "ixr-drilling-deck": [[0.4, 4.2, 0.4, -0.99, 2.1, 0.1, "wall"], [0.4, 4.2, 0.4, 0.99, 2.1, 0.1, "wall"], [19.6, 0.4, 0.4, 0, 4.0, 0.55, "wall"]],
   "ixr-maint-bay":     [[15.6, 0.3, 0.3, 0, 4.7, -0.2, "accent"], [0.3, 0.3, 4, 0.45, 4.7, -0.45, "dark"], [0.05, 0.6, 2.4, -0.99, 3.0, -0.3, "trim"]],
+  // ENV-HD-4: the hive operations room's two video-wall bezels (either side of the honesty sign), acoustic panels and a cable tray.
+  "hd4-hive-ops":      [[5.8, 2.5, 0.1, -0.565, 2.2, -0.99, "dark"], [5.8, 2.5, 0.1, 0.565, 2.2, -0.99, "dark"], [0.05, 1.4, 3.2, -0.99, 2.1, -0.2, "pale"], [0.05, 1.4, 3.2, 0.99, 2.1, -0.2, "pale"], [17.4, 0.1, 0.3, 0, 3.95, -0.6, "metal"]],
 };
 
 function ixStyleFor(kind, siteId = null) { return (siteId && IX_SITE_STYLE[siteId]) || (IX_KIND_STYLE[kind] ?? "civic-lobby"); }
@@ -98517,7 +98522,8 @@ function ixSignMaterial(THREE, lines, bg = "#101820") {
   const c = document.createElement("canvas"); c.width = 512; c.height = 256;
   const g = c.getContext("2d"); if (!g) return new THREE.MeshBasicMaterial({ color: 0x101820 });
   g.fillStyle = bg; g.fillRect(0, 0, 512, 256); g.fillStyle = "#eaf6fb"; g.textAlign = "center";
-  lines.forEach((t, i) => { g.font = i ? "22px system-ui, sans-serif" : "bold 40px system-ui, sans-serif"; g.fillText(String(t).slice(0, 44), 256, 70 + i * 44); });
+  // ENV-HD-4: a line wider than the sign is condensed to fit (fillText's maxWidth) instead of running off both edges
+  lines.forEach((t, i) => { g.font = i ? "22px system-ui, sans-serif" : "bold 40px system-ui, sans-serif"; g.fillText(String(t).slice(0, 44), 256, 70 + i * 44, 488); });
   const tex = new THREE.CanvasTexture(c); if ("colorSpace" in tex) tex.colorSpace = THREE.SRGBColorSpace;
   return new THREE.MeshBasicMaterial({ map: tex });
 }
@@ -157009,13 +157015,14 @@ function fxPaintCell(g, id, x0, y0, s, mask) {
 const fxStore = new WeakMap(); // THREE -> { mats: Map, canvases: [] }
 function fxStoreOf(THREE) { let s = fxStore.get(THREE); if (!s) fxStore.set(THREE, (s = { mats: new Map(), canvases: [], textures: [] })); return s; }
 
-/** The tier's materials: { body, skin } (skin = the textured atlas, or a vertex-coloured stand-in headless). */
-function fxMaterials(THREE, tier) {
-  const st = fxStoreOf(THREE), key = tier;
+/** The tier's materials: { body, skin } (skin = the textured atlas, or a vertex-coloured stand-in headless). `atlasPx`
+ *  overrides the tier's atlas side (ENV-HD-4's opt-in Ultra setting draws it at 2048 on the desktop high tier). */
+function fxMaterials(THREE, tier, atlasPx = null) {
+  const st = fxStoreOf(THREE), key = atlasPx ? `${tier}@${atlasPx}` : tier;
   if (st.mats.has(key)) return st.mats.get(key);
   const body = Object.assign(new THREE.MeshLambertMaterial({ vertexColors: true, flatShading: true }), { name: "fx-body" });
   let skin = null;
-  const px = FX_BUDGET.atlasPx[tier] ?? 0;
+  const px = atlasPx ?? FX_BUDGET.atlasPx[tier] ?? 0;
   if (px && typeof document !== "undefined" && document.createElement) {
     try {
       const paint = (side, mask) => {
@@ -157045,7 +157052,7 @@ function fxTextureBytes(THREE) { return Math.round((fxStore.get(THREE)?.canvases
 // ------------------------------------------------------------------ geometry
 
 /** Build one site's group: the body (vertex colours) and, above the phone tier, the atlas skin. Origin = the robot pad. */
-function fxBuildSite(THREE, l, tier = "high") {
+function fxBuildSite(THREE, l, tier = "high", { atlasPx = null } = {}) {
   const lean = tier === "low", K = FX_KINDS[l.kind];
   const body = { pos: [], col: [] }, skin = { pos: [], uv: [], col: [] };
   const bm = new THREE.Matrix4().makeRotationY(l.yaw).setPosition(l.x - l.pad[0], l.y - l.pad[1], l.z - l.pad[2]);
@@ -157203,7 +157210,7 @@ function fxBuildSite(THREE, l, tier = "high") {
 
   const group = new THREE.Group(); group.name = `fx-site-${l.id}`;
   group.position.set(l.pad[0], l.pad[1], l.pad[2]);
-  const mats = fxMaterials(THREE, tier);
+  const mats = fxMaterials(THREE, tier, atlasPx);
   const geoOf = (bag, uv) => {
     const g = new THREE.BufferGeometry();
     g.setAttribute("position", new THREE.Float32BufferAttribute(bag.pos, 3));
@@ -157222,19 +157229,21 @@ function fxBuildSite(THREE, l, tier = "high") {
 
 // ------------------------------------------------------------------ the mount
 
-/** Mount this map's robot-site exteriors under `root`. `hour` (0–24) sets the lit windows (ATMOS's dusk and dawn). */
-function fxMountExteriors({ THREE, root, parish, tier = "high", hour = 12 } = {}) {
+/** Mount this map's robot-site exteriors under `root`. `hour` (0–24) sets the lit windows (ATMOS's dusk and dawn).
+ *  `atlasPx` (ENV-HD-4's Ultra, desktop high only) draws the facade atlas at that side instead of the tier's. */
+function fxMountExteriors({ THREE, root, parish, tier = "high", hour = 12, atlasPx = null } = {}) {
   const tierKey = tier === "low" ? "low" : tier === "balanced" ? "balanced" : "high";
+  const px = tierKey === "high" && atlasPx ? atlasPx : null; // never on balanced or the phone tier
   const layouts = fxLayoutsFor(parish);
   const group = THREE ? new THREE.Group() : null;
   if (group) { group.name = "fx-exteriors"; root?.add(group); }
-  const built = THREE ? layouts.map((l) => { const g = fxBuildSite(THREE, l, tierKey); group.add(g); return g; }) : [];
+  const built = THREE ? layouts.map((l) => { const g = fxBuildSite(THREE, l, tierKey, { atlasPx: px }); group.add(g); return g; }) : [];
   let lit = null;
   function setHour(h) {
     const on = atLightsOn(h);
     if (on === lit || !THREE) return on;
     lit = on;
-    const m = fxMaterials(THREE, tierKey).skin;
+    const m = fxMaterials(THREE, tierKey, px).skin;
     m.emissive.setHex(on ? 0xffcf8a : 0x000000); m.emissiveIntensity = on ? 0.95 : 1;
     return on;
   }
@@ -168024,6 +168033,508 @@ function vbMountDispatch(el, { reducedMotion = false, ent3 = null, stationHref =
 }
 
 
+/* ===== shared/aa-agent-hd.js ===== */
+// AVATARS-HD — the Omega Hive's software agents in high resolution (console AVATARS-HD, docs/consoles/AVATARS-HD.md).
+// SmartCiti.X Holodeck · Powered by AGI Corp.
+//
+// The desktop "high" tier's agent figure: rounded procedural forms (a lathed torso and head, tapered limbs with rounded joints,
+// jointed arms with simple mitten hands, feet), merged into ONE skinned mesh for the body and ONE unlit skinned mesh for what
+// glows (the role-coloured visor band, the eyes on it, the thin halo ring, the badge, the tablet's screen), plus the mouth's lit
+// opening, shown only while the agent talks. It reads as a software agent, never a person: a pale shell tinted by the agent's role
+// colour with graphite joints (no skin tone anywhere), a glowing visor band across the eyes, a halo, and the "software agent ·
+// <role>" label the mount adds. No real person's likeness: every figure is built from the persona's own numbers (its four traits,
+// role colour and outfit, and a body type from its id).
+//
+// One description, three uses. aaHdSpec(agent) -> aaHdGeometry(spec) (plain arrays, no three.js) feeds
+//   1. aaHdBuild(three, agent)  the three.js figure (SkinnedMesh + Skeleton, GPU skinning; 2 draw calls while silent);
+//   2. aaHdRender(...)          a small software rasteriser: the roster portraits (aa-agent-portraits.js aaPortrait) and
+//   3. aaHdSilhouette(...)      the silhouette masks the checker compares (the seven agents, 21 pairs).
+// The pose is one pure function, aaHdPose(spec, st), applied to the bones in the page and to the arrays in the rasteriser.
+//
+// Personality in the body (traits in [0, 1], from the persona):
+//   caution   upright spine and head, a slower idle and gesture tempo (a less careful agent leans forward a little);
+//   warmth    an open stance: arms held away from the body, feet apart, palms turned a little forward, brows a little raised;
+//   verbosity more hand motion: beat gestures on each word while speaking, a little hand motion at idle;
+//   formality a tidier silhouette: arms close and hands together in front, a collar, weight even (low formality: weight on one
+//             leg, a hip shift, a bent knee).
+// Speech in the body: the mouth opens on each word onset (aaHdMouth; the mount supplies the onsets, from the voice's boundary
+// events when voice is on, from the caption's word timing when it is off). Gestures: raise (a bid), accept (an award), stop (a
+// refusal: the hand up, palm out), nod (an approval or a completion).
+//
+// Budget (desktop high only; balanced keeps crew.js's figure and the phone tier builds none): AA_HD_BUDGET, held by
+// tools/check_agent_avatars.mjs. Every top-level name starts with `aa`/`AA_` (the bundler shares one scope). Nothing here calls a
+// network, speaks or listens.
+//
+// SEAM:
+//   aaHdSupported(three) -> bool         three.js has SkinnedMesh, Skeleton, Bone and BufferGeometry (else the mount builds today's figure)
+//   aaHdSpec(agent) -> spec              body, colours, posture (from the traits), outfit, tablet, phase
+//   aaHdGeometry(spec) -> { body, glow, talk, bones, triangles }   plain arrays (positions, normals, colours, skin indices/weights)
+//   aaHdPose(spec, st) -> { r, s, o }    bone rotations, scales and offsets; st = { t, walking, walkPhase, speaking, mouth, beat,
+//                                        gesture: { kind, k }, blink, reduced }
+//   aaHdBuild(three, agent, spec?) -> { group, body, glow, talk, bones, skeleton, apply(pose), triangles, spec }
+//   aaHdRender(geo, pose, { w, h, view, crop, bg, ss }) -> { rgba, mask, w, h }    software raster (front or side, orthographic)
+//   aaHdSilhouette(agent, { w, h, view }) -> mask (Uint8Array, 1 = figure)
+//   aaHdMaskIoU(a, b) -> intersection over union of two masks
+//   aaWordOnsets(text, durMs) -> [{ at, dur, word, char }] (ms from the line's start): the caption's word timing
+//   aaHdMouth(onsets, ms) -> openness 0..1 at ms after the line's start
+
+// No imports: the instructor console's bundle draws portraits from this module without crew.js or three.js. The two numbers it shares
+// with crew.js (the figure ceiling and the six body types) are copied, and check_agent_avatars holds them equal.
+
+/** The high tier's figure budget: meshes + sprites (crew.js CT_AVATAR_BUDGET, 12, as today), triangles and draw calls per figure. */
+const AA_HD_BUDGET = Object.freeze({ meshesAndSprites: 12, triangles: 3000, drawCallsSilent: 3, drawCallsSpeaking: 5 });
+/** crew.js CT_AVATAR_STYLES.body's heights and widths (the balanced figure's body types), so a figure keeps its build on every tier. */
+const AA_HD_BODY_DIMS = Object.freeze({ slender: { h: 1.0, w: 0.86 }, average: { h: 1.0, w: 1.0 }, broad: { h: 1.0, w: 1.18 }, tall: { h: 1.1, w: 0.98 }, compact: { h: 0.9, w: 1.04 }, full: { h: 0.98, w: 1.28 } });
+/** The skeleton: name -> parent. */
+const AA_HD_BONES = Object.freeze({
+  root: null, pelvis: "root", spine: "pelvis", chest: "spine", neck: "chest", head: "neck", mouth: "head", eyeL: "head", eyeR: "head",
+  browL: "head", browR: "head", shoulderL: "chest", elbowL: "shoulderL", wristL: "elbowL", shoulderR: "chest", elbowR: "shoulderR",
+  wristR: "elbowR", hipL: "pelvis", kneeL: "hipL", ankleL: "kneeL", hipR: "pelvis", kneeR: "hipR", ankleR: "kneeR",
+});
+const AA_HD_ORDER = Object.keys(AA_HD_BONES);
+/** Gesture lengths (ms). */
+const AA_HD_GESTURE_MS = Object.freeze({ raise: 1400, accept: 1200, stop: 1800, nod: 900, approve: 900 });
+const AA_HD_BODY_IDS = ["average", "slender", "tall", "broad", "compact", "full"]; // the same pick as the balanced figure
+
+const aaHdClamp = (v, a, b) => Math.max(a, Math.min(b, v));
+const aaHdC01 = (v) => aaHdClamp(v, 0, 1);
+
+/** FNV-1a, the same as aa-agent-portraits.js aaHash (so a figure keeps its body type on every tier). */
+function aaHdHash(s) { let h = 2166136261; for (const ch of String(s ?? "")) { h ^= ch.charCodeAt(0); h = Math.imul(h, 16777619) >>> 0; } return h; }
+const aaHdRgb = (n) => [((n >>> 16) & 255) / 255, ((n >>> 8) & 255) / 255, (n & 255) / 255];
+const aaHdMix = (a, b, k) => [a[0] + (b[0] - a[0]) * k, a[1] + (b[1] - a[1]) * k, a[2] + (b[2] - a[2]) * k];
+
+function aaHdSupported(T) { return !!(T && T.SkinnedMesh && T.Skeleton && T.Bone && T.BufferGeometry && T.BufferAttribute); }
+
+// ------------------------------------------------------------------ the spec: who this agent is, as numbers
+
+/** The figure's description from the persona: body, role colours, outfit and the posture its traits give. */
+function aaHdSpec(agent) {
+  const id = String(agent?.id ?? "agent"), h = aaHdHash(id);
+  const tr = agent?.traits ?? {};
+  const pick = (k, sh) => (Number.isFinite(+tr[k]) ? aaHdC01(+tr[k]) : 0.3 + ((h >>> sh) % 5) * 0.1); // personas without traits: from the id
+  const traits = { warmth: pick("warmth", 3), formality: pick("formality", 7), verbosity: pick("verbosity", 11), caution: pick("caution", 15) };
+  const bodyId = AA_HD_BODY_IDS[h % AA_HD_BODY_IDS.length], B = AA_HD_BODY_DIMS[bodyId] ?? { h: 1, w: 1 };
+  const av = agent?.avatar ?? {};
+  const accentN = typeof av.accent === "number" ? av.accent : typeof av.accent === "string" && /^#?[0-9a-f]{6}$/i.test(av.accent) ? parseInt(av.accent.replace("#", ""), 16) : (h & 0x7f7f7f) | 0x406080;
+  const outfit = String(av.outfit ?? "agent");
+  const accent = aaHdRgb(accentN);
+  const { warmth: w, formality: f, verbosity: v, caution: c } = traits;
+  // A cool porcelain shell and graphite joints (never a skin tone: check_agent_avatars measures the head and hands against crew.js's
+  // twelve tones); the role colour goes on the visor band, the halo, the shoulder caps, the belt, the badge and the collar or yoke.
+  const colours = {
+    accent, glow: aaHdMix(accent, [1, 1, 1], 0.12), shell: [0.83, 0.88, 0.93], shellDeep: [0.6, 0.66, 0.73],
+    graphite: [0.2, 0.24, 0.29], joint: [0.26, 0.31, 0.36], hand: [0.7, 0.75, 0.81], cap: aaHdMix(accent, [0.83, 0.88, 0.93], 0.12),
+    brow: [0.12, 0.16, 0.2], mouth: [0.05, 0.09, 0.12], eye: [0.96, 0.99, 1], foot: [0.14, 0.17, 0.2],
+    vest: [0.85, 1, 0.23], band: [0.87, 0.91, 0.93], talk: aaHdMix(accent, [1, 1, 1], 0.6),
+  };
+  const posture = {
+    lean: (0.55 - c) * 0.24, headPitch: (0.5 - c) * 0.1, headTilt: (w - 0.5) * 0.12 * (1 - f),
+    abduct: aaHdClamp(0.06 + 0.32 * w - 0.14 * f, 0.03, 0.4), stance: 0.012 + 0.08 * w, palms: 0.55 * w,
+    clasp: f > 0.7 ? aaHdC01((f - 0.7) / 0.25) : 0, shift: (1 - f) * 0.065, kneeBend: (1 - f) * 0.22, chestOpen: 0.12 * w,
+    tempo: 1.3 - 0.6 * c, handMotion: 0.1 + 0.6 * v, idleHands: 0.01 + 0.06 * v, browLift: (w - 0.4) * 0.006,
+  };
+  const tablet = outfit === "tablet" || outfit === "agent";
+  return { id, hash: h, traits, body: { id: bodyId, H: B.h, W: B.w }, accentN, colours, outfit, tablet, posture,
+    collar: f >= 0.6, vest: outfit === "hivis-vest" || outfit === "agent", yoke: outfit === "visor", bigVisor: outfit === "visor",
+    headShape: [1 + ((h >>> 19) % 3 - 1) * 0.05, 1 + ((h >>> 23) % 3 - 1) * 0.06], phase: ((h >>> 5) % 628) / 100 };
+}
+
+// ------------------------------------------------------------------ geometry from code (plain arrays)
+
+/** A revolved profile [[r, y], …] (bottom to top; r ≈ 0 makes a pole). x = sin(a)·r·sx, z = cos(a)·r·sz; a0..a1 for a partial band. */
+function aaHdLathe(profile, seg, { a0 = 0, a1 = Math.PI * 2, sx = 1, sz = 1 } = {}) {
+  const full = Math.abs(a1 - a0 - Math.PI * 2) < 1e-6, cols = full ? seg : seg + 1, v = [], f = [], rows = [];
+  for (const [r, y] of profile) {
+    if (r < 1e-5) { rows.push({ pole: v.length }); v.push([0, y, 0]); continue; }
+    const start = v.length;
+    for (let j = 0; j < cols; j += 1) { const a = a0 + ((a1 - a0) * j) / seg; v.push([Math.sin(a) * r * sx, y, Math.cos(a) * r * sz]); }
+    rows.push({ start });
+  }
+  for (let k = 0; k + 1 < rows.length; k += 1) {
+    const A = rows[k], Bq = rows[k + 1];
+    for (let j = 0; j < seg; j += 1) {
+      const j1 = full ? (j + 1) % seg : j + 1;
+      if (A.pole !== undefined && Bq.pole !== undefined) continue;
+      if (A.pole !== undefined) { f.push([A.pole, Bq.start + j1, Bq.start + j]); continue; }
+      if (Bq.pole !== undefined) { f.push([A.start + j, A.start + j1, Bq.pole]); continue; }
+      const a = A.start + j, b = A.start + j1, cc = Bq.start + j1, d = Bq.start + j;
+      f.push([a, b, cc], [a, cc, d]);
+    }
+  }
+  return { v, f };
+}
+/** An ellipsoid (radii rx, ry, rz) as a lathe. */
+function aaHdEllipsoid(rx, ry, rz, seg, rings) {
+  const prof = []; for (let i = 0; i <= rings; i += 1) { const th = -Math.PI / 2 + (Math.PI * i) / rings; prof.push([Math.abs(Math.cos(th)) < 1e-6 ? 0 : Math.cos(th) * rz, Math.sin(th) * ry]); }
+  return aaHdLathe(prof, seg, { sx: rx / rz });
+}
+/** A limb hanging from its joint (y = 0) down to y = -L: rounded at both ends, radius r0 at the joint, r1 at the far end. */
+function aaHdLimb(L, r0, r1, seg, sx = 1) {
+  return aaHdLathe([[0, -L - r1 * 0.95], [r1 * 0.72, -L - r1 * 0.62], [r1, -L], [((r0 + r1) / 2) * 1.04, -L / 2], [r0, 0], [r0 * 0.72, r0 * 0.62], [0, r0 * 0.95]], seg, { sx });
+}
+function aaHdTorus(R, r, M, N) {
+  const v = [], f = [];
+  for (let i = 0; i < M; i += 1) for (let j = 0; j < N; j += 1) { const u = (i / M) * Math.PI * 2, w = (j / N) * Math.PI * 2; v.push([(R + r * Math.cos(w)) * Math.sin(u), r * Math.sin(w), (R + r * Math.cos(w)) * Math.cos(u)]); }
+  for (let i = 0; i < M; i += 1) for (let j = 0; j < N; j += 1) { const a = i * N + j, b = ((i + 1) % M) * N + j, c = ((i + 1) % M) * N + ((j + 1) % N), d = i * N + ((j + 1) % N); f.push([a, d, c], [a, c, b]); }
+  return { v, f };
+}
+function aaHdBox(w, h, d) {
+  const x = w / 2, y = h / 2, z = d / 2, v = [], f = [];
+  const quad = (p) => { const s = v.length; v.push(...p); f.push([s, s + 1, s + 2], [s, s + 2, s + 3]); };
+  quad([[-x, -y, z], [x, -y, z], [x, y, z], [-x, y, z]]); quad([[x, -y, -z], [-x, -y, -z], [-x, y, -z], [x, y, -z]]);
+  quad([[x, -y, z], [x, -y, -z], [x, y, -z], [x, y, z]]); quad([[-x, -y, -z], [-x, -y, z], [-x, y, z], [-x, y, -z]]);
+  quad([[-x, y, z], [x, y, z], [x, y, -z], [-x, y, -z]]); quad([[-x, -y, -z], [x, -y, -z], [x, -y, z], [-x, -y, z]]);
+  return { v, f };
+}
+
+/** Euler XYZ (three.js order) rotation of a vector. */
+function aaHdRot(p, rx = 0, ry = 0, rz = 0) {
+  let [x, y, z] = p; let c, s;
+  if (rz) { c = Math.cos(rz); s = Math.sin(rz); [x, y] = [x * c - y * s, x * s + y * c]; }
+  if (ry) { c = Math.cos(ry); s = Math.sin(ry); [x, z] = [x * c + z * s, -x * s + z * c]; }
+  if (rx) { c = Math.cos(rx); s = Math.sin(rx); [y, z] = [y * c - z * s, y * s + z * c]; }
+  return [x, y, z];
+}
+
+function aaHdBuffer() { return { p: [], n: [], c: [], si: [], sw: [], i: [] }; }
+/** Push a primitive: rotated, then moved to `at` (bind pose, figure space); `col` is [r,g,b] or (vertex in figure space) -> [r,g,b];
+ * `bone` is a bone name or (vertex) -> [[bone, weight], …] (two at most). Normals: area-weighted per primitive (smooth inside it). */
+function aaHdPush(buf, prim, { at = [0, 0, 0], rot = [0, 0, 0], col, bone }) {
+  const base = buf.p.length / 3, vn = prim.v.map(() => [0, 0, 0]);
+  for (const [a, b, c] of prim.f) {
+    const A = prim.v[a], Bv = prim.v[b], C = prim.v[c];
+    const ux = Bv[0] - A[0], uy = Bv[1] - A[1], uz = Bv[2] - A[2], wx = C[0] - A[0], wy = C[1] - A[1], wz = C[2] - A[2];
+    const nx = uy * wz - uz * wy, ny = uz * wx - ux * wz, nz = ux * wy - uy * wx;
+    for (const k of [a, b, c]) { vn[k][0] += nx; vn[k][1] += ny; vn[k][2] += nz; }
+  }
+  prim.v.forEach((q, k) => {
+    const r = aaHdRot(q, rot[0], rot[1], rot[2]), P = [r[0] + at[0], r[1] + at[1], r[2] + at[2]];
+    const n = aaHdRot(vn[k], rot[0], rot[1], rot[2]), l = Math.hypot(n[0], n[1], n[2]) || 1;
+    buf.p.push(P[0], P[1], P[2]); buf.n.push(n[0] / l, n[1] / l, n[2] / l);
+    const cc = typeof col === "function" ? col(P) : col; buf.c.push(cc[0], cc[1], cc[2]);
+    const bw = typeof bone === "function" ? bone(P) : [[bone, 1]];
+    const i0 = AA_HD_ORDER.indexOf(bw[0][0]), i1 = bw[1] ? AA_HD_ORDER.indexOf(bw[1][0]) : 0;
+    buf.si.push(Math.max(0, i0), Math.max(0, i1), 0, 0); buf.sw.push(bw[0][1], bw[1] ? bw[1][1] : 0, 0, 0);
+  });
+  for (const [a, b, c] of prim.f) buf.i.push(base + a, base + b, base + c);
+}
+
+/** The bind pose: each bone's position in figure space (feet at y = 0, facing +z; the figure's left is +x). */
+function aaHdJoints(spec) {
+  const { H, W } = spec.body, hs = spec.headShape;
+  const J = {
+    root: [0, 0, 0], pelvis: [0, 0.95 * H, 0], spine: [0, 1.08 * H, 0], chest: [0, 1.26 * H, 0], neck: [0, 1.44 * H, 0], head: [0, 1.515 * H, 0],
+    shoulderL: [0.232 * W, 1.405 * H, -0.005], shoulderR: [-0.232 * W, 1.405 * H, -0.005],
+    hipL: [0.095 * W, 0.92 * H, 0], hipR: [-0.095 * W, 0.92 * H, 0],
+  };
+  J.elbowL = [J.shoulderL[0], J.shoulderL[1] - 0.27 * H, J.shoulderL[2]]; J.elbowR = [J.shoulderR[0], J.elbowL[1], J.shoulderR[2]];
+  J.wristL = [J.elbowL[0], J.elbowL[1] - 0.245 * H, J.elbowL[2]]; J.wristR = [J.elbowR[0], J.wristL[1], J.elbowR[2]];
+  J.kneeL = [J.hipL[0], 0.5 * H, 0.005]; J.kneeR = [J.hipR[0], 0.5 * H, 0.005];
+  J.ankleL = [J.hipL[0], 0.085 * H, 0]; J.ankleR = [J.hipR[0], 0.085 * H, 0];
+  const hc = J.head[1] + 0.1 * hs[1], rx = 0.104 * hs[0], ry = 0.128 * hs[1], rz = 0.114;
+  J.headC = [0, hc, 0]; J.headR = [rx, ry, rz];
+  J.mouth = [0, hc - 0.058 * hs[1], rz * 0.93 + 0.002]; J.eyeL = [0.037, hc + 0.012, rz + 0.004]; J.eyeR = [-0.037, hc + 0.012, rz + 0.004];
+  J.browL = [0.04, hc + 0.05 * hs[1], rz * 0.94]; J.browR = [-0.04, hc + 0.05 * hs[1], rz * 0.94];
+  return J;
+}
+
+/** The figure as plain arrays: the lit body, the unlit glow, the mouth's lit opening, and the bones (bind positions, parents). */
+function aaHdGeometry(spec) {
+  const J = aaHdJoints(spec), { H, W } = spec.body, C = spec.colours, P = spec.posture;
+  const body = aaHdBuffer(), glow = aaHdBuffer(), talk = aaHdBuffer();
+  const torsoBone = (q) => { // the trunk bends smoothly: pelvis → spine → chest
+    const y = q[1] / H;
+    if (y <= 1.0) return [["pelvis", 1]]; if (y < 1.12) { const k = (y - 1.0) / 0.12; return [["pelvis", 1 - k], ["spine", k]]; }
+    if (y <= 1.2) return [["spine", 1]]; if (y < 1.32) { const k = (y - 1.2) / 0.12; return [["spine", 1 - k], ["chest", k]]; }
+    return [["chest", 1]];
+  };
+  const sx = 1.24 * W, sz = 0.8 * W;
+  // trunk: hips, a belted waist (the role colour), chest and rounded shoulders (cool shell)
+  const trunk = [[0, 0.86], [0.11, 0.872], [0.148, 0.92], [0.152, 0.98], [0.138, 1.05], [0.136, 1.12], [0.152, 1.2], [0.174, 1.28], [0.182, 1.35], [0.17, 1.405], [0.125, 1.445], [0, 1.462]].map(([r, y]) => [r, y * H]);
+  aaHdPush(body, aaHdLathe(trunk, 16, { sx: sx / W, sz: sz / W }), { col: (q) => (q[1] > 0.99 * H && q[1] < 1.06 * H ? C.accent : q[1] < 0.99 * H ? C.shellDeep : C.shell), bone: torsoBone });
+  if (spec.vest) { // a high-visibility vest with two reflective bands
+    const vp = [[0.138, 1.08], [0.152, 1.17], [0.176, 1.27], [0.186, 1.34], [0.176, 1.4]].map(([r, y]) => [r + 0.012, y * H]);
+    aaHdPush(body, aaHdLathe(vp, 16, { sx: sx / W, sz: sz / W }), { col: (q) => (Math.abs(q[1] - 1.14 * H) < 0.02 || Math.abs(q[1] - 1.25 * H) < 0.02 ? C.band : C.vest), bone: torsoBone });
+  }
+  if (spec.yoke) aaHdPush(body, aaHdLathe([[0.19 + 0.014, 1.31 * H], [0.2 + 0.014, 1.37 * H], [0.18 + 0.016, 1.415 * H], [0.12, 1.452 * H]], 16, { sx: sx / W, sz: sz / W }), { col: C.accent, bone: "chest" });
+  if (spec.collar) aaHdPush(body, aaHdLathe([[0.058, 1.43 * H], [0.064, 1.46 * H], [0.06, 1.48 * H]], 12, { sz: 0.9 }), { col: C.accent, bone: "chest" });
+  // neck and head (an egg of the shell colour: no skin)
+  aaHdPush(body, aaHdLathe([[0.046, 1.43 * H], [0.041, 1.5 * H], [0.044, J.headC[1] - 0.06]], 10), { col: C.joint, bone: "neck" });
+  const [hrx, hry, hrz] = J.headR;
+  aaHdPush(body, aaHdEllipsoid(hrx, hry, hrz, 18, 10), { at: J.headC, col: C.shell, bone: "head" });
+  // brows (graphite) and the mouth slot (dark), each on its own bone
+  aaHdPush(body, aaHdBox(0.036, 0.008, 0.012), { at: J.browL, rot: [0, 0.32, 0], col: C.brow, bone: "browL" });
+  aaHdPush(body, aaHdBox(0.036, 0.008, 0.012), { at: J.browR, rot: [0, -0.32, 0], col: C.brow, bone: "browR" });
+  aaHdPush(body, aaHdEllipsoid(0.028, 0.0055, 0.009, 10, 4), { at: J.mouth, col: C.mouth, bone: "mouth" });
+  // arms: rounded shoulder, upper arm, forearm (shell over graphite), mitten hands with a thumb
+  for (const side of ["L", "R"]) {
+    const s = side === "L" ? 1 : -1, sh = J[`shoulder${side}`], el = J[`elbow${side}`], wr = J[`wrist${side}`];
+    aaHdPush(body, aaHdEllipsoid(0.066, 0.06, 0.062, 10, 6), { at: [sh[0] - s * 0.008, sh[1] + 0.006, sh[2]], col: C.cap, bone: `shoulder${side}` });
+    aaHdPush(body, aaHdLimb(0.27 * H, 0.05, 0.041, 10), { at: sh, col: C.graphite, bone: `shoulder${side}` });
+    aaHdPush(body, aaHdLimb(0.245 * H, 0.043, 0.032, 10), { at: el, col: C.shell, bone: `elbow${side}` });
+    aaHdPush(body, aaHdEllipsoid(0.02, 0.07, 0.044, 8, 6), { at: [wr[0], wr[1] - 0.07, wr[2] + 0.004], col: C.hand, bone: `wrist${side}` });
+    aaHdPush(body, aaHdLimb(0.045, 0.014, 0.011, 6), { at: [wr[0] - s * 0.006, wr[1] - 0.03, wr[2] + 0.04], rot: [0.5, 0, s * 0.35], col: C.hand, bone: `wrist${side}` });
+    // legs: thigh, shin and foot
+    const hp = J[`hip${side}`], kn = J[`knee${side}`], an = J[`ankle${side}`];
+    aaHdPush(body, aaHdLimb(hp[1] - kn[1], 0.086 * W, 0.062, 10), { at: hp, col: C.graphite, bone: `hip${side}` });
+    aaHdPush(body, aaHdLimb(kn[1] - an[1], 0.062, 0.044, 10), { at: kn, col: C.shellDeep, bone: `knee${side}` });
+    aaHdPush(body, aaHdEllipsoid(0.046, 0.036, 0.105, 10, 5), { at: [an[0], an[1] - 0.045, an[2] + 0.045], col: C.foot, bone: `ankle${side}` });
+  }
+  if (spec.tablet) { // the tablet in the left hand (its screen glows)
+    const wr = J.wristL;
+    aaHdPush(body, aaHdBox(0.17, 0.23, 0.014), { at: [wr[0] - 0.035, wr[1] - 0.11, wr[2] + 0.03], col: [0.11, 0.16, 0.2], bone: "wristL" });
+    aaHdPush(glow, aaHdBox(0.145, 0.2, 0.004), { at: [wr[0] - 0.035, wr[1] - 0.11, wr[2] + 0.039], col: aaHdMix(C.accent, [1, 1, 1], 0.35), bone: "wristL" });
+  }
+  // what glows: the role-coloured visor band across the eyes, the eyes on it, the halo, the badge
+  const hc = J.headC[1], bandH = spec.bigVisor ? 0.032 : 0.023, ringR = (y) => hrz * Math.sqrt(Math.max(0, 1 - ((y - hc) / hry) ** 2)) + 0.004;
+  aaHdPush(glow, aaHdLathe([[ringR(hc + 0.012 - bandH), hc + 0.012 - bandH], [ringR(hc + 0.012) + 0.002, hc + 0.012], [ringR(hc + 0.012 + bandH), hc + 0.012 + bandH]], 16, { a0: -1.85, a1: 1.85, sx: hrx / hrz }), { col: C.glow, bone: "head" });
+  aaHdPush(glow, aaHdEllipsoid(0.017, 0.0105, 0.006, 8, 4), { at: J.eyeL, col: C.eye, bone: "eyeL" });
+  aaHdPush(glow, aaHdEllipsoid(0.017, 0.0105, 0.006, 8, 4), { at: J.eyeR, col: C.eye, bone: "eyeR" });
+  aaHdPush(glow, aaHdTorus(0.118, 0.0065, 28, 3), { at: [0, hc + hry + 0.065, -0.01], rot: [-0.16, 0, 0], col: C.accent, bone: "head" });
+  const chestFront = 0.19 * sz + (spec.vest ? 0.014 : 0.004);
+  aaHdPush(glow, aaHdLathe([[0, 0], [0.026, 0]], 10), { at: [0.085 * W, 1.3 * H, chestFront], rot: [Math.PI / 2, 0, 0], col: C.accent, bone: "chest" });
+  // the mouth's lit opening (its own mesh: visible only while the agent talks)
+  aaHdPush(talk, aaHdEllipsoid(0.022, 0.0042, 0.006, 8, 4), { at: [0, 0, 0.0035], col: C.talk, bone: "mouth" });
+  const bones = AA_HD_ORDER.map((name) => ({ name, parent: AA_HD_BONES[name], at: J[name] ?? [0, 0, 0] }));
+  const tri = (b) => b.i.length / 3;
+  return { body, glow, talk, bones, joints: J, triangles: { body: tri(body), glow: tri(glow), talk: tri(talk), total: tri(body) + tri(glow) + tri(talk) } };
+}
+
+// ------------------------------------------------------------------ the pose (pure): personality, walking, speech, gestures
+
+const aaHdEase = (k) => { const u = aaHdC01(k); return u < 0.18 ? (u / 0.18) ** 2 * (3 - 2 * (u / 0.18)) : u > 0.82 ? ((1 - u) / 0.18) ** 2 * (3 - 2 * ((1 - u) / 0.18)) : 1; };
+const aaHdLerp3 = (a, b, k) => [a[0] + (b[0] - a[0]) * k, a[1] + (b[1] - a[1]) * k, a[2] + (b[2] - a[2]) * k];
+
+/**
+ * Bone rotations (Euler XYZ), scales and offsets for a moment. st = { t (s), walking, walkPhase, speaking, mouth 0..1, beat 0..1,
+ * gesture: { kind, k 0..1 } | null, blink 0..1, reduced }. Reduced motion: no idle, breathing, walking or blinking; a gesture
+ * holds still at its full pose (no easing in or out) and a nod does not move the head.
+ */
+function aaHdPose(spec, st = {}) {
+  const P = spec.posture, r = {}, s = {}, o = {}, red = !!st.reduced;
+  const t = red ? 0 : (Number(st.t) || 0) * P.tempo, ph = spec.phase;
+  const breathe = red ? 0 : Math.sin(t * 1.5 + ph) * 0.012, sway = red ? 0 : Math.sin(t * 0.55 + ph) * 0.025;
+  r.pelvis = [0, sway * 0.4, P.shift]; r.spine = [P.lean * 0.6 + breathe, 0, -P.shift * 0.6]; r.chest = [P.lean * 0.4 - P.chestOpen * 0.35 + breathe * 0.6, 0, -P.shift * 0.3];
+  r.neck = [-P.lean * 0.45, 0, 0]; r.head = [P.headPitch - P.lean * 0.45, sway * 1.4, P.headTilt];
+  // the arms at rest, from warmth (open), formality (clasped) and the outfit (a tablet to read)
+  const idle = red ? 0 : P.idleHands * (0.5 + 0.5 * Math.sin(t * 1.25 + ph * 2));
+  let L = { sh: [0.04, 0, P.abduct], el: [-0.14 - idle, -P.palms, 0], wr: [0, 0, 0] };
+  let R = { sh: [0.04, 0, -P.abduct], el: [-0.14 - idle * 0.8, P.palms, 0], wr: [0, 0, 0] };
+  if (P.clasp > 0) {
+    const k = P.clasp; L = { sh: aaHdLerp3(L.sh, [-0.34, -0.72, -0.08], k), el: aaHdLerp3(L.el, [-1.32, 0, 0], k), wr: L.wr }; R = { sh: aaHdLerp3(R.sh, [-0.34, 0.72, 0.08], k), el: aaHdLerp3(R.el, [-1.32, 0, 0], k), wr: R.wr };
+  }
+  if (spec.tablet) L = { sh: [-0.32, -0.38, Math.min(P.abduct, 0.12)], el: [-1.36, 0, 0], wr: [0, 0, 0] };
+  // speaking: beat gestures on each word, bigger for a verbose agent (the tablet hand stays on the tablet)
+  if (st.speaking && !red) {
+    const b = aaHdC01(Number(st.beat) || 0) * P.handMotion;
+    R.el = [R.el[0] - 0.55 * b, R.el[1], R.el[2]]; R.sh = [R.sh[0] - 0.25 * b, R.sh[1], R.sh[2] - 0.12 * b];
+    if (!spec.tablet) { L.el = [L.el[0] - 0.35 * b, L.el[1], L.el[2]]; L.sh = [L.sh[0] - 0.12 * b, L.sh[1], L.sh[2] + 0.08 * b]; }
+  }
+  // walking: legs and arms swing (cadence from the mount's walk phase)
+  let hipL = [0, 0, P.stance - P.shift], hipR = [0, 0, -P.stance - P.shift], kneeL = [P.kneeBend, 0, 0], kneeR = [0, 0, 0];
+  if (P.kneeBend) hipL = [-P.kneeBend * 0.5, 0, hipL[2]];
+  const ankL = [-P.kneeBend * 0.5, 0, -hipL[2] * 0.5], ankR = [0, 0, -hipR[2] * 0.5];
+  if (st.walking && !red) {
+    const w = Number(st.walkPhase) || 0, A = 0.42;
+    hipL = [-Math.sin(w) * A, 0, P.stance * 0.4]; hipR = [Math.sin(w) * A, 0, -P.stance * 0.4];
+    kneeL = [0.12 + 0.7 * Math.max(0, Math.cos(w)), 0, 0]; kneeR = [0.12 + 0.7 * Math.max(0, -Math.cos(w)), 0, 0];
+    if (!spec.tablet) L.sh = [Math.sin(w) * 0.32, L.sh[1], L.sh[2] * 0.5];
+    R.sh = [-Math.sin(w) * 0.32, R.sh[1], R.sh[2] * 0.5];
+    r.pelvis = [0, Math.sin(w) * 0.06, 0]; r.spine[0] += 0.04;
+  }
+  // gestures (the hive's events): raise (bid), accept (award), stop (refusal), nod / approve (approval, completion)
+  let brow = P.browLift, furrow = 0;
+  const g = st.gesture, gk = g ? (red ? 1 : aaHdEase(g.k)) : 0;
+  if (g?.kind === "raise") { R = { sh: aaHdLerp3(R.sh, [-2.78, 0, -0.16], gk), el: aaHdLerp3(R.el, [-0.28, Math.PI / 2, 0], gk), wr: aaHdLerp3(R.wr, [0, 0, -0.1], gk) }; brow += 0.007 * gk; }
+  else if (g?.kind === "accept") { const pump = red ? 0 : Math.sin(aaHdC01(g.k) * Math.PI * 4) * 0.12; R = { sh: aaHdLerp3(R.sh, [-0.5, 0, 0.12], gk), el: aaHdLerp3(R.el, [-1.8 + pump, 0, 0], gk), wr: R.wr }; brow += 0.004 * gk; }
+  else if (g?.kind === "stop") { R = { sh: aaHdLerp3(R.sh, [-1.25, 0, -0.1], gk), el: aaHdLerp3(R.el, [-1.35, Math.PI / 2, 0], gk), wr: aaHdLerp3(R.wr, [0, 0, -0.54], gk) }; furrow = gk; }
+  if ((g?.kind === "nod" || g?.kind === "approve") && !red) r.head = [r.head[0] + Math.sin(aaHdC01(g.k) * Math.PI) * 0.35, r.head[1], r.head[2]];
+  r.shoulderL = L.sh; r.elbowL = L.el; r.wristL = L.wr; r.shoulderR = R.sh; r.elbowR = R.el; r.wristR = R.wr;
+  r.hipL = hipL; r.hipR = hipR; r.kneeL = kneeL; r.kneeR = kneeR; r.ankleL = ankL; r.ankleR = ankR;
+  // the face: the mouth opens with the words, the eyes blink, the brows lift or settle
+  const m = aaHdC01(Number(st.mouth) || 0);
+  s.mouth = [1 + 0.12 * m, 1 + 2.6 * m, 1];
+  const bl = red ? 1 : 1 - 0.88 * aaHdC01(Number(st.blink) || 0); s.eyeL = [1, bl, 1]; s.eyeR = [1, bl, 1];
+  o.browL = [0, brow - 0.003 * furrow, 0]; o.browR = [0, brow - 0.003 * furrow, 0];
+  r.browL = [0, 0, 0.22 * furrow]; r.browR = [0, 0, -0.22 * furrow];
+  return { r, s, o };
+}
+
+// ------------------------------------------------------------------ the three.js figure
+
+/** Build the high-detail figure (feet at y = 0, facing +z): one skinned body, one skinned glow, the mouth's lit opening. */
+function aaHdBuild(T, agent, spec = aaHdSpec(agent)) {
+  const geo = aaHdGeometry(spec);
+  const group = new T.Group(); group.name = `aa-agent-${spec.id}`;
+  const bones = {}, list = [];
+  for (const b of geo.bones) {
+    const bone = new T.Bone(); bone.name = `aa-bone-${b.name}`;
+    const parent = b.parent ? geo.bones.find((x) => x.name === b.parent).at : [0, 0, 0];
+    bone.position.set(b.at[0] - parent[0], b.at[1] - parent[1], b.at[2] - parent[2]);
+    bone.userData.bind = [bone.position.x, bone.position.y, bone.position.z];
+    bones[b.name] = bone; list.push(bone);
+    if (b.parent) bones[b.parent].add(bone);
+  }
+  const skeleton = new T.Skeleton(list);
+  // three.js r152+ reads vertex colours as linear: the spec's colours are sRGB, so convert them (portraits use them as they are)
+  const lin = T.ColorManagement?.enabled !== false && Number(T.REVISION) >= 152 ? (c) => (c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4) : (c) => c;
+  const toGeo = (buf) => {
+    const g = new T.BufferGeometry();
+    g.setAttribute("position", new T.BufferAttribute(new Float32Array(buf.p), 3));
+    g.setAttribute("normal", new T.BufferAttribute(new Float32Array(buf.n), 3));
+    g.setAttribute("color", new T.BufferAttribute(new Float32Array(buf.c.map(lin)), 3));
+    g.setAttribute("skinIndex", new T.BufferAttribute(new Uint16Array(buf.si), 4));
+    g.setAttribute("skinWeight", new T.BufferAttribute(new Float32Array(buf.sw), 4));
+    g.setIndex(new T.BufferAttribute(buf.p.length / 3 > 65535 ? new Uint32Array(buf.i) : new Uint16Array(buf.i), 1));
+    return g;
+  };
+  // a cool lift in the shade (not the role colour: an accent glow over the whole body read as a coloured suit and warmed the head)
+  const bodyMat = new T.MeshStandardMaterial({ vertexColors: true, roughness: 0.42, metalness: 0.12, emissive: 0x5a6e82, emissiveIntensity: 0.5 });
+  const body = new T.SkinnedMesh(toGeo(geo.body), bodyMat); body.name = "aa-hd-body";
+  const glow = new T.SkinnedMesh(toGeo(geo.glow), new T.MeshBasicMaterial({ vertexColors: true, side: T.DoubleSide ?? 2 })); glow.name = "aa-hd-glow";
+  body.add(bones.root);
+  group.add(body, glow);
+  group.updateMatrixWorld?.(true);
+  body.bind(skeleton); glow.bind(skeleton, body.matrixWorld);
+  for (const m of [body, glow]) { m.frustumCulled = false; m.castShadow = false; }
+  // the mouth's lit opening: a plain mesh on the mouth bone (it opens with the bone's scale); vertices are bone-local
+  const tg = new T.BufferGeometry();
+  const tp = geo.talk.p.slice(), J = geo.joints.mouth; for (let i = 0; i < tp.length; i += 3) { tp[i] -= J[0]; tp[i + 1] -= J[1]; tp[i + 2] -= J[2]; }
+  tg.setAttribute("position", new T.BufferAttribute(new Float32Array(tp), 3)); tg.setAttribute("normal", new T.BufferAttribute(new Float32Array(geo.talk.n), 3));
+  tg.setIndex(new T.BufferAttribute(new Uint16Array(geo.talk.i), 1));
+  const talk = new T.Mesh(tg, new T.MeshBasicMaterial({ color: (Math.round(spec.colours.talk[0] * 255) << 16) | (Math.round(spec.colours.talk[1] * 255) << 8) | Math.round(spec.colours.talk[2] * 255) }));
+  talk.name = "aa-talk"; talk.visible = false; bones.mouth.add(talk);
+  function apply(pose) {
+    for (const [name, bone] of Object.entries(bones)) {
+      const rr = pose.r[name], ss = pose.s[name], oo = pose.o[name], b0 = bone.userData.bind;
+      if (rr) bone.rotation.set(rr[0], rr[1], rr[2]); else bone.rotation.set(0, 0, 0);
+      if (ss) bone.scale.set(ss[0], ss[1], ss[2]); else bone.scale.set(1, 1, 1);
+      bone.position.set(b0[0] + (oo?.[0] ?? 0), b0[1] + (oo?.[1] ?? 0), b0[2] + (oo?.[2] ?? 0));
+    }
+  }
+  apply(aaHdPose(spec, { t: 0 }));
+  return { group, body, glow, talk, bones, skeleton, apply, spec, triangles: geo.triangles, headY: geo.joints.headC[1] };
+}
+
+// ------------------------------------------------------------------ a software rasteriser: silhouettes and portraits
+
+/** Bone world matrices (3x4, row-major [r00 r01 r02 tx, …]) for a pose; skinning matrix = world × inverse(bind translation). */
+function aaHdSkin(geo, pose) {
+  const W = {}, out = [];
+  for (const b of geo.bones) {
+    const parent = b.parent ? geo.bones.find((x) => x.name === b.parent).at : [0, 0, 0];
+    const rr = pose.r[b.name] ?? [0, 0, 0], ss = pose.s[b.name] ?? [1, 1, 1], oo = pose.o[b.name] ?? [0, 0, 0];
+    const [x, y, z] = rr, a = Math.cos(x), bb = Math.sin(x), c = Math.cos(y), d = Math.sin(y), e = Math.cos(z), f = Math.sin(z);
+    const ae = a * e, af = a * f, be = bb * e, bf = bb * f;
+    const R = [c * e, -c * f, d, af + be * d, ae - bf * d, -bb * c, bf - ae * d, be + af * d, a * c]; // three.js makeRotationFromEuler, XYZ
+    const M = [R[0] * ss[0], R[1] * ss[1], R[2] * ss[2], b.at[0] - parent[0] + oo[0], R[3] * ss[0], R[4] * ss[1], R[5] * ss[2], b.at[1] - parent[1] + oo[1], R[6] * ss[0], R[7] * ss[1], R[8] * ss[2], b.at[2] - parent[2] + oo[2]];
+    const Pm = b.parent ? W[b.parent] : null;
+    const G = Pm ? [
+      Pm[0] * M[0] + Pm[1] * M[4] + Pm[2] * M[8], Pm[0] * M[1] + Pm[1] * M[5] + Pm[2] * M[9], Pm[0] * M[2] + Pm[1] * M[6] + Pm[2] * M[10], Pm[0] * M[3] + Pm[1] * M[7] + Pm[2] * M[11] + Pm[3],
+      Pm[4] * M[0] + Pm[5] * M[4] + Pm[6] * M[8], Pm[4] * M[1] + Pm[5] * M[5] + Pm[6] * M[9], Pm[4] * M[2] + Pm[5] * M[6] + Pm[6] * M[10], Pm[4] * M[3] + Pm[5] * M[7] + Pm[6] * M[11] + Pm[7],
+      Pm[8] * M[0] + Pm[9] * M[4] + Pm[10] * M[8], Pm[8] * M[1] + Pm[9] * M[5] + Pm[10] * M[9], Pm[8] * M[2] + Pm[9] * M[6] + Pm[10] * M[10], Pm[8] * M[3] + Pm[9] * M[7] + Pm[10] * M[11] + Pm[11],
+    ] : M;
+    W[b.name] = G;
+    out.push([G[0], G[1], G[2], G[3] - (G[0] * b.at[0] + G[1] * b.at[1] + G[2] * b.at[2]), G[4], G[5], G[6], G[7] - (G[4] * b.at[0] + G[5] * b.at[1] + G[6] * b.at[2]), G[8], G[9], G[10], G[11] - (G[8] * b.at[0] + G[9] * b.at[1] + G[10] * b.at[2])]);
+  }
+  return out;
+}
+function aaHdDeform(buf, S) {
+  const n = buf.p.length / 3, p = new Float32Array(n * 3), nn = new Float32Array(n * 3);
+  for (let i = 0; i < n; i += 1) {
+    const x = buf.p[3 * i], y = buf.p[3 * i + 1], z = buf.p[3 * i + 2], nx = buf.n[3 * i], ny = buf.n[3 * i + 1], nz = buf.n[3 * i + 2];
+    let X = 0, Y = 0, Z = 0, NX = 0, NY = 0, NZ = 0;
+    for (let k = 0; k < 2; k += 1) {
+      const w = buf.sw[4 * i + k]; if (!w) continue; const M = S[buf.si[4 * i + k]];
+      X += w * (M[0] * x + M[1] * y + M[2] * z + M[3]); Y += w * (M[4] * x + M[5] * y + M[6] * z + M[7]); Z += w * (M[8] * x + M[9] * y + M[10] * z + M[11]);
+      NX += w * (M[0] * nx + M[1] * ny + M[2] * nz); NY += w * (M[4] * nx + M[5] * ny + M[6] * nz); NZ += w * (M[8] * nx + M[9] * ny + M[10] * nz);
+    }
+    const l = Math.hypot(NX, NY, NZ) || 1;
+    p[3 * i] = X; p[3 * i + 1] = Y; p[3 * i + 2] = Z; nn[3 * i] = NX / l; nn[3 * i + 1] = NY / l; nn[3 * i + 2] = NZ / l;
+  }
+  return { p, n: nn };
+}
+
+/**
+ * Rasterise the posed figure, orthographic. view "front" (looking along -z) or "side" (looking along -x, the figure's left side).
+ * crop = [x0, y0, x1, y1] in figure metres (default: the whole figure); ss supersamples. Returns { rgba, mask, w, h }: rgba with
+ * Lambert shading for the body and flat colour for the glow (bg [r,g,b,a] 0..255 behind), mask 1 where the figure covers.
+ */
+function aaHdRender(geo, pose, { w = 64, h = 128, view = "front", crop = null, bg = [0, 0, 0, 0], ss = 1, talk = false } = {}) {
+  const S = aaHdSkin(geo, pose), W = w * ss, Hh = h * ss;
+  const box = crop ?? [-0.75, -0.02, 0.75, 2.05];
+  const sxk = W / (box[2] - box[0]), syk = Hh / (box[3] - box[1]);
+  const col = new Float32Array(W * Hh * 3), cov = new Uint8Array(W * Hh), depth = new Float32Array(W * Hh).fill(-Infinity);
+  const L = [0.42, 0.62, 0.66], ll = Math.hypot(...L); L[0] /= ll; L[1] /= ll; L[2] /= ll;
+  const layers = [[geo.body, true], [geo.glow, false]];
+  if (talk) layers.push([geo.talk, false]);
+  for (const [buf, lit] of layers) {
+    if (!buf.i.length) continue;
+    const d = aaHdDeform(buf, S);
+    const px = (i) => (view === "side" ? -d.p[3 * i + 2] : d.p[3 * i]), pz = (i) => (view === "side" ? d.p[3 * i] : d.p[3 * i + 2]);
+    for (let t = 0; t < buf.i.length; t += 3) {
+      const ia = buf.i[t], ib = buf.i[t + 1], ic = buf.i[t + 2];
+      const ax = (px(ia) - box[0]) * sxk, ay = (box[3] - d.p[3 * ia + 1]) * syk, bx = (px(ib) - box[0]) * sxk, by = (box[3] - d.p[3 * ib + 1]) * syk, cx = (px(ic) - box[0]) * sxk, cy = (box[3] - d.p[3 * ic + 1]) * syk;
+      const area = (bx - ax) * (cy - ay) - (cx - ax) * (by - ay); if (Math.abs(area) < 1e-9) continue;
+      const x0 = Math.max(0, Math.floor(Math.min(ax, bx, cx))), x1 = Math.min(W - 1, Math.ceil(Math.max(ax, bx, cx))), y0 = Math.max(0, Math.floor(Math.min(ay, by, cy))), y1 = Math.min(Hh - 1, Math.ceil(Math.max(ay, by, cy)));
+      for (let y = y0; y <= y1; y += 1) for (let x = x0; x <= x1; x += 1) {
+        const qx = x + 0.5, qy = y + 0.5;
+        const w0 = ((bx - qx) * (cy - qy) - (cx - qx) * (by - qy)) / area, w1 = ((cx - qx) * (ay - qy) - (ax - qx) * (cy - qy)) / area, w2 = 1 - w0 - w1;
+        if (w0 < 0 || w1 < 0 || w2 < 0) continue;
+        const z = w0 * pz(ia) + w1 * pz(ib) + w2 * pz(ic), k = y * W + x;
+        if (z <= depth[k]) continue;
+        depth[k] = z; cov[k] = 1;
+        const cr = w0 * buf.c[3 * ia] + w1 * buf.c[3 * ib] + w2 * buf.c[3 * ic], cg = w0 * buf.c[3 * ia + 1] + w1 * buf.c[3 * ib + 1] + w2 * buf.c[3 * ic + 1], cb = w0 * buf.c[3 * ia + 2] + w1 * buf.c[3 * ib + 2] + w2 * buf.c[3 * ic + 2];
+        let sh = 1;
+        if (lit) {
+          let nx = w0 * d.n[3 * ia] + w1 * d.n[3 * ib] + w2 * d.n[3 * ic], ny = w0 * d.n[3 * ia + 1] + w1 * d.n[3 * ib + 1] + w2 * d.n[3 * ic + 1], nz = w0 * d.n[3 * ia + 2] + w1 * d.n[3 * ib + 2] + w2 * d.n[3 * ic + 2];
+          if (view === "side") [nx, nz] = [-nz, nx];
+          const nl = Math.hypot(nx, ny, nz) || 1; sh = 0.42 + 0.68 * Math.max(0, (nx * L[0] + ny * L[1] + nz * L[2]) / nl) + 0.12 * Math.max(0, nz / nl);
+        }
+        col[3 * k] = Math.min(1, cr * sh); col[3 * k + 1] = Math.min(1, cg * sh); col[3 * k + 2] = Math.min(1, cb * sh);
+      }
+    }
+  }
+  const rgba = new Uint8ClampedArray(w * h * 4), mask = new Uint8Array(w * h);
+  for (let y = 0; y < h; y += 1) for (let x = 0; x < w; x += 1) {
+    let r = 0, g = 0, b = 0, a = 0;
+    for (let yy = 0; yy < ss; yy += 1) for (let xx = 0; xx < ss; xx += 1) { const k = (y * ss + yy) * W + x * ss + xx; if (cov[k]) { r += col[3 * k]; g += col[3 * k + 1]; b += col[3 * k + 2]; a += 1; } }
+    const n = ss * ss, cv = a / n, o = (y * w + x) * 4;
+    mask[y * w + x] = cv >= 0.5 ? 1 : 0;
+    const fr = a ? r / a : 0, fg = a ? g / a : 0, fb = a ? b / a : 0;
+    rgba[o] = fr * 255 * cv + bg[0] * (1 - cv); rgba[o + 1] = fg * 255 * cv + bg[1] * (1 - cv); rgba[o + 2] = fb * 255 * cv + bg[2] * (1 - cv); rgba[o + 3] = 255 * cv + bg[3] * (1 - cv);
+  }
+  return { rgba, mask, w, h };
+}
+
+/** The agent's standing silhouette (its rest pose from its traits), as a mask w × h; "front" and "side" views. */
+function aaHdSilhouette(agent, { w = 64, h = 128, view = "front" } = {}) {
+  const spec = aaHdSpec(agent);
+  return aaHdRender(aaHdGeometry(spec), aaHdPose(spec, { t: 0 }), { w, h, view }).mask;
+}
+function aaHdMaskIoU(a, b) { let i = 0, u = 0; for (let k = 0; k < a.length; k += 1) { if (a[k] && b[k]) i += 1; if (a[k] || b[k]) u += 1; } return u ? i / u : 1; }
+
+// ------------------------------------------------------------------ speech timing
+
+/** The caption's word timing: word onsets (ms from the line's start) spread over the line by word length, with a short lead and tail. */
+function aaWordOnsets(text, durMs, { leadMs = 180, tailMs = 220 } = {}) {
+  const src = String(text ?? ""), words = []; const re = /\S+/g; let m;
+  while ((m = re.exec(src))) words.push({ word: m[0], char: m.index });
+  if (!words.length) return [];
+  const span = Math.max(words.length * 60, (Number(durMs) || 0) - leadMs - tailMs), wt = words.map((x) => x.word.length + 2), tot = wt.reduce((a, b) => a + b, 0);
+  let acc = 0;
+  return words.map((x, i) => { const at = leadMs + (acc / tot) * span, dur = (wt[i] / tot) * span; acc += wt[i]; return { at, dur, word: x.word, char: x.char }; });
+}
+/** Mouth openness at `ms` after the line's start, from word onsets [{ at, dur }]: it opens at each onset and closes before the next. */
+function aaHdMouth(onsets, ms) {
+  let k = -1; for (let i = 0; i < onsets.length; i += 1) { if (onsets[i].at <= ms) k = i; else break; }
+  if (k < 0) return 0;
+  const u = (ms - onsets[k].at) / Math.max(1e-6, onsets[k].dur); // any unit: ms or s, as long as `at`, `dur` and `ms` agree
+  return u >= 0.86 ? 0 : Math.pow(Math.sin(Math.PI * Math.min(1, u / 0.86)), 0.6);
+}
+
+
 /* ===== shared/aa-agent-portraits.js ===== */
 // AGENT-AVATARS — portraits for the Omega Hive's software agents and the VBRIDGE
 // personas (console AGENT-AVATARS, docs/consoles/AGENT-AVATARS.md).
@@ -168049,11 +168560,16 @@ function vbMountDispatch(el, { reducedMotion = false, ent3 = null, stationHref =
 //   aaAgentLook(agent)                         -> { glyph, accent, outfit, key }
 //   aaPortraitSvg(agent, { size, kind })       -> SVG markup (portrait | token)
 //   aaPortraitPng(agent, { size, dpr, kind, raster }) -> Promise<data URL>, cached per agent, size and dpr
-//   aaPortraitImg(agent, { size, dpr, kind })  -> <img> showing the SVG at once, swapped for the cached 2× PNG
+//   aaPortrait(agent, { size, scale, kind })   -> AVATARS-HD: <img> showing the SVG at once, swapped for the portrait drawn from the
+//                                                 high-detail figure (aa-agent-hd.js) at size × scale (2× or 3×), cached; the seam
+//                                                 HIVE-4's hive tab calls
+//   aaPortraitFigureRgba(agent, px)            -> that portrait's pixels (RGBA, px × px), no browser needed
+//   aaPortraitImg(agent, { size, dpr, kind })  -> the same as aaPortrait (tokens keep the SVG raster)
 //   aaPortraitCacheStats()                     -> { entries, hits, rasters }
 //   aaRoleLabel(agent)                         -> the short role a label shows ("dispatcher")
 //   aaMountAgentRoster(el, { agents, siteName, size }) -> { render(agents), cards() }
 //   AA_VBRIDGE_PERSONAS                        -> the four VBRIDGE personas (client, provider, evaluator, governor)
+
 
 
 /** The four VBRIDGE personas as agents. Mirrors av-characters.js's registry
@@ -168216,8 +168732,77 @@ function aaPortraitPng(agent, { size = 48, dpr = aaDpr(), kind = "portrait", ras
 
 function aaPortraitCacheStats() { return { entries: AA_PORTRAIT_CACHE.size, hits: aaPortraitCounters.hits, rasters: aaPortraitCounters.rasters }; }
 
-/** An <img> for the portrait: the SVG at once (crisp, vector), then the cached size × dpr PNG once it is ready. */
+// ------------------------------------------------------------------ AVATARS-HD: portraits drawn from the high-detail figure
+
+/** The portrait's crop round the figure's head (metres, figure space): head, halo and shoulders, square. */
+function aaPortraitFigureCrop(geo) { const hc = geo.joints.headC[1]; return [-0.27, hc - 0.305, 0.27, hc + 0.235]; }
+
+/**
+ * The portrait drawn from the high-detail figure itself (aa-agent-hd.js: the same spec, geometry and rest pose the 3D figure uses,
+ * through its software rasteriser): head and shoulders, front view, px × px RGBA on the card colour with the card's rounded
+ * corners. No browser needed; deterministic per agent and size.
+ */
+function aaPortraitFigureRgba(agent, px = 96) {
+  const n = Math.max(16, Math.round(px)), spec = aaHdSpec(agent), geo = aaHdGeometry(spec);
+  const img = aaHdRender(geo, aaHdPose(spec, { t: 0 }), { w: n, h: n, view: "front", crop: aaPortraitFigureCrop(geo), bg: [18, 48, 63, 255], ss: n <= 64 ? 3 : 2 });
+  const rgba = img.rgba, r = (n * 10) / 64; // the SVG card's corner radius (10 of 64)
+  for (let y = 0; y < n; y += 1) for (let x = 0; x < n; x += 1) {
+    const cx = x + 0.5 < r ? r : x + 0.5 > n - r ? n - r : null, cy = y + 0.5 < r ? r : y + 0.5 > n - r ? n - r : null;
+    if (cx === null || cy === null) continue;
+    const d = Math.hypot(x + 0.5 - cx, y + 0.5 - cy) - r; if (d <= -0.5) continue;
+    rgba[(y * n + x) * 4 + 3] = Math.round(rgba[(y * n + x) * 4 + 3] * Math.max(0, Math.min(1, 0.5 - d)));
+  }
+  return rgba;
+}
+
+const AA_FIGURE_PORTRAITS = new Map();
+/** The figure portrait as a PNG data URL at size × scale device pixels (cached per agent look and pixel size); null off a browser. */
+function aaPortraitFigurePng(agent, { size = 48, scale = aaDpr() } = {}) {
+  const px = Math.max(16, Math.round(size * scale));
+  const key = `${agent?.id ?? "?"}|${aaAgentLook(agent).key}|${px}`;
+  if (AA_FIGURE_PORTRAITS.has(key)) { aaPortraitCounters.hits += 1; return AA_FIGURE_PORTRAITS.get(key); }
+  const canDraw = typeof document !== "undefined" && typeof document.createElement === "function";
+  const p = !canDraw ? Promise.resolve(null) : Promise.resolve().then(() => {
+    const c = document.createElement("canvas"); c.width = px; c.height = px;
+    const g = c.getContext?.("2d"); if (!g?.createImageData) return null;
+    const id = g.createImageData(px, px); id.data.set(aaPortraitFigureRgba(agent, px)); g.putImageData(id, 0, 0);
+    aaPortraitCounters.rasters += 1;
+    const url = c.toDataURL?.("image/png"); return typeof url === "string" && url.startsWith("data:image/png") ? url : null;
+  }).catch(() => null);
+  AA_FIGURE_PORTRAITS.set(key, p);
+  return p;
+}
+
+/**
+ * AVATARS-HD's portrait export (the seam HIVE-4's hive tab calls): an <img> at `size` CSS px that shows the SVG badge at once and
+ * swaps to the portrait drawn from the high-detail figure at size × scale device pixels (2× on a 2× screen, 3× on a 3× screen;
+ * scale is clamped to 1..3). Same card layout as before. If the figure cannot be drawn it falls back to the SVG raster.
+ * data-aa-raster reads "png@<scale>x" and data-aa-source "figure" once the figure portrait shows.
+ */
+function aaPortrait(agent, { size = 48, scale = aaDpr(), kind = "portrait" } = {}) {
+  if (typeof document === "undefined" || typeof document.createElement !== "function") return null;
+  const k = Math.min(3, Math.max(1, Number(scale) || 1));
+  if (kind !== "portrait") return aaPortraitImgSvg(agent, { size, dpr: k, kind });
+  const img = document.createElement("img");
+  img.width = size; img.height = size; img.alt = `${agent?.name ?? "Agent"}, software agent`;
+  img.className = "aa-portrait"; img.decoding = "async";
+  img.src = aaPortraitSvgUrl(agent, { size: Math.round(size * k), kind });
+  if (!img.dataset) img.dataset = {}; // a minimal DOM (the checkers' stub) has no dataset
+  img.dataset.aaAgent = String(agent?.id ?? "");
+  aaPortraitFigurePng(agent, { size, scale: k }).then((url) => {
+    if (url) { img.src = url; img.dataset.aaRaster = `png@${k}x`; img.dataset.aaSource = "figure"; return; }
+    return aaPortraitPng(agent, { size, dpr: k, kind }).then((u) => { if (/^data:image\/png/.test(u)) { img.src = u; img.dataset.aaRaster = `png@${k}x`; img.dataset.aaSource = "svg"; } });
+  }).catch(() => {});
+  return img;
+}
+
+/** An <img> for the portrait: since AVATARS-HD, drawn from the high-detail figure (aaPortrait); tokens keep the SVG raster. */
 function aaPortraitImg(agent, { size = 48, dpr = aaDpr(), kind = "portrait" } = {}) {
+  return aaPortrait(agent, { size, scale: dpr, kind });
+}
+
+/** The SVG at once (crisp, vector), then the cached size × dpr PNG of the SVG once it is ready (the token's portrait). */
+function aaPortraitImgSvg(agent, { size = 48, dpr = aaDpr(), kind = "portrait" } = {}) {
   if (typeof document === "undefined" || typeof document.createElement !== "function") return null;
   const img = document.createElement("img");
   img.width = size; img.height = size; img.alt = `${agent?.name ?? "Agent"}, software agent`;
@@ -168523,8 +169108,13 @@ function ohTraitChips(traits = {}) {
 // reply is used only when ohGrounded() passes on it — otherwise the on-device line is spoken.
 //
 // SEAM:
-//   ohSay(agent, event, { neutral, lang }) -> string   event: { type | about, t, jobId, to, siteName, task, reason, score, steps, lines, bid, z }
+//   ohSay(agent, event, { neutral, lang, variety, recent }) -> string   event: { type | about, t, jobId, to, siteName, task, reason, score, steps, lines, bid, z }
 //     lang is "en" (the default) or "es"; an agent from ohAgentIn(agent, lang) speaks its own language (its style, padding and voice).
+//   HIVE-4 (loop 10 round 4): the talk kinds (OH_CORES_TALK: an opener and a reply at a handoff, a question about a bid and its
+//     answer, the auditor's report and the dispatcher's acknowledgement) and the day's memory (two sentences: the count, then the
+//     site and the hive-clock time of the last one), slotted from the event: toName, hops, load, skill, count, kinds, lastSite,
+//     clock. `variety: true` adds more cores, openers, closers and padding of the same kinds and skips any part used in the
+//     agent's `recent` lines when another fits; without it the output is byte-identical to round 3's.
 //   ohGrounded(line, event, { siteNames }) -> { ok, facts: [string], missing: [string] }
 //   ohWords(text) -> [word], ohSentences(text) -> [sentence]
 //   ohDialogueAdapter(agent, { transport }) -> { describe(), configure(fields), respond(event) -> Promise<{ ok, line, source, reason? }> }
@@ -168584,10 +169174,81 @@ const OH_CORES_ES = Object.freeze({
   supervise_on: ["{supervisor} aprueba ahora cada trabajo antes de que se ejecute", "Cada trabajo espera a {supervisor} antes de ejecutarse"],
 });
 
+/**
+ * HIVE-4: what agents say TO each other (each kind names its addressee as {toName}) and the day's memory. Every number, id, site
+ * and name is a slot filled from the event (oh-hive.js fills them from the award, the winner's bid, the chain check and the hive's
+ * own chain); a template carries no fact of its own. Each kind has variants short enough for its speakers' bands.
+ */
+const OH_CORES_TALK = Object.freeze({
+  handoff: ["{toName}, {job} at {site} is yours", "{toName}, please take {job} for {site}", "Over to you, {toName}: {job} at {site}", "{job} at {site} goes to you, {toName}, bid {bid}"],
+  confirm: ["Confirmed, {toName}: I have {job} at {site}", "Got it, {toName}, {job} for {site} is with me", "Thanks, {toName}, I will take {job} at {site}", "{job} at {site} is mine, {toName}"],
+  question_far: ["{toName}, your bid of {bid} on {job} comes from {hops} hops out; is it sound?", "{toName}, you are {hops} hops from {site}; why bid {bid} on {job}?", "{toName}, {job} is {hops} hops from you; can your bid of {bid} hold?", "{toName}, {site} is {hops} hops off; is {bid} on {job} right?", "A question, {toName}: why travel {hops} hops for {job} at {bid}?"],
+  question_load: ["{toName}, you carry a load of {load}; why bid {bid} on {job}?", "{toName}, with a load of {load}, can you take {job} at {site}?", "{toName}, your load is {load}; is a bid of {bid} on {job} wise?", "{toName}, you hold a load of {load} already; will {job} at {site} fit?", "A question, {toName}: a load of {load} and a bid of {bid} on {job}?"],
+  answer: ["{toName}, my skill for this task is {skill}, so {bid} still won", "Fair question, {toName}: skill {skill}, load {load}, {hops} hops, and no bid beat {bid}", "My skill here is {skill}, and {bid} was the top bid, {toName}", "{toName}, {bid} was the best bid on {job}, with skill {skill}", "It holds, {toName}: skill {skill} and the top bid at {bid}", "{toName}, no bid on {job} beat {bid}; my skill is {skill}"],
+  report: ["{toName}, the chain after {job} holds {lines} lines, all intact", "{toName}, chain check done: {lines} lines, every one intact", "For you, {toName}: {lines} lines in the chain, none broken"],
+  ack: ["Thanks, {toName}, {lines} intact lines noted on the board", "Noted, {toName}: {lines} lines checked, so the board keeps moving", "Good to hear, {toName}; {lines} lines intact and the queue goes on"],
+  memory: ["That makes {count} {kinds} for me today", "Today I have done {count} {kinds} so far", "{count} {kinds} for me today, counting this one"],
+});
+/** HIVE-4: a second sentence for a kind (the memory's last site and its time on the hive clock; "reset" for cell entries and zone set-ups). */
+const OH_SECOND = Object.freeze({
+  memory: ["The last was at {lastSite}, {clock} on the hive clock", "Last one: {lastSite}, {clock} hive time", "Before this, {lastSite} at {clock}"],
+  memory_reset: ["I last reset {lastSite} at {clock} on the hive clock", "Last reset: {lastSite}, {clock} hive time", "The last one I reset was {lastSite}, at {clock} hive time"],
+});
+/** HIVE-4 variety: more cores of the same kinds (used only with `variety: true`). */
+const OH_CORES_MORE = Object.freeze({
+  announce: ["Fresh job {job} for {site}", "On the board now: {job} at {site}", "We have {job} waiting at {site}", "Incoming for {site}: {job}, {task}"],
+  award: ["{job} for {site} is with me now", "I have {job} at {site}, bid {bid}"],
+  move: ["Off to {site} for {job}", "Making my way to {site}, {job} in hand", "Bound for {site} to start {job}"],
+  wait: ["{site} has a robot busy, so {job} holds", "{job} queues behind the running job at {site}"],
+  dispatch: ["The simulated robot at {site} is running {job}", "{job} under way at {site}, simulated robot only", "Sim run for {job} begins at {site}"],
+  complete: ["{job} closed out at {site}, score {score}", "Done with {job} at {site}: {score} in {steps} steps", "{site} reports {job} complete, scoring {score}"],
+  refused: ["No run for {job} at {site}: the governor said {reason}", "The governor stopped {job} at {site} on {reason}"],
+  veto: ["I hold {job} at {site} back: {reason}", "{job} at {site} gets my veto for {reason}"],
+  approval: ["{job} at {site} asks for a physical robot, so the supervisor decides", "Supervisor, {job} at {site} names a physical robot; a simulated run or none?"],
+  approved: ["{job} is cleared for the simulated robot at {site}, and only there", "The supervisor said yes to {job} at {site}, in the sim only"],
+  declined: ["{job} at {site} stays closed: the supervisor declined it", "The supervisor said no to {job} at {site}, so it closes"],
+  coach: ["{job} ended at {score} after {steps} steps; we look at {reason}", "Let us review {reason} on {job}: score {score}, {steps} steps"],
+  audit: ["Chain walked after {job}: {lines} lines, all intact"],
+});
+/** HIVE-4 variety: more padding per agent (its own lexicon, by role key), more openers and closers of the same register and warmth. */
+const OH_PADS_MORE = Object.freeze({
+  dispatcher: ["board is current", "next one up soon", "queue in good order"],
+  "safety-steward": ["with the zone marked out", "after a fresh look", "with the stop in reach"],
+  "maintenance-planner": ["kit checked twice", "rig prepped", "with the work order ready"],
+  "consent-keeper": ["your call as always", "noted for you", "with your consent on record"],
+  trainer: ["good effort all round", "learning as we go", "steady hands"],
+  auditor: ["entry by entry", "as the log shows", "chain first"],
+  logistics: ["carts lined up", "route set", "fast lane"],
+});
+const OH_OPENER_MORE = Object.freeze({ "formal-warm": ["Pleased to say,", "Gladly,"], "formal-cool": ["For clarity,", "Logged:"], "casual-warm": ["Hey all,", "Alright team,"], "casual-cool": ["Okay then,", "Heads up:"] });
+const OH_CLOSER_MORE = Object.freeze({ "warm-careful": ["Thanks for checking with me", "Safe work, everyone"], "warm-brisk": ["Great going, all", "Nice one, team"], "cool-careful": ["Entered in the log", "Checked and closed"], "cool-brisk": ["Onward", "That is all"] });
+
+/**
+ * HIVE-4: the talk and the memory in Spanish, for the same slots as the English (machine-assisted, awaiting a native speaker's
+ * review like the rest of the Spanish pack). Site names, job ids and agent names stay as the event has them; a task kind is named
+ * from OH_TASK_NOUNS_ES by the event's task type, so a Spanish line keeps no English fragment but names.
+ */
+const OH_CORES_TALK_ES = Object.freeze({
+  handoff: ["{toName}, {job} en {site} es tuyo", "{toName}, toma {job} para {site}, por favor", "Te lo paso, {toName}: {job} en {site}", "{job} en {site} es para ti, {toName}, oferta {bid}"],
+  confirm: ["Confirmado, {toName}: tengo {job} en {site}", "Entendido, {toName}, {job} para {site} queda conmigo", "Gracias, {toName}, me quedo con {job} en {site}", "{job} en {site} es mío, {toName}"],
+  question_far: ["{toName}, tu oferta de {bid} por {job} viene de {hops} saltos; ¿es sólida?", "{toName}, estás a {hops} saltos de {site}; ¿por qué ofreces {bid} por {job}?", "{toName}, {job} está a {hops} saltos de ti; ¿se sostiene tu oferta de {bid}?", "{toName}, {site} queda a {hops} saltos; ¿es correcta la oferta de {bid}?", "Una pregunta, {toName}: ¿por qué viajar {hops} saltos por {job} con {bid}?"],
+  question_load: ["{toName}, llevas una carga de {load}; ¿por qué ofreces {bid} por {job}?", "{toName}, con una carga de {load}, ¿puedes tomar {job} en {site}?", "{toName}, tu carga es {load}; ¿es prudente una oferta de {bid} por {job}?", "{toName}, ya llevas una carga de {load}; ¿cabe {job} en {site}?", "Una pregunta, {toName}: ¿una carga de {load} y una oferta de {bid} por {job}?"],
+  answer: ["{toName}, mi habilidad para esta tarea es {skill}, así que {bid} ganó", "Buena pregunta, {toName}: habilidad {skill}, carga {load}, {hops} saltos, y ninguna oferta superó {bid}", "Mi habilidad aquí es {skill}, y {bid} fue la mejor oferta, {toName}", "{toName}, {bid} fue la mejor oferta por {job}, con habilidad {skill}", "Se sostiene, {toName}: habilidad {skill} y la mejor oferta, {bid}", "{toName}, ninguna oferta por {job} superó {bid}; mi habilidad es {skill}"],
+  report: ["{toName}, la cadena tras {job} tiene {lines} líneas, todas intactas", "{toName}, revisión hecha: {lines} líneas, todas intactas", "Para ti, {toName}: {lines} líneas en la cadena, ninguna rota"],
+  ack: ["Gracias, {toName}, anoto {lines} líneas intactas en el tablero", "Anotado, {toName}: {lines} líneas revisadas, el tablero sigue", "Qué bien, {toName}; {lines} líneas intactas y la cola sigue"],
+  memory: ["Con este trabajo llevo {count} {kinds} hoy", "Hoy llevo {count} {kinds}, contando este trabajo", "Ya son {count} {kinds} para mí hoy"],
+});
+const OH_SECOND_ES = Object.freeze({
+  memory: ["El trabajo anterior: {lastSite}, a las {clock}", "Antes: {lastSite}, a las {clock}", "Antes de este, {lastSite} a las {clock} de la colmena"],
+  memory_reset: ["Reinicié por última vez {lastSite} a las {clock}", "Último reinicio: {lastSite}, {clock} en la colmena", "El último que reinicié fue {lastSite}, a las {clock}"],
+});
+/** HIVE-4: how a worker names a task kind in Spanish when it counts its day (by the event's task type). */
+const OH_TASK_NOUNS_ES = Object.freeze({ "rb-cell-entry": "entradas a la celda", "rb-cobot-zone-setup": "ajustes de zona", "rb-teleop-pick-place": "tareas de recoger y colocar", "rb-amr-fleet-routing": "rutas de almacén" });
+
 /** The phrase packs by language: the cores, the reasons' calm phrases, the sentence that explains an approval request. */
 const OH_PACKS = Object.freeze({
-  en: Object.freeze({ cores: OH_CORES, reasonPhrases: OH_REASON_PHRASES, approvalWhy: "the physical path is disabled, so only a simulated run is possible", fallbackPhrase: "a rule asked for it" }),
-  es: Object.freeze({ cores: OH_CORES_ES, reasonPhrases: OH_REASON_PHRASES_ES, approvalWhy: "la vía física está desactivada, así que solo es posible una ejecución simulada", fallbackPhrase: "una regla lo pidió" }),
+  en: Object.freeze({ cores: OH_CORES, reasonPhrases: OH_REASON_PHRASES, approvalWhy: "the physical path is disabled, so only a simulated run is possible", fallbackPhrase: "a rule asked for it", talk: OH_CORES_TALK, second: OH_SECOND, more: OH_CORES_MORE }),
+  es: Object.freeze({ cores: OH_CORES_ES, reasonPhrases: OH_REASON_PHRASES_ES, approvalWhy: "la vía física está desactivada, así que solo es posible una ejecución simulada", fallbackPhrase: "una regla lo pidió", talk: OH_CORES_TALK_ES, second: OH_SECOND_ES, taskNouns: OH_TASK_NOUNS_ES }),
 });
 
 /** Kinds whose reason gets a sentence of its own: the reason's calm phrase (OH_REASON_PHRASES), fitted to the band. */
@@ -168612,13 +169273,15 @@ function ohFill(tpl, ev, pack = OH_PACKS.en) {
   const slots = {
     job: ev.jobId ?? "", site: ev.siteName ?? ev.to ?? "", task: (ev.task ?? "").replace(/^./, (c) => c.toLowerCase()), reason, phrase: pack.reasonPhrases[reason] ?? pack.fallbackPhrase,
     score: ev.score ?? "", steps: ev.steps ?? "", lines: ev.lines ?? "", bid: ev.bid ?? "", z: ev.z ?? "", supervisor: ev.supervisor ?? "",
+    // HIVE-4: the talk and memory slots (from the award, the winner's bid, the chain check and the hive's own chain).
+    toName: ev.toName ?? "", hops: ev.hops ?? "", load: ev.load ?? "", skill: ev.skill ?? "", count: ev.count ?? "", kinds: pack.taskNouns?.[ev.taskType] ?? ev.kinds ?? "", lastSite: ev.lastSite ?? "", clock: ev.clock ?? "",
   };
   return tpl.replace(/\{(\w+)\}/g, (_, k) => String(slots[k] ?? ""));
 }
 // A sentence starts with a capital, unless it starts with an id (a job id stays exactly as the event has it).
 function ohCap(s) { return /^[a-z]+-[0-9a-z]/.test(s) ? s : s.replace(/^\s*([a-z])/, (m, c) => m.replace(c, c.toUpperCase())); }
 // After an opener, an ordinary capitalised word drops its capital; "I", ids and names keep theirs.
-function ohAfterOpener(s) { return /^(I\b|[A-Z][a-z]*[A-Z0-9-])/.test(s) || /^[A-Z][a-z]+ [A-Z]/.test(s) ? s : s.replace(/^[A-Z]/, (c) => c.toLowerCase()); }
+function ohAfterOpener(s, keep = []) { return /^(I\b|[A-Z][a-z]*[A-Z0-9-])/.test(s) || /^[A-Z][a-z]+ [A-Z]/.test(s) || keep.some((k) => k && s.startsWith(k)) ? s : s.replace(/^[A-Z]/, (c) => c.toLowerCase()); }
 function ohEnd(s) { return /[.!?]$/.test(s) ? s : `${s}.`; }
 
 /**
@@ -168643,12 +169306,14 @@ function ohFit(body, band, pads, rnd) {
  * every agent speaks the bare core sentence (no opener, hedge, padding or closer): the control for the
  * distinctiveness eval, where only the role is left to tell speakers apart.
  */
-function ohSay(agentIn, event = {}, { neutral = false, lang = null } = {}) {
+function ohSay(agentIn, event = {}, { neutral = false, lang = null, variety = false, recent = null } = {}) {
   const want = ohLangFor(lang ?? agentIn?.lang ?? "en");
   // An agent asked for another language than its own is localised first (its style, padding and voice follow the language).
   const agent = agentIn && (agentIn.lang ?? "en") !== want ? ohAgentIn(agentIn, want) : agentIn;
   const pack = OH_PACKS[want];
   const kind = event.about ?? event.type;
+  // HIVE-4: the talk kinds, the memory and the variety path are built by ohSayMore; round 3's kinds without variety stay below.
+  if (agent && !neutral && (variety || (!pack.cores[kind] && pack.talk?.[kind]))) return ohSayMore(agent, event, pack, kind, { variety, recent });
   const cores = pack.cores[kind];
   if (!agent || !cores) return "";
   const st = agent.style ?? {};
@@ -168670,6 +169335,60 @@ function ohSay(agentIn, event = {}, { neutral = false, lang = null } = {}) {
   const sentences = [ohEnd(ohCap(ohFit(core, band, pads, rnd)))];
   if (OH_WHY.has(kind) && pack.reasonPhrases[event.reason]) sentences.push(ohEnd(ohCap(ohFit(why(kind), band, pads, rnd))));
   if ((st.closers ?? []).length && rnd() < st.closerRate) sentences.push(ohEnd(ohCap(ohFit(st.closers[Math.floor(rnd() * st.closers.length)], band, pads, rnd))));
+  return sentences.join(" ");
+}
+
+/** HIVE-4: the warmth and caution classes of a style (the same thresholds as ohStyleFromTraits). */
+function ohClasses(agent) {
+  const tr = agent?.traits ?? {};
+  const warm = Number(tr.warmth ?? 0.5) >= 0.6, careful = Number(tr.caution ?? 0.5) >= 0.6;
+  return { open: `${agent?.style?.register ?? "casual"}-${warm ? "warm" : "cool"}`, close: `${warm ? "warm" : "cool"}-${careful ? "careful" : "brisk"}` };
+}
+/** The longest literal run of a template (its words outside the slots): how a repeated template is recognised in recent lines. */
+function ohLiteral(tpl) { return String(tpl).split(/\{\w+\}/).map((x) => x.replace(/^[\s,.:;?]+|[\s,.:;?]+$/g, "")).sort((a, b) => b.length - a.length)[0] ?? ""; }
+
+/**
+ * HIVE-4: a line for the talk kinds, the memory, or any kind with `variety`. The same grammar as ohSay (the band, the opener,
+ * hedge and closer rates, padding from the agent's own lexicon), with more variants when `variety` is on, and with any variant,
+ * opener, closer or pad already in the agent's `recent` lines skipped when another fits. Facts are slotted from the event only.
+ */
+function ohSayMore(agent, event, pack, kind, { variety = false, recent = null } = {}) {
+  const tpls = [...(pack.cores[kind] ?? pack.talk?.[kind] ?? []), ...(variety ? pack.more?.[kind] ?? [] : [])];
+  if (!tpls.length) return "";
+  const st = agent.style ?? {};
+  const band = st.band ?? [6, 14];
+  const rnd = ohRng(ohFnv(`h4|${agent.id}|${kind}|${event.jobId ?? ""}|${event.t ?? 0}|${event.reason ?? ""}|${event.lines ?? ""}|${event.count ?? ""}|${event.toName ?? ""}`));
+  const seen = (recent ?? []).join(" \n ").toLowerCase();
+  const fresh = (xs, lit = (x) => x) => { if (!seen) return xs; const ys = xs.filter((x) => { const l = lit(x).toLowerCase(); return l.length < 4 || !seen.includes(l); }); return ys.length ? ys : xs; };
+  const pick = (xs) => xs[Math.floor(rnd() * xs.length)];
+  const cls = ohClasses(agent);
+  const keep = [event.toName].filter(Boolean);
+  // The core: a variant that fits the band and was not in the agent's recent lines (else the shortest).
+  const all = tpls.map((tp) => ({ tp, text: ohFill(tp, event, pack) }));
+  const fitting = all.filter((c) => ohWords(c.text).length <= band[1]);
+  let core = (fitting.length ? pick(fresh(fitting, (c) => ohLiteral(c.tp))) : all.slice().sort((a, b) => ohWords(a.text).length - ohWords(b.text).length)[0]).text;
+  const openers = fresh([...(st.openers ?? []), ...(variety && pack === OH_PACKS.en ? OH_OPENER_MORE[cls.open] ?? [] : [])]);
+  if (openers.length && rnd() < st.openerRate) { const op = pick(openers); if (ohWords(`${op} ${core}`).length <= band[1]) core = `${op} ${ohAfterOpener(core, keep)}`; }
+  if (OH_HEDGED.has(kind) && (st.hedges ?? []).length && rnd() < st.hedgeRate) {
+    const h = pick(fresh(st.hedges));
+    if (ohWords(`${core}, ${h}`).length <= band[1]) core = `${core}, ${h}`;
+  }
+  const allPads = [...(st.pad ?? []), ...(variety && pack === OH_PACKS.en ? OH_PADS_MORE[agent.key] ?? [] : []), ...(st.hedges ?? [])];
+  const pads = fresh(allPads);
+  // Fresh padding first; if the band's lower bound is still not reached, the agent's other pads (never one already in the sentence).
+  const fit = (body) => { const a = ohFit(body, band, pads, rnd); return ohWords(a).length >= band[0] ? a : ohFit(a, band, allPads.filter((x) => !a.includes(x)), rnd); };
+  const sentences = [ohEnd(ohCap(fit(core)))];
+  // A second sentence: the reason's phrase (as in ohSay), or the memory's last site and time.
+  if (OH_WHY.has(kind) && pack.reasonPhrases[event.reason]) sentences.push(ohEnd(ohCap(fit(kind === "approval" ? pack.approvalWhy : pack.reasonPhrases[event.reason]))));
+  const second = pack.second?.[event.reset ? `${kind}_reset` : kind];
+  if (second?.length) {
+    const opts = second.map((tp) => ({ tp, text: ohFill(tp, event, pack) }));
+    const fit2 = opts.filter((c) => ohWords(c.text).length <= band[1]);
+    const s2 = (fit2.length ? pick(fresh(fit2, (c) => ohLiteral(c.tp))) : opts.slice().sort((a, b) => ohWords(a.text).length - ohWords(b.text).length)[0]).text;
+    sentences.push(ohEnd(ohCap(fit(s2))));
+  }
+  const closers = fresh([...(st.closers ?? []), ...(variety && pack === OH_PACKS.en ? OH_CLOSER_MORE[cls.close] ?? [] : [])]);
+  if (closers.length && rnd() < st.closerRate) sentences.push(ohEnd(ohCap(fit(pick(closers)))));
   return sentences.join(" ");
 }
 
@@ -169246,6 +169965,17 @@ function vcMountVoiceSettings(el, voice, { characters = GR_ROSTER, infoEl = null
 //   for the learner's approval before it is approved and dispatched (reason "supervise"), and a job approved earlier under the
 //   standing approval is held at dispatch until the learner approves it, so while the setting is on no job dispatches without
 //   the learner. metrics().dispatchedWithoutLearner counts the ones that did.
+//   HIVE-4 (loop 10 round 4), all three off by default so round 3's events are unchanged; the panel turns them on:
+//   `exchanges: true`: agents talk to each other at handoffs. The dispatcher hands the job over and the winner confirms
+//     (in place of the winner's single award line); the steward questions a contested winning bid that comes from another map
+//     (hops >= 2) or from an agent already holding a job, and the bidder answers; the auditor reports a clean chain to the
+//     dispatcher, who acknowledges. Each line is a speak event with `exchange: { id, kind, turn, of, with }` and `toAgent`; the
+//     caption names the speaker and the addressee. Every speak event also carries `floor: { startMs, endMs }`: one floor per
+//     step, so lines in a step follow each other with a gap and never overlap (a caption-timing seam for the figures).
+//   `memory: true`: when a worker completes a job, it may say how many jobs of that kind it has completed today, the site of
+//     the last one and its time on the hive clock. ohRecall reads all three from the hive's own chain (the oh-award and
+//     oh-complete lines), never from the event or the agent; `logSeq` says how much of the chain the line read.
+//   `variety: true`: ohSay's variety path (more variants; parts in the agent's last four lines are skipped when another fits).
 //
 // Every top-level name starts with `oh`/`OH_` (the bundler shares one scope).
 
@@ -169263,6 +169993,47 @@ const OH_BID_WEIGHTS = Object.freeze({ skill: 0.6, hops: 0.12, load: 0.25 });
 const OH_STEWARD = Object.freeze({ zBase: 4, zPerCaution: 2, sharePerCaution: 0.15 });
 const OH_AUDIT_EVERY = 5;
 const OH_STANDING = "standing approval for governor-allowed simulated jobs";
+/** HIVE-4: one floor per step. A line's reading window mirrors the figures' caption clock (400 ms plus the words at 165 per minute, 1.5 to 12 s). */
+const OH_FLOOR = Object.freeze({ wpm: 165, baseMs: 400, minMs: 1500, maxMs: 12000, gapMs: 250 });
+/** HIVE-4: the exchanges (opener kind, reply kind). The steward's question is "question_far" or "question_load" by what it asks about. */
+const OH_EXCHANGES = Object.freeze({ handoff: Object.freeze(["handoff", "confirm"]), question: Object.freeze(["question", "answer"]), report: Object.freeze(["report", "ack"]) });
+/** HIVE-4: how a worker names a task kind when it counts its day (plural), and which kinds reset a robot (a cell restart, a zone set-up). */
+const OH_TASK_NOUNS = Object.freeze({ "rb-cell-entry": "cell entries", "rb-cobot-zone-setup": "zone set-ups", "rb-teleop-pick-place": "pick-and-place runs", "rb-amr-fleet-routing": "routing runs" });
+const OH_RESET_TASKS = Object.freeze(["rb-cell-entry", "rb-cobot-zone-setup"]);
+/** HIVE-4: a worker speaks a memory line at most once in this many hive minutes. */
+const OH_MEMORY_COOLDOWN = 30;
+const OH_RECENT = 4;
+/** HIVE-4: the steward questions at most one bid in this many hive minutes (fewer, more varied questions). */
+const OH_QUESTION_COOLDOWN = 6;
+
+/** HIVE-4: a line's reading window in ms (the floor's unit). */
+function ohLineMs(text) {
+  const words = String(text ?? "").trim().split(/\s+/).filter(Boolean).length;
+  return Math.round(Math.min(OH_FLOOR.maxMs, Math.max(OH_FLOOR.minMs, OH_FLOOR.baseMs + (words * 60000) / OH_FLOOR.wpm)));
+}
+/** HIVE-4: the hive clock as hours and minutes from the day's start: "H+0123" (a chain line's `at`) or 123 (a tick) -> "02:03". */
+function ohClock(at) {
+  const n = typeof at === "number" ? at : Number(String(at ?? "").replace(/^H\+/, ""));
+  if (!Number.isFinite(n) || n < 0) return "";
+  return `${String(Math.floor(n / 60)).padStart(2, "0")}:${String(n % 60).padStart(2, "0")}`;
+}
+/**
+ * HIVE-4: what an agent remembers of its day, from the hive's own chain only: its completed jobs of one task kind, in order,
+ * joined from the oh-award lines (job, task, site, agent) and the oh-complete lines (job, "completed", time).
+ * Returns { count, jobs: [{ jobId, siteId, at, seq }], last } where `last` is the one before the most recent.
+ */
+function ohRecall(chain = [], agentId, taskType) {
+  const awards = new Map();
+  const jobs = [];
+  for (const l of chain) {
+    if (l.action === "oh-award") { const m = /^(\S+) (\S+) @ (\S+) -> (\S+) /.exec(l.detail); if (m) awards.set(m[1], { task: m[2], siteId: m[3], agent: m[4] }); }
+    else if (l.action === "oh-complete") {
+      const m = /^(\S+) @ (\S+): completed,/.exec(l.detail); const a = m ? awards.get(m[1]) : null;
+      if (a && a.agent === agentId && a.task === taskType) jobs.push({ jobId: m[1], siteId: a.siteId, at: l.at, seq: l.seq });
+    }
+  }
+  return { count: jobs.length, jobs, last: jobs.length >= 2 ? jobs[jobs.length - 2] : null };
+}
 
 function ohHash(s) { let h = 0x811c9dc5; for (let i = 0; i < s.length; i += 1) { h ^= s.charCodeAt(i); h = Math.imul(h, 0x01000193) >>> 0; } return h.toString(16).padStart(8, "0"); }
 function ohLineHash(l) { const b = `${l.seq}|${l.at}|${l.action}|${l.detail}|${l.prev}`; return ohHash(b) + ohHash(b.split("").reverse().join("")); }
@@ -169330,7 +170101,7 @@ function ohStewardReview(steward, request, decision) {
   return null;
 }
 
-function ohHive({ seed = 1, governor = null, audit = null, agents = OH_AGENTS, jobs = null, nJobs = 200, ticksPerDay = 480, decide = null, supervisor = "Supervisor (this device)", mode = "hive", capacity = OH_CAPACITY, policyFor = null, say = ohSay, sites = RB_SITES, supervise = false } = {}) {
+function ohHive({ seed = 1, governor = null, audit = null, agents = OH_AGENTS, jobs = null, nJobs = 200, ticksPerDay = 480, decide = null, supervisor = "Supervisor (this device)", mode = "hive", capacity = OH_CAPACITY, policyFor = null, say = ohSay, sites = RB_SITES, supervise = false, exchanges = false, memory = false, variety = false } = {}) {
   const roster = agents.slice();
   const byKey = (k) => roster.find((a) => a.key === k) ?? roster[0];
   const dispatcher = byKey("dispatcher"), steward = byKey("safety-steward"), keeper = byKey("consent-keeper"), trainer = byKey("trainer"), auditor = byKey("auditor");
@@ -169367,11 +170138,42 @@ function ohHive({ seed = 1, governor = null, audit = null, agents = OH_AGENTS, j
     for (const fn of [...(listeners.get(e.type) ?? []), ...(listeners.get("*") ?? [])]) { try { fn(e); } catch (_) { /* a listener never stops the hive */ } }
     return e;
   }
-  function speak(agent, about, facts) {
+  // HIVE-4: the floor (one per step), each agent's recent lines (for variety) and the time of its last memory line.
+  let floorT = -1, floorAt = 0, xSeq = 0, lastQuestionT = -Infinity;
+  const recentLines = new Map(), memAt = new Map();
+  function speak(agent, about, facts, meta = null) {
     const ev = { about, ...facts, t };
-    const text = say(agent, ev);
+    const text = variety ? say(agent, ev, { variety: true, recent: recentLines.get(agent.id) ?? [] }) : say(agent, ev);
     if (!text) return null;
-    return emit({ type: "speak", agent: agent.id, about, ...facts, text, caption: `${agent.name} (${agent.label ?? "software agent"}): ${text}` });
+    if (!exchanges && !memory && !variety) return emit({ type: "speak", agent: agent.id, about, ...facts, text, caption: `${agent.name} (${agent.label ?? "software agent"}): ${text}` });
+    // HIVE-4: the caption names the speaker (and the addressee in an exchange); the floor serialises the step's lines.
+    const to = facts?.toAgent ? roster.find((x) => x.id === facts.toAgent) : null;
+    const extra = { ...(meta ?? {}) };
+    if (exchanges) { if (floorT !== t) { floorT = t; floorAt = 0; } const d = ohLineMs(text); extra.floor = { startMs: floorAt, endMs: floorAt + d }; floorAt += d + OH_FLOOR.gapMs; }
+    if (variety) { const r = recentLines.get(agent.id) ?? []; r.push(text); if (r.length > OH_RECENT) r.shift(); recentLines.set(agent.id, r); }
+    const toWord = agent.lang === "es" ? "a" : "to"; // the caption's connector follows the agent's language
+    return emit({ type: "speak", agent: agent.id, about, ...facts, text, caption: `${agent.name} (${agent.label ?? "software agent"})${to ? ` ${toWord} ${to.name}` : ""}: ${text}`, ...extra });
+  }
+  /** HIVE-4: an exchange between two agents: the opener (a to b), then the reply (b to a). Null when the opener cannot be said. */
+  function exchange(kind, a, b, facts, openKind = null) {
+    if (!a || !b || a.id === b.id) return null;
+    const [open, reply] = OH_EXCHANGES[kind];
+    xSeq += 1; const id = `x-${t}-${xSeq}`;
+    const e1 = speak(a, openKind ?? open, { ...facts, toName: b.name, toAgent: b.id }, { exchange: { id, kind, turn: 0, of: 2, with: b.id } });
+    if (!e1) return null;
+    const e2 = speak(b, reply, { ...facts, toName: a.name, toAgent: a.id }, { exchange: { id, kind, turn: 1, of: 2, with: a.id } });
+    return e2 ? [e1, e2] : [e1];
+  }
+  /** HIVE-4: a worker recalls its day from the hive's own chain (count, last site, last time), at most once per cooldown. */
+  function remember(w, j) {
+    const task = j.spec.request.taskType;
+    const r = ohRecall(chain, w.id, task);
+    if (r.count < 2 || !r.last) return null;
+    const lastSpoke = memAt.get(w.id);
+    if (lastSpoke != null && t - lastSpoke < OH_MEMORY_COOLDOWN) return null;
+    const e = speak(w, "memory", factsOf(j, { count: r.count, taskType: task, kinds: OH_TASK_NOUNS[task] ?? task, lastSite: siteName(r.last.siteId), lastSiteId: r.last.siteId, lastJobId: r.last.jobId, lastAt: r.last.at, clock: ohClock(r.last.at), reset: OH_RESET_TASKS.includes(task), logSeq: chain.length }), { memory: true });
+    if (e) memAt.set(w.id, t);
+    return e;
   }
   const factsOf = (j, extra = {}) => ({ jobId: j.vb?.id ?? j.firstId, to: j.spec.request.siteId, siteName: siteName(j.spec.request.siteId), task: VB_TASKS[j.spec.request.taskType]?.label ?? j.spec.request.taskType, ...extra });
 
@@ -169400,7 +170202,9 @@ function ohHive({ seed = 1, governor = null, audit = null, agents = OH_AGENTS, j
     j.status = status; m.closed += 1;
     if (m.closed % OH_AUDIT_EVERY === 0) {
       const v = verify();
-      speak(auditor, v.ok ? "audit" : "audit_broken", { jobId: j.firstId, lines: v.ok ? v.lines : v.brokenAt, ok: v.ok });
+      const facts = { jobId: j.firstId, lines: v.ok ? v.lines : v.brokenAt, ok: v.ok };
+      // HIVE-4: a clean chain is reported to the dispatcher, who acknowledges it; a broken one stays the auditor's own line.
+      if (!(exchanges && v.ok && exchange("report", auditor, dispatcher, { ...facts, logSeq: chain.length }))) speak(auditor, v.ok ? "audit" : "audit_broken", facts);
     }
   }
 
@@ -169421,7 +170225,11 @@ function ohHive({ seed = 1, governor = null, audit = null, agents = OH_AGENTS, j
     state.get(best.a.id).load += 1;
     emit({ type: "award", agent: best.a.id, by: dispatcher.id, ...factsOf(j, { bid: best.score }) });
     write("oh-award", `${j.vb.id} ${task} @ ${siteId} -> ${best.a.id} (bid ${best.score}, ${bids.length} bid(s))`);
-    speak(best.a, "award", factsOf(j, { bid: best.score }));
+    // HIVE-4: with exchanges, the dispatcher hands the job over and the winner confirms (in place of the winner's award line),
+    // and the steward questions a contested winning bid from another map or from an agent already holding a job.
+    const handed = exchanges ? exchange("handoff", dispatcher, best.a, factsOf(j, { bid: best.score })) : null;
+    if (!handed) speak(best.a, "award", factsOf(j, { bid: best.score }));
+    if (exchanges && bids.length > 1 && (best.hops >= 2 || best.load >= 1) && t - lastQuestionT >= OH_QUESTION_COOLDOWN && exchange("question", steward, best.a, factsOf(j, { bid: best.score, hops: best.hops, load: best.load, skill: best.skill }), best.hops >= 2 ? "question_far" : "question_load")) lastQuestionT = t;
     // The governor checks the winner's request (unchanged VBRIDGE negotiation). The request reaches the governor now,
     // so it carries the hive clock (one step = OH_TICK_MS, plus the job's place in the step): the per-agent rate limit
     // and the cadence feature see requests in the order they are checked. The job id was fixed at arrival.
@@ -169499,6 +170307,7 @@ function ohHive({ seed = 1, governor = null, audit = null, agents = OH_AGENTS, j
     write("oh-complete", `${j.vb.id} @ ${siteId}: ${ok ? "completed" : `not accepted (${reason})`}, score ${score}, ${steps} steps`);
     speak(w, ok ? "complete" : "halted", factsOf(j, { score, steps, ...(reason ? { reason } : {}) }));
     if (!ok) speak(trainer, "coach", factsOf(j, { score, steps, reason }));
+    if (memory && ok) remember(w, j); // HIVE-4: the worker recalls its day from the chain (the oh-complete line above is in it)
     close(j, ok ? "completed" : "not-accepted");
   }
 
@@ -169569,6 +170378,7 @@ function ohHive({ seed = 1, governor = null, audit = null, agents = OH_AGENTS, j
       steps: dispatched.reduce((a, j) => a + j.vb.deliverable.episode.steps.length, 0),
       physicalDispatched: dispatched.filter((j) => j.vb.request.target.kind !== "sim").length,
       supervise: superviseAll, dispatchedWithoutLearner: dispatched.filter((j) => !j.learnerApproved && !j.approvedSim).length,
+      ...(exchanges || memory || variety ? { exchanges: log.filter((e) => e.type === "speak" && e.exchange && e.exchange.turn === 0).length, memories: log.filter((e) => e.type === "speak" && e.memory).length } : {}),
       lines: chain.length,
     };
   }
@@ -169599,6 +170409,7 @@ function ohHive({ seed = 1, governor = null, audit = null, agents = OH_AGENTS, j
     done() { return stream.every((j) => !["future", "queued", "moving", "running"].includes(j.status)); },
     governor: base,
     now() { return t; },
+    talk: Object.freeze({ exchanges: !!exchanges, memory: !!memory, variety: !!variety }), // HIVE-4
   };
 }
 
@@ -169918,6 +170729,9 @@ function h3SceneRelay(hive) {
 // unchanged, Spanish machine-assisted and awaiting a native speaker's review); `settings` (h3Settings) remembers voice, "supervise
 // every job" and the language for a signed-in adult profile on this device, and a language button switches it (the page reloads).
 //
+// HIVE-4: the hive talks (exchanges at handoffs, each worker's memory of its day, varied wording): ohHive({ exchanges, memory,
+// variety }) are on here. A reply sits indented under its opener in the feed; memory lines are in italics. No new UI text.
+//
 // SEAM: ohMountHive(el, { reducedMotion, audit, seed, nJobs, synth, Utterance, supervise, lang, settings, reload }) ->
 //         { hive, step(), run(n), approve(jobId), decline(jobId), voice(on), supervise(on), language(code), lang, voiceController, state(), captions(), el } | null
 //
@@ -169933,7 +170747,7 @@ function h3SceneRelay(hive) {
 
 const OH_FEED_MAX = 40;
 const OH_RUN_STEPS = 10;
-const OH_PANEL_CSS = ".oh-panel{font:13px/1.4 system-ui,sans-serif;padding:10px;border:1px solid #4a3f7a;border-radius:10px;background:#120f22;color:#ece8ff;margin:8px 0}.oh-panel h3{margin:0 0 6px;font-size:15px}.oh-panel .oh-note{opacity:.85;font-size:12px;margin:0 0 6px}.oh-panel .oh-roster{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:6px}.oh-panel .oh-card{display:flex;gap:6px;align-items:flex-start;border:1px solid #3a335f;border-radius:8px;padding:5px;background:#1b1733;position:relative}.oh-panel .oh-card svg,.oh-panel .oh-card img{flex:0 0 auto;border-radius:6px}.oh-panel .oh-name{font-weight:600}.oh-panel .oh-label{display:inline-block;font-size:10px;letter-spacing:.02em;text-transform:uppercase;background:#2f2a52;border:1px solid #6d62b8;border-radius:4px;padding:0 4px;margin-left:4px}.oh-panel .oh-role{font-size:11px;opacity:.85}.oh-panel .oh-chip{display:inline-block;font-size:10px;border-radius:9px;padding:0 6px;margin:2px 3px 0 0;background:#2a2547}.oh-panel .oh-talk{position:absolute;top:5px;right:5px;width:8px;height:8px;border-radius:50%;background:#3a335f}.oh-panel .oh-card[data-talking=true] .oh-talk{background:#8fe3ff}.oh-panel .oh-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}.oh-panel button{background:#2a2450;color:#ece8ff;border:1px solid #6d62b8;border-radius:6px;padding:5px 9px;cursor:pointer}.oh-panel button[aria-pressed=true]{background:#4b3fa0}.oh-panel .oh-feed{max-height:180px;overflow-y:auto;border:1px solid #3a335f;border-radius:6px;padding:4px 6px;margin-top:6px;background:#0d0b19}.oh-panel .oh-feed p{margin:2px 0}.oh-panel .oh-queue{margin-top:6px}.oh-panel .oh-req{border:1px solid #8a6d2a;border-radius:6px;padding:5px;margin-top:4px;background:#1f1a10}.oh-panel .oh-status{margin-top:6px;font-size:12px;opacity:.9}@media (pointer:coarse),(max-width:600px){.oh-panel button{min-height:44px;min-width:44px}}"; // HIVE-3: 44 px touch targets on a phone (the language button and the rest)
+const OH_PANEL_CSS = ".oh-panel{font:13px/1.4 system-ui,sans-serif;padding:10px;border:1px solid #4a3f7a;border-radius:10px;background:#120f22;color:#ece8ff;margin:8px 0}.oh-panel h3{margin:0 0 6px;font-size:15px}.oh-panel .oh-note{opacity:.85;font-size:12px;margin:0 0 6px}.oh-panel .oh-roster{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:6px}.oh-panel .oh-card{display:flex;gap:6px;align-items:flex-start;border:1px solid #3a335f;border-radius:8px;padding:5px;background:#1b1733;position:relative}.oh-panel .oh-card svg,.oh-panel .oh-card img{flex:0 0 auto;border-radius:6px}.oh-panel .oh-name{font-weight:600}.oh-panel .oh-label{display:inline-block;font-size:10px;letter-spacing:.02em;text-transform:uppercase;background:#2f2a52;border:1px solid #6d62b8;border-radius:4px;padding:0 4px;margin-left:4px}.oh-panel .oh-role{font-size:11px;opacity:.85}.oh-panel .oh-chip{display:inline-block;font-size:10px;border-radius:9px;padding:0 6px;margin:2px 3px 0 0;background:#2a2547}.oh-panel .oh-talk{position:absolute;top:5px;right:5px;width:8px;height:8px;border-radius:50%;background:#3a335f}.oh-panel .oh-card[data-talking=true] .oh-talk{background:#8fe3ff}.oh-panel .oh-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}.oh-panel button{background:#2a2450;color:#ece8ff;border:1px solid #6d62b8;border-radius:6px;padding:5px 9px;cursor:pointer}.oh-panel button[aria-pressed=true]{background:#4b3fa0}.oh-panel .oh-feed{max-height:180px;overflow-y:auto;border:1px solid #3a335f;border-radius:6px;padding:4px 6px;margin-top:6px;background:#0d0b19}.oh-panel .oh-feed p{margin:2px 0}.oh-panel .oh-feed p.oh-x[data-turn=\"1\"]{margin-left:14px;border-left:2px solid #6d62b8;padding-left:6px}.oh-panel .oh-feed p[data-memory=true]{font-style:italic}.oh-panel .oh-queue{margin-top:6px}.oh-panel .oh-req{border:1px solid #8a6d2a;border-radius:6px;padding:5px;margin-top:4px;background:#1f1a10}.oh-panel .oh-status{margin-top:6px;font-size:12px;opacity:.9}@media (pointer:coarse),(max-width:600px){.oh-panel button{min-height:44px;min-width:44px}}"; // HIVE-3: 44 px touch targets on a phone (the language button and the rest)
 
 function ohMountHive(el, { reducedMotion = false, audit = null, seed = 1, nJobs = 200, ticksPerDay = 480, synth, Utterance, onTalk = null, supervise = false, lang = null, settings = null, reload = null } = {}) {
   if (!el || typeof document === "undefined") return null;
@@ -169944,7 +170758,7 @@ function ohMountHive(el, { reducedMotion = false, audit = null, seed = 1, nJobs 
   if (typeof prefs.lang === "string") lang = prefs.lang; // HIVE-3: the language this profile chose wins over the page's
   const hiveLang = ohLangFor(lang ?? document.documentElement?.lang ?? "en");
   const T = h3PanelText(hiveLang);
-  const hive = ohHive({ seed, audit, nJobs, ticksPerDay, supervise, ...(hiveLang === "en" ? {} : { say: (a, ev) => ohSay(a, ev, { lang: hiveLang }), agents: OH_AGENTS.map((a) => ohAgentIn(a, hiveLang)), supervisor: "Supervisor (este dispositivo)" }) });
+  const hive = ohHive({ seed, audit, nJobs, ticksPerDay, supervise, exchanges: true, memory: true, variety: true, ...(hiveLang === "en" ? {} : { say: (a, ev) => ohSay(a, ev, { lang: hiveLang }), agents: OH_AGENTS.map((a) => ohAgentIn(a, hiveLang)), supervisor: "Supervisor (este dispositivo)" }) });
   const voice = ohVoiceController({ ...(synth !== undefined ? { synth } : {}), ...(Utterance !== undefined ? { Utterance } : {}), enabled: false });
   const captions = [];
   const siteName = (id) => RB_SITES.find((s) => s.id === id)?.name ?? id;
@@ -169996,6 +170810,8 @@ function ohMountHive(el, { reducedMotion = false, audit = null, seed = 1, nJobs 
     captions.push({ t: e.t, agent: e.agent, text: e.text, caption: e.caption });
     if (captions.length > 500) captions.splice(0, captions.length - 500);
     const p = mk("p", null, `[${e.t}] ${e.caption}`); p.dataset.agent = e.agent;
+    if (e.exchange) { p.dataset.exchange = e.exchange.kind; p.dataset.turn = String(e.exchange.turn); p.className = "oh-x"; } // HIVE-4: an exchange's two turns sit together
+    if (e.memory) p.dataset.memory = "true";
     feed.appendChild(p);
     while (feed.childNodes.length > OH_FEED_MAX) feed.removeChild(feed.firstChild);
     feed.scrollTop = feed.scrollHeight;
@@ -170107,13 +170923,21 @@ function ohMountHive(el, { reducedMotion = false, audit = null, seed = 1, nJobs 
 //              building's collider box).
 //     route(from, to) -> [{ x, z }, …] | null: the walk follows these waypoints (ending at `to`) instead of a straight line
 //              (HIVE-IN-WORLD's hwRouter round the colliders); null walks straight.
+//     hd (default false; AVATARS-HD): on the desktop "high" tier, build aa-agent-hd.js's high-detail figure (one skinned body, one
+//              skinned glow, a mouth that opens with the words, jointed arms that gesture, posture from the traits); balanced keeps
+//              today's figure, the phone tier builds none, and a three.js without skinning builds today's figure.
 //     -> { root, handle(ev), animate(t, dt, here), attach(source), detach(source), addAgents(list), agents(), release(id),
-//          state(id), talkStart(id), talkEnd(id), talkLog(), captionLog(), gestureLog(), counts(), dispose() }
+//          state(id), talkStart(id), talkWord(id, charIndex), talkEnd(id), talkLog(), captionLog(), gestureLog(), counts(), dispose() }
+//   Gestures (AA_GESTURE_FOR): bid → raise (a raised hand), award → accept (a hand to the chest), refused → stop (palm out),
+//     the hive's speak event about "approved" → approve (a nod), complete → nod. All are logged on every tier; the high figure poses
+//     every one, today's figure poses stop, nod and approve.
+//   aaVoiceHooks(world, agentId) -> { onstart, onboundary, onend } for a voice's say(): the light and the mouth follow the utterance.
 //   aaVbridgeAgents(homeSite) -> the four VBRIDGE personas as agents standing at homeSite
 //   aaVbridgeSource(vbApi)    -> an on/off source that turns the agent-jobs panel's job (vbApi.state()) into
 //                                contract events: the client asks, the governor checks or refuses, the provider
 //                                walks to the job's site and runs it, the evaluator nods or refuses. poll() reads.
 //   aaEmitter()               -> a small on/off/emit event source (fixtures and adapters)
+
 
 
 
@@ -170132,7 +170956,11 @@ const AA_WALK_IN = 24;
 /** A line's duration with no voice driving it: 400 ms plus the words at AA_WPM, clamped. */
 const AA_WPM = 165;
 const AA_LINE_MS = Object.freeze({ min: 1500, max: 12000 });
-const AA_GESTURE_MS = Object.freeze({ stop: 1800, nod: 900 });
+/** Gesture lengths (ms): stop (a refusal) and nod (a completion) on every built tier; raise (a bid), accept (an award) and approve
+ * (an approval: a nod) are posed by the high tier's figure (AVATARS-HD) and logged on every tier. */
+const AA_GESTURE_MS = Object.freeze({ stop: 1800, nod: 900, raise: AA_HD_GESTURE_MS.raise, accept: AA_HD_GESTURE_MS.accept, approve: AA_HD_GESTURE_MS.approve });
+/** Which hive event raises which gesture (AVATARS-HD). The approval is the hive's own speak event about "approved". */
+const AA_GESTURE_FOR = Object.freeze({ bid: "raise", award: "accept", refused: "stop", approved: "approve", complete: "nod" });
 /** Canvas sizes (px) for the label (drawn at mount) and the caption (drawn on the first line). */
 const AA_LABEL_PX = Object.freeze([256, 64]);
 const AA_CAPTION_PX = Object.freeze([512, 128]);
@@ -170166,6 +170994,17 @@ function aaEmitter() {
     listeners: (type) => subs.get(type)?.size ?? 0,
   };
   return api;
+}
+
+/** AVATARS-HD: the callbacks a voice passes for one agent's line — say(agent, text, aaVoiceHooks(world, agent.id)) — so the light
+ * and the mouth follow the utterance: onstart holds the line, onboundary (word boundaries) opens the mouth on each word, onend lets
+ * it go. `world` is the mount (or anything with talkStart/talkWord/talkEnd); a missing world is a no-op. */
+function aaVoiceHooks(world, agentId) {
+  return {
+    onstart: () => { try { world?.talkStart?.(agentId); } catch (_) { /* a figure never stops a voice */ } },
+    onboundary: (e) => { try { if (!e || e.name === undefined || e.name === "word") world?.talkWord?.(agentId, Number.isFinite(e?.charIndex) ? e.charIndex : null); } catch (_) { /* ignore */ } },
+    onend: () => { try { world?.talkEnd?.(agentId); } catch (_) { /* ignore */ } },
+  };
 }
 
 /** A site lookup's answer as { x, y, z } (accepts [x, z], [x, y, z], { x, z }, { position: [x, z] }), or null. */
@@ -170290,6 +171129,23 @@ function aaBuildFigure(T, agent, look, textureScale = 1) {
   return { group: g, parts, label, caption, labelCv, captionCv: null, headY, tabletRest: { y: tablet.position.y, z: tablet.position.z, rx: tablet.rotation.x }, roleText };
 }
 
+/** AVATARS-HD: the high tier's figure (aa-agent-hd.js: one skinned body, one skinned glow, the mouth's lit opening) with the same
+ * label and caption as today's. parts.head is the head bone (a nod pitches it), parts.talk the mouth's lit opening (shown exactly
+ * while the agent talks), parts.tablet the left wrist (the tablet's hand). */
+function aaBuildHdFigure(T, agent, look, textureScale = 1) {
+  const hd = aaHdBuild(T, agent);
+  const g = hd.group, headY = hd.headY;
+  const roleText = `software agent · ${aaRoleLabel(agent)}`;
+  const labelCv = aaCanvas(AA_LABEL_PX[0], AA_LABEL_PX[1], textureScale);
+  const labelFit = labelCv ? aaDrawLabel(labelCv, agent.name ?? agent.id, roleText, look.accent) : null;
+  const label = aaSprite(T, labelCv, 1.6, 0.4); label.position.set(0, headY + 0.62, 0); label.name = "aa-label";
+  label.userData.text = roleText; label.userData.name = agent.name ?? agent.id; label.userData.fit = labelFit; g.add(label);
+  const caption = aaSprite(T, null, 2.8, 0.7); caption.position.set(0, headY + 1.22, 0); caption.name = "aa-caption"; caption.visible = false; caption.userData.text = ""; g.add(caption);
+  g.userData.parts = { head: hd.bones.head, talk: hd.talk, tablet: hd.bones.wristL, body: hd.body, glow: hd.glow };
+  g.userData.aaAgent = { id: agent.id, name: agent.name ?? agent.id, label: roleText, software: true, hd: true };
+  return { group: g, parts: g.userData.parts, label, caption, labelCv, captionCv: null, headY, tabletRest: { y: 0, z: 0, rx: 0 }, roleText, hd };
+}
+
 function aaCountObject(obj) {
   let meshes = 0, sprites = 0, triangles = 0;
   obj?.traverse?.((o) => {
@@ -170310,9 +171166,12 @@ function aaCountObject(obj) {
  * answers this map's site position ({ x, y, z } / [x, z] / null when the site is not on this map). `here` passed to
  * animate is the learner's [x, z] (null = everyone near). Headless without `three`: the state machine still runs.
  */
-function aaMountAgentAvatars({ three = null, parent = null, agents = [], source = null, siteAt = () => null, reducedMotion = false, tier = "high", groundAt = null, spotFor = null, textureScale = 1, blocked = null, route = null } = {}) {
+function aaMountAgentAvatars({ three = null, parent = null, agents = [], source = null, siteAt = () => null, reducedMotion = false, tier = "high", groundAt = null, spotFor = null, textureScale = 1, blocked = null, route = null, hd = false } = {}) {
   const T = three;
   const build = !!(T && parent && AA_TIERS[tier] !== false);
+  // AVATARS-HD: the high-detail figure is opt-in (the outdoor mount asks for it) and only ever on the desktop "high" tier; balanced
+  // keeps today's figure and the phone tier builds none. A three.js without skinning (the checkers' stub) builds today's figure.
+  const hdOn = !!(hd && build && tier === "high" && aaHdSupported(T));
   const root = build ? new T.Group() : null;
   if (root) { root.name = "aa-agent-avatars"; parent.add(root); }
   const figures = new Map();
@@ -170357,7 +171216,7 @@ function aaMountAgentAvatars({ three = null, parent = null, agents = [], source 
 
   function ensureFig(f) {
     if (!build || f.fig) return;
-    f.fig = aaBuildFigure(T, f.agent, f.look, textureScale);
+    f.fig = hdOn ? aaBuildHdFigure(T, f.agent, f.look, textureScale) : aaBuildFigure(T, f.agent, f.look, textureScale);
     f.fig.group.position.set(f.x, f.y, f.z); f.fig.group.rotation.y = f.yaw; f.fig.group.visible = f.visible;
     root.add(f.fig.group);
     if (f.fig.labelCv) textureBytes += f.fig.labelCv.c.width * f.fig.labelCv.c.height * 4;
@@ -170371,8 +171230,10 @@ function aaMountAgentAvatars({ three = null, parent = null, agents = [], source 
       const site = a.homeSite ?? null;
       const slot = site ? takeSlot(site, idx) : 0;
       const spot = site ? spotAt(site, slot, a) : null;
+      const hh = aaHash(a.id);
       const f = { agent: a, look, idx, site, slot, x: spot?.x ?? 0, y: spot?.y ?? 0, z: spot?.z ?? 0, yaw: spot?.yaw ?? 0, offMap: !spot,
-        walk: null, queue: [], talk: null, caption: null, gesture: null, visible: !!spot, fig: null };
+        walk: null, queue: [], talk: null, caption: null, gesture: null, visible: !!spot, fig: null,
+        walkPhase: 0, blinkPeriod: 3.2 + (hh % 200) / 100, blinkOff: ((hh >>> 8) % 300) / 100, mouth: 0 };
       if (spot) ensureFig(f); // an agent whose site is on another map gets its figure when it first arrives here
       figures.set(a.id, f);
     }
@@ -170396,7 +171257,9 @@ function aaMountAgentAvatars({ three = null, parent = null, agents = [], source 
   function startNextLine(f, prevEnd) {
     const next = f.queue.shift(); if (!next) return false;
     const start = Math.max(next.at, prevEnd ?? next.at); // a queued line follows the last one exactly, never before it arrived
-    f.talk = { text: next.text, start, end: start + next.ms / 1000, voiced: false, jobId: next.jobId ?? null };
+    // AVATARS-HD: the caption's word timing (onsets spread over the line's window) drives the mouth until a voice takes the line
+    const words = aaWordOnsets(next.text, next.ms).map((w) => ({ at: start + w.at / 1000, dur: w.dur / 1000, char: w.char }));
+    f.talk = { text: next.text, start, end: start + next.ms / 1000, voiced: false, jobId: next.jobId ?? null, words, bw: null };
     talkLog.push({ agent: f.agent.id, text: next.text, start, end: f.talk.end });
     showCaption(f, next.caption ?? next.text, start, f.talk.end, "speak");
     if (f.fig) f.fig.parts.talk.visible = true;
@@ -170412,6 +171275,23 @@ function aaMountAgentAvatars({ three = null, parent = null, agents = [], source 
   }
 
   // ---- the events
+  /** Start a gesture and log it with the event that raised it. The latest event wins, except that a refusal's stop hand is never
+   * cut short by a bid's raise or an award's accept: that one waits and follows the stop (at most one waits; a newer one
+   * replaces it). */
+  function gesture(f, kind, ev, extra = {}) {
+    const on = ev?.type === "speak" ? ev.about ?? "speak" : ev?.type ?? null, ms = (AA_GESTURE_MS[kind] ?? 1000) / 1000;
+    const cur = f.gesture && clock < f.gesture.end ? f.gesture : null;
+    if (cur?.kind === "stop" && (kind === "raise" || kind === "accept")) {
+      if (f.nextGesture) f.nextGesture.entry.dropped = true; // a newer one replaces the one waiting
+      const entry = { agent: f.agent.id, kind, start: cur.end, end: cur.end + ms, on, jobId: ev?.jobId ?? null, queued: true, ...extra };
+      f.nextGesture = { kind, ms, entry }; gestureLog.push(entry);
+      return;
+    }
+    if (f.nextGesture && kind !== "raise" && kind !== "accept") { f.nextGesture.entry.dropped = true; f.nextGesture = null; } // a newer stop or nod
+    f.gesture = { kind, start: clock, end: clock + ms };
+    gestureLog.push({ agent: f.agent.id, ...f.gesture, on, jobId: ev?.jobId ?? null, ...extra });
+    poseGesture(f);
+  }
   function handle(ev) {
     if (!ev?.type) return false;
     const f = figures.get(aaAgentId(ev.agent)); if (!f) return false;
@@ -170420,20 +171300,22 @@ function aaMountAgentAvatars({ three = null, parent = null, agents = [], source 
       tickTalk(f);
       f.queue.push({ text, at: clock, caption: ev.caption && ev.caption !== ev.text ? String(ev.caption) : null, ms: Number(ev.ms) > 0 ? Number(ev.ms) : aaLineMs(text), jobId: ev.jobId });
       if (!f.talk) startNextLine(f, clock);
+      if (ev.about === "approved") gesture(f, AA_GESTURE_FOR.approved, ev); // the learner's approval: the agent who relays it nods
       return true;
     }
     if (ev.type === "move") { moveTo(f, ev.to); return true; }
     if (ev.type === "refused") {
-      f.gesture = { kind: "stop", start: clock, end: clock + AA_GESTURE_MS.stop / 1000 }; gestureLog.push({ agent: f.agent.id, ...f.gesture, reason: ev.reason ?? null });
+      gesture(f, AA_GESTURE_FOR.refused, ev, { reason: ev.reason ?? null });
       const t = ev.caption ?? ev.text ?? (ev.reason ? `Stopped: ${ev.reason}` : null);
       if (t && !f.talk) showCaption(f, t, clock, clock + Math.max(AA_GESTURE_MS.stop, aaLineMs(t)) / 1000, "refused");
-      poseGesture(f); return true;
+      return true;
     }
-    if (ev.type === "complete") { f.gesture = { kind: "nod", start: clock, end: clock + AA_GESTURE_MS.nod / 1000 }; gestureLog.push({ agent: f.agent.id, ...f.gesture }); poseGesture(f); return true; }
+    if (ev.type === "complete") { gesture(f, AA_GESTURE_FOR.complete, ev); return true; }
+    if (ev.type === "bid" || ev.type === "award") gesture(f, AA_GESTURE_FOR[ev.type], ev); // a raised hand to bid; a hand to the chest to accept
     if ((ev.type === "approval-request" || ev.type === "award" || ev.type === "dispatch" || ev.type === "bid") && ev.caption && !f.talk) {
       showCaption(f, ev.caption, clock, clock + aaLineMs(ev.caption) / 1000, ev.type); return true;
     }
-    return false;
+    return ev.type === "bid" || ev.type === "award";
   }
 
   function moveTo(f, siteId) {
@@ -170470,12 +171352,28 @@ function aaMountAgentAvatars({ three = null, parent = null, agents = [], source 
 
   function poseGesture(f) {
     const fig = f.fig; if (!fig) return;
+    if (fig.hd) { poseHd(f); return; }
     const tab = fig.parts.tablet, head = fig.parts.head, r = fig.tabletRest;
     const g = f.gesture && clock < f.gesture.end ? f.gesture : null;
     if (g?.kind === "stop") { tab.position.y = r.y + 0.32; tab.position.z = r.z + 0.12; tab.rotation.x = 0; }
     else { tab.position.y = r.y; tab.position.z = r.z; tab.rotation.x = r.rx; }
-    if (g?.kind === "nod" && !reducedMotion) head.rotation.x = Math.sin(((clock - g.start) / (g.end - g.start)) * Math.PI) * 0.35;
+    if ((g?.kind === "nod" || g?.kind === "approve") && !reducedMotion) head.rotation.x = Math.sin(((clock - g.start) / (g.end - g.start)) * Math.PI) * 0.35;
     else head.rotation.x = 0;
+  }
+  /** AVATARS-HD: the mouth's openness now (0 while silent; held half open, still, under reduced motion). */
+  function mouthAt(f) {
+    const tk = f.talk; if (!tk || clock < tk.start || (!tk.voiced && clock >= tk.end)) return 0;
+    if (reducedMotion) return 0.55;
+    return aaHdMouth(tk.bw?.length ? tk.bw : tk.words ?? [], clock);
+  }
+  /** AVATARS-HD: the high figure's whole pose for this moment — posture from its traits, walking, the mouth and beat hands with
+   * the words, a blink, and the gesture the hive's last event raised (aa-agent-hd.js aaHdPose). */
+  function poseHd(f) {
+    const fig = f.fig, g = f.gesture && clock < f.gesture.end ? f.gesture : null;
+    const talkOn = !!(f.talk && clock >= f.talk.start && (f.talk.voiced || clock < f.talk.end));
+    const m = mouthAt(f), ph = (clock + f.blinkOff) % f.blinkPeriod;
+    fig.hd.apply(aaHdPose(fig.hd.spec, { t: clock, walking: !!f.walk, walkPhase: f.walkPhase, speaking: talkOn, mouth: m, beat: m,
+      gesture: g ? { kind: g.kind, k: (clock - g.start) / Math.max(1e-6, g.end - g.start) } : null, blink: ph < 0.14 ? Math.sin((ph / 0.14) * Math.PI) : 0, reduced: reducedMotion }));
   }
 
   function animate(t, dt = 0, here = null) {
@@ -170483,7 +171381,14 @@ function aaMountAgentAvatars({ three = null, parent = null, agents = [], source 
     for (const s of sources) s.poll?.();
     for (const f of figures.values()) {
       tickTalk(f);
-      if (f.gesture && clock >= f.gesture.end) f.gesture = null;
+      if (f.gesture && clock >= f.gesture.end) {
+        const prevEnd = f.gesture.end; f.gesture = null;
+        if (f.nextGesture) { // the gesture that waited behind a stop hand starts where the stop ended
+          const n = f.nextGesture; f.nextGesture = null;
+          f.gesture = { kind: n.kind, start: prevEnd, end: prevEnd + n.ms }; n.entry.start = prevEnd; n.entry.end = prevEnd + n.ms;
+          if (clock >= f.gesture.end) f.gesture = null;
+        }
+      }
       if (f.walk) {
         const w = f.walk, k = aaClamp((clock - w.start) / w.dur, 0, 1);
         if (w.pts) { // along the route's legs, at the same speed
@@ -170496,7 +171401,10 @@ function aaMountAgentAvatars({ three = null, parent = null, agents = [], source 
           f.yaw = Math.atan2(w.to.x - w.from.x, w.to.z - w.from.z);
         }
         if (k >= 1) { f.walk = null; f.yaw = w.to.yaw; }
+        // AVATARS-HD: the stride's phase (a careful agent's cadence is a little slower; the travel speed is the same for all)
+        if (!reducedMotion) f.walkPhase += (Number(dt) || 0) * Math.PI * 2 * 1.8 * (1.1 - 0.25 * (Number(f.agent.traits?.caution) || 0.5));
       }
+      f.mouth = mouthAt(f);
       if (!f.fig) continue;
       const d = here ? Math.hypot(here[0] - f.x, here[1] - f.z) : 0;
       const vis = !f.offMap && d <= AA_HIDE_RADIUS;
@@ -170507,7 +171415,7 @@ function aaMountAgentAvatars({ three = null, parent = null, agents = [], source 
       f.fig.group.position.set(f.x, f.y + bob, f.z); f.fig.group.rotation.y = f.yaw;
       const talkOn = !!(f.talk && clock >= f.talk.start && (f.talk.voiced || clock < f.talk.end));
       const tk = f.fig.parts.talk; tk.visible = talkOn;
-      if (talkOn) { const s = reducedMotion ? 1 : 0.75 + 0.5 * Math.abs(Math.sin(clock * 11)); tk.scale.set(1, s, 1); }
+      if (talkOn && !f.fig.hd) { const s = reducedMotion ? 1 : 0.75 + 0.5 * Math.abs(Math.sin(clock * 11)); tk.scale.set(1, s, 1); } // the HD mouth opens with the words instead
       poseGesture(f);
     }
   }
@@ -170532,11 +171440,13 @@ function aaMountAgentAvatars({ three = null, parent = null, agents = [], source 
       if (!f.fig) continue;
       const c = aaCountObject(f.fig.group); worst = Math.max(worst, c.meshes + c.sprites); meshes += c.meshes; sprites += c.sprites; triangles += c.triangles;
     }
-    return { figures: [...figures.values()].filter((f) => f.fig).length, agents: figures.size, meshes, sprites, triangles, worstPerFigure: worst, budget: AA_AGENT_BUDGET, textureBytes, tier, built: build };
+    return { figures: [...figures.values()].filter((f) => f.fig).length, agents: figures.size, meshes, sprites, triangles, worstPerFigure: worst, budget: AA_AGENT_BUDGET, textureBytes, tier, built: build,
+      hd: [...figures.values()].filter((f) => f.fig?.hd).length };
   }
   const stateOf = (f) => ({ id: f.agent.id, name: f.agent.name ?? f.agent.id, label: f.fig?.roleText ?? `software agent · ${aaRoleLabel(f.agent)}`, site: f.site, slot: f.slot, x: f.x, y: f.y, z: f.z, yaw: f.yaw, offMap: f.offMap, visible: f.visible, walking: !!f.walk, routed: !!f.walk?.routed,
     speaking: !!(f.talk && clock >= f.talk.start && (f.talk.voiced || clock < f.talk.end)), line: f.talk?.text ?? null, caption: f.caption?.text ?? null, gesture: f.gesture?.kind ?? null, queued: f.queue.length,
-    talkVisible: f.fig ? !!f.fig.parts.talk.visible : null, captionVisible: f.fig ? !!f.fig.caption.visible : null, headPitch: f.fig ? f.fig.parts.head.rotation.x : null, tabletY: f.fig ? f.fig.parts.tablet.position.y : null });
+    talkVisible: f.fig ? !!f.fig.parts.talk.visible : null, captionVisible: f.fig ? !!f.fig.caption.visible : null, headPitch: f.fig ? f.fig.parts.head.rotation.x : null, tabletY: f.fig ? f.fig.parts.tablet.position.y : null,
+    mouth: mouthAt(f), hd: !!f.fig?.hd, voiced: !!f.talk?.voiced, boundaries: f.talk?.bw?.length ?? 0 });
 
   return {
     root, handle, animate, attach, detach, addAgents,
@@ -170544,7 +171454,24 @@ function aaMountAgentAvatars({ three = null, parent = null, agents = [], source 
     state: (id) => { const f = figures.get(id); return f ? stateOf(f) : null; },
     figure: (id) => figures.get(id)?.fig?.group ?? null,
     /** An on-device voice can drive the talk light instead of the clock: start holds it on, end lets it go. */
-    talkStart: (id) => { const f = figures.get(id); if (f?.talk) { f.talk.voiced = true; return true; } return false; },
+    talkStart: (id) => {
+      const f = figures.get(id); if (!f?.talk) return false;
+      if (!f.talk.voiced) { // AVATARS-HD: the voice starts now, so the mouth's word timing restarts from now at the voice's rate
+        f.talk.voiced = true;
+        const rate = Number(f.agent.voice?.rate) > 0 ? Number(f.agent.voice.rate) : 1;
+        f.talk.words = aaWordOnsets(f.talk.text, aaLineMs(f.talk.text) / rate).map((w) => ({ at: clock + w.at / 1000, dur: w.dur / 1000, char: w.char }));
+      }
+      return true;
+    },
+    /** AVATARS-HD: a voice's word boundary (SpeechSynthesisUtterance onboundary, `charIndex`): the mouth opens on this word now. Once a
+     * line has had a boundary the mouth follows the boundaries only. */
+    talkWord: (id, charIndex = null) => {
+      const f = figures.get(id); if (!f?.talk) return false;
+      const tk = f.talk; if (!tk.bw) tk.bw = [];
+      const est = tk.words ?? [], w = est.find((x) => x.char === charIndex) ?? est[tk.bw.length] ?? null;
+      tk.bw.push({ at: clock, dur: w ? w.dur : 0.25, char: charIndex });
+      return true;
+    },
     talkEnd: (id) => { const f = figures.get(id); if (!f?.talk) return false; f.talk.voiced = false; f.talk.end = clock; const last = talkLog.findLast?.((x) => x.agent === id) ?? null; if (last) last.end = clock; if (f.caption) f.caption.end = clock; tickTalk(f); return true; },
     talkLog: () => talkLog.slice(), captionLog: () => captionLog.slice(), gestureLog: () => gestureLog.slice(),
     clock: () => clock, counts, sources: () => sources.size,
@@ -170553,16 +171480,17 @@ function aaMountAgentAvatars({ three = null, parent = null, agents = [], source 
     release(id) {
       const f = figures.get(id); if (!f) return false;
       if (f.site != null) freeSlot(f.site, f.slot);
-      f.site = null; f.walk = null; f.offMap = true; f.visible = false; f.talk = null; f.queue.length = 0; f.caption = null; f.gesture = null;
+      f.site = null; f.walk = null; f.offMap = true; f.visible = false; f.talk = null; f.queue.length = 0; f.caption = null; f.gesture = null; f.nextGesture = null;
       if (f.fig) {
         const g = f.fig.group; g.parent?.remove(g);
         g.traverse((o) => { o.geometry?.dispose?.(); o.material?.map?.dispose?.(); o.material?.dispose?.(); });
+        f.fig.hd?.skeleton?.dispose?.();
         for (const cv of [f.fig.labelCv, f.fig.captionCv]) if (cv?.c) textureBytes -= cv.c.width * cv.c.height * 4;
         f.fig = null;
       }
       return true;
     },
-    dispose() { for (const s of [...sources]) detach(s); if (root) { root.parent?.remove(root); root.traverse((o) => { o.geometry?.dispose?.(); o.material?.map?.dispose?.(); o.material?.dispose?.(); }); } figures.clear(); },
+    dispose() { for (const s of [...sources]) detach(s); for (const f of figures.values()) f.fig?.hd?.skeleton?.dispose?.(); if (root) { root.parent?.remove(root); root.traverse((o) => { o.geometry?.dispose?.(); o.material?.map?.dispose?.(); o.material?.dispose?.(); }); } figures.clear(); },
   };
 }
 
@@ -171984,6 +172912,7 @@ const HD2_SKIN_STYLES = {
   "lar-data-hall": { set: "tile", sites: 3 },
   "rented-room": { set: "hall", sites: 0 },
   "shop": { set: "tile", sites: 0 },
+  "hd4-hive-ops": { set: "tile", sites: 0 }, // ENV-HD-4: the hive operations room (no map site opens it; it has its own door)
 };
 const HD2_TEX_BUDGET = { high: 24 * 1024 * 1024, balanced: 3 * 1024 * 1024, low: 3 * 1024 * 1024 };
 /** One LA-ROOMS name-sign canvas (lar-rooms.js larSignMaterial: 512 x 120, 256 x 60 on the phone tier), with mips. */
@@ -172164,6 +173093,730 @@ function hd2RegisterSkins(ix) {
   const styles = Object.keys(HD2_SKIN_STYLES);
   for (const st of styles) ix.ixRegisterDresser(st, (a) => hd2SkinRoom(a));
   return styles;
+}
+
+
+/* ===== shared/hd4-ultra.js ===== */
+// ENV-HD-4 — an opt-in "Ultra" desktop setting (console `hd4`, docs/consoles/ENV-HD-4.md).
+// SmartCiti.X Powered by AGI Corp.
+//
+// Ultra is OFF by default. It is offered only on the desktop high tier: never on the phone tier, never on balanced, never in
+// a standalone headset browser and never inside an XR session (hd4UltraAllowed). When the viewer switches it on (the Me tab's
+// "Ultra detail" button, kept in localStorage; `?ultra=1` for one load, `?ultra=0` forces it off), the page reloads and:
+//   - ROBO-EXTERIORS' facade atlas is drawn at 2048 px (512 px cells) with a 512 px lit-window mask, instead of 1024 / 256;
+//   - the six robot rooms' hero textures (the epoxy floor with its marks and the painted concrete walls) are drawn at 2048 px
+//     instead of 1024 (the brushed metal and the guard mesh stay at 1024);
+//   - near-camera detail is built: on each robot site's building, roof-edge guard railings, roof plant with fan housings and
+//     louvre fins, and a cat ladder (the construction site: slab-edge guardrails and a stair tower); in each robot room,
+//     ceiling trusses and cable trays on hangers.
+// The high tier is unchanged by this module: with Ultra off nothing here runs. Ultra has its own stated budget (HD4_ULTRA_BUDGET)
+// and the capture drive measures its frame time beside high's (tools/drive_hd4_scenes.mjs).
+//
+// Assets rule: geometry from code, textures drawn on a canvas (ROBO-EXTERIORS' and ROBO-INTERIORS' own painters at a larger
+// size); nothing names a company, union or trade body, no words are drawn, nothing models a real building.
+//
+// SEAMS (every top-level name is hd4/HD4_-prefixed: the bundler shares one scope; three.js comes from the caller):
+//   HD4_ULTRA_KEY                     the localStorage key ("holodeck-ultra-v1": "on" | absent)
+//   HD4_ULTRA_BUDGET                  plain data: atlas and hero sizes, texture bytes per map and per room, added triangles and
+//                                       draw calls per site and per room, the room totals Ultra may reach
+//   hd4Headset(ua)                    -> true for a standalone headset browser (the same test ROBO-INTERIORS uses, widened)
+//   hd4UltraAllowed({ tier, ua, coarse, width, height, xr }) -> bool (pure): desktop high only
+//   hd4UltraChoice({ tier, search, storage, env }) -> { on, allowed, source: "url" | "chosen" | "default" | "not offered" }
+//   hd4SetUltra(on, storage?)         -> bool (stored)
+//   hd4MountUltraToggle({ host, after, state, onChange, doc }) -> the button (hidden when not allowed) | null
+//   hd4UltraSiteDetail(THREE, layout) -> THREE.Mesh "hd4-ultra-site-<id>" (world space; userData.hd4 = { triangles })
+//   hd4MountUltraSites({ THREE, root, layouts }) -> { group, counts(), dispose() }
+//   hd4UltraRoom({ three, group, room }) -> { hero: [names], meshes, triangles } (the 2048 px floor and walls, trusses, trays)
+//   hd4UltraTextureBytes(kind)        -> GPU bytes Ultra's hero textures take (kind "facade" per map, "room" per room)
+
+
+const HD4_ULTRA_KEY = "holodeck-ultra-v1";
+const hd4MiB = 1024 * 1024;
+const hd4Bytes = (w, h = w) => Math.round(w * h * 4 * 4 / 3); // RGBA8 with a mip chain
+/** Ultra's stated budget. Texture bytes are GPU bytes with mips; "added" figures are on top of the desktop high tier. */
+const HD4_ULTRA_BUDGET = {
+  facadeAtlasPx: 2048, facadeMaskPx: 512, roomHeroPx: 2048,
+  facadeTextureBytes: 24 * hd4MiB, // per map: the 2048 atlas (21.33 MiB) + the 512 mask (1.33 MiB) = 22.67 MiB
+  roomTextureBytes: 64 * hd4MiB, // per room: floor + walls at 2048 (42.67 MiB) + metal and mesh at 1024 + the shell's signs
+  siteMeshesAdded: 1, siteTrianglesAdded: 6000, siteDrawCallsAdded: 1,
+  roomMeshesAdded: 2, roomTrianglesAdded: 2500, roomDrawCallsAdded: 2,
+  roomTrianglesTotal: 6000 + 2500, roomMeshesTotal: 120, roomLightsTotal: 3,
+};
+
+/** A standalone headset browser (ROBO-INTERIORS' test, plus the other standalone browsers). */
+function hd4Headset(ua = typeof navigator !== "undefined" ? navigator.userAgent : "") {
+  return /OculusBrowser|PICO|Quest|Wolvic|Mobile VR/i.test(String(ua || ""));
+}
+/** Pure: may this device turn Ultra on? Desktop high only: never the phone tier (or a coarse pointer or a small screen),
+ *  never balanced, never a headset browser, never inside an XR session. */
+function hd4UltraAllowed({ tier = "high", ua = "", coarse = false, width = 1920, height = 1080, xr = false } = {}) {
+  return tier === "high" && !coarse && Math.min(width, height) >= 600 && !hd4Headset(ua) && !xr;
+}
+function hd4Env() {
+  const out = { ua: "", coarse: false, width: 1920, height: 1080, xr: false };
+  try {
+    if (typeof navigator !== "undefined") out.ua = navigator.userAgent || "";
+    if (typeof matchMedia === "function") out.coarse = matchMedia("(pointer:coarse)").matches;
+    if (typeof window !== "undefined") { out.width = window.innerWidth || 1920; out.height = window.innerHeight || 1080; }
+  } catch { /* an old browser: the defaults */ }
+  return out;
+}
+/** Whether Ultra is on for this load, and why. Off unless the viewer chose it (or `?ultra=1`) on an allowed device. */
+function hd4UltraChoice({ tier = "high", search = typeof location !== "undefined" ? location.search : "", storage = null, env = null } = {}) {
+  const e = env ?? hd4Env();
+  const allowed = hd4UltraAllowed({ tier, ...e });
+  if (!allowed) return { on: false, allowed, source: "not offered" };
+  let url = null;
+  try { url = new URLSearchParams(search || "").get("ultra"); } catch { url = null; }
+  if (url === "1" || url === "on") return { on: true, allowed, source: "url" };
+  if (url === "0" || url === "off") return { on: false, allowed, source: "url" };
+  let chosen = null;
+  try { const s = storage ?? (typeof localStorage !== "undefined" ? localStorage : null); chosen = s?.getItem(HD4_ULTRA_KEY) ?? null; } catch { chosen = null; }
+  return chosen === "on" ? { on: true, allowed, source: "chosen" } : { on: false, allowed, source: "default" };
+}
+function hd4SetUltra(on, storage = null) {
+  try {
+    const s = storage ?? (typeof localStorage !== "undefined" ? localStorage : null);
+    if (!s) return false;
+    if (on) s.setItem(HD4_ULTRA_KEY, "on"); else s.removeItem(HD4_ULTRA_KEY);
+    return true;
+  } catch { return false; }
+}
+/** The Me tab's button ("Ultra detail: off / on"), at least 44 px tall. Hidden (and never focusable) where Ultra is not offered. */
+function hd4MountUltraToggle({ host = null, after = null, state = null, onChange = null, doc = typeof document !== "undefined" ? document : null } = {}) {
+  if (!doc || !host) return null;
+  const b = doc.createElement("button");
+  b.type = "button"; b.className = "btn"; b.id = "hd4-ultra";
+  b.style.minHeight = "44px";
+  b.title = "Desktop only: 2048 px facade and room textures and near-camera detail (reloads the page)";
+  const set = (on) => { b.setAttribute("aria-pressed", String(!!on)); b.textContent = `Ultra detail: ${on ? "on" : "off"}`; };
+  set(!!state?.on);
+  b.hidden = !state?.allowed;
+  b.addEventListener("click", () => {
+    const on = b.getAttribute("aria-pressed") !== "true";
+    hd4SetUltra(on); set(on);
+    onChange?.(on);
+  });
+  if (after?.parentElement === host) after.insertAdjacentElement("afterend", b); else host.appendChild(b);
+  return b;
+}
+
+/** GPU bytes of Ultra's hero textures: "facade" (per map: atlas + mask) or "room" (per room: floor + walls). */
+function hd4UltraTextureBytes(kind = "facade") {
+  const B = HD4_ULTRA_BUDGET;
+  return kind === "room" ? 2 * hd4Bytes(B.roomHeroPx) : hd4Bytes(B.facadeAtlasPx) + hd4Bytes(B.facadeMaskPx);
+}
+
+// ------------------------------------------------------------------------------------------------ exterior near-camera detail
+
+const HD4_C = { rail: 0xd9b23a, steel: 0x6d737a, plant: 0x9aa3ab, dark: 0x2a2e33, fan: 0x3b4147, ladder: 0x8b9299, guard: 0xe8b923 };
+/** The near-camera detail of one robot site's building, merged into one vertex-coloured mesh in world space. */
+function hd4UltraSiteDetail(THREE, l) {
+  const pos = [], col = [], c = new THREE.Color();
+  const bm = new THREE.Matrix4().makeRotationY(l.yaw).setPosition(l.x, l.y, l.z);
+  const put = (geo, colour, x, y, z, ry = 0) => {
+    const g = geo.index ? geo.toNonIndexed() : geo;
+    g.applyMatrix4(bm.clone().multiply(new THREE.Matrix4().makeRotationY(ry).setPosition(x, y, z)));
+    c.set(colour);
+    const p = g.attributes.position;
+    for (let i = 0; i < p.count; i++) { pos.push(p.getX(i), p.getY(i), p.getZ(i)); col.push(c.r, c.g, c.b); }
+    g.dispose(); if (g !== geo) geo.dispose();
+  };
+  const box = (w, h, d, colour, x, y, z, ry = 0) => put(new THREE.BoxGeometry(w, h, d), colour, x, y, z, ry);
+  const cyl = (r, h, colour, x, y, z, seg = 10) => put(new THREE.CylinderGeometry(r, r, h, seg), colour, x, y, z);
+  /** Guard railing round a w × d rectangle at height y (posts every ~1.6 m, a top rail and a knee rail). */
+  const railing = (w, d, y, cx = 0, cz = 0, colour = HD4_C.rail) => {
+    for (const [len, ax, off] of [[w, "x", d / 2], [w, "x", -d / 2], [d, "z", w / 2], [d, "z", -w / 2]]) {
+      const n = Math.max(2, Math.round(len / 1.6));
+      for (let i = 0; i <= n; i++) {
+        const u = -len / 2 + (i * len) / n;
+        if (ax === "x") box(0.05, 1.1, 0.05, colour, cx + u, y + 0.55, cz + off); else box(0.05, 1.1, 0.05, colour, cx + off, y + 0.55, cz + u);
+      }
+      for (const hy of [1.08, 0.55]) { if (ax === "x") box(len, 0.045, 0.045, colour, cx, y + hy, cz + off); else box(0.045, 0.045, len, colour, cx + off, y + hy, cz); }
+    }
+  };
+  /** A rooftop air-handling unit: casing, two fan housings with grilles, louvre fins down one side, a duct into the roof. */
+  const plantUnit = (x, y, z, w = 3, d = 2) => {
+    box(w, 1.3, d, HD4_C.plant, x, y + 0.65, z);
+    for (const fx of [-w / 4, w / 4]) { cyl(0.55, 0.35, HD4_C.fan, x + fx, y + 1.47, z, 14); cyl(0.5, 0.04, HD4_C.dark, x + fx, y + 1.66, z, 14); for (let k = 0; k < 3; k++) box(1.0, 0.03, 0.03, HD4_C.steel, x + fx, y + 1.69, z - 0.3 + k * 0.3); }
+    for (let k = 0; k < 9; k++) box(0.04, 0.9, 0.08, HD4_C.steel, x - w / 2 + 0.3 + k * ((w - 0.6) / 8), y + 0.65, z + d / 2 + 0.05);
+    box(0.6, 0.5, 0.6, HD4_C.steel, x - w / 2 - 0.3, y + 0.25, z);
+  };
+  /** A cat ladder up a wall (stiles, rungs every 0.3 m, a safety hoop cage at the top). */
+  const ladder = (x, z, h, ry) => {
+    for (const s of [-0.22, 0.22]) box(0.05, h + 1.1, 0.06, HD4_C.ladder, x + s * Math.cos(ry), (h + 1.1) / 2, z - s * Math.sin(ry), ry);
+    for (let y = 0.3; y < h + 1; y += 0.3) box(0.44, 0.03, 0.03, HD4_C.ladder, x, y, z, ry);
+    for (let y = 2.4; y < h + 1; y += 1.2) box(0.7, 0.04, 0.04, HD4_C.ladder, x + 0.35 * Math.sin(ry), y, z + 0.35 * Math.cos(ry), ry);
+  };
+  const K = { fabHall: [30, 20, 9], researchLab: [24, 16, 12], distWarehouse: [40, 22, 10], portTower: [34, 10, 20], constructionSite: [40, 18, 10.2] }[l.kind] ?? [l.w, l.d, l.h];
+  const [W, D, H] = K;
+  if (l.kind === "fabHall" || l.kind === "researchLab" || l.kind === "distWarehouse") {
+    railing(W - 0.6, D - 0.6, H + (l.kind === "researchLab" ? 0 : 0.8));
+    if (l.kind === "fabHall") { plantUnit(-11, H, -6); plantUnit(9, H, -5.5, 2.6, 1.8); }
+    else if (l.kind === "researchLab") { plantUnit(-8, H, 4.5, 2.6, 1.8); plantUnit(8, H, 4.5, 2.6, 1.8); }
+    else { plantUnit(-14, H, -5); plantUnit(0, H, -6); plantUnit(14, H, -5); }
+    ladder(-W / 2 - 0.08, -D / 4, H, -Math.PI / 2);
+  } else if (l.kind === "portTower") {
+    railing(9.6, 9.6, H + 3.93, -12, 0); // the cab roof
+    railing(10, 8, 4, -12, 0); // the base building's roof
+    for (let k = 0; k < 2; k++) box(0.06, 3.2, 0.06, HD4_C.steel, -10.2 - k * 3.6, H + 5.5, 2 - k * 4); // antenna masts
+    plantUnit(-12, 4, -1.6, 2.4, 1.6);
+    ladder(-16.6, 2.2, 4, -Math.PI / 2);
+  } else if (l.kind === "constructionSite") {
+    for (const y of [3.53, 6.93]) railing(17.6, 11.6, y, 0, 0, HD4_C.guard); // slab-edge guardrails on both poured floors
+    for (let k = 0; k < 6; k++) { box(2.4, 0.06, 1.0, HD4_C.steel, 10.6, 0.9 + k * 1.15, -6.2 + (k % 2) * 1.1); box(0.06, 1.2, 1.0, HD4_C.steel, 9.4, 0.6 + k * 1.15, -6.2 + (k % 2) * 1.1); } // a stair tower
+    for (const [x, z] of [[9.4, -6.8], [11.8, -6.8], [9.4, -4.5], [11.8, -4.5]]) box(0.08, 7.4, 0.08, HD4_C.steel, x, 3.7, z);
+  }
+  const g = new THREE.BufferGeometry();
+  g.setAttribute("position", new THREE.Float32BufferAttribute(pos, 3));
+  g.setAttribute("color", new THREE.Float32BufferAttribute(col, 3));
+  g.computeVertexNormals();
+  const mesh = new THREE.Mesh(g, new THREE.MeshLambertMaterial({ vertexColors: true, flatShading: true }));
+  mesh.name = `hd4-ultra-site-${l.id}`;
+  mesh.userData.hd4 = { id: l.id, kind: l.kind, triangles: Math.round(pos.length / 9) };
+  return mesh;
+}
+/** Mount the near-camera detail for this map's robot sites (Ultra only; the caller decides). */
+function hd4MountUltraSites({ THREE, root, layouts = [] } = {}) {
+  const group = new THREE.Group(); group.name = "hd4-ultra-sites"; root?.add(group);
+  const built = layouts.map((l) => { const m = hd4UltraSiteDetail(THREE, l); group.add(m); return m; });
+  return {
+    group,
+    counts: () => ({ sites: built.length, meshes: built.length, triangles: built.reduce((a, m) => a + m.userData.hd4.triangles, 0), perSite: built.map((m) => ({ ...m.userData.hd4 })) }),
+    dispose() { for (const m of built) { m.geometry.dispose(); m.material.dispose(); } root?.remove(group); },
+  };
+}
+
+// ------------------------------------------------------------------------------------------------ rooms: hero textures and detail
+
+/** Ultra in one robot room: the floor and walls redrawn at 2048 px, ceiling trusses and cable trays (two instanced meshes). */
+function hd4UltraRoom({ three: THREE, group, room }) {
+  if (!THREE || !room || !IXR_ROOMS[room.id]) return null;
+  const px = HD4_ULTRA_BUDGET.roomHeroPx, hero = [];
+  const floor = group.getObjectByName("ix-floor"), wall = group.getObjectByName("ix-wall-0");
+  if (floor?.material) { const old = floor.material.map; floor.material.map = ixrFloorTexture(THREE, room.id, room, px); floor.material.needsUpdate = true; if (old && old !== floor.material.map) old.dispose?.(); hero.push("floor"); }
+  if (wall?.material) { wall.material.map = ixrSetTexture(THREE, "concrete", px, [Math.max(room.w, room.d) / 2, room.h / 2]); wall.material.needsUpdate = true; hero.push("walls"); }
+  const { w, d, h } = room, m4 = new THREE.Matrix4(), q = new THREE.Quaternion(), s = new THREE.Vector3(), v = new THREE.Vector3(), zAxis = new THREE.Vector3(0, 0, 1);
+  // Trusses across the room every ~4 m under the ceiling: top and bottom chords, verticals and alternating diagonals.
+  const truss = [], depth = Math.min(0.9, h * 0.16), yTop = h - 0.12, yBot = yTop - depth;
+  const nT = Math.max(2, Math.floor(d / 4));
+  for (let i = 0; i < nT; i++) {
+    const z = -d / 2 + (d / nT) * (i + 0.5);
+    truss.push([w, 0.1, 0.12, 0, yTop, z, 0], [w, 0.1, 0.12, 0, yBot, z, 0]);
+    const bays = Math.max(4, Math.round(w / 2));
+    for (let k = 0; k <= bays; k++) truss.push([0.07, depth, 0.07, -w / 2 + (w * k) / bays, (yTop + yBot) / 2, z, 0]);
+    for (let k = 0; k < bays; k++) { const bw = w / bays, len = Math.hypot(bw, depth), a = Math.atan2(depth, bw) * (k % 2 ? 1 : -1); truss.push([len, 0.05, 0.05, -w / 2 + bw * (k + 0.5), (yTop + yBot) / 2, z, a]); }
+  }
+  // Cable trays along both side walls and one across the back, on hangers every 2 m.
+  const tray = [], yTray = Math.max(2.6, yBot - 0.35);
+  for (const x of [-w / 2 + 0.5, w / 2 - 0.5]) {
+    tray.push([0.35, 0.07, d - 1.2, x, yTray, 0, 0], [0.02, 0.1, d - 1.2, x - 0.17, yTray + 0.05, 0, 0], [0.02, 0.1, d - 1.2, x + 0.17, yTray + 0.05, 0, 0]);
+    for (let z = -d / 2 + 1; z < d / 2 - 0.5; z += 2) tray.push([0.03, h - yTray, 0.03, x, (h + yTray) / 2, z, 0]);
+  }
+  tray.push([w - 1.2, 0.07, 0.35, 0, yTray, -d / 2 + 0.5, 0]);
+  const add = (list, name, colour) => {
+    const im = new THREE.InstancedMesh(new THREE.BoxGeometry(1, 1, 1), new THREE.MeshStandardMaterial({ color: colour, roughness: 0.55, metalness: 0.35 }), list.length);
+    im.name = name;
+    list.forEach(([bw, bh, bd, x, y, z, rz], i) => { q.setFromAxisAngle(zAxis, rz); m4.compose(v.set(x, y, z), q, s.set(bw, bh, bd)); im.setMatrixAt(i, m4); });
+    group.add(im);
+    return im;
+  };
+  const a = add(truss, "hd4-ultra-trusses", 0x7d858c), b = add(tray, "hd4-ultra-cable-trays", 0x9aa3ab);
+  const triangles = 12 * (a.count + b.count);
+  room.hd4Ultra = { hero, meshes: 2, triangles, trusses: nT };
+  return room.hd4Ultra;
+}
+
+
+/* ===== shared/hd4-looks.js ===== */
+// ENV-HD-4 — the robot sites at every hour and in fog and rain (console `hd4`, docs/consoles/ENV-HD-4.md).
+// SmartCiti.X Powered by AGI Corp.
+//
+// Six looks for the robot sites' exteriors, applied through the parishes app's own clock and weather (ATMOS's time buckets and
+// weather recipes, TERRAFORM's rain): dawn, day, dusk and night, fog at dawn and rain at dusk. Each look sets the hour band and
+// the weather; the site lighting follows a stated policy (floodlights and dock lights on from dusk to dawn and in poor
+// visibility), ROBO-EXTERIORS' lit-window mask glows by the same level, and in rain the yards and roofs darken with a cool sheen
+// (an up-facing wet tint on the facade materials — a material tweak, no new texture). Fog density comes from ATMOS's atFog.
+// Presets: every robot site's wide shot under each look (`window.__parishTest.scene(siteId, shot, look)`; the URL form
+// `?scene=<siteId>:<shot>:<look>`; `__parishTest.hd4.lookPresets()` lists them).
+//
+// Budget (HD4_SITE_LIGHTS_BUDGET): the site lights are built on the desktop high tier only (not balanced, not the phone, not a
+// headset browser): three merged meshes per map (the masts, the lamp faces, the light pools on the ground), no real lights
+// outdoors and no texture. The phone and headset tiers build nothing here.
+//
+// SEAMS (every top-level name is hd4/HD4_-prefixed: the bundler shares one scope; three.js comes from the caller):
+//   HD4_LOOKS / HD4_LOOK_IDS            plain data: look id -> { time (NP_TIMES), weather (NP_WEATHERS), label }
+//   hd4LightLevel({ band, weather })   -> 0..1, the site lighting policy (dawn 0.6, day 0, dusk 0.85, night 1; 0.45 at least
+//                                         in fog, rain or storm)
+//   hd4LookPresets(parishes, sitesFor) -> [{ id: "<siteId>:wide:<look>", siteId, parish, shot, look, time, weather }]
+//   hd4SiteLightSpots(layout)          -> { masts: [{ x, y, z, h }], docks: [{ x, y, z }], pools: [{ x, y, z, r }] } (pure, world)
+//   hd4WetUp(THREE, material)          -> { uHd4Wet } (an up-facing wet tint patched into a lit material)
+//   hd4MountSiteLights({ THREE, root, layouts, tier, ua, glow, wet }) -> { group, set({ band, weather }), counts(), dispose() }
+//                                         glow = ROBO-EXTERIORS' atlas materials (their lit-window mask follows the level);
+//                                         wet = the facade materials that take the wet tint
+
+
+
+const HD4_LOOKS = {
+  dawn: { time: "dawn", weather: "clear", label: "Dawn" },
+  day: { time: "day", weather: "clear", label: "Day" },
+  dusk: { time: "dusk", weather: "clear", label: "Dusk" },
+  night: { time: "night", weather: "clear", label: "Night" },
+  fog: { time: "dawn", weather: "fog", label: "Fog at dawn", fogScale: 0.4 },
+  rain: { time: "dusk", weather: "rain", label: "Rain at dusk", fogScale: 0.7 },
+};
+const HD4_LOOK_IDS = Object.keys(HD4_LOOKS);
+/** Dawn on sky.js's low-sun dome (sky.js knows day, dusk and night only): the dome turned half round so the low sun stands in
+ *  the east, and a cooler rose-violet tint on its gradient, so dawn and dusk read apart. Returns whether a dome was tinted. */
+function hd4DawnSky(root) {
+  if (!root) return false;
+  root.rotation.y = Math.PI;
+  let n = 0;
+  root.traverse((o) => { if (o.isMesh && o.material?.vertexColors && o.material.side === 1 && o.material.color) { o.material.color.setHex(0xd6c6ff); n++; } }); // 1 = BackSide (the dome)
+  return n > 0;
+}
+/** A look's scene fog: the page's (ATMOS's) linear fog, drawn in by the look's `fogScale` (a ground fog at the site), never
+ *  nearer than ATMOS's floor of three board-read distances, so a site board stays legible. */
+function hd4LookFog(look, fog) {
+  const s = HD4_LOOKS[look]?.fogScale ?? 1, floor = AT_BOARD_READ * 3;
+  if (!fog || s === 1) return fog ? { near: fog.near, far: fog.far } : null;
+  return { near: Math.round(fog.near * s * 100) / 100, far: Math.max(floor, Math.round(fog.far * s)) };
+}
+const HD4_SITE_LIGHTS_BUDGET = { meshesPerMap: { low: 0, balanced: 0, high: 3 }, trianglesPerSite: { low: 0, balanced: 0, high: 1200 }, lights: 0, textureBytes: 0 };
+
+const hd4R3 = (v) => Math.round(v * 1000) / 1000;
+/** The site lighting policy: floodlights, dock lights and window glow by hour band, and on at least at 0.45 in poor visibility. */
+function hd4LightLevel({ band = "day", weather = null } = {}) {
+  const base = { dawn: 0.6, day: 0, dusk: 0.85, night: 1 }[band] ?? 0;
+  const murk = Math.max(weather?.fog ?? 0, (weather?.rain ?? 0) * 0.8, (weather?.storm ?? 0) * 0.9);
+  return hd4R3(Math.max(base, murk > 0.5 ? 0.45 : 0));
+}
+/** Every robot site's wide shot under each look. `sitesFor(parish)` gives a map's robot sites (fxSitesFor). */
+function hd4LookPresets(parishes = [], sitesFor = () => []) {
+  const out = [];
+  for (const p of parishes) {
+    let sites = [];
+    try { sites = sitesFor(p) ?? []; } catch { sites = []; }
+    for (const s of sites) for (const look of HD4_LOOK_IDS) out.push({ id: `${s.id}:wide:${look}`, siteId: s.id, parish: p.id, shot: "wide", look, time: HD4_LOOKS[look].time, weather: HD4_LOOKS[look].weather });
+  }
+  return out;
+}
+
+const hd4Rot = (yaw, lx, lz) => [lx * Math.cos(yaw) + lz * Math.sin(yaw), -lx * Math.sin(yaw) + lz * Math.cos(yaw)];
+/** Where a site's floodlight masts, dock lamps and light pools stand, in world metres (the layout's building frame: +z faces
+ *  the pad). Masts stand at the yard's front corners (clear of the door, the chargers and the bollards). */
+function hd4SiteLightSpots(l) {
+  const at = (lx, ly, lz) => { const [rx, rz] = hd4Rot(l.yaw, lx, lz); return { x: l.x + rx, y: l.y + ly, z: l.z + rz }; };
+  const spec = {
+    fabHall: { masts: [[-17.5, 14.4], [17.5, 14.4]], h: 9, docks: [] },
+    researchLab: { masts: [[-14.5, 14.4], [14.5, 14.4]], h: 9, docks: [] },
+    distWarehouse: { masts: [[-22, 22.4], [22, 22.4]], h: 10, docks: [-16.5, -8.5, -0.5, 7.5] },
+    portTower: { masts: [[-17.5, 5.5], [4, 3.0]], h: 12, docks: [] },
+    constructionSite: { masts: [[-13, 10.2], [13.2, 10.2]], h: 9, docks: [] },
+  }[l.kind] ?? { masts: [], h: 9, docks: [] };
+  const D = (l.d ?? 20) / 2;
+  const masts = spec.masts.map(([x, z]) => ({ ...at(x, 0, z), h: spec.h, lx: x, lz: z }));
+  const docks = spec.docks.map((x) => ({ ...at(x + 2.1, 4.28, D + 0.38), lx: x }));
+  // A pool on the ground in front of each mast (toward the lot's middle) and on the dock apron below each dock lamp.
+  const pools = [...spec.masts.map(([x, z]) => ({ ...at(x * 0.62, 0.23, z * 0.8), r: 7.5 })), ...spec.docks.map((x) => ({ ...at(x, 0.24, D + 2.6), r: 2.4 }))];
+  return { masts, docks, pools, h: spec.h };
+}
+
+/** An up-facing wet tint: roofs, yards and markings darken and take a faint cool sheen with `uHd4Wet` (0 dry .. 1 soaked).
+ *  Walls (normals not facing up) are untouched. Dry (0), the shader takes the same path as before. */
+function hd4WetUp(THREE, material) {
+  if (material?.userData?.hd4Wet) return material.userData.hd4Wet;
+  const uniforms = { uHd4Wet: { value: 0 } };
+  const prev = material.onBeforeCompile;
+  material.onBeforeCompile = (shader, r) => {
+    prev?.call(material, shader, r);
+    Object.assign(shader.uniforms, uniforms);
+    shader.vertexShader = shader.vertexShader
+      .replace("#include <common>", "#include <common>\nvarying float vHd4Up;")
+      .replace("#include <beginnormal_vertex>", "#include <beginnormal_vertex>\nvHd4Up = normalize(mat3(modelMatrix) * objectNormal).y;");
+    shader.fragmentShader = shader.fragmentShader
+      .replace("#include <common>", "#include <common>\nvarying float vHd4Up;\nuniform float uHd4Wet;")
+      .replace("#include <color_fragment>", "#include <color_fragment>\nif (uHd4Wet > 0.0) { diffuseColor.rgb *= 1.0 - 0.34 * uHd4Wet * smoothstep(0.6, 0.95, vHd4Up); }")
+      .replace("#include <emissivemap_fragment>", "#include <emissivemap_fragment>\nif (uHd4Wet > 0.0) { totalEmissiveRadiance += vec3(0.016, 0.022, 0.032) * uHd4Wet * smoothstep(0.6, 0.95, vHd4Up); }");
+  };
+  const key = material.customProgramCacheKey?.bind(material);
+  material.customProgramCacheKey = () => `${key ? key() : ""}|hd4-wet`;
+  material.needsUpdate = true;
+  material.userData.hd4Wet = uniforms;
+  return uniforms;
+}
+
+/** Mount the site lights for this map's robot sites (high tier, not a headset; elsewhere a stub that builds nothing). */
+function hd4MountSiteLights({ THREE, root, layouts = [], tier = "high", ua = typeof navigator !== "undefined" ? navigator.userAgent : "", glow = [], wet = [], groundAt = null } = {}) {
+  let state = { band: "day", level: 0, wet: 0, lit: false };
+  const builds = !!THREE && tier === "high" && !hd4Headset(ua) && layouts.length > 0;
+  const glowMats = glow.filter(Boolean), wetU = builds ? wet.filter(Boolean).map((m) => hd4WetUp(THREE, m)) : [];
+  if (!builds) {
+    return { group: null, built: false, set: ({ band = "day", weather = null } = {}) => (state = { band, level: hd4LightLevel({ band, weather }), wet: weather?.wet ?? 0, lit: false }), counts: () => ({ built: false, tier, meshes: 0, triangles: 0, lights: 0, masts: 0, docks: 0, pools: 0, ...state }), dispose() {} };
+  }
+  const group = new THREE.Group(); group.name = "hd4-site-lights"; root?.add(group);
+  const body = { pos: [], col: [] }, lens = { pos: [], col: [] }, pool = { pos: [], col: [] };
+  const c = new THREE.Color();
+  const put = (bag, geo, colour, m) => {
+    const g = geo.index ? geo.toNonIndexed() : geo; g.applyMatrix4(m); c.set(colour);
+    const p = g.attributes.position;
+    for (let i = 0; i < p.count; i++) { bag.pos.push(p.getX(i), p.getY(i), p.getZ(i)); bag.col.push(c.r, c.g, c.b); }
+    g.dispose(); if (g !== geo) geo.dispose();
+  };
+  const M = (x, y, z, yaw = 0) => new THREE.Matrix4().makeRotationY(yaw).setPosition(x, y, z);
+  let masts = 0, docks = 0, pools = 0, flares = 0;
+  /** A soft glare round a lamp, seen from any side (three crossed fans, bright at the centre, black at the rim, drawn additively). */
+  const flare = (x, y, z, r, warm) => {
+    flares++;
+    for (const [a, b] of [[[1, 0, 0], [0, 1, 0]], [[0, 0, 1], [0, 1, 0]], [[1, 0, 0], [0, 0, 1]]]) {
+      for (let i = 0; i < 12; i++) {
+        const t0 = (i / 12) * Math.PI * 2, t1 = ((i + 1) / 12) * Math.PI * 2;
+        const p = (t) => [x + r * (Math.cos(t) * a[0] + Math.sin(t) * b[0]), y + r * (Math.cos(t) * a[1] + Math.sin(t) * b[1]), z + r * (Math.cos(t) * a[2] + Math.sin(t) * b[2])];
+        pool.pos.push(x, y, z, ...p(t1), ...p(t0)); pool.col.push(...warm, 0, 0, 0, 0, 0, 0);
+      }
+    }
+  };
+  for (const l of layouts) {
+    const sp = hd4SiteLightSpots(l);
+    for (const m of sp.masts) {
+      masts++;
+      put(body, new THREE.BoxGeometry(0.24, m.h, 0.24), 0x5b6168, M(m.x, m.y + m.h / 2, m.z, l.yaw));
+      put(body, new THREE.BoxGeometry(0.5, 0.5, 0.5), 0x4a4f55, M(m.x, m.y + 0.25, m.z, l.yaw)); // the base
+      put(body, new THREE.BoxGeometry(1.9, 0.12, 0.12), 0x5b6168, M(m.x, m.y + m.h, m.z, l.yaw)); // the crossarm
+      for (const s of [-0.65, 0.65]) {
+        const [ox, oz] = hd4Rot(l.yaw, s, 0);
+        put(lens, new THREE.BoxGeometry(0.62, 0.26, 0.44), 0xf4e6c8, M(m.x + ox, m.y + m.h - 0.2, m.z + oz, l.yaw)); // a flood head (glows when lit)
+        flare(m.x + ox, m.y + m.h - 0.25, m.z + oz, 1.7, [0.55, 0.5, 0.38]);
+      }
+    }
+    for (const d of sp.docks) { docks++; put(lens, new THREE.BoxGeometry(0.3, 0.1, 0.3), 0xffd27a, M(d.x, d.y, d.z, l.yaw)); flare(d.x, d.y, d.z, 0.9, [0.6, 0.45, 0.2]); }
+    for (const p of sp.pools) {
+      pools++;
+      // the pool follows the ground (each rim vertex at the ground's height), so a sloping yard never buries it
+      const n = 20, warm = p.r > 4 ? [0.5, 0.45, 0.34] : [0.55, 0.42, 0.2], gy = (x, z) => (groundAt ? groundAt(x, z) + 0.12 : p.y);
+      const cy = gy(p.x, p.z);
+      for (let i = 0; i < n; i++) {
+        const a0 = (i / n) * Math.PI * 2, a1 = ((i + 1) / n) * Math.PI * 2;
+        const x1 = p.x + Math.cos(a1) * p.r, z1 = p.z + Math.sin(a1) * p.r, x0 = p.x + Math.cos(a0) * p.r, z0 = p.z + Math.sin(a0) * p.r;
+        pool.pos.push(p.x, cy, p.z, x1, gy(x1, z1), z1, x0, gy(x0, z0), z0);
+        pool.col.push(...warm, 0, 0, 0, 0, 0, 0);
+      }
+    }
+  }
+  const geoOf = (bag) => { const g = new THREE.BufferGeometry(); g.setAttribute("position", new THREE.Float32BufferAttribute(bag.pos, 3)); g.setAttribute("color", new THREE.Float32BufferAttribute(bag.col, 3)); g.computeVertexNormals(); return g; };
+  const mastMat = new THREE.MeshLambertMaterial({ vertexColors: true, flatShading: true });
+  wetU.push(hd4WetUp(THREE, mastMat));
+  const lensMat = new THREE.MeshBasicMaterial({ vertexColors: true, toneMapped: false });
+  const poolMat = new THREE.MeshBasicMaterial({ vertexColors: true, transparent: true, blending: THREE.AdditiveBlending, depthWrite: false, toneMapped: false });
+  const meshes = [[body, mastMat, "hd4-site-masts"], [lens, lensMat, "hd4-site-lamps"], [pool, poolMat, "hd4-site-pools"]].map(([bag, mat, name]) => {
+    const mesh = new THREE.Mesh(geoOf(bag), mat); mesh.name = name; group.add(mesh); return mesh;
+  });
+  const [, lensMesh, poolMesh] = meshes;
+  poolMesh.renderOrder = 2; poolMesh.visible = false;
+  const triangles = Math.round((body.pos.length + lens.pos.length + pool.pos.length) / 9);
+  function set({ band = "day", weather = null } = {}) {
+    const level = hd4LightLevel({ band, weather }), wetV = hd4R3(weather?.wet ?? 0);
+    lensMat.color.setScalar(level > 0 ? 0.55 + 0.45 * level : 0.32);
+    poolMat.color.setScalar(level * (1 + 0.55 * wetV));
+    poolMesh.visible = level > 0;
+    for (const m of glowMats) { if (!m?.emissive) continue; m.emissive.setHex(level > 0 ? 0xffcf8a : 0x000000); m.emissiveIntensity = level > 0 ? 0.3 + 0.65 * level : 1; }
+    for (const u of wetU) u.uHd4Wet.value = wetV;
+    state = { band, level, wet: wetV, lit: level > 0 };
+    return state;
+  }
+  return {
+    group, built: true, set, meshes: lensMesh ? meshes : [],
+    counts: () => ({ built: true, tier, meshes: meshes.length, triangles, lights: 0, masts, docks, pools, flares, perSite: Math.round(triangles / Math.max(1, layouts.length)), ...state }),
+    dispose() { for (const m of meshes) { m.geometry.dispose(); m.material.dispose(); } root?.remove(group); },
+  };
+}
+
+
+/* ===== shared/hd4-rooms.js ===== */
+// ENV-HD-4 — lit robot rooms and the hive's operations room (console `hd4`, docs/consoles/ENV-HD-4.md).
+// SmartCiti.X Powered by AGI Corp.
+//
+// 1. Interior lighting in ROBO-INTERIORS' six robot rooms (one more dresser per style, desktop high tier only — not balanced,
+//    not the phone, not a headset browser): LED ceiling light panels between the shell's lamp rows, a pendant task light over
+//    every station pad with a soft pool of light on the floor, three wall-mounted amber warning beacons (two on the back wall
+//    over the robot area, one by the door), and one real light — a task spotlight over the room's robot — which with the
+//    shell's hemisphere and point light makes 3, IX_BUDGET's desktop limit. Everything else is emissive (no texture).
+//    Nothing moves: the beacons glow steadily, so reduced motion needs no special case.
+// 2. The hive's operations room (`hd4-hive-ops`, an INTERIORS style), GENERIC BY KIND: a control room where the Omega Hive's
+//    seven software agents' consoles stand in an arc facing a video wall (two panels either side of the shell's honesty sign).
+//    Each console has a desk, a monitor whose screen is a cell of one shared canvas, a chair, a strip in the agent's accent
+//    colour and an agent spot behind it (room.spots.agent, one per role) where the hive's figures can stand. The screens show
+//    procedural placeholder content (no words): they are the seam for the hive console's content (HIVE-4's "Omega Hive" tab),
+//    see hd4OpsScreens below. The room has its own door beside the dispatcher's home robot site.
+//
+// SEAMS (every top-level name is hd4/HD4_-prefixed: the bundler shares one scope; three.js comes from the caller):
+//   HD4_OPS_STYLE                      "hd4-hive-ops"
+//   HD4_ROOM_LIGHT_BUDGET              what the lighting adds per room per tier (meshes, real lights, triangles, texture bytes)
+//   HD4_ROOM_TARGETS                   plain data: style -> [x, z] the task spotlight aims at (the room's robot)
+//   HD4_OPS_ROLES / HD4_OPS_BUDGET     the seven role keys in console order; the ops room's stated budget per tier
+//   hd4LightRoom({ three, group, room, tier, ua }) -> { panels, pendants, beacons, lights } | null (null where it builds nothing)
+//   hd4OpsLayout(agents?)              -> [{ key, agentId, accent, x, z, yaw, spot: { x, z, yaw } }] (pure, room metres)
+//   hd4DressOps({ three, group, room, site, tier, agents }) -> room.hd4Ops = { consoles, screens, spots }
+//   hd4OpsScreens(room)                -> { canvas, texture, cells: [{ key, agentId, role, x, y, w, h }], wall: { canvas, texture,
+//                                          w, h }, paint(key, painter), repaint() } | null — `paint(agentId | "wall",
+//                                          (ctx, w, h, cell) => …)` draws into that screen and re-uploads it. A page that wants its
+//                                          own content on every screen may set `globalThis.hd4OpsPainter = (agent, ctx, w, h, kind)`
+//                                          before the room is entered (kind "console" or "wall"; agent null for the wall).
+//   hd4OpsSite(rbSite, parish)         -> the site object ixWorld.enter takes for the ops room (stations and returns of the
+//                                          dispatcher's home robot site)
+//   hd4OpsDoor({ doors, homeSite, blocked, colliders }) -> { x, z, face } beside that site's room door, or null
+//   hd4RegisterDressers(ix, { ultra, ua }) -> the styles registered (the six robot rooms: lighting, + Ultra when on; the ops room)
+
+
+
+
+
+/** The dispatcher's home robot site (an RB_SITES entry): the ops room's door stands beside its room door and the room shows
+ *  its stations. */
+function hd4OpsHome(agents = OH_AGENTS) {
+  const id = (agents ?? []).find((a) => a.key === "dispatcher")?.homeSite;
+  return RB_SITES.find((s) => s.id === id) ?? RB_SITES[0] ?? null;
+}
+
+const HD4_OPS_STYLE = "hd4-hive-ops";
+const HD4_ROOM_LIGHT_BUDGET = { meshesAdded: { low: 0, balanced: 0, high: 4 }, lightsAdded: { low: 0, balanced: 0, high: 1 }, trianglesAdded: { low: 0, balanced: 0, high: 900 }, textureBytes: 0 };
+const HD4_ROOM_TARGETS = { "ixr-cell-hall": [0, -4], "ixr-cobot-lab": [0, -2.2], "ixr-amr-warehouse": [-3.5, -3], "ixr-port-control": [0, -3.3], "ixr-drilling-deck": [0, -3.5], "ixr-maint-bay": [3.6, -3.2], "hd4-hive-ops": [0, -2.4] };
+const HD4_OPS_ROLES = ["dispatcher", "safety-steward", "maintenance-planner", "consent-keeper", "trainer", "auditor", "logistics"];
+const hd4OpsMiB = 1024 * 1024;
+const HD4_OPS_BUDGET = {
+  meshes: { low: 40, balanced: 40, high: 40 }, triangles: { low: 3000, balanced: 6000, high: 6000 }, lights: { low: 1, balanced: 2, high: 3 },
+  textureBytes: { low: 3 * hd4OpsMiB, balanced: 3 * hd4OpsMiB, high: 24 * hd4OpsMiB },
+  screenPx: { low: 256, balanced: 256, high: 1024 }, wallPx: { low: [256, 64], balanced: [256, 64], high: [1024, 256] },
+};
+
+const hd4Lit = (tier, ua) => tier === "high" && !hd4Headset(ua);
+/** A soft pool of light: a unit disc fan, bright at the centre and black at the rim (drawn additively). */
+function hd4PoolGeometry(THREE, warm = [0.16, 0.14, 0.1], n = 20) {
+  const pos = [], col = [];
+  for (let i = 0; i < n; i++) {
+    const a0 = (i / n) * Math.PI * 2, a1 = ((i + 1) / n) * Math.PI * 2;
+    pos.push(0, 0, 0, Math.cos(a1), 0, Math.sin(a1), Math.cos(a0), 0, Math.sin(a0));
+    col.push(...warm, 0, 0, 0, 0, 0, 0);
+  }
+  const g = new THREE.BufferGeometry();
+  g.setAttribute("position", new THREE.Float32BufferAttribute(pos, 3));
+  g.setAttribute("color", new THREE.Float32BufferAttribute(col, 3));
+  return g;
+}
+
+/** Light one room (the six robot rooms and the ops room): panels, pendants with pools, beacons, one task spotlight. */
+function hd4LightRoom({ three: THREE, group, room, tier = "high", ua = typeof navigator !== "undefined" ? navigator.userAgent : "" }) {
+  if (!THREE || !room || !group || !hd4Lit(tier, ua)) return null;
+  const { w, d, h } = room, style = room.style ?? {};
+  const m4 = new THREE.Matrix4(), q = new THREE.Quaternion(), v = new THREE.Vector3(), s = new THREE.Vector3(), col = new THREE.Color();
+  const lamp = style.lamp ?? 0xf2f6fa;
+  // LED panels between the shell's lamp columns (the shell keeps its own strip lamps).
+  const rows = Math.max(2, Math.round(d / 5)), cols = Math.max(2, Math.round(w / 6)), panels = [];
+  for (let r = 0; r < rows; r++) for (let c = 1; c < cols; c++) panels.push([-w / 2 + (w / cols) * c, -d / 2 + (d / rows) * (r + 0.5)]);
+  const pm = new THREE.InstancedMesh(new THREE.BoxGeometry(1.2, 0.04, 0.6), new THREE.MeshBasicMaterial({ color: lamp, toneMapped: false }), panels.length);
+  pm.name = "hd4-light-panels";
+  panels.forEach(([x, z], i) => { m4.makeTranslation(x, h - 0.03, z); pm.setMatrixAt(i, m4); });
+  group.add(pm);
+  // Pendant task lights over the station pads (and, in the ops room, over each console), each with a pool on the floor.
+  const spots = room.actions.filter((a) => a.kind === "station").map((a) => [a.x, a.z]);
+  for (const c of room.hd4Ops?.consoles ?? []) spots.push([c.x * 0.86, c.z * 0.86 + (-2.4) * 0.14]);
+  const yLamp = Math.min(2.75, h - 0.6), rod = Math.max(0.1, h - yLamp);
+  // Wall beacons (robot rooms only): two on the back wall over the robot area, one beside the door.
+  const beacons = IXR_ROOMS[room.id] ? [[-w / 4, Math.min(h * 0.62, h - 0.6), -d / 2 + 0.14, 0], [w / 4, Math.min(h * 0.62, h - 0.6), -d / 2 + 0.14, 0], [1.6, Math.min(2.75, h - 0.5), d / 2 - 0.14, Math.PI]] : [];
+  const body = [], glow = [];
+  for (const [x, z] of spots) {
+    body.push([0.03, rod, 0.03, x, yLamp + rod / 2, z, 0x6d737a], [0.6, 0.14, 0.34, x, yLamp, z, 0x3b4046]);
+    glow.push([0.52, 0.03, 0.28, x, yLamp - 0.085, z, 0xfff1d6]);
+  }
+  for (const [x, y, z] of beacons) { body.push([0.34, 0.16, 0.24, x, y - 0.14, z, 0x2a2e33]); glow.push([0.26, 0.26, 0.26, x, y + 0.07, z, 0xff9a1f]); }
+  const addBoxes = (list, mat, name) => {
+    const im = new THREE.InstancedMesh(new THREE.BoxGeometry(1, 1, 1), mat, list.length); im.name = name;
+    list.forEach(([bw, bh, bd, x, y, z, c], i) => { m4.compose(v.set(x, y, z), q.identity(), s.set(bw, bh, bd)); im.setMatrixAt(i, m4); im.setColorAt(i, col.setHex(c)); });
+    group.add(im); return im;
+  };
+  const bm = addBoxes(body, new THREE.MeshStandardMaterial({ roughness: 0.6, metalness: 0.3 }), "hd4-task-fittings");
+  const gm = addBoxes(glow, new THREE.MeshBasicMaterial({ color: 0xffffff, toneMapped: false }), "hd4-task-lamps");
+  const pools = new THREE.InstancedMesh(hd4PoolGeometry(THREE), new THREE.MeshBasicMaterial({ vertexColors: true, transparent: true, blending: THREE.AdditiveBlending, depthWrite: false, toneMapped: false }), spots.length);
+  pools.name = "hd4-light-pools"; pools.renderOrder = 2;
+  spots.forEach(([x, z], i) => { m4.compose(v.set(x, 0.075, z), q.identity(), s.set(1.05, 1, 1.05)); pools.setMatrixAt(i, m4); });
+  group.add(pools);
+  // The one real light: a task spotlight over the room's robot (3 lights in all on the desktop high tier).
+  const [tx, tz] = HD4_ROOM_TARGETS[room.id] ?? [0, 0];
+  const spot = new THREE.SpotLight(0xfff2dc, 28, h * 3.2, 0.72, 0.65, 1.3);
+  spot.name = "hd4-task-spot"; spot.position.set(tx, h - 0.25, tz + 0.4); spot.target.position.set(tx, 0, tz);
+  group.add(spot); group.add(spot.target);
+  const triangles = 12 * (pm.count + bm.count + gm.count) + 20 * pools.count;
+  room.hd4Lights = { panels: panels.length, pendants: spots.length, beacons: beacons.length, lights: 1, meshes: 4, triangles };
+  return room.hd4Lights;
+}
+
+// ------------------------------------------------------------------------------------------------------- the ops room
+
+/** The consoles in an arc (radius 5.6 m round a point 0.6 m off the back wall's middle), facing the video wall; each agent
+ *  spot stands 1.8 m behind its console, facing the same way (yaw as the learner's: 0 faces the back wall). */
+function hd4OpsLayout(agents = OH_AGENTS) {
+  const byKey = new Map((agents ?? []).map((a) => [a.key, a]));
+  const cz = -14 / 2 + 0.6, R = 5.6;
+  return HD4_OPS_ROLES.map((key, i) => {
+    const th = ((i - 3) * 18 * Math.PI) / 180, a = byKey.get(key) ?? null;
+    const at = (r) => [Math.sin(th) * r, cz + Math.cos(th) * r];
+    const [x, z] = at(R), [sx, sz] = at(R + 1.8);
+    return { key, agentId: a?.id ?? `oh-${key}`, name: a?.name ?? key, accent: a?.avatar?.accent ?? 0x7b6cf0, x, z, yaw: th, spot: { x: sx, z: sz, yaw: th } };
+  });
+}
+
+function hd4Canvas(w, h) {
+  if (typeof document === "undefined" || !document.createElement) return null;
+  const c = document.createElement("canvas"); c.width = w; c.height = h;
+  return c.getContext("2d") ? c : null;
+}
+const hd4Hex = (n) => `#${(n >>> 0).toString(16).padStart(6, "0").slice(-6)}`;
+/** The placeholder console screen (no words): the agent's colour band, a ring glyph, queue bars and a trace. */
+function hd4PaintConsole(g, w, h, c, i) {
+  g.fillStyle = "#0d1724"; g.fillRect(0, 0, w, h);
+  g.fillStyle = hd4Hex(c.accent); g.fillRect(0, 0, w, Math.max(2, h * 0.12));
+  const r = h * 0.2; g.strokeStyle = hd4Hex(c.accent); g.lineWidth = Math.max(1, h * 0.035);
+  g.beginPath(); g.arc(w * 0.14, h * 0.45, r, 0, Math.PI * 2); g.stroke();
+  g.fillStyle = "#e8eef4"; g.beginPath(); g.arc(w * 0.14, h * 0.45, r * 0.35, 0, Math.PI * 2); g.fill();
+  for (let k = 0; k < 5; k++) { const len = 0.25 + (((i * 7 + k * 3) % 10) / 10) * 0.45; g.fillStyle = k === 0 ? "#37d6c0" : "#3a4b5e"; g.fillRect(w * 0.3, h * (0.24 + k * 0.12), w * len * 0.62, h * 0.07); }
+  g.strokeStyle = "#8fd3ff"; g.lineWidth = Math.max(1, h * 0.02); g.beginPath();
+  for (let k = 0; k <= 24; k++) { const x = w * (0.06 + (k / 24) * 0.88), y = h * (0.9 - 0.08 * (1 + Math.sin(k * 0.7 + i))); if (k) g.lineTo(x, y); else g.moveTo(x, y); }
+  g.stroke();
+}
+/** The placeholder video wall (no words): left, the seven agents round the governor; right, the six robot sites' tiles. */
+function hd4PaintWall(g, w, h, layout) {
+  g.fillStyle = "#0b1420"; g.fillRect(0, 0, w, h);
+  const half = w / 2, cx = half * 0.5, cy = h * 0.5, R = Math.min(half * 0.36, h * 0.38);
+  g.strokeStyle = "#2c3e52"; g.lineWidth = Math.max(1, h * 0.012);
+  layout.forEach((c, i) => { const a = (i / layout.length) * Math.PI * 2 - Math.PI / 2; g.beginPath(); g.moveTo(cx, cy); g.lineTo(cx + Math.cos(a) * R, cy + Math.sin(a) * R); g.stroke(); });
+  layout.forEach((c, i) => { const a = (i / layout.length) * Math.PI * 2 - Math.PI / 2; g.fillStyle = hd4Hex(c.accent); g.beginPath(); g.arc(cx + Math.cos(a) * R, cy + Math.sin(a) * R, h * 0.07, 0, Math.PI * 2); g.fill(); });
+  g.fillStyle = "#e8eef4"; g.beginPath();
+  for (let k = 0; k < 6; k++) { const a = (k / 6) * Math.PI * 2; const x = cx + Math.cos(a) * h * 0.1, y = cy + Math.sin(a) * h * 0.1; if (k) g.lineTo(x, y); else g.moveTo(x, y); }
+  g.closePath(); g.fill();
+  for (let k = 0; k < 6; k++) {
+    const x = half + half * (0.08 + (k % 3) * 0.3), y = h * (0.14 + Math.floor(k / 3) * 0.42), tw = half * 0.26, th = h * 0.34;
+    g.fillStyle = "#16263a"; g.fillRect(x, y, tw, th);
+    g.fillStyle = "#37d6c0"; g.beginPath(); g.arc(x + tw * 0.15, y + th * 0.2, Math.max(2, h * 0.03), 0, Math.PI * 2); g.fill();
+    g.fillStyle = "#3a4b5e"; for (let b = 0; b < 3; b++) g.fillRect(x + tw * 0.1, y + th * (0.45 + b * 0.16), tw * (0.8 - b * 0.2), th * 0.08);
+  }
+}
+
+/** Furnish the ops room: consoles in an arc, their screens (one shared canvas), the video wall, chairs, accent strips, spots. */
+function hd4DressOps({ three: THREE, group, room, site = null, tier = "high", agents = OH_AGENTS }) {
+  if (!THREE || !room || room.id !== HD4_OPS_STYLE) return null;
+  const low = tier === "low", layout = hd4OpsLayout(agents);
+  const m4 = new THREE.Matrix4(), q = new THREE.Quaternion(), v = new THREE.Vector3(), s = new THREE.Vector3(), up = new THREE.Vector3(0, 1, 0), col = new THREE.Color();
+  const inst = (geo, mat, list, name, colours = null) => {
+    const im = new THREE.InstancedMesh(geo, mat, list.length); im.name = name;
+    list.forEach(([x, y, z, ry, sx, sy, sz], i) => { q.setFromAxisAngle(up, ry); m4.compose(v.set(x, y, z), q, s.set(sx, sy, sz)); im.setMatrixAt(i, m4); if (colours) im.setColorAt(i, col.setHex(colours[i])); });
+    group.add(im); return im;
+  };
+  // Console parts in each console's frame: local +z points away from the video wall (toward the operator's chair).
+  const P = (c, lx, ly, lz) => { const sn = Math.sin(c.yaw), cs = Math.cos(c.yaw); return [c.x + lx * cs + lz * sn, ly, c.z - lx * sn + lz * cs]; };
+  const desks = [], housings = [], strips = [], chairs = [];
+  for (const c of layout) {
+    desks.push([...P(c, 0, 0.375, 0), c.yaw, 1.7, 0.75, 0.8]);
+    housings.push([...P(c, 0, 1.12, -0.28), c.yaw, 1.3, 0.62, 0.05]);
+    strips.push([...P(c, 0, 0.73, 0.41), c.yaw, 1.7, 0.04, 0.03]);
+    chairs.push([...P(c, 0, 0.45, 0.9), c.yaw, 0.52, 0.9, 0.5]);
+    for (const [lz, bw, bd] of [[0, 1.7, 0.8], [0.9, 0.52, 0.5]]) {
+      const [x, , z] = P(c, 0, 0, lz), ex = Math.abs(Math.cos(c.yaw)) * bw / 2 + Math.abs(Math.sin(c.yaw)) * bd / 2, ez = Math.abs(Math.sin(c.yaw)) * bw / 2 + Math.abs(Math.cos(c.yaw)) * bd / 2;
+      room.colliders.push({ min: [x - ex, 0, z - ez], max: [x + ex, lz ? 0.9 : 0.75, z + ez], kind: "hd4-console", prop: lz ? "chair" : "console desk" });
+    }
+  }
+  const box = () => new THREE.BoxGeometry(1, 1, 1);
+  inst(box(), new THREE.MeshStandardMaterial({ color: 0x3d4650, roughness: 0.7, metalness: 0.15 }), desks, "hd4-ops-desks");
+  inst(box(), new THREE.MeshStandardMaterial({ color: 0x1c2229, roughness: 0.5, metalness: 0.3 }), housings, "hd4-ops-monitors");
+  inst(box(), new THREE.MeshBasicMaterial({ color: 0xffffff, toneMapped: false }), strips, "hd4-ops-accents", layout.map((c) => c.accent));
+  if (!low) inst(box(), new THREE.MeshStandardMaterial({ color: 0x2f3a46, roughness: 0.8 }), chairs, "hd4-ops-chairs");
+  // The screens: one canvas, a 2 × 4 grid of 2:1 cells (7 used), mapped onto each monitor's face.
+  const sp = HD4_OPS_BUDGET.screenPx[tier] ?? HD4_OPS_BUDGET.screenPx.high, cw = sp / 2, ch = sp / 4;
+  const canvas = hd4Canvas(sp, sp), cells = layout.map((c, i) => ({ key: c.agentId, agentId: c.agentId, role: c.key, x: (i % 2) * cw, y: Math.floor(i / 2) * ch, w: cw, h: ch }));
+  const tex = (cv, w, h, name) => {
+    const t = cv ? new THREE.CanvasTexture(cv) : new THREE.Texture();
+    if (!cv) t.image = { width: w, height: h };
+    t.name = name; if (cv && "colorSpace" in t) t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 4;
+    return t;
+  };
+  const screenTex = tex(canvas, sp, sp, "hd4-ops-screens");
+  const pos = [], uv = [];
+  layout.forEach((c, i) => {
+    const cell = cells[i], u0 = cell.x / sp, u1 = (cell.x + cell.w) / sp, v1 = 1 - cell.y / sp, v0 = 1 - (cell.y + cell.h) / sp;
+    const corner = (lx, ly) => P(c, lx, ly, -0.25);
+    const a = corner(-0.61, 0.85), b = corner(0.61, 0.85), cc = corner(0.61, 1.39), dd = corner(-0.61, 1.39);
+    pos.push(...a, ...b, ...cc, ...a, ...cc, ...dd); uv.push(u0, v0, u1, v0, u1, v1, u0, v0, u1, v1, u0, v1);
+  });
+  const sg = new THREE.BufferGeometry(); sg.setAttribute("position", new THREE.Float32BufferAttribute(pos, 3)); sg.setAttribute("uv", new THREE.Float32BufferAttribute(uv, 2));
+  const screens = new THREE.Mesh(sg, new THREE.MeshBasicMaterial({ map: screenTex, toneMapped: false })); screens.name = "hd4-ops-screens"; group.add(screens);
+  // The video wall: two panels either side of the shell's honesty sign, one canvas (left half, right half).
+  const [ww, wh] = HD4_OPS_BUDGET.wallPx[tier] ?? HD4_OPS_BUDGET.wallPx.high;
+  const wallCanvas = hd4Canvas(ww, wh), wallTex = tex(wallCanvas, ww, wh, "hd4-ops-wall");
+  const wz = -room.d / 2 + 0.38, wpos = [], wuv = [];
+  for (const [x0, x1, u0, u1] of [[-7.67, -2.27, 0, 0.5], [2.27, 7.67, 0.5, 1]]) { wpos.push(x0, 1.1, wz, x1, 1.1, wz, x1, 3.3, wz, x0, 1.1, wz, x1, 3.3, wz, x0, 3.3, wz); wuv.push(u0, 0, u1, 0, u1, 1, u0, 0, u1, 1, u0, 1); }
+  const wg = new THREE.BufferGeometry(); wg.setAttribute("position", new THREE.Float32BufferAttribute(wpos, 3)); wg.setAttribute("uv", new THREE.Float32BufferAttribute(wuv, 2));
+  const wall = new THREE.Mesh(wg, new THREE.MeshBasicMaterial({ map: wallTex, toneMapped: false })); wall.name = "hd4-ops-wall"; group.add(wall);
+  // The agent spots (behind each console, one per role), marked like ROBO-INTERIORS' rings.
+  room.spots = { ...(room.spots ?? {}), agent: layout.map((c) => ({ id: `hd4-ops-${c.key}`, name: `at the ${c.key.replace(/-/g, " ")} console`, role: c.key, x: c.spot.x, z: c.spot.z, yaw: c.spot.yaw })) };
+  const rings = new THREE.InstancedMesh(new THREE.RingGeometry(0.42, 0.52, low ? 16 : 28), new THREE.MeshBasicMaterial({ color: 0x37d6c0, side: THREE.DoubleSide }), layout.length);
+  rings.name = "hd4-ops-agent-spots";
+  layout.forEach((c, i) => { m4.compose(v.set(c.spot.x, 0.012, c.spot.z), new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(1, 0, 0), -Math.PI / 2), s.set(1, 1, 1)); rings.setMatrixAt(i, m4); });
+  group.add(rings);
+  const api = {
+    canvas, texture: screenTex, cells, wall: { canvas: wallCanvas, texture: wallTex, w: ww, h: wh },
+    /** Draw into one screen (an agent id) or the wall ("wall") and re-upload it. painter(ctx, w, h, cell). */
+    paint(key, painter) {
+      if (key === "wall") { const g = wallCanvas?.getContext("2d"); if (!g) return false; painter(g, ww, wh, null); wallTex.needsUpdate = true; return true; }
+      const cell = cells.find((c) => c.key === key || c.role === key); const g = canvas?.getContext("2d");
+      if (!cell || !g) return false;
+      g.save(); g.translate(cell.x, cell.y); g.beginPath(); g.rect(0, 0, cell.w, cell.h); g.clip(); painter(g, cell.w, cell.h, cell); g.restore();
+      screenTex.needsUpdate = true; return true;
+    },
+    repaint() {
+      const custom = typeof globalThis.hd4OpsPainter === "function" ? globalThis.hd4OpsPainter : null;
+      layout.forEach((c, i) => api.paint(c.agentId, (g, w, h) => { if (custom) custom(agents?.find?.((a) => a.id === c.agentId) ?? null, g, w, h, "console"); else hd4PaintConsole(g, w, h, c, i); }));
+      api.paint("wall", (g, w, h) => { if (custom) custom(null, g, w, h, "wall"); else hd4PaintWall(g, w, h, layout); });
+    },
+  };
+  api.repaint();
+  room.hd4Ops = { style: HD4_OPS_STYLE, site: site?.id ?? null, consoles: layout.map((c) => ({ key: c.key, agentId: c.agentId, x: c.x, z: c.z, yaw: c.yaw })), screens: api, spots: room.spots.agent.length };
+  return room.hd4Ops;
+}
+function hd4OpsScreens(room) { return room?.hd4Ops?.screens ?? null; }
+
+/** The ops room's site object: the dispatcher's home robot site's stations and returns, under the room's own id and name. */
+function hd4OpsSite(rb, parish = null) {
+  const base = ixrSiteFor(rb, parish);
+  if (!base) return null;
+  return { ...base, id: HD4_OPS_STYLE, name: "Hive operations room", kind: "hive-ops", style: HD4_OPS_STYLE, homeSite: rb.id };
+}
+/** A door spot for the ops room 3 m along the wall from the home site's robot-room door (either side), clear of `blocked`,
+ *  of the lots' collider boxes and of every other door by 2.5 m. */
+function hd4OpsDoor({ doors = [], homeSite = null, blocked = null, colliders = [] } = {}) {
+  const d = doors.find((x) => x?.site?.id === homeSite);
+  if (!d) return null;
+  const along = d.face === "n" || d.face === "s" ? [1, 0] : [0, 1];
+  for (const k of [3, -3, 4.5, -4.5]) {
+    const x = d.x + along[0] * k, z = d.z + along[1] * k;
+    if (blocked?.(x, z)) continue;
+    if (colliders.some((c) => x > c.min[0] - 0.4 && x < c.max[0] + 0.4 && z > c.min[2] - 0.4 && z < c.max[2] + 0.4)) continue;
+    if (doors.some((o) => Math.hypot(o.x - x, o.z - z) < 2.5)) continue;
+    return { x, z, face: d.face };
+  }
+  return null;
+}
+
+/** Register the dressers: the six robot rooms take the lighting (and Ultra's hero textures and detail when on); the ops room
+ *  its consoles, then the same lighting. Register after ROBO-INTERIORS' dressers (the lighting reads the station pads). */
+function hd4RegisterDressers(ix, { ultra = false, ua = typeof navigator !== "undefined" ? navigator.userAgent : "" } = {}) {
+  if (!ix || typeof ix.ixRegisterDresser !== "function") return [];
+  const out = [];
+  for (const st of Object.keys(IXR_ROOMS)) {
+    ix.ixRegisterDresser(st, (a) => { hd4LightRoom({ ...a, ua }); if (ultra && a.tier === "high" && !hd4Headset(ua)) hd4UltraRoom(a); });
+    out.push(st);
+  }
+  ix.ixRegisterDresser(HD4_OPS_STYLE, (a) => { hd4DressOps(a); hd4LightRoom({ ...a, ua }); });
+  out.push(HD4_OPS_STYLE);
+  return out;
 }
 
 
@@ -173058,6 +174711,11 @@ function hvMount({ THREE = null, root = null, parish, el = null, pos = () => nul
 // ROBO-EXTERIORS: the robot sites' buildings from outside, their streetscape, night windows and establishing shots.
 
 
+// ENV-HD-4 (docs/consoles/ENV-HD-4.md): the opt-in Ultra desktop setting, the robot sites' six looks (dawn, day, dusk, night,
+// fog, rain) with floodlights, dock lights and a wet tint, lit robot rooms and the hive's operations room.
+
+
+
 
 
 
@@ -173098,7 +174756,7 @@ const $ = (id) => document.getElementById(id);
 const NP_RUNNER = "../../smartcity/index.html";
 const NP_EYE = 1.7;
 const NP_TIMES = ["dawn", "day", "dusk", "night"];
-const NP_WEATHERS = ["clear", "overcast", "fog", "wind", "storm", "live"]; // "live": ATMOS's seeded weather for this parish and hour
+const NP_WEATHERS = ["clear", "overcast", "fog", "wind", "storm", "live", "rain"]; // "live": ATMOS's seeded weather for this parish and hour; ENV-HD-4: "rain" (ATMOS's rain recipe) last, so carried indices keep their meaning
 
 // Which parish: ?parish=, else the parish of a return's site (`#site=<parish>/<site>`), else the first.
 const npParams = new URLSearchParams(location.search);
@@ -173120,6 +174778,8 @@ function npToast(text, ms = 3200) { const t = $("toast"); t.textContent = text; 
 
 const npTierName = tcTierChoice().tier;
 const npTierSet = tcTier();
+// ENV-HD-4: Ultra is off by default and offered only on the desktop high tier (never the phone, balanced or a headset browser).
+const hd4Ultra = hd4UltraChoice({ tier: npTierName });
 const npRenderer = new THREE.WebGLRenderer({ antialias: npTierName !== "low", preserveDrawingBuffer: true });
 tcApplyRenderer(npRenderer, npTierSet);
 npRenderer.setSize(innerWidth, innerHeight);
@@ -173258,6 +174918,15 @@ const ixrDoors = (() => {
     return ixrDoorsFor(parish, { sites: rbSitesFor(parish), blocked, doorAt });
   } catch { return []; }
 })();
+// ENV-HD-4: the hive operations room's door, 3 m along the wall from the dispatcher's home robot site's room door (its own
+// list, so the robot-room door counts stay as they were).
+var hd4OpsDoors = [];
+try {
+  const home = hd4OpsHome(), blds = parish.sites.map((_, i) => { try { return cwSiteBuilding(parish, i); } catch { return null; } }).filter(Boolean);
+  const blocked = (x, z) => blds.some((b) => Math.abs(x - b.cx) < b.w / 2 + 0.6 && Math.abs(z - b.cz) < b.d / 2 + 0.6) || tfWaterDepthAt(parish, x, z) > 0.02;
+  const spot = home ? hd4OpsDoor({ doors: ixrDoors, homeSite: home.id, blocked, colliders: fxColliders(parish) }) : null;
+  if (spot) hd4OpsDoors.push({ site: hd4OpsSite(home, parish), x: spot.x, z: spot.z, face: spot.face, style: HD4_OPS_STYLE, title: "Hive operations room" }); // the title is the shell sign's first line (it says "generic" below)
+} catch (e) { console.warn("hd4 ops door:", e); }
 const ixWorld = ixMountInteriors({
   three: THREE, scene, hide: [root], tier: npTierName,
   onBoard: (s) => npOpenBoard(s.board ?? s, s.kind === "robotics" ? hwReturnHash(s.style) : ""), // HIVE-IN-WORLD: the room's board returns into the room too
@@ -173344,7 +175013,10 @@ function npApplySky() {
   const atNear = atNearness(parish, np.x, np.z);
   atWeatherNow = atLive ? atWeather(parish.id, atHour, 1, { nearWater: atNear.water > 0.5 }) : atWeatherOf(NP_WEATHERS[np.weatherIdx], atHour);
   const weather = weatherFor(atLive ? atSkyKind(atWeatherNow) : NP_WEATHERS[np.weatherIdx]);
-  sky = buildSky(root, { time: NP_TIMES[np.timeIdx], weather, radius: 3000 });
+  // ENV-HD-4: sky.js knows day, dusk and night only, so "dawn" drew the midday sky; at dawn it now takes the low-sun palette
+  // (warm horizon, deep zenith) through the clock hour 5.5, which skyTimeBucket maps to that band.
+  sky = buildSky(root, { time: NP_TIMES[np.timeIdx] === "dawn" ? 5.5 : NP_TIMES[np.timeIdx], weather, radius: 3000 });
+  if (NP_TIMES[np.timeIdx] === "dawn") hd4DawnSky(sky.root); // ENV-HD-4: the low sun in the east and a cooler, rose-violet dome
   npRecipe = sky.recipe;
   const atDim = atDarken(atWeatherNow), atShade = (hex) => new THREE.Color(hex).multiplyScalar(atDim).getHex();
   scene.background.setHex(atShade(npRecipe.sky));
@@ -173355,6 +175027,7 @@ function npApplySky() {
   scene.fog.near = Math.min(vis * 0.15, atF.near); scene.fog.far = Math.min(vis, atF.far);
   atmos.set({ hour: atHour, weather: atWeatherNow });
   fxWorld?.setHour(atHour); // ROBO-EXTERIORS: lit windows from ATMOS's dusk to dawn
+  hd4Sites?.set({ band: NP_TIMES[np.timeIdx], weather: atWeatherNow }); // ENV-HD-4: floodlights, dock lights, window glow and the wet tint (the site lighting policy)
   const night = NP_TIMES[np.timeIdx] === "night";
   sun.intensity = (night ? 0.12 : NP_TIMES[np.timeIdx] === "day" ? 1.1 : 0.6) * atDim; // a storm front darkens the light
   hemi.intensity = (night ? 0.25 : 0.95) * atDim;
@@ -173577,6 +175250,7 @@ function npNearest() {
   for (const dd of ixDoors) { const d = Math.hypot(np.x - dd.x, np.z - dd.z); if (d < Math.min(bd, 3)) { bd = d; best = { kind: "door", site: dd.site, at: [dd.x, dd.z] }; } }
   for (const dd of ixRentalDoors()) { const d = Math.hypot(np.x - dd.x, np.z - dd.z); if (d < Math.min(bd, 2.2)) { bd = d; best = { kind: "door", site: dd.site, at: [dd.x, dd.z], style: dd.style, title: dd.title }; } }
   for (const dd of ixrDoors) { const d = Math.hypot(np.x - dd.x, np.z - dd.z); if (d < Math.min(bd, 3)) { bd = d; best = { kind: "door", site: dd.site, at: [dd.x, dd.z], style: dd.style, title: dd.title }; } } // ROBO-INTERIORS
+  for (const dd of hd4OpsDoors) { const d = Math.hypot(np.x - dd.x, np.z - dd.z); if (d < Math.min(bd, 2.4)) { bd = d; best = { kind: "door", site: dd.site, at: [dd.x, dd.z], style: dd.style, title: dd.title }; } } // ENV-HD-4: the hive operations room
   for (const s of world.lessonSigns) { const d = Math.hypot(np.x - s.x, np.z - s.z); if (d < Math.min(bd, 5)) { bd = d; best = { kind: "lesson", lesson: s.lesson, at: [s.x, s.z] }; } }
   for (const c of connectors) { const d = Math.hypot(np.x - c.from.position[0], np.z - c.from.position[1]); if (d < Math.min(bd, 7)) { bd = d; best = { kind: "connector", conn: c, at: c.from.position }; } }
   const mv = mvPark.near(np.x, np.z); // MOTORWORKS: a parked vehicle beside the learner (its body edge within the prompt distance)
@@ -174066,6 +175740,10 @@ void larDressed;
 // ROBO-INTERIORS: the six robotics rooms' dresser (props, the canvas texture set, the agent spots where the hive's avatars stand).
 var ixrDressed = ixrRegisterDressers(typeof ixRegisterDresser === "function" ? { ixRegisterDresser } : null);
 void ixrDressed;
+// ENV-HD-4: the six robot rooms' lighting on the desktop high tier (and Ultra's 2048 px floor and walls, trusses and cable trays
+// when Ultra is on), and the hive operations room's consoles; after ROBO-INTERIORS' dressers, before ENV-HD-2's skins.
+var hd4Dressed = hd4RegisterDressers(typeof ixRegisterDresser === "function" ? { ixRegisterDresser } : null, { ultra: hd4Ultra.on });
+void hd4Dressed;
 // ENV-HD-2: the same canvas texture set on the most-visited INTERIORS rooms (workshop, plant room, port shed, civic lobby,
 // classroom, apparatus bay, transit barn, clinic, warehouse): maps only, no mesh added; registered after the other dressers.
 var hd2Skinned = hd2RegisterSkins(typeof ixRegisterDresser === "function" ? { ixRegisterDresser } : null);
@@ -174170,16 +175848,40 @@ window.__parishTest.roboInteriors = {
 // hall, research lab, distribution warehouse, port control tower, construction site), its streetscape and pictogram-only
 // signs, canvas facades (1024 px on desktop high, none on the phone), lit windows at night, two establishing shots a site.
 var fxWorld = null, fxShot = null;
-try { fxWorld = fxMountExteriors({ THREE, root, parish, tier: npTierName, hour: AT_BUCKET_HOUR[NP_TIMES[np.timeIdx]] ?? 12 }); } catch (e) { console.warn("fx-exteriors:", e); }
+try { fxWorld = fxMountExteriors({ THREE, root, parish, tier: npTierName, hour: AT_BUCKET_HOUR[NP_TIMES[np.timeIdx]] ?? 12, atlasPx: hd4Ultra.on ? HD4_ULTRA_BUDGET.facadeAtlasPx : null }); } catch (e) { console.warn("fx-exteriors:", e); }
 window.__parishTest.exteriors = fxWorld;
-/** `__parishTest.scene(siteId, shot)`: frame a robot site ("wide" or "door"); a site on another map returns its URL. The
+// ENV-HD-4: Ultra's near-camera detail on the robot sites' buildings (Ultra only), and the site lights every look drives
+// (floodlight masts, lamp faces, dock lamps and light pools; desktop high tier only, a stub elsewhere).
+var hd4UltraSites = null, hd4Sites = null;
+try {
+  if (hd4Ultra.on && fxWorld) hd4UltraSites = hd4MountUltraSites({ THREE, root, layouts: fxWorld.layouts });
+  const fxMats = []; fxWorld?.group?.traverse((o) => { if (o.isMesh && !fxMats.includes(o.material)) fxMats.push(o.material); });
+  hd4Sites = hd4MountSiteLights({ THREE, root, layouts: fxWorld?.layouts ?? [], tier: npTierName, glow: fxMats.filter((m) => /^fx-atlas/.test(m.name)), wet: fxMats, groundAt: (x, z) => Math.max(npHeightAt(parish, x, z), 0) });
+  hd4Sites.set({ band: NP_TIMES[np.timeIdx], weather: atWeatherNow });
+} catch (e) { console.warn("hd4-looks:", e); }
+/** ENV-HD-4: one of the six looks (HD4_LOOKS: dawn, day, dusk, night, fog at dawn, rain at dusk) through the page's own clock
+ *  and weather; returns what it set: the fog's distances and density (ATMOS's atFog), wetness and the site light level. */
+function hd4ApplyLook(look) {
+  const L = look ? HD4_LOOKS[look] : null;
+  if (!L) return look ? { look, lookOk: false } : {};
+  const wasNight = NP_TIMES[np.timeIdx] === "night";
+  np.timeIdx = NP_TIMES.indexOf(L.time); np.weatherIdx = NP_WEATHERS.indexOf(L.weather);
+  npApplySky();
+  if (wasNight !== (NP_TIMES[np.timeIdx] === "night")) mgRemount();
+  const lf = hd4LookFog(look, scene.fog ? { near: scene.fog.near, far: scene.fog.far } : null); // fog at dawn: a ground fog at the site (floored)
+  if (lf && scene.fog) { scene.fog.near = lf.near; scene.fog.far = lf.far; }
+  const f = atFog({ weather: atWeatherNow, band: atWeatherNow?.band ?? "day", nearWater: atNearness(parish, np.x, np.z).water });
+  return { look, lookOk: true, time: L.time, weather: L.weather, fog: { near: scene.fog?.near ?? null, far: scene.fog?.far ?? null, density: f.density }, wet: atWeatherNow?.wet ?? 0, lights: hd4LightLevel({ band: L.time, weather: atWeatherNow }) };
+}
+/** `__parishTest.scene(siteId, shot, look?)`: frame a robot site ("wide" or "door"); a site on another map returns its URL.
+ * ENV-HD-4: an optional third argument applies one of the six looks (dawn, day, dusk, night, fog, rain). The
  * handle used to be the THREE.Scene itself: it stays reachable as `__parishTest.threeScene`, and the old readers' calls
  * (traverse, getObjectByName, getObjectById, children) are delegated to it, so check_harvest's live leg reads it as before. */
-const fxSceneHandle = (siteId, shot = "wide") => {
+const fxSceneHandle = (siteId, shot = "wide", look = null) => {
   // ENV-HD-3: the three busiest non-robot sites take two establishing shots each ("wide", "street"), by day or night
   const hd3 = HD3_SCENE_SITES.find((s) => s.id === siteId);
   if (hd3) {
-    if (hd3.parish !== parish.id) return { ok: false, parish: hd3.parish, href: `?parish=${encodeURIComponent(hd3.parish)}&scene=${encodeURIComponent(siteId)}:${shot}` };
+    if (hd3.parish !== parish.id) return { ok: false, parish: hd3.parish, href: `?parish=${encodeURIComponent(hd3.parish)}&scene=${encodeURIComponent(siteId)}:${shot}${look ? `:${look}` : ""}` };
     const sc = hd3Scene(parish, siteId, shot);
     if (!sc) return { ok: false, reason: `unknown shot (${HD3_SHOTS.join(", ")})` };
     np.x = sc.target[0]; np.z = sc.target[2];
@@ -174187,11 +175889,11 @@ const fxSceneHandle = (siteId, shot = "wide") => {
     fxShot = sc;
     const menu = document.getElementById("menu"); if (menu && !np.playing) menu.hidden = true;
     document.getElementById("toast")?.classList.remove("on");
-    return { ok: true, ...sc };
+    return { ok: true, ...sc, ...hd4ApplyLook(look) };
   }
   if (!fxSitesFor(parish).some((s) => s.id === siteId)) {
     const other = fxSiteParish(siteId);
-    return other ? { ok: false, parish: other, href: `?parish=${encodeURIComponent(other)}&scene=${encodeURIComponent(siteId)}:${shot}` } : { ok: false, reason: "unknown site" };
+    return other ? { ok: false, parish: other, href: `?parish=${encodeURIComponent(other)}&scene=${encodeURIComponent(siteId)}:${shot}${look ? `:${look}` : ""}` } : { ok: false, reason: "unknown site" };
   }
   const sc = fxScene(parish, siteId, shot);
   if (!sc) return { ok: false, reason: `unknown shot (${FX_SHOTS.join(", ")})` };
@@ -174199,7 +175901,7 @@ const fxSceneHandle = (siteId, shot = "wide") => {
   world.update(np.x, np.z, 999); cwStreetsMount.update(np.x, np.z, 999); tfLand.update(np.x, np.z, 99); atmos.update(np.x, np.z);
   fxShot = sc;
   const menu = document.getElementById("menu"); if (menu && !np.playing) menu.hidden = true; // a clean frame for the reel (Esc brings the menu back)
-  return { ok: true, ...sc };
+  return { ok: true, ...sc, ...hd4ApplyLook(look) };
 };
 for (const k of ["traverse", "getObjectByName", "getObjectById"]) fxSceneHandle[k] = (...args) => scene[k](...args);
 Object.defineProperty(fxSceneHandle, "children", { get: () => scene.children });
@@ -174210,7 +175912,45 @@ window.__parishTest.scenePresets = () => [
   ...NP_PARISHES.flatMap((p) => { try { return fxSitesFor(p).flatMap((s) => FX_SHOTS.map((shot) => ({ siteId: s.id, shot, parish: p.id }))); } catch { return []; } }),
   ...hd3ScenePresets(),
 ];
-{ const q = npParams.get("scene"); if (q && q.includes(":")) { const [sid, shot] = q.split(":"); window.__parishTest.scene(sid, shot); } }
+{ const q = npParams.get("scene"); if (q && q.includes(":")) { const [sid, shot, look] = q.split(":"); window.__parishTest.scene(sid, shot, look ?? null); } }
+// ENV-HD-4 (docs/consoles/ENV-HD-4.md): the looks, the Ultra state and counts, the site lights, the lit robot rooms and the
+// hive operations room for captures, and a frame-time measurement (renders the view in force n times, waiting on the GPU).
+window.__parishTest.hd4 = {
+  ultra: hd4Ultra, looks: HD4_LOOKS,
+  lookPresets: () => hd4LookPresets(NP_PARISHES, fxSitesFor),
+  applyLook: (look) => hd4ApplyLook(look),
+  sites: () => hd4Sites?.counts?.() ?? null,
+  ultraSites: () => hd4UltraSites?.counts?.() ?? null,
+  exteriors: () => fxWorld?.counts?.() ?? null,
+  opsDoors: hd4OpsDoors,
+  opsRoom() {
+    const site = hd4OpsSite(hd4OpsHome(), parish);
+    if (!site) return null;
+    if (ixWorld.inside()) { const p = ixWorld.exit(); np.x = p.x; np.z = p.z; np.yaw = p.yaw; np.pitch = p.pitch; }
+    npKeys.clear();
+    const room = ixWorld.enter(site, { x: np.x, z: np.z, yaw: np.yaw, pitch: np.pitch }, { style: HD4_OPS_STYLE, title: "Hive operations room" });
+    if (!room) return null;
+    ixWorld.pose.x = -6.6; ixWorld.pose.z = 5.4; np.yaw = Math.atan2(-6.6, 8.4); np.pitch = -0.1; np.near = null; npHud();
+    const menu = document.getElementById("menu"); if (menu && !np.playing) menu.hidden = true;
+    document.getElementById("toast")?.classList.remove("on");
+    return { style: HD4_OPS_STYLE, meshes: room.meshes(), consoles: room.hd4Ops?.consoles?.length ?? 0, spots: room.spots?.agent?.length ?? 0, screens: !!hd4OpsScreens(room), lights: room.hd4Lights ?? null };
+  },
+  screens: () => hd4OpsScreens(ixWorld.room),
+  measure() {
+    const r = ixWorld.room; if (!r) return { inside: false };
+    const m = ixrMeasure(r), info = npRenderer?.info?.render ?? {};
+    let lights = 0; r.group.traverse((o) => { if (o.isLight) lights++; });
+    return { inside: true, style: r.id, meshes: m.meshes, trianglesBuilt: m.triangles, triangles: info.triangles ?? null, calls: info.calls ?? null, lights, textureBytes: m.textureBytes, hd4Lights: r.hd4Lights ?? null, ultra: r.hd4Ultra ?? null };
+  },
+  frameTime(n = 12) {
+    const gl = npRenderer.getContext(), px = new Uint8Array(4), t = [];
+    npRenderer.render(scene, camera); gl.readPixels(0, 0, 1, 1, gl.RGBA, gl.UNSIGNED_BYTE, px);
+    for (let i = 0; i < n; i++) { const t0 = performance.now(); npRenderer.render(scene, camera); gl.readPixels(0, 0, 1, 1, gl.RGBA, gl.UNSIGNED_BYTE, px); t.push(performance.now() - t0); }
+    t.sort((a, b) => a - b);
+    const info = npRenderer.info;
+    return { n, medianMs: Math.round(t[Math.floor(n / 2)] * 10) / 10, p90Ms: Math.round(t[Math.min(n - 1, Math.floor(n * 0.9))] * 10) / 10, calls: info.render.calls, triangles: info.render.triangles, textures: info.memory.textures, geometries: info.memory.geometries };
+  },
+};
 // ENV-HD-2 (docs/consoles/ENV-HD-2.md): capture presets for the reel and the deck. `room(styleId)` opens a skinned INTERIORS
 // room (a site of that style on this map, else the map's first site, opened with the style) and stands the camera in the
 // door-side corner looking across to the far corner; `hood(siteId)` frames a robot site's neighbourhood from high above,
@@ -174295,7 +176035,7 @@ var aaWorld = !rbWorld?.sites?.length ? null : (() => { // a map with no robot s
   try {
     const hive = window.__parishTest.hive?.hive ?? null; // HIVE-IN-WORLD: the hive itself (on, agents), not the panel's api
     const hiveAgents = hive ? (typeof hive.agents === "function" ? hive.agents() : hive.agents) ?? [] : [];
-    return aaMountAgentAvatars({ three: THREE, parent: root, agents: [...hiveAgents, ...aaVbridgeAgents(rbWorld?.sites?.[0]?.id ?? null)], source: [hive, aaVbSource].filter(Boolean), siteAt: aaSiteAt, reducedMotion: npReduced, tier: npTierName, groundAt: (x, z) => Math.max(npHeightAt(parish, x, z), 0), spotFor: (_a, id) => h3ScenePts.get(id) ?? null, route: hwWalk?.route ?? null, blocked: hwWalk?.blocked ?? null });
+    return aaMountAgentAvatars({ three: THREE, parent: root, agents: [...hiveAgents, ...aaVbridgeAgents(rbWorld?.sites?.[0]?.id ?? null)], source: [hive, aaVbSource].filter(Boolean), siteAt: aaSiteAt, reducedMotion: npReduced, tier: npTierName, hd: true /* AVATARS-HD: the high-detail figure, desktop high tier only */, groundAt: (x, z) => Math.max(npHeightAt(parish, x, z), 0), spotFor: (_a, id) => h3ScenePts.get(id) ?? null, route: hwWalk?.route ?? null, blocked: hwWalk?.blocked ?? null });
   } catch (_) { return null; }
 })();
 window.__parishTest.agentAvatars = aaWorld;
@@ -174576,6 +176316,12 @@ $("ux-open-ways").addEventListener("click", () => npToggle("parishes"));
   paint(); if (sys) b.disabled = true;
   b.addEventListener("click", () => { on = !on; try { localStorage.setItem("ux-reduced", on ? "1" : "0"); } catch { /* blocked */ } paint(); npToast(`Reduced motion ${on ? "on" : "off"}: reloading the world still${on ? "" : " off"}…`); setTimeout(() => location.reload(), 600); });
 }
+// ENV-HD-4: the Ultra detail toggle beside reduced motion (desktop high only, hidden elsewhere; at least 44 px tall). Switching
+// it reloads the page without any ?ultra= so the stored choice applies.
+hd4MountUltraToggle({ host: $("ux-reduced")?.parentElement ?? null, after: $("ux-reduced"), state: hd4Ultra, onChange: (on) => {
+  npToast(`Ultra detail ${on ? "on" : "off"}: reloading to draw the ${on ? "2048" : "1024"} px textures…`);
+  setTimeout(() => { try { const u = new URL(location.href); u.searchParams.delete("ultra"); location.replace(u.href); } catch { location.reload(); } }, 600);
+} });
 {
   // VOICES: the Me tab's voice settings beside reduced motion — a toggle (off until you turn it on, not remembered), a voice test and
   // a table of which on-device voice each character uses here. The characters' voice and the Omega Hive's share one line of speech.

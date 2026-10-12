@@ -74,9 +74,29 @@ Source: `docs/consoles/ROBOTRAIN-6.md`, `docs/consoles/ROBOTRAIN-7.md`
 
 Source: `docs/consoles/ROBOTRAIN-7.md`
 
+- **Trait recovery** A check that the personality reaches the words: a small regressor, fitted on the text of some personas, estimates the traits (warmth, formality, verbosity, caution) of personas it has not seen, and the estimates are compared with the true traits by rank correlation. A high score shows the traits are visible in the text, not that the text sounds natural.
+
+Source: `docs/consoles/HIVE-4.md`
+
+- **Distinct-2 ** The share of different word pairs among all the word pairs an agent says, with the job ids, site names, agent names and numbers masked out. The higher it is, the less the agent repeats itself.
+
+Source: `docs/consoles/HIVE-4.md`
+
+- **Ultra** An opt-in detail setting for desktop computers, off by default. It draws the building facades and the robot rooms’ floors and walls at a larger texture size and adds fine detail (roof railings, plant and ladders; ceiling trusses and cable trays). It is never offered on a phone, on the balanced tier, in a headset browser or inside a headset session, because it takes far more texture memory.
+
+Source: `WebXR/shared/hd4-ultra.js`
+
+- **Look** A named pairing of the time of day and the weather for a robot site: dawn, day, dusk, night, fog at dawn and rain at dusk. A look sets the sky, how far the fog lets you see, how wet the ground is and whether the floodlights are on.
+
+Source: `WebXR/shared/hd4-looks.js`
+
+- **Silhouette overlap** How much the outlines of a pair of agents coincide when seen from the front: the area they share divided by the area they cover together (intersection over union). Identical outlines overlap completely. The avatar checker requires every pair of agents to stay under a set value, so that they can be told apart by outline alone.
+
+Source: `docs/consoles/AVATARS-HD.md`
+
 Definitions follow how the repository uses each term, not an outside textbook.
 
 
 ---
 
-_Every figure on this page was checked against the repository file named beside it when the page was built (head `de429b36`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._
+_Every figure on this page was checked against the repository file named beside it when the page was built (head `54c3f318`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._

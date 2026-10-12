@@ -8,8 +8,10 @@ parishes app, in the drills menu beside the agent-jobs panel. Console notes: `do
 - **Seven software agents**, each labelled "software agent" wherever it appears. They are the dispatcher, the safety
   steward, the maintenance planner, the consent keeper, the trainer, the auditor and logistics (`WebXR/shared/oh-hive-data.js`).
   - Each has an invented first name (no real person), a one-sentence role and a home robot site from `RB_SITES`.
-  - Each has an avatar look: an agent badge from `av-sprites.js` (`avAgentLook`), never a face, plus an outfit from the
-    agent set (tablet, visor, high-visibility vest).
+  - Each has an avatar look: an agent badge from `av-sprites.js` (`avAgentLook`) plus an outfit from the agent set (tablet,
+    visor, high-visibility vest). On the desktop high tier the figure is AVATARS-HD's high-detail body: a cool porcelain shell,
+    with eyes, brows and a mouth drawn on its visor band, kept away from every human skin tone (no realistic skin, no real
+    person's likeness).
   - Each has four personality traits in [0, 1]: warmth, formality, verbosity and caution.
   - Each has a speaking style derived from those traits (`ohStyleFromTraits`):
     - verbosity sets the sentence-length band;
@@ -60,7 +62,7 @@ parishes app, in the drills menu beside the agent-jobs panel. Console notes: `do
 ## What it is not
 
 - **Not people.** The agents are software, and the page says so on every card and in every caption. Their names are
-  invented. Their portraits are badges, not faces.
+  invented. Their portraits are drawn from the agent figure (a visor face on a porcelain shell), never from a person.
 - **Not a language model.** No model call and no network call exist anywhere in the hive.
   - `ohDialogueAdapter` has the GRIOT and `agent-protocols.js` shape for a deployment that wants a hosted model later.
     Unconfigured, it refuses with "configure per the provider's current documentation" and sends nothing.

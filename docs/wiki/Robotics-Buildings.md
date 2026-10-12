@@ -157,6 +157,61 @@ Room styles with the high-detail texture set: 6 → 15, so 807 of 863 site doors
 
 The skin is budget-aware: a texture map is set on a room only while the room stays inside its texture budget with the shell’s signs counted, so the table’s first row is a count of styles, not a promise that every room carries every map.
 
+### Round four: scenes inside and out, and an opt-in Ultra setting (ENV-HD-4)
+
+| Measure | Before → after |
+|---|---|
+| An opt-in **Ultra** setting for desktops: off by default, offered only on the desktop high tier and never on the phone tier, balanced, a headset browser or inside an XR session; its toggle in the Me tab is 44 px tall and is hidden where Ultra is not offered; the offer is tested against 9 device cases | none → off by default |
+| Ultra’s facade atlas and lit-window mask, px; and the facade texture MiB a map takes, high → Ultra, against a stated limit of 24 MiB (balanced 1.42 MiB, unchanged) | 1,024 and 256 → 2,048 and 512; 5.67 → 22.67 MiB |
+| Each of the 6 robot sites with Ultra: the high tier’s 2 meshes and 880 to 1,296 triangles, plus roof-edge railings, roof plant and a ladder (a stair tower on the construction site): meshes added; triangles added, against a stated limit of 6,000; the 2,048 px atlas leaves every site’s meshes and triangles as they were | adds 1; adds 1,344 to 2,892 |
+| Each robot room with Ultra: floor and wall textures, px; meshes and triangles added by ceiling trusses and cable trays, against stated limits of 2 and 2,500; texture MiB a room, against a stated limit of 64; lights stay at 3; balanced and low stay at 2.33 –2.67 MiB | 1,024 → 2,048; adds 2; adds 912 to 1,944; 17.33 –22.67 → 49.33 –54.67 |
+| Frame time on the console’s capture machine (a software renderer, shared, so not a graphics-card budget), median ms, high → Ultra: the West Oakland warehouse at night; the cell hall | 1,490 → 1,424; 864 → 894 |
+| Looks for the robot sites (dawn, day, dusk, night, fog at dawn and rain at dusk) over the app’s own clock and weather: looks; exterior presets (6 robot sites by 6 looks) | none → 6; 0 → 36 |
+| Site lights on the high tier at the West Oakland map (2 sites): meshes; triangles in all, against a stated limit of 1,200 a site; floodlight masts, dock lamps, lamp glares and pools of light; real lights; texture bytes | 3; 880 (440 a site); 4, 4, 12, 8; 0; 0 |
+| Robot rooms with lighting (light panels, a pendant task light over every station pad with a pool of light on the floor, 3 warning beacons and 1 task spotlight): rooms lit; meshes added a room; triangles added, against a stated limit of 900; the phone tier, balanced and headset browsers build the rooms identical to before | 0 → 6 of 6; adds 4; adds 312 to 440 |
+| The hive operations room, new, on the high tier: meshes; triangles; lights; texture MiB (7 consoles, one for each agent role, facing a video wall; the screens are a seam for the hive tab’s content) | none → 25; 2,022; 3; 18.67 |
+| The same room on balanced; on the phone tier (meshes; triangles; lights; texture MiB) | 21; 1,334; 2; 2.42 and 20; 954; 1; 2.42 |
+| Stills at 1920 × 1080 from the built page, every frame looked at (36 of 36 exterior presets, 7 lit rooms, 8 with Ultra); page errors and external requests in the console’s capture drives (19, 8 and 31 captures) | none → 51; 0; 0 |
+| Checker checks (`check_hd4`); neighbouring checkers that still pass: interiors; room skins; robot interiors; exteriors; Louisiana rooms; modules importing only what they declare; the interface check (touch targets at phone size at least 44 px: 186 of 186) | 118; 925 → 957; 382 → 401; 302; 278; 3,787; 1,122; 21 |
+
+Source: `docs/consoles/ENV-HD-4.md`, its committed note, with the per-room, look and operations-room tables from its checker re-run; the stated limits are read from `WebXR/shared/hd4-ultra.js`, `WebXR/shared/hd4-rooms.js` and `WebXR/shared/hd4-looks.js` (merged into the integration head; the console’s last commit is `70b4aed5`).
+
+### The 6 robot rooms: before this round → with the lighting → with Ultra (high tier)
+
+| Room | Meshes | Triangles | Lights | Texture MiB |
+|---|---|---|---|---|
+| `ixr-cell-hall` | 20 → 24 → 26 | 1,688 → 2,080 → 3,484 | 2 → 3 → 3 | 22.67 → 22.67 → 54.67 |
+| `ixr-cobot-lab` | 19 → 23 → 25 | 1,420 → 1,788 → 2,724 | 2 → 3 → 3 | 17.33 → 17.33 → 49.33 |
+| `ixr-amr-warehouse` | 19 → 23 → 25 | 2,340 → 2,780 → 4,724 | 2 → 3 → 3 | 17.33 → 17.33 → 49.33 |
+| `ixr-port-control` | 20 → 24 → 26 | 1,016 → 1,360 → 2,272 | 2 → 3 → 3 | 18.67 → 18.67 → 50.67 |
+| `ixr-drilling-deck` | 19 → 23 → 25 | 1,592 → 1,904 → 3,284 | 2 → 3 → 3 | 17.33 → 17.33 → 49.33 |
+| `ixr-maint-bay` | 18 → 22 → 24 | 1,740 → 2,108 → 3,044 | 2 → 3 → 3 | 17.33 → 17.33 → 49.33 |
+
+The lighting adds no texture, so the high tier’s texture bytes do not move; Ultra is where the memory goes, and that is why it is a choice and not a default. The per-room figures are from the console’s checker, re-run by the script that built this page; the note states their ranges.
+
+### The 6 looks
+
+| Look | Sky and weather | Fog draws in to, m | Fog density | Wet ground | Site lights (off to full) |
+|---|---|---|---|---|---|
+| Dawn | dawn, clear | 1,900 | 0 | 0 | 0.6 |
+| Day | day, clear | 2,200 | 0 | 0 | 0 |
+| Dusk | dusk, clear | 1,900 | 0 | 0 | 0.85 |
+| Night | night, clear | 1,600 | 0 | 0 | 1 |
+| Fog | dawn, fog | 575 | 0.75 | 0.2 | 0.6 |
+| Rain | dusk, rain | 1,016 | 0.5 | 0.8 | 0.85 |
+
+Floodlights are lit by day in fog and storms at 0.45; the fog look draws in to a ground fog at the site, and a fog density of at least 0.7 is required of it.
+
+### Read honestly
+
+- Ultra spends memory: with the 2,048 px floor and walls a robot room goes from 17.33 –22.67 MiB of textures to 49.33 –54.67 MiB, inside a stated limit of 64 MiB, and the facade atlas adds 17 MiB a map and the rooms 32 MiB each; it is offered only on the desktop high tier, and never by default.
+
+- Ultra’s frame time was measured only on the console’s capture machine, a shared computer with a software renderer: the median frame of the West Oakland warehouse’s night shot was 1,490 ms on high and 1,424 ms with Ultra, and the cell hall’s 864 and 894 ms. The console reads the difference as inside the machine’s noise and says it is not a graphics-card frame budget, so what Ultra costs on a learner’s desktop is not shown.
+
+- The other counts are meshes, triangles, lights and texture bytes from the console’s own checker, and the looks were drawn in a headless page for stills; they are not a measurement on a learner’s machine, and the stills are not used on this page.
+
+- Looking at the frames found faults that no count could: dawn drew the midday sky, the floodlight heads read as dark poles from the wide shot, the floor pools round the station pads read as white ellipses, and a sign title was clipped. Each was fixed after the look.
+
 ### Checkers run on the neighbours
 
 | Checker | Result |
@@ -186,13 +241,21 @@ The skin is budget-aware: a texture map is set on a room only while the room sta
 
 - *Planned* The detail-generation timing is judged only on a quiet machine; it was measured at a shared load and says so.
 
-**Round two of this loop** is merged into the integration head (`de429b36`): `HIVE-IN-WORLD` (note last committed in `0c834a8a`); `ENV-HD-2` (note last committed in `a0d21aea`). Each figure from it is checked by phrase against that console’s committed note, not re-run from a branch; a note that is edited later stops the build.
+- *Planned* The operations room’s console screens show procedural placeholder content (no words), and no agent stands in the room yet, although its spots are ready, one for each role; the Omega Hive tab’s content is not drawn on the screens.
 
-**Round three of this loop** is merged into the integration head (`de429b36`), and each figure from it is checked by phrase against that console’s committed note, a committed data file or a commit message, not re-run from a branch: `ENV-HD-3` (its last commit `f3589590`, 7 commits since the head that round started from; its console note is committed; merged into the integration head). A note that is edited later stops the build.
+- *Planned* Balanced gets no site lights and no room lighting, and the dawn look borrows the sky’s low-sun band, so the light on the buildings is the dusk’s; Ultra’s frame time is a software-renderer figure and a desktop-graphics-card measurement is the next step.
+
+- *Planned* Some stills were not re-shot after the latest fixes: the dawn and fog-at-dawn frames of some of the maps keep the plain low-sun sky, and the room frames predate a fit of the signs’ long titles.
+
+**Round two of this loop** is merged into the integration head (`54c3f318`): `HIVE-IN-WORLD` (note last committed in `0c834a8a`); `ENV-HD-2` (note last committed in `a0d21aea`). Each figure from it is checked by phrase against that console’s committed note, not re-run from a branch; a note that is edited later stops the build.
+
+**Round three of this loop** is merged into the integration head (`54c3f318`), and each figure from it is checked by phrase against that console’s committed note, a committed data file or a commit message, not re-run from a branch: `ENV-HD-3` (its last commit `f3589590`, 7 commits since the head that round started from; its console note is committed; merged into the integration head). A note that is edited later stops the build.
+
+**Round four ** of this loop is **merged** into the integration head (`54c3f318`) and is read from it with a read-only git show: `ENV-HD-4` (its own commits end at `70b4aed5`, 11 commits of its own; its console note is committed; merged). Each figure is checked by phrase against that console’s note or its commit messages, and a rebuild re-reads the final state.
 
 Sources: `docs/consoles/ROBO-INTERIORS.md`, `docs/consoles/ROBO-EXTERIORS.md`, `WebXR/shared/ixr-robo-interiors.js`, `WebXR/shared/fx-exteriors.js`, `tools/check_robo_interiors.mjs`, `tools/check_exteriors.mjs`. Each figure is read from those notes by the script that built this page. Rooms are generic by kind, as the interiors note says: no real building’s interior is modelled.
 
 
 ---
 
-_Every figure on this page was checked against the repository file named beside it when the page was built (head `de429b36`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._
+_Every figure on this page was checked against the repository file named beside it when the page was built (head `54c3f318`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._
