@@ -22,3 +22,11 @@
   (the coordinator rebuilds at integration).
 - Checker `tools/check_exteriors.mjs` (in check_all, estimated baseline row). Drive `tools/drive_exteriors_page.mjs` (not in
   the gate).
+- `__parishTest.scene` was the THREE.Scene before this console (check_harvest's live leg calls `scene.getObjectByName`); it is
+  now the shot function with `traverse`/`getObjectByName`/`getObjectById`/`children` delegated, and the scene is
+  `__parishTest.threeScene`. A shot hides `#menu` for a clean frame; walking or going inside ends it.
+- Pitfalls met: an `x`-only `break` inside nested loops (use a label); a phone-tier slab in front of a textured door hid it
+  on desktop (keep the slab behind the quad); floor quads at local y 0.04 sank under the ground (the building frame starts
+  0.15 m under the lot's lowest ground).
+- Drive (high, load 18–31): 12 shots, 0 failed, page errors 0, external requests 0; draw calls rise by exactly the kit's
+  meshes and triangles by its triangles; night lit on all five maps; kit texture bytes 5,941,931 at high.

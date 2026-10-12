@@ -49,7 +49,8 @@
 | kit per site, meshes / triangles (phone · balanced · high) | — | 1 / 36–180 · 2 / 450–804 · 2 / 880–1,296 (budget 1/1,500 · 2/7,000 · 2/7,000) | `check_exteriors` ("triangles per site …") |
 | worst robot-site chunk, FACADES alone → FACADES + kit, vs `FC_BUDGET` (worst meshes, worst triangles) | low 2 / 1,056 · high 3 / 4,918 | low 3 / 1,092 (≤ 4 / 6,000) · high 5 / 5,798 (≤ 6 / 24,000) | `check_exteriors` (per-chunk notes: the kit is charged to every chunk its lot touches; San José 9,7 is the heaviest by triangles, Orleans 9,7 by meshes on the phone) |
 | full build at the robot sites, meshes (draw calls) / triangles | see the table below | +1 to +2 meshes a site, ≤ 260 / 400,000 everywhere | `check_exteriors` (full-build notes) |
-| texture bytes per map (kit) | 0 | phone 0 · balanced 1,485,483 · high 5,941,931 (budget 0 / 1,572,864 / 6,291,456) | `check_exteriors` (planned), drive (canvases drawn) |
+| texture bytes per map (kit; RGBA, mipmaps included) | 0 | phone 0 · balanced 1,485,483 (allocated by the code; not driven) · high **5,941,931 measured** (the canvases the page drew; budget 0 / 1,572,864 / 6,291,456) | drive (`kit texture bytes`), `check_exteriors` (allocation) |
+| draw calls / triangles on each establishing shot in the built page (high) | kit hidden | +2 draw calls a site in frame (+4 with both West Oakland sites), + exactly the kit's triangles (880–1,908) | `node tools/drive_exteriors_page.mjs` (hidden → shown in one task) |
 | `check_detail` generation median (CPU) | 11.2 ms at load 8.5–8.7 | 10.8 ms at load 5.3–6.9 (budget 12) | `node tools/check_detail.mjs`, before/after runs; the kit adds no detail generation, so the difference is the load |
 | `check_facades` | 2,860 pass | 2,860 pass | `node tools/check_facades.mjs` |
 | `check_palette` | 684 passed, 0 failed | 684 passed, 0 failed | `node tools/check_palette.mjs` |
@@ -72,7 +73,22 @@ same scene with the kit's group excluded). Phone and headset budgets are unchang
 | sf-downtown | 91 / 26,789 → 92 / 26,837 | 141 / 47,443 → 143 / 48,019 | 141 / 47,443 → 143 / 48,535 |
 
 ### In the built page (high tier, 1280×720, headless Chromium with SwiftShader)
-DRIVE_TABLE
+| site | shot | draw calls (kit hidden → shown) | triangles (hidden → shown) | textures | kit on this map (meshes / tris) | kit texture bytes |
+|---|---|---|---|---|---|---|
+| west-oakland-port-automation | wide | 178 → 182 | 84,981 → 86,889 | 3 | 4 / 1,908 | 5,941,931 |
+| west-oakland-port-automation | door | 174 → 178 | 146,149 → 148,057 | 3 | 4 / 1,908 | 5,941,931 |
+| west-oakland-warehouse | wide | 182 → 186 | 132,552 → 134,460 | 3 | 4 / 1,908 | 5,941,931 |
+| west-oakland-warehouse | door | 190 → 194 | 161,385 → 163,293 | 3 | 4 / 1,908 | 5,941,931 |
+| san-jose-robotics-lab | wide | 142 → 144 | 118,819 → 119,699 | 4 | 2 / 880 | 5,941,931 |
+| san-jose-robotics-lab | door | 144 → 146 | 169,692 → 170,572 | 4 | 2 / 880 | 5,941,931 |
+| orleans-warehouse | wide | 218 → 220 | 116,569 → 117,535 | 4 | 2 / 966 | 5,941,931 |
+| orleans-warehouse | door | 168 → 170 | 124,260 → 125,226 | 4 | 2 / 966 | 5,941,931 |
+| richland-drilling-robot | wide | 128 → 130 | 94,177 → 95,473 | 3 | 2 / 1,296 | 5,941,931 |
+| richland-drilling-robot | door | 115 → 117 | 141,564 → 142,860 | 3 | 2 / 1,296 | 5,941,931 |
+| soma-robot-cell | wide | 110 → 112 | 79,105 → 80,197 | 4 | 2 / 1,092 | 5,941,931 |
+| soma-robot-cell | door | 129 → 131 | 137,521 → 138,613 | 4 | 2 / 1,092 | 5,941,931 |
+
+Night (setTime(3), ATMOS's clock): oak-west-oakland lit, bay-san-jose lit, orleans lit, la-meta-richland lit, sf-downtown lit. Drive: 12 shots, 0 failed, page errors 0, external requests 0, 568 s, load 18.26 (load at start 31.4; six consoles shared the four cores). Source: `node tools/drive_exteriors_page.mjs 9094 high <dir>` over a fresh `python3 tools/bundle_webxr.py parishes` (the dist was restored afterwards). The phone and balanced tiers were not driven in a browser (the shared machine); their counts are the scene-graph measurements above and their texture bytes are the canvases the code allocates (phone none).
 
 ## Cycles
 1. Reason: give every robot site a lot clear of what stands there before drawing anything; proof = a probe printing each
@@ -98,7 +114,14 @@ DRIVE_TABLE
    `drive_exteriors_page.mjs`. Observe: the first run died in its own measure — `__parishTest.scene` had been the THREE.Scene
    (check_harvest's live leg reads it) and the new function replaced it. Fail → fixed: the function keeps the scene reachable
    (`__parishTest.threeScene`, and `traverse`/`getObjectByName`/`getObjectById`/`children` delegated); "all 259 checks pass".
-   DRIVE_CYCLE
+   Observe (second run, same-task measurement): 12 shots, 0 failed, page errors 0, external requests 0, 568 s, load 18.26; draw calls rise by exactly the kit's meshes on every view and triangles by the kit's triangles; night lit on 5 of 5 maps. Pass.
+7. Reason: the first frames showed two faults a checker could not see — the West Oakland warehouse's wide shot stood next to a
+   massing shed that filled half the frame, and the floor markings sat under the ground (the building frame's origin is 0.15 m
+   below the lot's lowest ground, as massing sinks in); proof = the shot positions move clear and `check_exteriors` still
+   passes. Act: the wide shot tries spots (46/38/56/30 m back, 0/±22/±34 m to the side) until the camera and the near half of
+   its sight line are clear of massing and trees; markings ride 0.2 m up (0.1 m in the pad's frame). Observe: the warehouse
+   shot moved to the other side (830.5, −440), the port shot to straight on; "all 259 checks pass". Pass (the drive's PNGs
+   predate this cycle; the reel's captures from the merged head will show it).
 
 ## Seams
 - `fxSitesFor(parish)`, `fxSiteLayout(parish, site)`, `fxLayoutsFor(parish)` (pure; no three.js): the lots, each with
