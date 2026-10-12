@@ -111,6 +111,16 @@ free-roam training game built over it — Bay World, Fairway Park, the quest lay
 the unions and trades that populate them — in [`docs/GAME-WHITEPAPER.md`](docs/GAME-WHITEPAPER.md);
 every number in both is named to the command or file that produced it.
 
+The repository wiki lives in [`docs/wiki/`](docs/wiki/Home.md): an executive summary of the robotics
+programme, the humans-and-robots training loop, three personas, the evidence table (every figure with
+its file), the roadmap and loop-by-loop changelog, the learner-data terms in plain language, risks and
+the investor FAQ, a glossary and a [repository map](docs/wiki/Repository-Map.md). The pages are built
+from whitepaper fragments whose every figure is verified against a repository file; the generated
+[training series](docs/wiki/SmartCitiX-Training-Series.md) lists every station. An automatically
+generated, third-party code index of this repository is also available at
+[deepwiki.com/AGIFutureFoundation/vr-safety-training](https://deepwiki.com/AGIFutureFoundation/vr-safety-training)
+(not maintained by this project; the pages in `docs/wiki/` are the reference).
+
 ## Meta Quest and web deployment
 
 Two additional delivery surfaces beyond the Windows PC-VR build:

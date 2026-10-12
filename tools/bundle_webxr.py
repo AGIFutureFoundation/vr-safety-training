@@ -1636,6 +1636,10 @@ def build_combined() -> int:
     # DATAWORKS' analysis page (WebXR/data/index.html): its ../shared/ imports resolve against DIST/shared.
     (DIST / "data").mkdir(parents=True, exist_ok=True)
     (DIST / "data" / "index.html").write_bytes((WEBXR / "data" / "index.html").read_bytes())
+    # ROBOEXPORT: the consent panel links the learner-data terms (docs/learner-data-terms.md, a draft for counsel). The flat
+    # build ships that one doc beside the pages (served as text/markdown), so the link resolves from every page that mounts the panel.
+    (DIST / "docs").mkdir(parents=True, exist_ok=True)
+    (DIST / "docs" / "learner-data-terms.md").write_bytes((ROOT / "docs" / "learner-data-terms.md").read_bytes())
     # AGENTGYM's walkthrough page (WebXR/agentgym/index.html): its ../shared/ imports resolve against DIST/shared.
     (DIST / "agentgym").mkdir(parents=True, exist_ok=True)
     (DIST / "agentgym" / "index.html").write_bytes((WEBXR / "agentgym" / "index.html").read_bytes())

@@ -1,11 +1,12 @@
 // DATAWORKS consent panel (docs/consoles/DATAWORKS.md). Mounted inside INTERFACE's Me tab
 // (`#menu-dataworks` in parishes.html) and on the analysis page (WebXR/data/index.html).
 //
-//   dxMountConsent(el, { btnClass, dataHref, onChange }) -> { render() }
+//   dxMountConsent(el, { btnClass, dataHref, termsHref, onChange }) -> { render() }
 //
 // Shows what is collected and what never is, the licence choice, the adult (18+) confirmation, the
 // eligibility answer (demo / signed-out / K-12 sessions are told plainly that nothing is collected) and a
-// one-tap "Stop and delete everything". Off by default: nothing is recorded until "Opt in" is pressed.
+// one-tap "Stop and delete everything", and a link to the learner-data terms (docs/learner-data-terms.md, a draft for
+// counsel that says only what the code enforces; ROBOEXPORT). Off by default: nothing is recorded until "Opt in" is pressed.
 // Text only via textContent (no innerHTML with data). Every top-level name carries the dx prefix.
 
 import { DX_COLLECTS, DX_NEVER, DX_LICENCES, dxConsent, dxEligibility, dxOptIn, dxReadSignals, dxRevoke, dxStore } from "./dx-data.js";
@@ -17,7 +18,7 @@ function dxEl(tag, props = {}, kids = []) {
   return e;
 }
 
-export function dxMountConsent(el, { btnClass = "btn", dataHref = "../data/index.html", onChange = null } = {}) {
+export function dxMountConsent(el, { btnClass = "btn", dataHref = "../data/index.html", termsHref = "../../docs/learner-data-terms.md", onChange = null } = {}) {
   if (!el) return null;
   async function render() {
     el.textContent = "";
@@ -30,6 +31,7 @@ export function dxMountConsent(el, { btnClass = "btn", dataHref = "../data/index
       dxEl("p", { class: "note", text: "Collected (only after you opt in, kept on this device): " + DX_COLLECTS.join("; ") + "." }),
       dxEl("p", { class: "note", text: "Never collected: " + DX_NEVER.join(", ") + "." }),
       dxEl("p", { class: "note", text: "Nothing is uploaded. You can export your own episodes from the data page. K-12, classroom, signed-out and demo sessions are never collected." })]);
+    if (termsHref) details.appendChild(dxEl("p", { class: "note" }, [dxEl("a", { href: termsHref, id: "dx-terms", text: "Learner-data terms (plain language; draft for counsel)" })]));
     el.appendChild(details);
     const row = dxEl("div", { class: "row" });
     if (consent) {
