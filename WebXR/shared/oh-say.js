@@ -57,7 +57,7 @@ export const OH_CORES = Object.freeze({
 
 /** HIVE-6: the morning briefing's kinds. Facts come from the event: the queue's counts, the first award, the chain's length. */
 export const OH_CORES_BRIEF = Object.freeze({
-  brief_open: ["Morning briefing: {count} jobs on today's queue, {first} in the first hour", "Good start: {count} jobs today, {first} arriving in the first hour", "Today's queue holds {count} jobs, {first} of them in the first hour"],
+  brief_open: ["Good morning: {count} jobs on today's queue, {first} in the first hour", "Good start: {count} jobs today, {first} arriving in the first hour", "Today's queue holds {count} jobs, {first} of them in the first hour"],
   brief_first: ["My first job is {job} at {site}: {task}", "First up for me is {job} at {site}", "I start with {job} at {site}"],
   brief_steward: ["I review each job the governor allows, {count} on the queue today", "Every job the governor allows comes past me, {count} on today's queue"],
   brief_keeper: ["{supervisor} has a standing approval for simulated jobs, and a physical robot still needs a decision", "Simulated jobs run under the standing approval of {supervisor}; a physical robot needs a decision"],
@@ -66,7 +66,7 @@ export const OH_CORES_BRIEF = Object.freeze({
   brief_none: ["Nothing on my board in the first {window} minutes; I am ready at {site}", "No job for me in the first {window} minutes, ready at {site}"],
 });
 export const OH_CORES_BRIEF_ES = Object.freeze({
-  brief_open: ["Reunión de la mañana: {count} trabajos en la cola de hoy, {first} en la primera hora", "La cola de hoy tiene {count} trabajos, {first} en la primera hora"],
+  brief_open: ["Buenos días: {count} trabajos en la cola de hoy, {first} en la primera hora", "La cola de hoy tiene {count} trabajos, {first} en la primera hora"],
   brief_first: ["Mi primer trabajo es {job} en {site}", "Empiezo con {job} en {site}"],
   brief_steward: ["Reviso cada trabajo que el gobernador permite, {count} en la cola de hoy"],
   brief_keeper: ["{supervisor} tiene una aprobación vigente para trabajos simulados; un robot físico necesita una decisión"],

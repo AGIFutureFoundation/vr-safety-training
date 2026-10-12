@@ -16,7 +16,10 @@
  *      outside its window; the governor still checks every step, 0 physical dispatches, the same outcomes;
  *   5. the console tab and the panel: the tab's moods panel is read-only (no button, no storage, no new fetch), the panel shows a
  *      mood chip and speaks at the mood voice, the ops room asks for the briefing on entering;
- *   6. hygiene: the prefix, no import alias, no network or model call, the bundles, check_all and the baseline row, the docs.
+ *   6. hygiene: the prefix, no import alias, no network or model call, the bundles, check_all and the baseline row, the docs;
+ *   7. the combined case (the round-5 integration lesson): entering the operations room at minute 0 through hwSyncRoom holds the
+ *      briefing once, seven stand, the wall carries it, and the room with seven figures speaking it stays inside IX_BUDGET and
+ *      IXR_TEX_BUDGET on high and balanced.
  */
 import { readFileSync, existsSync } from "node:fs";
 import { join, dirname } from "node:path";
@@ -261,6 +264,47 @@ await check("6 hygiene: prefix, no alias, no network or model call, bundles, che
   ok(JSON.stringify(base).includes("check_hive6.mjs") && /ESTIMATE/.test(JSON.stringify(base).split("check_hive6.mjs").slice(-1)[0].slice(0, 300)), "the baseline row (an estimate)");
   for (const f of ["docs/consoles/HIVE-6.md", "docs/consoles/memory/HIVE-6.md", "tools/briefs/next/h6-next.md"]) ok(existsSync(join(ROOT, f)), `${f} missing`);
   return "prefix, no alias, no network, bundles, check_all, baseline, docs";
+});
+
+// ------------------------------------------------------------------------------------------------ 7. the combined case: the briefing in the ops room
+// Integration lesson (round 5): the briefing meets HIVE-5's room mount and ENV-HD-4's room, so the combined case is built here
+// (the same room, stubs and measure as check_hive5) and in the page (docs/consoles/HIVE-6.md, drive 1).
+await check("7 the briefing in the operations room: entering at minute 0 holds it, seven stand, the screens carry it, the room stays inside budget", async () => {
+  const THREE = await imp("WebXR/vendor/three/dist/three.module.min.js");
+  const IX = await imp("WebXR/shared/ix-interiors.js"), IXR = await imp("WebXR/shared/ixr-robo-interiors.js"), HD2 = await imp("WebXR/shared/hd2-room-skins.js");
+  const HD4 = await imp("WebXR/shared/hd4-rooms.js"), HW = await imp("WebXR/shared/hw-hive-world.js");
+  const DESK = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36";
+  const SHELL = IXR.IXR_SHELL_SIGNS.reduce((a, [w, h]) => a + Math.round(w * h * 4 * 4 / 3), 0);
+  const stub = () => { globalThis.document = { createElement: () => { const log = [], at = { x: 0, y: 0 }, st = []; let font = "10px sans-serif"; const ctx = new Proxy({}, { get: (_t, k) => { if (k === "font") return font; if (k === "measureText") return (s) => ({ width: String(s).length * (Number(/(\d+)px/.exec(font)?.[1]) || 10) * 0.52 }); if (k === "fillText") return (s) => log.push(String(s)); if (k === "save") return () => st.push({ ...at }); if (k === "restore") return () => { const p = st.pop(); if (p) Object.assign(at, p); }; if (k === "translate") return (x, y) => { at.x += x; at.y += y; }; if (typeof k === "string" && k.startsWith("create")) return () => ({ addColorStop() {} }); if (k === "getImageData") return (x, y, w, h) => ({ data: new Uint8ClampedArray(Math.max(4, 4 * (w | 0) * (h | 0))) }); return () => {}; }, set: (_t, k, v) => { if (k === "font") font = String(v); return true; } }); return { width: 0, height: 0, getContext: () => ctx, log }; } }; };
+  const reg = () => { const d = {}; return { d, ixRegisterDresser: (s, fn) => (d[s] ??= []).push(fn) }; };
+  const dressers = (() => { const r = reg(); IXR.ixrRegisterDressers(r); HD4.hd4RegisterDressers(r, { ultra: false, ua: DESK }); HD2.hd2RegisterSkins(r); return r.d; })();
+  const measure = (room) => { const m = IXR.ixrMeasure(room); const signs = m.textures.some((t) => /sign|label|board/i.test(t.name)) ? 0 : SHELL; return { meshes: m.meshes, triangles: m.triangles, bytes: m.textureBytes + signs }; };
+  const out = [];
+  try {
+    for (const tier of ["high", "balanced"]) {
+      stub();
+      const room = IX.ixBuild(HD4.HD4_OPS_STYLE, { three: THREE, tier, site: HD4.hd4OpsSite(HD4.hd4OpsHome(), null), dressers });
+      const hive = H.ohHive({ seed: 1, ...PANEL, moods: true, briefing: true });
+      const mount = HW.hwSyncRoom(null, { room, three: THREE, agents: hive.agents, source: hive, tier });
+      ok(mount?.briefing?.length === 7, `${tier}: entering at minute 0 held ${mount?.briefing?.length ?? 0} briefing turns`);
+      ok(mount.standing().length === 7, `${tier}: ${mount.standing().length} of 7 standing during the briefing`);
+      const scr = HD4.hd4OpsScreens(room); mount.paint();
+      const wall = scr.wall.canvas.log.join(" \n ");
+      if (tier === "high") ok(/morning briefing/.test(wall), `${tier}: the wall's feed carries the briefing's labelled captions`);
+      else { // the small wall (256 × 64) shows the head of each of the last four captions: all four are briefing turns
+        const last = hive.events().filter((e) => e.type === "speak").slice(-4);
+        ok(last.every((e) => e.briefing) && last.every((e) => scr.wall.canvas.log.some((w) => w.length > 8 && `00:00 ${e.caption}`.startsWith(w.replace(/…$/, "")))), `${tier}: the small wall shows the heads of the last four briefing captions`);
+      }
+      for (const e of mount.briefing) mount.avatars.handle(e); // the figures' caption bubbles take the briefing lines
+      const m = measure(room);
+      ok(m.meshes <= IX.IX_BUDGET.meshes && m.triangles <= IX.IX_BUDGET.triangles.high && m.bytes <= IXR.IXR_TEX_BUDGET[tier], `${tier}: ${m.meshes} meshes, ${m.triangles} triangles, ${(m.bytes / 1048576).toFixed(2)} MiB outside the budget`);
+      ok(HW.hwSyncRoom(mount, { room, three: THREE, agents: hive.agents, source: hive, tier }) === mount && hive.brief() === null, `${tier}: a second entry holds no second briefing`);
+      out.push(`${tier}: 7 turns, 7 standing, ${m.meshes} meshes / ${m.triangles} triangles / ${(m.bytes / 1048576).toFixed(2)} MiB`);
+      evals.push(`the briefing in the ops room (headless, ${tier}): 7 of 7 standing, the wall carries it; ${m.meshes} meshes, ${m.triangles} triangles, ${(m.bytes / 1048576).toFixed(2)} MiB (IX_BUDGET ${IX.IX_BUDGET.meshes} / ${IX.IX_BUDGET.triangles.high}; ${(IXR.IXR_TEX_BUDGET[tier] / 1048576).toFixed(0)} MiB)`);
+      mount.dispose();
+    }
+  } finally { delete globalThis.document; }
+  return out.join("; ");
 });
 
 console.log(`\n${passed} passed, ${failed} failed`);
