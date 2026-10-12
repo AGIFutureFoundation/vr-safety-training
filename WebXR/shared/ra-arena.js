@@ -39,13 +39,19 @@ import { rt6FitReward } from "./rt6-learn.js";
 import { rt7WindowFeatures, RT7_WINDOW, RT7_WINDOW_FEATURES, RT7_DROP_BELOW } from "./rt7-learn.js";
 import { vbGovernor } from "./vb-governor.js";
 import { VB_RIG_LIMITS } from "./vb-shared-data.js";
-import { raLmTrain, raLmPolicy, RA_LM_LABEL } from "./ra-lm.js";
+import { raLmTrain, raLmPolicy, RA_LM_LABEL, RA_LM_H_LABEL, RA_LM_H_TRAIN } from "./ra-lm.js";
 
 export const RA_VERSION = "ra/1";
 /** The round's held-out arena seeds (fresh): never used to train or tune anything. */
 export const RA_HELD_OUT = Array.from({ length: 60 }, (_, i) => 7121 + i);
 /** Stations run ~280 steps and a random policy runs to the 20,000-step cap, so they use the first 10 held-out seeds. */
 export const RA_STATION_SEEDS = RA_HELD_OUT.slice(0, 10);
+/** Round 7 (ARENA-2): a fresh held-out range, declared in docs/evals/arena-declared-r7.json and committed (8ea01d3c) before
+ * any run on it. RA_HELD_OUT stays 7121–7180 so the round-6b rows in arena.json can still be re-run and compared. */
+export const RA_HELD_OUT_R7 = Array.from({ length: 60 }, (_, i) => 7181 + i);
+export const RA_STATION_SEEDS_R7 = RA_HELD_OUT_R7.slice(0, 10);
+/** The eight families of the round-6b declaration (arena-declared.json); raModels() adds ra-lm-h after them. */
+export const RA_MODELS_R6 = ["random", "reactive", "bc", "dagger-r1", "dagger-r3", "step-reward", "ra-lm", "expert"];
 export const RA_DEMOS = { n: 40, seed: 1, skill: 0.85, noise: 0.3 };
 export const RA_STATION_DEMOS = 20;
 export const RA_DAGGER = { rollouts: 20, seed0: 800000 };
@@ -90,6 +96,7 @@ export function raModels() {
     { id: "dagger-r3", family: "DAgger (3 rounds)", trainedOn: `${RA_SYN} + scripted-expert labels on the clone's own states (not a person's)`, params: { k: 5, rounds: 3, rollouts: RA_DAGGER.rollouts }, gymOnly: true },
     { id: "step-reward", family: "per-step-reward clone", trainedOn: `${RA_SYN}, steps dropped by a per-step Bradley–Terry reward model fit on synthetic window pairs`, params: { k: 5, threshold: RT7_DROP_BELOW }, gymOnly: true },
     { id: "ra-lm", family: "small language-conditioned model (trained here)", trainedOn: `${RA_SYN} + the stations' own step and hazard texts + consented learner takes when present`, params: { label: RA_LM_LABEL } },
+    { id: "ra-lm-h", family: "small language-conditioned model with one hidden layer (trained here)", trainedOn: `${RA_SYN} + the stations' own step and hazard texts + consented learner takes when present`, params: { label: RA_LM_H_LABEL, hidden: RA_LM_H_TRAIN.hidden } },
     { id: "expert", family: "scripted expert (upper bound)", trainedOn: "nothing (rb-env planner at skill 1)", params: { learned: 0 } },
   ];
 }
@@ -150,7 +157,7 @@ function raWrapClone(m, sc) { const mm = { ...m, scenario: sc }; return { policy
 
 /** Build (or fetch) the model behind `modelId` for `sc`; returns { policyFor(seed), hash, size } or null when n/a. */
 export function raBuild(modelId, sc, { station = null, lmOptions = {} } = {}) {
-  const key = modelId === "ra-lm" ? `${modelId}|${sc}|${lmOptions.blankText ? "blank" : "text"}|${lmOptions.stationFor ? "stations" : "gym"}` : `${modelId}|${sc}`;
+  const key = modelId === "ra-lm" || modelId === "ra-lm-h" ? `${modelId}|${sc}|${lmOptions.blankText ? "blank" : "text"}|${lmOptions.stationFor ? "stations" : "gym"}` : `${modelId}|${sc}`;
   if (RA_CACHE.has(key)) return RA_CACHE.get(key);
   const st = raIsStation(sc);
   let out = null;
@@ -161,12 +168,13 @@ export function raBuild(modelId, sc, { station = null, lmOptions = {} } = {}) {
   else if (modelId === "bc") { const base = st ? sc : raTrainScenario(sc); out = raWrapClone(colTrain(base, raDemos(base, station).demos, { seed: RA_DEMOS.seed, onlySuccessful: true }), sc); }
   else if (modelId === "dagger-r1" || modelId === "dagger-r3") { if (!st) out = raWrapClone(raDagger(sc, modelId === "dagger-r1" ? 1 : 3), sc); }
   else if (modelId === "step-reward") { if (!st) out = raWrapClone(raStepReward(sc), sc); }
-  else if (modelId === "ra-lm") {
+  else if (modelId === "ra-lm" || modelId === "ra-lm-h") {
     // One model for every task (cached once): `lmOptions.texts` (raLmTaskTexts) is required, `stationFor(sc)` adds the
     // station tasks, `consented` hands in consented takes, `blankText` is the ablation. Without texts it is not applicable.
+    // ra-lm-h is the same model with the round-7 declared change (RA_LM_H_TRAIN: one hidden layer).
     const { stationFor = null, ...rest } = lmOptions;
-    const mkey = `ra-lm|model|${rest.blankText ? "blank" : "text"}|${stationFor ? "stations" : "gym"}`;
-    if (!RA_CACHE.has(mkey)) RA_CACHE.set(mkey, raLmTrain({ ...rest, station: !!stationFor, demosFor: (b) => raDemos(b, raIsStation(b) ? stationFor?.(b) ?? null : null).demos }));
+    const mkey = `${modelId}|model|${rest.blankText ? "blank" : "text"}|${stationFor ? "stations" : "gym"}`;
+    if (!RA_CACHE.has(mkey)) RA_CACHE.set(mkey, raLmTrain({ ...rest, ...(modelId === "ra-lm-h" ? { opts: { ...RA_LM_H_TRAIN, ...(rest.opts ?? {}) } } : {}), station: !!stationFor, demosFor: (b) => raDemos(b, raIsStation(b) ? stationFor?.(b) ?? null : null).demos }));
     const m = RA_CACHE.get(mkey);
     out = m && (m.labelsByTask[sc] || m.labelsByTask[colBase(sc)]) ? { policyFor: () => raLmPolicy(m, sc), hash: colHash(m.w), size: m.params, model: m } : null;
   } else throw new Error(`raRun: unknown model ${modelId}`);

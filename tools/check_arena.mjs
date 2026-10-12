@@ -25,7 +25,7 @@ import { readFileSync, existsSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { execFileSync } from "node:child_process";
-import { RA_HELD_OUT, RA_STATION_SEEDS, RA_DEMOS, RA_STATION_DEMOS, RA_DAGGER, raModels, raScenarios, raRun, raLeaderboard, raWilson } from "../WebXR/shared/ra-arena.js";
+import { RA_HELD_OUT, RA_STATION_SEEDS, RA_HELD_OUT_R7, RA_STATION_SEEDS_R7, RA_MODELS_R6, RA_DEMOS, RA_STATION_DEMOS, RA_DAGGER, raModels, raScenarios, raRun, raLeaderboard, raWilson } from "../WebXR/shared/ra-arena.js";
 import { RA_LM_LABEL } from "../WebXR/shared/ra-lm.js";
 import { raDeclaration, raDiffCI } from "./arena_eval.mjs";
 import { raDsBuild, RA_DS_OUT, RA_DS_SPLITS, RA_DS_SCHEMA } from "./ra_dataset.mjs";
@@ -49,7 +49,8 @@ const arena = JSON.parse(read("docs/evals/arena.json"));
 
 await check("contract: the four functions return the contract's shapes; deterministic; governor on every step; physical 0", () => {
   const models = raModels(), scs = raScenarios();
-  ok(models.length === 8 && models.every((m) => m.id && m.family && m.trainedOn && m.params && typeof m.params === "object"), "raModels shape");
+  // 9 since ARENA-2 (round 7): ra-lm-h sits beside ra-lm; the round-6b declaration still names the first eight (RA_MODELS_R6).
+  ok(models.length === 9 && models.slice(0, 7).concat(models.slice(8)).map((m) => m.id).join() === RA_MODELS_R6.join() && models.every((m) => m.id && m.family && m.trainedOn && m.params && typeof m.params === "object"), "raModels shape");
   ok(scs.length === 12 && scs.every((s) => s.id && (s.kind === "gym" || s.kind === "station") && typeof s.hard === "boolean"), "raScenarios shape");
   ok(scs.filter((s) => s.hard).length === 3 && scs.filter((s) => s.kind === "station").length === 3, "3 hard variants and 3 stations");
   const a = raRun({ modelId: "bc", scenarioId: "rb-port-gantry#hard", seeds: DEV }), b = raRun({ modelId: "bc", scenarioId: "rb-port-gantry#hard", seeds: DEV });
@@ -63,7 +64,7 @@ await check("contract: the four functions return the contract's shapes; determin
   ok(raRun({ modelId: "reactive", scenarioId: "rb-cell-entry", seeds: DEV }).applicable === false, "reactive on a scenario without rules must be n/a");
   const lb = raLeaderboard([a, r]);
   ok(lb.length === 2 && lb.every((x) => x.rank && Array.isArray(x.ci95) && x.ci95.length === 2), "raLeaderboard rows");
-  return `8 models, 12 scenarios; bc on port#hard ${a.success} over dev seeds 1–5, twice identical; random cell-entry ${r.stops} stops`;
+  return `9 models (8 of round 6b + ra-lm-h), 12 scenarios; bc on port#hard ${a.success} over dev seeds 1–5, twice identical; random cell-entry ${r.stops} stops`;
 });
 
 await check("declared first: arena-declared.json matches the code, committed before arena.json", () => {
