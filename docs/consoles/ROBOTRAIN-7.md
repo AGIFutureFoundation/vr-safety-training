@@ -35,6 +35,12 @@ Held-out seeds are 7001–7060, as COLEARN's. Nothing below was chosen after see
 - Then 5 rounds × 20 rollouts, run once. The result is the final round (round 5), whatever it is. The AMR hard gap is the
   expert's success minus round 5's.
 
+**Item 2, ablation (declared 13:36 UTC, after the `amr-robots` result above was seen).** The detour move in `amr-robots` is a
+shortest path around the other robots, close to what the scripted expert computes. To show how much of the gain it carries:
+`amr-holders` = `amr-path` plus only the four holder and order features (no detour move). Its aliasing ceiling on the same
+`amr-path` training states first, then the same 5 rounds × 20 rollouts, run once. It is reported beside the declared result
+and does not replace it.
+
 **Item 4, a non-privileged reactive agent.** Written and tried on training seeds 101–130 only, then measured once on the
 supplement's seeds 1–3. Its rules read only a declared list of observation fields (the safety fields plus the task's own
 position and goal); no search, no planner.
