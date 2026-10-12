@@ -1017,6 +1017,8 @@ APPS = {
             SHARED / "cr-classrooms.js",
             # LA-ROOMS: the Louisiana rooms' dressers (after ix-interiors.js and lp-programme-data.js).
             SHARED / "lar-rooms.js",
+            # ROBO-INTERIORS: the robotics rooms' dresser, textures and robot-site doors (after ix-interiors.js and rb-world.js).
+            SHARED / "ixr-robo-interiors.js",
             # HARVEST: hidden regional and seasonal activities (after np-parishes, tf-terraform, ty-economy, at-atmos, profiles,
             # st-paths, and account.js, which brings treasures.js).
             SHARED / "hv-harvest.js",

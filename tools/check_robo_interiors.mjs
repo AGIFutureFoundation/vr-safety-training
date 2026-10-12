@@ -97,7 +97,7 @@ for (const [st, tags] of Object.entries(MUST)) check(tags.every((t) => built[`${
 const FLOOR_MUST = { "ixr-cell-hall": ["band", "line"], "ixr-cobot-lab": ["ring"], "ixr-amr-warehouse": ["zebra", "dash"], "ixr-drilling-deck": ["band"], "ixr-maint-bay": ["band"] };
 for (const [st, ks] of Object.entries(FLOOR_MUST)) check(ks.every((k) => IXR.IXR_ROOMS[st].floor.some((m) => m[0] === k)), `${st}: floor marks painted (${ks.join(", ")})`);
 check(!!built["ixr-port-control/high"]?.group.getObjectByName("ixr-window-wall") && !!built["ixr-port-control/high"]?.group.getObjectByName("ixr-status-wall"), "ixr-port-control: the window wall onto the yard and the status wall");
-check(built["ixr-amr-warehouse/high"]?.group.getObjectByName("ixr-metal")?.count >= 60, `ixr-amr-warehouse: instanced racking aisles (${built["ixr-amr-warehouse/high"]?.group.getObjectByName("ixr-metal")?.count} metal instances)`);
+check(built["ixr-amr-warehouse/high"]?.group.getObjectByName("ixr-metal")?.count >= 48, `ixr-amr-warehouse: instanced racking aisles (${built["ixr-amr-warehouse/high"]?.group.getObjectByName("ixr-metal")?.count} metal instances)`);
 console.log("  style               tier      meshes  tris  lights  textures    props  instances");
 for (const t of table) console.log(`  ${t.st.padEnd(19)} ${t.tier.padEnd(9)} ${String(t.meshes).padStart(6)} ${String(t.tris).padStart(5)} ${String(t.lights).padStart(7)}  ${fmtB(t.tex).padStart(10)} ${String(t.props).padStart(6)} ${String(t.inst).padStart(10)}`);
 
@@ -131,6 +131,7 @@ for (const p of R.NP_PARISHES) {
   for (const d of doors) {
     const s = rbs.find((x) => x.id === d.site.id);
     const off = Math.hypot(d.x - s.position[0], d.z - s.position[1]);
+    note(`${p.id}/${d.site.id}: door ${d.face} at (${d.x.toFixed(1)}, ${d.z.toFixed(1)}), ${off.toFixed(1)} m from the rig -> ${d.style}`);
     check(off > RB.RB_SSM.warn && !blocked(d.x, d.z), `${p.id}/${d.site.id}: door spot ${off.toFixed(1)} m from the rig (outside the ${RB.RB_SSM.warn} m warning ring), dry and clear of site buildings (${d.face})`);
     check(d.style === IXR.IXR_SITE_STYLE[s.id] && d.site.kind === "robotics" && d.site.board?.trades?.length > 0 && d.site.stations.length >= 3, `${p.id}/${d.site.id}: opens ${d.style} with its board and stations`);
   }
@@ -171,7 +172,7 @@ const bundler = readFileSync(join(ROOT, "tools/bundle_webxr.py"), "utf8");
 const all = readFileSync(join(ROOT, "tools/check_all.mjs"), "utf8");
 check(/ixrRegisterDressers\(/.test(app) && /ixrDoorsFor\(/.test(app), "the parishes app registers the robotics dressers and the robot-site doors");
 check(/for \(const dd of ixrDoors\)/.test(app), "the robot-site doors prompt 'go inside' (npNearest)");
-check(/ixScene\s*[(:]/.test(app) && /roboInteriors/.test(app), "window.__parishTest.ixScene(styleId) and roboInteriors are exposed");
+check(/__parishTest\.ixScene\s*=/.test(app) && /__parishTest\.roboInteriors\s*=/.test(app), "window.__parishTest.ixScene(styleId) and roboInteriors are exposed");
 check(/ixr-robo-interiors\.js/.test(bundler) && bundler.indexOf("ixr-robo-interiors.js") > bundler.indexOf('"ix-interiors.js"'), "tools/bundle_webxr.py lists ixr-robo-interiors.js after ix-interiors.js");
 check(/check_robo_interiors\.mjs/.test(all), "tools/check_all.mjs lists check_robo_interiors");
 
@@ -216,9 +217,15 @@ if (process.argv.includes("--browser")) {
       // The real door: at the robot cell's door spot the prompt reads "go inside".
       if (tier === "high") {
         const door = await page.evaluate(() => { const T = window.__parishTest; T.begin(); const d = T.roboInteriors.doors[0]; T.teleport(d.x, d.z, 0, -0.1); return { id: d.site.id, x: d.x, z: d.z }; });
+        // The near test runs on a half-second tick and the HUD fills the prompt on its own quarter-second tick: wait for both.
         await page.waitForFunction(() => window.__parishTest.np.near?.kind === "door", null, { timeout: 60000 }).catch(() => {});
+        await page.waitForFunction(() => /go inside/.test(document.getElementById("hud-prompt")?.textContent ?? ""), null, { timeout: 20000 }).catch(() => {});
         const pr = await page.evaluate(() => ({ near: window.__parishTest.np.near?.site?.id, prompt: document.getElementById("hud-prompt")?.textContent ?? "" }));
         check(pr.near === door.id && /go inside/.test(pr.prompt), `browser: at the robot cell's door the prompt reads "${pr.prompt}"`);
+        await page.keyboard.press("KeyE");
+        await page.waitForFunction(() => window.__parishTest.camera.position.y > 3000, null, { timeout: 20000 }).catch(() => {});
+        const inn = await page.evaluate(() => { const T = window.__parishTest; return { room: T.interiors.mount.room?.id, root: T.interiors.root.visible, spots: T.interiors.mount.room?.spots?.agent?.length ?? 0 }; });
+        check(inn.room === "ixr-cell-hall" && inn.root === false && inn.spots === 2, `browser: E at the robot cell's door goes inside the ${inn.room} (world hidden, ${inn.spots} agent spots)`);
       }
       for (const st of STYLES) {
         const info = await page.evaluate((s) => window.__parishTest.ixScene(s), st);

@@ -37,6 +37,9 @@ import { tfWaterDepthAt, tfFlowAt, tfLitterAt } from "../../shared/tf-terraform.
 import { tfMountTerraform, tfMountRain } from "../../shared/tf-world.js";
 import { cwMassFilter, cwStreets, cwColliders, cwSidewalkAt, cwSiteBuilding, cwDoorOf } from "../../shared/cw-cityworks.js";
 import { ixMountInteriors, ixTycoonStyle, ixDoorSpot, ixRegisterDresser, IX_KIND_STYLE } from "../../shared/ix-interiors.js";
+// ROBO-INTERIORS: a walk-in robotics room behind a door beside each robot site's pad (docs/consoles/ROBO-INTERIORS.md).
+import { ixrRegisterDressers, ixrDoorsFor, ixrSceneSite, ixrMeasure, ixrWalkAll, IXR_ROOMS } from "../../shared/ixr-robo-interiors.js";
+import { rbSitesFor } from "../../shared/rb-world.js";
 import { cwMountStreets } from "../../shared/cw-streets-world.js";
 import { grMount } from "../../shared/npc.js";
 import { dvMountMotorPool } from "../../shared/drivables-board.js";
@@ -248,10 +251,22 @@ const ixDoors = parish.sites.map((s0, i) => {
     return { site, ...spot };
   } catch { return null; }
 }).filter(Boolean);
+// ROBO-INTERIORS (docs/consoles/ROBO-INTERIORS.md): beside each robot site's pad (off the pad, outside the warning ring, dry and
+// clear of every site building) a door spot opens that site's robotics room — a robot cell hall, a cobot lab, an AMR warehouse,
+// a port control room, a ceiling-drilling deck or a maintenance bay, generic by kind. ROBO-EXTERIORS' building door wins when
+// its module offers one (globalThis.fxRobotDoorAt, guarded). The room's board and station returns use the anchor site.
+const ixrDoors = (() => {
+  try {
+    const blds = parish.sites.map((_, i) => { try { return cwSiteBuilding(parish, i); } catch { return null; } }).filter(Boolean);
+    const blocked = (x, z) => blds.some((b) => Math.abs(x - b.cx) < b.w / 2 + 0.6 && Math.abs(z - b.cz) < b.d / 2 + 0.6) || tfWaterDepthAt(parish, x, z) > 0.02;
+    const doorAt = typeof globalThis.fxRobotDoorAt === "function" ? (id) => globalThis.fxRobotDoorAt(parish, id) : null;
+    return ixrDoorsFor(parish, { sites: rbSitesFor(parish), blocked, doorAt });
+  } catch { return []; }
+})();
 const ixWorld = ixMountInteriors({
   three: THREE, scene, hide: [root], tier: npTierName,
-  onBoard: (s) => npOpenBoard(s),
-  onLaunch: (id, s) => { location.href = npLink(id, s.id); },
+  onBoard: (s) => npOpenBoard(s.board ?? s),
+  onLaunch: (id, s) => { location.href = npLink(id, s.linkSite ?? s.id); },
   onToast: (m) => npToast(m, 5200),
 });
 // TYCOON: a rented room or shop has its own door 4 or 7 m along the same face, opening into a matching interior.
@@ -564,6 +579,7 @@ function npNearest() {
   for (const b of world.siteBoards) { const d = Math.hypot(np.x - b.x, np.z - b.z); if (d < bd) { bd = d; best = { kind: "board", site: b.site, at: [b.x, b.z] }; } }
   for (const dd of ixDoors) { const d = Math.hypot(np.x - dd.x, np.z - dd.z); if (d < Math.min(bd, 3)) { bd = d; best = { kind: "door", site: dd.site, at: [dd.x, dd.z] }; } }
   for (const dd of ixRentalDoors()) { const d = Math.hypot(np.x - dd.x, np.z - dd.z); if (d < Math.min(bd, 2.2)) { bd = d; best = { kind: "door", site: dd.site, at: [dd.x, dd.z], style: dd.style, title: dd.title }; } }
+  for (const dd of ixrDoors) { const d = Math.hypot(np.x - dd.x, np.z - dd.z); if (d < Math.min(bd, 3)) { bd = d; best = { kind: "door", site: dd.site, at: [dd.x, dd.z], style: dd.style, title: dd.title }; } } // ROBO-INTERIORS
   for (const s of world.lessonSigns) { const d = Math.hypot(np.x - s.x, np.z - s.z); if (d < Math.min(bd, 5)) { bd = d; best = { kind: "lesson", lesson: s.lesson, at: [s.x, s.z] }; } }
   for (const c of connectors) { const d = Math.hypot(np.x - c.from.position[0], np.z - c.from.position[1]); if (d < Math.min(bd, 7)) { bd = d; best = { kind: "connector", conn: c, at: c.from.position }; } }
   const mv = mvPark.near(np.x, np.z); // MOTORWORKS: a parked vehicle beside the learner (its body edge within the prompt distance)
@@ -1039,6 +1055,9 @@ var crDressed = crRegisterDressers(typeof ixRegisterDresser === "function" ? { i
 // craft hall) furnish their INTERIORS styles; each object opens a catalog station or a programme simulation through crLaunch.
 var larDressed = larRegisterDressers(typeof ixRegisterDresser === "function" ? { ixRegisterDresser } : null, { parish, launch: crLaunch });
 void larDressed;
+// ROBO-INTERIORS: the six robotics rooms' dresser (props, the canvas texture set, the agent spots where the hive's avatars stand).
+var ixrDressed = ixrRegisterDressers(typeof ixRegisterDresser === "function" ? { ixRegisterDresser } : null);
+void ixrDressed;
 var crWorld = crMountClassrooms({
   three: THREE, scene, root, parish, tier: npTierName, toast: npToast, launch: crLaunch, passive: crDressed.length > 0,
   groundAt: (x, z) => Math.max(npHeightAt(parish, x, z), 0.2),
@@ -1112,6 +1131,29 @@ var rbWorld = rbMountRobotics({
   stationHref: (id, siteId) => npLink(id, siteId),
 });
 window.__parishTest.robotics = rbWorld;
+// ROBO-INTERIORS: a camera preset per robotics room for captures (ixScene opens any of the six from any map, using this map's
+// robot site of that style when it has one), the doors, a measurement of the room in view and the walk-through (the page's own
+// NEWTON step from the door to every station pad and agent spot).
+window.__parishTest.ixScene = (styleId) => {
+  const site = ixrSceneSite(styleId, parish, rbSitesFor(parish));
+  if (!site) return null;
+  if (ixWorld.inside()) { const p = ixWorld.exit(); np.x = p.x; np.z = p.z; np.yaw = p.yaw; np.pitch = p.pitch; }
+  npKeys.clear();
+  const room = ixWorld.enter(site, { x: np.x, z: np.z, yaw: np.yaw, pitch: np.pitch }, { style: styleId });
+  if (!room) return null;
+  const c = IXR_ROOMS[styleId].camera;
+  ixWorld.pose.x = c.x; ixWorld.pose.z = c.z; np.yaw = c.yaw; np.pitch = c.pitch; np.near = null;
+  return { style: styleId, site: site.id, here: !!site.here, meshes: room.meshes(), spots: room.spots?.agent?.length ?? 0, camera: { ...c } };
+};
+window.__parishTest.roboInteriors = {
+  doors: ixrDoors, styles: Object.keys(IXR_ROOMS),
+  measure() {
+    const r = ixWorld.room; if (!r) return { inside: false };
+    const m = ixrMeasure(r), info = npRenderer?.info?.render ?? {};
+    return { inside: true, style: r.id, meshes: m.meshes, trianglesBuilt: m.triangles, triangles: info.triangles ?? null, calls: info.calls ?? null, textureBytes: m.textureBytes, textures: m.textures, spots: r.spots?.agent ?? [] };
+  },
+  walkAll() { const r = ixWorld.room; if (!r) return { reached: 0, total: 0 }; const w = ixrWalkAll(r); return { reached: w.reached, total: w.total, misses: w.results.filter((x) => !x.ok) }; },
+};
 // COLEARN (docs/consoles/COLEARN.md): watch the robot's cloned policy do the cell entry, then try it with the bandit tutor;
 // a finished try becomes a consented episode only through DATAWORKS' capture (inert unless opted in).
 window.__parishTest.colearn = colMountCoLearn($("menu-drills"), { reducedMotion: npReduced, capture: (steps, meta) => dxCaptureRollout(steps, meta) });

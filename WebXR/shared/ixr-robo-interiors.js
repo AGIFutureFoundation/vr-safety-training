@@ -80,7 +80,7 @@ export const IXR_ROOMS = {
       ["box", 0, 0, 14, 12, 0.08, IXR_B], ["line", 0, 5.5, 0, 1.2, 0.08, IXR_W]],
   },
   "ixr-amr-warehouse": {
-    what: "an AMR warehouse: racking aisles, travel lanes, a marked pedestrian walkway crossing, chargers and the mobile robots",
+    what: "an AMR warehouse: four racking rows, travel lanes, a marked pedestrian walkway crossing, chargers and the mobile robots",
     stations: ["ad-amr-fleet-traffic-and-estop-drill", "vb-supervising-agent-dispatched-robots", "rp-robot-policy-evaluation-review", "forklift-dock"],
     props: ["racking frames", "racking beams", "racked loads", "AMR", "docked AMR", "chargers", "charger lights", "walkway bollards", "e-stop posts", "walkway crossing", "travel lanes"],
     spots: { agent: [
@@ -362,7 +362,8 @@ function ixrPartsFor(styleId) {
         p("racked loads", "c", depth * 0.8, 0.9, 2.2, x, 2.25, zc, 0xc49a63, true); p("racked loads", "c", depth * 0.8, 0.9, 2.2, x, 4.05, zc, 0xa77f52, true);
       }
     };
-    row(-11.4, 1.0, -9.6, 3); row(11.4, 1.0, -9.6, 3); row(-7.0, 2.0, -9.6, 3); row(7.0, 2.0, -9.6, 3); row(0, 2.0, -9.6, 2);
+    // Four rows, the centre aisle left open so the back-wall honesty sign reads from the door.
+    row(-11.4, 1.0, -9.6, 3); row(11.4, 1.0, -9.6, 3); row(-7.0, 2.0, -9.6, 3); row(7.0, 2.0, -9.6, 3);
     p("AMR", "c", 0.8, 0.45, 1.2, -3.5, 0.3, -3.0, 0xf2a33a); p("AMR", "r", 0.28, 0.12, 0.28, -3.5, 0.59, -3.42, K); p("AMR", "c", 0.6, 0.06, 0.9, -3.5, 0.56, -2.9, BL);
     p("docked AMR", "c", 1.2, 0.45, 0.8, -10.9, 0.3, 3.5, 0xf2a33a); p("docked AMR", "c", 0.9, 0.06, 0.6, -10.9, 0.56, 3.5, BL, true);
     for (const z of [3.5, 5.5]) { p("chargers", "c", 0.35, 0.8, 0.7, -11.8, 0.4, z, K); p("charger lights", "e", 0.03, 0.15, 0.3, -11.61, 0.6, z, 0x4cd964); }
@@ -437,7 +438,8 @@ export function ixrDress({ three: THREE, group, room, site = null, tier = "high"
   const m4 = new THREE.Matrix4(), q0 = new THREE.Quaternion(), col = new THREE.Color();
   const mats = {
     c: () => new THREE.MeshStandardMaterial({ roughness: 0.7, metalness: 0.1 }),
-    m: () => new THREE.MeshStandardMaterial({ roughness: 0.45, metalness: 0.55, map: ixrSetTexture(THREE, "metal", res, [1, 1]) }),
+    // Brushed metal: the grain is in the texture; a low metalness keeps the tint readable with no environment map in the room.
+    m: () => new THREE.MeshStandardMaterial({ roughness: 0.5, metalness: 0.15, map: ixrSetTexture(THREE, "metal", res, [1, 1]) }),
     g: () => new THREE.MeshStandardMaterial({ roughness: 0.6, metalness: 0.3, map: ixrSetTexture(THREE, "mesh", res, [4, 4.4]), transparent: true, alphaTest: 0.05, depthWrite: false, side: THREE.DoubleSide }),
     r: () => new THREE.MeshStandardMaterial({ roughness: 0.6, metalness: 0.15 }),
     e: () => new THREE.MeshBasicMaterial({ color: 0xffffff }), // lit strips, screens and lamps: unlit, coloured per instance
