@@ -104,6 +104,29 @@ await check("2 the contract with AGENT-AVATARS: API, event types, agents and sit
   return `${ev.length} events, types seen: ${types.join(", ")}`;
 });
 
+// 2b — against a fixture of AGENT-AVATARS' side (aaMountAgentAvatars reads only on(type, fn) and the events)
+await check("2b against an avatar-side fixture: figures follow move events, every job starts where its agent stands, one talk span per line", () => {
+  // The fixture: one figure per agent at its home site; move -> walks to `to`; speak -> the talk indicator for that line only.
+  const aaFixture = ({ agents, source }) => {
+    const fig = new Map(agents.map((a) => [a.id, { site: a.homeSite, talking: false, talks: 0, moves: 0 }]));
+    const bad = [];
+    for (const ty of ["speak", "move", "dispatch", "refused", "complete", "approval-request", "award", "bid"]) source.on(ty, (e) => {
+      const f = fig.get(e.agent); if (!f) { bad.push(`unknown agent ${e.agent}`); return; }
+      if (ty === "move") { if (!e.to) bad.push("move without to"); if (e.to === f.site) bad.push(`move to where ${e.agent} already stands`); f.site = e.to; f.moves += 1; }
+      if (ty === "speak") { if (f.talking) bad.push("talk overlap"); f.talking = true; f.talks += 1; if (!e.text) bad.push("speak without text"); f.talking = false; }
+      if (ty === "dispatch" && e.to !== f.site) bad.push(`${e.agent} starts ${e.jobId} at ${e.to} while standing at ${f.site}`);
+    });
+    return { fig, bad };
+  };
+  const hive = H.ohHive({ seed: 7, decide: standIn });
+  const fx = aaFixture({ agents: D.OH_AGENTS, source: hive });
+  hive.run(480);
+  ok(!fx.bad.length, `${fx.bad.length} problems: ${fx.bad.slice(0, 3).join(" | ")}`);
+  const moves = [...fx.fig.values()].reduce((a, f) => a + f.moves, 0), talks = [...fx.fig.values()].reduce((a, f) => a + f.talks, 0);
+  const dispatches = hive.events().filter((e) => e.type === "dispatch").length;
+  return `${moves} moves followed, ${dispatches}/${dispatches} jobs started where their agent stands, ${talks} speak events with one talk span each`;
+});
+
 // 3 — determinism
 await check("3 deterministic by seed", () => {
   const a = JSON.stringify(H.ohHiveDay(7, { decide: standIn, nJobs: 60, ticksPerDay: 160 }).events);

@@ -244,6 +244,10 @@ export function ohHive({ seed = 1, governor = null, audit = null, agents = OH_AG
       return;
     }
     if (j.siteWait) m.siteConflictsResolved += 1;
+    // An agent holding two jobs may have walked to its other job's site meanwhile: it walks back before this one starts,
+    // so a job always starts where the agent's figure stands (AGENT-AVATARS reads the move events).
+    const ws = state.get(w.id);
+    if (ws.site !== siteId) { const hops = ohSiteHops(ws.site, siteId, sites); ws.site = siteId; emit({ type: "move", agent: w.id, ...factsOf(j, { hops }) }); speak(w, "move", factsOf(j)); }
     // The robot lock: count what is already running at this site before this job starts (it must be zero).
     m.maxPerSite = Math.max(m.maxPerSite, 1 + stream.filter((x) => x !== j && x.status === "running" && x.spec.request.siteId === siteId).length);
     siteBusy.set(siteId, j);
