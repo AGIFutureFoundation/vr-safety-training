@@ -36,7 +36,7 @@ import { tfWind, tfReducedMotion } from "../../shared/tf-water.js";
 import { tfWaterDepthAt, tfFlowAt, tfLitterAt } from "../../shared/tf-terraform.js";
 import { tfMountTerraform, tfMountRain } from "../../shared/tf-world.js";
 import { cwMassFilter, cwStreets, cwColliders, cwSidewalkAt, cwSiteBuilding, cwDoorOf } from "../../shared/cw-cityworks.js";
-import { ixMountInteriors, ixTycoonStyle, ixDoorSpot, ixRegisterDresser, IX_KIND_STYLE, IX_STYLES, ixStyleFor } from "../../shared/ix-interiors.js";
+import { ixMountInteriors, ixTycoonStyle, ixDoorSpot, ixRegisterDresser, IX_KIND_STYLE, IX_STYLES, IX_SITE_STYLE, ixStyleFor } from "../../shared/ix-interiors.js";
 // ROBO-INTERIORS: a walk-in robotics room behind a door beside each robot site's pad (docs/consoles/ROBO-INTERIORS.md).
 import { ixrRegisterDressers, ixrDoorsFor, ixrSceneSite, ixrMeasure, ixrWalkAll, IXR_ROOMS } from "../../shared/ixr-robo-interiors.js";
 import { hd2RegisterSkins, HD2_SKIN_STYLES } from "../../shared/hd2-room-skins.js";
@@ -125,7 +125,8 @@ import { usSims } from "../../shared/us-unionsims.js";
 // when its map is in this tree and the site is on it (docs/consoles/LA-PROGRAMME.md).
 import { lpRegisterSims } from "../../shared/lp-programme.js";
 lpRegisterSims({ psRegisterSims, lookup: npParish });
-import { crMountClassrooms, crRegisterDressers } from "../../shared/cr-classrooms.js";
+import { crMountClassrooms, crRegisterDressers, crRoomsFor } from "../../shared/cr-classrooms.js";
+import { accEntrances, accBuild, accRegisterSiteStyles, accStreetAt, accWireXR, ACC_INPUTS } from "../../shared/acc-access.js";
 import { larRegisterDressers } from "../../shared/lar-rooms.js";
 import { hvMount } from "../../shared/hv-harvest.js";
 import { smilesMount } from "../../shared/sm-smiles.js";
@@ -288,6 +289,10 @@ const ixDoors = parish.sites.map((s0, i) => {
     return { site, ...spot };
   } catch { return null; }
 }).filter(Boolean);
+// ACCESS (docs/consoles/ACCESS.md): the sites of the four cued kinds (fire station, hospital, school, park) open the ACCESS rooms
+// (apparatus bay, drop-off lobby, classroom wing, pavilion) through INTERIORS' IX_SITE_STYLE; a site CLASSROOMS furnishes keeps its room.
+var accStyled = 0;
+try { accStyled = accRegisterSiteStyles({ IX_SITE_STYLE }, parish, { skip: new Set(crRoomsFor(parish).map((r) => r.site)) }); } catch (e) { console.warn("acc styles:", e); }
 // ROBO-INTERIORS (docs/consoles/ROBO-INTERIORS.md): beside each robot site's pad (off the pad, outside the warning ring, dry and
 // clear of every site building) a door spot opens that site's robotics room — a robot cell hall, a cobot lab, an AMR warehouse,
 // a port control room, a ceiling-drilling deck or a maintenance bay, generic by kind. ROBO-EXTERIORS' building door wins when
@@ -764,7 +769,7 @@ function npHud() {
   // HIVE-IN-WORLD: inside a room the location chip names the room, generic by kind (its style's label), not the street outside;
   // the outdoor names come back on exit, since they are recomputed here every time.
   const ixIn = ixWorld.inside() ? ixWorld.room : null;
-  $("hud-zone").textContent = ixIn ? ixIn.style?.label ?? "Inside" : w ? w.name ?? w.kind : hill ? `${hill.name} · ${d?.name ?? parish.name}` : d?.name ?? parish.name;
+  $("hud-zone").textContent = ixIn ? ixIn.style?.label ?? "Inside" : w ? w.name ?? w.kind : hill ? `${hill.name} · ${d?.name ?? parish.name}` : `${accStreetAt(parish, np.x, np.z)} · ${d?.name ?? parish.name}`; // ACCESS: the street outside
   $("hud-near").textContent = ixIn ? `generic room · ${ixIn.site?.name ?? parish.name}` : `${near.name} · ${Math.round(nd)} m`;
   $("hud-alt").textContent = `${h.toFixed(1)} m`;
   $("hud-lessons").textContent = `${(parish.fieldLessons ?? []).filter((l) => np.state.lessons.includes(l.id)).length}/${(parish.fieldLessons ?? []).length}`;
@@ -921,6 +926,7 @@ async function npXRBegin(session) {
   try { npRenderer.xr.enabled = true; await npRenderer.xr.setSession(session); } catch (_) { try { npRenderer.xr.enabled = false; } catch (_) { /* fine */ } } // a stub or an unsupported renderer path: the controller feed and the world frame still run
   if (npXR.session !== session) return false;
   session.requestAnimationFrame(npXRFrame);
+  npXR.unwire = accWireXR(session, () => npUse()); // ACCESS: the headset's select is the same Use as E, the touch button and the pad's A
   return true;
 }
 var npXRTest = { begin: npXRBegin, end: () => { const s = npXR.session; if (s?.end) { try { s.end(); } catch (_) { /* stub */ } } npXREnd(); }, state: () => ({ active: !!npXR.session, frames: npXR.frames, fed: npXR.fed, ended: npXR.ended, refSpace: !!npXR.refSpace }) }; // exposed as window.__parishTest.xr beside the teleop mount
@@ -1259,6 +1265,11 @@ try {
   if (hd4Ultra.on) { hd6Ultra = hd6UltraShells({ THREE, parish }); if (hd6Ultra) { hd6Ultra.updateMatrix(); root.add(hd6Ultra); } }
 } catch (e) { console.warn("hd6-kinds:", e); }
 window.__parishTest.hd6 = () => ({ cues: hd6Cues?.userData.hd6 ?? null, ultra: hd6Ultra?.userData.hd6 ?? null });
+// ACCESS: every enterable site building's marked, lit entrance, its ramp where the sill is raised, and a pictogram sign (desktop
+// high and balanced; the phone tier and a headset browser build nothing).
+var accMesh = null;
+try { accMesh = accBuild({ THREE, parish, tier: npTierName }); if (accMesh) root.add(accMesh.group); } catch (e) { console.warn("acc-access:", e); }
+window.__parishTest.access = { entrances: () => accEntrances(parish), mesh: () => (accMesh ? { meshes: accMesh.meshes, triangles: accMesh.triangles, entrances: accMesh.entrances } : null), styled: accStyled, inputs: ACC_INPUTS, use: () => npUse(), xrBegin: (s) => npXRBegin(s), xrEnd: () => npXRTest.end() };
 /** ENV-HD-4: one of the six looks (HD4_LOOKS: dawn, day, dusk, night, fog at dawn, rain at dusk) through the page's own clock
  *  and weather; returns what it set: the fog's distances and density (ATMOS's atFog), wetness and the site light level. */
 function hd4ApplyLook(look) {
