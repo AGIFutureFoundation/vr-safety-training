@@ -245,6 +245,14 @@ export function aaMountAgentAvatars({ three = null, parent = null, agents = [], 
     return { x, y, z, cx: c.x, cz: c.z, yaw: Math.atan2(c.x - x, c.z - z) };
   }
 
+  function ensureFig(f) {
+    if (!build || f.fig) return;
+    f.fig = aaBuildFigure(T, f.agent, f.look);
+    f.fig.group.position.set(f.x, f.y, f.z); f.fig.group.rotation.y = f.yaw; f.fig.group.visible = f.visible;
+    root.add(f.fig.group);
+    if (f.fig.labelCv) textureBytes += AA_LABEL_PX[0] * AA_LABEL_PX[1] * 4;
+  }
+
   function addAgents(list) {
     for (const a of list ?? []) {
       if (!a?.id || figures.has(a.id)) continue;
@@ -255,12 +263,7 @@ export function aaMountAgentAvatars({ three = null, parent = null, agents = [], 
       const spot = site ? spotAt(site, slot) : null;
       const f = { agent: a, look, idx, site, slot, x: spot?.x ?? 0, y: spot?.y ?? 0, z: spot?.z ?? 0, yaw: spot?.yaw ?? 0, offMap: !spot,
         walk: null, queue: [], talk: null, caption: null, gesture: null, visible: !!spot, fig: null };
-      if (build) {
-        f.fig = aaBuildFigure(T, a, look);
-        f.fig.group.position.set(f.x, f.y, f.z); f.fig.group.rotation.y = f.yaw; f.fig.group.visible = f.visible;
-        root.add(f.fig.group);
-        if (f.fig.labelCv) textureBytes += AA_LABEL_PX[0] * AA_LABEL_PX[1] * 4;
-      }
+      if (spot) ensureFig(f); // an agent whose site is on another map gets its figure when it first arrives here
       figures.set(a.id, f);
     }
     return figures.size;
@@ -341,6 +344,7 @@ export function aaMountAgentAvatars({ three = null, parent = null, agents = [], 
     }
     if (reducedMotion || f.offMap || dist < 0.05) {
       f.offMap = false; f.walk = null; f.x = spot.x; f.y = spot.y; f.z = spot.z; f.yaw = spot.yaw; f.visible = true;
+      ensureFig(f);
       if (f.fig) { f.fig.group.position.set(f.x, f.y, f.z); f.fig.group.rotation.y = f.yaw; f.fig.group.visible = true; }
       return;
     }
@@ -404,7 +408,7 @@ export function aaMountAgentAvatars({ three = null, parent = null, agents = [], 
       if (!f.fig) continue;
       const c = aaCountObject(f.fig.group); worst = Math.max(worst, c.meshes + c.sprites); meshes += c.meshes; sprites += c.sprites; triangles += c.triangles;
     }
-    return { figures: build ? figures.size : 0, agents: figures.size, meshes, sprites, triangles, worstPerFigure: worst, budget: AA_AGENT_BUDGET, textureBytes, tier, built: build };
+    return { figures: [...figures.values()].filter((f) => f.fig).length, agents: figures.size, meshes, sprites, triangles, worstPerFigure: worst, budget: AA_AGENT_BUDGET, textureBytes, tier, built: build };
   }
   const stateOf = (f) => ({ id: f.agent.id, name: f.agent.name ?? f.agent.id, label: f.fig?.roleText ?? `software agent · ${aaRoleLabel(f.agent)}`, site: f.site, slot: f.slot, x: f.x, y: f.y, z: f.z, offMap: f.offMap, visible: f.visible, walking: !!f.walk,
     speaking: !!(f.talk && clock >= f.talk.start && (f.talk.voiced || clock < f.talk.end)), line: f.talk?.text ?? null, caption: f.caption?.text ?? null, gesture: f.gesture?.kind ?? null, queued: f.queue.length,

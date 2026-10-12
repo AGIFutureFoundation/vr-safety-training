@@ -1150,7 +1150,7 @@ window.__parishTest.vbColearn = vbProvider;
 // line shows as a caption, nothing listens, and the phone tier builds no figures.
 var aaSiteAt = (id) => { const s = rbWorld?.sites?.find((x) => x.id === id); return s ? { x: s.position[0], y: s.y, z: s.position[1] } : null; };
 var aaVbSource = (() => { try { return window.__parishTest.vbridge ? aaVbridgeSource(window.__parishTest.vbridge) : null; } catch (_) { return null; } })();
-var aaWorld = (() => {
+var aaWorld = !rbWorld?.sites?.length ? null : (() => { // a map with no robot site has nowhere for an agent to stand
   try {
     const hive = window.__parishTest.hive ?? null;
     const hiveAgents = hive ? (typeof hive.agents === "function" ? hive.agents() : hive.agents) ?? [] : [];

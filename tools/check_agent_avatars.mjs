@@ -209,6 +209,11 @@ const world = AA.aaMountAgentAvatars({ three: THREE, parent, agents: FIX, source
   // off-map: a site this map does not hold hides the figure; coming back shows it
   src.emit({ type: "move", agent: "fx-logistics", to: "rb-site-nowhere" }); t += 0.1; w2.animate(t, 0.1, null);
   ok(!g.visible && w2.state("fx-logistics").offMap, "a site not on this map hides the figure");
+  const p6 = new THREE.Group(), s6 = AA.aaEmitter();
+  const w6 = AA.aaMountAgentAvatars({ three: THREE, parent: p6, agents: [{ ...FIX[0], homeSite: "rb-site-elsewhere" }], source: s6, siteAt });
+  const lazy0 = w6.counts().figures === 0 && w6.counts().agents === 1 && w6.counts().meshes === 0 && w6.counts().textureBytes === 0;
+  s6.emit({ type: "move", agent: "fx-dispatcher", to: "rb-site-orleans-warehouse" }); w6.animate(0.1, 0.1, null);
+  ok(lazy0 && w6.counts().meshes > 0 && w6.figure("fx-dispatcher")?.visible, "an agent homed on another map costs nothing here until it arrives, then its figure is built and shown");
   src.emit({ type: "move", agent: "fx-logistics", to: "rb-site-orleans-warehouse" }); t += 0.1; w2.animate(t, 0.1, null);
   ok(g.visible && !w2.state("fx-logistics").walking, "a move back onto this map shows it at once");
   // reduced motion
