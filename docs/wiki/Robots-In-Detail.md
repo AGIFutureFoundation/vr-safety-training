@@ -69,7 +69,37 @@ Left: while a run plays, the light follows the panel’s preview frames, and a c
 
 **Round seven ** of this loop is merged; its figures were read from the console branches with a read-only git show: `ROBOTS-HD-2` (branch head `1dda261d`, 4 commits of its own; its console note is committed; merged). Each figure is checked against a committed file or a commit message, and a rebuild re-reads the final state.
 
+### Round 8: `ROBOTS-HD-3`, the preview and the real run agree, the port room’s robot
+
+Round 8: `ROBOTS-HD-3`, tip 4783b63a (read at the merged head 112a4d68), 6 commits of its own since a10f1ff8, merged into the head of round 8, 112a4d68; its console note is committed, and the table below is that note’s own. Each figure is a token of the commit message or note row it is quoted from, checked when this page is built.
+
+- check that the agent-jobs panel's preview frames and its real governor run agree step for step ()
+
+- robot rooms leave room for three agent figures (the cap rule agreed with AVATARS-HD-5) ()
+
+- the port control room's robot, a straddle carrier seen in the window, inside a stated budget ()
+
+- the port carrier in the clear pane; drive legs for the port room and the rooms with three figures ()
+
+- drive stills wait longer and never end the drive ()
+
+- console note, memory and next brief ()
+
+| eval | before | after | source |
+|---|---|---|---|
+| preview and real run agree, step for step before the stop | not checked | 619 of 619 steps; 5 jobs the governor lets through (the other 5 of 10 are refused before any run), 69 runs; the real run stops at the E-stop step with estop 64 of 64; clean runs as long as their preview 5 of 5 | check_robots_hd §3c |
+| robot-room hidden meshes, can show / hidden for good | untagged | 12 / 0 | check_robots_hd §5 |
+| three crowd-budget figures fit beside the HD robots under the cap (headless) | 5 of 6 (warehouse 4,940 + 1,620 > 6,000) | 6 of 6 (warehouse 3,916 + 1,620 = 5,536) | check_robots_hd §5 |
+| AMR in rooms, triangles / calls | 996 / 3 | 484 / 3 (≤ 600 / 3) | check_robots_hd §5 |
+| robot rooms in the built page, inside IX_BUDGET with 3 figures and 0 held (AVATARS-HD-4's figures merged at a10f1ff8) | 6 of 6 with 1 held (AVATARS-HD-4 drive B, round 7) | 6 of 6, 0 held: cell hall 41 meshes / 5,966 built / 5,866 drawn (room ×3); cobot lab 48 / 5,754 / 5,408 (room 1, crowd 2); AMR warehouse 42 / 5,842 / 4,988 (room 1, crowd 2); port control 35 / 4,854 / 4,748 (room ×3); drilling deck 37 / 5,644 / 5,450 (crowd ×3); maint bay 40 / 5,824 / 5,250 (room 2, crowd 1) | RHD_ONLY=rooms … 9165 → $SP/loop10/rhd3/rooms2.txt 9 ok / 0 |
+| port room robot | 0 | 1 (straddle carrier, 696 tris / 2 calls ≤ 900 / 3); headless room 24 / 1,360 → 26 / 2,056; in the page on its own map 26 meshes, 26 calls, 2,016 drawn (2,056 built); beacons = the site's state (running), e-stop → red | check_robots_hd §5; RHD_ONLY=port → port5.txt 4 ok / 0 |
+| headless rooms with HD robots (high): warehouse / maint bay / port | 4,940 / 3,992 / 1,360 | 3,916 / 3,480 / 2,056 (all ≤ 6,000); Ultra worst 5,860 ≤ 8,500 | check_robots_hd §5 |
+| balanced / phone / headset | today's rigs and rooms | unchanged (rooms identical 18 of 18, mounts 15 of 15) | check_robots_hd §2, §5 |
+| page errors / off-host requests | 0 / 0 | 0 / 0 in every drive | port1–5, rooms2 |
+
+Source: `docs/consoles/ROBOTS-HD-3.md` at the merged head 112a4d68, the evaluation table as the console wrote it (before → after, with its sources).
+
 
 ---
 
-_Every figure on this page was checked against the repository file named beside it when the page was built (head `b111d4d3`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._
+_Every figure on this page was checked against the repository file named beside it when the page was built (head `709cd68e`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._

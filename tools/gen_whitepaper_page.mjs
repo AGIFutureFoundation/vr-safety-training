@@ -33,6 +33,8 @@ const SWP_GEN_ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 export const SWP_GEN_OUT = "WebXR/whitepaper.html";
 const SWP_GEN_BLOB = "https://github.com/AGIFutureFoundation/vr-safety-training/blob/main/";
 const SWP_ROUNDS = ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"];
+// The round-11 whitepaper fragments number the rounds ("round 8"); earlier ones spelled them ("round seven").
+const SWP_ROUND_WORD = (r) => (/^\d+$/.test(r) ? SWP_ROUNDS[Number(r) - 1] ?? r : r);
 
 const swpEsc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 /** Inline Markdown to HTML: links keep their text, `code` and **bold** keep their markup; licence identifiers are names (code). */
@@ -105,7 +107,7 @@ function swpLoopTen() {
     const head = l.match(/^\| \*\*(.+?)\*\* \|/);
     if (head) {
       const m = head[1].match(/^Loop 10(?:, round (\w+))?: `([^`]+)`, (.+)$/);
-      cur = m ? { round: m[1] ?? "one", name: m[2], title: m[3].replace(/\s*\([^()]*\)$/, ""), rows: [], paths: [] } : null;
+      cur = m ? { round: SWP_ROUND_WORD(m[1] ?? "one"), name: m[2], title: m[3].replace(/\s*\([^()]*\)$/, ""), rows: [], paths: [] } : null;
       if (cur) groups.push(cur);
       continue;
     }

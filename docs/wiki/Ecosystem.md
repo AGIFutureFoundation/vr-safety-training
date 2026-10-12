@@ -60,7 +60,33 @@ Source: `docs/ecosystem/blocks-match.json` (its counts and provenance) and the c
 
 Sources: `docs/ecosystem.md`, `docs/ecosystem/blocks-match.json` and the console’s commit messages, read from its branch with git show.
 
+### Round 8: `ECOSYSTEM-2`, the ecosystem behind consent
+
+Round 8: `ECOSYSTEM-2`, tip 5641ee4d (read at the merged head 112a4d68), 4 commits of its own since a10f1ff8, merged into the head of round 8, 112a4d68; its console note is committed, and the table below is that note’s own. Each figure is a token of the commit message or note row it is quoted from, checked when this page is built.
+
+- the Ecosystem tab's built-page drive is check_eco leg 7 ()
+
+- 13 declared adult-band rules, stations mapped 214 → 285 of 670 ()
+
+- station events into the in-memory eco-bus adapter, only under DATAWORKS consent ()
+
+- console note, memory and the next brief ()
+
+| Eval | Before | After | Source |
+|---|---|---|---|
+| Tab drive in the built page | measured once by hand | a checker leg: 309 options (238 before the new rules), electrical blocks as the extract, 0 page errors, 0 requests and 0 storage writes after the click | check_eco 7 |
+| Stations mapped | 214 of 670 | 285 of 670 (385 unmatched, listed with the reason); round-7 rows unchanged (214 of 214) | check_eco 1, 2, 2b; docs/ecosystem/blocks-match.json |
+| Extract | 91 blocks, 73.0 KB | 157 blocks, 114.8 KB (limit 200 KB), all in an adult band | check_eco 1, 3 |
+| eco-bus events from a real opted-in session | 0 (no page loaded the adapter) | headless real Session: 5 of 5 valid, also accepted by SmartCiti.X's real Bus; built page: 2 of 2 valid | check_eco 8, 9 |
+| Events held for K-12, demo and signed-out (and not opted in) | n/a | 0, 0, 0 (and 0), headless and in the built page | check_eco 8, 9 |
+| Held after revoke | n/a | 0 (6 → 0 headless, including a run in progress; 2 → 0 in the page once consent is removed) | check_eco 8, 9 |
+| Network calls | 0 | 0 | check_eco 5, 8 |
+| Fixture lines valid | none | not done (left) | |
+| check_eco with and without the clones | 7 of 7 (round 7) | 10 of 10 passed with the clones; 9 passed and 1 skipped (2b) with ECO_SIBLINGS=/nonexistent | node tools/check_eco.mjs; ECO_SIBLINGS=/nonexistent node tools/check_eco.mjs |
+
+Source: `docs/consoles/ECOSYSTEM-2.md` at the merged head 112a4d68, the evaluation table as the console wrote it (before → after, with its sources).
+
 
 ---
 
-_Every figure on this page was checked against the repository file named beside it when the page was built (head `b111d4d3`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._
+_Every figure on this page was checked against the repository file named beside it when the page was built (head `709cd68e`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._

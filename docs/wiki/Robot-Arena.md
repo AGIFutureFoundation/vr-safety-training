@@ -108,7 +108,54 @@ As measured: the hidden layer made the small model better than it was, by 0.133 
 
 **Round seven ** of this loop is merged; its figures were read from the console branches with a read-only git show: `ARENA-2` (branch head `ee17455a`, 6 commits of its own; its console note is committed; merged). Each figure is checked against a committed file or a commit message, and a rebuild re-reads the final state.
 
+### Protocol 3: declared first, run once on fresh held-out seeds
+
+`ROBOLEARN-9` committed the protocol before any run, then ran it once on seeds 7241–7300: 36 declared comparisons, 5,220 episodes, 184,742 of 184,742 steps checked by the governor and 0 physical dispatches. There were 2 promotions, both of them the reactive rule policy. That policy is hand-written, not trained: the result says a simple rule beats the clone on those hard variants, not that a learned model improved. The clone stays the incumbent on 7 of 9 scenarios.
+
+- the port gantry, hard variant: the reactive rule policy’s interval 0.94–1 lies above the clone’s 0.72–0.907, with no rule broken.
+- AMR fleet routing, hard variant: the reactive rule policy’s interval 0.911–0.997 lies above the clone’s 0.009–0.114, with no rule broken.
+
+The declared change for the AMR base gap, a small model with a wider hidden layer, did not close it: 32/60 against the clone’s 36/60 successes, a difference of −0.067 (interval −0.235 to 0.108), so no claim is made.
+
+Sources: `docs/evals/claw3.json` (counts, promotions, promoted) and `docs/evals/arena.json` (retest8), at the merged head 112a4d68.
+
+### Round 8: `ROBOLEARN-9`, protocol 3 on fresh held-out seeds, the arena and the claw together
+
+Round 8: `ROBOLEARN-9`, tip 0466f56a (read at the merged head 112a4d68), 6 commits of its own since a10f1ff8, merged into the head of round 8, 112a4d68; its console note is committed, and the table below is that note’s own. Each figure is a token of the commit message or note row it is quoted from, checked when this page is built.
+
+- declare protocol 3 on held-out seeds 7241-7300 before any run ()
+
+- OC_PROTOCOL_3, ra-lm-h48 and claw_eval --protocol 3 (amendment 1), before the held-out run ()
+
+- protocol 3 measured once on 7241-7300 (claw3.json, arena.json retest8) ()
+
+- the claw's model per scenario and the retest7 / protocol-3 cards on the arena panel ()
+
+- the claw's people blocks re-mount on opt-in and revoke without a reload ()
+
+- console note, memory and next brief ()
+
+| What | Before | After | Source |
+|---|---|---|---|
+| Declared comparisons, each run once | 90 | 126 (protocol 3: 36/36, 5,220 episodes) | claw3.json; check_claw 12 |
+| Promotions only with a clear interval | 0 of 0 | 2 of 2, both the reactive rule policy: AMR hard 59/60 [0.911, 0.997 ] vs bc 2/60 [0.009, 0.114 ]; port gantry hard 60/60 [0.94, 1 ] vs 50/60 [0.72, 0.907 ]; 0 rule breaks | claw3.json promotions |
+| AMR change: ra-lm-h48 − bc, AMR base | ra-lm-h − bc −0.100 [−0.247, 0.052 ] (7181–7240) | −0.067 [−0.235, 0.108 ], 32/60 vs 36/60. The interval spans 0, so no claim. | arena.json retest8.comparisons.amrHeadline |
+| The change's effect, ra-lm-h48 − ra-lm-h, AMR | — | 0 [−0.173, 0.173 ] (32/60 each) | retest8.comparisons.changeOnAmr |
+| ra-lm-h − bc, port base | −0.033 [−0.114, 0.031 ] (7181–7240) | −0.117 [−0.222, −0.033 ], 53/60 with 7 rule breaks: ra-lm-h falls short here | retest8.comparisons.lmHPort |
+| Reactive − bc, hard variants pooled | not declared | +0.372 [0.300, 0.445 ] (179/180 vs 112/180) | retest8.comparisons.reactiveHardPooled |
+| ra-lm-h / ra-lm-h48 verdicts | not run by the claw | not-better on 4 scenarios each; rule-broken on 5 each (teleop, AMR, port, port hard, AMR hard) | claw3.json challengerRows |
+| Refusals exercised | 3 of 3 + not-held-out | 3 of 3 + not-held-out again; the probes ran nothing | check_claw 12 |
+| Governor / physical | — | 184,742 of 184,742 steps, physical 0; chain intact (273 lines); world 960 minutes, 0 physical dispatches | check_claw 12 |
+| Panel: the claw's model per scenario | 0 | 9 of 9 gym scenario cards, read from claw3.json (7 kept bc, 2 promoted reactive). The 3 station cards say they are not under the claw. | check_arena 8 |
+| retest7 and protocol-3 cards | none | both, static HTML, figures compared with arena.json | check_arena 8; WebXR/robotics/programme.html |
+| arena.json retest8 | — | 36 rows copied from claw3.json (not a second run), plus a live bc row that reproduces the file | check_arena 11 |
+| People blocks on opt-in, no reload | needed a reload | none → local on opt-in; local → none on revoke; 0 navigations, 0 page errors | $SP/loop10/rl9/drive_rl9.mjs → drive-out.txt |
+| A real station pass, headless | fixture | not done (see Left) | — |
+| Page module oc-claw-record.js | 101,403 B (2 records) | 160,167 B (3 records, chains trimmed) | check_claw 10 |
+
+Source: `docs/consoles/ROBOLEARN-9.md` at the merged head 112a4d68, the evaluation table as the console wrote it (before → after, with its sources).
+
 
 ---
 
-_Every figure on this page was checked against the repository file named beside it when the page was built (head `b111d4d3`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._
+_Every figure on this page was checked against the repository file named beside it when the page was built (head `709cd68e`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._

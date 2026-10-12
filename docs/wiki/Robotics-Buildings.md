@@ -290,9 +290,9 @@ Source: `docs/consoles/ENV-HD-6.md`. Every cue is procedural and generic by kind
 
 - *Planned* Only the busiest site of each kind carries a cue; every other park, fire station, hospital and school keeps the plain box. The school reads from its wide shot but not from its street shot, where yard props stand in front of the entrance canopy; the H sign reads at night only by the street lamps; and the park’s gable ends are stepped boxes, visible as steps up close.
 
-**Round two of this loop** is merged into the integration head (`a8379051`): `HIVE-IN-WORLD` (note last committed in `0c834a8a`); `ENV-HD-2` (note last committed in `a0d21aea`). Each figure from it is checked by phrase against that console’s committed note, not re-run from a branch; a note that is edited later stops the build.
+**Round two of this loop** is merged into the integration head (`a10f1ff8`): `HIVE-IN-WORLD` (note last committed in `0c834a8a`); `ENV-HD-2` (note last committed in `a0d21aea`). Each figure from it is checked by phrase against that console’s committed note, not re-run from a branch; a note that is edited later stops the build.
 
-**Round three of this loop** is merged into the integration head (`a8379051`), and each figure from it is checked by phrase against that console’s committed note, a committed data file or a commit message, not re-run from a branch: `ENV-HD-3` (its last commit `f3589590`, 7 commits since the head that round started from; its console note is committed; merged into the integration head). A note that is edited later stops the build.
+**Round three of this loop** is merged into the integration head (`a10f1ff8`), and each figure from it is checked by phrase against that console’s committed note, a committed data file or a commit message, not re-run from a branch: `ENV-HD-3` (its last commit `f3589590`, 7 commits since the head that round started from; its console note is committed; merged into the integration head). A note that is edited later stops the build.
 
 **Round four ** of this loop is **merged** into the integration head (`e252b25f`) and is read from it with a read-only git show: `ENV-HD-4` (its own commits end at `70b4aed5`, 11 commits of its own; its console note is committed; merged). Each figure is checked by phrase against that console’s note or its commit messages, and a rebuild re-reads the final state.
 
@@ -319,7 +319,38 @@ That is 250 sites of 6 kinds on 46 maps (utility and substation are new); 217 ca
 
 **Round seven ** of this loop is merged; its figures were read from the console branches with a read-only git show: `ENV-HD-7` (branch head `1556f27c`, 4 commits of its own; its console note is committed; merged). Each figure is checked against a committed file or a commit message, and a rebuild re-reads the final state.
 
+### Round 8: `ENV-HD-8`, parked vehicles, smaller variants, the next kinds
+
+Round 8: `ENV-HD-8`, tip c9308712 (read at the merged head 112a4d68), 4 commits of its own since a10f1ff8, merged into the head of round 8, 112a4d68; its console note is committed, and the table below is that note’s own. Each figure is a token of the commit message or note row it is quoted from, checked when this page is built.
+
+- parked vehicles in the street solver (hd3Scene vehicles option) ()
+
+- smaller variants before a cue group is skipped ()
+
+- the next kinds, wetland and workshop ()
+
+- console note, memory and next brief ()
+
+| eval | before | after | source |
+|---|---|---|---|
+| street cameras with no parked vehicle hiding the building or board (placements fixture, balanced and high) | 6 of 7 (the school: school bus) | 7 of 7; camera inside a vehicle 0 | node tools/check_hd6.mjs ("street cameras clear of parked vehicles"), independent ray test in the checker |
+| street cameras unchanged with no vehicles passed | — | 7 of 7 | check_hd6 |
+| school street shot in the built page | bus across the building's foot (ENV-HD-7 still) | camera (-613, 2.5, 97.5) = headless; door, canopy and building clear; 115 draw calls, 210,872 triangles; the bus now stands beside the building in front of the play yard (see Left) | drive A $SP/loop10/hd8/driveA.txt, still sf-mission-school-street-day.jpg |
+| sites skipping a group | 33 of 250 | 24 of 297 (smaller variants at 19 sites: pavilion back 8, bed back 6, path 4, bays 3, bed 1, canopy 1, lane 1, yard 1, compound 1, lean-to 1); the 24 have the street at the door (hospital canopy and lane 8, park path 8, pavilion 4, bays 3 with wall-flush doors in their place) or water round the building | check_hd6 ("sites skipping a group"), $SP/loop10/hd8/skips.mjs |
+| kinds with a cue | 6 | 8 (+ wetland 24 of 24, workshop 23 of 23, all in full) | check_hd6 ("sites cued by kind") |
+| badly placed parts (road / water / building / cue / board / buried) | 0 | 0 / 0 / 0 / 0 / 0 / 0, ENV-HD-6's independent test 0 | check_hd6 §2 |
+| per-chunk budgets with FACADES, every cued chunk, all 46 maps, balanced and high | inside | inside | check_hd6 §3 |
+| cue mesh per map (low / balanced / high), headless | orleans 0 / 4,536 / 6,888; sf-mission 0 / 4,824 / 10,896; sf-marina 0 / 4,740 / 10,092 | orleans 0 / 5,424 / 8,616 (16 sites); sf-mission 0 / 5,292 / 11,940 (15); sf-marina 0 / 5,196 / 11,100 (14); still 1 mesh, 2 draw calls; worst site 480 / 1,968 (budget 1,200 / 3,600) | $SP/loop10/hd8/measure.txt |
+| the same in the built page (sf-mission, high) | 10,896 tris, 12 sites | 11,940 tris, 15 sites, 2 calls, 0 skipped = headless | drive A |
+| phone tier and headset | nothing built | nothing built (all 46 maps) | check_hd6 §1b, §6 |
+| page errors / external requests | 0 / 0 | 0 / 0 | drive A (123 s, load 45.2) |
+| check_hd6 | 934 | 958 pass | node tools/check_hd6.mjs |
+| check_exteriors · check_hd4 · check_facades | 316 · 127 · 2,977 | 316 · 127 · 2,977 pass | each checker |
+| check_newton · check_imports · check_parse | — | all pass · 1,141 modules · 2,726 modules parse | each checker |
+
+Source: `docs/consoles/ENV-HD-8.md` at the merged head 112a4d68, the evaluation table as the console wrote it (before → after, with its sources).
+
 
 ---
 
-_Every figure on this page was checked against the repository file named beside it when the page was built (head `b111d4d3`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._
+_Every figure on this page was checked against the repository file named beside it when the page was built (head `709cd68e`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._

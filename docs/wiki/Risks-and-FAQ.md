@@ -238,9 +238,17 @@ What is measured is their cost: every room stays inside the room budget on both 
 
 Sources: `docs/consoles/ROBO-INTERIORS.md`, `docs/consoles/ROBO-EXTERIORS.md`
 
+### What did the eighth round add?
+
+`ROBOLEARN-9`, protocol 3, the arena and the claw together (6 commits); `STRANDS-2`, stations through the Python harness (3 commits); `ECOSYSTEM-2`, the ecosystem behind consent (4 commits); `HIVE-8`, moods in the page, and corrections (5 commits); `AVATARS-HD-5`, moods in the page, rooms with no held agent (4 commits); `ENV-HD-8`, parked vehicles, smaller variants, the next kinds (4 commits); `ROBOTS-HD-3`, the preview and the real run agree, the port room’s robot (6 commits); `SEO-WHITEPAPER-2`, the whitepaper page, generated (4 commits); `REALISM`, facades that read as their material (3 commits); `ACCESS`, marked, step-free entrances and new walk-in interiors (3 commits); `LESSONS-X`, agent-led lessons and lesson packs (5 commits). Each console works on its own branch from a10f1ff8, and the page reads its commits and its note, never a summary of them.
+
+The rules did not change: robots are simulated and the governor checks every step; agents are software and labelled so; data is opt-in for adults, local, and deleted on revoke; every model is trained here, with its protocol committed before its held-out run.
+
+Sources: the console branches of round 8 and their notes in `docs/consoles/`
+
 Every figure carries its source file in the table of evidence. Nothing here states a valuation, a raise, revenue, a customer or a partner.
 
 
 ---
 
-_Every figure on this page was checked against the repository file named beside it when the page was built (head `b111d4d3`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._
+_Every figure on this page was checked against the repository file named beside it when the page was built (head `709cd68e`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._

@@ -184,7 +184,32 @@ Read honestly: frame time was not measured in any useful way: software rendering
 
 **Round seven ** of this loop is merged; its figures were read from the console branches with a read-only git show: `AVATARS-HD-4` (branch head `839fc321`, 3 commits of its own; its console note is committed; merged). Each figure is checked against a committed file or a commit message, and a rebuild re-reads the final state.
 
+### Round 8: `AVATARS-HD-5`, moods in the page, rooms with no held agent
+
+Round 8: `AVATARS-HD-5`, tip f2e3c682 (read at the merged head 112a4d68), 4 commits of its own since a10f1ff8, merged into the head of round 8, 112a4d68; its console note is committed, and the table below is that note’s own. Each figure is a token of the commit message or note row it is quoted from, checked when this page is built.
+
+- posture takes the mood the hive already has, so it names the same mood as the glow; the robot rooms' cap rule checked ()
+
+- the ops room's last triangles decided (the room-level figure stays, its headroom measured at mount); the moods drive ()
+
+- console note, memory and the next brief ()
+
+- the final check_agent_avatars run, 124 of 124 ()
+
+| Measure | Before (a10f1ff8) | After | Source |
+|---|---|---|---|
+| Posture and glow name the same mood: real hive with moods on, seed 1, ops room entered at minutes 0, 150, 300, the page's mount (headless) | 6,348 of 6,370 figure-steps. A figure built mid-day stood calm until its next mood event, while HIVE-7's glow seeded from hive.mood(id). First miss: Orrin at minute 151, glow relieved, posture calm. | 6,370 of 6,370 (posture = glow = hive.mood(id); 1,505 not calm: concerned, relieved, busy). Glow steady when calm, never brighter: 6,370 of 6,370. | §9n |
+| The same in the built page (oak-west-oakland, high), entered at minute 158 after 23 refusals | (base page: HIVE-8 read posture = glow 4 of 7 at minute 36, because calm agents read null) | 352 of 352 figure-samples (entry + 60 hive minutes; 138 not calm), in both runs (the second with the still, 864 s at load 21–40) | drive A ($SP/loop10/ah5/driveA.txt, driveA2.txt) |
+| Hidden triangles in the six robot rooms (what AVATARS-HD-4 suspected) | 7,450 built against 6,324 drawn in the AMR warehouse at 40d97421 | The only hidden meshes are ROBOTS-HD's floor zones and the figures' talk lights. Both show in some state. Hidden for good: 0. The gap was frustum culling. | §9n, $SP/loop10/ah5/hidden.mjs |
+| Robot rooms, three agents each, headless as the page builds them | AMR warehouse own 4,940 → crowd, crowd, held (5,960). The other five rooms fit three. | with ROBOTS-HD-3's trim (room AMR 996 → 484) merged: AMR warehouse own 3,916 → room, crowd, crowd (5,842); 0 held, 6 of 6 inside | §9n |
+| Robot rooms in the built page (sf-downtown, high), drive B | 6 of 6 inside, 1 held (AVATARS-HD-4, AMR warehouse) | 6 of 6 inside IX_BUDGET, 0 held (18 figures in 6 rooms; table below) | drive B ($SP/loop10/ah5/driveB.txt) |
+| Ops room on high, page's mount, 7 standing and speaking (headless) | 46 / 5,992, margin 8 (constant headroom 414) | 46 / 5,992, margin 8 (measured headroom 414, unchanged). +13 triangles in the room → 7 crowd, 5,599. +300 → 7 crowd, 5,886. | §9n |
+| Ops room in the built page with moods, mid-day (6 standing, 1 away) | — | 43 meshes, 5,484 triangles built (margin 516), 47 draw calls, levels room 1 / crowd 5 | drive A |
+| Page errors / off-host requests | 0 / 0 | 0 / 0 in drive A (both runs) and drive B | drives |
+
+Source: `docs/consoles/AVATARS-HD-5.md` at the merged head 112a4d68, the evaluation table as the console wrote it (before → after, with its sources).
+
 
 ---
 
-_Every figure on this page was checked against the repository file named beside it when the page was built (head `b111d4d3`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._
+_Every figure on this page was checked against the repository file named beside it when the page was built (head `709cd68e`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._

@@ -27,6 +27,7 @@ SmartCiti.X Holodeck is a browser and headset training platform in which the sam
 - 45 → 0 declared comparisons in the claw’s second protocol, run once with the small model in it, and models promoted; the persistent world ran 960 simulated minutes with 0 physical dispatches `docs/consoles/CLAW-2.md` and its commits and `docs/evals/claw2.json`
 - 6 → 0 policies run through a Python harness on the strands-robots interface, and physical dispatches: it is simulated only, and the package the asked-for sample imports does not exist `docs/consoles/STRANDS.md` and its commits and `docs/evals/strands.json`
 - 214 of 670 union and trade stations mapped to Cognition.X blocks by declared rules, with the unmatched listed; nothing is wired into the sibling repositories `docs/consoles/ECOSYSTEM.md` and its commits and `docs/ecosystem/blocks-match.json`
+- 11 · 47 consoles of the eighth round with work committed, and their own commits, read from their branches; 11 merged into the head of round 8, 112a4d68; 11 with a committed note the console branches of round 8, from a10f1ff8
 - 862 of 862 mood changes in 5 seeded days, each traced to an event of the hive’s own, with 0 of 1,076 safety lines carrying a mood phrase and a morning briefing of 35 of 35 grounded lines `docs/consoles/HIVE-6.md`
 - 200 of 200 seeded unsafe agent jobs blocked by the safety governor, each for the intended reason; 0 of 200 safe jobs wrongly blocked `docs/consoles/VBRIDGE.md`
 - 66 of 100 rule-legal anomalous jobs caught by the governor's learned check, which the rules alone passed (0 of 100); 0 of 200 held-out safe jobs wrongly refused `docs/consoles/GOVERNOR-2.md`
@@ -86,4 +87,4 @@ The evidence table, the roadmap and the changelog follow on the next pages. Stan
 
 ---
 
-_Every figure on this page was checked against the repository file named beside it when the page was built (head `b111d4d3`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._
+_Every figure on this page was checked against the repository file named beside it when the page was built (head `709cd68e`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._

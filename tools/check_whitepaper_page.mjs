@@ -146,10 +146,14 @@ const swpPlant = { file: "The rooms measured 6 of 6 inside budget. The schema ve
 swpCheck(swpFigureIn("6", swpPlant.good, swpPlant.file) && !swpFigureIn("4", swpPlant.bad, swpPlant.file) && swpPlant.file.includes("4"),
   "negative case: a small number found only away from the claim's words fails (synthetic)");
 const swpReal = swpClaimsAll.find((c) => /Still-only drive/.test(c.text));
-const swpRealBad = swpReal ? swpReal.text.replace("checks passed: 5", "checks passed: 4") : "";
+// Which wrong digit the wiki happens to hold elsewhere changes when the wiki is rebuilt, so try each digit the file holds
+// (other than the true 5): the case needs at least one planted wrong digit that the tighter rule rejects.
 const swpRealFile = swpFile("docs/wiki/Roadmap-and-Changelog.md") ?? "";
-swpCheck(!!swpReal && swpRealBad !== swpReal.text && swpFigureIn("5", swpReal.text, swpRealFile) && swpRealFile.includes("4") && !swpFigureIn("4", swpRealBad, swpRealFile),
-  "negative case: the round-seven drive row with a planted 4 for its 5 checks passed fails against its cited wiki page, which holds a 4 elsewhere");
+const swpRealPlants = swpReal ? ["1", "2", "3", "4", "6", "7", "8", "9"].filter((d) => swpRealFile.includes(d)) : [];
+const swpRealCaught = swpRealPlants.find((d) => !swpFigureIn(d, swpReal.text.replace("checks passed: 5", `checks passed: ${d}`), swpRealFile));
+swpCheck(!!swpReal && swpFigureIn("5", swpReal.text, swpRealFile) && !!swpRealCaught,
+  "negative case: the round-seven drive row with a planted wrong digit for its 5 checks passed fails against its cited wiki page, which holds that digit elsewhere",
+  swpRealCaught ? `planted ${swpRealCaught}` : `none of ${swpRealPlants.join(", ")} is rejected`);
 // The page is the generator's output.
 let swpGen = "";
 try { swpGen = swpBuildPage(); } catch (e) { swpGen = `error: ${e.message}`; }

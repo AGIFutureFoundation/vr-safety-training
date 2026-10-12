@@ -118,9 +118,15 @@ Source: `robotics/strands/policies.py`
 
 Source: `docs/ecosystem.md`
 
+- **Declared protocol** A comparison written down and committed before it is run: which models, which scenarios, which held-out seeds and what counts as a win. It is run once on seeds no model has seen, and every verdict is reported as measured, including the ones that do not favour a model.
+
+- **Correction line** What the hive says when a job it had briefed to one software agent goes to another: a line grounded in the job’s own data, so the briefing and the day’s record agree.
+
+- **Held agent** A software agent the room’s triangle cap keeps out of a robot room because drawing it would put the room over budget; the agent still works, it is just not drawn there.
+
 Definitions follow how the repository uses each term, not an outside textbook.
 
 
 ---
 
-_Every figure on this page was checked against the repository file named beside it when the page was built (head `b111d4d3`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._
+_Every figure on this page was checked against the repository file named beside it when the page was built (head `709cd68e`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._

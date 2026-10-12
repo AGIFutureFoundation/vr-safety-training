@@ -378,10 +378,147 @@ Every number in this whitepaper comes from the repository file named beside it; 
 | **`ROBOTS-HD-2`: the light that follows a run, the zone indoors, the green still (merged into the integration head)** | | | |
 | Steps of an agent-jobs run lit by the governor’s decision, in the page; steps with the indoor zone exactly the warning distance, in the page; robot-steps headless | none → 21 of 21; none → 150 of 150; 1,711 of 1,711 | `docs/consoles/ROBOTS-HD-2.md` | observed |
 | Drilling robot in high detail: draw calls; triangles; robot rooms inside the budget; most triangles built in a room in the page | 5; 2,344; 6 of 6; 5,838 | `docs/consoles/ROBOTS-HD-2.md` | observed |
+| **`ROBOLEARN-9`: protocol 3, the arena and the claw together (merged into the head of round 8, 112a4d68; its note’s evaluation table)** | | | |
+| Declared comparisons, each run once | 90 → 126 (protocol 3: 36/36, 5,220 episodes) | `docs/consoles/ROBOLEARN-9.md` | as committed |
+| Promotions only with a clear interval | 0 of 0 → 2 of 2, both the reactive rule policy: AMR hard 59/60 [0.911, 0.997 ] vs bc 2/60 [0.009, 0.114 ]; port gantry hard 60/60 [0.94, 1 ] vs 50/60 [0.72, 0.907 ]; 0 rule breaks | `docs/consoles/ROBOLEARN-9.md` | as committed |
+| AMR change: ra-lm-h48 − bc, AMR base | ra-lm-h − bc −0.100 [−0.247, 0.052 ] (7181–7240) → −0.067 [−0.235, 0.108 ], 32/60 vs 36/60. The interval spans 0, so no claim. | `docs/consoles/ROBOLEARN-9.md` | as committed |
+| The change's effect, ra-lm-h48 − ra-lm-h, AMR | — → 0 [−0.173, 0.173 ] (32/60 each) | `docs/consoles/ROBOLEARN-9.md` | as committed |
+| ra-lm-h − bc, port base | −0.033 [−0.114, 0.031 ] (7181–7240) → −0.117 [−0.222, −0.033 ], 53/60 with 7 rule breaks: ra-lm-h falls short here | `docs/consoles/ROBOLEARN-9.md` | as committed |
+| Reactive − bc, hard variants pooled | not declared → +0.372 [0.300, 0.445 ] (179/180 vs 112/180) | `docs/consoles/ROBOLEARN-9.md` | as committed |
+| ra-lm-h / ra-lm-h48 verdicts | not run by the claw → not-better on 4 scenarios each; rule-broken on 5 each (teleop, AMR, port, port hard, AMR hard) | `docs/consoles/ROBOLEARN-9.md` | as committed |
+| Refusals exercised | 3 of 3 + not-held-out → 3 of 3 + not-held-out again; the probes ran nothing | `docs/consoles/ROBOLEARN-9.md` | as committed |
+| Governor / physical | — → 184,742 of 184,742 steps, physical 0; chain intact (273 lines); world 960 minutes, 0 physical dispatches | `docs/consoles/ROBOLEARN-9.md` | as committed |
+| Panel: the claw's model per scenario | 0 → 9 of 9 gym scenario cards, read from claw3.json (7 kept bc, 2 promoted reactive). The 3 station cards say they are not under the claw. | `docs/consoles/ROBOLEARN-9.md` | as committed |
+| retest7 and protocol-3 cards | none → both, static HTML, figures compared with arena.json | `docs/consoles/ROBOLEARN-9.md` | as committed |
+| arena.json retest8 | — → 36 rows copied from claw3.json (not a second run), plus a live bc row that reproduces the file | `docs/consoles/ROBOLEARN-9.md` | as committed |
+| People blocks on opt-in, no reload | needed a reload → none → local on opt-in; local → none on revoke; 0 navigations, 0 page errors | `docs/consoles/ROBOLEARN-9.md` | as committed |
+| A real station pass, headless | fixture → not done (see Left) | `docs/consoles/ROBOLEARN-9.md` | as committed |
+| Page module oc-claw-record.js | 101,403 B (2 records) → 160,167 B (3 records, chains trimmed) | `docs/consoles/ROBOLEARN-9.md` | as committed |
+| **`STRANDS-2`: stations through the Python harness (merged into the head of round 8, 112a4d68; its note’s evaluation table)** | | | |
+| Station scenarios through the bridge | 0 → 3 (cobot, AMR, robot cell; expert 3 of 3, every step governor-checked) → selftest "station scenarios through the bridge" | `docs/consoles/STRANDS-2.md` | as committed |
+| Parity with the arena per seed, stations | 0 → 12 of 12 (bc, ra-lm@stations, ra-lm-h, expert × 3 stations, dev 1–3) → selftest; $SP/loop10/st/parity_st2.py | `docs/consoles/STRANDS-2.md` | as committed |
+| Parity, published ra-lm build and ra-lm-h on gym | 0 → 8 of 8 in the selftest (4 robot types × 2); 12 of 12 with the hard variants in scratch → selftest; $SP/loop10/st/parity_gym.txt | `docs/consoles/STRANDS-2.md` | as committed |
+| Policies through the interface | 6 → 8 (adds ra-lm@stations, ra-lm-h) → selftest "8 of 8 " | `docs/consoles/STRANDS-2.md` | as committed |
+| Station compare rows | 0 → 5 rows (45 episodes): bc, expert, ra-lm-h 1.000 [0.701, 1 ]; ra-lm@stations 0.667 [0.354, 0.879 ]; random 0.000 [0, 0.299 ] → docs/evals/strands.json devStations | `docs/consoles/STRANDS-2.md` | as committed |
+| Exporter rows valid | 0 → 35,102 of 35,102 (full set); 761 of 761 (sample) → lerobot_jsonl.py --check; check_strands | `docs/consoles/STRANDS-2.md` | as committed |
+| Exporter round-trip vs index.json | 441 of 441 episodes, 35,102 of 35,102 frames, per split and scenario; leakage 0 → same | `docs/consoles/STRANDS-2.md` | as committed |
+| Physical dispatches | 0 → 0 → bridge replies; strands.json totals | `docs/consoles/STRANDS-2.md` | as committed |
+| Network calls | 0 → 0 (Python sockets 0, bridge 0) → selftest | `docs/consoles/STRANDS-2.md` | as committed |
+| Selftest | 27 → 33 pass → python3 robotics/strands/selftest.py | `docs/consoles/STRANDS-2.md` | as committed |
+| check_strands | 22 → 29 checks → node tools/check_strands.mjs | `docs/consoles/STRANDS-2.md` | as committed |
+| **`ECOSYSTEM-2`: the ecosystem behind consent (merged into the head of round 8, 112a4d68; its note’s evaluation table)** | | | |
+| Tab drive in the built page | measured once by hand → a checker leg: 309 options (238 before the new rules), electrical blocks as the extract, 0 page errors, 0 requests and 0 storage writes after the click | `docs/consoles/ECOSYSTEM-2.md` | as committed |
+| Stations mapped | 214 of 670 → 285 of 670 (385 unmatched, listed with the reason); round-7 rows unchanged (214 of 214) | `docs/consoles/ECOSYSTEM-2.md` | as committed |
+| Extract | 91 blocks, 73.0 KB → 157 blocks, 114.8 KB (limit 200 KB), all in an adult band | `docs/consoles/ECOSYSTEM-2.md` | as committed |
+| eco-bus events from a real opted-in session | 0 (no page loaded the adapter) → headless real Session: 5 of 5 valid, also accepted by SmartCiti.X's real Bus; built page: 2 of 2 valid | `docs/consoles/ECOSYSTEM-2.md` | as committed |
+| Events held for K-12, demo and signed-out (and not opted in) | n/a → 0, 0, 0 (and 0), headless and in the built page | `docs/consoles/ECOSYSTEM-2.md` | as committed |
+| Held after revoke | n/a → 0 (6 → 0 headless, including a run in progress; 2 → 0 in the page once consent is removed) | `docs/consoles/ECOSYSTEM-2.md` | as committed |
+| Network calls | 0 → 0 | `docs/consoles/ECOSYSTEM-2.md` | as committed |
+| Fixture lines valid | none → not done (left) | `docs/consoles/ECOSYSTEM-2.md` | as committed |
+| check_eco with and without the clones | 7 of 7 (round 7) → 10 of 10 passed with the clones; 9 passed and 1 skipped (2b) with ECO_SIBLINGS=/nonexistent | `docs/consoles/ECOSYSTEM-2.md` | as committed |
+| **`HIVE-8`: moods in the page, and corrections (merged into the head of round 8, 112a4d68; its note’s evaluation table)** | | | |
+| Mood events reaching the figures, the panel's hive in the built page (ops room, oak-west-oakland, high; hive minutes 0–36) | 16 of 16 (the panel's hive already ran with moods; AVATARS-HD-4's figures subscribe) → 16 of 16 (unchanged); outdoor figures 16 of 16; glow mood = hive mood 7 of 7 built (base) and 6 of 6 (after) at minute 36 | `docs/consoles/HIVE-8.md` | as committed |
+| Mood events reaching the figures, the scene's hive (sf-downtown, "A day in the hive", seed 1) in the built page | 0 → 1 (the planner turns busy at the award, in the cell hall; the refusal's moods fall while the camera is outside, with the room closed) | `docs/consoles/HIVE-8.md` | as committed |
+| The same, headless (cell hall open through every beat, seeds 1, 2, 3, 7, 42) | 0 → 25; figure mood = released mood 25 of 25; relay mood(id) = hive 35 of 35 | `docs/consoles/HIVE-8.md` | as committed |
+| The scene's beats with moods on | — → 5 of 5 seeds unchanged (non-mood events, beat by beat) | `docs/consoles/HIVE-8.md` | as committed |
+| The default hive's output with the options off | digests 703aa91da7bb9439, 533938515253653d, 03f3d7a40c26af91; scene 13307c62…, e689091a…, ba4f0b27…, 4772e790…, fb9b7fae… → byte-identical 3 of 3, scene and relay 5 of 5 | `docs/consoles/HIVE-8.md` | as committed |
+| Briefed jobs given to another agent while the briefed agent waits: a line at that award (page's case: no decide, approvals from minute 1 to 30) | 0 of 1 (seeds 1–40); 0 of 2 (seeds 1–200) → 1 of 1, grounded and in band (seeds 1–40); 2 of 2 (seeds 1–200) | `docs/consoles/HIVE-8.md` | as committed |
+| First jobs said = first awards (the same case) | 117 of 120 → 120 of 120 (seeds 1–40); 30 of 30 (seeds 1–10) | `docs/consoles/HIVE-8.md` | as committed |
+| Governor | 154 of 154 checked, physical 0 → 154 of 154, 3,196 of 3,196 steps, 0 physical; the scene's runs physical 0, chain intact | `docs/consoles/HIVE-8.md` | as committed |
+| Combined ops room in the built page (high, briefing on, 1 room-level + 6 crowd figures) | 46 meshes, 5,988 triangles built, 5,890 drawn, 46 calls, 3 lights, 21.58 MiB → the same | `docs/consoles/HIVE-8.md` | as committed |
+| Page errors / off-host requests | 0 / 0 → 0 / 0 (drives A, B, three runs) | `docs/consoles/HIVE-8.md` | as committed |
+| **`AVATARS-HD-5`: moods in the page, rooms with no held agent (merged into the head of round 8, 112a4d68; its note’s evaluation table)** | | | |
+| Posture and glow name the same mood: real hive with moods on, seed 1, ops room entered at minutes 0, 150, 300, the page's mount (headless) | 6,348 of 6,370 figure-steps. A figure built mid-day stood calm until its next mood event, while HIVE-7's glow seeded from hive.mood(id). First miss: Orrin at minute 151, glow relieved, posture calm. → 6,370 of 6,370 (posture = glow = hive.mood(id); 1,505 not calm: concerned, relieved, busy). Glow steady when calm, never brighter: 6,370 of 6,370. | `docs/consoles/AVATARS-HD-5.md` | as committed |
+| The same in the built page (oak-west-oakland, high), entered at minute 158 after 23 refusals | (base page: HIVE-8 read posture = glow 4 of 7 at minute 36, because calm agents read null) → 352 of 352 figure-samples (entry + 60 hive minutes; 138 not calm), in both runs (the second with the still, 864 s at load 21–40) | `docs/consoles/AVATARS-HD-5.md` | as committed |
+| Hidden triangles in the six robot rooms (what AVATARS-HD-4 suspected) | 7,450 built against 6,324 drawn in the AMR warehouse at 40d97421 → The only hidden meshes are ROBOTS-HD's floor zones and the figures' talk lights. Both show in some state. Hidden for good: 0. The gap was frustum culling. | `docs/consoles/AVATARS-HD-5.md` | as committed |
+| Robot rooms, three agents each, headless as the page builds them | AMR warehouse own 4,940 → crowd, crowd, held (5,960). The other five rooms fit three. → with ROBOTS-HD-3's trim (room AMR 996 → 484) merged: AMR warehouse own 3,916 → room, crowd, crowd (5,842); 0 held, 6 of 6 inside | `docs/consoles/AVATARS-HD-5.md` | as committed |
+| Robot rooms in the built page (sf-downtown, high), drive B | 6 of 6 inside, 1 held (AVATARS-HD-4, AMR warehouse) → 6 of 6 inside IX_BUDGET, 0 held (18 figures in 6 rooms; table below) | `docs/consoles/AVATARS-HD-5.md` | as committed |
+| Ops room on high, page's mount, 7 standing and speaking (headless) | 46 / 5,992, margin 8 (constant headroom 414) → 46 / 5,992, margin 8 (measured headroom 414, unchanged). +13 triangles in the room → 7 crowd, 5,599. +300 → 7 crowd, 5,886. | `docs/consoles/AVATARS-HD-5.md` | as committed |
+| Ops room in the built page with moods, mid-day (6 standing, 1 away) | — → 43 meshes, 5,484 triangles built (margin 516), 47 draw calls, levels room 1 / crowd 5 | `docs/consoles/AVATARS-HD-5.md` | as committed |
+| Page errors / off-host requests | 0 / 0 → 0 / 0 in drive A (both runs) and drive B | `docs/consoles/AVATARS-HD-5.md` | as committed |
+| **`ENV-HD-8`: parked vehicles, smaller variants, the next kinds (merged into the head of round 8, 112a4d68; its note’s evaluation table)** | | | |
+| street cameras with no parked vehicle hiding the building or board (placements fixture, balanced and high) | 6 of 7 (the school: school bus) → 7 of 7; camera inside a vehicle 0 | `docs/consoles/ENV-HD-8.md` | as committed |
+| street cameras unchanged with no vehicles passed | — → 7 of 7 | `docs/consoles/ENV-HD-8.md` | as committed |
+| school street shot in the built page | bus across the building's foot (ENV-HD-7 still) → camera (-613, 2.5, 97.5) = headless; door, canopy and building clear; 115 draw calls, 210,872 triangles; the bus now stands beside the building in front of the play yard (see Left) | `docs/consoles/ENV-HD-8.md` | as committed |
+| sites skipping a group | 33 of 250 → 24 of 297 (smaller variants at 19 sites: pavilion back 8, bed back 6, path 4, bays 3, bed 1, canopy 1, lane 1, yard 1, compound 1, lean-to 1); the 24 have the street at the door (hospital canopy and lane 8, park path 8, pavilion 4, bays 3 with wall-flush doors in their place) or water round the building | `docs/consoles/ENV-HD-8.md` | as committed |
+| kinds with a cue | 6 → 8 (+ wetland 24 of 24, workshop 23 of 23, all in full) | `docs/consoles/ENV-HD-8.md` | as committed |
+| badly placed parts (road / water / building / cue / board / buried) | 0 → 0 / 0 / 0 / 0 / 0 / 0, ENV-HD-6's independent test 0 | `docs/consoles/ENV-HD-8.md` | as committed |
+| per-chunk budgets with FACADES, every cued chunk, all 46 maps, balanced and high | inside → inside | `docs/consoles/ENV-HD-8.md` | as committed |
+| cue mesh per map (low / balanced / high), headless | orleans 0 / 4,536 / 6,888; sf-mission 0 / 4,824 / 10,896; sf-marina 0 / 4,740 / 10,092 → orleans 0 / 5,424 / 8,616 (16 sites); sf-mission 0 / 5,292 / 11,940 (15); sf-marina 0 / 5,196 / 11,100 (14); still 1 mesh, 2 draw calls; worst site 480 / 1,968 (budget 1,200 / 3,600) | `docs/consoles/ENV-HD-8.md` | as committed |
+| the same in the built page (sf-mission, high) | 10,896 tris, 12 sites → 11,940 tris, 15 sites, 2 calls, 0 skipped = headless | `docs/consoles/ENV-HD-8.md` | as committed |
+| phone tier and headset | nothing built → nothing built (all 46 maps) | `docs/consoles/ENV-HD-8.md` | as committed |
+| page errors / external requests | 0 / 0 → 0 / 0 | `docs/consoles/ENV-HD-8.md` | as committed |
+| check_hd6 | 934 → 958 pass | `docs/consoles/ENV-HD-8.md` | as committed |
+| check_exteriors · check_hd4 · check_facades | 316 · 127 · 2,977 → 316 · 127 · 2,977 pass | `docs/consoles/ENV-HD-8.md` | as committed |
+| check_newton · check_imports · check_parse | — → all pass · 1,141 modules · 2,726 modules parse | `docs/consoles/ENV-HD-8.md` | as committed |
+| **`ROBOTS-HD-3`: the preview and the real run agree, the port room’s robot (merged into the head of round 8, 112a4d68; its note’s evaluation table)** | | | |
+| preview and real run agree, step for step before the stop | not checked → 619 of 619 steps; 5 jobs the governor lets through (the other 5 of 10 are refused before any run), 69 runs; the real run stops at the E-stop step with estop 64 of 64; clean runs as long as their preview 5 of 5 | `docs/consoles/ROBOTS-HD-3.md` | as committed |
+| robot-room hidden meshes, can show / hidden for good | untagged → 12 / 0 | `docs/consoles/ROBOTS-HD-3.md` | as committed |
+| three crowd-budget figures fit beside the HD robots under the cap (headless) | 5 of 6 (warehouse 4,940 + 1,620 > 6,000) → 6 of 6 (warehouse 3,916 + 1,620 = 5,536) | `docs/consoles/ROBOTS-HD-3.md` | as committed |
+| AMR in rooms, triangles / calls | 996 / 3 → 484 / 3 (≤ 600 / 3) | `docs/consoles/ROBOTS-HD-3.md` | as committed |
+| robot rooms in the built page, inside IX_BUDGET with 3 figures and 0 held (AVATARS-HD-4's figures merged at a10f1ff8) | 6 of 6 with 1 held (AVATARS-HD-4 drive B, round 7) → 6 of 6, 0 held: cell hall 41 meshes / 5,966 built / 5,866 drawn (room ×3); cobot lab 48 / 5,754 / 5,408 (room 1, crowd 2); AMR warehouse 42 / 5,842 / 4,988 (room 1, crowd 2); port control 35 / 4,854 / 4,748 (room ×3); drilling deck 37 / 5,644 / 5,450 (crowd ×3); maint bay 40 / 5,824 / 5,250 (room 2, crowd 1) | `docs/consoles/ROBOTS-HD-3.md` | as committed |
+| port room robot | 0 → 1 (straddle carrier, 696 tris / 2 calls ≤ 900 / 3); headless room 24 / 1,360 → 26 / 2,056; in the page on its own map 26 meshes, 26 calls, 2,016 drawn (2,056 built); beacons = the site's state (running), e-stop → red | `docs/consoles/ROBOTS-HD-3.md` | as committed |
+| headless rooms with HD robots (high): warehouse / maint bay / port | 4,940 / 3,992 / 1,360 → 3,916 / 3,480 / 2,056 (all ≤ 6,000); Ultra worst 5,860 ≤ 8,500 | `docs/consoles/ROBOTS-HD-3.md` | as committed |
+| balanced / phone / headset | today's rigs and rooms → unchanged (rooms identical 18 of 18, mounts 15 of 15) | `docs/consoles/ROBOTS-HD-3.md` | as committed |
+| page errors / off-host requests | 0 / 0 → 0 / 0 in every drive | `docs/consoles/ROBOTS-HD-3.md` | as committed |
+| **`SEO-WHITEPAPER-2`: the whitepaper page, generated (merged into the head of round 8, 112a4d68; its note’s evaluation table)** | | | |
+| Page generated; output byte-identical on re-run | no (hand-written) → yes; second run "Unchanged", --check "current" | `docs/consoles/SEO-WHITEPAPER-2.md` | as committed |
+| Sections, each with sources | 9 of 9 → 12 of 12 | `docs/consoles/SEO-WHITEPAPER-2.md` | as committed |
+| Sourced claims | 69 → 116 | `docs/consoles/SEO-WHITEPAPER-2.md` | as committed |
+| Loop-ten console rows; rounds shown | 19; rounds one to five, by theme → 34; rounds one to seven | `docs/consoles/SEO-WHITEPAPER-2.md` | as committed |
+| Figures found in their cited committed files | 220 of 220 (lexical: anywhere in the file) → 817 of 817 under the tighter small-number rule | `docs/consoles/SEO-WHITEPAPER-2.md` | as committed |
+| Small-number failures the tighter rule found on the way (fixed by rewording to the file's own words or pairing measures with figures) | — → 3 under the first form, 6 under the two -word form, then 0 | `docs/consoles/SEO-WHITEPAPER-2.md` | as committed |
+| Planted wrong small number | passed (lexical) → fails (synthetic and real) | `docs/consoles/SEO-WHITEPAPER-2.md` | as committed |
+| Checker checks | 43 → 55 | `docs/consoles/SEO-WHITEPAPER-2.md` | as committed |
+| Page in the sitemap | yes (80 entries) → yes (80 entries) | `docs/consoles/SEO-WHITEPAPER-2.md` | as committed |
+| VideoObject | none → 1, its clip and poster committed | `docs/consoles/SEO-WHITEPAPER-2.md` | as committed |
+| Commercial claims, model identifiers on the page | 0 → 0 | `docs/consoles/SEO-WHITEPAPER-2.md` | as committed |
+| Stills: page errors; failed responses; horizontal scroll at 390 and 1920 | — → 0; 0; 0 | `docs/consoles/SEO-WHITEPAPER-2.md` | as committed |
+| **`REALISM`: facades that read as their material (merged into the head of round 8, 112a4d68; its note’s evaluation table)** | | | |
+| facade materials with roughness and detail (3 maps, high) | 0 → 13 of 13 (Standard, per-class roughness/metalness, detail map); balanced 0 → 13 of 13 with grime/contact; phone 0 → 0 | `docs/consoles/REALISM.md` | as committed |
+| surface classes with roughness, metalness and detail | 0 → 8 (brick, concrete, asphalt, metal, wood, stucco, tile, glass) | `docs/consoles/REALISM.md` | as committed |
+| meshes and triangles per map, REALISM on vs off (3 maps × 3 tiers) | — → unchanged on all 9 | `docs/consoles/REALISM.md` | as committed |
+| REALISM texture bytes (high / balanced / phone) | 0 / 0 / 0 → 262,144 (one 256 px RGBA detail map, budget 256 KiB) / 0 / 0 | `docs/consoles/REALISM.md` | as committed |
+| built page, orleans port-terminal wide day, high | 144 calls, 153,327 tris, 6 textures → 144 calls, 153,327 tris, 7 textures (+ the detail map) | `docs/consoles/REALISM.md` | as committed |
+| facade shader programs per tier | 1 → 1 (pa-rz-high-1, pa-rz-bal-1, pa-tint-1 phone unchanged) | `docs/consoles/REALISM.md` | as committed |
+| exposure table, bands in range (full light and dim 0.8) | none → 8 of 8; ordered day 1.509 > dawn 0.512, dusk 0.461 > night 0.263 | `docs/consoles/REALISM.md` | as committed |
+| phone tier | — → unchanged (no REALISM material, no texture, the same fixed lights) | `docs/consoles/REALISM.md` | as committed |
+| built page, orleans, the other three shots (high) | street day 241 / 194,738; wide night 147 / 189,449; street night 243 / 199,462 → 240 / 190,888; 147 / 187,897; 243 / 198,274 (calls / tris). REALISM adds no geometry (check_rz §5); the small differences come from what moves and streams between runs (a walking worker is in the after frame) | `docs/consoles/REALISM.md` | as committed |
+| built page, orleans, balanced / phone (4 shots each) | — (the before drive's measure lines were lost) → balanced: 135–263 calls, 109,150–130,309 tris, 0 REALISM bytes; phone: 100–187 calls, 59,551–70,191 tris, 0 textures, no REALISM material | `docs/consoles/REALISM.md` | as committed |
+| worst chunk mass in the built page (orleans, high / balanced / phone) | — → 2 meshes / 2,412 · 2 / 2,412 · 2 / 1,968 tris (unchanged by REALISM, which adds no mesh) | `docs/consoles/REALISM.md` | as committed |
+| page errors / external requests in the built page (12 loads × shots, three tiers) | — → 0 / 0 (shader-compile console errors watched too) | `docs/consoles/REALISM.md` | as committed |
+| check_textures / check_palette / check_facades / check_interiors | pass → pass (palette 684, facades 2,977, interiors 957) | `docs/consoles/REALISM.md` | as committed |
+| check_rz | — → 127 pass | `docs/consoles/REALISM.md` | as committed |
+| **`ACCESS`: marked, step-free entrances and new walk-in interiors (merged into the head of round 8, 112a4d68; its note’s evaluation table)** | | | |
+| enterable buildings with a marked, lit door and a step-free route | 0 of 863 (no marking existed) → 863 of 863 on 46 maps (740 by a route to a street, 123 by an open apron only); per map N of N on every map | `docs/consoles/ACCESS.md` | as committed |
+| ramps where the sill is raised | — → 0 of 0 needed: no site building's sill differs from its door spot's ground by > 2 cm on any map (measured) | `docs/consoles/ACCESS.md` | as committed |
+| new interior kinds | 0 → 4: fire bay 17 meshes / 780 tris, drop-off lobby 17 / 720, classroom wing 18 / 984, pavilion 17 / 708 (high; with 4 pads); texture 1.33 MiB (two 512×256 canvas signs) ≤ 24 MiB high and ≤ 3 MiB balanced | `docs/consoles/ACCESS.md` | as committed |
+| pads reachable from the door | — → 16 of 16 (high), every agent spot and board too, on both tiers (grid search round colliders taller than the step, then NEWTON's walk) | `docs/consoles/ACCESS.md` | as committed |
+| cued sites that open their room and return to the exact pose | — → every site of the four kinds on all 46 maps (CLASSROOMS' sites excepted) | `docs/consoles/ACCESS.md` | as committed |
+| entrance budget | — → 2 meshes a map high and balanced, 0 low; ≤ 360 / 168 triangles an entrance; worst chunk ≤ 4,800 / 2,400; 0 texture, 0 light; headset 0 | `docs/consoles/ACCESS.md` | as committed |
+| in and out by all four inputs | 3 of 4 wired (E, touch Use and pad A called npUse; the XR session's select did nothing) → 4 of 4 in the built page: keyboard at the hospital (drop-off lobby), touch at a park (pavilion), gamepad A through a stubbed getGamepads at the fire station (fire bay), headset select through a stubbed XR session at the hospital. Each went in and came back out to the exact door-spot pose | `docs/consoles/ACCESS.md` | as committed |
+| entrances in the built page (Orleans, high) | — → 2 meshes, 7,980 triangles, 35 entrances; 12 sites open an ACCESS room | `docs/consoles/ACCESS.md` | as committed |
+| HUD wayfinding | inside: the room's label; outside: the district only → inside: "Hospital drop-off lobby / generic room · Medical District Hospital Campus"; outside: "Tulane Avenue · the medical district", or "local street · Mid-City" | `docs/consoles/ACCESS.md` | as committed |
+| page errors | — → 0 | `docs/consoles/ACCESS.md` | as committed |
+| check_interiors · check_robo_interiors | 1,061 (approx.) · 302 → 1,085 · 302 pass | `docs/consoles/ACCESS.md` | as committed |
+| check_walkable (headless leg) · check_newton · check_interface | — → 2,720 passed · all pass · 21 passed, 0 failed (UX_PORT=9168) | `docs/consoles/ACCESS.md` | as committed |
+| check_imports · check_parse | — → all 1,142 modules · all 2,727 modules | `docs/consoles/ACCESS.md` | as committed |
+| **`LESSONS-X`: agent-led lessons and lesson packs (merged into the head of round 8, 112a4d68; its note’s evaluation table)** | | | |
+| Agent-led lessons | 0 → 36: 18 led by hive agents, 18 by the VBRIDGE evaluator; brief → demo → try → debrief in every one | `docs/consoles/LESSONS-X.md` | as committed |
+| Lesson lines grounded in their station (a step title or cue found verbatim in the sim file, a standard on the certification, or the points arithmetic) | — → 725 of 725 (36 lessons, plus 6 with a debrief that names a missed step) | `docs/consoles/LESSONS-X.md` | as committed |
+| Packs, with every station existing and enterable (catalog row, not flat, sim module present) | 0 → 6 packs across 4 worlds (parishes ×2, Bay World ×2, the Deep, Summit), 36 station slots (35 distinct), 0 refused | `docs/consoles/LESSONS-X.md` | as committed |
+| ACCESS's interiors pack | — → 8 stations on pads in 4 rooms (acc-fire-bay, acc-drop-off-lobby, acc-classroom-wing, acc-park-pavilion). Each is station *pad* of its sf-downtown site with pad < 4, so it is on a pad on every tier. The style ids are in ACCESS's b98b57fe, not this tree; they join at integration. | `docs/consoles/LESSONS-X.md` | as committed |
+| Standards taken from the stations | — → 60 of 60 | `docs/consoles/LESSONS-X.md` | as committed |
+| Steps read from the sims = the catalog's step count | — → 35 of 35 stations (461 steps) | `docs/consoles/LESSONS-X.md` | as committed |
+| Impossible requests refused | — → 5 of 5 pack cases (missing station, K-12 station, unknown standard, target above perfect, empty). 3 of 3 prompts, including a diving lesson asked of the robot sites ("no station in The parishes (robot sites) satisfies …"). A lesson at a missing station is also refused. | `docs/consoles/LESSONS-X.md` | as committed |
+| Progress stored only for opted-in adults | — → stored in 1 of 6 cases (opted-in adult). Not stored for K-12, demo, signed-out, no adult attestation or not opted in. Revoke deletes; a missing consent deletes on the next read. | `docs/consoles/LESSONS-X.md` | as committed |
+| Figure API called; voice off by default; captions always | — → headless: 18 speak events to the mount, 0 spoken with voice off, captions for every line | `docs/consoles/LESSONS-X.md` | as committed |
+| Built page, parishes (sf-downtown, high, SwiftShader, ?lxLesson=ad-robot-cell-lockout-and-safe-reentry) | — → the lesson ran, led by Selka (software agent, the robot cell's home agent). Her figure was at rb-site-soma-robot-cell, captioned with the step-1 line after 20 s (4 events sent, 3 lines). Voice off. 0 page errors. | `docs/consoles/LESSONS-X.md` | as committed |
+| Built page, instructor console | no tab → the Agent lessons tab shows 6 packs. A preview showed 18 lines by phase. Assigning stored {"pack":"lx-pack-parish-robot-sites"} only. 0 page errors, 0 off-host requests (three.js served locally) | `docs/consoles/LESSONS-X.md` | as committed |
 
 Simulated: produced by the simulator on seeded runs, with synthetic demonstrations or simulated learners. Count: read from the data the repository ships. Content score: the platform's own station evaluation, scored out of 100. Each value is re-checked against its file by the build script that wrote this table. The scripted expert sees the targets, so it is a ceiling and not a competitor.
 
 
 ---
 
-_Every figure on this page was checked against the repository file named beside it when the page was built (head `b111d4d3`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._
+_Every figure on this page was checked against the repository file named beside it when the page was built (head `709cd68e`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._

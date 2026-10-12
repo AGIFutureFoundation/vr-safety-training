@@ -96,7 +96,20 @@ The persistent world ran on: 960 simulated minutes over 2 days (seed 2), 141 job
 
 **Round seven ** of this loop is merged; its figures were read from the console branches with a read-only git show: `CLAW-2` (branch head `7940a087`, 6 commits of its own; its console note is committed; merged). Each figure is checked against a committed file or a commit message, and a rebuild re-reads the final state.
 
+### Protocol 3: declared first, run once on fresh held-out seeds
+
+`ROBOLEARN-9` committed the protocol before any run, then ran it once on seeds 7241–7300: 36 declared comparisons, 5,220 episodes, 184,742 of 184,742 steps checked by the governor and 0 physical dispatches. There were 2 promotions, both of them the reactive rule policy. That policy is hand-written, not trained: the result says a simple rule beats the clone on those hard variants, not that a learned model improved. The clone stays the incumbent on 7 of 9 scenarios.
+
+- the port gantry, hard variant: the reactive rule policy’s interval 0.94–1 lies above the clone’s 0.72–0.907, with no rule broken.
+- AMR fleet routing, hard variant: the reactive rule policy’s interval 0.911–0.997 lies above the clone’s 0.009–0.114, with no rule broken.
+
+The declared change for the AMR base gap, a small model with a wider hidden layer, did not close it: 32/60 against the clone’s 36/60 successes, a difference of −0.067 (interval −0.235 to 0.108), so no claim is made.
+
+Sources: `docs/evals/claw3.json` (counts, promotions, promoted) and `docs/evals/arena.json` (retest8), at the merged head 112a4d68.
+
+Round 8: the claw’s next protocol was run by `ROBOLEARN-9` together with the arena; its commits and evaluation table are in the arena section ([Arena]).
+
 
 ---
 
-_Every figure on this page was checked against the repository file named beside it when the page was built (head `b111d4d3`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._
+_Every figure on this page was checked against the repository file named beside it when the page was built (head `709cd68e`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._

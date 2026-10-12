@@ -70,7 +70,33 @@ As measured: the intervals of the learned policies overlap, so no ranking among 
 
 Sources: `docs/evals/strands.json`, `docs/evals/strands-declared.json` and the console’s commit messages, read from its branch with git show.
 
+### Round 8: `STRANDS-2`, stations through the Python harness
+
+Round 8: `STRANDS-2`, tip 5cd8950d (read at the merged head 112a4d68), 3 commits of its own since a10f1ff8, merged into the head of round 8, 112a4d68; its console note is committed, and the table below is that note’s own. Each figure is a token of the commit message or note row it is quoted from, checked when this page is built.
+
+- STRANDS-2 items 1-3: stations through the bridge, the arena's ra-lm build, ra-lm-h adapter ()
+
+- station rows in strands.json (devStations, dev seeds 1-3) ()
+
+- STRANDS-2 item 5: LeRobot-style JSONL exporter (stdlib), check legs, docs and notes ()
+
+| Eval | Before → after | Source |
+|---|---|---|
+| Station scenarios through the bridge | 0 → 3 (cobot, AMR, robot cell; expert 3 of 3, every step governor-checked) | selftest "station scenarios through the bridge" |
+| Parity with the arena per seed, stations | 0 → 12 of 12 (bc, ra-lm@stations, ra-lm-h, expert × 3 stations, dev 1–3) | selftest; $SP/loop10/st/parity_st2.py |
+| Parity, published ra-lm build and ra-lm-h on gym | 0 → 8 of 8 in the selftest (4 robot types × 2); 12 of 12 with the hard variants in scratch | selftest; $SP/loop10/st/parity_gym.txt |
+| Policies through the interface | 6 → 8 (adds ra-lm@stations, ra-lm-h) | selftest "8 of 8 " |
+| Station compare rows | 0 → 5 rows (45 episodes): bc, expert, ra-lm-h 1.000 [0.701, 1 ]; ra-lm@stations 0.667 [0.354, 0.879 ]; random 0.000 [0, 0.299 ] | docs/evals/strands.json devStations |
+| Exporter rows valid | 0 → 35,102 of 35,102 (full set); 761 of 761 (sample) | lerobot_jsonl.py --check; check_strands |
+| Exporter round-trip vs index.json | 441 of 441 episodes, 35,102 of 35,102 frames, per split and scenario; leakage 0 | same |
+| Physical dispatches | 0 → 0 | bridge replies; strands.json totals |
+| Network calls | 0 → 0 (Python sockets 0, bridge 0) | selftest |
+| Selftest | 27 → 33 pass | python3 robotics/strands/selftest.py |
+| check_strands | 22 → 29 checks | node tools/check_strands.mjs |
+
+Source: `docs/consoles/STRANDS-2.md` at the merged head 112a4d68, the evaluation table as the console wrote it (before → after, with its sources).
+
 
 ---
 
-_Every figure on this page was checked against the repository file named beside it when the page was built (head `b111d4d3`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._
+_Every figure on this page was checked against the repository file named beside it when the page was built (head `709cd68e`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._

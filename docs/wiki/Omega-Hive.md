@@ -332,9 +332,9 @@ The same voice controller speaks the 34 game characters’ own knowledge-pack li
 
 - *Planned* Figures that show the mood (posture, gesture tempo or halo); the live console link does not carry moods, so the tab’s moods panel is a replay even when its cards are live; a larger balanced cell grid if the room’s texture budget can be freed.
 
-**Round two of this loop** is merged into the integration head (`a8379051`): `HIVE-IN-WORLD` (note last committed in `0c834a8a`); `VOICES` (note last committed in `dc890479`). Each figure from it is checked by phrase against that console’s committed note, not re-run from a branch; a note that is edited later stops the build.
+**Round two of this loop** is merged into the integration head (`a10f1ff8`): `HIVE-IN-WORLD` (note last committed in `0c834a8a`); `VOICES` (note last committed in `dc890479`). Each figure from it is checked by phrase against that console’s committed note, not re-run from a branch; a note that is edited later stops the build.
 
-**Round three of this loop** is merged into the integration head (`a8379051`), and each figure from it is checked by phrase against that console’s committed note, a committed data file or a commit message, not re-run from a branch: `HIVE-3` (its last commit `bb5011ca`, 8 commits since the head that round started from; its console note is committed; merged into the integration head). A note that is edited later stops the build.
+**Round three of this loop** is merged into the integration head (`a10f1ff8`), and each figure from it is checked by phrase against that console’s committed note, a committed data file or a commit message, not re-run from a branch: `HIVE-3` (its last commit `bb5011ca`, 8 commits since the head that round started from; its console note is committed; merged into the integration head). A note that is edited later stops the build.
 
 **Round four ** of this loop is **merged** into the integration head (`e252b25f`) and is read from it with a read-only git show: `HIVE-4` (its own commits end at `507a9448`, 8 commits of its own; its console note is committed; merged). Each figure is checked by phrase against that console’s note or its commit messages, and a rebuild re-reads the final state.
 
@@ -356,7 +356,36 @@ Left: a native speaker’s review of the Spanish, and a quiet-machine re-measure
 
 **Round seven ** of this loop is merged; its figures were read from the console branches with a read-only git show: `HIVE-7` (branch head `ec4b0f70`, 6 commits of its own; its console note is committed; merged). Each figure is checked against a committed file or a commit message, and a rebuild re-reads the final state.
 
+### Round 8: `HIVE-8`, moods in the page, and corrections
+
+Round 8: `HIVE-8`, tip fefc4d80 (read at the merged head 112a4d68), 5 commits of its own since a10f1ff8, merged into the head of round 8, 112a4d68; its console note is committed, and the table below is that note’s own. Each figure is a token of the commit message or note row it is quoted from, checked when this page is built.
+
+- the page's scene hive with moods on (h3SceneHive moods option; relay hands mood changes on with their cause) ()
+
+- the scene relay's mood(id); check_hive6 §11 (the page's hives with moods on) ()
+
+- the correction when a briefed job goes to another agent (h7-next 2) ()
+
+- console note, memory and next brief ()
+
+- note the check_parse result ()
+
+| Measure | Before (a10f1ff8) | After | Source |
+|---|---|---|---|
+| Mood events reaching the figures, the panel's hive in the built page (ops room, oak-west-oakland, high; hive minutes 0–36) | 16 of 16 (the panel's hive already ran with moods; AVATARS-HD-4's figures subscribe) | 16 of 16 (unchanged); outdoor figures 16 of 16; glow mood = hive mood 7 of 7 built (base) and 6 of 6 (after) at minute 36 | drive A, $SP/loop10/h8/drive-base.txt, drive-after.txt |
+| Mood events reaching the figures, the scene's hive (sf-downtown, "A day in the hive", seed 1) in the built page | 0 | 1 (the planner turns busy at the award, in the cell hall; the refusal's moods fall while the camera is outside, with the room closed) | drive B, drive-base.txt, drive-after1.txt, drive-afterB.txt |
+| The same, headless (cell hall open through every beat, seeds 1, 2, 3, 7, 42) | 0 | 25; figure mood = released mood 25 of 25; relay mood(id) = hive 35 of 35 | check_hive6 §11 |
+| The scene's beats with moods on | — | 5 of 5 seeds unchanged (non-mood events, beat by beat) | check_hive6 §11 |
+| The default hive's output with the options off | digests 703aa91da7bb9439, 533938515253653d, 03f3d7a40c26af91; scene 13307c62…, e689091a…, ba4f0b27…, 4772e790…, fb9b7fae… | byte-identical 3 of 3, scene and relay 5 of 5 | check_hive6 §1, §11 |
+| Briefed jobs given to another agent while the briefed agent waits: a line at that award (page's case: no decide, approvals from minute 1 to 30) | 0 of 1 (seeds 1–40); 0 of 2 (seeds 1–200) | 1 of 1, grounded and in band (seeds 1–40); 2 of 2 (seeds 1–200) | check_hive6 §4; $SP/loop10/h8/lost.mjs, lost200.txt |
+| First jobs said = first awards (the same case) | 117 of 120 | 120 of 120 (seeds 1–40); 30 of 30 (seeds 1–10) | check_hive6 §4 |
+| Governor | 154 of 154 checked, physical 0 | 154 of 154, 3,196 of 3,196 steps, 0 physical; the scene's runs physical 0, chain intact | check_hive6 §2, §4, §11; drive B |
+| Combined ops room in the built page (high, briefing on, 1 room-level + 6 crowd figures) | 46 meshes, 5,988 triangles built, 5,890 drawn, 46 calls, 3 lights, 21.58 MiB | the same | drive A |
+| Page errors / off-host requests | 0 / 0 | 0 / 0 (drives A, B, three runs) | drives |
+
+Source: `docs/consoles/HIVE-8.md` at the merged head 112a4d68, the evaluation table as the console wrote it (before → after, with its sources).
+
 
 ---
 
-_Every figure on this page was checked against the repository file named beside it when the page was built (head `b111d4d3`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._
+_Every figure on this page was checked against the repository file named beside it when the page was built (head `709cd68e`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._

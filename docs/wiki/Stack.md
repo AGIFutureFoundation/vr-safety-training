@@ -30,9 +30,38 @@ What the platform is built from, read from the repository on its integration hea
 
 - Speech is whatever voices the learner’s device already has; the headless runs that test it use a stubbed engine, so how a real voice sounds is not shown.
 
-Sources: the files named in the table, each read from the integration head `a8379051` with git show or git ls-tree. Counts are file counts at that head, before the current round’s commits.
+Sources: the files named in the table, each read from the integration head `a10f1ff8` with git show or git ls-tree. Counts are file counts at that head, before the current round’s commits.
+
+### Round 8: `SEO-WHITEPAPER-2`, the whitepaper page, generated
+
+Round 8: `SEO-WHITEPAPER-2`, tip ffc17c39 (read at the merged head 112a4d68), 4 commits of its own since a10f1ff8, merged into the head of round 8, 112a4d68; its console note is committed, and the table below is that note’s own. Each figure is a token of the commit message or note row it is quoted from, checked when this page is built.
+
+- the whitepaper page generated from the wiki, rounds six and seven, a tighter figure check ()
+
+- a VideoObject for the whitepaper, from a committed cut of the video review ()
+
+- console note, memory and the next brief ()
+
+- check_links result in the console note (23,861 pass on a quiet machine) ()
+
+| Measure | Before (a10f1ff8) | After | Source |
+|---|---|---|---|
+| Page generated; output byte-identical on re-run | no (hand-written) | yes; second run "Unchanged", --check "current" | node tools/gen_whitepaper_page.mjs [--check] |
+| Sections, each with sources | 9 of 9 | 12 of 12 | node tools/check_whitepaper_page.mjs |
+| Sourced claims | 69 | 116 | same |
+| Loop-ten console rows; rounds shown | 19; rounds one to five, by theme | 34; rounds one to seven | the page (<tr class="swp-claim"> in #loop10) |
+| Figures found in their cited committed files | 220 of 220 (lexical: anywhere in the file) | 817 of 817 under the tighter small-number rule | check_whitepaper_page |
+| Small-number failures the tighter rule found on the way (fixed by rewording to the file's own words or pairing measures with figures) | — | 3 under the first form, 6 under the two -word form, then 0 | cycles 2–3 |
+| Planted wrong small number | passed (lexical) | fails (synthetic and real) | check_whitepaper_page negative cases |
+| Checker checks | 43 | 55 | same |
+| Page in the sitemap | yes (80 entries) | yes (80 entries) | WebXR/dist/sitemap.xml; check_seo |
+| VideoObject | none | 1, its clip and poster committed | check_whitepaper_page |
+| Commercial claims, model identifiers on the page | 0 | 0 | check_whitepaper_page |
+| Stills: page errors; failed responses; horizontal scroll at 390 and 1920 | — | 0; 0; 0 | $SP/loop10/swp2/shots.mjs |
+
+Source: `docs/consoles/SEO-WHITEPAPER-2.md` at the merged head 112a4d68, the evaluation table as the console wrote it (before → after, with its sources).
 
 
 ---
 
-_Every figure on this page was checked against the repository file named beside it when the page was built (head `b111d4d3`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._
+_Every figure on this page was checked against the repository file named beside it when the page was built (head `709cd68e`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._
