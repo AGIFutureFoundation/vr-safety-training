@@ -27,7 +27,7 @@ import { npBuildParish, npWaterShapes } from "../../shared/np-world.js";
 // FACADES: exterior detail and generic storefront signs on the massing (sets NP_MASSING_HOOKS.details; docs/consoles/FACADES.md).
 import { fcDetails } from "../../shared/fc-facades.js";
 // DETAIL: seeded instanced scatter (street kit, yards, roofs, vegetation, marsh, farm, industry, site clutter), one pool.
-import { dtMountDetail } from "../../shared/dt-detail.js";
+import { dtMountDetail, dtLotRects } from "../../shared/dt-detail.js";
 import { paMount } from "../../shared/pa-palette.js";
 import { PA_CATEGORIES } from "../../shared/pa-palette-data.js";
 // LANDMARKS-2: walk-in landmark interiors (market hall, lamp room, pier shed, glasshouse) — generic, schematic rooms.
@@ -218,8 +218,11 @@ let atWeatherNow = null, atSoundT = 1, atMix = null;
 const npReduced = typeof matchMedia === "function" && matchMedia("(prefers-reduced-motion: reduce)").matches;
 // WALKABLE: MOTORWORKS' parked vehicles are solid in the walk (the module guarded: absent until MOTORWORKS merges).
 // (Static now that MOTORWORKS is merged: the same placements its mount parks, checked against TERRAFORM's water depth.)
+// ENV-HD-3: ROBO-EXTERIORS' robotics lots (DETAIL's dtLotRects) keep parked vehicles and street life out of the lots.
+let fxLots = [];
+try { fxLots = dtLotRects(parish); } catch { fxLots = []; }
 let wkParked = [];
-try { wkParked = mvPlacements(parish, { waterDepthAt: (x, z) => tfWaterDepthAt(parish, x, z) }, { tier: npTierName }); } catch { wkParked = []; }
+try { wkParked = mvPlacements(parish, { waterDepthAt: (x, z) => tfWaterDepthAt(parish, x, z) }, { tier: npTierName, lots: fxLots }); } catch { wkParked = []; }
 let fxSolid = []; // ROBO-EXTERIORS: the robot-site buildings (pure lots, no three.js) are solid in the walk too
 try { fxSolid = fxColliders(parish); } catch { fxSolid = []; }
 const wkColliders = wkColliderSeam(cwColliders, nwParishColliders, [...(wkSolidBoxes(wkParked, (x, z) => npHeightAt(parish, x, z)) ?? []), ...fxSolid]);
@@ -233,7 +236,7 @@ nwPhys.place(np.x, np.z);
 // MOTORWORKS (docs/consoles/MOTORWORKS.md): parked Motor Pool vehicles of fitting classes at fitting sites, two
 // instanced meshes per map; E at one walks its pre-trip on the board (the gate contract) and drives it from its bay
 // with its class's handling. PALETTE's colour categories give the liveries when that module is on the page (guarded).
-const mvPark = mvMountMotorworks({ three: THREE, root, parish, world: nwPhys.world, tier: npTierName, categories: PA_CATEGORIES });
+const mvPark = mvMountMotorworks({ three: THREE, root, parish, world: nwPhys.world, tier: npTierName, categories: PA_CATEGORIES, lots: fxLots });
 let mvPending = null, mvDriving = null;
 function mvExitDrive() {
   const out = nwPhys.exitDrive();
@@ -406,6 +409,7 @@ function mgRemount() {
     groundAt: (x, z) => Math.max(npHeightAt(parish, x, z), 0),
     sidewalkAt: typeof cwSide === "function" ? (x, z) => cwSide(parish, x, z) : undefined,
     colliders: typeof cwCol === "function" ? (key) => cwCol(parish, key) : undefined,
+    lots: fxLots, // ENV-HD-3: never inside a robotics lot
     pos: () => (np.playing && !np.modal ? [np.x, np.z] : null),
     threats: () => (nwPhys.driving() ? [[nwPhys.vehicle.x, nwPhys.vehicle.z]] : []), // NEWTON's vehicle while the learner drives
   });

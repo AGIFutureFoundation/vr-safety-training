@@ -208,6 +208,48 @@ for (const { id, parish, map } of maps) {
   check(/## Seams/.test(rd("docs/consoles/MENAGERIE.md")), "wiring", "docs/consoles/MENAGERIE.md has no Seams section");
 }
 
+// ENV-HD-3: no animal or person placed inside a robotics lot, and nothing that walks steps into one
+{
+  const { dtLotRects } = await imp("shared/dt-detail.js");
+  const inLot = (a, lots) => lots.some((r) => a.x >= r[0] && a.x <= r[2] && a.z >= r[1] && a.z <= r[3]);
+  let before = 0, after = 0, mapsWith = 0, plansAfter = 0, walked = 0, walkedIn = 0, beforePage = 0, afterPage = 0; const byKind = {};
+  for (const { id, map, parish } of maps) {
+    const lots = dtLotRects(parish); if (!lots.length) continue;
+    mapsWith++;
+    for (const tier of ["low", "balanced", "high"]) for (const night of [false, true]) {
+      const b = MG.mgPlan(map, { tier, night }), a = MG.mgPlan(map, { tier, night, lots });
+      const bin = b.filter((x) => inLot(x, lots)); before += bin.length; for (const x of bin) byKind[x.kind] = (byKind[x.kind] ?? 0) + 1;
+      const ain = a.filter((x) => inLot(x, lots)); after += ain.length; plansAfter++;
+      check(ain.length === 0, "lots", `${id}/${tier}/${night ? "night" : "day"}: ${ain.length} placed inside a robotics lot`);
+    }
+    // the plan the parishes page makes: CITYWORKS' sidewalks and colliders passed, as the app passes them
+    {
+      const CW = await imp("shared/cw-cityworks.js");
+      const seams = { sidewalkAt: (x, z) => CW.cwSidewalkAt(parish, x, z), colliders: (key) => CW.cwColliders(parish, key) };
+      for (const tier of ["low", "balanced", "high"]) {
+        const b = MG.mgPlan(map, { tier, ...seams }), a = MG.mgPlan(map, { tier, ...seams, lots });
+        const bin = b.filter((x) => inLot(x, lots)); beforePage += bin.length; for (const x of bin) byKind[x.kind] = (byKind[x.kind] ?? 0) + 1;
+        const ain = a.filter((x) => inLot(x, lots)); afterPage += ain.length;
+        check(ain.length === 0, "lots", `${id}/${tier}/page seams: ${ain.length} placed inside a robotics lot`);
+      }
+    }
+    // walking: an agent near a lot, chased from the far side towards it, never steps in (fliers may cross over)
+    const boxes = MG.mgLotBoxes(lots), boxesAt = () => boxes;
+    const near = MG.mgPlan(map, { tier: "high", lots }).filter((x) => MG_KINDS[x.kind].moves !== "flies" && lots.some((r) => x.x > r[0] - 25 && x.x < r[2] + 25 && x.z > r[1] - 25 && x.z < r[3] + 25));
+    for (const p0 of near.slice(0, 40)) {
+      const a = MG.mgAgent(p0, 0), r = lots.find((q) => a.x > q[0] - 25 && a.x < q[2] + 25 && a.z > q[1] - 25 && a.z < q[3] + 25);
+      const cx = (r[0] + r[2]) / 2, cz = (r[1] + r[3]) / 2, d = Math.hypot(a.x - cx, a.z - cz) || 1;
+      let inside = false;
+      for (let i = 0; i < 120; i++) { MG.mgStep(a, { pos: [a.x + (a.x - cx) / d * 2, a.z + (a.z - cz) / d * 2], threats: [], map, boxesAt, t: i * 0.1 }, 0.1); if (inLot(a, lots)) inside = true; }
+      walked++; if (inside) walkedIn++;
+    }
+  }
+  check(mapsWith > 0, "lots", `maps with robotics lots: ${mapsWith}`);
+  check(walked > 0 && walkedIn === 0, "lots", `agents chased towards a robotics lot that stepped in: ${walkedIn} of ${walked}`);
+  lines.push(`ENV-HD-3 lots: animals and people placed inside a robotics lot, before ${before} -> after ${after} (${mapsWith} maps, ${plansAfter} plans: 3 tiers x day/night); with the page's CITYWORKS seams, before ${beforePage} -> after ${afterPage} (3 tiers)${before + beforePage ? `; before by kind: ${Object.entries(byKind).map(([k, n]) => `${k} ${n}`).join(", ")}` : ""}; chased towards a lot and stepped in: ${walkedIn} of ${walked}`);
+  check(/mgMountLife\(\{[\s\S]*?lots: fxLots[\s\S]*?\}\)/.test(rd("WebXR/parishes/js/app.js")), "lots", "the parishes app passes the robotics lots to MENAGERIE");
+}
+
 for (const l of lines) console.log(`  ${l}`);
 console.log(`check_menagerie: ${passed} passed, ${failed} failed (${maps.length} maps, ${MG.MG_KIND_NAMES.length} kinds, ${Date.now() - t0} ms)`);
 process.exit(failed ? 1 : 0);
