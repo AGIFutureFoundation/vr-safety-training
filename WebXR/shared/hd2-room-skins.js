@@ -90,7 +90,8 @@ function hd2Noise(g, res, rng, n, a, light = "255,255,255", dark = "0,0,0") {
 function hd2TileFloor(THREE, styleId, room, res) {
   const c = hd2Canvas(res, res);
   if (c) {
-    const g = c.getContext("2d"), rng = hd2Rng(styleId.length * 131 + 7), { w, d } = room, sx = res / w, sz = res / d;
+    const rng = hd2Rng(styleId.length * 131 + 7);
+    const g = c.getContext("2d"), { w, d } = room, sx = res / w, sz = res / d;
     const base = new THREE.Color(room.style.floor), lite = base.clone().lerp(new THREE.Color(0xffffff), 0.1), dark = base.clone().multiplyScalar(0.92);
     g.fillStyle = `#${base.getHexString()}`; g.fillRect(0, 0, res, res);
     const t = 0.6;
@@ -114,7 +115,8 @@ function hd2BlockWall(THREE, res, repeat) {
   if (!base) {
     const c = hd2Canvas(res, res);
     if (c) {
-      const g = c.getContext("2d"), rng = hd2Rng(29), bw = res / 5, bh = res / 10, lw = Math.max(1, res / 400);
+      const rng = hd2Rng(29);
+      const g = c.getContext("2d"), bw = res / 5, bh = res / 10, lw = Math.max(1, res / 400);
       g.fillStyle = "#eceeee"; g.fillRect(0, 0, res, res);
       hd2Noise(g, res, rng, res * res / 50, 0.07, "255,255,255", "90,94,98");
       g.fillStyle = "rgba(110,114,118,0.32)";
