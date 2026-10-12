@@ -348,6 +348,10 @@ APPS = {
             SHARED / "oc-claw.js",
             SHARED / "oc-claw-record.js",
             SHARED / "oc-panel.js",
+            # ECOSYSTEM (docs/ecosystem.md): the Ecosystem tab's read-only "next blocks for this skill" — the attributed
+            # Cognition.X extract (generated) and the bridge that reads it; no request, no storage.
+            SHARED / "eco-blocks-data.js",
+            SHARED / "eco-blocks.js",
             SHARED / "account.js",
             SHARED / "controls.js",
             WEBXR / "instructor/js/app.js",
