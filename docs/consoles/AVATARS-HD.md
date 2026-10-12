@@ -44,7 +44,7 @@ today's figure: three HD figures at about 2,700 triangles would take the cell ha
 | Gestures fired per event type (real hive, seed 1, 120 steps, a seeded stand-in learner who approves) | stop 20, nod 45; no raise, accept or approve | bid → raise **200 of 200**, award → accept **67 of 67**, refused → stop **20 of 20**, approved → approve **47 of 47**, complete → nod **45 of 45** | §9g |
 | Each gesture's pose, measured on the bones mid-gesture | — | **5 of 5** (raise: hand above the head; accept: hand at the chest; stop: hand forward and up, palm out; approve and complete: head pitch > 0.2) | §9g |
 | No skin tone on the head and hands | — | closest **0.177** RGB to crew.js's 12 tones (≥ 0.15) | §9c |
-| Portraits from the new figure | SVG badges rasterised at 2× | **22 of 22** at 96 px (2×) and 144 px (3×), distinct 11 of 11; in the page: see drive C | §9j; drive C |
+| Portraits from the new figure | SVG badges rasterised at 2× | **22 of 22** at 96 px (2×) and 144 px (3×), distinct 11 of 11. In the built instructor console: **11 of 11** cards drawn from the figure, 96 px PNGs at 48 px on a 2× screen and 144 px on a 3× screen | §9j; drive C |
 | Phone tier in the page | 154 calls, 56,062 triangles | **154 / 56,062**, unchanged with the layer | drive A |
 | Page errors / off-host requests | — | **0 / 0** | drive (second full run, `$SP/loop10/ah/drive-out-2.txt`) |
 
@@ -63,8 +63,9 @@ On high before this console (048869d5), the figure was today's figure, the one b
 triangles a figure (`check_agent_avatars` §9b measures a high-tier mount without `hd`). Six of them in this frame would add 54
 calls and about 5,200 triangles. The high-detail figure trades about two-thirds of the agents' draw calls for about three times
 their triangles: 18 calls against 54, and 16,288 triangles against about 5,200. With all eleven figures in view at 1920×1080
-(section B), the layer adds 33 calls on high and 85 on balanced. The triangle deltas in B are one streamed frame apart, so they
-are not used.
+(section B), the layer adds 22 to 33 calls on high and 75 to 85 on balanced across three runs. B's "without" frame comes one
+streamed frame later, so its deltas move from run to run and its triangles are not used. Section A's frames are stationary
+and are the measure: balanced was +54 calls and +5,220 triangles in the cleaner first run, and high +18 calls in both runs.
 
 ## Cycles (reason → act → observe)
 
