@@ -58,19 +58,19 @@ Source: `docs/consoles/ROBOTRAIN-6.md`, `docs/evals/colearn.json`
 
 Source: `docs/consoles/ROBOTRAIN-6.md`
 
-- **Per-step reward** A reward model that scores a short window of steps instead of a whole run, so that only the low-reward moments are dropped before the clone is trained and the rest of every demonstration is kept. The windows and the rater are synthetic.
+- **Per-step reward** A reward model that scores a short window of steps instead of a whole run, so that only the low-reward moments are dropped before the clone is trained and the rest of every demonstration is kept. The windows and the rater are synthetic. Run again on fresh seeds with pairs that oversample windows holding a broken rule, it still trailed the rule filter at its declared threshold (0.517 against 0.650 on fleet routing).
 
 Source: `docs/consoles/ROBOTRAIN-7.md`, `docs/evals/colearn.json`
 
-- **Reactive agent** A baseline that picks each action from a short list of rules over the safety fields it can see, with no search and no planner. It sits between the random floor and the scripted expert, which sees the targets.
+- **Reactive agent** A baseline that picks each action from a short list of rules over the safety fields it can see, with no search and no planner. It sits between the random floor and the scripted expert, which sees the targets. A version that waits after a few blocked ticks and then steps aside passes 55 of 60 fresh held-out seeds on the hard fleet-routing variant, where the plain one passed 26 of 60; it still uses no search, no planner and no learning.
 
 Source: `docs/consoles/ROBOTRAIN-7.md`, `docs/perf/agent-baselines-robotics.json`
 
-- **Aliasing ceiling** The highest share of the expert’s labelled actions that any policy reading only a given set of features could match: where states give the same feature values but the expert acts differently, at least one of them must be answered wrongly. It is measured on training states before any held-out seed is run.
+- **Aliasing ceiling** The highest share of the expert’s labelled actions that any policy reading only a given set of features could match: where states give the same feature values but the expert acts differently, at least one of them must be answered wrongly. It is measured on training states before any held-out seed is run. A feature set that reads only the cells nearby and the other robots’ last moves raises it from 0.796 to 0.910, and the clone still does not reach it (0.317 on fresh seeds).
 
 Source: `docs/consoles/ROBOTRAIN-6.md`, `docs/consoles/ROBOTRAIN-7.md`
 
-- **Ablation** A re-run with one part taken out, to show how much that part carries. Here the detour feature was taken out of the other-robots features, and the clone’s success fell from 0.983 to 0.517.
+- **Ablation** A re-run with one part taken out, to show how much that part carries. Here the detour feature was taken out of the other-robots features, and the clone’s success fell from 0.983 to 0.517. Run again on fresh seeds, the same holder features end at 0.317, so the earlier figure depended on the seeds.
 
 Source: `docs/consoles/ROBOTRAIN-7.md`
 
@@ -99,4 +99,4 @@ Definitions follow how the repository uses each term, not an outside textbook.
 
 ---
 
-_Every figure on this page was checked against the repository file named beside it when the page was built (head `54c3f318`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._
+_Every figure on this page was checked against the repository file named beside it when the page was built (head `c1dc76a1`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._

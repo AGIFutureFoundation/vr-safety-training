@@ -62,7 +62,7 @@ The console built one skinned body and one skinned glow mesh for each agent (rou
 | Phone (low) | None: unchanged | 0 | none |
 | Balanced | Today’s figure, unchanged | 1,012 | 9 / 11 |
 | High (desktop), the outdoor mount | The high-detail figure: 3 meshes and 2 sprites (11 before, of the 12 a figure may use) | 1,012 → 2,693 on average, worst 2,774 (budget 3,000) | 9 / 11 → 3 / 5 |
-| High (desktop), the robot rooms | Today’s figure: three new figures at about 2,700 triangles each would take the cell hall (1,688 triangles of shell) past the rooms’ 6,000 | unchanged | unchanged |
+| High (desktop), the robot rooms | A lighter room-level figure (round five; 3 a room, 6 of 6 rooms inside their budgets), because three full figures at about 2,700 triangles each would take the cell hall (1,688 triangles of shell) past the rooms’ 6,000 | 898 –962 | 3 meshes a figure (today’s 9) |
 
 Measured by the checker `tools/check_agent_avatars.mjs` on the real three.js geometry, with the budget held in `WebXR/shared/aa-agent-hd.js`: 12 meshes and sprites, 3,000 triangles and 3 draw calls silent / 5 speaking a figure. The new figure is built only on the desktop high tier’s outdoor mount, and a mount that does not ask for it keeps today’s figure, which the checker proves.
 
@@ -94,7 +94,7 @@ Each correlation compares a trait with a number the figure sets from it (a lean,
 |---|---|---|
 | The mouth with the voice on: a stubbed utterance’s word boundaries | within 15.3 ms of each boundary; 20 of 20 within 25 ms | the tolerance was fixed before the re-run |
 | The mouth with the voice off: the caption’s own word timing | within 20.0 ms of each word’s onset (20 of 20); closes between words (19 of 19) | the line’s own clock |
-| The real voice controller: word boundaries forwarded to the figure | 0 | two lines on the `HIVE-4` side are needed (see Left) |
+| The real voice controller: word boundaries forwarded to the figure | 0 | as left by the earlier round; the seam is closed below |
 | A bid → the hand is raised | 200 of 200 | a real hive run of 120 steps |
 | An award → the accepting gesture | 67 of 67 | before: none |
 | A refusal → the stop gesture (hand forward and up, palm out) | 20 of 20 | before: 20 stop gestures |
@@ -104,29 +104,56 @@ Each correlation compares a trait with a number the figure sets from it (a lean,
 
 Reduced motion holds the high figure still, and a gesture rests at its pose. Portraits are drawn from the new figure too: 22 of 22 at 96 px for an ordinary high-density screen and 144 px for a denser one, deterministic and distinct (11 of 11), in the roster’s same card layout; in the built instructor console 11 of 11 cards are drawn from the figure. The head and hands stay at least 0.15 (RGB distance) from each of the game’s 12 skin tones; the closest is 0.177. The checker went from 70 to 92 checks (22 new), all passing, with the neighbours (`check_hive_world` 35, `check_hive3` 32, `check_imports` 1,119 modules, `check_parse` 2,698 modules); the console looked at 5 stills at 1920×1080.
 
+### Round five: the bodies follow the voices (AVATARS-HD-2)
+
+| Measure | Before → after |
+|---|---|
+| Word boundaries the real voice controller forwards to the figure, in the checker’s controller test (the controller now forwards a boundary for the line being spoken only, and drops a late one from a line that was cancelled or has ended) | 0 → 20 |
+| Forwarded boundaries with the mouth open within 25 ms and shut before the next, with a stub whose word times follow the word’s length (90 ms and 28 ms a letter); the earlier stub fired a boundary every 0.2 s whatever the word, about 300 words a minute, and kept the mouth open | 20 of 20 |
+| Spoken lines of the real hive (seed 1, 60 seconds, through the panel’s own wiring) whose talk light is off before the voice starts and on from its start to its end; the same with a mount that does not wait for the voice; lines with a caption; words over which the mouth opens and closes | 11 of 11; 0 of 11; 11 of 11; 159 of 159 |
+| A line the voice has not started within 4 s (a stuck voice): the figure falls back to its own clock, and the caption always shows when the line arrives | by design |
+| A room-level figure, a lighter level of detail for the robot rooms: triangles, against a stated 1,000 (the full figure is unchanged at 2,618 –2,770) | 898 –962 |
+| The robotics rooms built on high as the page builds them (the room dresser, the lighting and the skins), with 3 figures standing in each and their captions up: rooms inside the room budget and the texture budget; the busiest room (the AMR warehouse) in triangles, with today’s figure beside it; meshes a room, with today’s beside it | none → 6 of 6; 5,562 (5,804); 31 –33 (49 –51) |
+| The worst figure in a room: triangles against the stated budget, with today’s figure beside it; meshes, with today’s; rooms that the outdoor figure would put over their budget (triangles a room); balanced builds today’s figure in a room and the phone tier builds none | 962 of 1,000 (1,008); 3 (9); 6 of 6 (9,438 –10,858) |
+| The stop hand seen from the front, measured on the real skeleton of all 7 bodies: the hand held up in front of the chest, about 0.09 m right of the midline (inside the shoulders) and 0.36 m ahead of it, the palm within 5 degrees of the figure’s front; the earlier pose held it 0.27 m to the side, outside the shoulders, at 1.59 m beside the head, close to the raised hand of a bid. The distance between the hands, in body heights; how square the palm is to the front; the raised hand’s height in metres; stop gestures held their full 1.8 s | 0.38 → 0.68; 1.00; 1.96; 20 of 20 |
+| The built page driven with a stubbed speech engine (a drive script outside the gate; one local and one network voice, word times that follow each word’s length): network voice chosen; word boundaries reaching the figures; spoken lines with the light off just before the voice starts, on just after it and off after its end (each with its caption up); the room in the page with an agent speaking in the cell hall (meshes; triangles); page errors; off-host requests | 0; 48 of 48; 3 of 3; 30; 3,964; 0; 0 |
+| Agent-avatar checker checks | 92 → 99 |
+
+Source: `docs/consoles/AVATARS-HD-2.md`. The checker’s controller test had a stub that was not realistic, which is why an earlier attempt kept the mouth open; the console made the stub word-length based, like its own timing test, and stated the change. Other checkers that grepped the seam’s old call shape (`check_hive3` and `check_hive_world`) were updated in the same commit to read the new shape, with the reason. No voice is heard in any headless run, so these are stubbed speech engines and not a measurement of an on-device voice.
+
 ### Read honestly
 
 - The talk-light and caption checks are exact by construction, because the light follows the line’s clock window; they show that the windows hold over a real hive’s bursts and queues, and they do not test a voice. With a stubbed speech engine in the rooms the light was on for 15 of 15 voiced lines, and it can come on slightly before the voice starts (the notes of `HIVE-IN-WORLD` and `HIVE-3`).
 
 - The agents are not people and are not drawn as people, but a figure with arms, a visor and a voice can still feel like a person; whether learners read the label has not been tested on anyone.
 
-- Outdoors an agent stays where the hive last moved it, because the hive has no “go home” move; only the rooms send an agent home.
+- An agent walks home outdoors after its last job only through the hive’s opt-in home move, which is off by default and on in the panel’s hive (89 of 89 home moves in a seeded day); only the rooms sent it home before.
 
 - The personality check compares each trait with a number the figure sets from it, so it proves the mapping and not the impression: no learner was asked whether a hesitant agent looks hesitant. The silhouette check is the same kind of test, on outlines rather than on people.
 
-- The voice’s word boundaries do not reach the mouth in the page yet: the real voice controller forwards 0 of them, and two lines on `HIVE-4` ’s side are needed. Until then, with the voice on, the mouth follows the start and the end of the line with word timing at the voice’s rate; the timing figures above are for a stubbed voice and for the caption’s clock.
-
-- The robot rooms keep today’s figure, where a learner meets the agents up close; the new figure there needs a lighter level or a rule that draws only the nearest.
+- The real voice controller forwarded 0 word boundaries to the figure and the mouth followed the line’s timing; the next round closed that seam (see the block below).
 
 - The cost was measured in draw calls and triangles, in the page and in the checker, and not in frame time, so whether a modest desktop holds its frame rate with the new figure is not shown.
 
 - The look was checked by eye as well as by number. In the first render the role colour tinted the whole shell and the steward and the trainer read as skin, which is why the shell is now a cool porcelain with a measured distance from every skin tone; in the page the body’s own glow then warmed the shells again until it was replaced by a cool lift.
 
-**Round four ** of this loop is **merged** into the integration head (`54c3f318`) and is read from it with a read-only git show: `AVATARS-HD` (its own commits end at `5e810d5d`, 5 commits of its own; its console note is committed; merged). Each figure is checked by phrase against that console’s note or its commit messages, and a rebuild re-reads the final state.
+- The first run of the built-page drive found a line lit before its voice had started: the wait for a voice’s start, then 1.5 s, was too short on a loaded machine, so the figure fell back to its own clock. The wait is 4 s now, so a stuck voice costs the light and the mouth that long, with captions showing throughout. The drive script is not part of the gate, and its checker-baseline row is an estimate until it is re-measured on a quiet machine.
+
+- The room check is a worst case of 3 figures with their captions up, not a run over the hive’s whole day, and the older hive checkers still mount the rooms with today’s figure while the page uses the room level. Frame time was not measured, because the machine was loaded all round, and at about one frame a second a word can pass unseen while the captions and the light are unaffected.
+
+- The hive operations room has no level of the figure that fits 7 figures: 7 room-level figures would add 21 meshes and 6,486 triangles to a room of 25 meshes and 2,022 triangles, 46 meshes and 8,508 triangles in all, against a budget of 40 and 6,000. The video review’s capture of the merged head found the room at 46 meshes and 8,508 triangles, over the limit, because the room mount of this line reached it and no checker covered the combination; it was fixed at integration, which hands the room the default figure that `HIVE-5` lightens, and the built page measures 4,470 triangles, so room-level figures for all the agents remain a future item.
+
+- The room-level figure keeps the full figure’s posture, gestures and mouth but is a lighter level of detail; the busiest room sits close to its budget, and balanced keeps today’s figure there.
+
+- The word-boundary and onstart figures come from the checker with a stubbed speech engine and the real controller; no on-device voice is heard in any headless run, so how closely the mouth matches a real voice’s words on a learner’s device is not shown. A line that waits for the voice also shows its caption when it arrives, so the caption can come before the voice starts.
+
+**Round four ** of this loop is **merged** into the integration head (`e252b25f`) and is read from it with a read-only git show: `AVATARS-HD` (its own commits end at `5e810d5d`, 5 commits of its own; its console note is committed; merged). Each figure is checked by phrase against that console’s note or its commit messages, and a rebuild re-reads the final state.
+
+**Round five ** of this loop is merged into the integration head; its figures were read from the console branches (the same commits) with a read-only git show: `AVATARS-HD-2` (branch head `6eea694e`, 6 commits of its own; its console note is committed; merged). Each figure is checked by phrase against that console’s note, a committed file or its commit messages, and a rebuild re-reads the final state.
 
 Sources: `docs/consoles/AGENT-AVATARS.md`, `docs/consoles/HIVE-IN-WORLD.md`, `docs/consoles/HIVE-3.md`, `docs/consoles/VOICES.md`. The figures are read from those notes by the script that built this page. The seeded runs are simulations; no person was measured, and no hardware is involved.
 
 
 ---
 
-_Every figure on this page was checked against the repository file named beside it when the page was built (head `54c3f318`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._
+_Every figure on this page was checked against the repository file named beside it when the page was built (head `c1dc76a1`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._

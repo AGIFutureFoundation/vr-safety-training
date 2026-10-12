@@ -184,6 +184,16 @@ Takes the warehouse and port routing jobs and moves totes between the robot site
 | The instructor console’s Omega Hive tab, driven in a headless page: agent cards with portraits and the “software agent” label; lines shown (exchange turns; memory lines); governor refusals listed; eval rows read from a committed JSON; buttons; page errors | 7; 65 (32; 3); 20; 12; 0; 0 | `docs/consoles/HIVE-4.md` | observed |
 | On a phone, the tab and its selector, in pixels (width by height) | 96×44; 116×44 | `docs/consoles/HIVE-4.md` | observed |
 | Checker checks; the default hive’s day byte-identical to the base (digest 703aa91da7bb9439); stills at 1920×1080 taken and looked at | 11 passed; 4 stills | `tools/check_hive4.mjs` | count |
+| **Round five: the hive in its operations room, a console tab on the learner’s own hive, and home after a job** | | | |
+| Operations-room screens painted from the hive’s own events, jobs and metrics (a console for each agent and the wall), before → after; words on the agents’ cards and on the wall at hive minute 150; refusals the wall lists by job id; texture bytes the screens add | 0 → 8 of 8; 93; 22; 4; 0 | `docs/consoles/HIVE-5.md` | simulated |
+| Agents standing at their consoles on entering the room, before → after (high and balanced; the phone tier builds none); walks out to a job and back in a seeded day (seed 1, 480 steps); steps with the room inside its budgets; agent-steps at the console exactly while holding no job | 0 → 7 of 7; 107; 107; 480 of 480; 3,360 of 3,360 | `docs/consoles/HIVE-5.md` | simulated |
+| The room with 7 speaking figures, high: meshes; triangles; texture MiB; the same on balanced; the triangles 7 standard figures would have made, against the room’s limit of 6,000; a figure in the room, standard → lightened | 88; 4,878; 21.58; 84; 4,190; 2.77; 9,078; 1,008 → 408 | `docs/consoles/HIVE-5.md` | count |
+| The console tab on the learner’s own hive over a same-origin link (local, no network): lines a snapshot after 40 steps, headless; in the page at hive minute 261: lines; refusals; storage keys; before, the tab could only replay a seeded day | 140; 52; 36; 0 | `docs/consoles/HIVE-5.md` | observed |
+| Home after the last job, outdoors too (opt-in): home moves in the seeded day, before → after; home lines grounded in the event; outdoor figures where the hive says; idle agents home at the day’s end | 0 → 89 of 89; 89 of 89; 7 of 7; 7 of 7 | `docs/consoles/HIVE-5.md` | simulated |
+| The governor with homeward on: dispatched jobs checked; steps monitored; physical dispatches; jobs completed with and without it | 150 of 150; 3,061 of 3,061; 0; 144 | `docs/consoles/HIVE-5.md` | simulated |
+| In the built page (high, a software renderer), the room at hive minute 159: agents standing; screens painted; meshes and triangles built (equal to the checker’s figure); triangles drawn; texture MiB; page errors; off-host requests | 7 of 7; 8 of 8; 88; 4,878; 4,292; 19.25; 0; 0 | `docs/consoles/HIVE-5.md` | observed |
+| The operations room on the merged head, triangles built against the limit of 6,000: with the high-detail line’s room-level figures in it (the video review’s capture, cut 12) → after the integration fix, in the built page with this console’s drive; page errors | 8,508 → 4,470; 0 | `docs/consoles/COORDINATOR.md` | observed |
+| The console link’s toggle on a 390 × 844 touch phone, signed in, in pixels (width by height); panel buttons at least 44 px; hive checker checks | 284 by 44; 6 of 6; 5 passed | `docs/consoles/HIVE-5.md` | observed |
 | **What the panel costs** | | | |
 | Meshes, lights, triangles, draw calls and texture bytes the panel adds on the desktop or phone tier, mounted and after 60 hive steps | 0 | `docs/consoles/OMEGA-HIVE.md` | observed |
 | The desktop world it was measured in: meshes; triangles; draw calls | 312; 114,395; 137 | `docs/consoles/OMEGA-HIVE.md` | observed |
@@ -219,17 +229,27 @@ Both columns run behind the same governor, steward and approvals, with a capacit
 
 - “A day in the hive” is scripted: the approval is the scene’s and stands in for the learner’s click, and every caption fact comes from the scene hive’s own events. The settings gate is the panel’s own: signed in, not K-12 and not the demo, so “adult profile” here means a signed-in, non-K-12 profile.
 
-- The rooms send an agent home when its last job ends; outdoors, a figure still stays where the hive last moved it, because the hive has no “go home” move.
-
 - Trait recovery is high because the style grammar is a deterministic function of the traits and the features read that grammar’s vocabulary: it shows that the traits reach the text, not that the text is natural. Every reading is reported (the first run right after the declaration, the run after a fix to the padding, and the current one after the steward’s cooldown).
 
 - The talk first made the safety steward repeat more: it asked about a hundred questions a day from six templates and its distinct-2 fell to 0.097. A cooldown of one question every 6 hive minutes with more variants lifted it (0.145 → 0.159), at the price of fewer questions (103 → 45 a day). The rule that decides when it asks is a rule, not a judgement, and the learner in the checker is a seeded stand-in.
+
+- The agents standing in the operations room are lightened (1,008 → 408 triangles each): they keep their parts, colours, label, visor and halo, but the head and torso are visibly faceted when seen up close, which is the only way all 7 fit with the room inside its triangle budget without editing the avatar module.
+
+- “At its console” means “holds no job”: in a busy part of the day most agents are out (at hive minute 261 of the seeded day the page held 11 jobs); the agents stand together at the start of the day and whenever the hive is quiet.
+
+- The console link carries what the panel shows and nothing else, but it is the learner’s own hive: it is off by default, never remembered, and dropped by the tab on “off” or after 6 s of silence. A same-origin channel reaches only pages of the same browser profile and is not a network path. The Spanish toggle text and screen text are machine-assisted.
+
+- With both consoles merged the operations room was, for a while, over its triangle limit: the high-detail line’s room mount put its room-level figures in this room, and the video review’s capture of the merged head measured 46 meshes and 8,508 triangles built against 6,000, a gap that neither console’s own checker covered (this one uses its own lightened figures, the other covers the robot rooms). It was fixed at integration: the app hands the room the default figure, which this console lightens, and the room measures 4,470 triangles in the built page; the figures stay the coarser, lightened ones, and `check_hive5` now guards the wiring.
+
+- In the video review’s captures the hive did send an agent home after its last job outdoors, but the reel could not get a usable frame of the walk in nine attempts: by its own reading the figure is already standing at its home slot when the home line appears, because the capture stepped the hive ahead of the figure, so the footage neither shows nor refutes the walk; the checker shows the outdoor figures where the hive says (7 of 7).
+
+- The home move has no job and goes nowhere near the governor; it changes the hive’s own idea of where an agent stands, so later bids count hops from home (the seeded day’s outcomes did not change: 144 jobs completed both ways).
 
 ### What it is not
 
 ### It is: Not people
 
-The agents are software, and the page says so on every card and in every caption. Their names are invented, they are drawn with a hologram tint and a visor and halo rather than a face, and their portraits are badges. The desktop high tier’s newer figure adds eyes, brows and a mouth on its visor band so that the mouth can follow the words, on a porcelain shell with no skin tone and the same label, and its portraits are drawn from that figure.
+The agents are software, and the page says so on every card and in every caption. Their names are invented. They are drawn with a hologram tint, a visor and a halo; on the desktop high tier the figure is a cool porcelain shell with eyes, brows and a mouth drawn on its visor band, kept away from every human skin tone (no realistic skin, no real person’s likeness), and the portraits are drawn from the agent figure, never from a person.
 
 Source: `docs/omega-hive.md`, `docs/consoles/AVATARS-HD.md`
 
@@ -269,7 +289,7 @@ The avatar layer puts a labelled hologram figure at a robot site on the balanced
 
 ### Instructor console and Guide
 
-The Data governance tab lists the agents with their portraits, and the Guide answers “What is the Omega Hive?” from its on-device knowledge base. Both were wired when round one was integrated; the console page has not yet been driven with the full roster. `HIVE-4` adds an Omega Hive tab to the console (merged): read-only, with a card for each of the 7 agents, their lines, the governor’s refusals and the evals table read from a committed JSON file; its drive on a headless page found page errors 0.
+The Data governance tab lists the agents with their portraits, and the Guide answers “What is the Omega Hive?” from its on-device knowledge base. Both were wired when round one was integrated; the console page has not yet been driven with the full roster. `HIVE-4` adds an Omega Hive tab to the console (merged): read-only, with a card for each of the 7 agents, their lines, the governor’s refusals and the evals table read from a committed JSON file; its drive on a headless page found page errors 0. `HIVE-5` stands the hive in its operations room (merged into the integration head): 7 of 7 agents at their consoles on entering, 8 of 8 screens painted from the hive’s own data, and the instructor tab can show the learner’s own hive live over a same-origin link the learner turns on.
 
 ### The game’s characters
 
@@ -289,17 +309,21 @@ The same voice controller speaks the 34 game characters’ own knowledge-pack li
 
 - *Planned* The Spanish exchange and memory lines are machine-assisted, like the rest of the Spanish text; a pad can repeat across the sentences of one line, as in the round before.
 
-- *Planned* The console tab replays a seeded day rather than reading the learner’s own hive.
+- *Planned* The operations room’s figures are a lightened copy of the standard figure; a lighter figure from the high-detail line is to replace it, the figures walk straight from the door to their spots, and the screens on balanced and the phone show colour and bars but no words (a larger cell on balanced would fit its texture budget).
 
-**Round two of this loop** is merged into the integration head (`54c3f318`): `HIVE-IN-WORLD` (note last committed in `0c834a8a`); `VOICES` (note last committed in `dc890479`). Each figure from it is checked by phrase against that console’s committed note, not re-run from a branch; a note that is edited later stops the build.
+- *Planned* The Spanish screen text and the console link’s toggle need a native speaker’s review, like the rest of the Spanish pack; the hive checker’s timing row is an estimate to re-measure on a quiet machine.
 
-**Round three of this loop** is merged into the integration head (`54c3f318`), and each figure from it is checked by phrase against that console’s committed note, a committed data file or a commit message, not re-run from a branch: `HIVE-3` (its last commit `bb5011ca`, 8 commits since the head that round started from; its console note is committed; merged into the integration head). A note that is edited later stops the build.
+**Round two of this loop** is merged into the integration head (`c1dc76a1`): `HIVE-IN-WORLD` (note last committed in `0c834a8a`); `VOICES` (note last committed in `dc890479`). Each figure from it is checked by phrase against that console’s committed note, not re-run from a branch; a note that is edited later stops the build.
 
-**Round four ** of this loop is **merged** into the integration head (`54c3f318`) and is read from it with a read-only git show: `HIVE-4` (its own commits end at `507a9448`, 8 commits of its own; its console note is committed; merged). Each figure is checked by phrase against that console’s note or its commit messages, and a rebuild re-reads the final state.
+**Round three of this loop** is merged into the integration head (`c1dc76a1`), and each figure from it is checked by phrase against that console’s committed note, a committed data file or a commit message, not re-run from a branch: `HIVE-3` (its last commit `bb5011ca`, 8 commits since the head that round started from; its console note is committed; merged into the integration head). A note that is edited later stops the build.
+
+**Round four ** of this loop is **merged** into the integration head (`e252b25f`) and is read from it with a read-only git show: `HIVE-4` (its own commits end at `507a9448`, 8 commits of its own; its console note is committed; merged). Each figure is checked by phrase against that console’s note or its commit messages, and a rebuild re-reads the final state.
+
+**Round five ** of this loop is merged into the integration head; its figures were read from the console branches (the same commits) with a read-only git show: `HIVE-5` (branch head `c4cca2fc`, 4 commits of its own; its console note is committed; merged). Each figure is checked by phrase against that console’s note, a committed file or its commit messages, and a rebuild re-reads the final state.
 
 Sources: `docs/consoles/OMEGA-HIVE.md`, `docs/omega-hive.md`, `docs/consoles/AGENT-AVATARS.md`, `WebXR/shared/oh-hive-data.js`, `tools/check_omega_hive.mjs`. The figures are read from those notes and files by the script that built this page. The seeded runs are simulations; no person was measured, and no hardware is involved.
 
 
 ---
 
-_Every figure on this page was checked against the repository file named beside it when the page was built (head `54c3f318`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._
+_Every figure on this page was checked against the repository file named beside it when the page was built (head `c1dc76a1`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._

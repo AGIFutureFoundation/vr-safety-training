@@ -212,6 +212,35 @@ Floodlights are lit by day in fog and storms at 0.45; the fog look draws in to a
 
 - Looking at the frames found faults that no count could: dawn drew the midday sky, the floodlight heads read as dark poles from the wide shot, the floor pools round the station pads read as white ellipses, and a sign title was clipped. Each was fixed after the look.
 
+### Round five: budgets kept, more scenes (ENV-HD-5)
+
+| Measure | Before → after |
+|---|---|
+| The 6 Louisiana rooms on the balanced tier: texture MiB a room, against the 3 MiB room budget (the signs were drawn at 512 × 120 as on high; the high tier keeps 512 × 120) | 3.21 –6.02 → 2.47 –2.86 |
+| Louisiana rooms inside the balanced budget, measured; name-sign canvas on balanced, px; meshes, triangles and lights (unchanged) | none → 6 of 6; 512 × 120 → 256 × 60 |
+| Room-skin checker checks, before → after; a measured pass builds the Louisiana rooms on every tier under a recording canvas stub and compares every texture with the model (builds that agree); with the balanced sign set back to its old size that pass fails (6.35 MiB measured against 2.84) | 401 → 480; 18 of 18 |
+| Balanced tier: a light-weight form of the robot rooms’ lighting (emissive ceiling panels, a flush warm panel over every station pad and console, the beacons’ amber lenses; one instanced mesh, no real light, no texture): meshes added a room; triangles added a room, against a limit of 400; lights and texture bytes | adds 1; adds 132 –228; unchanged |
+| Builds of the robot rooms unchanged on the phone tier and in a headset browser, a headset browser on balanced added to the check; `check_hd4` checks, before → after | 18 of 18; 118 → 127 |
+| Stills re-shot after the dawn-sky and sign-fit fixes, every frame looked at: the dawn and fog-at-dawn frames of the San José and West Oakland sites and the 7 lit rooms; captures; failed; page errors; external requests | 13; 0; 0; 0 |
+| New stills taken and looked at (the new scenes by day and night, the hospital’s street pair again, and the balanced rooms); stills rejected by eye and re-shot; captures in all the drives, none failed, with page errors and external requests at zero | none → 25; 2; 38 |
+| Establishing-shot presets, before → after: a wide shot and a street shot at the busiest park, fire station, hospital and school, the 4 busiest kinds by catalog stations that had no preset (214, 178, 169 and 168 stations); generic by kind, and a label names the kind only | 18 → 26 |
+| Street cameras at least 12 m from the site’s own building, before → after (the hospital campus’s stood 8.3 m away, with its wall filling the left of the frame; it is now 19.7 m) | 6 of 7 → 7 of 7; 8.3 → 19.7 |
+| Exteriors checker checks, before → after (it encoded a rule for the busiest sites overall; it now checks three by site and four by kind, each rule computed from the catalog) | 278 → 309 |
+
+Source: `docs/consoles/ENV-HD-5.md`. A coordinator’s earlier attempt changed the sign size alone and 24 of the room-skin checks failed, because the checker’s own model of a sign canvas still assumed the old size; the console changed the model with the module and made a room over its budget before the skin a failure, where it had only been reported.
+
+### Round five: the hive in its operations room (HIVE-5)
+
+| Measure | Before → after |
+|---|---|
+| Operations-room screens painted from the hive (a console for each agent and the wall); agents standing at their consoles on entering (high and balanced; the phone tier builds none) | 0 → 8 of 8; 0 → 7 of 7 |
+| The room with 7 speaking figures: meshes; triangles; texture MiB on high, against 120 meshes, 6,000 triangles and 24 MiB; the triangles 7 standard figures would have made | 88; 4,878; 21.58; 9,078 |
+| The same on balanced, against a texture budget of 3 MiB (the screens take colour, bars and a talk light, no words); texture bytes the screens add | 84; 4,190; 2.77; 0 |
+| Built in the page at hive minute 159: agents standing; screens painted; meshes and triangles built; page errors; off-host requests | 7 of 7; 8 of 8; 88; 4,878; 0; 0 |
+| On the merged head, triangles built against the limit of 6,000: with the high-detail line’s room-level figures in the room (the video review’s capture; 46 meshes) → after the integration fix, which keeps the lightened figure here (built page; page errors) | 8,508 → 4,470; 0 |
+
+Source: `docs/consoles/HIVE-5.md`. The figures in this room are lightened from 1,008 to 408 triangles each so that all 7 fit; the screens are painted from the hive’s own events and metrics, and every card says “software agent”. With both consoles merged the room was briefly over its triangle limit (the video review’s capture measured 46 meshes and 8,508 triangles built against 6,000, because the high-detail line’s room mount put its figures here), a gap no checker covered; it was fixed at integration, the app keeping the lightened figure in this room, and the built page now measures 4,470 triangles.
+
 ### Checkers run on the neighbours
 
 | Checker | Result |
@@ -231,31 +260,31 @@ Floodlights are lit by day in fog and storms at 0.45; the fog look draws in to a
 
 ### What is left
 
-- *Planned* The 6 Louisiana rooms are over the balanced texture budget before any skin (3.21 to 6.02 MiB against 3, from their name-sign canvases); the skin adds nothing there, and an atlas per room or phone-size signs would bring them in (a finding for the Louisiana rooms’ own console).
-
 - *Planned* The merged kind mesh holds its parts in world space in the 14 chunks where the generic and robotics kits meet; its geometry bytes are not yet measured against a stated byte budget.
-
-- *Planned* More establishing shots: parks, fire stations, hospitals and schools are the next busiest kinds, and a door shot at a site building.
 
 - *Planned* The phone tier has no lit windows at night; the balanced and phone exteriors were counted from the scene graph and allocation, not driven in a browser.
 
 - *Planned* The detail-generation timing is judged only on a quiet machine; it was measured at a shared load and says so.
 
-- *Planned* The operations room’s console screens show procedural placeholder content (no words), and no agent stands in the room yet, although its spots are ready, one for each role; the Omega Hive tab’s content is not drawn on the screens.
+- *Planned* Balanced gets the rooms’ lighting only in a light-weight form and no site lights, and the dawn look borrows the sky’s low-sun band, so the light on the buildings is the dusk’s; Ultra’s frame time is a software-renderer figure and a desktop-graphics-card measurement is the next step.
 
-- *Planned* Balanced gets no site lights and no room lighting, and the dawn look borrows the sky’s low-sun band, so the light on the buildings is the dusk’s; Ultra’s frame time is a software-renderer figure and a desktop-graphics-card measurement is the next step.
+- *Planned* In the re-shot room stills a guard-fence post covers part of the cell hall’s honesty line and the port control room’s window mullions draw over its sign: framing faults of the shots, not of the sign fit.
 
-- *Planned* Some stills were not re-shot after the latest fixes: the dawn and fog-at-dawn frames of some of the maps keep the plain low-sun sky, and the room frames predate a fit of the signs’ long titles.
+- *Planned* Establishing shots now cover the 4 busiest kinds that had none; a door shot at a site building is still not made.
 
-**Round two of this loop** is merged into the integration head (`54c3f318`): `HIVE-IN-WORLD` (note last committed in `0c834a8a`); `ENV-HD-2` (note last committed in `a0d21aea`). Each figure from it is checked by phrase against that console’s committed note, not re-run from a branch; a note that is edited later stops the build.
+- *Planned* The new shots frame the parish engine’s plain generic building, so nothing in the frame says fire station, hospital, school or park crew yard beyond the setting, and the park’s street shot stands under a tree crown that the camera solver does not see.
 
-**Round three of this loop** is merged into the integration head (`54c3f318`), and each figure from it is checked by phrase against that console’s committed note, a committed data file or a commit message, not re-run from a branch: `ENV-HD-3` (its last commit `f3589590`, 7 commits since the head that round started from; its console note is committed; merged into the integration head). A note that is edited later stops the build.
+**Round two of this loop** is merged into the integration head (`c1dc76a1`): `HIVE-IN-WORLD` (note last committed in `0c834a8a`); `ENV-HD-2` (note last committed in `a0d21aea`). Each figure from it is checked by phrase against that console’s committed note, not re-run from a branch; a note that is edited later stops the build.
 
-**Round four ** of this loop is **merged** into the integration head (`54c3f318`) and is read from it with a read-only git show: `ENV-HD-4` (its own commits end at `70b4aed5`, 11 commits of its own; its console note is committed; merged). Each figure is checked by phrase against that console’s note or its commit messages, and a rebuild re-reads the final state.
+**Round three of this loop** is merged into the integration head (`c1dc76a1`), and each figure from it is checked by phrase against that console’s committed note, a committed data file or a commit message, not re-run from a branch: `ENV-HD-3` (its last commit `f3589590`, 7 commits since the head that round started from; its console note is committed; merged into the integration head). A note that is edited later stops the build.
+
+**Round four ** of this loop is **merged** into the integration head (`e252b25f`) and is read from it with a read-only git show: `ENV-HD-4` (its own commits end at `70b4aed5`, 11 commits of its own; its console note is committed; merged). Each figure is checked by phrase against that console’s note or its commit messages, and a rebuild re-reads the final state.
+
+**Round five ** of this loop is merged into the integration head; its figures were read from the console branches (the same commits) with a read-only git show: `ENV-HD-5` (branch head `c0afcff2`, 5 commits of its own; its console note is committed; merged). Each figure is checked by phrase against that console’s note, a committed file or its commit messages, and a rebuild re-reads the final state.
 
 Sources: `docs/consoles/ROBO-INTERIORS.md`, `docs/consoles/ROBO-EXTERIORS.md`, `WebXR/shared/ixr-robo-interiors.js`, `WebXR/shared/fx-exteriors.js`, `tools/check_robo_interiors.mjs`, `tools/check_exteriors.mjs`. Each figure is read from those notes by the script that built this page. Rooms are generic by kind, as the interiors note says: no real building’s interior is modelled.
 
 
 ---
 
-_Every figure on this page was checked against the repository file named beside it when the page was built (head `54c3f318`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._
+_Every figure on this page was checked against the repository file named beside it when the page was built (head `c1dc76a1`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._
