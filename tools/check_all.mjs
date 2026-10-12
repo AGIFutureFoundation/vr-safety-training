@@ -108,6 +108,8 @@ const CHECKERS = [
   "check_robotrain.mjs",
   // ROBOSCENARIOS: the construction drilling robot and the port lane as gym scenarios — determinism, expert beats random, the person-inside-barricade and stop-zone invariants, policy results (docs/consoles/ROBOSCENARIOS.md).
   "check_roboscenarios.mjs",
+  // ROBOEXPORT: the sim-to-real readiness package — exports/robotics current and labelled synthetic, cards complete, the policy report current, the learner-data terms say only what the code enforces, no hardware claim (docs/consoles/ROBOEXPORT.md).
+  "check_roboexport.mjs",
   // VBRIDGE: software-agent jobs reach simulated robots only, through the safety governor (docs/consoles/VBRIDGE.md).
   "check_vbridge.mjs",
   // LA-COHORTS: Louisiana lesson flows and apply games, classroom boards, Home links, cohort run sheets (docs/consoles/LA-COHORTS.md).

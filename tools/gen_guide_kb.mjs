@@ -220,7 +220,7 @@ async function build() {
     const lines = readFileSync(join(ROOT, rel), "utf8").split("\n");
     let docTitle = null, head = null, para = [], n = 0;
     const flush = () => {
-      if (head && para.length && n < (rel.startsWith("docs/programmes/") || rel.startsWith("docs/virtuals") || rel === "docs/robotics-programme.md" || rel === "docs/louisiana-cohorts.md" || rel === "docs/ladders.md" ? 2 : 5)) { // five sections a doc (two for generated programme and ladder docs and the agent-network docs): the KB holds its 672 KB cap as docs grow
+      if (head && para.length && n < (rel === "docs/bench-protocol.md" || rel === "docs/learner-data-terms.md" ? 0 : rel.startsWith("docs/programmes/") || rel.startsWith("docs/virtuals") || rel === "docs/robotics-programme.md" || rel === "docs/louisiana-cohorts.md" || rel === "docs/ladders.md" ? 2 : 5)) { // five sections a doc (two for generated programme and ladder docs and the agent-network docs; none for ROBOEXPORT's two, whose FAQ entry carries the terms): the KB holds its 672 KB cap as docs grow
         const text = plain(para.join(" "));
         if (text.length > 30) {
           add({ id: `doc:${rel.slice(5)}#${n}`, kind: "doc", title: head === docTitle ? docTitle : `${docTitle} — ${head}`, src: rel,
@@ -274,6 +274,9 @@ async function build() {
     ["guide-what", "What can the Guide answer?", "guide you who are what can answer",
       "I answer only from this platform's own pages: the programmes and stations, the worlds and their sites, the controls, the unions and the docs. When nothing matches I say so. I run on this device and send nothing anywhere unless this site's owner has set a hosted answer service.",
       "WebXR/shared/guide.js", [{ label: "Open the programme finder", href: "index.html#catalog" }]],
+    ["data-terms", "What are the terms for my training data?", "data terms privacy consent record collect delete revoke opt in training robot episodes",
+      "docs/learner-data-terms.md, a draft for counsel, says only what the code enforces: nothing is recorded unless an adult, signed-in learner opts in; K-12, demo and signed-out sessions never collect; the data stay on this device and train only the local provider; one tap revokes and deletes everything. The Me tab's data panel links it.",
+      "docs/learner-data-terms.md, WebXR/shared/dx-data.js", []],
     ["agent-network", "What is SmartCiti.X on the agent network?", "smartcitix agent network virtuals acp citi token",
       "In preparation, not live: a plan for other agents to hire station evaluations in simulation, synthetic datasets, curriculum queries and lessons. No learner data leaves your device, nothing is on-chain, and $Citi is only a name the owner chose.",
       "docs/virtuals/strategy.md", []],
