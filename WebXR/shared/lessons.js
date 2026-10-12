@@ -153,7 +153,9 @@ const LESSON_STANDARD_RE = /\b(?:NFPA\s+\d+[A-Z]?|OSHA\s+29\s+CFR\s+[\d.]+(?:\([
 
 /** The standards a station's own certification line names (codes only, never the clause around them). */
 export function standardsOf(station) {
-  return [...new Set((String(station?.certification ?? "").match(LESSON_STANDARD_RE) ?? []).map((x) => x.replace(/\s+/g, " ").trim()))];
+  const all = [...new Set((String(station?.certification ?? "").match(LESSON_STANDARD_RE) ?? []).map((x) => x.replace(/\s+/g, " ").trim()))];
+  // "29 CFR 1910.212" beside "OSHA 29 CFR 1910.212" is the same code: keep the longer form only.
+  return all.filter((s) => !all.some((o) => o !== s && o.endsWith(` ${s}`)));
 }
 
 /**
@@ -181,8 +183,9 @@ export function composePack(spec, roster, { stepsOf = () => [], adult = true } =
     stations.push({ order: stations.length + 1, app: s.app ?? "smartcity", id: s.id, name: s.name, site: a.site ?? null, siteName: a.siteName ?? null,
       steps: s.stepCount ?? steps.length, interrupts: s.interruptCount ?? 0, parSeconds: s.parSeconds ?? 240, standards: standardsOf(s) });
   }
-  const standards = [...new Set(stations.flatMap((s) => s.standards))];
-  for (const std of spec?.standards ?? []) if (!standards.includes(std)) reasons.push(`no station in the pack carries ${std}`);
+  const pooled = [...new Set(stations.flatMap((s) => s.standards))];
+  const standards = pooled.filter((s) => !pooled.some((o) => o !== s && o.endsWith(` ${s}`)));
+  for (const std of spec?.standards ?? []) if (!pooled.includes(std)) reasons.push(`no station in the pack carries ${std}`);
   const pass = Number.isFinite(spec?.pass) ? spec.pass : 0.7;
   const perfect = stations.reduce((a, s) => a + s.steps * 100 + s.interrupts * 120, 0);
   const target = Number.isFinite(spec?.target) ? spec.target : Math.round(perfect * pass);
