@@ -13,6 +13,9 @@
  *      step's governor decision in step order (the real vbRun with the supervisor's e-stop, and a scripted monitor run with an
  *      inside-separation step: green -> amber -> red), the more severe of the run and the site's own state wins, a halted run
  *      keeps its last decision until the next job, a clean run hands back; no run -> the default lights exactly.
+ *   3c. The preview and the real run agree (ROBOTS-HD-3): the real vb-panel.js (stand-in DOM) with the page's provider hook;
+ *      for every job the governor lets through and every E-stop step, the preview's governor decision equals the real run's at
+ *      every step before the stop, the real run stops there with "estop", and a clean run matches its preview in full.
  *   4. Motion: the arm's joints eased (zero speed at each key pose, no jump between frames); the AMR's wheels turn by the
  *      distance it travels and hold still when it stops.
  *   5. Rooms: the robot rooms with the HD robots (and ENV-HD-4's lighting, with and without Ultra) inside IX_BUDGET /
@@ -210,6 +213,50 @@ console.log("3b. the light follows a live agent-jobs run");
     if (hdB.light(id) === hdC.light(id) && RB_.links.upper.rotation.x === RC.links.upper.rotation.x && RB_.zone.visible === RC.zone.visible) sameD++;
   }
   check(o1 === own() && sameD === nD, `a run on another map's site leaves this robot on its own state (${o1}); with no run the lights, pose and zone are the default's exactly: ${sameD} of ${nD} steps`);
+}
+
+// ------------------------------------------------------------------- 3c. the preview and the real run agree (ROBOTS-HD-3)
+console.log("3c. the panel's preview frames and its real governor run agree step for step");
+{
+  // While a job plays, the light follows the panel's PREVIEW frames (vbRun on a copy with a fresh governor); the panel's own
+  // governor runs the REAL run when the supervisor steps past the end or presses E-stop, and that run is what the audit keeps.
+  // This drives the real vb-panel.js (a stand-in DOM, no browser) with the page's provider hook (vb-colearn.js): for every job
+  // in VB_PANEL_QUEUE the governor lets through, and for every E-stop step k (plus the clean run to the end), the jobs before
+  // it are approved and run to the end first (the panel's governor carries their chain), then the preview's decision at each
+  // step before the stop must equal the real run's, the real run must stop at k with "estop", and a clean run must match
+  // the preview in full. The light is a function of (site state, decision), so equal decisions light the same.
+  const VBP = await imp("shared/vb-panel.js"), VBC = await imp("shared/vb-colearn.js");
+  const el = () => ({ style: {}, dataset: {}, children: [], textContent: "", disabled: false, onclick: null, appendChild(c) { this.children.push(c); return c; }, setAttribute() {} });
+  const hadDoc = "document" in globalThis, prevDoc = globalThis.document;
+  globalThis.document = { createElement: el };
+  const provider = VBC.vbColearnProvider({});
+  const mount = () => VBP.vbMountDispatch(el(), { reducedMotion: true, policyFor: (p, env, seed) => provider.policyFor(p, env, seed), providerLabel: (sc) => provider.describe(sc) });
+  const Q = VBP.VB_PANEL_QUEUE;
+  // Bring a fresh panel to job j with every earlier job approved (when the governor allows it) and stepped to its end.
+  const panelAt = (j) => { const p = mount(); for (let i = 0; i < j; i++) { const jb = p.next(); if (jb.phase !== "NEGOTIATION") continue; p.approve(); let g = 0; while (p.state().run && g++ < 500) p.step(); } return p; };
+  let steps = 0, agree = 0, stops = 0, stopsOk = 0, clean = 0, cleanOk = 0, jobsRun = 0; const bad = [], perJob = [];
+  for (let j = 0; j < Q.length; j++) {
+    const probe = panelAt(j), jb = probe.next();
+    if (jb.phase !== "NEGOTIATION") { perJob.push(`${Q[j].seed}: refused (${jb.governor?.primary})`); continue; }
+    probe.approve(); const n = probe.state().run?.of ?? 0; if (!n) { perJob.push(`${Q[j].seed}: no frames`); continue; }
+    jobsRun++; let jobSteps = 0, jobAgree = 0;
+    for (let k = 0; k <= n; k++) { // k < n: the supervisor's E-stop at step k; k === n: stepped to the end (no E-stop)
+      const p = panelAt(j); p.next(); p.approve();
+      const preview = [];
+      for (let i = 0; i < k && p.state().run; i++) { preview.push(p.state().run.action); p.step(); }
+      if (k < n) { if (!p.state().run) { bad.push(`${Q[j].seed}@${k}: preview ended early`); continue; } preview.push(p.state().run.action); p.estop(); }
+      const real = p.state().job.deliverable.episode.steps.map((s) => s.info.governor);
+      const upto = k < n ? k : Math.max(preview.length, real.length);
+      for (let i = 0; i < upto; i++) { steps++; jobSteps++; if (preview[i] === real[i]) { agree++; jobAgree++; } else if (bad.length < 6) bad.push(`${Q[j].seed}@${k} step ${i}: preview ${preview[i]} / real ${real[i]}`); }
+      if (k < n) { stops++; if (real.length === k + 1 && real[k] === "estop" && p.state().job.deliverable.evalCard.halted?.action === "estop") stopsOk++; else if (bad.length < 6) bad.push(`${Q[j].seed}@${k}: real run ${real.length} steps ending ${real[real.length - 1]}`); }
+      else { clean++; if (real.length === preview.length) cleanOk++; else if (bad.length < 6) bad.push(`${Q[j].seed} clean: preview ${preview.length} / real ${real.length}`); }
+    }
+    perJob.push(`${Q[j].seed}: ${jobAgree}/${jobSteps} over ${n + 1} runs`);
+  }
+  if (hadDoc) globalThis.document = prevDoc; else delete globalThis.document;
+  console.log(`  per job: ${perJob.join("; ")}`);
+  check(jobsRun >= 5 && perJob.length === Q.length && steps > 0 && agree === steps, `the preview's governor decision equals the real run's at every step before the stop: ${agree} of ${steps} steps over ${jobsRun} jobs the governor let through (of ${Q.length} queued; the rest refused before any run) and ${stops + clean} runs`, bad.join(" | "));
+  check(stopsOk === stops && cleanOk === clean, `the real run stops at the supervisor's E-stop step with "estop" (${stopsOk} of ${stops}) and a clean run is as long as its preview (${cleanOk} of ${clean})`, bad.join(" | "));
 }
 
 // --------------------------------------------------------------------------------------------------------- 4. motion
