@@ -40,3 +40,50 @@ words with facts masked (a job id becomes J, a site name S, an agent name A, a n
 line; distinct-2 is unique bigrams over all bigrams. **Before** is the default hive (`check_hive4` shows it is byte-identical to
 the base); **after** is the panel's configuration (exchanges, memory, variety). A third column, variety only on the same events
 as before, separates the wording from the new lines.
+
+## Evals (before → after; `node tools/check_hive4.mjs`, rows also in `WebXR/instructor/hive4-evals.json`)
+
+| Measure | Before (048869d5) | After | Source |
+|---|---|---|---|
+| Exchanges per seeded day (seed 7, 200 jobs) | 0 | **316** (handoff 173, question 103, report 40); seeds 1–5 at 120 jobs: 212, 198, 194, 179, 191 | check_hive4 2 |
+| Exchange lines grounded (facts re-derived from the award, the winning bid or the chain) | n/a | **632 of 632**; 943 of 943 sentences in the speaker's band | check_hive4 2 |
+| Turn-taking | n/a | 316 of 316 replies directly after their opener; 0 overlaps over 1,410 lines on the floor; stubbed voice: 76 of 76 in order, local only, at most 1 at once | check_hive4 2, 5 |
+| Memory references per seeded day | 0 | **36**, from 4 agents; **36 of 36** grounded in the chain prefix; planted errors caught 3 of 3 | check_hive4 3 |
+| Governor with the talk on | 161 of 161 checked, 3,631 of 3,631 steps, 0 physical | **161 of 161, 3,631 of 3,631, 0 physical**; outcomes identical; e-stop held: 0 runs | check_hive4 4 |
+| Trait recovery, Spearman, held-out personas 51–100 | not measured | **first run** (right after the declaration): warmth 0.963, formality 0.812, verbosity 0.979, caution 0.804. **Final** (after the band fix in cycle 3, which changed the padding only): warmth 0.958, formality 0.795, verbosity 0.980, caution 0.798. The seven agents (n = 7): 0.964, 0.929, 1, 0.643 | check_hive4 6 |
+| Distinct-2 per agent (fact-masked) | Orrin 0.057, Selka 0.145, Brann 0.078, Ivo 0.237, Tamsa 0.060, Quen 0.116, Lio 0.050 | Orrin 0.077, **Selka 0.097 (down)**, Brann 0.144, Ivo 0.320, Tamsa 0.102, Quen 0.155, Lio 0.102; variety only on the same events: 7 of 7 up | check_hive4 7 |
+| Omega Hive tab | none | 7 cards (7 portraits, 7 "software agent" labels), 65 lines (33 exchange turns, 3 memory), 20 refusals, 10 eval rows; 0 buttons; phone: tab 96×44, select 116×44, no sideways scroll; page errors 0, off-host 0 | drive `$SP/loop10/h4/drive_stills.mjs` part I |
+
+**Read honestly.** Trait recovery is high because the style grammar is a deterministic function of the traits and the features read
+that grammar's vocabulary; it shows the traits reach the text, not that the text is natural. The steward repeats more with the talk
+on: it now asks about a hundred questions a day from six templates. The question rule (contested, another map or a load) is a
+rule, not a judgement. The learner in the checker is a seeded stand-in.
+
+## Cycles
+
+1. Reason: exchanges and memory must not move round 3's figures. Check: the seed-1 and seed-7 default days byte-identical to a git
+   archive of the base. Act: all three options off by default. Observe: identical (digest 703aa91da7bb9439, pinned in §1).
+2. Reason: every fact grounded by a strict check, not the speak event. Check: §2 and §3. Observe: 632/632 and 36/36 on the first run.
+3. Reason: lines in the band. Check: §2, §3 sentences in band. Observe: **failed**, 28 of 943 and 2 of 93: closers ran out of fresh
+   padding. Fix: fresh pads first, then the agent's others. Then 943/943 and 93/93.
+4. Reason: the declared held-out test, once. Observe: the figures above (first run and final both reported).
+5. Reason: the tab must read its JSON from the page. Check: the drive. Observe: the drive serves `WebXR/` as root, so `docs/` was
+   unreachable; the JSON moved beside the page and the tab tries the dist path, then the source path. Then 10 eval rows, page errors 0.
+6. Reason: neighbours. Observe: check_omega_hive 15/0, check_voices 10/0, check_hive_world 35/35, check_imports 1,119 ok, check_newton
+   pass, check_console pass.
+
+## Seams
+
+- `ohHive({ exchanges, memory, variety })`; speak events carry `exchange: { id, kind, turn, of, with }`, `toAgent`, `floor: { startMs,
+  endMs }` and, for memory, `memory: true`, `count`, `kinds`, `lastSite`, `lastSiteId`, `lastJobId`, `lastAt`, `clock`, `logSeq`.
+  AVATARS-HD: start a figure's mouth at `floor.startMs` when voice is off so the two speakers take turns in the world.
+- `ohRecall(chain, agentId, taskType)`, `ohClock(at)`, `ohLineMs(text)`, `OH_FLOOR`, `OH_EXCHANGES`, `OH_TASK_NOUNS`.
+- `h4MountHiveTab(root, { seed, steps })`; the portrait is `aaPortraitImg` (swap in AVATARS-HD's export when it lands).
+
+## Left
+
+- Stills of the parishes page (two figures in an exchange in the world, the panel's memory line) were not taken; only the console's
+  tab stills are in `$SP/loop10/h4/`. `check_parse` and `check_interface` were not run before the hand-back time.
+- Spanish has no talk cores: an exchange falls back to the round-3 line and no memory line is said.
+- The steward's repetition (above); the tab replays a seeded day rather than reading the learner's own hive.
+- Dist bundles were rebuilt for the drive and are not committed. The `check_hive4` baseline row is an estimate.
