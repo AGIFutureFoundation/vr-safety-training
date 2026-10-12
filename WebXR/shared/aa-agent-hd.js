@@ -353,7 +353,8 @@ export function aaHdBuild(T, agent, spec = aaHdSpec(agent)) {
     g.setIndex(new T.BufferAttribute(buf.p.length / 3 > 65535 ? new Uint32Array(buf.i) : new Uint16Array(buf.i), 1));
     return g;
   };
-  const bodyMat = new T.MeshStandardMaterial({ vertexColors: true, roughness: 0.42, metalness: 0.12, emissive: spec.accentN, emissiveIntensity: 0.12 });
+  // a cool lift in the shade (not the role colour: an accent glow over the whole body read as a coloured suit and warmed the head)
+  const bodyMat = new T.MeshStandardMaterial({ vertexColors: true, roughness: 0.42, metalness: 0.12, emissive: 0x5a6e82, emissiveIntensity: 0.5 });
   const body = new T.SkinnedMesh(toGeo(geo.body), bodyMat); body.name = "aa-hd-body";
   const glow = new T.SkinnedMesh(toGeo(geo.glow), new T.MeshBasicMaterial({ vertexColors: true, side: T.DoubleSide ?? 2 })); glow.name = "aa-hd-glow";
   body.add(bones.root);
