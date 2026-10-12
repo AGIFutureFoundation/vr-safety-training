@@ -42,7 +42,7 @@
 //              building's collider box).
 //     route(from, to) -> [{ x, z }, …] | null: the walk follows these waypoints (ending at `to`) instead of a straight line
 //              (HIVE-IN-WORLD's hwRouter round the colliders); null walks straight.
-//     -> { root, handle(ev), animate(t, dt, here), attach(source), detach(source), addAgents(list), agents(),
+//     -> { root, handle(ev), animate(t, dt, here), attach(source), detach(source), addAgents(list), agents(), release(id),
 //          state(id), talkStart(id), talkEnd(id), talkLog(), captionLog(), gestureLog(), counts(), dispose() }
 //   aaVbridgeAgents(homeSite) -> the four VBRIDGE personas as agents standing at homeSite
 //   aaVbridgeSource(vbApi)    -> an on/off source that turns the agent-jobs panel's job (vbApi.state()) into
@@ -484,6 +484,20 @@ export function aaMountAgentAvatars({ three = null, parent = null, agents = [], 
     talkEnd: (id) => { const f = figures.get(id); if (!f?.talk) return false; f.talk.voiced = false; f.talk.end = clock; const last = talkLog.findLast?.((x) => x.agent === id) ?? null; if (last) last.end = clock; if (f.caption) f.caption.end = clock; tickTalk(f); return true; },
     talkLog: () => talkLog.slice(), captionLog: () => captionLog.slice(), gestureLog: () => gestureLog.slice(),
     clock: () => clock, counts, sources: () => sources.size,
+    /** HIVE-3: take one figure out (a visitor that has walked out of a robotics room): its meshes and canvases are disposed and
+     * its slot freed; the agent stays listed, off the map, and gets a new figure when a move next brings it here. */
+    release(id) {
+      const f = figures.get(id); if (!f) return false;
+      if (f.site != null) freeSlot(f.site, f.slot);
+      f.site = null; f.walk = null; f.offMap = true; f.visible = false; f.talk = null; f.queue.length = 0; f.caption = null; f.gesture = null;
+      if (f.fig) {
+        const g = f.fig.group; g.parent?.remove(g);
+        g.traverse((o) => { o.geometry?.dispose?.(); o.material?.map?.dispose?.(); o.material?.dispose?.(); });
+        for (const cv of [f.fig.labelCv, f.fig.captionCv]) if (cv?.c) textureBytes -= cv.c.width * cv.c.height * 4;
+        f.fig = null;
+      }
+      return true;
+    },
     dispose() { for (const s of [...sources]) detach(s); if (root) { root.parent?.remove(root); root.traverse((o) => { o.geometry?.dispose?.(); o.material?.map?.dispose?.(); o.material?.dispose?.(); }); } figures.clear(); },
   };
 }

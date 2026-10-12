@@ -20,7 +20,7 @@ import { NP_SIZE, NP_ROAD_KINDS, npHeightAt, npWaterAt, npDistrictAt, npHillAt, 
 import { npSatelliteUrl, npGroundUvMatrix, npScale } from "../../shared/np-geo.js";
 // GEO (docs/geo.md): opt-in Find me (memory only), the baked Sentinel-2 backdrop and the live satellite layer (off by default).
 import { GEO_CREDIT, geoAllowed, geoIsK12, geoMountFindMe, geoLoadBackdrop, geoBackdropAllowed, geoMountLive } from "../../shared/geo-locate.js";
-import { gtProfile } from "../../shared/profiles.js";
+import { gtProfile, gtStorage } from "../../shared/profiles.js";
 import { dnVersion } from "../../shared/dn-modules.js";
 import { rlPrepareRelief, RL_BUDGET } from "../../shared/rl-relief.js";
 import { npBuildParish, npWaterShapes } from "../../shared/np-world.js";
@@ -90,6 +90,9 @@ import { vbColearnProvider, vbColearnLocalSource } from "../../shared/vb-colearn
 import { aaMountAgentAvatars, aaVbridgeAgents, aaVbridgeSource } from "../../shared/aa-agent-avatars.js";
 // HIVE-IN-WORLD: the hive's agents inside the robotics rooms, one door with the exterior, and the return into the room.
 import { hwSyncRoom, hwFxDoorAt, hwReturnHash, hwRoomFromHash, hwRouter, hwBoxesIn } from "../../shared/hw-hive-world.js";
+import { ohHive } from "../../shared/oh-hive.js";
+import { VB_REASONS } from "../../shared/vb-shared-data.js";
+import { H3_SCENE, H3_SCENE_PROLOGUE_STEPS, h3SceneHive, h3SceneRelay, h3Settings } from "../../shared/h3-hive-day.js"; // HIVE-3: the hive's scripted day
 // CLEANPORTS: key the zero-emission port stations to BAYMAP's West Oakland sites (a no-op until that map merges).
 cpPlaceInParish(npParish);
 // BAYQUEST: the Bay Program play board (games, the Bay Keeper's Trail, Crew Credits) under the ledger; importing it
@@ -829,6 +832,7 @@ function frame(now) {
   aaWorld?.animate(now / 1000, dt, np.playing && !np.modal ? [np.x, np.z] : null); // AGENT-AVATARS: walks, talk lights, captions (writes only within GRIOT's radius)
   if (hwRoomMount?.room !== (ixWorld.room ?? null) && typeof hwSync === "function") hwSync(); // HIVE-IN-WORLD: the agents in the room open now
   hwRoomMount?.animate(now / 1000, dt);
+  if (h3Scene) h3SceneTick(now / 1000); // HIVE-3: "A day in the hive" (window.__parishTest.hiveScene)
   if (np.playing && !np.modal) { tyClock += dt; if (tyClock >= 1) { tyAfterTick(tyTick(tyClock)); tyClock = 0; } }
   if (np.playing && !np.modal && tyClock === 0) bqTrailTick();
   npHudT += dt; npVisitT += dt;
@@ -1271,14 +1275,20 @@ window.__parishTest.vbridge = vbMountDispatch($("menu-drills"), { reducedMotion:
 // requests come to the learner as approvals (approving lets only the simulated job run); every award, veto, refusal and approval
 // goes to ENTERPRISE-3's audit log. Not mounted in K-12, demo or signed-out sessions (DATAWORKS' eligibility at the offer stage, and the
 // page's own ?demo flag, as the GEO gate reads it).
-window.__parishTest.hive = (() => { try { let ok = false; try { ok = !npParams.has("demo") && dxEligibility(dxReadSignals(), { stage: "offer" }).eligible === true; } catch (_) { ok = false; } return ok ? ohMountHive($("menu-drills"), { reducedMotion: npReduced, audit: ent3AuditAppend, seed: 1, onTalk: (id, on) => { if (on) { aaWorld?.talkStart(id); hwRoomMount?.avatars?.talkStart(id); } else { aaWorld?.talkEnd(id); hwRoomMount?.avatars?.talkEnd(id); } } }) : null; } catch (_) { return null; } })();
+// HIVE-3: the panel's voice, "supervise every job" and language, remembered for a signed-in adult profile on this device only
+// (profiles.js namespaces the key; never uploaded; auth.js signOut clears it). Demo, K-12 and signed-out sessions keep nothing.
+var h3Prefs = (() => { try { return h3Settings({ storage: gtStorage(), signals: dxReadSignals(), profile: gtProfile(), demo: npParams.has("demo") }); } catch (_) { return null; } })();
+window.__parishTest.hivePrefs = h3Prefs;
+window.__parishTest.hive = (() => { try { let ok = false; try { ok = !npParams.has("demo") && dxEligibility(dxReadSignals(), { stage: "offer" }).eligible === true; } catch (_) { ok = false; } return ok ? ohMountHive($("menu-drills"), { reducedMotion: npReduced, audit: ent3AuditAppend, seed: 1, settings: h3Prefs, onTalk: (id, on) => { if (on) { aaWorld?.talkStart(id); hwRoomMount?.avatars?.talkStart(id); } else { aaWorld?.talkEnd(id); hwRoomMount?.avatars?.talkEnd(id); } } }) : null; } catch (_) { return null; } })();
 window.__parishTest.vbColearn = vbProvider;
 // AGENT-AVATARS (docs/consoles/AGENT-AVATARS.md): the software agents embodied at this map's robot sites — the four VBRIDGE
 // personas over the agent-jobs panel's job stream (the client asks, the governor checks, the provider walks to a running job's
 // site, the evaluator nods), and the Omega Hive's agents when OMEGA-HIVE's hive is mounted before this line
 // (window.__parishTest.hive, guarded; the coordinator orders the two mounts). Every figure is labelled "software agent", every
 // line shows as a caption, nothing listens, and the phone tier builds no figures.
-var aaSiteAt = (id) => { const s = rbWorld?.sites?.find((x) => x.id === id); return s ? { x: s.position[0], y: s.y, z: s.position[1] } : null; };
+// HIVE-3: the scene's two outdoor points (the cell hall's building door and a spot towards the street) answer here too.
+var h3ScenePts = new Map();
+var aaSiteAt = (id) => { const h = h3ScenePts.get(id); if (h) return h; const s = rbWorld?.sites?.find((x) => x.id === id); return s ? { x: s.position[0], y: s.y, z: s.position[1] } : null; };
 var aaVbSource = (() => { try { return window.__parishTest.vbridge ? aaVbridgeSource(window.__parishTest.vbridge) : null; } catch (_) { return null; } })();
 // HIVE-IN-WORLD: the agents' walks go round the page's own collider boxes (the walk's colliders: CITYWORKS or NEWTON's massing,
 // parked vehicles, the robotics buildings), and a standing slot inside one is skipped.
@@ -1287,7 +1297,7 @@ var aaWorld = !rbWorld?.sites?.length ? null : (() => { // a map with no robot s
   try {
     const hive = window.__parishTest.hive?.hive ?? null; // HIVE-IN-WORLD: the hive itself (on, agents), not the panel's api
     const hiveAgents = hive ? (typeof hive.agents === "function" ? hive.agents() : hive.agents) ?? [] : [];
-    return aaMountAgentAvatars({ three: THREE, parent: root, agents: [...hiveAgents, ...aaVbridgeAgents(rbWorld?.sites?.[0]?.id ?? null)], source: [hive, aaVbSource].filter(Boolean), siteAt: aaSiteAt, reducedMotion: npReduced, tier: npTierName, groundAt: (x, z) => Math.max(npHeightAt(parish, x, z), 0), route: hwWalk?.route ?? null, blocked: hwWalk?.blocked ?? null });
+    return aaMountAgentAvatars({ three: THREE, parent: root, agents: [...hiveAgents, ...aaVbridgeAgents(rbWorld?.sites?.[0]?.id ?? null)], source: [hive, aaVbSource].filter(Boolean), siteAt: aaSiteAt, reducedMotion: npReduced, tier: npTierName, groundAt: (x, z) => Math.max(npHeightAt(parish, x, z), 0), spotFor: (_a, id) => h3ScenePts.get(id) ?? null, route: hwWalk?.route ?? null, blocked: hwWalk?.blocked ?? null });
   } catch (_) { return null; }
 })();
 window.__parishTest.agentAvatars = aaWorld;
@@ -1296,7 +1306,7 @@ window.__parishTest.agentAvatars = aaWorld;
 // in step by hwSync (every frame, and right after an enter). Only when the hive is mounted (signed in, adult, not K-12, not the demo).
 var hwRoomMount = null;
 function hwSync() {
-  const hv = window.__parishTest?.hive?.hive ?? null;
+  const hv = h3Scene?.relay ?? window.__parishTest?.hive?.hive ?? null; // HIVE-3: the scene's paced hive while it plays
   hwRoomMount = hwSyncRoom(hwRoomMount, { room: ixWorld.room, three: THREE, agents: hv?.agents ?? [], source: hv, tier: npTierName, reducedMotion: npReduced });
   return hwRoomMount;
 }
@@ -1314,6 +1324,164 @@ var hwReturned = (() => {
   } catch (_) { return null; }
 })();
 window.__parishTest.hiveWorld = { sync: hwSync, room: () => hwRoomMount, doors: ixrDoors, returned: hwReturned, returnStyle: hwReturnStyle };
+// HIVE-3 (docs/consoles/HIVE-3.md): "A day in the hive", a scripted scene for the reel. window.__parishTest.hiveScene({ seed })
+// (or ?hivescene=<seed> on sf-downtown) plays H3_SCENE over its own seeded hive (h3SceneHive: six jobs, no audit writes): a job
+// arrives, the agents bid and the maintenance planner wins it and walks out of the cell hall's door, and outside from the
+// building's door towards its site; the governor refuses a request with a person 1.2 m from the robot (its reason captioned);
+// a job that names the physical robot asks the learner, the scene approves a simulated run only (the physical path stays
+// disabled), and the winner walks back into the cell hall to run it on the simulated robot. The camera follows; a caption bar
+// says what happens. Only where the hive itself is mounted (signed in, adult, not K-12, not the demo). Same seed, same scene.
+var h3Scene = null;
+function h3SceneOverlay() {
+  const el = document.createElement("div"); el.id = "h3-scene"; el.setAttribute("role", "status"); el.setAttribute("aria-live", "polite");
+  el.style.cssText = "position:fixed;left:50%;bottom:5%;transform:translateX(-50%);width:min(92vw,980px);box-sizing:border-box;padding:12px 18px;border-radius:12px;background:rgba(12,9,28,.84);color:#f4f1ff;font:600 19px/1.35 system-ui,sans-serif;text-align:center;z-index:60;pointer-events:none;box-shadow:0 6px 24px rgba(0,0,0,.35)";
+  const title = document.createElement("div"); title.dataset.h3 = "title"; title.style.cssText = "font-size:12px;letter-spacing:.07em;text-transform:uppercase;color:#9fe7ff;margin-bottom:4px";
+  const text = document.createElement("div"); text.dataset.h3 = "text";
+  const tag = document.createElement("div"); tag.dataset.h3 = "tag"; tag.style.cssText = "font-size:11px;font-weight:500;opacity:.75;margin-top:6px";
+  tag.textContent = "A day in the hive · scripted scene · software agents, simulated robots · captions from the hive's own events";
+  el.append(title, text, tag); document.body.appendChild(el);
+  return el;
+}
+function h3SceneSay(title, text) {
+  const S = h3Scene; if (!S) return;
+  S.captions.push({ t: Math.round((S.t ?? 0) * 100) / 100, title, text });
+  const t = S.el?.querySelector('[data-h3="title"]'), x = S.el?.querySelector('[data-h3="text"]');
+  if (t) t.textContent = title; if (x) x.textContent = text;
+}
+function h3SceneName(id) { return h3Scene?.hive?.agents?.find((a) => a.id === id)?.name ?? id; }
+function h3SceneRoom() {
+  hwRoomMount?.dispose(); hwRoomMount = null;
+  const r = window.__parishTest.ixScene(H3_SCENE.style);
+  hwSync();
+  const menu = document.getElementById("menu"); if (menu && !np.playing) menu.hidden = true;
+  document.getElementById("toast")?.classList.remove("on"); // a clean frame: the caption bar says where we are
+  return r;
+}
+function h3SceneOutside(shot) {
+  if (ixWorld.inside()) { const p = ixWorld.exit(); np.x = p.x; np.z = p.z; np.yaw = p.yaw; np.pitch = p.pitch; }
+  hwRoomMount?.dispose(); hwRoomMount = null;
+  return window.__parishTest.scene(H3_SCENE.site, shot);
+}
+function h3SceneBeat(b) {
+  const S = h3Scene, R = S.relay;
+  R.step(b.steps);
+  let ev = [];
+  const pick = (type) => ev.find((e) => e.type === type) ?? null;
+  if (b.id === "intro") {
+    S.follow = "oh-maintenance-planner";
+    h3SceneSay("A day in the hive", `The cell hall at the ${H3_SCENE.site === "rb-site-soma-robot-cell" ? "Fabrication Robot Cell (procedural)" : H3_SCENE.site}: the safety steward and the auditor work here; the maintenance planner came in for a cell-entry job. Seed ${S.seed}.`);
+  } else if (b.id === "arrive") {
+    ev = R.releaseThrough("speak"); const e = pick("speak");
+    h3SceneSay("A job arrives", e ? e.caption : "The dispatcher announces a job.");
+  } else if (b.id === "bids") {
+    ev = R.releaseRun("bid");
+    const bids = ev.filter((e) => e.type === "bid").map((e) => `${h3SceneName(e.agent)} ${e.bid >= 0 ? "+" : "−"}${Math.abs(e.bid).toFixed(2)}`);
+    h3SceneSay("The agents bid", `${bids.join(" · ")} (skill, minus distance, minus load; an agent at capacity does not bid)`);
+  } else if (b.id === "award") {
+    ev = R.releaseThrough("award"); const e = pick("award");
+    if (e) { S.follow = e.agent; S.walker = e.agent; S.walkerTo = e.to; S.walkerSite = e.siteName; }
+    h3SceneSay("The best bid wins", e ? `${h3SceneName(e.agent)} (software agent) wins ${e.jobId}: ${e.task}, ${e.siteName}.` : "The job is awarded.");
+  } else if (b.id === "walk-out") {
+    ev = R.releaseThrough("move"); const e = pick("move");
+    if (e) S.follow = e.agent;
+    h3SceneSay("Out of the cell hall's door", e ? `${h3SceneName(e.agent)} walks out of the cell hall to its site: ${e.siteName}.` : "The winner walks out.");
+  } else if (b.id === "outside") {
+    const sc = h3SceneOutside("door");
+    const d = ixrDoors.find((x) => x.style === H3_SCENE.style) ?? null;
+    if (sc?.ok && d && S.walker && aaWorld) {
+      const pos = sc.position, dx = pos[0] - d.x, dz = pos[2] - d.z, L = Math.hypot(dx, dz) || 1, go = Math.max(4, Math.min(14, L - 4));
+      const y = (x, z) => Math.max(npHeightAt(parish, x, z), 0);
+      const ax = d.x + (dx / L) * go, az = d.z + (dz / L) * go;
+      h3ScenePts.set("h3-scene:door", { x: d.x, y: y(d.x, d.z), z: d.z, yaw: Math.atan2(dx, dz) });
+      h3ScenePts.set("h3-scene:away", { x: ax, y: y(ax, az), z: az, yaw: Math.atan2(dx, dz) });
+      aaWorld.handle({ type: "move", agent: S.walker, to: "h3-scene:door" });
+      aaWorld.handle({ type: "move", agent: S.walker, to: "h3-scene:away" });
+      S.outdoor = { agent: S.walker, look: [d.x, y(d.x, d.z) + 1.1, d.z] };
+    }
+    h3SceneSay("Outside, from the building's door", `${h3SceneName(S.walker)} heads for ${S.walkerSite ?? "its site"}, on another map: the agents' walks route round the buildings.`);
+  } else if (b.id === "refusal") {
+    if (S.outdoor && aaWorld) aaWorld.handle({ type: "move", agent: S.outdoor.agent, to: S.walkerTo ?? "off-map" }); // on to its site: off this map
+    S.outdoor = null; h3ScenePts.clear();
+    h3SceneOutside("wide");
+    ev = R.releaseThrough("refused"); const e = pick("refused");
+    const why = e ? VB_REASONS.find((r) => r.id === e.reason)?.text ?? e.reason : "";
+    h3SceneSay("The governor refuses", e ? `${e.jobId} (${e.task}, a person 1.2 m from the robot): ${why}` : "The governor refuses an unsafe request.");
+  } else if (b.id === "approval") {
+    ev = R.releaseAll(); const e = pick("approval-request");
+    S.pendingJob = e?.jobId ?? null;
+    h3SceneSay("Your decision is needed", e ? `${e.jobId} names the physical robot at ${e.siteName}. That path is disabled in this build: approve a simulated run only, or decline.` : "A job that names a robot asks the learner.");
+  } else if (b.id === "approved") {
+    const id = S.pendingJob ? S.hive.approve(S.pendingJob) : null;
+    ev = R.releaseAll();
+    S.follow = null; h3SceneRoom();
+    h3SceneSay("You approve: a simulated run only", id ? `${S.pendingJob} goes back through the bidding and the governor as a simulated job; the physical path stays disabled.` : "Approved for the simulated robot only.");
+  } else if (b.id === "walk-in") {
+    ev = R.releaseAll(); const e = ev.find((x) => x.type === "move" && x.to === H3_SCENE.site) ?? null;
+    if (e) S.follow = e.agent;
+    h3SceneSay("Back through the door", e ? `${h3SceneName(e.agent)} wins it and walks into the cell hall for ${e.jobId}.` : "The winner walks in.");
+  } else if (b.id === "run") {
+    ev = R.releaseAll(); const e = ev.find((x) => x.type === "dispatch" && x.to === H3_SCENE.site) ?? null;
+    h3SceneSay("Running on the simulated robot", e ? `${e.jobId}: ${e.steps} governor-monitored steps on the simulated robot. Physical jobs dispatched: ${S.hive.metrics().physicalDispatched}.` : "The simulated job runs.");
+  } else if (b.id === "end") {
+    const v = S.hive.verify();
+    h3SceneSay("Software agents · simulated robots", `Every award, refusal and approval is on the hive's audit chain: ${v.lines} lines, ${v.ok ? "intact" : "broken"}.`);
+  }
+  S.log.push({ id: b.id, at: b.at, t: Math.round((S.t ?? 0) * 100) / 100, events: ev.filter((e) => e.type !== "speak").map((e) => `${e.type}:${e.agent}:${e.jobId ?? ""}`) });
+}
+function h3SceneCamera(dt) {
+  const S = h3Scene;
+  if (ixWorld.inside()) {
+    const c = IXR_ROOMS[H3_SCENE.style]?.camera; if (!c) return;
+    ixWorld.pose.x = c.x; ixWorld.pose.z = c.z;
+    let yaw = c.yaw;
+    const st = S.follow ? hwRoomMount?.avatars?.state(S.follow) : null;
+    if (st?.visible && hwRoomMount?.avatars?.figure(S.follow)) yaw = c.yaw * 0.35 + Math.atan2(c.x - st.x, c.z - st.z) * 0.65; // follow, keeping the room in frame
+    S.yaw = S.yaw == null ? yaw : S.yaw + (yaw - S.yaw) * Math.min(1, dt * 3);
+    np.yaw = S.yaw; np.pitch = c.pitch;
+  } else if (fxShot && S.outdoor && aaWorld) {
+    const st = aaWorld.state(S.outdoor.agent);
+    if (st?.visible) { const k = Math.min(1, dt * 3), L = S.outdoor.look; L[0] += (st.x - L[0]) * k; L[1] += (st.y + 1.1 - L[1]) * k; L[2] += (st.z - L[2]) * k; fxShot.target = [L[0], L[1], L[2]]; }
+  }
+}
+var h3SceneLastT = null;
+function h3SceneTick(nowS) {
+  const S = h3Scene; if (!S || S.done) return;
+  if (S.t0 == null) S.t0 = nowS;
+  const dt = h3SceneLastT == null ? 0 : Math.max(0, Math.min(0.1, nowS - h3SceneLastT)); h3SceneLastT = nowS;
+  S.t = nowS - S.t0;
+  try {
+    while (S.next < H3_SCENE.beats.length && S.t >= H3_SCENE.beats[S.next].at) { h3SceneBeat(H3_SCENE.beats[S.next]); S.next += 1; }
+    h3SceneCamera(dt);
+  } catch (e) { S.errors += 1; console.warn("hive scene:", e); }
+  if (S.t >= H3_SCENE.duration + 1) h3SceneStop();
+}
+function h3SceneStop() {
+  const S = h3Scene; if (!S) return null;
+  S.done = true; h3Scene = null; h3SceneLastT = null;
+  try { S.relay.dispose(); } catch (_) { /* gone */ }
+  S.el?.remove(); h3ScenePts.clear();
+  hwRoomMount?.dispose(); hwRoomMount = null; hwSync(); // the page's own hive in the room again
+  const out = { seed: S.seed, duration: H3_SCENE.duration, t: Math.round((S.t ?? 0) * 100) / 100, beats: S.log, captions: S.captions, errors: S.errors, metrics: S.hive.metrics(), verify: S.hive.verify() };
+  window.__parishTest.hiveSceneLast = out;
+  S.resolve?.(out);
+  return out;
+}
+window.__parishTest.hiveScene = ({ seed = 1 } = {}) => {
+  if (parish.id !== H3_SCENE.parish) return { ok: false, reason: `the scene plays on ${H3_SCENE.parish}`, href: `?parish=${H3_SCENE.parish}&hivescene=${encodeURIComponent(seed)}` };
+  if (!window.__parishTest.hive) return { ok: false, reason: "the Omega Hive is not mounted in this session (signed out, K-12 or the demo)" };
+  if (h3Scene) h3SceneStop();
+  const hive = h3SceneHive(ohHive, { seed: Number(seed) || 1 });
+  for (let i = 0; i < H3_SCENE_PROLOGUE_STEPS; i += 1) hive.step(); // before the clock: the planner is in the cell hall
+  h3Scene = { seed: Number(seed) || 1, hive, relay: h3SceneRelay(hive), t0: null, t: 0, next: 0, follow: null, walker: null, outdoor: null, pendingJob: null, yaw: null, log: [], captions: [], errors: 0, done: false, el: h3SceneOverlay() };
+  const room = h3SceneRoom();
+  npKeys.clear();
+  const done = new Promise((resolve) => { h3Scene.resolve = resolve; });
+  window.__parishTest.hiveSceneDone = done;
+  return { ok: !!room, seed: h3Scene.seed, duration: H3_SCENE.duration, beats: H3_SCENE.beats.map((x) => ({ id: x.id, at: x.at, shot: x.shot })), stop: () => h3SceneStop() };
+};
+window.__parishTest.hiveSceneStop = () => h3SceneStop();
+window.__parishTest.hiveSceneState = () => (h3Scene ? { t: h3Scene.t, next: h3Scene.next, beats: h3Scene.log.length, follow: h3Scene.follow, room: hwRoomMount ? { placed: hwRoomMount.placed.map((p) => p.agent.id), leaving: hwRoomMount.leaving() } : null } : null);
+{ const q = npParams.get("hivescene"); if (q) setTimeout(() => { try { window.__parishTest.hiveScene({ seed: Number(q) || 1 }); } catch (e) { console.warn("hive scene:", e); } }, 1500); }
 window.__parishTest.vbLocal = vbLocal;
 window.__parishTest.xr = npXRTest;
 // ROBOTRAIN-5: the page-level proof awaits the recorder's parked store writes (dxFlush resolves with the count written) and reads

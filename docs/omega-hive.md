@@ -38,7 +38,11 @@ parishes app, in the drills menu beside the agent-jobs panel. Console notes: `do
 - **Voice** (`oh-voice.js`).
   - Only on-device voices are used: a `speechSynthesis` voice is chosen only when its `localService` is true. A network
     voice is never chosen; when no local voice exists, the agent stays silent and its caption still shows.
-  - Voice is off until the learner turns it on, and the choice is not remembered between visits.
+  - Voice is off until the learner turns it on. HIVE-3: for a signed-in, non-K-12 profile outside the demo, the choice is
+    remembered on this device under that profile's own key, with "supervise every job" and the hive's language. It is never
+    uploaded and is cleared on sign-out. Demo, K-12 and signed-out sessions keep nothing.
+  - HIVE-3: the panel's own text and the agents' role sentences follow the hive's language (English or Spanish). The Spanish
+    is machine-assisted and awaits a native speaker's review.
   - Captions always show, with or without voice.
   - Lines queue, so agents never talk over each other.
   - Leaving the page stops speech.
