@@ -88,7 +88,27 @@ Source: `exports/robotics/arena/dataset-card.md`, `exports/robotics/arena/index.
 
 Sources: `docs/evals/arena.json`, `docs/evals/arena-declared.json`, `exports/robotics/arena/dataset-card.md` and the console’s commit messages, read from its branch with git show; the figures are read by the script that built this page.
 
+### Round seven: the retest, declared first, then run once
+
+ARENA-2 committed its declaration at 18:48 UTC, before any run on the new held-out range: seeds 7181 –7240 on the gym and 7181 –7190 on the stations, 3 models on 12 scenarios. The one declared change to the small model is a hidden layer (24 units), as a new model id (ra-lm-h) beside the old one, whose published rows are unchanged. The declaration says that no claim is made from a difference whose interval spans zero, and that the claw and the Strands harness may use this range only through this file. Source: `docs/evals/arena-declared-r7.json`.
+
+The retest ran once, at 19:03 UTC, after the declaration: 1,710 episodes and 83,756 steps, every step checked by the governor, 0 physical dispatches. The model with the hidden layer has 44,760 weights, against 26,640 for the first one.
+
+| Comparison, on the fresh held-out seeds | Small model with a hidden layer | Behaviour clone | Difference |
+|---|---|---|---|
+| The declared gaps pooled (AMR routing and the port gantry) | 0.842 (0.766 to 0.896) | 0.908 (0.843 to 0.948) | −0.067 (−0.152 to 0.018) |
+| AMR routing, base | 0.717 (0.592 to 0.815) | 0.817 (0.701 to 0.894) | −0.100 (−0.247 to 0.052) |
+| Port gantry, base | 0.967 (0.886 to 0.991) | 1.000 (0.940 to 1.000) | −0.033 (−0.114 to 0.031) |
+| Every scenario | 0.832 (0.799 to 0.860) | 0.849 (0.817 to 0.876) | −0.018 (−0.060 to 0.025) |
+| Held-out tasks (the hard variants) | 0.589 (0.516 to 0.658) | 0.600 (0.527 to 0.669) | −0.011 (−0.111 to 0.089) |
+
+As measured: the hidden layer made the small model better than it was, by 0.133 on the declared gaps (interval 0.028 to 0.235, clear of zero). It did not overtake the clone: its remaining difference on the gaps, and over every scenario, has an interval that spans zero, so no difference is claimed. On the cobot station of the new stations the first small model scored 0 of 10, the one with the hidden layer 10 of 10 and the clone 10 of 10. The cause was found on training data only: the small model answered the station’s time-limited interruption on 9 of 24 labels and released a button with the interruption still pending; with the interruption’s own text added to the instruction it answers on 21 of 24. The model is trained here and is not a large language model; it still trails the clone on AMR routing. Source: `docs/evals/arena.json` (its retest block) and the console’s note.
+
+**The station tasks are in the dataset.** The trainable set now holds 441 episodes (35,102 steps), up from 351; 90 of them, 25,633 steps, come from the station tasks. Every episode is synthetic (441 of them), none is a person’s take (0 consented), and leakage between splits is 0. The export folder is 1,439 KB, under its cap of 1.5 MB. A button on the data page exports a learner’s own consented takes as a local file in the set’s format: signed out it exports 0, an opted-in adult 2 of 2, and after a revoke 0 remain. Source: `exports/robotics/arena/index.json`.
+
+**Round seven ** of this loop is merged; its figures were read from the console branches with a read-only git show: `ARENA-2` (branch head `ee17455a`, 6 commits of its own; its console note is committed; merged). Each figure is checked against a committed file or a commit message, and a rebuild re-reads the final state.
+
 
 ---
 
-_Every figure on this page was checked against the repository file named beside it when the page was built (head `e196829d`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._
+_Every figure on this page was checked against the repository file named beside it when the page was built (head `b111d4d3`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._

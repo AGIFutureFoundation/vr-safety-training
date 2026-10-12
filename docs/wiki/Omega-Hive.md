@@ -192,6 +192,7 @@ Takes the warehouse and port routing jobs and moves totes between the robot site
 | Home after the last job, outdoors too (opt-in): home moves in the seeded day, before → after; home lines grounded in the event; outdoor figures where the hive says; idle agents home at the day’s end | 0 → 89 of 89; 89 of 89; 7 of 7; 7 of 7 | `docs/consoles/HIVE-5.md` | simulated |
 | The governor with homeward on: dispatched jobs checked; steps monitored; physical dispatches; jobs completed with and without it | 150 of 150; 3,061 of 3,061; 0; 144 | `docs/consoles/HIVE-5.md` | simulated |
 | In the built page (high, a software renderer), the room at hive minute 159: agents standing; screens painted; meshes and triangles built (equal to the checker’s figure); triangles drawn; texture MiB; page errors; off-host requests | 7 of 7; 8 of 8; 88; 4,878; 4,292; 19.25; 0; 0 | `docs/consoles/HIVE-5.md` | observed |
+| The operations room on the merged head, triangles built against the limit of 6,000: with the high-detail line’s room-level figures in it (the video review’s capture, cut 12) → after the integration fix, in the built page with this console’s drive; page errors | 8,508 → 4,470; 0 | `docs/consoles/COORDINATOR.md` | observed |
 | The console link’s toggle on a 390 × 844 touch phone, signed in, in pixels (width by height); panel buttons at least 44 px; hive checker checks | 284 by 44; 6 of 6; 5 passed | `docs/consoles/HIVE-5.md` | observed |
 | **Round six: moods from the day, a morning briefing and words on the balanced screens** | | | |
 | Mood changes in a seeded day of 480 hive minutes (the panel’s hive, 5 seeds), before → after, seed by seed; into calm, busy, concerned and relieved over the 5 days; changes traced to the hive’s own events | 0 → 168, 178, 198, 163, 155; 232, 88, 271, 271; 862 of 862 | `docs/consoles/HIVE-6.md` | simulated |
@@ -247,7 +248,7 @@ Both columns run behind the same governor, steward and approvals, with a capacit
 
 - The console link carries what the panel shows and nothing else, but it is the learner’s own hive: it is off by default, never remembered, and dropped by the tab on “off” or after 6 s of silence. A same-origin channel reaches only pages of the same browser profile and is not a network path. The Spanish toggle text and screen text are machine-assisted.
 
-- On the merged head the operations room is over its triangle limit: with the high-detail line’s room-level figures standing in it, the video review’s capture measures 46 meshes and 8,508 triangles built against 6,000, and neither console’s check covers the combination.
+- With both consoles merged the operations room was, for a while, over its triangle limit: the high-detail line’s room mount put its room-level figures in this room, and the video review’s capture of the merged head measured 46 meshes and 8,508 triangles built against 6,000, a gap that neither console’s own checker covered (this one uses its own lightened figures, the other covers the robot rooms). It was fixed at integration: the app hands the room the default figure, which this console lightens, and the room measures 4,470 triangles in the built page with 6 of 7 agents at their consoles and 4,878 with all 7; the figures stay the coarser, lightened ones, and `check_hive5` now guards the wiring.
 
 - In the video review’s captures the hive did send an agent home after its last job outdoors, but the reel could not get a usable frame of the walk in nine attempts: by its own reading the figure is already standing at its home slot when the home line appears, because the capture stepped the hive ahead of the figure, so the footage neither shows nor refutes the walk; the checker shows the outdoor figures where the hive says (7 of 7).
 
@@ -331,9 +332,9 @@ The same voice controller speaks the 34 game characters’ own knowledge-pack li
 
 - *Planned* Figures that show the mood (posture, gesture tempo or halo); the live console link does not carry moods, so the tab’s moods panel is a replay even when its cards are live; a larger balanced cell grid if the room’s texture budget can be freed.
 
-**Round two of this loop** is merged into the integration head (`40d97421`): `HIVE-IN-WORLD` (note last committed in `0c834a8a`); `VOICES` (note last committed in `dc890479`). Each figure from it is checked by phrase against that console’s committed note, not re-run from a branch; a note that is edited later stops the build.
+**Round two of this loop** is merged into the integration head (`a8379051`): `HIVE-IN-WORLD` (note last committed in `0c834a8a`); `VOICES` (note last committed in `dc890479`). Each figure from it is checked by phrase against that console’s committed note, not re-run from a branch; a note that is edited later stops the build.
 
-**Round three of this loop** is merged into the integration head (`40d97421`), and each figure from it is checked by phrase against that console’s committed note, a committed data file or a commit message, not re-run from a branch: `HIVE-3` (its last commit `bb5011ca`, 8 commits since the head that round started from; its console note is committed; merged into the integration head). A note that is edited later stops the build.
+**Round three of this loop** is merged into the integration head (`a8379051`), and each figure from it is checked by phrase against that console’s committed note, a committed data file or a commit message, not re-run from a branch: `HIVE-3` (its last commit `bb5011ca`, 8 commits since the head that round started from; its console note is committed; merged into the integration head). A note that is edited later stops the build.
 
 **Round four ** of this loop is **merged** into the integration head (`e252b25f`) and is read from it with a read-only git show: `HIVE-4` (its own commits end at `507a9448`, 8 commits of its own; its console note is committed; merged). Each figure is checked by phrase against that console’s note or its commit messages, and a rebuild re-reads the final state.
 
@@ -343,7 +344,19 @@ The same voice controller speaks the 34 game characters’ own knowledge-pack li
 
 Sources: `docs/consoles/OMEGA-HIVE.md`, `docs/omega-hive.md`, `docs/consoles/AGENT-AVATARS.md`, `WebXR/shared/oh-hive-data.js`, `tools/check_omega_hive.mjs`. The figures are read from those notes and files by the script that built this page. The seeded runs are simulations; no person was measured, and no hardware is involved.
 
+### Round seven: moods on the figures and on the live link
+
+In the operations room each figure now shows its agent’s mood as a pulse of its glow in brightness only (calm steady, busy quick and shallow, concerned slow and deeper, relieved slow and faint), with the hue kept, no mesh added and a steady glow under reduced motion. In the checker the figure’s mood equals the hive’s own mood in 1680 of 1680 checks, through 41 refusals, on high and balanced.
+
+The live console link now carries each agent’s mood, its recorded cause, the day’s mood changes and the briefing captions when the hive has moods on; a hive without moods sends the old shape, and the tab only receives. Live moods equal the hive’s own mood in 1435 of 1435 checks, and the tab keeps the seeded replay as its fallback.
+
+**In the built page.** The moods add no geometry: the room with moods equals the room without them in meshes and triangles at 12 of 12 sampled minutes. The combined operations room (the briefing on, every agent standing, captions up) measures 46 meshes and 5,586 triangles built on high and 85 meshes and 4,394 triangles on balanced; the figure’s mood equals the hive’s for 7 of 7 agents at each sampled minute. After the learner’s approvals the briefing’s first jobs equal the day’s first awards in 30 of 30 seeded days and 120 of 120 over the wider run, with a correction line where an approval changed the order. Spanish lines with an English fragment: 0 of 2,788. The governor checked 3,196 steps with moods and the briefing on, none physical.
+
+Left: a native speaker’s review of the Spanish, and a quiet-machine re-measure of the checker.
+
+**Round seven ** of this loop is merged; its figures were read from the console branches with a read-only git show: `HIVE-7` (branch head `ec4b0f70`, 6 commits of its own; its console note is committed; merged). Each figure is checked against a committed file or a commit message, and a rebuild re-reads the final state.
+
 
 ---
 
-_Every figure on this page was checked against the repository file named beside it when the page was built (head `e196829d`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._
+_Every figure on this page was checked against the repository file named beside it when the page was built (head `b111d4d3`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._

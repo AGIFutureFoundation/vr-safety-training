@@ -156,7 +156,7 @@ Source: `docs/consoles/AVATARS-HD-3.md`. On balanced the room keeps the lightene
 
 - The room check is a worst case of 3 figures with their captions up, not a run over the hive’s whole day, and the older hive checkers still mount the rooms with today’s figure while the page uses the room level. Frame time was not measured, because the machine was loaded all round, and at about one frame a second a word can pass unseen while the captions and the light are unaffected.
 
-- The hive operations room has no level of the figure that fits 7 figures: 7 room-level figures would add 21 meshes and 6,486 triangles to a room of 25 meshes and 2,022 triangles, 46 meshes and 8,508 triangles in all, against a budget of 40 and 6,000, and the video review’s capture of the merged head measures the room at 46 meshes and 8,508 triangles, over the limit, because neither this console’s check (the robot rooms) nor `HIVE-5` ’s (its own lightened figures) covers the combination.
+- The hive operations room has no level of the figure that fits 7 figures: 7 room-level figures would add 21 meshes and 6,486 triangles to a room of 25 meshes and 2,022 triangles, 46 meshes and 8,508 triangles in all, against a budget of 40 and 6,000. The video review’s capture of the merged head found the room at 46 meshes and 8,508 triangles, over the limit, because the room mount of this line reached it and no checker covered the combination; it was fixed at integration, which hands the room the default figure that `HIVE-5` lightens, and the built page measures 4,470 triangles, so room-level figures for all the agents remain a future item.
 
 - The room-level figure keeps the full figure’s posture, gestures and mouth but is a lighter level of detail; the busiest room sits close to its budget, and balanced keeps today’s figure there.
 
@@ -174,7 +174,17 @@ Source: `docs/consoles/AVATARS-HD-3.md`. On balanced the room keeps the lightene
 
 Sources: `docs/consoles/AGENT-AVATARS.md`, `docs/consoles/HIVE-IN-WORLD.md`, `docs/consoles/HIVE-3.md`, `docs/consoles/VOICES.md`. The figures are read from those notes by the script that built this page. The seeded runs are simulations; no person was measured, and no hardware is involved.
 
+### Round seven: the nearest console at the room level, and moods on the body
+
+The console nearest the learner as they enter now gets the room level of the figure, chosen once when the room is built, while the other 6 stay at the crowd level. With captions up the room measures 46 meshes and 5,992 triangles on high, against its budget of 120 meshes and 6,000 triangles, inside the budget in 480 of 480 steps of the seeded day. The hive’s mood event now moves the posture inside the existing ranges: busy raises the idle tempo by a factor of 1.12, concerned tilts the head by 0.05 radians with the hands closer, relieved lowers the shoulders by 1.2 cm; the stop hand is the same in every mood (7 of 7 agents), and with no mood events the pose is byte-identical to before over 386,400 bone-frames. The avatar checker now runs 117 checks, up from 109.
+
+**In the built page.** The operations room measures 46 meshes and 5,988 triangles built; the figures stay the same objects when the learner walks away (0 swaps); the real hive’s moods reached the figures in 142 of 142 events, and the figure’s mood equalled the hive’s in 2,966 step checks. In the robot rooms, with the high-detail robots and the hive’s agents in each, only 3 of 6 rooms were inside the budget (the cobot lab at 6,322 triangles, the AMR warehouse at 7,450 and the maintenance bay at 6,774); with the room level given only where it fits, 6 of 6 are, at the cost of 1 agent held back without a figure in the AMR warehouse.
+
+Read honestly: frame time was not measured in any useful way: software rendering on a loaded machine takes seconds a frame whatever the figures are, so only triangle and mesh counts are claimed.
+
+**Round seven ** of this loop is merged; its figures were read from the console branches with a read-only git show: `AVATARS-HD-4` (branch head `839fc321`, 3 commits of its own; its console note is committed; merged). Each figure is checked against a committed file or a commit message, and a rebuild re-reads the final state.
+
 
 ---
 
-_Every figure on this page was checked against the repository file named beside it when the page was built (head `e196829d`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._
+_Every figure on this page was checked against the repository file named beside it when the page was built (head `b111d4d3`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._

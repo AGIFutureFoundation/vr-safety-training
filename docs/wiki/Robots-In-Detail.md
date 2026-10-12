@@ -59,7 +59,17 @@ The arm’s joints ease through 4 of 4 key poses with zero joint speed at each, 
 
 Source: `docs/consoles/ROBOTS-HD.md` (its evals table, committed on its branch and read by phrase), `tools/check_robots_hd.mjs` (42 checks pass) and its drive; the figures are read by the script that built this page.
 
+### Round seven: a still of the running cell, the light that follows a real run, the zone indoors
+
+The earlier drive could not produce a green still of the cell because its second hold stacked on the first. The drive now holds the learner with one wrapper, so the running frame checks the site’s state, the rule and the zone: 5 checks passed, 0 failed, page errors 0 in the still-only drive.
+
+The status light now follows a live agent-jobs run on the cell: in the page 21 of 21 steps of a run lit the light by the governor’s decision, in order, and a supervisor’s e-stop turned it red and held it until the next job. The warning zone is now drawn indoors, exactly the warning distance: 150 of 150 steps in the page and 1,711 of 1,711 robot-steps of a headless walk. The drilling deck’s robot is in high detail at 5 draw calls and 2,344 triangles. All the robot rooms stay inside the budget with the robots and zones (6 of 6), the most built being 5,838 triangles in the page with the hive’s agents standing there. Balanced, phone and headset are unchanged.
+
+Left: while a run plays, the light follows the panel’s preview frames, and a check that the preview and the real run agree step for step is not written yet; the port control room still has no robot body, and the room robots do not move.
+
+**Round seven ** of this loop is merged; its figures were read from the console branches with a read-only git show: `ROBOTS-HD-2` (branch head `1dda261d`, 4 commits of its own; its console note is committed; merged). Each figure is checked against a committed file or a commit message, and a rebuild re-reads the final state.
+
 
 ---
 
-_Every figure on this page was checked against the repository file named beside it when the page was built (head `e196829d`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._
+_Every figure on this page was checked against the repository file named beside it when the page was built (head `b111d4d3`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._

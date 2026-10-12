@@ -20,6 +20,8 @@ The robots are simulated and every result in this wiki is a simulation, seeded-r
 - **[The robot arena: models compared on the same tasks](Robot-Arena.md)**: Every model family in the repository on the same scenarios and seeds through the governor, a small robot model trained here, and the trainable datasets, reported as measured.
 - **[Omega Claw: the agents that run robot training and testing](Omega-Claw.md)**: Five software agents that declare each comparison before it runs, run it once on held-out seeds, audit it and promote a model only on a clear result.
 - **[The stack](Stack.md)**: What the platform is built from, layer by layer, each with the repository file that holds it.
+- **[A Python robot harness on the strands-robots interface](Strands-Robots-Harness.md)**: This repository's own harness, simulated only: robots and models through the strands-robots Policy and tool interface, compared on the arena's scenarios with every step checked by the governor.
+- **[The ecosystem: SmartCiti.X and Cognition.X](Ecosystem.md)**: Where this platform meets its sibling repositories, the blocks bridge and the bus adapter; Router.X is not a repository yet.
 - **[Who uses it, the risks, and the investor FAQ](Risks-and-FAQ.md)**: Who the platform is for, told as use rather than as customers; the risks and their mitigations; twelve investor questions answered from the repository only.
 - **[Glossary](Glossary.md)**: The terms the whitepaper and the deck use, each in two plain sentences.
 - **[Repository map](Repository-Map.md)**: Layout, the robotics modules, measured gym results, how to run and check.
@@ -32,7 +34,7 @@ The robots are simulated and every result in this wiki is a simulation, seeded-r
 - [`docs/bench-protocol.md`](../bench-protocol.md): how the six gym tasks would be scored on hardware. It is a method; no hardware run has happened.
 - [`docs/learner-data-terms.md`](../learner-data-terms.md): the learner-data terms, a draft for counsel that says only what the code enforces.
 - [`docs/perf/robot-policies.html`](../perf/robot-policies.html): the static policy evaluation report, one card per trained policy.
-- [`docs/consoles/`](../consoles/): one note per build console (176 so far), each with its evals before → after and what is left; `COORDINATOR.md` logs each integration loop.
+- [`docs/consoles/`](../consoles/): one note per build console (184 so far), each with its evals before → after and what is left; `COORDINATOR.md` logs each integration loop.
 - [`docs/virtuals-bridge.md`](../virtuals-bridge.md): how on-chain software agents would request robot work through the Holodeck, with the safety governor in between. A planned technology, modelled and not yet connected.
 
 ## Get involved
@@ -41,4 +43,4 @@ The robots are simulated and every result in this wiki is a simulation, seeded-r
 - **Build with the gym**: `WebXR/shared/rb-env.js` is a seeded reset/step/reward environment with scripted experts and labelled synthetic datasets in `exports/robotics/`.
 - **Read the code before the claims**: every number here names its file; `node tools/check_all.mjs` re-checks all of them.
 
-_Head `e196829d`, built 2026-10-12. This wiki is regenerated from the verified whitepaper fragments; edit the fragments or the generator, not these pages._
+_Head `b111d4d3`, built 2026-10-12. This wiki is regenerated from the verified whitepaper fragments; edit the fragments or the generator, not these pages._

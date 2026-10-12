@@ -66,7 +66,7 @@ Every number in this whitepaper comes from the repository file named beside it; 
 | **Platform: counts and content scores** | | | |
 | Scored training stations; programmes | 742 · 61 | `docs/investor/platform-summary.json` | count |
 | Content evaluation over 742 stations: mean; scoring 95 or more; 90 to 94; below 90 | 95.8 · 612 · 126 · 4 | `docs/investor/platform-summary.json` | content score |
-| Quality-gate checkers in the full run | 151 | `tools/check_all.mjs` | count |
+| Quality-gate checkers in the full run | 153 | `tools/check_all.mjs` | count |
 | Robotics facets ready in the shared export; robot sites; gym scenarios | 6 of 6 · 6 · 9 | `exports/shared/holodeck-shared.json` | count |
 | Character registry entries with a sprite; figure fits the role, before and after | 57 · 23 of 57 → 57 of 57 | `docs/consoles/AVATARS.md` | count |
 | **Robot-training stations: content score (steps, hazards, interruptions)** | | | |
@@ -282,6 +282,7 @@ Every number in this whitepaper comes from the repository file named beside it; 
 | Home moves after the last job, outdoors too, before → after; lines grounded; outdoor figures where the hive says; idle agents home at the day’s end | 0 → 89 of 89; 89 of 89; 7 of 7; 7 of 7 | `docs/consoles/HIVE-5.md` | simulated |
 | Governor with the home move on: dispatched jobs checked; steps monitored; physical dispatches; jobs completed with and without it | 150 of 150; 3,061 of 3,061; 0; 144 | `docs/consoles/HIVE-5.md` | simulated |
 | Built page at hive minute 159 (high, a software renderer): agents standing; screens painted; meshes built; triangles built (equal to the checker’s); triangles drawn; texture MiB; page errors; off-host requests; the toggle on a 390 × 844 touch phone in pixels | 7 of 7; 8 of 8; 88; 4,878; 4,292; 19.25; 0; 0; 284 by 44 | `docs/consoles/HIVE-5.md` | observed |
+| The operations room on the merged head, triangles built against the room’s limit of 6,000: with the high-detail line’s room-level figures in it (measured by the video review’s capture, cut 12; 46 meshes) → after the integration fix, measured in the built page with `HIVE-5` ’s drive; page errors; checkers on the merged tree passing | 8,508 → 4,470; 0; 43 of 43 | `docs/consoles/COORDINATOR.md` | observed |
 | **`ROBOTRAIN-8`: the declared retests, measured once on fresh seeds (design committed at 16:08 UTC and amended from training-side evidence at 16:15 UTC, before any run on the fresh seeds; its committed note and data file)** | | | |
 | Fresh held-out seeds, never tuned on: first to last (how many); the earlier range, already seen by earlier rounds | 7061 –7120 (60); 7001 –7060 | `docs/consoles/ROBOTRAIN-8.md` | count |
 | Per-step reward on fleet routing, clone success on the fresh seeds: the declared rule (oversampled pairs at the declared threshold); the same pairs at the sweep’s hinted threshold; the older pairs at the hinted threshold; the rule filter; no filter | 0.517; 0.467; 0.883; 0.650; 0.533 | `docs/evals/colearn.json` | simulated |
@@ -341,10 +342,46 @@ Every number in this whitepaper comes from the repository file named beside it; 
 | Persistent world, seed 1: simulated minutes; jobs completed; refused; vetoed; dispatched, all checked; steps monitored; physical dispatches; waiting for the learner | 960; 163; 28; 8; 190; 3,839; 0; 14 | `docs/evals/claw.json` | simulated |
 | In the built page: simulated minutes; jobs completed; steps checked; seconds hidden, which gave no steps; page errors | 613; 119; 2,562; 4; 0 | `docs/consoles/OMEGA-CLAW.md` | observed |
 | Claw checker checks, before → after the console’s work; bundle growth of the parishes and instructor pages, bytes | 0 → 8; 233,356; 152,007 | `docs/consoles/OMEGA-CLAW.md` | count |
+| **`STRANDS`: a Python harness on the strands-robots interface, simulated only (merged into the integration head)** | | | |
+| Robot types simulated; policies runnable through the interface; weight files, kilobytes | none → 4; none → 6; 13, 154 | `docs/consoles/STRANDS.md` and its commits and `docs/evals/strands.json` | count |
+| Development comparison: episodes; steps checked by the governor; physical dispatches; network calls | 720; 32,801; 0; 0 | `docs/evals/strands.json` | simulated |
+| Held-out run, once: episodes; steps checked by the governor; physical dispatches; network calls | none → 2,160; 97,289; 0; 0 | `docs/evals/strands.json` | simulated |
+| Held-out success, with its interval: scripted expert; DAgger (the longer run); behaviour clone | 1.000 (0.989 to 1.000); 0.794 (0.750 to 0.833); 0.761 (0.714 to 0.802) | `docs/evals/strands.json` | simulated |
+| Development success, with its interval: scripted expert; DAgger (the longer run); behaviour clone | 1.000 (0.969 to 1.000); 0.742 (0.657 to 0.812); 0.708 (0.622 to 0.782) | `docs/evals/strands.json` | simulated |
+| **`ECOSYSTEM`: the seams with SmartCiti.X and Cognition.X (merged into the integration head)** | | | |
+| Union and trade stations mapped to a block; of which unmatched and listed; robotics skills mapped; skills left out as school-age | 214 of 670; 456; 24 of 24; 6 | `docs/ecosystem/blocks-match.json` | count |
+| Blocks in the committed extract, kilobytes; licence; the Cognition.X commit read | 91, 73; CC BY 4.0; 47c1820 | `docs/ecosystem/blocks-match.json` | count |
+| Seams documented, before → after; declared rules for stations and for programme skills | none → 11; 15; 6 | `docs/ecosystem.md` | count |
+| **`CLAW-2`: the claw’s second comparison and people beside robots (merged into the integration head)** | | | |
+| Declared comparisons run once on the new held-out seeds; episodes; steps checked; physical dispatches; promotions | 45 of 45; 4,140; 155,744; 0; 0 | `docs/evals/claw2.json` | simulated |
+| Refusals in all, by reason: not better; rule broken; undeclared; seed reused; not held out | 48: 23; 22; 1; 1; 1 | `docs/evals/claw2.json` | count |
+| Small model against the clone on the port gantry; its hard variant (successes of the small model against the clone’s) | 45 of 60 against 60 of 60; 40 of 60 against 44 of 60 | `docs/evals/claw2.json` | simulated |
+| Persistent world, seed 2: simulated minutes; jobs completed; steps monitored; physical dispatches; hash-chain lines, intact | 960; 141; 3,024; 0; 230 | `docs/evals/claw2.json` | simulated |
+| **`ARENA-2`: the retest, declared first, run once (merged into the integration head)** | | | |
+| Declared gaps pooled: small model with a hidden layer; clone; difference with its interval | 0.842 (0.766 to 0.896); 0.908 (0.843 to 0.948); −0.067 (−0.152 to 0.018) | `docs/evals/arena.json` | simulated |
+| The effect of the hidden layer on the gaps (same seeds); every scenario, difference with the clone | 0.133 (0.028 to 0.235); −0.018 (−0.060 to 0.025) | `docs/evals/arena.json` | simulated |
+| Cobot station: first small model; with a hidden layer; clone | 0 of 10; 10 of 10; 10 of 10 | `docs/evals/arena.json` | simulated |
+| Episodes; steps checked by the governor; physical dispatches; dataset episodes from stations; leakage | 1,710; 83,756; 0; 90; 0 | `docs/evals/arena.json` and `exports/robotics/arena/index.json` | simulated |
+| Bus events validated against the documented shape, all of them; telemetry messages; audit entries; network calls | none → 2,189; 11; 2,178; 0 | `tools/check_eco.mjs` | count |
+| **`HIVE-7`: moods on the figures and on the live link (merged into the integration head)** | | | |
+| Figure moods equal to the hive’s own mood (high and balanced); geometry added by the moods, at sampled minutes | none → 1680 of 1680; 12 of 12 equal | `docs/consoles/HIVE-7.md` | simulated |
+| Combined operations room in the built page: meshes and triangles built, high; balanced | 46, 5,586; 85, 4,394 | `docs/consoles/HIVE-7.md` | observed |
+| Live moods equal to the hive’s own; briefing first jobs equal to the first awards after approvals (seeded days; wider run); Spanish lines with an English fragment | none → 1435 of 1435; 30 of 30; 120 of 120; 0 of 2,788 | `docs/consoles/HIVE-7.md` | simulated |
+| **`AVATARS-HD-4`: the nearest console at the room level, and moods on the body (merged into the integration head)** | | | |
+| Operations room in the built page: meshes; triangles built | 46; 5,988 | `docs/consoles/AVATARS-HD-4.md` | observed |
+| Robot rooms inside the budget with the high-detail robots and the hive’s agents, before → after; agents held back | 3 of 6 → 6 of 6; 1 | `docs/consoles/AVATARS-HD-4.md` | observed |
+| Mood events that reached the figures in a seeded day; step checks that the figure’s mood equals the hive’s; bone-frames identical to before with no mood events | 142 of 142; 2,966; 386,400 | `docs/consoles/AVATARS-HD-4.md` | simulated |
+| **`ENV-HD-7`: a kind cue on every site (merged into the integration head)** | | | |
+| Sites with a kind cue, before → after; kinds with a cue; maps | 4 of 4 → 250; 4 of 4 → 6; 46 | `docs/consoles/ENV-HD-7.md` | count |
+| Cue parts checked, none misplaced; worst cue triangles per site, balanced and high | 12,121; 480 and 1,968 | `docs/consoles/ENV-HD-7.md` | count |
+| Street cameras with a sight line clear of the site cars; cue checker checks, before → after | 5 of 7 → 7 of 7; 118 → 934 | `docs/consoles/ENV-HD-7.md` | count |
+| **`ROBOTS-HD-2`: the light that follows a run, the zone indoors, the green still (merged into the integration head)** | | | |
+| Steps of an agent-jobs run lit by the governor’s decision, in the page; steps with the indoor zone exactly the warning distance, in the page; robot-steps headless | none → 21 of 21; none → 150 of 150; 1,711 of 1,711 | `docs/consoles/ROBOTS-HD-2.md` | observed |
+| Drilling robot in high detail: draw calls; triangles; robot rooms inside the budget; most triangles built in a room in the page | 5; 2,344; 6 of 6; 5,838 | `docs/consoles/ROBOTS-HD-2.md` | observed |
 
 Simulated: produced by the simulator on seeded runs, with synthetic demonstrations or simulated learners. Count: read from the data the repository ships. Content score: the platform's own station evaluation, scored out of 100. Each value is re-checked against its file by the build script that wrote this table. The scripted expert sees the targets, so it is a ceiling and not a competitor.
 
 
 ---
 
-_Every figure on this page was checked against the repository file named beside it when the page was built (head `e196829d`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._
+_Every figure on this page was checked against the repository file named beside it when the page was built (head `b111d4d3`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._

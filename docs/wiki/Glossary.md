@@ -110,9 +110,17 @@ Source: `docs/consoles/ROBO-ARENA.md`
 
 Source: `docs/consoles/OMEGA-CLAW.md`, `docs/evals/claw.json`
 
+- **Policy interface** The shape the open strands-robots library gives a robot’s controller: given an observation and an instruction, return actions. The Strands harness here runs this project’s trained models through that shape on simulated robots only, and says plainly that the package its sample imported does not exist.
+
+Source: `robotics/strands/policies.py`
+
+- **Block** A small, verifiable unit of a curriculum in the sibling Cognition.X repository: it names one thing a learner can do at one grade band and pairs it with a transfer check. This platform maps its adult trade stations to blocks by declared text rules and shows the matches read-only to instructors.
+
+Source: `docs/ecosystem.md`
+
 Definitions follow how the repository uses each term, not an outside textbook.
 
 
 ---
 
-_Every figure on this page was checked against the repository file named beside it when the page was built (head `e196829d`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._
+_Every figure on this page was checked against the repository file named beside it when the page was built (head `b111d4d3`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._

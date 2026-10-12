@@ -70,7 +70,33 @@ The panel also shows where people and robots each need practice. For robots it n
 
 Sources: `docs/evals/claw.json` and the console’s commit messages, read from its branch with git show; the figures are read by the script that built this page.
 
+### Round seven: the claw’s second comparison, with the small model in it
+
+The claw declared a second protocol at 18:51 UTC, after the arena’s declaration of the new held-out range and before running it, and ran it once at 18:53 UTC. Its seeds come only from that committed declaration, and the first protocol’s spent seeds are refused as not held out. This time the arena’s small model is really in it: 45 declared comparisons (9 scenarios by 5 challengers) on seeds 7181 –7240, 4,140 episodes and 155,744 steps, every step checked by the governor, 0 physical dispatches, and promotions: 0. There were 48 refusals: not better (23), a rule broken (22), and one each undeclared, a reused seed and a range that was not held out, exercised on purpose (4 of 4). The audit finds the declaration first and each seed once (ok), and the hash chain of 230 lines intact.
+
+| Scenario | Small model (of 60 seeds) | Behaviour clone (the incumbent) |
+|---|---|---|
+| Robot-cell entry | 60 of 60, 0 | 60 of 60, 0 |
+| Cobot zone setup | 57 of 60, 3 | 60 of 60, 0 |
+| Teleop pick-and-place | 57 of 60, 3 | 57 of 60, 3 |
+| AMR fleet routing | 40 of 60, 20 | 49 of 60, 11 |
+| Drilling deck | 60 of 60, 0 | 60 of 60, 0 |
+| Port gantry | 45 of 60, 0 | 60 of 60, 0 |
+| Drilling deck, hard | 60 of 60, 0 | 60 of 60, 0 |
+| Port gantry, hard | 40 of 60, 0 | 44 of 60, 0 |
+| AMR fleet routing, hard | 7 of 60, 12 | 4 of 60, 9 |
+
+As measured: equal to the clone on cell entry and on the drilling deck, base and hard; below it on the port gantry and its hard variant; and it breaks more rules on AMR routing and on AMR hard, as the clone also does. The one DAgger result worth a look is on AMR routing, 57 of 60 against the clone’s 49 of 60, but its lower bound (0.863) is not above the clone’s upper bound (0.894) and its runs broke 2 rules, so nothing was promoted. Source: `docs/evals/claw2.json`.
+
+**People and robots side by side.** For each robot scenario the panel now lists the learner stations that match it, at the operator and technician levels of the programme tracks, next to the robot’s model, success and gap. A learner’s own passes appear only through the data layer’s gate, on that device. The port gantry and its hard variant have no matching station and are shown as a gap in the programme (ok). The panel has a protocol select (44 px high) for both records, and the checker passes 10 checks with 0 failing.
+
+In all the small model ties the clone on 4 scenarios, falls short on 2 and breaks rules on 4. Both protocols together declare 90 comparisons, each run once. DAgger’s interval on AMR routing overlaps the clone’s and it broke rules. The arena’s hidden-layer model was not compared by the claw: it measured its own comparison on the same seeds, once each, and the next claw protocol would declare it first. The hand-written reactive agent is not a declared challenger, so nothing is claimed for it. The side-by-side panel has 9 rows and shows robot gaps on 4 scenarios, including the port gantry’s hard variant, where the clone reaches 0.733. On the learner side the traffic drill was played through its own buttons; the one station pass is a fixture, not a played station. The claw checker now runs 11 checks.
+
+The persistent world ran on: 960 simulated minutes over 2 days (seed 2), 141 jobs completed, 40 refused by the governor, 11 vetoed by the steward, 173 dispatched and all checked, 3,024 steps monitored and 0 dispatches to a physical robot, every scenario still on the incumbent clone. Source: `docs/evals/claw2.json`.
+
+**Round seven ** of this loop is merged; its figures were read from the console branches with a read-only git show: `CLAW-2` (branch head `7940a087`, 6 commits of its own; its console note is committed; merged). Each figure is checked against a committed file or a commit message, and a rebuild re-reads the final state.
+
 
 ---
 
-_Every figure on this page was checked against the repository file named beside it when the page was built (head `e196829d`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._
+_Every figure on this page was checked against the repository file named beside it when the page was built (head `b111d4d3`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._

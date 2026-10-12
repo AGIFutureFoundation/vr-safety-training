@@ -237,8 +237,9 @@ Source: `docs/consoles/ENV-HD-5.md`. A coordinator’s earlier attempt changed t
 | The room with 7 speaking figures: meshes; triangles; texture MiB on high, against 120 meshes, 6,000 triangles and 24 MiB; the triangles 7 standard figures would have made | 88; 4,878; 21.58; 9,078 |
 | The same on balanced, against a texture budget of 3 MiB (the screens take colour, bars and a talk light); texture bytes the screens add | 84; 4,190; 2.77; 0 |
 | Built in the page at hive minute 159: agents standing; screens painted; meshes and triangles built; page errors; off-host requests | 7 of 7; 8 of 8; 88; 4,878; 0; 0 |
+| On the merged head, triangles built against the limit of 6,000: with the high-detail line’s room-level figures in the room (the video review’s capture; 46 meshes) → after the integration fix, which keeps the lightened figure here (built page; page errors) | 8,508 → 4,470; 0 |
 
-Source: `docs/consoles/HIVE-5.md`. The figures in this room are lightened from 1,008 to 408 triangles each so that all 7 fit; the screens are painted from the hive’s own events and metrics, and every card says “software agent”. On the merged head the room is over its triangle limit: the video review’s capture, with the high-detail line’s room-level figures standing in it, measures 46 meshes and 8,508 triangles built against 6,000, and no checker covers that combination.
+Source: `docs/consoles/HIVE-5.md`. The figures in this room are lightened from 1,008 to 408 triangles each so that all 7 fit; the screens are painted from the hive’s own events and metrics, and every card says “software agent”. With both consoles merged the room was briefly over its triangle limit (the video review’s capture measured 46 meshes and 8,508 triangles built against 6,000, because the high-detail line’s room mount put its figures here), a gap no checker covered; it was fixed at integration, the app keeping the lightened figure in this room, and the built page now measures 4,470 triangles.
 
 ### Round six: buildings that read as their kind (ENV-HD-6)
 
@@ -289,9 +290,9 @@ Source: `docs/consoles/ENV-HD-6.md`. Every cue is procedural and generic by kind
 
 - *Planned* Only the busiest site of each kind carries a cue; every other park, fire station, hospital and school keeps the plain box. The school reads from its wide shot but not from its street shot, where yard props stand in front of the entrance canopy; the H sign reads at night only by the street lamps; and the park’s gable ends are stepped boxes, visible as steps up close.
 
-**Round two of this loop** is merged into the integration head (`40d97421`): `HIVE-IN-WORLD` (note last committed in `0c834a8a`); `ENV-HD-2` (note last committed in `a0d21aea`). Each figure from it is checked by phrase against that console’s committed note, not re-run from a branch; a note that is edited later stops the build.
+**Round two of this loop** is merged into the integration head (`a8379051`): `HIVE-IN-WORLD` (note last committed in `0c834a8a`); `ENV-HD-2` (note last committed in `a0d21aea`). Each figure from it is checked by phrase against that console’s committed note, not re-run from a branch; a note that is edited later stops the build.
 
-**Round three of this loop** is merged into the integration head (`40d97421`), and each figure from it is checked by phrase against that console’s committed note, a committed data file or a commit message, not re-run from a branch: `ENV-HD-3` (its last commit `f3589590`, 7 commits since the head that round started from; its console note is committed; merged into the integration head). A note that is edited later stops the build.
+**Round three of this loop** is merged into the integration head (`a8379051`), and each figure from it is checked by phrase against that console’s committed note, a committed data file or a commit message, not re-run from a branch: `ENV-HD-3` (its last commit `f3589590`, 7 commits since the head that round started from; its console note is committed; merged into the integration head). A note that is edited later stops the build.
 
 **Round four ** of this loop is **merged** into the integration head (`e252b25f`) and is read from it with a read-only git show: `ENV-HD-4` (its own commits end at `70b4aed5`, 11 commits of its own; its console note is committed; merged). Each figure is checked by phrase against that console’s note or its commit messages, and a rebuild re-reads the final state.
 
@@ -301,7 +302,24 @@ Source: `docs/consoles/ENV-HD-6.md`. Every cue is procedural and generic by kind
 
 Sources: `docs/consoles/ROBO-INTERIORS.md`, `docs/consoles/ROBO-EXTERIORS.md`, `WebXR/shared/ixr-robo-interiors.js`, `WebXR/shared/fx-exteriors.js`, `tools/check_robo_interiors.mjs`, `tools/check_exteriors.mjs`. Each figure is read from those notes by the script that built this page. Rooms are generic by kind, as the interiors note says: no real building’s interior is modelled.
 
+### Round seven: a kind cue on every site
+
+The kind cues now reach every site of their kinds, not one preset of each. Each cue is fitted group by group (the preferred side, then the other, else the group is skipped; a wall sign and an entrance surround where a canopy cannot fit), the earlier presets keep their placements, and the hospital’s H sign is drawn unlit as a second material group on the same mesh, which adds 0 lights and 0 textures. The street camera keeps its sight line clear of the parked site cars on the school campus shot.
+
+| Kind of place | Sites that carry a cue (all of them) |
+|---|---|
+| Fire station | 46 |
+| Hospital | 40 |
+| School | 43 |
+| Park | 54 |
+| Utility | 36 |
+| Substation | 31 |
+
+That is 250 sites of 6 kinds on 46 maps (utility and substation are new); 217 carry every part group, and 33 skip a group that cannot fit, mostly park pavilions and hospital lanes on tight lots. Of 12,121 cue parts checked, none is on a road, in water, in a building, inside another cue, by a job board or buried. The worst site costs 480 triangles on balanced and 1,968 on high, no site over its budget. Street cameras with a sight line clear of the site cars go from 5 of 7 to 7 of 7. The cue checker now runs 934 checks, up from 118. Nothing is built on the phone tier or in a headset, and the H sign is lit by an unlit material. Left: a bus in the school’s street shot needs the app’s own vehicle placements.
+
+**Round seven ** of this loop is merged; its figures were read from the console branches with a read-only git show: `ENV-HD-7` (branch head `1556f27c`, 4 commits of its own; its console note is committed; merged). Each figure is checked against a committed file or a commit message, and a rebuild re-reads the final state.
+
 
 ---
 
-_Every figure on this page was checked against the repository file named beside it when the page was built (head `e196829d`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._
+_Every figure on this page was checked against the repository file named beside it when the page was built (head `b111d4d3`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._
