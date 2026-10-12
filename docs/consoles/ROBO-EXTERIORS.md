@@ -47,7 +47,7 @@
 | robot sites with a dedicated exterior kit | 0 | **6 of 6** | `node tools/check_exteriors.mjs` ("robot sites with a dedicated exterior kit: 6 of 6") |
 | scene presets | 0 | **12 of 12** | `check_exteriors` ("scene presets: 12 of 12"); drive: 12 shots framed in the built page |
 | kit per site, meshes / triangles (phone · balanced · high) | — | 1 / 36–180 · 2 / 450–804 · 2 / 880–1,296 (budget 1/1,500 · 2/7,000 · 2/7,000) | `check_exteriors` ("triangles per site …") |
-| worst chunk with FACADES + kit vs `FC_BUDGET` (meshes, triangles) | low 2 / 1,056 · high 3 / 4,918 | low 3 / 1,092 (≤ 4 / 6,000) · high 5 / 5,798 (≤ 6 / 24,000) | `check_exteriors` (per-chunk notes; San José chunk 9,7 is the heaviest) |
+| worst robot-site chunk, FACADES alone → FACADES + kit, vs `FC_BUDGET` (worst meshes, worst triangles) | low 2 / 1,056 · high 3 / 4,918 | low 3 / 1,092 (≤ 4 / 6,000) · high 5 / 5,798 (≤ 6 / 24,000) | `check_exteriors` (per-chunk notes: the kit is charged to every chunk its lot touches; San José 9,7 is the heaviest by triangles, Orleans 9,7 by meshes on the phone) |
 | full build at the robot sites, meshes (draw calls) / triangles | see the table below | +1 to +2 meshes a site, ≤ 260 / 400,000 everywhere | `check_exteriors` (full-build notes) |
 | texture bytes per map (kit) | 0 | phone 0 · balanced 1,485,483 · high 5,941,931 (budget 0 / 1,572,864 / 6,291,456) | `check_exteriors` (planned), drive (canvases drawn) |
 | `check_detail` generation median (CPU) | 11.2 ms at load 8.5–8.7 | 10.8 ms at load 5.3–6.9 (budget 12) | `node tools/check_detail.mjs`, before/after runs; the kit adds no detail generation, so the difference is the load |
@@ -65,7 +65,7 @@ same scene with the kit's group excluded). Phone and headset budgets are unchang
 
 | map | low before → after | balanced before → after | high before → after |
 |---|---|---|---|
-| oak-west-oakland (2 sites) | 87 / 30,716 → 89 / 30,896 | 160 / 67,490 → 164 / 68,514 | 160 / 67,490 → 164 / 69,046 |
+| oak-west-oakland (2 sites) | 87 / 30,716 → 89 / 30,896 | 160 / 67,490 → 164 / 68,642 | 160 / 67,490 → 164 / 69,398 |
 | bay-san-jose | 74 / 28,286 → 75 / 28,322 | 147 / 84,048 → 149 / 84,532 | 147 / 84,048 → 149 / 84,928 |
 | orleans | 115 / 38,559 → 116 / 38,631 | 185 / 66,469 → 187 / 67,171 | 185 / 66,469 → 187 / 67,435 |
 | la-meta-richland | 68 / 20,684 → 69 / 20,864 | 122 / 32,598 → 124 / 33,402 | 122 / 32,598 → 124 / 33,894 |

@@ -372,7 +372,9 @@ export function fxBuildSite(THREE, l, tier = "high") {
     for (const [x, y, uu, vv] of corners) { v.set(x, y, 0).applyMatrix4(m); skin.pos.push(v.x, v.y, v.z); skin.uv.push(uu, vv); skin.col.push(c.r, c.g, c.b); }
   };
   const Q = (cell, w, h, x, y, z, ry = 0) => quad(cell, w, h, local(x, y, z, ry));
-  const QF = (cell, w, d, x, z, ry = 0, frame = "b") => quad(cell, w, d, (frame === "b" ? local(x, 0.04, z, ry) : yard(x, 0.04, z, ry)).multiply(new THREE.Matrix4().makeRotationX(-Math.PI / 2)));
+  // floor markings: the building frame's origin is 0.15 m under the lot's lowest ground (the body sinks in, as massing does),
+  // so its markings ride 0.2 m up; the pad frame's sit 0.1 m over the pad's ground (clear of the 8 cm pad slab's edge)
+  const QF = (cell, w, d, x, z, ry = 0, frame = "b") => quad(cell, w, d, (frame === "b" ? local(x, 0.2, z, ry) : yard(x, 0.1, z, ry)).multiply(new THREE.Matrix4().makeRotationX(-Math.PI / 2)));
   /** Wrap a w × d × h wall in a cell, split into panels of about `pm` metres. */
   const wrap = (cell, w, d, h, y0, pm, faces = [0, 1, 2, 3], cx = 0, cz = 0) => {
     for (const f of faces) {
@@ -394,7 +396,7 @@ export function fxBuildSite(THREE, l, tier = "high") {
     B(0.45, 1.4, 0.3, FX_C.white, x, 0.7, z, false, ry); B(0.36, 0.3, 0.02, FX_C.dark, x + Math.sin(ry) * 0.16, 1.15, z + Math.cos(ry) * 0.16, false, ry);
     Q("charger", 0.3, 0.3, x + Math.sin(ry) * 0.17, 0.8, z + Math.cos(ry) * 0.17, ry);
     const [ax, az] = fxRot(ry, 1.3, 0), [bx, bz] = fxRot(ry, -1.3, 0), [fx2, fz2] = fxRot(ry, 0, 2.6);
-    B(0.1, 0.02, 5, FX_C.white, x + ax + fx2, 0.03, z + az + fz2, false, ry); B(0.1, 0.02, 5, FX_C.white, x + bx + fx2, 0.03, z + bz + fz2, false, ry);
+    B(0.1, 0.04, 5, FX_C.white, x + ax + fx2, 0.19, z + az + fz2, false, ry); B(0.1, 0.04, 5, FX_C.white, x + bx + fx2, 0.19, z + bz + fz2, false, ry);
   };
   const D = K.d / 2, W = K.w / 2;
 
