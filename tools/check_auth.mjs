@@ -130,7 +130,10 @@ await check("controls.js mounts the account chip, and every bundle and shared co
   assert(/"controls\.js", "account\.js", "profiles\.js"/.test(bundler), "the combined dist folder does not copy account.js and profiles.js");
   const dists = readdirSync(join(WEBXR, "dist")).filter((f) => f.endsWith(".html") && f !== "index.html");
   assert(dists.length >= 11, "fewer bundles than expected in WebXR/dist");
-  for (const f of dists) assert(read(`WebXR/dist/${f}`).includes('"gt-account"'), `${f} carries no account chip`);
+  // A bundle inlines controls.js, so the chip's id is in the file; a document page (the whitepaper) imports the shared
+  // controls.js and calls ctlMount, which mounts the chip (asserted above) without the id appearing in the page.
+  const mountsControls = (html) => /import \{ ctlMount \} from "\.\/shared\/controls\.js"; ctlMount\(/.test(html);
+  for (const f of dists) { const html = read(`WebXR/dist/${f}`); assert(html.includes('"gt-account"') || mountsControls(html), `${f} carries no account chip`); }
 });
 
 await check("the homepage and every training-track page mount the control grammar, so the chip is on them", () => {
