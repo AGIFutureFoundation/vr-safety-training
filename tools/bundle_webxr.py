@@ -574,8 +574,11 @@ APPS = {
             WEBXR / "bayworld/js/career.js",
             SHARED / "links.js",
             # NPC characters (console GRIOT): the generated roster, then the engine, after crew.js and links.js.
+            # VOICES: the characters' on-device voices (the controller, then the profiles) before the engine that imports them.
             SHARED / "npc-data.js",
             SHARED / "av-characters.js",
+            SHARED / "oh-voice.js",
+            SHARED / "vc-voices.js",
             SHARED / "npc.js",
             WEBXR / "bayworld/js/sim.js",
             SHARED / "field-lessons.js",
@@ -732,9 +735,12 @@ APPS = {
             SHARED / "controls.js",
             SHARED / "links.js",
             # NPC characters (console GRIOT): the avatar space, the generated roster, then the engine.
+            # VOICES: the characters' on-device voices (the controller, then the profiles) before the engine that imports them.
             SHARED / "crew.js",
             SHARED / "npc-data.js",
             SHARED / "av-characters.js",
+            SHARED / "oh-voice.js",
+            SHARED / "vc-voices.js",
             SHARED / "npc.js",
             SHARED / "side-games-data.js",
             SHARED / "side-game-mechanics.js",
@@ -778,9 +784,12 @@ APPS = {
             SHARED / "field-kiosk.js",  # the shared field-lesson passport award (after passport.js)
             SHARED / "links.js",
             # NPC characters (console GRIOT): the avatar space, the generated roster, then the engine.
+            # VOICES: the characters' on-device voices (the controller, then the profiles) before the engine that imports them.
             SHARED / "crew.js",
             SHARED / "npc-data.js",
             SHARED / "av-characters.js",
+            SHARED / "oh-voice.js",
+            SHARED / "vc-voices.js",
             SHARED / "npc.js",
             SHARED / "gate-names-data.js",
             SHARED / "skill-gates.js",
@@ -1021,6 +1030,7 @@ APPS = {
             SHARED / "oh-hive-data.js",
             SHARED / "oh-say.js",
             SHARED / "oh-voice.js",
+            SHARED / "vc-voices.js",  # VOICES: the characters' voice profiles (npc.js, listed earlier, imports it; used only at run time)
             SHARED / "oh-hive.js",
             SHARED / "oh-panel.js",
             # AGENT-AVATARS (docs/consoles/AGENT-AVATARS.md): the agents' portraits, then their figures (after crew.js,

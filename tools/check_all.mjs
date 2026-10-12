@@ -114,6 +114,8 @@ const CHECKERS = [
   "check_vbridge.mjs",
   // OMEGA-HIVE: seven software agents coordinate the robot jobs through the governor — persona, style, grounding, distinctiveness, voice on the device only, approvals, audit (docs/consoles/OMEGA-HIVE.md).
   "check_omega_hive.mjs",
+  // VOICES: GRIOT's characters speak their own pack lines in on-device voices — profiles, local voices only, verbatim, off by default, the talk light (docs/consoles/VOICES.md).
+  "check_voices.mjs",
   // LA-COHORTS: Louisiana lesson flows and apply games, classroom boards, Home links, cohort run sheets (docs/consoles/LA-COHORTS.md).
   "check_la_cohorts.mjs",
   "check_geo.mjs",

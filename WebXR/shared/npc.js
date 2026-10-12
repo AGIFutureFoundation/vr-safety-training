@@ -15,6 +15,13 @@
 // network, and even a configured reply is only spoken when it is one of the
 // pack's own lines, verbatim.
 //
+// VOICES (docs/consoles/VOICES.md): each character also has a voice profile (shared/vc-voices.js) and, once the learner turns
+// voice on in the dialogue panel (off by default, not remembered), reads its own taught line aloud with an on-device voice
+// (speechSynthesis voices whose localService is true, never a network voice), through oh-voice.js's controller. Only a pack
+// line is ever spoken, verbatim; the greeting, the hand-off and the no-match line are shown, never heard. The captions are the
+// panel's text and are the same with voice on or off; the speaking figure shows the agents' talk light, one shared mesh that
+// sits on the figure only while it speaks.
+//
 // The figures come from shared/crew.js's avatar space (ctAvatarFigure, at
 // most CT_AVATAR_BUDGET meshes each); movement is property writes on the
 // group, the way shared/wildlife.js animates — animated only within
@@ -27,6 +34,8 @@ import { GR_ROSTER } from "./npc-data.js";
 import { ctAvatarFigure, ctAvatarVariety, CT_AVATAR_BUDGET } from "./crew.js";
 import { lkStationLink } from "./links.js";
 import { avCharacter, avSpriteFor } from "./av-characters.js";
+// VOICES: an on-device voice for each character's own lines (docs/consoles/VOICES.md).
+import { vcNpcVoice, vcLineMs, vcVoiceBarHtml, VC_CSS } from "./vc-voices.js";
 
 export const GR_ANIMATE_RADIUS = 150;
 export const GR_HIDE_RADIUS = 600;
@@ -290,7 +299,7 @@ export function grRenderDialogueHtml(ch, d, resolved = null) {
 
 function grInjectCss() {
   if (!grHasDom || document.getElementById("gr-style")) return;
-  const s = document.createElement("style"); s.id = "gr-style"; s.textContent = GR_CSS; document.head.appendChild(s);
+  const s = document.createElement("style"); s.id = "gr-style"; s.textContent = GR_CSS + VC_CSS; document.head.appendChild(s);
 }
 
 // ------------------------------------------------------------------- mount
@@ -306,12 +315,16 @@ function grInjectCss() {
  *   openLesson(id), openQuest(id)   the world's own openers (optional)
  *   keys       false to skip the G key and the prompt (default true)
  *   onTalk(entry)  called when a dialogue opens (optional)
+ *   voice      a vcNpcVoice() to use instead of the page's own (tests); synth, Utterance  stubs for it
+ *   reducedMotion  true to hold the talk light still (default: the prefers-reduced-motion setting)
  * Returns { world, characters: [{ ch, site, figure, points }], animate(t, dt),
- * near(x, z), talk(entry, question?), close(), open, dispose() }.
+ * near(x, z), talk(entry, question?), ask(question), close(), open, voice, talkState(), talkLog(), dispose() }.
+ * `voice` is the VOICES layer: off until setEnabled(true), on-device voices only, pack lines only.
  */
 export function grMount(world, hooks = {}) {
   const worldKey = String(world).startsWith("parish") ? "parish" : String(world);
   const three = hooks.three ?? null;
+  const voice = hooks.voice ?? vcNpcVoice({ synth: hooks.synth, Utterance: hooks.Utterance });
   const groundAt = typeof hooks.groundAt === "function" ? hooks.groundAt : () => 0;
   const sites = hooks.sites ?? [];
   const characters = [];
@@ -331,8 +344,47 @@ export function grMount(world, hooks = {}) {
   let clock = 0;
   let open = null;
 
+  // ---- the talk light (VOICES): the agents' light, one shared mesh that sits on the speaking figure only while it speaks, so
+  // an idle world has exactly the meshes it had before and a speaking figure has one more (worst 9 of CT_AVATAR_BUDGET 12).
+  // With a voice on, the light follows the real utterance (onstart to onend); with voice off, or no on-device voice, it follows
+  // the line's reading window on the clock (vcLineMs), the way the agents' light does. Reduced motion: the light holds still.
+  let light = null, lightState = null;
+  const lightLog = [];
+  const reduced = () => (typeof hooks.reducedMotion === "boolean" ? hooks.reducedMotion : typeof matchMedia === "function" && !!matchMedia("(prefers-reduced-motion: reduce)").matches);
+  function syncLight() {
+    if (!lightState) { if (light) { light.visible = false; light.parent?.remove(light); } return; }
+    const fig = lightState.entry.figure;
+    if (!fig || !three) return;
+    if (!light) { light = new three.Mesh(new three.SphereGeometry(0.045, 10, 8), new three.MeshBasicMaterial({ color: 0xffffff })); light.name = "gr-talk-light"; }
+    if (light.parent !== fig) { fig.add(light); light.position.set(0, (fig.userData?.parts?.head?.position?.y ?? 1.58) - 0.07, 0.125); }
+    light.visible = true;
+    light.scale.set(1, reduced() ? 1 : 0.75 + 0.5 * Math.abs(Math.sin(clock * 11)), 1);
+  }
+  function lightOff() {
+    if (!lightState) return;
+    const row = lightLog.findLast ? lightLog.findLast((l) => l.end == null) : lightLog.slice().reverse().find((l) => l.end == null);
+    if (row) row.end = clock;
+    lightState = null; syncLight();
+  }
+  function lightOn(entry, mode, until = null) {
+    lightOff();
+    lightState = { entry, mode, until };
+    lightLog.push({ character: entry.ch.id, mode, start: clock, end: null });
+    syncLight();
+  }
+  /** Speak a pack line as `entry` (a real utterance when voice is on and a local voice fits; otherwise only the light's clock window). */
+  function speakLine(entry, text) {
+    voice.stop(); lightOff(); // a new answer replaces the one still being read
+    if (!text) return false;
+    if (voice.say(entry.ch, text, { onstart: () => lightOn(entry, "voice"), onend: () => { if (lightState?.mode === "voice" && lightState.entry === entry) lightOff(); } })) return true;
+    lightOn(entry, "clock", clock + vcLineMs(text) / 1000);
+    return false;
+  }
+
   function animate(t, dt = 0) {
     clock = t;
+    if (lightState?.mode === "clock" && clock >= lightState.until) lightOff();
+    else if (lightState) syncLight();
     const here = hooks.pos?.() ?? null;
     for (const e of characters) {
       const p = grRoutineAt(e.ch, e.site, t + e.offset);
@@ -362,7 +414,14 @@ export function grMount(world, hooks = {}) {
   }
 
   // The DOM: a prompt when a character is near, the panel when talking.
-  let prompt = null, panel = null, visits = 0;
+  let prompt = null, panel = null, visits = 0, lastTest = null;
+  function renderVoiceBar() {
+    const bar = grHasDom && panel ? panel.querySelector("#gr-voice") : null;
+    if (!bar || !open) return;
+    const ch = open.entry.ch;
+    const a = voice.assignments([ch])[0];
+    bar.innerHTML = vcVoiceBarHtml({ on: voice.enabled(), canSpeak: voice.canSpeak(ch), device: voice.device(), character: ch, voiceName: a?.voice, rate: a?.rate, pitch: a?.pitch, test: lastTest });
+  }
   function ensureDom() {
     if (!grHasDom || panel) return;
     grInjectCss();
@@ -373,9 +432,19 @@ export function grMount(world, hooks = {}) {
     panel.setAttribute("role", "dialog"); panel.setAttribute("aria-modal", "false"); panel.setAttribute("aria-labelledby", "gr-title");
     panel.innerHTML = `<header><span id="gr-face" class="gr-face" aria-hidden="true"></span><h2 id="gr-title"></h2><button type="button" id="gr-close" aria-label="Close">Close</button></header>
 <div class="gr-log" aria-live="polite"></div>
+<div class="gr-voice" id="gr-voice" role="group" aria-label="Voice"></div>
 <form id="gr-form"><label for="gr-q" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap">Ask about the work here</label>
 <input id="gr-q" type="text" autocomplete="off" placeholder="Ask about the work here…" enterkeyhint="send"><button type="submit" id="gr-send">Ask</button></form>`;
     panel.querySelector("#gr-close").addEventListener("click", close);
+    // VOICES: the toggle and the test live in the panel; the Me tab's settings mirror the same voice (voice.onChange).
+    panel.querySelector("#gr-voice").addEventListener("click", (ev) => {
+      const b = ev.target?.closest?.("[data-vc]");
+      if (!b || b.disabled || !open) return;
+      if (b.dataset.vc === "toggle") { voice.toggle(); if (!voice.enabled()) lightOff(); lastTest = null; }
+      else if (b.dataset.vc === "test") { voice.stop(); lightOff(); const r = voice.test(open.entry.ch, { onstart: () => lightOn(open.entry, "voice"), onend: () => { if (lightState?.mode === "voice") lightOff(); } }); lastTest = r.spoken ? r : null; }
+      renderVoiceBar();
+    });
+    voice.onChange(() => renderVoiceBar());
     panel.querySelector("#gr-form").addEventListener("submit", (ev) => { ev.preventDefault(); const q = panel.querySelector("#gr-q"); const text = q.value; q.value = ""; if (open && text.trim()) ask(text); });
     // Keys typed in the panel stay in the panel: the world behind never walks while you type.
     panel.addEventListener("keydown", (ev) => { if (ev.key === "Escape") { ev.preventDefault(); close(); } ev.stopPropagation(); });
@@ -401,6 +470,7 @@ export function grMount(world, hooks = {}) {
     const d = grDialogue(entry.ch, { question, seed: visits - 1 });
     const resolved = grResolveHandoff(d.handoff, hooks);
     open = { entry, dialogue: d, resolved };
+    lastTest = null;
     if (grHasDom) {
       ensureDom();
       panel.querySelector("#gr-title").textContent = `${entry.ch.name} · ${entry.ch.role}`;
@@ -408,9 +478,11 @@ export function grMount(world, hooks = {}) {
       if (face) face.innerHTML = avSpriteFor(avCharacter(entry.ch.id), { kind: "token", size: 36 });
       panel.querySelector(".gr-log").innerHTML = grRenderDialogueHtml(entry.ch, d, resolved);
       wireHandoff(resolved);
+      renderVoiceBar();
       panel.hidden = false; prompt.hidden = true;
       panel.querySelector("#gr-q")?.focus();
     }
+    speakLine(entry, d.teach?.text ?? null); // VOICES: the taught pack line only, verbatim; the greeting and the hand-off are read, not heard
     hooks.onTalk?.(open);
     return open;
   }
@@ -421,9 +493,10 @@ export function grMount(world, hooks = {}) {
       say(question, true);
       say(d.teach ? `<div class="gr-msg">${grEsc(d.teach.text)}<span class="gr-src">— from ${grEsc(grSourceLabel(d.teach.src))}</span></div>` : `<div class="gr-msg">${grEsc(d.noMatchText)}</div>`);
     }
+    speakLine(open.entry, d.teach?.text ?? null);
     return d;
   }
-  function close() { open = null; if (panel) panel.hidden = true; }
+  function close() { open = null; voice.stop(); lightOff(); if (panel) panel.hidden = true; }
 
   let lastNear = null;
   function tick() { // the prompt follows the learner; the G key opens the talk
@@ -450,8 +523,12 @@ export function grMount(world, hooks = {}) {
     world: worldKey, characters,
     animate(t, dt = 0) { animate(t, dt); tick(); },
     near, talk, ask, close, get open() { return open; },
+    voice,
+    /** Who is speaking now (by voice or by the reading window), and whether the talk light is on a figure. */
+    talkState() { return { speaking: !!lightState, character: lightState?.entry.ch.id ?? null, mode: lightState?.mode ?? null, lightVisible: !!(light && light.visible && light.parent) }; },
+    talkLog: () => lightLog.map((l) => ({ ...l })),
     meshCount() { let n = 0; for (const e of characters) e.figure?.traverse((o) => { if (o.isMesh) n += 1; }); return n; },
-    dispose() { if (grHasDom) removeEventListener("keydown", onKey, true); for (const e of characters) e.figure?.parent?.remove(e.figure); prompt?.remove(); panel?.remove(); characters.length = 0; },
+    dispose() { voice.stop(); lightOff(); if (grHasDom) removeEventListener("keydown", onKey, true); for (const e of characters) e.figure?.parent?.remove(e.figure); prompt?.remove(); panel?.remove(); characters.length = 0; },
   };
 }
 
