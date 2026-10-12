@@ -52,6 +52,7 @@ const sprites = await imp("WebXR/shared/av-sprites.js");
 const OHD = await imp("WebXR/shared/oh-hive-data.js");
 const OHH = await imp("WebXR/shared/oh-hive.js");
 const read = (rel) => readFileSync(join(ROOT, rel), "utf8");
+const fmtMiB = (b) => `${(b / 1048576).toFixed(2)} MiB`;
 
 console.log("Agent avatars — the real hive (ohHive seed 1, 7 agents), VBRIDGE personas\n");
 
@@ -670,6 +671,49 @@ const HDV = {};
   ok(goodP === allAgents.length * 2 && keysP.size === allAgents.length, `portraits drawn from the high-detail figure: ${goodP} of ${allAgents.length * 2} at 96 px (2×) and 144 px (3×), deterministic, rounded card corners; distinct ${keysP.size} of ${allAgents.length}`);
   const apSrc = read("WebXR/shared/aa-agent-portraits.js");
   ok(typeof AP.aaPortrait === "function" && /export function aaPortraitImg[^]*?return aaPortrait\(agent, \{ size, scale: dpr, kind \}\)/.test(apSrc) && /aaPortraitImg\(a, \{ size \}\)/.test(apSrc) && AP.aaPortrait(OHA[0], { size: 48, scale: 3 })?.width === 48, "aaPortrait(agent, { size, scale }) is exported for HIVE-4's tab; aaPortraitImg and the roster draw it (same card layout: a 48 px image)");
+  // 9k. AVATARS-HD-2: the room level in the six robotics rooms on high. Each room is built as the page builds it on a desktop (ROBO-
+  // INTERIORS' dresser, ENV-HD-4's lighting, ENV-HD-2's skins), then H3_ROOM_FIGURES figures (the most a room holds) stand in it, each
+  // with a caption up (the worst case for meshes, triangles and textures); measured with ixrMeasure as check_hive_world does (the
+  // shell's sign canvases added; the room's own textures as size stubs, a canvas stub for the figures' label and caption).
+  {
+    const IX = await imp("WebXR/shared/ix-interiors.js"), IXR = await imp("WebXR/shared/ixr-robo-interiors.js"), H4R = await imp("WebXR/shared/hd4-rooms.js"), HD2 = await imp("WebXR/shared/hd2-room-skins.js"), H3 = await imp("WebXR/shared/h3-hive-day.js");
+    const DESK = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36";
+    const dz = {}; const regD = { ixRegisterDresser: (st, fn) => (dz[st] ??= []).push(fn) };
+    IXR.ixrRegisterDressers(regD); H4R.hd4RegisterDressers(regD, { ultra: false, ua: DESK }); HD2.hd2RegisterSkins(regD);
+    const signBytes = IXR.IXR_SHELL_SIGNS.reduce((a, [w, h]) => a + Math.round(w * h * 4 * 4 / 3), 0);
+    const ctx = new Proxy({}, { get: (_t, k) => (k === "measureText" ? () => ({ width: 10 }) : () => {}), set: () => true });
+    const savedDoc = globalThis.document, N3 = H3.H3_ROOM_FIGURES;
+    const mounts = { today: (o) => AA.aaMountAgentAvatars(o), room: AA.aaRoomAvatarMount(), full: (o) => AA.aaMountAgentAvatars({ ...o, hd: true }) };
+    const measureRoom = (st, kind, tier = "high") => {
+      const rb = rbData.RB_SITES.find((x) => IXR.IXR_SITE_STYLE[x.id] === st);
+      delete globalThis.document;
+      const room = IX.ixBuild(st, { three: RT, tier, site: IXR.ixrSiteFor(rb, null), dressers: dz });
+      const shell = IXR.ixrMeasure(room);
+      globalThis.document = { createElement: () => ({ width: 0, height: 0, getContext: () => ctx }) };
+      const spots = room.spots?.agent ?? [], who = OHA.slice(0, N3).map((a) => ({ ...a, homeSite: "ah2-room" }));
+      const m = mounts[kind]({ three: RTS, parent: room.group, agents: who, tier, siteAt: (id) => (id === "ah2-room" ? { x: 0, y: 0, z: 0 } : null),
+        spotFor: (a) => { const i = who.findIndex((x) => x.id === a.id), q = spots[i] ?? { x: -1.2 + i * 1.2, z: 1.5, yaw: 0 }; return { x: q.x, y: 0, z: q.z, yaw: (q.yaw ?? 0) + Math.PI }; },
+        textureScale: tier === "balanced" ? 0.5 : 1 });
+      m.animate(0, 0, null); for (const a of who) m.handle({ type: "speak", agent: a.id, text: "Checking the cell before the next simulated run." }); m.animate(0.2, 0.2, null);
+      const all = IXR.ixrMeasure(room), c = m.counts();
+      let worstTri = 0; for (const a of who) { const g = m.figure(a.id); let tri = 0; g?.traverse((o) => { if (o.isMesh) tri += (o.geometry.index ? o.geometry.index.count : o.geometry.attributes.position.count) / 3; }); worstTri = Math.max(worstTri, tri); }
+      m.dispose(); globalThis.document = savedDoc;
+      const tex = all.textureBytes + signBytes, lt = tier === "low" ? "low" : "high";
+      return { st, shell, all, c, tex, worstTri, inside: all.meshes <= IX.IX_BUDGET.meshes && all.triangles <= IX.IX_BUDGET.triangles[lt] && tex <= IXR.IXR_TEX_BUDGET[tier] };
+    };
+    const styles = Object.keys(IXR.IXR_ROOMS), R = styles.map((st) => ({ st, today: measureRoom(st, "today"), room: measureRoom(st, "room"), full: measureRoom(st, "full") }));
+    for (const x of R) console.log(`     ${x.st.padEnd(18)} high, ${N3} figures: shell ${x.room.shell.triangles} tris; today's figure → ${x.today.all.triangles} tris / ${x.today.all.meshes} meshes; room level → ${x.room.all.triangles} tris / ${x.room.all.meshes} meshes (${x.room.c.hd} HD, ${x.room.c.hdLevel}); outdoor HD would be ${x.full.all.triangles} tris; textures ${fmtMiB(x.room.tex)}`);
+    const inRoom = R.filter((x) => x.room.inside && x.room.c.hd === N3 && x.room.c.hdLevel === "room").length, overFull = R.filter((x) => !x.full.inside).length;
+    const worstRoomTri = Math.max(...R.map((x) => x.room.worstTri)), worstRoom = R.reduce((a, b) => (b.room.all.triangles > a.room.all.triangles ? b : a));
+    ok(inRoom === styles.length, `the six robotics rooms on high with ${N3} high-detail figures (the room level) and their captions: inside IX_BUDGET (≤ ${IX.IX_BUDGET.meshes} meshes, ${IX.IX_BUDGET.triangles.high} triangles) and IXR_TEX_BUDGET: ${inRoom} of ${styles.length}; busiest ${worstRoom.st} ${worstRoom.room.all.triangles} triangles (today's figure: ${worstRoom.today.all.triangles}); the outdoor figure would put ${overFull} of ${styles.length} over`);
+    ok(worstRoomTri <= HD.AA_HD_ROOM_BUDGET.triangles && worstRoomTri <= Math.min(...R.map((x) => x.today.worstTri)), `the room level per figure: worst ${worstRoomTri} triangles (≤ ${HD.AA_HD_ROOM_BUDGET.triangles}, and no more than today's figure's ${Math.min(...R.map((x) => x.today.worstTri))}), 3 meshes against today's 9`);
+    const bal = measureRoom("ixr-cell-hall", "room", "balanced"), low = measureRoom("ixr-cell-hall", "room", "low"), balToday = measureRoom("ixr-cell-hall", "today", "balanced");
+    ok(bal.c.hd === 0 && bal.all.triangles === balToday.all.triangles && bal.all.meshes === balToday.all.meshes && bal.tex === balToday.tex && low.c.figures === 0, `balanced and the phone unchanged in a room: balanced builds today's figure (${bal.all.triangles} triangles, ${bal.all.meshes} meshes, as without the room level), the phone tier none`);
+    const appSrc = read("WebXR/parishes/js/app.js");
+    ok(/var aaRoomMount = aaRoomAvatarMount\(\{ voiced: aaVoiced \}\);/.test(appSrc) && /hwSyncRoom\(hwRoomMount, \{[^\n]*mount: aaRoomMount \}\)/.test(appSrc), "wiring: the page's robotics-room mount (hwSyncRoom's mount) is aaRoomAvatarMount with the voice's pending");
+    HDV.rooms = R.map((x) => ({ st: x.st, shell: x.room.shell.triangles, today: x.today.all.triangles, room: x.room.all.triangles, full: x.full.all.triangles, meshesToday: x.today.all.meshes, meshesRoom: x.room.all.meshes, inside: x.room.inside }));
+    HDV.roomsInside = { n: inRoom, of: styles.length, fullOver: overFull, worstTri: worstRoomTri };
+  }
   // 9i. the wiring: the outdoor mount asks for hd; the bundles list the module before the portraits
   const app = read("WebXR/parishes/js/app.js"), bundler = read("tools/bundle_webxr.py");
   const block = (name) => { const i = bundler.indexOf(`"${name}": {`); return i < 0 ? "" : bundler.slice(i, bundler.indexOf('"entry"', i)); };
@@ -681,6 +725,7 @@ const HDV = {};
 if (HDV.tiers) {
   const T9 = HDV.tiers;
   console.log(`\n  EVAL AVATARS-HD: triangles per figure low 0 / balanced ${T9.balanced.perFigure.toFixed(0)} / high ${T9.high.perFigure.toFixed(0)} (worst ${T9.high.worstTri}, budget ${3000}); draw calls per figure balanced ${T9.balanced.silent}/${T9.balanced.speaking}, high ${T9.high.silent}/${T9.high.speaking} (silent/speaking)`);
+  if (HDV.roomsInside) console.log(`  EVAL AVATARS-HD-2: robotics rooms inside IX_BUDGET on high with ${3} high-detail figures 0 → ${HDV.roomsInside.n} of ${HDV.roomsInside.of} (room level, worst ${HDV.roomsInside.worstTri} triangles a figure; the outdoor figure would put ${HDV.roomsInside.fullOver} over)`);
   if (HDV.light) console.log(`  EVAL AVATARS-HD-2: boundaries forwarded by the real controller 0 → ${HDV.voiceCtl.forwarded} of ${HDV.voiceCtl.words}; mouth opens per word (word-length stub) ${HDV.voiceCtl.perWord} of ${HDV.voiceCtl.forwarded}, real hive ${HDV.light.after.opened} of ${HDV.light.after.words}; talk light from onstart ${HDV.light.before.good} of ${HDV.light.before.lines} → ${HDV.light.after.good} of ${HDV.light.after.lines}`);
   console.log(`  EVAL AVATARS-HD: distinct silhouettes ${HDV.silhouettes.before} → ${HDV.silhouettes.after} of 21; mouth within ${HDV.mouth.on.max.toFixed(1)} ms of word boundaries (stubbed voice, ${HDV.mouth.on.within} of ${HDV.mouth.on.n}), ${HDV.mouth.off.max.toFixed(1)} ms of caption word onsets (${HDV.mouth.off.within} of ${HDV.mouth.off.n}); gestures ${HDV.gestures.map((r) => `${r.on} ${r.got}/${r.n}`).join(", ")}`);
 }
