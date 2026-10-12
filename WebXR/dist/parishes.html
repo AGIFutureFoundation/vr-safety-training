@@ -173211,8 +173211,11 @@ function rhdArm(THREE, root, s, heavy, pedestal = true) {
   for (const x of [-0.055, 0.055]) { k.box(0.025 * s, 0.11 * s, 0.05 * s, x * s, 0.3 * s, 0, C.mid); k.box(0.03 * s, 0.025 * s, 0.055 * s, x * s * 0.8, 0.35 * s, 0, C.rubber); }
   rhdMesh(THREE, k, "rhd-arm-wrist-body", wrist);
   // The status light: a ring round the base housing (cobot) or a beacon on the plinth's corner (industrial).
-  const lm = new THREE.MeshBasicMaterial({ color: RHD_LIGHT.off }); lm.name = "rhd-status-light";
-  if (heavy && pedestal) { k.cyl(0.035, 0.035, 0.12, 8, 0.45, 1.0, -0.45, 0xffffff); k.cyl(0.07, 0.07, 0.16, 12, 0.45, 1.14, -0.45, 0xffffff); }
+  const lm = new THREE.MeshBasicMaterial({ color: RHD_LIGHT.off, vertexColors: true }); lm.name = "rhd-status-light";
+  if (heavy && pedestal) { // a beacon on a post at the plinth's corner, above the guarding's top rail so it reads from outside the fence
+    k.box(0.08, 0.08, 1.2, 0.47, 0.98, 0.47, C.dark, Math.PI / 2, 0, 0);
+    k.cyl(0.11, 0.11, 0.05, 12, 0.47, 1.6, 0.47, C.dark); k.cyl(0.1, 0.1, 0.28, 14, 0.47, 1.765, 0.47, 0xffffff); k.cyl(0.11, 0.11, 0.04, 12, 0.47, 1.925, 0.47, C.dark);
+  }
   else k.cyl(0.305 * s, 0.305 * s, 0.035, seg, 0, top + 0.012, 0, 0xffffff, 0, 0, 0, true);
   const light = rhdMesh(THREE, k, "rhd-status-light", root, lm);
   return { links, light };
@@ -173271,7 +173274,7 @@ function rhdAmr(THREE, root) {
   for (const x of [-0.36, 0.36]) { k.cyl(0.09, 0.09, 0.05, 16, x, 0, 0, C.rubber, 0, 0, Math.PI / 2); k.cyl(0.05, 0.05, 0.055, 10, x, 0, 0, C.mid, 0, 0, Math.PI / 2); k.box(0.056, 0.02, 0.16, x, 0, 0, C.mid); }
   rhdMesh(THREE, k, "rhd-amr-wheel-pair", wheels);
   // The status light bar round the top edge.
-  const lm = new THREE.MeshBasicMaterial({ color: RHD_LIGHT.off }); lm.name = "rhd-status-light";
+  const lm = new THREE.MeshBasicMaterial({ color: RHD_LIGHT.off, vertexColors: true }); lm.name = "rhd-status-light";
   k.box(0.8, 0.03, 0.02, 0, 0.405, 0.575, 0xffffff); k.box(0.8, 0.03, 0.02, 0, 0.405, -0.575, 0xffffff);
   k.box(0.02, 0.03, 1.12, 0.395, 0.405, 0, 0xffffff); k.box(0.02, 0.03, 1.12, -0.395, 0.405, 0, 0xffffff);
   const light = rhdMesh(THREE, k, "rhd-status-light", root, lm);
@@ -173303,7 +173306,7 @@ function rhdGantry(THREE, root, ground) {
   k.box(1.6, 0.12, 0.5, 0, 2.35, 0, C.yellow); k.box(0.12, 0.2, 0.5, -0.76, 2.25, 0, C.dark); k.box(0.12, 0.2, 0.5, 0.76, 2.25, 0, C.dark); // spreader
   k.box(0.2, 0.3, 0.6, 0.4, 5.6, 0.6, C.black); // chain end at the carriage
   rhdMesh(THREE, k, "rhd-gantry-carriage-body", car);
-  const lm = new THREE.MeshBasicMaterial({ color: RHD_LIGHT.off }); lm.name = "rhd-status-light";
+  const lm = new THREE.MeshBasicMaterial({ color: RHD_LIGHT.off, vertexColors: true }); lm.name = "rhd-status-light";
   k.cyl(0.06, 0.07, 0.06, 10, -0.4, 5.88, 0.3, 0x222222); k.cyl(0.07, 0.07, 0.16, 12, -0.4, 6.0, 0.3, 0xffffff);
   const light = rhdMesh(THREE, k, "rhd-status-light", car, lm);
   return { links, light };
