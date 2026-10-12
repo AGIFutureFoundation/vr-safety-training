@@ -176848,6 +176848,12 @@ const HD2_SKIN_STYLES = {
   "rented-room": { set: "hall", sites: 0 },
   "shop": { set: "tile", sites: 0 },
   "hd4-hive-ops": { set: "tile", sites: 0 }, // ENV-HD-4: the hive operations room (no map site opens it; it has its own door)
+  // ACCESS (loop 10 round 8b): the four walk-in kinds behind the fire station, hospital, school and park doors. The app opens
+  // them through IX_SITE_STYLE, not ixStyleFor, so the parish-engine count is 0; the set matches each kind's nearest style.
+  "acc-fire-bay": { set: "industrial", sites: 0 },
+  "acc-drop-off-lobby": { set: "tile", sites: 0 },
+  "acc-classroom-wing": { set: "tile", sites: 0 },
+  "acc-park-pavilion": { set: "hall", sites: 0 },
 };
 const HD2_TEX_BUDGET = { high: 24 * 1024 * 1024, balanced: 3 * 1024 * 1024, low: 3 * 1024 * 1024 };
 /** One LA-ROOMS name-sign canvas (lar-rooms.js LAR_SIGN_PX: 512 x 120 on high; 256 x 60 on balanced, as on the phone tier,
