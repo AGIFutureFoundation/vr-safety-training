@@ -11,9 +11,10 @@
 
 import { ent3Consents, ent3Datasets, ent3DatasetCard, ent3Policies, ent3LineageRows, ent3Fleet, ent3Revoke, ent3AuditList, ent3VerifyAudit, ent3LoadSample, ent3Deploy, ENT3_METHODS, ent3Export, ent3Import, ent3Imports } from "../../shared/ent3-governance.js";
 import { ent3BillingAdapter, ent3BillingConfig } from "../../shared/ent3-billing.js";
+import { aaMountAgentRoster, AA_VBRIDGE_PERSONAS } from "../../shared/aa-agent-portraits.js"; // AGENT-AVATARS: the agent roster with crisp portraits
 
 function ent3El(tag, cls, text) { const node = document.createElement(tag); if (cls) node.className = cls; if (text !== undefined) node.textContent = text; return node; }
-const ent3View = { root: null, toast: null, config: null, card: null };
+const ent3View = { root: null, toast: null, config: null, card: null, agents: [] };
 
 function ent3Say(t) { try { ent3View.toast?.(t); } catch (_) { /* no toast */ } }
 function ent3Btn(label, onClick, cls = "small") { const b = ent3El("button", cls, label); b.type = "button"; b.addEventListener("click", onClick); return b; }
@@ -86,6 +87,12 @@ function ent3Render() {
   fp.append(ent3Table(["Agent", "Method", "Status", "Latest eval"], agents.map((p) => [`${p.id} @${p.version}`, ent3Method(p.method), p.status, ent3Score(p.evals[p.evals.length - 1])]), "No agent tutors registered."));
   out.push(fp);
 
+  // AGENT-AVATARS (docs/consoles/AGENT-AVATARS.md): the software agents with portraits rasterised at 2x and cached — the four
+  // VBRIDGE personas, and the Omega Hive's agents when the console passes them in (ent3MountGovernanceView(root, { agents })).
+  const rp = ent3Panel("Software agents (roster)", "Every agent here is software, not a person: it requests, runs, checks or scores simulated robot jobs, and the safety governor checks every command. Portraits are drawn on this device.");
+  aaMountAgentRoster(rp, { agents: [...(ent3View.agents ?? []), ...AA_VBRIDGE_PERSONAS], siteName: (id) => ent3Fleet().find((r) => r.siteId === id)?.name ?? id });
+  out.push(rp);
+
   const bp = ent3Panel("Billing adapters", "Organisation seat licences through Chargebee (subscriptions and entitlements) or PayPal (invoices) — off unless this deployment's auth-config.json has a billing block. No key ships; the browser only ever sends a request description to the deployment's own proxy. Crew Credits are play currency and never touch billing. No price is shown here.");
   const d = ent3BillingAdapter(ent3BillingConfig(ent3View.config)).describe();
   bp.append(ent3El("p", null, d.enabled ? `Provider: ${d.provider} · capabilities: ${d.capabilities.join(", ")} · proxy: ${d.proxy ?? "on-device mock"}` : "Billing: off (not configured for this deployment)."));
@@ -113,9 +120,9 @@ function ent3Render() {
 const ENT3_CSS = "#ent3-root .ent3-scroll{overflow-x:auto}#ent3-root pre.ent3-card{white-space:pre-wrap;max-height:360px;overflow:auto;background:var(--bg,transparent);border:1px solid var(--edge);border-radius:10px;padding:12px;font-size:12px}#ent3-root .ent3-ok{color:var(--ok,inherit)}#ent3-root .ent3-bad{color:var(--danger,inherit);font-weight:600}#ent3-root h2{font-size:16px;margin:0 0 6px}#ent3-root h3{font-size:14px;margin:14px 0 6px}#ent3-root select{max-width:220px}";
 
 /** Mount the view; `config` is the parsed auth-config (for the billing block). Returns { render, setConfig }. */
-export function ent3MountGovernanceView(root, { toast = null, config = null } = {}) {
+export function ent3MountGovernanceView(root, { toast = null, config = null, agents = [] } = {}) {
   if (!root) return null;
-  ent3View.root = root; ent3View.toast = toast; ent3View.config = config;
+  ent3View.root = root; ent3View.toast = toast; ent3View.config = config; ent3View.agents = Array.isArray(agents) ? agents : [];
   if (!document.getElementById("ent3-style")) { const s = document.createElement("style"); s.id = "ent3-style"; s.textContent = ENT3_CSS; document.head.appendChild(s); }
   try { addEventListener("gt:profile", ent3Render); } catch (_) { /* headless */ }
   ent3Render();

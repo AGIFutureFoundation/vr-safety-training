@@ -78,6 +78,7 @@ import { rtMountTeleop } from "../../shared/rt-teleop.js";
 import { ent3AuditAppend, ent3Policies, ent3Fleet } from "../../shared/ent3-governance.js";
 import { vbMountDispatch } from "../../shared/vb-panel.js";
 import { vbColearnProvider, vbColearnLocalSource } from "../../shared/vb-colearn.js";
+import { aaMountAgentAvatars, aaVbridgeAgents, aaVbridgeSource } from "../../shared/aa-agent-avatars.js"; // AGENT-AVATARS: the software agents embodied at the robot sites
 // CLEANPORTS: key the zero-emission port stations to BAYMAP's West Oakland sites (a no-op until that map merges).
 cpPlaceInParish(npParish);
 // BAYQUEST: the Bay Program play board (games, the Bay Keeper's Trail, Crew Credits) under the ledger; importing it
@@ -789,6 +790,7 @@ function frame(now) {
   stWorld?.animate(now / 1000);
   drWorld?.animate(dt);
   rbWorld?.animate(dt, np.x, np.z);
+  aaWorld?.animate(now / 1000, dt, np.playing && !np.modal ? [np.x, np.z] : null); // AGENT-AVATARS: walks, talk lights, captions (writes only within GRIOT's radius)
   if (np.playing && !np.modal) { tyClock += dt; if (tyClock >= 1) { tyAfterTick(tyTick(tyClock)); tyClock = 0; } }
   if (np.playing && !np.modal && tyClock === 0) bqTrailTick();
   npHudT += dt; npVisitT += dt;
@@ -1140,6 +1142,21 @@ var vbProvider = (() => { try { return vbColearnProvider(vbLocal ? { demosFor: v
 vbLocal?.refresh().catch(() => {});
 window.__parishTest.vbridge = vbMountDispatch($("menu-drills"), { reducedMotion: npReduced, ent3: { auditAppend: ent3AuditAppend, policies: ent3Policies, fleet: ent3Fleet }, stationHref: (id) => npLink(id), policyFor: vbProvider ? (policyId, env, seed) => vbProvider.policyFor(policyId, env, seed) : null, providerLabel: vbProvider ? (sc) => vbProvider.describe(sc) : null });
 window.__parishTest.vbColearn = vbProvider;
+// AGENT-AVATARS (docs/consoles/AGENT-AVATARS.md): the software agents embodied at this map's robot sites — the four VBRIDGE
+// personas over the agent-jobs panel's job stream (the client asks, the governor checks, the provider walks to a running job's
+// site, the evaluator nods), and the Omega Hive's agents when OMEGA-HIVE's hive is mounted before this line
+// (window.__parishTest.hive, guarded; the coordinator orders the two mounts). Every figure is labelled "software agent", every
+// line shows as a caption, nothing listens, and the phone tier builds no figures.
+var aaSiteAt = (id) => { const s = rbWorld?.sites?.find((x) => x.id === id); return s ? { x: s.position[0], y: s.y, z: s.position[1] } : null; };
+var aaVbSource = (() => { try { return window.__parishTest.vbridge ? aaVbridgeSource(window.__parishTest.vbridge) : null; } catch (_) { return null; } })();
+var aaWorld = (() => {
+  try {
+    const hive = window.__parishTest.hive ?? null;
+    const hiveAgents = hive ? (typeof hive.agents === "function" ? hive.agents() : hive.agents) ?? [] : [];
+    return aaMountAgentAvatars({ three: THREE, parent: root, agents: [...hiveAgents, ...aaVbridgeAgents(rbWorld?.sites?.[0]?.id ?? null)], source: [hive, aaVbSource].filter(Boolean), siteAt: aaSiteAt, reducedMotion: npReduced, tier: npTierName, groundAt: (x, z) => Math.max(npHeightAt(parish, x, z), 0) });
+  } catch (_) { return null; }
+})();
+window.__parishTest.agentAvatars = aaWorld;
 window.__parishTest.vbLocal = vbLocal;
 window.__parishTest.xr = npXRTest;
 // ROBOTRAIN-5: the page-level proof awaits the recorder's parked store writes (dxFlush resolves with the count written) and reads

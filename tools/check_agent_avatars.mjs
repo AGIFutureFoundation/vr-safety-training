@@ -343,7 +343,7 @@ const ROLES7 = ["dispatcher", "safety steward", "maintenance planner", "consent 
   const block = (name) => { const i = bundler.indexOf(`"${name}": {`); return i < 0 ? "" : bundler.slice(i, bundler.indexOf('"entry"', i)); };
   const par = block("parishes"), ins = block("instructor");
   ok(par.includes('SHARED / "aa-agent-portraits.js"') && par.includes('SHARED / "aa-agent-avatars.js"') && par.indexOf('"aa-agent-portraits.js"') < par.indexOf('"aa-agent-avatars.js"'), "bundle_webxr.py: the parishes bundle lists the portraits before the avatars");
-  ok(ins.includes('SHARED / "aa-agent-portraits.js"') && ins.indexOf('"av-sprites.js"') < ins.indexOf('"aa-agent-portraits.js"') && ins.indexOf('"aa-agent-portraits.js"') < ins.indexOf("instructor/js/governance.js"), "bundle_webxr.py: the instructor bundle lists av-sprites.js, then the portraits, before governance.js");
+  ok(ins.includes('SHARED / "aa-agent-portraits.js"') && ins.indexOf('"av-sprites.js"') < ins.indexOf('"aa-agent-portraits.js"') && ins.indexOf('"aa-agent-portraits.js"') < ins.indexOf("instructor/js/app.js"), "bundle_webxr.py: the instructor bundle lists av-sprites.js, then the portraits, before the console's app.js (governance.js reads them at render time)");
   ok(read("tools/check_all.mjs").includes("check_agent_avatars.mjs") && /check_agent_avatars/.test(read("docs/perf/checkers-baseline.json")), "check_all.mjs lists this checker; checkers-baseline.json carries its estimated row");
 }
 
