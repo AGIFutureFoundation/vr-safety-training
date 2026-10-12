@@ -38,7 +38,8 @@ not edited (AVATARS-HD-4 owns them this round).
 | Spanish lines with an English fragment (but names and ids), moods, briefing and corrections on | not checked | **0 of 2,788** (seeds 1–2); phrase and word lists 40 of 40 | `check_hive6` §10 |
 | The hive's output with the options off | digests 703aa91da7bb9439, 533938515253653d, 03f3d7a40c26af91 | **byte-identical 3 of 3** | `check_hive6` §1 |
 | Governor with moods and the briefing on | 154 of 154 checked, 0 physical | **154 of 154**, 3,196 of 3,196 steps, **0** physical; outcomes unchanged | `check_hive6` §2, §4 |
-| Page errors / off-host requests (drive 1, 98 s) | — | **0 / 0** | drive 1 |
+| The combined ops room on **balanced** in the built page (briefing on, seven of today's figures) | 85 meshes, 4,394 triangles built, 2.77 MiB (round 6) | at entry **85 meshes, 4,394 triangles built, 85 draw calls, 2 lights, 2.77 MiB** (≤ 120 / 6,000 / 3 MiB); figure mood = hive mood(id) **7 of 7** at 4 sampled minutes (10, 17, 24, 31); the live tab 7 of 7 | drive 2 (`$SP/loop10/h7/drive2.txt`) |
+| Page errors / off-host requests (drive 1, 98 s; drive 2, 85 s) | — | **0 / 0**, **0 / 0** | drives 1, 2 |
 
 ## Cycles (reason → act → observe)
 
@@ -68,7 +69,7 @@ not edited (AVATARS-HD-4 owns them this round).
 - `node tools/check_hive6.mjs`: **10 passed, 0 failed** (base 7 sections; §4 extended, §8–§10 new).
 - `check_hive5` 5 passed, 0 failed; `check_hive4` 11 passed, 0 failed; `check_omega_hive` 15 passed, 0 failed; `check_voices` 10
   passed, 0 failed; `check_hive3` all 32 pass.
-- `check_newton`, `check_imports`, `check_parse`: see the hand-back (run last). `check_interface`: not required (no control added or
+- `check_newton` all 60 pass; `check_imports` 1,137 modules pass; `check_parse` 2,716 modules parse (run after the code commits). `check_interface`: not required (no control added or
   changed; the tab's live panel has no button).
 - Not run: `tools/check_all.mjs` (the coordinator gates).
 
@@ -76,7 +77,9 @@ not edited (AVATARS-HD-4 owns them this round).
 
 - `h7-ops-room-moods-high.png`: the operations room at hive minute 31 from the door-side corner, the agents at their consoles
   (one out on a job), labels "software agent · role", the wall's feed and refusals. The glow pulse is a brightness change over seconds:
-  a still shows the figures but not the pulse (the drive's numbers are the evidence).
+  a still shows the figures but not the pulse (the drives' numbers are the evidence).
+- `h7-ops-room-moods-balanced.png` (drive 2): the same view on balanced at minute 31, today's role-coloured figures with their halos
+  and labels, the small console cards and the small wall in words.
 - `h7-console-moods-live.png`: the instructor tab's "Moods and the morning briefing (live, read-only)" at hive minute 32: Orrin calm
   ("the start of the day"), Selka and Brann relieved ("after a clean audit at 00:16 (19 chain lines intact)"), Tamsa and Lio relieved
   (00:31, 43 lines), the seven briefing lines.
@@ -111,5 +114,4 @@ not edited (AVATARS-HD-4 owns them this round).
 - Posture by mood on the bones (AVATARS-HD-4), and then a check that the two cues agree.
 - Re-measure `check_hive6` on a quiet gate (h6-next 5): not possible this round (load 30–36).
 - A native speaker's review of the Spanish (`H6_MOOD_PHRASES.es`, `OH_CORES_BRIEF_ES`, the correction kinds, `OH_MOOD_WORDS.es`).
-- A balanced-tier drive of the moods (headless §8 covers balanced; the page drive ran high only).
 - The dist bundles were rebuilt for the drive and restored.

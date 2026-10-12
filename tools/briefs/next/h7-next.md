@@ -10,16 +10,13 @@ Do not edit `aa-*.js` unless the round gives them to you.
    glow's mood are the same for every agent at every sampled minute, and decide one owner for the glow material if their figure code
    also brightens it (talk, gesture).
    - Check: a new `check_hive6` line (posture mood = glow mood = `hive.mood(id)`, N of N), and the drive's 7 of 7.
-2. **A balanced-tier drive of the moods**: the headless §8 covers balanced; run the page on balanced, enter at minute 0, step to the
-   first refusal and read `moods()` against `hive.mood(id)`.
-   - Check: 7 of 7 at each sampled minute; the room ≤ 120 / 6,000 / 3 MiB; page errors 0.
-3. **A correction when a briefed job goes to someone else**: today the agent says nothing until its own first award. When the job it
+2. **A correction when a briefed job goes to someone else**: today the agent says nothing until its own first award. When the job it
    briefed is awarded to another agent, it could say so at once ("vbjob-… went to Lio; I wait for the next one").
    - Check: `check_hive6` §4's page case: every briefed job given to another agent has a line at that award, grounded, N of N.
-4. **A native speaker's review** of the Spanish (`H6_MOOD_PHRASES.es`, `OH_CORES_BRIEF_ES` with `brief_fix`, `OH_SECOND_ES`,
+3. **A native speaker's review** of the Spanish (`H6_MOOD_PHRASES.es`, `OH_CORES_BRIEF_ES` with `brief_fix`, `OH_SECOND_ES`,
    `OH_MOOD_WORDS.es`); HIVE-7's re-read was a software agent's, for fluency only.
    - Check: `check_hive6` §10 passes; the review's changes listed in the console note.
-5. **Re-measure** `check_hive6` on a quiet gate (load under 2) and replace the 30 s estimate in `docs/perf/checkers-baseline.json`
+4. **Re-measure** `check_hive6` on a quiet gate (load under 2) and replace the 30 s estimate in `docs/perf/checkers-baseline.json`
    (the coordinator's gate, or a quiet machine).
 
 ## Rules that stay
