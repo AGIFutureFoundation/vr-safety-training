@@ -9,8 +9,13 @@
  *  2. Every figure is copied, not invented: each number in the page's text
  *     sits inside a claim (.swp-claim), and each number of a claim appears in
  *     one of the files the claim cites; each cited file is committed (tracked
- *     by git). Numbers inside <code>, <cite>, <svg>, <script>, <style> and
- *     attributes are names, not figures.
+ *     by git). A small number (0 to 9) counts only where it stands as a number
+ *     of its own in the cited file with a word it shares with the claim within
+ *     SWP_NEAR words either side, so "0" or "6" cannot pass by appearing
+ *     anywhere (a planted wrong small number is a negative case below).
+ *     Numbers inside <code>, <cite>, <svg>, <script>, <style> and attributes
+ *     are names, not figures. The page is what tools/gen_whitepaper_page.mjs
+ *     builds (a staleness check).
  *  3. No partnership, customer, price, valuation or fundraising claim, and
  *     no model identifier, in the page's text.
  *  4. Search and share: the generated SEO block, og:type article, an
@@ -31,11 +36,12 @@ import { existsSync, readFileSync, statSync } from "node:fs";
 import { dirname, extname, join, normalize } from "node:path";
 import { fileURLToPath } from "node:url";
 import { wfBlock, wfPages, WF_BEGIN, WF_END, WF_WHITEPAPER } from "./gen_seo.mjs";
+import { swpBuildPage } from "./gen_whitepaper_page.mjs";
 
 const SWP_ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const SWP_WEBXR = join(SWP_ROOT, "WebXR");
 const SWP_DIST = join(SWP_WEBXR, "dist");
-export const SWP_SECTIONS = ["problem", "platform", "hive", "buildings", "bodies", "learning", "loop10", "stack", "roadmap"];
+export const SWP_SECTIONS = ["problem", "platform", "hive", "buildings", "bodies", "learning", "arena", "strands", "ecosystem", "loop10", "stack", "roadmap"];
 const SWP_REPO_BLOB = "https://github.com/AGIFutureFoundation/vr-safety-training/blob/main/";
 
 let swpFails = 0, swpPasses = 0;
@@ -55,6 +61,35 @@ export function swpText(html) {
 }
 /** Numbers in text: 3,631 · 0.950 · 5 · 11.5 (a range like 496–524 is two). */
 export const swpNumbers = (text) => text.match(/\d+(?:[.,]\d+)*/g) ?? [];
+/** A small number's context: the nearest this many content words either side (numbers and short or common words skipped), in the claim and in the cited file. */
+export const SWP_NEAR = 4;
+/** How many content words a small number's two windows must share (fewer only when the claim has fewer beside it). */
+export const SWP_SHARED = 2;
+const SWP_STOP = new Set("the and of a an in on to for with at by is are was were it its as or from that this than be no not into each every all now per so one two".split(" "));
+const swpTokens = (text) => text.match(/\d+(?:[.,]\d+)*|[A-Za-z][A-Za-z'\u2019-]*/g) ?? [];
+const swpStem = (w) => w.toLowerCase().replace(/[\u2019']s$/, "").replace(/s$/, "");
+const swpContent = (tok) => /^[A-Za-z]/.test(tok) && tok.length > 2 && !SWP_STOP.has(tok.toLowerCase());
+/** For each standalone occurrence of the small number n in text: the set of its SWP_NEAR nearest content words either side. */
+function swpWindows(text, n) {
+  const toks = swpTokens(text), out = [];
+  toks.forEach((tok, i) => {
+    if (tok !== n) return;
+    const near = new Set();
+    for (const step of [-1, 1]) {
+      let got = 0;
+      for (let j = i + step; j >= 0 && j < toks.length && got < SWP_NEAR; j += step) if (swpContent(toks[j])) { near.add(swpStem(toks[j])); got += 1; }
+    }
+    out.push(near);
+  });
+  return out;
+}
+/** Is the number n of a claim's text found in a cited file's text? A small number needs a shared word beside it. */
+export function swpFigureIn(n, claimText, fileText) {
+  const plain = n.replace(/,/g, "");
+  if (!/^\d$/.test(n)) return fileText.includes(n) || fileText.includes(plain);
+  const mine = new Set(swpWindows(claimText, n).flatMap((s) => [...s]));
+  return swpWindows(fileText, n).some((near) => [...near].filter((w) => mine.has(w)).length >= Math.max(1, Math.min(SWP_SHARED, mine.size)));
+}
 /** The claims of a page: each element whose class names swp-claim, with its cited paths. */
 export function swpClaims(html) {
   const out = [];
@@ -99,14 +134,26 @@ for (const c of swpClaimsAll) {
   if (nums.length && !c.cites.length) swpUncited.push(c.text.slice(0, 60));
   for (const n of nums) {
     swpFigures += 1;
-    const plain = n.replace(/,/g, "");
-    const hit = c.cites.some((p) => { const s = swpFile(p); return s && (s.includes(n) || s.includes(plain)); });
+    const hit = c.cites.some((p) => { const s = swpFile(p); return s && swpFigureIn(n, c.text, s); });
     if (hit) swpFound += 1; else swpMissing.push(`${n} in "${c.text.slice(0, 50)}…" (${c.cites.join(", ")})`);
   }
 }
 swpCheck(!swpBadCites.size, "every cited file exists and is committed", [...swpBadCites].join(", "));
 swpCheck(!swpUncited.length, "every claim with a figure cites a file", swpUncited.join(" | "));
 swpCheck(swpFigures > 0 && swpFound === swpFigures, `figures present in their cited committed files: ${swpFound} of ${swpFigures}`, swpMissing.slice(0, 8).join("; "));
+// The tighter rule bites: a planted wrong small number fails where the old lexical rule passed it.
+const swpPlant = { file: "The rooms measured 6 of 6 inside budget. The schema version was 4.", good: "rooms measured 6 of 6", bad: "rooms measured 4 of 6" };
+swpCheck(swpFigureIn("6", swpPlant.good, swpPlant.file) && !swpFigureIn("4", swpPlant.bad, swpPlant.file) && swpPlant.file.includes("4"),
+  "negative case: a small number found only away from the claim's words fails (synthetic)");
+const swpReal = swpClaimsAll.find((c) => /Still-only drive/.test(c.text));
+const swpRealBad = swpReal ? swpReal.text.replace("checks passed: 5", "checks passed: 4") : "";
+const swpRealFile = swpFile("docs/wiki/Roadmap-and-Changelog.md") ?? "";
+swpCheck(!!swpReal && swpRealBad !== swpReal.text && swpFigureIn("5", swpReal.text, swpRealFile) && swpRealFile.includes("4") && !swpFigureIn("4", swpRealBad, swpRealFile),
+  "negative case: the round-seven drive row with a planted 4 for its 5 checks passed fails against its cited wiki page, which holds a 4 elsewhere");
+// The page is the generator's output.
+let swpGen = "";
+try { swpGen = swpBuildPage(); } catch (e) { swpGen = `error: ${e.message}`; }
+swpCheck(swpGen === swpSrc, "the page is what tools/gen_whitepaper_page.mjs builds (run it after a wiki or note change)", swpGen.startsWith("error:") ? swpGen : "stale");
 // Nothing outside a claim carries a figure.
 let swpRest = swpBodyHtml;
 for (const c of swpClaimsAll) swpRest = swpRest.replace(c.whole, " ");
@@ -115,9 +162,13 @@ swpCheck(!swpStray.length, "no figure outside a sourced claim", swpStray.slice(0
 
 // ------------------------------------------------------------ 3. no commercial claim, no model identifier
 const swpAll = swpText(swpBodyHtml);
+const SWP_RAISE = /\b(rais(ed|ing) (\$|€|£|\d|(a |an |the |our |new )?(seed|round|funding|capital|money|investment))|fundrais\w*|seed round|series [A-D]\b|investors? (include|such as))/i;
+swpCheck(["We raised $2M", "raising a seed round", "the team raised funding", "fundraising"].every((s) => SWP_RAISE.test(s)) && !SWP_RAISE.test("the bid's raised hand"),
+  "the fundraising pattern still catches money and rounds, and not a raised hand");
 const SWP_FORBIDDEN = [
   [/[$€£]\s?\d/, "a currency amount"], [/\b(USD|EUR|GBP)\b/, "a currency"], [/\bvalu(ed|ation) (at|of)\b/i, "a valuation"],
-  [/\b(raised|raising|fundrais\w*|seed round|series [A-D]\b|investors? (include|such as))/i, "fundraising"],
+  // "raised" alone also names a hand (the agents' bid gesture), so it counts as fundraising only beside money or a round.
+  [SWP_RAISE, "fundraising"],
   [/\b(pric(e|ed|ing)|per seat|per month|per year|subscription)\b/i, "a price"],
   [/\b(in partnership with|partnered with|our partners?|endorsed by|certified by)\b/i, "a partnership or endorsement"],
   [/\b(customers? (include|such as|like)|trusted by|used by (the|over|more))\b/i, "a customer"],

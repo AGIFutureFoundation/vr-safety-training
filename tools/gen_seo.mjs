@@ -131,7 +131,7 @@ export const WF_APPS = [
 
 /**
  * The whitepaper page (console SEO-WHITEPAPER): its source WebXR/whitepaper.html is copied
- * beside the homepage by the bundler. Its text is the page's own; `sections` are its <h2>s' kickers.
+ * beside the homepage by the bundler. tools/gen_whitepaper_page.mjs builds it; `sections` are its <h2>s' kickers, in order.
  */
 export const WF_WHITEPAPER = {
   key: "whitepaper.html", og: "og/whitepaper.jpg",
@@ -139,7 +139,7 @@ export const WF_WHITEPAPER = {
   desc: "How the SmartCiti.X Holodeck teaches safe work around robots and trains simulated ones: the Omega Hive agents, robot buildings, results, the stack.",
   ogAlt: "The whitepaper's opening: software agents around a safety governor above six simulated robot sites",
   sections: ["The problem", "What the platform does", "The Omega Hive", "Robotics buildings and scenes", "The agents' bodies",
-    "Robot learning, measured", "Added in loop ten", "The stack", "The roadmap"],
+    "Robot learning, measured", "Robots compete", "The Strands harness", "The ecosystem", "Added in loop ten", "The stack", "The roadmap"],
 };
 
 /** Repo-layout pages the flat folder does not publish: their canonical is themselves. */
