@@ -254,7 +254,7 @@ await check("6 people beside robots: learner values only when eligible; counts o
 await check("7 wiring: the parishes mount and its gate, the instructor tab, the bundle lists, check_all, the estimated baseline row", () => {
   const app = src("WebXR/parishes/js/app.js");
   ok(/ocMountClaw\(\$\("menu-drills"\)/.test(app) && /ocMountWorld\(/.test(app) && /ocWorldLoop\(/.test(app), "parishes mounts");
-  ok(/var ocHuman = [^\n]*!npParams\.has\("demo"\) && dxEligibility\(dxReadSignals\(\), \{ stage: "collect" \}\)\.eligible === true && !!dxConsent\(\)[^\n]*: null/.test(app), "the learner gate (DATAWORKS' collect-stage eligibility: signed in, adult, not K-12 or demo, and opted in)");
+  ok(/var ocReadHuman = [^\n]*!npParams\.has\("demo"\) && dxEligibility\(dxReadSignals\(\), \{ stage: "collect" \}\)\.eligible === true && !!dxConsent\(\)[^\n]*: null/.test(app), "the learner gate (DATAWORKS' collect-stage eligibility: signed in, adult, not K-12 or demo, and opted in)");
   const idx = src("WebXR/instructor/index.html"), ia = src("WebXR/instructor/js/app.js");
   ok(/id="tab-claw"/.test(idx) && /id="view-claw"/.test(idx) && /id="oc-root"/.test(idx), "instructor tab markup");
   ok(/\["claw", "tab-claw", "view-claw"\]/.test(ia) && /ocMountClaw\(\$\("oc-root"\), \{ record: OC_RECORD, records: OC_RECORDS, human: null \}\)/.test(ia), "instructor tab wiring, no learner data");
@@ -353,8 +353,11 @@ await check("10 side by side: each robot scenario with its learner stations (fro
   ok(yes.every((x, i) => JSON.stringify(x.robot) === JSON.stringify(no[i].robot)), "the robot side does not depend on the learner");
   const robotGaps = no.filter((x) => x.robot.gap).map((x) => x.scenarioId);
   const app = src("WebXR/parishes/js/app.js");
-  ok(/var ocHuman = [^\n]*dxConsent\(\); return ok \? \{ eligible: true, [^\n]*stations: [^\n]*ppRecords\(\)[^\n]*: null;/.test(app), "the learner's station records are read only inside the DATAWORKS gate");
+  ok(/var ocReadHuman = [^\n]*dxConsent\(\); return ok \? \{ eligible: true, [^\n]*stations: [^\n]*ppRecords\(\)[^\n]*: null;/.test(app), "the learner's station records are read only inside the DATAWORKS gate");
   ok(/ocMountClaw\(\$\("menu-drills"\), \{ record: OC_RECORD, records: OC_RECORDS, human: ocHuman \}\)/.test(app), "parishes passes both records");
+  // Round 8 (ROBOLEARN-9): the gate became a function (ocReadHuman) so the consent panel's onChange can re-read it and
+  // re-mount the people blocks without a reload; the regexes above follow the rename, the gate itself is unchanged.
+  ok(/var ocHuman = ocReadHuman\(\);/.test(app) && /function ocRefreshPeople\(\) \{ try \{ [^\n]*ocHuman = ocReadHuman\(\); const next = ocMountClaw\(/.test(app) && /dxMountConsent\(\$\("menu-dataworks"\), \{ onChange: \(\) => \{[^\n]*ocRefreshPeople\(\);/.test(app) && /id === "dx-revoke" \|\| id === "dx-optin"\) setTimeout\(ocRefreshPeople, 0\)/.test(app), "the people blocks re-mount on a consent change, through the same gate");
   // The page module: both records, each chain trimmed to its head, the head matching the committed record.
   const M = need(await imp("WebXR/shared/oc-claw-record.js"));
   // Round 8 adds protocol 3's record (claw3.json), so the module carries three records, the latest shown first.
