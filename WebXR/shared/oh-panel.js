@@ -13,7 +13,8 @@
 // Every top-level name starts with `oh`/`OH_` (the bundler shares one scope).
 
 import { RB_SITES } from "./rb-robotics-data.js";
-import { OH_AGENTS, OH_FEATURE, OH_AGENT_LABEL, ohTraitChips } from "./oh-hive-data.js";
+import { OH_AGENTS, OH_FEATURE, OH_AGENT_LABEL, ohTraitChips, ohLangFor, ohAgentIn } from "./oh-hive-data.js";
+import { ohSay } from "./oh-say.js";
 import { ohHive } from "./oh-hive.js";
 import { ohVoiceController } from "./oh-voice.js";
 import { avAgentLook, avSpriteSvg } from "./av-sprites.js";
@@ -22,9 +23,12 @@ export const OH_FEED_MAX = 40;
 export const OH_RUN_STEPS = 10;
 const OH_PANEL_CSS = ".oh-panel{font:13px/1.4 system-ui,sans-serif;padding:10px;border:1px solid #4a3f7a;border-radius:10px;background:#120f22;color:#ece8ff;margin:8px 0}.oh-panel h3{margin:0 0 6px;font-size:15px}.oh-panel .oh-note{opacity:.85;font-size:12px;margin:0 0 6px}.oh-panel .oh-roster{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:6px}.oh-panel .oh-card{display:flex;gap:6px;align-items:flex-start;border:1px solid #3a335f;border-radius:8px;padding:5px;background:#1b1733;position:relative}.oh-panel .oh-card svg{flex:0 0 auto;border-radius:6px}.oh-panel .oh-name{font-weight:600}.oh-panel .oh-label{display:inline-block;font-size:10px;letter-spacing:.02em;text-transform:uppercase;background:#2f2a52;border:1px solid #6d62b8;border-radius:4px;padding:0 4px;margin-left:4px}.oh-panel .oh-role{font-size:11px;opacity:.85}.oh-panel .oh-chip{display:inline-block;font-size:10px;border-radius:9px;padding:0 6px;margin:2px 3px 0 0;background:#2a2547}.oh-panel .oh-talk{position:absolute;top:5px;right:5px;width:8px;height:8px;border-radius:50%;background:#3a335f}.oh-panel .oh-card[data-talking=true] .oh-talk{background:#8fe3ff}.oh-panel .oh-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}.oh-panel button{background:#2a2450;color:#ece8ff;border:1px solid #6d62b8;border-radius:6px;padding:5px 9px;cursor:pointer}.oh-panel button[aria-pressed=true]{background:#4b3fa0}.oh-panel .oh-feed{max-height:180px;overflow-y:auto;border:1px solid #3a335f;border-radius:6px;padding:4px 6px;margin-top:6px;background:#0d0b19}.oh-panel .oh-feed p{margin:2px 0}.oh-panel .oh-queue{margin-top:6px}.oh-panel .oh-req{border:1px solid #8a6d2a;border-radius:6px;padding:5px;margin-top:4px;background:#1f1a10}.oh-panel .oh-status{margin-top:6px;font-size:12px;opacity:.9}";
 
-export function ohMountHive(el, { reducedMotion = false, audit = null, seed = 1, nJobs = 200, ticksPerDay = 480, synth, Utterance, onTalk = null } = {}) {
+export function ohMountHive(el, { reducedMotion = false, audit = null, seed = 1, nJobs = 200, ticksPerDay = 480, synth, Utterance, onTalk = null, lang = null } = {}) {
   if (!el || typeof document === "undefined") return null;
-  const hive = ohHive({ seed, audit, nJobs, ticksPerDay });
+  // VOICES: the hive speaks the page's language when it has one (English by default, or Spanish); the voice then asks for a local
+  // voice of that language, and with none the agent is silent and its caption still shows.
+  const hiveLang = ohLangFor(lang ?? document.documentElement?.lang ?? "en");
+  const hive = ohHive({ seed, audit, nJobs, ticksPerDay, ...(hiveLang === "en" ? {} : { say: (a, ev) => ohSay(a, ev, { lang: hiveLang }), agents: OH_AGENTS.map((a) => ohAgentIn(a, hiveLang)), supervisor: "Supervisor (este dispositivo)" }) });
   const voice = ohVoiceController({ ...(synth !== undefined ? { synth } : {}), ...(Utterance !== undefined ? { Utterance } : {}), enabled: false });
   const captions = [];
   const siteName = (id) => RB_SITES.find((s) => s.id === id)?.name ?? id;
@@ -64,7 +68,7 @@ export function ohMountHive(el, { reducedMotion = false, audit = null, seed = 1,
   el.appendChild(box);
 
   hive.on("speak", (e) => {
-    const a = OH_AGENTS.find((x) => x.id === e.agent);
+    const a = ohAgentIn(OH_AGENTS.find((x) => x.id === e.agent), hiveLang); // the agent as it speaks this language: its voice asks for a local voice of it
     captions.push({ t: e.t, agent: e.agent, text: e.text, caption: e.caption });
     if (captions.length > 500) captions.splice(0, captions.length - 500);
     const p = mk("p", null, `[${e.t}] ${e.caption}`); p.dataset.agent = e.agent;

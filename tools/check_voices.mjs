@@ -380,6 +380,83 @@ await check("7 nothing listens and nothing is sent: no microphone, recognition, 
   return `${files.length} modules scanned clean (no listening, recording, network, storage); npc.js speaks only the taught line through the controller`;
 });
 
+// ------------------------------------------ 10 the hive in a second language
+await check("10 the hive in Spanish: per-language cores picked by the page's language, grounding and style adherence per language, calm text, a local Spanish voice or silence", async () => {
+  const HD = need(await imp("WebXR/shared/oh-hive-data.js")), HS = need(await imp("WebXR/shared/oh-say.js")), HH = need(await imp("WebXR/shared/oh-hive.js")), RB = need(await imp("WebXR/shared/rb-robotics-data.js"));
+  const siteNames = RB.RB_SITES.map((s) => s.name);
+  // the language comes from the page: es, es-MX and ES are Spanish; anything the hive does not speak is English
+  ok(["es", "es-MX", "ES", "es_US"].every((c) => HD.ohLangFor(c) === "es") && ["en", "en-GB", "fr", "", null, undefined, "esperanto"].every((c) => HD.ohLangFor(c) === "en"), "ohLangFor");
+  ok(Object.keys(HD.OH_LANGS).length === 2 && HD.OH_LANGS.es.tag === "es-US", "the languages the hive speaks");
+  // every kind has Spanish cores, every reason a Spanish phrase, every agent Spanish padding and voice names
+  ok(Object.keys(HS.OH_CORES).every((k) => Array.isArray(HS.OH_CORES_ES[k]) && HS.OH_CORES_ES[k].length >= 2), "a kind has no Spanish cores");
+  ok(Object.keys(HD.OH_REASON_PHRASES).every((k) => typeof HD.OH_REASON_PHRASES_ES[k] === "string" && HD.OH_REASON_PHRASES_ES[k]), "a reason has no Spanish phrase");
+  ok(HD.OH_AGENTS.every((a) => HD.OH_PADS_ES[a.key]?.length >= 4 && HD.OH_PREFER_ES[a.key]?.length >= 3), "an agent has no Spanish padding or voice names");
+  // the same slots: a Spanish core uses exactly the slots its English twin does, so its facts come from the event alone
+  const slots = (t) => [...new Set([...t.matchAll(/\{(\w+)\}/g)].map((m) => m[1]))].sort().join(",");
+  for (const k of Object.keys(HS.OH_CORES)) { const en = new Set(HS.OH_CORES[k].flatMap((t) => slots(t).split(","))); for (const t of HS.OH_CORES_ES[k]) for (const s of slots(t).split(",").filter(Boolean)) ok(en.has(s), `${k}: the Spanish core "${t}" uses {${s}}, which no English core of the kind has`); }
+  // English is untouched
+  const a0 = HD.OH_AGENTS[0], ev0 = { type: "announce", t: 3, jobId: "vbjob-0123456789abcdef", to: RB.RB_SITES[0].id, siteName: RB.RB_SITES[0].name, task: "Pick and place" };
+  ok(HS.ohSay(a0, ev0) === HS.ohSay(a0, ev0, { lang: "en" }) && !/ el | en | para /.test(` ${HS.ohSay(a0, ev0)} `), "English changed");
+  ok(HD.ohAgentIn(a0, "en") === a0 && HD.ohAgentIn(HD.ohAgentIn(a0, "es"), "en") === a0, "ohAgentIn en");
+  // a seeded day in Spanish (the hive takes a `say` and the agents as options)
+  const standIn = (r) => (parseInt(String(r.jobId).slice(-2), 16) % 2 ? "approve" : "decline");
+  const es = HD.OH_AGENTS.map((a) => HD.ohAgentIn(a, "es"));
+  const day = (seed, o = {}) => HH.ohHiveDay(seed, { decide: standIn, agents: es, say: (a, ev) => HS.ohSay(a, ev, { lang: "es" }), ...o });
+  const { events } = day(7);
+  const sp = events.filter((e) => e.type === "speak");
+  ok(sp.length > 800, `${sp.length} Spanish speak events`);
+  let inside = 0, allS = 0, inS = 0; const rows = [];
+  for (const a of es) {
+    ok(a.lang === "es" && a.voice.lang === "es-US" && a.id === HD.ohAgent(a.id).id && a.name === HD.ohAgent(a.id).name && a.traits === HD.ohAgent(a.id).traits, `${a.key}: not the same persona in Spanish`);
+    const lens = sp.filter((e) => e.agent === a.id).flatMap((e) => HS.ohSentences(e.text).map((x) => HS.ohWords(x).length));
+    ok(lens.length > 0, `${a.id} said nothing in Spanish`);
+    const mean = lens.reduce((x, y) => x + y, 0) / lens.length;
+    const hit = lens.filter((n) => n >= a.style.band[0] && n <= a.style.band[1]).length; allS += lens.length; inS += hit;
+    if (mean >= a.style.band[0] && mean <= a.style.band[1]) inside += 1;
+    rows.push(`${a.key} ${mean.toFixed(1)} in ${a.style.band.join("-")} (${hit}/${lens.length})`);
+    ok(a.style.band.join() === HD.ohAgent(a.id).style.band.join() && a.style.register === HD.ohAgent(a.id).style.register, `${a.key}: the style grammar differs from English`);
+  }
+  ok(inside === 7 && inS === allS, `style adherence in Spanish: ${inside}/7 agents, ${inS}/${allS} sentences: ${rows.join("; ")}`);
+  // grounding, per language
+  let good = 0; const bad = [];
+  for (const e of sp) { const g = HS.ohGrounded(e.text, e, { siteNames }); if (g.ok && g.facts.length) good += 1; else if (!g.ok || g.facts.length) bad.push(`${e.text} [${g.missing.join(", ")}]`); }
+  const factless = sp.filter((e) => !HS.ohGrounded(e.text, e, { siteNames }).facts.length).length;
+  ok(bad.length === 0, `ungrounded Spanish lines: ${bad.slice(0, 3).join(" | ")}`);
+  const e0 = sp.find((e) => e.jobId); ok(!HS.ohGrounded(`${e0.text} Puntuación 0.123 en rb-site-nowhere.`, e0, { siteNames }).ok, "a planted number and site id were not caught in Spanish");
+  // calm text and no English fragment but names
+  const FEAR_ES = /\b(peligro\w*|mortal\w*|muerte|muert[oa]s?|matar|mata\w*|herid[oa]s?|lesi[oó]n\w*|lesionad\w*|miedo|terror\w*|sangre|aplast\w*|amput\w*|asust\w*|grave\w*)\b/i;
+  const strip = (e) => e.text.split(e.jobId ?? "\u0000").join(" ").split(e.siteName ?? "\u0000").join(" ").split(e.supervisor ?? "\u0000").join(" ").replace(/-?\d+(\.\d+)?/g, " ").replace(/\b[a-z]+(-[a-z]+)+\b/g, " ");
+  const ENGLISH = /\b(the|and|with|for|is|at|of|on|to|job|site|run|steps|score|governor|supervisor|simulated)\b/i;
+  const texts = [...sp.map((e) => e.text), ...Object.values(HD.OH_REASON_PHRASES_ES), HS.OH_PACKS.es.approvalWhy, ...Object.values(HS.OH_CORES_ES).flat(), ...Object.values(HD.OH_PADS_ES).flat(), ...Object.values(HD.OH_OPENER_POOLS_ES).flat(), ...Object.values(HD.OH_CLOSER_POOLS_ES).flat(), ...Object.values(HD.OH_HEDGE_POOLS_ES).flat()];
+  ok(texts.filter((t) => FEAR_ES.test(t)).length === 0, `fear framing in Spanish: ${texts.filter((t) => FEAR_ES.test(t)).slice(0, 3).join(" | ")}`);
+  const english = sp.filter((e) => ENGLISH.test(strip(e)));
+  ok(english.length === 0, `an English fragment in a Spanish line: ${english.slice(0, 2).map((e) => strip(e)).join(" | ")}`);
+  // personality in Spanish: naive Bayes names the speaker (trained on seeds 1-60, tested on 61-100)
+  const norm = (t) => HS.ohWords(t.toLowerCase().replace(/vbjob-[0-9a-f]+/g, " jobid ").replace(/\d+(\.\d+)?/g, " num ")).map((w) => w.replace(/[^\p{L}\p{N}'-]/gu, "")).filter(Boolean);
+  const corpus = (lo, hi) => { const rows = []; for (let s = lo; s <= hi; s += 1) for (const e of day(s, { nJobs: 12, ticksPerDay: 40 }).events.filter((x) => x.type === "speak")) rows.push(e); return rows; };
+  const train = corpus(1, 60), test = corpus(61, 100); const ids = es.map((a) => a.id);
+  const m = { prior: {}, counts: {}, totals: {}, vocab: new Set() }; for (const id of ids) { m.prior[id] = 0; m.counts[id] = new Map(); m.totals[id] = 0; }
+  for (const r of train) { m.prior[r.agent] += 1; for (const w of norm(r.text)) { m.vocab.add(w); m.counts[r.agent].set(w, (m.counts[r.agent].get(w) ?? 0) + 1); m.totals[r.agent] += 1; } }
+  let hitNB = 0; for (const r of test) { let best = null, bs = -Infinity; for (const id of ids) { let s = Math.log((m.prior[id] + 1) / (train.length + ids.length)); for (const w of norm(r.text)) s += Math.log(((m.counts[id].get(w) ?? 0) + 1) / (m.totals[id] + m.vocab.size)); if (s > bs) { bs = s; best = id; } } if (best === r.agent) hitNB += 1; }
+  const acc = hitNB / test.length; ok(acc >= 0.85, `Spanish distinctiveness ${acc.toFixed(3)} under the pinned 0.85`);
+  // voices: a Spanish line is read only by a local Spanish voice; with none the agent is silent and the caption still shows
+  const ag = es[1], agEn = HD.OH_AGENTS[1];
+  const enOnly = [lv("Alex"), lv("Samantha"), nv("Network Spanish", "es-ES")];
+  ok(OV.ohPickVoice(ag, enOnly) === null && OV.ohPickVoice(agEn, enOnly) !== null, "an English voice was picked for a Spanish agent, or a network Spanish voice");
+  const withEs = [lv("Alex"), lv("Jorge", "es-ES"), lv("Paulina", "es-MX"), lv("Monica", "es-ES"), nv("Google español", "es-ES")];
+  const picked = es.map((a) => OV.ohPickVoice(a, withEs)); ok(picked.every((v) => v && v.localService === true && /^es/.test(v.lang)), "a Spanish agent was not given a local Spanish voice");
+  ok(OV.ohPickVoice(es[0], withEs).name === "Jorge" && OV.ohPickVoice(es[1], withEs).name === "Monica", "a preferred Spanish voice name did not win");
+  const synth = mkSynth(enOnly); const caps = []; const c = OV.ohVoiceController({ synth, Utterance: U, doc: null, win: null, enabled: true, onCaption: (a, t) => caps.push(t) });
+  c.say(ag, sp.find((e) => e.agent === ag.id).text); ok(synth.st.spoken.length === 0 && caps.length === 1, "a Spanish line was read by an English voice, or its caption was lost");
+  const synth2 = mkSynth(withEs); const c2 = OV.ohVoiceController({ synth: synth2, Utterance: U, doc: null, win: null, enabled: true }); c2.say(ag, "Hola"); ok(synth2.st.spoken[0]?.voice.name === "Monica" && synth2.st.spoken[0].voice.localService === true, "the Spanish voice was not used");
+  // wiring: the panel takes the page's language and speaks as the localised agent
+  const panel = src("WebXR/shared/oh-panel.js");
+  ok(/ohLangFor\(lang \?\? document\.documentElement\?\.lang/.test(panel) && /ohAgentIn\(OH_AGENTS\.find/.test(panel) && /say: \(a, ev\) => ohSay\(a, ev, \{ lang: hiveLang \}\)/.test(panel), "oh-panel.js does not take the page's language");
+  evals.push(`languages the hive speaks: 1 -> 2 (English, Spanish; picked by the page's language through ohLangFor, per-language cores OH_CORES / OH_CORES_ES, style pools, reason phrases, padding and voice names)`);
+  evals.push(`hive in Spanish (seed 7, ${sp.length} speak events): style adherence ${inside}/7 agents' mean words per sentence inside the band, ${inS}/${allS} sentences inside; grounding ${good}/${good} lines with facts (${factless} carry none), a planted fact caught; calm text 0 flagged in ${texts.length} strings; no English fragment but names; personality ${acc.toFixed(3)} naive-Bayes accuracy on ${test.length} held-out lines (chance 0.143); a Spanish line is read only by a local Spanish voice (English-only device: 0 spoken, caption kept)`);
+  return `Spanish day: ${inside}/7 agents and ${inS}/${allS} sentences inside their bands, ${good} grounded lines, calm over ${texts.length} strings, no English fragment, personality ${acc.toFixed(3)}; English unchanged; Spanish voice local-only or silence`;
+});
+
 // --------------------------------------------------------------------- 8 wiring
 await check("8 wiring: the four bundles list oh-voice.js and vc-voices.js, the Me tab mounts the settings, check_all and the baseline list this file, docs present", () => {
   const py = src("tools/bundle_webxr.py");
