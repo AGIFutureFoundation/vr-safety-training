@@ -1017,15 +1017,16 @@ APPS = {
             # ROBOTRAIN-2: the COLEARN-trained policy as the agent-jobs provider (after col-learn.js and vb-bridge.js).
             SHARED / "vb-colearn.js",
             SHARED / "vb-panel.js",
+            # AGENT-AVATARS' portraits come before the hive panel, whose roster cards show them at 2× (HIVE-IN-WORLD).
+            SHARED / "aa-agent-portraits.js",
             # OMEGA-HIVE: the agent collective over the agent-jobs stream (after vb-panel.js, av-sprites.js and dx-data.js).
             SHARED / "oh-hive-data.js",
             SHARED / "oh-say.js",
             SHARED / "oh-voice.js",
             SHARED / "oh-hive.js",
             SHARED / "oh-panel.js",
-            # AGENT-AVATARS (docs/consoles/AGENT-AVATARS.md): the agents' portraits, then their figures (after crew.js,
-            # av-sprites.js, rb-robotics-data.js and vb-shared-data.js).
-            SHARED / "aa-agent-portraits.js",
+            # AGENT-AVATARS (docs/consoles/AGENT-AVATARS.md): the agents' portraits (listed above, before the hive panel), then
+            # their figures (after crew.js, av-sprites.js, rb-robotics-data.js and vb-shared-data.js).
             SHARED / "aa-agent-avatars.js",
             # CLASSROOMS: rooms that teach (after by-parish-lessons, es-bay-lessons, ps-projectsim and cg-runner).
             SHARED / "cr-classrooms.js",

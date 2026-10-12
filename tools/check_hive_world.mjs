@@ -176,6 +176,45 @@ for (const r of rows) console.log(`    ${r}`);
   ok(HW.hwRoomFromHash("#site=a%2Fb&ixr=ixr-cobot-lab") === "ixr-cobot-lab" && HW.hwRoomFromHash("#site=a%2Fb&ixr=not-a-room") === null && HW.hwRoomFromHash("", "?ixr=ixr-maint-bay") === "ixr-maint-bay" && HW.hwReturnHash("kitchen") === "", "hwRoomFromHash reads only a robotics style (anything else is ignored); hwReturnHash writes only one");
 }
 
+// ------------------------------------------------------------------------------------------------ 3b. supervise every job; the roster's portraits
+let supEval = null;
+{
+  const SAY = await imp("shared/oh-say.js");
+  const decide = (r) => (parseInt(String(r.jobId).slice(-1), 16) % 4 === 0 ? "decline" : "approve"); // a seeded stand-in for the learner, not a person
+  const day = (supervise) => { const h = OHH.ohHive({ seed: 1, supervise, decide }); for (let i = 0; i < 480; i += 1) h.step(); return h; };
+  const off = day(false), on = day(true), mOff = off.metrics(), mOn = on.metrics();
+  supEval = { before: `${mOff.dispatchedWithoutLearner} of ${mOff.dispatched}`, after: `${mOn.dispatchedWithoutLearner} of ${mOn.dispatched}` };
+  // every dispatch in the chain is preceded by the learner's approval of that job
+  // (a physical-path request approved for the sim is re-created under a new job id: its approve line names the first id)
+  const chain = on.log(), approvedAt = new Map(), firstOf = new Map(on.jobs().filter((j) => j.jobId).map((j) => [j.jobId, j.firstId ?? j.jobId]));
+  for (const l of chain) { const id = l.detail.split(" ")[0]; if (l.action === "oh-approve") approvedAt.set(id, l.seq); }
+  const approvedBefore = (id, seq) => [id, firstOf.get(id)].some((k) => k && approvedAt.has(k) && approvedAt.get(k) < seq);
+  const dispatches = chain.filter((l) => l.action === "oh-dispatch"), backed = dispatches.filter((l) => approvedBefore(l.detail.split(" ")[0], l.seq)).length;
+  const asks = on.events().filter((e) => e.type === "approval-request" && e.reason === "supervise").length;
+  const declinedRan = on.jobs().filter((j) => j.status === "declined" && j.phase && !["NEGOTIATION", "REJECTED", "APPROVAL"].includes(j.phase) && on.events().some((e) => e.type === "dispatch" && e.jobId === j.jobId)).length;
+  ok(mOn.supervise && mOn.dispatchedWithoutLearner === 0 && mOn.dispatched > 0 && backed === dispatches.length, `supervise every job, a seeded 200-job day (seed 1): dispatches without the learner's approval ${mOn.dispatchedWithoutLearner} of ${mOn.dispatched} (with the setting off: ${mOff.dispatchedWithoutLearner} of ${mOff.dispatched}); every dispatch line follows an approve line for its job: ${backed} of ${dispatches.length}`);
+  ok(asks > 0 && declinedRan === 0 && mOn.physicalDispatched === 0 && on.verify().ok, `the learner is asked about every governor-allowed job (${asks} supervise requests); declined jobs never run (${declinedRan}); physical dispatches ${mOn.physicalDispatched}; the audit chain is intact (${on.verify().lines} lines)`);
+  ok(mOn.refused === mOff.refused && mOn.vetoed === mOff.vetoed, `the setting changes who approves, not what the governor and the steward refuse: refused ${mOn.refused} / ${mOff.refused}, vetoed ${mOn.vetoed} / ${mOff.vetoed}`);
+  // switched on mid-run, with no stand-in: nothing dispatches without the learner until they approve
+  const mid = OHH.ohHive({ seed: 1 }); for (let i = 0; i < 60; i += 1) mid.step();
+  const before = mid.metrics().dispatchedWithoutLearner; mid.setSupervise(true);
+  const seenIds = new Set(); mid.on("dispatch", (e) => seenIds.add(e.jobId));
+  for (let i = 0; i < 60; i += 1) mid.step();
+  const waiting = mid.pending().filter((p) => p.reason === "supervise"), seenBeforeApproval = seenIds.size;
+  const firstId = waiting[0]?.jobId; if (firstId) mid.approve(firstId);
+  for (let i = 0; i < 6; i += 1) mid.step();
+  ok(before > 0 && seenBeforeApproval === 0 && waiting.length > 0 && mid.events().some((e) => e.type === "dispatch" && e.jobId === firstId) && mid.metrics().dispatchedWithoutLearner === before, `switched on after 60 steps: 0 dispatches in the next 60 steps while ${waiting.length} jobs wait for the learner (a job approved earlier under the standing approval is held at its dispatch); the one approved then runs`, `${before} dispatched under the standing approval before the switch`);
+  // the lines the setting adds carry only the event's facts and hold each agent's band
+  const keeper = OHD.OH_AGENTS.find((a) => a.key === "consent-keeper");
+  const lines = on.events().filter((e) => e.type === "speak" && (e.about === "supervise" || e.about === "supervise_on"));
+  const grounded = lines.filter((e) => SAY.ohGrounded(e.text, e, { siteNames: RB.RB_SITES.map((x) => x.name) }).ok).length;
+  const inBand = lines.filter((e) => { const ws = SAY.ohSentences(e.text).map((sn) => SAY.ohWords(sn).length); return ws.reduce((a, b) => a + b, 0) / ws.length <= keeper.style.band[1] && ws.reduce((a, b) => a + b, 0) / ws.length >= keeper.style.band[0]; }).length;
+  ok(lines.length > 0 && grounded === lines.length && inBand === lines.length && !/physical/.test(lines.map((e) => e.text).join(" ")), `the setting's lines are grounded in their events (${grounded} of ${lines.length}), hold the consent keeper's band (${inBand} of ${lines.length}) and never speak of the physical path`, lines[0]?.text);
+  const panel = read("WebXR/shared/oh-panel.js");
+  ok(/import \{ aaPortraitImg \} from "\.\/aa-agent-portraits\.js";/.test(panel) && /aaPortraitImg\(a, \{ size: 48 \}\)/.test(panel) && /else pic\.innerHTML = avSpriteSvg\(avAgentLook/.test(panel) && /mk\("span", "oh-label", OH_AGENT_LABEL\)/.test(panel), "the hive panel's cards show AGENT-AVATARS' 2× portrait (aaPortraitImg), keep the badge SVG as the fallback and keep the \"software agent\" label (drive_hive_world checks the 96 px PNGs in the page)");
+  ok(/data-?oh|dataset\.oh = "supervise"/.test(panel) && /api\.supervise\(!hive\.supervising\(\)\)/.test(panel) && /ohHive\(\{ seed, audit, nJobs, ticksPerDay, supervise \}\)/.test(panel), "the panel has the \"Supervise every job\" toggle (off by default) wired to the hive");
+}
+
 // ------------------------------------------------------------------------------------------------ 4. the wiring
 {
   const app = read("WebXR/parishes/js/app.js"), src = read("WebXR/shared/hw-hive-world.js");

@@ -30,6 +30,10 @@
 //            agent, text?, to?: siteId, jobId?, reason?, caption?, …facts (siteName, task, score, steps, bid, lines, ok) }
 //   `on("*", fn)` receives every event. `decide(request)` -> "approve" | "decline" | null (null: wait for the person).
 //   `mode: "single"` is the baseline: one dispatcher works every job alone (same governor, steward and approvals).
+//   `supervise: true` (or setSupervise(true), HIVE-IN-WORLD) replaces the standing approval: every governor-allowed job waits
+//   for the learner's approval before it is approved and dispatched (reason "supervise"), and a job approved earlier under the
+//   standing approval is held at dispatch until the learner approves it, so while the setting is on no job dispatches without
+//   the learner. metrics().dispatchedWithoutLearner counts the ones that did.
 //
 // Every top-level name starts with `oh`/`OH_` (the bundler shares one scope).
 
@@ -115,7 +119,7 @@ export function ohStewardReview(steward, request, decision) {
   return null;
 }
 
-export function ohHive({ seed = 1, governor = null, audit = null, agents = OH_AGENTS, jobs = null, nJobs = 200, ticksPerDay = 480, decide = null, supervisor = "Supervisor (this device)", mode = "hive", capacity = OH_CAPACITY, policyFor = null, say = ohSay, sites = RB_SITES } = {}) {
+export function ohHive({ seed = 1, governor = null, audit = null, agents = OH_AGENTS, jobs = null, nJobs = 200, ticksPerDay = 480, decide = null, supervisor = "Supervisor (this device)", mode = "hive", capacity = OH_CAPACITY, policyFor = null, say = ohSay, sites = RB_SITES, supervise = false } = {}) {
   const roster = agents.slice();
   const byKey = (k) => roster.find((a) => a.key === k) ?? roster[0];
   const dispatcher = byKey("dispatcher"), steward = byKey("safety-steward"), keeper = byKey("consent-keeper"), trainer = byKey("trainer"), auditor = byKey("auditor");
@@ -160,8 +164,20 @@ export function ohHive({ seed = 1, governor = null, audit = null, agents = OH_AG
   }
   const factsOf = (j, extra = {}) => ({ jobId: j.vb?.id ?? j.firstId, to: j.spec.request.siteId, siteName: siteName(j.spec.request.siteId), task: VB_TASKS[j.spec.request.taskType]?.label ?? j.spec.request.taskType, ...extra });
 
-  write("oh-standing-approval", `${supervisor}: ${OH_STANDING}; requests that name a physical robot still need a decision each`);
-  speak(keeper, "standing", { supervisor });
+  let superviseAll = !!supervise;
+  if (superviseAll) { write("oh-supervise", `${supervisor}: supervise every job is on; each governor-allowed job waits for a decision`); speak(keeper, "supervise_on", { supervisor }); }
+  else { write("oh-standing-approval", `${supervisor}: ${OH_STANDING}; requests that name a physical robot still need a decision each`); speak(keeper, "standing", { supervisor }); }
+  // HIVE-IN-WORLD: ask the learner about a governor-allowed simulated job (supervise every job). `atDispatch`: it was approved
+  // under the standing approval before the setting came on, and is held at its dispatch instead.
+  function askSupervisor(j, atDispatch) {
+    const siteId = j.spec.request.siteId;
+    j.status = "awaiting-approval"; j.pendingReason = "supervise"; j.heldAtDispatch = !!atDispatch;
+    emit({ type: "approval-request", agent: keeper.id, ...factsOf(j, { reason: "supervise", winner: j.winner }) });
+    write("oh-approval-request", `${j.vb.id} @ ${siteId}: supervise every job is on; asked ${supervisor} to approve this governor-allowed simulated job${atDispatch ? " before it starts" : ""}`);
+    speak(keeper, "supervise", factsOf(j));
+    const d = typeof decide === "function" ? decide({ jobId: j.vb.id, siteId, taskType: j.spec.request.taskType, reasons: ["supervise"] }) : null;
+    if (d === "approve") approve(j.vb.id); else if (d === "decline") decline(j.vb.id);
+  }
 
   function arrive(j) {
     j.status = "queued"; j.vb = vbCreateJob(j.spec); j.firstId = j.vb.id; j.queuedAt = t;
@@ -224,6 +240,7 @@ export function ohHive({ seed = 1, governor = null, audit = null, agents = OH_AG
       release(j); close(j, "vetoed");
       return true;
     }
+    if (superviseAll && !j.approvedSim) { askSupervisor(j, false); return true; } // HIVE-IN-WORLD: the learner approves each job
     vbApprove(j.vb, { supervisor: j.approvedSim ? supervisor : `${supervisor} (${OH_STANDING})`, approve: true });
     const s = state.get(best.a.id); const hops = ohSiteHops(s.site, siteId, sites);
     j.status = "moving"; j.readyAt = t + hops;
@@ -237,6 +254,7 @@ export function ohHive({ seed = 1, governor = null, audit = null, agents = OH_AG
   gov.check = (cmd) => { const d = baseCheck(cmd); lastExplain = d.explain; return d; };
 
   function dispatch(j) {
+    if (superviseAll && !j.learnerApproved && !j.approvedSim) { askSupervisor(j, true); return; } // approved before the setting: held here
     const siteId = j.spec.request.siteId; const w = roster.find((a) => a.id === j.winner);
     const holder = siteBusy.get(siteId);
     if (holder && holder !== j) {
@@ -286,6 +304,18 @@ export function ohHive({ seed = 1, governor = null, audit = null, agents = OH_AG
   function approve(jobId) {
     const j = stream.find((x) => x.status === "awaiting-approval" && (x.vb.id === jobId || x.firstId === jobId));
     if (!j) return null;
+    if (j.pendingReason === "supervise") { // HIVE-IN-WORLD: the learner approves this simulated job; it goes on from where it waited
+      const siteId = j.spec.request.siteId, w = roster.find((a) => a.id === j.winner), s = state.get(j.winner);
+      write("oh-approve", `${j.vb.id} @ ${siteId}: ${supervisor} approved this simulated job (supervise every job)`);
+      speak(keeper, "approved", factsOf(j));
+      j.pendingReason = null; j.learnerApproved = true;
+      if (j.heldAtDispatch) { j.status = "moving"; j.readyAt = t; return j.vb.id; }
+      vbApprove(j.vb, { supervisor, approve: true });
+      const hops = ohSiteHops(s.site, siteId, sites);
+      j.status = "moving"; j.readyAt = t + hops;
+      if (hops > 0) { s.site = siteId; emit({ type: "move", agent: w.id, ...factsOf(j, { hops }) }); speak(w, "move", factsOf(j)); }
+      return j.vb.id;
+    }
     write("oh-approve", `${j.vb.id} @ ${j.spec.request.siteId}: ${supervisor} approved a SIMULATED run only (the physical path stays disabled)`);
     speak(keeper, "approved", factsOf(j));
     // Re-queued as a simulated job; it goes through the bidding and the governor again like any other job.
@@ -296,6 +326,7 @@ export function ohHive({ seed = 1, governor = null, audit = null, agents = OH_AG
   function decline(jobId) {
     const j = stream.find((x) => x.status === "awaiting-approval" && (x.vb.id === jobId || x.firstId === jobId));
     if (!j) return null;
+    if (j.pendingReason === "supervise") { release(j); j.pendingReason = null; } // the agent held the job while it waited
     emit({ type: "refused", agent: keeper.id, ...factsOf(j, { reason: "supervisor-declined", by: "supervisor" }) });
     write("oh-decline", `${j.vb.id} @ ${j.spec.request.siteId}: ${supervisor} declined; the job is closed`);
     speak(keeper, "declined", factsOf(j));
@@ -326,6 +357,7 @@ export function ohHive({ seed = 1, governor = null, audit = null, agents = OH_AG
       stepsMonitored: dispatched.reduce((a, j) => a + (counts.monitors.get(j.vb.id) ?? 0), 0),
       steps: dispatched.reduce((a, j) => a + j.vb.deliverable.episode.steps.length, 0),
       physicalDispatched: dispatched.filter((j) => j.vb.request.target.kind !== "sim").length,
+      supervise: superviseAll, dispatchedWithoutLearner: dispatched.filter((j) => !j.learnerApproved && !j.approvedSim).length,
       lines: chain.length,
     };
   }
@@ -338,7 +370,16 @@ export function ohHive({ seed = 1, governor = null, audit = null, agents = OH_AG
     off(type, fn) { const xs = listeners.get(type); if (xs) listeners.set(type, xs.filter((f) => f !== fn)); },
     events() { return log.slice(); },
     approve, decline,
-    pending() { return stream.filter((j) => j.status === "awaiting-approval").map((j) => ({ jobId: j.vb.id, to: j.spec.request.siteId, siteName: siteName(j.spec.request.siteId), task: VB_TASKS[j.spec.request.taskType]?.label ?? j.spec.request.taskType, reason: "physical-target" })); },
+    pending() { return stream.filter((j) => j.status === "awaiting-approval").map((j) => ({ jobId: j.vb.id, to: j.spec.request.siteId, siteName: siteName(j.spec.request.siteId), task: VB_TASKS[j.spec.request.taskType]?.label ?? j.spec.request.taskType, reason: j.pendingReason ?? "physical-target" })); },
+    /** HIVE-IN-WORLD: "supervise every job" on or off (an audit line and the consent keeper say so). */
+    setSupervise(on) {
+      const v = !!on; if (v === superviseAll) return superviseAll;
+      superviseAll = v;
+      write("oh-supervise", `${supervisor}: supervise every job is ${v ? "on; each governor-allowed job waits for a decision" : `off; ${OH_STANDING}`}`);
+      speak(keeper, v ? "supervise_on" : "standing", { supervisor });
+      return superviseAll;
+    },
+    supervising() { return superviseAll; },
     jobs() { return stream.map((j) => ({ n: j.n, status: j.status, jobId: j.vb?.id ?? null, firstId: j.firstId ?? null, winner: j.winner ?? null, site: j.spec.request.siteId, target: j.spec.request.target.kind, approvedSim: !!j.approvedSim, phase: j.vb?.phase ?? null, reasons: j.vb?.governor?.reasons ?? [] })); },
     metrics,
     agentState(id) { const s = state.get(id); return s ? { ...s } : null; },
