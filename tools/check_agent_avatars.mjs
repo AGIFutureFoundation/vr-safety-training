@@ -1034,6 +1034,20 @@ const HDV = {};
         // aaMoodOf is guarded: the hive, a relay carrying .hive, a bare relay (no moods), a throwing source and an unknown mood
         const hv = OHH.ohHive({ seed: HIVE_SEED, ...PANEL, moods: true }); for (let k = 0; k < 40; k += 1) hv.step();
         const id0 = hv.agents[0].id, g1 = AA.aaMoodOf(hv, id0), g2 = AA.aaMoodOf({ on() {}, hive: hv }, id0), g3 = AA.aaMoodOf({ on() {} }, id0), g4 = AA.aaMoodOf({ mood() { throw new Error("x"); } }, id0), g5 = AA.aaMoodOf({ mood: () => ({ mood: "furious" }) }, id0);
+        // (3) The ops room's last triangles (decided: the room-level figure stays; docs/consoles/AVATARS-HD-5.md): the headroom is measured
+        // when the room mounts, so a later addition to the room (a stand-in block of triangles) comes out of the room-level figure first.
+        const opsWith = (add) => {
+          const room = buildRoom(H4R.HD4_OPS_STYLE), hive = OHH.ohHive({ seed: HIVE_SEED, ...PANEL, moods: true });
+          if (add > 0) { const geo = new RT.BufferGeometry(); geo.setAttribute("position", new RT.BufferAttribute(new Float32Array(add * 9), 3)); const blk = new RT.Mesh(geo, new RT.MeshBasicMaterial()); blk.name = "ah5-standin-addition"; room.group.add(blk); }
+          const head = AA.aaRoomHeadroom(room.group, hive.agents);
+          const m = HW.hwSyncRoom(null, { room, three: RTS, agents: hive.agents, source: hive, tier: "high", mount: AA.aaCrowdAvatarMount({ room, router: HW.hwRouter, nearest: "room" }) });
+          m.animate(0, 0); for (const a of hive.agents) m.avatars.handle({ type: "speak", agent: a.id, text: "Checking the queue with the governor." }); m.animate(0.2, 0.2);
+          const s = measure(room), lv = m.avatars.counts().levels; m.dispose();
+          return { add, head, tris: s.triangles, meshes: s.meshes, lv, margin: IX.IX_BUDGET.triangles.high - s.triangles };
+        };
+        const o0 = opsWith(0), o1 = opsWith(13), o2 = opsWith(300); // 13: the headroom (401) under the smallest step up (402)
+        HDV.ah5 = { ...(HDV.ah5 ?? {}), ops: [o0, o1, o2] };
+        ok(o0.head === HD.AA_HD_NEAR_EXTRA && o0.lv.room === 1 && o0.tris <= IX.IX_BUDGET.triangles.high && [o1, o2].every((o) => !o.lv.room && o.lv.crowd === 7 && o.tris <= IX.IX_BUDGET.triangles.high), `the ops room's last triangles (decision: the room-level figure stays, measured headroom): as built, headroom ${o0.head} (= AA_HD_NEAR_EXTRA ${HD.AA_HD_NEAR_EXTRA}) → ${JSON.stringify(o0.lv)}, ${o0.meshes} meshes / ${o0.tris} triangles, margin ${o0.margin}; with ${o1.add} more triangles in the room → ${JSON.stringify(o1.lv)}, ${o1.tris}, margin ${o1.margin}; with ${o2.add} more → ${JSON.stringify(o2.lv)}, ${o2.tris}, margin ${o2.margin}`);
         ok(g1?.mood === hv.mood(id0).mood && g2?.mood === g1.mood && g3 === null && g4 === null && g5 === null && AA.aaMoodOf(null, id0) === null, `aaMoodOf(source, id): the hive's mood (${g1?.mood}), through a relay's .hive the same, a relay without moods null, a throwing source null, an unknown mood null`);
       }
       // (2) The robot rooms' cap rule, agreed with ROBOTS-HD-3 in the heartbeat: the cap counts every mesh that can be drawn, exactly as

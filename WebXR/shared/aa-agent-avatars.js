@@ -219,15 +219,29 @@ export function aaRoomRoute(room, router, { radius = 0.3, margin = 0.05, step = 
  * level of the high-detail figure on the desktop high tier (seven figures and the room inside IX_BUDGET); balanced keeps today's figure
  * (HIVE-5 lightens it there) and the phone tier builds none. `extra`: { voiced, room, router } (room + router: walks go round the
  * consoles; aaRoomRoute). */
-export function aaCrowdAvatarMount({ room = null, router = null, nearest = null, learner = null, ...extra } = {}) {
+export function aaCrowdAvatarMount({ room = null, router = null, nearest = null, learner = null, triCap = AA_ROOM_TRI_CAP, ...extra } = {}) {
   const route = aaRoomRoute(room, router);
   return (opts = {}) => {
     // AVATARS-HD-4: the console nearest the learner as they enter gets the room level (chosen once, here, when the room mounts: no swap
     // while the learner moves, since a swap rebuilds a skinned mesh); the rest stay at the crowd level.
-    const role = nearest && AA_HD_LOD[nearest] ? aaNearestRole(room, learner, { agents: opts.agents, level: nearest }) : null;
+    // AVATARS-HD-5: the headroom is measured when the room mounts (aaRoomHeadroom: the cap less the room's own triangles and every
+    // agent's crowd figure), not the constant AA_HD_NEAR_EXTRA, so anything later added to the room comes out of the room-level figure
+    // first: the room stays inside its cap and every figure falls back to the crowd level.
+    const role = nearest && AA_HD_LOD[nearest] ? aaNearestRole(room, learner, { agents: opts.agents, level: nearest, extra: aaRoomHeadroom(opts.parent, opts.agents, triCap) }) : null;
     const hdFor = role ? (a) => (a?.key === role ? nearest : null) : null;
     return aaMountAgentAvatars({ ...opts, ...(route ? { route } : {}), ...(hdFor ? { hdFor } : {}), ...extra, hd: "crowd" });
   };
+}
+
+/** AVATARS-HD-5: the triangles a room has left for one figure above the crowd level: `cap` less the room group's own triangles (counted
+ * as ixrMeasure counts: every mesh, instanced ones times their count) and every agent's crowd figure. The ops room at a10f1ff8: 6,000 −
+ * (2,022 + 3,564) = 414 = AA_HD_NEAR_EXTRA. Without a parent, the cap less the figures. */
+export function aaRoomHeadroom(parent, agents = [], cap = AA_ROOM_TRI_CAP) {
+  let own = 0;
+  parent?.traverse?.((o) => { if (!o.isMesh) return; const g = o.geometry, c = g?.index ? g.index.count : g?.attributes?.position?.count ?? 0; own += (c / 3) * (o.isInstancedMesh ? o.count : 1); });
+  let crowd = 0;
+  for (const a of agents ?? []) { try { crowd += aaHdGeometry(aaHdSpec(a), "crowd").triangles.total; } catch (_) { crowd += AA_HD_CROWD_BUDGET.triangles; } }
+  return cap - own - crowd;
 }
 
 /** AVATARS-HD-4: the role of the agent spot (room.spots.agent) nearest the learner: `learner` is { x, z } or a function returning it
