@@ -73,7 +73,7 @@ export function vbMountDispatch(el, { reducedMotion = false, ent3 = null, statio
     if (!job) { phase.textContent = "No job yet"; card.textContent = ""; return; }
     phase.textContent = `Phase: ${job.phase}`;
     const r = job.request;
-    const lines = [`From: ${job.client.id} (mock client agent)`, `Task: ${VB_TASKS[r.taskType]?.label ?? r.taskType}`, `Site: ${siteName(r.siteId)}`, `Speed ${r.speed} m/s · nearest person ${r.nearestPersonM} m · policy ${r.policyId} · target ${r.target.kind}`];
+    const lines = [`From: ${job.client.id} (mock client agent)`, `Task: ${VB_TASKS[r.taskType]?.label ?? r.taskType}`, `Site: ${siteName(r.siteId)}`, `Speed ${r.speed} m/s · nearest person ${r.nearestPersonM} m · policy ${r.policyId} · target ${r.target.kind}${r.payloadKg !== undefined ? ` · payload ${r.payloadKg} kg` : ""}`];
     // ROBOTRAIN-3: `providerLabel(taskType)` (vb-colearn.js' describe) names the training data honestly — the learner's own consented takes, or the synthetic stand-in.
     let learned = null; if (policyFor && providerLabel) { try { learned = providerLabel(r.taskType); } catch (_) { learned = null; } }
     lines.push(`Provider: ${r.policyId === "vb-colearn-bc-knn" ? (policyFor ? learned ?? "COLEARN-trained behaviour-cloning policy (synthetic demonstrations, labelled as a stand-in)" : "COLEARN policy requested, no learned provider mounted: the scripted expert runs") : r.policyId === "vb-scripted-lapsing" ? "scripted expert that lapses" : "scripted expert"}`);
