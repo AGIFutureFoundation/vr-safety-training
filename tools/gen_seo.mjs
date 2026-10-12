@@ -131,15 +131,19 @@ export const WF_APPS = [
 
 /**
  * The whitepaper page (console SEO-WHITEPAPER): its source WebXR/whitepaper.html is copied
- * beside the homepage by the bundler. Its text is the page's own; `sections` are its <h2>s' kickers.
+ * beside the homepage by the bundler. tools/gen_whitepaper_page.mjs builds it; `sections` are its <h2>s' kickers, in order.
  */
 export const WF_WHITEPAPER = {
   key: "whitepaper.html", og: "og/whitepaper.jpg",
   title: "Holodeck Whitepaper — Agents, Robot Sites and the Stack",
   desc: "How the SmartCiti.X Holodeck teaches safe work around robots and trains simulated ones: the Omega Hive agents, robot buildings, results, the stack.",
   ogAlt: "The whitepaper's opening: software agents around a safety governor above six simulated robot sites",
+  // A short cut of the loop-ten video review (real captures, no audio), committed under the site's media folder.
+  video: { file: "media/whitepaper-review.mp4", poster: "media/whitepaper-review.jpg", duration: "PT8S", uploadDate: "2026-10-12",
+    name: "Holodeck whitepaper: the hive's operations room and the robot arena",
+    description: "A short cut from the loop-ten video review, real captures of the platform with no audio: the Omega Hive's software agents at their morning briefing in the operations room, then the robot arena's leaderboard." },
   sections: ["The problem", "What the platform does", "The Omega Hive", "Robotics buildings and scenes", "The agents' bodies",
-    "Robot learning, measured", "Added in loop ten", "The stack", "The roadmap"],
+    "Robot learning, measured", "Robots compete", "The Strands harness", "The ecosystem", "Added in loop ten", "The stack", "The roadmap"],
 };
 
 /** Repo-layout pages the flat folder does not publish: their canonical is themselves. */
@@ -226,13 +230,15 @@ export function wfPages() {
   pages.push({ key: "404.html", public: false, title: "Page Not Found — SmartCiti.X",
     desc: "That address does not match a page here. Go to the homepage, choose a world, find a programme or ask the Guide.",
     og: "og/home.jpg", ogAlt: "The SmartCiti.X homepage", ld: () => [], mirrors: [["dist/404.html", "dist/404.html"]] });
-  // The whitepaper page (console SEO-WHITEPAPER): a TechArticle, no VideoObject (no committed video of the whitepaper exists; the reel is scratch only).
+  // The whitepaper page (console SEO-WHITEPAPER): a TechArticle with its VideoObject (the committed review cut under media/).
   pages.push({ key: WF_WHITEPAPER.key, public: true, title: WF_WHITEPAPER.title, desc: WF_WHITEPAPER.desc, og: WF_WHITEPAPER.og, ogAlt: WF_WHITEPAPER.ogAlt, ogType: "article",
     ld: (u) => [
       { "@context": "https://schema.org", "@type": "TechArticle", headline: WF_WHITEPAPER.title, description: WF_WHITEPAPER.desc, url: u(WF_WHITEPAPER.key),
         mainEntityOfPage: u(WF_WHITEPAPER.key), image: u(WF_WHITEPAPER.og), inLanguage: WF_CONFIG.locale, author: wfOrg(), publisher: wfOrg(),
         isPartOf: { "@type": "WebSite", name: WF_CONFIG.siteName, url: u("index.html") }, articleSection: WF_WHITEPAPER.sections,
-        about: ["WebXR safety training", "Software agents", "Robot learning in simulation"] },
+        about: ["WebXR safety training", "Software agents", "Robot learning in simulation"],
+        video: { "@type": "VideoObject", name: WF_WHITEPAPER.video.name, description: WF_WHITEPAPER.video.description, contentUrl: u(WF_WHITEPAPER.video.file),
+          thumbnailUrl: u(WF_WHITEPAPER.video.poster), uploadDate: WF_WHITEPAPER.video.uploadDate, duration: WF_WHITEPAPER.video.duration } },
       { "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [
         { "@type": "ListItem", position: 1, name: "Home", item: u("index.html") },
         { "@type": "ListItem", position: 2, name: "Whitepaper", item: u(WF_WHITEPAPER.key) }] },
