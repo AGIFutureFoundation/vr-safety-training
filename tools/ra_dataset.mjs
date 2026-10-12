@@ -9,7 +9,11 @@
  * one feature vector per robot), action, reward, rule flags, done. Episodes are sharded so no file exceeds 120 KB.
  *
  * Splits are fixed by generator seed and never overlap (checked): train = colSyntheticDemos seed 1 (episode seeds
- * 100004+), validation = seed 3 (300010+), test = seed 5 (500016+). The arena's held-out seeds 7121–7180 are in no split.
+ * 100004+), validation = seed 3 (300010+), test = seed 5 (500016+). The arena's held-out seeds (7121–7180 and round 7's
+ * 7181–7240) are in no split.
+ * ARENA-2 (ra-ds/2, schema @2): the three robot stations are in the set when the headless suite's stations are handed in
+ * (`raDsBuild({ stations })`, built as raStations() does): 20 / 5 / 5 episodes per split on the same generator seeds, and
+ * each station line carries `step` (the drill step's id). The page's build (consented takes only) has no stations.
  * Every episode here is SYNTHETIC (consent null). Consented learner takes are added only by the page, from the learner's
  * own local store, through dxValidateEpisode (a human episode without an adult consent receipt is refused); none is read
  * here.
@@ -23,17 +27,28 @@ import { fileURLToPath } from "node:url";
 import { COL_SCENARIOS, colSyntheticDemos, colF, colHash } from "../WebXR/shared/col-learn.js";
 import { dxValidateEpisode } from "../WebXR/shared/dx-data.js";
 import { RB_SCENARIOS } from "../WebXR/shared/rb-robotics-data.js";
-import { raLmTaskTexts } from "../WebXR/shared/ra-lm.js";
+import { raLmTaskTexts, RA_LM_STATION_TASKS } from "../WebXR/shared/ra-lm.js";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 export const RA_DS_OUT = join(ROOT, "exports", "robotics", "arena");
-export const RA_DS_SCHEMA = "smartcitix.robotics.arena-episode@1";
-export const RA_DS_VERSION = "ra-ds/1";
+export const RA_DS_SCHEMA = "smartcitix.robotics.arena-episode@2";
+export const RA_DS_VERSION = "ra-ds/2";
 export const RA_DS_SPLITS = [
   { split: "train", seed: 1, n: 40 },
   { split: "validation", seed: 3, n: 10 },
   { split: "test", seed: 5, n: 10 },
 ];
+/** Stations run about 280 steps an episode: 20 / 5 / 5 per split (the arena trains on 20 per station). */
+export const RA_DS_STATION_SPLITS = [
+  { split: "train", seed: 1, n: 20 },
+  { split: "validation", seed: 3, n: 5 },
+  { split: "test", seed: 5, n: 5 },
+];
+/** The committed sample keeps the first RA_DS_STATION_SAMPLE_LINES lines of one station episode from the train split only:
+ * a whole station episode is about 120 KB, and three would break ROBOEXPORT's 1.5 MB cap on the folder (measured 1,669 KB). */
+export const RA_DS_STATION_SAMPLE_SPLITS = ["train"];
+export const RA_DS_STATION_SAMPLE_LINES = 100;
+const raDsIsStation = (sc) => String(sc).startsWith("rb-station-");
 export const RA_DS_SHARD_BYTES = 120 * 1024;
 export const RA_DS_SAMPLE = 1;
 const RA_DS_GEN = { skill: 0.85, noise: 0.3 };
@@ -49,10 +64,13 @@ function raDsObs(sc, obs) {
 }
 
 /** Build every file in memory: Map(relative path -> text) plus the summary. `consented` (page only) is a list of DX episodes. */
-export function raDsBuild({ consented = [] } = {}) {
+export function raDsBuild({ consented = [], stations = null } = {}) {
   const files = new Map(), full = new Map();
   const texts = raLmTaskTexts(raDsReadStation);
-  const instructions = Object.fromEntries(COL_SCENARIOS.map((sc) => [sc, texts.task[sc]]));
+  const SCS = [...COL_SCENARIOS, ...(stations ? RA_LM_STATION_TASKS.filter((sc) => stations[sc]) : [])];
+  const splitsOf = (sc) => (raDsIsStation(sc) ? RA_DS_STATION_SPLITS : RA_DS_SPLITS);
+  const instructions = Object.fromEntries(SCS.map((sc) => [sc, texts.task[sc]]));
+  const stepInstructions = Object.fromEntries(SCS.filter(raDsIsStation).map((sc) => [sc, texts.steps[sc] ?? {}]));
   const counts = {}, labels = {}, seen = new Map(), leakage = [], dupes = [], refused = [];
   const lines = [];
   const add = (ep, split, sc) => {
@@ -75,18 +93,22 @@ export function raDsBuild({ consented = [] } = {}) {
         schema: RA_DS_SCHEMA, episode: ep.episodeId, t, split, source: ep.source,
         consent: ep.source === "human" ? { consentId: ep.consent.consentId, adult: true, licence: ep.consent.licence } : null,
         scenario: sc, station: RB_SCENARIOS.find((x) => x.id === sc)?.station ?? null, instruction: sc,
+        ...(raDsIsStation(sc) ? { step: s.observation?.stepId ?? null } : {}),
         observation: raDsObs(sc, s.observation), action: s.action, reward: r4(s.reward ?? 0),
         rules: { unsafe: !!s.info?.unsafe, outcome: s.info?.outcome ?? null }, done: !!s.done,
       }) });
     });
   };
-  for (const sc of COL_SCENARIOS) {
-    for (const { split, seed, n } of RA_DS_SPLITS) for (const ep of colSyntheticDemos(sc, { n, seed, ...RA_DS_GEN })) add(ep, split, sc);
-    for (const ep of consented.filter((e) => e?.scenario === sc)) add(ep, "train", sc);
+  for (const sc of SCS) {
+    const st = raDsIsStation(sc) ? stations[sc] : null;
+    for (const { split, seed, n } of splitsOf(sc)) for (const ep of colSyntheticDemos(sc, { n, seed, ...RA_DS_GEN, ...(st ? { station: st } : {}) })) add(ep, split, sc);
+    // A consented take names its scenario (a gym id) or, for a station drill, the catalog station's id.
+    const stId = RB_SCENARIOS.find((x) => x.id === sc)?.station;
+    for (const ep of consented.filter((e) => e?.scenario === sc || (raDsIsStation(sc) && e?.scenario === stId))) add(ep, "train", sc);
   }
   // Shards: per scenario and split, cut at RA_DS_SHARD_BYTES.
   const shards = [];
-  for (const sc of COL_SCENARIOS) for (const { split } of RA_DS_SPLITS) {
+  for (const sc of SCS) for (const { split } of splitsOf(sc)) {
     const mine = lines.filter((l) => l.sc === sc && l.split === split).map((l) => l.line);
     let part = 0, buf = [], size = 0;
     const flush = () => { if (!buf.length) return; const p = `${split}/${sc}-${String(part).padStart(3, "0")}.jsonl`; full.set(p, `${buf.join("\n")}\n`); shards.push({ path: p, lines: buf.length, bytes: Buffer.byteLength(full.get(p)) }); part += 1; buf = []; size = 0; };
@@ -96,20 +118,23 @@ export function raDsBuild({ consented = [] } = {}) {
   // The committed sample: the first RA_DS_SAMPLE episodes of each scenario and split (exports/robotics holds summaries and
   // samples, not dumps: ROBOEXPORT's 1.5 MB cap on the folder). The full set is written with --full --out <dir>.
   const sample = [];
-  for (const sc of COL_SCENARIOS) for (const { split } of RA_DS_SPLITS) {
+  for (const sc of SCS) for (const { split } of splitsOf(sc)) {
+    if (raDsIsStation(sc) && !RA_DS_STATION_SAMPLE_SPLITS.includes(split)) continue;
     const mine = lines.filter((l) => l.sc === sc && l.split === split).map((l) => l.line), eps = [];
     for (const l of mine) { const id = JSON.parse(l).episode; if (!eps.includes(id)) { if (eps.length === RA_DS_SAMPLE) break; eps.push(id); } }
-    const keep = mine.filter((l) => eps.includes(JSON.parse(l).episode));
-    const p = `sample/${split}/${sc}.jsonl`; files.set(p, `${keep.join("\n")}\n`); sample.push({ path: p, episodes: eps.length, lines: keep.length });
+    const whole = mine.filter((l) => eps.includes(JSON.parse(l).episode));
+    const keep = raDsIsStation(sc) ? whole.slice(0, RA_DS_STATION_SAMPLE_LINES) : whole;
+    const p = `sample/${split}/${sc}.jsonl`; files.set(p, `${keep.join("\n")}\n`); sample.push({ path: p, episodes: eps.length, lines: keep.length, ...(keep.length < whole.length ? { truncated: true, episodeLines: whole.length } : {}) });
   }
-  const features = Object.fromEntries(COL_SCENARIOS.map((sc) => [sc, colF(sc).names]));
-  files.set("instructions.json", `${JSON.stringify({ schema: RA_DS_SCHEMA, note: "task texts: scenario name, blurb, actions, rules and the linked station's step titles, prompts and hazards (exports/unity stations)", sources: Object.fromEntries(COL_SCENARIOS.map((sc) => [sc, texts.sources[sc]])), instructions }, null, 1)}\n`);
+  const features = Object.fromEntries(SCS.map((sc) => [sc, colF(sc).names]));
+  files.set("instructions.json", `${JSON.stringify({ schema: RA_DS_SCHEMA, note: "task texts: scenario name, blurb, actions, rules and the linked station's step titles, prompts and hazards (exports/unity stations); stations also have one text per drill step (stepInstructions, keyed by the line's step)", sources: Object.fromEntries(SCS.map((sc) => [sc, texts.sources[sc]])), instructions, ...(Object.keys(stepInstructions).length ? { stepInstructions } : {}) }, null, 1)}\n`);
   const schema = {
     schema: RA_DS_SCHEMA, version: RA_DS_VERSION,
     fields: {
       schema: "this schema id", episode: "episode id (unique)", t: "step index from 0", split: "train | validation | test (fixed by generator seed)",
       source: "synthetic | human", consent: "null for synthetic; { consentId, adult: true, licence } for a consented human take",
-      scenario: "rb-* gym scenario id", station: "the catalog station the scenario is drawn from", instruction: "key into instructions.json",
+      scenario: "rb-* gym scenario or rb-station-* station task id", station: "the catalog station the scenario is drawn from", instruction: "key into instructions.json",
+      step: "station lines only: the drill step's id (key into instructions.json stepInstructions[scenario])",
       observation: "{ f: [scene features] } or, AMR, { robots: [[features] | null when delivered] }; names per scenario in features",
       action: "the env action as taken", reward: "the env reward for the step", rules: "{ unsafe: a safe-practice rule broken at this step, outcome }", done: "episode ended",
     },
@@ -119,7 +144,8 @@ export function raDsBuild({ consented = [] } = {}) {
   const totals = { episodes: 0, steps: 0, synthetic: 0, consented: 0 };
   for (const sc of Object.keys(counts)) for (const c of Object.values(counts[sc])) { totals.episodes += c.episodes; totals.steps += c.steps; totals.synthetic += c.synthetic; totals.consented += c.consented; }
   const bySplit = Object.fromEntries(RA_DS_SPLITS.map(({ split }) => [split, Object.values(counts).reduce((a, c) => ({ episodes: a.episodes + (c[split]?.episodes ?? 0), steps: a.steps + (c[split]?.steps ?? 0) }), { episodes: 0, steps: 0 })]));
-  const index = { schema: RA_DS_SCHEMA, version: RA_DS_VERSION, generator: "tools/ra_dataset.mjs", totals, bySplit, counts, actionLabels: labels, crossSplitRemoved: leakage.length, crossSplitRemovedIds: leakage, withinSplitDuplicates: dupes.length, leakage: 0, refused, full: { shards, contentHash: colHash([...full.entries()].map(([k, v]) => [k, colHash(v)])), write: "node tools/ra_dataset.mjs --full --out <dir>" }, sample };
+  const stationTotals = Object.entries(counts).filter(([sc]) => raDsIsStation(sc)).reduce((a, [, c]) => { for (const x of Object.values(c)) { a.episodes += x.episodes; a.steps += x.steps; } return a; }, { episodes: 0, steps: 0 });
+  const index = { schema: RA_DS_SCHEMA, version: RA_DS_VERSION, generator: "tools/ra_dataset.mjs", totals, bySplit, fromStations: stationTotals, counts, actionLabels: labels, crossSplitRemoved: leakage.length, crossSplitRemovedIds: leakage, withinSplitDuplicates: dupes.length, leakage: 0, refused, full: { shards, contentHash: colHash([...full.entries()].map(([k, v]) => [k, colHash(v)])), write: "node tools/ra_dataset.mjs --full --out <dir>" }, sample };
   files.set("index.json", `${JSON.stringify(index, null, 1)}\n`);
   files.set("dataset-card.md", raDsCard(index));
   return { files, full, index };
@@ -144,7 +170,7 @@ ${ix.totals.episodes} episodes, ${ix.totals.steps} steps: ${ix.totals.synthetic}
 |---|---|---|---|
 ${Object.keys(ix.counts).map((sc) => `| ${sc} | ${row(sc)} |`).join("\n")}
 
-The three robot stations are not in this version (they need the full headless suite); the arena runs them.
+${ix.fromStations.episodes ? `The three robot stations are in this version: ${ix.fromStations.episodes} episodes and ${ix.fromStations.steps} steps, 20 / 5 / 5 generated per split (a station runs about 280 steps). Each station line carries \`step\`, the drill step's id; its text is in \`instructions.json\` (\`stepInstructions\`). The committed sample keeps the first ${RA_DS_STATION_SAMPLE_LINES} lines of one train episode per station, marked \`truncated\` in \`index.json\` (a whole station episode is about 120 KB and the folder is capped at 1.5 MB); every station episode, in every split, is in the full set.` : "The three robot stations are not in this build (they need the full headless suite)."}
 
 ## Collection process
 Generated headlessly by \`colSyntheticDemos\` (shared/col-learn.js) through \`dxMakeEpisode\`, the same path a consented human episode takes, with fixed seeds per split: train seed 1 (episode seeds 100004+), validation seed 3 (300010+), test seed 5 (500016+).
@@ -159,7 +185,7 @@ Nothing to de-identify in this version: no person is in it. A consented take car
 Synthetic data: CC0-1.0. A consented take keeps the licence its learner chose (CC0-1.0 or CC-BY-4.0).
 
 ## Known gaps and biases
-One scripted generator: the demonstrations share its habits and lapses. Six simple simulated tasks; no real robot, no sensor noise model, no station scenarios yet.
+One scripted generator: the demonstrations share its habits and lapses. Six simple simulated tasks and three simulated station drills; no real robot, no sensor noise model.
 
 ## Intended uses
 Training and comparing small robot policies in this simulator on fixed splits; teaching how a robotics dataset is built.
@@ -177,18 +203,19 @@ Generator \`tools/ra_dataset.mjs\` over \`shared/col-learn.js\` and \`shared/rb-
 Versioned: a change to the schema bumps \`${RA_DS_SCHEMA}\`; a change to the content bumps \`${RA_DS_VERSION}\` and the content hash. Regenerate with \`node tools/ra_dataset.mjs\`.
 
 ## Best practices this set follows
-- **Fixed held-out splits:** splits are fixed by generator seed, and the arena's held-out seeds (7121–7180) are in no split.
+- **Fixed held-out splits:** splits are fixed by generator seed, and the arena's held-out seeds (7121–7180, and round 7's 7181–7240) are in no split.
 - **No leakage between splits:** an episode is keyed by its content (scenario, every observation and action). Splits fill in the order train, validation, test, and a later split's copy of an earlier split's episode is removed from the later split: ${ix.crossSplitRemoved} removed in this build (the scripted generator sometimes repeats an episode exactly). Leakage left in the files: 0, re-measured from the written lines by the checker.
 - **Dedup:** the same content twice inside a split is kept once (${ix.withinSplitDuplicates} dropped).
 - **Consent provenance per sample:** every line carries \`source\` and \`consent\`.
-- **Class balance:** the same number of episodes generated per scenario in each split (40 / 10 / 10, before dedup; the counts after dedup are in the table); action labels are not resampled, and their counts per scenario are in \`index.json\` (\`actionLabels\`) so a trainer can weight them.
+- **Class balance:** the same number of episodes generated per scenario in each split (40 / 10 / 10 for the gym and 20 / 5 / 5 for the stations, before dedup; the counts after dedup are in the table); action labels are not resampled, and their counts per scenario are in \`index.json\` (\`actionLabels\`) so a trainer can weight them.
 - **Versioning:** a schema id, a dataset version and a content hash.
 `;
 }
 
 const isMain = process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1];
 if (isMain) {
-  const { files, index } = raDsBuild();
+  const { raStations } = await import("./arena_eval.mjs");
+  const { files, full, index } = raDsBuild({ stations: process.argv.includes("--no-stations") ? null : await raStations() });
   if (process.argv.includes("--check")) {
     const disk = existsSync(RA_DS_OUT) ? readdirSync(RA_DS_OUT, { recursive: true }).filter((f) => /\.(jsonl|json|md)$/.test(f)).map((f) => String(f).split("\\").join("/")) : [];
     const bad = [...files.keys()].filter((k) => !disk.includes(k) || readFileSync(join(RA_DS_OUT, k), "utf8") !== files.get(k));
