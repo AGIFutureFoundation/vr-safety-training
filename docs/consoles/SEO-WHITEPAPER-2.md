@@ -33,8 +33,9 @@ through round seven, held by a tighter figure check, and carries a `VideoObject`
 ## Checkers
 
 `check_whitepaper_page` 55 pass; `check_seo` 4,595 pass; `check_design` pass; `check_deploy` 347 pass; `check_newton`, `check_imports`
-(1,141 modules), `check_parse` (2,726 modules) pass. `check_links`: see the hand-back (a first run at a load of about 35 failed
-two pages this work does not touch, `trades/index.html` and `bayworld/index.html`, and nothing on this page).
+(1,141 modules), `check_parse` (2,726 modules) pass. `check_links` passes, 23,861 checks, re-run at 21:3x UTC on a quiet
+machine (a first run at a load of about 35 had failed two pages this work does not touch, `trades/index.html` and
+`bayworld/index.html`, and nothing on this page).
 
 ## Cycles
 
