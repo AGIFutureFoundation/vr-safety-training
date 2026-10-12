@@ -192,7 +192,12 @@ export function hwMountRoomAgents({ three = null, room = null, agents = [], sour
 export function hwSyncRoom(current, { room = null, three = null, agents = [], source = null, tier = "high", reducedMotion = false, mount = aaMountAgentAvatars } = {}) {
   if (current && current.room === room) return current;
   if (current) current.dispose();
-  if (h5IsOpsRoom(room) && agents?.length) return h5MountOpsRoom({ three, room, agents, source, tier, reducedMotion, mount }); // HIVE-5: the hive's own room
+  if (h5IsOpsRoom(room) && agents?.length) { // HIVE-5: the hive's own room
+    const m = h5MountOpsRoom({ three, room, agents, source, tier, reducedMotion, mount });
+    // HIVE-6: the learner enters at the start of the hive's day: the morning briefing (once; the hive says no outside its window)
+    if (m) { try { m.briefing = source?.brief?.() ?? null; } catch (_) { m.briefing = null; } }
+    return m;
+  }
   if (!room || !hwIsRobotRoom(room) || !agents?.length) return null;
   return hwMountRoomAgents({ three, room, agents, source, tier, reducedMotion, mount });
 }

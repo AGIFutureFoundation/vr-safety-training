@@ -340,6 +340,7 @@ APPS = {
             SHARED / "vb-governor.js",
             SHARED / "vb-bridge.js",
             SHARED / "oh-say.js",
+            SHARED / "h6-moods.js",  # HIVE-6: moods and the briefing's look-ahead (imports nothing; oh-hive.js and the tab use it)
             SHARED / "oh-hive.js",
             SHARED / "h5-hive-live.js",  # HIVE-5: the tab's live view of the learner's own hive on this device (receive only)
             WEBXR / "instructor/js/h4-hive.js",
@@ -1052,6 +1053,7 @@ APPS = {
             SHARED / "oh-say.js",
             SHARED / "oh-voice.js",
             SHARED / "vc-voices.js",  # VOICES: the characters' voice profiles (npc.js, listed earlier, imports it; used only at run time)
+            SHARED / "h6-moods.js",  # HIVE-6: moods from the hive's own events and the briefing (imports nothing; before oh-hive.js and oh-panel.js)
             SHARED / "oh-hive.js",
             # HIVE-3: who stands in a robotics room, the hive's remembered settings, the panel's Spanish text and the hive's
             # scripted day (before oh-panel.js and hw-hive-world.js, which import it; it imports nothing).

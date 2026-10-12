@@ -55,6 +55,26 @@ export const OH_CORES = Object.freeze({
   supervise_on: ["{supervisor} now approves every job before it runs", "Every job waits for {supervisor} before it runs"],
 });
 
+/** HIVE-6: the morning briefing's kinds. Facts come from the event: the queue's counts, the first award, the chain's length. */
+export const OH_CORES_BRIEF = Object.freeze({
+  brief_open: ["Good morning: {count} jobs on today's queue, {first} in the first hour", "Good start: {count} jobs today, {first} arriving in the first hour", "Today's queue holds {count} jobs, {first} of them in the first hour"],
+  brief_first: ["My first job is {job} at {site}: {task}", "First up for me is {job} at {site}", "I start with {job} at {site}"],
+  brief_steward: ["I review each job the governor allows, {count} on the queue today", "Every job the governor allows comes past me, {count} on today's queue"],
+  brief_keeper: ["{supervisor} has a standing approval for simulated jobs, and a physical robot still needs a decision", "Simulated jobs run under the standing approval of {supervisor}; a physical robot needs a decision"],
+  brief_keeper_sup: ["{supervisor} approves every job before it runs today", "Every job waits for {supervisor} before it runs today"],
+  brief_auditor: ["I re-walk the chain every {every} closed jobs, starting from line {lines}", "Chain check every {every} closed jobs, from line {lines} on"],
+  brief_none: ["Nothing on my board in the first {window} minutes; I am ready at {site}", "No job for me in the first {window} minutes, ready at {site}"],
+});
+export const OH_CORES_BRIEF_ES = Object.freeze({
+  brief_open: ["Buenos días: {count} trabajos en la cola de hoy, {first} en la primera hora", "La cola de hoy tiene {count} trabajos, {first} en la primera hora"],
+  brief_first: ["Mi primer trabajo es {job} en {site}", "Empiezo con {job} en {site}"],
+  brief_steward: ["Reviso cada trabajo que el gobernador permite, {count} en la cola de hoy"],
+  brief_keeper: ["{supervisor} tiene una aprobación vigente para trabajos simulados; un robot físico necesita una decisión"],
+  brief_keeper_sup: ["{supervisor} aprueba cada trabajo antes de que se ejecute hoy"],
+  brief_auditor: ["Reviso la cadena cada {every} trabajos cerrados, desde la línea {lines}"],
+  brief_none: ["Nada en mi tablero en los primeros {window} minutos; listo en {site}"],
+});
+
 /**
  * The same kinds in Spanish (VOICES, loop 10 round 2): written for the same slots, so a line's facts still come from the event alone.
  * Each kind has a variant short enough for the narrowest band (6 to 12 words with a four-word site name), and the approval, approved,
@@ -158,8 +178,8 @@ export const OH_TASK_NOUNS_ES = Object.freeze({ "rb-cell-entry": "entradas a la 
 
 /** The phrase packs by language: the cores, the reasons' calm phrases, the sentence that explains an approval request. */
 export const OH_PACKS = Object.freeze({
-  en: Object.freeze({ cores: OH_CORES, reasonPhrases: OH_REASON_PHRASES, approvalWhy: "the physical path is disabled, so only a simulated run is possible", fallbackPhrase: "a rule asked for it", talk: OH_CORES_TALK, second: OH_SECOND, more: OH_CORES_MORE }),
-  es: Object.freeze({ cores: OH_CORES_ES, reasonPhrases: OH_REASON_PHRASES_ES, approvalWhy: "la vía física está desactivada, así que solo es posible una ejecución simulada", fallbackPhrase: "una regla lo pidió", talk: OH_CORES_TALK_ES, second: OH_SECOND_ES, taskNouns: OH_TASK_NOUNS_ES }),
+  en: Object.freeze({ cores: OH_CORES, reasonPhrases: OH_REASON_PHRASES, approvalWhy: "the physical path is disabled, so only a simulated run is possible", fallbackPhrase: "a rule asked for it", talk: OH_CORES_TALK, second: OH_SECOND, more: OH_CORES_MORE, brief: OH_CORES_BRIEF }),
+  es: Object.freeze({ cores: OH_CORES_ES, reasonPhrases: OH_REASON_PHRASES_ES, approvalWhy: "la vía física está desactivada, así que solo es posible una ejecución simulada", fallbackPhrase: "una regla lo pidió", talk: OH_CORES_TALK_ES, second: OH_SECOND_ES, taskNouns: OH_TASK_NOUNS_ES, brief: OH_CORES_BRIEF_ES }),
 });
 
 /** Kinds whose reason gets a sentence of its own: the reason's calm phrase (OH_REASON_PHRASES), fitted to the band. */
@@ -185,7 +205,7 @@ function ohFill(tpl, ev, pack = OH_PACKS.en) {
     job: ev.jobId ?? "", site: ev.siteName ?? ev.to ?? "", task: (ev.task ?? "").replace(/^./, (c) => c.toLowerCase()), reason, phrase: pack.reasonPhrases[reason] ?? pack.fallbackPhrase,
     score: ev.score ?? "", steps: ev.steps ?? "", lines: ev.lines ?? "", bid: ev.bid ?? "", z: ev.z ?? "", supervisor: ev.supervisor ?? "",
     // HIVE-4: the talk and memory slots (from the award, the winner's bid, the chain check and the hive's own chain).
-    toName: ev.toName ?? "", hops: ev.hops ?? "", load: ev.load ?? "", skill: ev.skill ?? "", count: ev.count ?? "", kinds: pack.taskNouns?.[ev.taskType] ?? ev.kinds ?? "", lastSite: ev.lastSite ?? "", clock: ev.clock ?? "",
+    toName: ev.toName ?? "", hops: ev.hops ?? "", load: ev.load ?? "", skill: ev.skill ?? "", count: ev.count ?? "", first: ev.first ?? "", every: ev.every ?? "", window: ev.window ?? "", kinds: pack.taskNouns?.[ev.taskType] ?? ev.kinds ?? "", lastSite: ev.lastSite ?? "", clock: ev.clock ?? "",
   };
   return tpl.replace(/\{(\w+)\}/g, (_, k) => String(slots[k] ?? ""));
 }
@@ -224,7 +244,7 @@ export function ohSay(agentIn, event = {}, { neutral = false, lang = null, varie
   const pack = OH_PACKS[want];
   const kind = event.about ?? event.type;
   // HIVE-4: the talk kinds, the memory and the variety path are built by ohSayMore; round 3's kinds without variety stay below.
-  if (agent && !neutral && (variety || (!pack.cores[kind] && pack.talk?.[kind]))) return ohSayMore(agent, event, pack, kind, { variety, recent });
+  if (agent && !neutral && (variety || (!pack.cores[kind] && (pack.talk?.[kind] || pack.brief?.[kind])))) return ohSayMore(agent, event, pack, kind, { variety, recent });
   const cores = pack.cores[kind];
   if (!agent || !cores) return "";
   const st = agent.style ?? {};
@@ -264,7 +284,7 @@ function ohLiteral(tpl) { return String(tpl).split(/\{\w+\}/).map((x) => x.repla
  * opener, closer or pad already in the agent's `recent` lines skipped when another fits. Facts are slotted from the event only.
  */
 function ohSayMore(agent, event, pack, kind, { variety = false, recent = null } = {}) {
-  const tpls = [...(pack.cores[kind] ?? pack.talk?.[kind] ?? []), ...(variety ? pack.more?.[kind] ?? [] : [])];
+  const tpls = [...(pack.cores[kind] ?? pack.talk?.[kind] ?? pack.brief?.[kind] ?? []), ...(variety ? pack.more?.[kind] ?? [] : [])];
   if (!tpls.length) return "";
   const st = agent.style ?? {};
   const band = st.band ?? [6, 14];

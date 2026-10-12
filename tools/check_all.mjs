@@ -125,6 +125,8 @@ const CHECKERS = [
   "check_hive4.mjs",
   // HIVE-5: the hive in its operations room (seven agents at their consoles, the screens painted from the hive), the console tab live on this device, home after a job outdoors (docs/consoles/HIVE-5.md).
   "check_hive5.mjs",
+  // HIVE-6: agents with moods from the hive's own events, the morning briefing in the operations room, words on the balanced screens, the tab's moods (docs/consoles/HIVE-6.md).
+  "check_hive6.mjs",
   // LA-COHORTS: Louisiana lesson flows and apply games, classroom boards, Home links, cohort run sheets (docs/consoles/LA-COHORTS.md).
   "check_la_cohorts.mjs",
   "check_geo.mjs",

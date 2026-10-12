@@ -50,6 +50,16 @@
 //     a `move` to its homeSite with `home: true` (no job id) and its own line (about "home"). Its next bids count the hops from
 //     home. The figures outdoors follow that move, so an agent no longer stays at its last job's site. Nothing is written to the
 //     chain for it (it is not a governance step) and the governor sees nothing new.
+//   HIVE-6 (loop 10 round 6), both off by default so earlier rounds' events are unchanged; the panel turns them on:
+//   `moods: true`: every agent carries a mood from the hive's own events (h6-moods.js h6MoodTracker: calm, busy, concerned after a
+//     refusal or a veto, relieved after a clean audit). A change is a `mood` event { agent, mood, from, cause } right after the
+//     event that caused it (or at the step where a mood runs out); every speak event carries `mood` and `moodCause`, and a line
+//     outside the safety kinds may carry a short mood phrase in the speaker's register (`moodPhrase`) when it fits the band.
+//   `briefing: true`: brief() (once, in the hive's first H6_BRIEF.window minutes) holds the morning briefing: the dispatcher opens
+//     with the day's queue (its own job stream's counts) and each agent answers in turn, to the dispatcher, with its first job (its
+//     first award: the live hive's, or the same seeded day played forward by a second hive with the same seed, options and `decide`) or its
+//     standing duty (the steward, the consent keeper, the auditor). Speak events with `briefing: { id, turn, of }`, one floor, so
+//     no two lines overlap; captions labelled "morning briefing". Nothing is written to the chain; the governor sees nothing new.
 //
 // Every top-level name starts with `oh`/`OH_` (the bundler shares one scope).
 
@@ -59,6 +69,7 @@ import { vbGovernor } from "./vb-governor.js";
 import { vbCreateJob, vbNegotiate, vbApprove, vbRun, vbEvaluate } from "./vb-bridge.js";
 import { OH_AGENTS } from "./oh-hive-data.js";
 import { ohSay } from "./oh-say.js";
+import { h6MoodTracker, h6WithMood, h6BriefFirstJobs, H6_BRIEF } from "./h6-moods.js";
 
 export const OH_EVENT_TYPES = Object.freeze(["speak", "move", "bid", "award", "dispatch", "refused", "approval-request", "complete"]);
 export const OH_TICK_MS = 60000;
@@ -176,7 +187,7 @@ export function ohStewardReview(steward, request, decision) {
   return null;
 }
 
-export function ohHive({ seed = 1, governor = null, audit = null, agents = OH_AGENTS, jobs = null, nJobs = 200, ticksPerDay = 480, decide = null, supervisor = "Supervisor (this device)", mode = "hive", capacity = OH_CAPACITY, policyFor = null, say = ohSay, sites = RB_SITES, supervise = false, exchanges = false, memory = false, variety = false, homeward = false } = {}) {
+export function ohHive({ seed = 1, governor = null, audit = null, agents = OH_AGENTS, jobs = null, nJobs = 200, ticksPerDay = 480, decide = null, supervisor = "Supervisor (this device)", mode = "hive", capacity = OH_CAPACITY, policyFor = null, say = ohSay, sites = RB_SITES, supervise = false, exchanges = false, memory = false, variety = false, homeward = false, moods = false, briefing = false } = {}) {
   const roster = agents.slice();
   const byKey = (k) => roster.find((a) => a.key === k) ?? roster[0];
   const dispatcher = byKey("dispatcher"), steward = byKey("safety-steward"), keeper = byKey("consent-keeper"), trainer = byKey("trainer"), auditor = byKey("auditor");
@@ -197,6 +208,9 @@ export function ohHive({ seed = 1, governor = null, audit = null, agents = OH_AG
   const chain = [];
   const m = { contested: 0, siteConflicts: 0, siteConflictsResolved: 0, maxPerSite: 0, awardsToBest: 0, awards: 0, closed: 0, toAward: [] };
   let t = 0;
+  // HIVE-6: the moods (moods only), from the hive's own events; heldBy reads the hive's own job list.
+  const heldBy = (id) => stream.filter((j) => j.winner === id && j.doneT == null && j.vb?.phase !== "REJECTED" && (["queued", "moving", "running"].includes(j.status) || (j.status === "awaiting-approval" && j.pendingReason === "supervise"))).map((j) => j.vb?.id ?? j.firstId);
+  const moodT = moods ? h6MoodTracker({ agents: roster, heldBy, steward: steward?.id, keeper: keeper?.id, auditor: auditor?.id }) : null;
 
   const siteName = (id) => sites.find((s) => s.id === id)?.name ?? id;
   function write(action, detail) {
@@ -211,6 +225,7 @@ export function ohHive({ seed = 1, governor = null, audit = null, agents = OH_AG
     const e = { t, ...ev };
     log.push(e);
     for (const fn of [...(listeners.get(e.type) ?? []), ...(listeners.get("*") ?? [])]) { try { fn(e); } catch (_) { /* a listener never stops the hive */ } }
+    if (moodT && e.type !== "mood") for (const c of moodT.observe(e)) emit(c); // HIVE-6: a mood changes right after its cause
     return e;
   }
   // HIVE-4: the floor (one per step), each agent's recent lines (for variety) and the time of its last memory line.
@@ -218,16 +233,20 @@ export function ohHive({ seed = 1, governor = null, audit = null, agents = OH_AG
   const recentLines = new Map(), memAt = new Map();
   function speak(agent, about, facts, meta = null) {
     const ev = { about, ...facts, t };
-    const text = variety ? say(agent, ev, { variety: true, recent: recentLines.get(agent.id) ?? [] }) : say(agent, ev);
+    let text = variety ? say(agent, ev, { variety: true, recent: recentLines.get(agent.id) ?? [] }) : say(agent, ev);
     if (!text) return null;
-    if (!exchanges && !memory && !variety) return emit({ type: "speak", agent: agent.id, about, ...facts, text, caption: `${agent.name} (${agent.label ?? "software agent"}): ${text}` });
+    // HIVE-6: the speaker's mood (moods only): a phrase in its register when the kind allows one and it fits the band.
+    let moodX = null;
+    if (moodT) { const mm = moodT.mood(agent.id); const w = h6WithMood(agent, about, text, mm, { t, jobId: facts?.jobId ?? "" }); text = w.text; moodX = { mood: mm, moodCause: moodT.cause(agent.id), ...(w.phrase ? { moodPhrase: w.phrase } : {}) }; }
+    if (!exchanges && !memory && !variety && !moodX && !meta?.briefing) return emit({ type: "speak", agent: agent.id, about, ...facts, text, caption: `${agent.name} (${agent.label ?? "software agent"}): ${text}` });
     // HIVE-4: the caption names the speaker (and the addressee in an exchange); the floor serialises the step's lines.
     const to = facts?.toAgent ? roster.find((x) => x.id === facts.toAgent) : null;
-    const extra = { ...(meta ?? {}) };
-    if (exchanges) { if (floorT !== t) { floorT = t; floorAt = 0; } const d = ohLineMs(text); extra.floor = { startMs: floorAt, endMs: floorAt + d }; floorAt += d + OH_FLOOR.gapMs; }
+    const extra = { ...(meta ?? {}), ...(moodX ?? {}) };
+    if (exchanges || extra.briefing) { if (floorT !== t) { floorT = t; floorAt = 0; } const d = ohLineMs(text); extra.floor = { startMs: floorAt, endMs: floorAt + d }; floorAt += d + OH_FLOOR.gapMs; }
     if (variety) { const r = recentLines.get(agent.id) ?? []; r.push(text); if (r.length > OH_RECENT) r.shift(); recentLines.set(agent.id, r); }
     const toWord = agent.lang === "es" ? "a" : "to"; // the caption's connector follows the agent's language
-    return emit({ type: "speak", agent: agent.id, about, ...facts, text, caption: `${agent.name} (${agent.label ?? "software agent"})${to ? ` ${toWord} ${to.name}` : ""}: ${text}`, ...extra });
+    const brief = extra.briefing ? ` · ${agent.lang === "es" ? "reunión de la mañana" : "morning briefing"}` : ""; // HIVE-6: a briefing line says so
+    return emit({ type: "speak", agent: agent.id, about, ...facts, text, caption: `${agent.name} (${agent.label ?? "software agent"})${brief}${to ? ` ${toWord} ${to.name}` : ""}: ${text}`, ...extra });
   }
   /** HIVE-4: an exchange between two agents: the opener (a to b), then the reply (b to a). Null when the opener cannot be said. */
   function exchange(kind, a, b, facts, openKind = null) {
@@ -402,6 +421,7 @@ export function ohHive({ seed = 1, governor = null, audit = null, agents = OH_AG
   function step() {
     t += 1;
     const before = log.length;
+    if (moodT) for (const c of moodT.tick(t)) emit(c); // HIVE-6: a concerned or relieved mood runs out into calm
     for (const j of stream) if (j.status === "running" && j.runUntil <= t) complete(j);
     for (const j of stream) if (j.status === "future" && j.arriveT <= t) arrive(j);
     for (const j of stream) if (j.status === "queued") award(j);
@@ -443,6 +463,31 @@ export function ohHive({ seed = 1, governor = null, audit = null, agents = OH_AG
     return j.vb.id;
   }
 
+  // HIVE-6: the morning briefing (briefing only; once, in the day's first minutes). Returns its speak events, or null.
+  let briefed = false;
+  function brief({ lookahead = null } = {}) {
+    if (!briefing || briefed || t > H6_BRIEF.window) return null;
+    briefed = true;
+    const ahead = lookahead ?? ohHive({ seed, agents, jobs, nJobs, ticksPerDay, decide: typeof decide === "function" ? decide : null, supervisor, mode, capacity, policyFor, say: () => "", sites, supervise: superviseAll, exchanges, memory, variety, homeward });
+    const first = h6BriefFirstJobs(log, ahead, H6_BRIEF.lookahead);
+    const order = [dispatcher, ...roster.filter((a) => a !== dispatcher)];
+    const id = `b-${t}`, of = order.length, out = [];
+    const firstHour = stream.filter((j) => j.arriveT <= H6_BRIEF.firstHour).length;
+    order.forEach((a, turn) => {
+      const meta = { briefing: { id, turn, of } };
+      const to = turn === 0 ? {} : { toName: dispatcher.name, toAgent: dispatcher.id };
+      let e = null;
+      if (turn === 0) e = speak(a, "brief_open", { count: stream.length, first: firstHour, window: H6_BRIEF.firstHour }, meta);
+      else if (a === steward) e = speak(a, "brief_steward", { count: stream.length, ...to }, meta);
+      else if (a === keeper) e = speak(a, superviseAll ? "brief_keeper_sup" : "brief_keeper", { supervisor, ...to }, meta);
+      else if (a === auditor) e = speak(a, "brief_auditor", { every: OH_AUDIT_EVERY, lines: chain.length, logSeq: chain.length, ...to }, meta);
+      else if (first.has(a.id)) { const w = first.get(a.id); e = speak(a, "brief_first", { jobId: w.jobId, to: w.to, siteName: w.siteName, task: w.task, firstAward: { t: w.t, ahead: !!w.ahead }, ...to }, meta); }
+      else e = speak(a, "brief_none", { window: H6_BRIEF.lookahead, to: a.homeSite, siteName: siteName(a.homeSite), ...to }, meta);
+      if (e) out.push(e);
+    });
+    return out;
+  }
+
   function verify() {
     let prev = "genesis";
     for (let i = 0; i < chain.length; i += 1) { const l = chain[i]; if (l.seq !== i || l.prev !== prev || ohLineHash(l) !== l.hash) return { ok: false, brokenAt: i, lines: chain.length }; prev = l.hash; }
@@ -469,6 +514,7 @@ export function ohHive({ seed = 1, governor = null, audit = null, agents = OH_AG
       supervise: superviseAll, dispatchedWithoutLearner: dispatched.filter((j) => !j.learnerApproved && !j.approvedSim).length,
       ...(exchanges || memory || variety ? { exchanges: log.filter((e) => e.type === "speak" && e.exchange && e.exchange.turn === 0).length, memories: log.filter((e) => e.type === "speak" && e.memory).length } : {}),
       ...(homeward ? { homeMoves } : {}), // HIVE-5
+      ...(moods ? { moodChanges: log.filter((e) => e.type === "mood").length } : {}), // HIVE-6
       lines: chain.length,
     };
   }
@@ -501,6 +547,10 @@ export function ohHive({ seed = 1, governor = null, audit = null, agents = OH_AG
     now() { return t; },
     talk: Object.freeze({ exchanges: !!exchanges, memory: !!memory, variety: !!variety }), // HIVE-4
     homeward: !!homeward, // HIVE-5
+    moods: !!moods, briefing: !!briefing, // HIVE-6
+    brief, // HIVE-6: the morning briefing (null unless briefing is on, once, in the day's first minutes)
+    mood(id) { return moodT ? { mood: moodT.mood(id), cause: moodT.cause(id) } : null; }, // HIVE-6
+    briefed() { return briefed; },
   };
 }
 
