@@ -67,6 +67,8 @@ export const OH_CORES_BRIEF = Object.freeze({
   // HIVE-7: a one-line correction when the day's first award differs from what the briefing said (after the learner's approval)
   brief_fix: ["Change of plan, I start with {job} at {site}", "My first job is now {job} at {site}"],
   brief_fix_q: ["Change of plan, I start with {job} at {site}", "My first job is now {job} at {site}"],
+  // HIVE-8: the briefed first job went to another agent ({winner} is the award's winner, slotted from the award)
+  brief_lost: ["{job} went to {winner}; I wait for the next one", "{job} is with {winner} now, so I wait for the next job"],
 });
 // HIVE-7: re-read for fluency by a software agent (not a native speaker): the keeper's "sigue necesitando" (the English "still
 // needs"), "Hoy" first in the supervise line; the correction kinds added. A native speaker's review is still open.
@@ -80,6 +82,7 @@ export const OH_CORES_BRIEF_ES = Object.freeze({
   brief_none: ["Nada en mi tablero en los primeros {window} minutos; listo en {site}"],
   brief_fix: ["Cambio de plan, empiezo con {job} en {site}", "Mi primer trabajo ahora es {job} en {site}"],
   brief_fix_q: ["Cambio de plan, empiezo con {job} en {site}", "Mi primer trabajo ahora es {job} en {site}"],
+  brief_lost: ["{job} fue para {winner}; espero el siguiente", "{job} quedó con {winner}, así que espero el siguiente trabajo"], // HIVE-8 (machine-assisted, awaiting a native speaker)
 });
 
 /**
@@ -218,6 +221,7 @@ function ohFill(tpl, ev, pack = OH_PACKS.en) {
     // HIVE-4: the talk and memory slots (from the award, the winner's bid, the chain check and the hive's own chain).
     toName: ev.toName ?? "", hops: ev.hops ?? "", load: ev.load ?? "", skill: ev.skill ?? "", count: ev.count ?? "", first: ev.first ?? "", every: ev.every ?? "", window: ev.window ?? "", kinds: pack.taskNouns?.[ev.taskType] ?? ev.kinds ?? "", lastSite: ev.lastSite ?? "", clock: ev.clock ?? "",
     approved: ev.approved ?? "", // HIVE-7: the job the learner approved (the briefing's correction)
+    winner: ev.winnerName ?? "", // HIVE-8: the name of the agent the briefed job went to
   };
   return tpl.replace(/\{(\w+)\}/g, (_, k) => String(slots[k] ?? ""));
 }

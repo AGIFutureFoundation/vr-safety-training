@@ -31,6 +31,8 @@
  *  10. HIVE-7: the Spanish hive (the panel's Spanish configuration, moods and the briefing on, approvals in the window): no English
  *      fragment in a Spanish line but names (site and agent names, the supervisor) and ids (job ids, reason ids); the mood words and
  *      phrases and the briefing kinds are Spanish.
+ *      HIVE-8 (§4): seeds 1-40 in the page's case; a briefed job given to another agent while the briefed agent waits gets a line at
+ *      that award (brief_lost: the job and the winner), grounded and in band, N of N, and no later correction from that agent.
  *  11. HIVE-8: the page's hives with moods on. The panel's hive has run with moods since HIVE-6; the scripted scene's hive
  *      (h3SceneHive) now takes `moods: true` and the page passes it. With the option off the scene's hive and its relay are
  *      byte-identical (digests at the base a10f1ff8); with it on the beats are unchanged, every mood change reaches the relay's
@@ -248,8 +250,11 @@ await check("4 the morning briefing: the queue, then each agent in turn with its
   // the award and the approval since the briefing; brief_fix_q: the queue moved), grounded and in its band. With the hive's own
   // decide (seeds 1-5 above) the briefing already held, so no correction is said there.
   ok(DAYS.size && [...DAYS.values()].every((dd) => !dd.events.some((e) => e.briefing?.fix)), "no correction when the briefing held (the stand-in days)");
-  let said = 0, sayOk = 0, before = 0, fixes = 0, fixOk = 0;
-  for (const seed of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]) {
+  // HIVE-8: seeds 1-40 (a briefed job given to another agent first happens at seed 29). When the job an agent briefed goes to another
+  // agent while it still waits for its first award, it says so at that award (brief_lost: the job and the winner, to the dispatcher),
+  // once, and its own first award after that says nothing more; an agent that already had its first award said its change then.
+  let said = 0, sayOk = 0, before = 0, fixes = 0, fixOk = 0, gone = 0, goneWaiting = 0, lostOk = 0, before10 = 0, said10 = 0, sayOk10 = 0;
+  for (let seed = 1; seed <= 40; seed += 1) {
     const hv = H.ohHive({ seed, ...PANEL, moods: true, briefing: true });
     const bb = hv.brief();
     let approved = 0;
@@ -258,10 +263,24 @@ await check("4 the morning briefing: the queue, then each agent in turn with its
     for (const e of bb.filter((x) => x.about === "brief_first" || x.about === "brief_none")) {
       said += 1;
       const aw = ev.find((x) => x.type === "award" && x.agent === e.agent);
-      const fix = ev.filter((x) => x.type === "speak" && x.agent === e.agent && x.briefing?.fix);
+      const fix = ev.filter((x) => x.type === "speak" && x.agent === e.agent && x.briefing?.fix && !x.briefing?.lost);
+      const lostL = ev.filter((x) => x.type === "speak" && x.agent === e.agent && x.briefing?.lost);
       const held = e.about === "brief_first" ? aw?.jobId === e.jobId : !(aw && aw.t <= M.H6_BRIEF.lookahead);
-      if (held) before += 1;
-      ok(fix.length <= 1 && (held ? fix.length === 0 : fix.length === 1), `seed ${seed} ${e.agent}: ${fix.length} corrections for a briefing that ${held ? "held" : "did not hold"}`);
+      if (held) { before += 1; if (seed <= 10) before10 += 1; }
+      if (seed <= 10) said10 += 1;
+      const goneAw = e.about === "brief_first" ? ev.find((x) => x.type === "award" && x.jobId === e.jobId && x.agent !== e.agent) : null;
+      const waiting = !!goneAw && (!aw || ev.indexOf(aw) > ev.indexOf(goneAw));
+      if (goneAw) gone += 1;
+      if (waiting) {
+        goneWaiting += 1;
+        ok(lostL.length === 1 && fix.length === 0, `seed ${seed} ${e.agent}: its briefed ${e.jobId} went to ${goneAw.agent} while it waited: ${lostL.length} lines at that award, ${fix.length} corrections after`);
+        const f = lostL[0], a = agentOf(f.agent), win = agentOf(goneAw.agent);
+        const g = S.ohGrounded(f.text, f, { siteNames: SITE_NAMES });
+        const band = S.ohSentences(f.text).every((x) => { const w = S.ohWords(x).length; return w >= a.style.band[0] && w <= a.style.band[1]; });
+        if (g.ok && band && f.t === goneAw.t && ev.indexOf(f) > ev.indexOf(goneAw) && f.jobId === e.jobId && f.winner === goneAw.agent && f.text.includes(e.jobId) && f.text.includes(win.name) && / · morning briefing to Orrin: /.test(f.caption)) lostOk += 1;
+        else throw new Error(`seed ${seed} ${f.agent}: the line at the award is not grounded (${g.missing.join(", ")}; band ${band}): ${f.caption}`);
+      } else ok(lostL.length === 0, `seed ${seed} ${e.agent}: ${lostL.length} "went to" lines without a briefed job given to another agent while it waited`);
+      ok(waiting || (fix.length <= 1 && (held ? fix.length === 0 : fix.length === 1)), `seed ${seed} ${e.agent}: ${fix.length} corrections for a briefing that ${held ? "held" : "did not hold"}`);
       if (fix.length) {
         fixes += 1; const f = fix[0], a = agentOf(f.agent);
         const g = S.ohGrounded(f.text, f, { siteNames: SITE_NAMES });
@@ -271,13 +290,15 @@ await check("4 the morning briefing: the queue, then each agent in turn with its
         if (g.ok && band && named && f.jobId === aw.jobId && f.t === aw.t && f.text.includes(aw.siteName) && / · morning briefing to Orrin: /.test(f.caption)) fixOk += 1;
         else throw new Error(`seed ${seed} ${f.agent}: correction not grounded (${g.missing.join(", ")}; band ${band}; named ${named}): ${f.caption}`);
       }
-      if (held || fix.length) sayOk += 1;
+      if (held || fix.length || lostL.length) { sayOk += 1; if (seed <= 10) sayOk10 += 1; }
     }
     ok(approved > 0 || seed > 1, `seed ${seed}: the stand-in approved nothing in the window`);
   }
   ok(sayOk === said && fixOk === fixes, `first jobs said (with corrections) = first awards ${sayOk} of ${said}; corrections grounded ${fixOk} of ${fixes}`);
-  evals.push(`the briefing after the learner's approvals (seeds 1-10, no decide, every waiting request approved from minute 1 to ${M.H6_BRIEF.window}): first jobs said = first awards ${before} of ${said} before -> ${sayOk} of ${said} with the correction line; corrections ${fixes}, grounded and in band ${fixOk} of ${fixes}`);
-  return `${grounded}/${lines} grounded, first jobs ${firstOk}/${firstN}, overlaps 0; once; not after minute ${M.H6_BRIEF.window}; outcomes unchanged; governor ${bm.dispatchedChecked}/${bm.dispatched}, physical 0; after approvals ${before}/${said} -> ${sayOk}/${said} (${fixes} corrections)`;
+  ok(goneWaiting > 0 && lostOk === goneWaiting, `briefed jobs given to another agent while the briefed agent waited: a grounded line at that award ${lostOk} of ${goneWaiting}`);
+  evals.push(`the briefing after the learner's approvals (no decide, every waiting request approved from minute 1 to ${M.H6_BRIEF.window}): first jobs said = first awards seeds 1-10 ${before10} of ${said10} before -> ${sayOk10} of ${said10}, seeds 1-40 ${before} of ${said} -> ${sayOk} of ${said} with the correction lines; brief_fix corrections ${fixes}, grounded and in band ${fixOk} of ${fixes}`);
+  evals.push(`HIVE-8 corrections when a briefed job goes to another agent (seeds 1-40, the page's case): briefed jobs given to another agent ${gone}; while the briefed agent waited ${goneWaiting}, with a line at that award naming the job and the winner, grounded and in band ${lostOk} of ${goneWaiting} (before: 0 of ${goneWaiting}); the other ${gone - goneWaiting} went after the agent's own first award, whose brief_fix had already said the change`);
+  return `${grounded}/${lines} grounded, first jobs ${firstOk}/${firstN}, overlaps 0; once; not after minute ${M.H6_BRIEF.window}; outcomes unchanged; governor ${bm.dispatchedChecked}/${bm.dispatched}, physical 0; after approvals ${before}/${said} -> ${sayOk}/${said} (${fixes} brief_fix); briefed job to another agent while waiting: line at the award ${lostOk}/${goneWaiting}`;
 });
 
 // ------------------------------------------------------------------------------------------------ 5. the tab, the panel, the room
