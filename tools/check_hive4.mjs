@@ -120,16 +120,16 @@ function recallFromChain(chain, agentId, task) {
   }
   return done;
 }
-function groundMemory(e, hive, text = e.text) {
+function groundMemory(e, hive, text = e.text, nouns = H.OH_TASK_NOUNS) {
   const chain = hive.log().slice(0, e.logSeq);
-  const task = Object.keys(H.OH_TASK_NOUNS).find((k) => H.OH_TASK_NOUNS[k] === e.kinds);
+  const task = e.taskType ?? Object.keys(H.OH_TASK_NOUNS).find((k) => H.OH_TASK_NOUNS[k] === e.kinds);
   const done = recallFromChain(chain, e.agent, task);
   const bad = [];
   if (done.length < 2) return [`${e.agent} has ${done.length} completed ${task} in the chain`];
   const last = done[done.length - 2];
   if (done[done.length - 1].id !== e.jobId) bad.push("the newest completed job is not the one just finished");
   const f = factsIn(text);
-  if (!text.includes(H.OH_TASK_NOUNS[task])) bad.push("the task kind");
+  if (!text.includes(nouns[task])) bad.push("the task kind");
   if (f.nums.length !== 1 || f.nums[0] !== String(done.length)) bad.push(`count ${f.nums.join(",")} vs ${done.length}`);
   if (f.sites.length !== 1 || f.sites[0] !== siteName(last.site)) bad.push(`site ${f.sites.join(",")} vs ${siteName(last.site)}`);
   if (f.clocks.length !== 1 || f.clocks[0] !== clockOf(last.at)) bad.push(`clock ${f.clocks.join(",")} vs ${clockOf(last.at)}`);
@@ -198,6 +198,40 @@ await check("3 a day's memory: every remembered count, site and hive-clock time 
   rows.push({ measure: "Memory references grounded in the hive's own chain (count, last site, hive-clock time)", before: "n/a", after: `${grounded} of ${mem.length}; planted errors caught ${caught} of 3`, source: "check_hive4 3" });
   evals.push(`memory references: 0 -> ${mem.length}; grounded ${grounded}/${mem.length}; planted ${caught}/3 caught`);
   return `${mem.length} memory lines from ${agents.size} agents, ${grounded}/${mem.length} grounded, ${sentences - badBand}/${sentences} sentences in band, planted errors ${caught}/3 caught; e.g. "${e0.text}"`;
+});
+
+// 3b — the talk and the memory in Spanish (the panel's Spanish hive: Spanish agents and say, the same seeded day)
+await check("3b the talk and the memory in Spanish: exchanges and memory lines grounded, in band, labelled, calm, no English fragment but names", () => {
+  const esAgents = D.OH_AGENTS.map((a) => D.ohAgentIn(a, "es"));
+  const { hive, events } = H.ohHiveDay(7, { decide: standIn, exchanges: true, memory: true, say: (a, ev) => S.ohSay(a, ev, { lang: "es" }), agents: esAgents, supervisor: "Supervisor (este dispositivo)" });
+  const sp = speaks(events);
+  const xs = sp.filter((e) => e.exchange), mem = sp.filter((e) => e.memory);
+  const ids = new Set(xs.map((e) => e.exchange.id));
+  const CALM_ES = /\b(peligr\w*|mortal\w*|muert\w*|morir|matar|aplast\w*|herid\w*|lesi[oó]n\w*|miedo\w*|terror\w*|sangr\w*)\b/i;
+  const EN = /\b(yours|please|confirmed|thanks|bid|hops|load|skill|lines|chain|today|last|reset|hive|clock|routing|entries|runs|best|top)\b/i;
+  const bare = (t) => { let r = t.replace(/vbjob-[0-9a-f]+/g, " "); for (const x of SITES) r = r.split(x.name).join(" "); for (const n of NAMES) r = r.replace(new RegExp(`\\b${n}\\b`, "g"), " "); return r; };
+  let grounded = 0, mgrounded = 0, badBand = 0, sentences = 0, english = 0, calm = 0, labelled = 0; const problems = [];
+  for (const e of xs) {
+    const g = groundExchange(e, events, hive); if (!g.length) grounded += 1; else problems.push(...g);
+    const sa = agentOf(e.agent), ta = agentOf(e.toAgent);
+    if (e.caption === `${sa.name} (software agent) a ${ta.name}: ${e.text}`) labelled += 1; else problems.push(`caption ${e.caption.slice(0, 60)}`);
+  }
+  for (const e of mem) { const g = groundMemory(e, hive, e.text, S.OH_TASK_NOUNS_ES); if (!g.length) mgrounded += 1; else problems.push(`${e.agent}@${e.t}: ${g.join(", ")}`); }
+  for (const e of [...xs, ...mem]) {
+    badBand += inBand(agentOf(e.agent), e.text); sentences += S.ohSentences(e.text).length;
+    if (EN.test(bare(e.text))) { english += 1; problems.push(`English in: ${e.text.slice(0, 80)}`); }
+    if (!FEAR.test(e.text) && !CALM_ES.test(e.text)) calm += 1;
+  }
+  ok(ids.size > 0 && grounded === xs.length && labelled === xs.length, `${grounded}/${xs.length} grounded, ${labelled} labelled: ${problems.slice(0, 3).join(" | ")}`);
+  ok(mem.length > 0 && mgrounded === mem.length, `${mgrounded}/${mem.length} memory lines grounded: ${problems.slice(0, 3).join(" | ")}`);
+  ok(badBand === 0, `${badBand} of ${sentences} Spanish talk sentences outside the band`);
+  ok(english === 0 && calm === xs.length + mem.length, `${english} lines with an English fragment, ${xs.length + mem.length - calm} failed the calm scan: ${problems.slice(0, 2).join(" | ")}`);
+  const m = hive.metrics();
+  ok(m.dispatchedChecked === m.dispatched && m.physicalDispatched === 0, "the Spanish hive's governor counts");
+  rows.push({ measure: "Spanish: exchanges and memory references per seeded day (seed 7)", before: "0 and 0 (an exchange fell back to the single line)", after: `${ids.size} exchanges, ${mem.length} memory references`, source: "check_hive4 3b" });
+  rows.push({ measure: "Spanish: lines grounded / sentences in band / English fragments", before: "n/a", after: `${grounded} of ${xs.length} exchange lines and ${mgrounded} of ${mem.length} memory lines / ${sentences - badBand} of ${sentences} / ${english}`, source: "check_hive4 3b" });
+  evals.push(`Spanish: exchanges ${ids.size}, memory ${mem.length}; grounded ${grounded}/${xs.length} and ${mgrounded}/${mem.length}; English fragments ${english}`);
+  return `${ids.size} exchanges (${xs.length} lines, ${grounded} grounded, ${labelled} labelled), ${mem.length} memory lines (${mgrounded} grounded), ${sentences - badBand}/${sentences} sentences in band, 0 English fragments; e.g. "${xs[1]?.caption ?? ""}" / "${mem[0]?.text ?? ""}"`;
 });
 
 // 4 — the governor

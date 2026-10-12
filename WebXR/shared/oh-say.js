@@ -131,10 +131,32 @@ export const OH_PADS_MORE = Object.freeze({
 export const OH_OPENER_MORE = Object.freeze({ "formal-warm": ["Pleased to say,", "Gladly,"], "formal-cool": ["For clarity,", "Logged:"], "casual-warm": ["Hey all,", "Alright team,"], "casual-cool": ["Okay then,", "Heads up:"] });
 export const OH_CLOSER_MORE = Object.freeze({ "warm-careful": ["Thanks for checking with me", "Safe work, everyone"], "warm-brisk": ["Great going, all", "Nice one, team"], "cool-careful": ["Entered in the log", "Checked and closed"], "cool-brisk": ["Onward", "That is all"] });
 
+/**
+ * HIVE-4: the talk and the memory in Spanish, for the same slots as the English (machine-assisted, awaiting a native speaker's
+ * review like the rest of the Spanish pack). Site names, job ids and agent names stay as the event has them; a task kind is named
+ * from OH_TASK_NOUNS_ES by the event's task type, so a Spanish line keeps no English fragment but names.
+ */
+export const OH_CORES_TALK_ES = Object.freeze({
+  handoff: ["{toName}, {job} en {site} es tuyo", "{toName}, toma {job} para {site}, por favor", "Te lo paso, {toName}: {job} en {site}", "{job} en {site} es para ti, {toName}, oferta {bid}"],
+  confirm: ["Confirmado, {toName}: tengo {job} en {site}", "Entendido, {toName}, {job} para {site} queda conmigo", "Gracias, {toName}, me quedo con {job} en {site}", "{job} en {site} es mío, {toName}"],
+  question_far: ["{toName}, tu oferta de {bid} por {job} viene de {hops} saltos; ¿es sólida?", "{toName}, estás a {hops} saltos de {site}; ¿por qué ofreces {bid} por {job}?", "{toName}, {job} está a {hops} saltos de ti; ¿se sostiene tu oferta de {bid}?"],
+  question_load: ["{toName}, llevas una carga de {load}; ¿por qué ofreces {bid} por {job}?", "{toName}, con una carga de {load}, ¿puedes tomar {job} en {site}?", "{toName}, tu carga es {load}; ¿es prudente una oferta de {bid} por {job}?"],
+  answer: ["{toName}, mi habilidad para esta tarea es {skill}, así que {bid} ganó", "Buena pregunta, {toName}: habilidad {skill}, carga {load}, {hops} saltos, y ninguna oferta superó {bid}", "Mi habilidad aquí es {skill}, y {bid} fue la mejor oferta, {toName}", "{toName}, {bid} fue la mejor oferta por {job}, con habilidad {skill}"],
+  report: ["{toName}, la cadena tras {job} tiene {lines} líneas, todas intactas", "{toName}, revisión hecha: {lines} líneas, todas intactas", "Para ti, {toName}: {lines} líneas en la cadena, ninguna rota"],
+  ack: ["Gracias, {toName}, anoto {lines} líneas intactas en el tablero", "Anotado, {toName}: {lines} líneas revisadas, el tablero sigue", "Qué bien, {toName}; {lines} líneas intactas y la cola sigue"],
+  memory: ["Con este trabajo llevo {count} {kinds} hoy", "Hoy llevo {count} {kinds}, contando este trabajo", "Ya son {count} {kinds} para mí hoy"],
+});
+export const OH_SECOND_ES = Object.freeze({
+  memory: ["El trabajo anterior: {lastSite}, a las {clock}", "Antes: {lastSite}, a las {clock}", "Antes de este, {lastSite} a las {clock} de la colmena"],
+  memory_reset: ["Reinicié por última vez {lastSite} a las {clock}", "Último reinicio: {lastSite}, {clock} en la colmena", "El último que reinicié fue {lastSite}, a las {clock}"],
+});
+/** HIVE-4: how a worker names a task kind in Spanish when it counts its day (by the event's task type). */
+export const OH_TASK_NOUNS_ES = Object.freeze({ "rb-cell-entry": "entradas a la celda", "rb-cobot-zone-setup": "ajustes de zona", "rb-teleop-pick-place": "tareas de recoger y colocar", "rb-amr-fleet-routing": "rutas de almacén" });
+
 /** The phrase packs by language: the cores, the reasons' calm phrases, the sentence that explains an approval request. */
 export const OH_PACKS = Object.freeze({
   en: Object.freeze({ cores: OH_CORES, reasonPhrases: OH_REASON_PHRASES, approvalWhy: "the physical path is disabled, so only a simulated run is possible", fallbackPhrase: "a rule asked for it", talk: OH_CORES_TALK, second: OH_SECOND, more: OH_CORES_MORE }),
-  es: Object.freeze({ cores: OH_CORES_ES, reasonPhrases: OH_REASON_PHRASES_ES, approvalWhy: "la vía física está desactivada, así que solo es posible una ejecución simulada", fallbackPhrase: "una regla lo pidió" }),
+  es: Object.freeze({ cores: OH_CORES_ES, reasonPhrases: OH_REASON_PHRASES_ES, approvalWhy: "la vía física está desactivada, así que solo es posible una ejecución simulada", fallbackPhrase: "una regla lo pidió", talk: OH_CORES_TALK_ES, second: OH_SECOND_ES, taskNouns: OH_TASK_NOUNS_ES }),
 });
 
 /** Kinds whose reason gets a sentence of its own: the reason's calm phrase (OH_REASON_PHRASES), fitted to the band. */
@@ -160,7 +182,7 @@ function ohFill(tpl, ev, pack = OH_PACKS.en) {
     job: ev.jobId ?? "", site: ev.siteName ?? ev.to ?? "", task: (ev.task ?? "").replace(/^./, (c) => c.toLowerCase()), reason, phrase: pack.reasonPhrases[reason] ?? pack.fallbackPhrase,
     score: ev.score ?? "", steps: ev.steps ?? "", lines: ev.lines ?? "", bid: ev.bid ?? "", z: ev.z ?? "", supervisor: ev.supervisor ?? "",
     // HIVE-4: the talk and memory slots (from the award, the winner's bid, the chain check and the hive's own chain).
-    toName: ev.toName ?? "", hops: ev.hops ?? "", load: ev.load ?? "", skill: ev.skill ?? "", count: ev.count ?? "", kinds: ev.kinds ?? "", lastSite: ev.lastSite ?? "", clock: ev.clock ?? "",
+    toName: ev.toName ?? "", hops: ev.hops ?? "", load: ev.load ?? "", skill: ev.skill ?? "", count: ev.count ?? "", kinds: pack.taskNouns?.[ev.taskType] ?? ev.kinds ?? "", lastSite: ev.lastSite ?? "", clock: ev.clock ?? "",
   };
   return tpl.replace(/\{(\w+)\}/g, (_, k) => String(slots[k] ?? ""));
 }

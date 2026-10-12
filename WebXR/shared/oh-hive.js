@@ -219,7 +219,8 @@ export function ohHive({ seed = 1, governor = null, audit = null, agents = OH_AG
     const extra = { ...(meta ?? {}) };
     if (exchanges) { if (floorT !== t) { floorT = t; floorAt = 0; } const d = ohLineMs(text); extra.floor = { startMs: floorAt, endMs: floorAt + d }; floorAt += d + OH_FLOOR.gapMs; }
     if (variety) { const r = recentLines.get(agent.id) ?? []; r.push(text); if (r.length > OH_RECENT) r.shift(); recentLines.set(agent.id, r); }
-    return emit({ type: "speak", agent: agent.id, about, ...facts, text, caption: `${agent.name} (${agent.label ?? "software agent"})${to ? ` to ${to.name}` : ""}: ${text}`, ...extra });
+    const toWord = agent.lang === "es" ? "a" : "to"; // the caption's connector follows the agent's language
+    return emit({ type: "speak", agent: agent.id, about, ...facts, text, caption: `${agent.name} (${agent.label ?? "software agent"})${to ? ` ${toWord} ${to.name}` : ""}: ${text}`, ...extra });
   }
   /** HIVE-4: an exchange between two agents: the opener (a to b), then the reply (b to a). Null when the opener cannot be said. */
   function exchange(kind, a, b, facts, openKind = null) {
@@ -238,7 +239,7 @@ export function ohHive({ seed = 1, governor = null, audit = null, agents = OH_AG
     if (r.count < 2 || !r.last) return null;
     const lastSpoke = memAt.get(w.id);
     if (lastSpoke != null && t - lastSpoke < OH_MEMORY_COOLDOWN) return null;
-    const e = speak(w, "memory", factsOf(j, { count: r.count, kinds: OH_TASK_NOUNS[task] ?? task, lastSite: siteName(r.last.siteId), lastSiteId: r.last.siteId, lastJobId: r.last.jobId, lastAt: r.last.at, clock: ohClock(r.last.at), reset: OH_RESET_TASKS.includes(task), logSeq: chain.length }), { memory: true });
+    const e = speak(w, "memory", factsOf(j, { count: r.count, taskType: task, kinds: OH_TASK_NOUNS[task] ?? task, lastSite: siteName(r.last.siteId), lastSiteId: r.last.siteId, lastJobId: r.last.jobId, lastAt: r.last.at, clock: ohClock(r.last.at), reset: OH_RESET_TASKS.includes(task), logSeq: chain.length }), { memory: true });
     if (e) memAt.set(w.id, t);
     return e;
   }
