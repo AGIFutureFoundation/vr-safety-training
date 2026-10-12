@@ -348,6 +348,8 @@ const ROLES7 = ["dispatcher", "safety steward", "maintenance planner", "consent 
   const par = block("parishes"), ins = block("instructor");
   ok(par.includes('SHARED / "aa-agent-portraits.js"') && par.includes('SHARED / "aa-agent-avatars.js"') && par.indexOf('"aa-agent-portraits.js"') < par.indexOf('"aa-agent-avatars.js"'), "bundle_webxr.py: the parishes bundle lists the portraits before the avatars");
   ok(ins.includes('SHARED / "aa-agent-portraits.js"') && ins.indexOf('"av-sprites.js"') < ins.indexOf('"aa-agent-portraits.js"') && ins.indexOf('"aa-agent-portraits.js"') < ins.indexOf("instructor/js/app.js"), "bundle_webxr.py: the instructor bundle lists av-sprites.js, then the portraits, before the console's app.js (governance.js reads them at render time)");
+  const trailing = ["WebXR/parishes/js/app.js", "WebXR/instructor/js/governance.js"].filter((f) => /^import [^\n]*aa-agent-(avatars|portraits)\.js";[ \t]*\S/m.test(read(f)));
+  ok(!trailing.length, "the aa import lines end at the semicolon (the flat bundler's import pattern does not strip a line with a trailing comment)", trailing.join(", "));
   ok(read("tools/check_all.mjs").includes("check_agent_avatars.mjs") && /check_agent_avatars/.test(read("docs/perf/checkers-baseline.json")), "check_all.mjs lists this checker; checkers-baseline.json carries its estimated row");
 }
 

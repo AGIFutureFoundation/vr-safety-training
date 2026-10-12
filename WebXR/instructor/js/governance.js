@@ -11,7 +11,8 @@
 
 import { ent3Consents, ent3Datasets, ent3DatasetCard, ent3Policies, ent3LineageRows, ent3Fleet, ent3Revoke, ent3AuditList, ent3VerifyAudit, ent3LoadSample, ent3Deploy, ENT3_METHODS, ent3Export, ent3Import, ent3Imports } from "../../shared/ent3-governance.js";
 import { ent3BillingAdapter, ent3BillingConfig } from "../../shared/ent3-billing.js";
-import { aaMountAgentRoster, AA_VBRIDGE_PERSONAS } from "../../shared/aa-agent-portraits.js"; // AGENT-AVATARS: the agent roster with crisp portraits
+// AGENT-AVATARS: the agent roster with crisp portraits (no trailing comment on an import line: the flat bundler strips imports line by line).
+import { aaMountAgentRoster, AA_VBRIDGE_PERSONAS } from "../../shared/aa-agent-portraits.js";
 
 function ent3El(tag, cls, text) { const node = document.createElement(tag); if (cls) node.className = cls; if (text !== undefined) node.textContent = text; return node; }
 const ent3View = { root: null, toast: null, config: null, card: null, agents: [] };
