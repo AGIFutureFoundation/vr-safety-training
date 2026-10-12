@@ -20,7 +20,7 @@
 // gamepad's trigger, squeeze and e-stop button, in the bench frame), the 3D rig at a ROBOTICS site following the pose live
 // (rtFollowRig: no new mesh, it turns the drawn arm), and a SECOND TASK, Robot Cell Entry, where the pose is the walker's body
 // along the approach plus the hand reaching for the post's controls (RT_TASKS). rtCompare() takes a `scenario`;
-// rtCompareAll() reports both tasks.
+// rtCompareAll() reports every task (loop 9, ROBOTRAIN-5: six, the two hard variants included).
 //
 // Loop 8 (ROBOTRAIN-4, docs/consoles/ROBOTRAIN-4.md): the cell task's ghost drives the rig AND a walker figure — the cell-entry
 // observation carries `walker { at, hand, control }` (rb-env.js), rtFollowRig moves an optional `walker` node (the app's
@@ -174,11 +174,15 @@ export function rtScriptedHumanPort(env, { seed = 1, skill = 0.85, tremor = 0.01
 }
 
 /** The tasks the pose path covers: the pose → action mapping and the scripted stand-in for each. */
+// ROBOTRAIN-5: the hard variants (rb-env.js `<id>#hard`, measured in docs/evals/colearn.json `variants`) are tasks too, on the same
+// controls as their base scenario, so rtCompareAll() reports recorded-vs-synthetic on them. `label` is the pad's select text.
 export const RT_TASKS = Object.freeze({
-  "rb-teleop-pick-place": { poseToAction: rtPoseToAction, human: rtScriptedHuman, frame: "bench: p is the hand (m)" },
-  "rb-cell-entry": { poseToAction: rtPoseToActionCell, human: rtScriptedHumanCell, frame: "approach: p is [hand x, hand y, body z]" },
-  "rb-construction-drilling": { poseToAction: rtPoseToActionDrill, human: rtScriptedHumanDrill, frame: "pendant: p is [hand x, hand y, 0] over the control panel" },
-  "rb-port-gantry": { poseToAction: rtPoseToActionPort, human: rtScriptedHumanPort, frame: "joystick: p is [east-west, 0, north-south] deflection" },
+  "rb-teleop-pick-place": { poseToAction: rtPoseToAction, human: rtScriptedHuman, frame: "bench: p is the hand (m)", label: "Teleop pick-and-place (the arm)" },
+  "rb-cell-entry": { poseToAction: rtPoseToActionCell, human: rtScriptedHumanCell, frame: "approach: p is [hand x, hand y, body z]", label: "Robot cell entry (walk, controls)" },
+  "rb-construction-drilling": { poseToAction: rtPoseToActionDrill, human: rtScriptedHumanDrill, frame: "pendant: p is [hand x, hand y, 0] over the control panel", label: "Drilling robot (pendant)" },
+  "rb-port-gantry": { poseToAction: rtPoseToActionPort, human: rtScriptedHumanPort, frame: "joystick: p is [east-west, 0, north-south] deflection", label: "Port gantry (joystick)" },
+  "rb-construction-drilling#hard": { poseToAction: rtPoseToActionDrill, human: rtScriptedHumanDrill, frame: "pendant: p is [hand x, hand y, 0] over the control panel", label: "Drilling robot, hard (second person, wearing bit)" },
+  "rb-port-gantry#hard": { poseToAction: rtPoseToActionPort, human: rtScriptedHumanPort, frame: "joystick: p is [east-west, 0, north-south] deflection", label: "Port gantry, hard (second pedestrian, obstruction)" },
 });
 export const RT_TASK_IDS = Object.freeze(Object.keys(RT_TASKS));
 function rtTask(sc) { const t = RT_TASKS[sc]; if (!t) throw new Error(`rt-teleop: no pose mapping for ${sc}`); return t; }
@@ -388,7 +392,7 @@ export function rtMountTeleop(el, { seed = 7001, store = dxStore, signals = null
   const row = doc.createElement("div"); row.className = "rt-row"; row.style.cssText = "display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:4px 0;";
   const sel = doc.createElement("select"); sel.className = "rt-task"; sel.setAttribute("aria-label", "Teleoperation task");
   sel.style.cssText = "min-height:44px;padding:8px 10px;font:inherit;max-width:100%;"; // a 44 px touch target on phones (check_interface)
-  for (const id of RT_TASK_IDS) { const o = doc.createElement("option"); o.value = id; o.textContent = id === RT_SCENARIO ? "Teleop pick-and-place (the arm)" : "Robot cell entry (walk, controls)"; sel.append(o); }
+  for (const id of RT_TASK_IDS) { const o = doc.createElement("option"); o.value = id; o.textContent = RT_TASKS[id].label ?? id; sel.append(o); }
   const bGhost = doc.createElement("button"); bGhost.type = "button"; bGhost.className = "rt-ghost"; bGhost.textContent = "Robot demonstrates back"; bGhost.disabled = true;
   bGhost.title = "After a take: the trained policy replays its own run on this rig, one step at a time, with its explanation.";
   row.append(sel, bGhost);
