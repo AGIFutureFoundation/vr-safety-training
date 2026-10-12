@@ -44,13 +44,23 @@
 //              (HIVE-IN-WORLD's hwRouter round the colliders); null walks straight.
 //     hd (default false; AVATARS-HD): on the desktop "high" tier, build aa-agent-hd.js's high-detail figure (one skinned body, one
 //              skinned glow, a mouth that opens with the words, jointed arms that gesture, posture from the traits); balanced keeps
-//              today's figure, the phone tier builds none, and a three.js without skinning builds today's figure.
+//              today's figure, the phone tier builds none, and a three.js without skinning builds today's figure. hd: "room"
+//              (AVATARS-HD-2) builds the room level instead (AA_HD_ROOM_BUDGET: <= 1,000 triangles, so a robotics room keeps IX_BUDGET).
+//     voiced(agentId, text) -> bool (AVATARS-HD-2): an on-device voice holds this line (the page's voice controller `pending`). Such a
+//              line shows its caption when it starts and holds the talk light and the mouth until the voice's onstart (talkStart);
+//              when the voice lets it go unstarted (turned off, a stuck voice, no local voice) the clock drives it from then.
 //     -> { root, handle(ev), animate(t, dt, here), attach(source), detach(source), addAgents(list), agents(), release(id),
-//          state(id), talkStart(id), talkWord(id, charIndex), talkEnd(id), talkLog(), captionLog(), gestureLog(), counts(), dispose() }
+//          state(id), talkStart(id, text?), talkWord(id, charIndex, text?), talkEnd(id, text?), talkLog(), captionLog(), gestureLog(),
+//          counts(), dispose() }
+//     With `text` (the line the voice speaks) talkStart/talkWord/talkEnd act on that line only: a later queued line is brought
+//     forward (the voice has moved on), an unknown one is ignored, and a queued line the voice ended unstarted runs on the clock.
 //   Gestures (AA_GESTURE_FOR): bid → raise (a raised hand), award → accept (a hand to the chest), refused → stop (palm out),
 //     the hive's speak event about "approved" → approve (a nod), complete → nod. All are logged on every tier; the high figure poses
 //     every one, today's figure poses stop, nod and approve.
-//   aaVoiceHooks(world, agentId) -> { onstart, onboundary, onend } for a voice's say(): the light and the mouth follow the utterance.
+//   aaVoiceHooks(world, agentId, text?) -> { onstart, onboundary, onend } for a voice's say(): the light and the mouth follow the utterance.
+//   aaRoomAvatarMount(extra) -> a mount for hwSyncRoom's `mount` (AVATARS-HD-2): the room level of the high-detail figure on high.
+//   aaBoundaryWordSec(bw, chars) -> how long a boundary-driven word lasts (s), from the line's boundaries so far (the mouth closes before
+//              the next word at the voice's own pace).
 //   aaVbridgeAgents(homeSite) -> the four VBRIDGE personas as agents standing at homeSite
 //   aaVbridgeSource(vbApi)    -> an on/off source that turns the agent-jobs panel's job (vbApi.state()) into
 //                                contract events: the client asks, the governor checks or refuses, the provider
@@ -94,6 +104,30 @@ export const AA_SLOTS = Object.freeze([[-4, -9.5], [4, -9.5], [-10.5, -3], [10.5
 
 const aaClamp = (v, a, b) => Math.max(a, Math.min(b, v));
 
+/** AVATARS-HD-2: a boundary-driven word's mouth: the expected time to the next boundary is a + b x characters (the word and the space
+ * after it); before the line has two boundaries, this brisk prior (about 0.2 s for a five-letter word). The mouth opens for
+ * AA_BOUNDARY_FILL of it (it closes at 86% of that, aaHdMouth), so it closes between words at the voice's pace. */
+export const AA_BOUNDARY_PRIOR = Object.freeze({ a: 0.05, b: 0.025 });
+export const AA_BOUNDARY_FILL = 0.8;
+
+/** AVATARS-HD-2: seconds a boundary-driven word of `chars` characters will last, from the line's boundaries so far (`bw`: [{ at, char }]):
+ * interval = a + b x delta-chars fitted by least squares to the last eight intervals (one interval: a pace per character), else the prior. */
+export function aaBoundaryWordSec(bw = [], chars = 5) {
+  const pts = [];
+  for (let i = Math.max(1, bw.length - 8); i < bw.length; i += 1) {
+    const dc = Number(bw[i].char) - Number(bw[i - 1].char), dt = bw[i].at - bw[i - 1].at;
+    if (dc > 0 && dt > 0 && dt < 2) pts.push([dc, dt]);
+  }
+  let { a, b } = AA_BOUNDARY_PRIOR;
+  if (pts.length) {
+    const n = pts.length, mx = pts.reduce((q, p) => q + p[0], 0) / n, my = pts.reduce((q, p) => q + p[1], 0) / n;
+    let sxx = 0, sxy = 0; for (const [x, y] of pts) { sxx += (x - mx) ** 2; sxy += (x - mx) * (y - my); }
+    if (n >= 2 && sxx > 1e-9) { b = sxy / sxx; a = my - b * mx; } else { b = my / mx; a = 0; }
+    if (b < 0) { b = 0; a = my; } else if (a < 0) { a = 0; b = my / mx; }
+  }
+  return aaClamp(a + b * Math.max(1, Number(chars) || 1), 0.06, 0.8);
+}
+
 /** A line's duration (ms) when no voice drives it. */
 export function aaLineMs(text) {
   const words = String(text ?? "").trim().split(/\s+/).filter(Boolean).length;
@@ -119,13 +153,18 @@ export function aaEmitter() {
 /** AVATARS-HD: the callbacks a voice passes for one agent's line — say(agent, text, aaVoiceHooks(world, agent.id)) — so the light
  * and the mouth follow the utterance: onstart holds the line, onboundary (word boundaries) opens the mouth on each word, onend lets
  * it go. `world` is the mount (or anything with talkStart/talkWord/talkEnd); a missing world is a no-op. */
-export function aaVoiceHooks(world, agentId) {
+export function aaVoiceHooks(world, agentId, text = null) {
   return {
-    onstart: () => { try { world?.talkStart?.(agentId); } catch (_) { /* a figure never stops a voice */ } },
-    onboundary: (e) => { try { if (!e || e.name === undefined || e.name === "word") world?.talkWord?.(agentId, Number.isFinite(e?.charIndex) ? e.charIndex : null); } catch (_) { /* ignore */ } },
-    onend: () => { try { world?.talkEnd?.(agentId); } catch (_) { /* ignore */ } },
+    onstart: () => { try { world?.talkStart?.(agentId, text); } catch (_) { /* a figure never stops a voice */ } },
+    onboundary: (e) => { try { if (!e || e.name === undefined || e.name === "word") world?.talkWord?.(agentId, Number.isFinite(e?.charIndex) ? e.charIndex : null, text); } catch (_) { /* ignore */ } },
+    onend: () => { try { world?.talkEnd?.(agentId, text); } catch (_) { /* ignore */ } },
   };
 }
+
+/** AVATARS-HD-2: the avatar mount for a robotics room, for hwSyncRoom(..., { mount }): the room level of the high-detail figure on the
+ * desktop high tier (AA_HD_ROOM_BUDGET), so a room with H3_ROOM_FIGURES figures stays inside IX_BUDGET; balanced keeps today's figure
+ * and the phone tier builds none. `extra` adds options (the page passes `voiced`). */
+export function aaRoomAvatarMount(extra = {}) { return (opts = {}) => aaMountAgentAvatars({ ...opts, ...extra, hd: "room" }); }
 
 /** A site lookup's answer as { x, y, z } (accepts [x, z], [x, y, z], { x, z }, { position: [x, z] }), or null. */
 export function aaSitePoint(v) {
@@ -252,8 +291,8 @@ function aaBuildFigure(T, agent, look, textureScale = 1) {
 /** AVATARS-HD: the high tier's figure (aa-agent-hd.js: one skinned body, one skinned glow, the mouth's lit opening) with the same
  * label and caption as today's. parts.head is the head bone (a nod pitches it), parts.talk the mouth's lit opening (shown exactly
  * while the agent talks), parts.tablet the left wrist (the tablet's hand). */
-function aaBuildHdFigure(T, agent, look, textureScale = 1) {
-  const hd = aaHdBuild(T, agent);
+function aaBuildHdFigure(T, agent, look, textureScale = 1, level = "full") {
+  const hd = aaHdBuild(T, agent, undefined, { level });
   const g = hd.group, headY = hd.headY;
   const roleText = `software agent · ${aaRoleLabel(agent)}`;
   const labelCv = aaCanvas(AA_LABEL_PX[0], AA_LABEL_PX[1], textureScale);
@@ -262,7 +301,7 @@ function aaBuildHdFigure(T, agent, look, textureScale = 1) {
   label.userData.text = roleText; label.userData.name = agent.name ?? agent.id; label.userData.fit = labelFit; g.add(label);
   const caption = aaSprite(T, null, 2.8, 0.7); caption.position.set(0, headY + 1.22, 0); caption.name = "aa-caption"; caption.visible = false; caption.userData.text = ""; g.add(caption);
   g.userData.parts = { head: hd.bones.head, talk: hd.talk, tablet: hd.bones.wristL, body: hd.body, glow: hd.glow };
-  g.userData.aaAgent = { id: agent.id, name: agent.name ?? agent.id, label: roleText, software: true, hd: true };
+  g.userData.aaAgent = { id: agent.id, name: agent.name ?? agent.id, label: roleText, software: true, hd: true, level: hd.level };
   return { group: g, parts: g.userData.parts, label, caption, labelCv, captionCv: null, headY, tabletRest: { y: 0, z: 0, rx: 0 }, roleText, hd };
 }
 
@@ -286,12 +325,13 @@ function aaCountObject(obj) {
  * answers this map's site position ({ x, y, z } / [x, z] / null when the site is not on this map). `here` passed to
  * animate is the learner's [x, z] (null = everyone near). Headless without `three`: the state machine still runs.
  */
-export function aaMountAgentAvatars({ three = null, parent = null, agents = [], source = null, siteAt = () => null, reducedMotion = false, tier = "high", groundAt = null, spotFor = null, textureScale = 1, blocked = null, route = null, hd = false } = {}) {
+export function aaMountAgentAvatars({ three = null, parent = null, agents = [], source = null, siteAt = () => null, reducedMotion = false, tier = "high", groundAt = null, spotFor = null, textureScale = 1, blocked = null, route = null, hd = false, voiced = null } = {}) {
   const T = three;
   const build = !!(T && parent && AA_TIERS[tier] !== false);
   // AVATARS-HD: the high-detail figure is opt-in (the outdoor mount asks for it) and only ever on the desktop "high" tier; balanced
   // keeps today's figure and the phone tier builds none. A three.js without skinning (the checkers' stub) builds today's figure.
   const hdOn = !!(hd && build && tier === "high" && aaHdSupported(T));
+  const hdLevel = hd === "room" ? "room" : "full"; // AVATARS-HD-2: the robotics rooms ask for the room level
   const root = build ? new T.Group() : null;
   if (root) { root.name = "aa-agent-avatars"; parent.add(root); }
   const figures = new Map();
@@ -336,7 +376,7 @@ export function aaMountAgentAvatars({ three = null, parent = null, agents = [], 
 
   function ensureFig(f) {
     if (!build || f.fig) return;
-    f.fig = hdOn ? aaBuildHdFigure(T, f.agent, f.look, textureScale) : aaBuildFigure(T, f.agent, f.look, textureScale);
+    f.fig = hdOn ? aaBuildHdFigure(T, f.agent, f.look, textureScale, hdLevel) : aaBuildFigure(T, f.agent, f.look, textureScale);
     f.fig.group.position.set(f.x, f.y, f.z); f.fig.group.rotation.y = f.yaw; f.fig.group.visible = f.visible;
     root.add(f.fig.group);
     if (f.fig.labelCv) textureBytes += f.fig.labelCv.c.width * f.fig.labelCv.c.height * 4;
@@ -374,24 +414,87 @@ export function aaMountAgentAvatars({ three = null, parent = null, agents = [], 
       cap.userData.text = f.caption.text; cap.visible = true;
     }
   }
+  /** AVATARS-HD-2: does an on-device voice hold this line of the agent (the page's `voiced`, the voice controller's `pending`)? */
+  const voicedFor = (f, text) => { if (typeof voiced !== "function") return false; try { return voiced(f.agent.id, text) === true; } catch (_) { return false; } };
+  const wordsFrom = (text, ms) => aaWordOnsets(text, ms).map((w) => ({ at: clock + w.at / 1000, dur: w.dur / 1000, char: w.char }));
+  /** The light and the mouth are on: the line has started (a voiced line waits for its onstart) and has not ended. */
+  const talkOn = (f) => !!(f.talk && !f.talk.wait && clock >= f.talk.start && (f.talk.voiced || clock < f.talk.end));
   function startNextLine(f, prevEnd) {
     const next = f.queue.shift(); if (!next) return false;
     const start = Math.max(next.at, prevEnd ?? next.at); // a queued line follows the last one exactly, never before it arrived
     // AVATARS-HD: the caption's word timing (onsets spread over the line's window) drives the mouth until a voice takes the line
     const words = aaWordOnsets(next.text, next.ms).map((w) => ({ at: start + w.at / 1000, dur: w.dur / 1000, char: w.char }));
-    f.talk = { text: next.text, start, end: start + next.ms / 1000, voiced: false, jobId: next.jobId ?? null, words, bw: null };
-    talkLog.push({ agent: f.agent.id, text: next.text, start, end: f.talk.end });
+    // AVATARS-HD-2: a line an on-device voice holds waits for the voice's onstart (the caption shows now, the light and mouth then)
+    const wait = !next.unvoiced && voicedFor(f, next.text);
+    f.talk = { text: next.text, start, end: start + next.ms / 1000, ms: next.ms, voiced: false, wait, jobId: next.jobId ?? null, words, bw: null, log: null };
+    f.talk.log = { agent: f.agent.id, text: next.text, start, end: f.talk.end, ...(wait ? { waited: true } : {}) };
+    talkLog.push(f.talk.log);
     showCaption(f, next.caption ?? next.text, start, f.talk.end, "speak");
-    if (f.fig) f.fig.parts.talk.visible = true;
+    if (f.fig) f.fig.parts.talk.visible = !wait;
     return true;
   }
+  /** AVATARS-HD-2: the voice let a waiting line go without starting it: the clock drives it from now (light, mouth, caption). */
+  function unwait(f) {
+    const tk = f.talk; tk.wait = false; tk.start = clock; tk.end = clock + tk.ms / 1000; tk.words = wordsFrom(tk.text, tk.ms);
+    tk.log.start = clock; tk.log.end = tk.end; tk.log.clock = true;
+    if (f.caption) f.caption.end = Math.max(f.caption.end, tk.end);
+    if (f.fig) f.fig.parts.talk.visible = true;
+  }
   function tickTalk(f) {
-    if (f.talk && !f.talk.voiced && clock >= f.talk.end) {
+    if (f.talk?.wait && !voicedFor(f, f.talk.text)) unwait(f);
+    if (f.talk && !f.talk.voiced && !f.talk.wait && clock >= f.talk.end) {
       const end = f.talk.end; f.talk = null;
       if (f.fig) f.fig.parts.talk.visible = false;
       if (f.queue.length) startNextLine(f, end);
     }
-    if (f.caption && clock >= f.caption.end && !(f.talk && f.talk.voiced)) { f.caption = null; if (f.fig) { f.fig.caption.visible = false; f.fig.caption.userData.text = ""; } }
+    if (f.caption && clock >= f.caption.end && !(f.talk && (f.talk.voiced || f.talk.wait))) { f.caption = null; if (f.fig) { f.fig.caption.visible = false; f.fig.caption.userData.text = ""; } }
+  }
+  /** AVATARS-HD-2: the agent's line a voice names: the current one, or a later queued one brought forward (the lines before it end
+   * now: the voice has moved on); null when the line is not here (a voice that never reaches this mount's lines). No text: current. */
+  function lineFor(f, text) {
+    if (text == null) return f.talk;
+    const want = String(text).trim();
+    if (f.talk?.text === want) return f.talk;
+    const i = f.queue.findIndex((q) => q.text === want);
+    if (i < 0) return null;
+    if (f.talk) { f.talk.log.end = Math.min(f.talk.log.end, clock); f.talk = null; }
+    f.queue.splice(0, i);
+    startNextLine(f, clock);
+    return f.talk;
+  }
+  function talkStart(id, text = null) {
+    const f = figures.get(id); const tk = f ? lineFor(f, text) : null; if (!tk) return false;
+    if (!tk.voiced) { // AVATARS-HD: the voice starts now, so the mouth's word timing restarts from now at the voice's rate
+      if (tk.wait) { tk.start = clock; tk.log.start = clock; } // AVATARS-HD-2: the light and the mouth start at onstart
+      tk.voiced = true; tk.wait = false;
+      const rate = Number(f.agent.voice?.rate) > 0 ? Number(f.agent.voice.rate) : 1;
+      tk.words = wordsFrom(tk.text, aaLineMs(tk.text) / rate);
+    }
+    if (f.fig) f.fig.parts.talk.visible = true;
+    return true;
+  }
+  /** AVATARS-HD: a voice's word boundary (SpeechSynthesisUtterance onboundary, `charIndex`): the mouth opens on this word now. Once a
+   * line has had a boundary the mouth follows the boundaries only. AVATARS-HD-2: each word lasts as long as the voice's own pace says
+   * (aaBoundaryWordSec), so the mouth closes between words. */
+  function talkWord(id, charIndex = null, text = null) {
+    const f = figures.get(id); let tk = f ? lineFor(f, text) : null; if (!tk) return false;
+    if (tk.wait) { talkStart(id, text); tk = f.talk; } // a boundary before onstart: the voice has started
+    if (!tk.bw) tk.bw = [];
+    const est = tk.words ?? [], ci = Number.isFinite(charIndex) ? charIndex : null;
+    const w = est.find((x) => x.char === ci) ?? est[tk.bw.length] ?? null, c0 = ci ?? w?.char ?? null;
+    const nextChar = c0 == null ? null : est.find((x) => x.char > c0)?.char ?? tk.text.length + 1;
+    const sec = aaBoundaryWordSec(tk.bw, c0 == null ? 5 : nextChar - c0);
+    tk.bw.push({ at: clock, dur: sec * AA_BOUNDARY_FILL, char: c0 });
+    return true;
+  }
+  function talkEnd(id, text = null) {
+    const f = figures.get(id); if (!f) return false;
+    if (text != null && f.talk?.text !== String(text).trim()) { // AVATARS-HD-2: a later line the voice ended unstarted runs on the clock
+      const q = f.queue.find((x) => x.text === String(text).trim() && !x.unvoiced); if (!q) return false; q.unvoiced = true; return true;
+    }
+    const tk = f.talk; if (!tk) return false;
+    if (tk.wait) { unwait(f); return true; } // AVATARS-HD-2: the voice let it go unspoken (turned off, the page hidden): the clock drives it
+    tk.voiced = false; tk.end = clock; tk.log.end = clock; if (f.caption) f.caption.end = clock; tickTalk(f); return true;
   }
 
   // ---- the events
@@ -482,7 +585,7 @@ export function aaMountAgentAvatars({ three = null, parent = null, agents = [], 
   }
   /** AVATARS-HD: the mouth's openness now (0 while silent; held half open, still, under reduced motion). */
   function mouthAt(f) {
-    const tk = f.talk; if (!tk || clock < tk.start || (!tk.voiced && clock >= tk.end)) return 0;
+    const tk = f.talk; if (!tk || tk.wait || clock < tk.start || (!tk.voiced && clock >= tk.end)) return 0;
     if (reducedMotion) return 0.55;
     return aaHdMouth(tk.bw?.length ? tk.bw : tk.words ?? [], clock);
   }
@@ -490,9 +593,8 @@ export function aaMountAgentAvatars({ three = null, parent = null, agents = [], 
    * the words, a blink, and the gesture the hive's last event raised (aa-agent-hd.js aaHdPose). */
   function poseHd(f) {
     const fig = f.fig, g = f.gesture && clock < f.gesture.end ? f.gesture : null;
-    const talkOn = !!(f.talk && clock >= f.talk.start && (f.talk.voiced || clock < f.talk.end));
     const m = mouthAt(f), ph = (clock + f.blinkOff) % f.blinkPeriod;
-    fig.hd.apply(aaHdPose(fig.hd.spec, { t: clock, walking: !!f.walk, walkPhase: f.walkPhase, speaking: talkOn, mouth: m, beat: m,
+    fig.hd.apply(aaHdPose(fig.hd.spec, { t: clock, walking: !!f.walk, walkPhase: f.walkPhase, speaking: talkOn(f), mouth: m, beat: m,
       gesture: g ? { kind: g.kind, k: (clock - g.start) / Math.max(1e-6, g.end - g.start) } : null, blink: ph < 0.14 ? Math.sin((ph / 0.14) * Math.PI) : 0, reduced: reducedMotion }));
   }
 
@@ -533,9 +635,9 @@ export function aaMountAgentAvatars({ three = null, parent = null, agents = [], 
       // property writes, within GRIOT's animate radius only
       const bob = f.walk && !reducedMotion ? Math.abs(Math.sin(clock * 7)) * 0.04 : 0;
       f.fig.group.position.set(f.x, f.y + bob, f.z); f.fig.group.rotation.y = f.yaw;
-      const talkOn = !!(f.talk && clock >= f.talk.start && (f.talk.voiced || clock < f.talk.end));
-      const tk = f.fig.parts.talk; tk.visible = talkOn;
-      if (talkOn && !f.fig.hd) { const s = reducedMotion ? 1 : 0.75 + 0.5 * Math.abs(Math.sin(clock * 11)); tk.scale.set(1, s, 1); } // the HD mouth opens with the words instead
+      const on = talkOn(f);
+      const tk = f.fig.parts.talk; tk.visible = on;
+      if (on && !f.fig.hd) { const s = reducedMotion ? 1 : 0.75 + 0.5 * Math.abs(Math.sin(clock * 11)); tk.scale.set(1, s, 1); } // the HD mouth opens with the words instead
       poseGesture(f);
     }
   }
@@ -561,10 +663,10 @@ export function aaMountAgentAvatars({ three = null, parent = null, agents = [], 
       const c = aaCountObject(f.fig.group); worst = Math.max(worst, c.meshes + c.sprites); meshes += c.meshes; sprites += c.sprites; triangles += c.triangles;
     }
     return { figures: [...figures.values()].filter((f) => f.fig).length, agents: figures.size, meshes, sprites, triangles, worstPerFigure: worst, budget: AA_AGENT_BUDGET, textureBytes, tier, built: build,
-      hd: [...figures.values()].filter((f) => f.fig?.hd).length };
+      hd: [...figures.values()].filter((f) => f.fig?.hd).length, hdLevel: hdOn ? hdLevel : null };
   }
   const stateOf = (f) => ({ id: f.agent.id, name: f.agent.name ?? f.agent.id, label: f.fig?.roleText ?? `software agent · ${aaRoleLabel(f.agent)}`, site: f.site, slot: f.slot, x: f.x, y: f.y, z: f.z, yaw: f.yaw, offMap: f.offMap, visible: f.visible, walking: !!f.walk, routed: !!f.walk?.routed,
-    speaking: !!(f.talk && clock >= f.talk.start && (f.talk.voiced || clock < f.talk.end)), line: f.talk?.text ?? null, caption: f.caption?.text ?? null, gesture: f.gesture?.kind ?? null, queued: f.queue.length,
+    speaking: talkOn(f), waiting: !!f.talk?.wait, line: f.talk?.text ?? null, caption: f.caption?.text ?? null, gesture: f.gesture?.kind ?? null, queued: f.queue.length,
     talkVisible: f.fig ? !!f.fig.parts.talk.visible : null, captionVisible: f.fig ? !!f.fig.caption.visible : null, headPitch: f.fig ? f.fig.parts.head.rotation.x : null, tabletY: f.fig ? f.fig.parts.tablet.position.y : null,
     mouth: mouthAt(f), hd: !!f.fig?.hd, voiced: !!f.talk?.voiced, boundaries: f.talk?.bw?.length ?? 0 });
 
@@ -573,26 +675,8 @@ export function aaMountAgentAvatars({ three = null, parent = null, agents = [], 
     agents: () => [...figures.values()].map(stateOf),
     state: (id) => { const f = figures.get(id); return f ? stateOf(f) : null; },
     figure: (id) => figures.get(id)?.fig?.group ?? null,
-    /** An on-device voice can drive the talk light instead of the clock: start holds it on, end lets it go. */
-    talkStart: (id) => {
-      const f = figures.get(id); if (!f?.talk) return false;
-      if (!f.talk.voiced) { // AVATARS-HD: the voice starts now, so the mouth's word timing restarts from now at the voice's rate
-        f.talk.voiced = true;
-        const rate = Number(f.agent.voice?.rate) > 0 ? Number(f.agent.voice.rate) : 1;
-        f.talk.words = aaWordOnsets(f.talk.text, aaLineMs(f.talk.text) / rate).map((w) => ({ at: clock + w.at / 1000, dur: w.dur / 1000, char: w.char }));
-      }
-      return true;
-    },
-    /** AVATARS-HD: a voice's word boundary (SpeechSynthesisUtterance onboundary, `charIndex`): the mouth opens on this word now. Once a
-     * line has had a boundary the mouth follows the boundaries only. */
-    talkWord: (id, charIndex = null) => {
-      const f = figures.get(id); if (!f?.talk) return false;
-      const tk = f.talk; if (!tk.bw) tk.bw = [];
-      const est = tk.words ?? [], w = est.find((x) => x.char === charIndex) ?? est[tk.bw.length] ?? null;
-      tk.bw.push({ at: clock, dur: w ? w.dur : 0.25, char: charIndex });
-      return true;
-    },
-    talkEnd: (id) => { const f = figures.get(id); if (!f?.talk) return false; f.talk.voiced = false; f.talk.end = clock; const last = talkLog.findLast?.((x) => x.agent === id) ?? null; if (last) last.end = clock; if (f.caption) f.caption.end = clock; tickTalk(f); return true; },
+    /** An on-device voice can drive the talk light instead of the clock: start holds it on, end lets it go (talkStart above). */
+    talkStart, talkWord, talkEnd,
     talkLog: () => talkLog.slice(), captionLog: () => captionLog.slice(), gestureLog: () => gestureLog.slice(),
     clock: () => clock, counts, sources: () => sources.size,
     /** HIVE-3: take one figure out (a visitor that has walked out of a robotics room): its meshes and canvases are disposed and

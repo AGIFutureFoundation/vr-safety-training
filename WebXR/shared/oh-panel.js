@@ -19,7 +19,10 @@
 // variety }) are on here. A reply sits indented under its opener in the feed; memory lines are in italics. No new UI text.
 // HIVE-5: `homeward: true` too: an agent whose last job has ended walks back to its home site (outdoors as in the rooms), with a line.
 //
-// SEAM: ohMountHive(el, { reducedMotion, audit, seed, nJobs, synth, Utterance, supervise, lang, settings, reload }) ->
+// AVATARS-HD-2: with voice on, `onTalk(agentId, on, line)` hears onstart (true) and onend (false) with the line ({ text, jobId }), and
+// `onWord(agentId, charIndex, line)` hears each word boundary of the line being spoken, so a figure's light and mouth follow the voice.
+//
+// SEAM: ohMountHive(el, { reducedMotion, audit, seed, nJobs, synth, Utterance, supervise, lang, settings, reload, onTalk, onWord }) ->
 //         { hive, step(), run(n), approve(jobId), decline(jobId), voice(on), supervise(on), language(code), lang, voiceController, state(), captions(), el } | null
 //
 // Every top-level name starts with `oh`/`OH_` (the bundler shares one scope).
@@ -37,7 +40,7 @@ export const OH_FEED_MAX = 40;
 export const OH_RUN_STEPS = 10;
 const OH_PANEL_CSS = ".oh-panel{font:13px/1.4 system-ui,sans-serif;padding:10px;border:1px solid #4a3f7a;border-radius:10px;background:#120f22;color:#ece8ff;margin:8px 0}.oh-panel h3{margin:0 0 6px;font-size:15px}.oh-panel .oh-note{opacity:.85;font-size:12px;margin:0 0 6px}.oh-panel .oh-roster{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:6px}.oh-panel .oh-card{display:flex;gap:6px;align-items:flex-start;border:1px solid #3a335f;border-radius:8px;padding:5px;background:#1b1733;position:relative}.oh-panel .oh-card svg,.oh-panel .oh-card img{flex:0 0 auto;border-radius:6px}.oh-panel .oh-name{font-weight:600}.oh-panel .oh-label{display:inline-block;font-size:10px;letter-spacing:.02em;text-transform:uppercase;background:#2f2a52;border:1px solid #6d62b8;border-radius:4px;padding:0 4px;margin-left:4px}.oh-panel .oh-role{font-size:11px;opacity:.85}.oh-panel .oh-chip{display:inline-block;font-size:10px;border-radius:9px;padding:0 6px;margin:2px 3px 0 0;background:#2a2547}.oh-panel .oh-talk{position:absolute;top:5px;right:5px;width:8px;height:8px;border-radius:50%;background:#3a335f}.oh-panel .oh-card[data-talking=true] .oh-talk{background:#8fe3ff}.oh-panel .oh-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}.oh-panel button{background:#2a2450;color:#ece8ff;border:1px solid #6d62b8;border-radius:6px;padding:5px 9px;cursor:pointer}.oh-panel button[aria-pressed=true]{background:#4b3fa0}.oh-panel .oh-feed{max-height:180px;overflow-y:auto;border:1px solid #3a335f;border-radius:6px;padding:4px 6px;margin-top:6px;background:#0d0b19}.oh-panel .oh-feed p{margin:2px 0}.oh-panel .oh-feed p.oh-x[data-turn=\"1\"]{margin-left:14px;border-left:2px solid #6d62b8;padding-left:6px}.oh-panel .oh-feed p[data-memory=true]{font-style:italic}.oh-panel .oh-queue{margin-top:6px}.oh-panel .oh-req{border:1px solid #8a6d2a;border-radius:6px;padding:5px;margin-top:4px;background:#1f1a10}.oh-panel .oh-status{margin-top:6px;font-size:12px;opacity:.9}@media (pointer:coarse),(max-width:600px){.oh-panel button{min-height:44px;min-width:44px}}"; // HIVE-3: 44 px touch targets on a phone (the language button and the rest)
 
-export function ohMountHive(el, { reducedMotion = false, audit = null, seed = 1, nJobs = 200, ticksPerDay = 480, synth, Utterance, onTalk = null, supervise = false, lang = null, settings = null, reload = null } = {}) {
+export function ohMountHive(el, { reducedMotion = false, audit = null, seed = 1, nJobs = 200, ticksPerDay = 480, synth, Utterance, onTalk = null, onWord = null, supervise = false, lang = null, settings = null, reload = null } = {}) {
   if (!el || typeof document === "undefined") return null;
   let prefs = {}; try { prefs = settings?.read?.() ?? {}; } catch (_) { prefs = {}; } // HIVE-3: this profile's remembered choices (none outside its gate)
   if (typeof prefs.supervise === "boolean") supervise = prefs.supervise;
@@ -105,7 +108,8 @@ export function ohMountHive(el, { reducedMotion = false, audit = null, seed = 1,
     feed.scrollTop = feed.scrollHeight;
     if (a && voice.enabled()) {
       const card = cards.get(a.id);
-      voice.say(a, e.text, { onstart: () => { if (card) card.dataset.talking = "true"; try { onTalk?.(a.id, true); } catch (_) { /* a listener never stops the voice */ } }, onend: () => { if (card) card.dataset.talking = "false"; try { onTalk?.(a.id, false); } catch (_) { /* ignore */ } } });
+      const line = { text: e.text, jobId: e.jobId ?? null }; // AVATARS-HD-2: the line, so the page matches the voice to the figure's line
+      voice.say(a, e.text, { onstart: () => { if (card) card.dataset.talking = "true"; try { onTalk?.(a.id, true, line); } catch (_) { /* a listener never stops the voice */ } }, onboundary: (b) => { if (b?.name && b.name !== "word") return; try { onWord?.(a.id, Number.isFinite(b?.charIndex) ? b.charIndex : null, line); } catch (_) { /* ignore */ } }, onend: () => { if (card) card.dataset.talking = "false"; try { onTalk?.(a.id, false, line); } catch (_) { /* ignore */ } } });
     }
   });
 

@@ -11,7 +11,8 @@ parishes app, in the drills menu beside the agent-jobs panel. Console notes: `do
   - Each has an avatar look: an agent badge from `av-sprites.js` (`avAgentLook`) plus an outfit from the agent set (tablet,
     visor, high-visibility vest). On the desktop high tier the figure is AVATARS-HD's high-detail body: a cool porcelain shell,
     with eyes, brows and a mouth drawn on its visor band, kept away from every human skin tone (no realistic skin, no real
-    person's likeness).
+    person's likeness). Inside the robotics rooms it is a lighter level of the same body (AVATARS-HD-2), so each room stays
+    inside its budget.
   - Each has four personality traits in [0, 1]: warmth, formality, verbosity and caution.
   - Each has a speaking style derived from those traits (`ohStyleFromTraits`):
     - verbosity sets the sentence-length band;
@@ -47,6 +48,10 @@ parishes app, in the drills menu beside the agent-jobs panel. Console notes: `do
     is machine-assisted and awaits a native speaker's review.
   - Captions always show, with or without voice.
   - Lines queue, so agents never talk over each other.
+  - AVATARS-HD-2: with voice on, an agent's figure (outdoors and in a robotics room) lights its talk light and moves its mouth
+    when the voice starts the line, not when the line arrives, and the mouth opens on each word the voice reports (the
+    utterance's word boundaries). The caption shows when the line starts, as before. If a voice has not started a line within
+    4 s, it is treated as stuck and the figure follows its own timing.
   - Leaving the page stops speech.
   - Nothing listens: there is no microphone, no recognition and no recording.
 - **The panel** (`oh-panel.js`) has:
