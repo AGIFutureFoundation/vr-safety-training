@@ -186,7 +186,7 @@ await check("6. Router.X marked absent; instructor tab wired read-only; bundles 
     for (const m of s.matchAll(/^(?:export\s+)?(?:const|let|var|function)\s+([A-Za-z_$][\w$]*)/gm)) ok(/^(eco|ECO_)/.test(m[1]), `${f}: top-level ${m[1]} lacks the prefix`);
   }
   // the panel, on a stub DOM
-  const node = (tag) => ({ tag, children: [], className: "", textContent: "", attrs: {}, value: "", listeners: {},
+  const node = (tag) => ({ tag, children: [], className: "", txt: "", get textContent() { return this.txt; }, set textContent(v) { this.txt = v; if (v === "") this.children = []; }, attrs: {}, value: "", listeners: {},
     append(...c) { this.children.push(...c); if (tag === "select" && !this.value && c[0]?.value) this.value = c[0].value; }, setAttribute(k, v) { this.attrs[k] = v; }, addEventListener(t, f) { this.listeners[t] = f; } });
   const p = ECO.ecoMountBlocksPanel(node("div"), { doc: { createElement: node } });
   ok(p.pick.children.length === DATA.stations.length + DATA.skills.length && p.list.children.length > 0, "panel rows");
