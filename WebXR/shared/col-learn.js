@@ -276,7 +276,7 @@ COL_FEATURE_SETS["amr-holders"] = {
 const colIsStation = (sc) => String(sc).startsWith("rb-station-");
 
 /** The feature rows and labels of one demonstration step. */
-function colRows(sc0, obs, action, featureSet = null) {
+export function colRows(sc0, obs, action, featureSet = null) {
   const sc = colBase(sc0);
   const F = colF(sc, featureSet);
   if (sc === "rb-amr-fleet-routing") {
@@ -308,7 +308,7 @@ function colRows(sc0, obs, action, featureSet = null) {
 }
 
 /** A label plus the neighbours' parameters back to an env action. */
-function colAction(sc0, label, ps, obs) {
+export function colAction(sc0, label, ps, obs) {
   const sc = colBase(sc0);
   const mean = (k) => (ps.length ? ps.reduce((n, p) => n + (p?.[k] ?? 0), 0) / ps.length : 0);
   if (colIsStation(sc)) {
