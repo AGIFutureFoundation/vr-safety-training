@@ -77,7 +77,7 @@
 
 import { ctAvatarFigure, ctAvatarOption, CT_AVATAR_BUDGET } from "./crew.js";
 import { aaAgentLook, aaRoleLabel, aaHash, AA_VBRIDGE_PERSONAS } from "./aa-agent-portraits.js";
-import { aaHdSupported, aaHdBuild, aaHdPose, aaWordOnsets, aaHdMouth, AA_HD_GESTURE_MS, AA_HD_LOD } from "./aa-agent-hd.js";
+import { aaHdSupported, aaHdSpec, aaHdGeometry, AA_HD_NEAR_EXTRA, AA_HD_CROWD_BUDGET, aaHdBuild, aaHdPose, aaWordOnsets, aaHdMouth, AA_HD_GESTURE_MS, AA_HD_LOD, AA_HD_MOODS, aaHdMoodTempo } from "./aa-agent-hd.js";
 import { RB_SITES } from "./rb-robotics-data.js";
 import { VB_TASKS, VB_REASONS } from "./vb-shared-data.js";
 
@@ -91,6 +91,8 @@ export const AA_HIDE_RADIUS = 600;
 export const AA_WALK_SPEED = 2.2;
 export const AA_WALK_MAX = 150;
 export const AA_WALK_IN = 24;
+/** AVATARS-HD-4: a routed walk's heading turns through a bend over this many metres either side of the waypoint (no snap). */
+export const AA_WALK_TURN = 0.4;
 /** A line's duration with no voice driving it: 400 ms plus the words at AA_WPM, clamped. */
 export const AA_WPM = 165;
 export const AA_LINE_MS = Object.freeze({ min: 1500, max: 12000 });
@@ -107,6 +109,9 @@ export const AA_TEXTURE_BYTES_PER_FIGURE = (AA_LABEL_PX[0] * AA_LABEL_PX[1] + AA
 /** Which render tiers build figures (perf.js tcTierSettings names). */
 export const AA_TIERS = Object.freeze({ low: false, balanced: true, high: true });
 export const AA_EVENT_TYPES = Object.freeze(["speak", "move", "bid", "award", "dispatch", "refused", "approval-request", "complete"]);
+/** AVATARS-HD-4: HIVE-6's mood event ({ type: "mood", agent, mood, from?, cause }), listened to besides the contract's types, guarded:
+ * an unknown mood or agent is ignored, and a source that never emits one leaves every pose as it was. */
+export const AA_MOOD_EVENT = "mood";
 /** Standing spots around a site centre ([dx, dz] m): north, west and east sides, 9.3–16 m out. */
 export const AA_SLOTS = Object.freeze([[-4, -9.5], [4, -9.5], [-10.5, -3], [10.5, -3], [0, -12.5], [-10.5, 3], [10.5, 3], [-8, -13], [8, -13], [-13, -8], [13, -8], [0, -16]]);
 
@@ -176,7 +181,17 @@ export function aaVoiceHooks(world, agentId, text = null) {
 /** AVATARS-HD-2: the avatar mount for a robotics room, for hwSyncRoom(..., { mount }): the room level of the high-detail figure on the
  * desktop high tier (AA_HD_ROOM_BUDGET), so a room with H3_ROOM_FIGURES figures stays inside IX_BUDGET; balanced keeps today's figure
  * and the phone tier builds none. `extra` adds options (the page passes `voiced`). */
-export function aaRoomAvatarMount(extra = {}) { return (opts = {}) => aaMountAgentAvatars({ ...opts, ...extra, hd: "room" }); }
+export function aaRoomAvatarMount(extra = {}) { return (opts = {}) => aaMountAgentAvatars({ triCap: AA_ROOM_TRI_CAP, capFigures: AA_ROOM_FIGURES, ...opts, ...extra, hd: "room" }); }
+
+/** AVATARS-HD-4: a robotics room's triangle cap for its figures (IX_BUDGET.triangles.high, ix-interiors.js; this module imports nothing of
+ * the rooms'). With ROBOTS-HD's high-detail robots a room's own triangles grew (the AMR warehouse about 4,600 built), so three room-level
+ * figures could take a room over (7,450 built, measured in the built page at 40d97421). The room mount counts the room's triangles as
+ * ixrMeasure does (every mesh under the room's group, instanced meshes times their count) before it builds a figure: the room level when
+ * it fits, else the crowd level, else no figure (the agent is held, listed but unbuilt, until a figure leaves: state().held). */
+export const AA_ROOM_TRI_CAP = 6000;
+/** AVATARS-HD-4: the most figures a robotics room shows (hw-hive-world.js / h3 H3_ROOM_FIGURES, 3): a figure takes the room level only
+ * when the figures still to come could each have a crowd figure (AA_HD_CROWD_BUDGET) under the cap. */
+export const AA_ROOM_FIGURES = 3;
 
 /** AVATARS-HD-3: a route round a room's colliders (room-local boxes: walls, consoles, chairs, props), from `router` (hw-hive-world.js
  * hwRouter(boxesIn, opts), passed in by the caller). Defaults: a 0.3 m body and a 0.05 m margin on a 0.25 m grid (the ops room's spots
@@ -193,9 +208,34 @@ export function aaRoomRoute(room, router, { radius = 0.3, margin = 0.05, step = 
  * level of the high-detail figure on the desktop high tier (seven figures and the room inside IX_BUDGET); balanced keeps today's figure
  * (HIVE-5 lightens it there) and the phone tier builds none. `extra`: { voiced, room, router } (room + router: walks go round the
  * consoles; aaRoomRoute). */
-export function aaCrowdAvatarMount({ room = null, router = null, ...extra } = {}) {
+export function aaCrowdAvatarMount({ room = null, router = null, nearest = null, learner = null, ...extra } = {}) {
   const route = aaRoomRoute(room, router);
-  return (opts = {}) => aaMountAgentAvatars({ ...opts, ...(route ? { route } : {}), ...extra, hd: "crowd" });
+  return (opts = {}) => {
+    // AVATARS-HD-4: the console nearest the learner as they enter gets the room level (chosen once, here, when the room mounts: no swap
+    // while the learner moves, since a swap rebuilds a skinned mesh); the rest stay at the crowd level.
+    const role = nearest && AA_HD_LOD[nearest] ? aaNearestRole(room, learner, { agents: opts.agents, level: nearest }) : null;
+    const hdFor = role ? (a) => (a?.key === role ? nearest : null) : null;
+    return aaMountAgentAvatars({ ...opts, ...(route ? { route } : {}), ...(hdFor ? { hdFor } : {}), ...extra, hd: "crowd" });
+  };
+}
+
+/** AVATARS-HD-4: the role of the agent spot (room.spots.agent) nearest the learner: `learner` is { x, z } or a function returning it
+ * (room-local); without one, where the room's enter() stands the learner (0.8 m inside the door, ixr-robo-interiors.js). Null when
+ * the room has no spots. Ties go to the first spot in the room's order. With { agents, level }, the nearest spot whose agent fits: its
+ * figure at `level` adds at most `extra` triangles over its crowd figure (AA_HD_NEAR_EXTRA), else the next nearest, else null. */
+export function aaNearestRole(room, learner = null, { agents = null, level = null, extra = AA_HD_NEAR_EXTRA } = {}) {
+  const spots = Array.isArray(room?.spots?.agent) ? room.spots.agent : [];
+  if (!spots.length) return null;
+  let at = null; try { at = typeof learner === "function" ? learner() : learner; } catch (_) { at = null; }
+  const inRoom = (q) => !!q && Number.isFinite(+q.x) && Number.isFinite(+q.z) && (!(+room?.w > 0) || Math.abs(+q.x) <= +room.w / 2 + 0.5) && (!(+room?.d > 0) || Math.abs(+q.z) <= +room.d / 2 + 0.5);
+  if (!inRoom(at)) at = room?.door && Number.isFinite(+room.door.x) && Number.isFinite(+room.door.z) ? { x: +room.door.x, z: +room.door.z - 0.8 } : null;
+  if (!at) return null;
+  const ranked = spots.map((s, i) => ({ s, i, d: Math.hypot(+s.x - at.x, +s.z - at.z) })).sort((a, b) => a.d - b.d || a.i - b.i);
+  if (!Array.isArray(agents) || !level || !AA_HD_LOD[level]) return ranked[0].s.role ?? null;
+  // with agents and a level: the nearest whose agent fits the room's headroom at that level (room − crowd triangles ≤ extra)
+  const tri = (a, l) => { try { return aaHdGeometry(aaHdSpec(a), l).triangles.total; } catch (_) { return Infinity; } };
+  for (const r of ranked) { const a = agents.find((x) => x?.key === r.s.role); if (a && tri(a, level) - tri(a, "crowd") <= extra) return r.s.role; }
+  return null;
 }
 
 /** A site lookup's answer as { x, y, z } (accepts [x, z], [x, y, z], { x, z }, { position: [x, z] }), or null. */
@@ -357,13 +397,15 @@ function aaCountObject(obj) {
  * answers this map's site position ({ x, y, z } / [x, z] / null when the site is not on this map). `here` passed to
  * animate is the learner's [x, z] (null = everyone near). Headless without `three`: the state machine still runs.
  */
-export function aaMountAgentAvatars({ three = null, parent = null, agents = [], source = null, siteAt = () => null, reducedMotion = false, tier = "high", groundAt = null, spotFor = null, textureScale = 1, blocked = null, route = null, hd = false, voiced = null, now = null } = {}) {
+export function aaMountAgentAvatars({ three = null, parent = null, agents = [], source = null, siteAt = () => null, reducedMotion = false, tier = "high", groundAt = null, spotFor = null, textureScale = 1, blocked = null, route = null, hd = false, voiced = null, now = null, hdFor = null, triCap = null, capFigures = 1 } = {}) {
   const T = three;
   const build = !!(T && parent && AA_TIERS[tier] !== false);
   // AVATARS-HD: the high-detail figure is opt-in (the outdoor mount asks for it) and only ever on the desktop "high" tier; balanced
   // keeps today's figure and the phone tier builds none. A three.js without skinning (the checkers' stub) builds today's figure.
   const hdOn = !!(hd && build && tier === "high" && aaHdSupported(T));
   const hdLevel = typeof hd === "string" && AA_HD_LOD[hd] ? hd : "full"; // AVATARS-HD-2: the robotics rooms ask for "room"; AVATARS-HD-3: the ops room for "crowd"
+  // AVATARS-HD-4: a level per agent (the ops room's nearest console at the room level); null or an unknown level keeps hdLevel
+  const levelOf = (agent) => { if (typeof hdFor !== "function") return hdLevel; let l = null; try { l = hdFor(agent); } catch (_) { l = null; } return typeof l === "string" && AA_HD_LOD[l] ? l : hdLevel; };
   // AVATARS-HD-3: the page's clock in ms (performance.now), so a word boundary keeps its own time between frames
   const nowMs = typeof now === "function" ? now : () => (typeof performance !== "undefined" && typeof performance.now === "function" ? performance.now() : NaN);
   let frameMs = NaN; // nowMs() at the last frame (animate)
@@ -371,7 +413,7 @@ export function aaMountAgentAvatars({ three = null, parent = null, agents = [], 
   if (root) { root.name = "aa-agent-avatars"; parent.add(root); }
   const figures = new Map();
   const occupied = new Map(); // siteId -> Set(slot index)
-  const talkLog = [], captionLog = [], gestureLog = [];
+  const talkLog = [], captionLog = [], gestureLog = [], moodLog = [], heldLog = [];
   let clock = 0, textureBytes = 0;
   const sources = new Set();
   const subs = new Map();
@@ -409,9 +451,28 @@ export function aaMountAgentAvatars({ three = null, parent = null, agents = [], 
     return { x, y, z, cx: c.x, cz: c.z, yaw: Math.atan2(c.x - x, c.z - z) };
   }
 
+  /** AVATARS-HD-4: the triangles under the parent (the room's group), counted as ixrMeasure counts them. */
+  function parentTris() {
+    let n = 0;
+    parent?.traverse?.((o) => { if (!o.isMesh) return; const g = o.geometry, c = g?.index ? g.index.count : g?.attributes?.position?.count ?? 0; n += (c / 3) * (o.isInstancedMesh ? o.count : 1); });
+    return n;
+  }
+  /** AVATARS-HD-4: the level this figure gets under the room's cap (triCap): its own level when it fits, else the crowd level, else null
+   * (no figure for now). Without a cap, its own level. */
+  function capLevel(f, want) {
+    if (!(Number(triCap) > 0)) return want;
+    const used = parentTris(), spec = f.spec ??= aaHdSpec(f.agent);
+    const built = [...figures.values()].filter((g) => g.fig).length, rest = Math.max(0, (Number(capFigures) || 1) - built - 1) * AA_HD_CROWD_BUDGET.triangles;
+    const tri = (l) => { try { return aaHdGeometry(spec, l).triangles.total; } catch (_) { return Infinity; } };
+    if (want !== "crowd" && used + tri(want) + rest <= triCap) return want; // its own level, with room left for the figures still to come
+    if (used + tri("crowd") <= triCap) return "crowd";
+    return null;
+  }
   function ensureFig(f) {
     if (!build || f.fig) return;
-    f.fig = hdOn ? aaBuildHdFigure(T, f.agent, f.look, textureScale, hdLevel) : aaBuildFigure(T, f.agent, f.look, textureScale);
+    let lvl = hdOn ? levelOf(f.agent) : null;
+    if (hdOn) { lvl = capLevel(f, lvl); if (!lvl) { if (!f.held) { f.held = true; heldLog.push({ agent: f.agent.id, at: clock, site: f.site }); } return; } f.held = false; }
+    f.fig = hdOn ? aaBuildHdFigure(T, f.agent, f.look, textureScale, lvl) : aaBuildFigure(T, f.agent, f.look, textureScale);
     f.fig.group.position.set(f.x, f.y, f.z); f.fig.group.rotation.y = f.yaw; f.fig.group.visible = f.visible;
     root.add(f.fig.group);
     if (f.fig.labelCv) textureBytes += f.fig.labelCv.c.width * f.fig.labelCv.c.height * 4;
@@ -428,7 +489,7 @@ export function aaMountAgentAvatars({ three = null, parent = null, agents = [], 
       const hh = aaHash(a.id);
       const f = { agent: a, look, idx, site, slot, x: spot?.x ?? 0, y: spot?.y ?? 0, z: spot?.z ?? 0, yaw: spot?.yaw ?? 0, offMap: !spot,
         walk: null, queue: [], talk: null, caption: null, gesture: null, visible: !!spot, fig: null,
-        walkPhase: 0, blinkPeriod: 3.2 + (hh % 200) / 100, blinkOff: ((hh >>> 8) % 300) / 100, mouth: 0 };
+        walkPhase: 0, mood: null, idleK: 1, idleOff: 0, blinkPeriod: 3.2 + (hh % 200) / 100, blinkOff: ((hh >>> 8) % 300) / 100, mouth: 0 };
       if (spot) ensureFig(f); // an agent whose site is on another map gets its figure when it first arrives here
       figures.set(a.id, f);
     }
@@ -554,6 +615,7 @@ export function aaMountAgentAvatars({ three = null, parent = null, agents = [], 
   function handle(ev) {
     if (!ev?.type) return false;
     const f = figures.get(aaAgentId(ev.agent)); if (!f) return false;
+    if (ev.type === AA_MOOD_EVENT) return setMood(f, ev);
     if (ev.type === "speak") {
       const text = String(ev.text ?? ev.caption ?? "").trim(); if (!text) return false;
       tickTalk(f);
@@ -575,6 +637,18 @@ export function aaMountAgentAvatars({ three = null, parent = null, agents = [], 
       showCaption(f, ev.caption, clock, clock + aaLineMs(ev.caption) / 1000, ev.type); return true;
     }
     return ev.type === "bid" || ev.type === "award";
+  }
+
+  /** AVATARS-HD-4: the agent's mood (HIVE-6's event), for the posture; logged with its cause. The idle clock keeps its phase across a
+   * tempo change (busy), so the figure never jumps. */
+  function setMood(f, ev) {
+    const mood = String(ev.mood ?? ""); if (!AA_HD_MOODS.includes(mood)) return false;
+    const k = hdOn ? aaHdMoodTempo(f.fig?.hd?.spec ?? (f.spec ??= aaHdSpec(f.agent)), mood) : 1;
+    if (k !== f.idleK) { f.idleOff += clock * (f.idleK - k); f.idleK = k; }
+    f.mood = { mood, cause: ev.cause ?? null, at: clock };
+    moodLog.push({ agent: f.agent.id, mood, from: ev.from ?? null, cause: ev.cause ?? null, at: clock, t: ev.t ?? null });
+    if (f.fig?.hd) poseHd(f);
+    return true;
   }
 
   function moveTo(f, siteId) {
@@ -653,7 +727,8 @@ export function aaMountAgentAvatars({ three = null, parent = null, agents = [], 
   function poseHd(f) {
     const fig = f.fig, g = f.gesture && clock < f.gesture.end ? f.gesture : null;
     const m = f.mouthClock === clock ? f.mouth : mouthAt(f), ph = (clock + f.blinkOff) % f.blinkPeriod;
-    fig.hd.apply(aaHdPose(fig.hd.spec, { t: clock, walking: !!f.walk, walkPhase: f.walkPhase, speaking: talkOn(f), mouth: m, beat: m,
+    const tIdle = f.idleK === 1 && f.idleOff === 0 ? clock : clock * f.idleK + f.idleOff; // AVATARS-HD-4: busy's tempo, phase kept
+    fig.hd.apply(aaHdPose(fig.hd.spec, { t: tIdle, ...(f.mood && f.mood.mood !== "calm" ? { mood: f.mood.mood } : {}), walking: !!f.walk, walkPhase: f.walkPhase, speaking: talkOn(f), mouth: m, beat: m,
       gesture: g ? { kind: g.kind, k: (clock - g.start) / Math.max(1e-6, g.end - g.start) } : null, blink: ph < 0.14 ? Math.sin((ph / 0.14) * Math.PI) : 0, reduced: reducedMotion }));
   }
 
@@ -678,6 +753,12 @@ export function aaMountAgentAvatars({ three = null, parent = null, agents = [], 
           const a = w.pts[i - 1], b = w.pts[i], u = aaClamp((d - w.cum[i - 1]) / ((w.cum[i] - w.cum[i - 1]) || 1), 0, 1);
           f.x = a.x + (b.x - a.x) * u; f.z = a.z + (b.z - a.z) * u; f.y = w.from.y + (w.to.y - w.from.y) * k;
           f.yaw = Math.atan2(b.x - a.x, b.z - a.z);
+          // AVATARS-HD-4: the heading turns through a bend over the last and first AA_WALK_TURN m of the legs that meet there (the path
+          // itself, and so its clearance from the boxes, is unchanged): no snap at the waypoint.
+          const toEnd = w.cum[i] - d, fromStart = d - w.cum[i - 1];
+          const turn = (p, q, r, u2) => { const y0 = Math.atan2(q.x - p.x, q.z - p.z), y1 = Math.atan2(r.x - q.x, r.z - q.z); let dy = y1 - y0; dy -= Math.round(dy / (2 * Math.PI)) * 2 * Math.PI; return y0 + dy * u2; };
+          if (i < w.pts.length - 1 && toEnd < AA_WALK_TURN) f.yaw = turn(a, b, w.pts[i + 1], 0.5 * (1 - toEnd / AA_WALK_TURN));
+          else if (i > 1 && fromStart < AA_WALK_TURN) f.yaw = turn(w.pts[i - 2], a, b, 0.5 + 0.5 * (fromStart / AA_WALK_TURN));
         } else {
           f.x = w.from.x + (w.to.x - w.from.x) * k; f.z = w.from.z + (w.to.z - w.from.z) * k; f.y = w.from.y + (w.to.y - w.from.y) * k;
           f.yaw = Math.atan2(w.to.x - w.from.x, w.to.z - w.from.z);
@@ -707,6 +788,7 @@ export function aaMountAgentAvatars({ three = null, parent = null, agents = [], 
     for (const s of Array.isArray(src) ? src : [src]) {
       if (!s || typeof s.on !== "function" || sources.has(s)) continue;
       const fns = AA_EVENT_TYPES.map((type) => { const fn = (ev) => handle({ ...ev, type: ev?.type ?? type }); s.on(type, fn); return [type, fn]; });
+      try { const fn = (ev) => handle({ ...ev, type: AA_MOOD_EVENT }); s.on(AA_MOOD_EVENT, fn); fns.push([AA_MOOD_EVENT, fn]); } catch (_) { /* a source without moods */ } // AVATARS-HD-4
       subs.set(s, fns); sources.add(s);
     }
     return sources.size;
@@ -723,12 +805,14 @@ export function aaMountAgentAvatars({ three = null, parent = null, agents = [], 
       const c = aaCountObject(f.fig.group); worst = Math.max(worst, c.meshes + c.sprites); meshes += c.meshes; sprites += c.sprites; triangles += c.triangles;
     }
     return { figures: [...figures.values()].filter((f) => f.fig).length, agents: figures.size, meshes, sprites, triangles, worstPerFigure: worst, budget: AA_AGENT_BUDGET, textureBytes, tier, built: build,
-      hd: [...figures.values()].filter((f) => f.fig?.hd).length, hdLevel: hdOn ? hdLevel : null };
+      hd: [...figures.values()].filter((f) => f.fig?.hd).length, hdLevel: hdOn ? hdLevel : null,
+      levels: [...figures.values()].reduce((o, f) => { const l = f.fig?.hd?.level; if (l) o[l] = (o[l] ?? 0) + 1; return o; }, {}) }; // AVATARS-HD-4
   }
   const stateOf = (f) => ({ id: f.agent.id, name: f.agent.name ?? f.agent.id, label: f.fig?.roleText ?? `software agent · ${aaRoleLabel(f.agent)}`, site: f.site, slot: f.slot, x: f.x, y: f.y, z: f.z, yaw: f.yaw, offMap: f.offMap, visible: f.visible, walking: !!f.walk, routed: !!f.walk?.routed,
     speaking: talkOn(f), waiting: !!f.talk?.wait, line: f.talk?.text ?? null, caption: f.caption?.text ?? null, gesture: f.gesture?.kind ?? null, queued: f.queue.length,
     talkVisible: f.fig ? !!f.fig.parts.talk.visible : null, captionVisible: f.fig ? !!f.fig.caption.visible : null, headPitch: f.fig ? f.fig.parts.head.rotation.x : null, tabletY: f.fig ? f.fig.parts.tablet.position.y : null,
-    mouth: f.mouthClock === clock ? f.mouth : mouthAt(f), caughtUp: f.talk?.caught ?? 0, walkPath: f.walk ? { start: f.walk.start, pts: (f.walk.pts ?? [f.walk.from, f.walk.to]).map((q) => ({ x: q.x, z: q.z })) } : null, hd: !!f.fig?.hd, voiced: !!f.talk?.voiced, boundaries: f.talk?.bw?.length ?? 0 });
+    mouth: f.mouthClock === clock ? f.mouth : mouthAt(f), caughtUp: f.talk?.caught ?? 0, walkPath: f.walk ? { start: f.walk.start, pts: (f.walk.pts ?? [f.walk.from, f.walk.to]).map((q) => ({ x: q.x, z: q.z })) } : null, hd: !!f.fig?.hd, voiced: !!f.talk?.voiced, boundaries: f.talk?.bw?.length ?? 0,
+    mood: f.mood?.mood ?? null, moodCause: f.mood?.cause ?? null, level: f.fig?.hd?.level ?? null, held: !!f.held }); // AVATARS-HD-4
 
   return {
     root, handle, animate, attach, detach, addAgents,
@@ -739,7 +823,7 @@ export function aaMountAgentAvatars({ three = null, parent = null, agents = [], 
     talkStart, talkWord, talkEnd,
     /** AVATARS-HD-3: the current line's word boundaries as stamped (the mount's clock, s). */
     boundaryLog: (id) => (figures.get(id)?.talk?.bw ?? []).map((b) => b.at),
-    talkLog: () => talkLog.slice(), captionLog: () => captionLog.slice(), gestureLog: () => gestureLog.slice(),
+    talkLog: () => talkLog.slice(), captionLog: () => captionLog.slice(), gestureLog: () => gestureLog.slice(), moodLog: () => moodLog.slice(), heldLog: () => heldLog.slice(),
     clock: () => clock, counts, sources: () => sources.size,
     /** HIVE-3: take one figure out (a visitor that has walked out of a robotics room): its meshes and canvases are disposed and
      * its slot freed; the agent stays listed, off the map, and gets a new figure when a move next brings it here. */
@@ -754,6 +838,8 @@ export function aaMountAgentAvatars({ three = null, parent = null, agents = [], 
         for (const cv of [f.fig.labelCv, f.fig.captionCv]) if (cv?.c) textureBytes -= cv.c.width * cv.c.height * 4;
         f.fig = null;
       }
+      f.held = false;
+      for (const g of figures.values()) if (g.held && !g.offMap && build) ensureFig(g); // AVATARS-HD-4: a held agent gets its figure once one has gone
       return true;
     },
     dispose() { for (const s of [...sources]) detach(s); for (const f of figures.values()) f.fig?.hd?.skeleton?.dispose?.(); if (root) { root.parent?.remove(root); root.traverse((o) => { o.geometry?.dispose?.(); o.material?.map?.dispose?.(); o.material?.dispose?.(); }); } figures.clear(); },

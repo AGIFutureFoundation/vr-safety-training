@@ -68,6 +68,10 @@ export const AA_HD_LOD = Object.freeze({
 /** AVATARS-HD-3: the ops room's crowd figure budget. Seven figures and the room's own 25 meshes and 2,022 triangles must stay inside
  * IX_BUDGET (120 meshes, 6,000 triangles): (6,000 - 2,022) / 7 = 568, so a crowd figure keeps to 540 triangles (3 meshes). */
 export const AA_HD_CROWD_BUDGET = Object.freeze({ meshesAndSprites: 12, triangles: 540, drawCallsSilent: 3, drawCallsSpeaking: 5 });
+/** AVATARS-HD-4: the triangles one ops-room figure may add when it is built at the room level instead of the crowd level: the room with
+ * seven crowd figures measures 5,586 of IX_BUDGET's 6,000 on high (check_agent_avatars §9l), so 414. aaCrowdAvatarMount gives the room
+ * level to the nearest console whose agent fits (room − crowd triangles ≤ this), else to the next nearest, else to none. */
+export const AA_HD_NEAR_EXTRA = 414;
 /** crew.js CT_AVATAR_STYLES.body's heights and widths (the balanced figure's body types), so a figure keeps its build on every tier. */
 export const AA_HD_BODY_DIMS = Object.freeze({ slender: { h: 1.0, w: 0.86 }, average: { h: 1.0, w: 1.0 }, broad: { h: 1.0, w: 1.18 }, tall: { h: 1.1, w: 0.98 }, compact: { h: 0.9, w: 1.04 }, full: { h: 0.98, w: 1.28 } });
 /** The skeleton: name -> parent. */
@@ -85,6 +89,16 @@ const AA_HD_BODY_IDS = ["average", "slender", "tall", "broad", "compact", "full"
  * round-4 pose (shoulder [-1.25, 0, -0.1], elbow [-1.35, pi/2, 0], wrist [0, 0, -0.54]) held it beside the head, near the bid's raise. */
 export const AA_HD_STOP_POSE = Object.freeze({ sh: Object.freeze([-0.687, 0.225, 0.3]), el: Object.freeze([-1.224, 2.149, 0]), wr: Object.freeze([0.33, -0.344, -1.065]) });
 
+/** AVATARS-HD-4: moods on the body (HIVE-6's `mood` event: calm, busy, concerned, relieved), each a small posture shift kept inside the
+ * range the traits themselves give (aaHdSpec's posture), never on the face. calm: none. busy: the idle tempo a little faster (x1.12, at
+ * most the fastest trait tempo, 1.3; the mount keeps the idle phase continuous across the change). concerned: the head a little lower
+ * (+0.05 rad, half the traits' head-pitch span of 0.1) and the hands closer (arms out to 0.6 of the trait's abduction, never under its
+ * 0.03 floor). relieved: the shoulders a little lower (1.2 cm). The gestures are posed after the mood, so a refusal's stop hand is the
+ * same pose in every mood. */
+export const AA_HD_MOODS = Object.freeze(["calm", "busy", "concerned", "relieved"]);
+export const AA_HD_MOOD_POSE = Object.freeze({ busyTempo: 1.12, tempoMax: 1.3, concernedHead: 0.05, concernedAbduct: 0.6, abductMin: 0.03, relievedShoulder: 0.012 });
+/** AVATARS-HD-4: the idle tempo factor for a mood (1 unless busy), capped so the agent's tempo stays inside the traits' range. */
+export function aaHdMoodTempo(spec, mood) { if (mood !== "busy") return 1; const t0 = spec?.posture?.tempo ?? 1; return Math.max(1, Math.min(AA_HD_MOOD_POSE.busyTempo, AA_HD_MOOD_POSE.tempoMax / t0)); }
 const aaHdClamp = (v, a, b) => Math.max(a, Math.min(b, v));
 const aaHdC01 = (v) => aaHdClamp(v, 0, 1);
 
@@ -304,7 +318,8 @@ const aaHdLerp3 = (a, b, k) => [a[0] + (b[0] - a[0]) * k, a[1] + (b[1] - a[1]) *
 /**
  * Bone rotations (Euler XYZ), scales and offsets for a moment. st = { t (s), walking, walkPhase, speaking, mouth 0..1, beat 0..1,
  * gesture: { kind, k 0..1 } | null, blink 0..1, reduced }. Reduced motion: no idle, breathing, walking or blinking; a gesture
- * holds still at its full pose (no easing in or out) and a nod does not move the head.
+ * holds still at its full pose (no easing in or out) and a nod does not move the head. AVATARS-HD-4: st.mood (AA_HD_MOODS; absent or
+ * "calm": no change) shifts the posture (AA_HD_MOOD_POSE); busy's tempo comes in through st.t (the mount scales the idle clock).
  */
 export function aaHdPose(spec, st = {}) {
   const P = spec.posture, r = {}, s = {}, o = {}, red = !!st.reduced;
@@ -312,14 +327,17 @@ export function aaHdPose(spec, st = {}) {
   const breathe = red ? 0 : Math.sin(t * 1.5 + ph) * 0.012, sway = red ? 0 : Math.sin(t * 0.55 + ph) * 0.025;
   r.pelvis = [0, sway * 0.4, P.shift]; r.spine = [P.lean * 0.6 + breathe, 0, -P.shift * 0.6]; r.chest = [P.lean * 0.4 - P.chestOpen * 0.35 + breathe * 0.6, 0, -P.shift * 0.3];
   r.neck = [-P.lean * 0.45, 0, 0]; r.head = [P.headPitch - P.lean * 0.45, sway * 1.4, P.headTilt];
+  const mood = st.mood === "concerned" || st.mood === "relieved" ? st.mood : null, M = AA_HD_MOOD_POSE; // AVATARS-HD-4
+  if (mood === "concerned") r.head[0] += M.concernedHead;
   // the arms at rest, from warmth (open), formality (clasped) and the outfit (a tablet to read)
   const idle = red ? 0 : P.idleHands * (0.5 + 0.5 * Math.sin(t * 1.25 + ph * 2));
-  let L = { sh: [0.04, 0, P.abduct], el: [-0.14 - idle, -P.palms, 0], wr: [0, 0, 0] };
-  let R = { sh: [0.04, 0, -P.abduct], el: [-0.14 - idle * 0.8, P.palms, 0], wr: [0, 0, 0] };
+  const abd = mood === "concerned" ? Math.max(M.abductMin, P.abduct * M.concernedAbduct) : P.abduct; // AVATARS-HD-4: hands closer
+  let L = { sh: [0.04, 0, abd], el: [-0.14 - idle, -P.palms, 0], wr: [0, 0, 0] };
+  let R = { sh: [0.04, 0, -abd], el: [-0.14 - idle * 0.8, P.palms, 0], wr: [0, 0, 0] };
   if (P.clasp > 0) {
     const k = P.clasp; L = { sh: aaHdLerp3(L.sh, [-0.34, -0.72, -0.08], k), el: aaHdLerp3(L.el, [-1.32, 0, 0], k), wr: L.wr }; R = { sh: aaHdLerp3(R.sh, [-0.34, 0.72, 0.08], k), el: aaHdLerp3(R.el, [-1.32, 0, 0], k), wr: R.wr };
   }
-  if (spec.tablet) L = { sh: [-0.32, -0.38, Math.min(P.abduct, 0.12)], el: [-1.36, 0, 0], wr: [0, 0, 0] };
+  if (spec.tablet) L = { sh: [-0.32, -0.38, Math.min(abd, 0.12)], el: [-1.36, 0, 0], wr: [0, 0, 0] };
   // speaking: beat gestures on each word, bigger for a verbose agent (the tablet hand stays on the tablet)
   if (st.speaking && !red) {
     const b = aaHdC01(Number(st.beat) || 0) * P.handMotion;
@@ -353,6 +371,7 @@ export function aaHdPose(spec, st = {}) {
   const bl = red ? 1 : 1 - 0.88 * aaHdC01(Number(st.blink) || 0); s.eyeL = [1, bl, 1]; s.eyeR = [1, bl, 1];
   o.browL = [0, brow - 0.003 * furrow, 0]; o.browR = [0, brow - 0.003 * furrow, 0];
   r.browL = [0, 0, 0.22 * furrow]; r.browR = [0, 0, -0.22 * furrow];
+  if (mood === "relieved") { o.shoulderL = [0, -M.relievedShoulder, 0]; o.shoulderR = [0, -M.relievedShoulder, 0]; } // AVATARS-HD-4
   return { r, s, o };
 }
 
