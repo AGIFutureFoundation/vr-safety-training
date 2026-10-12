@@ -1,6 +1,6 @@
 # st-next: the next STRANDS console
 
-Read `docs/consoles/STRANDS.md`, `docs/consoles/memory/STRANDS.md` and `docs/strands-robots.md`. Run `node tools/check_strands.mjs` first. It should report 21 pass. The rules stay the same:
+Read `docs/consoles/STRANDS.md`, `docs/consoles/memory/STRANDS.md` and `docs/strands-robots.md`. Run `node tools/check_strands.mjs` first. It should report 22 pass. The rules stay the same:
 
 - simulated only;
 - never connect hardware, use a hosted model or read any key;

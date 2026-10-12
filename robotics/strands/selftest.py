@@ -95,6 +95,19 @@ class GuardedEnv(dict):
 _real_environ = os.environ
 os.environ = GuardedEnv(_real_environ)  # type: ignore[assignment]
 
+# The guards must be live: trip each one on purpose, confirm it recorded, then clear the record.
+_tripped = []
+os.environ.get("SELFTEST_FAKE_API_KEY"); _tripped.append("SELFTEST_FAKE_API_KEY" in ENV_READS and bool(CRED.search("SELFTEST_FAKE_API_KEY")))
+for _f in (lambda: open("/dev/ttySELFTEST"), lambda: socket.socket().connect(("192.0.2.1", 9)), lambda: sys.modules["serial"].Serial):
+    try:
+        _f()
+        _tripped.append(False)
+    except PermissionError:
+        _tripped.append(True)
+_tripped.append(bool(OPENED_DEV) and bool(SOCKETS) and bool(TOUCHED))
+ENV_READS.discard("SELFTEST_FAKE_API_KEY"); OPENED_DEV.clear(); SOCKETS.clear(); TOUCHED.clear()
+ok("guards are live (credential read, device open, socket, serial use each caught when tripped)", all(_tripped), str(_tripped))
+
 before = set(sys.modules)
 
 from robotics.strands import harness, policies, sim_robot  # noqa: E402

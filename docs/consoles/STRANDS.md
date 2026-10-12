@@ -19,6 +19,8 @@ A Python-first harness for robots on the strands-robots `Policy` / `AgentTool` i
 4. **The held-out seeds belong to ARENA-2** → I watched the heartbeat, merged 8ea01d3c, and committed `docs/evals/strands-declared.json` (e38fa35c) before the run → the run happened once: 2,160 episodes, 97,289 of 97,289 steps governor-checked, physical 0, network 0. The seed gate now refuses a second run.
 5. **"No credential read" has to be measured** → the selftest guards `os.environ`, devices, `serial`/`cv2` stubs and sockets, and the bridge gets only `PATH` → reads were PATH plus numpy's and asyncio's own variables. No credential-like name, 0 sockets, 0 device opens.
 6. **A checker string mismatch** → `check_strands` looked for "simulated only" case-sensitively, but the doc says "Simulated only" → the match is now case-insensitive, with the same words required.
+7. **A guard that never fires proves nothing** → the selftest now trips each guard on purpose (a fake credential name, `/dev/ttySELFTEST`, a socket to a documentation address, `serial.Serial`) and requires each to be caught → 5 of 5 caught, then the records are cleared before the real run. The selftest is 27 of 27.
+8. **Are the adapters compatible with the real `Policy`?** → in scratch only, I loaded the wheel's `policies/__init__.py` by file path (nothing installed) → `POLICY_BASE` read "importable", all 6 adapters subclass the real class, and the real `MockPolicy` ran on the simulated arm (0 of 3, physical 0, every step checked).
 
 ## Evals
 
@@ -32,7 +34,7 @@ A Python-first harness for robots on the strands-robots `Policy` / `AgentTool` i
 | The sample runs | 0 → 1 of 1 (so100, bc, 51 of 51 steps governor-checked) | `examples/pick_red_cube.py`; selftest |
 | Physical dispatches | 0 → 0 | bridge replies; strands.json totals |
 | Network calls | 0 → 0 (Python sockets 0, bridge 0) | selftest |
-| `check_strands` | absent → 21 checks | `node tools/check_strands.mjs` |
+| `check_strands` | absent → 22 checks | `node tools/check_strands.mjs` |
 
 The learners' held-out intervals overlap, so no ranking claim is made. The exported ra-lm is the gym-only build, which is not the arena's published weights.
 
