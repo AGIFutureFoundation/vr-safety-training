@@ -162,6 +162,10 @@ const NP_WEATHERS = JSON.parse(appSrc.match(/const NP_WEATHERS = (\[[^\]]*\])/)[
 check(L.HD4_LOOK_IDS.join(",") === "dawn,day,dusk,night,fog,rain", `six looks: ${L.HD4_LOOK_IDS.join(", ")}`);
 check(NP_WEATHERS.indexOf("live") === 5 && NP_WEATHERS[NP_WEATHERS.length - 1] === "rain", `the app's weathers gain "rain" last (carried indices keep their meaning): ${NP_WEATHERS.join(", ")}`);
 for (const id of L.HD4_LOOK_IDS) check(NP_TIMES.includes(L.HD4_LOOKS[id].time) && NP_WEATHERS.includes(L.HD4_LOOKS[id].weather), `${id}: time "${L.HD4_LOOKS[id].time}" and weather "${L.HD4_LOOKS[id].weather}" are the app's own`);
+{ // sky.js imports three.js from its CDN URL, so it is read, not imported: a string band other than day/dusk/night falls to day,
+  // and the hours 5–6 fall in the dusk (low-sun) band
+  const sky = readFileSync(join(WEBXR, "shared/sky.js"), "utf8");
+  check(/if \(typeof time === "string"\) return SKY_BANDS\.includes\(time\) \? time : "day";/.test(sky) && /\(h >= 5 && h < 6\)\) return "dusk"/.test(sky) && /time: NP_TIMES\[np\.timeIdx\] === "dawn" \? 5\.5 : NP_TIMES\[np\.timeIdx\]/.test(appSrc), "dawn draws the low-sun sky (sky.js maps the string \"dawn\" to day; the app passes the hour 5.5, the dusk band)"); }
 const presets = L.hd4LookPresets(R.NP_PARISHES, FX.fxSitesFor);
 check(presets.length === 36 && new Set(presets.map((p) => p.id)).size === 36, `exterior presets: 0 -> ${presets.length} (six robot sites x six looks, unique ids)`);
 for (const s of new Set(presets.map((p) => p.siteId))) check(presets.filter((p) => p.siteId === s).length === 6, `${s}: six looks`);
@@ -184,6 +188,7 @@ check(L.hd4LightLevel({ band: "day", weather: AT.atWeatherOf("fog", 12) }) === 0
   const sl = L.hd4MountSiteLights({ THREE, root: new THREE.Group(), layouts, tier: "high", ua: DESK, glow: [glow], wet: [wetM] });
   const c = sl.counts();
   check(sl.built && c.meshes === L.HD4_SITE_LIGHTS_BUDGET.meshesPerMap.high && c.lights === 0 && c.perSite <= L.HD4_SITE_LIGHTS_BUDGET.trianglesPerSite.high, `site lights on high (${p.id}, ${layouts.length} sites): ${c.meshes} meshes per map, ${c.triangles} triangles (${c.perSite} a site <= ${L.HD4_SITE_LIGHTS_BUDGET.trianglesPerSite.high}), ${c.masts} masts, ${c.docks} dock lamps, ${c.pools} light pools, 0 real lights`);
+  note(`site lights on high (${p.id}, ${layouts.length} sites): ${c.meshes} meshes, ${c.triangles} triangles (${c.perSite} a site, budget ${L.HD4_SITE_LIGHTS_BUDGET.trianglesPerSite.high}), ${c.masts} masts, ${c.docks} dock lamps, ${c.flares} lamp glares, ${c.pools} light pools, 0 real lights, 0 texture bytes`);
   const night = sl.set({ band: "night", weather: AT.atWeatherOf("clear", 23) }), pools = sl.group.getObjectByName("hd4-site-pools");
   check(night.lit && pools.visible && glow.emissive.getHex() === 0xffcf8a && glow.emissiveIntensity > 0.9, "night: floodlights, dock lamps and pools on; window glow at full");
   const day = sl.set({ band: "day", weather: AT.atWeatherOf("clear", 12) });
@@ -249,13 +254,16 @@ check(/window\.__parishTest\.hd4 = \{/.test(appSrc) && /frameTime\(n = 12\)/.tes
 const all = readFileSync(join(ROOT, "tools/check_all.mjs"), "utf8"), base = JSON.parse(readFileSync(join(ROOT, "docs/perf/checkers-baseline.json"), "utf8"));
 check(all.includes('"check_hd4.mjs"'), "check_all.mjs lists check_hd4.mjs");
 check(Object.values(base).some((v) => typeof v === "object" && Number.isFinite(v?.["check_hd4.mjs"])) && Object.values(base).some((v) => typeof v === "object" && /ESTIMATE/.test(String(v?.["check_hd4.mjs"] ?? ""))), "docs/perf/checkers-baseline.json has an estimated row for check_hd4.mjs, labelled as an estimate");
+const hd4Tops = new Map();
 for (const f of ["hd4-ultra.js", "hd4-looks.js", "hd4-rooms.js"]) {
   const src = readFileSync(join(WEBXR, "shared", f), "utf8");
+  for (const m of src.matchAll(/^(?:export\s+)?(?:const|let|var|function|class)\s+([A-Za-z_$][\w$]*)/gm)) hd4Tops.set(m[1], [...(hd4Tops.get(m[1]) ?? []), f]);
   check(!/fillText|strokeText/.test(src), `${f}: draws no words (no fillText)`);
   check(!/import\s*\{[^}]*\sas\s/.test(src), `${f}: no import aliases (the flat bundler strips imports)`);
   const tops = [...src.matchAll(/^(?:export\s+)?(?:const|let|var|function|class)\s+([A-Za-z_$][\w$]*)/gm)].map((m) => m[1]);
   check(tops.every((n) => /^(hd4|HD4_)/.test(n)), `${f}: every top-level name carries the hd4 prefix (${tops.length})`);
 }
+{ const dup = [...hd4Tops].filter(([, fs]) => fs.length > 1); check(dup.length === 0, `no top-level name is declared in two hd4 modules (the bundle shares one scope)`, dup.map(([n, fs]) => `${n}: ${fs.join(", ")}`).join("; ")); }
 
 const ms = Date.now() - t0;
 console.log(failures ? `\nENV-HD-4: ${failures} FAILED, ${passes} passed (${(ms / 1000).toFixed(1)} s).` : `\nENV-HD-4: all ${passes} checks pass (${(ms / 1000).toFixed(1)} s).`);

@@ -385,7 +385,9 @@ function npApplySky() {
   const atNear = atNearness(parish, np.x, np.z);
   atWeatherNow = atLive ? atWeather(parish.id, atHour, 1, { nearWater: atNear.water > 0.5 }) : atWeatherOf(NP_WEATHERS[np.weatherIdx], atHour);
   const weather = weatherFor(atLive ? atSkyKind(atWeatherNow) : NP_WEATHERS[np.weatherIdx]);
-  sky = buildSky(root, { time: NP_TIMES[np.timeIdx], weather, radius: 3000 });
+  // ENV-HD-4: sky.js knows day, dusk and night only, so "dawn" drew the midday sky; at dawn it now takes the low-sun palette
+  // (warm horizon, deep zenith) through the clock hour 5.5, which skyTimeBucket maps to that band.
+  sky = buildSky(root, { time: NP_TIMES[np.timeIdx] === "dawn" ? 5.5 : NP_TIMES[np.timeIdx], weather, radius: 3000 });
   npRecipe = sky.recipe;
   const atDim = atDarken(atWeatherNow), atShade = (hex) => new THREE.Color(hex).multiplyScalar(atDim).getHex();
   scene.background.setHex(atShade(npRecipe.sky));
@@ -1225,7 +1227,7 @@ var hd4UltraSites = null, hd4Sites = null;
 try {
   if (hd4Ultra.on && fxWorld) hd4UltraSites = hd4MountUltraSites({ THREE, root, layouts: fxWorld.layouts });
   const fxMats = []; fxWorld?.group?.traverse((o) => { if (o.isMesh && !fxMats.includes(o.material)) fxMats.push(o.material); });
-  hd4Sites = hd4MountSiteLights({ THREE, root, layouts: fxWorld?.layouts ?? [], tier: npTierName, glow: fxMats.filter((m) => /^fx-atlas/.test(m.name)), wet: fxMats });
+  hd4Sites = hd4MountSiteLights({ THREE, root, layouts: fxWorld?.layouts ?? [], tier: npTierName, glow: fxMats.filter((m) => /^fx-atlas/.test(m.name)), wet: fxMats, groundAt: (x, z) => Math.max(npHeightAt(parish, x, z), 0) });
   hd4Sites.set({ band: NP_TIMES[np.timeIdx], weather: atWeatherNow });
 } catch (e) { console.warn("hd4-looks:", e); }
 /** ENV-HD-4: one of the six looks (HD4_LOOKS: dawn, day, dusk, night, fog at dawn, rain at dusk) through the page's own clock

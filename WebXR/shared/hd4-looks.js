@@ -108,7 +108,7 @@ export function hd4WetUp(THREE, material) {
 }
 
 /** Mount the site lights for this map's robot sites (high tier, not a headset; elsewhere a stub that builds nothing). */
-export function hd4MountSiteLights({ THREE, root, layouts = [], tier = "high", ua = typeof navigator !== "undefined" ? navigator.userAgent : "", glow = [], wet = [] } = {}) {
+export function hd4MountSiteLights({ THREE, root, layouts = [], tier = "high", ua = typeof navigator !== "undefined" ? navigator.userAgent : "", glow = [], wet = [], groundAt = null } = {}) {
   let state = { band: "day", level: 0, wet: 0, lit: false };
   const builds = !!THREE && tier === "high" && !hd4Headset(ua) && layouts.length > 0;
   const glowMats = glow.filter(Boolean), wetU = builds ? wet.filter(Boolean).map((m) => hd4WetUp(THREE, m)) : [];
@@ -125,7 +125,18 @@ export function hd4MountSiteLights({ THREE, root, layouts = [], tier = "high", u
     g.dispose(); if (g !== geo) geo.dispose();
   };
   const M = (x, y, z, yaw = 0) => new THREE.Matrix4().makeRotationY(yaw).setPosition(x, y, z);
-  let masts = 0, docks = 0, pools = 0;
+  let masts = 0, docks = 0, pools = 0, flares = 0;
+  /** A soft glare round a lamp, seen from any side (three crossed fans, bright at the centre, black at the rim, drawn additively). */
+  const flare = (x, y, z, r, warm) => {
+    flares++;
+    for (const [a, b] of [[[1, 0, 0], [0, 1, 0]], [[0, 0, 1], [0, 1, 0]], [[1, 0, 0], [0, 0, 1]]]) {
+      for (let i = 0; i < 12; i++) {
+        const t0 = (i / 12) * Math.PI * 2, t1 = ((i + 1) / 12) * Math.PI * 2;
+        const p = (t) => [x + r * (Math.cos(t) * a[0] + Math.sin(t) * b[0]), y + r * (Math.cos(t) * a[1] + Math.sin(t) * b[1]), z + r * (Math.cos(t) * a[2] + Math.sin(t) * b[2])];
+        pool.pos.push(x, y, z, ...p(t1), ...p(t0)); pool.col.push(...warm, 0, 0, 0, 0, 0, 0);
+      }
+    }
+  };
   for (const l of layouts) {
     const sp = hd4SiteLightSpots(l);
     for (const m of sp.masts) {
@@ -135,17 +146,20 @@ export function hd4MountSiteLights({ THREE, root, layouts = [], tier = "high", u
       put(body, new THREE.BoxGeometry(1.9, 0.12, 0.12), 0x5b6168, M(m.x, m.y + m.h, m.z, l.yaw)); // the crossarm
       for (const s of [-0.65, 0.65]) {
         const [ox, oz] = hd4Rot(l.yaw, s, 0);
-        put(body, new THREE.BoxGeometry(0.62, 0.26, 0.44), 0x3b4046, M(m.x + ox, m.y + m.h - 0.2, m.z + oz, l.yaw)); // a flood head
-        put(lens, new THREE.BoxGeometry(0.54, 0.04, 0.36), 0xfff1d6, M(m.x + ox, m.y + m.h - 0.35, m.z + oz, l.yaw)); // its lens
+        put(lens, new THREE.BoxGeometry(0.62, 0.26, 0.44), 0xf4e6c8, M(m.x + ox, m.y + m.h - 0.2, m.z + oz, l.yaw)); // a flood head (glows when lit)
+        flare(m.x + ox, m.y + m.h - 0.25, m.z + oz, 1.7, [0.55, 0.5, 0.38]);
       }
     }
-    for (const d of sp.docks) { docks++; put(lens, new THREE.BoxGeometry(0.22, 0.04, 0.26), 0xffd27a, M(d.x, d.y, d.z, l.yaw)); }
+    for (const d of sp.docks) { docks++; put(lens, new THREE.BoxGeometry(0.3, 0.1, 0.3), 0xffd27a, M(d.x, d.y, d.z, l.yaw)); flare(d.x, d.y, d.z, 0.9, [0.6, 0.45, 0.2]); }
     for (const p of sp.pools) {
       pools++;
-      const n = 20, warm = p.r > 4 ? [0.5, 0.45, 0.34] : [0.55, 0.42, 0.2];
+      // the pool follows the ground (each rim vertex at the ground's height), so a sloping yard never buries it
+      const n = 20, warm = p.r > 4 ? [0.5, 0.45, 0.34] : [0.55, 0.42, 0.2], gy = (x, z) => (groundAt ? groundAt(x, z) + 0.12 : p.y);
+      const cy = gy(p.x, p.z);
       for (let i = 0; i < n; i++) {
         const a0 = (i / n) * Math.PI * 2, a1 = ((i + 1) / n) * Math.PI * 2;
-        pool.pos.push(p.x, p.y, p.z, p.x + Math.cos(a1) * p.r, p.y, p.z + Math.sin(a1) * p.r, p.x + Math.cos(a0) * p.r, p.y, p.z + Math.sin(a0) * p.r);
+        const x1 = p.x + Math.cos(a1) * p.r, z1 = p.z + Math.sin(a1) * p.r, x0 = p.x + Math.cos(a0) * p.r, z0 = p.z + Math.sin(a0) * p.r;
+        pool.pos.push(p.x, cy, p.z, x1, gy(x1, z1), z1, x0, gy(x0, z0), z0);
         pool.col.push(...warm, 0, 0, 0, 0, 0, 0);
       }
     }
@@ -173,7 +187,7 @@ export function hd4MountSiteLights({ THREE, root, layouts = [], tier = "high", u
   }
   return {
     group, built: true, set, meshes: lensMesh ? meshes : [],
-    counts: () => ({ built: true, tier, meshes: meshes.length, triangles, lights: 0, masts, docks, pools, perSite: Math.round(triangles / Math.max(1, layouts.length)), ...state }),
+    counts: () => ({ built: true, tier, meshes: meshes.length, triangles, lights: 0, masts, docks, pools, flares, perSite: Math.round(triangles / Math.max(1, layouts.length)), ...state }),
     dispose() { for (const m of meshes) { m.geometry.dispose(); m.material.dispose(); } root?.remove(group); },
   };
 }
