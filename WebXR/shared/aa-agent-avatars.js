@@ -42,8 +42,15 @@
 //              building's collider box).
 //     route(from, to) -> [{ x, z }, …] | null: the walk follows these waypoints (ending at `to`) instead of a straight line
 //              (HIVE-IN-WORLD's hwRouter round the colliders); null walks straight.
+//     hd (default false; AVATARS-HD): on the desktop "high" tier, build aa-agent-hd.js's high-detail figure (one skinned body, one
+//              skinned glow, a mouth that opens with the words, jointed arms that gesture, posture from the traits); balanced keeps
+//              today's figure, the phone tier builds none, and a three.js without skinning builds today's figure.
 //     -> { root, handle(ev), animate(t, dt, here), attach(source), detach(source), addAgents(list), agents(), release(id),
-//          state(id), talkStart(id), talkEnd(id), talkLog(), captionLog(), gestureLog(), counts(), dispose() }
+//          state(id), talkStart(id), talkWord(id, charIndex), talkEnd(id), talkLog(), captionLog(), gestureLog(), counts(), dispose() }
+//   Gestures (AA_GESTURE_FOR): bid → raise (a raised hand), award → accept (a hand to the chest), refused → stop (palm out),
+//     the hive's speak event about "approved" → approve (a nod), complete → nod. All are logged on every tier; the high figure poses
+//     every one, today's figure poses stop, nod and approve.
+//   aaVoiceHooks(world, agentId) -> { onstart, onboundary, onend } for a voice's say(): the light and the mouth follow the utterance.
 //   aaVbridgeAgents(homeSite) -> the four VBRIDGE personas as agents standing at homeSite
 //   aaVbridgeSource(vbApi)    -> an on/off source that turns the agent-jobs panel's job (vbApi.state()) into
 //                                contract events: the client asks, the governor checks or refuses, the provider
@@ -52,6 +59,7 @@
 
 import { ctAvatarFigure, ctAvatarOption, CT_AVATAR_BUDGET } from "./crew.js";
 import { aaAgentLook, aaRoleLabel, aaHash, AA_VBRIDGE_PERSONAS } from "./aa-agent-portraits.js";
+import { aaHdSupported, aaHdBuild, aaHdPose, aaWordOnsets, aaHdMouth, AA_HD_GESTURE_MS } from "./aa-agent-hd.js";
 import { RB_SITES } from "./rb-robotics-data.js";
 import { VB_TASKS, VB_REASONS } from "./vb-shared-data.js";
 
@@ -68,7 +76,11 @@ export const AA_WALK_IN = 24;
 /** A line's duration with no voice driving it: 400 ms plus the words at AA_WPM, clamped. */
 export const AA_WPM = 165;
 export const AA_LINE_MS = Object.freeze({ min: 1500, max: 12000 });
-export const AA_GESTURE_MS = Object.freeze({ stop: 1800, nod: 900 });
+/** Gesture lengths (ms): stop (a refusal) and nod (a completion) on every built tier; raise (a bid), accept (an award) and approve
+ * (an approval: a nod) are posed by the high tier's figure (AVATARS-HD) and logged on every tier. */
+export const AA_GESTURE_MS = Object.freeze({ stop: 1800, nod: 900, raise: AA_HD_GESTURE_MS.raise, accept: AA_HD_GESTURE_MS.accept, approve: AA_HD_GESTURE_MS.approve });
+/** Which hive event raises which gesture (AVATARS-HD). The approval is the hive's own speak event about "approved". */
+export const AA_GESTURE_FOR = Object.freeze({ bid: "raise", award: "accept", refused: "stop", approved: "approve", complete: "nod" });
 /** Canvas sizes (px) for the label (drawn at mount) and the caption (drawn on the first line). */
 export const AA_LABEL_PX = Object.freeze([256, 64]);
 export const AA_CAPTION_PX = Object.freeze([512, 128]);
@@ -102,6 +114,17 @@ export function aaEmitter() {
     listeners: (type) => subs.get(type)?.size ?? 0,
   };
   return api;
+}
+
+/** AVATARS-HD: the callbacks a voice passes for one agent's line — say(agent, text, aaVoiceHooks(world, agent.id)) — so the light
+ * and the mouth follow the utterance: onstart holds the line, onboundary (word boundaries) opens the mouth on each word, onend lets
+ * it go. `world` is the mount (or anything with talkStart/talkWord/talkEnd); a missing world is a no-op. */
+export function aaVoiceHooks(world, agentId) {
+  return {
+    onstart: () => { try { world?.talkStart?.(agentId); } catch (_) { /* a figure never stops a voice */ } },
+    onboundary: (e) => { try { if (!e || e.name === undefined || e.name === "word") world?.talkWord?.(agentId, Number.isFinite(e?.charIndex) ? e.charIndex : null); } catch (_) { /* ignore */ } },
+    onend: () => { try { world?.talkEnd?.(agentId); } catch (_) { /* ignore */ } },
+  };
 }
 
 /** A site lookup's answer as { x, y, z } (accepts [x, z], [x, y, z], { x, z }, { position: [x, z] }), or null. */
@@ -226,6 +249,23 @@ function aaBuildFigure(T, agent, look, textureScale = 1) {
   return { group: g, parts, label, caption, labelCv, captionCv: null, headY, tabletRest: { y: tablet.position.y, z: tablet.position.z, rx: tablet.rotation.x }, roleText };
 }
 
+/** AVATARS-HD: the high tier's figure (aa-agent-hd.js: one skinned body, one skinned glow, the mouth's lit opening) with the same
+ * label and caption as today's. parts.head is the head bone (a nod pitches it), parts.talk the mouth's lit opening (shown exactly
+ * while the agent talks), parts.tablet the left wrist (the tablet's hand). */
+function aaBuildHdFigure(T, agent, look, textureScale = 1) {
+  const hd = aaHdBuild(T, agent);
+  const g = hd.group, headY = hd.headY;
+  const roleText = `software agent · ${aaRoleLabel(agent)}`;
+  const labelCv = aaCanvas(AA_LABEL_PX[0], AA_LABEL_PX[1], textureScale);
+  const labelFit = labelCv ? aaDrawLabel(labelCv, agent.name ?? agent.id, roleText, look.accent) : null;
+  const label = aaSprite(T, labelCv, 1.6, 0.4); label.position.set(0, headY + 0.62, 0); label.name = "aa-label";
+  label.userData.text = roleText; label.userData.name = agent.name ?? agent.id; label.userData.fit = labelFit; g.add(label);
+  const caption = aaSprite(T, null, 2.8, 0.7); caption.position.set(0, headY + 1.22, 0); caption.name = "aa-caption"; caption.visible = false; caption.userData.text = ""; g.add(caption);
+  g.userData.parts = { head: hd.bones.head, talk: hd.talk, tablet: hd.bones.wristL, body: hd.body, glow: hd.glow };
+  g.userData.aaAgent = { id: agent.id, name: agent.name ?? agent.id, label: roleText, software: true, hd: true };
+  return { group: g, parts: g.userData.parts, label, caption, labelCv, captionCv: null, headY, tabletRest: { y: 0, z: 0, rx: 0 }, roleText, hd };
+}
+
 function aaCountObject(obj) {
   let meshes = 0, sprites = 0, triangles = 0;
   obj?.traverse?.((o) => {
@@ -246,9 +286,12 @@ function aaCountObject(obj) {
  * answers this map's site position ({ x, y, z } / [x, z] / null when the site is not on this map). `here` passed to
  * animate is the learner's [x, z] (null = everyone near). Headless without `three`: the state machine still runs.
  */
-export function aaMountAgentAvatars({ three = null, parent = null, agents = [], source = null, siteAt = () => null, reducedMotion = false, tier = "high", groundAt = null, spotFor = null, textureScale = 1, blocked = null, route = null } = {}) {
+export function aaMountAgentAvatars({ three = null, parent = null, agents = [], source = null, siteAt = () => null, reducedMotion = false, tier = "high", groundAt = null, spotFor = null, textureScale = 1, blocked = null, route = null, hd = false } = {}) {
   const T = three;
   const build = !!(T && parent && AA_TIERS[tier] !== false);
+  // AVATARS-HD: the high-detail figure is opt-in (the outdoor mount asks for it) and only ever on the desktop "high" tier; balanced
+  // keeps today's figure and the phone tier builds none. A three.js without skinning (the checkers' stub) builds today's figure.
+  const hdOn = !!(hd && build && tier === "high" && aaHdSupported(T));
   const root = build ? new T.Group() : null;
   if (root) { root.name = "aa-agent-avatars"; parent.add(root); }
   const figures = new Map();
@@ -293,7 +336,7 @@ export function aaMountAgentAvatars({ three = null, parent = null, agents = [], 
 
   function ensureFig(f) {
     if (!build || f.fig) return;
-    f.fig = aaBuildFigure(T, f.agent, f.look, textureScale);
+    f.fig = hdOn ? aaBuildHdFigure(T, f.agent, f.look, textureScale) : aaBuildFigure(T, f.agent, f.look, textureScale);
     f.fig.group.position.set(f.x, f.y, f.z); f.fig.group.rotation.y = f.yaw; f.fig.group.visible = f.visible;
     root.add(f.fig.group);
     if (f.fig.labelCv) textureBytes += f.fig.labelCv.c.width * f.fig.labelCv.c.height * 4;
@@ -307,8 +350,10 @@ export function aaMountAgentAvatars({ three = null, parent = null, agents = [], 
       const site = a.homeSite ?? null;
       const slot = site ? takeSlot(site, idx) : 0;
       const spot = site ? spotAt(site, slot, a) : null;
+      const hh = aaHash(a.id);
       const f = { agent: a, look, idx, site, slot, x: spot?.x ?? 0, y: spot?.y ?? 0, z: spot?.z ?? 0, yaw: spot?.yaw ?? 0, offMap: !spot,
-        walk: null, queue: [], talk: null, caption: null, gesture: null, visible: !!spot, fig: null };
+        walk: null, queue: [], talk: null, caption: null, gesture: null, visible: !!spot, fig: null,
+        walkPhase: 0, blinkPeriod: 3.2 + (hh % 200) / 100, blinkOff: ((hh >>> 8) % 300) / 100, mouth: 0 };
       if (spot) ensureFig(f); // an agent whose site is on another map gets its figure when it first arrives here
       figures.set(a.id, f);
     }
@@ -332,7 +377,9 @@ export function aaMountAgentAvatars({ three = null, parent = null, agents = [], 
   function startNextLine(f, prevEnd) {
     const next = f.queue.shift(); if (!next) return false;
     const start = Math.max(next.at, prevEnd ?? next.at); // a queued line follows the last one exactly, never before it arrived
-    f.talk = { text: next.text, start, end: start + next.ms / 1000, voiced: false, jobId: next.jobId ?? null };
+    // AVATARS-HD: the caption's word timing (onsets spread over the line's window) drives the mouth until a voice takes the line
+    const words = aaWordOnsets(next.text, next.ms).map((w) => ({ at: start + w.at / 1000, dur: w.dur / 1000, char: w.char }));
+    f.talk = { text: next.text, start, end: start + next.ms / 1000, voiced: false, jobId: next.jobId ?? null, words, bw: null };
     talkLog.push({ agent: f.agent.id, text: next.text, start, end: f.talk.end });
     showCaption(f, next.caption ?? next.text, start, f.talk.end, "speak");
     if (f.fig) f.fig.parts.talk.visible = true;
@@ -348,6 +395,12 @@ export function aaMountAgentAvatars({ three = null, parent = null, agents = [], 
   }
 
   // ---- the events
+  /** Start a gesture (the latest event wins) and log it with the event that raised it. */
+  function gesture(f, kind, ev, extra = {}) {
+    f.gesture = { kind, start: clock, end: clock + (AA_GESTURE_MS[kind] ?? 1000) / 1000 };
+    gestureLog.push({ agent: f.agent.id, ...f.gesture, on: ev?.type === "speak" ? ev.about ?? "speak" : ev?.type ?? null, jobId: ev?.jobId ?? null, ...extra });
+    poseGesture(f);
+  }
   function handle(ev) {
     if (!ev?.type) return false;
     const f = figures.get(aaAgentId(ev.agent)); if (!f) return false;
@@ -356,20 +409,22 @@ export function aaMountAgentAvatars({ three = null, parent = null, agents = [], 
       tickTalk(f);
       f.queue.push({ text, at: clock, caption: ev.caption && ev.caption !== ev.text ? String(ev.caption) : null, ms: Number(ev.ms) > 0 ? Number(ev.ms) : aaLineMs(text), jobId: ev.jobId });
       if (!f.talk) startNextLine(f, clock);
+      if (ev.about === "approved") gesture(f, AA_GESTURE_FOR.approved, ev); // the learner's approval: the agent who relays it nods
       return true;
     }
     if (ev.type === "move") { moveTo(f, ev.to); return true; }
     if (ev.type === "refused") {
-      f.gesture = { kind: "stop", start: clock, end: clock + AA_GESTURE_MS.stop / 1000 }; gestureLog.push({ agent: f.agent.id, ...f.gesture, reason: ev.reason ?? null });
+      gesture(f, AA_GESTURE_FOR.refused, ev, { reason: ev.reason ?? null });
       const t = ev.caption ?? ev.text ?? (ev.reason ? `Stopped: ${ev.reason}` : null);
       if (t && !f.talk) showCaption(f, t, clock, clock + Math.max(AA_GESTURE_MS.stop, aaLineMs(t)) / 1000, "refused");
-      poseGesture(f); return true;
+      return true;
     }
-    if (ev.type === "complete") { f.gesture = { kind: "nod", start: clock, end: clock + AA_GESTURE_MS.nod / 1000 }; gestureLog.push({ agent: f.agent.id, ...f.gesture }); poseGesture(f); return true; }
+    if (ev.type === "complete") { gesture(f, AA_GESTURE_FOR.complete, ev); return true; }
+    if (ev.type === "bid" || ev.type === "award") gesture(f, AA_GESTURE_FOR[ev.type], ev); // a raised hand to bid; a hand to the chest to accept
     if ((ev.type === "approval-request" || ev.type === "award" || ev.type === "dispatch" || ev.type === "bid") && ev.caption && !f.talk) {
       showCaption(f, ev.caption, clock, clock + aaLineMs(ev.caption) / 1000, ev.type); return true;
     }
-    return false;
+    return ev.type === "bid" || ev.type === "award";
   }
 
   function moveTo(f, siteId) {
@@ -406,12 +461,28 @@ export function aaMountAgentAvatars({ three = null, parent = null, agents = [], 
 
   function poseGesture(f) {
     const fig = f.fig; if (!fig) return;
+    if (fig.hd) { poseHd(f); return; }
     const tab = fig.parts.tablet, head = fig.parts.head, r = fig.tabletRest;
     const g = f.gesture && clock < f.gesture.end ? f.gesture : null;
     if (g?.kind === "stop") { tab.position.y = r.y + 0.32; tab.position.z = r.z + 0.12; tab.rotation.x = 0; }
     else { tab.position.y = r.y; tab.position.z = r.z; tab.rotation.x = r.rx; }
-    if (g?.kind === "nod" && !reducedMotion) head.rotation.x = Math.sin(((clock - g.start) / (g.end - g.start)) * Math.PI) * 0.35;
+    if ((g?.kind === "nod" || g?.kind === "approve") && !reducedMotion) head.rotation.x = Math.sin(((clock - g.start) / (g.end - g.start)) * Math.PI) * 0.35;
     else head.rotation.x = 0;
+  }
+  /** AVATARS-HD: the mouth's openness now (0 while silent; held half open, still, under reduced motion). */
+  function mouthAt(f) {
+    const tk = f.talk; if (!tk || clock < tk.start || (!tk.voiced && clock >= tk.end)) return 0;
+    if (reducedMotion) return 0.55;
+    return aaHdMouth(tk.bw?.length ? tk.bw : tk.words ?? [], clock);
+  }
+  /** AVATARS-HD: the high figure's whole pose for this moment — posture from its traits, walking, the mouth and beat hands with
+   * the words, a blink, and the gesture the hive's last event raised (aa-agent-hd.js aaHdPose). */
+  function poseHd(f) {
+    const fig = f.fig, g = f.gesture && clock < f.gesture.end ? f.gesture : null;
+    const talkOn = !!(f.talk && clock >= f.talk.start && (f.talk.voiced || clock < f.talk.end));
+    const m = mouthAt(f), ph = (clock + f.blinkOff) % f.blinkPeriod;
+    fig.hd.apply(aaHdPose(fig.hd.spec, { t: clock, walking: !!f.walk, walkPhase: f.walkPhase, speaking: talkOn, mouth: m, beat: m,
+      gesture: g ? { kind: g.kind, k: (clock - g.start) / Math.max(1e-6, g.end - g.start) } : null, blink: ph < 0.14 ? Math.sin((ph / 0.14) * Math.PI) : 0, reduced: reducedMotion }));
   }
 
   function animate(t, dt = 0, here = null) {
@@ -432,7 +503,10 @@ export function aaMountAgentAvatars({ three = null, parent = null, agents = [], 
           f.yaw = Math.atan2(w.to.x - w.from.x, w.to.z - w.from.z);
         }
         if (k >= 1) { f.walk = null; f.yaw = w.to.yaw; }
+        // AVATARS-HD: the stride's phase (a careful agent's cadence is a little slower; the travel speed is the same for all)
+        if (!reducedMotion) f.walkPhase += (Number(dt) || 0) * Math.PI * 2 * 1.8 * (1.1 - 0.25 * (Number(f.agent.traits?.caution) || 0.5));
       }
+      f.mouth = mouthAt(f);
       if (!f.fig) continue;
       const d = here ? Math.hypot(here[0] - f.x, here[1] - f.z) : 0;
       const vis = !f.offMap && d <= AA_HIDE_RADIUS;
@@ -443,7 +517,7 @@ export function aaMountAgentAvatars({ three = null, parent = null, agents = [], 
       f.fig.group.position.set(f.x, f.y + bob, f.z); f.fig.group.rotation.y = f.yaw;
       const talkOn = !!(f.talk && clock >= f.talk.start && (f.talk.voiced || clock < f.talk.end));
       const tk = f.fig.parts.talk; tk.visible = talkOn;
-      if (talkOn) { const s = reducedMotion ? 1 : 0.75 + 0.5 * Math.abs(Math.sin(clock * 11)); tk.scale.set(1, s, 1); }
+      if (talkOn && !f.fig.hd) { const s = reducedMotion ? 1 : 0.75 + 0.5 * Math.abs(Math.sin(clock * 11)); tk.scale.set(1, s, 1); } // the HD mouth opens with the words instead
       poseGesture(f);
     }
   }
@@ -468,11 +542,13 @@ export function aaMountAgentAvatars({ three = null, parent = null, agents = [], 
       if (!f.fig) continue;
       const c = aaCountObject(f.fig.group); worst = Math.max(worst, c.meshes + c.sprites); meshes += c.meshes; sprites += c.sprites; triangles += c.triangles;
     }
-    return { figures: [...figures.values()].filter((f) => f.fig).length, agents: figures.size, meshes, sprites, triangles, worstPerFigure: worst, budget: AA_AGENT_BUDGET, textureBytes, tier, built: build };
+    return { figures: [...figures.values()].filter((f) => f.fig).length, agents: figures.size, meshes, sprites, triangles, worstPerFigure: worst, budget: AA_AGENT_BUDGET, textureBytes, tier, built: build,
+      hd: [...figures.values()].filter((f) => f.fig?.hd).length };
   }
   const stateOf = (f) => ({ id: f.agent.id, name: f.agent.name ?? f.agent.id, label: f.fig?.roleText ?? `software agent · ${aaRoleLabel(f.agent)}`, site: f.site, slot: f.slot, x: f.x, y: f.y, z: f.z, yaw: f.yaw, offMap: f.offMap, visible: f.visible, walking: !!f.walk, routed: !!f.walk?.routed,
     speaking: !!(f.talk && clock >= f.talk.start && (f.talk.voiced || clock < f.talk.end)), line: f.talk?.text ?? null, caption: f.caption?.text ?? null, gesture: f.gesture?.kind ?? null, queued: f.queue.length,
-    talkVisible: f.fig ? !!f.fig.parts.talk.visible : null, captionVisible: f.fig ? !!f.fig.caption.visible : null, headPitch: f.fig ? f.fig.parts.head.rotation.x : null, tabletY: f.fig ? f.fig.parts.tablet.position.y : null });
+    talkVisible: f.fig ? !!f.fig.parts.talk.visible : null, captionVisible: f.fig ? !!f.fig.caption.visible : null, headPitch: f.fig ? f.fig.parts.head.rotation.x : null, tabletY: f.fig ? f.fig.parts.tablet.position.y : null,
+    mouth: mouthAt(f), hd: !!f.fig?.hd, voiced: !!f.talk?.voiced, boundaries: f.talk?.bw?.length ?? 0 });
 
   return {
     root, handle, animate, attach, detach, addAgents,
@@ -480,7 +556,24 @@ export function aaMountAgentAvatars({ three = null, parent = null, agents = [], 
     state: (id) => { const f = figures.get(id); return f ? stateOf(f) : null; },
     figure: (id) => figures.get(id)?.fig?.group ?? null,
     /** An on-device voice can drive the talk light instead of the clock: start holds it on, end lets it go. */
-    talkStart: (id) => { const f = figures.get(id); if (f?.talk) { f.talk.voiced = true; return true; } return false; },
+    talkStart: (id) => {
+      const f = figures.get(id); if (!f?.talk) return false;
+      if (!f.talk.voiced) { // AVATARS-HD: the voice starts now, so the mouth's word timing restarts from now at the voice's rate
+        f.talk.voiced = true;
+        const rate = Number(f.agent.voice?.rate) > 0 ? Number(f.agent.voice.rate) : 1;
+        f.talk.words = aaWordOnsets(f.talk.text, aaLineMs(f.talk.text) / rate).map((w) => ({ at: clock + w.at / 1000, dur: w.dur / 1000, char: w.char }));
+      }
+      return true;
+    },
+    /** AVATARS-HD: a voice's word boundary (SpeechSynthesisUtterance onboundary, `charIndex`): the mouth opens on this word now. Once a
+     * line has had a boundary the mouth follows the boundaries only. */
+    talkWord: (id, charIndex = null) => {
+      const f = figures.get(id); if (!f?.talk) return false;
+      const tk = f.talk; if (!tk.bw) tk.bw = [];
+      const est = tk.words ?? [], w = est.find((x) => x.char === charIndex) ?? est[tk.bw.length] ?? null;
+      tk.bw.push({ at: clock, dur: w ? w.dur : 0.25, char: charIndex });
+      return true;
+    },
     talkEnd: (id) => { const f = figures.get(id); if (!f?.talk) return false; f.talk.voiced = false; f.talk.end = clock; const last = talkLog.findLast?.((x) => x.agent === id) ?? null; if (last) last.end = clock; if (f.caption) f.caption.end = clock; tickTalk(f); return true; },
     talkLog: () => talkLog.slice(), captionLog: () => captionLog.slice(), gestureLog: () => gestureLog.slice(),
     clock: () => clock, counts, sources: () => sources.size,
@@ -493,12 +586,13 @@ export function aaMountAgentAvatars({ three = null, parent = null, agents = [], 
       if (f.fig) {
         const g = f.fig.group; g.parent?.remove(g);
         g.traverse((o) => { o.geometry?.dispose?.(); o.material?.map?.dispose?.(); o.material?.dispose?.(); });
+        f.fig.hd?.skeleton?.dispose?.();
         for (const cv of [f.fig.labelCv, f.fig.captionCv]) if (cv?.c) textureBytes -= cv.c.width * cv.c.height * 4;
         f.fig = null;
       }
       return true;
     },
-    dispose() { for (const s of [...sources]) detach(s); if (root) { root.parent?.remove(root); root.traverse((o) => { o.geometry?.dispose?.(); o.material?.map?.dispose?.(); o.material?.dispose?.(); }); } figures.clear(); },
+    dispose() { for (const s of [...sources]) detach(s); for (const f of figures.values()) f.fig?.hd?.skeleton?.dispose?.(); if (root) { root.parent?.remove(root); root.traverse((o) => { o.geometry?.dispose?.(); o.material?.map?.dispose?.(); o.material?.dispose?.(); }); } figures.clear(); },
   };
 }
 

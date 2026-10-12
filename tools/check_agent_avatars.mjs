@@ -390,7 +390,232 @@ const ROLES7 = OHA.map((a) => a.key);
   ok(read("tools/check_all.mjs").includes("check_agent_avatars.mjs") && /check_agent_avatars/.test(read("docs/perf/checkers-baseline.json")), "check_all.mjs lists this checker; checkers-baseline.json carries its estimated row");
 }
 
+// ---------------------------------------------------------------- 9. AVATARS-HD: the high-detail figure on the desktop high tier
+const HDV = {};
+{
+  const HD = await imp("WebXR/shared/aa-agent-hd.js");
+  const RT = await imp("WebXR/vendor/three/dist/three.module.min.js"); // the real three.js (skinning, bones, buffer geometry); nothing renders
+  const RTS = { ...RT }; // three.js's own classes plus the canvas-free sprite stand-in the checker's DOM stub needs
+  console.log(`\n  AVATARS-HD — the high-detail figure (real three.js r${RT.REVISION}, rendered for silhouettes by aa-agent-hd.js's own rasteriser)`);
+  // 9a. statics
+  const src = read("WebXR/shared/aa-agent-hd.js");
+  const names = [...src.matchAll(/^(?:export\s+)?(?:const|let|var|function|class|async\s+function)\s+([A-Za-z_$][\w$]*)/gm)].map((m) => m[1]);
+  ok(names.length > 10 && names.every((n) => /^(aa|AA_)/.test(n)) && !/^import /m.test(src), `aa-agent-hd.js: every top-level name carries the aa/AA_ prefix (${names.length}), no imports (the instructor bundle draws portraits from it)`);
+  ok(!/\bfetch\(|XMLHttpRequest|WebSocket|sendBeacon|getUserMedia|speechSynthesis|SpeechRecognition|\bTHREE\./.test(src) && !/\.(png|jpe?g|webp|gif|glb|gltf)["')]/i.test(src), "aa-agent-hd.js: no network, no voice, no microphone, no image or model files; three.js only from the caller");
+  ok(HD.AA_HD_BUDGET.meshesAndSprites === crew.CT_AVATAR_BUDGET && Object.entries(HD.AA_HD_BODY_DIMS).every(([id, d]) => { const o = crew.ctAvatarOption("body", id); return o.id === id && o.h === d.h && o.w === d.w; }), `the copied numbers equal crew.js: ceiling ${HD.AA_HD_BUDGET.meshesAndSprites} meshes + sprites, six body types`);
+  // 9b. per tier: the seven agents on one site, real three.js; draw calls = visible meshes + visible sprites (one material each)
+  const one = Object.fromEntries(OHA.map((a) => [a.homeSite, true]));
+  const tierRow = {};
+  for (const tier of ["low", "balanced", "high"]) {
+    const par = new RT.Group();
+    const w = AA.aaMountAgentAvatars({ three: RTS, parent: par, agents: OHA, source: null, siteAt, tier, hd: true });
+    w.animate(0, 0, null);
+    const c = w.counts();
+    const calls = (speaking) => { let n = 0; const figs = OHA.map((a) => w.figure(a.id)).filter(Boolean); for (const g of figs) g.traverse((o) => { let vis = true; for (let p = o; p && p !== par; p = p.parent) if (!p.visible) vis = false; if (!vis && !(speaking && (o.name === "aa-talk" || o.name === "aa-caption"))) return; if (o.isMesh || o.isSprite) n += 1; }); return figs.length ? n / figs.length : 0; };
+    tierRow[tier] = { figures: c.figures, hd: c.hd, perFigure: c.figures ? c.triangles / c.figures : 0, worst: c.worstPerFigure, silent: calls(false), speaking: calls(true), tex: c.textureBytes, meshes: c.meshes, sprites: c.sprites };
+    let worstTri = 0; for (const a of OHA) { const g = w.figure(a.id); if (!g) continue; let tri = 0; g.traverse((o) => { if (o.isMesh) tri += (o.geometry.index ? o.geometry.index.count : o.geometry.attributes.position.count) / 3; if (o.isSprite) tri += 2; }); worstTri = Math.max(worstTri, tri); }
+    tierRow[tier].worstTri = worstTri;
+    w.dispose();
+  }
+  const L = tierRow.low, Bt = tierRow.balanced, Hi = tierRow.high;
+  ok(L.figures === 0 && L.meshes === 0 && L.tex === 0, "phone tier (low): no figure, no mesh, no texture — unchanged");
+  ok(Bt.figures === 7 && Bt.hd === 0, `balanced keeps today's figure: 7 figures, 0 high-detail, ${Bt.perFigure.toFixed(0)} triangles and ${Bt.silent} draw calls per figure silent (${Bt.speaking} speaking)`);
+  ok(Hi.figures === 7 && Hi.hd === 7 && Hi.worst <= HD.AA_HD_BUDGET.meshesAndSprites && Hi.worstTri <= HD.AA_HD_BUDGET.triangles, `high builds the high-detail figure: 7 of 7, worst ${Hi.worst} meshes + sprites (≤ ${HD.AA_HD_BUDGET.meshesAndSprites}), worst ${Hi.worstTri} triangles (≤ ${HD.AA_HD_BUDGET.triangles}), mean ${Hi.perFigure.toFixed(0)}`);
+  ok(Hi.silent <= HD.AA_HD_BUDGET.drawCallsSilent && Hi.speaking <= HD.AA_HD_BUDGET.drawCallsSpeaking, `high draw calls per figure: ${Hi.silent} silent (≤ ${HD.AA_HD_BUDGET.drawCallsSilent}), ${Hi.speaking} speaking (≤ ${HD.AA_HD_BUDGET.drawCallsSpeaking}); today's figure: ${Bt.silent} / ${Bt.speaking}`);
+  const roomish = AA.aaMountAgentAvatars({ three: RTS, parent: new RT.Group(), agents: OHA.slice(0, 2), siteAt, tier: "high" }); // a mount that does not ask (the rooms)
+  ok(roomish.counts().hd === 0 && roomish.counts().figures === 2, "a mount that does not ask for hd (the robotics rooms, inside IX_BUDGET) keeps today's figure on high");
+  roomish.dispose();
+  HDV.tiers = tierRow;
+  // 9c. software, never a person: no skin tone where a person's skin would show; the label; the visor band, the eyes, the halo
+  const tones = crew.CT_AVATAR_STYLES.skin.map((s) => [((s.hex >> 16) & 255) / 255, ((s.hex >> 8) & 255) / 255, (s.hex & 255) / 255]);
+  let minD = Infinity, labelled = 0, glowing = 0;
+  for (const a of [...OHA, ...AA.aaVbridgeAgents("rb-site-soma-robot-cell")]) {
+    const spec = HD.aaHdSpec(a), geo = HD.aaHdGeometry(spec);
+    for (let i = 0; i < geo.body.si.length / 4; i += 1) {
+      const bone = Object.keys(HD.AA_HD_BONES)[geo.body.si[4 * i]];
+      if (!/^(head|wristL|wristR)$/.test(bone)) continue;
+      const c = [geo.body.c[3 * i], geo.body.c[3 * i + 1], geo.body.c[3 * i + 2]];
+      if (bone !== "head" && spec.tablet && bone === "wristL" && c[0] < 0.3) continue; // the tablet's dark case is not a hand
+      for (const tn of tones) minD = Math.min(minD, Math.hypot(c[0] - tn[0], c[1] - tn[1], c[2] - tn[2]));
+    }
+    const fig = AA.aaMountAgentAvatars({ three: RTS, parent: new RT.Group(), agents: [a], siteAt: () => ({ x: 0, y: 0, z: 0 }), tier: "high", hd: true });
+    const g = fig.figure(a.id); const lab = g?.children.find((o) => o.name === "aa-label");
+    if (g?.userData.aaAgent?.hd && /^software agent · /.test(lab?.userData.text ?? "")) labelled += 1;
+    if (geo.glow.i.length && geo.triangles.glow >= 300) glowing += 1;
+    fig.dispose();
+  }
+  ok(minD >= 0.15, `no skin: the head and hands are at least 0.15 (RGB) from every one of crew.js's ${tones.length} skin tones — closest ${minD.toFixed(3)}`);
+  ok(labelled === 11 && glowing === 11, `every high-detail figure is labelled "software agent · <role>" (${labelled} of 11) and carries the visor band, eyes, halo and badge (${glowing} of 11)`);
+  // 9d. the seven silhouettes: front masks (64 × 128, the same box), every pair compared; before = today's figure, rendered the same way
+  const box = [-0.75, -0.02, 0.75, 2.05], MW = 64, MH = 128;
+  const maskOf = (group, view) => { // today's figure from its three.js geometry, orthographic, coverage at pixel centres
+    group.updateMatrixWorld(true); const m = new Uint8Array(MW * MH), v = new RT.Vector3();
+    group.traverse((o) => {
+      if (!o.isMesh) return; for (let p = o; p; p = p.parent) if (!p.visible) return;
+      const pos = o.geometry.attributes.position, idx = o.geometry.index, P = [];
+      for (let i = 0; i < pos.count; i += 1) { v.fromBufferAttribute(pos, i).applyMatrix4(o.matrixWorld); P.push([((view === "side" ? -v.z : v.x) - box[0]) * MW / (box[2] - box[0]), (box[3] - v.y) * MH / (box[3] - box[1])]); }
+      const n = idx ? idx.count : pos.count;
+      for (let t = 0; t < n; t += 3) {
+        const [A, B, C] = [0, 1, 2].map((k) => P[idx ? idx.getX(t + k) : t + k]);
+        const area = (B[0] - A[0]) * (C[1] - A[1]) - (C[0] - A[0]) * (B[1] - A[1]); if (Math.abs(area) < 1e-12) continue;
+        for (let y = Math.max(0, Math.floor(Math.min(A[1], B[1], C[1]))); y <= Math.min(MH - 1, Math.ceil(Math.max(A[1], B[1], C[1]))); y += 1) for (let x = Math.max(0, Math.floor(Math.min(A[0], B[0], C[0]))); x <= Math.min(MW - 1, Math.ceil(Math.max(A[0], B[0], C[0]))); x += 1) {
+          const qx = x + 0.5, qy = y + 0.5, w0 = ((B[0] - qx) * (C[1] - qy) - (C[0] - qx) * (B[1] - qy)) / area, w1 = ((C[0] - qx) * (A[1] - qy) - (A[0] - qx) * (C[1] - qy)) / area;
+          if (w0 >= 0 && w1 >= 0 && 1 - w0 - w1 >= 0) m[y * MW + x] = 1;
+        }
+      }
+    });
+    return m;
+  };
+  const before = OHA.map((a) => { const w = AA.aaMountAgentAvatars({ three: RTS, parent: new RT.Group(), agents: [a], siteAt: () => ({ x: 0, y: 0, z: 0 }), tier: "balanced" }); const g = w.figure(a.id); g.position.set(0, 0, 0); g.rotation.y = 0; const m = maskOf(g, "front"); w.dispose(); return m; });
+  const after = OHA.map((a) => HD.aaHdSilhouette(a, { w: MW, h: MH, view: "front" }));
+  const DISTINCT = 0.9; // a pair is distinct when its front silhouettes overlap by at most 90% (intersection over union)
+  const pairsOf = (ms) => { const out = []; for (let i = 0; i < ms.length; i += 1) for (let j = i + 1; j < ms.length; j += 1) out.push({ a: OHA[i].key, b: OHA[j].key, iou: HD.aaHdMaskIoU(ms[i], ms[j]) }); return out; };
+  const pb = pairsOf(before), pa = pairsOf(after);
+  const nb = pb.filter((p) => p.iou <= DISTINCT).length, na = pa.filter((p) => p.iou <= DISTINCT).length;
+  const worstA = pa.reduce((x, y) => (y.iou > x.iou ? y : x)), worstB = pb.reduce((x, y) => (y.iou > x.iou ? y : x));
+  const med = (ps) => { const s = ps.map((p) => p.iou).sort((x, y) => x - y); return s[Math.floor(s.length / 2)]; };
+  ok(na === 21, `the seven silhouettes are distinct (front IoU ≤ ${DISTINCT}): ${na} of 21 pairs (today's figure: ${nb} of 21); most alike ${worstA.a}/${worstA.b} ${worstA.iou.toFixed(3)}, median ${med(pa).toFixed(3)} (today's: most alike ${worstB.a}/${worstB.b} ${worstB.iou.toFixed(3)}, median ${med(pb).toFixed(3)})`);
+  HDV.silhouettes = { before: nb, after: na, worstAfter: worstA, worstBefore: worstB, medAfter: med(pa), medBefore: med(pb) };
+  // 9e. personality in the body: each trait against its body measure across the seven (Spearman rank correlation)
+  const rank = (xs) => { const o = xs.map((x, i) => [x, i]).sort((p, q) => p[0] - q[0]); const r = new Array(xs.length); let i = 0; while (i < o.length) { let j = i; while (j + 1 < o.length && o[j + 1][0] === o[i][0]) j += 1; for (let k = i; k <= j; k += 1) r[o[k][1]] = (i + j) / 2; i = j + 1; } return r; };
+  const spearman = (x, y) => { const rx = rank(x), ry = rank(y), mx = rx.reduce((a, b) => a + b) / rx.length, my = ry.reduce((a, b) => a + b) / ry.length; let n = 0, dx = 0, dy = 0; for (let i = 0; i < rx.length; i += 1) { n += (rx[i] - mx) * (ry[i] - my); dx += (rx[i] - mx) ** 2; dy += (ry[i] - my) ** 2; } return n / Math.sqrt(dx * dy || 1); };
+  // Measured on the built figure's bones in figure space (rest pose; facing +z, x is lateral), each divided by the body's height:
+  //   upright = -(head z - pelvis z)            the head over the hips (a forward lean is negative)
+  //   stance  = feet spread beyond the hips     |ankleL x - ankleR x| - |hipL x - hipR x|
+  //   hands   = right-wrist travel over 3 s of speech with one fixed beat signal (the same words for every agent)
+  //   tidy    = -(right elbow out beyond its shoulder + the knees' fore-aft difference)   arms close, weight even
+  const measures = OHA.map((a) => {
+    const spec = HD.aaHdSpec(a), fig = HD.aaHdBuild(RT, a, spec), H = spec.body.H;
+    const at = (st) => { fig.apply(HD.aaHdPose(spec, st)); fig.group.updateMatrixWorld(true); const p = (n) => fig.bones[n].getWorldPosition(new RT.Vector3()); return { head: p("head"), pelvis: p("pelvis"), wr: p("wristR"), er: p("elbowR"), sr: p("shoulderR"), al: p("ankleL"), ar: p("ankleR"), hl: p("hipL"), hr: p("hipR"), kl: p("kneeL"), kr: p("kneeR") }; };
+    const rest = at({ t: 0 });
+    let travel = 0, prev = null; for (let k = 0; k <= 60; k += 1) { const s = at({ t: 0, speaking: true, beat: 0.5 + 0.5 * Math.sin(k * 1.3), mouth: 0.5 }); if (prev) travel += s.wr.distanceTo(prev); prev = s.wr.clone(); }
+    return { a, upright: -(rest.head.z - rest.pelvis.z) / H, stance: (Math.abs(rest.al.x - rest.ar.x) - Math.abs(rest.hl.x - rest.hr.x)) / H, hands: travel / H,
+      tidy: -((Math.abs(rest.er.x) - Math.abs(rest.sr.x)) + Math.abs(rest.kl.z - rest.kr.z)) / H };
+  });
+  HDV.measures = measures.map((m) => ({ key: m.a.key, upright: +m.upright.toFixed(4), stance: +m.stance.toFixed(4), hands: +m.hands.toFixed(3), tidy: +m.tidy.toFixed(4) }));
+  const tr = (k) => OHA.map((a) => a.traits[k]);
+  const rho = { caution: spearman(tr("caution"), measures.map((m) => m.upright)), warmth: spearman(tr("warmth"), measures.map((m) => m.stance)), verbosity: spearman(tr("verbosity"), measures.map((m) => m.hands)), formality: spearman(tr("formality"), measures.map((m) => m.tidy)) };
+  HDV.rho = rho;
+  ok(Object.values(rho).every((r) => r >= 0.7), `personality in the body (Spearman ρ over the seven): caution ↔ upright ${rho.caution.toFixed(2)}, warmth ↔ open stance ${rho.warmth.toFixed(2)}, verbosity ↔ hand motion while speaking ${rho.verbosity.toFixed(2)}, formality ↔ tidy silhouette ${rho.formality.toFixed(2)} (each ≥ 0.70)`, JSON.stringify(HDV.measures));
+  // 9f. speech in the body: the mouth opens on each word boundary (a stubbed voice), and on the caption's word timing with voice off
+  // Sampled at 60 Hz; "open" is 15% of the mouth's travel. Tolerance, fixed before the run: one 60 Hz frame plus the mouth's rise to
+  // 15% open (a few ms) = 25 ms.
+  const FPS = 60, THR = 0.15, TOL = 25;
+  const text = "Job 7 at the San Jose robotics lab is mine; I will coach the pick and place after the run.";
+  const words = [...text.matchAll(/\S+/g)].map((m) => ({ char: m.index, len: m[0].length }));
+  const runMouth = (voiced) => {
+    const src = AA.aaEmitter(), w = AA.aaMountAgentAvatars({ three: RTS, parent: new RT.Group(), agents: [AG.trainer], source: src, siteAt, tier: "high", hd: true });
+    let t = 0; w.animate(t, 0, null); src.emit({ type: "speak", agent: AG.trainer.id, text });
+    const hooks = AA.aaVoiceHooks(w, AG.trainer.id), sched = [];
+    if (voiced) { // the stubbed voice's clock: starts 0.35 s in, a boundary per word at 90 ms + 28 ms a letter, ends 0.3 s after the last word
+      let tv = 0.35; sched.push([tv, () => hooks.onstart()]); tv += 0.04;
+      for (const wd of words) { const at = tv; sched.push([at, () => hooks.onboundary({ name: "word", charIndex: wd.char })]); tv += 0.09 + 0.028 * wd.len; }
+      sched.push([tv + 0.3, () => hooks.onend()]);
+    }
+    const bounds = voiced ? sched.slice(1, -1).map((s) => s[0]) : w.state(AG.trainer.id) && null;
+    const onsetsOff = voiced ? null : (() => { const st = w.state(AG.trainer.id); void st; return null; })();
+    void onsetsOff;
+    const samples = []; let speakingAt = null;
+    for (let k = 1; k <= FPS * 9; k += 1) {
+      t = k / FPS; while (sched.length && sched[0][0] <= t) sched.shift()[1]();
+      w.animate(t, 1 / FPS, null); const s = w.state(AG.trainer.id); samples.push([t, s.mouth, s.talkVisible, s.speaking]); if (speakingAt === null && s.speaking) speakingAt = t;
+    }
+    w.dispose();
+    return { samples, bounds };
+  };
+  const err = (samples, bounds) => { const out = []; for (let i = 0; i < bounds.length; i += 1) { const b = bounds[i], next = bounds[i + 1] ?? Infinity; const hit = samples.find(([t, m]) => t >= b - 1e-9 && t < next && m >= THR); out.push(hit ? (hit[0] - b) * 1000 : Infinity); } return out; };
+  const v = runMouth(true), ev = err(v.samples, v.bounds);
+  // before onstart the line runs on the caption's timing (the light and mouth start when the line arrives, as today: h3-next item 2)
+  const closedAfter = v.samples.filter(([t]) => t > v.bounds[v.bounds.length - 1] + 0.32).every(([, m]) => m === 0);
+  const maxV = Math.max(...ev), within = ev.filter((e) => e <= TOL).length;
+  ok(within === ev.length && closedAfter, `voice on (a stubbed utterance's word boundaries): the mouth opens within ${maxV.toFixed(1)} ms of each boundary, ${within} of ${ev.length} within ${TOL} ms; shut after onend`);
+  const off = runMouth(false);
+  const ons = HD.aaWordOnsets(text, AA.aaLineMs(text)).map((o) => o.at / 1000 + 0); // the line starts at the first frame after the speak (t = 0)
+  const eo = err(off.samples, ons), maxO = Math.max(...eo), withinO = eo.filter((e) => e <= TOL).length;
+  const lineEnd = AA.aaLineMs(text) / 1000, shutAfter = off.samples.filter(([t]) => t > lineEnd + 0.02).every(([, m]) => m === 0);
+  let closes = 0; for (let i = 0; i + 1 < ons.length; i += 1) if (off.samples.some(([t, m]) => t > ons[i] && t < ons[i + 1] && m < THR)) closes += 1;
+  ok(withinO === eo.length && shutAfter && closes === ons.length - 1, `voice off (the caption's word timing): the mouth opens within ${maxO.toFixed(1)} ms of each word onset, ${withinO} of ${eo.length}; it closes between words ${closes} of ${ons.length - 1} and is shut after the line`);
+  HDV.mouth = { on: { max: maxV, n: ev.length, within }, off: { max: maxO, n: eo.length, within: withinO } };
+  // the real voice controller (oh-voice.js) with a stubbed speechSynthesis: one local voice and one network voice
+  const OHV = await imp("WebXR/shared/oh-voice.js");
+  const voices = [{ name: "Local Voice", lang: "en-US", localService: true }, { name: "Network Voice", lang: "en-US", localService: false }];
+  const timers = []; let now = 0, bForwarded = 0;
+  class Utter { constructor(text2) { this.text = text2; } }
+  const synth = { getVoices: () => voices, speak(u) { timers.push([now + 0.1, () => u.onstart?.()]); let tv = now + 0.14; for (const m of u.text.matchAll(/\S+/g)) { const ci = m.index; timers.push([tv, () => { if (typeof u.onboundary === "function") { bForwarded += 1; u.onboundary({ name: "word", charIndex: ci }); } }]); tv += 0.2; } timers.push([tv + 0.2, () => u.onend?.()]); timers.sort((p, q) => p[0] - q[0]); }, cancel() {} };
+  const ctl = OHV.ohVoiceController({ synth, Utterance: Utter, doc: null, win: null, enabled: true });
+  const src2 = AA.aaEmitter(), w2 = AA.aaMountAgentAvatars({ three: RTS, parent: new RT.Group(), agents: [AG.trainer], source: src2, siteAt, tier: "high", hd: true });
+  w2.animate(0, 0, null); src2.emit({ type: "speak", agent: AG.trainer.id, text }); ctl.say(AG.trainer, text, AA.aaVoiceHooks(w2, AG.trainer.id));
+  const s2 = []; for (let k = 1; k <= FPS * 6; k += 1) { now = k / FPS; while (timers.length && timers[0][0] <= now) timers.shift()[1](); w2.animate(now, 1 / FPS, null); const s = w2.state(AG.trainer.id); s2.push([now, s.mouth, s.voiced]); }
+  let opens = 0; for (let i = 1; i < s2.length; i += 1) if (s2[i][1] >= THR && s2[i - 1][1] < THR && s2[i][2]) opens += 1;
+  ok(ctl.chosen(AG.trainer.id)?.localService === true && opens >= 10, `with oh-voice.js and a stubbed speechSynthesis (one local, one network voice): the local voice is chosen, the mouth opens ${opens} times between onstart and onend; boundaries forwarded by the controller: ${bForwarded} (the onboundary line is HIVE-4's seam)`);
+  HDV.voiceCtl = { opens, forwarded: bForwarded };
+  w2.dispose();
+  // 9g. gestures driven by the hive's own events: the real hive (seed 1), every event type → its gesture, N of N
+  // the learner is a seeded stand-in (not a person) who approves every request, so approvals happen; supervise every job is on
+  const hv = OHH.ohHive({ seed: HIVE_SEED, supervise: true, decide: () => "approve" });
+  const wg = AA.aaMountAgentAvatars({ three: RTS, parent: new RT.Group(), agents: OHA, source: hv, siteAt, tier: "high", hd: true });
+  const evs = []; hv.on("*", (e) => evs.push(e));
+  let tg = 0; wg.animate(tg, 0, null);
+  for (let s = 0; s < 120; s += 1) { hv.step(); for (let k = 0; k < 10; k += 1) { tg += 0.1; wg.animate(tg, 0.1, null); } }
+  const gl = wg.gestureLog();
+  const want = { bid: "raise", award: "accept", refused: "stop", approved: "approve", complete: "nod" };
+  const rows = Object.entries(want).map(([on, kind]) => {
+    const n = on === "approved" ? evs.filter((e) => e.type === "speak" && e.about === "approved").length : evs.filter((e) => e.type === on).length;
+    const got = gl.filter((g) => g.on === on && g.kind === kind).length; return { on, kind, n, got };
+  });
+  ok(rows.every((r) => r.got === r.n && r.n > 0), `gestures from the hive's events (seed ${HIVE_SEED}, 120 steps): ${rows.map((r) => `${r.on} → ${r.kind} ${r.got} of ${r.n}`).join(", ")}`);
+  HDV.gestures = rows;
+  wg.dispose();
+  // the pose each gesture makes (one agent, each event once, sampled mid-gesture in figure space)
+  const src3 = AA.aaEmitter(), w3 = AA.aaMountAgentAvatars({ three: RTS, parent: new RT.Group(), agents: [AG.logistics], source: src3, siteAt: () => ({ x: 0, y: 0, z: 0 }), tier: "high", hd: true });
+  const g3 = w3.figure(AG.logistics.id); let t3 = 0; w3.animate(t3, 0, null);
+  const fp = (name) => { g3.updateMatrixWorld(true); const bone = g3.userData.parts.body.skeleton.bones.find((b) => b.name === `aa-bone-${name}`); return g3.worldToLocal(bone.getWorldPosition(new RT.Vector3())); };
+  const restH = fp("head"), restWr = fp("wristR"), restChest = fp("chest");
+  const mid = (type, extra = {}) => { src3.emit({ type, agent: AG.logistics.id, ...extra }); const kind = AA.AA_GESTURE_FOR[type === "speak" ? "approved" : type]; t3 += (AA.AA_GESTURE_MS[kind] / 1000) * 0.5; w3.animate(t3, 0.05, null); const r = { head: fp("head"), wr: fp("wristR"), el: fp("elbowR"), pitch: g3.userData.parts.head.rotation.x }; t3 += 2.5; w3.animate(t3, 0.05, null); return r; };
+  const pr = mid("bid"), pa2 = mid("award"), ps = mid("refused", { reason: "speed over the site limit" }), pn = mid("speak", { about: "approved", text: "Approved for the sim." }), pc = mid("complete");
+  const poses = [
+    ["raise: the right hand above the head", pr.wr.y > restH.y + 0.1],
+    ["accept: the right hand up at the chest", pa2.wr.y > restChest.y - 0.05 && pa2.wr.y < restH.y],
+    ["stop: the hand forward, up, palm out", ps.wr.z > restWr.z + 0.25 && ps.wr.y > ps.el.y + 0.1],
+    ["approve: a nod", pn.pitch > 0.2],
+    ["complete: a nod", pc.pitch > 0.2],
+  ];
+  ok(poses.every((p) => p[1]), `each gesture's pose, measured on the figure's bones mid-gesture: ${poses.filter((p) => p[1]).length} of ${poses.length}`, poses.filter((p) => !p[1]).map((p) => p[0]).join("; "));
+  w3.dispose();
+  // 9h. reduced motion: no idle, blink or walk on the high figure; a gesture holds still at its pose
+  const src4 = AA.aaEmitter(), w4 = AA.aaMountAgentAvatars({ three: RTS, parent: new RT.Group(), agents: [AG.trainer], source: src4, siteAt, tier: "high", hd: true, reducedMotion: true });
+  const g4 = w4.figure(AG.trainer.id), bones4 = g4.userData.parts.body.skeleton.bones;
+  const snap = () => bones4.map((b) => `${b.rotation.x.toFixed(4)},${b.rotation.y.toFixed(4)},${b.rotation.z.toFixed(4)},${b.scale.y.toFixed(3)}`).join("|");
+  w4.animate(1, 0.05, null); const s1 = snap(); w4.animate(2.7, 0.05, null); const s2b = snap();
+  src4.emit({ type: "refused", agent: AG.trainer.id, reason: "x" }); w4.animate(2.8, 0.05, null); const a1 = snap(); w4.animate(3.9, 0.05, null); const a2 = snap();
+  ok(s1 === s2b && a1 === a2 && a1 !== s1, "reduced motion: the high figure stands still (no idle, breathing or blink), and a gesture holds still at its pose");
+  w4.dispose();
+  // 9j. portraits from the new figure at 2× and 3× (48 px cards: 96 and 144 px), same card layout
+  const keysP = new Set(); let goodP = 0;
+  const fnv = (u8) => { let h = 2166136261; for (let i = 0; i < u8.length; i += 7) { h ^= u8[i]; h = Math.imul(h, 16777619) >>> 0; } return h; };
+  const allAgents = [...OHA, ...AA.aaVbridgeAgents()];
+  for (const a of allAgents) for (const px of [96, 144]) {
+    const p1 = AP.aaPortraitFigureRgba(a, px), p2 = AP.aaPortraitFigureRgba(a, px);
+    const corner = p1[3], centre = p1[((px >> 1) * px + (px >> 1)) * 4 + 3];
+    if (p1.length === px * px * 4 && fnv(p1) === fnv(p2) && corner === 0 && centre === 255) goodP += 1;
+    if (px === 96) keysP.add(fnv(p1));
+  }
+  ok(goodP === allAgents.length * 2 && keysP.size === allAgents.length, `portraits drawn from the high-detail figure: ${goodP} of ${allAgents.length * 2} at 96 px (2×) and 144 px (3×), deterministic, rounded card corners; distinct ${keysP.size} of ${allAgents.length}`);
+  const apSrc = read("WebXR/shared/aa-agent-portraits.js");
+  ok(typeof AP.aaPortrait === "function" && /export function aaPortraitImg[^]*?return aaPortrait\(agent, \{ size, scale: dpr, kind \}\)/.test(apSrc) && /aaPortraitImg\(a, \{ size \}\)/.test(apSrc) && AP.aaPortrait(OHA[0], { size: 48, scale: 3 })?.width === 48, "aaPortrait(agent, { size, scale }) is exported for HIVE-4's tab; aaPortraitImg and the roster draw it (same card layout: a 48 px image)");
+  // 9i. the wiring: the outdoor mount asks for hd; the bundles list the module before the portraits
+  const app = read("WebXR/parishes/js/app.js"), bundler = read("tools/bundle_webxr.py");
+  const block = (name) => { const i = bundler.indexOf(`"${name}": {`); return i < 0 ? "" : bundler.slice(i, bundler.indexOf('"entry"', i)); };
+  const par2 = block("parishes"), ins2 = block("instructor");
+  ok(/aaMountAgentAvatars\(\{[^\n]*\bhd: true\b/.test(app) && par2.indexOf('"aa-agent-hd.js"') > 0 && par2.indexOf('"aa-agent-hd.js"') < par2.indexOf('"aa-agent-portraits.js"') && ins2.indexOf('"aa-agent-hd.js"') > 0 && ins2.indexOf('"aa-agent-hd.js"') < ins2.indexOf('"aa-agent-portraits.js"'), "wiring: the parishes app's outdoor mount asks for hd; both bundles list aa-agent-hd.js before the portraits");
+}
+
 // ---------------------------------------------------------------- the eval
+if (HDV.tiers) {
+  const T9 = HDV.tiers;
+  console.log(`\n  EVAL AVATARS-HD: triangles per figure low 0 / balanced ${T9.balanced.perFigure.toFixed(0)} / high ${T9.high.perFigure.toFixed(0)} (worst ${T9.high.worstTri}, budget ${3000}); draw calls per figure balanced ${T9.balanced.silent}/${T9.balanced.speaking}, high ${T9.high.silent}/${T9.high.speaking} (silent/speaking)`);
+  console.log(`  EVAL AVATARS-HD: distinct silhouettes ${HDV.silhouettes.before} → ${HDV.silhouettes.after} of 21; mouth within ${HDV.mouth.on.max.toFixed(1)} ms of word boundaries (stubbed voice, ${HDV.mouth.on.within} of ${HDV.mouth.on.n}), ${HDV.mouth.off.max.toFixed(1)} ms of caption word onsets (${HDV.mouth.off.within} of ${HDV.mouth.off.n}); gestures ${HDV.gestures.map((r) => `${r.on} ${r.got}/${r.n}`).join(", ")}`);
+}
 console.log(`\n  eval: agents embodied 0 → ${OHA.length} hive agents (the real hive, ohHive seed ${HIVE_SEED}) + ${AP.AA_VBRIDGE_PERSONAS.length} VBRIDGE personas; meshes + sprites per figure ≤ ${AA.AA_AGENT_BUDGET}; over the real hive's run the talk light is exact, every speak event has a caption and every move ends at its named site (lines above)`);
 console.log(failures ? `\n${failures} agent-avatar problem(s) found (${passes} passed).` : `\nAll ${passes} agent-avatar checks pass.`);
 process.exit(failures ? 1 : 0);

@@ -22,13 +22,18 @@
 //   aaAgentLook(agent)                         -> { glyph, accent, outfit, key }
 //   aaPortraitSvg(agent, { size, kind })       -> SVG markup (portrait | token)
 //   aaPortraitPng(agent, { size, dpr, kind, raster }) -> Promise<data URL>, cached per agent, size and dpr
-//   aaPortraitImg(agent, { size, dpr, kind })  -> <img> showing the SVG at once, swapped for the cached 2× PNG
+//   aaPortrait(agent, { size, scale, kind })   -> AVATARS-HD: <img> showing the SVG at once, swapped for the portrait drawn from the
+//                                                 high-detail figure (aa-agent-hd.js) at size × scale (2× or 3×), cached; the seam
+//                                                 HIVE-4's hive tab calls
+//   aaPortraitFigureRgba(agent, px)            -> that portrait's pixels (RGBA, px × px), no browser needed
+//   aaPortraitImg(agent, { size, dpr, kind })  -> the same as aaPortrait (tokens keep the SVG raster)
 //   aaPortraitCacheStats()                     -> { entries, hits, rasters }
 //   aaRoleLabel(agent)                         -> the short role a label shows ("dispatcher")
 //   aaMountAgentRoster(el, { agents, siteName, size }) -> { render(agents), cards() }
 //   AA_VBRIDGE_PERSONAS                        -> the four VBRIDGE personas (client, provider, evaluator, governor)
 
 import { AV_PARTS } from "./av-sprites.js";
+import { aaHdSpec, aaHdGeometry, aaHdPose, aaHdRender } from "./aa-agent-hd.js";
 
 /** The four VBRIDGE personas as agents. Mirrors av-characters.js's registry
  * entries (same ids, names, roles, glyphs and accents — check_agent_avatars
@@ -190,8 +195,77 @@ export function aaPortraitPng(agent, { size = 48, dpr = aaDpr(), kind = "portrai
 
 export function aaPortraitCacheStats() { return { entries: AA_PORTRAIT_CACHE.size, hits: aaPortraitCounters.hits, rasters: aaPortraitCounters.rasters }; }
 
-/** An <img> for the portrait: the SVG at once (crisp, vector), then the cached size × dpr PNG once it is ready. */
+// ------------------------------------------------------------------ AVATARS-HD: portraits drawn from the high-detail figure
+
+/** The portrait's crop round the figure's head (metres, figure space): head, halo and shoulders, square. */
+export function aaPortraitFigureCrop(geo) { const hc = geo.joints.headC[1]; return [-0.27, hc - 0.305, 0.27, hc + 0.235]; }
+
+/**
+ * The portrait drawn from the high-detail figure itself (aa-agent-hd.js: the same spec, geometry and rest pose the 3D figure uses,
+ * through its software rasteriser): head and shoulders, front view, px × px RGBA on the card colour with the card's rounded
+ * corners. No browser needed; deterministic per agent and size.
+ */
+export function aaPortraitFigureRgba(agent, px = 96) {
+  const n = Math.max(16, Math.round(px)), spec = aaHdSpec(agent), geo = aaHdGeometry(spec);
+  const img = aaHdRender(geo, aaHdPose(spec, { t: 0 }), { w: n, h: n, view: "front", crop: aaPortraitFigureCrop(geo), bg: [18, 48, 63, 255], ss: n <= 64 ? 3 : 2 });
+  const rgba = img.rgba, r = (n * 10) / 64; // the SVG card's corner radius (10 of 64)
+  for (let y = 0; y < n; y += 1) for (let x = 0; x < n; x += 1) {
+    const cx = x + 0.5 < r ? r : x + 0.5 > n - r ? n - r : null, cy = y + 0.5 < r ? r : y + 0.5 > n - r ? n - r : null;
+    if (cx === null || cy === null) continue;
+    const d = Math.hypot(x + 0.5 - cx, y + 0.5 - cy) - r; if (d <= -0.5) continue;
+    rgba[(y * n + x) * 4 + 3] = Math.round(rgba[(y * n + x) * 4 + 3] * Math.max(0, Math.min(1, 0.5 - d)));
+  }
+  return rgba;
+}
+
+const AA_FIGURE_PORTRAITS = new Map();
+/** The figure portrait as a PNG data URL at size × scale device pixels (cached per agent look and pixel size); null off a browser. */
+export function aaPortraitFigurePng(agent, { size = 48, scale = aaDpr() } = {}) {
+  const px = Math.max(16, Math.round(size * scale));
+  const key = `${agent?.id ?? "?"}|${aaAgentLook(agent).key}|${px}`;
+  if (AA_FIGURE_PORTRAITS.has(key)) { aaPortraitCounters.hits += 1; return AA_FIGURE_PORTRAITS.get(key); }
+  const canDraw = typeof document !== "undefined" && typeof document.createElement === "function";
+  const p = !canDraw ? Promise.resolve(null) : Promise.resolve().then(() => {
+    const c = document.createElement("canvas"); c.width = px; c.height = px;
+    const g = c.getContext?.("2d"); if (!g?.createImageData) return null;
+    const id = g.createImageData(px, px); id.data.set(aaPortraitFigureRgba(agent, px)); g.putImageData(id, 0, 0);
+    aaPortraitCounters.rasters += 1;
+    const url = c.toDataURL?.("image/png"); return typeof url === "string" && url.startsWith("data:image/png") ? url : null;
+  }).catch(() => null);
+  AA_FIGURE_PORTRAITS.set(key, p);
+  return p;
+}
+
+/**
+ * AVATARS-HD's portrait export (the seam HIVE-4's hive tab calls): an <img> at `size` CSS px that shows the SVG badge at once and
+ * swaps to the portrait drawn from the high-detail figure at size × scale device pixels (2× on a 2× screen, 3× on a 3× screen;
+ * scale is clamped to 1..3). Same card layout as before. If the figure cannot be drawn it falls back to the SVG raster.
+ * data-aa-raster reads "png@<scale>x" and data-aa-source "figure" once the figure portrait shows.
+ */
+export function aaPortrait(agent, { size = 48, scale = aaDpr(), kind = "portrait" } = {}) {
+  if (typeof document === "undefined" || typeof document.createElement !== "function") return null;
+  const k = Math.min(3, Math.max(1, Number(scale) || 1));
+  if (kind !== "portrait") return aaPortraitImgSvg(agent, { size, dpr: k, kind });
+  const img = document.createElement("img");
+  img.width = size; img.height = size; img.alt = `${agent?.name ?? "Agent"}, software agent`;
+  img.className = "aa-portrait"; img.decoding = "async";
+  img.src = aaPortraitSvgUrl(agent, { size: Math.round(size * k), kind });
+  if (!img.dataset) img.dataset = {}; // a minimal DOM (the checkers' stub) has no dataset
+  img.dataset.aaAgent = String(agent?.id ?? "");
+  aaPortraitFigurePng(agent, { size, scale: k }).then((url) => {
+    if (url) { img.src = url; img.dataset.aaRaster = `png@${k}x`; img.dataset.aaSource = "figure"; return; }
+    return aaPortraitPng(agent, { size, dpr: k, kind }).then((u) => { if (/^data:image\/png/.test(u)) { img.src = u; img.dataset.aaRaster = `png@${k}x`; img.dataset.aaSource = "svg"; } });
+  }).catch(() => {});
+  return img;
+}
+
+/** An <img> for the portrait: since AVATARS-HD, drawn from the high-detail figure (aaPortrait); tokens keep the SVG raster. */
 export function aaPortraitImg(agent, { size = 48, dpr = aaDpr(), kind = "portrait" } = {}) {
+  return aaPortrait(agent, { size, scale: dpr, kind });
+}
+
+/** The SVG at once (crisp, vector), then the cached size × dpr PNG of the SVG once it is ready (the token's portrait). */
+function aaPortraitImgSvg(agent, { size = 48, dpr = aaDpr(), kind = "portrait" } = {}) {
   if (typeof document === "undefined" || typeof document.createElement !== "function") return null;
   const img = document.createElement("img");
   img.width = size; img.height = size; img.alt = `${agent?.name ?? "Agent"}, software agent`;

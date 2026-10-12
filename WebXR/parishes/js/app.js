@@ -1297,7 +1297,7 @@ var aaWorld = !rbWorld?.sites?.length ? null : (() => { // a map with no robot s
   try {
     const hive = window.__parishTest.hive?.hive ?? null; // HIVE-IN-WORLD: the hive itself (on, agents), not the panel's api
     const hiveAgents = hive ? (typeof hive.agents === "function" ? hive.agents() : hive.agents) ?? [] : [];
-    return aaMountAgentAvatars({ three: THREE, parent: root, agents: [...hiveAgents, ...aaVbridgeAgents(rbWorld?.sites?.[0]?.id ?? null)], source: [hive, aaVbSource].filter(Boolean), siteAt: aaSiteAt, reducedMotion: npReduced, tier: npTierName, groundAt: (x, z) => Math.max(npHeightAt(parish, x, z), 0), spotFor: (_a, id) => h3ScenePts.get(id) ?? null, route: hwWalk?.route ?? null, blocked: hwWalk?.blocked ?? null });
+    return aaMountAgentAvatars({ three: THREE, parent: root, agents: [...hiveAgents, ...aaVbridgeAgents(rbWorld?.sites?.[0]?.id ?? null)], source: [hive, aaVbSource].filter(Boolean), siteAt: aaSiteAt, reducedMotion: npReduced, tier: npTierName, hd: true /* AVATARS-HD: the high-detail figure, desktop high tier only */, groundAt: (x, z) => Math.max(npHeightAt(parish, x, z), 0), spotFor: (_a, id) => h3ScenePts.get(id) ?? null, route: hwWalk?.route ?? null, blocked: hwWalk?.blocked ?? null });
   } catch (_) { return null; }
 })();
 window.__parishTest.agentAvatars = aaWorld;
