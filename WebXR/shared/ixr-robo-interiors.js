@@ -199,8 +199,9 @@ function ixrPaintMesh(g, res) {
   g.fillStyle = "rgba(255,255,255,0.9)";
   for (let i = 0; i < n; i++) for (let j = 0; j < n; j++) g.fillRect(i * step - wire * 0.5, j * step - wire * 0.5, wire * 2, wire * 2); // weld nodes
 }
-/** One tileable texture of the set, cached by name and size (the canvas is painted once per page). */
-function ixrSetTexture(THREE, name, res, repeat) {
+/** One tileable texture of the set, cached by name and size (the canvas is painted once per page). Exported for ENV-HD-2's
+ *  room skins (hd2-room-skins.js), which put the same set on the most-visited INTERIORS rooms. */
+export function ixrSetTexture(THREE, name, res, repeat) {
   const key = `${name}@${res}`;
   let base = IXR_TEX_CACHE.get(key);
   if (!base) {
@@ -214,8 +215,9 @@ function ixrSetTexture(THREE, name, res, repeat) {
   if (!t.image) t.image = base.image;
   return t;
 }
-/** The epoxy floor of one room: base, speckle, joints every 4 m, then the room's floor marks (ROOMS[style].floor). */
-function ixrFloorTexture(THREE, styleId, room, res) {
+/** The epoxy floor of one room: base, speckle, joints every 4 m, then the room's floor marks (ROOMS[style].floor, or `marks`
+ *  for a room outside this set — ENV-HD-2's skins pass their own). */
+export function ixrFloorTexture(THREE, styleId, room, res, marks = null) {
   const c = ixrCanvas(res, res);
   if (c) {
     const g = c.getContext("2d"), rng = ixrRng(styleId.length * 97 + 5);
@@ -237,7 +239,7 @@ function ixrFloorTexture(THREE, styleId, room, res) {
       for (let t = -span; t < span; t += p * 2) { g.beginPath(); g.moveTo(x0 + t, z0); g.lineTo(x0 + t + p, z0); g.lineTo(x0 + t + p + (z1 - z0), z1); g.lineTo(x0 + t + (z1 - z0), z1); g.closePath(); g.fill(); }
       g.restore();
     };
-    for (const m of IXR_ROOMS[styleId]?.floor ?? []) {
+    for (const m of marks ?? IXR_ROOMS[styleId]?.floor ?? []) {
       const [k] = m;
       if (k === "line" || k === "dash") {
         const [, x1, z1, x2, z2, lw, col, dash] = m;

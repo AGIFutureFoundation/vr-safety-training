@@ -39,6 +39,7 @@ import { cwMassFilter, cwStreets, cwColliders, cwSidewalkAt, cwSiteBuilding, cwD
 import { ixMountInteriors, ixTycoonStyle, ixDoorSpot, ixRegisterDresser, IX_KIND_STYLE } from "../../shared/ix-interiors.js";
 // ROBO-INTERIORS: a walk-in robotics room behind a door beside each robot site's pad (docs/consoles/ROBO-INTERIORS.md).
 import { ixrRegisterDressers, ixrDoorsFor, ixrSceneSite, ixrMeasure, ixrWalkAll, IXR_ROOMS } from "../../shared/ixr-robo-interiors.js";
+import { hd2RegisterSkins } from "../../shared/hd2-room-skins.js";
 import { rbSitesFor } from "../../shared/rb-world.js";
 import { cwMountStreets } from "../../shared/cw-streets-world.js";
 import { grMount } from "../../shared/npc.js";
@@ -1071,6 +1072,10 @@ void larDressed;
 // ROBO-INTERIORS: the six robotics rooms' dresser (props, the canvas texture set, the agent spots where the hive's avatars stand).
 var ixrDressed = ixrRegisterDressers(typeof ixRegisterDresser === "function" ? { ixRegisterDresser } : null);
 void ixrDressed;
+// ENV-HD-2: the same canvas texture set on the most-visited INTERIORS rooms (workshop, plant room, port shed, civic lobby,
+// classroom, apparatus bay, transit barn, clinic, warehouse): maps only, no mesh added; registered after the other dressers.
+var hd2Skinned = hd2RegisterSkins(typeof ixRegisterDresser === "function" ? { ixRegisterDresser } : null);
+void hd2Skinned;
 var crWorld = crMountClassrooms({
   three: THREE, scene, root, parish, tier: npTierName, toast: npToast, launch: crLaunch, passive: crDressed.length > 0,
   groundAt: (x, z) => Math.max(npHeightAt(parish, x, z), 0.2),
