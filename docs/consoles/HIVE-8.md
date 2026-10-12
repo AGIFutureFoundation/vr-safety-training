@@ -57,7 +57,7 @@ and off by default, and nothing listens. The governor's rules stand. `aa-*.js` w
 
 - `check_hive6` **11 passed, 0 failed**; `check_hive5` 5/0; `check_hive4` 11/0; `check_omega_hive` 15/0; `check_voices` 10/0;
   `check_hive3` all 32 pass.
-- `check_newton` all 60 pass; `check_imports` 1,141 modules pass; `check_parse`: see the hand-back. `check_interface` was not
+- `check_newton` all 60 pass; `check_imports` 1,141 modules pass; `check_parse` 2,726 modules parse. `check_interface` was not
   required, because no control was added or changed.
 
 ## Stills (`$SP/loop10/h8/`)
