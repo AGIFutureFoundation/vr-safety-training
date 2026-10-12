@@ -965,6 +965,8 @@ APPS = {
             SHARED / "rb-robotics-data.js",
             SHARED / "rb-env.js",
             SHARED / "rb-world.js",
+            # ROBO-EXTERIORS: the robot sites' buildings from outside (after rb-robotics-data.js, cw-cityworks.js, at-atmos.js).
+            SHARED / "fx-exteriors.js",
             # BAYQUEST: the Bay Program play layer (after ty-economy.js, st-stories.js, nw-physics.js, tf-terraform.js).
             SHARED / "bq-facts.js",
             SHARED / "bq-games-data.js",

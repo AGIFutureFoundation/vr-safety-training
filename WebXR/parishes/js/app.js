@@ -72,6 +72,8 @@ import { atMountAtmos, atNearness } from "../../shared/at-world.js";
 import { atMountSound } from "../../shared/at-sound.js";
 import { drMountDrills, drSetRecorder } from "../../shared/dr-drills.js";
 import { rbMountRobotics, rbGamesFor, rbRegisterMechanics } from "../../shared/rb-world.js";
+// ROBO-EXTERIORS: the robot sites' buildings from outside, their streetscape, night windows and establishing shots.
+import { fxMountExteriors, fxColliders, fxScene, fxSitesFor, fxSiteParish, FX_SHOTS } from "../../shared/fx-exteriors.js";
 import { uxMountTabs, uxOnboarding } from "../../shared/ux-menu.js";
 import { dxMountConsent } from "../../shared/dx-consent-ui.js";
 import { dxFlush, dxPendingCount, dxStore } from "../../shared/dx-data.js";
@@ -211,7 +213,9 @@ const npReduced = typeof matchMedia === "function" && matchMedia("(prefers-reduc
 // (Static now that MOTORWORKS is merged: the same placements its mount parks, checked against TERRAFORM's water depth.)
 let wkParked = [];
 try { wkParked = mvPlacements(parish, { waterDepthAt: (x, z) => tfWaterDepthAt(parish, x, z) }, { tier: npTierName }); } catch { wkParked = []; }
-const wkColliders = wkColliderSeam(cwColliders, nwParishColliders, wkSolidBoxes(wkParked, (x, z) => npHeightAt(parish, x, z)));
+let fxSolid = []; // ROBO-EXTERIORS: the robot-site buildings (pure lots, no three.js) are solid in the walk too
+try { fxSolid = fxColliders(parish); } catch { fxSolid = []; }
+const wkColliders = wkColliderSeam(cwColliders, nwParishColliders, [...(wkSolidBoxes(wkParked, (x, z) => npHeightAt(parish, x, z)) ?? []), ...fxSolid]);
 const nwPhys = nwMountPhysics({
   three: THREE, root, parish, tier: npTierName, reduced: npReduced,
   seams: { tfWaterDepthAt, tfFlowAt, cwColliders: wkColliders, tfLitterAt }, // TERRAFORM's water and litter, CITYWORKS's colliders (+ WALKABLE's parked vehicles)
@@ -359,6 +363,7 @@ function npApplySky() {
   const atF = atFog({ weather: atWeatherNow, band: atWeatherNow.band, nearWater: atNear.water });
   scene.fog.near = Math.min(vis * 0.15, atF.near); scene.fog.far = Math.min(vis, atF.far);
   atmos.set({ hour: atHour, weather: atWeatherNow });
+  fxWorld?.setHour(atHour); // ROBO-EXTERIORS: lit windows from ATMOS's dusk to dawn
   const night = NP_TIMES[np.timeIdx] === "night";
   sun.intensity = (night ? 0.12 : NP_TIMES[np.timeIdx] === "day" ? 1.1 : 0.6) * atDim; // a storm front darkens the light
   hemi.intensity = (night ? 0.25 : 0.95) * atDim;
@@ -768,7 +773,11 @@ function frame(now) {
     }
   } else nwPhys.animate(dt, null);
   const ixCam = ixWorld.inside() ? ixWorld.camera(NP_EYE) : null;
-  if (ixCam) {
+  if (fxShot && (np.playing || ixCam)) fxShot = null; // walking (or going inside) ends an establishing shot
+  if (fxShot) {
+    camera.position.set(fxShot.position[0], fxShot.position[1], fxShot.position[2]);
+    camera.lookAt(fxShot.target[0], fxShot.target[1], fxShot.target[2]);
+  } else if (ixCam) {
     camera.position.set(ixCam.x, ixCam.y, ixCam.z);
     camera.rotation.set(np.pitch, np.yaw, 0, "YXZ");
   } else if (np.playing && nwPhys.driving()) {
@@ -1154,6 +1163,33 @@ window.__parishTest.roboInteriors = {
   },
   walkAll() { const r = ixWorld.room; if (!r) return { reached: 0, total: 0 }; const w = ixrWalkAll(r); return { reached: w.reached, total: w.total, misses: w.results.filter((x) => !x.ok) }; },
 };
+// ROBO-EXTERIORS (docs/consoles/ROBO-EXTERIORS.md): a generic building of the site's kind beside each robot pad (fabrication
+// hall, research lab, distribution warehouse, port control tower, construction site), its streetscape and pictogram-only
+// signs, canvas facades (1024 px on desktop high, none on the phone), lit windows at night, two establishing shots a site.
+var fxWorld = null, fxShot = null;
+try { fxWorld = fxMountExteriors({ THREE, root, parish, tier: npTierName, hour: AT_BUCKET_HOUR[NP_TIMES[np.timeIdx]] ?? 12 }); } catch (e) { console.warn("fx-exteriors:", e); }
+window.__parishTest.exteriors = fxWorld;
+/** `__parishTest.scene(siteId, shot)`: frame a robot site ("wide" or "door"); a site on another map returns its URL. The
+ * handle used to be the THREE.Scene itself: it stays reachable as `__parishTest.threeScene`, and the old readers' calls
+ * (traverse, getObjectByName, getObjectById, children) are delegated to it, so check_harvest's live leg reads it as before. */
+const fxSceneHandle = (siteId, shot = "wide") => {
+  if (!fxSitesFor(parish).some((s) => s.id === siteId)) {
+    const other = fxSiteParish(siteId);
+    return other ? { ok: false, parish: other, href: `?parish=${encodeURIComponent(other)}&scene=${encodeURIComponent(siteId)}:${shot}` } : { ok: false, reason: "unknown site" };
+  }
+  const sc = fxScene(parish, siteId, shot);
+  if (!sc) return { ok: false, reason: `unknown shot (${FX_SHOTS.join(", ")})` };
+  np.x = sc.target[0]; np.z = sc.target[2];
+  world.update(np.x, np.z, 999); cwStreetsMount.update(np.x, np.z, 999); tfLand.update(np.x, np.z, 99); atmos.update(np.x, np.z);
+  fxShot = sc;
+  const menu = document.getElementById("menu"); if (menu && !np.playing) menu.hidden = true; // a clean frame for the reel (Esc brings the menu back)
+  return { ok: true, ...sc };
+};
+for (const k of ["traverse", "getObjectByName", "getObjectById"]) fxSceneHandle[k] = (...args) => scene[k](...args);
+Object.defineProperty(fxSceneHandle, "children", { get: () => scene.children });
+window.__parishTest.threeScene = scene;
+window.__parishTest.scene = fxSceneHandle;
+{ const q = npParams.get("scene"); if (q && q.includes(":")) { const [sid, shot] = q.split(":"); window.__parishTest.scene(sid, shot); } }
 // COLEARN (docs/consoles/COLEARN.md): watch the robot's cloned policy do the cell entry, then try it with the bandit tutor;
 // a finished try becomes a consented episode only through DATAWORKS' capture (inert unless opted in).
 window.__parishTest.colearn = colMountCoLearn($("menu-drills"), { reducedMotion: npReduced, capture: (steps, meta) => dxCaptureRollout(steps, meta) });

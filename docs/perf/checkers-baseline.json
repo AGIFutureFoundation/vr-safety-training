@@ -117,6 +117,7 @@
     "check_atmos.mjs": 52000,
     "check_facades.mjs": 12000,
     "check_detail.mjs": 160000,
+    "check_exteriors.mjs": 4000,
     "check_reactor.mjs": 35809,
     "check_interface.mjs": 73000,
     "check_bayprogram.mjs": 4700,
@@ -166,6 +167,7 @@
     "check_agentgym.mjs": "2026-10-06 03:50 UTC: new (console AGENTGYM). 5.2 s standalone under load ~13: 5 stations x 4 baselines x 2 seeds twice, two small evals, 15 parity replays, consent tests in memory.",
     "check_vbridge.mjs": "2026-10-06 04:35 UTC: new (console VBRIDGE). 0.4-0.6 s standalone: governor reasons, job lifecycles, provider configs, the GAME export compare, 200 adversarial + 200 safe governor checks and 50 sim lifecycles.",
     "check_silica.mjs": "2026-10-06 03:40 UTC: new (console SILICA). 4.9 s standalone: the SmartCiti.X suite load, 18 seeded agent runs plus 5 calibration runs of the drilling station, the consent gate, and the study aggregates (recomputed when the read-only clone is present).",
-    "check_robo_interiors.mjs": "2026-10-12 (console ROBO-INTERIORS): new. An ESTIMATE (about 1.5 s standalone headless on a loaded shared machine), to re-measure on a quiet gate: six robotics rooms built and furnished on three tiers, budgets and texture bytes measured, 70 A* walks with NEWTON's avatar step, door spots on five maps, the mount round trip; the --browser walk-through is opt-in and not in the gate."
+    "check_robo_interiors.mjs": "2026-10-12 (console ROBO-INTERIORS): new. An ESTIMATE (about 1.5 s standalone headless on a loaded shared machine), to re-measure on a quiet gate: six robotics rooms built and furnished on three tiers, budgets and texture bytes measured, 70 A* walks with NEWTON's avatar step, door spots on five maps, the mount round trip; the --browser walk-through is opt-in and not in the gate.",
+    "check_exteriors.mjs": "2026-10-12 (ROBO-EXTERIORS, loop 10): new. An estimate to re-measure on a quiet gate: 2.5 s standalone at load 6.6 on the shared four-core box (six lots, three tiers of builds, fifteen streamed builds at the robot sites, scenes, wiring); no browser."
   }
 }
