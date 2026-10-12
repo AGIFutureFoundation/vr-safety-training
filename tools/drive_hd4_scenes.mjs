@@ -78,7 +78,7 @@ for (const map of maps) {
     const ex = await page.evaluate(() => ({ fx: window.__parishTest.hd4.exteriors(), u: window.__parishTest.hd4.ultraSites() }));
     console.log(`     exteriors here: ${ex.fx?.meshes} meshes, ${ex.fx?.triangles} triangles, facade texture bytes allocated ${((ex.fx?.textureBytes ?? 0) / 1048576).toFixed(2)} MiB; Ultra detail: ${ex.u ? `${ex.u.meshes} meshes, ${ex.u.triangles} triangles` : "none (Ultra off)"}`);
   }
-  if (rooms && first) {
+  if (rooms && map === maps[maps.length - 1]) { // the rooms open from any map: shoot them on the last one, after every exterior
     for (const style of [...Object.keys(IXR_ROOMS), "hd4-hive-ops"]) {
       const r = await page.evaluate((st) => (st === "hd4-hive-ops" ? window.__parishTest.hd4.opsRoom() : window.__parishTest.ixScene(st)), style);
       await frames(12);

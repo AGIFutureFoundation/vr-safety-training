@@ -57,7 +57,7 @@ export const HD4_OPS_BUDGET = {
 
 const hd4Lit = (tier, ua) => tier === "high" && !hd4Headset(ua);
 /** A soft pool of light: a unit disc fan, bright at the centre and black at the rim (drawn additively). */
-function hd4PoolGeometry(THREE, warm = [0.34, 0.3, 0.22], n = 20) {
+function hd4PoolGeometry(THREE, warm = [0.16, 0.14, 0.1], n = 20) {
   const pos = [], col = [];
   for (let i = 0; i < n; i++) {
     const a0 = (i / n) * Math.PI * 2, a1 = ((i + 1) / n) * Math.PI * 2;
@@ -94,7 +94,7 @@ export function hd4LightRoom({ three: THREE, group, room, tier = "high", ua = ty
     body.push([0.03, rod, 0.03, x, yLamp + rod / 2, z, 0x6d737a], [0.6, 0.14, 0.34, x, yLamp, z, 0x3b4046]);
     glow.push([0.52, 0.03, 0.28, x, yLamp - 0.085, z, 0xfff1d6]);
   }
-  for (const [x, y, z] of beacons) { body.push([0.22, 0.14, 0.16, x, y - 0.1, z, 0x2a2e33]); glow.push([0.17, 0.16, 0.17, x, y + 0.04, z, 0xff9a1f]); }
+  for (const [x, y, z] of beacons) { body.push([0.34, 0.16, 0.24, x, y - 0.14, z, 0x2a2e33]); glow.push([0.26, 0.26, 0.26, x, y + 0.07, z, 0xff9a1f]); }
   const addBoxes = (list, mat, name) => {
     const im = new THREE.InstancedMesh(new THREE.BoxGeometry(1, 1, 1), mat, list.length); im.name = name;
     list.forEach(([bw, bh, bd, x, y, z, c], i) => { m4.compose(v.set(x, y, z), q.identity(), s.set(bw, bh, bd)); im.setMatrixAt(i, m4); im.setColorAt(i, col.setHex(c)); });
@@ -104,7 +104,7 @@ export function hd4LightRoom({ three: THREE, group, room, tier = "high", ua = ty
   const gm = addBoxes(glow, new THREE.MeshBasicMaterial({ color: 0xffffff, toneMapped: false }), "hd4-task-lamps");
   const pools = new THREE.InstancedMesh(hd4PoolGeometry(THREE), new THREE.MeshBasicMaterial({ vertexColors: true, transparent: true, blending: THREE.AdditiveBlending, depthWrite: false, toneMapped: false }), spots.length);
   pools.name = "hd4-light-pools"; pools.renderOrder = 2;
-  spots.forEach(([x, z], i) => { m4.compose(v.set(x, 0.075, z), q.identity(), s.set(1.25, 1, 1.25)); pools.setMatrixAt(i, m4); });
+  spots.forEach(([x, z], i) => { m4.compose(v.set(x, 0.075, z), q.identity(), s.set(1.05, 1, 1.05)); pools.setMatrixAt(i, m4); });
   group.add(pools);
   // The one real light: a task spotlight over the room's robot (3 lights in all on the desktop high tier).
   const [tx, tz] = HD4_ROOM_TARGETS[room.id] ?? [0, 0];
