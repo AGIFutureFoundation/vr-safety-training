@@ -157,6 +157,12 @@ export function hd6CueParts(parish, site, tier = "high") {
     box(2.6, 2.2, 2.2, sx, 1.1, sz, HD6_C.shed);
     box(2.9, 0.12, 2.6, sx, 2.32, sz, HD6_C.shedRoof);
     if (hi) box(0.9, 1.8, 0.04, sx, 0.9, sz + 1.12, HD6_C.timber);
+    // the crew house itself: a green gable roof over the box (ridge along the long face), stepped timber gable ends and
+    // corner boards, so the building reads as a park building from every side (the street camera may face its back)
+    const rp = 0.42, rh = D2 + 0.5, rise = Math.tan(rp) * D2;
+    for (const s of [-1, 1]) parts.push({ size: [2 * L2 + 0.9, 0.2, rh / Math.cos(rp)], local: [0, H + Math.tan(rp) * rh / 2, s * rh / 2], ry: 0, rx: s * rp, colour: HD6_C.roof });
+    for (const ex of [-L2 - 0.05, L2 + 0.05]) for (let k = 0; k < 3; k++) box(0.12, rise / 3, 2 * D2 * (1 - (k + 0.5) / 3), ex, H + (rise * (k + 0.5)) / 3, 0, HD6_C.timber);
+    if (hi) for (const [ex, ez] of [[-1, -1], [1, -1], [-1, 1], [1, 1]]) box(0.32, H, 0.32, ex * (L2 + 0.06), H / 2, ez * (D2 + 0.06), HD6_C.timber);
   }
   // to world space: rotate the local frame by the site's yaw about the building's centre
   return parts.map((p) => {

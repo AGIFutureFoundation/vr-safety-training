@@ -46,9 +46,10 @@ export function hd3ScenePresets() {
 }
 
 // ENV-HD-6: KREWE's dressing (kw-place.js) plants live oaks and street kits the massing does not list; the park's street
-// camera stood 8 m from one, under its crown. A kit's half-footprint (a live oak's crown is 15.5 x 14.6 m) plus 1.5 m, so the
-// solver's 3.5 m first pass keeps a camera >= 5 m from any crown's edge; every other kit by a generic 6 m half-size.
-export const HD3_KW_HALF = { liveOak: 7.8 + 1.5, other: 6 };
+// camera stood 8 m from one, under its crown. A live oak counts by its crown (15.5 x 14.6 m) plus 8 m: with 1.5 m a camera 17 m
+// out still had a low crown across the frame's top-left corner (looked at); the 3.5 m first pass now keeps a camera >= 11 m from
+// any crown's edge. Every other kit counts by a generic 6 m half-size.
+export const HD3_KW_HALF = { liveOak: 7.8 + 8, other: 6 };
 const hd3KwCache = new WeakMap();
 /** KREWE's placements as obstacle rects (the high tier's set, a superset of the phone tier's), cached per map. */
 export function hd3KitRects(parish) {
