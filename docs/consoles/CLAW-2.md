@@ -83,7 +83,7 @@ The lamps run on the desktop high tier only, which is the desktop default. The s
 | `check_interface` | 21 passed, 0 failed (a control was added: the protocol select) |
 | `check_dataworks` | 59 passed, 0 failed (the learner gate) |
 | `check_omega_hive` | 15 passed, 0 failed (the world runs the hive) |
-| `check_parse` | see the hand-back (it runs last, at load average about 28) |
+| `check_parse` | 2,716 shipped modules parse |
 
 ## Cycles
 
