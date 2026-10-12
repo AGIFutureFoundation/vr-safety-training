@@ -337,6 +337,7 @@ export function ohHive({ seed = 1, governor = null, audit = null, agents = OH_AG
     const handed = exchanges ? exchange("handoff", dispatcher, best.a, factsOf(j, { bid: best.score })) : null;
     if (!handed) speak(best.a, "award", factsOf(j, { bid: best.score }));
     if (exchanges && bids.length > 1 && (best.hops >= 2 || best.load >= 1) && t - lastQuestionT >= OH_QUESTION_COOLDOWN && exchange("question", steward, best.a, factsOf(j, { bid: best.score, hops: best.hops, load: best.load, skill: best.skill }), best.hops >= 2 ? "question_far" : "question_load")) lastQuestionT = t;
+    if (briefSaid) briefLost(best.a, awardE); // HIVE-8: an agent whose briefed first job just went to another agent says so at once
     // The governor checks the winner's request (unchanged VBRIDGE negotiation). The request reaches the governor now,
     // so it carries the hive clock (one step = OH_TICK_MS, plus the job's place in the step): the per-agent rate limit
     // and the cadence feature see requests in the order they are checked. The job id was fixed at arrival.
@@ -478,6 +479,22 @@ export function ohHive({ seed = 1, governor = null, audit = null, agents = OH_AG
     const appr = log.filter((e) => e.type === "speak" && e.about === "approved" && e.t >= said.t && e.agent === keeper?.id).pop();
     const facts = { jobId: award.jobId, to: award.to, siteName: award.siteName, said: said.jobId, toName: dispatcher.name, toAgent: dispatcher.id, ...(appr ? { approved: appr.jobId } : {}) };
     return speak(agent, appr ? "brief_fix" : "brief_fix_q", facts, { briefing: { id: briefId, fix: true, said: said.jobId } });
+  }
+  // HIVE-8: the correction when a briefed job goes to someone else (h7-next 2). When the job an agent named as its first is awarded to
+  // another agent, the briefed agent says so in one line to the dispatcher at that award ("vbjob-... went to Lio; I wait for the next
+  // one"), once, while it still waits for its first award; its own first award after that says nothing more (it already said the
+  // plan changed). An agent that already had its first award said its change then (brief_fix). Facts from the award only.
+  function briefLost(winner, award) {
+    const out = [];
+    for (const a of roster) {
+      if (a.id === winner.id) continue;
+      const said = briefSaid.get(a.id);
+      if (!said || said.done || said.jobId === null || said.jobId !== award.jobId) continue; // still waiting for its first award: an agent that already had one said its change then
+      said.lost = true; said.done = true;
+      const e = speak(a, "brief_lost", { jobId: award.jobId, to: award.to, siteName: award.siteName, said: said.jobId, winner: winner.id, winnerName: winner.name, toName: dispatcher.name, toAgent: dispatcher.id }, { briefing: { id: briefId, fix: true, lost: true, said: said.jobId } });
+      if (e) out.push(e);
+    }
+    return out;
   }
   function brief({ lookahead = null } = {}) {
     if (!briefing || briefed || t > H6_BRIEF.window) return null;

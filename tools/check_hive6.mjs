@@ -31,6 +31,13 @@
  *  10. HIVE-7: the Spanish hive (the panel's Spanish configuration, moods and the briefing on, approvals in the window): no English
  *      fragment in a Spanish line but names (site and agent names, the supervisor) and ids (job ids, reason ids); the mood words and
  *      phrases and the briefing kinds are Spanish.
+ *      HIVE-8 (§4): seeds 1-40 in the page's case; a briefed job given to another agent while the briefed agent waits gets a line at
+ *      that award (brief_lost: the job and the winner), grounded and in band, N of N, and no later correction from that agent.
+ *  11. HIVE-8: the page's hives with moods on. The panel's hive has run with moods since HIVE-6; the scripted scene's hive
+ *      (h3SceneHive) now takes `moods: true` and the page passes it. With the option off the scene's hive and its relay are
+ *      byte-identical (digests at the base a10f1ff8); with it on the beats are unchanged, every mood change reaches the relay's
+ *      listeners with its cause, the relay's mood(id) is the mood released so far, and the cell hall's figures (the page's room
+ *      mount through hwSyncRoom on the relay) receive mood events, 0 -> N, inside IX_BUDGET.
  */
 import { readFileSync, existsSync } from "node:fs";
 import { join, dirname } from "node:path";
@@ -243,8 +250,11 @@ await check("4 the morning briefing: the queue, then each agent in turn with its
   // the award and the approval since the briefing; brief_fix_q: the queue moved), grounded and in its band. With the hive's own
   // decide (seeds 1-5 above) the briefing already held, so no correction is said there.
   ok(DAYS.size && [...DAYS.values()].every((dd) => !dd.events.some((e) => e.briefing?.fix)), "no correction when the briefing held (the stand-in days)");
-  let said = 0, sayOk = 0, before = 0, fixes = 0, fixOk = 0;
-  for (const seed of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]) {
+  // HIVE-8: seeds 1-40 (a briefed job given to another agent first happens at seed 29). When the job an agent briefed goes to another
+  // agent while it still waits for its first award, it says so at that award (brief_lost: the job and the winner, to the dispatcher),
+  // once, and its own first award after that says nothing more; an agent that already had its first award said its change then.
+  let said = 0, sayOk = 0, before = 0, fixes = 0, fixOk = 0, gone = 0, goneWaiting = 0, lostOk = 0, before10 = 0, said10 = 0, sayOk10 = 0;
+  for (let seed = 1; seed <= 40; seed += 1) {
     const hv = H.ohHive({ seed, ...PANEL, moods: true, briefing: true });
     const bb = hv.brief();
     let approved = 0;
@@ -253,10 +263,24 @@ await check("4 the morning briefing: the queue, then each agent in turn with its
     for (const e of bb.filter((x) => x.about === "brief_first" || x.about === "brief_none")) {
       said += 1;
       const aw = ev.find((x) => x.type === "award" && x.agent === e.agent);
-      const fix = ev.filter((x) => x.type === "speak" && x.agent === e.agent && x.briefing?.fix);
+      const fix = ev.filter((x) => x.type === "speak" && x.agent === e.agent && x.briefing?.fix && !x.briefing?.lost);
+      const lostL = ev.filter((x) => x.type === "speak" && x.agent === e.agent && x.briefing?.lost);
       const held = e.about === "brief_first" ? aw?.jobId === e.jobId : !(aw && aw.t <= M.H6_BRIEF.lookahead);
-      if (held) before += 1;
-      ok(fix.length <= 1 && (held ? fix.length === 0 : fix.length === 1), `seed ${seed} ${e.agent}: ${fix.length} corrections for a briefing that ${held ? "held" : "did not hold"}`);
+      if (held) { before += 1; if (seed <= 10) before10 += 1; }
+      if (seed <= 10) said10 += 1;
+      const goneAw = e.about === "brief_first" ? ev.find((x) => x.type === "award" && x.jobId === e.jobId && x.agent !== e.agent) : null;
+      const waiting = !!goneAw && (!aw || ev.indexOf(aw) > ev.indexOf(goneAw));
+      if (goneAw) gone += 1;
+      if (waiting) {
+        goneWaiting += 1;
+        ok(lostL.length === 1 && fix.length === 0, `seed ${seed} ${e.agent}: its briefed ${e.jobId} went to ${goneAw.agent} while it waited: ${lostL.length} lines at that award, ${fix.length} corrections after`);
+        const f = lostL[0], a = agentOf(f.agent), win = agentOf(goneAw.agent);
+        const g = S.ohGrounded(f.text, f, { siteNames: SITE_NAMES });
+        const band = S.ohSentences(f.text).every((x) => { const w = S.ohWords(x).length; return w >= a.style.band[0] && w <= a.style.band[1]; });
+        if (g.ok && band && f.t === goneAw.t && ev.indexOf(f) > ev.indexOf(goneAw) && f.jobId === e.jobId && f.winner === goneAw.agent && f.text.includes(e.jobId) && f.text.includes(win.name) && / · morning briefing to Orrin: /.test(f.caption)) lostOk += 1;
+        else throw new Error(`seed ${seed} ${f.agent}: the line at the award is not grounded (${g.missing.join(", ")}; band ${band}): ${f.caption}`);
+      } else ok(lostL.length === 0, `seed ${seed} ${e.agent}: ${lostL.length} "went to" lines without a briefed job given to another agent while it waited`);
+      ok(waiting || (fix.length <= 1 && (held ? fix.length === 0 : fix.length === 1)), `seed ${seed} ${e.agent}: ${fix.length} corrections for a briefing that ${held ? "held" : "did not hold"}`);
       if (fix.length) {
         fixes += 1; const f = fix[0], a = agentOf(f.agent);
         const g = S.ohGrounded(f.text, f, { siteNames: SITE_NAMES });
@@ -266,13 +290,15 @@ await check("4 the morning briefing: the queue, then each agent in turn with its
         if (g.ok && band && named && f.jobId === aw.jobId && f.t === aw.t && f.text.includes(aw.siteName) && / · morning briefing to Orrin: /.test(f.caption)) fixOk += 1;
         else throw new Error(`seed ${seed} ${f.agent}: correction not grounded (${g.missing.join(", ")}; band ${band}; named ${named}): ${f.caption}`);
       }
-      if (held || fix.length) sayOk += 1;
+      if (held || fix.length || lostL.length) { sayOk += 1; if (seed <= 10) sayOk10 += 1; }
     }
     ok(approved > 0 || seed > 1, `seed ${seed}: the stand-in approved nothing in the window`);
   }
   ok(sayOk === said && fixOk === fixes, `first jobs said (with corrections) = first awards ${sayOk} of ${said}; corrections grounded ${fixOk} of ${fixes}`);
-  evals.push(`the briefing after the learner's approvals (seeds 1-10, no decide, every waiting request approved from minute 1 to ${M.H6_BRIEF.window}): first jobs said = first awards ${before} of ${said} before -> ${sayOk} of ${said} with the correction line; corrections ${fixes}, grounded and in band ${fixOk} of ${fixes}`);
-  return `${grounded}/${lines} grounded, first jobs ${firstOk}/${firstN}, overlaps 0; once; not after minute ${M.H6_BRIEF.window}; outcomes unchanged; governor ${bm.dispatchedChecked}/${bm.dispatched}, physical 0; after approvals ${before}/${said} -> ${sayOk}/${said} (${fixes} corrections)`;
+  ok(goneWaiting > 0 && lostOk === goneWaiting, `briefed jobs given to another agent while the briefed agent waited: a grounded line at that award ${lostOk} of ${goneWaiting}`);
+  evals.push(`the briefing after the learner's approvals (no decide, every waiting request approved from minute 1 to ${M.H6_BRIEF.window}): first jobs said = first awards seeds 1-10 ${before10} of ${said10} before -> ${sayOk10} of ${said10}, seeds 1-40 ${before} of ${said} -> ${sayOk} of ${said} with the correction lines; brief_fix corrections ${fixes}, grounded and in band ${fixOk} of ${fixes}`);
+  evals.push(`HIVE-8 corrections when a briefed job goes to another agent (seeds 1-40, the page's case): briefed jobs given to another agent ${gone}; while the briefed agent waited ${goneWaiting}, with a line at that award naming the job and the winner, grounded and in band ${lostOk} of ${goneWaiting} (before: 0 of ${goneWaiting}); the other ${gone - goneWaiting} went after the agent's own first award, whose brief_fix had already said the change`);
+  return `${grounded}/${lines} grounded, first jobs ${firstOk}/${firstN}, overlaps 0; once; not after minute ${M.H6_BRIEF.window}; outcomes unchanged; governor ${bm.dispatchedChecked}/${bm.dispatched}, physical 0; after approvals ${before}/${said} -> ${sayOk}/${said} (${fixes} brief_fix); briefed job to another agent while waiting: line at the award ${lostOk}/${goneWaiting}`;
 });
 
 // ------------------------------------------------------------------------------------------------ 5. the tab, the panel, the room
@@ -471,6 +497,82 @@ await check("10 HIVE-7: Spanish lines carry no English fragment but names and id
   ok(!wbad.length, `Spanish phrase lists with English: ${wbad.join(" | ")}`);
   evals.push(`Spanish lines without an English fragment but names and ids (seeds 1-2, moods, briefing, approvals in the window): ${clean} of ${n} (briefing turns ${briefN}, corrections ${fixes}); phrase lists ${words.length} of ${words.length}`);
   return `${clean}/${n} lines; ${words.length} phrases and words; briefing ${briefN}; corrections ${fixes}`;
+});
+
+// ------------------------------------------------------------------------------------------------ 11. the page's hives with moods on
+await check("11 HIVE-8: the page's hives with moods on: the scene's hive (h3SceneHive moods) through its relay to the cell hall's figures, 0 -> N; default byte-identical", async () => {
+  const H3 = await imp("WebXR/shared/h3-hive-day.js");
+  const app = read("WebXR/parishes/js/app.js"), panel = read("WebXR/shared/oh-panel.js");
+  ok(/h3SceneHive\(ohHive, \{ seed: Number\(seed\) \|\| 1, moods: true \}\)/.test(app), "the page's scene hive turns moods on (app.js h3SceneHive(ohHive, { seed, moods: true }))");
+  ok(/homeward: true, moods: true, briefing: true/.test(panel) && /const hv = h3Scene\?\.relay \?\? window\.__parishTest\?\.hive\?\.hive/.test(app), "the panel's hive runs with moods (HIVE-6), and the rooms follow the scene's relay while it plays, else the panel's hive");
+  // the default call is what it was: the scene's events and the relay's releases, seeds 1, 2, 3, 7, 42 (digests measured at the base a10f1ff8)
+  const BASE = ["13307c627db527be", "e689091a0e9127fb", "ba4f0b271cdaf417", "4772e790a9254cb2", "fb9b7fae429a81b4"];
+  const SEEDS = [1, 2, 3, 7, 42];
+  const beat = (R, hive, b) => {
+    R.step(b.steps);
+    if (b.id === "approved") { const p = hive.pending()[0]; if (p) hive.approve(p.jobId); }
+    return b.id === "arrive" ? R.releaseThrough("speak") : b.id === "bids" ? R.releaseRun("bid") : b.id === "award" ? R.releaseThrough("award") : b.id === "walk-out" ? R.releaseThrough("move") : b.id === "refusal" ? R.releaseThrough("refused") : R.releaseAll();
+  };
+  const scene = (seed, moods, onRelay = null) => {
+    const hive = H3.h3SceneHive(H.ohHive, moods ? { seed, moods: true } : { seed });
+    for (let i = 0; i < H3.H3_SCENE_PROLOGUE_STEPS; i += 1) hive.step();
+    const n0 = hive.events().length, R = H3.h3SceneRelay(hive), got = []; R.on("mood", (e) => got.push(e));
+    const ctl = onRelay?.(R) ?? null;
+    const beats = H3.H3_SCENE.beats.map((b) => { const ev = beat(R, hive, b); ctl?.after?.(b, ev); return { id: b.id, ev: ev.filter((e) => e.type !== "mood").map((e) => `${e.type}:${e.agent}:${e.to ?? ""}:${e.reason ?? ""}:${e.jobId ?? ""}`) }; });
+    return { hive, R, got, beats, after: hive.events().slice(n0).filter((e) => e.type === "mood").length, m: hive.metrics(), v: hive.verify() };
+  };
+  const digests = SEEDS.map((seed) => {
+    const hive = H3.h3SceneHive(H.ohHive, { seed });
+    for (let i = 0; i < H3.H3_SCENE_PROLOGUE_STEPS; i += 1) hive.step();
+    const R = H3.h3SceneRelay(hive), rel = H3.H3_SCENE.beats.map((b) => `${b.id}:${beat(R, hive, b).length}`);
+    ok(R.mood("oh-dispatcher") === null, "the relay reads no mood for a hive without moods");
+    return fnv(JSON.stringify(hive.events()) + "|" + rel.join(","));
+  });
+  ok(digests.every((d, i) => d === BASE[i]), `the scene's hive and relay with moods off: byte-identical ${digests.filter((d, i) => d === BASE[i]).length} of ${SEEDS.length} (${digests.join(", ")})`);
+  // moods on: the same story beat by beat, the mood changes released with their causes, the relay's mood(id) = the hive's at the end
+  let same = 0, moodsOn = 0, endEq = 0, endN = 0;
+  for (const seed of SEEDS) {
+    const off = scene(seed, false), on = scene(seed, true);
+    if (on.beats.every((b, i) => JSON.stringify(b.ev) === JSON.stringify(off.beats[i].ev))) same += 1;
+    ok(off.got.length === 0 && on.got.length > 0, `seed ${seed}: mood events to the relay's listeners ${off.got.length} (off) -> ${on.got.length} (on)`);
+    ok(on.got.length === on.after, `seed ${seed}: every mood change after the prologue reaches the relay's listeners (${on.got.length} of ${on.after})`);
+    moodsOn += on.got.length;
+    for (const a of on.hive.agents) { endN += 1; if (on.R.mood(a.id)?.mood === on.hive.mood(a.id).mood) endEq += 1; }
+    ok(on.m.physicalDispatched === 0 && on.v.ok && on.m.dispatchedChecked === on.m.dispatched, `seed ${seed}: governor checked ${on.m.dispatchedChecked} of ${on.m.dispatched}, physical ${on.m.physicalDispatched}, chain ${on.v.ok}`);
+  }
+  ok(same === SEEDS.length, `the scene's beats with moods on = off (non-mood events, beat by beat): ${same} of ${SEEDS.length}`);
+  ok(endEq === endN, `the relay's mood(id) = the hive's mood(id) after the last beat: ${endEq} of ${endN}`);
+  // the cell hall's figures (the page's room mount, aaRoomAvatarMount, through hwSyncRoom on the relay): mood events received, off -> on
+  const THREE = await imp("WebXR/vendor/three/dist/three.module.min.js");
+  const IX = await imp("WebXR/shared/ix-interiors.js"), IXR = await imp("WebXR/shared/ixr-robo-interiors.js"), HD2 = await imp("WebXR/shared/hd2-room-skins.js");
+  const HD4 = await imp("WebXR/shared/hd4-rooms.js"), HW = await imp("WebXR/shared/hw-hive-world.js"), AA = await imp("WebXR/shared/aa-agent-avatars.js");
+  const DESK = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36";
+  const fake = () => { const ctx = new Proxy({}, { get: (_t, k) => (k === "measureText" ? (s) => ({ width: String(s).length * 6 }) : typeof k === "string" && k.startsWith("create") ? () => ({ addColorStop() {} }) : k === "getImageData" ? (x, y, w, h) => ({ data: new Uint8ClampedArray(Math.max(4, 4 * (w | 0) * (h | 0))) }) : () => {}), set: () => true }); return { width: 0, height: 0, getContext: () => ctx }; };
+  const dressers = (() => { const d = {}; const r = { ixRegisterDresser: (st, fn) => (d[st] ??= []).push(fn) }; IXR.ixrRegisterDressers(r); HD4.hd4RegisterDressers(r, { ultra: false, ua: DESK }); HD2.hd2RegisterSkins(r); return d; })();
+  const rb = RB.RB_SITES.find((s) => s.id === H3.H3_SCENE.site);
+  const figs = { off: 0, on: 0, agree: 0, checks: 0, budget: 0, beats: 0 };
+  globalThis.document = { createElement: fake };
+  try {
+    for (const moods of [false, true]) for (const seed of SEEDS) {
+      let room = null, mount = null, t = 0;
+      scene(seed, moods, (R) => {
+        room = IX.ixBuild(H3.H3_SCENE.style, { three: THREE, tier: "high", site: IXR.ixrSiteFor(rb, null), dressers });
+        mount = HW.hwSyncRoom(null, { room, three: THREE, agents: R.agents, source: R, tier: "high", mount: AA.aaRoomAvatarMount() });
+        return { after: () => {
+          for (let k = 0; k < 4; k += 1) { t += 0.5; mount.animate(t, 0.5); }
+          figs.beats += 1; const m = IXR.ixrMeasure(room); if (m.triangles <= IX.IX_BUDGET.triangles.high && m.meshes <= IX.IX_BUDGET.meshes) figs.budget += 1;
+          if (moods) for (const a of R.agents) { const s = mount.avatars.state(a.id); if (!mount.avatars.figure(a.id) || s?.mood == null) continue; figs.checks += 1; if (s.mood === R.mood(a.id)?.mood) figs.agree += 1; }
+        } };
+      });
+      figs[moods ? "on" : "off"] += mount.avatars.moodLog().length;
+      mount.dispose();
+    }
+  } finally { delete globalThis.document; }
+  ok(figs.off === 0 && figs.on > 0, `the cell hall's figures received mood events: ${figs.off} (moods off) -> ${figs.on} (moods on), seeds ${SEEDS.join(", ")}`);
+  ok(figs.checks > 0 && figs.agree === figs.checks, `a figure that took a mood shows the relay's released mood: ${figs.agree} of ${figs.checks} beat-checks`);
+  ok(figs.budget === figs.beats, `the cell hall with the scene's figures inside IX_BUDGET (high): ${figs.budget} of ${figs.beats} beats`);
+  evals.push(`the page's scene hive with moods on (h3SceneHive moods, seeds ${SEEDS.join(", ")}): mood events to the relay ${moodsOn}; the cell hall's figures received ${figs.off} -> ${figs.on} (headless, room open through every beat), figure mood = released mood ${figs.agree} of ${figs.checks}; beats unchanged ${same} of ${SEEDS.length}; the default call byte-identical ${SEEDS.length} of ${SEEDS.length}`);
+  return `default byte-identical ${SEEDS.length}/${SEEDS.length}; beats unchanged ${same}/${SEEDS.length}; relay mood events ${moodsOn}; figures ${figs.off} -> ${figs.on}, agree ${figs.agree}/${figs.checks}; relay mood(id) = hive ${endEq}/${endN}; cell hall in budget ${figs.budget}/${figs.beats}`;
 });
 
 console.log(`\n${passed} passed, ${failed} failed`);

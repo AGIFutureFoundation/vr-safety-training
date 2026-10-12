@@ -1652,7 +1652,7 @@ window.__parishTest.hiveScene = ({ seed = 1 } = {}) => {
   if (parish.id !== H3_SCENE.parish) return { ok: false, reason: `the scene plays on ${H3_SCENE.parish}`, href: `?parish=${H3_SCENE.parish}&hivescene=${encodeURIComponent(seed)}` };
   if (!window.__parishTest.hive) return { ok: false, reason: "the Omega Hive is not mounted in this session (signed out, K-12 or the demo)" };
   if (h3Scene) h3SceneStop();
-  const hive = h3SceneHive(ohHive, { seed: Number(seed) || 1 });
+  const hive = h3SceneHive(ohHive, { seed: Number(seed) || 1, moods: true }); // HIVE-8: the scene's hive with moods on, like the panel's (its figures and glow receive mood events)
   for (let i = 0; i < H3_SCENE_PROLOGUE_STEPS; i += 1) hive.step(); // before the clock: the planner is in the cell hall
   h3Scene = { seed: Number(seed) || 1, hive, relay: h3SceneRelay(hive), t0: null, t: 0, next: 0, follow: null, walker: null, outdoor: null, pendingJob: null, yaw: null, log: [], captions: [], errors: 0, done: false, el: h3SceneOverlay() };
   const room = h3SceneRoom();
