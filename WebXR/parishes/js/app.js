@@ -93,7 +93,7 @@ import { colMountCoLearn, colTutor } from "../../shared/col-learn.js";
 // OMEGA-CLAW (docs/consoles/OMEGA-CLAW.md): the claw's read-only panel and the persistent robot world (mounted at the end of this file).
 import { raBuild } from "../../shared/ra-arena.js";
 import { OC_RECORD, OC_RECORDS } from "../../shared/oc-claw-record.js";
-import { ocWorldLoop } from "../../shared/oc-world.js";
+import { ocWorldLoop, ocMountSiteLamps } from "../../shared/oc-world.js";
 import { ocMountClaw, ocMountWorld } from "../../shared/oc-panel.js";
 import { rtMountTeleop } from "../../shared/rt-teleop.js";
 import { ent3AuditAppend, ent3Policies, ent3Fleet } from "../../shared/ent3-governance.js";
@@ -1799,6 +1799,6 @@ function uxAnchorPrompt() {
 var ocHuman = (() => { try { const ok = !npParams.has("demo") && dxEligibility(dxReadSignals(), { stage: "collect" }).eligible === true && !!dxConsent(); return ok ? { eligible: true, drills: drLoad(), tutor: colTutor().state, stations: (() => { const m = {}; for (const r of ppRecords()) { const x = (m[r.simId] ??= { passed: false, best: 0 }); if (r.passed) x.passed = true; if (Number.isFinite(r.score)) x.best = Math.max(x.best, r.score); } return m; })() } : null; } catch (_) { return null; } })();
 window.__parishTest.claw = (() => { try { return ocMountClaw($("menu-drills"), { record: OC_RECORD, records: OC_RECORDS, human: ocHuman }); } catch (_) { return null; } })();
 window.__parishTest.clawWorld = null;
-var ocWorldStart = () => { try { if (window.__parishTest.clawWorld) return window.__parishTest.clawWorld; const promoted = Object.fromEntries(["rb-cell-entry", "rb-cobot-zone-setup", "rb-teleop-pick-place", "rb-amr-fleet-routing"].map((sc) => [sc, OC_RECORD.promoted?.[sc] ?? OC_RECORD.protocol.incumbent])); const loop = ocWorldLoop({ seed: 1, promoted, policyFor: (m, sc, env, seed) => { const b = raBuild(m, sc); return b?.policyFor ? b.policyFor(seed) : null; } }); window.__parishTest.clawWorld = { loop, view: ocMountWorld($("menu-drills"), { loop }) }; return window.__parishTest.clawWorld; } catch (_) { return null; } };
+var ocWorldStart = () => { try { if (window.__parishTest.clawWorld) return window.__parishTest.clawWorld; const promoted = Object.fromEntries(["rb-cell-entry", "rb-cobot-zone-setup", "rb-teleop-pick-place", "rb-amr-fleet-routing"].map((sc) => [sc, OC_RECORD.promoted?.[sc] ?? OC_RECORD.protocol.incumbent])); const loop = ocWorldLoop({ seed: 1, promoted, policyFor: (m, sc, env, seed) => { const b = raBuild(m, sc); return b?.policyFor ? b.policyFor(seed) : null; } }); const lamps = ocMountSiteLamps({ three: THREE, root, sites: rbWorld?.sites ?? [], tier: npTierName }); if (lamps) { lamps.update(loop.world.stats()); loop.onTick(() => lamps.update(loop.world.stats())); } window.__parishTest.clawWorld = { loop, lamps, view: ocMountWorld($("menu-drills"), { loop }) }; return window.__parishTest.clawWorld; } catch (_) { return null; } };
 window.__parishTest.clawWorldStart = ocWorldStart;
 if (!npParams.has("noworld")) setTimeout(ocWorldStart, npParams.has("worldnow") ? 0 : 4000);

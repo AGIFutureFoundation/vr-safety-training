@@ -16,6 +16,9 @@
  *   8. controls at least 44 px; hygiene: no model identifier, no claim wording
  *   9. protocol 2 (round 7): seeds only through ARENA-2's committed declaration (8ea01d3c), which precedes the protocol,
  *      which precedes its record; N comparisons run once; verdicts re-derive; refusals 3 of 3 plus not-held-out; chain intact
+ *  10. people and robots side by side per scenario (learner stations re-derived from the programme's tracks; learner values
+ *      only when eligible); the page module carries both records with chains trimmed to heads that match the JSON
+ *  11. the world in the scene: a lamp per robot site on the desktop high tier only, inside its stated budget, busy or idle
  * Run: node tools/check_claw.mjs   (OC_ROOT=<tree> runs it against another checkout, for a before measurement)
  */
 import { readFileSync } from "node:fs";
@@ -268,7 +271,7 @@ await check("8 controls at least 44 px; no model identifier and no claim wording
   ok(/\.oc-panel select,\.oc-panel button\{min-height:44px;min-width:44px/.test(css), "44 px controls");
   const MODEL = new RegExp("\\b(" + ["gp" + "t-?\\d", "cla" + "ude-\\d", "cla" + "ude [0-9]", "op" + "us", "son" + "net", "hai" + "ku", "gem" + "ini", "lla" + "ma", "mis" + "tral"].join("|") + ")\\b", "i");
   const CLAIM = new RegExp("\\b(" + ["partnered " + "with", "in partner" + "ship with", "endorsed " + "by", "our " + "customers", "valuation " + "of", "token " + "price", "raised \\$", "funding " + "round"].join("|") + ")", "i");
-  const files = [...OC_FILES, "WebXR/shared/oc-claw-record.js", "tools/claw_eval.mjs", "tools/check_claw.mjs", "docs/evals/claw.json", "docs/omega-claw.md", "docs/consoles/OMEGA-CLAW.md", "docs/consoles/memory/OMEGA-CLAW.md", "tools/briefs/next/oc-next.md"];
+  const files = [...OC_FILES, "WebXR/shared/oc-claw-record.js", "tools/claw_eval.mjs", "tools/check_claw.mjs", "docs/evals/claw.json", "docs/omega-claw.md", "docs/consoles/OMEGA-CLAW.md", "docs/consoles/memory/OMEGA-CLAW.md", "tools/briefs/next/oc-next.md", "docs/evals/claw2.json", "docs/consoles/CLAW-2.md", "docs/consoles/memory/CLAW-2.md", "tools/briefs/next/oc2-next.md"];
   let n = 0;
   for (const f of files) { const t = src(f); if (!t) continue; n += 1; ok(!MODEL.test(t), `${f}: model identifier`); ok(!CLAIM.test(t), `${f}: claim wording`); }
   return `${n} files clean`;
@@ -362,6 +365,30 @@ await check("10 side by side: each robot scenario with its learner stations (fro
   evals.push(`people beside robots, per scenario: ${no.length} rows; robot gaps ${robotGaps.length} (${robotGaps.join(", ")}); scenarios with no matching learner station ${uncovered.length} (${uncovered.join(", ")}); learner side only when eligible (fixture: cell entry 1 of ${ce.people.stations.length} passed)`);
   evals.push(`page module: 2 records in ${bytes} B; chains trimmed to head + last line (full chains ${full(REC)} B and ${full(REC2)} B stay in docs/evals/claw.json and claw2.json)`);
   return `${no.length} rows; robot gaps ${robotGaps.length}; uncovered ${uncovered.length}; module ${bytes} B`;
+});
+
+// 11 — the world in the scene
+await check("11 the world in the scene: a lamp per robot site on the desktop high tier only, inside its stated budget, busy or idle from the world", async () => {
+  need(OW); ok(OW.ocMountSiteLamps && OW.OC_LAMP_BUDGET, "ocMountSiteLamps missing");
+  const T = need(await imp("WebXR/vendor/three/dist/three.module.min.js"));
+  const sites = [{ id: "rb-site-soma-robot-cell", position: [10, 20], y: 1 }, { id: "rb-site-x", position: [0, 0], y: 0 }];
+  for (const tier of ["low", "balanced"]) { const g = new T.Group(); ok(OW.ocMountSiteLamps({ three: T, root: g, sites, tier }) === null && g.children.length === 0, `${tier}: lamps mounted`); }
+  const g = new T.Group();
+  const L = OW.ocMountSiteLamps({ three: T, root: g, sites, tier: "high" });
+  ok(L && g.children.length === sites.length, "one lamp per site on high");
+  let tris = 0, tex = 0, lights = 0; g.traverse((o) => { if (o.isMesh) { const gi = o.geometry.index; tris += (gi ? gi.count : o.geometry.attributes.position.count) / 3; if (o.material.map) tex += 1; } if (o.isLight) lights += 1; });
+  const B = OW.OC_LAMP_BUDGET;
+  ok(tris === B.trianglesPerSite * sites.length && lights === 0 && tex === 0, `lamps: ${tris} triangles, ${lights} lights, ${tex} textures (budget ${B.trianglesPerSite} a site, 0, 0)`);
+  ok(L.counts().triangles === tris, "counts() agrees with the geometry");
+  L.update({ sites: [{ siteId: "rb-site-soma-robot-cell", busy: 2 }, { siteId: "rb-site-x", busy: 0 }] });
+  ok(JSON.stringify(L.states()) === JSON.stringify([{ site: "rb-site-soma-robot-cell", state: "busy" }, { site: "rb-site-x", state: "idle" }]), `states ${JSON.stringify(L.states())}`);
+  const w = OW.ocWorld({ seed: 2, promoted: {}, policyFor: () => null }); w.run(120);
+  const st = w.stats(); const L2 = OW.ocMountSiteLamps({ three: T, root: new T.Group(), sites: st.sites.map((s, i) => ({ id: s.siteId, position: [i, i], y: 0 })), tier: "high" });
+  L2.update(st); ok(L2.states().every((s, i) => s.state === (st.sites[i].busy > 0 ? "busy" : "idle")), "lamps follow ocWorld.stats().sites");
+  const app = src("WebXR/parishes/js/app.js");
+  ok(/ocMountSiteLamps\(\{ three: THREE, root, sites: rbWorld\?\.sites \?\? \[\], tier: npTierName \}\)/.test(app) && /loop\.onTick\(\(\) => lamps\.update\(loop\.world\.stats\(\)\)\)/.test(app), "parishes mounts the lamps with the tier in force and updates them each tick");
+  evals.push(`world in the scene: a lamp per robot site on high only (low and balanced: 0), ${B.trianglesPerSite} triangles and 1 mesh a site, 0 lights, 0 textures; busy/idle from the world`);
+  return `${sites.length} lamps, ${tris} triangles, 0 lights, 0 textures; low/balanced none`;
 });
 
 for (const e of evals) console.log(`EVAL ${e}`);
