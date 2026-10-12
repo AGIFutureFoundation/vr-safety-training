@@ -412,7 +412,7 @@ export function rtMountTeleop(el, { seed = 7001, store = dxStore, signals = null
   bGhost.title = "After a take: the trained policy replays its own run on this rig, one step at a time, with its explanation.";
   // ROBOTRAIN-7: rate two of the trained policy's runs (thumbs up or down) through AGENTGYM's agRate: kept on this device only
   // while collecting (adult, signed in, opted in; never K-12, demo or signed-out); revoke on the Me tab deletes the ratings.
-  const bRate = doc.createElement("button"); bRate.type = "button"; bRate.className = "rt-rate-open"; bRate.textContent = "Rate two robot runs";
+  const bRate = doc.createElement("button"); bRate.type = "button"; bRate.className = "rt-rate-open"; bRate.textContent = "Rate two robot runs"; bRate.style.cssText = "min-height:44px;";
   bRate.title = "The trained policy runs this task twice. A thumbs up or down on each is kept on this device only if you opted in (adults only).";
   row.append(sel, bGhost, bRate);
   const rateBox = doc.createElement("div"); rateBox.className = "rt-rate"; rateBox.setAttribute("aria-live", "polite");

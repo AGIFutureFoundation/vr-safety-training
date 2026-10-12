@@ -89,7 +89,8 @@ position and goal); no search, no planner.
 | **AMR hard gap after the declared 5 rounds** | **0.583** (`amr-path`, round 5 0.417) | **0.017** (`amr-robots`, round 5 **0.983**; expert 1.000) | `dagger.robotFeatures.rounds` |
 | The same rounds, holder and order features only (ablation, declared first) | — | 0.517 (gap 0.483) | `dagger.holderFeatures.rounds` |
 | Robot-run ratings collected only under consent | not built | an opted-in adult: **2 ratings → 1 pair**. Refused or empty: before opt-in 0, K-12 0, demo 0, signed-out 0, after revoke 0 | `check_colearn` section 11; `node tools/drive_rt7_ratings.mjs 9113` |
-| The ratings drive on the built page | not built | page errors **0**, external requests **0** (98 s) | `tools/drive_rt7_ratings.mjs` |
+| The ratings drive on the built page | not built | page errors **0**, external requests **0** (105 s) | `tools/drive_rt7_ratings.mjs` |
+| New controls at least 44 px tall on a 390×844 phone | not built | **5 of 5** (the open button 175×44; the four thumbs 106×44 and 128×44) | `drive_rt7_ratings` step E; `check_interface` touch targets 185/186 |
 | Hard variants with a third baseline | 0 | **3** (reactive: drilling 3/3, port 3/3, AMR 1/3) | `docs/perf/agent-baselines-robotics.json` `perScenario[].reactive`; `check_roboscenarios` row 10 |
 | `check_colearn` | 55 passed, 0 failed (ROBOTRAIN-6's last line) | **61 passed, 0 failed** | `node tools/check_colearn.mjs` |
 | `check_roboscenarios` | 13 passed (row 10: random and expert) | **13 passed, 0 failed** (row 10 re-measures random, reactive and expert live) | `node tools/check_roboscenarios.mjs` |
@@ -191,6 +192,14 @@ Read honestly:
    72727125.
 7. Reason: a checker outside my own list can catch a merge-level break. Check: the neighbour checkers' last lines. → Act:
    ran them one at a time. → Observe: all pass (below). The export did not change, so it was not regenerated.
+8. Reason: the pad has new controls, and the coordinator asked for `check_interface` (44 px touch targets on a 390×844
+   phone). Check: `check_interface`, plus a phone step in the drive that measures each new control. → Act: an explicit
+   `min-height:44px` on the open button, as on the thumbs. Then a rebuild, `UX_PORT=9113 node tools/check_interface.mjs`
+   and the drive again. → Observe:
+   - `check_interface`: 20 passed, 1 failed, touch targets 185/186. The one failure is the known base line
+     `me:vc-voice-character:244x36`, fixed on the integration head as d5054257.
+   - The drive's step E: 5 of 5 new controls visible at 390×844, each 44 px tall.
+   - The drive: ok, with page errors 0 and external requests 0.
 
 ## Checkers run (single checkers; last lines)
 
@@ -203,8 +212,12 @@ Read honestly:
 - `node tools/check_roboexport.mjs`: 8 passed, 0 failed. The export did not change: default model hashes are untouched.
 - `node tools/check_newton.mjs`: 60 checks, 0 failed, "All NEWTON checks pass."
 - `node tools/check_imports.mjs`: "All 1117 modules call only what they declare or import."
-- `node tools/check_parse.mjs`: see the hand-back (run last)
-- `node tools/drive_rt7_ratings.mjs 9113` (on the locally rebuilt parishes page): ok. Page errors 0, external requests 0.
+- `node tools/check_parse.mjs`: "All 2696 shipped modules parse as JavaScript modules." (256 s under load)
+- `UX_PORT=9113 node tools/check_interface.mjs`: 20 passed, 1 failed. Touch targets at 390×844 are 185/186; the one under
+  44 px is `me:vc-voice-character:244x36`, the known round-2 line fixed on the integration head as d5054257. Every new pad
+  control passes.
+- `node tools/drive_rt7_ratings.mjs 9113` (on the locally rebuilt parishes page): ok. Page errors 0, external requests 0;
+  every new control is at least 44 px tall on a 390×844 phone.
 - `eval_worlds` and `eval_content` were not run: this work adds no world subject and no station.
 
 ## Seams

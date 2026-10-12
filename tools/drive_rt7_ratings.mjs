@@ -100,12 +100,24 @@ const D = await page.evaluate(async () => ({ flush: await window.__parishTest.dx
 const PD = await pairsFor(D.ratings);
 log("D.revoked", { stored: D.stored, ratings: D.ratings.length, rt6LocalPairs: PD.adult.length });
 
+// E — on a 390x844 phone viewport, every new control (the open button and the four thumbs) is at least 44 px tall
+await page.setViewportSize({ width: 390, height: 844 });
+const E = await page.evaluate(() => {
+  const u = window.__parishTest.ux; u.open(); const learn = u.tabs.find((t) => /learn/i.test(t)); if (learn) u.select(learn);
+  window.__parishTest.teleop.rateRuns(7001);
+  const els = [...document.querySelectorAll("#rt-teleop .rt-rate-open, #rt-teleop .rt-rate-up, #rt-teleop .rt-rate-down")];
+  const seen = els.filter((el) => el.offsetParent !== null).map((el) => `${el.className}:${Math.round(el.getBoundingClientRect().width)}x${Math.round(el.getBoundingClientRect().height)}`);
+  return { tab: learn ?? null, controls: els.length, visible: seen.length, sizes: seen, under44: seen.filter((s) => Number(s.split("x").pop()) < 44) };
+});
+log("E.phone", E);
+
 log("errors", { pageErrors: out.pageErrors.length, pageErrorText: out.pageErrors.slice(0, 3), externalRequests: out.offHost.length, offHost: out.offHost.slice(0, 5), threeRoutedToVendoredCopy: out.routedThree, crashed: out.crashed, seconds: Math.round((Date.now() - t0) / 1000) });
 await browser.close(); close();
 const proof = A.shown.collecting === false && A.disabled === 4 && A.results.every((r) => r !== "kept") && A.ratings.length === 0
   && B.shown.collecting === true && B.enabled === 4 && B.ratings.length === 2 && B.rated.join() === "up,down" && PB.adult.length === 1 && PB.adult[0].source === "human" && PB.k12 + PB.demo + PB.signedOut === 0
   && CK.shown.collecting === false && CK.results.every((r) => r !== "kept") && CK.ratings.length === 2 && CD.shown.collecting === false && CD.results.every((r) => r !== "kept") && back === 2
   && D.stored === 0 && D.ratings.length === 0 && PD.adult.length === 0
+  && E.controls === 5 && E.visible === 5 && E.under44.length === 0
   && out.pageErrors.length === 0 && out.offHost.length === 0 && !out.crashed;
-console.log(proof ? "drive_rt7_ratings: ok — signed out the thumbs are off and nothing is kept; an opted-in adult rates two robot runs → 2 ratings → rt6LocalPairs 1 pair (K-12, demo, signed-out 0); K-12 and demo sessions keep nothing; revoke → 0; page errors 0, external requests 0" : "drive_rt7_ratings: FAILED — the page-level proof did not hold (see the lines above)");
+console.log(proof ? "drive_rt7_ratings: ok — signed out the thumbs are off and nothing is kept; an opted-in adult rates two robot runs → 2 ratings → rt6LocalPairs 1 pair (K-12, demo, signed-out 0); K-12 and demo sessions keep nothing; revoke → 0; every new control ≥ 44 px on a 390x844 phone; page errors 0, external requests 0" : "drive_rt7_ratings: FAILED — the page-level proof did not hold (see the lines above)");
 process.exit(proof ? 0 : 1);

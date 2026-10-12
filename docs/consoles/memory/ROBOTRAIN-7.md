@@ -35,3 +35,7 @@
   - **`check_parse` is slow** here: 184 s under load, because it parses every shipped module, dist included.
   - **Keep the byte-identity proof.** Save the base `colearn.json` to the scratchpad first, then compare the text before
     `"preference"` and count diff deletions (0).
+  - `check_interface` loads the SOURCE page (`parishes/parishes.html`), not dist, and takes `UX_PORT` (9113 here). It
+    scans only visible controls, so the thumbs (shown after "Rate two robot runs") are measured by the drive's step E
+    instead. On this base its one failure, `me:vc-voice-character:244x36`, is a round-2 line already fixed on the head
+    (d5054257).
