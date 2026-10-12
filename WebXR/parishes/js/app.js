@@ -73,6 +73,7 @@ import { atMountAtmos, atNearness } from "../../shared/at-world.js";
 import { atMountSound } from "../../shared/at-sound.js";
 import { drMountDrills, drSetRecorder } from "../../shared/dr-drills.js";
 import { rbMountRobotics, rbGamesFor, rbRegisterMechanics } from "../../shared/rb-world.js";
+import { rhdMountRobots, rhdRegisterDressers, rhdRoomLights } from "../../shared/rhd-robots-hd.js";
 // ROBO-EXTERIORS: the robot sites' buildings from outside, their streetscape, night windows and establishing shots.
 import { fxMountExteriors, fxColliders, fxScene, fxSitesFor, fxSiteParish, fxDoorFor, FX_SHOTS } from "../../shared/fx-exteriors.js";
 import { hd3Scene, hd3ScenePresets, HD3_SCENE_SITES, HD3_SHOTS } from "../../shared/hd3-scenes.js";
@@ -861,6 +862,8 @@ function frame(now) {
   stWorld?.animate(now / 1000);
   drWorld?.animate(dt);
   rbWorld?.animate(dt, np.x, np.z);
+  rhdWorld?.tick(dt, np.x, np.z);
+  if (typeof ixWorld !== "undefined" && ixWorld?.room?.rhd) rhdRoomLights(ixWorld.room, rbWorld?.state(ixWorld.room.ixr?.site) ?? null); // ROBOTS-HD: a room's robots show their site's state (dark when the site is on another map)
   aaWorld?.animate(now / 1000, dt, np.playing && !np.modal ? [np.x, np.z] : null); // AGENT-AVATARS: walks, talk lights, captions (writes only within GRIOT's radius)
   if (hwRoomMount?.room !== (ixWorld.room ?? null) && typeof hwSync === "function") hwSync(); // HIVE-IN-WORLD: the agents in the room open now
   hwRoomMount?.animate(now / 1000, dt);
@@ -1118,6 +1121,9 @@ void larDressed;
 // ROBO-INTERIORS: the six robotics rooms' dresser (props, the canvas texture set, the agent spots where the hive's avatars stand).
 var ixrDressed = ixrRegisterDressers(typeof ixRegisterDresser === "function" ? { ixRegisterDresser } : null);
 void ixrDressed;
+// ROBOTS-HD: the rooms' robots in high detail on the desktop high tier (after ROBO-INTERIORS' dresser, whose robot parts they replace).
+var rhdDressed = rhdRegisterDressers(typeof ixRegisterDresser === "function" ? { ixRegisterDresser } : null);
+void rhdDressed;
 // ENV-HD-4: the six robot rooms' lighting on the desktop high tier (and Ultra's 2048 px floor and walls, trusses and cable trays
 // when Ultra is on), and the hive operations room's consoles; after ROBO-INTERIORS' dressers, before ENV-HD-2's skins.
 var hd4Dressed = hd4RegisterDressers(typeof ixRegisterDresser === "function" ? { ixRegisterDresser } : null, { ultra: hd4Ultra.on });
@@ -1199,6 +1205,10 @@ var rbWorld = rbMountRobotics({
   stationHref: (id, siteId) => npLink(id, siteId),
 });
 window.__parishTest.robotics = rbWorld;
+// ROBOTS-HD (docs/consoles/ROBOTS-HD.md): each site's rig in high detail on the desktop high tier (balanced, phone and headset keep
+// today's rigs); the status light shows the site's own state (running, protective stop, e-stop) and the floor zone shows when a person is near.
+var rhdWorld = (() => { try { return rhdMountRobots({ THREE, robotics: rbWorld, tier: npTierName, reducedMotion: npReduced }); } catch (e) { console.warn("rhd-robots-hd:", e); return null; } })();
+window.__parishTest.robotsHd = rhdWorld;
 // ROBO-INTERIORS: a camera preset per robotics room for captures (ixScene opens any of the six from any map, using this map's
 // robot site of that style when it has one), the doors, a measurement of the room in view and the walk-through (the page's own
 // NEWTON step from the door to every station pad and agent spot).
