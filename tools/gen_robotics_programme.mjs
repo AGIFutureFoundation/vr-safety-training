@@ -39,7 +39,9 @@ async function main() {
   // ROBO-ARENA: the read-only "Robot arena" panel, rendered from the measured docs/evals/arena.json (static, no script).
   const arenaPath = join(ROOT, "docs/evals/arena.json");
   const raPanel = existsSync(join(ROOT, "WebXR/shared/ra-panel.js")) ? await imp("WebXR/shared/ra-panel.js") : null;
-  const arenaHtml = raPanel ? raPanel.raPanelHtml(existsSync(arenaPath) ? JSON.parse(readFileSync(arenaPath, "utf8")) : null) : "";
+  // ROBOLEARN-9: the claw's latest measured record (claw3.json, else claw2.json), for the promoted model per scenario.
+  const clawPath = ["docs/evals/claw3.json", "docs/evals/claw2.json"].map((f) => join(ROOT, f)).find((f) => existsSync(f));
+  const arenaHtml = raPanel ? raPanel.raPanelHtml(existsSync(arenaPath) ? JSON.parse(readFileSync(arenaPath, "utf8")) : null, { claw: clawPath ? JSON.parse(readFileSync(clawPath, "utf8")) : null }) : "";
   const stdLabel = (id) => rp.RP_STANDARDS.find((s) => s.id === id)?.label ?? id;
 
   const trackHtml = rp.RP_TRACKS.map((t) => {

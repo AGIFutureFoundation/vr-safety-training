@@ -548,3 +548,38 @@ export const OC_PROTOCOL_2 = Object.freeze({
     { kind: "not-held-out", id: "oc2-probe-spent-r6", scenarioId: "rb-amr-fleet-routing", models: ["bc", "ra-lm"], incumbent: "bc", challengers: ["ra-lm"], seeds: OC_HELD_OUT.slice(0, 10), note: "declare ra-lm on ten of protocol 1's spent seeds (7121–7130): refused at declaration" },
   ]),
 });
+
+/**
+ * Round 8's held-out seeds, drawn ONLY through ROBOLEARN-9's committed declaration (docs/evals/arena-declared-r8.json,
+ * commit ec8bf4c5: gym 7241–7300). The claw for protocol 3 is a NEW instance whose held-out set is these seeds alone.
+ */
+export const OC_HELD_OUT_3 = Object.freeze(Array.from({ length: 60 }, (_, i) => 7241 + i));
+
+/**
+ * Round 8's protocol (committed before its one held-out run). Challengers: ARENA-2's ra-lm-h (new to the claw), ra-lm-h48
+ * (ra-lm-h with 48 hidden units: the one declared change for the AMR base gap), the reactive rule policy (declared as a
+ * challenger for the first time, hard variants included) and random (negative control). Incumbent bc (0 promotions in
+ * protocol 2). Same nine gym scenarios and the same gate. Probes: an undeclared run; a re-test of ra-lm-h on ten of these
+ * seeds once spent; and a declaration on ten of protocol 2's spent seeds (7181–7190), refused as not held out.
+ */
+export const OC_PROTOCOL_3 = Object.freeze({
+  version: "oc-protocol/3",
+  idPrefix: "oc3",
+  seeds: OC_HELD_OUT_3,
+  seedSource: Object.freeze({ owner: "ROBOLEARN-9", file: "docs/evals/arena-declared-r8.json", commit: "ec8bf4c5", gym: "7241–7300" }),
+  scenarios: OC_PROTOCOL.scenarios,
+  models: Object.freeze(["random", "reactive", "bc", "dagger-r1", "dagger-r3", "step-reward", "ra-lm", "ra-lm-h", "ra-lm-h48", "expert"]),
+  incumbent: "bc",
+  incumbentFrom: "oc-protocol/2 (claw2.json): bc kept every gym scenario, 0 promotions",
+  challengers: Object.freeze(["ra-lm-h", "ra-lm-h48", "reactive", "random"]),
+  negativeControl: "random",
+  lm: "ra-lm, ra-lm-h (ra-lm-h/1, arena-declared-r7.json + amendment 1) and ra-lm-h48 (H 48, arena-declared-r8.json) built as arena_eval builds them: lmOptions { texts: raLmTaskTexts(raReadStation), stationFor: the three headless station rooms }",
+  metric: "success",
+  interval: OC_INTERVAL,
+  promotion: OC_PROTOCOL.promotion,
+  probes: Object.freeze([
+    { kind: "undeclared", id: "oc3-probe-undeclared", note: "evaluate a comparison id that was never declared" },
+    { kind: "seed-reused", id: "oc3-probe-retest", scenarioId: "rb-cell-entry", models: ["bc", "ra-lm-h"], incumbent: "bc", challengers: ["ra-lm-h"], seeds: OC_HELD_OUT_3.slice(0, 10), note: "declare a re-test of ra-lm-h on ten of these seeds once spent, then try to run it" },
+    { kind: "not-held-out", id: "oc3-probe-spent-r7", scenarioId: "rb-amr-fleet-routing", models: ["bc", "ra-lm-h"], incumbent: "bc", challengers: ["ra-lm-h"], seeds: OC_HELD_OUT_2.slice(0, 10), note: "declare ra-lm-h on ten of protocol 2's spent seeds (7181–7190): refused at declaration" },
+  ]),
+});

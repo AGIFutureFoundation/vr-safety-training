@@ -1742,7 +1742,7 @@ function uxOpenMenu() {
   $("menu-start").focus();
 }
 uxPassport();
-var npDxPanel = dxMountConsent($("menu-dataworks"), { onChange: () => { vbLocal?.refresh().catch(() => {}); } }); // DATAWORKS: the consent panel in the Me tab (off by default); ROBOTRAIN-3: opt-in or revoke re-reads the learner's takes for the provider
+var npDxPanel = dxMountConsent($("menu-dataworks"), { onChange: () => { vbLocal?.refresh().catch(() => {}); ocRefreshPeople(); } }); // DATAWORKS: the consent panel in the Me tab (off by default); ROBOTRAIN-3: opt-in or revoke re-reads the learner's takes for the provider
 $("ux-menu-open").addEventListener("click", uxOpenMenu);
 $("ux-open-map").addEventListener("click", () => npToggle("map"));
 $("ux-open-ways").addEventListener("click", () => npToggle("parishes"));
@@ -1824,8 +1824,15 @@ function uxAnchorPrompt() {
 // the hive's jobs with the promoted model per task, paused while the tab is hidden, nothing uploaded, the governor on every step.
 // The learner's own drill and tutor results reach the panel only through DATAWORKS' gate (opted-in adults; never K-12, demo or
 // signed out), and stay on this device. The world starts a few seconds after load so it never competes with the first frames.
-var ocHuman = (() => { try { const ok = !npParams.has("demo") && dxEligibility(dxReadSignals(), { stage: "collect" }).eligible === true && !!dxConsent(); return ok ? { eligible: true, drills: drLoad(), tutor: colTutor().state, stations: (() => { const m = {}; for (const r of ppRecords()) { const x = (m[r.simId] ??= { passed: false, best: 0 }); if (r.passed) x.passed = true; if (Number.isFinite(r.score)) x.best = Math.max(x.best, r.score); } return m; })() } : null; } catch (_) { return null; } })();
+var ocReadHuman = () => { try { const ok = !npParams.has("demo") && dxEligibility(dxReadSignals(), { stage: "collect" }).eligible === true && !!dxConsent(); return ok ? { eligible: true, drills: drLoad(), tutor: colTutor().state, stations: (() => { const m = {}; for (const r of ppRecords()) { const x = (m[r.simId] ??= { passed: false, best: 0 }); if (r.passed) x.passed = true; if (Number.isFinite(r.score)) x.best = Math.max(x.best, r.score); } return m; })() } : null; } catch (_) { return null; } };
+var ocHuman = ocReadHuman();
 window.__parishTest.claw = (() => { try { return ocMountClaw($("menu-drills"), { record: OC_RECORD, records: OC_RECORDS, human: ocHuman }); } catch (_) { return null; } })();
+// ROBOLEARN-9: when the learner opts in or out (DATAWORKS' consent panel onChange), the people blocks re-mount with the learner read
+// through the same gate, without a reload; opting out leaves nothing of theirs on screen.
+function ocRefreshPeople() { try { const old = window.__parishTest.claw; if (!old?.el) return; ocHuman = ocReadHuman(); const next = ocMountClaw($("menu-drills"), { record: OC_RECORD, records: OC_RECORDS, human: ocHuman }); if (next?.el) { old.el.replaceWith(next.el); window.__parishTest.claw = next; } } catch (_) {} }
+// DATAWORKS deletes the consent key synchronously when Revoke or Opt in is clicked, before its own async clean-up calls onChange;
+// re-read on the next task as well, so the people blocks never outlive consent while that clean-up runs.
+try { $("menu-dataworks")?.addEventListener("click", (e) => { const id = e.target?.id; if (id === "dx-revoke" || id === "dx-optin") setTimeout(ocRefreshPeople, 0); }); } catch (_) {}
 window.__parishTest.clawWorld = null;
 var ocWorldStart = () => { try { if (window.__parishTest.clawWorld) return window.__parishTest.clawWorld; const promoted = Object.fromEntries(["rb-cell-entry", "rb-cobot-zone-setup", "rb-teleop-pick-place", "rb-amr-fleet-routing"].map((sc) => [sc, OC_RECORD.promoted?.[sc] ?? OC_RECORD.protocol.incumbent])); const loop = ocWorldLoop({ seed: 1, promoted, policyFor: (m, sc, env, seed) => { const b = raBuild(m, sc); return b?.policyFor ? b.policyFor(seed) : null; } }); const lamps = ocMountSiteLamps({ three: THREE, root, sites: rbWorld?.sites ?? [], tier: npTierName }); if (lamps) { lamps.update(loop.world.stats()); loop.onTick(() => lamps.update(loop.world.stats())); } window.__parishTest.clawWorld = { loop, lamps, view: ocMountWorld($("menu-drills"), { loop }) }; return window.__parishTest.clawWorld; } catch (_) { return null; } };
 window.__parishTest.clawWorldStart = ocWorldStart;

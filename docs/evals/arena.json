@@ -51101,5 +51101,786 @@
     ]
    }
   ]
+ },
+ "retest8": {
+  "declared": {
+   "file": "docs/evals/arena-declared-r8.json",
+   "commit": "ec8bf4c5",
+   "amendment1": "96a38192"
+  },
+  "source": "copied from docs/evals/claw3.json, the one run of oc-protocol/3 (tools/claw_eval.mjs --protocol 3); arena_eval did not run these seeds",
+  "seeds": "7241–7300 (60), gym only",
+  "newModel": {
+   "id": "ra-lm-h48",
+   "version": "ra-lm-h48/1",
+   "change": "48 hidden units instead of ra-lm-h’s 24; everything else ra-lm-h/1"
+  },
+  "comparisons": {
+   "amrHeadline": {
+    "ra-lm-h48": "32/60",
+    "bc": "36/60",
+    "diff": -0.067,
+    "ci95": [
+     -0.235,
+     0.108
+    ]
+   },
+   "changeOnAmr": {
+    "ra-lm-h48": "32/60",
+    "ra-lm-h": "32/60",
+    "diff": 0,
+    "ci95": [
+     -0.173,
+     0.173
+    ]
+   },
+   "lmHAmr": {
+    "ra-lm-h": "32/60",
+    "bc": "36/60",
+    "diff": -0.067,
+    "ci95": [
+     -0.235,
+     0.108
+    ]
+   },
+   "lmHPort": {
+    "ra-lm-h": "53/60",
+    "bc": "60/60",
+    "diff": -0.117,
+    "ci95": [
+     -0.222,
+     -0.033
+    ]
+   },
+   "reactiveHard": {
+    "rb-construction-drilling#hard": {
+     "reactive": "60/60",
+     "bc": "60/60",
+     "diff": 0,
+     "ci95": [
+      -0.06,
+      0.06
+     ]
+    },
+    "rb-port-gantry#hard": {
+     "reactive": "60/60",
+     "bc": "50/60",
+     "diff": 0.167,
+     "ci95": [
+      0.072,
+      0.28
+     ]
+    },
+    "rb-amr-fleet-routing#hard": {
+     "reactive": "59/60",
+     "bc": "2/60",
+     "diff": 0.95,
+     "ci95": [
+      0.842,
+      0.978
+     ]
+    }
+   },
+   "reactiveHardPooled": {
+    "reactive": "179/180",
+    "bc": "112/180",
+    "diff": 0.372,
+    "ci95": [
+     0.3,
+     0.445
+    ]
+   }
+  },
+  "promotions": [
+   {
+    "scenarioId": "rb-port-gantry#hard",
+    "from": "bc",
+    "to": "reactive",
+    "cCi": [
+     0.94,
+     1
+    ],
+    "iCi": [
+     0.72,
+     0.907
+    ],
+    "ruleBreaks": 0
+   },
+   {
+    "scenarioId": "rb-amr-fleet-routing#hard",
+    "from": "bc",
+    "to": "reactive",
+    "cCi": [
+     0.911,
+     0.997
+    ],
+    "iCi": [
+     0.009,
+     0.114
+    ],
+    "ruleBreaks": 0
+   }
+  ],
+  "results": [
+   {
+    "modelId": "reactive",
+    "scenarioId": "rb-cell-entry",
+    "applicable": false,
+    "k": 0,
+    "n": 0,
+    "rate": 0,
+    "ci": [
+     0,
+     0
+    ],
+    "ruleBreaks": 0,
+    "steps": 0,
+    "stops": 0,
+    "governorChecked": 0,
+    "physical": 0,
+    "resultHash": "92d9e00cc99a50b8"
+   },
+   {
+    "modelId": "bc",
+    "scenarioId": "rb-cell-entry",
+    "applicable": true,
+    "k": 60,
+    "n": 60,
+    "rate": 1,
+    "ci": [
+     0.94,
+     1
+    ],
+    "ruleBreaks": 0,
+    "steps": 1467,
+    "stops": 0,
+    "governorChecked": 1467,
+    "physical": 0,
+    "resultHash": "07cd41e4b5f56f62"
+   },
+   {
+    "modelId": "ra-lm-h",
+    "scenarioId": "rb-cell-entry",
+    "applicable": true,
+    "k": 60,
+    "n": 60,
+    "rate": 1,
+    "ci": [
+     0.94,
+     1
+    ],
+    "ruleBreaks": 0,
+    "steps": 1467,
+    "stops": 0,
+    "governorChecked": 1467,
+    "physical": 0,
+    "resultHash": "a52800ed293ca419"
+   },
+   {
+    "modelId": "ra-lm-h48",
+    "scenarioId": "rb-cell-entry",
+    "applicable": true,
+    "k": 60,
+    "n": 60,
+    "rate": 1,
+    "ci": [
+     0.94,
+     1
+    ],
+    "ruleBreaks": 0,
+    "steps": 1467,
+    "stops": 0,
+    "governorChecked": 1467,
+    "physical": 0,
+    "resultHash": "5b6249a18d1fc9fd"
+   },
+   {
+    "modelId": "reactive",
+    "scenarioId": "rb-cobot-zone-setup",
+    "applicable": false,
+    "k": 0,
+    "n": 0,
+    "rate": 0,
+    "ci": [
+     0,
+     0
+    ],
+    "ruleBreaks": 0,
+    "steps": 0,
+    "stops": 0,
+    "governorChecked": 0,
+    "physical": 0,
+    "resultHash": "e92c7afb70f592f3"
+   },
+   {
+    "modelId": "bc",
+    "scenarioId": "rb-cobot-zone-setup",
+    "applicable": true,
+    "k": 60,
+    "n": 60,
+    "rate": 1,
+    "ci": [
+     0.94,
+     1
+    ],
+    "ruleBreaks": 0,
+    "steps": 366,
+    "stops": 0,
+    "governorChecked": 366,
+    "physical": 0,
+    "resultHash": "7dd68736acf530a8"
+   },
+   {
+    "modelId": "ra-lm-h",
+    "scenarioId": "rb-cobot-zone-setup",
+    "applicable": true,
+    "k": 60,
+    "n": 60,
+    "rate": 1,
+    "ci": [
+     0.94,
+     1
+    ],
+    "ruleBreaks": 0,
+    "steps": 366,
+    "stops": 0,
+    "governorChecked": 366,
+    "physical": 0,
+    "resultHash": "ecfc9cd7c6fda5c7"
+   },
+   {
+    "modelId": "ra-lm-h48",
+    "scenarioId": "rb-cobot-zone-setup",
+    "applicable": true,
+    "k": 60,
+    "n": 60,
+    "rate": 1,
+    "ci": [
+     0.94,
+     1
+    ],
+    "ruleBreaks": 0,
+    "steps": 366,
+    "stops": 0,
+    "governorChecked": 366,
+    "physical": 0,
+    "resultHash": "775afc03ccf5a533"
+   },
+   {
+    "modelId": "reactive",
+    "scenarioId": "rb-teleop-pick-place",
+    "applicable": false,
+    "k": 0,
+    "n": 0,
+    "rate": 0,
+    "ci": [
+     0,
+     0
+    ],
+    "ruleBreaks": 0,
+    "steps": 0,
+    "stops": 0,
+    "governorChecked": 0,
+    "physical": 0,
+    "resultHash": "49b930ae1be24a9c"
+   },
+   {
+    "modelId": "bc",
+    "scenarioId": "rb-teleop-pick-place",
+    "applicable": true,
+    "k": 58,
+    "n": 60,
+    "rate": 0.967,
+    "ci": [
+     0.886,
+     0.991
+    ],
+    "ruleBreaks": 2,
+    "steps": 2984,
+    "stops": 2,
+    "governorChecked": 2984,
+    "physical": 0,
+    "resultHash": "8cfa28abd8bc27cb"
+   },
+   {
+    "modelId": "ra-lm-h",
+    "scenarioId": "rb-teleop-pick-place",
+    "applicable": true,
+    "k": 57,
+    "n": 60,
+    "rate": 0.95,
+    "ci": [
+     0.863,
+     0.983
+    ],
+    "ruleBreaks": 3,
+    "steps": 2958,
+    "stops": 3,
+    "governorChecked": 2958,
+    "physical": 0,
+    "resultHash": "adeeccbfd6ade8f7"
+   },
+   {
+    "modelId": "ra-lm-h48",
+    "scenarioId": "rb-teleop-pick-place",
+    "applicable": true,
+    "k": 57,
+    "n": 60,
+    "rate": 0.95,
+    "ci": [
+     0.863,
+     0.983
+    ],
+    "ruleBreaks": 3,
+    "steps": 2958,
+    "stops": 3,
+    "governorChecked": 2958,
+    "physical": 0,
+    "resultHash": "84da1aab56705be3"
+   },
+   {
+    "modelId": "reactive",
+    "scenarioId": "rb-amr-fleet-routing",
+    "applicable": true,
+    "k": 45,
+    "n": 60,
+    "rate": 0.75,
+    "ci": [
+     0.628,
+     0.842
+    ],
+    "ruleBreaks": 0,
+    "steps": 2359,
+    "stops": 0,
+    "governorChecked": 2359,
+    "physical": 0,
+    "resultHash": "b104590e35c1ff8e"
+   },
+   {
+    "modelId": "bc",
+    "scenarioId": "rb-amr-fleet-routing",
+    "applicable": true,
+    "k": 36,
+    "n": 60,
+    "rate": 0.6,
+    "ci": [
+     0.474,
+     0.714
+    ],
+    "ruleBreaks": 24,
+    "steps": 643,
+    "stops": 24,
+    "governorChecked": 643,
+    "physical": 0,
+    "resultHash": "392e9e1c0c32ac84"
+   },
+   {
+    "modelId": "ra-lm-h",
+    "scenarioId": "rb-amr-fleet-routing",
+    "applicable": true,
+    "k": 32,
+    "n": 60,
+    "rate": 0.533,
+    "ci": [
+     0.409,
+     0.654
+    ],
+    "ruleBreaks": 28,
+    "steps": 489,
+    "stops": 28,
+    "governorChecked": 489,
+    "physical": 0,
+    "resultHash": "c6bbdf4614a8115c"
+   },
+   {
+    "modelId": "ra-lm-h48",
+    "scenarioId": "rb-amr-fleet-routing",
+    "applicable": true,
+    "k": 32,
+    "n": 60,
+    "rate": 0.533,
+    "ci": [
+     0.409,
+     0.654
+    ],
+    "ruleBreaks": 28,
+    "steps": 489,
+    "stops": 28,
+    "governorChecked": 489,
+    "physical": 0,
+    "resultHash": "a1152fd27db72b58"
+   },
+   {
+    "modelId": "reactive",
+    "scenarioId": "rb-construction-drilling",
+    "applicable": true,
+    "k": 60,
+    "n": 60,
+    "rate": 1,
+    "ci": [
+     0.94,
+     1
+    ],
+    "ruleBreaks": 0,
+    "steps": 1083,
+    "stops": 0,
+    "governorChecked": 1083,
+    "physical": 0,
+    "resultHash": "bac6c896f69c290e"
+   },
+   {
+    "modelId": "bc",
+    "scenarioId": "rb-construction-drilling",
+    "applicable": true,
+    "k": 60,
+    "n": 60,
+    "rate": 1,
+    "ci": [
+     0.94,
+     1
+    ],
+    "ruleBreaks": 0,
+    "steps": 1083,
+    "stops": 0,
+    "governorChecked": 1083,
+    "physical": 0,
+    "resultHash": "b04aa81e62f5895a"
+   },
+   {
+    "modelId": "ra-lm-h",
+    "scenarioId": "rb-construction-drilling",
+    "applicable": true,
+    "k": 60,
+    "n": 60,
+    "rate": 1,
+    "ci": [
+     0.94,
+     1
+    ],
+    "ruleBreaks": 0,
+    "steps": 1083,
+    "stops": 0,
+    "governorChecked": 1083,
+    "physical": 0,
+    "resultHash": "81d6eaa9903de991"
+   },
+   {
+    "modelId": "ra-lm-h48",
+    "scenarioId": "rb-construction-drilling",
+    "applicable": true,
+    "k": 60,
+    "n": 60,
+    "rate": 1,
+    "ci": [
+     0.94,
+     1
+    ],
+    "ruleBreaks": 0,
+    "steps": 1066,
+    "stops": 0,
+    "governorChecked": 1066,
+    "physical": 0,
+    "resultHash": "ad76a1a61194425c"
+   },
+   {
+    "modelId": "reactive",
+    "scenarioId": "rb-port-gantry",
+    "applicable": true,
+    "k": 60,
+    "n": 60,
+    "rate": 1,
+    "ci": [
+     0.94,
+     1
+    ],
+    "ruleBreaks": 0,
+    "steps": 1711,
+    "stops": 0,
+    "governorChecked": 1711,
+    "physical": 0,
+    "resultHash": "652ff88513999c05"
+   },
+   {
+    "modelId": "bc",
+    "scenarioId": "rb-port-gantry",
+    "applicable": true,
+    "k": 60,
+    "n": 60,
+    "rate": 1,
+    "ci": [
+     0.94,
+     1
+    ],
+    "ruleBreaks": 0,
+    "steps": 1506,
+    "stops": 0,
+    "governorChecked": 1506,
+    "physical": 0,
+    "resultHash": "4f8c748c8177ae7a"
+   },
+   {
+    "modelId": "ra-lm-h",
+    "scenarioId": "rb-port-gantry",
+    "applicable": true,
+    "k": 53,
+    "n": 60,
+    "rate": 0.883,
+    "ci": [
+     0.778,
+     0.942
+    ],
+    "ruleBreaks": 7,
+    "steps": 1428,
+    "stops": 7,
+    "governorChecked": 1428,
+    "physical": 0,
+    "resultHash": "25a2c42a3d2461a8"
+   },
+   {
+    "modelId": "ra-lm-h48",
+    "scenarioId": "rb-port-gantry",
+    "applicable": true,
+    "k": 51,
+    "n": 60,
+    "rate": 0.85,
+    "ci": [
+     0.739,
+     0.919
+    ],
+    "ruleBreaks": 9,
+    "steps": 1413,
+    "stops": 9,
+    "governorChecked": 1413,
+    "physical": 0,
+    "resultHash": "fb258a7d0e59c955"
+   },
+   {
+    "modelId": "reactive",
+    "scenarioId": "rb-construction-drilling#hard",
+    "applicable": true,
+    "k": 60,
+    "n": 60,
+    "rate": 1,
+    "ci": [
+     0.94,
+     1
+    ],
+    "ruleBreaks": 0,
+    "steps": 1201,
+    "stops": 0,
+    "governorChecked": 1201,
+    "physical": 0,
+    "resultHash": "9d0dd0ad44a7f5e5"
+   },
+   {
+    "modelId": "bc",
+    "scenarioId": "rb-construction-drilling#hard",
+    "applicable": true,
+    "k": 60,
+    "n": 60,
+    "rate": 1,
+    "ci": [
+     0.94,
+     1
+    ],
+    "ruleBreaks": 0,
+    "steps": 1201,
+    "stops": 0,
+    "governorChecked": 1201,
+    "physical": 0,
+    "resultHash": "0a5771a5635f6959"
+   },
+   {
+    "modelId": "ra-lm-h",
+    "scenarioId": "rb-construction-drilling#hard",
+    "applicable": true,
+    "k": 60,
+    "n": 60,
+    "rate": 1,
+    "ci": [
+     0.94,
+     1
+    ],
+    "ruleBreaks": 0,
+    "steps": 1171,
+    "stops": 0,
+    "governorChecked": 1171,
+    "physical": 0,
+    "resultHash": "b76b6154051e9798"
+   },
+   {
+    "modelId": "ra-lm-h48",
+    "scenarioId": "rb-construction-drilling#hard",
+    "applicable": true,
+    "k": 60,
+    "n": 60,
+    "rate": 1,
+    "ci": [
+     0.94,
+     1
+    ],
+    "ruleBreaks": 0,
+    "steps": 1171,
+    "stops": 0,
+    "governorChecked": 1171,
+    "physical": 0,
+    "resultHash": "7dd057d013e3eb8c"
+   },
+   {
+    "modelId": "reactive",
+    "scenarioId": "rb-port-gantry#hard",
+    "applicable": true,
+    "k": 60,
+    "n": 60,
+    "rate": 1,
+    "ci": [
+     0.94,
+     1
+    ],
+    "ruleBreaks": 0,
+    "steps": 1722,
+    "stops": 0,
+    "governorChecked": 1722,
+    "physical": 0,
+    "resultHash": "575f13f0d30b8c6e"
+   },
+   {
+    "modelId": "bc",
+    "scenarioId": "rb-port-gantry#hard",
+    "applicable": true,
+    "k": 50,
+    "n": 60,
+    "rate": 0.833,
+    "ci": [
+     0.72,
+     0.907
+    ],
+    "ruleBreaks": 0,
+    "steps": 2853,
+    "stops": 0,
+    "governorChecked": 2853,
+    "physical": 0,
+    "resultHash": "d233c35673aefcca"
+   },
+   {
+    "modelId": "ra-lm-h",
+    "scenarioId": "rb-port-gantry#hard",
+    "applicable": true,
+    "k": 39,
+    "n": 60,
+    "rate": 0.65,
+    "ci": [
+     0.524,
+     0.758
+    ],
+    "ruleBreaks": 8,
+    "steps": 3151,
+    "stops": 8,
+    "governorChecked": 3151,
+    "physical": 0,
+    "resultHash": "c0ba26ca0094d608"
+   },
+   {
+    "modelId": "ra-lm-h48",
+    "scenarioId": "rb-port-gantry#hard",
+    "applicable": true,
+    "k": 39,
+    "n": 60,
+    "rate": 0.65,
+    "ci": [
+     0.524,
+     0.758
+    ],
+    "ruleBreaks": 10,
+    "steps": 2867,
+    "stops": 10,
+    "governorChecked": 2867,
+    "physical": 0,
+    "resultHash": "9a56427551c55335"
+   },
+   {
+    "modelId": "reactive",
+    "scenarioId": "rb-amr-fleet-routing#hard",
+    "applicable": true,
+    "k": 59,
+    "n": 60,
+    "rate": 0.983,
+    "ci": [
+     0.911,
+     0.997
+    ],
+    "ruleBreaks": 0,
+    "steps": 1012,
+    "stops": 0,
+    "governorChecked": 1012,
+    "physical": 0,
+    "resultHash": "f7246ae58261f6e5"
+   },
+   {
+    "modelId": "bc",
+    "scenarioId": "rb-amr-fleet-routing#hard",
+    "applicable": true,
+    "k": 2,
+    "n": 60,
+    "rate": 0.033,
+    "ci": [
+     0.009,
+     0.114
+    ],
+    "ruleBreaks": 13,
+    "steps": 5531,
+    "stops": 13,
+    "governorChecked": 5531,
+    "physical": 0,
+    "resultHash": "89e98816b58e1902"
+   },
+   {
+    "modelId": "ra-lm-h",
+    "scenarioId": "rb-amr-fleet-routing#hard",
+    "applicable": true,
+    "k": 12,
+    "n": 60,
+    "rate": 0.2,
+    "ci": [
+     0.118,
+     0.318
+    ],
+    "ruleBreaks": 12,
+    "steps": 4571,
+    "stops": 12,
+    "governorChecked": 4571,
+    "physical": 0,
+    "resultHash": "caceeff2221f9e84"
+   },
+   {
+    "modelId": "ra-lm-h48",
+    "scenarioId": "rb-amr-fleet-routing#hard",
+    "applicable": true,
+    "k": 15,
+    "n": 60,
+    "rate": 0.25,
+    "ci": [
+     0.158,
+     0.372
+    ],
+    "ruleBreaks": 9,
+    "steps": 4596,
+    "stops": 9,
+    "governorChecked": 4596,
+    "physical": 0,
+    "resultHash": "9c8883b728d5a387"
+   }
+  ],
+  "totals": {
+   "episodes": 5220,
+   "stepsRun": 184742,
+   "stepsChecked": 184742,
+   "physical": 0
+  },
+  "readHonestly": [
+   "ra-lm-h48 − bc on AMR base is −0.067 [−0.235, 0.108]: the interval spans 0, so no difference is claimed; the change’s effect over ra-lm-h on AMR is 0 (32/60 each)",
+   "ra-lm-h trails bc on port base on these seeds, −0.117 [−0.222, −0.033] with 7 rule breaks",
+   "the reactive rule policy cleared the gate on AMR hard (59/60 vs 2/60) and port gantry hard (60/60 vs 50/60) with 0 rule breaks; it is a hand-written rule policy, not a trained model"
+  ]
  }
 }

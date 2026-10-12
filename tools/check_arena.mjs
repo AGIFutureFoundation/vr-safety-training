@@ -17,7 +17,13 @@
  *      the full set's lines is 0; every line synthetic with consent null and the schema's fields; the card carries every
  *      DATAWORKS datasheet heading and the five best practices; a human episode without a receipt is refused
  *   8. the panel: the robotics programme page carries the arena section with every leaderboard row's figures from
- *      arena.json, no script inside it, and the hero link
+ *      arena.json, no script inside it, and the hero link; the retest7 and protocol-3 cards' figures equal arena.json; each
+ *      gym scenario card names the claw's model (promoted, else kept) from the claw's own latest record (claw3.json)
+ *   9. retest7 (ARENA-2), declared first, run once
+ *  10. consented takes (ARENA-2)
+ *  11. retest8 (ROBOLEARN-9, protocol 3): declared in arena-declared-r8.json before the claw's one run; ra-lm-h48 is
+ *      ra-lm-h with 48 hidden units only; seeds disjoint from training and earlier ranges; retest8 equals claw3.json;
+ *      a live row equals the file
  *
  *     node tools/check_arena.mjs
  */
@@ -26,7 +32,7 @@ import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { execFileSync } from "node:child_process";
 import { RA_HELD_OUT, RA_STATION_SEEDS, RA_HELD_OUT_R7, RA_STATION_SEEDS_R7, RA_MODELS_R6, RA_DEMOS, RA_STATION_DEMOS, RA_DAGGER, raModels, raScenarios, raRun, raLeaderboard, raWilson } from "../WebXR/shared/ra-arena.js";
-import { RA_LM_LABEL } from "../WebXR/shared/ra-lm.js";
+import { RA_LM_LABEL, RA_LM_H_TRAIN, RA_LM_H48_TRAIN } from "../WebXR/shared/ra-lm.js";
 import { raDeclaration, raDiffCI, raDeclarationR7, raStations, raFirstCommit, RA_R7_MODELS } from "./arena_eval.mjs";
 import { raDsBuild, RA_DS_OUT, RA_DS_SPLITS, RA_DS_SCHEMA } from "./ra_dataset.mjs";
 import { RX_FOREIGN } from "./rb_export.mjs";
@@ -52,7 +58,7 @@ const arena = JSON.parse(read("docs/evals/arena.json"));
 await check("contract: the four functions return the contract's shapes; deterministic; governor on every step; physical 0", () => {
   const models = raModels(), scs = raScenarios();
   // 9 since ARENA-2 (round 7): ra-lm-h sits beside ra-lm; the round-6b declaration still names the first eight (RA_MODELS_R6).
-  ok(models.length === 9 && models.slice(0, 7).concat(models.slice(8)).map((m) => m.id).join() === RA_MODELS_R6.join() && models.every((m) => m.id && m.family && m.trainedOn && m.params && typeof m.params === "object"), "raModels shape");
+  ok(models.length === 10 && models[7].id === "ra-lm-h" && models[8].id === "ra-lm-h48" && models.slice(0, 7).concat(models.slice(9)).map((m) => m.id).join() === RA_MODELS_R6.join() && models.every((m) => m.id && m.family && m.trainedOn && m.params && typeof m.params === "object"), "raModels shape");
   ok(scs.length === 12 && scs.every((s) => s.id && (s.kind === "gym" || s.kind === "station") && typeof s.hard === "boolean"), "raScenarios shape");
   ok(scs.filter((s) => s.hard).length === 3 && scs.filter((s) => s.kind === "station").length === 3, "3 hard variants and 3 stations");
   const a = raRun({ modelId: "bc", scenarioId: "rb-port-gantry#hard", seeds: DEV }), b = raRun({ modelId: "bc", scenarioId: "rb-port-gantry#hard", seeds: DEV });
@@ -66,7 +72,7 @@ await check("contract: the four functions return the contract's shapes; determin
   ok(raRun({ modelId: "reactive", scenarioId: "rb-cell-entry", seeds: DEV }).applicable === false, "reactive on a scenario without rules must be n/a");
   const lb = raLeaderboard([a, r]);
   ok(lb.length === 2 && lb.every((x) => x.rank && Array.isArray(x.ci95) && x.ci95.length === 2), "raLeaderboard rows");
-  return `9 models (8 of round 6b + ra-lm-h), 12 scenarios; bc on port#hard ${a.success} over dev seeds 1–5, twice identical; random cell-entry ${r.stops} stops`;
+  return `10 models (8 of round 6b + ra-lm-h + ra-lm-h48, protocol 3), 12 scenarios; bc on port#hard ${a.success} over dev seeds 1–5, twice identical; random cell-entry ${r.stops} stops`;
 });
 
 await check("declared first: arena-declared.json matches the code, committed before arena.json", () => {
@@ -194,7 +200,25 @@ await check("panel: the programme page carries the arena section with the file's
   ok((sec.match(/data-ra-scenario=/g) ?? []).length === 12, "per-scenario cards");
   ok(html.includes('href="#arena"'), "hero link to the arena");
   ok(/simulated/.test(sec) && /Read-only/.test(sec), "the section must say read-only and simulated");
-  return `${arena.leaderboard.gym.length} leaderboard rows, 12 scenario cards, no script`;
+  // Round 8 (ROBOLEARN-9): the retest cards and the claw's model per scenario, from the files, never re-run.
+  const pct2 = (x) => pct(x).replace("-", "−");
+  const ci = (c) => (c[0] < 0 || c[1] < 0 ? `${pct2(c[0])} to ${pct2(c[1])}` : `${pct(c[0])}–${pct(c[1])}`);
+  const dtx = (d) => `${d.diff > 0 ? "+" : ""}${pct2(d.diff)} (95% ${ci(d.ci95)})`;
+  const card = (id) => sec.match(new RegExp(`<div class="ra-card" data-ra-card="${id}">[\\s\\S]*?</div>`))?.[0] ?? "";
+  const c7 = card("retest7"), r7c = arena.retest7.comparisons;
+  ok(c7.includes(dtx(r7c.headline.diff)) && c7.includes(dtx(r7c.changeOnGaps.diff)) && c7.includes(`ra-lm ${r7c.cobotStation["ra-lm"]} → ra-lm-h ${r7c.cobotStation["ra-lm-h"]}`), "the retest7 card's figures differ from arena.json");
+  const c8 = card("protocol3"), r8c = arena.retest8?.comparisons;
+  ok(r8c && c8.includes(dtx(r8c.amrHeadline)) && c8.includes(dtx(r8c.changeOnAmr)) && c8.includes(dtx(r8c.lmHPort)) && c8.includes(dtx(r8c.reactiveHardPooled)), "the protocol-3 card's figures differ from arena.json retest8");
+  const claw = JSON.parse(read("docs/evals/claw3.json"));
+  let shown = 0;
+  const gymIds = arena.scenarios.filter((x) => x.kind === "gym").map((x) => x.id);
+  for (const sc of gymIds) {
+    const want = claw.promoted?.[sc] ?? claw.protocol.incumbent;
+    const scard = sec.match(new RegExp(`<div class="ra-sc" data-ra-scenario="${sc.replace(/[#]/g, "\\$&")}">[\\s\\S]*?</h3><p class="ra-promoted[^"]*" data-ra-promoted="([^"]+)"`));
+    ok(scard && scard[1] === want, `${sc}: the card shows ${scard?.[1]} but the claw's record says ${want}`);
+    shown += 1;
+  }
+  return `${arena.leaderboard.gym.length} leaderboard rows, 12 scenario cards, no script; retest7 and protocol-3 cards equal the file; the claw's model shown on ${shown} of ${gymIds.length} gym scenarios (${Object.entries(claw.promoted ?? {}).filter(([, m]) => m !== claw.protocol.incumbent).length} promoted, the rest kept)`;
 });
 
 await check("retest7 (ARENA-2): declared and committed before the run, matches the code; run once on 7181–7240; seeds disjoint; governor on every step; a live row equals the file", () => {
@@ -220,6 +244,34 @@ await check("retest7 (ARENA-2): declared and committed before the run, matches t
   ok(JSON.stringify(live.perSeed.map((p) => [p.seed, p.success ? 1 : 0, p.steps, p.ruleBreaks, p.stopped ? 1 : 0])) === JSON.stringify(file.perSeed), "bc on port#hard: live ≠ file");
   const h = r7.comparisons.headline;
   return `${order}; ${r7.totals.stepsChecked}/${r7.totals.stepsRun} steps checked, ${r7.totals.physical} physical; ra-lm-h − bc on AMR + port ${h.diff.diff} [${h.diff.ci95.join(", ")}]; cobot station ${r7.comparisons.cobotStation["ra-lm"]} → ${r7.comparisons.cobotStation["ra-lm-h"]}`;
+});
+
+await check("retest8 (ROBOLEARN-9, protocol 3): declared before the claw's one run; ra-lm-h48 = ra-lm-h with 48 hidden units; seeds disjoint; retest8 equals claw3.json; a live row equals the file", () => {
+  const d = JSON.parse(read("docs/evals/arena-declared-r8.json")), r8 = arena.retest8, claw = JSON.parse(read("docs/evals/claw3.json"));
+  ok(r8 && r8.declared?.commit === "ec8bf4c5" && d.protocol?.seeds?.gym === "7241–7300", "retest8 or its declaration missing");
+  ok(JSON.stringify({ ...RA_LM_H_TRAIN, hidden: 48 }) === JSON.stringify(RA_LM_H48_TRAIN), "ra-lm-h48 differs from ra-lm-h in more than the hidden units");
+  ok(raModels().some((m) => m.id === "ra-lm-h48") && d.protocol.models.includes("ra-lm-h48") && d.protocol.challengers.includes("ra-lm-h48"), "ra-lm-h48 not declared or not listed");
+  const held = Array.from({ length: 60 }, (_, i) => 7241 + i);
+  const train = [...Array.from({ length: RA_DEMOS.n }, (_, k) => RA_DEMOS.seed * 100003 + k + 1), ...[1, 2, 3].flatMap((r) => Array.from({ length: RA_DAGGER.rollouts }, (_, k) => RA_DAGGER.seed0 + r * 100 + k))];
+  ok(held.every((x) => !train.includes(x) && !RA_HELD_OUT.includes(x) && !RA_HELD_OUT_R7.includes(x)), "round-8 seeds overlap training or earlier ranges");
+  let order = "no git";
+  const dl = raFirstCommit("docs/evals/arena-declared-r8.json");
+  if (dl) {
+    let ancestor = false;
+    try { const log = execFileSync("git", ["log", "--format=%H", "-S", '"retest8"', "--", "docs/evals/arena.json"], { cwd: ROOT, encoding: "utf8" }).trim().split("\n").filter(Boolean); const first = log[log.length - 1]; if (first) { execFileSync("git", ["merge-base", "--is-ancestor", dl, first], { cwd: ROOT }); ancestor = first !== dl; order = `declared ${dl.slice(0, 8)} → results ${first.slice(0, 8)}`; } else order = "results not committed yet"; } catch (_) { ancestor = false; }
+    ok(ancestor || order === "results not committed yet", "retest8 was not first committed after the declaration");
+  }
+  for (const x of r8.results) {
+    const y = claw.runs.find((r) => r.scenarioId === x.scenarioId)?.results.find((z) => z.modelId === x.modelId);
+    ok(y && y.k === x.k && y.n === x.n && y.resultHash === x.resultHash && x.physical === 0 && x.governorChecked === x.steps, `retest8 ${x.modelId} ${x.scenarioId}: differs from claw3.json, or governor/physical`);
+  }
+  const a = r8.comparisons.amrHeadline, k = (s) => Number(String(s).split("/")[0]);
+  const re = raDiffCI(k(a["ra-lm-h48"]), 60, k(a.bc), 60);
+  ok(re.diff === a.diff && JSON.stringify(re.ci95) === JSON.stringify(a.ci95), "the AMR headline does not recompute");
+  const live = raRun({ modelId: "bc", scenarioId: "rb-port-gantry#hard", seeds: held }), file = r8.results.find((r) => r.modelId === "bc" && r.scenarioId === "rb-port-gantry#hard");
+  const lk = live.perSeed.filter((q) => q.success).length, lrb = live.perSeed.reduce((m, q) => m + q.ruleBreaks, 0);
+  ok(lk === file.k && lrb === file.ruleBreaks && live.perSeed.length === file.n, `bc on port#hard: live ${lk}/${live.perSeed.length} ≠ file ${file.k}/${file.n}`);
+  return `${order}; ${r8.results.length} rows equal claw3.json; ${r8.totals.stepsChecked}/${r8.totals.stepsRun} steps checked, ${r8.totals.physical} physical; ra-lm-h48 − bc on AMR ${a.diff} [${a.ci95.join(", ")}]${a.ci95[0] <= 0 && a.ci95[1] >= 0 ? " (spans 0: no claim)" : ""}; promotions ${r8.promotions.map((x) => `${x.to} on ${x.scenarioId}`).join(", ")}`;
 });
 
 await check("consented takes (ARENA-2): signed out 0, opted in N with provenance per sample, revoke 0; a take without a receipt refused; lines as the set writes them", async () => {
