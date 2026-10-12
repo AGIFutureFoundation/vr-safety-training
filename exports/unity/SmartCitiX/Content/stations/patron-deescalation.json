@@ -1,0 +1,361 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "held-the-line",
+    "name": "Held the Line",
+    "note": "De-escalated without raising a voice, hit the alarm the instant it went physical, and got the guest clear of the crowd"
+  },
+  "category": "Culinary & Hospitality",
+  "certification": "Cal/OSHA's workplace violence prevention plan requirement, 8 CCR §3342 under SB 553, including the incident log every bar now has to keep; OSHA 29 CFR 1910.1030 bloodborne pathogens for the moment contact actually breaks skin; NFPA 101's life-safety requirement that the path to the door stays clear of exactly the kind of crowd this scenario draws; the local police non-emergency line as the standing call for a patron who will not leave; UNITE HERE Local 2's own language on never sending one bartender into a confrontation alone",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 101",
+        "id": "nfpa-101",
+        "title": "NFPA 101 — Life Safety Code"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1030",
+        "id": "osha-1910-1030",
+        "title": "29 CFR 1910.1030 — Bloodborne pathogens"
+      },
+      {
+        "body": "union",
+        "citedAs": "UNITE HERE",
+        "id": "unite-here-training",
+        "title": "UNITE HERE hospitality training funds — cooks, housekeepers, bartenders and banquet staff"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Culinary & Hospitality",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "read-it-first",
+        "name": "Read It First",
+        "note": "Every harassment cue spotted before naming the behaviour"
+      },
+      {
+        "id": "never-alone",
+        "name": "Never Alone in It",
+        "note": "No unsafe action anywhere in the run"
+      },
+      {
+        "id": "held-position",
+        "name": "Held Position",
+        "note": "Both watch periods held the full count"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "calm-and-fast",
+        "name": "Calm and Fast",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "no-corrections",
+        "name": "No Corrections",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "seven-straight",
+        "name": "Seven Straight",
+        "note": "Seven correct actions in a row"
+      }
+    ],
+    "currency": "CALM",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Barback",
+      "Service Bartender",
+      "Shift Lead",
+      "Bar Manager",
+      "RBS Certified Trainer"
+    ],
+    "system": "Floor Command"
+  },
+  "hazards": {
+    "come-around-bar": "You stepped around the end of the bar into his space. The bar is the one barrier in the room that was already built and already worked — coming around it trades a structural advantage for nothing, right when the distance matters most.",
+    "confront-alone": "You walked over to deal with this without calling anyone first. One bartender confronting an escalating patron alone is exactly the situation Cal/OSHA's workplace violence prevention plan was written to stop happening as a matter of routine.",
+    "raise-voice-back": "You matched his volume instead of staying below it. Two raised voices read as a fight starting to everyone else in the room, including him — de-escalation only works from the one voice in the exchange that stays level.",
+    "serve-through-it": "You kept pouring for the table while this was still happening. Serving through an active harassment tells him, the guest and everyone watching that the bar has not actually noticed — and it means his hands stay full of a glass instead of getting the attention they need."
+  },
+  "id": "patron-deescalation",
+  "indoor": "bar",
+  "interrupts": [
+    {
+      "after": "keep-distance",
+      "alert": "He has reached across the bar top and grabbed your coworker's wrist.",
+      "cue": "A hand just crossed the bar. This is not a conversation anymore.",
+      "delay": 2,
+      "id": "wrist-grab",
+      "kind": "Physical contact across the bar",
+      "missNote": "The grab held for several seconds before anybody reached the alarm. Once contact happens, every second spent still trying to talk it down is a second the coworker is being held onto.",
+      "seconds": 10,
+      "target": "panic-button",
+      "why": "The instant a hand crosses the bar, the response stops being verbal — the panic button under the till calls for help faster than shouting across the room does, and it does it without anyone having to get closer to be heard.",
+      "wrongNote": "It is the panic button, not whatever else is in reach. The register, the tap, the phone — none of them call the rest of the building the way that one does."
+    },
+    {
+      "after": "crowd-watch",
+      "alert": "Somebody nearby has their phone up filming, and the crowd around the table has closed in tighter.",
+      "cue": "The guest is now boxed in by people who are only there to watch.",
+      "delay": 3,
+      "id": "crowd-films-and-closes-in",
+      "kind": "Bystanders crowding in",
+      "missNote": "She stayed boxed in while the crowd got thicker and the filming kept going. Whatever gets said next, she is still standing inside a ring of strangers until somebody physically moves her out of it.",
+      "seconds": 12,
+      "target": "harassed-guest",
+      "why": "A crowd that closes in to watch is not helping and is not harmless either — it traps the person you are trying to protect inside a ring of bodies, and the only fix is getting her physically out of it, not asking the crowd to move.",
+      "wrongNote": "It is the guest herself. Get her clear of the crowd before anything else about this moment gets resolved."
+    }
+  ],
+  "lateNotes": {},
+  "name": "Patron De-escalation",
+  "parSeconds": 270,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "bartending-course"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.8,
+    "hits": [
+      "ask-to-leave",
+      "backup-radio",
+      "bar-barrier-point",
+      "come-around-bar",
+      "confront-alone",
+      "crowd-scan-point",
+      "debrief-board",
+      "give-warning",
+      "guest-exit-offer",
+      "harassed-guest",
+      "name-it-card",
+      "panic-button",
+      "raise-voice-back",
+      "safe-exit",
+      "security-phone",
+      "serve-through-it",
+      "sign-guest-distress",
+      "sign-repeated-comments",
+      "sign-unwanted-contact",
+      "sound-dimmer",
+      "state-refusal",
+      "tension-gauge",
+      "wvpp-log-board"
+    ],
+    "meshes": 186
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Watch the two of them for a moment. Three signs say this stopped being friendly a while ago.",
+      "id": "recognize-harassment",
+      "itemNames": {
+        "sign-guest-distress": "guest pulling away, not laughing",
+        "sign-repeated-comments": "the same comment, repeated",
+        "sign-unwanted-contact": "leaning into her space"
+      },
+      "itemNotes": {
+        "sign-guest-distress": "She has turned her body away and stopped answering — distress reads in the body a full beat before anybody says a word about it.",
+        "sign-repeated-comments": "The same line, said a third time in a different tone, is not a joke that landed badly once — it is testing whether anybody is going to stop him.",
+        "sign-unwanted-contact": "He is closer to her than the seating allows for and closing the gap again every time she creates one."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Watch the two of them for a moment. Three signs say this stopped being friendly a while ago.",
+      "targets": [
+        "sign-unwanted-contact",
+        "sign-guest-distress",
+        "sign-repeated-comments"
+      ],
+      "title": "Recognise it before it becomes a scene",
+      "why": "Harassment at a bar rarely announces itself — it is a posture, a body pulling away, and the same line repeated past the point of being funny, and naming that pattern early is what lets you act while it is still small."
+    },
+    {
+      "cue": "Come over, but stay on your side — let the bar do the work of the distance.",
+      "holdBreakNote": "You closed the distance the bar was already giving you. Staying behind it is not hesitation, it is the one piece of the room already doing part of the job for you.",
+      "id": "keep-distance",
+      "kind": "hold",
+      "prompt": "Come over, but stay on your side — let the bar do the work of the distance.",
+      "seconds": 5,
+      "target": "bar-barrier-point",
+      "title": "Approach and hold position behind the bar",
+      "why": "The bar top is a barrier that is already built, already between you, and already normal for you to be standing behind — stepping around it is the only way to lose that advantage, so the approach holds position instead."
+    },
+    {
+      "cue": "Turn the music down and the house lights up a step — less to escalate against.",
+      "id": "reduce-stimulation",
+      "kind": "turn",
+      "prompt": "Turn the music down and the house lights up a step — less to escalate against.",
+      "target": "sound-dimmer",
+      "title": "Take some of the noise out of the room",
+      "turn": {
+        "axis": "y",
+        "label": "HOUSE MIX",
+        "turns": 0.6
+      },
+      "why": "A loud room with low light is a room built for anonymity, and anonymity is exactly what a harasser is counting on — turning the mix down does not end the confrontation, it takes away some of the cover it was happening under."
+    },
+    {
+      "cue": "State plainly what he is doing — not what you think of him for doing it.",
+      "id": "name-behavior",
+      "kind": "select",
+      "prompt": "State plainly what he is doing — not what you think of him for doing it.",
+      "target": "name-it-card",
+      "title": "Name the behaviour once, calmly",
+      "why": "One flat, factual sentence about the behaviour — not an insult, not a question — removes his ability to claim he did not realise, and it does that without giving him anything to argue back against."
+    },
+    {
+      "cue": "Offer her a seat somewhere else at the bar, on you.",
+      "id": "offer-exit",
+      "kind": "select",
+      "prompt": "Offer her a seat somewhere else at the bar, on you.",
+      "target": "guest-exit-offer",
+      "title": "Give the guest a way out of the conversation",
+      "why": "The fastest way to end a harassment in progress is often not confronting the harasser at all — it is giving the person on the other end of it an exit that does not require her to make a scene to take it."
+    },
+    {
+      "cue": "Get a coworker over now — not after it escalates.",
+      "id": "call-second-staff",
+      "kind": "select",
+      "prompt": "Get a coworker over now — not after it escalates.",
+      "target": "backup-radio",
+      "title": "Call a second set of hands before this goes further",
+      "why": "A second staff member changes the shape of the whole interaction: it is no longer one bartender's word against a customer's, and it means somebody is free to watch the room while you talk."
+    },
+    {
+      "cue": "Cut him off first, then ask him to go, then say what happens if he does not.",
+      "id": "refuse-ask-leave",
+      "itemNames": {
+        "ask-to-leave": "ask him to leave",
+        "give-warning": "warn that police will be called",
+        "state-refusal": "state refusal of service"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Refuse service, then ask him to leave, then warn about police — leading with the threat before he has even been told to go reads as a dare, not a decision that is already made.",
+      "prompt": "Cut him off first, then ask him to go, then say what happens if he does not.",
+      "targets": [
+        "state-refusal",
+        "ask-to-leave",
+        "give-warning"
+      ],
+      "title": "Refuse service and ask him to leave, in that order",
+      "why": "Refusing service removes his reason to still be sitting there; asking him to leave gives him the chance to go on his own terms; the warning only means anything once both of those have already been said and he is still in the room."
+    },
+    {
+      "cue": "Watch him for a beat and gauge whether the room is settling or still hot.",
+      "gauge": {
+        "green": [
+          0.05,
+          0.28
+        ],
+        "label": "TENSION",
+        "missNote": "That reads as still hot, not cooling. A situation that has not actually settled gets security or police called now, not given another few minutes to sort itself out.",
+        "speed": 0.68
+      },
+      "id": "assess-escalation",
+      "kind": "gauge",
+      "prompt": "Watch him for a beat and gauge whether the room is settling or still hot.",
+      "target": "tension-gauge",
+      "title": "Read whether this is actually cooling off",
+      "why": "De-escalation either works inside the first minute or it does not, and the only way to know which is watching for it rather than assuming the quiet after a warning means it is over."
+    },
+    {
+      "cue": "If it is still hot, make the call now — do not wait for it to get worse first.",
+      "id": "security-call",
+      "kind": "select",
+      "prompt": "If it is still hot, make the call now — do not wait for it to get worse first.",
+      "target": "security-phone",
+      "title": "Call security or the police non-emergency line",
+      "why": "The police non-emergency line exists precisely for a patron who will not leave and is not yet an active emergency — using it here is not overreacting, it is the step between a refusal and a 911 call that this whole sequence is built to reach for in time."
+    },
+    {
+      "cue": "Keep your attention moving across the floor, not locked on the one table.",
+      "holdBreakNote": "Your attention locked onto the table or drifted off the floor. The confrontation is not the only thing moving in the room right now.",
+      "id": "crowd-watch",
+      "kind": "track",
+      "prompt": "Keep your attention moving across the floor, not locked on the one table.",
+      "seconds": 6,
+      "target": "crowd-scan-point",
+      "title": "Watch the room while this plays out",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.4,
+        "green": [
+          0.3,
+          0.75
+        ],
+        "label": "ROOM SCAN",
+        "rise": 0.5,
+        "start": 0.5
+      },
+      "why": "A confrontation like this one draws an audience faster than it draws a fight, and the audience is its own problem — a bartender watching only the table in front of them misses a crowd closing in from every other direction."
+    },
+    {
+      "cue": "Move her away from the table, either behind the bar with you or straight to the door.",
+      "drag": {
+        "missNote": "Not clear of the table. Leaving her in the middle of a crowd that is already closing in undoes everything else that just happened.",
+        "radius": 0.55,
+        "to": "safe-exit"
+      },
+      "id": "move-guest",
+      "kind": "drag",
+      "prompt": "Move her away from the table, either behind the bar with you or straight to the door.",
+      "target": "harassed-guest",
+      "title": "Get the guest clear — behind the bar or to the exit",
+      "why": "Once a crowd starts closing in, the harassed guest's safety stops being about the conversation and becomes about geography — getting her physically clear of the crowd is worth more than anything else said in this moment."
+    },
+    {
+      "cue": "Write the incident into the log Cal/OSHA's plan requires — what happened, who responded, how it ended.",
+      "id": "wvpp-log",
+      "kind": "select",
+      "prompt": "Write the incident into the log Cal/OSHA's plan requires — what happened, who responded, how it ended.",
+      "target": "wvpp-log-board",
+      "title": "Log it in the workplace violence prevention plan",
+      "why": "Cal/OSHA's workplace violence prevention plan under 8 CCR §3342 is not satisfied by handling an incident well once — it requires the log entry that turns tonight into a pattern the next safety committee meeting can actually see."
+    },
+    {
+      "cue": "Walk the coworkers who were there through what happened and what worked.",
+      "id": "debrief",
+      "kind": "select",
+      "prompt": "Walk the coworkers who were there through what happened and what worked.",
+      "target": "debrief-board",
+      "title": "Debrief with the team before the shift ends",
+      "why": "A five-minute debrief while the details are still fresh is what turns one bartender's experience into the whole shift's habit — skipped, the same situation gets relearned from scratch by whoever is behind the bar next time."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Distance, the bar as a barrier, naming it once, backup, refusal — and the panic button the instant a hand crosses the bar",
+  "title": "SmartCiti.X~ Patron De-escalation VR",
+  "trade": "Bartender — UNITE HERE Local 2",
+  "underwater": null,
+  "weather": "clear"
+}

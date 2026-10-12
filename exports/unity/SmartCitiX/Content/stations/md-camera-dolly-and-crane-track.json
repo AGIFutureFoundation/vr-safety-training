@@ -1,0 +1,370 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "smooth-and-balanced",
+    "name": "Smooth and Balanced",
+    "note": "The track swept clean, the arm balanced before the swivel locked, the shot held smooth on the dolly, and the crossing cart and the slipping sled both answered off the right control"
+  },
+  "category": "Entertainment & Live Events",
+  "certification": "IATSE grip department training; ASME B30.5 mobile crane practice, applied to the jib arm's counterweighted boom; OSHA 29 CFR 1926.451 general fall-protection requirements for the counterweight sled; ANSI/ISEA 107 high-visibility apparel for the grip crew working trackside",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI/ISEA 107",
+        "id": "ansi-isea-107",
+        "title": "ANSI/ISEA 107 — High-visibility safety apparel and accessories"
+      },
+      {
+        "body": "ASME",
+        "citedAs": "ASME B30.5",
+        "id": "asme-b30-5",
+        "title": "ASME B30.5 — Mobile and locomotive cranes"
+      },
+      {
+        "body": "union",
+        "citedAs": "IATSE",
+        "id": "iatse-training-trust",
+        "title": "IATSE Training Trust Fund — stagecraft, rigging and entertainment electrical skills training"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.451",
+        "id": "osha-1926-451",
+        "title": "29 CFR 1926.451 — Scaffolds, general requirements"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Screen & Media Crafts",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "balanced-first",
+        "name": "Balanced First",
+        "note": "Never locked the swivel before the arm read balanced on its sled"
+      },
+      {
+        "id": "cart-answered",
+        "name": "Cart Answered",
+        "note": "The crossing cart was held off the grip radio, not ignored"
+      },
+      {
+        "id": "never-under-the-dolly",
+        "name": "Never Under the Dolly",
+        "note": "Never reached under a moving dolly, never in the swing radius, never pulled an armed counterweight pin, never on ungritted track"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-lay",
+        "name": "Clean Lay",
+        "note": "No corrections from the plot to the closing log"
+      },
+      {
+        "id": "smooth-push",
+        "name": "Smooth Push",
+        "note": "The dolly held its speed band the whole push, first time"
+      },
+      {
+        "id": "rolling-on-time",
+        "name": "Rolling On Time",
+        "note": "Balanced and rolling inside 80% of par"
+      }
+    ],
+    "currency": "TRACK",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Loader",
+      "Set-Up Grip",
+      "Dolly Grip",
+      "Best Boy Grip",
+      "Key Grip Certified"
+    ],
+    "system": "Grip Truck"
+  },
+  "hazards": {
+    "climb-onto-ungritted-track": "You stepped onto a section of track that had not been swept and gritted yet. A dolly track is level and clean because the dolly's whole ride depends on it, and standing on a section still carrying grip crew's own grease and shim dust is exactly how somebody's boot finds the one patch that isn't where their foot expected it to be.",
+    "pull-counterweight-pin-while-armed": "You pulled the counterweight sled's locking pin while the arm was still loaded and balanced. That pin is the only thing holding the sled at the balance point the gauge just proved — pull it loaded, and the sled runs free on its rail with the arm's whole balance behind it. The pin comes out only after the arm is racked down and the load is off the sled.",
+    "reach-under-moving-dolly": "You reached under the dolly while it was still rolling on the track. A dolly's wheels and truck run in a channel built to carry the weight of the camera package and everyone riding it, and a hand caught between a wheel and the rail does not get a warning first. The dolly is only reached under stopped, with the brake set.",
+    "stand-in-swing-radius": "You stood inside the jib arm's swing radius while it was counterweighted and unlocked. A balanced arm swings on very little force, and a person standing where the arm's own arc passes is standing exactly where a boom operator's shot is about to go — whether or not anyone meant to swing it yet. The radius is marked and it stays clear until the operator calls it clear."
+  },
+  "id": "md-camera-dolly-and-crane-track",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "track-clamp",
+      "alert": "A grip crew member has started wheeling a heavy gear cart straight across the track, right in the dolly's path.",
+      "cue": "Call the crew on the radio to hold at the track before the cart fouls the rail.",
+      "delay": 2,
+      "id": "cart-crossing-track",
+      "kind": "Gear cart crosses the live track",
+      "missNote": "The cart crossed anyway. A wheel caught the rail channel and left a scrape the dolly's own wheels rode over on the next push.",
+      "seconds": 12,
+      "target": "grip-radio",
+      "why": "A cart crossing a live track can catch a wheel in the rail channel or leave a scrape the dolly's own wheels ride over on the next push, and a shout across a soundstage floor does not reliably beat a crew member already committed to crossing. The radio reaches the whole crew at once, which a shout from behind a clamped joint does not.",
+      "wrongNote": "Not the clamp you're holding — that only answers for this joint. The radio is what reaches a crew member already crossing."
+    },
+    {
+      "after": "dolly-push",
+      "alert": "The jib arm's counterweight sled has slipped half a notch on its rail, and the balance gauge needle is jumping toward the red.",
+      "cue": "Hit the counterweight lock lever before the arm free-swings.",
+      "delay": 2,
+      "id": "sled-slip",
+      "kind": "Counterweight sled slips on its rail",
+      "missNote": "The sled kept sliding and the arm drifted off its mark on its own. Nobody had clamped the sled back to the rail.",
+      "seconds": 12,
+      "target": "counterweight-lock-lever",
+      "why": "A sled that slips is a sled no longer holding the balance point the gauge proved, and an arm that goes even a little out of balance starts drifting on its own the moment nobody is actively holding it against that drift. The lock lever clamps the sled to the rail directly — a separate control from the balance gauge, which only ever reads the problem rather than stopping it.",
+      "wrongNote": "Not the balance gauge — it only reads the drift. The lock lever is what actually clamps the sled back to the rail."
+    }
+  ],
+  "lateNotes": {
+    "grip-log": "The log is written last, after the shot is struck and the sandbags are counted back off the tray.",
+    "sandbag": "The sandbag loads onto the tray after the swing zone is confirmed clear — not before, and never while anyone is inside the radius.",
+    "swivel-lock": "The swivel locks once the arm has read balanced on the sled — locking an unbalanced arm just locks in the lean."
+  },
+  "name": "Camera Dolly & Crane Track",
+  "parSeconds": 330,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "screen-and-media-crafts"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.9,
+    "hits": [
+      "balance-gauge",
+      "climb-onto-ungritted-track",
+      "counterweight-chart",
+      "counterweight-lock-lever",
+      "counterweight-tray",
+      "dolly-brake",
+      "dolly-push",
+      "grip-gloves",
+      "grip-log",
+      "grip-radio",
+      "jib-pan-handle",
+      "knee-pads",
+      "missing-wedge",
+      "pull-counterweight-pin-while-armed",
+      "reach-under-moving-dolly",
+      "sandbag",
+      "shot-plot-panel",
+      "snagged-cable",
+      "stand-in-swing-radius",
+      "swing-spotter-radio",
+      "swivel-lock",
+      "track-clamp",
+      "unpinned-joint"
+    ],
+    "meshes": 170
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the grip plot: the track's curve, the crane's counterweight chart, and today's lens-and-camera package weight.",
+      "id": "read-plot",
+      "kind": "select",
+      "prompt": "Read the grip plot: the track's curve, the crane's counterweight chart, and today's lens-and-camera package weight.",
+      "target": "shot-plot-panel",
+      "title": "Read today's grip plot",
+      "why": "The plot is where today's shot is actually specified before anyone lays a length of track — the curve the dolly follows, the weight the jib arm has to balance against, and which camera package is riding today, because a longer lens or a bigger body changes the balance point the crane was set up for yesterday."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Pull on grip gloves and knee pads before handling track sections or kneeling to pin a joint.",
+      "id": "ppe-donning",
+      "itemNames": {
+        "grip-gloves": "grip gloves",
+        "knee-pads": "knee pads"
+      },
+      "kind": "sequence",
+      "prompt": "Pull on grip gloves and knee pads before handling track sections or kneeling to pin a joint.",
+      "targets": [
+        "grip-gloves",
+        "knee-pads"
+      ],
+      "title": "Glove up and pad up before laying track",
+      "why": "Track sections are steel, cold, and have a way of finding a bare knuckle at the exact moment a joint seats, and a grip who spends the whole call kneeling on bare concrete to pin joints knows within the first hour why the pads exist. Both go on before the first section comes off the truck, not after the first pinch."
+    },
+    {
+      "cue": "Walk the track and click the three things wrong with how it was laid.",
+      "id": "track-sweep",
+      "itemNames": {
+        "missing-wedge": "missing levelling wedge",
+        "snagged-cable": "camera cable snagged under a wheel",
+        "unpinned-joint": "unpinned track joint"
+      },
+      "itemNotes": {
+        "missing-wedge": "One section has no levelling wedge under it, and it sits a hair proud of the section beside it. A track that isn't level in one spot rides fine in rehearsal and reads as a bump the moment the take is the one that matters.",
+        "snagged-cable": "A camera cable is looped up under the near rail instead of run clear of the truck. A cable caught under a moving dolly's wheel gets pulled tight before anyone notices, and whatever is on the other end of that cable stops working mid-shot.",
+        "unpinned-joint": "This joint's coupler pin never seated — the two rail sections are only resting against each other. A dolly crossing an unpinned joint at speed can hop the gap, and the camera operator riding it feels that hop as a jolt on the shot nobody planned."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the track and click the three things wrong with how it was laid.",
+      "targets": [
+        "unpinned-joint",
+        "missing-wedge",
+        "snagged-cable"
+      ],
+      "title": "Sweep the assembled track before it carries a shot",
+      "why": "Track looks the same whether it is right or almost right, and the difference only shows up once a loaded dolly is rolling on it — an unpinned joint, an unlevelled section and a snagged cable are the three ways today's smooth push becomes tomorrow's blown take."
+    },
+    {
+      "cue": "Read the crane's counterweight chart against today's lens and camera body weight before touching the sled.",
+      "id": "counterweight-chart",
+      "kind": "select",
+      "prompt": "Read the crane's counterweight chart against today's lens and camera body weight before touching the sled.",
+      "target": "counterweight-chart",
+      "title": "Check today's camera package against the counterweight chart",
+      "why": "The chart is what turns 'looks about right' into an actual number — the sled's position for a balanced arm changes with every lens swap and every accessory hung off the camera, and the chart is built from the manufacturer's own tested combinations rather than guessed from how the arm feels in the hand."
+    },
+    {
+      "cue": "Slide the counterweight sled and read the balance gauge until the arm settles inside the plotted band.",
+      "gauge": {
+        "green": [
+          0.44,
+          0.6
+        ],
+        "label": "BALANCE",
+        "missNote": "Not balanced — the sled needs to sit where the chart says for today's package, not wherever feels close.",
+        "speed": 0.6
+      },
+      "id": "balance-check",
+      "kind": "gauge",
+      "prompt": "Slide the counterweight sled and read the balance gauge until the arm settles inside the plotted band.",
+      "target": "balance-gauge",
+      "title": "Balance the jib arm on its counterweight sled",
+      "why": "A balanced arm moves on almost no force at all, which is the entire point of a counterweighted crane — an arm that is even a little heavy or light fights the operator on every pan and tilt, and fighting a jib arm is how a boom operator loses the smooth motion the shot was built around."
+    },
+    {
+      "cue": "With the arm balanced, turn the swivel base's lock to SET.",
+      "id": "swivel-lock",
+      "kind": "turn",
+      "prompt": "With the arm balanced, turn the swivel base's lock to SET.",
+      "target": "swivel-lock",
+      "title": "Lock the swivel base once the arm reads balanced",
+      "turn": {
+        "label": "SWIVEL LOCK",
+        "turns": 1
+      },
+      "why": "The swivel lock is what keeps the whole crane from creeping on its base while the arm is being worked, and it is set only after the balance is proven — locking a base under an arm that still needs adjusting just means unlocking it again to fix what should have been checked first."
+    },
+    {
+      "cue": "Hold the coupler clamp closed on the last joint until the pin seats fully home.",
+      "holdBreakNote": "You let go before the pin seated. A joint that looks closed and a joint that is closed are not the same thing until the pin is fully home.",
+      "id": "track-clamp",
+      "kind": "hold",
+      "prompt": "Hold the coupler clamp closed on the last joint until the pin seats fully home.",
+      "seconds": 4,
+      "target": "track-clamp",
+      "title": "Hold the last joint's clamp closed while the pin seats",
+      "why": "A coupler pin seats under steady pressure, not a quick squeeze — letting go early is how a joint reads pinned from a glance but opens the first time a loaded dolly rolls across it at speed."
+    },
+    {
+      "cue": "Call the grip crew on the radio to confirm the track and the swing radius are both clear before the dolly rolls.",
+      "id": "grip-radio-check",
+      "kind": "select",
+      "prompt": "Call the grip crew on the radio to confirm the track and the swing radius are both clear before the dolly rolls.",
+      "target": "grip-radio",
+      "title": "Call the crew clear before the dolly moves",
+      "why": "A dolly push and a jib swing both cross ground other crew members are working around all day, and the radio call is what turns 'probably clear by now' into an actual confirmation from the people who would know."
+    },
+    {
+      "cue": "Push the dolly along the track, holding the speed inside the shot's band the whole way — a jerk or a stall reads on camera as much as a jolt in the track would.",
+      "holdBreakNote": "The push surged or lagged out of the shot's band — ease back toward the held speed rather than correcting hard.",
+      "id": "dolly-push",
+      "kind": "track",
+      "prompt": "Push the dolly along the track, holding the speed inside the shot's band the whole way — a jerk or a stall reads on camera as much as a jolt in the track would.",
+      "seconds": 6,
+      "target": "dolly-push",
+      "title": "Push the dolly through the shot at a held speed",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.5,
+        "green": [
+          0.42,
+          0.58
+        ],
+        "label": "DOLLY SPEED",
+        "rise": 0.5,
+        "start": 0.5
+      },
+      "why": "A dolly move that speeds up or stalls mid-shot is on camera the same way a jolt from a bad joint is, and holding a steady push through the whole curve — easing in and out rather than snapping to speed — is the actual skill a dolly grip is hired for, not just laying the track underneath it."
+    },
+    {
+      "cue": "Carry the spare sandbag from the gear line onto the crane's counterweight tray to true up the balance for the next lens change.",
+      "drag": {
+        "missNote": "Not on the tray — a sandbag balanced on the sled's edge is a sandbag that slides the moment the arm moves.",
+        "radius": 0.5,
+        "to": "counterweight-tray"
+      },
+      "id": "sandbag-load",
+      "kind": "drag",
+      "prompt": "Carry the spare sandbag from the gear line onto the crane's counterweight tray to true up the balance for the next lens change.",
+      "target": "sandbag",
+      "title": "Load a sandbag onto the counterweight tray",
+      "why": "A sandbag on the tray is the fine adjustment between chart weights — a lens swap that lands between two plotted numbers gets trued up here rather than by fighting the arm through the next take. It goes on the tray itself, not balanced loose on the sled where it can shift."
+    },
+    {
+      "cue": "Call the trackside spotter to confirm the jib's swing radius is clear before the reveal.",
+      "id": "swing-spotter-confirm",
+      "kind": "select",
+      "prompt": "Call the trackside spotter to confirm the jib's swing radius is clear before the reveal.",
+      "target": "swing-spotter-radio",
+      "title": "Confirm the swing zone is clear with the spotter",
+      "why": "The spotter's only job during the reveal is watching the arc the arm is about to sweep through — not the shot, not the dolly, just the radius. Confirming that call out loud is what keeps 'should be clear' from being treated the same as an actual answer."
+    },
+    {
+      "cue": "Hold the jib's pan handle steady through the reveal, easing the arm rather than snapping it to the mark.",
+      "holdBreakNote": "The pan broke early — a balanced arm still needs to be eased through the reveal, not snapped to the mark.",
+      "id": "jib-pan",
+      "kind": "hold",
+      "prompt": "Hold the jib's pan handle steady through the reveal, easing the arm rather than snapping it to the mark.",
+      "seconds": 4,
+      "target": "jib-pan-handle",
+      "title": "Pan the jib through the reveal",
+      "why": "A balanced arm makes a smooth pan possible, but it does not make it automatic — snapping the handle to the mark reads on camera as exactly what it is, and holding the motion through the whole reveal is what turns a correctly balanced crane into an actual shot."
+    },
+    {
+      "cue": "Log the joint that was found unpinned, the wedge replaced, the balance point used and the sandbag count on the tray.",
+      "id": "grip-log",
+      "kind": "select",
+      "prompt": "Log the joint that was found unpinned, the wedge replaced, the balance point used and the sandbag count on the tray.",
+      "target": "grip-log",
+      "title": "Log the track, the balance and the sandbag count",
+      "why": "The log is what the next grip on this crane reads before they touch the sled — a balance point that worked for today's lens is a starting guess for tomorrow's, not a fact anyone should have to rediscover the hard way. An unpinned joint that isn't written down is one the next crew finds by feel."
+    }
+  ],
+  "supportLine": "your IATSE local's member assistance contact, or the production's own employee assistance programme",
+  "tagline": "A soundstage dolly track and jib crane before the reveal: the grip plot read, gloves and knee pads on, the assembled track swept for an unpinned joint and a missing wedge, the counterweight chart checked against today's lens package, the arm balanced on its sled, the swivel locked, the last joint clamped, the crew called clear, the dolly pushed through the shot at a held speed, sandbags loaded to the tray, the swing zone confirmed with a spotter, and the reveal panned — a gear cart crossing the live track and a slipping counterweight sled both answered off a control that isn't the one already in the learner's hand",
+  "title": "SmartCiti.X~ Camera Dolly & Crane Track VR",
+  "trade": "IATSE key grip, laying curved dolly track and balancing a counterweighted jib crane for a moving reveal shot",
+  "underwater": null,
+  "weather": "overcast"
+}

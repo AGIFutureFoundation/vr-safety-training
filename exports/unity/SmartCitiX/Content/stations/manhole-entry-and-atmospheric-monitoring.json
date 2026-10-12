@@ -1,0 +1,430 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "tested-before-trusted",
+    "name": "Tested Before Trusted",
+    "note": "Every level of the shaft read before a boot went in, the line never slack, the taper and the lift station both answered, and the permit closed with the readings on it"
+  },
+  "category": "Water & Environmental",
+  "certification": "OSHA 29 CFR 1910.146 permit-required confined spaces, with the ANSI Z117.1 confined-space practice standard and the NIOSH confined-space criteria behind the testing order; ACGIH exposure values for hydrogen sulphide on the permit; MUTCD temporary traffic control for the lane closure and ANSI/ISEA 107 high-visibility garments for the crew; AFSCME and LIUNA public-works training",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ACGIH",
+        "citedAs": "ACGIH",
+        "id": "acgih-tlvs",
+        "title": "ACGIH Threshold Limit Values and Biological Exposure Indices"
+      },
+      {
+        "body": "union",
+        "citedAs": "AFSCME",
+        "id": "afscme-training",
+        "title": "AFSCME member education and safety training for public-service and air-district members"
+      },
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI/ISEA 107",
+        "id": "ansi-isea-107",
+        "title": "ANSI/ISEA 107 — High-visibility safety apparel and accessories"
+      },
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI Z117.1",
+        "id": "ansi-z117-1",
+        "title": "ANSI/ASSP Z117.1 — Safety requirements for entering confined spaces"
+      },
+      {
+        "body": "union",
+        "citedAs": "LIUNA",
+        "id": "liuna-training-fund",
+        "title": "LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula"
+      },
+      {
+        "body": "MUTCD",
+        "citedAs": "MUTCD",
+        "id": "mutcd",
+        "title": "Manual on Uniform Traffic Control Devices — temporary traffic control for work zones (Part 6)"
+      },
+      {
+        "body": "NIOSH",
+        "citedAs": "NIOSH",
+        "id": "niosh-criteria",
+        "title": "NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.146",
+        "id": "osha-1910-146",
+        "title": "29 CFR 1910.146 — Permit-required confined spaces"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Water & Environmental",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "top-middle-bottom",
+        "name": "Top, Middle, Bottom",
+        "note": "The whole shaft tested, level by level, before the entry"
+      },
+      {
+        "id": "line-never-slack",
+        "name": "Line Never Slack",
+        "note": "The retrieval line snug all the way down"
+      },
+      {
+        "id": "nobody-leans-in",
+        "name": "Nobody Leans In",
+        "note": "No bare-handed cover, no head over the hole, no exhaust at the intake"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-entry",
+        "name": "Clean Entry",
+        "note": "No corrections anywhere in the entry"
+      },
+      {
+        "id": "bump-on-the-mark",
+        "name": "Bump On The Mark",
+        "note": "The bump reading committed inside the band first time"
+      },
+      {
+        "id": "lane-back-fast",
+        "name": "Lane Back Fast",
+        "note": "Lane reopened inside 80% of par"
+      }
+    ],
+    "currency": "PPM",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Collection Hand",
+      "Entrant",
+      "Gas Tester",
+      "Lead Entrant",
+      "Confined Space Qualified"
+    ],
+    "system": "Collection Entry"
+  },
+  "hazards": {
+    "cover-bare-hands": "You went to lift the manhole cover with your fingers under its edge. A sewer cover weighs as much as a person, sits in a frame that grips it, and comes free all at once when it does — fingers under the rim are the pinch point, and a back bent over a hundred-odd kilograms is the strain. The magnetic lifter or the cover hook exists so that nobody's hands go under it and nobody lifts it at all: it is walked off and slid, never carried.",
+    "generator-by-intake": "You started the blower with the truck's generator exhaust a stride from its intake. A blower moves whatever is at its intake down into the space, and a petrol generator's exhaust is carbon monoxide: parked there, the ventilation meant to make the manhole safe pumps a colourless, odourless toxic gas straight onto the entrant at the bottom. The generator goes downwind and well away, and the intake stays in clean air.",
+    "ladder-no-line": "You started down the fixed rungs with no retrieval line clipped to your harness. For a vertical space deeper than five feet the confined-space standard expects a mechanical retrieval device, because a person overcome at the bottom of a shaft cannot be carried up a ladder by anybody — without the line, the attendant's only way to get you out is to come in after you, which is how one casualty becomes two.",
+    "lean-into-opening": "You leaned over the open manhole to look and sniff. Hydrogen sulphide deadens the sense of smell at the concentrations that matter, so a sniff tells you nothing except that you have put your face in the column of gas the space is venting — and the collar of an open manhole on a wet road is also a fall into a vertical shaft. The monitor goes down the hole on its hose; your head does not."
+  },
+  "id": "manhole-entry-and-atmospheric-monitoring",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "pre-entry-test",
+      "alert": "A car has followed its satnav straight into the cone taper and is creeping down the closed lane toward the open manhole.",
+      "cue": "Turn the flagger's paddle to STOP at the driver now — the closed lane is the crew's work space, not a road.",
+      "delay": 2,
+      "id": "vehicle-in-taper",
+      "kind": "Vehicle nosing into the taper",
+      "missNote": "The car crept on past the cones with the crew heads-down at the collar, knocked the parked cover sideways and stopped a metre from the open manhole with a person bent over it.",
+      "seconds": 14,
+      "target": "flagger-paddle",
+      "why": "A driver inside a closure is a driver who did not read it, and the next thing they reach is the crew at the hole. The paddle turned to STOP at eye level is the MUTCD's signal a driver is taught to obey, and it is the only thing on the job that talks to them before they reach the manhole. The test stops while the crew deals with the car, because nobody at an open manhole is watching the lane.",
+      "wrongNote": "The flagger's paddle — the driver is in the lane now, and the only thing that speaks to them is the STOP sign turned at their windscreen."
+    },
+    {
+      "after": "descent",
+      "alert": "The flow in the channel below is rising fast — the upstream lift station has just started its pumps and a surge is coming down the sewer.",
+      "cue": "Stop on the rungs and have the attendant call collections control on the collar radio to hold the upstream lift station off.",
+      "delay": 2,
+      "id": "upstream-pump-start",
+      "kind": "Upstream lift station starting",
+      "missNote": "The surge came down the channel with the entrant still on the rungs, filled the invert to the bench and pushed a slug of gas up the shaft past them; the attendant hauled them up on the winch with the monitor in alarm.",
+      "seconds": 14,
+      "target": "collar-radio",
+      "why": "A lift station upstream of a manhole cycles on its level floats, and when its pumps start, the flow in a channel that was ankle-deep becomes a surge that can knock an entrant off the bench and carry gas ahead of it. The permit named engulfment for exactly this: the station is held off by the people who control it, on the radio, before anyone goes lower — a surge is not something an entrant out-climbs once it arrives.",
+      "wrongNote": "The collar radio — the flow is coming from a pump somebody else controls, and the only way to stop it is to reach collections control."
+    }
+  ],
+  "lateNotes": {
+    "descent-line": "The climb down starts once the harness is on and the retrieval line is clipped to it, not before.",
+    "permit-log": "The permit is closed once the cover is back in its frame and the lane is open — not while the entry is still running.",
+    "winch-snap": "The retrieval line clips to the back D-ring once the harness is on and snugged — there is nothing to clip it to yet."
+  },
+  "name": "Manhole Entry & Atmospheric Monitoring",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "confined-space"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "advance-sign",
+      "blower",
+      "collar-radio",
+      "corroded-rung",
+      "cover-bare-hands",
+      "cover-frame",
+      "cover-park",
+      "descent-line",
+      "flagger-paddle",
+      "full-harness",
+      "gas-monitor",
+      "generator-by-intake",
+      "ladder-no-line",
+      "lean-into-opening",
+      "manhole-cover",
+      "permit-board",
+      "permit-log",
+      "sample-probe",
+      "sharps-debris",
+      "taper-cones",
+      "taper-pickup",
+      "top-rung",
+      "winch-crank",
+      "winch-snap"
+    ],
+    "meshes": 216
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "anyOrder": true,
+      "cue": "Set the advance warning sign up the lane and run the cone taper that closes it, before anyone stands at the manhole.",
+      "id": "work-zone",
+      "itemNames": {
+        "advance-sign": "advance warning sign up the lane",
+        "taper-cones": "cone taper closing the lane"
+      },
+      "kind": "sequence",
+      "prompt": "Set the advance warning sign up the lane and run the cone taper that closes it, before anyone stands at the manhole.",
+      "targets": [
+        "advance-sign",
+        "taper-cones"
+      ],
+      "title": "Close the lane: advance warning sign and the cone taper",
+      "why": "The manhole is in a traffic lane, and a crew bent over an open hole is facing down with its back to the traffic — the only protection they have is a closure the approaching driver understood from far enough back to act on. The MUTCD sets how a lane closure is built: a warning sign ahead of the work at a distance set by the road's speed, then a taper long enough for a driver to merge out, then the work space. Built in that order before the cover comes off, it is protection; built around a crew already at the hole, it is decoration."
+    },
+    {
+      "cue": "Read the permit: the space, its hazards, the acceptable readings for oxygen, flammables, hydrogen sulphide and carbon monoxide, the ventilation, the retrieval and who to call for rescue.",
+      "id": "entry-permit",
+      "kind": "select",
+      "prompt": "Read the permit: the space, its hazards, the acceptable readings for oxygen, flammables, hydrogen sulphide and carbon monoxide, the ventilation, the retrieval and who to call for rescue.",
+      "target": "permit-board",
+      "title": "Read the entry permit and its acceptable entry conditions",
+      "why": "The permit is the entry supervisor's statement of what makes this manhole safe to enter today: which hazards the space has — oxygen-deficient air, hydrogen sulphide and methane off the sewage, engulfment by a flow surge — and the readings inside which entry is acceptable. OSHA 29 CFR 1910.146 has those conditions written down before entry for exactly this reason: a number decided at the kerb with a monitor already beeping is a number argued down, and a number decided on the permit is a line nobody crosses."
+    },
+    {
+      "cue": "Flow the test gas across the sensors and commit the hydrogen sulphide reading when it settles against the cylinder's value.",
+      "gauge": {
+        "green": [
+          0.44,
+          0.56
+        ],
+        "label": "H₂S BUMP",
+        "missNote": "Off the cylinder's value — let the reading settle on the test gas before committing it, not while it is still climbing or falling back.",
+        "speed": 0.7
+      },
+      "id": "bump-check",
+      "kind": "gauge",
+      "prompt": "Flow the test gas across the sensors and commit the hydrogen sulphide reading when it settles against the cylinder's value.",
+      "target": "gas-monitor",
+      "title": "Bump the four-gas monitor against the test cylinder",
+      "why": "A gas monitor's sensors drift and die quietly, and a dead hydrogen sulphide sensor reads a reassuring zero whatever the air holds. The bump is the proof, done the day the monitor is used: a known gas from a known cylinder, the alarms going off, and the reading landing close to the number on the cylinder. A monitor that fails the bump does not go near the hole, because every decision after this point is only as good as the instrument making it."
+    },
+    {
+      "cue": "Seat the magnetic lifter on the cover, break it from the frame and walk it off onto the road to its parking spot, clear of the opening and the crew's feet.",
+      "drag": {
+        "missNote": "Not on its parking spot — the cover goes flat on the road, clear of the opening and the walkway, not leaning at the collar.",
+        "radius": 0.5,
+        "to": "cover-park"
+      },
+      "id": "cover-off",
+      "kind": "drag",
+      "prompt": "Seat the magnetic lifter on the cover, break it from the frame and walk it off onto the road to its parking spot, clear of the opening and the crew's feet.",
+      "target": "manhole-cover",
+      "title": "Walk the cover off with the magnetic lifter",
+      "why": "A sewer cover is lifted with a tool rather than hands because the frame grips it until it lets go all at once, and the load is heavy enough that a bent back and fingers under the rim are the two injuries the job hands out every year. The lifter lets it be walked off and slid rather than carried. It is parked flat on the road, away from the opening and the crew's footing, because a cover leaning against a kerb falls over, and a cover left at the collar goes back in the hole."
+    },
+    {
+      "cue": "Lower the sample probe on its hose and hold at each level long enough for the pump to draw: oxygen first, then flammables, then the toxics, at the top, the middle and the bottom.",
+      "holdBreakNote": "Released before the pump had drawn at every level — the bottom of the shaft is where the entrant breathes and where the heavy gases sit. Test it again from the top.",
+      "id": "pre-entry-test",
+      "kind": "hold",
+      "prompt": "Lower the sample probe on its hose and hold at each level long enough for the pump to draw: oxygen first, then flammables, then the toxics, at the top, the middle and the bottom.",
+      "seconds": 5,
+      "target": "sample-probe",
+      "title": "Test the shaft top, middle and bottom before entry",
+      "why": "The air in a manhole is layered: methane collects high, hydrogen sulphide and oxygen-poor air sink to the invert, and the reading at the collar says nothing about the air at the bottom where the entrant will breathe it. The test goes down the shaft level by level, holding long enough at each for the pump to pull the sample up the hose, and in the order NIOSH and ANSI Z117.1 teach — oxygen first because the flammable sensor needs oxygen to read right, flammables next because the fire kills faster, toxics last."
+    },
+    {
+      "cue": "Start the electric blower upwind of the opening with its intake in clean air, and run the duct down to the invert before anyone enters.",
+      "id": "ventilate",
+      "kind": "select",
+      "prompt": "Start the electric blower upwind of the opening with its intake in clean air, and run the duct down to the invert before anyone enters.",
+      "target": "blower",
+      "title": "Set the blower upwind and duct it to the bottom",
+      "why": "Forced air is what keeps a manhole inside its acceptable conditions while the entrant is in it, because a sewer keeps making gas whether anyone is down there or not and the flow can push a slug of it past at any time. The blower sits upwind with its intake well clear of any exhaust, the duct goes to the bottom where the heavy gases are, and it runs for the purge time before entry and continuously during it — the permit's readings were taken with it running, and they are only true while it keeps running."
+    },
+    {
+      "cue": "Shine the lamp down the shaft from beside the collar: the rungs, their anchorage in the wall, loose brick or concrete, and what is on the bench.",
+      "id": "shaft-survey",
+      "itemNames": {
+        "corroded-rung": "corroded rung in the shaft wall"
+      },
+      "itemNotes": {
+        "corroded-rung": "The third rung down has been eaten back to a rust-thin bar where the sewer's gases condense on it — it will hold a hand and fail under a boot. The entry goes on the retrieval line and the rung is written up."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Shine the lamp down the shaft from beside the collar: the rungs, their anchorage in the wall, loose brick or concrete, and what is on the bench.",
+      "targets": [
+        "corroded-rung"
+      ],
+      "title": "Look down the shaft at the rungs and the walls",
+      "why": "The gases in a sewer condense on the shaft wall as acid, and the rungs cast into it are eaten from the inside out — a rung can look whole from the top and snap under a boot. The shaft is looked at from beside the collar, not over it, before anyone trusts it with their weight, and a bad rung changes the entry: the climb goes on the line with the attendant taking the load, and the rung goes on the log for the crew that repairs it."
+    },
+    {
+      "cue": "With the tripod legs chained and the head over the opening, crank the winch to take up the line and load it against the brake — the brake has to hold without the handle.",
+      "id": "winch-brake",
+      "kind": "turn",
+      "prompt": "With the tripod legs chained and the head over the opening, crank the winch to take up the line and load it against the brake — the brake has to hold without the handle.",
+      "target": "winch-crank",
+      "title": "Take up the winch and prove its brake holds",
+      "turn": {
+        "label": "WINCH",
+        "turns": 1
+      },
+      "why": "The tripod and winch are the retrieval system the standard expects for a vertical entry, and the only one that works on an entrant who cannot help. The brake is what holds a person on the line when the attendant's hands leave the crank, and it is proven under load before anyone is on it: a winch that free-spools under a test load will free-spool under a person. The legs are chained so the tripod cannot splay when it takes a shock load."
+    },
+    {
+      "cue": "Put the full-body harness on and snug the leg straps, then have the attendant clip the winch line to the back D-ring and check the gate.",
+      "id": "harness-connect",
+      "itemNames": {
+        "full-harness": "full-body harness, snugged",
+        "winch-snap": "retrieval line to the back D-ring"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Harness first — the retrieval line clips to the back D-ring of a harness that is on and snugged, not to one hanging on the rack.",
+      "prompt": "Put the full-body harness on and snug the leg straps, then have the attendant clip the winch line to the back D-ring and check the gate.",
+      "targets": [
+        "full-harness",
+        "winch-snap"
+      ],
+      "title": "Harness on, then the retrieval line to the back D-ring",
+      "why": "A retrieval line is only useful if it can bring an unconscious person up the shaft upright and whole, which means a full-body harness with the line on the back D-ring between the shoulder blades — a waist belt or a line on a front ring folds a limp body over and wedges it in a shaft barely wider than the shoulders. The harness goes on and snug first, the line clips on second, and the attendant checks the snap's gate is closed because they are the one who will be pulling on it."
+    },
+    {
+      "cue": "Climb down the rungs at the pace the attendant can follow on the winch — line snug, never slack, never hauling you off the wall.",
+      "holdBreakNote": "The line went slack or tight on the way down — stop on the rungs, let the attendant take up or pay out, and carry on only once it is snug again.",
+      "id": "descent",
+      "kind": "track",
+      "prompt": "Climb down the rungs at the pace the attendant can follow on the winch — line snug, never slack, never hauling you off the wall.",
+      "seconds": 6,
+      "target": "descent-line",
+      "title": "Climb down on a snug line at the winch's pace",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.46,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "LINE",
+        "rise": 0.6,
+        "start": 0.1
+      },
+      "why": "The line is only a fall-arrester and a retrieval line if it is snug all the way down: slack in it is a drop before the brake catches, and a sudden stop on a harness in a narrow shaft is an injury of its own. Too tight and it drags the entrant off the rungs. The entrant sets a pace the attendant can match on the crank, three points of contact on the rungs, stepping past the bad rung — and stops if the attendant calls, because the attendant is watching the monitor and the road."
+    },
+    {
+      "cue": "At the bottom, look over the bench and the flow channel before your hands go anywhere: the rag mat, the debris line, what is caught in it.",
+      "id": "invert-check",
+      "itemNames": {
+        "sharps-debris": "needle caught in the rag mat on the bench"
+      },
+      "itemNotes": {
+        "sharps-debris": "A hypodermic needle is caught in the rag mat on the bench, point up where a gloved hand would go to clear it. It is left alone, reported, and picked with the grabber into the sharps tube."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "At the bottom, look over the bench and the flow channel before your hands go anywhere: the rag mat, the debris line, what is caught in it.",
+      "targets": [
+        "sharps-debris"
+      ],
+      "title": "Check the bench and the channel before touching anything",
+      "why": "What comes down a sanitary sewer includes needles, broken glass and blades, and the rag mat that builds on a bench is where they catch, points up. A gloved hand reaching into a mat to clear it is the classic sewer sharps injury, and it arrives with the bloodborne exposure attached. The bench is looked at before it is touched, anything sharp is picked with the grabber into the sharps tube, and the find is reported so the crew knows this manhole collects them."
+    },
+    {
+      "cue": "Climb out with the attendant taking up the line on the winch, and step off onto the road clear of the collar.",
+      "id": "exit-climb",
+      "kind": "select",
+      "prompt": "Climb out with the attendant taking up the line on the winch, and step off onto the road clear of the collar.",
+      "target": "top-rung",
+      "title": "Climb out on the attendant's call",
+      "why": "The climb out is the tired half of the entry, done wet, and it is done on the same snug line as the climb down: the attendant takes up as the entrant climbs, so that a slip at the top, where the rungs meet the frame and the hands have furthest to reach, is a jerk on the line rather than a fall back down the shaft. The entrant steps off to the side, never straight back over the open collar."
+    },
+    {
+      "cue": "Walk the cover back into its frame and check it seats flat, then pick the cones up from the work end back toward the warning sign.",
+      "id": "close-out",
+      "itemNames": {
+        "cover-frame": "cover back seated in its frame",
+        "taper-pickup": "cone taper picked up, last cone first"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "The cover goes back before the lane is opened — an open manhole in a live lane with the cones gone is the worst version of this job.",
+      "prompt": "Walk the cover back into its frame and check it seats flat, then pick the cones up from the work end back toward the warning sign.",
+      "targets": [
+        "cover-frame",
+        "taper-pickup"
+      ],
+      "title": "Seat the cover, then pick up the taper",
+      "why": "The order matters on the way out as much as on the way in: the cover goes back and seats flat first, because an open or rocking cover in a lane is a hole in the road the moment the cones are gone. The taper comes up from the work end back toward the sign, the reverse of the way it went down, so the closure protecting the crew is the last thing removed rather than the first — the crew is in the lane until the last cone is in the truck."
+    },
+    {
+      "cue": "Record the readings at each level, the corroded rung, the needle on the bench and the lift station call, and cancel the permit.",
+      "id": "entry-log",
+      "kind": "select",
+      "prompt": "Record the readings at each level, the corroded rung, the needle on the bench and the lift station call, and cancel the permit.",
+      "target": "permit-log",
+      "title": "Close the permit with the readings and the findings",
+      "why": "A permit is cancelled when the entry is over, and it is kept because the readings on it are the record of what this manhole's air was on this day under these flows — the next crew's best guess at what they are walking into. The corroded rung is a repair order, the needle is a note that this structure catches sharps, and the lift station start is a reason to call collections control before every entry here. Written on the road, it is what happened."
+    },
+    {
+      "cue": "Call collections control that the entry is closed and the lane is open, and check in with the attendant on how the entry went.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Call collections control that the entry is closed and the lane is open, and check in with the attendant on how the entry went.",
+      "target": "collar-radio",
+      "title": "Check in with the attendant and collections control",
+      "why": "Collections control has had a crew in a manhole on its board and a lift station held for them, and the station can be released only on this call. It is also the crew's own check-in: an entry where the flow rose under the entrant's feet leaves something behind for both people, and the attendant who was watching the water come up had the harder half of it. The member assistance line is there for that, and saying so on the road costs nothing."
+    }
+  ],
+  "supportLine": "your AFSCME or LIUNA local's member assistance programme, or the employee assistance line on the back of the entry permit",
+  "tagline": "A sewer manhole in a live lane on a wet morning: the lane closed to the traffic manual, the permit read, the four-gas monitor bumped, the cover walked off with the lifter, the shaft tested top to bottom while a car noses into the taper, the blower set upwind, the rungs looked at, the winch brake proven, the harness on and the line clipped, the climb down on a snug line while the upstream lift station starts, the invert checked, and the entry closed out and logged",
+  "title": "SmartCiti.X~ Manhole Entry & Atmospheric Monitoring VR",
+  "trade": "Sewer collection maintenance worker — AFSCME or LIUNA public-works crew, entrant with an attendant at the winch",
+  "underwater": null,
+  "weather": "rain"
+}

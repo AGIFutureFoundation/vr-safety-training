@@ -1,0 +1,411 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "timetable-reader",
+    "name": "Timetable Reader",
+    "note": "Read a streetcar timetable by row and column, found the gap between trips and planned a journey that arrives on time"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFT",
+        "id": "aft-training",
+        "title": "AFT — American Federation of Teachers training for paraprofessionals and school-related personnel"
+      },
+      {
+        "body": "INEE",
+        "citedAs": "INEE Minimum Standards",
+        "id": "inee-minimum-standards",
+        "title": "INEE Minimum Standards for Education in emergencies, as a body whose standards a lesson is aligned to; it certifies nothing"
+      },
+      {
+        "body": "national curriculum authority",
+        "citedAs": "national curriculum framework",
+        "id": "national-curriculum-framework",
+        "title": "The national curriculum framework the school itself follows, as a category rather than any one country's document; no grade-level code is cited"
+      },
+      {
+        "body": "union",
+        "citedAs": "National Education Association",
+        "id": "nea-training",
+        "title": "NEA apprenticeship and training, as a training body"
+      },
+      {
+        "body": "UN",
+        "citedAs": "Sustainable Development Goal 4",
+        "id": "un-sdg-4-quality-education",
+        "title": "UN Sustainable Development Goal 4 (Quality Education), as a framework a lesson is aligned to; it certifies nothing"
+      },
+      {
+        "body": "UNESCO",
+        "citedAs": "UNESCO education guidance",
+        "id": "unesco-education-guidance",
+        "title": "UNESCO education guidance, as a body whose published guidance a lesson is aligned to; it certifies nothing"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Education",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "clean-read",
+        "name": "First Look",
+        "note": "Everything in the opening scan found first time"
+      },
+      {
+        "id": "no-shortcut",
+        "name": "No Shortcuts",
+        "note": "No misconception or unsafe shortcut anywhere in the run"
+      },
+      {
+        "id": "in-the-band",
+        "name": "In the Band",
+        "note": "Every gauge and meter held inside its band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-run",
+        "name": "Clean Run",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "steady-hands",
+        "name": "Steady Hands",
+        "note": "Every hold and track carried its full count"
+      },
+      {
+        "id": "quick-and-right",
+        "name": "Quick and Right",
+        "note": "Finished inside 80% of par"
+      }
+    ],
+    "currency": "TRIPS",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Rider",
+      "Reader",
+      "Planner",
+      "Conductor",
+      "Dispatcher"
+    ],
+    "system": "Timetable Board"
+  },
+  "hazards": {
+    "arrive-just-in-time": "You picked the trip that arrives exactly as school starts. Traffic and busy stops can slow a streetcar a little, so planners pick the trip before, which leaves time to walk in calmly. Arriving early beats arriving in a rush.",
+    "count-stops-not-time": "You counted the stops to find the journey time. Stops are not evenly spaced, so some take longer to reach than others. The journey time is the arrival time take away the departure time, both read from the same column.",
+    "cross-behind-the-car": "You stepped onto the tracks behind a stopped streetcar. Another car or a vehicle can come the other way where you cannot see it. Cross at the marked crossing, look both ways along the tracks and wait until it is clear.",
+    "read-the-wrong-column": "You read the time from the next column along. Each column is a different trip, so the time you found belongs to another streetcar. Put a finger on your trip at the top and slide straight down to your stop."
+  },
+  "id": "k12-by-a-streetcar-timetable",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "keep-your-finger-on-the-column",
+      "alert": "A streetcar rings its bell as it rolls out of the barn past the platform.",
+      "cue": "Stay behind the painted line and wait until the car has passed.",
+      "delay": 3,
+      "id": "a-streetcar-rings-its-bell",
+      "kind": "Car moving",
+      "missNote": "A classmate leaned over the line to watch the car roll out, and the operator had to stop and ring the bell again.",
+      "seconds": 12,
+      "target": "bys-stay-behind-line",
+      "why": "The bell is a warning that a car is moving. Staying behind the line, and not leaning out to look, keeps everyone clear. The timetable will still be there when the car has gone.",
+      "wrongNote": "That does not keep you clear of the moving car. Stay behind the line. Choose the response that deals with it now."
+    },
+    {
+      "after": "follow-the-streetcar-along-the-route",
+      "alert": "The dispatcher asks how long a rider would wait if they just missed your trip.",
+      "cue": "Say that you take your trip's time away from the next trip's time.",
+      "delay": 3,
+      "id": "the-dispatcher-asks-for-the-gap",
+      "kind": "Dispatcher question",
+      "missNote": "You guessed a wait without working it out, and the dispatcher had to show the subtraction before the group could go on.",
+      "seconds": 12,
+      "target": "bys-say-gap",
+      "why": "Explaining the method matters more than the answer, because the method works on any timetable. Saying it out loud shows you can use subtraction for a real question riders ask every day.",
+      "wrongNote": "That does not explain how to find the gap. Choose the response that deals with it now."
+    }
+  ],
+  "lateNotes": {
+    "bys-checkin": "The check-in comes at the very end of the visit.",
+    "bys-trip-log": "The trip plan is written once the trip is chosen — nothing to record yet."
+  },
+  "name": "A Streetcar Timetable",
+  "parSeconds": 330,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "k12-practical-math"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "arrive-just-in-time",
+      "bys-car-meter",
+      "bys-cell",
+      "bys-checkin",
+      "bys-clock-dial",
+      "bys-finger",
+      "bys-gap-meter",
+      "bys-line-card",
+      "bys-logo",
+      "bys-my-stop",
+      "bys-ord-arrive",
+      "bys-ord-leave",
+      "bys-ord-pick",
+      "bys-ord-stop",
+      "bys-pl-column",
+      "bys-pl-count",
+      "bys-pl-late",
+      "bys-pl-name",
+      "bys-say-gap",
+      "bys-share-board",
+      "bys-stay-behind-line",
+      "bys-stops",
+      "bys-token",
+      "bys-trip-card",
+      "bys-trip-log",
+      "bys-trips",
+      "count-stops-not-time",
+      "cross-behind-the-car",
+      "read-the-wrong-column"
+    ],
+    "meshes": 275
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Mark the three parts of the timetable you need to read any trip.",
+      "decoyNotes": {
+        "bys-logo": "It names the service, but it does not tell you any times."
+      },
+      "id": "find-the-parts-of-the-timetable",
+      "itemNames": {
+        "bys-cell": "a time where a row meets a column",
+        "bys-stops": "the list of stops down the side",
+        "bys-trips": "the trips across the top"
+      },
+      "itemNotes": {
+        "bys-cell": "That is when that trip reaches that stop.",
+        "bys-stops": "Each row is a stop.",
+        "bys-trips": "Each column is one streetcar's run."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Mark the three parts of the timetable you need to read any trip.",
+      "targets": [
+        "bys-stops",
+        "bys-trips",
+        "bys-cell"
+      ],
+      "title": "Find the parts of the timetable",
+      "why": "A timetable is a table with a job. The list of stops runs down the side, each trip is a column across the top, and where a row meets a column you find a time. Knowing those three parts lets you read any timetable, for a streetcar, a ferry or a bus, anywhere you go."
+    },
+    {
+      "cue": "Take your place behind the painted line on the barn's visitor platform.",
+      "id": "wait-behind-the-platform-line",
+      "kind": "select",
+      "prompt": "Take your place behind the painted line on the barn's visitor platform.",
+      "target": "bys-line-card",
+      "title": "Wait behind the platform line",
+      "why": "Streetcars move in and out of the barn, and the painted line shows where visitors stand. From behind it you can read the big timetable board and watch the cars without being in their way. Riders keep behind the line at every stop for the same reason."
+    },
+    {
+      "cue": "Find your stop, find when you must arrive, pick the trip that arrives before then, then read its departure time.",
+      "id": "put-the-trip-planning-steps-in",
+      "itemNames": {
+        "bys-ord-arrive": "2 · note when you must arrive",
+        "bys-ord-leave": "4 · read that trip's departure time",
+        "bys-ord-pick": "3 · pick a trip that arrives before then",
+        "bys-ord-stop": "1 · find your stop's row"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order. Find your stop on the timetable before you choose a trip.",
+      "prompt": "Find your stop, find when you must arrive, pick the trip that arrives before then, then read its departure time.",
+      "targets": [
+        "bys-ord-stop",
+        "bys-ord-arrive",
+        "bys-ord-pick",
+        "bys-ord-leave"
+      ],
+      "title": "Put the trip-planning steps in order",
+      "why": "Planning a trip works backwards from when you need to be there. Finding your stop first tells you which row to read. Knowing your arrival time tells you which trips are early enough. Picking the trip and then reading its departure tells you when to leave home. That order stops you guessing."
+    },
+    {
+      "cue": "Hold your finger on your trip's column while you slide down to your stop.",
+      "holdBreakNote": "Your finger slipped to the next column. Go back to your trip and slide down again.",
+      "id": "keep-your-finger-on-the-column",
+      "kind": "hold",
+      "prompt": "Hold your finger on your trip's column while you slide down to your stop.",
+      "seconds": 6,
+      "target": "bys-finger",
+      "title": "Keep your finger on the column",
+      "why": "Timetables are packed with numbers, and it is easy for your eye to jump to the next column. Holding your finger on the column as you move down keeps you on the right trip. Dispatchers use a ruler or a highlighter on big timetables for exactly the same reason."
+    },
+    {
+      "cue": "Turn the clock dial until its hands show the departure time from the timetable.",
+      "id": "turn-the-clock-face-to-the",
+      "kind": "turn",
+      "prompt": "Turn the clock dial until its hands show the departure time from the timetable.",
+      "target": "bys-clock-dial",
+      "title": "Turn the clock face to the departure time",
+      "turn": {
+        "axis": "y",
+        "label": "CLOCK",
+        "turns": 0.5
+      },
+      "why": "Timetables write times as numbers, but many clocks show them with hands. Turning the clock to match the timetable links the two ways of showing time. Being able to read both means you can check a platform clock and know at a glance whether your streetcar is coming soon."
+    },
+    {
+      "cue": "Commit when the marker shows the gap between your trip and the next one on the board.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.58
+        ],
+        "label": "GAP",
+        "missNote": "Not the gap yet. Take the earlier time away from the later time.",
+        "speed": 0.6
+      },
+      "id": "find-the-gap-between-two-trips",
+      "kind": "gauge",
+      "prompt": "Commit when the marker shows the gap between your trip and the next one on the board.",
+      "target": "bys-gap-meter",
+      "title": "Find the gap between two trips",
+      "why": "The gap between trips is the later time take away the earlier one. It tells you how long you would wait if you just missed your streetcar. Knowing the gap helps you plan calmly: if the next one is soon you wait, and if it is a long gap you leave home earlier."
+    },
+    {
+      "cue": "Drag the rider token to your stop on the route map beside the timetable.",
+      "drag": {
+        "missNote": "The token is not on your stop yet. Find its name on the route map.",
+        "radius": 0.45,
+        "to": "bys-my-stop"
+      },
+      "id": "place-the-token-on-your-stop",
+      "kind": "drag",
+      "prompt": "Drag the rider token to your stop on the route map beside the timetable.",
+      "target": "bys-token",
+      "title": "Place the token on your stop",
+      "why": "The route map and the timetable show the same stops in two ways: as places along a line and as rows in a table. Placing your token on the map, then finding the same stop in the table, links the picture to the numbers. That is how a rider knows both where and when."
+    },
+    {
+      "cue": "Choose the trip that arrives before school starts, with time to walk in.",
+      "id": "choose-the-trip-that-gets-you",
+      "kind": "select",
+      "prompt": "Choose the trip that arrives before school starts, with time to walk in.",
+      "target": "bys-trip-card",
+      "title": "Choose the trip that gets you there on time",
+      "why": "Several trips might reach your stop, but only some arrive early enough. Choosing the one that arrives a little before you need to be there leaves room for a busy stop or a slow corner. Good planners always leave a little spare time, whether for a streetcar, a ferry or a family trip."
+    },
+    {
+      "cue": "Look at the sample trip plan and mark each mistake.",
+      "decoyNotes": {
+        "bys-pl-name": "Writing the stop name is good practice. Keep it."
+      },
+      "id": "spot-the-mistakes-in-a-classmates",
+      "itemNames": {
+        "bys-pl-column": "a time from the wrong column",
+        "bys-pl-count": "a journey time found by counting stops",
+        "bys-pl-late": "a trip that arrives after school starts"
+      },
+      "itemNotes": {
+        "bys-pl-column": "Slide straight down your trip's column.",
+        "bys-pl-count": "Subtract the two times instead.",
+        "bys-pl-late": "Pick an earlier trip."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look at the sample trip plan and mark each mistake.",
+      "targets": [
+        "bys-pl-column",
+        "bys-pl-count",
+        "bys-pl-late"
+      ],
+      "title": "Spot the mistakes in a classmate's plan",
+      "why": "Trip plans usually go wrong in a few familiar ways: a time read from the wrong column, a journey worked out by counting stops, or a trip that arrives too late. Spotting them in someone else's plan trains you to check your own before you rely on it."
+    },
+    {
+      "cue": "Keep the marker on the streetcar as it moves along the route map from stop to stop.",
+      "holdBreakNote": "The marker lost the streetcar. Find it on the map again and follow it.",
+      "id": "follow-the-streetcar-along-the-route",
+      "kind": "track",
+      "prompt": "Keep the marker on the streetcar as it moves along the route map from stop to stop.",
+      "seconds": 8,
+      "target": "bys-car-meter",
+      "title": "Follow the streetcar along the route",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.38,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "ROUTE",
+        "rise": 0.46,
+        "start": 0.3
+      },
+      "why": "Watching the car move along the map while checking the times shows that the timetable describes something real. Some stretches are quick and some are slow. Dispatchers watch cars along the route all day so they can keep the gaps even and help riders who are waiting."
+    },
+    {
+      "cue": "Write your stop, your trip, its departure and arrival times and the journey time.",
+      "id": "write-your-trip-plan",
+      "kind": "select",
+      "prompt": "Write your stop, your trip, its departure and arrival times and the journey time.",
+      "target": "bys-trip-log",
+      "title": "Write your trip plan",
+      "why": "A written plan can be checked by a grown-up and followed on the day without re-reading the whole timetable. Writing the journey time as a subtraction shows your working, so anyone can see how you got it. Dispatchers keep written logs of every trip for the same clear, checkable reason."
+    },
+    {
+      "cue": "Read your plan to the dispatcher and ask if they would choose the same trip.",
+      "id": "check-your-plan-with-the-dispatcher",
+      "kind": "select",
+      "prompt": "Read your plan to the dispatcher and ask if they would choose the same trip.",
+      "target": "bys-share-board",
+      "title": "Check your plan with the dispatcher",
+      "why": "The dispatcher knows which stretches run slow at busy times. Checking with someone who knows the route is a good test of your plan. If they agree, you read the timetable well; if they suggest another trip, you learn something the table alone could not tell you."
+    },
+    {
+      "cue": "What was tricky about the timetable? Where else could you use rows and columns like this?",
+      "id": "crew-check-in",
+      "kind": "select",
+      "prompt": "What was tricky about the timetable? Where else could you use rows and columns like this?",
+      "target": "bys-checkin",
+      "title": "Check in on the visitor platform",
+      "why": "The dispatcher's shift ends with a handover of the day's timetable notes, so the class ends with a handover too. Each learner says how they found their trip and one place rows and columns help, like a ferry board or a sports table. Anyone still reading the wrong column can practise once more before leaving."
+    }
+  ],
+  "supportLine": "your teacher, a school counsellor or a trusted adult at home — if anything in this lesson was hard, talk it through afterwards",
+  "tagline": "Stops down the side, trips across the top — read the right column, then count the gap",
+  "title": "SmartCiti.X~ A Streetcar Timetable VR",
+  "trade": "Maths class at the streetcar barn with a transit dispatcher — learner and streetcar dispatcher",
+  "underwater": null,
+  "weather": "clear"
+}

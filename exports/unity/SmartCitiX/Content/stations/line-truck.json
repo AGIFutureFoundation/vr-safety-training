@@ -1,0 +1,412 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "storm-ready",
+    "name": "Storm Ready",
+    "note": "Full de-energized procedure with rubber proven and grounds applied in order"
+  },
+  "category": "Energy & Power",
+  "certification": "IBEW — OSHA 29 CFR 1910.269 qualified electrical worker",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "IBEW",
+        "id": "ibew-neca-jatc",
+        "title": "IBEW/NECA Joint Apprenticeship and Training Committee — inside and outside wireman apprenticeship standards, taught from the electrical training ALLIANCE curriculum"
+      },
+      {
+        "body": "IEEE",
+        "citedAs": "NESC",
+        "id": "ieee-c2-nesc",
+        "title": "IEEE C2 — National Electrical Safety Code (NESC)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.269",
+        "id": "osha-1910-269",
+        "title": "29 CFR 1910.269 — Electric power generation, transmission and distribution"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Energy",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "rubber-proven",
+        "name": "Rubber Proven",
+        "note": "Never approach the conductor unprotected"
+      },
+      {
+        "id": "dead-line-true",
+        "name": "Dead Line True",
+        "note": "Hold every test reading near band centre"
+      },
+      {
+        "id": "grounds-clean",
+        "name": "Grounds Clean",
+        "note": "Apply every ground in the correct order"
+      },
+      {
+        "id": "crawler-programmed",
+        "name": "Crawler Programmed Clean",
+        "note": "Teach the line-crawler path in order, first try"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "storm-window",
+        "name": "Storm Window",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "no-flash",
+        "name": "No Flash",
+        "note": "Clean run, no corrections"
+      },
+      {
+        "id": "crew-streak",
+        "name": "Crew Streak",
+        "note": "Nine correct actions in a row"
+      }
+    ],
+    "currency": "VOLT",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Ground Hand",
+      "Apprentice Lineman",
+      "Journeyman Lineman",
+      "Crew Lead",
+      "Storm Certified"
+    ],
+    "system": "Storm Command"
+  },
+  "hazards": {
+    "boom-control": "That is the boom lift control. Operating the boom before the truck chassis is bonded and grounded leaves the whole vehicle, and anyone touching it, at line potential the instant the boom contacts an energized conductor.",
+    "damaged-glove": "That rubber glove has a puncture that the air test would have caught. Wearing a failed glove is worse than wearing none, because it tells you it's protecting you right up until it doesn't.",
+    "energized-conductor": "You brought the bucket inside the minimum approach distance without rubber gloves and sleeves donned. Inside that distance the air gap itself is no longer your protection — the rubber is, and it goes on before the boom does.",
+    "ground-point-untested": "You reached for the equipment ground before the tester confirmed the line was actually dead. If that conductor is still live, the ground set becomes the path to ground — through whoever is holding it."
+  },
+  "id": "line-truck",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "glove-test",
+      "alert": "The truck has just settled. The kerb-side outrigger has taken a bite out of the shoulder and the whole body is sitting over at an angle it was not sitting at five minutes ago.",
+      "cue": "You set those pads on ground that has had a night of rain on it.",
+      "delay": 3,
+      "id": "outrigger-sunk",
+      "kind": "Truck setting",
+      "missNote": "The pad kept sinking with the truck loaded. By the time the boom went out over the side the vehicle was working outside the stability envelope its chart was written for, and a bucket truck that goes over goes over all at once.",
+      "seconds": 12,
+      "target": "outriggers",
+      "why": "Outriggers are set against the ground as it is when you set them, and a saturated shoulder keeps consolidating under thirty thousand pounds for as long as it is loaded. A pad that has sunk is no longer sharing the load with the other three, so the truck's stability triangle has quietly got smaller while nobody was watching it, and the first thing that tells you is the boom going over the side with somebody in the bucket. Re-set the pads on cribbing before anything goes up.",
+      "wrongNote": "It is the outriggers. The truck has moved, and nothing goes up on a base that is still settling."
+    },
+    {
+      "after": "apply-grounds",
+      "alert": "Dispatch on the radio: a customer on this circuit has a standby generator running and the utility has had a report that its transfer switch is not interlocking.",
+      "cue": "You have the ground and the neutral on. The phase clamp is the one still in your hand.",
+      "delay": 3,
+      "id": "customer-backfeed",
+      "kind": "Backfeed reported",
+      "missNote": "The phase clamp went onto a conductor nobody had re-tested against a source that had just been reported. If the generator was feeding it, that clamp bolted a fault on with a hand still on the stick, and the flash is at the conductor, not at the substation.",
+      "seconds": 13,
+      "target": "hotstick-meter",
+      "why": "A generator behind a failed transfer switch feeds the customer's service, and the service transformer works perfectly well backwards — two hundred and forty volts on the secondary comes back out of the primary at full line voltage on a conductor your switching order says is dead. Your test was true when you took it, and it stopped being a statement about now the moment somebody told you the source might have changed. The phase clamp is the last connection and the one that puts you across the gap, so the proof gets taken again before it goes on.",
+      "wrongNote": "Nothing gets clamped on a report like that. The hot stick tester is what turns a rumour about the source back into a fact about this conductor."
+    }
+  ],
+  "lateNotes": {
+    "ground-electrode-clamp": "Grounds go on only after the line has tested dead on the meter — never on the strength of the switch position alone.",
+    "hotstick-meter": "Zero energy is confirmed with the tester after the switch is open — the switch position alone is never treated as proof by itself.",
+    "spare-ground-rod": "The chassis gets bonded before the boom does anything else — that's what this rod is for."
+  },
+  "name": "Line Truck",
+  "parSeconds": 250,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "electrical-first-period"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": null,
+    "hits": [
+      "boom-control",
+      "boom-tester",
+      "bucket-liner",
+      "crawler-console-run",
+      "crawler-console-save",
+      "crawler-wp-end",
+      "crawler-wp-mid",
+      "crawler-wp-start",
+      "damaged-glove",
+      "energized-conductor",
+      "glove-inflator",
+      "ground-electrode-clamp",
+      "ground-point-untested",
+      "hotstick-meter",
+      "line-switch",
+      "mad-marker",
+      "neutral-clamp",
+      "outriggers",
+      "phase-clamp",
+      "rescue-hook",
+      "sleeves",
+      "spare-ground-rod",
+      "tailboard-board",
+      "truck-ground-rod"
+    ],
+    "meshes": 131
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the job briefing: hazards, PPE and the minimum approach distance for this voltage class.",
+      "id": "tailboard",
+      "kind": "select",
+      "prompt": "Read the job briefing: hazards, PPE and the minimum approach distance for this voltage class.",
+      "target": "tailboard-board",
+      "title": "Hold the tailboard briefing",
+      "why": "The minimum approach distance changes with voltage class, and both OSHA 1910.269 and the NESC set it as a table lookup by kV, not a judgment call made at the pole. Everyone on the crew hears the same number, from the same table, before anyone leaves the ground."
+    },
+    {
+      "cue": "Extend and set the truck's outriggers before raising the boom.",
+      "id": "outrigger",
+      "kind": "select",
+      "prompt": "Extend and set the truck's outriggers before raising the boom.",
+      "target": "outriggers",
+      "title": "Set the outriggers",
+      "why": "A boom worked from an unstabilized truck can shift the whole vehicle under a lateral load of only a few hundred pounds at full extension — the outriggers are what turn a fifteen-ton truck into a fixed base rather than a pivot point."
+    },
+    {
+      "cue": "Carry the spare ground rod from the truck bed to the driving point and set it.",
+      "drag": {
+        "missNote": "Not on the driving point — carry the rod over to the marked spot and set it there.",
+        "radius": 0.35,
+        "to": "truck-ground-rod"
+      },
+      "id": "truck-ground",
+      "kind": "drag",
+      "prompt": "Carry the spare ground rod from the truck bed to the driving point and set it.",
+      "target": "spare-ground-rod",
+      "title": "Bond and ground the truck",
+      "why": "If the boom ever contacts an energized conductor, the bond is what keeps the truck body from becoming the fastest path to ground through a person standing on the frame or the step — without it, fault current looks for any path it can find. The rod has to actually be carried out and driven at the marked point before any of that protection exists; a chassis ground is not the truck's factory earth strap, it is a connection this crew makes fresh at every job."
+    },
+    {
+      "cue": "Look over every pair in the kit and pull the one that's compromised before you inflate any of them.",
+      "id": "glove-inspect",
+      "itemNames": {
+        "damaged-glove": "punctured glove"
+      },
+      "itemNotes": {
+        "damaged-glove": "Caught before the air test even started — a visible puncture like this one is pulled from service on sight, not waved through to see if the inflator agrees."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look over every pair in the kit and pull the one that's compromised before you inflate any of them.",
+      "targets": [
+        "damaged-glove"
+      ],
+      "title": "Inspect gloves before the air test",
+      "why": "The air test catches a pinhole that eyesight alone would miss, but it is not a substitute for looking the gloves over first — a visible cut, an embedded sliver of strand or a chewed cuff is exactly as disqualifying as a failed pressure reading, and finding it now costs nothing next to finding it with a hand inside the glove at the boom."
+    },
+    {
+      "cue": "Inflate the gloves and commit once they hold pressure with no leak.",
+      "gauge": {
+        "green": [
+          0.62,
+          0.85
+        ],
+        "label": "GLOVE AIR TEST — HELD PRESSURE",
+        "missNote": "Pressure dropping — that's a leak. Pull that pair from service and test the spares.",
+        "speed": 0.6
+      },
+      "id": "glove-test",
+      "kind": "gauge",
+      "prompt": "Inflate the gloves and commit once they hold pressure with no leak.",
+      "target": "glove-inflator",
+      "title": "Air-test the rubber gloves",
+      "why": "A pinhole in rubber goods is invisible to the eye until it is under pressure. The air test finds a leak that a puncture this small would otherwise let through at full line voltage the first time the glove is actually loaded."
+    },
+    {
+      "cue": "Check the sleeves for cuts, ozone cracking or embedded debris.",
+      "id": "sleeve-check",
+      "kind": "select",
+      "prompt": "Check the sleeves for cuts, ozone cracking or embedded debris.",
+      "target": "sleeves",
+      "title": "Inspect the rubber sleeves",
+      "why": "Sleeves cover the reach between the glove cuff and the shoulder — a cut, an ozone crack or embedded debris there is just as live a path to a phase conductor as the same defect would be in the glove itself. Ozone from the arc environment attacks rubber from the surface in, so a crack that looks cosmetic today is the leading edge of a failure that will not announce itself before it lets current through."
+    },
+    {
+      "cue": "Check the fibreglass bucket liner for cracks or contamination.",
+      "id": "liner-check",
+      "kind": "select",
+      "prompt": "Check the fibreglass bucket liner for cracks or contamination.",
+      "target": "bucket-liner",
+      "title": "Inspect the bucket liner",
+      "why": "The fibreglass liner is the insulating barrier between the worker and the boom's own conductive steel structure. A cracked or contaminated liner stops being an insulator at exactly the moment the boom needs it to be one."
+    },
+    {
+      "cue": "Run the insulation test on the boom and commit inside the passing range.",
+      "gauge": {
+        "green": [
+          0.55,
+          0.75
+        ],
+        "label": "BOOM DIELECTRIC TEST — INSULATION",
+        "missNote": "Below the passing resistance. Tag the boom out of service rather than trust it near a conductor.",
+        "speed": 0.65
+      },
+      "id": "boom-test",
+      "kind": "gauge",
+      "prompt": "Run the insulation test on the boom and commit inside the passing range.",
+      "target": "boom-tester",
+      "title": "Dielectric-test the boom",
+      "why": "The boom's fibreglass insulation degrades with UV exposure and contamination and is tested on its own megohm schedule, not assumed sound because it looked fine yesterday or held up on the last job. A resistance reading falling toward the fail side of the band is the boom telling you it is drying out or tracking internally long before that shows up as a visible crack, and it is the whole reason the truck can be worked as insulated equipment in the first place."
+    },
+    {
+      "cue": "Mark and confirm the minimum approach boundary for this voltage class before the boom moves in.",
+      "id": "mad-check",
+      "kind": "select",
+      "prompt": "Mark and confirm the minimum approach boundary for this voltage class before the boom moves in.",
+      "target": "mad-marker",
+      "title": "Confirm the minimum approach distance",
+      "why": "The boundary is set and marked before the boom starts moving, using the same voltage-class table OSHA 1910.269 and the NESC both publish — not judged by eye once the bucket is already close to a phase conductor."
+    },
+    {
+      "cue": "Grab the switch handle and pull the upstream switch open.",
+      "id": "isolate",
+      "kind": "turn",
+      "prompt": "Grab the switch handle and pull the upstream switch open.",
+      "target": "line-switch",
+      "title": "Open the line switch",
+      "turn": {
+        "axis": "z",
+        "label": "LINE SWITCH",
+        "reverse": true,
+        "turns": 0.16
+      },
+      "why": "This is the isolation, and everything from here on is checked against the assumption that a switch position can still be wrong — a stuck contact or a mis-wired indicator reads open long before it actually is. Treating the handle as proof rather than as the first half of a two-part check is exactly how a crew ends up working a line that never actually came off."
+    },
+    {
+      "cue": "Phase the line with the hot stick tester and commit when it reads dead.",
+      "gauge": {
+        "green": [
+          0,
+          0.08
+        ],
+        "label": "PHASING TESTER — LINE VOLTAGE",
+        "missNote": "Still reading live. Recheck the switch and the phasing before any ground goes on.",
+        "speed": 0.6
+      },
+      "id": "verify-dead",
+      "kind": "gauge",
+      "prompt": "Phase the line with the hot stick tester and commit when it reads dead.",
+      "target": "hotstick-meter",
+      "title": "Test the line dead with a hot stick",
+      "why": "The switch tells you what should be true. The hot stick tester tells you what is actually true on this specific conductor, right now, which is the only reading OSHA 1910.269 accepts before a ground goes on. A backfeed from a customer generator, a mis-tagged phase or a control error upstream all leave the switch handle looking exactly the same — the tester is what actually reaches the conductor and reports on it directly."
+    },
+    {
+      "cue": "Clamp to the ground electrode first, then the neutral, then the phase conductor last.",
+      "id": "apply-grounds",
+      "itemNames": {
+        "ground-electrode-clamp": "ground electrode clamp",
+        "neutral-clamp": "neutral clamp",
+        "phase-clamp": "phase conductor clamp"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Wrong order — ground electrode first, then neutral, then the phase conductor. Removal happens in the exact reverse.",
+      "prompt": "Clamp to the ground electrode first, then the neutral, then the phase conductor last.",
+      "targets": [
+        "ground-electrode-clamp",
+        "neutral-clamp",
+        "phase-clamp"
+      ],
+      "title": "Apply personal protective grounds in order",
+      "why": "Clamping the ground end first means that if the phase turns out to be live when you make that last connection, the low-resistance path is already built and waiting for fault current instead of routing it through you."
+    },
+    {
+      "cue": "Record the start, mid and end inspection points along the de-energized span, in that order.",
+      "id": "crawler-teach",
+      "itemNames": {
+        "crawler-wp-end": "End waypoint",
+        "crawler-wp-mid": "Mid waypoint",
+        "crawler-wp-start": "Start waypoint"
+      },
+      "itemNotes": {
+        "crawler-wp-end": "Recorded at the far anchor.",
+        "crawler-wp-mid": "Recorded at the midspan sag point.",
+        "crawler-wp-start": "Recorded at the near end, by the truck-side pole."
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "That point comes later on the span. Teach start, then mid, then end — the crawler drives the points in recording order.",
+      "prompt": "Record the start, mid and end inspection points along the de-energized span, in that order.",
+      "targets": [
+        "crawler-wp-start",
+        "crawler-wp-mid",
+        "crawler-wp-end"
+      ],
+      "title": "Teach the line-crawler waypoints",
+      "why": "The crawler drives this span exactly in the order the waypoints were recorded — teach start to end, matching the direction it will actually travel along the now de-energized and grounded conductor. A path recorded out of sequence does not fail to save, it saves as a route that reverses direction partway across a span the crew is standing under, which is discovered at run time rather than at the console."
+    },
+    {
+      "cue": "Commit the three waypoints to the crawler's controller as one path.",
+      "id": "crawler-save",
+      "kind": "select",
+      "prompt": "Commit the three waypoints to the crawler's controller as one path.",
+      "target": "crawler-console-save",
+      "title": "Save the crawler path",
+      "why": "An untaught point list is just three recorded positions sitting in memory. Saving it is what turns those waypoints into a path the crawler controller can actually queue and run — over grounds a crew just spent the last several steps applying in a specific order, on a conductor that stays exactly as dead as those grounds keep it."
+    },
+    {
+      "cue": "Hold RUN/VERIFY and watch the crawler's path clear the grounds and the crew before it runs the span.",
+      "holdBreakNote": "Released before the dry-run finished. Hold it through the whole path — that's how you catch a bad waypoint before the crawler runs it for real.",
+      "id": "crawler-run",
+      "kind": "hold",
+      "prompt": "Hold RUN/VERIFY and watch the crawler's path clear the grounds and the crew before it runs the span.",
+      "seconds": 2.5,
+      "target": "crawler-console-run",
+      "title": "Dry-run the line-crawler path",
+      "why": "A brand-new path is verified at walking pace with a hand on the controller, watching the whole span, before the crawler ever runs it unattended over grounds a crew just applied minutes earlier. Releasing the hold partway through is what catches a waypoint that would otherwise swing the crawler into a clamp, a jumper or a person standing on the span — while there is still a thumb on the control to stop it."
+    },
+    {
+      "cue": "Check the pole-top and bucket rescue hook and line are staged and ready.",
+      "id": "rescue-ready",
+      "kind": "select",
+      "prompt": "Check the pole-top and bucket rescue hook and line are staged and ready.",
+      "target": "rescue-hook",
+      "title": "Confirm rescue readiness",
+      "why": "Rescue equipment staged and checked before work starts is the only version that is actually usable in the first thirty seconds of an emergency — a hook still in its case on the truck bed helps nobody up the pole. A downed lineman has minutes, not the time it takes a second person to find, unpack and rig gear that should already have been within reach before the boom went up."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Bucket-truck line work: rubber goods testing, isolation and correct grounding order",
+  "title": "SmartCiti.X~ Line Truck VR",
+  "trade": "Outside / overhead lineworker (IBEW)",
+  "underwater": null,
+  "weather": "overcast"
+}

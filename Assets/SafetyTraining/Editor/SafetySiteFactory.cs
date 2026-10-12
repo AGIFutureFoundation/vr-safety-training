@@ -307,6 +307,223 @@ namespace SafetyTraining.Editor
             return root;
         }
 
+        public static Transform ImmersiveLab(Vector3 origin)
+        {
+            var root = SiteRoot("Immersive Lab", origin, new Color(0.15f, 0.17f, 0.26f));
+            AddLane(root, "Powered Equipment Lane", new Vector3(2.5f, 0.02f, -0.7f),
+                new Vector2(2.4f, 4.6f), new Color(0.2f, 0.22f, 0.26f), SafetyYellow);
+            AddBay(root, "Equipment Staging Bay", new Vector3(-1.2f, 0.04f, -3f),
+                new Vector2(2.2f, 1.5f), Color.white);
+            AddPlayBoundary(root, new Vector3(-2.5f, 0f, 0.4f), new Vector2(3.6f, 3.6f));
+            AddArWalkthroughRoute(root, -1.9f);
+            VrWorkstation(root, "Headset Station A", new Vector3(-2.6f, 0f, 2.95f), 180f);
+            VrWorkstation(root, "Headset Station B", new Vector3(2.6f, 0f, 2.95f), 180f);
+
+            var obstruction = PlaySpaceObstruction(root, "Equipment Case in Play Space",
+                new Vector3(-2.7f, 0f, 0.5f));
+            SafetyScenePrimitives.Target(obstruction, TrainingSiteId.ImmersiveLab, "play-space-obstruction", true,
+                "Obstruction inside the active play space",
+                "A hard case and a folding stool sit inside the marked room-scale boundary while a headset session is running.",
+                "Clear the play space back to the marked boundary and re-run boundary setup before the next session.");
+
+            var arStation = ArWalkthroughStation(root, "AR Walkthrough Station", new Vector3(-1.7f, 0f, -1.9f));
+            SafetyScenePrimitives.Target(arStation, TrainingSiteId.ImmersiveLab, "unspotted-ar-route", true,
+                "AR walkthrough crossing a live equipment lane",
+                "The marked augmented-reality route crosses the powered equipment lane with no barrier and no spotter.",
+                "Barrier the route from the lane and assign a spotter before any head-mounted walkthrough.");
+
+            var tether = TetherRetractor(root, "Overhead Tether Management", new Vector3(2.6f, 0f, 2.35f));
+            SafetyScenePrimitives.Target(tether, TrainingSiteId.ImmersiveLab, "managed-tether", false,
+                "Overhead-managed headset tether",
+                "The tether is carried on an overhead retractor and stays clear of the floor and the walking route.",
+                "Keep the retractor travel free and inspect the cable jacket before each session.");
+
+            var hygiene = HygieneComfortStation(root, "Hygiene and Comfort Station", new Vector3(-3.2f, 0f, -2.9f));
+            SafetyScenePrimitives.Target(hygiene, TrainingSiteId.ImmersiveLab, "hygiene-comfort-station", false,
+                "Stocked hygiene and comfort station",
+                "Disinfection supplies, the photosensitivity notice, and the comfort-break rule are posted with a clear approach.",
+                "Restock the wipes and keep the approach clear for every headset handover.");
+            return root;
+        }
+
+        static void AddPlayBoundary(Transform parent, Vector3 center, Vector2 size)
+        {
+            var boundaryGreen = new Color(0.24f, 0.82f, 0.56f);
+            AddBay(parent, "Active Play Boundary", center + new Vector3(0f, 0.04f, 0f), size, boundaryGreen);
+            Marking(parent, "Play Boundary Floor", center + new Vector3(0f, 0.012f, 0f),
+                new Vector3(size.x, 0.022f, size.y), new Color(0.13f, 0.19f, 0.22f));
+            foreach (var x in new[] { -0.5f, 0.5f })
+                foreach (var z in new[] { -0.5f, 0.5f })
+                    DecorativePrimitive(PrimitiveType.Cylinder, "Boundary Corner Post", parent,
+                        center + new Vector3(x * size.x, 0.55f, z * size.y), new Vector3(0.07f, 0.55f, 0.07f),
+                        boundaryGreen * 0.85f);
+            SafetyScenePrimitives.Label("ACTIVE PLAY SPACE", parent,
+                center + new Vector3(0f, 1.35f, size.y * 0.5f), 0.07f);
+        }
+
+        static void AddArWalkthroughRoute(Transform parent, float z)
+        {
+            var routeBlue = new Color(0.32f, 0.62f, 0.95f);
+            Marking(parent, "AR Walkthrough Route", new Vector3(1.15f, 0.024f, z),
+                new Vector3(6.1f, 0.024f, 1.15f), new Color(0.14f, 0.2f, 0.3f));
+            foreach (var edge in new[] { -0.575f, 0.575f })
+                Marking(parent, "AR Route Edge", new Vector3(1.15f, 0.04f, z + edge),
+                    new Vector3(6.1f, 0.04f, 0.07f), routeBlue);
+            for (var index = 0; index < 6; index++)
+                Marking(parent, "AR Route Chevron", new Vector3(-1.35f + index * 1.1f, 0.045f, z),
+                    new Vector3(0.42f, 0.045f, 0.09f), routeBlue * 0.85f);
+        }
+
+        static GameObject VrWorkstation(Transform parent, string name, Vector3 position, float yaw)
+        {
+            var desk = new GameObject(name);
+            desk.transform.SetParent(parent, false);
+            desk.transform.localPosition = position;
+            desk.transform.localRotation = Quaternion.Euler(0f, yaw, 0f);
+            var surface = new Color(0.28f, 0.31f, 0.35f);
+            DecorativePrimitive(PrimitiveType.Cube, "Desk Top", desk.transform,
+                new Vector3(0f, 0.74f, 0f), new Vector3(1.65f, 0.06f, 0.72f), surface, 0.2f, 0.42f);
+            foreach (var x in new[] { -0.74f, 0.74f })
+                foreach (var z in new[] { -0.29f, 0.29f })
+                    DecorativePrimitive(PrimitiveType.Cube, "Desk Leg", desk.transform,
+                        new Vector3(x, 0.37f, z), new Vector3(0.06f, 0.74f, 0.06f), Steel, 0.65f, 0.36f);
+            DecorativePrimitive(PrimitiveType.Cube, "Render Workstation", desk.transform,
+                new Vector3(0.58f, 0.28f, 0f), new Vector3(0.24f, 0.56f, 0.5f), new Color(0.12f, 0.13f, 0.16f),
+                0.35f, 0.5f);
+            DecorativePrimitive(PrimitiveType.Cube, "Operator Display", desk.transform,
+                new Vector3(-0.42f, 1.03f, 0.2f), new Vector3(0.72f, 0.42f, 0.03f), new Color(0.06f, 0.09f, 0.12f),
+                0.1f, 0.72f);
+            AddHeadsetOnStand(desk.transform, new Vector3(0.05f, 0.77f, -0.05f));
+            foreach (var x in new[] { -0.62f, -0.38f })
+                DecorativePrimitive(PrimitiveType.Capsule, "Tracked Controller", desk.transform,
+                    new Vector3(x, 0.83f, -0.18f), new Vector3(0.07f, 0.1f, 0.07f),
+                    new Color(0.16f, 0.17f, 0.19f), 0.15f, 0.4f);
+            return desk;
+        }
+
+        static void AddHeadsetOnStand(Transform parent, Vector3 position)
+        {
+            var stand = new GameObject("Headset Stand");
+            stand.transform.SetParent(parent, false);
+            stand.transform.localPosition = position;
+            DecorativePrimitive(PrimitiveType.Cylinder, "Stand Base", stand.transform,
+                new Vector3(0f, 0.01f, 0f), new Vector3(0.2f, 0.012f, 0.2f), Steel, 0.7f, 0.4f);
+            DecorativePrimitive(PrimitiveType.Cylinder, "Stand Column", stand.transform,
+                new Vector3(0f, 0.13f, 0f), new Vector3(0.035f, 0.13f, 0.035f), Steel, 0.7f, 0.4f);
+            var shell = new Color(0.11f, 0.12f, 0.14f);
+            DecorativePrimitive(PrimitiveType.Cube, "Headset Shell", stand.transform,
+                new Vector3(0f, 0.29f, 0f), new Vector3(0.2f, 0.11f, 0.13f), shell, 0.1f, 0.45f);
+            DecorativePrimitive(PrimitiveType.Cube, "Headset Lens Face", stand.transform,
+                new Vector3(0f, 0.29f, -0.07f), new Vector3(0.17f, 0.08f, 0.02f),
+                new Color(0.05f, 0.16f, 0.24f), 0.2f, 0.78f);
+            DecorativePrimitive(PrimitiveType.Cube, "Head Strap", stand.transform,
+                new Vector3(0f, 0.32f, 0.05f), new Vector3(0.16f, 0.03f, 0.12f), shell * 1.3f);
+        }
+
+        static GameObject TetherRetractor(Transform parent, string name, Vector3 position)
+        {
+            var retractor = AssemblyRoot(parent, name, position, new Vector3(0.9f, 2.4f, 0.9f),
+                new Vector3(0f, 1.5f, 0f));
+            DecorativePrimitive(PrimitiveType.Cylinder, "Boom Stand Base", retractor.transform,
+                new Vector3(0f, 0.03f, 0f), new Vector3(0.42f, 0.03f, 0.42f), Steel * 0.8f, 0.7f, 0.4f);
+            DecorativePrimitive(PrimitiveType.Cylinder, "Retractor Mast", retractor.transform,
+                new Vector3(0f, 1.34f, 0f), new Vector3(0.07f, 1.32f, 0.07f), Steel, 0.7f, 0.4f);
+            DecorativePrimitive(PrimitiveType.Cube, "Boom Head Plate", retractor.transform,
+                new Vector3(0f, 2.68f, 0f), new Vector3(0.34f, 0.05f, 0.34f), Steel, 0.7f, 0.4f);
+            DecorativePrimitive(PrimitiveType.Cube, "Boom Arm", retractor.transform,
+                new Vector3(0f, 1.78f, -0.35f), new Vector3(0.07f, 0.07f, 0.9f), Steel * 0.9f, 0.7f, 0.4f);
+            DecorativePrimitive(PrimitiveType.Cylinder, "Spring Retractor Drum", retractor.transform,
+                new Vector3(0f, 1.78f, -0.72f), new Vector3(0.16f, 0.06f, 0.16f),
+                new Color(0.18f, 0.2f, 0.24f), 0.5f, 0.45f);
+            DecorativePrimitive(PrimitiveType.Cylinder, "Suspended Tether", retractor.transform,
+                new Vector3(0f, 1.35f, -0.72f), new Vector3(0.022f, 0.4f, 0.022f),
+                new Color(0.05f, 0.06f, 0.07f));
+            foreach (var z in new[] { -0.15f, -0.55f })
+                DecorativePrimitive(PrimitiveType.Cube, "High Visibility Tether Sleeve", retractor.transform,
+                    new Vector3(0f, 1.78f, z), new Vector3(0.085f, 0.085f, 0.1f), SafetyYellow);
+            SafetyScenePrimitives.Label("TETHER MANAGED\nOVERHEAD", retractor.transform,
+                new Vector3(0f, 2.42f, -0.36f), 0.05f);
+            return retractor;
+        }
+
+        static GameObject ArWalkthroughStation(Transform parent, string name, Vector3 position)
+        {
+            var station = AssemblyRoot(parent, name, position, new Vector3(1f, 1.75f, 1f),
+                new Vector3(0f, 0.85f, 0f));
+            var frame = new Color(0.22f, 0.24f, 0.28f);
+            foreach (var angle in new[] { 0f, 120f, 240f })
+            {
+                var leg = DecorativePrimitive(PrimitiveType.Cylinder, "Tripod Leg", station.transform,
+                    new Vector3(Mathf.Sin(angle * Mathf.Deg2Rad) * 0.22f, 0.5f,
+                        Mathf.Cos(angle * Mathf.Deg2Rad) * 0.22f),
+                    new Vector3(0.04f, 0.5f, 0.04f), frame, 0.6f, 0.4f);
+                leg.transform.localRotation = Quaternion.Euler(
+                    Mathf.Cos(angle * Mathf.Deg2Rad) * 12f, 0f, -Mathf.Sin(angle * Mathf.Deg2Rad) * 12f);
+            }
+            DecorativePrimitive(PrimitiveType.Cylinder, "Tripod Column", station.transform,
+                new Vector3(0f, 1.05f, 0f), new Vector3(0.05f, 0.16f, 0.05f), frame, 0.6f, 0.4f);
+            DecorativePrimitive(PrimitiveType.Cube, "AR Headset Body", station.transform,
+                new Vector3(0f, 1.3f, 0f), new Vector3(0.24f, 0.08f, 0.1f), new Color(0.14f, 0.15f, 0.17f),
+                0.15f, 0.5f);
+            DecorativePrimitive(PrimitiveType.Cube, "AR Waveguide Visor", station.transform,
+                new Vector3(0f, 1.28f, -0.07f), new Vector3(0.26f, 0.07f, 0.015f),
+                new Color(0.42f, 0.72f, 0.78f), 0.25f, 0.85f);
+            DecorativePrimitive(PrimitiveType.Cube, "Route Sign Post", station.transform,
+                new Vector3(0.42f, 0.62f, 0f), new Vector3(0.05f, 1.24f, 0.05f), frame, 0.6f, 0.4f);
+            DecorativePrimitive(PrimitiveType.Cube, "Route Sign Face", station.transform,
+                new Vector3(0.42f, 1.32f, -0.03f), new Vector3(0.72f, 0.3f, 0.03f),
+                new Color(0.32f, 0.62f, 0.95f));
+            SafetyScenePrimitives.Label("AR WALKTHROUGH\nROUTE", station.transform,
+                new Vector3(0.42f, 1.32f, -0.06f), 0.045f);
+            return station;
+        }
+
+        static GameObject HygieneComfortStation(Transform parent, string name, Vector3 position)
+        {
+            var station = AssemblyRoot(parent, name, position, new Vector3(1.3f, 2.2f, 0.72f),
+                new Vector3(0f, 1.1f, 0f));
+            var cabinet = new Color(0.86f, 0.88f, 0.9f);
+            DecorativePrimitive(PrimitiveType.Cube, "Hygiene Cabinet", station.transform,
+                new Vector3(0f, 0.6f, 0f), new Vector3(1.1f, 1.2f, 0.42f), cabinet, 0.25f, 0.55f);
+            DecorativePrimitive(PrimitiveType.Cube, "Cabinet Door Line", station.transform,
+                new Vector3(0f, 0.6f, -0.22f), new Vector3(0.03f, 1.14f, 0.02f), cabinet * 0.7f);
+            DecorativePrimitive(PrimitiveType.Cube, "Cabinet Worktop", station.transform,
+                new Vector3(0f, 1.23f, 0f), new Vector3(1.2f, 0.06f, 0.48f), new Color(0.32f, 0.36f, 0.4f),
+                0.3f, 0.6f);
+            DecorativePrimitive(PrimitiveType.Cylinder, "Disinfectant Wipe Canister", station.transform,
+                new Vector3(-0.32f, 1.39f, 0f), new Vector3(0.16f, 0.16f, 0.16f),
+                new Color(0.24f, 0.58f, 0.68f), 0.1f, 0.5f);
+            DecorativePrimitive(PrimitiveType.Cube, "Lens-Safe Cloth Tray", station.transform,
+                new Vector3(0.12f, 1.31f, 0f), new Vector3(0.3f, 0.08f, 0.24f), new Color(0.2f, 0.22f, 0.25f));
+            DecorativePrimitive(PrimitiveType.Cube, "Face Interface Liner Box", station.transform,
+                new Vector3(0.44f, 1.35f, 0f), new Vector3(0.24f, 0.18f, 0.24f), new Color(0.9f, 0.72f, 0.24f));
+            DecorativePrimitive(PrimitiveType.Cube, "Comfort Notice Board", station.transform,
+                new Vector3(0f, 1.86f, 0.08f), new Vector3(1.16f, 0.66f, 0.04f), new Color(0.05f, 0.09f, 0.12f));
+            SafetyScenePrimitives.Label("PHOTOSENSITIVITY + COMFORT NOTICE\nSTOP ON NAUSEA, DIZZINESS OR AURA\nCLEAN BEFORE EVERY HANDOVER",
+                station.transform, new Vector3(0f, 1.86f, 0.05f), 0.038f);
+            return station;
+        }
+
+        static GameObject PlaySpaceObstruction(Transform parent, string name, Vector3 position)
+        {
+            var obstruction = AssemblyRoot(parent, name, position, new Vector3(1.25f, 0.95f, 0.95f),
+                new Vector3(0f, 0.46f, 0f));
+            var caseShell = new Color(0.18f, 0.2f, 0.23f);
+            DecorativePrimitive(PrimitiveType.Cube, "Equipment Flight Case", obstruction.transform,
+                new Vector3(-0.24f, 0.19f, 0f), new Vector3(0.76f, 0.38f, 0.52f), caseShell, 0.3f, 0.4f);
+            DecorativePrimitive(PrimitiveType.Cube, "Case Lid Rim", obstruction.transform,
+                new Vector3(-0.24f, 0.39f, 0f), new Vector3(0.8f, 0.04f, 0.56f), Steel, 0.75f, 0.45f);
+            DecorativePrimitive(PrimitiveType.Cube, "Case Latch", obstruction.transform,
+                new Vector3(-0.24f, 0.25f, -0.28f), new Vector3(0.12f, 0.08f, 0.04f), Steel, 0.8f, 0.5f);
+            DecorativePrimitive(PrimitiveType.Cube, "Folding Stool Seat", obstruction.transform,
+                new Vector3(0.38f, 0.45f, 0f), new Vector3(0.38f, 0.05f, 0.34f), Timber * 0.9f);
+            foreach (var x in new[] { -0.14f, 0.14f })
+                foreach (var z in new[] { -0.13f, 0.13f })
+                    DecorativePrimitive(PrimitiveType.Cube, "Stool Leg", obstruction.transform,
+                        new Vector3(0.38f + x, 0.22f, z), new Vector3(0.035f, 0.44f, 0.035f), Steel, 0.7f, 0.4f);
+            return obstruction;
+        }
+
         static Transform SiteRoot(string title, Vector3 origin, Color color)
         {
             var root = new GameObject(title).transform;

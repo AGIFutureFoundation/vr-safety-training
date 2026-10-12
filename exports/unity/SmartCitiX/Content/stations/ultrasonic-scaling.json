@@ -1,0 +1,422 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "srp-clean-run",
+    "name": "Clean Debridement",
+    "note": "A full scaling and root planing appointment with the waterline verified, the insert adapted correctly and posture held neutral throughout"
+  },
+  "category": "Dental & Oral Health",
+  "certification": "SEIU and UFCW dental and clinic staff, and the ADHA as the hygiene profession's own body; the Dental Hygiene Board of California and the state dental practice act on scope of practice and local anesthesia; the CDC's Guidelines for Infection Control in Dental Health-Care Settings, including its dental unit waterline standard of no more than 500 CFU/mL of heterotrophic bacteria; OSHA 29 CFR 1910.1030 bloodborne pathogens; NIOSH's guidance on dental ergonomics and neutral posture at the operatory",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ADHA",
+        "citedAs": "ADHA",
+        "id": "adha-standards",
+        "title": "ADHA Standards for Clinical Dental Hygiene Practice"
+      },
+      {
+        "body": "CDC",
+        "citedAs": "CDC",
+        "id": "cdc-guidance",
+        "title": "CDC infection-prevention and public-health guidance, including the Guidelines for Infection Control in Dental Health-Care Settings and Legionella control guidance"
+      },
+      {
+        "body": "NIOSH",
+        "citedAs": "NIOSH",
+        "id": "niosh-criteria",
+        "title": "NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1030",
+        "id": "osha-1910-1030",
+        "title": "29 CFR 1910.1030 — Bloodborne pathogens"
+      },
+      {
+        "body": "union",
+        "citedAs": "SEIU",
+        "id": "seiu-training",
+        "title": "SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members"
+      },
+      {
+        "body": "state dental board",
+        "citedAs": "dental practice act",
+        "id": "state-dental-board",
+        "title": "The state dental board and its dental practice act: licensure, scope of practice, and the allowable-duties rules for dental assistants and hygienists"
+      },
+      {
+        "body": "union",
+        "citedAs": "UFCW",
+        "id": "ufcw-training",
+        "title": "UFCW member training for retail food, clinic and dental support work"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Healthcare",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "water-verified",
+        "name": "Water Verified",
+        "note": "Waterline log checked and the line flushed before the handpiece touched the patient"
+      },
+      {
+        "id": "neutral-adaptation",
+        "name": "Neutral Adaptation",
+        "note": "Every graded reading held near band centre"
+      },
+      {
+        "id": "clean-field",
+        "name": "Clean Field",
+        "note": "No unsafe action across the whole appointment"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "on-schedule",
+        "name": "On Schedule",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "clean-run",
+        "name": "Clean Run",
+        "note": "No corrections the whole appointment"
+      },
+      {
+        "id": "steady-hand",
+        "name": "Steady Hand",
+        "note": "Eight correct actions in a row"
+      }
+    ],
+    "currency": "CALC",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Chairside Aide",
+      "Registered Hygienist",
+      "Perio Specialist",
+      "Clinical Lead",
+      "Operatory Certified"
+    ],
+    "system": "Operatory Standard"
+  },
+  "hazards": {
+    "capped-irrig-tip": "That spare insert's irrigation channel is visibly capped. Loading a tip whose water passage is blocked drives the heat a vibrating insert generates straight into the tooth and, in a deep pocket, toward the pulp — the tip runs dry however careful the technique is around it.",
+    "flat-adapt-model": "That teaching model is set up showing the tip laid flat against the facial surface. Adapting an ultrasonic insert flat or perpendicular instead of at the manufacturer's working angle gouges cementum and root surface that has no enamel left to protect it, and can burn the tissue underneath if the tip ever sits still at that angle.",
+    "hve-uncradled": "The evacuator is lying loose on the tray instead of seated in its holder. An ultrasonic tip aerosolises the biofilm and calculus it is removing continuously, not only when the handpiece is running loudest, and a suction line off its mount is a suction line doing nothing for the room's air.",
+    "low-stool": "That is the stool the way it was left, not the way it was set. Sitting hunched into a chair adjusted for the patient rather than for you is exactly the posture NIOSH's dental ergonomics guidance ties to the profession's very high rate of wrist, neck and shoulder injury — the damage is cumulative and it starts on ordinary days like this one."
+  },
+  "id": "ultrasonic-scaling",
+  "indoor": "clinic",
+  "interrupts": [
+    {
+      "after": "adapt-tip",
+      "alert": "The spray at the tip has stopped. The line has run dry mid-scaling and the insert is buzzing against a hot, unlubricated surface.",
+      "cue": "No spray at the tip — the line has run dry.",
+      "delay": 4,
+      "id": "waterline-dry",
+      "kind": "Equipment fault",
+      "missNote": "You kept working the dry tip. A few more seconds of a hot, unlubricated insert against that root surface is enough to leave a burn injury on tissue that gives no other warning before it happens.",
+      "seconds": 12,
+      "target": "flow-dial",
+      "why": "A vibrating insert with no water reaching it stops cooling and starts heating the exact tooth structure it was cutting a moment ago, and in a deep pocket that heat has nowhere to go but toward the pulp. The fix is the flow control, not more pressure on the tooth.",
+      "wrongNote": "It is the flow control. Restoring the water is what stops the heat — nothing else at this chair does."
+    },
+    {
+      "after": "retraction",
+      "alert": "The patient's head snaps forward and they gag hard, jerking toward the moving tip still in your hand.",
+      "cue": "The patient just moved toward the tip — get off the pedal.",
+      "delay": 3,
+      "id": "gag-reflex",
+      "kind": "Patient reaction",
+      "missNote": "The handpiece kept running through the movement. Most of the time nothing catches; the times it does, it is a soft-tissue laceration from an instrument that was still active when it should not have been.",
+      "seconds": 11,
+      "target": "foot-pedal",
+      "why": "A gag reflex arrives with no warning, and a hand still moving toward a mouth that is coming toward it at the same moment is exactly how a vibrating tip clips soft tissue instead of a root surface. The foot comes off the pedal before anything else happens.",
+      "wrongNote": "It is the pedal. Stopping the instrument is the only response that matters in the second a patient's head is already moving toward it."
+    }
+  ],
+  "lateNotes": {
+    "explorer": "The explorer verifies a surface after it has actually been debrided. There is nothing to check yet.",
+    "hve-tip": "The evacuator is seated later, once the handpiece is about to start running. Positioning it now just means moving it twice.",
+    "scaler-handpiece": "Not yet. The tip for this deposit has not been chosen and the power has not been set — picking up the handpiece now means guessing at both."
+  },
+  "name": "Ultrasonic Scaling",
+  "parSeconds": 265,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "dental-hygiene-unspoken-smiles"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "capped-irrig-tip",
+      "expired-strip",
+      "explorer",
+      "flat-adapt-model",
+      "flow-dial",
+      "foot-pedal",
+      "full-suction-trap",
+      "gloves",
+      "hve-tip",
+      "hve-uncradled",
+      "loupes",
+      "low-stool",
+      "mask",
+      "mouth-mirror",
+      "operator-stool",
+      "patient-signal",
+      "perio-chart",
+      "power-dial",
+      "prerinse-cup",
+      "scaler-handpiece",
+      "scaler-tip-heavy",
+      "scaler-tip-perio",
+      "waterline-log",
+      "waterline-valve",
+      "worn-tip-indicator"
+    ],
+    "meshes": 173
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track"
+  ],
+  "steps": [
+    {
+      "cue": "Adjust your stool height and the chair position before you pick up anything.",
+      "id": "posture-setup",
+      "kind": "select",
+      "prompt": "Adjust your stool height and the chair position before you pick up anything.",
+      "target": "operator-stool",
+      "title": "Set the stool and chair for neutral posture",
+      "why": "Posture is set before the first instrument, not adjusted around it. NIOSH's dental ergonomics guidance ties the profession's very high rate of wrist, neck and shoulder injury to exactly this habit — reaching down into a chair set for the patient's comfort rather than for the clinician's. The stool comes up and the chair goes back until your forearms sit roughly parallel to the floor and your shoulders can actually drop."
+    },
+    {
+      "cue": "Three things on this unit are not ready for a patient. Find them by looking.",
+      "id": "pre-check",
+      "itemNames": {
+        "expired-strip": "the out-of-date water test strip",
+        "full-suction-trap": "the vacuum system's full solids trap",
+        "worn-tip-indicator": "the insert past its wear line"
+      },
+      "itemNotes": {
+        "expired-strip": "The last waterline test strip on the counter is weeks past its result date. An old result is not evidence the line is clean today — it is evidence nobody has checked since.",
+        "full-suction-trap": "The solids trap on the vacuum line is full. A full trap chokes suction exactly when the evacuator is needed most, and nobody notices until the aerosol it should have caught is already in the air.",
+        "worn-tip-indicator": "This insert's wear indicator line has already been reached. Manufacturers put that mark there because efficiency drops sharply past it — roughly half its removal power is already gone, whatever the ultrasound sounds like."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Three things on this unit are not ready for a patient. Find them by looking.",
+      "targets": [
+        "worn-tip-indicator",
+        "full-suction-trap",
+        "expired-strip"
+      ],
+      "title": "Walk the delivery unit before you seat anyone",
+      "why": "None of these three failures announce themselves the way a dropped instrument does — a worn tip still cuts something, a full trap still sounds like suction, and an old test strip still sits in the drawer looking official. Catching them here, before the chair reclines, is the only point in the appointment where finding one costs nothing but a look."
+    },
+    {
+      "cue": "Check the pocket depths and the medical history before the tip goes anywhere.",
+      "id": "chart-review",
+      "kind": "select",
+      "prompt": "Check the pocket depths and the medical history before the tip goes anywhere.",
+      "target": "perio-chart",
+      "title": "Read the periodontal chart and medical history",
+      "why": "Pocket depths on the chart are what tell you which insert and which power setting this quadrant actually needs, and the medical history is where an anticoagulant, an implanted cardiac device or a latex allergy shows up before it becomes a problem in the chair rather than after. Skipping straight to the handpiece treats every mouth in this operatory as the same mouth."
+    },
+    {
+      "cue": "Check the line has been shocked and tested to schedule, not just plumbed in.",
+      "id": "waterline-check",
+      "kind": "select",
+      "prompt": "Check the line has been shocked and tested to schedule, not just plumbed in.",
+      "target": "waterline-log",
+      "title": "Confirm today's shock-and-test result",
+      "why": "The CDC holds dental unit water for non-surgical procedures to the same 500 CFU/mL heterotrophic-plate-count ceiling that public drinking water is held to — and biofilm inside these narrow lines builds toward that limit on its own schedule whether or not anyone remembers to shock and test the system. A log with no recent result is not evidence the water is safe; it is evidence nobody looked."
+    },
+    {
+      "cue": "Run the line to waste and hold the flush for the full count before it ever touches the patient.",
+      "holdBreakNote": "You let go before the flush ran its course. Reseat the valve and hold the full interval — a half-flushed line still delivers whatever grew in it overnight.",
+      "id": "waterline-flush",
+      "kind": "hold",
+      "prompt": "Run the line to waste and hold the flush for the full count before it ever touches the patient.",
+      "seconds": 8,
+      "target": "waterline-valve",
+      "title": "Flush the line to waste",
+      "why": "CDC guidance calls for flushing waterlines and handpieces for the recommended interval at the start of the day and between patients, discharging the water that sat stagnant in the tubing overnight rather than the first thing that touches somebody's mouth. A quick tap of the pedal is not the flush — it only looks like the flush."
+    },
+    {
+      "cue": "Have the patient rinse with the antimicrobial pre-procedural rinse before you start.",
+      "forceClass": "light",
+      "id": "rinse",
+      "kind": "select",
+      "prompt": "Have the patient rinse with the antimicrobial pre-procedural rinse before you start.",
+      "robotNote": "Handing the rinse cup up to the patient: contact with the person, no force in it.",
+      "target": "prerinse-cup",
+      "title": "Give the patient the pre-procedural rinse",
+      "why": "A pre-procedural antimicrobial rinse is standard CDC infection-control practice before an aerosol-generating instrument goes to work, because it cuts the microbial load in the spray before that spray ever leaves the mouth. It is protecting you and whoever else is in the room, not the patient's teeth."
+    },
+    {
+      "cue": "Loupes and mask first, gloves last, over hands already sanitised.",
+      "id": "ppe-sequence",
+      "itemNames": {
+        "gloves": "gloves",
+        "loupes": "loupes",
+        "mask": "mask"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Wrong order — loupes and mask go on first; gloves go on last, over already-sanitised hands, or they stop being a clean barrier.",
+      "prompt": "Loupes and mask first, gloves last, over hands already sanitised.",
+      "targets": [
+        "loupes",
+        "mask",
+        "gloves"
+      ],
+      "title": "Put on loupes, mask, then gloves",
+      "why": "Loupes and mask go on first, before anything else touches your face; gloves go on last, over hands already sanitised, so they stay the clean barrier OSHA's bloodborne pathogens standard treats them as. Reverse it and the last thing you touch before gloving is a loupe frame or a mask strap that just picked up whatever was on your hands a moment before."
+    },
+    {
+      "cue": "Choose the slim perio insert the chart calls for, not whatever was already in the tray.",
+      "id": "tip-select",
+      "kind": "select",
+      "prompt": "Choose the slim perio insert the chart calls for, not whatever was already in the tray.",
+      "target": "scaler-tip-perio",
+      "title": "Choose the insert for this deposit",
+      "why": "A heavier universal tip clears supragingival calculus fast but is too bulky to adapt subgingivally without gouging cementum; a slim perio insert reaches root surfaces without harming them but will not touch heavy bridging calculus. Matching the insert to what the chart actually shows is what separates efficient debridement from either burnishing calculus smooth or roughing up a root that already has no enamel on it."
+    },
+    {
+      "cue": "Set the power for this insert and this deposit, then commit the reading.",
+      "gauge": {
+        "green": [
+          0.3,
+          0.55
+        ],
+        "label": "POWER SETTING",
+        "missNote": "Outside the setting this insert and this deposit call for. Recheck the manufacturer's chart for the tip you loaded rather than guessing at the dial.",
+        "speed": 0.75
+      },
+      "id": "power-set",
+      "kind": "gauge",
+      "prompt": "Set the power for this insert and this deposit, then commit the reading.",
+      "target": "power-dial",
+      "title": "Set the power for this insert and deposit",
+      "why": "Too little power burnishes calculus into a smooth, sealed layer that reattaches almost immediately; too much power chatters the tip against enamel and root surface and turns a controlled instrument into one that gouges. A piezoelectric unit runs this deposit low-to-moderate because the frequency is doing the work — pushing the dial up is not the same as pushing the tip harder."
+    },
+    {
+      "cue": "Seat the high-volume evacuator in the holder before the handpiece starts running.",
+      "id": "hve-position",
+      "kind": "select",
+      "prompt": "Seat the high-volume evacuator in the holder before the handpiece starts running.",
+      "target": "hve-tip",
+      "title": "Seat the evacuator in its holder",
+      "why": "An ultrasonic tip aerosolises the very biofilm and calculus it is removing, and the evacuator is what pulls that spray out of the breathing zone before it settles on a surface or into a lung — yours or the patient's. Seated in the holder rather than left on the tray, it is doing its job continuously instead of only when somebody remembers to pick it up."
+    },
+    {
+      "cue": "Hold the mirror steady for retraction and visibility on the posterior surface.",
+      "forceClass": "light",
+      "holdBreakNote": "You let the mirror drop before the surface was clear. Reseat the retraction and hold it — that tissue is not clear of the tip until you do.",
+      "id": "retraction",
+      "kind": "hold",
+      "noRobot": true,
+      "prompt": "Hold the mirror steady for retraction and visibility on the posterior surface.",
+      "robotNote": "The mirror is inside the mouth, holding tissue off the working field.",
+      "seconds": 8,
+      "target": "mouth-mirror",
+      "title": "Hold the mirror for retraction and visibility",
+      "why": "The mirror is doing two things at once here: retracting the cheek or tongue clear of a moving tip, and giving you the only view you have of a posterior lingual surface you cannot see directly. Let it drift and the tissue it was holding back falls against an instrument that has no way of telling calculus from a cheek."
+    },
+    {
+      "cue": "Keep the lateral surface adapted at the manufacturer's angle, and keep it moving.",
+      "forceClass": "light",
+      "holdBreakNote": "The adaptation drifted out of the window. Bring it back and keep moving — dwelling here at any angle risks the root surface or the pulp underneath it.",
+      "id": "adapt-tip",
+      "kind": "track",
+      "noRobot": true,
+      "prompt": "Keep the lateral surface adapted at the manufacturer's angle, and keep it moving.",
+      "robotNote": "An ultrasonic tip on a root surface is the exact reason a robot does not do this step.",
+      "seconds": 10,
+      "target": "scaler-handpiece",
+      "title": "Adapt the tip and keep it moving",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.42,
+        "green": [
+          0.3,
+          0.55
+        ],
+        "label": "ADAPTATION ANGLE",
+        "rise": 0.5,
+        "start": 0.12
+      },
+      "why": "The manufacturer's angle for these inserts is a narrow window either side of parallel to the tooth surface. Lay the tip flatter and it burnishes deposit smooth instead of removing it; tip it steeper and the point starts gouging cementum and root surface that has no enamel left to protect it. A tip held still at any angle overheats a spot it was designed never to sit on."
+    },
+    {
+      "cue": "Dial the lavage to a fine halo of mist at the tip — not a drip, not a jet — then commit the reading.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.68
+        ],
+        "label": "LAVAGE FLOW",
+        "missNote": "Off the band. A drip cannot carry the heat off an insert vibrating this fast, and a jet floods the field so you cannot see the surface you are instrumenting — bring it back to a visible halo of mist at the working end.",
+        "speed": 0.7
+      },
+      "id": "water-flow-check",
+      "kind": "gauge",
+      "prompt": "Dial the lavage to a fine halo of mist at the tip — not a drip, not a jet — then commit the reading.",
+      "target": "flow-dial",
+      "title": "Confirm the spray at the tip",
+      "why": "The water is not there for comfort — it is what carries heat away from a tip vibrating tens of thousands of times a second, and a dry or under-irrigated insert sends that heat straight into the tooth and, in a deep pocket, toward the pulp. A visible fan of fine spray at the working end is the check; the flow rate is not something you can judge by ear over suction alone."
+    },
+    {
+      "cue": "Verify the root surface is smooth with the explorer before moving on.",
+      "forceClass": "light",
+      "id": "explorer-verify",
+      "kind": "select",
+      "noRobot": true,
+      "prompt": "Verify the root surface is smooth with the explorer before moving on.",
+      "robotNote": "The explorer is intraoral, and it is sharp.",
+      "target": "explorer",
+      "title": "Verify the surface with the explorer",
+      "why": "An ultrasonic tip tells you what it removed by sound and feel; the explorer is what actually confirms the root surface underneath is smooth rather than still catching on a burnished ledge of calculus. Evidence-based root debridement calls for a tactile check, not a visual one — subgingival calculus rarely shows and almost always feels."
+    },
+    {
+      "cue": "Check in with the patient and confirm the anesthesia plan is within your scope here.",
+      "forceClass": "none",
+      "id": "comfort-check",
+      "kind": "select",
+      "noRobot": true,
+      "prompt": "Check in with the patient and confirm the anesthesia plan is within your scope here.",
+      "robotNote": "Checking in with the patient is a conversation, not a reach.",
+      "target": "patient-signal",
+      "title": "Check in with the patient",
+      "why": "Whether you can administer local anesthesia at all, and under what supervision, is set by the Dental Hygiene Board of California and this state's dental practice act, not by what would be convenient in the chair — some settings require additional certification and a supervision level this operatory may or may not have on hand. Checking that before instrumenting a sensitive area is what keeps the appointment inside your actual scope of practice."
+    }
+  ],
+  "supportLine": "the ADHA's member resources on hygienist ergonomics and career longevity, or your employer's employee assistance program",
+  "tagline": "A scaling and root planing appointment: the waterline verified and flushed, PPE and loupes on, the insert matched to the deposit, the evacuator held on the aerosol, the tip adapted and kept moving, and the operator's own wrist and shoulders held neutral through the whole appointment",
+  "title": "SmartCiti.X~ Ultrasonic Scaling VR",
+  "trade": "Dental hygienist",
+  "underwater": null,
+  "weather": "clear"
+}

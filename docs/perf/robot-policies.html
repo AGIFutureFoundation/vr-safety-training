@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Robot Policy Evaluation</title>
+<meta name="description" content="One card per trained robot policy in the SmartCiti.X Holodeck: scenario, synthetic data source, seeds, success against the random floor and the scripted expert, invariant violations, lineage and the audit chain head. Simulated robots only; no hardware run has happened.">
+<style>
+:root{--at-bg:#050a10;--at-surface:#0b141d;--at-surface-2:#101b27;--at-raised:#142130;--at-on-surface:#edf6fb;--at-on-surface-muted:#a9c3d2;--at-on-surface-dim:#8aa6b8;--at-primary:#4fd1ff;--at-primary-strong:#7ee6ff;--at-secondary:#a079ff;--at-success:#59c97b;--at-warning:#f2c14b;--at-danger:#f0645b;--at-border:rgba(126,170,200,.16);--at-border-strong:rgba(126,170,200,.36);--at-font-body:"Barlow",system-ui,-apple-system,"Segoe UI",sans-serif;--at-font-display:"Barlow Condensed","Barlow",system-ui,sans-serif;--at-font-mono:ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;--at-fs-xs:12px;--at-fs-sm:14px;--at-fs-md:16px;--at-fs-lg:19px;--at-fs-xl:23px;--at-fs-2xl:28px;--at-fs-3xl:34px;--at-sp-1:4px;--at-sp-2:8px;--at-sp-3:12px;--at-sp-4:16px;--at-sp-6:24px;--at-sp-8:32px;--at-sp-10:40px;--at-r-sm:6px;--at-r-md:10px;--at-r-lg:14px;--at-measure:68ch;--at-container:1200px;color-scheme:dark}
+@media (prefers-color-scheme: light){:root:not([data-theme="dark"]){--at-bg:#f3f7fa;--at-surface:#ffffff;--at-surface-2:#f6fafc;--at-raised:#e9f1f6;--at-on-surface:#0b1822;--at-on-surface-muted:#34505f;--at-on-surface-dim:#4a6574;--at-primary:#006f93;--at-primary-strong:#005a78;--at-secondary:#5b35c4;--at-success:#1d6b36;--at-warning:#8a5a00;--at-danger:#b3261e;--at-border:rgba(20,50,70,.14);--at-border-strong:rgba(20,50,70,.32);color-scheme:light}}
+:root[data-theme="light"]{--at-bg:#f3f7fa;--at-surface:#ffffff;--at-surface-2:#f6fafc;--at-raised:#e9f1f6;--at-on-surface:#0b1822;--at-on-surface-muted:#34505f;--at-on-surface-dim:#4a6574;--at-primary:#006f93;--at-primary-strong:#005a78;--at-secondary:#5b35c4;--at-success:#1d6b36;--at-warning:#8a5a00;--at-danger:#b3261e;--at-border:rgba(20,50,70,.14);--at-border-strong:rgba(20,50,70,.32);color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:var(--at-bg);color:var(--at-on-surface);font:400 var(--at-fs-md)/1.55 var(--at-font-body)}
+main{max-width:var(--at-container);margin:0 auto;padding:var(--at-sp-6) 16px var(--at-sp-10)}
+h1,h2,h3{font-family:var(--at-font-display);line-height:1.15;margin:0;text-wrap:balance}
+h1{font-size:var(--at-fs-3xl)}h2{font-size:var(--at-fs-xl)}
+p{margin:0}
+code{font-family:var(--at-font-mono);font-size:.85em;background:var(--at-surface-2);padding:.05em .35em;border-radius:4px;overflow-wrap:anywhere}
+a{color:var(--at-primary)}
+.muted{color:var(--at-on-surface-muted)}.small{font-size:var(--at-fs-sm)}
+.eyebrow{font-family:var(--at-font-display);text-transform:uppercase;letter-spacing:.08em;font-size:var(--at-fs-xs);color:var(--at-on-surface-dim);font-weight:600}
+.lede{max-width:var(--at-measure);color:var(--at-on-surface-muted);margin-top:var(--at-sp-3)}
+.notice{margin-top:var(--at-sp-4);padding:var(--at-sp-3) var(--at-sp-4);border-left:4px solid var(--at-warning);background:var(--at-surface);border-radius:var(--at-r-sm);max-width:var(--at-measure)}
+.stats{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:var(--at-sp-3);margin-top:var(--at-sp-6)}
+.stat{padding:var(--at-sp-3) var(--at-sp-4);border-radius:var(--at-r-md);background:var(--at-surface-2)}
+.stat b{display:block;font-size:var(--at-fs-xl);font-variant-numeric:tabular-nums}
+.stat span{font-size:var(--at-fs-sm);color:var(--at-on-surface-muted)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,340px),1fr));gap:var(--at-sp-4);margin-top:var(--at-sp-8)}
+.card{background:var(--at-surface);border:1px solid var(--at-border);border-radius:var(--at-r-lg);padding:var(--at-sp-4);display:grid;gap:var(--at-sp-3);align-content:start}
+.card header{display:grid;gap:var(--at-sp-1)}
+.facts{margin:0;display:grid;grid-template-columns:auto 1fr;gap:var(--at-sp-1) var(--at-sp-3);font-size:var(--at-fs-sm)}
+.facts dt{color:var(--at-on-surface-dim);font-weight:600}.facts dd{margin:0}
+.bars{display:grid;gap:var(--at-sp-2);font-size:var(--at-fs-sm)}
+.row{display:grid;grid-template-columns:minmax(0,10em) 1fr 3.5em;gap:var(--at-sp-2);align-items:center}
+.lab{color:var(--at-on-surface-muted)}.val{text-align:right;font-variant-numeric:tabular-nums}
+.bar{display:block;height:10px;background:var(--at-raised);border-radius:5px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--at-primary);border-radius:5px}
+.bar i.floor{background:var(--at-on-surface-dim)}.bar i.expert{background:var(--at-success)}.bar i.dim{opacity:.5}
+.gap{font-size:var(--at-fs-sm)}
+table{width:100%;border-collapse:collapse;font-size:var(--at-fs-sm);margin-top:var(--at-sp-4)}
+th,td{text-align:left;padding:var(--at-sp-2) var(--at-sp-3);border-bottom:1px solid var(--at-border);vertical-align:top}
+th{color:var(--at-primary);font-weight:600}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+.scroll{overflow-x:auto}
+footer{margin-top:var(--at-sp-10);padding-top:var(--at-sp-4);border-top:1px solid var(--at-border);font-size:var(--at-fs-sm);color:var(--at-on-surface-muted);max-width:var(--at-measure)}
+@media (max-width:480px){.row{grid-template-columns:minmax(0,7em) 1fr 3.5em}.facts{grid-template-columns:1fr}}
+.lineage{margin-top:var(--at-sp-8);display:grid;gap:var(--at-sp-3)}
+.lin{display:block;width:100%;height:auto}.lin-v{display:none;max-width:420px}
+.lin-box{fill:var(--at-surface-2);stroke:var(--at-border-strong);stroke-width:1.5}
+.lin-t{fill:var(--at-on-surface);font:600 17px var(--at-font-display)}.lin-s{fill:var(--at-on-surface-muted);font:400 14px var(--at-font-body)}.lin-d{fill:var(--at-on-surface-dim);font:400 13px var(--at-font-body)}
+.lin-a{stroke:var(--at-primary);stroke-width:2}.lin-ah{fill:var(--at-primary)}
+@media (max-width:719px){.lin-h{display:none}.lin-v{display:block}}
+</style>
+</head>
+<body>
+<main>
+<p class="eyebrow">SmartCiti.X Holodeck · robotics programme · policy evaluation</p>
+<h1>Robot policy evaluation report</h1>
+<p class="lede">One card per trained policy from <code>exports/robotics/</code> (<code>node tools/rb_export.mjs</code>): the scenario, the data it learned from, the seeds it was judged on, its success against a random floor and the scripted expert, the safe-practice invariants it broke, and where it sits in the ENTERPRISE-3 lineage with the audit chain's head. Written by <code>node tools/rb_report.mjs</code>; a static page with no script.</p>
+<p class="notice"><strong>Simulated robots only.</strong> Every policy here was trained on synthetic demonstrations (a scripted expert with lapses and action noise, labelled synthetic; no learner episode) and evaluated on the simulated scenario. No hardware run has happened and none is claimed; <code>docs/bench-protocol.md</code> describes how one would be scored.</p>
+<div class="stats">
+<div class="stat"><b>6</b><span>policies, one per gym scenario</span></div>
+<div class="stat"><b>5 of 6</b><span>clones within 0.02 of the expert</span></div>
+<div class="stat"><b>4 of 6</b><span>clones with zero violation steps</span></div>
+<div class="stat"><b>60</b><span>held-out seeds per policy</span></div>
+<div class="stat"><b>30</b><span>audit lines, chain verified</span></div>
+</div>
+<div class="scroll"><table>
+<thead><tr><th>Policy</th><th>Scenario</th><th class="num">Random</th><th class="num">Clone</th><th class="num">Expert</th><th class="num">Gap</th><th class="num">Violation steps (episodes)</th><th>Audit head</th></tr></thead>
+<tbody>
+<tr><td><a href="#rb-cell-entry">rx-bc-rb-cell-entry</a></td><td>Robot Cell Entry</td><td class="num">0%</td><td class="num"><strong>100%</strong></td><td class="num">100%</td><td class="num">0</td><td class="num">0 (0 of 60)</td><td><code>e951f5b2ab674f86</code></td></tr>
+<tr><td><a href="#rb-cobot-zone-setup">rx-bc-rb-cobot-zone-setup</a></td><td>Cobot Safety-Zone Setup</td><td class="num">5%</td><td class="num"><strong>100%</strong></td><td class="num">100%</td><td class="num">0</td><td class="num">0 (0 of 60)</td><td><code>33e97731d607b539</code></td></tr>
+<tr><td><a href="#rb-teleop-pick-place">rx-bc-rb-teleop-pick-place</a></td><td>Teleop Pick-and-Place</td><td class="num">0%</td><td class="num"><strong>96.7%</strong></td><td class="num">98.3%</td><td class="num">0.016</td><td class="num">755 (2 of 60)</td><td><code>cbe2586f5f48b037</code></td></tr>
+<tr><td><a href="#rb-amr-fleet-routing">rx-bc-rb-amr-fleet-routing</a></td><td>AMR Fleet Routing</td><td class="num">0%</td><td class="num"><strong>81.7%</strong></td><td class="num">100%</td><td class="num">0.183</td><td class="num">785 (11 of 60)</td><td><code>78e242f01ae930e8</code></td></tr>
+<tr><td><a href="#rb-construction-drilling">rx-bc-rb-construction-drilling</a></td><td>Ceiling-Drilling Robot Set-Up</td><td class="num">0%</td><td class="num"><strong>100%</strong></td><td class="num">100%</td><td class="num">0</td><td class="num">0 (0 of 60)</td><td><code>be5576c2dba2fbc6</code></td></tr>
+<tr><td><a href="#rb-port-gantry">rx-bc-rb-port-gantry</a></td><td>Port Automation Lane</td><td class="num">0%</td><td class="num"><strong>100%</strong></td><td class="num">100%</td><td class="num">0</td><td class="num">0 (0 of 60)</td><td><code>6badf45ae6cf5ea0</code></td></tr>
+</tbody></table></div>
+<section class="lineage" aria-label="lineage">
+<h2>Lineage</h2>
+<p class="muted small">From the registry in <code>exports/robotics/governance.json</code>: who consented, which data each policy learned from, the measured evals and the simulated sites it serves. Every dataset here is synthetic, so no learner consent was needed; a learner's own takes enter only after an adult opts in on the device (DATAWORKS).</p>
+<svg class="lin lin-h" viewBox="0 0 1000 116" role="img" aria-labelledby="lin-h-t lin-h-d"><title id="lin-h-t">Lineage: consent, dataset, policy, eval, deployment</title><desc id="lin-h-d">Consent: 0 learner consents (synthetic: none needed); Datasets: 6 synthetic sets (labelled, CC0-1.0); Policies: 6 k-NN clones (hash = colearn.json); Evals: 12 measured (60 held-out seeds); Deployments: 6 simulated sites (no hardware run)</desc><defs><marker id="lin-h-arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="lin-ah" d="M0 0L10 5L0 10z"/></marker></defs><rect class="lin-box" x="0" y="8" width="172" height="100" rx="10"/><text class="lin-t" x="86" y="42" text-anchor="middle">Consent</text><text class="lin-s" x="86" y="64" text-anchor="middle">0 learner consents</text><text class="lin-d" x="86" y="83" text-anchor="middle">synthetic: none needed</text><rect class="lin-box" x="207" y="8" width="172" height="100" rx="10"/><text class="lin-t" x="293" y="42" text-anchor="middle">Datasets</text><text class="lin-s" x="293" y="64" text-anchor="middle">6 synthetic sets</text><text class="lin-d" x="293" y="83" text-anchor="middle">labelled, CC0-1.0</text><rect class="lin-box" x="414" y="8" width="172" height="100" rx="10"/><text class="lin-t" x="500" y="42" text-anchor="middle">Policies</text><text class="lin-s" x="500" y="64" text-anchor="middle">6 k-NN clones</text><text class="lin-d" x="500" y="83" text-anchor="middle">hash = colearn.json</text><rect class="lin-box" x="621" y="8" width="172" height="100" rx="10"/><text class="lin-t" x="707" y="42" text-anchor="middle">Evals</text><text class="lin-s" x="707" y="64" text-anchor="middle">12 measured</text><text class="lin-d" x="707" y="83" text-anchor="middle">60 held-out seeds</text><rect class="lin-box" x="828" y="8" width="172" height="100" rx="10"/><text class="lin-t" x="914" y="42" text-anchor="middle">Deployments</text><text class="lin-s" x="914" y="64" text-anchor="middle">6 simulated sites</text><text class="lin-d" x="914" y="83" text-anchor="middle">no hardware run</text><line class="lin-a" x1="174" y1="58" x2="205" y2="58" marker-end="url(#lin-h-arr)"/><line class="lin-a" x1="381" y1="58" x2="412" y2="58" marker-end="url(#lin-h-arr)"/><line class="lin-a" x1="588" y1="58" x2="619" y2="58" marker-end="url(#lin-h-arr)"/><line class="lin-a" x1="795" y1="58" x2="826" y2="58" marker-end="url(#lin-h-arr)"/></svg>
+<svg class="lin lin-v" viewBox="0 0 320 520" role="img" aria-labelledby="lin-v-t lin-v-d"><title id="lin-v-t">Lineage: consent, dataset, policy, eval, deployment</title><desc id="lin-v-d">Consent: 0 learner consents (synthetic: none needed); Datasets: 6 synthetic sets (labelled, CC0-1.0); Policies: 6 k-NN clones (hash = colearn.json); Evals: 12 measured (60 held-out seeds); Deployments: 6 simulated sites (no hardware run)</desc><defs><marker id="lin-v-arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="lin-ah" d="M0 0L10 5L0 10z"/></marker></defs><rect class="lin-box" x="20" y="8" width="280" height="80" rx="10"/><text class="lin-t" x="160" y="34" text-anchor="middle">Consent</text><text class="lin-s" x="160" y="56" text-anchor="middle">0 learner consents</text><text class="lin-d" x="160" y="75" text-anchor="middle">synthetic: none needed</text><rect class="lin-box" x="20" y="112" width="280" height="80" rx="10"/><text class="lin-t" x="160" y="138" text-anchor="middle">Datasets</text><text class="lin-s" x="160" y="160" text-anchor="middle">6 synthetic sets</text><text class="lin-d" x="160" y="179" text-anchor="middle">labelled, CC0-1.0</text><rect class="lin-box" x="20" y="216" width="280" height="80" rx="10"/><text class="lin-t" x="160" y="242" text-anchor="middle">Policies</text><text class="lin-s" x="160" y="264" text-anchor="middle">6 k-NN clones</text><text class="lin-d" x="160" y="283" text-anchor="middle">hash = colearn.json</text><rect class="lin-box" x="20" y="320" width="280" height="80" rx="10"/><text class="lin-t" x="160" y="346" text-anchor="middle">Evals</text><text class="lin-s" x="160" y="368" text-anchor="middle">12 measured</text><text class="lin-d" x="160" y="387" text-anchor="middle">60 held-out seeds</text><rect class="lin-box" x="20" y="424" width="280" height="80" rx="10"/><text class="lin-t" x="160" y="450" text-anchor="middle">Deployments</text><text class="lin-s" x="160" y="472" text-anchor="middle">6 simulated sites</text><text class="lin-d" x="160" y="491" text-anchor="middle">no hardware run</text><line class="lin-a" x1="160" y1="90" x2="160" y2="110" marker-end="url(#lin-v-arr)"/><line class="lin-a" x1="160" y1="194" x2="160" y2="214" marker-end="url(#lin-v-arr)"/><line class="lin-a" x1="160" y1="298" x2="160" y2="318" marker-end="url(#lin-v-arr)"/><line class="lin-a" x1="160" y1="402" x2="160" y2="422" marker-end="url(#lin-v-arr)"/></svg>
+</section>
+<section class="grid" aria-label="policy cards">
+<article class="card" id="rb-cell-entry">
+<header><p class="eyebrow">behaviour-cloning-knn · rx-bc-rb-cell-entry@31f876a6</p><h2>Robot Cell Entry</h2><p class="muted">Scenario <code>rb-cell-entry</code> · beside station <code>ad-robot-cell-lockout-and-safe-reentry</code></p></header>
+<dl class="facts">
+<dt>Data source</dt><dd><strong>Synthetic</strong> demonstrations, labelled so (<code>rx-ds-rb-cell-entry</code>): 24 of 40 kept, 584 rows. No learner episode.</dd>
+<dt>Seeds</dt><dd>Held-out 7001-7060 (60); demonstrations drawn from other seeds.</dd>
+<dt>Invariant violations</dt><dd><strong>0</strong> over 1475 steps. Expert: 0 in 0 of 60. Rules: <code>enter-live-cell</code>, <code>skip-estop-test</code>, <code>lockout-order</code>, <code>no-verify</code>, <code>restart-with-lock</code>, <code>left-locked</code>.</dd>
+<dt>Lineage</dt><dd><code>rx-ds-rb-cell-entry</code> → <code>rx-bc-rb-cell-entry</code> → 2 measured evals → deployed (sim) to <code>rb-site-soma-robot-cell</code>.</dd>
+<dt>Audit chain head</dt><dd><code>e951f5b2ab674f86</code> after 5 lines.</dd>
+</dl>
+<div class="bars" aria-label="success on 60 held-out seeds">
+<div class="row"><span class="lab">Random floor</span><span class="bar"><i class="floor" style="width:0.0%"></i></span><span class="val">0%</span></div>
+<div class="row"><span class="lab">k-NN clone (filtered)</span><span class="bar"><i class="clone" style="width:100.0%"></i></span><span class="val">100%</span></div>
+<div class="row"><span class="lab">k-NN clone (every demo)</span><span class="bar"><i class="clone dim" style="width:100.0%"></i></span><span class="val">100%</span></div>
+<div class="row"><span class="lab">Scripted expert</span><span class="bar"><i class="expert" style="width:100.0%"></i></span><span class="val">100%</span></div>
+</div>
+<p class="gap">Gap to the expert: <strong>0</strong> — the clone matches the expert on this small task. Clean episodes: clone 100%, expert 100%. Mean steps: clone 24.583, expert 22.583, random 159.4.</p>
+<p class="muted small">Files: <code>exports/robotics/rb-cell-entry/</code> (dataset.json, dataset-card.md, lerobot/, rlds/, policy.json, eval-card.json). Measured on the simulated scenario only; no hardware run has happened.</p>
+</article>
+<article class="card" id="rb-cobot-zone-setup">
+<header><p class="eyebrow">behaviour-cloning-knn · rx-bc-rb-cobot-zone-setup@52faed1b</p><h2>Cobot Safety-Zone Setup</h2><p class="muted">Scenario <code>rb-cobot-zone-setup</code> · beside station <code>ad-cobot-risk-assessment-and-speed-separation</code></p></header>
+<dl class="facts">
+<dt>Data source</dt><dd><strong>Synthetic</strong> demonstrations, labelled so (<code>rx-ds-rb-cobot-zone-setup</code>): 39 of 40 kept, 241 rows. No learner episode.</dd>
+<dt>Seeds</dt><dd>Held-out 7001-7060 (60); demonstrations drawn from other seeds.</dd>
+<dt>Invariant violations</dt><dd><strong>0</strong> over 363 steps. Expert: 0 in 0 of 60. Rules: <code>zone-too-small</code>, <code>warn-inside-stop</code>, <code>skip-scanner-test</code>, <code>skip-estop-test</code>.</dd>
+<dt>Lineage</dt><dd><code>rx-ds-rb-cobot-zone-setup</code> → <code>rx-bc-rb-cobot-zone-setup</code> → 2 measured evals → deployed (sim) to <code>rb-site-san-jose-robotics-lab</code>.</dd>
+<dt>Audit chain head</dt><dd><code>33e97731d607b539</code> after 10 lines.</dd>
+</dl>
+<div class="bars" aria-label="success on 60 held-out seeds">
+<div class="row"><span class="lab">Random floor</span><span class="bar"><i class="floor" style="width:5.0%"></i></span><span class="val">5%</span></div>
+<div class="row"><span class="lab">k-NN clone (filtered)</span><span class="bar"><i class="clone" style="width:100.0%"></i></span><span class="val">100%</span></div>
+<div class="row"><span class="lab">k-NN clone (every demo)</span><span class="bar"><i class="clone dim" style="width:100.0%"></i></span><span class="val">100%</span></div>
+<div class="row"><span class="lab">Scripted expert</span><span class="bar"><i class="expert" style="width:100.0%"></i></span><span class="val">100%</span></div>
+</div>
+<p class="gap">Gap to the expert: <strong>0</strong> — the clone matches the expert on this small task. Clean episodes: clone 100%, expert 100%. Mean steps: clone 6.05, expert 6, random 4.367.</p>
+<p class="muted small">Files: <code>exports/robotics/rb-cobot-zone-setup/</code> (dataset.json, dataset-card.md, lerobot/, rlds/, policy.json, eval-card.json). Measured on the simulated scenario only; no hardware run has happened.</p>
+</article>
+<article class="card" id="rb-teleop-pick-place">
+<header><p class="eyebrow">behaviour-cloning-knn · rx-bc-rb-teleop-pick-place@d9b20015</p><h2>Teleop Pick-and-Place</h2><p class="muted">Scenario <code>rb-teleop-pick-place</code> · beside station <code>ad-cobot-risk-assessment-and-speed-separation</code></p></header>
+<dl class="facts">
+<dt>Data source</dt><dd><strong>Synthetic</strong> demonstrations, labelled so (<code>rx-ds-rb-teleop-pick-place</code>): 19 of 40 kept, 984 rows. No learner episode.</dd>
+<dt>Seeds</dt><dd>Held-out 7001-7060 (60); demonstrations drawn from other seeds.</dd>
+<dt>Invariant violations</dt><dd><strong>755</strong> violation steps in 2 of 60 episodes over 3758 steps (keep-out 755; a held protective stop repeats every step). Expert: 1 in 1 of 60. Rules: <code>over-force</code>, <code>keep-out</code>.</dd>
+<dt>Lineage</dt><dd><code>rx-ds-rb-teleop-pick-place</code> → <code>rx-bc-rb-teleop-pick-place</code> → 2 measured evals → no site deployment.</dd>
+<dt>Audit chain head</dt><dd><code>cbe2586f5f48b037</code> after 14 lines.</dd>
+</dl>
+<div class="bars" aria-label="success on 60 held-out seeds">
+<div class="row"><span class="lab">Random floor</span><span class="bar"><i class="floor" style="width:0.0%"></i></span><span class="val">0%</span></div>
+<div class="row"><span class="lab">k-NN clone (filtered)</span><span class="bar"><i class="clone" style="width:96.7%"></i></span><span class="val">96.7%</span></div>
+<div class="row"><span class="lab">k-NN clone (every demo)</span><span class="bar"><i class="clone dim" style="width:0.0%"></i></span><span class="val">0%</span></div>
+<div class="row"><span class="lab">Scripted expert</span><span class="bar"><i class="expert" style="width:98.3%"></i></span><span class="val">98.3%</span></div>
+</div>
+<p class="gap">Gap to the expert: <strong>0.016</strong> — the clone matches the expert on this small task. Clean episodes: clone 96.7%, expert 98.3%. Mean steps: clone 62.633, expert 51.05, random 400.</p>
+<p class="muted small">Files: <code>exports/robotics/rb-teleop-pick-place/</code> (dataset.json, dataset-card.md, lerobot/, rlds/, policy.json, eval-card.json). Measured on the simulated scenario only; no hardware run has happened.</p>
+</article>
+<article class="card" id="rb-amr-fleet-routing">
+<header><p class="eyebrow">behaviour-cloning-knn · rx-bc-rb-amr-fleet-routing@91a7b57c</p><h2>AMR Fleet Routing</h2><p class="muted">Scenario <code>rb-amr-fleet-routing</code> · beside station <code>ad-amr-fleet-traffic-and-estop-drill</code></p></header>
+<dl class="facts">
+<dt>Data source</dt><dd><strong>Synthetic</strong> demonstrations, labelled so (<code>rx-ds-rb-amr-fleet-routing</code>): 37 of 40 kept, 1168 rows. No learner episode.</dd>
+<dt>Seeds</dt><dd>Held-out 7001-7060 (60); demonstrations drawn from other seeds.</dd>
+<dt>Invariant violations</dt><dd><strong>785</strong> violation steps in 11 of 60 episodes over 1479 steps (conflict 785; a held protective stop repeats every step). Expert: 0 in 0 of 60. Rules: <code>conflict</code>, <code>yield-missed</code>.</dd>
+<dt>Lineage</dt><dd><code>rx-ds-rb-amr-fleet-routing</code> → <code>rx-bc-rb-amr-fleet-routing</code> → 2 measured evals → deployed (sim) to <code>rb-site-west-oakland-warehouse</code>, <code>rb-site-orleans-warehouse</code>.</dd>
+<dt>Audit chain head</dt><dd><code>78e242f01ae930e8</code> after 20 lines.</dd>
+</dl>
+<div class="bars" aria-label="success on 60 held-out seeds">
+<div class="row"><span class="lab">Random floor</span><span class="bar"><i class="floor" style="width:0.0%"></i></span><span class="val">0%</span></div>
+<div class="row"><span class="lab">k-NN clone (filtered)</span><span class="bar"><i class="clone" style="width:81.7%"></i></span><span class="val">81.7%</span></div>
+<div class="row"><span class="lab">k-NN clone (every demo)</span><span class="bar"><i class="clone dim" style="width:60.0%"></i></span><span class="val">60%</span></div>
+<div class="row"><span class="lab">Scripted expert</span><span class="bar"><i class="expert" style="width:100.0%"></i></span><span class="val">100%</span></div>
+</div>
+<p class="gap">Gap to the expert: <strong>0.183</strong> — the clone does not reach the expert on this task. Clean episodes: clone 81.7%, expert 100%. Mean steps: clone 24.65, expert 13.85, random 120.</p>
+<p class="muted small">Files: <code>exports/robotics/rb-amr-fleet-routing/</code> (dataset.json, dataset-card.md, lerobot/, rlds/, policy.json, eval-card.json). Measured on the simulated scenario only; no hardware run has happened.</p>
+</article>
+<article class="card" id="rb-construction-drilling">
+<header><p class="eyebrow">behaviour-cloning-knn · rx-bc-rb-construction-drilling@2f23e1ab</p><h2>Ceiling-Drilling Robot Set-Up</h2><p class="muted">Scenario <code>rb-construction-drilling</code> · beside station <code>rp-construction-drilling-robot-setup</code></p></header>
+<dl class="facts">
+<dt>Data source</dt><dd><strong>Synthetic</strong> demonstrations, labelled so (<code>rx-ds-rb-construction-drilling</code>): 17 of 40 kept, 320 rows. No learner episode.</dd>
+<dt>Seeds</dt><dd>Held-out 7001-7060 (60); demonstrations drawn from other seeds.</dd>
+<dt>Invariant violations</dt><dd><strong>0</strong> over 1066 steps. Expert: 0 in 0 of 60. Rules: <code>person-in-barricade</code>, <code>drill-unscanned</code>, <code>no-barricade</code>, <code>dust-off</code>, <code>bit-change-live</code>.</dd>
+<dt>Lineage</dt><dd><code>rx-ds-rb-construction-drilling</code> → <code>rx-bc-rb-construction-drilling</code> → 2 measured evals → deployed (sim) to <code>rb-site-richland-drilling-robot</code>.</dd>
+<dt>Audit chain head</dt><dd><code>be5576c2dba2fbc6</code> after 25 lines.</dd>
+</dl>
+<div class="bars" aria-label="success on 60 held-out seeds">
+<div class="row"><span class="lab">Random floor</span><span class="bar"><i class="floor" style="width:0.0%"></i></span><span class="val">0%</span></div>
+<div class="row"><span class="lab">k-NN clone (filtered)</span><span class="bar"><i class="clone" style="width:100.0%"></i></span><span class="val">100%</span></div>
+<div class="row"><span class="lab">k-NN clone (every demo)</span><span class="bar"><i class="clone dim" style="width:100.0%"></i></span><span class="val">100%</span></div>
+<div class="row"><span class="lab">Scripted expert</span><span class="bar"><i class="expert" style="width:100.0%"></i></span><span class="val">100%</span></div>
+</div>
+<p class="gap">Gap to the expert: <strong>0</strong> — the clone matches the expert on this small task. Clean episodes: clone 100%, expert 100%. Mean steps: clone 17.767, expert 17.767, random 59.283.</p>
+<p class="muted small">Files: <code>exports/robotics/rb-construction-drilling/</code> (dataset.json, dataset-card.md, lerobot/, rlds/, policy.json, eval-card.json). Measured on the simulated scenario only; no hardware run has happened.</p>
+</article>
+<article class="card" id="rb-port-gantry">
+<header><p class="eyebrow">behaviour-cloning-knn · rx-bc-rb-port-gantry@d9e4b963</p><h2>Port Automation Lane</h2><p class="muted">Scenario <code>rb-port-gantry</code> · beside station <code>ad-amr-fleet-traffic-and-estop-drill</code></p></header>
+<dl class="facts">
+<dt>Data source</dt><dd><strong>Synthetic</strong> demonstrations, labelled so (<code>rx-ds-rb-port-gantry</code>): 25 of 40 kept, 623 rows. No learner episode.</dd>
+<dt>Seeds</dt><dd>Held-out 7001-7060 (60); demonstrations drawn from other seeds.</dd>
+<dt>Invariant violations</dt><dd><strong>0</strong> over 1662 steps. Expert: 0 in 0 of 60. Rules: <code>crossing-stop-zone</code>, <code>pinned-keep-out</code>.</dd>
+<dt>Lineage</dt><dd><code>rx-ds-rb-port-gantry</code> → <code>rx-bc-rb-port-gantry</code> → 2 measured evals → deployed (sim) to <code>rb-site-west-oakland-port-automation</code>.</dd>
+<dt>Audit chain head</dt><dd><code>6badf45ae6cf5ea0</code> after 30 lines.</dd>
+</dl>
+<div class="bars" aria-label="success on 60 held-out seeds">
+<div class="row"><span class="lab">Random floor</span><span class="bar"><i class="floor" style="width:0.0%"></i></span><span class="val">0%</span></div>
+<div class="row"><span class="lab">k-NN clone (filtered)</span><span class="bar"><i class="clone" style="width:100.0%"></i></span><span class="val">100%</span></div>
+<div class="row"><span class="lab">k-NN clone (every demo)</span><span class="bar"><i class="clone dim" style="width:100.0%"></i></span><span class="val">100%</span></div>
+<div class="row"><span class="lab">Scripted expert</span><span class="bar"><i class="expert" style="width:100.0%"></i></span><span class="val">100%</span></div>
+</div>
+<p class="gap">Gap to the expert: <strong>0</strong> — the clone matches the expert on this small task. Clean episodes: clone 100%, expert 100%. Mean steps: clone 27.7, expert 27.8, random 160.</p>
+<p class="muted small">Files: <code>exports/robotics/rb-port-gantry/</code> (dataset.json, dataset-card.md, lerobot/, rlds/, policy.json, eval-card.json). Measured on the simulated scenario only; no hardware run has happened.</p>
+</article>
+</section>
+<footer>
+<p>Method, named plainly: behaviour cloning with a k-nearest-neighbour classifier over hand-written features (<code>WebXR/shared/col-learn.js</code>). It copies the action the most similar demonstrated moments took; it does not plan and does not generalise beyond its demonstrations. Success figures come from <code>docs/evals/colearn.json</code> (<code>tools/col_eval.mjs</code>); invariant violations are counted live by the exporter over the same seeds. The audit chain is FNV-1a hashed, a local tamper-evidence aid and not cryptographic proof. Registry head <code>6badf45ae6cf5ea0</code>; registry built in memory, no device store read or written. Related: <code>exports/robotics/README.md</code>, <code>docs/bench-protocol.md</code>, <code>docs/learner-data-terms.md</code>, <code>docs/consoles/ROBOEXPORT.md</code>.</p>
+</footer>
+</main>
+</body>
+</html>

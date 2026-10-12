@@ -1,0 +1,387 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "street-worked-right",
+    "name": "Street Worked Right",
+    "note": "The vulnerable households first, every mask actually fit, and the patrol's own respirators on before the air made that optional"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "OSHA 29 CFR 1910.134 respirators and Cal/OSHA's wildfire smoke rule; NIOSH N95 selection and fit guidance; EPA Air Quality Index and DIY box-fan filter guidance; CDC guidance for people at higher risk during wildfire smoke events",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "Cal/OSHA",
+        "citedAs": "wildfire smoke rule",
+        "id": "cal-osha-5141-1",
+        "title": "8 CCR 5141.1 — Protection from wildfire smoke"
+      },
+      {
+        "body": "CDC",
+        "citedAs": "CDC",
+        "id": "cdc-guidance",
+        "title": "CDC infection-prevention and public-health guidance, including the Guidelines for Infection Control in Dental Health-Care Settings and Legionella control guidance"
+      },
+      {
+        "body": "NIOSH",
+        "citedAs": "NIOSH",
+        "id": "niosh-criteria",
+        "title": "NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.134",
+        "id": "osha-1910-134",
+        "title": "29 CFR 1910.134 — Respiratory protection"
+      }
+    ]
+  },
+  "district": "Environmental Monitoring",
+  "domain": "Environmental",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "priority-first",
+        "name": "Priority First",
+        "note": "Worked the vulnerable-resident list in the order it was built"
+      },
+      {
+        "id": "never-unmasked",
+        "name": "Never Unmasked",
+        "note": "No resident or patrol member left without the mask this air required"
+      },
+      {
+        "id": "fit-true",
+        "name": "Fit True",
+        "note": "Every seal check and reading held inside its band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-shift",
+        "name": "Clean Shift",
+        "note": "No corrections across the whole shift"
+      },
+      {
+        "id": "steady-watch",
+        "name": "Steady Watch",
+        "note": "The oxygen-power check and the AQI watch both held without a break"
+      },
+      {
+        "id": "street-fast",
+        "name": "Street Worked Fast",
+        "note": "The household visit complete inside 80% of par"
+      }
+    ],
+    "currency": "AQI",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Outreach Trainee",
+      "Patrol Member",
+      "Patrol Lead",
+      "Shift Lead",
+      "Smoke Day Certified"
+    ],
+    "system": "Smoke Day Patrol"
+  },
+  "hazards": {
+    "patrol-no-respirator": "You kept working the street without your own mask on as the AQI climbed into the range that requires one. Cal/OSHA's wildfire smoke rule protects the patrol the same way this visit is protecting the resident — a patrol member who runs out the shift unmasked because the door-to-door work felt too urgent to pause for is the next call this programme has to make.",
+    "recirculate-skip": "You left the window cracked \"just for air\" on a day the AQI is deep into the unhealthy range. Outdoor air on a smoke day is the contamination this whole visit exists to keep out — a window left open, or a system left on fresh-air intake, undoes the box-fan filter and the closed windows in the same five minutes it takes to notice.",
+    "skip-n95": "You handed over an N95 without running the fit check at all. A mask that sits loose at the nose or the cheeks lets smoke-laden air in around the seal exactly the way an unmasked face does — handing one over unfit is handing over the feeling of protection without the protection itself.",
+    "unplug-concentrator": "You unplugged the resident's oxygen concentrator to free up an outlet for the box fan. A concentrator is not a convenience appliance with a spare minute of slack — for the person breathing off it, even a short unplanned interruption is a supply of oxygen that stops, and there is always another outlet before there is ever a reason to touch that one."
+  },
+  "id": "smoke-day-outreach",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "power-flicker",
+      "alert": "Mid-check, the resident says their oxygen concentrator's display just blinked off and back on — it's happened twice already this morning.",
+      "cue": "Get the concentrator onto a connection you've actually confirmed steady, now.",
+      "delay": 2,
+      "id": "oxygen-power-flicker",
+      "kind": "Life-support power concern",
+      "missNote": "The check moved on while the concentrator stayed on the same flickering connection. A power interruption to a working oxygen concentrator is not a paperwork problem — it is the thing this whole household visit was prioritised to prevent.",
+      "seconds": 12,
+      "target": "concentrator-outlet",
+      "why": "A concentrator that has already blinked twice this morning is not a one-time glitch to note for later — it is a failing connection actively serving someone's oxygen supply, and moving it to a confirmed outlet immediately is the only response that treats a repeat event as the warning it actually is.",
+      "wrongNote": "It's the confirmed outlet for the concentrator. Nothing else in this room actually gets it off the connection that keeps flickering."
+    },
+    {
+      "after": "aqi-watch",
+      "alert": "The AQI feed just crossed into the very-unhealthy band and is still climbing — the patrol has been working bare-faced between houses to talk more easily with residents.",
+      "cue": "Get the patrol's own respirators on before the next door.",
+      "delay": 2,
+      "id": "aqi-spike-midshift",
+      "kind": "Air quality deterioration",
+      "missNote": "The patrol kept working the street bare-faced after the AQI crossed into the very-unhealthy band. Protecting the households on this street was never supposed to come at the cost of the people doing the protecting.",
+      "seconds": 12,
+      "target": "patrol-respirator-box",
+      "why": "The rule that protects this patrol does not pause because the street is only half worked — Cal/OSHA's wildfire smoke rule sets the point at which the patrol's own masks stop being optional, and an AQI that just crossed it applies to the people doing the outreach exactly as much as it applies to the households they're visiting.",
+      "wrongNote": "The patrol's own respirator box. That's what actually gets the team masked for the air the AQI just confirmed."
+    }
+  ],
+  "lateNotes": {
+    "fan-filters": "There's no fan to build yet — the resident's own N95 has to be fit first; a resident coughing through an unfit mask is not a good assistant for building a filter.",
+    "hotline-card": "Nothing to leave behind yet — the filter has to actually be running and the windows set before the card means anything as a follow-up.",
+    "patrol-log": "Nothing to log yet — the hotline card is the last thing handed over before the visit is actually complete."
+  },
+  "name": "Smoke Day Outreach",
+  "parSeconds": 320,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "hunters-point-can-we-live"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "aqi-board",
+      "aqi-monitor",
+      "concentrator-outlet",
+      "concentrator-power",
+      "fan-dial",
+      "fan-filters",
+      "fan-power",
+      "fan-tape",
+      "fit-meter",
+      "front-door",
+      "hotline-card",
+      "house-asthma",
+      "house-general",
+      "house-oxygen",
+      "mask-box",
+      "n95-nose",
+      "n95-seal-check",
+      "n95-straps",
+      "patrol-log",
+      "patrol-no-respirator",
+      "patrol-respirator-box",
+      "recirculate-set",
+      "recirculate-skip",
+      "resident-hands",
+      "skip-n95",
+      "unplug-concentrator",
+      "windows-closed"
+    ],
+    "meshes": 151
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check today's reading from the community air-monitoring network before the patrol leaves the staging area.",
+      "id": "check-aqi",
+      "kind": "select",
+      "prompt": "Check today's reading from the community air-monitoring network before the patrol leaves the staging area.",
+      "target": "aqi-board",
+      "title": "Read the AQI from the network",
+      "why": "The AQI reading is what decides everything about how this shift runs — which households are worked first, whether N95s go on before the first knock, and at what number the patrol's own masks stop being optional. Reading it here, before the street, is what makes every decision after this one an informed one instead of a guess based on how the air smells."
+    },
+    {
+      "cue": "Visit the oxygen-dependent household first, then the household with a respiratory condition, then the general household.",
+      "id": "vulnerable-list",
+      "itemNames": {
+        "house-asthma": "household with a respiratory condition",
+        "house-general": "general household",
+        "house-oxygen": "oxygen-dependent household"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Oxygen-dependent first, then respiratory conditions, then the general household — working the easiest door first leaves the households most at risk waiting longest for the mask and the filter.",
+      "prompt": "Visit the oxygen-dependent household first, then the household with a respiratory condition, then the general household.",
+      "targets": [
+        "house-oxygen",
+        "house-asthma",
+        "house-general"
+      ],
+      "title": "Work the vulnerable-resident list in order",
+      "why": "A smoke day does not treat every household the same, and neither does this list — a resident on supplemental oxygen or with an existing respiratory condition is exposed to real harm in the time it takes a patrol to work down a street in whatever order is convenient, so the list is worked in the order the risk actually runs."
+    },
+    {
+      "cue": "Knock, greet the resident, and identify yourself as the community pollution patrol.",
+      "id": "approach-door",
+      "kind": "select",
+      "prompt": "Knock, greet the resident, and identify yourself as the community pollution patrol.",
+      "target": "front-door",
+      "title": "Knock and identify the patrol",
+      "why": "A resident opening the door to a stranger in a mask on a smoke day is already on edge — a clear, calm identification of who is at the door and why is what turns a knock into an invitation rather than something to be wary of."
+    },
+    {
+      "cue": "Bring an N95 from the patrol kit to the resident before stepping inside.",
+      "drag": {
+        "missNote": "Not actually into the resident's hands. A mask held out but not taken is a mask that isn't protecting anybody yet.",
+        "radius": 0.45,
+        "to": "resident-hands"
+      },
+      "id": "hand-mask",
+      "kind": "drag",
+      "prompt": "Bring an N95 from the patrol kit to the resident before stepping inside.",
+      "target": "mask-box",
+      "title": "Offer an N95 at the door",
+      "why": "The mask is offered at the doorstep, before anyone steps into a room that is likely already carrying some infiltrated smoke — a resident who has already been breathing that air for the length of the conversation has lost exactly the minutes the mask was supposed to save them."
+    },
+    {
+      "cue": "Pinch the nose clip, position both straps, then check the seal — in that order.",
+      "id": "n95-fit",
+      "itemNames": {
+        "n95-nose": "nose clip pinched",
+        "n95-seal-check": "seal checked",
+        "n95-straps": "straps positioned top and bottom"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Nose clip, then both straps, then the seal check — checking the seal before the straps are positioned tells you nothing about whether the mask will actually hold.",
+      "prompt": "Pinch the nose clip, position both straps, then check the seal — in that order.",
+      "targets": [
+        "n95-nose",
+        "n95-straps",
+        "n95-seal-check"
+      ],
+      "title": "Fit the N95 properly",
+      "why": "NIOSH's own fit guidance is exactly this sequence because each step only works if the one before it is already done — a seal check run before the straps are actually seated just confirms that a loose mask is loose, and the nose clip pinched last leaves a gap the straps were never going to close on their own."
+    },
+    {
+      "cue": "Cup both hands over the mask, exhale, and commit the reading once the seal shows tight.",
+      "gauge": {
+        "green": [
+          0.55,
+          0.85
+        ],
+        "label": "SEAL PRESSURE",
+        "missNote": "That reading isn't a good seal — air leaking around the edge of an N95 is air that never went through the filter media at all.",
+        "speed": 0.7
+      },
+      "id": "seal-gauge",
+      "kind": "gauge",
+      "prompt": "Cup both hands over the mask, exhale, and commit the reading once the seal shows tight.",
+      "target": "fit-meter",
+      "title": "Read the fit-check meter",
+      "why": "A positive-pressure check is the difference between a mask that looks right and a mask that is actually sealed — a resident who has never worn one before will not know the difference on their own, which is exactly why the patrol reads the meter rather than taking their word for how it feels."
+    },
+    {
+      "cue": "Attach a filter to each side of the box fan, tape the edges, then power it on — with the resident doing as much of it as they're able to.",
+      "id": "fan-build",
+      "itemNames": {
+        "fan-filters": "filters attached to all four sides",
+        "fan-power": "fan powered on",
+        "fan-tape": "edges taped"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Filters on all four sides, then taped, then powered on — running the fan before the filters are actually sealed to the frame pulls smoke straight through the gaps instead of through the media.",
+      "prompt": "Attach a filter to each side of the box fan, tape the edges, then power it on — with the resident doing as much of it as they're able to.",
+      "targets": [
+        "fan-filters",
+        "fan-tape",
+        "fan-power"
+      ],
+      "title": "Build the box-fan filter with the resident",
+      "why": "The filter is built with the resident, not for them, because they are the one who is going to be replacing these filters and running this fan long after the patrol has moved to the next house — a box-fan filter nobody but the patrol knows how to rebuild stops working the first time a filter clogs."
+    },
+    {
+      "cue": "Turn the fan's speed dial up to the setting that actually moves air through a taped filter.",
+      "id": "fan-speed",
+      "kind": "turn",
+      "prompt": "Turn the fan's speed dial up to the setting that actually moves air through a taped filter.",
+      "target": "fan-dial",
+      "title": "Set the fan to its working speed",
+      "turn": {
+        "axis": "y",
+        "label": "FAN SPEED",
+        "turns": 0.6
+      },
+      "why": "A box-fan filter run on its lowest setting to keep the noise down barely turns the room's air over — the speed has to be high enough to actually filter a useful volume of air, which is a trade-off worth explaining rather than leaving the resident to quietly turn back down after the patrol leaves."
+    },
+    {
+      "cue": "Close the windows first, then set the room's air system to recirculate rather than fresh-air intake.",
+      "id": "windows-recirc",
+      "itemNames": {
+        "recirculate-set": "system set to recirculate",
+        "windows-closed": "windows closed"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Windows first, then recirculate — setting the system before the windows are shut still leaves the most direct path for smoke to come straight through an open sash.",
+      "prompt": "Close the windows first, then set the room's air system to recirculate rather than fresh-air intake.",
+      "targets": [
+        "windows-closed",
+        "recirculate-set"
+      ],
+      "title": "Close the windows and set recirculate",
+      "why": "Closing the windows and setting recirculate both do the same job from two different directions — one keeps outdoor smoke from coming in through a gap, the other keeps a fresh-air intake from pulling it in through the vents — and neither one alone is the whole answer on a day this smoky."
+    },
+    {
+      "cue": "Hold the power strip connection steady while the resident's oxygen concentrator is checked.",
+      "holdBreakNote": "The connection was let go before it was actually confirmed steady — a power strip that flickers once under load will flicker again, on its own schedule, once the patrol has moved on.",
+      "id": "power-flicker",
+      "kind": "hold",
+      "prompt": "Hold the power strip connection steady while the resident's oxygen concentrator is checked.",
+      "seconds": 5,
+      "target": "concentrator-power",
+      "title": "Steady the oxygen concentrator's power",
+      "why": "An oxygen-dependent household is the first stop on this list for a reason, and a power connection that has been flickering under the load of a smoke-day's extra appliances is exactly the kind of quiet failure that does not announce itself until the concentrator has already gone down — holding it steady while it's checked is what catches a bad connection before it becomes an emergency."
+    },
+    {
+      "cue": "Hand the resident the smoke-day hotline and resource card before leaving.",
+      "id": "hotline-card",
+      "kind": "select",
+      "prompt": "Hand the resident the smoke-day hotline and resource card before leaving.",
+      "target": "hotline-card",
+      "title": "Leave the hotline card",
+      "why": "The patrol will not be back at this door again today, and the hotline card is what the resident has for everything that happens after — a filter that clogs, a question about symptoms, or simply wanting to know when the air is expected to clear."
+    },
+    {
+      "cue": "Keep an eye on the live AQI feed for a band creep while the visit continues.",
+      "holdBreakNote": "The AQI feed drifted unwatched for a stretch — a band this station is meant to catch a creep in does not do its job if nobody is actually looking at it.",
+      "id": "aqi-watch",
+      "kind": "track",
+      "prompt": "Keep an eye on the live AQI feed for a band creep while the visit continues.",
+      "seconds": 7,
+      "target": "aqi-monitor",
+      "title": "Watch the AQI feed through the visit",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.4,
+        "green": [
+          0.1,
+          0.55
+        ],
+        "label": "AQI TREND",
+        "rise": 0.55,
+        "start": 0.3
+      },
+      "why": "A wildfire smoke event does not hold steady for the length of a patrol's shift, and a feed nobody is watching can cross the very-unhealthy threshold between one doorstep and the next without anyone noticing until the patrol is already well past the point their own masks should have gone on."
+    },
+    {
+      "cue": "Record the household, the mask fit, the filter build and the AQI at the time of the visit.",
+      "id": "log-visit",
+      "kind": "select",
+      "prompt": "Record the household, the mask fit, the filter build and the AQI at the time of the visit.",
+      "target": "patrol-log",
+      "title": "Log the household visit",
+      "why": "Tomorrow's patrol works from today's log, not today's memory — a household already visited and fitted does not need to be worked again from scratch, and one flagged with a concern the patrol noticed gets picked up faster the second time."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "The AQI read before the first knock, the vulnerable-resident list worked first, N95s actually fit, a box-fan filter built with the resident, windows and recirculate set, the hotline card left behind, and the patrol's own masks on when the air demands it",
+  "title": "SmartCiti.X~ Smoke Day Outreach VR",
+  "trade": "Community pollution patrol lead",
+  "underwater": null,
+  "weather": "smoke"
+}

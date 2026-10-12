@@ -1,0 +1,415 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "not-a-drop",
+    "name": "Not a Drop",
+    "note": "A transfer with the deck contained before the hose, every bolt in, a slow start, and topping off at the reduced rate — first time"
+  },
+  "category": "Maritime & Ports",
+  "certification": "MEBA / SIU / MM&P — USCG 33 CFR 155.710 person in charge of oil transfer; 33 CFR 156.150 declaration of inspection; MARPOL Annex VI bunker delivery note and sample (Reg. 18); ISGOTT ship/barge bunkering checklist; STCW A-VI/1",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "IMO",
+        "citedAs": "MARPOL",
+        "id": "imo-marpol",
+        "title": "MARPOL — International Convention for the Prevention of Pollution from Ships"
+      },
+      {
+        "body": "IMO",
+        "citedAs": "SOLAS",
+        "id": "imo-solas",
+        "title": "SOLAS — International Convention for the Safety of Life at Sea"
+      },
+      {
+        "body": "IMO",
+        "citedAs": "STCW",
+        "id": "imo-stcw",
+        "title": "STCW — Convention on Standards of Training, Certification and Watchkeeping for Seafarers"
+      },
+      {
+        "body": "union",
+        "citedAs": "MEBA",
+        "id": "meba-calhoon-school",
+        "title": "MEBA — the Calhoon MEBA Engineering School's licensed marine engineer training"
+      },
+      {
+        "body": "union",
+        "citedAs": "SIU",
+        "id": "siu-paul-hall-center",
+        "title": "SIU — the Paul Hall Center for Maritime Training and Education's unlicensed mariner programmes"
+      },
+      {
+        "body": "USCG",
+        "citedAs": "33 CFR 155.710",
+        "id": "uscg-33-cfr-155-710",
+        "title": "33 CFR 155.710 — Duties and qualifications of the person in charge of an oil transfer"
+      },
+      {
+        "body": "USCG",
+        "citedAs": "33 CFR 156.150",
+        "id": "uscg-33-cfr-156-150",
+        "title": "33 CFR 156.150 — Declaration of inspection before an oil transfer"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Maritime & Ports",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "deck-contained",
+        "name": "Deck Contained",
+        "note": "Scuppers, tray and kit set before the hose came aboard, first time"
+      },
+      {
+        "id": "no-spill",
+        "name": "No Spill",
+        "note": "Never started uncontained, never topped off at full rate, never a phone on the tank deck"
+      },
+      {
+        "id": "sounded-true",
+        "name": "Sounded True",
+        "note": "Sounding and topping rate both inside the band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-transfer",
+        "name": "Clean Transfer",
+        "note": "No corrections anywhere in the transfer"
+      },
+      {
+        "id": "slow-start-held",
+        "name": "Slow Start Held",
+        "note": "Initial rate held low the whole walk-round"
+      },
+      {
+        "id": "bunkered-fast",
+        "name": "Bunkered In Time",
+        "note": "Transfer complete inside 80% of par"
+      }
+    ],
+    "currency": "TONNE",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Wiper",
+      "Oiler",
+      "Third Engineer",
+      "Second Engineer",
+      "Chief Engineer Certified"
+    ],
+    "system": "Engine Department"
+  },
+  "hazards": {
+    "no-doi": "You started pumping because the barge said 'go'. The declaration of inspection is the two persons in charge agreeing on the tanks, the quantity, the rate, the signals and the stop — without it, nobody has agreed on anything.",
+    "phone-on-deck": "You used a phone on the tank deck during transfer. Vents are breathing fuel vapour a few metres from you, and SOLAS's own restrictions on ignition sources in a hazardous zone are why only intrinsically safe equipment — nothing else — is allowed there while bunkering.",
+    "start-uncontained": "You started the transfer with a scupper open. The first thing a hose does when a flange weeps is put oil on the deck, and an open scupper puts that oil in the harbour: a reportable spill, a detained ship and a cleanup bill by the tonne.",
+    "topping-full-rate": "You topped off at full rate. A tank that is 90 percent full takes two minutes to overflow at the transfer rate; the vent goes first, then the deck, then the water. Topping off is done slow, sounding every minute."
+  },
+  "id": "bunkering-watch",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "start",
+      "alert": "A passing tug's wake has rolled the barge against its fenders and snapped the hose taut. The flange took a lateral jolt hard enough to feel through the deck.",
+      "cue": "Recheck the flange before the rate comes up any further.",
+      "delay": 3,
+      "id": "wake-surge",
+      "kind": "Vessel wake against the barge",
+      "missNote": "The rate came up on schedule without anyone laying a hand back on the flange after the surge. It had started weeping at the six o'clock bolt, low and slow, right where the tray does not quite reach.",
+      "seconds": 12,
+      "target": "hose-flange",
+      "why": "A bolted flange holding steady at rest can still shift under a sudden lateral load, and a joint that was dry a minute ago can start weeping the moment the gasket takes an uneven bite. This is exactly what the slow-rate walk-round exists to catch, and a surge is a reason to look again, not a reason to keep walking past it.",
+      "wrongNote": "It is the hose flange. A jolt like that is checked by hand before the rate goes any higher, not assumed fine because nothing sprayed."
+    },
+    {
+      "after": "topping",
+      "alert": "The bridge is on the radio: lightning has been sighted closing on the anchorage, inside the distance ISGOTT and the vessel's own SOLAS-based procedures call a stop at.",
+      "cue": "Fuel vapour is venting a few metres from you. Hit the stop before the storm is overhead, not after.",
+      "delay": 3,
+      "id": "lightning-approach",
+      "kind": "Electrical storm approaching",
+      "missNote": "The transfer kept running through the approaching storm with vapour still venting off the ullage. Static discharge from a near strike is exactly the ignition source a fuel transfer cannot absorb, and nobody had a hand near the stop when it mattered.",
+      "seconds": 13,
+      "target": "estop-test",
+      "why": "A near strike does not have to hit the ship to ignite vapour venting off an open tank during transfer — induced static in the rigging and the ullage gear is enough, and ISGOTT's stop distance exists because that risk starts well before the first bolt of lightning is actually overhead.",
+      "wrongNote": "It is the emergency stop. A storm inside the ISGOTT distance stops the transfer first and asks questions once it has passed."
+    }
+  ],
+  "lateNotes": {
+    "manifold-wheel": "The manifold is closed at the end of the transfer, after the barge has stopped and the line has been blown — not while the pump is running.",
+    "topping-rate": "Topping off comes when the sounding says the tank is near full — not before, and never at the full rate.",
+    "transfer-rate": "The transfer starts only after the DOI is signed, the deck is contained, the hose is bolted all round and the emergency stop is proven."
+  },
+  "name": "Bunkering Watch",
+  "parSeconds": 270,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "port-operations",
+    "ports-maritime-ecology"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "blank-off",
+      "bolt-all",
+      "bunker-plan",
+      "doi-form",
+      "drip-sample",
+      "drip-tray",
+      "estop-test",
+      "hose-flange",
+      "manifold-valve",
+      "manifold-wheel",
+      "no-doi",
+      "phone-on-deck",
+      "radio-test",
+      "scupper--0.8",
+      "scupper-0.8",
+      "scupper-2.2",
+      "scupper-open",
+      "scupper-plugs",
+      "seal-sample",
+      "sign-bdn",
+      "sopep-kit",
+      "sounding-tape",
+      "start-uncontained",
+      "tank-valve",
+      "topping-full-rate",
+      "topping-rate",
+      "transfer-rate"
+    ],
+    "meshes": 167
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "find",
+    "gauge",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check the tanks, the quantity, the rate, the sequence and the ullages.",
+      "id": "plan",
+      "kind": "select",
+      "prompt": "Check the tanks, the quantity, the rate, the sequence and the ullages.",
+      "target": "bunker-plan",
+      "title": "Read the bunker plan",
+      "why": "The plan is how much goes where and in what order so the ship stays in trim and no tank is filled past 90 percent. Everything the barge does is measured against it."
+    },
+    {
+      "cue": "Go through the DOI with the barge person in charge and both sign it.",
+      "id": "doi",
+      "kind": "select",
+      "prompt": "Go through the DOI with the barge person in charge and both sign it.",
+      "target": "doi-form",
+      "title": "Sign the declaration of inspection",
+      "why": "The DOI is the law's checklist: both persons in charge confirm the hose, the connections, the comms, the signals, the emergency stop and the quantity before a drop moves. It is signed, not assumed."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Plug every scupper, set the drip tray under the manifold, and stage the SOPEP spill kit — before the hose comes aboard.",
+      "id": "containment",
+      "itemNames": {
+        "drip-tray": "manifold drip tray",
+        "scupper-plugs": "scupper plugs",
+        "sopep-kit": "SOPEP kit staged"
+      },
+      "kind": "sequence",
+      "prompt": "Plug every scupper, set the drip tray under the manifold, and stage the SOPEP spill kit — before the hose comes aboard.",
+      "targets": [
+        "scupper-plugs",
+        "drip-tray",
+        "sopep-kit"
+      ],
+      "title": "Contain the deck",
+      "why": "The deck is the containment. Plugged scuppers keep a spill on board; the tray takes the drips a flange always makes; the kit is what turns a spill into a mop-up instead of a report."
+    },
+    {
+      "cue": "Land the hose flange on the manifold with a new gasket, fill every bolt hole, and blank the unused manifold connection.",
+      "id": "hose",
+      "itemNames": {
+        "blank-off": "unused manifold blanked",
+        "bolt-all": "every bolt hole filled",
+        "hose-flange": "hose flange landed"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Flange landed, then every bolt, then the blank — the connection is made before the branch is closed off.",
+      "prompt": "Land the hose flange on the manifold with a new gasket, fill every bolt hole, and blank the unused manifold connection.",
+      "targets": [
+        "hose-flange",
+        "bolt-all",
+        "blank-off"
+      ],
+      "title": "Connect the hose",
+      "why": "Half the bolts hold a flange until the pump surges. The unused manifold is blanked because a valve is not a blank, and a valve left cracked open on an unblanked branch is a spill nobody sees start."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Radio check with the barge on the agreed channel, and test the emergency stop signal end to end.",
+      "id": "comms",
+      "itemNames": {
+        "estop-test": "emergency stop tested",
+        "radio-test": "radio check with the barge"
+      },
+      "kind": "sequence",
+      "prompt": "Radio check with the barge on the agreed channel, and test the emergency stop signal end to end.",
+      "targets": [
+        "radio-test",
+        "estop-test"
+      ],
+      "title": "Prove comms and the emergency stop",
+      "why": "The one thing that must work during a transfer is 'stop'. It is tested before the pump starts, because testing it after is a spill."
+    },
+    {
+      "cue": "Open the receiving tank's filling valve first, then the manifold valve last.",
+      "id": "lineup",
+      "itemNames": {
+        "manifold-valve": "manifold valve",
+        "tank-valve": "receiving tank valve"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Tank valve first, manifold last — the destination is open before the source.",
+      "prompt": "Open the receiving tank's filling valve first, then the manifold valve last.",
+      "targets": [
+        "tank-valve",
+        "manifold-valve"
+      ],
+      "title": "Line up tank-first",
+      "why": "The line is opened from the tank back to the manifold so there is always somewhere for the oil to go. A manifold opened onto a closed tank valve is a hose at pump pressure with no outlet."
+    },
+    {
+      "cue": "Signal the barge to start at minimum rate and hold it there while the hose, the flange and the deck are walked for leaks.",
+      "holdBreakNote": "Rate out of band during the walk-round — bring it back to minimum and hold.",
+      "id": "start",
+      "kind": "track",
+      "prompt": "Signal the barge to start at minimum rate and hold it there while the hose, the flange and the deck are walked for leaks.",
+      "seconds": 6,
+      "target": "transfer-rate",
+      "title": "Slow start and walk the deck",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.5,
+        "green": [
+          0.28,
+          0.48
+        ],
+        "label": "RATE",
+        "rise": 0.6,
+        "start": 0.1
+      },
+      "why": "The first minutes are at a rate a drip tray can hold. The full rate is agreed only after the whole line has been seen under pressure and is dry."
+    },
+    {
+      "cue": "Sound the receiving tank and commit when the reading matches the plan's expected level.",
+      "gauge": {
+        "green": [
+          0.5,
+          0.62
+        ],
+        "label": "TANK LEVEL",
+        "missNote": "Sounding does not match the plan — stop the transfer and investigate before the next tonne.",
+        "speed": 0.7
+      },
+      "id": "sounding",
+      "kind": "gauge",
+      "prompt": "Sound the receiving tank and commit when the reading matches the plan's expected level.",
+      "target": "sounding-tape",
+      "title": "Take a sounding",
+      "why": "The barge's meter is the barge's number. The ship's number is the sounding, taken by hand, and the two are compared every fifteen minutes. A sounding that does not match the plan is a stop."
+    },
+    {
+      "cue": "At 85 percent, signal the barge to reduce, and commit at the topping-off rate.",
+      "gauge": {
+        "green": [
+          0.2,
+          0.36
+        ],
+        "label": "TOPPING RATE",
+        "missNote": "Too fast to top off — reduce further before the tank gets ahead of the soundings.",
+        "speed": 0.75
+      },
+      "id": "topping",
+      "kind": "gauge",
+      "prompt": "At 85 percent, signal the barge to reduce, and commit at the topping-off rate.",
+      "target": "topping-rate",
+      "title": "Top off at reduced rate",
+      "why": "Topping off is the overflow hazard. The rate comes down so a sounding every minute stays ahead of the tank, and the tank stops at 90 percent, never full."
+    },
+    {
+      "cue": "After the barge stops and blows the line, close the manifold valve.",
+      "id": "close",
+      "kind": "turn",
+      "prompt": "After the barge stops and blows the line, close the manifold valve.",
+      "target": "manifold-wheel",
+      "title": "Close the manifold",
+      "turn": {
+        "axis": "y",
+        "label": "MANIFOLD",
+        "turns": 1
+      },
+      "why": "The line is blown clear before the manifold closes so the hose is drained back to the barge and not onto the deck at disconnection."
+    },
+    {
+      "cue": "Take the continuous drip sample from the manifold cock, seal and label it with both signatures, then sign the bunker delivery note.",
+      "id": "sample",
+      "itemNames": {
+        "drip-sample": "continuous drip sample",
+        "seal-sample": "sample sealed and labelled",
+        "sign-bdn": "bunker delivery note signed"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Sample, then seal, then sign — the sample is secured before the paperwork closes the transfer.",
+      "prompt": "Take the continuous drip sample from the manifold cock, seal and label it with both signatures, then sign the bunker delivery note.",
+      "targets": [
+        "drip-sample",
+        "seal-sample",
+        "sign-bdn"
+      ],
+      "title": "Seal the sample and sign the BDN",
+      "why": "The MARPOL sample — required under an IMO convention every flag state has signed onto — is the ship's evidence of what it was sold; the BDN is the receipt. Both are kept aboard for a year and inspected at the next port."
+    },
+    {
+      "cue": "Check every scupper, the tray and the flange, and click what is not as it was set.",
+      "id": "walk",
+      "itemNames": {
+        "scupper-open": "dislodged scupper plug"
+      },
+      "itemNotes": {
+        "scupper-open": "One scupper plug has been knocked out — the deck was open to the harbour for the last part of the transfer."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Check every scupper, the tray and the flange, and click what is not as it was set.",
+      "targets": [
+        "scupper-open"
+      ],
+      "title": "Walk the deck before the hose comes off",
+      "why": "The disconnection is the last chance to spill. The deck is walked again before the flange is broken, because a plug that walked out during the transfer is found now or on the water."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Fuel-oil transfer: plan and signed DOI, scuppers plugged and drip tray and SOPEP kit set, flange bolted all round, radio and emergency stop tested, line-up tank-first, slow start, soundings, topping off at reduced rate, manifold closed, sample sealed, BDN signed",
+  "title": "SmartCiti.X~ Bunkering Watch VR",
+  "trade": "Marine engineer — person in charge of oil transfer",
+  "underwater": null,
+  "weather": "overcast"
+}

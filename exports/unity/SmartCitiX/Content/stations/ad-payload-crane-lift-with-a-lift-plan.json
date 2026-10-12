@@ -1,0 +1,417 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "one-voice",
+    "name": "One Voice",
+    "note": "Briefed the lift plan, inspected the rigging, made the trial lift and moved only on the designated signal"
+  },
+  "category": "Manufacturing & Automation",
+  "certification": "IAM and UAW rigging and assembly training as bodies; ASME B30.2 overhead and gantry cranes and ASME B30.16 overhead underhung and monorail hoists; OSHA 29 CFR 1910.132 personal protective equipment and 29 CFR 1910.147 the control of hazardous energy; the site's written lift plan and the manufacturer's manual",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ASME",
+        "citedAs": "ASME B30.16",
+        "id": "asme-b30-16",
+        "title": "ASME B30.16 — Overhead underhung and stationary hoists"
+      },
+      {
+        "body": "ASME",
+        "citedAs": "ASME B30.2",
+        "id": "asme-b30-2",
+        "title": "ASME B30.2 — Overhead and gantry cranes (top running bridge, single or multiple girder, top running trolley hoist)"
+      },
+      {
+        "body": "union",
+        "citedAs": "IAM",
+        "id": "iam-winpisinger-center",
+        "title": "IAM — the William W. Winpisinger Education and Technology Center's machinist and transportation training"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.132",
+        "id": "osha-1910-132",
+        "title": "29 CFR 1910.132 — Personal protective equipment, general requirements"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      },
+      {
+        "body": "union",
+        "citedAs": "UAW",
+        "id": "uaw-training",
+        "title": "UAW joint apprenticeship and skilled-trades training for manufacturing and automation work"
+      }
+    ]
+  },
+  "district": "aerospace-depot",
+  "domain": "Aerospace",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "trial-first",
+        "name": "Trial First",
+        "note": "Made the trial lift before the travel"
+      },
+      {
+        "id": "path-kept",
+        "name": "Path Kept",
+        "note": "Never travelled the load over a person"
+      },
+      {
+        "id": "smooth-travel",
+        "name": "Smooth Travel",
+        "note": "Held the travel speed near band centre"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "quick-lift",
+        "name": "Inside Par",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "clean-lift",
+        "name": "Clean Shift",
+        "note": "Clean run, no corrections"
+      }
+    ],
+    "currency": "LIFT",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Tag-line Hand",
+      "Rigger",
+      "Signal Person",
+      "Lift Director",
+      "One Voice Certified"
+    ],
+    "system": "One Voice"
+  },
+  "hazards": {
+    "side-pull-hazard": "That drags the payload sideways with the hook off plumb. A side pull swings the load when it leaves the stand and puts forces on the crane it was never meant to take.",
+    "skip-inspection-hazard": "That rigs the sling without inspecting it because it was fine last week. Slings are damaged by the lifts between inspections, and a cut or crushed sling looks fine until it is loaded.",
+    "two-signals-hazard": "That takes a signal from the technician on the far side as well as from the designated signal person. Two voices giving signals is how a crane ends up moving two ways at once; only the stop is anybody's to give.",
+    "under-load-hazard": "That walks under the suspended payload to adjust a tag line. Nothing about a lift plan makes it safe to be under a load; rigging, hooks and brakes can all fail, and the person under the load has no time to move."
+  },
+  "id": "ad-payload-crane-lift-with-a-lift-plan",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "travel-speed",
+      "alert": "The payload has started to swing toward the cleanroom wall during the travel.",
+      "cue": "Call a stop and hit the crane stop now.",
+      "delay": 4,
+      "id": "load-swings",
+      "kind": "Load swing",
+      "missNote": "The crane kept travelling with the load swinging. A swing is settled by stopping, not by travelling faster to outrun it.",
+      "seconds": 11,
+      "target": "crane-stop",
+      "why": "A swinging load stores energy that only grows as the crane keeps travelling, and stopping the crane lets the tag-line hands settle it before it reaches the wall, the bench or a person.",
+      "wrongNote": "Not that — the swinging load is answered with the stop, first."
+    },
+    {
+      "after": "set-down-hold",
+      "alert": "A technician is walking into the travel path under the next leg of the move.",
+      "cue": "Have the signal person hold the crane until the path is clear.",
+      "delay": 4,
+      "id": "walker-in-path",
+      "kind": "Path breach",
+      "missNote": "Nobody held the crane while a person walked into the path. The next leg would have carried the load over them.",
+      "seconds": 11,
+      "target": "signal-person",
+      "why": "The travel path is kept clear for the whole move, and the signal person is the one who holds the crane and clears the path, because only one voice should be telling the operator what happens next.",
+      "wrongNote": "That isn't it — the person in the travel path is what needs clearing first."
+    }
+  ],
+  "lateNotes": {
+    "signal-person": "The signal person is named in the brief, and only that person signals the crane.",
+    "sling-tag": "The sling's tag and body are inspected before it is rigged, every lift."
+  },
+  "name": "Payload Crane Lift with a Lift Plan",
+  "parSeconds": 320,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "aerospace-defense-and-robotics"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "cleanRoomBay",
+        "count": 1,
+        "kit": "equipment"
+      }
+    ],
+    "error": null,
+    "footprint": 2.9,
+    "hits": [
+      "cart-in-path",
+      "cleanroom-gown-cr",
+      "crane-stop",
+      "damaged-sling",
+      "gloves-cr",
+      "good-sling",
+      "hard-hat-cr",
+      "hook-latch",
+      "hook-up",
+      "lift-log",
+      "lift-plan",
+      "load-dock",
+      "lower-control",
+      "path-marking",
+      "pendant-cr",
+      "plumb-meter",
+      "side-pull-hazard",
+      "signal-person",
+      "skip-inspection-hazard",
+      "slack-check",
+      "sling-off",
+      "sling-tag",
+      "tag-line-cr",
+      "travel-meter",
+      "trial-lift",
+      "two-signals-hazard",
+      "under-load-hazard"
+    ],
+    "meshes": 197
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track"
+  ],
+  "steps": [
+    {
+      "anyOrder": true,
+      "cue": "Cleanroom gown, a bump cap under the hood and rigging gloves over the cleanroom gloves.",
+      "id": "ppe",
+      "itemNames": {
+        "cleanroom-gown-cr": "cleanroom gown",
+        "gloves-cr": "rigging gloves over cleanroom gloves",
+        "hard-hat-cr": "bump cap under the hood"
+      },
+      "kind": "sequence",
+      "prompt": "Cleanroom gown, a bump cap under the hood and rigging gloves over the cleanroom gloves.",
+      "targets": [
+        "hard-hat-cr",
+        "gloves-cr",
+        "cleanroom-gown-cr"
+      ],
+      "title": "Gown and suit up for the lift",
+      "why": "A lift in a cleanroom needs both the room's contamination control and the rigging crew's protection, and wearing rigging gloves over the cleanroom gloves keeps the payload clean while still protecting hands from sling edges and pinch points."
+    },
+    {
+      "cue": "Walk the crew through the lift plan: load, rigging, path, signals and stop.",
+      "id": "brief",
+      "kind": "select",
+      "prompt": "Walk the crew through the lift plan: load, rigging, path, signals and stop.",
+      "target": "lift-plan",
+      "title": "Brief the lift plan",
+      "why": "The lift plan is where the weight, the rigging, the crane's capacity and the travel path were worked out in advance, and briefing it means every person on the lift knows their job and knows that any of them can call stop."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Inspect the sling's tag and body, the hook latch and the pendant functions.",
+      "id": "inspect",
+      "itemNames": {
+        "hook-latch": "hook latch closes",
+        "pendant-cr": "pendant functions checked",
+        "sling-tag": "sling tag and body inspected"
+      },
+      "kind": "sequence",
+      "prompt": "Inspect the sling's tag and body, the hook latch and the pendant functions.",
+      "targets": [
+        "sling-tag",
+        "hook-latch",
+        "pendant-cr"
+      ],
+      "title": "Inspect crane and rigging",
+      "why": "The pre-use inspection is what catches the sling that was cut on the last lift, the latch that no longer closes and the pendant button that sticks, each of which is invisible until it matters and each of which the lift plan assumed was fine."
+    },
+    {
+      "cue": "Confirm the one designated signal person before the hook moves.",
+      "id": "name-signal",
+      "kind": "select",
+      "prompt": "Confirm the one designated signal person before the hook moves.",
+      "target": "signal-person",
+      "title": "Name the signal person",
+      "why": "One designated signal person means the operator follows one voice, and naming them out loud before the lift removes the confusion that comes from two helpful people giving two different signals."
+    },
+    {
+      "cue": "Read the plumb check and commit only when the hook is over the load's centre.",
+      "gauge": {
+        "green": [
+          0.44,
+          0.62
+        ],
+        "label": "HOOK PLUMB",
+        "missNote": "Not plumb — reposition the crane over the load's centre before taking the weight.",
+        "speed": 0.6
+      },
+      "id": "plumb-check",
+      "kind": "gauge",
+      "prompt": "Read the plumb check and commit only when the hook is over the load's centre.",
+      "target": "plumb-meter",
+      "title": "Check the hook is plumb",
+      "why": "A hook that is not over the load's centre of gravity tilts or swings the payload the moment it leaves the stand, and checking plumb before taking the weight is how that swing is prevented instead of reacted to."
+    },
+    {
+      "cue": "Carry the tag line to the payload fixture and clip it on.",
+      "drag": {
+        "missNote": "Not attached — clip the tag line to the payload fixture before the trial lift.",
+        "radius": 0.4,
+        "to": "load-dock"
+      },
+      "id": "rig-tagline",
+      "kind": "drag",
+      "prompt": "Carry the tag line to the payload fixture and clip it on.",
+      "target": "tag-line-cr",
+      "title": "Attach the tag line",
+      "why": "The tag line lets a hand control the payload's rotation from outside the fall zone, which is what keeps people from reaching for a swinging load with their hands."
+    },
+    {
+      "cue": "On the signal, lift the payload just clear of the stand and hold.",
+      "id": "trial-go",
+      "kind": "select",
+      "prompt": "On the signal, lift the payload just clear of the stand and hold.",
+      "target": "trial-lift",
+      "title": "Make the trial lift",
+      "why": "The trial lift takes the weight just clear of the stand and holds it, so the rigging, the balance and the hoist brake are proven while the load is only a hand's width off its support, not over the floor."
+    },
+    {
+      "cue": "Keep the crane's travel inside the band on the signal person's direction.",
+      "holdBreakNote": "The travel left the band. Bring it back before the load swings.",
+      "id": "travel-speed",
+      "kind": "track",
+      "prompt": "Keep the crane's travel inside the band on the signal person's direction.",
+      "seconds": 8,
+      "target": "travel-meter",
+      "title": "Travel the payload",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.45,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "TRAVEL",
+        "rise": 0.4,
+        "start": 0.5
+      },
+      "why": "Smooth, slow travel is what keeps the payload from swinging, and holding the speed inside the band means the tag-line hands can keep up and the load arrives at the set-down stand under control."
+    },
+    {
+      "cue": "Look along the rack for the rigging that must not be used again.",
+      "decoyNotes": {
+        "good-sling": "A sling with its tag legible and its body intact. Nothing to flag there."
+      },
+      "id": "find-damage",
+      "itemNames": {
+        "damaged-sling": "cut sling on the rack"
+      },
+      "itemNotes": {
+        "damaged-sling": "A cut sling is removed from service and tagged so it cannot be picked up for the next lift."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look along the rack for the rigging that must not be used again.",
+      "targets": [
+        "damaged-sling"
+      ],
+      "title": "Find the damaged rigging",
+      "why": "Damaged rigging left on the rack is the next lift's failure, and taking it out of service with a tag now means nobody picks it up in a hurry because it was the nearest one."
+    },
+    {
+      "cue": "Hold the lower control for a slow set-down onto the stand.",
+      "holdBreakNote": "Released the lower early. Hold it for a slow, controlled set-down.",
+      "id": "set-down-hold",
+      "kind": "hold",
+      "prompt": "Hold the lower control for a slow set-down onto the stand.",
+      "seconds": 5,
+      "target": "lower-control",
+      "title": "Lower onto the stand",
+      "why": "The set-down is where fingers and feet get caught and where a payload can be jolted, and a slow, held lower lets the crew guide it onto the stand without anybody's hand between the load and the support."
+    },
+    {
+      "cue": "Confirm the payload is fully on the stand before slackening the rigging.",
+      "id": "slack-rigging",
+      "kind": "select",
+      "prompt": "Confirm the payload is fully on the stand before slackening the rigging.",
+      "target": "slack-check",
+      "title": "Confirm the load is supported",
+      "why": "The rigging is only slackened once the stand is carrying the load, because unhooking a payload that is still partly on the sling can let it shift or tip on the stand."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Remove the sling and raise the hook clear.",
+      "id": "unrig",
+      "itemNames": {
+        "hook-up": "hook raised clear",
+        "sling-off": "sling removed"
+      },
+      "kind": "sequence",
+      "prompt": "Remove the sling and raise the hook clear.",
+      "targets": [
+        "sling-off",
+        "hook-up"
+      ],
+      "title": "Unrig and clear the hook",
+      "why": "The hook is raised clear so nobody walks into it and so the crane can be parked, and the sling comes off by hand only once the load is supported and the operator has stopped."
+    },
+    {
+      "cue": "Before you leave, find what is blocking the next lift's path.",
+      "decoyNotes": {
+        "path-marking": "A travel-path marking, clear. Nothing to flag there."
+      },
+      "id": "find-obstruction",
+      "itemNames": {
+        "cart-in-path": "cart parked in the travel path"
+      },
+      "itemNotes": {
+        "cart-in-path": "A cart left in the travel path is moved and the path marking restored for the next lift."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Before you leave, find what is blocking the next lift's path.",
+      "targets": [
+        "cart-in-path"
+      ],
+      "title": "Walk the path",
+      "why": "The next lift's plan will assume the path is clear, and a cart parked in it now is the obstruction that forces a crew to improvise under a suspended load later."
+    },
+    {
+      "cue": "Log the lift, the tagged sling and the path issue.",
+      "id": "closeout",
+      "kind": "select",
+      "prompt": "Log the lift, the tagged sling and the path issue.",
+      "target": "lift-log",
+      "title": "Log the lift",
+      "why": "The lift log is how the site sees which rigging keeps getting damaged and which paths keep getting blocked, and a lift that is not logged leaves the next plan written on assumptions."
+    }
+  ],
+  "supportLine": "your IAM or UAW local's member assistance programme, or the site's employee assistance line if a close call under a load is what stayed with you",
+  "tagline": "A sensitive payload moved by overhead crane the way a lift plan intends: the plan read and briefed, the crane and rigging inspected, one designated signal person, a trial lift a hand's width off the stand, tag lines and a clear path, and a stop called by anyone the moment something looks wrong",
+  "title": "SmartCiti.X~ Payload Crane Lift with a Lift Plan VR",
+  "trade": "Rigger and crane operator, payload lift in a cleanroom — IAM/UAW",
+  "underwater": null,
+  "weather": "overcast"
+}

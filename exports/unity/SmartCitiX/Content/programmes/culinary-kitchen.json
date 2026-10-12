@@ -1,0 +1,179 @@
+{
+  "accent": "#f2a23b",
+  "anchors": [
+    {
+      "id": "ct-kiosk-uptown-restaurant-row",
+      "name": "Information kiosk · Uptown Restaurant Row",
+      "position": [
+        -16.5,
+        -279.3
+      ],
+      "stations": [
+        "kitchen",
+        "knife-skills",
+        "slicer-lockout"
+      ],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "uptown"
+    },
+    {
+      "id": "uptown-restaurant-row",
+      "name": "Uptown Restaurant Row",
+      "position": [
+        -36,
+        -275
+      ],
+      "stations": [
+        "kitchen",
+        "knife-skills",
+        "slicer-lockout"
+      ],
+      "table": "BAY_SITES",
+      "world": "bayworld",
+      "zone": "uptown"
+    }
+  ],
+  "certification": "The FDA Food Code as adopted in the California Retail Food Code, the California Food Handler card and ServSafe manager certification, NFPA 96 for the hood and suppression system, Cal/OSHA's kitchen safety orders, and OSHA 1910.147 for every machine that gets cleaned",
+  "competency": {
+    "id": "culinary-kitchen",
+    "kind": "programme",
+    "require": 6,
+    "standards": [
+      "fda-food-code",
+      "nfpa-96",
+      "osha-1910-147"
+    ],
+    "stations": [
+      "kitchen",
+      "knife-skills",
+      "slicer-lockout",
+      "bakery-mixer",
+      "fryer-oil-change",
+      "hood-suppression",
+      "kitchen-gas-shutoff",
+      "walk-in-cooler",
+      "receiving-dock-food",
+      "prep-cooling",
+      "dish-pit",
+      "grease-trap",
+      "allergen-control",
+      "banquet-hot-hold",
+      "cafeteria-serving",
+      "grill-line-burns"
+    ],
+    "title": "Run a commercial kitchen to food-safety, machine-guarding and hood standards"
+  },
+  "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
+  "guides": [
+    "unite-here-training",
+    "afscme-training",
+    "seiu-training",
+    "fda-food-code",
+    "calcode-retail-food",
+    "servsafe-certification",
+    "nfpa-96",
+    "nfpa-17a",
+    "cal-osha-3203",
+    "osha-1910-147",
+    "nsf-ansi-2",
+    "nsf-ansi-7"
+  ],
+  "id": "culinary-kitchen",
+  "ladder": {
+    "atBar": 20,
+    "lessonBar": 75,
+    "lessons": 1610,
+    "levels": 20,
+    "note": "a lesson is one station step under one condition; see docs/ladders.md",
+    "partial": 0,
+    "stationsNeeded": 0,
+    "tasks": 122
+  },
+  "name": "Culinary — The Working Kitchen",
+  "schema": "smartcitix.programme/1",
+  "stations": [
+    {
+      "app": "trades",
+      "id": "kitchen",
+      "why": "The bench case: the line as a first-period cook meets it, before any one hazard is taken apart on its own."
+    },
+    {
+      "app": "smartcity",
+      "id": "knife-skills",
+      "why": "The board anchored, the edge honed, and the claw grip that keeps a prep cook's own knuckles between the blade and the cut — plus the mandoline nobody runs bare-handed."
+    },
+    {
+      "app": "smartcity",
+      "id": "slicer-lockout",
+      "why": "The deli slicer taken apart for a changeover the way a machine shop would: the cord locked out before the guard comes off, and the interlock proven before power goes back in."
+    },
+    {
+      "app": "smartcity",
+      "id": "bakery-mixer",
+      "why": "The 60-quart floor mixer whose guard interlock gets proven, not assumed, before anything goes in the bowl — and whose scrape-down only ever happens on a machine that's actually stopped."
+    },
+    {
+      "app": "smartcity",
+      "id": "fryer-oil-change",
+      "why": "The vat only gets opened once it has actually cooled — cold and wheeled beats hot and carried, every single change."
+    },
+    {
+      "app": "smartcity",
+      "id": "hood-suppression",
+      "why": "The system over the line only works if the filters, the links and the pull path are checked before the day a flare-up actually tests them."
+    },
+    {
+      "app": "smartcity",
+      "id": "kitchen-gas-shutoff",
+      "why": "A gas smell is a procedure, not a guess — no spark searches for it, and the valve, not the nose, decides when the line is clear."
+    },
+    {
+      "app": "smartcity",
+      "id": "walk-in-cooler",
+      "why": "Cold storage as its own procedure: the inside release proven before the door is trusted, 41 °F confirmed, and stock put away raw-below-ready in the order the Food Code sets."
+    },
+    {
+      "app": "smartcity",
+      "id": "receiving-dock-food",
+      "why": "The delivery that stocks that cooler in the first place: every cold, frozen and hot item probed at the dock and refused outside the Food Code's own limits, before anything reaches a shelf."
+    },
+    {
+      "app": "smartcity",
+      "id": "prep-cooling",
+      "why": "The other half of the clock: a cooked batch brought down through 70 °F in two hours and 41 °F in six, with the reheat-or-discard call for the one that misses it."
+    },
+    {
+      "app": "smartcity",
+      "id": "dish-pit",
+      "why": "The dish machine and the three-compartment sink: chemical lines checked, the sanitiser strip-tested and logged, and an eyewash proven clear before the first jug is opened."
+    },
+    {
+      "app": "smartcity",
+      "id": "grease-trap",
+      "why": "Servicing the under-sink grease interceptor: the confined-space question answered correctly, the 25 percent rule read off the stick, and the waste sealed for the hauler rather than sent down a drain."
+    },
+    {
+      "app": "smartcity",
+      "id": "allergen-control",
+      "why": "An allergen order on the line: the ticket called back, the purple board and dedicated pan pulled, and the plate walked to the pass by the cook who built it."
+    },
+    {
+      "app": "smartcity",
+      "id": "banquet-hot-hold",
+      "why": "The banquet line: hot boxes probed before they're loaded, chafers lit lid-open, the buffet walked before doors, and a pull-down cooled or discarded to the rule."
+    },
+    {
+      "app": "smartcity",
+      "id": "cafeteria-serving",
+      "why": "The school lunch line under the National School Lunch Program: the meal pattern's five components, offer versus serve, the wells probed and the count reconciled for the reimbursement claim."
+    },
+    {
+      "app": "smartcity",
+      "id": "grill-line-burns",
+      "why": "The grill and sauté station's own hazard, worked as a drill: handles in, a dry pan, a flambé cleared of the filters, and cool water run the full twenty minutes."
+    }
+  ],
+  "summary": "One kitchen, station by station, from the receiving dock to the dish pit. The hazards are the ones a cook actually meets — heat, blades, chemicals, cold, gas and the clock — and the standard behind every step is the one an inspector or a union steward would cite.",
+  "union": "UNITE HERE Local 2 cooks, dishwashers and banquet staff; AFSCME and SEIU school and hospital food service"
+}

@@ -1,0 +1,381 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "bus-proven-dead",
+    "name": "Bus Proven Dead",
+    "note": "AC before DC, the full bleed-down waited out, and live-dead-live on a tested meter — first time"
+  },
+  "category": "Energy & Power",
+  "certification": "IBEW outside construction and utility locals; NFPA 855 stationary energy storage installation; NFPA 70E DC arc-flash boundary and shock approach; OSHA 29 CFR 1910.147 lockout/tagout and 1910.269 for the utility interconnection; UL 9540A thermal-runaway test data",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "IBEW",
+        "id": "ibew-neca-jatc",
+        "title": "IBEW/NECA Joint Apprenticeship and Training Committee — inside and outside wireman apprenticeship standards, taught from the electrical training ALLIANCE curriculum"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 70E",
+        "id": "nfpa-70e",
+        "title": "NFPA 70E — Standard for Electrical Safety in the Workplace"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 855",
+        "id": "nfpa-855",
+        "title": "NFPA 855 — Installation of Stationary Energy Storage Systems"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Energy & Power",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "outside-first",
+        "name": "Outside First",
+        "note": "Gas detection and vents read before the door opened, first time"
+      },
+      {
+        "id": "no-shortcut",
+        "name": "No Shortcut",
+        "note": "Never DC before AC, never inside without the meter proven, never metal on a live rack"
+      },
+      {
+        "id": "bled-down",
+        "name": "Bled Down",
+        "note": "Bus voltage and cell temperature both read inside the band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-swap",
+        "name": "Clean Swap",
+        "note": "No corrections anywhere in the isolation"
+      },
+      {
+        "id": "full-wait",
+        "name": "Full Wait",
+        "note": "The bleed-down held for its whole duration"
+      },
+      {
+        "id": "swap-fast",
+        "name": "Swapped In Time",
+        "note": "Module out and enclosure closed inside 80% of par"
+      }
+    ],
+    "currency": "kWh",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Apprentice",
+      "Storage Technician",
+      "Commissioning Tech",
+      "Site Lead",
+      "Storage Operations Certified"
+    ],
+    "system": "Storage Operations"
+  },
+  "hazards": {
+    "dc-before-ac": "You opened the DC rack disconnects with the inverter still running. Breaking DC under load draws an arc that does not self-extinguish the way AC does; the disconnect welds, the arc keeps burning, and the arc-flash boundary is the whole aisle.",
+    "metal-jewellery": "You reached into the rack wearing a ring and a watch. A battery string is a low-voltage, very-high-current source: metal across the terminals does not shock you, it welds to your hand and burns through it in seconds.",
+    "open-door-on-alarm": "You opened the enclosure with the gas detector in alarm. A lithium enclosure in off-gas is pre-ignition: opening the door gives the flammable mixture the oxygen it was missing, and the deflagration goes out the door you are standing in.",
+    "water-on-cells": "You reached for a water extinguisher at a cell fire. Water on a burning lithium module flashes and spreads the event; the enclosure's own suppression and a safe distance are the response, and the fire service is called for the rest."
+  },
+  "id": "battery-yard",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "bleed",
+      "alert": "The gas detection panel outside the enclosure has climbed back into the amber while the bleed-down timer is still running.",
+      "cue": "Read the panel again before you touch anything else in there.",
+      "delay": 3,
+      "id": "residual-offgas",
+      "kind": "Gas re-alarm",
+      "missNote": "The bleed-down finished with the gas reading back in the amber and nobody looked again. The enclosure door was about to open on an atmosphere the crew had already stopped tracking, which is exactly the gap a stationary gas panel exists to close.",
+      "seconds": 11,
+      "target": "gas-panel",
+      "why": "Off-gassing from a stressed cell does not stop just because the electrical isolation started; residual heat inside a failed module keeps producing gas on its own schedule, independent of where the bleed-down timer happens to be. The panel is checked once at the start of the job, but the reading it gave then is not a guarantee that holds for the whole isolation.",
+      "wrongNote": "That is not the panel that just went into alarm. Read the gas detection panel before doing anything else in this enclosure."
+    },
+    {
+      "after": "bleed",
+      "alert": "While the bleed-down timer still runs, the thermal camera's standing preview on the neighbouring module shows a hot spot climbing fast.",
+      "cue": "Check the thermal camera before the bleed-down even finishes.",
+      "delay": 7,
+      "id": "neighbour-heats-up",
+      "kind": "Thermal spike",
+      "missNote": "The bleed-down finished with a second module already climbing on the thermal camera and nobody looked. A rack that goes on to close up with a hot neighbour inside it can go into thermal runaway with the technician already moving on to a job that looked finished.",
+      "seconds": 10,
+      "target": "thermal-camera",
+      "why": "A cell failure is rarely isolated to one module; the neighbours in the same rack absorb whatever heat and current the failed cell was rejecting right up until the moment the isolation began, and UL 9540A thermal-runaway test data is exactly why a second module going the same way is checked for the instant it shows, not saved for the scheduled scan later in the job. Catching that spike now is what keeps one bad module from becoming two.",
+      "wrongNote": "The camera is what shows the hot spot. Check the thermal reading before finishing anything else with this rack."
+    }
+  ],
+  "lateNotes": {
+    "bus-meter": "Proving dead comes after the bleed-down wait; a capacitive bus reads dangerous long after the disconnects are pulled.",
+    "dc-disconnect-1": "The DC racks open after the inverter is stopped and the AC breaker is open — under load, this is the arc.",
+    "module-latch": "The module comes out after the bus is proven dead and the racks are grounded."
+  },
+  "name": "Battery Yard",
+  "parSeconds": 280,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "electrical-first-period",
+    "energy-transition"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "ac-breaker",
+      "ac-lock",
+      "bleed-timer",
+      "bus-meter",
+      "bus-readout",
+      "cart-deck",
+      "controller-stop",
+      "dc-before-ac",
+      "dc-disconnect-1",
+      "dc-disconnect-2",
+      "dc-disconnect-3",
+      "gas-panel",
+      "ground-rack",
+      "insulated-tools",
+      "metal-jewellery",
+      "meter-known-again",
+      "meter-known-live",
+      "module-latch",
+      "open-door-on-alarm",
+      "suppression-tag",
+      "thermal-camera",
+      "vent-check",
+      "water-on-cells",
+      "work-order"
+    ],
+    "meshes": 209
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence"
+  ],
+  "steps": [
+    {
+      "cue": "Check which enclosure, which rack, the bleed-down time and the arc-flash category.",
+      "id": "wo",
+      "kind": "select",
+      "prompt": "Check which enclosure, which rack, the bleed-down time and the arc-flash category.",
+      "target": "work-order",
+      "title": "Read the work order and one-line",
+      "why": "A grid battery yard is a dozen identical enclosures on the same aisle, and the wrong one opened under lockout is a live one. The one-line and the work order say which enclosure and rack, what the DC bus is rated at when it is opened, and the arc-flash category that decides what the technician must be wearing before ever reaching for the door."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Check the gas detection panel and look over the deflagration vents — before touching the door.",
+      "id": "gas",
+      "itemNames": {
+        "gas-panel": "gas detection panel",
+        "vent-check": "deflagration vents"
+      },
+      "kind": "sequence",
+      "prompt": "Check the gas detection panel and look over the deflagration vents — before touching the door.",
+      "targets": [
+        "gas-panel",
+        "vent-check"
+      ],
+      "title": "Read the enclosure from outside",
+      "why": "Everything a technician needs to know about whether this enclosure is safe to open is readable from outside it, which is exactly why the gas panel and the vents are mounted where they are. A lithium enclosure that is off-gassing gives no other outward sign, and the reading has to be checked before the door, not after."
+    },
+    {
+      "cue": "Command the enclosure to stop and confirm the inverter has ramped to zero.",
+      "id": "stop",
+      "kind": "select",
+      "prompt": "Command the enclosure to stop and confirm the inverter has ramped to zero.",
+      "target": "controller-stop",
+      "title": "Stop the unit from the controller",
+      "why": "A controlled stop from the controller ramps the inverter down and opens the internal contactors in the sequence the system was engineered for, rather than the arbitrary order a breaker pulled by hand would impose. Everything the technician opens after this command is opening something the controller has already brought to zero, not something still carrying load."
+    },
+    {
+      "cue": "Open the AC interconnection breaker, then lock and tag it.",
+      "id": "ac",
+      "itemNames": {
+        "ac-breaker": "AC breaker open",
+        "ac-lock": "AC lock and tag"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Breaker open, then the lock — you never lock a breaker you have not opened.",
+      "prompt": "Open the AC interconnection breaker, then lock and tag it.",
+      "targets": [
+        "ac-breaker",
+        "ac-lock"
+      ],
+      "title": "Open and lock the AC side",
+      "why": "The AC interconnection is opened and locked first under 1910.147 because it is the only side that can re-energise the enclosure from the grid; a rack disconnect pulled before it means whatever happens next happens with the inverter still able to see a live bus. With the AC breaker locked and tagged, the only energy left anywhere in the enclosure is what the cells themselves are holding."
+    },
+    {
+      "cue": "Pull the rack disconnects one at a time, in rack order.",
+      "id": "dc",
+      "itemNames": {
+        "dc-disconnect-1": "rack 1 disconnect",
+        "dc-disconnect-2": "rack 2 disconnect",
+        "dc-disconnect-3": "rack 3 disconnect"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Rack 1, then 2, then 3 — the order on the one-line is the order in the aisle.",
+      "prompt": "Pull the rack disconnects one at a time, in rack order.",
+      "targets": [
+        "dc-disconnect-1",
+        "dc-disconnect-2",
+        "dc-disconnect-3"
+      ],
+      "title": "Open the rack DC disconnects",
+      "why": "Each rack is its own string carrying the full DC bus voltage independently of the others, and opening more than one at once is how a technician loses track of which strings are actually isolated. Pulling the disconnects one at a time, in the order printed on the one-line, means the aisle always knows exactly which racks are still tied in and which are not."
+    },
+    {
+      "cue": "Hold the timer through the full bleed-down interval printed on the enclosure.",
+      "holdBreakNote": "You cut the bleed-down short — the bus is still charged. Start the interval again.",
+      "id": "bleed",
+      "kind": "hold",
+      "prompt": "Hold the timer through the full bleed-down interval printed on the enclosure.",
+      "seconds": 10,
+      "target": "bleed-timer",
+      "title": "Wait out the bleed-down",
+      "why": "The DC link capacitors hold a lethal charge for a fixed interval after every rack disconnect is open, discharging through their own bleed resistors on their own schedule regardless of how urgent the swap is. The wait is printed on the enclosure door as a number, not a judgement call, precisely because it cannot be shortened by watching the meter drop faster than the physics allows."
+    },
+    {
+      "cue": "Prove the meter on the known source, read the bus, then prove the meter again.",
+      "id": "prove",
+      "itemNames": {
+        "bus-meter": "meter on the DC bus",
+        "meter-known-again": "meter on the known source again",
+        "meter-known-live": "meter on the known source"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Known source, then the bus, then the known source again — the meter is proven either side of the reading that matters.",
+      "prompt": "Prove the meter on the known source, read the bus, then prove the meter again.",
+      "targets": [
+        "meter-known-live",
+        "bus-meter",
+        "meter-known-again"
+      ],
+      "title": "Live, dead, live on the DC bus",
+      "why": "Live-dead-live is what NFPA 70E requires before anyone treats a DC bus as de-energised: a meter that failed silently between readings shows every bus as dead, live or not, and there is no way to tell the difference from the display alone. Proving the meter on a known source before and after the bus reading is the only thing that makes 'dead' mean anything a technician can act on."
+    },
+    {
+      "cue": "Read the residual bus voltage and commit inside the safe band.",
+      "gauge": {
+        "green": [
+          0.02,
+          0.14
+        ],
+        "label": "DC BUS",
+        "missNote": "Still carrying voltage — find the string that is still connected before anyone reaches in.",
+        "speed": 0.7
+      },
+      "id": "voltage",
+      "kind": "gauge",
+      "prompt": "Read the residual bus voltage and commit inside the safe band.",
+      "target": "bus-readout",
+      "title": "Confirm the bus is at zero",
+      "why": "Zero on a residual DC bus reading means single digits of volts, not simply lower than the 800-plus it was carrying under load. A residual reading above the safe band means a string is still tied in somewhere the disconnect sequence missed, and the aisle a technician is about to reach into is still carrying dangerous voltage."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Apply the rack grounding cable and pick up the insulated tool set.",
+      "id": "ground",
+      "itemNames": {
+        "ground-rack": "rack grounding cable",
+        "insulated-tools": "insulated tool set"
+      },
+      "kind": "sequence",
+      "prompt": "Apply the rack grounding cable and pick up the insulated tool set.",
+      "targets": [
+        "ground-rack",
+        "insulated-tools"
+      ],
+      "title": "Ground the rack and take insulated tools",
+      "why": "The rack grounding cable holds the string at zero potential even if a fault or a stray tie somewhere brings voltage back onto it, which a proven-dead reading alone cannot guarantee stays true for the whole job. The insulated 1000 V tool set is what stops a dropped spanner from becoming an unintended bus bar across two live-looking terminals inside a rack full of cells."
+    },
+    {
+      "cue": "Release the module latch and slide the failed module onto the transfer cart.",
+      "drag": {
+        "missNote": "Not on the cart — slide the module square onto the transfer deck.",
+        "radius": 0.45,
+        "to": "cart-deck"
+      },
+      "id": "swap",
+      "kind": "drag",
+      "prompt": "Release the module latch and slide the failed module onto the transfer cart.",
+      "target": "module-latch",
+      "title": "Draw the failed module out",
+      "why": "A failed module is sixty kilograms of lithium cells riding a rail, and a rail is exactly what it is designed to come out on — not into someone's arms, where a slip is a crush injury and a punctured cell in the same moment. It is drawn straight onto the transfer cart and sent to the quarantine area, never set back down in an aisle where the next tech might treat it as good stock."
+    },
+    {
+      "cue": "Scan the remaining modules and terminals and commit when the hottest reading is inside the band.",
+      "gauge": {
+        "green": [
+          0.1,
+          0.36
+        ],
+        "label": "HOT SPOT",
+        "missNote": "Too hot to close up — find the source before this enclosure goes back in service.",
+        "speed": 0.75
+      },
+      "id": "thermal",
+      "kind": "gauge",
+      "prompt": "Scan the remaining modules and terminals and commit when the hottest reading is inside the band.",
+      "target": "thermal-camera",
+      "title": "Thermal-check the rack",
+      "why": "A module fails because something inside it got hot, per UL 9540A thermal-runaway test data, and a neighbouring module under the same stress is the first place that shows on a thermal camera before it shows on any other instrument. Scanning the remaining racks before the door closes is what catches a second cell heading toward the same failure before it becomes the incident this swap was meant to fix."
+    },
+    {
+      "cue": "Check the suppression, the detection and the door seals, and click what is not in service.",
+      "id": "walk",
+      "itemNames": {
+        "suppression-tag": "suppression bottle out of date"
+      },
+      "itemNotes": {
+        "suppression-tag": "The clean-agent suppression bottle's inspection tag expired last quarter — the enclosure's own first line of defence is out of certification."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Check the suppression, the detection and the door seals, and click what is not in service.",
+      "targets": [
+        "suppression-tag"
+      ],
+      "title": "Walk the enclosure before you close it",
+      "why": "The enclosure has to protect itself for every hour nobody is standing in front of it, and the suppression bottle, the gas detection and the door seals are the only things doing that job overnight. Everything that keeps the unit safe unattended gets checked before this door closes, because the next person to open it may be arriving to an alarm, not a scheduled swap."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Grid battery module swap: gas and vent check from outside, stop from the controller, AC before DC, rack disconnects in order, bleed-down wait, live-dead-live on the DC bus, racks grounded, insulated tools, thermal check before the door",
+  "title": "SmartCiti.X~ Battery Yard VR",
+  "trade": "Battery energy storage technician — grid scale",
+  "underwater": null,
+  "weather": "overcast"
+}

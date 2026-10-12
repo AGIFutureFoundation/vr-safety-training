@@ -1,0 +1,430 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "to-the-line-and-braced",
+    "name": "To The Line And Braced",
+    "note": "A wall laid out square, laid to its line, batched to the spec and braced per the plan, with nobody inside its limited access zone"
+  },
+  "category": "Construction & Structural Trades",
+  "certification": "BAC bricklayer apprenticeship through the International Masonry Institute, and LIUNA Training mason tender curricula; OSHA 29 CFR 1926.706 — the limited access zone for a masonry wall under construction and bracing of masonry walls against overturning and collapse — under 29 CFR 1926 Subpart Q; 29 CFR 1926.1153 respirable crystalline silica, dust from mixing and cleanup kept down by wet methods; ANSI A10.9 concrete and masonry construction safety; the project's mortar specification and the wall bracing plan",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI A10.9",
+        "id": "ansi-a10-9",
+        "title": "ANSI/ASSP A10.9 — Concrete and masonry construction safety requirements"
+      },
+      {
+        "body": "union",
+        "citedAs": "International Masonry Institute",
+        "id": "bac-imi",
+        "title": "BAC and the International Masonry Institute — bricklayer, tile and refractory apprenticeship"
+      },
+      {
+        "body": "union",
+        "citedAs": "LIUNA Training",
+        "id": "liuna-training-fund",
+        "title": "LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926",
+        "id": "osha-1926",
+        "title": "29 CFR 1926 — Safety and health regulations for construction"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.1153",
+        "id": "osha-1926-1153",
+        "title": "29 CFR 1926.1153 — Respirable crystalline silica in construction"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.706",
+        "id": "osha-1926-706",
+        "title": "29 CFR 1926.706 — Requirements for masonry construction: the limited access zone and bracing of masonry walls"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Construction & Structural Trades",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "square-from-the-start",
+        "name": "Square From The Start",
+        "note": "Wall line snapped and squared without a correction"
+      },
+      {
+        "id": "true-to-the-line",
+        "name": "True To The Line",
+        "note": "The course laid to the line throughout"
+      },
+      {
+        "id": "zone-kept",
+        "name": "Zone Kept",
+        "note": "No shortcut through the zone, no extra course over the plan, no leaning on the green wall, no bare hands in mortar"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-lift",
+        "name": "Clean Lift",
+        "note": "No corrections through the whole lift"
+      },
+      {
+        "id": "batched-to-spec",
+        "name": "Batched To Spec",
+        "note": "The mortar proportioned inside the band first time"
+      },
+      {
+        "id": "lift-by-lunch",
+        "name": "Lift By Lunch",
+        "note": "Wall braced and logged inside 80% of par"
+      }
+    ],
+    "currency": "COURSE",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Apprentice",
+      "Mason Tender",
+      "Layout Mason",
+      "Lead Mason",
+      "Wall Gang Certified"
+    ],
+    "system": "Wall Gang"
+  },
+  "hazards": {
+    "bare-hand-mortar": "You went to work the mortar with bare hands. Wet cement is strongly alkaline and it burns skin slowly and deeply without much pain at first. Mortar is handled with the trowel and gloves, and splashes are washed off at once.",
+    "extra-course": "You went to lay one more course before the brace is in. The bracing plan sets how high this wall may stand unbraced while its mortar is still green, because a fresh wall has almost no strength against wind until the mortar cures. The brace goes in at the plan's height, and only then does the next course go on.",
+    "lac-shortcut": "You cut through the limited access zone behind the wall. OSHA 29 CFR 1926.706 establishes that zone before a masonry wall goes up, on the side without scaffolding, the length of the wall and as wide as its planned height plus four feet, because a new wall that overturns lands in exactly that strip. Only the masons building the wall work inside it.",
+    "lean-on-green-wall": "You went to lean the plank against the wall laid this morning. Fresh mortar holds a block in place and very little else; a plank or ladder against green masonry pushes the top courses out of plumb or over. Nothing leans on new work until it has cured and been braced."
+  },
+  "id": "bt-masonry-wall-layout-and-mortar",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "bag-dump",
+      "alert": "A tender at the next tub has started dry-sweeping cured mortar droppings off the footing, and a cloud of dust is drifting across the crew.",
+      "cue": "Wet it down with the hose and stop the dry sweeping.",
+      "delay": 2,
+      "id": "dry-sweeping",
+      "kind": "Silica dust from dry sweeping",
+      "missNote": "The dry sweeping went on across the footing for the rest of the batch; a haze of fine dust hung over the tubs and the tender at the far one was coughing by the time it settled.",
+      "seconds": 12,
+      "target": "water-hose",
+      "why": "Dried mortar droppings are sand and cement, and sweeping them dry puts respirable crystalline silica straight into the air the crew is breathing. The silica rule does not let dry sweeping be used where wet methods or a vacuum will do; the hose wets the footing down and the sweeping stops until it is wet.",
+      "wrongNote": "The water hose — the dust cloud over the crew comes first, and it is stopped by wetting the footing down."
+    },
+    {
+      "after": "lay-course",
+      "alert": "The anemometer on the scaffold has jumped past the bracing plan's limit for walls still in their initial period, and a mason tender is standing in the limited access zone behind the green section.",
+      "cue": "Sound the wind alarm and clear the zone behind the wall, per the bracing plan.",
+      "delay": 2,
+      "id": "gust-on-green-wall",
+      "kind": "Wind over the bracing plan's limit",
+      "missNote": "The tender stayed in the zone behind the wall through the gust; the top two green courses of the unbraced end rocked and dropped a block onto the ground where he had been standing a moment before.",
+      "seconds": 12,
+      "target": "wind-alarm",
+      "why": "Bracing plans set wind speeds at which the zone behind a wall still in its initial period must be cleared, because past them the brace may not hold a wall whose mortar has barely set. The alarm clears the zone first; the masons come off the wall and nobody goes back in until the wind drops back below the plan's figure.",
+      "wrongNote": "The wind alarm — someone is in the zone behind a green wall in wind past the plan's limit, and the zone is cleared before anything else."
+    }
+  ],
+  "lateNotes": {
+    "chalk-line": "The wall line is snapped once the benchmarks are set up from the gridlines — a line snapped from the edge of the footing is only as straight as the footing.",
+    "line-block": "The line is run once the story pole and the corner lead are set — it has nothing to be pulled to before that.",
+    "wall-log": "The day is logged once the wall is braced per the plan."
+  },
+  "name": "Masonry Wall Layout & Mortar",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "builders-trades"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "pickup",
+        "count": 1,
+        "kit": "fleet"
+      },
+      {
+        "builder": "drill",
+        "count": 1,
+        "kit": "toolkit"
+      },
+      {
+        "builder": "hoseReel",
+        "count": 1,
+        "kit": "toolkit"
+      },
+      {
+        "builder": "level",
+        "count": 1,
+        "kit": "toolkit"
+      },
+      {
+        "builder": "radio",
+        "count": 1,
+        "kit": "toolkit"
+      },
+      {
+        "builder": "tapeMeasure",
+        "count": 1,
+        "kit": "toolkit"
+      }
+    ],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "bare-hand-mortar",
+      "benchmark",
+      "brace-anchor",
+      "chalk-line",
+      "course-block",
+      "cracked-block",
+      "crew-radio",
+      "dry-bond",
+      "extra-course",
+      "gauge-box",
+      "lac-shortcut",
+      "layout-drawing",
+      "lean-on-green-wall",
+      "line-block",
+      "no-access-zone",
+      "paddle-mixer",
+      "square-check",
+      "story-pole",
+      "trig",
+      "unbraced-lift",
+      "wall-brace",
+      "wall-log",
+      "water-hose",
+      "wind-alarm",
+      "zone-barricade",
+      "zone-mark"
+    ],
+    "meshes": 198
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the drawing and the plan: the gridlines, the wall's length and openings, the bond, today's lift height, the mortar type, and when the bracing plan says the wall must be braced.",
+      "id": "layout-drawing",
+      "kind": "select",
+      "prompt": "Read the drawing and the plan: the gridlines, the wall's length and openings, the bond, today's lift height, the mortar type, and when the bracing plan says the wall must be braced.",
+      "target": "layout-drawing",
+      "title": "Read the layout drawing and the bracing plan",
+      "why": "A masonry wall is laid out once, at its first course, and everything above follows that first course — its line, its bond, where its openings fall. The bracing plan belongs to the same reading, because the height the wall may stand unbraced while its mortar is green sets how today's lift is built. The mason reads both before a line is snapped, because a wall started wrong is a wall taken down."
+    },
+    {
+      "cue": "Set the benchmarks off the gridlines, snap the wall's face line between them, then check the corner square on the diagonal.",
+      "id": "layout-lines",
+      "itemNames": {
+        "benchmark": "benchmarks set up from the gridlines",
+        "chalk-line": "the wall's face line snapped on the footing",
+        "square-check": "the corner checked square on the diagonal"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Benchmarks from the gridlines first, then snap the line between them, then check the corner square — a line snapped before the benchmarks is only guessed.",
+      "prompt": "Set the benchmarks off the gridlines, snap the wall's face line between them, then check the corner square on the diagonal.",
+      "targets": [
+        "benchmark",
+        "chalk-line",
+        "square-check"
+      ],
+      "title": "Lay the wall out: benchmarks, line, square",
+      "why": "The wall's line comes from the building's gridlines, not from the edge of a footing that may be out by its own tolerance. Benchmarks are measured off the gridlines, the chalk line is snapped between them, and the corner is checked square on the diagonal so the return wall starts where the drawing puts it. A layout that is square and on the gridlines is the one decision that every course above inherits."
+    },
+    {
+      "cue": "Lay the first course out dry along the line to check the bond, the joints and where the openings fall before any mortar is spread.",
+      "id": "dry-bond",
+      "kind": "select",
+      "prompt": "Lay the first course out dry along the line to check the bond, the joints and where the openings fall before any mortar is spread.",
+      "target": "dry-bond",
+      "title": "Dry-bond the first course along the line",
+      "why": "Laying the first course dry shows whether the wall's length works out in whole and half units at the bond the drawing calls for, and whether the openings land on a joint. A problem found dry is solved by adjusting the joints slightly across the whole run; found five courses up, it is a cut block in the middle of a wall face and an opening off its layout."
+    },
+    {
+      "cue": "Walk the footing, the block cube, yesterday's section and the ground either side of the wall.",
+      "id": "wall-walk",
+      "itemNames": {
+        "cracked-block": "cracked units in the block cube",
+        "no-access-zone": "no limited access zone set behind the wall",
+        "unbraced-lift": "yesterday's lift standing past the plan's unbraced height with no brace"
+      },
+      "itemNotes": {
+        "cracked-block": "Several block in the top of the cube are cracked through. A cracked unit in a wall is a weak point for good; they are set aside, not laid.",
+        "no-access-zone": "The side of the wall with no scaffold has nothing marking it off: laborers are using it as a walkway. The limited access zone goes up before the wall goes any higher.",
+        "unbraced-lift": "Yesterday's section was laid past the height the bracing plan allows unbraced and left overnight with no brace. It gets braced before anyone works beside it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the footing, the block cube, yesterday's section and the ground either side of the wall.",
+      "targets": [
+        "no-access-zone",
+        "cracked-block",
+        "unbraced-lift"
+      ],
+      "title": "Walk the wall and the block before the lift starts",
+      "why": "The walk is where the three things that hurt masons on a new wall are caught before anyone is working beside it: a wall with no limited access zone behind it, a cube of block with cracked units in it, and a section left standing taller than its bracing allows. Each is easy to fix while the crew is still setting up and none of them is visible from the scaffold once the lift is underway."
+    },
+    {
+      "cue": "Carry the barricade to the side of the wall with no scaffold and close off the strip along its length, with the danger sign on the signage pad.",
+      "drag": {
+        "missNote": "Not on the zone line — the barricade closes the strip behind the wall, on the side with no scaffold, for the wall's full length.",
+        "radius": 0.6,
+        "to": "zone-mark"
+      },
+      "id": "access-zone",
+      "kind": "drag",
+      "prompt": "Carry the barricade to the side of the wall with no scaffold and close off the strip along its length, with the danger sign on the signage pad.",
+      "target": "zone-barricade",
+      "title": "Set the limited access zone behind the wall",
+      "why": "OSHA 29 CFR 1926.706 requires a limited access zone before a masonry wall is built: on the side without scaffolding, running the whole length of the wall and as wide as the wall's planned height plus four feet, entered only by the masons actually building it. It is set before the lift goes up because a wall that falls does not give the people walking beside it time to move."
+    },
+    {
+      "cue": "Fill the gauge box with sand against the bag of cement and commit when the proportions match the mortar type the specification calls for.",
+      "gauge": {
+        "green": [
+          0.44,
+          0.6
+        ],
+        "label": "MIX",
+        "missNote": "Off the specification's proportions — level the sand in the gauge box and check it against the bag again.",
+        "speed": 0.7
+      },
+      "id": "mix-ratio",
+      "kind": "gauge",
+      "prompt": "Fill the gauge box with sand against the bag of cement and commit when the proportions match the mortar type the specification calls for.",
+      "target": "gauge-box",
+      "title": "Batch the mortar to the specification's proportions",
+      "why": "Mortar strength and workability come from its proportions, and the specification names a mortar type for this wall for a reason: too lean and the joints are weak and crumble, too rich and the mortar shrinks and cracks and is harder than the block it binds. Batching by the gauge box instead of by shovels-full is how every batch comes out the same, and a wall built from one batch at a time is only as good as its worst one."
+    },
+    {
+      "cue": "Put the water in the tub first, tip the bag in low, and hold the paddle mixer down in the batch so the dust stays in the tub.",
+      "holdBreakNote": "The paddle came up out of the batch and threw dry mix into the air. Put it back down in the tub and hold it.",
+      "id": "bag-dump",
+      "kind": "hold",
+      "prompt": "Put the water in the tub first, tip the bag in low, and hold the paddle mixer down in the batch so the dust stays in the tub.",
+      "seconds": 5,
+      "target": "paddle-mixer",
+      "title": "Mix with the paddle down in the tub, water in first",
+      "why": "Dry masonry mix is fine sand and cement, and tipping it from height or spinning a paddle in a dry tub throws a cloud of respirable silica into the tender's breathing zone. Water in first, the bag opened low and the paddle held down in the batch keeps the dust wet and in the tub — one of the ways the silica rule's wet methods reach beyond cutting to everything a crew does with dry masonry material."
+    },
+    {
+      "cue": "Stand the story pole plumb at the corner with its course heights marked to the drawing, including the openings' heads and sills.",
+      "id": "story-pole",
+      "kind": "select",
+      "prompt": "Stand the story pole plumb at the corner with its course heights marked to the drawing, including the openings' heads and sills.",
+      "target": "story-pole",
+      "title": "Set the story pole at the corner",
+      "why": "The story pole carries the wall's course heights from the drawing to the corner, so every course at every lead is laid to the same heights and the openings' sills and heads land where the drawing puts them. Set plumb and fixed, it is the vertical reference the corner lead is built to and the line is raised by, all day."
+    },
+    {
+      "cue": "Hook the line block on the corner lead at the course height and wind the line taut to the far lead.",
+      "id": "line-block",
+      "kind": "turn",
+      "prompt": "Hook the line block on the corner lead at the course height and wind the line taut to the far lead.",
+      "target": "line-block",
+      "title": "Run the mason's line taut between the leads",
+      "turn": {
+        "label": "LINE",
+        "turns": 1
+      },
+      "why": "The mason's line is what makes a wall straight and level between its corners: every block in the course is laid to it, a line's width away. It only works taut — a slack line sags in the middle and the course sags with it, and nobody sees that until the wall is up and the sightline along its top is wavy."
+    },
+    {
+      "cue": "Lay the trig block at mid-span to the story height and set the line into its trig clip so it cannot sag or blow.",
+      "id": "trig",
+      "kind": "select",
+      "prompt": "Lay the trig block at mid-span to the story height and set the line into its trig clip so it cannot sag or blow.",
+      "target": "trig",
+      "title": "Set the trig at mid-span",
+      "why": "A long line sags under its own weight and moves in the wind no matter how tight it is wound. The trig — a block laid to height at mid-span, holding the line in a clip — takes out the sag and the flutter, so the middle of the course is as level and straight as its ends. On a windy day it is the difference between a line and a guess."
+    },
+    {
+      "cue": "Set each block to the line — its top edge level with the line and a line's width off it — and keep the course true as you go.",
+      "holdBreakNote": "The course wandered off the line while nobody was checking. Tap the last block back to the line and keep laying to it.",
+      "id": "lay-course",
+      "kind": "track",
+      "prompt": "Set each block to the line — its top edge level with the line and a line's width off it — and keep the course true as you go.",
+      "seconds": 6,
+      "target": "course-block",
+      "title": "Lay the course to the line",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.46,
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "COURSE",
+        "rise": 0.56,
+        "start": 0.2
+      },
+      "why": "Laying to the line means every block's top outside edge sits level with the line and just clear of it; touching the line pushes it and every block after is off. Kept true block by block, the course comes out straight and level along its whole length; let it wander and the next course has to be laid to correct it, which is how a wall face ends up with a bow in it."
+    },
+    {
+      "cue": "Carry the brace to the wall and set it at the position and height the bracing plan gives, anchored at its foot, before another course goes on.",
+      "drag": {
+        "missNote": "Not at the plan's brace position — the brace goes against the wall where the bracing plan marks it, anchored at its foot.",
+        "radius": 0.6,
+        "to": "brace-anchor"
+      },
+      "id": "brace",
+      "kind": "drag",
+      "prompt": "Carry the brace to the wall and set it at the position and height the bracing plan gives, anchored at its foot, before another course goes on.",
+      "target": "wall-brace",
+      "title": "Brace the wall per the bracing plan",
+      "why": "A new masonry wall has almost no strength against the wind until its mortar cures, and OSHA 29 CFR 1926.706 requires walls over eight feet to be adequately braced unless otherwise supported against overturning. The bracing plan says where and when: the brace goes in at the height the plan allows the wall to stand unbraced, anchored at its foot, before the lift goes any higher."
+    },
+    {
+      "cue": "Record the courses laid, the mortar batches, the brace set, the cracked block set aside, yesterday's section braced, the dry sweeping stopped and the wind stop.",
+      "id": "wall-log",
+      "kind": "select",
+      "prompt": "Record the courses laid, the mortar batches, the brace set, the cracked block set aside, yesterday's section braced, the dry sweeping stopped and the wind stop.",
+      "target": "wall-log",
+      "title": "Log the day's lift",
+      "why": "The mason's daily log is how the foreman and the next shift know where the wall is against its bracing plan: how high it stands, what is braced and when it was laid, which matters because mortar gains strength by the day. It is also the record that the dust from the dry sweeping was stopped and the zone was cleared for the wind — the things an inspector will ask about first."
+    },
+    {
+      "cue": "Call the foreman: lift braced and logged. Then check in with the tenders and masons about the dust and the gust on the green wall.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Call the foreman: lift braced and logged. Then check in with the tenders and masons about the dust and the gust on the green wall.",
+      "target": "crew-radio",
+      "title": "Check in with the crew and the foreman",
+      "why": "The foreman plans tomorrow's lift and the bracing crew around this call, and nobody takes the zone down until it is made. It is also the crew's check-in: a gust hitting a green wall with people behind it and a dust cloud over the mortar tubs are things a crew thinks about afterward, and the trades' practice is to name them on the radio and name the member assistance line in the same breath."
+    }
+  ],
+  "supportLine": "your BAC or LIUNA local's member assistance programme, or the employee assistance line posted on the contractor's site board",
+  "tagline": "A block wall started right: the layout drawing and the bracing plan read, the wall line snapped and squared from the benchmarks, the first course dry-bonded, the site walked, the limited access zone set, the mortar batched to the spec's proportions with the dust kept down, the story pole set, the line run and trigged, a course laid to it, the wall braced per the bracing plan, and the day logged",
+  "title": "SmartCiti.X~ Masonry Wall Layout & Mortar VR",
+  "trade": "Bricklayer — BAC, with LIUNA mason tenders — block wall layout, mortar and bracing",
+  "underwater": null,
+  "weather": "wind"
+}

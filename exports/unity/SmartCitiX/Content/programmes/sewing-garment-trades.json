@@ -1,0 +1,180 @@
+{
+  "accent": "#b86bd6",
+  "anchors": [
+    {
+      "id": "ct-bench-truck-yard",
+      "name": "Bench · Truck Yard",
+      "position": [
+        -360.9,
+        71.9
+      ],
+      "stations": [
+        "salon",
+        "machine-threading-needle",
+        "tw-amr-traffic-zone-entry-and-lockout"
+      ],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "west-oakland"
+    },
+    {
+      "id": "ct-bus-stop-rail-depot",
+      "name": "Bus stop · Rail Depot",
+      "position": [
+        -323.2,
+        52.5
+      ],
+      "stations": [
+        "salon",
+        "machine-threading-needle",
+        "tw-amr-traffic-zone-entry-and-lockout"
+      ],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "west-oakland"
+    },
+    {
+      "id": "ct-kiosk-west-oakland-warehouse-district",
+      "name": "Information kiosk · West Oakland Warehouse District",
+      "position": [
+        -339.8,
+        54.6
+      ],
+      "stations": [
+        "salon",
+        "machine-threading-needle",
+        "tw-amr-traffic-zone-entry-and-lockout"
+      ],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "west-oakland"
+    },
+    {
+      "id": "west-oakland-warehouse-district",
+      "name": "West Oakland Warehouse District",
+      "position": [
+        -327,
+        70
+      ],
+      "stations": [
+        "salon",
+        "machine-threading-needle",
+        "tw-amr-traffic-zone-entry-and-lockout"
+      ],
+      "table": "BAY_SITES",
+      "world": "bayworld",
+      "zone": "west-oakland"
+    }
+  ],
+  "certification": "OSHA 29 CFR 1910.212 machine guarding and 1910.147 lockout for industrial sewing, cutting and pressing equipment, 1910.1200 hazard communication for solvents and spot cleaners, NIOSH ergonomics guidance for seated repetitive work, the state apprenticeship standards for industrial sewing machine operators",
+  "competency": {
+    "id": "sewing-garment-trades",
+    "kind": "programme",
+    "require": 6,
+    "standards": [
+      "osha-1910-212",
+      "osha-1910-147",
+      "osha-1910-1200",
+      "niosh-ergonomics"
+    ],
+    "stations": [
+      "salon",
+      "machine-threading-needle",
+      "lockstitch-seam-guard",
+      "serger-overlock",
+      "cutting-table-rotary",
+      "pattern-marking-layout",
+      "hem-and-buttonhole",
+      "industrial-press-steam",
+      "sewing-ergonomics-shift",
+      "alteration-repair-ticket",
+      "garment-inspection-finish"
+    ],
+    "title": "Operate guarded industrial sewing, cutting and pressing equipment"
+  },
+  "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
+  "guides": [
+    "seiu-training",
+    "unite-here-training",
+    "osha-1910-212",
+    "osha-1910-147",
+    "osha-1910-1200",
+    "cal-osha-5110",
+    "niosh-criteria",
+    "ansi-b11",
+    "ansi-b11-3",
+    "ansi-isea-105"
+  ],
+  "id": "sewing-garment-trades",
+  "ladder": {
+    "atBar": 20,
+    "lessonBar": 75,
+    "lessons": 1578,
+    "levels": 20,
+    "note": "a lesson is one station step under one condition; see docs/ladders.md",
+    "partial": 0,
+    "stationsNeeded": 0,
+    "tasks": 123
+  },
+  "name": "Sewing and Garment Trades",
+  "schema": "smartcitix.programme/1",
+  "stations": [
+    {
+      "app": "trades",
+      "id": "salon",
+      "why": "The shared bench case every close-work trade opens on: sharps, chemicals, posture and the client — the same discipline a cutting table asks for."
+    },
+    {
+      "app": "smartcity",
+      "id": "machine-threading-needle",
+      "why": "The lockstitch head from a cold start: the needle changed with the scarf right, threaded in its one path, the bobbin wound and cased, tension proven on scrap, and the guard down before the first seam."
+    },
+    {
+      "app": "smartcity",
+      "id": "lockstitch-seam-guard",
+      "why": "The same head at production speed: a straight seam and a curve run behind the guard, bundle chained to bundle, and a needle break accounted for down to the broken tip."
+    },
+    {
+      "app": "smartcity",
+      "id": "serger-overlock",
+      "why": "The overlock next to it: four threads by colour, the cutting width set to the ticket, and the one rule that never bends — the knife gets cleaned only after it is locked out."
+    },
+    {
+      "app": "smartcity",
+      "id": "cutting-table-rotary",
+      "why": "Where the bundle started: the spread cut to the marker on two blades with the glove on the guiding hand, and the blade itself changed the same way — locked out first."
+    },
+    {
+      "app": "smartcity",
+      "id": "pattern-marking-layout",
+      "why": "Before a blade ever touches cloth: grain and nap held true, notches and drill holes struck, and the marker counted back against the cut ticket."
+    },
+    {
+      "app": "smartcity",
+      "id": "hem-and-buttonhole",
+      "why": "Finishing behind the guard: a blind hem, a buttonhole cut and sewn on its own cutter guard, and bar tacks at the points a garment actually tears first."
+    },
+    {
+      "app": "smartcity",
+      "id": "industrial-press-steam",
+      "why": "The one machine on this floor with a boiler of its own: two-hand control, steam and vacuum, and a head locked open before anyone reaches into it."
+    },
+    {
+      "app": "smartcity",
+      "id": "sewing-ergonomics-shift",
+      "why": "The bench set up to the operator before the first seam: chair, table, pedal and light, the bundle in reach, and a symptom logged early instead of shrugged off."
+    },
+    {
+      "app": "smartcity",
+      "id": "alteration-repair-ticket",
+      "why": "The alterations tailor's own ticket, worked to the customer's pinned fit rather than a guess — the ripper, the hem, and the zipper closed out with a price and a time."
+    },
+    {
+      "app": "smartcity",
+      "id": "garment-inspection-finish",
+      "why": "The last bench a piece crosses: the light box and the spec sheet catch what a bare eye and a tape alone would miss before it ever reaches the box."
+    }
+  ],
+  "summary": "A separate trade series that teaches sewing as a trade: threading and needle changes, straight and zigzag seams behind the guard, the serger, the cutting table and rotary cutter, pattern marking, hems and buttonholes, the industrial press, ergonomics, alterations and repair, and inspection and finishing.",
+  "union": "Workers United (SEIU) garment and textile workers, and UNITE HERE where the sewing room sits inside a hotel or uniform service"
+}

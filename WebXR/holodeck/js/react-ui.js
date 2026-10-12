@@ -1,0 +1,242 @@
+/**
+ * Holodeck's 2D UI chrome — same architecture as SmartCiti.X's react-ui.js:
+ * React owns the HUD/overlays, app.js owns the Three.js scene and physics
+ * and only writes into the store.
+ */
+import { THEMES } from "./themes.js";
+import { REAL_SIMS } from "./prompt-parser.js";
+
+const h = React.createElement;
+const { Fragment, useSyncExternalStore } = React;
+
+/** "a Technician" vs "an Automation Lead" — rank names are real sim content
+ * (e.g. "Automation Lead", "Elevator Constructor"), not picked to avoid
+ * vowels, so the article has to actually check. */
+const article = (word) => (/^[aeiou]/i.test(word) ? "an" : "a");
+
+export function mountUI(store, actions) {
+  function useSlice(key) {
+    return useSyncExternalStore(store.subscribe, () => store.get()[key]);
+  }
+
+  function HoleChip() {
+    const hud = useSlice("hud");
+    if (!hud.visible) return null;
+    if (hud.mode === "training") {
+      return h("div", { className: "chip", id: "hud-hole-chip" },
+        h("div", { className: "eyebrow" }, "Training"),
+        h("div", { id: "hud-hole-name" }, hud.step),
+        h("div", { id: "hud-hole-sub" }, hud.cue),
+        h("div", { id: "hud-gesture", hidden: !hud.gestureVisible }, hud.gestureVerb));
+    }
+    return h("div", { className: "chip", id: "hud-hole-chip" },
+      h("div", { className: "eyebrow" }, "Hole"),
+      h("div", { id: "hud-hole-name" }, hud.holeName),
+      h("div", { id: "hud-hole-sub" }, hud.holeSub));
+  }
+
+  function ScoreChip() {
+    const hud = useSlice("hud");
+    if (!hud.visible) return null;
+    if (hud.mode === "training") {
+      return h("div", { className: "chip", id: "hud-score-chip" },
+        h("div", { className: "eyebrow" }, "Score"),
+        h("div", { id: "hud-strokes" }, hud.score),
+        h("div", { id: "hud-par" }, hud.comboText));
+    }
+    return h("div", { className: "chip", id: "hud-score-chip" },
+      h("div", { className: "eyebrow" }, "Strokes"),
+      h("div", { id: "hud-strokes" }, hud.strokes),
+      h("div", { id: "hud-par" }, `PAR ${hud.par}`));
+  }
+
+  function Rail() {
+    const hud = useSlice("hud");
+    if (!hud.visible) return null;
+    return h("div", { id: "hud-rail", "data-state": hud.railState },
+      h("div", { id: "hud-feedback", "aria-live": "polite", dangerouslySetInnerHTML: { __html: hud.feedback } }),
+      hud.mode === "training"
+        ? h("div", { id: "hud-count" }, hud.count)
+        : hud.powerVisible && h("div", { id: "hud-power-track" },
+            h("div", { id: "hud-power-fill", style: { width: `${hud.powerPct}%` } })));
+  }
+
+  function GestureTip() {
+    const tip = useSlice("gestureTip");
+    return h("div", {
+      id: "gesture-tip",
+      className: tip.show ? "show" : "",
+      dangerouslySetInnerHTML: { __html: tip.html },
+    });
+  }
+
+  function SpeakButton() {
+    if (!actions.speechSupported) return null;
+    return h("button", {
+      id: "speak-btn", type: "button",
+      onClick: actions.speakHint,
+      title: "Read the current step aloud",
+      "aria-label": "Read the current step aloud",
+    }, h("span", { className: "at-i at-i--volume-2", "aria-hidden": "true" }));
+  }
+
+  function ThemePicks() {
+    const intro = useSlice("intro");
+    return h("div", { className: "theme-picks" },
+      THEMES.map((t) => h("button", {
+        key: t.id, type: "button",
+        className: "theme-chip" + (intro.themeId === t.id ? " active" : ""),
+        onClick: () => actions.selectTheme(t.id),
+      }, t.name)));
+  }
+
+  function IntroCard() {
+    const intro = useSlice("intro");
+    if (!intro.visible) return null;
+    return h("div", { className: "overlay", id: "intro", role: "dialog", "aria-modal": "true", "aria-label": "Holodeck prompt" },
+      h("div", { className: "card", role: "main" },
+        h("div", { className: "brandline" }, "Holodeck ~ Powered by AGI Corp & Visko"),
+        h("div", { className: "eyebrow" }, "Speak a simulation into existence"),
+        h("h1", null, "Holodeck"),
+        h("p", { className: "lead" },
+          "Describe it out loud or type it, and it renders and plays for real. What exists " +
+          "today: a 3-hole mini-golf course (pick a theme below with your words), a real scored " +
+          "safety-training procedure on the same engine every union-trade simulator in this " +
+          "project runs on, a programme of stations put together as a lesson, last week's " +
+          "near-miss replayed on the station it happened on, and a station run from one post of " +
+          "a two-person crew. There is no live AI model reading arbitrary prompts yet; the words " +
+          "below are the whole vocabulary."),
+        h("div", { id: "prompt-row" },
+          h("label", { className: "eyebrow", htmlFor: "prompt-input" },
+            "Try: “make a mini golf game with an alaskan theme” or “run a lockout training on a forklift”"),
+          h("textarea", {
+            id: "prompt-input", value: intro.promptText,
+            placeholder: "make a mini golf course, tropical theme...",
+            onChange: (e) => actions.setPromptText(e.target.value),
+          }),
+          h("div", { id: "prompt-actions" },
+            h("button", {
+              id: "mic-btn", type: "button",
+              className: intro.listening ? "listening" : "",
+              disabled: !intro.speechSupported,
+              onClick: actions.toggleMic,
+            }, intro.listening ? "■ Listening…" : h(Fragment, null, h("span", { className: "at-i at-i--mic", "aria-hidden": "true" }), " Speak it")),
+            h("button", { className: "primary", type: "button", onClick: actions.generate }, "Generate course"),
+            h("button", {
+              type: "button", disabled: !intro.xrSupported,
+              title: intro.xrSupported ? "" : "VR unavailable in this browser",
+              onClick: actions.generateInVR,
+            }, "Generate in VR")),
+          !intro.speechSupported && h("p", { className: "fineprint", style: { marginTop: "6px" } },
+            "Voice input isn't supported in this browser — Chrome desktop/Android has it. Typing works everywhere."),
+          intro.error && h("p", { id: "prompt-error" }, intro.error),
+          intro.heard && h("p", { id: "prompt-heard" }, `Heard: “${intro.heard}”`)),
+        h("div", { className: "eyebrow", style: { marginTop: "10px" } }, "Mini-golf theme (auto-picked from your words, or choose one — ignored for training prompts)"),
+        h(ThemePicks),
+        h("p", { className: "fineprint", style: { marginTop: "8px" } },
+          "Training prompts instead pick from: lockout & verify, confined-space entry, or pressure isolation & " +
+          "bleed-down, on an electrical panel, forklift, boiler, conveyor, air compressor or storage tank — e.g. " +
+          "“confined space entry simulation for a storage tank” or “bleed down and depressurize the air " +
+          `compressor.” Or name one of ${REAL_SIMS.length} real SmartCiti.X stations directly — e.g. “run the robot cell ` +
+          "simulation” or “practice the dock crane drill” — and it loads that actual station, hazards and all, " +
+          "not a generated stand-in."),
+        h("p", { className: "fineprint" },
+          "Read out a near-miss and it becomes a drill on the station it names — e.g. “last week " +
+          "on the trench box the spoil pile started moving while we were setting the box.” The " +
+          "report is quoted as written and the event is added to the station as authored; where " +
+          "nothing in that station would answer that kind of event, it says so and runs the " +
+          "procedure plainly rather than inventing an answer."),
+        h("p", { className: "fineprint" },
+          "Three of the stations reachable here are written for two people and can be run from " +
+          "one post — “run the crane yard as the signaller”, “confined rescue as the attendant”, " +
+          "“trench box as the entrant.” You perform your own duties and confirm the other " +
+          "person's. Ask for a role on any other station and it says the station is single-post " +
+          "and runs the whole procedure. (Weld Bay splits welder/fire-watch too, but it is a " +
+          "Trade Skills room rather than a SmartCiti.X station, so it is not loadable from here.)"),
+        h("p", { className: "fineprint" },
+          "Nothing you say or type is sent anywhere — the prompt match runs entirely in this browser."),
+        h("p", { className: "fineprint" },
+          "Your level, XP and badges are the same shared apprentice record as ",
+          h("a", { href: "../smartcity/index.html" }, "SmartCiti.X"), " and ",
+          h("a", { href: "../trades/index.html" }, "Trade Skills Simulator"), " — see ",
+          h("a", { href: "../portal/index.html" }, "the network map"), " for all four apps."),
+        h("p", { className: "fineprint", style: { opacity: .65, marginTop: "8px" } },
+          "Holodeck — powered by AGI Corp & Visko.")));
+  }
+
+  function HoleResultCard() {
+    const r = useSlice("holeResult");
+    if (!r.visible) return null;
+    return h("div", { className: "overlay", id: "hole-result", role: "dialog", "aria-modal": "true", "aria-label": "Hole result" },
+      h("div", { className: "card" },
+        h("div", { className: "res-stars" }, r.stars),
+        h("h1", null, r.title),
+        h("p", { className: "res-note" }, r.note),
+        h("div", { className: "btnrow" },
+          h("button", { className: "primary", onClick: actions.nextHole }, r.isLast ? "See final score" : "Next hole →"))));
+  }
+
+  function FinalCard() {
+    const f = useSlice("final");
+    if (!f.visible) return null;
+    return h("div", { className: "overlay", id: "final", role: "dialog", "aria-modal": "true", "aria-label": "Scorecard" },
+      h("div", { className: "card" },
+        h("div", { className: "eyebrow" }, "Course complete"),
+        h("h1", null, "Scorecard"),
+        h("table", { className: "scorecard" },
+          h("thead", null, h("tr", null, h("th", null, "Hole"), h("th", null, "Par"), h("th", null, "Strokes"))),
+          h("tbody", null,
+            f.rows.map((row, i) => h("tr", { key: i },
+              h("td", null, row.name), h("td", null, row.par), h("td", null, row.strokes))),
+            h("tr", null, h("td", null, h("b", null, "Total")), h("td", null, h("b", null, f.totalPar)), h("td", null, h("b", null, f.totalStrokes))))),
+        h("p", { className: "res-note" }, f.summary),
+        h("div", { className: "btnrow" },
+          h("button", { className: "primary", onClick: actions.playAgain }, "Play it again"),
+          h("button", { onClick: actions.newPrompt }, "New prompt"))));
+  }
+
+  function TrainingResultCard() {
+    const r = useSlice("trainingResult");
+    if (!r.visible) return null;
+    return h("div", { className: "overlay", id: "training-result", role: "dialog", "aria-modal": "true", "aria-label": "Procedure result" },
+      h("div", { className: "card" },
+        h("div", { className: "res-stars" }, r.stars),
+        h("h1", null, r.title),
+        h("p", { className: "res-note" }, r.scoreText),
+        h("p", { className: "res-note" }, r.note),
+        r.rankName && h("p", { className: "res-note" },
+          r.rankedUp
+            ? `Ranked up — you're now ${article(r.rankName)} ${r.rankName} on this procedure.`
+            : `Rank on this procedure: ${r.rankName}.`),
+        r.boardRows.length > 0 && h(Fragment, null,
+          h("div", { className: "eyebrow", style: { marginTop: "8px" } }, "Local leaderboard — this procedure, this device"),
+          h("table", { className: "scorecard" },
+            h("thead", null, h("tr", null, h("th", null, "#"), h("th", null, "Name"), h("th", null, "Score"), h("th", null, "Time"))),
+            h("tbody", null, r.boardRows.map((row) => h("tr", { key: row.place, style: row.isThisRun ? { color: "var(--accent)" } : null },
+              h("td", null, row.place), h("td", null, row.isThisRun ? h("b", null, row.name) : row.name),
+              h("td", null, row.score), h("td", null, row.time)))))),
+        h("div", { className: "btnrow" },
+          h("button", { className: "primary", onClick: actions.playAgain }, "Run it again"),
+          h("button", { onClick: actions.newPrompt }, "New prompt"))));
+  }
+
+  // A lesson is a plan, not a scene, so it renders as a card the learner reads
+  // and launches from rather than a world they stand in. The body is built in
+  // app.js with everything already escaped — see showLesson().
+  function LessonCard() {
+    const lesson = useSlice("lesson");
+    if (!lesson.visible) return null;
+    return h("div", { className: "overlay", role: "dialog", "aria-modal": "true", "aria-label": "Composed lesson" },
+      h("div", { className: "card lesson-card" },
+        h("div", { className: "lesson-html", dangerouslySetInnerHTML: { __html: lesson.html } }),
+        h("button", { onClick: actions.newPrompt }, "New prompt")));
+  }
+
+  function App() {
+    return h(Fragment, null,
+      h(HoleChip), h(ScoreChip), h(Rail), h(GestureTip), h(SpeakButton),
+      h(IntroCard), h(HoleResultCard), h(FinalCard), h(TrainingResultCard), h(LessonCard));
+  }
+
+  ReactDOM.createRoot(document.getElementById("react-root")).render(h(App));
+}

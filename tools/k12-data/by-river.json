@@ -1,0 +1,146 @@
+{
+  "id": "k12-by-the-rivers-current-and-a-pilots-job",
+  "index": "832",
+  "prefix": "byr",
+  "accent": "#5b86b8",
+  "floor": ["#6a6e70", "#5d6163"],
+  "wall": ["#d6dee4", "#c6d0d8"],
+  "trade": "Science class aboard the pilot boat at the marina — learner and river pilot boat operator",
+  "header": "Lower-secondary science at the Venice Marina in Plaquemines Parish: a river's current adds to a boat's speed going downstream and takes away from it going up, water runs faster on the outside of a bend, and a river pilot uses that knowledge to guide a ship safely, using only the floats and the chart the scene shows.",
+  "name": "The River's Current and a Pilot's Job",
+  "tagline": "Downstream the river helps, upstream it pushes back — a pilot reads the current before every turn",
+  "badge": { "id": "current-reader", "name": "Current Reader", "note": "Timed floats in the channel, explained how current changes a boat's speed and aimed a model boat upstream to cross" },
+  "board": { "name": "River Board", "currency": "BENDS", "ranks": ["Deckhand", "Lookout", "Helm", "Mate", "Pilot"] },
+  "hazards": [
+    { "id": "current-is-the-same-everywhere", "label": "Say the current runs at the same speed all across the river?", "face": "SAME\nEVERYWHERE?", "text": "You said the current is the same all across the river. It runs faster in the deep middle and on the outside of a bend, and slower in the shallows and on the inside. Pilots know where the fast water is before they turn." },
+    { "id": "aim-straight-across", "label": "Point the model boat straight across to reach the far landing?", "face": "STRAIGHT\nACROSS", "text": "You pointed the boat straight at the far landing. The current carries it downstream while it crosses, so it lands below the target. Aiming a little upstream lets the current bring the boat to the right place." },
+    { "id": "lean-over-for-a-float", "label": "Lean over the side to catch a float as it passes?", "face": "LEAN\nOVER", "text": "You leaned over the side to grab a float. Current near a hull pulls hard, and the rail is the edge of safe footing. The deckhand collects floats with a long net from inside the rail." },
+    { "id": "speed-is-just-the-engine", "label": "Say the boat's speed comes only from its engine?", "face": "ENGINE\nONLY?", "text": "You said the boat's speed comes only from the engine. Over the ground, a boat's speed is its speed through the water plus or minus the current. The same engine setting is quicker going downstream and slower going up." }
+  ],
+  "find1": {
+    "title": "Find the signs of the current",
+    "cue": "Mark the three things on the water that show which way and how fast the current is moving.",
+    "why": "You cannot see a current directly, but it leaves clues. A floating leaf drifts with it, a buoy leans and trails a ripple downstream, and swirls form where fast water meets slow. Reading those clues is the first skill a river pilot learns, long before they ever take a ship's wheel.",
+    "items": [
+      ["leaf", "a leaf drifting on the surface", "It moves with the water."],
+      ["buoy", "the ripple trailing from a buoy", "The ripple points downstream."],
+      ["swirl", "swirls where fast and slow water meet", "They mark a change in current."]
+    ],
+    "decoy": ["cloud", "a cloud's shadow on the water", "It moves with the wind, not the current."]
+  },
+  "select1": {
+    "title": "Fasten your life jacket and stay inside the rail",
+    "cue": "Fasten your life jacket and take your place inside the deck rail before the boat leaves the dock.",
+    "why": "On a pilot boat everyone wears a life jacket, even the crew who have done it for years. The rail marks where safe footing ends. Getting both right before the boat moves means the whole trip can be about the river, and the operator never has to stop to sort out safety on the water.",
+    "key": "jacket-card",
+    "label": "Jacket on, inside the rail",
+    "face": "JACKET\nAND RAIL"
+  },
+  "seq": {
+    "title": "Put the float test in order",
+    "cue": "Mark a start and finish, drop the float at the start, time it to the finish, then repeat.",
+    "why": "Timing a float between two marks is a simple way to compare current in different places. Setting the marks first keeps the distance the same, timing from start to finish gives a fair reading, and repeating shows whether your first result was typical or just a lucky gust.",
+    "oon": "Out of order. Set the start and finish marks before any float goes in.",
+    "items": [
+      ["ord-marks", "set the start and finish marks"],
+      ["ord-drop", "drop the float at the start"],
+      ["ord-time", "time it to the finish"],
+      ["ord-repeat", "repeat and compare"]
+    ]
+  },
+  "hold": {
+    "title": "Hold the stopwatch steady",
+    "cue": "Hold the stopwatch button until the float crosses the finish mark.",
+    "why": "A timing is only as good as the moment you stop it. Holding steady and watching the float, not the watch, means you stop exactly as it crosses the mark. Careful timing lets you compare the middle of the channel with the edge and trust the difference you find.",
+    "brk": "You let go too early and lost the time. Start again and hold until the float crosses.",
+    "key": "stopwatch",
+    "label": "Stopwatch held"
+  },
+  "turn": {
+    "title": "Turn the model boat's rudder upstream",
+    "cue": "Turn the rudder dial so the model boat points a little upstream of the far landing.",
+    "why": "To cross a moving river and land where you mean to, you aim upstream of your target. The current then carries the boat sideways as it crosses, bringing it to the landing. Pilots do the same thing with huge ships, judging the angle from how fast the water is running that day.",
+    "key": "rudder-dial",
+    "label": "Rudder angle",
+    "dial": "RUDDER"
+  },
+  "gauge": {
+    "title": "Set the model boat's speed",
+    "cue": "Commit when the throttle reaches the setting on the operator's card.",
+    "why": "Using the same throttle setting for each run makes the comparison fair. Then any difference in how long the boat takes is caused by the current, not the engine. A pilot also thinks about speed through the water and speed over the ground as two separate things.",
+    "key": "throttle",
+    "label": "Throttle",
+    "meter": "THROTTLE",
+    "miss": "Not on the card's setting. Match the throttle to the operator's card."
+  },
+  "drag": {
+    "title": "Place the float at the outside of the bend",
+    "cue": "Drag the second float to the outside of the bend on the model river.",
+    "why": "Water on the outside of a bend has further to go, so it runs faster and digs a deeper channel there. Timing a float on the outside and comparing it with the inside shows you the difference. Pilots use that knowledge to keep big ships in the deep water around every turn.",
+    "key": "float",
+    "label": "Test float",
+    "spot": "outer-bend",
+    "spotLabel": "The outside of the bend",
+    "miss": "Not on the outside of the bend yet. Move it to the long side of the curve."
+  },
+  "select2": {
+    "title": "Say where the current was fastest",
+    "cue": "Choose the sentence that matches your float times.",
+    "why": "The float that took the least time moved fastest. Linking the shortest time to the fastest water, and naming where that float was, is how you turn a list of timings into a finding about the river. Saying it clearly is the same as a pilot telling the ship's crew where the strong water is.",
+    "key": "finding-card",
+    "label": "State the finding",
+    "face": "WHERE WAS\nIT FASTEST?"
+  },
+  "find2": {
+    "title": "Spot what a pilot watches for",
+    "cue": "Look at the river chart and mark each thing a pilot plans around.",
+    "why": "A river pilot knows a stretch of river so well they can picture it in fog. They plan around the bends where current runs strong, the shallows at the edges, and other ships coming the other way. Seeing these on the chart shows why a ship takes on a local pilot for this part of its journey.",
+    "items": [
+      ["ch-bend", "a sharp bend with fast water", "Plan the turn early."],
+      ["ch-shallow", "a shallow edge marked on the chart", "Stay in the deep channel."],
+      ["ch-traffic", "a ship coming the other way", "Agree who passes where by radio."]
+    ],
+    "decoy": ["ch-compass", "the compass rose in the chart's corner", "Useful for direction, but not a hazard to plan around."]
+  },
+  "track": {
+    "title": "Keep the model boat on the channel line",
+    "cue": "Keep the marker on the channel line as the current pushes the model boat sideways.",
+    "why": "The current never stops pushing, so steering is a steady job of small corrections. Keeping the boat on the channel line teaches the feel a pilot has, adjusting a little and often rather than waiting until the ship has drifted. Calm, small corrections are what keep a ship safe in a moving river.",
+    "brk": "The boat drifted off the channel line. Correct gently and bring it back.",
+    "key": "channel-meter",
+    "label": "Channel line held",
+    "meter": "CHANNEL"
+  },
+  "record": {
+    "title": "Record the float times",
+    "cue": "Write each float's place and time in a table, with the repeat beside it.",
+    "why": "A table of places and times lets anyone check your finding and see the pattern at once. Writing the repeat beside the first try shows how steady your results were. Pilots and river crews keep careful logs of conditions too, because the river changes and yesterday's notes help today's plan.",
+    "key": "river-log",
+    "label": "Float record",
+    "done": "Float times recorded"
+  },
+  "share": {
+    "title": "Check your finding with the operator",
+    "cue": "Tell the pilot boat operator where you found the fastest water and see if they agree.",
+    "why": "The operator has run this river many times and knows where the current is strong. Checking your finding with someone who has that experience is a good test of your method. If you agree, your floats told the truth; if not, you look for the reason together.",
+    "key": "share-board",
+    "label": "Check with the operator",
+    "done": "Finding checked"
+  },
+  "checkin": {
+    "title": "Check in at the dock",
+    "cue": "What did the floats show you? How would you explain a pilot's job to someone at home?",
+    "why": "The pilot boat crew talks through every run once the lines are tied, so the class does the same at the dock. Each learner says where the current ran fastest and why a pilot aims upstream to cross. Anyone still thinking a boat's speed comes only from its engine can ask the operator before the group leaves.",
+    "label": "End-of-trip check-in"
+  },
+  "interrupts": [
+    { "id": "a-ship-sounds-its-horn", "kind": "Ship signal", "key": "sit-down", "label": "Sit down and hold on while the boat gives way", "alert": "A large ship sounds its horn and the operator turns the pilot boat to give it room.", "cue": "Sit down, hold the handrail and stay quiet while the operator turns.", "why": "The horn is a signal between vessels, and the operator needs to concentrate. Sitting and holding on keeps everyone steady during the turn. Quiet lets the operator hear the radio. The lesson waits; giving way to a big ship does not.", "miss": "Nobody sat down, and the group was still standing and talking as the pilot boat turned sharply to give way.", "wrong": "That leaves you standing during the turn. Sit down and hold on. Choose the response that deals with it now.", "done": "Group seated and quiet, the ship passed. The lesson carries on." },
+    { "id": "the-operator-asks-how-to-reach-the-landing", "kind": "Operator question", "key": "say-aim", "label": "Say to aim a little upstream of the landing", "alert": "The operator asks how to steer to reach the far landing across the current.", "cue": "Say to aim a little upstream so the current carries the boat to the landing.", "why": "This is the idea the whole lesson builds to. Saying it in your own words shows you can use it, not just repeat it. It is exactly what a pilot thinks every time a ship must cross or turn in a moving river.", "miss": "You said to point straight at the landing, and the operator had to show how the current would carry the boat below it.", "wrong": "That would land you downstream of the target. Say where to aim. Choose the response that deals with it now.", "done": "Upstream aim explained. The lesson carries on." }
+  ],
+  "crew": ["Science teacher", "Classmate", "Pilot boat operator", "Deckhand with a net"],
+  "guide": { "start": "Read the current before you steer.", "after": "Aim upstream; the river brings you in.", "hazard": "Stop. Stay inside the rail — the net does the reaching." },
+  "lateRecord": "The float record is written once the timings are done — nothing to record yet.",
+  "lateCheckin": "The check-in comes at the very end of the trip.",
+  "scene": "deck",
+  "order": "a"
+}

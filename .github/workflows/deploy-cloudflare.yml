@@ -1,0 +1,78 @@
+name: Deploy to Cloudflare
+
+# Console EDGE (docs/deploy-cloudflare.md). On a push to the default branch, run the checker suite and then
+# the deploy agent with --apply. Both jobs are gated on the two Cloudflare secrets being present in the
+# repository: a fork or a checkout without them runs nothing and stays green. The agent reads the credentials
+# from the environment by name, never prints them, and rolls back to the previous deployment if its verify
+# step fails. Optional: CF_CUSTOM_DOMAIN and CLOUDFLARE_ZONE_ID (the custom domain and its DNS record),
+# PAYMENTS_WEBHOOK_SECRET (set on the project by name), CF_WORKER_ZONE (the standalone Worker route).
+
+on:
+  push:
+    branches: ["main", "claude/vr-ar-safety-training-wkwmve"]
+    paths: ["WebXR/**", "tools/**", "workers/**", "functions/**", "wrangler.toml", ".github/workflows/deploy-cloudflare.yml"]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-cloudflare
+  cancel-in-progress: false
+
+jobs:
+  secrets:
+    name: Are the Cloudflare secrets present?
+    runs-on: ubuntu-latest
+    outputs:
+      have_secrets: ${{ steps.probe.outputs.have_secrets }}
+    steps:
+      - id: probe
+        env:
+          HAVE_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN != '' }}
+          HAVE_ACCOUNT: ${{ secrets.CLOUDFLARE_ACCOUNT_ID != '' }}
+        run: |
+          if [ "$HAVE_TOKEN" = "true" ] && [ "$HAVE_ACCOUNT" = "true" ]; then
+            echo "have_secrets=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "have_secrets=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID are not both set — nothing is deployed."
+          fi
+
+  deploy:
+    name: Gate on the suite, then deploy
+    needs: secrets
+    if: ${{ needs.secrets.outputs.have_secrets == 'true' }}
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install wrangler
+        run: npm install --no-save wrangler
+
+      - name: Build the flat folder
+        run: python3 tools/bundle_webxr.py
+
+      - name: The checker suite
+        run: node tools/check_all.mjs
+
+      - name: Deploy agent (build and gate already done above)
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_ZONE_ID: ${{ secrets.CLOUDFLARE_ZONE_ID }}
+          PAYMENTS_WEBHOOK_SECRET: ${{ secrets.PAYMENTS_WEBHOOK_SECRET }}
+          CF_CUSTOM_DOMAIN: ${{ vars.CF_CUSTOM_DOMAIN }}
+          CF_WORKER_ZONE: ${{ vars.CF_WORKER_ZONE }}
+          CF_PAGES_BRANCH: ${{ github.ref_name }}
+        run: node tools/deploy_agent.mjs --apply --skip-build --skip-gate --log deploy-run.md
+
+      - name: Run log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: deploy-run
+          path: deploy-run.md

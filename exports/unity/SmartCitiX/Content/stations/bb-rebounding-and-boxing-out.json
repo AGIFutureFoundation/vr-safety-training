@@ -1,0 +1,433 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "sealed-and-safe",
+    "name": "Sealed and Safe",
+    "note": "Contact taught under control, pairs matched, and every knock to the head recognised and removed"
+  },
+  "category": "Youth Sports & Coaching",
+  "certification": "USA Basketball youth development guidelines on introducing contact progressively and matching players by size and maturity; NFHS basketball rules on legal contact and displacement under the basket; CDC Heads Up for concussion signs and the recognise, remove, refer action plan with no same-day return; the U.S. Center for SafeSport for keeping a parent's concern out of the drill and in the open; the American Red Cross first aid course for a player down after a collision",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "CDC",
+        "citedAs": "CDC Heads Up",
+        "id": "cdc-heads-up",
+        "title": "CDC Heads Up concussion-in-youth-sports training for coaches, parents and athletes: recognise the signs, remove the player from play, refer for evaluation, and return only with clearance"
+      },
+      {
+        "body": "NFHS",
+        "citedAs": "NFHS",
+        "id": "nfhs-basketball-rules",
+        "title": "National Federation of State High School Associations (NFHS) basketball rules and its sports medicine advisory guidance on concussion, heat and hydration for school sport"
+      },
+      {
+        "body": "Red Cross",
+        "citedAs": "American Red Cross first aid",
+        "id": "red-cross-first-aid-course",
+        "title": "American Red Cross first aid, CPR and AED course for coaches and staff: check the scene, call, care, and hand over to emergency services"
+      },
+      {
+        "body": "U.S. Center for SafeSport",
+        "citedAs": "U.S. Center for SafeSport",
+        "id": "safesport-code",
+        "title": "U.S. Center for SafeSport abuse-prevention training and policies for adults who work with young athletes: two adults present, observable and interruptible interactions, and reporting"
+      },
+      {
+        "body": "USA Basketball",
+        "citedAs": "USA Basketball",
+        "id": "usa-basketball-youth-guidelines",
+        "title": "USA Basketball youth development guidelines: age-appropriate play, practice length and frequency, rest and multi-sport participation for young players, and the coach licence that teaches them"
+      }
+    ]
+  },
+  "district": "gym-court",
+  "domain": "Youth Sports",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "clear-paint",
+        "name": "Clear Paint",
+        "note": "Everything in the paint found first time"
+      },
+      {
+        "id": "no-bad-contact",
+        "name": "No Bad Contact",
+        "note": "No unsafe action in the whole rebounding block"
+      },
+      {
+        "id": "timed-and-sealed",
+        "name": "Timed and Sealed",
+        "note": "Jump timing and contact control both inside the band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-boards",
+        "name": "Clean Boards",
+        "note": "No corrections anywhere in the block"
+      },
+      {
+        "id": "steady-contact",
+        "name": "Steady Contact",
+        "note": "Held contact control in band the whole time"
+      },
+      {
+        "id": "quick-boards",
+        "name": "Quick Boards",
+        "note": "Practice log reached inside 80% of par"
+      }
+    ],
+    "currency": "BOARDS",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Rebound Helper",
+      "Contact Coach",
+      "Assistant Coach",
+      "Head Coach",
+      "Player-Safety Lead"
+    ],
+    "system": "Boards"
+  },
+  "hazards": {
+    "back-in-after-head-knock": "You sent the player straight back in after a knock to the head because they said they were fine. Young players almost always say they are fine; concussion signs can take minutes or hours to appear, and a second blow while the brain is still recovering is far more dangerous than the first.",
+    "four-to-a-ball": "You let four players crash the same rebound together. Landing is where rebounding injuries happen: with four players coming down in one small circle, somebody's foot lands on somebody else's, and ankles roll under the weight.",
+    "sweat-in-the-paint": "You carried on with the sweat patch still in the paint. Rebounders land from a jump with their eyes on the ball; a wet patch under a landing foot slides it out sideways at the moment all their weight arrives.",
+    "swinging-elbows-allowed": "You told the rebounders to swing their elbows to clear space. An elbow swung at head height in a crowd of jumping players is the most direct route to a broken nose, a split lip or a concussion, and the rules treat it as a foul for exactly that reason."
+  },
+  "id": "bb-rebounding-and-boxing-out",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "hold-the-seal",
+      "alert": "Two rebounders went up for the same ball and their heads met. One is sitting on the floor, holding the side of their head and blinking.",
+      "cue": "Stop the drill and call the athletic trainer to run a concussion check — the player stays sitting and does not go back in.",
+      "delay": 3,
+      "id": "heads-collide-on-a-rebound",
+      "kind": "Player down",
+      "missNote": "The drill carried on and the player got up and went back into the next round. If that knock caused a concussion, a second blow now is far more dangerous than the first, and nobody trained to look for the signs has checked them.",
+      "seconds": 12,
+      "target": "concussion-check-call",
+      "why": "A clash of heads is a possible concussion until a trained person says otherwise, however quickly the player wants to get up. Stopping the drill and calling the athletic trainer for a concussion check starts the recognise, remove, refer plan from CDC Heads Up at once, and the player sits out for the rest of the day no matter how they feel in five minutes.",
+      "wrongNote": "That does not start the check. Call the athletic trainer for a concussion check — the player stays sitting."
+    },
+    {
+      "after": "contact-control",
+      "alert": "A parent has come through the doors onto the court, calling out that the drill is too soft and telling their child to 'really hit' the kid next to them.",
+      "cue": "Send the assistant coach to meet the parent at the door, calmly, off the court — the head coach keeps the drill under control.",
+      "delay": 3,
+      "id": "parent-demands-rougher-drills",
+      "kind": "Parent at the door",
+      "missNote": "The parent stayed courtside shouting and their child took it to heart, shoving the next rebounder in the back into the stanchion pad. The drill's whole point — controlled contact — was lost to an adult nobody went to meet.",
+      "seconds": 12,
+      "target": "door-greeting-spot",
+      "why": "A parent shouting instructions into a contact drill is pushing a young player toward exactly the uncontrolled hit this station exists to prevent. The assistant meeting them at the door, calmly and away from the players, keeps the drill in the coach's hands, gives the parent a real conversation, and keeps everything in view the way SafeSport policies expect.",
+      "wrongNote": "That leaves the parent on the court. The assistant goes to meet them at the door."
+    }
+  ],
+  "lateNotes": {
+    "crew-checkin-board": "The staff check-in comes after the log, at the end of the block.",
+    "practice-log-board": "The log closes the rebounding block once it has run and the balls are racked — nothing to record yet."
+  },
+  "name": "Rebounding and Boxing Out",
+  "parSeconds": 330,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "basketball-fundamentals"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.5,
+    "hits": [
+      "back-in-after-head-knock",
+      "baseline-bench",
+      "bench-socket",
+      "box-find-player",
+      "box-go-get-it",
+      "box-make-contact",
+      "box-sit-and-seal",
+      "cart-socket",
+      "concussion-check-call",
+      "contact-meter",
+      "crew-checkin-board",
+      "door-greeting-spot",
+      "four-to-a-ball",
+      "heads-up-card",
+      "outlet-find-guard",
+      "outlet-pivot-away",
+      "outlet-two-hand-pass",
+      "paint-bag-on-baseline",
+      "paint-lane-paint",
+      "paint-loose-ball",
+      "paint-wet-patch",
+      "pairing-board",
+      "pivot-dial",
+      "practice-log-board",
+      "rebound-cart",
+      "seal-marker",
+      "sign-dazed-look",
+      "sign-holding-head",
+      "sign-out-of-breath",
+      "sign-unsteady",
+      "sweat-in-the-paint",
+      "swinging-elbows-allowed",
+      "timing-meter"
+    ],
+    "meshes": 244
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Scan the lane and the baseline. Mark everything a landing rebounder could slip on, land on or run into.",
+      "decoyNotes": {
+        "paint-lane-paint": "The painted lane is part of the court. Look for what should not be lying in it."
+      },
+      "id": "clear-the-paint",
+      "itemNames": {
+        "paint-bag-on-baseline": "a ball bag left on the baseline",
+        "paint-loose-ball": "a loose ball against the lane line",
+        "paint-wet-patch": "a sweat patch in the paint"
+      },
+      "itemNotes": {
+        "paint-bag-on-baseline": "Players chasing a long rebound run past the baseline. The bag goes to the wall.",
+        "paint-loose-ball": "A ball at the lane line is under somebody's landing within a minute. Rack it.",
+        "paint-wet-patch": "The paint is where every rebound lands. Towel it dry before the first box-out."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Scan the lane and the baseline. Mark everything a landing rebounder could slip on, land on or run into.",
+      "targets": [
+        "paint-wet-patch",
+        "paint-loose-ball",
+        "paint-bag-on-baseline"
+      ],
+      "title": "Clear the paint before anyone crashes the boards",
+      "why": "Rebounding sends players up in a crowd and brings them down in the same small space, often past the baseline. A sweat patch, a loose ball and a bag on the baseline are what a landing foot finds. Clearing the paint first costs half a minute; a rolled ankle or a slide into the stanchion costs the season."
+    },
+    {
+      "cue": "Pair players with teammates of similar size and strength before any contact.",
+      "id": "match-the-pairs",
+      "kind": "select",
+      "prompt": "Pair players with teammates of similar size and strength before any contact.",
+      "target": "pairing-board",
+      "title": "Match the box-out pairs by size",
+      "why": "Contact is introduced to young players carefully because bodies at the same age can differ hugely in size and strength. Pairing by size and maturity, the way youth development guidance recommends, lets both players learn the technique instead of one learning to get flattened — and it keeps the contact within what both bodies can take."
+    },
+    {
+      "cue": "Find your player, make contact with forearm and hip, sit low and seal, then go get the ball with two hands.",
+      "id": "build-the-box-out",
+      "itemNames": {
+        "box-find-player": "find your player as the shot goes up",
+        "box-go-get-it": "go get the ball with two hands, chin it",
+        "box-make-contact": "make contact with the forearm and hip",
+        "box-sit-and-seal": "sit low and seal them behind you"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order. Find the player and seal them before going for the ball — jump first and there is no box-out, just a crowd of players all going up blind.",
+      "prompt": "Find your player, make contact with forearm and hip, sit low and seal, then go get the ball with two hands.",
+      "targets": [
+        "box-find-player",
+        "box-make-contact",
+        "box-sit-and-seal",
+        "box-go-get-it"
+      ],
+      "title": "Build the box-out in order",
+      "why": "A box-out is a sequence because it is about position before it is about the ball. Finding the player first, making contact with the forearm and hip rather than the hands, sitting low to seal them, and only then going for the ball keeps the contact legal and low — and stops the grab-and-jump scramble where heads and elbows meet."
+    },
+    {
+      "cue": "Stay low with the player sealed behind you until the ball hits the rim — hold it while you watch every pair.",
+      "holdBreakNote": "The seal broke before the ball came off the rim. Get low, find the contact again and hold it.",
+      "id": "hold-the-seal",
+      "kind": "hold",
+      "prompt": "Stay low with the player sealed behind you until the ball hits the rim — hold it while you watch every pair.",
+      "seconds": 7,
+      "target": "seal-marker",
+      "title": "Hold the seal until the ball comes off the rim",
+      "why": "Holding the seal teaches patience: most young rebounders leave their player the moment the shot goes up and end up in a crowd under the rim. Staying low and connected until the ball comes off the rim is the whole technique, and holding it gives the coach time to watch every pair's contact and every pair's heads."
+    },
+    {
+      "cue": "Turn half a circle on the pivot foot to put your back into your player's chest.",
+      "id": "reverse-pivot-into-contact",
+      "kind": "turn",
+      "prompt": "Turn half a circle on the pivot foot to put your back into your player's chest.",
+      "target": "pivot-dial",
+      "title": "Reverse pivot into the box-out",
+      "turn": {
+        "axis": "y",
+        "label": "REVERSE PIVOT",
+        "turns": 0.5
+      },
+      "why": "A reverse pivot turns a defender from facing their player to sealing them, using the footwork from the jump-stop station. Done on the ball of the foot, with the hips low, it puts the back into the chest rather than an elbow into the face, which is what keeps box-out contact broad, low and safe."
+    },
+    {
+      "cue": "Commit when the jump reads timed to the ball — not early, not late.",
+      "gauge": {
+        "green": [
+          0.46,
+          0.6
+        ],
+        "label": "JUMP",
+        "missNote": "Off the timing. Early and the rebounder is landing as the ball arrives; late and someone else has it. Find the timing and commit.",
+        "speed": 0.7
+      },
+      "id": "time-the-jump",
+      "kind": "gauge",
+      "prompt": "Commit when the jump reads timed to the ball — not early, not late.",
+      "target": "timing-meter",
+      "title": "Time the jump to the ball off the rim",
+      "why": "A rebounder who jumps too early is coming down into the crowd as the ball arrives; one who jumps late is beaten to it and reaches over someone's back. Timing the jump to the ball's path off the rim means going up once, catching it at the top, and landing on balance — the fewest collisions for the most rebounds."
+    },
+    {
+      "cue": "Hold the pairs' contact in band — enough to seal, never a shove or a push in the back.",
+      "holdBreakNote": "The contact left the band — no seal, or tipping into shoving. Bring it back to a controlled seal.",
+      "id": "contact-control",
+      "kind": "track",
+      "prompt": "Hold the pairs' contact in band — enough to seal, never a shove or a push in the back.",
+      "seconds": 8,
+      "target": "contact-meter",
+      "title": "Keep the contact controlled",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.44,
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "CONTACT",
+        "rise": 0.55,
+        "start": 0.25
+      },
+      "why": "Box-out contact has a band: too little and there is no seal, too much and it becomes a shove in the back that sends a player sprawling into the lane. Holding the pairs inside the band is what makes contact teachable to young players, and it is also the difference between legal position and displacement the rules penalise."
+    },
+    {
+      "cue": "Slide the team bench back to its marked spot against the wall, clear of the baseline.",
+      "drag": {
+        "missNote": "Not far enough back. Long rebounds carry players past the baseline — the bench goes all the way to its mark by the wall.",
+        "radius": 0.55,
+        "to": "bench-socket"
+      },
+      "id": "clear-the-landing-zone",
+      "kind": "drag",
+      "prompt": "Slide the team bench back to its marked spot against the wall, clear of the baseline.",
+      "target": "baseline-bench",
+      "title": "Move the bench back from the baseline",
+      "why": "Long rebounds carry players out past the baseline at full stretch. A bench within a few steps of the line is exactly where that run ends, shins first. Sliding it back to a marked spot by the wall gives every rebounder room to land and slow down on open floor."
+    },
+    {
+      "cue": "Watch the players after a round of contact. Mark every player showing a possible concussion sign.",
+      "decoyNotes": {
+        "sign-out-of-breath": "Breathing hard after a rebounding drill is normal effort. Look for the signs that follow a knock to the head."
+      },
+      "id": "spot-concussion-signs",
+      "itemNames": {
+        "sign-dazed-look": "a player with a blank, dazed look",
+        "sign-holding-head": "a player holding their head and wincing",
+        "sign-unsteady": "a player unsteady on their feet"
+      },
+      "itemNotes": {
+        "sign-dazed-look": "Looking dazed or 'not all there' after contact is a sign on its own — out, and the athletic trainer checks them.",
+        "sign-holding-head": "A headache after a bump is one of the most common concussion signs. That player comes out now.",
+        "sign-unsteady": "Balance problems after a hit mean the brain may be affected. Sit them down and get the athletic trainer."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Watch the players after a round of contact. Mark every player showing a possible concussion sign.",
+      "targets": [
+        "sign-holding-head",
+        "sign-dazed-look",
+        "sign-unsteady"
+      ],
+      "title": "Spot the signs of a concussion after a bump",
+      "why": "CDC Heads Up training teaches coaches the signs they can see — a player holding their head, looking dazed or confused, or unsteady on their feet — because young athletes rarely report symptoms themselves. A coach who knows what to look for after every round of contact catches the player who says they are fine and is not."
+    },
+    {
+      "cue": "Any sign after a knock to the head: out of play, no return today, checked by the athletic trainer and cleared in writing by a health care provider before coming back.",
+      "id": "recognise-remove-refer",
+      "kind": "select",
+      "prompt": "Any sign after a knock to the head: out of play, no return today, checked by the athletic trainer and cleared in writing by a health care provider before coming back.",
+      "target": "heads-up-card",
+      "title": "Apply the rule: recognise, remove, refer",
+      "why": "The concussion action plan in CDC Heads Up is simple on purpose: recognise the signs, remove the player from play, refer them to a health care provider, and return only with clearance. No same-day return is the part that protects against a second blow while the brain is still vulnerable, and it is not the player's or the coach's call to skip it."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Pivot away from pressure, find the guard, a two-hand outlet pass — walk each piece.",
+      "id": "outlet-after-the-board",
+      "itemNames": {
+        "outlet-find-guard": "find the guard on the wing",
+        "outlet-pivot-away": "pivot away from the pressure",
+        "outlet-two-hand-pass": "a two-hand outlet pass"
+      },
+      "kind": "sequence",
+      "prompt": "Pivot away from pressure, find the guard, a two-hand outlet pass — walk each piece.",
+      "targets": [
+        "outlet-pivot-away",
+        "outlet-find-guard",
+        "outlet-two-hand-pass"
+      ],
+      "title": "Finish the rebound with the outlet",
+      "why": "A rebound is only finished when the ball leaves the crowd. Pivoting away from pressure, finding the guard and throwing a two-hand outlet gets the ball and the rebounder out of the paint quickly, and it keeps the player chinning the ball rather than swinging it through faces to clear space."
+    },
+    {
+      "cue": "Roll the cart to the baseline corner and rack every ball in the paint.",
+      "drag": {
+        "missNote": "Not in the corner. The cart goes to its baseline-corner spot, out of every landing.",
+        "radius": 0.5,
+        "to": "cart-socket"
+      },
+      "id": "rack-the-rebounds",
+      "kind": "drag",
+      "prompt": "Roll the cart to the baseline corner and rack every ball in the paint.",
+      "target": "rebound-cart",
+      "title": "Rack the rebound balls before the next round",
+      "why": "Rebounding drills leave balls scattered through the landing zone between rounds. Racking them into a cart parked in the baseline corner, out of every landing, keeps the next round starting on a clear floor — the simplest ankle protection in the gym."
+    },
+    {
+      "cue": "Record the pairs, the contact corrections, any head knock with the time, the signs seen and who checked the player.",
+      "id": "log-the-rebounding",
+      "kind": "select",
+      "prompt": "Record the pairs, the contact corrections, any head knock with the time, the signs seen and who checked the player.",
+      "target": "practice-log-board",
+      "title": "Log the rebounding block",
+      "why": "A possible concussion is logged with the time, what happened, the signs seen and who assessed the player, because the parents, the athletic trainer and the player's health care provider all need that account. The pairs and contact notes sit beside it, so the next contact session starts where this one safely ended."
+    },
+    {
+      "cue": "At the bench: what the trainer found, who calls the family, how the door conversation went, and is everybody good to go on?",
+      "id": "crew-check-in",
+      "kind": "select",
+      "prompt": "At the bench: what the trainer found, who calls the family, how the door conversation went, and is everybody good to go on?",
+      "target": "crew-checkin-board",
+      "title": "Check in with the assistant coach and the athletic trainer",
+      "why": "A head knock means a phone call home, and it matters that the family hears one clear account from the right adult. The check-in decides who makes that call, pools what the trainer found and what the assistant heard at the door, and keeps the staff acting together, openly, rather than three people each assuming another handled it."
+    }
+  ],
+  "supportLine": "your league's coach coordinator, or the athletic trainer who took the head knock from you — pulling a player for a possible concussion stays with the coach who made the call",
+  "tagline": "The paint cleared, pairs matched by size, the box-out built and the seal held, the jump timed, contact kept controlled, concussion signs recognised, and any knock to the head taken out of play",
+  "title": "SmartCiti.X~ Rebounding and Boxing Out VR",
+  "trade": "Youth basketball coach",
+  "underwater": null,
+  "weather": "clear"
+}

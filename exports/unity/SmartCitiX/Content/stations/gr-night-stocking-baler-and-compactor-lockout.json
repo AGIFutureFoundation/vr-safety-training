@@ -1,0 +1,402 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "shift-clean",
+    "name": "Shift Clean",
+    "note": "Both machines cleared, guarded and proven with every lock accounted for before the shift closed out"
+  },
+  "category": "Culinary & Hospitality",
+  "certification": "UFCW member training for retail food work; OSHA 29 CFR 1910.147 control of hazardous energy; OSHA 29 CFR 1910.212 machine guarding; ANSI B11 safety of machinery; OSHA 29 CFR 1910.132 personal protective equipment",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI B11",
+        "id": "ansi-b11",
+        "title": "ANSI B11 — Safety of machinery (the B11 series of machine-tool standards)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.132",
+        "id": "osha-1910-132",
+        "title": "29 CFR 1910.132 — Personal protective equipment, general requirements"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.212",
+        "id": "osha-1910-212",
+        "title": "29 CFR 1910.212 — General requirements for all machines (machine guarding)"
+      },
+      {
+        "body": "union",
+        "citedAs": "UFCW",
+        "id": "ufcw-training",
+        "title": "UFCW member training for retail food, clinic and dental support work"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Grocery night stocking crew",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "lock-first",
+        "name": "Lock First",
+        "note": "Locked the baler out before reaching into the jam"
+      },
+      {
+        "id": "no-reach-live",
+        "name": "No Reach Live",
+        "note": "Never reached into a chamber that wasn't proven dead"
+      },
+      {
+        "id": "steady-pull",
+        "name": "Steady Pull",
+        "note": "Cleared the jam at a steady, controlled rate every time"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-shift",
+        "name": "Clean Shift",
+        "note": "No corrections through the whole jam-clearing procedure"
+      },
+      {
+        "id": "held-the-hold",
+        "name": "Held The Hold",
+        "note": "Never broke a timed step early"
+      },
+      {
+        "id": "shift-fast",
+        "name": "Shift Fast",
+        "note": "Complete inside 80% of par"
+      }
+    ],
+    "currency": "BALE",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "New Stocker",
+      "Night Stocker",
+      "Lead Stocker",
+      "Overnight Supervisor",
+      "Overnight Crew Authority Certified"
+    ],
+    "system": "Overnight Crew Authority"
+  },
+  "hazards": {
+    "compactor-hopper-reach": "You're reaching into the compactor hopper to free the jam with the ram's own power still live. A cardboard compactor's ram is built to crush its own load without warning; the hopper only gets a hand inside it once the unit is proven locked out, never before.",
+    "frayed-wire": "The gate's own limit-switch wire is frayed down to bare copper. A limit switch that can short or fail open is a guard interlock the machine cannot actually trust, whatever the gate itself looks like from the outside.",
+    "reach-into-chamber-live": "That baler chamber has no lock on its disconnect. Reaching into a jammed chamber that could still be told to cycle is the single most common way a baler-related injury actually happens in a grocery backroom — the ram does not know a hand is where the cardboard was.",
+    "stale-shift-tag": "That danger tag on the panel is from a shift that ended hours ago, with nobody's name on this shift's own lockout log. An unaccounted-for lock or tag left on a panel is exactly what group lockout procedures exist to prevent — every lock on that panel has to belong to somebody working right now."
+  },
+  "id": "gr-night-stocking-baler-and-compactor-lockout",
+  "indoor": "garage",
+  "interrupts": [
+    {
+      "after": "clear-jam-cardboard",
+      "alert": "A new stocker has walked up to the baler's start button, about to bump it to \"see if it's still stuck\" — they haven't clocked your lock on the disconnect.",
+      "cue": "Your hand is inside the chamber and somebody is about to try starting this baler.",
+      "delay": 4,
+      "id": "new-stocker-restart",
+      "kind": "Lockout not seen",
+      "missNote": "They bumped the start button with your hand still inside the chamber. The lock was doing its job right up until somebody didn't look for it first — a disconnect lockout only protects the person who makes sure it gets noticed.",
+      "seconds": 13,
+      "target": "baler-disconnect",
+      "why": "Your lock on that disconnect is the entire reason it is safe to have a hand inside this chamber right now, and it only works if the next person reaching for the start button sees it first. Stop them and point at the lock before curiosity does what a jam couldn't.",
+      "wrongNote": "It's the baler's disconnect — get their hand off the start button and make sure they see your lock."
+    },
+    {
+      "after": "compactor-gate-open",
+      "alert": "A coworker has wheeled a cart of broken-down boxes up to the compactor and is about to tip them straight into the open hopper.",
+      "cue": "That hopper's gate is open for an inspection, not for a load — nobody has proven this machine is locked out to anyone but you.",
+      "delay": 3,
+      "id": "coworker-cart-into-hopper",
+      "kind": "Product headed for an open machine",
+      "missNote": "The boxes went into the hopper before the compactor was closed back up and proven. Whatever was in that cart is now sitting against a ram somebody else believed was ready to run — because nothing here told them it wasn't.",
+      "seconds": 12,
+      "target": "compactor-disconnect",
+      "why": "An open gate on a compactor looks, to anyone who hasn't been standing here for the last minute, like a machine that is simply ready for the next load. Pointing them at the disconnect and your lock is what tells them otherwise before a cart of boxes goes in on top of an inspection that isn't finished.",
+      "wrongNote": "It's the compactor's disconnect — stop the cart and point at your lock before anything goes into that hopper."
+    }
+  ],
+  "lateNotes": {
+    "compactor-gate": "The compactor's own cord gets locked first — the ram chamber opens on a dead machine, not a running one somebody forgot to isolate."
+  },
+  "name": "Night Stocking Baler & Compactor Lockout",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "grocery-and-meatpacking"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.8,
+    "hits": [
+      "bale-staging",
+      "bale-wire-tensioner",
+      "baler-body",
+      "baler-disconnect",
+      "baler-gate",
+      "baler-jam-light",
+      "baler-test-switch",
+      "baler-voltage-tester",
+      "clean-hopper",
+      "compactor-body",
+      "compactor-disconnect",
+      "compactor-gate",
+      "compactor-hopper-reach",
+      "finished-bale",
+      "flatten-box",
+      "frayed-wire",
+      "gate-stop",
+      "jammed-wad",
+      "maintenance-log",
+      "queue-cardboard",
+      "reach-into-chamber-live",
+      "stale-shift-tag",
+      "stocking-board"
+    ],
+    "meshes": 149
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check the pallet list for the overnight shift and confirm the baler and compactor are between cycles.",
+      "id": "stocking-manifest",
+      "kind": "select",
+      "prompt": "Check the pallet list for the overnight shift and confirm the baler and compactor are between cycles.",
+      "target": "stocking-board",
+      "title": "Read tonight's stocking manifest",
+      "why": "The manifest sets what gets broken down and baled tonight, and confirming both machines are actually between cycles before touching either one is the fact this whole shift's safety depends on — starting a lockout on a baler mid-cycle is how a hand ends up where a ram already is."
+    },
+    {
+      "cue": "Break the empty box down flat, then stack it in the queue at the baler's infeed — in that order.",
+      "id": "flatten-and-queue",
+      "itemNames": {
+        "flatten-box": "flattened box",
+        "queue-cardboard": "cardboard queue"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Wrong order — the box flattens first, then it joins the queue at the infeed.",
+      "prompt": "Break the empty box down flat, then stack it in the queue at the baler's infeed — in that order.",
+      "targets": [
+        "flatten-box",
+        "queue-cardboard"
+      ],
+      "title": "Flatten and queue the cardboard",
+      "why": "A box broken down flat feeds the chamber evenly; one still half-folded is exactly the kind of load that jams a ram halfway through its stroke. Queuing it at the infeed, not shoving it straight into a running chamber, is what keeps hands clear of the machine doing the actual work."
+    },
+    {
+      "cue": "Check the amber jam indicator on the baler's control panel before feeding it anything else.",
+      "id": "baler-jam-noted",
+      "kind": "select",
+      "prompt": "Check the amber jam indicator on the baler's control panel before feeding it anything else.",
+      "target": "baler-jam-light",
+      "title": "Notice the baler's jam light",
+      "why": "The jam light is the machine telling you the ram stalled mid-stroke — feeding more cardboard into a chamber that already has a jammed load in it only packs the jam in tighter, and it is the last normal-looking thing this baler does before somebody's hand goes in after it."
+    },
+    {
+      "cue": "Open the baler's own disconnect switch and clip your padlock through it.",
+      "id": "baler-lockout",
+      "kind": "select",
+      "prompt": "Open the baler's own disconnect switch and clip your padlock through it.",
+      "target": "baler-disconnect",
+      "title": "Lock out the baler's disconnect",
+      "why": "OSHA 29 CFR 1910.147 asks for one thing before any hand goes near a jammed ram: the energy source isolated and locked by the person about to clear it. This switch is wired to the baler alone, so your lock — and nowhere else — is what keeps that ram from being told to finish its stroke."
+    },
+    {
+      "cue": "Touch the tester to the baler's control leads and commit once it reads dead.",
+      "gauge": {
+        "green": [
+          0,
+          0.14
+        ],
+        "label": "CONTROL CIRCUIT VOLTAGE",
+        "missNote": "Still reading live — do not open the gate. Recheck the lock before this goes any further.",
+        "speed": 0.7
+      },
+      "id": "baler-verify-dead",
+      "kind": "gauge",
+      "prompt": "Touch the tester to the baler's control leads and commit once it reads dead.",
+      "target": "baler-voltage-tester",
+      "title": "Test the control circuit for zero energy",
+      "why": "A locked switch is a promise; the tester is what proves it. ANSI B11's own machinery-safety approach and 1910.147 both ask for this exact step before a guard or a gate ever opens on a machine that was just running — it is where a mislabelled breaker shows up, not after."
+    },
+    {
+      "cue": "Pull the jammed wad out of the chamber at a slow, steady rate — too fast snags it on the ram.",
+      "holdBreakNote": "Out of the steady band — ease the pull rate back before the wad snags on the ram again.",
+      "id": "clear-jam-cardboard",
+      "kind": "track",
+      "prompt": "Pull the jammed wad out of the chamber at a slow, steady rate — too fast snags it on the ram.",
+      "seconds": 6,
+      "target": "jammed-wad",
+      "title": "Draw the jammed cardboard out",
+      "track": {
+        "drift": 0.1,
+        "fall": 0.42,
+        "green": [
+          0.35,
+          0.6
+        ],
+        "label": "PULL RATE",
+        "rise": 0.5,
+        "start": 0.1
+      },
+      "why": "A jam under real tension does not come free with one hard yank — it comes free at a steady pull that lets the wad clear the ram's edge instead of tearing and re-wedging against it, the same way it jammed in the first place."
+    },
+    {
+      "cue": "Two things at this machine are wrong. Find them before the gate closes.",
+      "decoyNotes": {
+        "clean-hopper": "The baler's hopper chute is clear and dry, nothing left inside it. Leave it."
+      },
+      "id": "baler-walk",
+      "itemNames": {
+        "frayed-wire": "frayed limit-switch wire",
+        "stale-shift-tag": "an old danger tag from a previous shift"
+      },
+      "itemNotes": {
+        "frayed-wire": "The gate's limit-switch wire is worn down to bare copper at the connector. A frayed interlock wire is a guard the machine cannot actually trust, whatever the gate looks like closed.",
+        "stale-shift-tag": "This danger tag has no name on it from tonight's shift. An unaccounted-for lock or tag left on this panel from an earlier shift is exactly what a group lockout log is supposed to catch before anyone assumes the panel is clear."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Two things at this machine are wrong. Find them before the gate closes.",
+      "targets": [
+        "frayed-wire",
+        "stale-shift-tag"
+      ],
+      "title": "Walk the baler before it closes back up",
+      "why": "Clearing the jam isn't the end of this — the machine underneath it gets checked, not just cleared. Two things left wrong here become the next shift's surprise, or worse, the next jam somebody reaches into believing it is only a jam."
+    },
+    {
+      "cue": "Bump the test switch with the gate closed and read the control circuit, committing once it shows live.",
+      "gauge": {
+        "green": [
+          0.75,
+          1
+        ],
+        "label": "CONTROL CIRCUIT VOLTAGE",
+        "missNote": "Still reading dead — something in the gate switch or the wiring needs a look before this ram is trusted to run again.",
+        "speed": 0.7
+      },
+      "id": "baler-interlock-test",
+      "kind": "gauge",
+      "prompt": "Bump the test switch with the gate closed and read the control circuit, committing once it shows live.",
+      "target": "baler-voltage-tester",
+      "title": "Prove the gate interlock",
+      "why": "The interlock is what should have kept this baler from cycling the entire time the gate was open, and reading the control circuit after reassembly is the only way to know it still does that job before this machine takes another load."
+    },
+    {
+      "cue": "Take your padlock off the baler's disconnect now that the jam is cleared and the interlock is proven.",
+      "id": "release-baler-lock",
+      "kind": "select",
+      "prompt": "Take your padlock off the baler's disconnect now that the jam is cleared and the interlock is proven.",
+      "target": "baler-disconnect",
+      "title": "Remove your lock from the baler",
+      "why": "Your lock, your call — nobody else removes it, and it comes off only once the gate is closed, the interlock is proven and the chamber is actually clear."
+    },
+    {
+      "cue": "Open the compactor's own disconnect and clip your padlock through it before the hopper is touched.",
+      "id": "compactor-lockout",
+      "kind": "select",
+      "prompt": "Open the compactor's own disconnect and clip your padlock through it before the hopper is touched.",
+      "target": "compactor-disconnect",
+      "title": "Lock out the cardboard compactor",
+      "why": "The compactor's ram crushes its own load without any warning stroke, and it gets its own lock on its own disconnect — a hand does not go into that hopper on the hope that somebody already shut it off."
+    },
+    {
+      "cue": "Swing the ram chamber's inspection gate open and set it against its stop.",
+      "drag": {
+        "missNote": "Not against the stop — the gate has to hold fully open before a hand goes anywhere near the chamber.",
+        "radius": 0.3,
+        "to": "gate-stop"
+      },
+      "id": "compactor-gate-open",
+      "kind": "drag",
+      "prompt": "Swing the ram chamber's inspection gate open and set it against its stop.",
+      "target": "compactor-gate",
+      "title": "Open the compactor's inspection gate",
+      "why": "The gate opens only after the disconnect is locked — reaching for it before that tests a hope, not a lock, on a ram built to crush cardboard without ever needing to know a hand replaced it."
+    },
+    {
+      "cue": "Swing the gate shut and take your padlock off the compactor's disconnect.",
+      "id": "compactor-release-lock",
+      "kind": "select",
+      "prompt": "Swing the gate shut and take your padlock off the compactor's disconnect.",
+      "target": "compactor-disconnect",
+      "title": "Close the gate and remove your compactor lock",
+      "why": "The gate closes before the lock comes off, not after — a compactor with its lock removed and its gate still open is a live ram with nothing between it and whoever walks by next."
+    },
+    {
+      "cue": "Turn the wire tensioner down until the bale holds its shape on its own.",
+      "id": "tie-bale-wire",
+      "kind": "turn",
+      "prompt": "Turn the wire tensioner down until the bale holds its shape on its own.",
+      "target": "bale-wire-tensioner",
+      "title": "Tension and tie the finished bale",
+      "turn": {
+        "axis": "z",
+        "label": "BALE WIRE TENSION",
+        "turns": 1
+      },
+      "why": "A bale tied loose comes apart the first time it is moved, and a bale tensioned unevenly can snap a wire under load — turning the tensioner to a steady, even tension is what makes this bale safe to stage and safe for whoever loads it next."
+    },
+    {
+      "cue": "Move the finished, tied bale to the marked staging area by the dock door.",
+      "drag": {
+        "missNote": "Not on the marked staging area — a finished bale left in the aisle is the next stocker's blind-corner surprise.",
+        "radius": 0.4,
+        "to": "bale-staging"
+      },
+      "id": "stage-bale",
+      "kind": "drag",
+      "prompt": "Move the finished, tied bale to the marked staging area by the dock door.",
+      "target": "finished-bale",
+      "title": "Stage the bale for pickup",
+      "why": "A finished bale left in the aisle behind the baler is a blind-corner obstacle for the next stocker pushing a loaded pallet jack through — staging it at the marked area keeps the whole backroom aisle clear for what still has to move through it tonight."
+    },
+    {
+      "cue": "Sign the log to close out tonight's jam-clearing on both machines.",
+      "id": "sign-maintenance-log",
+      "kind": "select",
+      "prompt": "Sign the log to close out tonight's jam-clearing on both machines.",
+      "target": "maintenance-log",
+      "title": "Sign the maintenance log",
+      "why": "The signature is the stocker taking responsibility for the whole procedure — both machines locked, cleared and proven — and it is the line the day manager reads if either machine's history is ever questioned."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "A jammed baler and a loaded compactor both locked out, cleared and proven before either one runs again",
+  "title": "SmartCiti.X~ Night Stocking Baler & Compactor Lockout VR",
+  "trade": "Night stocker / grocery clerk",
+  "underwater": null,
+  "weather": null
+}

@@ -1,0 +1,390 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "proven-before-rung-one",
+    "name": "Proven Before Rung One",
+    "note": "Wind, harness, rescue kit, buddy and runner all proven on the ground before the climb began"
+  },
+  "category": "Energy & Power",
+  "certification": "IBEW/NECA JATC and Ironworkers IMPACT wind-technician training as bodies; ANSI Z359 for the harness, the fall-arrest rail system and the rescue kit; 29 CFR 1910.269 for work on generation installations; 29 CFR 1910.28 and 29 CFR 1910.23 for the fixed ladder and its fall protection; the turbine manufacturer's manual and the site's climb procedure for every limit",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI Z359",
+        "id": "ansi-z359",
+        "title": "ANSI/ASSP Z359 — Fall Protection Code"
+      },
+      {
+        "body": "union",
+        "citedAs": "IBEW/NECA JATC",
+        "id": "ibew-neca-jatc",
+        "title": "IBEW/NECA Joint Apprenticeship and Training Committee — inside and outside wireman apprenticeship standards, taught from the electrical training ALLIANCE curriculum"
+      },
+      {
+        "body": "union",
+        "citedAs": "IMPACT",
+        "id": "ironworkers-impact",
+        "title": "Ironworkers and IMPACT — apprenticeship and safety training for structural, ornamental and reinforcing ironwork"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.23",
+        "id": "osha-1910-23",
+        "title": "29 CFR 1910.23 — Ladders"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.269",
+        "id": "osha-1910-269",
+        "title": "29 CFR 1910.269 — Electric power generation, transmission and distribution"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.28",
+        "id": "osha-1910-28",
+        "title": "29 CFR 1910.28 — Duty to have fall protection and falling object protection"
+      }
+    ]
+  },
+  "district": "wind-farm",
+  "domain": "Energy",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "kit-opened",
+        "name": "Kit Opened",
+        "note": "The rescue kit was opened and proven, not trusted by its bag"
+      },
+      {
+        "id": "never-free-climbed",
+        "name": "Never Free-Climbed",
+        "note": "No unsafe action was recorded"
+      },
+      {
+        "id": "steady-climber",
+        "name": "Steady Climber",
+        "note": "Held the climb pace steady"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-climb",
+        "name": "Clean Climb",
+        "note": "No corrections from the permit to the log"
+      },
+      {
+        "id": "unbroken-pace",
+        "name": "Unbroken Pace",
+        "note": "The climb ran to the platform without a break"
+      },
+      {
+        "id": "brisk-ground-check",
+        "name": "Brisk Ground Check",
+        "note": "Up and logged inside 80% of par"
+      }
+    ],
+    "currency": "RUNGS",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Trainee Climber",
+      "Climber",
+      "Wind Technician",
+      "Lead Technician",
+      "Tower Authority Certified"
+    ],
+    "system": "Tower Authority"
+  },
+  "hazards": {
+    "climb-alone": "You went to start the climb with no second climber on site. A rescue kit is only as good as the person who can rig it, and a technician suspended in a harness cannot rescue themselves — the plan needs a second trained person at the tower.",
+    "expired-rescue-kit": "You went to take a rescue kit whose seal was broken and whose inspection tag had not been signed. A kit that has been opened and not re-inspected may be missing the one part the rescue needs, and it is found out only when a climber is hanging in a harness waiting for it.",
+    "free-climb-no-runner": "You went to start up the ladder without the runner on the fall-arrest rail. A fixed ladder in a tower is a long fall in a narrow tube, and a slip of one hand on a rung with nothing connecting the harness to the rail ends at the bottom of it.",
+    "hatch-left-open": "You went to leave the platform hatch open behind you. An open hatch above a ladder is a hole a tool, a boot or a person can go down, onto whoever is climbing below."
+  },
+  "id": "ws-turbine-climb-and-rescue-kit-check",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "runner-test",
+      "alert": "The site lead is calling the tower on the radio — the wind forecast for the afternoon has changed and they want to talk before anyone climbs.",
+      "cue": "Answer the site lead on the radio before you leave the ground.",
+      "delay": 3,
+      "id": "ground-lead-radio",
+      "kind": "The site lead calls on the radio",
+      "missNote": "The call went unanswered. Whatever the site lead knew about the weather stayed on the ground while the climb went on without it.",
+      "seconds": 12,
+      "target": "climb-radio",
+      "why": "A changed forecast is exactly the kind of fact that turns a climb that was a go into one that is not, and the moment to hear it is with both feet on the ground, not halfway up with the arms tiring and the rest platform still above.",
+      "wrongNote": "It is the radio. The runner has already been tugged; the call is the new information."
+    },
+    {
+      "after": "climb-pace",
+      "alert": "A gust front is coming over the ridge — the tower hums and the wind sock stands straight out.",
+      "cue": "Get onto the rest platform and clip to its anchor until it passes.",
+      "delay": 3,
+      "id": "gust-front",
+      "kind": "A gust front arrives mid-climb",
+      "missNote": "The climber stayed on the ladder through the gust front, arms loaded and one connection to the rail, with no decision made with the ground.",
+      "seconds": 11,
+      "target": "rest-platform-anchor",
+      "why": "The rest platform and its anchor are where a climber waits out a change in conditions without hanging on the ladder, and a clip to the anchor means a second point of connection while the tower moves and the climber decides with the ground whether to go on or come down.",
+      "wrongNote": "It is the rest-platform anchor. The climb pace is what put you here; waiting out the gust is what keeps you there safely."
+    }
+  ],
+  "lateNotes": {
+    "fall-arrest-runner": "The runner goes on the rail only after the harness has been walked and the rescue kit proven — not as the first thing done at the door.",
+    "platform-hatch": "The hatch is closed once the climber is on the platform and clipped to the anchor, not while they are still on the ladder beneath it."
+  },
+  "name": "Turbine Climb & Rescue-Kit Check",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "wind-and-data-infrastructure"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "windTurbine",
+        "count": 1,
+        "kit": "equipment"
+      },
+      {
+        "builder": "radio",
+        "count": 1,
+        "kit": "toolkit"
+      }
+    ],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "climb-alone",
+      "climb-log",
+      "climb-pace-meter",
+      "climb-permit",
+      "climb-radio",
+      "expired-rescue-kit",
+      "fall-arrest-runner",
+      "free-climb-no-runner",
+      "harness-buckles",
+      "harness-dring",
+      "harness-webbing",
+      "hatch-left-open",
+      "kit-seal-broken",
+      "kit-tag-unsigned",
+      "platform-anchor",
+      "platform-hatch",
+      "rail-attach-point",
+      "rail-out-of-service",
+      "rescue-plan-board",
+      "rest-platform-anchor",
+      "runner-test-handle",
+      "tower-door",
+      "tower-lights",
+      "wind-readout"
+    ],
+    "meshes": 151
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the climb plan: the turbine, the work, the climbers named and the site's weather limit for climbing.",
+      "id": "climb-permit",
+      "kind": "select",
+      "prompt": "Read the climb plan: the turbine, the work, the climbers named and the site's weather limit for climbing.",
+      "target": "climb-permit",
+      "title": "Read the climb plan",
+      "why": "The climb plan names who climbs, who stands by with the rescue kit and what weather stops the job, so the decision about the wind is made against a limit the site wrote down in advance rather than by how the morning feels at the tower door."
+    },
+    {
+      "cue": "Bring the anemometer reading up to where the wind is, then commit — is it inside the site's climb limit?",
+      "gauge": {
+        "green": [
+          0.3,
+          0.6
+        ],
+        "label": "WIND vs SITE LIMIT",
+        "missNote": "That reading is not the one the mast shows — read it again before the go or no-go is made.",
+        "speed": 0.6
+      },
+      "id": "wind-check",
+      "kind": "gauge",
+      "prompt": "Bring the anemometer reading up to where the wind is, then commit — is it inside the site's climb limit?",
+      "target": "wind-readout",
+      "title": "Read the wind against the site limit",
+      "why": "The wind at the top of a tower is not the wind at the door, and the site's climb limit exists because a climber on a ladder or a technician at the hatch is exposed to both the load and the tower's motion. Reading the met-mast value against that written limit is the go or no-go, made before anybody is committed to the ladder."
+    },
+    {
+      "cue": "Walk the webbing and stitching, check the D-rings, then fasten the buckles and stow the tails.",
+      "id": "harness-check",
+      "itemNames": {
+        "harness-buckles": "buckles fastened and tails stowed",
+        "harness-dring": "front and back D-rings checked",
+        "harness-webbing": "webbing and stitching walked"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Webbing, then D-rings, then buckles — a harness fastened before it is walked hides the strap you did not check.",
+      "prompt": "Walk the webbing and stitching, check the D-rings, then fasten the buckles and stow the tails.",
+      "targets": [
+        "harness-webbing",
+        "harness-dring",
+        "harness-buckles"
+      ],
+      "title": "Walk the harness by hand",
+      "why": "A cut strap or a pulled stitch shows under a hand run along the webbing, not under a glance at a harness on a hook, and the D-rings and buckles are the parts that carry the arrest force into the body. The order runs from the material to the hardware to the fit, so nothing is buckled over a defect that was never looked at."
+    },
+    {
+      "cue": "Check the rescue kit before the climb and find what stops it being ready.",
+      "id": "rescue-kit",
+      "itemNames": {
+        "kit-seal-broken": "the kit bag's seal broken",
+        "kit-tag-unsigned": "the inspection tag unsigned"
+      },
+      "itemNotes": {
+        "kit-seal-broken": "The seal on this bag is broken: someone has opened it since it was last inspected, and nobody on the ground knows what came out.",
+        "kit-tag-unsigned": "The inspection tag has no signature for the last check — this kit is not proven until it is opened, counted against its list and signed."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Check the rescue kit before the climb and find what stops it being ready.",
+      "targets": [
+        "kit-seal-broken",
+        "kit-tag-unsigned"
+      ],
+      "title": "Open and prove the rescue kit",
+      "why": "The rescue kit is the plan for the worst minute of the day — a climber suspended in a harness — and a kit with a broken seal or an unsigned tag may be missing the descender, the rope or the anchor sling that minute needs. Finding it on the ground costs a swap from the van; finding it at height costs time the suspended climber does not have."
+    },
+    {
+      "cue": "Confirm on the rescue board that a second trained climber is on site and knows the plan.",
+      "id": "rescue-buddy",
+      "kind": "select",
+      "prompt": "Confirm on the rescue board that a second trained climber is on site and knows the plan.",
+      "target": "rescue-plan-board",
+      "title": "Confirm the second climber and the rescue plan",
+      "why": "A self-rescue is not always possible, and the rescue plan only works if a second person trained on this kit is at the tower and has agreed who does what. Confirming that aloud before the climb means nobody finds out during a rescue that the plan had a gap in it."
+    },
+    {
+      "cue": "Unlock and pin the tower door, then switch on the tower lights.",
+      "id": "open-tower",
+      "itemNames": {
+        "tower-door": "tower door unlocked and pinned open",
+        "tower-lights": "tower lights switched on"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Door first, then the lights — the switch is inside the door.",
+      "prompt": "Unlock and pin the tower door, then switch on the tower lights.",
+      "targets": [
+        "tower-door",
+        "tower-lights"
+      ],
+      "title": "Open the tower and light the climb",
+      "why": "A door that swings shut behind a climber cuts off the light and the radio path to the ground, and a ladder climbed in the dark is a ladder where a missing rung or a loose runner is not seen. The door pinned and the lights on make the tube a place where the next defect can be seen before it is stepped on."
+    },
+    {
+      "cue": "Carry the runner to the rail and seat it the right way up, connected to the front D-ring.",
+      "drag": {
+        "missNote": "Not seated on the rail — the runner has to be on the rail itself, the right way up, before the climb.",
+        "radius": 0.5,
+        "to": "rail-attach-point"
+      },
+      "id": "attach-runner",
+      "kind": "drag",
+      "prompt": "Carry the runner to the rail and seat it the right way up, connected to the front D-ring.",
+      "target": "fall-arrest-runner",
+      "title": "Put the runner on the fall-arrest rail",
+      "why": "The runner locks onto the rail only when it is fitted the right way up and connected to the harness point the manufacturer names; upside down it can ride down the rail with the climber instead of catching. Fitting it before the first rung means the climber is connected from the ground up."
+    },
+    {
+      "cue": "Hold a sharp downward tug on the runner until it locks.",
+      "holdBreakNote": "The tug stopped before the runner locked — test it again, a runner that has not locked on the ground is not proven.",
+      "id": "runner-test",
+      "kind": "hold",
+      "prompt": "Hold a sharp downward tug on the runner until it locks.",
+      "seconds": 4,
+      "target": "runner-test-handle",
+      "title": "Tug-test the runner",
+      "why": "A runner that does not lock on a sharp tug at the bottom will not lock on a fall halfway up, and the test takes seconds with both feet on the ground. It proves the runner, its fit on this rail and its connection to the harness all at once."
+    },
+    {
+      "cue": "Keep the climb pace in the band — three points of contact, the legs doing the work, no racing the ladder.",
+      "holdBreakNote": "The pace left the band — steady it before the next section, a tired grip is how a slip starts.",
+      "id": "climb-pace",
+      "kind": "track",
+      "prompt": "Keep the climb pace in the band — three points of contact, the legs doing the work, no racing the ladder.",
+      "seconds": 7,
+      "target": "climb-pace-meter",
+      "title": "Climb at a steady pace",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.3,
+        "green": [
+          0.35,
+          0.65
+        ],
+        "label": "CLIMB PACE",
+        "rise": 0.05,
+        "start": 0.5
+      },
+      "why": "The fall-arrest rail catches a fall; a paced climb keeps one from happening. A climber who races the first sections arrives at the rest platform with spent forearms and a slipping grip, while a steady pace with the legs doing the work keeps something in reserve for the hatch and the tasks above."
+    },
+    {
+      "cue": "On the platform, clip the lanyard to the platform anchor before unclipping the runner.",
+      "id": "clip-anchor",
+      "kind": "select",
+      "prompt": "On the platform, clip the lanyard to the platform anchor before unclipping the runner.",
+      "target": "platform-anchor",
+      "title": "Clip to the platform anchor",
+      "why": "The change-over from the rail to the platform anchor is the one moment a climber could be connected to nothing, so the new connection goes on before the old one comes off — always one connection made, never none."
+    },
+    {
+      "cue": "Swing the platform hatch closed behind you.",
+      "id": "close-hatch",
+      "kind": "turn",
+      "prompt": "Swing the platform hatch closed behind you.",
+      "target": "platform-hatch",
+      "title": "Close the platform hatch",
+      "turn": {
+        "axis": "x",
+        "label": "PLATFORM HATCH",
+        "turns": 0.4
+      },
+      "why": "An open hatch is a hole in the floor above a ladder somebody else may be climbing, and a dropped tool or a misplaced boot goes straight down it. Closing it turns the platform back into a floor."
+    },
+    {
+      "cue": "Radio the ground and log the climb: who is up, the kit checked and the wind read.",
+      "id": "climb-log",
+      "kind": "select",
+      "prompt": "Radio the ground and log the climb: who is up, the kit checked and the wind read.",
+      "target": "climb-log",
+      "title": "Log the climb",
+      "why": "The log tells the ground who is in the tower and on what check, so if the radio goes quiet the rescue starts from a known position and a known kit rather than from guesses about who went up and when."
+    }
+  ],
+  "supportLine": "your employer's employee assistance programme, or your IBEW or Ironworkers steward if you are not sure how to reach it",
+  "tagline": "The wind read against the site's own limit, the harness walked by hand, the rescue kit opened and proven with a second climber who can use it, and the runner tugged on the rail before a single rung",
+  "title": "SmartCiti.X~ Turbine Climb & Rescue-Kit Check VR",
+  "trade": "IBEW / Ironworkers wind technician",
+  "underwater": null,
+  "weather": "wind"
+}

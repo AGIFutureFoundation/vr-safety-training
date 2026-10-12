@@ -1,0 +1,452 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "every-dollar-open",
+    "name": "Every Dollar Open",
+    "note": "A grant asked for and reported honestly: no conflict hidden, no cost charged twice, no claim you could not prove"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "The IRS rules for 501(c)(3) organisations, named as a body: the determination letter from the Form 1023 application, annual Form 990 reporting and its governance questions on a written conflict-of-interest policy, and the absolute bar on campaign activity for or against a candidate; 2 CFR 200, OMB's Uniform Guidance, where a city grant passes through federal money — allowable costs, indirect rates, documentation and no charging one cost twice; the California Attorney General's Registry of Charitable Trusts, as a body, for the charity's state registration and annual reports; the Political Reform Act and the municipal ethics code for the city officials who review and award the grant; SEIU and AFSCME for the city grants staff on the other side of the application. The city, its notice and its cap are invented. The leadership principles practised here are those commonly taught in civic-leadership programmes; the foundation whose principles the programme draws on is not sourced in this repository",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFSCME",
+        "id": "afscme-training",
+        "title": "AFSCME member education and safety training for public-service and air-district members"
+      },
+      {
+        "body": "California Attorney General",
+        "citedAs": "Registry of Charitable Trusts",
+        "id": "ca-ag-charitable-trusts",
+        "title": "The California Attorney General's Registry of Charitable Trusts, as a body — registration and annual reporting by charities operating in the state"
+      },
+      {
+        "body": "IRS",
+        "citedAs": "501(c)(3)",
+        "id": "irs-501c3-rules",
+        "title": "IRS rules for organisations exempt under section 501(c)(3), as a body — the absolute bar on political campaign intervention and the nonpartisan conduct of voter education and registration, limits on lobbying, private benefit and inurement, and annual Form 990 reporting including its governance questions on a written conflict-of-interest policy"
+      },
+      {
+        "body": "IRS",
+        "citedAs": "IRS",
+        "id": "irs-consumer-guidance",
+        "title": "Internal Revenue Service guidance for workers — Form W-4 and the Tax Withholding Estimator, Form W-2, estimated tax on self-employment income, splitting a refund, free tax help, and how the IRS does and does not contact taxpayers"
+      },
+      {
+        "body": "municipal ethics code",
+        "citedAs": "municipal ethics code",
+        "id": "municipal-ethics-code",
+        "title": "A city or county ethics code and the charter's ethics provisions — gifts from interested parties, lobbyist contact, misuse of public position and the revolving door; named generically, with no one jurisdiction's sections cited"
+      },
+      {
+        "body": "OMB",
+        "citedAs": "2 CFR 200",
+        "id": "omb-uniform-guidance",
+        "title": "2 CFR Part 200 — Uniform Administrative Requirements, Cost Principles, and Audit Requirements for Federal Awards (the Uniform Guidance)"
+      },
+      {
+        "body": "FPPC",
+        "citedAs": "Political Reform Act",
+        "id": "political-reform-act",
+        "title": "The Political Reform Act of 1974, administered by the Fair Political Practices Commission — annual economic-interest disclosure on the Statement of Economic Interests (Form 700), disqualification from any decision an official has a financial interest in, and gift limits and gift reporting"
+      },
+      {
+        "body": "union",
+        "citedAs": "SEIU",
+        "id": "seiu-training",
+        "title": "SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Civic",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "papers-in-order",
+        "name": "Papers in Order",
+        "note": "Every eligibility document found first time"
+      },
+      {
+        "id": "nothing-hidden",
+        "name": "Nothing Hidden",
+        "note": "No unsafe action anywhere in the grant cycle"
+      },
+      {
+        "id": "claims-proven",
+        "name": "Claims Proven",
+        "note": "Every unsupported claim found first time"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-books",
+        "name": "Clean Books",
+        "note": "No corrections anywhere in the grant cycle"
+      },
+      {
+        "id": "honest-rate",
+        "name": "Honest Rate",
+        "note": "The indirect rate set inside the band"
+      },
+      {
+        "id": "steady-spend",
+        "name": "Steady Spend",
+        "note": "The listening and the spend-down both carried their full count"
+      }
+    ],
+    "currency": "TRUST",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Programme Assistant",
+      "Grants Writer",
+      "Grants Manager",
+      "Director of Programmes",
+      "Mentor Director"
+    ],
+    "system": "Open Books"
+  },
+  "hazards": {
+    "all-nighter-alone": "You told the director you would finish the application alone overnight. Deadline all-nighters are when a figure is copied from the wrong spreadsheet and nobody checks it; a grant manager who works that way every cycle burns out by the third one, and the organisation loses the one person who knew where everything was.",
+    "client-files-home": "You copied the client files onto a USB stick to work on at home. Those files hold names, addresses, immigration and health details of families who trusted the organisation; a stick lost on a bus is a breach you have to tell every one of them about, and a funder's data rules almost certainly forbid it outright.",
+    "double-charge-salary": "You charged the youth coordinator's full salary to this grant and to the foundation grant that already pays half of it. Charging one cost to two funders is the plainest breach of grant rules there is, and under federal pass-through money it is exactly what 2 CFR 200 exists to prevent; one audit finds it, both funders ask for the money back, and neither funds the organisation again.",
+    "reply-all-angry": "You replied to all, in anger, when the programme officer said the budget would be cut by a fifth. The officer, her manager and two other applicants copied on the thread now know how the organisation behaves under pressure; the cut is still there, and the relationship you needed to argue it back has just got harder."
+  },
+  "id": "cv-grant-application-and-nonprofit-compliance",
+  "indoor": "service",
+  "interrupts": [
+    {
+      "after": "hear-the-programme-officer",
+      "alert": "On the other screen, a colleague is about to email the funder the full client spreadsheet — names, birth dates and addresses — \"so they can verify our numbers\".",
+      "cue": "Stop the send. The funder gets de-identified counts, not the families' details.",
+      "delay": 3,
+      "id": "client-list-to-funder",
+      "kind": "Client data about to leave",
+      "missNote": "The spreadsheet went. The funder's inbox now holds two hundred families' names, birth dates and addresses, the organisation has a breach to disclose to every one of them, and the programme officer has to report it to her own manager.",
+      "seconds": 12,
+      "target": "stop-send-card",
+      "why": "Funders are entitled to verify results, and there are proper ways to do it: de-identified counts, an on-site review of files under supervision, whatever the grant agreement says. Emailing the whole client list is not one of them — it moves families' private details out of the organisation's control to people they never agreed to share them with. Stopping it, kindly and immediately, and offering the counts instead protects the families and the grant.",
+      "wrongNote": "Listening harder to the officer does not stop the email. Turn to your colleague's screen and stop the send."
+    },
+    {
+      "after": "keep-spend-on-pace",
+      "alert": "A long-time volunteer asks to borrow the grant-bought laptops and the meeting room tonight to phone-bank for a council candidate who \"supports our work\".",
+      "cue": "Say no, warmly and plainly: a 501(c)(3) cannot lend its resources to any candidate's campaign.",
+      "delay": 3,
+      "id": "campaign-phone-bank-request",
+      "kind": "Campaign activity request",
+      "missNote": "The phone bank ran from the meeting room on the grant's laptops. A photo of it with the organisation's banner in the background is now on the candidate's page, and the organisation has a question from its funder, and possibly the IRS, that it cannot answer well.",
+      "seconds": 12,
+      "target": "no-campaign-card",
+      "why": "A 501(c)(3) organisation is absolutely barred from campaign activity for or against any candidate, and lending the organisation's equipment or rooms to a campaign is campaign activity whatever the candidate's views. The volunteer is free to campaign on her own time with her own phone. Saying no warmly and explaining why protects the organisation's exemption and the grant it funds, and keeps a good volunteer without making her feel accused.",
+      "wrongNote": "The spend-down meter is for the budget. The volunteer needs a warm, plain no — the organisation cannot lend anything to a campaign."
+    }
+  ],
+  "lateNotes": {
+    "cousin-quote-card": "The catering quote is dealt with once the budget narrative and the indirect rate are set — the budget is not built yet.",
+    "grant-log-board": "The grant file closes once the report package is assembled and signed. There is nothing to record yet."
+  },
+  "name": "Grant Application and Nonprofit Compliance",
+  "parSeconds": 340,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "civic-leadership-and-ei"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.3,
+    "hits": [
+      "all-nighter-alone",
+      "annual-disclosure-card",
+      "bud-direct-costs",
+      "bud-fringe",
+      "bud-indirect",
+      "bud-personnel",
+      "burn-meter",
+      "cabinet-lock",
+      "claim-minor-photo",
+      "claim-no-source",
+      "claim-other-grant-figure",
+      "claim-sign-in-count",
+      "client-files-home",
+      "coi-tray",
+      "cousin-quote-card",
+      "crew-checkin-board",
+      "doc-board-budget",
+      "doc-determination-letter",
+      "doc-gala-album",
+      "doc-latest-990",
+      "doc-state-registration",
+      "double-charge-salary",
+      "grant-log-board",
+      "indirect-meter",
+      "listen-officer",
+      "no-campaign-card",
+      "recusal-minutes",
+      "reply-all-angry",
+      "rfp-card",
+      "rpt-documentation",
+      "rpt-financial",
+      "rpt-narrative",
+      "rpt-sign-off",
+      "stop-send-card"
+    ],
+    "meshes": 187
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Find every document that proves the organisation can receive this grant.",
+      "decoyNotes": {
+        "doc-gala-album": "The gala photos are good for the newsletter. They prove nothing about whether the organisation is eligible or well governed."
+      },
+      "id": "gather-the-eligibility-papers",
+      "itemNames": {
+        "doc-board-budget": "the board-approved organisational budget",
+        "doc-determination-letter": "the IRS determination letter",
+        "doc-latest-990": "the latest Form 990, filed on time",
+        "doc-state-registration": "the state charity registration, current"
+      },
+      "itemNotes": {
+        "doc-board-budget": "The whole organisation's budget, approved by the board, so the funder can see where this grant fits.",
+        "doc-determination-letter": "The letter the IRS issued on the Form 1023 application, confirming 501(c)(3) status. Without it the city cannot fund the organisation as a charity.",
+        "doc-latest-990": "The most recent annual return, filed and public. Funders read it for the organisation's finances and its governance answers.",
+        "doc-state-registration": "Registration with the Attorney General's Registry of Charitable Trusts, with the annual report up to date. A lapsed registration is a common reason an application is set aside."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Find every document that proves the organisation can receive this grant.",
+      "targets": [
+        "doc-determination-letter",
+        "doc-latest-990",
+        "doc-state-registration",
+        "doc-board-budget"
+      ],
+      "title": "Gather the eligibility papers before you write a word",
+      "why": "A community grant is public money, and the first thing the city checks is whether the applicant is who it says it is and in good standing: exempt under 501(c)(3), its annual return filed, its state charity registration current, its board actually governing a budget. Finding out on deadline day that the registration lapsed or the 990 was never filed sinks an application that took weeks to write, and it is entirely avoidable."
+    },
+    {
+      "cue": "Before building the budget, read what this notice will and will not pay for.",
+      "id": "read-the-allowable-costs",
+      "kind": "select",
+      "prompt": "Before building the budget, read what this notice will and will not pay for.",
+      "target": "rfp-card",
+      "title": "Read the notice's allowable and unallowable costs",
+      "why": "Every notice says what the money may buy. This one pays for staff, supplies and a share of overhead; it does not pay for food at events, fundraising or anything political. Building the budget from the notice rather than from what the programme would like saves a rejected line later, and if the city's money is passed through from a federal award, the federal cost rules under 2 CFR 200 come with it, whether or not anyone says so on the first page."
+    },
+    {
+      "cue": "Personnel, then fringe, then direct programme costs, then indirect — each line explained.",
+      "id": "write-the-budget-narrative",
+      "itemNames": {
+        "bud-direct-costs": "direct programme costs, each tied to an activity",
+        "bud-fringe": "fringe: the benefits that follow those salaries",
+        "bud-indirect": "indirect costs, last, at the allowed rate",
+        "bud-personnel": "personnel: who, what share of their time, why"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Personnel, fringe, direct costs, then indirect. Indirect is calculated on the lines above it — writing it first is guessing.",
+      "prompt": "Personnel, then fringe, then direct programme costs, then indirect — each line explained.",
+      "targets": [
+        "bud-personnel",
+        "bud-fringe",
+        "bud-direct-costs",
+        "bud-indirect"
+      ],
+      "title": "Build the budget narrative in order",
+      "why": "A budget narrative is where numbers become promises. Personnel first, as a share of real people's time, because that is most of any community programme; fringe next, because it follows those salaries; direct costs each tied to an activity the proposal describes; and indirect last, because it is calculated on the others. A reviewer who can trace every figure to an activity believes the rest of the application; one who cannot starts looking for padding."
+    },
+    {
+      "cue": "The notice caps indirect costs at 12 per cent. Commit a rate inside the band your actual overhead supports.",
+      "gauge": {
+        "green": [
+          0.36,
+          0.48
+        ],
+        "label": "INDIRECT RATE",
+        "missNote": "Outside the band. Over the notice's cap is simply unallowable; far under your real overhead means the programme quietly subsidises the grant from somewhere else. Set it inside the cap, at what your costs support.",
+        "speed": 0.6
+      },
+      "id": "set-the-indirect-rate",
+      "kind": "gauge",
+      "prompt": "The notice caps indirect costs at 12 per cent. Commit a rate inside the band your actual overhead supports.",
+      "target": "indirect-meter",
+      "title": "Set the indirect rate inside the cap and backed by real costs",
+      "why": "Indirect costs — rent, the bookkeeper, insurance, the audit — are real, and a programme that never recovers them starves the organisation that runs it. They also have rules: this notice caps them at 12 per cent, and where federal money is involved the rate has to be one the Uniform Guidance allows and the organisation can document. Asking for more than the cap is unallowable; asking for far less than your costs is a slow way to go broke doing good work."
+    },
+    {
+      "cue": "The cheapest catering quote for the programme's events comes from the treasurer's cousin. Carry it to the conflict-of-interest tray.",
+      "drag": {
+        "missNote": "Not in the conflict tray. A transaction with a board member's family goes through the written conflict-of-interest policy — disclosed, and decided by board members with no interest in it.",
+        "radius": 0.55,
+        "to": "coi-tray"
+      },
+      "id": "disclose-the-conflict",
+      "kind": "drag",
+      "prompt": "The cheapest catering quote for the programme's events comes from the treasurer's cousin. Carry it to the conflict-of-interest tray.",
+      "target": "cousin-quote-card",
+      "title": "Send the board treasurer's cousin's catering quote to the conflict process",
+      "why": "A good price from a board member's relative may be the best deal available, and it is still a conflict of interest. The written policy — the one Form 990 asks whether the organisation has and follows — exists for exactly this: the interested board member discloses, steps out, and the disinterested members decide on the record whether the deal is fair. Handled that way, the quote can be accepted; hidden, it looks like self-dealing even if it saved money."
+    },
+    {
+      "cue": "The minutes show the treasurer disclosed, left the room, and the remaining members compared quotes and voted.",
+      "id": "record-the-recusal",
+      "kind": "select",
+      "prompt": "The minutes show the treasurer disclosed, left the room, and the remaining members compared quotes and voted.",
+      "target": "recusal-minutes",
+      "title": "Record the treasurer's disclosure and recusal in the minutes",
+      "why": "A conflict handled properly but not recorded is, a year later, indistinguishable from one that was hidden. Minutes that show the disclosure, the recusal, the comparison of quotes and the vote of the disinterested members are the organisation's proof, to the funder, the auditor and the public reading its 990, that the policy is followed and not merely adopted. It takes three lines, and those three lines protect the treasurer as much as the organisation."
+    },
+    {
+      "cue": "On the call, the officer explains why the draft budget will be cut. Hold your attention on her — no rebuttal yet.",
+      "holdBreakNote": "You started answering before she had finished. She stopped explaining. Come back to listening until she is done.",
+      "id": "hear-the-programme-officer",
+      "kind": "hold",
+      "prompt": "On the call, the officer explains why the draft budget will be cut. Hold your attention on her — no rebuttal yet.",
+      "seconds": 8,
+      "target": "listen-officer",
+      "title": "Hear the programme officer's feedback without defending",
+      "why": "The programme officer is the one person at the city whose job is to help the application succeed, and her feedback is the most valuable thing in the process. Hearing all of it before answering — why the evaluation line looks thin, why the city cannot fund food, where the cut would land — tells the organisation exactly what to fix. Defending each point as she makes it teaches her to stop explaining, which is the opposite of what an applicant needs."
+    },
+    {
+      "cue": "The intake files are out for the numbers. Put them back and turn the cabinet key.",
+      "id": "lock-the-client-records",
+      "kind": "turn",
+      "prompt": "The intake files are out for the numbers. Put them back and turn the cabinet key.",
+      "target": "cabinet-lock",
+      "title": "Lock the client records cabinet",
+      "turn": {
+        "axis": "z",
+        "label": "LOCKED",
+        "turns": 0.4
+      },
+      "why": "A grant report needs counts and outcomes, not the files of the families behind them. Intake records hold names, addresses, immigration status and health details; they belong in a locked cabinet or a restricted system, and nowhere else, whatever deadline is looming. A cabinet left open in an office that volunteers walk through is how a family's private details end up somewhere they never agreed to, and the organisation's promise to them is broken without anyone meaning it."
+    },
+    {
+      "cue": "Before it goes to the city, mark every claim in the draft report that is unsupported or unconsented.",
+      "decoyNotes": {
+        "claim-sign-in-count": "The attendance figure backed by dated sign-in sheets is exactly what a report should contain. Leave it."
+      },
+      "id": "prove-every-claim",
+      "itemNames": {
+        "claim-minor-photo": "a photo of a named child, with no signed consent",
+        "claim-no-source": "\"92 per cent of youth improved\" — with no data behind it",
+        "claim-other-grant-figure": "a participant figure copied from another funder's report"
+      },
+      "itemNotes": {
+        "claim-minor-photo": "A child's photo and name in a public report need a parent's signed consent. Without it, the picture comes out.",
+        "claim-no-source": "An outcome figure with no survey, no sign-in data and no method behind it is a guess dressed as a result. Cut it or source it.",
+        "claim-other-grant-figure": "A figure from a different programme's report describes different work. Reporting it here claims the same results twice."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Before it goes to the city, mark every claim in the draft report that is unsupported or unconsented.",
+      "targets": [
+        "claim-no-source",
+        "claim-minor-photo",
+        "claim-other-grant-figure"
+      ],
+      "title": "Read the draft report and mark every claim you cannot prove",
+      "why": "A grant report is a public record of what public money bought, and the organisation will be judged on it long after this grant ends. An outcome with no data, a child's photo without consent and a figure borrowed from another funder's report each read well and each can unravel the organisation's credibility when anyone checks. Reporting only what the sign-in sheets and surveys support is slower to write and much faster to defend."
+    },
+    {
+      "cue": "Hold the spend-down inside the band: not racing ahead of the programme, not sitting on money the families need.",
+      "holdBreakNote": "The spending slipped off pace — racing ahead or stalling. Bring it back to the budget, and tell the programme officer if a line needs to move.",
+      "id": "keep-spend-on-pace",
+      "kind": "track",
+      "prompt": "Hold the spend-down inside the band: not racing ahead of the programme, not sitting on money the families need.",
+      "seconds": 8,
+      "target": "burn-meter",
+      "title": "Keep spending on pace with the budget",
+      "track": {
+        "drift": 0.16,
+        "fall": 0.4,
+        "green": [
+          0.3,
+          0.7
+        ],
+        "label": "SPEND-DOWN",
+        "rise": 0.48,
+        "start": 0.5
+      },
+      "why": "Grant money that is spent too fast runs out before the programme year ends; money spent too slowly is returned, and next year's application looks like an organisation that could not use what it had. Watching the spend-down against the budget every month — and telling the programme officer early if a line needs to move — keeps the programme running to the last week and keeps the funder's trust, which is worth more than any single award."
+    },
+    {
+      "cue": "Every board member signs an annual disclosure statement. Chase the two still missing before the report goes in.",
+      "id": "collect-annual-disclosures",
+      "kind": "select",
+      "prompt": "Every board member signs an annual disclosure statement. Chase the two still missing before the report goes in.",
+      "target": "annual-disclosure-card",
+      "title": "Collect this year's conflict-of-interest statements from the board",
+      "why": "A conflict-of-interest policy only works if people are reminded every year to say what has changed: a new job, a relative's business, a seat on another board. Form 990 asks whether the organisation monitors compliance with its policy, and the honest answer depends on these signed annual statements. Two missing signatures are a small thing to chase now and an awkward thing to explain when a funder or auditor asks for them."
+    },
+    {
+      "anyOrder": true,
+      "cue": "The financial report against budget, the sourced narrative, the documentation, and the sign-off.",
+      "id": "assemble-the-report",
+      "itemNames": {
+        "rpt-documentation": "receipts and time records for every charge",
+        "rpt-financial": "the financial report against the budget",
+        "rpt-narrative": "the outcomes narrative, every figure sourced",
+        "rpt-sign-off": "the director's signature and the treasurer's review"
+      },
+      "kind": "sequence",
+      "prompt": "The financial report against budget, the sourced narrative, the documentation, and the sign-off.",
+      "targets": [
+        "rpt-financial",
+        "rpt-narrative",
+        "rpt-documentation",
+        "rpt-sign-off"
+      ],
+      "title": "Assemble the report package",
+      "why": "The report package is the organisation's account of the public money it was trusted with. A financial report set against the approved budget, a narrative whose every number has a source, receipts and time records behind every charge, and a signature from someone who is accountable for it together make a report that survives an audit. Missing any one of them turns a good year's work into a correspondence file of follow-up questions."
+    },
+    {
+      "cue": "Log the submission, the budget version, the conflict recusal, the report date and where every record lives — no client names.",
+      "id": "close-the-grant-log",
+      "kind": "select",
+      "prompt": "Log the submission, the budget version, the conflict recusal, the report date and where every record lives — no client names.",
+      "target": "grant-log-board",
+      "title": "Close the grant file",
+      "why": "Grant files outlive the people who wrote them. A log of what was submitted when, which budget version was approved, how the treasurer's conflict was handled, when the report went in and where the supporting records are kept lets the next grants manager — or the auditor — reconstruct the grant in an afternoon. Keeping client names out of it keeps the file safe to share with the people who will need it."
+    },
+    {
+      "cue": "Ten minutes: how did the week land on each of you, what should change before the next deadline?",
+      "id": "crew-check-in",
+      "kind": "select",
+      "prompt": "Ten minutes: how did the week land on each of you, what should change before the next deadline?",
+      "target": "crew-checkin-board",
+      "title": "Check in with the director before the deadline week ends",
+      "why": "Deadline weeks in small nonprofits run on the same two or three people, and the cost shows up months later as a resignation. A short check-in with the director — how did it land, what was too much, what gets a calendar reminder or a second pair of hands next time — is how the organisation keeps its grants manager, and with her the knowledge of where every record is. Naming who to call when it is too much is part of that."
+    }
+  ],
+  "supportLine": "your executive director, the board treasurer, or the grants manager at a sister organisation who has survived a deadline week and will pick up the phone",
+  "tagline": "Ask for public money honestly and account for every dollar: papers in order, a budget narrative that means something, an indirect rate inside the cap, a board member's conflict disclosed and recused, a report that claims only what it can prove — and the charity's status kept out of a campaign",
+  "title": "SmartCiti.X~ Grant Application and Nonprofit Compliance VR",
+  "trade": "Programme and grants manager — community nonprofit",
+  "underwater": null,
+  "weather": "overcast"
+}

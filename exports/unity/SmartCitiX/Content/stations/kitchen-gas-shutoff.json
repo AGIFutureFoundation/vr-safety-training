@@ -1,0 +1,401 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "line-secured",
+    "name": "Line Secured",
+    "note": "A clean shutdown, a real floor-level sweep, and a relight with nothing skipped"
+  },
+  "category": "Culinary & Hospitality",
+  "certification": "UNITE HERE Local 2 kitchen safety training; NFPA 54 / ANSI Z223.1 the National Fuel Gas Code; the California Fire Code; Cal/OSHA General Industry Safety Orders on emergency action and hazardous atmospheres; the gas utility's own reported-odor procedure",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI Z223.1",
+        "id": "ansi-z223-1",
+        "title": "ANSI Z223.1 / NFPA 54 — National Fuel Gas Code"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 54",
+        "id": "nfpa-54",
+        "title": "NFPA 54 — National Fuel Gas Code"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.38",
+        "id": "osha-1910-38",
+        "title": "29 CFR 1910.38 — Emergency action plans"
+      },
+      {
+        "body": "union",
+        "citedAs": "UNITE HERE",
+        "id": "unite-here-training",
+        "title": "UNITE HERE hospitality training funds — cooks, housekeepers, bartenders and banquet staff"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Culinary",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "no-spark",
+        "name": "No Spark",
+        "note": "Never reached for an ignition source while searching"
+      },
+      {
+        "id": "floor-level",
+        "name": "Floor Level",
+        "note": "Held every detector reading clean, no corrections"
+      },
+      {
+        "id": "sequenced-relight",
+        "name": "Sequenced Relight",
+        "note": "Relit every pilot in the correct order, every time"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "cleared-fast",
+        "name": "Cleared Fast",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "steady-sweep",
+        "name": "Steady Sweep",
+        "note": "Held the floor sweep without a single dropout"
+      },
+      {
+        "id": "secured-streak",
+        "name": "Secured Streak",
+        "note": "Nine correct actions in a row"
+      }
+    ],
+    "currency": "GAS",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Prep Cook",
+      "Line Cook",
+      "Shift Lead",
+      "Kitchen Manager",
+      "Line Secured"
+    ],
+    "system": "Line Secured"
+  },
+  "hazards": {
+    "phone-call-onsite": "You are standing right where the smell is strongest, phone out, calling it in from here. A cell phone or a radio keying up can spark at the antenna contact the same way a light switch can — the call happens once you have backed off toward clean air, not from the middle of a room you suspect is accumulating gas.",
+    "reignite-early": "That igniter button is for an appliance nobody has cleared yet. Every pilot on this line gets checked closed and the room gets confirmed clear before anything is lit again — energizing an igniter into a room that still has gas in it is providing the ignition source the whole shutdown was built to deny it.",
+    "spark-switch": "That is a wall light switch, and you are reaching for it to see better while you search for a gas smell. Flipping any switch — lights, an exhaust fan control, anything electrical — can throw a spark at the exact contact point, and a spark is the one thing an accumulating gas-air mixture is waiting for. Use the flashlight, never a switch, until the room is confirmed clear.",
+    "walkin-door-open": "The walk-in door is propped open. Gas that pools at floor level drifts toward the lowest, most enclosed space in the room, and an open walk-in with its own compressor and its own electrical contacts inside is exactly the enclosed ignition source you do not want that gas finding. Shut it and keep it shut until the sweep says the floor is clear."
+  },
+  "id": "kitchen-gas-shutoff",
+  "indoor": "kitchen",
+  "interrupts": [
+    {
+      "after": "stand-clear",
+      "alert": "A cook has come back in from break and is flicking a lighter at the range, trying to relight a pilot before anyone told them the line was cleared.",
+      "cue": "Stop that lighter now.",
+      "delay": 3,
+      "id": "lighter-relight",
+      "kind": "Unsafe relight attempt",
+      "missNote": "The lighter got struck at the range with the ventilation sweep still incomplete. If any gas was still sitting along that floor, this is the exact spark it was waiting for.",
+      "seconds": 12,
+      "target": "lighter",
+      "why": "Nobody outside this shutdown knows the room has not been swept yet, and a cook who only knows the pilot is out will reach for the fastest fix they have — getting the lighter out of their hand is the only thing that matters in this moment, before it ever gets near the burner.",
+      "wrongNote": "The lighter, not the valve or the detector. Somebody is about to strike an open flame in a room you have not cleared yet — that takes priority over everything else on this line."
+    },
+    {
+      "after": "walkin-sweep",
+      "alert": "The detector spikes hard as it reaches the walk-in — a real floor-level reading, well above the clear band, pooled against the base of the cold room.",
+      "cue": "That reading means your isolation is not as complete as you thought. Go back and recheck it.",
+      "delay": 2,
+      "id": "walkin-lel-spike",
+      "kind": "Floor-level gas pooling",
+      "missNote": "The spike at the walk-in got noted and nothing else happened. A floor-level reading that high after the valve was supposedly closed is the isolation itself in question, not a detail for the log.",
+      "seconds": 12,
+      "target": "gas-shutoff-valve",
+      "why": "A live reading down here, after the main valve was supposedly already closed, means something upstream of that valve is still passing gas — going back to physically recheck the shutoff is what tells a real leak apart from a slow pocket that was always going to take longer to clear.",
+      "wrongNote": "Back to the emergency shutoff. A reading this high this late means the valve needs to be confirmed closed again, by hand, before anything else on this line matters."
+    }
+  ],
+  "lateNotes": {
+    "gas-shutoff-valve": "The main valve gets checked twice in this job: once to close it before anything else, and once again if a floor reading anywhere in the room comes back questionable.",
+    "lighter": "The lighter only matters as something to take out of a cook's hand before they use it — it is never a tool for finding or fixing this leak."
+  },
+  "name": "Kitchen Gas Shutoff",
+  "parSeconds": 275,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "culinary-kitchen"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.3,
+    "hits": [
+      "back-door",
+      "cart-obstruction",
+      "cart-storage",
+      "detector",
+      "flashlight",
+      "fryer-pilot",
+      "fryer-valve",
+      "gas-shutoff-valve",
+      "griddle-pilot",
+      "griddle-valve",
+      "hood-fan-switch",
+      "kettle-valve-cracked",
+      "lighter",
+      "logbook",
+      "phone-call-onsite",
+      "phone-outside",
+      "piezo-igniter",
+      "radio",
+      "range-pilot",
+      "range-valve",
+      "reignite-early",
+      "spark-switch",
+      "walkin-door-open"
+    ],
+    "meshes": 153
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Acknowledge the report of a gas smell on the line.",
+      "id": "odor-call",
+      "kind": "select",
+      "prompt": "Acknowledge the report of a gas smell on the line.",
+      "target": "radio",
+      "title": "Take the report",
+      "why": "A gas odor report is the start of a procedure, not a maybe — natural gas is odorized specifically so it is noticed well below its flammable range, and treating the first report as the trigger rather than waiting to smell it yourself is what keeps the response ahead of the leak instead of behind it. OSHA's emergency-action-plan rule at 29 CFR 1910.38 expects exactly this: a named response that starts the moment the condition is reported, not once somebody has confirmed it personally."
+    },
+    {
+      "cue": "Find and set aside anything on the line that can spark or flame before you look any further.",
+      "decoyNotes": {
+        "flashlight": "That's the flashlight — the only light source that belongs in your hand right now. Leave it."
+      },
+      "id": "spark-check",
+      "itemNames": {
+        "lighter": "the cook's lighter",
+        "piezo-igniter": "the loose piezo igniter"
+      },
+      "itemNotes": {
+        "lighter": "Set aside before anyone uses it to see under the counter — an open flame anywhere near an accumulating leak is the ignition source the whole response is built around denying.",
+        "piezo-igniter": "A hand-held piezo sparker used to light pilots. It stays off the line the same as the lighter until the room is confirmed clear."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Find and set aside anything on the line that can spark or flame before you look any further.",
+      "targets": [
+        "lighter",
+        "piezo-igniter"
+      ],
+      "title": "Clear the ignition sources before searching",
+      "why": "The instinct on a gas call is to go looking for the leak, and the discipline is to make the room incapable of igniting before that search even starts — NFPA 54 and every utility's own odor procedure lead with the same rule: nothing that sparks or flames touches this room until it is proven clear."
+    },
+    {
+      "cue": "Move the prep cart away from the back door so the evacuation route is open.",
+      "drag": {
+        "missNote": "Not clear of the doorway yet — move the cart the rest of the way into the storage bay.",
+        "radius": 0.55,
+        "to": "cart-storage"
+      },
+      "id": "clear-exit",
+      "kind": "drag",
+      "prompt": "Move the prep cart away from the back door so the evacuation route is open.",
+      "target": "cart-obstruction",
+      "title": "Clear the exit path",
+      "why": "Ventilating this room means the back door is about to become the main airflow path and, if this goes wrong, the exit everyone uses — a cart parked across it costs seconds neither the ventilation plan nor an evacuation can spare."
+    },
+    {
+      "cue": "Close the range, then the griddle, then the fryer, in that order.",
+      "id": "appliance-shutdown",
+      "itemNames": {
+        "fryer-valve": "fryer gas valve",
+        "griddle-valve": "griddle gas valve",
+        "range-valve": "range gas valve"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Range, then griddle, then fryer — take them down the line in one direction so none gets skipped under pressure.",
+      "prompt": "Close the range, then the griddle, then the fryer, in that order.",
+      "targets": [
+        "range-valve",
+        "griddle-valve",
+        "fryer-valve"
+      ],
+      "title": "Shut down every gas appliance on the line",
+      "why": "Every appliance on the line gets its own valve closed, not just the one that happens to be lit — a pilot you cannot see burning is still an open path for gas, and NFPA 54 treats an unconfirmed appliance exactly like a confirmed leak until somebody has actually closed its valve by hand."
+    },
+    {
+      "cue": "Turn the emergency shutoff a quarter turn to fully closed.",
+      "id": "manual-shutoff",
+      "kind": "turn",
+      "prompt": "Turn the emergency shutoff a quarter turn to fully closed.",
+      "target": "gas-shutoff-valve",
+      "title": "Close the kitchen's emergency gas shutoff",
+      "turn": {
+        "axis": "z",
+        "label": "KITCHEN EMERGENCY GAS SHUTOFF",
+        "turns": 0.25
+      },
+      "why": "This one valve — or its interlocked solenoid — is upstream of every appliance you just shut down individually, and closing it is what turns four separate off switches into one confirmed isolation. A quarter-turn ball valve is either fully open or fully closed; there is no partial position that means anything."
+    },
+    {
+      "cue": "Run the hood's exhaust fan, then prop the back door open.",
+      "id": "ventilate",
+      "itemNames": {
+        "back-door": "back door",
+        "hood-fan-switch": "hood exhaust fan"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Fan first, then the door — a door open with no draw running just trades one still pocket of air for two.",
+      "prompt": "Run the hood's exhaust fan, then prop the back door open.",
+      "targets": [
+        "hood-fan-switch",
+        "back-door"
+      ],
+      "title": "Ventilate the kitchen",
+      "why": "The hood fan and an open door move air in the same direction for the same reason: gas that has nowhere to go stays exactly where it settled. Running the fan first gives the room a draw before the door adds a path for outside air to replace what is being pulled out, rather than just stirring the room in place."
+    },
+    {
+      "cue": "Hold the detector at floor level along the cook line and commit once the reading clears.",
+      "gauge": {
+        "green": [
+          0,
+          0.18
+        ],
+        "label": "GAS DETECTOR — %LEL AT FLOOR",
+        "missNote": "Still reading. Give the ventilation more time and sweep again before treating any part of this room as clear.",
+        "speed": 0.55
+      },
+      "id": "detector-baseline",
+      "kind": "gauge",
+      "prompt": "Hold the detector at floor level along the cook line and commit once the reading clears.",
+      "target": "detector",
+      "title": "Read the detector at floor level on the line",
+      "why": "Natural gas is lighter than air but propane and the heavier fractions in a leak are not, and either way the detector is held at floor level because that is where the last of a dispersing leak actually sits — a reading taken at chest height can call a room clear while the floor along the baseboards still is not."
+    },
+    {
+      "cue": "Step outside to clear air, then call the gas utility and the maintenance engineer.",
+      "id": "call-utility",
+      "kind": "select",
+      "prompt": "Step outside to clear air, then call the gas utility and the maintenance engineer.",
+      "target": "phone-outside",
+      "title": "Call the gas utility from clear air",
+      "why": "The utility can shut off gas at the meter and check the service line for a leak upstream of anything in this kitchen, and the maintenance engineer knows this building's own piping — neither of those calls is one a kitchen crew can substitute for, and both are made from outside the space that was just evacuated, not from inside it."
+    },
+    {
+      "cue": "Stay outside the kitchen while the fan and the open door do their work.",
+      "holdBreakNote": "You went back in before the wait was over. Ventilation on a clock you cut short is ventilation you cannot actually vouch for.",
+      "id": "stand-clear",
+      "kind": "hold",
+      "prompt": "Stay outside the kitchen while the fan and the open door do their work.",
+      "seconds": 6,
+      "target": "back-door",
+      "title": "Hold clear while the room ventilates",
+      "why": "Ventilation takes real time to actually clear a room, and standing just inside the doorway to keep an eye on things puts you back in the space the whole procedure just evacuated — the hold is the discipline of actually waiting it out from clear air instead of checking on it."
+    },
+    {
+      "cue": "Walk the detector low along the floor toward the walk-in, keeping the reading inside the clear band.",
+      "holdBreakNote": "Sweep broke off before the walk-in. Heavier-than-air gas pools exactly in corners and against equipment like this — an incomplete sweep is a floor you have not actually checked.",
+      "id": "walkin-sweep",
+      "kind": "track",
+      "prompt": "Walk the detector low along the floor toward the walk-in, keeping the reading inside the clear band.",
+      "seconds": 5,
+      "target": "detector",
+      "title": "Sweep the detector along the floor toward the walk-in",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.5,
+        "green": [
+          0,
+          0.22
+        ],
+        "label": "FLOOR SWEEP — %LEL",
+        "rise": 0.4,
+        "start": 0.15
+      },
+      "why": "The walk-in sits low, cold and enclosed against the back wall, and every one of those is a reason a heavier fraction of an escaping gas would settle there before it settles anywhere else in an open kitchen — the sweep only means something if it actually reaches the corner it is checking."
+    },
+    {
+      "cue": "One valve on this line is not actually fully closed. Find it.",
+      "decoyNotes": {
+        "griddle-valve": "That valve is already fully closed from the shutdown — leave it.",
+        "range-valve": "That valve is already fully closed from the shutdown — leave it."
+      },
+      "id": "valve-walk",
+      "itemNames": {
+        "kettle-valve-cracked": "the soup kettle's valve, not fully closed"
+      },
+      "itemNotes": {
+        "kettle-valve-cracked": "This handle sits a few degrees off its seat — closed enough to look right from across the kitchen, open enough to still be passing gas. It gets closed the rest of the way and tagged before this line goes anywhere near a relight."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "One valve on this line is not actually fully closed. Find it.",
+      "targets": [
+        "kettle-valve-cracked"
+      ],
+      "title": "Walk every appliance before considering restoration",
+      "why": "A valve resting a few degrees off its seat looks closed from a glance and is not closed at all, and the only way this line goes back into service honestly is checking every single valve by hand rather than trusting the shutdown you did from memory twenty minutes ago."
+    },
+    {
+      "cue": "Relight range, then griddle, then fryer, one at a time, with the hood fan already running.",
+      "id": "relight",
+      "itemNames": {
+        "fryer-pilot": "fryer pilot",
+        "griddle-pilot": "griddle pilot",
+        "range-pilot": "range pilot"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Range, then griddle, then fryer — the same order the line was shut down in, so nothing gets missed.",
+      "prompt": "Relight range, then griddle, then fryer, one at a time, with the hood fan already running.",
+      "targets": [
+        "range-pilot",
+        "griddle-pilot",
+        "fryer-pilot"
+      ],
+      "title": "Relight the pilots with the hood running",
+      "why": "Relighting happens one appliance at a time so that any pilot that will not catch is caught immediately, on its own, rather than discovered later as an unlit burner quietly passing gas into a kitchen that thinks it is back in service — and the hood stays on through all of it, the same as it does through every hour the line is actually cooking."
+    },
+    {
+      "cue": "Record the cracked kettle valve and sign the line back in service.",
+      "id": "log-restore",
+      "kind": "select",
+      "prompt": "Record the cracked kettle valve and sign the line back in service.",
+      "target": "logbook",
+      "title": "Sign the restoration log",
+      "why": "The kettle valve that was not fully seated does not fix itself by being closed once — the log is what gets it onto a work order before the next shift lead has any reason to think about it, and it is the record that says exactly what was found and exactly what was done about it."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "A gas smell on the line: no spark used to search, every appliance and the emergency valve closed, the room swept at floor level, and a pilot-by-pilot relight",
+  "title": "SmartCiti.X~ Kitchen Gas Shutoff VR",
+  "trade": "Kitchen shift lead — UNITE HERE Local 2",
+  "underwater": null,
+  "weather": "clear"
+}

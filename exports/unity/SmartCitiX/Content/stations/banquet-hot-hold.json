@@ -1,0 +1,421 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "service-standard",
+    "name": "Service Standard",
+    "note": "Every pan probed, every chafer lit correctly, and a clean pull-down"
+  },
+  "category": "Culinary & Hospitality",
+  "certification": "UNITE HERE Local 2 banquet and culinary staff; the California Retail Food Code (the FDA Food Code as adopted) on hot holding at 135°F or above and Time as a Public Health Control; the ANSI-accredited California Food Handler card and ServSafe Manager certification; NSF/ANSI 4 commercial cooking and hot-holding equipment; OSHA 29 CFR 1910.157 portable fire extinguishers for the open flame at every chafer; Cal/OSHA's general industry safety orders",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "CalCode",
+        "citedAs": "California Retail Food Code",
+        "id": "calcode-retail-food",
+        "title": "California Retail Food Code (Health and Safety Code Division 104, Part 7) — the FDA Food Code as California adopts it"
+      },
+      {
+        "body": "FDA",
+        "citedAs": "FDA Food Code",
+        "id": "fda-food-code",
+        "title": "FDA Food Code — the model code for retail food establishments"
+      },
+      {
+        "body": "NSF",
+        "citedAs": "NSF/ANSI 4",
+        "id": "nsf-ansi-4",
+        "title": "NSF/ANSI 4 — Commercial cooking, rethermalization and powered hot food holding equipment"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.157",
+        "id": "osha-1910-157",
+        "title": "29 CFR 1910.157 — Portable fire extinguishers"
+      },
+      {
+        "body": "ServSafe",
+        "citedAs": "ServSafe",
+        "id": "servsafe-certification",
+        "title": "ServSafe Food Protection Manager and ServSafe Alcohol certification (National Restaurant Association)"
+      },
+      {
+        "body": "union",
+        "citedAs": "UNITE HERE",
+        "id": "unite-here-training",
+        "title": "UNITE HERE hospitality training funds — cooks, housekeepers, bartenders and banquet staff"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Culinary & Hospitality",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "hundred-thirty-five",
+        "name": "135 or Above",
+        "note": "Never sent out a pan under temperature"
+      },
+      {
+        "id": "clean-line-service",
+        "name": "Clean Service",
+        "note": "No corrections across the whole line"
+      },
+      {
+        "id": "quarter-hour",
+        "name": "On the Quarter Hour",
+        "note": "The 2-hour recheck held for the full count"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "on-time-service",
+        "name": "On Time",
+        "note": "Line open inside 80% of par"
+      },
+      {
+        "id": "no-second-pass",
+        "name": "No Second Pass",
+        "note": "Buffet walk clean on the first pass"
+      },
+      {
+        "id": "eight-straight",
+        "name": "Eight Straight",
+        "note": "Eight correct actions in a row"
+      }
+    ],
+    "currency": "COVERS",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Banquet Runner",
+      "Line Cook",
+      "Chef de Partie",
+      "Banquet Captain",
+      "Service Standard Certified"
+    ],
+    "system": "Service Standard"
+  },
+  "hazards": {
+    "bare-hand-scoop": "A bare hand in a hot chafer pan is a burn risk on a food already at serving temperature and a contamination risk on food nobody is cooking again — tongs and the plating spoon are on the rest six inches away for exactly this reach.",
+    "expired-time-tag": "That tag's discard time passed eleven minutes ago and the pan is still on the buffet. Time as a Public Health Control only works if the tag is honoured — a pan held on time past its own deadline is being held on nothing.",
+    "hotbox-door-propped": "That hot box door has been wedged open. A hot-holding cabinet loses its air temperature in minutes with the door open, and every pan inside starts falling through the danger zone together instead of one at a time on the line where you can see it happening.",
+    "lid-closed-light": "That chafer's lid is still down and somebody left a lighter next to it. Lighting fuel under a closed lid traps the vapour it gives off while it catches, and the flare when the lid finally comes up reaches whoever is standing in front of it — the fuel is always lit with the lid open."
+  },
+  "id": "banquet-hot-hold",
+  "indoor": "kitchen",
+  "interrupts": [
+    {
+      "after": "buffet-walk",
+      "alert": "A server flags the end pan on the buffet — it's reading 120°F on their own probe, well under hold.",
+      "cue": "That pan does not sit there while you finish something else.",
+      "delay": 4,
+      "id": "pan-cold",
+      "kind": "Temperature drift",
+      "missNote": "The pan sat there through the next course. A guest served from a 120°F pan has no way of knowing it fell out of hold, which is exactly why the check is the cook's job and not theirs.",
+      "seconds": 12,
+      "target": "cold-pan",
+      "why": "A pan under 135°F is no longer hot-held, it is cooling on a counter with a lid on it, and every minute it stays on the buffet is a minute more in the range foodborne illness gets its start. It goes back for reheat to 165°F or it goes in the bin — there is no third option that leaves it on the line.",
+      "wrongNote": "It is the pan the server is standing next to. Pull it now — reheat to 165°F or discard, nothing on this buffet stays at 120°F."
+    },
+    {
+      "after": "flame-check",
+      "alert": "A runner has grabbed a fresh can of chafing fuel and is about to unscrew a lit chafer's spent can to swap it.",
+      "cue": "That can is still burning. Stop them before the cap comes off.",
+      "delay": 3,
+      "id": "runner-refuel",
+      "kind": "Fuel refill",
+      "missNote": "The runner cracked the cap on a can that was still lit. Gel fuel vapour ignites off the flame it is sitting next to, and what should have been a routine swap becomes a fire on a table full of guests.",
+      "seconds": 11,
+      "target": "chafer-fuel-can",
+      "why": "Chafing fuel is never refilled or swapped while it is lit — pouring or handling gel fuel next to an open flame is how a runner's hand and the tablecloth both catch at once. The can burns out and cools before anybody touches it, on a schedule set by the fuel, not by how many pans are waiting.",
+      "wrongNote": "It is the runner reaching for the lit can. Stop the swap — a spent can burns out and cools on its own before it gets touched."
+    }
+  ],
+  "lateNotes": {
+    "buffet-pan-probe": "Not yet — this pan gets probed once it is on the buffet and again on the two-hour clock, not before.",
+    "time-tag-rack": "The time tag goes on once the item is actually out for service, not before it leaves the kitchen."
+  },
+  "name": "Banquet Hot Hold",
+  "parSeconds": 260,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "culinary-kitchen",
+    "hotel-workers"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "bare-hand-scoop",
+      "buffet-pan-probe",
+      "chafer-fuel-can",
+      "chafer-fuel-light",
+      "chafer-lid-open",
+      "clean-chafer-rest",
+      "cold-pan",
+      "corner-front",
+      "corner-left",
+      "corner-right",
+      "discard-log-board",
+      "event-board",
+      "expired-time-tag",
+      "fuel-regulator",
+      "hotbox-dial",
+      "hotbox-door-propped",
+      "hotbox-interior",
+      "hotbox-probe-port",
+      "ice-bath",
+      "lid-closed-light",
+      "plate-dome",
+      "prep-pan",
+      "short-handle-utensil",
+      "sneeze-guard-gap",
+      "time-tag-rack",
+      "tphc-item",
+      "utensil-in-food"
+    ],
+    "meshes": 212
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check the guest count, the menu, plated or buffet service, and the room's timeline.",
+      "id": "event-order",
+      "kind": "select",
+      "prompt": "Check the guest count, the menu, plated or buffet service, and the room's timeline.",
+      "target": "event-board",
+      "title": "Read the event order",
+      "why": "The event order sets everything downstream: how many hot boxes you load, how long the buffet has to hold before the room is cleared, and whether tonight is a plated service with a cart call or a buffet with a two-hour recheck clock. Walking onto a banquet line without reading it first means guessing at numbers a banquet captain already wrote down for you."
+    },
+    {
+      "cue": "Turn the hot box thermostat up to operating temperature before anything goes in it.",
+      "id": "preheat",
+      "kind": "turn",
+      "prompt": "Turn the hot box thermostat up to operating temperature before anything goes in it.",
+      "target": "hotbox-dial",
+      "title": "Preheat the hot box",
+      "turn": {
+        "axis": "z",
+        "label": "HOT BOX THERMOSTAT",
+        "turns": 0.9
+      },
+      "why": "A hot box holds food at temperature, it does not bring cold food up to it, and loading pans into a cabinet that has not come up to heat starts every one of them in the danger zone at once. Preheating first means the cabinet is doing its job the moment the first pan lands on the rack instead of racing to catch up with forty covers already inside it."
+    },
+    {
+      "cue": "Probe the empty cabinet's air temperature through the port and commit once it is holding in range.",
+      "gauge": {
+        "green": [
+          0.58,
+          0.78
+        ],
+        "label": "HOT BOX — AIR TEMP",
+        "missNote": "Not holding high enough yet — give the cabinet more time or check the door seal before loading pans into it.",
+        "speed": 0.65
+      },
+      "id": "hotbox-check",
+      "kind": "gauge",
+      "prompt": "Probe the empty cabinet's air temperature through the port and commit once it is holding in range.",
+      "target": "hotbox-probe-port",
+      "title": "Confirm the hot box is holding",
+      "why": "The dial tells you where the thermostat is set, not what the cabinet is actually doing — a door seal going soft or a fan motor dying shows up as a hot box that runs cooler than its own dial claims. The probe through the port is the only number in this room that checks the machine rather than trusting it."
+    },
+    {
+      "cue": "Carry the finished pan from the prep table into the preheated hot box.",
+      "drag": {
+        "missNote": "Not in the cabinet — set the pan on the rack inside the hot box, not on the cart beside it.",
+        "radius": 0.55,
+        "to": "hotbox-interior"
+      },
+      "id": "load-pans",
+      "kind": "drag",
+      "prompt": "Carry the finished pan from the prep table into the preheated hot box.",
+      "target": "prep-pan",
+      "title": "Load the hot box",
+      "why": "Product goes from the range or the oven straight into a cabinet that is already holding temperature — parked on a cart in the hallway on the way there is time in the danger zone that never gets logged and never gets back. The hot box is the only stop this pan makes before the buffet."
+    },
+    {
+      "cue": "Probe the pan on the buffet and commit only once it reads 135°F or above.",
+      "gauge": {
+        "green": [
+          0.7,
+          0.92
+        ],
+        "label": "BUFFET PAN — INTERNAL TEMP",
+        "missNote": "Under 135°F. That pan goes back for reheat to 165°F or it does not go on the buffet at all.",
+        "speed": 0.6
+      },
+      "id": "probe-outbound",
+      "kind": "gauge",
+      "prompt": "Probe the pan on the buffet and commit only once it reads 135°F or above.",
+      "target": "buffet-pan-probe",
+      "title": "Probe the pan before it goes out",
+      "why": "Every pan gets probed on its way to the guest, not on its way out of the kitchen — travel time, an elevator ride, a service door propped open, all cost temperature between the two. 135°F is the Food Code's hot-holding floor, and the only pan that has actually met it is the one you probed where the guest is about to be served from."
+    },
+    {
+      "cue": "Open the chafer's lid first, then light the fuel can underneath it.",
+      "id": "chafer-setup",
+      "itemNames": {
+        "chafer-fuel-light": "fuel can, lit",
+        "chafer-lid-open": "chafer lid, opened"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Wrong order — the lid comes up before the match does. Lighting fuel under a closed lid is what puts a flare in the server's face the moment the lid opens.",
+      "prompt": "Open the chafer's lid first, then light the fuel can underneath it.",
+      "targets": [
+        "chafer-lid-open",
+        "chafer-fuel-light"
+      ],
+      "title": "Light the chafer lid open",
+      "why": "Fuel gel gives off vapour the second the lid comes off the can, and lighting it under a closed chafer lid traps that vapour until somebody lifts the lid — the flare that follows goes straight up into whoever's hands are on it. Open first, light second, every chafer, every time."
+    },
+    {
+      "cue": "Hold the fuel can's fold-cap regulator in the band that keeps the flame steady, not smothered and not flaring.",
+      "holdBreakNote": "Regulator out of band — a starved flame lets the pan drop out of hold and a wide-open one puts fire where a server's sleeve passes over it. Bring it back to steady.",
+      "id": "flame-check",
+      "kind": "track",
+      "prompt": "Hold the fuel can's fold-cap regulator in the band that keeps the flame steady, not smothered and not flaring.",
+      "seconds": 7,
+      "target": "fuel-regulator",
+      "title": "Set the flame regulator",
+      "track": {
+        "drift": 0.1,
+        "fall": 0.4,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "FUEL REGULATOR",
+        "rise": 0.45,
+        "start": 0.15
+      },
+      "why": "Chafing fuel's fold-cap is the only control you have over how hard it burns once it is lit: folded too far closed and the pan runs cold before the entrée does; open too wide and the flame reaches high enough to catch a sleeve or a napkin passed too close over it. The band in the middle is the one that holds 135°F without becoming the thing a guest points at."
+    },
+    {
+      "cue": "Three things on this buffet are not right. Find them before the first guest comes through.",
+      "decoyNotes": {
+        "clean-chafer-rest": "That chafer's utensil is on its rest, handle clear of the pan. Leave it."
+      },
+      "id": "buffet-walk",
+      "itemNames": {
+        "short-handle-utensil": "the short-handled ladle at the sauce",
+        "sneeze-guard-gap": "the gap in the sneeze guard",
+        "utensil-in-food": "the serving spoon left standing in the pan"
+      },
+      "itemNotes": {
+        "short-handle-utensil": "That handle is too short to keep fingers clear of the sauce. The Food Code calls for a handle long enough that the hand serving never has to reach into the food to use it.",
+        "sneeze-guard-gap": "A panel has slid off its bracket. The guard only protects the food where it actually spans the pan — a gap is an open buffet with a sign over it.",
+        "utensil-in-food": "A utensil left standing in the pan puts a hand back into hot food every time it is used, and it means the handle a guest touches next has been sitting in the pan, not on a rest."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Three things on this buffet are not right. Find them before the first guest comes through.",
+      "targets": [
+        "sneeze-guard-gap",
+        "utensil-in-food",
+        "short-handle-utensil"
+      ],
+      "title": "Walk the buffet before doors open",
+      "why": "The buffet is checked with your own eyes and a hand on the guard before service, because a gap or a mis-rested utensil found mid-service means every guest ahead of that moment was served past it. This is the last look you get at the line the way the room is about to see it."
+    },
+    {
+      "cue": "Write the discard time and attach the tag to the bread basket held on time, not temperature.",
+      "drag": {
+        "missNote": "Not on the basket. A discard time that isn't physically attached to the item it governs is a rule nobody serving from this buffet can see.",
+        "radius": 0.5,
+        "to": "tphc-item"
+      },
+      "id": "time-tag",
+      "kind": "drag",
+      "prompt": "Write the discard time and attach the tag to the bread basket held on time, not temperature.",
+      "target": "time-tag-rack",
+      "title": "Time-tag the dinner rolls",
+      "why": "Bread is not hot-held and it is not refrigerated on the buffet — it is controlled under Time as a Public Health Control, which the Food Code allows only when the item is marked with the time it has to be discarded by. No tag on the basket means nobody downstream of you knows it is even under time control at all."
+    },
+    {
+      "cue": "Probe the buffet pan again at the two-hour mark and hold for the full reading.",
+      "holdBreakNote": "You pulled the probe before the reading settled. A quick touch on a pan this close to the line gives you a guess, not the number the recheck exists to produce.",
+      "id": "recheck",
+      "kind": "hold",
+      "prompt": "Probe the buffet pan again at the two-hour mark and hold for the full reading.",
+      "seconds": 7,
+      "target": "buffet-pan-probe",
+      "title": "Hold the two-hour recheck",
+      "why": "A pan that was 145°F when the doors opened can be under 135°F two hours later with nothing about it looking different from across the room — the steam is the same, the pan looks the same, and the only thing that has changed is the one thing you cannot see. The recheck is what catches a pan drifting out of hold before a guest does."
+    },
+    {
+      "cue": "Take a dome from the stack and cover every plate on the cart.",
+      "id": "plate-cover",
+      "kind": "select",
+      "prompt": "Take a dome from the stack and cover every plate on the cart.",
+      "target": "plate-dome",
+      "title": "Cover the plated meals",
+      "why": "A plated course loses heat the moment it leaves the kitchen, and the dome is the only thing slowing that down between the pass and the table. An uncovered plate on a cart crossing a ballroom floor arrives at the guest's seat colder than the kitchen ever sent it out."
+    },
+    {
+      "cue": "Push the cart through the service door calling front, then left, then right as each corner clears.",
+      "id": "cart-corners",
+      "itemNames": {
+        "corner-front": "front corner",
+        "corner-left": "left corner",
+        "corner-right": "right corner"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Call the corners in the order the cart actually reaches them — front, then the sides as it clears the doorway. Calling them out of order warns somebody about a corner that isn't the one about to hit them.",
+      "prompt": "Push the cart through the service door calling front, then left, then right as each corner clears.",
+      "targets": [
+        "corner-front",
+        "corner-left",
+        "corner-right"
+      ],
+      "title": "Call the corners on the cart",
+      "why": "A loaded banquet cart is wider than the person pushing it and blind past the first row of domes, and the call is for whoever is on the other side of that door as much as for you — front first because that is the corner about to meet a doorway, left and right as the cart swings clear of the frame behind it."
+    },
+    {
+      "cue": "Move the leftover pan into a shallow container set in the ice bath rather than a deep one on the shelf.",
+      "id": "pulldown",
+      "kind": "select",
+      "prompt": "Move the leftover pan into a shallow container set in the ice bath rather than a deep one on the shelf.",
+      "target": "ice-bath",
+      "title": "Cool the pull-down in a shallow ice bath",
+      "why": "A deep pan of hot food cools from the outside in and can sit in the danger zone for hours at its centre; a shallow pan in an ice bath brings the whole depth of the food down together. The Food Code's cooling window exists because a stockpot left to cool on a shelf overnight is a textbook case, not a hypothetical one."
+    },
+    {
+      "cue": "Record what was cooled, what was discarded on its time tag, and sign the log closed.",
+      "id": "discard-log",
+      "kind": "select",
+      "prompt": "Record what was cooled, what was discarded on its time tag, and sign the log closed.",
+      "target": "discard-log-board",
+      "title": "Close out the pull-down log",
+      "why": "The log is what turns tonight's pull-down into something the next shift can trust rather than something they have to guess at — what got a second life in tomorrow's prep, what hit its discard time and went in the bin, and whose signature is on that decision if anybody ever has to ask."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Banquet hot line: hot boxes probed, chafers lit lid-open, the buffet walked, time tags honoured, and the pull-down done to the rule",
+  "title": "SmartCiti.X~ Banquet Hot Hold VR",
+  "trade": "Banquet cook",
+  "underwater": null,
+  "weather": null
+}

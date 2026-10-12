@@ -1,0 +1,411 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "ready-together",
+    "name": "Ready Together",
+    "note": "Made a family readiness plan with helpers, a packed go-bag list, a meeting place and a way to go, and practised it with a classmate"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFT",
+        "id": "aft-training",
+        "title": "AFT — American Federation of Teachers training for paraprofessionals and school-related personnel"
+      },
+      {
+        "body": "INEE",
+        "citedAs": "INEE Minimum Standards",
+        "id": "inee-minimum-standards",
+        "title": "INEE Minimum Standards for Education in emergencies, as a body whose standards a lesson is aligned to; it certifies nothing"
+      },
+      {
+        "body": "national curriculum authority",
+        "citedAs": "national curriculum framework",
+        "id": "national-curriculum-framework",
+        "title": "The national curriculum framework the school itself follows, as a category rather than any one country's document; no grade-level code is cited"
+      },
+      {
+        "body": "union",
+        "citedAs": "National Education Association",
+        "id": "nea-training",
+        "title": "NEA apprenticeship and training, as a training body"
+      },
+      {
+        "body": "UN",
+        "citedAs": "Sustainable Development Goal 4",
+        "id": "un-sdg-4-quality-education",
+        "title": "UN Sustainable Development Goal 4 (Quality Education), as a framework a lesson is aligned to; it certifies nothing"
+      },
+      {
+        "body": "UNESCO",
+        "citedAs": "UNESCO education guidance",
+        "id": "unesco-education-guidance",
+        "title": "UNESCO education guidance, as a body whose published guidance a lesson is aligned to; it certifies nothing"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Education",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "clean-read",
+        "name": "First Look",
+        "note": "Everything in the opening scan found first time"
+      },
+      {
+        "id": "no-shortcut",
+        "name": "No Shortcuts",
+        "note": "No misconception or unsafe shortcut anywhere in the run"
+      },
+      {
+        "id": "in-the-band",
+        "name": "In the Band",
+        "note": "Every gauge and meter held inside its band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-run",
+        "name": "Clean Run",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "steady-hands",
+        "name": "Steady Hands",
+        "note": "Every hold and track carried its full count"
+      },
+      {
+        "id": "quick-and-right",
+        "name": "Quick and Right",
+        "note": "Finished inside 80% of par"
+      }
+    ],
+    "currency": "PLANS",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Listener",
+      "Packer",
+      "Planner",
+      "Helper",
+      "Neighbour"
+    ],
+    "system": "Ready Board"
+  },
+  "hazards": {
+    "believe-every-message": "You acted on a forwarded message without checking it. Families follow the parish's own announcements and trusted local news, and ask a grown-up when something sounds odd. Checking the source keeps the plan calm and correct.",
+    "forget-the-pets": "You left the pet out of the plan. Pets need food, water, a lead or carrier and a place that welcomes them. Adding them to the plan early means nobody has to make hard choices in a hurry later.",
+    "pack-only-fun-things": "You filled the go-bag with games and snacks. A comfort item is a good idea, but the bag also needs water, medicines, copies of important papers, a torch, a phone charger and clothes. The list comes first; then there is room for a favourite toy.",
+    "plan-in-one-head": "You left the plan in one person's head. If that person is at work or busy, nobody else knows what to do. A plan works when it is written down, kept where everyone can find it and talked through by the whole family."
+  },
+  "id": "k12-by-a-family-readiness-plan",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "listen-to-each-persons-idea",
+      "alert": "A classmate in your group goes quiet and says they feel worried about storms.",
+      "cue": "Tell the teacher kindly so they can help your classmate.",
+      "delay": 3,
+      "id": "a-classmate-feels-worried",
+      "kind": "Classmate worry",
+      "missNote": "Nobody told the teacher, and your classmate stayed worried and quiet for the rest of the planning session.",
+      "seconds": 12,
+      "target": "byf-tell-teacher",
+      "why": "Feeling worried is normal, and a trusted grown-up can help. Telling the teacher kindly, without making a fuss, means your classmate gets support. Being ready includes looking after each other's feelings, not just packing bags.",
+      "wrongNote": "That does not get your classmate help. Tell the teacher kindly. Choose the response that deals with it now."
+    },
+    {
+      "after": "walk-the-practice-route-with-your",
+      "alert": "The nurse asks your group to name one person your plan says can help.",
+      "cue": "Name a helper from the plan and say how to reach them.",
+      "delay": 3,
+      "id": "the-nurse-asks-who-helps",
+      "kind": "Nurse question",
+      "missNote": "Your group could not name a helper or say how to reach one, and the nurse sent you back to the plan card.",
+      "seconds": 12,
+      "target": "byf-name-helper",
+      "why": "A helper's name is only useful if you know how to reach them. Saying the name and the way to contact them shows the plan is real and ready. Families write these on the plan card so nobody has to remember them on the day.",
+      "wrongNote": "That does not name a helper or how to reach them. Choose the response that deals with it now."
+    }
+  ],
+  "lateNotes": {
+    "byf-checkin": "The check-in comes at the very end of the session.",
+    "byf-plan-log": "The plan card is written once the group has talked and practised — nothing to write yet."
+  },
+  "name": "A Family Readiness Plan",
+  "parSeconds": 330,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "k12-literacy-and-life-skills"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "believe-every-message",
+      "byf-bag-charger",
+      "byf-bag-meds",
+      "byf-bag-torch",
+      "byf-bag-water",
+      "byf-checkin",
+      "byf-fridge",
+      "byf-gobag",
+      "byf-group-card",
+      "byf-helpers",
+      "byf-leave-meter",
+      "byf-map-dial",
+      "byf-meet",
+      "byf-name-helper",
+      "byf-ord-pack",
+      "byf-ord-practise",
+      "byf-ord-talk",
+      "byf-ord-write",
+      "byf-plan-card",
+      "byf-plan-log",
+      "byf-poster",
+      "byf-route-meter",
+      "byf-share-board",
+      "byf-source-card",
+      "byf-talk-stick",
+      "byf-tell-teacher",
+      "forget-the-pets",
+      "pack-only-fun-things",
+      "plan-in-one-head"
+    ],
+    "meshes": 275
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Mark three of the plan's parts on the planning wall: who helps, what to pack and where to meet.",
+      "decoyNotes": {
+        "byf-poster": "Fun to read, but it is not part of the plan."
+      },
+      "id": "find-the-four-parts-of-a",
+      "itemNames": {
+        "byf-gobag": "the go-bag checklist",
+        "byf-helpers": "the list of people who help",
+        "byf-meet": "the meeting place card"
+      },
+      "itemNotes": {
+        "byf-gobag": "What we pack ahead of time.",
+        "byf-helpers": "Family, neighbours and trusted grown-ups.",
+        "byf-meet": "Where we find each other."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Mark three of the plan's parts on the planning wall: who helps, what to pack and where to meet.",
+      "targets": [
+        "byf-helpers",
+        "byf-gobag",
+        "byf-meet"
+      ],
+      "title": "Find the four parts of a readiness plan",
+      "why": "A good readiness plan answers a few clear questions. Who can help us, and whom do we help? What goes in the go-bag? Where do we meet if we are apart? Seeing those parts on the wall shows that a plan is not one huge job, it is a set of small answers a family works out together."
+    },
+    {
+      "cue": "Join your planning group at the table before the nurse hands out the cards.",
+      "id": "sit-with-your-planning-group",
+      "kind": "select",
+      "prompt": "Join your planning group at the table before the nurse hands out the cards.",
+      "target": "byf-group-card",
+      "title": "Sit with your planning group",
+      "why": "Making a plan is teamwork, so the class works in small groups just like a family would. Sitting together at one table means everyone can see the cards and have a say. In a real family, every person, even the youngest, has a job in the plan, and that starts with being part of the talk."
+    },
+    {
+      "cue": "Talk it through, write it down, pack the go-bag, then practise the plan.",
+      "id": "put-the-planning-steps-in-order",
+      "itemNames": {
+        "byf-ord-pack": "3 · pack the go-bag",
+        "byf-ord-practise": "4 · practise the plan",
+        "byf-ord-talk": "1 · talk it through as a family",
+        "byf-ord-write": "2 · write the plan down"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order. Talk the plan through together before anything is written down.",
+      "prompt": "Talk it through, write it down, pack the go-bag, then practise the plan.",
+      "targets": [
+        "byf-ord-talk",
+        "byf-ord-write",
+        "byf-ord-pack",
+        "byf-ord-practise"
+      ],
+      "title": "Put the planning steps in order",
+      "why": "Talking first lets everyone share ideas and worries. Writing it down turns those ideas into something anyone can follow. Packing the go-bag ahead of time means it is ready when needed. Practising last shows what works and what is missing, so the family can fix it on a calm day."
+    },
+    {
+      "cue": "Hold the talking stick steady while your classmate shares their idea, and do not interrupt.",
+      "holdBreakNote": "The talking stick moved before your classmate finished. Let them finish their idea.",
+      "id": "listen-to-each-persons-idea",
+      "kind": "hold",
+      "prompt": "Hold the talking stick steady while your classmate shares their idea, and do not interrupt.",
+      "seconds": 6,
+      "target": "byf-talk-stick",
+      "title": "Listen to each person's idea",
+      "why": "Everyone in a family notices different things. A younger child might remember the pet's medicine; a grandparent might know a neighbour who needs help. Listening fully, without jumping in, is how a plan picks up those ideas. Good listening is a readiness skill just like packing a bag."
+    },
+    {
+      "cue": "Choose the source your family will use to hear updates from the parish.",
+      "id": "choose-a-trusted-place-to-get",
+      "kind": "select",
+      "prompt": "Choose the source your family will use to hear updates from the parish.",
+      "target": "byf-source-card",
+      "title": "Choose a trusted place to get updates",
+      "why": "When weather is on the way, lots of messages go round. Some are helpful and some are wrong. Choosing ahead of time to follow the parish's own announcements and trusted local news means your family hears the same calm, correct information, and knows whom to believe."
+    },
+    {
+      "cue": "Look at the sample go-bag on the table and mark each thing it still needs.",
+      "decoyNotes": {
+        "byf-bag-torch": "Good — it is on the list and already packed."
+      },
+      "id": "spot-what-is-missing-from-a",
+      "itemNames": {
+        "byf-bag-charger": "a phone charger",
+        "byf-bag-meds": "medicines the family needs",
+        "byf-bag-water": "bottled water"
+      },
+      "itemNotes": {
+        "byf-bag-charger": "So the family can stay in touch.",
+        "byf-bag-meds": "Ask a grown-up to pack them.",
+        "byf-bag-water": "Pack enough for everyone."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look at the sample go-bag on the table and mark each thing it still needs.",
+      "targets": [
+        "byf-bag-water",
+        "byf-bag-meds",
+        "byf-bag-charger"
+      ],
+      "title": "Spot what is missing from a sample go-bag",
+      "why": "Checking a bag against the list shows what is easy to forget. Water, medicines and a phone charger are often missed because they are used every day and not thought of as supplies. Finding the gaps on a sample bag trains you to check your own family's bag the same careful way."
+    },
+    {
+      "cue": "Turn the map dial until your route to the meeting place points the right way.",
+      "id": "turn-the-map-to-face-the",
+      "kind": "turn",
+      "prompt": "Turn the map dial until your route to the meeting place points the right way.",
+      "target": "byf-map-dial",
+      "title": "Turn the map to face the way you will go",
+      "turn": {
+        "axis": "y",
+        "label": "MAP",
+        "turns": 0.5
+      },
+      "why": "A map is easiest to follow when it faces the same way you are going. Turning it to match the real streets means left on the map is left in the street. Families practise their route so that on the day, going there feels familiar and calm rather than new and confusing."
+    },
+    {
+      "cue": "Commit when the marker reaches the point on the plan's timeline where the family leaves early.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.58
+        ],
+        "label": "LEAVE",
+        "missNote": "Not at the early point. Leave when the plan says, not at the last minute.",
+        "speed": 0.6
+      },
+      "id": "choose-when-to-leave",
+      "kind": "gauge",
+      "prompt": "Commit when the marker reaches the point on the plan's timeline where the family leaves early.",
+      "target": "byf-leave-meter",
+      "title": "Choose when to leave",
+      "why": "Leaving early, when the parish advises it, gives a family time to travel calmly and to help others on the way. Picking that point on the timeline before the day comes means nobody has to argue about it later. An early start is one of the kindest choices a family can make for itself."
+    },
+    {
+      "cue": "Drag the finished plan card to the fridge door on the model kitchen.",
+      "drag": {
+        "missNote": "Not on the fridge yet. Put the plan where the whole family will see it.",
+        "radius": 0.45,
+        "to": "byf-fridge"
+      },
+      "id": "put-the-plan-where-everyone-can",
+      "kind": "drag",
+      "prompt": "Drag the finished plan card to the fridge door on the model kitchen.",
+      "target": "byf-plan-card",
+      "title": "Put the plan where everyone can find it",
+      "why": "A plan in a drawer is easy to lose. On the fridge, or another place everyone sees every day, it stays in mind and is easy to grab. Families also keep a copy in the go-bag and on a grown-up's phone, so the plan is there wherever they are."
+    },
+    {
+      "cue": "Keep the marker on the route line as your group walks to the meeting place on the floor map.",
+      "holdBreakNote": "The group drifted off the route. Find the line again and follow it to the meeting place.",
+      "id": "walk-the-practice-route-with-your",
+      "kind": "track",
+      "prompt": "Keep the marker on the route line as your group walks to the meeting place on the floor map.",
+      "seconds": 8,
+      "target": "byf-route-meter",
+      "title": "Walk the practice route with your group",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.38,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "ROUTE",
+        "rise": 0.46,
+        "start": 0.3
+      },
+      "why": "Practising the route shows whether it really works: a street that is often busy, a turn that is easy to miss. Walking it together, and staying on the line, lets the family spot problems and change the plan on a calm day. Practice is what turns a plan on paper into something everyone knows."
+    },
+    {
+      "cue": "Fill in the plan card: helpers, go-bag list, meeting place, where to go and the trusted source.",
+      "id": "write-your-groups-plan",
+      "kind": "select",
+      "prompt": "Fill in the plan card: helpers, go-bag list, meeting place, where to go and the trusted source.",
+      "target": "byf-plan-log",
+      "title": "Write your group's plan",
+      "why": "Writing it all on one card means the plan can be read by anyone, even a babysitter or a visiting cousin. Clear words and a tidy list make it quick to follow. Your group's card is a model you can take home and fill in with your own family."
+    },
+    {
+      "cue": "Read your plan card to another group and ask them what they would add.",
+      "id": "explain-your-plan-to-another-group",
+      "kind": "select",
+      "prompt": "Read your plan card to another group and ask them what they would add.",
+      "target": "byf-share-board",
+      "title": "Explain your plan to another group",
+      "why": "Another group will notice things yours missed, just as a neighbour might. Asking what they would add makes the plan stronger. Sharing plans is also how neighbours learn to help each other, which is one of the best parts of being ready together."
+    },
+    {
+      "cue": "How do you feel about making a plan at home? Who will you talk to about it first?",
+      "id": "crew-check-in",
+      "kind": "select",
+      "prompt": "How do you feel about making a plan at home? Who will you talk to about it first?",
+      "target": "byf-checkin",
+      "title": "Check in with the nurse before you go",
+      "why": "Talking about storms can bring up feelings, and that is normal. The school nurse ends the session by asking each learner how they feel and who they will share the plan with. Anyone who feels worried can say so, and the nurse or teacher will help them take the plan home in a way that feels good."
+    }
+  ],
+  "supportLine": "your teacher, a school counsellor or a trusted adult at home — if anything in this lesson was hard, talk it through afterwards",
+  "tagline": "Who helps, what to pack, where to go — made together, written down and practised before it is needed",
+  "title": "SmartCiti.X~ A Family Readiness Plan VR",
+  "trade": "Life-skills class in the school hall with the parish readiness team — learner and school nurse",
+  "underwater": null,
+  "weather": "clear"
+}

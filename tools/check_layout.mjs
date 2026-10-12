@@ -1,0 +1,185 @@
+/**
+ * Layout audit: is every control the procedure asks for actually reachable,
+ * and is anything in the scene somewhere impossible?
+ *
+ * The content checkers prove a step's target exists and the run scores. They
+ * say nothing about where the thing *is* — a control can exist, register, and
+ * still sit outside the circle the learner is allowed to walk in, under the
+ * floor, or on top of the spawn point. Those only show up when someone loads
+ * the station and tries to reach it.
+ *
+ * This builds every station and room against the headless harness, resolves a
+ * real world position for each interactable through the group transforms, and
+ * fails on anything a learner could not get to.
+ *
+ *     node tools/check_layout.mjs
+ */
+import { loadSmartCity, loadTrades } from "./lib/headless.mjs";
+
+// SmartCiti.X clamps the learner to a circle; Trade Skills walks a room. Both
+// numbers come from the apps and must stay in step with them.
+const CITY_ROAM = (footprint) => (footprint ?? 2) + 2.4;
+const REACH = 1.6;        // how far a learner can reach past where they stand
+// A valve vault, a trench, an elevator pit and a wet well all legitimately put
+// work below deck level. Past this is not a deep space, it is a mistake.
+const FLOOR_SLACK = -2.4;
+
+const city = await loadSmartCity();
+const trades = await loadTrades();
+
+// The stub's getWorldPosition only reports local position, so the transform is
+// accumulated up the parents here. It used to handle rotation about y only,
+// which is most of what this codebase does — but a pitched arm, a leaning
+// ladder or a tipped panel is rotated about x or z, and everything hanging off
+// it was being reported at the wrong place. Full scale-then-rotate-then-
+// translate now, in three.js's own default Euler order: R = RX * RY * RZ, so
+// the vector is turned about z first, then y, then x.
+function worldPos(obj) {
+  let x = 0, y = 0, z = 0;
+  for (let n = obj; n; n = n.parent) {
+    const sc = n.scale;
+    if (sc) { x *= sc.x ?? 1; y *= sc.y ?? 1; z *= sc.z ?? 1; }
+    const r = n.rotation;
+    if (r) {
+      if (r.z) { const c = Math.cos(r.z), s = Math.sin(r.z); [x, y] = [x * c - y * s, x * s + y * c]; }
+      if (r.y) { const c = Math.cos(r.y), s = Math.sin(r.y); [x, z] = [x * c + z * s, -x * s + z * c]; }
+      if (r.x) { const c = Math.cos(r.x), s = Math.sin(r.x); [y, z] = [y * c - z * s, y * s + z * c]; }
+    }
+    x += n.position?.x ?? 0; y += n.position?.y ?? 0; z += n.position?.z ?? 0;
+  }
+  return { x, y, z };
+}
+
+let failures = 0;
+const note = (id, msg) => { console.log(`  ✗ ${id}: ${msg}`); failures += 1; };
+const rows = [];
+
+function audit(app, r, reachFrom) {
+  const root = new (app === "trades" ? trades : city).THREE.Group();
+  let api;
+  try { api = r.build(root); } catch (e) { note(`${app}/${r.id}`, `build threw — ${e.message}`); return; }
+  const hits = api?.hits ?? {};
+  // Every id a step or a hazard actually names. Scenery is not audited.
+  const named = new Set();
+  for (const s of r.steps ?? []) {
+    if (s.target) named.add(s.target);
+    for (const t of s.targets ?? []) named.add(t);
+    if (s.drag?.to) named.add(s.drag.to);
+  }
+  for (const h of Object.keys(r.hazards ?? {})) named.add(h);
+
+  let far = 0;
+  for (const id of named) {
+    const obj = hits[id];
+    if (!obj) continue; // the content checkers own missing ids
+    const p = worldPos(obj);
+    const d = Math.hypot(p.x, p.z);
+    if (p.y < FLOOR_SLACK) note(`${app}/${r.id}`, `"${id}" sits at y=${p.y.toFixed(2)}, below anywhere a learner can reach`);
+    if (d > reachFrom + REACH) {
+      note(`${app}/${r.id}`, `"${id}" is ${d.toFixed(1)}m out, past the ${reachFrom.toFixed(1)}m the learner may walk (+${REACH}m reach)`);
+    }
+    far = Math.max(far, d);
+  }
+  // Sweep the whole scene for coordinates no hand would type. A dropped
+  // argument slides a colour into a position slot (0xb9bec4 reads as
+  // 12,172,996 metres), which renders nothing and moves the object out of the
+  // world. Nothing else in these scenes is past 60m.
+  const WILD = 60;
+  root.traverse?.((o) => {
+    const p = worldPos(o);
+    for (const [axis, v] of [["x", p.x], ["y", p.y], ["z", p.z]]) {
+      if (!Number.isFinite(v)) note(`${app}/${r.id}`, `an object has a non-finite ${axis}`);
+      else if (Math.abs(v) > WILD) {
+        note(`${app}/${r.id}`, `an object sits at ${axis}=${Math.round(v)} — looks like a colour in a position argument`);
+      }
+    }
+  });
+  // Nothing parked on the spot the learner arrives at. Scenery added to fill
+  // a room is exactly the kind of thing that lands in the doorway: you open
+  // the bay and a bench is in your face before you have seen the room.
+  if (r.spawn) {
+    const KEEP_CLEAR = 1.4;
+    const HEAD = 1.95; // anything entirely above this is overhead, not in the way
+    for (const child of root.children ?? []) {
+      const p = worldPos(child);
+      // Things at the origin are the shell and the floor paint, not furniture.
+      if (Math.hypot(p.x, p.z) < 0.15) continue;
+      const d = Math.hypot(p.x - r.spawn.x, p.z - r.spawn.z);
+      if (d >= KEEP_CLEAR) continue;
+      // A ceiling fitting directly over the door is not an obstruction, and
+      // neither is a board mounted at head height — only what a learner can
+      // walk into counts.
+      // Only what occupies the space a standing person does: a floor marking
+      // underfoot and a fitting overhead are both fine to arrive on top of.
+      const SHIN = 0.35;
+      let blocks = false;
+      child.traverse?.((o) => { if (o.isMesh) { const y = worldPos(o).y; if (y > SHIN && y < HEAD) blocks = true; } });
+      if (!blocks) continue;
+      note(`${app}/${r.id}`, `something floor-standing is ${d.toFixed(1)}m from the spawn at (${p.x.toFixed(1)}, ${p.z.toFixed(1)}) — the learner arrives inside it`);
+    }
+  }
+
+  // A person has to be standing somewhere, not inside a bench. Crew figures
+  // are placed by hand against a room that was already full, and the first
+  // pass put a welder through a side bench and an engineer through a rack.
+  // Two different questions, so two numbers. A trades bay is an eight-metre
+  // room and a figure with less than a metre around them reads as crowded
+  // into the furniture. A SmartCiti.X station is a two-metre working area
+  // where standing beside the cabinet is the whole point, so there the only
+  // question is whether the figure is actually intersecting something: a body
+  // is about 0.3m across, so anything closer than 0.55m to a mesh centre is
+  // inside it.
+  const CREW_CLEAR = app === "trades" ? 1.05 : 0.45;
+  // Collected mesh by mesh, not group by group: the shop furniture lives
+  // inside one `fixed` group that sits at the origin, so a group-level sweep
+  // skipped the whole lot and found nothing. Only the band a standing person
+  // occupies counts — floor paint and ceiling fittings are not obstructions.
+  const solid = [];
+  // Found by walking the tree, not by reading root.children. A trades bay adds
+  // its crew at the top level, but a SmartCiti.X station builds everything
+  // inside one group, so a top-level sweep saw no crew at all and this rule
+  // silently did nothing for fifty stations.
+  const crewRoots = new Set();
+  const findCrew = (node) => {
+    if (node.userData?.crew) { crewRoots.add(node); return; }
+    for (const c of node.children ?? []) findCrew(c);
+  };
+  findCrew(root);
+  const collect = (node) => {
+    if (crewRoots.has(node)) return;
+    if (node.isMesh) {
+      const p = worldPos(node);
+      if (p.y > 0.3 && p.y < 2.0 && Math.hypot(p.x, p.z) > 0.15) solid.push(p);
+    }
+    for (const c of node.children ?? []) collect(c);
+  };
+  collect(root);
+  for (const child of crewRoots) {
+    const p = worldPos(child);
+    for (const q of solid) {
+      const d = Math.hypot(p.x - q.x, p.z - q.z);
+      if (d < CREW_CLEAR) {
+        note(`${app}/${r.id}`, `a crew figure at (${p.x.toFixed(1)}, ${p.z.toFixed(1)}) is ${d.toFixed(1)}m from something floor-standing — they are inside it`);
+        break;
+      }
+    }
+  }
+
+  rows.push({ app, id: r.id, named: named.size, far: Math.round(far * 10) / 10, roam: reachFrom });
+}
+
+for (const r of city.ROOMS) audit("smartcity", r, CITY_ROAM(r.footprint));
+for (const r of trades.ROOMS) {
+  // A room's walkable area is its shell, minus the gap the app holds off the
+  // walls. Take the corner: that is the furthest a learner can actually stand
+  // from the middle of the floor.
+  const w = (r.size?.w ?? 9) / 2 - 0.85, d = (r.size?.d ?? 8.6) / 2 - 0.85;
+  audit("trades", r, Math.hypot(w, d));
+}
+
+rows.sort((a, b) => (b.far - b.roam) - (a.far - a.roam));
+const tight = rows.slice(0, 3).map((r) => `${r.id} ${r.far}m/${r.roam.toFixed(1)}m`).join(", ");
+console.log(failures
+  ? `\n${failures} layout problem(s) found.`
+  : `\nAll ${rows.length} stations reachable. Tightest: ${tight}.`);
+process.exit(failures ? 1 : 0);

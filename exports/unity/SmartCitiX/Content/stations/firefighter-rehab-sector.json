@@ -1,0 +1,406 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "release-earned",
+    "name": "Release Earned",
+    "note": "Every crew through rehab met its release criteria before going back to the line, with nobody pushed through early"
+  },
+  "category": "Emergency Services",
+  "certification": "IAFF — NFPA 1584 rehabilitation process for members during emergency operations, NFPA 1500 fire department occupational safety and health, OSHA 29 CFR 1910.134 respiratory protection governing SCBA cylinder rotation, and NIOSH heat-stress monitoring criteria the rehab vitals are read against",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "IAFF",
+        "id": "iaff-training",
+        "title": "IAFF training programmes, including Fire Ground Survival and the peer support model"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 1500",
+        "id": "nfpa-1500",
+        "title": "NFPA 1500 — Fire Department Occupational Safety, Health and Wellness Program"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 1584",
+        "id": "nfpa-1584",
+        "title": "NFPA 1584 — Rehabilitation Process for Members during Emergency Operations and Training Exercises"
+      },
+      {
+        "body": "NIOSH",
+        "citedAs": "NIOSH",
+        "id": "niosh-criteria",
+        "title": "NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.134",
+        "id": "osha-1910-134",
+        "title": "29 CFR 1910.134 — Respiratory protection"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Emergency Services",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "criteria-held",
+        "name": "Criteria Held",
+        "note": "Nobody released before meeting the vitals criteria, first time"
+      },
+      {
+        "id": "no-shortcut",
+        "name": "No Shortcut",
+        "note": "No unsafe action anywhere in the run"
+      },
+      {
+        "id": "vitals-precise",
+        "name": "Vitals Precise",
+        "note": "Every reading committed inside its band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-sector",
+        "name": "Clean Sector",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "cooling-held",
+        "name": "Cooling Held",
+        "note": "The cooling period held its full duration, no early step-out"
+      },
+      {
+        "id": "sector-fast",
+        "name": "Sector Fast",
+        "note": "Complete inside 80% of par"
+      }
+    ],
+    "currency": "REHAB",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Rehab Support",
+      "Rehab Technician",
+      "Rehab Manager",
+      "Medical Group Supervisor",
+      "Rehab Certified"
+    ],
+    "system": "Rehab Group"
+  },
+  "hazards": {
+    "bypass-rehab-gate": "A crew walked around the rehab entry point instead of checking in through it. Rehab only works as a system if every crew that has been through a second cylinder is actually logged, monitored and timed — a crew that bypasses the gate is a crew command believes is rested that was never actually assessed.",
+    "energy-drink": "You handed a member a caffeinated energy drink instead of water or an electrolyte mix. Caffeine is a diuretic and a cardiac stimulant, which is the opposite of what a body already dehydrated and tachycardic from working a structure fire needs — NFPA 1584's rehab guidance calls specifically for water and electrolyte replacement, not stimulants, for exactly this reason.",
+    "premature-release": "You released the flagged member back to the line before his heart rate and mental status met the criteria. A crew chief needing bodies on the fireground is real pressure, and it is also exactly the pressure NFPA 1584's release criteria exist to stand up against — a member sent back before he clears them is a second patient waiting to happen, on a crew that is now one person short of knowing it.",
+    "smoking-in-rehab": "A member lit a cigarette in the rehab area, next to open SCBA cylinders and while still recovering from heat and carbon monoxide exposure. Nicotine narrows blood vessels at the exact moment the body is trying to cool and recover, and an open flame next to compressed-air cylinders is its own hazard rehab exists to keep away from the crew resting inside it."
+  },
+  "id": "firefighter-rehab-sector",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "co-reading",
+      "alert": "The CO monitor on the member at the second chair just alarmed — his reading has climbed well past what rehab clears on its own.",
+      "cue": "That member goes to EMS now, not back toward the line.",
+      "delay": 3,
+      "id": "co-spike",
+      "kind": "CO reading comes back high",
+      "missNote": "He stayed in the rehab chair while the reading held high. Rehab's cooling and hydration were doing nothing for a CO load that only oxygen and EMS monitoring actually clears, and every minute in that chair instead of on a stretcher was a minute spent not treating it.",
+      "seconds": 13,
+      "target": "ems-transport",
+      "why": "A carbon monoxide level this high is a medical transport, not a rehab finding — cooling, water and rest do nothing for a CO load already bound to haemoglobin, and the only thing that clears it faster is oxygen and monitoring rehab is not equipped to give. Sending him toward the line, or even just leaving him resting in the tent, both look the same on the outside and are both the wrong call.",
+      "wrongNote": "It is the CO reading, not the vitals table in front of you — that member needs EMS transport, not another round of monitoring in the tent."
+    },
+    {
+      "after": "vitals-hr",
+      "alert": "Command is on the radio asking for this crew back at staging — their rehab clock has not run out yet.",
+      "cue": "Tell command they are not released — the rehab minimum has not been met.",
+      "delay": 3,
+      "id": "ic-wants-crew-early",
+      "kind": "IC calls for the crew early",
+      "missNote": "The crew went back to staging with time still owed on the clock. Whatever the rehab period was catching up on when the radio call came in, it is still uncaught, and this crew is now back near the fireground carrying it.",
+      "seconds": 12,
+      "target": "radio-defer-ic",
+      "why": "The rehab manager is the one person on this fireground whose job is to say not yet to the incident commander, because NFPA 1584 sets a minimum rehab period for a reason command is trusting rehab to hold even under pressure to get bodies moving again — the crew is worth more to the incident rested than they are worth to it fifteen minutes into a cooling period they never finished.",
+      "wrongNote": "It is the radio call from command, not the reading in front of you — tell them the crew's rehab minimum has not been met yet."
+    }
+  ],
+  "lateNotes": {},
+  "name": "Firefighter Rehab Sector",
+  "parSeconds": 290,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "first-responders"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "ambulance",
+        "count": 1,
+        "kit": "fleet"
+      }
+    ],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "bypass-rehab-gate",
+      "co-monitor",
+      "coat-open",
+      "cooling-spot",
+      "crew-checkin-board",
+      "cylinder-gauge",
+      "ems-transport",
+      "energy-drink",
+      "helmet-off",
+      "hr-monitor",
+      "hydration-water",
+      "member-heat-stress",
+      "member-resting-a",
+      "member-resting-b",
+      "mister-valve",
+      "premature-release",
+      "radio-defer-ic",
+      "reassess-monitor",
+      "reeval-hold-button",
+      "rehab-log-board",
+      "rehab-site-board",
+      "scba-off",
+      "smoking-in-rehab",
+      "temp-monitor"
+    ],
+    "meshes": 276
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the sector board: upwind and uphill of the fire, clear of apparatus exhaust, with EMS staged alongside.",
+      "id": "site-select",
+      "kind": "select",
+      "prompt": "Read the sector board: upwind and uphill of the fire, clear of apparatus exhaust, with EMS staged alongside.",
+      "target": "rehab-site-board",
+      "title": "Site the rehab sector",
+      "why": "Rehab does nothing for a crew's lungs if it is sited downwind of the smoke plume or parked behind an idling engine's exhaust, and it does nothing for their timeline if EMS is not already staged there to escalate a member who does not clear the vitals criteria. Siting it right, before the first crew arrives, is what makes every step after this one actually mean recovery instead of just a different place to stand."
+    },
+    {
+      "cue": "Read the crew's SCBA cylinder gauge and confirm it is on its second bottle before waving them into rehab.",
+      "gauge": {
+        "green": [
+          0.02,
+          0.14
+        ],
+        "label": "CYLINDER",
+        "missNote": "That is not a second-cylinder reading — check the gauge again before this crew is logged into rehab.",
+        "speed": 0.7
+      },
+      "id": "entry-criteria",
+      "kind": "gauge",
+      "prompt": "Read the crew's SCBA cylinder gauge and confirm it is on its second bottle before waving them into rehab.",
+      "target": "cylinder-gauge",
+      "title": "Confirm the entry criterion",
+      "why": "NFPA 1584 ties rehab entry to a specific, checkable threshold rather than to how a crew looks from across the yard — a second cylinder spent, or a set working time, or visible exhaustion — because 'they look fine' is exactly the judgment call rehab exists to take out of the loop. Reading the gauge is what turns rotation into a system instead of a guess made from a distance."
+    },
+    {
+      "cue": "Helmet off, then coat opened, then the SCBA harness off — in that order.",
+      "id": "break-down-ppe",
+      "itemNames": {
+        "coat-open": "coat opened",
+        "helmet-off": "helmet off",
+        "scba-off": "SCBA harness off"
+      },
+      "itemNotes": {
+        "helmet-off": "Most of the body's heat is lost through the head — the helmet comes off first for exactly that reason."
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Helmet, then coat, then SCBA — taking the harness off before the coat is opened wastes the minutes the cooling period is supposed to spend actually cooling somebody.",
+      "prompt": "Helmet off, then coat opened, then the SCBA harness off — in that order.",
+      "targets": [
+        "helmet-off",
+        "coat-open",
+        "scba-off"
+      ],
+      "title": "Break down the PPE before cooling starts",
+      "why": "Cooling and hydration cannot do anything through a sealed turnout coat and a harness still cinched down, and the order matters because the head sheds heat fastest, the open coat lets air reach the torso next, and the harness is heaviest to remove and least urgent to lose first. Skipped or done out of order, a member can sit under a misting fan for five minutes and still be wearing the insulation that is keeping the heat in."
+    },
+    {
+      "cue": "Turn the hose-bib feeding the misting fan fully open.",
+      "id": "mister-on",
+      "kind": "turn",
+      "prompt": "Turn the hose-bib feeding the misting fan fully open.",
+      "target": "mister-valve",
+      "title": "Open the misting fan",
+      "turn": {
+        "axis": "y",
+        "label": "MISTER",
+        "turns": 1
+      },
+      "why": "A misting fan run on a trickle barely wets the air it is blowing, and evaporative cooling only works as fast as the water it has to evaporate — opened fully, the fan is actually pulling heat off skin at the rate rehab's timeline assumes it is."
+    },
+    {
+      "cue": "Keep the member standing in the mist for the full cooling interval before vitals are read.",
+      "holdBreakNote": "The member stepped out of the mist before the interval was up. Cutting the cooling period short means the vitals about to be read are measuring a body that has not finished coming down yet.",
+      "id": "cooling-hold",
+      "kind": "hold",
+      "prompt": "Keep the member standing in the mist for the full cooling interval before vitals are read.",
+      "seconds": 8,
+      "target": "cooling-spot",
+      "title": "Hold the cooling period",
+      "why": "A body that has been working inside turnout gear at a structure fire does not cool the moment the gear comes off — core temperature keeps rising for several minutes after exertion stops, which is exactly why a vitals reading taken too early looks worse than the member actually is. The hold is timed to let the cooling actually catch up before anything gets measured."
+    },
+    {
+      "cue": "Hand the member water or the electrolyte mix from the rehab table — not the energy drinks in the cooler beside it.",
+      "id": "hydration",
+      "kind": "select",
+      "prompt": "Hand the member water or the electrolyte mix from the rehab table — not the energy drinks in the cooler beside it.",
+      "target": "hydration-water",
+      "title": "Hydrate with water or electrolyte replacement",
+      "why": "Sweat lost at a structure fire is water and electrolytes both, and replacing only one leaves the body still short — which is the whole reason rehab tables carry an electrolyte option next to plain water rather than either alone. What is not on this table, on purpose, is a stimulant."
+    },
+    {
+      "cue": "Clip the pulse oximeter on and commit the heart-rate reading.",
+      "gauge": {
+        "green": [
+          0.3,
+          0.55
+        ],
+        "label": "HEART RATE",
+        "missNote": "That heart rate is outside the recovery band NFPA 1584 reads against — hold the member in rehab and read it again rather than logging a number that does not clear.",
+        "speed": 0.7
+      },
+      "id": "vitals-hr",
+      "kind": "gauge",
+      "prompt": "Clip the pulse oximeter on and commit the heart-rate reading.",
+      "target": "hr-monitor",
+      "title": "Read heart rate",
+      "why": "Heart rate is the first and fastest-moving number rehab reads, because it tracks recovery in real time — a rate still climbing after the cooling hold is the earliest sign that a member is not actually coming down, well before temperature or mental status would show it."
+    },
+    {
+      "cue": "Take the tympanic temperature and commit the reading.",
+      "gauge": {
+        "green": [
+          0.15,
+          0.4
+        ],
+        "label": "TEMPERATURE",
+        "missNote": "That temperature is still in the range NIOSH's heat-stress criteria flag — keep the member in rehab rather than logging a release-ready reading that is not one yet.",
+        "speed": 0.72
+      },
+      "id": "vitals-temp",
+      "kind": "gauge",
+      "prompt": "Take the tympanic temperature and commit the reading.",
+      "target": "temp-monitor",
+      "title": "Read temperature",
+      "why": "Temperature confirms what the cooling period was actually doing — a heart rate coming down while temperature is still climbing means the body is still shedding the heat load from the interior, and that member is not the same case as one where both numbers have already turned around together."
+    },
+    {
+      "cue": "Run the CO-oximetry check and commit the reading.",
+      "gauge": {
+        "green": [
+          0.04,
+          0.22
+        ],
+        "label": "CO LEVEL",
+        "missNote": "That CO reading is outside what rehab can clear on its own — this is an EMS transport, not a number to log and move past.",
+        "speed": 0.72
+      },
+      "id": "co-reading",
+      "kind": "gauge",
+      "prompt": "Run the CO-oximetry check and commit the reading.",
+      "target": "co-monitor",
+      "title": "Read carbon monoxide",
+      "why": "A structure fire loads every member working it with carbon monoxide whether or not their SCBA face piece ever came off, and CO is invisible to every other vital sign on this table — a member can have a clean heart rate and a normal temperature and still be carrying a CO load that needs treatment the rehab tent cannot give them."
+    },
+    {
+      "cue": "Three members are resting. One of them has stopped sweating and is slow to answer — find him.",
+      "decoyNotes": {
+        "member-resting-a": "She is winded and drinking water like everyone else in this row — tired is not the finding here.",
+        "member-resting-b": "He is sweating heavily and breathing hard, which is a body cooling itself the way it is supposed to — that is the opposite of the finding."
+      },
+      "id": "spot-heat-stress",
+      "itemNames": {
+        "member-heat-stress": "member showing heat-stress signs"
+      },
+      "itemNotes": {
+        "member-heat-stress": "He has stopped sweating and is answering questions a beat slow — the body running out of its own cooling mechanism, not simple fatigue."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Three members are resting. One of them has stopped sweating and is slow to answer — find him.",
+      "targets": [
+        "member-heat-stress"
+      ],
+      "title": "Scan the row for the one who is not just tired",
+      "why": "Ordinary fatigue and heat exhaustion look similar from a glance across the tent, and the distinguishing sign is usually the quiet one — sweating that has stopped rather than increased, and a response time that has slowed rather than just gone quiet from being tired. Missing that member in a row of people who all look like they just came off a fire is exactly how heat exhaustion gets logged as somebody catching their breath."
+    },
+    {
+      "cue": "The crew chief wants him back on the line. Keep him in rehab until his vitals actually clear.",
+      "id": "hold-for-reeval",
+      "kind": "select",
+      "prompt": "The crew chief wants him back on the line. Keep him in rehab until his vitals actually clear.",
+      "target": "reeval-hold-button",
+      "title": "Hold him back for re-evaluation",
+      "why": "A crew chief asking for a member back is asking in good faith — the line is short and the job still needs doing — and the rehab manager's job is to hold the criteria anyway, because the chief cannot see the vitals from across the fireground and the criteria exist precisely for the moment when the pressure to release someone and the medical case for releasing them point in different directions."
+    },
+    {
+      "cue": "After the extra rest, read heart rate again and commit only if it clears the release band.",
+      "gauge": {
+        "green": [
+          0.15,
+          0.4
+        ],
+        "label": "RE-CHECK HR",
+        "missNote": "Still outside the release band — another rest cycle, not a release, is what this reading calls for.",
+        "speed": 0.7
+      },
+      "id": "reassess",
+      "kind": "gauge",
+      "prompt": "After the extra rest, read heart rate again and commit only if it clears the release band.",
+      "target": "reassess-monitor",
+      "title": "Re-check vitals before release",
+      "why": "The second reading is not a formality after the first one flagged — it is the actual release decision, and it has to clear the same band the first reading missed rather than a looser one applied because time has now passed. Time alone does not clear a member; a vitals reading inside the band does."
+    },
+    {
+      "cue": "Write the entry time, the vitals, and the release time into the rehab log.",
+      "id": "log-rehab",
+      "kind": "select",
+      "prompt": "Write the entry time, the vitals, and the release time into the rehab log.",
+      "target": "rehab-log-board",
+      "title": "Log the rehab record",
+      "why": "The rehab log is what lets the safety officer, and anybody reviewing the incident afterward, see that every crew's time in rehab actually matched a released set of vitals rather than a clock running out — without it, a well-run rehab sector and a rushed one look identical on paper."
+    },
+    {
+      "cue": "Ask the question out loud, not just the vitals — and note the answer.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Ask the question out loud, not just the vitals — and note the answer.",
+      "target": "crew-checkin-board",
+      "title": "Ask how the crew is doing",
+      "why": "A member can clear every number on this table and still be carrying something the vitals do not measure — what they saw inside, what almost happened, who they could not get to in time — and the department's peer-support and critical-incident stress line exists for exactly that gap. Asking the question and writing down the answer is what keeps rehab from being only a physiology check."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Rehab sector at a working fire under NFPA 1584: cylinder rotation, PPE broken down, vitals read against the release criteria, cooling and hydration, a heat-stressed member held back, and the crew's own check-in",
+  "title": "SmartCiti.X~ Firefighter Rehab Sector VR",
+  "trade": "Firefighter — IAFF",
+  "underwater": null,
+  "weather": "smoke"
+}

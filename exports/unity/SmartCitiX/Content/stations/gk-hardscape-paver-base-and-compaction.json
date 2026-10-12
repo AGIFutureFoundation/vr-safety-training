@@ -1,0 +1,420 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "base-proven",
+    "name": "Base Proven",
+    "note": "Locate confirmed, the base compacted to a checked density, pavers lifted safely, and the pattern finished with edge restraint set on both sides"
+  },
+  "category": "Grounds & Landscaping",
+  "certification": "OSHA 29 CFR 1926 Subpart P Excavations, including the excavation's own competent person inspection duties; OSHA 29 CFR 1910.132 personal protective equipment, 29 CFR 1910.95 occupational noise exposure and 29 CFR 1910.212 machine guarding; NIOSH guidance on manual material handling; LIUNA grounds and landscaping crew training",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "LIUNA",
+        "id": "liuna-training-fund",
+        "title": "LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula"
+      },
+      {
+        "body": "NIOSH",
+        "citedAs": "NIOSH",
+        "id": "niosh-criteria",
+        "title": "NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.132",
+        "id": "osha-1910-132",
+        "title": "29 CFR 1910.132 — Personal protective equipment, general requirements"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.212",
+        "id": "osha-1910-212",
+        "title": "29 CFR 1910.212 — General requirements for all machines (machine guarding)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.95",
+        "id": "osha-1910-95",
+        "title": "29 CFR 1910.95 — Occupational noise exposure"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926 Subpart P Excavations",
+        "id": "osha-1926-subpart-p",
+        "title": "OSHA 29 CFR 1926 Subpart P Excavations"
+      }
+    ]
+  },
+  "district": "fairway-park",
+  "domain": "Grounds & Landscaping",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "locate-confirmed",
+        "name": "Locate Confirmed",
+        "note": "Never dug before the utility locate was confirmed"
+      },
+      {
+        "id": "safe-lift",
+        "name": "Safe Lift",
+        "note": "Never lifted pavers with an unsafe technique"
+      },
+      {
+        "id": "base-compacted",
+        "name": "Base Compacted",
+        "note": "Held the density gauge near band centre"
+      },
+      {
+        "id": "clean-round",
+        "name": "Clean Round",
+        "note": "No unsafe action anywhere in the run"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "quick-patio",
+        "name": "Quick Patio",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "clean-run",
+        "name": "Clean Run",
+        "note": "No corrections across the whole run"
+      },
+      {
+        "id": "grounds-streak",
+        "name": "Grounds Streak",
+        "note": "Eight correct actions in a row"
+      }
+    ],
+    "currency": "TURF",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Ground Hand",
+      "Hardscape Crew",
+      "Paver Certified",
+      "Crew Lead",
+      "Grounds Certified"
+    ],
+    "system": "Grounds Crew"
+  },
+  "hazards": {
+    "compactor-near-foot": "You ran the plate compactor with your foot right at the edge of the plate. A vibrating plate compactor does not stop the instant it meets resistance, and a foot that close is trusting a machine built to compact aggregate to somehow tell the difference between gravel and a boot.",
+    "dig-over-marked-utility": "You dug straight over the marked utility line with the machine instead of hand-digging it. A locate mark is where the utility actually is, and running equipment over that mark trusts a margin the locate process was never meant to provide.",
+    "lift-pavers-improper": "You lifted that stack of pavers bent at the waist instead of with your legs or a second person. Concrete pavers are heavy enough, stacked together, that a bad lift does not announce the strain until the next morning — lifting with the legs, or getting a second set of hands, is what keeps today's patio from becoming tomorrow's back injury.",
+    "reach-under-running-compactor": "You reached under the compactor to clear debris while it was still running. A running plate compactor vibrates and can shift the instant something under it moves, and a hand reaching in to clear what looks like a simple jam is trusting a machine that has not actually been shut down to stay predictable."
+  },
+  "id": "gk-hardscape-paver-base-and-compaction",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "compact-the-base",
+      "alert": "The compactor plate has struck a buried obstruction and kicked sideways toward the excavation edge.",
+      "cue": "Hit the compactor's kill switch before it reaches the edge.",
+      "delay": 3,
+      "id": "compactor-hits-obstruction",
+      "kind": "Equipment jolt",
+      "missNote": "The compactor kept running while it kept drifting toward the edge. A machine that has already kicked once does not become predictable again on its own.",
+      "seconds": 10,
+      "target": "compactor-kill-switch",
+      "why": "A compactor that has already kicked sideways once can do it again on the same obstruction, and killing the engine immediately — rather than trying to steer it clear — is what stops a machine already out of the operator's full control before it reaches the excavation edge.",
+      "wrongNote": "Not that — the kill switch is what this jolt needs, before the compactor drifts any further."
+    },
+    {
+      "after": "lay-pattern-under-string",
+      "alert": "A coworker has stepped onto the freshly laid pavers before the pattern has set, shifting two of them out of line.",
+      "cue": "Call the stop-work before any more of the pattern is disturbed.",
+      "delay": 4,
+      "id": "coworker-steps-on-fresh-pavers",
+      "kind": "Work interference",
+      "missNote": "The coworker kept walking across the fresh pattern while it kept shifting. A pattern disturbed before it sets does not settle back into line on its own.",
+      "seconds": 11,
+      "target": "stop-work-call",
+      "why": "Pavers just set into a fresh bed are not locked in yet, and a footstep on them shifts the pattern the string line was set up to keep straight — calling the stop immediately is what keeps two shifted pavers from becoming a whole section that has to be pulled up and reset.",
+      "wrongNote": "Not that — the stop-work call is what this moment needs, before the pattern shifts any further."
+    }
+  ],
+  "lateNotes": {
+    "density-gauge": "The density gauge is what actually proves the base is compacted to the plan's own spec, not how solid the surface feels underfoot.",
+    "utility-marker-unclear": "A marker this unclear does not get dug near until the utility itself confirms the line's actual location — a faded mark is not the same as no hazard there."
+  },
+  "name": "Hardscape Paver Base & Compaction",
+  "parSeconds": 310,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "grounds-and-landscaping"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.8,
+    "hits": [
+      "aggregate-bag",
+      "base-area-socket",
+      "clear-excavation-area",
+      "closing-log",
+      "compactor-handle",
+      "compactor-kill-switch",
+      "compactor-near-foot",
+      "density-gauge",
+      "dig-over-marked-utility",
+      "drainage-slope-issue",
+      "ear-protection",
+      "edge-restraint-a",
+      "edge-restraint-b",
+      "excavate-to-depth",
+      "eye-protection",
+      "final-compaction-check",
+      "grade-check",
+      "joint-sand",
+      "lift-pavers-improper",
+      "locate-board",
+      "paver-string",
+      "plan-board",
+      "reach-under-running-compactor",
+      "screed-adjust-bolt",
+      "stop-work-call",
+      "tree-root-in-path",
+      "utility-marker-unclear",
+      "work-gloves"
+    ],
+    "meshes": 109
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check the plan's own paver pattern and base depth before the first shovel moves.",
+      "id": "read-hardscape-plan",
+      "kind": "select",
+      "prompt": "Check the plan's own paver pattern and base depth before the first shovel moves.",
+      "target": "plan-board",
+      "title": "Read the hardscape plan",
+      "why": "The hardscape plan is what sets the pattern, the base depth and the edge restraint layout for this specific patio — reading it before excavation starts is what keeps the whole build following the design instead of an approximation of it made as the work goes."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Work gloves, eye protection and ear protection before the compactor or the pavers are touched.",
+      "id": "ppe-up",
+      "itemNames": {
+        "ear-protection": "ear protection",
+        "eye-protection": "eye protection",
+        "work-gloves": "work gloves"
+      },
+      "kind": "sequence",
+      "prompt": "Work gloves, eye protection and ear protection before the compactor or the pavers are touched.",
+      "targets": [
+        "work-gloves",
+        "eye-protection",
+        "ear-protection"
+      ],
+      "title": "Suit up before excavation",
+      "why": "Handling aggregate and pavers all day is exactly what gloves are for, eye protection covers the grit a compactor kicks up, and a plate compactor runs loud enough over a full patio to matter for hearing — all three go on before the first shovel of base material moves."
+    },
+    {
+      "cue": "Three things about this site change the plan — find them before the first cut.",
+      "decoyNotes": {
+        "clear-excavation-area": "That section of the site is clear ground with a consistent grade. Nothing to flag there."
+      },
+      "id": "walk-the-site",
+      "itemNames": {
+        "drainage-slope-issue": "the spot where the grade slopes the wrong way",
+        "tree-root-in-path": "the tree root running through the excavation",
+        "utility-marker-unclear": "the faded, unclear utility marker"
+      },
+      "itemNotes": {
+        "drainage-slope-issue": "A patio graded to slope the wrong way ponds water against whatever it is built next to instead of carrying it away.",
+        "tree-root-in-path": "A root running through the planned excavation changes where the base can actually be dug to depth without damaging the tree.",
+        "utility-marker-unclear": "A marker this faded is not a marker anyone can trust the location from — it gets confirmed with the utility before digging near it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Three things about this site change the plan — find them before the first cut.",
+      "targets": [
+        "utility-marker-unclear",
+        "tree-root-in-path",
+        "drainage-slope-issue"
+      ],
+      "title": "Walk the site before excavating",
+      "why": "A site that looks ready for excavation from the plan alone is not the same thing as a site someone has actually walked, and an unclear utility marker, a tree root or a drainage issue are exactly what a walk-down catches before the excavation makes any of them worse."
+    },
+    {
+      "cue": "Check the locate tickets against the marked lines before the excavation starts.",
+      "id": "confirm-locate",
+      "kind": "select",
+      "prompt": "Check the locate tickets against the marked lines before the excavation starts.",
+      "target": "locate-board",
+      "title": "Confirm the utility locate",
+      "why": "A locate ticket confirmed against the actual marks on the ground is what turns a call made days ago into a fact the crew can trust before the first cut goes anywhere near a marked utility."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Excavate to the plan's own depth and confirm the grade slopes the direction the plan calls for.",
+      "id": "excavate-and-grade",
+      "itemNames": {
+        "excavate-to-depth": "excavate to the plan's depth",
+        "grade-check": "check the grade slope"
+      },
+      "kind": "sequence",
+      "prompt": "Excavate to the plan's own depth and confirm the grade slopes the direction the plan calls for.",
+      "targets": [
+        "excavate-to-depth",
+        "grade-check"
+      ],
+      "title": "Excavate and grade the base",
+      "why": "Excavating to the plan's own depth is what leaves room for every layer the base actually needs, and checking the grade slope before any base material goes in is what keeps water moving away from the patio instead of pooling against whatever it sits beside."
+    },
+    {
+      "cue": "Carry the aggregate from the stockpile to the excavation and spread it evenly.",
+      "drag": {
+        "missNote": "Not in the excavation — carry the aggregate to where the base area actually is.",
+        "radius": 0.4,
+        "to": "base-area-socket"
+      },
+      "id": "spread-aggregate-base",
+      "kind": "drag",
+      "prompt": "Carry the aggregate from the stockpile to the excavation and spread it evenly.",
+      "target": "aggregate-bag",
+      "title": "Spread the aggregate base material",
+      "why": "Spreading the aggregate evenly across the excavation before compacting it is what keeps the base from ending up thicker in some spots than others — a base that varies in thickness compacts unevenly no matter how carefully the compactor runs over it after."
+    },
+    {
+      "cue": "Turn the adjustment bolts until the screed rail sits level to the plan's own base depth.",
+      "id": "adjust-screed-rail",
+      "kind": "turn",
+      "prompt": "Turn the adjustment bolts until the screed rail sits level to the plan's own base depth.",
+      "target": "screed-adjust-bolt",
+      "title": "Adjust the screed rail",
+      "turn": {
+        "axis": "z",
+        "label": "SCREED RAIL",
+        "turns": 0.35
+      },
+      "why": "A screed rail set level to the plan's depth is what actually gives an even base to strike off — one set crooked leaves the same thickness error baked into the base that the compactor and every paver afterward will simply sit on top of."
+    },
+    {
+      "cue": "Hold the compactor steady for the full pass, feet clear of the plate.",
+      "holdBreakNote": "Released the compactor before the pass finished. Hold it steady for the full pass, every time.",
+      "id": "compact-the-base",
+      "kind": "hold",
+      "prompt": "Hold the compactor steady for the full pass, feet clear of the plate.",
+      "seconds": 5,
+      "target": "compactor-handle",
+      "title": "Compact the base",
+      "why": "A base compacted with the plate held steady for the whole pass — not walked over quickly — is what actually achieves an even density across the excavation, and keeping feet clear of the plate for that whole pass is what keeps the compactor's own vibration from ever reaching a foot standing too close."
+    },
+    {
+      "cue": "Read the density gauge and commit only inside the plan's own compaction band.",
+      "gauge": {
+        "green": [
+          0.55,
+          0.8
+        ],
+        "label": "BASE COMPACTION DENSITY",
+        "missNote": "Under the plan's target. Run the compactor over the base again before committing this reading.",
+        "speed": 0.55
+      },
+      "id": "check-base-density",
+      "kind": "gauge",
+      "prompt": "Read the density gauge and commit only inside the plan's own compaction band.",
+      "target": "density-gauge",
+      "title": "Check the base compaction density",
+      "why": "A base that looks solid underfoot is not the same thing as a base compacted to the plan's own density — the gauge is what actually confirms the compaction before the pavers go down and hide the base from ever being checked again."
+    },
+    {
+      "cue": "Keep the paver joints steady under the string line across the whole pattern.",
+      "holdBreakNote": "The joint line drifted off the string. Bring the pattern back onto the string line before continuing.",
+      "id": "lay-pattern-under-string",
+      "kind": "track",
+      "prompt": "Keep the paver joints steady under the string line across the whole pattern.",
+      "seconds": 8,
+      "target": "paver-string",
+      "title": "Lay the pattern along the string line",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.44,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "PAVER JOINT LINE",
+        "rise": 0.5,
+        "start": 0.16
+      },
+      "why": "The string line is the one reference that keeps a paver pattern straight across a patio wide enough that eye alone drifts — a laying pass that strays from it leaves joints that wander and a pattern that reads crooked from any angle across the finished surface."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Set the edge restraint on both sides of the finished pattern before sanding the joints.",
+      "id": "set-edge-restraint",
+      "itemNames": {
+        "edge-restraint-a": "edge restraint, near side",
+        "edge-restraint-b": "edge restraint, far side"
+      },
+      "kind": "sequence",
+      "prompt": "Set the edge restraint on both sides of the finished pattern before sanding the joints.",
+      "targets": [
+        "edge-restraint-a",
+        "edge-restraint-b"
+      ],
+      "title": "Set the edge restraint",
+      "why": "Edge restraint set on both sides is what actually keeps the whole pattern from spreading apart under foot traffic over the following seasons — a patio finished without it looks the same on day one but starts drifting apart from the edges in by the first summer."
+    },
+    {
+      "cue": "Sweep the sand into every joint before the final compaction pass.",
+      "id": "sweep-joint-sand",
+      "kind": "select",
+      "prompt": "Sweep the sand into every joint before the final compaction pass.",
+      "target": "joint-sand",
+      "title": "Sweep polymeric sand into the joints",
+      "why": "Sand swept fully into every joint is what locks the pattern together and keeps individual pavers from rocking underfoot — a joint left half-empty is a paver that will work loose the first time real weight crosses it."
+    },
+    {
+      "cue": "Confirm the final compaction pass has set the sand and seated every paver.",
+      "id": "final-compaction-pass",
+      "kind": "select",
+      "prompt": "Confirm the final compaction pass has set the sand and seated every paver.",
+      "target": "final-compaction-check",
+      "title": "Run the final compaction pass",
+      "why": "The final compaction pass is what actually seats every paver into the sand bed and activates the polymeric joint sand — skipping it leaves a patio that looks finished but has not actually locked together the way the plan's own build-up was designed to."
+    },
+    {
+      "cue": "Log the locate confirmation, the density reading and the finished pattern before leaving the site.",
+      "id": "shutdown-log",
+      "kind": "select",
+      "prompt": "Log the locate confirmation, the density reading and the finished pattern before leaving the site.",
+      "target": "closing-log",
+      "title": "Close out the hardscape log",
+      "why": "The hardscape log is what the next crew and the next inspection both read — a patio built cleanly but never logged leaves nothing behind to prove the locate was confirmed and the base actually compacted to the plan's own spec."
+    }
+  ],
+  "supportLine": "your union steward or the grounds department's employee assistance line",
+  "tagline": "A paver patio built from the ground up: the plan read, the locate confirmed, the base graded and compacted in checked lifts, pavers lifted as a team, the plate compactor run with feet clear, and the pattern laid along a string line with the edge restraint set",
+  "title": "SmartCiti.X~ Hardscape Paver Base & Compaction VR",
+  "trade": "Hardscape and grounds crew member — LIUNA grounds and landscaping crew",
+  "underwater": null,
+  "weather": "clear"
+}

@@ -75,7 +75,7 @@ namespace SafetyTraining.Editor
                 new Vector2(28f, 38f), new Vector2(548f, 9f), new Vector2(0f, 0f), new Vector2(0f, 0f));
             progress.rectTransform.pivot = new Vector2(0f, 0.5f);
             progress.rectTransform.localScale = new Vector3(0.02f, 1f, 1f);
-            var progressLabel = Text("Progress Label", feedbackShell.transform, "SESSION 00:00 / 20:00", font, 16, Muted,
+            var progressLabel = Text("Progress Label", feedbackShell.transform, "SESSION 00:00 / 24:00", font, 16, Muted,
                 new Vector2(-28f, 108f), new Vector2(240f, 22f), TextAnchor.LowerRight);
             Text("Control Hints", feedbackShell.transform, "CLICK  INSPECT     C  COACH     ESC  CLOSE", font, 16, Muted,
                 new Vector2(28f, 10f), new Vector2(510f, 22f), TextAnchor.LowerLeft);

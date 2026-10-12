@@ -1,0 +1,354 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "cold-chain-clear",
+    "name": "Cold Chain Clear",
+    "note": "Full isolation and recovery with atmosphere proven safe"
+  },
+  "category": "Building Systems & Facilities",
+  "certification": "UA — EPA Section 608 Universal refrigerant certified",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ASHRAE",
+        "citedAs": "ASHRAE 15",
+        "id": "ashrae-15",
+        "title": "ANSI/ASHRAE 15 — Safety Standard for Refrigeration Systems"
+      },
+      {
+        "body": "EPA",
+        "citedAs": "Section 608",
+        "id": "epa-section-608",
+        "title": "Clean Air Act §608 (40 CFR Part 82 Subpart F) — refrigerant handling, recovery and technician certification"
+      },
+      {
+        "body": "union",
+        "citedAs": "UA",
+        "id": "ua-apprenticeship",
+        "title": "UA — United Association plumber, pipefitter and HVAC service apprenticeship standards and UA Star certification"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Building Systems",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "atmosphere-clear",
+        "name": "Atmosphere Clear",
+        "note": "Prove oxygen level before entry every time"
+      },
+      {
+        "id": "zero-leak",
+        "name": "Zero Leak",
+        "note": "Recover refrigerant with no venting to atmosphere"
+      },
+      {
+        "id": "pressure-true",
+        "name": "Pressure True",
+        "note": "Hold every reading near band centre"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "shutdown-window",
+        "name": "Shutdown Window",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "clean-cycle",
+        "name": "Clean Cycle",
+        "note": "Clean run, no corrections"
+      },
+      {
+        "id": "plant-streak",
+        "name": "Plant Streak",
+        "note": "Nine correct actions in a row"
+      }
+    ],
+    "currency": "COLD",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Plant Trainee",
+      "Chiller Technician",
+      "Refrigerant Certified",
+      "Plant Lead",
+      "Cold Chain Command"
+    ],
+    "system": "Cold Chain Command"
+  },
+  "hazards": {
+    "hot-compressor": "That compressor housing is at operating temperature and you have no gloves on. Contact burns from compressor casings are common and completely preventable.",
+    "low-oxygen-room": "You walked past the oxygen monitor already in alarm. A large refrigerant leak displaces breathable air with no smell and no colour — the monitor is the only warning you get.",
+    "pressurized-fitting": "You are about to crack that fitting under full system pressure. High-side refrigerant pressure through a sudden gap is a liquid and gas jet that causes frostbite burns and can eject the fitting itself.",
+    "vent-to-air": "You are venting refrigerant straight to atmosphere. It is both a regulatory violation and a physical hazard — refrigerant is heavier than air and pools in the low points of exactly the plant room you are standing in."
+  },
+  "id": "chiller-plant",
+  "indoor": "plant",
+  "interrupts": [
+    {
+      "after": "recover",
+      "alert": "The recovery hose has pulled taut across the floor and the coupler at the machine end is frosting over. Something is coming out of it.",
+      "cue": "Frost on a fitting means refrigerant is leaving the circuit.",
+      "delay": 4,
+      "id": "hose-weeping",
+      "kind": "Recovery leak",
+      "missNote": "The coupler wept for the rest of the recovery. That is charge you were sent here to capture going to atmosphere instead: a reportable release under the refrigerant rules, and a slowly falling oxygen level in a plant room whose only warning is a monitor on the far wall.",
+      "seconds": 12,
+      "target": "recovery-hose",
+      "why": "A recovery rig leaks at its couplers, because those are the parts that get connected and broken a hundred times a year, dragged across a plant-room floor and cracked open under residual pressure. Frost is the tell: liquid flashing off pulls the heat out of the brass and writes you a sign you can see from across the room. What is leaving is R-134a — heavier than air, silent, odourless — and it is heading for the low points of a room with no natural ventilation, where you are standing.",
+      "wrongNote": "That is not where it is going. The leak is at the recovery hose, and the machine does not run another minute until it is dealt with."
+    },
+    {
+      "after": "repair",
+      "alert": "The fixed oxygen monitor on the far wall has gone to alarm. Its lamp is red, and you are head-down in an open compressor with a valve plate in your hand.",
+      "cue": "The room is telling you something you cannot feel.",
+      "delay": 4,
+      "id": "o2-alarm",
+      "kind": "Atmosphere alarm",
+      "missNote": "You went on working at floor level with the room's only warning device in alarm. Refrigerant pools low and you were kneeling in it; oxygen deficiency does not warn you before it drops you, and there is nobody else in this plant room to notice that you have gone quiet.",
+      "seconds": 12,
+      "target": "oxygen-monitor",
+      "why": "A circuit pulled to vacuum is not an empty circuit. R-134a dissolves into the compressor oil and comes back out of it the moment the housing is opened to atmosphere, and there is nothing to smell and nothing to see. The first symptom of an oxygen-deficient atmosphere is the loss of exactly the judgement you would need to notice it, which is what the fixed head on that wall is for: the decision to stay or to go is made on the number it is showing, by walking over and reading it, not on how you feel bent over a machine.",
+      "wrongNote": "That is not what is telling you. The fixed head on the wall has the number on it, and the number is what decides whether anybody stays in this room."
+    }
+  ],
+  "lateNotes": {
+    "gauge-manifold": "The manifold goes on after lockout, not as a way to check whether lockout is needed.",
+    "left-panel": "That gets caught on the walk-down before your lock comes off, not before.",
+    "new-valve-plate": "Nothing gets fitted until the failed plate is off and the gasket face is clean."
+  },
+  "name": "Chiller Plant",
+  "parSeconds": 220,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "stationary-engineer"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": null,
+    "hits": [
+      "chiller-hmi",
+      "compressor",
+      "disconnect",
+      "gauge-manifold",
+      "hot-compressor",
+      "left-panel",
+      "lockout-point",
+      "low-oxygen-room",
+      "new-valve-plate",
+      "oxygen-monitor",
+      "pressurized-fitting",
+      "recovery-cylinder",
+      "recovery-hose",
+      "recovery-machine",
+      "valve-liquid",
+      "valve-suction",
+      "vent-to-air",
+      "work-order"
+    ],
+    "meshes": 126
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "select",
+    "sequence",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Confirm the chiller, the refrigerant type and the scope of work.",
+      "id": "workorder",
+      "kind": "select",
+      "prompt": "Confirm the chiller, the refrigerant type and the scope of work.",
+      "target": "work-order",
+      "title": "Read the work order",
+      "why": "Different refrigerants recover at different pressures and need different cylinder headroom under EPA Section 608's recovery requirements. Working from memory on the wrong type is exactly how a recovery cylinder ends up filled past what its rating and the regulation both allow."
+    },
+    {
+      "cue": "Read the fixed oxygen monitor and commit only if it is in the safe range.",
+      "gauge": {
+        "green": [
+          0.46,
+          0.6
+        ],
+        "label": "PLANT ROOM OXYGEN",
+        "missNote": "Below the safe threshold. Ventilate and leave the room until the monitor clears — this is not a judgment call.",
+        "speed": 0.6
+      },
+      "id": "atmosphere",
+      "kind": "gauge",
+      "prompt": "Read the fixed oxygen monitor and commit only if it is in the safe range.",
+      "target": "oxygen-monitor",
+      "title": "Check the plant room atmosphere",
+      "why": "This is checked before you do anything else in the room, every single time you enter — not just when something smells wrong, because a refrigerant leak displacing breathable air has no smell, no colour, and follows the ASHRAE 15 machinery-room ventilation logic this plant was built around."
+    },
+    {
+      "cue": "Stop the chiller and confirm the compressor has come to a stand.",
+      "id": "estop",
+      "kind": "select",
+      "prompt": "Stop the chiller and confirm the compressor has come to a stand.",
+      "target": "chiller-hmi",
+      "title": "Shut down the chiller from the HMI",
+      "why": "A controlled shutdown lets refrigerant pressures equalise across the circuit and the compressor spin down under its own control, instead of you isolating a machine that is still under load and expecting the mechanics to sort themselves out afterward."
+    },
+    {
+      "cue": "Grab the chiller's main disconnect handle and pull it open.",
+      "id": "isolate",
+      "kind": "turn",
+      "prompt": "Grab the chiller's main disconnect handle and pull it open.",
+      "target": "disconnect",
+      "title": "Isolate electrical power",
+      "turn": {
+        "axis": "z",
+        "label": "MAIN DISCONNECT",
+        "reverse": true,
+        "turns": 0.2
+      },
+      "why": "A stopped compressor can restart on a call for cooling the instant the electrics are still live — building automation does not know a technician is standing in front of it. OSHA's lockout/tagout standard exists because isolation is what makes 'stopped' permanent for as long as your work takes."
+    },
+    {
+      "cue": "Apply your lock and tag to the disconnect.",
+      "id": "lock",
+      "kind": "select",
+      "prompt": "Apply your lock and tag to the disconnect.",
+      "target": "lockout-point",
+      "title": "Lock the disconnect",
+      "why": "Your lock, your control, the same rule any UA-trained mechanic works to on any machine. A chiller that gets re-energised by a building management system override chasing a cooling call is still your problem if your hands are inside the compressor when it happens."
+    },
+    {
+      "cue": "Close liquid line first, then suction line.",
+      "id": "close-valves",
+      "itemNames": {
+        "valve-liquid": "liquid line service valve",
+        "valve-suction": "suction line service valve"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Wrong order — liquid line closes before suction, so the charge is where recovery expects it.",
+      "prompt": "Close liquid line first, then suction line.",
+      "targets": [
+        "valve-liquid",
+        "valve-suction"
+      ],
+      "title": "Close the service valves",
+      "why": "Closing liquid first traps the bulk of the charge on the high side where the recovery machine can pull it efficiently, rather than closing suction first and pushing the whole charge to one side of the circuit before the recovery machine is even connected."
+    },
+    {
+      "cue": "Attach the manifold hoses to the service ports.",
+      "id": "manifold",
+      "kind": "select",
+      "prompt": "Attach the manifold hoses to the service ports.",
+      "target": "gauge-manifold",
+      "title": "Connect the gauge manifold",
+      "why": "The manifold is how you actually see high-side and low-side pressure through the entire recovery, instead of guessing when it is done from how the hose feels or how long the machine has been running."
+    },
+    {
+      "cue": "Run the recovery machine and commit once the system reaches vacuum.",
+      "gauge": {
+        "green": [
+          0,
+          0.12
+        ],
+        "label": "SYSTEM PRESSURE DURING RECOVERY",
+        "missNote": "Not at recovery vacuum yet. Keep the machine running — stopping early leaves refrigerant in the circuit.",
+        "speed": 0.55
+      },
+      "id": "recover",
+      "kind": "gauge",
+      "prompt": "Run the recovery machine and commit once the system reaches vacuum.",
+      "target": "recovery-machine",
+      "title": "Recover the refrigerant",
+      "why": "Recovery to the vacuum level EPA Section 608 requires for this refrigerant type and equipment class is what actually gets the charge safely into the cylinder instead of venting it to atmosphere, which is both a reportable violation and a plant-room asphyxiation hazard."
+    },
+    {
+      "cue": "Read the cylinder's fill scale and commit only inside the rated fill limit.",
+      "gauge": {
+        "green": [
+          0,
+          0.8
+        ],
+        "label": "CYLINDER FILL — 50 lb RATED",
+        "missNote": "Over the 80% rated fill. Stop the transfer and stage a second cylinder rather than push past the limit.",
+        "speed": 0.7
+      },
+      "id": "weigh",
+      "kind": "gauge",
+      "prompt": "Read the cylinder's fill scale and commit only inside the rated fill limit.",
+      "target": "recovery-cylinder",
+      "title": "Verify the recovery cylinder",
+      "why": "A recovery cylinder filled past the 80% limit this work order sets has no vapour space left to absorb pressure change, and it becomes a hydraulic hazard as ambient temperature rises — this is read straight off the number on the scale, not judged by how much room looks left inside, because a cylinder that looks half empty from outside can already be at its rated stop."
+    },
+    {
+      "cue": "Carry the new valve plate from the tool chest to the compressor and seat it.",
+      "drag": {
+        "missNote": "Not seated on the compressor housing — carry it over and set it square on the gasket face.",
+        "radius": 0.3,
+        "to": "compressor"
+      },
+      "id": "repair",
+      "kind": "drag",
+      "prompt": "Carry the new valve plate from the tool chest to the compressor and seat it.",
+      "target": "new-valve-plate",
+      "title": "Complete the compressor repair",
+      "why": "With the circuit fully recovered and pressure at vacuum rather than just low, the compressor can finally be opened without a refrigerant or oil discharge across whoever is holding the valve plate. The new plate has to be carried across and seated square on a gasket face that was just cleaned — set it crooked and the compressor comes back on the machine leaking at the exact joint the repair was supposed to fix."
+    },
+    {
+      "cue": "Look the chiller over and find anything that didn't get put back before the lock comes off.",
+      "id": "walkdown",
+      "itemNames": {
+        "left-panel": "access panel not reinstalled"
+      },
+      "itemNotes": {
+        "left-panel": "Caught on the walk-down — an access panel left off is an open guard and a path for the next leak nobody is watching for."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look the chiller over and find anything that didn't get put back before the lock comes off.",
+      "targets": [
+        "left-panel"
+      ],
+      "title": "Walk the machine before your lock comes off",
+      "why": "Removing your lock is also the point where you are telling everyone else this machine is finished and safe to run — that claim is only as good as the walk-around you actually did before making it. A panel left off, a tool left on the frame or a hose still connected are the kind of thing a rushed unlock misses and the next operator finds the hard way, often with the compressor already running."
+    },
+    {
+      "cue": "Confirm nobody else is in the machine, then take your lock and tag off the disconnect.",
+      "id": "unlock",
+      "kind": "select",
+      "prompt": "Confirm nobody else is in the machine, then take your lock and tag off the disconnect.",
+      "target": "lockout-point",
+      "title": "Remove your lock",
+      "why": "Your lock, your call — it comes off only after you have walked the machine yourself and know whose hands are where, the same personal-lock discipline OSHA's lockout standard and every UA apprenticeship program teach as non-negotiable. Nothing on this chiller turns again until it is off."
+    },
+    {
+      "cue": "Pull a deep vacuum, recharge to nameplate and restart the chiller.",
+      "id": "restore",
+      "kind": "select",
+      "prompt": "Pull a deep vacuum, recharge to nameplate and restart the chiller.",
+      "target": "chiller-hmi",
+      "title": "Evacuate, recharge and restart",
+      "why": "A system with moist air pulled in during the repair will not perform to spec and will corrode from the inside over months, one drop of acid at a time — the deep-vacuum step is not optional even when the building is calling for cooling and you are in a hurry."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "District chiller isolation, refrigerant recovery and confined mechanical space entry",
+  "title": "SmartCiti.X~ Chiller Plant VR",
+  "trade": "HVAC / refrigeration technician",
+  "underwater": null,
+  "weather": null
+}

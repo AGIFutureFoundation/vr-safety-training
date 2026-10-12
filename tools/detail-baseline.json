@@ -1,0 +1,671 @@
+{
+ "note": "DETAIL baseline: the unmodified engine's procedural detail instances per map and tier (massing + FACADES), every chunk counted at the nearest ring. tools/dt_measure.mjs --baseline wrote it; tools/check_detail.mjs reads it.",
+ "engine": "c0883a3",
+ "maps": {
+  "orleans": {
+   "low": {
+    "instances": 11725,
+    "chunksWithDetail": 183
+   },
+   "balanced": {
+    "instances": 14373,
+    "chunksWithDetail": 183
+   },
+   "high": {
+    "instances": 14373,
+    "chunksWithDetail": 183
+   }
+  },
+  "jefferson": {
+   "low": {
+    "instances": 1994,
+    "chunksWithDetail": 56
+   },
+   "balanced": {
+    "instances": 2408,
+    "chunksWithDetail": 56
+   },
+   "high": {
+    "instances": 2408,
+    "chunksWithDetail": 56
+   }
+  },
+  "st-bernard": {
+   "low": {
+    "instances": 4756,
+    "chunksWithDetail": 92
+   },
+   "balanced": {
+    "instances": 5825,
+    "chunksWithDetail": 92
+   },
+   "high": {
+    "instances": 5825,
+    "chunksWithDetail": 92
+   }
+  },
+  "plaquemines": {
+   "low": {
+    "instances": 5524,
+    "chunksWithDetail": 103
+   },
+   "balanced": {
+    "instances": 6798,
+    "chunksWithDetail": 103
+   },
+   "high": {
+    "instances": 6798,
+    "chunksWithDetail": 103
+   }
+  },
+  "st-tammany": {
+   "low": {
+    "instances": 3799,
+    "chunksWithDetail": 83
+   },
+   "balanced": {
+    "instances": 4628,
+    "chunksWithDetail": 83
+   },
+   "high": {
+    "instances": 4628,
+    "chunksWithDetail": 83
+   }
+  },
+  "sf-downtown": {
+   "low": {
+    "instances": 4791,
+    "chunksWithDetail": 90
+   },
+   "balanced": {
+    "instances": 5959,
+    "chunksWithDetail": 90
+   },
+   "high": {
+    "instances": 5959,
+    "chunksWithDetail": 90
+   }
+  },
+  "sf-mission": {
+   "low": {
+    "instances": 3972,
+    "chunksWithDetail": 89
+   },
+   "balanced": {
+    "instances": 4894,
+    "chunksWithDetail": 89
+   },
+   "high": {
+    "instances": 4894,
+    "chunksWithDetail": 89
+   }
+  },
+  "sf-golden-gate-park": {
+   "low": {
+    "instances": 6257,
+    "chunksWithDetail": 103
+   },
+   "balanced": {
+    "instances": 7660,
+    "chunksWithDetail": 103
+   },
+   "high": {
+    "instances": 7660,
+    "chunksWithDetail": 103
+   }
+  },
+  "sf-marina": {
+   "low": {
+    "instances": 15723,
+    "chunksWithDetail": 149
+   },
+   "balanced": {
+    "instances": 19439,
+    "chunksWithDetail": 149
+   },
+   "high": {
+    "instances": 19439,
+    "chunksWithDetail": 149
+   }
+  },
+  "sf-bayview": {
+   "low": {
+    "instances": 12014,
+    "chunksWithDetail": 134
+   },
+   "balanced": {
+    "instances": 14834,
+    "chunksWithDetail": 134
+   },
+   "high": {
+    "instances": 14834,
+    "chunksWithDetail": 134
+   }
+  },
+  "sf-outer-mission": {
+   "low": {
+    "instances": 6706,
+    "chunksWithDetail": 89
+   },
+   "balanced": {
+    "instances": 8276,
+    "chunksWithDetail": 89
+   },
+   "high": {
+    "instances": 8276,
+    "chunksWithDetail": 89
+   }
+  },
+  "sf-north-beach": {
+   "low": {
+    "instances": 5545,
+    "chunksWithDetail": 93
+   },
+   "balanced": {
+    "instances": 7287,
+    "chunksWithDetail": 93
+   },
+   "high": {
+    "instances": 7287,
+    "chunksWithDetail": 93
+   }
+  },
+  "sf-haight-castro": {
+   "low": {
+    "instances": 11354,
+    "chunksWithDetail": 159
+   },
+   "balanced": {
+    "instances": 13975,
+    "chunksWithDetail": 159
+   },
+   "high": {
+    "instances": 13975,
+    "chunksWithDetail": 159
+   }
+  },
+  "sf-sunset-south": {
+   "low": {
+    "instances": 11258,
+    "chunksWithDetail": 200
+   },
+   "balanced": {
+    "instances": 13770,
+    "chunksWithDetail": 200
+   },
+   "high": {
+    "instances": 13770,
+    "chunksWithDetail": 200
+   }
+  },
+  "oak-west-oakland": {
+   "low": {
+    "instances": 8184,
+    "chunksWithDetail": 145
+   },
+   "balanced": {
+    "instances": 10623,
+    "chunksWithDetail": 145
+   },
+   "high": {
+    "instances": 10623,
+    "chunksWithDetail": 145
+   }
+  },
+  "oak-downtown-lake": {
+   "low": {
+    "instances": 9775,
+    "chunksWithDetail": 164
+   },
+   "balanced": {
+    "instances": 12100,
+    "chunksWithDetail": 164
+   },
+   "high": {
+    "instances": 12100,
+    "chunksWithDetail": 164
+   }
+  },
+  "oak-fruitvale-estuary": {
+   "low": {
+    "instances": 8964,
+    "chunksWithDetail": 151
+   },
+   "balanced": {
+    "instances": 10981,
+    "chunksWithDetail": 151
+   },
+   "high": {
+    "instances": 10981,
+    "chunksWithDetail": 151
+   }
+  },
+  "oak-emeryville-berkeley": {
+   "low": {
+    "instances": 9922,
+    "chunksWithDetail": 169
+   },
+   "balanced": {
+    "instances": 12968,
+    "chunksWithDetail": 169
+   },
+   "high": {
+    "instances": 12968,
+    "chunksWithDetail": 169
+   }
+  },
+  "bay-san-pablo": {
+   "low": {
+    "instances": 16828,
+    "chunksWithDetail": 222
+   },
+   "balanced": {
+    "instances": 21633,
+    "chunksWithDetail": 222
+   },
+   "high": {
+    "instances": 21633,
+    "chunksWithDetail": 222
+   }
+  },
+  "bay-san-jose": {
+   "low": {
+    "instances": 17323,
+    "chunksWithDetail": 231
+   },
+   "balanced": {
+    "instances": 21660,
+    "chunksWithDetail": 231
+   },
+   "high": {
+    "instances": 21660,
+    "chunksWithDetail": 231
+   }
+  },
+  "bp-strip-marsh-east": {
+   "low": {
+    "instances": 10185,
+    "chunksWithDetail": 161
+   },
+   "balanced": {
+    "instances": 12524,
+    "chunksWithDetail": 161
+   },
+   "high": {
+    "instances": 12524,
+    "chunksWithDetail": 161
+   }
+  },
+  "bp-san-leandro-bay": {
+   "low": {
+    "instances": 5997,
+    "chunksWithDetail": 145
+   },
+   "balanced": {
+    "instances": 7318,
+    "chunksWithDetail": 145
+   },
+   "high": {
+    "instances": 7318,
+    "chunksWithDetail": 145
+   }
+  },
+  "bp-san-mateo-shoreline": {
+   "low": {
+    "instances": 10330,
+    "chunksWithDetail": 161
+   },
+   "balanced": {
+    "instances": 12702,
+    "chunksWithDetail": 161
+   },
+   "high": {
+    "instances": 12702,
+    "chunksWithDetail": 161
+   }
+  },
+  "bp-nutrient-pilot": {
+   "low": {
+    "instances": 7867,
+    "chunksWithDetail": 158
+   },
+   "balanced": {
+    "instances": 9651,
+    "chunksWithDetail": 158
+   },
+   "high": {
+    "instances": 9651,
+    "chunksWithDetail": 158
+   }
+  },
+  "sm-unspoken-smiles": {
+   "low": {
+    "instances": 11173,
+    "chunksWithDetail": 194
+   },
+   "balanced": {
+    "instances": 14268,
+    "chunksWithDetail": 194
+   },
+   "high": {
+    "instances": 14268,
+    "chunksWithDetail": 194
+   }
+  },
+  "la-starbase-vermilion": {
+   "low": {
+    "instances": 11774,
+    "chunksWithDetail": 190
+   },
+   "balanced": {
+    "instances": 14450,
+    "chunksWithDetail": 190
+   },
+   "high": {
+    "instances": 14450,
+    "chunksWithDetail": 190
+   },
+   "engine": "6ffb8b37"
+  },
+  "la-black-bayou-cameron": {
+   "low": {
+    "instances": 9695,
+    "chunksWithDetail": 179
+   },
+   "balanced": {
+    "instances": 11910,
+    "chunksWithDetail": 179
+   },
+   "high": {
+    "instances": 11910,
+    "chunksWithDetail": 179
+   },
+   "engine": "6ffb8b37"
+  },
+  "la-saronic-franklin": {
+   "low": {
+    "instances": 19554,
+    "chunksWithDetail": 246
+   },
+   "balanced": {
+    "instances": 24079,
+    "chunksWithDetail": 246
+   },
+   "high": {
+    "instances": 24079,
+    "chunksWithDetail": 246
+   },
+   "engine": "6ffb8b37"
+  },
+  "la-avex-new-iberia": {
+   "low": {
+    "instances": 13614,
+    "chunksWithDetail": 238
+   },
+   "balanced": {
+    "instances": 16642,
+    "chunksWithDetail": 238
+   },
+   "high": {
+    "instances": 16642,
+    "chunksWithDetail": 238
+   },
+   "engine": "6ffb8b37"
+  },
+  "laf-downtown": {
+   "low": {
+    "instances": 17260,
+    "chunksWithDetail": 250
+   },
+   "balanced": {
+    "instances": 21189,
+    "chunksWithDetail": 250
+   },
+   "high": {
+    "instances": 21189,
+    "chunksWithDetail": 250
+   },
+   "engine": "6ffb8b37"
+  },
+  "laf-carencro-north": {
+   "low": {
+    "instances": 8941,
+    "chunksWithDetail": 169
+   },
+   "balanced": {
+    "instances": 10932,
+    "chunksWithDetail": 169
+   },
+   "high": {
+    "instances": 10932,
+    "chunksWithDetail": 169
+   },
+   "engine": "6ffb8b37"
+  },
+  "monroe-west-monroe": {
+   "low": {
+    "instances": 6438,
+    "chunksWithDetail": 125
+   },
+   "balanced": {
+    "instances": 7854,
+    "chunksWithDetail": 125
+   },
+   "high": {
+    "instances": 7854,
+    "chunksWithDetail": 125
+   },
+   "engine": "6ffb8b37"
+  },
+  "la-meta-richland": {
+   "low": {
+    "instances": 10879,
+    "chunksWithDetail": 214
+   },
+   "balanced": {
+    "instances": 13264,
+    "chunksWithDetail": 214
+   },
+   "high": {
+    "instances": 13264,
+    "chunksWithDetail": 214
+   },
+   "engine": "6ffb8b37"
+  },
+  "la-delta-forge-rapides": {
+   "low": {
+    "instances": 9870,
+    "chunksWithDetail": 188
+   },
+   "balanced": {
+    "instances": 12055,
+    "chunksWithDetail": 188
+   },
+   "high": {
+    "instances": 12055,
+    "chunksWithDetail": 188
+   },
+   "engine": "6ffb8b37"
+  },
+  "lc-lakefront-downtown": {
+   "low": {
+    "instances": 16173,
+    "chunksWithDetail": 225
+   },
+   "balanced": {
+    "instances": 19891,
+    "chunksWithDetail": 225
+   },
+   "high": {
+    "instances": 19891,
+    "chunksWithDetail": 225
+   },
+   "engine": "6ffb8b37"
+  },
+  "lc-calcasieu-channel": {
+   "low": {
+    "instances": 7457,
+    "chunksWithDetail": 169
+   },
+   "balanced": {
+    "instances": 9098,
+    "chunksWithDetail": 169
+   },
+   "high": {
+    "instances": 9098,
+    "chunksWithDetail": 169
+   },
+   "engine": "6ffb8b37"
+  },
+  "lc-port-of-vinton": {
+   "low": {
+    "instances": 13683,
+    "chunksWithDetail": 226
+   },
+   "balanced": {
+    "instances": 16754,
+    "chunksWithDetail": 226
+   },
+   "high": {
+    "instances": 16754,
+    "chunksWithDetail": 226
+   },
+   "engine": "6ffb8b37"
+  },
+  "nola-french-quarter-cbd": {
+   "low": {
+    "instances": 17117,
+    "chunksWithDetail": 240
+   },
+   "balanced": {
+    "instances": 21137,
+    "chunksWithDetail": 240
+   },
+   "high": {
+    "instances": 21137,
+    "chunksWithDetail": 240
+   },
+   "engine": "6ffb8b37"
+  },
+  "nola-uptown-garden": {
+   "low": {
+    "instances": 12052,
+    "chunksWithDetail": 197
+   },
+   "balanced": {
+    "instances": 14762,
+    "chunksWithDetail": 197
+   },
+   "high": {
+    "instances": 14762,
+    "chunksWithDetail": 197
+   },
+   "engine": "6ffb8b37"
+  },
+  "nola-mid-city-gentilly": {
+   "low": {
+    "instances": 19427,
+    "chunksWithDetail": 231
+   },
+   "balanced": {
+    "instances": 23957,
+    "chunksWithDetail": 231
+   },
+   "high": {
+    "instances": 23957,
+    "chunksWithDetail": 231
+   },
+   "engine": "6ffb8b37"
+  },
+  "nola-bywater-lower-ninth": {
+   "low": {
+    "instances": 9697,
+    "chunksWithDetail": 143
+   },
+   "balanced": {
+    "instances": 11894,
+    "chunksWithDetail": 143
+   },
+   "high": {
+    "instances": 11894,
+    "chunksWithDetail": 143
+   },
+   "engine": "6ffb8b37"
+  },
+  "br-north-industrial": {
+   "low": {
+    "instances": 11439,
+    "chunksWithDetail": 203
+   },
+   "balanced": {
+    "instances": 13922,
+    "chunksWithDetail": 203
+   },
+   "high": {
+    "instances": 13922,
+    "chunksWithDetail": 203
+   },
+   "engine": "2da955e7"
+  },
+  "br-riverplex-ascension": {
+   "low": {
+    "instances": 12538,
+    "chunksWithDetail": 218
+   },
+   "balanced": {
+    "instances": 15417,
+    "chunksWithDetail": 218
+   },
+   "high": {
+    "instances": 15417,
+    "chunksWithDetail": 218
+   },
+   "engine": "2da955e7"
+  },
+  "hammond-downtown": {
+   "low": {
+    "instances": 9862,
+    "chunksWithDetail": 192
+   },
+   "balanced": {
+    "instances": 12032,
+    "chunksWithDetail": 192
+   },
+   "high": {
+    "instances": 12032,
+    "chunksWithDetail": 192
+   },
+   "engine": "2da955e7"
+  },
+  "la-shintech-plaquemine": {
+   "low": {
+    "instances": 11842,
+    "chunksWithDetail": 217
+   },
+   "balanced": {
+    "instances": 14487,
+    "chunksWithDetail": 217
+   },
+   "high": {
+    "instances": 14487,
+    "chunksWithDetail": 217
+   },
+   "engine": "7fd84a0d"
+  },
+  "br-downtown-riverfront": {
+   "low": {
+    "instances": 12412,
+    "chunksWithDetail": 206
+   },
+   "balanced": {
+    "instances": 15228,
+    "chunksWithDetail": 206
+   },
+   "high": {
+    "instances": 15228,
+    "chunksWithDetail": 206
+   },
+   "engine": "7fd84a0d"
+  }
+ }
+}

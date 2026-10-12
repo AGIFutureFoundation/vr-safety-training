@@ -1,0 +1,397 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "written-as-it-was",
+    "name": "Written As It Was",
+    "note": "Every time from the slate, nothing backdated, nothing left out for anyone, and a cause that named a condition rather than a person"
+  },
+  "category": "Maritime & Ports",
+  "certification": "Pile Drivers apprenticeship under the Carpenters (UBC) International Training Fund; OSHA 29 CFR 1910 Subpart T — 29 CFR 1910.440 recordkeeping (the record of each dive, the decompression procedure assessment where a diver showed symptoms, and the retention of both), 29 CFR 1910.420 the safe practices manual the record's fields come from, 29 CFR 1910.423 post-dive procedures and 29 CFR 1910.421 the planning the next dive inherits; ADCI consensus standards for dive logs and incident reporting; USCG 46 CFR 197 Subpart B for the vessel's own record where the dive was from a vessel; every time and depth on the record comes from the slate and the tables, never from memory",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ADCI",
+        "citedAs": "ADCI",
+        "id": "adci-consensus-standards",
+        "title": "Association of Diving Contractors International — International Consensus Standards for Commercial Diving and Underwater Operations"
+      },
+      {
+        "body": "union",
+        "citedAs": "Pile Drivers",
+        "id": "carpenters-ictf",
+        "title": "United Brotherhood of Carpenters International Training Fund — carpenter, pile driver and millwright apprenticeship"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.420",
+        "id": "osha-1910-420",
+        "title": "29 CFR 1910.420 — Safe practices manual (the employer's written procedures for each diving mode, the dive team's duties and emergency procedures)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.421",
+        "id": "osha-1910-421",
+        "title": "29 CFR 1910.421 — Pre-dive procedures (emergency aid list, planning and assessment of the dive, hazardous activities nearby, the team briefing, equipment inspection and the warning signal)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.423",
+        "id": "osha-1910-423",
+        "title": "29 CFR 1910.423 — Post-dive procedures (the diver's condition, instructions to report symptoms, the recompression chamber and the record of dive)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.440",
+        "id": "osha-1910-440",
+        "title": "29 CFR 1910.440 — Recordkeeping for commercial diving (the dive record, decompression procedure assessments and their retention)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910 Subpart T",
+        "id": "osha-1910-subpart-t",
+        "title": "29 CFR 1910 Subpart T — Commercial diving operations (dive team qualifications, the safe practices manual, pre-dive, during-dive and post-dive procedures, equipment and the dive record)"
+      },
+      {
+        "body": "USCG",
+        "citedAs": "46 CFR 197 Subpart B",
+        "id": "uscg-46-cfr-197-subpart-b",
+        "title": "46 CFR Part 197 Subpart B — Commercial diving operations from vessels and facilities under Coast Guard jurisdiction"
+      }
+    ]
+  },
+  "district": "Maritime & Ports",
+  "domain": "Maritime & Ports",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "gaps-found",
+        "name": "Gaps Found",
+        "note": "The blank times and the missing signature found before filing"
+      },
+      {
+        "id": "in-sequence",
+        "name": "In Sequence",
+        "note": "The timeline committed in the right order first time"
+      },
+      {
+        "id": "no-blame",
+        "name": "No Blame",
+        "note": "No hazard reached for from the brief to the check-in"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-paper",
+        "name": "Clean Paper",
+        "note": "No corrections from the brief to the check-in"
+      },
+      {
+        "id": "slate-to-record",
+        "name": "Slate To Record",
+        "note": "The times copied in band the whole way"
+      },
+      {
+        "id": "posted-quick",
+        "name": "Posted Quick",
+        "note": "Action posted inside 80% of par"
+      }
+    ],
+    "currency": "SIGNED LINES",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Tender",
+      "Record Keeper",
+      "Log Keeper",
+      "Debrief Lead",
+      "Records Certified"
+    ],
+    "system": "Paper Trail"
+  },
+  "hazards": {
+    "backdate-time": "You went to fill in the record's blank 'left bottom' time from memory so the form would look complete. A time written from memory is a guess dressed as a fact, and the record is what a physician, an investigator and the next supervisor read as fact; a blank with a note saying why is honest, and a time invented to fill it is the one entry that makes the whole record untrustworthy. The slate has the time or it does not.",
+    "bin-the-slate": "You went to throw the tender's slate in the bin once the record was written up from it. The slate is the original: the times were written on it as they happened and the record is a copy. If anyone ever asks where a time came from, the slate is the answer, and a slate photographed and filed with the record is the difference between a record and a story. Originals are kept; nothing is binned.",
+    "edit-for-client": "You started making the client's copy of the record with the diver's symptom and the chamber treatment left off, as they asked. The record is one document with one content, and a copy that says less than the original is a false record with the company's name on it; the client gets the record or gets told to ask the supervisor, and the incident stays on every copy of the page it happened on.",
+    "name-the-diver": "You wrote the diver's name in the cause box — 'diver ascended too quickly'. A cause that names a person ends the review where it should begin: the next diver in the same conditions will do the same thing, because the conditions are what made it happen. The cause box takes the condition — the current, the plan, the signal that was missed — and the corrective action changes that, not the diver."
+  },
+  "id": "cd-dive-records-and-incident-review",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "copy-times",
+      "alert": "The client's representative has come to the table asking for a copy of today's record for their file — 'just the work, you can leave the medical business off, it's not our concern.'",
+      "cue": "Refer the request to the dive supervisor — the record is theirs to release and it is released whole or not at all.",
+      "delay": 2,
+      "id": "client-copy",
+      "kind": "Client asks for a copy without the incident",
+      "missNote": "The client's representative stood at the table repeating the request while the tender kept copying; they left with the impression the copy would follow, and the supervisor heard about it from the client.",
+      "seconds": 14,
+      "target": "supervisor-desk",
+      "why": "The client is entitled to ask and the dive supervisor is the one who answers, because the record is the employer's document and the supervisor signed it. The tender does not edit it for anyone and does not argue about it at the table; the representative is walked to the supervisor, who releases the record whole or explains why not. A copy with a page's contents thinned is a false record, whoever asked for it.",
+      "wrongNote": "The supervisor's desk — the record is theirs to release, whole. Walk the representative over."
+    },
+    {
+      "after": "debrief-listen",
+      "alert": "The standby diver has cut in over the diver's account, voice raised — 'you were told twice about that current, this is on you.'",
+      "cue": "Stop the debrief, point to the ground rules card and read it aloud — accounts without interruption, causes without names — then give the floor back to the diver.",
+      "delay": 2,
+      "id": "raised-voice",
+      "kind": "Debrief turning to blame",
+      "missNote": "The exchange ran on; the diver went quiet and gave the rest of the account in one line, and the review's cause card was written from the standby's version.",
+      "seconds": 14,
+      "target": "ground-rules-card",
+      "why": "A debrief that turns to blame stops producing information: the diver stops talking, the standby stops listening, and the cause becomes a person. The tender running it stops it the moment a voice is raised, not after, and does it with the card everyone agreed to at the start so it is the rule speaking and not one person against another. Then the diver has the floor again, and the standby's turn comes after.",
+      "wrongNote": "The ground rules card — stop it now, read the rules aloud, and give the diver back the floor."
+    }
+  ],
+  "lateNotes": {
+    "action-board": "The action is posted once it is written with an owner.",
+    "copy-times": "The times are copied once the record's gaps are known and the logs are in order.",
+    "debrief-chair": "The debrief begins once the record is complete and filed."
+  },
+  "name": "Dive Records & Incident Review",
+  "parSeconds": 320,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "commercial-diving-and-scientific-scuba"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "2.45x3.1x6.49",
+        "count": 1,
+        "kit": "unknown"
+      }
+    ],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "action-board",
+      "action-card",
+      "assessment-form",
+      "backdate-time",
+      "bin-the-slate",
+      "blank-times",
+      "cause-card",
+      "copy-times",
+      "daily-log-binder",
+      "debrief-chair",
+      "dive-record-binder",
+      "edit-for-client",
+      "equipment-log-binder",
+      "ground-rules-card",
+      "manual-binder",
+      "manual-fields",
+      "name-the-diver",
+      "no-signature",
+      "records-file",
+      "signed-record",
+      "supervisor-desk",
+      "team-board",
+      "timeline-board"
+    ],
+    "meshes": 205
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "At the canopy table with the supervisor: the safe practices manual's page on the dive record — every field it wants, where each comes from, who signs it and how long it is kept.",
+      "id": "record-brief",
+      "kind": "select",
+      "prompt": "At the canopy table with the supervisor: the safe practices manual's page on the dive record — every field it wants, where each comes from, who signs it and how long it is kept.",
+      "target": "manual-fields",
+      "title": "Read the record's fields from the safe practices manual",
+      "why": "29 CFR 1910.440 has a record kept of each dive and 29 CFR 1910.420 has the safe practices manual say what the employer's procedures are, so the record's fields come from the manual and not from whatever the last tender remembered to write. Reading them first is how the tender knows what a complete record looks like before deciding whether today's is one."
+    },
+    {
+      "cue": "Go down the record for each dive against the manual's fields: every time filled, every name, the gas and the tables the supervisor used, the symptoms box answered and the signature on each.",
+      "id": "record-gaps",
+      "itemNames": {
+        "blank-times": "'left bottom' and 'reached surface' left blank on the record",
+        "no-signature": "supervisor's signature missing from the second dive"
+      },
+      "itemNotes": {
+        "blank-times": "The record's 'left bottom' and 'reached surface' fields are empty for the second dive. The tender's slate has them; the record does not yet.",
+        "no-signature": "The second dive's record is unsigned by the supervisor. An unsigned record is a draft, and a draft is not a record anyone can rely on."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Go down the record for each dive against the manual's fields: every time filled, every name, the gas and the tables the supervisor used, the symptoms box answered and the signature on each.",
+      "targets": [
+        "blank-times",
+        "no-signature"
+      ],
+      "title": "Find what the day's record is missing",
+      "why": "A record is checked against the manual's fields the way a diver is checked against the plan: a blank is found while the slate that fills it still exists and the supervisor who signs it is still on the pier. Tomorrow the slate is wiped and the supervisor is on another job, and a blank found then is a blank forever — or, worse, a blank someone fills from memory."
+    },
+    {
+      "cue": "The dive record for each dive first, from the slate; the daily log second, summarising the records and the day's events; the equipment log last, from the tags on the gear that came off the deck.",
+      "id": "logs-in-order",
+      "itemNames": {
+        "daily-log-binder": "the daily log written from the records",
+        "dive-record-binder": "the dive record completed for each dive",
+        "equipment-log-binder": "the equipment log written from the tags"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order — the dive record first from the slate, then the daily log from the records, then the equipment log from the tags.",
+      "prompt": "The dive record for each dive first, from the slate; the daily log second, summarising the records and the day's events; the equipment log last, from the tags on the gear that came off the deck.",
+      "targets": [
+        "dive-record-binder",
+        "daily-log-binder",
+        "equipment-log-binder"
+      ],
+      "title": "Complete the dive record, then the daily log, then the equipment log",
+      "why": "The three documents feed each other in one direction: the record is written from the slate, the daily log summarises the records, and the equipment log takes its entries from the tags the tenders hung on the gear. Written in that order each is a copy of something that exists; written in another order the daily log invents what the record will say, and the two disagree by the time an investigator reads them."
+    },
+    {
+      "cue": "Slate in one hand, record in the other: copy each time across, say it aloud to the supervisor, and check the line before the next — steady, not racing the slate, not stalling on a line.",
+      "holdBreakNote": "The copying went out of band — stalled or racing. One line, read aloud, checked, then the next.",
+      "id": "copy-times",
+      "kind": "track",
+      "prompt": "Slate in one hand, record in the other: copy each time across, say it aloud to the supervisor, and check the line before the next — steady, not racing the slate, not stalling on a line.",
+      "seconds": 6,
+      "target": "copy-times",
+      "title": "Copy the times from the slate to the record, line by line",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.46,
+        "green": [
+          0.42,
+          0.62
+        ],
+        "label": "SLATE → RECORD",
+        "rise": 0.56,
+        "start": 0.14
+      },
+      "why": "The times are the record's spine: the tables are read against them, a symptom is timed against them, and a physician's decision may rest on one of them. They are copied one line at a time with each read aloud so the supervisor hears the number the slate holds and the number the pen writes, because a transposed digit read silently is a record that is wrong in the one place it matters."
+    },
+    {
+      "cue": "With every field filled from the slate and the supervisor's signature on each dive, put the record and the photographed slate in the retention file box.",
+      "drag": {
+        "missNote": "Not in the file — the signed record and the slate's photograph go into the retention file box today.",
+        "radius": 0.5,
+        "to": "records-file"
+      },
+      "id": "file-record",
+      "kind": "drag",
+      "prompt": "With every field filled from the slate and the supervisor's signature on each dive, put the record and the photographed slate in the retention file box.",
+      "target": "signed-record",
+      "title": "File the signed record for retention",
+      "why": "29 CFR 1910.440 has the record kept for the period it names, and a record kept is a record somebody can find: in the file box with the slate's photograph behind it, not in a truck cab or a tender's bag. Filing is done today because a record that goes home with someone is a record the company does not have when the question comes, and the question always comes later than anyone expects."
+    },
+    {
+      "cue": "At the debrief, the diver describes the dive in their own words from the ladder to the chamber. Hold the floor for them — no questions, no corrections, no 'but' — until they have finished.",
+      "holdBreakNote": "You cut across the diver's account — the floor is theirs until they finish. Let them go on.",
+      "id": "debrief-listen",
+      "kind": "hold",
+      "prompt": "At the debrief, the diver describes the dive in their own words from the ladder to the chamber. Hold the floor for them — no questions, no corrections, no 'but' — until they have finished.",
+      "seconds": 5,
+      "target": "debrief-chair",
+      "title": "Hold the floor for the diver's account without interruption",
+      "why": "A debrief that interrupts the diver hears the interrupter's version, and the point of the debrief is to hear the diver's: what they saw, what they felt, what they decided and why, in the order it happened to them. The tender running the debrief holds the floor for the whole account because the detail that explains the incident is usually the one the diver mentions last, almost as an afterthought, and only if nobody has stopped them."
+    },
+    {
+      "cue": "Set the events on the board in order — the plan, the descent, the signal, the ascent, the symptom, the chamber — from the record's times and the accounts, and commit when the sequence reads as everyone heard it.",
+      "gauge": {
+        "green": [
+          0.44,
+          0.62
+        ],
+        "label": "TIMELINE — IN ORDER",
+        "missNote": "Outside the band — set the events in the order the record and the accounts agree on before you commit.",
+        "speed": 0.66
+      },
+      "id": "build-timeline",
+      "kind": "gauge",
+      "prompt": "Set the events on the board in order — the plan, the descent, the signal, the ascent, the symptom, the chamber — from the record's times and the accounts, and commit when the sequence reads as everyone heard it.",
+      "target": "timeline-board",
+      "title": "Build the timeline of the incident from the accounts and the record",
+      "why": "The timeline is where the record's times and the people's accounts meet: an event that the record times and nobody remembers, or that everyone remembers and the record does not time, is where the review has to look. It is built on the board with everyone watching so the order is agreed in the room, because a timeline written up alone afterward is one person's memory with the record's authority."
+    },
+    {
+      "cue": "On the cause card: the condition that made the incident possible — the current running against the plan, the signal not covered in the brief, the tender's line of sight — written so that it would be true of any diver on that dive.",
+      "id": "find-cause",
+      "kind": "select",
+      "prompt": "On the cause card: the condition that made the incident possible — the current running against the plan, the signal not covered in the brief, the tender's line of sight — written so that it would be true of any diver on that dive.",
+      "target": "cause-card",
+      "title": "Name the cause as a condition, not a person",
+      "why": "The corrective action can only change a condition, so the cause has to be one: a current, a gap in the brief, a hand signal two people understood differently, a rail that blocked the tender's view. A cause that is a person's name produces an action that is a warning to that person, and the next crew inherits the condition intact. The card is written so it would read the same whoever had been on the umbilical."
+    },
+    {
+      "cue": "Open the manual's binder and turn to the page — the briefing procedure or the signals table — that the cause points at, and mark it for the amendment.",
+      "id": "turn-to-procedure",
+      "kind": "turn",
+      "prompt": "Open the manual's binder and turn to the page — the briefing procedure or the signals table — that the cause points at, and mark it for the amendment.",
+      "target": "manual-binder",
+      "title": "Turn the safe practices manual to the procedure the action will amend",
+      "turn": {
+        "label": "MANUAL",
+        "turns": 1.2
+      },
+      "why": "29 CFR 1910.420 has the employer's procedures written in the safe practices manual, and a corrective action that does not end in a change to that manual is a conversation that will be forgotten by the next job. The page is turned to in the room so the action names the procedure it amends, and the amendment goes to whoever owns the manual with the incident's record behind it."
+    },
+    {
+      "cue": "On the action card: what changes in the procedure, who owns making the change, by when per the plan, and how the crew will know it is done.",
+      "id": "write-action",
+      "kind": "select",
+      "prompt": "On the action card: what changes in the procedure, who owns making the change, by when per the plan, and how the crew will know it is done.",
+      "target": "action-card",
+      "title": "Write the corrective action with an owner and a date",
+      "why": "An action without an owner is everyone's and therefore nobody's, and one without a date is a good intention; the card carries both and a way to see it is done — the amended page in the manual, the new line in the brief. It is written in the room, read back to the supervisor and the diver, and the diver hears that the outcome of their account is a change to the procedure and not a note in their file."
+    },
+    {
+      "cue": "With the supervisor: the assessment record for the dive where the diver showed symptoms — the tables used, the decompression as run, the symptoms and their timing, the treatment and the assessment's conclusion — attached to the dive record.",
+      "id": "assessment-record",
+      "kind": "select",
+      "prompt": "With the supervisor: the assessment record for the dive where the diver showed symptoms — the tables used, the decompression as run, the symptoms and their timing, the treatment and the assessment's conclusion — attached to the dive record.",
+      "target": "assessment-form",
+      "title": "Record the decompression procedure assessment",
+      "why": "29 CFR 1910.440 has the decompression procedure assessed when a diver shows symptoms of decompression sickness and the assessment kept with the record, because a table that produced a symptom is a table the employer has to look at. The assessment is the supervisor's and the tender records it as given, with the times from the record and nothing rounded, so the physician and the next plan read what was done."
+    },
+    {
+      "cue": "Pin the action card on the crew's action board beside the team board, where every tender and diver on tomorrow's shift will read it before the brief.",
+      "id": "post-action",
+      "kind": "select",
+      "prompt": "Pin the action card on the crew's action board beside the team board, where every tender and diver on tomorrow's shift will read it before the brief.",
+      "target": "action-board",
+      "title": "Post the corrective action on the crew's board",
+      "why": "A corrective action that lives in a file changes nothing on the deck; one posted where the crew reads the brief is in front of the people the condition will meet next. The board carries the action, the owner and the date in plain sight, and it stays there until the manual's page is amended and the brief says so, because a crew that sees the action done trusts the next debrief."
+    },
+    {
+      "cue": "At the team board: the record filed, the action posted and owned, the client's request and how it was answered, the raised voice and the ground rules, and how everyone is after the day.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "At the team board: the record filed, the action posted and owned, the client's request and how it was answered, the raised voice and the ground rules, and how everyone is after the day.",
+      "target": "team-board",
+      "title": "Check in with the crew",
+      "why": "The day that ends with a debrief is a day someone was hurt or nearly was, and the check-in is where the crew say how they are and hear that the paper was done honestly — filed, signed, nothing left out for the client and nobody named as the cause. The Pile Drivers member assistance line is there for what the debrief does not settle, and the supervisor says so out loud."
+    }
+  ],
+  "supportLine": "your union hall's member assistance programme — the Pile Drivers of the Carpenters — with the employer's employee assistance line behind it",
+  "tagline": "The dive on paper: the record's fields read from the manual, the blank times and the missing signature found, the dive record then the daily log then the equipment log in order, the slate copied line by line while a client asks for a copy without the incident, the record filed for retention, the diver's account heard without interruption until a voice is raised, the timeline built, the cause found in the conditions, the manual turned to the procedure it amends, the action written with an owner, the assessment recorded, the action posted and the crew checked in",
+  "title": "SmartCiti.X~ Dive Records & Incident Review VR",
+  "trade": "Pile Drivers of the Carpenters diver-tender completing the dive record and the daily log and running an incident debrief with the dive supervisor, the diver, the standby diver and a client representative",
+  "underwater": null,
+  "weather": "clear"
+}

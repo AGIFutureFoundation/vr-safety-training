@@ -1,0 +1,383 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "brake-proven",
+    "name": "Brake Proven",
+    "note": "Isolated, guarded and measured to the manufacturer's wear limits, with a clean stopping test before release"
+  },
+  "category": "Building Systems & Facilities",
+  "certification": "IUEC elevator constructors; NEIEP apprenticeship curriculum for machine room maintenance; ASME A17.1 the safety code for elevators and escalators; OSHA 29 CFR 1910.147 control of hazardous energy for the main line disconnect; OSHA 29 CFR 1910.333 electrical safe work practices for the live-dead-live check at the controller",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ASME",
+        "citedAs": "ASME A17.1",
+        "id": "asme-a17-1",
+        "title": "ASME A17.1 — Safety Code for Elevators and Escalators"
+      },
+      {
+        "body": "union",
+        "citedAs": "NEIEP",
+        "id": "neiep-training",
+        "title": "IUEC and the National Elevator Industry Educational Program (NEIEP) — elevator constructor apprenticeship and continuing education, taught to the National Elevator Industry Educational Program curriculum"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.333",
+        "id": "osha-1910-333",
+        "title": "29 CFR 1910.333 — Selection and use of work practices for electrical safety"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Facilities",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "guard-first",
+        "name": "Guard First",
+        "note": "Never measured the brake before the hand-release lever was pinned"
+      },
+      {
+        "id": "within-limits",
+        "name": "Within Limits",
+        "note": "Held both lining and gap readings near band centre"
+      },
+      {
+        "id": "clean-restore",
+        "name": "Clean Restore",
+        "note": "Restored in the correct order, no correction"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "no-callback",
+        "name": "No Callback",
+        "note": "Clean run, no corrections"
+      },
+      {
+        "id": "test-held",
+        "name": "Test Held",
+        "note": "Never let the test run button slip mid-hold"
+      },
+      {
+        "id": "machine-fast",
+        "name": "Machine Fast",
+        "note": "Complete inside 80% of par"
+      }
+    ],
+    "currency": "TORQUE",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Helper",
+      "Machine Room Mechanic",
+      "Adjuster",
+      "Lead Mechanic",
+      "Brake Authority Certified"
+    ],
+    "system": "Brake Authority"
+  },
+  "hazards": {
+    "brake-lever-unguarded": "You let the hand brake-release lever go unguarded while the test was running. That lever is built to lift the brake by hand for exactly one purpose — moving a car with no power — and pulled at any other moment, with nothing confirmed clear on the other end of the ropes, it removes the only thing holding that car or its counterweight where it is.",
+    "hot-motor-casing": "You put a bare hand on the motor and brake coil housing right after a run. A machine that has just been working is hot enough to burn skin on contact, and there is no reason to touch the casing at all when the readings that matter come off the instruments.",
+    "oil-slick-floor": "You crossed the oil slick under the machine bed without a word to anyone. A film of gear oil on a machine room floor is invisible until somebody's boot finds it, and the fall it causes happens two feet from a rotating sheave, not somewhere soft.",
+    "rotating-sheave": "You reached toward the sheave before the disconnect was proven dead. A traction machine coasts after power is cut, and a hand anywhere near the sheave, the brake wheel or the ropes while it is still turning down is a hand in the one place on this machine built to grip things hard."
+  },
+  "id": "ew-machine-room-lockout-and-brake-test",
+  "indoor": "service",
+  "interrupts": [
+    {
+      "after": "machine-inspect",
+      "alert": "A hall call has just registered on the controller upstairs while this machine is supposed to be isolated.",
+      "cue": "Prove the disconnect is still open before anything else.",
+      "delay": 4,
+      "id": "call-during-test",
+      "kind": "Call registered",
+      "missNote": "The call sat there registered with the disconnect unconfirmed. If that switch had drifted closed on its own weight, the first sign would have been the machine starting to turn under a mechanic's hands.",
+      "seconds": 12,
+      "target": "main-disconnect",
+      "why": "A registered call on a machine that should be dead means either the isolation has failed or a second source is feeding this controller — either way, nothing about the brake test continues until the disconnect is confirmed open again with your own eyes.",
+      "wrongNote": "It is the main disconnect. A call registering on a machine that is supposed to be dead is the only thing worth looking at right now."
+    },
+    {
+      "after": "shoe-gap",
+      "alert": "Someone else in the machine room has started working the guard pin loose on the hand brake-release lever.",
+      "cue": "That lever releases the brake. Get back to the guard.",
+      "delay": 4,
+      "id": "lever-tampered",
+      "kind": "Guard interfered with",
+      "missNote": "The guard pin came loose while your back was turned. A hand-release lever that can be pulled at any moment is a brake that is not actually isolated, whatever the disconnect says.",
+      "seconds": 11,
+      "target": "brake-lever-guard",
+      "why": "The guard pin exists so that exactly this — somebody else, with no idea a test is running, reaching for a lever that looks like ordinary machine room equipment — cannot end with the brake released on a car nobody has confirmed is clear.",
+      "wrongNote": "It is the guard pin on the brake-release lever. Whatever else is happening, that lever cannot be left unguarded."
+    }
+  ],
+  "lateNotes": {
+    "brake-pad-gauge": "Lining thickness is only measured once the machine is proven dead and the hand-release lever is guarded.",
+    "test-run-button": "The stopping test runs only after the guard is confirmed and both wear readings are logged."
+  },
+  "name": "Machine Room Lockout and Brake Test",
+  "parSeconds": 265,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "elevator-constructors"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.2,
+    "hits": [
+      "blocked-egress",
+      "brake-gap-gauge",
+      "brake-lever-guard",
+      "brake-lever-unguarded",
+      "brake-pad-gauge",
+      "brake-pad-gauge-tool",
+      "brake-test-log",
+      "controller-meter",
+      "controller-panel",
+      "disconnect-permit",
+      "gear-oil-sightglass",
+      "hot-motor-casing",
+      "job-ticket",
+      "lockout-hasp",
+      "main-disconnect",
+      "oil-slick-floor",
+      "rotating-sheave",
+      "test-run-button",
+      "worn-groove"
+    ],
+    "meshes": 176
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the job ticket and confirm which car this machine room serves before touching anything.",
+      "id": "checkin",
+      "kind": "select",
+      "prompt": "Read the job ticket and confirm which car this machine room serves before touching anything.",
+      "target": "job-ticket",
+      "title": "Check in at the machine room door",
+      "why": "A building can have several machine rooms within a few metres of each other, and the one fact a mechanic never wants to get wrong is which car's power they are about to isolate — the job ticket is checked at the door, before a hand goes anywhere near a disconnect, so the car actually being worked is the car actually taken out of service."
+    },
+    {
+      "cue": "Read the work order and confirm the car-out-of-service signage is posted at every landing before the disconnect comes down.",
+      "id": "permit",
+      "kind": "select",
+      "prompt": "Read the work order and confirm the car-out-of-service signage is posted at every landing before the disconnect comes down.",
+      "target": "disconnect-permit",
+      "title": "Post out-of-service signage",
+      "why": "Everything below this step depends on nobody expecting this car to answer a call. Signage at every landing is what tells the next passenger, before they ever press a button, that the car behind those doors is not coming."
+    },
+    {
+      "cue": "Pull the machine room's main line disconnect handle firmly to its open stop.",
+      "id": "disconnect",
+      "kind": "turn",
+      "prompt": "Pull the machine room's main line disconnect handle firmly to its open stop.",
+      "target": "main-disconnect",
+      "title": "Open the main line disconnect",
+      "turn": {
+        "axis": "z",
+        "label": "MAIN LINE DISCONNECT",
+        "reverse": true,
+        "turns": 0.2
+      },
+      "why": "The disconnect is pulled all the way to its stop rather than eased partway, because a switch left between positions can leave one phase still made — a motor that is supposed to be dead can still be turned far enough by that one phase to move the brake wheel under somebody's hand."
+    },
+    {
+      "cue": "Apply your padlock and tag to the disconnect before anything else.",
+      "id": "lock",
+      "kind": "select",
+      "prompt": "Apply your padlock and tag to the disconnect before anything else.",
+      "target": "lockout-hasp",
+      "title": "Lock and tag the disconnect",
+      "why": "Your padlock is the only thing on this switch that only you can take off, and that is the entire point of fitting it before a caliper or a feeler gauge ever touches the brake. A building engineer who wants this car back can read the tag and call the number on it; what they cannot do is close a switch that is carrying somebody else's lock."
+    },
+    {
+      "cue": "Meter the controller's drive input and commit when it reads dead.",
+      "gauge": {
+        "green": [
+          0,
+          0.08
+        ],
+        "label": "DRIVE INPUT — VOLTAGE",
+        "missNote": "Still reading live. Recheck the disconnect before the machine is touched.",
+        "speed": 0.65
+      },
+      "id": "verify-zero",
+      "kind": "gauge",
+      "prompt": "Meter the controller's drive input and commit when it reads dead.",
+      "target": "controller-meter",
+      "title": "Verify zero energy at the controller",
+      "why": "A locked-open switch describes what the switch is doing; it says nothing about what is happening at the terminals the meter actually touches. Reading the meter against a source known to be live first, then against the drive input, then against that live source again is what stands between a genuinely dead machine and a meter with a blown fuse telling a comfortable lie."
+    },
+    {
+      "cue": "Fit the mechanical guard pin over the hand brake-release lever before anyone measures the brake.",
+      "id": "brake-lever-guard",
+      "kind": "select",
+      "prompt": "Fit the mechanical guard pin over the hand brake-release lever before anyone measures the brake.",
+      "target": "brake-lever-guard",
+      "title": "Pin the hand brake-release lever",
+      "why": "The hand-release lever can lift the brake with a single pull, by design, so a second mechanic reaching for it out of habit while this test is running is a real possibility and not a hypothetical one. The pin is what makes that pull physically impossible until the person who fitted it takes it out again."
+    },
+    {
+      "cue": "Set the caliper on the brake lining and commit the reading inside the manufacturer's wear limit.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.62
+        ],
+        "label": "LINING THICKNESS",
+        "missNote": "Outside the manufacturer's wear limit. Flag the shoe for replacement before this machine goes back in service.",
+        "speed": 0.6
+      },
+      "id": "pad-wear",
+      "kind": "gauge",
+      "prompt": "Set the caliper on the brake lining and commit the reading inside the manufacturer's wear limit.",
+      "target": "brake-pad-gauge",
+      "title": "Measure the brake lining thickness",
+      "why": "Lining wears a little on every stop this machine has ever made, and the only way to know how much is left before the shoe is metal-on-wheel is to measure it against the number on the manufacturer's own wear chart — not against how the lining looks or how the brake sounds when it sets."
+    },
+    {
+      "cue": "Energize the coil, set the feeler gauge in the air gap and commit the reading inside band.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "ARMATURE GAP",
+        "missNote": "Gap outside the manufacturer's band. Adjust the shoe stop and measure again before the machine runs.",
+        "speed": 0.6
+      },
+      "id": "shoe-gap",
+      "kind": "gauge",
+      "prompt": "Energize the coil, set the feeler gauge in the air gap and commit the reading inside band.",
+      "target": "brake-gap-gauge",
+      "title": "Measure the brake shoe air gap",
+      "why": "The air gap is how far the armature has to travel to lift the shoes clear when the coil is energized, and it grows as the lining wears — too wide and the brake is slow to lift and slow to set, too narrow and it may not lift fully at all. Either fault reads as a brake that seems to work right up until it is asked to do something exact."
+    },
+    {
+      "cue": "Look over the machine, the floor and the door. Three things need fixing before this room is signed off.",
+      "id": "machine-inspect",
+      "itemNames": {
+        "blocked-egress": "material stacked against the machine room door",
+        "oil-slick-floor": "an oil slick under the machine bed",
+        "worn-groove": "a worn sheave groove"
+      },
+      "itemNotes": {
+        "blocked-egress": "Material stacked against the machine room door is a blocked way out for whoever is in this small room the day something actually goes wrong.",
+        "oil-slick-floor": "An oil slick under a rotating machine is a slip hazard on the one floor in the building where falling means falling toward moving parts.",
+        "worn-groove": "A worn rope groove concentrates load on fewer wires than the rope was designed to share, which is exactly the kind of wear that gets worse quietly and fails without warning."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look over the machine, the floor and the door. Three things need fixing before this room is signed off.",
+      "targets": [
+        "worn-groove",
+        "oil-slick-floor",
+        "blocked-egress"
+      ],
+      "title": "Walk the machine room",
+      "why": "A machine room inspection catches what accumulates between visits — a groove that has worn a little more, a drip that has become a slick, a delivery someone leaned against the door. None of it is dramatic on its own, and all of it is exactly what an inspection exists to find before it becomes something worse."
+    },
+    {
+      "cue": "Hold the test run button and let the logger record the brake's stopping performance.",
+      "holdBreakNote": "You let go and the test run stopped, which is exactly what constant pressure is for. Take the button again and hold it for the full run.",
+      "id": "brake-test-run",
+      "kind": "hold",
+      "prompt": "Hold the test run button and let the logger record the brake's stopping performance.",
+      "seconds": 6,
+      "target": "test-run-button",
+      "title": "Run the stopping test",
+      "why": "Every reading taken so far describes the brake at rest; this is the one that describes it doing its job. Constant pressure on the test button means the run stops the instant anyone lets go, so a stopping test never becomes an uncontrolled run in its own right."
+    },
+    {
+      "cue": "Take the guard pin off the lever, then your lock off the hasp, then close the main disconnect.",
+      "id": "restore",
+      "itemNames": {
+        "brake-lever-guard": "the brake-release guard pin",
+        "lockout-hasp": "your lock off the hasp",
+        "main-disconnect": "main line disconnect"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Wrong order — the guard pin first, then your lock, and the main disconnect last.",
+      "prompt": "Take the guard pin off the lever, then your lock off the hasp, then close the main disconnect.",
+      "targets": [
+        "brake-lever-guard",
+        "lockout-hasp",
+        "main-disconnect"
+      ],
+      "title": "Restore in the correct order",
+      "why": "The guard pin comes off first because it was only ever needed while the machine was isolated; the lock is the last thing off before power, because it is the one thing that has been keeping this machine somebody else's problem the whole time it has been yours."
+    },
+    {
+      "cue": "Read the gear oil level against the sight glass mark and commit inside band.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.7
+        ],
+        "label": "GEAR OIL LEVEL",
+        "missNote": "Outside the full band on the sight glass. Top up or drain to mark and read it again before the machine is signed off.",
+        "speed": 0.55
+      },
+      "id": "oil-level",
+      "kind": "gauge",
+      "prompt": "Read the gear oil level against the sight glass mark and commit inside band.",
+      "target": "gear-oil-sightglass",
+      "title": "Check the machine's oil sight glass",
+      "why": "A low oil level on a geared machine is a bearing and gear-wear problem long before it is a smell or a noise, and the sight glass is read at every service specifically because the machine cannot tell anyone itself that it is running short."
+    },
+    {
+      "cue": "Write the lining thickness, the air gap and the stopping test result on the machine room log.",
+      "id": "log",
+      "kind": "select",
+      "prompt": "Write the lining thickness, the air gap and the stopping test result on the machine room log.",
+      "target": "brake-test-log",
+      "title": "Log the brake test",
+      "why": "The next mechanic who opens this machine room reads this log before they read the brake itself, and a wear number that goes unwritten today is a wear number somebody else has to re-measure from zero the next time this machine is due."
+    },
+    {
+      "cue": "With power restored, run the car through a normal trip before handing it back.",
+      "id": "test-run",
+      "kind": "select",
+      "prompt": "With power restored, run the car through a normal trip before handing it back.",
+      "target": "controller-panel",
+      "title": "Run a normal test trip",
+      "why": "A brake proven at the test button is not yet a brake proven in service — the last check is an ordinary trip, at ordinary speed, through the floors this car actually serves, because that is the only test that looks exactly like what the first passenger is about to ask of it."
+    }
+  ],
+  "supportLine": "your IUEC local's member assistance programme, or the NEIEP training coordinator for anything about the certification record",
+  "tagline": "Isolate the machine, guard the hand brake-release lever, measure lining and gap against wear limits, and prove the brake on a test run before restoring power",
+  "title": "SmartCiti.X~ Machine Room Lockout and Brake Test VR",
+  "trade": "Elevator constructor / mechanic — IUEC",
+  "underwater": null,
+  "weather": null
+}

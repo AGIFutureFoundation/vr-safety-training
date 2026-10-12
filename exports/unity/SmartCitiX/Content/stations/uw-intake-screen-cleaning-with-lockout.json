@@ -1,0 +1,421 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "dead-before-clean",
+    "name": "Dead Before Clean",
+    "note": "The breaker locked and tagged before the valve was touched, the no-flow gauge proven with your own hands, and the diver's own clear signal held before anything was restored"
+  },
+  "category": "Maritime & Ports",
+  "certification": "Pile Drivers Local 34 commercial diver training under the UBC International Training Fund; OSHA 29 CFR 1910.147 the control of hazardous energy (lockout/tagout) at the pump station above water; OSHA 29 CFR 1910 Subpart T commercial diving operations — 29 CFR 1910.421 pre-dive procedures (hazardous activities nearby) and 29 CFR 1910.422 procedures during the dive (communications, termination of the dive); ADCI International Consensus Standards for Commercial Diving and Underwater Operations; USCG 46 CFR 197 Subpart B where the dive is worked from a vessel; depth, gas, bottom time and decompression per the dive plan and the tables the supervisor holds",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ADCI",
+        "citedAs": "ADCI",
+        "id": "adci-consensus-standards",
+        "title": "Association of Diving Contractors International — International Consensus Standards for Commercial Diving and Underwater Operations"
+      },
+      {
+        "body": "union",
+        "citedAs": "Pile Drivers",
+        "id": "carpenters-ictf",
+        "title": "United Brotherhood of Carpenters International Training Fund — carpenter, pile driver and millwright apprenticeship"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.421",
+        "id": "osha-1910-421",
+        "title": "29 CFR 1910.421 — Pre-dive procedures (emergency aid list, planning and assessment of the dive, hazardous activities nearby, the team briefing, equipment inspection and the warning signal)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.422",
+        "id": "osha-1910-422",
+        "title": "29 CFR 1910.422 — Procedures during the dive (water entry and exit, communications, decompression tables, power tools, termination of the dive)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910 Subpart T",
+        "id": "osha-1910-subpart-t",
+        "title": "29 CFR 1910 Subpart T — Commercial diving operations (dive team qualifications, the safe practices manual, pre-dive, during-dive and post-dive procedures, equipment and the dive record)"
+      },
+      {
+        "body": "USCG",
+        "citedAs": "46 CFR 197 Subpart B",
+        "id": "uscg-46-cfr-197-subpart-b",
+        "title": "46 CFR Part 197 Subpart B — Commercial diving operations from vessels and facilities under Coast Guard jurisdiction"
+      }
+    ]
+  },
+  "district": "bay-underwater",
+  "domain": "Maritime & Ports",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "lock-then-tag",
+        "name": "Lock Then Tag",
+        "note": "The breaker racked out before the lock and tag went on, first time"
+      },
+      {
+        "id": "true-no-flow",
+        "name": "True No-Flow",
+        "note": "The no-flow gauge read inside the band first time"
+      },
+      {
+        "id": "never-trusted-blind",
+        "name": "Never Trusted Blind",
+        "note": "Never a hand on the screen face before the no-flow check, never through the torn mesh, never kept scraping with the comms dead, never a tool let fall toward the throat"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-lockout",
+        "name": "Clean Lockout",
+        "note": "No corrections from the energy-source check to the check-in"
+      },
+      {
+        "id": "steady-descent",
+        "name": "Steady Descent",
+        "note": "The descent held in band through the current shift"
+      },
+      {
+        "id": "cleared-in-time",
+        "name": "Cleared In Time",
+        "note": "The screen reported clear inside 80% of par"
+      }
+    ],
+    "currency": "AMP-HOUR",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Diver Trainee",
+      "Diver",
+      "Screen Diver",
+      "Lead Screen Diver",
+      "Intake Lockout Certified"
+    ],
+    "system": "Screen Clear"
+  },
+  "hazards": {
+    "drop-scraper-in-throat": "You let the old scraper fall to grab the fresh one out of your kit instead of clipping it off first. A tool that goes down the intake throat becomes exactly the kind of foreign object the screen exists to keep out, and if the lockout is ever released with that tool sitting behind the mesh, it is drawn straight into the pump the moment the plant starts up. Every tool comes off your harness clipped, and goes back on clipped, never let fall to free a hand.",
+    "keep-cleaning-no-comms": "You kept scraping the screen face when the comms went dead instead of stopping. The whole reason the lockout holds is that everyone above water knows a diver is still at the screen, and a diver who is not on the comms is a diver the platform cannot confirm is clear before anything gets touched. When the comms drop, the scraper stops, whatever the face still looks like.",
+    "reach-into-screen-face": "You put your hand flat against the screen face to feel whether it was still drawing, before the no-flow gauge confirmed it. Differential pressure across an intake screen can pin a hand, an arm or a whole body against the mesh hard enough that you cannot pull free on your own strength, and a lockout you have not personally verified below the water is a lockout you are trusting on faith. The gauge confirms no flow; your hand never does.",
+    "swim-thru-loose-mesh": "You swam through the gap where the screen mesh has torn loose instead of going round it. A torn edge under current moves with every surge, and a diver who takes the gap as a shortcut gives it a fin, a cuff or the umbilical to catch on the exact moment it flexes. It gets logged for the work plan to re-weld; it does not get swum through to save a few kicks round the frame."
+  },
+  "id": "uw-intake-screen-cleaning-with-lockout",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "descend-to-screen",
+      "alert": "The current has picked up along the descent line and is pushing you sideways off it toward the screen frame's edge.",
+      "cue": "Grab the frame handhold and ride the current out rather than fighting to swim back onto the line.",
+      "delay": 2,
+      "id": "current-shift-descent",
+      "kind": "Current shift on the descent line",
+      "missNote": "You kept swimming for the line instead of grabbing the handhold; the current carried you into the frame edge before you found anything solid to hold.",
+      "seconds": 14,
+      "target": "screen-frame-handhold",
+      "why": "A diver who fights a current sideways off a descent line burns gas and control fighting the water instead of using what is actually there to hold onto, and the frame handhold is fixed exactly where a diver pushed off the line would end up. Grabbing it is faster and safer than swimming back against the current to find the line again.",
+      "wrongNote": "The frame handhold — grab it and ride the current out rather than fighting back to the line."
+    },
+    {
+      "after": "hold-clean-face",
+      "alert": "The flow indicator light at the screen has started flickering between clear and flow — you cannot tell which reading is current.",
+      "cue": "Stop scraping, back off the face, and check the flow indicator directly before touching the screen again.",
+      "delay": 2,
+      "id": "flow-indicator-flickers",
+      "kind": "Flow indicator flickers mid-clean",
+      "missNote": "You kept scraping through the flicker instead of stopping; the indicator settled on flow just as your hand was still flat against the mesh.",
+      "seconds": 14,
+      "target": "flow-indicator-check",
+      "why": "A flickering indicator could mean a bad connection, or it could mean the isolation the whole dive depends on is starting to fail, and there is no way to tell which from the scraper in your hand. Backing off and checking it directly, rather than assuming the flicker is nothing and continuing, is the only response that does not risk being wrong about a live screen.",
+      "wrongNote": "The flow indicator — stop scraping and check it directly before the screen is touched again."
+    }
+  ],
+  "lateNotes": {
+    "hold-clean-face": "The screen face is scraped once the no-flow gauge has confirmed it dead — never on a face you have not personally verified yourself.",
+    "isolation-valve-wheel": "The isolation valve is closed once the breaker is racked out, locked and tagged — not while the motor is the only thing confirmed stopped.",
+    "no-flow-gauge": "The no-flow check is read once you are actually at the screen — a lockout confirmed on the platform still has to be proven again with your own hands below."
+  },
+  "name": "Intake Screen Cleaning With Lockout",
+  "parSeconds": 320,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "bay-area-union-edition"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "bent-panel",
+      "breaker-off",
+      "clogged-debris",
+      "debris-bag",
+      "debris-clump",
+      "descent-line",
+      "diver-clear-signal",
+      "drop-scraper-in-throat",
+      "flow-indicator-check",
+      "hold-clean-face",
+      "isolation-valve-wheel",
+      "keep-cleaning-no-comms",
+      "lock-and-tag",
+      "loose-mesh-gap",
+      "loose-scraper",
+      "motor-breaker",
+      "no-flow-gauge",
+      "rake-drive",
+      "reach-into-screen-face",
+      "screen-frame-handhold",
+      "stage-checkin",
+      "swim-thru-loose-mesh",
+      "try-start-button",
+      "uisc-comms"
+    ],
+    "meshes": 167
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "At the platform panel, before any switch is thrown: find the pump motor's breaker and the separate rake drive that can move the screen on its own timer.",
+      "id": "identify-energy-sources",
+      "itemNames": {
+        "motor-breaker": "pump motor's breaker in the panel",
+        "rake-drive": "mechanical rake drive above the screen"
+      },
+      "itemNotes": {
+        "motor-breaker": "The breaker feeding the intake pump's motor, mounted in the platform's panel with the plant's other circuits.",
+        "rake-drive": "A small motor above the screen that can swing a mechanical rake across the face on its own timer, unrelated to the pump's own breaker."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "At the platform panel, before any switch is thrown: find the pump motor's breaker and the separate rake drive that can move the screen on its own timer.",
+      "targets": [
+        "motor-breaker",
+        "rake-drive"
+      ],
+      "title": "Find every energy source before touching anything",
+      "why": "A lockout only protects against the energy sources it actually covers, and an intake screen commonly has two — the pump that draws water through it, and a separate mechanical rake that can sweep the face without warning on its own clock. Missing the second one because the first looked like the whole job is exactly how a diver ends up below a screen that starts moving."
+    },
+    {
+      "cue": "Rack the breaker fully to open first, then clip your own lock through the hasp and hang your tag on it.",
+      "id": "apply-lock-tag",
+      "itemNames": {
+        "breaker-off": "breaker racked out to open",
+        "lock-and-tag": "personal lock and tag applied"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order — rack the breaker open before the lock and tag go on, or the lock is protecting a circuit that could still be closed.",
+      "prompt": "Rack the breaker fully to open first, then clip your own lock through the hasp and hang your tag on it.",
+      "targets": [
+        "breaker-off",
+        "lock-and-tag"
+      ],
+      "title": "Rack the breaker out, then lock and tag it",
+      "why": "The breaker has to be open before the lock does any good, because a lock hung on a breaker that is still closed protects nothing — it only stops someone from closing a breaker that was already open. Racked out first, then locked and tagged, is the order that actually leaves the energy source both interrupted and physically unable to be restored by anyone but you."
+    },
+    {
+      "cue": "With the lock and tag on, press the try-start button at the panel and confirm nothing runs.",
+      "id": "verify-zero-energy",
+      "kind": "select",
+      "prompt": "With the lock and tag on, press the try-start button at the panel and confirm nothing runs.",
+      "target": "try-start-button",
+      "title": "Press try-start to prove the breaker is dead",
+      "why": "A lockout is not proven by looking at the breaker — it is proven by trying to start whatever it feeds and watching nothing happen. This is the one step in the whole procedure that actually tests the lockout rather than just performing it, and it is done before the isolation valve or the descent, while you are still standing right at the panel that can fix it if something is wrong."
+    },
+    {
+      "cue": "Turn the isolation valve's wheel closed to cut the flow reaching the screen, on top of the electrical lockout already confirmed.",
+      "id": "close-isolation-valve",
+      "kind": "turn",
+      "prompt": "Turn the isolation valve's wheel closed to cut the flow reaching the screen, on top of the electrical lockout already confirmed.",
+      "target": "isolation-valve-wheel",
+      "title": "Close the upstream isolation valve",
+      "turn": {
+        "label": "ISOLATION VALVE",
+        "turns": 0.75
+      },
+      "why": "The electrical lockout stops the pump from drawing, but water already moving toward the screen from upstream can keep some flow going for a while on its own, and the isolation valve is what actually stops that at the source. Closed on top of the confirmed electrical lockout, it is the second, independent barrier the whole rest of the dive depends on — one lockout failing should never be the only thing standing between the screen and a live flow."
+    },
+    {
+      "cue": "Tell the supervisor: breaker racked, locked and tagged, try-start dead, isolation valve closed, ready to splash.",
+      "id": "report-locked-and-splash",
+      "kind": "select",
+      "prompt": "Tell the supervisor: breaker racked, locked and tagged, try-start dead, isolation valve closed, ready to splash.",
+      "target": "uisc-comms",
+      "title": "Report the lockouts and call the splash",
+      "why": "The supervisor's own log of the dive starts from this report, and it is the last chance for anyone at the platform to catch a step that was skipped before a diver is in the water depending on it. Calling the splash only after every lockout is confirmed on the comms is what makes the report worth something more than a formality on the way to the ladder."
+    },
+    {
+      "cue": "Follow the platform's descent line down to the screen at a steady pace, keeping the umbilical clear of the frame as you go.",
+      "holdBreakNote": "The descent pace broke out of band — too fast or stalled on the line. Settle back onto the descent line and take it up steadily.",
+      "id": "descend-to-screen",
+      "kind": "track",
+      "prompt": "Follow the platform's descent line down to the screen at a steady pace, keeping the umbilical clear of the frame as you go.",
+      "seconds": 6,
+      "target": "descent-line",
+      "title": "Descend the platform's line to the screen",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.46,
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "DESCENT PACE",
+        "rise": 0.56,
+        "start": 0.14
+      },
+      "why": "The descent line is the one fixed path between the platform where the lockouts were proven and the screen where you are about to trust them, and a steady pace down it keeps the umbilical paying out clean instead of piling up in loops at the frame's edge. Rushing the descent is exactly how a diver arrives at the screen with a tangle already forming before the real work has even started."
+    },
+    {
+      "cue": "Look over the whole screen before touching it: what is only debris to be cleared, and what is actual damage to the frame or the mesh itself.",
+      "id": "screen-condition",
+      "itemNames": {
+        "bent-panel": "screen panel bent out of its frame",
+        "clogged-debris": "debris clogging the screen face"
+      },
+      "itemNotes": {
+        "bent-panel": "One panel of the screen pushed out of true where something heavy has struck it, leaving a gap along its edge.",
+        "clogged-debris": "A mat of branches, plastic sheeting and rope wedged across a third of the screen's open area."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look over the whole screen before touching it: what is only debris to be cleared, and what is actual damage to the frame or the mesh itself.",
+      "targets": [
+        "clogged-debris",
+        "bent-panel"
+      ],
+      "title": "Find what is clogging and what is damaged",
+      "why": "Debris comes off with a scraper and a bag; a bent panel is a structural finding that goes to the plant's engineers, not something a diver straightens on the spot. Telling the two apart before starting keeps the report accurate about what was actually wrong with the screen instead of just about what got cleaned off it."
+    },
+    {
+      "cue": "Hold the differential-pressure gauge's sensor flat against the screen face and commit the reading once it settles at zero flow.",
+      "gauge": {
+        "green": [
+          0,
+          0.12
+        ],
+        "label": "DIFFERENTIAL PRESSURE",
+        "speed": 0.7
+      },
+      "id": "confirm-no-flow",
+      "kind": "gauge",
+      "prompt": "Hold the differential-pressure gauge's sensor flat against the screen face and commit the reading once it settles at zero flow.",
+      "target": "no-flow-gauge",
+      "title": "Read the no-flow gauge at the screen itself",
+      "why": "The lockout was proven at the platform, a long way from this screen, and the gauge here is what proves it actually reached this far — a valve that looked closed at the wheel can still be seated wrong, and a breaker locked at the panel says nothing about a second, unmarked feed nobody found. This reading, taken with your own hands at the face, is the one that actually matters to the diver standing in front of it."
+    },
+    {
+      "cue": "Pull the clogging debris free of the mesh and stow it in the debris bag clipped at your side.",
+      "drag": {
+        "missNote": "Not in the bag — clear debris goes into the bag clipped at your side, not left loose on the bottom.",
+        "radius": 0.5,
+        "to": "debris-bag"
+      },
+      "id": "clear-debris",
+      "kind": "drag",
+      "prompt": "Pull the clogging debris free of the mesh and stow it in the debris bag clipped at your side.",
+      "target": "debris-clump",
+      "title": "Clear the debris off the screen face",
+      "why": "The debris comes off by hand once the no-flow check has confirmed the screen is dead, pulled clear rather than levered, because a mat of branches under any remaining tension can spring back across the mesh and take a glove or a hose with it. Every piece goes in the bag, not loose on the bottom, so it does not just resettle across the screen on the next tide."
+    },
+    {
+      "cue": "Hold the scraper flat against the mesh and work it steadily across the fouled section until the face reads clean.",
+      "holdBreakNote": "The scraper came off the face before the pass was finished — hold it flat against the mesh and work it through to the end.",
+      "id": "hold-clean-face",
+      "kind": "hold",
+      "prompt": "Hold the scraper flat against the mesh and work it steadily across the fouled section until the face reads clean.",
+      "seconds": 5,
+      "target": "hold-clean-face",
+      "title": "Scrape the screen face clean",
+      "why": "A screen face is fouled by more than the loose debris already cleared — a film of growth across the mesh chokes the same open area a clogging branch does, just more slowly, and it only comes off with a steady, sustained pass rather than a few quick scrapes. Holding the tool flat and working it the whole time is what actually restores the screen's open area instead of just making it look better from a glance."
+    },
+    {
+      "cue": "Before switching tools or moving along the face: the torn mesh gap, and whatever is still loose in your own hands.",
+      "id": "route-hazards",
+      "itemNames": {
+        "loose-mesh-gap": "torn gap in the screen mesh",
+        "loose-scraper": "old scraper not yet clipped off"
+      },
+      "itemNotes": {
+        "loose-mesh-gap": "A section of mesh torn free of its frame, curling and flexing with every surge of current against the face.",
+        "loose-scraper": "The scraper you were using a minute ago, still loose in your hand instead of clipped back to your harness before the next tool comes out."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Before switching tools or moving along the face: the torn mesh gap, and whatever is still loose in your own hands.",
+      "targets": [
+        "loose-mesh-gap",
+        "loose-scraper"
+      ],
+      "title": "Find the hazards still at the screen before moving on",
+      "why": "The torn mesh is a hazard the next diver needs on the report whether or not it slowed this one down, and the loose tool in your own hand is the hazard you can fix yourself in the next few seconds, before it becomes a dropped object at the worst possible place to drop one — right in front of the throat."
+    },
+    {
+      "cue": "Tell the supervisor: debris cleared, face scraped clean, the bent panel logged for the plant's engineers, the mesh gap noted.",
+      "id": "report-screen-clear",
+      "kind": "select",
+      "prompt": "Tell the supervisor: debris cleared, face scraped clean, the bent panel logged for the plant's engineers, the mesh gap noted.",
+      "target": "uisc-comms",
+      "title": "Report the screen clear and the bent panel",
+      "why": "The plant only knows what this dive actually found through this report, and the bent panel matters more to them than the debris ever did — debris comes back with every tide, but a bent frame is a standing hazard until it is engineered a fix. Reporting both together, while you are still at the screen able to describe exactly where the panel is bent, is worth more than a line added after the fact."
+    },
+    {
+      "cue": "Back away from the screen frame and hold the clear signal steady until the supervisor confirms it before anything at the platform is touched.",
+      "holdBreakNote": "You moved off before the signal was acknowledged — hold clear of the screen and give the signal again until the supervisor confirms it.",
+      "id": "signal-diver-clear",
+      "kind": "hold",
+      "prompt": "Back away from the screen frame and hold the clear signal steady until the supervisor confirms it before anything at the platform is touched.",
+      "seconds": 4,
+      "target": "diver-clear-signal",
+      "title": "Hold your signal that you are clear of the screen",
+      "why": "Nothing about the lockout gets released until the platform has a confirmed answer that you are actually away from the screen, not just finished working on it, and that answer only means something if you hold the signal until it is acknowledged rather than giving it once and moving on. This is the diver's half of the same discipline that put the lock on the breaker in the first place."
+    },
+    {
+      "cue": "Back at the stage, clipped on: tell the supervisor how the dive went, the current on the descent and the flow indicator dropping out, and wait for the call to leave the bottom.",
+      "id": "check-in",
+      "kind": "select",
+      "prompt": "Back at the stage, clipped on: tell the supervisor how the dive went, the current on the descent and the flow indicator dropping out, and wait for the call to leave the bottom.",
+      "target": "stage-checkin",
+      "title": "Check in at the stage and leave on the supervisor's call",
+      "why": "The ascent is the supervisor's call, run to the tables they hold, and the check-in is how they know you are on the stage, clipped on and well, before that call is made and before the platform is told it is safe to release anything. A current on the descent and a flow indicator that dropped out mid-clean are both worth a real answer here, with the Pile Drivers Local 34 member assistance line behind whatever the debrief does not settle."
+    }
+  ],
+  "supportLine": "your union hall's member assistance programme — Pile Drivers Local 34 — with the employer's employee assistance line behind it",
+  "tagline": "Above water first: the motor breaker and the rake drive found, the breaker racked out and locked and tagged in order, the try-start proving dead, the isolation valve closed, the lockouts reported and the splash called — then below: the descent through a current shift, the clogged screen and the bent panel found, the no-flow gauge read again with your own hands, the debris cleared, the face scraped through a flickering flow indicator, the loose mesh and the dropped-tool risk found, the screen reported clear, and the diver's own signal held before the crew checks in",
+  "title": "SmartCiti.X~ Intake Screen Cleaning With Lockout VR",
+  "trade": "Pile Drivers Local 34 commercial diver clearing a raw-water pump station's intake screen, with the plant operator holding the electrical and isolation lockouts above water, the dive supervisor on the comms, the tender on the umbilical and the standby diver dressed at the ladder",
+  "underwater": {
+    "bottomTimeSeconds": 660,
+    "depthLabel": "Per dive plan"
+  },
+  "weather": "clear"
+}

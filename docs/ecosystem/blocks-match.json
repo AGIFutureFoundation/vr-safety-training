@@ -1,0 +1,5017 @@
+{
+ "provenance": {
+  "source": "github.com/agifuturefoundation/cognition.x",
+  "commit": "47c18207bd2ef3295c66fac80aa7005bd8a7f6b9",
+  "file": "data/blocks.csv",
+  "licence": "CC BY 4.0 (content; LICENSE-CONTENT). Cognition.X code is Apache-2.0 (LICENSE); no code is copied here.",
+  "attribution": "Blocks from Cognition.X (agifuturefoundation/cognition.x, commit 47c1820), licensed CC BY 4.0. Extracted, unmodified, by tools/eco_extract.mjs.",
+  "changes": "Only the matched rows; columns code and the empty fields kept as in the source; no text edited.",
+  "rules": "WebXR/shared/eco-blocks.js ECO_RULES and ECO_RP_RULES"
+ },
+ "counts": {
+  "stations": 670,
+  "stationsMatched": 285,
+  "skills": 24,
+  "skillsMatched": 24,
+  "excludedK12Skills": 6,
+  "blocks": 157
+ },
+ "stations": {
+  "matched": [
+   {
+    "station": "ad-amr-fleet-traffic-and-estop-drill",
+    "name": "AMR Fleet Traffic & E-stop Drill",
+    "rule": "robot-cell",
+    "blocks": [
+     "CX-ROB-0513",
+     "CX-ROB-0869",
+     "CX-ROB-1118"
+    ]
+   },
+   {
+    "station": "ad-cobot-risk-assessment-and-speed-separation",
+    "name": "Cobot Risk Assessment & Speed-and-Separation",
+    "rule": "robot-cell",
+    "blocks": [
+     "CX-ROB-0663",
+     "CX-ROB-0728",
+     "CX-ROB-0872"
+    ]
+   },
+   {
+    "station": "ad-payload-crane-lift-with-a-lift-plan",
+    "name": "Payload Crane Lift with a Lift Plan",
+    "rule": "rigging",
+    "blocks": [
+     "CX-TRADE-0025",
+     "CX-TRADE-0024"
+    ]
+   },
+   {
+    "station": "ad-robot-cell-lockout-and-safe-reentry",
+    "name": "Robot Cell Lockout & Safe Re-entry",
+    "rule": "robot-cell",
+    "blocks": [
+     "CX-ROB-0501",
+     "CX-ROB-0502",
+     "CX-ROB-0503"
+    ]
+   },
+   {
+    "station": "aerial-ladder",
+    "name": "Aerial Ladder",
+    "rule": "site-safety",
+    "blocks": [
+     "CX-TRADE-0002",
+     "CX-TRADE-0024",
+     "CX-TRADE-0034"
+    ]
+   },
+   {
+    "station": "air-network-data-qa",
+    "name": "Network Data Review",
+    "rule": "it-ot",
+    "blocks": [
+     "CX-TRADE-0028",
+     "CX-TRADE-0046",
+     "CX-TRADE-0029"
+    ]
+   },
+   {
+    "station": "amalgam-waste-handling",
+    "name": "Amalgam Waste Handling",
+    "rule": "health-worker-safety",
+    "blocks": [
+     "CX-GHEALTH-1096",
+     "CX-GHEALTH-1097",
+     "CX-GHEALTH-1098"
+    ]
+   },
+   {
+    "station": "ammonia-plant",
+    "name": "Ammonia Plant",
+    "rule": "process",
+    "blocks": [
+     "CX-TRADE-0014",
+     "CX-TRADE-0032",
+     "CX-TRADE-0033"
+    ]
+   },
+   {
+    "station": "apprenticeship-application-and-test",
+    "name": "Apprenticeship Application & Test",
+    "rule": "career-pathway",
+    "blocks": [
+     "CX-CORP-0501",
+     "CX-CORP-0502",
+     "CX-CORP-0503"
+    ]
+   },
+   {
+    "station": "apprenticeship-standards-reading",
+    "name": "Reading an Apprenticeship Standard",
+    "rule": "career-pathway",
+    "blocks": [
+     "CX-CORP-0501",
+     "CX-CORP-0502",
+     "CX-CORP-0503"
+    ]
+   },
+   {
+    "station": "arc-flash-label-study",
+    "name": "Arc-Flash Label Study",
+    "rule": "electrical",
+    "blocks": [
+     "CX-TRADE-0002",
+     "CX-TRADE-0004",
+     "CX-TRADE-0005"
+    ]
+   },
+   {
+    "station": "arena-rigging",
+    "name": "Arena Rigging",
+    "rule": "rigging",
+    "blocks": [
+     "CX-TRADE-0025",
+     "CX-TRADE-0024"
+    ]
+   },
+   {
+    "station": "av-baggage-belt-loader-and-hold-loading",
+    "name": "Baggage Belt-Loader & Hold Loading",
+    "rule": "equipment",
+    "blocks": [
+     "CX-TRADE-0005",
+     "CX-TRADE-0021",
+     "CX-TRADE-0024"
+    ]
+   },
+   {
+    "station": "av-marshalling-and-wingwalker-signals",
+    "name": "Marshalling & Wing-Walker Signals",
+    "rule": "rigging",
+    "blocks": [
+     "CX-TRADE-0025",
+     "CX-TRADE-0024"
+    ]
+   },
+   {
+    "station": "backflow-test",
+    "name": "Backflow Test",
+    "rule": "pipe",
+    "blocks": [
+     "CX-TRADE-0013",
+     "CX-TRADE-0012",
+     "CX-TRADE-0014"
+    ]
+   },
+   {
+    "station": "ballast-water-sampling",
+    "name": "Ballast Water Sampling",
+    "rule": "marine",
+    "blocks": [
+     "CX-TRADE-0040",
+     "CX-TRADE-0038",
+     "CX-TRADE-0041"
+    ]
+   },
+   {
+    "station": "banquet-setup-lift",
+    "name": "Banquet Setup Lift",
+    "rule": "rigging",
+    "blocks": [
+     "CX-TRADE-0025",
+     "CX-TRADE-0024"
+    ]
+   },
+   {
+    "station": "battery-storage-container-commissioning",
+    "name": "Battery Storage Container Commissioning",
+    "rule": "electrical",
+    "blocks": [
+     "CX-TRADE-0002",
+     "CX-TRADE-0004",
+     "CX-TRADE-0005"
+    ]
+   },
+   {
+    "station": "battery-yard",
+    "name": "Battery Yard",
+    "rule": "electrical",
+    "blocks": [
+     "CX-TRADE-0002",
+     "CX-TRADE-0004",
+     "CX-TRADE-0005"
+    ]
+   },
+   {
+    "station": "bk-bioretention-rain-garden-excavation",
+    "name": "Bioretention Rain Garden Excavation",
+    "rule": "equipment",
+    "blocks": [
+     "CX-TRADE-0005",
+     "CX-TRADE-0021",
+     "CX-TRADE-0024"
+    ]
+   },
+   {
+    "station": "bk-wastewater-nutrient-chemical-feed",
+    "name": "Nutrient Reduction Chemical Feed and Aeration",
+    "rule": "process",
+    "blocks": [
+     "CX-TRADE-0014",
+     "CX-TRADE-0032",
+     "CX-TRADE-0033"
+    ]
+   },
+   {
+    "station": "boiler-room",
+    "name": "Boiler Room",
+    "rule": "hvac",
+    "blocks": [
+     "CX-TRADE-0020",
+     "CX-TRADE-0021",
+     "CX-TRADE-0022"
+    ]
+   },
+   {
+    "station": "br-barge-loading-of-contaminated-sediment",
+    "name": "Barge Loading of Contaminated Sediment",
+    "rule": "marine",
+    "blocks": [
+     "CX-TRADE-0038",
+     "CX-TRADE-0040",
+     "CX-TRADE-0041"
+    ]
+   },
+   {
+    "station": "br-beach-seine-fish-survey-and-handling",
+    "name": "Beach Seine Fish Survey & Handling",
+    "rule": "drone",
+    "blocks": [
+     "CX-TRADE-0037",
+     "CX-TRADE-0036",
+     "CX-TRADE-0038"
+    ]
+   },
+   {
+    "station": "br-boom-towing-between-two-vessels",
+    "name": "Boom Towing Between Two Vessels",
+    "rule": "marine",
+    "blocks": [
+     "CX-TRADE-0040",
+     "CX-TRADE-0038",
+     "CX-TRADE-0041"
+    ]
+   },
+   {
+    "station": "br-debris-skimmer-vessel-operations",
+    "name": "Debris Skimmer Vessel Operations",
+    "rule": "marine",
+    "blocks": [
+     "CX-TRADE-0040",
+     "CX-TRADE-0042",
+     "CX-TRADE-0038"
+    ]
+   },
+   {
+    "station": "br-derelict-gear-recovery-dive",
+    "name": "Derelict Gear Recovery Dive",
+    "rule": "marine",
+    "blocks": [
+     "CX-TRADE-0038",
+     "CX-TRADE-0040",
+     "CX-TRADE-0041"
+    ]
+   },
+   {
+    "station": "br-derelict-vessel-salvage-rigging",
+    "name": "Derelict Vessel Salvage Rigging",
+    "rule": "rigging",
+    "blocks": [
+     "CX-TRADE-0025",
+     "CX-TRADE-0024"
+    ]
+   },
+   {
+    "station": "br-dive-site-hazard-assessment-and-jsa",
+    "name": "Dive Site Hazard Assessment & JSA",
+    "rule": "marine",
+    "blocks": [
+     "CX-TRADE-0038",
+     "CX-TRADE-0040",
+     "CX-TRADE-0041"
+    ]
+   },
+   {
+    "station": "br-dive-tender-and-umbilical-management",
+    "name": "Dive Tender & Umbilical Management",
+    "rule": "marine",
+    "blocks": [
+     "CX-TRADE-0038",
+     "CX-TRADE-0040",
+     "CX-TRADE-0041"
+    ]
+   },
+   {
+    "station": "br-drone-shoreline-survey",
+    "name": "Drone Shoreline Survey",
+    "rule": "drone",
+    "blocks": [
+     "CX-TRADE-0037",
+     "CX-TRADE-0036",
+     "CX-TRADE-0038"
+    ]
+   },
+   {
+    "station": "br-marine-mammal-observer-during-pile-driving",
+    "name": "Marine Mammal Observer During Pile Driving",
+    "rule": "marine",
+    "blocks": [
+     "CX-TRADE-0040",
+     "CX-TRADE-0041",
+     "CX-TRADE-0043"
+    ]
+   },
+   {
+    "station": "br-native-planting-and-erosion-mats",
+    "name": "Native Planting & Erosion Control Mats",
+    "rule": "process",
+    "blocks": [
+     "CX-TRADE-0032",
+     "CX-TRADE-0033",
+     "CX-TRADE-0014"
+    ]
+   },
+   {
+    "station": "br-surface-supplied-dive-station-setup",
+    "name": "Surface-Supplied Dive Station Setup",
+    "rule": "marine",
+    "blocks": [
+     "CX-TRADE-0038",
+     "CX-TRADE-0040",
+     "CX-TRADE-0041"
+    ]
+   },
+   {
+    "station": "br-tidal-marsh-grading-amphibious-excavator",
+    "name": "Tidal Marsh Grading — Amphibious Excavator",
+    "rule": "equipment",
+    "blocks": [
+     "CX-TRADE-0005",
+     "CX-TRADE-0021",
+     "CX-TRADE-0024"
+    ]
+   },
+   {
+    "station": "br-underwater-debris-survey-and-mapping",
+    "name": "Underwater Debris Survey & Mapping",
+    "rule": "marine",
+    "blocks": [
+     "CX-TRADE-0038",
+     "CX-TRADE-0040",
+     "CX-TRADE-0041"
+    ]
+   },
+   {
+    "station": "br-underwater-sediment-core-sampling",
+    "name": "Underwater Sediment Core Sampling",
+    "rule": "marine",
+    "blocks": [
+     "CX-TRADE-0038",
+     "CX-TRADE-0040",
+     "CX-TRADE-0041"
+    ]
+   },
+   {
+    "station": "br-water-quality-sonde-calibration-and-deploy",
+    "name": "Water Quality Sonde Calibration & Deploy",
+    "rule": "biomed",
+    "blocks": [
+     "CX-TRADE-0045",
+     "CX-TRADE-0044",
+     "CX-TRADE-0046"
+    ]
+   },
+   {
+    "station": "br-workboat-crane-lift-from-water",
+    "name": "Workboat Crane Lift From Water",
+    "rule": "rigging",
+    "blocks": [
+     "CX-TRADE-0025",
+     "CX-TRADE-0024"
+    ]
+   },
+   {
+    "station": "bs-tandem-lift-girder-set",
+    "name": "Tandem Lift & Girder Set",
+    "rule": "rigging",
+    "blocks": [
+     "CX-TRADE-0025",
+     "CX-TRADE-0024"
+    ]
+   },
+   {
+    "station": "budget-tradeoff-hearing",
+    "name": "Budget Tradeoff Hearing",
+    "rule": "civic-advocacy",
+    "blocks": [
+     "CX-NPO-0501",
+     "CX-NPO-0502",
+     "CX-NPO-0503"
+    ]
+   },
+   {
+    "station": "bus-depot-lift",
+    "name": "Bus Depot Lift",
+    "rule": "rigging",
+    "blocks": [
+     "CX-TRADE-0025",
+     "CX-TRADE-0024"
+    ]
+   },
+   {
+    "station": "bus-yard-fuelling-and-brake-check",
+    "name": "Bus Yard Fuelling & Brake Check",
+    "rule": "equipment",
+    "blocks": [
+     "CX-TRADE-0026",
+     "CX-TRADE-0005",
+     "CX-TRADE-0021"
+    ]
+   },
+   {
+    "station": "ca-cabin-decompression-and-oxygen-masks",
+    "name": "Cabin Decompression and Oxygen Mask Drill",
+    "rule": "welding",
+    "blocks": [
+     "CX-TRADE-0008",
+     "CX-TRADE-0009",
+     "CX-TRADE-0010"
+    ]
+   },
+   {
+    "station": "ca-fatigue-and-duty-time-self-check",
+    "name": "Fatigue and Duty-Time Self-Check",
+    "rule": "wellbeing",
+    "blocks": [
+     "CX-CORP-0821",
+     "CX-CORP-0822",
+     "CX-CORP-0823"
+    ]
+   },
+   {
+    "station": "ca-unruly-passenger-deescalation",
+    "name": "Unruly Passenger De-escalation",
+    "rule": "de-escalation",
+    "blocks": [
+     "CX-CORP-0975",
+     "CX-CORP-1091",
+     "CX-CORP-1092"
+    ]
+   },
+   {
+    "station": "cath-lab",
+    "name": "Cath Lab",
+    "rule": "patient-safety",
+    "blocks": [
+     "CX-GHEALTH-0511",
+     "CX-GHEALTH-0512",
+     "CX-GHEALTH-0513"
+    ]
+   },
+   {
+    "station": "cd-decompression-chamber-operations-and-post-dive",
+    "name": "Decompression Chamber Operations & Post-Dive",
+    "rule": "marine",
+    "blocks": [
+     "CX-TRADE-0042",
+     "CX-TRADE-0038",
+     "CX-TRADE-0040"
+    ]
+   },
+   {
+    "station": "cd-dive-records-and-incident-review",
+    "name": "Dive Records & Incident Review",
+    "rule": "marine",
+    "blocks": [
+     "CX-TRADE-0038",
+     "CX-TRADE-0040",
+     "CX-TRADE-0041"
+    ]
+   },
+   {
+    "station": "cd-hydraulic-tools-and-suction-hazards-underwater",
+    "name": "Hydraulic Tools & Suction Hazards Underwater",
+    "rule": "marine",
+    "blocks": [
+     "CX-TRADE-0038",
+     "CX-TRADE-0040",
+     "CX-TRADE-0041"
+    ]
+   },
+   {
+    "station": "cd-low-visibility-and-night-dive-line-work",
+    "name": "Low-Visibility & Night Dive Line Work",
+    "rule": "electrical",
+    "blocks": [
+     "CX-TRADE-0002",
+     "CX-TRADE-0004",
+     "CX-TRADE-0005"
+    ]
+   },
+   {
+    "station": "cd-underwater-wet-welding-and-cutting",
+    "name": "Underwater Wet Welding & Cutting — Surface Side",
+    "rule": "welding",
+    "blocks": [
+     "CX-TRADE-0011",
+     "CX-TRADE-0008",
+     "CX-TRADE-0009"
+    ]
+   },
+   {
+    "station": "cell-site-battery",
+    "name": "Cell Site Battery",
+    "rule": "electrical",
+    "blocks": [
+     "CX-TRADE-0002",
+     "CX-TRADE-0018",
+     "CX-TRADE-0004"
+    ]
+   },
+   {
+    "station": "chain-hoist",
+    "name": "Chain Hoist",
+    "rule": "rigging",
+    "blocks": [
+     "CX-TRADE-0024",
+     "CX-TRADE-0025"
+    ]
+   },
+   {
+    "station": "chairside-emergency",
+    "name": "Chairside Emergency",
+    "rule": "patient-safety",
+    "blocks": [
+     "CX-GHEALTH-0511",
+     "CX-GHEALTH-0512",
+     "CX-GHEALTH-0513"
+    ]
+   },
+   {
+    "station": "chiller-plant",
+    "name": "Chiller Plant",
+    "rule": "hvac",
+    "blocks": [
+     "CX-TRADE-0022",
+     "CX-TRADE-0020",
+     "CX-TRADE-0021"
+    ]
+   },
+   {
+    "station": "cm-concrete-saw-cutting-with-water-and-silica-control",
+    "name": "Concrete Saw Cutting with Water & Silica Control",
+    "rule": "site-safety",
+    "blocks": [
+     "CX-TRADE-0002",
+     "CX-TRADE-0024",
+     "CX-TRADE-0034"
+    ]
+   },
+   {
+    "station": "cnc-cell",
+    "name": "CNC Cell",
+    "rule": "automation",
+    "blocks": [
+     "CX-TRADE-0018",
+     "CX-TRADE-0005",
+     "CX-TRADE-0006"
+    ]
+   },
+   {
+    "station": "coalition-building-table",
+    "name": "Coalition Building Table",
+    "rule": "civic-advocacy",
+    "blocks": [
+     "CX-NPO-0701",
+     "CX-NPO-0702",
+     "CX-NPO-0703"
+    ]
+   },
+   {
+    "station": "community-listening-session",
+    "name": "Community Listening Session",
+    "rule": "civic-advocacy",
+    "blocks": [
+     "CX-NPO-0501",
+     "CX-NPO-0502",
+     "CX-NPO-0503"
+    ]
+   },
+   {
+    "station": "confined-rescue",
+    "name": "Confined Rescue",
+    "rule": "process",
+    "blocks": [
+     "CX-TRADE-0014",
+     "CX-TRADE-0032",
+     "CX-TRADE-0033"
+    ]
+   },
+   {
+    "station": "conflict-mediation-room",
+    "name": "Conflict Mediation Room",
+    "rule": "de-escalation",
+    "blocks": [
+     "CX-CORP-0771",
+     "CX-CORP-0772",
+     "CX-CORP-0773"
+    ]
+   },
+   {
+    "station": "conveyor-guard",
+    "name": "Conveyor Guard",
+    "rule": "automation",
+    "blocks": [
+     "CX-TRADE-0005",
+     "CX-TRADE-0006",
+     "CX-TRADE-0016"
+    ]
+   },
+   {
+    "station": "cooling-tower",
+    "name": "Cooling Tower",
+    "rule": "hvac",
+    "blocks": [
+     "CX-TRADE-0022",
+     "CX-TRADE-0020",
+     "CX-TRADE-0021"
+    ]
+   },
+   {
+    "station": "cp-battery-energy-storage-site-awareness",
+    "name": "Battery Energy Storage Site Awareness",
+    "rule": "electrical",
+    "blocks": [
+     "CX-TRADE-0002",
+     "CX-TRADE-0004",
+     "CX-TRADE-0005"
+    ]
+   },
+   {
+    "station": "cp-charging-yard-connectors-and-e-stops",
+    "name": "Charging Yard: Connectors, E-Stops and Cable Management",
+    "rule": "equipment",
+    "blocks": [
+     "CX-TRADE-0026",
+     "CX-TRADE-0005",
+     "CX-TRADE-0021"
+    ]
+   },
+   {
+    "station": "cp-high-voltage-lockout-on-electric-cargo-equipment",
+    "name": "High-Voltage Lockout on Electric Cargo Equipment",
+    "rule": "electrical",
+    "blocks": [
+     "CX-TRADE-0005",
+     "CX-TRADE-0021",
+     "CX-TRADE-0002"
+    ]
+   },
+   {
+    "station": "cp-hydrogen-fuel-cell-equipment-and-fuelling",
+    "name": "Hydrogen Fuel Cell Equipment and Fuelling",
+    "rule": "equipment",
+    "blocks": [
+     "CX-TRADE-0005",
+     "CX-TRADE-0021",
+     "CX-TRADE-0024"
+    ]
+   },
+   {
+    "station": "cp-zero-emission-terminal-equipment-pre-use",
+    "name": "Zero-Emission Terminal Equipment Pre-Use",
+    "rule": "equipment",
+    "blocks": [
+     "CX-TRADE-0024",
+     "CX-TRADE-0027",
+     "CX-TRADE-0047"
+    ]
+   },
+   {
+    "station": "crane-yard",
+    "name": "Crane Yard",
+    "rule": "rigging",
+    "blocks": [
+     "CX-TRADE-0024",
+     "CX-TRADE-0025"
+    ]
+   },
+   {
+    "station": "crisis-communication-podium",
+    "name": "Crisis Communication Podium",
+    "rule": "crisis-comms",
+    "blocks": [
+     "CX-CORP-0861",
+     "CX-CORP-0862",
+     "CX-CORP-0863"
+    ]
+   },
+   {
+    "station": "critical-incident-debrief",
+    "name": "Critical Incident Debrief",
+    "rule": "psychosocial",
+    "blocks": [
+     "CX-MULTI-0566",
+     "CX-MULTI-0567",
+     "CX-MULTI-0568"
+    ]
+   },
+   {
+    "station": "cv-difficult-conversation-across-difference",
+    "name": "Difficult Conversation Across Difference",
+    "rule": "de-escalation",
+    "blocks": [
+     "CX-CORP-1091",
+     "CX-CORP-1092",
+     "CX-CORP-1093"
+    ]
+   },
+   {
+    "station": "cv-neighborhood-emergency-block-captain",
+    "name": "Neighborhood Emergency Block Captain",
+    "rule": "disaster-community",
+    "blocks": [
+     "CX-GHEALTH-0986",
+     "CX-GHEALTH-0987",
+     "CX-GHEALTH-0988"
+    ]
+   },
+   {
+    "station": "cv-restorative-justice-circle-facilitation",
+    "name": "Restorative Justice Circle",
+    "rule": "de-escalation",
+    "blocks": [
+     "CX-CORP-0771",
+     "CX-CORP-0772",
+     "CX-CORP-0773"
+    ]
+   },
+   {
+    "station": "cv-voter-registration-drive-and-nonpartisan-conduct",
+    "name": "Voter Registration Drive",
+    "rule": "civic-advocacy",
+    "blocks": [
+     "CX-NPO-0503",
+     "CX-NPO-0637",
+     "CX-NPO-0640"
+    ]
+   },
+   {
+    "station": "damage-assessment-team",
+    "name": "Damage Assessment Team",
+    "rule": "disaster-community",
+    "blocks": [
+     "CX-GHEALTH-0987",
+     "CX-GHEALTH-0986",
+     "CX-GHEALTH-0988"
+    ]
+   },
+   {
+    "station": "devops",
+    "name": "Deploy Bay",
+    "rule": "it-ot",
+    "blocks": [
+     "CX-TRADE-0028",
+     "CX-TRADE-0029",
+     "CX-TRADE-0030"
+    ]
+   },
+   {
+    "station": "dn-dental-trauma-and-avulsed-tooth-response",
+    "name": "Dental Trauma & Avulsed Tooth Response",
+    "rule": "patient-safety",
+    "blocks": [
+     "CX-GHEALTH-0511",
+     "CX-GHEALTH-0512",
+     "CX-GHEALTH-0513"
+    ]
+   },
+   {
+    "station": "dn-public-health-dentistry-and-fluoridation-advocacy",
+    "name": "Public Health Dentistry & Fluoridation Advocacy",
+    "rule": "civic-advocacy",
+    "blocks": [
+     "CX-NPO-0637",
+     "CX-NPO-0502",
+     "CX-NPO-0503"
+    ]
+   },
+   {
+    "station": "dock-crane",
+    "name": "Dock Crane",
+    "rule": "rigging",
+    "blocks": [
+     "CX-TRADE-0024",
+     "CX-TRADE-0025"
+    ]
+   },
+   {
+    "station": "dredge-barge",
+    "name": "Dredge Barge",
+    "rule": "marine",
+    "blocks": [
+     "CX-TRADE-0038",
+     "CX-TRADE-0040",
+     "CX-TRADE-0041"
+    ]
+   },
+   {
+    "station": "drive-light-vehicle-fleet-and-forklift-course",
+    "name": "Light Vehicle Fleet and Forklift Course",
+    "rule": "equipment",
+    "blocks": [
+     "CX-TRADE-0005",
+     "CX-TRADE-0021",
+     "CX-TRADE-0024"
+    ]
+   },
+   {
+    "station": "ei-conflict-on-the-crew",
+    "name": "Conflict on the Crew",
+    "rule": "de-escalation",
+    "blocks": [
+     "CX-CORP-0771",
+     "CX-CORP-0772",
+     "CX-CORP-0773"
+    ]
+   },
+   {
+    "station": "electrical",
+    "name": "Isolation Bay",
+    "rule": "electrical",
+    "blocks": [
+     "CX-TRADE-0004",
+     "CX-TRADE-0005",
+     "CX-TRADE-0006"
+    ]
+   },
+   {
+    "station": "endodontic-assisting",
+    "name": "Endodontic Assisting",
+    "rule": "patient-safety",
+    "blocks": [
+     "CX-GHEALTH-0511",
+     "CX-GHEALTH-0512",
+     "CX-GHEALTH-0513"
+    ]
+   },
+   {
+    "station": "et-ev-fleet-depot-charging-and-arc-flash",
+    "name": "EV Fleet Depot Charging & Arc Flash",
+    "rule": "electrical",
+    "blocks": [
+     "CX-TRADE-0002",
+     "CX-TRADE-0004",
+     "CX-TRADE-0005"
+    ]
+   },
+   {
+    "station": "ethics-and-conflict-of-interest",
+    "name": "Ethics and Conflict of Interest",
+    "rule": "ethics",
+    "blocks": [
+     "CX-CORP-0911",
+     "CX-CORP-0912",
+     "CX-CORP-0913"
+    ]
+   },
+   {
+    "station": "ew-door-operator-adjustment-and-gap",
+    "name": "Door Operator Adjustment and Gap",
+    "rule": "equipment",
+    "blocks": [
+     "CX-TRADE-0024",
+     "CX-TRADE-0026",
+     "CX-TRADE-0005"
+    ]
+   },
+   {
+    "station": "ew-hoistway-false-car-and-rail-setting",
+    "name": "Hoistway False Car and Rail Setting",
+    "rule": "rigging",
+    "blocks": [
+     "CX-TRADE-0024",
+     "CX-TRADE-0025"
+    ]
+   },
+   {
+    "station": "ew-machine-room-lockout-and-brake-test",
+    "name": "Machine Room Lockout and Brake Test",
+    "rule": "lockout",
+    "blocks": [
+     "CX-TRADE-0002",
+     "CX-TRADE-0005",
+     "CX-TRADE-0016"
+    ]
+   },
+   {
+    "station": "forklift-dock",
+    "name": "Forklift Dock",
+    "rule": "equipment",
+    "blocks": [
+     "CX-TRADE-0005",
+     "CX-TRADE-0021",
+     "CX-TRADE-0024"
+    ]
+   },
+   {
+    "station": "four-handed-dentistry",
+    "name": "Four-Handed Dentistry",
+    "rule": "patient-safety",
+    "blocks": [
+     "CX-GHEALTH-0511",
+     "CX-GHEALTH-0512",
+     "CX-GHEALTH-0513"
+    ]
+   },
+   {
+    "station": "gas-leak-survey",
+    "name": "Gas Leak Survey",
+    "rule": "drone",
+    "blocks": [
+     "CX-TRADE-0037",
+     "CX-TRADE-0036",
+     "CX-TRADE-0038"
+    ]
+   },
+   {
+    "station": "gk-greenhouse-nursery-chemical-storage-and-eyewash",
+    "name": "Greenhouse & Nursery Chemical Storage and Eyewash",
+    "rule": "process",
+    "blocks": [
+     "CX-TRADE-0014",
+     "CX-TRADE-0032",
+     "CX-TRADE-0033"
+    ]
+   },
+   {
+    "station": "gk-irrigation-controller-valve-box-and-backflow-check",
+    "name": "Irrigation Controller, Valve Box & Backflow Check",
+    "rule": "pipe",
+    "blocks": [
+     "CX-TRADE-0012",
+     "CX-TRADE-0013",
+     "CX-TRADE-0014"
+    ]
+   },
+   {
+    "station": "gk-string-trimmer-and-blower-ppe-and-bystander-zone",
+    "name": "Trimmer & Blower PPE and Bystander Zone",
+    "rule": "site-safety",
+    "blocks": [
+     "CX-TRADE-0002",
+     "CX-TRADE-0024",
+     "CX-TRADE-0034"
+    ]
+   },
+   {
+    "station": "gl-aluminium-panel-fabrication-and-brake",
+    "name": "Aluminium Panel Fabrication And Brake",
+    "rule": "electrical",
+    "blocks": [
+     "CX-TRADE-0006",
+     "CX-TRADE-0002",
+     "CX-TRADE-0004"
+    ]
+   },
+   {
+    "station": "gl-glass-handling-cart-and-crane-vacuum-lifter",
+    "name": "Glass Handling Cart And Crane Vacuum Lifter",
+    "rule": "rigging",
+    "blocks": [
+     "CX-TRADE-0024",
+     "CX-TRADE-0025"
+    ]
+   },
+   {
+    "station": "gl-skylight-glass-replacement-and-fall-protection",
+    "name": "Skylight Glass Replacement And Fall Protection",
+    "rule": "site-safety",
+    "blocks": [
+     "CX-TRADE-0002",
+     "CX-TRADE-0024",
+     "CX-TRADE-0034"
+    ]
+   },
+   {
+    "station": "gr-ammonia-leak-alarm-response-cold-plant",
+    "name": "Ammonia Leak Alarm Response, Cold Plant",
+    "rule": "process",
+    "blocks": [
+     "CX-TRADE-0014",
+     "CX-TRADE-0032",
+     "CX-TRADE-0033"
+    ]
+   },
+   {
+    "station": "gr-meat-dept-band-saw-and-grinder-lockout",
+    "name": "Meat Dept Band Saw & Grinder Lockout",
+    "rule": "lockout",
+    "blocks": [
+     "CX-TRADE-0002",
+     "CX-TRADE-0005",
+     "CX-TRADE-0016"
+    ]
+   },
+   {
+    "station": "gr-meatpacking-line-knife-work-and-ppe-rotation",
+    "name": "Meatpacking Line Knife Work & PPE Rotation",
+    "rule": "site-safety",
+    "blocks": [
+     "CX-TRADE-0034",
+     "CX-TRADE-0002",
+     "CX-TRADE-0024"
+    ]
+   },
+   {
+    "station": "gr-night-stocking-baler-and-compactor-lockout",
+    "name": "Night Stocking Baler & Compactor Lockout",
+    "rule": "lockout",
+    "blocks": [
+     "CX-TRADE-0002",
+     "CX-TRADE-0005",
+     "CX-TRADE-0016"
+    ]
+   },
+   {
+    "station": "gr-pharmacy-floral-chemical-handling-and-sds",
+    "name": "Pharmacy & Floral Chemical Handling and SDS",
+    "rule": "process",
+    "blocks": [
+     "CX-TRADE-0014",
+     "CX-TRADE-0032",
+     "CX-TRADE-0033"
+    ]
+   },
+   {
+    "station": "haul-road-dust",
+    "name": "Haul Road Dust",
+    "rule": "equipment",
+    "blocks": [
+     "CX-TRADE-0005",
+     "CX-TRADE-0021",
+     "CX-TRADE-0024"
+    ]
+   },
+   {
+    "station": "haul-route-observation",
+    "name": "Haul Route Observation",
+    "rule": "equipment",
+    "blocks": [
+     "CX-TRADE-0005",
+     "CX-TRADE-0021",
+     "CX-TRADE-0024"
+    ]
+   },
+   {
+    "station": "hazmat-container-inspection",
+    "name": "Hazmat Container Inspection",
+    "rule": "site-safety",
+    "blocks": [
+     "CX-TRADE-0024",
+     "CX-TRADE-0002",
+     "CX-TRADE-0034"
+    ]
+   },
+   {
+    "station": "hazwoper-site-orientation",
+    "name": "HAZWOPER Site Orientation",
+    "rule": "site-safety",
+    "blocks": [
+     "CX-TRADE-0002",
+     "CX-TRADE-0024",
+     "CX-TRADE-0034"
+    ]
+   },
+   {
+    "station": "hc-code-response-support-and-crash-cart-check",
+    "name": "Code Response Support & Crash Cart Check",
+    "rule": "patient-safety",
+    "blocks": [
+     "CX-GHEALTH-0675",
+     "CX-GHEALTH-0511",
+     "CX-GHEALTH-0512"
+    ]
+   },
+   {
+    "station": "hc-environmental-services-isolation-room-turnover",
+    "name": "Isolation Room Turnover",
+    "rule": "electrical",
+    "blocks": [
+     "CX-TRADE-0002",
+     "CX-TRADE-0004",
+     "CX-TRADE-0005"
+    ]
+   },
+   {
+    "station": "hc-hazardous-drug-spill-kit-response",
+    "name": "Hazardous Drug Spill Kit Response",
+    "rule": "health-worker-safety",
+    "blocks": [
+     "CX-GHEALTH-1096",
+     "CX-GHEALTH-1097",
+     "CX-GHEALTH-1098"
+    ]
+   },
+   {
+    "station": "hc-linen-and-regulated-waste-handling",
+    "name": "Linen & Regulated Waste Handling",
+    "rule": "health-worker-safety",
+    "blocks": [
+     "CX-GHEALTH-1096",
+     "CX-GHEALTH-1097",
+     "CX-GHEALTH-1098"
+    ]
+   },
+   {
+    "station": "hc-patient-transport-and-safe-handling",
+    "name": "Patient Transport & Safe Handling",
+    "rule": "health-worker-safety",
+    "blocks": [
+     "CX-GHEALTH-1096",
+     "CX-GHEALTH-1097",
+     "CX-GHEALTH-1098"
+    ]
+   },
+   {
+    "station": "hc-sterile-processing-decontamination-and-assembly",
+    "name": "Sterile Processing Decon & Assembly",
+    "rule": "process",
+    "blocks": [
+     "CX-TRADE-0014",
+     "CX-TRADE-0032",
+     "CX-TRADE-0033"
+    ]
+   },
+   {
+    "station": "hc-workplace-violence-deescalation-at-the-desk",
+    "name": "Workplace Violence De-escalation at the Desk",
+    "rule": "de-escalation",
+    "blocks": [
+     "CX-CORP-0975",
+     "CX-CORP-0941",
+     "CX-CORP-0942"
+    ]
+   },
+   {
+    "station": "hw-housekeeping-cart-and-chemical-safety",
+    "name": "Housekeeping Cart & Chemical Safety",
+    "rule": "process",
+    "blocks": [
+     "CX-TRADE-0034",
+     "CX-TRADE-0014",
+     "CX-TRADE-0032"
+    ]
+   },
+   {
+    "station": "hz-decon-corridor-for-a-mass-casualty-drill",
+    "name": "Decon Corridor for a Mass-Casualty Drill",
+    "rule": "disaster-facility",
+    "blocks": [
+     "CX-GHEALTH-0602",
+     "CX-GHEALTH-0601",
+     "CX-GHEALTH-0603"
+    ]
+   },
+   {
+    "station": "ib-asbestos-glovebag-removal-on-a-pipe",
+    "name": "Asbestos Glovebag Removal on a Pipe",
+    "rule": "pipe",
+    "blocks": [
+     "CX-TRADE-0012",
+     "CX-TRADE-0013",
+     "CX-TRADE-0014"
+    ]
+   },
+   {
+    "station": "ib-boiler-tube-replacement-and-rolling",
+    "name": "Boiler Tube Replacement and Rolling",
+    "rule": "hvac",
+    "blocks": [
+     "CX-TRADE-0020",
+     "CX-TRADE-0021",
+     "CX-TRADE-0022"
+    ]
+   },
+   {
+    "station": "ib-mechanical-insulation-pipe-and-jacketing",
+    "name": "Mechanical Insulation, Pipe and Jacketing",
+    "rule": "pipe",
+    "blocks": [
+     "CX-TRADE-0012",
+     "CX-TRADE-0013",
+     "CX-TRADE-0014"
+    ]
+   },
+   {
+    "station": "ib-pressure-vessel-confined-entry-and-hot-work",
+    "name": "Pressure Vessel Confined Entry and Hot Work",
+    "rule": "welding",
+    "blocks": [
+     "CX-TRADE-0008",
+     "CX-TRADE-0009",
+     "CX-TRADE-0010"
+    ]
+   },
+   {
+    "station": "implant-surgery-assisting",
+    "name": "Implant Surgery Assisting",
+    "rule": "patient-safety",
+    "blocks": [
+     "CX-GHEALTH-0511",
+     "CX-GHEALTH-0512",
+     "CX-GHEALTH-0513"
+    ]
+   },
+   {
+    "station": "infection-control-audit",
+    "name": "Infection Control Audit",
+    "rule": "health-worker-safety",
+    "blocks": [
+     "CX-GHEALTH-1097",
+     "CX-GHEALTH-1100",
+     "CX-GHEALTH-1096"
+    ]
+   },
+   {
+    "station": "instrument-reprocessing",
+    "name": "Instrument Reprocessing",
+    "rule": "process",
+    "blocks": [
+     "CX-TRADE-0014",
+     "CX-TRADE-0032",
+     "CX-TRADE-0033"
+    ]
+   },
+   {
+    "station": "jobsite-orientation-and-osha-10",
+    "name": "Jobsite Orientation & OSHA 10",
+    "rule": "career-pathway",
+    "blocks": [
+     "CX-CORP-0506",
+     "CX-CORP-0507",
+     "CX-CORP-0508"
+    ]
+   },
+   {
+    "station": "laundry-plant-chemicals",
+    "name": "Laundry Plant Chemicals",
+    "rule": "process",
+    "blocks": [
+     "CX-TRADE-0014",
+     "CX-TRADE-0032",
+     "CX-TRADE-0033"
+    ]
+   },
+   {
+    "station": "lift-station",
+    "name": "Lift Station",
+    "rule": "rigging",
+    "blocks": [
+     "CX-TRADE-0025",
+     "CX-TRADE-0024"
+    ]
+   },
+   {
+    "station": "lp-cryogenic-propellant-awareness",
+    "name": "Cryogenic Propellant Awareness",
+    "rule": "process",
+    "blocks": [
+     "CX-TRADE-0034",
+     "CX-TRADE-0014",
+     "CX-TRADE-0032"
+    ]
+   },
+   {
+    "station": "lp-marine-vessel-electrical-safety",
+    "name": "Marine Vessel Electrical Safety",
+    "rule": "electrical",
+    "blocks": [
+     "CX-TRADE-0002",
+     "CX-TRADE-0004",
+     "CX-TRADE-0005"
+    ]
+   },
+   {
+    "station": "marsh-transect-survey",
+    "name": "Marsh Transect Survey",
+    "rule": "drone",
+    "blocks": [
+     "CX-TRADE-0037",
+     "CX-TRADE-0036",
+     "CX-TRADE-0038"
+    ]
+   },
+   {
+    "station": "masonry-silica-scaffold",
+    "name": "Masonry Silica Scaffold",
+    "rule": "site-safety",
+    "blocks": [
+     "CX-TRADE-0002",
+     "CX-TRADE-0024",
+     "CX-TRADE-0034"
+    ]
+   },
+   {
+    "station": "mass-timber-panel-set",
+    "name": "Mass Timber Panel Set",
+    "rule": "electrical",
+    "blocks": [
+     "CX-TRADE-0006",
+     "CX-TRADE-0016",
+     "CX-TRADE-0002"
+    ]
+   },
+   {
+    "station": "md-camera-dolly-and-crane-track",
+    "name": "Camera Dolly & Crane Track",
+    "rule": "rigging",
+    "blocks": [
+     "CX-TRADE-0024",
+     "CX-TRADE-0025"
+    ]
+   },
+   {
+    "station": "md-recording-studio-hearing-conservation-and-load-in",
+    "name": "Recording Studio Hearing Conservation & Load-In",
+    "rule": "rigging",
+    "blocks": [
+     "CX-TRADE-0024",
+     "CX-TRADE-0025"
+    ]
+   },
+   {
+    "station": "md-sound-stage-electrical-distribution-and-cable-crossings",
+    "name": "Sound Stage Electrical Distribution & Cable Crossings",
+    "rule": "electrical",
+    "blocks": [
+     "CX-TRADE-0004",
+     "CX-TRADE-0005",
+     "CX-TRADE-0006"
+    ]
+   },
+   {
+    "station": "me-kelp-transect-survey-and-photo-quadrats",
+    "name": "Kelp Transect Survey & Photo Quadrats",
+    "rule": "drone",
+    "blocks": [
+     "CX-TRADE-0037",
+     "CX-TRADE-0036",
+     "CX-TRADE-0038"
+    ]
+   },
+   {
+    "station": "me-shoreline-debris-and-microplastics-survey",
+    "name": "Shoreline Debris & Microplastics Survey",
+    "rule": "drone",
+    "blocks": [
+     "CX-TRADE-0037",
+     "CX-TRADE-0036",
+     "CX-TRADE-0038"
+    ]
+   },
+   {
+    "station": "mentorship-and-succession",
+    "name": "Mentorship and Succession",
+    "rule": "career-pathway",
+    "blocks": [
+     "CX-CORP-0776",
+     "CX-CORP-0777",
+     "CX-CORP-0778"
+    ]
+   },
+   {
+    "station": "ml-flat-sorter-guarding-and-lockout",
+    "name": "Flat Sorter Guarding & Lockout",
+    "rule": "lockout",
+    "blocks": [
+     "CX-TRADE-0002",
+     "CX-TRADE-0005",
+     "CX-TRADE-0016"
+    ]
+   },
+   {
+    "station": "ml-mail-handler-forklift-and-container-dock",
+    "name": "Mail Handler Forklift & Container Dock",
+    "rule": "equipment",
+    "blocks": [
+     "CX-TRADE-0005",
+     "CX-TRADE-0021",
+     "CX-TRADE-0024"
+    ]
+   },
+   {
+    "station": "ml-parcel-sorter-conveyor-jam-and-loto",
+    "name": "Parcel Sorter Conveyor Jam & LOTO",
+    "rule": "lockout",
+    "blocks": [
+     "CX-TRADE-0002",
+     "CX-TRADE-0005",
+     "CX-TRADE-0016"
+    ]
+   },
+   {
+    "station": "ml-retail-counter-deescalation",
+    "name": "Retail Counter De-escalation",
+    "rule": "de-escalation",
+    "blocks": [
+     "CX-CORP-0975",
+     "CX-CORP-1091",
+     "CX-CORP-1092"
+    ]
+   },
+   {
+    "station": "mm-conveyor-fire-and-gas-monitoring",
+    "name": "Conveyor Belt Fire & Gas Monitoring",
+    "rule": "automation",
+    "blocks": [
+     "CX-TRADE-0005",
+     "CX-TRADE-0006",
+     "CX-TRADE-0016"
+    ]
+   },
+   {
+    "station": "mm-haul-truck-berm",
+    "name": "Haul Truck Berm & Dump Point",
+    "rule": "equipment",
+    "blocks": [
+     "CX-TRADE-0005",
+     "CX-TRADE-0021",
+     "CX-TRADE-0024"
+    ]
+   },
+   {
+    "station": "mw-dive-supervisor-and-dive-plan",
+    "name": "Dive Supervisor & Dive Plan",
+    "rule": "marine",
+    "blocks": [
+     "CX-TRADE-0038",
+     "CX-TRADE-0040",
+     "CX-TRADE-0041"
+    ]
+   },
+   {
+    "station": "mw-diver-emergency-and-recovery",
+    "name": "Diver Emergency & Recovery",
+    "rule": "marine",
+    "blocks": [
+     "CX-TRADE-0038",
+     "CX-TRADE-0040",
+     "CX-TRADE-0041"
+    ]
+   },
+   {
+    "station": "mw-hull-inspection-and-cleaning-dive",
+    "name": "Hull Inspection & Cleaning Dive",
+    "rule": "marine",
+    "blocks": [
+     "CX-TRADE-0041",
+     "CX-TRADE-0038",
+     "CX-TRADE-0040"
+    ]
+   },
+   {
+    "station": "mw-pier-pile-inspection-dive",
+    "name": "Pier Pile Inspection Dive",
+    "rule": "marine",
+    "blocks": [
+     "CX-TRADE-0038",
+     "CX-TRADE-0040",
+     "CX-TRADE-0041"
+    ]
+   },
+   {
+    "station": "mw-underwater-welding-and-cutting",
+    "name": "Underwater Welding & Cutting",
+    "rule": "welding",
+    "blocks": [
+     "CX-TRADE-0011",
+     "CX-TRADE-0008",
+     "CX-TRADE-0009"
+    ]
+   },
+   {
+    "station": "nitrous-oxide-monitoring",
+    "name": "Nitrous Oxide Monitoring",
+    "rule": "health-worker-safety",
+    "blocks": [
+     "CX-GHEALTH-1096",
+     "CX-GHEALTH-1097",
+     "CX-GHEALTH-1098"
+    ]
+   },
+   {
+    "station": "op-compactor-lift-thickness-and-edge",
+    "name": "Compactor Lift Thickness & Edge",
+    "rule": "rigging",
+    "blocks": [
+     "CX-TRADE-0025",
+     "CX-TRADE-0024"
+    ]
+   },
+   {
+    "station": "op-crawler-crane-assembly-and-load-chart",
+    "name": "Crawler Crane Assembly & Load Chart",
+    "rule": "rigging",
+    "blocks": [
+     "CX-TRADE-0024",
+     "CX-TRADE-0025"
+    ]
+   },
+   {
+    "station": "op-dozer-slope-work-and-rollover-protection",
+    "name": "Dozer Slope Work & Rollover Protection",
+    "rule": "equipment",
+    "blocks": [
+     "CX-TRADE-0005",
+     "CX-TRADE-0021",
+     "CX-TRADE-0024"
+    ]
+   },
+   {
+    "station": "op-equipment-daily-walkaround-and-fluids",
+    "name": "Equipment Daily Walkaround & Fluids",
+    "rule": "equipment",
+    "blocks": [
+     "CX-TRADE-0005",
+     "CX-TRADE-0021",
+     "CX-TRADE-0024"
+    ]
+   },
+   {
+    "station": "op-excavator-trench-and-utility-locate",
+    "name": "Excavator Trench & Utility Locate",
+    "rule": "equipment",
+    "blocks": [
+     "CX-TRADE-0005",
+     "CX-TRADE-0021",
+     "CX-TRADE-0024"
+    ]
+   },
+   {
+    "station": "op-grader-fine-grade-and-crown",
+    "name": "Grader Fine Grade & Crown",
+    "rule": "equipment",
+    "blocks": [
+     "CX-TRADE-0005",
+     "CX-TRADE-0021",
+     "CX-TRADE-0024"
+    ]
+   },
+   {
+    "station": "op-loader-truck-loading-and-blind-spots",
+    "name": "Loader Truck Loading & Blind Spots",
+    "rule": "equipment",
+    "blocks": [
+     "CX-TRADE-0005",
+     "CX-TRADE-0021",
+     "CX-TRADE-0024"
+    ]
+   },
+   {
+    "station": "op-pile-driving-rig-and-lead-setup",
+    "name": "Pile Driving Rig & Lead Setup",
+    "rule": "rigging",
+    "blocks": [
+     "CX-TRADE-0024",
+     "CX-TRADE-0025"
+    ]
+   },
+   {
+    "station": "operatory-turnover",
+    "name": "Operatory Turnover",
+    "rule": "equipment",
+    "blocks": [
+     "CX-TRADE-0005",
+     "CX-TRADE-0021",
+     "CX-TRADE-0024"
+    ]
+   },
+   {
+    "station": "or-solar-farm-tracker-row-maintenance",
+    "name": "Solar Tracker Row Maintenance",
+    "rule": "electrical",
+    "blocks": [
+     "CX-TRADE-0016",
+     "CX-TRADE-0002",
+     "CX-TRADE-0004"
+    ]
+   },
+   {
+    "station": "oral-cancer-screening",
+    "name": "Oral Cancer Screening",
+    "rule": "patient-safety",
+    "blocks": [
+     "CX-GHEALTH-0511",
+     "CX-GHEALTH-0512",
+     "CX-GHEALTH-0513"
+    ]
+   },
+   {
+    "station": "oral-surgery-assisting",
+    "name": "Oral Surgery Assisting",
+    "rule": "patient-safety",
+    "blocks": [
+     "CX-GHEALTH-0511",
+     "CX-GHEALTH-0512",
+     "CX-GHEALTH-0513"
+    ]
+   },
+   {
+    "station": "orthodontic-assisting",
+    "name": "Orthodontic Assisting",
+    "rule": "patient-safety",
+    "blocks": [
+     "CX-GHEALTH-0511",
+     "CX-GHEALTH-0512",
+     "CX-GHEALTH-0513"
+    ]
+   },
+   {
+    "station": "patient-intake-screening",
+    "name": "Patient Intake Screening",
+    "rule": "patient-safety",
+    "blocks": [
+     "CX-GHEALTH-0511",
+     "CX-GHEALTH-0512",
+     "CX-GHEALTH-0513"
+    ]
+   },
+   {
+    "station": "patron-deescalation",
+    "name": "Patron De-escalation",
+    "rule": "de-escalation",
+    "blocks": [
+     "CX-CORP-0975",
+     "CX-CORP-1091",
+     "CX-CORP-1092"
+    ]
+   },
+   {
+    "station": "pcb-equipment-removal",
+    "name": "PCB Equipment Removal",
+    "rule": "equipment",
+    "blocks": [
+     "CX-TRADE-0005",
+     "CX-TRADE-0021",
+     "CX-TRADE-0024"
+    ]
+   },
+   {
+    "station": "phlebotomy",
+    "name": "Draw Station",
+    "rule": "patient-safety",
+    "blocks": [
+     "CX-GHEALTH-0511",
+     "CX-GHEALTH-0512",
+     "CX-GHEALTH-0513"
+    ]
+   },
+   {
+    "station": "pl-copper-press-and-solder-rough-in",
+    "name": "Copper Press & Solder Rough-In",
+    "rule": "pipe",
+    "blocks": [
+     "CX-TRADE-0012",
+     "CX-TRADE-0013",
+     "CX-TRADE-0014"
+    ]
+   },
+   {
+    "station": "pl-fire-sprinkler-riser-and-flow-test",
+    "name": "Fire Sprinkler Riser & Flow Test",
+    "rule": "pipe",
+    "blocks": [
+     "CX-TRADE-0013",
+     "CX-TRADE-0012",
+     "CX-TRADE-0014"
+    ]
+   },
+   {
+    "station": "pl-hydronic-boiler-piping-and-hydrotest",
+    "name": "Hydronic Boiler Piping & Hydrotest",
+    "rule": "hvac",
+    "blocks": [
+     "CX-TRADE-0020",
+     "CX-TRADE-0021",
+     "CX-TRADE-0022"
+    ]
+   },
+   {
+    "station": "pl-medical-gas-brazing-and-purge",
+    "name": "Medical Gas Brazing & Purge",
+    "rule": "welding",
+    "blocks": [
+     "CX-TRADE-0008",
+     "CX-TRADE-0009",
+     "CX-TRADE-0010"
+    ]
+   },
+   {
+    "station": "pl-underground-sewer-lateral-and-trench-shoring",
+    "name": "Underground Sewer Lateral & Trench Shoring",
+    "rule": "pipe",
+    "blocks": [
+     "CX-TRADE-0012",
+     "CX-TRADE-0013",
+     "CX-TRADE-0014"
+    ]
+   },
+   {
+    "station": "pl-water-heater-and-tpr-valve-replacement",
+    "name": "Water Heater & TPR Valve Replacement",
+    "rule": "pipe",
+    "blocks": [
+     "CX-TRADE-0012",
+     "CX-TRADE-0013",
+     "CX-TRADE-0014"
+    ]
+   },
+   {
+    "station": "plumbing",
+    "name": "Rough-In Bay",
+    "rule": "pipe",
+    "blocks": [
+     "CX-TRADE-0012",
+     "CX-TRADE-0013",
+     "CX-TRADE-0014"
+    ]
+   },
+   {
+    "station": "pm-domestic-water-and-backflow",
+    "name": "Domestic Water & Backflow",
+    "rule": "pipe",
+    "blocks": [
+     "CX-TRADE-0012",
+     "CX-TRADE-0013",
+     "CX-TRADE-0014"
+    ]
+   },
+   {
+    "station": "pm-electrical-room",
+    "name": "Electrical Room",
+    "rule": "electrical",
+    "blocks": [
+     "CX-TRADE-0004",
+     "CX-TRADE-0005",
+     "CX-TRADE-0006"
+    ]
+   },
+   {
+    "station": "pm-fire-alarm-panel-room",
+    "name": "Fire Alarm Panel Room",
+    "rule": "electrical",
+    "blocks": [
+     "CX-TRADE-0006",
+     "CX-TRADE-0002",
+     "CX-TRADE-0004"
+    ]
+   },
+   {
+    "station": "pm-sprinkler-riser-room",
+    "name": "Sprinkler Riser Room",
+    "rule": "pipe",
+    "blocks": [
+     "CX-TRADE-0012",
+     "CX-TRADE-0013",
+     "CX-TRADE-0014"
+    ]
+   },
+   {
+    "station": "po-yard-hostler-and-pedestrian-separation",
+    "name": "Yard Hostler & Pedestrian Separation",
+    "rule": "equipment",
+    "blocks": [
+     "CX-TRADE-0026",
+     "CX-TRADE-0005",
+     "CX-TRADE-0021"
+    ]
+   },
+   {
+    "station": "prep-cooling",
+    "name": "Prep Cooling",
+    "rule": "hvac",
+    "blocks": [
+     "CX-TRADE-0022",
+     "CX-TRADE-0020",
+     "CX-TRADE-0021"
+    ]
+   },
+   {
+    "station": "press-brake",
+    "name": "Press Brake",
+    "rule": "automation",
+    "blocks": [
+     "CX-TRADE-0005",
+     "CX-TRADE-0006",
+     "CX-TRADE-0016"
+    ]
+   },
+   {
+    "station": "pressure-washer",
+    "name": "Wash-Down Yard",
+    "rule": "equipment",
+    "blocks": [
+     "CX-TRADE-0026",
+     "CX-TRADE-0005",
+     "CX-TRADE-0021"
+    ]
+   },
+   {
+    "station": "psychological-first-aid",
+    "name": "Psychological First Aid",
+    "rule": "psychosocial",
+    "blocks": [
+     "CX-MULTI-0566",
+     "CX-MULTI-0616",
+     "CX-MULTI-0567"
+    ]
+   },
+   {
+    "station": "pt-chassis-and-genset-yard",
+    "name": "Chassis & Genset Yard",
+    "rule": "equipment",
+    "blocks": [
+     "CX-TRADE-0026",
+     "CX-TRADE-0005",
+     "CX-TRADE-0021"
+    ]
+   },
+   {
+    "station": "pt-crane-boom-hoist-brake-service",
+    "name": "Crane Boom Hoist Brake Service",
+    "rule": "rigging",
+    "blocks": [
+     "CX-TRADE-0024",
+     "CX-TRADE-0025"
+    ]
+   },
+   {
+    "station": "pt-reefer-plug-and-power-panel",
+    "name": "Reefer Plug & Power Panel",
+    "rule": "electrical",
+    "blocks": [
+     "CX-TRADE-0006",
+     "CX-TRADE-0002",
+     "CX-TRADE-0004"
+    ]
+   },
+   {
+    "station": "public-comment-prep",
+    "name": "Public Comment Prep",
+    "rule": "civic-advocacy",
+    "blocks": [
+     "CX-NPO-0636",
+     "CX-NPO-0637",
+     "CX-NPO-0638"
+    ]
+   },
+   {
+    "station": "public-meeting-chair",
+    "name": "Public Meeting Chair",
+    "rule": "civic-advocacy",
+    "blocks": [
+     "CX-NPO-0636",
+     "CX-NPO-0637",
+     "CX-NPO-0638"
+    ]
+   },
+   {
+    "station": "ra-blue-flag-protection-in-the-yard",
+    "name": "Blue Flag Protection in the Yard",
+    "rule": "equipment",
+    "blocks": [
+     "CX-TRADE-0026",
+     "CX-TRADE-0005",
+     "CX-TRADE-0021"
+    ]
+   },
+   {
+    "station": "ra-crossing-signal-maintenance-and-flagging",
+    "name": "Crossing Signal Maintenance & Flagging",
+    "rule": "rigging",
+    "blocks": [
+     "CX-TRADE-0025",
+     "CX-TRADE-0024"
+    ]
+   },
+   {
+    "station": "rad-meter-basics",
+    "name": "Rad Meter Basics",
+    "rule": "electrical",
+    "blocks": [
+     "CX-TRADE-0002",
+     "CX-TRADE-0004",
+     "CX-TRADE-0005"
+    ]
+   },
+   {
+    "station": "rad-survey",
+    "name": "Rad Survey",
+    "rule": "drone",
+    "blocks": [
+     "CX-TRADE-0037",
+     "CX-TRADE-0036",
+     "CX-TRADE-0038"
+    ]
+   },
+   {
+    "station": "radiograph-safety",
+    "name": "Radiograph Safety",
+    "rule": "health-worker-safety",
+    "blocks": [
+     "CX-GHEALTH-1096",
+     "CX-GHEALTH-1097",
+     "CX-GHEALTH-1098"
+    ]
+   },
+   {
+    "station": "reefer-yard-monitoring",
+    "name": "Reefer Yard Monitoring",
+    "rule": "equipment",
+    "blocks": [
+     "CX-TRADE-0026",
+     "CX-TRADE-0005",
+     "CX-TRADE-0021"
+    ]
+   },
+   {
+    "station": "rf-single-ply-tpo-heat-welding-and-seam-probe",
+    "name": "Single-Ply TPO Heat Welding & Seam Probe",
+    "rule": "welding",
+    "blocks": [
+     "CX-TRADE-0011",
+     "CX-TRADE-0008",
+     "CX-TRADE-0009"
+    ]
+   },
+   {
+    "station": "rf-standing-seam-metal-panel-and-clip",
+    "name": "Standing-Seam Metal Panel & Clip",
+    "rule": "electrical",
+    "blocks": [
+     "CX-TRADE-0006",
+     "CX-TRADE-0002",
+     "CX-TRADE-0004"
+    ]
+   },
+   {
+    "station": "rf-torch-applied-membrane-and-fire-watch",
+    "name": "Torch-Applied Membrane & Fire Watch",
+    "rule": "welding",
+    "blocks": [
+     "CX-TRADE-0008",
+     "CX-TRADE-0009",
+     "CX-TRADE-0010"
+    ]
+   },
+   {
+    "station": "rigging-loft",
+    "name": "Rigging Loft",
+    "rule": "rigging",
+    "blocks": [
+     "CX-TRADE-0025",
+     "CX-TRADE-0024"
+    ]
+   },
+   {
+    "station": "rl-critical-lift-plan-and-signalperson",
+    "name": "Critical Lift Plan & Signalperson",
+    "rule": "rigging",
+    "blocks": [
+     "CX-TRADE-0025",
+     "CX-TRADE-0024"
+    ]
+   },
+   {
+    "station": "robot-cell",
+    "name": "Robot Cell",
+    "rule": "robot-cell",
+    "blocks": [
+     "CX-ROB-0501",
+     "CX-ROB-0502",
+     "CX-ROB-0503"
+    ]
+   },
+   {
+    "station": "rp-construction-drilling-robot-setup",
+    "name": "Ceiling-Drilling Robot Set-Up",
+    "rule": "robot-cell",
+    "blocks": [
+     "CX-ROB-0800",
+     "CX-ROB-0925",
+     "CX-ROB-0526"
+    ]
+   },
+   {
+    "station": "rp-robot-policy-evaluation-review",
+    "name": "Reviewing a Robot Policy's Evaluation",
+    "rule": "robot-cell",
+    "blocks": [
+     "CX-ROB-0659",
+     "CX-ROB-0821",
+     "CX-ROB-0501"
+    ]
+   },
+   {
+    "station": "rp-teleop-demonstration-collection",
+    "name": "Collecting a Robot Demonstration Safely",
+    "rule": "robot-cell",
+    "blocks": [
+     "CX-ROB-0632",
+     "CX-ROB-0663",
+     "CX-ROB-0728"
+    ]
+   },
+   {
+    "station": "rt-cobot-power-force-limit-check",
+    "name": "Measuring a Cobot's Contact Forces",
+    "rule": "robot-cell",
+    "blocks": [
+     "CX-ROB-0659",
+     "CX-ROB-0663",
+     "CX-ROB-0728"
+    ]
+   },
+   {
+    "station": "rt-robot-estop-recovery-and-restart",
+    "name": "Bringing a Robot Back After an E-stop",
+    "rule": "robot-cell",
+    "blocks": [
+     "CX-ROB-0501",
+     "CX-ROB-0502",
+     "CX-ROB-0503"
+    ]
+   },
+   {
+    "station": "rt-speed-separation-monitoring-setup",
+    "name": "Setting Up Speed-and-Separation Monitoring",
+    "rule": "robot-cell",
+    "blocks": [
+     "CX-ROB-0800",
+     "CX-ROB-0925",
+     "CX-ROB-1022"
+    ]
+   },
+   {
+    "station": "rt-teach-pendant-safe-jogging",
+    "name": "Teaching a Robot from the Pendant",
+    "rule": "robot-cell",
+    "blocks": [
+     "CX-ROB-0512",
+     "CX-ROB-0530",
+     "CX-ROB-0868"
+    ]
+   },
+   {
+    "station": "sample-kit-shipping",
+    "name": "Sample Kit Shipping",
+    "rule": "marine",
+    "blocks": [
+     "CX-TRADE-0038",
+     "CX-TRADE-0040",
+     "CX-TRADE-0041"
+    ]
+   },
+   {
+    "station": "scaffold-erection",
+    "name": "Scaffold Erection",
+    "rule": "site-safety",
+    "blocks": [
+     "CX-TRADE-0002",
+     "CX-TRADE-0024",
+     "CX-TRADE-0034"
+    ]
+   },
+   {
+    "station": "se-building-automation-alarm-triage",
+    "name": "Building Automation Alarm Triage",
+    "rule": "automation",
+    "blocks": [
+     "CX-TRADE-0018",
+     "CX-TRADE-0005",
+     "CX-TRADE-0006"
+    ]
+   },
+   {
+    "station": "se-steam-trap-survey-and-condensate-return",
+    "name": "Steam Trap Survey & Condensate Return",
+    "rule": "drone",
+    "blocks": [
+     "CX-TRADE-0037",
+     "CX-TRADE-0036",
+     "CX-TRADE-0038"
+    ]
+   },
+   {
+    "station": "sharps-exposure-response",
+    "name": "Sharps Exposure Response",
+    "rule": "health-worker-safety",
+    "blocks": [
+     "CX-GHEALTH-1096",
+     "CX-GHEALTH-1097",
+     "CX-GHEALTH-1098"
+    ]
+   },
+   {
+    "station": "shelter-in-place-drill",
+    "name": "Shelter-in-Place Drill",
+    "rule": "disaster-community",
+    "blocks": [
+     "CX-GHEALTH-0989",
+     "CX-GHEALTH-0986",
+     "CX-GHEALTH-0987"
+    ]
+   },
+   {
+    "station": "shelter-intake-operations",
+    "name": "Shelter Intake Operations",
+    "rule": "disaster-community",
+    "blocks": [
+     "CX-GHEALTH-0986",
+     "CX-GHEALTH-0987",
+     "CX-GHEALTH-0988"
+    ]
+   },
+   {
+    "station": "shipyard-hotwork",
+    "name": "Shipyard Hot Work",
+    "rule": "welding",
+    "blocks": [
+     "CX-TRADE-0008",
+     "CX-TRADE-0009",
+     "CX-TRADE-0010"
+    ]
+   },
+   {
+    "station": "signal-cabinet",
+    "name": "Signal Cabinet",
+    "rule": "rigging",
+    "blocks": [
+     "CX-TRADE-0025",
+     "CX-TRADE-0024"
+    ]
+   },
+   {
+    "station": "sil-concrete-drilling-and-silica-dust-cues",
+    "name": "Concrete Drilling & Silica Dust Cues",
+    "rule": "site-safety",
+    "blocks": [
+     "CX-TRADE-0002",
+     "CX-TRADE-0024",
+     "CX-TRADE-0034"
+    ]
+   },
+   {
+    "station": "slicer-lockout",
+    "name": "Slicer Lockout",
+    "rule": "lockout",
+    "blocks": [
+     "CX-TRADE-0002",
+     "CX-TRADE-0005",
+     "CX-TRADE-0016"
+    ]
+   },
+   {
+    "station": "sm-architectural-panels-at-height",
+    "name": "Architectural Panels at Height",
+    "rule": "electrical",
+    "blocks": [
+     "CX-TRADE-0006",
+     "CX-TRADE-0002",
+     "CX-TRADE-0004"
+    ]
+   },
+   {
+    "station": "sm-duct-fabrication-and-seams",
+    "name": "Duct Fabrication and Seams",
+    "rule": "welding",
+    "blocks": [
+     "CX-TRADE-0010",
+     "CX-TRADE-0041",
+     "CX-TRADE-0008"
+    ]
+   },
+   {
+    "station": "sm-duct-hanging-and-seismic-bracing",
+    "name": "Duct Hanging and Seismic Bracing",
+    "rule": "hvac",
+    "blocks": [
+     "CX-TRADE-0020",
+     "CX-TRADE-0021",
+     "CX-TRADE-0022"
+    ]
+   },
+   {
+    "station": "sm-tig-and-spot-welding",
+    "name": "TIG and Spot Welding",
+    "rule": "welding",
+    "blocks": [
+     "CX-TRADE-0011",
+     "CX-TRADE-0008",
+     "CX-TRADE-0009"
+    ]
+   },
+   {
+    "station": "solar-deck",
+    "name": "Solar Deck",
+    "rule": "electrical",
+    "blocks": [
+     "CX-TRADE-0002",
+     "CX-TRADE-0004",
+     "CX-TRADE-0005"
+    ]
+   },
+   {
+    "station": "special-needs-and-geriatric-dentistry",
+    "name": "Special Needs & Geriatric Dentistry",
+    "rule": "patient-safety",
+    "blocks": [
+     "CX-GHEALTH-0674",
+     "CX-GHEALTH-0511",
+     "CX-GHEALTH-0512"
+    ]
+   },
+   {
+    "station": "stage-load-in-and-truss-rigging",
+    "name": "Stage Load-In & Truss Rigging",
+    "rule": "rigging",
+    "blocks": [
+     "CX-TRADE-0025",
+     "CX-TRADE-0024"
+    ]
+   },
+   {
+    "station": "steel-erector",
+    "name": "Steel Erector",
+    "rule": "welding",
+    "blocks": [
+     "CX-TRADE-0008",
+     "CX-TRADE-0009",
+     "CX-TRADE-0010"
+    ]
+   },
+   {
+    "station": "sterilisation-technician-cycle",
+    "name": "Sterilisation Centre",
+    "rule": "health-worker-safety",
+    "blocks": [
+     "CX-GHEALTH-1096",
+     "CX-GHEALTH-1097",
+     "CX-GHEALTH-1098"
+    ]
+   },
+   {
+    "station": "substation-switching",
+    "name": "Substation Switching",
+    "rule": "electrical",
+    "blocks": [
+     "CX-TRADE-0002",
+     "CX-TRADE-0004",
+     "CX-TRADE-0005"
+    ]
+   },
+   {
+    "station": "tank-lining",
+    "name": "Tank Lining",
+    "rule": "process",
+    "blocks": [
+     "CX-TRADE-0014",
+     "CX-TRADE-0032",
+     "CX-TRADE-0033"
+    ]
+   },
+   {
+    "station": "tdl-hazmat-labeling-and-segregation",
+    "name": "Hazmat Labeling and Segregation",
+    "rule": "site-safety",
+    "blocks": [
+     "CX-TRADE-0002",
+     "CX-TRADE-0024",
+     "CX-TRADE-0034"
+    ]
+   },
+   {
+    "station": "tdl-lifting-and-ergonomics",
+    "name": "Lifting and Ergonomics",
+    "rule": "rigging",
+    "blocks": [
+     "CX-TRADE-0024",
+     "CX-TRADE-0025"
+    ]
+   },
+   {
+    "station": "teledentistry-and-triage",
+    "name": "Teledentistry & Triage",
+    "rule": "patient-safety",
+    "blocks": [
+     "CX-GHEALTH-0511",
+     "CX-GHEALTH-0512",
+     "CX-GHEALTH-0513"
+    ]
+   },
+   {
+    "station": "temporary-site-power",
+    "name": "Temporary Site Power",
+    "rule": "site-safety",
+    "blocks": [
+     "CX-TRADE-0002",
+     "CX-TRADE-0024",
+     "CX-TRADE-0034"
+    ]
+   },
+   {
+    "station": "tr-wheelchair-lift-and-securement-on-a-bus",
+    "name": "Wheelchair Lift & Securement on a Bus",
+    "rule": "rigging",
+    "blocks": [
+     "CX-TRADE-0025",
+     "CX-TRADE-0024"
+    ]
+   },
+   {
+    "station": "transformer-vault",
+    "name": "Transformer Vault",
+    "rule": "electrical",
+    "blocks": [
+     "CX-TRADE-0002",
+     "CX-TRADE-0004",
+     "CX-TRADE-0005"
+    ]
+   },
+   {
+    "station": "transite-pipe-removal",
+    "name": "Transite Pipe Removal",
+    "rule": "pipe",
+    "blocks": [
+     "CX-TRADE-0012",
+     "CX-TRADE-0013",
+     "CX-TRADE-0014"
+    ]
+   },
+   {
+    "station": "trench-box",
+    "name": "Trench Box",
+    "rule": "equipment",
+    "blocks": [
+     "CX-TRADE-0005",
+     "CX-TRADE-0021",
+     "CX-TRADE-0024"
+    ]
+   },
+   {
+    "station": "triage-point",
+    "name": "Triage Point",
+    "rule": "patient-safety",
+    "blocks": [
+     "CX-GHEALTH-0511",
+     "CX-GHEALTH-0512",
+     "CX-GHEALTH-0513"
+    ]
+   },
+   {
+    "station": "tw-amr-traffic-zone-entry-and-lockout",
+    "name": "AMR Traffic-Zone Entry & Lockout",
+    "rule": "robot-cell",
+    "blocks": [
+     "CX-ROB-0501",
+     "CX-ROB-0502",
+     "CX-ROB-0503"
+    ]
+   },
+   {
+    "station": "tw-battery-change-and-charging-bay-safety",
+    "name": "Battery Change & Charging Bay Safety",
+    "rule": "electrical",
+    "blocks": [
+     "CX-TRADE-0002",
+     "CX-TRADE-0004",
+     "CX-TRADE-0005"
+    ]
+   },
+   {
+    "station": "tw-cold-storage-ppe-and-rotation",
+    "name": "Cold-Storage PPE & Rotation",
+    "rule": "site-safety",
+    "blocks": [
+     "CX-TRADE-0002",
+     "CX-TRADE-0024",
+     "CX-TRADE-0034"
+    ]
+   },
+   {
+    "station": "tw-conveyor-jam-clearing-and-loto",
+    "name": "Conveyor Jam Clearing & LOTO",
+    "rule": "lockout",
+    "blocks": [
+     "CX-TRADE-0002",
+     "CX-TRADE-0005",
+     "CX-TRADE-0016"
+    ]
+   },
+   {
+    "station": "tw-high-bay-order-picker-fall-protection",
+    "name": "High-Bay Order Picker Fall Protection",
+    "rule": "site-safety",
+    "blocks": [
+     "CX-TRADE-0002",
+     "CX-TRADE-0024",
+     "CX-TRADE-0034"
+    ]
+   },
+   {
+    "station": "tw-palletizer-cell-fenced-access-permit",
+    "name": "Palletizer Cell Fenced-Access Permit",
+    "rule": "robot-cell",
+    "blocks": [
+     "CX-ROB-0501",
+     "CX-ROB-0502",
+     "CX-ROB-0503"
+    ]
+   },
+   {
+    "station": "ultrasonic-scaling",
+    "name": "Ultrasonic Scaling",
+    "rule": "health-worker-safety",
+    "blocks": [
+     "CX-GHEALTH-1096",
+     "CX-GHEALTH-1097",
+     "CX-GHEALTH-1098"
+    ]
+   },
+   {
+    "station": "union-hall-and-dispatch",
+    "name": "Union Hall & Dispatch",
+    "rule": "union-relations",
+    "blocks": [
+     "CX-CORP-0586",
+     "CX-CORP-0587",
+     "CX-CORP-0588"
+    ]
+   },
+   {
+    "station": "us-regulated-soil-haul-load-tarp-and-manifest",
+    "name": "Regulated Soil Haul: Load, Tarp and Manifest",
+    "rule": "rigging",
+    "blocks": [
+     "CX-TRADE-0024",
+     "CX-TRADE-0025"
+    ]
+   },
+   {
+    "station": "us-vacuum-truck-operator-hookup-and-offload",
+    "name": "Vacuum Truck Operator Hookup and Offload",
+    "rule": "equipment",
+    "blocks": [
+     "CX-TRADE-0024",
+     "CX-TRADE-0026",
+     "CX-TRADE-0005"
+    ]
+   },
+   {
+    "station": "ut-gas-meter-set-and-regulator-vent",
+    "name": "Gas Meter Set & Regulator Vent Check",
+    "rule": "electrical",
+    "blocks": [
+     "CX-TRADE-0016",
+     "CX-TRADE-0002",
+     "CX-TRADE-0004"
+    ]
+   },
+   {
+    "station": "ut-pe-pipe-fusion-and-squeeze-off",
+    "name": "PE Pipe Fusion & Squeeze-Off",
+    "rule": "pipe",
+    "blocks": [
+     "CX-TRADE-0012",
+     "CX-TRADE-0015",
+     "CX-TRADE-0013"
+    ]
+   },
+   {
+    "station": "ut-water-main-break-emergency-shutdown-and-excavation",
+    "name": "Water Main Break Emergency Shutdown & Excavation",
+    "rule": "pipe",
+    "blocks": [
+     "CX-TRADE-0012",
+     "CX-TRADE-0013",
+     "CX-TRADE-0014"
+    ]
+   },
+   {
+    "station": "ut-water-treatment-chemical-delivery-unloading",
+    "name": "Water Treatment Chemical Delivery Unloading",
+    "rule": "process",
+    "blocks": [
+     "CX-TRADE-0014",
+     "CX-TRADE-0032",
+     "CX-TRADE-0033"
+    ]
+   },
+   {
+    "station": "uw-bridge-pier-scour-survey",
+    "name": "Bridge Pier Scour Survey",
+    "rule": "drone",
+    "blocks": [
+     "CX-TRADE-0037",
+     "CX-TRADE-0036",
+     "CX-TRADE-0038"
+    ]
+   },
+   {
+    "station": "uw-intake-screen-cleaning-with-lockout",
+    "name": "Intake Screen Cleaning With Lockout",
+    "rule": "lockout",
+    "blocks": [
+     "CX-TRADE-0002",
+     "CX-TRADE-0005",
+     "CX-TRADE-0016"
+    ]
+   },
+   {
+    "station": "uw-lift-bag-rigging-and-object-recovery",
+    "name": "Lift Bag Rigging & Object Recovery",
+    "rule": "rigging",
+    "blocks": [
+     "CX-TRADE-0025",
+     "CX-TRADE-0024"
+    ]
+   },
+   {
+    "station": "uw-pipeline-crossing-inspection-dive",
+    "name": "Pipeline Crossing Inspection Dive",
+    "rule": "pipe",
+    "blocks": [
+     "CX-TRADE-0012",
+     "CX-TRADE-0013",
+     "CX-TRADE-0014"
+    ]
+   },
+   {
+    "station": "uw-rov-pre-dive-and-tether-management",
+    "name": "ROV Pre-Dive & Tether Management",
+    "rule": "marine",
+    "blocks": [
+     "CX-TRADE-0043",
+     "CX-TRADE-0038",
+     "CX-TRADE-0040"
+    ]
+   },
+   {
+    "station": "uw-underwater-concrete-and-bag-placement",
+    "name": "Underwater Concrete & Bag Placement",
+    "rule": "marine",
+    "blocks": [
+     "CX-TRADE-0038",
+     "CX-TRADE-0040",
+     "CX-TRADE-0041"
+    ]
+   },
+   {
+    "station": "valve-vault",
+    "name": "Valve Vault",
+    "rule": "pipe",
+    "blocks": [
+     "CX-TRADE-0012",
+     "CX-TRADE-0013",
+     "CX-TRADE-0014"
+    ]
+   },
+   {
+    "station": "vb-supervising-agent-dispatched-robots",
+    "name": "Supervising Robots Dispatched by Software Agents",
+    "rule": "robot-cell",
+    "blocks": [
+     "CX-ROB-0501",
+     "CX-ROB-0502",
+     "CX-ROB-0503"
+    ]
+   },
+   {
+    "station": "vessel-gangway-and-hatch-cover-safety",
+    "name": "Vessel Gangway & Hatch Cover Safety",
+    "rule": "marine",
+    "blocks": [
+     "CX-TRADE-0040",
+     "CX-TRADE-0038",
+     "CX-TRADE-0041"
+    ]
+   },
+   {
+    "station": "welding",
+    "name": "Weld Bay",
+    "rule": "welding",
+    "blocks": [
+     "CX-TRADE-0011",
+     "CX-TRADE-0008",
+     "CX-TRADE-0009"
+    ]
+   },
+   {
+    "station": "wellness-asking-for-help-and-resources",
+    "name": "Wellness — Asking for Help and Resources",
+    "rule": "wellbeing",
+    "blocks": [
+     "CX-CORP-0824",
+     "CX-CORP-1037",
+     "CX-CORP-0821"
+    ]
+   },
+   {
+    "station": "wellness-peer-support-conversation",
+    "name": "Wellness — Peer Support Conversation",
+    "rule": "wellbeing",
+    "blocks": [
+     "CX-CORP-1037",
+     "CX-CORP-0822",
+     "CX-CORP-0821"
+    ]
+   },
+   {
+    "station": "wellness-shift-work-sleep-and-stress",
+    "name": "Wellness — Shift Work, Sleep and Stress",
+    "rule": "wellbeing",
+    "blocks": [
+     "CX-CORP-1037",
+     "CX-CORP-1039",
+     "CX-CORP-0821"
+    ]
+   },
+   {
+    "station": "wellness-substance-use-and-the-job",
+    "name": "Wellness — Substance Use and the Job",
+    "rule": "wellbeing",
+    "blocks": [
+     "CX-CORP-1037",
+     "CX-CORP-0821",
+     "CX-CORP-0822"
+    ]
+   },
+   {
+    "station": "who-contact-tracing-visit",
+    "name": "Contact Tracing Visit",
+    "rule": "outbreak",
+    "blocks": [
+     "CX-GHEALTH-0981",
+     "CX-GHEALTH-0982",
+     "CX-GHEALTH-0983"
+    ]
+   },
+   {
+    "station": "who-isolation-ward-setup",
+    "name": "Isolation Ward Setup",
+    "rule": "electrical",
+    "blocks": [
+     "CX-TRADE-0002",
+     "CX-TRADE-0004",
+     "CX-TRADE-0005"
+    ]
+   },
+   {
+    "station": "who-ppe-donning-and-doffing",
+    "name": "PPE Donning and Doffing",
+    "rule": "site-safety",
+    "blocks": [
+     "CX-TRADE-0002",
+     "CX-TRADE-0024",
+     "CX-TRADE-0034"
+    ]
+   },
+   {
+    "station": "who-risk-communication-and-community-engagement",
+    "name": "Risk Communication and Community Engagement",
+    "rule": "outbreak",
+    "blocks": [
+     "CX-GHEALTH-0981",
+     "CX-GHEALTH-0982",
+     "CX-GHEALTH-0983"
+    ]
+   },
+   {
+    "station": "who-safe-and-dignified-burial",
+    "name": "Safe and Dignified Burial",
+    "rule": "outbreak",
+    "blocks": [
+     "CX-GHEALTH-0981",
+     "CX-GHEALTH-0982",
+     "CX-GHEALTH-0983"
+    ]
+   },
+   {
+    "station": "who-surveillance-and-case-definition",
+    "name": "Surveillance and Case Definition",
+    "rule": "outbreak",
+    "blocks": [
+     "CX-GHEALTH-0981",
+     "CX-GHEALTH-0982",
+     "CX-GHEALTH-0983"
+    ]
+   },
+   {
+    "station": "who-treatment-centre-triage",
+    "name": "Treatment Centre Triage",
+    "rule": "patient-safety",
+    "blocks": [
+     "CX-GHEALTH-0511",
+     "CX-GHEALTH-0512",
+     "CX-GHEALTH-0513"
+    ]
+   },
+   {
+    "station": "who-vaccination-line",
+    "name": "Vaccination Line",
+    "rule": "outbreak",
+    "blocks": [
+     "CX-GHEALTH-0981",
+     "CX-GHEALTH-0982",
+     "CX-GHEALTH-0983"
+    ]
+   },
+   {
+    "station": "who-water-sanitation-and-hygiene",
+    "name": "Water, Sanitation and Hygiene",
+    "rule": "outbreak",
+    "blocks": [
+     "CX-GHEALTH-0981",
+     "CX-GHEALTH-0982",
+     "CX-GHEALTH-0983"
+    ]
+   },
+   {
+    "station": "wp-apprenticeship-enrollment-day",
+    "name": "Apprenticeship Enrollment Day",
+    "rule": "career-pathway",
+    "blocks": [
+     "CX-CORP-0501",
+     "CX-CORP-0502",
+     "CX-CORP-0503"
+    ]
+   },
+   {
+    "station": "wp-employer-meet-and-greet",
+    "name": "Employer Meet-and-Greet",
+    "rule": "career-pathway",
+    "blocks": [
+     "CX-CORP-0501",
+     "CX-CORP-0502",
+     "CX-CORP-0503"
+    ]
+   },
+   {
+    "station": "wp-graduation-and-alumni-mentors",
+    "name": "Graduation and Alumni-Mentor Day",
+    "rule": "career-pathway",
+    "blocks": [
+     "CX-CORP-0508",
+     "CX-CORP-0778",
+     "CX-CORP-0501"
+    ]
+   },
+   {
+    "station": "wp-mock-interview-and-resume",
+    "name": "Mock Interview and Resume",
+    "rule": "career-pathway",
+    "blocks": [
+     "CX-CORP-0501",
+     "CX-CORP-0502",
+     "CX-CORP-0503"
+    ]
+   },
+   {
+    "station": "ws-nacelle-lockout-and-yaw-brake-fault",
+    "name": "Nacelle Lockout & Yaw-Brake Fault",
+    "rule": "lockout",
+    "blocks": [
+     "CX-TRADE-0005",
+     "CX-TRADE-0002",
+     "CX-TRADE-0016"
+    ]
+   },
+   {
+    "station": "ws-raised-floor-tile-lift-and-cable-tray-safety",
+    "name": "Raised-Floor Tile Lift & Cable Tray Safety",
+    "rule": "rigging",
+    "blocks": [
+     "CX-TRADE-0024",
+     "CX-TRADE-0025"
+    ]
+   },
+   {
+    "station": "ws-substation-switching-under-a-permit",
+    "name": "Collector Substation Switching Under a Permit",
+    "rule": "electrical",
+    "blocks": [
+     "CX-TRADE-0002",
+     "CX-TRADE-0004",
+     "CX-TRADE-0005"
+    ]
+   },
+   {
+    "station": "wvpp-panic-button",
+    "name": "WVPP & Panic Button",
+    "rule": "de-escalation",
+    "blocks": [
+     "CX-CORP-0771",
+     "CX-CORP-0772",
+     "CX-CORP-0773"
+    ]
+   },
+   {
+    "station": "yc-shore-power-connection-and-in-water-electrical-safety",
+    "name": "Shore Power Connection & In-Water Electrical Safety",
+    "rule": "electrical",
+    "blocks": [
+     "CX-TRADE-0002",
+     "CX-TRADE-0004",
+     "CX-TRADE-0005"
+    ]
+   }
+  ],
+  "unmatched": [
+   {
+    "station": "abatement-chamber",
+    "name": "Abatement Chamber",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "abatement-perimeter-awareness",
+    "name": "Abatement Perimeter Awareness",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "ad-cleanroom-gowning-and-esd-discipline",
+    "name": "Cleanroom Gowning & ESD Discipline",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "ad-depot-tool-control-and-fod-walk",
+    "name": "Depot Tool Control & FOD Walk",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "ad-hazardous-fluid-servicing-with-a-buddy",
+    "name": "Hazardous Fluid Servicing with a Buddy",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "ad-test-stand-exclusion-zone-and-holds",
+    "name": "Test Stand Exclusion Zone & Holds",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "aerial-lashing",
+    "name": "Aerial Lashing",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "aerosol-management",
+    "name": "Aerosol Management",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "air-monitor",
+    "name": "Perimeter Air",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "air-sensor-install",
+    "name": "Neighbourhood Air Sensor",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "airport-ramp",
+    "name": "Airport Ramp",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "allergen-cocktail",
+    "name": "Allergens & Honest Drinks",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "allergen-control",
+    "name": "Allergen Control",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "alteration-repair-ticket",
+    "name": "Alteration Repair Ticket",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "ambulance-scene-safety",
+    "name": "Ambulance Scene Safety",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "av-borescope-and-tool-control-inventory",
+    "name": "Borescope & Tool-Control Inventory",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "av-deicing-truck-boom-operations",
+    "name": "De-icing Truck Boom Operations",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "av-ground-power-and-static-bonding-before-fuel",
+    "name": "Ground Power & Static Bonding Before Fuel",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "av-hangar-jacking-and-stands",
+    "name": "Hangar Jacking & Stands",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "av-lavatory-and-potable-water-separation",
+    "name": "Lavatory & Potable Water Separation",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "av-pushback-tug-and-towbar-connection",
+    "name": "Pushback Tug & Towbar Connection",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "bakery-mixer",
+    "name": "Bakery Mixer",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "banquet-hot-hold",
+    "name": "Banquet Hot Hold",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "bar-well-setup",
+    "name": "Opening the Well",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "bb-coach-feedback-and-growth-mindset",
+    "name": "Coach Feedback and Growth Mindset",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "bb-composure-with-a-hostile-crowd-and-officials",
+    "name": "Composure with a Hostile Crowd and Officials",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "bb-defensive-stance-and-closeouts",
+    "name": "Defensive Stance and Closeouts",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "bb-dribble-moves-and-change-of-pace",
+    "name": "Dribble Moves and Change of Pace",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "bb-final-possession-decision-under-pressure",
+    "name": "Final Possession, Decision Under Pressure",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "bb-footwork-pivots-and-jump-stops",
+    "name": "Footwork: Pivots and Jump Stops",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "bb-free-throw-routine",
+    "name": "Free Throw Routine",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "bb-help-defense-rotations",
+    "name": "Help Defence and Rotations",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "bb-layups-and-finishing-at-the-rim",
+    "name": "Layups and Finishing at the Rim",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "bb-losing-well-and-film-review",
+    "name": "Losing Well and Film Review",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "bb-passing-and-catching",
+    "name": "Passing and Catching",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "bb-pick-and-roll-communication",
+    "name": "Pick-and-Roll Communication",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "bb-pre-game-routine-and-visualisation",
+    "name": "Pre-Game Routine and Visualisation",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "bb-rebounding-and-boxing-out",
+    "name": "Rebounding and Boxing Out",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "bb-reset-routine-after-a-miss",
+    "name": "Reset Routine After a Miss",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "bb-scrimmage-and-sportsmanship-debrief",
+    "name": "Scrimmage and Sportsmanship Debrief",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "bb-shooting-form-and-arc",
+    "name": "Shooting Form and Arc",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "bb-stance-and-ball-handling",
+    "name": "Stance and Ball Handling",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "bb-team-offense-spacing-and-screens",
+    "name": "Team Offense: Spacing and Screens",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "bb-teammate-conflict-and-accountability",
+    "name": "Teammate Conflict and Accountability",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "bb-timeout-huddle-and-adjustment",
+    "name": "Timeout Huddle and Adjustment",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "bb-transition-spacing-and-roles",
+    "name": "Transition Spacing and Roles",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "bb-warmup-injury-prevention-and-hydration",
+    "name": "Warm-Up, Injury Prevention and Hydration",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "biomonitoring-consent",
+    "name": "Biomonitoring Consent",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "bioswale-build",
+    "name": "Bioswale Build",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "bk-street-drain-trash-capture-cleanout",
+    "name": "Street Drain Trash Capture Cleanout",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "br-benthic-grab-and-invertebrate-sorting",
+    "name": "Benthic Grab & Invertebrate Sorting",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "br-bird-nesting-buffer-and-work-window",
+    "name": "Bird Nesting Buffer & Work Window",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "br-cold-water-immersion-and-mob-recovery",
+    "name": "Cold Water Immersion & MOB Recovery",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "br-culvert-retrofit-for-fish-passage",
+    "name": "Culvert Retrofit For Fish Passage",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "br-dredge-material-screening-and-disposal-decision",
+    "name": "Dredge Material Screening & Disposal Decision",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "br-dredge-spoils-dewatering-pad",
+    "name": "Dredge Spoils Dewatering Pad",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "br-fish-screen-maintenance",
+    "name": "Fish Screen Maintenance",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "br-hyperbaric-chamber-standby",
+    "name": "Hyperbaric Chamber Standby",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "br-intertidal-invasive-removal-by-hand-crew",
+    "name": "Intertidal Invasive Removal By Hand Crew",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "br-legacy-mercury-and-pcb-hotspot-handling",
+    "name": "Legacy Mercury & PCB Hotspot Handling",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "br-levee-inspection-and-seepage",
+    "name": "Levee Inspection And Seepage",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "br-restoration-data-qa-and-public-reporting",
+    "name": "Restoration Data QA & Public Reporting",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "br-sediment-chain-of-custody-and-lab-prep",
+    "name": "Sediment Chain of Custody & Lab Prep",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "br-shoreline-cleanup-sharps-and-hazardous-debris",
+    "name": "Shoreline Cleanup — Sharps And Hazardous Debris",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "br-trash-capture-device-service",
+    "name": "Trash Capture Device Service",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "br-turbidity-curtain-deployment",
+    "name": "Turbidity Curtain Deployment",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "br-vhf-and-navigation-in-a-work-zone",
+    "name": "VHF & Navigation in a Work Zone",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "br-volunteer-cleanup-day-safety-lead",
+    "name": "Volunteer Cleanup Day Safety Lead",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "bridge-blast",
+    "name": "Bridge Blast",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "bridge-cable-inspection",
+    "name": "Bridge Cable Inspection",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "bridge-lead-containment",
+    "name": "Bridge Lead Containment",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "broadcast-truck",
+    "name": "Broadcast Truck",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "bs-bearing-replacement-and-jacking",
+    "name": "Bearing Replacement & Jacking",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "bs-structural-bolting-and-torque",
+    "name": "Structural Bolting & Torque",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "bt-formwork-stripping-and-reshoring",
+    "name": "Formwork Stripping & Reshoring",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "bt-masonry-wall-layout-and-mortar",
+    "name": "Masonry Wall Layout & Mortar",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "bt-rebar-tying-and-impalement-protection",
+    "name": "Rebar Tying & Impalement Protection",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "budget-with-irregular-income",
+    "name": "Budget With Irregular Income",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "building-rad-scan",
+    "name": "Building Rad Scan",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "bunkering-watch",
+    "name": "Bunkering Watch",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "ca-cabin-medical-event-response",
+    "name": "Cabin Medical Event Response",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "ca-cabin-preflight-safety-check",
+    "name": "Cabin Pre-Flight Safety Check",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "ca-door-evacuation-drill",
+    "name": "Door Evacuation Drill",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "ca-flight-deck-crew-resource-management",
+    "name": "Flight Deck Crew Resource Management Briefing",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "ca-galley-and-cart-safety",
+    "name": "Galley and Cart Safety",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "cafeteria-serving",
+    "name": "Cafeteria Serving",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "can-we-live-story",
+    "name": "Can We Live? — The Story",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "cardiac-arrest-pit-crew",
+    "name": "Cardiac Arrest — Pit Crew",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "cd-pier-piling-inspection-and-wrap-repair",
+    "name": "Pier Piling Inspection & Wrap Repair",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "cd-rov-launch-recovery-and-tether-management",
+    "name": "ROV Launch, Recovery & Tether Management",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "cd-scientific-scuba-buddy-check-and-lost-buddy-drill",
+    "name": "Scientific Scuba: Buddy Check & Lost-Buddy Drill",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "charge-point",
+    "name": "Charge Point",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "chlorine-room",
+    "name": "Chlorine Room",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "civic-principles-briefing",
+    "name": "Civic Principles Briefing",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "cm-cold-weather-curing-and-blankets",
+    "name": "Cold Weather Curing & Blankets",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "cm-curb-and-gutter-forms-and-finish",
+    "name": "Curb & Gutter Forms & Finish",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "cm-epoxy-floor-coating-and-ventilation",
+    "name": "Epoxy Floor Coating & Ventilation",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "cm-exterior-plaster-scratch-brown-and-finish-coats",
+    "name": "Exterior Plaster Scratch, Brown & Finish Coats",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "cm-power-trowel-operation-and-guarding",
+    "name": "Power Trowel Operation & Guarding",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "cm-shotcrete-nozzle-and-rebound",
+    "name": "Shotcrete Nozzle & Rebound",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "cm-slab-screed-bull-float-and-trowel",
+    "name": "Slab Screed, Bull Float & Trowel",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "community-soil-split",
+    "name": "Community Soil Split",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "concrete-pour",
+    "name": "Concrete Pour",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "constituent-service-desk",
+    "name": "Constituent Service Desk",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "container-lashing",
+    "name": "Container Lashing",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "cp-zero-emission-drayage-truck-pre-trip",
+    "name": "Zero-Emission Drayage Truck Pre-Trip",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "credit-report-reading",
+    "name": "Credit Report Reading",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "creosote-pile-removal",
+    "name": "Creosote Pile Removal",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "crisis-intervention-call",
+    "name": "Crisis Intervention Call",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "crisis-line-shift",
+    "name": "Crisis Line Shift",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "cs-non-entry-retrieval-and-tripod",
+    "name": "Non-Entry Retrieval & Tripod",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "cs-permit-entry-and-attendant-duties",
+    "name": "Permit Entry & Attendant Duties",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "cs-ventilation-and-air-monitoring-plan",
+    "name": "Ventilation & Air Monitoring Plan",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "cutoff-overservice",
+    "name": "Cut-Off / Overservice",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "cutting-table-rotary",
+    "name": "Cutting Table and Rotary Knife",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "cv-grant-application-and-nonprofit-compliance",
+    "name": "Grant Application and Nonprofit Compliance",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "cv-open-meeting-law-and-agenda-notice",
+    "name": "Open Meeting Law and Agenda Notice",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "data-hall",
+    "name": "Data Hall",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "debt-reduction-plan",
+    "name": "Debt Reduction Plan",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "deck-joint-replacement",
+    "name": "Deck Joint Replacement",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "decon-line",
+    "name": "Decon Line",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "decon-support-laborer",
+    "name": "Decon Support Laborer",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "dental-careers-pathway",
+    "name": "Dental Careers Pathway",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "dental-lab-bench",
+    "name": "Dental Laboratory Bench",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "dental-radiography-fmx",
+    "name": "Full-Mouth Radiographic Series",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "denture-delivery-and-adjustment",
+    "name": "Denture Delivery & Adjustment",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "digester-gas",
+    "name": "Digester Gas",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "discharge-photo-doc",
+    "name": "Discharge Photo Doc",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "dish-pit",
+    "name": "Dish Pit",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "dn-dental-coding-billing-and-preauthorisation",
+    "name": "Dental Coding, Billing & Pre-authorisation",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "dn-digital-intraoral-scanning-and-cad-cam",
+    "name": "Digital Intraoral Scanning & CAD/CAM",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "dn-medical-history-and-medication-review",
+    "name": "Medical History & Medication Review",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "dn-oral-hygiene-instruction-and-motivational-interviewing",
+    "name": "Oral Hygiene Instruction & Motivational Interviewing",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "draught-line-cleaning",
+    "name": "Draught Line Cleaning",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "drive-backing-serpentine-and-alley-dock",
+    "name": "Backing Serpentine and Alley Dock",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "drive-city-route-and-turns",
+    "name": "City Route and Turns",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "drive-freeway-merge-and-following-distance",
+    "name": "Freeway Merge and Following Distance",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "drive-mountain-grade-and-engine-brake",
+    "name": "Mountain Grade and Engine Brake",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "drive-night-fog-and-rail-crossing",
+    "name": "Night Fog and Rail Crossing",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "drum-sampling-and-overpack",
+    "name": "Drum Sampling & Overpack",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "dust-plan-review",
+    "name": "Dust Plan Review",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "eelgrass-transplant",
+    "name": "Eelgrass Transplant",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "ei-giving-and-taking-feedback",
+    "name": "Giving and Taking Feedback",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "ei-leading-under-pressure",
+    "name": "Leading Under Pressure",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "elevator-pit",
+    "name": "Elevator Pit",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "emergency-savings-and-predatory-lending",
+    "name": "Emergency Savings & Predatory Lending",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "ew-car-top-inspection-station-and-ride",
+    "name": "Car Top Inspection Station and Ride",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "ew-elevator-entrapment-and-rescue-with-fire-service",
+    "name": "Elevator Entrapment and Rescue with Fire Service",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "ew-escalator-step-chain-and-comb-plate",
+    "name": "Escalator Step Chain and Comb Plate",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "ew-pit-work-and-buffer-inspection",
+    "name": "Pit Work and Buffer Inspection",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "ew-rope-inspection-and-sheave-wear",
+    "name": "Rope Inspection and Sheave Wear",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "fenceline-dust-monitor",
+    "name": "Fenceline Dust Monitor",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "fire-pump",
+    "name": "Fire Pump",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "firefighter-rehab-sector",
+    "name": "Firefighter Rehab Sector",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "first-period-evaluation",
+    "name": "First-Period Evaluation",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "flight-deck",
+    "name": "Flight Deck",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "fluoride-and-sealants",
+    "name": "Fluoride and Sealants",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "fly-system",
+    "name": "Fly System",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "formwork-shoring",
+    "name": "Formwork Shoring",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "fp-anchor-selection-and-rescue-plan",
+    "name": "Anchor Selection & Rescue Plan",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "front-office-treatment-coordination",
+    "name": "Front Office & Treatment Coordination",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "fryer-oil-change",
+    "name": "Fryer Oil Change",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "garden-soil-screen",
+    "name": "Garden Soil Screen",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "garment-inspection-finish",
+    "name": "Garment Inspection & Finish",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "gg-deck-lane-closure-and-traveller",
+    "name": "Deck Lane Closure & Traveller",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "gg-fog-and-wind-work-stop",
+    "name": "Fog & Wind Work Stop",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "gg-international-orange-recoat",
+    "name": "International Orange Recoat",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "gg-main-cable-band-inspection",
+    "name": "Main Cable Band Inspection",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "gg-paint-containment-on-the-deck",
+    "name": "Paint Containment on the Deck",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "gg-pile-driver-fender-repair",
+    "name": "Pile Driver Fender Repair",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "gg-suspender-rope-replacement",
+    "name": "Suspender Rope Replacement",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "gg-tower-climb-and-tie-off",
+    "name": "Tower Climb & Tie-Off",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "gk-bunker-renovation-and-drainage",
+    "name": "Bunker Renovation & Drainage",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "gk-chainsaw-start-and-limbing-on-the-ground",
+    "name": "Chainsaw Start & Limbing on the Ground",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "gk-greens-mowing-and-hole-changing",
+    "name": "Greens Mowing & Hole Changing",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "gk-hardscape-paver-base-and-compaction",
+    "name": "Hardscape Paver Base & Compaction",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "gk-pesticide-and-fertilizer-application-per-the-label",
+    "name": "Pesticide & Fertilizer Application",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "gk-ride-on-mower-pre-start-and-slope-work",
+    "name": "Ride-On Mower Pre-Start & Slope Work",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "gk-sports-field-line-marking-and-goal-anchoring",
+    "name": "Sports-Field Line Marking & Goal Anchoring",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "gk-storm-cleanup-chipper-and-traffic-control",
+    "name": "Storm Cleanup: Chipper & Traffic Control",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "gk-tree-work-pole-saw-and-drop-zone",
+    "name": "Tree Work: Pole Saw & Drop Zone",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "gl-curtain-wall-unit-setting-from-the-floor",
+    "name": "Curtain Wall Unit Setting From The Floor",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "gl-shop-drawing-takeoff-and-field-measure",
+    "name": "Shop Drawing Takeoff And Field Measure",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "gl-storefront-frame-and-glass-set-with-cups",
+    "name": "Storefront Frame And Glass Set With Cups",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "gl-swing-stage-glazing-and-sealant",
+    "name": "Swing Stage Glazing And Sealant",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "gl-tempered-glass-breakage-and-cleanup",
+    "name": "Tempered Glass Breakage And Cleanup",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "gr-checkstand-ergonomics-and-robbery-prevention",
+    "name": "Checkstand Ergonomics & Robbery Prevention",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "gr-deli-slicer-sanitation-and-allergen-line",
+    "name": "Deli Slicer Sanitation & Allergen Line",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "gr-produce-receiving-cold-chain-and-pallet-jack",
+    "name": "Produce Receiving, Cold Chain & Pallet Jack",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "grain-bin",
+    "name": "Grain Bin",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "grease-trap",
+    "name": "Grease Trap",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "grill-line-burns",
+    "name": "Grill Line Burns",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "hc-dietary-tray-line-and-allergy-flags",
+    "name": "Dietary Tray Line & Allergy Flags",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "hem-and-buttonhole",
+    "name": "Hem & Buttonhole",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "home-visit-safety",
+    "name": "Home Visit Safety",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "hood-suppression",
+    "name": "Hood Suppression",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "hot-tap",
+    "name": "Hot Tap",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "housekeeping-room-turn",
+    "name": "Housekeeping Room Turn",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "hunters-point",
+    "name": "Hunters Point Briefing",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "hw-banquet-room-flip-and-staging",
+    "name": "Banquet Room Flip & Staging",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "hw-flatwork-ironer-and-folder-guarding",
+    "name": "Flatwork Ironer & Folder Guarding",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "hz-drum-staging-and-compatibility-segregation",
+    "name": "Drum Staging & Compatibility Segregation",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "hz-level-b-entry-and-scba-change-out",
+    "name": "Level B Entry & SCBA Change-Out",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "ib-firestop-and-fire-wrap-installation",
+    "name": "Firestop and Fire Wrap Installation",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "ib-hydrostatic-test-and-inspector-witness",
+    "name": "Hydrostatic Test and Inspector Witness",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "ib-refractory-and-castable-installation",
+    "name": "Refractory and Castable Installation",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "ib-spray-foam-and-respirator-fit",
+    "name": "Spray Foam and Respirator Fit",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "ice-well-breakage",
+    "name": "Ice Well Breakage",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "id-check-underage",
+    "name": "Checking ID",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "industrial-press-steam",
+    "name": "Industrial Press & Steam",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "isco-injection",
+    "name": "ISCO Injection",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "jigger-pour-spec",
+    "name": "Pouring to Spec",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "keg-cellar-co2",
+    "name": "Keg Cellar CO2",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "kitchen",
+    "name": "Hot Line",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "kitchen-gas-shutoff",
+    "name": "Kitchen Gas Shutoff",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "knife-skills",
+    "name": "Knife Skills",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "landfill-gas",
+    "name": "Landfill Gas",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "last-call-lockup",
+    "name": "Last Call & Lockup",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "le-crowd-barricade-and-show-stop-call",
+    "name": "Crowd Barricade & Show-Stop Call",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "le-followspot-and-truss-access-at-height",
+    "name": "Followspot & Truss Access at Height",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "leading-edge-and-horizontal-lifeline",
+    "name": "Leading Edge & Horizontal Lifeline",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "line-truck",
+    "name": "Line Truck",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "living-shoreline",
+    "name": "Living Shoreline",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "lockstitch-seam-guard",
+    "name": "Lockstitch Seam Behind the Guard",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "lp-gas-storage-wellpad-awareness",
+    "name": "Gas Storage Well Pad Safety",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "machine-threading-needle",
+    "name": "Machine Threading and Needle",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "manhole-entry-and-atmospheric-monitoring",
+    "name": "Manhole Entry & Atmospheric Monitoring",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "mast-climber",
+    "name": "Mast Climber",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "md-intimacy-and-conduct-coordination-briefing",
+    "name": "Intimacy & Conduct Coordination Briefing",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "md-location-shoot-traffic-control-and-heat-hydration",
+    "name": "Location Shoot Traffic Control & Heat/Hydration",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "md-newsroom-storm-scene-and-live-truck-mast",
+    "name": "Newsroom Storm Scene & Live Truck Mast",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "md-set-safety-meeting-and-stunt-go-no-go",
+    "name": "Set Safety Meeting & Stunt Go/No-Go",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "md-theatre-fly-floor-and-quick-change-lane",
+    "name": "Theatre Fly Floor & Quick-Change Lane",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "me-eelgrass-seed-collection-and-nursery",
+    "name": "Eelgrass Seed Collection & Nursery",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "me-fish-visual-census-and-data-sheet",
+    "name": "Fish Visual Census & Data Sheet",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "me-invasive-species-identification-and-reporting",
+    "name": "Invasive Species Identification & Reporting",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "me-oyster-reef-monitoring-and-settlement-tiles",
+    "name": "Oyster Reef Monitoring & Settlement Tiles",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "me-tidal-marsh-channel-restoration-day",
+    "name": "Tidal Marsh Channel Restoration Day",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "me-water-column-sampling-from-a-small-boat",
+    "name": "Water Column Sampling From A Small Boat",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "met-station-siting",
+    "name": "Met Station Siting",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "microwave-backhaul",
+    "name": "Microwave Backhaul",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "ml-delivery-van-pretrip-and-route-loading",
+    "name": "Delivery Van Pre-Trip & Route Loading",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "ml-dog-and-hazard-awareness-on-route",
+    "name": "Dog & Hazard Awareness on Route",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "ml-heat-and-cold-stress-on-route",
+    "name": "Heat & Cold Stress on Route",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "ml-suspicious-package-protocol",
+    "name": "Suspicious Package Protocol",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "mm-coke-oven-heat-rotation",
+    "name": "Coke Oven Heat Rotation",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "mm-continuous-miner-face",
+    "name": "Continuous Miner Face",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "mm-hot-strip-mill-stand",
+    "name": "Hot-Strip Mill Stand",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "mm-ladle-pour",
+    "name": "Ladle Pour",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "mm-mine-escapeway-drill",
+    "name": "Mine Escapeway & Self-Rescuer Drill",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "mm-paper-machine-dryer",
+    "name": "Paper Machine Dryer Section",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "mobile-air-lab",
+    "name": "Mobile Air Lab",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "mobile-dental-outreach",
+    "name": "Mobile Dental Outreach",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "mooring-line",
+    "name": "Mooring Line",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "motor-control-center",
+    "name": "Motor Control Center",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "mw-ferry-deckhand-and-passenger-safety",
+    "name": "Ferry Deckhand & Passenger Safety",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "mw-oil-transfer-watch-and-boom",
+    "name": "Oil Transfer Watch & Boom",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "mw-workboat-towing-and-line-handling",
+    "name": "Workboat Towing & Line Handling",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "odor-complaint-log",
+    "name": "Pollution Patrol",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "opacity-reading",
+    "name": "Opacity Reading",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "or-ranch-road-grading-and-culvert",
+    "name": "Ranch Road Grading & Culvert",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "or-transmission-line-right-of-way-patrol",
+    "name": "Transmission Line ROW Patrol",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "or-wildland-fireline-construction-and-lookout",
+    "name": "Wildland Fireline Construction",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "overdose-response-naloxone",
+    "name": "Overdose Response — Naloxone",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "oyster-reef-monitoring",
+    "name": "Oyster Reef Monitoring",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "paint-sprayer",
+    "name": "Coatings Bay",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "parcel-status-walk",
+    "name": "Parcel Status Walk",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "pattern-marking-layout",
+    "name": "Pattern Marking & Layout",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "pay-stub-and-withholding",
+    "name": "Pay Stub & Withholding",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "pediatric-visit",
+    "name": "Pediatric Visit",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "periodontal-charting",
+    "name": "Periodontal Charting",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "pilot-transfer",
+    "name": "Pilot Transfer",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "pl-natural-gas-pressure-test-and-leak-check",
+    "name": "Natural Gas Pressure Test & Leak Check",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "pl-steam-trap-and-condensate-line-repair",
+    "name": "Steam Trap & Condensate Line Repair",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "pm-community-room-and-events",
+    "name": "Community Room & Events",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "pm-elevator-machine-room",
+    "name": "Elevator Machine Room",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "pm-fitness-room-and-gym",
+    "name": "Fitness Room & Gym",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "pm-landscaping-and-irrigation",
+    "name": "Landscaping & Irrigation",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "pm-laundry-room",
+    "name": "Laundry Room",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "pm-leasing-office-fair-housing",
+    "name": "Leasing Office and Fair Housing",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "pm-loading-dock-and-moves",
+    "name": "Loading Dock & Moves",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "pm-lobby-and-front-desk",
+    "name": "Lobby and Front Desk",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "pm-mail-and-package-room",
+    "name": "Mail & Package Room",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "pm-parking-garage",
+    "name": "Parking Garage",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "pm-playground-and-courtyard",
+    "name": "Playground & Courtyard",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "pm-pool-and-spa-chemistry",
+    "name": "Pool & Spa Chemistry",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "pm-roof-and-drains",
+    "name": "Roof and Drains",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "pm-storage-and-bike-room",
+    "name": "Storage & Bike Room",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "pm-trash-and-recycling-room",
+    "name": "Trash and Recycling Room",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "pm-unit-turnover",
+    "name": "Unit Turnover",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "po-lashing-gear-inspection-and-tagging",
+    "name": "Lashing Gear Inspection & Tagging",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "post-tension",
+    "name": "Post Tension",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "pt-dock-fender-and-bollard-inspection",
+    "name": "Dock Fender & Bollard Inspection",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "pt-spreader-and-twistlock-inspection",
+    "name": "Spreader & Twist-lock Inspection",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "pt-stormwater-at-the-terminal",
+    "name": "Stormwater at the Terminal",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "pt-straddle-carrier-hydraulics",
+    "name": "Straddle Carrier Hydraulics",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "pt-terminal-lighting-mast-service",
+    "name": "Terminal Lighting Mast Service",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "pump-and-treat",
+    "name": "Pump and Treat",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "pyro-cue",
+    "name": "Pyro Cue",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "ra-air-brake-test-and-train-inspection",
+    "name": "Air Brake Test & Train Inspection",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "ra-hand-brake-and-securement-on-a-grade",
+    "name": "Hand Brake & Securement on a Grade",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "ra-locomotive-cab-startup-and-alerter",
+    "name": "Locomotive Cab Startup & Alerter",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "ra-roadway-worker-protection-and-job-briefing",
+    "name": "Roadway Worker Protection & Job Briefing",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "ra-switch-inspection-and-lubrication",
+    "name": "Switch Inspection & Lubrication",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "ra-tie-and-rail-replacement-with-track-machines",
+    "name": "Tie & Rail Replacement with Track Machines",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "rbs-service-capstone",
+    "name": "RBS Service Capstone",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "rcl-switching",
+    "name": "RCL Switching",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "receiving-dock-food",
+    "name": "Receiving Dock Food",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "results-return-visit",
+    "name": "Results Return Visit",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "retest-witnessing",
+    "name": "Retest Witnessing",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "rf-below-grade-waterproofing-and-drainage-board",
+    "name": "Below-Grade Waterproofing & Drainage Board",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "rf-green-roof-and-overburden-placement",
+    "name": "Green Roof & Overburden Placement",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "rf-hot-asphalt-kettle-and-mop",
+    "name": "Hot Asphalt Kettle & Mop",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "rf-roof-tear-off-and-debris-chute",
+    "name": "Roof Tear-Off & Debris Chute",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "rf-skylight-and-hatch-guarding",
+    "name": "Skylight & Hatch Guarding",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "salon",
+    "name": "Colour Studio",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "sampling-well",
+    "name": "Sampling Well",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "school-screening-outreach",
+    "name": "School Screening Outreach",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "sediment-cap",
+    "name": "Sediment Cap",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "sensor-colocation-check",
+    "name": "Sensor Co-Location Check",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "serger-overlock",
+    "name": "Serger and Overlock",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "sewing-ergonomics-shift",
+    "name": "Sewing Ergonomics",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "shore-power-hookup",
+    "name": "Shore Power Hookup",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "shoreline-sediment-grab",
+    "name": "Shoreline Sediment Grab",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "sm-air-balancing-and-testing",
+    "name": "Air Balancing and Testing",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "sm-kitchen-exhaust-and-fire-wrap",
+    "name": "Kitchen Exhaust and Fire Wrap",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "sm-plasma-table-and-fume",
+    "name": "Plasma Table and Fume",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "sm-shop-layout-and-shear",
+    "name": "Shop Layout and Shear",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "smoke-day-outreach",
+    "name": "Smoke Day Outreach",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "soil-loadout",
+    "name": "Soil Loadout",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "spartina-removal",
+    "name": "Spartina Removal",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "spiked-drink-response",
+    "name": "Spiked Drink Response",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "spill-boom-deploy",
+    "name": "Spill Boom Deploy",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "splice-node",
+    "name": "Splice Node",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "stack-test",
+    "name": "Stack Test",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "stage-power",
+    "name": "Stage Power",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "stormwater-outfall",
+    "name": "Stormwater Outfall",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "straddle-carrier-ops",
+    "name": "Straddle Carrier Ops",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "structure-fire-sizeup",
+    "name": "Structure Fire Size-Up",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "tdl-air-brake-test",
+    "name": "Air Brake Test",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "tdl-backing-and-docking",
+    "name": "Backing and Docking",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "tdl-cargo-securement-and-hours",
+    "name": "Cargo Securement and Hours",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "tdl-coupling-and-uncoupling",
+    "name": "Coupling and Uncoupling",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "tdl-pallet-jack-and-racking",
+    "name": "Pallet Jack and Racking",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "tdl-pick-pack-and-scan",
+    "name": "Pick, Pack and Scan",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "tdl-pretrip-inspection",
+    "name": "Pre-Trip Inspection",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "tdl-trailer-loading-and-dock-plate",
+    "name": "Trailer Loading and Dock Plate",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "tide-gate",
+    "name": "Tide Gate",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "till-drop-robbery",
+    "name": "Till Drop & Robbery Response",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "tip-pool-labor",
+    "name": "Tip Pool & Labor",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "tower-climb",
+    "name": "Tower Climb",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "track-access",
+    "name": "Track Access",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "trades-lineage-briefing",
+    "name": "Trades Lineage Briefing",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "traffic-incident-management",
+    "name": "Traffic Incident Management",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "trauma-informed-intake",
+    "name": "Trauma-Informed Intake",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "tw-dock-leveler-and-trailer-restraint-check",
+    "name": "Dock Leveler & Trailer Restraint Check",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "tw-pick-to-light-ergonomics-and-rotation",
+    "name": "Pick-to-Light Ergonomics & Rotation",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "ust-removal",
+    "name": "UST Removal",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "ut-cathodic-protection-test-station-reading",
+    "name": "Cathodic Protection Test-Station Reading",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "ut-hydrant-flow-test-and-flushing-with-traffic-control",
+    "name": "Hydrant Flow Test & Flushing With Traffic Control",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "ut-night-storm-response-crew-and-portable-generator",
+    "name": "Night Storm-Response Crew & Portable Generator",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "ut-service-line-locate-and-hand-dig-near-gas-main",
+    "name": "Service-Line Locate & Hand-Dig Near a Marked Gas Main",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "vapor-mitigation",
+    "name": "Vapor Mitigation",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "walk-in-cooler",
+    "name": "Walk-In Cooler",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "well-install",
+    "name": "Well Install",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "who-after-action-review",
+    "name": "After-Action Review",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "wildland-urban-interface",
+    "name": "Wildland-Urban Interface",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "wind-nacelle",
+    "name": "Wind Nacelle",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "wp-first-paycheck-coaching",
+    "name": "First-Paycheck Coaching",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "wp-intake-and-pathway-planning",
+    "name": "Intake and Pathway Planning",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "wp-permit-study-and-knowledge-test",
+    "name": "Permit Study and Knowledge-Test Day",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "wp-warehouse-ride-along",
+    "name": "Warehouse Ride-Along Day",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "ws-blade-inspection-from-a-platform",
+    "name": "Blade Inspection from a Platform",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "ws-crah-alarm-response-in-a-live-hall",
+    "name": "CRAH Alarm Response in a Live Hall",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "ws-data-hall-busway-install-and-torque-signoff",
+    "name": "Data-Hall Busway Install & Torque Sign-Off",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "ws-ocean-pod-retrieval-and-hatch-opening",
+    "name": "Ocean Pod Retrieval & Hatch Opening",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "ws-turbine-climb-and-rescue-kit-check",
+    "name": "Turbine Climb & Rescue-Kit Check",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "yc-engine-room-pre-start-and-bilge-check",
+    "name": "Engine Room Pre-Start & Bilge Check",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "yc-fuel-dock-transfer-and-spill-kit",
+    "name": "Fuel Dock Transfer & Spill Kit",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "yc-galley-fire-and-fixed-system",
+    "name": "Galley Fire & Fixed System",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "yc-line-handling-and-docking-in-crosswind",
+    "name": "Line Handling & Docking In A Crosswind",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "yc-man-overboard-recovery-drill",
+    "name": "Man Overboard Recovery Drill",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "yc-pre-departure-safety-briefing-and-guest-count",
+    "name": "Pre-Departure Safety Briefing & Guest Count",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "yc-tender-launch-and-guest-transfer",
+    "name": "Tender Launch & Guest Transfer",
+    "why": "no rule's station pattern matches"
+   },
+   {
+    "station": "youth-patrol-training",
+    "name": "Youth Patrol Training",
+    "why": "no rule's station pattern matches"
+   }
+  ]
+ },
+ "skills": {
+  "matched": [
+   {
+    "skill": "industrial-cells/operator",
+    "rule": "rp-industrial-cells",
+    "blocks": [
+     "CX-ROB-0898",
+     "CX-ROB-0530",
+     "CX-ROB-0896"
+    ]
+   },
+   {
+    "skill": "industrial-cells/technician",
+    "rule": "rp-industrial-cells",
+    "blocks": [
+     "CX-ROB-0656",
+     "CX-ROB-0657",
+     "CX-ROB-0658"
+    ]
+   },
+   {
+    "skill": "industrial-cells/integrator",
+    "rule": "rp-industrial-cells",
+    "blocks": [
+     "CX-ROB-0841",
+     "CX-ROB-0842",
+     "CX-ROB-0843"
+    ]
+   },
+   {
+    "skill": "industrial-cells/ai-training",
+    "rule": "rp-industrial-cells",
+    "blocks": [
+     "CX-ROB-0656",
+     "CX-ROB-0658",
+     "CX-ROB-0510"
+    ]
+   },
+   {
+    "skill": "cobots/operator",
+    "rule": "rp-cobots",
+    "blocks": [
+     "CX-ROB-0701",
+     "CX-ROB-0572",
+     "CX-ROB-0574"
+    ]
+   },
+   {
+    "skill": "cobots/technician",
+    "rule": "rp-cobots",
+    "blocks": [
+     "CX-ROB-0574",
+     "CX-ROB-0599",
+     "CX-ROB-0651"
+    ]
+   },
+   {
+    "skill": "cobots/integrator",
+    "rule": "rp-cobots",
+    "blocks": [
+     "CX-ROB-0574",
+     "CX-ROB-0577",
+     "CX-ROB-0599"
+    ]
+   },
+   {
+    "skill": "cobots/ai-training",
+    "rule": "rp-cobots",
+    "blocks": [
+     "CX-ROB-0574",
+     "CX-ROB-0599",
+     "CX-ROB-0620"
+    ]
+   },
+   {
+    "skill": "mobile-amr/operator",
+    "rule": "rp-mobile-amr",
+    "blocks": [
+     "CX-ROB-0898",
+     "CX-ROB-0565",
+     "CX-ROB-0599"
+    ]
+   },
+   {
+    "skill": "mobile-amr/technician",
+    "rule": "rp-mobile-amr",
+    "blocks": [
+     "CX-ROB-0599",
+     "CX-ROB-0536",
+     "CX-ROB-0537"
+    ]
+   },
+   {
+    "skill": "mobile-amr/integrator",
+    "rule": "rp-mobile-amr",
+    "blocks": [
+     "CX-ROB-0599",
+     "CX-ROB-0634",
+     "CX-ROB-0716"
+    ]
+   },
+   {
+    "skill": "mobile-amr/ai-training",
+    "rule": "rp-mobile-amr",
+    "blocks": [
+     "CX-ROB-0599",
+     "CX-ROB-0720",
+     "CX-ROB-0739"
+    ]
+   },
+   {
+    "skill": "construction-robotics/operator",
+    "rule": "rp-construction-robotics",
+    "blocks": [
+     "CX-ROB-0565",
+     "CX-ROB-0898",
+     "CX-ROB-0561"
+    ]
+   },
+   {
+    "skill": "construction-robotics/technician",
+    "rule": "rp-construction-robotics",
+    "blocks": [
+     "CX-ROB-0565",
+     "CX-ROB-0561",
+     "CX-ROB-0562"
+    ]
+   },
+   {
+    "skill": "construction-robotics/integrator",
+    "rule": "rp-construction-robotics",
+    "blocks": [
+     "CX-ROB-0565",
+     "CX-ROB-0741",
+     "CX-ROB-0831"
+    ]
+   },
+   {
+    "skill": "construction-robotics/ai-training",
+    "rule": "rp-construction-robotics",
+    "blocks": [
+     "CX-ROB-0565",
+     "CX-ROB-0561",
+     "CX-ROB-0562"
+    ]
+   },
+   {
+    "skill": "maintenance-lockout/operator",
+    "rule": "rp-maintenance-lockout",
+    "blocks": [
+     "CX-ROB-0501",
+     "CX-ROB-0502",
+     "CX-ROB-0503"
+    ]
+   },
+   {
+    "skill": "maintenance-lockout/technician",
+    "rule": "rp-maintenance-lockout",
+    "blocks": [
+     "CX-ROB-0501",
+     "CX-ROB-0502",
+     "CX-ROB-0503"
+    ]
+   },
+   {
+    "skill": "maintenance-lockout/integrator",
+    "rule": "rp-maintenance-lockout",
+    "blocks": [
+     "CX-ROB-0501",
+     "CX-ROB-0502",
+     "CX-ROB-0503"
+    ]
+   },
+   {
+    "skill": "maintenance-lockout/ai-training",
+    "rule": "rp-maintenance-lockout",
+    "blocks": [
+     "CX-ROB-0656",
+     "CX-ROB-0658",
+     "CX-ROB-0657"
+    ]
+   },
+   {
+    "skill": "data-ai-training/operator",
+    "rule": "rp-data-ai-training",
+    "blocks": [
+     "CX-ROB-0705",
+     "CX-ROB-0555",
+     "CX-ROB-0585"
+    ]
+   },
+   {
+    "skill": "data-ai-training/technician",
+    "rule": "rp-data-ai-training",
+    "blocks": [
+     "CX-ROB-0656",
+     "CX-ROB-0658",
+     "CX-ROB-0782"
+    ]
+   },
+   {
+    "skill": "data-ai-training/integrator",
+    "rule": "rp-data-ai-training",
+    "blocks": [
+     "CX-ROB-0509",
+     "CX-ROB-0656",
+     "CX-ROB-0782"
+    ]
+   },
+   {
+    "skill": "data-ai-training/ai-training",
+    "rule": "rp-data-ai-training",
+    "blocks": [
+     "CX-ROB-0827",
+     "CX-ROB-0987",
+     "CX-ROB-0656"
+    ]
+   }
+  ],
+  "unmatched": [],
+  "excluded": [
+   {
+    "skill": "industrial-cells/aware",
+    "why": "awareness / K-12 level: adults-only bridge"
+   },
+   {
+    "skill": "cobots/aware",
+    "why": "awareness / K-12 level: adults-only bridge"
+   },
+   {
+    "skill": "mobile-amr/aware",
+    "why": "awareness / K-12 level: adults-only bridge"
+   },
+   {
+    "skill": "construction-robotics/aware",
+    "why": "awareness / K-12 level: adults-only bridge"
+   },
+   {
+    "skill": "maintenance-lockout/aware",
+    "why": "awareness / K-12 level: adults-only bridge"
+   },
+   {
+    "skill": "data-ai-training/aware",
+    "why": "awareness / K-12 level: adults-only bridge"
+   }
+  ]
+ }
+}

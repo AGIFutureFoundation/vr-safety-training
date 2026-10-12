@@ -1,0 +1,411 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "caught-the-plume",
+    "name": "Caught The Plume",
+    "note": "Both dust cues answered inside their window, no dry cleanup, the shroud on every hole — first time"
+  },
+  "category": "Construction & Structural Trades",
+  "certification": "LIUNA Training as a training body for construction laborers; OSHA 29 CFR 1926.1153 respirable crystalline silica in construction — Table 1's entries for handheld and stand-mounted drills (shroud or cowling with a dust collection system, and a HEPA-filtered vacuum to clean holes) and for rig-mounted core saws or drills (integrated water delivery), the housekeeping limits on dry sweeping and compressed air, and the written exposure control plan; OSHA 29 CFR 1926.103 respiratory protection, which applies 29 CFR 1910.134 fit testing and seal checks to construction; ANSI A10.9 concrete and masonry work; NIOSH guidance on engineering controls for silica dust from drilling; the tool, dust collector and anchor manufacturers' instructions for airflow and depth",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI A10.9",
+        "id": "ansi-a10-9",
+        "title": "ANSI/ASSP A10.9 — Concrete and masonry construction safety requirements"
+      },
+      {
+        "body": "union",
+        "citedAs": "LIUNA",
+        "id": "liuna-training-fund",
+        "title": "LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula"
+      },
+      {
+        "body": "NIOSH",
+        "citedAs": "NIOSH",
+        "id": "niosh-criteria",
+        "title": "NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.134",
+        "id": "osha-1910-134",
+        "title": "29 CFR 1910.134 — Respiratory protection"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.103",
+        "id": "osha-1926-103",
+        "title": "29 CFR 1926.103 — Respiratory protection in construction"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.1153",
+        "id": "osha-1926-1153",
+        "title": "29 CFR 1926.1153 — Respirable crystalline silica in construction"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Construction & Structural Trades",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "walked-the-kit",
+        "name": "Walked The Kit",
+        "note": "The torn shroud skirt, the choked filter and the broom all found before the first hole, first time"
+      },
+      {
+        "id": "never-blown",
+        "name": "Never Blown, Never Swept",
+        "note": "No compressed air in a hole, no broom on silica dust, no drilling with the shroud off, the mask strapped every time"
+      },
+      {
+        "id": "in-the-band",
+        "name": "In The Band",
+        "note": "Collector airflow and core water both held where the manufacturers put them"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-holes",
+        "name": "Clean Holes",
+        "note": "No corrections through the whole station"
+      },
+      {
+        "id": "steady-core",
+        "name": "Steady Core",
+        "note": "The core drill's water and feed held for the whole cut"
+      },
+      {
+        "id": "quick-crew",
+        "name": "Quick Crew",
+        "note": "Drilled, cored, cleaned and logged inside 80% of par"
+      }
+    ],
+    "currency": "HOLE",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Helper",
+      "Driller",
+      "Laborer",
+      "Lead Laborer",
+      "Dust Crew Certified"
+    ],
+    "system": "Dust Crew"
+  },
+  "hazards": {
+    "blow-out-holes": "You reached for the compressed-air nozzle to blow the dust out of the anchor holes. A blast of air into a freshly drilled hole lifts the finest fraction of the powder straight into the breathing zone of everyone nearby, which is why the silica rule limits compressed air for cleaning and why Table 1 pairs the drill with a HEPA-filtered vacuum for exactly this job.",
+    "drill-without-shroud": "You went to drill the next hole with the shroud pulled off the bit to see the mark better. Without the shroud and its collector the dust leaves the hole at the operator's face height, and the hand drill's Table 1 entry only holds when the shroud is on and the collector is pulling at the manufacturer's airflow.",
+    "dry-sweep-dust": "You went to sweep the drilling dust into a pile with a dry broom. Sweeping does not collect respirable silica, it relaunches it: the particles small enough to reach the deep lung are the ones a broom throws back into the air, and the standard's housekeeping rule steers crews to a HEPA vacuum or wet methods instead.",
+    "mask-strap-loose": "You went to start the drill with the half-mask's lower strap hanging loose. A tight-fitting respirator only filters the air that actually passes through its cartridges; with a strap down, air takes the easy path around the edge of the seal, and the fit test and seal check that 29 CFR 1926.103 brings in from 1910.134 mean nothing."
+  },
+  "id": "sil-concrete-drilling-and-silica-dust-cues",
+  "indoor": "plant",
+  "interrupts": [
+    {
+      "after": "drill-holes",
+      "alert": "The collector hose has slipped off the shroud's port and a grey plume is rising from the hole you are drilling.",
+      "cue": "Stop the drill at its switch before the bit goes any deeper.",
+      "delay": 2,
+      "id": "shroud-hose-off",
+      "kind": "Dust collector hose pops off the shroud mid-hole (active cue)",
+      "missNote": "The drill kept running with the hose hanging loose; a plume of fine grey dust hung over the anchor layout by the time the bit stopped.",
+      "seconds": 12,
+      "target": "drill-stop",
+      "why": "With the hose off, the shroud is a cup that funnels dust upward toward your face; every second the bit keeps turning is the uncontrolled dust the whole setup exists to prevent. Stopping at the switch ends the dust at its source, and the hose goes back on and gets clamped before the hole is finished.",
+      "wrongNote": "The drill's stop switch — the dust is coming from the bit, so the bit is what stops first."
+    },
+    {
+      "after": "core-feed",
+      "alert": "A crew grinding by the open bay has started without a shroud, and the draught is carrying their dust west across the core toward you.",
+      "cue": "Step across to the clear-air marker, out of the plume's path, and call the stop from there.",
+      "delay": 2,
+      "id": "dust-drift",
+      "kind": "Another crew's dust drifts onto your work area (passive cue)",
+      "missNote": "You kept coring while the other crew's dust rolled across the work area; the haze settled over the core drill and the slurry ring before anyone called it.",
+      "seconds": 12,
+      "target": "clear-air-marker",
+      "why": "This dust is not yours, which is exactly why it is easy to keep working through it: your own controls are fine and the cloud seems like someone else's problem. Respirable silica does not care whose tool made it. Moving out of its path first and then calling the stop to that crew's lead protects your lungs now and fixes the source.",
+      "wrongNote": "The clear-air marker — get out of the plume's path first, then call the stop."
+    }
+  ],
+  "lateNotes": {
+    "core-feed": "The core drill only runs once its water line is connected and flowing to the bit; a rig-mounted core that cuts dry is outside its Table 1 entry from the first second.",
+    "drill-trigger": "The bit only goes into the deck once the shroud is seated, the collector is pulling and the half-mask is sealed — the drill being staged at the mark does not make any of that optional.",
+    "dust-log": "The log is written once the holes are vacuumed, the slurry is picked up and the clothing is cleaned — not from memory at the end of the week."
+  },
+  "name": "Concrete Drilling & Silica Dust Cues",
+  "parSeconds": 320,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "builders-trades"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "blow-out-holes",
+      "choked-filter",
+      "clear-air-marker",
+      "collector-dial",
+      "core-feed",
+      "crew-radio",
+      "depth-stop",
+      "drill-cart",
+      "drill-stop",
+      "drill-trigger",
+      "drill-without-shroud",
+      "dry-sweep-dust",
+      "dust-log",
+      "exposure-plan",
+      "fit-new-skirt",
+      "half-mask",
+      "hepa-wand",
+      "mask-strap-loose",
+      "remove-mask",
+      "slurry-ring",
+      "staged-broom",
+      "stow-broom",
+      "swap-filter",
+      "torn-shroud-skirt",
+      "upwind-spot",
+      "vac-clothing",
+      "wash-up",
+      "wet-vac"
+    ],
+    "meshes": 253
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the plan for this core: which tasks make silica dust, the Table 1 control for each, who the competent person is, and the housekeeping and respirator lines.",
+      "id": "exposure-plan",
+      "kind": "select",
+      "prompt": "Read the plan for this core: which tasks make silica dust, the Table 1 control for each, who the competent person is, and the housekeeping and respirator lines.",
+      "target": "exposure-plan",
+      "title": "Read the written exposure control plan",
+      "why": "The silica standard asks the employer for a written plan exactly because the controls differ task by task: a hand drill gets a shroud and a dust collector, a rig-mounted core drill gets water at the bit, and neither one gets a broom. Reading it first is how a laborer knows which control belongs on which tool before the dust exists, and who to call when a control fails mid-hole."
+    },
+    {
+      "cue": "Walk the hammer drill, its shroud, the dust collector and the cleanup corner, and click every defect you find.",
+      "id": "kit-walk",
+      "itemNames": {
+        "choked-filter": "a choked collector filter",
+        "staged-broom": "a dry broom staged for cleanup",
+        "torn-shroud-skirt": "a torn shroud skirt"
+      },
+      "itemNotes": {
+        "choked-filter": "The dust collector's filter indicator sits in the red — the filter is loaded and the airflow at the shroud will be well under what the tool maker calls for.",
+        "staged-broom": "A push broom and a dustpan are leaning by the drilling area, staged for the cleanup the plan says must be done with a HEPA vacuum.",
+        "torn-shroud-skirt": "The rubber skirt on the drill's shroud is split along one side; it will not seal against the deck and dust will jet out of the gap."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the hammer drill, its shroud, the dust collector and the cleanup corner, and click every defect you find.",
+      "targets": [
+        "torn-shroud-skirt",
+        "choked-filter",
+        "staged-broom"
+      ],
+      "title": "Walk the drill, the collector and the cleanup kit",
+      "why": "Each of these defects quietly turns a controlled task into an uncontrolled one while the work looks normal. A split skirt leaks at the one place the operator's face is closest, a loaded filter starves the shroud of airflow long before the collector sounds different, and a staged broom becomes the cleanup method at the end of a long day. Found now, each is a two-minute fix with nothing running."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Fit a new skirt to the shroud, swap the collector's filter, and take the broom out of the work area.",
+      "id": "fix",
+      "itemNames": {
+        "fit-new-skirt": "new shroud skirt fitted",
+        "stow-broom": "broom stowed off the floor",
+        "swap-filter": "collector filter swapped"
+      },
+      "kind": "sequence",
+      "prompt": "Fit a new skirt to the shroud, swap the collector's filter, and take the broom out of the work area.",
+      "targets": [
+        "fit-new-skirt",
+        "swap-filter",
+        "stow-broom"
+      ],
+      "title": "Correct what the walk found",
+      "why": "Finding the defects only helps if the tool that starts is the repaired one. A crew that notes a split skirt and drills anyway has the same exposure as a crew that never looked, plus a false entry on the pre-task check; the repaired shroud, the fresh filter and the missing broom are what the next hour of drilling actually depends on."
+    },
+    {
+      "cue": "Put on the half-mask respirator the plan assigns for drilling in the enclosed core, both straps on, and do the positive and negative pressure seal checks.",
+      "id": "mask-seal",
+      "kind": "select",
+      "prompt": "Put on the half-mask respirator the plan assigns for drilling in the enclosed core, both straps on, and do the positive and negative pressure seal checks.",
+      "target": "half-mask",
+      "title": "Don the half-mask and do a user seal check",
+      "why": "In this scenario the plan assigns a respirator for drilling inside the enclosed core as a backstop to the engineering controls. A tight-fitting mask works only when it was fit tested and is sealed today: breathing in against blocked cartridges should pull the facepiece in, breathing out against a blocked valve should push it out, and either leak means adjusting before drilling, not after the first cloud."
+    },
+    {
+      "cue": "Wheel the drill cart to the marked spot on the upwind side of the anchor layout, so the core's cross-draught carries anything the shroud misses away from you.",
+      "drag": {
+        "missNote": "That spot puts the anchor layout between you and the open bay — the draught would carry escaping dust straight across your face. Move to the marked upwind spot.",
+        "radius": 0.55,
+        "to": "upwind-spot"
+      },
+      "id": "upwind-setup",
+      "kind": "drag",
+      "prompt": "Wheel the drill cart to the marked spot on the upwind side of the anchor layout, so the core's cross-draught carries anything the shroud misses away from you.",
+      "target": "drill-cart",
+      "title": "Set up with the airflow at your back",
+      "why": "No shroud captures everything, and in a building core the air moves in a definite direction from the open bay to the stair. Standing on the side the air comes from means the small fraction that escapes drifts away from the breathing zone instead of through it; it costs nothing, and it is the same instinct the dust-drift cue later in this station tests."
+    },
+    {
+      "cue": "Turn the collector's airflow up and commit inside the band the drill's manufacturer recommends — at that figure or above.",
+      "gauge": {
+        "green": [
+          0.55,
+          0.85
+        ],
+        "label": "COLLECTOR AIRFLOW",
+        "missNote": "Outside the tool maker's band — reset the dial and read the airflow again before the bit touches concrete.",
+        "speed": 0.7
+      },
+      "id": "collector-airflow",
+      "kind": "gauge",
+      "prompt": "Turn the collector's airflow up and commit inside the band the drill's manufacturer recommends — at that figure or above.",
+      "target": "collector-dial",
+      "title": "Set the dust collector's airflow",
+      "why": "Table 1's hand-drill entry depends on a collector that pulls at least the airflow the tool maker recommends, with a filter that cleans itself and captures nearly all of what it collects. Set low, the shroud leaks at its rim even though the collector is running; that is the failure nobody sees until the dust is already in the air."
+    },
+    {
+      "cue": "Turn the depth stop on the drill to the hole depth the anchor manufacturer's instructions give for this anchor.",
+      "id": "depth-stop",
+      "kind": "turn",
+      "prompt": "Turn the depth stop on the drill to the hole depth the anchor manufacturer's instructions give for this anchor.",
+      "target": "depth-stop",
+      "title": "Set the depth stop to the anchor's embedment",
+      "turn": {
+        "label": "DEPTH STOP",
+        "turns": 1
+      },
+      "why": "An anchor's holding capacity depends on its embedment, and the anchor manufacturer's instructions set the hole depth for the anchor size. A hole drilled too shallow fails the handrail's pull test; one drilled too deep or too often is extra dust from every extra centimetre. The depth stop makes every hole the same depth without the operator leaning in to look."
+    },
+    {
+      "cue": "Hold the drill square to the deck, the shroud skirt flat on the concrete, and drill the hole to the depth stop in one steady pass.",
+      "holdBreakNote": "The drill tipped and the shroud lifted off the deck — dust escaped from the open side. Square the drill, reseat the skirt and finish the hole.",
+      "id": "drill-holes",
+      "kind": "hold",
+      "prompt": "Hold the drill square to the deck, the shroud skirt flat on the concrete, and drill the hole to the depth stop in one steady pass.",
+      "seconds": 5,
+      "target": "drill-trigger",
+      "title": "Drill the anchor holes with the shroud flush",
+      "why": "The shroud only captures dust when its skirt sits flat on the surface; tilt the drill and the seal opens on one side and the collector pulls room air instead of hole dust. A steady, square pass keeps the seal whole for the full depth, and five seconds is about one anchor hole — the same hold the ConstructionVR study used per drilling point."
+    },
+    {
+      "cue": "Use the HEPA-filtered vacuum wand to clean the dust out of each anchor hole before the anchors go in.",
+      "id": "hole-vacuum",
+      "kind": "select",
+      "prompt": "Use the HEPA-filtered vacuum wand to clean the dust out of each anchor hole before the anchors go in.",
+      "target": "hepa-wand",
+      "title": "Clean the holes with the HEPA vacuum",
+      "why": "Anchor holes must be clean for the anchor to grip, and the dust in the bottom of a fresh hole is the finest of the job. A HEPA vacuum takes it out and keeps it, which is why Table 1 names it for cleaning holes; blowing the hole out instead puts the same powder into the air the shroud just kept clean."
+    },
+    {
+      "cue": "Run the rig-mounted core drill with its water on, and keep the feed steady so the water and the cut stay inside the band for the whole core.",
+      "holdBreakNote": "The feed outran the water and the kerf went dry for a moment. Ease off until the slurry runs again and bring the feed back into the band.",
+      "id": "core-feed",
+      "kind": "track",
+      "prompt": "Run the rig-mounted core drill with its water on, and keep the feed steady so the water and the cut stay inside the band for the whole core.",
+      "seconds": 6,
+      "target": "core-feed",
+      "title": "Core the pipe penetration with water at the bit",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.44,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "WATER + FEED",
+        "rise": 0.48,
+        "start": 0.25
+      },
+      "why": "Table 1's control for a rig-mounted core drill is water delivered to the cutting surface, and it holds only while the water keeps up with the feed. Push too fast and the bit outruns the water, the slurry dries at the kerf and dust escapes; feed too slowly and the bit glazes and stalls. An even feed keeps the cut wet from the first centimetre to the breakthrough."
+    },
+    {
+      "cue": "Carry the wet vacuum to the core and pick up the slurry ring before it dries on the deck.",
+      "drag": {
+        "missNote": "Not at the core — the slurry ring is around the penetration, and that is where the wet vacuum has to go before it dries.",
+        "radius": 0.55,
+        "to": "slurry-ring"
+      },
+      "id": "slurry-pickup",
+      "kind": "drag",
+      "prompt": "Carry the wet vacuum to the core and pick up the slurry ring before it dries on the deck.",
+      "target": "wet-vac",
+      "title": "Pick up the core slurry while it is wet",
+      "why": "Core slurry is the silica the water caught. Left to dry it becomes a crust that boots and carts grind back into dust, undoing the wet method an hour later; picked up wet it is just a liquid to contain and dispose of the way the plan says."
+    },
+    {
+      "cue": "HEPA-vacuum the dust off your clothing first, then take the half-mask off, then wash your hands and face before eating or leaving the core.",
+      "id": "decon",
+      "itemNames": {
+        "remove-mask": "half-mask removed and bagged",
+        "vac-clothing": "clothing vacuumed with the HEPA vac",
+        "wash-up": "hands and face washed"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Clothing first, with the mask still on — then the mask off, then hands and face. Taking the mask off before the clothes are clean means breathing the dust that lifts off them.",
+      "prompt": "HEPA-vacuum the dust off your clothing first, then take the half-mask off, then wash your hands and face before eating or leaving the core.",
+      "targets": [
+        "vac-clothing",
+        "remove-mask",
+        "wash-up"
+      ],
+      "title": "Clean up yourself in the right order",
+      "why": "The order matters because dust on clothing is dust that rises again when you move. Vacuuming clothes with the mask still on means anything that lifts is filtered; taking the mask off first means breathing it. Washing comes last so the hands that took off the mask and touched the clothes are the ones that get cleaned before food or a cigarette reaches the mouth."
+    },
+    {
+      "cue": "Record the anchor holes drilled, the core cut, the shroud hose that came off and the dust that drifted in from the next crew.",
+      "id": "close-out",
+      "kind": "select",
+      "prompt": "Record the anchor holes drilled, the core cut, the shroud hose that came off and the dust that drifted in from the next crew.",
+      "target": "dust-log",
+      "title": "Log the holes, the core and the two dust events",
+      "why": "The competent person's job under the plan is to keep the controls working, and the log is how a failed hose clamp or a neighbouring crew's dry cutting becomes a fix instead of a repeat. It is also the record that the Table 1 controls were actually used on this task, which is what lets the employer rely on Table 1 instead of exposure monitoring."
+    },
+    {
+      "cue": "Call the competent person: holes and core done, the hose clamp and the dust drift logged. Then check in with your crew.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Call the competent person: holes and core done, the hose clamp and the dust drift logged. Then check in with your crew.",
+      "target": "crew-radio",
+      "title": "Check in with the crew and the competent person",
+      "why": "Two things went wrong today that nobody chose: a hose let go mid-hole and another crew's dust came through the core. Both need a fix before tomorrow's drilling, and the person who can fix them has to hear it on this call. The LIUNA member assistance line is available to anyone the shift left worried about what they breathed."
+    }
+  ],
+  "supportLine": "your LIUNA local's member assistance programme, or the employee assistance line posted on the contractor's site board",
+  "tagline": "Anchor holes and a pipe core drilled under the silica rule: the shroud, the collector and the half-mask checked before any bit turns, the holes vacuumed rather than blown out, the core drilled wet, and two dust cues — one you raise yourself, one that drifts in from the next crew — answered as fast as you notice them",
+  "title": "SmartCiti.X~ Concrete Drilling & Silica Dust Cues VR",
+  "trade": "Construction laborer — LIUNA, concrete drilling and anchor setting",
+  "underwater": null,
+  "weather": "clear"
+}

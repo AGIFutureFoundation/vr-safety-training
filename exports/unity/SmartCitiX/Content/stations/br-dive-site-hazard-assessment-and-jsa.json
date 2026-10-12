@@ -1,0 +1,422 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "site-read-first",
+    "name": "Site Read First",
+    "note": "Every hazard on the site named, controlled and signed for before a diver was dressed, and never a PFD off on deck"
+  },
+  "category": "Maritime & Ports",
+  "certification": "Pile Drivers Local 34 commercial diver training under the UBC International Training Fund; OSHA 29 CFR 1910 Subpart T commercial diving operations — 29 CFR 1910.421 pre-dive procedures (planning and assessment, hazardous activities nearby, the emergency aid list, the team briefing and the warning signal), 29 CFR 1910.420 the employer's safe practices manual and 29 CFR 1910.410 the qualified dive team; ADCI International Consensus Standards for Commercial Diving and Underwater Operations; USCG 46 CFR 197 Subpart B where the dive is worked from a vessel; depth, gas, bottom time and decompression per the dive plan and the tables the supervisor holds",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ADCI",
+        "citedAs": "ADCI",
+        "id": "adci-consensus-standards",
+        "title": "Association of Diving Contractors International — International Consensus Standards for Commercial Diving and Underwater Operations"
+      },
+      {
+        "body": "union",
+        "citedAs": "Pile Drivers",
+        "id": "carpenters-ictf",
+        "title": "United Brotherhood of Carpenters International Training Fund — carpenter, pile driver and millwright apprenticeship"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.410",
+        "id": "osha-1910-410",
+        "title": "29 CFR 1910.410 — Qualifications of the dive team (training, first aid and CPR, the designated person-in-charge)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.420",
+        "id": "osha-1910-420",
+        "title": "29 CFR 1910.420 — Safe practices manual (the employer's written procedures for each diving mode, the dive team's duties and emergency procedures)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.421",
+        "id": "osha-1910-421",
+        "title": "29 CFR 1910.421 — Pre-dive procedures (emergency aid list, planning and assessment of the dive, hazardous activities nearby, the team briefing, equipment inspection and the warning signal)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.440",
+        "id": "osha-1910-440",
+        "title": "29 CFR 1910.440 — Recordkeeping for commercial diving (the dive record, decompression procedure assessments and their retention)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910 Subpart T",
+        "id": "osha-1910-subpart-t",
+        "title": "29 CFR 1910 Subpart T — Commercial diving operations (dive team qualifications, the safe practices manual, pre-dive, during-dive and post-dive procedures, equipment and the dive record)"
+      },
+      {
+        "body": "USCG",
+        "citedAs": "46 CFR 197 Subpart B",
+        "id": "uscg-46-cfr-197-subpart-b",
+        "title": "46 CFR Part 197 Subpart B — Commercial diving operations from vessels and facilities under Coast Guard jurisdiction"
+      }
+    ]
+  },
+  "district": "Maritime & Ports",
+  "domain": "Maritime & Ports",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "jsa-opened",
+        "name": "JSA Opened",
+        "note": "The analysis opened with the whole team before anything else"
+      },
+      {
+        "id": "current-read-true",
+        "name": "Current Read True",
+        "note": "The current committed inside the plan's band first time"
+      },
+      {
+        "id": "nothing-assumed",
+        "name": "Nothing Assumed",
+        "note": "No copied JSA, no diver before the lockout, no bare hand in the sheen, no PFD off"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-assessment",
+        "name": "Clean Assessment",
+        "note": "No corrections from the JSA board to the check-in"
+      },
+      {
+        "id": "downline-steady",
+        "name": "Downline Steady",
+        "note": "The clump weight lowered in band the whole way down"
+      },
+      {
+        "id": "signed-in-time",
+        "name": "Signed In Time",
+        "note": "JSA logged inside 80% of par"
+      }
+    ],
+    "currency": "SOUNDING",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Tender",
+      "Diver",
+      "Lead Diver",
+      "Dive Supervisor",
+      "Site Assessment Certified"
+    ],
+    "system": "Site Assessment"
+  },
+  "hazards": {
+    "bare-hand-sheen": "You leaned out to scoop the floating debris out of the sheen bare-handed. The sheen is petroleum and whatever the outfall carried after the rain, and the water beside a stormwater outfall on the Bay carries bacteria and old contamination as well; skin contact is exposure, and a cut from the debris inside it is an infection. It goes into the JSA as a hazard with a control — gloves, a boat hook and the decon wash — not into your hand.",
+    "intake-before-lockout": "You went to call the diver down beside the seawall before the pump station had confirmed its lockout. An intake drawing water makes a pressure difference across its opening that can pin a diver or pull an arm or an umbilical into the grate with a force no diver can swim against, and the pumps start on a float switch or a remote call with nobody on the seawall knowing a diver is there. Nobody goes near an intake until it is isolated, locked and tagged, and confirmed back to the supervisor.",
+    "old-jsa-copy": "You reached for last week's JSA from the job on the other pier to save writing a new one. A job safety analysis is only worth the site it was written for: last week had no outfall, no pile hammer next door and a different current, and a copied analysis tells the team the hazards are handled when nobody has looked at these ones. The employer's safe practices manual and 29 CFR 1910.421 want this dive planned for these conditions.",
+    "pfd-off": "You unclipped your PFD to lean further over the rail and see the outfall. The deck of a workboat is a fall into cold, moving water with a current running, in boots and work clothes, and the PFD is what keeps you on the surface long enough for the vessel's man-overboard drill to reach you. It is worn on deck for every minute of the job, and nobody leans past the rail to look at anything."
+  },
+  "id": "br-dive-site-hazard-assessment-and-jsa",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "pump-lockout",
+      "alert": "The pile hammer on the next berth has started driving — every blow thumps through the deck and rings through the water where the diver will be working.",
+      "cue": "Call the pile-driving foreman on the adjacent-work radio: diver going in, stop the hammer until the dive is coordinated.",
+      "delay": 2,
+      "id": "pile-hammer-starts",
+      "kind": "Adjacent work starts up",
+      "missNote": "The hammer kept driving through the lockout call; the team carried on planning a dive into water that was taking a pressure pulse every few seconds, and nobody on the pile barge knew a diver was about to go in.",
+      "seconds": 14,
+      "target": "pile-crew-radio",
+      "why": "A pile hammer sends a pressure pulse through the water that a diver feels as a blow to the chest and ears, and it can shake loose what is lodged on the bottom. Other work in the water is coordinated before a dive, not discovered during one, and the foreman is told directly, on their own channel, so the hammer stops before the diver is anywhere near it.",
+      "wrongNote": "The adjacent-work radio — the pile crew have to hear about the dive from you, on their channel."
+    },
+    {
+      "after": "lower-downline",
+      "alert": "A kayaker has paddled round the end of the seawall and is heading straight across the dive site toward the downline.",
+      "cue": "Hail the kayaker on the loud hailer: diver operations, keep clear of the flag, pass astern of the workboat.",
+      "delay": 2,
+      "id": "kayak-in-site",
+      "kind": "Recreational craft entering the dive site",
+      "missNote": "The kayak paddled across the site and fouled its paddle on the downline just as the clump weight was going down; it capsized beside the workboat and the deckhand had to go to its rescue instead of standing by the dive.",
+      "seconds": 14,
+      "target": "loud-hailer",
+      "why": "Small craft on the Bay often do not know what a dive flag means, and a kayak paddle or a fin over the downline is a snag on the diver's road down. The hailer reaches them in words while there is still room for them to turn, and it does it without anyone leaving the winch or leaning over the rail.",
+      "wrongNote": "The loud hailer — tell the kayaker to keep clear before they reach the downline."
+    }
+  ],
+  "lateNotes": {
+    "downline-winch": "The downline goes down once the oxygen is at the ladder and the flag is up — mark the site after the station is ready for it.",
+    "jsa-log": "The JSA is signed and logged once the tender and the standby have read back their controls.",
+    "pump-radio": "The pump-station lockout is called in once the site walk has found the intake and the water has been read — confirm what you are isolating first."
+  },
+  "name": "Dive Site Hazard Assessment & JSA",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "bay-restoration-maritime-underwater"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "workboat",
+        "count": 1,
+        "kit": "fleet"
+      },
+      {
+        "builder": "radio",
+        "count": 2,
+        "kit": "toolkit"
+      }
+    ],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "bare-hand-sheen",
+      "current-meter",
+      "decon-station",
+      "discharge-notice",
+      "dive-flag",
+      "dive-ladder",
+      "downline-winch",
+      "emergency-list",
+      "helm-key",
+      "intake-before-lockout",
+      "jsa-board",
+      "jsa-log",
+      "loud-hailer",
+      "o2-kit",
+      "old-jsa-copy",
+      "outfall-intake",
+      "pfd-off",
+      "pile-crew-radio",
+      "pile-hammer",
+      "pump-radio",
+      "sheen",
+      "standby-readback",
+      "team-board",
+      "tender-readback"
+    ],
+    "meshes": 217
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "At the JSA board, in your PFD, with the tender, the standby diver and the deckhand: today's task, the job steps in order, and a blank hazard column for this site — nothing carried over from last week.",
+      "id": "open-jsa",
+      "kind": "select",
+      "prompt": "At the JSA board, in your PFD, with the tender, the standby diver and the deckhand: today's task, the job steps in order, and a blank hazard column for this site — nothing carried over from last week.",
+      "target": "jsa-board",
+      "title": "Open the JSA at the board with the whole team",
+      "why": "A job safety analysis breaks the dive into its steps and asks, for each one, what can hurt someone here and what control stops it. It is opened with the whole team because the deckhand knows the boat, the tender knows the umbilical path and the standby knows what they would have to reach; 29 CFR 1910.421 has the dive planned against the surface and underwater conditions of this site, and the JSA is where those conditions are written down before anyone dresses."
+    },
+    {
+      "cue": "From the rail — PFD on, not leaning over — look along the seawall and across the berths: intakes, outfalls, other work in the water, anything overhead.",
+      "id": "site-walk",
+      "itemNames": {
+        "outfall-intake": "pump-station intake grate on the seawall beside the outfall",
+        "pile-hammer": "pile-driving barge with its hammer rigged on the next berth"
+      },
+      "itemNotes": {
+        "outfall-intake": "Beside the stormwater outfall the seawall carries a pump-station intake behind a steel grate. When the pumps run, the water rushing into it makes a pressure difference across the grate that can hold a diver against it — the single most lethal thing on this site if it is not isolated.",
+        "pile-hammer": "The contractor on the next berth has a hammer hung in the leads over a pile. Pile driving sends a pressure pulse through the water that a diver in a helmet feels as a blow, and it shakes loose whatever is lodged on the bottom nearby."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "From the rail — PFD on, not leaning over — look along the seawall and across the berths: intakes, outfalls, other work in the water, anything overhead.",
+      "targets": [
+        "outfall-intake",
+        "pile-hammer"
+      ],
+      "title": "Walk the site for what could hurt a diver here",
+      "why": "The underwater hazards a diver dies of are mostly invisible from the bottom and obvious from the deck: the intake that runs on a float switch, the other contractor's hammer, the crane swinging over the water. 29 CFR 1910.421 has the supervisor assess the hazardous activities in the vicinity before the dive, because the only time they can be coordinated or isolated is before a diver is in the water beside them."
+    },
+    {
+      "cue": "Watch the current meter on the rail settle and commit the reading against the limit the dive plan sets for surface-supplied work at this site.",
+      "gauge": {
+        "green": [
+          0.38,
+          0.56
+        ],
+        "label": "CURRENT vs PLAN",
+        "missNote": "Outside the band — let the meter settle and commit the reading against the limit the dive plan gives for this site.",
+        "speed": 0.66
+      },
+      "id": "read-current",
+      "kind": "gauge",
+      "prompt": "Watch the current meter on the rail settle and commit the reading against the limit the dive plan sets for surface-supplied work at this site.",
+      "target": "current-meter",
+      "title": "Read the current against the dive plan's limit",
+      "why": "Current decides whether a surface-supplied dive can be worked at all: it bellies the umbilical, drags the diver off the work and turns every task into a fight the supply was not set for. The dive plan sets the limit for this site and this mode, and it is read on an instrument at the site rather than from the tide book, because the Bay's current round a seawall and an outfall is not the current in the channel."
+    },
+    {
+      "cue": "Look at the water round the outfall and the notices on the headwall: sheen, discoloration, anything the outfall is carrying today.",
+      "id": "water-hazards",
+      "itemNames": {
+        "discharge-notice": "notice on the headwall that the outfall discharges after rain",
+        "sheen": "oily sheen drifting off the outfall"
+      },
+      "itemNotes": {
+        "discharge-notice": "The notice on the headwall says the outfall discharges untreated stormwater during and after rain. Whatever it carries is in the water the diver works in and on every piece of gear that comes back aboard.",
+        "sheen": "A rainbow sheen is spreading off the outfall's mouth on the ebb — petroleum washed off the streets by last night's rain, and a sign the outfall is running now, not just after storms."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look at the water round the outfall and the notices on the headwall: sheen, discoloration, anything the outfall is carrying today.",
+      "targets": [
+        "sheen",
+        "discharge-notice"
+      ],
+      "title": "Read the water for contamination",
+      "why": "Contaminated water changes the dive: it decides whether the diver needs a helmet sealed to a vulcanised drysuit instead of a mask and wetsuit, whether there is a decon wash at the ladder, and how the tender handles the umbilical when it comes up. Restoration sites on the Bay sit beside outfalls and old industrial shorelines, so the water is read on the day, because after rain it is not the water the plan was written for."
+    },
+    {
+      "cue": "Keep the radio keyed with the pump-station operator: the intake pumps isolated, locked and tagged, the float switch overridden, and the operator reading the lockout back to you before you let go.",
+      "holdBreakNote": "You let go before the operator had read the lockout back — an unconfirmed isolation is not an isolation. Key the radio and take the call from the top.",
+      "id": "pump-lockout",
+      "kind": "hold",
+      "prompt": "Keep the radio keyed with the pump-station operator: the intake pumps isolated, locked and tagged, the float switch overridden, and the operator reading the lockout back to you before you let go.",
+      "seconds": 5,
+      "target": "pump-radio",
+      "title": "Hold the lockout call with the pump station until it is confirmed",
+      "why": "The intake is isolated at the pump station, by the people who run it, and the supervisor does not take a yes over the radio as a lockout: the operator names what was isolated, where the locks and tags are and who holds the key, and reads it back. The call is held until that is complete, because a half-finished conversation is how a diver ends up beside an intake that someone else still thinks is live."
+    },
+    {
+      "cue": "Write the controls into the JSA and set them on deck: helmet mated to a vulcanised drysuit, gloves for the tender, the decon wash rigged at the ladder with its brushes and bins.",
+      "id": "contamination-controls",
+      "kind": "select",
+      "prompt": "Write the controls into the JSA and set them on deck: helmet mated to a vulcanised drysuit, gloves for the tender, the decon wash rigged at the ladder with its brushes and bins.",
+      "target": "decon-station",
+      "title": "Set the controls for contaminated water",
+      "why": "The controls follow from what the water carries. A sealed helmet and drysuit keep it off the diver's skin and out of their mouth; the decon wash at the ladder takes it off the suit, the helmet and the umbilical before anyone unzips; and the tender's gloves keep it off the hands that will handle food and faces later. Written into the JSA, the controls become part of the dive rather than something the team hopes to remember."
+    },
+    {
+      "cue": "At the helm with the deckhand, turn the ignition key to OFF, pull it, tag the helm and put the key in your pocket for the duration of the dive.",
+      "id": "boat-key",
+      "kind": "turn",
+      "prompt": "At the helm with the deckhand, turn the ignition key to OFF, pull it, tag the helm and put the key in your pocket for the duration of the dive.",
+      "target": "helm-key",
+      "title": "Turn the workboat's engine off and pull the key",
+      "turn": {
+        "label": "IGNITION",
+        "turns": 0.35
+      },
+      "why": "A turning propeller beside an umbilical is one of the ways commercial divers are killed, and the dive boat's own is the one the team controls completely. Turning the engine off and pulling the key puts that control in the supervisor's pocket: nobody starts the engine to reposition, warm up or charge a battery while a diver is down, because nobody can."
+    },
+    {
+      "cue": "Hoist the rigid code flag A at the masthead so a boat approaching from any side sees it, clear of the wheelhouse and the davit.",
+      "id": "flag-up",
+      "kind": "select",
+      "prompt": "Hoist the rigid code flag A at the masthead so a boat approaching from any side sees it, clear of the wheelhouse and the davit.",
+      "target": "dive-flag",
+      "title": "Hoist the rigid dive flag where traffic can see it",
+      "why": "The flag is the warning signal 29 CFR 1910.421 asks for where vessel traffic may pass: it tells every helmsman on the Bay that a vessel here has a diver down and cannot manoeuvre. It is rigid so it reads in no wind and hoisted high so it clears the wheelhouse from every bearing — a flag that droops, or hides behind the davit, warns nobody."
+    },
+    {
+      "cue": "Carry the first-aid oxygen kit from the wheelhouse to the dive ladder, where the diver comes out of the water.",
+      "drag": {
+        "missNote": "Not at the ladder — the oxygen goes where the diver comes out of the water.",
+        "radius": 0.5,
+        "to": "dive-ladder"
+      },
+      "id": "o2-at-ladder",
+      "kind": "drag",
+      "prompt": "Carry the first-aid oxygen kit from the wheelhouse to the dive ladder, where the diver comes out of the water.",
+      "target": "o2-kit",
+      "title": "Stage the oxygen kit at the dive ladder",
+      "why": "The oxygen kit is for a diver who surfaces with symptoms, and in that minute the kit has to be where the diver is, not in a locker behind the helm. Staged at the ladder, sealed and checked, it goes on the diver's face as they are helped out, while the supervisor works the emergency list; the JSA puts it there so nobody has to think of it when the dive has gone wrong."
+    },
+    {
+      "cue": "Work the downline winch to lower the clump weight steadily to the bottom at the work site, clear of the intake and the hammer's berth — no free-fall, no snatch.",
+      "holdBreakNote": "The weight went out of band — a stall or a run. Bring the winch back to a steady rate and hold it until the weight is on the bottom.",
+      "id": "lower-downline",
+      "kind": "track",
+      "prompt": "Work the downline winch to lower the clump weight steadily to the bottom at the work site, clear of the intake and the hammer's berth — no free-fall, no snatch.",
+      "seconds": 6,
+      "target": "downline-winch",
+      "title": "Lower the downline to mark the work",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.46,
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "DOWNLINE WINCH",
+        "rise": 0.56,
+        "start": 0.14
+      },
+      "why": "The downline is the diver's road to the work and back, and the clump weight marks exactly where the dive plan put the job. Lowered steadily, the weight lands where it was aimed and does not bounce into the soft bottom and cloud it; dropped, it lands where the current carries it — sometimes beside the intake the team has just locked out, or under the pile barge's leads."
+    },
+    {
+      "cue": "Read the emergency aid list with the team: the nearest available recompression chamber, the hospital, the diving physician, the Coast Guard, and how a diver gets from this deck to each of them.",
+      "id": "emergency-list",
+      "kind": "select",
+      "prompt": "Read the emergency aid list with the team: the nearest available recompression chamber, the hospital, the diving physician, the Coast Guard, and how a diver gets from this deck to each of them.",
+      "target": "emergency-list",
+      "title": "Confirm the emergency aid list",
+      "why": "29 CFR 1910.421 wants a list at the dive location of the nearest chamber, hospital, physician and the means of transport, and ADCI practice has the supervisor confirm it on the day rather than trust last month's phone numbers. A diver with symptoms needs a chamber, not the nearest emergency room, and the minutes spent finding out where one is and whether it is manned come straight out of that diver's recovery."
+    },
+    {
+      "cue": "Have the standby diver read back how they would reach the diver at the intake or the downline, then the tender read back the umbilical path, the signals and the decon.",
+      "id": "read-backs",
+      "itemNames": {
+        "standby-readback": "standby diver reads back the rescue plan",
+        "tender-readback": "tender reads back the umbilical controls"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order — the standby reads back the rescue first; the tender's read-back follows once the worst case has been heard.",
+      "prompt": "Have the standby diver read back how they would reach the diver at the intake or the downline, then the tender read back the umbilical path, the signals and the decon.",
+      "targets": [
+        "standby-readback",
+        "tender-readback"
+      ],
+      "title": "Hear the read-backs: the standby first, then the tender",
+      "why": "A briefing that nobody reads back is a speech. The standby reads back first because theirs is the plan for the worst case — where they would go in, what they would follow and what they would carry — and the tender second because their controls are the ones in use every minute of the dive. Hearing each person say it in their own words is how the supervisor finds the gap before the diver does."
+    },
+    {
+      "cue": "Sign the JSA with the team — every hazard with its control, the lockout confirmed and by whom, the hammer stood down, the kayak moved on — and file it with the dive record.",
+      "id": "sign-jsa",
+      "kind": "select",
+      "prompt": "Sign the JSA with the team — every hazard with its control, the lockout confirmed and by whom, the hammer stood down, the kayak moved on — and file it with the dive record.",
+      "target": "jsa-log",
+      "title": "Sign the JSA and log it with the dive record",
+      "why": "The signed JSA is the evidence that this site was assessed for this dive, and it goes with the dive record 29 CFR 1910.440 has the employer keep. The events of the morning go on it too — the hammer that started and the kayak that paddled in — because the next supervisor on this site should know the neighbours and the traffic before they are surprised by them."
+    },
+    {
+      "cue": "At the team board: everyone clear on the plan, everyone still in a PFD, anybody unhappy with anything on this site — and how everyone is today.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "At the team board: everyone clear on the plan, everyone still in a PFD, anybody unhappy with anything on this site — and how everyone is today.",
+      "target": "team-board",
+      "title": "Check in with the team before anyone dresses",
+      "why": "The check-in is where anyone on the team can still stop the dive, and the supervisor asks for it openly: a tender who slept badly or a standby who is unhappy about the intake is information, not weakness. It is also the last moment before the work starts to ask how people are; Pile Drivers Local 34 and the Inlandboatmen's Union member assistance lines are there for what a deck conversation does not settle."
+    }
+  ],
+  "supportLine": "your union hall's member assistance programme — Pile Drivers Local 34 or the Inlandboatmen's Union — with the employer's employee assistance line behind it",
+  "tagline": "Before anyone dresses: the JSA opened with the whole team, the outfall intake and the pile hammer found, the current read against the plan, the sheen and the discharge notice seen, the pump station locked out on the radio while the hammer starts up next door, the decon set, the boat's key pulled, the flag up, the oxygen at the ladder, the downline lowered while a kayak paddles into the site, the emergency list confirmed, the read-backs heard and the JSA signed and logged — every step in a PFD",
+  "title": "SmartCiti.X~ Dive Site Hazard Assessment & JSA VR",
+  "trade": "Pile Drivers Local 34 commercial diver as dive supervisor, running the site hazard assessment and job safety analysis for a Bay restoration dive with the tender, the standby diver and an Inlandboatmen's Union deckhand",
+  "underwater": null,
+  "weather": "overcast"
+}

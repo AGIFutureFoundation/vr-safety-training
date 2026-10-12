@@ -1,0 +1,430 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "switch-on-the-call",
+    "name": "Switch On The Call",
+    "note": "The knife switch closed only on 'make it hot' and opened on 'make it cold', every rod, every time"
+  },
+  "category": "Maritime & Ports",
+  "certification": "Pile Drivers apprenticeship under the Carpenters (UBC) International Training Fund; OSHA 29 CFR 1910 Subpart T — 29 CFR 1910.421 pre-dive procedures and the team briefing, 29 CFR 1910.422 procedures during the dive (power tools and welding equipment, communications), 29 CFR 1910.430 diving equipment and 29 CFR 1910.425 the tended surface-supplied diver; AWS D3.6 underwater welding code for the qualified procedure and the job briefing; ADCI consensus standards for the surface-controlled switch; USCG 46 CFR 197 Subpart B where the work is off a vessel; the welding procedure card and the dive plan hold every figure",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ADCI",
+        "citedAs": "ADCI",
+        "id": "adci-consensus-standards",
+        "title": "Association of Diving Contractors International — International Consensus Standards for Commercial Diving and Underwater Operations"
+      },
+      {
+        "body": "AWS",
+        "citedAs": "AWS D3.6",
+        "id": "aws-d3-6",
+        "title": "AWS D3.6M — Underwater Welding Code"
+      },
+      {
+        "body": "union",
+        "citedAs": "UBC",
+        "id": "carpenters-ictf",
+        "title": "United Brotherhood of Carpenters International Training Fund — carpenter, pile driver and millwright apprenticeship"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.421",
+        "id": "osha-1910-421",
+        "title": "29 CFR 1910.421 — Pre-dive procedures (emergency aid list, planning and assessment of the dive, hazardous activities nearby, the team briefing, equipment inspection and the warning signal)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.422",
+        "id": "osha-1910-422",
+        "title": "29 CFR 1910.422 — Procedures during the dive (water entry and exit, communications, decompression tables, power tools, termination of the dive)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.423",
+        "id": "osha-1910-423",
+        "title": "29 CFR 1910.423 — Post-dive procedures (the diver's condition, instructions to report symptoms, the recompression chamber and the record of dive)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.425",
+        "id": "osha-1910-425",
+        "title": "29 CFR 1910.425 — Surface-supplied air diving (limits, the tended diver, the standby diver and the reserve breathing gas)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.430",
+        "id": "osha-1910-430",
+        "title": "29 CFR 1910.430 — Diving equipment (air compressor systems and their intakes, breathing gas hoses, helmets and masks, decompression chambers, gauges and timekeeping)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.440",
+        "id": "osha-1910-440",
+        "title": "29 CFR 1910.440 — Recordkeeping for commercial diving (the dive record, decompression procedure assessments and their retention)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910 Subpart T",
+        "id": "osha-1910-subpart-t",
+        "title": "29 CFR 1910 Subpart T — Commercial diving operations (dive team qualifications, the safe practices manual, pre-dive, during-dive and post-dive procedures, equipment and the dive record)"
+      },
+      {
+        "body": "USCG",
+        "citedAs": "46 CFR 197 Subpart B",
+        "id": "uscg-46-cfr-197-subpart-b",
+        "title": "46 CFR Part 197 Subpart B — Commercial diving operations from vessels and facilities under Coast Guard jurisdiction"
+      }
+    ]
+  },
+  "district": "Maritime & Ports",
+  "domain": "Maritime & Ports",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "clean-leads",
+        "name": "Clean Leads",
+        "note": "The cut jacket and the loose lug found before the machine ran"
+      },
+      {
+        "id": "card-set",
+        "name": "Set To The Card",
+        "note": "The output set inside the procedure card's band first time"
+      },
+      {
+        "id": "cold-hands",
+        "name": "Cold Hands",
+        "note": "No hazard reached for from the briefing to the log"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-shift",
+        "name": "Clean Shift",
+        "note": "No corrections from the briefing to the check-in"
+      },
+      {
+        "id": "steady-tend",
+        "name": "Steady Tend",
+        "note": "The lead tended in band for the whole bead"
+      },
+      {
+        "id": "quick-record",
+        "name": "Quick Record",
+        "note": "Weld record written inside 80% of par"
+      }
+    ],
+    "currency": "ROD COUNT",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Deckhand",
+      "Lead Tender",
+      "Switch Tender",
+      "Welding Tender",
+      "Wet Weld Certified"
+    ],
+    "system": "Hot And Cold"
+  },
+  "hazards": {
+    "ground-to-stage": "You went to clamp the ground lead to the diving stage because it was the nearest clean steel. The stage is what the diver stands in; a ground on it puts the diver between the electrode and the return every time they lean on a rail. The ground goes on the work itself, on bright metal, as close to the weld as the procedure card allows, so the current's path never runs through the stage or the diver.",
+    "hot-without-call": "You reached to close the knife switch because the diver looked about ready on the video. The switch closes on the diver's spoken call, 'make it hot', and on nothing else: a live electrode in a diver's hand before they have it against the work and their body clear of the circuit is how a welder gets a shock through wet gloves. AWS D3.6 and the safe practices manual both put the switch under the diver's voice, not the tender's judgement.",
+    "lead-through-bilge": "You started to run the welding lead through the standing water in the deck scupper because it was the straight route. A lead with any nick in its jacket lying in a puddle puts a live path across the deck everyone is walking on, and the nick you did not find is the one that bites. Leads run high, dry, over the cable ramp and over the chafe roller, never through water on deck.",
+    "wet-hand-switch": "You went to throw the knife switch with your wet glove off and your bare hand. The switch box is insulated for a reason and the tender's dry rubber gloves are part of the circuit's protection; a bare wet hand on a knife switch handle carrying a welding circuit is a burn or a shock on the surface, where the diver has nobody else watching the switch. Gloves on, dry, then the handle."
+  },
+  "id": "cd-underwater-wet-welding-and-cutting",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "switch-hold",
+      "alert": "A deckhand has stepped onto the apron edge beside the hanging stage to reach a fender — standing over the welding lead's path with the diver about to call for it hot.",
+      "cue": "Sound the air horn and wave the deckhand back behind the striped line before you answer any call.",
+      "delay": 2,
+      "id": "deckhand-on-stage",
+      "kind": "Deckhand at the stage edge over the live lead",
+      "missNote": "The diver called 'make it hot' with the deckhand still straddling the welding lead at the apron edge; the supervisor stopped the dive and the deckhand was walked off the stage by the standby.",
+      "seconds": 14,
+      "target": "air-horn",
+      "why": "The apron edge inside the striped line is the welding circuit's ground: the leads, the roller and the stage all live there, and anyone standing on it when the switch closes is standing in a circuit they do not know is live. The horn stops everyone at once, the deckhand goes back behind the line, and only then is the tender free to answer the diver — a call answered with someone on the leads is a call answered wrong.",
+      "wrongNote": "The air horn — stop the deckhand and clear the stage edge before anything else."
+    },
+    {
+      "after": "weld-track",
+      "alert": "The diver's voice on the comms has dropped to a crackle mid-bead — you cannot tell whether that was 'make it cold' or nothing at all.",
+      "cue": "Open the knife switch at once, then give the diver the line-pull signal for 'switch is cold' on the umbilical from the manual.",
+      "delay": 2,
+      "id": "comms-garble",
+      "kind": "Diver's voice comms garbled mid-bead",
+      "missNote": "The switch stayed hot through the crackle; the diver had called 'make it cold' and was waiting to change the rod with a live holder in their glove until the supervisor reached over and opened the switch.",
+      "seconds": 14,
+      "target": "line-pull-point",
+      "why": "A garbled call is treated as 'make it cold', never as silence: the tender cannot know whether the diver is asking for a dead circuit or has a problem, and a live electrode in a diver's hand is the one thing that must not continue on a guess. The switch opens, and the line-pull signal from the employer's safe practices manual tells the diver the circuit is dead in the only language left when the voice comms fail.",
+      "wrongNote": "The umbilical at the roller — the switch is open, now give the diver the 'switch is cold' line-pull signal."
+    }
+  ],
+  "lateNotes": {
+    "knife-switch": "The switch is worked on the diver's call once the leads, the ground and the diver are checked.",
+    "lead-tend": "The lead is tended once the switch is hot and the diver is welding.",
+    "weld-record": "The weld record is written once the bead is read and the switch is cold."
+  },
+  "name": "Underwater Wet Welding & Cutting — Surface Side",
+  "parSeconds": 320,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "commercial-diving-and-scientific-scuba"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "1.5x2.58x1.5",
+        "count": 1,
+        "kit": "unknown"
+      }
+    ],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "air-horn",
+      "cut-jacket",
+      "diver-gloves",
+      "fresh-rod",
+      "ground-clamp",
+      "ground-point",
+      "ground-to-stage",
+      "hot-without-call",
+      "knife-switch",
+      "lead-tend",
+      "lead-through-bilge",
+      "line-pull-point",
+      "loose-lug",
+      "output-dial",
+      "output-idle",
+      "polarity-tag",
+      "procedure-card",
+      "stub-bag",
+      "switch-handle",
+      "team-board",
+      "video-monitor",
+      "weld-record",
+      "wet-hand-switch"
+    ],
+    "meshes": 216
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "At the supervisor's panel, in your PFD and dry gloves: the qualified welding procedure card, who owns the knife switch, the exact words for 'make it hot' and 'make it cold', and what happens if comms go.",
+      "id": "weld-brief",
+      "kind": "select",
+      "prompt": "At the supervisor's panel, in your PFD and dry gloves: the qualified welding procedure card, who owns the knife switch, the exact words for 'make it hot' and 'make it cold', and what happens if comms go.",
+      "target": "procedure-card",
+      "title": "Take the AWS D3.6 job briefing at the comms panel",
+      "why": "AWS D3.6 has the wet weld done to a qualified procedure and the whole team briefed on it before the diver dresses, and 29 CFR 1910.421 has the dive team briefed on the tasks, the hazards and the signals. The welding tender's part of that briefing is the switch: only the tender works it, only on the diver's spoken call, and the words are fixed so that a garbled call is never mistaken for one."
+    },
+    {
+      "cue": "Run your hand and your eyes along the welding lead and the ground lead from the machine terminals to the apron edge: jacket, connectors, lugs and the strain on each.",
+      "id": "check-leads",
+      "itemNames": {
+        "cut-jacket": "welding lead's jacket cut through to the copper",
+        "loose-lug": "ground lead's lug loose on the machine terminal"
+      },
+      "itemNotes": {
+        "cut-jacket": "A hand's width of the welding lead's jacket is split to the copper where it has been dragged over a pier edge. In the water, or in a puddle on deck, that is a live path out of the lead.",
+        "loose-lug": "The ground lead's lug is finger-loose on the machine's return terminal. A loose return heats, arcs and can drop the ground mid-bead, leaving the diver holding the only path."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Run your hand and your eyes along the welding lead and the ground lead from the machine terminals to the apron edge: jacket, connectors, lugs and the strain on each.",
+      "targets": [
+        "cut-jacket",
+        "loose-lug"
+      ],
+      "title": "Walk the leads from the machine to the water's edge",
+      "why": "29 CFR 1910.430 has diving equipment inspected before use and the welding leads are the diver's equipment as much as the umbilical is. A split jacket or a loose lug is not visible from the switch, and a lead fault found once the diver is in the water means a cold switch, a diver waiting on the bottom and a repair under time; found on deck it is a lead swapped in a minute."
+    },
+    {
+      "cue": "Take the ground clamp to the pile's steel jacket at the point the procedure card marks, on metal the diver has already cleaned to bright, and close it hard.",
+      "drag": {
+        "missNote": "Not on the work — the ground goes on the bright steel the procedure card marks, on the pile itself.",
+        "radius": 0.5,
+        "to": "ground-point"
+      },
+      "id": "set-ground",
+      "kind": "drag",
+      "prompt": "Take the ground clamp to the pile's steel jacket at the point the procedure card marks, on metal the diver has already cleaned to bright, and close it hard.",
+      "target": "ground-clamp",
+      "title": "Clamp the ground on bright steel on the work",
+      "why": "The return path runs from the work back to the machine, and where the ground sits decides where the current flows. On bright steel on the work itself, close to the weld, the path stays inside the pile; on painted or grown-over steel it arcs and wanders, and on the stage or a ladder it runs through whatever the diver is touching. The card marks the spot for exactly that reason."
+    },
+    {
+      "cue": "At the machine, confirm the output contactor is open and the knife switch is open, then read the lead polarity at the terminals against the procedure card.",
+      "id": "polarity-check",
+      "itemNames": {
+        "output-idle": "machine's output confirmed off at the contactor",
+        "polarity-tag": "polarity read against the procedure card"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order — confirm the output is off before you put a hand on the terminals to read polarity.",
+      "prompt": "At the machine, confirm the output contactor is open and the knife switch is open, then read the lead polarity at the terminals against the procedure card.",
+      "targets": [
+        "output-idle",
+        "polarity-tag"
+      ],
+      "title": "Confirm the output is off, then read the polarity against the card",
+      "why": "Wet SMAW is run on direct current at the polarity the qualified procedure names, and the wrong polarity puts the electrolysis on the diver's side of the arc, eating the helmet's metal fittings and blistering the weld. The polarity is read with the output off because reading terminals on a live machine is a shock waiting for a wet glove, and it is read against the card rather than from memory."
+    },
+    {
+      "cue": "Turn the output control to the setting on the procedure card for this electrode and this position, and leave it there.",
+      "id": "set-output",
+      "kind": "turn",
+      "prompt": "Turn the output control to the setting on the procedure card for this electrode and this position, and leave it there.",
+      "target": "output-dial",
+      "title": "Set the machine's output to the procedure card",
+      "turn": {
+        "label": "OUTPUT",
+        "turns": 1.2
+      },
+      "why": "The setting on the card is the one the procedure was qualified at, with this electrode, in this position, in this water; too low and the arc will not strike wet, too high and the bead undercuts and the rod burns away in the diver's hand. The tender sets it, reads it back to the supervisor, and does not adjust it on a feeling — a change means a call to the diver and a note on the record."
+    },
+    {
+      "cue": "At the stage: the diver's rubber gloves whole and over the cuffs, the helmet's insulating fittings in place, no bare metal where the electrode holder rests.",
+      "id": "diver-insulation",
+      "kind": "select",
+      "prompt": "At the stage: the diver's rubber gloves whole and over the cuffs, the helmet's insulating fittings in place, no bare metal where the electrode holder rests.",
+      "target": "diver-gloves",
+      "title": "Check the diver-welder's gloves and helmet insulation",
+      "why": "The diver-welder's protection from their own circuit is their gloves and the insulation on the helmet's fittings; a torn glove or a missing fitting is a path to the diver at the first touch of a live electrode. The tender checks them at the stage because the diver cannot see their own helmet and, once in the water, cannot fix a glove. It is a two-second look that the whole dive depends on."
+    },
+    {
+      "cue": "Gloves on, hand on the handle, switch open. Listen to the comms: the diver is positioning the electrode against the work and will call 'make it hot' when ready.",
+      "holdBreakNote": "Your hand came off the switch — the diver's call has nobody to answer it. Back on the handle, switch open.",
+      "id": "switch-hold",
+      "kind": "hold",
+      "prompt": "Gloves on, hand on the handle, switch open. Listen to the comms: the diver is positioning the electrode against the work and will call 'make it hot' when ready.",
+      "seconds": 5,
+      "target": "switch-handle",
+      "title": "Hold the knife switch open until the diver calls for it",
+      "why": "Between the diver entering the water and the first call, the switch stays open and the tender's hand stays on it: open so nothing is live while the diver is still moving and settling, on the handle so the call is answered the moment it comes. A tender who walks away from the switch to fetch something is a diver holding a rod against the work with nobody to make it live — or a switch someone else throws."
+    },
+    {
+      "cue": "The diver calls 'make it hot'. Repeat the call back on the comms, then close the knife switch in one movement.",
+      "id": "make-hot",
+      "kind": "select",
+      "prompt": "The diver calls 'make it hot'. Repeat the call back on the comms, then close the knife switch in one movement.",
+      "target": "knife-switch",
+      "title": "Close the switch on 'make it hot'",
+      "why": "The call is repeated back so the diver hears that the tender heard the right words, then the switch closes. 29 CFR 1910.422 has the welding circuit energised only on the diver's command and de-energised on it; the read-back is what stops a 'make it cold' that came through as a half-word from being answered with a live rod. One clean movement, because a knife switch closed slowly arcs at the blades."
+    },
+    {
+      "cue": "Keep the welding lead in hand over the roller with just enough slack for the diver to move along the bead — no strain on the electrode holder, no belly of lead in the water.",
+      "holdBreakNote": "The lead went out of band — strain on the holder or a belly in the water. Get back in step with the diver.",
+      "id": "weld-track",
+      "kind": "track",
+      "prompt": "Keep the welding lead in hand over the roller with just enough slack for the diver to move along the bead — no strain on the electrode holder, no belly of lead in the water.",
+      "seconds": 6,
+      "target": "lead-tend",
+      "title": "Tend the welding lead while the diver runs the bead",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.46,
+        "green": [
+          0.42,
+          0.62
+        ],
+        "label": "LEAD SLACK",
+        "rise": 0.56,
+        "start": 0.14
+      },
+      "why": "The diver-welder works with both hands on the holder and the work, so the lead's slack is the tender's job: strain on it pulls the holder off the bead, slack piles in the water and fouls the umbilical or the stage. The tender feels the diver moving along the joint through the lead the same way the umbilical tender feels the diver, and stays ready for the 'make it cold' that ends every rod."
+    },
+    {
+      "cue": "The rod is spent and the diver calls 'make it cold'. Repeat it back, open the knife switch, and tell the diver 'switch is cold' before they touch the holder.",
+      "id": "make-cold",
+      "kind": "select",
+      "prompt": "The rod is spent and the diver calls 'make it cold'. Repeat it back, open the knife switch, and tell the diver 'switch is cold' before they touch the holder.",
+      "target": "knife-switch",
+      "title": "Open the switch on 'make it cold'",
+      "why": "Every rod change is a cold switch: the diver has to take the spent stub out of the holder and put the fresh electrode in with their gloves on the holder's jaws, and that is done only on a dead circuit. The tender says 'switch is cold' after opening it because the diver acts on the tender's word, not on the sound of a switch they cannot hear, and a rod put in a live holder is a shock at the fingertips."
+    },
+    {
+      "cue": "Haul the stub bag up the electrode line, drop the spent stub in the bag, then load a fresh electrode from the sealed quiver and send it down.",
+      "id": "change-electrode",
+      "itemNames": {
+        "fresh-rod": "fresh electrode from the dry quiver sent down the line",
+        "stub-bag": "spent stub taken from the diver's line and bagged"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order — bag the spent stub before you send a fresh rod down the line.",
+      "prompt": "Haul the stub bag up the electrode line, drop the spent stub in the bag, then load a fresh electrode from the sealed quiver and send it down.",
+      "targets": [
+        "stub-bag",
+        "fresh-rod"
+      ],
+      "title": "Bag the spent stub, then send down a fresh rod",
+      "why": "Spent stubs go in the bag, not over the side: a stub on the bottom is a sharp, a foul for the umbilical and a piece of steel the diver kneels on. The fresh electrode comes out of a quiver that has stayed sealed and dry, because a waterproofed rod whose coating has soaked is a rod that will not strike and a weld the procedure never qualified. Stub first, then rod, so nothing live or spent is in two hands at once."
+    },
+    {
+      "cue": "Watch the helmet camera as the diver brushes the bead and commit when the profile, the toes and the start and stop read as the procedure card's visual acceptance describes.",
+      "gauge": {
+        "green": [
+          0.44,
+          0.62
+        ],
+        "label": "BEAD vs CARD",
+        "missNote": "Outside the band — read the bead against the card's visual acceptance, not against how it looks.",
+        "speed": 0.66
+      },
+      "id": "read-bead",
+      "kind": "gauge",
+      "prompt": "Watch the helmet camera as the diver brushes the bead and commit when the profile, the toes and the start and stop read as the procedure card's visual acceptance describes.",
+      "target": "video-monitor",
+      "title": "Read the bead on the diver's video against the card",
+      "why": "AWS D3.6 has every wet weld inspected to the class the procedure names, and the first inspection is visual, by the diver's camera and the supervisor's eye on the monitor. Reading the bead against the card's own description — the profile, undercut at the toes, the starts and stops — rather than against a feeling is what makes the record defensible when the inspector asks how the weld was accepted."
+    },
+    {
+      "cue": "At the record table: the procedure card number, the electrodes used and the stubs bagged, the machine setting, every hot and cold call with its time, the lead fault found and the deckhand on the stage.",
+      "id": "weld-record",
+      "kind": "select",
+      "prompt": "At the record table: the procedure card number, the electrodes used and the stubs bagged, the machine setting, every hot and cold call with its time, the lead fault found and the deckhand on the stage.",
+      "target": "weld-record",
+      "title": "Write the weld record and the dive log entry",
+      "why": "The weld record is the weld's paper: the procedure it was made to, the rods and the setting, and every time the circuit went live and dead. 29 CFR 1910.440 has the dive's record kept and AWS D3.6 has the weld's kept, and they are written by the person who worked the switch because the switch log is the one thing nobody else on the team saw from where they stood."
+    },
+    {
+      "cue": "At the team board: the diver-welder's condition and who is watching them, the lead tagged out for repair, the deckhand and the stage, the garbled comms, and how everyone is.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "At the team board: the diver-welder's condition and who is watching them, the lead tagged out for repair, the deckhand and the stage, the garbled comms, and how everyone is.",
+      "target": "team-board",
+      "title": "Check in with the dive team",
+      "why": "The check-in closes the job for the team, not just for the record: the diver is watched for symptoms per 29 CFR 1910.423, the damaged lead is out of service where the next tender will see the tag, and the two moments that went wrong — a deckhand at the stage edge, comms dropping mid-bead — are said out loud so they are fixed for tomorrow. The union hall's member assistance line is there for what the deck does not settle."
+    }
+  ],
+  "supportLine": "your union hall's member assistance programme — the Pile Drivers of the Carpenters — with the employer's employee assistance line behind it",
+  "tagline": "The switch that makes the diver's rod live is on deck: the AWS D3.6 job briefing taken, the cut jacket and the loose lug found, the ground clamped to clean steel on the work, the machine idled and its polarity read, the output set to the procedure card, the diver's gloves and helmet insulation checked, the switch held open until 'make it hot', the bead tended while a deckhand wanders onto the stage, the comms garble answered by line pull, 'make it cold' before the rod change, the stub bagged, the bead read on video and the weld record written",
+  "title": "SmartCiti.X~ Underwater Wet Welding & Cutting — Surface Side VR",
+  "trade": "Pile Drivers of the Carpenters diver-tender working the knife switch and the leads for a diver-welder on a pier repair, with the dive supervisor, the diver-welder in the stage and the standby diver",
+  "underwater": null,
+  "weather": "overcast"
+}

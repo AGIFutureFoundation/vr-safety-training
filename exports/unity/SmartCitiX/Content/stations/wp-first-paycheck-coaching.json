@@ -1,0 +1,385 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "first-check-set",
+    "name": "First Check Set",
+    "note": "The packet read, the benefits items found, direct deposit set up in order, a budget built for the real number, savings moved and a benefits question actually asked"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "The Consumer Financial Protection Bureau's (CFPB) consumer guidance on budgeting and building an emergency fund, which this session's budget and savings envelope are built from; the IRS's guidance for workers on Form W-4 and the Tax Withholding Estimator, read against the first stub at this same desk; HIPAA's Privacy Rule, for what a health-plan election on the benefits packet does and does not share outside the plan itself; 29 CFR 1910.22 for the walking-working surfaces the wellness centre shares with every other office; SAMHSA's guidance on help-seeking, for the coach's own check-in; Teamsters (IBT) benefit funds, named on the enrollment packet as one of the plans this pathway can lead to",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "CFPB",
+        "citedAs": "CFPB",
+        "id": "cfpb-consumer-guidance",
+        "title": "Consumer Financial Protection Bureau consumer guidance — credit reports and scores, debt collection, budgeting, emergency savings and payday loans"
+      },
+      {
+        "body": "HHS",
+        "citedAs": "HIPAA",
+        "id": "hipaa-privacy-rule",
+        "title": "HIPAA Privacy and Security Rules (45 CFR Parts 160 and 164)"
+      },
+      {
+        "body": "IRS",
+        "citedAs": "IRS",
+        "id": "irs-consumer-guidance",
+        "title": "Internal Revenue Service guidance for workers — Form W-4 and the Tax Withholding Estimator, Form W-2, estimated tax on self-employment income, splitting a refund, free tax help, and how the IRS does and does not contact taxpayers"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.22",
+        "id": "osha-1910-22",
+        "title": "29 CFR 1910.22 — Walking-working surfaces, general requirements"
+      },
+      {
+        "body": "SAMHSA",
+        "citedAs": "SAMHSA",
+        "id": "samhsa-trauma-informed",
+        "title": "SAMHSA's six principles of a trauma-informed approach"
+      },
+      {
+        "body": "union",
+        "citedAs": "IBT",
+        "id": "teamsters-training",
+        "title": "Teamsters apprenticeship and driver training programmes, including regulated-soil and yard work"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Financial coaching",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "packet-read",
+        "name": "Packet Read",
+        "note": "The orientation packet held through and the benefits items found clean"
+      },
+      {
+        "id": "nothing-to-a-caller",
+        "name": "Nothing To A Caller",
+        "note": "No unsafe action anywhere in the session"
+      },
+      {
+        "id": "held-the-budget",
+        "name": "Held The Budget",
+        "note": "The budget track carried without a break"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-first-check",
+        "name": "Clean First Check",
+        "note": "No corrections anywhere"
+      },
+      {
+        "id": "honest-confidence",
+        "name": "Honest Confidence",
+        "note": "The confidence gauge committed near the middle of the band"
+      },
+      {
+        "id": "one-sitting-set",
+        "name": "One-Sitting Set",
+        "note": "Finished inside 80% of par"
+      }
+    ],
+    "currency": "STUB",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "First Check",
+      "Deposit Set",
+      "Budget Built",
+      "Benefits Elected",
+      "First-Paycheck Certified"
+    ],
+    "system": "Wellness Resource Centre"
+  },
+  "hazards": {
+    "wp-fp-cord-trip": "You were about to step over the space heater's cord where it crosses the middle of the coaching room floor. A cord across the floor of a room people cross all morning is a trip waiting for the busiest hour of the week — it gets run along the wall and taped down, not left where the next client's feet land.",
+    "wp-fp-panic-client": "The client at the next desk has started breathing fast and gripping the edge of the table over a notice in her hand. A panic response to bad financial news is common and treatable in the moment — get the coach, help her slow her breathing, and do not just keep working next to it as if nothing is happening.",
+    "wp-fp-stuffy-centre": "The wellness centre's front room has gone warm with the door closed all morning. A hot, airless room dulls the concentration a budget built for real numbers actually needs — crack the door for a breeze and get water before you start, not partway through.",
+    "wp-fp-worksheet-hunch": "You were about to fill out the whole budget worksheet hunched over a clipboard on your knee instead of at the desk. A budget worth building carefully takes real time, and doing it hunched over that long strains a back for no reason — sit at the desk and use the surface it has."
+  },
+  "id": "wp-first-paycheck-coaching",
+  "indoor": "service",
+  "interrupts": [
+    {
+      "after": "budget-track",
+      "alert": "The desk phone rings: a caller says she is from 'new-hire payroll processing' and needs your Social Security number and full bank account number read to her now to 'finish setting up direct deposit'.",
+      "cue": "Do not read anything out. Verify it at the HR window in person.",
+      "delay": 3,
+      "id": "wp-fp-payroll-scam-call",
+      "kind": "Caller posing as payroll",
+      "missNote": "The call sat unanswered while you kept working, and in the version where you read the numbers out, the caller had a routing number, an account number and a Social Security number before your first check even cleared.",
+      "seconds": 12,
+      "target": "wp-fp-hr-window",
+      "why": "Direct deposit is set up on the form you already filled out at this desk, never by reading numbers to an unexpected caller, and a request for a Social Security number and a full account number together is exactly what the CFPB's guidance warns is used to drain a new hire's very first check. The HR window, in person, is how you check whether any such call was ever real.",
+      "wrongNote": "Not the budget slider. The HR window is where a real payroll question gets checked — go there, not to the caller."
+    },
+    {
+      "after": "savings-envelope",
+      "alert": "A coworker who caught up with you outside the office asks to borrow forty dollars against your first check, 'just until Friday'.",
+      "cue": "Decline for now, and point them to the case manager if it is a real emergency.",
+      "delay": 3,
+      "id": "wp-fp-loan-request",
+      "kind": "Coworker asks to borrow against your check",
+      "missNote": "You handed over the cash on the spot, and in the version where Friday came and went with nothing paid back, both the money and the friendship were harder to get back than the forty dollars ever was.",
+      "seconds": 12,
+      "target": "wp-fp-referral-card",
+      "why": "A loan between coworkers has no paperwork and no plan for what happens if Friday's check does not cover both of you, and it can quietly cost a friendship on top of the money — the case manager's referral card exists for a real emergency, with an actual process behind it, which a handshake on the sidewalk does not have.",
+      "wrongNote": "Not the envelope you just filled. The referral card is the real answer for an actual emergency — point them there."
+    }
+  ],
+  "lateNotes": {
+    "wp-fp-firstcheck-log": "The log closes out the session last, with what the coach actually said about the benefits question.",
+    "wp-fp-savings-cash": "Not yet. Money goes into the envelope once the budget is actually built — a transfer with no plan behind it just becomes next week's overdraft."
+  },
+  "name": "First-Paycheck Coaching",
+  "parSeconds": 330,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "wojrc-pathway-edition"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "wp-fp-benefits-beneficiary",
+      "wp-fp-benefits-health",
+      "wp-fp-benefits-retirement",
+      "wp-fp-budget-slider",
+      "wp-fp-checkin-board",
+      "wp-fp-coach",
+      "wp-fp-confidence-dial",
+      "wp-fp-cord-trip",
+      "wp-fp-dd-numbers",
+      "wp-fp-dd-submit",
+      "wp-fp-dd-voided-check",
+      "wp-fp-deadline-correct",
+      "wp-fp-deadline-wrong-1",
+      "wp-fp-deadline-wrong-2",
+      "wp-fp-firstcheck-log",
+      "wp-fp-forms-tray",
+      "wp-fp-hr-window",
+      "wp-fp-orientation-packet",
+      "wp-fp-panic-client",
+      "wp-fp-referral-card",
+      "wp-fp-reminder-dial",
+      "wp-fp-savings-cash",
+      "wp-fp-savings-envelope",
+      "wp-fp-signin-desk",
+      "wp-fp-stuffy-centre",
+      "wp-fp-worksheet-hunch"
+    ],
+    "meshes": 123
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Sign the sheet at the wellness centre desk with your name and the appointment time.",
+      "id": "sign-in",
+      "kind": "select",
+      "prompt": "Sign the sheet at the wellness centre desk with your name and the appointment time.",
+      "target": "wp-fp-signin-desk",
+      "title": "Sign in at the coaching desk",
+      "why": "The wellness centre's financial coach runs appointments back to back on paycheck week, and signing in confirms you are here for the slot booked — the same habit as every other appointment this pathway has run on since intake."
+    },
+    {
+      "cue": "Hold the packet open and read what it actually says about pay, direct deposit and the benefits enrollment window.",
+      "holdBreakNote": "You closed the packet before the enrollment deadline line. That is the one date the rest of today runs against — read it through.",
+      "id": "read-packet",
+      "kind": "hold",
+      "prompt": "Hold the packet open and read what it actually says about pay, direct deposit and the benefits enrollment window.",
+      "seconds": 6,
+      "target": "wp-fp-orientation-packet",
+      "title": "Read the first-paycheck orientation packet",
+      "why": "A first-paycheck packet answers questions that are expensive to get wrong later — when the enrollment window actually closes, what direct deposit needs to be set up correctly, what the first check will and will not include. Reading it fully now, with the coach in the room to answer a question, is worth more than guessing later from memory."
+    },
+    {
+      "cue": "Three lines on the benefits packet still need an election from you. Find all three.",
+      "id": "find-benefits-items",
+      "itemNames": {
+        "wp-fp-benefits-beneficiary": "the beneficiary designation",
+        "wp-fp-benefits-health": "the health plan election",
+        "wp-fp-benefits-retirement": "the retirement plan election"
+      },
+      "itemNotes": {
+        "wp-fp-benefits-beneficiary": "A beneficiary designation with nobody named on it means a benefit's payout follows a default order of relatives that may not match what you actually want.",
+        "wp-fp-benefits-health": "A health plan election left blank past the enrollment window usually means no coverage until the next one opens, often a full year away.",
+        "wp-fp-benefits-retirement": "A retirement plan election decided now, even a small one, is a habit that compounds for the whole rest of a career — leaving it blank is itself a choice, just the default one."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Three lines on the benefits packet still need an election from you. Find all three.",
+      "targets": [
+        "wp-fp-benefits-health",
+        "wp-fp-benefits-retirement",
+        "wp-fp-benefits-beneficiary"
+      ],
+      "title": "Find the three benefits items that need an election",
+      "why": "A benefits packet handed over on day one is easy to set aside unread, and each of these three elections has a real deadline attached to it — finding them now, with the coach still in the room, is what keeps a missed election from becoming a full year's wait for the next enrollment window."
+    },
+    {
+      "cue": "Verify the routing and account numbers, attach the voided check or bank letter, then submit the form — in that order.",
+      "id": "direct-deposit-order",
+      "itemNames": {
+        "wp-fp-dd-numbers": "verify the routing and account numbers",
+        "wp-fp-dd-submit": "submit the form",
+        "wp-fp-dd-voided-check": "attach a voided check or bank letter"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Numbers verified first, since a transposed digit sends a check to the wrong account entirely; the voided check or bank letter next, as the proof that backs the numbers up; and the form submitted last, once both actually match.",
+      "prompt": "Verify the routing and account numbers, attach the voided check or bank letter, then submit the form — in that order.",
+      "targets": [
+        "wp-fp-dd-numbers",
+        "wp-fp-dd-voided-check",
+        "wp-fp-dd-submit"
+      ],
+      "title": "Set up direct deposit in the order that keeps it accurate",
+      "why": "A single transposed digit in a routing or account number sends a paycheck to somebody else's account, and getting it back can take weeks even when the bank is cooperative. Verifying the numbers against a real document before submitting anything is the one habit that keeps the very first check from being the one that goes missing."
+    },
+    {
+      "cue": "The dial runs one to ten. Commit it where you actually are with the budget, not where you want to be.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.7
+        ],
+        "label": "CONFIDENCE",
+        "missNote": "That number does not match somebody who has never budgeted an hourly paycheck before. Rate it honestly — the coach spends the budget session differently for a shaky five than for a confident ten.",
+        "speed": 0.6
+      },
+      "id": "confidence-gauge",
+      "kind": "gauge",
+      "prompt": "The dial runs one to ten. Commit it where you actually are with the budget, not where you want to be.",
+      "target": "wp-fp-confidence-dial",
+      "title": "Rate your budget confidence honestly",
+      "why": "This number tells the coach how much to slow down and explain versus how much to let you drive the budget yourself, and an inflated number gets less help exactly where a first hourly paycheck usually needs more of it — deductions, the gap before the second check, and the first bill that lands before payday."
+    },
+    {
+      "cue": "Hold the slider in the band: needs covered first, savings held steady, without starving either one.",
+      "holdBreakNote": "The split drifted out of band — needs went short, or savings dropped to nothing. Bring it back to covering both.",
+      "id": "budget-track",
+      "kind": "track",
+      "prompt": "Hold the slider in the band: needs covered first, savings held steady, without starving either one.",
+      "seconds": 7,
+      "target": "wp-fp-budget-slider",
+      "title": "Hold the budget split in the healthy band",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.44,
+        "green": [
+          0.36,
+          0.66
+        ],
+        "label": "BUDGET",
+        "rise": 0.5,
+        "start": 0.5
+      },
+      "why": "A budget built around one real number — the actual first check, not the offer letter's yearly figure divided by twelve — has to cover needs first without leaving savings at zero, because zero savings is what turns the next unexpected bill into a payday loan. Holding both at once, even on a small first check, is the whole skill this session is teaching."
+    },
+    {
+      "cue": "Among the deadline cards, choose the one that matches what the packet actually says — not the rumor from a coworker.",
+      "id": "read-deadline",
+      "kind": "select",
+      "prompt": "Among the deadline cards, choose the one that matches what the packet actually says — not the rumor from a coworker.",
+      "target": "wp-fp-deadline-correct",
+      "title": "Read the enrollment deadline correctly",
+      "why": "Benefits enrollment deadlines are specific to each employer's plan, and a wrong assumption borrowed from a coworker's old job is exactly how somebody misses their own window. The packet's own printed date is the only one that matters here, and reading it correctly is what makes an election possible instead of a missed year."
+    },
+    {
+      "cue": "Carry the savings portion into the emergency fund envelope.",
+      "drag": {
+        "missNote": "Not in the envelope. Cash left on the desk gets folded back into the wallet before the day is out.",
+        "radius": 0.4,
+        "to": "wp-fp-savings-envelope"
+      },
+      "id": "savings-envelope",
+      "kind": "drag",
+      "prompt": "Carry the savings portion into the emergency fund envelope.",
+      "target": "wp-fp-savings-cash",
+      "title": "Move part of the first check into savings",
+      "why": "Money moved into an envelope the day the check arrives gets saved; money left in a checking account to be dealt with later usually gets spent on something that felt urgent at the time. Doing it now, at the desk, with the budget still on the table, is what makes the emergency fund an actual fund instead of an intention."
+    },
+    {
+      "cue": "Turn the reminder dial to a date before the enrollment window actually closes.",
+      "id": "book-deadline-reminder",
+      "kind": "turn",
+      "prompt": "Turn the reminder dial to a date before the enrollment window actually closes.",
+      "target": "wp-fp-reminder-dial",
+      "title": "Set a reminder for the enrollment deadline",
+      "turn": {
+        "axis": "y",
+        "label": "ENROLLMENT REMINDER",
+        "turns": 0.6
+      },
+      "why": "A deadline read correctly today is still a deadline that can be forgotten in three weeks of a new schedule — a reminder set now, for a date before the window closes rather than on it, is what leaves room to fix a mistake on the election instead of finding out it is too late."
+    },
+    {
+      "cue": "Ask the coach something specific about the plan — not something the packet has already answered.",
+      "id": "ask-benefits-question",
+      "kind": "select",
+      "prompt": "Ask the coach something specific about the plan — not something the packet has already answered.",
+      "target": "wp-fp-coach",
+      "title": "Ask a real benefits question",
+      "why": "A packet answers the general questions; the coach is there for the specific one — what happens to the health plan if hours drop below the threshold, whether the retirement match is immediate or vests over time. Asking it now, while an election can still be changed, is worth more than asking it after the window closes."
+    },
+    {
+      "cue": "Place the completed forms in the coach's submission tray.",
+      "id": "submit-forms",
+      "kind": "select",
+      "prompt": "Place the completed forms in the coach's submission tray.",
+      "target": "wp-fp-forms-tray",
+      "title": "Submit the direct deposit and benefits forms",
+      "why": "A form completed but left in a bag is a form that has not actually enrolled anything — submitting it here, today, at the desk, is what turns a completed worksheet into an active direct deposit and a real benefits election."
+    },
+    {
+      "cue": "Answer the coach's question about how the first-paycheck week is actually going.",
+      "id": "coach-checkin",
+      "kind": "select",
+      "prompt": "Answer the coach's question about how the first-paycheck week is actually going.",
+      "target": "wp-fp-checkin-board",
+      "title": "Check in with the coach",
+      "why": "A first paycheck often lands in the middle of a stretch that is still financially tight from the weeks of training before it, and the coach's check-in is where that gets said honestly rather than papered over with a budget that looks fine on paper. It is also where 988 or SAMHSA's National Helpline gets named, for the week that number is the one that is needed."
+    },
+    {
+      "cue": "Log the benefits elections, the direct deposit status and the savings amount, then sign it.",
+      "id": "close-log",
+      "kind": "select",
+      "prompt": "Log the benefits elections, the direct deposit status and the savings amount, then sign it.",
+      "target": "wp-fp-firstcheck-log",
+      "title": "Close out the first-paycheck log",
+      "why": "The log is what the coach reads before the next check-in instead of asking you to remember every election from scratch — a benefits choice and a savings amount written down today are what makes next month's follow-up actually useful."
+    }
+  ],
+  "supportLine": "the wellness resource centre's financial coach, and 988 or SAMHSA's National Helpline (1-800-662-4357, free and confidential) if a first paycheck brings up more money stress than the room can hold",
+  "tagline": "Read the orientation packet, find the benefits items that need an election, set up direct deposit in order, build a budget for the real number, read the enrollment deadline correctly, move part of the check to savings, and ask a real benefits question",
+  "title": "SmartCiti.X~ First-Paycheck Coaching VR",
+  "trade": "Pathway Edition — first-paycheck coaching at the wellness resource centre: budget, direct deposit, benefits enrollment",
+  "underwater": null,
+  "weather": "clear"
+}

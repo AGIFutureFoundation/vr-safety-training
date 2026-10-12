@@ -1,0 +1,646 @@
+{
+  "CART_HALF_WIDTH": 2.2,
+  "FAIRWAY_BOUNDS": {
+    "maxX": 300,
+    "maxZ": 350,
+    "minX": -300,
+    "minZ": -50
+  },
+  "FAIRWAY_FACILITY": {
+    "basketballCourt": {
+      "centre": [
+        -270,
+        -25
+      ],
+      "d": 15,
+      "w": 28
+    },
+    "bleachers": {
+      "centre": [
+        -225,
+        110
+      ],
+      "rows": 5,
+      "w": 60
+    },
+    "maintenanceYard": {
+      "equipmentShed": {
+        "centre": [
+          -288,
+          -36
+        ],
+        "d": 7,
+        "w": 10
+      },
+      "fuelCabinet": {
+        "centre": [
+          -262,
+          -30
+        ],
+        "d": 1.2,
+        "w": 2
+      },
+      "pumpHouse": {
+        "centre": [
+          -270,
+          -36
+        ],
+        "d": 5,
+        "w": 5
+      },
+      "zone": {
+        "maxX": -258,
+        "maxZ": -8,
+        "minX": -298,
+        "minZ": -44
+      }
+    },
+    "pitch": {
+      "centre": [
+        -225,
+        55
+      ],
+      "d": 50,
+      "w": 90
+    },
+    "tennisCourts": [
+      {
+        "centre": [
+          -272,
+          140
+        ],
+        "d": 11,
+        "w": 24
+      },
+      {
+        "centre": [
+          -240,
+          140
+        ],
+        "d": 11,
+        "w": 24
+      }
+    ],
+    "track": {
+      "centre": [
+        -225,
+        55
+      ],
+      "laneWidth": 8,
+      "lengthMetres": 391,
+      "rx": 75,
+      "rz": 45
+    },
+    "weatherMast": {
+      "centre": [
+        -278,
+        -18
+      ]
+    },
+    "zone": {
+      "maxX": -150,
+      "maxZ": 175,
+      "minX": -300,
+      "minZ": -45
+    }
+  },
+  "FAIRWAY_HALF_WIDTH": 11,
+  "FAIRWAY_HEIGHT_RANGE": [
+    0,
+    3.5
+  ],
+  "FAIRWAY_HOLES": [
+    {
+      "bunkers": [
+        {
+          "centre": [
+            -108,
+            305
+          ],
+          "radius": 8
+        }
+      ],
+      "cartPath": [
+        [
+          -127,
+          -29
+        ],
+        [
+          -112,
+          304
+        ]
+      ],
+      "fairway": [
+        [
+          -140,
+          -25
+        ],
+        [
+          -150,
+          110
+        ],
+        [
+          -125,
+          300
+        ]
+      ],
+      "green": {
+        "centre": [
+          -125,
+          300
+        ],
+        "radius": 10
+      },
+      "number": 1,
+      "par": 4,
+      "pin": [
+        -125,
+        300
+      ],
+      "tee": [
+        -140,
+        -25
+      ],
+      "water": [],
+      "yards": 358
+    },
+    {
+      "bunkers": [
+        {
+          "centre": [
+            -55,
+            145
+          ],
+          "radius": 6
+        }
+      ],
+      "cartPath": [
+        [
+          -73,
+          -24
+        ],
+        [
+          -57,
+          144
+        ]
+      ],
+      "fairway": [
+        [
+          -86,
+          -20
+        ],
+        [
+          -70,
+          140
+        ]
+      ],
+      "green": {
+        "centre": [
+          -70,
+          140
+        ],
+        "radius": 9
+      },
+      "number": 2,
+      "par": 3,
+      "pin": [
+        -70,
+        140
+      ],
+      "tee": [
+        -86,
+        -20
+      ],
+      "water": [],
+      "yards": 176
+    },
+    {
+      "bunkers": [
+        {
+          "centre": [
+            -62,
+            118
+          ],
+          "radius": 9
+        },
+        {
+          "centre": [
+            20,
+            350
+          ],
+          "radius": 7
+        }
+      ],
+      "cartPath": [
+        [
+          -19,
+          -34
+        ],
+        [
+          17,
+          349
+        ]
+      ],
+      "fairway": [
+        [
+          -32,
+          -30
+        ],
+        [
+          -56,
+          120
+        ],
+        [
+          -16,
+          260
+        ],
+        [
+          4,
+          345
+        ]
+      ],
+      "green": {
+        "centre": [
+          4,
+          345
+        ],
+        "radius": 11
+      },
+      "number": 3,
+      "par": 5,
+      "pin": [
+        4,
+        345
+      ],
+      "tee": [
+        -32,
+        -30
+      ],
+      "water": [
+        {
+          "centre": [
+            -8,
+            230
+          ],
+          "radius": 13
+        }
+      ],
+      "yards": 421
+    },
+    {
+      "bunkers": [
+        {
+          "centre": [
+            28,
+            296
+          ],
+          "radius": 7
+        }
+      ],
+      "cartPath": [
+        [
+          34,
+          -29
+        ],
+        [
+          26,
+          294
+        ]
+      ],
+      "fairway": [
+        [
+          21,
+          -25
+        ],
+        [
+          33,
+          120
+        ],
+        [
+          13,
+          290
+        ]
+      ],
+      "green": {
+        "centre": [
+          13,
+          290
+        ],
+        "radius": 10
+      },
+      "number": 4,
+      "par": 4,
+      "pin": [
+        13,
+        290
+      ],
+      "tee": [
+        21,
+        -25
+      ],
+      "water": [],
+      "yards": 346
+    },
+    {
+      "bunkers": [
+        {
+          "centre": [
+            112,
+            158
+          ],
+          "radius": 6
+        }
+      ],
+      "cartPath": [
+        [
+          88,
+          -24
+        ],
+        [
+          110,
+          159
+        ]
+      ],
+      "fairway": [
+        [
+          75,
+          -20
+        ],
+        [
+          97,
+          155
+        ]
+      ],
+      "green": {
+        "centre": [
+          97,
+          155
+        ],
+        "radius": 9
+      },
+      "number": 5,
+      "par": 3,
+      "pin": [
+        97,
+        155
+      ],
+      "tee": [
+        75,
+        -20
+      ],
+      "water": [
+        {
+          "centre": [
+            65,
+            95
+          ],
+          "radius": 10
+        }
+      ],
+      "yards": 193
+    },
+    {
+      "bunkers": [
+        {
+          "centre": [
+            163,
+            108
+          ],
+          "radius": 8
+        },
+        {
+          "centre": [
+            107,
+            305
+          ],
+          "radius": 7
+        }
+      ],
+      "cartPath": [
+        [
+          142,
+          -34
+        ],
+        [
+          135,
+          304
+        ]
+      ],
+      "fairway": [
+        [
+          129,
+          -30
+        ],
+        [
+          157,
+          110
+        ],
+        [
+          122,
+          300
+        ]
+      ],
+      "green": {
+        "centre": [
+          122,
+          300
+        ],
+        "radius": 10
+      },
+      "number": 6,
+      "par": 4,
+      "pin": [
+        122,
+        300
+      ],
+      "tee": [
+        129,
+        -30
+      ],
+      "water": [],
+      "yards": 367
+    },
+    {
+      "bunkers": [
+        {
+          "centre": [
+            224,
+            346
+          ],
+          "radius": 8
+        }
+      ],
+      "cartPath": [
+        [
+          196,
+          -29
+        ],
+        [
+          220,
+          344
+        ]
+      ],
+      "fairway": [
+        [
+          183,
+          -25
+        ],
+        [
+          212,
+          130
+        ],
+        [
+          177,
+          270
+        ],
+        [
+          207,
+          340
+        ]
+      ],
+      "green": {
+        "centre": [
+          207,
+          340
+        ],
+        "radius": 11
+      },
+      "number": 7,
+      "par": 5,
+      "pin": [
+        207,
+        340
+      ],
+      "tee": [
+        183,
+        -25
+      ],
+      "water": [
+        {
+          "centre": [
+            195,
+            255
+          ],
+          "radius": 12
+        }
+      ],
+      "yards": 414
+    },
+    {
+      "bunkers": [
+        {
+          "centre": [
+            242,
+            285
+          ],
+          "radius": 7
+        }
+      ],
+      "cartPath": [
+        [
+          249,
+          -24
+        ],
+        [
+          238,
+          284
+        ]
+      ],
+      "fairway": [
+        [
+          236,
+          -20
+        ],
+        [
+          255,
+          120
+        ],
+        [
+          225,
+          280
+        ]
+      ],
+      "green": {
+        "centre": [
+          225,
+          280
+        ],
+        "radius": 10
+      },
+      "number": 8,
+      "par": 4,
+      "pin": [
+        225,
+        280
+      ],
+      "tee": [
+        236,
+        -20
+      ],
+      "water": [],
+      "yards": 333
+    },
+    {
+      "bunkers": [
+        {
+          "centre": [
+            296,
+            292
+          ],
+          "radius": 6
+        }
+      ],
+      "cartPath": [
+        [
+          293,
+          -34
+        ],
+        [
+          296,
+          294
+        ]
+      ],
+      "fairway": [
+        [
+          280,
+          -30
+        ],
+        [
+          258,
+          120
+        ],
+        [
+          283,
+          290
+        ]
+      ],
+      "green": {
+        "centre": [
+          283,
+          290
+        ],
+        "radius": 10
+      },
+      "number": 9,
+      "par": 4,
+      "pin": [
+        283,
+        290
+      ],
+      "tee": [
+        280,
+        -30
+      ],
+      "water": [],
+      "yards": 354
+    }
+  ],
+  "FAIRWAY_MESH_BUDGET": {
+    "high": 900,
+    "low": 130
+  },
+  "TEE_RADIUS": 4.5,
+  "id": "fairway",
+  "schema": "smartcitix.world/1",
+  "source": "WebXR/shared/fairway-data.js"
+}

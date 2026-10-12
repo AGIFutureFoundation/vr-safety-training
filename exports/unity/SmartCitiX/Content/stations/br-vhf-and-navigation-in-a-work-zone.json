@@ -1,0 +1,433 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "clear-channel",
+    "name": "Clear Channel",
+    "note": "The watch never left 16, nobody was called on the distress channel for chatter, the ferry was never raced, the marker never went in by eye, and both the kayaker and the fog were answered"
+  },
+  "category": "Maritime & Ports",
+  "certification": "Inlandboatmen's Union (IBU) deck practice; USCG 33 CFR 83 Inland Navigation Rules for the crossing, the lookout and the fog signals; 33 CFR 26 bridge-to-bridge radiotelephone watch; 33 CFR 161 vessel traffic service reporting; 33 CFR 165 regulated navigation and safety zones for the work zone; 33 CFR 62 United States Aids to Navigation System for the marker; 47 CFR 80 marine VHF station rules for the radio check and the sécurité call; USCG 46 CFR 25 lifesaving equipment on an uninspected vessel; the vessel's own standing orders for the watch",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "FCC",
+        "citedAs": "47 CFR 80",
+        "id": "fcc-47-cfr-80",
+        "title": "47 CFR Part 80 — Stations in the maritime services (marine VHF and digital selective calling)"
+      },
+      {
+        "body": "union",
+        "citedAs": "IBU",
+        "id": "ilwu-pma-training",
+        "title": "ILWU-PMA joint training for longshore, crane and clerk work, and the Inlandboatmen's Union marine division"
+      },
+      {
+        "body": "USCG",
+        "citedAs": "33 CFR 161",
+        "id": "uscg-33-cfr-161",
+        "title": "33 CFR Part 161 — Vessel Traffic Management (Vessel Traffic Service areas)"
+      },
+      {
+        "body": "USCG",
+        "citedAs": "33 CFR 165",
+        "id": "uscg-33-cfr-165",
+        "title": "33 CFR Part 165 — Regulated navigation areas and limited access areas (safety zones)"
+      },
+      {
+        "body": "USCG",
+        "citedAs": "33 CFR 26",
+        "id": "uscg-33-cfr-26",
+        "title": "33 CFR Part 26 — Vessel Bridge-to-Bridge Radiotelephone Regulations"
+      },
+      {
+        "body": "USCG",
+        "citedAs": "33 CFR 62",
+        "id": "uscg-33-cfr-62",
+        "title": "33 CFR Part 62 — United States Aids to Navigation System"
+      },
+      {
+        "body": "USCG",
+        "citedAs": "Inland Navigation Rules",
+        "id": "uscg-33-cfr-83",
+        "title": "33 CFR Part 83 — Inland Navigation Rules"
+      },
+      {
+        "body": "USCG",
+        "citedAs": "46 CFR 25",
+        "id": "uscg-46-cfr-25",
+        "title": "46 CFR Part 25 — Requirements for uninspected vessels, including lifesaving and fire-fighting equipment"
+      }
+    ]
+  },
+  "district": "Maritime & Ports",
+  "domain": "Maritime & Ports",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "check-first",
+        "name": "Check First",
+        "note": "The radio check done before the first call went out"
+      },
+      {
+        "id": "on-the-mark",
+        "name": "On The Mark",
+        "note": "The marker set inside the chart's band first time"
+      },
+      {
+        "id": "by-the-rules",
+        "name": "By The Rules",
+        "note": "Never chatted on 16, never raced the ferry, never marked by eye, never left the door"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-watch",
+        "name": "Clean Watch",
+        "note": "No corrections from the radio check to the log"
+      },
+      {
+        "id": "steady-lookout",
+        "name": "Steady Lookout",
+        "note": "The crossing watched in band all the way across"
+      },
+      {
+        "id": "logged-on-time",
+        "name": "Logged On Time",
+        "note": "Watch logged inside 80% of par"
+      }
+    ],
+    "currency": "CALLS",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Ordinary",
+      "Deckhand",
+      "Radio Watch",
+      "Lead Deckhand",
+      "Work Zone Watch Certified"
+    ],
+    "system": "Bridge Watch"
+  },
+  "hazards": {
+    "chatter-on-16": "You called the barge about lunch on Channel 16. The distress and calling channel is kept clear for exactly the calls that cannot wait — a person in the water, a vessel in trouble, a sécurité warning — and every vessel within range has its watch on it. Working traffic goes to the working channel the master assigned; 16 is for calling, hailing and distress, and then you move off it.",
+    "leave-the-door": "You left the wheelhouse door to help coil a line aft with the watch unmanned. A lookout by sight and hearing is a rule, not a courtesy, and in a work zone with a curtain out and a skiff inshore, the watch is what sees the kayaker and hears the ferry's signal before anyone else does. The line waits; someone else coils it, or it waits until the watch is relieved.",
+    "mark-by-eye": "You went to drop the work-zone marker where it looked about right. A temporary marker that is not where the chart and the notice say it is misleads every skipper who trusts it, and can put a vessel on the curtain or the barge's anchor line. The marker goes where the plan puts it, checked against the chart and the aids around it — not by eye from the deck.",
+    "race-the-ferry": "You told the master to push across ahead of the ferry. In a crossing the rules decide who holds course and who gives way, and a workboat that tries to beat a ferry across her bow is betting the whole crew on her engines. The give-way vessel makes an early, obvious alteration that the other bridge can see; the stand-on vessel holds — and a small boat that is unsure is never the one that gambles."
+  },
+  "id": "br-vhf-and-navigation-in-a-work-zone",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "watch-crossing",
+      "alert": "A kayaker has paddled in under the marker and is heading for the curtain — right where the skiff is working.",
+      "cue": "Hail the kayaker on the loudhailer, tell them where the zone's edge is and which way is clear, and warn the skiff on the working channel.",
+      "delay": 2,
+      "id": "kayaker-in-zone",
+      "kind": "Kayaker inside the work zone",
+      "missNote": "Nobody hailed the kayaker; they paddled into the curtain, the skiff turned into them, and the watch was making a distress call instead of a sécurité call.",
+      "seconds": 14,
+      "target": "loudhailer",
+      "why": "A paddler cannot hear a VHF and may not know what a curtain is, and a skiff turning to work cannot see a low kayak in the chop. The loudhailer is how the watch reaches someone with no radio, and the working channel is how it reaches the skiff — both, at once, because the kayaker is between them.",
+      "wrongNote": "The loudhailer — the kayaker has no radio, and the skiff needs to hear it on the working channel."
+    },
+    {
+      "after": "fog-signals",
+      "alert": "The fog has closed right in — the marker and the skiff have gone from sight, and the ferry's signal is somewhere astern.",
+      "cue": "Switch the navigation lights on and call the skiff back alongside on the working channel; the zone runs from the wheelhouse now.",
+      "delay": 2,
+      "id": "fog-bank",
+      "kind": "Fog bank closes on the zone",
+      "missNote": "The lights stayed off and the skiff stayed inshore; the ferry's next signal came from much closer than anyone expected, and the skiff found the curtain by running into it.",
+      "seconds": 14,
+      "target": "nav-lights-switch",
+      "why": "In restricted visibility the rules add the lights to the signals, so a vessel is seen as well as heard, and a skiff out of sight inshore is a skiff nobody can help. The lights go on and the skiff comes alongside because the watch cannot keep a lookout over a zone it cannot see — the work waits for the visibility, not the other way round.",
+      "wrongNote": "The navigation lights switch — be seen, and call the skiff back alongside."
+    }
+  ],
+  "lateNotes": {
+    "crossing-bearing": "The crossing is watched once the ferry is called and the master has the bearing — not before the sécurité call has told her what is here.",
+    "watch-log": "The watch is logged once the fog signals are sounding and the traffic service has been told — last, not first.",
+    "zone-marker": "The marker is set once the chart position is confirmed against the notice — not before the chart is read."
+  },
+  "name": "VHF & Navigation in a Work Zone",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "bay-restoration-maritime-underwater"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "deckBarge",
+        "count": 1,
+        "kit": "fleet"
+      },
+      {
+        "builder": "skiff",
+        "count": 1,
+        "kit": "fleet"
+      },
+      {
+        "builder": "workboat",
+        "count": 1,
+        "kit": "fleet"
+      },
+      {
+        "builder": "radio",
+        "count": 1,
+        "kit": "toolkit"
+      }
+    ],
+    "error": null,
+    "footprint": 3,
+    "hits": [
+      "channel-wrong",
+      "chart-table",
+      "chatter-on-16",
+      "crew-radio",
+      "crossing-bearing",
+      "horn-button",
+      "inflatable-pfd",
+      "leave-the-door",
+      "loudhailer",
+      "mark-by-eye",
+      "nav-lights-switch",
+      "pfd-buckle",
+      "ptt-ferry",
+      "ptt-intentions",
+      "ptt-position",
+      "ptt-securite",
+      "ptt-switch",
+      "race-the-ferry",
+      "squelch-open",
+      "standing-orders",
+      "tide-table",
+      "vhf-channel",
+      "vts-handset",
+      "watch-log",
+      "zone-marker"
+    ],
+    "meshes": 248
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "anyOrder": true,
+      "cue": "At the wheelhouse door, before the watch starts: inflatable PFD on and zipped, the waist buckle clipped and snug.",
+      "id": "pfd-on",
+      "itemNames": {
+        "inflatable-pfd": "inflatable PFD on and zipped",
+        "pfd-buckle": "waist buckle clipped and snug"
+      },
+      "kind": "sequence",
+      "prompt": "At the wheelhouse door, before the watch starts: inflatable PFD on and zipped, the waist buckle clipped and snug.",
+      "targets": [
+        "inflatable-pfd",
+        "pfd-buckle"
+      ],
+      "title": "Inflatable PFD on at the wheelhouse door",
+      "why": "The watch stands at the door with one foot on the deck and one in the wheelhouse, and the deck is where people go over. The lifesaving equipment rules put a wearable PFD within reach of everyone aboard; the vessel's standing orders put it on the body before the deck, because the one time it matters nobody gets a second to fetch it."
+    },
+    {
+      "cue": "Check the set: power and squelch, the working channel the master assigned for this zone, and a radio check with the barge on that channel — never on 16.",
+      "id": "radio-check",
+      "itemNames": {
+        "channel-wrong": "set left on yesterday's working channel",
+        "squelch-open": "squelch wide open — the set is roaring static"
+      },
+      "itemNotes": {
+        "channel-wrong": "The set was left on yesterday's working channel, not the one the master assigned for this zone — the barge and the skiff would be calling a channel nobody is on.",
+        "squelch-open": "The squelch has been turned all the way open and the set is roaring static — a call on 16 would be lost under it, and the watch would not hear a distress call either."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Check the set: power and squelch, the working channel the master assigned for this zone, and a radio check with the barge on that channel — never on 16.",
+      "targets": [
+        "squelch-open",
+        "channel-wrong"
+      ],
+      "title": "Check the VHF before the watch starts",
+      "why": "A radio check is the only proof that the set transmits, receives and is on the channel everyone else is on, and it is done on the working channel because the calling channel is not for tests. A set roaring static or sitting on the wrong channel is a watch that cannot hear the one call that matters; five seconds at the start of the watch is what finds it."
+    },
+    {
+      "cue": "Read the standing orders for this watch: the working channel, the watch on 16, when to call the master, what to report to the traffic service, and the work zone's limits.",
+      "id": "standing-orders",
+      "kind": "select",
+      "prompt": "Read the standing orders for this watch: the working channel, the watch on 16, when to call the master, what to report to the traffic service, and the work zone's limits.",
+      "target": "standing-orders",
+      "title": "Read the master's standing orders for the watch",
+      "why": "The rules set the watch — a lookout by sight and hearing, a bridge-to-bridge watch on the radio — and the master's standing orders say how this vessel keeps them in this zone: who is called about what, what goes to the traffic service, and where the zone's limits are. Knowing your line in them before the first call is what makes a watch a watch and not a person standing at a door."
+    },
+    {
+      "cue": "Turn the set to Channel 16 and put the dual watch on so the working channel is scanned under it; 16 is where the watch lives.",
+      "id": "set-watch",
+      "kind": "turn",
+      "prompt": "Turn the set to Channel 16 and put the dual watch on so the working channel is scanned under it; 16 is where the watch lives.",
+      "target": "vhf-channel",
+      "title": "Set the watch on Channel 16",
+      "turn": {
+        "label": "VHF CHANNEL",
+        "turns": 1
+      },
+      "why": "Every vessel with a VHF keeps its watch on the distress and calling channel, and the bridge-to-bridge rules require a watch on the radio while the vessel is under way or working. The dual watch keeps the working channel in one ear so the barge and the skiff can still be heard — but 16 is the channel the watch is on, and it stays there."
+    },
+    {
+      "cue": "On 16, key the set and make the safety call the standing orders give you: 'sécurité' three times, all stations, this vessel's name spelled in the phonetic alphabet, the work zone's position and the curtain's extent, and which channels you are listening on. Then let go of the key.",
+      "id": "securite-call",
+      "itemNames": {
+        "ptt-position": "the work zone: what is out here, where, and the curtain's extent",
+        "ptt-securite": "'sécurité, sécurité, sécurité, all stations' — the vessel's name spelled phonetically",
+        "ptt-switch": "'listening on 16 and the working channel' — then off the air"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "The call opens with sécurité three times and 'all stations' — that is what makes every bridge in range listen before you say where you are.",
+      "prompt": "On 16, key the set and make the safety call the standing orders give you: 'sécurité' three times, all stations, this vessel's name spelled in the phonetic alphabet, the work zone's position and the curtain's extent, and which channels you are listening on. Then let go of the key.",
+      "targets": [
+        "ptt-securite",
+        "ptt-position",
+        "ptt-switch"
+      ],
+      "title": "Make the sécurité call for the work zone",
+      "why": "A sécurité call is how a vessel tells everyone in range about something that affects their safe passage — a curtain across the water, a barge on anchor, a skiff working inshore — and it is made on 16 so every watch hears it. The name is spelled phonetically because a name half-heard is a name nobody can call back; the call ends by saying where you are listening, so the traffic that needs to talk to you moves off 16 to do it."
+    },
+    {
+      "cue": "At the chart table, read the marker's position from the work plan and the local notice, and find it against the aids around it: the channel marker, the daybeacon, the shoal.",
+      "id": "read-chart",
+      "kind": "select",
+      "prompt": "At the chart table, read the marker's position from the work plan and the local notice, and find it against the aids around it: the channel marker, the daybeacon, the shoal.",
+      "target": "chart-table",
+      "title": "Confirm the marker's position against the chart and the notice",
+      "why": "The aids to navigation system is how a skipper reads the water, and a temporary marker joins that system the moment it goes in — so it has to be where the notice says, in the relation to the charted aids the notice describes. The chart is where the marker's position is confirmed before the deck sets it; the deck cannot see a shoal."
+    },
+    {
+      "cue": "Watch the skiff run the marker out along the bearing and call 'drop' when it is on the charted position — not short of it and not past it onto the shoal side.",
+      "gauge": {
+        "green": [
+          0.44,
+          0.6
+        ],
+        "label": "ALONG THE BEARING",
+        "missNote": "Outside the band — call the drop on the charted position itself, not short of it and not over the shoal.",
+        "speed": 0.7
+      },
+      "id": "set-marker",
+      "kind": "gauge",
+      "prompt": "Watch the skiff run the marker out along the bearing and call 'drop' when it is on the charted position — not short of it and not past it onto the shoal side.",
+      "target": "zone-marker",
+      "title": "Call the marker's drop as the skiff reaches the position",
+      "why": "The skiff cannot see where it is against the chart from the water; the watch at the chart table can, and the call is what puts the marker where the notice says. Short of the position, the marker leaves the curtain's end unmarked; past it, the marker sits over the shoal and invites a vessel onto it — the band is the charted position and nothing else."
+    },
+    {
+      "cue": "Read the state of the tide from the tide table the master holds — rising or falling, how long to the turn — and tell the barge what it means for the curtain's anchors and the skiff inshore.",
+      "id": "read-tide",
+      "kind": "select",
+      "prompt": "Read the state of the tide from the tide table the master holds — rising or falling, how long to the turn — and tell the barge what it means for the curtain's anchors and the skiff inshore.",
+      "target": "tide-table",
+      "title": "Read the tide from the master's table",
+      "why": "The tide decides how the curtain hangs, how much scope the barge's anchors need and how much water the skiff has inshore, and the numbers for that live in the tide table for this station and this day — not in anyone's memory. The watch reads it and passes the state of the tide to the crews who work by it; the heights are the table's, per the table."
+    },
+    {
+      "cue": "A ferry is coming up on a crossing course with the zone off her bow: call her by name on the bridge-to-bridge channel, say who and where you are, and agree intentions — she holds her track, this vessel stands clear and the skiff stays inshore.",
+      "id": "call-ferry",
+      "itemNames": {
+        "ptt-ferry": "the ferry called by name on 13, this vessel identified and the zone described",
+        "ptt-intentions": "intentions agreed: the ferry holds, this vessel stands clear of her track"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Call her by name and say who you are first — intentions mean nothing to a bridge that does not know who is talking.",
+      "prompt": "A ferry is coming up on a crossing course with the zone off her bow: call her by name on the bridge-to-bridge channel, say who and where you are, and agree intentions — she holds her track, this vessel stands clear and the skiff stays inshore.",
+      "targets": [
+        "ptt-ferry",
+        "ptt-intentions"
+      ],
+      "title": "Call the ferry on the bridge-to-bridge channel",
+      "why": "The bridge-to-bridge rules exist for exactly this: two vessels whose paths are about to cross, each telling the other what it means to do before either has to guess. A ferry on schedule and a workboat with a curtain out sort a crossing in one exchange on the bridge-to-bridge channel; the alternative is two skippers reading each other's bow wave."
+    },
+    {
+      "cue": "Keep the ferry on the bearing compass as she crosses, calling the bearing to the master steadily — a bearing that stops changing is a collision course.",
+      "holdBreakNote": "The bearing was lost or went steady. Bring the ferry back onto the compass and keep calling it until she is clear.",
+      "id": "watch-crossing",
+      "kind": "track",
+      "prompt": "Keep the ferry on the bearing compass as she crosses, calling the bearing to the master steadily — a bearing that stops changing is a collision course.",
+      "seconds": 6,
+      "target": "crossing-bearing",
+      "title": "Watch the ferry's bearing across the zone",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.44,
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "BEARING",
+        "rise": 0.58,
+        "start": 0.14
+      },
+      "why": "The rules make risk of collision a matter of bearing: a bearing that does not appreciably change means the two vessels are closing on each other, however far off the other looks. The watch keeps the ferry on the compass and calls the bearing so the master can see the crossing opening, and calls it again if it stops moving — the lookout's job is the bearing, not the view."
+    },
+    {
+      "cue": "The fog bank is rolling over the zone: hold the horn for the signal the rules give a vessel of this kind in restricted visibility, at the interval the rules give — and keep sounding it.",
+      "holdBreakNote": "The signal stopped early — the ferry and anything else in the fog have lost the one thing that tells them where this vessel is. Hold it for the full signal.",
+      "id": "fog-signals",
+      "kind": "hold",
+      "prompt": "The fog bank is rolling over the zone: hold the horn for the signal the rules give a vessel of this kind in restricted visibility, at the interval the rules give — and keep sounding it.",
+      "seconds": 5,
+      "target": "horn-button",
+      "title": "Sound the fog signal as the bank comes over the zone",
+      "why": "In fog a vessel is heard before it is seen, and the rules give each kind of vessel its own signal and interval in restricted visibility so that the others around can tell what is out there and what it is doing. The signal is the rules' and the interval is the rules'; the watch's job is to sound it and keep sounding it until the master says the visibility is back."
+    },
+    {
+      "cue": "On the traffic service's channel, report this vessel, the work zone and its marker, the reduced visibility and the skiff inshore, as the standing orders say to.",
+      "id": "vts-report",
+      "kind": "select",
+      "prompt": "On the traffic service's channel, report this vessel, the work zone and its marker, the reduced visibility and the skiff inshore, as the standing orders say to.",
+      "target": "vts-handset",
+      "title": "Report the zone and the fog to the traffic service",
+      "why": "The traffic service watches the Bay's channels and tells the ships in them what is where; a work zone with a curtain out and visibility closing is exactly the kind of thing it needs to know and pass on. The report goes on the service's channel, in the order the standing orders give, so the next ship coming down the channel hears about the zone from a voice it already listens to."
+    },
+    {
+      "cue": "Log it: the radio check and the set's faults, the sécurité call and the time, the marker's position, the tide, the ferry exchange and the crossing, the kayaker turned out, the fog signals begun and the traffic service report.",
+      "id": "watch-log",
+      "kind": "select",
+      "prompt": "Log it: the radio check and the set's faults, the sécurité call and the time, the marker's position, the tide, the ferry exchange and the crossing, the kayaker turned out, the fog signals begun and the traffic service report.",
+      "target": "watch-log",
+      "title": "Log the watch",
+      "why": "The log is the vessel's record of the watch — the calls made and when, the marker's position, the state of the tide, the crossing and what was agreed — and it is what the master, the company and any investigation read afterward. A set found roaring static and left on the wrong channel goes in it too, because that is how it gets fixed on every boat in the fleet."
+    },
+    {
+      "cue": "On the working channel: the watch is logged, the fog signals are sounding, the marker is set and the ferry is clear — and how everyone is after a crossing in closing fog.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "On the working channel: the watch is logged, the fog signals are sounding, the marker is set and the ferry is clear — and how everyone is after a crossing in closing fog.",
+      "target": "crew-radio",
+      "title": "Check in with the master, the barge and the skiff",
+      "why": "The barge crew worked the curtain blind to the ferry, the skiff was inshore with a kayaker in its water, and the master brought the vessel through a crossing with the fog coming down — each needs to hear the zone is quiet. It is the crew's own check-in too: a close crossing in fog stays with people, and the union's member assistance line is there for what does not get said on the radio."
+    }
+  ],
+  "supportLine": "your union hall's member assistance programme — the Inlandboatmen's Union — with the employer's employee assistance line behind it",
+  "tagline": "A restoration work zone kept safe on the water from the wheelhouse door: PFD on before the deck, the radio checked on the working channel and the watch set on 16, the zone's sécurité call made in plain words and the phonetic alphabet, the temporary marker set where the chart puts it, the tide read off the table, a ferry crossing handled by the rules and a kayaker turned out of the zone, fog signals sounded as the bank rolls in, the traffic service told, and the watch logged",
+  "title": "SmartCiti.X~ VHF & Navigation in a Work Zone VR",
+  "trade": "Inlandboatmen's Union (IBU) deckhand on radio and lookout watch for a restoration work zone on the Bay, with the master at the helm and the barge crew on the curtain",
+  "underwater": null,
+  "weather": "fog"
+}

@@ -1,0 +1,389 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "edge-worked-clean",
+    "name": "Edge Worked Clean",
+    "note": "Never at the cope without the vest, never under the slung pad, the jib and the storm both answered, and every anchor tensioned by the number"
+  },
+  "category": "Maritime & Ports",
+  "certification": "ILWU maintenance and repair with the PMA training programme; IUOE crane truck operation; OSHA 29 CFR 1917 marine terminals, including work over water and the fender and bollard provisions; ASME B30.5 for the crane truck; ASME B30.9 for the slings on the pad; 29 CFR 1910.132 for the flotation vest and the edge lanyard",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ASME",
+        "citedAs": "ASME B30.5",
+        "id": "asme-b30-5",
+        "title": "ASME B30.5 — Mobile and locomotive cranes"
+      },
+      {
+        "body": "ASME",
+        "citedAs": "ASME B30.9",
+        "id": "asme-b30-9",
+        "title": "ASME B30.9 — Slings"
+      },
+      {
+        "body": "union",
+        "citedAs": "ILWU",
+        "id": "ilwu-pma-training",
+        "title": "ILWU-PMA joint training for longshore, crane and clerk work, and the Inlandboatmen's Union marine division"
+      },
+      {
+        "body": "union",
+        "citedAs": "IUOE",
+        "id": "iuoe-training",
+        "title": "IUOE local training funds and the IUOE National Training Fund — operating and stationary engineer apprenticeship"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.132",
+        "id": "osha-1910-132",
+        "title": "29 CFR 1910.132 — Personal protective equipment, general requirements"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1917",
+        "id": "osha-1917",
+        "title": "29 CFR 1917 — Marine terminals"
+      }
+    ]
+  },
+  "district": "Maritime & Ports",
+  "domain": "Maritime & Ports",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "vest-before-edge",
+        "name": "Vest Before Edge",
+        "note": "The flotation vest and the lanyard on before the first step to the cope"
+      },
+      {
+        "id": "tensioned-by-number",
+        "name": "Tensioned By Number",
+        "note": "Every anchor bolt tensioned inside the band, none by feel"
+      },
+      {
+        "id": "cope-discipline",
+        "name": "Cope Discipline",
+        "note": "Never on the fender, never under the boom, never an unchocked truck worked beside"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-inspection",
+        "name": "Clean Inspection",
+        "note": "No corrections anywhere in the inspection"
+      },
+      {
+        "id": "pad-to-the-mark",
+        "name": "Pad To The Mark",
+        "note": "Pad thickness committed inside the band first time"
+      },
+      {
+        "id": "berth-window",
+        "name": "Berth Window",
+        "note": "Wharf logged back inside 80% of par"
+      }
+    ],
+    "currency": "TONNE",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Wharf Hand",
+      "Structures Mechanic",
+      "Fender Tech",
+      "Lead Mechanic",
+      "Wharf Structures Certified"
+    ],
+    "system": "Wharf Structures"
+  },
+  "hazards": {
+    "edge-no-pfd": "You leaned out over the cope to look at the fender with no flotation vest on. 29 CFR 1917 requires a personal flotation device wherever a fall into the water is the hazard, and the wharf edge is the definition of that hazard — a fall from the cope is a fall into cold water between a fender and a quay wall, in work clothes and boots, and the vest is the difference between a rescue and a recovery.",
+    "stand-on-fender": "You stepped onto the fender panel to reach the lower chain bracket. The panel hangs on its chains over the water and is built to be hit by a ship, not stood on by a person — it swings the moment it takes an off-centre load, and the gap between it and the quay wall is exactly where a body goes. The lower bracket is reached from the cope with the pole, or from the boat.",
+    "truck-unchocked": "You started work beside the crane truck with its outriggers down but no wheel chocks set. An outrigger on a wharf apron can settle, and a truck whose outriggers lose contact is a truck sitting on its brakes alone with a boom out over the water — the chocks are what hold it if the brakes and the pads both let go at once, and they go in before anybody works beside it.",
+    "under-truck-boom": "You walked under the crane truck's boom with the fender pad slung from it. A pad on a sling is a suspended load like any other, and ASME B30.5 and 29 CFR 1917 both put the same rule on it — nobody under it, for any reason, for any length of time. A sling hitch that has been fine all morning does not announce that it is about to roll."
+  },
+  "id": "pt-dock-fender-and-bollard-inspection",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "chain-check",
+      "alert": "The vessel at the next berth has started her own crane and the jib is swinging out over this apron — its hook is coming across above the cope.",
+      "cue": "Call the vessel on the apron radio and have the crane hold clear of the apron before anything continues at the edge.",
+      "delay": 2,
+      "id": "ship-jib-over-apron",
+      "kind": "Ship's crane jib swinging over the apron",
+      "missNote": "The jib finished its swing above the cope with the hook passing over the crew at the fender, and the chain check went on underneath it as if the sky over the apron belonged to the terminal.",
+      "seconds": 14,
+      "target": "apron-radio",
+      "why": "A ship's crane working at the next berth can reach across an apron the ship's officer thinks is empty, and 29 CFR 1917 puts the clearance from workers on the crane's operator — who cannot see a crew at the cope below the quay's own crane rails. The call is made the instant the jib comes over, by the person who can see it, because a ship's hook over the apron is a suspended load over the crew, and the crew's only reach to the operator is the radio.",
+      "wrongNote": "The apron radio — the jib is the ship's to move, and the only thing on this apron that reaches the ship's crane operator is the radio."
+    },
+    {
+      "after": "anchor-tension",
+      "alert": "The terminal radio calls a storm cell with lightning crossing the bay toward the wharf — the gust front is already showing on the water.",
+      "cue": "Latch the gear box and get the loose gear off the cope now — nothing light stays at the edge in a gust front.",
+      "delay": 2,
+      "id": "storm-cell-cope",
+      "kind": "Storm cell called on the terminal radio",
+      "missNote": "The gust front hit the cope with the gear box open and the loose tools still at the edge; the lid went over, a tensioner hose went into the water, and the crew were still at the bollard when the first strike landed on the far crane.",
+      "seconds": 14,
+      "target": "gear-box-lid",
+      "why": "A gust front across a wharf edge takes whatever is loose on the cope into the water first and the crew's footing second, and a lightning cell over an apron with a crane truck's boom raised is the terminal's storm procedure firing for exactly this. The gear box is latched and the loose gear cleared before the cell arrives rather than as it does, because the crew has to be off the cope and clear of the boom when the first strike comes — and the front on the water is the only warning there is.",
+      "wrongNote": "The gear box lid — the call is about clearing the cope before the front arrives, and the loose gear at the edge is the first thing the gust takes."
+    }
+  ],
+  "lateNotes": {
+    "bolt-tensioner": "The anchor bolts are tensioned once the bollard's base has been inspected, not before a crack has been looked for.",
+    "pad-bolt": "The pad bolts are torqued once the new pad is seated on the frame — there is nothing to bolt yet.",
+    "structures-log": "The wharf is logged once the edge and the ladder have been proven — the log is the last thing, not the first."
+  },
+  "name": "Dock Fender & Bollard Inspection",
+  "parSeconds": 270,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "bay-area-union-edition"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "apron-radio",
+      "berth-schedule-board",
+      "bollard-crack",
+      "bolt-tensioner",
+      "cope-edge-line",
+      "cracked-weld",
+      "edge-lanyard",
+      "edge-no-pfd",
+      "escape-ladder",
+      "fender-chain",
+      "gear-box-lid",
+      "new-pad",
+      "pad-bolt",
+      "pad-gauge",
+      "pad-seat",
+      "pfd-vest",
+      "rated-load-plate",
+      "stand-on-fender",
+      "structures-log",
+      "truck-unchocked",
+      "under-truck-boom"
+    ],
+    "meshes": 214
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check the berth schedule: no vessel due at this berth inside the window, the container crane parked and pinned, the apron released to structures.",
+      "id": "berth-window",
+      "kind": "select",
+      "prompt": "Check the berth schedule: no vessel due at this berth inside the window, the container crane parked and pinned, the apron released to structures.",
+      "target": "berth-schedule-board",
+      "title": "Confirm the berth window and the vessel schedule",
+      "why": "Fender and bollard work is done between calls because a ship coming alongside lands on the fenders and heaves on the bollards, and a crew at the cope when a vessel is closing the berth is a crew standing where several thousand tonnes are about to arrive. The berth schedule is the terminal's own statement of the window, and the crane pinned is what says the apron above the work is not going to move — both are read before the first step toward the edge, because the water does not give a second chance to read them later."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Flotation vest on and zipped, and your lanyard clipped to the cope anchor, before a boot goes near the edge.",
+      "id": "edge-ppe",
+      "itemNames": {
+        "edge-lanyard": "edge lanyard to the cope anchor",
+        "pfd-vest": "flotation vest"
+      },
+      "kind": "sequence",
+      "prompt": "Flotation vest on and zipped, and your lanyard clipped to the cope anchor, before a boot goes near the edge.",
+      "targets": [
+        "pfd-vest",
+        "edge-lanyard"
+      ],
+      "title": "Put on the flotation vest and clip to the cope anchor",
+      "why": "29 CFR 1917 puts a personal flotation device on anyone working where they could fall into the water, and the wharf edge is that place all day; the lanyard to the cope anchor is what stops the fall being into the water in the first place, on a cope that is wet, sloped for drainage and edged with a fender gap. Both go on before the edge rather than at it, because the moment someone is leaning over the cope to look at a chain is the moment they are already past the point where a vest gets put on."
+    },
+    {
+      "cue": "Inspect the fender frame, the chain brackets and their welds from the cope: cracks at weld toes, rust bleeding, bent brackets.",
+      "id": "frame-walk",
+      "itemNames": {
+        "cracked-weld": "cracked weld at the upper chain bracket"
+      },
+      "itemNotes": {
+        "cracked-weld": "The upper chain bracket's weld to the frame has a hairline crack running from the toe, with rust bleeding out of it — the bracket has been working under every berthing since the last inspection and is one hard landing from letting the chain go."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Inspect the fender frame, the chain brackets and their welds from the cope: cracks at weld toes, rust bleeding, bent brackets.",
+      "targets": [
+        "cracked-weld"
+      ],
+      "title": "Walk the fender frame and its brackets for cracks",
+      "why": "A fender frame takes a ship's berthing energy through its chains and brackets, and a bracket weld that has cracked lets the panel drop or swing on the next landing — into the hull, or onto whatever is below it. The crack shows as a hairline with rust bleeding from it long before it shows as a dropped panel, and it is found by looking at the weld toes from the cope with the vest on, not by waiting for the panel to hang crooked."
+    },
+    {
+      "cue": "Hold the chain check: each chain taking its share, the shackles moused, the pins retained, the links free of wear at the bearing points.",
+      "holdBreakNote": "Released before every chain and shackle had been looked at — a fender is held by all of its chains or by none of them. Start the check again.",
+      "id": "chain-check",
+      "kind": "hold",
+      "prompt": "Hold the chain check: each chain taking its share, the shackles moused, the pins retained, the links free of wear at the bearing points.",
+      "seconds": 4,
+      "target": "fender-chain",
+      "title": "Check the fender's weight and shear chains",
+      "why": "The fender panel hangs on its weight chains and is held against the quay by its shear chains, and each chain is inspected as a load-bearing part in its own right: a shackle pin without a mousing backs out under the working of a ship alongside, and a link worn thin at a bearing point fails on the berthing that puts the panel's whole weight through it. The check is held long enough to look at every chain and every shackle, because the one that fails is the one that was skipped."
+    },
+    {
+      "cue": "Set the depth gauge on the pad's wear face and commit the reading against the minimum on the fender's data plate.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "PAD THICKNESS",
+        "missNote": "Outside the band — set the gauge on the wear face itself, not on the pad's chamfered edge or a bolt head.",
+        "speed": 0.7
+      },
+      "id": "pad-thickness",
+      "kind": "gauge",
+      "prompt": "Set the depth gauge on the pad's wear face and commit the reading against the minimum on the fender's data plate.",
+      "target": "pad-gauge",
+      "title": "Measure the fender pad's remaining thickness",
+      "why": "The facing pads on a fender are what a ship's hull actually touches, and they wear with every berthing until the frame's bolt heads are the first thing a hull meets — which is a hull plate scored by a bolt rather than protected by a pad. The minimum thickness is the fender manufacturer's number, and the gauge is how the crew gets to that number rather than to an impression from the cope that the pad looks fine."
+    },
+    {
+      "cue": "With the crane truck operator, bring the new pad in on its sling and seat it on the frame's bolt pattern — from the cope, never from the panel.",
+      "drag": {
+        "missNote": "Not on the pattern — the pad has to seat square on the frame's bolt holes before a bolt is started, guided from the cope.",
+        "radius": 0.5,
+        "to": "pad-seat"
+      },
+      "id": "fit-pad",
+      "kind": "drag",
+      "prompt": "With the crane truck operator, bring the new pad in on its sling and seat it on the frame's bolt pattern — from the cope, never from the panel.",
+      "target": "new-pad",
+      "title": "Sling the replacement pad in and seat it on the frame",
+      "why": "The pad comes in on the crane truck's sling because it is too heavy for hands at an edge, and it is guided onto the frame's bolt pattern from the cope with a tag line rather than by someone on the panel: the panel swings under the pad's weight arriving, and a person on it goes into the gap. The pad seats on its pattern square, and it stays on the sling until the first bolts are in, because a pad resting on a frame by gravity alone is a pad that goes into the water on the first gust."
+    },
+    {
+      "cue": "Run the pad bolts up in sequence to the figure on the data plate, each one to the click, and then release the sling.",
+      "id": "pad-bolts",
+      "kind": "turn",
+      "prompt": "Run the pad bolts up in sequence to the figure on the data plate, each one to the click, and then release the sling.",
+      "target": "pad-bolt",
+      "title": "Torque the pad bolts to the fender maker's figure",
+      "turn": {
+        "label": "PAD BOLTS",
+        "turns": 1
+      },
+      "why": "The pad bolts are what hold the pad to a frame that gets hit by ships, and a bolt torqued by feel is either working loose under the vibration of every berthing or over-tensioned and yielded before the first one. The figure comes from the fender maker's plate, the sequence keeps the pad from cocking on the frame as it pulls down, and the sling comes off only after the bolts are in — the crane truck operator is holding the pad until you say otherwise."
+    },
+    {
+      "cue": "Look at the bollard casting for cracks, the base plate for movement, and the cope concrete around the anchors for cracking and rust rings.",
+      "id": "bollard-base",
+      "itemNames": {
+        "bollard-crack": "crack in the cope concrete at the bollard's base plate"
+      },
+      "itemNotes": {
+        "bollard-crack": "The cope concrete has cracked from under the bollard's base plate toward the edge, and the seaward anchor bolt has a rust ring where it has been moving in the crack — the bollard has been heaving on that bolt under every spring line."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look at the bollard casting for cracks, the base plate for movement, and the cope concrete around the anchors for cracking and rust rings.",
+      "targets": [
+        "bollard-crack"
+      ],
+      "title": "Inspect the bollard casting and its base",
+      "why": "A bollard takes a ship's mooring loads into the wharf through its base plate and anchor bolts, and the failure that matters is not usually the casting — it is the concrete around the anchors cracking, the plate lifting a fraction under every line, and the bolts working in their holes until the bollard comes out under a surge with a ship on it. That failure shows first as a crack in the cope with rust bleeding from a bolt, and it is found by looking at the base, not the top."
+    },
+    {
+      "cue": "Run the tensioner up to the specified pressure on each anchor bolt and hold it there while the nut is run down — steady at the figure, no overshoot.",
+      "holdBreakNote": "The pressure broke out of band while the nut was being run down — that bolt's pre-load is now whatever it was at that moment. Back it off and tension it again.",
+      "id": "anchor-tension",
+      "kind": "track",
+      "prompt": "Run the tensioner up to the specified pressure on each anchor bolt and hold it there while the nut is run down — steady at the figure, no overshoot.",
+      "seconds": 6,
+      "target": "bolt-tensioner",
+      "title": "Tension the bollard's anchor bolts with the hydraulic tensioner",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.48,
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "TENSIONER",
+        "rise": 0.6,
+        "start": 0.1
+      },
+      "why": "A bollard's anchor bolts are tensioned to a figure the wharf's engineer specified, because the bollard's rated load assumes the bolts are pre-loaded to it: a bolt below tension lets the plate lift and work under every line, and a bolt taken over tension is a bolt yielded before a ship ever pulls on it. The tensioner's pressure is held steady at the figure while the nut is run down, and it is a held figure rather than a peak because the bolt's pre-load is whatever the pressure was when the nut touched."
+    },
+    {
+      "cue": "Read the bollard's rated load plate: legible, matching the berth plan's figure, and the bollard's number matching the plan's.",
+      "id": "load-plate",
+      "kind": "select",
+      "prompt": "Read the bollard's rated load plate: legible, matching the berth plan's figure, and the bollard's number matching the plan's.",
+      "target": "rated-load-plate",
+      "title": "Verify the bollard's rated load plate against the berth plan",
+      "why": "The ship's officer planning a mooring reads the bollard's rated load off the berth plan and the pilot reads it off the plate, and the two have to agree: a plate that has corroded illegible, or a bollard renumbered when the wharf was rebuilt, is a mooring plan made against the wrong bollard. 29 CFR 1917 has the terminal keep the wharf's load ratings posted and current, and the plate on the bollard is where that posting meets the person tying the ship up."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Check the edge line and kerb are visible along the cope, and the emergency ladder to the water is secured, clear and reaches the tide.",
+      "id": "edge-and-ladder",
+      "itemNames": {
+        "cope-edge-line": "cope edge line and kerb",
+        "escape-ladder": "emergency ladder to the water"
+      },
+      "kind": "sequence",
+      "prompt": "Check the edge line and kerb are visible along the cope, and the emergency ladder to the water is secured, clear and reaches the tide.",
+      "targets": [
+        "cope-edge-line",
+        "escape-ladder"
+      ],
+      "title": "Prove the cope edge marking and the emergency ladder",
+      "why": "The edge line is what a hustler driver and a lasher see at night on a wet apron, and a kerb that has been knocked away or a line worn to nothing is an edge nobody sees until a wheel is over it. The emergency ladder is the other half of the flotation vest: 29 CFR 1917 has ladders to the water at intervals along every wharf precisely so that someone who does go in has somewhere to climb out before the cold takes their hands, and a ladder that ends above the tide is a ladder that does not."
+    },
+    {
+      "cue": "Record the cracked bracket, the pad thickness and replacement, the base crack found, the anchor tension, and clear the wharf back to the terminal.",
+      "id": "structures-log",
+      "kind": "select",
+      "prompt": "Record the cracked bracket, the pad thickness and replacement, the base crack found, the anchor tension, and clear the wharf back to the terminal.",
+      "target": "structures-log",
+      "title": "Log the fender and bollard inspection",
+      "why": "The wharf structures log is the record the terminal's engineer inspects the wharf against and the record an incident investigation would read first: the cracked bracket weld is a repair order, the base crack at the bollard is an engineering call on whether the bollard keeps its rating, and the anchor tension is the number the next inspection is measured against. Written now, on the apron, it is what the crew found; written later it is what the crew remembers."
+    },
+    {
+      "cue": "Call the terminal and the operator: the wharf is clear, what was found, and how the crew is after a shift on the cope with a storm through it.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Call the terminal and the operator: the wharf is clear, what was found, and how the crew is after a shift on the cope with a storm through it.",
+      "target": "apron-radio",
+      "title": "Check in with the crane truck operator and the terminal",
+      "why": "The terminal takes the apron back on the strength of this call, and the operator who held the pad on the sling for the bolting deserves to hear the wharf is logged clear rather than to infer it from the crew walking away. It is also the crew's own check-in: a shift at the edge with a ship's jib over the apron and a lightning call on the radio leaves things unsaid, and the ILWU's practice is to say them before the truck leaves — the member assistance line exists for that, and naming it costs nothing."
+    }
+  ],
+  "supportLine": "your ILWU local's member assistance programme, with the PMA-ILWU benefit plan's counselling line behind it",
+  "tagline": "The wharf edge in a berth window: vest and lanyard on before the cope, the fender frame walked for cracks, the chains checked while a ship's jib swings over the apron, the pad measured and a new one slung in and bolted, the bollard's base checked and its anchors tensioned by the number while a storm cell comes over the water, the load plate read, the edge and the ladder proven, and the wharf logged",
+  "title": "SmartCiti.X~ Dock Fender & Bollard Inspection VR",
+  "trade": "ILWU maintenance and repair — wharf structures crew, PMA training programme, with the IUOE operator on the crane truck",
+  "underwater": null,
+  "weather": "wind"
+}

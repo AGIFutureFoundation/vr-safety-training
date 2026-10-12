@@ -1,0 +1,418 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "two-person-rule",
+    "name": "Two-Person Rule",
+    "note": "Read the SDS, had the PPE checked by a buddy, proved the eyewash and stopped on the first sign of a leak"
+  },
+  "category": "Mobility & Transit",
+  "certification": "IAM depot maintenance training as a body; FAA 14 CFR 43 maintenance as the civil frame; OSHA 29 CFR 1910.1200 hazard communication, 29 CFR 1910.132 personal protective equipment, 29 CFR 1910.134 respiratory protection and 29 CFR 1910.151 medical services and first aid; ANSI Z358.1 emergency eyewash and shower equipment; the safety data sheet for the fluid named on the work order",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI Z358.1",
+        "id": "ansi-z358-1",
+        "title": "ANSI/ISEA Z358.1 — Emergency eyewash and shower equipment"
+      },
+      {
+        "body": "FAA",
+        "citedAs": "14 CFR 43",
+        "id": "faa-14-cfr-43",
+        "title": "14 CFR Part 43 — Maintenance, preventive maintenance, rebuilding and alteration"
+      },
+      {
+        "body": "union",
+        "citedAs": "IAM",
+        "id": "iam-winpisinger-center",
+        "title": "IAM — the William W. Winpisinger Education and Technology Center's machinist and transportation training"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1200",
+        "id": "osha-1910-1200",
+        "title": "29 CFR 1910.1200 — Hazard communication"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.132",
+        "id": "osha-1910-132",
+        "title": "29 CFR 1910.132 — Personal protective equipment, general requirements"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.134",
+        "id": "osha-1910-134",
+        "title": "29 CFR 1910.134 — Respiratory protection"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.151",
+        "id": "osha-1910-151",
+        "title": "29 CFR 1910.151 — Medical services and first aid"
+      }
+    ]
+  },
+  "district": "aerospace-depot",
+  "domain": "Aerospace",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "sds-first",
+        "name": "SDS First",
+        "note": "Read the safety data sheet before the cart was opened"
+      },
+      {
+        "id": "buddy-watched",
+        "name": "Buddy Watched",
+        "note": "Never made the transfer without the buddy in place"
+      },
+      {
+        "id": "steady-flow",
+        "name": "Steady Flow",
+        "note": "Held the transfer flow near band centre"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "quick-service",
+        "name": "Inside Par",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "clean-service",
+        "name": "Clean Shift",
+        "note": "Clean run, no corrections"
+      }
+    ],
+    "currency": "SDS",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Helper",
+      "HazCom Trained",
+      "Servicing Technician",
+      "Servicing Lead",
+      "Two-Person Rule Certified"
+    ],
+    "system": "Two-Person Rule"
+  },
+  "hazards": {
+    "cap-off-hazard": "That leaves the servicing port cap off to save time later. An open port lets the fluid out and contamination in, and it is the kind of small omission a pre-flight walk-round is not designed to catch.",
+    "no-sds-hazard": "That opens the cart from memory without reading the safety data sheet. The sheet is what says which gloves, which eye and face protection and which first aid this particular fluid needs, and memory of a different fluid is not the same thing.",
+    "solo-service-hazard": "That starts the transfer while the buddy is away at the crib. The buddy is there for the moment something goes wrong, and that moment does not wait for them to come back.",
+    "wipe-with-rag-hazard": "That wipes the leak up with a shop rag bare-handed. A fluid the SDS says needs chemical gloves does not become safe because the spill is small."
+  },
+  "id": "ad-hazardous-fluid-servicing-with-a-buddy",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "transfer-flow",
+      "alert": "The servicing fitting has started to weep fluid onto the drip pan mid-transfer.",
+      "cue": "Close the cart shut-off now.",
+      "delay": 4,
+      "id": "fitting-weeps",
+      "kind": "Leak",
+      "missNote": "The transfer carried on with the fitting weeping. A leak under flow is stopped at the source first and understood second.",
+      "seconds": 11,
+      "target": "cart-valve",
+      "why": "A weeping fitting under pressure only gets worse, and closing the cart shut-off stops the supply at its source before the leak becomes a spray, which is the one outcome the PPE and the drip pan are least able to handle.",
+      "wrongNote": "Not that — the weeping fitting is answered at the cart shut-off."
+    },
+    {
+      "after": "hold-pressure-check",
+      "alert": "Your buddy is being called away to another aircraft while the port is still open.",
+      "cue": "Call your buddy back until the port is capped.",
+      "delay": 4,
+      "id": "buddy-called-away",
+      "kind": "Buddy challenge",
+      "missNote": "The buddy walked away with the port still open. The work carried on under a rule that no longer had two people in it.",
+      "seconds": 11,
+      "target": "buddy-call",
+      "why": "The two-person rule holds until the port is capped and the fluid is contained, not until the busiest part looks finished, and the buddy stays until that point because the risky moment is whenever something unexpected happens.",
+      "wrongNote": "That isn't it — the buddy leaving is what needs stopping."
+    }
+  ],
+  "lateNotes": {
+    "chem-gloves": "The glove material is the one the SDS names, checked by the buddy before the cart opens.",
+    "sds-binder": "The safety data sheet is read before the cart is opened, every time, for the fluid actually named on the work order."
+  },
+  "name": "Hazardous Fluid Servicing with a Buddy",
+  "parSeconds": 320,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "aerospace-defense-and-robotics"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "depotHangarBay",
+        "count": 1,
+        "kit": "equipment"
+      },
+      {
+        "builder": "regionalJet",
+        "count": 1,
+        "kit": "equipment"
+      }
+    ],
+    "error": null,
+    "footprint": 2.9,
+    "hits": [
+      "apron-hf",
+      "buddy-call",
+      "cap-off-hazard",
+      "cart-valve",
+      "chem-gloves",
+      "cracked-hose",
+      "doff-station",
+      "drip-pan-hf",
+      "eyewash-meter",
+      "face-shield",
+      "flow-meter",
+      "good-hose",
+      "labelled-drum",
+      "no-sds-hazard",
+      "open-waste-can",
+      "port-cap",
+      "port-dock",
+      "pressure-hold",
+      "sds-binder",
+      "service-coupling",
+      "service-log",
+      "solo-service-hazard",
+      "wipe-with-rag-hazard",
+      "work-order-hf"
+    ],
+    "meshes": 208
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track"
+  ],
+  "steps": [
+    {
+      "cue": "Read the SDS for the fluid named on the work order before anything else.",
+      "id": "sds-read",
+      "kind": "select",
+      "prompt": "Read the SDS for the fluid named on the work order before anything else.",
+      "target": "sds-binder",
+      "title": "Read the safety data sheet",
+      "why": "The safety data sheet is the manufacturer's statement of what this fluid does to skin, eyes and lungs, which PPE stops it and what first aid is needed, and reading it before the cart is touched is what makes every later choice an informed one rather than a habit carried over from another fluid."
+    },
+    {
+      "cue": "Confirm the aircraft, the servicing point and the fluid before opening the cart.",
+      "id": "brief",
+      "kind": "select",
+      "prompt": "Confirm the aircraft, the servicing point and the fluid before opening the cart.",
+      "target": "work-order-hf",
+      "title": "Read the work order",
+      "why": "The work order ties the fluid to the servicing point, and servicing the right point with the wrong fluid is a mistake that can damage a system and expose the crew to something they did not prepare for, so the two are matched before the cart is opened."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Chemical gloves, face shield over goggles and apron, as the SDS lists.",
+      "id": "ppe",
+      "itemNames": {
+        "apron-hf": "chemical apron",
+        "chem-gloves": "chemical gloves",
+        "face-shield": "face shield over goggles"
+      },
+      "kind": "sequence",
+      "prompt": "Chemical gloves, face shield over goggles and apron, as the SDS lists.",
+      "targets": [
+        "chem-gloves",
+        "face-shield",
+        "apron-hf"
+      ],
+      "title": "Don the PPE the SDS calls for",
+      "why": "The PPE is chosen from the sheet, not from what is nearest on the rack, because a glove material that stops one fluid can be permeated by another in minutes, and the face shield over goggles is what protects against the splash a fitting under pressure can throw."
+    },
+    {
+      "cue": "Have your buddy check your gloves, cuffs and face shield.",
+      "id": "buddy-check",
+      "kind": "select",
+      "prompt": "Have your buddy check your gloves, cuffs and face shield.",
+      "target": "buddy-call",
+      "title": "Buddy check the PPE",
+      "why": "You cannot see your own cuff gap or the tear in the back of a glove, and the buddy check is the second pair of eyes that catches what the mirror would, before the fluid finds it for you."
+    },
+    {
+      "cue": "Run the eyewash and commit only once the flow reads in the green.",
+      "gauge": {
+        "green": [
+          0.43,
+          0.61
+        ],
+        "label": "EYEWASH FLOW",
+        "missNote": "Not in the green — report the eyewash and do not start until it flows.",
+        "speed": 0.6
+      },
+      "id": "eyewash-test",
+      "kind": "gauge",
+      "prompt": "Run the eyewash and commit only once the flow reads in the green.",
+      "target": "eyewash-meter",
+      "title": "Prove the eyewash",
+      "why": "An eyewash that has not been run may deliver rust, stale water or nothing at all, and the seconds after a splash are the worst time to find that out, so the flow is proven now while nobody needs it."
+    },
+    {
+      "cue": "Carry the drip pan under the servicing port.",
+      "drag": {
+        "missNote": "Not placed — set the drip pan under the servicing port before connecting.",
+        "radius": 0.4,
+        "to": "port-dock"
+      },
+      "id": "place-pan",
+      "kind": "drag",
+      "prompt": "Carry the drip pan under the servicing port.",
+      "target": "drip-pan-hf",
+      "title": "Place the drip pan",
+      "why": "The drip pan catches the drops that every connection and disconnection lets go, and placing it before connecting means the floor, the drain and the crew's shoes never see the fluid at all."
+    },
+    {
+      "cue": "Connect the servicing line to the port with the buddy watching.",
+      "id": "connect-select",
+      "kind": "select",
+      "prompt": "Connect the servicing line to the port with the buddy watching.",
+      "target": "service-coupling",
+      "title": "Connect the servicing line",
+      "why": "Connection is where a mis-seated coupling shows itself, and doing it with the buddy watching means someone outside the splash path is ready to reach the shut-off if the coupling does not seat the way it should."
+    },
+    {
+      "cue": "Keep the transfer flow inside the band the procedure sets.",
+      "holdBreakNote": "The flow left the band. Bring it back before the transfer continues.",
+      "id": "transfer-flow",
+      "kind": "track",
+      "prompt": "Keep the transfer flow inside the band the procedure sets.",
+      "seconds": 8,
+      "target": "flow-meter",
+      "title": "Make the transfer",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.45,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "FLOW",
+        "rise": 0.4,
+        "start": 0.5
+      },
+      "why": "Too fast a transfer foams, splashes and overfills; too slow stalls and tempts someone to open the valve wide, and holding the flow in the band is what keeps the transfer controlled from start to finish."
+    },
+    {
+      "cue": "Look along the shelf for the source of the weep.",
+      "decoyNotes": {
+        "good-hose": "A servicing hose in date and intact. Nothing to flag there."
+      },
+      "id": "find-leak",
+      "itemNames": {
+        "cracked-hose": "cracked servicing hose"
+      },
+      "itemNotes": {
+        "cracked-hose": "A cracked hose is taken out of service and tagged; it is not taped and reused."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look along the shelf for the source of the weep.",
+      "targets": [
+        "cracked-hose"
+      ],
+      "title": "Find the leak source",
+      "why": "A leak stopped at the valve will return the next time the line is used unless its cause is found, and the cracked hose found now is also the one that would have failed completely under the next full transfer."
+    },
+    {
+      "cue": "Hold the system check while the level settles.",
+      "holdBreakNote": "Released the check early. Hold it until the level settles.",
+      "id": "hold-pressure-check",
+      "kind": "hold",
+      "prompt": "Hold the system check while the level settles.",
+      "seconds": 5,
+      "target": "pressure-hold",
+      "title": "Hold the system check",
+      "why": "The level has to settle before it can be read honestly, and holding the check through the settling time is what stops an overfill or an underfill being signed off on a reading taken too soon."
+    },
+    {
+      "anyOrder": false,
+      "cue": "Close the shut-off, disconnect the line, then cap the port.",
+      "id": "disconnect",
+      "itemNames": {
+        "cart-valve": "cart shut-off closed",
+        "port-cap": "port capped",
+        "service-coupling": "line disconnected"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order — close the shut-off, then disconnect the line, then cap the port.",
+      "prompt": "Close the shut-off, disconnect the line, then cap the port.",
+      "targets": [
+        "cart-valve",
+        "service-coupling",
+        "port-cap"
+      ],
+      "title": "Disconnect and cap",
+      "why": "Closing the supply first means the disconnection releases only what is in the short length of line, and capping the port last keeps contamination out of a system that is now open to the hangar air."
+    },
+    {
+      "cue": "Before you leave, find the waste that is not contained.",
+      "decoyNotes": {
+        "labelled-drum": "A labelled, lidded waste drum. Nothing to flag there."
+      },
+      "id": "find-waste",
+      "itemNames": {
+        "open-waste-can": "unlidded waste can"
+      },
+      "itemNotes": {
+        "open-waste-can": "Contaminated wipes go in a lidded, labelled waste container; this one is closed and labelled."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Before you leave, find the waste that is not contained.",
+      "targets": [
+        "open-waste-can"
+      ],
+      "title": "Check the waste",
+      "why": "The wipes and pads from a servicing job carry the same fluid the PPE was protecting against, and an open waste can lets it evaporate into the hangar or be handled by someone who never read the sheet."
+    },
+    {
+      "cue": "Remove the gloves and apron at the doffing station and wash your hands.",
+      "id": "doff",
+      "kind": "select",
+      "prompt": "Remove the gloves and apron at the doffing station and wash your hands.",
+      "target": "doff-station",
+      "title": "Doff and wash",
+      "why": "Most skin exposure happens taking PPE off, when a contaminated glove touches a clean wrist, and doffing at the station in the right order, then washing, is what keeps the fluid on the PPE and off the person."
+    },
+    {
+      "cue": "Log the fluid, the quantity per the work order, the leak and the tagged hose.",
+      "id": "closeout",
+      "kind": "select",
+      "prompt": "Log the fluid, the quantity per the work order, the leak and the tagged hose.",
+      "target": "service-log",
+      "title": "Log the servicing",
+      "why": "The service log is what tells the next crew what went into this system and what went wrong doing it, and a leak or a tagged hose that is not written down is a lesson the depot pays for twice."
+    }
+  ],
+  "supportLine": "your IAM local's member assistance programme, or the depot's employee assistance line if an exposure or a near miss is what stayed with you",
+  "tagline": "A servicing task on a fluid the work order names, run the way hazard communication intends: the safety data sheet read first, the PPE it calls for donned and checked by a buddy, the eyewash proven, the transfer made over a drip pan with the buddy watching, and a leak answered by stopping, not by finishing faster",
+  "title": "SmartCiti.X~ Hazardous Fluid Servicing with a Buddy VR",
+  "trade": "Depot servicing technician, hazardous fluid servicing — IAM",
+  "underwater": null,
+  "weather": "overcast"
+}

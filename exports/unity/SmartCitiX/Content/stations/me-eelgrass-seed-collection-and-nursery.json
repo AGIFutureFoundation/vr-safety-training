@@ -1,0 +1,435 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "seed-kept-cold",
+    "name": "Seed Kept Cold",
+    "note": "Every bag cut to the share, kept wet and cool, hung by its label and its seed racked in the dark — first time"
+  },
+  "category": "Water & Environmental",
+  "certification": "AFSCME and LIUNA restoration and nursery crews as training bodies; OSHA 29 CFR 1910.132 personal protective equipment for work over the side and in the nursery; CDFW oversight of the collecting permit's share and handling; NOAA Fisheries and the U.S. Fish and Wildlife Service consultation measures for in-water work at the bed; BCDC permit conditions; Regional Water Quality Control Board Section 401 conditions on the nursery's discharge and the Section 404 record the planting will answer to",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFSCME",
+        "id": "afscme-training",
+        "title": "AFSCME member education and safety training for public-service and air-district members"
+      },
+      {
+        "body": "BCDC",
+        "citedAs": "BCDC",
+        "id": "bcdc-bay-plan",
+        "title": "San Francisco Bay Plan and BCDC permit conditions under the McAteer-Petris Act"
+      },
+      {
+        "body": "CDFW",
+        "citedAs": "CDFW",
+        "id": "cdfw-lake-streambed-alteration",
+        "title": "California Department of Fish and Wildlife oversight under the California Fish and Game Code, including Lake and Streambed Alteration Agreements (§1602) for work affecting a river, stream or lake"
+      },
+      {
+        "body": "union",
+        "citedAs": "LIUNA",
+        "id": "liuna-training-fund",
+        "title": "LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula"
+      },
+      {
+        "body": "NOAA Fisheries",
+        "citedAs": "NOAA Fisheries",
+        "id": "noaa-fisheries-mmpa-esa",
+        "title": "NOAA Fisheries (National Marine Fisheries Service) Marine Mammal Protection Act authorizations and Endangered Species Act consultation for in-water work affecting marine mammals"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.132",
+        "id": "osha-1910-132",
+        "title": "29 CFR 1910.132 — Personal protective equipment, general requirements"
+      },
+      {
+        "body": "RWQCB",
+        "citedAs": "Section 401",
+        "id": "rwqcb-401-certification",
+        "title": "Regional Water Quality Control Board Clean Water Act §401 certification and waste discharge requirements"
+      },
+      {
+        "body": "USACE",
+        "citedAs": "Section 404",
+        "id": "usace-section-404",
+        "title": "Clean Water Act §404 permit conditions for the discharge of dredged or fill material"
+      },
+      {
+        "body": "USFWS",
+        "citedAs": "U.S. Fish and Wildlife Service",
+        "id": "usfws-esa",
+        "title": "Endangered Species Act §7 consultation and species protection measures set by the U.S. Fish and Wildlife Service"
+      }
+    ]
+  },
+  "district": "Environmental Monitoring",
+  "domain": "Environmental",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "to-the-share",
+        "name": "To The Share",
+        "note": "The share meter committed inside the permit's band first time"
+      },
+      {
+        "id": "bed-kept",
+        "name": "Bed Kept",
+        "note": "Never a hazard, never a rhizome pulled"
+      },
+      {
+        "id": "steady-drift",
+        "name": "Steady Drift",
+        "note": "The drift and the tank band both read inside the band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-collection",
+        "name": "Clean Collection",
+        "note": "No corrections from the permit to the log"
+      },
+      {
+        "id": "sieve-steady",
+        "name": "Sieve Steady",
+        "note": "The drift and the sieve held without a break"
+      },
+      {
+        "id": "racked-early",
+        "name": "Racked Early",
+        "note": "Seed racked and logged inside 80% of par"
+      }
+    ],
+    "currency": "SPATHE",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Nursery Hand",
+      "Collector",
+      "Nursery Tech",
+      "Seed Lead",
+      "Nursery Certified"
+    ],
+    "system": "Seed Crew"
+  },
+  "hazards": {
+    "bag-on-the-thwart": "You left a full mesh bag lying on the skiff's thwart in the open while you cut the next one. Shoots out of water heat in minutes under a grey sky as fast as a blue one, and seed that has cooked in a bag will never germinate in the tank — every bag goes into the cooler's seawater the moment it is tied off, and the cooler lid goes down.",
+    "motor-over-the-bed": "You had the tender run the outboard across the bed to reach the next patch. A propeller over shallow eelgrass cuts the canopy and scars the rhizome mat, and the permit's condition for working the bed is drift and paddle only: the skiff is walked along the edge on the pole, never driven over it.",
+    "pull-the-rhizome": "You pulled a flowering shoot up by hand and the rhizome came with it. The permit allows the reproductive shoot to be cut above the sheath, because the rhizome is the plant that will flower again next year; a shoot pulled out roots and all takes next season's seed with this season's, and the bed the nursery exists to expand has just been thinned by the crew collecting from it.",
+    "tank-to-the-drain": "You pulled the nursery tank's plug to the yard's storm drain to change the water. Tank water carries seed, shoot fragments and whatever the flow-through picked up, and the nursery's Section 401 conditions route it through the settling tank and back to the intake reach, not down a drain that reaches the bay untreated with the nursery's name on it."
+  },
+  "id": "me-eelgrass-seed-collection-and-nursery",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "drift-the-edge",
+      "alert": "The last bag you tied is still lying on the thwart in the open, and the mesh is already dry to the touch.",
+      "cue": "Get it into the cooler now — lift the lid and put the bag under the water.",
+      "delay": 2,
+      "id": "bag-heating",
+      "kind": "Bag heating on the thwart",
+      "missNote": "The bag sat in the open for the rest of the drift; by the nursery its shoots were limp and warm, and the whole bag went on the sheet as a loss against the permit's share.",
+      "seconds": 14,
+      "target": "cooler-lid",
+      "why": "A bag of flowering shoots dries from the outside in, and the seed inside a spathe that has warmed and dried will not germinate whatever the tank does for it afterwards. The cooler lid is the answer because the cooler is the only cool, dark, wet place in the skiff; the drift can wait the ten seconds it takes, the bag cannot.",
+      "wrongNote": "Not that. The cooler lid — the bag goes under the cooler's water before anything else happens."
+    },
+    {
+      "after": "sieve-hold",
+      "alert": "The tank's flow alarm has sounded — the weir has stopped running and the intake gauge is falling.",
+      "cue": "Open the bypass so the tank keeps exchanging while the intake is checked — do not leave the bags in still water.",
+      "delay": 2,
+      "id": "flow-alarm",
+      "kind": "Flow alarm on the tank",
+      "missNote": "The tank sat still while you finished the rinse; the logger's afternoon trace climbed out of the band and every bag hanging in it got a note on the sheet that the planting crew will read as doubt.",
+      "seconds": 14,
+      "target": "bypass-valve",
+      "why": "A flow-through tank that stops flowing is a tank of bags in a warming bath, and the alarm is fitted because the change is silent — the water looks the same. The bypass keeps the exchange going from the header tank while somebody finds the blocked intake screen; the sieve in hand waits, because rinsed seed on the bench is safe for a minute and hanging bags in still water are not.",
+      "wrongNote": "Not that. The bypass valve is what keeps the tank exchanging while the intake is found — open it."
+    }
+  ],
+  "lateNotes": {
+    "mesh-bag": "The bag is cut and filled once the share meter is committed — cutting before the share is set is cutting blind against the permit.",
+    "seed-jar": "The jar goes to the dark rack once the tank band is read — seed racked from a tank that ran warm is seed nobody can trust.",
+    "tank-valve": "The tank valve is opened once the collection is in the cooler — flow through an empty tank is an hour of pumping for nothing."
+  },
+  "name": "Eelgrass Seed Collection & Nursery",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "marine-ecology-and-restoration"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "skiff",
+        "count": 1,
+        "kit": "fleet"
+      },
+      {
+        "builder": "radio",
+        "count": 1,
+        "kit": "toolkit"
+      }
+    ],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "bag-labels",
+      "bag-on-the-thwart",
+      "bag-torn",
+      "bypass-valve",
+      "collection-log",
+      "cooler-lid",
+      "cooler-socket",
+      "cooler-water",
+      "crew-radio",
+      "drift-pole",
+      "mesh-bag",
+      "motor-over-the-bed",
+      "permit-board",
+      "pull-the-rhizome",
+      "rack-slot",
+      "seed-jar",
+      "share-meter",
+      "shears-check",
+      "shoot-green",
+      "sieve-hold",
+      "tank-hook",
+      "tank-label",
+      "tank-logger",
+      "tank-sheet",
+      "tank-to-the-drain",
+      "tank-valve"
+    ],
+    "meshes": 269
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check the bed the permit names, the share of flowering shoots it allows, the cutting method it specifies, how bags are labelled, and the nursery tank each bag goes to.",
+      "id": "permit-plan",
+      "kind": "select",
+      "prompt": "Check the bed the permit names, the share of flowering shoots it allows, the cutting method it specifies, how bags are labelled, and the nursery tank each bag goes to.",
+      "target": "permit-board",
+      "title": "Read the collecting permit and the day's plan",
+      "why": "A collecting permit is a set of conditions, not a licence to gather: which bed, what share of the flowering shoots, cut how, kept how, and where the seed goes afterwards. CDFW's oversight of collecting is written into those lines, and NOAA Fisheries' interest in the bed is why the share is small. Reading the permit before the skiff leaves the ramp is how the technician knows what a full day's collection looks like before the first shoot is cut."
+    },
+    {
+      "cue": "Read the share meter against the permit's allowance for this bed and commit it before a bag is opened.",
+      "gauge": {
+        "green": [
+          0.3,
+          0.5
+        ],
+        "label": "COLLECTION SHARE",
+        "missNote": "Over the permit's share — reset the meter to the allowance before a bag is opened.",
+        "speed": 0.7
+      },
+      "id": "share-meter",
+      "kind": "gauge",
+      "prompt": "Read the share meter against the permit's allowance for this bed and commit it before a bag is opened.",
+      "target": "share-meter",
+      "title": "Set and commit the collection share for this bed",
+      "why": "The share is set before the first cut because a collector counting shoots as they go always finds one more patch worth taking; the meter committed at the start is the stop the permit asked for, made while the permit is still the loudest voice in the boat. The number is the permit's, not the technician's estimate of how well the bed is doing — the bed's condition is for the monitoring crew's data, not for a collector's judgement over the gunwale."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Shears sharp and on their lanyard, the bag labels written for this bed and tank, and the cooler filled from the bed before the first bag goes in.",
+      "id": "kit-check",
+      "itemNames": {
+        "bag-labels": "pre-written bag labels",
+        "cooler-water": "cooler filled with bed water",
+        "shears-check": "cutting shears"
+      },
+      "kind": "sequence",
+      "prompt": "Shears sharp and on their lanyard, the bag labels written for this bed and tank, and the cooler filled from the bed before the first bag goes in.",
+      "targets": [
+        "shears-check",
+        "bag-labels",
+        "cooler-water"
+      ],
+      "title": "Check the shears, the labels and the cooler",
+      "why": "A bag with no label is a bag of seed nobody can trace to a bed or a tank; a cooler filled from the tap is fresh water that kills what it was meant to keep alive; dull shears tear the sheath and pull the shoot. The three are checked at the bed's edge because they are cheap to fix there and ruinous to discover at the nursery — a whole morning's collection that cannot be labelled, or has been sitting in the wrong water for the ride back."
+    },
+    {
+      "cue": "Cut each flowering shoot above the sheath with the shears, fill the mesh bag to its mark, tie it off and put it straight into the cooler's water.",
+      "drag": {
+        "missNote": "Not in the cooler — a tied bag goes straight into the cooler's water, not onto the thwart.",
+        "radius": 0.5,
+        "to": "cooler-socket"
+      },
+      "id": "cut-and-bag",
+      "kind": "drag",
+      "prompt": "Cut each flowering shoot above the sheath with the shears, fill the mesh bag to its mark, tie it off and put it straight into the cooler's water.",
+      "target": "mesh-bag",
+      "title": "Cut the flowering shoots into the bag and into the cooler",
+      "why": "The cut is above the sheath so the rhizome stays in the bed to flower again, and the bag goes from the water to the cooler without a stop on the thwart, because the shoots begin to heat the moment they leave the bay. The bag's mark is the volume the permit and the tank were planned around; a bag stuffed past it crushes the spathes and drops seed in the skiff instead of the tank."
+    },
+    {
+      "cue": "Walk the skiff along the edge with the pole at a pace that keeps the hull over the sand and the collector's reach over the bed — no motor, no drifting onto the canopy.",
+      "holdBreakNote": "The drift broke out of band — the hull settled onto the canopy or ran past the collector's reach. Pole off the edge and take it up again.",
+      "id": "drift-the-edge",
+      "kind": "track",
+      "prompt": "Walk the skiff along the edge with the pole at a pace that keeps the hull over the sand and the collector's reach over the bed — no motor, no drifting onto the canopy.",
+      "seconds": 6,
+      "target": "drift-pole",
+      "title": "Drift the skiff along the bed's edge on the pole",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.45,
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "DRIFT ALONG THE EDGE",
+        "rise": 0.55,
+        "start": 0.14
+      },
+      "why": "The skiff is kept off the bed on the pole because a hull grounding on the canopy or a propeller turning over it does more harm than the whole collection is worth, and the permit's condition says so. The pace is the collector's: fast enough that the next patch of flowering shoots is in reach when the bag is tied, slow enough that the pole never has to be jabbed into the rhizome mat to stop the boat."
+    },
+    {
+      "cue": "Look through the cooler for a bag that has split and for shoots that were not ready to be cut; fix the bag and note the shoot before leaving the bed.",
+      "id": "check-bags",
+      "itemNames": {
+        "bag-torn": "the mesh bag with a split seam",
+        "shoot-green": "the shoot whose spathes are still closed"
+      },
+      "itemNotes": {
+        "bag-torn": "A bag whose seam has split along one side. Seed will drop through it in the tank and be lost to the sieve; it is double-bagged now, with the same label, before it goes any further.",
+        "shoot-green": "A shoot cut with its spathes still tight and green. It will not drop seed in the tank in the time the plan gives; the method is to leave those in the bed and note that the patch was early — it goes on the log, not in the bag."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look through the cooler for a bag that has split and for shoots that were not ready to be cut; fix the bag and note the shoot before leaving the bed.",
+      "targets": [
+        "bag-torn",
+        "shoot-green"
+      ],
+      "title": "Check the bags in the cooler before the run in",
+      "why": "The cooler is the last place the collection can be put right: a split bag double-bagged here keeps its seed and its label, while one found at the nursery has already dropped seed into the cooler water where it belongs to no tank. A shoot cut too early is a lesson for the collector's eye and a note for the log about the bed's timing — the method improves from what is written down, not from what is quietly discarded."
+    },
+    {
+      "cue": "Turn the intake valve to the tank's marked flow, watching the overflow weir begin to run before any bag goes in.",
+      "id": "open-flow",
+      "kind": "turn",
+      "prompt": "Turn the intake valve to the tank's marked flow, watching the overflow weir begin to run before any bag goes in.",
+      "target": "tank-valve",
+      "title": "Open the nursery tank's flow-through valve",
+      "turn": {
+        "label": "INTAKE VALVE",
+        "turns": 0.8
+      },
+      "why": "The tank is flow-through so the water the bags hang in is the bay's own, changed continuously, and the valve is opened to the marked setting rather than full because too much flow tumbles the bags and drops seed early through the mesh onto the tank floor. The weir running is the proof that the tank is exchanging before the collection is trusted to it — a tank that looks full and is not flowing is a tank that will run warm by afternoon."
+    },
+    {
+      "cue": "For each bag: read its label against the tank card, hang it on the next numbered hook, then write the hook and the bag on the tank sheet — one bag at a time.",
+      "id": "hang-bags",
+      "itemNames": {
+        "tank-hook": "bag hung on its numbered hook",
+        "tank-label": "bag label read against the tank card",
+        "tank-sheet": "hook number and bag written on the tank sheet"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order — read the label, hang the bag, then write the sheet. The sheet records what was hung, not what was about to be.",
+      "prompt": "For each bag: read its label against the tank card, hang it on the next numbered hook, then write the hook and the bag on the tank sheet — one bag at a time.",
+      "targets": [
+        "tank-label",
+        "tank-hook",
+        "tank-sheet"
+      ],
+      "title": "Label, hang and record each bag in order",
+      "why": "The tank sheet is what ties a jar of seed weeks from now back to a bed and a day, and it stays true only if the hook a bag hangs on is written down the moment it is hung. Label first, so the wrong bed's bag is caught before it is in the tank; hook next; sheet last, from what was actually done — a sheet written ahead of the hanging is a sheet that records intentions."
+    },
+    {
+      "cue": "Hold the sieve level in the rinse flow for the full count so the seed stays in the mesh and the debris goes over the lip.",
+      "holdBreakNote": "The sieve tilted before the rinse was done — seed would have gone over the lip with the debris. Level it and hold again.",
+      "id": "sieve-hold",
+      "kind": "hold",
+      "prompt": "Hold the sieve level in the rinse flow for the full count so the seed stays in the mesh and the debris goes over the lip.",
+      "seconds": 5,
+      "target": "sieve-hold",
+      "title": "Hold the sieve steady while the settled seed is rinsed",
+      "why": "Seed that has dropped from the bags lies on the tank floor with sheath fragments and silt, and the sieve separates them only if it is held level and still in a gentle flow: tilted, the seed rides over the lip with the debris; shaken, it bounces through the mesh. Holding for the full count is what a clean jar looks like on the tank side — a hurried rinse is a jar the storage log will later call a poor batch without knowing why."
+    },
+    {
+      "cue": "Read the tank's temperature logger and commit the reading against the band the nursery plan gives for seed storage.",
+      "gauge": {
+        "green": [
+          0.36,
+          0.56
+        ],
+        "label": "TANK LOGGER",
+        "missNote": "Outside the nursery's band — check the flow and the intake before the seed is jarred, and read it again.",
+        "speed": 0.7
+      },
+      "id": "tank-band",
+      "kind": "gauge",
+      "prompt": "Read the tank's temperature logger and commit the reading against the band the nursery plan gives for seed storage.",
+      "target": "tank-logger",
+      "title": "Read the tank logger against the nursery's band",
+      "why": "Seed in the tank is alive and its keeping depends on the water staying inside the band the nursery plan sets — a number that lives in the plan, not in the technician's memory of what felt right last year. The logger is read and committed before the seed is jarred so a tank that ran warm is caught as a batch note now rather than as a failed germination test in the spring."
+    },
+    {
+      "cue": "Carry the labelled jar of rinsed seed to the dark storage rack and set it in its numbered slot.",
+      "drag": {
+        "missNote": "Not in its slot — the jar goes into the dark rack's numbered slot, not the bench.",
+        "radius": 0.5,
+        "to": "rack-slot"
+      },
+      "id": "rack-seed",
+      "kind": "drag",
+      "prompt": "Carry the labelled jar of rinsed seed to the dark storage rack and set it in its numbered slot.",
+      "target": "seed-jar",
+      "title": "Rack the labelled seed jar in the dark store",
+      "why": "Seed keeps in the cold and the dark, and the jar's slot on the rack is the last link in the chain from the bed to the planting crew that will sow it: the label on the jar, the slot on the rack and the line on the storage log all say the same thing. A jar left on the bench in the light for the afternoon is seed whose viability the log can no longer vouch for."
+    },
+    {
+      "cue": "On the radio: the collection is hung and the seed racked, the tank is flowing and logged, and how the pair is after the bag that heated and the flow alarm.",
+      "id": "tender-checkin",
+      "kind": "select",
+      "prompt": "On the radio: the collection is hung and the seed racked, the tank is flowing and logged, and how the pair is after the bag that heated and the flow alarm.",
+      "target": "crew-radio",
+      "title": "Check in with the tender and the crew",
+      "why": "The tender spent the morning holding a skiff off a bed with a pole and the afternoon is somebody else's; the check-in closes the day between the two people who did it and tells the nursery lead what to watch overnight. It is also the crew's own moment — the AFSCME or LIUNA member assistance line is there for whatever a long day over the side leaves behind."
+    },
+    {
+      "cue": "Log the bed, the share committed, bags cut and hung by hook, the split bag and the early shoot, the valve setting, the logger reading, the jar's slot, and the alarm.",
+      "id": "collection-log",
+      "kind": "select",
+      "prompt": "Log the bed, the share committed, bags cut and hung by hook, the split bag and the early shoot, the valve setting, the logger reading, the jar's slot, and the alarm.",
+      "target": "collection-log",
+      "title": "Write the collection and nursery log",
+      "why": "The collecting permit and the nursery's Section 401 conditions are both answered from this log, and so is the planting crew's question in the spring about which jar came from which bed on which day. It is written on the tank side while the sheet, the cooler and the rack are all in view, so the record matches the room rather than the memory of it."
+    }
+  ],
+  "supportLine": "your union hall's member assistance programme — AFSCME or LIUNA, whichever your crew works under — with the employer's employee assistance line behind it",
+  "tagline": "The collecting permit read, the share meter set, the kit checked, the first bag cut into the cooler, the skiff drifted along the bed's edge while a bag heats on the thwart, the seeded and the torn bag found, the tank valve opened, bags labelled and hung in order, the sieve held while the flow alarm trips, the tank band read, the seed jar racked in the dark, the tender called and the collection logged",
+  "title": "SmartCiti.X~ Eelgrass Seed Collection & Nursery VR",
+  "trade": "Nursery technician on a seagrass restoration crew, collecting flowering shoots from a skiff and running the shore nursery's flow-through tanks",
+  "underwater": null,
+  "weather": "overcast"
+}

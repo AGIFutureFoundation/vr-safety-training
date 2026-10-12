@@ -1,0 +1,411 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "reported-not-removed",
+    "name": "Reported, Not Removed",
+    "note": "A sighting turned into a record — photographed to protocol, positioned, sampled only as permitted, reported before it was touched"
+  },
+  "category": "Water & Environmental",
+  "certification": "AFSCME and LIUNA monitoring crews as training bodies; OSHA 29 CFR 1910.132 personal protective equipment for work at a float's edge; CDFW as the body a marine sighting is reported to and whose permit governs any sample taken; the U.S. Fish and Wildlife Service and NOAA Fisheries consultation measures where a sighting touches protected habitat; BCDC permit conditions for the marina; Regional Water Quality Control Board Section 401 conditions the harbour record informs",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFSCME",
+        "id": "afscme-training",
+        "title": "AFSCME member education and safety training for public-service and air-district members"
+      },
+      {
+        "body": "BCDC",
+        "citedAs": "BCDC",
+        "id": "bcdc-bay-plan",
+        "title": "San Francisco Bay Plan and BCDC permit conditions under the McAteer-Petris Act"
+      },
+      {
+        "body": "CDFW",
+        "citedAs": "CDFW",
+        "id": "cdfw-lake-streambed-alteration",
+        "title": "California Department of Fish and Wildlife oversight under the California Fish and Game Code, including Lake and Streambed Alteration Agreements (§1602) for work affecting a river, stream or lake"
+      },
+      {
+        "body": "union",
+        "citedAs": "LIUNA",
+        "id": "liuna-training-fund",
+        "title": "LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula"
+      },
+      {
+        "body": "NOAA Fisheries",
+        "citedAs": "NOAA Fisheries",
+        "id": "noaa-fisheries-mmpa-esa",
+        "title": "NOAA Fisheries (National Marine Fisheries Service) Marine Mammal Protection Act authorizations and Endangered Species Act consultation for in-water work affecting marine mammals"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.132",
+        "id": "osha-1910-132",
+        "title": "29 CFR 1910.132 — Personal protective equipment, general requirements"
+      },
+      {
+        "body": "RWQCB",
+        "citedAs": "Section 401",
+        "id": "rwqcb-401-certification",
+        "title": "Regional Water Quality Control Board Clean Water Act §401 certification and waste discharge requirements"
+      },
+      {
+        "body": "USFWS",
+        "citedAs": "U.S. Fish and Wildlife Service",
+        "id": "usfws-esa",
+        "title": "Endangered Species Act §7 consultation and species protection measures set by the U.S. Fish and Wildlife Service"
+      }
+    ]
+  },
+  "district": "Environmental Monitoring",
+  "domain": "Environmental",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "shots-in-order",
+        "name": "Shots In Order",
+        "note": "Overall, close-up with scale, habitat — first time"
+      },
+      {
+        "id": "hands-off",
+        "name": "Hands Off",
+        "note": "Never a hazard, never a scrape, never a wet transfer"
+      },
+      {
+        "id": "fixed-position",
+        "name": "Fixed Position",
+        "note": "The position committed inside the protocol's accuracy"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-report",
+        "name": "Clean Report",
+        "note": "No corrections from the protocol to the log"
+      },
+      {
+        "id": "steady-camera",
+        "name": "Steady Camera",
+        "note": "The edge walked and the camera held without a break"
+      },
+      {
+        "id": "reported-early",
+        "name": "Reported Early",
+        "note": "Sighting reported and logged inside 80% of par"
+      }
+    ],
+    "currency": "REPORT",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Dock Hand",
+      "Observer",
+      "Survey Tech",
+      "Reporting Lead",
+      "Sighting Certified"
+    ],
+    "system": "Sighting Crew"
+  },
+  "hazards": {
+    "carry-it-wet-to-the-boat": "You put a wet piece of the patch in an open bucket to show the boat crew at the next dock. Live material carried wet from one site to another is how a sighting becomes two sightings; a sample travels only as the permit allows — sealed, labelled, to the laboratory the coordinator names — and never to another float, boat or harbour.",
+    "lean-off-the-float-edge": "You lay flat on the float's edge and reached under it with both hands to lift the patch into the light. A float's edge is wet, the water under it is cold and deep, and a technician with both arms under a float and their weight over the edge has nothing holding them on it; the underside is photographed with the pole camera and the mirror, from a knee, inboard.",
+    "post-it-first": "You photographed the patch and posted it to the crew's public feed with a name before the report was in. A sighting is a record only when it reaches the body the protocol names, and a name guessed on a float is a claim the programme has to walk back; the form goes in first, the coordinator confirms, and what is said publicly is said by the programme.",
+    "scrape-it-off": "You took the scraper to the patch to get it off the float before it spread. Whatever it is, scraping breaks it into fragments that drift to every float in the marina, and the record of what was here — the photographs, the position, the sample the permit allows — is gone with it. Nothing is removed until the body the report goes to says how; the protocol is document, report, wait."
+  },
+  "id": "me-invasive-species-identification-and-reporting",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "walk-the-float",
+      "alert": "The second surveyor on the next float is on the radio — they have a patch under their edge too and want to know what to do with it.",
+      "cue": "Drop a flag marker at your own patch so you can find it again, then tell them: photograph, do not touch, wait for you.",
+      "delay": 2,
+      "id": "second-sighting-called",
+      "kind": "Second surveyor calls a sighting",
+      "missNote": "You left your patch unmarked to walk to the next float, and when you came back the light had changed and the cleat looked like every other cleat; the fix and the photo set were made on the wrong one.",
+      "seconds": 14,
+      "target": "flag-marker",
+      "why": "Two sightings at once is when a protocol earns its keep: the technician marks their own so the pace of the walk is not lost to memory, and gives the second surveyor the same three words the protocol gives everyone — photograph, do not touch, wait. A technician who abandons an unmarked patch to go and look at the other has two sightings and one position.",
+      "wrongNote": "Not that. The flag marker — drop it at your own patch first, then answer the radio with the protocol's three words."
+    },
+    {
+      "after": "camera-hold",
+      "alert": "The owner of the boat on the float has come down with a scraper — they want the patch off their float now and are reaching for it.",
+      "cue": "Hold up the stop card and say the protocol's line: it is being reported, nothing comes off until the body says how — and offer them the coordinator's number.",
+      "delay": 2,
+      "id": "boater-offers-to-scrape",
+      "kind": "Boater offers to scrape it off",
+      "missNote": "The boater scraped the patch into the water while you finished the close-up; the fragments drifted under the next three floats, and the report went in with a photograph of a scrape mark.",
+      "seconds": 14,
+      "target": "stop-card",
+      "why": "The boater's instinct is the wrong one for the same reason it is the natural one: scraping spreads what the report is about and destroys the record of it. The stop card is the protocol's answer held up so it is the programme saying no, not the technician arguing; the coordinator's number turns a confrontation on a float into a call the boater can make themselves.",
+      "wrongNote": "Not that. The stop card — up, with the protocol's line and the coordinator's number."
+    }
+  ],
+  "lateNotes": {
+    "coordinator-radio": "The coordinator is called once the form is complete — the call reads the form, and a form half-filled is a call that has to be made twice.",
+    "sample-jar-lid": "The sample is bagged once the photo set is complete — the specimen is recorded as it was before anything is taken from it.",
+    "scale-card": "The scale card is set once the position is fixed — a photograph without a position is a picture of something somewhere."
+  },
+  "name": "Invasive Species Identification & Reporting",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "marine-ecology-and-restoration"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "radio",
+        "count": 1,
+        "kit": "toolkit"
+      }
+    ],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "camera-check",
+      "camera-hold",
+      "card-socket",
+      "carry-it-wet-to-the-boat",
+      "coordinator-radio",
+      "earlier-tag",
+      "flag-marker",
+      "float-edge",
+      "form-contact",
+      "form-photos",
+      "form-position",
+      "lean-off-the-float-edge",
+      "position-readout",
+      "position-unit",
+      "post-it-first",
+      "protocol-board",
+      "sample-jar-lid",
+      "scale-card",
+      "scale-card-check",
+      "scrape-it-off",
+      "second-patch",
+      "shot-closeup",
+      "shot-habitat",
+      "shot-overall",
+      "sighting-log",
+      "stop-card"
+    ],
+    "meshes": 191
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check the reference card this survey works from, what a mismatch triggers, the photo set the protocol wants, the position accuracy, what sampling the permit allows, who is called, and what is not done.",
+      "id": "reporting-protocol",
+      "kind": "select",
+      "prompt": "Check the reference card this survey works from, what a mismatch triggers, the photo set the protocol wants, the position accuracy, what sampling the permit allows, who is called, and what is not done.",
+      "target": "protocol-board",
+      "title": "Read the reporting protocol for a sighting",
+      "why": "A sighting is worth exactly what its record is worth, and the protocol is what turns a technician's 'that does not look right' into a record a body can act on: a photo set taken the same way every time, a position to a stated accuracy, a sample only where the permit allows, and a report to the named body before anything else. Reading it first is how a surprised technician does the same thing an unsurprised one would."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Camera charged with the pole and the mirror attached, the scale and colour card in the kit, and the position unit on and settling before the first photograph.",
+      "id": "sighting-kit",
+      "itemNames": {
+        "camera-check": "camera with the pole and mirror",
+        "position-unit": "position unit switched on and settling",
+        "scale-card-check": "scale and colour card"
+      },
+      "kind": "sequence",
+      "prompt": "Camera charged with the pole and the mirror attached, the scale and colour card in the kit, and the position unit on and settling before the first photograph.",
+      "targets": [
+        "camera-check",
+        "scale-card-check",
+        "position-unit"
+      ],
+      "title": "Check the camera, the scale card and the position unit",
+      "why": "The three things a sighting report cannot be made without are a photograph, a scale in it and a position under it, and a technician who finds the card missing or the unit dead at the float's edge has a sighting nobody can verify. The unit is switched on first because it takes time to settle to the protocol's accuracy, and a position read before it has is a position that will be argued with."
+    },
+    {
+      "cue": "Walk the float's edge on a knee's width inboard at the protocol's pace, checking the underside with the mirror at each cleat — steady, both hands free of the water.",
+      "holdBreakNote": "The pace broke — hurrying past the cleats or stopped over the edge. Get back a knee inboard and take up the pace.",
+      "id": "walk-the-float",
+      "kind": "track",
+      "prompt": "Walk the float's edge on a knee's width inboard at the protocol's pace, checking the underside with the mirror at each cleat — steady, both hands free of the water.",
+      "seconds": 6,
+      "target": "float-edge",
+      "title": "Walk the float's edge at survey pace, checking the underside",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.45,
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "SURVEY PACE ON THE FLOAT",
+        "rise": 0.55,
+        "start": 0.14
+      },
+      "why": "The survey looks at the same floats the same way every visit, and the pace is what makes it a survey rather than a stroll: fast misses what is under the edge; slow becomes a technician on their knees over the water for an hour. The mirror on the pole does the reaching so the technician's weight stays inboard, and the walk is where a mismatch is first seen — the rest of the station is what happens after that."
+    },
+    {
+      "cue": "Hold the position unit over the cleat nearest the patch and commit the fix when its accuracy reading is inside the protocol's band.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.62
+        ],
+        "label": "POSITION ACCURACY",
+        "missNote": "Outside the protocol's accuracy — hold the unit over the cleat and commit when the reading settles into the band.",
+        "speed": 0.7
+      },
+      "id": "fix-position",
+      "kind": "gauge",
+      "prompt": "Hold the position unit over the cleat nearest the patch and commit the fix when its accuracy reading is inside the protocol's band.",
+      "target": "position-readout",
+      "title": "Fix the position to the protocol's accuracy",
+      "why": "The report's position is what lets the body that receives it send someone to the same cleat on the same float, and a fix committed while the unit is still settling is a fix that lands on the wrong float or in the water. The accuracy band is the protocol's; the technician waits for it, over the cleat, and commits — the marina's name and the float's number go on the form beside it, because a number alone finds nothing."
+    },
+    {
+      "cue": "Set the scale and colour card flat on the float beside the patch, in the same plane as it, without touching the patch.",
+      "drag": {
+        "missNote": "Not beside the patch — the card goes flat on the float next to the specimen, in its plane, touching nothing.",
+        "radius": 0.5,
+        "to": "card-socket"
+      },
+      "id": "set-scale",
+      "kind": "drag",
+      "prompt": "Set the scale and colour card flat on the float beside the patch, in the same plane as it, without touching the patch.",
+      "target": "scale-card",
+      "title": "Set the scale card beside the specimen",
+      "why": "A photograph without a scale is a photograph of something of unknown size, and size is often what separates one identification from another; the card in the same plane as the specimen is what lets someone at a desk measure from the picture. It is set beside the patch, not on it, because the specimen is recorded as found — the card is the ruler, not a tool for moving anything."
+    },
+    {
+      "cue": "Hold the camera square over the patch and the card at the protocol's distance for the full count — no tilt, no shadow, no hurry.",
+      "holdBreakNote": "The camera drifted off square before the count was done — the close-up would not carry the scale. Settle over the card and hold again.",
+      "id": "camera-hold",
+      "kind": "hold",
+      "prompt": "Hold the camera square over the patch and the card at the protocol's distance for the full count — no tilt, no shadow, no hurry.",
+      "seconds": 5,
+      "target": "camera-hold",
+      "title": "Hold the camera steady for the diagnostic close-up",
+      "why": "The close-up is the photograph the identification will be made from, and it has to show the features the reference card names sharply and at a known scale; a shot taken tilted or moving shows a blur beside a card whose scale no longer applies. Holding for the full count is the float-side proof the shot is one a specialist can work from — a rushed one cannot be told from a careful one until the identification stalls."
+    },
+    {
+      "cue": "Overall shot of the patch where it sits, then the close-up with the card, then the habitat shot showing the float, the cleat number and the water — in that order, every time.",
+      "id": "photo-set",
+      "itemNames": {
+        "shot-closeup": "close-up with the scale and colour card",
+        "shot-habitat": "habitat shot of the float, the cleat and the water",
+        "shot-overall": "overall shot of the patch on the float"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order — overall, then close-up with the card, then habitat. The camera's frame order is the form's box order.",
+      "prompt": "Overall shot of the patch where it sits, then the close-up with the card, then the habitat shot showing the float, the cleat number and the water — in that order, every time.",
+      "targets": [
+        "shot-overall",
+        "shot-closeup",
+        "shot-habitat"
+      ],
+      "title": "Take the protocol's photo set in order",
+      "why": "The photo set is taken in the same order every time so the frames on the camera match the form's boxes without anyone sorting them later: the overall shot says what and how much, the close-up says what exactly, the habitat shot says where and on what. A set taken in whatever order the light suggested is a set someone else has to reconstruct, and the report waits while they do."
+    },
+    {
+      "cue": "Before the sample, look for a report tag from an earlier crew and for any other patch on this float's edge; both change what goes on the form.",
+      "id": "find-more",
+      "itemNames": {
+        "earlier-tag": "the numbered report tag from an earlier sighting on this float",
+        "second-patch": "the second patch on the far side of the cleat"
+      },
+      "itemNotes": {
+        "earlier-tag": "A numbered tag zip-tied to the cleat by an earlier crew. Its number goes on the form so today's sighting is linked to the record already open — a second report on the same patch with no link is two records of one thing.",
+        "second-patch": "A smaller patch on the far side of the cleat, easy to miss with the eye on the first. It gets its own photo set and its own line on the form; one report that says 'several' is a report somebody has to come back and count."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Before the sample, look for a report tag from an earlier crew and for any other patch on this float's edge; both change what goes on the form.",
+      "targets": [
+        "earlier-tag",
+        "second-patch"
+      ],
+      "title": "Find the earlier tag and the second patch",
+      "why": "A sighting seldom stands alone: an earlier crew may have tagged the same float, and the patch that caught the eye is often not the only one. Finding both before the sample is taken is what makes the form a record of the float rather than of the first thing seen — the tag links the reports, and the second patch gets the same set, so nobody has to come back to ask how many."
+    },
+    {
+      "cue": "Take only what the permit's line on the protocol allows, with the forceps, into the labelled jar of site water, and turn the lid down until the seal indicator lines up.",
+      "id": "bag-sample",
+      "kind": "turn",
+      "prompt": "Take only what the permit's line on the protocol allows, with the forceps, into the labelled jar of site water, and turn the lid down until the seal indicator lines up.",
+      "target": "sample-jar-lid",
+      "title": "Take the permitted sample and seal the jar",
+      "turn": {
+        "label": "SAMPLE JAR LID",
+        "turns": 0.75
+      },
+      "why": "The permit says whether a sample may be taken at all and how much, and the answer is taken with forceps into a labelled jar of the site's own water so it reaches the laboratory alive and traceable; the lid is turned to its indicator because a jar that leaks in the kit bag is a sample that has been transferred to every other jar in it. The sample is for the laboratory the coordinator names, and it goes nowhere else."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Fill the position box with the marina, float, cleat and the committed fix; the photo box with the frame numbers per shot and the earlier tag; and the contact box with observer, crew, time and who was called.",
+      "id": "report-form",
+      "itemNames": {
+        "form-contact": "observer, crew, time and the coordinator called",
+        "form-photos": "photo frame numbers per shot and the earlier tag's number",
+        "form-position": "marina, float and cleat with the committed fix"
+      },
+      "kind": "sequence",
+      "prompt": "Fill the position box with the marina, float, cleat and the committed fix; the photo box with the frame numbers per shot and the earlier tag; and the contact box with observer, crew, time and who was called.",
+      "targets": [
+        "form-position",
+        "form-photos",
+        "form-contact"
+      ],
+      "title": "Complete the sighting report form",
+      "why": "The form is the sighting: it is what the body receives, what a specialist works from and what the programme will be asked about later. Every box has a reason — the position so someone can return, the frames so the pictures can be matched to the words, the contact so a question has someone to go to — and a form with a box empty is a report that comes back for the answer after the crew has left the float."
+    },
+    {
+      "cue": "On the radio: read the form to the coordinator — position, what was seen, the photo set, the tag, the sample taken as permitted — and take their instruction on the float before leaving it.",
+      "id": "coordinator-call",
+      "kind": "select",
+      "prompt": "On the radio: read the form to the coordinator — position, what was seen, the photo set, the tag, the sample taken as permitted — and take their instruction on the float before leaving it.",
+      "target": "coordinator-radio",
+      "title": "Call the coordinator and read the form",
+      "why": "The coordinator is the link between a technician on a float and the body the report goes to, and the call is where the sighting stops being the technician's alone: the coordinator confirms the form, says where the sample goes and whether anyone else is coming, and hears how the technician is after a boater's argument at the float's edge. It is the crew's check-in too — the AFSCME or LIUNA member assistance line stands behind it for whatever the call does not settle."
+    },
+    {
+      "cue": "Log the float and cleat, the fix, the photo frames, the tag, the second patch, the sample and its destination, the coordinator's instruction, and the boater's request and the answer given.",
+      "id": "sighting-log",
+      "kind": "select",
+      "prompt": "Log the float and cleat, the fix, the photo frames, the tag, the second patch, the sample and its destination, the coordinator's instruction, and the boater's request and the answer given.",
+      "target": "sighting-log",
+      "title": "Log the sighting in the survey record",
+      "why": "The survey record is where this float's history lives — the earlier tag came from it, and the next crew's briefing will too. It is written on the float with the form and the camera in hand so the frames, the fix and the boxes agree, and it records what was refused as well as what was done, because a boater who was told no today will ask someone else tomorrow."
+    }
+  ],
+  "supportLine": "your union hall's member assistance programme — AFSCME or LIUNA, whichever your crew works under — with the employer's employee assistance line behind it",
+  "tagline": "The reporting protocol read, the kit checked, the float edge walked at survey pace while a second patch turns up, the position fixed to the protocol's accuracy, the scale card set beside the specimen, the camera held for the diagnostic set while a boater offers to scrape it off, the shots taken in order, the earlier tag and the second patch found, the sample bagged as the permit allows, the form completed, the coordinator called and the sighting logged",
+  "title": "SmartCiti.X~ Invasive Species Identification & Reporting VR",
+  "trade": "Monitoring technician on a harbour survey crew, documenting and reporting a sighting that does not match the reference card, with a coordinator on the radio",
+  "underwater": null,
+  "weather": "overcast"
+}

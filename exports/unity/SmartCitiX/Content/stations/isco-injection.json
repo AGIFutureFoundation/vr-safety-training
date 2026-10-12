@@ -1,0 +1,402 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "oxidant-contained",
+    "name": "Oxidant Contained",
+    "note": "The oxidant mixed to design, the manifold proven tight before it ran, the injection held in band with nothing daylighting, and the spent totes and rinse handled as hazardous"
+  },
+  "category": "Water & Environmental",
+  "certification": "OSHA HAZWOPER (29 CFR 1910.120) for everyone on the injection pad; ITRC's in-situ chemical oxidation guidance and the site's Record of Decision setting the design dose and pressure; the well permit governing the injection points; DOT hazmat rules for shipping the oxidant; the Regional Water Board's waste discharge requirements for the rinse water and spent totes",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.120",
+        "id": "osha-1910-120",
+        "title": "29 CFR 1910.120 — Hazardous waste operations and emergency response (HAZWOPER)"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Water",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "design-dose",
+        "name": "Design Dose",
+        "note": "The batch mixed to design concentration and the manifold proven tight before the valve ever opened"
+      },
+      {
+        "id": "never-surfaced",
+        "name": "Never Surfaced",
+        "note": "Nothing daylighted, nobody stood in the plume, and the manifold never ran past its tested limit"
+      },
+      {
+        "id": "band-held",
+        "name": "Band Held",
+        "note": "Held the injection pressure and flow near band centre the whole run"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-injection",
+        "name": "Clean Injection",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "unbroken-hold",
+        "name": "Unbroken Hold",
+        "note": "Never dropped out of band through the whole injection"
+      },
+      {
+        "id": "well-closed-early",
+        "name": "Well Closed Early",
+        "note": "Flushed, disconnected and logged inside 80% of par"
+      }
+    ],
+    "currency": "PPM",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Batch Hand",
+      "Injection Crew",
+      "Manifold Lead",
+      "Plume Authority",
+      "Oxidation Authority Certified"
+    ],
+    "system": "Oxidation Authority"
+  },
+  "hazards": {
+    "dump-rinse": "You tipped the manifold's rinse water into the ditch instead of drumming it. Rinse water off equipment that just carried concentrated permanganate is not clean water with a tint — it is oxidant in solution, and the Regional Water Board's waste discharge requirements do not treat 'it was already diluted' as a reason it can bypass the drum.",
+    "premature-inject": "You opened the injection valve before the manifold had been pressure-tested. A joint that has never been tested is a joint whose first real pressure is the injection itself — if it lets go there, the oxidant is loose on the pad rather than contained in a system that was proven tight before anything left the batch tank.",
+    "skip-chem-ppe": "You walked up to the batch tank to start mixing without the face shield and chemical gloves on. Permanganate splashed on skin or in an eye is a chemical burn, not a stain that washes off, and the PPE for this chemical exists precisely because the mixing step is the one point in the job where the oxidant is concentrated and unconfined in open air.",
+    "stand-in-plume": "You walked through the puddle where oxidant had surfaced instead of staying clear of it. That puddle is exactly what daylighting looks like from the ground — a strong oxidizer sitting on bare soil in a place nobody is watching it — and standing in it is not how anyone finds out where it actually came from."
+  },
+  "id": "isco-injection",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "run-injection",
+      "alert": "The manifold pressure gauge is climbing past design and still rising — the well screen is plugging and the pump is pushing against it instead of into the formation.",
+      "cue": "Crack the relief valve before the manifold reaches its tested limit.",
+      "delay": 4,
+      "id": "pressure-climb",
+      "kind": "Manifold pressure climbing",
+      "missNote": "The pressure kept climbing past its tested limit with the relief valve never touched, and a manifold pushed past what it was proven to hold has no reading left to tell you how close it was to letting go.",
+      "seconds": 14,
+      "target": "pressure-relief-valve",
+      "why": "The manifold was pressure-tested to a limit, not designed to run past it, and a plugging screen does not stop the pump from pushing — it just moves where that pressure goes. The relief valve is the only path that pressure has that is not through a joint the test never proved past this point.",
+      "wrongNote": "Not that — the relief valve is what takes the pressure off before the manifold finds its own limit for you."
+    },
+    {
+      "after": "sustain-injection",
+      "alert": "A dark purple stain has appeared on the ground beside the well — the oxidant is surfacing through a path nobody designed, not going where the injection plan sent it.",
+      "cue": "Shut the injection down at the well right now.",
+      "delay": 4,
+      "id": "oxidant-daylighting",
+      "kind": "Oxidant daylighting",
+      "missNote": "The injection kept running while permanganate kept surfacing beside the well, spreading further across bare ground with every gallon that kept going down hole after the pathway had already shown itself.",
+      "seconds": 14,
+      "target": "injection-stop",
+      "why": "Daylighting means the injection has found a way back to the surface instead of into the plume it was aimed at, and every gallon that keeps going down the well after that is a gallon reinforcing a pathway nobody chose rather than treating anything. Stopping at the wellhead is the only response that actually addresses where the oxidant is going.",
+      "wrongNote": "Not that — shut the injection down at the wellhead. Nothing else in the plan does anything while the pump is still pushing."
+    }
+  ],
+  "lateNotes": {
+    "drum-containers": "Nothing to drum yet — flush and disconnect the manifold first, so the totes that are actually spent are the ones going in the drum.",
+    "flush-valve": "Too early to flush — the injection has to actually be done and logged before the manifold has anything left in it worth rinsing out.",
+    "injection-manifold": "The manifold isn't running yet — open the injection valve and bring the pressure and flow up to design first.",
+    "injection-valve": "Nothing to inject yet — the manifold has to be connected and pressure-tested before this valve does anything but sit there."
+  },
+  "name": "ISCO Injection",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "hunters-point-bay-restoration"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "batch-mixer",
+      "chem-gloves",
+      "chem-suit",
+      "drum-containers",
+      "drum-rinse",
+      "dump-rinse",
+      "face-shield",
+      "flush-valve",
+      "hose-reel-socket",
+      "injection-manifold",
+      "injection-stop",
+      "injection-valve",
+      "loose-cam-lock",
+      "manifold-hose",
+      "mw-1",
+      "mw-2",
+      "premature-inject",
+      "pressure-relief-valve",
+      "skip-chem-ppe",
+      "stand-in-plume",
+      "test-gauge",
+      "unlabeled-tote",
+      "volume-log-board",
+      "wellhead-socket",
+      "workplan-board"
+    ],
+    "meshes": 191
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check the design dose, the injection pressure and flow limits, and which wells this pass covers before anything is mixed.",
+      "id": "read-workplan",
+      "kind": "select",
+      "prompt": "Check the design dose, the injection pressure and flow limits, and which wells this pass covers before anything is mixed.",
+      "target": "workplan-board",
+      "title": "Read the injection work plan and the well layout",
+      "why": "The Record of Decision and the ITRC-based work plan behind it are what set the concentration, the pressure limit and the well sequence for today — none of that is a judgment call made fresh at the batch tank, it is a design somebody already proved out before this crew ever showed up."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Chemical suit, face shield and chemical gloves before anyone opens a tote of permanganate.",
+      "id": "ppe-chem",
+      "itemNames": {
+        "chem-gloves": "chemical gloves",
+        "chem-suit": "chemical-resistant suit",
+        "face-shield": "face shield"
+      },
+      "kind": "sequence",
+      "prompt": "Chemical suit, face shield and chemical gloves before anyone opens a tote of permanganate.",
+      "targets": [
+        "chem-suit",
+        "face-shield",
+        "chem-gloves"
+      ],
+      "title": "Suit up for the oxidant",
+      "why": "Permanganate concentrate is a strong oxidizer that stains and burns on contact, and the mixing step is the one point in this job where it is open to air and unconfined — the suit, shield and gloves are what stand between a splash and a chemical burn, not a formality before the interesting part starts."
+    },
+    {
+      "cue": "Hold the mixer's feed rate steady in the band until the batch reads at design concentration.",
+      "holdBreakNote": "Mix rate ran out of band — either the concentrate is settling out uneven or the tank is splashing hard enough to put the oxidant somewhere other than in solution. Bring it back into the band and hold.",
+      "id": "mix-oxidant",
+      "kind": "track",
+      "prompt": "Hold the mixer's feed rate steady in the band until the batch reads at design concentration.",
+      "seconds": 8,
+      "target": "batch-mixer",
+      "title": "Mix the oxidant to design concentration",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.45,
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "MIX RATE",
+        "rise": 0.5,
+        "start": 0.1
+      },
+      "why": "Too fast and the concentrate clumps at the bottom of the tank instead of dissolving even, leaving the batch weaker than the reading says; too slow and the shift runs long mixing a batch that was ready minutes ago. Steady, in the band, is what makes the concentration on the readout the concentration actually going down the well."
+    },
+    {
+      "cue": "Carry the manifold hose from the batch tank to the wellhead and seat it on the fitting.",
+      "drag": {
+        "missNote": "Not seated on the fitting — a manifold that is not square on the wellhead will not hold pressure and will not run true.",
+        "radius": 0.42,
+        "to": "wellhead-socket"
+      },
+      "id": "connect-manifold",
+      "kind": "drag",
+      "prompt": "Carry the manifold hose from the batch tank to the wellhead and seat it on the fitting.",
+      "target": "manifold-hose",
+      "title": "Connect the injection manifold to the well",
+      "why": "The manifold is what carries the batch from a tank open to air into a sealed system running straight down the well — a hose set down beside the fitting instead of seated on it is a connection the pressure test is about to find, one way or the other."
+    },
+    {
+      "cue": "Bring the test pump up and commit on the pressure the manifold holds.",
+      "gauge": {
+        "green": [
+          0.55,
+          0.78
+        ],
+        "label": "MANIFOLD TEST",
+        "missNote": "The manifold did not hold the test. Find the joint before permanganate goes anywhere near this system.",
+        "speed": 0.65
+      },
+      "id": "pressure-test-manifold",
+      "kind": "gauge",
+      "prompt": "Bring the test pump up and commit on the pressure the manifold holds.",
+      "target": "test-gauge",
+      "title": "Pressure-test the manifold",
+      "why": "This is the moment a bad joint costs nothing — the manifold is dry and idle, not carrying oxidant, so a fitting that will not hold is found here instead of found live, with concentrate already moving through it toward whatever gave way."
+    },
+    {
+      "cue": "Wind the injection valve open now the manifold is proven tight.",
+      "id": "open-injection-valve",
+      "kind": "turn",
+      "prompt": "Wind the injection valve open now the manifold is proven tight.",
+      "target": "injection-valve",
+      "title": "Open the injection valve",
+      "turn": {
+        "axis": "y",
+        "label": "INJECTION VALVE",
+        "turns": 0.6
+      },
+      "why": "The valve opens only after the pressure test says the system downstream of it can take the flow — opening it on an untested manifold puts the first real pressure this system has ever seen straight through a joint nobody has proven yet."
+    },
+    {
+      "cue": "Hold the manifold's pressure and flow steady in the band as the batch feeds down the well.",
+      "holdBreakNote": "Pressure ran out of band — either the pump is starving or the screen is starting to load up. Bring it back into the band and hold.",
+      "id": "run-injection",
+      "kind": "track",
+      "prompt": "Hold the manifold's pressure and flow steady in the band as the batch feeds down the well.",
+      "seconds": 9,
+      "target": "injection-valve",
+      "title": "Bring the injection up to design pressure and flow",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.42,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "MANIFOLD PSI",
+        "rise": 0.5,
+        "start": 0.15
+      },
+      "why": "Design pressure and flow are what the work plan calculated to move the oxidant into the plume without pushing it somewhere the plan did not intend — running hot moves more product but risks fracturing a path to the surface, and running light just means the pass does not deliver what the design assumed it would."
+    },
+    {
+      "cue": "Hold the manifold running at design while keeping an eye on the neighbouring monitoring wells for anything surfacing.",
+      "holdBreakNote": "Let go of the manifold before the hold finished — an injection that gets left partway through is a well that received less than the design called for with nobody watching the wells for the rest of it.",
+      "id": "sustain-injection",
+      "kind": "hold",
+      "prompt": "Hold the manifold running at design while keeping an eye on the neighbouring monitoring wells for anything surfacing.",
+      "seconds": 8,
+      "target": "injection-manifold",
+      "title": "Sustain the injection and watch the monitoring wells",
+      "why": "A pass that stays in band for a few seconds and then wanders is not the same as one that holds through the whole volume the design calls for — this is the stretch where a preferential pathway actually shows itself, which is exactly why the monitoring wells are being watched the entire time the manifold is running, not just at the end."
+    },
+    {
+      "cue": "Walk to both neighbouring monitoring wells and confirm neither one shows oxidant.",
+      "id": "check-monitoring-wells",
+      "itemNames": {
+        "mw-1": "monitoring well MW-1",
+        "mw-2": "monitoring well MW-2"
+      },
+      "itemNotes": {
+        "mw-1": "Dry and clear at MW-1 — no oxidant reached this well during the pass, which is what the design's radius of influence predicted.",
+        "mw-2": "Dry and clear at MW-2 — the far monitoring well, and the one that would show a pathway wider than the design assumed before the near well ever would."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk to both neighbouring monitoring wells and confirm neither one shows oxidant.",
+      "targets": [
+        "mw-1",
+        "mw-2"
+      ],
+      "title": "Confirm both monitoring wells stayed clear",
+      "why": "The injection well only tells you what left the manifold; the monitoring wells are what tell you where it actually went — a pass that looked clean at the wellhead has not really been checked until the wells around it confirm the plume stayed where the design put it."
+    },
+    {
+      "cue": "Enter the volume actually injected at this well against the design volume on the injection log.",
+      "id": "log-volume",
+      "kind": "select",
+      "prompt": "Enter the volume actually injected at this well against the design volume on the injection log.",
+      "target": "volume-log-board",
+      "title": "Log the volume against design",
+      "why": "The next well in the sequence and the next pass at this one are both planned off what the log says actually went in the ground here — a volume that is remembered instead of logged is a number the next crew has no way to check."
+    },
+    {
+      "cue": "Hold the flush valve open until clean water runs the length of the manifold.",
+      "holdBreakNote": "Cut the flush short — the line was still running tinted when it stopped. Hold it until it actually runs clear.",
+      "id": "flush-manifold",
+      "kind": "hold",
+      "prompt": "Hold the flush valve open until clean water runs the length of the manifold.",
+      "seconds": 5,
+      "target": "flush-valve",
+      "title": "Flush the manifold",
+      "why": "Concentrate left standing in the hose and fittings keeps working on the gaskets and the threads long after the injection is done — flushing to clean water is what the manifold gets to sit idle in until the next well, instead of sitting in the same oxidant it just delivered."
+    },
+    {
+      "cue": "Unseat the manifold hose from the wellhead and carry it back to the reel.",
+      "drag": {
+        "missNote": "Not on the reel — a hose dropped beside it is still a tripping hazard on a pad that is supposed to be closed out.",
+        "radius": 0.42,
+        "to": "hose-reel-socket"
+      },
+      "id": "disconnect-manifold",
+      "kind": "drag",
+      "prompt": "Unseat the manifold hose from the wellhead and carry it back to the reel.",
+      "target": "manifold-hose",
+      "title": "Disconnect the manifold",
+      "why": "A flushed manifold left connected to a well that is done for the day is just a hose in the way of the next crew — disconnecting it and reeling it in is what actually closes out this well rather than leaving it half put away."
+    },
+    {
+      "cue": "Drum the empty oxidant totes, then the rinse water, both labeled hazardous.",
+      "id": "handle-waste",
+      "itemNames": {
+        "drum-containers": "drum the spent containers",
+        "drum-rinse": "drum the rinse water"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Containers first, then the rinse — the totes are what the rinse water came from, and logging them in that order is what keeps the waste manifest matched to what actually happened here.",
+      "prompt": "Drum the empty oxidant totes, then the rinse water, both labeled hazardous.",
+      "targets": [
+        "drum-containers",
+        "drum-rinse"
+      ],
+      "title": "Handle the spent totes and rinse as hazardous",
+      "why": "An empty tote and the water that rinsed it both carry enough residual oxidant that neither one is ordinary trash — the Regional Water Board's waste discharge requirements and DOT's hazmat rules both start counting the moment this stuff leaves the pad, not whenever it is convenient to drum it."
+    },
+    {
+      "cue": "Look over the manifold connections and the waste area, and click whatever still needs fixing before this well is closed out.",
+      "id": "walk-pad",
+      "itemNames": {
+        "loose-cam-lock": "a loose cam-lock fitting",
+        "unlabeled-tote": "an unlabeled spent tote"
+      },
+      "itemNotes": {
+        "loose-cam-lock": "That cam-lock arm isn't latched. A fitting that looks connected but isn't is exactly what turns into a weep or a spray the next time this manifold sees pressure.",
+        "unlabeled-tote": "That tote never got a hazardous-waste label. A drum with permanganate residue and no label is a mislabeled hazard to whoever finds it next, on this pad or off it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look over the manifold connections and the waste area, and click whatever still needs fixing before this well is closed out.",
+      "targets": [
+        "loose-cam-lock",
+        "unlabeled-tote"
+      ],
+      "title": "Walk the pad before you leave",
+      "why": "The injection is the interesting part of the shift and these two are the part that gets missed: a fitting that has to hold the next time somebody pressurizes it, and a label that has to already be there the next time somebody has to know what is in that drum."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "In-situ chemical oxidation of a groundwater plume: permanganate mixed to design in the batch tank, the manifold pressure-tested before it runs, the injection held at design pressure and flow while the neighbouring wells are watched for daylighting, and the spent totes and rinse handled as hazardous",
+  "title": "SmartCiti.X~ ISCO Injection VR",
+  "trade": "In-situ chemical oxidation crew — LIUNA hazmat laborers, UA Local 38 pipefitters, IUOE stationary engineers",
+  "underwater": null,
+  "weather": "overcast"
+}

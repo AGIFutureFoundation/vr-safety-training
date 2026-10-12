@@ -1,0 +1,376 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "desk-secured",
+    "name": "Desk Secured",
+    "note": "An escalating visitor met with distance and a calm approach, the duress alarm used the moment it stopped working, and the incident logged honestly"
+  },
+  "category": "Healthcare Support",
+  "certification": "Cal/OSHA's workplace violence prevention standard, 8 CCR 3342 (SB 553) — the written plan, a proven duress alarm, hazard correction and an honest violent-incident log; the Injury and Illness Prevention Program, 8 CCR 3203; Labor Code §6310 protection against retaliation for reporting a hazard; SEIU-UHW and NUHW as the training bodies for front-desk and registration staff",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "Cal/OSHA",
+        "citedAs": "8 CCR 3203",
+        "id": "cal-osha-3203",
+        "title": "8 CCR 3203 — Injury and Illness Prevention Program"
+      },
+      {
+        "body": "Cal/OSHA",
+        "citedAs": "8 CCR 3342",
+        "id": "cal-osha-3342",
+        "title": "8 CCR 3342 — Workplace violence prevention plan"
+      },
+      {
+        "body": "Cal. Labor Code",
+        "citedAs": "Labor Code §6310",
+        "id": "labor-code-6310",
+        "title": "California Labor Code §6310 — no retaliation for reporting an unsafe condition"
+      },
+      {
+        "body": "union",
+        "citedAs": "NUHW",
+        "id": "nuhw-training",
+        "title": "NUHW member education and safety training for hospital and clinic support staff"
+      },
+      {
+        "body": "union",
+        "citedAs": "SEIU-UHW",
+        "id": "seiu-uhw-training",
+        "title": "SEIU-UHW member education and safety training for hospital and clinic support staff"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Healthcare Support",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "button-proven",
+        "name": "Button Proven",
+        "note": "The duress alarm actually tested before the shift, not just assumed"
+      },
+      {
+        "id": "distance-kept",
+        "name": "Distance Kept",
+        "note": "Escalation noticed early and distance kept before anything else"
+      },
+      {
+        "id": "honest-log",
+        "name": "Honest Log",
+        "note": "The incident logged completely, with a debrief actually requested"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-shift",
+        "name": "Clean Shift",
+        "note": "No corrections anywhere in the shift"
+      },
+      {
+        "id": "steady-alarm",
+        "name": "Steady Alarm",
+        "note": "Held the duress button the full count, first try"
+      },
+      {
+        "id": "fast-response",
+        "name": "Fast Response",
+        "note": "Complete inside 80% of par"
+      }
+    ],
+    "currency": "SHIFT",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "New Clerk",
+      "Desk Certified",
+      "Lead Clerk",
+      "Front Desk Supervisor",
+      "De-escalation Certified"
+    ],
+    "system": "Front Desk Standard"
+  },
+  "hazards": {
+    "argue-back-decoy": "That card says \"you need to calm down right now.\" Telling an already escalating person to calm down is an order, not de-escalation, and an order is exactly the kind of thing that pushes a tense visitor further rather than defusing anything.",
+    "blank-test-log-decoy": "This duress-button test log hasn't been signed in days. An untested button that everyone assumes still works is worse than no button at all, because nobody finds out it's dead until the moment they actually need it.",
+    "improper-restraint-decoy": "Those zip ties are sitting on the desk like a tool for this job. Physically restraining a visitor is never this desk's role, whatever's happening — that's what security and, if it comes to it, law enforcement are for, not a clerk reaching for something to hold someone with.",
+    "propped-security-door-decoy": "That's the door to the secure back office, propped open with a wedge. Every lockdown control this desk has depends on that door actually closing when it needs to — propped open, it's not a secure room, it's just a room."
+  },
+  "id": "hc-workplace-violence-deescalation-at-the-desk",
+  "indoor": "clinic",
+  "interrupts": [
+    {
+      "after": "notice-and-distance",
+      "alert": "A second person nearby starts filming and shouting encouragement at the visitor instead of stepping back.",
+      "cue": "That bystander needs moving too, not engaging with.",
+      "delay": 3,
+      "id": "bystander-inflames",
+      "kind": "Bystander escalates it further",
+      "missNote": "The bystander kept filming and shouting the whole time, unaddressed. What started as one tense visitor now has an audience actively encouraging it.",
+      "seconds": 12,
+      "target": "protect-other-visitors",
+      "why": "Arguing with a bystander who's making things worse just adds a second confrontation to the one already in progress — moving them clear, the same as any other visitor, is what keeps the situation from growing past the one person it started with.",
+      "wrongNote": "Move the bystander back with everyone else — engaging with them directly only adds a second front to this."
+    },
+    {
+      "after": "lock-door",
+      "alert": "Someone pounds on the locked back office door claiming to be an off-duty nurse who needs in right now.",
+      "cue": "A claim through a locked door doesn't verify itself.",
+      "delay": 3,
+      "id": "unverified-knock",
+      "kind": "Unverified access request",
+      "missNote": "The door got answered on a claim nobody actually verified. Whatever the room was locked to keep out just walked back in because it sounded urgent enough.",
+      "seconds": 11,
+      "target": "security-notify",
+      "why": "Anyone can claim to be staff through a door they can't be identified behind, and unlocking on the strength of an urgent-sounding claim is exactly how a secured room stops being secure — that verification goes through security, not through opening the door to find out.",
+      "wrongNote": "Route it through security — a locked door doesn't open on an unverified claim, however urgent it sounds."
+    }
+  ],
+  "lateNotes": {
+    "debrief-request": "Hold that. Security has to actually be notified and the incident logged before a debrief is what this step is asking for.",
+    "duress-button": "Not yet — try the calm approach first. The button is for when that stops working, not instead of it."
+  },
+  "name": "Workplace Violence De-escalation at the Desk",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "healthcare-support"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.3,
+    "hits": [
+      "acknowledge-concern",
+      "argue-back-decoy",
+      "blank-test-log-decoy",
+      "blocked-desk-exit",
+      "broken-camera",
+      "calm-tone",
+      "clear-exit-path",
+      "closed-sign",
+      "debrief-request",
+      "duress-button",
+      "improper-restraint-decoy",
+      "lock-door",
+      "maintain-distance",
+      "notice-cues",
+      "offer-choice",
+      "panic-button-test",
+      "post-incident-log",
+      "propped-security-door-decoy",
+      "protect-other-visitors",
+      "radio-battery-check",
+      "review-visitor-log",
+      "security-notify",
+      "window-slot"
+    ],
+    "meshes": 163
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check that the desk's own path to the exit is clear before the first visitor arrives.",
+      "id": "clear-exit-path",
+      "kind": "select",
+      "prompt": "Check that the desk's own path to the exit is clear before the first visitor arrives.",
+      "target": "clear-exit-path",
+      "title": "Confirm the exit path before the shift",
+      "why": "A clear path costs nothing to check at the start of a quiet shift and everything to discover blocked in the middle of a tense one — this gets confirmed before the desk opens, not rediscovered when it's already needed."
+    },
+    {
+      "cue": "Read the radio's battery level before clipping it on for the shift.",
+      "gauge": {
+        "green": [
+          0.4,
+          1
+        ],
+        "label": "RADIO BATTERY",
+        "missNote": "Committed on a radio you never confirmed had charge for the shift. A dead radio at the desk is the same as no radio at all.",
+        "speed": 0.6
+      },
+      "id": "radio-check",
+      "kind": "gauge",
+      "prompt": "Read the radio's battery level before clipping it on for the shift.",
+      "target": "radio-battery-check",
+      "title": "Check the duress radio's battery",
+      "why": "A duress radio that dies partway through a shift is a silent alarm with nobody listening — checking the charge now is what keeps that radio actually able to reach security the one time it matters."
+    },
+    {
+      "cue": "Press the daily test sequence on the desk's duress button and confirm it registers.",
+      "id": "panic-button-test",
+      "kind": "select",
+      "prompt": "Press the daily test sequence on the desk's duress button and confirm it registers.",
+      "target": "panic-button-test",
+      "title": "Test the duress button",
+      "why": "8 CCR 3342 treats a proven alarm as part of the written plan, not an assumption — a button tested daily is a button this desk can actually trust in the one moment it's ever pressed for real."
+    },
+    {
+      "cue": "Two things in this lobby aren't right for the start of a shift. Find them.",
+      "id": "lobby-scan",
+      "itemNames": {
+        "blocked-desk-exit": "a cart blocking the desk's own exit",
+        "broken-camera": "a security camera that isn't recording"
+      },
+      "itemNotes": {
+        "blocked-desk-exit": "A cart parked across this desk's own way out turns a controlled retreat into a scramble the moment it's actually needed — it gets moved before the shift starts, not during an incident.",
+        "broken-camera": "A camera with no light on is a camera that isn't recording anything, which means this desk has no independent record of whatever happens here today — it gets reported to facilities now, not noticed for the first time on a request to pull footage later."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Two things in this lobby aren't right for the start of a shift. Find them.",
+      "targets": [
+        "blocked-desk-exit",
+        "broken-camera"
+      ],
+      "title": "Scan the lobby before opening the desk",
+      "why": "The hazard walk 8 CCR 3342 calls for is exactly this: a look around before anything happens, catching what's wrong with the room while there's still time to fix it rather than during the one moment the room's condition actually matters."
+    },
+    {
+      "cue": "Check that the visitor log and badge system are actually working before the lobby fills up.",
+      "id": "review-visitor-log",
+      "kind": "select",
+      "prompt": "Check that the visitor log and badge system are actually working before the lobby fills up.",
+      "target": "review-visitor-log",
+      "title": "Confirm the visitor sign-in system",
+      "why": "A sign-in system that's down is a lobby with no record of who's actually in the building — confirming it works now is what keeps that record honest for the whole shift instead of just for whoever happened to sign in after someone noticed the problem."
+    },
+    {
+      "anyOrder": false,
+      "cue": "Notice the raised voice and pacing, then reposition behind the counter before saying anything else.",
+      "id": "notice-and-distance",
+      "itemNames": {
+        "maintain-distance": "put the counter between you and the visitor",
+        "notice-cues": "notice the early cues"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Notice it first, then move — repositioning without having actually clocked what's happening is just standing somewhere else, not responding to anything.",
+      "prompt": "Notice the raised voice and pacing, then reposition behind the counter before saying anything else.",
+      "targets": [
+        "notice-cues",
+        "maintain-distance"
+      ],
+      "title": "Notice the cues, then put distance between you",
+      "why": "A raised voice and pacing are behaviors, not a diagnosis this desk is ever making — noticing them early is what buys the time to reposition behind the counter before things escalate further, rather than reacting to a problem that's already right in front of you."
+    },
+    {
+      "cue": "Lower your own tone, acknowledge the concern out loud, then offer a concrete choice.",
+      "id": "calm-script",
+      "itemNames": {
+        "acknowledge-concern": "acknowledge what they're upset about",
+        "calm-tone": "lower your own tone and pace",
+        "offer-choice": "offer a concrete choice"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Tone first, then acknowledge, then the choice — a choice offered before anyone's been heard just sounds like being managed.",
+      "prompt": "Lower your own tone, acknowledge the concern out loud, then offer a concrete choice.",
+      "targets": [
+        "calm-tone",
+        "acknowledge-concern",
+        "offer-choice"
+      ],
+      "title": "Try the calm approach first",
+      "why": "A slower, lower voice is the one thing in this exchange this desk actually controls, and it tends to pull the other person's pace down with it — acknowledging the concern before offering a choice is what makes the choice sound like an option instead of a dismissal."
+    },
+    {
+      "cue": "Press and hold the button once the calm approach isn't working.",
+      "holdBreakNote": "You let go before the alert actually completed. A duress signal that didn't finish sending is the same as one that was never pressed.",
+      "id": "duress-alarm",
+      "kind": "hold",
+      "prompt": "Press and hold the button once the calm approach isn't working.",
+      "seconds": 5,
+      "target": "duress-button",
+      "title": "Use the duress button",
+      "why": "The duress button alerts security silently, without announcing anything to the visitor at all — holding it the full count is what actually completes the alert rather than a half-press that registers as nothing on the other end."
+    },
+    {
+      "cue": "Move the temporarily-closed sign into the desk window while security is on the way.",
+      "drag": {
+        "missNote": "Not in the window — a sign that isn't actually visible from the lobby redirects nobody.",
+        "radius": 0.4,
+        "to": "window-slot"
+      },
+      "id": "close-window",
+      "kind": "drag",
+      "prompt": "Move the temporarily-closed sign into the desk window while security is on the way.",
+      "target": "closed-sign",
+      "title": "Slide the closed sign into the window",
+      "why": "Redirecting the next arrivals away from an active incident, quietly, is what keeps this from turning into a room full of people walking straight into it — the sign does that without announcing anything to the visitor still at the counter."
+    },
+    {
+      "cue": "Turn the lock and confirm the back office is sealed.",
+      "id": "lock-door",
+      "kind": "turn",
+      "prompt": "Turn the lock and confirm the back office is sealed.",
+      "target": "lock-door",
+      "title": "Secure the back office door",
+      "turn": {
+        "axis": "y",
+        "label": "DOOR LOCK",
+        "turns": 0.4
+      },
+      "why": "The back office is where this desk actually retreats to if the situation gets worse — a door that isn't locked and confirmed isn't a secure room, it's just a room that happens to have a door."
+    },
+    {
+      "cue": "Direct waiting visitors away from the desk and toward the far side of the lobby.",
+      "id": "protect-other-visitors",
+      "kind": "select",
+      "prompt": "Direct waiting visitors away from the desk and toward the far side of the lobby.",
+      "target": "protect-other-visitors",
+      "title": "Move other visitors clear",
+      "why": "Everyone else in this lobby is a bystander to whatever's happening at the desk, not part of it — moving them clear is what keeps a two-person situation from turning into a crowd around it."
+    },
+    {
+      "cue": "Follow up on the duress alert to confirm security actually heard it and is on the way.",
+      "id": "security-notify",
+      "kind": "select",
+      "prompt": "Follow up on the duress alert to confirm security actually heard it and is on the way.",
+      "target": "security-notify",
+      "title": "Confirm security is responding",
+      "why": "A duress signal sent is not the same as a duress signal received — confirming security is actually responding is what turns \"I pressed the button\" into \"help is coming,\" which is the only version of this that actually matters."
+    },
+    {
+      "cue": "Complete the violent-incident log, then request a debrief for yourself.",
+      "id": "close-out",
+      "itemNames": {
+        "debrief-request": "request a debrief",
+        "post-incident-log": "log the incident"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Log the incident first, then request the debrief — the debrief is about the person, not a substitute for the record the log actually keeps.",
+      "prompt": "Complete the violent-incident log, then request a debrief for yourself.",
+      "targets": [
+        "post-incident-log",
+        "debrief-request"
+      ],
+      "title": "Log the incident and ask for a debrief",
+      "why": "The incident log is what 8 CCR 3342 turns into the next hazard correction, but it says nothing about the person who was actually standing at that desk — requesting a debrief is what puts that on the record too, not as an afterthought but as its own line."
+    }
+  ],
+  "supportLine": "your employer's employee assistance program, or SEIU-UHW's member resources — standing at that desk during an incident like this deserves its own debrief, not just an incident form",
+  "tagline": "The exit path and duress button proven before the first visitor, escalation noticed early, distance kept, a calm approach tried first, the button used the moment it isn't working, and the incident logged honestly with a debrief requested for the person who stood at that desk",
+  "title": "SmartCiti.X~ Workplace Violence De-escalation at the Desk VR",
+  "trade": "Patient registration clerk",
+  "underwater": null,
+  "weather": null
+}

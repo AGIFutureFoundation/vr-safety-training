@@ -1,0 +1,378 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "well-opened-clean",
+    "name": "Well Opened Clean",
+    "note": "Every opening check passed to spec before the first guest was let in"
+  },
+  "category": "Culinary & Hospitality",
+  "certification": "California ABC Responsible Beverage Service (RBS) certification; the California Retail Food Code for ice, glassware, sanitiser and hand-washing; Cal/OSHA 8 CCR §3203 Injury and Illness Prevention Program and §5194 hazard communication for the sanitiser chemical; UNITE HERE Local 2's own opening-shift practice; the county Environmental Health department as the inspecting authority",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "Cal. ABC",
+        "citedAs": "RBS",
+        "id": "abc-rbs-training",
+        "title": "California Responsible Beverage Service Training Act — ABC RBS certification for anyone who serves alcohol"
+      },
+      {
+        "body": "CalCode",
+        "citedAs": "California Retail Food Code",
+        "id": "calcode-retail-food",
+        "title": "California Retail Food Code (Health and Safety Code Division 104, Part 7) — the FDA Food Code as California adopts it"
+      },
+      {
+        "body": "Cal. Labor Code",
+        "citedAs": "Labor Code §351",
+        "id": "labor-code-351",
+        "title": "California Labor Code §351 — gratuities are the sole property of the employee"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1200",
+        "id": "osha-1910-1200",
+        "title": "29 CFR 1910.1200 — Hazard communication"
+      },
+      {
+        "body": "union",
+        "citedAs": "UNITE HERE",
+        "id": "unite-here-training",
+        "title": "UNITE HERE hospitality training funds — cooks, housekeepers, bartenders and banquet staff"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Culinary & Hospitality",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "scoop-not-glass",
+        "name": "Scoop, Not Glass",
+        "note": "Nobody touched the ice with a glass on this shift"
+      },
+      {
+        "id": "never-uncovered",
+        "name": "Never Uncovered",
+        "note": "No unsafe action anywhere in the run"
+      },
+      {
+        "id": "pour-true",
+        "name": "Pour True",
+        "note": "The well pour-test landed inside the calibrated band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-open",
+        "name": "Clean Open",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "steady-pour",
+        "name": "Steady Pour",
+        "note": "Held the pour-test rate in band the whole way"
+      },
+      {
+        "id": "doors-on-time",
+        "name": "Doors On Time",
+        "note": "Complete inside 80% of par"
+      }
+    ],
+    "currency": "POUR",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Barback",
+      "Bartender",
+      "Shift Lead",
+      "Bar Manager",
+      "RBS Certified Trainer"
+    ],
+    "system": "Bar Opening Crew"
+  },
+  "hazards": {
+    "cash-drawer-open-unattended": "The till drawer is sitting open with nobody at it. An unattended open drawer during setup is a loss-prevention problem before the shift has even started, and it is the float count itself — done once, counted, and closed — that is supposed to be the only time it is open before service.",
+    "photo-menu-on-phone": "You left a phone propped against the till showing the cocktail menu instead of using the printed one behind the bar. A phone screen face-down in a wet well is a cracked screen and a distraction during a headcount, not a menu — the printed one lives back here for exactly that reason.",
+    "sanitiser-unlabeled": "That spray bottle has sanitiser in it with no label on it. Cal/OSHA hazard communication under 8 CCR §5194, built on the same federal OSHA standard at 29 CFR 1910.1200, requires a secondary container to say what is actually inside it — the next person to reach for it, mid-rush, is trusting a bottle that could be anything.",
+    "wet-floor-no-sign": "Ice melt is pooling by the well with no wet-floor sign out. A bar floor is wet by the nature of the job; the sign is what turns a normal shift hazard into a marked one, and Cal/OSHA's Injury and Illness Prevention Program under 8 CCR §3203 expects exactly this kind of routine hazard controlled before it is stepped in."
+  },
+  "id": "bar-well-setup",
+  "indoor": "bar",
+  "interrupts": [
+    {
+      "after": "ice-well-burnout",
+      "alert": "The barback is reaching for a rocks glass off the rail to scoop the fresh ice into the well.",
+      "cue": "Stop them — hand them the scoop.",
+      "delay": 3,
+      "id": "barback-scoop-with-glass",
+      "kind": "Barback reaching for a rocks glass",
+      "missNote": "The barback scooped the new ice with the glass anyway. A chip off that glass is now somewhere in the well, and there is no way to find it again once it's mixed into a full bin of ice.",
+      "seconds": 11,
+      "target": "scoop-hook",
+      "why": "A glass scooping ice is a glass that can chip against the bin's edge with nobody noticing, and the chip goes into the ice with the next scoop — the fix is putting the actual scoop in their hand before the glass ever touches the bin, not after.",
+      "wrongNote": "It's the scoop on the hook. That's the tool that was supposed to be in their hand."
+    },
+    {
+      "after": "well-bottles-pour-test",
+      "alert": "A customer who came in early is leaning over the bar, reaching for the open garnish tray while you're mid pour-test.",
+      "cue": "Glove up and take control of the tray before they touch it bare-handed.",
+      "delay": 3,
+      "id": "customer-reaches-garnish",
+      "kind": "Early customer at the rail",
+      "missNote": "The customer got a hand into the tray before anyone stopped them. Every wedge in that tray is now a bare-hand-contact question, and the only honest fix left is to toss the tray and cut a fresh one.",
+      "seconds": 11,
+      "target": "garnish-gloves",
+      "why": "The whole reason the garnish rule exists is that it goes straight into a drink with nothing between it and someone's mouth — a stranger's bare hand in that tray is exactly the bare-hand contact the Retail Food Code's rule is built to stop, and it does not wait for you to finish what you were doing.",
+      "wrongNote": "Glove up and take the tray back — that is what stops a bare hand from being the last thing that touched it."
+    }
+  ],
+  "lateNotes": {
+    "ice-bag": "There's nothing to refill yet — the well gets burned out and drained first.",
+    "till-float": "Count the float once the well itself is set — a drawer counted before the bar is ready just gets opened and closed again.",
+    "well-bottles-track": "Nothing to pour-test until the glass washer's own check is done and the well bottles are actually racked."
+  },
+  "name": "Opening the Well",
+  "parSeconds": 260,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "bartending-course"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "burnout-nozzle",
+      "cash-drawer-open-unattended",
+      "citrus-cut",
+      "date-label",
+      "garnish-gloves",
+      "glass-in-well",
+      "glass-washer-gauge",
+      "ice-bag",
+      "ice-well-socket",
+      "licence-board",
+      "photo-menu-on-phone",
+      "sanitiser-tester",
+      "sanitiser-unlabeled",
+      "scoop-hook",
+      "sink-sign",
+      "sink-soap",
+      "sink-towels",
+      "till-float",
+      "tray-filled",
+      "unlabeled-garnish",
+      "well-bottles-track",
+      "wet-floor-mark",
+      "wet-floor-no-sign"
+    ],
+    "meshes": 162
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track"
+  ],
+  "steps": [
+    {
+      "cue": "Check the wall board: the ABC licence current, and every RBS certificate on file for tonight's crew.",
+      "id": "licence-post",
+      "kind": "select",
+      "prompt": "Check the wall board: the ABC licence current, and every RBS certificate on file for tonight's crew.",
+      "target": "licence-board",
+      "title": "Confirm the ABC licence and RBS certificates are posted",
+      "why": "California has required RBS certification for anyone serving alcohol since 2022, and the ABC licence is what makes the whole night's service legal in the first place — both are checked posted and current before anything else, because an inspector or the county Environmental Health department can ask for either at any time."
+    },
+    {
+      "cue": "Dip the test strip and read it against the colour card — commit once it lands in the required band.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.62
+        ],
+        "label": "SANITISER PPM",
+        "missNote": "Outside the CalCode working-strength band. Dump it and mix again — a bucket you are not sure of is a bucket that does not sanitise anything.",
+        "speed": 0.7
+      },
+      "id": "sanitiser-mix",
+      "kind": "gauge",
+      "prompt": "Dip the test strip and read it against the colour card — commit once it lands in the required band.",
+      "target": "sanitiser-tester",
+      "title": "Mix the sanitiser bucket to CalCode strength",
+      "why": "The California Retail Food Code sets a working-strength range for the quaternary sanitiser every bar rag and glass gets wrung through all night — too weak and it does nothing, too strong and it is its own hazard under Cal/OSHA hazard communication rules, so the bucket is tested rather than guessed at from the bottle's own label."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Soap, paper towels and the posted hand-washing sign — the hand sink is its own station, separate from the well.",
+      "id": "hand-sink-stock",
+      "itemNames": {
+        "sink-sign": "employees-must-wash-hands sign",
+        "sink-soap": "soap stocked",
+        "sink-towels": "paper towels stocked"
+      },
+      "kind": "sequence",
+      "prompt": "Soap, paper towels and the posted hand-washing sign — the hand sink is its own station, separate from the well.",
+      "targets": [
+        "sink-soap",
+        "sink-towels",
+        "sink-sign"
+      ],
+      "title": "Stock the hand sink",
+      "why": "The California Retail Food Code requires a dedicated hand sink stocked and posted before service, kept apart from the ice and glassware — a bartender who cannot wash their hands at an actual hand sink ends up doing it in the same basin the ice scoop sits next to, which is the exact cross-contamination the separate sink exists to prevent."
+    },
+    {
+      "cue": "Hold the hot-water flush on the empty well until it runs clean.",
+      "holdBreakNote": "Released before it ran clean. A short flush leaves the same residue at the bottom that a full one is meant to clear — hold it the full duration.",
+      "id": "ice-well-burnout",
+      "kind": "hold",
+      "prompt": "Hold the hot-water flush on the empty well until it runs clean.",
+      "seconds": 5,
+      "target": "burnout-nozzle",
+      "title": "Burn out the ice well",
+      "why": "Yesterday's melt and whatever settled to the bottom of the well overnight get flushed out with hot water before any new ice goes in — the Retail Food Code treats an ice bin the same as any other food-contact surface, and an NSF-certified well is only as clean as the last time somebody actually flushed it rather than just refilling on top of what was already there."
+    },
+    {
+      "cue": "Carry the fresh ice bag to the well and empty it in.",
+      "drag": {
+        "missNote": "Not over the well — the bag has to actually empty into the bin, not beside it.",
+        "radius": 0.45,
+        "to": "ice-well-socket"
+      },
+      "id": "ice-refill",
+      "kind": "drag",
+      "prompt": "Carry the fresh ice bag to the well and empty it in.",
+      "target": "ice-bag",
+      "title": "Refill the well with the scoop — never a glass",
+      "why": "A scoop is a dedicated food-contact tool that never touches a customer's hand or mouth; a glass has been in both, and a cracked one left in the ice is a shard nobody sees until it is in somebody's drink. The Retail Food Code's rule against scooping ice with a glass exists for exactly that failure mode."
+    },
+    {
+      "cue": "The scoop goes back on its dedicated hook outside the well, not left sitting in the ice.",
+      "id": "scoop-hook",
+      "kind": "select",
+      "prompt": "The scoop goes back on its dedicated hook outside the well, not left sitting in the ice.",
+      "target": "scoop-hook",
+      "title": "Hang the scoop on its own hook",
+      "why": "A scoop left buried in the ice gets grabbed by the handle end covered in melt and hands, which defeats the entire point of using a scoop instead of a glass — the hook keeps it out of the ice and off the bar top between uses, where it stays a clean tool instead of another surface the ice sits against."
+    },
+    {
+      "cue": "Gloves on before the citrus or the tray.",
+      "id": "garnish-gloves",
+      "kind": "select",
+      "prompt": "Gloves on before the citrus or the tray.",
+      "target": "garnish-gloves",
+      "title": "Glove up before touching the garnish",
+      "why": "Ready-to-eat garnish that goes straight into a drink with no cooking step in between is exactly the category the Retail Food Code's bare-hand-contact rule covers — gloves go on before the knife, not after the first wedge is already cut."
+    },
+    {
+      "cue": "Cut the citrus, fill the tray inserts, then label the tray with today's date — in that order.",
+      "id": "garnish-prep",
+      "itemNames": {
+        "citrus-cut": "citrus cut",
+        "date-label": "tray dated",
+        "tray-filled": "tray inserts filled"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Cut, then filled, then dated — dating an empty tray or one that is only half filled just makes the label wrong.",
+      "prompt": "Cut the citrus, fill the tray inserts, then label the tray with today's date — in that order.",
+      "targets": [
+        "citrus-cut",
+        "tray-filled",
+        "date-label"
+      ],
+      "title": "Cut, fill and date the garnish",
+      "why": "A garnish tray dated at the start of shift is how anyone opening tomorrow's shift knows whether what's left is still good, and cutting before filling before dating is the only order that does not mean re-touching product after it is already labelled done."
+    },
+    {
+      "cue": "Run a cycle and read the final rinse gauge — commit once it lands in the sanitising band.",
+      "gauge": {
+        "green": [
+          0.46,
+          0.64
+        ],
+        "label": "RINSE °F",
+        "missNote": "Outside the sanitising band. A machine that only looks like it's working is worse than one that's visibly broken — run it again and confirm the reading before a single glass goes through it.",
+        "speed": 0.75
+      },
+      "id": "glass-washer-check",
+      "kind": "gauge",
+      "prompt": "Run a cycle and read the final rinse gauge — commit once it lands in the sanitising band.",
+      "target": "glass-washer-gauge",
+      "title": "Check the glass washer's temperature and chemical",
+      "why": "The Retail Food Code sets the standard a glass washer's sanitising rinse has to hit, by heat or by chemical, and an NSF-listed machine only meets that standard while it's actually running to spec — checking it cold at the start of shift is the only way to know every glass tonight is coming out sanitised rather than just rinsed and shiny."
+    },
+    {
+      "cue": "Hold a steady, counted speed-pour into the test jigger — too fast overpours, too slow underpours.",
+      "holdBreakNote": "The pour rate broke out of band. A pourer that isn't holding a steady rate isn't proven yet — bring it back and hold it.",
+      "id": "well-bottles-pour-test",
+      "kind": "track",
+      "prompt": "Hold a steady, counted speed-pour into the test jigger — too fast overpours, too slow underpours.",
+      "seconds": 6,
+      "target": "well-bottles-track",
+      "title": "Pour-test the well bottles",
+      "track": {
+        "drift": 0.11,
+        "fall": 0.42,
+        "green": [
+          0.42,
+          0.62
+        ],
+        "label": "POUR RATE",
+        "rise": 0.55,
+        "start": 0.1
+      },
+      "why": "Every well bottle gets a new speed pourer at the start of shift, and a pourer poured too fast or too slow all night is either giving product away or shorting every drink built from it — pour-testing against the jigger before service is how the whole bar's cost and consistency get set at once instead of drink by drink."
+    },
+    {
+      "cue": "Count the opening drawer against the float sheet before the first sale.",
+      "id": "till-float",
+      "kind": "select",
+      "prompt": "Count the opening drawer against the float sheet before the first sale.",
+      "target": "till-float",
+      "title": "Count the till float",
+      "why": "California Labor Code §351 makes clear that whatever is in a tip jar belongs to the staff who earned it, and a float counted and signed for before service is the same discipline applied to the house's own money — an uncounted drawer is a dispute waiting to happen the first time it comes up short at close."
+    },
+    {
+      "cue": "One more pass along the whole line before the first guest — click anything left wrong.",
+      "id": "pre-open-walk",
+      "itemNames": {
+        "unlabeled-garnish": "an undated garnish tray",
+        "wet-floor-mark": "an unmarked wet patch"
+      },
+      "itemNotes": {
+        "unlabeled-garnish": "A second tray sitting out with no date on it at all — nobody prepped it tonight and nobody can say when they did.",
+        "wet-floor-mark": "A wet patch by the well with no sign anywhere near it — exactly what the sign is supposed to be standing next to."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "One more pass along the whole line before the first guest — click anything left wrong.",
+      "targets": [
+        "unlabeled-garnish",
+        "wet-floor-mark"
+      ],
+      "title": "Walk the bar before the doors open",
+      "why": "Every step so far was checked once, in isolation; the walk is where a bartender looks at the bar the way a guest is about to see it, and it is the last chance to catch the one thing that got missed between two otherwise-clean checks."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Sanitiser mixed to strength, the ice well burned and refilled with a scoop, garnish gloved and dated, the glass washer proven, the well pour-tested and the float counted before the doors open",
+  "title": "SmartCiti.X~ Opening the Well VR",
+  "trade": "Bartender — UNITE HERE Local 2",
+  "underwater": null,
+  "weather": "clear"
+}

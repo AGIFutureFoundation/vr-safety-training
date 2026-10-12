@@ -1,0 +1,27 @@
+# OMEGA-CLAW memory
+
+- Base 230105b7 (loop 10, round 6b). Prefix `oc`/`OC_`, port 9146. Modules:
+  - `oc-claw.js`: no imports; the arena is injected.
+  - `oc-world.js`: imports `ohHive` and `RB_SITES`.
+  - `oc-panel.js`: imports `oc-claw.js`.
+  - `oc-claw-record.js`: generated.
+- Checker `tools/check_claw.mjs`: 8 checks. `OC_ROOT=<tree>` runs it against another checkout.
+- Eval `tools/claw_eval.mjs`. It runs the HELD-OUT seeds; run it only for a new declared protocol. `--module-only` rebuilds the page module from `docs/evals/claw.json` without running anything.
+- ROBO-ARENA's contract (c720e927) returns:
+  - `success` as a rate, `successes` as a count;
+  - `steps` as a mean, `stepsRun` as a count;
+  - `governorChecked` as a fraction, `stepsChecked` as a count;
+  - `{ applicable: false }` for a family that does not apply.
+  - `raBuild(modelId, sc).policyFor(seed)` gives a policy; the expert returns `policyFor: null`.
+  - Use the counts (`ocRow`).
+- One declaration per scenario, with several challengers, each one a declared comparison. The incumbent runs once. A second declaration on the same seeds is refused `seed-reused`, which is by design.
+- The promoter's order of checks, each a refusal reason: `reference-only`, `not-applicable`, `physical`, `governor-gap`, `rule-broken`, `not-better`, `interval-overlap`; otherwise `clear`. `claw.judge(row, incRow)` is pure, so the checker re-derives every verdict in the record with it.
+- Training seeds for leakage come from `ocRaAdapter`:
+  - demos: `seed*100003 + k + 1`;
+  - DAgger: `800000 + r*100 + k`;
+  - pairs: `(31 + i)*100003 + 1`.
+  - ROBO-ARENA exports no per-model seed list. If it adds one, use it.
+- World: the state is (seed, minutes). A day is 480 minutes with 120 jobs; hive seed `seed*1009 + day`. The loop never approves, so physical jobs wait (`waitingSupervisor`). Hidden means paused, with no catch-up. Closed means catch-up on return, capped at 480.
+- Gotcha: a worktree-isolated shell refuses heredocs, `cd` and variable expansion in git-adjacent commands. Write scripts with the Write tool and run them as plain commands.
+- Gotcha: the bundler prints KB that do not match the file's bytes. Measure with `stat`.
+- Results this round: 45 comparisons, 0 promotions (DAgger-3 on AMR is clear but broke 5 rules), refusals 3/3, and the small model not applicable (stub).

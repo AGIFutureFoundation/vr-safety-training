@@ -1,0 +1,402 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "cooled-clean",
+    "name": "Cooled Clean",
+    "note": "A batch cooled inside both Food Code windows, dated with its own discard date and logged — first time"
+  },
+  "category": "Culinary & Hospitality",
+  "certification": "California Retail Food Code / FDA Food Code §3-501.14 cooling — 135 °F to 70 °F within 2 hours, and a total of 6 hours to 41 °F or below; §3-501.15 cooling methods (shallow pans, ice paddles, rapid-chill equipment); §3-501.17 date marking; HACCP, which treats cooling as its own critical control point; California Food Handler card and ServSafe Food Protection Manager; NSF/ANSI 7 rapid-chill equipment; OSHA 29 CFR 1910.132 PPE for handling product at both ends of this task's temperature range; UNITE HERE Local 2",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "CalCode",
+        "citedAs": "California Retail Food Code",
+        "id": "calcode-retail-food",
+        "title": "California Retail Food Code (Health and Safety Code Division 104, Part 7) — the FDA Food Code as California adopts it"
+      },
+      {
+        "body": "FDA",
+        "citedAs": "FDA Food Code",
+        "id": "fda-food-code",
+        "title": "FDA Food Code — the model code for retail food establishments"
+      },
+      {
+        "body": "NSF",
+        "citedAs": "NSF/ANSI 7",
+        "id": "nsf-ansi-7",
+        "title": "NSF/ANSI 7 — Commercial refrigerators and freezers"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.132",
+        "id": "osha-1910-132",
+        "title": "29 CFR 1910.132 — Personal protective equipment, general requirements"
+      },
+      {
+        "body": "ServSafe",
+        "citedAs": "ServSafe",
+        "id": "servsafe-certification",
+        "title": "ServSafe Food Protection Manager and ServSafe Alcohol certification (National Restaurant Association)"
+      },
+      {
+        "body": "union",
+        "citedAs": "UNITE HERE",
+        "id": "unite-here-training",
+        "title": "UNITE HERE hospitality training funds — cooks, housekeepers, bartenders and banquet staff"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Culinary & Hospitality",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "shallow-first",
+        "name": "Shallow First",
+        "note": "Batch split into shallow pans before the ice bath ever started, first time"
+      },
+      {
+        "id": "never-guessed",
+        "name": "Never Guessed",
+        "note": "Never a deep pot cooled whole, never covered hot, never a plain-water bath"
+      },
+      {
+        "id": "on-the-clock",
+        "name": "On the Clock",
+        "note": "Both temperature checks and the chiller cycle all inside the band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-cool",
+        "name": "Clean Cooldown",
+        "note": "No corrections anywhere on the batch"
+      },
+      {
+        "id": "steady-stir",
+        "name": "Steady Stir",
+        "note": "Ice paddle held a steady rate the whole hold"
+      },
+      {
+        "id": "cool-fast",
+        "name": "Cooled In Time",
+        "note": "Batch closed out inside 80% of par"
+      }
+    ],
+    "currency": "CHILL",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Prep Cook",
+      "Line Cook",
+      "Lead Cook",
+      "Kitchen Supervisor",
+      "Cooling Certified"
+    ],
+    "system": "Cooling Line"
+  },
+  "hazards": {
+    "cover-before-cold": "That lid is on a pan that has not reached 41 °F yet. A cover traps the heat that the ice bath and the open air are trying to pull out, which is the opposite of what this whole step is for — it goes on once the pan is cold, not once it is out of the way.",
+    "deep-pot-cooling": "That second batch is still sitting whole in its deep stockpot instead of split into shallow pans. A mass that size holds its heat in the middle for hours no matter how cold the room around it gets — the Food Code's cooling methods exist because a deep pot in a walk-in is not one of them.",
+    "reheat-shortcut": "You reached for the microwave to flash the batch back up instead of bringing it to a full boil on the stove. A microwave heats unevenly, and the corrective reheat only counts if every part of this batch can be shown to have reached 165 °F, which a few minutes in a microwave cannot prove.",
+    "warm-water-bath": "That bucket is plain water with no ice in it. A water bath only cools faster than open air because ice keeps pulling heat out of it — room-temperature water reaches the same temperature as the food and then does nothing at all."
+  },
+  "id": "prep-cooling",
+  "indoor": "kitchen",
+  "interrupts": [
+    {
+      "after": "stir-paddle",
+      "alert": "The cooling log board just posted the two-hour reading on the pan behind you: 80 °F — well outside the window, and the clock on it is still running.",
+      "cue": "That batch needs the reheat, right now, not another minute in the bath.",
+      "delay": 4,
+      "id": "two-hour-80",
+      "kind": "Cooling check failed",
+      "missNote": "You left that pan in the bath instead of reheating it. A batch that missed 70 °F at two hours does not get a second chance at the same method — every additional minute in the danger zone at 80 °F is more time for whatever survived cooking to multiply, and it does not show up on a thermometer as anything other than a normal, wrong number.",
+      "seconds": 12,
+      "target": "reheat-burner",
+      "why": "The Food Code gives a failed two-hour check exactly one honest fix: bring the whole batch back to a full 165 °F on the stove where you can prove every part of it got there, or discard it — there is no version of 'give it more time in the same bath that already missed the mark'.",
+      "wrongNote": "It is the stove. Bring that batch to a full boil now, or it gets discarded — sitting in the same bath is neither."
+    },
+    {
+      "after": "chiller-watch",
+      "alert": "Another cook has started covering the shallow pans in the ice bath and stacking them to clear counter space, right on top of each other.",
+      "cue": "Those pans are not cold yet — get them uncovered and spaced apart again.",
+      "delay": 4,
+      "id": "cook-stacking-pans",
+      "kind": "Pans covered and stacked",
+      "missNote": "The pans stayed covered and stacked while the clock kept running. Every one of them lost most of its airflow at the same time, which means the two-hour and six-hour checks you are about to take are readings off a cooldown that quietly stopped working several minutes ago.",
+      "seconds": 12,
+      "target": "pan-too-close",
+      "why": "Covering and stacking still-hot pans to make room is exactly the airflow-airflow-blocking mistake this whole method is built to avoid, done all at once, by somebody who was solving a different problem than the one you are timing.",
+      "wrongNote": "It is the stacked pans. Get them uncovered and spaced apart before anything else on this line matters."
+    }
+  ],
+  "lateNotes": {
+    "date-discard-label": "The discard date only means anything once the pan is actually cold — write it before that and it is a guess wearing a label.",
+    "rice-pan": "The rice goes into the blast chiller because it is dense and holds heat all the way through — an ice bath cools the outside of that pan long before it reaches the middle."
+  },
+  "name": "Prep Cooling",
+  "parSeconds": 270,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "culinary-kitchen"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.7,
+    "hits": [
+      "blast-chiller-door",
+      "chiller-dial",
+      "chiller-rack-socket",
+      "cooling-log-sign",
+      "cover-before-cold",
+      "date-discard-label",
+      "date-made-label",
+      "deep-pot-cooling",
+      "haccp-board",
+      "ice-added",
+      "ice-paddle",
+      "lid-resting",
+      "pan-clear",
+      "pan-lid-cold",
+      "pan-too-close",
+      "reheat-burner",
+      "reheat-shortcut",
+      "rice-pan",
+      "shallow-pan-rack",
+      "stock-probe",
+      "stockpot",
+      "warm-water-bath",
+      "water-added"
+    ],
+    "meshes": 155
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check today's batch, the par cooling times and which method each item uses.",
+      "id": "haccp-plan",
+      "kind": "select",
+      "prompt": "Check today's batch, the par cooling times and which method each item uses.",
+      "target": "haccp-board",
+      "title": "Read the cooling plan",
+      "why": "The plan is what turns 'cool it down' into two hard numbers and a deadline: 70 °F inside two hours, 41 °F inside six total. Reading it first is what makes the first probe reading meaningful instead of just a number."
+    },
+    {
+      "cue": "Pour the hot stock from the deep pot into the shallow pans on the rack.",
+      "drag": {
+        "missNote": "Not on the rack — the stock has to actually be in the shallow pans, not just near them, before it starts cooling any faster than it was in the pot.",
+        "radius": 0.45,
+        "to": "shallow-pan-rack"
+      },
+      "id": "portion-shallow",
+      "kind": "drag",
+      "prompt": "Pour the hot stock from the deep pot into the shallow pans on the rack.",
+      "target": "stockpot",
+      "title": "Split the batch into shallow pans",
+      "why": "Depth is the enemy of cooling: a shallow pan puts most of the batch within a couple of inches of cold air or ice water, where a deep pot keeps the centre insulated by the food around it. This one decision is most of what makes the two-hour mark achievable at all."
+    },
+    {
+      "cue": "Ice into the sink first, then water — not the other way round.",
+      "id": "ice-bath-fill",
+      "itemNames": {
+        "ice-added": "ice into the sink",
+        "water-added": "water into the sink"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Wrong order — ice goes in first so the bath is already working by the time the water and the pans join it.",
+      "prompt": "Ice into the sink first, then water — not the other way round.",
+      "targets": [
+        "ice-added",
+        "water-added"
+      ],
+      "title": "Build the ice bath",
+      "why": "Ice into an empty sink starts pulling heat the moment the pans go in; water added first just gives the ice something to melt into before it has done any work. The order is small, but it is free cooling time you do not get back."
+    },
+    {
+      "cue": "Hold a steady stirring rate through the ice bath — not so slow the surface refreezes still, not so fast you splash the bath out.",
+      "holdBreakNote": "Rate out of band — settle the paddle and hold a steady stir through the bath.",
+      "id": "stir-paddle",
+      "kind": "track",
+      "prompt": "Hold a steady stirring rate through the ice bath — not so slow the surface refreezes still, not so fast you splash the bath out.",
+      "seconds": 7,
+      "target": "ice-paddle",
+      "title": "Stir with the ice paddle",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.5,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "STIR RATE",
+        "rise": 0.55,
+        "start": 0.1
+      },
+      "why": "A frozen paddle stirred through the pan does two things at once: it keeps a layer of warm stock from insulating itself against the ice water, and it is colder than the stock at every pass, which a plastic spoon never is."
+    },
+    {
+      "cue": "Spread the rice thin in the hotel pan and load it onto the blast chiller rack.",
+      "drag": {
+        "missNote": "Not seated on the rack — the pan has to be in the airflow, not resting against the chiller door.",
+        "radius": 0.4,
+        "to": "chiller-rack-socket"
+      },
+      "id": "blast-chiller-load",
+      "kind": "drag",
+      "prompt": "Spread the rice thin in the hotel pan and load it onto the blast chiller rack.",
+      "target": "rice-pan",
+      "title": "Load the rice into the blast chiller",
+      "why": "Rice packs dense and holds heat all the way to the centre of the pan; an ice bath only ever cools the surface it touches. The blast chiller moves enough cold air through a thin layer to reach the middle of this pan before the two-hour mark, which the ice bath alone would not."
+    },
+    {
+      "cue": "Turn the dial to the rapid-chill cycle for this load.",
+      "id": "chiller-cycle",
+      "kind": "turn",
+      "prompt": "Turn the dial to the rapid-chill cycle for this load.",
+      "target": "chiller-dial",
+      "title": "Set the chiller cycle",
+      "turn": {
+        "axis": "z",
+        "label": "CHILLER CYCLE",
+        "turns": 1
+      },
+      "why": "The rapid-chill cycle is tuned to pull this size of load through the danger zone inside the same clock the ice bath is running against — the wrong cycle either wastes the machine's capacity or does not move enough air to matter."
+    },
+    {
+      "cue": "Hold at the chiller door until the cycle is confirmed running, not just switched on.",
+      "holdBreakNote": "You walked off before the cycle confirmed. Hold until the display actually shows the cycle running.",
+      "id": "chiller-watch",
+      "kind": "hold",
+      "prompt": "Hold at the chiller door until the cycle is confirmed running, not just switched on.",
+      "seconds": 5,
+      "target": "blast-chiller-door",
+      "title": "Watch the cycle start",
+      "why": "A chiller that is powered but not actually cycling is a closed door doing nothing. Confirming the cycle started is the difference between a rice pan that is cooling and one that is just sitting in a cold-looking box."
+    },
+    {
+      "cue": "Probe the shallow pans and commit once the reading is at or below 70 °F.",
+      "gauge": {
+        "green": [
+          0.62,
+          0.86
+        ],
+        "label": "STOCK — 2-HR CHECK",
+        "missNote": "Still above 70 °F at the two-hour mark — this batch needs the reheat-or-discard call, not another hour in the bath.",
+        "speed": 0.6
+      },
+      "id": "check-2hr",
+      "kind": "gauge",
+      "prompt": "Probe the shallow pans and commit once the reading is at or below 70 °F.",
+      "target": "stock-probe",
+      "title": "Probe at the two-hour mark",
+      "why": "70 °F within two hours is the Food Code's own first checkpoint — not a suggestion, a deadline. A reading still above it at two hours means the batch has already used its whole first window and the second one is now working against a head start it does not have."
+    },
+    {
+      "cue": "Two things on this line are working against the cooldown. Find them.",
+      "decoyNotes": {
+        "pan-clear": "This pan has an honest gap of open air all the way round it and nothing resting on top. Leave it."
+      },
+      "id": "airflow-walk",
+      "itemNames": {
+        "lid-resting": "a lid resting on an uncooled pan",
+        "pan-too-close": "pans stacked with no air gap"
+      },
+      "itemNotes": {
+        "lid-resting": "This lid is resting on a pan that has not been checked yet. Even resting rather than sealed, it is still holding heat against the surface the whole point of this step is trying to pull heat away from.",
+        "pan-too-close": "These two pans are nested edge to edge with no gap between them. Cold air and ice water both need to reach every side of a pan to do their job — stacked tight, each pan insulates the one next to it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Two things on this line are working against the cooldown. Find them.",
+      "targets": [
+        "pan-too-close",
+        "lid-resting"
+      ],
+      "title": "Walk the cooling line",
+      "why": "Airflow is checked by eye and by hand, not assumed from the fact that the ice bath is running. A pan quietly blocked on one side is losing most of the benefit of everything else done right so far."
+    },
+    {
+      "cue": "Probe the pans again and commit once the reading is at or below 41 °F.",
+      "gauge": {
+        "green": [
+          0.06,
+          0.32
+        ],
+        "label": "STOCK — 6-HR CHECK",
+        "missNote": "Still above 41 °F at six hours total — this batch is not safe to shelve; it has spent too long in the range where pathogens grow.",
+        "speed": 0.6
+      },
+      "id": "check-6hr",
+      "kind": "gauge",
+      "prompt": "Probe the pans again and commit once the reading is at or below 41 °F.",
+      "target": "stock-probe",
+      "title": "Probe at the six-hour mark",
+      "why": "41 °F within a total of six hours is the second half of the same rule — measured from when the food left 135 °F, not from when this six-hour check happens to start. Missing this mark after clearing the first one still means the batch spent too long in the danger zone overall."
+    },
+    {
+      "cue": "Cover the pan now that it has actually reached 41 °F.",
+      "id": "cover-cold",
+      "kind": "select",
+      "prompt": "Cover the pan now that it has actually reached 41 °F.",
+      "target": "pan-lid-cold",
+      "title": "Cover the pan",
+      "why": "A cover is for holding a pan at temperature, not for cooling it — put it on any earlier and it works against the very process it is supposed to protect once that process is finished."
+    },
+    {
+      "cue": "Write the date made, then the discard date — in that order.",
+      "id": "label-discard",
+      "itemNames": {
+        "date-discard-label": "discard date",
+        "date-made-label": "date made"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Wrong order — the date made goes on first, and the discard date is counted forward from it.",
+      "prompt": "Write the date made, then the discard date — in that order.",
+      "targets": [
+        "date-made-label",
+        "date-discard-label"
+      ],
+      "title": "Date the pan",
+      "why": "The discard date is only real once there is a date made to count forward from. Writing it first is a guess about a day that has not started yet; writing it second is arithmetic anyone in the kitchen can check."
+    },
+    {
+      "cue": "Sign the cooling log with both checkpoint readings.",
+      "id": "sign-log",
+      "kind": "select",
+      "prompt": "Sign the cooling log with both checkpoint readings.",
+      "target": "cooling-log-sign",
+      "title": "Sign the cooling log",
+      "why": "The signed log is the proof, months later, that this specific batch actually cleared both windows — not that it probably did, and not that this kitchen usually gets it right."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Cooling stock and a hotel pan of rice inside the Food Code's clock: shallow pans, an ice paddle, the blast chiller, temperatures logged at two and six hours, a pan covered only once cold, dated with its own discard date, and the reheat-or-discard call when the two-hour mark is missed",
+  "title": "SmartCiti.X~ Prep Cooling VR",
+  "trade": "Line cook — hot food cooling",
+  "underwater": null,
+  "weather": null
+}

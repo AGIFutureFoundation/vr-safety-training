@@ -1,0 +1,1591 @@
+// Competency and proof of training — the sober tier above the badges.
+//
+// A station badge (gamify.js) says a learner played a station well. That is
+// motivation, and it is not what a hall, a JATC or a safety director signs.
+// What they sign is a *competency*: a named thing a journeyman can do, tied
+// to the standards a body actually publishes, demonstrated by passing named
+// stations under one stated rule that never bends.
+//
+// That rule is MASTERY below. It is stricter than the pass rule in
+// records.js on purpose: a pass is "you got through it", mastery is "you got
+// through it the way the standard describes". Nothing else earns a
+// competency — there is no partial credit, no curve, and no second rule for
+// a learner who nearly made it. A near miss is reported with the reason it
+// did not count (see transcript()), because a learner who cannot see why a
+// run failed learns nothing from failing it.
+//
+// This module is pure data and pure functions over the training record. It
+// touches no DOM and no storage, so tools/check_competency.mjs runs the
+// whole layer in Node. The only import is the scoring constants from
+// game.js, so the rubric a learner reads is the rubric the engine used
+// rather than a second copy of it that can drift.
+
+import { STEP_POINTS, WRONG_STEP_PENALTY, HAZARD_PENALTY, MAX_COMBO, INTERRUPT_POINTS, INTERRUPT_SPEED_BONUS } from "./game.js";
+
+/**
+ * The mastery rule, stated once. Every status, badge, transcript row and
+ * export below reads these numbers rather than repeating them, so the rule a
+ * learner is shown and the rule the code applies cannot disagree.
+ *
+ * - `minStars` 2: the engine's 2-star band is "at most one correction and
+ *   inside 1.5x par" (game.js finish()), so stars already encode most of it.
+ * - `maxHazardHits` 0: an unsafe action is disqualifying, full stop. A wrong
+ *   or unanswered interruption counts as one (game.js resolveInterrupt()).
+ * - every interruption answered: the procedure and noticing the alarm are
+ *   two different competencies and this layer demands both.
+ * - `parMultiple` 1.5: the same multiple the 2-star band uses.
+ */
+export const MASTERY = {
+  id: "mastery-v1",
+  minStars: 2,
+  maxHazardHits: 0,
+  answerEveryInterruption: true,
+  parMultiple: 1.5,
+  text: "A run demonstrates mastery when it earns two or more stars, records zero unsafe actions, " +
+    "answers every interruption it was given, and finishes within 1.5 times the station's par time. " +
+    "One mastery run on enough of a competency's stations earns \"demonstrated\"; mastery runs on " +
+    "three different days earn \"consistent\". No other rule earns a competency.",
+};
+
+/** One clean run demonstrates; mastery on this many different days is consistent. */
+const CONSISTENT_DAYS = 3;
+
+/**
+ * The scoring rubric, read straight from game.js's own constants so a
+ * learner sees why a run scored what it scored. Shown in the Proof tab and
+ * repeated in docs/proof-of-training.md.
+ */
+export const RUBRIC = {
+  stepPoints: STEP_POINTS,
+  wrongStepPenalty: WRONG_STEP_PENALTY,
+  hazardPenalty: HAZARD_PENALTY,
+  maxCombo: MAX_COMBO,
+  interruptPoints: INTERRUPT_POINTS,
+  interruptSpeedBonus: INTERRUPT_SPEED_BONUS,
+  timeBonusPerSecond: 2,
+  lines: [
+    ["Score", `Each correct step in the procedure is worth ${STEP_POINTS} points times the current combo. A wrong control costs ${WRONG_STEP_PENALTY}; touching a registered hazard costs ${HAZARD_PENALTY} and is recorded as an unsafe action. Finishing under par adds 2 points per second saved.`],
+    ["Combo", `Correct steps in a row multiply the next step: the multiplier is 1 + 0.1 per step in the streak, capped at ${MAX_COMBO.toFixed(1)}x. Any wrong control resets the streak to zero. Combo raises the score; it never changes the star band.`],
+    ["Interruptions", `An alarm that fires mid-procedure is worth ${INTERRUPT_POINTS} points, plus up to ${INTERRUPT_SPEED_BONUS} more the faster it is answered. A wrong answer and no answer are treated the same way: the condition is still there, so both cost ${HAZARD_PENALTY} and count as an unsafe action.`],
+    ["Stars", "3 stars: no corrections at all and finished inside par. 2 stars: at most one correction and finished inside 1.5x par. 1 star: anything else. Stars, not score, decide whether a run counts."],
+    ["Why a high score can still fail", "Score rewards speed and streaks. Mastery asks a different question — was it safe and complete — so a fast run with one unsafe action scores well and counts for nothing."],
+  ],
+};
+
+// ------------------------------------------------------------------ standards
+//
+// Standards live once, in tools/standards.json, with id/body/title/scope/
+// source (see tools/briefs/proof-brief.md). That file is another team's work
+// and is not in this tree yet, so the ids below are the slug of the body and
+// title — the same id that registry will mint for the same standard — and
+// this table carries the body and title so the Proof tab and the transcript
+// can name a standard rather than print a slug. When standards.json lands,
+// tools/check_competency.mjs starts cross-checking every id against it and
+// this table becomes the fallback for anything not yet registered.
+//
+// `source` follows the brief's rule: "verified" only where the citation form
+// is one we are sure of, "unverified" for a programme or practice named by
+// body and title without a clause number. No clause number here is invented.
+
+/** slug(body + title) — the id form tools/standards.json mints. */
+export function standardSlug(body, title) {
+  return `${body} ${title}`.toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+const S = (id, body, title, scope, source = "verified") => ({ id, body, title, scope, source });
+
+/**
+ * The standards the competencies below cite. Keyed by id for lookup; the
+ * short ids are stable hand-written keys, and `slug` on each entry is the
+ * body+title slug the shared registry will use, so the two can be joined.
+ */
+export const STANDARDS = Object.fromEntries([
+  S("osha-1910-147", "OSHA", "29 CFR 1910.147 The control of hazardous energy (lockout/tagout)", ["Energy & Power", "Manufacturing", "Food Service"]),
+  S("osha-1910-146", "OSHA", "29 CFR 1910.146 Permit-required confined spaces", ["Water & Environmental", "Manufacturing"]),
+  S("osha-1910-134", "OSHA", "29 CFR 1910.134 Respiratory protection", ["Hazmat & Environmental", "Emergency Response"]),
+  S("osha-1910-1200", "OSHA", "29 CFR 1910.1200 Hazard communication", ["Hospitality", "Health & Clinical", "Garment Trades"]),
+  S("hipaa-privacy-rule", "HHS", "HIPAA Privacy and Security Rules (45 CFR Parts 160 and 164)", ["Dental & Oral Health", "Emergency Services", "Community Environmental Justice", "Trade Skills Simulator"]),
+  S("osha-1910-1030", "OSHA", "29 CFR 1910.1030 Bloodborne pathogens", ["Health & Clinical", "Hospitality"]),
+  S("osha-1910-subpart-t", "OSHA", "29 CFR 1910 Subpart T \u2014 Commercial diving operations (dive team qualifications, the safe practices manual, pre-dive, during-dive and post-dive procedures, equipment and the dive record)", ["Maritime & Ports", "Water & Environmental", "Environmental Monitoring"]),
+  S("osha-1910-424", "OSHA", "29 CFR 1910.424 \u2014 SCUBA diving", ["Water & Environmental", "Maritime & Ports", "Environmental Monitoring"]),
+  S("bcdc-bay-plan", "BCDC", "San Francisco Bay Plan and BCDC permit conditions under the McAteer-Petris Act", ["Water & Environmental", "Maritime & Ports", "Community Environmental Justice", "Environmental Monitoring", "Construction & Structural Trades"]),
+  S("rwqcb-401-certification", "RWQCB", "Regional Water Quality Control Board Clean Water Act \u00a7401 certification and waste discharge requirements", ["Water & Environmental", "Maritime & Ports", "Community Environmental Justice", "Environmental Monitoring", "Construction & Structural Trades", "Surface Prep & Coatings"]),
+  S("usfws-esa", "USFWS", "Endangered Species Act \u00a77 consultation and species protection measures set by the U.S. Fish and Wildlife Service", ["Water & Environmental", "Maritime & Ports", "Environmental Monitoring", "Community Environmental Justice"]),
+  S("noaa-tides-and-esa", "NOAA", "NOAA tide predictions and NOAA Fisheries Endangered Species Act consultation for in-water work", ["Water & Environmental", "Maritime & Ports", "Environmental Monitoring", "Community Environmental Justice"]),
+  S("cdfw-lake-streambed-alteration", "CDFW", "California Department of Fish and Wildlife oversight under the California Fish and Game Code, including Lake and Streambed Alteration Agreements (\u00a71602) for work affecting a river, stream or lake", ["Water & Environmental", "Construction & Structural Trades", "Community Environmental Justice", "Maritime & Ports"], "unverified"),
+  S("adci-consensus-standards", "ADCI", "Association of Diving Contractors International \u2014 International Consensus Standards for Commercial Diving and Underwater Operations", ["Maritime & Ports", "Water & Environmental", "Environmental Monitoring"], "unverified"),
+  S("osha-1910-120", "OSHA", "29 CFR 1910.120 Hazardous waste operations and emergency response (HAZWOPER)", ["Hazmat & Environmental"]),
+  S("osha-1910-424", "OSHA", "29 CFR 1910.424 — SCUBA diving", ["Water & Environmental", "Maritime & Ports", "Environmental Monitoring"]),
+  S("osha-1910-430", "OSHA", "29 CFR 1910.430 — Diving equipment (air compressor systems and their intakes, breathing gas hoses, helmets and masks, decompression chambers, gauges and timekeeping)", ["Maritime & Ports", "Water & Environmental", "Environmental Monitoring"]),
+  S("osha-1910-440", "OSHA", "29 CFR 1910.440 — Recordkeeping for commercial diving (the dive record, decompression procedure assessments and their retention)", ["Maritime & Ports", "Water & Environmental", "Environmental Monitoring"]),
+  S("aws-d3-6", "AWS", "AWS D3.6M — Underwater Welding Code", ["Maritime & Ports", "Water & Environmental"], "unverified"),
+  S("uscg-46-cfr-197-subpart-b", "USCG", "46 CFR Part 197 Subpart B — Commercial diving operations from vessels and facilities under Coast Guard jurisdiction", ["Maritime & Ports", "Water & Environmental"], "unverified"),
+  S("osha-1910-252", "OSHA", "29 CFR 1910.252 Welding, cutting and brazing — general requirements", ["Metal Trades"]),
+  S("osha-1910-212", "OSHA", "29 CFR 1910.212 General requirements for all machines", ["Manufacturing", "Garment Trades"]),
+  S("osha-1910-178", "OSHA", "29 CFR 1910.178 Powered industrial trucks", ["Transit & Logistics"]),
+  S("osha-1910-151", "OSHA", "29 CFR 1910.151 Medical services and first aid", ["Emergency Response"]),
+  S("osha-1910-272", "OSHA", "29 CFR 1910.272 Grain handling facilities", ["Manufacturing"]),
+  S("osha-1915", "OSHA", "29 CFR 1915 Subpart B Confined and enclosed spaces in shipyard employment", ["Maritime"]),
+  S("osha-1917", "OSHA", "29 CFR 1917 Marine terminals", ["Maritime"]),
+  S("osha-1918", "OSHA", "29 CFR 1918 Safety and health regulations for longshoring", ["Maritime"]),
+  S("osha-1926-subpart-m", "OSHA", "29 CFR 1926 Subpart M Fall protection", ["Construction", "Telecom"]),
+  S("osha-1926-subpart-l", "OSHA", "29 CFR 1926 Subpart L Scaffolds", ["Construction"]),
+  S("osha-1926-subpart-p", "OSHA", "29 CFR 1926 Subpart P Excavations", ["Construction", "Water & Environmental"]),
+  S("osha-1926-subpart-q", "OSHA", "29 CFR 1926 Subpart Q Concrete and masonry construction", ["Construction"]),
+  S("osha-1926-subpart-r", "OSHA", "29 CFR 1926 Subpart R Steel erection", ["Construction"]),
+  S("osha-1926-subpart-cc", "OSHA", "29 CFR 1926 Subpart CC Cranes and derricks in construction", ["Construction", "Rigging"]),
+  S("osha-1926-62", "OSHA", "29 CFR 1926.62 Lead in construction", ["Construction"]),
+  S("osha-1926-1101", "OSHA", "29 CFR 1926.1101 Asbestos in construction", ["Hazmat & Environmental"]),
+  S("osha-1926-1153", "OSHA", "29 CFR 1926.1153 Respirable crystalline silica", ["Construction"]),
+  S("osha-1926-20-b-2", "OSHA", "29 CFR 1926.20(b)(2) Competent person accident prevention responsibilities", ["Construction"]),
+  S("osha-1926-subpart-o", "OSHA", "29 CFR 1926 Subpart O Motor vehicles, mechanized equipment, and marine operations", ["Construction"], "unverified"),
+  S("osha-1926-subpart-w", "OSHA", "29 CFR 1926 Subpart W Rollover protective structures; overhead protection", ["Construction"], "unverified"),
+  S("osha-1926-601", "OSHA", "29 CFR 1926.601 Motor vehicles", ["Construction"], "unverified"),
+  S("osha-1926-602", "OSHA", "29 CFR 1926.602 Material handling equipment", ["Construction"], "unverified"),
+  S("osha-1926-603", "OSHA", "29 CFR 1926.603 Pile driving equipment", ["Construction"], "unverified"),
+  S("opcmia-local-300", "OPCMIA", "OPCMIA Local 300 cement mason and plasterer apprenticeship, as a training body", ["Construction"], "unverified"),
+  S("aci-306", "ACI", "ACI 306 Guide to Cold Weather Concreting", ["Construction"], "unverified"),
+  S("nfpa-70e", "NFPA", "70E Standard for Electrical Safety in the Workplace", ["Energy & Power"]),
+  S("osha-1910-269", "OSHA", "29 CFR 1910.269 — Electric power generation, transmission and distribution", ["Energy & Power", "Telecom"]),
+  S("nec-nfpa-70", "NEC/NFPA 70", "NFPA 70 — National Electrical Code", ["Energy & Power", "Telecom"]),
+  S("bicsi-installer", "BICSI", "BICSI Installer 2 and Optical Fiber installer credentials", ["Telecom"]),
+  S("nfpa-70-art-690", "NFPA", "70 National Electrical Code Article 690 Solar photovoltaic systems", ["Energy & Power"]),
+  S("nfpa-51b", "NFPA", "51B Standard for Fire Prevention During Welding, Cutting, and Other Hot Work", ["Metal Trades"]),
+  S("nfpa-25", "NFPA", "25 Standard for the Inspection, Testing, and Maintenance of Water-Based Fire Protection Systems", ["Building Systems"]),
+  S("nfpa-13", "NFPA", "13 Standard for the Installation of Sprinkler Systems", ["Building Systems", "Construction"]),
+  S("nfpa-54", "NFPA", "54 National Fuel Gas Code", ["Building Systems", "Energy & Power"]),
+  S("nfpa-99", "NFPA", "99 Health Care Facilities Code", ["Building Systems", "Health & Clinical"]),
+  S("nfpa-96", "NFPA", "96 Standard for Ventilation Control and Fire Protection of Commercial Cooking Operations", ["Food Service"]),
+  S("nfpa-470", "NFPA", "470 Hazardous Materials/Weapons of Mass Destruction Standard for Responders", ["Hazmat & Environmental"]),
+  S("nfpa-855", "NFPA", "855 Standard for the Installation of Stationary Energy Storage Systems", ["Energy & Power"]),
+  S("nfpa-1006", "NFPA", "1006 Standard for Technical Rescue Personnel Professional Qualifications", ["Emergency Response"]),
+  S("nfpa-1500", "NFPA", "1500 Standard on Fire Department Occupational Safety, Health, and Wellness Program", ["Emergency Response"]),
+  S("nfpa-1584", "NFPA", "1584 Standard on the Rehabilitation Process for Members During Emergency Operations and Training Exercises", ["Emergency Response"]),
+  S("ansi-z359", "ANSI/ASSP", "Z359 Fall Protection Code", ["Construction", "Telecom"]),
+  S("ansi-z97-1", "ANSI/ASSP", "Z97.1 Safety glazing materials used in buildings", ["Construction"], "unverified"),
+  S("iupat-dc16-glaziers", "union", "IUPAT District Council 16 — glaziers apprenticeship and training, architectural glass and metal", ["Construction"], "unverified"),
+  S("ansi-z49-1", "ANSI/AWS", "Z49.1 Safety in Welding, Cutting, and Allied Processes", ["Metal Trades"]),
+  S("ansi-a10-9", "ANSI/ASSP", "A10.9 Safety Requirements for Concrete and Masonry Work", ["Construction"]),
+  S("asme-b30-16", "ASME", "B30 Safety Standard for Cableways, Cranes, Derricks, Hoists, Hooks, Jacks and Slings", ["Rigging"]),
+  S("asme-bpvc", "ASME", "Boiler and Pressure Vessel Code", ["Building Systems"]),
+  S("asme-b31-9", "ASME", "B31.9 Building Services Piping", ["Building Systems", "Energy & Power"]),
+  S("iapmo-upc", "IAPMO", "Uniform Plumbing Code (UPC)", ["Building Systems", "Water & Environmental", "Construction"], "unverified"),
+  S("asme-a17-1", "ASME", "ASME A17.1 — Safety Code for Elevators and Escalators", ["Building Systems & Facilities"]),
+  S("neiep-training", "union", "IUEC and the National Elevator Industry Educational Program (NEIEP) — elevator constructor apprenticeship and continuing education, taught to the National Elevator Industry Educational Program curriculum", ["Building Systems & Facilities"], "unverified"),
+  S("aws-d1-5", "AWS", "D1.5 Bridge Welding Code", ["Construction"]),
+  S("ansi-e1-4", "ESTA/ANSI", "E1.4-1 Manual Counterweight Rigging Systems", ["Live Events"]),
+  S("ashrae-188", "ASHRAE", "Standard 188 Legionellosis: Risk Management for Building Water Systems", ["Building Systems"]),
+  S("nccco-certification", "NCCCO", "Certified Crane Operator programme", ["Rigging"], "unverified"),
+  S("etcp-certification", "ETCP", "Entertainment Technician Certification Program — Certified Rigger", ["Live Events", "Rigging"], "unverified"),
+  S("niosh-ergonomics", "NIOSH", "Ergonomics guidance for seated repetitive work", ["Garment Trades"], "unverified"),
+  S("samhsa-trauma-informed", "SAMHSA", "Concept of Trauma and Guidance for a Trauma-Informed Approach", ["Emergency Response", "Health & Clinical"]),
+  S("pfa-field-guide", "WHO and NCTSN", "Psychological First Aid field guidance — look, listen, link", ["Emergency Response"]),
+  S("nims-ics", "FEMA", "NIMS/ICS foundation, IS-100 and IS-700", ["Emergency Response"]),
+  S("hhs-45-cfr-46", "HHS", "45 CFR 46 Protection of human subjects — informed consent", ["Community Science"]),
+  S("cdc-guidance", "CDC", "Guidelines for Infection Control in Dental Health-Care Settings", ["Health & Clinical"]),
+  S("fda-food-code", "FDA", "Food Code, as adopted in the California Retail Food Code", ["Food Service"]),
+  S("aami-st79", "AAMI", "ANSI/AAMI ST79 — Comprehensive guide to steam sterilization and sterility assurance in health care facilities", ["Health & Clinical"], "unverified"),
+  S("usp-general-chapter-800", "USP", "USP General Chapter <800> — Hazardous Drugs: Handling in Healthcare Settings", ["Health & Clinical"], "unverified"),
+  S("epa-40-cfr-58", "EPA", "40 CFR 58 Ambient air quality surveillance", ["Air Quality"]),
+  S("rcra-40-cfr-262", "EPA", "40 CFR 262 Standards applicable to generators of hazardous waste", ["Hazmat & Environmental"]),
+  S("epa-40-cfr-441", "EPA", "40 CFR 441 Dental office point source category — amalgam separators", ["Health & Clinical"]),
+  S("epa-method-9", "EPA", "Method 9 Visual determination of the opacity of emissions (40 CFR 60 Appendix A)", ["Air Quality"]),
+  S("marssim", "Multi-Agency (NRC, EPA, DOE, DOD)", "MARSSIM Multi-Agency Radiation Survey and Site Investigation Manual", ["Hazmat & Environmental"]),
+  S("nrc-10-cfr-20", "NRC", "10 CFR 20 Standards for protection against radiation", ["Hazmat & Environmental"]),
+  S("usace-section-404", "US Army Corps of Engineers", "Clean Water Act Section 404 permit programme", ["Water & Environmental"]),
+  S("uscg-33-cfr-156-150", "USCG", "33 CFR 156 Oil and hazardous material transfer operations", ["Maritime"]),
+  S("uscg-33-cfr-83", "USCG", "33 CFR Part 83 Inland Navigation Rules", ["Maritime & Ports"]),
+  S("uscg-46-cfr-25", "USCG", "46 CFR Part 25 Requirements for uninspected vessels, including lifesaving and fire-fighting equipment", ["Maritime & Ports"], "unverified"),
+  S("nfpa-306", "NFPA", "NFPA 306 Control of Gas Hazards on Vessels", ["Maritime & Ports"]),
+  S("uscg-33-cfr-155", "USCG", "33 CFR Part 155 Oil or hazardous material pollution prevention regulations for vessels", ["Maritime & Ports"]),
+  S("imo-csm", "IMO", "Cargo Securing Manual requirements", ["Maritime"], "unverified"),
+  S("carb-at-berth", "CARB", "At-Berth Regulation for ocean-going vessels", ["Maritime"], "unverified"),
+  S("fra-49-cfr-214", "FRA", "49 CFR 214 Subpart C Roadway worker protection", ["Transit & Logistics"]),
+  S("fra-49-cfr-218", "FRA", "49 CFR 218 Subpart B Blue signal protection of workers", ["Transit & Logistics"]),
+  S("fra-49-cfr-232", "FRA", "49 CFR 232 Brake system safety standards for freight and other non-passenger trains", ["Transit & Logistics"]),
+  S("fmcsa-49-cfr-396", "FMCSA", "49 CFR 396 Inspection, repair and maintenance, including the driver vehicle inspection report", ["Transit & Logistics"]),
+  S("ansi-z358-1", "ANSI/ISEA", "Z358.1 Emergency eyewash and shower equipment", ["Building Systems", "Food Service"]),
+  S("bmwed-training", "union", "BMWED roadway worker training for track and structures maintenance", ["Transit & Logistics"], "unverified"),
+  S("faa-14-cfr-139-303", "FAA", "14 CFR 139 Certification of airports", ["Transit & Logistics"]),
+  S("faa-14-cfr-43", "FAA", "14 CFR Part 43 Maintenance, preventive maintenance, rebuilding and alteration", ["Transit & Logistics"]),
+  S("faa-14-cfr-121", "FAA", "14 CFR Part 121 Operating requirements for domestic, flag and supplemental air carriers", ["Transit & Logistics"]),
+  S("faa-14-cfr-145", "FAA", "14 CFR Part 145 Repair stations", ["Transit & Logistics"]),
+  S("nfpa-407", "NFPA", "407 Standard for Aircraft Fuel Servicing", ["Transit & Logistics"]),
+  S("phmsa-49-cfr-192", "PHMSA", "49 CFR 192 Minimum federal safety standards for gas pipelines", ["Energy & Power"]),
+  S("cal-osha-3345", "Cal/OSHA", "8 CCR 3345 Hotel housekeeping musculoskeletal injury prevention", ["Hospitality"]),
+  S("calosha-8-ccr-3342", "Cal/OSHA", "8 CCR 3342 Workplace violence prevention plan", ["Hospitality", "Food Service"]),
+  S("calosha-8-ccr-5141-1", "Cal/OSHA", "8 CCR 5141.1 Protection from wildfire smoke", ["Air Quality"]),
+  S("abc-rbs-training", "California ABC", "Responsible Beverage Service Training Program Act", ["Food Service"]),
+  S("usa-basketball-youth-guidelines", "USA Basketball", "Youth development guidelines: age-appropriate play, practice, rest and coach licensing", ["Youth Sports & Coaching"], "unverified"),
+  S("cdc-heads-up", "CDC", "Heads Up concussion-in-youth-sports training: recognise, remove, refer, return only with clearance", ["Youth Sports & Coaching"], "unverified"),
+  S("safesport-code", "U.S. Center for SafeSport", "Abuse-prevention training and policies for adults who work with young athletes", ["Youth Sports & Coaching"], "unverified"),
+  S("un-sdg-4-quality-education", "UN", "Sustainable Development Goal 4 (Quality Education), as a framework a lesson is aligned to; it certifies nothing", ["Community Environmental Justice"], "unverified"),
+  S("unesco-education-guidance", "UNESCO", "Education guidance, as a body whose published guidance a lesson is aligned to; it certifies nothing", ["Community Environmental Justice"], "unverified"),
+  S("inee-minimum-standards", "INEE", "Minimum Standards for Education in emergencies, as a body whose standards a lesson is aligned to; it certifies nothing", ["Community Environmental Justice"], "unverified"),
+  S("national-curriculum-framework", "national curriculum authority", "The national curriculum framework the school follows, as a category; no grade-level code is cited", ["Community Environmental Justice"], "unverified"),
+  S("ansi-r15-06", "ANSI/ASSP", "R15.06 Safety requirements for industrial robots and robot systems", ["Manufacturing"]),
+  S("iso-10218", "ISO", "10218 Robots and robotic devices — safety requirements for industrial robots", ["Manufacturing"]),
+  S("ashrae-15", "ASHRAE", "15 Safety Standard for Refrigeration Systems", ["Manufacturing", "Building Systems"]),
+  S("ansi-b71-outdoor-power-equipment", "ANSI", "ANSI B71 series — safety specifications for outdoor power equipment (walk-behind and riding mowers, trimmers and blowers), published with the Outdoor Power Equipment Institute", ["Grounds & Landscaping"], "unverified"),
+  S("ansi-z133-arboriculture", "ANSI", "ANSI Z133 — safety requirements for arboricultural operations, including chippers used on a tree crew", ["Grounds & Landscaping"], "unverified"),
+  S("epa-fifra-pesticide-label", "EPA", "Federal Insecticide, Fungicide, and Rodenticide Act (FIFRA) — the pesticide product label as a legal document, and EPA's pesticide applicator and worker-protection requirements", ["Grounds & Landscaping"], "unverified"),
+  S("afa-cwa-training", "union", "AFA-CWA member education and cabin-safety training for flight attendants", ["Transit & Logistics"], "unverified"),
+  S("alpa-training", "union", "ALPA member professional-standards and safety training for airline pilots", ["Transit & Logistics"], "unverified"),
+  S("usw-mazzocchi-center", "union", "USW Tony Mazzocchi Center health, safety and environmental training", ["Manufacturing"]),
+  S("umwa-training", "union", "UMWA — United Mine Workers of America health and safety training for underground and surface mine crews", ["Manufacturing"], "unverified"),
+  S("niosh-criteria", "NIOSH", "NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards", ["Manufacturing"]),
+  S("sag-aftra-training", "union", "SAG-AFTRA member safety education for on-camera performers and stunt performers, including the production's own safety bulletins", ["Entertainment & Live Events"], "unverified"),
+  S("iatse-training-trust", "union", "IATSE Training Trust Fund — stagecraft, rigging and entertainment electrical skills training", ["Entertainment & Live Events"]),
+  S("osha-1910-95", "OSHA", "29 CFR 1910.95 — Occupational noise exposure", ["Entertainment & Live Events"]),
+  S("nfpa-101", "NFPA", "NFPA 101 — Life Safety Code", ["Entertainment & Live Events"]),
+  S("asme-b20-1", "ASME", "ASME B20.1 Safety standard for conveyors and related equipment", ["Manufacturing"]),
+  S("niosh-lifting-equation", "NIOSH", "Revised NIOSH Lifting Equation and its Applications Manual", ["Manufacturing", "Mobility & Transit"], "unverified"),
+].map((s) => [s.id, { ...s, slug: standardSlug(s.body, s.title) }]));
+
+/** The body and title behind a standard id, or a placeholder for an unknown one. */
+export function standard(id) {
+  return STANDARDS[id] ?? { id, body: "Unregistered", title: id, scope: [], source: "unverified", slug: id };
+}
+
+// --------------------------------------------------------------- competencies
+//
+// Two tiers, one list. A `programme` competency mirrors a block in
+// smartcity/js/curricula.js one-for-one — same id, same stations — because a
+// hall that buys the block wants one line on the transcript for it, and
+// check_competency.mjs fails the build if the two ever drift apart. A `core`
+// competency cuts across programmes: fall protection is fall protection
+// whether it was earned on a tower, a scaffold or a bridge cable, and a
+// worker who can prove it should be able to prove it once.
+//
+// `require` is how many of the named stations need a mastery run. Programme
+// competencies ask for half their stations, capped at six, because a
+// twenty-six station survey block should not need twenty-six mastery runs to
+// say something true. Core competencies name their number outright.
+
+/** One competency per training programme in smartcity/js/curricula.js — same
+ * id, same stations, kept in step by tools/check_competency.mjs. */
+export const PROGRAMME_COMPETENCIES = [
+  {
+    id: "electrical-first-period",
+    title: "Isolate, lock out and prove dead before working an energised circuit",
+    kind: "programme",
+    standards: ["nfpa-70e", "osha-1910-147", "osha-1926-20-b-2"],
+    stations: [
+      "electrical", "charge-point", "substation-switching", "line-truck",
+      "battery-yard", "motor-control-center", "arc-flash-label-study", "temporary-site-power"
+    ],
+    require: 4,
+  },
+  {
+    id: "confined-space",
+    title: "Enter, attend and rescue from a permit-required confined space",
+    kind: "programme",
+    standards: ["osha-1910-146", "nfpa-1006", "osha-1910-134"],
+    stations: [
+      "valve-vault", "lift-station", "chlorine-room", "confined-rescue",
+      "manhole-entry-and-atmospheric-monitoring", "cs-permit-entry-and-attendant-duties", "cs-ventilation-and-air-monitoring-plan", "cs-non-entry-retrieval-and-tripod"
+    ],
+    require: 4,
+  },
+  {
+    id: "fall-protection",
+    title: "Work at height on a fall-arrest system the worker has proven",
+    kind: "programme",
+    standards: ["osha-1926-subpart-m", "osha-1926-subpart-l", "ansi-z359"],
+    stations: [
+      "scaffold-erection", "steel-erector", "tower-climb", "microwave-backhaul",
+      "aerial-ladder", "leading-edge-and-horizontal-lifeline", "fp-anchor-selection-and-rescue-plan"
+    ],
+    require: 4,
+  },
+  {
+    id: "hazmat-environmental",
+    title: "Contain, decontaminate and monitor a hazardous-materials release",
+    kind: "programme",
+    standards: ["osha-1910-120", "nfpa-470", "osha-1910-134"],
+    stations: [
+      "hunters-point", "abatement-chamber", "decon-line", "air-monitor",
+      "stormwater-outfall", "pressure-washer", "drum-sampling-and-overpack", "hz-level-b-entry-and-scba-change-out",
+      "hz-drum-staging-and-compatibility-segregation", "hz-decon-corridor-for-a-mass-casualty-drill"
+    ],
+    require: 5,
+  },
+  {
+    id: "rigging-lifting",
+    title: "Rig and land a load to an engineered lift plan",
+    kind: "programme",
+    standards: ["asme-b30-16", "osha-1926-subpart-cc", "nccco-certification", "etcp-certification"],
+    stations: [
+      "crane-yard", "dock-crane", "chain-hoist", "rigging-loft",
+      "fly-system", "rl-critical-lift-plan-and-signalperson"
+    ],
+    require: 3,
+  },
+  {
+    id: "stationary-engineer",
+    title: "Operate and prove a building's boiler, chiller and fire-protection plant",
+    kind: "programme",
+    standards: ["asme-bpvc", "ashrae-188", "nfpa-25"],
+    stations: [
+      "boiler-room", "chiller-plant", "cooling-tower", "fire-pump",
+      "elevator-pit", "se-steam-trap-survey-and-condensate-return", "se-building-automation-alarm-triage"
+    ],
+    require: 4,
+  },
+  {
+    id: "port-operations",
+    title: "Work a marine terminal transfer, mooring and lashing watch",
+    kind: "programme",
+    standards: ["uscg-33-cfr-156-150", "imo-csm", "osha-1917"],
+    stations: [
+      "mooring-line", "bunkering-watch", "container-lashing", "dock-crane",
+      "vessel-gangway-and-hatch-cover-safety", "po-lashing-gear-inspection-and-tagging", "po-yard-hostler-and-pedestrian-separation"
+    ],
+    require: 4,
+  },
+  {
+    id: "transit-ramp",
+    title: "Take access and move equipment on live rail and airfield operations",
+    kind: "programme",
+    standards: ["fra-49-cfr-214", "faa-14-cfr-139-303", "osha-1910-178"],
+    stations: [
+      "track-access", "signal-cabinet", "bus-depot-lift", "airport-ramp",
+      "forklift-dock", "bus-yard-fuelling-and-brake-check", "tr-wheelchair-lift-and-securement-on-a-bus"
+    ],
+    require: 4,
+  },
+  {
+    id: "energy-transition",
+    title: "Commission and isolate photovoltaic, storage and charging systems",
+    kind: "programme",
+    standards: ["nfpa-70e", "nfpa-855", "nfpa-70-art-690"],
+    stations: [
+      "solar-deck", "battery-yard", "charge-point", "substation-switching",
+      "cell-site-battery", "battery-storage-container-commissioning", "et-ev-fleet-depot-charging-and-arc-flash", "or-transmission-line-right-of-way-patrol",
+      "or-solar-farm-tracker-row-maintenance"
+    ],
+    require: 5,
+  },
+  {
+    id: "live-events",
+    title: "Rig and power a performance space to entertainment practice",
+    kind: "programme",
+    standards: ["etcp-certification", "ansi-e1-4", "nfpa-70e"],
+    stations: [
+      "stage-power", "fly-system", "rigging-loft", "chain-hoist",
+      "stage-load-in-and-truss-rigging", "le-followspot-and-truss-access-at-height", "le-crowd-barricade-and-show-stop-call"
+    ],
+    require: 4,
+  },
+  {
+    id: "hunters-point-bay-restoration",
+    title: "Work a radiological and chemical cleanup inside the fence and at the water's edge",
+    kind: "programme",
+    standards: ["osha-1910-120", "marssim", "nrc-10-cfr-20", "rcra-40-cfr-262", "usace-section-404"],
+    stations: [
+      "hunters-point", "rad-survey", "building-rad-scan", "air-monitor",
+      "soil-loadout", "haul-road-dust", "pcb-equipment-removal", "transite-pipe-removal",
+      "ust-removal", "decon-line", "sampling-well", "well-install",
+      "pump-and-treat", "vapor-mitigation", "isco-injection", "stormwater-outfall",
+      "bioswale-build", "dredge-barge", "oyster-reef-monitoring", "marsh-transect-survey",
+      "sediment-cap", "creosote-pile-removal", "tide-gate", "living-shoreline",
+      "spartina-removal", "eelgrass-transplant"
+    ],
+    require: 6,
+  },
+  {
+    id: "culinary-kitchen",
+    title: "Run a commercial kitchen to food-safety, machine-guarding and hood standards",
+    kind: "programme",
+    standards: ["fda-food-code", "nfpa-96", "osha-1910-147"],
+    stations: [
+      "kitchen", "knife-skills", "slicer-lockout", "bakery-mixer",
+      "fryer-oil-change", "hood-suppression", "kitchen-gas-shutoff", "walk-in-cooler",
+      "receiving-dock-food", "prep-cooling", "dish-pit", "grease-trap",
+      "allergen-control", "banquet-hot-hold", "cafeteria-serving", "grill-line-burns"
+    ],
+    require: 6,
+  },
+  {
+    id: "dental-hygiene-unspoken-smiles",
+    title: "Deliver chairside hygiene under dental infection-control practice",
+    kind: "programme",
+    standards: ["cdc-guidance", "osha-1910-1030", "osha-1910-1200", "epa-40-cfr-441"],
+    stations: [
+      "phlebotomy", "operatory-turnover", "instrument-reprocessing", "sharps-exposure-response",
+      "patient-intake-screening", "radiograph-safety", "periodontal-charting", "ultrasonic-scaling",
+      "aerosol-management", "fluoride-and-sealants", "nitrous-oxide-monitoring", "chairside-emergency",
+      "amalgam-waste-handling", "mobile-dental-outreach", "pediatric-visit", "oral-cancer-screening",
+      "dn-medical-history-and-medication-review", "dn-oral-hygiene-instruction-and-motivational-interviewing", "dn-public-health-dentistry-and-fluoridation-advocacy"
+    ],
+    require: 6,
+  },
+  {
+    id: "dental-careers-unspoken-smiles",
+    title: "Work a dental clinic's assisting, radiography, sterilisation, laboratory and front-office roles under the practice act",
+    kind: "programme",
+    standards: ["cdc-guidance", "osha-1910-1030", "osha-1910-1200", "hipaa-privacy-rule"],
+    stations: [
+      "patient-intake-screening", "dental-careers-pathway", "four-handed-dentistry", "dental-radiography-fmx",
+      "sterilisation-technician-cycle", "dental-lab-bench", "orthodontic-assisting", "oral-surgery-assisting",
+      "front-office-treatment-coordination", "infection-control-audit", "school-screening-outreach", "implant-surgery-assisting",
+      "endodontic-assisting", "denture-delivery-and-adjustment", "special-needs-and-geriatric-dentistry", "teledentistry-and-triage",
+      "dn-digital-intraoral-scanning-and-cad-cam", "dn-dental-trauma-and-avulsed-tooth-response", "dn-dental-coding-billing-and-preauthorisation"
+    ],
+    require: 6,
+  },
+  {
+    id: "bay-area-union-edition",
+    title: "Work the Bay Area's sheet metal, bridge, port maintenance and marine trades to their unions' standards",
+    kind: "programme",
+    standards: ["osha-1926-subpart-r", "osha-1926-subpart-m", "osha-1910-134"],
+    stations: [
+      "press-brake", "sm-shop-layout-and-shear", "sm-duct-fabrication-and-seams", "sm-plasma-table-and-fume",
+      "sm-tig-and-spot-welding", "sm-duct-hanging-and-seismic-bracing", "sm-architectural-panels-at-height", "sm-air-balancing-and-testing",
+      "sm-kitchen-exhaust-and-fire-wrap", "steel-erector", "gg-tower-climb-and-tie-off", "gg-main-cable-band-inspection",
+      "gg-suspender-rope-replacement", "gg-deck-lane-closure-and-traveller", "gg-paint-containment-on-the-deck", "gg-international-orange-recoat",
+      "gg-fog-and-wind-work-stop", "gg-pile-driver-fender-repair", "container-lashing", "pt-spreader-and-twistlock-inspection",
+      "pt-crane-boom-hoist-brake-service", "pt-straddle-carrier-hydraulics", "pt-reefer-plug-and-power-panel", "pt-dock-fender-and-bollard-inspection",
+      "pt-terminal-lighting-mast-service", "pt-stormwater-at-the-terminal", "pt-chassis-and-genset-yard", "mooring-line",
+      "mw-ferry-deckhand-and-passenger-safety", "mw-workboat-towing-and-line-handling", "mw-oil-transfer-watch-and-boom", "mw-dive-supervisor-and-dive-plan",
+      "mw-pier-pile-inspection-dive", "mw-hull-inspection-and-cleaning-dive", "mw-underwater-welding-and-cutting", "mw-diver-emergency-and-recovery",
+      "uw-rov-pre-dive-and-tether-management", "uw-pipeline-crossing-inspection-dive", "uw-underwater-concrete-and-bag-placement", "uw-intake-screen-cleaning-with-lockout",
+      "uw-bridge-pier-scour-survey", "uw-lift-bag-rigging-and-object-recovery"
+    ],
+    require: 6,
+  },
+  {
+    id: "job-readiness-edition",
+    title: "Get and keep a job: warehouse and Class A driving, apprenticeship entry, financial footing and wellness",
+    kind: "programme",
+    standards: ["osha-1910-178", "samhsa-trauma-informed"],
+    stations: [
+      "forklift-dock", "tdl-pallet-jack-and-racking", "tdl-pick-pack-and-scan", "tdl-trailer-loading-and-dock-plate",
+      "tdl-hazmat-labeling-and-segregation", "tdl-lifting-and-ergonomics", "tdl-pretrip-inspection", "tdl-air-brake-test",
+      "tdl-coupling-and-uncoupling", "tdl-backing-and-docking", "tdl-cargo-securement-and-hours", "drive-city-route-and-turns",
+      "drive-freeway-merge-and-following-distance", "drive-mountain-grade-and-engine-brake", "drive-night-fog-and-rail-crossing", "drive-backing-serpentine-and-alley-dock",
+      "drive-light-vehicle-fleet-and-forklift-course", "apprenticeship-standards-reading", "apprenticeship-application-and-test", "jobsite-orientation-and-osha-10",
+      "union-hall-and-dispatch", "first-period-evaluation", "credit-report-reading", "debt-reduction-plan",
+      "pay-stub-and-withholding", "budget-with-irregular-income", "emergency-savings-and-predatory-lending", "trades-lineage-briefing",
+      "wellness-shift-work-sleep-and-stress", "wellness-peer-support-conversation", "wellness-substance-use-and-the-job", "wellness-asking-for-help-and-resources"
+    ],
+    require: 6,
+  },
+  {
+    id: "wojrc-pathway-edition",
+    title: "Walk the pathway: intake to a signed enrolment, a first paycheck and a matched alumni mentor",
+    kind: "programme",
+    standards: ["osha-1910-178", "hipaa-privacy-rule", "samhsa-trauma-informed"],
+    stations: [
+      "wp-intake-and-pathway-planning", "wp-mock-interview-and-resume", "wp-employer-meet-and-greet", "wp-warehouse-ride-along",
+      "wp-permit-study-and-knowledge-test", "wp-apprenticeship-enrollment-day", "wp-first-paycheck-coaching", "wp-graduation-and-alumni-mentors",
+      "forklift-dock", "tdl-pallet-jack-and-racking", "tdl-pick-pack-and-scan", "tdl-trailer-loading-and-dock-plate",
+      "tdl-hazmat-labeling-and-segregation", "tdl-lifting-and-ergonomics", "tdl-pretrip-inspection", "tdl-air-brake-test",
+      "tdl-coupling-and-uncoupling", "tdl-backing-and-docking", "tdl-cargo-securement-and-hours", "drive-city-route-and-turns",
+      "drive-freeway-merge-and-following-distance", "drive-mountain-grade-and-engine-brake", "drive-night-fog-and-rail-crossing", "drive-backing-serpentine-and-alley-dock",
+      "drive-light-vehicle-fleet-and-forklift-course", "apprenticeship-standards-reading", "apprenticeship-application-and-test", "jobsite-orientation-and-osha-10",
+      "union-hall-and-dispatch", "first-period-evaluation", "trades-lineage-briefing", "credit-report-reading",
+      "debt-reduction-plan", "pay-stub-and-withholding", "budget-with-irregular-income", "emergency-savings-and-predatory-lending",
+      "wellness-shift-work-sleep-and-stress", "wellness-peer-support-conversation", "wellness-substance-use-and-the-job", "wellness-asking-for-help-and-resources",
+      "cp-zero-emission-drayage-truck-pre-trip", "cp-zero-emission-terminal-equipment-pre-use", "cp-charging-yard-connectors-and-e-stops", "cp-high-voltage-lockout-on-electric-cargo-equipment",
+      "cp-hydrogen-fuel-cell-equipment-and-fuelling", "cp-battery-energy-storage-site-awareness"
+    ],
+    require: 6,
+  },
+  {
+    id: "civic-leadership-and-ei",
+    title: "Lead in public: listen, decide, own the call, and run a meeting people trust",
+    kind: "programme",
+    standards: ["samhsa-trauma-informed", "nims-ics"],
+    stations: [
+      "public-comment-prep", "civic-principles-briefing", "public-meeting-chair", "constituent-service-desk",
+      "coalition-building-table", "budget-tradeoff-hearing", "ethics-and-conflict-of-interest", "crisis-communication-podium",
+      "community-listening-session", "conflict-mediation-room", "mentorship-and-succession", "cv-open-meeting-law-and-agenda-notice",
+      "cv-voter-registration-drive-and-nonpartisan-conduct", "cv-neighborhood-emergency-block-captain", "cv-restorative-justice-circle-facilitation", "cv-grant-application-and-nonprofit-compliance",
+      "cv-difficult-conversation-across-difference", "ei-conflict-on-the-crew", "ei-giving-and-taking-feedback", "ei-leading-under-pressure"
+    ],
+    require: 6,
+  },
+  {
+    id: "property-management",
+    title: "Run a building zone by zone under the fire, housing and safety codes that govern it",
+    kind: "programme",
+    standards: ["osha-1910-147", "nfpa-25"],
+    stations: [
+      "boiler-room", "pm-lobby-and-front-desk", "pm-leasing-office-fair-housing", "pm-unit-turnover",
+      "pm-trash-and-recycling-room", "pm-fire-alarm-panel-room", "pm-sprinkler-riser-room", "pm-elevator-machine-room",
+      "pm-parking-garage", "pm-roof-and-drains", "pm-electrical-room", "pm-domestic-water-and-backflow",
+      "pm-laundry-room", "pm-pool-and-spa-chemistry", "pm-fitness-room-and-gym", "pm-community-room-and-events",
+      "pm-mail-and-package-room", "pm-loading-dock-and-moves", "pm-landscaping-and-irrigation", "pm-playground-and-courtyard",
+      "pm-storage-and-bike-room"
+    ],
+    require: 6,
+  },
+  {
+    id: "outbreak-response-who",
+    title: "Respond to an outbreak under WHO infection-prevention and outbreak-communication practice",
+    kind: "programme",
+    standards: ["cdc-guidance", "osha-1910-1030", "osha-1910-134"],
+    stations: [
+      "decon-line", "who-surveillance-and-case-definition", "who-ppe-donning-and-doffing", "who-isolation-ward-setup",
+      "who-contact-tracing-visit", "who-treatment-centre-triage", "who-water-sanitation-and-hygiene", "who-vaccination-line",
+      "who-risk-communication-and-community-engagement", "who-safe-and-dignified-burial", "who-after-action-review"
+    ],
+    require: 6,
+  },
+  {
+    id: "bartending-course",
+    title: "Serve alcohol responsibly and handle the room behind the bar",
+    kind: "programme",
+    standards: ["abc-rbs-training", "calosha-8-ccr-3342", "fda-food-code"],
+    stations: [
+      "kitchen", "bar-well-setup", "id-check-underage", "jigger-pour-spec",
+      "cutoff-overservice", "spiked-drink-response", "patron-deescalation", "keg-cellar-co2",
+      "ice-well-breakage", "draught-line-cleaning", "till-drop-robbery", "allergen-cocktail",
+      "last-call-lockup", "tip-pool-labor", "wvpp-panic-button", "rbs-service-capstone"
+    ],
+    require: 6,
+  },
+  {
+    id: "hunters-point-can-we-live",
+    title: "Run community air, soil and biomonitoring science to a defensible record",
+    kind: "programme",
+    standards: ["hhs-45-cfr-46", "osha-1910-120", "osha-1910-134", "calosha-8-ccr-5141-1", "epa-40-cfr-58"],
+    stations: [
+      "can-we-live-story", "air-sensor-install", "sensor-colocation-check", "air-network-data-qa",
+      "odor-complaint-log", "biomonitoring-consent", "sample-kit-shipping", "results-return-visit",
+      "smoke-day-outreach", "fenceline-dust-monitor", "haul-route-observation", "met-station-siting",
+      "dust-plan-review", "community-soil-split", "garden-soil-screen", "shoreline-sediment-grab",
+      "discharge-photo-doc", "rad-meter-basics", "parcel-status-walk", "retest-witnessing",
+      "abatement-perimeter-awareness", "hazwoper-site-orientation", "decon-support-laborer", "public-comment-prep",
+      "youth-patrol-training", "shelter-in-place-drill"
+    ],
+    require: 6,
+  },
+  {
+    id: "sewing-garment-trades",
+    title: "Operate guarded industrial sewing, cutting and pressing equipment",
+    kind: "programme",
+    standards: ["osha-1910-212", "osha-1910-147", "osha-1910-1200", "niosh-ergonomics"],
+    stations: [
+      "salon", "machine-threading-needle", "lockstitch-seam-guard", "serger-overlock",
+      "cutting-table-rotary", "pattern-marking-layout", "hem-and-buttonhole", "industrial-press-steam",
+      "sewing-ergonomics-shift", "alteration-repair-ticket", "garment-inspection-finish"
+    ],
+    require: 6,
+  },
+  {
+    id: "bridge-and-structural",
+    title: "Inspect, contain and rebuild structural steel and bridge deck work",
+    kind: "programme",
+    standards: ["osha-1926-subpart-m", "osha-1926-subpart-r", "osha-1926-62", "aws-d1-5", "ansi-z359"],
+    stations: [
+      "steel-erector", "bridge-cable-inspection", "bridge-lead-containment", "deck-joint-replacement",
+      "bs-structural-bolting-and-torque", "bs-tandem-lift-girder-set", "bs-bearing-replacement-and-jacking"
+    ],
+    require: 4,
+  },
+  {
+    id: "hotel-workers",
+    title: "Turn rooms and run back-of-house plant under the housekeeping and violence-prevention standards",
+    kind: "programme",
+    standards: ["cal-osha-3345", "calosha-8-ccr-3342", "osha-1910-1200", "osha-1910-1030"],
+    stations: [
+      "banquet-hot-hold", "housekeeping-room-turn", "laundry-plant-chemicals", "banquet-setup-lift",
+      "hw-housekeeping-cart-and-chemical-safety", "hw-banquet-room-flip-and-staging", "hw-flatwork-ironer-and-folder-guarding"
+    ],
+    require: 4,
+  },
+  {
+    id: "builders-trades",
+    title: "Form, shore, set and cut to the engineer's drawings without breathing silica",
+    kind: "programme",
+    standards: ["osha-1926-subpart-q", "osha-1926-subpart-l", "osha-1926-1153", "ansi-a10-9"],
+    stations: [
+      "concrete-pour", "formwork-shoring", "mass-timber-panel-set", "masonry-silica-scaffold",
+      "bt-formwork-stripping-and-reshoring", "bt-rebar-tying-and-impalement-protection", "bt-masonry-wall-layout-and-mortar", "or-ranch-road-grading-and-culvert",
+      "sil-concrete-drilling-and-silica-dust-cues"
+    ],
+    require: 5,
+  },
+  {
+    id: "first-responders",
+    title: "Take command of a scene and care for the people in it",
+    kind: "programme",
+    standards: ["nfpa-1500", "nfpa-1584", "nims-ics", "samhsa-trauma-informed", "pfa-field-guide", "osha-1910-134"],
+    stations: [
+      "triage-point", "structure-fire-sizeup", "firefighter-rehab-sector", "wildland-urban-interface",
+      "cardiac-arrest-pit-crew", "overdose-response-naloxone", "ambulance-scene-safety", "crisis-intervention-call",
+      "critical-incident-debrief", "traffic-incident-management", "trauma-informed-intake", "crisis-line-shift",
+      "home-visit-safety", "shelter-intake-operations", "damage-assessment-team", "psychological-first-aid",
+      "or-wildland-fireline-construction-and-lookout"
+    ],
+    require: 6,
+  },
+  {
+    id: "situational-awareness",
+    title: "Hold the procedure while the site interrupts you",
+    kind: "programme",
+    standards: ["osha-1926-20-b-2", "nfpa-70e", "osha-1910-146", "osha-1926-subpart-p", "osha-1926-subpart-cc"],
+    stations: [
+      "electrical", "welding", "trench-box", "crane-yard",
+      "chlorine-room", "confined-rescue", "substation-switching", "airport-ramp",
+      "fire-pump", "tower-climb", "elevator-pit", "boiler-room",
+      "forklift-dock", "phlebotomy", "transformer-vault", "wind-nacelle",
+      "digester-gas", "data-hall", "steel-erector", "triage-point",
+      "dock-crane", "press-brake"
+    ],
+    require: 6,
+  },
+  {
+    id: "ports-maritime-ecology",
+    title: "Work the waterfront without putting it in the bay",
+    kind: "programme",
+    standards: ["osha-1918", "carb-at-berth", "osha-1910-120", "usace-section-404"],
+    stations: [
+      "dock-crane", "container-lashing", "shore-power-hookup", "bunkering-watch",
+      "ballast-water-sampling", "spill-boom-deploy", "pilot-transfer", "mooring-line",
+      "reefer-yard-monitoring", "straddle-carrier-ops", "hazmat-container-inspection"
+    ],
+    require: 6,
+  },
+  {
+    id: "air-quality-monitoring",
+    title: "Measure, read and report what a stack and a fence line are emitting",
+    kind: "programme",
+    standards: ["epa-method-9", "epa-40-cfr-58"],
+    stations: [
+      "air-monitor", "mobile-air-lab", "opacity-reading", "stack-test",
+      "landfill-gas", "soil-loadout"
+    ],
+    require: 3,
+  },
+  {
+    id: "basketball-fundamentals",
+    title: "Teach basketball fundamentals and run a youth session nobody gets hurt in",
+    kind: "programme",
+    standards: ["usa-basketball-youth-guidelines", "cdc-heads-up", "safesport-code"],
+    stations: [
+      "bb-warmup-injury-prevention-and-hydration", "bb-stance-and-ball-handling", "bb-footwork-pivots-and-jump-stops", "bb-passing-and-catching",
+      "bb-shooting-form-and-arc", "bb-free-throw-routine", "bb-defensive-stance-and-closeouts", "bb-rebounding-and-boxing-out",
+      "bb-team-offense-spacing-and-screens", "bb-scrimmage-and-sportsmanship-debrief", "bb-reset-routine-after-a-miss", "bb-pre-game-routine-and-visualisation",
+      "bb-composure-with-a-hostile-crowd-and-officials", "bb-teammate-conflict-and-accountability", "bb-coach-feedback-and-growth-mindset", "bb-final-possession-decision-under-pressure",
+      "bb-layups-and-finishing-at-the-rim", "bb-dribble-moves-and-change-of-pace", "bb-pick-and-roll-communication", "bb-help-defense-rotations",
+      "bb-transition-spacing-and-roles", "bb-timeout-huddle-and-adjustment", "bb-losing-well-and-film-review"
+    ],
+    require: 6,
+  },
+  {
+    id: "k12-practical-math",
+    title: "Use measurement, proportion, data and chance to reason about real places, with every unit written and every answer checked",
+    kind: "programme",
+    standards: ["un-sdg-4-quality-education", "unesco-education-guidance", "national-curriculum-framework"],
+    stations: [
+      "k12-measuring-and-scaling-the-court", "k12-household-budget-and-first-paycheck", "k12-reading-a-map-scale-in-bay-world", "k12-fractions-in-the-kitchen",
+      "k12-slope-and-angles-on-a-ramp", "k12-graphing-tide-readings-at-the-pier", "k12-probability-with-a-fair-spinner", "k12-geometry-of-a-turbine-blade-sweep",
+      "k12-by-a-streetcar-timetable", "k12-by-a-ferry-timetable-and-the-tide", "k12-by-a-shrimp-boats-fair-count", "k12-by-reading-a-flood-maps-colours",
+      "k12-by-sorting-containers-at-the-port", "k12-by-measuring-a-floodwall-in-steps", "k12-es-count-it-a-fair-survey", "k12-es-measure-a-rain-garden",
+      "k12-lk-how-a-lock-lifts-a-boat"
+    ],
+    require: 6,
+  },
+  {
+    id: "k12-science",
+    title: "Observe, test fairly and explain, keeping what was seen apart from what was hoped and clearer apart from safe",
+    kind: "programme",
+    standards: ["un-sdg-4-quality-education", "unesco-education-guidance", "national-curriculum-framework"],
+    stations: [
+      "k12-water-cycle-and-filtration", "k12-buoyancy-and-pressure-in-the-deep", "k12-circuits-at-the-electrical-bench", "k12-energy-transfer-at-the-wind-farm",
+      "k12-ecosystems-at-the-kelp-transect", "k12-weather-and-the-sky", "k12-simple-machines-at-a-crane", "k12-a-controlled-experiment",
+      "k12-by-how-a-levee-holds-water-back", "k12-by-what-a-pump-station-does-in-the-rain", "k12-by-wetlands-as-a-storms-speed-bump", "k12-by-the-rivers-current-and-a-pilots-job",
+      "k12-by-the-water-cycle-from-lake-to-tap", "k12-es-where-the-storm-drain-goes", "k12-es-what-a-trash-capture-device-does", "k12-es-rain-gardens-a-sponge-in-the-sidewalk",
+      "k12-es-the-tidal-marsh-nursery", "k12-es-mud-on-the-move", "k12-es-too-much-of-a-good-thing", "k12-es-the-bay-food-web",
+      "k12-es-plastics-and-the-bay", "k12-es-clean-air-at-the-port", "k12-sil-dust-you-cannot-see-at-a-building-site", "k12-rp-how-a-robot-knows-to-stop",
+      "k12-lk-building-new-marsh-on-the-coast", "k12-lk-where-a-data-center-gets-its-power", "k12-lk-how-a-wing-lifts-an-aircraft", "k12-lk-why-a-steel-boat-floats",
+      "k12-rt-a-robot-waits-for-a-grown-ups-ok"
+    ],
+    require: 6,
+  },
+  {
+    id: "k12-history-and-civics",
+    title: "Question sources, trace claims to evidence and say where the evidence runs out",
+    kind: "programme",
+    standards: ["un-sdg-4-quality-education", "unesco-education-guidance", "national-curriculum-framework"],
+    stations: [
+      "k12-primary-and-secondary-sources", "k12-building-a-timeline-from-documents", "k12-how-a-local-council-meeting-works", "k12-oral-history-interview-skills",
+      "k12-guilds-and-the-history-of-work", "k12-map-literacy-across-eras"
+    ],
+    require: 3,
+  },
+  {
+    id: "k12-literacy-and-life-skills",
+    title: "Read, write and speak clearly enough to act safely and work well with others",
+    kind: "programme",
+    standards: ["un-sdg-4-quality-education", "unesco-education-guidance", "national-curriculum-framework"],
+    stations: [
+      "k12-reading-instructions-and-safety-labels", "k12-writing-a-clear-incident-report", "k12-first-aid-awareness-call-for-help", "k12-public-speaking-at-the-hall",
+      "k12-digital-citizenship-and-online-safety", "k12-teamwork-and-feedback", "k12-by-a-family-readiness-plan", "k12-es-who-does-this-work",
+      "k12-lk-the-crews-behind-a-big-build"
+    ],
+    require: 5,
+  },
+  {
+    id: "bay-restoration-maritime-underwater",
+    title: "Work the water side of a Bay restoration and clean-up job: dive, vessel, sediment, shoreline and monitoring crews",
+    kind: "programme",
+    standards: ["osha-1910-subpart-t", "adci-consensus-standards", "osha-1910-120", "usace-section-404"],
+    stations: [
+      "br-dive-site-hazard-assessment-and-jsa", "br-surface-supplied-dive-station-setup", "br-underwater-debris-survey-and-mapping", "br-underwater-sediment-core-sampling",
+      "br-derelict-gear-recovery-dive", "br-hyperbaric-chamber-standby", "br-dive-tender-and-umbilical-management", "br-derelict-vessel-salvage-rigging",
+      "br-workboat-crane-lift-from-water", "br-debris-skimmer-vessel-operations", "br-boom-towing-between-two-vessels", "br-barge-loading-of-contaminated-sediment",
+      "br-cold-water-immersion-and-mob-recovery", "br-vhf-and-navigation-in-a-work-zone", "br-dredge-spoils-dewatering-pad", "br-turbidity-curtain-deployment",
+      "br-sediment-chain-of-custody-and-lab-prep", "br-water-quality-sonde-calibration-and-deploy", "br-legacy-mercury-and-pcb-hotspot-handling", "br-trash-capture-device-service",
+      "br-dredge-material-screening-and-disposal-decision", "br-marine-mammal-observer-during-pile-driving", "br-bird-nesting-buffer-and-work-window", "br-tidal-marsh-grading-amphibious-excavator",
+      "br-native-planting-and-erosion-mats", "br-culvert-retrofit-for-fish-passage", "br-shoreline-cleanup-sharps-and-hazardous-debris", "br-intertidal-invasive-removal-by-hand-crew",
+      "br-levee-inspection-and-seepage", "br-fish-screen-maintenance", "br-drone-shoreline-survey", "br-volunteer-cleanup-day-safety-lead",
+      "br-restoration-data-qa-and-public-reporting", "br-beach-seine-fish-survey-and-handling", "br-benthic-grab-and-invertebrate-sorting"
+    ],
+    require: 6,
+  },
+  {
+    id: "railroad-crafts",
+    title: "Protect, inspect and secure track, rolling stock and a locomotive under working limits",
+    kind: "programme",
+    standards: ["fra-49-cfr-214", "fra-49-cfr-218", "fra-49-cfr-232", "bmwed-training"],
+    stations: [
+      "ra-roadway-worker-protection-and-job-briefing", "ra-tie-and-rail-replacement-with-track-machines", "ra-switch-inspection-and-lubrication", "ra-air-brake-test-and-train-inspection",
+      "ra-hand-brake-and-securement-on-a-grade", "ra-crossing-signal-maintenance-and-flagging", "ra-locomotive-cab-startup-and-alerter", "ra-blue-flag-protection-in-the-yard"
+    ],
+    require: 4,
+  },
+  {
+    id: "heavy-equipment-operators",
+    title: "Run the machine, prove the assembly and hold the crew's own controls before the load moves",
+    kind: "programme",
+    standards: ["osha-1926-subpart-o", "osha-1926-subpart-p", "osha-1926-subpart-cc", "osha-1926-subpart-w"],
+    stations: [
+      "op-excavator-trench-and-utility-locate", "op-dozer-slope-work-and-rollover-protection", "op-loader-truck-loading-and-blind-spots", "op-grader-fine-grade-and-crown",
+      "op-compactor-lift-thickness-and-edge", "op-crawler-crane-assembly-and-load-chart", "op-pile-driving-rig-and-lead-setup", "op-equipment-daily-walkaround-and-fluids"
+    ],
+    require: 4,
+  },
+  {
+    id: "plumbers-and-pipefitters",
+    title: "Rough in, test and prove eight distinct UA plumbing and pipefitting jobs",
+    kind: "programme",
+    standards: ["asme-b31-9", "iapmo-upc", "nfpa-13", "nfpa-25", "nfpa-54", "nfpa-99", "asme-bpvc", "osha-1910-147"],
+    stations: [
+      "pl-medical-gas-brazing-and-purge", "pl-hydronic-boiler-piping-and-hydrotest", "pl-underground-sewer-lateral-and-trench-shoring", "pl-fire-sprinkler-riser-and-flow-test",
+      "pl-copper-press-and-solder-rough-in", "pl-steam-trap-and-condensate-line-repair", "pl-water-heater-and-tpr-valve-replacement", "pl-natural-gas-pressure-test-and-leak-check"
+    ],
+    require: 4,
+  },
+  {
+    id: "glaziers-and-architectural-metal",
+    title: "Set, seal and clear architectural glass under fall protection, from the floor, the yard or a swing stage",
+    kind: "programme",
+    standards: ["iupat-dc16-glaziers", "ansi-z97-1", "osha-1926-subpart-l", "osha-1926-subpart-m", "ansi-z359"],
+    stations: [
+      "gl-curtain-wall-unit-setting-from-the-floor", "gl-storefront-frame-and-glass-set-with-cups", "gl-glass-handling-cart-and-crane-vacuum-lifter", "gl-swing-stage-glazing-and-sealant",
+      "gl-skylight-glass-replacement-and-fall-protection", "gl-tempered-glass-breakage-and-cleanup", "gl-aluminium-panel-fabrication-and-brake", "gl-shop-drawing-takeoff-and-field-measure"
+    ],
+    require: 4,
+  },
+  {
+    id: "elevator-constructors",
+    title: "Isolate, gauge and prove an elevator or escalator machine before returning it to service",
+    kind: "programme",
+    standards: ["asme-a17-1", "osha-1910-147", "neiep-training"],
+    stations: [
+      "ew-hoistway-false-car-and-rail-setting", "ew-machine-room-lockout-and-brake-test", "ew-pit-work-and-buffer-inspection", "ew-car-top-inspection-station-and-ride",
+      "ew-door-operator-adjustment-and-gap", "ew-escalator-step-chain-and-comb-plate", "ew-rope-inspection-and-sheave-wear", "ew-elevator-entrapment-and-rescue-with-fire-service"
+    ],
+    require: 4,
+  },
+  {
+    id: "insulators-and-boilermakers",
+    title: "Insulate, firestop, abate, repair and pressure-test a plant's pipes, walls and vessels to code",
+    kind: "programme",
+    standards: ["osha-1926-1101", "osha-1910-146", "asme-bpvc"],
+    stations: [
+      "ib-mechanical-insulation-pipe-and-jacketing", "ib-firestop-and-fire-wrap-installation", "ib-asbestos-glovebag-removal-on-a-pipe", "ib-boiler-tube-replacement-and-rolling",
+      "ib-pressure-vessel-confined-entry-and-hot-work", "ib-refractory-and-castable-installation", "ib-hydrostatic-test-and-inspector-witness", "ib-spray-foam-and-respirator-fit"
+    ],
+    require: 4,
+  },
+  {
+    id: "cement-masons-and-plasterers",
+    title: "Place, finish and protect concrete and plaster to the specification, never to the clock",
+    kind: "programme",
+    standards: ["opcmia-local-300", "osha-1926-subpart-q", "osha-1926-1153", "aci-306"],
+    stations: [
+      "cm-slab-screed-bull-float-and-trowel", "cm-power-trowel-operation-and-guarding", "cm-curb-and-gutter-forms-and-finish", "cm-exterior-plaster-scratch-brown-and-finish-coats",
+      "cm-shotcrete-nozzle-and-rebound", "cm-concrete-saw-cutting-with-water-and-silica-control", "cm-epoxy-floor-coating-and-ventilation", "cm-cold-weather-curing-and-blankets"
+    ],
+    require: 4,
+  },
+  {
+    id: "healthcare-support",
+    title: "Keep a hospital's non-clinical support work — turnover, sterile processing, transport, dietary, waste, code logistics, the front desk and hazardous-drug spills — safe without ever making a clinical call",
+    kind: "programme",
+    standards: ["osha-1910-1030", "osha-1910-1200", "aami-st79", "usp-general-chapter-800", "calosha-8-ccr-3342"],
+    stations: [
+      "hc-environmental-services-isolation-room-turnover", "hc-sterile-processing-decontamination-and-assembly", "hc-patient-transport-and-safe-handling", "hc-dietary-tray-line-and-allergy-flags",
+      "hc-linen-and-regulated-waste-handling", "hc-code-response-support-and-crash-cart-check", "hc-workplace-violence-deescalation-at-the-desk", "hc-hazardous-drug-spill-kit-response"
+    ],
+    require: 4,
+  },
+  {
+    id: "roofers-and-waterproofers",
+    title: "Cover, guard and close out a roof under the fall-protection, hot-work and dust controls it needs",
+    kind: "programme",
+    standards: ["osha-1926-subpart-m", "osha-1926-1153", "ansi-z359"],
+    stations: [
+      "rf-torch-applied-membrane-and-fire-watch", "rf-single-ply-tpo-heat-welding-and-seam-probe", "rf-hot-asphalt-kettle-and-mop", "rf-standing-seam-metal-panel-and-clip",
+      "rf-below-grade-waterproofing-and-drainage-board", "rf-roof-tear-off-and-debris-chute", "rf-skylight-and-hatch-guarding", "rf-green-roof-and-overburden-placement"
+    ],
+    require: 4,
+  },
+  {
+    id: "water-and-gas-utility-crews",
+    title: "Shut down, locate, set, protect, fuse, deliver and restore across eight distinct UWUA and IBEW gas-utility jobs",
+    kind: "programme",
+    standards: ["phmsa-49-cfr-192", "osha-1926-subpart-p", "osha-1910-147", "nfpa-54"],
+    stations: [
+      "ut-water-main-break-emergency-shutdown-and-excavation", "ut-hydrant-flow-test-and-flushing-with-traffic-control", "ut-service-line-locate-and-hand-dig-near-gas-main", "ut-gas-meter-set-and-regulator-vent",
+      "ut-cathodic-protection-test-station-reading", "ut-pe-pipe-fusion-and-squeeze-off", "ut-water-treatment-chemical-delivery-unloading", "ut-night-storm-response-crew-and-portable-generator"
+    ],
+    require: 4,
+  },
+  {
+    id: "aviation-maintenance-and-ground",
+    title: "Marshal, push, fuel, load, de-ice, jack and service a jet across eight distinct IAM/TWU ramp and line jobs",
+    kind: "programme",
+    standards: ["faa-14-cfr-139-303", "faa-14-cfr-43", "faa-14-cfr-121", "faa-14-cfr-145", "nfpa-407", "osha-1910-147", "osha-1910-178"],
+    stations: [
+      "av-marshalling-and-wingwalker-signals", "av-pushback-tug-and-towbar-connection", "av-ground-power-and-static-bonding-before-fuel", "av-baggage-belt-loader-and-hold-loading",
+      "av-deicing-truck-boom-operations", "av-hangar-jacking-and-stands", "av-borescope-and-tool-control-inventory", "av-lavatory-and-potable-water-separation"
+    ],
+    require: 4,
+  },
+  {
+    id: "warehouse-and-logistics-automation",
+    title: "Enter, isolate and prove eight distinct Teamsters warehouse and logistics automation jobs",
+    kind: "programme",
+    standards: ["osha-1910-147", "osha-1910-178", "osha-1910-212", "ansi-r15-06", "iso-10218", "ashrae-15"],
+    stations: [
+      "tw-amr-traffic-zone-entry-and-lockout", "tw-conveyor-jam-clearing-and-loto", "tw-high-bay-order-picker-fall-protection", "tw-dock-leveler-and-trailer-restraint-check",
+      "tw-battery-change-and-charging-bay-safety", "tw-palletizer-cell-fenced-access-permit", "tw-cold-storage-ppe-and-rotation", "tw-pick-to-light-ergonomics-and-rotation"
+    ],
+    require: 4,
+  },
+  {
+    id: "education-support-staff",
+    title: "Run the chemical, the machine, the stop or the transfer the way the plan and the label actually call for",
+    kind: "programme",
+    standards: ["osha-1910-1200", "osha-1910-147", "ansi-z358-1", "fmcsa-49-cfr-396"],
+    stations: [
+      "ed-custodial-chemical-dilution-and-floor-machine", "ed-playground-equipment-inspection", "ed-bus-pretrip-and-loading-zone", "ed-crossing-guard-intersection-control",
+      "ed-paraeducator-safe-lift-and-transfer", "ed-science-lab-chemical-storage-and-eyewash", "ed-kitchen-receiving-and-warewash-sanitizing", "ed-boiler-room-filter-change-lockout"
+    ],
+    require: 4,
+  },
+  {
+    id: "grounds-and-landscaping",
+    title: "Run, service and make safe the mowers, chemicals, saws and turf equipment a grounds crew works across twelve distinct jobs",
+    kind: "programme",
+    standards: ["ansi-b71-outdoor-power-equipment", "ansi-z133-arboriculture", "epa-fifra-pesticide-label", "osha-1910-147"],
+    stations: [
+      "gk-ride-on-mower-pre-start-and-slope-work", "gk-string-trimmer-and-blower-ppe-and-bystander-zone", "gk-irrigation-controller-valve-box-and-backflow-check", "gk-pesticide-and-fertilizer-application-per-the-label",
+      "gk-tree-work-pole-saw-and-drop-zone", "gk-chainsaw-start-and-limbing-on-the-ground", "gk-bunker-renovation-and-drainage", "gk-greens-mowing-and-hole-changing",
+      "gk-sports-field-line-marking-and-goal-anchoring", "gk-storm-cleanup-chipper-and-traffic-control", "gk-hardscape-paver-base-and-compaction", "gk-greenhouse-nursery-chemical-storage-and-eyewash"
+    ],
+    require: 6,
+  },
+  {
+    id: "grocery-and-meatpacking",
+    title: "Lock out, guard and clean the machines and chemicals a grocery and meatpacking crew works across eight distinct jobs",
+    kind: "programme",
+    standards: ["osha-1910-147", "osha-1910-212", "osha-1910-1200", "fda-food-code"],
+    stations: [
+      "gr-meat-dept-band-saw-and-grinder-lockout", "gr-deli-slicer-sanitation-and-allergen-line", "gr-produce-receiving-cold-chain-and-pallet-jack", "gr-night-stocking-baler-and-compactor-lockout",
+      "gr-checkstand-ergonomics-and-robbery-prevention", "gr-meatpacking-line-knife-work-and-ppe-rotation", "gr-ammonia-leak-alarm-response-cold-plant", "gr-pharmacy-floral-chemical-handling-and-sds"
+    ],
+    require: 4,
+  },
+  {
+    id: "airline-cabin-and-flight-crew",
+    title: "Run eight distinct AFA-CWA flight attendant and ALPA pilot jobs from cabin pre-flight to a flight-deck CRM briefing",
+    kind: "programme",
+    standards: ["afa-cwa-training", "alpa-training", "faa-14-cfr-121", "calosha-8-ccr-3342"],
+    stations: [
+      "ca-cabin-preflight-safety-check", "ca-galley-and-cart-safety", "ca-cabin-medical-event-response", "ca-unruly-passenger-deescalation",
+      "ca-cabin-decompression-and-oxygen-masks", "ca-door-evacuation-drill", "ca-flight-deck-crew-resource-management", "ca-fatigue-and-duty-time-self-check"
+    ],
+    require: 4,
+  },
+  {
+    id: "mill-and-mine",
+    title: "Lock out a mill stand, tilt a ladle behind a closed barrier, and run a mine face and its escapeway to the roof-control and emergency plans",
+    kind: "programme",
+    standards: ["usw-mazzocchi-center", "umwa-training", "osha-1910-147", "niosh-criteria"],
+    stations: [
+      "mm-hot-strip-mill-stand", "mm-ladle-pour", "mm-coke-oven-heat-rotation", "mm-paper-machine-dryer",
+      "mm-continuous-miner-face", "mm-mine-escapeway-drill", "mm-haul-truck-berm", "mm-conveyor-fire-and-gas-monitoring"
+    ],
+    require: 4,
+  },
+  {
+    id: "screen-and-media-crafts",
+    title: "Prove a control before a rig, a circuit, a mast or a cue goes live, across eight distinct screen and media crafts jobs",
+    kind: "programme",
+    standards: ["sag-aftra-training", "iatse-training-trust", "osha-1910-95", "nfpa-101"],
+    stations: [
+      "md-set-safety-meeting-and-stunt-go-no-go", "md-camera-dolly-and-crane-track", "md-location-shoot-traffic-control-and-heat-hydration", "md-sound-stage-electrical-distribution-and-cable-crossings",
+      "md-recording-studio-hearing-conservation-and-load-in", "md-theatre-fly-floor-and-quick-change-lane", "md-newsroom-storm-scene-and-live-truck-mast", "md-intimacy-and-conduct-coordination-briefing"
+    ],
+    require: 4,
+  },
+  {
+    id: "postal-and-mail-processing",
+    title: "Isolate, inspect, prove and de-escalate across eight distinct letter carrier, mail handler, plant clerk and retail clerk jobs on a route, in a processing plant and at the counter",
+    kind: "programme",
+    standards: ["osha-1910-147", "osha-1910-178", "asme-b20-1", "niosh-lifting-equation"],
+    stations: [
+      "ml-delivery-van-pretrip-and-route-loading", "ml-dog-and-hazard-awareness-on-route", "ml-heat-and-cold-stress-on-route", "ml-flat-sorter-guarding-and-lockout",
+      "ml-mail-handler-forklift-and-container-dock", "ml-parcel-sorter-conveyor-jam-and-loto", "ml-suspicious-package-protocol", "ml-retail-counter-deescalation"
+    ],
+    require: 4,
+  },
+  {
+    id: "yacht-and-charter-crew",
+    title: "Count, moor, fuel, start, recover, fight fire, launch and connect a charter yacht as her deck, steward and engineering crew",
+    kind: "programme",
+    standards: ["uscg-46-cfr-25", "uscg-33-cfr-83", "uscg-33-cfr-155", "nfpa-306", "osha-1910-147"],
+    stations: [
+      "yc-pre-departure-safety-briefing-and-guest-count", "yc-line-handling-and-docking-in-crosswind", "yc-fuel-dock-transfer-and-spill-kit", "yc-engine-room-pre-start-and-bilge-check",
+      "yc-man-overboard-recovery-drill", "yc-galley-fire-and-fixed-system", "yc-tender-launch-and-guest-transfer", "yc-shore-power-connection-and-in-water-electrical-safety"
+    ],
+    require: 4,
+  },
+  {
+    id: "marine-ecology-and-restoration",
+    title: "Run a repeatable field survey or restoration method on the water and keep the crew safe doing it",
+    kind: "programme",
+    standards: ["bcdc-bay-plan", "rwqcb-401-certification", "usace-section-404", "usfws-esa", "noaa-tides-and-esa", "cdfw-lake-streambed-alteration", "osha-1910-424"],
+    stations: [
+      "me-kelp-transect-survey-and-photo-quadrats", "me-oyster-reef-monitoring-and-settlement-tiles", "me-eelgrass-seed-collection-and-nursery", "me-water-column-sampling-from-a-small-boat",
+      "me-tidal-marsh-channel-restoration-day", "me-fish-visual-census-and-data-sheet", "me-shoreline-debris-and-microplastics-survey", "me-invasive-species-identification-and-reporting"
+    ],
+    require: 4,
+  },
+  {
+    id: "bay-program-projects",
+    title: "Clean out a trash capture device, dig a rain garden, work a tidal channel from mats, feed chemicals at a treatment plant, sample a PCB hotspot with chain of custody and keep a fish passage working, each by its own safe procedure",
+    kind: "programme",
+    standards: ["osha-1910-146", "osha-1910-147", "osha-1926-subpart-p", "osha-1910-120", "osha-1910-1200", "osha-1910-134", "usace-section-404", "rwqcb-401-certification", "cdfw-lake-streambed-alteration"],
+    stations: [
+      "bk-bioretention-rain-garden-excavation", "bk-street-drain-trash-capture-cleanout", "br-trash-capture-device-service", "br-tidal-marsh-grading-amphibious-excavator",
+      "br-dredge-spoils-dewatering-pad", "bk-wastewater-nutrient-chemical-feed", "chlorine-room", "br-legacy-mercury-and-pcb-hotspot-handling",
+      "br-sediment-chain-of-custody-and-lab-prep", "br-culvert-retrofit-for-fish-passage", "br-fish-screen-maintenance"
+    ],
+    require: 6,
+  },
+  {
+    id: "commercial-diving-and-scientific-scuba",
+    title: "Tend, lock out, record and review eight distinct commercial diving and scientific scuba jobs, from the knife switch and the chamber to the buddy check and the guideline",
+    kind: "programme",
+    standards: ["osha-1910-subpart-t", "osha-1910-424", "osha-1910-430", "osha-1910-440", "adci-consensus-standards", "aws-d3-6", "uscg-46-cfr-197-subpart-b"],
+    stations: [
+      "cd-underwater-wet-welding-and-cutting", "cd-pier-piling-inspection-and-wrap-repair", "cd-rov-launch-recovery-and-tether-management", "cd-decompression-chamber-operations-and-post-dive",
+      "cd-scientific-scuba-buddy-check-and-lost-buddy-drill", "cd-low-visibility-and-night-dive-line-work", "cd-hydraulic-tools-and-suction-hazards-underwater", "cd-dive-records-and-incident-review"
+    ],
+    require: 4,
+  },
+  {
+    id: "aerospace-defense-and-robotics",
+    title: "Gown, lift, service, count, hold, isolate and prove eight civilian-style aerospace depot and robotics jobs",
+    kind: "programme",
+    standards: ["osha-1910-147", "osha-1910-212", "osha-1910-1200", "faa-14-cfr-43", "ansi-r15-06", "iso-10218"],
+    stations: [
+      "ad-cleanroom-gowning-and-esd-discipline", "ad-payload-crane-lift-with-a-lift-plan", "ad-hazardous-fluid-servicing-with-a-buddy", "ad-depot-tool-control-and-fod-walk",
+      "ad-test-stand-exclusion-zone-and-holds", "ad-robot-cell-lockout-and-safe-reentry", "ad-amr-fleet-traffic-and-estop-drill", "ad-cobot-risk-assessment-and-speed-separation"
+    ],
+    require: 4,
+  },
+  {
+    id: "wind-and-data-infrastructure",
+    title: "Climb, lock out, switch, torque, open a floor, answer an alarm and land a pod across a wind farm, a data hall and an ocean data centre without stating a figure the manual or the plan holds",
+    kind: "programme",
+    standards: ["osha-1910-269", "osha-1910-147", "nfpa-70e", "ansi-z359", "nec-nfpa-70", "bicsi-installer"],
+    stations: [
+      "ws-turbine-climb-and-rescue-kit-check", "ws-nacelle-lockout-and-yaw-brake-fault", "ws-blade-inspection-from-a-platform", "ws-substation-switching-under-a-permit",
+      "ws-data-hall-busway-install-and-torque-signoff", "ws-raised-floor-tile-lift-and-cable-tray-safety", "ws-crah-alarm-response-in-a-live-hall", "ws-ocean-pod-retrieval-and-hatch-opening"
+    ],
+    require: 4,
+  },
+];
+
+/**
+ * The cross-programme competencies. These are the things a hall asks about
+ * first — "is he tied off, does he lock out, can he wear air" — and they are
+ * deliberately answerable from stations in different programmes, because a
+ * worker does not learn fall protection once in one block.
+ */
+export const CORE_COMPETENCIES = [
+  {
+    id: "core-fall-protection",
+    title: "Fall Protection",
+    kind: "core",
+    standards: ["osha-1926-subpart-m", "osha-1926-subpart-l", "ansi-z359"],
+    stations: [
+      "scaffold-erection", "steel-erector", "tower-climb", "microwave-backhaul", "aerial-ladder",
+      "solar-deck", "bridge-cable-inspection", "mast-climber", "arena-rigging",
+      "mass-timber-panel-set", "masonry-silica-scaffold"
+    ],
+    require: 3,
+  },
+  {
+    id: "core-lockout-tagout",
+    title: "Lockout/Tagout and the control of hazardous energy",
+    kind: "core",
+    standards: ["osha-1910-147", "nfpa-70e", "osha-1910-212"],
+    stations: [
+      "electrical", "charge-point", "substation-switching", "motor-control-center", "battery-yard",
+      "conveyor-guard", "press-brake", "robot-cell", "cnc-cell", "slicer-lockout",
+      "bakery-mixer", "lift-station", "boiler-room", "transformer-vault"
+    ],
+    require: 3,
+  },
+  {
+    id: "core-confined-space",
+    title: "Confined Space entry, attendance and atmosphere",
+    kind: "core",
+    standards: ["osha-1910-146", "nfpa-1006", "osha-1910-134"],
+    stations: [
+      "valve-vault", "lift-station", "chlorine-room", "confined-rescue", "grease-trap",
+      "tank-lining", "digester-gas", "landfill-gas", "grain-bin", "ballast-water-sampling"
+    ],
+    require: 3,
+  },
+  {
+    id: "core-hot-work",
+    title: "Hot Work — permit, watch and the space behind the plate",
+    kind: "core",
+    standards: ["osha-1910-252", "nfpa-51b", "ansi-z49-1", "osha-1915"],
+    stations: [
+      "welding", "shipyard-hotwork", "hot-tap", "plumbing", "digester-gas"
+    ],
+    require: 2,
+  },
+  {
+    id: "core-trenching",
+    title: "Trenching and Excavation — protective systems and the competent person",
+    kind: "core",
+    standards: ["osha-1926-subpart-p", "osha-1926-20-b-2"],
+    stations: [
+      "trench-box", "ust-removal", "hot-tap", "gas-leak-survey", "bioswale-build"
+    ],
+    require: 2,
+  },
+  {
+    id: "core-crane-rigging",
+    title: "Crane and Rigging — the lift plan, the load and the landing",
+    kind: "core",
+    standards: ["asme-b30-16", "osha-1926-subpart-cc", "nccco-certification", "etcp-certification"],
+    stations: [
+      "crane-yard", "dock-crane", "chain-hoist", "rigging-loft", "fly-system",
+      "arena-rigging", "container-lashing", "creosote-pile-removal", "dredge-barge",
+      "mass-timber-panel-set"
+    ],
+    require: 3,
+  },
+  {
+    id: "core-respiratory-protection",
+    title: "Respiratory Protection — selection, proving and working on air",
+    kind: "core",
+    standards: ["osha-1910-134", "osha-1926-1153", "calosha-8-ccr-5141-1"],
+    stations: [
+      "abatement-chamber", "chlorine-room", "hazmat-entry", "bridge-lead-containment", "bridge-blast",
+      "tank-lining", "masonry-silica-scaffold", "firefighter-rehab-sector", "structure-fire-sizeup",
+      "decon-support-laborer", "hazwoper-site-orientation", "smoke-day-outreach"
+    ],
+    require: 3,
+  },
+  {
+    id: "core-hazard-communication",
+    title: "Hazard Communication — the label, the sheet and the dose",
+    kind: "core",
+    standards: ["osha-1910-1200", "osha-1910-1030"],
+    stations: [
+      "laundry-plant-chemicals", "housekeeping-room-turn", "dish-pit", "operatory-turnover",
+      "amalgam-waste-handling", "keg-cellar-co2", "draught-line-cleaning", "bar-well-setup",
+      "salon", "garment-inspection-finish"
+    ],
+    require: 3,
+  },
+  {
+    id: "core-emergency-response",
+    title: "Emergency Response — the first five minutes",
+    kind: "core",
+    standards: ["nfpa-1006", "nfpa-1500", "osha-1910-151", "nims-ics"],
+    stations: [
+      "triage-point", "chairside-emergency", "ev-extrication", "kitchen-gas-shutoff", "confined-rescue",
+      "shelter-in-place-drill", "structure-fire-sizeup", "shelter-intake-operations",
+      "damage-assessment-team", "hazmat-entry", "wildland-urban-interface"
+    ],
+    require: 3,
+  },
+  {
+    id: "core-trauma-informed-practice",
+    title: "Trauma-informed Practice — consent, dignity and de-escalation",
+    kind: "core",
+    standards: ["samhsa-trauma-informed", "pfa-field-guide", "hhs-45-cfr-46", "calosha-8-ccr-3342"],
+    stations: [
+      "psychological-first-aid", "patient-intake-screening", "patron-deescalation",
+      "spiked-drink-response", "biomonitoring-consent", "results-return-visit",
+      "can-we-live-story", "shelter-intake-operations", "till-drop-robbery"
+    ],
+    require: 3,
+  },
+];
+/** Every competency, programme tier then core tier. */
+export const COMPETENCIES = [...PROGRAMME_COMPETENCIES, ...CORE_COMPETENCIES];
+
+/** Lookup by id. */
+export const COMPETENCY_BY_ID = Object.fromEntries(COMPETENCIES.map((c) => [c.id, c]));
+
+// ------------------------------------------------------------------- mastery
+
+/** Whole seconds as m:ss, for a transcript a person reads. */
+export function clockText(seconds) {
+  const s = Math.max(0, Math.round(seconds | 0));
+  return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`;
+}
+
+/** The interruption tally on a record, normalised. Absent means none fired. */
+function interrupts(record) {
+  const iv = record?.interrupts ?? record?.debrief?.interrupts;
+  if (!iv) return null;
+  return { answered: iv.answered | 0, wrong: iv.wrong | 0, missed: iv.missed | 0 };
+}
+
+/** The par this run is judged against: the argument first, then the record's own. */
+function parOf(record, parSeconds) {
+  const par = parSeconds ?? record?.parSeconds;
+  return typeof par === "number" && par > 0 ? par : null;
+}
+
+/**
+ * Why a run did not reach mastery, or null when it did. One reason, the first
+ * that applies, in the order the rule states them — a learner who touched a
+ * live bus and also ran long needs to hear about the live bus.
+ *
+ * This is the single place the rule is evaluated: isMastery() is this
+ * function asking whether there was anything to say, and the transcript
+ * prints what it said.
+ */
+export function masteryShortfall(record, parSeconds) {
+  if (!record || typeof record !== "object") return { rule: "record", reason: "No attempt record." };
+  const stars = record.stars | 0;
+  if (stars < MASTERY.minStars) {
+    return { rule: "stars", reason: `${stars} star${stars === 1 ? "" : "s"} — mastery needs ${MASTERY.minStars}. The 2-star band is at most one correction and inside 1.5x par.` };
+  }
+  const hazards = record.hazardHits | 0;
+  if (hazards > MASTERY.maxHazardHits) {
+    return { rule: "unsafe", reason: `${hazards} unsafe action${hazards === 1 ? "" : "s"} — mastery allows none.` };
+  }
+  const iv = interrupts(record);
+  if (iv && (iv.wrong > 0 || iv.missed > 0)) {
+    const parts = [];
+    if (iv.missed) parts.push(`${iv.missed} missed`);
+    if (iv.wrong) parts.push(`${iv.wrong} answered wrongly`);
+    return { rule: "interrupts", reason: `${parts.join(" and ")} of ${iv.answered + iv.wrong + iv.missed} interruptions — mastery needs every one answered.` };
+  }
+  const par = parOf(record, parSeconds);
+  if (par != null) {
+    const limit = par * MASTERY.parMultiple;
+    const seconds = record.seconds | 0;
+    if (seconds > limit) {
+      return { rule: "time", reason: `${clockText(seconds)} against par ${clockText(par)} — mastery allows ${clockText(limit)}.` };
+    }
+  }
+  return null;
+}
+
+/**
+ * The mastery rule. `parSeconds` overrides the record's own par (an
+ * instructor re-judging a run against a station whose par has since moved);
+ * when neither is known the time limit cannot be applied and the other three
+ * conditions decide.
+ */
+export function isMastery(record, parSeconds) {
+  return masteryShortfall(record, parSeconds) === null;
+}
+
+// -------------------------------------------------------------------- status
+
+/** The UTC calendar day of an ISO timestamp — what "different days" counts. */
+function day(at) {
+  const s = String(at ?? "");
+  return /^\d{4}-\d{2}-\d{2}/.test(s) ? s.slice(0, 10) : s;
+}
+
+/** A compact, serialisable view of one attempt, for status and transcript. */
+function attemptRow(r) {
+  const par = parOf(r, null);
+  const shortfall = masteryShortfall(r);
+  return {
+    attemptId: r.id ?? null,
+    at: r.at ?? null,
+    stationId: r.simId ?? null,
+    stationName: r.simName ?? r.simId ?? null,
+    learner: r.learnerName ?? r.learner ?? null,
+    score: r.score | 0,
+    stars: r.stars | 0,
+    hazardHits: r.hazardHits | 0,
+    errors: r.errors | 0,
+    interrupts: interrupts(r),
+    seconds: r.seconds | 0,
+    parSeconds: par,
+    parRatio: par ? Math.round((r.seconds | 0) / par * 100) / 100 : null,
+    mastery: shortfall === null,
+    reason: shortfall?.reason ?? null,
+    rule: shortfall?.rule ?? null,
+  };
+}
+
+/** Best first: mastery over not, then stars, then score. */
+function betterAttempt(a, b) {
+  if (!b) return a;
+  if (a.mastery !== b.mastery) return a.mastery ? a : b;
+  if (a.stars !== b.stars) return a.stars > b.stars ? a : b;
+  return a.score >= b.score ? a : b;
+}
+
+/**
+ * Where the learner stands on every competency, from the training record.
+ *
+ * Per competency: `demonstrated` when `require` of its stations each carry at
+ * least one mastery run; `consistent` when it is demonstrated and its mastery
+ * runs fall on three or more different days. `stations` holds one entry per
+ * station the record has any attempt on — `best` is the best attempt seen
+ * there and `masteryAt` the timestamp of the FIRST mastery run, which is the
+ * date the station was earned and the date the badge is issued on.
+ */
+export function competencyStatus(records = []) {
+  const byStation = new Map();
+  for (const r of records) {
+    if (!r?.simId) continue;
+    if (!byStation.has(r.simId)) byStation.set(r.simId, []);
+    byStation.get(r.simId).push(r);
+  }
+  const out = {};
+  for (const c of COMPETENCIES) {
+    const stations = {};
+    const days = new Set();
+    let masteryRuns = 0, attempts = 0;
+    const earnedDates = [];
+    for (const id of c.stations) {
+      const runs = byStation.get(id);
+      if (!runs?.length) continue;
+      let best = null, masteryAt = null;
+      for (const r of runs) {
+        const row = attemptRow(r);
+        attempts += 1;
+        best = betterAttempt(row, best);
+        if (!row.mastery) continue;
+        masteryRuns += 1;
+        days.add(day(row.at));
+        if (masteryAt == null || String(row.at) < String(masteryAt)) masteryAt = row.at;
+      }
+      stations[id] = { best, masteryAt };
+      if (masteryAt) earnedDates.push(masteryAt);
+    }
+    const stationsMet = earnedDates.length;
+    const demonstrated = stationsMet >= c.require;
+    // Dated by the evidence rather than by the export: the competency was
+    // earned the moment its `require`-th station was, so that is the date the
+    // badge is issued on. Sorted chronologically, not in station order.
+    earnedDates.sort((a, b) => String(a).localeCompare(String(b)));
+    const earnedAt = demonstrated ? earnedDates[c.require - 1] ?? null : null;
+    out[c.id] = {
+      id: c.id, title: c.title, kind: c.kind, standards: c.standards,
+      require: c.require, total: c.stations.length,
+      demonstrated,
+      consistent: demonstrated && days.size >= CONSISTENT_DAYS,
+      status: demonstrated ? (days.size >= CONSISTENT_DAYS ? "consistent" : "demonstrated") : "in progress",
+      stationsMet, masteryRuns, attempts, days: days.size,
+      earnedAt,
+      stations,
+    };
+  }
+  return out;
+}
+
+/** Ids of competencies demonstrated in `after` that were not in `before`. */
+export function newlyDemonstrated(before, after) {
+  return Object.keys(after).filter((id) => after[id].demonstrated && !before?.[id]?.demonstrated);
+}
+
+// ----------------------------------------------------------------- transcript
+
+/**
+ * The proof transcript: one row per competency the learner has touched, with
+ * the evidence under it. `evidence` is every attempt on the competency's
+ * stations, newest first, each carrying score, stars, unsafe actions, the
+ * interruption tally and time against par — and, for a run that did not
+ * count, the reason. That reason is the point of the whole table: a learner
+ * looking at a near miss can see it was one missed alarm rather than "fail".
+ *
+ * `opts.all` keeps competencies with no attempts at all (the full catalogue,
+ * for a hall printing what is available); by default they are dropped.
+ */
+export function transcript(records = [], { learner = null, all = false } = {}) {
+  const status = competencyStatus(records);
+  const rows = [];
+  for (const c of COMPETENCIES) {
+    const st = status[c.id];
+    const stations = new Set(c.stations);
+    const evidence = records
+      .filter((r) => stations.has(r?.simId))
+      .map(attemptRow)
+      .sort((a, b) => String(b.at).localeCompare(String(a.at)));
+    if (!evidence.length && !all) continue;
+    rows.push({
+      learner: learner ?? evidence.find((e) => e.learner)?.learner ?? "YOU",
+      competency: { id: c.id, title: c.title, kind: c.kind },
+      status: st.status,
+      demonstrated: st.demonstrated,
+      consistent: st.consistent,
+      stationsMet: st.stationsMet,
+      require: st.require,
+      total: st.total,
+      days: st.days,
+      earnedAt: st.earnedAt,
+      standards: c.standards.map((id) => {
+        const s = standard(id);
+        return { id: s.id, body: s.body, title: s.title, source: s.source };
+      }),
+      masteryRule: MASTERY.text,
+      evidence,
+    });
+  }
+  return rows;
+}
+
+/** Flat CSV of the transcript — one row per evidence attempt. */
+const PROOF_COLUMNS = [
+  "learner", "competency", "competencyTitle", "status", "stationsMet", "require",
+  "standards", "at", "stationId", "stationName", "attemptId",
+  "score", "stars", "hazardHits", "interruptsAnswered", "interruptsWrong", "interruptsMissed",
+  "seconds", "parSeconds", "parRatio", "mastery", "reason",
+];
+
+function proofCsvCell(v) {
+  if (v == null) return "";
+  const s = Array.isArray(v) ? v.join("; ") : String(v);
+  return /[",\n\r]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
+}
+
+/** RFC 4180 CSV of the proof transcript, one line per evidence attempt. */
+export function toProofCSV(rows) {
+  const lines = [PROOF_COLUMNS.join(",")];
+  for (const row of rows) {
+    for (const e of row.evidence) {
+      const flat = {
+        learner: row.learner, competency: row.competency.id, competencyTitle: row.competency.title,
+        status: row.status, stationsMet: row.stationsMet, require: row.require,
+        standards: row.standards.map((s) => `${s.body} ${s.title}`),
+        at: e.at, stationId: e.stationId, stationName: e.stationName, attemptId: e.attemptId,
+        score: e.score, stars: e.stars, hazardHits: e.hazardHits,
+        interruptsAnswered: e.interrupts?.answered ?? "", interruptsWrong: e.interrupts?.wrong ?? "", interruptsMissed: e.interrupts?.missed ?? "",
+        seconds: e.seconds, parSeconds: e.parSeconds, parRatio: e.parRatio,
+        mastery: e.mastery, reason: e.reason,
+      };
+      lines.push(PROOF_COLUMNS.map((c) => proofCsvCell(flat[c])).join(","));
+    }
+  }
+  return lines.join("\r\n") + "\r\n";
+}
+
+// --------------------------------------------------------- competency badges
+
+function competencyBadgeImage(label) {
+  const safe = String(label).replace(/[<>&"]/g, "").slice(0, 28);
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="240" height="240"><rect width="240" height="240" rx="24" fill="#0b1219"/>` +
+    `<rect x="36" y="34" width="168" height="140" rx="10" fill="none" stroke="#7ee6ff" stroke-width="8"/>` +
+    `<path d="M74 104 l24 24 l48 -52" fill="none" stroke="#59c97b" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>` +
+    `<text x="120" y="208" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" fill="#e6f0f6">${safe}</text></svg>`;
+  return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
+}
+
+/**
+ * Open Badges 2.0 assertions for demonstrated competencies — the second,
+ * sober tier beside the station badges in records.js, which stay exactly as
+ * they are. Each assertion carries the competency, every standard it
+ * evidences (as OB alignment entries a receiving system can read), the
+ * station ids, the attempt ids behind it, and the mastery rule text in the
+ * criteria narrative, so a hall reading it later can tell what was actually
+ * required without this repository in front of them.
+ *
+ * Like the station badges these are self-asserted by a static page: the ids
+ * are laid out as URLs under `homePage` ready for a hall that hosts them,
+ * which is what makes hosted verification mean anything.
+ */
+export function toCompetencyBadges(records = [], {
+  issuerName = "SmartCiti.X Training Network",
+  homePage = "https://smartciti.example",
+  actorName = "YOU",
+  learnerHome = null,
+  learnerId = null,
+  learnerName = null,
+} = {}) {
+  const status = competencyStatus(records);
+  const out = [];
+  for (const c of COMPETENCIES) {
+    const st = status[c.id];
+    if (!st.demonstrated) continue;
+    const evidence = [];
+    const stationIds = [];
+    for (const [id, s] of Object.entries(st.stations)) {
+      if (!s.masteryAt) continue;
+      stationIds.push(id);
+      const best = s.best;
+      evidence.push({
+        id: `${homePage}/xapi/statements/${best.attemptId}`,
+        name: best.stationName ?? id,
+        narrative: `${id}: ${best.stars} stars, ${best.hazardHits} unsafe actions, ` +
+          `${best.interrupts ? `${best.interrupts.answered} of ${best.interrupts.answered + best.interrupts.wrong + best.interrupts.missed} interruptions answered, ` : "no interruptions fired, "} ` +
+          `${clockText(best.seconds)} against par ${best.parSeconds ? clockText(best.parSeconds) : "—"}; mastery run ${best.attemptId} on ${day(s.masteryAt)}.`,
+      });
+    }
+    const home = learnerHome ?? homePage;
+    const who = learnerId ?? actorName;
+    const standards = c.standards.map((id) => standard(id));
+    out.push({
+      "@context": "https://w3id.org/openbadges/v2",
+      type: "Assertion",
+      id: `${home}/credentials/competency/${encodeURIComponent(c.id)}`,
+      recipient: {
+        type: "url", hashed: false,
+        identity: `${home}/learners/${encodeURIComponent(who)}`,
+        name: learnerName ?? actorName,
+      },
+      issuedOn: st.earnedAt ?? new Date().toISOString(),
+      verification: { type: "hosted" },
+      badge: {
+        type: "BadgeClass",
+        id: `${homePage}/badges/competency/${encodeURIComponent(c.id)}`,
+        name: c.title,
+        description: `Competency "${c.title}" (${c.id}), demonstrated on ${st.stationsMet} of the ${st.total} stations named for it, ` +
+          `${st.require} being required. Evidenced against ${standards.map((s) => `${s.body} ${s.title}`).join("; ")}. ` +
+          `Status: ${st.status}${st.consistent ? ` (mastery runs on ${st.days} different days)` : ""}. ` +
+          "A demonstrated competency evidences readiness against the named standards; it is not a licence or a certification issued by those bodies.",
+        image: competencyBadgeImage(c.id),
+        criteria: { narrative: `${MASTERY.text} This competency requires mastery on ${c.require} of these stations: ${c.stations.join(", ")}.` },
+        issuer: { type: "Profile", id: `${homePage}/issuer`, name: issuerName, url: homePage },
+        tags: ["competency", c.kind, ...new Set(standards.map((s) => s.body))],
+        alignment: standards.map((s) => ({
+          targetName: `${s.body} — ${s.title}`,
+          targetUrl: `${homePage}/standards/${encodeURIComponent(s.id)}`,
+          targetCode: s.id,
+          targetFramework: s.body,
+          targetDescription: s.source === "verified" ? s.title : `${s.title} (citation form unverified in this registry)`,
+        })),
+      },
+      evidence,
+      // The detail a receiving system wants as data rather than prose. Extra
+      // keys on an assertion are ignored by a strict OB 2.0 validator (the
+      // verifier in WebXR/verify/ checks the assertion and passes this
+      // through), so nothing is lost by carrying it.
+      competency: {
+        id: c.id, title: c.title, kind: c.kind,
+        status: st.status, demonstrated: true, consistent: st.consistent,
+        require: c.require, stationsMet: st.stationsMet, stationsTotal: st.total, masteryDays: st.days,
+        stations: c.stations,
+        stationsDemonstrated: stationIds,
+        attempts: evidence.map((e) => e.id.split("/").pop()),
+        standards: standards.map((s) => ({ id: s.id, body: s.body, title: s.title, source: s.source, slug: s.slug })),
+        masteryRule: { id: MASTERY.id, text: MASTERY.text },
+      },
+    });
+  }
+  return out;
+}
+
+/**
+ * xAPI statements for demonstrated competencies, verb "achieved" — what goes
+ * through the live LRS queue (shared/lrs.js) beside the per-attempt
+ * passed/failed statements. The assertion rides along in an extension so an
+ * LRS holds the credential and its evidence, not just the fact.
+ *
+ * `only` limits it to named competency ids, which is what the app uses to
+ * send exactly the competencies a run just earned.
+ */
+export function toCompetencyXAPI(records = [], {
+  homePage = "https://smartciti.example",
+  actorName = "YOU",
+  learnerName = null,
+  learnerId = null,
+  learnerHome = null,
+  only = null,
+  app = "smartcity",
+} = {}) {
+  const ext = (k) => `${homePage}/xapi/ext/${k}`;
+  const wanted = only ? new Set(only) : null;
+  const status = competencyStatus(records);
+  const assertions = Object.fromEntries(
+    toCompetencyBadges(records, { homePage, actorName, learnerName, learnerId, learnerHome })
+      .map((a) => [a.competency.id, a]),
+  );
+  const statements = [];
+  for (const c of COMPETENCIES) {
+    const st = status[c.id];
+    if (!st.demonstrated) continue;
+    if (wanted && !wanted.has(c.id)) continue;
+    const assertion = assertions[c.id];
+    const at = st.earnedAt ?? new Date().toISOString();
+    statements.push({
+      // Stable and derived from the competency, so an LRS de-duplicates a
+      // competency that is re-sent rather than recording it twice.
+      id: `${app}-competency-${c.id}`,
+      timestamp: at,
+      actor: {
+        objectType: "Agent",
+        name: learnerName ?? actorName,
+        account: { homePage: learnerHome ?? homePage, name: learnerId ?? actorName },
+      },
+      verb: { id: "http://adlnet.gov/expapi/verbs/achieved", display: { "en-US": "achieved" } },
+      object: {
+        objectType: "Activity",
+        id: `${homePage}/competency/${encodeURIComponent(c.id)}`,
+        definition: {
+          name: { "en-US": c.title },
+          description: { "en-US": `Competency ${c.id}: mastery on ${st.stationsMet} of ${st.total} stations, ${c.require} required.` },
+          type: "http://adlnet.gov/expapi/activities/objective",
+        },
+      },
+      result: {
+        success: true,
+        completion: true,
+        extensions: {
+          [ext("competency")]: c.id,
+          [ext("competency-status")]: st.status,
+          [ext("stations-demonstrated")]: Object.entries(st.stations).filter(([, s]) => s.masteryAt).map(([id]) => id),
+          [ext("attempts")]: assertion?.competency.attempts ?? [],
+          [ext("standards")]: c.standards.map((id) => standard(id).slug),
+          [ext("mastery-rule")]: MASTERY.text,
+          [ext("open-badge")]: assertion ?? null,
+        },
+      },
+      context: {
+        platform: "SmartCiti.X ~VR Simulators",
+        extensions: { [ext("competency-kind")]: c.kind, [ext("mastery-rule-id")]: MASTERY.id },
+      },
+    });
+  }
+  return { statements };
+}

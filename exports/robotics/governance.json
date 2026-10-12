@@ -1,0 +1,558 @@
+{
+  "v": "rx/1",
+  "registry": "WebXR/shared/ent3-governance.js, built in memory by tools/rb_export.mjs (no device store was read or written)",
+  "lineage": {
+    "nodes": [
+      {
+        "id": "rx-ds-rb-cell-entry",
+        "type": "dataset",
+        "label": "Robot Cell Entry synthetic demonstrations",
+        "status": "current"
+      },
+      {
+        "id": "rx-ds-rb-cobot-zone-setup",
+        "type": "dataset",
+        "label": "Cobot Safety-Zone Setup synthetic demonstrations",
+        "status": "current"
+      },
+      {
+        "id": "rx-ds-rb-teleop-pick-place",
+        "type": "dataset",
+        "label": "Teleop Pick-and-Place synthetic demonstrations",
+        "status": "current"
+      },
+      {
+        "id": "rx-ds-rb-amr-fleet-routing",
+        "type": "dataset",
+        "label": "AMR Fleet Routing synthetic demonstrations",
+        "status": "current"
+      },
+      {
+        "id": "rx-ds-rb-construction-drilling",
+        "type": "dataset",
+        "label": "Ceiling-Drilling Robot Set-Up synthetic demonstrations",
+        "status": "current"
+      },
+      {
+        "id": "rx-ds-rb-port-gantry",
+        "type": "dataset",
+        "label": "Port Automation Lane synthetic demonstrations",
+        "status": "current"
+      },
+      {
+        "id": "rx-bc-rb-cell-entry",
+        "type": "policy",
+        "label": "Robot Cell Entry k-NN clone @31f876a6",
+        "status": "current"
+      },
+      {
+        "id": "eval:rx-bc-rb-cell-entry:0",
+        "type": "eval",
+        "label": "success 1 — COLEARN held-out seeds 7001-7060 (docs/evals/colearn.json)",
+        "status": "measured"
+      },
+      {
+        "id": "eval:rx-bc-rb-cell-entry:1",
+        "type": "eval",
+        "label": "clean 1 — COLEARN held-out seeds 7001-7060 (docs/evals/colearn.json)",
+        "status": "measured"
+      },
+      {
+        "id": "rx-bc-rb-cobot-zone-setup",
+        "type": "policy",
+        "label": "Cobot Safety-Zone Setup k-NN clone @52faed1b",
+        "status": "current"
+      },
+      {
+        "id": "eval:rx-bc-rb-cobot-zone-setup:0",
+        "type": "eval",
+        "label": "success 1 — COLEARN held-out seeds 7001-7060 (docs/evals/colearn.json)",
+        "status": "measured"
+      },
+      {
+        "id": "eval:rx-bc-rb-cobot-zone-setup:1",
+        "type": "eval",
+        "label": "clean 1 — COLEARN held-out seeds 7001-7060 (docs/evals/colearn.json)",
+        "status": "measured"
+      },
+      {
+        "id": "rx-bc-rb-teleop-pick-place",
+        "type": "policy",
+        "label": "Teleop Pick-and-Place k-NN clone @d9b20015",
+        "status": "current"
+      },
+      {
+        "id": "eval:rx-bc-rb-teleop-pick-place:0",
+        "type": "eval",
+        "label": "success 0.967 — COLEARN held-out seeds 7001-7060 (docs/evals/colearn.json)",
+        "status": "measured"
+      },
+      {
+        "id": "eval:rx-bc-rb-teleop-pick-place:1",
+        "type": "eval",
+        "label": "clean 0.967 — COLEARN held-out seeds 7001-7060 (docs/evals/colearn.json)",
+        "status": "measured"
+      },
+      {
+        "id": "rx-bc-rb-amr-fleet-routing",
+        "type": "policy",
+        "label": "AMR Fleet Routing k-NN clone @91a7b57c",
+        "status": "current"
+      },
+      {
+        "id": "eval:rx-bc-rb-amr-fleet-routing:0",
+        "type": "eval",
+        "label": "success 0.817 — COLEARN held-out seeds 7001-7060 (docs/evals/colearn.json)",
+        "status": "measured"
+      },
+      {
+        "id": "eval:rx-bc-rb-amr-fleet-routing:1",
+        "type": "eval",
+        "label": "clean 0.817 — COLEARN held-out seeds 7001-7060 (docs/evals/colearn.json)",
+        "status": "measured"
+      },
+      {
+        "id": "rx-bc-rb-construction-drilling",
+        "type": "policy",
+        "label": "Ceiling-Drilling Robot Set-Up k-NN clone @2f23e1ab",
+        "status": "current"
+      },
+      {
+        "id": "eval:rx-bc-rb-construction-drilling:0",
+        "type": "eval",
+        "label": "success 1 — COLEARN held-out seeds 7001-7060 (docs/evals/colearn.json)",
+        "status": "measured"
+      },
+      {
+        "id": "eval:rx-bc-rb-construction-drilling:1",
+        "type": "eval",
+        "label": "clean 1 — COLEARN held-out seeds 7001-7060 (docs/evals/colearn.json)",
+        "status": "measured"
+      },
+      {
+        "id": "rx-bc-rb-port-gantry",
+        "type": "policy",
+        "label": "Port Automation Lane k-NN clone @d9e4b963",
+        "status": "current"
+      },
+      {
+        "id": "eval:rx-bc-rb-port-gantry:0",
+        "type": "eval",
+        "label": "success 1 — COLEARN held-out seeds 7001-7060 (docs/evals/colearn.json)",
+        "status": "measured"
+      },
+      {
+        "id": "eval:rx-bc-rb-port-gantry:1",
+        "type": "eval",
+        "label": "clean 1 — COLEARN held-out seeds 7001-7060 (docs/evals/colearn.json)",
+        "status": "measured"
+      },
+      {
+        "id": "site:rb-site-soma-robot-cell",
+        "type": "site",
+        "label": "rb-site-soma-robot-cell",
+        "status": "sim"
+      },
+      {
+        "id": "site:rb-site-san-jose-robotics-lab",
+        "type": "site",
+        "label": "rb-site-san-jose-robotics-lab",
+        "status": "sim"
+      },
+      {
+        "id": "site:rb-site-west-oakland-warehouse",
+        "type": "site",
+        "label": "rb-site-west-oakland-warehouse",
+        "status": "sim"
+      },
+      {
+        "id": "site:rb-site-orleans-warehouse",
+        "type": "site",
+        "label": "rb-site-orleans-warehouse",
+        "status": "sim"
+      },
+      {
+        "id": "site:rb-site-richland-drilling-robot",
+        "type": "site",
+        "label": "rb-site-richland-drilling-robot",
+        "status": "sim"
+      },
+      {
+        "id": "site:rb-site-west-oakland-port-automation",
+        "type": "site",
+        "label": "rb-site-west-oakland-port-automation",
+        "status": "sim"
+      }
+    ],
+    "edges": [
+      {
+        "from": "rx-ds-rb-cell-entry",
+        "to": "rx-bc-rb-cell-entry",
+        "kind": "trained-on"
+      },
+      {
+        "from": "rx-bc-rb-cell-entry",
+        "to": "eval:rx-bc-rb-cell-entry:0",
+        "kind": "evaluated-by"
+      },
+      {
+        "from": "rx-bc-rb-cell-entry",
+        "to": "eval:rx-bc-rb-cell-entry:1",
+        "kind": "evaluated-by"
+      },
+      {
+        "from": "rx-ds-rb-cobot-zone-setup",
+        "to": "rx-bc-rb-cobot-zone-setup",
+        "kind": "trained-on"
+      },
+      {
+        "from": "rx-bc-rb-cobot-zone-setup",
+        "to": "eval:rx-bc-rb-cobot-zone-setup:0",
+        "kind": "evaluated-by"
+      },
+      {
+        "from": "rx-bc-rb-cobot-zone-setup",
+        "to": "eval:rx-bc-rb-cobot-zone-setup:1",
+        "kind": "evaluated-by"
+      },
+      {
+        "from": "rx-ds-rb-teleop-pick-place",
+        "to": "rx-bc-rb-teleop-pick-place",
+        "kind": "trained-on"
+      },
+      {
+        "from": "rx-bc-rb-teleop-pick-place",
+        "to": "eval:rx-bc-rb-teleop-pick-place:0",
+        "kind": "evaluated-by"
+      },
+      {
+        "from": "rx-bc-rb-teleop-pick-place",
+        "to": "eval:rx-bc-rb-teleop-pick-place:1",
+        "kind": "evaluated-by"
+      },
+      {
+        "from": "rx-ds-rb-amr-fleet-routing",
+        "to": "rx-bc-rb-amr-fleet-routing",
+        "kind": "trained-on"
+      },
+      {
+        "from": "rx-bc-rb-amr-fleet-routing",
+        "to": "eval:rx-bc-rb-amr-fleet-routing:0",
+        "kind": "evaluated-by"
+      },
+      {
+        "from": "rx-bc-rb-amr-fleet-routing",
+        "to": "eval:rx-bc-rb-amr-fleet-routing:1",
+        "kind": "evaluated-by"
+      },
+      {
+        "from": "rx-ds-rb-construction-drilling",
+        "to": "rx-bc-rb-construction-drilling",
+        "kind": "trained-on"
+      },
+      {
+        "from": "rx-bc-rb-construction-drilling",
+        "to": "eval:rx-bc-rb-construction-drilling:0",
+        "kind": "evaluated-by"
+      },
+      {
+        "from": "rx-bc-rb-construction-drilling",
+        "to": "eval:rx-bc-rb-construction-drilling:1",
+        "kind": "evaluated-by"
+      },
+      {
+        "from": "rx-ds-rb-port-gantry",
+        "to": "rx-bc-rb-port-gantry",
+        "kind": "trained-on"
+      },
+      {
+        "from": "rx-bc-rb-port-gantry",
+        "to": "eval:rx-bc-rb-port-gantry:0",
+        "kind": "evaluated-by"
+      },
+      {
+        "from": "rx-bc-rb-port-gantry",
+        "to": "eval:rx-bc-rb-port-gantry:1",
+        "kind": "evaluated-by"
+      },
+      {
+        "from": "rx-bc-rb-cell-entry",
+        "to": "site:rb-site-soma-robot-cell",
+        "kind": "deployed-to"
+      },
+      {
+        "from": "rx-bc-rb-cobot-zone-setup",
+        "to": "site:rb-site-san-jose-robotics-lab",
+        "kind": "deployed-to"
+      },
+      {
+        "from": "rx-bc-rb-amr-fleet-routing",
+        "to": "site:rb-site-west-oakland-warehouse",
+        "kind": "deployed-to"
+      },
+      {
+        "from": "rx-bc-rb-amr-fleet-routing",
+        "to": "site:rb-site-orleans-warehouse",
+        "kind": "deployed-to"
+      },
+      {
+        "from": "rx-bc-rb-construction-drilling",
+        "to": "site:rb-site-richland-drilling-robot",
+        "kind": "deployed-to"
+      },
+      {
+        "from": "rx-bc-rb-port-gantry",
+        "to": "site:rb-site-west-oakland-port-automation",
+        "kind": "deployed-to"
+      }
+    ]
+  },
+  "audit": [
+    {
+      "seq": 0,
+      "at": "2026-01-01T00:00:00.000Z",
+      "action": "dataset-register",
+      "detail": "rx-ds-rb-cell-entry: 40 episodes, 0 consents, synthetic",
+      "prev": "genesis",
+      "hash": "207e81b4099cec78"
+    },
+    {
+      "seq": 1,
+      "at": "2026-01-01T00:00:00.000Z",
+      "action": "policy-register",
+      "detail": "rx-bc-rb-cell-entry@31f876a6 (behaviour-cloning-knn) trained on rx-ds-rb-cell-entry",
+      "prev": "207e81b4099cec78",
+      "hash": "ea09ec14e236e0b0"
+    },
+    {
+      "seq": 2,
+      "at": "2026-01-01T00:00:00.000Z",
+      "action": "policy-eval",
+      "detail": "rx-bc-rb-cell-entry@31f876a6: success 1 on COLEARN held-out seeds 7001-7060 (docs/evals/colearn.json) (n=60)",
+      "prev": "ea09ec14e236e0b0",
+      "hash": "754e6d60bc16342a"
+    },
+    {
+      "seq": 3,
+      "at": "2026-01-01T00:00:00.000Z",
+      "action": "policy-eval",
+      "detail": "rx-bc-rb-cell-entry@31f876a6: clean 1 on COLEARN held-out seeds 7001-7060 (docs/evals/colearn.json) (n=60)",
+      "prev": "754e6d60bc16342a",
+      "hash": "aa91ebf3c1619e8b"
+    },
+    {
+      "seq": 4,
+      "at": "2026-01-01T00:00:00.000Z",
+      "action": "deploy",
+      "detail": "rx-bc-rb-cell-entry@31f876a6 - rb-site-soma-robot-cell (sim)",
+      "prev": "aa91ebf3c1619e8b",
+      "hash": "e951f5b2ab674f86"
+    },
+    {
+      "seq": 5,
+      "at": "2026-01-01T00:00:00.000Z",
+      "action": "dataset-register",
+      "detail": "rx-ds-rb-cobot-zone-setup: 40 episodes, 0 consents, synthetic",
+      "prev": "e951f5b2ab674f86",
+      "hash": "44690709710c5d65"
+    },
+    {
+      "seq": 6,
+      "at": "2026-01-01T00:00:00.000Z",
+      "action": "policy-register",
+      "detail": "rx-bc-rb-cobot-zone-setup@52faed1b (behaviour-cloning-knn) trained on rx-ds-rb-cobot-zone-setup",
+      "prev": "44690709710c5d65",
+      "hash": "df683f144184300c"
+    },
+    {
+      "seq": 7,
+      "at": "2026-01-01T00:00:00.000Z",
+      "action": "policy-eval",
+      "detail": "rx-bc-rb-cobot-zone-setup@52faed1b: success 1 on COLEARN held-out seeds 7001-7060 (docs/evals/colearn.json) (n=60)",
+      "prev": "df683f144184300c",
+      "hash": "075606e49f779cde"
+    },
+    {
+      "seq": 8,
+      "at": "2026-01-01T00:00:00.000Z",
+      "action": "policy-eval",
+      "detail": "rx-bc-rb-cobot-zone-setup@52faed1b: clean 1 on COLEARN held-out seeds 7001-7060 (docs/evals/colearn.json) (n=60)",
+      "prev": "075606e49f779cde",
+      "hash": "04832313d87eb3b3"
+    },
+    {
+      "seq": 9,
+      "at": "2026-01-01T00:00:00.000Z",
+      "action": "deploy",
+      "detail": "rx-bc-rb-cobot-zone-setup@52faed1b - rb-site-san-jose-robotics-lab (sim)",
+      "prev": "04832313d87eb3b3",
+      "hash": "33e97731d607b539"
+    },
+    {
+      "seq": 10,
+      "at": "2026-01-01T00:00:00.000Z",
+      "action": "dataset-register",
+      "detail": "rx-ds-rb-teleop-pick-place: 40 episodes, 0 consents, synthetic",
+      "prev": "33e97731d607b539",
+      "hash": "8ab9d4d3e2bd2da3"
+    },
+    {
+      "seq": 11,
+      "at": "2026-01-01T00:00:00.000Z",
+      "action": "policy-register",
+      "detail": "rx-bc-rb-teleop-pick-place@d9b20015 (behaviour-cloning-knn) trained on rx-ds-rb-teleop-pick-place",
+      "prev": "8ab9d4d3e2bd2da3",
+      "hash": "1ab2c38b2c9405ab"
+    },
+    {
+      "seq": 12,
+      "at": "2026-01-01T00:00:00.000Z",
+      "action": "policy-eval",
+      "detail": "rx-bc-rb-teleop-pick-place@d9b20015: success 0.967 on COLEARN held-out seeds 7001-7060 (docs/evals/colearn.json) (n=60)",
+      "prev": "1ab2c38b2c9405ab",
+      "hash": "92ee7eb87063ed7e"
+    },
+    {
+      "seq": 13,
+      "at": "2026-01-01T00:00:00.000Z",
+      "action": "policy-eval",
+      "detail": "rx-bc-rb-teleop-pick-place@d9b20015: clean 0.967 on COLEARN held-out seeds 7001-7060 (docs/evals/colearn.json) (n=60)",
+      "prev": "92ee7eb87063ed7e",
+      "hash": "cbe2586f5f48b037"
+    },
+    {
+      "seq": 14,
+      "at": "2026-01-01T00:00:00.000Z",
+      "action": "dataset-register",
+      "detail": "rx-ds-rb-amr-fleet-routing: 40 episodes, 0 consents, synthetic",
+      "prev": "cbe2586f5f48b037",
+      "hash": "2a87928653a3a0c4"
+    },
+    {
+      "seq": 15,
+      "at": "2026-01-01T00:00:00.000Z",
+      "action": "policy-register",
+      "detail": "rx-bc-rb-amr-fleet-routing@91a7b57c (behaviour-cloning-knn) trained on rx-ds-rb-amr-fleet-routing",
+      "prev": "2a87928653a3a0c4",
+      "hash": "92a5ee3eb1ad61d4"
+    },
+    {
+      "seq": 16,
+      "at": "2026-01-01T00:00:00.000Z",
+      "action": "policy-eval",
+      "detail": "rx-bc-rb-amr-fleet-routing@91a7b57c: success 0.817 on COLEARN held-out seeds 7001-7060 (docs/evals/colearn.json) (n=60)",
+      "prev": "92a5ee3eb1ad61d4",
+      "hash": "a91731e18125ee21"
+    },
+    {
+      "seq": 17,
+      "at": "2026-01-01T00:00:00.000Z",
+      "action": "policy-eval",
+      "detail": "rx-bc-rb-amr-fleet-routing@91a7b57c: clean 0.817 on COLEARN held-out seeds 7001-7060 (docs/evals/colearn.json) (n=60)",
+      "prev": "a91731e18125ee21",
+      "hash": "90ff4f4351860b5b"
+    },
+    {
+      "seq": 18,
+      "at": "2026-01-01T00:00:00.000Z",
+      "action": "deploy",
+      "detail": "rx-bc-rb-amr-fleet-routing@91a7b57c - rb-site-west-oakland-warehouse (sim)",
+      "prev": "90ff4f4351860b5b",
+      "hash": "35dd66f9a014e755"
+    },
+    {
+      "seq": 19,
+      "at": "2026-01-01T00:00:00.000Z",
+      "action": "deploy",
+      "detail": "rx-bc-rb-amr-fleet-routing@91a7b57c - rb-site-orleans-warehouse (sim)",
+      "prev": "35dd66f9a014e755",
+      "hash": "78e242f01ae930e8"
+    },
+    {
+      "seq": 20,
+      "at": "2026-01-01T00:00:00.000Z",
+      "action": "dataset-register",
+      "detail": "rx-ds-rb-construction-drilling: 40 episodes, 0 consents, synthetic",
+      "prev": "78e242f01ae930e8",
+      "hash": "08628af41e92193a"
+    },
+    {
+      "seq": 21,
+      "at": "2026-01-01T00:00:00.000Z",
+      "action": "policy-register",
+      "detail": "rx-bc-rb-construction-drilling@2f23e1ab (behaviour-cloning-knn) trained on rx-ds-rb-construction-drilling",
+      "prev": "08628af41e92193a",
+      "hash": "5240c36775ab586f"
+    },
+    {
+      "seq": 22,
+      "at": "2026-01-01T00:00:00.000Z",
+      "action": "policy-eval",
+      "detail": "rx-bc-rb-construction-drilling@2f23e1ab: success 1 on COLEARN held-out seeds 7001-7060 (docs/evals/colearn.json) (n=60)",
+      "prev": "5240c36775ab586f",
+      "hash": "232105c936425169"
+    },
+    {
+      "seq": 23,
+      "at": "2026-01-01T00:00:00.000Z",
+      "action": "policy-eval",
+      "detail": "rx-bc-rb-construction-drilling@2f23e1ab: clean 1 on COLEARN held-out seeds 7001-7060 (docs/evals/colearn.json) (n=60)",
+      "prev": "232105c936425169",
+      "hash": "5b761a0d46cf0ead"
+    },
+    {
+      "seq": 24,
+      "at": "2026-01-01T00:00:00.000Z",
+      "action": "deploy",
+      "detail": "rx-bc-rb-construction-drilling@2f23e1ab - rb-site-richland-drilling-robot (sim)",
+      "prev": "5b761a0d46cf0ead",
+      "hash": "be5576c2dba2fbc6"
+    },
+    {
+      "seq": 25,
+      "at": "2026-01-01T00:00:00.000Z",
+      "action": "dataset-register",
+      "detail": "rx-ds-rb-port-gantry: 40 episodes, 0 consents, synthetic",
+      "prev": "be5576c2dba2fbc6",
+      "hash": "b619113816bd6b26"
+    },
+    {
+      "seq": 26,
+      "at": "2026-01-01T00:00:00.000Z",
+      "action": "policy-register",
+      "detail": "rx-bc-rb-port-gantry@d9e4b963 (behaviour-cloning-knn) trained on rx-ds-rb-port-gantry",
+      "prev": "b619113816bd6b26",
+      "hash": "4f47ad70f978faca"
+    },
+    {
+      "seq": 27,
+      "at": "2026-01-01T00:00:00.000Z",
+      "action": "policy-eval",
+      "detail": "rx-bc-rb-port-gantry@d9e4b963: success 1 on COLEARN held-out seeds 7001-7060 (docs/evals/colearn.json) (n=60)",
+      "prev": "4f47ad70f978faca",
+      "hash": "ad3afb30f40b03a6"
+    },
+    {
+      "seq": 28,
+      "at": "2026-01-01T00:00:00.000Z",
+      "action": "policy-eval",
+      "detail": "rx-bc-rb-port-gantry@d9e4b963: clean 1 on COLEARN held-out seeds 7001-7060 (docs/evals/colearn.json) (n=60)",
+      "prev": "ad3afb30f40b03a6",
+      "hash": "42f5dc19e02b5e25"
+    },
+    {
+      "seq": 29,
+      "at": "2026-01-01T00:00:00.000Z",
+      "action": "deploy",
+      "detail": "rx-bc-rb-port-gantry@d9e4b963 - rb-site-west-oakland-port-automation (sim)",
+      "prev": "42f5dc19e02b5e25",
+      "hash": "6badf45ae6cf5ea0"
+    }
+  ],
+  "auditHead": "6badf45ae6cf5ea0",
+  "verify": {
+    "ok": true,
+    "brokenAt": null,
+    "lines": 30
+  }
+}

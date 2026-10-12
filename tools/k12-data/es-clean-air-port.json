@@ -1,0 +1,146 @@
+{
+  "id": "k12-es-clean-air-at-the-port",
+  "index": "876",
+  "prefix": "esa",
+  "accent": "#4a9ab0",
+  "floor": ["#5c6266", "#50565a"],
+  "wall": ["#dde6ea", "#cad8de"],
+  "trade": "Science visit with the terminal equipment crew at a container port — learner and equipment crew lead",
+  "header": "Lower-secondary science at a container port by the Bay (the Port Southern Terminals site in San Francisco, and the Port of Oakland sites where the Oakland map is loaded): why diesel exhaust near a port matters to breathing, how electric trucks and cranes make no exhaust where they work, and what the Port of Oakland says about its Clean Ports conversion, using only what the scene shows and the Port of Oakland's Clean Ports page and award announcement.",
+  "name": "Clean Air at the Port",
+  "tagline": "Electric trucks and cranes make no exhaust where they work — see why that matters to the air people breathe",
+  "badge": { "id": "clean-air-scout", "name": "Clean Air Scout", "note": "Compared exhaust from a diesel and an electric model truck, explained why cleaner air near a port matters and learned what the port's conversion plans to change" },
+  "board": { "name": "Air Board", "currency": "BREATHS", "ranks": ["Breeze", "Gust", "Wind", "Clear Sky", "Air Keeper"] },
+  "hazards": [
+    { "id": "electric-means-no-power", "label": "Say electric trucks are too weak to move containers?", "face": "TOO\nWEAK?", "text": "You said electric trucks are too weak for containers. Electric motors are strong, and battery and hydrogen machines are built for this work. The difference is that they make no exhaust where they run." },
+    { "id": "walk-into-the-yard", "label": "Walk into the container yard for a closer look?", "face": "INTO\nYARD", "text": "You started into the container yard. Big machines move there all the time, and electric ones are very quiet. Visitors stay behind the yellow line with the crew lead and watch from the walkway." },
+    { "id": "touch-the-charger", "label": "Touch the charging cable to see how it works?", "face": "TOUCH\nCABLE", "text": "You reached for the charging cable. Chargers carry a lot of electricity and only trained crew connect them. Look at the charger from behind the line, and let the crew show how it works." },
+    { "id": "exhaust-only-smells", "label": "Say exhaust only smells bad and nothing more?", "face": "ONLY A\nSMELL?", "text": "You said exhaust is only a bad smell. Diesel exhaust carries tiny particles that people breathe in. Less exhaust near homes and schools means cleaner air for the neighbours." }
+  ],
+  "find1": {
+    "title": "Find the machines that move containers",
+    "cue": "Mark the three kinds of machines that move containers around the port.",
+    "why": "A port moves containers with several kinds of machines. Cranes lift them off ships, yard tractors pull them around the terminal, and drayage trucks carry them out to warehouses. When these machines run on diesel, they make exhaust right where people work and nearby families live, which is why the kind of power matters.",
+    "items": [
+      ["crane", "the tall container crane", "It lifts boxes off the ship."],
+      ["tractor", "the yard tractor", "It moves boxes around the terminal."],
+      ["dray", "the drayage truck", "It carries boxes out of the port."]
+    ],
+    "decoy": ["gull", "a gull on a bollard", "Always around the port, but it moves no containers."]
+  },
+  "select1": {
+    "title": "Stay behind the yellow line",
+    "cue": "Stand behind the yellow line on the walkway with the crew lead.",
+    "why": "Container yards are busy places with big machines, and electric machines are so quiet you may not hear them coming. Standing behind the yellow line keeps the class clear of every moving machine. The crew lead watches the yard so the class can watch the lesson.",
+    "key": "line-card",
+    "label": "Behind the line",
+    "face": "YELLOW\nLINE"
+  },
+  "seq": {
+    "title": "Put the exhaust test in order",
+    "cue": "Clean the filter, run the diesel model, check it, then run the electric model with a clean filter.",
+    "why": "A fair comparison starts with a clean filter each time. Running the diesel model and checking the filter shows what its exhaust leaves behind. Then a fresh filter and the electric model for the same time shows the difference, with the kind of power as the only change.",
+    "oon": "Out of order. Start with a clean filter on the exhaust tube.",
+    "items": [
+      ["ord-clean", "fit a clean filter on the exhaust tube"],
+      ["ord-diesel", "run the diesel model truck"],
+      ["ord-check", "check the filter for dark specks"],
+      ["ord-electric", "fit a fresh filter and run the electric model"]
+    ]
+  },
+  "turn": {
+    "title": "Set the run timer and leave it",
+    "cue": "Turn the timer dial to the teacher's setting for both runs.",
+    "why": "Both models must run for the same time, or the comparison is not fair. A longer run would leave more specks on the filter no matter what. Setting the timer once for both runs keeps the time the same, so only the kind of power changes.",
+    "key": "timer-dial",
+    "label": "Run timer",
+    "dial": "TIME"
+  },
+  "gauge": {
+    "title": "Read the specks on the filter",
+    "cue": "Commit when the marker matches the filter's colour on the grey scale.",
+    "why": "Matching the filter against a grey scale turns what you see into a reading you can compare. A dark filter means more tiny particles, and a clean one means fewer. Scientists who watch air near ports use instruments that do the same job much more precisely.",
+    "key": "speck-meter",
+    "label": "Filter reading",
+    "meter": "SPECKS",
+    "miss": "Not matched yet. Slide the marker to the grey that looks like the filter."
+  },
+  "hold": {
+    "title": "Hold the filter tube steady",
+    "cue": "Hold the filter tube over the model's exhaust until the timer ends.",
+    "why": "If the tube slips, some exhaust escapes past the filter and the reading is too low. Holding it steady catches everything the model gives off. Careful collecting is what makes a comparison honest, for a class model and for real air monitoring.",
+    "brk": "The tube slipped off the exhaust. Hold it steady again until the timer ends.",
+    "key": "tube-hold",
+    "label": "Hold the filter tube"
+  },
+  "drag": {
+    "title": "Park the electric tractor at the charger",
+    "cue": "Drag the model yard tractor to the charging bay on the model yard.",
+    "why": "Electric machines recharge between jobs in a charging yard. Parking in the marked bay puts the machine where trained crew can connect it safely. Planning where machines charge is a big part of switching a port to electric equipment.",
+    "key": "tractor",
+    "label": "Model yard tractor",
+    "spot": "charge-bay",
+    "spotLabel": "The charging bay",
+    "miss": "Not in the charging bay yet. Park it in the marked bay."
+  },
+  "find2": {
+    "title": "Spot the port's zero-emission equipment",
+    "cue": "Look across the terminal and mark each part of the clean equipment.",
+    "why": "The Port of Oakland says its Clean Ports award pays for electric and hydrogen cargo handling equipment, drayage trucks, charging infrastructure and a battery energy storage system. Seeing each kind in the scene helps you picture what a zero-emission port looks like. A battery energy storage system is a set of large batteries that hold electricity until it is needed.",
+    "items": [
+      ["ev-truck", "an electric drayage truck", "It carries boxes with no exhaust."],
+      ["charger", "a row of chargers", "Machines refill with electricity here."],
+      ["battery", "the battery storage building", "Large batteries hold electricity."]
+    ],
+    "decoy": ["flag", "the port's flag", "It shows the wind, but it is not equipment."]
+  },
+  "select2": {
+    "title": "Say what your filters showed",
+    "cue": "Choose the sentence that says what the two runs showed.",
+    "why": "Both models ran for the same time with clean filters. The diesel filter came out darker, and the electric filter stayed clean. A good answer says electric machines make no exhaust where they run, and it does not claim more than the two filters showed.",
+    "key": "result-card",
+    "label": "State the result",
+    "face": "WHICH WAS\nCLEANER?"
+  },
+  "track": {
+    "title": "Follow the breeze from the port",
+    "cue": "Keep the marker on the smoke puff as the breeze carries it inland.",
+    "why": "Exhaust does not stay where it is made. The breeze carries it over fences and streets to homes and schools. Following the puff shows why cleaner machines at the port help people who live nearby, not only the people who work there.",
+    "brk": "The marker lost the puff. Find it again and follow it with the breeze.",
+    "key": "puff-track",
+    "label": "Puff followed",
+    "meter": "BREEZE"
+  },
+  "record": {
+    "title": "Record the port's plan in your own words",
+    "cue": "Write what the Port of Oakland says the award is for and what it expects.",
+    "why": "The Port of Oakland says the Clean Ports Program awarded it three hundred twenty-two million dollars for six hundred sixty-three pieces of zero-emission equipment, and expects a cut of twenty-four thousand tons of greenhouse gas a year and a significant decrease in particulate matter. Writing it in your own words, with the source named, is how a careful reporter works.",
+    "key": "plan-log",
+    "label": "Port plan record",
+    "done": "Plan recorded"
+  },
+  "share": {
+    "title": "Share one reason clean air matters",
+    "cue": "Tell another group one reason cleaner air near a port helps people.",
+    "why": "Families, students and workers all breathe the air near a port. Sharing reasons helps the class see how one change at the port reaches many people. Neighbours who live near ports often ask for cleaner air for the same reasons.",
+    "key": "share-board",
+    "label": "Share a reason",
+    "done": "Reason shared"
+  },
+  "checkin": {
+    "title": "Check in before leaving the walkway",
+    "cue": "Why do electric trucks and cranes help the air? Who breathes that air?",
+    "why": "The crew talks over each visit before the class leaves the walkway. Each learner says why electric machines help the air and names who breathes it. If anyone thinks exhaust is only a smell, the group sorts it out now.",
+    "label": "End-of-visit check-in"
+  },
+  "interrupts": [
+    { "id": "a-quiet-tractor-rolls-past", "kind": "Quiet machine", "key": "look-both", "label": "Stop and look both ways", "alert": "An electric yard tractor rolls past the walkway almost without a sound.", "cue": "Stop, look both ways and wait for the crew lead's signal.", "why": "Electric machines are quiet, so you cannot rely on hearing them. Stopping and looking both ways is the habit that keeps everyone safe. Crews at electric terminals practise the same thing every shift.", "miss": "The class kept walking without looking, and the crew lead had to stop everyone at the crossing.", "wrong": "That relies on hearing the machine. Stop and look both ways. Choose the response that deals with it now.", "done": "Class stopped and looking, the tractor passed. The lesson carries on." },
+    { "id": "the-crew-lead-asks-who-trains-the-crews", "kind": "Crew question", "key": "name-training", "label": "Say who helps train crews for the new equipment", "alert": "The crew lead asks who helps workers learn the new equipment.", "cue": "Say the Port of Oakland names the Pacific Maritime Association for skills and safety training.", "why": "The Port of Oakland says it partners with the Pacific Maritime Association for skills and safety training on the zero-emission equipment. New machines need crews who know them well. Training is part of every change at a port.", "miss": "You could not say who helps train the crews, and the crew lead had to explain before the class could go on.", "wrong": "That does not name the group the Port says trains the crews. Choose the response that deals with it now.", "done": "Crew trainers named. The lesson carries on." }
+  ],
+  "crew": ["Science teacher", "Classmate", "Equipment crew lead", "Yard tractor driver"],
+  "guide": { "start": "Same time, clean filter each run.", "after": "No exhaust where it runs.", "hazard": "Stop. Behind the yellow line." },
+  "lateRecord": "The port plan record is written after both filter runs — nothing to record yet.",
+  "lateCheckin": "The check-in comes at the very end of the visit.",
+  "scene": "deck",
+  "order": "c"
+}

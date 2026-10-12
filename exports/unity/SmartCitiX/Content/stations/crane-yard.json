@@ -1,0 +1,415 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "rigging-command",
+    "name": "Rigging Command",
+    "note": "Set, verified against the chart and landed with the swing radius clear"
+  },
+  "category": "Construction & Structural Trades",
+  "certification": "IUOE — NCCCO Mobile Crane Operator certified",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ASME",
+        "citedAs": "ASME B30.26",
+        "id": "asme-b30-26",
+        "title": "ASME B30.26 — Rigging hardware"
+      },
+      {
+        "body": "ASME",
+        "citedAs": "ASME B30.5",
+        "id": "asme-b30-5",
+        "title": "ASME B30.5 — Mobile and locomotive cranes"
+      },
+      {
+        "body": "ASME",
+        "citedAs": "ASME B30.9",
+        "id": "asme-b30-9",
+        "title": "ASME B30.9 — Slings"
+      },
+      {
+        "body": "union",
+        "citedAs": "IUOE",
+        "id": "iuoe-training",
+        "title": "IUOE local training funds and the IUOE National Training Fund — operating and stationary engineer apprenticeship"
+      },
+      {
+        "body": "NCCCO",
+        "citedAs": "NCCCO",
+        "id": "nccco-certification",
+        "title": "NCCCO mobile crane, tower crane and rigger/signalperson certification"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926",
+        "id": "osha-1926",
+        "title": "29 CFR 1926 — Safety and health regulations for construction"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Construction",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "solid-set",
+        "name": "Solid Set",
+        "note": "Level the outriggers and clear the chart before every pick"
+      },
+      {
+        "id": "swing-clear",
+        "name": "Swing Clear",
+        "note": "Never stand in the load path or the swing radius"
+      },
+      {
+        "id": "rigging-precise",
+        "name": "Rigging Precise",
+        "note": "Hold every gauge reading near band centre"
+      },
+      {
+        "id": "zone-set",
+        "name": "Zone Set Clean",
+        "note": "Teach the anti-collision boundary in the correct order, first try"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "quick-pick",
+        "name": "Quick Pick",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "clean-lift",
+        "name": "Clean Lift",
+        "note": "Clean run, no corrections"
+      },
+      {
+        "id": "rig-streak",
+        "name": "Rig Streak",
+        "note": "Nine correct actions in a row"
+      }
+    ],
+    "currency": "RIG",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Yard Hand",
+      "Rigger",
+      "Signal Person",
+      "Load Chart Certified",
+      "Rigging Command"
+    ],
+    "system": "Rigging Command"
+  },
+  "hazards": {
+    "chart-exceeded": "That pick is logged past the chart's rated capacity for this radius and boom angle. A mobile crane's chart already has its safety factor built in, so the plate is the limit and not a target: cranes tip or fail structurally at the edge of the chart, not with a comfortable margin of warning first.",
+    "kinked-sling": "That sling has a visible kink in its body. A kink is a stress concentration the sling was never rated for, and ASME B30.9 lists it as a remove-from-service condition precisely because the sling lets go at the kink well under its tag capacity.",
+    "swing-radius-stand": "You are standing inside the crane's swing radius while it is rigged for a pick. The counterweight sweeps that space at walking pace with no warning a person on foot can react to, which is why OSHA's cranes rule at 29 CFR 1926 subpart CC makes barriering the swing radius the employer's job rather than the pedestrian's.",
+    "two-block-risk": "You are hoisting past the anti-two-block limit. Running the hook block into the boom tip parts the hoist line or buckles the tip section, and the load falls the moment either one lets go — which is why ANSI/ASME B30.5 and the OSHA rule both put an anti-two-block device on the required list rather than the optional one."
+  },
+  "id": "crane-yard",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "rigging-select",
+      "alert": "Somebody has cut through the swing radius to save walking round. They are under the boom.",
+      "cue": "Stop. Nobody crosses that line while the hook is rigged.",
+      "delay": 4,
+      "id": "under-the-load",
+      "kind": "Swing radius",
+      "missNote": "You carried on rigging with a person inside the swing radius. Counterweight crush injuries are almost always somebody taking a short cut past a barrier nobody was watching, and they are almost always fatal.",
+      "seconds": 11,
+      "target": "swing-radius-stand",
+      "why": "The swing radius is barriered because a slewing counterweight does not stop and the person inside it cannot hear it coming. The barrier is the control; it only works if somebody enforces it.",
+      "wrongNote": "The person in the radius is the hazard. The rigging can wait the ten seconds it takes to get them out."
+    },
+    {
+      "after": "hook-load",
+      "alert": "The level bubble has drifted. One outrigger pad is settling into soft ground with the load on the hook.",
+      "cue": "Read the level before that load goes anywhere.",
+      "delay": 5,
+      "id": "outrigger-sinking",
+      "kind": "Ground failure",
+      "missNote": "You slewed a load on a crane that was going out of level. Capacity fell below the load while it was in the air and the first warning anybody got was the machine starting to tip.",
+      "seconds": 14,
+      "target": "level-bubble",
+      "why": "A crane out of level loses capacity fast — a couple of degrees is a double-digit percentage off the chart, and the chart was already the limit. Ground under a pad settles hours after it was checked.",
+      "wrongNote": "The level is what changed. Everything on this lift is now wrong by whatever that bubble says."
+    }
+  ],
+  "lateNotes": {
+    "load-chart": "The chart gets checked against this radius and boom angle before rigging goes near the load, not as a formality once the pick is already hooked up and swinging.",
+    "tag-line-crane": "The tag line goes on the load once it is already hooked and lifted clear, guiding it rather than fighting its swing from the ground."
+  },
+  "name": "Crane Yard",
+  "parSeconds": 275,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "rigging-lifting",
+    "situational-awareness"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": null,
+    "hits": [
+      "chart-exceeded",
+      "crane-log",
+      "hook-block",
+      "kinked-sling",
+      "level-bubble",
+      "lift-plan",
+      "load-chart",
+      "load-socket",
+      "outrigger-front",
+      "outrigger-rear",
+      "rated-sling",
+      "shackle",
+      "signal-person",
+      "sling-angle-check",
+      "suspended-load",
+      "swing-radius-stand",
+      "tag-line-crane",
+      "two-block-risk",
+      "zone-pt-a",
+      "zone-pt-b",
+      "zone-pt-c",
+      "zone-save-btn",
+      "zone-verify-btn"
+    ],
+    "meshes": 121
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track"
+  ],
+  "steps": [
+    {
+      "cue": "Confirm the load weight, working radius, boom angle and ground conditions.",
+      "id": "pre-lift",
+      "kind": "select",
+      "prompt": "Confirm the load weight, working radius, boom angle and ground conditions.",
+      "target": "lift-plan",
+      "title": "Read the lift plan",
+      "why": "Every control that follows is sized to this specific pick, and OSHA's cranes rule at 29 CFR 1926 subpart CC puts the plan on the crew before the machine is set, not on the office afterwards. A lift plan read once the outriggers are already down is a plan you are checking your own work against."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Extend the front and rear outriggers onto their pads.",
+      "id": "outrigger-setup",
+      "itemNames": {
+        "outrigger-front": "front outriggers",
+        "outrigger-rear": "rear outriggers"
+      },
+      "kind": "sequence",
+      "prompt": "Extend the front and rear outriggers onto their pads.",
+      "targets": [
+        "outrigger-front",
+        "outrigger-rear"
+      ],
+      "title": "Extend and set the outriggers",
+      "why": "Rated capacity is published for beams fully extended onto adequate blocking. Retract them part way and the tipping axis moves in toward the boom, so ASME B30.5 treats that as a different chart entirely — one most cabs do not carry. The outriggers are what turn a number on paper into something this ground can hold."
+    },
+    {
+      "cue": "Read the level bubble and commit only when it is centred.",
+      "gauge": {
+        "green": [
+          0.46,
+          0.58
+        ],
+        "label": "OUTRIGGER LEVEL",
+        "missNote": "Not level. Adjust the outrigger jacks before anything gets rigged to the hook.",
+        "speed": 0.65
+      },
+      "id": "level-check",
+      "kind": "gauge",
+      "prompt": "Read the level bubble and commit only when it is centred.",
+      "target": "level-bubble",
+      "title": "Check the crane is level",
+      "why": "A crane that is off level derates in the direction of the lean without saying so. Manufacturers publish their charts for a machine level within about one percent of grade, and a long boom leaning three degrees can shed a double-digit percentage of its rating — this is where you prove it rather than assume it."
+    },
+    {
+      "cue": "Walk the boom to the planned radius and commit once the chart shows capacity in hand.",
+      "gauge": {
+        "green": [
+          0.55,
+          0.85
+        ],
+        "label": "CHART CAPACITY MARGIN AT RADIUS",
+        "missNote": "That radius eats too much of the chart's rated capacity for this load. Walk the boom in or reduce the radius before rigging.",
+        "speed": 0.55
+      },
+      "id": "load-chart",
+      "kind": "gauge",
+      "prompt": "Walk the boom to the planned radius and commit once the chart shows capacity in hand.",
+      "target": "load-chart",
+      "title": "Verify the load chart for this pick",
+      "why": "The chart is read at the actual radius and boom angle for this pick, not the radius from last week's job that felt about the same. Capacity falls away faster than radius grows, so walking the boom out a few feet can cost a fifth of the rating — and under 29 CFR 1926 subpart CC the chart, not the operator's feel for it, is the limit."
+    },
+    {
+      "cue": "Walk the boom to each corner of the property line next door and mark it, in order, going around the corner.",
+      "id": "zone-teach",
+      "itemNames": {
+        "zone-pt-a": "boundary corner A",
+        "zone-pt-b": "boundary corner B",
+        "zone-pt-c": "boundary corner C"
+      },
+      "itemNotes": {
+        "zone-pt-a": "The near corner, closest to the crane's set position.",
+        "zone-pt-b": "The mid corner, where the property line turns.",
+        "zone-pt-c": "The far corner, at the limit of any planned swing."
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "That corner comes later walking the line. Near corner, then the turn, then the far corner — the system connects them in the order you taught them, not the order that looks obvious from the cab.",
+      "prompt": "Walk the boom to each corner of the property line next door and mark it, in order, going around the corner.",
+      "targets": [
+        "zone-pt-a",
+        "zone-pt-b",
+        "zone-pt-c"
+      ],
+      "title": "Teach the anti-collision boundary",
+      "why": "The RCI's anti-collision system only knows about a boundary you actually taught it, and it joins the points in the order it received them. Teach the corners out of order and it draws the line through the wrong side of the property — the boom then stops where nothing is and swings freely through the place you thought was fenced."
+    },
+    {
+      "cue": "Commit the taught boundary to the crane's rated capacity indicator as a no-swing zone.",
+      "id": "zone-save",
+      "kind": "select",
+      "prompt": "Commit the taught boundary to the crane's rated capacity indicator as a no-swing zone.",
+      "target": "zone-save-btn",
+      "title": "Save the boundary to the RCI",
+      "why": "A taught boundary sitting unsaved is just where the boom happened to point, and it is gone the next time the machine is keyed off. Saving it is what makes the rated capacity indicator actually cut the swing at that line, instead of leaving it to an operator remembering a property line at the end of a twelve-hour shift."
+    },
+    {
+      "cue": "Hold VERIFY while the RCI test-swings the boom and confirms it stops dead at the taught boundary.",
+      "holdBreakNote": "Released before the test-swing finished — hold it through the full check, that's the only way to catch a boundary point that was taught short or long.",
+      "id": "zone-verify",
+      "kind": "hold",
+      "prompt": "Hold VERIFY while the RCI test-swings the boom and confirms it stops dead at the taught boundary.",
+      "seconds": 2.5,
+      "target": "zone-verify-btn",
+      "title": "Test-swing and verify the cutout",
+      "why": "An operational aid is only a control once it has been proved to act, which is why ASME B30.5 has you function-test limiting devices rather than assume them. Verifying a brand-new zone at slow test speed means the first time it stops the boom is a test, not a pick with a load hanging off the hook."
+    },
+    {
+      "cue": "Choose the sling rated for this load from the rigging rack, not the damaged one beside it.",
+      "id": "rigging-select",
+      "kind": "select",
+      "prompt": "Choose the sling rated for this load from the rigging rack, not the damaged one beside it.",
+      "target": "rated-sling",
+      "title": "Select the correctly rated sling",
+      "why": "A sling's tag capacity assumes it is undamaged. ASME B30.9 requires an inspection before every use and lists kinks, broken stitching, heat damage and a missing tag as remove-from-service conditions — the rack always has more than one option, and the rated, sound one is the only correct choice."
+    },
+    {
+      "cue": "Check the shackle's rated capacity stamp and pin condition before rigging it.",
+      "id": "inspect-shackle",
+      "kind": "select",
+      "prompt": "Check the shackle's rated capacity stamp and pin condition before rigging it.",
+      "target": "shackle",
+      "title": "Inspect the shackle",
+      "why": "A shackle with a worn or bent pin can walk loose under a cyclical load, and ASME B30.26 puts the removal criterion at roughly a tenth of the original diameter worn off the pin or the bow. The stamp tells you what it was rated for; the inspection tells you whether it still is."
+    },
+    {
+      "cue": "Set the angle finder against a sling leg and commit once the reading is inside the rated range.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.74
+        ],
+        "label": "SLING LEG ANGLE FROM HORIZONTAL",
+        "missNote": "Outside the rated range. Below 45 degrees each leg is carrying more than seven tenths of the whole load — shorten the spread or take longer legs before this comes off the ground.",
+        "speed": 0.6
+      },
+      "id": "sling-angle",
+      "kind": "gauge",
+      "prompt": "Set the angle finder against a sling leg and commit once the reading is inside the rated range.",
+      "target": "sling-angle-check",
+      "title": "Measure the sling leg angle",
+      "why": "Leg tension is the share of the load divided by the sine of the angle from horizontal. Two legs at 60 degrees each carry about 58 percent of the load; at 45 they carry 71 percent, and at 30 each leg is carrying the whole load on its own. ASME B30.9 is why the angle gets measured, not eyeballed."
+    },
+    {
+      "cue": "Agree hand signals and radio call-outs with the dedicated signal person.",
+      "id": "signal-protocol",
+      "kind": "select",
+      "prompt": "Agree hand signals and radio call-outs with the dedicated signal person.",
+      "target": "signal-person",
+      "title": "Confirm the signal person protocol",
+      "why": "One qualified signal person directs the lift and the operator moves on that person's signal alone — with one exception written into 29 CFR 1926 subpart CC: a stop signal from anybody on the site has to be obeyed. Everyone on the pick needs to know who is calling it before the load leaves the ground."
+    },
+    {
+      "cue": "Attach the sling to the hook block and confirm the load is centred underneath it.",
+      "id": "hook-load",
+      "kind": "select",
+      "prompt": "Attach the sling to the hook block and confirm the load is centred underneath it.",
+      "target": "hook-block",
+      "title": "Hook the rigging to the load",
+      "why": "The hook has to come over the load's centre of gravity before anything is taken up. A load hooked off centre swings the instant it clears the ground and puts a side pull into a boom rated only for a vertical one — and that is the moment you have least control over either."
+    },
+    {
+      "cue": "Keep a steady tension on the tag line as the load comes up and swings toward the landing zone.",
+      "holdBreakNote": "Tag line released mid-lift. An unguided load keeps whatever swing it already had.",
+      "id": "tag-line-lift",
+      "kind": "track",
+      "prompt": "Keep a steady tension on the tag line as the load comes up and swings toward the landing zone.",
+      "seconds": 6,
+      "target": "tag-line-crane",
+      "title": "Guide the lift with the tag line",
+      "track": {
+        "drift": 0.11,
+        "fall": 0.5,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "TAG LINE TENSION",
+        "rise": 0.6,
+        "start": 0.12
+      },
+      "why": "A tag line steers a suspended load without anybody putting a hand on it, and it only works at a steady light tension. Haul on it and you drag the load off plumb into a side load the boom is not rated for; let it go slack and the load keeps whatever swing it already had until something stops it."
+    },
+    {
+      "cue": "Carry the load over the landing zone and lower it into place.",
+      "drag": {
+        "missNote": "Not over the landing zone — line the load up with the marked pad before setting it down.",
+        "radius": 0.5,
+        "to": "load-socket"
+      },
+      "id": "set-down",
+      "kind": "drag",
+      "prompt": "Carry the load over the landing zone and lower it into place.",
+      "target": "suspended-load",
+      "title": "Make a controlled set-down",
+      "why": "A controlled set-down means the load is sitting flat and taking its own weight before any rigging comes off. Lower it fast and the slings go slack under something that is still rocking, and the rigger who steps in to unhook is doing it under a load that can still shift onto them."
+    },
+    {
+      "cue": "Record the pick, confirm the area is clear, then boom down.",
+      "id": "log-lift",
+      "kind": "select",
+      "prompt": "Record the pick, confirm the area is clear, then boom down.",
+      "target": "crane-log",
+      "title": "Close out the lift log",
+      "why": "The lift is not finished when the load lands. What was picked, at what radius, and anything found on the pre-use inspection are the records 29 CFR 1926 subpart CC expects to exist, and they are what the next crew and the next annual inspection work from. Rigging recovered, area confirmed clear, then logged."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Mobile crane pick: outrigger setup, load chart verification, anti-collision zone programming and a tag-line controlled lift",
+  "title": "SmartCiti.X~ Crane Yard VR",
+  "trade": "Mobile crane operator / rigger",
+  "underwater": null,
+  "weather": "wind"
+}

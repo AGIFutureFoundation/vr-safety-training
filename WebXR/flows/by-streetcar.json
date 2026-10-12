@@ -1,0 +1,101 @@
+{
+  "id": "by-streetcar",
+  "title": "Parish Lesson — A Streetcar Timetable",
+  "version": 1,
+  "start": "brief",
+  "meta": {
+    "audience": "A learner or a small group at the Streetcar Barn and Shops, upper primary.",
+    "why": "One idea taught at a real parish site, checked with one question, then used straight away in a two-minute game in the parish.",
+    "hostNotes": "The SmartCiti.X side of the flow contract only (docs/flowhub.md, docs/k12.md): nothing here states how Cognition.X or any other host stores or presents it. The apply node is external: the parishes app or a GRIOT character (by-flow-agent.js) runs the step and posts the resume.",
+    "lowConnectivity": "Works offline once the page has loaded; the run waits in this browser's own storage.",
+    "bayou": {
+      "lesson": "by-lesson-streetcar",
+      "parish": "orleans",
+      "site": "streetcar-barn",
+      "band": "upper primary",
+      "guide": "gr-np-streetcar-mechanic"
+    }
+  },
+  "nodes": [
+    {
+      "id": "brief",
+      "kind": "brief",
+      "app": "smartcity",
+      "ref": "k12-by-a-streetcar-timetable",
+      "title": "Pre-brief — A Streetcar Timetable",
+      "why": "The station's own study card, read first, so the learner knows the one idea the lesson is for."
+    },
+    {
+      "id": "lesson",
+      "kind": "station",
+      "app": "smartcity",
+      "ref": "k12-by-a-streetcar-timetable",
+      "title": "A Streetcar Timetable",
+      "why": "The K-12 station itself, launched from its parish site; a run that does not pass goes back to the brief."
+    },
+    {
+      "id": "check",
+      "kind": "checkin",
+      "app": "smartcity",
+      "title": "Check question — A Streetcar Timetable",
+      "why": "One question on the idea just taught, answered before the game; a wrong answer shows the why and asks again. Never scored against anyone.",
+      "params": {
+        "check": {
+          "q": "How do you find the journey time?",
+          "options": [
+            "Arrival time take away departure time",
+            "Count the stops"
+          ],
+          "answer": 0,
+          "why": "Stops are not evenly spaced, so subtract the two times."
+        }
+      }
+    },
+    {
+      "id": "apply",
+      "kind": "external",
+      "app": "host",
+      "ref": "by-apply-streetcar-run",
+      "title": "Apply it in the parish — Streetcar Timetable Run",
+      "why": "A two-minute game at the parish site that uses the idea just taught; the passport records the lesson and the game.",
+      "params": {
+        "parish": "orleans",
+        "site": "streetcar-barn",
+        "minutes": 2,
+        "fallback": null
+      }
+    },
+    {
+      "id": "close",
+      "kind": "checkin",
+      "app": "smartcity",
+      "title": "End-of-lesson check-in",
+      "why": "The lesson closes on the learner's own answer about how it went, not on a score."
+    }
+  ],
+  "edges": [
+    {
+      "from": "brief",
+      "to": "lesson"
+    },
+    {
+      "from": "lesson",
+      "to": "check",
+      "when": {
+        "passed": true
+      }
+    },
+    {
+      "from": "lesson",
+      "to": "brief"
+    },
+    {
+      "from": "check",
+      "to": "apply"
+    },
+    {
+      "from": "apply",
+      "to": "close"
+    }
+  ]
+}

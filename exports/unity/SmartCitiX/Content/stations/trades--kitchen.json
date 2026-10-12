@@ -1,0 +1,300 @@
+{
+  "app": "trades",
+  "badge": {
+    "id": "clean-line",
+    "name": "Clean Line",
+    "note": "Full service with no cross-contamination and a controlled flare-up"
+  },
+  "category": "Trade Skills Simulator",
+  "certification": "ANSI-accredited food handler card and ServSafe Food Protection Manager (FDA Food Code: hand hygiene, cross-contamination, cook temperatures, three-compartment warewashing); NSF/ANSI 2 food equipment and NSF/ANSI 7 refrigerated storage; NFPA 96 ventilation control and fire protection of commercial cooking operations; OSHA 29 CFR 1910.157 portable extinguishers (Class K) and 1910.22 walking-working surfaces",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "FDA",
+        "citedAs": "FDA Food Code",
+        "id": "fda-food-code",
+        "title": "FDA Food Code — the model code for retail food establishments"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 96",
+        "id": "nfpa-96",
+        "title": "NFPA 96 — Ventilation Control and Fire Protection of Commercial Cooking Operations"
+      },
+      {
+        "body": "NSF",
+        "citedAs": "NSF/ANSI 2",
+        "id": "nsf-ansi-2",
+        "title": "NSF/ANSI 2 — Food equipment"
+      },
+      {
+        "body": "NSF",
+        "citedAs": "NSF/ANSI 7",
+        "id": "nsf-ansi-7",
+        "title": "NSF/ANSI 7 — Commercial refrigerators and freezers"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.157",
+        "id": "osha-1910-157",
+        "title": "29 CFR 1910.157 — Portable fire extinguishers"
+      },
+      {
+        "body": "ServSafe",
+        "citedAs": "ServSafe",
+        "id": "servsafe-certification",
+        "title": "ServSafe Food Protection Manager and ServSafe Alcohol certification (National Restaurant Association)"
+      }
+    ]
+  },
+  "district": null,
+  "domain": null,
+  "flat": false,
+  "game": null,
+  "hazards": {
+    "extinguisher-a": "That is a water-based Class A extinguisher. On burning oil it does exactly what the water jug does. The kitchen unit is the wet chemical Class K by the range, which saponifies the oil instead of splashing it.",
+    "green-board": "That is the produce board. Raw poultry on a board that goes back to salad is textbook cross-contamination — the pathogen does not care that you rinsed it.",
+    "salad-station": "Those are ready-to-eat greens and you still have raw chicken on your hands. Ready-to-eat food gets no further kill step, so whatever you carry across from the raw side reaches the customer alive.",
+    "sink-knife": "There is a blade under the water in that soak tub. Knives never go into cloudy water — the next person plunging a hand in to fish out a whisk finds the edge before they ever see it.",
+    "water-jug": "Never water on a grease fire. Cooking oil burns far above the boiling point of water, so a jug of it flashes to steam underneath the surface and throws burning oil across the line. Cut the gas and smother it."
+  },
+  "id": "kitchen",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "cut",
+      "alert": "A porter has just tipped a tray of fryer oil across the walkway behind you and carried straight on to the walk-in.",
+      "cue": "That slick is between you and the range, and you are about to walk it carrying hot product.",
+      "delay": 4,
+      "id": "oil-spill",
+      "kind": "Floor hazard",
+      "missNote": "The oil stayed where it was. You crossed it carrying a sauté pan and the second cook crossed it behind you; a film of fryer oil on quarry tile has about the grip of wet ice, and the fall that follows normally puts whatever was in your hands onto whoever tried to catch you.",
+      "seconds": 13,
+      "target": "spill-kit",
+      "why": "Slips and falls are the largest single source of lost-time injury in commercial kitchens, and OSHA 1910.22 puts the duty on keeping the walking surface clean and dry rather than on telling people to watch their step. The spill gets coned and mopped before anybody crosses it — starting with you, thirty seconds from now, with a pan in both hands.",
+      "wrongNote": "It is the wet-floor kit by the pass. Cone the slick and mop it before anyone else takes that route across the line."
+    },
+    {
+      "after": "temp",
+      "alert": "The canopy has gone quiet. The hood lamp is red and smoke off the flat top is rolling out over the pass instead of going up the duct.",
+      "cue": "Nothing cooks under a dead hood. Find the control, not the pan.",
+      "delay": 3,
+      "id": "hood-down",
+      "kind": "Ventilation failure",
+      "missNote": "You finished the cook under a dead canopy. Grease-laden vapour that should have gone up the duct condensed across the ceiling and the light fittings over the pass, and the flare-up that arrives one step from now had nothing pulling it away from you.",
+      "seconds": 12,
+      "target": "hood-switch",
+      "why": "NFPA 96 requires the exhaust system to be running whenever the cooking appliances under it are operating. The canopy is not only there for smoke: it is the capture path the wet chemical system discharges into, so with the fan stopped a flare-up spreads sideways along the ceiling instead of being drawn up and away from the line.",
+      "wrongNote": "It is the hood control hanging off the end of the canopy. Until that fan is running again, nothing on this line should be lit."
+    }
+  ],
+  "lateNotes": {
+    "chef-knife": "Board and sanitiser first. A knife in your hand over a surface that has not had its sanitiser contact time is a shortcut you cannot take back.",
+    "hot-well": "Hot holding is for cooked product that has already passed its temperature check. Putting undercooked product in a well only holds it in the danger zone for longer.",
+    "raw-tray": "Nothing goes near the heat before it is portioned — uneven pieces reach different internal temperatures, and the probe reading you take will only be true for the piece you probed."
+  },
+  "name": "kitchen",
+  "parSeconds": 235,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "bartending-course",
+    "culinary-kitchen"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": null,
+    "hits": [
+      "blue-board",
+      "burner-knob",
+      "chef-knife",
+      "cut-board",
+      "extinguisher-a",
+      "flat-top",
+      "green-board",
+      "hand-sink",
+      "hood-switch",
+      "hot-well",
+      "pan-lid",
+      "probe",
+      "raw-tray",
+      "red-board",
+      "salad-station",
+      "sani-spray",
+      "sink-knife",
+      "sink-rinse",
+      "sink-sani",
+      "sink-wash",
+      "spill-kit",
+      "water-jug"
+    ],
+    "meshes": 387
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Hold at the hand sink and scrub for the full twenty seconds.",
+      "holdBreakNote": "You stopped short. Restart the full twenty seconds — a partial wash moves contamination around your hands instead of removing it.",
+      "id": "handwash",
+      "kind": "hold",
+      "prompt": "Hold at the hand sink and scrub for the full twenty seconds.",
+      "seconds": 20,
+      "target": "hand-sink",
+      "title": "Wash hands — full 20 seconds",
+      "why": "The twenty seconds is friction time, not rinse time: soap lifts the soil and the scrubbing physically carries organisms off the skin and down the drain. Norovirus, which causes more restaurant outbreaks than every other pathogen combined, is untouched by hand gel and survives a three-second rinse intact."
+    },
+    {
+      "cue": "Pull the correct colour-coded board for raw chicken.",
+      "id": "board",
+      "kind": "select",
+      "prompt": "Pull the correct colour-coded board for raw chicken.",
+      "target": "red-board",
+      "title": "Take the raw-poultry board",
+      "why": "Red is raw meat and poultry. Colour coding exists so the decision stays visible from across the line under service pressure rather than remembered — and so the board that carried salmonella never turns up under a salad, where nothing downstream will ever kill it again."
+    },
+    {
+      "cue": "Spray the board and hold while the sanitiser stands for its contact time.",
+      "holdBreakNote": "Wiped off early. The surface went dry before the sanitiser reached its contact time, so that board is clean and not sanitised — spray it again and let it stand.",
+      "id": "sanitize-board",
+      "kind": "hold",
+      "prompt": "Spray the board and hold while the sanitiser stands for its contact time.",
+      "seconds": 8,
+      "target": "sani-spray",
+      "title": "Sanitise the board and let it stand",
+      "why": "Cleaning removes soil and sanitising reduces what survived it — two separate actions the Food Code treats separately. A sanitiser only earns its kill claim at label concentration for the full wet contact time, so spraying and immediately wiping it dry takes the chemical away before it has done anything at all."
+    },
+    {
+      "cue": "Take the chef knife off the magnetic strip.",
+      "id": "knife",
+      "kind": "select",
+      "prompt": "Take the chef knife off the magnetic strip.",
+      "target": "chef-knife",
+      "title": "Draw a knife from the rack",
+      "why": "Knives live on the rack or in your hand and nowhere else. Lacerations are the most common injury on a hot line and most of them land on the second person — whoever reached into a sink, under a towel or across a cluttered board for something else and found an edge nobody had told them was there."
+    },
+    {
+      "cue": "Slice to the target portion thickness and commit inside the band.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.56
+        ],
+        "label": "PORTION THICKNESS",
+        "missNote": "Off the spec portion. Reset your claw grip, guide the blade with your knuckles and cut again.",
+        "speed": 0.9
+      },
+      "id": "cut",
+      "kind": "gauge",
+      "prompt": "Slice to the target portion thickness and commit inside the band.",
+      "target": "cut-board",
+      "title": "Portion to an even thickness",
+      "why": "Even portions reach temperature together. Ragged thickness leaves the thin end dry and stringy while the thick end is still under 165 °F, and because you only ever probe one piece, the reading you write down is true for that piece and a guess for the rest of the tray."
+    },
+    {
+      "cue": "Pick up the tray of portioned chicken and set it down on the flat top.",
+      "drag": {
+        "missNote": "Not on the griddle — carry the tray right onto the flat top surface, not the rail beside it.",
+        "radius": 0.5,
+        "to": "flat-top"
+      },
+      "id": "cook",
+      "kind": "drag",
+      "prompt": "Pick up the tray of portioned chicken and set it down on the flat top.",
+      "target": "raw-tray",
+      "title": "Carry the portions to the flat top",
+      "why": "Product goes straight from board to heat. 41 °F to 135 °F is the temperature danger zone, and on raw poultry sitting in it the bacterial load can double roughly every twenty minutes — the tray parked on the bench while a burner comes up to heat is the delay that spends your margin before cooking has even started."
+    },
+    {
+      "cue": "Probe the thickest part and commit when the reading is safe for poultry.",
+      "gauge": {
+        "green": [
+          0.72,
+          0.86
+        ],
+        "label": "PROBE — INTERNAL TEMP",
+        "missNote": "Not there yet — or well past it. Poultry needs 165 °F at the thickest part; probe the centre, not the edge that cooked first.",
+        "speed": 0.6
+      },
+      "id": "temp",
+      "kind": "gauge",
+      "prompt": "Probe the thickest part and commit when the reading is safe for poultry.",
+      "target": "probe",
+      "title": "Probe the internal temperature",
+      "why": "Poultry is done at 165 °F in the thickest part, the point where the required lethality is reached essentially on contact. Colour, firmness and clear juices all turn well before that and all three of them lie, which is why the Food Code names a temperature and a calibrated thermometer rather than an appearance."
+    },
+    {
+      "cue": "The pan behind you has flared. Turn the burner valve all the way to OFF.",
+      "id": "kill-heat",
+      "kind": "turn",
+      "prompt": "The pan behind you has flared. Turn the burner valve all the way to OFF.",
+      "target": "burner-knob",
+      "title": "Cut the heat",
+      "turn": {
+        "axis": "z",
+        "label": "BURNER 2 — GAS VALVE",
+        "turns": 0.35
+      },
+      "why": "Fuel first. A burner still firing under a pan of burning oil feeds the flame faster than any lid can starve it, and it relights the instant the cover shifts. Take the valve all the way round to its stop — a gas cock left part way round is still passing gas into the fire."
+    },
+    {
+      "cue": "Cover the pan with the lid and leave it covered.",
+      "id": "smother",
+      "kind": "select",
+      "prompt": "Cover the pan with the lid and leave it covered.",
+      "target": "pan-lid",
+      "title": "Smother the flare-up",
+      "why": "A tight lid starves the fire of oxygen and keeps the burning oil inside the pan, which is the other half of the job. Leave it on until the pan is cool to the hand: oil still above its autoignition point relights on its own the second air reaches it, and it does that into the face of whoever lifted the lid to look."
+    },
+    {
+      "cue": "Transfer the cooked portions into the hot well.",
+      "id": "hot-hold",
+      "kind": "select",
+      "prompt": "Transfer the cooked portions into the hot well.",
+      "target": "hot-well",
+      "title": "Move to hot holding",
+      "why": "Hot holding is 135 °F or above, continuously, and it holds food rather than cooking it. Let the well drop below that and you have stopped killing and started incubating, with a four-hour discard clock running from the moment the product fell out of temperature and a bin at the end of it."
+    },
+    {
+      "cue": "Wash, rinse, then sanitise — the raw-poultry board goes through all three, in that order.",
+      "id": "warewash",
+      "itemNames": {
+        "sink-rinse": "rinse — clear water",
+        "sink-sani": "sanitise — final soak",
+        "sink-wash": "wash — detergent"
+      },
+      "itemNotes": {
+        "sink-rinse": "Clear water carries the detergent away. Detergent dragged into the third sink neutralises the sanitiser sitting in it.",
+        "sink-wash": "Detergent and friction take the fat and protein off. No sanitiser works through a film of chicken fat."
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Wrong compartment for this point in the sequence. Wash, rinse, sanitise — the order is the control, and taking them out of order quietly cancels the compartment before it.",
+      "prompt": "Wash, rinse, then sanitise — the raw-poultry board goes through all three, in that order.",
+      "targets": [
+        "sink-wash",
+        "sink-rinse",
+        "sink-sani"
+      ],
+      "title": "Run the board through the three-compartment sink",
+      "why": "Three compartments in a fixed order, because each one undoes the last if you swap them: detergent carried into the sanitiser neutralises it, and a board rinsed after sanitising has had the sanitiser washed straight back off. This is the board that held raw chicken, and it is the last thing standing between that and tomorrow's prep."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Hand hygiene, cross-contamination control, cook temperature and a grease flare-up",
+  "title": "Hot Line",
+  "trade": "Commercial cook",
+  "underwater": null,
+  "weather": null
+}

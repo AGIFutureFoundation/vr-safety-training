@@ -1,0 +1,410 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "reported-not-shrugged",
+    "name": "Reported, Not Shrugged",
+    "note": "Every symptom the surfaced diver showed said to the supervisor at once, the chamber ready before it was needed"
+  },
+  "category": "Maritime & Ports",
+  "certification": "Pile Drivers apprenticeship under the Carpenters (UBC) International Training Fund; OSHA 29 CFR 1910 Subpart T — 29 CFR 1910.423 post-dive procedures (the diver's condition, instructions to report symptoms, the recompression chamber and the post-dive observation), 29 CFR 1910.430 decompression chambers and their equipment, 29 CFR 1910.410 dive team qualifications including first aid and CPR and 29 CFR 1910.440 the record of the dive and its decompression procedure assessment; ADCI consensus standards for chamber operations and the inside attendant; USCG 46 CFR 197 Subpart B where the chamber is aboard a vessel; the tables the supervisor holds carry every pressure, depth and time",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ADCI",
+        "citedAs": "ADCI",
+        "id": "adci-consensus-standards",
+        "title": "Association of Diving Contractors International — International Consensus Standards for Commercial Diving and Underwater Operations"
+      },
+      {
+        "body": "union",
+        "citedAs": "Pile Drivers",
+        "id": "carpenters-ictf",
+        "title": "United Brotherhood of Carpenters International Training Fund — carpenter, pile driver and millwright apprenticeship"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.410",
+        "id": "osha-1910-410",
+        "title": "29 CFR 1910.410 — Qualifications of the dive team (training, first aid and CPR, the designated person-in-charge)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.422",
+        "id": "osha-1910-422",
+        "title": "29 CFR 1910.422 — Procedures during the dive (water entry and exit, communications, decompression tables, power tools, termination of the dive)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.423",
+        "id": "osha-1910-423",
+        "title": "29 CFR 1910.423 — Post-dive procedures (the diver's condition, instructions to report symptoms, the recompression chamber and the record of dive)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.430",
+        "id": "osha-1910-430",
+        "title": "29 CFR 1910.430 — Diving equipment (air compressor systems and their intakes, breathing gas hoses, helmets and masks, decompression chambers, gauges and timekeeping)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.440",
+        "id": "osha-1910-440",
+        "title": "29 CFR 1910.440 — Recordkeeping for commercial diving (the dive record, decompression procedure assessments and their retention)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910 Subpart T",
+        "id": "osha-1910-subpart-t",
+        "title": "29 CFR 1910 Subpart T — Commercial diving operations (dive team qualifications, the safe practices manual, pre-dive, during-dive and post-dive procedures, equipment and the dive record)"
+      },
+      {
+        "body": "USCG",
+        "citedAs": "46 CFR 197 Subpart B",
+        "id": "uscg-46-cfr-197-subpart-b",
+        "title": "46 CFR Part 197 Subpart B — Commercial diving operations from vessels and facilities under Coast Guard jurisdiction"
+      }
+    ]
+  },
+  "district": "Maritime & Ports",
+  "domain": "Maritime & Ports",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "lock-clean",
+        "name": "Lock Clean",
+        "note": "The grit and the rag found before the chamber was needed"
+      },
+      {
+        "id": "in-the-band",
+        "name": "In The Band",
+        "note": "The analyser committed inside the operator's band first time"
+      },
+      {
+        "id": "nothing-in-pockets",
+        "name": "Nothing In Pockets",
+        "note": "No hazard reached for from the brief to the log"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-watch",
+        "name": "Clean Watch",
+        "note": "No corrections from the brief to the check-in"
+      },
+      {
+        "id": "steady-watch",
+        "name": "Steady Watch",
+        "note": "The attendant's watch kept in band the whole press"
+      },
+      {
+        "id": "logged-quick",
+        "name": "Logged Quick",
+        "note": "Chamber log written inside 80% of par"
+      }
+    ],
+    "currency": "LOCK CYCLES",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Tender",
+      "Chamber Tender",
+      "Attendant",
+      "Lead Attendant",
+      "Chamber Crew Certified"
+    ],
+    "system": "Inside Attendant"
+  },
+  "hazards": {
+    "let-diver-leave": "You waved the surfaced diver off toward the car park because he said he felt fine and wanted to get home. 29 CFR 1910.423 keeps the diver within reach of the chamber for the observation period the tables call for and has them told to report symptoms, and a diver who drives away is a diver whose first symptom arrives in traffic with no chamber near; he stays on the bench until the supervisor releases him.",
+    "lighter-in-pocket": "You went into the chamber with your lighter and your phone still in your pocket. A chamber under pressure with oxygen in it is a fire that needs only a spark, and a lighter's fuel, a phone's battery and a static crackle from the wrong fabric are all sparks; nothing goes in that the operator has not approved, and pockets are emptied into the bin at the door every time, not just the first time.",
+    "outer-door-open": "You went to open the medical lock's outer door while its inner door was still open to the chamber. The medical lock is a small chamber of its own and its two doors are never open together: with both open, the chamber's pressure is on the outer door and whoever is opening it. One door closed and checked before the other is touched, every pass, in both directions.",
+    "petroleum-grease": "You reached for the general-purpose grease tin to dress the door's seal. Petroleum grease in an oxygen-rich chamber is a fuel, and it sits on the one seal every pressurisation squeezes; only the oxygen-compatible lubricant the manufacturer names goes on any seal or fitting in the chamber, and it lives in its own marked tin at the panel."
+  },
+  "id": "cd-decompression-chamber-operations-and-post-dive",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "observation-hold",
+      "alert": "The surfaced diver on the bench is rubbing his right shoulder and says it's just sore from the ladder — 'don't make a thing of it.'",
+      "cue": "Tell the supervisor at once, exactly what you saw and what he said, and keep the diver on the bench.",
+      "delay": 2,
+      "id": "shoulder-shrug",
+      "kind": "Surfaced diver rubbing a shoulder and shrugging it off",
+      "missNote": "The diver rubbed the shoulder for ten minutes on the bench while the attendant took his word for it; by the time the supervisor noticed, the ache had moved to the elbow and the treatment started late.",
+      "seconds": 14,
+      "target": "supervisor-call",
+      "why": "A joint ache after a decompression dive is a symptom until the supervisor and the tables say otherwise, and it is the supervisor's call, not the diver's and not the attendant's. 29 CFR 1910.423 has the diver told to report symptoms because divers do not; the attendant reports it for them, word for word, and the diver stays where the chamber is. Making a thing of it is the job.",
+      "wrongNote": "The supervisor — tell them now, exactly what you saw and what he said, and keep him on the bench."
+    },
+    {
+      "after": "attendant-watch",
+      "alert": "The comms box has gone dead mid-press — the operator's voice is gone and the panel cannot hear you.",
+      "cue": "Use the agreed knock signal on the hull to tell the operator 'both all right, continue', and keep knocking the check every stage until the comms come back.",
+      "delay": 2,
+      "id": "comms-drop",
+      "kind": "Chamber comms dropped during the press",
+      "missNote": "The operator held the press with the comms dead and no knock from inside; the attendant waited for the voice to come back while the operator prepared to abort the treatment.",
+      "seconds": 14,
+      "target": "hull-knock",
+      "why": "When the comms fail the operator has two people under pressure and no word from either, and the only safe assumption is to stop the press until there is one. The knock code agreed at the comms check is that word: a signal on the hull the operator hears at the panel, answered back, so the treatment continues on the tables instead of stalling — and the attendant keeps the checks going until the voice returns.",
+      "wrongNote": "The hull — the knock code is the comms now. Signal 'both all right, continue' and keep the checks going."
+    }
+  ],
+  "lateNotes": {
+    "attendant-watch": "The watch inside is kept once the attendant is in with the diver on the supervisor's order.",
+    "chamber-log": "The log is written once the diver is on the tables and the lock has passed water.",
+    "observation-bench": "The observation begins once the chamber is checked and ready."
+  },
+  "name": "Decompression Chamber Operations & Post-Dive",
+  "parSeconds": 320,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "commercial-diving-and-scientific-scuba"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "attendant-bin",
+      "attendant-watch",
+      "bibs-valve",
+      "chamber-log",
+      "chamber-plan",
+      "comms-box",
+      "door-grit",
+      "hull-knock",
+      "inner-lock-door",
+      "inner-lock-tray",
+      "let-diver-leave",
+      "lighter-in-pocket",
+      "main-door",
+      "o2-analyser",
+      "observation-bench",
+      "oily-rag",
+      "outer-door-open",
+      "outer-lock-door",
+      "petroleum-grease",
+      "pocket-items",
+      "supervisor-call",
+      "symptom-card",
+      "team-board",
+      "water-bottle"
+    ],
+    "meshes": 196
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "At the operator's panel: the chamber ready before the first diver leaves surface, who operates and who attends, the tables the supervisor holds, the comms and knock signals, and the observation period after every dive.",
+      "id": "chamber-brief",
+      "kind": "select",
+      "prompt": "At the operator's panel: the chamber ready before the first diver leaves surface, who operates and who attends, the tables the supervisor holds, the comms and knock signals, and the observation period after every dive.",
+      "target": "chamber-plan",
+      "title": "Read the chamber's part of the dive plan with the operator",
+      "why": "29 CFR 1910.423 has a decompression chamber ready at the dive location for the dives that need one, and ready means checked, staffed and understood before anybody is in the water, not found wanting with a symptomatic diver on the bench. The attendant reads the plan with the operator so both know who does what when the supervisor says 'chamber' — the attendant's job is inside, the operator's is at the panel, and the tables stay in the supervisor's hands."
+    },
+    {
+      "cue": "Walk the chamber: door seals and seats, the inner and outer locks for anything left inside, the viewports, the BIBS masks and hoses, the fire suppression, the bench and the blankets — hands and eyes on each.",
+      "id": "chamber-checks",
+      "itemNames": {
+        "door-grit": "grit on the main door's seal seat",
+        "oily-rag": "oily rag left on the inner lock's bench"
+      },
+      "itemNotes": {
+        "door-grit": "Sand and a flake of paint sit on the seal seat of the main door where the last crew closed it in a hurry. Grit under a door seal is a leak the operator chases through the whole treatment.",
+        "oily-rag": "A rag dark with oil is folded on the inner lock's bench. In an oxygen-rich chamber that rag is fuel waiting for a spark, and it should never have crossed the door."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the chamber: door seals and seats, the inner and outer locks for anything left inside, the viewports, the BIBS masks and hoses, the fire suppression, the bench and the blankets — hands and eyes on each.",
+      "targets": [
+        "door-grit",
+        "oily-rag"
+      ],
+      "title": "Check the chamber inside and out with the operator",
+      "why": "The chamber is checked before the dive because when it is needed there is no time to clean a seal seat or hunt for what a previous crew left inside. 29 CFR 1910.430 has the chamber and its equipment kept in a condition to be used; the attendant checks the inside because the attendant is the one who will live in it for the treatment, and anything that burns or leaks in there is the attendant's problem first."
+    },
+    {
+      "cue": "Close and dog the medical lock's inner door, check it, then open the outer door to load the lock — never both doors open together.",
+      "id": "medical-lock",
+      "itemNames": {
+        "inner-lock-door": "medical lock's inner door closed and dogged",
+        "outer-lock-door": "medical lock's outer door opened for the pass"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order — close and dog the inner door first; the outer door opens only against a closed inner one.",
+      "prompt": "Close and dog the medical lock's inner door, check it, then open the outer door to load the lock — never both doors open together.",
+      "targets": [
+        "inner-lock-door",
+        "outer-lock-door"
+      ],
+      "title": "Work the medical lock: inner door closed, then outer door opened",
+      "why": "The medical lock passes water, food and medicine to the people inside without changing the chamber's pressure, and it does that only if its two doors are never open at once. The inner door is closed and checked first because it is the one that holds the chamber's pressure; then the outer door opens to the deck. The attendant rehearses the cycle on the checks because during a treatment it is worked from inside, by feel, on the operator's call."
+    },
+    {
+      "cue": "Speak from the panel to the inside and from the inside to the panel, then agree the knock signals on the hull for when the comms fail.",
+      "id": "comms-check",
+      "kind": "select",
+      "prompt": "Speak from the panel to the inside and from the inside to the panel, then agree the knock signals on the hull for when the comms fail.",
+      "target": "comms-box",
+      "title": "Prove the chamber comms both ways",
+      "why": "Inside the chamber the attendant is the operator's eyes and the diver's first aid, and the comms are the only way either reaches the other through steel; a comms box that works one way is a treatment run blind. Both directions are proven and the knock signals are agreed out loud, because 29 CFR 1910.422 has communications maintained and the knock code is what maintains them when the electronics do not."
+    },
+    {
+      "cue": "Open the built-in breathing system's supply valve at the operator's panel as the plan calls for and confirm a mask breathes inside.",
+      "id": "bibs-supply",
+      "kind": "turn",
+      "prompt": "Open the built-in breathing system's supply valve at the operator's panel as the plan calls for and confirm a mask breathes inside.",
+      "target": "bibs-valve",
+      "title": "Open the BIBS supply at the panel",
+      "turn": {
+        "label": "BIBS SUPPLY",
+        "turns": 1
+      },
+      "why": "The masks inside the chamber breathe from their own supply, set at the panel by the operator's plan, so the person on treatment breathes what the tables call for while the chamber's own atmosphere stays where the analyser wants it. The valve is opened before anyone needs a mask and a mask is proven at the bench, because a mask that does not breathe is discovered by a diver who needs it, at the worst possible moment."
+    },
+    {
+      "cue": "Take the lighter, the phone and the pen out of your pockets and put them in the attendant's bin at the door; only the operator's approved kit goes inside.",
+      "drag": {
+        "missNote": "Not in the bin — the lighter, the phone and the pen go in the attendant's bin at the door, every time.",
+        "radius": 0.5,
+        "to": "attendant-bin"
+      },
+      "id": "attendant-kit",
+      "kind": "drag",
+      "prompt": "Take the lighter, the phone and the pen out of your pockets and put them in the attendant's bin at the door; only the operator's approved kit goes inside.",
+      "target": "pocket-items",
+      "title": "Empty your pockets into the bin at the door",
+      "why": "The attendant's pockets are the last thing between the deck and a chamber where a spark is a fire: a lighter, a phone's battery, a pen with a spring, anything that can arc or fuel. They go into the bin at the door every time the attendant might enter, not just before a treatment, because the call to enter comes fast and nobody checks pockets on the way through the door."
+    },
+    {
+      "cue": "Sit the surfaced diver on the bench near the chamber and watch them: how they move, how they speak, whether they favour a joint or rub a spot, and remind them to say anything they feel.",
+      "holdBreakNote": "You looked away from the diver — the observation is the watching. Eyes back on the bench.",
+      "id": "observation-hold",
+      "kind": "hold",
+      "prompt": "Sit the surfaced diver on the bench near the chamber and watch them: how they move, how they speak, whether they favour a joint or rub a spot, and remind them to say anything they feel.",
+      "seconds": 5,
+      "target": "observation-bench",
+      "title": "Watch the surfaced diver through the observation period",
+      "why": "29 CFR 1910.423 has the diver's condition checked after the dive and the diver told to report symptoms, and it keeps them near the chamber for the period the tables call for; the attendant is the person doing the watching. Symptoms of decompression illness start small — a joint ache, an itch, a diver who is quieter than usual — and the attendant who is looking sees them, while a diver who is asked 'you all right?' says yes."
+    },
+    {
+      "cue": "Write on the card exactly what you saw and heard: the shoulder rubbed, the words the diver used, the time, and that the supervisor was told.",
+      "id": "symptom-card",
+      "kind": "select",
+      "prompt": "Write on the card exactly what you saw and heard: the shoulder rubbed, the words the diver used, the time, and that the supervisor was told.",
+      "target": "symptom-card",
+      "title": "Record what the diver showed on the symptom card",
+      "why": "What the attendant saw is evidence the supervisor and, if it comes to it, the physician act on, and it is written the way it was seen — 'rubbed right shoulder, said it was just sore, at this time' — rather than as a diagnosis the attendant is not qualified to make. The card goes with the diver into the chamber and into the record, so the treatment is decided on what happened and not on what someone remembers."
+    },
+    {
+      "cue": "The supervisor calls the diver into the chamber for treatment per the tables. Go in with them as attendant, sit them on the bench, seat the door and tell the operator 'door seated, ready'.",
+      "id": "attendant-enter",
+      "kind": "select",
+      "prompt": "The supervisor calls the diver into the chamber for treatment per the tables. Go in with them as attendant, sit them on the bench, seat the door and tell the operator 'door seated, ready'.",
+      "target": "main-door",
+      "title": "Enter the chamber with the diver on the supervisor's order",
+      "why": "A diver on treatment is never alone in the chamber: the attendant goes in to fit the mask, watch the diver, work the medical lock from inside and give first aid, and stays for the whole treatment. The attendant enters on the supervisor's order and not on their own judgement, because the supervisor holds the tables and decides the treatment; the door is seated from inside and the operator told, so the press begins on a closed chamber."
+    },
+    {
+      "cue": "As the operator pressurises, keep clearing your own ears, keep your eyes on the diver's face and breathing, and answer the operator's calls — steady, neither behind the press nor ahead of the diver.",
+      "holdBreakNote": "The watch slipped — behind the press or ahead of the diver. Clear your ears, eyes on the diver, answer the operator.",
+      "id": "attendant-watch",
+      "kind": "track",
+      "prompt": "As the operator pressurises, keep clearing your own ears, keep your eyes on the diver's face and breathing, and answer the operator's calls — steady, neither behind the press nor ahead of the diver.",
+      "seconds": 6,
+      "target": "attendant-watch",
+      "title": "Keep the attendant's watch as the operator presses down",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.46,
+        "green": [
+          0.42,
+          0.62
+        ],
+        "label": "WATCH",
+        "rise": 0.56,
+        "start": 0.14
+      },
+      "why": "The attendant is pressurised with the diver and has to look after themselves to look after the diver: ears cleared with the press, a hand on the mask, eyes on the diver's colour and breathing. The operator drives the press to the tables and calls it; the attendant answers so the operator knows both people inside are all right, and stops the press with a word if either is not. A quiet attendant is an operator pressing blind."
+    },
+    {
+      "cue": "Watch the chamber atmosphere analyser at the panel through the viewport and commit when it settles in the band the operator has called for this stage.",
+      "gauge": {
+        "green": [
+          0.44,
+          0.62
+        ],
+        "label": "ANALYSER vs OPERATOR'S BAND",
+        "missNote": "Outside the band — read the analyser as it settles and commit in the band the operator called.",
+        "speed": 0.66
+      },
+      "id": "read-analyser",
+      "kind": "gauge",
+      "prompt": "Watch the chamber atmosphere analyser at the panel through the viewport and commit when it settles in the band the operator has called for this stage.",
+      "target": "o2-analyser",
+      "title": "Read the chamber analyser to the operator's band",
+      "why": "The chamber's own atmosphere is kept in the band the operator calls from the tables — enough ventilation that the masks' exhaust does not build up, never so much that the fire risk climbs — and the analyser is the only thing that knows. The attendant reads it back through the viewport as a second pair of eyes, because an operator working the panel alone can watch the press or the analyser and the attendant watches the other."
+    },
+    {
+      "cue": "The operator loads water into the medical lock, closes the outer door and calls it; you open the inner door, take the water for the diver and close the inner door again.",
+      "drag": {
+        "missNote": "Not through the lock — the water comes in through the medical lock's inner door once the operator has closed the outer one.",
+        "radius": 0.5,
+        "to": "inner-lock-tray"
+      },
+      "id": "pass-water",
+      "kind": "drag",
+      "prompt": "The operator loads water into the medical lock, closes the outer door and calls it; you open the inner door, take the water for the diver and close the inner door again.",
+      "target": "water-bottle",
+      "title": "Pass water in through the medical lock",
+      "why": "A diver on treatment needs to drink, and what they need comes through the medical lock one door at a time: the operator loads and closes the outer door, calls it, and only then does the attendant open the inner one. The attendant closes the inner door again straight away and tells the operator, because a lock left open to the chamber cannot be loaded from outside and the next pass — a medicine — may be urgent."
+    },
+    {
+      "cue": "At the log through the viewport with the operator: the checks and what was found, the observation and the symptom, the time the supervisor was told, the entry, the press and the analyser readings, the knock signals used and the water passed.",
+      "id": "chamber-log",
+      "kind": "select",
+      "prompt": "At the log through the viewport with the operator: the checks and what was found, the observation and the symptom, the time the supervisor was told, the entry, the press and the analyser readings, the knock signals used and the water passed.",
+      "target": "chamber-log",
+      "title": "Write the chamber log and the dive record",
+      "why": "29 CFR 1910.440 keeps the record of the dive and the assessment of its decompression, and the chamber log is where the treatment's every step is written by the people who did it — the operator at the panel, the attendant from inside. The symptom, the time it was reported and what was done about it are what the physician and the next dive plan read, and they are written now, not from memory after the treatment."
+    },
+    {
+      "cue": "At the team board: the diver on the tables and who is watching them, the rag and the grit for whoever closed up last, the comms drop and the knocks, and how everyone is.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "At the team board: the diver on the tables and who is watching them, the rag and the grit for whoever closed up last, the comms drop and the knocks, and how everyone is.",
+      "target": "team-board",
+      "title": "Check in with the dive team",
+      "why": "A diver into the chamber is a hard hour for a small crew, and the check-in is where it is said out loud: what the chamber was found like, why the comms dropped, that the knock code worked, and how the people who watched a colleague go on treatment are doing. The Pile Drivers member assistance line is there for what the deck does not settle, and the supervisor hears it before the record closes."
+    }
+  ],
+  "supportLine": "your union hall's member assistance programme — the Pile Drivers of the Carpenters — with the employer's employee assistance line behind it",
+  "tagline": "The attendant's chamber: the plan read with the operator, grit on the door seat and an oily rag in the lock found, the medical lock worked one door at a time, the comms proven both ways, the BIBS supply opened, the lighter and the phone left in the bin, the surfaced diver watched through the observation period, a sore shoulder reported instead of shrugged off, the attendant in with the diver, the watch kept as the operator presses down with comms dropping to knock signals, the analyser read to the operator's band, water passed through the lock and the log written",
+  "title": "SmartCiti.X~ Decompression Chamber Operations & Post-Dive VR",
+  "trade": "Pile Drivers of the Carpenters diver-tender as chamber attendant on a decompression dive, with the chamber operator, the dive supervisor holding the tables, and the surfaced diver under observation",
+  "underwater": null,
+  "weather": "overcast"
+}

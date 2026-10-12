@@ -1,0 +1,445 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "unit-anchored-clean",
+    "name": "Unit Anchored Clean",
+    "note": "A curtain wall unit walked off the stack, anchored plumb at both tracks and sealed, with the open bay closed the whole time it mattered"
+  },
+  "category": "Construction & Structural Trades",
+  "certification": "IUPAT District Council 16 glaziers apprenticeship and training (architectural glass and metal); IUPAT Finishing Trades Institute glazier curriculum; ANSI/ASSP Z97.1 safety glazing materials; OSHA 29 CFR 1926.501 duty to have fall protection and 29 CFR 1926.502 fall protection systems criteria and practices at the open floor edge; the curtain wall manufacturer's erection drawings and installation manual for anchor sequence and shim locations",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "IUPAT District Council 16",
+        "id": "iupat-dc16-glaziers",
+        "title": "IUPAT District Council 16 — glaziers apprenticeship and training, architectural glass and metal"
+      },
+      {
+        "body": "union",
+        "citedAs": "Finishing Trades Institute",
+        "id": "iupat-fti",
+        "title": "IUPAT Finishing Trades Institute — industrial painter, glazier and drywall finisher apprenticeship, including lead and containment training"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.501",
+        "id": "osha-1926-501",
+        "title": "29 CFR 1926.501 — Duty to have fall protection"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.502",
+        "id": "osha-1926-502",
+        "title": "29 CFR 1926.502 — Fall protection systems criteria and practices"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Construction & Structural Trades",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "wind-read",
+        "name": "Wind Read",
+        "note": "The gust at the open bay read before the unit left the stack"
+      },
+      {
+        "id": "gap-never-open",
+        "name": "Gap Never Open",
+        "note": "No unsafe action at the open bay the whole run"
+      },
+      {
+        "id": "plumb-true",
+        "name": "Plumb True",
+        "note": "The unit plumbed inside tolerance, first read"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-set",
+        "name": "Clean Set",
+        "note": "The unit set without a correction"
+      },
+      {
+        "id": "held-to-sill",
+        "name": "Held To Sill",
+        "note": "The unit never came off the sill track before the clip was in"
+      },
+      {
+        "id": "unit-in-time",
+        "name": "Unit In Time",
+        "note": "Set, sealed and logged inside 80% of par"
+      }
+    ],
+    "currency": "TRACK",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Pre-apprentice",
+      "Ground Hand",
+      "Unit Setter",
+      "Lead Glazier",
+      "Curtain Wall Certified"
+    ],
+    "system": "Unit Crew"
+  },
+  "hazards": {
+    "bare-glass-edge": "You took the unit by its exposed glass edge instead of its aluminium frame. An insulated unit's edge seal is two lites of glass and a spacer bar, and the corner where the frame stops and the glass starts is a straight edge with the whole unit's weight behind it if it shifts in your hand. The unit is carried by the mullion frame, gloved, or it waits on the stack.",
+    "clip-pinch": "You reached fingers-first into the anchor clip while the unit was still being walked into the track. The clip closes on the mullion under the unit's own weight as it seats, and a hand between the clip and the frame at that moment is a hand the unit does not know is there. Fingers stay on the frame's outer face until the unit is seated and still.",
+    "open-floor-edge": "You stepped past the barrier into the bay with no unit anchored and no guardrail across it. This gap in the perimeter exists because a unit belongs there, not because the floor stops; the moment before that unit is anchored is the moment this opening is a fall to the street, and 29 CFR 1926.501 does not care that the gap is temporary.",
+    "unit-swing-wind": "You let go of the tag line while the unit hung free of the stack and clear of the track. A four-hundred-pound insulated unit on a davit hook is a sail with a hinge at the hook, and a gust through the open bay swings it into the mullions either side or back into the crew before anyone can get a hand on it. The tag line is held from the moment the unit clears the stack to the moment it is hooked into the sill."
+  },
+  "id": "gl-curtain-wall-unit-setting-from-the-floor",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "clip-hold",
+      "alert": "A gust has come straight through the open bay and the unit is swinging on the hook toward the mullions on the far side.",
+      "cue": "The unit is loose on the hook again and swinging.",
+      "delay": 3,
+      "id": "gust-swing",
+      "kind": "Gust through the open bay",
+      "missNote": "The unit swung until the gust dropped on its own. It missed the mullion by less than its own thickness. The brace exists for exactly the two minutes between a unit coming off the sill and the wind deciding to stop, and this time the wind decided first.",
+      "seconds": 12,
+      "target": "unit-brace",
+      "why": "A unit that has come off the sill in a gust is a sail on a hook with nothing damping it, and the mullions either side of this bay are aluminium extrusions, not fenders. The temporary brace clamped across from the anchored neighbour is what stops the swing without anyone putting a hand in its path — the alignment jack can be wound again once it is still.",
+      "wrongNote": "It is the unit brace, clamped from the anchored unit beside it. Stop the swing before anyone reaches for the frame."
+    },
+    {
+      "after": "sealant-track",
+      "alert": "A labourer has walked under the davit's boom to reach the unit stack for a strap, directly under the next unit's lift path.",
+      "cue": "Someone is standing under the load path while your hands are on the sealant.",
+      "delay": 3,
+      "id": "walker-under-load",
+      "kind": "Someone under the hook",
+      "missNote": "The labourer got the strap and walked out on their own. The davit never lifted while they were under it, this time. The load path under that boom does not change because the person under it did not know where it was.",
+      "seconds": 11,
+      "target": "davit-estop",
+      "why": "The davit's load path is fixed by where the boom is set, and a person under it has no way to know from where they are standing that the next lift starts there. The hoist's emergency stop takes the davit out of play the moment anyone is in that path — the bead can be finished a minute later, the walk under a boom about to lift cannot be undone.",
+      "wrongNote": "It is the davit's emergency stop. Take the hoist out of play before anything else, and call the labourer clear."
+    }
+  ],
+  "lateNotes": {
+    "cw-unit": "The unit leaves the stack after the harness is clipped to the anchor and the wind has been read at the bay. A unit dragged first is a sail over an open floor with nobody tied off.",
+    "sealant-gun": "Sealant goes into a joint whose unit is already torqued at both tracks. A bead against a unit still moving on its clips is a bead that tears the first time the unit settles."
+  },
+  "name": "Curtain Wall Unit Setting From The Floor",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "glaziers-and-architectural-metal"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "level",
+        "count": 1,
+        "kit": "toolkit"
+      },
+      {
+        "builder": "tapeMeasure",
+        "count": 1,
+        "kit": "toolkit"
+      }
+    ],
+    "error": null,
+    "footprint": 2.3,
+    "hits": [
+      "alignment-jack",
+      "anchor-clip",
+      "anemometer",
+      "backer-rod",
+      "bare-glass-edge",
+      "barrier-gap",
+      "clip-bolt",
+      "clip-pinch",
+      "cw-unit",
+      "davit-controls",
+      "davit-estop",
+      "harness-webbing",
+      "joint-tool",
+      "lanyard-snap",
+      "loose-plank",
+      "open-floor-edge",
+      "plumb-check",
+      "plumb-instrument",
+      "sealant-gun",
+      "shim-base",
+      "shim-lock",
+      "sill-track",
+      "stray-clip",
+      "tailboard",
+      "tie-off-anchor",
+      "unit-brace",
+      "unit-log",
+      "unit-swing-wind",
+      "unlatched-barrier"
+    ],
+    "meshes": 180
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the day's tailboard — which bay is open, who is inside the barrier, the wind limit for hoisting, who has the tag line — and sign it.",
+      "id": "check-in",
+      "kind": "select",
+      "prompt": "Read the day's tailboard — which bay is open, who is inside the barrier, the wind limit for hoisting, who has the tag line — and sign it.",
+      "target": "tailboard",
+      "title": "Sign the tailboard with the crew",
+      "why": "The tailboard is written for this bay specifically because the hazard changes bay to bay: some bays have a unit already anchored on both sides, some are the last opening on the floor. Signing it is what makes you part of a crew that knows which one this is today, not a person who wandered up to an open hole in a floor with a glass unit near it."
+    },
+    {
+      "cue": "Take the anemometer reading right at the bay opening and commit it inside the working band before the unit comes off the stack.",
+      "gauge": {
+        "green": [
+          0.18,
+          0.48
+        ],
+        "label": "WIND",
+        "missNote": "That reading is outside the working band at this bay — over it, the unit waits on the stack; under it, read it again right at the opening.",
+        "speed": 0.7
+      },
+      "id": "wind-read",
+      "kind": "gauge",
+      "prompt": "Take the anemometer reading right at the bay opening and commit it inside the working band before the unit comes off the stack.",
+      "target": "anemometer",
+      "title": "Read the wind at the open bay",
+      "why": "Wind at an open floor bay is not the wind at street level — the building funnels it, and a unit hanging free of the stack on a davit hook adds sail area no rating on the hoist accounts for. A reading over the band means the unit waits on the stack, because the alternative is finding out what the gust does with a unit already clear of the floor and not yet anchored to anything."
+    },
+    {
+      "cue": "Webbing and stitching first, then the lanyard and its hook gate, then the hook onto the structural anchor set back from the bay — in that order.",
+      "id": "harness",
+      "itemNames": {
+        "harness-webbing": "harness webbing and stitching",
+        "lanyard-snap": "lanyard and snap hook gate",
+        "tie-off-anchor": "the interior anchor point"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Webbing, then lanyard, then anchor — the hook goes on last, onto a harness you have already proven sound.",
+      "prompt": "Webbing and stitching first, then the lanyard and its hook gate, then the hook onto the structural anchor set back from the bay — in that order.",
+      "targets": [
+        "harness-webbing",
+        "lanyard-snap",
+        "tie-off-anchor"
+      ],
+      "title": "Inspect the harness and tie off to the interior anchor",
+      "why": "29 CFR 1926.502 has a personal fall arrest system inspected before use: webbing for cuts and abrasion, stitching for pulled threads, the hook gate for a positive lock. The anchor is the one set back into the slab for exactly this bay, not the temporary barrier rail, because the barrier is there to be seen and stepped around, not to catch a fall."
+    },
+    {
+      "cue": "Look at what is guarding this opening right now and click the two things wrong with it.",
+      "id": "floor-walk",
+      "itemNames": {
+        "barrier-gap": "a section of barrier not latched across the bay",
+        "loose-plank": "a loose toe-board at the bay edge"
+      },
+      "itemNotes": {
+        "barrier-gap": "That barrier panel across the open bay swung loose at one end — a gap in the one thing between the crew and the opening below.",
+        "loose-plank": "The toe-board along this edge has slid clear of its cleat. A tool kicked off the edge here goes straight to the street."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look at what is guarding this opening right now and click the two things wrong with it.",
+      "targets": [
+        "barrier-gap",
+        "loose-plank"
+      ],
+      "title": "Walk the bay before the unit moves",
+      "why": "The barrier and its toe-board are the only things standing between this floor and the street the whole time the bay is open, and both fail quietly — a panel that swings loose, a board that walks clear of its cleat under foot traffic. The bay does not get a unit dragged into it until both read correct, because a barrier that looks intact from three metres away is not the same as one that is actually latched."
+    },
+    {
+      "cue": "Up, down, and the hoist's own brake — each answered at the stack before the unit is on the hook.",
+      "id": "davit-check",
+      "kind": "select",
+      "prompt": "Up, down, and the hoist's own brake — each answered at the stack before the unit is on the hook.",
+      "target": "davit-controls",
+      "title": "Function-check the davit hoist",
+      "why": "The davit is a floor-mounted hoist rated for exactly this unit weight at exactly this reach, and its brake is the one thing standing between a unit and a free fall if the motor cuts out mid-lift. It is tested empty, at the stack, where a brake that does not hold is a noise rather than a unit dropped over an open bay."
+    },
+    {
+      "cue": "Hook on the frame's lifting point, tag line held, guide the unit from the stack to the sill track — not released until it is offered up square.",
+      "drag": {
+        "missNote": "Not square to the sill — a unit offered up crooked will not seat its clips without forcing them.",
+        "radius": 0.5,
+        "to": "sill-track"
+      },
+      "id": "unit-drag",
+      "kind": "drag",
+      "prompt": "Hook on the frame's lifting point, tag line held, guide the unit from the stack to the sill track — not released until it is offered up square.",
+      "target": "cw-unit",
+      "title": "Walk the unit off the stack to the bay",
+      "why": "The unit is guided rather than swung: a hand on the tag line the whole way keeps it from finding the wind on its own, and it is offered to the sill square because a unit that arrives skewed will not seat its anchor clips without being forced, and forcing a clip on a unit this size bends the track it is supposed to seat into."
+    },
+    {
+      "cue": "Turn the jack screw until the unit's sill leg draws fully into the track, evenly, without racking the frame.",
+      "id": "align-jack",
+      "kind": "turn",
+      "prompt": "Turn the jack screw until the unit's sill leg draws fully into the track, evenly, without racking the frame.",
+      "target": "alignment-jack",
+      "title": "Wind the alignment jack to seat the sill leg",
+      "turn": {
+        "axis": "z",
+        "label": "SEAT",
+        "turns": 1
+      },
+      "why": "The alignment jack draws the unit's own weight into the sill track a few millimetres at a time, which is the only way a unit this size seats without being levered by hand against its own anchor clips. Turned unevenly it racks the frame square out of true before the first clip is even close to seated."
+    },
+    {
+      "cue": "Both hands on the frame, hold it flat to the sill track while the first anchor clip is driven — do not let go until the clip bites.",
+      "holdBreakNote": "You let go before the clip bit — the unit rocked off the sill. Offer it up again and hold it flat until the clip is driven.",
+      "id": "clip-hold",
+      "kind": "hold",
+      "prompt": "Both hands on the frame, hold it flat to the sill track while the first anchor clip is driven — do not let go until the clip bites.",
+      "seconds": 4,
+      "target": "anchor-clip",
+      "title": "Hold the unit to the sill while the first clip is driven",
+      "why": "Between the jack coming off and the first clip biting, the unit is held to the sill by your grip on the frame and nothing else; a unit let go early rocks off the sill and swings back on the hook, and the second try is never as square as the first offer-up was. The clip is what makes the unit the building's problem instead of your arms'."
+    },
+    {
+      "cue": "Both bolts on the anchor clip, driven to the manufacturer's torque — not spun in until it stops.",
+      "id": "bolt-torque",
+      "kind": "turn",
+      "prompt": "Both bolts on the anchor clip, driven to the manufacturer's torque — not spun in until it stops.",
+      "target": "clip-bolt",
+      "title": "Torque the anchor clip bolts",
+      "turn": {
+        "axis": "z",
+        "label": "TORQUE",
+        "turns": 1
+      },
+      "why": "The anchor clip's bolt torque comes from the curtain wall manufacturer's installation manual for this system, because an overdriven bolt on a thin extrusion strips its thread and holds nothing under the next day's thermal movement, while an underdriven one backs out the same way. This is the bolt the whole unit hangs from once the hoist comes off."
+    },
+    {
+      "cue": "Base shim first, then plumb checked against the neighbouring unit, then the shim locked — in that order.",
+      "id": "shim-seq",
+      "itemNames": {
+        "plumb-check": "plumb checked against the last unit",
+        "shim-base": "base shim set at the sill",
+        "shim-lock": "shim locked in place"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Base shim, then plumb, then lock — a plumb reading before the shim is seated is a number that moves under load.",
+      "prompt": "Base shim first, then plumb checked against the neighbouring unit, then the shim locked — in that order.",
+      "targets": [
+        "shim-base",
+        "plumb-check",
+        "shim-lock"
+      ],
+      "title": "Shim and true the unit",
+      "why": "The shim carries the unit's dead load down to the structure at exactly the point the drawing calls for, and it is set before the plumb check because a plumb reading against a shim that is not yet seated is a reading that will change the moment the unit's full weight comes onto it. Locking the shim last is what keeps that reading true tomorrow."
+    },
+    {
+      "cue": "Read the plumb gauge against the neighbouring unit and commit inside tolerance.",
+      "gauge": {
+        "green": [
+          0.43,
+          0.6
+        ],
+        "label": "PLUMB mm",
+        "missNote": "Outside plumb tolerance against the last unit — back to the shims before the joint is closed.",
+        "speed": 0.74
+      },
+      "id": "plumb-gauge",
+      "kind": "gauge",
+      "prompt": "Read the plumb gauge against the neighbouring unit and commit inside tolerance.",
+      "target": "plumb-instrument",
+      "title": "Read the unit against the last one set",
+      "why": "A curtain wall reads as one plane from the street, and that plane is the sum of every unit's plumb error next to the one before it — a unit half a degree out is invisible alone and a visible wave three units later. The gauge is read against the neighbour, not against true vertical, because it is the joint between them that either closes cleanly or does not."
+    },
+    {
+      "cue": "Backer rod pressed to the depth the drawing gives ahead of the bead, then the bead tooled to the rod once it is run.",
+      "id": "joint-seq",
+      "itemNames": {
+        "backer-rod": "backer rod pressed to depth",
+        "joint-tool": "the bead tooled"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Rod first, then the bead, then tool it — there is nothing for the tool to press the bead onto without the rod already in.",
+      "prompt": "Backer rod pressed to the depth the drawing gives ahead of the bead, then the bead tooled to the rod once it is run.",
+      "targets": [
+        "backer-rod",
+        "joint-tool"
+      ],
+      "title": "Backer-rod the vertical joint",
+      "why": "The backer rod gives the sealant a third surface to bond against instead of the void behind the joint, and without it the bead tears itself apart the first time the two units move apart in the sun. It is pressed in before the bead is run and tooled after, so the sealant bonds only to the two glass edges it is meant to seal between."
+    },
+    {
+      "cue": "Gun at the joint, run a continuous bead at a steady pace so the sealant fills to the depth the drawing calls for.",
+      "holdBreakNote": "The bead ran out of the band — a thin spot or an overfill in the joint. Tool it out and run that stretch again at a steady pace.",
+      "id": "sealant-track",
+      "kind": "track",
+      "prompt": "Gun at the joint, run a continuous bead at a steady pace so the sealant fills to the depth the drawing calls for.",
+      "seconds": 5,
+      "target": "sealant-gun",
+      "title": "Run the sealant bead at a steady pace",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.43,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "BEAD",
+        "rise": 0.55
+      },
+      "why": "A bead run too fast skins over a void that opens the first freeze; run too slow it overfills and cures into a block that pulls the glass edge when the units move apart. The steady pace is what puts the sealant manufacturer's specified depth on the backer rod along the whole joint, on a system whose only defence against the weather behind it is this one bead."
+    },
+    {
+      "cue": "Look at the sill and the barrier — click the two things that must be right before the davit moves.",
+      "id": "edge-walk",
+      "itemNames": {
+        "stray-clip": "a spare anchor clip left on the sill",
+        "unlatched-barrier": "the barrier not re-latched across the bay"
+      },
+      "itemNotes": {
+        "stray-clip": "A spare clip is sitting loose on the sill track above the now-closed bay. It goes back in the tote, not left where the next unit's frame will ride over it.",
+        "unlatched-barrier": "The barrier across this bay was swung open to work the joint and never latched back. The bay is closed by the unit now, but the barrier still has to be right for the next crew."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look at the sill and the barrier — click the two things that must be right before the davit moves.",
+      "targets": [
+        "stray-clip",
+        "unlatched-barrier"
+      ],
+      "title": "Walk the bay again before the hoist swings to the next unit",
+      "why": "The bay reads as closed now that the unit is anchored, but the sill still carries a spare clip that can ride under the next frame, and the barrier that was opened to work this joint is still the crew's own responsibility to close. The davit does not swing to the next unit on the stack until both are answered."
+    },
+    {
+      "cue": "Unit number, torque readings, the plumb reading against the neighbour, wind readings and the faults found and fixed, and sign it.",
+      "id": "unit-log",
+      "kind": "select",
+      "prompt": "Unit number, torque readings, the plumb reading against the neighbour, wind readings and the faults found and fixed, and sign it.",
+      "target": "unit-log",
+      "title": "Log the unit",
+      "why": "The log ties this unit's anchor torque and plumb reading to a date and a name, which is what the crew shows when a joint opens up two winters from now and somebody asks whether it was set to the manufacturer's numbers. It also carries the barrier fault as fixed rather than assumed, for the crew that opens this bay again tomorrow."
+    }
+  ],
+  "supportLine": "your IUPAT District Council 16 apprenticeship coordinator or job steward, or your employer's employee assistance program if the swinging unit over the open bay is what you keep seeing",
+  "tagline": "Tailboard, harness to the interior anchor, the open bay walked, the unit dragged off the stack on the davit, held to the sill while the first clip bites, plumbed, torqued, and the vertical joint backer-rodded and sealed",
+  "title": "SmartCiti.X~ Curtain Wall Unit Setting From The Floor VR",
+  "trade": "Glazier — IUPAT District Council 16 curtain wall installer",
+  "underwater": null,
+  "weather": "wind"
+}

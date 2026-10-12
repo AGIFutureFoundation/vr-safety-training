@@ -1,0 +1,393 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "pad-discipline",
+    "name": "Pad Discipline",
+    "note": "Read the pad permit, left the ignition sources at the gate, tested before hot work and locked on before touching isolated pipe"
+  },
+  "category": "Energy & Power",
+  "certification": "USW health and safety training as a body; OSHA 29 CFR 1910.119 process safety management of highly hazardous chemicals, 29 CFR 1910.147 control of hazardous energy, 29 CFR 1910.252 welding and cutting and 29 CFR 1910.132 personal protective equipment; NFPA 51B fire prevention during hot work; the operator's pad work permit and isolation list",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 51B",
+        "id": "nfpa-51b",
+        "title": "NFPA 51B — Fire Prevention During Welding, Cutting and Other Hot Work"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.119",
+        "id": "osha-1910-119",
+        "title": "29 CFR 1910.119 — Process safety management of highly hazardous chemicals"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.132",
+        "id": "osha-1910-132",
+        "title": "29 CFR 1910.132 — Personal protective equipment, general requirements"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.252",
+        "id": "osha-1910-252",
+        "title": "29 CFR 1910.252 — Welding, cutting and brazing, general requirements"
+      },
+      {
+        "body": "union",
+        "citedAs": "USW",
+        "id": "usw-mazzocchi-center",
+        "title": "USW Tony Mazzocchi Center health, safety and environmental training"
+      }
+    ]
+  },
+  "district": "aerospace-depot",
+  "domain": "Energy",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "permit-first-pad",
+        "name": "Permit First",
+        "note": "Read the pad permit before driving past the gate"
+      },
+      {
+        "id": "no-ignition",
+        "name": "Nothing Lit",
+        "note": "Never carried an ignition source onto the pad"
+      },
+      {
+        "id": "steady-test",
+        "name": "Steady Test",
+        "note": "Held the continuous gas test near band centre"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "quick-pad",
+        "name": "Inside Par",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "clean-pad",
+        "name": "Clean Shift",
+        "note": "Clean run, no corrections"
+      }
+    ],
+    "currency": "LEL",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Visitor",
+      "Pad Inducted",
+      "Contractor Hand",
+      "Contractor Lead",
+      "Pad Discipline Certified"
+    ],
+    "system": "Pad Discipline"
+  },
+  "hazards": {
+    "cut-lock-hazard": "That cuts another worker's lock off the group box to finish early. A personal lock is that person's own control over the energy they are exposed to, and it comes off only by them or by the written procedure for an absent worker.",
+    "phone-on-pad-hazard": "That carries a phone and a lighter past the ignition-control sign. On a gas pad an ignition source is anything that can spark or get hot, and the gate is where they are left because a release does not give anyone time to walk back.",
+    "skip-gas-test-hazard": "That strikes the arc without a gas test because the pad smelt clean. Natural gas can be present well below the level anyone smells it near a wellhead, and the test is what the hot-work permit is written on.",
+    "tighten-live-hazard": "That puts a wrench on a weeping flange that is still under pressure. Tightening a live joint can crack a gasket or a bolt the rest of the way, and the flange belongs to the operator, who isolates it before anyone touches it."
+  },
+  "id": "lp-gas-storage-wellpad-awareness",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "gas-test-hold",
+      "alert": "The gas monitor at the hot-work boundary has gone into alarm while the welder is setting up.",
+      "cue": "Call stop on the hot work now.",
+      "delay": 3,
+      "id": "lel-alarm",
+      "kind": "Gas alarm",
+      "missNote": "The hot work carried on with the gas monitor in alarm. The permit ends the moment the test fails.",
+      "seconds": 11,
+      "target": "stop-hot-work",
+      "why": "A combustible gas alarm inside a hot-work boundary means the condition the permit was written on no longer exists, and stopping the work before the arc is struck removes the one thing the gas needs to become a fire, whatever turns out to be the source.",
+      "wrongNote": "Not that — the gas alarm is answered by stopping the hot work."
+    },
+    {
+      "after": "gas-test-track",
+      "alert": "The wind has swung round and is now blowing from the wellheads straight across the crew's work area.",
+      "cue": "Move the crew to the crosswind marker.",
+      "delay": 3,
+      "id": "wind-shift",
+      "kind": "Wind shift",
+      "missNote": "The crew stayed downwind of the wellheads after the shift. The wind decides where upwind is, not the map.",
+      "seconds": 11,
+      "target": "crosswind-marker",
+      "why": "A muster point is only upwind while the wind holds, and when it swings the crew moves to the crosswind side so that anything leaking from the wellheads is carried past them rather than through the place they would gather.",
+      "wrongNote": "That isn't it — the wind shift is answered at the crosswind marker."
+    }
+  ],
+  "lateNotes": {
+    "fr-coveralls": "Flame-resistant coveralls are worn zipped, sleeves down, because a flash fire is over in a moment and ordinary clothing keeps burning after it.",
+    "pad-permit-board": "The pad permit is read at the gate every shift, because which wells are live and where hot work is allowed change with the operator's work."
+  },
+  "name": "Gas Storage Well Pad Safety",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.9,
+    "hits": [
+      "barrier-tape",
+      "crosswind-marker",
+      "cut-lock-hazard",
+      "fr-coveralls",
+      "gas-test-pad",
+      "gas-track-meter",
+      "group-lockbox",
+      "hot-work-edge",
+      "lel-meter",
+      "locked-valve",
+      "muster-point-pad",
+      "pad-glasses",
+      "pad-hearing",
+      "pad-log",
+      "pad-permit-board",
+      "pad-windsock",
+      "permit-sign",
+      "phone-locker",
+      "phone-on-pad-hazard",
+      "skip-gas-test-hazard",
+      "stop-hot-work",
+      "tight-flange",
+      "tighten-live-hazard",
+      "unlocked-valve",
+      "weeping-flange",
+      "zero-energy-check"
+    ],
+    "meshes": 220
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track"
+  ],
+  "steps": [
+    {
+      "cue": "Read the pad work permit at the gate: live wells, hot-work areas, the muster point and who the operator's contact is.",
+      "id": "pad-permit",
+      "kind": "select",
+      "prompt": "Read the pad work permit at the gate: live wells, hot-work areas, the muster point and who the operator's contact is.",
+      "target": "pad-permit-board",
+      "title": "Read the pad permit",
+      "why": "The operator's permit is the only document that says which wellheads are live today, where hot work is allowed and who can stop the job, and a contractor who has not read it is making decisions next to pressurised gas on information that may be a shift out of date."
+    },
+    {
+      "cue": "Bump-test your combustible gas monitor and commit only once it reads in the green.",
+      "gauge": {
+        "green": [
+          0.44,
+          0.62
+        ],
+        "label": "GAS MONITOR",
+        "missNote": "Not in the green — return the monitor; nobody goes onto the pad with an unproven meter.",
+        "speed": 0.6
+      },
+      "id": "bump-lel",
+      "kind": "gauge",
+      "prompt": "Bump-test your combustible gas monitor and commit only once it reads in the green.",
+      "target": "lel-meter",
+      "title": "Bump-test the gas monitor",
+      "why": "A combustible gas monitor that has not been bump-tested can sit at zero in air that is not clean, and on a well pad that monitor is the crew's only reliable sense for a gas that disperses faster than anyone can smell it, so it is proven every day before it is trusted."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Flame-resistant coveralls, hard hat and glasses, hearing protection.",
+      "id": "ppe-pad",
+      "itemNames": {
+        "fr-coveralls": "flame-resistant coveralls",
+        "pad-glasses": "hard hat and safety glasses",
+        "pad-hearing": "hearing protection"
+      },
+      "kind": "sequence",
+      "prompt": "Flame-resistant coveralls, hard hat and glasses, hearing protection.",
+      "targets": [
+        "fr-coveralls",
+        "pad-glasses",
+        "pad-hearing"
+      ],
+      "title": "Dress for the pad",
+      "why": "Flame-resistant coveralls are there for the flash fire nobody plans for, the hard hat and glasses for the overhead work and flying debris of a construction crew, and hearing protection because a venting line or a compressor nearby can be loud enough to damage hearing over a single shift."
+    },
+    {
+      "cue": "Put your phone, lighter and any unrated electronics in the locker at the ignition-control sign.",
+      "id": "ignition-locker",
+      "kind": "select",
+      "prompt": "Put your phone, lighter and any unrated electronics in the locker at the ignition-control sign.",
+      "target": "phone-locker",
+      "title": "Leave ignition sources at the gate",
+      "why": "Everything that can make a spark or a hot surface is a possible ignition source for a gas release, and leaving phones, lighters and unrated devices at the gate is the simplest control there is, because it removes them from the pad instead of relying on nobody using them."
+    },
+    {
+      "cue": "Read the windsock and note the upwind muster point before work starts.",
+      "id": "pad-wind",
+      "kind": "select",
+      "prompt": "Read the windsock and note the upwind muster point before work starts.",
+      "target": "pad-windsock",
+      "title": "Read the windsock",
+      "why": "Gas released at a wellhead moves with the wind, so the muster point that keeps the crew safe depends on where the wind is coming from today, and reading the windsock at the start is what turns an alarm into a walk the crew already knows."
+    },
+    {
+      "cue": "Find the flange that is weeping gas.",
+      "decoyNotes": {
+        "tight-flange": "A dry, tight flange with its bolts all engaged. Nothing to report there."
+      },
+      "id": "find-weep",
+      "itemNames": {
+        "weeping-flange": "weeping flange"
+      },
+      "itemNotes": {
+        "weeping-flange": "A weeping flange is reported to the operator's contact and the area kept clear; the contractor crew does not tighten or touch it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Find the flange that is weeping gas.",
+      "target": "weeping-flange",
+      "targets": [
+        "weeping-flange"
+      ],
+      "title": "Find the weeping flange",
+      "why": "A flange that hisses, frosts or bubbles is leaking gas at pressure, and the contractor's part is to see it and report it so the operator can isolate and repair it, because a wrench on a live joint turns a small leak into a sudden one."
+    },
+    {
+      "cue": "Carry the barrier tape to the edge of the permitted hot-work area.",
+      "drag": {
+        "missNote": "Not placed — set the barrier at the edge of the permitted hot-work area.",
+        "radius": 0.4,
+        "to": "hot-work-edge"
+      },
+      "id": "hot-boundary",
+      "kind": "drag",
+      "prompt": "Carry the barrier tape to the edge of the permitted hot-work area.",
+      "target": "barrier-tape",
+      "title": "Mark the hot-work boundary",
+      "why": "The hot-work permit covers one area and no further, and marking its boundary on the ground keeps sparks, slag and the welder's leads inside the space that was tested and away from wellheads and lines that were not."
+    },
+    {
+      "cue": "Hold the monitor at the hot-work location, low and high, until the reading settles.",
+      "holdBreakNote": "Moved off before the reading settled. Hold the monitor until it is steady.",
+      "id": "gas-test-hold",
+      "kind": "hold",
+      "prompt": "Hold the monitor at the hot-work location, low and high, until the reading settles.",
+      "seconds": 5,
+      "target": "gas-test-pad",
+      "title": "Gas-test the hot-work area",
+      "why": "Natural gas is lighter than air but can collect under equipment and in low corners before it rises, so the test is held long enough at the work height and at ground level to read the air the arc will actually meet."
+    },
+    {
+      "cue": "Keep the continuous monitor's sample inside the band while the hot work goes on.",
+      "holdBreakNote": "The sample left the band. Clear the inlet and hold it steady.",
+      "id": "gas-test-track",
+      "kind": "track",
+      "prompt": "Keep the continuous monitor's sample inside the band while the hot work goes on.",
+      "seconds": 8,
+      "target": "gas-track-meter",
+      "title": "Keep the continuous test running",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.45,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "SAMPLE",
+        "rise": 0.4,
+        "start": 0.5
+      },
+      "why": "A single test only proves the air at one moment, and on a live pad conditions change, so a continuous monitor kept sampling properly through the whole job is what lets the fire watch stop the work the moment the air changes."
+    },
+    {
+      "cue": "Walk the isolation list and find the valve with no lock on it.",
+      "decoyNotes": {
+        "locked-valve": "An isolation valve chained and locked as the list says. Nothing to report there."
+      },
+      "id": "find-unlocked",
+      "itemNames": {
+        "unlocked-valve": "isolation valve with no lock"
+      },
+      "itemNotes": {
+        "unlocked-valve": "Every valve on the isolation list carries the operator's lock; one without a lock is reported and no one works on that pipe until it is secured."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the isolation list and find the valve with no lock on it.",
+      "targets": [
+        "unlocked-valve"
+      ],
+      "title": "Find the unsecured isolation",
+      "why": "Isolation is only as good as its weakest point, and one valve on the list without a lock is a path for gas back into the pipe the crew is about to open, so checking every point against the list is how a contractor confirms the protection someone else put in place."
+    },
+    {
+      "anyOrder": false,
+      "cue": "Put your personal lock on the group box, have the operator show zero energy, then sign on to the permit.",
+      "id": "lock-on",
+      "itemNames": {
+        "group-lockbox": "personal lock on the group box",
+        "permit-sign": "permit signed on",
+        "zero-energy-check": "zero energy shown by the operator"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order — your own lock on the group box, then the operator shows zero energy, then you sign on.",
+      "prompt": "Put your personal lock on the group box, have the operator show zero energy, then sign on to the permit.",
+      "targets": [
+        "group-lockbox",
+        "zero-energy-check",
+        "permit-sign"
+      ],
+      "title": "Lock on before touching the pipe",
+      "why": "Group lockout lets one set of operator locks isolate many points while each worker still holds their own control, and the order matters: your lock goes on first, the operator proves the pipe is at zero energy with you watching, and only then do you sign that you are working on it."
+    },
+    {
+      "cue": "Walk the route to the upwind muster point once, before the work starts.",
+      "id": "muster-walk",
+      "kind": "select",
+      "prompt": "Walk the route to the upwind muster point once, before the work starts.",
+      "target": "muster-point-pad",
+      "title": "Walk the muster route",
+      "why": "An alarm on a gas pad gives seconds, not minutes, and a route walked once in calm conditions is one the crew follows without thinking, around the wellheads and equipment rather than through them."
+    },
+    {
+      "cue": "Log the weeping flange, the unsecured valve and the gas tests, and hand the permit back.",
+      "id": "pad-handover",
+      "kind": "select",
+      "prompt": "Log the weeping flange, the unsecured valve and the gas tests, and hand the permit back.",
+      "target": "pad-log",
+      "title": "Log and hand back",
+      "why": "The operator's people keep running the wells after the crew leaves, and what the contractor saw — a weep, an unsecured valve, a failed test — only helps them once it is written on the permit and handed back in person."
+    }
+  ],
+  "supportLine": "your USW local's member assistance programme, or the site's employee assistance line if a release or a near miss is what stayed with you",
+  "tagline": "A contractor crew on a natural gas storage well pad while the operator runs the wells: the pad permit read, the gas monitor bump-tested, flame-resistant clothing on, every ignition source left at the gate, a weeping flange reported rather than tightened, hot work only inside a tested boundary, and a personal lock on the group box before anyone touches isolated pipe",
+  "title": "SmartCiti.X~ Gas Storage Well Pad Safety VR",
+  "trade": "Gas storage contractor crew, well pad safety — USW",
+  "underwater": null,
+  "weather": "overcast"
+}

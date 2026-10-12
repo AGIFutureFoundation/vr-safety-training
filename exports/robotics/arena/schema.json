@@ -1,0 +1,120 @@
+{
+ "schema": "smartcitix.robotics.arena-episode@2",
+ "version": "ra-ds/2",
+ "fields": {
+  "schema": "this schema id",
+  "episode": "episode id (unique)",
+  "t": "step index from 0",
+  "split": "train | validation | test (fixed by generator seed)",
+  "source": "synthetic | human",
+  "consent": "null for synthetic; { consentId, adult: true, licence } for a consented human take",
+  "scenario": "rb-* gym scenario or rb-station-* station task id",
+  "station": "the catalog station the scenario is drawn from",
+  "instruction": "key into instructions.json",
+  "step": "station lines only: the drill step's id (key into instructions.json stepInstructions[scenario])",
+  "observation": "{ f: [scene features] } or, AMR, { robots: [[features] | null when delivered] }; names per scenario in features",
+  "action": "the env action as taken",
+  "reward": "the env reward for the step",
+  "rules": "{ unsafe: a safe-practice rule broken at this step, outcome }",
+  "done": "episode ended"
+ },
+ "features": {
+  "rb-cell-entry": [
+   "atGate",
+   "nearPost",
+   "estopTested",
+   "estopped",
+   "locked",
+   "verified",
+   "inside",
+   "jam",
+   "restarted"
+  ],
+  "rb-cobot-zone-setup": [
+   "zoneWalked",
+   "stopRatio",
+   "warnGap",
+   "scannerTested",
+   "estopTested"
+  ],
+  "rb-teleop-pick-place": [
+   "toGoalX",
+   "toGoalY",
+   "toGoalZ",
+   "atGoal",
+   "carrying",
+   "x",
+   "z",
+   "afterStop"
+  ],
+  "rb-amr-fleet-routing": [
+   "goalE",
+   "goalS",
+   "freeN",
+   "freeS",
+   "freeE",
+   "freeW",
+   "walkwayBusyEast",
+   "walkwayBusyWest",
+   "onWalkway"
+  ],
+  "rb-construction-drilling": [
+   "scanned",
+   "barricaded",
+   "dust",
+   "personInside",
+   "holesLeft",
+   "bitWorn",
+   "isolated"
+  ],
+  "rb-port-gantry": [
+   "goalE",
+   "goalS",
+   "atGoal",
+   "carrying",
+   "freeN",
+   "freeS",
+   "crossingBusyE",
+   "crossingBusyW",
+   "keepOutE",
+   "keepOutW",
+   "inStopZone",
+   "keepOutBetween",
+   "crossingBetween",
+   "keepOutS"
+  ],
+  "rb-station-robot-cell": [
+   "stepIndex",
+   "remaining",
+   "gaugeT",
+   "gaugeInGreen",
+   "trackOffset",
+   "holding",
+   "holdProgress",
+   "turnProgress",
+   "interrupt"
+  ],
+  "rb-station-amr-fleet": [
+   "stepIndex",
+   "remaining",
+   "gaugeT",
+   "gaugeInGreen",
+   "trackOffset",
+   "holding",
+   "holdProgress",
+   "turnProgress",
+   "interrupt"
+  ],
+  "rb-station-cobot": [
+   "stepIndex",
+   "remaining",
+   "gaugeT",
+   "gaugeInGreen",
+   "trackOffset",
+   "holding",
+   "holdProgress",
+   "turnProgress",
+   "interrupt"
+  ]
+ }
+}

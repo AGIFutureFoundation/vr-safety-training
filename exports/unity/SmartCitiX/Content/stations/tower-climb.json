@@ -1,0 +1,369 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "summit-authority",
+    "name": "Summit Authority",
+    "note": "Every clip made, every tool tethered, no unprotected air"
+  },
+  "category": "Connectivity & Telecom",
+  "certification": "CWA — NATE Tower Climber Level II certified",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI Z359",
+        "id": "ansi-z359",
+        "title": "ANSI/ASSP Z359 — Fall Protection Code"
+      },
+      {
+        "body": "union",
+        "citedAs": "CWA",
+        "id": "cwa-training",
+        "title": "CWA member training for outside-plant, tower and broadcast work"
+      },
+      {
+        "body": "FCC",
+        "citedAs": "FCC",
+        "id": "fcc-rf-exposure",
+        "title": "FCC radiofrequency exposure limits for transmitter sites (47 CFR 1.1310)"
+      },
+      {
+        "body": "union",
+        "citedAs": "IBEW",
+        "id": "ibew-neca-jatc",
+        "title": "IBEW/NECA Joint Apprenticeship and Training Committee — inside and outside wireman apprenticeship standards, taught from the electrical training ALLIANCE curriculum"
+      },
+      {
+        "body": "NATE",
+        "citedAs": "NATE",
+        "id": "nate-climber-training",
+        "title": "NATE tower climber fall-protection and climber safety training"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Telecom",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "always-clipped",
+        "name": "100% Tied Off",
+        "note": "Never move without an active connection"
+      },
+      {
+        "id": "rf-cleared",
+        "name": "RF Cleared",
+        "note": "Survey and lock out the RF before every ascent"
+      },
+      {
+        "id": "steady-hand",
+        "name": "Steady Hand",
+        "note": "Hold every reading near band centre"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clear-summit",
+        "name": "Clear Summit",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "first-ascent",
+        "name": "First Ascent",
+        "note": "Clean run, no corrections"
+      },
+      {
+        "id": "summit-streak",
+        "name": "Summit Streak",
+        "note": "Nine correct actions in a row"
+      }
+    ],
+    "currency": "SUMMIT",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Ground Hand",
+      "Tower Climber",
+      "Rigger",
+      "Climb Lead",
+      "Summit Certified"
+    ],
+    "system": "Summit Authority"
+  },
+  "hazards": {
+    "frayed-lanyard-hazard": "That lanyard's webbing is frayed clean through the outer sheath. The ANSI Z359 fall protection standards retire a shock-absorbing lanyard after a single arrest event and on any sign of damage, because torn webbing can part well below the 5,000 lb the system is supposed to be good for.",
+    "live-antenna-panel": "That antenna panel is still transmitting. RF at this range heats tissue from the inside with no sensation to warn you until after the exposure, and stray current will arc into an ungrounded tool the instant it touches the feed line. The permit's 2.5 mW/cm² figure is the ANSI/IEEE-derived exposure limit the FCC enforces.",
+    "loose-tool": "That wrench is sitting untethered on the platform grating. Eighty feet of fall puts a two-pound wrench on the ground at over forty miles an hour, and a hard hat is tested against a fraction of that energy — dropped objects are consistently among the leading causes of death in tower work.",
+    "unclipped-move": "That beam is past your last clipped point. Moving to it before the second lanyard is engaged leaves you attached to nothing for the length of the transfer, and the transfer is where climbers fall — which is the whole reason OSHA and every NATE climber programme say one hundred percent, not ninety-nine."
+  },
+  "id": "tower-climb",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "work-task",
+      "alert": "The wrench you set down on the grating has worked its way to the edge of the platform. Your ground crew is directly below.",
+      "cue": "Get it tethered before it goes over.",
+      "delay": 4,
+      "id": "tool-adrift",
+      "kind": "Dropped object",
+      "missNote": "The wrench went off the platform. A hard hat is rated for a two-kilogram object dropped two metres; this was neither. The ground crew never heard it coming, because it arrives before the sound does.",
+      "seconds": 12,
+      "target": "tool-lanyards",
+      "why": "Every tool above the first level is tethered, and the one that goes over is always the one somebody set down for a moment. A tool leaving this platform reaches the ground faster than anyone below can look up.",
+      "wrongNote": "It is the tool lanyards. Nothing else on this tower matters while an untethered tool is sliding toward the edge above a person."
+    },
+    {
+      "after": "tool-retrieve",
+      "alert": "Your ground crew has wandered in under the mast to look at the guy anchor — into the drop zone — and you are still on the platform.",
+      "cue": "Nobody stands under a climber.",
+      "delay": 3,
+      "id": "crew-under-drop",
+      "kind": "Drop zone breached",
+      "missNote": "They stayed under the mast for the rest of the descent. Nothing fell this time, which is the only reason this is a note and not an incident report — the exposure was identical either way.",
+      "seconds": 11,
+      "target": "ground-crew",
+      "why": "The ground under a climber is a closed zone for as long as anyone is above it. It is barriered, and the person who notices the barrier has been walked through is almost always the one up top.",
+      "wrongNote": "It is the crew member standing under you. Call them out of the drop zone before you touch anything else."
+    }
+  ],
+  "lateNotes": {
+    "descent-device": "The descent device only gets used once the work above is finished and every tool is already accounted for and stowed.",
+    "rescue-plan": "The rescue plan is reviewed with the whole climb team before anyone clips in, not looked up after someone is already stuck at height."
+  },
+  "name": "Tower Climb",
+  "parSeconds": 240,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "fall-protection",
+    "situational-awareness"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": null,
+    "hits": [
+      "anchor-1",
+      "anchor-2",
+      "anchor-3",
+      "antenna-work",
+      "climb-permit",
+      "corroded-anchor",
+      "cracked-stepbolt",
+      "descent-device",
+      "frayed-lanyard-hazard",
+      "ground-crew",
+      "harness",
+      "healthy-cable",
+      "healthy-stepbolt",
+      "lanyard-a",
+      "lanyard-b",
+      "live-antenna-panel",
+      "loose-tool",
+      "rescue-plan",
+      "rf-meter",
+      "tool-bag",
+      "tool-lanyards",
+      "transmitter-lockout",
+      "unclipped-move",
+      "worn-cable"
+    ],
+    "meshes": 143
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Confirm the structure, the work height and which antennas nearby are live.",
+      "id": "permit",
+      "kind": "select",
+      "prompt": "Confirm the structure, the work height and which antennas nearby are live.",
+      "target": "climb-permit",
+      "title": "Read the climb permit",
+      "why": "The permit names every transmitter that can reach this structure, including the ones on other owners' mounts that nobody at your company can switch off. You plan the RF survey and the climb route from that list before a single boot touches the first rung, because at height there is no way to find out what is radiating except by standing in it."
+    },
+    {
+      "cue": "Read the RF survey meter and commit only inside the safe exposure band.",
+      "gauge": {
+        "green": [
+          0,
+          0.22
+        ],
+        "label": "RF FIELD SURVEY — WORK HEIGHT",
+        "missNote": "Above the safe exposure limit at this height. That antenna needs power reduced or locked out before you climb any further.",
+        "speed": 0.6
+      },
+      "id": "rf-survey",
+      "kind": "gauge",
+      "prompt": "Read the RF survey meter and commit only inside the safe exposure band.",
+      "target": "rf-meter",
+      "title": "Survey the RF field at the work height",
+      "why": "RF exposure is invisible, has no immediate sensation, and is averaged over time — so it is measured, not judged. Field strength climbs steeply as you close on a radiating panel, which is why the survey has to be taken at the work height rather than the ground, against the ANSI/IEEE-based maximum permissible exposure on the permit."
+    },
+    {
+      "cue": "Confirm with the station engineer and lock the transmitter feed for antennas at your work height.",
+      "id": "rf-lockout",
+      "kind": "select",
+      "prompt": "Confirm with the station engineer and lock the transmitter feed for antennas at your work height.",
+      "target": "transmitter-lockout",
+      "title": "Lock out the transmitters",
+      "why": "A verbal 'it's off' is not lockout. OSHA's control-of-hazardous-energy rule at 29 CFR 1910.147 wants a physical lock that only its owner can remove, and the IBEW engineer at the transmitter is the person who hangs it — because a broadcast chain has automatic restart logic that will bring a carrier back up on its own schedule, not yours."
+    },
+    {
+      "cue": "Review the self-rescue kit, the descent route and who calls it if something goes wrong.",
+      "id": "rescue-briefing",
+      "kind": "select",
+      "prompt": "Review the self-rescue kit, the descent route and who calls it if something goes wrong.",
+      "target": "rescue-plan",
+      "title": "Brief the rescue plan",
+      "why": "Hanging motionless in a harness pools blood in the legs and can put a conscious climber in trouble inside ten to twenty minutes, so a rescue has to be starting while the ground crew are still calling it in. OSHA expects prompt rescue to be planned, not improvised — and a plan first heard about while somebody is already suspended is not one."
+    },
+    {
+      "cue": "Fit the harness, then clip lanyard 1, then clip lanyard 2.",
+      "id": "harness-donning",
+      "itemNames": {
+        "harness": "full-body harness",
+        "lanyard-a": "lanyard 1",
+        "lanyard-b": "lanyard 2"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Wrong order — the harness is fitted and checked before either lanyard is clipped to it.",
+      "prompt": "Fit the harness, then clip lanyard 1, then clip lanyard 2.",
+      "targets": [
+        "harness",
+        "lanyard-a",
+        "lanyard-b"
+      ],
+      "title": "Don the fall-arrest gear",
+      "why": "The harness is fitted and checked first, because a lanyard clipped to slack webbing is a fall arrested by your ribs. Two lanyards is what makes one hundred percent tie-off physically possible at all — one stays anchored while the other reaches — and ANSI Z359 is why both of them are inspected by the wearer before every use, not annually."
+    },
+    {
+      "cue": "Clip a tool lanyard to each hand tool before you leave the ground.",
+      "id": "tether-tools",
+      "kind": "select",
+      "prompt": "Clip a tool lanyard to each hand tool before you leave the ground.",
+      "target": "tool-lanyards",
+      "title": "Tether every tool",
+      "why": "Anything untethered is a dropped object the moment a glove slips, a hand cramps or a gust hits. Tethering is a ground task because it is the one place you can do it with both hands free and nothing below you — there is no safe way to fit a tool lanyard while standing on grating eighty feet above your own crew."
+    },
+    {
+      "cue": "Check the guy wires, step bolts and anchors. Three things are wrong — find them by looking.",
+      "decoyNotes": {
+        "healthy-cable": "That guy wire is sound — full strand count, proper tension. Nothing to flag.",
+        "healthy-stepbolt": "That step bolt is solid and properly torqued. Move on."
+      },
+      "id": "structure-inspect",
+      "itemNames": {
+        "corroded-anchor": "corroded guy anchor",
+        "cracked-stepbolt": "cracked step bolt",
+        "worn-cable": "frayed guy wire strand"
+      },
+      "itemNotes": {
+        "corroded-anchor": "A corroded guy anchor at grade is losing holding capacity below the surface where you cannot see it. That is a structural finding, not cosmetic rust.",
+        "cracked-stepbolt": "A cracked step bolt can shear under a boot's full weight with no warning. It gets flagged and avoided, not tested by standing on it.",
+        "worn-cable": "Broken strands on a guy wire mean it is carrying less rated tension than the structure needs — tag it and report it before anyone climbs past it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Check the guy wires, step bolts and anchors. Three things are wrong — find them by looking.",
+      "targets": [
+        "worn-cable",
+        "cracked-stepbolt",
+        "corroded-anchor"
+      ],
+      "title": "Walk the structure inspection",
+      "why": "A guyed mast stands up because its guys are in tension; the ANSI/TIA-322 loading criteria the structure was designed to assume every strand is there and every anchor is sound. Weather and corrosion do not wait for the annual inspection, so the pre-climb walk is a search, not an assumption that yesterday's tower is today's tower."
+    },
+    {
+      "cue": "Transfer your lanyards from anchor to anchor, low to high, never both unclipped at once.",
+      "id": "climb-ascent",
+      "itemNames": {
+        "anchor-1": "lower climb anchor",
+        "anchor-2": "mid climb anchor",
+        "anchor-3": "upper climb anchor"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Wrong order — the anchors are taken low to high. Skipping one means a stretch of climb with no verified connection.",
+      "prompt": "Transfer your lanyards from anchor to anchor, low to high, never both unclipped at once.",
+      "targets": [
+        "anchor-1",
+        "anchor-2",
+        "anchor-3"
+      ],
+      "title": "Climb, maintaining 100% tie-off",
+      "why": "One lanyard stays connected while the other reaches for the next anchor, and the overlap between them is the entire concept of one hundred percent tie-off. Taken out of order it stops being an overlap: skipping an anchor leaves a stretch of climb where the only thing holding you is the anchor you are already past."
+    },
+    {
+      "cue": "Fit the new bracket and run the mount bolts down to torque with the tethered wrench.",
+      "id": "work-task",
+      "kind": "turn",
+      "prompt": "Fit the new bracket and run the mount bolts down to torque with the tethered wrench.",
+      "target": "antenna-work",
+      "title": "Replace the antenna mounting bracket",
+      "turn": {
+        "axis": "y",
+        "label": "MOUNT BOLTS — TORQUE PASS",
+        "turns": 2
+      },
+      "why": "The repair only happens once every control ahead of it is in place — locked-out RF, inspected structure, tied-off climber. Then it is a torque job: a mount bolt left finger-tight will back itself out under the wind loading ANSI/TIA-322 assumes this structure sees, and the panel it is holding is the next dropped object."
+    },
+    {
+      "cue": "Account for every tethered tool and stow them before descent.",
+      "id": "tool-retrieve",
+      "kind": "select",
+      "prompt": "Account for every tethered tool and stow them before descent.",
+      "target": "tool-bag",
+      "title": "Recover and stow tools",
+      "why": "The count at height has to match the count the ground crew wrote down before you left. Anything unaccounted for is either in the bag or lying on the grating waiting for the next gust, and a tower nobody can see the top of gives you no second chance to check — so the count happens before the descent, not after it."
+    },
+    {
+      "cue": "Engage the descent device and hold a steady brake the whole way down.",
+      "holdBreakNote": "Brake released early. Re-engage the descent device and hold it steady for the full descent.",
+      "id": "descent",
+      "kind": "hold",
+      "prompt": "Engage the descent device and hold a steady brake the whole way down.",
+      "seconds": 8,
+      "target": "descent-device",
+      "title": "Make a controlled descent",
+      "why": "A descent device controls a fall by friction, and the friction only exists while the brake hand is loading the line — the device does nothing on its own. Eighty feet is long enough for a released brake to build speed no hand can take back, so the hold is the skill: steady, the whole way, without hurrying the last twenty feet."
+    },
+    {
+      "cue": "Confirm the whole crew is off the structure, then release the transmitter lock with the station engineer.",
+      "id": "rf-restore",
+      "kind": "select",
+      "prompt": "Confirm the whole crew is off the structure, then release the transmitter lock with the station engineer.",
+      "target": "transmitter-lockout",
+      "title": "Clear the RF lockout",
+      "why": "The lock comes off last, by the person who put it on, once every climber has personally confirmed clear of the structure — a headcount, not an assumption that the last person down was the last person up. Restoring a carrier with somebody still on the mast is precisely the event the lockout existed to prevent."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Guyed tower climb: 100% tie-off, RF lockout and a controlled descent",
+  "title": "SmartCiti.X~ Tower Climb VR",
+  "trade": "Telecom / broadcast tower technician",
+  "underwater": null,
+  "weather": "wind"
+}

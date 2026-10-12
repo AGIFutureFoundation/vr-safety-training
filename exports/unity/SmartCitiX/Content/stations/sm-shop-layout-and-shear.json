@@ -1,0 +1,410 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "blade-line-clear",
+    "name": "Blade Line Clear",
+    "note": "A whole cut list sheared with nothing but steel under the blade — hands behind the guard, drops hooked, edges checked"
+  },
+  "category": "Manufacturing & Automation",
+  "certification": "SMART and its International Training Institute sheet metal apprenticeship (shop fabrication year); OSHA 29 CFR 1910.212 machine guarding, with the point-of-operation guarding logic of 1910.217 applied to a hydraulic squaring shear; 29 CFR 1910.147 lockout/tagout for blade-gap and knife work; 29 CFR 1910.138 hand protection against sheared edges; ANSI B11 machine safety series; SMACNA HVAC Duct Construction Standards for the gauges and pressure classes a cut list is written to",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI B11",
+        "id": "ansi-b11",
+        "title": "ANSI B11 — Safety of machinery (the B11 series of machine-tool standards)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.138",
+        "id": "osha-1910-138",
+        "title": "29 CFR 1910.138 — Hand protection"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.212",
+        "id": "osha-1910-212",
+        "title": "29 CFR 1910.212 — General requirements for all machines (machine guarding)"
+      },
+      {
+        "body": "SMACNA",
+        "citedAs": "SMACNA",
+        "id": "smacna-hvac-duct-construction",
+        "title": "SMACNA HVAC Duct Construction Standards — Metal and Flexible (pressure classes, seam and joint construction, reinforcement and hangers)"
+      },
+      {
+        "body": "union",
+        "citedAs": "SMART",
+        "id": "smart-iti",
+        "title": "SMART and the International Training Institute — sheet metal, rail and transportation apprenticeship"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Manufacturing & Automation",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "square-first",
+        "name": "Square First",
+        "note": "The blank laid out from the cut list, not from the last job's offcut"
+      },
+      {
+        "id": "hands-behind",
+        "name": "Hands Behind",
+        "note": "Never under the blade, never bare into the drops"
+      },
+      {
+        "id": "on-the-line",
+        "name": "On The Line",
+        "note": "Back gauge inside the cut list's tolerance"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-list",
+        "name": "Clean List",
+        "note": "The whole cut list without a correction"
+      },
+      {
+        "id": "full-stroke",
+        "name": "Full Stroke",
+        "note": "Never let the treadle up mid-stroke"
+      },
+      {
+        "id": "list-in-time",
+        "name": "List In Time",
+        "note": "Sheared and logged inside 80% of par"
+      }
+    ],
+    "currency": "STRIP",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Pre-apprentice",
+      "Shop Apprentice",
+      "Shear Operator",
+      "Layout Lead",
+      "Shear Line Certified"
+    ],
+    "system": "Shear Line"
+  },
+  "hazards": {
+    "drop-pile": "You reached bare-handed into the pile of drops behind the shear. A freshly sheared edge is a knife with a burr on it, and the pile is a stack of them at every angle; SMART shops lose more hands to offcuts than to blades. The drops come off the back table with the hook and go onto the cart with cut-resistant gloves on.",
+    "guard-bypass": "You turned the finger guard's bypass key so a wide blank would go in easier. The guard is the point-of-operation protection 29 CFR 1910.212 asks for on this machine, and a key that lifts it out of the way lifts it out of the way for the next operator too, who does not know it was turned. Wide blanks are fed from the side with the guard where it belongs.",
+    "hand-in-shear": "Your hand went under the blade line to square the blank. The hold-downs come down a fraction ahead of the knife and the knife does not know a finger from a burr; the finger guard sits where it does so that the only thing you can put past it is steel. Squaring is done from the front edge and the squaring arm, never from under the guard.",
+    "rack-edge": "You grabbed a full sheet off the rack by its raw edge without gloves. Mill-cut edges on stock sheet are the same wound as a sheared one, only longer, and a sheet that starts to slide takes the hand with it. Gloves on before the rack, two people or the vacuum lifter on anything you cannot carry one-handed."
+  },
+  "id": "sm-shop-layout-and-shear",
+  "indoor": "shop",
+  "interrupts": [
+    {
+      "after": "stroke",
+      "alert": "A helper has walked round the back of the shear to catch the drops as they fall, and has a hand under the blade line from behind.",
+      "cue": "There is a hand in the drop space and your foot is on the treadle.",
+      "delay": 3,
+      "id": "helper-behind",
+      "kind": "Hand behind the blade",
+      "missNote": "You finished the stroke with somebody's hand behind the knife. The drop fell clear that time. A shear does not warn; the next stroke would have taken the hand and the shop would have spent a year explaining why a helper was behind a live shear at all.",
+      "seconds": 12,
+      "target": "e-stop",
+      "why": "The finger guard protects the front of the shear. The back of it is protected by nothing but the rule that nobody is there while the ram is live, and a helper trying to be useful has just broken it. The treadle does not know the difference between a drop and a wrist; the stop button does not care whose foot is on the treadle.",
+      "wrongNote": "It is the emergency stop. Kill the ram first — the helper can be spoken to when the machine is dead."
+    },
+    {
+      "after": "feed",
+      "alert": "The hydraulic pump under the table has started weeping. A slick of oil is spreading across the floor towards the treadle.",
+      "cue": "Your footing at the treadle is going, and the pump is still running.",
+      "delay": 3,
+      "id": "pump-weep",
+      "kind": "Hydraulic leak",
+      "missNote": "You kept feeding strips with oil spreading under your boots. A slip at a shear treadle is a stroke you did not call, taken with your weight going forward towards the table — and the hose that was weeping was building to a burst that would have put oil across the whole line.",
+      "seconds": 12,
+      "target": "pump-disconnect",
+      "why": "Hydraulic oil under a treadle is a foot that slips onto the stroke, and a pump that is weeping is a hose about to let go under pressure. The disconnect on the pump isolates it; the feed can wait, the strips can wait, and the floor gets cleaned with the machine dead rather than with the ram able to come down while you kneel beside it.",
+      "wrongNote": "It is the pump disconnect. The oil stops when the pump stops, and nothing else on this machine fixes the floor."
+    }
+  ],
+  "lateNotes": {
+    "drop-hook": "The hook comes out after the strokes, not during them. A hook in the drop space while the treadle is live is a hand in the drop space by another name.",
+    "treadle": "Not yet. The back gauge is set, the blade gap is right for this gauge and the guards are walked before the treadle is touched — a stroke taken to see what happens is a stroke taken with a hand somewhere you have not checked."
+  },
+  "name": "Shop Layout and Shear",
+  "parSeconds": 270,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "bay-area-union-edition"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.2,
+    "hits": [
+      "bowed-strip",
+      "burr-edge",
+      "capacity-plate",
+      "crew-board",
+      "cut-gloves",
+      "cut-list",
+      "drop-cart",
+      "drop-hook",
+      "drop-pile",
+      "e-stop",
+      "ear-muffs",
+      "feed-handle",
+      "finger-guard-gap",
+      "gap-knob",
+      "guard-bypass",
+      "hand-in-shear",
+      "layout-square",
+      "pump-disconnect",
+      "rack-edge",
+      "safety-glasses",
+      "shear-gauge",
+      "sheet-blank",
+      "sheet-mark",
+      "shop-log",
+      "treadle",
+      "treadle-cover"
+    ],
+    "meshes": 272
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Find your name on the board, the machine you are on and who else is working this shear today.",
+      "id": "check-in",
+      "kind": "select",
+      "prompt": "Find your name on the board, the machine you are on and who else is working this shear today.",
+      "target": "crew-board",
+      "title": "Check in with the shop lead at the crew board",
+      "why": "The crew board is where a shop knows who is at which machine, and it is the reason a second person never walks up behind a shear that somebody else is running. Checking in also tells the lead that a first-year is on the blade, which changes who they keep an eye on; SMART shops run the board as a control, not a formality, because a shear with two operators and no board is how a hand ends up under a blade nobody knew was live."
+    },
+    {
+      "cue": "Material, gauge, strip widths, quantity and the tolerance — and the pressure class the duct will be built to.",
+      "id": "cut-list",
+      "kind": "select",
+      "prompt": "Material, gauge, strip widths, quantity and the tolerance — and the pressure class the duct will be built to.",
+      "target": "cut-list",
+      "title": "Read the cut list",
+      "why": "The cut list carries the SMACNA pressure class the fitting is built to, and that class sets the gauge, which sets the shear's capacity check and the blade gap. A strip cut from whatever sheet was nearest the machine is a strip that is either too light for the pressure it will see or too heavy for the seam that has to close around it, and neither error is visible until the duct is up."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Cut-resistant gloves, glasses and hearing protection from the station, before you touch stock.",
+      "id": "ppe",
+      "itemNames": {
+        "cut-gloves": "cut-resistant gloves",
+        "ear-muffs": "hearing protection",
+        "safety-glasses": "safety glasses"
+      },
+      "kind": "sequence",
+      "prompt": "Cut-resistant gloves, glasses and hearing protection from the station, before you touch stock.",
+      "targets": [
+        "cut-gloves",
+        "safety-glasses",
+        "ear-muffs"
+      ],
+      "title": "Dress for the shear",
+      "why": "Sheared edges cut through cotton and leather as if they were not there; the gloves 29 CFR 1910.138 asks for at this machine are rated for the edge, not chosen for comfort. Glasses are for the burr that flies when a strip springs off the table, and the muffs are because a shear stroke is a loud, sharp impulse every few seconds for an entire shift, the kind of noise that takes hearing slowly enough that nobody notices it going."
+    },
+    {
+      "cue": "Carry the square from the tool chest to the blank and scribe the first strip line from the cut list.",
+      "drag": {
+        "missNote": "The square is not against the reference edge — a line scribed off a burr is off by the burr.",
+        "radius": 0.4,
+        "to": "sheet-mark"
+      },
+      "id": "layout",
+      "kind": "drag",
+      "prompt": "Carry the square from the tool chest to the blank and scribe the first strip line from the cut list.",
+      "target": "layout-square",
+      "title": "Lay out the first cut on the blank",
+      "why": "Layout is where the cut list becomes a line on a piece of metal, and the square is what makes that line perpendicular to the edge the back gauge will register against. A blank scribed by eye off the last job's offcut gives you strips that are out of square by an amount you cannot see on the table and cannot hide on the brake, where every bend follows the error."
+    },
+    {
+      "cue": "Read the rated thickness for this material off the plate on the frame before the blank goes on the table.",
+      "id": "capacity",
+      "kind": "select",
+      "prompt": "Read the rated thickness for this material off the plate on the frame before the blank goes on the table.",
+      "target": "capacity-plate",
+      "title": "Check the capacity plate against the gauge",
+      "why": "A shear is rated in mild steel, and the plate also gives the reduced capacity for stainless and the note about aluminium; a blank over the rating does not refuse to cut, it stalls the ram part way, chips the knife or springs the sheet back off the table at the operator. The cut list names the material and the plate names what this machine can do to it, and those two numbers are compared every time the material changes."
+    },
+    {
+      "cue": "Run the back gauge to the cut list's width and commit inside the tolerance.",
+      "gauge": {
+        "green": [
+          0.46,
+          0.6
+        ],
+        "label": "GAUGE",
+        "missNote": "Off the list's width — every strip in the run inherits that error. Reset it.",
+        "speed": 0.75
+      },
+      "id": "back-gauge",
+      "kind": "gauge",
+      "prompt": "Run the back gauge to the cut list's width and commit inside the tolerance.",
+      "target": "shear-gauge",
+      "title": "Set the back gauge to the strip width",
+      "why": "The back gauge is what turns one setting into fifty identical strips; it is set to the list's number and proven on the first strip with a tape, never left where the last job put it because the width looks about right. A gauge a few millimetres out gives you a run of strips that are all wrong the same way, which is worse than one wrong strip because nobody measures the second one."
+    },
+    {
+      "cue": "Turn the gap adjuster to the chart value for this thickness — with the ram up and your hands on the knob, not the knife.",
+      "id": "blade-gap",
+      "kind": "turn",
+      "prompt": "Turn the gap adjuster to the chart value for this thickness — with the ram up and your hands on the knob, not the knife.",
+      "target": "gap-knob",
+      "title": "Set the blade gap for the gauge",
+      "turn": {
+        "axis": "y",
+        "label": "GAP",
+        "turns": 0.75
+      },
+      "why": "The clearance between the upper and lower knives is set as a fraction of the sheet thickness; too tight and the knives rub and chip, too wide and the sheet folds into the gap instead of shearing, leaving a burr you will feel on every strip and a twist you will see on the brake. The adjuster is on the frame so the setting is made without a hand near the knife, and the chart on the machine is the only source for the number."
+    },
+    {
+      "cue": "Look at the finger guard and the treadle and click what has been left wrong.",
+      "id": "guard-walk",
+      "itemNames": {
+        "finger-guard-gap": "the finger guard set too high",
+        "treadle-cover": "the treadle with its cover off"
+      },
+      "itemNotes": {
+        "finger-guard-gap": "The finger guard has been raised to clear a thick blank on the last job and left there — the gap under it takes a hand, which is the one dimension it must never have.",
+        "treadle-cover": "The treadle's cover is missing. A dropped strip or a boot landing on an uncovered treadle is a stroke nobody called, with whoever is at the table where they are."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look at the finger guard and the treadle and click what has been left wrong.",
+      "targets": [
+        "finger-guard-gap",
+        "treadle-cover"
+      ],
+      "title": "Walk the guards before the first stroke",
+      "why": "Guards on a shear get moved for a reason and left for none; the finger guard goes up for one thick job and stays up, the treadle cover comes off for a hydraulic repair and never goes back. 29 CFR 1910.212 does not ask that a guard was fitted once, it asks that the point of operation is guarded now, and the only way to know that is to look at both before the machine is live."
+    },
+    {
+      "cue": "Slide the scribed blank in along the squaring arm until it registers on the back gauge, hands on the front edge and the arm only.",
+      "id": "load",
+      "kind": "select",
+      "prompt": "Slide the scribed blank in along the squaring arm until it registers on the back gauge, hands on the front edge and the arm only.",
+      "target": "sheet-blank",
+      "title": "Load the blank against the gauge",
+      "why": "The blank is registered by pushing it in until the back gauge stops it and the squaring arm squares it; that is a two-handed job done entirely in front of the finger guard. Reaching under to feel the gauge with your fingers is how a hand ends up on the blade line at the moment the hold-downs come down, and the gauge tells you it has registered by the way the sheet stops, not by touch."
+    },
+    {
+      "cue": "Hands on the front of the blank, well back from the guard, then hold the treadle through the whole stroke until the ram returns.",
+      "holdBreakNote": "Treadle released mid-stroke — the ram stopped in the sheet. Let it return, and take the stroke through.",
+      "id": "stroke",
+      "kind": "hold",
+      "prompt": "Hands on the front of the blank, well back from the guard, then hold the treadle through the whole stroke until the ram returns.",
+      "seconds": 3,
+      "target": "treadle",
+      "title": "Take the stroke",
+      "why": "A shear stroke is hold-downs, knife, return; letting the treadle up part way leaves the ram down on the sheet with the drop half cut and hanging, and the instinct then is to reach in and free it. One deliberate stroke, held until the ram is back at the top, is the whole discipline — the machine does its cycle and your hands do not move until it has."
+    },
+    {
+      "cue": "Advance the blank between strokes with the squaring-arm handle at a steady pace — not so fast that it bounces off the gauge, not so slow the strip cools your rhythm.",
+      "holdBreakNote": "The feed fell out of rhythm — a blank bounced off the gauge and the strip came out wide. Settle the pace and hold it.",
+      "id": "feed",
+      "kind": "track",
+      "prompt": "Advance the blank between strokes with the squaring-arm handle at a steady pace — not so fast that it bounces off the gauge, not so slow the strip cools your rhythm.",
+      "seconds": 6,
+      "target": "feed-handle",
+      "title": "Feed the run of strips",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.44,
+        "green": [
+          0.42,
+          0.62
+        ],
+        "label": "FEED",
+        "rise": 0.56
+      },
+      "why": "Production shearing is a rhythm of feed, register, stroke, and the feed is where the error creeps in: a blank shoved hard into the gauge bounces back a millimetre before the hold-downs land, and a blank crept in gets a hand on it to hurry it up. A steady feed on the handle keeps both hands on the arm and every strip the same width, which is the point of a back gauge in the first place."
+    },
+    {
+      "cue": "With the ram up and your foot off the treadle: hook the drops off the back table, then stack them on the cart.",
+      "id": "drops",
+      "itemNames": {
+        "drop-cart": "stack them on the cart",
+        "drop-hook": "hook the drops off the back table"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Hook first, then cart — the hook is what keeps your arm out of the drop space while the shear is still live.",
+      "prompt": "With the ram up and your foot off the treadle: hook the drops off the back table, then stack them on the cart.",
+      "targets": [
+        "drop-hook",
+        "drop-cart"
+      ],
+      "title": "Clear the drops off the back",
+      "why": "The drops land on the back table with a burr up and an edge out, and they are cleared with the hook first because the hook is what keeps your arm out of the space behind the knife. Onto the cart second, gloved, stacked flat, because a drop left on the back table rides under the next sheet and comes out of the shear as a jammed cut, and a drop on the floor is a blade someone steps on."
+    },
+    {
+      "cue": "Run a gloved thumb along the stack and click the two strips that tell you something about the machine.",
+      "id": "edge-check",
+      "itemNames": {
+        "bowed-strip": "the strip with a bow in it",
+        "burr-edge": "the strip with a heavy burr"
+      },
+      "itemNotes": {
+        "bowed-strip": "A bow along the strip is the sheet twisting into the knife because the hold-downs were not fully down — the treadle was let up early on that one and it shows.",
+        "burr-edge": "That burr means the blade gap opened up or the knife has a chip in it — the strip is fine for a hem, wrong for a Pittsburgh lock, and the gap gets checked before the next sheet."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Run a gloved thumb along the stack and click the two strips that tell you something about the machine.",
+      "targets": [
+        "burr-edge",
+        "bowed-strip"
+      ],
+      "title": "Check the strips before they go to the brake",
+      "why": "Every strip is a record of the stroke that made it: the burr says what the knife gap was, the bow says whether the hold-downs had it, the width says whether the gauge held. The brake operator downstream cannot fix any of those, only inherit them into a bend, so the shear operator reads the stack before it leaves the table — while the machine that made the fault is still the one in front of you."
+    },
+    {
+      "cue": "Enter the job, the gauge, the gap setting, the strip count and the guard fault you found, and sign it.",
+      "id": "log",
+      "kind": "select",
+      "prompt": "Enter the job, the gauge, the gap setting, the strip count and the guard fault you found, and sign it.",
+      "target": "shop-log",
+      "title": "Close out the shop log",
+      "why": "The log is how the next operator on this shear knows the finger guard had been left high and the treadle cover was off, and how the shop knows the knife gap has drifted before it chips. A cut list that ends without a log entry leaves the machine's faults for the next person to rediscover with their hands, which is the one way a shop should never learn anything twice."
+    }
+  ],
+  "supportLine": "your SMART local's apprenticeship coordinator or the shop steward, or your employer's employee assistance program if the near-miss at the blade is what stayed with you",
+  "tagline": "Cut list to scribed blank, back gauge and blade gap set, guards walked, a full treadle stroke with hands behind the finger guard, drops hooked off the back, edges checked and logged",
+  "title": "SmartCiti.X~ Shop Layout and Shear VR",
+  "trade": "Sheet metal worker — SMART, trained through its International Training Institute shop curriculum",
+  "underwater": null,
+  "weather": null
+}

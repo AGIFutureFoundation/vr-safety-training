@@ -1,0 +1,424 @@
+{
+  "schema": "smartcitix.holodeck.vb-game-functions@1",
+  "shape": "GAME agent -> worker -> function (modelled on game-node src/function.ts and worker.ts; not the SDK)",
+  "simulatedOnly": true,
+  "network": false,
+  "workers": [
+    {
+      "id": "vb-worker-rb-teleop-pick-place",
+      "name": "Teleop Pick-and-Place (sim)",
+      "description": "Guide a robot gripper to move parts from the bin to the fixture, gripping each part within its force limit and keeping clear of your teammate's space. Simulated robot only; every call passes the Holodeck safety governor.",
+      "sites": [
+        "rb-site-san-jose-robotics-lab",
+        "rb-site-richland-drilling-robot"
+      ],
+      "functions": [
+        {
+          "fn_name": "teleop_pick_place__move",
+          "fn_description": "Teleop Pick-and-Place: move {dx,dy,dz} (m, capped at params.speed per step) — on the SIMULATED robot only, through the safety governor.",
+          "args": [
+            {
+              "name": "dx",
+              "description": "dx for move (m, capped at params.speed per step)",
+              "type": "number",
+              "optional": false
+            },
+            {
+              "name": "dy",
+              "description": "dy for move (m, capped at params.speed per step)",
+              "type": "number",
+              "optional": false
+            },
+            {
+              "name": "dz",
+              "description": "dz for move (m, capped at params.speed per step)",
+              "type": "number",
+              "optional": false
+            }
+          ],
+          "hint": "Returns done or failed with feedback; a governor refusal or an e-stop returns failed.",
+          "result": {
+            "action_status": [
+              "done",
+              "failed"
+            ],
+            "feedback_message": "string"
+          }
+        },
+        {
+          "fn_name": "teleop_pick_place__grip",
+          "fn_description": "Teleop Pick-and-Place: grip {force} (N) — on the SIMULATED robot only, through the safety governor.",
+          "args": [
+            {
+              "name": "force",
+              "description": "force for grip (N)",
+              "type": "number",
+              "optional": false
+            }
+          ],
+          "hint": "Returns done or failed with feedback; a governor refusal or an e-stop returns failed.",
+          "result": {
+            "action_status": [
+              "done",
+              "failed"
+            ],
+            "feedback_message": "string"
+          }
+        },
+        {
+          "fn_name": "teleop_pick_place__release",
+          "fn_description": "Teleop Pick-and-Place: release — on the SIMULATED robot only, through the safety governor.",
+          "args": [],
+          "hint": "Returns done or failed with feedback; a governor refusal or an e-stop returns failed.",
+          "result": {
+            "action_status": [
+              "done",
+              "failed"
+            ],
+            "feedback_message": "string"
+          }
+        },
+        {
+          "fn_name": "teleop_pick_place__estop",
+          "fn_description": "Teleop Pick-and-Place: estop — on the SIMULATED robot only, through the safety governor.",
+          "args": [],
+          "hint": "Returns done or failed with feedback; a governor refusal or an e-stop returns failed.",
+          "result": {
+            "action_status": [
+              "done",
+              "failed"
+            ],
+            "feedback_message": "string"
+          }
+        },
+        {
+          "fn_name": "teleop_pick_place__reset",
+          "fn_description": "Teleop Pick-and-Place: reset — on the SIMULATED robot only, through the safety governor.",
+          "args": [],
+          "hint": "Returns done or failed with feedback; a governor refusal or an e-stop returns failed.",
+          "result": {
+            "action_status": [
+              "done",
+              "failed"
+            ],
+            "feedback_message": "string"
+          }
+        },
+        {
+          "fn_name": "teleop_pick_place__wait",
+          "fn_description": "Teleop Pick-and-Place: wait — on the SIMULATED robot only, through the safety governor.",
+          "args": [],
+          "hint": "Returns done or failed with feedback; a governor refusal or an e-stop returns failed.",
+          "result": {
+            "action_status": [
+              "done",
+              "failed"
+            ],
+            "feedback_message": "string"
+          }
+        }
+      ]
+    },
+    {
+      "id": "vb-worker-rb-amr-fleet-routing",
+      "name": "AMR Fleet Routing (sim)",
+      "description": "Route a small fleet of warehouse robots to their drop-offs without two robots claiming the same spot, and hold them at the walkway while a person crosses. Simulated robot only; every call passes the Holodeck safety governor.",
+      "sites": [
+        "rb-site-west-oakland-port-automation",
+        "rb-site-west-oakland-warehouse",
+        "rb-site-orleans-warehouse"
+      ],
+      "functions": [
+        {
+          "fn_name": "amr_fleet_routing__route",
+          "fn_description": "AMR Fleet Routing: route {moves: [N|S|E|W|wait per robot]} — on the SIMULATED robot only, through the safety governor.",
+          "args": [
+            {
+              "name": "moves",
+              "description": "moves for route",
+              "type": "array",
+              "optional": false
+            }
+          ],
+          "hint": "Returns done or failed with feedback; a governor refusal or an e-stop returns failed.",
+          "result": {
+            "action_status": [
+              "done",
+              "failed"
+            ],
+            "feedback_message": "string"
+          }
+        },
+        {
+          "fn_name": "amr_fleet_routing__estop",
+          "fn_description": "AMR Fleet Routing: estop — on the SIMULATED robot only, through the safety governor.",
+          "args": [],
+          "hint": "Returns done or failed with feedback; a governor refusal or an e-stop returns failed.",
+          "result": {
+            "action_status": [
+              "done",
+              "failed"
+            ],
+            "feedback_message": "string"
+          }
+        },
+        {
+          "fn_name": "amr_fleet_routing__wait",
+          "fn_description": "AMR Fleet Routing: wait — on the SIMULATED robot only, through the safety governor.",
+          "args": [],
+          "hint": "Returns done or failed with feedback; a governor refusal or an e-stop returns failed.",
+          "result": {
+            "action_status": [
+              "done",
+              "failed"
+            ],
+            "feedback_message": "string"
+          }
+        }
+      ]
+    },
+    {
+      "id": "vb-worker-rb-cobot-zone-setup",
+      "name": "Cobot Safety-Zone Setup (sim)",
+      "description": "Set a cobot's warning and stop zones for its speed, test the area scanner and the e-stop, then commit the setup. Simulated robot only; every call passes the Holodeck safety governor.",
+      "sites": [
+        "rb-site-san-jose-robotics-lab",
+        "rb-site-richland-drilling-robot"
+      ],
+      "functions": [
+        {
+          "fn_name": "cobot_zone_setup__set",
+          "fn_description": "Cobot Safety-Zone Setup: set {param: warn|stop|speed, value} — on the SIMULATED robot only, through the safety governor.",
+          "args": [
+            {
+              "name": "param",
+              "description": "param for set",
+              "type": "string",
+              "optional": false
+            },
+            {
+              "name": "value",
+              "description": "value for set",
+              "type": "number",
+              "optional": false
+            }
+          ],
+          "hint": "Returns done or failed with feedback; a governor refusal or an e-stop returns failed.",
+          "result": {
+            "action_status": [
+              "done",
+              "failed"
+            ],
+            "feedback_message": "string"
+          }
+        },
+        {
+          "fn_name": "cobot_zone_setup__test",
+          "fn_description": "Cobot Safety-Zone Setup: test {what: scanner|estop|zone-walk} — on the SIMULATED robot only, through the safety governor.",
+          "args": [
+            {
+              "name": "what",
+              "description": "what for test",
+              "type": "string",
+              "optional": false
+            }
+          ],
+          "hint": "Returns done or failed with feedback; a governor refusal or an e-stop returns failed.",
+          "result": {
+            "action_status": [
+              "done",
+              "failed"
+            ],
+            "feedback_message": "string"
+          }
+        },
+        {
+          "fn_name": "cobot_zone_setup__commit",
+          "fn_description": "Cobot Safety-Zone Setup: commit — on the SIMULATED robot only, through the safety governor.",
+          "args": [],
+          "hint": "Returns done or failed with feedback; a governor refusal or an e-stop returns failed.",
+          "result": {
+            "action_status": [
+              "done",
+              "failed"
+            ],
+            "feedback_message": "string"
+          }
+        },
+        {
+          "fn_name": "cobot_zone_setup__wait",
+          "fn_description": "Cobot Safety-Zone Setup: wait — on the SIMULATED robot only, through the safety governor.",
+          "args": [],
+          "hint": "Returns done or failed with feedback; a governor refusal or an e-stop returns failed.",
+          "result": {
+            "action_status": [
+              "done",
+              "failed"
+            ],
+            "feedback_message": "string"
+          }
+        }
+      ]
+    },
+    {
+      "id": "vb-worker-rb-cell-entry",
+      "name": "Robot Cell Entry (sim)",
+      "description": "Walk up to a working robot cell, watch it slow and stop as you near, test the e-stop, lock out, check for zero energy, clear the jam and restart safely. Simulated robot only; every call passes the Holodeck safety governor.",
+      "sites": [
+        "rb-site-soma-robot-cell"
+      ],
+      "functions": [
+        {
+          "fn_name": "cell_entry__walk",
+          "fn_description": "Robot Cell Entry: walk {d} (m, + toward the cell) — on the SIMULATED robot only, through the safety governor.",
+          "args": [
+            {
+              "name": "d",
+              "description": "d for walk (m, + toward the cell)",
+              "type": "number",
+              "optional": false
+            }
+          ],
+          "hint": "Returns done or failed with feedback; a governor refusal or an e-stop returns failed.",
+          "result": {
+            "action_status": [
+              "done",
+              "failed"
+            ],
+            "feedback_message": "string"
+          }
+        },
+        {
+          "fn_name": "cell_entry__test_estop",
+          "fn_description": "Robot Cell Entry: test-estop — on the SIMULATED robot only, through the safety governor.",
+          "args": [],
+          "hint": "Returns done or failed with feedback; a governor refusal or an e-stop returns failed.",
+          "result": {
+            "action_status": [
+              "done",
+              "failed"
+            ],
+            "feedback_message": "string"
+          }
+        },
+        {
+          "fn_name": "cell_entry__press_estop",
+          "fn_description": "Robot Cell Entry: press-estop — on the SIMULATED robot only, through the safety governor.",
+          "args": [],
+          "hint": "Returns done or failed with feedback; a governor refusal or an e-stop returns failed.",
+          "result": {
+            "action_status": [
+              "done",
+              "failed"
+            ],
+            "feedback_message": "string"
+          }
+        },
+        {
+          "fn_name": "cell_entry__lockout",
+          "fn_description": "Robot Cell Entry: lockout — on the SIMULATED robot only, through the safety governor.",
+          "args": [],
+          "hint": "Returns done or failed with feedback; a governor refusal or an e-stop returns failed.",
+          "result": {
+            "action_status": [
+              "done",
+              "failed"
+            ],
+            "feedback_message": "string"
+          }
+        },
+        {
+          "fn_name": "cell_entry__verify",
+          "fn_description": "Robot Cell Entry: verify — on the SIMULATED robot only, through the safety governor.",
+          "args": [],
+          "hint": "Returns done or failed with feedback; a governor refusal or an e-stop returns failed.",
+          "result": {
+            "action_status": [
+              "done",
+              "failed"
+            ],
+            "feedback_message": "string"
+          }
+        },
+        {
+          "fn_name": "cell_entry__enter",
+          "fn_description": "Robot Cell Entry: enter — on the SIMULATED robot only, through the safety governor.",
+          "args": [],
+          "hint": "Returns done or failed with feedback; a governor refusal or an e-stop returns failed.",
+          "result": {
+            "action_status": [
+              "done",
+              "failed"
+            ],
+            "feedback_message": "string"
+          }
+        },
+        {
+          "fn_name": "cell_entry__clear_jam",
+          "fn_description": "Robot Cell Entry: clear-jam — on the SIMULATED robot only, through the safety governor.",
+          "args": [],
+          "hint": "Returns done or failed with feedback; a governor refusal or an e-stop returns failed.",
+          "result": {
+            "action_status": [
+              "done",
+              "failed"
+            ],
+            "feedback_message": "string"
+          }
+        },
+        {
+          "fn_name": "cell_entry__exit",
+          "fn_description": "Robot Cell Entry: exit — on the SIMULATED robot only, through the safety governor.",
+          "args": [],
+          "hint": "Returns done or failed with feedback; a governor refusal or an e-stop returns failed.",
+          "result": {
+            "action_status": [
+              "done",
+              "failed"
+            ],
+            "feedback_message": "string"
+          }
+        },
+        {
+          "fn_name": "cell_entry__remove_lock",
+          "fn_description": "Robot Cell Entry: remove-lock — on the SIMULATED robot only, through the safety governor.",
+          "args": [],
+          "hint": "Returns done or failed with feedback; a governor refusal or an e-stop returns failed.",
+          "result": {
+            "action_status": [
+              "done",
+              "failed"
+            ],
+            "feedback_message": "string"
+          }
+        },
+        {
+          "fn_name": "cell_entry__restart",
+          "fn_description": "Robot Cell Entry: restart — on the SIMULATED robot only, through the safety governor.",
+          "args": [],
+          "hint": "Returns done or failed with feedback; a governor refusal or an e-stop returns failed.",
+          "result": {
+            "action_status": [
+              "done",
+              "failed"
+            ],
+            "feedback_message": "string"
+          }
+        },
+        {
+          "fn_name": "cell_entry__wait",
+          "fn_description": "Robot Cell Entry: wait — on the SIMULATED robot only, through the safety governor.",
+          "args": [],
+          "hint": "Returns done or failed with feedback; a governor refusal or an e-stop returns failed.",
+          "result": {
+            "action_status": [
+              "done",
+              "failed"
+            ],
+            "feedback_message": "string"
+          }
+        }
+      ]
+    }
+  ]
+}

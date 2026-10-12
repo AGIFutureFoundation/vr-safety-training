@@ -1,0 +1,415 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "clean-line-clean-log",
+    "name": "Clean Line, Clean Log",
+    "note": "The airspace was checked before launch, the buffer was held the whole line, the gust got an immediate return home, and the battery landed inside its reserve band"
+  },
+  "category": "Environmental Monitoring",
+  "certification": "FAA 14 CFR Part 107 small unmanned aircraft systems rule and today's LAANC airspace authorization; U.S. Fish and Wildlife Service (USFWS) Endangered Species Act buffer conditions for the nesting birds at the bench's edge; San Francisco Bay Conservation and Development Commission (BCDC) Bay Plan permit conditions for the survey; NOAA tide predictions the flight window is timed against; Regional Water Quality Control Board (RWQCB) monitoring conditions requiring a photographic record of the restoration bench",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "BCDC",
+        "citedAs": "BCDC",
+        "id": "bcdc-bay-plan",
+        "title": "San Francisco Bay Plan and BCDC permit conditions under the McAteer-Petris Act"
+      },
+      {
+        "body": "NOAA",
+        "citedAs": "NOAA",
+        "id": "noaa-tides-and-esa",
+        "title": "NOAA tide predictions and NOAA Fisheries Endangered Species Act consultation for in-water work"
+      },
+      {
+        "body": "RWQCB",
+        "citedAs": "RWQCB",
+        "id": "rwqcb-401-certification",
+        "title": "Regional Water Quality Control Board Clean Water Act §401 certification and waste discharge requirements"
+      },
+      {
+        "body": "USFWS",
+        "citedAs": "Endangered Species Act",
+        "id": "usfws-esa",
+        "title": "Endangered Species Act §7 consultation and species protection measures set by the U.S. Fish and Wildlife Service"
+      }
+    ]
+  },
+  "district": "Environmental Monitoring",
+  "domain": "Environmental Monitoring",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "true-compass",
+        "name": "True Compass",
+        "note": "The compass calibrated and the checklist run clean before the first launch"
+      },
+      {
+        "id": "clean-flight",
+        "name": "Clean Flight",
+        "note": "Never skipped the airspace check, never crossed the buffer, never flew past reserve"
+      },
+      {
+        "id": "held-the-reserve",
+        "name": "Held The Reserve",
+        "note": "Landed the battery inside the correct reserve band, first time"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-line",
+        "name": "Clean Line",
+        "note": "No corrections across the whole survey"
+      },
+      {
+        "id": "steady-line",
+        "name": "Steady Line",
+        "note": "Held the survey line in band the whole pass"
+      },
+      {
+        "id": "logged-fast",
+        "name": "Logged Fast",
+        "note": "Survey closed out inside 80% of par"
+      }
+    ],
+    "currency": "PASSES",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Ground Crew",
+      "Observer Pilot",
+      "Line Pilot",
+      "Senior Pilot",
+      "Shoreline Survey Certified"
+    ],
+    "system": "Shoreline Survey Watch"
+  },
+  "hazards": {
+    "chase-battery-critical": "You kept flying past the reserve to finish one more pass instead of landing. A battery that reads critical is a battery close to a voltage the aircraft cannot fly on at all, and the difference between landing on the reserve and losing the aircraft over open water is entirely in whether the pilot lands on the gauge's word or on their own wish to finish the line.",
+    "fly-over-buffer": "You flew the survey line straight over the flagged buffer for a closer shot of the bench. The buffer exists so the nesting birds at the bench's edge are never disturbed by a low-flying aircraft, and a drone passing directly overhead reads to a nesting bird as a predator, not a survey tool — the closer shot is never worth the flush it can cause.",
+    "handheld-launch-over-crowd": "You launched by hand-catching the aircraft up over the heads of the people on the beach instead of clearing the pad first. A prop strike close to a bystander's face is the single most common way a drone actually hurts someone, and the pad exists so nobody has to be under the aircraft while the props are live — clear it before spin-up, every time, not just when someone happens to be looking.",
+    "skip-airspace-check": "You spun the props up without ever reading today's airspace authorization board. A LAANC authorization is good for the airspace, the altitude ceiling and the time window it was actually issued for, and a flight launched on yesterday's assumption instead of today's authorization is a flight with no authorization behind it at all, whatever the aircraft itself is capable of."
+  },
+  "id": "br-drone-shoreline-survey",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "preflight-checklist",
+      "alert": "A dog walker has wandered straight onto the launch pad while the props are about to go live.",
+      "cue": "Hail them off the pad with the loudhailer before spin-up — do not launch with anyone standing on it.",
+      "delay": 2,
+      "id": "dog-walker-on-pad",
+      "kind": "Dog walker wanders onto the launch pad",
+      "missNote": "Nobody hailed the dog walker off, and they stayed standing on the pad while the aircraft was about to launch.",
+      "seconds": 14,
+      "target": "hailer",
+      "why": "A pad with someone standing on it is a pad the props cannot spin up over, and a bystander with headphones in and a dog on a long leash is not going to notice a small aircraft on their own — the loudhailer is what actually reaches them before anyone reaches for the throttle.",
+      "wrongNote": "The loudhailer — that's the one thing on this bench that reaches a bystander who isn't watching the pad."
+    },
+    {
+      "after": "survey-flyline",
+      "alert": "A gust has pushed windspeed over the limit set in today's authorization while the aircraft is mid-line.",
+      "cue": "Abort the line and bring the aircraft home immediately on the return-to-home control — do not try to finish the pass first.",
+      "delay": 2,
+      "id": "wind-gust-exceeds-limit",
+      "kind": "A gust pushes windspeed over today's limit mid-line",
+      "missNote": "The aircraft kept flying the line through the gust instead of coming home — exactly the moment the wind limit exists to catch.",
+      "seconds": 14,
+      "target": "rth-control",
+      "why": "The wind limit in the authorization is set to what the aircraft can actually be flown safely in, not to what it can technically stay airborne in, and a gust over that limit mid-line is the exact moment the aircraft becomes hardest to control — the return-to-home control is what gets it back over solid, known ground instead of drifting further out over open water while the pilot tries to finish one more frame.",
+      "wrongNote": "The return-to-home control — that's the one input that brings it back over the pad on its own, gust or no gust."
+    }
+  ],
+  "lateNotes": {
+    "battery-gauge": "Nothing to read yet — the aircraft has to actually be airborne and burning the battery before there is a reserve to watch.",
+    "survey-log": "Nothing to log yet — the line hasn't been flown and nothing has happened worth an entry."
+  },
+  "name": "Drone Shoreline Survey",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "bay-restoration-maritime-underwater"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "skiff",
+        "count": 1,
+        "kit": "fleet"
+      },
+      {
+        "builder": "radio",
+        "count": 2,
+        "kit": "toolkit"
+      }
+    ],
+    "error": null,
+    "footprint": 3,
+    "hits": [
+      "battery-gauge",
+      "battery-removed",
+      "battery-seated",
+      "boots-on",
+      "buffer-board",
+      "buffer-marker-socket",
+      "chase-battery-critical",
+      "compass-dial",
+      "controller-paired",
+      "cracked-prop",
+      "drone-body",
+      "fly-over-buffer",
+      "hailer",
+      "handheld-launch-over-crowd",
+      "hi-vis-vest",
+      "home-point-set",
+      "marker-cone",
+      "ops-board",
+      "props-confirmed-stopped",
+      "rth-control",
+      "skip-airspace-check",
+      "survey-log",
+      "swollen-battery",
+      "vo-radio",
+      "vo-radio-power"
+    ],
+    "meshes": 243
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "anyOrder": true,
+      "cue": "Before stepping onto the exposed mudflat: hi-vis vest on, boots on, the visual observer's radio powered on.",
+      "id": "ppe-brief",
+      "itemNames": {
+        "boots-on": "boots on for the mud",
+        "hi-vis-vest": "hi-vis vest on",
+        "vo-radio-power": "visual observer's radio powered on"
+      },
+      "kind": "sequence",
+      "prompt": "Before stepping onto the exposed mudflat: hi-vis vest on, boots on, the visual observer's radio powered on.",
+      "targets": [
+        "hi-vis-vest",
+        "boots-on",
+        "vo-radio-power"
+      ],
+      "title": "Gear up before walking onto the flat",
+      "why": "The mudflat reads solid until a boot is already in a soft patch, and the hi-vis vest is what keeps a beach walker glancing over from mistaking the pilot's own silhouette for just another person on the sand rather than someone running a flight — the observer's radio has to be live before either of them is any use to the other."
+    },
+    {
+      "cue": "Read the ops board: today's airspace authorization, the wind limit it was issued against, and any NOTAM for this stretch of shoreline.",
+      "id": "ops-board",
+      "kind": "select",
+      "prompt": "Read the ops board: today's airspace authorization, the wind limit it was issued against, and any NOTAM for this stretch of shoreline.",
+      "target": "ops-board",
+      "title": "Read today's airspace authorization and weather board",
+      "why": "A LAANC authorization is good for today's airspace, today's altitude ceiling and today's wind limit, not for whatever the pilot remembers from the last flight here, and reading the board before a single case is opened is what keeps the flight that follows actually inside the authorization it claims to be flying under."
+    },
+    {
+      "cue": "Go through the gear case and find anything wrong with it before loading a battery or a prop onto the aircraft.",
+      "id": "check-gear",
+      "itemNames": {
+        "cracked-prop": "a propeller, hairline-cracked at the hub",
+        "swollen-battery": "a battery, swollen in its case"
+      },
+      "itemNotes": {
+        "cracked-prop": "A hairline crack at the hub won't show until the prop is spinning at speed — found now, on the bench, it costs a swap; found mid-flight it costs the aircraft.",
+        "swollen-battery": "A swollen cell is a battery already failing, and one that goes into the aircraft is one the flight is now betting on — pull it before it goes anywhere near the case."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Go through the gear case and find anything wrong with it before loading a battery or a prop onto the aircraft.",
+      "targets": [
+        "cracked-prop",
+        "swollen-battery"
+      ],
+      "title": "Check the gear case before anything is loaded",
+      "why": "A cracked prop or a swelling cell is exactly the kind of fault a rushed pilot never actually looks for until the aircraft is already assembled, and finding both now, on the bench with nothing spinning yet, costs nothing — finding either one in the air costs the aircraft and whatever it comes down on."
+    },
+    {
+      "cue": "Turn the aircraft through the compass calibration sequence on the controller before today's first launch.",
+      "id": "compass-dial",
+      "kind": "turn",
+      "prompt": "Turn the aircraft through the compass calibration sequence on the controller before today's first launch.",
+      "target": "compass-dial",
+      "title": "Calibrate the compass before the first launch",
+      "turn": {
+        "label": "COMPASS CAL",
+        "turns": 0.6
+      },
+      "why": "An aircraft flying on an uncalibrated compass drifts against its own heading the moment it's away from the controller's line of sight, and a compass calibrated once at home and never again out here is a compass that has already picked up whatever metal is on this bench — calibrating fresh, on site, is what keeps the survey line actually straight."
+    },
+    {
+      "cue": "Seat and latch the battery, pair the controller to the aircraft, then set the home point to the pad — in that order.",
+      "id": "preflight-checklist",
+      "itemNames": {
+        "battery-seated": "battery seated and latched",
+        "controller-paired": "controller paired to the aircraft",
+        "home-point-set": "home point set to the pad"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Seat the battery before pairing the controller — there's nothing for the controller to pair with until the aircraft is actually powered.",
+      "prompt": "Seat and latch the battery, pair the controller to the aircraft, then set the home point to the pad — in that order.",
+      "targets": [
+        "battery-seated",
+        "controller-paired",
+        "home-point-set"
+      ],
+      "title": "Run the preflight checklist in order",
+      "why": "A home point set before the battery is even seated is a home point set to nothing, and an aircraft that loses its link mid-flight with no home point saved is an aircraft with no return-to-home to fall back on — the order here isn't a formality, it's what makes every later step actually mean something."
+    },
+    {
+      "cue": "Read the buffer plan: the buffer distance the survey line has to hold from the nest per the permit, and where today's flagged line actually runs.",
+      "id": "buffer-board",
+      "kind": "select",
+      "prompt": "Read the buffer plan: the buffer distance the survey line has to hold from the nest per the permit, and where today's flagged line actually runs.",
+      "target": "buffer-board",
+      "title": "Read the bird buffer plan for this bench",
+      "why": "The buffer distance is set in the same Endangered Species Act consultation the compliance biologist's own buffer line is measured against, not decided by the pilot from the cockpit view, and reading the plan before the marker goes down is what keeps the flight path that gets flown next matched to the same line the ground crew already flagged."
+    },
+    {
+      "cue": "Drag the marker cone out to the point the buffer plan confirmed — not short of it, and not past it either.",
+      "drag": {
+        "missNote": "Not at the confirmed point — the marker has to land where the buffer plan actually put it, not somewhere that looks close enough.",
+        "radius": 0.4,
+        "to": "buffer-marker-socket"
+      },
+      "id": "set-buffer-marker",
+      "kind": "drag",
+      "prompt": "Drag the marker cone out to the point the buffer plan confirmed — not short of it, and not past it either.",
+      "target": "marker-cone",
+      "title": "Set the ground marker at the confirmed buffer point",
+      "why": "The ground marker is what lets the pilot hold the survey line by eye against a fixed point on the bench instead of guessing at a line that only exists on a board, and a marker set short of the confirmed point pulls the whole flown line closer to the nest than the permit allows before the aircraft has even left the pad."
+    },
+    {
+      "cue": "Call the visual observer: pad clear, buffer marked, cleared to launch — and wait to hear it back.",
+      "id": "launch-authorization",
+      "kind": "select",
+      "prompt": "Call the visual observer: pad clear, buffer marked, cleared to launch — and wait to hear it back.",
+      "target": "vo-radio",
+      "title": "Get the visual observer's clearance to launch",
+      "why": "The visual observer is the second set of eyes on the pad and the sky the whole flight depends on, and a launch that happens before that clearance actually comes back is a launch the observer was never really watching for, which defeats the entire reason a Part 107 crew flies with one."
+    },
+    {
+      "cue": "Hold the aircraft on the survey line down the length of the bench, on the near side of the buffer marker the whole way.",
+      "holdBreakNote": "The line drifted off band before the pass finished — steady the aircraft and pick the line back up.",
+      "id": "survey-flyline",
+      "kind": "track",
+      "prompt": "Hold the aircraft on the survey line down the length of the bench, on the near side of the buffer marker the whole way.",
+      "seconds": 6,
+      "target": "drone-body",
+      "title": "Fly the survey line down the bench",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.42,
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "SURVEY LINE",
+        "rise": 0.5,
+        "start": 0.14
+      },
+      "why": "The survey line is what turns today's flight into a record the restoration project can actually compare bench to bench and year to year, and a line that drifts toward the buffer on one pass and away from it on the next is a set of photos nobody downstream can line up against last season's — the line is flown once, and it is flown straight."
+    },
+    {
+      "cue": "Hold the aircraft steady in the hover over the erosion mark while the frame is captured — the photo is only useful sharp.",
+      "holdBreakNote": "The hover broke before the frame was captured — steady the aircraft and hold it through the shot.",
+      "id": "hold-hover-photo",
+      "kind": "hold",
+      "prompt": "Hold the aircraft steady in the hover over the erosion mark while the frame is captured — the photo is only useful sharp.",
+      "seconds": 5,
+      "target": "drone-body",
+      "title": "Hold the hover for the erosion-mark photo",
+      "why": "A hover that drifts during the exposure is a blurred frame the restoration record can't actually use to compare this year's erosion line against last year's, and the whole point of flying this pass rather than shooting from the ground is a vantage the ground crew doesn't have — wasting it on a shaky frame throws that vantage away."
+    },
+    {
+      "cue": "Watch the battery gauge and bring the aircraft in to land once it reads inside the reserve band — not before it, and not past it either.",
+      "gauge": {
+        "green": [
+          0.46,
+          0.64
+        ],
+        "label": "BATTERY RESERVE",
+        "missNote": "Off the band. The reserve the checklist sets has to actually be read and landed on, not guessed at.",
+        "speed": 0.55
+      },
+      "id": "battery-gauge",
+      "kind": "gauge",
+      "prompt": "Watch the battery gauge and bring the aircraft in to land once it reads inside the reserve band — not before it, and not past it either.",
+      "target": "battery-gauge",
+      "title": "Watch the reserve and land inside the band",
+      "why": "Landing well before the reserve wastes flight time the survey doesn't have to spare, and landing past it is exactly how an aircraft ends up in the water short of the pad — the reserve band is the one number on this flight that isn't a judgement call, it's what the battery itself is telling the pilot to do."
+    },
+    {
+      "cue": "Log the pass: the line flown, the frames captured, the buffer held, and the battery landed inside reserve.",
+      "id": "survey-log",
+      "kind": "select",
+      "prompt": "Log the pass: the line flown, the frames captured, the buffer held, and the battery landed inside reserve.",
+      "target": "survey-log",
+      "title": "Log the pass",
+      "why": "The restoration project's own photographic record is built entirely out of entries like this one, and a pass logged right after landing — while the exact line and the exact frame count are still what actually happened, not what gets remembered back at the truck — is the version of today's flight that can actually stand behind next season's comparison."
+    },
+    {
+      "cue": "Confirm the props are fully stopped, then remove the battery and stow it.",
+      "id": "postflight-shutdown",
+      "itemNames": {
+        "battery-removed": "battery removed and stowed",
+        "props-confirmed-stopped": "props confirmed fully stopped"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Confirm the props are fully stopped before reaching for the battery — a hand near a prop that's still spinning down is a hand near a prop that's still spinning.",
+      "prompt": "Confirm the props are fully stopped, then remove the battery and stow it.",
+      "targets": [
+        "props-confirmed-stopped",
+        "battery-removed"
+      ],
+      "title": "Shut the aircraft down in order",
+      "why": "A prop that looks stopped can still be coasting for another second or two, and the battery is the one thing on this aircraft that keeps every system live until it's actually out — pulling it only after the props are confirmed still is what keeps the shutdown as uneventful as the rest of the flight."
+    },
+    {
+      "cue": "On the working channel: the survey is complete, the gust and the dog walker are both handled, and how the observer is doing after a flight with two interruptions in it.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "On the working channel: the survey is complete, the gust and the dog walker are both handled, and how the observer is doing after a flight with two interruptions in it.",
+      "target": "vo-radio",
+      "title": "Check in with the visual observer",
+      "why": "A flight with a gust and a bystander both in it is a flight the observer spent watching two things at once, and the check-in is where that gets acknowledged directly rather than assumed — it's also where the pilot's own read on a tense flight gets a place to go besides staying with them at the controller."
+    },
+    {
+      "cue": "Close the log: total flight time, the interruptions and how they were handled, the buffer held, and the aircraft secured.",
+      "id": "closing-log",
+      "kind": "select",
+      "prompt": "Close the log: total flight time, the interruptions and how they were handled, the buffer held, and the aircraft secured.",
+      "target": "survey-log",
+      "title": "Close out the flight log",
+      "why": "The closing entry is what turns today's individual frames and holds into the record the airspace authorization and the buffer plan are both actually reviewed against — a log closed out completely, in order, is the difference between a survey programme that renews on the strength of its own record and one that raises a question nobody on this bench can answer months later."
+    }
+  ],
+  "supportLine": "your agency's employee assistance programme, with the FAA's own drone safety team behind it",
+  "tagline": "The survey a restoration record is built from: the airspace authorization read before anything is unpacked, the gear checked for a cracked prop or a swollen cell, the compass calibrated, the bird buffer confirmed and marked, the survey line flown clean end to end, a wind gust answered with an immediate return home, the battery landed inside its reserve band and every pass logged the way the permit requires",
+  "title": "SmartCiti.X~ Drone Shoreline Survey VR",
+  "trade": "FAA Part 107 remote pilot in command, flying a restoration bench's shoreline survey line with a visual observer beside them",
+  "underwater": null,
+  "weather": "wind"
+}

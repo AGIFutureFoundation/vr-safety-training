@@ -1,0 +1,412 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "bay-covered-clean",
+    "name": "Bay Covered Clean",
+    "note": "A shattered lite cleared and the open bay covered with nobody cut by the fringe and nobody near the hole it left"
+  },
+  "category": "Construction & Structural Trades",
+  "certification": "IUPAT District Council 16 glaziers apprenticeship and training (architectural glass and metal); IUPAT Finishing Trades Institute glazier curriculum; ANSI/ASSP Z97.1 safety glazing materials for the replacement lite; OSHA 29 CFR 1926.501 duty to have fall protection and 29 CFR 1926.502 fall protection systems criteria for the open bay; the glazing system manufacturer's guidance on spontaneous tempered breakage and frame inspection before reglazing",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "IUPAT District Council 16",
+        "id": "iupat-dc16-glaziers",
+        "title": "IUPAT District Council 16 — glaziers apprenticeship and training, architectural glass and metal"
+      },
+      {
+        "body": "union",
+        "citedAs": "Finishing Trades Institute",
+        "id": "iupat-fti",
+        "title": "IUPAT Finishing Trades Institute — industrial painter, glazier and drywall finisher apprenticeship, including lead and containment training"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.501",
+        "id": "osha-1926-501",
+        "title": "29 CFR 1926.501 — Duty to have fall protection"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.502",
+        "id": "osha-1926-502",
+        "title": "29 CFR 1926.502 — Fall protection systems criteria and practices"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Construction & Structural Trades",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "wind-read",
+        "name": "Wind Read",
+        "note": "The wind at the open bay read before the cover went up"
+      },
+      {
+        "id": "cordon-held",
+        "name": "Cordon Held",
+        "note": "No unsafe action toward the open bay or the fringe the whole run"
+      },
+      {
+        "id": "cover-secure",
+        "name": "Cover Secure",
+        "note": "The temporary cover fastened without a correction"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-response",
+        "name": "Clean Response",
+        "note": "The bay cleared and covered without a correction"
+      },
+      {
+        "id": "fringe-controlled",
+        "name": "Fringe Controlled",
+        "note": "The frame's fringe never dropped uncontrolled"
+      },
+      {
+        "id": "bay-in-time",
+        "name": "Bay In Time",
+        "note": "Cleared, covered and logged inside 80% of par"
+      }
+    ],
+    "currency": "SHARD",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Pre-apprentice",
+      "Ground Hand",
+      "Glazier",
+      "Lead Glazier",
+      "Emergency Response Certified"
+    ],
+    "system": "Response Crew"
+  },
+  "hazards": {
+    "cover-clamp-pinch": "You reached fingers-first under the temporary cover while it was being clamped to the frame. The clamp draws the cover down against the frame's own edge in one motion, and a hand caught under that edge when the clamp closes gets exactly what the clamp was built to apply to plywood. Fingers stay on the cover's face, never under the edge the clamp is closing on.",
+    "cover-wind-catch": "You carried the plywood cover to the opening without a second person steadying it. A sheet that size catches a gust at an open bay the same way any large flat panel does, and a cover that twists out of a one-person carry near an unglazed opening can go through the hole as easily as out of your hands. It travels flat, two-handed or two-person, from the stack to the frame.",
+    "fringe-edge": "You pulled at the frame's remaining fringe of glass with a bare hand. A tempered lite that has broken does not always let go of the frame all at once — a fringe of pebbled glass can sit in the gasket held by nothing but its own jagged edges, and pulling it free by hand finds every one of those edges the moment it gives way. The fringe comes out gloved, worked loose evenly, never gripped and yanked.",
+    "open-bay-no-glass": "You stepped toward the empty frame before the temporary cover was up. A curtain wall bay with no glass in it and no guardrail across it is the same fall hazard as any other open floor opening five storeys up, and it does not become less of one because the glass used to be there ten minutes ago. Nothing crosses this bay's footprint until the cover is fastened or a barrier is in its place."
+  },
+  "id": "gl-tempered-glass-breakage-and-cleanup",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "cover-hold",
+      "alert": "A gust has caught the cover before the second clamp is on, and it is lifting at the free edge.",
+      "cue": "The cover is lifting at its unfastened edge.",
+      "delay": 3,
+      "id": "gust-cover",
+      "kind": "Gust catches the cover",
+      "missNote": "The gust let go of the edge on its own and the cover settled back flat. It could as easily have peeled the sheet off the frame and back through the open bay. The second clamp exists for exactly this gap between the first bite and the last fastener, and it sat unused while the gust had its turn.",
+      "seconds": 11,
+      "target": "cover-clamp",
+      "why": "A cover held at one clamp and lifting at the free edge is a cover the wind is actively trying to peel off the frame, and the second clamp is what stops that edge finding enough purchase to tear the whole sheet loose. The fastener sequence can continue once both clamps are actually holding it flat.",
+      "wrongNote": "It is the second cover clamp. Get the lifting edge flat again before the fasteners continue."
+    },
+    {
+      "after": "sweep-track",
+      "alert": "Someone from down the hallway is walking toward the cordon line where the tape has come loose on one end.",
+      "cue": "Someone is walking toward the loose end of the cordon.",
+      "delay": 3,
+      "id": "walker-toward-cordon",
+      "kind": "Someone walks toward the cordon",
+      "missNote": "The person walked up to the loose end and stopped on their own before crossing it. They noticed on their own, this time. The tape was down for exactly as long as it took someone to notice, and that is not a plan.",
+      "seconds": 11,
+      "target": "cordon-tape",
+      "why": "Cordon tape hanging loose on one end reads as no barrier at all to someone who was not there when the lite broke, and the pebbles still being swept are exactly what that person is about to walk into. Restringing it now is what tells them the same thing the crew already knows about this hallway.",
+      "wrongNote": "It is the cordon tape. Restring it before anyone else reaches that gap."
+    }
+  ],
+  "lateNotes": {
+    "cover-panel": "The cover comes off the stack after the wind is read and the fringe is already out of the frame. A cover carried past a frame still holding jagged fringe is a cover carried past an edge nobody has controlled yet.",
+    "sweep-tool": "The sweep starts only after the fringe is out and bagged. Sweeping around glass still hanging in the frame just moves the hazard closer to the broom."
+  },
+  "name": "Tempered Glass Breakage And Cleanup",
+  "parSeconds": 280,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "glaziers-and-architectural-metal"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.2,
+    "hits": [
+      "anemometer",
+      "bagged-shards",
+      "bin-lid-open",
+      "cordon-gap",
+      "cordon-tape",
+      "cover-clamp",
+      "cover-clamp-pinch",
+      "cover-fastener",
+      "cover-panel",
+      "cover-wind-catch",
+      "coveralls",
+      "cut-gloves",
+      "disposal-bin",
+      "eye-protection",
+      "frame-fringe",
+      "fringe-edge",
+      "fringe-remnant",
+      "fringe-tool",
+      "incident-log",
+      "neighbor-corner-check",
+      "neighbor-edge-check",
+      "neighbor-log",
+      "open-bay-no-glass",
+      "site-skip",
+      "stray-shard",
+      "sweep-tool",
+      "tailboard",
+      "walkway-shard"
+    ],
+    "meshes": 152
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the tailboard — which bay let go, who called it in, the wind limit for the cover, the cordon boundary — and sign it.",
+      "id": "check-in",
+      "kind": "select",
+      "prompt": "Read the tailboard — which bay let go, who called it in, the wind limit for the cover, the cordon boundary — and sign it.",
+      "target": "tailboard",
+      "title": "Sign the incident tailboard with the crew",
+      "why": "A spontaneous breakage call is not a scheduled glazing job, and the tailboard for one exists to slow the crew down to the same discipline as any other bay: which bay, who is inside the cordon, what stops the work. Signing it is what turns an incident into a procedure the crew is actually running rather than a mess everyone is reacting to."
+    },
+    {
+      "cue": "Take the anemometer reading at the bay and commit it inside the working band before the cover is carried up.",
+      "gauge": {
+        "green": [
+          0.18,
+          0.46
+        ],
+        "label": "WIND",
+        "missNote": "That reading is outside the working band for carrying the cover — over it, wait at the stack; under it, read it again at the bay.",
+        "speed": 0.68
+      },
+      "id": "wind-read",
+      "kind": "gauge",
+      "prompt": "Take the anemometer reading at the bay and commit it inside the working band before the cover is carried up.",
+      "target": "anemometer",
+      "title": "Read the wind at the open bay",
+      "why": "The bay is now a hole in the facade with nothing to slow what comes through it, and a plywood cover carried up to that hole adds sail area a normal glazing job never has to think about. A reading over the band means the cover waits at the stack, because a cover that catches a gust mid-carry can go through the opening it was meant to close."
+    },
+    {
+      "cue": "Cut-resistant gloves, then eye protection, then coveralls — in that order, before a hand goes near the frame or the pebbled glass on the floor.",
+      "id": "ppe-seq",
+      "itemNames": {
+        "coveralls": "coveralls",
+        "cut-gloves": "cut-resistant gloves",
+        "eye-protection": "eye protection"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Gloves, then eyes, then coveralls — the hand goes into a glove before it goes anywhere near the frame.",
+      "prompt": "Cut-resistant gloves, then eye protection, then coveralls — in that order, before a hand goes near the frame or the pebbled glass on the floor.",
+      "targets": [
+        "cut-gloves",
+        "eye-protection",
+        "coveralls"
+      ],
+      "title": "Glove and cover up before touching anything in the frame",
+      "why": "Tempered glass breaks into pebbles rather than blades, and it is still glass — a bare hand in the fringe or a knee down in the debris finds that out the same way it would with any other broken lite. The order matters because gloves protect the hand that reaches first, eye protection covers what a piece of fringe does on the way down, and coveralls are checked last because they matter for the sweep more than the fringe itself."
+    },
+    {
+      "cue": "Look at the cordon tape and the floor just outside it — click the two things wrong before the fringe is touched.",
+      "id": "cordon-find",
+      "itemNames": {
+        "cordon-gap": "a gap in the cordon tape",
+        "stray-shard": "a shard that has migrated outside the cordon"
+      },
+      "itemNotes": {
+        "cordon-gap": "The cordon tape has a gap where it was strung around a pillar instead of past it — a way through the barrier nobody meant to leave.",
+        "stray-shard": "A pebble of tempered glass has rolled clear of the cordon line and is sitting on the floor where the next person to walk this hallway will find it with a shoe."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look at the cordon tape and the floor just outside it — click the two things wrong before the fringe is touched.",
+      "targets": [
+        "cordon-gap",
+        "stray-shard"
+      ],
+      "title": "Walk the cordon before anyone starts clearing the frame",
+      "why": "The cordon is what keeps anyone who was not called to this incident from walking into it, and it fails the same quiet way any barrier does — strung around an obstacle instead of past it, or simply outrun by a pebble that bounced further than anyone expected. Both get answered before the crew's attention moves to the frame itself."
+    },
+    {
+      "cue": "Look at what glass is still held in the gasket around the frame before touching any of it.",
+      "id": "fringe-check",
+      "kind": "select",
+      "prompt": "Look at what glass is still held in the gasket around the frame before touching any of it.",
+      "target": "frame-fringe",
+      "title": "Assess the fringe still in the frame",
+      "why": "Not every piece of a tempered lite comes down when the lite breaks — a fringe held by the gasket's own grip can sit under real tension, and the way it lets go depends on which piece is worked loose first. Assessing it before touching it is what tells the crew whether this fringe comes out in one motion or needs working section by section."
+    },
+    {
+      "cue": "Turn the release tool evenly around the frame so the fringe comes free of the gasket under control rather than dropping at one point first.",
+      "id": "fringe-turn",
+      "kind": "turn",
+      "prompt": "Turn the release tool evenly around the frame so the fringe comes free of the gasket under control rather than dropping at one point first.",
+      "target": "fringe-tool",
+      "title": "Work the fringe free of the gasket",
+      "turn": {
+        "axis": "z",
+        "label": "RELEASE",
+        "turns": 1
+      },
+      "why": "Working the fringe evenly around the frame is what keeps it coming out as one controlled piece instead of shedding pebbles from whichever corner is disturbed first — a fringe pulled at one point often drops the rest of itself the moment that point releases, straight down into the cordon or worse, over the edge below."
+    },
+    {
+      "cue": "Cups or a gloved two-handed grip on the freed section, guide it from the frame to the lined disposal bin — not released until it is set down flat.",
+      "drag": {
+        "missNote": "Not set down flat in the bin — a fringe section resting on an edge finishes coming apart there instead.",
+        "radius": 0.45,
+        "to": "disposal-bin"
+      },
+      "id": "shard-drag",
+      "kind": "drag",
+      "prompt": "Cups or a gloved two-handed grip on the freed section, guide it from the frame to the lined disposal bin — not released until it is set down flat.",
+      "target": "fringe-remnant",
+      "title": "Move the freed fringe to the disposal bin",
+      "why": "The freed fringe is still a sheet of connected pebbles until it is actually broken up, and it is carried the way any glass is carried on this platform — flat, controlled, released only once it is resting somewhere it cannot slide off its own edge and finish separating into the pieces it is already trying to become."
+    },
+    {
+      "cue": "Work the sweep across the floor at a steady pace so the pebbles are gathered rather than scattered further by a rushed pass.",
+      "holdBreakNote": "The sweep ran out of the band — pebbles scattered rather than gathered. Slow back into the band and pass that stretch again.",
+      "id": "sweep-track",
+      "kind": "track",
+      "prompt": "Work the sweep across the floor at a steady pace so the pebbles are gathered rather than scattered further by a rushed pass.",
+      "seconds": 5,
+      "target": "sweep-tool",
+      "title": "Sweep the pebbled glass at a steady pace",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.43,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "SWEEP",
+        "rise": 0.55
+      },
+      "why": "Tempered glass pebbles roll, and a sweep run too fast pushes as many past the dustpan as it collects, scattering them exactly toward the cordon line this crew is trying to keep clear. A steady pace is what actually gathers a pass instead of relocating the same pebbles two metres further across the floor."
+    },
+    {
+      "cue": "Both hands on the cover, hold it flat against the empty frame while the first clamp is fitted — do not let go until it bites.",
+      "holdBreakNote": "You let go before the clamp bit — the cover lifted at the edge. Reset it flat to the frame and hold until the clamp is on.",
+      "id": "cover-hold",
+      "kind": "hold",
+      "prompt": "Both hands on the cover, hold it flat against the empty frame while the first clamp is fitted — do not let go until it bites.",
+      "seconds": 4,
+      "target": "cover-panel",
+      "title": "Hold the temporary cover flat to the frame while it is clamped",
+      "why": "Between the cover reaching the frame and the first clamp biting, it is held flat by your grip and nothing else, and letting go early lets a gust find the edge of a sheet that size and lever it away from the opening it was meant to close. The clamp is what turns the cover from something you are holding into something the frame is holding."
+    },
+    {
+      "cue": "Turn each fastener into the frame around the cover's full perimeter, evenly, so no edge is left free to work loose.",
+      "id": "cover-turn",
+      "kind": "turn",
+      "prompt": "Turn each fastener into the frame around the cover's full perimeter, evenly, so no edge is left free to work loose.",
+      "target": "cover-fastener",
+      "title": "Fasten the cover to the frame",
+      "turn": {
+        "axis": "z",
+        "label": "FASTEN",
+        "turns": 1
+      },
+      "why": "A cover fastened at two corners and left loose at the others is a cover that flexes at every gust until the loose edge tears free, so the fasteners go in evenly around the whole perimeter rather than finished at one side first. This cover is what stands between the opening and the weather until the bay is properly reglazed."
+    },
+    {
+      "cue": "Check the edge of the lite next to the one that broke, then its corners, then log it by its pane number — in that order.",
+      "id": "neighbor-seq",
+      "itemNames": {
+        "neighbor-corner-check": "neighbouring lite's corners checked",
+        "neighbor-edge-check": "neighbouring lite's edge checked",
+        "neighbor-log": "neighbouring unit logged by pane number"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Edge, then corners, then log it — the log is only worth something once the check behind it is actually done.",
+      "prompt": "Check the edge of the lite next to the one that broke, then its corners, then log it by its pane number — in that order.",
+      "targets": [
+        "neighbor-edge-check",
+        "neighbor-corner-check",
+        "neighbor-log"
+      ],
+      "title": "Check the neighbouring unit",
+      "why": "A tempered lite can fail with no impact anyone saw, and the manufacturer's own guidance on that failure mode is to look at what is next to it — the same batch, the same install date, the same edge condition — rather than assume this was the only lite with a problem. The pane number is what lets this check be repeated on a schedule instead of once and forgotten."
+    },
+    {
+      "cue": "Lift the sealed bag by its handles, guide it from the sweep area to the site skip — not released until it is set inside.",
+      "drag": {
+        "missNote": "Not set inside the skip — a bag dropped short can split and put the glass back on the ground.",
+        "radius": 0.45,
+        "to": "site-skip"
+      },
+      "id": "bag-drag",
+      "kind": "drag",
+      "prompt": "Lift the sealed bag by its handles, guide it from the sweep area to the site skip — not released until it is set inside.",
+      "target": "bagged-shards",
+      "title": "Move the bagged shards to the skip",
+      "why": "The bagged pebbles are handled the same as any load leaving this bay: carried under control and set down deliberately, because a bag of broken glass dropped from a height even the length of an arm can split open on landing and put the exact hazard this whole procedure just cleared back on the ground."
+    },
+    {
+      "cue": "Look at the bin and the walkway — click the two things wrong before anyone reopens this area to foot traffic.",
+      "id": "site-walk",
+      "itemNames": {
+        "bin-lid-open": "the disposal bin lid left open",
+        "walkway-shard": "a shard left on the walkway outside the cordon"
+      },
+      "itemNotes": {
+        "bin-lid-open": "The disposal bin's lid was never closed after the fringe went in — an open bin is one more way for a pebble to end up somewhere it shouldn't.",
+        "walkway-shard": "A shard has ended up on the walkway just outside where the cordon used to run, right where foot traffic resumes once the tape comes down."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look at the bin and the walkway — click the two things wrong before anyone reopens this area to foot traffic.",
+      "targets": [
+        "bin-lid-open",
+        "walkway-shard"
+      ],
+      "title": "Walk the site once more before the cordon comes down",
+      "why": "The cordon coming down is the signal to everyone else that this area is safe again, and that signal is only honest if the bin is actually closed and the walkway is actually clear — both are exactly the kind of thing that gets assumed done because the main job, the cover, already went up."
+    },
+    {
+      "cue": "Pane number, wind readings, the neighbouring unit's condition, the cover fastened and the faults found and fixed, and sign it.",
+      "id": "log",
+      "kind": "select",
+      "prompt": "Pane number, wind readings, the neighbouring unit's condition, the cover fastened and the faults found and fixed, and sign it.",
+      "target": "incident-log",
+      "title": "Log the incident",
+      "why": "The log ties this pane's failure to a date, a wind reading and a name, which is what lets the manufacturer and the building owner actually track whether this was an isolated failure or the first of several from the same batch. It also carries the cordon gap and the open bin as fixed rather than assumed, for whoever reopens this hallway."
+    }
+  ],
+  "supportLine": "your IUPAT District Council 16 apprenticeship coordinator or job steward, or your employer's employee assistance program if the sound of the lite letting go is what you keep hearing",
+  "tagline": "Cordon and PPE, the wind read at the open bay, the frame's fringe freed under control, the pebbles swept, a temporary cover held and fastened, the neighbouring unit checked, and the incident logged",
+  "title": "SmartCiti.X~ Tempered Glass Breakage And Cleanup VR",
+  "trade": "Glazier — IUPAT District Council 16 emergency glazing response",
+  "underwater": null,
+  "weather": "wind"
+}

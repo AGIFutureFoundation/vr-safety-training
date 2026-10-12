@@ -1,0 +1,435 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "well-of-record",
+    "name": "Well of Record",
+    "note": "A boring drilled inside its clearance and exclusion zone, cuttings drummed as IDW, a seal hydrated before the grout, and a survey point logged — nothing free-fallen, nothing on the ground"
+  },
+  "category": "Environmental Monitoring",
+  "certification": "IUOE Local 3 drillers and rig operators; LIUNA hazmat laborers under OSHA HAZWOPER (29 CFR 1910.120); ASTM D5092 standard practice for monitoring well design and installation; California well construction standards (DWR Bulletin 74); the county well permit and the site's quality assurance project plan (QAPP)",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "IUOE",
+        "id": "iuoe-training",
+        "title": "IUOE local training funds and the IUOE National Training Fund — operating and stationary engineer apprenticeship"
+      },
+      {
+        "body": "union",
+        "citedAs": "LIUNA",
+        "id": "liuna-training-fund",
+        "title": "LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "HAZWOPER",
+        "id": "osha-1910-120",
+        "title": "29 CFR 1910.120 — Hazardous waste operations and emergency response (HAZWOPER)"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Environmental",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "cleared-before-up",
+        "name": "Cleared Before Up",
+        "note": "The overhead clearance and exclusion zone were set before the mast ever came up"
+      },
+      {
+        "id": "never-under-it",
+        "name": "Never Under It",
+        "note": "Never under the mast, never a hand near the flights, never a free-fallen seal"
+      },
+      {
+        "id": "steady-hand",
+        "name": "Steady Hand",
+        "note": "Held the mast and the auger advance near band centre"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-boring",
+        "name": "Clean Boring",
+        "note": "No corrections anywhere in the installation"
+      },
+      {
+        "id": "steady-advance",
+        "name": "Steady Advance",
+        "note": "Held the auger advance in band without a dropout"
+      },
+      {
+        "id": "well-logged-fast",
+        "name": "Well Logged",
+        "note": "Survey point logged inside 80% of par"
+      }
+    ],
+    "currency": "FT-BGS",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Field Assistant",
+      "Field Geologist",
+      "Field Lead",
+      "Senior Field Lead",
+      "Boring Log Certified"
+    ],
+    "system": "Boring Log Authority"
+  },
+  "hazards": {
+    "dump-cuttings-ground": "You had the cuttings dumped straight onto the ground beside the pit. Cuttings off an auger on a site under a federal cleanup order are investigation-derived waste until a lab result says otherwise, and IDW that goes on the ground instead of into a drummed, labeled container is a release the site's own work plan exists to prevent — on the exact soil the boring was drilled to characterize.",
+    "free-fall-pack": "You had the filter sand poured straight down the annulus from the surface instead of run down the tremie pipe. A free-fallen pack bridges against the casing on the way down and leaves voids in the very interval the well depends on to filter formation water — ASTM D5092 calls for a tremie below the water table for exactly this reason, and a bridged pack is invisible until the well never develops clean.",
+    "hand-near-auger": "You reached toward the auger flights while they were turning. A rotating flight does not stop for a hand near it and does not care whose hand it is; cuttings are cleared and inspected with a shovel or a scoop held at a distance, never by hand, and never while the string is still turning.",
+    "under-the-mast": "You stood underneath the mast while it was up. A hollow-stem auger rig's mast is carrying the full weight of the kelly bar and the auger string overhead, and the one rule that never bends on a drill pad is that nobody — including the person directing the rig — stands under a raised load, ever, for any reason."
+  },
+  "id": "well-install",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "raise-mast",
+      "alert": "The outrigger pad on the low side has settled into the softened shoulder, and the top of the mast is walking toward the overhead line's clearance limit.",
+      "cue": "The ground under one corner of this rig just changed the geometry you signed off on.",
+      "delay": 4,
+      "id": "mast-drift",
+      "kind": "Mast creeping out of plumb",
+      "missNote": "The mast kept walking toward the line while the boring continued underneath it. A mast that reaches an energized overhead conductor does not give a warning first — the clearance distance is the entire margin, and it was allowed to close to nothing.",
+      "seconds": 13,
+      "target": "mast-stop-signal",
+      "why": "The clearance to that overhead line was set for a mast standing plumb on a level pad, and a settling outrigger changes that geometry without anyone touching a control. The field lead's job right now is the stop signal to the driller before the mast travels another degree closer to the line — not the outrigger itself, which is the driller's own control and not what closes the gap fastest.",
+      "wrongNote": "That does not stop the drift. The hand signal to the driller is what halts the rig before the mast travels any further."
+    },
+    {
+      "after": "advance-auger",
+      "alert": "The PID reading off the auger flights has jumped well past the action level in your field procedure and is still climbing as the flights turn.",
+      "cue": "The cuttings coming up right now are telling you something the boring log has not caught up to yet.",
+      "delay": 4,
+      "id": "pid-spike",
+      "kind": "PID reading spikes on the cuttings",
+      "missNote": "The auger kept advancing through a reading nobody acted on. Continuing to drill past an action-level exceedance means the crew is now working an unknown exposure with the protection sized for the boring it thought it was drilling, which is exactly the gap a HAZWOPER action level is written to close.",
+      "seconds": 13,
+      "target": "auger-stop-signal",
+      "why": "A reading above the action level mid-run means the auger has entered material more contaminated than the crew's current respiratory protection was set up for, and the QAPP's own action-level trigger exists precisely so that keeps drilling is not the default answer. The signal to stop the rig now, screen properly and upgrade PPE before advancing another foot is the field lead's call — the driller cannot see the meter from the cab.",
+      "wrongNote": "That does not stop the auger. The stop signal to the driller is what halts the rig so the crew can screen and upgrade before another foot goes in."
+    }
+  ],
+  "lateNotes": {
+    "auger-control": "The auger advances after the mast is up, plumb, and the boring is spotted on the surveyed location — not before the rig is even set.",
+    "grout-valve": "The grout goes in once the seal is placed and proven hydrated, not while the bentonite is still dry pellets settling onto the pack.",
+    "survey-point": "The survey point is shot after the well is developed and capped — logging a coordinate for a hole that is not finished yet is a record of the wrong thing."
+  },
+  "name": "Well Install",
+  "parSeconds": 320,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "hunters-point-bay-restoration"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "annulus-socket",
+      "auger-control",
+      "auger-stop-signal",
+      "bentonite-bag",
+      "boring-stake",
+      "cuttings-pile",
+      "development-pump",
+      "dump-cuttings-ground",
+      "exclusion-cones",
+      "free-fall-pack",
+      "grout-valve",
+      "hand-near-auger",
+      "hydration-hose",
+      "idw-drum-socket",
+      "locate-flag-conflict",
+      "locate-permit-board",
+      "lower-casing",
+      "lower-screen",
+      "mast-control",
+      "mast-stop-signal",
+      "overhead-clearance-flag",
+      "overhead-line-uncleared",
+      "pid-meter",
+      "sand-bag",
+      "seal-socket",
+      "survey-point",
+      "under-the-mast",
+      "well-tag"
+    ],
+    "meshes": 222
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check the utility locate against the site plan and confirm the county boring permit covers this location and depth.",
+      "id": "check-locate",
+      "kind": "select",
+      "prompt": "Check the utility locate against the site plan and confirm the county boring permit covers this location and depth.",
+      "target": "locate-permit-board",
+      "title": "Confirm the locate and the boring permit",
+      "why": "A locate more than a few weeks old is not a locate, and a permit for a different depth or a different spot on the parcel does not cover the hole this rig is about to drill. Both are checked here, at the rig, against paper — not assumed from the last boring on this pad."
+    },
+    {
+      "cue": "Look over the pad for what has to be resolved before the mast comes up, and click what needs attention.",
+      "id": "site-walk",
+      "itemNames": {
+        "locate-flag-conflict": "locate flags that disagree with the site plan",
+        "overhead-line-uncleared": "overhead line with no clearance flagged yet"
+      },
+      "itemNotes": {
+        "locate-flag-conflict": "The locate flags on the ground do not match where the site plan shows the buried gas service running. A conflict like this gets resolved with the locate crew before the auger turns, not decided in the field by whichever line looks more likely.",
+        "overhead-line-uncleared": "There is a service drop crossing the pad with no clearance distance flagged yet. A mast raised under an unflagged line is a mast whose crew has no marked limit to work inside — the flag has to go up before the mast does."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look over the pad for what has to be resolved before the mast comes up, and click what needs attention.",
+      "targets": [
+        "overhead-line-uncleared",
+        "locate-flag-conflict"
+      ],
+      "title": "Walk the pad before rigging up",
+      "why": "Everything below and above this pad that could catch the rig is easiest to fix before anything is raised or turning. Found here, it is a flag moved or a call made; found after the mast is up, it is the rig backing off a line it should never have been under."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Flag the overhead clearance distance and cone off the exclusion zone before the mast goes up.",
+      "id": "set-zone",
+      "itemNames": {
+        "exclusion-cones": "exclusion zone coned off",
+        "overhead-clearance-flag": "overhead clearance flagged"
+      },
+      "kind": "sequence",
+      "prompt": "Flag the overhead clearance distance and cone off the exclusion zone before the mast goes up.",
+      "targets": [
+        "overhead-clearance-flag",
+        "exclusion-cones"
+      ],
+      "title": "Set the clearance and the exclusion zone",
+      "why": "The clearance flag is the line nobody lets the mast cross, and the exclusion zone is the ground nobody but the driller stands on once the string is turning. Both exist to be set before the mast is a hazard, not adjusted afterward around wherever it ended up."
+    },
+    {
+      "cue": "Hold the raise steady and watch the plumb band — the mast has to come up inside the flagged clearance, not just eventually stop there.",
+      "holdBreakNote": "The mast came out of the plumb band mid-raise. Bring it back into band and hold — a mast that stops outside plumb is a mast standing closer to the line than the flag allows.",
+      "id": "raise-mast",
+      "kind": "track",
+      "prompt": "Hold the raise steady and watch the plumb band — the mast has to come up inside the flagged clearance, not just eventually stop there.",
+      "seconds": 7,
+      "target": "mast-control",
+      "title": "Direct the mast up, inside clearance",
+      "track": {
+        "drift": 0.11,
+        "fall": 0.45,
+        "green": [
+          0.42,
+          0.62
+        ],
+        "label": "MAST PLUMB",
+        "rise": 0.55,
+        "start": 0.1
+      },
+      "why": "A mast raised too fast overshoots plumb and has to be walked back against a line that is now closer than the flag allows; raised too slow, the outriggers are loaded unevenly for longer than they need to be. Steady, inside the band, is what a mast that is actually plumb over a level pad looks like from outside the cab."
+    },
+    {
+      "cue": "Check the auger is centred over the surveyed stake for this boring, not the last one.",
+      "id": "spot-boring",
+      "kind": "select",
+      "prompt": "Check the auger is centred over the surveyed stake for this boring, not the last one.",
+      "target": "boring-stake",
+      "title": "Confirm the boring is spotted correctly",
+      "why": "The boring log means nothing if the hole it describes is not the hole the survey grid says it is. A boring spotted a metre off its stake is a data point that reads as being somewhere it is not on every map made from it afterward."
+    },
+    {
+      "cue": "Hold the advance rate steady in the band while the hollow-stem auger turns down to the screened interval.",
+      "holdBreakNote": "Advance rate out of band — either the flights are loading up or the string is outrunning what it is cutting. Bring it back and hold.",
+      "id": "advance-auger",
+      "kind": "track",
+      "prompt": "Hold the advance rate steady in the band while the hollow-stem auger turns down to the screened interval.",
+      "seconds": 8,
+      "target": "auger-control",
+      "title": "Direct the auger to the target interval",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.42,
+        "green": [
+          0.38,
+          0.6
+        ],
+        "label": "ADVANCE RATE",
+        "rise": 0.5,
+        "start": 0.1
+      },
+      "why": "Too fast and the flights load up with cuttings instead of clearing them, which is how a string gets stuck; too slow and the boring runs long for no benefit to the sample. A steady rate in band is also what keeps the driller reading the formation as it comes up, rather than fighting the machine."
+    },
+    {
+      "cue": "Read the PID over the cuttings coming off the flights at this interval and commit while it sits in the expected background band.",
+      "gauge": {
+        "green": [
+          0.1,
+          0.34
+        ],
+        "label": "CUTTINGS PID",
+        "missNote": "Above the interval's expected background. Stop, screen again and confirm before this interval is logged clean.",
+        "speed": 0.7
+      },
+      "id": "screen-cuttings",
+      "kind": "gauge",
+      "prompt": "Read the PID over the cuttings coming off the flights at this interval and commit while it sits in the expected background band.",
+      "target": "pid-meter",
+      "title": "Screen the cuttings with the PID",
+      "why": "Screening every interval, not just the ones that look different, is what catches a change in the subsurface before it catches the crew. A background reading logged now is also what makes a later exceedance obviously a change, rather than something argued about after the fact."
+    },
+    {
+      "cue": "Carry the screened cuttings from the discharge chute to the labeled IDW drum and set them down square.",
+      "drag": {
+        "missNote": "Not on the drum — the cuttings go into the labeled IDW container, not beside it.",
+        "radius": 0.42,
+        "to": "idw-drum-socket"
+      },
+      "id": "drum-cuttings",
+      "kind": "drag",
+      "prompt": "Carry the screened cuttings from the discharge chute to the labeled IDW drum and set them down square.",
+      "target": "cuttings-pile",
+      "title": "Drum the cuttings as investigation-derived waste",
+      "why": "Cuttings off a boring on a site under a federal cleanup order are IDW from the moment they leave the auger, pending the lab result that says otherwise — they go straight into the drum, labeled and logged, with nowhere in between for them to sit on bare ground."
+    },
+    {
+      "cue": "Lower the screen to the design interval, then land the riser casing above it.",
+      "id": "set-screen-casing",
+      "itemNames": {
+        "lower-casing": "riser casing lowered and landed",
+        "lower-screen": "well screen lowered to interval"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Screen first, to the target interval, then the casing landed above it — not the other way round.",
+      "prompt": "Lower the screen to the design interval, then land the riser casing above it.",
+      "targets": [
+        "lower-screen",
+        "lower-casing"
+      ],
+      "title": "Set the screen and casing at the target interval",
+      "why": "The screen has to sit at the interval the geology and the design actually call for before the casing above it is landed — landing the casing first fixes the whole string's depth before the screen can be checked against the interval it was designed to sit in."
+    },
+    {
+      "cue": "Carry the sand to the tremie pipe and feed it down the annulus around the screen.",
+      "drag": {
+        "missNote": "Not down the tremie — the pack is fed down the pipe into the annulus, not dropped in from the surface.",
+        "radius": 0.42,
+        "to": "annulus-socket"
+      },
+      "id": "place-filter-pack",
+      "kind": "drag",
+      "prompt": "Carry the sand to the tremie pipe and feed it down the annulus around the screen.",
+      "target": "sand-bag",
+      "title": "Tremie the filter pack into the annulus",
+      "why": "Run down the tremie pipe, the pack settles evenly around the screen from the bottom up. That even pack is the entire filter this well relies on to keep formation fines out of every sample pulled from it for the rest of its life."
+    },
+    {
+      "cue": "Carry the bentonite pellets to the tremie pipe and set the seal above the filter pack.",
+      "drag": {
+        "missNote": "Not on top of the pack — the seal goes directly above the filter sand, not into it or above the wrong interval.",
+        "radius": 0.42,
+        "to": "seal-socket"
+      },
+      "id": "place-bentonite-seal",
+      "kind": "drag",
+      "prompt": "Carry the bentonite pellets to the tremie pipe and set the seal above the filter pack.",
+      "target": "bentonite-bag",
+      "title": "Place the bentonite seal above the pack",
+      "why": "The seal sits directly on top of the filter pack and below the grout, and it is what keeps surface water and the grout itself from ever reaching the screened interval. A seal placed short of the pack, or mixed into it, gives the grout a path straight down to the water the well exists to sample cleanly."
+    },
+    {
+      "cue": "Hold water on the bentonite pellets until the seal is fully swollen and sealed.",
+      "holdBreakNote": "The water came off before the seal finished swelling. A partially hydrated seal is not a shorter version of a sealed one — hold it again for the full duration.",
+      "id": "hydrate-seal",
+      "kind": "hold",
+      "prompt": "Hold water on the bentonite pellets until the seal is fully swollen and sealed.",
+      "seconds": 5,
+      "target": "hydration-hose",
+      "title": "Hydrate the seal before the grout",
+      "why": "A dry or half-hydrated bentonite seal still has voids in it, and grout poured onto a seal with voids finds every one of them on its way down. Held wet for the full duration, the pellets swell into a continuous plug that the grout then sits on rather than passes through."
+    },
+    {
+      "cue": "Open the tremie grout valve and pump grout from the bottom of the annulus up to the surface.",
+      "id": "grout-well",
+      "kind": "turn",
+      "prompt": "Open the tremie grout valve and pump grout from the bottom of the annulus up to the surface.",
+      "target": "grout-valve",
+      "title": "Grout the annulus to the surface",
+      "turn": {
+        "axis": "y",
+        "label": "GROUT VALVE",
+        "turns": 0.6
+      },
+      "why": "Pumped from the bottom up through the tremie, the grout displaces water and air ahead of it and fills the annulus without trapping either. Poured from the top, it channels down the outside of the casing and leaves exactly the kind of gap the seal below was placed to prevent."
+    },
+    {
+      "cue": "Hold the surge and pump rate steady in the band until the discharge runs clear of drilling fines.",
+      "holdBreakNote": "Development rate dropped out of band. Bring it back and hold until the discharge actually runs clear — stopping early leaves fines the next sampling event will read as the aquifer.",
+      "id": "develop-well",
+      "kind": "track",
+      "prompt": "Hold the surge and pump rate steady in the band until the discharge runs clear of drilling fines.",
+      "seconds": 8,
+      "target": "development-pump",
+      "title": "Develop the well until turbidity clears",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.42,
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "DEV. RATE",
+        "rise": 0.5,
+        "start": 0.12
+      },
+      "why": "Development is what removes the fines the drilling itself put into the formation around the screen — a well that is never developed samples the drilling, not the aquifer, for every event it is used for after this one."
+    },
+    {
+      "cue": "Shoot the survey point and elevation, then lock the well ID tag onto the casing.",
+      "id": "log-survey",
+      "itemNames": {
+        "survey-point": "survey point and elevation shot",
+        "well-tag": "well ID tag locked on"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Shoot the survey point first, then tag the well — the tag identifies a well that already has a surveyed location on record.",
+      "prompt": "Shoot the survey point and elevation, then lock the well ID tag onto the casing.",
+      "targets": [
+        "survey-point",
+        "well-tag"
+      ],
+      "title": "Log the survey point and the well tag",
+      "why": "The survey point ties this exact casing to a coordinate and an elevation everyone downstream — the sampler, the lab, the report — will use without ever seeing the boring again, and the tag is what stops that well from ever being confused with the one next to it."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Hollow-stem auger monitoring well: locate and permit checked, the mast raised inside its clearance, cuttings screened and drummed, screen and casing set, filter pack and seal placed and hydrated before the grout, the well developed clear, the survey point logged",
+  "title": "SmartCiti.X~ Well Install VR",
+  "trade": "Environmental geologist — field lead",
+  "underwater": null,
+  "weather": "overcast"
+}

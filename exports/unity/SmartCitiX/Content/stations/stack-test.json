@@ -1,0 +1,435 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "run-stands",
+    "name": "The Run Stands",
+    "note": "A traverse taken isokinetically, bracketed by leak checks that both passed, and recovered so an auditor can follow it"
+  },
+  "category": "Environmental Monitoring",
+  "certification": "IUOE and USW plant crews working with the testing contractor's source-testing team; the EPA reference methods in 40 CFR Part 60 Appendix A — Method 1 traverse points, Method 2 velocity by pitot, Method 3 gas composition, Method 4 moisture and Method 5 particulate; the facility's operating permit and the test protocol approved under it; OSHA 29 CFR 1910 Subpart D for the sampling platform, its guardrail and its fixed ladder",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "IUOE",
+        "id": "iuoe-training",
+        "title": "IUOE local training funds and the IUOE National Training Fund — operating and stationary engineer apprenticeship"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910",
+        "id": "osha-1910",
+        "title": "29 CFR 1910 — Occupational safety and health standards for general industry"
+      },
+      {
+        "body": "union",
+        "citedAs": "USW",
+        "id": "usw-mazzocchi-center",
+        "title": "USW Tony Mazzocchi Center health, safety and environmental training"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Environmental",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "bracketed",
+        "name": "Bracketed",
+        "note": "Both leak checks carried to full duration, first time"
+      },
+      {
+        "id": "nothing-invented",
+        "name": "Nothing Invented",
+        "note": "Never touched the recorded data and never skipped a check"
+      },
+      {
+        "id": "on-the-nozzle",
+        "name": "On The Nozzle",
+        "note": "Velocity, rate and metered volume all read close to band centre"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "points-calculated",
+        "name": "Points Calculated",
+        "note": "Surveyed the ports and laid the traverse out without a correction"
+      },
+      {
+        "id": "held-the-traverse",
+        "name": "Held The Traverse",
+        "note": "Kept the sampling rate in band across the whole traverse"
+      },
+      {
+        "id": "off-the-stack",
+        "name": "Off The Stack",
+        "note": "Test run, recovered and logged inside 80% of par"
+      }
+    ],
+    "currency": "DSCF",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Test Assistant",
+      "Sampling Technician",
+      "Team Leader",
+      "Qualified Source Tester",
+      "Source Test Authority"
+    ],
+    "system": "Source Test Authority"
+  },
+  "hazards": {
+    "bare-hands": "You handled the probe liner and the impinger glassware bare-handed. The liner has just come out of a heated duct and the probe sheath holds that heat long after the run ends; the impingers are thin glass holding reagent, and the first two of them are charged with an acid solution. Gloves rated for both, every time the train is touched, and the glassware moved in its case rather than in your fingers.",
+    "hot-port": "You put your face and your hand across an open port on a duct at operating temperature. What comes out of a port is gas at stack temperature, and on a duct that is not under steady negative pressure it comes out rather than being drawn in. The port is opened from the side, with the cap between you and the hole, and nothing goes across it that you are not willing to have burned.",
+    "rewrite-data": "You went back and adjusted a number already written on the field data sheet. A stack test is evidence in a permit file: its value comes entirely from the fact that the raw readings were recorded as they were taken and can be re-derived by somebody who was not standing here. A correction is struck through, initialled and dated so the original stays readable — a number quietly replaced turns a test report into a document nobody can rely on, and it is the single fastest way for a tester to end a career.",
+    "skip-post-leak": "You started breaking the train down without running the post-test leak check. That check is not paperwork and it is not optional: it is the only evidence that the volume the dry gas meter recorded actually came through the nozzle rather than in through a fitting somewhere on the platform. Run it after the train is disconnected and the whole run it brackets is gone — an hour of traverse, the plant's load held steady for nothing, and a return visit that somebody pays for."
+  },
+  "id": "stack-test",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "train-build",
+      "alert": "Somebody has hooked the self-closing gate back open to pass gear up, and walked off. There is now an unguarded hole at the top of the ladder.",
+      "cue": "The guardrail has a hole in it at the ladder opening.",
+      "delay": 3,
+      "id": "gate-hooked",
+      "kind": "Guardrail opening",
+      "missNote": "The gate stayed hooked open for the whole run. Nobody went through it, which was luck rather than anything you did — the crew stepped past an unguarded ladderway repeatedly while carrying a probe and watching a gauge, and the next person up the ladder arrived through a hole in the guardrail they had no reason to expect.",
+      "seconds": 12,
+      "target": "rail-gate",
+      "why": "A self-closing gate is the only thing standing between a working platform and an open ladderway, and it stops working the moment somebody hooks it back for convenience. The crew on this deck is about to spend an hour walking backwards along a traverse with their eyes on a manometer, which is exactly the situation the gate exists for.",
+      "wrongNote": "It is the gate at the ladder opening. Unhook it and let it close before anyone else moves on this deck."
+    },
+    {
+      "after": "isokinetic",
+      "alert": "The plant has swung load mid-traverse — the stack temperature is climbing and the draft has changed. The velocity at your point is not what you computed the rate from.",
+      "cue": "The duct is no longer doing what it was doing when you set the rate.",
+      "delay": 4,
+      "id": "load-swing",
+      "kind": "Process load change",
+      "missNote": "The traverse carried on at a rate computed for a velocity the duct had stopped doing. Every point after the swing was sampled anisokinetically, so the particulate catch is biased and the isokinetic result calculated back at the office will fall outside what the method allows — the run is rejected, the plant holds load again, and the crew comes back.",
+      "seconds": 13,
+      "target": "pitot-manometer",
+      "why": "The isokinetic rate is only correct for the velocity it was computed from, and a compliance run is supposed to be taken at the process conditions the protocol specifies. When the load moves, the first thing to do is re-read the velocity head so the rate can be recomputed — and then find out whether the plant can hold the condition at all, because a run taken across a load swing may not represent anything the permit cares about.",
+      "wrongNote": "It is the manometer. Re-read the velocity head before you touch the rate, because the rate is computed from it."
+    }
+  ],
+  "lateNotes": {
+    "probe": "The probe goes to the port after the train is assembled and the pre-test leak check has passed — not before.",
+    "rate-control": "The sampling rate is set from the velocity head at the point, so the pitot is read before this is touched."
+  },
+  "name": "Stack Test",
+  "parSeconds": 310,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "air-quality-monitoring"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.2,
+    "hits": [
+      "bare-hands",
+      "bent-pitot",
+      "deck-grating",
+      "dry-gas-meter",
+      "field-data-sheet",
+      "filter-container",
+      "filter-load",
+      "hot-port",
+      "impinger-charge",
+      "impinger-container",
+      "ladder-cage",
+      "loose-spare-cap",
+      "nozzle-cap",
+      "nozzle-set",
+      "pitot-manometer",
+      "point-layout",
+      "port-cap",
+      "port-seat",
+      "port-survey",
+      "probe",
+      "probe-rinse",
+      "rail-gate",
+      "rate-control",
+      "rewrite-data",
+      "skip-post-leak",
+      "test-protocol",
+      "vacuum-pump"
+    ],
+    "meshes": 267
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read what permit condition this run is proving, which methods it runs under, and what the plant is holding.",
+      "id": "protocol",
+      "kind": "select",
+      "prompt": "Read what permit condition this run is proving, which methods it runs under, and what the plant is holding.",
+      "target": "test-protocol",
+      "title": "Take the approved test protocol",
+      "why": "A compliance test is run against a protocol the agency approved beforehand — the methods, the run count, the run duration and the process conditions the plant must maintain throughout. Anything done differently on the day has to be justified afterwards to somebody who was not here, so the deviation is decided now rather than discovered later."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Ladder and cage, deck grating and toeboard, and the gate at the ladder opening — in whatever order you walk them.",
+      "id": "platform",
+      "itemNames": {
+        "deck-grating": "platform grating and toeboard",
+        "ladder-cage": "fixed ladder and cage",
+        "rail-gate": "self-closing gate at the ladder opening"
+      },
+      "itemNotes": {
+        "deck-grating": "The grating is sound and the toeboard is continuous — a dropped wrench off this deck lands where the plant's own people are working.",
+        "ladder-cage": "The ladder is the only way on and off this platform, and everything the test needs comes up it on a rope, not in a hand.",
+        "rail-gate": "The gate swings shut on its own. A guardrail with a permanent hole in it at the top of a ladder is not a guardrail."
+      },
+      "kind": "sequence",
+      "prompt": "Ladder and cage, deck grating and toeboard, and the gate at the ladder opening — in whatever order you walk them.",
+      "targets": [
+        "ladder-cage",
+        "deck-grating",
+        "rail-gate"
+      ],
+      "title": "Prove the platform before anything is carried up",
+      "why": "The platform is somebody else's structure and the test crew is a visitor on it. Subpart D puts the guardrail, the toeboard and the fixed ladder on the plant, but the crew that finds them defective is the crew standing on them with a heavy probe, so it is checked on arrival and before any load goes on it."
+    },
+    {
+      "cue": "Measure the port location in duct diameters from the nearest disturbance upstream and downstream, and commit.",
+      "gauge": {
+        "green": [
+          0.5,
+          0.74
+        ],
+        "label": "DIAMETERS",
+        "missNote": "That puts the port nearer the disturbance than the point count you are about to use allows. Either the layout goes up to more points or this is not a sampling location — it is not a judgement call.",
+        "speed": 0.7
+      },
+      "id": "port-survey",
+      "kind": "gauge",
+      "prompt": "Measure the port location in duct diameters from the nearest disturbance upstream and downstream, and commit.",
+      "target": "port-survey",
+      "title": "Survey the ports against the flow disturbances",
+      "why": "Method 1 does not let you pick a sampling location; it makes you measure one. How far the ports sit from the nearest bend, damper, fan or change of section — expressed in duct diameters — is what decides how many traverse points the run needs and where on the probe they fall. Ports close to a disturbance are sampling a swirling, stratified flow and need more points to describe it."
+    },
+    {
+      "cue": "Take the point count and spacing the survey gives you, and mark them off the inside wall of the port.",
+      "id": "traverse-points",
+      "kind": "select",
+      "prompt": "Take the point count and spacing the survey gives you, and mark them off the inside wall of the port.",
+      "target": "point-layout",
+      "title": "Lay the traverse points out on the probe",
+      "why": "Each point represents an equal area of the duct, so they are not evenly spaced — they crowd toward the wall where the same fraction of area sits in a thinner ring. The marks are measured from the inside duct wall and the port's own length is added, because the probe is graduated from the nozzle and the port is not part of the duct."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Nozzle measured, filter loaded, impingers charged and iced — the recovery area does these in whatever order it runs.",
+      "id": "train-build",
+      "itemNames": {
+        "filter-load": "filter loaded in the holder",
+        "impinger-charge": "impingers charged and set in the ice bath",
+        "nozzle-set": "nozzle selected and measured"
+      },
+      "itemNotes": {
+        "filter-load": "The filter goes in the holder in the recovery area, handled with tweezers, in the container it was weighed in.",
+        "impinger-charge": "The first impingers take their reagent by measured volume; the last takes silica gel, and the lot goes in ice.",
+        "nozzle-set": "The nozzle is measured, not assumed — its bore is what the isokinetic rate is computed against for the whole run."
+      },
+      "kind": "sequence",
+      "prompt": "Nozzle measured, filter loaded, impingers charged and iced — the recovery area does these in whatever order it runs.",
+      "targets": [
+        "nozzle-set",
+        "filter-load",
+        "impinger-charge"
+      ],
+      "title": "Assemble the sample train",
+      "why": "Everything the run will be judged on is decided here: the nozzle bore that sets the rate, the tared filter that catches the particulate, and the impingers whose contents become the moisture result. It is assembled in a clean area, away from the platform, because dust that gets into the train here is indistinguishable from dust that came out of the duct."
+    },
+    {
+      "cue": "Plug the nozzle, pull the vacuum and hold while the meter dial is watched for movement.",
+      "holdBreakNote": "You let go before the check ran. A leak rate is a volume over a time; cut the time short and there is no rate, just an opinion.",
+      "id": "leak-pre",
+      "kind": "hold",
+      "prompt": "Plug the nozzle, pull the vacuum and hold while the meter dial is watched for movement.",
+      "seconds": 6,
+      "target": "vacuum-pump",
+      "title": "Pre-test leak check on the assembled train",
+      "why": "The pre-test check finds a bad fitting while it still costs nothing but the minute it takes to fix it. It proves the train is tight before an hour of traverse is invested in it, and it is watched on the dial rather than on the pump — a leak this test is looking for is small enough that the only way you will see it is by watching something that should not move."
+    },
+    {
+      "cue": "Stand to one side of the port, keep the cap between you and the hole, and back it off slowly.",
+      "id": "open-port",
+      "kind": "turn",
+      "prompt": "Stand to one side of the port, keep the cap between you and the hole, and back it off slowly.",
+      "target": "port-cap",
+      "title": "Crack the port cap from the side",
+      "turn": {
+        "axis": "x",
+        "label": "PORT CAP",
+        "turns": 1.5
+      },
+      "why": "A cap that has been on a hot duct is seized and the space behind it may be at positive pressure. Backed off slowly from the side, a puff of hot gas goes past you; spun off standing square to it, it goes into you. The platform rail is right there, so this is also the moment to be braced against something rather than leaning on the cap."
+    },
+    {
+      "cue": "Lift the probe off the rack, keep it inside the rail, and set the nozzle into the port.",
+      "drag": {
+        "missNote": "The nozzle is not seated in the port. A probe resting against the boss is a probe about to go down the outside of the stack.",
+        "radius": 0.5,
+        "to": "port-seat"
+      },
+      "id": "probe-carry",
+      "kind": "drag",
+      "prompt": "Lift the probe off the rack, keep it inside the rail, and set the nozzle into the port.",
+      "target": "probe",
+      "title": "Carry the probe to the port",
+      "why": "A heated probe with a pitot lashed to it is long, heavy, front-loaded and made largely of glass, and it is being handled at a rail on a platform. It stays inside the guardrail the whole way, carried at the balance rather than the ends, because the recovery from a stumble is to let go of it and there has to be somewhere safe for it to land."
+    },
+    {
+      "cue": "Let the column settle, then commit the velocity head the pitot is giving you at this traverse point.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "VELOCITY HEAD",
+        "missNote": "You took that off a column that had not settled. Wait for the manometer to steady — a velocity head read mid-swing is a guess wearing a decimal point.",
+        "speed": 0.82
+      },
+      "id": "pitot",
+      "kind": "gauge",
+      "prompt": "Let the column settle, then commit the velocity head the pitot is giving you at this traverse point.",
+      "target": "pitot-manometer",
+      "title": "Read the velocity head at the point",
+      "why": "Method 2 gets velocity from the difference between the pitot's impact and static pressures, and that difference is what the isokinetic rate for this point is computed from. A column still swinging is the duct's turbulence, not its velocity — commit on a moving manometer and every rate that follows is derived from a number the stack was not actually doing."
+    },
+    {
+      "cue": "Set the rate the velocity gives you and keep it in the band as you step the probe through the points.",
+      "id": "isokinetic",
+      "kind": "track",
+      "prompt": "Set the rate the velocity gives you and keep it in the band as you step the probe through the points.",
+      "seconds": 9,
+      "target": "rate-control",
+      "title": "Hold the rate isokinetic across the traverse",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.42,
+        "green": [
+          0.42,
+          0.62
+        ],
+        "label": "ORIFICE",
+        "rise": 0.5
+      },
+      "why": "Isokinetic means the gas enters the nozzle at the same velocity it was travelling past it. Sample faster than the gas and the nozzle pulls in gas from outside its own streamline while the heavier particles carry straight past, so particulate is under-collected; sample slower and the flow spills around the nozzle while inertia carries particles into it, so it is over-collected. The result is only the duct's if the rate tracks the velocity at every point."
+    },
+    {
+      "cue": "Cap the nozzle with the probe still in the port and hold the vacuum while the dial is watched.",
+      "holdBreakNote": "You broke the post-test check off partway. An incomplete check is a failed check — it cannot be reported as a pass, so run the full duration or repeat the run.",
+      "id": "leak-post",
+      "kind": "hold",
+      "prompt": "Cap the nozzle with the probe still in the port and hold the vacuum while the dial is watched.",
+      "seconds": 7,
+      "target": "nozzle-cap",
+      "title": "Post-test leak check — before anything is disconnected",
+      "why": "This is the check the whole run hangs on. It is made at the highest vacuum the run reached, on the train exactly as the run left it, before a single fitting is broken — because a leak found after the train comes apart cannot be attributed to the run or to the disassembly. Fail it and the run is invalid and gets repeated; there is no correction factor that rescues it and no argument to be had with the reviewer about it."
+    },
+    {
+      "cue": "Read the dry gas meter against the run time and the rate you were holding, and commit.",
+      "gauge": {
+        "green": [
+          0.44,
+          0.66
+        ],
+        "label": "SAMPLE VOL",
+        "missNote": "The metered volume does not agree with the run time at the rate the velocity called for. The traverse was not held isokinetic, and the isokinetic result calculated from this will say so.",
+        "speed": 0.72
+      },
+      "id": "meter-volume",
+      "kind": "gauge",
+      "prompt": "Read the dry gas meter against the run time and the rate you were holding, and commit.",
+      "target": "dry-gas-meter",
+      "title": "Read the metered sample volume",
+      "why": "The metered volume is the denominator of the whole result, and it is also the first place a badly held traverse shows up: run the rate high or low against what the velocity called for and the volume will not agree with the time it was collected over. It is corrected for meter calibration, pressure and temperature before it means anything, which is why the raw reading is written down exactly as the dial shows it."
+    },
+    {
+      "cue": "Filter out first, then the front-half rinse, then the back half — and label every container as it is closed.",
+      "id": "recovery",
+      "itemNames": {
+        "filter-container": "filter into its own container",
+        "impinger-container": "impinger contents measured into theirs",
+        "probe-rinse": "front-half rinse into its container"
+      },
+      "itemNotes": {
+        "filter-container": "Filter out with tweezers, back into the dish it was weighed in, sealed and labelled before anything else is opened.",
+        "impinger-container": "Back half last: contents measured for the moisture result, then into a labelled container of its own.",
+        "probe-rinse": "Nozzle, liner and the front half of the holder brushed and rinsed into their own container — this is still the particulate catch."
+      },
+      "kind": "sequence",
+      "prompt": "Filter out first, then the front-half rinse, then the back half — and label every container as it is closed.",
+      "targets": [
+        "filter-container",
+        "probe-rinse",
+        "impinger-container"
+      ],
+      "title": "Recover the train in the clean area, front half first",
+      "why": "The front half — nozzle, liner, filter — is the particulate catch, and the back half is the moisture. Recover them in that order and nothing from the impingers can find its way into the catch; recover them the other way round and there is no way afterwards to prove it did not. Every container is labelled at the moment it is closed, with the run, the location and the date, because a set of unlabelled jars in a cooler is not a sample."
+    },
+    {
+      "cue": "Raw readings as taken, corrections struck through and initialled, and the run signed.",
+      "id": "data-sheet",
+      "kind": "select",
+      "prompt": "Raw readings as taken, corrections struck through and initialled, and the run signed.",
+      "target": "field-data-sheet",
+      "title": "Close out the field data sheet",
+      "why": "The report that leaves the office months from now is derived entirely from this sheet, and the reviewer's first question will be whether the sheet is contemporaneous. Raw numbers as read, times as they happened, and any correction made so the original is still legible underneath it — a sheet that has been tidied up is worth less than one that is messy and honest."
+    },
+    {
+      "cue": "Look over the pitot, the ports and what you are leaving behind; click what needs writing up.",
+      "id": "walk",
+      "itemNames": {
+        "bent-pitot": "damaged pitot leg",
+        "loose-spare-cap": "spare port left hand-tight"
+      },
+      "itemNotes": {
+        "bent-pitot": "The pitot's static leg has taken a knock against the port boss. A Type S pitot out of alignment does not read obviously wrong, it reads slightly wrong — which is worse, because it will be believed. That assembly goes out of service until it is inspected against the method's dimensional criteria.",
+        "loose-spare-cap": "The spare port's cap has been left hand-tight. It will back itself off against a hot flange and put a jet of stack gas across a platform where somebody will be working on the next shift, after your crew has gone home."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look over the pitot, the ports and what you are leaving behind; click what needs writing up.",
+      "targets": [
+        "bent-pitot",
+        "loose-spare-cap"
+      ],
+      "title": "Walk the platform before you go down the ladder",
+      "why": "The crew that comes to this platform next is not yours, and the equipment that goes into the next run is the equipment leaving this one. Both of the things worth finding here are quiet: a pitot that will still give a plausible reading, and a cap that will hold until it does not."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "An isokinetic source test from the sampling platform: traverse points calculated, train leak-checked both ends, the rate held across the traverse, and everything recovered into labelled containers",
+  "title": "SmartCiti.X~ Stack Test VR",
+  "trade": "Source emissions tester / stack testing technician",
+  "underwater": null,
+  "weather": "wind"
+}

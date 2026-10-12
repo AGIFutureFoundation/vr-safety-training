@@ -1,0 +1,146 @@
+{
+  "id": "k12-es-where-the-storm-drain-goes",
+  "index": "871",
+  "prefix": "esd",
+  "accent": "#4f8fb8",
+  "floor": ["#5e6468", "#52585c"],
+  "wall": ["#dfe6ea", "#cdd8de"],
+  "trade": "Science walk with the storm drain crew on a street by the Bay — learner and storm drain crew lead",
+  "header": "Upper-primary science at the Marina Seawall and Storm Drain Crew site in San Francisco: how rain on a street runs to a drain and from the drain to the Bay, traced on a street model and on the crew's drain map, using only what the model and the street in the scene show.",
+  "name": "Where the Storm Drain Goes",
+  "tagline": "Rain on the street runs to the drain, and the drain runs to the Bay — trace it, then keep it clean",
+  "badge": { "id": "drain-tracer", "name": "Drain Tracer", "note": "Traced rain from a street to the Bay, explained why only rain belongs in a drain and helped the crew mark a drain" },
+  "board": { "name": "Drain Board", "currency": "DROPS", "ranks": ["Drop", "Trickle", "Stream", "Creek", "Drain Keeper"] },
+  "hazards": [
+    { "id": "drain-goes-to-a-cleaner", "label": "Say the storm drain goes to a cleaning plant?", "face": "CLEANED\nFIRST?", "text": "You said the storm drain water gets cleaned first. On many streets the storm drain runs straight to a creek or the Bay. What goes down the drain is what the fish and birds get, so only rain belongs in it." },
+    { "id": "pour-it-in-the-drain", "label": "Pour the bucket of soapy water into the drain?", "face": "POUR\nIT IN", "text": "You poured soapy water into the storm drain. Soap and dirt go with it to the Bay. The crew tips wash water onto grass or into a sink, so the drain carries only rain." },
+    { "id": "lift-the-grate", "label": "Lift the drain grate to look inside?", "face": "LIFT\nGRATE", "text": "You reached for the drain grate. Grates are heavy and the drain below is a space only trained crew enter. Look through the grate from the kerb, and let the crew open it with the right tools." },
+    { "id": "step-into-the-street", "label": "Step into the street to follow the water?", "face": "INTO\nSTREET", "text": "You stepped off the kerb to follow the water. Cars use the street. Follow the water with your eyes from the sidewalk, and the crew sets cones before anyone works in the gutter." }
+  ],
+  "find1": {
+    "title": "Find where the rain goes on the street",
+    "cue": "Mark the three places the rain runs on its way to the drain.",
+    "why": "Rain that lands on a roof, a sidewalk or a road cannot soak in, so it runs downhill. It runs off the roof into a downspout, across the sidewalk into the gutter, and along the gutter to the drain. Seeing each part shows that a whole street is one big path for water.",
+    "items": [
+      ["roof", "the roof and its downspout", "Rain runs off the roof and down the pipe."],
+      ["gutter", "the gutter by the kerb", "The gutter carries water along the street."],
+      ["inlet", "the storm drain grate", "The drain takes the water under the street."]
+    ],
+    "decoy": ["bench", "a bus stop bench", "A good place to sit, but water does not run through it."]
+  },
+  "select1": {
+    "title": "Stay on the sidewalk with the crew",
+    "cue": "Stand behind the cones on the sidewalk before the crew lead starts.",
+    "why": "The street is for cars and the crew's truck. Standing on the sidewalk behind the cones keeps the whole class out of the way of traffic. The crew does the same every time, and only steps into the gutter once cones and a sign warn drivers to slow down.",
+    "key": "cone-card",
+    "label": "Behind the cones",
+    "face": "SIDEWALK\nFIRST"
+  },
+  "seq": {
+    "title": "Put the water's trip in order",
+    "cue": "Put the steps of the rain's trip from the roof to the Bay in order.",
+    "why": "Water always moves downhill, so its trip has an order. It lands, runs off, joins the gutter, drops into the drain and flows through a pipe to the Bay. Putting the steps in order helps you see that the drain is not the end of the trip, only the middle.",
+    "oon": "Out of order. Start with the rain landing on the roof.",
+    "items": [
+      ["ord-roof", "rain lands on the roof"],
+      ["ord-gutter", "it runs along the gutter"],
+      ["ord-drain", "it drops into the storm drain"],
+      ["ord-bay", "the pipe carries it to the Bay"]
+    ]
+  },
+  "turn": {
+    "title": "Tilt the model street downhill",
+    "cue": "Turn the dial to tilt the model street towards the model Bay.",
+    "why": "A real street is built with a gentle slope so water runs to the drain and does not pool. Tilting the model the same way lets you watch water choose the downhill path every time. The slope is the reason drains sit at the low end of the gutter.",
+    "key": "tilt-dial",
+    "label": "Street tilt",
+    "dial": "SLOPE"
+  },
+  "gauge": {
+    "title": "Read how much water reaches the model Bay",
+    "cue": "Commit when the marker sits at the water line in the model Bay jar.",
+    "why": "Reading the water line tells you how much of the rain ran off the street. Read it at eye level, where the water meets the side of the jar, so a classmate would read the same. It shows that almost all the rain on a hard street ends up in the Bay.",
+    "key": "bay-meter",
+    "label": "Water in the Bay jar",
+    "meter": "BAY",
+    "miss": "Not at the water line. Read where the water meets the jar."
+  },
+  "hold": {
+    "title": "Hold the watering can steady over the roof",
+    "cue": "Hold the watering can over the model roof until the rain stops.",
+    "why": "A steady rain gives a fair test. If the can shakes or moves, some water misses the roof and the reading changes. Holding it steady over the same spot means the only thing you are watching is where the water goes once it lands.",
+    "brk": "The can moved off the roof. Hold it over the roof again until the rain stops.",
+    "key": "can-hold",
+    "label": "Hold the watering can"
+  },
+  "drag": {
+    "title": "Place the leaf screen over the drain",
+    "cue": "Drag the model leaf screen onto the model drain.",
+    "why": "Leaves and litter ride the water to the drain. A screen over the drain catches them before they reach the Bay. Putting it exactly on the drain shows why crews keep grates clear: a blocked grate makes the street pool, and an open one lets litter through.",
+    "key": "leaf-screen",
+    "label": "Leaf screen",
+    "spot": "drain-spot",
+    "spotLabel": "The model drain",
+    "miss": "Not on the drain yet. Place the screen right over the grate."
+  },
+  "find2": {
+    "title": "Spot what does not belong in the gutter",
+    "cue": "Look along the real gutter and mark each thing that should not reach the Bay.",
+    "why": "Anything in the gutter can ride the next rain to the Bay. A wrapper, a drip of oil under a car and a pile of leaves are all on their way. Spotting them helps you see how people on a street can keep the Bay clean before it even rains.",
+    "items": [
+      ["wrapper", "a snack wrapper by the kerb", "It will float to the drain."],
+      ["drip", "an oil drip under a parked car", "Rain will wash it along."],
+      ["leaves", "a heap of leaves at the grate", "It can block the drain."]
+    ],
+    "decoy": ["puddle", "a small puddle of clear rain", "Just rain. That is what the drain is for."]
+  },
+  "select2": {
+    "title": "Say where the drain water goes",
+    "cue": "Choose the sentence that says where the storm drain water goes.",
+    "why": "Your model showed the water leaving the street and reaching the Bay. A good answer says that the storm drain carries rain to the Bay, so what we drop on the street can end up there too. It does not say more than your test and the crew's map showed.",
+    "key": "result-card",
+    "label": "State where it goes",
+    "face": "WHERE\nDOES IT GO?"
+  },
+  "track": {
+    "title": "Follow the drain line on the crew's map",
+    "cue": "Keep the marker on the blue drain line from the street to the shore.",
+    "why": "The crew's map shows pipes you cannot see under the street. Following the line from the drain to the shore shows the path the water takes underground. Crews use maps like this to find each pipe when they clean it or check it after a storm.",
+    "brk": "The marker left the drain line. Find the line again and follow it to the shore.",
+    "key": "map-track",
+    "label": "Drain line followed",
+    "meter": "PIPE"
+  },
+  "record": {
+    "title": "Record what you saw at each part",
+    "cue": "Write one line for the roof, the gutter, the drain and the Bay.",
+    "why": "A short record for each part of the trip helps you remember the whole path. Anyone reading it can follow the water from the roof to the Bay. It is also how the crew keeps notes, so the next crew knows which drains need a clean.",
+    "key": "drain-log",
+    "label": "Drain trip record",
+    "done": "Trip recorded"
+  },
+  "share": {
+    "title": "Share one way to keep the drain clean",
+    "cue": "Tell another group one thing a family can do to keep the drain clean.",
+    "why": "Many people live on one street, so keeping a drain clean is a team job. Sharing ideas, like putting litter in a bin or washing a car on the grass, spreads good habits. The crew says the drains they clean least are on the streets where neighbours help.",
+    "key": "share-board",
+    "label": "Share an idea",
+    "done": "Idea shared"
+  },
+  "checkin": {
+    "title": "Check in before the walk ends",
+    "cue": "Where does the storm drain go? What is one thing that should never go in it?",
+    "why": "The crew talks over each job before it packs up, so the class does the same. Each learner says where the drain water goes and names one thing that should stay out of it. If anyone thinks the drain water gets cleaned first, the group sorts it out now.",
+    "label": "End-of-walk check-in"
+  },
+  "interrupts": [
+    { "id": "a-street-sweeper-comes-along", "kind": "Street sweeper", "key": "step-back", "label": "Step back behind the cones", "alert": "A street sweeper rolls along the gutter towards the class.", "cue": "Step back behind the cones and let the sweeper pass.", "why": "A sweeper needs the whole gutter. Stepping back behind the cones gives the driver room and keeps everyone clear. The sweeper is also a drain helper: it picks up litter before the rain can carry it away.", "miss": "Nobody stepped back, and the sweeper had to stop and wait for the class to clear the gutter.", "wrong": "That leaves you in the sweeper's path. Step back behind the cones. Choose the response that deals with it now.", "done": "Class behind the cones, the sweeper passed. The lesson carries on." },
+    { "id": "the-crew-lead-asks-about-the-slope", "kind": "Crew question", "key": "name-slope", "label": "Say why the water runs to the drain", "alert": "The crew lead asks why the water ran to the drain and not the other way.", "cue": "Say that the street slopes down to the drain, and water runs downhill.", "why": "Knowing about the slope shows you understand the whole idea. Water only runs downhill, so builders slope every street towards a drain. The crew checks the slope when a street floods, because a low spot in the wrong place makes a puddle.", "miss": "You could not say why the water ran to the drain, and the crew lead had to explain the slope before the class could go on.", "wrong": "That does not explain the slope. Say which way the street tilts. Choose the response that deals with it now.", "done": "Slope explained. The lesson carries on." }
+  ],
+  "crew": ["Science teacher", "Classmate", "Storm drain crew lead", "Crew member with cones"],
+  "guide": { "start": "Roof, gutter, drain, Bay.", "after": "Only rain in the drain.", "hazard": "Stop. Stay on the sidewalk." },
+  "lateRecord": "The trip record is written once the water has reached the Bay jar — nothing to record yet.",
+  "lateCheckin": "The check-in comes at the very end of the walk.",
+  "scene": "bench",
+  "order": "a"
+}

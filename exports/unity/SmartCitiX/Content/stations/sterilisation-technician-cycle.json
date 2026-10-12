@@ -1,0 +1,423 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "load-released-clean",
+    "name": "Load Released Clean",
+    "note": "A load carried from soiled intake to documented release with the chart read, the spore test running and the recall opened on evidence"
+  },
+  "category": "Dental & Oral Health",
+  "certification": "DANB's Infection Control (ICE) component and, where the office requires it, a sterile processing technician certification (CRCST / CBSPD); ANSI/AAMI ST79 for steam sterilisation and sterility assurance in health care facilities; the CDC's Guidelines for Infection Control in Dental Health-Care Settings; the FDA's reprocessing instructions that every reusable device carries; OSHA 29 CFR 1910.1030 bloodborne pathogens and 1910.1200 hazard communication; the American Dental Assistants Association (ADAA) as the profession's body; SEIU and UFCW clinic staff agreements",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "AAMI",
+        "citedAs": "AAMI ST79",
+        "id": "aami-st79",
+        "title": "ANSI/AAMI ST79 — Comprehensive guide to steam sterilization and sterility assurance in health care facilities"
+      },
+      {
+        "body": "CDC",
+        "citedAs": "CDC",
+        "id": "cdc-guidance",
+        "title": "CDC infection-prevention and public-health guidance, including the Guidelines for Infection Control in Dental Health-Care Settings and Legionella control guidance"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1030",
+        "id": "osha-1910-1030",
+        "title": "29 CFR 1910.1030 — Bloodborne pathogens"
+      },
+      {
+        "body": "union",
+        "citedAs": "SEIU",
+        "id": "seiu-training",
+        "title": "SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members"
+      },
+      {
+        "body": "union",
+        "citedAs": "UFCW",
+        "id": "ufcw-training",
+        "title": "UFCW member training for retail food, clinic and dental support work"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Dental",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "flow-never-reversed",
+        "name": "Flow Never Reversed",
+        "note": "The one-way journey walked in order, soiled to sterile"
+      },
+      {
+        "id": "nothing-released-on-faith",
+        "name": "Nothing Released On Faith",
+        "note": "No unsafe action anywhere in the load"
+      },
+      {
+        "id": "dose-measured",
+        "name": "Dose Measured",
+        "note": "Detergent dilution committed inside the label band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-load",
+        "name": "Clean Load",
+        "note": "No corrections anywhere in the load"
+      },
+      {
+        "id": "never-broke-a-cycle",
+        "name": "Never Broke A Cycle",
+        "note": "Both timed passages carried without a break"
+      },
+      {
+        "id": "turnaround",
+        "name": "Turnaround",
+        "note": "Complete inside 80% of par"
+      }
+    ],
+    "currency": "LOAD",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Processing Trainee",
+      "Instrument Technician",
+      "Sterile Processing Technician",
+      "Processing Lead",
+      "Sterility Assurance Certified"
+    ],
+    "system": "Sterility Assurance"
+  },
+  "hazards": {
+    "stc-immediate-use-shortcut": "A wrapped cassette has been put through the short unwrapped cycle to make a turnaround. An immediate-use cycle is validated for a specific unwrapped item taken straight to the point of use, not for a wrapped pack that will be stored; run that way the pack has no validated cycle behind it at all, and nothing about the outside of it will ever show that.",
+    "stc-open-tray-transport": "Those instruments have been carried up the corridor on an open tray. Soiled instruments travel in a closed, leak-resistant, labelled container for the length of that journey — an open tray hands a puncture to anyone who catches it, spills contaminated debris on a floor people walk barefoot past in a clinic, and makes the corridor part of the dirty zone.",
+    "stc-release-on-tape": "The load is being released on the colour change of the tape on the outside. External indicators only separate processed from unprocessed packs — they change on exposure, not on sterilisation — so releasing on tape alone means nobody has looked at whether the chamber actually held time, temperature and pressure for this run.",
+    "stc-wet-pack": "That pouch is still damp and it is being put away as finished. A wet pack is treated as contaminated, full stop: moisture wicks organisms straight through packaging that is only a barrier while it is dry, and it also means the drying phase of the cycle did not do its job — which is a fault in the run, not a cosmetic detail about the pouch."
+  },
+  "id": "sterilisation-technician-cycle",
+  "indoor": "clinic",
+  "interrupts": [
+    {
+      "after": "ultrasonic-run",
+      "alert": "The front desk needs a hygiene cassette back in ten minutes and someone has queued a wrapped pack on the short unwrapped cycle to make it.",
+      "cue": "The answer to a turnaround is a spare sterile set, not a shorter cycle.",
+      "delay": 3,
+      "id": "stc-turnaround-demand",
+      "kind": "Schedule pressure",
+      "missNote": "The wrapped pack ran the short cycle and went upstairs. It will be used on a patient, it will look exactly like a properly processed pack, and nothing on the outside of it will ever record that the cycle behind it was validated for something else — which is why this decision is made here and not upstairs.",
+      "seconds": 12,
+      "target": "stc-sterile-storage",
+      "why": "An immediate-use cycle is validated for a specific unwrapped item carried straight to the point of use — not for a wrapped pack that will be stored or transported. The correct answer to a schedule problem is the spare sterile set on the storage shelf, because there is no version of this where a pack gets a cycle that was never validated for it.",
+      "wrongNote": "It is the sterile storage shelf. Issue the spare set that is already processed and let the wrapped pack have the cycle it actually needs."
+    },
+    {
+      "after": "watch-trace",
+      "alert": "Steam is jetting from the chamber door seal and the trace has dropped off the band.",
+      "cue": "Stop the machine before anyone walks past that door.",
+      "delay": 3,
+      "id": "stc-door-seal-vent",
+      "kind": "Equipment fault",
+      "missNote": "The chamber kept venting for the rest of the cycle. Somebody walked past a jet of steam at head height, the load inside never held pressure, and the run will still report a completed cycle to whoever opens that door — three separate problems from one unacknowledged fault.",
+      "seconds": 11,
+      "target": "stc-emergency-stop",
+      "why": "A failed door gasket vents saturated steam at sterilising temperature straight out at standing height, and a scald from it does not announce itself before it happens. The unit comes down first, the room is cleared, and the load inside is treated as unprocessed — a run that lost its seal never held pressure, whatever the panel shows when it finishes.",
+      "wrongNote": "It is the emergency stop. Bring the steriliser down, clear the area, then deal with the load and the service call."
+    }
+  ],
+  "lateNotes": {
+    "stc-load-release": "Not yet. Release is the last decision in the room and it is made against the chart, the internal indicator and the biological monitoring — none of which exist for a load that has not run.",
+    "stc-log-book": "The load is not finished. The log is written from what the chart and the indicators actually said, at the end, not opened in advance.",
+    "stc-recall-notice": "Nothing has failed yet. A recall notice written before there is a result is a recall nobody can scope, because the loads it would cover have not been run."
+  },
+  "name": "Sterilisation Centre",
+  "parSeconds": 310,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "dental-careers-unspoken-smiles"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.2,
+    "hits": [
+      "stc-bi-incubator",
+      "stc-chamber-rack",
+      "stc-chamber-trace",
+      "stc-cycle-selector",
+      "stc-decon-attire",
+      "stc-detergent-dose",
+      "stc-dirty-counter",
+      "stc-emergency-stop",
+      "stc-hinged-closed",
+      "stc-immediate-use-shortcut",
+      "stc-internal-indicator",
+      "stc-lead-checkin",
+      "stc-load-label",
+      "stc-load-release",
+      "stc-log-book",
+      "stc-nested-basket",
+      "stc-open-tray-transport",
+      "stc-pouch-pack",
+      "stc-pouch-sealer",
+      "stc-recall-notice",
+      "stc-recall-slot",
+      "stc-release-on-tape",
+      "stc-sterile-storage",
+      "stc-transport-bin",
+      "stc-ultrasonic-lid",
+      "stc-wet-pack",
+      "stc-zone-clean",
+      "stc-zone-dirty",
+      "stc-zone-prep"
+    ],
+    "meshes": 243
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Fluid-resistant gown, heavy utility gloves, mask and full face shield before you cross into the soiled end.",
+      "id": "decon-attire",
+      "kind": "select",
+      "prompt": "Fluid-resistant gown, heavy utility gloves, mask and full face shield before you cross into the soiled end.",
+      "target": "stc-decon-attire",
+      "title": "Dress for the decontamination side",
+      "why": "The soiled end of this room is the wettest, sharpest place in the practice: an ultrasonic aerosolises whatever is in its tank, a sink splashes, and every instrument in the bin has an edge or a point on it. OSHA's bloodborne pathogens standard treats the task rather than the room as what sets the barrier, and this task calls for a face shield and utility gloves rather than the exam gloves worn at a chair."
+    },
+    {
+      "cue": "Trace the room's journey in order: decontamination, preparation and packaging, sterile storage.",
+      "id": "zone-flow",
+      "itemNames": {
+        "stc-zone-clean": "sterile storage and release",
+        "stc-zone-dirty": "decontamination",
+        "stc-zone-prep": "preparation and packaging"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order. The journey runs one way only — decontamination, then preparation and packaging, then sterile storage and release — and walking it backwards is how a clean bench becomes a contaminated one. Reset and take the zones in flow order.",
+      "prompt": "Trace the room's journey in order: decontamination, preparation and packaging, sterile storage.",
+      "targets": [
+        "stc-zone-dirty",
+        "stc-zone-prep",
+        "stc-zone-clean"
+      ],
+      "title": "Walk the one-way flow",
+      "why": "A processing room is designed as a one-way street, and the design is the control: nothing ever moves from a dirty surface onto a clean one, and nobody carries a soiled cassette back across a packaging bench to fetch something. Physically separated zones with airflow running clean-to-dirty is what AAMI ST79 describes, and in a small dental practice the same idea is held by discipline and by where people stand."
+    },
+    {
+      "cue": "Set the closed, labelled container down on the soiled intake counter and open it there.",
+      "drag": {
+        "missNote": "Not on the soiled counter. The container is opened on the intake bench in the decontamination zone, not on a trolley or a packaging surface.",
+        "radius": 0.4,
+        "to": "stc-dirty-counter"
+      },
+      "id": "intake-container",
+      "kind": "drag",
+      "prompt": "Set the closed, labelled container down on the soiled intake counter and open it there.",
+      "target": "stc-transport-bin",
+      "title": "Receive the closed transport container",
+      "why": "The closed container is what makes the corridor between the operatory and this room safe to walk down, and it stays closed until it is standing on the one counter in the building designed to be contaminated. Opened anywhere else, the whole point of the container is lost — and the person carrying it gets no warning at all before a hand goes in among unsorted sharps."
+    },
+    {
+      "cue": "Lower the lid and hold it down through the full cleaning time.",
+      "holdBreakNote": "The lid came up mid-run. The cleaning time was cut short and the aerosol went into the room — close it and run the full time from the start.",
+      "id": "ultrasonic-run",
+      "kind": "hold",
+      "prompt": "Lower the lid and hold it down through the full cleaning time.",
+      "seconds": 6,
+      "target": "stc-ultrasonic-lid",
+      "title": "Run the ultrasonic with the lid closed",
+      "why": "Cavitation reaches into hinges, serrations and box locks that no brush in anyone's hand can, and it does it with no hand near a blade — which is exactly why the CDC's guidelines prefer a machine here. The lid matters as much as the timer: an open tank sprays a fine aerosol of contaminated solution across the bench and into the room's air for as long as the unit runs."
+    },
+    {
+      "cue": "Dose the fresh solution to the dilution on the bottle and commit inside the band.",
+      "gauge": {
+        "green": [
+          0.38,
+          0.58
+        ],
+        "label": "DILUTION",
+        "missNote": "Off the label dilution. Weak solution leaves protein soil in the joints that then shields organisms from steam; over-concentrated solution leaves residue that stains instruments and attacks their finish, and neither is cheaper than mixing it properly.",
+        "speed": 0.62
+      },
+      "id": "detergent-dose",
+      "kind": "gauge",
+      "prompt": "Dose the fresh solution to the dilution on the bottle and commit inside the band.",
+      "target": "stc-detergent-dose",
+      "title": "Mix the enzymatic detergent to its label",
+      "why": "An enzymatic detergent is a validated product at a stated dilution and a stated temperature, and outside that it is just cloudy water. Too weak and the protein soil the enzymes exist to lift stays in the hinges, where it will later shield microorganisms from the steam; too strong and you are corroding instruments and leaving residue that shows up as staining nobody can explain."
+    },
+    {
+      "cue": "Two items here will come out of a passed cycle unsterilised. Find them.",
+      "id": "loading-faults",
+      "itemNames": {
+        "stc-hinged-closed": "a hinged instrument latched shut",
+        "stc-nested-basket": "instruments nested inside each other"
+      },
+      "itemNotes": {
+        "stc-hinged-closed": "This forceps has gone in locked closed. Steam sterilises by direct contact, so a joint clamped shut never sees it — hinged instruments are processed open, every time.",
+        "stc-nested-basket": "These two are stacked inside one another. The surface underneath is shadowed for the whole cycle, cleaned and sterilised by nothing at all, and it comes out looking identical to the one on top."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Two items here will come out of a passed cycle unsterilised. Find them.",
+      "targets": [
+        "stc-hinged-closed",
+        "stc-nested-basket"
+      ],
+      "title": "Find the two loading faults on this tray",
+      "why": "Steam has to touch a surface to sterilise it, which makes loading a technical skill rather than tidying. A hinge clamped shut and a pair of instruments nested together both hide surfaces for the whole run, and the load will still pass every indicator you can read from outside — the failure is invisible after the fact, so it has to be caught before the door closes."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Seal the pouch, place the internal indicator inside it, and write the load number and date on the outside.",
+      "id": "package-load",
+      "itemNames": {
+        "stc-internal-indicator": "internal chemical indicator",
+        "stc-load-label": "load number and date",
+        "stc-pouch-sealer": "seal the pouch"
+      },
+      "itemNotes": {
+        "stc-internal-indicator": "Inside the pack, where steam has to reach it to change — that is the only indicator that says anything about conditions at the instruments.",
+        "stc-load-label": "Load number, sterilser and date. This is what makes the pack traceable to a run, which is what makes a recall possible at all.",
+        "stc-pouch-sealer": "Sealed with the instruments dry and the pouch not overfilled — a bulging pouch splits its own seal in the chamber."
+      },
+      "kind": "sequence",
+      "prompt": "Seal the pouch, place the internal indicator inside it, and write the load number and date on the outside.",
+      "targets": [
+        "stc-pouch-sealer",
+        "stc-internal-indicator",
+        "stc-load-label"
+      ],
+      "title": "Package with an internal indicator and a load number",
+      "why": "These three things together are what turn a bag of instruments into a traceable unit. The internal indicator is the only one that reports conditions where the instruments actually are; the load number is what lets this exact pack be pulled from a shelf six weeks later if this exact run turns out to be suspect. A pack without one is untraceable the moment it leaves the room."
+    },
+    {
+      "cue": "Turn the selector to the wrapped-goods cycle with its drying phase.",
+      "id": "select-cycle",
+      "kind": "turn",
+      "prompt": "Turn the selector to the wrapped-goods cycle with its drying phase.",
+      "target": "stc-cycle-selector",
+      "title": "Select the cycle for what is actually in the chamber",
+      "turn": {
+        "axis": "y",
+        "label": "CYCLE SELECT",
+        "turns": 1.2
+      },
+      "why": "A steriliser has several cycles because a wrapped pack, an unwrapped instrument and a hollow handpiece each need different exposure and drying. Wrapped goods need the longer exposure and the drying phase, because a pack that comes out wet is a contaminated pack; choosing by habit or by whichever button is nearest means the load ran a programme that was validated for something else entirely."
+    },
+    {
+      "cue": "Set the pouch on the rack on edge, clear of its neighbours and clear of the chamber wall.",
+      "drag": {
+        "missNote": "Not on the rack. Stand the pouch on edge in a rack slot with space either side — flat and stacked is the one loading pattern that reliably produces an unsterile pack.",
+        "radius": 0.4,
+        "to": "stc-chamber-rack"
+      },
+      "id": "load-chamber",
+      "kind": "drag",
+      "prompt": "Set the pouch on the rack on edge, clear of its neighbours and clear of the chamber wall.",
+      "target": "stc-pouch-pack",
+      "title": "Load the chamber so steam reaches every surface",
+      "why": "Packs go on edge, spaced, and never touching the chamber wall, because steam sterilises by direct contact and condensate has to be able to run off rather than pool. Stacked flat, the pouch underneath is shadowed for the entire run and comes out wet; pressed against the wall, a pouch superheats on one face and can scorch through its own paper side."
+    },
+    {
+      "cue": "Follow the chart recorder and keep the trace in the sterilising band for the whole exposure phase.",
+      "holdBreakNote": "The trace left the band. Whatever the panel says at the end, this run did not hold conditions for its whole exposure — the load is reprocessed, not released.",
+      "id": "watch-trace",
+      "kind": "track",
+      "prompt": "Follow the chart recorder and keep the trace in the sterilising band for the whole exposure phase.",
+      "seconds": 7,
+      "target": "stc-chamber-trace",
+      "title": "Watch the cycle's own trace through exposure",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.44,
+        "green": [
+          0.38,
+          0.6
+        ],
+        "label": "CHAMBER TRACE",
+        "rise": 0.5,
+        "start": 0.16
+      },
+      "why": "The chart or printout is the only physical record of what the chamber actually did, and watching it run is how a technician learns what a normal cycle looks like — so that an abnormal one is obvious. A trace that sags out of the band mid-exposure is the cycle failing in front of you, which is a very different problem from a cycle that fails at the end and lights a fault code."
+    },
+    {
+      "cue": "Check the incubated spore test against its matched unprocessed control.",
+      "id": "biological-monitoring",
+      "kind": "select",
+      "prompt": "Check the incubated spore test against its matched unprocessed control.",
+      "target": "stc-bi-incubator",
+      "title": "Read the biological monitoring with its control",
+      "why": "A biological indicator is the only test that challenges a cycle with something alive — spores far more resistant than anything on a real instrument — and the unprocessed control is what proves the batch of spores was viable to begin with. A negative test with a control that also came back negative proves nothing at all except that the test itself was dead, which is why the two are always read as a pair."
+    },
+    {
+      "cue": "Release the load against the chart, the internal indicator and the monitoring status — or hold it.",
+      "id": "release-decision",
+      "kind": "select",
+      "prompt": "Release the load against the chart, the internal indicator and the monitoring status — or hold it.",
+      "target": "stc-load-release",
+      "title": "Make the release decision on evidence",
+      "why": "Release is a judgement with three inputs: the physical record from the chart, the internal chemical indicator from inside the pack, and where the biological monitoring stands. All three agreeing is a released load; any one of them missing or wrong is a held load. A technician who can say out loud which of the three they checked is doing the job, and one who cannot is guessing on behalf of every patient downstream."
+    },
+    {
+      "cue": "File the recall notice and pull every pack the suspect runs produced.",
+      "drag": {
+        "missNote": "Not filed. The recall notice goes into the binder with the load numbers it covers, so the next person can see what was pulled and what is still out.",
+        "radius": 0.4,
+        "to": "stc-recall-slot"
+      },
+      "id": "open-recall",
+      "kind": "drag",
+      "prompt": "File the recall notice and pull every pack the suspect runs produced.",
+      "target": "stc-recall-notice",
+      "title": "Open the recall for the failed run",
+      "why": "A positive spore test is information about the steriliser, not about the one pouch the indicator happened to ride in, so the recall covers every load since the last confirmed negative result. That is what the load numbers on every pack were written for: without them the recall has no boundary and the only honest scope is everything in the building, which is a very expensive way to find out why traceability mattered."
+    },
+    {
+      "cue": "Tell the lead what ran, what was held and what the recall covers.",
+      "id": "lead-checkin",
+      "kind": "select",
+      "prompt": "Tell the lead what ran, what was held and what the recall covers.",
+      "target": "stc-lead-checkin",
+      "title": "Check in with the processing lead before the room is handed on",
+      "why": "The failure this room found belongs to the whole practice: a held load means chairs upstairs are short of instruments, and a recall means somebody has to decide which appointments can still go ahead. The lead is also the person who arranges the service call and the repeat spore tests the steriliser now needs before it goes back in routine use, and none of that starts from a note left on a bench."
+    },
+    {
+      "cue": "Record the load, the chart result, the indicators, the monitoring and the recall scope.",
+      "id": "close-log",
+      "kind": "select",
+      "prompt": "Record the load, the chart result, the indicators, the monitoring and the recall scope.",
+      "target": "stc-log-book",
+      "title": "Close the sterilisation log and hand the shift over",
+      "why": "The log is the only thing in this room that still exists next year. Load number, cycle, chart result, internal indicator, spore test and control, who released it and what was held: with that written down, a drifting steriliser or a pattern of wet packs is visible as a pattern. Without it, every one of those events is an isolated oddity that nobody connects to the next one."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "The processing room as a career: one-way zones, mechanical cleaning, indicators and load numbers, a cycle chosen for the chamber, a chart read before release, a spore test with its control and a recall that can name every pack",
+  "title": "SmartCiti.X~ Sterilisation Centre VR",
+  "trade": "Sterile processing technician — dental instruments",
+  "underwater": null,
+  "weather": "clear"
+}

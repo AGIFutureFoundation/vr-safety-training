@@ -1,0 +1,402 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "permit-earned",
+    "name": "Permit Earned",
+    "note": "The chapter read, the study routine held in order, the practice quiz honest, the notes gaps found, the right documents brought, the test sat clean, and behind-the-wheel training booked"
+  },
+  "category": "Mobility & Transit",
+  "certification": "FMCSA 49 CFR 380 Subpart F entry-level driver training, whose theory curriculum is exactly what this study session works through before the permit; 49 CFR 383 for the commercial driver's license knowledge and skills tests this day's test is the first of; the state CDL handbook, the actual book the study routine and the practice quiz are built from; CVSA roadside inspection practice, one of the general-knowledge topics the notes board checks for; 29 CFR 1910.151 for the first-aid response a testing room's own stress can turn into a real need; Teamsters (IBT) driver training programmes, which this permit is the first document toward",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "CVSA",
+        "citedAs": "CVSA",
+        "id": "cvsa-out-of-service-criteria",
+        "title": "CVSA North American Standard Inspection Program and North American Standard Out-of-Service Criteria for roadside inspection of drivers and commercial motor vehicles"
+      },
+      {
+        "body": "FMCSA",
+        "citedAs": "49 CFR 380 Subpart F",
+        "id": "fmcsa-49-cfr-380-subpart-f",
+        "title": "49 CFR Part 380 Subpart F — Entry-level driver training requirements for Class A and Class B commercial driver licence applicants, delivered by a provider listed on the Training Provider Registry"
+      },
+      {
+        "body": "FMCSA",
+        "citedAs": "49 CFR 383",
+        "id": "fmcsa-49-cfr-383",
+        "title": "49 CFR Part 383 — Commercial driver's license standards; requirements and penalties, including the Class A, B and C vehicle groups and the knowledge and skills tests"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.151",
+        "id": "osha-1910-151",
+        "title": "29 CFR 1910.151 — Medical services and first aid"
+      },
+      {
+        "body": "state CDL handbook",
+        "citedAs": "state CDL handbook",
+        "id": "state-cdl-handbook",
+        "title": "The commercial driver's license manual each state issues for its CDL knowledge and skills tests — driving safely, space management, speed and following distance, mountain, night and fog driving, railroad crossings and backing"
+      },
+      {
+        "body": "union",
+        "citedAs": "IBT",
+        "id": "teamsters-training",
+        "title": "Teamsters apprenticeship and driver training programmes, including regulated-soil and yard work"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Commercial Driving",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "no-gaps",
+        "name": "No Gaps",
+        "note": "The chapter held through and the notes gaps found clean"
+      },
+      {
+        "id": "own-answers",
+        "name": "Own Answers",
+        "note": "No unsafe action anywhere in the run"
+      },
+      {
+        "id": "held-the-quiz",
+        "name": "Held The Quiz",
+        "note": "The practice quiz track carried without a break"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-test-day",
+        "name": "Clean Test Day",
+        "note": "No corrections anywhere"
+      },
+      {
+        "id": "steady-nerves",
+        "name": "Steady Nerves",
+        "note": "The confidence gauge committed near the middle of the band"
+      },
+      {
+        "id": "one-sitting-pass",
+        "name": "One-Sitting Pass",
+        "note": "Finished inside 80% of par"
+      }
+    ],
+    "currency": "CHAPTER",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Studying",
+      "Practice Passed",
+      "Test Sat",
+      "Permit Filed",
+      "Knowledge Test Certified"
+    ],
+    "system": "Testing Window"
+  },
+  "hazards": {
+    "wp-pt-failed-visitor": "Someone who just failed the test is banging on the results window, raising his voice at the clerk. Space and a level tone come first — step back from the window, let the clerk handle it, and do not let his frustration become the last thing on your mind before you go in to test yourself.",
+    "wp-pt-panic-neighbor": "The candidate at the next study table has gone pale and is breathing fast, gripping the edge of the table before their own test. A panic response before a high-stakes test is common and treatable in the moment — get the proctor, help them slow their breathing, and do not just keep studying next to it as if nothing is happening.",
+    "wp-pt-screen-hunch": "You were about to spend the whole study session hunched over the practice-quiz tablet flat on the table. A study session run this way strains the same neck and shoulders a full shift later will, hours before the test even starts — raise the tablet on its stand before you begin, not after your neck already aches.",
+    "wp-pt-stuffy-room": "The vent in the study room has been struggling for an hour and the air has gone warm and heavy. A hot, airless room dulls the concentration a knowledge test specifically needs, and it is worth fixing before the test rather than blaming a low score on nerves afterward — crack the door for a cross breeze and get water now."
+  },
+  "id": "wp-permit-study-and-knowledge-test",
+  "indoor": "clinic",
+  "interrupts": [
+    {
+      "after": "practice-quiz",
+      "alert": "Someone at the next table slides a folded cheat sheet under yours during the practice quiz, whispering that it has the answers.",
+      "cue": "Push it back and report it to the proctor's desk — do not open it.",
+      "delay": 3,
+      "id": "wp-pt-cheat-slip",
+      "kind": "A folded cheat sheet slides under the table",
+      "missNote": "You left the folded sheet where it was, and in the version where you glanced at it, the practice score that followed measured a cheat sheet's honesty, not yours — which is exactly the number the coach then planned test day around.",
+      "seconds": 12,
+      "target": "wp-pt-report-slip",
+      "why": "A cheat sheet used on a practice quiz teaches you nothing true about what you know, and used on the real test it is grounds for disqualification that follows a permit application for years — reporting it to the proctor protects your own score and stops it from being used on somebody else's test too.",
+      "wrongNote": "Not the quiz tablet. The proctor's desk is where this gets reported — push the sheet back and go there."
+    },
+    {
+      "after": "sit-test",
+      "alert": "A warning flashes on the terminal screen: the testing system is about to reboot for maintenance, mid-test.",
+      "cue": "Do not keep clicking through questions. Press the proctor call button.",
+      "delay": 3,
+      "id": "wp-pt-system-reboot",
+      "kind": "Testing system reboot warning",
+      "missNote": "You kept clicking through questions as the warning flashed, and in the version where the system rebooted mid-answer, the last several questions had to be retaken from a shaken, distracted start rather than a calm one.",
+      "seconds": 12,
+      "target": "wp-pt-proctor-call",
+      "why": "A reboot mid-test can lose answers the system has not yet saved, and a candidate who keeps racing to finish before it reboots is the one most likely to lose work that a proctor could have paused and protected instead — the call button exists exactly for this, and using it is what keeps a technical glitch from becoming a retest.",
+      "wrongNote": "Not the terminal itself. The proctor call button is what gets a human to pause it properly — press that."
+    }
+  ],
+  "lateNotes": {
+    "wp-pt-permit-card": "Not yet. The permit goes in the folder once the results actually say it passed — not before the window has said so.",
+    "wp-pt-permit-log": "The log closes out the day last, with the actual score and the behind-the-wheel date that got booked."
+  },
+  "name": "Permit Study and Knowledge-Test Day",
+  "parSeconds": 330,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "wojrc-pathway-edition"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.2,
+    "hits": [
+      "wp-pt-calendar-dial",
+      "wp-pt-coach",
+      "wp-pt-confidence-dial",
+      "wp-pt-doc-application",
+      "wp-pt-doc-fee",
+      "wp-pt-doc-id",
+      "wp-pt-failed-visitor",
+      "wp-pt-gap-airbrake",
+      "wp-pt-gap-cargo",
+      "wp-pt-gap-hazmat",
+      "wp-pt-license-folder",
+      "wp-pt-manual",
+      "wp-pt-panic-neighbor",
+      "wp-pt-permit-card",
+      "wp-pt-permit-log",
+      "wp-pt-proctor-call",
+      "wp-pt-quiz-tablet",
+      "wp-pt-report-slip",
+      "wp-pt-results-window",
+      "wp-pt-routine-quiz",
+      "wp-pt-routine-read",
+      "wp-pt-routine-review",
+      "wp-pt-screen-hunch",
+      "wp-pt-signin-desk",
+      "wp-pt-stuffy-room",
+      "wp-pt-test-terminal"
+    ],
+    "meshes": 132
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Sign the sheet with your name and the appointment time for today's test.",
+      "id": "sign-in",
+      "kind": "select",
+      "prompt": "Sign the sheet with your name and the appointment time for today's test.",
+      "target": "wp-pt-signin-desk",
+      "title": "Sign in at the study room desk",
+      "why": "The testing window schedules candidates in slots, and signing in confirms you are actually here for the slot booked rather than someone else's — the same habit as every appointment this pathway runs on, and the first thing that keeps a full morning of test-takers from turning into a line nobody can account for."
+    },
+    {
+      "cue": "Hold the manual open at the assigned chapter and read it all the way through.",
+      "holdBreakNote": "You closed the manual partway through the chapter. The section you skipped is as likely as any other to be the one the test asks about — open it again and finish it.",
+      "id": "read-chapter",
+      "kind": "hold",
+      "prompt": "Hold the manual open at the assigned chapter and read it all the way through.",
+      "seconds": 6,
+      "target": "wp-pt-manual",
+      "title": "Read today's assigned chapter",
+      "why": "The state CDL handbook is the actual source the knowledge test is written from, not a summary of it, and reading the assigned chapter in full — not skimming for the parts that sound testable — is what catches the general-knowledge questions a shortcut study guide leaves out."
+    },
+    {
+      "cue": "Read the chapter, take the practice quiz, then review what you got wrong — in that order.",
+      "id": "study-routine",
+      "itemNames": {
+        "wp-pt-routine-quiz": "take the practice quiz",
+        "wp-pt-routine-read": "read the chapter",
+        "wp-pt-routine-review": "review what you missed"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Read, then quiz, then review — a quiz taken before the chapter is read tests nothing, and reviewing what you missed only means something once you have actually been quizzed on it.",
+      "prompt": "Read the chapter, take the practice quiz, then review what you got wrong — in that order.",
+      "targets": [
+        "wp-pt-routine-read",
+        "wp-pt-routine-quiz",
+        "wp-pt-routine-review"
+      ],
+      "title": "Work the study routine in order",
+      "why": "A study routine done out of order wastes the one thing a test-day morning does not have much of: time. Reading first gives the quiz something to test, and reviewing what was missed only works once the quiz has actually shown you what that is — skipping straight to review, or reviewing before quizzing, teaches nothing."
+    },
+    {
+      "cue": "Hold the quiz track in the band: reading every question, not guessing and not memorising the practice answers by their position.",
+      "holdBreakNote": "The pace slipped — into guessing or into memorising where the right answer sits instead of what it says. Come back to reading each question.",
+      "id": "practice-quiz",
+      "kind": "track",
+      "prompt": "Hold the quiz track in the band: reading every question, not guessing and not memorising the practice answers by their position.",
+      "seconds": 7,
+      "target": "wp-pt-quiz-tablet",
+      "title": "Hold the practice quiz honestly",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.44,
+        "green": [
+          0.36,
+          0.66
+        ],
+        "label": "PACE",
+        "rise": 0.5,
+        "start": 0.5
+      },
+      "why": "A practice quiz answered by memorising which letter came up last time, rather than by actually reading the question, tells you nothing about the real test, which reorders and rewrites every question. Reading each one through, honestly, is the only way the practice quiz actually predicts how test day goes."
+    },
+    {
+      "cue": "Three pages in your notes have nothing written on them. Find all three.",
+      "id": "find-gaps",
+      "itemNames": {
+        "wp-pt-gap-airbrake": "no notes on air brakes",
+        "wp-pt-gap-cargo": "no notes on cargo securement",
+        "wp-pt-gap-hazmat": "no notes on hazmat awareness"
+      },
+      "itemNotes": {
+        "wp-pt-gap-airbrake": "Air brakes are one of the general-knowledge topics the state CDL handbook covers before a driver ever sees a truck, and a blank page here means the practice quiz just quietly skipped it.",
+        "wp-pt-gap-cargo": "Cargo securement general knowledge is its own section of the handbook, and a blank page here is one more topic the practice quiz never actually checked.",
+        "wp-pt-gap-hazmat": "Hazmat awareness is tested even for drivers who never plan to haul it — a blank page here is a guess waiting to happen on test day."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Three pages in your notes have nothing written on them. Find all three.",
+      "targets": [
+        "wp-pt-gap-airbrake",
+        "wp-pt-gap-hazmat",
+        "wp-pt-gap-cargo"
+      ],
+      "title": "Find the three gaps in your study notes",
+      "why": "A blank page in a set of study notes is a topic the practice quiz quietly never tested, because there was nothing there to review — finding the gaps before test day is the only way to know what you actually do not know yet, instead of finding out from a question you cannot answer."
+    },
+    {
+      "cue": "The dial runs one to ten. Commit it where you actually are, not where you want to be walking in.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.7
+        ],
+        "label": "CONFIDENCE",
+        "missNote": "That number does not match someone who just found three gaps in their own notes. Rate it honestly — the coach reads it before deciding whether today is the day to test or the day to study one more session.",
+        "speed": 0.6
+      },
+      "id": "confidence-gauge",
+      "kind": "gauge",
+      "prompt": "The dial runs one to ten. Commit it where you actually are, not where you want to be walking in.",
+      "target": "wp-pt-confidence-dial",
+      "title": "Rate your test-day confidence honestly",
+      "why": "This number decides whether the coach encourages you to sit the test today or book one more study session first, and an inflated ten answered by someone who just found three gaps gets no such conversation — the honest number is what makes the coach's advice worth anything at all."
+    },
+    {
+      "cue": "From the folder on the table, find your photo ID, the completed application and the fee receipt.",
+      "id": "bring-documents",
+      "itemNames": {
+        "wp-pt-doc-application": "the completed application",
+        "wp-pt-doc-fee": "the fee receipt",
+        "wp-pt-doc-id": "photo ID"
+      },
+      "itemNotes": {
+        "wp-pt-doc-application": "A completed application with nothing left blank is what the window actually processes; one filled in at the counter under pressure is where mistakes creep in.",
+        "wp-pt-doc-fee": "The fee receipt is proof the test slot is actually paid for — without it, the window has no record that today's appointment was ever confirmed.",
+        "wp-pt-doc-id": "Photo ID is checked against the application before you are even called to a terminal — no ID, no test today."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "From the folder on the table, find your photo ID, the completed application and the fee receipt.",
+      "targets": [
+        "wp-pt-doc-id",
+        "wp-pt-doc-application",
+        "wp-pt-doc-fee"
+      ],
+      "title": "Bring the right documents to the window",
+      "why": "A test-day appointment lost to a document left at home is the most avoidable way to lose a testing slot, and all three of these are checked before anyone is called to a terminal — bringing them the first time is what keeps a morning of studying from ending at the window instead of at a terminal."
+    },
+    {
+      "cue": "Hold at the terminal and work through the test at a steady pace, reading every question fully.",
+      "holdBreakNote": "You clicked ahead before finishing the question. Slow back down and read it through before you answer — the test rewards accuracy, not speed.",
+      "id": "sit-test",
+      "kind": "hold",
+      "prompt": "Hold at the terminal and work through the test at a steady pace, reading every question fully.",
+      "seconds": 8,
+      "target": "wp-pt-test-terminal",
+      "title": "Sit the knowledge test without rushing",
+      "why": "The knowledge test has no clock pressuring a rushed answer, and a candidate who reads every question fully, including the ones that sound familiar from the practice quiz, catches the ones written to look like a familiar question with a changed detail. Rushing to finish early proves nothing to anyone; the score is the only thing that matters."
+    },
+    {
+      "cue": "Turn the calendar dial to the date your behind-the-wheel training starts, once the permit clears.",
+      "id": "book-roadtest",
+      "kind": "turn",
+      "prompt": "Turn the calendar dial to the date your behind-the-wheel training starts, once the permit clears.",
+      "target": "wp-pt-calendar-dial",
+      "title": "Book behind-the-wheel training",
+      "turn": {
+        "axis": "y",
+        "label": "NEXT: BEHIND-THE-WHEEL",
+        "turns": 0.6
+      },
+      "why": "A permit with no training date attached to it is a permit that sits in a drawer while the knowledge that just got tested starts to fade — booking the behind-the-wheel start date today, at the window, is what turns a passed test into the next step of the pathway instead of a certificate framed and forgotten."
+    },
+    {
+      "cue": "Go to the window and read the results card the clerk hands you.",
+      "id": "read-results",
+      "kind": "select",
+      "prompt": "Go to the window and read the results card the clerk hands you.",
+      "target": "wp-pt-results-window",
+      "title": "Read your results at the window",
+      "why": "The results card is the actual record of the score, and reading it at the window — rather than assuming from how the test felt — is what confirms the permit is real before you plan the next step around it. It is also where a clerk answers any question about what the score means for scheduling."
+    },
+    {
+      "cue": "Carry the permit card into your license folder.",
+      "drag": {
+        "missNote": "Not in the folder. A permit left on the counter is a permit somebody else picks up by mistake.",
+        "radius": 0.4,
+        "to": "wp-pt-license-folder"
+      },
+      "id": "file-permit",
+      "kind": "drag",
+      "prompt": "Carry the permit card into your license folder.",
+      "target": "wp-pt-permit-card",
+      "title": "File the permit in your folder",
+      "why": "The permit is the document every step from here forward checks — the behind-the-wheel instructor, the coordinator, eventually the employer — and it goes into the folder now, while it is in your hand, rather than loose in a bag where a testing office sees it get lost every week."
+    },
+    {
+      "cue": "Tell the coach the score, what felt hardest, and how test-day nerves actually went.",
+      "id": "coach-checkin",
+      "kind": "select",
+      "prompt": "Tell the coach the score, what felt hardest, and how test-day nerves actually went.",
+      "target": "wp-pt-coach",
+      "title": "Check in with the coach",
+      "why": "The coach plans the behind-the-wheel schedule around what you say here — which topics still feel shaky, whether the nerves were manageable or something more. A test-day debrief given honestly is what makes the next block of training start where you actually are, not where the permit score alone suggests."
+    },
+    {
+      "cue": "Log the score, the permit number and the behind-the-wheel start date, then sign it.",
+      "id": "close-log",
+      "kind": "select",
+      "prompt": "Log the score, the permit number and the behind-the-wheel start date, then sign it.",
+      "target": "wp-pt-permit-log",
+      "title": "Close out the permit log",
+      "why": "The permit log is the record the coordinator reads before scheduling behind-the-wheel training, and a score and a date written down today save a phone call next week chasing information that was only ever in your head."
+    }
+  ],
+  "supportLine": "the programme's own coaching staff, and 988 or SAMHSA's National Helpline (1-800-662-4357, free and confidential) if test-day nerves have become more than the room can hold",
+  "tagline": "Read the assigned chapter, work the study routine in order, hold the practice quiz honestly, find the gaps in your notes, bring the right documents to the window, sit the knowledge test without rushing, and book behind-the-wheel training next",
+  "title": "SmartCiti.X~ Permit Study and Knowledge-Test Day VR",
+  "trade": "Pathway Edition — a Class A permit study session and knowledge-test day",
+  "underwater": null,
+  "weather": "clear"
+}

@@ -1,0 +1,369 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "cpcy-badge",
+    "name": "Yard Walked",
+    "note": "Every connector looked at, every cable off the ground and the e-stop proven before a single session started"
+  },
+  "category": "Maritime & Ports",
+  "certification": "IBEW/NECA JATC apprenticeship and journeyman training; NFPA 70 (NEC) for electric vehicle power transfer equipment and its disconnecting means; NFPA 70E electrical safety in the workplace; 29 CFR 1910.147 the control of hazardous energy; OSHA 29 CFR 1917 marine terminals for vehicle routes and pedestrian separation; ANSI Z535.4 for the product safety signs on each dispenser",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI Z535.4",
+        "id": "ansi-z535-4",
+        "title": "ANSI Z535.4 — Product safety signs and labels"
+      },
+      {
+        "body": "union",
+        "citedAs": "IBEW/NECA JATC",
+        "id": "ibew-neca-jatc",
+        "title": "IBEW/NECA Joint Apprenticeship and Training Committee — inside and outside wireman apprenticeship standards, taught from the electrical training ALLIANCE curriculum"
+      },
+      {
+        "body": "NEC/NFPA 70",
+        "citedAs": "NEC",
+        "id": "nec-nfpa-70",
+        "title": "NFPA 70 — National Electrical Code"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 70E",
+        "id": "nfpa-70e",
+        "title": "NFPA 70E — Standard for Electrical Safety in the Workplace"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1917",
+        "id": "osha-1917",
+        "title": "29 CFR 1917 — Marine terminals"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Energy",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "cpcy-clean-read",
+        "name": "Clean Read",
+        "note": "The key reading committed inside its band first time"
+      },
+      {
+        "id": "cpcy-held",
+        "name": "Held Steady",
+        "note": "Every watch and hold ran unbroken"
+      },
+      {
+        "id": "cpcy-safe",
+        "name": "Never a Shortcut",
+        "note": "No unsafe action reached for anywhere in the run"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "cpcy-clean",
+        "name": "Clean Run",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "cpcy-fast",
+        "name": "Inside Par",
+        "note": "Finished inside 80% of par"
+      }
+    ],
+    "currency": "TAG",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Yard Hand",
+      "Zero-Emission Crew",
+      "Lead Hand",
+      "Certified Hand",
+      "Journey Level"
+    ],
+    "system": "Yard Walked"
+  },
+  "hazards": {
+    "drive-over-cable": "You waved a tractor across the cable lying in the drive lane. Every wheel that rolls over a charging cable crushes its insulation from the inside, and the damage stays hidden until the jacket fails.",
+    "open-housing-live": "You opened dispenser 2's housing before its breaker was locked out. A tag on a connector does nothing to the conductors behind that panel — only isolation at the breaker does.",
+    "reset-e-stop-blind": "You reset the e-stop without checking the row. Restoring power to every dispenser at once while someone may still be at a housing turns the reset into the hazard.",
+    "use-cracked-connector": "You went to plug the cracked connector into a tractor. A connector whose latch cannot lock can be pulled out under load, and the arc at the pins when it does is the hazard the latch exists to prevent."
+  },
+  "id": "cp-charging-yard-connectors-and-e-stops",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "coil-trip-cable",
+      "alert": "An operator has pulled a tractor up to dispenser 2 and is lifting the tagged connector out of its holster.",
+      "cue": "Stop them and send them to dispenser 1 — the e-stop test waits.",
+      "delay": 2,
+      "id": "operator-grabs-tagged-plug",
+      "kind": "An operator reaches for the tagged connector",
+      "missNote": "You kept moving toward the e-stop while the operator seated the cracked connector; the session started with the plug unlatched in the inlet.",
+      "seconds": 12,
+      "target": "stop-operator",
+      "why": "An operator coming off a long shift can miss a tag, and the only thing between them and a connector that will not latch is someone saying so; stopping them now keeps the tag meaning what it says.",
+      "wrongNote": "Stop the operator first — someone reaching for tagged-out equipment is answered before the next task."
+    },
+    {
+      "after": "watch-charge-session",
+      "alert": "A visitor without a vest has walked into the drive lane between the dispensers as a quiet electric top pick moves down the row.",
+      "cue": "Signal the top pick to stop and walk the visitor to the marked walkway — the pedestal check waits.",
+      "delay": 2,
+      "id": "pedestrian-in-drive-lane",
+      "kind": "A visitor walks into the drive lane",
+      "missNote": "The pedestal check went on while the visitor stood in the drive lane; the top pick's operator only saw them when the load was already overhead.",
+      "seconds": 12,
+      "target": "walkway-sign",
+      "why": "Electric equipment is quiet enough that someone on foot may not hear it coming, and the marked walkway is the separation 29 CFR 1917 terminals depend on; getting a pedestrian out of a drive lane comes before any inspection.",
+      "wrongNote": "The walkway first — a person on foot in a vehicle lane is answered immediately."
+    }
+  ],
+  "lateNotes": {},
+  "name": "Charging Yard: Connectors, E-Stops and Cable Management",
+  "parSeconds": 330,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "wojrc-pathway-edition"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 3,
+    "hits": [
+      "cable-hanger",
+      "cracked-connector-latch",
+      "dispenser-breaker",
+      "dispenser-one",
+      "dispenser-three",
+      "dispenser-two",
+      "drive-over-cable",
+      "e-stop-reset",
+      "good-connector",
+      "in-service-board",
+      "loose-charge-cable",
+      "open-housing-live",
+      "out-of-service-tag",
+      "pedestal-puddle",
+      "reset-e-stop-blind",
+      "session-meter",
+      "stop-operator",
+      "tractor-inlet",
+      "use-cracked-connector",
+      "walkway-sign",
+      "yard-e-stop",
+      "yard-radio",
+      "yard-switching-log"
+    ],
+    "meshes": 240
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read which dispensers are tagged out, which breakers were switched overnight, and any faults the last shift wrote up.",
+      "id": "read-switching-log",
+      "kind": "select",
+      "prompt": "Read which dispensers are tagged out, which breakers were switched overnight, and any faults the last shift wrote up.",
+      "target": "yard-switching-log",
+      "title": "Read the yard's switching log",
+      "why": "A charging yard is an electrical installation that other people have been working on since you last saw it, and the switching log is where a breaker opened for repair or a connector already reported is written; walking the yard without it means rediscovering yesterday's faults the hard way."
+    },
+    {
+      "anyOrder": false,
+      "cue": "Visit each dispenser from the entrance down: housing closed, screen alive, holster intact, signs readable.",
+      "id": "walk-dispenser-row",
+      "itemNames": {
+        "dispenser-one": "dispenser 1",
+        "dispenser-three": "dispenser 3",
+        "dispenser-two": "dispenser 2"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Walk the row in order from the yard entrance — skipping around is how a dispenser in the middle gets missed.",
+      "prompt": "Visit each dispenser from the entrance down: housing closed, screen alive, holster intact, signs readable.",
+      "targets": [
+        "dispenser-one",
+        "dispenser-two",
+        "dispenser-three"
+      ],
+      "title": "Walk the dispenser row in order",
+      "why": "Walking the row in the same order every shift is what makes the one dispenser that looks different stand out, and it keeps the check from depending on which pedestal happened to catch your eye; a damaged housing or a dead screen is often the first sign of water or impact damage inside."
+    },
+    {
+      "cue": "Pick up each connector: pins straight and clean, seal intact, latch whole and springing back.",
+      "id": "find-cracked-latch",
+      "itemNames": {
+        "cracked-connector-latch": "cracked latch on dispenser 2's connector"
+      },
+      "itemNotes": {
+        "cracked-connector-latch": "Dispenser 2's connector has a crack across its latch — it will still push into an inlet, but it will not lock, and a connector that does not lock can be pulled out under load."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Pick up each connector: pins straight and clean, seal intact, latch whole and springing back.",
+      "targets": [
+        "cracked-connector-latch"
+      ],
+      "title": "Look closely at each connector",
+      "why": "The latch is what holds a connector in the vehicle inlet so the session can confirm it is seated before energising, and a cracked one lets the plug be pulled or knocked out mid-charge; connectors take a beating from being dropped on pavement and driven over, so they are looked at every shift."
+    },
+    {
+      "cue": "Hang the out-of-service tag on dispenser 2 and holster the connector so nobody plugs it in.",
+      "id": "tag-out-connector",
+      "kind": "select",
+      "prompt": "Hang the out-of-service tag on dispenser 2 and holster the connector so nobody plugs it in.",
+      "target": "out-of-service-tag",
+      "title": "Tag the damaged connector out of service",
+      "why": "A defect found and not tagged is a defect the next operator finds by using it, and a tag on the holster is the one signal an operator coming off a vessel shift will see before they reach for the plug; it also tells the electrician which unit to open first."
+    },
+    {
+      "cue": "Carry the charging cable left across the drive lane back to its overhead hanger.",
+      "drag": {
+        "missNote": "The cable is not on its hanger — carry it all the way up so no loop is left on the ground.",
+        "radius": 0.5,
+        "to": "cable-hanger"
+      },
+      "id": "coil-trip-cable",
+      "kind": "drag",
+      "prompt": "Carry the charging cable left across the drive lane back to its overhead hanger.",
+      "target": "loose-charge-cable",
+      "title": "Get the cable off the drive lane",
+      "why": "A charging cable lying on the pavement is crushed by every wheel that crosses it and trips everyone who walks the yard at night, and the damage from being driven over is often inside the jacket where you cannot see it; cable management means cables live on their hangers."
+    },
+    {
+      "cue": "Warn the yard on the radio, press the yard e-stop, confirm every dispenser screen goes dark.",
+      "id": "test-yard-e-stop",
+      "kind": "select",
+      "prompt": "Warn the yard on the radio, press the yard e-stop, confirm every dispenser screen goes dark.",
+      "target": "yard-e-stop",
+      "title": "Test the yard emergency stop",
+      "why": "The emergency stop is the one control anyone in the yard can reach to cut power to every dispenser at once, and it only earns that trust if it is proven to work; a test announced first means nobody mid-session is surprised by their charge dropping."
+    },
+    {
+      "cue": "Twist the e-stop to release it, then reset the yard controller — only once everyone is clear.",
+      "id": "reset-e-stop-deliberately",
+      "kind": "turn",
+      "prompt": "Twist the e-stop to release it, then reset the yard controller — only once everyone is clear.",
+      "target": "e-stop-reset",
+      "title": "Reset the e-stop on purpose",
+      "turn": {
+        "label": "RESET",
+        "turns": 0.75
+      },
+      "why": "An emergency stop that restores power the moment it is pulled out is not a safe design, which is why the reset is a separate deliberate act; releasing it only after checking the row keeps the restart under the control of someone who has looked."
+    },
+    {
+      "cue": "Carry dispenser 1's connector to the parked tractor's inlet and seat it until the latch clicks.",
+      "drag": {
+        "missNote": "Not latched — push the connector straight into the inlet until the latch clicks, not resting against the inlet's edge.",
+        "radius": 0.5,
+        "to": "tractor-inlet"
+      },
+      "id": "plug-in-yard-tractor",
+      "kind": "drag",
+      "prompt": "Carry dispenser 1's connector to the parked tractor's inlet and seat it until the latch clicks.",
+      "target": "good-connector",
+      "title": "Plug in a yard tractor",
+      "why": "The session will not start until the dispenser confirms the connector is latched in the inlet, and seating it fully is what keeps the pins from arcing on a partial contact; the tractor should be parked, braked and keyed off before the connector ever leaves the holster."
+    },
+    {
+      "cue": "Open dispenser 2's breaker in the yard switchgear and hang your lock and tag before the electrician opens the housing.",
+      "id": "lock-out-breaker",
+      "kind": "select",
+      "prompt": "Open dispenser 2's breaker in the yard switchgear and hang your lock and tag before the electrician opens the housing.",
+      "target": "dispenser-breaker",
+      "title": "Lock out dispenser 2 at its breaker",
+      "why": "A tag on the connector stops people using it, but opening the housing needs the energy controlled at its source under 29 CFR 1910.147, and a lock on the breaker is what makes the repair safe whoever turns up to do it."
+    },
+    {
+      "cue": "Stay at the dispenser and keep the session current inside the band until it settles.",
+      "holdBreakNote": "The session current left the band before you had watched it settle — a session walked away from early is one whose fault is found by the next operator instead.",
+      "id": "watch-charge-session",
+      "kind": "track",
+      "prompt": "Stay at the dispenser and keep the session current inside the band until it settles.",
+      "seconds": 6,
+      "target": "session-meter",
+      "title": "Watch the first minutes of the session",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.27,
+        "green": [
+          0.4,
+          0.64
+        ],
+        "label": "SESSION A",
+        "rise": 0.3,
+        "start": 0.5
+      },
+      "why": "A session that is going to fault usually does so in its first minutes as the current ramps up, and a person standing at the dispenser can stop it at once; walking off as soon as the screen says charging leaves a fault to be found by the next person who walks past."
+    },
+    {
+      "cue": "Look at the base of each pedestal for pooled water, a cracked base or a damaged bollard.",
+      "id": "find-pooled-water",
+      "itemNames": {
+        "pedestal-puddle": "water pooled around dispenser 3's pedestal"
+      },
+      "itemNotes": {
+        "pedestal-puddle": "Water pooled around dispenser 3's pedestal after the night's rain — the drain beside it is blocked, and the cable entry at the base is sitting in it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look at the base of each pedestal for pooled water, a cracked base or a damaged bollard.",
+      "targets": [
+        "pedestal-puddle"
+      ],
+      "title": "Check the ground around the pedestals",
+      "why": "Dispensers are rated for weather, but water standing over a cable entry or a cracked pedestal base is how moisture reaches terminations over time; a blocked drain is a small fix today and a ground fault next month."
+    },
+    {
+      "cue": "Mark dispenser 2 out of service and dispenser 3 watched for drainage on the yard's status board.",
+      "id": "update-status-board",
+      "kind": "select",
+      "prompt": "Mark dispenser 2 out of service and dispenser 3 watched for drainage on the yard's status board.",
+      "target": "in-service-board",
+      "title": "Update the in-service board",
+      "why": "Operators pick a dispenser from the board as they pull in, so the board is the tool that routes equipment away from a faulted unit; an accurate board saves every operator from rediscovering the same fault."
+    },
+    {
+      "cue": "Radio the lead: connector latch cracked and locked out, cable hung, e-stop tested, puddle at dispenser 3 needs the drain cleared.",
+      "id": "call-shift-lead",
+      "kind": "select",
+      "prompt": "Radio the lead: connector latch cracked and locked out, cable hung, e-stop tested, puddle at dispenser 3 needs the drain cleared.",
+      "target": "yard-radio",
+      "title": "Tell the shift lead",
+      "why": "The shift lead plans how many tractors can charge through the break, and one fewer dispenser changes that plan; telling them now keeps the charging schedule built on what the yard can actually do."
+    }
+  ],
+  "supportLine": "your union's member assistance programme",
+  "tagline": "The charging yard before the first shift plugs in: the yard's switching log read, a walk of every dispenser, a cracked connector latch found and tagged out, a cable left across the drive lane coiled back onto its hanger, the yard e-stop tested and reset on purpose, a yard tractor plugged in and its session watched, a pooled puddle at a pedestal found, the faulted dispenser locked out at its breaker, the in-service board updated and the shift lead told",
+  "title": "SmartCiti.X~ Charging Yard: Connectors, E-Stops and Cable Management VR VR",
+  "trade": "IBEW electrician and ILWU equipment operator opening a terminal charging yard for the shift — connectors, emergency stops and cable management",
+  "underwater": null,
+  "weather": "clear"
+}

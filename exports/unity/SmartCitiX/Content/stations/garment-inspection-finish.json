@@ -1,0 +1,374 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "clean-pack",
+    "name": "Clean Pack",
+    "note": "Every defect found and tagged, every piece swept for needles, and nothing packed that hadn't cleared both"
+  },
+  "category": "Sewing & Garment Trades",
+  "certification": "Workers United (SEIU) industrial sewing machine operator apprenticeship standards; OSHA 29 CFR 1910.1200 hazard communication for the spot-cleaning solvent; OSHA 29 CFR 1910.132 personal protective equipment for the gloves; NIOSH ergonomics guidance for standing inspection-table work",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "NIOSH",
+        "citedAs": "NIOSH",
+        "id": "niosh-criteria",
+        "title": "NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1200",
+        "id": "osha-1910-1200",
+        "title": "29 CFR 1910.1200 — Hazard communication"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.132",
+        "id": "osha-1910-132",
+        "title": "29 CFR 1910.132 — Personal protective equipment, general requirements"
+      },
+      {
+        "body": "union",
+        "citedAs": "SEIU",
+        "id": "seiu-training",
+        "title": "SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Apparel manufacturing",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "gloved-solvent",
+        "name": "Gloved Solvent",
+        "note": "Never touched the spot cleaner bare-handed"
+      },
+      {
+        "id": "steady-sweep",
+        "name": "Steady Sweep",
+        "note": "Held the needle detector sweep without a break"
+      },
+      {
+        "id": "to-spec",
+        "name": "To Spec",
+        "note": "The measured dimension close to the spec sheet's tolerance"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-inspection",
+        "name": "Clean Inspection",
+        "note": "No corrections through the whole run"
+      },
+      {
+        "id": "needle-caught",
+        "name": "Needle Caught",
+        "note": "Pulled the boxed bundle the moment the detector alarmed"
+      },
+      {
+        "id": "pack-fast",
+        "name": "Pack Fast",
+        "note": "Complete inside 80% of par"
+      }
+    ],
+    "currency": "TAG",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Sorter",
+      "Inspector",
+      "Lead Inspector",
+      "Finish Hand",
+      "Finish Authority Certified"
+    ],
+    "system": "Finish Authority"
+  },
+  "hazards": {
+    "bare-snip-reach": "You reached for the bare scissors in the bin instead of the guarded thread snips. Open scissors blades held close to a garment on the table catch more than thread the moment they slip — the spring-loaded snips close on themselves the instant you let go, and the bare pair doesn't.",
+    "needle-in-scrap": "There's a broken needle tip sitting in the ordinary thread-scrap bin instead of the sharps container. A needle fragment in with the scrap thread is a puncture waiting for whoever bags that scrap next, and it's exactly the risk the needle detector on every piece is there to keep out of the finished garment in the first place.",
+    "solvent-mix-tray": "Two different spot-cleaning solvents have been poured together in one open tray. The SDS for each one covers what it does alone; mixing them is exactly the combination the incompatibility section warns against, and finding out which reaction you got is not a test to run over an open tray at an inspection table.",
+    "solvent-no-glove": "You dipped bare fingers straight into the solvent tray. OSHA's hazard communication rule exists so the SDS tells you what a spot cleaner actually does to skin before you find out by touching it — the gloves the SDS calls for go on before the tray, not after the stain starts to lift."
+  },
+  "id": "garment-inspection-finish",
+  "indoor": "shop",
+  "interrupts": [
+    {
+      "after": "spot-clean",
+      "alert": "The line detector alarms on a bundle two benches down — one that's already boxed and sealed, ready to ship.",
+      "cue": "That's a needle alarm on work that's already left this bench's checks.",
+      "delay": 3,
+      "id": "needle-alarm-boxed",
+      "kind": "Detector alarm on sealed work",
+      "missNote": "The alarming box shipped anyway. A needle fragment sewn into a garment doesn't announce itself again once it's out the door — the whole point of scanning every piece is that this was the last chance to catch it before it became someone else's injury.",
+      "seconds": 11,
+      "target": "boxed-bundle",
+      "why": "A needle fragment sealed inside a shipped box is a hazard that's now somebody else's problem to find, most likely a customer's hand — the alarm on a boxed bundle outranks whatever's in front of you, because the piece you're inspecting is still on the bench where it can be fixed and that one isn't.",
+      "wrongNote": "It's the alarm on the boxed bundle. Pull that box and open it before anything else on this bench."
+    },
+    {
+      "after": "needle-scan",
+      "alert": "A second spray bottle has turned up on the bench, decanted from somewhere, with no label at all.",
+      "cue": "That bottle isn't the one the SDS describes for this station.",
+      "delay": 3,
+      "id": "unlabeled-solvent",
+      "kind": "Unlabelled container",
+      "missNote": "The unlabelled bottle got used anyway. Whatever was actually in it went onto a customer's garment with nobody having checked it against a single sheet — hazard communication exists precisely to stop that guess.",
+      "seconds": 11,
+      "target": "sds-board",
+      "why": "Hazard communication runs on the label matching the sheet — an unlabelled bottle could be the same solvent decanted for convenience or something else entirely, and there is no way to tell which from the outside. It gets checked against the SDS binder before it touches a garment, not used because it's sitting where the labelled one usually is.",
+      "wrongNote": "It's the bottle with no label. Check it against the SDS binder before it goes anywhere near a garment."
+    }
+  ],
+  "lateNotes": {
+    "needle-detector": "The garment gets measured and checked for defects first — a piece swept for needles before the spec check just gets handled twice.",
+    "solvent-tray": "Not yet. The SDS gets read and the gloves go on before the solvent touches anything."
+  },
+  "name": "Garment Inspection & Finish",
+  "parSeconds": 260,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "sewing-garment-trades"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.3,
+    "hits": [
+      "bare-snip-reach",
+      "box-seal",
+      "boxed-bundle",
+      "count-log",
+      "finished-garment",
+      "gloves",
+      "light-box",
+      "needle-detector",
+      "needle-in-scrap",
+      "puckered-seam",
+      "sds-board",
+      "ship-box",
+      "size-sticker",
+      "skipped-stitch",
+      "solvent-mix-tray",
+      "solvent-no-glove",
+      "solvent-tray",
+      "spec-sheet",
+      "tape-gauge",
+      "thread-snips",
+      "tissue-liner"
+    ],
+    "meshes": 149
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track"
+  ],
+  "steps": [
+    {
+      "cue": "Check the measurements and the defect tolerances for this style before the first piece goes on the table.",
+      "id": "spec-sheet",
+      "kind": "select",
+      "prompt": "Check the measurements and the defect tolerances for this style before the first piece goes on the table.",
+      "target": "spec-sheet",
+      "title": "Read the spec sheet",
+      "why": "The spec sheet is what turns 'looks about right' into an actual pass or fail — a seam allowance, a stitch count, a tolerance band that's written down instead of remembered from the last batch. An inspector working from memory drifts a little every batch; one working from the sheet in front of them doesn't."
+    },
+    {
+      "cue": "Switch on the light box and spread the garment flat across it, seam side up.",
+      "id": "light-box",
+      "kind": "select",
+      "prompt": "Switch on the light box and spread the garment flat across it, seam side up.",
+      "target": "light-box",
+      "title": "Lay the piece on the light box",
+      "why": "A seam held up to the room's overhead light hides exactly the flaw a light box shows: backlit, a skipped stitch or a pulled thread throws a shadow a bench light never catches. The light box isn't extra care for a hard case, it's how every seam on this bench actually gets looked at."
+    },
+    {
+      "cue": "Two things are wrong with this seam under the light. Find and tag them.",
+      "id": "seam-defects",
+      "itemNames": {
+        "puckered-seam": "puckered side seam",
+        "skipped-stitch": "skipped stitch"
+      },
+      "itemNotes": {
+        "puckered-seam": "A puckered seam sewn under uneven tension looks fine folded on a rack and shows the moment the garment is worn and the fabric relaxes around it.",
+        "skipped-stitch": "A skipped stitch is a gap in the seam's own strength — one thread's worth of hold missing exactly where the seam will be pulled on hardest."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Two things are wrong with this seam under the light. Find and tag them.",
+      "targets": [
+        "skipped-stitch",
+        "puckered-seam"
+      ],
+      "title": "Find the seam defects",
+      "why": "The light box only does its job if somebody's actually looking for something specific — a spec sheet's tolerance in one hand and a reason to doubt every inch of stitching in front of you. A defect that passes this bench doesn't get caught again until a customer finds it, and by then it's a return, not a tag."
+    },
+    {
+      "cue": "Check the seam allowance against the spec sheet and commit inside its tolerance.",
+      "gauge": {
+        "green": [
+          0.44,
+          0.6
+        ],
+        "label": "SEAM ALLOWANCE",
+        "missNote": "Off the spec sheet's tolerance — remeasure the allowance against the sheet, not by eye.",
+        "speed": 0.8
+      },
+      "id": "spec-measure",
+      "kind": "gauge",
+      "prompt": "Check the seam allowance against the spec sheet and commit inside its tolerance.",
+      "target": "tape-gauge",
+      "title": "Measure against the spec",
+      "why": "A seam allowance narrower than spec fails the first hard wash; wider, it changes the garment's finished size out of the run's own tolerance. The number on the spec sheet is what this measurement is checked against — not how the allowance compares to the piece sitting next to it on the table."
+    },
+    {
+      "cue": "Pull on the SDS-specified gloves before the spot-cleaning tray gets touched.",
+      "id": "glove-up",
+      "kind": "select",
+      "prompt": "Pull on the SDS-specified gloves before the spot-cleaning tray gets touched.",
+      "target": "gloves",
+      "title": "Glove up before the solvent",
+      "why": "OSHA's PPE standard exists to put the barrier on before the exposure, not after somebody notices their skin reacting. The SDS names the glove material this particular solvent needs — putting them on here is what makes the spot-clean step later a controlled task instead of a bare-handed guess."
+    },
+    {
+      "cue": "Confirm the spot-cleaner's container matches the label the SDS binder describes.",
+      "id": "read-sds",
+      "kind": "select",
+      "prompt": "Confirm the spot-cleaner's container matches the label the SDS binder describes.",
+      "target": "sds-board",
+      "title": "Check the SDS before using the solvent",
+      "why": "Hazard communication only works if the container in your hand is checked against the sheet, not assumed from the shelf it came off. A bottle that doesn't match what the SDS describes for that product is a bottle nobody should be dabbing onto a customer's garment, no matter how familiar the shelf spot is."
+    },
+    {
+      "cue": "Take the guarded spring snips and trim every loose thread the light box showed.",
+      "id": "trim-threads",
+      "kind": "select",
+      "prompt": "Take the guarded spring snips and trim every loose thread the light box showed.",
+      "target": "thread-snips",
+      "title": "Trim the loose threads",
+      "why": "A loose thread left on a finished garment is the first thing a customer's finger finds and pulls, sometimes taking a few inches of the seam with it. Trimmed flush with the guarded snips — blades that close themselves the instant they're released — the finish is what the spec sheet actually describes, and the hand holding them stays clear of an open edge."
+    },
+    {
+      "cue": "Pass the wand over the piece at a steady sweep rate — not so fast it skips a zone, not so slow it stalls the line.",
+      "holdBreakNote": "Sweep rate broke the band. A wand moved unevenly leaves gaps the coil never actually passed over — bring it back to a steady rate and sweep the piece again.",
+      "id": "needle-scan",
+      "kind": "track",
+      "prompt": "Pass the wand over the piece at a steady sweep rate — not so fast it skips a zone, not so slow it stalls the line.",
+      "seconds": 6,
+      "target": "needle-detector",
+      "title": "Sweep the needle detector",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.4,
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "SWEEP RATE",
+        "rise": 0.5,
+        "start": 0.15
+      },
+      "why": "A needle detector sweep run too fast crosses a broken-tip zone before the coil has time to react, and one run too slow backs up every piece behind it on the same bench. A steady, held sweep rate is the only way the wand actually covers every square inch of the piece the way the recall procedure assumes it did."
+    },
+    {
+      "cue": "Dab the solvent-dampened cloth on the mark and hold it for the SDS's dwell time.",
+      "holdBreakNote": "Lifted the cloth before the dwell time was up. The stain's still there under a thinner layer — press it back down and hold it for the full count.",
+      "id": "spot-clean",
+      "kind": "hold",
+      "prompt": "Dab the solvent-dampened cloth on the mark and hold it for the SDS's dwell time.",
+      "seconds": 5,
+      "target": "solvent-tray",
+      "title": "Spot-clean the stain",
+      "why": "The SDS gives a dwell time because the solvent needs that long sitting on the fibre to actually lift the stain — wiped away early, it's just spread the mark thinner across more of the fabric. Held the full time in the gloved hand, it does the job the sheet describes instead of a rushed version of it."
+    },
+    {
+      "cue": "Fold the finished garment to the spec sheet's fold pattern and place it in the shipping box.",
+      "drag": {
+        "missNote": "Not in the box — fold to the spec pattern and place it square before letting go.",
+        "radius": 0.3,
+        "to": "ship-box"
+      },
+      "id": "fold-pack",
+      "kind": "drag",
+      "prompt": "Fold the finished garment to the spec sheet's fold pattern and place it in the shipping box.",
+      "target": "finished-garment",
+      "title": "Fold the piece to spec",
+      "why": "A garment folded to the spec sheet's own pattern packs flat and consistent, box after box, on a line that ships thousands of them the same way; folded 'close enough,' it packs uneven and the box either doesn't close right or ships lighter than the count on the label says."
+    },
+    {
+      "cue": "Liner, sticker, then seal the box — in that order, not sealed first and labelled after.",
+      "id": "pack-checklist",
+      "itemNames": {
+        "box-seal": "box seal",
+        "size-sticker": "size sticker",
+        "tissue-liner": "tissue liner"
+      },
+      "itemNotes": {
+        "tissue-liner": "The liner goes in before the folded garment, not laid on top after — it's there to keep the fold from marking against the box."
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Liner first, then the size sticker while the box is still open to check against the piece, then the seal.",
+      "prompt": "Liner, sticker, then seal the box — in that order, not sealed first and labelled after.",
+      "targets": [
+        "tissue-liner",
+        "size-sticker",
+        "box-seal"
+      ],
+      "title": "Pack in order",
+      "why": "A box sealed before the size sticker goes on gets opened again to fix it, which is exactly the extra handling the sequence exists to avoid — liner protects the fold, the sticker has to be checked against the piece while the box is still open to compare, and the seal is what actually closes the job out."
+    },
+    {
+      "cue": "Record the lot number and the piece count on the pack log before it leaves the bench.",
+      "id": "log-count",
+      "kind": "select",
+      "prompt": "Record the lot number and the piece count on the pack log before it leaves the bench.",
+      "target": "count-log",
+      "title": "Log the piece count",
+      "why": "The lot number on the log is what lets a defect found downstream, or a needle-detector miss found later, be traced back to this exact bundle instead of every box that shipped that week. A pack log skipped at the bench is a recall with no way to narrow which boxes it actually has to open."
+    },
+    {
+      "cue": "Two things at this bench are wrong. Find them by looking.",
+      "id": "final-walk",
+      "itemNames": {
+        "needle-in-scrap": "needle tip in the scrap bin",
+        "solvent-mix-tray": "two solvents mixed in one tray"
+      },
+      "itemNotes": {
+        "needle-in-scrap": "A broken needle tip belongs in the sharps container, never the ordinary scrap-thread bin the next hand reaches into without looking.",
+        "solvent-mix-tray": "Two spot cleaners poured together in one tray is exactly the combination the SDS incompatibility section exists to warn against — it gets tipped out and the tray rinsed, not used as-is."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Two things at this bench are wrong. Find them by looking.",
+      "targets": [
+        "needle-in-scrap",
+        "solvent-mix-tray"
+      ],
+      "title": "Walk the bench before the next lot",
+      "why": "The pack log closes the piece that just left the bench, not the bench itself — a needle tip in the wrong bin or two solvents mixed in one tray sits there for the next inspector to find the hard way unless this bench gets the same look every lot gets before it closes out."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Light box, spec sheet, defects found and tagged, guarded snips, the needle detector on every piece, and solvent under the SDS",
+  "title": "SmartCiti.X~ Garment Inspection & Finish VR",
+  "trade": "Industrial sewing machine operator — Workers United (SEIU)",
+  "underwater": null,
+  "weather": null
+}

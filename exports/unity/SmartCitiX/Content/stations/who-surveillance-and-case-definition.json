@@ -1,0 +1,418 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "signal-verified",
+    "name": "Signal Verified",
+    "note": "Every report tiered on the evidence, the line list clean, the specimen packed right and the silent site chased before anyone assumed zero"
+  },
+  "category": "Emergency Services",
+  "certification": "WHO surveillance practice as the national programme adopts it — a written case definition with suspected, probable and confirmed tiers, a line list, zero reporting and notification up the chain; WHO infection prevention and control guidance and CDC isolation precautions for the specimen and anyone who handles it; OSHA 29 CFR 1910.1030 for the blood specimen and 29 CFR 1910.134 for the respirator a field collection needs; WHO outbreak communication guidance for what leaves this desk and what does not; the Sphere Handbook's health standards and IASC cluster coordination for the Health Cluster partners the line list is shared with; worked by SEIU and AFSCME public-health staff alongside NNU/CNA nurses",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFSCME",
+        "id": "afscme-training",
+        "title": "AFSCME member education and safety training for public-service and air-district members"
+      },
+      {
+        "body": "CDC",
+        "citedAs": "CDC",
+        "id": "cdc-guidance",
+        "title": "CDC infection-prevention and public-health guidance, including the Guidelines for Infection Control in Dental Health-Care Settings and Legionella control guidance"
+      },
+      {
+        "body": "IASC",
+        "citedAs": "IASC",
+        "id": "iasc-cluster-coordination",
+        "title": "Inter-Agency Standing Committee (IASC) cluster approach and cluster coordination guidance"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1030",
+        "id": "osha-1910-1030",
+        "title": "29 CFR 1910.1030 — Bloodborne pathogens"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.134",
+        "id": "osha-1910-134",
+        "title": "29 CFR 1910.134 — Respiratory protection"
+      },
+      {
+        "body": "union",
+        "citedAs": "SEIU",
+        "id": "seiu-training",
+        "title": "SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members"
+      },
+      {
+        "body": "Sphere",
+        "citedAs": "Sphere Handbook",
+        "id": "sphere-handbook",
+        "title": "The Sphere Handbook: Humanitarian Charter and Minimum Standards in Humanitarian Response"
+      },
+      {
+        "body": "WHO",
+        "citedAs": "WHO",
+        "id": "who-guidance",
+        "title": "World Health Organization technical and field guidance for health emergencies and outbreak response"
+      },
+      {
+        "body": "WHO",
+        "citedAs": "WHO infection prevention and control guidance",
+        "id": "who-ipc-guidance",
+        "title": "WHO guidance on infection prevention and control in health care"
+      },
+      {
+        "body": "WHO",
+        "citedAs": "WHO outbreak communication guidance",
+        "id": "who-outbreak-communication",
+        "title": "WHO outbreak communication guidance"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Emergency Services",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "tier-true",
+        "name": "Tier True",
+        "note": "The report filed at the tier the evidence supports, first time"
+      },
+      {
+        "id": "nothing-leaked",
+        "name": "Nothing Leaked",
+        "note": "No name on a public board, no rumour forwarded, no stamp without a lab"
+      },
+      {
+        "id": "returns-read",
+        "name": "Returns Read",
+        "note": "Reporting completeness committed inside the band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-desk",
+        "name": "Clean Desk",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "eyes-on-feed",
+        "name": "Eyes on the Feed",
+        "note": "Held the feed watch without a dropout"
+      },
+      {
+        "id": "desk-on-time",
+        "name": "Desk on Time",
+        "note": "Finished inside 85% of par"
+      }
+    ],
+    "currency": "SIGNAL",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Data Clerk",
+      "Surveillance Assistant",
+      "Surveillance Officer",
+      "District Epidemiologist",
+      "Signal Desk Certified"
+    ],
+    "system": "Signal Desk"
+  },
+  "hazards": {
+    "wsc-confirm-stamp": "You stamped the report CONFIRMED with no laboratory result behind it. A confirmed tier is a lab finding, not a strong hunch; stamping it early inflates the count the whole response is sized from, and when the result comes back negative every figure that was built on it has to be walked back in public.",
+    "wsc-group-chat": "You forwarded the unverified rumour to the district staff group to 'warn people'. An alert that has not been verified is a rumour with an official's name on it once it leaves this desk; it gets screenshotted, repeated to the community as fact, and costs the response the trust it needs when the real message goes out.",
+    "wsc-picnic-cooler": "You dropped the specimen tube loose into a picnic cooler. A specimen from a suspected case travels triple-packaged — a sealed primary tube, a leak-proof secondary container with absorbent, and a rigid outer box — because the courier, the driver and the lab reception clerk are all handling it without knowing what is inside.",
+    "wsc-public-board": "You wrote the patient's name on the board the whole office walks past. Surveillance runs on case numbers, not names, because a name on a wall reaches the neighbourhood by lunchtime — and a family that is identified and shunned is the reason the next family hides a sick relative instead of calling it in."
+  },
+  "id": "who-surveillance-and-case-definition",
+  "indoor": "service",
+  "interrupts": [
+    {
+      "after": "lab-callback",
+      "alert": "While you hold for the lab, the alert printer across the desk starts feeding a report from a health post: three people from one household, all unwell this week.",
+      "cue": "Pull the report off the printer — a household cluster does not wait for the phone call to end.",
+      "delay": 2,
+      "id": "cluster-report-prints",
+      "kind": "Cluster report",
+      "missNote": "The cluster report sat on the printer while the call finished and the desk moved on. It was found that evening — by which time the household's contacts had spent another day at the market and the water point without anyone knowing to look for them.",
+      "seconds": 13,
+      "target": "wsc-alert-printer",
+      "why": "Several cases in one household or one gathering is the pattern surveillance exists to catch early, because it is where transmission is most likely and tracing is most effective. The phone line can be held with one hand; a cluster report left curling on a printer tray is the kind of signal that gets found at the end of the day under the next one.",
+      "wrongNote": "Not that. The report is on the alert printer — take it off the tray while you finish the call."
+    },
+    {
+      "after": "watch-feed",
+      "alert": "The map pin for a remote health post has turned red: it has missed today's report, not even a zero.",
+      "cue": "Raise the silent site on the radio — a missing report is not a zero.",
+      "delay": 3,
+      "id": "silent-site",
+      "kind": "Silent site",
+      "missNote": "The silent site was counted as quiet. It turned out the post had lost its phone and its nurse was caring for several suspected cases alone — a week of cases that reached the line list all at once, too late to trace.",
+      "seconds": 14,
+      "target": "wsc-site-radio",
+      "why": "Zero reporting exists precisely so that 'no cases' and 'no report' can be told apart. A site that goes silent in an outbreak might have no cases, or might have a nurse who is sick, a broken phone or a waiting room full of patients, and the only way to know which is to call it the same day rather than let the gap read as good news.",
+      "wrongNote": "That will not reach them. Use the site radio to raise the health post that missed its report."
+    }
+  ],
+  "lateNotes": {
+    "wsc-cooler-latch": "The box is sealed after the specimen is triple-packaged inside it, not before — a closed empty box proves nothing.",
+    "wsc-notify-form": "Notification goes up once the signal is verified and tiered; a form sent on an unchecked alert is the rumour in writing."
+  },
+  "name": "Surveillance and Case Definition",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "outbreak-response-who"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "wsc-alert-printer",
+      "wsc-case-board",
+      "wsc-case-card",
+      "wsc-completeness-dial",
+      "wsc-confirm-stamp",
+      "wsc-cooler-latch",
+      "wsc-crew-board",
+      "wsc-feed-screen",
+      "wsc-group-chat",
+      "wsc-lab-phone",
+      "wsc-line-list",
+      "wsc-map-pin",
+      "wsc-notify-form",
+      "wsc-pack-outer",
+      "wsc-pack-primary",
+      "wsc-pack-secondary",
+      "wsc-picnic-cooler",
+      "wsc-public-board",
+      "wsc-row-duplicate",
+      "wsc-row-no-onset",
+      "wsc-shift-log",
+      "wsc-sig-criteria",
+      "wsc-sig-onset",
+      "wsc-sig-source",
+      "wsc-site-radio",
+      "wsc-tray-suspected"
+    ],
+    "meshes": 194
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read today's version of the case definition — the suspected, probable and confirmed tiers — before you count anything.",
+      "id": "case-definition",
+      "kind": "select",
+      "prompt": "Read today's version of the case definition — the suspected, probable and confirmed tiers — before you count anything.",
+      "target": "wsc-case-board",
+      "title": "Read the current case definition",
+      "why": "Every number this desk produces is a count of people who meet a written definition, and the definition is revised as the outbreak is understood. Counting against last week's version, or against what the team remembers it says, means today's figures and yesterday's are measuring different things, and nobody reading the chart upstream can tell."
+    },
+    {
+      "cue": "Check who reported it, then when the illness started, then whether what is described meets the definition.",
+      "id": "signal-verify",
+      "itemNames": {
+        "wsc-sig-criteria": "does it meet the definition",
+        "wsc-sig-onset": "date of onset",
+        "wsc-sig-source": "who reported it"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Source, then onset, then the criteria — you cannot judge a description against the definition before you know who gave it and when it started.",
+      "prompt": "Check who reported it, then when the illness started, then whether what is described meets the definition.",
+      "targets": [
+        "wsc-sig-source",
+        "wsc-sig-onset",
+        "wsc-sig-criteria"
+      ],
+      "title": "Verify the community alert",
+      "why": "A signal is only an alert once somebody has checked it: the source says whether this is a health worker's observation or third-hand talk, the onset date says whether it belongs to this week's picture at all, and only then is the description held against the definition. Checked in that order, a rumour is caught at the first question instead of being tiered and counted."
+    },
+    {
+      "cue": "Carry the verified report to the SUSPECTED tray — no lab result exists yet.",
+      "drag": {
+        "missNote": "Not the suspected tray. Without a lab result the evidence supports suspected, and nothing higher.",
+        "radius": 0.4,
+        "to": "wsc-tray-suspected"
+      },
+      "id": "classify-case",
+      "kind": "drag",
+      "prompt": "Carry the verified report to the SUSPECTED tray — no lab result exists yet.",
+      "target": "wsc-case-card",
+      "title": "File the report as a suspected case",
+      "why": "The tiers exist so the count can be honest about how sure it is. A report that meets the clinical definition with no laboratory result is a suspected case, and filing it there keeps the response acting on it — isolation, tracing, a specimen — without claiming a certainty the evidence does not have yet. It moves up a tier when the lab says so."
+    },
+    {
+      "cue": "Pin the new case on the district map by where the person lives, not where they were seen.",
+      "id": "map-case",
+      "kind": "select",
+      "prompt": "Pin the new case on the district map by where the person lives, not where they were seen.",
+      "target": "wsc-map-pin",
+      "title": "Plot the case by place of residence",
+      "why": "Clusters show up on a map before they show up in a table, but only if every pin means the same thing. A case plotted at the clinic that saw it piles every patient onto the health facility and hides the village the transmission is actually in, which is the one place the tracing team most needs to be sent tomorrow."
+    },
+    {
+      "cue": "Find the duplicate and the incomplete row before the list goes anywhere.",
+      "id": "line-list-audit",
+      "itemNames": {
+        "wsc-row-duplicate": "duplicate entry",
+        "wsc-row-no-onset": "row with no onset date"
+      },
+      "itemNotes": {
+        "wsc-row-duplicate": "The same person entered twice — once by the clinic, once by the community worker, under two spellings.",
+        "wsc-row-no-onset": "A row with the onset date left blank; it cannot be placed on the epidemic curve at all."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Find the duplicate and the incomplete row before the list goes anywhere.",
+      "targets": [
+        "wsc-row-duplicate",
+        "wsc-row-no-onset"
+      ],
+      "title": "Audit the line list",
+      "why": "A duplicate doubles a person on the curve and sends two tracing teams to one house; a missing onset date drops a real case off the epidemic curve entirely. Neither is visible in a total, so the list is read row by row before it is shared, because once partners have pulled it into their own planning a correction reaches half of them."
+    },
+    {
+      "cue": "Primary tube sealed, into the leak-proof secondary with absorbent, into the rigid outer box — inside out.",
+      "id": "specimen-pack",
+      "itemNames": {
+        "wsc-pack-outer": "rigid outer box",
+        "wsc-pack-primary": "sealed primary tube",
+        "wsc-pack-secondary": "leak-proof secondary with absorbent"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Inside out — primary, secondary with absorbent, then the outer box. Each layer exists to contain a failure of the one inside it.",
+      "prompt": "Primary tube sealed, into the leak-proof secondary with absorbent, into the rigid outer box — inside out.",
+      "targets": [
+        "wsc-pack-primary",
+        "wsc-pack-secondary",
+        "wsc-pack-outer"
+      ],
+      "title": "Triple-package the specimen",
+      "why": "Triple packaging is what WHO guidance on moving infectious substances rests on: the primary receptacle holds the specimen, the secondary contains it if the primary breaks and the absorbent takes the whole volume, and the outer box takes the knocks of a road. Packed in any other order, one of the layers is protecting nothing."
+    },
+    {
+      "cue": "Turn the latch until the transport box is locked shut for the courier.",
+      "id": "seal-cooler",
+      "kind": "turn",
+      "prompt": "Turn the latch until the transport box is locked shut for the courier.",
+      "target": "wsc-cooler-latch",
+      "title": "Seal the transport box",
+      "turn": {
+        "axis": "y",
+        "label": "LATCH",
+        "turns": 0.75
+      },
+      "why": "The box leaves this desk with a courier who will not open it and a lab clerk who will, so the seal is the last thing this office controls. A latch closed hard with the paperwork outside, not inside, is what lets the lab log the specimen without handling it before it reaches a biosafety cabinet."
+    },
+    {
+      "cue": "Stay on the line until the lab reads the specimen number and patient code back to you.",
+      "holdBreakNote": "You hung up before the code was read back. An unconfirmed specimen code is how a result ends up attached to the wrong patient — call back and hold.",
+      "id": "lab-callback",
+      "kind": "hold",
+      "prompt": "Stay on the line until the lab reads the specimen number and patient code back to you.",
+      "seconds": 5,
+      "target": "wsc-lab-phone",
+      "title": "Hold the lab line until the specimen ID is read back",
+      "why": "A specimen is only useful if its result can be matched to a row on the line list, and a code misheard over a bad line produces a result for nobody — or for the wrong person. Holding until the lab reads it back turns a one-way message into a checked one, and costs thirty seconds against a week of confusion."
+    },
+    {
+      "cue": "Sweep the dial and commit when it matches the site returns on the desk: 31 of 40 sites reported.",
+      "gauge": {
+        "green": [
+          0.74,
+          0.8
+        ],
+        "label": "SITES",
+        "missNote": "That is not what the returns say. Commit the number of sites that actually reported — 31 of 40.",
+        "speed": 0.6
+      },
+      "id": "completeness",
+      "kind": "gauge",
+      "prompt": "Sweep the dial and commit when it matches the site returns on the desk: 31 of 40 sites reported.",
+      "target": "wsc-completeness-dial",
+      "title": "Commit this week's reporting completeness",
+      "why": "A quiet week and a week where nobody reported look identical on a case chart. Completeness — how many sites actually sent a return, including the ones that sent zero — is what tells the district epidemiologist whether a falling curve is good news or silence, and it is committed from the returns in hand, not rounded up to look healthier."
+    },
+    {
+      "cue": "Keep your attention on the feed as the day's reports come in, and stay in the band.",
+      "holdBreakNote": "The feed got ahead of you. A row read an hour late is an hour the tracing team did not have — bring it back into the band.",
+      "id": "watch-feed",
+      "kind": "track",
+      "prompt": "Keep your attention on the feed as the day's reports come in, and stay in the band.",
+      "seconds": 7,
+      "target": "wsc-feed-screen",
+      "title": "Watch the daily report feed",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.45,
+        "green": [
+          0.38,
+          0.64
+        ],
+        "label": "FEED WATCH",
+        "rise": 0.55,
+        "start": 0.2
+      },
+      "why": "Reports arrive through the day from clinics, community workers and hospitals, and a rise that is obvious at the end of a week is a handful of rows spread across an afternoon. Watching the feed as it lands, rather than batching it for the evening, is what gives a cluster a same-day response instead of a next-week one."
+    },
+    {
+      "cue": "Send the verified, tiered notification up to the national focal point and copy the Health Cluster coordinator.",
+      "id": "notify-up",
+      "kind": "select",
+      "prompt": "Send the verified, tiered notification up to the national focal point and copy the Health Cluster coordinator.",
+      "target": "wsc-notify-form",
+      "title": "Notify the next level",
+      "why": "Surveillance that stops at the district is a local spreadsheet. The notification carries the verified count upward to the level that decides on laboratory capacity, supplies and whether the response needs outside help, and the Health Cluster copy is what lets every partner under IASC coordination plan from the same figure rather than their own."
+    },
+    {
+      "cue": "Before you close the desk, check in with the team on how the day sat with them, and point anyone who needs it to staff care.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Before you close the desk, check in with the team on how the day sat with them, and point anyone who needs it to staff care.",
+      "target": "wsc-crew-board",
+      "title": "Check in with the surveillance team",
+      "why": "The desk reads every death as a row before anyone else hears it, and a surveillance team working an outbreak for weeks carries that count home. Checking in with each other before the shift ends — and naming the staff welfare contact out loud — is what keeps the people behind the numbers able to keep producing them."
+    },
+    {
+      "cue": "Hold the log open and read back the day's count, open specimens and silent sites before you sign it.",
+      "holdBreakNote": "You signed the log without reading the counts back. Open it again and read the open specimens and silent sites out before signing.",
+      "id": "closing-log",
+      "kind": "hold",
+      "prompt": "Hold the log open and read back the day's count, open specimens and silent sites before you sign it.",
+      "seconds": 4,
+      "target": "wsc-shift-log",
+      "title": "Close the desk log",
+      "why": "The next shift was not here for the phone calls, and the desk log is the only thing that tells them which specimens are still at the lab and which sites have not answered. Read back before it is signed, it is a handover; signed without reading, it is a guess with a date on it."
+    }
+  ],
+  "supportLine": "your agency's staff welfare or staff counsellor service, or the peer-support contact named at your deployment briefing",
+  "tagline": "District surveillance desk: the case definition read first, a signal verified, a report filed at the tier the evidence supports, a clean line list, a triple-packaged specimen, zero reports chased and the next level told",
+  "title": "SmartCiti.X~ Surveillance and Case Definition VR",
+  "trade": "Surveillance officer — SEIU and AFSCME public-health staff, NNU/CNA nurses, and the humanitarian workforce deployed under IASC clusters",
+  "underwater": null,
+  "weather": "overcast"
+}

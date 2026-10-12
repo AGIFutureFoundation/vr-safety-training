@@ -1,0 +1,354 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "door-proven",
+    "name": "Door Proven",
+    "note": "Interlock gap, closing force and the reopening device all proven inside spec before the car went back in service"
+  },
+  "category": "Building Systems & Facilities",
+  "certification": "IUEC elevator constructors; NEIEP apprenticeship curriculum for door service; ASME A17.1 the safety code for elevators and escalators, whose door reopening-device and interlock provisions this station follows; OSHA 29 CFR 1910.147 control of hazardous energy for the door operator's own disconnect",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ASME",
+        "citedAs": "ASME A17.1",
+        "id": "asme-a17-1",
+        "title": "ASME A17.1 — Safety Code for Elevators and Escalators"
+      },
+      {
+        "body": "union",
+        "citedAs": "NEIEP",
+        "id": "neiep-training",
+        "title": "IUEC and the National Elevator Industry Educational Program (NEIEP) — elevator constructor apprenticeship and continuing education, taught to the National Elevator Industry Educational Program curriculum"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Facilities",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "isolated-first",
+        "name": "Isolated First",
+        "note": "Never adjusted the operator before it was isolated and locked"
+      },
+      {
+        "id": "true-gap",
+        "name": "True Gap",
+        "note": "Held both the interlock gap and the force readings near band centre"
+      },
+      {
+        "id": "clean-restore",
+        "name": "Clean Restore",
+        "note": "Restored in the correct order, no correction"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "no-callback",
+        "name": "No Callback",
+        "note": "Clean run, no corrections"
+      },
+      {
+        "id": "reopen-held",
+        "name": "Reopen Held",
+        "note": "Never let the reopening-device test slip mid-hold"
+      },
+      {
+        "id": "door-fast",
+        "name": "Door Fast",
+        "note": "Complete inside 80% of par"
+      }
+    ],
+    "currency": "GAP",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Helper",
+      "Door Mechanic",
+      "Adjuster",
+      "Lead Mechanic",
+      "Door Authority Certified"
+    ],
+    "system": "Door Authority"
+  },
+  "hazards": {
+    "closing-edge-pinch": "You reached into the door's closing edge while the operator was still live. A power door closes with enough force to be useful against a stuck panel, which is exactly the force a hand caught at the leading edge is being asked to absorb instead.",
+    "interlock-bypassed": "You bypassed the hoistway door interlock to hold the door open for the adjustment. The interlock is what proves this door is actually locked before the car is allowed to leave the floor, and defeating it — even briefly, even with the best intentions — turns a locked door into one that only looks locked.",
+    "reopening-device-blocked": "You taped over the reopening device's sensor to stop it from tripping during the force test. That sensor is what makes a door back off a bag, a cane or a hand instead of continuing to close on it, and blocking it to get a clean reading defeats the one thing the reading is supposed to prove still works.",
+    "unlabelled-restored-panel": "You closed up the operator cover without confirming the door restored to its labelled closing force. A cover that goes back on before the force is checked hides exactly the adjustment this whole visit was for, and the next person to find out it is wrong is a passenger's hand."
+  },
+  "id": "ew-door-operator-adjustment-and-gap",
+  "indoor": "service",
+  "interrupts": [
+    {
+      "after": "gap-gauge",
+      "alert": "A passenger has just walked up to this landing and is reaching for the door you have open for service.",
+      "cue": "Get between them and the opening before they step toward it.",
+      "delay": 4,
+      "id": "passenger-approaches",
+      "kind": "Passenger at the landing",
+      "missNote": "The passenger reached the opening with nobody stopping them. Signage that a passenger walks past without noticing has not done its job, and the mechanic standing right there is the last thing between them and an open hoistway door.",
+      "seconds": 12,
+      "target": "door-permit",
+      "why": "The permit and the signage are what a passenger is supposed to see before they reach for this door, and one who has not seen it yet is a person about to step toward an opening with the interlock defeated and a mechanic's tools inside it. The signage gets reasserted before the adjustment continues.",
+      "wrongNote": "It is the door permit and signage. Whoever just walked up needs to see it before anything else continues."
+    },
+    {
+      "after": "force-adjust",
+      "alert": "A building porter has started to swing the operator cover shut, thinking the job already looks finished.",
+      "cue": "That cover is not going back on yet.",
+      "delay": 4,
+      "id": "cover-closes",
+      "kind": "Cover interfered with",
+      "missNote": "The cover went back on with the reopening device untested. A door that looks finished and a door that is proven are not the same thing, and only one of them is safe to hand back.",
+      "seconds": 11,
+      "target": "operator-cover",
+      "why": "The reopening device has not been tested yet, and a cover closed now hides an adjustment that is not actually finished. It gets stopped before it latches, not reopened afterward once somebody assumes the job is done.",
+      "wrongNote": "It is the operator cover. Whatever the porter thinks, this job is not done yet."
+    }
+  ],
+  "lateNotes": {
+    "gap-gauge": "The interlock gap is only measured once the operator is proven dead and the door is at rest.",
+    "reopen-sensor": "The reopening device is only tested once the closing force has already been set to spec."
+  },
+  "name": "Door Operator Adjustment and Gap",
+  "parSeconds": 245,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "elevator-constructors"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.1,
+    "hits": [
+      "closing-edge-pinch",
+      "cracked-vane",
+      "door-controller",
+      "door-log",
+      "door-permit",
+      "door-speed-gauge",
+      "force-adjuster",
+      "gap-gauge",
+      "interlock-bypassed",
+      "job-ticket",
+      "lockout-hasp",
+      "loose-belt",
+      "operator-cover",
+      "operator-disconnect",
+      "reopen-sensor",
+      "reopening-device-blocked",
+      "unlabelled-restored-panel",
+      "worn-sill-track"
+    ],
+    "meshes": 140
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the job ticket and confirm which door this call is actually about.",
+      "id": "checkin",
+      "kind": "select",
+      "prompt": "Read the job ticket and confirm which door this call is actually about.",
+      "target": "job-ticket",
+      "title": "Check in at the landing",
+      "why": "A lobby can have several car entrances close enough together that a mechanic can start adjusting the wrong one, and the ticket names the specific door — car number and floor — before a tool touches any operator."
+    },
+    {
+      "cue": "Read the work order and confirm the car is parked at this floor with the landing signage posted.",
+      "id": "permit",
+      "kind": "select",
+      "prompt": "Read the work order and confirm the car is parked at this floor with the landing signage posted.",
+      "target": "door-permit",
+      "title": "Post the door service permit",
+      "why": "The car is parked and held at this exact floor because a door adjustment assumes the car is not going anywhere during it, and the landing signage tells the next passenger this entrance is not the one to use in the meantime."
+    },
+    {
+      "cue": "Pull the door operator's disconnect handle firmly to its open stop.",
+      "id": "disconnect",
+      "kind": "turn",
+      "prompt": "Pull the door operator's disconnect handle firmly to its open stop.",
+      "target": "operator-disconnect",
+      "title": "Open the door operator disconnect",
+      "turn": {
+        "axis": "z",
+        "label": "OPERATOR DISCONNECT",
+        "reverse": true,
+        "turns": 0.2
+      },
+      "why": "The disconnect is pulled fully open rather than eased over, because a switch left between positions can leave the operator motor able to move under load — which is precisely the moment a mechanic's hand is going to be in the door's own closing path."
+    },
+    {
+      "cue": "Apply your padlock and tag before the cover comes off the operator.",
+      "id": "lock",
+      "kind": "select",
+      "prompt": "Apply your padlock and tag before the cover comes off the operator.",
+      "target": "lockout-hasp",
+      "title": "Lock and tag the disconnect",
+      "why": "A door operator that looks off is still a door operator with a spring-return or a counterweight somewhere in it that can move a panel even with the motor dead — the lock is what keeps this specific door yours for as long as the cover is open, not as long as it happens to sit still."
+    },
+    {
+      "cue": "Remove the header cover to expose the operator mechanism.",
+      "id": "cover-open",
+      "kind": "select",
+      "prompt": "Remove the header cover to expose the operator mechanism.",
+      "target": "operator-cover",
+      "title": "Open the operator cover",
+      "why": "Everything from here on — the gap, the force, the closing speed — is adjusted at the mechanism itself, and the cover only comes off once the isolation ahead of it is actually trusted, not assumed from how quiet the operator sounds."
+    },
+    {
+      "cue": "Set the feeler gauge in the hoistway door's interlock gap and commit the reading inside spec.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "INTERLOCK GAP",
+        "missNote": "Outside spec. Adjust the interlock roller and measure again before the cover goes back on.",
+        "speed": 0.55
+      },
+      "id": "gap-gauge",
+      "kind": "gauge",
+      "prompt": "Set the feeler gauge in the hoistway door's interlock gap and commit the reading inside spec.",
+      "target": "gap-gauge",
+      "title": "Measure the interlock gap",
+      "why": "The interlock only locks reliably at the gap it was built for — too wide and it can fail to engage fully, too narrow and the door can bind against its own lock. Either fault can look, from the lobby, exactly like a door that closes and opens normally right up until the day it does not."
+    },
+    {
+      "cue": "Look over the sill track, the interlock vane and the drive belt. Three things need fixing before this door is signed off.",
+      "id": "panel-inspect",
+      "itemNames": {
+        "cracked-vane": "a cracked interlock vane",
+        "loose-belt": "a loose drive belt",
+        "worn-sill-track": "a worn sill track"
+      },
+      "itemNotes": {
+        "cracked-vane": "A cracked interlock vane can still engage the lock today and shear off the day a door slams against it a little harder than usual — it gets replaced now, not watched.",
+        "loose-belt": "A loose drive belt slips under load before it ever announces itself as a problem, and a door that closes slower under a slipping belt is a door whose reopening-device timing is no longer what it was set to.",
+        "worn-sill-track": "A worn sill track lets the door rock in its guide as it travels, which is exactly the kind of play that eventually shows up as a door that will not close square against its own interlock."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look over the sill track, the interlock vane and the drive belt. Three things need fixing before this door is signed off.",
+      "targets": [
+        "worn-sill-track",
+        "cracked-vane",
+        "loose-belt"
+      ],
+      "title": "Inspect the operator mechanism",
+      "why": "A door operator earns its cover back by being inspected properly with it off, not by running quietly — quiet is what a door does right up until one of these three things finally lets go."
+    },
+    {
+      "cue": "Turn the closing-force adjuster to the label's spec.",
+      "id": "force-adjust",
+      "kind": "turn",
+      "prompt": "Turn the closing-force adjuster to the label's spec.",
+      "target": "force-adjuster",
+      "title": "Adjust the closing force",
+      "turn": {
+        "axis": "z",
+        "label": "CLOSING FORCE",
+        "turns": 0.3
+      },
+      "why": "Closing force is set to the door's own label, not to a feel for what seems safe — too little force and the door can be held open by ordinary crowding, too much and the door itself becomes the obstruction it is supposed to stop for."
+    },
+    {
+      "cue": "Read the door's closing speed and commit inside the label's kinetic-energy limit.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "CLOSING SPEED",
+        "missNote": "Outside the label's limit. Adjust the closing-speed valve and read it again before the reopening device is tested.",
+        "speed": 0.55
+      },
+      "id": "speed-adjust",
+      "kind": "gauge",
+      "prompt": "Read the door's closing speed and commit inside the label's kinetic-energy limit.",
+      "target": "door-speed-gauge",
+      "title": "Set the closing speed",
+      "why": "Closing force alone does not describe what a door does to something in its path — a lighter door moving fast can carry as much kinetic energy into an obstruction as a heavier one moving slow, so the speed is checked against its own limit on the label, not tuned by ear for a door that merely sounds reasonable."
+    },
+    {
+      "cue": "Hold a test object in the door's path and confirm the reopening device backs the door off every time.",
+      "holdBreakNote": "You pulled the test object clear before the full hold, so the reopening device never had to prove anything. Hold it in the door's path for the full test.",
+      "id": "reopen-test",
+      "kind": "hold",
+      "prompt": "Hold a test object in the door's path and confirm the reopening device backs the door off every time.",
+      "seconds": 6,
+      "target": "reopen-sensor",
+      "title": "Test the reopening device",
+      "why": "The reopening device is what makes a closing door treat an obstruction as a reason to stop rather than an inconvenience to close through, and it is tested by actually putting something in the door's path — not by watching the door close cleanly on an empty opening and assuming the sensor would have caught something."
+    },
+    {
+      "cue": "Close the operator cover, then take your lock off the hasp, then close the disconnect.",
+      "id": "restore",
+      "itemNames": {
+        "lockout-hasp": "your lock off the hasp",
+        "operator-cover": "operator cover",
+        "operator-disconnect": "operator disconnect"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Wrong order — the cover first, then your lock, and the disconnect last.",
+      "prompt": "Close the operator cover, then take your lock off the hasp, then close the disconnect.",
+      "targets": [
+        "operator-cover",
+        "lockout-hasp",
+        "operator-disconnect"
+      ],
+      "title": "Restore in the correct order",
+      "why": "The cover goes back on before the lock comes off, because a mechanism left open with power one step away is worse than one left open with the lock still on it. The disconnect is closed last, once the cover, the lock and everyone's hands are all clear of the mechanism."
+    },
+    {
+      "cue": "With power restored, cycle the door open and closed on a normal call before release.",
+      "id": "test-run",
+      "kind": "select",
+      "prompt": "With power restored, cycle the door open and closed on a normal call before release.",
+      "target": "door-controller",
+      "title": "Run the door through a normal cycle",
+      "why": "A door adjusted correctly at the bench of tools spread across the lobby floor is not yet a door proven in service — the last check is an ordinary open-close cycle, on an ordinary call, because that is the only test that looks exactly like what the first passenger is about to ask of it."
+    },
+    {
+      "cue": "Write the interlock gap, the closing force and the reopening-device result on the door log.",
+      "id": "log",
+      "kind": "select",
+      "prompt": "Write the interlock gap, the closing force and the reopening-device result on the door log.",
+      "target": "door-log",
+      "title": "Log the door service",
+      "why": "The next mechanic who opens this cover reads this log before they read the door itself, and a gap or force number that goes unwritten today is a number somebody else has to remeasure from zero the next time this door is due."
+    }
+  ],
+  "supportLine": "your IUEC local's member assistance programme, or the NEIEP training coordinator for anything about the certification record",
+  "tagline": "Isolating the door operator, gauging the interlock gap, adjusting closing force and closing speed, and proving the reopening device before the car returns to service",
+  "title": "SmartCiti.X~ Door Operator Adjustment and Gap VR",
+  "trade": "Elevator constructor / mechanic — IUEC",
+  "underwater": null,
+  "weather": null
+}

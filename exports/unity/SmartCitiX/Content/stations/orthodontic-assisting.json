@@ -1,0 +1,426 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "bracket-true",
+    "name": "Bracket True",
+    "note": "A full bonding and adjustment visit with the etch held to its window and every wire end accounted for"
+  },
+  "category": "Dental & Oral Health",
+  "certification": "DANB's Certified Orthodontic Assistant (COA) credential and the infection control and radiation health and safety components behind it; the state dental practice act's allowable-duties list for orthodontic assistants, which decides whether archwires and ligatures are placed or only passed; the American Association of Orthodontists (AAO) as the specialty's body and the American Dental Assistants Association (ADAA) as the assistants'; the CDC's Guidelines for Infection Control in Dental Health-Care Settings and its 2016 Summary; OSHA 29 CFR 1910.1030 bloodborne pathogens and 1910.1200 hazard communication for the etchant and the bonding resin; HIPAA's Privacy Rule for the chart and the progress photographs; SEIU and UFCW as the unions representing clinic staff in organised practices",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "CDC",
+        "citedAs": "CDC",
+        "id": "cdc-guidance",
+        "title": "CDC infection-prevention and public-health guidance, including the Guidelines for Infection Control in Dental Health-Care Settings and Legionella control guidance"
+      },
+      {
+        "body": "HHS",
+        "citedAs": "HIPAA",
+        "id": "hipaa-privacy-rule",
+        "title": "HIPAA Privacy and Security Rules (45 CFR Parts 160 and 164)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1030",
+        "id": "osha-1910-1030",
+        "title": "29 CFR 1910.1030 — Bloodborne pathogens"
+      },
+      {
+        "body": "union",
+        "citedAs": "SEIU",
+        "id": "seiu-training",
+        "title": "SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members"
+      },
+      {
+        "body": "state dental board",
+        "citedAs": "dental practice act",
+        "id": "state-dental-board",
+        "title": "The state dental board and its dental practice act: licensure, scope of practice, and the allowable-duties rules for dental assistants and hygienists"
+      },
+      {
+        "body": "union",
+        "citedAs": "UFCW",
+        "id": "ufcw-training",
+        "title": "UFCW member training for retail food, clinic and dental support work"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Dental & Oral Health",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "dry-field",
+        "name": "Dry Field",
+        "note": "Isolation held so the etch and the adhesive never saw saliva"
+      },
+      {
+        "id": "no-loose-ends",
+        "name": "No Loose Ends",
+        "note": "No unsafe action anywhere in the appointment"
+      },
+      {
+        "id": "gauge-true",
+        "name": "Gauge True",
+        "note": "Bracket height committed close to the gauge's own mark"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-bond",
+        "name": "Clean Bond",
+        "note": "No corrections anywhere in the visit"
+      },
+      {
+        "id": "held-the-window",
+        "name": "Held The Window",
+        "note": "Every timed hold carried to full duration first time"
+      },
+      {
+        "id": "on-the-hour",
+        "name": "On The Hour",
+        "note": "Complete inside 80% of par"
+      }
+    ],
+    "currency": "ARCH",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Ortho Trainee",
+      "Orthodontic Assistant",
+      "Lead Ortho Assistant",
+      "Clinical Coordinator",
+      "Certified Orthodontic Assistant"
+    ],
+    "system": "Orthodontic Chairside"
+  },
+  "hazards": {
+    "bulk-module-bag": "That bulk bag of elastomeric modules is open on the counter and has been reached into with treatment gloves. The whole bag becomes contaminated the first time a gloved hand goes in after touching a patient's mouth, and every child who gets a module out of it afterwards is sharing whatever came in on that glove.",
+    "dropped-bracket": "That bracket went on the floor and somebody put it back in the kit. A bracket is a single-use sterile component bonded directly to enamel and left there for eighteen months — one that touched a clinic floor goes in the waste, not back into the tray, however unused it looks.",
+    "etchant-bead": "That bead of phosphoric-acid etchant has run off the bracket pad and is sitting on the gum margin. Reaching for it with a dry cotton roll smears it further along the tissue instead of removing it — etchant on soft tissue is rinsed off with copious water, immediately, because the burn it leaves keeps working for as long as the gel is in contact with the gingiva.",
+    "unclipped-wire": "That distal end of the archwire is standing proud past the molar tube, unclipped and untucked. A wire end left long is what lacerates a cheek somewhere between this chair and the school bus, and it is the single most common reason a patient rings the practice in pain between adjustment visits."
+  },
+  "id": "orthodontic-assisting",
+  "indoor": "clinic",
+  "interrupts": [
+    {
+      "after": "etch-window",
+      "alert": "A bead of etchant has run off the bracket pad and is sitting on the gum margin — the patient has just flinched.",
+      "cue": "Rinse it off now, with water, not with a cotton roll.",
+      "delay": 3,
+      "id": "etchant-runs-to-tissue",
+      "kind": "Chemical on soft tissue",
+      "missNote": "The etchant stayed on the gingiva through the rest of the etch window. The patient leaves with a white chemical burn along the margin that will slough over the next few days, and every minute it sat there made it deeper — none of which was visible while it was happening under a retractor.",
+      "seconds": 12,
+      "target": "air-water-syringe",
+      "why": "Phosphoric-acid etchant keeps acting on gingival tissue for as long as it is in contact with it, so the answer is copious water at once rather than blotting, which only spreads the gel along the margin. OSHA's hazard communication standard is why that product's safety data sheet is in this room at all, and what it says for skin and mucosa contact is rinse, immediately and thoroughly.",
+      "wrongNote": "It is the air-water syringe. Etchant on tissue comes off with water at once; a cotton roll drags it along the margin and makes the contact area bigger."
+    },
+    {
+      "after": "cure-hold",
+      "alert": "Something has come loose on the opposite arch — the patient says there is a hard bit moving around in their mouth.",
+      "cue": "Get suction in there and retrieve it before they swallow.",
+      "delay": 3,
+      "id": "bracket-comes-loose",
+      "kind": "Loose component in the mouth",
+      "missNote": "The loose component was still in the mouth when the retractor came out. A swallowed bracket is usually uneventful and an aspirated one is a chest radiograph and a bronchoscopy, and nothing about the moment it happens tells you which of the two you are dealing with.",
+      "seconds": 12,
+      "target": "hv-suction",
+      "why": "A loose bracket or a cut wire end in a retracted, supine mouth is an airway problem first and an orthodontic problem second, and the window between a patient noticing it and swallowing it is a few seconds long. High-volume evacuation is what retrieves it; the bonding failure that produced it is something to work out afterwards, on a patient who is sitting up.",
+      "wrongNote": "It is the high-volume suction. A hard component loose in a supine mouth is retrieved first; what caused it is a question for later."
+    }
+  ],
+  "lateNotes": {
+    "archwire": "The brackets are not bonded and cured yet. An archwire tied into a bracket whose adhesive is still soft pulls it straight off the tooth on the way in.",
+    "cure-light": "Hold off. There is nothing bonded to cure yet, and running the light across an un-etched, unprimed pad only warms the tooth.",
+    "etch-applicator": "Not yet. The etchant goes nowhere near enamel until the retractor is seated and the field is actually dry — etching a wet surface produces a bond that looks identical and fails in a fortnight."
+  },
+  "name": "Orthodontic Assisting",
+  "parSeconds": 270,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "dental-careers-unspoken-smiles"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.2,
+    "hits": [
+      "air-water-syringe",
+      "archwire",
+      "bonding-resin",
+      "bracket-gauge",
+      "bracket-kit",
+      "bulk-module-bag",
+      "chart-note",
+      "cheek-retractor",
+      "crew-board",
+      "cure-light",
+      "dropped-bracket",
+      "duties-board",
+      "etch-applicator",
+      "etchant-bead",
+      "hv-suction",
+      "ligature-instrument",
+      "module-stick",
+      "module-waste",
+      "ortho-eyewear",
+      "ortho-gloves",
+      "ortho-mask",
+      "overglove",
+      "patient-mouth",
+      "retractor-pinch",
+      "saliva-pool",
+      "saturated-roll",
+      "unclipped-wire",
+      "wire-end"
+    ],
+    "meshes": 274
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check what an orthodontic assistant may do at this chair today, and what has to be passed to the orthodontist.",
+      "id": "scope-board",
+      "kind": "select",
+      "prompt": "Check what an orthodontic assistant may do at this chair today, and what has to be passed to the orthodontist.",
+      "target": "duties-board",
+      "title": "Read the allowable-duties list posted in this operatory",
+      "why": "Whether you place the archwire and the ligatures yourself or only pass them across is decided by the state dental practice act's allowable-duties list for orthodontic assistants, and that list is different in the next state over. DANB's Certified Orthodontic Assistant credential proves you know how to do the work; it is the practice act, posted in the room, that says which parts of it are yours to do under this supervision."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Mask, eye protection with side shields, and treatment gloves before the tray is opened.",
+      "id": "ortho-ppe",
+      "itemNames": {
+        "ortho-eyewear": "eye protection with side shields",
+        "ortho-gloves": "treatment gloves",
+        "ortho-mask": "mask"
+      },
+      "kind": "sequence",
+      "prompt": "Mask, eye protection with side shields, and treatment gloves before the tray is opened.",
+      "targets": [
+        "ortho-mask",
+        "ortho-eyewear",
+        "ortho-gloves"
+      ],
+      "title": "Don chairside PPE",
+      "why": "Bonding an arch is a spatter procedure: etchant, primer, rinse water and the clippings off a cut archwire all leave the mouth at speed. The CDC's dental infection-control guidance and OSHA's bloodborne pathogens standard both set the barrier by the task rather than the room, and a wire end that snaps off under the distal-end cutter travels far enough that side shields are the part nobody should be improvising."
+    },
+    {
+      "cue": "Bracket kit first, then the etchant and resin, the curing light, and the ligature instruments last.",
+      "id": "tray-setup",
+      "itemNames": {
+        "bonding-resin": "etchant and bonding resin",
+        "bracket-kit": "the patient's own bracket kit",
+        "cure-light": "curing light",
+        "ligature-instrument": "ligature director and distal-end cutter"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order. The tray is built in the order the appointment consumes it — kit, adhesives, light, then the wire and ligature instruments that come out only after the brackets are cured.",
+      "prompt": "Bracket kit first, then the etchant and resin, the curing light, and the ligature instruments last.",
+      "targets": [
+        "bracket-kit",
+        "bonding-resin",
+        "cure-light",
+        "ligature-instrument"
+      ],
+      "title": "Lay the bracket tray out in bonding order",
+      "why": "A bonding tray is laid out in the order the sequence will actually reach for it, because the one moment you cannot go hunting for an instrument is the moment an etched, rinsed and dried tooth is sitting there waiting. Setting the ligature instruments out first and the bracket kit last is how a tray ends up being rummaged through with a dry field ticking away and a patient's lip held open."
+    },
+    {
+      "cue": "Place the retractor so both lips are clear of the bracket line and nothing is pinched at the corners.",
+      "drag": {
+        "missNote": "Not seated. A retractor that is not actually holding both lips clear leaves tissue inside the field the etchant is about to go into.",
+        "radius": 0.32,
+        "to": "patient-mouth"
+      },
+      "id": "retractor-fit",
+      "kind": "drag",
+      "prompt": "Place the retractor so both lips are clear of the bracket line and nothing is pinched at the corners.",
+      "target": "cheek-retractor",
+      "title": "Seat the cheek retractor",
+      "why": "The retractor is what gives the orthodontist a field and what keeps a lip out of the etchant, and it is also the single most uncomfortable thing about a bonding visit for the patient. Seated badly it pinches the corners of the mouth, the patient starts moving, and a moving patient is how a bracket ends up bonded two millimetres off the long axis of the tooth."
+    },
+    {
+      "cue": "Look at the field before the etchant comes out. Three things here will let moisture back onto the enamel.",
+      "id": "isolation-gaps",
+      "itemNames": {
+        "retractor-pinch": "the lip pinched under the retractor flange",
+        "saliva-pool": "saliva pooling in the floor of the mouth",
+        "saturated-roll": "the saturated cotton roll"
+      },
+      "itemNotes": {
+        "retractor-pinch": "The lower lip is caught under the retractor flange. That is what makes a patient shift and reach up mid-bond, and a pinched lip is also a lip that ends up inside the field when the etchant goes on.",
+        "saliva-pool": "Saliva pooling in the floor of the mouth will find the etched surface the moment the patient swallows. A frosted, etched enamel surface contaminated by saliva has to be rinsed, dried and re-etched — there is no rescuing it by drying harder.",
+        "saturated-roll": "A cotton roll that has already taken up all the fluid it can hold is no longer isolating anything — it is a wet sponge sitting against the enamel you are about to etch, wicking moisture back onto the exact surface that has to stay dry."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look at the field before the etchant comes out. Three things here will let moisture back onto the enamel.",
+      "targets": [
+        "saturated-roll",
+        "retractor-pinch",
+        "saliva-pool"
+      ],
+      "title": "Find what is defeating moisture control",
+      "why": "Every part of a bonded bracket's eighteen-month survival is decided in the seconds the enamel is supposed to be dry, and moisture is the one contaminant that leaves no trace to find afterwards — a bond that failed because a cotton roll was saturated looks exactly like one that failed for any other reason. Finding the leaks before the etchant comes out is the only chance anyone gets at this."
+    },
+    {
+      "cue": "Work the etchant across the bracket pads and keep the timing inside the band the label sets.",
+      "holdBreakNote": "The etch drifted out of the label's window. Under-etched enamel gives the resin nothing to key into; over-etched enamel gives it a powdery layer that lets go of the tooth underneath.",
+      "id": "etch-window",
+      "kind": "track",
+      "prompt": "Work the etchant across the bracket pads and keep the timing inside the band the label sets.",
+      "seconds": 7,
+      "target": "etch-applicator",
+      "title": "Hold the etch inside the label's own window",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.42,
+        "green": [
+          0.36,
+          0.64
+        ],
+        "label": "ETCH WINDOW",
+        "rise": 0.5,
+        "start": 0.12
+      },
+      "why": "The etchant on this tray has a conditioning time printed on its own label, and both directions off it cost you the bond: short of it the enamel is not micro-roughened enough for the resin tags to key into, past it the surface is over-dissolved into a chalky layer that crumbles away under the adhesive. The label's number is a tested number, not a suggestion, and it belongs to that product rather than to etchants in general."
+    },
+    {
+      "cue": "Rinse the etchant off thoroughly, then dry until the pads read chalky white.",
+      "holdBreakNote": "You came off the rinse-and-dry early. A pad that still looks glossy has either etchant or water on it, and the adhesive is about to be asked to bond to whichever one it is.",
+      "id": "rinse-frost",
+      "kind": "hold",
+      "prompt": "Rinse the etchant off thoroughly, then dry until the pads read chalky white.",
+      "seconds": 6,
+      "target": "air-water-syringe",
+      "title": "Rinse and dry to a frosted surface",
+      "why": "The rinse has to carry every trace of the gel away, because etchant left under a bracket pad keeps dissolving enamel after the bracket is bonded on top of it, and the dry has to go far enough that the surface reads frosted chalk-white rather than glossy. That frosted look is the only visible confirmation anybody gets that the enamel was actually conditioned before the primer went on."
+    },
+    {
+      "cue": "Set the bracket on the height gauge and commit where the prescription puts it on this tooth.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "BRACKET HEIGHT",
+        "missNote": "Off the prescription's height for this tooth. The archwire will express that error for the rest of treatment, and nobody will be able to see where it came from.",
+        "speed": 0.5
+      },
+      "id": "bracket-height",
+      "kind": "gauge",
+      "prompt": "Set the bracket on the height gauge and commit where the prescription puts it on this tooth.",
+      "target": "bracket-gauge",
+      "title": "Check bracket height against the gauge",
+      "why": "A bracket's vertical position is what tells the archwire where the tooth should finish, so a bracket bonded a millimetre high or low builds that error into the whole treatment and gets paid for months later in a tooth that will not level. The gauge exists because judging that height by eye across a retracted lip is exactly the kind of estimate that is confidently wrong."
+    },
+    {
+      "cue": "Hold the curing light on the pad for the time the adhesive's own instructions set, from both sides where they say so.",
+      "holdBreakNote": "The cure came off early. Half-cured adhesive holds well enough to finish the appointment and lets go somewhere out in the world, usually at the least convenient possible moment.",
+      "id": "cure-hold",
+      "kind": "hold",
+      "prompt": "Hold the curing light on the pad for the time the adhesive's own instructions set, from both sides where they say so.",
+      "seconds": 7,
+      "target": "cure-light",
+      "title": "Cure each pad for its full time",
+      "why": "The adhesive's cure time is a light-energy figure rather than a countdown for its own sake, and a pad that got half the exposure is a bracket that comes off in a fortnight looking like a bonding failure nobody can explain. The tip matters as much as the clock: adhesive crusted on the light guide cuts the output that actually reaches the pad while the timer keeps reading the same."
+    },
+    {
+      "cue": "Engage the wire through every bracket slot and cinch it at the molar tubes.",
+      "id": "archwire-cinch",
+      "kind": "turn",
+      "prompt": "Engage the wire through every bracket slot and cinch it at the molar tubes.",
+      "target": "archwire",
+      "title": "Seat and cinch the archwire",
+      "turn": {
+        "axis": "y",
+        "label": "ARCHWIRE SEAT",
+        "turns": 1
+      },
+      "why": "An archwire that is not engaged in every slot is treating some of these teeth and none of the others, and one that is not cinched at the molars walks forward through the tubes as the patient eats until a long end is sitting in a cheek. Cinching is what holds the wire where the prescription put it between now and the next adjustment, which is five weeks of chewing away."
+    },
+    {
+      "cue": "Cut the distal ends to length and tuck them in against the molar tube — then run a finger round to check.",
+      "id": "wire-end-tuck",
+      "kind": "select",
+      "prompt": "Cut the distal ends to length and tuck them in against the molar tube — then run a finger round to check.",
+      "target": "wire-end",
+      "title": "Cut and tuck every distal end",
+      "why": "The check that finds a proud wire end is a gloved finger run right round the arch, not a look, because the end that lacerates a cheek is usually one that could not be seen past the molar tube in the first place. This is also the step that decides whether the practice hears from this patient in pain tomorrow, and it takes about fifteen seconds to do properly."
+    },
+    {
+      "cue": "Three things on this tray are what stop elastomerics becoming a shared supply. Find them.",
+      "id": "module-dispense",
+      "itemNames": {
+        "module-stick": "the pre-dispensed module stick for this patient",
+        "module-waste": "the waste cup for used modules",
+        "overglove": "the overglove for reaching into the drawer"
+      },
+      "itemNotes": {
+        "module-stick": "Modules come out of the bulk supply once, onto a stick for this patient, before treatment gloves ever touch a mouth. Whatever is left on that stick at the end of the visit is waste, not stock going back into the bag.",
+        "module-waste": "Used modules go straight into a waste cup on the tray, not back onto the counter or into the bulk bag. An elastomeric module that has been in a mouth is single-use waste, and it looks identical to a clean one the moment it is put down.",
+        "overglove": "If anything has to be fetched from a drawer mid-treatment, an overglove goes on over the contaminated glove first. That is the whole reason overgloves exist: the alternative is a drawer handle that now carries what the last patient's mouth carried."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Three things on this tray are what stop elastomerics becoming a shared supply. Find them.",
+      "targets": [
+        "module-stick",
+        "overglove",
+        "module-waste"
+      ],
+      "title": "Find what keeps module handling single-patient",
+      "why": "Elastomeric modules are the cheapest thing in the room and the easiest place in an orthodontic practice to build a cross-contamination route, because nothing about a handled module looks different afterwards. The CDC's dental infection-control guidance answers that with dispensing rather than judgement: what leaves the bulk supply leaves once, for one patient, and what comes back is waste."
+    },
+    {
+      "cue": "Record the brackets bonded, the archwire size and material, the module colour and the interval to the next adjustment.",
+      "id": "appointment-note",
+      "kind": "select",
+      "prompt": "Record the brackets bonded, the archwire size and material, the module colour and the interval to the next adjustment.",
+      "target": "chart-note",
+      "title": "Chart the visit",
+      "why": "The next assistant at this chair sets their tray from this note and nothing else, so the wire size, the material and what was bonded today are what decide whether the next visit starts on time or starts with a puzzle. It is also the record that makes a debonded bracket in three weeks answerable — the same chart HIPAA's Privacy Rule protects is the one that has to be accurate enough to be worth protecting."
+    },
+    {
+      "cue": "Hand over what the sterilisation room is waiting on, and ask how their morning is going before you walk away.",
+      "id": "crew-handoff",
+      "kind": "select",
+      "prompt": "Hand over what the sterilisation room is waiting on, and ask how their morning is going before you walk away.",
+      "target": "crew-board",
+      "title": "Check in with the assistant taking the next chair",
+      "why": "An orthodontic practice runs three or four chairs off one sterilisation room, so the cassette you leave and the instruments you have tied up decide whether anybody else's next patient starts on time. Asking the question out loud is the part that gets skipped: this is a chair where somebody is either coping with the pace or quietly not, and the assistant beside you is the only person in the building placed to notice either."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Bracket tray, retraction and isolation, an etch held to the label's window, bracket height on the gauge, archwire and module change with the distal ends tucked",
+  "title": "SmartCiti.X~ Orthodontic Assisting VR",
+  "trade": "Orthodontic dental assistant",
+  "underwater": null,
+  "weather": null
+}

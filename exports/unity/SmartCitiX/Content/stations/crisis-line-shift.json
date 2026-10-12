@@ -1,0 +1,419 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "stayed-on-the-line",
+    "name": "Stayed On The Line",
+    "note": "A hard call worked all the way through — asked directly, planned together, said out loud, written down, and taken to a supervisor afterwards"
+  },
+  "category": "Emergency Services",
+  "certification": "CIT International's crisis intervention team model for the collaboration between a crisis line and responding officers; SAMHSA's principles of a trauma-informed approach and its national guidelines for behavioral health crisis care; Psychological First Aid as published by the National Child Traumatic Stress Network and the World Health Organization; the 988 Suicide and Crisis Lifeline's own standards for risk assessment, collaborative safety planning, means safety and imminent-risk intervention; the CDC's technical package for suicide prevention, which is where means safety as a population measure comes from; the NASW Code of Ethics; the HIPAA Privacy Rule and, where substance use is part of the call, 42 CFR Part 2; Cal/OSHA's Injury and Illness Prevention Program, 8 CCR §3203, under which the centre's own fatigue and debrief rules sit; SEIU 1021 crisis-worker practice standards",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "CDC",
+        "citedAs": "CDC",
+        "id": "cdc-guidance",
+        "title": "CDC infection-prevention and public-health guidance, including the Guidelines for Infection Control in Dental Health-Care Settings and Legionella control guidance"
+      },
+      {
+        "body": "CIT",
+        "citedAs": "CIT International",
+        "id": "cit-international-model",
+        "title": "CIT International's Crisis Intervention Team core elements for response to people in crisis"
+      },
+      {
+        "body": "HHS",
+        "citedAs": "HIPAA",
+        "id": "hipaa-privacy-rule",
+        "title": "HIPAA Privacy and Security Rules (45 CFR Parts 160 and 164)"
+      },
+      {
+        "body": "union",
+        "citedAs": "NASW Code of Ethics",
+        "id": "nasw-code-of-ethics",
+        "title": "NASW Code of Ethics and the association's practice standards for social work and crisis counselling"
+      },
+      {
+        "body": "NCTSN",
+        "citedAs": "Psychological First Aid",
+        "id": "pfa-field-guide",
+        "title": "Psychological First Aid Field Operations Guide (NCTSN and the National Center for PTSD), and the WHO field guide"
+      },
+      {
+        "body": "SAMHSA",
+        "citedAs": "SAMHSA",
+        "id": "samhsa-trauma-informed",
+        "title": "SAMHSA's six principles of a trauma-informed approach"
+      },
+      {
+        "body": "union",
+        "citedAs": "SEIU 1021",
+        "id": "seiu-1021-training",
+        "title": "SEIU 1021 apprenticeship and training, as a training body"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Emergency response",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "asked-directly",
+        "name": "Asked Directly",
+        "note": "The risk questions asked in order, in plain words, with nothing softened into uselessness"
+      },
+      {
+        "id": "nothing-hidden",
+        "name": "Nothing Hidden",
+        "note": "No promise that could not be kept and nothing done to the caller without telling them"
+      },
+      {
+        "id": "threshold-read",
+        "name": "Threshold Read",
+        "note": "The dispatch decision made against the threshold rather than on instinct"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-call",
+        "name": "Clean Call",
+        "note": "No corrections anywhere in the call"
+      },
+      {
+        "id": "held-the-silence",
+        "name": "Held The Silence",
+        "note": "The pacing and the silence after the means question both held without a break"
+      },
+      {
+        "id": "no-clock-watching",
+        "name": "No Clock-Watching",
+        "note": "Complete inside 80% of par without hurrying the caller"
+      }
+    ],
+    "currency": "CALLS",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Line Trainee",
+      "Crisis Counsellor",
+      "Senior Counsellor",
+      "Shift Lead",
+      "Crisis Line Certified"
+    ],
+    "system": "Line Watch"
+  },
+  "hazards": {
+    "give-advice": "You reached for the advice card. \"Have you tried going for a walk\" is what a counsellor says when the silence is uncomfortable, and to a caller it lands as proof that the person on the other end has not understood a word: advice offered before somebody feels heard is heard as dismissal, and it costs the rest of the call. The listening is the intervention here; the plan comes later and the caller builds it.",
+    "promise-no-dispatch": "You promised the caller that you would never send anyone, whatever they told you. It buys thirty seconds of trust and then destroys it permanently: this line does dispatch for imminent risk, and a caller who was promised otherwise and then hears sirens has been lied to at the worst moment of their life — and will tell everyone they know not to call.",
+    "silent-dispatch": "You started an emergency dispatch without telling the caller it was happening. Police or paramedics arriving unannounced at the door of somebody in crisis is how a call intended to help becomes the most frightening thing that happened that week, and it is avoidable: the caller is told who is coming, why, and what to expect, before it happens, every time it can be.",
+    "skip-means-question": "You toggled the means question off because it felt too intrusive to ask. Means safety — putting time and distance between a person and the method they have in mind — is one of the few interventions with population-level evidence behind it, and it is the CDC's technical package rather than anybody's hunch. A question not asked is not a kindness; it is the one part of this call that most changes what happens next.",
+    "wrap-it-up": "You hit the wrap-up prompt to bring the call in under the average handle time. Average handle time is a staffing number, not a clinical one, and a caller who is being steered toward hanging up can hear it — the one thing a crisis line has that nothing else in the system has is that it will stay on the phone, and a counsellor who trades that for a queue statistic has given away the whole service."
+  },
+  "id": "crisis-line-shift",
+  "indoor": "service",
+  "interrupts": [
+    {
+      "after": "means-silence",
+      "alert": "The second line starts ringing on the console, right in the middle of the pause after the means question — and the queue light goes amber beside it.",
+      "cue": "Roll it to the backup counsellor. Do not take it and do not put this caller on hold.",
+      "delay": 3,
+      "id": "second-line-rings",
+      "kind": "Second line ringing",
+      "missNote": "The second line rang out while this caller sat in a silence that had just become about the phone rather than about them. The moment closed, the means conversation had to start over from a worse place, and there was a backup counsellor sitting one desk away the whole time.",
+      "seconds": 14,
+      "target": "backup-rollover",
+      "why": "This is the moment on the whole call with the most riding on it, and a caller who is put on hold in the middle of deciding whether to hand over the pills does not always come back to the same answer. The line staffs a backup position for exactly this: the ringing phone is somebody else's job for the next ninety seconds, and treating it as yours abandons the person you already have.",
+      "wrongNote": "Not by picking it up and not by putting this caller on hold. Roll the second line to the backup position — that is what the backup position is for."
+    },
+    {
+      "after": "reflective-pace",
+      "alert": "The caller stops mid-sentence. No hang-up tone, no breathing you can read — just an open line and nothing coming down it.",
+      "cue": "Stay in it. Say you are still here, and let the silence be theirs.",
+      "delay": 3,
+      "id": "caller-goes-silent",
+      "kind": "Caller has gone silent",
+      "missNote": "The silence got filled or the call got treated as over. Either way the caller's own pause was taken away from them, and whatever they were working up to saying in it did not get said — a silence on a crisis line is usually the most important thing happening on the call.",
+      "seconds": 14,
+      "target": "stay-on-line",
+      "why": "An open line with nothing on it is not an ended call, and the reflex — filling it, asking if they are still there four times, moving to the next question — turns the caller's pause into the counsellor's anxiety. Saying \"I'm still here, take your time\" once and then waiting is what keeps the line open for somebody who is crying quietly, or holding something, or working up to the sentence that matters.",
+      "wrongNote": "That is not it, and the line is still open. Stay on it: say you are still there once, then wait, and let the silence belong to the caller."
+    }
+  ],
+  "lateNotes": {
+    "call-record": "Nothing to write up yet — the record of a call is written after it, from what happened, not alongside it from what you expect to happen.",
+    "dispatch-gauge": "There is nothing to weigh yet. The dispatch decision is made against what the risk questions and the safety plan actually produced, not against the first minute of a call.",
+    "peer-support-card": "That one is for the end of the shift. The check-in on yourself is the last thing, once the call is closed and the consult has happened.",
+    "supervisor-console": "The consult comes after the call and after the record. A supervisor pulled in mid-call is a different escalation with a different reason."
+  },
+  "name": "Crisis Line Shift",
+  "parSeconds": 330,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "first-responders"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.3,
+    "hits": [
+      "ask-plan",
+      "ask-thoughts",
+      "ask-timeframe",
+      "backup-rollover",
+      "call-answer",
+      "call-record",
+      "dispatch-gauge",
+      "dispatch-script-card",
+      "give-advice",
+      "headset",
+      "headset-on-head",
+      "line-hold-dial",
+      "off-script-card",
+      "own-supplies",
+      "peer-support-card",
+      "plan-one-person",
+      "plan-own-steps",
+      "plan-warning-signs",
+      "promise-no-dispatch",
+      "queue-board",
+      "reflect-pace",
+      "resource-list",
+      "risk-card",
+      "silence-hold",
+      "silent-dispatch",
+      "skip-means-question",
+      "stay-on-line",
+      "supervisor-console",
+      "wrap-it-up"
+    ],
+    "meshes": 185
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Lift the headset off the hook and settle it on, boom mic to the corner of your mouth.",
+      "drag": {
+        "missNote": "Not seated yet — the headset has to actually be on, with the boom where your voice is, before the first call lands.",
+        "radius": 0.45,
+        "to": "headset-on-head"
+      },
+      "id": "headset-fit",
+      "kind": "drag",
+      "prompt": "Lift the headset off the hook and settle it on, boom mic to the corner of your mouth.",
+      "target": "headset",
+      "title": "Fit the headset before the first call",
+      "why": "A headset worn wrong for a four-hour shift is a headache by the second hour and a short answer by the third, and callers hear short answers as impatience. A boom mic in the wrong place makes a counsellor repeat themselves, which on a crisis line costs the one thing there is not much of: the caller's willingness to keep talking to somebody who does not seem to be hearing them."
+    },
+    {
+      "cue": "Three things have to be in reach before you take a call. Find all three.",
+      "decoyNotes": {
+        "queue-board": "The queue board tells you how many people are waiting, which is real and is not yours to solve on this call. Watching it is how a counsellor starts hurrying the person actually on the line."
+      },
+      "id": "station-ready",
+      "itemNames": {
+        "own-supplies": "your own water and your break time on the board",
+        "resource-list": "today's list of mobile crisis teams and warm lines that are actually open",
+        "risk-card": "the risk-assessment prompt card, where you can read it without hunting"
+      },
+      "itemNotes": {
+        "own-supplies": "Water and a break already on the board is not comfort, it is capacity. A counsellor who works straight through is the counsellor who takes the eleventh call badly, and the eleventh caller does not know why.",
+        "resource-list": "A resource list is only as good as this morning: teams have hours, warm lines close, and a referral to something shut is worse than no referral because the caller tries it and gets nothing.",
+        "risk-card": "The prompt card is not a crutch. It is there so that on the hardest call of the shift the order of the questions is not something you have to remember while also listening."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Three things have to be in reach before you take a call. Find all three.",
+      "targets": [
+        "risk-card",
+        "resource-list",
+        "own-supplies"
+      ],
+      "title": "Set the desk up for a whole shift",
+      "why": "Everything a crisis counsellor needs mid-call has to be in reach before the call, because there is no pausing to go and find it: the prompt card, an open-today resource list, and the counsellor's own water and break. Setting up deliberately is the difference between a hard call that is worked and a hard call that is survived, and the second kind is what burns a line's staff out inside a year."
+    },
+    {
+      "cue": "Take the call and give the opening as written — the line's name, your first name, and that you are listening.",
+      "id": "answer-opening",
+      "kind": "select",
+      "prompt": "Take the call and give the opening as written — the line's name, your first name, and that you are listening.",
+      "target": "call-answer",
+      "title": "Answer with the line's own opening",
+      "why": "The opening is written and is said as written because it is the only part of the call the caller may already know, and hearing the expected words tells a frightened person they have reached the right number. It also does three jobs in one breath: it confirms where they are, it gives them a human name to talk to, and it states that listening — not assessing — is what is about to happen."
+    },
+    {
+      "cue": "After the opening, drop the script and use the caller's own words back to them.",
+      "id": "off-script",
+      "kind": "select",
+      "prompt": "After the opening, drop the script and use the caller's own words back to them.",
+      "target": "off-script-card",
+      "title": "Put the script down",
+      "why": "Past the opening, a script is a liability: it produces a call that sounds like a form being filled in, and a caller in crisis is exquisitely sensitive to being processed. Working from the caller's own words — their phrase for what is happening, their name for the person who left — is what makes the next twenty minutes a conversation, and a conversation is the only thing here that gets an honest answer to a risk question."
+    },
+    {
+      "cue": "Ask about the thoughts, then about a method, then about the timeframe — plainly, without softening any of them into something else.",
+      "id": "risk-assessment",
+      "itemNames": {
+        "ask-plan": "have you thought about how",
+        "ask-thoughts": "are you thinking about killing yourself — asked in those words",
+        "ask-timeframe": "is that something you are thinking about today"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Thoughts, then method, then timeframe. Asking about tonight before you know what they are actually thinking about is a question with no anchor, and the answer will not mean what you think it means.",
+      "prompt": "Ask about the thoughts, then about a method, then about the timeframe — plainly, without softening any of them into something else.",
+      "targets": [
+        "ask-thoughts",
+        "ask-plan",
+        "ask-timeframe"
+      ],
+      "title": "Ask the risk questions directly, in order",
+      "why": "Asked directly, in plain words, these questions do not plant an idea and do not make anything worse — that much is settled, and the fear that they do is the main reason they get asked sideways. Order matters because each answer sets what the next question means: a method without a timeframe is a different call from a method for tonight, and a counsellor who never asked cannot tell the two apart."
+    },
+    {
+      "cue": "Say back what you heard, in their words, and keep the pace with them — not solving, not filling.",
+      "holdBreakNote": "The pace came apart — either you got out ahead of the caller with a solution, or you went quiet long enough that they were talking into nothing. Come back to their last sentence and say it back to them.",
+      "id": "reflective-pace",
+      "kind": "track",
+      "prompt": "Say back what you heard, in their words, and keep the pace with them — not solving, not filling.",
+      "seconds": 6,
+      "target": "reflect-pace",
+      "title": "Reflect it back at the caller's pace",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.44,
+        "green": [
+          0.34,
+          0.66
+        ],
+        "label": "CALL PACE",
+        "rise": 0.52,
+        "start": 0.2
+      },
+      "why": "Reflective listening is the working part of this call: hearing their own sentence come back accurately is what tells a caller they have been understood, and being understood is what lowers the temperature enough for anything else to happen. Both failure modes are active ones — running ahead into solutions, or going so quiet that the caller is alone on the line — so the skill is holding the middle for minutes at a time."
+    },
+    {
+      "cue": "Their warning signs first, then what has actually worked for them, then one real person — written as they say it.",
+      "id": "safety-plan",
+      "itemNames": {
+        "plan-one-person": "one person they will actually call",
+        "plan-own-steps": "what has helped them before, not what should help",
+        "plan-warning-signs": "what it looks like when it starts, in their words"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Warning signs, then their own steps, then the one person. Naming somebody to call before they have named what the bad night even looks like is a plan with no trigger attached to it.",
+      "prompt": "Their warning signs first, then what has actually worked for them, then one real person — written as they say it.",
+      "targets": [
+        "plan-warning-signs",
+        "plan-own-steps",
+        "plan-one-person"
+      ],
+      "title": "Build the safety plan with the caller",
+      "why": "A safety plan the counsellor wrote is a document; a safety plan the caller built is something they might use at three in the morning. The order runs from what they already know about themselves outward to other people, because starting with \"who could you call\" asks somebody at their lowest to produce a name, and starting with their own warning signs asks them for something they are expert in."
+    },
+    {
+      "cue": "Ask what they have access to and whether it can be moved — then stop talking and let the pause run.",
+      "holdBreakNote": "You filled the silence. The pause after a means question is where the caller works out what they are willing to do — ask it again and let the quiet sit until they break it.",
+      "id": "means-silence",
+      "kind": "hold",
+      "prompt": "Ask what they have access to and whether it can be moved — then stop talking and let the pause run.",
+      "seconds": 6,
+      "target": "silence-hold",
+      "title": "Ask about means, then hold the silence",
+      "why": "The means conversation is the highest-value minute on this call: time and distance between a person and a specific method changes outcomes, which is why it is in the CDC's own suicide-prevention package rather than in anybody's personal technique. And the pause after the question is part of the intervention — it is where the caller does the thinking, and a counsellor who fills it has answered their own question instead of hearing theirs."
+    },
+    {
+      "cue": "Read the risk indicators against the line's imminent-risk threshold and commit only inside the band.",
+      "gauge": {
+        "green": [
+          0.3,
+          0.52
+        ],
+        "label": "IMMINENT RISK",
+        "missNote": "Committed off the threshold. This decision is made against the line's stated criteria, not against how frightening the call felt — read it again and commit inside the band.",
+        "speed": 0.6
+      },
+      "id": "dispatch-decision",
+      "kind": "gauge",
+      "prompt": "Read the risk indicators against the line's imminent-risk threshold and commit only inside the band.",
+      "target": "dispatch-gauge",
+      "title": "Weigh the dispatch decision against the threshold",
+      "why": "Both errors here are serious and they are not symmetrical in the way people assume. Dispatching a caller who was working a plan with you can cost them their housing, their job or their trust in the only number they were willing to ring; not dispatching somebody at imminent risk can cost their life. The line publishes a threshold precisely so this is a judgement against criteria rather than against whoever is most frightened in the room."
+    },
+    {
+      "cue": "Say it plainly: who is coming, why you decided that, and what they will see when it arrives.",
+      "id": "tell-the-caller",
+      "kind": "select",
+      "prompt": "Say it plainly: who is coming, why you decided that, and what they will see when it arrives.",
+      "target": "dispatch-script-card",
+      "title": "Tell the caller what is about to happen",
+      "why": "Somebody arriving at the door unannounced turns a call for help into the most frightening thing that happened that month, and it is almost always avoidable. Saying who is coming, why, and what it will look like keeps the caller a participant in their own emergency rather than its subject — and it is the single thing that decides whether they ever call this number again."
+    },
+    {
+      "cue": "Set the line status to stay connected, and keep talking until somebody is actually with them.",
+      "id": "stay-connected",
+      "kind": "turn",
+      "prompt": "Set the line status to stay connected, and keep talking until somebody is actually with them.",
+      "target": "line-hold-dial",
+      "title": "Stay on the line until help is there",
+      "turn": {
+        "axis": "y",
+        "label": "LINE STATUS",
+        "turns": 0.5
+      },
+      "why": "The gap between a dispatch and an arrival is the most dangerous stretch of the whole call, and it is also the easiest one to hand off — the decision is made, the queue is full, the next call is waiting. Staying on is what the caller was promised implicitly the moment they were told help was coming, and a released line during that gap is a person left alone at exactly the wrong minute."
+    },
+    {
+      "cue": "Record what was asked, what the caller said, the plan you built, the decision and the reason for it.",
+      "id": "call-record",
+      "kind": "select",
+      "prompt": "Record what was asked, what the caller said, the plan you built, the decision and the reason for it.",
+      "target": "call-record",
+      "title": "Write the call up",
+      "why": "The record is what the next counsellor sees if this caller rings back tonight, and it is what any review of a dispatch decision runs on. The reason matters as much as the decision: \"dispatched\" tells a reviewer nothing, while the threshold the call was measured against and the answers it was measured on can be argued with, learned from, and defended."
+    },
+    {
+      "cue": "Flag it for consult and actually talk it through — the decision, the doubt, and what you would do again.",
+      "id": "supervisor-consult",
+      "kind": "select",
+      "prompt": "Flag it for consult and actually talk it through — the decision, the doubt, and what you would do again.",
+      "target": "supervisor-console",
+      "title": "Take the hard one to a supervisor",
+      "why": "A consult after a hard call is not a performance review, it is how a line keeps one counsellor's judgement from drifting alone: the decision gets a second reader, the doubt gets said out loud instead of carried home, and anything the line needs to change gets noticed while somebody still remembers the call. Skipping it is how a small wrong habit becomes a year of them."
+    },
+    {
+      "cue": "Take the break that is on the board, and use peer support or the employee assistance line if this one is staying with you.",
+      "id": "own-checkin",
+      "kind": "select",
+      "prompt": "Take the break that is on the board, and use peer support or the employee assistance line if this one is staying with you.",
+      "target": "peer-support-card",
+      "title": "Check in on yourself before the next call",
+      "why": "Exposure to other people's crises accumulates, and on a crisis line it accumulates every shift — which is why the centre's own critical-incident rules and SEIU 1021's language treat the break and the peer-support call as part of the work rather than as a reward for finishing it. The counsellor who takes the next call straight off this one is the reason the next caller gets a worse version of this service."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "One call on a crisis line: the opening then off the script, the risk questions asked directly, reflective listening, a safety plan built with the caller, means safety and the silence after it, the dispatch decision said out loud before it happens, the record, and the consult afterwards",
+  "title": "SmartCiti.X~ Crisis Line Shift VR",
+  "trade": "Crisis counsellor",
+  "underwater": null,
+  "weather": "clear"
+}

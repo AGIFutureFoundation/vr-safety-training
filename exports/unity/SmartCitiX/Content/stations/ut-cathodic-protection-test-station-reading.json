@@ -1,0 +1,411 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "protection-proven",
+    "name": "Protection Proven",
+    "note": "A pipe-to-soil reading taken correctly, a rectifier read only after lockout, a bond proven continuous, and every number written back to the corrosion-control record"
+  },
+  "category": "Energy & Power",
+  "certification": "UWUA / IBEW gas-utility corrosion-control technician training; 49 CFR Part 192 (PHMSA) for the operator's cathodic-protection monitoring interval and criteria on a steel main; OSHA 29 CFR 1910.147 the control of hazardous energy for isolating the rectifier's AC supply before its cabinet is opened; NFPA 70E for the electrical hazard at the rectifier panel; the operator's own corrosion-control procedure for the criteria a reading is actually checked against",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "IBEW",
+        "id": "ibew-neca-jatc",
+        "title": "IBEW/NECA Joint Apprenticeship and Training Committee — inside and outside wireman apprenticeship standards, taught from the electrical training ALLIANCE curriculum"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 70E",
+        "id": "nfpa-70e",
+        "title": "NFPA 70E — Standard for Electrical Safety in the Workplace"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      },
+      {
+        "body": "union",
+        "citedAs": "UWUA",
+        "id": "uwua-training",
+        "title": "UWUA — Utility Workers Union of America training and safety education for water, gas and electric utility crews"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Energy",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "rectifier-locked-first",
+        "name": "Rectifier Locked First",
+        "note": "The AC supply was locked out before the cabinet was ever opened"
+      },
+      {
+        "id": "wetted-not-guessed",
+        "name": "Wetted, Not Guessed",
+        "note": "No unsafe action was recorded getting a pipe-to-soil reading"
+      },
+      {
+        "id": "steady-output",
+        "name": "Steady Output",
+        "note": "Held the rectifier output watch inside the band the whole time"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-survey",
+        "name": "Clean Survey",
+        "note": "No corrections from the record to the log"
+      },
+      {
+        "id": "unbroken-output-watch",
+        "name": "Unbroken Output Watch",
+        "note": "The rectifier output watch ran to completion without a break"
+      },
+      {
+        "id": "station-clear-fast",
+        "name": "Station Clear Fast",
+        "note": "Logged and locked up inside 80% of par"
+      }
+    ],
+    "currency": "mV",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Apprentice",
+      "Service Crew",
+      "Corrosion Control Tech",
+      "Crew Lead",
+      "Distribution Authority Certified"
+    ],
+    "system": "Distribution Authority"
+  },
+  "hazards": {
+    "leave-cabinet-unlocked": "You went to walk away from the rectifier with its cabinet unlocked. An impressed-current rectifier is a live electrical enclosure standing in the open, and one left unlocked is one anybody passing can open, whether or not they have any idea what they would be reaching into.",
+    "skip-rectifier-loto": "You went to open the rectifier cabinet without switching off and tagging the AC supply first. The AC side of that cabinet is exactly the kind of live electrical panel NFPA 70E exists for, and a hand inside it before the supply is proven off is a hand inside a live panel on the strength of a switch that was never actually checked.",
+    "skip-stray-current-check": "You went to sign off on this test station without checking the foreign line crossing for a bonded connection. Cathodic protection meant for this main can push current onto a neighbouring pipeline that has no bond to carry it away again, and the corrosion that current causes shows up on somebody else's steel, not this one.",
+    "wrong-half-cell-contact": "You went to take the pipe-to-soil reading with the reference electrode resting on dry gravel instead of wetted into the soil. A half-cell that is not in real electrical contact with the electrolyte reads whatever a bad connection feels like giving it — a number that looks like data and is actually noise."
+  },
+  "id": "ut-cathodic-protection-test-station-reading",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "output-watch",
+      "alert": "The SCADA desk is calling: a rectifier further along this same protected segment just logged a sudden current spike, right while this station's own output is being watched.",
+      "cue": "Answer the radio and confirm whether this rectifier's reading is tied to it.",
+      "delay": 3,
+      "id": "scada-current-alert",
+      "kind": "SCADA calls in a current spike on this segment",
+      "missNote": "The call went unanswered while the output watch continued. Whatever connects this rectifier's reading to the spike further along the segment was never checked.",
+      "seconds": 13,
+      "target": "cp-radio",
+      "why": "Two rectifiers on the same protected segment behaving strangely at the same time is either a coincidence or a sign of a shared problem — a bond that failed, a fault somewhere on the segment — and answering the call is what lets this technician's own reading actually help answer that question instead of being one more number nobody connects to the other one.",
+      "wrongNote": "It is the radio call from SCADA. The rectifier in front of you has not changed — this is about what another one just reported."
+    },
+    {
+      "after": "bond-continuity-test",
+      "alert": "Someone walking by has stopped right at the open rectifier cabinet, curious, with no idea it is a live electrical enclosure.",
+      "cue": "Get the barrier up between them and the open cabinet before they reach for anything.",
+      "delay": 3,
+      "id": "public-at-cabinet",
+      "kind": "A member of the public approaches the open cabinet",
+      "missNote": "The passerby stayed right at the open cabinet with nothing between them and it. A live electrical enclosure left approachable is approachable by anyone who has no reason to know better.",
+      "seconds": 11,
+      "target": "public-barrier",
+      "why": "An open rectifier cabinet reads as an interesting box to anyone who does not know what is inside it, and a barrier up before they are close enough to touch anything is the only thing standing between someone's curiosity and a live AC panel.",
+      "wrongNote": "It is the barrier, between the cabinet and the person walking up to it. The bond clamp has nothing to do with somebody wandering up to an open panel."
+    }
+  ],
+  "lateNotes": {
+    "rectifier-ac-off": "The rectifier's AC switch goes off and gets tagged before the cabinet door is ever opened, not after.",
+    "rectifier-cabinet-latch": "The cabinet latch opens only once the AC switch is confirmed off and tagged."
+  },
+  "name": "Cathodic Protection Test-Station Reading",
+  "parSeconds": 290,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "water-and-gas-utility-crews"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.3,
+    "hits": [
+      "bond-wire",
+      "continuity-tester",
+      "corroded-terminal",
+      "cp-log",
+      "cp-radio",
+      "cp-record",
+      "cp-voltmeter",
+      "criteria-board",
+      "electrode-case",
+      "foreign-line-crossing",
+      "leave-cabinet-unlocked",
+      "lock-cabinet",
+      "loose-wire-connection",
+      "public-barrier",
+      "rectifier-ac-off",
+      "rectifier-ac-on",
+      "rectifier-ac-tag",
+      "rectifier-cabinet-latch",
+      "rectifier-meter",
+      "reference-electrode",
+      "remove-rectifier-tag",
+      "skip-rectifier-loto",
+      "skip-stray-current-check",
+      "soil-contact-point",
+      "wrong-half-cell-contact"
+    ],
+    "meshes": 128
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check the prior readings and the monitoring interval this test station is due on.",
+      "id": "read-record",
+      "kind": "select",
+      "prompt": "Check the prior readings and the monitoring interval this test station is due on.",
+      "target": "cp-record",
+      "title": "Read the test station's survey record",
+      "why": "A single reading means little without the trend behind it — the record is what shows whether today's number continues a stable pattern or breaks from one, and it is read before anything is touched so today's reading is compared against something real."
+    },
+    {
+      "cue": "Switch off the rectifier's AC supply, then tag it, before the cabinet door opens.",
+      "id": "isolate-rectifier",
+      "itemNames": {
+        "rectifier-ac-off": "AC supply switched off",
+        "rectifier-ac-tag": "AC supply tagged"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Off, then tagged — a switched-off supply with no tag can be turned back on by someone with no idea work is happening at the cabinet.",
+      "prompt": "Switch off the rectifier's AC supply, then tag it, before the cabinet door opens.",
+      "targets": [
+        "rectifier-ac-off",
+        "rectifier-ac-tag"
+      ],
+      "title": "Isolate and tag the rectifier's AC supply",
+      "why": "The tag is what stops that switch being flipped back on by anyone who does not know a hand is about to be inside the cabinet — the one connection on this whole enclosure that can put line voltage behind the panel this technician is about to work in front of."
+    },
+    {
+      "cue": "Walk the test post and find what has to be fixed before today's reading is trusted.",
+      "id": "inspect-test-station",
+      "itemNames": {
+        "corroded-terminal": "corroded terminal on the test post",
+        "loose-wire-connection": "a loose wire connection at the post"
+      },
+      "itemNotes": {
+        "corroded-terminal": "This terminal is corroded enough that a reading taken through it is a reading taken through resistance the wire itself is adding — cleaned or remade, not read around.",
+        "loose-wire-connection": "This wire is loose at its terminal, which is exactly the kind of connection that reads fine one visit and reads nothing at all the next."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the test post and find what has to be fixed before today's reading is trusted.",
+      "targets": [
+        "corroded-terminal",
+        "loose-wire-connection"
+      ],
+      "title": "Inspect the test station before reading it",
+      "why": "A test station is only as good as its own wiring, and a corroded terminal or a loose connection can make a perfectly protected pipe read as if it is not — caught here, it is a two-minute repair instead of a false alarm that sends a survey crew chasing a problem that was only ever at the post."
+    },
+    {
+      "cue": "Carry the reference electrode to the soil directly over the pipe and seat it in contact with the ground.",
+      "drag": {
+        "missNote": "Not in contact with wetted soil over the pipe — a half-cell resting on dry ground or pavement gives a reading that means nothing.",
+        "radius": 0.42,
+        "to": "soil-contact-point"
+      },
+      "id": "place-half-cell",
+      "kind": "drag",
+      "prompt": "Carry the reference electrode to the soil directly over the pipe and seat it in contact with the ground.",
+      "target": "reference-electrode",
+      "title": "Wet the reference electrode into the soil",
+      "why": "The half-cell has to be in real electrical contact with the same electrolyte the pipe itself sits in — set on dry gravel or on pavement instead of wetted soil, it is not measuring this pipe's potential at all, only whatever a poor contact happens to produce."
+    },
+    {
+      "cue": "Bring the voltmeter reading to where the operator's criteria says this main should sit, then commit.",
+      "gauge": {
+        "green": [
+          0.55,
+          0.78
+        ],
+        "label": "PIPE-TO-SOIL (mV)",
+        "missNote": "That reading is outside what the operator's criteria calls adequate for this main — reseat the half-cell and read it again before recording anything.",
+        "speed": 0.6
+      },
+      "id": "pipe-to-soil-reading",
+      "kind": "gauge",
+      "prompt": "Bring the voltmeter reading to where the operator's criteria says this main should sit, then commit.",
+      "target": "cp-voltmeter",
+      "title": "Read the pipe-to-soil potential",
+      "why": "This reading is the only direct proof the current this rectifier is pushing is actually reaching this section of main at a level the operator's own criteria calls adequate — everything else in this job is inspection; this is the measurement."
+    },
+    {
+      "cue": "Walk to the crossing and find the foreign line and the bond that is supposed to protect it.",
+      "id": "stray-current-check",
+      "itemNames": {
+        "bond-wire": "the bond wire between the two lines",
+        "foreign-line-crossing": "a foreign pipeline crossing"
+      },
+      "itemNotes": {
+        "bond-wire": "This is the bond wire between the two lines. Its job is to carry any current between them safely rather than letting it find its own path through bare soil.",
+        "foreign-line-crossing": "A pipeline this utility does not own crosses this main a short distance from the test station — exactly where stray current from this rectifier can find its way onto steel with no protection of its own."
+      },
+      "kind": "find",
+      "prompt": "Walk to the crossing and find the foreign line and the bond that is supposed to protect it.",
+      "targets": [
+        "foreign-line-crossing",
+        "bond-wire"
+      ],
+      "title": "Check the crossing for stray-current interference",
+      "why": "This main's own protection can become somebody else's corrosion problem the moment current from this rectifier reaches a crossing pipeline with no bond to carry it safely away — checked here, at the one place that current actually has anywhere else to go."
+    },
+    {
+      "cue": "Turn the cabinet latch now the AC supply is confirmed off and tagged.",
+      "id": "open-rectifier-access",
+      "kind": "turn",
+      "prompt": "Turn the cabinet latch now the AC supply is confirmed off and tagged.",
+      "target": "rectifier-cabinet-latch",
+      "title": "Open the rectifier cabinet",
+      "turn": {
+        "axis": "y",
+        "label": "CABINET LATCH",
+        "turns": 0.4
+      },
+      "why": "The latch turns only once the supply is proven dead, not on the assumption that a switch thrown a minute ago is still in the position it was left in — the tag and the switch are what this latch trusts, not memory."
+    },
+    {
+      "cue": "Bring the rectifier's voltage and current reading to where it should sit, then commit.",
+      "gauge": {
+        "green": [
+          0.45,
+          0.68
+        ],
+        "label": "RECTIFIER OUTPUT",
+        "missNote": "That output is outside the rectifier's normal range for this segment — check the tap setting and the connections before recording it.",
+        "speed": 0.65
+      },
+      "id": "rectifier-output-reading",
+      "kind": "gauge",
+      "prompt": "Bring the rectifier's voltage and current reading to where it should sit, then commit.",
+      "target": "rectifier-meter",
+      "title": "Read the rectifier's own output",
+      "why": "The pipe-to-soil reading says the main is protected right now; the rectifier's own output is what says this unit is capable of keeping it that way — a rectifier drifting off its normal output is the thing that turns today's good reading into next quarter's failed one."
+    },
+    {
+      "cue": "Watch the rectifier's output stay steady for the full watch, not just at the moment it was read.",
+      "holdBreakNote": "That output drifted out of band during the watch — this rectifier is not holding steady, and that has to be found before this test station counts as checked.",
+      "id": "output-watch",
+      "kind": "track",
+      "prompt": "Watch the rectifier's output stay steady for the full watch, not just at the moment it was read.",
+      "seconds": 7,
+      "target": "rectifier-meter",
+      "title": "Watch the output hold steady",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.35,
+        "green": [
+          0.42,
+          0.68
+        ],
+        "label": "RECTIFIER OUTPUT",
+        "rise": 0.08,
+        "start": 0.55
+      },
+      "why": "A rectifier can read fine for an instant and still be arcing or cycling under load — held for a full watch, any instability shows up as drift instead of being missed between one glance and the next."
+    },
+    {
+      "cue": "Hold the continuity tester on the bond wire for the full check.",
+      "holdBreakNote": "The tester came off before the check finished — hold it again, a broken bond looks identical to a good one until this test actually proves which it is.",
+      "id": "bond-continuity-test",
+      "kind": "hold",
+      "prompt": "Hold the continuity tester on the bond wire for the full check.",
+      "seconds": 5,
+      "target": "continuity-tester",
+      "title": "Test the bond for continuity",
+      "why": "A bond wire can look intact and still be broken inside its own insulation — held on the clamp for the full check rather than glanced at, continuity is proven rather than assumed from the wire simply still being there."
+    },
+    {
+      "cue": "Remove the tag, restore the AC supply, then lock the cabinet.",
+      "id": "close-out-rectifier",
+      "itemNames": {
+        "lock-cabinet": "cabinet locked",
+        "rectifier-ac-on": "AC supply restored",
+        "remove-rectifier-tag": "tag removed"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Tag off, then power on, then lock up — restoring power before the tag is removed leaves a live cabinet still marked as being worked on.",
+      "prompt": "Remove the tag, restore the AC supply, then lock the cabinet.",
+      "targets": [
+        "remove-rectifier-tag",
+        "rectifier-ac-on",
+        "lock-cabinet"
+      ],
+      "title": "Close out the rectifier",
+      "why": "The tag comes off before the switch goes back on — not after — because a switch restored with the tag still in place tells the next person nothing about whether this crew is actually finished, and a cabinet left unlocked is a live enclosure standing open on a public street."
+    },
+    {
+      "cue": "Bring the reference electrode back to its case, wetted, ready for the next reading.",
+      "drag": {
+        "missNote": "Not back in the case — an electrode left out to dry is the next crew's false reading.",
+        "radius": 0.4,
+        "to": "electrode-case"
+      },
+      "id": "stow-half-cell",
+      "kind": "drag",
+      "prompt": "Bring the reference electrode back to its case, wetted, ready for the next reading.",
+      "target": "reference-electrode",
+      "title": "Stow the reference electrode",
+      "why": "The porous plug on this electrode has to stay wetted between readings or it dries out and gives a bad contact the next time it is used — stowed properly, it is ready for the next test station instead of a source of exactly the error this crew just spent the visit avoiding."
+    },
+    {
+      "cue": "Check today's pipe-to-soil reading against the operator's own criteria and the record's trend.",
+      "id": "compare-to-criteria",
+      "kind": "select",
+      "prompt": "Check today's pipe-to-soil reading against the operator's own criteria and the record's trend.",
+      "target": "criteria-board",
+      "title": "Compare today's reading to the criteria",
+      "why": "A reading that clears the criteria on its own can still be worth a second look if it has been sliding toward the edge of it for three visits running — the comparison is what catches a trend a single number never shows on its own."
+    },
+    {
+      "cue": "Log today's pipe-to-soil reading, the rectifier output, and the bond check in the survey record.",
+      "id": "cp-record-log",
+      "kind": "select",
+      "prompt": "Log today's pipe-to-soil reading, the rectifier output, and the bond check in the survey record.",
+      "target": "cp-log",
+      "title": "Complete the corrosion-control record",
+      "why": "This record is the only proof, months or years from now, that this main's protection was actually checked rather than assumed — a reading that is never written down might as well not have been taken, for all the good it does the next survey."
+    }
+  ],
+  "supportLine": "your utility's employee assistance programme, or your UWUA or IBEW steward if you are not sure how to reach it",
+  "tagline": "A pipe-to-soil reading taken with the reference electrode actually wetted into the soil, a rectifier read only after its AC side is locked out, and a bond to a crossing line checked for continuity before this main's own protection is trusted",
+  "title": "SmartCiti.X~ Cathodic Protection Test-Station Reading VR",
+  "trade": "UWUA / IBEW gas-utility corrosion-control technician",
+  "underwater": null,
+  "weather": "overcast"
+}

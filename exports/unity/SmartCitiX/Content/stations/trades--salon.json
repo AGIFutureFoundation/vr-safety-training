@@ -1,0 +1,287 @@
+{
+  "app": "trades",
+  "badge": {
+    "id": "clean-chair",
+    "name": "Clean Chair",
+    "note": "Full colour service with no sanitation breach"
+  },
+  "category": "Trade Skills Simulator",
+  "certification": "State cosmetology licence issued by the board of barbering and cosmetology, which is also the thing that gets suspended over a sanitation failure; the board's disinfection rules — implements cleaned, then fully immersed in a hospital-grade disinfectant registered for that use for the whole of its contact time, single-use items discarded after one client — which follow CDC infection-prevention guidance on cleaning before disinfecting; OSHA Hazard Communication, 29 CFR 1910.1200, for the safety data sheets and labelling on colour and developer, and 29 CFR 1910.138 for the glove selection that goes with them; NIOSH on the chemical exposures a stylist accumulates over a career; Cal/OSHA 8 CCR 5110 on repetitive motion, which is what a colourist's shoulders and wrists are actually up against across a ten-hour day; and the manufacturer's directions, which are what make the 48-hour patch test non-negotiable",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "Cal/OSHA",
+        "citedAs": "8 CCR 5110",
+        "id": "cal-osha-5110",
+        "title": "8 CCR 5110 — Repetitive motion injuries"
+      },
+      {
+        "body": "CDC",
+        "citedAs": "CDC",
+        "id": "cdc-guidance",
+        "title": "CDC infection-prevention and public-health guidance, including the Guidelines for Infection Control in Dental Health-Care Settings and Legionella control guidance"
+      },
+      {
+        "body": "NIOSH",
+        "citedAs": "NIOSH",
+        "id": "niosh-criteria",
+        "title": "NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1200",
+        "id": "osha-1910-1200",
+        "title": "29 CFR 1910.1200 — Hazard communication"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.138",
+        "id": "osha-1910-138",
+        "title": "29 CFR 1910.138 — Hand protection"
+      }
+    ]
+  },
+  "district": null,
+  "domain": null,
+  "flat": false,
+  "game": null,
+  "hazards": {
+    "dev-40": "That is 40 volume. The service on the card is two levels of lift on scalp, and 40 vol against a scalp is a chemical burn rather than a faster appointment — the manufacturer's own directions restrict it to off-scalp work for exactly that reason. It does not save time either: over-processed hair has to be toned, treated and then explained.",
+    "dirty-shears": "Those shears came straight off the last client. Tools are cleaned and immersed in disinfectant between every client — a nicked scalp turns cross-contamination into a blood-borne exposure.",
+    "flat-iron": "The iron is at 200 °C and the hair is saturated with product. Thermal styling on wet, chemically processed hair boils water inside the strand and snaps it.",
+    "metal-bowl": "That is a metal mixing bowl. Metal reacts with peroxide developer — it degrades the oxidant and can turn the formula. Colour is mixed in a non-metallic bowl, every time.",
+    "used-towel": "That towel came off the last client's neck. Linens are one client each and then they go to the wash, because a towel that has had colour, scalp oil and possibly blood on it is the shortest route there is between two people's heads — and it is the item state board inspectors look at first."
+  },
+  "id": "salon",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "sanitize",
+      "alert": "The flat iron from the last blow-dry is still switched on at the console, lying face down on a towel, and the towel under the plate has started to brown.",
+      "cue": "Your hands are in the jar and the contact time is running. The socket strip is at the end of the console.",
+      "delay": 3,
+      "id": "iron-left-live",
+      "kind": "Equipment left live",
+      "missNote": "The iron stayed face down on the towel for the rest of the disinfection. Browned linen is the stage before it smoulders, and it was lying twenty centimetres from a jar of alcohol-based disinfectant and an open bottle of developer on the same console — the ignition source and the fuel were already touching.",
+      "seconds": 12,
+      "target": "station-switch",
+      "why": "A thermal tool left live is the most common fire in a salon and it does not announce itself — the plate reaches working temperature in under a minute and then sits there on linen for as long as nobody looks. Killing the socket strip is one movement and it deals with every tool on that console at once, which is why the strip is switched rather than the tools being unplugged one at a time. The contact time you are part way through can simply be started again; a scorched towel on a live plate cannot be undone.",
+      "wrongNote": "That is not what makes the console safe. The switched socket strip at the end of the console kills the iron and everything else plugged into it in one movement."
+    },
+    {
+      "after": "rinse",
+      "alert": "The client has let their head come forward at the bowl and a line of colour-laden water has run past the towel and down the back of their neck.",
+      "cue": "Stop the run at the neckline before you carry on rinsing.",
+      "delay": 3,
+      "id": "neckline-run",
+      "kind": "Colour on the skin",
+      "missNote": "The run stayed on the neck for the rest of the rinse, drying as it went. That is a band of stained, sensitised skin on a client who will feel it tomorrow and see it for a week, and it is the single most common complaint a board of cosmetology receives about a colour service.",
+      "seconds": 13,
+      "target": "client-shoulders",
+      "why": "Oxidative dye on skin is not a staining problem, it is a sensitisation problem: the neck and hairline are where PPD actually gets onto a client, and a run that sits there through the rest of a rinse has minutes of contact rather than seconds. The towel at the nape is the only thing between the two, so the moment the head moves and opens that gap the towel gets reset — and the rinse resumes afterwards, because a run left to sit is the reaction the patch test was supposed to have ruled out.",
+      "wrongNote": "That is not where the colour is going. It has run past the towel at the nape and onto the neckline — reset the drape at the shoulders first."
+    }
+  ],
+  "lateNotes": {
+    "backwash": "Rinsing now stops development early — the colour has not had its time in the strand.",
+    "mix-bowl": "Gloves first. Oxidative dye is a skin sensitiser — PPD reactions build with every unprotected exposure and they end careers.",
+    "tint-brush": "Nothing goes on the head before the hair is sectioned and the formula is mixed to the right developer volume."
+  },
+  "name": "salon",
+  "parSeconds": 215,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "sewing-garment-trades"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": null,
+    "hits": [
+      "backwash",
+      "cape",
+      "client-shoulders",
+      "consult-card",
+      "dev-40",
+      "dirty-shears",
+      "disinfect-jar",
+      "flat-iron",
+      "glove-box",
+      "hair-q1",
+      "hair-q2",
+      "hair-q3",
+      "hair-q4",
+      "metal-bowl",
+      "mix-bowl",
+      "station-switch",
+      "timer",
+      "tint-brush",
+      "used-towel",
+      "waste-bin"
+    ],
+    "meshes": 384
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track"
+  ],
+  "steps": [
+    {
+      "cue": "Read the client record: allergy history, patch test date, previous chemical services.",
+      "id": "consult",
+      "kind": "select",
+      "prompt": "Read the client record: allergy history, patch test date, previous chemical services.",
+      "target": "consult-card",
+      "title": "Consult and check the patch test",
+      "why": "The patch test goes on 48 hours ahead and the record is what proves it happened, because a PPD reaction is not a rash — it is a face that closes up in a chair on a Saturday afternoon. No record, no oxidative colour, however well you know the client. The previous services matter just as much: box colour or henna at home can react with peroxide in the strand, and the client will not volunteer it unless you ask."
+    },
+    {
+      "cue": "Clean the combs and shears, immerse them, and leave them under for the whole contact time.",
+      "holdBreakNote": "You lifted them out early. Contact time is the part that does the work — a dip that does not last it has cleaned the tools and disinfected nothing.",
+      "id": "sanitize",
+      "kind": "hold",
+      "prompt": "Clean the combs and shears, immerse them, and leave them under for the whole contact time.",
+      "seconds": 6,
+      "target": "disinfect-jar",
+      "title": "Disinfect the tools for the full contact time",
+      "why": "Cleaning and disinfecting are two separate jobs: visible debris comes off first, because a disinfectant cannot reach through hair and product, and then the implement is fully immersed for the contact time printed on the concentrate. That time is the whole mechanism — a quick dip wets the steel and kills nothing, and it is the sanitation failure that actually shows up on state board inspections."
+    },
+    {
+      "cue": "Take the cape from the chair and settle it over the client's shoulders, then set the towel at the neckline.",
+      "drag": {
+        "missNote": "Not settled on the shoulders. A cape hanging off one side leaves the neckline open, which is where the dye runs.",
+        "radius": 0.38,
+        "to": "client-shoulders"
+      },
+      "id": "cape",
+      "kind": "drag",
+      "prompt": "Take the cape from the chair and settle it over the client's shoulders, then set the towel at the neckline.",
+      "target": "cape",
+      "title": "Drape the client",
+      "why": "The cape protects clothing, but the towel at the neckline is the part that matters: oxidative dye running onto the neck stains for days and sensitises skin that has no business meeting PPD at all. Settle it so there is no gap at the nape, because that is where the colour runs when the head goes forward at the backwash."
+    },
+    {
+      "cue": "Take gloves before you touch any product.",
+      "id": "gloves",
+      "kind": "select",
+      "prompt": "Take gloves before you touch any product.",
+      "target": "glove-box",
+      "title": "Glove up",
+      "why": "Gloves go on before mixing, not before applying, because the first skin contact of the whole service is with the tint in the bowl. PPD sensitisation is cumulative and permanent — it builds through years of small unprotected exposures and then ends a career in a single reaction, and stylists are far more likely to develop it than clients are."
+    },
+    {
+      "cue": "Select the developer for two levels of lift and commit inside the band.",
+      "gauge": {
+        "green": [
+          0.44,
+          0.58
+        ],
+        "label": "DEVELOPER — VOLUME",
+        "missNote": "Wrong strength for the target. Too low will not lift or cover; too high over-processes the mid-lengths.",
+        "speed": 0.7
+      },
+      "id": "mix",
+      "kind": "gauge",
+      "prompt": "Select the developer for two levels of lift and commit inside the band.",
+      "target": "mix-bowl",
+      "title": "Mix to the right developer volume",
+      "why": "Developer volume is the whole chemistry: it sets how far the cuticle opens and how much natural pigment is lifted before the new colour deposits. Twenty volume is roughly two levels and full grey coverage, which is what the card asks for. Reaching for a higher volume to get there faster does not buy speed, it buys a swollen cuticle, a porous mid-length and a colour that washes out in three weeks."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Part the hair into four clean quadrants — all four before you apply.",
+      "id": "section",
+      "itemNames": {
+        "hair-q1": "left front quadrant",
+        "hair-q2": "right front quadrant",
+        "hair-q3": "left nape quadrant",
+        "hair-q4": "right nape quadrant"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "One or more quadrants are still unparted — every quadrant gets clipped before application starts.",
+      "prompt": "Part the hair into four clean quadrants — all four before you apply.",
+      "targets": [
+        "hair-q1",
+        "hair-q2",
+        "hair-q3",
+        "hair-q4"
+      ],
+      "title": "Section into four quadrants",
+      "why": "Four quadrants turn a whole head into four small, controlled applications, each one worked from a clean parting where you can actually see the scalp. Apply into unsectioned hair and you are guessing at coverage: the grey at the crown gets missed, the nape gets double product, and the timing runs from four different start times you never wrote down."
+    },
+    {
+      "cue": "Take the tint brush and apply through the sectioned hair.",
+      "id": "apply",
+      "kind": "select",
+      "prompt": "Take the tint brush and apply through the sectioned hair.",
+      "target": "tint-brush",
+      "title": "Apply root to mid-length",
+      "why": "Regrowth first, because the root sits against a scalp at body heat and processes noticeably faster than the rest of the head. Put product on the mid-lengths at the same time and by the time the root is where you want it the mid-lengths have gone past it — the hot-root band that comes out of doing this in the wrong order is visible in daylight for months."
+    },
+    {
+      "cue": "Watch the development and pull the colour inside the window.",
+      "gauge": {
+        "green": [
+          0.62,
+          0.8
+        ],
+        "label": "PROCESSING TIMER",
+        "missNote": "Off the development window — check the strand and the manufacturer's timing before you commit.",
+        "speed": 0.5
+      },
+      "id": "process",
+      "kind": "gauge",
+      "prompt": "Watch the development and pull the colour inside the window.",
+      "target": "timer",
+      "title": "Process and pull on time",
+      "why": "Development is a chemical clock that started at the first quadrant, not when you finished the last one. Pull it early and the dye has not fully oxidised inside the strand, so it deposits weakly and fades fast; leave it long and the cuticle keeps swelling after the colour has finished developing, which is damage bought for nothing. The strand test is what tells you which end of the window you are at."
+    },
+    {
+      "cue": "Hold the water tepid and steady, and rinse until it runs clear.",
+      "holdBreakNote": "Temperature off band — too hot stings a sensitised scalp and swells the cuticle, too cold leaves emulsified colour in the hair. Bring it back and hold it.",
+      "id": "rinse",
+      "kind": "track",
+      "prompt": "Hold the water tepid and steady, and rinse until it runs clear.",
+      "seconds": 6,
+      "target": "backwash",
+      "title": "Rinse and neutralise",
+      "track": {
+        "drift": 0.1,
+        "fall": 0.45,
+        "green": [
+          0.38,
+          0.58
+        ],
+        "label": "RINSE TEMPERATURE",
+        "rise": 0.5,
+        "start": 0.14
+      },
+      "why": "Rinsing is what stops the reaction, so it goes on until the water runs genuinely clear rather than nearly clear — residual oxidant keeps working in the strand and keeps irritating a scalp that has just had peroxide sitting on it for half an hour. The temperature is part of the job: hot water on a freshly processed scalp opens the cuticle further and stings on skin the colour has already sensitised."
+    },
+    {
+      "cue": "Bin the gloves and leftover product, then reset the station.",
+      "id": "dispose",
+      "kind": "select",
+      "prompt": "Bin the gloves and leftover product, then reset the station.",
+      "target": "waste-bin",
+      "title": "Strip down the station",
+      "why": "Leftover oxidative colour is chemical waste, not rubbish: it goes in the bin for it rather than down the backwash, and the gloves go with it. Then the station is wiped and reset, because the next client's service starts from whatever state you left this one in — and a colourist is judged on the chair they hand over as much as the head they finish."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Oxidative colour service from consultation to rinse, with station sanitation",
+  "title": "Colour Studio",
+  "trade": "Hair stylist / colourist",
+  "underwater": null,
+  "weather": null
+}

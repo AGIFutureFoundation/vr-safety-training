@@ -1,0 +1,437 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "tensioned-to-spec",
+    "name": "Tensioned To Spec",
+    "note": "Every bolt in the splice snug, marked, turned and inspected the way the bolt spec says — and the one that spun found before the inspector did"
+  },
+  "category": "Construction & Structural Trades",
+  "certification": "Ironworkers IMPACT apprenticeship bolting and connecting practice; the RCSC Specification for Structural Joints Using High-Strength Bolts (snug-tight, pretensioned and slip-critical joints, pre-installation verification, turn-of-nut and calibrated wrench installation, inspection); the AISC Code of Standard Practice for Steel Buildings and Bridges; AASHTO bridge construction practice for girder field splices; OSHA 29 CFR 1926 Subpart R steel erection and 29 CFR 1926.451 scaffolds; ANSI Z359 fall protection",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "AASHTO",
+        "citedAs": "AASHTO",
+        "id": "aashto-bridge-inspection",
+        "title": "AASHTO Manual for Bridge Element Inspection and the LRFD Bridge Design Specifications"
+      },
+      {
+        "body": "AISC",
+        "citedAs": "AISC",
+        "id": "aisc-code-of-standard-practice",
+        "title": "AISC Code of Standard Practice for Steel Buildings and Bridges and the AISC Specification for Structural Steel Buildings"
+      },
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI Z359",
+        "id": "ansi-z359",
+        "title": "ANSI/ASSP Z359 — Fall Protection Code"
+      },
+      {
+        "body": "union",
+        "citedAs": "IMPACT",
+        "id": "ironworkers-impact",
+        "title": "Ironworkers and IMPACT — apprenticeship and safety training for structural, ornamental and reinforcing ironwork"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926",
+        "id": "osha-1926",
+        "title": "29 CFR 1926 — Safety and health regulations for construction"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.451",
+        "id": "osha-1926-451",
+        "title": "29 CFR 1926.451 — Scaffolds, general requirements"
+      },
+      {
+        "body": "RCSC",
+        "citedAs": "RCSC Specification",
+        "id": "rcsc-structural-joints",
+        "title": "RCSC Specification for Structural Joints Using High-Strength Bolts — snug-tight, pretensioned and slip-critical joints, fastener storage, pre-installation verification, turn-of-nut, calibrated wrench, twist-off and direct-tension-indicator installation and inspection"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Construction & Structural Trades",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "marks-tell-the-truth",
+        "name": "Marks Tell The Truth",
+        "note": "The spun bolt found by reading the match marks, first look"
+      },
+      {
+        "id": "steady-air",
+        "name": "Steady Air",
+        "note": "Line pressure held at the calibrated setting throughout"
+      },
+      {
+        "id": "no-fingers-in-holes",
+        "name": "No Fingers In Holes",
+        "note": "No finger in a hole, no step onto the flange untied, no reused bolt, no lean through the gap"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-splice",
+        "name": "Clean Splice",
+        "note": "No corrections anywhere in the splice"
+      },
+      {
+        "id": "calibrated-first-time",
+        "name": "Calibrated First Time",
+        "note": "The wrench set inside the band on the first reading"
+      },
+      {
+        "id": "bolted-by-break",
+        "name": "Bolted By Break",
+        "note": "Splice logged inside 80% of par"
+      }
+    ],
+    "currency": "BOLT",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Apprentice",
+      "Bolter",
+      "Connector",
+      "Bolting Foreman",
+      "Splice Certified"
+    ],
+    "system": "Bolt-Up Crew"
+  },
+  "hazards": {
+    "finger-in-hole": "You went to feel whether the holes lined up by putting a finger through them. Two plies of splice plate that are not yet pinned can shift the width of a hole the moment the girder settles on its falsework or a connector leans on the other side, and when they do the steel shears whatever is in the hole. Alignment is checked with a drift pin or by eye, never by a finger.",
+    "missing-midrail": "You leaned out over the gap in the guardrail where the midrail has been pulled to pass steel through. A scaffold platform this high is required to have its guardrail complete, top rail and midrail, and a missing midrail is exactly the opening a worker leaning to reach a bolt slides through. It gets replaced, or the gap gets chained, before anyone works beside it.",
+    "reused-bolts": "You reached for the bucket of bolts backed out of yesterday's splice. A high-strength bolt that has been pretensioned has been stretched along its threads, and the RCSC Specification does not allow some grades to be reused at all and the rest only with the engineer's approval. A bolt that has been tensioned once is not a new bolt with a good-looking thread.",
+    "untied-on-flange": "You went to step up onto the girder's top flange with your lanyard still clipped to the platform rail. Up there the only thing between you and the ground is the flange's own width, and OSHA's steel erection rule puts a connector working at that height under fall protection the whole time. The lanyard goes to the beam strap first, then the boots go onto the steel."
+  },
+  "id": "bs-structural-bolting-and-torque",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "backup",
+      "alert": "It has started to rain, and the keg of verified bolts you are drawing from is sitting open on the platform.",
+      "cue": "Get the lid on the keg before the lubricant washes off the bolts.",
+      "delay": 2,
+      "id": "rain-on-kegs",
+      "kind": "Rain on open bolt kegs",
+      "missNote": "The keg stayed open in the rain for the rest of the turn-of-nut pass; the bolts at the top went in wet and dry of lubricant, and nobody could now say what tension the same rotation gave them.",
+      "seconds": 12,
+      "target": "keg-lid",
+      "why": "The lubricant on a high-strength assembly is part of the tension it reaches: rain washing it off changes the torque-tension relationship the calibrator verified this morning. The RCSC Specification keeps fasteners protected from moisture until they are installed, and a lid on the keg now saves re-verifying or rejecting the lot.",
+      "wrongNote": "The keg lid — the rain is on the bolts now, and every minute washes a little more of the lubricant off."
+    },
+    {
+      "after": "air-pressure",
+      "alert": "A painting crew's truck has pulled in and a painter is setting up his gear on the ground right under the splice you are bolting.",
+      "cue": "Close the drop zone barricade and get him out from under the work.",
+      "delay": 2,
+      "id": "painters-in-drop-zone",
+      "kind": "Workers under the platform",
+      "missNote": "The painter worked under the splice for the whole calibrated-wrench run; a nut knocked off the flange hit the ground a metre from his bucket, and nobody on the platform saw it land.",
+      "seconds": 13,
+      "target": "drop-zone-barricade",
+      "why": "A bolting platform drops things: a nut, a drift pin, a spud wrench knocked off the flange. OSHA's steel erection rule keeps workers out from under overhead bolting unless they are protected, and a closed barricade is the only drop-zone control that works on people who did not hear the radio.",
+      "wrongNote": "The drop-zone barricade — the people under the work are the emergency, not the bolt in front of you."
+    }
+  ],
+  "lateNotes": {
+    "impact-wrench": "The joint is snugged once every hole has a bolt in it and the drift pins are out — snugging around a pin locks the misalignment in.",
+    "nut-socket": "The nut is turned once it is match-marked and the back-up wrench is on the head — without the mark nobody can prove the rotation, and without the back-up the bolt spins with the nut.",
+    "splice-log": "The splice is logged once the inspector has read the marks — before that there is nothing to record but intentions."
+  },
+  "name": "Structural Bolting & Torque",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "bridge-and-structural"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "pickup",
+        "count": 1,
+        "kit": "fleet"
+      },
+      {
+        "builder": "hammer",
+        "count": 1,
+        "kit": "toolkit"
+      },
+      {
+        "builder": "impactWrench",
+        "count": 1,
+        "kit": "toolkit"
+      },
+      {
+        "builder": "radio",
+        "count": 1,
+        "kit": "toolkit"
+      },
+      {
+        "builder": "torqueWrench",
+        "count": 1,
+        "kit": "toolkit"
+      }
+    ],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "air-regulator",
+      "backup-wrench",
+      "bolt-bag",
+      "bolt-calibrator",
+      "bolt-spec",
+      "crew-radio",
+      "drift-pins",
+      "drop-zone-barricade",
+      "finger-in-hole",
+      "impact-wrench",
+      "inspection-stamp",
+      "keg-lid",
+      "missing-midrail",
+      "mixed-lot-nuts",
+      "new-assembly",
+      "nut-socket",
+      "paint-marker",
+      "painted-faying",
+      "reused-bolts",
+      "rusty-keg",
+      "splice-log",
+      "spud-hammer",
+      "spun-bolt",
+      "untied-on-flange"
+    ],
+    "meshes": 280
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the splice detail: joint type, bolt grade and length, the installation method, the faying-surface class, and the rotation and tension the spec calls for.",
+      "id": "bolt-spec",
+      "kind": "select",
+      "prompt": "Read the splice detail: joint type, bolt grade and length, the installation method, the faying-surface class, and the rotation and tension the spec calls for.",
+      "target": "bolt-spec",
+      "title": "Read the connection drawing and the bolt spec",
+      "why": "A field splice is designed as one of three kinds of joint — snug-tight, pretensioned or slip-critical — and the RCSC Specification installs and inspects each one differently. A slip-critical flange splice relies on the clamping force squeezing clean steel together, so its faying surfaces, its pretension and its inspection all follow from that one line on the drawing. Bolting from habit instead of the detail is how a bearing-type routine ends up on a joint the engineer designed to carry load by friction."
+    },
+    {
+      "cue": "Look over the bolt kegs, the nut boxes and the splice plates: storage, lot markings, and anything on a contact face that should not be there.",
+      "id": "fastener-find",
+      "itemNames": {
+        "mixed-lot-nuts": "a box of nuts from a different lot than the bolts",
+        "painted-faying": "paint overspray on a slip-critical faying surface",
+        "rusty-keg": "bolts left open to the weather, rusted and dry"
+      },
+      "itemNotes": {
+        "mixed-lot-nuts": "The nuts in this box carry a different lot number from the bolts beside them. Pre-installation verification is done on assemblies from the lots actually going in, so an unverified lot mixed in is an assembly nobody has tested.",
+        "painted-faying": "The flange splice plate has a mist of primer across its contact face. A slip-critical joint is designed for a specific surface class, and paint the engineer did not specify turns that friction into a lubricated slide. It is cleaned back to the specified surface before the plate goes on.",
+        "rusty-keg": "This keg was left open overnight and the bolts are rusted and dry. The lubricant on a high-strength assembly is part of how it reaches tension: washed off, the same rotation or wrench setting gives less clamp. They go back for cleaning and relubrication under the maker's direction, or they are rejected."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look over the bolt kegs, the nut boxes and the splice plates: storage, lot markings, and anything on a contact face that should not be there.",
+      "targets": [
+        "rusty-keg",
+        "mixed-lot-nuts",
+        "painted-faying"
+      ],
+      "title": "Check the fasteners and the faying surfaces before anything goes in",
+      "why": "High-strength bolts fail their specification quietly, in the keg, before anyone picks up a wrench: rust and lost lubricant change the torque-tension relationship, a mixed lot has never been through the calibrator, and paint on a slip-critical surface removes the friction the joint was designed on. The RCSC Specification puts storage, lot control and surface condition ahead of installation for exactly that reason — the wrench cannot make up for any of them later."
+    },
+    {
+      "cue": "Run sample assemblies from today's lots in the bolt tension calibrator and set the wrench's cut-out so it stalls at the verification tension the spec requires.",
+      "gauge": {
+        "green": [
+          0.46,
+          0.62
+        ],
+        "label": "CALIBRATOR",
+        "missNote": "Off the verification tension — a wrench set low under-tensions every bolt it touches, set high it risks stretching them past what the spec allows. Read the calibrator again.",
+        "speed": 0.7
+      },
+      "id": "calibrate",
+      "kind": "gauge",
+      "prompt": "Run sample assemblies from today's lots in the bolt tension calibrator and set the wrench's cut-out so it stalls at the verification tension the spec requires.",
+      "target": "bolt-calibrator",
+      "title": "Verify the assemblies and set the calibrated wrench in the tension calibrator",
+      "why": "Pre-installation verification is the one test that proves today's bolts, nuts, washers and wrench actually produce the tension the joint needs: a representative sample from each lot goes into the tension calibrator, and the calibrated wrench's setting is adjusted until the calibrator reads the spec's verification figure. The setting is only true for these lots, this wrench and this air supply, which is why it is redone daily and whenever any of them changes."
+    },
+    {
+      "cue": "Drive drift pins through the corner holes to bring the plies into line, fill every open hole with a bolt and hand-tight nut, then knock the pins out and bolt those holes too.",
+      "id": "fit-up",
+      "itemNames": {
+        "bolt-bag": "bolts in every open hole",
+        "drift-pins": "drift pins driven in the corner holes",
+        "spud-hammer": "drift pins knocked out and replaced with bolts"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Pins first to line the holes up, then bolts in every open hole, and only then do the pins come out — pull a pin before the bolts are in and the plies slide back out of line.",
+      "prompt": "Drive drift pins through the corner holes to bring the plies into line, fill every open hole with a bolt and hand-tight nut, then knock the pins out and bolt those holes too.",
+      "targets": [
+        "drift-pins",
+        "bolt-bag",
+        "spud-hammer"
+      ],
+      "title": "Fit up the splice: pins, bolts, then swap the pins",
+      "why": "Drift pins align the holes; they are not fasteners, and a drift pin driven hard enough to distort a hole damages the plate the joint depends on. The pins hold the plies in line while bolts go in every other hole, and they come out last, one at a time, with a bolt going straight into each hole — so the joint is never left held by nothing but the friction of plate that has not been clamped."
+    },
+    {
+      "cue": "Run each bolt up snug with the impact wrench, working from the middle of the splice out toward the free edges, until the plies are drawn into firm contact.",
+      "id": "snug",
+      "kind": "turn",
+      "prompt": "Run each bolt up snug with the impact wrench, working from the middle of the splice out toward the free edges, until the plies are drawn into firm contact.",
+      "target": "impact-wrench",
+      "title": "Snug the joint from the stiffest part outward",
+      "turn": {
+        "label": "SNUG",
+        "turns": 1
+      },
+      "why": "Snug-tight is the condition where the plies are in firm contact, and it has to be reached systematically from the most rigid part of the joint toward its free edges. Snug the outside bolts first and the plate between them bows, so the middle bolts close a gap instead of clamping steel, and every rotation measured from that false snug starts from the wrong place. On a splice this size it can take more than one pass before the whole joint is truly snug."
+    },
+    {
+      "cue": "Draw a straight mark across each nut, the bolt end and the steel beside it, so the rotation from snug can be seen afterward.",
+      "id": "match-mark",
+      "kind": "select",
+      "prompt": "Draw a straight mark across each nut, the bolt end and the steel beside it, so the rotation from snug can be seen afterward.",
+      "target": "paint-marker",
+      "title": "Match-mark every snug bolt",
+      "why": "Turn-of-nut pretension comes from rotating the nut a set amount past snug, and a match mark is the only record of where snug was. The line across the nut, the bolt end and the plate lets the bolter see the rotation as it happens and lets the inspector confirm it afterward — and if the bolt end and the nut have moved together, the mark shows a bolt that spun instead of stretching."
+    },
+    {
+      "cue": "Set the back-up wrench on the bolt head and hold it steady so the head cannot turn while the nut is rotated.",
+      "holdBreakNote": "The back-up wrench came off the head mid-turn — the bolt can spin with the nut and nothing is stretched. Put it back and hold it.",
+      "id": "backup",
+      "kind": "hold",
+      "prompt": "Set the back-up wrench on the bolt head and hold it steady so the head cannot turn while the nut is rotated.",
+      "seconds": 5,
+      "target": "backup-wrench",
+      "title": "Hold the back-up wrench on the bolt head",
+      "why": "Turn-of-nut only works if the element not being turned is held still. A bolt head free to follow the nut turns the whole assembly as a unit, the bolt never stretches, and the match mark rotates across the steel as if the bolt were tensioned when it is not. The back-up wrench is held for the whole rotation, not tapped on and taken off."
+    },
+    {
+      "cue": "Turn each nut past snug by the rotation the spec's table gives for this bolt length, in the same middle-out pattern, watching the match mark move.",
+      "id": "turn-of-nut",
+      "kind": "turn",
+      "prompt": "Turn each nut past snug by the rotation the spec's table gives for this bolt length, in the same middle-out pattern, watching the match mark move.",
+      "target": "nut-socket",
+      "title": "Rotate each nut the spec's amount from snug",
+      "turn": {
+        "label": "TURN-OF-NUT",
+        "turns": 1
+      },
+      "why": "The rotation past snug is what stretches the bolt into its pretension: the spec's table ties it to the bolt's length relative to its diameter and to the slope of the faces it bears on, which is why it comes off the drawing and not from memory. Worked in the same pattern as the snug pass, the rotation closes the joint evenly, and the match mark shows each bolt's rotation to anyone who looks."
+    },
+    {
+      "cue": "The flange splice is run up with the calibrated wrench: keep the air at the pressure it was calibrated at while the crew works along the flange.",
+      "holdBreakNote": "The line pressure left the calibrated band while the wrench was running — the bolts run in that window are suspect. Bring it back and hold it.",
+      "id": "air-pressure",
+      "kind": "track",
+      "prompt": "The flange splice is run up with the calibrated wrench: keep the air at the pressure it was calibrated at while the crew works along the flange.",
+      "seconds": 6,
+      "target": "air-regulator",
+      "title": "Hold the line pressure at the calibrated setting on the flange splice",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.48,
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "LINE PRESSURE",
+        "rise": 0.58,
+        "start": 0.2
+      },
+      "why": "A calibrated wrench is only calibrated at the air pressure and hose length it was set at in the calibrator. Let the line pressure sag as another tool draws on the compressor and the wrench stalls early, leaving bolts under their pretension with nothing on the steel to show it; let it climb and the wrench overshoots. The pressure is watched at the regulator for the whole run, because this method's accuracy lives there."
+    },
+    {
+      "cue": "Walk the splice reading every mark: nut rotated against the bolt end and the steel, the same way on every bolt.",
+      "id": "mark-find",
+      "itemNames": {
+        "spun-bolt": "a bolt whose end and nut turned together"
+      },
+      "itemNotes": {
+        "spun-bolt": "On this one the match mark across the nut and the bolt end has rotated as one line, and the mark on the plate has not moved relative to them — the bolt spun in the hole with the nut, and it was never stretched."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the splice reading every mark: nut rotated against the bolt end and the steel, the same way on every bolt.",
+      "targets": [
+        "spun-bolt"
+      ],
+      "title": "Read the match marks across the whole splice",
+      "why": "The match marks are the only honest record a turn-of-nut joint has: a bolt that spun with its nut looks tight, sounds tight and rotated the right amount, but its mark shows the nut and the bolt end still lined up with each other. The crew reads every bolt before calling the inspector, because the one that did not stretch is invisible any other way."
+    },
+    {
+      "cue": "Take the spun bolt out and carry a new assembly from the verified box to its hole; it is snugged, marked and turned like the rest.",
+      "drag": {
+        "missNote": "Not in the spun bolt's hole — carry the new assembly to the bolt the marks gave away.",
+        "radius": 0.35,
+        "to": "spun-bolt"
+      },
+      "id": "replace-bolt",
+      "kind": "drag",
+      "prompt": "Take the spun bolt out and carry a new assembly from the verified box to its hole; it is snugged, marked and turned like the rest.",
+      "target": "new-assembly",
+      "title": "Replace the spun bolt with a new assembly",
+      "why": "A bolt that spun may have galled its threads or been partly tensioned and relaxed, and the spec limits whether a tensioned bolt can go back in. The clean fix is a new assembly from a lot that went through the calibrator, installed through the same snug, mark and rotation as its neighbours, so the joint is uniform again and the replacement is on the record."
+    },
+    {
+      "cue": "Walk the inspector along the splice: the calibrator record, the marks on every bolt, and the replaced assembly.",
+      "id": "inspect",
+      "kind": "select",
+      "prompt": "Walk the inspector along the splice: the calibrator record, the marks on every bolt, and the replaced assembly.",
+      "target": "inspection-stamp",
+      "title": "Have the inspector witness the marks and stamp the splice",
+      "why": "Inspection of a turn-of-nut joint is observation, not re-torquing: the inspector checks that pre-installation verification was done, watches the method being used, and reads the marks on the finished bolts. A splice nobody but the crew has seen is a splice the next trade has to take on trust, and the inspector's stamp is the point where the joint stops being the bolting crew's claim."
+    },
+    {
+      "cue": "Record the bolt lots, the calibrator verification, the installation method, the replaced bolt, the rain on the kegs and the inspector's acceptance.",
+      "id": "splice-log",
+      "kind": "select",
+      "prompt": "Record the bolt lots, the calibrator verification, the installation method, the replaced bolt, the rain on the kegs and the inspector's acceptance.",
+      "target": "splice-log",
+      "title": "Log the splice",
+      "why": "The bolting log is how the owner, the engineer and the next inspection know this splice was installed to the spec rather than assumed from its appearance: which lots went in, what the calibrator read that morning, which method, which bolt was replaced and why. Written on the platform it is the record; written in the trailer at the end of the week it is a recollection."
+    },
+    {
+      "cue": "Call the foreman: splice inspected and logged, drop zone reopened. Then check in with the crew about the painter who walked in under the work.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Call the foreman: splice inspected and logged, drop zone reopened. Then check in with the crew about the painter who walked in under the work.",
+      "target": "crew-radio",
+      "title": "Check in with the crew and the foreman",
+      "why": "The foreman plans the next splice and the painting crew's return around this call, so the drop zone only reopens when the platform is clear of loose steel. It is also the crew's check-in: people walking under a bolting platform is the kind of near miss that stays with the bolter who saw it, and the trade's practice is to say it out loud on the radio and name the member assistance line with it."
+    }
+  ],
+  "supportLine": "your Ironworkers local's member assistance programme, or the employee assistance line posted on the contractor's site board",
+  "tagline": "A girder field splice bolted to the spec: fasteners checked, the calibrated wrench set in the tension calibrator, drift pins and fit-up, snug-tight from the middle out, match marks, turn-of-nut with a back-up wrench, the flange splice run at the calibrated pressure, a spun bolt found and replaced, and the inspector's marks logged",
+  "title": "SmartCiti.X~ Structural Bolting & Torque VR",
+  "trade": "Ironworker — structural bolting crew on a bridge girder field splice",
+  "underwater": null,
+  "weather": "overcast"
+}

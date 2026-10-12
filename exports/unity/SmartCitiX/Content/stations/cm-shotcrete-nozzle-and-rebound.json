@@ -1,0 +1,379 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "clean-shot",
+    "name": "Clean Shot",
+    "note": "A panel shot to thickness with a whip-checked line, nobody in the rebound zone and the rebound shoveled wet — first time"
+  },
+  "category": "Construction & Structural Trades",
+  "certification": "OPCMIA Local 300 cement mason apprenticeship as a training body; ACI nozzleman certification for shotcrete placement as a body; OSHA 29 CFR 1926 Subpart Q concrete and masonry construction; OSHA 29 CFR 1926.1153 respirable crystalline silica for rebound and cleanup; ANSI/ASSP A10.9 concrete and masonry construction safety requirements; the shotcrete placement plan and the equipment manufacturer's pressure and hose-coupling manual",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ACI",
+        "citedAs": "ACI",
+        "id": "aci-concrete-practice",
+        "title": "ACI concrete field testing technician certification and ACI 301 specifications for structural concrete"
+      },
+      {
+        "body": "union",
+        "citedAs": "OPCMIA",
+        "id": "opcmia-local-300",
+        "title": "OPCMIA Local 300 - cement masons and plasterers apprenticeship, as a training body"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926",
+        "id": "osha-1926",
+        "title": "29 CFR 1926 — Safety and health regulations for construction"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.1153",
+        "id": "osha-1926-1153",
+        "title": "29 CFR 1926.1153 — Respirable crystalline silica in construction"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Construction & Structural Trades",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "walked-the-wall",
+        "name": "Walked The Wall",
+        "note": "The pre-shoot walk found the tight rebar and the bare coupling before the line was charged, first time"
+      },
+      {
+        "id": "nobody-in-rebound",
+        "name": "Nobody In The Rebound Zone",
+        "note": "Never sprayed with a bystander in the zone, never a bare-faced overspray, never an unwhipped coupling charged, never a dry sweep of rebound"
+      },
+      {
+        "id": "on-the-lift",
+        "name": "On The Lift",
+        "note": "The nozzle distance and the build-up thickness both held inside the band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-panel",
+        "name": "Clean Panel",
+        "note": "No corrections through the whole panel"
+      },
+      {
+        "id": "steady-pass",
+        "name": "Steady Pass",
+        "note": "The build-up thickness held in band for the whole pass"
+      },
+      {
+        "id": "panel-by-break",
+        "name": "Panel By Break",
+        "note": "Shot, probed, cleaned and cured inside 80% of par"
+      }
+    ],
+    "currency": "PANEL",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Laborer",
+      "Hose Hand",
+      "Nozzleman Trainee",
+      "Nozzleman",
+      "Shotcrete Crew Certified"
+    ],
+    "system": "Shotcrete Crew"
+  },
+  "hazards": {
+    "bystander-rebound-zone": "You let someone walk into the rebound zone while the nozzle was live. Shotcrete's rebound is aggregate ricocheting off the substrate at the same velocity the mix was sprayed at, and a person standing in that zone is standing in the path of flying stone, not just overspray. The zone is cleared and held clear for the whole time the nozzle is live.",
+    "dry-sweep-rebound": "You went to sweep the dried rebound pile instead of shoveling it up wet. Rebound is the same cement and aggregate that just got sprayed, and once it dries, sweeping it throws respirable crystalline silica into the air the same as sweeping any other dried cement debris. It is shoveled while still wet and never allowed to dry into a sweeping job.",
+    "hose-whip-uncontrolled": "You charged the line with the coupling's whip check not fitted. A shotcrete hose under pressure that comes apart at a coupling becomes a hose whipping loose with the full line pressure behind it, and a whip check is the cable that keeps the two hose ends tethered together if the coupling itself lets go. It is fitted before the line is ever charged, not added after a coupling has already worked loose.",
+    "overspray-no-shield": "You stood in the overspray without a face shield. Wet shotcrete is strongly alkaline the same as any fresh mix, and standing in the rebound cloud puts it on exposed skin and in the eyes at pressure, not just at rest. The face shield and sleeves stay on for every minute the line is charged."
+  },
+  "id": "cm-shotcrete-nozzle-and-rebound",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "nozzle-pass",
+      "alert": "The hose coupling behind the nozzle has started to work apart under line pressure, held only by the whip check cable.",
+      "cue": "Shut the air off at the compressor before the coupling lets go completely.",
+      "delay": 2,
+      "id": "coupling-separating",
+      "kind": "Hose coupling separating under pressure",
+      "missNote": "The coupling kept working loose with the line still charged; it let go fully a moment later and the whip check cable was the only thing that kept the hose end from crossing the crew.",
+      "seconds": 12,
+      "target": "compressor-shutoff",
+      "why": "A whip check buys time, it does not fix a coupling that is already separating — the hose is still fully pressurized and will whip hard the instant it clears the last thread. The compressor shutoff kills the pressure driving the whip at its source, which is the only way to make the line safe to approach again.",
+      "wrongNote": "The compressor shutoff — a coupling already separating under pressure needs the air killed at the source, not watched."
+    },
+    {
+      "after": "buildup-track",
+      "alert": "A laborer has stepped past the barrier into the rebound zone while the nozzle is still live on the panel.",
+      "cue": "Sound the stop-spray horn before he takes another step forward.",
+      "delay": 2,
+      "id": "laborer-in-rebound",
+      "kind": "Laborer walking into a live rebound zone",
+      "missNote": "The laborer kept walking through the rebound zone with the nozzle still live; a face shield he was not wearing would have been the only thing between him and the ricochet.",
+      "seconds": 12,
+      "target": "stop-spray-horn",
+      "why": "Rebound off a live nozzle is aggregate ricocheting at spray velocity, and a laborer inside that zone is standing in its path whether or not he can see the nozzle from where he is. The horn signals the nozzleman to kill the trigger immediately, which reaches him faster than shouting over a running compressor.",
+      "wrongNote": "The stop-spray horn — a person is already inside a live rebound zone, and the nozzle has to be killed before he goes any further."
+    }
+  ],
+  "lateNotes": {
+    "close-log": "The panel is logged once the rebound has been cleared wet and the cure is on.",
+    "nozzle-trigger": "The nozzle only goes live once the rebar clearance is corrected, the whip check is fitted and the rebound zone is clear — none of that is optional because the line is already staged.",
+    "probe-tool": "The probe only goes in once a pass has actually built up — probing a panel that has barely been shot proves nothing but a thin spot."
+  },
+  "name": "Shotcrete Nozzle & Rebound",
+  "parSeconds": 320,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "cement-masons-and-plasterers"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "bystander-rebound-zone",
+      "clear-rebound-zone",
+      "close-log",
+      "compressor-shutoff",
+      "crew-radio",
+      "cure-compound",
+      "dry-sweep-rebound",
+      "fit-whip-check",
+      "hose-whip-uncontrolled",
+      "no-whip-check",
+      "nozzle-trigger",
+      "nozzle-trigger-zone",
+      "overspray-no-shield",
+      "placement-plan",
+      "pressure-gauge",
+      "probe-tool",
+      "rebound-shovel",
+      "rebound-zone-open",
+      "screed-rod",
+      "set-clearance",
+      "spoil-bin",
+      "stop-spray-horn",
+      "tight-rebar"
+    ],
+    "meshes": 172
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the mix design, the finished thickness, the rebar cover it has to bury, and the nozzle distance and angle the equipment manual calls for.",
+      "id": "placement-plan",
+      "kind": "select",
+      "prompt": "Read the mix design, the finished thickness, the rebar cover it has to bury, and the nozzle distance and angle the equipment manual calls for.",
+      "target": "placement-plan",
+      "title": "Read the shotcrete placement plan",
+      "why": "Shotcrete is placed by the nozzleman's technique as much as by the mix itself, and the plan sets the one thickness and rebar cover the wall's design actually depends on — sprayed thin over the rebar, the reinforcing corrodes years early; sprayed at the wrong angle, it builds sand pockets behind the bar instead of encasing it. None of that is adjusted by feel once the pump is running."
+    },
+    {
+      "cue": "Walk the rebar, the hose couplings and the area in front of the wall, and click every defect you find.",
+      "id": "substrate-walk",
+      "itemNames": {
+        "no-whip-check": "a hose coupling with no whip check fitted",
+        "rebound-zone-open": "the rebound zone with no barrier set",
+        "tight-rebar": "rebar with no clearance from the substrate"
+      },
+      "itemNotes": {
+        "no-whip-check": "The coupling between the delivery hose and the nozzle hose has no whip check cable fitted across it.",
+        "rebound-zone-open": "Nothing marks off the rebound zone in front of the wall — a laborer is walking straight through the line the nozzle is about to spray.",
+        "tight-rebar": "A run of rebar sits flush against the substrate with no chair or clearance block behind it — the shotcrete stream cannot get behind the bar to encase it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the rebar, the hose couplings and the area in front of the wall, and click every defect you find.",
+      "targets": [
+        "tight-rebar",
+        "no-whip-check",
+        "rebound-zone-open"
+      ],
+      "title": "Walk the substrate before the line is charged",
+      "why": "With the line still dead, a clearance block, a whip check and a barrier are each a couple of minutes' work. Start the pump before any of that happens and the same three gaps turn into rebar that never gets properly encased, a coupling whipping loose with the full line pressure behind it and nothing tethering the two hose ends, and a laborer standing directly in a stream of ricocheting aggregate."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Set the clearance block behind the tight rebar, fit the whip check on the coupling, and barrier the rebound zone.",
+      "id": "fix",
+      "itemNames": {
+        "clear-rebound-zone": "rebound zone barriered",
+        "fit-whip-check": "whip check fitted",
+        "set-clearance": "rebar clearance set"
+      },
+      "kind": "sequence",
+      "prompt": "Set the clearance block behind the tight rebar, fit the whip check on the coupling, and barrier the rebound zone.",
+      "targets": [
+        "set-clearance",
+        "fit-whip-check",
+        "clear-rebound-zone"
+      ],
+      "title": "Correct what the walk found",
+      "why": "Spotting a gap on the walk and then leaving it alone is arguably worse than missing it, because the crew now treats the wall and the line as ready on the strength of a note rather than an actual fix. The clearance has to be really set, the whip check really fitted and the zone really barriered before the pump starts, not just written down as done."
+    },
+    {
+      "cue": "Move anyone not on the nozzle back from the panel before the pump line is pressurized.",
+      "id": "clear-crew",
+      "kind": "select",
+      "prompt": "Move anyone not on the nozzle back from the panel before the pump line is pressurized.",
+      "target": "nozzle-trigger-zone",
+      "title": "Clear the crew from the panel before the line charges",
+      "why": "A charged shotcrete line delivers mix and rebound at the same velocity the moment the trigger is pulled, and nobody standing close to the panel for a last-minute look has any warning before that happens. The panel is cleared while the line is still dead, which is the only point anyone can be certain of where the crew actually is."
+    },
+    {
+      "cue": "Adjust the compressor's air pressure and commit inside the equipment manual's band before the line is charged.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "PRESSURE",
+        "missNote": "Off the manual's band — adjust the compressor and check the gauge again before charging the line.",
+        "speed": 0.68
+      },
+      "id": "pressure-check",
+      "kind": "gauge",
+      "prompt": "Adjust the compressor's air pressure and commit inside the equipment manual's band before the line is charged.",
+      "target": "pressure-gauge",
+      "title": "Set the nozzle air pressure",
+      "why": "Air pressure at the nozzle is what actually atomizes and accelerates the mix into the substrate; too low and the shotcrete just falls off in slugs instead of building a bonded layer, too high and it blows more rebound off the wall than it deposits. The manual's band is set before the trigger is ever pulled, not adjusted by how it sounds once it is spraying."
+    },
+    {
+      "cue": "Hold the nozzle perpendicular to the wall at the manual's distance and sweep in overlapping passes, starting at the bottom of the panel.",
+      "holdBreakNote": "The nozzle drifted off perpendicular and off distance mid-pass. Reset square to the wall at the manual's distance and hold the pass again.",
+      "id": "nozzle-pass",
+      "kind": "hold",
+      "prompt": "Hold the nozzle perpendicular to the wall at the manual's distance and sweep in overlapping passes, starting at the bottom of the panel.",
+      "seconds": 5,
+      "target": "nozzle-trigger",
+      "title": "Spray the first pass perpendicular and at distance",
+      "why": "A nozzle held at an angle sprays across the rebar instead of into and behind it, leaving sand pockets exactly where the design needs solid, bonded shotcrete; held too far off the wall, the mix loses velocity and rebounds instead of embedding. Starting at the bottom is what keeps rebound from being trapped behind fresh material sprayed above it."
+    },
+    {
+      "cue": "Keep the sweep rate even so the build-up thickness stays inside the plan's band across the whole panel.",
+      "holdBreakNote": "The build-up left the band while the sweep kept going. Slow down over the thin stretch and bring it back into band.",
+      "id": "buildup-track",
+      "kind": "track",
+      "prompt": "Keep the sweep rate even so the build-up thickness stays inside the plan's band across the whole panel.",
+      "seconds": 6,
+      "target": "nozzle-trigger",
+      "title": "Track the build-up thickness across the panel",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.46,
+        "green": [
+          0.38,
+          0.58
+        ],
+        "label": "BUILD-UP",
+        "rise": 0.5,
+        "start": 0.15
+      },
+      "why": "Swept too fast, a pass never actually reaches the plan's thickness before the nozzleman has already moved on, leaving a thin panel that reads fine until the rebar corrodes through it; swept too slow, the buildup sags and sloughs off its own weight before it takes its set. An even sweep is what keeps the whole panel at one thickness instead of thick in the middle and thin at the edges."
+    },
+    {
+      "cue": "Push the penetration probe into a fresh test area and commit once the depth reads inside the plan's tolerance.",
+      "gauge": {
+        "green": [
+          0.44,
+          0.62
+        ],
+        "label": "THICKNESS",
+        "missNote": "Off tolerance — mark the panel and shoot another pass over the thin area before moving on.",
+        "speed": 0.65
+      },
+      "id": "probe-check",
+      "kind": "gauge",
+      "prompt": "Push the penetration probe into a fresh test area and commit once the depth reads inside the plan's tolerance.",
+      "target": "probe-tool",
+      "title": "Probe-check the panel's thickness",
+      "why": "A shotcrete surface can look like it has built up plenty and still read thin at the probe, because the eye reads the wettest, glossiest part of the pass rather than the actual depth behind it. The probe is the one check that proves the thickness the plan actually needs, in a test area cut for exactly that purpose."
+    },
+    {
+      "cue": "Draw the screed rod along the panel's edge guides, cutting the fresh shotcrete to the plan's finished line.",
+      "id": "cut-finish",
+      "kind": "turn",
+      "prompt": "Draw the screed rod along the panel's edge guides, cutting the fresh shotcrete to the plan's finished line.",
+      "target": "screed-rod",
+      "title": "Cut the panel flush with the screed rod",
+      "turn": {
+        "label": "SCREED",
+        "turns": 1
+      },
+      "why": "The screed rod is what actually gives this panel a finished, plumb edge instead of the rough as-shot surface the nozzle leaves — cut while the material is still plastic, it comes off clean; left until it sets, it has to be ground back, which is a slower, dustier way to reach the same line."
+    },
+    {
+      "cue": "Carry the shovel to the rebound pile and clear it into the spoil bin while it is still wet.",
+      "drag": {
+        "missNote": "Not in the spoil bin — the wet rebound has to go into the bin, not left in a pile to dry.",
+        "radius": 0.6,
+        "to": "spoil-bin"
+      },
+      "id": "rebound-clear",
+      "kind": "drag",
+      "prompt": "Carry the shovel to the rebound pile and clear it into the spoil bin while it is still wet.",
+      "target": "rebound-shovel",
+      "title": "Shovel the rebound while it is still wet",
+      "why": "Rebound is exactly the same cement and aggregate that came off the nozzle, and shoveled while it is still wet it is no different from any other wet spoil to handle. Left to dry, it becomes a pile of hardened cement fines that nobody should be sweeping, which is why it is cleared before it ever gets the chance to set."
+    },
+    {
+      "cue": "Apply the curing method the placement plan calls for across the whole finished panel.",
+      "id": "cure",
+      "kind": "select",
+      "prompt": "Apply the curing method the placement plan calls for across the whole finished panel.",
+      "target": "cure-compound",
+      "title": "Apply the cure",
+      "why": "A shotcrete panel that is allowed to dry out before it has actually cured loses a real share of the strength the mix design assumed it would reach, and it shrink-cracks across a surface that has almost no depth to spare for a crack to travel through. The cure goes on while the panel is still fresh enough for it to actually work."
+    },
+    {
+      "cue": "Record the clearance corrected, the whip check fitted, the thickness probed and the cure applied.",
+      "id": "close-out",
+      "kind": "select",
+      "prompt": "Record the clearance corrected, the whip check fitted, the thickness probed and the cure applied.",
+      "target": "close-log",
+      "title": "Log the panel",
+      "why": "The shotcrete log is how the engineer knows this panel was probed to the plan's tolerance rather than judged by eye, and it is where the tight rebar and the missing whip check get written down so the next panel's walk starts from what this one already found."
+    },
+    {
+      "cue": "Call the pump operator: panel shot, probed and cured. Then check in with the crew about the coupling and the rebound zone.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Call the pump operator: panel shot, probed and cured. Then check in with the crew about the coupling and the rebound zone.",
+      "target": "crew-radio",
+      "title": "Check in with the crew and the pump operator",
+      "why": "The next panel's mix batch gets timed off whatever this call actually says happened, so the pump operator needs the real account, not the short version. A coupling started separating under pressure and a laborer spent a moment inside the rebound zone — say both plainly, and mention that the OPCMIA member assistance line is there for whoever the shift rattled."
+    }
+  ],
+  "supportLine": "your OPCMIA Local 300 member assistance programme, or the employee assistance line posted on the contractor's site board",
+  "tagline": "A reinforced wall shot right: the placement plan read, the rebar clearance and the hose coupling walked before the line is charged, the rebound zone cleared, the nozzle worked perpendicular and at distance in overlapping passes, the build tracked and probe-checked, the rebound shoveled up wet, and the panel cured",
+  "title": "SmartCiti.X~ Shotcrete Nozzle & Rebound VR",
+  "trade": "Cement mason — OPCMIA Local 300, shotcrete nozzleman",
+  "underwater": null,
+  "weather": "clear"
+}

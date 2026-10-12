@@ -1,0 +1,399 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "tray-cleared",
+    "name": "Tray Cleared",
+    "note": "A tray built to its ticket, held safe, and checked against the patient's own ID band before delivery"
+  },
+  "category": "Healthcare Support",
+  "certification": "The FDA Food Code as adopted by the state's retail food code for the tray line's own food-safety practice; ServSafe food-handler training; HIPAA's privacy rule for a ticket carrying a patient's name and room number in a shared line; the CDC's general infection-prevention guidance; SEIU-UHW and NUHW as the training bodies for hospital dietary staff",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "CDC",
+        "citedAs": "CDC",
+        "id": "cdc-guidance",
+        "title": "CDC infection-prevention and public-health guidance, including the Guidelines for Infection Control in Dental Health-Care Settings and Legionella control guidance"
+      },
+      {
+        "body": "FDA",
+        "citedAs": "FDA Food Code",
+        "id": "fda-food-code",
+        "title": "FDA Food Code — the model code for retail food establishments"
+      },
+      {
+        "body": "HHS",
+        "citedAs": "HIPAA",
+        "id": "hipaa-privacy-rule",
+        "title": "HIPAA Privacy and Security Rules (45 CFR Parts 160 and 164)"
+      },
+      {
+        "body": "union",
+        "citedAs": "NUHW",
+        "id": "nuhw-training",
+        "title": "NUHW member education and safety training for hospital and clinic support staff"
+      },
+      {
+        "body": "union",
+        "citedAs": "SEIU-UHW",
+        "id": "seiu-uhw-training",
+        "title": "SEIU-UHW member education and safety training for hospital and clinic support staff"
+      },
+      {
+        "body": "ServSafe",
+        "citedAs": "ServSafe",
+        "id": "servsafe-certification",
+        "title": "ServSafe Food Protection Manager and ServSafe Alcohol certification (National Restaurant Association)"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Healthcare Support",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "flags-caught",
+        "name": "Flags Caught",
+        "note": "Every flag that changes the tray found before it was built"
+      },
+      {
+        "id": "dedicated-utensil",
+        "name": "Dedicated Utensil",
+        "note": "The allergy tray never touched by a shared serving tool"
+      },
+      {
+        "id": "bedside-verified",
+        "name": "Bedside Verified",
+        "note": "The ID band checked against the ticket before the tray was left"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-tray",
+        "name": "Clean Tray",
+        "note": "No corrections anywhere in the build"
+      },
+      {
+        "id": "steady-hold",
+        "name": "Steady Hold",
+        "note": "Held the cart at temperature the whole window, first try"
+      },
+      {
+        "id": "fast-tray",
+        "name": "Fast Tray",
+        "note": "Complete inside 80% of par"
+      }
+    ],
+    "currency": "TRAY",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "New Aide",
+      "Tray Line Certified",
+      "Lead Aide",
+      "Dietary Supervisor",
+      "Tray Line Certified Trainer"
+    ],
+    "system": "Tray Line Standard"
+  },
+  "hazards": {
+    "expired-thickener-decoy": "That thickener packet is past its date. A thickener that doesn't perform to spec doesn't announce itself in the cup — it just leaves a liquid thinner than the order called for, and that's the only warning anyone gets before it's already been swallowed.",
+    "npo-tray-built-decoy": "That tray is fully built and sitting ready for a room the ticket already marks NPO. A patient held off food and drink for a procedure doesn't get a tray sent up anyway because it happened to already be made — it gets held, not delivered.",
+    "shared-allergen-utensil-decoy": "That serving spoon just came out of a dish with a tree-nut ingredient in it, and it's sitting on this ticket's tray. A shared utensil carries whatever it last touched onto the next thing it touches — an allergy ticket gets its own tool, not whatever's closest.",
+    "wrong-texture-plate-decoy": "That's a regular-texture plate sitting where a pureed order needs to go. Sending regular texture to an order written for pureed is exactly the mismatch a texture-modified diet exists to prevent — a swallowing risk, not a garnish choice."
+  },
+  "id": "hc-dietary-tray-line-and-allergy-flags",
+  "indoor": "kitchen",
+  "interrupts": [
+    {
+      "after": "read-flags",
+      "alert": "Someone from the floor calls down asking you to add extra salt packets to this cardiac-diet tray because the patient prefers it that way.",
+      "cue": "That request goes back to the order, not straight onto the tray.",
+      "delay": 3,
+      "id": "verbal-diet-request",
+      "kind": "Off-order request",
+      "missNote": "Extra salt went on a cardiac-diet tray on a verbal request nobody with authority to change the order actually approved. The tray now contradicts the order it was supposedly built from.",
+      "seconds": 12,
+      "target": "verify-diet-order",
+      "why": "A standing diet order isn't this line's to adjust on a phone call, whatever the reason given — a request like this gets routed back to confirm whether the order itself has actually changed, because building the tray to a preference instead of the order is how a cardiac diet quietly stops being one.",
+      "wrongNote": "Route it back to verify the order first — a phone request doesn't rewrite what the ticket says."
+    },
+    {
+      "after": "hot-hold",
+      "alert": "The delivery cart's heating element alarms mid-hold — the temperature is dropping.",
+      "cue": "Every tray in that cart needs a working cart, not this one.",
+      "delay": 3,
+      "id": "cart-heater-fault",
+      "kind": "Equipment fault",
+      "missNote": "The delivery went out on a cart that was already alarming. Every tray riding in it spent the trip sliding further out of a safe holding temperature.",
+      "seconds": 11,
+      "target": "swap-hot-cart",
+      "why": "A cart that can't hold its own temperature isn't a delivery risk for one tray, it's a delivery risk for everything loaded in it — the trays move to a cart that's actually working before this delivery continues, not out the door on a unit that's already failing.",
+      "wrongNote": "Swap to the working cart — nothing leaves on a unit that's already alarming."
+    }
+  ],
+  "lateNotes": {
+    "bedside-id-check": "Not yet — this tray hasn't left the cart.",
+    "log-delivery": "Hold that. The ID has to be checked at the bedside before this delivery closes out."
+  },
+  "name": "Dietary Tray Line & Allergy Flags",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "healthcare-support"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.3,
+    "hits": [
+      "allergen-utensil-swap",
+      "allergy-flag",
+      "bedside-id-check",
+      "cap-cup",
+      "cart-latch",
+      "cart-manifest",
+      "cross-contact-utensil",
+      "expired-item",
+      "expired-thickener-decoy",
+      "flag-low-sodium",
+      "hand-hygiene-dtl",
+      "hot-holding-cart",
+      "lid-cover",
+      "log-delivery",
+      "npo-flag",
+      "npo-tray-built-decoy",
+      "portion-scale",
+      "pull-ticket",
+      "shared-allergen-utensil-decoy",
+      "swap-hot-cart",
+      "texture-select",
+      "thicken-liquid",
+      "tray-slot",
+      "tray-ticket",
+      "verify-diet-order",
+      "wrong-texture-plate-decoy"
+    ],
+    "meshes": 154
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Wash hands and glove before touching a ticket or a plate.",
+      "id": "hand-hygiene-dtl",
+      "kind": "select",
+      "prompt": "Wash hands and glove before touching a ticket or a plate.",
+      "target": "hand-hygiene-dtl",
+      "title": "Hand hygiene before the line",
+      "why": "Every tray on this line goes to someone whose immune system may already be working overtime — hand hygiene at the start of the shift is the one habit that protects every ticket that follows it, not just the first one."
+    },
+    {
+      "cue": "Read the tray ticket and confirm the patient's name and room number before assembling anything.",
+      "id": "pull-ticket",
+      "kind": "select",
+      "prompt": "Read the tray ticket and confirm the patient's name and room number before assembling anything.",
+      "target": "pull-ticket",
+      "title": "Pull the ticket and match the room",
+      "why": "The ticket is what tells this line which tray is which — building from memory or from where a cart happens to be parked is how a cardiac diet and a regular tray change places without anyone actually deciding it should happen, and the room number on the ticket is the only thing standing between that quiet swap and a tray that reaches the wrong bed looking perfectly correct."
+    },
+    {
+      "cue": "Two things on this ticket change what happens next. Find them before you reach for a plate.",
+      "decoyNotes": {
+        "flag-low-sodium": "Charted and true, but the standard low-sodium menu already covers it — nothing about how this tray gets built changes."
+      },
+      "id": "read-flags",
+      "itemNames": {
+        "allergy-flag": "a food allergy flag",
+        "npo-flag": "an NPO hold"
+      },
+      "itemNotes": {
+        "allergy-flag": "This flag changes which plate, which utensil and which ingredients this tray can touch — it gets caught here, before the plate is chosen, not after the tray's already built the ordinary way.",
+        "npo-flag": "NPO means nothing by mouth, full stop — this ticket doesn't get a tray built at all until that hold is lifted, whatever else is written on it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Two things on this ticket change what happens next. Find them before you reach for a plate.",
+      "targets": [
+        "allergy-flag",
+        "npo-flag"
+      ],
+      "title": "Read the ticket for what changes this tray",
+      "why": "A ticket carries more than what actually changes the build — sorting the flag that redirects this tray from the one that's just charted and routine is the actual skill of reading it, and it happens once, before the first plate comes off the rack."
+    },
+    {
+      "cue": "Match the plate to the ticket's texture order — regular, mechanical soft, or pureed.",
+      "id": "texture-select",
+      "kind": "select",
+      "prompt": "Match the plate to the ticket's texture order — regular, mechanical soft, or pureed.",
+      "target": "texture-select",
+      "title": "Choose the texture the order calls for",
+      "why": "A texture order isn't a preference on the ticket, it's the reason this patient can safely swallow what's on the plate — the wrong texture doesn't taste different or look obviously off, it's a swallowing hazard shaped exactly like an ordinary plate of food, which is exactly why the plate gets matched to the order before anything is served rather than corrected after someone notices."
+    },
+    {
+      "cue": "Mix the thickener to the ticket's consistency, then cap the cup.",
+      "id": "thicken-drink",
+      "itemNames": {
+        "cap-cup": "cap the cup",
+        "thicken-liquid": "thicken the beverage to spec"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Thicken first, then cap — a capped cup of liquid that was never actually thickened just travels to the room looking finished.",
+      "prompt": "Mix the thickener to the ticket's consistency, then cap the cup.",
+      "targets": [
+        "thicken-liquid",
+        "cap-cup"
+      ],
+      "title": "Thicken and cap the ordered beverage",
+      "why": "A thickened-liquids order exists because thin liquid moves faster than this patient can safely manage — capping the cup after mixing is what keeps that consistency from being diluted or spilled before it ever reaches the tray."
+    },
+    {
+      "cue": "Portion the entree and read the scale before it goes on the tray.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.68
+        ],
+        "label": "PORTION WEIGHT",
+        "missNote": "Committed outside the order's portion spec. Re-plate to the ticket's amount before this tray moves on.",
+        "speed": 0.6
+      },
+      "id": "portion-check",
+      "kind": "gauge",
+      "prompt": "Portion the entree and read the scale before it goes on the tray.",
+      "target": "portion-scale",
+      "title": "Weigh the portion to the diet order's spec",
+      "why": "A restricted diet's whole point can be undone by a portion that's simply too large — a renal or cardiac order is written around a specific amount, not a general direction, and the scale is what makes portioning an actual measurement instead of a guess by eye that happens to land close enough most days."
+    },
+    {
+      "cue": "Two things sitting on this line right now shouldn't go anywhere near a tray. Find them.",
+      "id": "line-scan",
+      "itemNames": {
+        "cross-contact-utensil": "a utensil that touched a shared allergen",
+        "expired-item": "an item past its use-by date"
+      },
+      "itemNotes": {
+        "cross-contact-utensil": "That utensil was in a shared pan a minute ago — it doesn't touch this tray, allergy order or not, until it's been through the wash.",
+        "expired-item": "That item is past its date sitting right on the line — it goes back to the cooler for disposal, not onto a tray because it's within reach."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Two things sitting on this line right now shouldn't go anywhere near a tray. Find them.",
+      "targets": [
+        "cross-contact-utensil",
+        "expired-item"
+      ],
+      "title": "Scan the line before you plate",
+      "why": "A tray line moves fast enough that a bad utensil or an expired item can end up on a plate simply because it was the closest thing to hand — a quick scan before plating is what catches it while it's still just sitting on the counter, instead of after it's already part of a tray someone is about to eat from."
+    },
+    {
+      "cue": "Pick up the clean, dedicated serving tool before touching this ticket's food.",
+      "id": "allergen-utensil-swap",
+      "kind": "select",
+      "prompt": "Pick up the clean, dedicated serving tool before touching this ticket's food.",
+      "target": "allergen-utensil-swap",
+      "title": "Switch to a dedicated utensil for the allergy tray",
+      "why": "Once a tray is flagged for an allergy, every tool that touches it has to be one that's never touched the allergen — a shared spoon reused out of convenience is how a flagged tray causes the exact reaction the flag existed to prevent."
+    },
+    {
+      "cue": "Attach the printed ticket to the tray it belongs to before it leaves the line.",
+      "drag": {
+        "missNote": "Not on this tray — a ticket sitting loose on the counter verifies nothing once the tray moves.",
+        "radius": 0.4,
+        "to": "tray-slot"
+      },
+      "id": "marry-ticket",
+      "kind": "drag",
+      "prompt": "Attach the printed ticket to the tray it belongs to before it leaves the line.",
+      "target": "tray-ticket",
+      "title": "Marry the ticket to the tray",
+      "why": "A tray and its ticket separated anywhere between here and the room is a tray nobody downstream can actually verify against anything — clipping them together now, at the one point they're both still in the same hands, is what keeps that verification possible all the way to the bedside instead of just to the cart."
+    },
+    {
+      "cue": "Lid or cover every plate before the tray goes on the cart.",
+      "id": "lid-cover",
+      "kind": "select",
+      "prompt": "Lid or cover every plate before the tray goes on the cart.",
+      "target": "lid-cover",
+      "title": "Cover the tray for transport",
+      "why": "A covered plate holds its temperature and stays clear of anything it might pass on its way through the hallway — an elevator, a cart bumped against a doorframe, a cough from someone passing — an uncovered tray is losing both from the moment it leaves the line, not from whenever someone happens to notice."
+    },
+    {
+      "cue": "Match every tray's slot to the cart's own manifest before it leaves the kitchen.",
+      "id": "manifest-check",
+      "kind": "select",
+      "prompt": "Match every tray's slot to the cart's own manifest before it leaves the kitchen.",
+      "target": "cart-manifest",
+      "title": "Verify the cart manifest before rolling",
+      "why": "The manifest is what lets the whole cart be trusted at once instead of every tray being checked over again room by room — a tray slotted into the wrong compartment is a tray that reads as delivered correctly right up until the wrong patient actually opens it and finds someone else's diet order on their table."
+    },
+    {
+      "cue": "Keep the cart closed and at temperature through the full delivery window.",
+      "holdBreakNote": "The cart came open before the window closed. Every tray inside just spent that time outside the temperature it was supposed to be held at.",
+      "id": "hot-hold",
+      "kind": "hold",
+      "prompt": "Keep the cart closed and at temperature through the full delivery window.",
+      "seconds": 6,
+      "target": "hot-holding-cart",
+      "title": "Hold the cart at a safe temperature",
+      "why": "A hot-holding cart only protects a tray for as long as it actually stays closed and powered — propped open or unplugged even briefly, the food inside starts sliding out of the range the whole system was built to hold it in."
+    },
+    {
+      "cue": "Rotate the latch fully closed before moving the cart.",
+      "id": "cart-latch",
+      "kind": "turn",
+      "prompt": "Rotate the latch fully closed before moving the cart.",
+      "target": "cart-latch",
+      "title": "Latch the cart compartment",
+      "turn": {
+        "axis": "y",
+        "label": "CART LATCH",
+        "turns": 0.4
+      },
+      "why": "A latch left half-closed pops open over the first door threshold or elevator gap this cart crosses, and a cart that spills partway down a hallway is a fall hazard as much as it is a ruined delivery — closed and confirmed is what keeps every tray inside where the manifest says it is until it's actually delivered."
+    },
+    {
+      "cue": "Read the patient's ID band against the tray ticket before leaving the tray.",
+      "id": "bedside-id-check",
+      "kind": "select",
+      "prompt": "Read the patient's ID band against the tray ticket before leaving the tray.",
+      "target": "bedside-id-check",
+      "title": "Check the ID band at the bedside",
+      "why": "Everything upstream — the flag, the texture, the thickener, the manifest — was built on the assumption that this tray reaches the right person. The bedside check is the one place that assumption actually gets tested, on the one person it was all built for."
+    },
+    {
+      "cue": "Record the tray as delivered, refused, or held.",
+      "id": "log-delivery",
+      "kind": "select",
+      "prompt": "Record the tray as delivered, refused, or held.",
+      "target": "log-delivery",
+      "title": "Log the delivery",
+      "why": "A tray that's delivered, refused or held all look the same from the kitchen unless someone logs which one happened — that record is what tells the next shift whether this patient actually ate, not just whether a tray left the line."
+    }
+  ],
+  "supportLine": "your employer's employee assistance program, or SEIU-UHW's member resources if a near-miss on an allergy tray has you rattled",
+  "tagline": "The ticket matched to the room, the flags that change this tray sorted from the ones that don't, the right texture and thickener, a dedicated utensil, and a bedside ID check before the tray is ever left behind",
+  "title": "SmartCiti.X~ Dietary Tray Line & Allergy Flags VR",
+  "trade": "Dietary aide",
+  "underwater": null,
+  "weather": null
+}

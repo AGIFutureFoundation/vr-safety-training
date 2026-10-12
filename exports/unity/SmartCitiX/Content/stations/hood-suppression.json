@@ -1,0 +1,373 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "canopy-certified",
+    "name": "Canopy Certified",
+    "note": "A full inspection and a clean drill — pull, gas closed, fan running, everyone out"
+  },
+  "category": "Culinary & Hospitality",
+  "certification": "UNITE HERE Local 2 kitchen fire-warden training; NFPA 96 ventilation control and fire protection of commercial cooking operations; NFPA 17A wet chemical extinguishing systems; the California Fire Code; OSHA 29 CFR 1910.157 portable extinguishers; the local fire department's semi-annual suppression-system inspection",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 17A",
+        "id": "nfpa-17a",
+        "title": "NFPA 17A — Standard for Wet Chemical Extinguishing Systems"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 96",
+        "id": "nfpa-96",
+        "title": "NFPA 96 — Ventilation Control and Fire Protection of Commercial Cooking Operations"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.157",
+        "id": "osha-1910-157",
+        "title": "29 CFR 1910.157 — Portable fire extinguishers"
+      },
+      {
+        "body": "union",
+        "citedAs": "UNITE HERE",
+        "id": "unite-here-training",
+        "title": "UNITE HERE hospitality training funds — cooks, housekeepers, bartenders and banquet staff"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Culinary",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "fan-never-off",
+        "name": "Fan Never Off",
+        "note": "Never touched the fan control during the response"
+      },
+      {
+        "id": "clean-drill",
+        "name": "Clean Drill",
+        "note": "Ran the response sequence with no correction"
+      },
+      {
+        "id": "filters-true",
+        "name": "Filters True",
+        "note": "Held every reading near band centre"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "fast-walk",
+        "name": "Fast Walk",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "no-corrections",
+        "name": "No Corrections",
+        "note": "Clean run, no corrections"
+      },
+      {
+        "id": "canopy-streak",
+        "name": "Canopy Streak",
+        "note": "Nine correct actions in a row"
+      }
+    ],
+    "currency": "HOOD",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Porter",
+      "Line Cook",
+      "Fire Warden",
+      "Kitchen Lead",
+      "Canopy Certified"
+    ],
+    "system": "Canopy Certified"
+  },
+  "hazards": {
+    "fan-off-switch": "That control stops the hood's exhaust fan. The fan runs through the entire response, not just the cooking — it is the capture path the wet chemical discharges into, and stopping it lets a plenum full of hot combustion gas and unreacted agent sit still overhead instead of being drawn up and out.",
+    "gas-reset-early": "That is the system's mechanical gas-reset lever, and resetting it restores gas to every appliance under this hood. NFPA 96 and the gas code both treat that reset as something an authorized person does after the fire is confirmed fully out and the system re-serviced — not a switch flipped the moment the flames look like they have died down.",
+    "greasy-rag-pile": "Those are grease-soaked wiping rags stacked on top of the filter rack. NFPA 96 exists because grease residue is the fuel a hood fire actually burns — a pile of saturated rags sitting against warm sheet metal is stored fuel load in a system that is supposed to have none, and it ignites well below the temperature the filters themselves are rated to survive.",
+    "wrong-extinguisher": "That is a dry-chemical ABC unit, not the Class K by the range. Dry chemical does nothing to cool burning oil and can drive a fine spray of it airborne on discharge; the wet chemical in a Class K saponifies the surface of the oil into a foam blanket instead, which is the only reaction NFPA 17A actually engineers this fire around."
+  },
+  "id": "hood-suppression",
+  "indoor": "kitchen",
+  "interrupts": [
+    {
+      "after": "fan-draw",
+      "alert": "A pan on the range under the hood has flared and the flame is climbing toward the filters.",
+      "cue": "This is real. Get to the pull station.",
+      "delay": 2,
+      "id": "flare-up-inspection",
+      "kind": "Live flare-up",
+      "missNote": "The flare-up reached the plenum with nobody at the pull station. A fire that climbs into the duct is no longer a range fire the Class K can reach — it is exactly the fire NFPA 96's suppression system exists to catch before that happens.",
+      "seconds": 12,
+      "target": "pull-station",
+      "why": "A flare-up reaching the filters is exactly the fire this whole system exists for, and the correct response does not wait for the rest of the inspection checklist — pull the station, and everything the wet chemical and the gas interlock are built to do happens in the next few seconds.",
+      "wrongNote": "The pull station, not the extinguisher and not the fan control. A fire already in the hood needs the system, not a handheld unit."
+    },
+    {
+      "after": "drill-standby",
+      "alert": "A roofer working nearby radios down that grease is dripping from the fan's rooftop discharge onto the roof membrane.",
+      "cue": "That is a documented deficiency. Log it before it is forgotten.",
+      "delay": 2,
+      "id": "roof-grease-report",
+      "kind": "Rooftop deficiency reported",
+      "missNote": "The rooftop grease report went nowhere. Grease reaching open roof membrane keeps accumulating fuel outside the system built to contain it, and nobody downstream of this shift will know it was ever reported.",
+      "seconds": 12,
+      "target": "defect-log",
+      "why": "NFPA 96 treats grease reaching the rooftop discharge as a containment failure in the exhaust system, not a housekeeping note, and a roof membrane soaked in grease is both a fire load and a roofing liability — the fix is a service call, and the log is what actually makes that call happen instead of the report evaporating at shift change.",
+      "wrongNote": "The defect log. A rooftop discharge problem does not get fixed by anything happening inside the kitchen right now — it gets fixed by writing it down so the service company hears about it."
+    }
+  ],
+  "lateNotes": {
+    "gas-valve": "The gas side of this system only gets touched twice: once to confirm the interlock moves freely during the inspection, and once when it actually closes on its own during a real discharge.",
+    "pull-station": "The manual pull only means anything once the flare-up is confirmed real and everyone else is already clear of the hood line — it is not the first thing you reach for on a routine inspection."
+  },
+  "name": "Hood Suppression",
+  "parSeconds": 270,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "culinary-kitchen"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.3,
+    "hits": [
+      "class-k",
+      "defect-log",
+      "exit-door",
+      "fan-off-switch",
+      "filter-1",
+      "filter-2",
+      "filter-3",
+      "filter-face",
+      "fusible-link",
+      "gas-reset-early",
+      "gas-valve",
+      "greasy-rag-pile",
+      "hood-fan",
+      "nozzle-cap",
+      "nozzle-good",
+      "pull-station",
+      "service-tag",
+      "spare-filter",
+      "tank-gauge",
+      "wash-station",
+      "wrong-extinguisher"
+    ],
+    "meshes": 137
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Confirm the fire department's semi-annual service date on the hood's tag.",
+      "id": "tag-check",
+      "kind": "select",
+      "prompt": "Confirm the fire department's semi-annual service date on the hood's tag.",
+      "target": "service-tag",
+      "title": "Read the inspection tag",
+      "why": "NFPA 96 requires this system serviced at least twice a year by a certified company, and the tag hanging on the manifold is the only proof of when that last happened — an inspection built on a system that is already overdue for service is checking the wrong thing first. The hood and duct assembly itself is NSF-listed for this exact application, and that listing is worth nothing if the suppression system riding on it has lapsed."
+    },
+    {
+      "cue": "Hold the anemometer at the filter face and keep the reading steady in the required capture band.",
+      "holdBreakNote": "Reading dropped out of band. A hood that cannot hold capture velocity at the filter face is not actually catching everything it is supposed to — reset and hold it steady.",
+      "id": "fan-draw",
+      "kind": "track",
+      "prompt": "Hold the anemometer at the filter face and keep the reading steady in the required capture band.",
+      "seconds": 5,
+      "target": "filter-face",
+      "title": "Check the exhaust draw at the filter face",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.42,
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "FILTER FACE — CAPTURE VELOCITY",
+        "rise": 0.5,
+        "start": 0.15
+      },
+      "why": "A Type I hood only protects the room if the air it is supposed to capture is actually moving up through the filters at the rate the system was designed around; a weak draw here means smoke and grease-laden air are already slipping past the canopy edge before anything else in this inspection even starts."
+    },
+    {
+      "cue": "Left to right: pull each filter, check its grease loading, and reseat it in the correct orientation.",
+      "id": "filter-pull",
+      "itemNames": {
+        "filter-1": "left baffle filter",
+        "filter-2": "centre baffle filter",
+        "filter-3": "right baffle filter"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Left to right — take them in the order they hang so none gets skipped on a busy line.",
+      "prompt": "Left to right: pull each filter, check its grease loading, and reseat it in the correct orientation.",
+      "targets": [
+        "filter-1",
+        "filter-2",
+        "filter-3"
+      ],
+      "title": "Pull, check and reseat the baffle filters",
+      "why": "A baffle filter only works with its drain groove facing down and its baffles angled the way the manufacturer built them — reseated backward, grease that should run off into the collection cup instead pools on top of the filter, which is fuel sitting exactly where the fire would want it."
+    },
+    {
+      "cue": "Two things on this manifold are not ready. Find them.",
+      "decoyNotes": {
+        "nozzle-good": "That nozzle's cap is seated correctly. Leave it."
+      },
+      "id": "defect-walk",
+      "itemNames": {
+        "fusible-link": "the corroded fusible link",
+        "nozzle-cap": "the nozzle missing its blow-off cap"
+      },
+      "itemNotes": {
+        "fusible-link": "This link has gone dark and pitted rather than bright metal. A corroded link can fuse at the wrong temperature or not at all, and it is a service item, not something wiped clean and left in place.",
+        "nozzle-cap": "This nozzle has no protective cap. Left open, grease and cooking residue drift straight into the orifice and clog it, so the one nozzle that is supposed to discharge over this appliance is the one that will not."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Two things on this manifold are not ready. Find them.",
+      "targets": [
+        "fusible-link",
+        "nozzle-cap"
+      ],
+      "title": "Walk the wet-chemical manifold",
+      "why": "A fusible link and a nozzle cap both fail quietly — nothing about either one looks urgent from across the kitchen — and the only way this system discharges where and when it is supposed to is if every link and every nozzle on the manifold is confirmed, not assumed, before the tag gets signed."
+    },
+    {
+      "cue": "Hold at the manual pull station while you confirm nothing blocks the sightline or the approach to it.",
+      "holdBreakNote": "You stepped off before confirming the path. A pull station is only as fast as the walk to it — finish checking the approach.",
+      "id": "path-clear",
+      "kind": "hold",
+      "prompt": "Hold at the manual pull station while you confirm nothing blocks the sightline or the approach to it.",
+      "seconds": 5,
+      "target": "pull-station",
+      "title": "Confirm the pull station's sightline and path",
+      "why": "A pull station three seconds away by sightline and ten seconds away around a stack of totes is a pull station that costs a kitchen the difference between a scorched hood and a working fire — NFPA 96 calls for it visible and reachable for exactly that reason, and reachable is something you confirm standing there, not something you assume from memory."
+    },
+    {
+      "cue": "Read the cylinder gauge and commit once it sits inside the charged band.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "WET CHEMICAL CYLINDER — PRESSURE",
+        "missNote": "Not in the charged band. A cylinder reading outside its service range does not discharge the way the system was engineered around — it gets tagged and serviced before anything else here matters.",
+        "speed": 0.6
+      },
+      "id": "tank-pressure",
+      "kind": "gauge",
+      "prompt": "Read the cylinder gauge and commit once it sits inside the charged band.",
+      "target": "tank-gauge",
+      "title": "Read the wet-chemical cylinder's pressure gauge",
+      "why": "The wet chemical only reaches every nozzle on the manifold at the pressure the system was designed for, and a cylinder that has slowly bled off charge over months of vibration and heat looks completely normal sitting on the wall — the gauge is the only thing that tells a full cylinder from an empty one from across the room."
+    },
+    {
+      "cue": "Turn the mechanical gas-shutoff lever through its travel and confirm it moves freely to its ready position.",
+      "id": "gas-interlock-check",
+      "kind": "turn",
+      "prompt": "Turn the mechanical gas-shutoff lever through its travel and confirm it moves freely to its ready position.",
+      "target": "gas-valve",
+      "title": "Test the gas interlock's free travel",
+      "turn": {
+        "axis": "z",
+        "label": "GAS INTERLOCK — ROUTINE CHECK",
+        "turns": 0.3
+      },
+      "why": "The gas interlock has exactly one job during a real discharge: close automatically the instant the system fires, with nothing in the mechanism binding on old grease or a corroded pivot. A routine check that moves it through its full travel by hand is the only way to find a sticking linkage before a fire finds it first."
+    },
+    {
+      "cue": "Confirm the Class K's gauge reads charged and it is hanging in its bracket by the range.",
+      "id": "class-k-check",
+      "kind": "select",
+      "prompt": "Confirm the Class K's gauge reads charged and it is hanging in its bracket by the range.",
+      "target": "class-k",
+      "title": "Check the Class K extinguisher",
+      "why": "OSHA's portable-extinguisher rule and NFPA 96 both expect a Class K within reach of the appliances it is rated for, charged and unobstructed — it is the tool a cook actually reaches for on a small fire the suppression system has not yet triggered on, and it is useless hanging empty or three stations away."
+    },
+    {
+      "cue": "Carry the heavily grease-loaded spare filter to the wash station.",
+      "drag": {
+        "missNote": "Not lined up with the wash station's sink yet — carry it the rest of the way.",
+        "radius": 0.5,
+        "to": "wash-station"
+      },
+      "id": "spare-filter",
+      "kind": "drag",
+      "prompt": "Carry the heavily grease-loaded spare filter to the wash station.",
+      "target": "spare-filter",
+      "title": "Send the spare filter to be washed",
+      "why": "A baffle filter that has gone from silver to solid black is carrying more grease than it can drain, and a heavily loaded filter is a documented NFPA 96 finding, not a cosmetic one — it goes to the sink for a real degrease, not back onto the rack the way it came off."
+    },
+    {
+      "cue": "Hold the ready position while the crew is walked through the drill: pull, gas closed, fan running, everyone out.",
+      "holdBreakNote": "Briefing broke off early. Finish walking the sequence before anyone moves — a drill nobody understood in advance is not a drill.",
+      "id": "drill-standby",
+      "kind": "hold",
+      "prompt": "Hold the ready position while the crew is walked through the drill: pull, gas closed, fan running, everyone out.",
+      "seconds": 4,
+      "target": "class-k",
+      "title": "Brief the crew on the drill sequence",
+      "why": "A drill run cold, with nobody having heard the sequence out loud first, is where a cook freezes on which control comes first — saying the four steps out loud before anyone touches anything is what makes the drill itself fast when it actually has to be."
+    },
+    {
+      "cue": "Pull the station, confirm the gas has closed, confirm the fan is still running, then evacuate.",
+      "id": "drill",
+      "itemNames": {
+        "exit-door": "exit",
+        "gas-valve": "gas shutoff",
+        "hood-fan": "hood fan — confirm running",
+        "pull-station": "manual pull station"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Wrong order — pull first, confirm the gas has closed, confirm the fan is still running, then evacuate. Nothing in this sequence is interchangeable.",
+      "prompt": "Pull the station, confirm the gas has closed, confirm the fan is still running, then evacuate.",
+      "targets": [
+        "pull-station",
+        "gas-valve",
+        "hood-fan",
+        "exit-door"
+      ],
+      "title": "Run the response drill",
+      "why": "This order is the entire drill: pulling the station is what closes the gas and drops the chemical, confirming the fan is still turning is what tells you the capture path is intact rather than shut down, and only then does anyone head for the door — reversing any two of these turns a controlled response into people leaving a live fire with the fuel supply still open."
+    },
+    {
+      "cue": "Record the corroded link and the missing nozzle cap in the log, then sign the inspection closed.",
+      "id": "log-close",
+      "kind": "select",
+      "prompt": "Record the corroded link and the missing nozzle cap in the log, then sign the inspection closed.",
+      "target": "defect-log",
+      "title": "Log the defects and close out the inspection",
+      "why": "The two defects found on the manifold do not fix themselves, and the log is what actually gets the certified service company back out here before the next semi-annual date — an inspection that finds a problem and writes nothing down is indistinguishable, six months from now, from one that never found it."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "The cook's-side hood inspection and the fire response: filters, fusible links, the pull station's clear path, and the drill itself",
+  "title": "SmartCiti.X~ Hood Suppression VR",
+  "trade": "Line cook / kitchen fire warden — UNITE HERE Local 2",
+  "underwater": null,
+  "weather": "clear"
+}

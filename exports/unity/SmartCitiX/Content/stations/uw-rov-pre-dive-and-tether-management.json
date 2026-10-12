@@ -1,0 +1,408 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "shroud-on-tether-clean",
+    "name": "Shroud On, Tether Clean",
+    "note": "The shroud bolted on before any call for power, the tether never flown over a snag, nothing carried by hand, and never flown on a frozen picture"
+  },
+  "category": "Maritime & Ports",
+  "certification": "Pile Drivers Local 34 commercial diver training under the UBC International Training Fund, cross-trained to field a tethered inspection ROV; OSHA 29 CFR 1910 Subpart T commercial diving operations — 29 CFR 1910.421 pre-dive procedures (equipment inspection and the team briefing) and 29 CFR 1910.422 procedures during the dive (communications) as they govern the dive team fielding the vehicle; ADCI International Consensus Standards for Commercial Diving and Underwater Operations; USCG 46 CFR 197 Subpart B where the work is worked from a vessel; depth, gas, bottom time and decompression per the dive plan and the tables the supervisor holds",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ADCI",
+        "citedAs": "ADCI",
+        "id": "adci-consensus-standards",
+        "title": "Association of Diving Contractors International — International Consensus Standards for Commercial Diving and Underwater Operations"
+      },
+      {
+        "body": "union",
+        "citedAs": "Pile Drivers",
+        "id": "carpenters-ictf",
+        "title": "United Brotherhood of Carpenters International Training Fund — carpenter, pile driver and millwright apprenticeship"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.421",
+        "id": "osha-1910-421",
+        "title": "29 CFR 1910.421 — Pre-dive procedures (emergency aid list, planning and assessment of the dive, hazardous activities nearby, the team briefing, equipment inspection and the warning signal)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.422",
+        "id": "osha-1910-422",
+        "title": "29 CFR 1910.422 — Procedures during the dive (water entry and exit, communications, decompression tables, power tools, termination of the dive)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910 Subpart T",
+        "id": "osha-1910-subpart-t",
+        "title": "29 CFR 1910 Subpart T — Commercial diving operations (dive team qualifications, the safe practices manual, pre-dive, during-dive and post-dive procedures, equipment and the dive record)"
+      },
+      {
+        "body": "USCG",
+        "citedAs": "46 CFR 197 Subpart B",
+        "id": "uscg-46-cfr-197-subpart-b",
+        "title": "46 CFR Part 197 Subpart B — Commercial diving operations from vessels and facilities under Coast Guard jurisdiction"
+      }
+    ]
+  },
+  "district": "bay-underwater",
+  "domain": "Maritime & Ports",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "shroud-first",
+        "name": "Shroud First",
+        "note": "Thruster shroud bolted on and checked before any call for power"
+      },
+      {
+        "id": "trim-true",
+        "name": "Trim True",
+        "note": "The ballast trim gauge read in the neutral band first time"
+      },
+      {
+        "id": "clean-transect",
+        "name": "Clean Transect",
+        "note": "Never a shroud left off, never the tether flown over a snag, never a tool carried by hand, never flown on a frozen picture"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-launch",
+        "name": "Clean Launch",
+        "note": "No corrections from the splash report to the recall"
+      },
+      {
+        "id": "steady-transect",
+        "name": "Steady Transect",
+        "note": "The guideline flown in band the whole way"
+      },
+      {
+        "id": "recalled-in-time",
+        "name": "Recalled In Time",
+        "note": "The vehicle docked and logged inside 80% of par"
+      }
+    ],
+    "currency": "SPOOL",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "ROV Tender",
+      "ROV Technician",
+      "ROV Pilot",
+      "Lead ROV Pilot",
+      "ROV Pre-Dive Certified"
+    ],
+    "system": "ROV Pre-Dive"
+  },
+  "hazards": {
+    "carry-tool-by-hand": "You picked up the spare prop tool to carry it up to the stage instead of clipping it to the downline. A tool carried loose in a fouled or startled hand becomes a falling object nobody below can see coming, and on a transect that is exactly where the camera is pointed and the tender's hands are busy. Everything that is not clipped to the downline stays on the stage until it is.",
+    "fly-blind-signal-loss": "You kept flying the vehicle forward when the video feed broke up into blocks and froze. A pilot who keeps flying on a broken picture is steering blind into whatever is ahead of the vehicle — a pile, a crossing line, another diver — while the tether keeps paying out the whole time on a course nobody can see. When the picture goes, you stop and hold position until it clears or the dive is ended.",
+    "power-no-shroud": "You called for power with the thruster shroud still sitting unbolted on the stage. The shroud is what keeps fingers, drifting line and the tether's own loops out of a spinning prop, and a vehicle powered up with it off turns the first loose loop near the stern into a jam or a cut line. The shroud goes on and is checked before anyone calls for power, not after.",
+    "tether-over-rebar": "You flew the vehicle straight across the exposed rebar cage instead of round it. The tether trails behind the ROV as it swims, and a straight line over a snag drapes the tether across the rebar on the way out; the next turn draws it tight and the tender feels a tether that will not pay out cleanly, or worse, one that has to be cut. Fly wide of anything that can catch the tether — going round costs seconds, going through costs the dive."
+  },
+  "id": "uw-rov-pre-dive-and-tether-management",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "fly-guideline",
+      "alert": "The tether has caught on something behind the vehicle — you can feel the drag through the reel and the vehicle is being pulled off its line.",
+      "cue": "Stop the vehicle, ease back to unload the tether, then clear it at the tether-clear point before flying on.",
+      "delay": 2,
+      "id": "tether-snag-guideline",
+      "kind": "Tether snags on debris mid-transect",
+      "missNote": "You kept flying forward against the snag; the tether came up bar-taut and the tender felt it part at the reel before you ever saw what had caught it.",
+      "seconds": 14,
+      "target": "tether-clear-point",
+      "why": "A tether under load from a snag only gets tighter if the vehicle keeps flying forward, and a tether pulled hard enough can part or drag the snag itself into the thrusters. Easing back unloads the line so it can be worked free at the clear point, which is the tender's job as much as the pilot's — the pilot's half is to stop pulling against it the moment the drag is felt.",
+      "wrongNote": "The tether-clear point — ease back to unload the line and clear it there before flying on."
+    },
+    {
+      "after": "hold-for-payout",
+      "alert": "The monitor has frozen on a single frame — no new picture and no answer on the video line.",
+      "cue": "Call it dead picture on the comms and press the signal reset at the topside panel before flying anywhere.",
+      "delay": 2,
+      "id": "video-freeze",
+      "kind": "ROV video feed freezes",
+      "missNote": "You kept the vehicle moving on the frozen frame; by the time the picture caught up, the vehicle had drifted well off the guideline with nobody able to see where.",
+      "seconds": 14,
+      "target": "signal-reset",
+      "why": "A frozen picture looks like a working one until the vehicle moves and the frame does not, and a pilot who trusts a frozen frame is flying on a picture of somewhere the vehicle already left. The signal reset is topside's fix, not the pilot's, so the pilot's job is to say so on the comms and hold still until the reset brings a live picture back.",
+      "wrongNote": "The signal reset at the topside panel — call it dead picture and wait for a live frame before flying on."
+    }
+  ],
+  "lateNotes": {
+    "camera-panel": "The white balance is checked once the vehicle has power and its lights are lit — not on a dark lens.",
+    "guide-line": "The guideline is flown once the trim gauge reads neutral — not before the vehicle is proven to hover level.",
+    "hold-for-payout": "Position is held for the tender's payout once the route hazards have been found and marked."
+  },
+  "name": "ROV Pre-Dive & Tether Management",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "bay-area-union-edition"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "camera-panel",
+      "carry-tool-by-hand",
+      "clip-toolbag",
+      "coil-line",
+      "fly-blind-signal-loss",
+      "ghost-net-snag",
+      "guide-line",
+      "hold-for-payout",
+      "power-no-shroud",
+      "power-switch-call",
+      "rebar-cage",
+      "rov-body",
+      "rov-comms",
+      "shroud-bolt-loose",
+      "shroud-mount",
+      "shroud-panel",
+      "signal-reset",
+      "stage-checkin",
+      "stage-dock",
+      "tether-chafe-mark",
+      "tether-clear-point",
+      "tether-drag-knob",
+      "tether-over-rebar",
+      "trim-gauge"
+    ],
+    "meshes": 169
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Call the supervisor: vehicle designator, splashed and on the stage, starting the pre-dive function check before anything is powered.",
+      "id": "report-splash",
+      "kind": "select",
+      "prompt": "Call the supervisor: vehicle designator, splashed and on the stage, starting the pre-dive function check before anything is powered.",
+      "target": "rov-comms",
+      "title": "Report the splash and start the function check",
+      "why": "The supervisor at the panel can see the tether's spool count but not the vehicle itself, and the splash report is how the surface learns the check is starting and the vehicle is still on the stage, not yet in the water column. It is also the comms check that proves the voice circuit works before the ROV goes anywhere on its own tether, so a lost signal later is a real fault, not an unproven line."
+    },
+    {
+      "cue": "Walk the vehicle and the tether by eye before touching a switch: the shroud bolts, the strain relief, the thruster ports, the camera dome.",
+      "id": "visual-precheck",
+      "itemNames": {
+        "shroud-bolt-loose": "thruster shroud bolt sitting loose in its hole",
+        "tether-chafe-mark": "chafed patch on the tether near the strain relief"
+      },
+      "itemNotes": {
+        "shroud-bolt-loose": "One of the four bolts holding the thruster shroud is barely started, the shroud rocking free on that corner.",
+        "tether-chafe-mark": "A worn bright patch on the tether's jacket a hand's width from the strain-relief cone, where it has been riding against a stage rail."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the vehicle and the tether by eye before touching a switch: the shroud bolts, the strain relief, the thruster ports, the camera dome.",
+      "targets": [
+        "shroud-bolt-loose",
+        "tether-chafe-mark"
+      ],
+      "title": "Find what needs fixing before anything is powered",
+      "why": "A function check exists to find the fault on the stage, in the light, with both hands free — not on the transect with the vehicle in the water and the tender feeling something wrong on the spool. A loose shroud bolt and a chafed tether are exactly the two faults that turn into an entanglement or a parted tether once the vehicle is swimming, and both are fixed in a minute here."
+    },
+    {
+      "cue": "Coil the stray line lying on the stage deck first, then clip the spare-parts bag onto the downline's travelling clip.",
+      "id": "stow-tools-then-clip",
+      "itemNames": {
+        "clip-toolbag": "spare-parts bag clipped to the downline",
+        "coil-line": "loose line on the stage coiled and stowed"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order — coil the loose line off the deck first, then clip the bag to the downline; clipping the bag over loose line just traps it.",
+      "prompt": "Coil the stray line lying on the stage deck first, then clip the spare-parts bag onto the downline's travelling clip.",
+      "targets": [
+        "coil-line",
+        "clip-toolbag"
+      ],
+      "title": "Coil the loose line, then clip the tool bag to the downline",
+      "why": "A stage with loose line and an unclipped bag on it is a stage the vehicle has to lift off of, and either one can catch a skid or a thruster on the way up. The line is coiled first because a bag clipped over a loose line just traps the line under it; only once the deck is clear does the bag go on the downline, where it goes up and down with the stage instead of by hand."
+    },
+    {
+      "cue": "Take the shroud panel off the rack and seat it onto the thruster mount, square to the ring, before it is bolted up.",
+      "drag": {
+        "missNote": "Not seated on the mount — the shroud has to sit square on the thruster ring before it is bolted.",
+        "radius": 0.5,
+        "to": "shroud-mount"
+      },
+      "id": "secure-shroud",
+      "kind": "drag",
+      "prompt": "Take the shroud panel off the rack and seat it onto the thruster mount, square to the ring, before it is bolted up.",
+      "target": "shroud-panel",
+      "title": "Bolt the thruster shroud onto its mount",
+      "why": "The shroud is the one part of the vehicle that stands between a spinning prop and whatever drifts, floats or trails near the stern — line, a diver's glove, the tether's own bight. It is seated square to the mount and bolted up before the vehicle is powered, because a shroud fitted after the call for power is a shroud fitted next to a live thruster."
+    },
+    {
+      "cue": "Turn the reel's drag knob until the tether pays out under a steady hand tension — not so loose it free-spools, not so tight it drags the vehicle back.",
+      "id": "set-tether-drag",
+      "kind": "turn",
+      "prompt": "Turn the reel's drag knob until the tether pays out under a steady hand tension — not so loose it free-spools, not so tight it drags the vehicle back.",
+      "target": "tether-drag-knob",
+      "title": "Set the tether reel's drag",
+      "turn": {
+        "label": "TETHER DRAG",
+        "turns": 0.6
+      },
+      "why": "The drag is what keeps the tether from piling up in loose loops that catch on everything, or from going so stiff it hauls the vehicle off its line the moment it turns. Set once on the stage before the transect, it is the difference between a tether the tender can feel and manage and one that either buries itself in slack or fights the pilot the whole way out."
+    },
+    {
+      "cue": "Watch the trim gauge as the ballast settles and commit the reading once the needle holds in the neutral band.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "TRIM",
+        "speed": 0.7
+      },
+      "id": "trim-check",
+      "kind": "gauge",
+      "prompt": "Watch the trim gauge as the ballast settles and commit the reading once the needle holds in the neutral band.",
+      "target": "trim-gauge",
+      "title": "Read the trim gauge for neutral buoyancy",
+      "why": "A vehicle trimmed heavy fights its own thrusters to hold depth and burns power it needs for the transect; trimmed light, it noses up and drags the tether across whatever is over it. Neutral trim, read and confirmed on the stage before flight, is what lets the pilot hold a level track over the guideline instead of fighting pitch the whole way out."
+    },
+    {
+      "cue": "Hold the calibration card square in front of the camera dome and keep it steady while the supervisor sets the white balance from topside.",
+      "holdBreakNote": "The card moved out of frame before the calibration finished — hold it square to the lens until the supervisor confirms.",
+      "id": "camera-check",
+      "kind": "hold",
+      "prompt": "Hold the calibration card square in front of the camera dome and keep it steady while the supervisor sets the white balance from topside.",
+      "seconds": 4,
+      "target": "camera-panel",
+      "title": "Hold the white card for the camera's white balance",
+      "why": "Bay water shifts everything the camera sees toward green, and a picture set up on the wrong white balance reads a sound weld as corroded or a clean patch as stained; the card gives the camera one true white to set against before anything on the transect is judged by its colour. Holding it steady matters because a card that drifts out of frame partway through leaves the calibration only half done."
+    },
+    {
+      "cue": "With the shroud bolted and the check complete, call 'power on' and wait to hear it back from the tender at the panel.",
+      "id": "call-for-power",
+      "kind": "select",
+      "prompt": "With the shroud bolted and the check complete, call 'power on' and wait to hear it back from the tender at the panel.",
+      "target": "power-switch-call",
+      "title": "Call topside for power once the shroud is on",
+      "why": "The vehicle's thrusters only turn once topside answers this call, and the call is made deliberately, after the shroud and the pre-check, not as a reflex once the stage looks ready. Waiting to hear the answer back matters as much as the call itself — a power call nobody acknowledged is a thruster state nobody actually knows."
+    },
+    {
+      "cue": "Fly the vehicle out along the guideline holding a steady altitude off the bottom — not so low the skids drag silt, not so high the camera loses the line.",
+      "holdBreakNote": "The altitude broke out of band — too low into the silt or too high off the line. Settle back onto the guideline and hold it level.",
+      "id": "fly-guideline",
+      "kind": "track",
+      "prompt": "Fly the vehicle out along the guideline holding a steady altitude off the bottom — not so low the skids drag silt, not so high the camera loses the line.",
+      "seconds": 6,
+      "target": "guide-line",
+      "title": "Fly the guideline at a level altitude",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.46,
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "ALTITUDE OFF BOTTOM",
+        "rise": 0.56,
+        "start": 0.14
+      },
+      "why": "The transect is only useful if the vehicle holds a level, steady altitude the whole way, because a track that porpoises up and down misses whatever sits just above or below its camera's line of sight. Too low and the thrusters stir the silt into the same cloud a diver's fins would raise; too high and the guideline itself drops out of frame, and the pilot is flying on the tether's feel instead of the picture."
+    },
+    {
+      "cue": "Watch ahead of the vehicle for anything that could catch the tether or the shroud: rebar, netting, cable, anything standing up off the bottom.",
+      "id": "route-hazards",
+      "itemNames": {
+        "ghost-net-snag": "derelict net snagged on an old pile stub",
+        "rebar-cage": "exposed rebar cage crossing the route"
+      },
+      "itemNotes": {
+        "ghost-net-snag": "A tangle of derelict netting caught on a pile stub just off the line, billowing in the current and reaching for anything that swims close.",
+        "rebar-cage": "A cage of bent reinforcing bar standing proud of the silt right across the guideline's path — a tether snag and a hull scrape both."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Watch ahead of the vehicle for anything that could catch the tether or the shroud: rebar, netting, cable, anything standing up off the bottom.",
+      "targets": [
+        "rebar-cage",
+        "ghost-net-snag"
+      ],
+      "title": "Find the snags along the route before flying past them",
+      "why": "The whole point of flying wide of a snag is knowing it is there before the tether is already past it, and a route hazard spotted early is one the pilot can fly around with room to spare. Both of these are logged for the next transect too, because the same rebar and the same net will be exactly where they are the next time a vehicle or a diver comes down this line."
+    },
+    {
+      "cue": "Hold the vehicle steady at the far end of the guideline while the tender pays out fresh tether for the return leg — do not drift off the line.",
+      "holdBreakNote": "You drifted off the line during the payout — the tender lost the feel of the tether. Come back onto the guideline and hold still again.",
+      "id": "hold-for-payout",
+      "kind": "hold",
+      "prompt": "Hold the vehicle steady at the far end of the guideline while the tender pays out fresh tether for the return leg — do not drift off the line.",
+      "seconds": 5,
+      "target": "hold-for-payout",
+      "title": "Hold position while the tender pays out slack",
+      "why": "The tender manages the tether by feel, and that only works if the vehicle holds still while slack is paid out; a pilot who keeps flying during the payout gives the tender a moving target and a tether that comes out uneven, bunched in one place and taut in another. Holding here is the same discipline as a diver holding for a read-back — the surface crew's half of the job only works if your half stays still."
+    },
+    {
+      "cue": "Fly the vehicle back along the guideline and set it down onto the stage dock, skids square to the marks.",
+      "drag": {
+        "missNote": "Not docked — bring the vehicle back along the guideline and set it square on the stage marks.",
+        "radius": 0.5,
+        "to": "stage-dock"
+      },
+      "id": "recall-rov",
+      "kind": "drag",
+      "prompt": "Fly the vehicle back along the guideline and set it down onto the stage dock, skids square to the marks.",
+      "target": "rov-body",
+      "title": "Recall the vehicle and dock it on the stage",
+      "why": "The vehicle is flown back the way it came so the tether pays back in over ground it has already crossed clean, rather than cutting a new path that could find a snag the outbound leg missed. Docked square on the marks, it sits stable for the shutdown and the next team's launch, instead of teetering on one skid at the stage edge."
+    },
+    {
+      "cue": "Tell the supervisor: the shroud bolt and the chafed tether found and fixed, the rebar cage and the net logged, and the picture that froze mid-transect.",
+      "id": "report-findings",
+      "kind": "select",
+      "prompt": "Tell the supervisor: the shroud bolt and the chafed tether found and fixed, the rebar cage and the net logged, and the picture that froze mid-transect.",
+      "target": "rov-comms",
+      "title": "Report the transect findings to the supervisor",
+      "why": "The dive log and the next crew's brief are both written from what gets reported now, while the pilot can still describe exactly where the rebar sits and how long the picture was out. A fault found and fixed on the stage still belongs in the report, because the next tech checking this vehicle needs to know that shroud bolt has worked loose before."
+    },
+    {
+      "cue": "With the vehicle shut down and clipped to the stage, tell the supervisor how the transect went — the snag on the tether and the frozen picture — and wait for the call to strike the gear.",
+      "id": "check-in-secure",
+      "kind": "select",
+      "prompt": "With the vehicle shut down and clipped to the stage, tell the supervisor how the transect went — the snag on the tether and the frozen picture — and wait for the call to strike the gear.",
+      "target": "stage-checkin",
+      "title": "Check in and secure the vehicle",
+      "why": "Powering the vehicle down and clipping it off is only half of securing it; the other half is the pilot saying out loud how the dive actually went. A tether that snagged and had to be worked free, and a picture that froze while you kept flying blind for a moment before you caught it, are both worth a real answer here, with the Pile Drivers Local 34 member assistance line behind whatever the debrief does not settle."
+    }
+  ],
+  "supportLine": "your union hall's member assistance programme — Pile Drivers Local 34 — with the employer's employee assistance line behind it",
+  "tagline": "Before the vehicle ever swims: splash reported, the loose shroud bolt and the chafed tether found, the loose line coiled and the tool bag clipped off before the shroud goes on, the drag set on the reel, the trim gauge read neutral, the white card held for the camera, power called only once the shroud is on, the guideline flown out past a rebar cage and a ghost net while the tether snags and the picture freezes, position held for the tender's payout, and the vehicle recalled, docked and logged",
+  "title": "SmartCiti.X~ ROV Pre-Dive & Tether Management VR",
+  "trade": "ROV technician, a Pile Drivers Local 34 commercial diver cross-trained to fly a small inspection-class ROV on its own tether at a Bay worksite, with a tender minding the ROV's tether and the diver's umbilical, a supervisor on the comms and a standby diver dressed to recover the vehicle by hand",
+  "underwater": {
+    "bottomTimeSeconds": 600,
+    "depthLabel": "Per dive plan"
+  },
+  "weather": "clear"
+}

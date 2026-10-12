@@ -1,0 +1,420 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "row-returned",
+    "name": "Row Returned",
+    "note": "A tracker row locked out, its bearing replaced, swept clean through its range and returned to production with the lock removed last"
+  },
+  "category": "Energy & Power",
+  "certification": "IBEW outside line and solar technicians; NFPA 70 (NEC) Article 690 photovoltaic systems; OSHA 29 CFR 1910.147 control of hazardous energy for the combiner lockout; NFPA 70E electrical safety in the workplace; NABCEP PV commissioning and maintenance practice",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "IBEW",
+        "id": "ibew-neca-jatc",
+        "title": "IBEW/NECA Joint Apprenticeship and Training Committee — inside and outside wireman apprenticeship standards, taught from the electrical training ALLIANCE curriculum"
+      },
+      {
+        "body": "NABCEP",
+        "citedAs": "NABCEP",
+        "id": "nabcep-pv",
+        "title": "NABCEP PV Installation Professional certification"
+      },
+      {
+        "body": "NEC/NFPA 70",
+        "citedAs": "NEC",
+        "id": "nec-nfpa-70",
+        "title": "NFPA 70 — National Electrical Code"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 70E",
+        "id": "nfpa-70e",
+        "title": "NFPA 70E — Standard for Electrical Safety in the Workplace"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      }
+    ]
+  },
+  "district": "open-range",
+  "domain": "Energy",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "locked-first",
+        "name": "Locked First",
+        "note": "The combiner locked and proven dead before the manual override ever turned"
+      },
+      {
+        "id": "torque-held",
+        "name": "Torque Held",
+        "note": "Held the bearing bolt torque the full count"
+      },
+      {
+        "id": "sweep-clean",
+        "name": "Sweep Clean",
+        "note": "The function test held in band the whole sweep"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-row",
+        "name": "Clean Row",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "row-fast",
+        "name": "Row Fast",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "tech-streak",
+        "name": "Tech Streak",
+        "note": "Eight correct actions in a row"
+      }
+    ],
+    "currency": "WATT",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Field Tech",
+      "Solar Technician",
+      "Lead Technician",
+      "Site Supervisor",
+      "Array Certified"
+    ],
+    "system": "Array Command"
+  },
+  "hazards": {
+    "crank-tracker-before-lockout": "You reached for the manual override before the combiner was locked out. A tracker's drive is exactly the kind of load a control signal can re-energize without warning, and turning the row by hand while that circuit is still live is how a hand or an arm ends up in the drive train at the one moment nobody was expecting it to move on its own.",
+    "reach-into-pinch-point": "You reached into the bearing mount while the row could still move. The torque tube's pivot is a running pinch point on any tracker that has not been proven locked out, and a hand placed there assumes a promise the row has not actually made yet.",
+    "remove-lock-before-torque-complete": "You reached for your lock before the bearing bolts were torqued to spec. Pulling your own lockout before the mechanical work is actually finished puts the row back in service on a bearing that is still loose, which is the exact failure this service call exists to prevent in the first place.",
+    "touch-live-combiner-terminals": "You reached into the combiner before the meter confirmed zero energy. A string combiner carries DC from every panel in the row at once, and DC does not self-interrupt at a gap the way AC can — a hand across live terminals is a sustained path, not a brief shock, until the fault clears itself through the person holding it."
+  },
+  "id": "or-solar-farm-tracker-row-maintenance",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "bearing-drag",
+      "alert": "There's a snake coiled up in the shade right under the next module, close to where your hand was about to go.",
+      "cue": "Step back. Do not reach near it — let it move off on its own or call it in.",
+      "delay": 3,
+      "id": "snake-in-the-row",
+      "kind": "A snake in the row",
+      "missNote": "A hand went back toward the bearing with the snake still coiled right there. Whatever it decided to do about that hand was never something anyone on this crew got to choose.",
+      "seconds": 12,
+      "target": "snake-standoff",
+      "why": "A snake sheltering under a cool panel edge on open range is not something to move past with a hand near where it is coiled — backing off and giving it room is what actually works here, not a decision made at arm's length about how far away is far enough while the tool in your other hand is still reaching for the bearing.",
+      "wrongNote": "Step back from the row — the bearing waits, the snake does not care that you're on a schedule."
+    },
+    {
+      "after": "torque-bearing",
+      "alert": "Your partner just said they feel dizzy and a little sick, out here on the open row with the panels radiating the afternoon heat back at both of you.",
+      "cue": "Stop the task. Get them to shade and call it in per the heat-illness prevention plan.",
+      "delay": 3,
+      "id": "heat-illness-symptom",
+      "kind": "Heat-illness symptoms",
+      "missNote": "The bearing got finished before anyone stopped for the dizziness. Heat illness gets worse while the task in front of somebody keeps feeling more urgent than it is, which is exactly the moment the plan says to stop trusting that feeling.",
+      "seconds": 12,
+      "target": "cooldown-call",
+      "why": "Early heat-illness signs are the plan's own trigger to stop, not a symptom to push through until the row is finished — the response is shade, water and a call, per the site's heat-illness prevention plan, made the moment the symptom is reported rather than after the bearing is torqued.",
+      "wrongNote": "It is your partner, not the bearing — stop, get them to shade, and call it in."
+    }
+  ],
+  "lateNotes": {},
+  "name": "Solar Tracker Row Maintenance",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "energy-transition"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.8,
+    "hits": [
+      "bearing-mount",
+      "checkin-board",
+      "clean-panel-face",
+      "combiner-disconnect-closed",
+      "combiner-disconnect-open",
+      "conditions-board",
+      "cooldown-call",
+      "crank-tracker-before-lockout",
+      "damaged-conduit",
+      "dc-meter",
+      "hard-hat",
+      "insulated-gloves",
+      "lockout-tag-applied",
+      "lockout-tag-removed",
+      "log-bearing",
+      "log-fault",
+      "log-sweep",
+      "loose-module-clamp",
+      "manual-override",
+      "personal-lock-applied",
+      "personal-lock-removed",
+      "reach-into-pinch-point",
+      "remove-lock-before-torque-complete",
+      "slew-bearing",
+      "snake-standoff",
+      "spare-bearing",
+      "test-control",
+      "torque-wrench",
+      "touch-live-combiner-terminals",
+      "voltage-tester",
+      "work-order-board"
+    ],
+    "meshes": 169
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check the work order for the row number, the fault code and the bearing part number.",
+      "id": "work-order",
+      "kind": "select",
+      "prompt": "Check the work order for the row number, the fault code and the bearing part number.",
+      "target": "work-order-board",
+      "title": "Take the tracker-row service ticket",
+      "why": "The ticket is what turns a general 'the row isn't tracking right' into a specific, documented service call — the row number and the fault code are what a technician actually works from instead of guessing which bearing on a mile of tracker rows is the one that failed."
+    },
+    {
+      "cue": "Read today's heat and fire-weather outlook before starting the row, per the forecast.",
+      "id": "heat-weather-board",
+      "kind": "select",
+      "prompt": "Read today's heat and fire-weather outlook before starting the row, per the forecast.",
+      "target": "conditions-board",
+      "title": "Check the heat and fire-weather conditions",
+      "why": "Heat on open range with rows of dark panels radiating it back is a different day than the same forecast anywhere else on site, and the current outlook — not yesterday's — is what the crew's own heat-illness prevention plan sets its water and work/rest schedule against."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Insulated gloves, voltage tester, hard hat — staged before the first panel.",
+      "id": "ppe-sequence",
+      "itemNames": {
+        "hard-hat": "hard hat",
+        "insulated-gloves": "insulated gloves",
+        "voltage-tester": "voltage tester"
+      },
+      "kind": "sequence",
+      "prompt": "Insulated gloves, voltage tester, hard hat — staged before the first panel.",
+      "targets": [
+        "insulated-gloves",
+        "voltage-tester",
+        "hard-hat"
+      ],
+      "title": "Gear up before the row",
+      "why": "The gloves and the tester are what actually let a technician prove a DC circuit dead rather than assume it, and staging both before the first step of the isolation means neither one is a walk back to the truck once the combiner is already open."
+    },
+    {
+      "cue": "Walk the tracker row and click what needs fixing — two of them are here.",
+      "decoyNotes": {
+        "clean-panel-face": "That panel face is clean and undamaged — the find is for what's actually wrong on the row, not every panel in it."
+      },
+      "id": "row-walk-find",
+      "itemNames": {
+        "damaged-conduit": "damaged conduit",
+        "loose-module-clamp": "loose module clamp"
+      },
+      "itemNotes": {
+        "damaged-conduit": "Conduit worn through to the conductor is a second fault waiting on this row, found while it is still just conduit.",
+        "loose-module-clamp": "A module clamp backed off its torque is a panel that can lift and swing the first time wind gets under the edge of it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the tracker row and click what needs fixing — two of them are here.",
+      "targets": [
+        "damaged-conduit",
+        "loose-module-clamp"
+      ],
+      "title": "Walk the row before touching the combiner",
+      "why": "A walk of the row before the isolation starts is what catches a second fault — a chafed conduit, a loose clamp — before it becomes the reason for a second service call next week, on a row that is already open and already locked out today."
+    },
+    {
+      "cue": "Open the disconnect, apply your personal lock, then the tag — in that order.",
+      "id": "combiner-lockout",
+      "itemNames": {
+        "combiner-disconnect-open": "combiner disconnect opened",
+        "lockout-tag-applied": "lockout tag applied",
+        "personal-lock-applied": "personal lock applied"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Disconnect open first, then your lock, then the tag — a lock applied before the disconnect is open is a lock on a circuit that was never actually opened.",
+      "prompt": "Open the disconnect, apply your personal lock, then the tag — in that order.",
+      "targets": [
+        "combiner-disconnect-open",
+        "personal-lock-applied",
+        "lockout-tag-applied"
+      ],
+      "title": "Lock out the combiner",
+      "why": "The disconnect opens the circuit, but it is the lock that stops anyone else from closing it again while this row is open — applying the lock and the tag in order, right after the disconnect, is what turns an isolation someone else could still touch into one only this technician controls."
+    },
+    {
+      "cue": "Test the combiner terminals with the meter and commit once it reads zero.",
+      "gauge": {
+        "green": [
+          0,
+          0.08
+        ],
+        "label": "COMBINER DC VOLTAGE",
+        "missNote": "Still reading energized. Recheck the disconnect and every string before the manual override goes anywhere near the row.",
+        "speed": 0.62
+      },
+      "id": "verify-zero-energy",
+      "kind": "gauge",
+      "prompt": "Test the combiner terminals with the meter and commit once it reads zero.",
+      "target": "dc-meter",
+      "title": "Verify zero energy at the combiner",
+      "why": "The disconnect position is what should be true; the meter is what is actually true on these terminals right now, and OSHA 29 CFR 1910.147 accepts only the second one before anyone's hands go near the terminals — a disconnect that looks open can still leave a backfed string energized if a fault or a mis-wired combiner has done something the switch handle cannot show."
+    },
+    {
+      "cue": "Crank the manual override to bring the actuator mount to a working height.",
+      "id": "tracker-turn",
+      "kind": "turn",
+      "prompt": "Crank the manual override to bring the actuator mount to a working height.",
+      "target": "manual-override",
+      "title": "Turn the tracker to the service position",
+      "turn": {
+        "axis": "x",
+        "label": "MANUAL OVERRIDE",
+        "turns": 1.2
+      },
+      "why": "With the combiner locked and proven dead, the manual override is the only thing that should be moving this row now, and cranking it by hand — rather than trusting the drive to be safely off — is what a locked-out tracker is actually for."
+    },
+    {
+      "cue": "Check the worn bearing race the fault code pointed to.",
+      "id": "actuator-inspect",
+      "kind": "select",
+      "prompt": "Check the worn bearing race the fault code pointed to.",
+      "target": "slew-bearing",
+      "title": "Inspect the slew bearing",
+      "why": "Confirming the specific bearing against the fault code before pulling anything apart is what keeps this service call to the one part that actually failed, instead of a row put back together with a guess still inside it."
+    },
+    {
+      "cue": "Carry the new bearing from the truck to the actuator mount.",
+      "drag": {
+        "missNote": "Not seated at the mount — a bearing set down beside it still has to be carried the rest of the way before anything can be torqued.",
+        "radius": 0.5,
+        "to": "bearing-mount"
+      },
+      "id": "bearing-drag",
+      "kind": "drag",
+      "prompt": "Carry the new bearing from the truck to the actuator mount.",
+      "target": "spare-bearing",
+      "title": "Carry the replacement bearing to the mount",
+      "why": "The new bearing has to actually be at the mount, seated and ready, before the old one comes off — the row sits open and locked out for exactly as long as this changeout takes, and a part still on the truck is time the row spends open for no reason."
+    },
+    {
+      "cue": "Hold the wrench to the click on every bolt.",
+      "holdBreakNote": "Released before the click — that bolt is not at spec. Set it again rather than trust how it felt.",
+      "id": "torque-bearing",
+      "kind": "hold",
+      "prompt": "Hold the wrench to the click on every bolt.",
+      "seconds": 4,
+      "target": "torque-wrench",
+      "title": "Torque the new bearing to spec",
+      "why": "A slew bearing under-torqued works itself loose under the row's own daily sweep long before anyone is back out to check it, and the click is the only proof the bolt is actually at spec rather than just tight by feel."
+    },
+    {
+      "cue": "Tag off, then your lock, then close the disconnect — the exact reverse of how it went on.",
+      "id": "remove-lockout",
+      "itemNames": {
+        "combiner-disconnect-closed": "combiner disconnect closed",
+        "lockout-tag-removed": "lockout tag removed",
+        "personal-lock-removed": "personal lock removed"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Tag off, then your lock, then the disconnect closed last — closing the disconnect before the lock and tag are off puts the row back live while it still reads as isolated.",
+      "prompt": "Tag off, then your lock, then close the disconnect — the exact reverse of how it went on.",
+      "targets": [
+        "lockout-tag-removed",
+        "personal-lock-removed",
+        "combiner-disconnect-closed"
+      ],
+      "title": "Remove the lockout, in reverse",
+      "why": "Removing the lockout in the reverse of the order it went on means the row is never live while it is still tagged, and the disconnect is the very last thing touched — the same discipline that kept everyone else out during the work is what confirms the work is actually finished before power comes back."
+    },
+    {
+      "cue": "Hold the sweep rate steady in the band while the row cycles through its full range.",
+      "holdBreakNote": "Sweep rate out of band — too fast to actually see a bind, or slow enough to stall the actuator. Bring it back and hold through the full range.",
+      "id": "function-test",
+      "kind": "track",
+      "prompt": "Hold the sweep rate steady in the band while the row cycles through its full range.",
+      "seconds": 7,
+      "target": "test-control",
+      "title": "Sweep the row and watch for binding",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.46,
+        "green": [
+          0.38,
+          0.6
+        ],
+        "label": "SWEEP RATE",
+        "rise": 0.5,
+        "start": 0.15
+      },
+      "why": "The bearing is only proven fixed by watching it move — a slow, steady sweep through the row's full range is what actually shows a technician a bind or a catch the new bearing might still have, in a way a torque reading alone never will."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Write the fault code, the bearing swap and the function test into the service log.",
+      "id": "closing-log",
+      "itemNames": {
+        "log-bearing": "bearing swap logged",
+        "log-fault": "fault code logged",
+        "log-sweep": "function test logged"
+      },
+      "kind": "sequence",
+      "prompt": "Write the fault code, the bearing swap and the function test into the service log.",
+      "targets": [
+        "log-fault",
+        "log-bearing",
+        "log-sweep"
+      ],
+      "title": "Log the service call",
+      "why": "The log is what tells the site's asset management system this row is actually back in production on a proven bearing, and what saves the next technician on this row from re-diagnosing a fault this call already closed out."
+    },
+    {
+      "cue": "Ask how your partner is doing after the snake and the heat-illness scare, not just whether the row is back up.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Ask how your partner is doing after the snake and the heat-illness scare, not just whether the row is back up.",
+      "target": "checkin-board",
+      "title": "Check in after the snake and the heat",
+      "why": "A shift that includes both a rattlesnake in the row and a partner showing early heat-illness signs asks more of a crew than an ordinary bearing swap does, and checking in on that, out loud, is what keeps it from being the thing nobody mentions at the end of the day."
+    }
+  ],
+  "supportLine": "the IBEW local's member assistance programme and the site's own heat-illness prevention plan contact",
+  "tagline": "A tracker row serviced under a real combiner lockout: zero energy proven before the manual override turns the row, a worn bearing found and replaced, the full sweep watched before sign-off, and a rattlesnake in the row handled without anyone reaching near it",
+  "title": "SmartCiti.X~ Solar Tracker Row Maintenance VR",
+  "trade": "Solar technician — IBEW",
+  "underwater": null,
+  "weather": "heat-haze"
+}

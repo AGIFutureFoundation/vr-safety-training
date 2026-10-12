@@ -1,0 +1,399 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "clean-hold",
+    "name": "Clean Hold",
+    "note": "A sample drawn to protocol, chain of custody unbroken, and the discharge held until the number came back — first time"
+  },
+  "category": "Maritime & Ports",
+  "certification": "Inlandboatmen's Union of the Pacific (IBU) and SIU — ship's side; ILWU marine clerks and AFSCME port state inspectors — the boarding team; IMO International Convention for the Control and Management of Ships' Ballast Water and Sediments (BWM Convention); U.S. Coast Guard ballast water management regulations, 33 CFR Part 151 Subpart D; California State Lands Commission's Marine Invasive Species Program (MISP); OSHA 29 CFR 1915 Subpart B enclosed and confined spaces",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFSCME",
+        "id": "afscme-training",
+        "title": "AFSCME member education and safety training for public-service and air-district members"
+      },
+      {
+        "body": "union",
+        "citedAs": "ILWU",
+        "id": "ilwu-pma-training",
+        "title": "ILWU-PMA joint training for longshore, crane and clerk work, and the Inlandboatmen's Union marine division"
+      },
+      {
+        "body": "IMO",
+        "citedAs": "BWM Convention",
+        "id": "imo-bwm",
+        "title": "IMO Ballast Water Management Convention"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1915",
+        "id": "osha-1915",
+        "title": "29 CFR 1915 — Occupational safety and health standards for shipyard employment"
+      },
+      {
+        "body": "union",
+        "citedAs": "SIU",
+        "id": "siu-paul-hall-center",
+        "title": "SIU — the Paul Hall Center for Maritime Training and Education's unlicensed mariner programmes"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Maritime & Ports",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "line-clean",
+        "name": "Line Clean",
+        "note": "Flushed and drew the sample without a single contaminated draw"
+      },
+      {
+        "id": "hold-kept",
+        "name": "Hold Kept",
+        "note": "Discharge never moved before the result was in, chain of custody never broken"
+      },
+      {
+        "id": "count-true",
+        "name": "Count True",
+        "note": "Indicative analysis and the flush both read inside the working band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-boarding",
+        "name": "Clean Boarding",
+        "note": "No corrections across the whole inspection"
+      },
+      {
+        "id": "hold-steady",
+        "name": "Hold Held Steady",
+        "note": "Discharge rate held at zero the whole wait"
+      },
+      {
+        "id": "cleared-fast",
+        "name": "Cleared Fast",
+        "note": "Boarding closed out inside 80% of par"
+      }
+    ],
+    "currency": "TANK",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Cadet",
+      "Third Engineer",
+      "Second Engineer",
+      "Chief Engineer",
+      "Port State Certified"
+    ],
+    "system": "Boarding Team"
+  },
+  "hazards": {
+    "break-coc": "You handed the sample off without sealing it and starting the chain of custody. A bottle nobody can account for between the manifold and the lab is a bottle a defensible enforcement action cannot use — under the California State Lands Commission's Marine Invasive Species Program, an unbroken chain is what makes the number mean something in a hearing, not just on a clipboard.",
+    "crack-cap-untested": "You cracked the sounding pipe cap without testing what was coming up through it. A ballast tank vents whatever atmosphere it built while it sat full — oxygen-deficient, sometimes worse — straight into your face the moment that cap comes off, and OSHA 1915 Subpart B treats that boundary as a space to be tested before it is opened, not after somebody already smelled something wrong.",
+    "discharge-early": "You let the discharge line open before the indicative result was back. Port state control under 33 CFR Part 151 exists precisely so a ship does not get to discharge ballast on its own schedule while an inspector is mid-sample — the hold stays on until the number clears the standard, not until somebody gets impatient waiting for it.",
+    "skip-flush": "You reached for the sample bottle before the line was flushed. Whatever sat in that line since the last cast is what shows up under the microscope — a stagnant plug of dead water reads nothing like the tank, and a count run on it is not an indicative analysis of anything, it is a number about the pipe."
+  },
+  "id": "ballast-water-sampling",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "flush",
+      "alert": "The isolation valve is weeping past its seat — a thin bead of water from the wrong side of the manifold is finding its way into the line you are flushing.",
+      "cue": "That valve is not holding. Reseat it before another drop of the flush goes through it.",
+      "delay": 3,
+      "id": "valve-passing",
+      "kind": "Isolation valve passing under flush",
+      "missNote": "The valve kept weeping through the rest of the flush and the sample drawn after it. Every count run on that bottle now includes water from a branch of the manifold the inspection was never supposed to touch, and there is no way to subtract it back out once the bottle is sealed.",
+      "seconds": 12,
+      "target": "isolation-valve",
+      "why": "A sample line is only as isolated as its weakest valve, and a seat passing even a little bit means the water reaching the cock is no longer only the tank under inspection — it is contaminated with whatever the rest of the manifold is carrying. Reseating it now means the flush and the draw that follows are still worth something; ignoring it means starting the whole cast over once somebody finally notices.",
+      "wrongNote": "It's the isolation valve. Nothing else on this manifold puts the sample point back on its own again."
+    },
+    {
+      "after": "hold-discharge",
+      "alert": "A crew member has the hatch dogs half off the ballast tank manhole aft of the sounding pipe — no permit posted, no attendant, no gas test run on that opening at all.",
+      "cue": "Stop them at the hatch before that cover comes the rest of the way off.",
+      "delay": 3,
+      "id": "tank-entry",
+      "kind": "Crew heading for the tank hatch without a permit",
+      "missNote": "The cover came off before anyone reached the hatch, and the crew member leaned in over an opening nobody had tested or permitted. Whatever that tank's atmosphere had built up while it sat sealed went straight past them with no attendant there to see it happen.",
+      "seconds": 12,
+      "target": "tank-hatch",
+      "why": "The manhole is a full entry into the same enclosed space the sounding pipe only vents from, and OSHA 1915 Subpart B does not care that the crew member only meant to look — an unpermitted opening into a space that has not been tested is exactly the exposure the permit system exists to catch before it happens, not after.",
+      "wrongNote": "It's the tank hatch aft of the sounding pipe. That is the opening about to come off unpermitted — nothing else on this deck stops it."
+    }
+  ],
+  "lateNotes": {
+    "discharge-rate": "The discharge is held only after the sample is away for analysis — there is nothing to hold a result against before that.",
+    "flush-line": "The line is flushed only after the sampling point is isolated. Flushing an unisolated line just proves the ship's piping works, not that the sample point is clean.",
+    "isolation-valve": "The sampling point is isolated before anything is flushed through it — an open system just draws whatever the ship's own pumps happen to be moving at the time.",
+    "sample-cock": "The sample is drawn only after the flush reads clean. A sample drawn mid-flush is still the old water, just moving faster."
+  },
+  "name": "Ballast Water Sampling",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "ports-maritime-ecology"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "analysis-bench",
+      "analysis-kit",
+      "analysis-meter",
+      "attendant-post",
+      "bottle-label",
+      "bottle-seal",
+      "break-coc",
+      "cap-cracked",
+      "coc-sign",
+      "crack-cap-untested",
+      "discharge-early",
+      "discharge-rate",
+      "flush-line",
+      "gas-test",
+      "isolation-valve",
+      "permit-post",
+      "pid-panel",
+      "sample-cock",
+      "sampling-record",
+      "skip-flush",
+      "spare-bottle-untagged",
+      "tank-hatch",
+      "type-approval-cert",
+      "voyage-record"
+    ],
+    "meshes": 214
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the ballast water record book and the ship's management plan against the voyage actually sailed.",
+      "id": "voyage-record",
+      "kind": "select",
+      "prompt": "Read the ballast water record book and the ship's management plan against the voyage actually sailed.",
+      "target": "voyage-record",
+      "title": "Check the record book and management plan against the voyage",
+      "why": "The BWM Convention requires both documents kept current for a reason: the record book says what was done to which tank and when, the management plan says what the ship is supposed to do, and the voyage sailed is the only thing either one can honestly be checked against. A plan that matches nothing sailed is a plan nobody is actually following."
+    },
+    {
+      "cue": "Confirm the treatment system aboard is the one on the certificate, approved to the D-2 discharge standard.",
+      "id": "certificate",
+      "kind": "select",
+      "prompt": "Confirm the treatment system aboard is the one on the certificate, approved to the D-2 discharge standard.",
+      "target": "type-approval-cert",
+      "title": "Check the treatment system's type-approval certificate",
+      "why": "A treatment system is only as good as the approval behind it — the certificate says an independent authority tested this exact system against the D-2 standard, not that the crew believes it works. A system running without that paper, or running a different unit than the one certified, has proven nothing about what it is putting overboard."
+    },
+    {
+      "cue": "Read the P&ID and find the correct sample cock for the tank under inspection — not just any valve on the manifold.",
+      "id": "sample-point",
+      "kind": "select",
+      "prompt": "Read the P&ID and find the correct sample cock for the tank under inspection — not just any valve on the manifold.",
+      "target": "pid-panel",
+      "title": "Identify the sampling point on the ballast piping diagram",
+      "why": "Ballast piping runs several tanks through one manifold, and a cock drawn from the wrong branch samples the wrong tank while looking exactly like the right one. The diagram is what says which cock actually represents the tank the record book claims was treated."
+    },
+    {
+      "cue": "Close the isolation valve on every branch but the one feeding the sample cock.",
+      "id": "isolate",
+      "kind": "turn",
+      "prompt": "Close the isolation valve on every branch but the one feeding the sample cock.",
+      "target": "isolation-valve",
+      "title": "Isolate the sampling point",
+      "turn": {
+        "axis": "y",
+        "label": "ISOLATION",
+        "turns": 1
+      },
+      "why": "An isolated sampling point draws only from the tank under inspection; left open to the rest of the manifold, the sample cock draws a mix of whatever else the ship's pumps are moving and the result belongs to no single tank at all."
+    },
+    {
+      "cue": "Crack the sample cock and hold the flow at a steady rate until the line reads clean.",
+      "holdBreakNote": "Flow dropped out of band before the line turned over — bring it back to a steady rate and keep flushing.",
+      "id": "flush",
+      "kind": "track",
+      "prompt": "Crack the sample cock and hold the flow at a steady rate until the line reads clean.",
+      "seconds": 6,
+      "target": "flush-line",
+      "title": "Flush the sample line",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.45,
+        "green": [
+          0.32,
+          0.5
+        ],
+        "label": "FLOW",
+        "rise": 0.55,
+        "start": 0.1
+      },
+      "why": "Water standing in a sample line since the last cast is not the tank — it is whatever settled in a length of pipe. A steady flush for long enough to turn the line over completely is what makes the water finally coming out of the cock the tank's water rather than the pipe's."
+    },
+    {
+      "cue": "Bring the deck test kit from the chest to the bench beside the sample cock before the sample is drawn.",
+      "drag": {
+        "missNote": "Not on the bench. The kit has to be at the sample point before the draw, not still in the chest.",
+        "radius": 0.5,
+        "to": "analysis-bench"
+      },
+      "id": "stage-kit",
+      "kind": "drag",
+      "prompt": "Bring the deck test kit from the chest to the bench beside the sample cock before the sample is drawn.",
+      "target": "analysis-kit",
+      "title": "Carry the indicative analysis kit to the sample point",
+      "why": "An indicative analysis kit left in its case does nobody any good the moment a fresh sample is standing in a bottle losing organisms by the minute — it is staged at the bench before the draw, not fetched afterward while the clock the protocol runs on keeps moving."
+    },
+    {
+      "cue": "Hold the bottle under the cock at a steady flow for the full protocol volume.",
+      "holdBreakNote": "Let go before the full volume was drawn — that bottle is short. Reset it and draw the whole volume in one continuous pour.",
+      "id": "draw-sample",
+      "kind": "hold",
+      "prompt": "Hold the bottle under the cock at a steady flow for the full protocol volume.",
+      "seconds": 5,
+      "target": "sample-cock",
+      "title": "Draw the representative sample",
+      "why": "A representative sample is a continuous draw at a steady rate for the volume the protocol specifies, not a splash grabbed and capped early. Cut short, the bottle holds a fraction of what the protocol needs and every count taken from it is a guess scaled up from too little water."
+    },
+    {
+      "cue": "Label the bottle, seal it, then sign the chain-of-custody form — in that order.",
+      "id": "label-coc",
+      "itemNames": {
+        "bottle-label": "bottle labelled",
+        "bottle-seal": "bottle sealed",
+        "coc-sign": "chain of custody signed"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Label, then seal, then sign — a seal on an unlabelled bottle and a signature on an unsealed one both break the chain the same way.",
+      "prompt": "Label the bottle, seal it, then sign the chain-of-custody form — in that order.",
+      "targets": [
+        "bottle-label",
+        "bottle-seal",
+        "coc-sign"
+      ],
+      "title": "Label, seal and start the chain of custody",
+      "why": "A bottle sealed before it is labelled is a sealed bottle nobody can identify later, and a chain of custody signed before the seal is a signature for a bottle that was still open when it was written. Labelled, then sealed, then signed is the only order that leaves a bottle nobody can argue was tampered with."
+    },
+    {
+      "cue": "Read the organisms-per-cubic-metre count on the deck kit and commit it against the D-2 discharge standard.",
+      "gauge": {
+        "green": [
+          0.15,
+          0.35
+        ],
+        "label": "ORGANISMS / m³",
+        "missNote": "That count is outside the D-2 standard's working range for an indicative pass — the discharge stays held and this result goes to a shore laboratory for confirmation.",
+        "speed": 0.7
+      },
+      "id": "analysis",
+      "kind": "gauge",
+      "prompt": "Read the organisms-per-cubic-metre count on the deck kit and commit it against the D-2 discharge standard.",
+      "target": "analysis-meter",
+      "title": "Run the indicative analysis",
+      "why": "The indicative analysis is what tells the inspector, on the deck, in minutes, whether the treatment system did what its certificate says it does — an organism count that reads inside the D-2 standard clears the discharge; one that does not is the reason the hold stays on until a shore laboratory confirms it."
+    },
+    {
+      "cue": "Keep the overboard discharge valve shut against the manifold's own back-pressure until the port's hold is lifted.",
+      "holdBreakNote": "The discharge crept open past zero — bring it back down and hold it there until the result stands.",
+      "id": "hold-discharge",
+      "kind": "track",
+      "prompt": "Keep the overboard discharge valve shut against the manifold's own back-pressure until the port's hold is lifted.",
+      "seconds": 6,
+      "target": "discharge-rate",
+      "title": "Hold the discharge at zero while the result stands",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.5,
+        "green": [
+          0,
+          0.18
+        ],
+        "label": "DISCHARGE RATE",
+        "rise": 0.5,
+        "start": 0.05
+      },
+      "why": "Port state control's authority under 33 CFR Part 151 to hold a ship's ballast discharge only means something if the hold actually holds — a valve that is shut once and left to creep back open under pressure while everyone's attention is on the paperwork has not been held at all."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Test the atmosphere venting from the sounding pipe, post the enclosed-space permit, and post an attendant at the hatch — all three before the cap comes off.",
+      "id": "enclosed-space",
+      "itemNames": {
+        "attendant-post": "attendant posted at the hatch",
+        "gas-test": "atmosphere tested at the sounding pipe",
+        "permit-post": "enclosed-space permit posted"
+      },
+      "kind": "sequence",
+      "prompt": "Test the atmosphere venting from the sounding pipe, post the enclosed-space permit, and post an attendant at the hatch — all three before the cap comes off.",
+      "targets": [
+        "gas-test",
+        "permit-post",
+        "attendant-post"
+      ],
+      "title": "Observe enclosed-space rules at the sounding pipe",
+      "why": "A ballast tank is an enclosed space under OSHA 1915 Subpart B whether or not anyone plans to climb into it, and a sounding pipe is the one place its atmosphere reaches the deck on its own. Testing what vents from it, posting the permit, and posting an attendant are the three things that turn a tank nobody has thought about into a space somebody is actually watching."
+    },
+    {
+      "cue": "Present the completed sampling record to the ship's officer for signature.",
+      "id": "sign-record",
+      "kind": "select",
+      "prompt": "Present the completed sampling record to the ship's officer for signature.",
+      "target": "sampling-record",
+      "title": "Get the ship's officer's signature on the sampling record",
+      "why": "The officer's signature is the ship's own acknowledgement of what was sampled, how, and with what result — without it, the record is the boarding team's account alone, and a result the ship never signed for is a result the ship can later say it never saw."
+    },
+    {
+      "cue": "Check the sounding pipe, the sample bench and the manifold once more, and click anything left the way it should not be.",
+      "id": "walk",
+      "itemNames": {
+        "cap-cracked": "the sounding pipe cap left cracked open",
+        "spare-bottle-untagged": "the untagged spare sample bottle"
+      },
+      "itemNotes": {
+        "cap-cracked": "The sounding pipe cap was never fully seated back down after the gas test. Left cracked, the tank vents onto the deck for as long as it takes somebody to notice — right where the crew still walks past it.",
+        "spare-bottle-untagged": "A spare sample bottle from the kit is sitting in the open with no tag on it. An unlabelled bottle from a ballast inspection looks exactly like a labelled one to anyone who was not there when it was filled — or exactly like an empty one that never needs explaining."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Check the sounding pipe, the sample bench and the manifold once more, and click anything left the way it should not be.",
+      "targets": [
+        "cap-cracked",
+        "spare-bottle-untagged"
+      ],
+      "title": "Walk the deck before signing off the boarding",
+      "why": "The boarding closes out the moment the inspector steps back down the gangway, and everything left wrong on this deck after that is the ship's problem to notice on its own. This is the last look anybody from the boarding team gets at it."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Port state inspection of a ship's ballast water: record book and management plan against the voyage, the treatment system's certificate checked, the sampling point isolated and flushed, a representative sample under chain of custody, the indicative analysis run, discharge held on the port's order, the officer's signature, and enclosed-space rules observed at the sounding pipe",
+  "title": "SmartCiti.X~ Ballast Water Sampling VR",
+  "trade": "Ship's engineer / port state control inspector — ballast water compliance",
+  "underwater": null,
+  "weather": "overcast"
+}

@@ -1,0 +1,435 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "tested-not-trusted",
+    "name": "Tested, Not Trusted",
+    "note": "Walked the risk assessment, proved the scanner zones with a body and saw the arm slow and stop before releasing the bench"
+  },
+  "category": "Manufacturing & Automation",
+  "certification": "UAW and IAM skilled-trades training as bodies; ANSI R15.06 and ISO 10218 industrial robot safety, including collaborative operation; OSHA 29 CFR 1910.212 general requirements for machines and 29 CFR 1910.147 the control of hazardous energy; the application's written risk assessment and the manufacturer's manual",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI R15.06",
+        "id": "ansi-r15-06",
+        "title": "ANSI/RIA R15.06 — Industrial robots and robot systems: safety requirements"
+      },
+      {
+        "body": "union",
+        "citedAs": "IAM",
+        "id": "iam-winpisinger-center",
+        "title": "IAM — the William W. Winpisinger Education and Technology Center's machinist and transportation training"
+      },
+      {
+        "body": "ISO",
+        "citedAs": "ISO 10218",
+        "id": "iso-10218",
+        "title": "ISO 10218 — Robots and robotic devices: safety requirements for industrial robots"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.212",
+        "id": "osha-1910-212",
+        "title": "29 CFR 1910.212 — General requirements for all machines (machine guarding)"
+      },
+      {
+        "body": "union",
+        "citedAs": "UAW",
+        "id": "uaw-training",
+        "title": "UAW joint apprenticeship and skilled-trades training for manufacturing and automation work"
+      }
+    ]
+  },
+  "district": "robotics-training-centre",
+  "domain": "Robotics",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "zones-proven",
+        "name": "Zones Proven",
+        "note": "Proved both scanner zones with a body before release"
+      },
+      {
+        "id": "no-bypass",
+        "name": "No Bypass",
+        "note": "Never muted the scanner to finish faster"
+      },
+      {
+        "id": "steady-approach",
+        "name": "Steady Approach",
+        "note": "Held the approach walk near band centre"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "quick-assess",
+        "name": "Inside Par",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "clean-release",
+        "name": "Clean Shift",
+        "note": "Clean run, no corrections"
+      }
+    ],
+    "currency": "COBOT",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Operator",
+      "Application Aware",
+      "Cobot Technician",
+      "Integration Lead",
+      "Tested, Not Trusted Certified"
+    ],
+    "system": "Tested, Not Trusted"
+  },
+  "hazards": {
+    "mute-scanner-hazard": "That mutes the area scanner so the arm stops slowing when you lean in. Speed-and-separation is the control; muting it turns a collaborative application into an unguarded robot with a person beside it.",
+    "no-body-test-hazard": "That signs the scanner zones off from the settings screen without walking into them. Settings say what the scanner should do; only a body walking into the zone shows what it actually does.",
+    "raise-speed-hazard": "That raises the arm's speed to hit the cycle time without reassessing. Speed changes the separation the arm needs, and a new speed means a new assessment, not a quicker version of the old one.",
+    "sharp-gripper-hazard": "That fits the sharp-edged finger set the assessment never covered. The collaborative assessment was done for the gripper on the sheet; a new tool with edges is a new hazard the sheet does not answer."
+  },
+  "id": "ad-cobot-risk-assessment-and-speed-separation",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "approach-walk",
+      "alert": "You have walked into the warning zone and the arm has not slowed at all.",
+      "cue": "Hit the cobot e-stop now.",
+      "delay": 4,
+      "id": "arm-does-not-slow",
+      "kind": "Control failure",
+      "missNote": "The arm kept full speed with a person in the zone. A failed control is stopped, not watched.",
+      "seconds": 11,
+      "target": "cobot-estop",
+      "why": "An arm that does not slow when a person enters the warning zone is a control that has failed its test, and the e-stop is what ends the risk now; the bench is not released until the reason is found and the test passes.",
+      "wrongNote": "Not that — the arm not slowing is answered with the e-stop."
+    },
+    {
+      "after": "force-hold",
+      "alert": "A student at the next desk is reaching into the cobot's work area to pick up a part.",
+      "cue": "Call the instructor so the student is stopped and briefed.",
+      "delay": 4,
+      "id": "student-reaches-in",
+      "kind": "Classroom challenge",
+      "missNote": "Nobody stopped the student reaching into the work area. The bench was never assessed for that person or that task.",
+      "seconds": 11,
+      "target": "instructor-call",
+      "why": "The assessment covers the operator the bench was designed for, not a student who has not been briefed, and the instructor is the one who stops the reach and explains why the zone is not a shelf.",
+      "wrongNote": "That isn't it — the student reaching in is what needs stopping first."
+    }
+  ],
+  "lateNotes": {
+    "task-list": "Every task the operator does at the bench is on the assessment before the bench goes live.",
+    "zone-walk-warn": "The scanner zones are proven by walking into them, not read off the settings screen."
+  },
+  "name": "Cobot Risk Assessment & Speed-and-Separation",
+  "parSeconds": 320,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "aerospace-defense-and-robotics"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "cobotBench",
+        "count": 1,
+        "kit": "equipment"
+      },
+      {
+        "builder": "teachPendant",
+        "count": 1,
+        "kit": "toolkit"
+      }
+    ],
+    "error": null,
+    "footprint": 2.9,
+    "hits": [
+      "approach-meter",
+      "cobot-estop",
+      "force-test",
+      "hair-tie-cb",
+      "instructor-call",
+      "layout-check",
+      "mute-scanner-hazard",
+      "no-body-test-hazard",
+      "part-blank",
+      "pendant-auto",
+      "pendant-cb",
+      "pendant-holster",
+      "raise-speed-hazard",
+      "release-button",
+      "release-log",
+      "risk-sheet",
+      "rounded-corner",
+      "safety-glasses-cb",
+      "safety-shoes-cb",
+      "scanner-window",
+      "sharp-fixture",
+      "sharp-gripper-hazard",
+      "sheet-control",
+      "sheet-finding",
+      "stop-meter",
+      "task-list",
+      "tool-check",
+      "tray-dock",
+      "zone-walk-stop",
+      "zone-walk-warn"
+    ],
+    "meshes": 196
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track"
+  ],
+  "steps": [
+    {
+      "anyOrder": true,
+      "cue": "Safety glasses, safety shoes and long hair tied back before the bench.",
+      "id": "ppe",
+      "itemNames": {
+        "hair-tie-cb": "long hair tied back",
+        "safety-glasses-cb": "safety glasses",
+        "safety-shoes-cb": "safety shoes"
+      },
+      "kind": "sequence",
+      "prompt": "Safety glasses, safety shoes and long hair tied back before the bench.",
+      "targets": [
+        "safety-glasses-cb",
+        "safety-shoes-cb",
+        "hair-tie-cb"
+      ],
+      "title": "Prepare for the bench",
+      "why": "Working beside a moving arm means loose hair, sleeves and lanyards are the things that get caught first, and the glasses protect against a part flicked from the gripper, which the arm's own safety functions do nothing about."
+    },
+    {
+      "cue": "Open the application's risk assessment and read the hazards it lists.",
+      "id": "brief",
+      "kind": "select",
+      "prompt": "Open the application's risk assessment and read the hazards it lists.",
+      "target": "risk-sheet",
+      "title": "Open the risk assessment",
+      "why": "A collaborative application is only collaborative because a risk assessment showed its hazards are controlled for this task, this tool and this layout, and the sheet is where those findings live and where any change has to be written first."
+    },
+    {
+      "anyOrder": false,
+      "cue": "Walk the operator's tasks, then check the gripper and the layout against the sheet.",
+      "id": "walk-tasks",
+      "itemNames": {
+        "layout-check": "layout matches the sheet",
+        "task-list": "operator tasks walked",
+        "tool-check": "gripper matches the sheet"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order — walk the operator's tasks first, then check the gripper, then the layout against the sheet.",
+      "prompt": "Walk the operator's tasks, then check the gripper and the layout against the sheet.",
+      "targets": [
+        "task-list",
+        "tool-check",
+        "layout-check"
+      ],
+      "title": "Walk the application",
+      "why": "The assessment is only valid for the tasks, tool and layout it describes, and walking each against the bench as it stands today is how a changed fixture or a swapped gripper is caught before it becomes the hazard nobody assessed."
+    },
+    {
+      "cue": "Check the area scanner's window is clean and unobstructed.",
+      "id": "clean-scanner",
+      "kind": "select",
+      "prompt": "Check the area scanner's window is clean and unobstructed.",
+      "target": "scanner-window",
+      "title": "Check the area scanner",
+      "why": "The area scanner is what the arm relies on to know where people are, and a smudged or obstructed window can make it see a person too late or not at all, which undoes speed-and-separation without any warning on the screen."
+    },
+    {
+      "anyOrder": false,
+      "cue": "Walk into the warning zone and watch the arm slow, then into the protective zone and watch it stop.",
+      "id": "zone-test",
+      "itemNames": {
+        "zone-walk-stop": "walked into the protective zone: arm stopped",
+        "zone-walk-warn": "walked into the warning zone: arm slowed"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order — prove the warning zone first, then the protective zone.",
+      "prompt": "Walk into the warning zone and watch the arm slow, then into the protective zone and watch it stop.",
+      "targets": [
+        "zone-walk-warn",
+        "zone-walk-stop"
+      ],
+      "title": "Prove the zones with a body",
+      "why": "Speed-and-separation only works if the arm really slows and stops at the zones the assessment set, and the only honest test is a person walking into them while the arm runs, because a settings screen shows intent, not behaviour."
+    },
+    {
+      "cue": "Read the stopping check and commit only in the green band the manual sets.",
+      "gauge": {
+        "green": [
+          0.43,
+          0.61
+        ],
+        "label": "STOP CHECK",
+        "missNote": "Not in the band — the zones are not valid for this arm until the stopping performance is corrected.",
+        "speed": 0.6
+      },
+      "id": "stop-time",
+      "kind": "gauge",
+      "prompt": "Read the stopping check and commit only in the green band the manual sets.",
+      "target": "stop-meter",
+      "title": "Check the stopping performance",
+      "why": "The separation distance depends on how quickly the arm actually stops, and a stopping check outside its band means the zones drawn on the floor are too small for the arm as it behaves today."
+    },
+    {
+      "cue": "Carry a part blank to the fixture tray.",
+      "drag": {
+        "missNote": "Not in the tray — set the part in the fixture tray, not in the arm's path.",
+        "radius": 0.4,
+        "to": "tray-dock"
+      },
+      "id": "stage-part",
+      "kind": "drag",
+      "prompt": "Carry a part blank to the fixture tray.",
+      "target": "part-blank",
+      "title": "Stage the part",
+      "why": "Parts are staged in the tray the assessment describes so that the operator's hands go only where the analysis expected them, rather than into the arm's path to rescue a part set down somewhere convenient."
+    },
+    {
+      "cue": "Keep your approach to the bench steady inside the band as the arm runs.",
+      "holdBreakNote": "The approach left the band. Steady your pace before you reach the zone.",
+      "id": "approach-walk",
+      "kind": "track",
+      "prompt": "Keep your approach to the bench steady inside the band as the arm runs.",
+      "seconds": 8,
+      "target": "approach-meter",
+      "title": "Walk the approach",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.45,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "APPROACH",
+        "rise": 0.4,
+        "start": 0.5
+      },
+      "why": "The zones are calibrated for a person walking at a normal pace, and a steady approach inside the band shows the arm slowing smoothly rather than stopping abruptly, which tells you the separation is set right for real use."
+    },
+    {
+      "cue": "Look along the shelf for the hazard the sheet does not cover.",
+      "decoyNotes": {
+        "rounded-corner": "A radiused bench corner, as assessed. Nothing to flag there."
+      },
+      "id": "find-gap",
+      "itemNames": {
+        "sharp-fixture": "sharp fixture corner"
+      },
+      "itemNotes": {
+        "sharp-fixture": "A sharp fixture corner in the arm's path is a pinch and cut hazard the assessment missed; it is written up and guarded."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look along the shelf for the hazard the sheet does not cover.",
+      "targets": [
+        "sharp-fixture"
+      ],
+      "title": "Find the unassessed hazard",
+      "why": "Walking the bench always turns up something the desk review missed, and a sharp corner where the arm can trap a hand is exactly the kind of detail that decides whether contact is harmless or not."
+    },
+    {
+      "cue": "Hold the contact check through the test the manual describes.",
+      "holdBreakNote": "Released the contact check early. Hold it through the full test.",
+      "id": "force-hold",
+      "kind": "hold",
+      "prompt": "Hold the contact check through the test the manual describes.",
+      "seconds": 5,
+      "target": "force-test",
+      "title": "Run the contact check",
+      "why": "Where the application relies on limiting contact force, the check is run through its whole cycle with the manufacturer's test method, because a partial check proves nothing about the moment the arm actually meets a hand."
+    },
+    {
+      "cue": "With every control tested, release the bench for use.",
+      "id": "release-select",
+      "kind": "select",
+      "prompt": "With every control tested, release the bench for use.",
+      "target": "release-button",
+      "title": "Release the bench",
+      "why": "Release is the statement that every hazard on the sheet has a control and every control has been tested, and releasing on anything less is releasing on hope rather than on the evidence the assessment asked for."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Add the sharp corner and its guard to the sheet.",
+      "id": "update-sheet",
+      "itemNames": {
+        "sheet-control": "guard added as control",
+        "sheet-finding": "sharp corner added"
+      },
+      "kind": "sequence",
+      "prompt": "Add the sharp corner and its guard to the sheet.",
+      "targets": [
+        "sheet-finding",
+        "sheet-control"
+      ],
+      "title": "Update the risk assessment",
+      "why": "A hazard found and fixed but not written into the assessment will be missed again the next time the bench is changed, and updating the sheet is how the finding outlives the person who found it."
+    },
+    {
+      "cue": "Before you leave, find the setting that should not be left as it is.",
+      "decoyNotes": {
+        "pendant-holster": "A pendant holster, empty and ready. Nothing to flag there."
+      },
+      "id": "find-pendant",
+      "itemNames": {
+        "pendant-auto": "pendant left in automatic"
+      },
+      "itemNotes": {
+        "pendant-auto": "A pendant left in automatic mode on a bench after teaching is switched back and stowed."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Before you leave, find the setting that should not be left as it is.",
+      "targets": [
+        "pendant-auto"
+      ],
+      "title": "Check the pendant",
+      "why": "A pendant left in the wrong mode is how the next person teaching the arm finds it moving faster than they expect, so it is returned to the state the procedure sets before the bench is left."
+    },
+    {
+      "cue": "Sign the release log with the tests run and the sheet updated.",
+      "id": "closeout",
+      "kind": "select",
+      "prompt": "Sign the release log with the tests run and the sheet updated.",
+      "target": "release-log",
+      "title": "Sign the release",
+      "why": "The release log records who tested what and when, so that when the bench changes, the next person knows what the last release was based on and what needs testing again."
+    }
+  ],
+  "supportLine": "your UAW or IAM local's member assistance programme, or the centre's employee assistance line if a close call at a bench is what stayed with you",
+  "tagline": "A collaborative robot bench brought into service the way a risk assessment demands: the application walked task by task, the area scanner's warning and protective zones proven with a body, speed-and-separation shown to slow and stop the arm, and the bench released only when every hazard on the sheet has a control that was actually tested",
+  "title": "SmartCiti.X~ Cobot Risk Assessment & Speed-and-Separation VR",
+  "trade": "Automation technician, collaborative robot application — UAW/IAM",
+  "underwater": null,
+  "weather": "overcast"
+}

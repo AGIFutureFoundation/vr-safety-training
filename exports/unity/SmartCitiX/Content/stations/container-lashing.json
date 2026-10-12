@@ -1,0 +1,360 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "stow-secured",
+    "name": "Stow Secured",
+    "note": "Every twist-lock proven, every rod to the pattern, the bridge worked tied off, the crane held until clear"
+  },
+  "category": "Maritime & Ports",
+  "certification": "ILWU/PMA longshore training — OSHA 29 CFR 1918 (longshoring) marine terminal safety; IMO SOLAS Chapter VI and the Cargo Securing Manual requirements approved for this ship, which is what fixes the lashing pattern for the bay; fall protection on lashing bridges",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "ILA",
+        "id": "ila-training",
+        "title": "ILA apprenticeship and training, as a training body"
+      },
+      {
+        "body": "union",
+        "citedAs": "ILWU",
+        "id": "ilwu-pma-training",
+        "title": "ILWU-PMA joint training for longshore, crane and clerk work, and the Inlandboatmen's Union marine division"
+      },
+      {
+        "body": "IMO",
+        "citedAs": "Cargo Securing Manual requirements",
+        "id": "imo-csm",
+        "title": "IMO Cargo Securing Manual requirements"
+      },
+      {
+        "body": "IMO",
+        "citedAs": "IMO SOLAS",
+        "id": "imo-solas",
+        "title": "SOLAS — International Convention for the Safety of Life at Sea"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1918",
+        "id": "osha-1918",
+        "title": "29 CFR 1918 — Safety and health regulations for longshoring"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Maritime",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "locks-proven",
+        "name": "Locks Proven",
+        "note": "Every twist-lock checked before a rod went on"
+      },
+      {
+        "id": "clear-of-crane",
+        "name": "Clear of the Crane",
+        "note": "Never under a suspended load, never untied on the bridge"
+      },
+      {
+        "id": "torque-true",
+        "name": "Torque True",
+        "note": "Turnbuckles inside the manual's tension"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-bay",
+        "name": "Clean Bay",
+        "note": "No corrections anywhere in the bay"
+      },
+      {
+        "id": "rod-steady",
+        "name": "Rod Steady",
+        "note": "Held the rod seating the full count"
+      },
+      {
+        "id": "sailing-time",
+        "name": "Sailing Time",
+        "note": "Bay secured inside 80% of par"
+      }
+    ],
+    "currency": "LASH",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Lasher",
+      "Lead Lasher",
+      "Hatch Boss",
+      "Walking Boss",
+      "Stow Authority Certified"
+    ],
+    "system": "Stow Authority"
+  },
+  "hazards": {
+    "bent-rod": "You went to fit a lashing rod with a bent shank. A rod that is not straight does not seat in the casting and does not take the load the pattern assumes — it goes to the reject rack, not on the stack.",
+    "hand-on-cone": "You put your hand on a twist-lock while the box is still coming down. Fingers between a 30-tonne container and its corner casting are gone before you feel the pinch.",
+    "loose-gear": "That is a twist-lock lying loose in the walkway. Gear left on the deck of a bay is what a lasher carrying a rod trips over on the way to the bridge ladder, and it is also the cone that goes over the side and through somebody's windscreen on the apron below — it goes back in the bin the moment you see it, not after the bay is finished.",
+    "under-load": "You walked under the spreader with a box on it. Nothing goes under a suspended container — a twist-lock that let go on the last lift is the one you find out about from underneath.",
+    "untied-bridge": "You went onto the lashing bridge without clipping in. It is a narrow steel walkway three tiers up over open deck; the harness is worn, and it is clipped, or the bridge is not worked."
+  },
+  "id": "container-lashing",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "locks",
+      "alert": "A gust has come across the deck and caught the lashing bridge. The lifeline is swinging on its brackets and your lanyard has ridden up the line toward the last stanchion.",
+      "cue": "You're still three tiers up. Confirm the clip before you move another casting.",
+      "delay": 4,
+      "id": "gust-lifeline-check",
+      "kind": "Wind gust on the bridge",
+      "missNote": "You kept working the corner locks with the clip sitting against the stanchion bracket instead of running free on the line. A fall onto that bracket loads the lanyard sideways, which is not the direction the hardware is rated for.",
+      "seconds": 12,
+      "target": "lanyard-clip",
+      "why": "A moving lifeline can walk a snap hook toward a stanchion bracket or a kink, and a clip riding against either one is not carrying a fall the way it is rated to. It is checked the moment the line has moved, not assumed good because it was good when you first clipped in.",
+      "wrongNote": "It is the lanyard clip on the lifeline. A gust that can move the line can move where your clip sits on it — check it before the next casting."
+    },
+    {
+      "after": "turnbuckles",
+      "alert": "Radio traffic: the relief crane operator is coming on shift early and is asking dispatch which bays are clear for the next lift. Bay 22 is not on their hold list.",
+      "cue": "Your hold was called to the last operator, not this one.",
+      "delay": 3,
+      "id": "shift-change-lift",
+      "kind": "Crane resuming without the hold",
+      "missNote": "The relief operator picked up a container over bay 22 believing it was clear, because nobody had called the hold to them directly. The gang was still on the deck when the spreader came over the stack.",
+      "seconds": 13,
+      "target": "crane-radio",
+      "why": "A hold called to one operator does not carry itself across a shift change — the next operator only knows what is on their own list, and a bay with lashers still in it that never made that list looks clear from the cab. The hold is called again, to whoever has the crane now.",
+      "wrongNote": "It is the crane radio. A hold that only reached the last operator has not reached this one — call it again before anything else moves."
+    }
+  ],
+  "lateNotes": {
+    "torque-gauge": "Nothing to check until the pattern is on and the turnbuckles are hand-tight.",
+    "turnbuckle-a": "Rods first — a turnbuckle tightened on a rod that is not seated pulls the rod out of the casting."
+  },
+  "name": "Container Lashing",
+  "parSeconds": 240,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "bay-area-union-edition",
+    "port-operations",
+    "ports-maritime-ecology"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "bay-plan",
+      "bent-rod",
+      "crane-radio",
+      "crane-radio-clear",
+      "hand-on-cone",
+      "harness-on",
+      "lanyard-clip",
+      "lock-a",
+      "lock-b",
+      "lock-c",
+      "lock-d",
+      "lock-nut",
+      "loose-gear",
+      "rod-port",
+      "rod-seat",
+      "rod-starboard",
+      "torque-gauge",
+      "turnbuckle-a",
+      "turnbuckle-b",
+      "under-load",
+      "unlocked-lock",
+      "untied-bridge"
+    ],
+    "meshes": 242
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check the tier heights, the weights and the rod pattern the Cargo Securing Manual calls for on this bay.",
+      "id": "plan",
+      "kind": "select",
+      "prompt": "Check the tier heights, the weights and the rod pattern the Cargo Securing Manual calls for on this bay.",
+      "target": "bay-plan",
+      "title": "Read the bay plan and securing pattern",
+      "why": "The pattern depends on the stack: how many tiers, how heavy, and where on deck the bay sits, because an outboard stack rolls through a far bigger arc than one on the centreline. The Cargo Securing Manual requirements approved for this ship decide which castings get rods and at what tension — not whichever rods and turnbuckles happen to be closest to hand, and not what worked on the last ship you lashed."
+    },
+    {
+      "cue": "Radio the crane: lashers entering the bay, hold all lifts until the all-clear.",
+      "id": "crane-hold",
+      "kind": "select",
+      "prompt": "Radio the crane: lashers entering the bay, hold all lifts until the all-clear.",
+      "target": "crane-radio",
+      "title": "Hold the crane off the bay",
+      "why": "The crane and the lashers never share a bay, because a gang on the deck cannot see a spreader coming over the stack behind them and the operator four storeys up cannot see a lasher kneeling between tiers. OSHA 29 CFR 1918 treats a suspended container over a person as a struck-by hazard whether the gang is ILWU on one coast or ILA on the other, and the hold goes on the radio before the first lasher's boot hits the deck — not once somebody is already in the bay."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Harness worn and the lanyard clipped before a foot goes on the lashing bridge.",
+      "id": "harness",
+      "itemNames": {
+        "harness-on": "harness",
+        "lanyard-clip": "lanyard clipped to the bridge line"
+      },
+      "kind": "sequence",
+      "prompt": "Harness worn and the lanyard clipped before a foot goes on the lashing bridge.",
+      "targets": [
+        "harness-on",
+        "lanyard-clip"
+      ],
+      "title": "Harness on, clipped to the bridge line",
+      "why": "The lashing bridge is a workplace three tiers up with open deck on both sides, painted steel that holds spray and diesel film, and nothing underfoot but grating. Clipped to the lifeline, a slip on wet steel is a scare and a bruise; unclipped, the same slip is a fall onto steel plating or straight into the open bay below, and the harness is worn on the walk out to the bridge rather than fitted once you are already standing on it."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Check each twist-lock's handle is in the locked position — all four corners, every tier.",
+      "id": "locks",
+      "itemNames": {
+        "lock-a": "fore-port lock",
+        "lock-b": "fore-starboard lock",
+        "lock-c": "aft-port lock",
+        "lock-d": "aft-starboard lock"
+      },
+      "kind": "sequence",
+      "prompt": "Check each twist-lock's handle is in the locked position — all four corners, every tier.",
+      "targets": [
+        "lock-a",
+        "lock-b",
+        "lock-c",
+        "lock-d"
+      ],
+      "title": "Prove every twist-lock",
+      "why": "A twist-lock in the unlocked position looks exactly like a locked one from a few feet away, and the painted indicator on the handle can be wrong — worn, bent by a spreader, or thrown back by the box landing on it. Four corners, checked by hand, on every tier, is the only proof there is, and it is the whole reason a lashing gang goes into the bay at all instead of the stow being signed off from the plan."
+    },
+    {
+      "cue": "Hook the port rod into the casting, then the starboard rod, crossing as the pattern shows.",
+      "id": "rods",
+      "itemNames": {
+        "rod-port": "port lashing rod",
+        "rod-starboard": "starboard lashing rod"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Port then starboard — the pattern is worked one side, then crossed.",
+      "prompt": "Hook the port rod into the casting, then the starboard rod, crossing as the pattern shows.",
+      "targets": [
+        "rod-port",
+        "rod-starboard"
+      ],
+      "title": "Fit the lashing rods to the pattern",
+      "why": "The rods take the racking load when the ship rolls in a seaway — the force that tries to push the top of a stack sideways relative to its base while the twist-locks hold the corners together. Crossed, port and starboard, they carry that load in both directions of roll; one side fitted alone only resists roll toward that side, so a half-lashed stack is secure on one tack and effectively unlashed on the other."
+    },
+    {
+      "cue": "Hold the rod head in the corner casting until it drops fully home.",
+      "holdBreakNote": "Let go before it seated — the rod head is sitting on the lip. Hold it until it drops home.",
+      "id": "seat",
+      "kind": "hold",
+      "prompt": "Hold the rod head in the corner casting until it drops fully home.",
+      "seconds": 4,
+      "target": "rod-seat",
+      "title": "Seat the rod in the casting",
+      "why": "A rod that is hooked into the casting but not fully seated is carrying its load on the lip of the aperture rather than in the throat of it, and that lip lets go on the first hard roll at sea — days out, in weather, with nobody able to get back up onto the bridge to find out why a stack has started working. It is held under its own weight until it drops home, and you feel the seat rather than look for it."
+    },
+    {
+      "cue": "Take up the slack on each turnbuckle by hand, port then starboard, evenly.",
+      "id": "turnbuckles",
+      "itemNames": {
+        "turnbuckle-a": "port turnbuckle",
+        "turnbuckle-b": "starboard turnbuckle"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Port then starboard, evenly — one side over-tight pulls the stack.",
+      "prompt": "Take up the slack on each turnbuckle by hand, port then starboard, evenly.",
+      "targets": [
+        "turnbuckle-a",
+        "turnbuckle-b"
+      ],
+      "title": "Hand-tighten the turnbuckles",
+      "why": "Even take-up on both sides is what keeps the stack sitting square on its castings. One side cranked down before the other has taken up its slack pulls the whole stack over toward it, so the rod on that side is already carrying load before anyone has set a tension figure and the rod opposite is slack — and a slack lashing does not start working until the ship is rolling, which is the one place nobody can correct it."
+    },
+    {
+      "cue": "Tension each turnbuckle to the manual's figure and commit inside the band.",
+      "gauge": {
+        "green": [
+          0.45,
+          0.6
+        ],
+        "label": "TENSION",
+        "missNote": "Off the manual's tension — reset and tension it to the figure.",
+        "speed": 0.75
+      },
+      "id": "torque",
+      "kind": "gauge",
+      "prompt": "Tension each turnbuckle to the manual's figure and commit inside the band.",
+      "target": "torque-gauge",
+      "title": "Set the turnbuckle tension",
+      "why": "Under-tensioned lashings go slack on the first roll and let the stack work, and a stack that works rounds out its castings until the twist-locks no longer hold anything. Over-tensioned ones pre-load the corner fittings past what the Cargo Securing Manual requirements assume, so the lashing takes up capacity the ship's own calculation had allocated to the seaway. The manual's kN figure is the figure, not a range to eyeball off the turnbuckle."
+    },
+    {
+      "cue": "Run the lock nut down against the body so the tension cannot back off.",
+      "id": "lock-turnbuckle",
+      "kind": "turn",
+      "prompt": "Run the lock nut down against the body so the tension cannot back off.",
+      "target": "lock-nut",
+      "title": "Lock the turnbuckles",
+      "turn": {
+        "axis": "y",
+        "label": "LOCK NUT",
+        "turns": 0.75
+      },
+      "why": "A turnbuckle without its lock nut run down against the body backs off a fraction of a turn with every roll of the ship, and a passage is tens of thousands of rolls. A lashing that has unwound itself is a lashing nobody notices has gone slack until somebody walks the bay at the next port — by which time the stack has been working in a seaway for days, and the castings are the part that paid for it."
+    },
+    {
+      "cue": "Check every lock and lashing on the way out and click what was missed.",
+      "id": "inspect",
+      "itemNames": {
+        "unlocked-lock": "twist-lock left unlocked on the upper tier"
+      },
+      "itemNotes": {
+        "unlocked-lock": "The aft-starboard lock on the upper tier is still in the unlocked position — its handle was never thrown. That box would have gone over at sea."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Check every lock and lashing on the way out and click what was missed.",
+      "targets": [
+        "unlocked-lock"
+      ],
+      "title": "Walk the bay before the all-clear",
+      "why": "The walk-out is the last time anyone sees this bay before the hatch is worked, the gang goes ashore and the ship sails. A lock or a rod that is not caught here gets no second look for the whole passage, and the way the omission usually announces itself is a stack leaning against the one alongside it, or a box over the side — either of which starts as one handle nobody threw on a tier that was hard to reach."
+    },
+    {
+      "cue": "Radio the crane: lashers out of the bay, lifts may resume.",
+      "id": "all-clear",
+      "kind": "select",
+      "prompt": "Radio the crane: lashers out of the bay, lifts may resume.",
+      "target": "crane-radio-clear",
+      "title": "Give the crane the all-clear",
+      "why": "The hold comes off the same radio it went on, from the person who put it on, and only once every lasher is confirmed out of the bay by name rather than counted from a distance. A headcount taken from the deck misses the one hand still up on the bridge tying off a spare rod, and a hold released through a third party is a hold whose author no longer knows whether it is safe to lift."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Deck stow securing: crane held off, twist-locks proven, rods and turnbuckles to the pattern, fall protection on the bridge, torque checked",
+  "title": "SmartCiti.X~ Container Lashing VR",
+  "trade": "Longshore worker — lasher",
+  "underwater": null,
+  "weather": "wind"
+}

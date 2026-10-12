@@ -1,0 +1,445 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "load-balance",
+    "name": "Load Balance",
+    "note": "Hazmat segregated, the hold built to the plan, tied down before the door closed, and the weight checked before the loader backed away"
+  },
+  "category": "Mobility & Transit",
+  "certification": "IAM and TWU ramp training; FAA 14 CFR Part 121 air carrier weight-and-balance and load-planning requirements; OSHA 29 CFR 1910.178 powered industrial trucks and 29 CFR 1910.132 personal protective equipment",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "IAM",
+        "id": "iam-winpisinger-center",
+        "title": "IAM — the William W. Winpisinger Education and Technology Center's machinist and transportation training"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.132",
+        "id": "osha-1910-132",
+        "title": "29 CFR 1910.132 — Personal protective equipment, general requirements"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.178",
+        "id": "osha-1910-178",
+        "title": "29 CFR 1910.178 — Powered industrial trucks"
+      },
+      {
+        "body": "union",
+        "citedAs": "TWU",
+        "id": "twu-training",
+        "title": "TWU member training for transit and airline ground operations"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Aviation",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "hazmat-eye",
+        "name": "Hazmat Eye",
+        "note": "Spotted the hazmat bag and segregated it clean, first time"
+      },
+      {
+        "id": "tied-down",
+        "name": "Tied Down",
+        "note": "Never closed the door on an unsecured hold"
+      },
+      {
+        "id": "steady-belt",
+        "name": "Steady Belt",
+        "note": "Held the belt speed near band centre the whole load"
+      },
+      {
+        "id": "clean-inspection",
+        "name": "Clean Inspection Certified",
+        "note": "Found every defect on the loader, first pass"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "quick-load",
+        "name": "Quick Load",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "clean-shift",
+        "name": "Clean Shift",
+        "note": "Clean run, no corrections"
+      },
+      {
+        "id": "load-streak",
+        "name": "Load Streak",
+        "note": "Nine correct actions in a row"
+      }
+    ],
+    "currency": "LOAD",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Ramp Hand",
+      "Loader Qualified",
+      "Hazmat Spotter",
+      "Lead Loader",
+      "Load Balance Certified"
+    ],
+    "system": "Load Balance"
+  },
+  "hazards": {
+    "overweight-hold-hazard": "That keeps loading past the weight the plan called for this hold. Every hold has a limit tied to the aircraft's own structure and its centre of gravity for this flight, and loading past it is not a matter of the hold looking like it has more room — it is a limit the aircraft was never planned to fly past today.",
+    "stack-against-hazmat-hazard": "That stacks an ordinary bag directly against the hazmat bag instead of its own segregated spot. The segregation distance is what keeps an ordinary bag's own weight and movement away from a package the load plan flagged for a reason this crew was not told the details of, only the rule.",
+    "under-loader-hazard": "You are standing under the belt loader's platform while it is moving. The platform is a shear point against the aircraft's own sill and against the loader's frame, and there is no room to get clear of it once it is already closing.",
+    "unsecured-load-hazard": "That closes the cargo door before the load is tied down. An unsecured hold shifts under the aircraft's own accelerations the first time it climbs or turns, and a shift that size can move the aircraft's centre of gravity outside where the flight crew planned for it to be."
+  },
+  "id": "av-baggage-belt-loader-and-hold-loading",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "monitor-belt-speed",
+      "alert": "A bag has jammed sideways on the belt and the loader's motor is straining against it.",
+      "cue": "Hit the belt stop now, before the motor or the bag itself gives.",
+      "delay": 5,
+      "id": "belt-jams",
+      "kind": "Belt jam",
+      "missNote": "The belt kept straining against the jam instead of being stopped. A motor pushed hard enough against a jam either fails outright or clears itself violently, and neither one is a surprise this crew wants at the sill.",
+      "seconds": 12,
+      "target": "belt-estop",
+      "why": "A jammed belt under a straining motor either burns out the drive or suddenly frees itself and sends the jammed bag flying, and stopping it the moment it jams is what keeps either outcome from happening in the first place.",
+      "wrongNote": "That's not it — the jam is what has to clear before this belt runs again."
+    },
+    {
+      "after": "load-forward-hold",
+      "alert": "A bag has come loose on the belt and is sliding back toward the edge of the platform.",
+      "cue": "Stop the belt now, before the bag goes over the edge.",
+      "delay": 4,
+      "id": "bag-slides-off",
+      "kind": "Load shift",
+      "missNote": "The belt kept running while the bag slid toward the edge. A bag falling from platform height is exactly the kind of struck-by injury the stop control exists to prevent with one press.",
+      "seconds": 11,
+      "target": "belt-estop",
+      "why": "A bag that goes over the edge of a raised platform falls onto whoever or whatever is underneath it, and the belt has to stop the instant a load is seen moving on its own rather than trusted to stay put until someone reaches it.",
+      "wrongNote": "Off target — the sliding bag needs this belt stopped, and nothing about the rest of the load changes that."
+    }
+  ],
+  "lateNotes": {
+    "hazmat-bin": "The hazmat bag gets spotted and segregated before the rest of the hold is built around it, not sorted out afterward once it is already buried under other bags.",
+    "tiedown-straps": "The load gets tied down before the cargo door ever closes, not checked afterward once the door is already shut."
+  },
+  "name": "Baggage Belt-Loader & Hold Loading",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "aviation-maintenance-and-ground"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "cargoBeltLoader",
+        "count": 1,
+        "kit": "equipment"
+      },
+      {
+        "builder": "regionalJet",
+        "count": 1,
+        "kit": "equipment"
+      },
+      {
+        "builder": "1.04x1.7x1.24",
+        "count": 1,
+        "kit": "unknown"
+      }
+    ],
+    "error": null,
+    "footprint": 2.9,
+    "hits": [
+      "back-support",
+      "belt-controls",
+      "belt-estop",
+      "cargo-door",
+      "cargo-net",
+      "closing-log",
+      "damaged-guardrail",
+      "hazmat-bag",
+      "hazmat-bin",
+      "heavy-bag-forward",
+      "hi-vis-vest",
+      "hydraulic-leak-loader",
+      "light-bag-aft",
+      "load-plan-board",
+      "loader-body",
+      "lower-lever",
+      "ordinary-bag",
+      "overweight-hold-hazard",
+      "raise-lever",
+      "sill-approach",
+      "sound-loader-panel",
+      "stack-against-hazmat-hazard",
+      "tiedown-straps",
+      "torn-belt",
+      "under-loader-hazard",
+      "unsecured-load-hazard",
+      "weight-gauge",
+      "work-gloves"
+    ],
+    "meshes": 168
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "anyOrder": true,
+      "cue": "Hi-vis vest, back support belt and gloves before anyone touches a bag.",
+      "id": "ppe",
+      "itemNames": {
+        "back-support": "back support belt",
+        "hi-vis-vest": "hi-vis vest",
+        "work-gloves": "work gloves"
+      },
+      "kind": "sequence",
+      "prompt": "Hi-vis vest, back support belt and gloves before anyone touches a bag.",
+      "targets": [
+        "hi-vis-vest",
+        "back-support",
+        "work-gloves"
+      ],
+      "title": "Suit up before loading",
+      "why": "Every bag in this hold gets lifted and turned by hand at some point before it settles into place, and the back support belt is what this crew wears on every single load specifically because that repetition is where a back injury actually happens, not on the one heavy bag anyone was already braced for."
+    },
+    {
+      "cue": "Confirm the hold assignment, the weight limit and the hazmat note before anything moves.",
+      "id": "brief",
+      "kind": "select",
+      "prompt": "Confirm the hold assignment, the weight limit and the hazmat note before anything moves.",
+      "target": "load-plan-board",
+      "title": "Read the load plan",
+      "why": "The load plan is what sets this hold's own weight limit and where each bag is meant to sit for the aircraft's centre of gravity, and a crew that has not read it is building a hold to a guess instead of to the plan the flight was actually released against."
+    },
+    {
+      "cue": "Walk the loader. Three problems are hiding on it — find them by looking.",
+      "decoyNotes": {
+        "sound-loader-panel": "The control panel is clean, dry and responds normally. Nothing to flag there."
+      },
+      "id": "inspect-loader",
+      "itemNames": {
+        "damaged-guardrail": "damaged platform guardrail",
+        "hydraulic-leak-loader": "hydraulic leak at the ramp",
+        "torn-belt": "torn section of the conveyor belt"
+      },
+      "itemNotes": {
+        "damaged-guardrail": "A guardrail that will not stay latched is the one thing standing between the platform and a fall from it.",
+        "hydraulic-leak-loader": "A leak at the ramp is lift pressure this loader is losing before it ever reaches the sill.",
+        "torn-belt": "A torn belt can grab a bag's strap or a loose flap and pull a hand in right behind it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the loader. Three problems are hiding on it — find them by looking.",
+      "targets": [
+        "torn-belt",
+        "hydraulic-leak-loader",
+        "damaged-guardrail"
+      ],
+      "title": "Inspect the belt loader",
+      "why": "A loader that looks ready from the ground is not the same thing as one a competent person has actually walked before it reaches the sill — a torn belt, a hydraulic leak or a bad guardrail found now costs a repair, and found once it is loaded and raised costs an injury this crew did not have to have."
+    },
+    {
+      "cue": "Drive the loader in at walking pace and stop it short of the aircraft.",
+      "drag": {
+        "missNote": "Not stopped short of the aircraft — bring the loader in and stop before the platform reaches the skin.",
+        "radius": 0.5,
+        "to": "sill-approach"
+      },
+      "id": "position-loader",
+      "kind": "drag",
+      "prompt": "Drive the loader in at walking pace and stop it short of the aircraft.",
+      "target": "loader-body",
+      "title": "Bring the loader in",
+      "why": "Every vehicle that approaches a parked aircraft on the ramp does it at walking pace and stops short of the skin — the last distance to the sill is closed with the platform itself, never by rolling the loader the rest of the way in."
+    },
+    {
+      "cue": "Turn the raise lever until the platform is level with the cargo door sill.",
+      "id": "raise-to-sill",
+      "kind": "turn",
+      "prompt": "Turn the raise lever until the platform is level with the cargo door sill.",
+      "target": "raise-lever",
+      "title": "Raise the platform to the sill",
+      "turn": {
+        "axis": "z",
+        "label": "PLATFORM HEIGHT",
+        "turns": 0.4
+      },
+      "why": "A platform even a little off the sill height is a lip every single bag has to be lifted or dropped over on its way in, and getting that level right once at the start is what keeps the whole load from turning into a lift at every single bag."
+    },
+    {
+      "cue": "Open the cargo door only once the platform is set at the sill.",
+      "id": "open-cargo-door",
+      "kind": "select",
+      "prompt": "Open the cargo door only once the platform is set at the sill.",
+      "target": "cargo-door",
+      "title": "Open the cargo door",
+      "why": "The door opens after the platform is already at the right height so nothing is ever reaching into an open hold from a platform still finding its level, and no bag ever has to be lifted or dropped across a gap that has not settled yet."
+    },
+    {
+      "cue": "Find the hazmat-labelled bag on the belt before the rest of the hold is built around it.",
+      "decoyNotes": {
+        "ordinary-bag": "An ordinary bag, no hazard label. Loads normally with the rest of the hold."
+      },
+      "id": "identify-hazmat",
+      "itemNames": {
+        "hazmat-bag": "hazmat-labelled bag"
+      },
+      "itemNotes": {
+        "hazmat-bag": "The hazmat label is what sets this bag apart from every ordinary one on the belt — it goes in its own segregated spot, not wherever the next gap in the hold happens to be."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Find the hazmat-labelled bag on the belt before the rest of the hold is built around it.",
+      "targets": [
+        "hazmat-bag"
+      ],
+      "title": "Spot the hazmat bag",
+      "why": "The hazmat bag has to be identified before it disappears into the middle of a hold built around it — spotted now, it gets its own segregated spot; missed now, it gets found again only by someone digging through bags that were never supposed to be stacked against it."
+    },
+    {
+      "cue": "Load the heavy bag forward and low first, then the light bag aft.",
+      "id": "load-forward-hold",
+      "itemNames": {
+        "heavy-bag-forward": "heavy bag, forward and low",
+        "light-bag-aft": "light bag, aft"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Heavy bag forward and low first, then the light bag — the plan's own centre-of-gravity order, not the order that happens to be easiest to reach.",
+      "prompt": "Load the heavy bag forward and low first, then the light bag aft.",
+      "targets": [
+        "heavy-bag-forward",
+        "light-bag-aft"
+      ],
+      "title": "Build the hold to the plan",
+      "why": "The plan puts weight where it puts it for the aircraft's own centre of gravity, not for convenience — loading heavy and low first is what keeps the bags loaded after it from ever needing to sit somewhere the plan did not put them."
+    },
+    {
+      "cue": "Place the hazmat bag in its own segregated spot, clear of the rest of the hold.",
+      "id": "segregate-hazmat",
+      "kind": "select",
+      "prompt": "Place the hazmat bag in its own segregated spot, clear of the rest of the hold.",
+      "target": "hazmat-bin",
+      "title": "Segregate the hazmat bag",
+      "why": "The segregated spot is the one place in this hold built specifically to keep that bag's own hazard away from everything stacked against ordinary bags — putting it anywhere else is the load plan's hazmat note being read and then ignored."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Secure the tie-down straps and the cargo net before anything else happens to this door.",
+      "id": "secure-tiedown",
+      "itemNames": {
+        "cargo-net": "cargo net secured",
+        "tiedown-straps": "tie-down straps secured"
+      },
+      "kind": "sequence",
+      "prompt": "Secure the tie-down straps and the cargo net before anything else happens to this door.",
+      "targets": [
+        "tiedown-straps",
+        "cargo-net"
+      ],
+      "title": "Secure the load",
+      "why": "Nothing about this hold is finished until it is physically tied down — a hold that looks built to plan but was never strapped is a load that only stays where it is until the aircraft's own first turn or climb moves it somewhere the plan never accounted for."
+    },
+    {
+      "cue": "Keep the belt speed inside the band while the last bags feed up.",
+      "holdBreakNote": "Belt speed out of band. Bring it back to steady before the next bag reaches the sill.",
+      "id": "monitor-belt-speed",
+      "kind": "track",
+      "prompt": "Keep the belt speed inside the band while the last bags feed up.",
+      "seconds": 7,
+      "target": "belt-controls",
+      "title": "Hold the belt speed steady",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.4,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "BELT SPEED",
+        "rise": 0.45,
+        "start": 0.5
+      },
+      "why": "A belt that surges and stalls is harder to stop cleanly the instant something goes wrong on it, and a steady speed is what keeps every bag arriving at the sill at a rate this crew can actually keep up with rather than a rush this crew is constantly a step behind."
+    },
+    {
+      "cue": "Read the hold weight and commit only once it is inside the plan's band.",
+      "gauge": {
+        "green": [
+          0.46,
+          0.6
+        ],
+        "label": "HOLD WEIGHT",
+        "missNote": "Outside the plan's band — confirm the weight against the load plan before closing anything.",
+        "speed": 0.6
+      },
+      "id": "weight-check",
+      "kind": "gauge",
+      "prompt": "Read the hold weight and commit only once it is inside the plan's band.",
+      "target": "weight-gauge",
+      "title": "Check the weight against the plan",
+      "why": "The weight gauge is the one number that tells this crew the hold actually matches the plan's own centre-of-gravity assumptions — stopping short leaves capacity the flight was released expecting to use, and running over puts the hold past a limit tied to the aircraft's own structure."
+    },
+    {
+      "cue": "Close the cargo door only once the load is tied down and the weight is confirmed.",
+      "id": "close-cargo-door",
+      "kind": "select",
+      "prompt": "Close the cargo door only once the load is tied down and the weight is confirmed.",
+      "target": "cargo-door",
+      "title": "Close the cargo door",
+      "why": "The door closes last, after the tie-down and the weight are both already confirmed, because everything about a hold this crew cannot see again until the next stop depends on both of those being true before it is sealed shut for the rest of the flight."
+    },
+    {
+      "cue": "Hold the lower control until the platform is fully down, then back the loader clear.",
+      "holdBreakNote": "Released the lower control partway down. Hold it through the whole descent — a platform stopped halfway is a hazard nobody parked here to leave behind.",
+      "id": "lower-and-clear",
+      "kind": "hold",
+      "prompt": "Hold the lower control until the platform is fully down, then back the loader clear.",
+      "seconds": 6,
+      "target": "lower-lever",
+      "title": "Lower the platform and clear",
+      "why": "A platform lowered halfway and left is a lip at exactly the height most likely to catch a foot or a ground vehicle's mirror, so it comes all the way down under a held control before the loader ever moves off the stand and back into the flow of everything else on the ramp."
+    },
+    {
+      "cue": "Log the hold weight, the hazmat placement and the tie-down check before signing off.",
+      "id": "closeout-log",
+      "kind": "select",
+      "prompt": "Log the hold weight, the hazmat placement and the tie-down check before signing off.",
+      "target": "closing-log",
+      "title": "Log the load",
+      "why": "The load log is what the flight crew's own weight and balance and the next station both read — a hold built perfectly to plan but never logged against it leaves nothing behind to prove the aircraft actually got the load it was released to carry."
+    }
+  ],
+  "supportLine": "your IAM or TWU local's member assistance programme, or the site's employee assistance line if a close call at the belt loader is what stayed with you",
+  "tagline": "A hold loaded to the plan: the loader inspected and brought in at walking pace, the hazmat bag spotted and segregated on its own, the hold built bottom-to-top, every bit of it tied down before the door closes, and the weight checked against the plan before the loader backs clear",
+  "title": "SmartCiti.X~ Baggage Belt-Loader & Hold Loading VR",
+  "trade": "Ramp agent, baggage and cargo loading — IAM/TWU ramp crew",
+  "underwater": null,
+  "weather": "overcast"
+}

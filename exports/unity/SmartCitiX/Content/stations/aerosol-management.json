@@ -1,0 +1,415 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "operatory-cleared",
+    "name": "Operatory Cleared",
+    "note": "A full aerosol-generating appointment set up, worked and turned over on the room's own fallow time"
+  },
+  "category": "Dental & Oral Health",
+  "certification": "SEIU and UFCW dental and clinic staff, and the ADHA as the hygiene profession's own body; the CDC's Guidelines for Infection Control in Dental Health-Care Settings on pre-procedural rinses, dental dams and instrument selection for aerosol-generating procedures; OSHA 29 CFR 1910.134 respiratory protection and its user seal check requirement; the Dental Hygiene Board of California and the state dental practice act",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ADHA",
+        "citedAs": "ADHA",
+        "id": "adha-standards",
+        "title": "ADHA Standards for Clinical Dental Hygiene Practice"
+      },
+      {
+        "body": "CDC",
+        "citedAs": "CDC",
+        "id": "cdc-guidance",
+        "title": "CDC infection-prevention and public-health guidance, including the Guidelines for Infection Control in Dental Health-Care Settings and Legionella control guidance"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.134",
+        "id": "osha-1910-134",
+        "title": "29 CFR 1910.134 — Respiratory protection"
+      },
+      {
+        "body": "union",
+        "citedAs": "SEIU",
+        "id": "seiu-training",
+        "title": "SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members"
+      },
+      {
+        "body": "state dental board",
+        "citedAs": "dental practice act",
+        "id": "state-dental-board",
+        "title": "The state dental board and its dental practice act: licensure, scope of practice, and the allowable-duties rules for dental assistants and hygienists"
+      },
+      {
+        "body": "union",
+        "citedAs": "UFCW",
+        "id": "ufcw-training",
+        "title": "UFCW member training for retail food, clinic and dental support work"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Healthcare",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "seal-checked",
+        "name": "Seal Checked",
+        "note": "The N95 held its user seal check the full count"
+      },
+      {
+        "id": "capture-held",
+        "name": "Capture Held",
+        "note": "The evacuator's capture distance held near band centre"
+      },
+      {
+        "id": "no-shortcuts",
+        "name": "No Shortcuts",
+        "note": "No unsafe action across the whole turnover"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "on-schedule",
+        "name": "On Schedule",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "clean-run",
+        "name": "Clean Run",
+        "note": "No corrections the whole appointment"
+      },
+      {
+        "id": "steady-streak",
+        "name": "Steady Streak",
+        "note": "Eight correct actions in a row"
+      }
+    ],
+    "currency": "CADR",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Room Setup Tech",
+      "Registered Hygienist",
+      "Infection Control Lead",
+      "Clinical Lead",
+      "Air Control Certified"
+    ],
+    "system": "Air Control"
+  },
+  "hazards": {
+    "door-propped": "The operatory door is wedged open into the hallway. Whatever this room's air changes are doing to clear an aerosol, they are doing it against an open door pulling that same air — and whoever is sitting in the hallway — straight past the barrier the room was supposed to be.",
+    "hve-idle": "The evacuator is sitting propped in open air instead of at the site. Running but not capturing anything, it looks like it is doing its job from across the room and is doing none of it where the aerosol is actually being generated.",
+    "keyboard-uncovered": "The keyboard at the counter is outside the barrier covers and inside this room's splash zone. Aerosol settles on whatever it reaches, and a keyboard's gaps are exactly the surface that gets missed at terminal cleaning and gets touched again before the next patient.",
+    "surgical-mask-decoy": "That is a surgical mask, not a respirator. A surgical mask is built to stop droplets leaving your mouth; it is not fit-tested and does not filter the smaller aerosol particles an ultrasonic scaler or a handpiece throws — OSHA's respiratory protection standard exists precisely because the two are not interchangeable."
+  },
+  "id": "aerosol-management",
+  "indoor": "clinic",
+  "interrupts": [
+    {
+      "after": "procedure-monitor",
+      "alert": "The HEPA unit's filter alarm starts chirping. Its clean-air delivery is dropping right as the handpiece is generating the most aerosol it will all appointment.",
+      "cue": "The HEPA unit is alarming — check it now.",
+      "delay": 4,
+      "id": "hepa-filter-alarm",
+      "kind": "Equipment fault",
+      "missNote": "You kept working through the alarm. The unit kept running on a failing filter for the rest of the procedure, which means every minute after the alarm sounded delivered less clean air than the room plan assumed — and nobody could tell by looking.",
+      "seconds": 12,
+      "target": "hepa-unit",
+      "why": "A loaded filter still runs and still sounds like it is working, but the clean-air delivery behind that sound falls off well before the unit stops moving air entirely. The alarm is the only thing telling you the number on the room plan no longer describes what this unit is actually doing.",
+      "wrongNote": "It is the HEPA unit. The alarm is reporting on itself; nothing else at this chair explains a falling delivery rate."
+    },
+    {
+      "after": "fit-check",
+      "alert": "Someone calls over that a colleague's respirator from this same new box just failed its seal check twice in a row.",
+      "cue": "That new box may be a bad lot — switch to the trusted supply.",
+      "delay": 3,
+      "id": "mask-lot-fail",
+      "kind": "PPE fault",
+      "missNote": "You kept the mask from the questionable lot on. If the lot really was bad, every minute in it was a respirator doing less filtering than its rating promised, on a procedure built around trusting that rating.",
+      "seconds": 11,
+      "target": "n95-box-trusted",
+      "why": "A respirator model failing its seal check on more than one face in a row is a lot problem, not a fit problem, and the response is to stop drawing from that box rather than keep re-checking the same mask against the same face. The trusted, previously verified supply is the one to reach for while that lot gets pulled.",
+      "wrongNote": "It is the trusted supply box. A lot problem is not solved by re-checking the same failing mask again."
+    }
+  ],
+  "lateNotes": {
+    "hand-scaler": "The instrument choice comes after the room and the PPE are ready, not before — picking it up now changes nothing about whether this room can handle what it is about to generate.",
+    "room-clock": "The fallow time is read once the procedure is actually finished. There is nothing to time yet.",
+    "rubber-dam": "Not yet. Whether a dam is even indicated for this procedure has not been decided, and the room itself is not ready for aerosol-generating work."
+  },
+  "name": "Aerosol Management",
+  "parSeconds": 270,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "dental-hygiene-unspoken-smiles"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "barrier-covers",
+      "barrier-gap",
+      "cleaning-cart",
+      "door-ajar",
+      "door-propped",
+      "face-shield",
+      "gown",
+      "hand-scaler",
+      "hepa-dial",
+      "hepa-unit",
+      "hve-idle",
+      "hve-mount",
+      "isolation-field",
+      "keyboard-uncovered",
+      "n95-box-trusted",
+      "n95-mask",
+      "prerinse-cup",
+      "room-clock",
+      "room-plan",
+      "room-schedule",
+      "rubber-dam",
+      "surgical-mask-decoy",
+      "vent-blocked"
+    ],
+    "meshes": 164
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track"
+  ],
+  "steps": [
+    {
+      "cue": "Check how many air changes per hour this room is rated for before you set anything up.",
+      "id": "room-assess",
+      "kind": "select",
+      "prompt": "Check how many air changes per hour this room is rated for before you set anything up.",
+      "target": "room-plan",
+      "title": "Read this operatory's air-change rating",
+      "why": "Air changes per hour, multiplied against this room's own volume, is what determines how long an aerosol actually takes to clear once the handpiece stops — and it is different in every room in the building. Treating a small interior operatory the same as a large window bay is how a room gets reopened while it is still carrying what the last patient generated."
+    },
+    {
+      "cue": "Three things about this room are not ready. Find them by looking.",
+      "id": "pre-walk",
+      "itemNames": {
+        "barrier-gap": "the light handle with no surface barrier",
+        "door-ajar": "the door not fully latched",
+        "vent-blocked": "the return-air grille blocked by a cart"
+      },
+      "itemNotes": {
+        "barrier-gap": "The overhead light handle has no barrier on it. It gets touched with a gloved hand mid-procedure whether or not it is covered — the barrier is what makes that touch safe to repeat.",
+        "door-ajar": "A door that is closed but not latched drifts open on its own, and a room's air changes assume a closed envelope. Latch it before anything else moves.",
+        "vent-blocked": "A supply cart parked in front of the return grille is quietly halving this room's effective air changes, whatever the rating on the plan says. Move it clear before you trust that number."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Three things about this room are not ready. Find them by looking.",
+      "targets": [
+        "door-ajar",
+        "vent-blocked",
+        "barrier-gap"
+      ],
+      "title": "Walk the room before you bring the patient in",
+      "why": "A room's ventilation and its barriers only work the way the plan assumes if the room actually matches the plan, and none of these three failures are visible from the doorway. Catching them now costs a look; catching them after the handpiece has been running costs the whole appointment's worth of aerosol control."
+    },
+    {
+      "cue": "Place the HEPA unit so it pulls air away from the door, not toward it.",
+      "id": "hepa-place",
+      "kind": "select",
+      "prompt": "Place the HEPA unit so it pulls air away from the door, not toward it.",
+      "target": "hepa-unit",
+      "title": "Position the portable HEPA unit",
+      "why": "A portable HEPA unit's clean-air delivery rate only helps if it is actually moving air through the zone where the aerosol is generated — set facing the wrong way, a unit rated for this room's volume still leaves a dead pocket right over the patient's chest while it scrubs air nobody is breathing."
+    },
+    {
+      "cue": "Set the fan speed to the delivery rate this room's volume calls for, then commit.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.64
+        ],
+        "label": "FAN SPEED",
+        "missNote": "Not matched to this room's volume. Recheck the unit's rated delivery against the room-plan figure rather than guessing at the dial.",
+        "speed": 0.7
+      },
+      "id": "hepa-power",
+      "kind": "gauge",
+      "prompt": "Set the fan speed to the delivery rate this room's volume calls for, then commit.",
+      "target": "hepa-dial",
+      "title": "Set the fan speed for this room's volume",
+      "why": "A HEPA unit's clean-air delivery rate is only meaningful matched against the room it is running in — too low and a big operatory never gets the extra air changes it was brought in for; too high in a small one and it is loud enough that staff start turning it down themselves by the second patient."
+    },
+    {
+      "cue": "Have the patient rinse with the antimicrobial pre-procedural rinse.",
+      "forceClass": "light",
+      "id": "rinse",
+      "kind": "select",
+      "prompt": "Have the patient rinse with the antimicrobial pre-procedural rinse.",
+      "robotNote": "Handing the rinse cup up to the patient: contact with the person, no force in it.",
+      "target": "prerinse-cup",
+      "title": "Give the pre-procedural rinse",
+      "why": "An antimicrobial pre-procedural rinse cuts the microbial load in the mouth before the aerosol-generating instrument ever starts, which is the one control in this whole setup that acts on the aerosol at its source rather than after it is already in the air."
+    },
+    {
+      "cue": "Seat the high-volume evacuator at the site before anything aerosol-generating starts.",
+      "forceClass": "light",
+      "id": "hve-ready",
+      "kind": "select",
+      "prompt": "Seat the high-volume evacuator at the site before anything aerosol-generating starts.",
+      "robotNote": "The evacuator is seated at the mouth's edge, outside it — assistant work a robot may do.",
+      "target": "hve-mount",
+      "title": "Seat the evacuator at the site",
+      "why": "High-volume evacuation captures aerosol at the point it is created, which is a fundamentally different job from a HEPA unit clearing whatever escaped capture — one is source control, the other is cleanup. Skipping straight to the room's ventilation and treating it as sufficient on its own is how a well-ventilated room still has a contaminated chair."
+    },
+    {
+      "cue": "Gown first, then the N95, then the face shield over it.",
+      "id": "don-ppe",
+      "itemNames": {
+        "face-shield": "face shield",
+        "gown": "protective gown",
+        "n95-mask": "N95 respirator"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Wrong order — gown first, the N95 seated against your face second, and the face shield over the top last.",
+      "prompt": "Gown first, then the N95, then the face shield over it.",
+      "targets": [
+        "gown",
+        "n95-mask",
+        "face-shield"
+      ],
+      "title": "Don gown, then N95, then face shield",
+      "why": "The gown goes on before anything touches your face, the N95 seats directly against skin and has to go on before the shield, and the shield goes on last because it is what keeps splatter off a respirator you cannot simply wipe down and re-wear. Reverse the last two and the shield is fighting the mask straps for the same real estate on your head."
+    },
+    {
+      "cue": "Block the surface, inhale, and hold the mask collapsed against your face for the full check.",
+      "holdBreakNote": "You released before the check was over. A facepiece that leaks slowly passes a rushed check and fails when it actually matters — hold the full count.",
+      "id": "fit-check",
+      "kind": "hold",
+      "prompt": "Block the surface, inhale, and hold the mask collapsed against your face for the full check.",
+      "seconds": 6,
+      "target": "n95-mask",
+      "title": "Hold the user seal check",
+      "why": "OSHA's respiratory protection standard calls for a user seal check every single time an N95 goes on, not once at the annual fit test — cup both hands over it, inhale, and the mask has to stay drawn against your face for the whole count with no air sneaking in at the edges. A respirator that leaks slowly passes a quick squeeze and fails the appointment."
+    },
+    {
+      "cue": "Carry the dam from the bracket table to the field and seat it — this procedure is one where it is indicated.",
+      "drag": {
+        "missNote": "Not seated on the field. A dam has to be carried to the tooth and sealed around it; set down anywhere short of that it is still a sheet of latex on a tray.",
+        "radius": 0.4,
+        "to": "isolation-field"
+      },
+      "forceClass": "light",
+      "id": "dam-placement",
+      "kind": "drag",
+      "noRobot": true,
+      "prompt": "Carry the dam from the bracket table to the field and seat it — this procedure is one where it is indicated.",
+      "robotNote": "A dam is placed on the tooth and clamped: intraoral.",
+      "target": "rubber-dam",
+      "title": "Place the dam where this procedure calls for one",
+      "why": "A rubber dam isolates the field and is one of the single largest aerosol reductions available for the procedures it fits, but it is not universal — indicated here because the planned work calls for isolation, not reached for by habit. Placing it where it belongs is what actually earns the reduction; a dam is not doing anything from the drawer."
+    },
+    {
+      "cue": "Cover the light handle, chair controls and tubing runs before the handpiece starts.",
+      "forceClass": "light",
+      "id": "surface-barriers",
+      "kind": "select",
+      "prompt": "Cover the light handle, chair controls and tubing runs before the handpiece starts.",
+      "robotNote": "The chair-control cover goes on a pad beside the patient's hip — inside the keep-out volume, laid on rather than pressed.",
+      "target": "barrier-covers",
+      "title": "Cover the surfaces inside the splash zone",
+      "why": "Everything within reach of the spray gets a barrier that comes off and gets thrown away rather than wiped and reused, because aerosol settles on switches and handles exactly as readily as it settles on the tray, and those are the surfaces a gloved hand returns to mid-procedure without thinking about it."
+    },
+    {
+      "cue": "Reach for the hand scaler for this surface rather than the ultrasonic by default.",
+      "id": "instrument-choice",
+      "kind": "select",
+      "prompt": "Reach for the hand scaler for this surface rather than the ultrasonic by default.",
+      "target": "hand-scaler",
+      "title": "Choose hand instrumentation where it will do the job",
+      "why": "An ultrasonic tip and a high-speed handpiece are the two biggest aerosol generators on this tray, and neither is required for every surface on this chart. Choosing hand instrumentation wherever it will actually finish the job is aerosol reduction that costs nothing extra in PPE or ventilation — it is simply not generating the aerosol in the first place."
+    },
+    {
+      "cue": "Keep the evacuator close enough to the site to actually capture the spray, and hold it there.",
+      "forceClass": "light",
+      "holdBreakNote": "The capture distance drifted out of band. Bring the tip back to the site — aerosol that misses the evacuator by a few centimetres is aerosol in the room instead of the trap.",
+      "id": "procedure-monitor",
+      "kind": "track",
+      "prompt": "Keep the evacuator close enough to the site to actually capture the spray, and hold it there.",
+      "robotNote": "Holding capture distance keeps the tip beside the patient's face for the whole procedure.",
+      "seconds": 10,
+      "target": "hve-mount",
+      "title": "Hold the evacuator's capture distance",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.4,
+        "green": [
+          0.35,
+          0.6
+        ],
+        "label": "CAPTURE DISTANCE",
+        "rise": 0.48,
+        "start": 0.15
+      },
+      "why": "High-volume evacuation only captures what stays inside its zone, and that zone is a few centimetres wide — set the tip back to keep it out of the way and the aerosol simply passes it on the way to the room instead of into it. The whole point of positioning it earlier was to hold it here, not to have positioned it once and moved on."
+    },
+    {
+      "cue": "Read the settle time this room's air changes actually call for, then commit.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "FALLOW TIME",
+        "missNote": "Not long enough for this room's own air-change rate. Recheck the figure from the room plan rather than the clock on the wall.",
+        "speed": 0.66
+      },
+      "id": "fallow-time",
+      "kind": "gauge",
+      "prompt": "Read the settle time this room's air changes actually call for, then commit.",
+      "target": "room-clock",
+      "title": "Read the room's fallow time",
+      "why": "Fallow time is the room's own air changes doing the clearing, and a room rated for fewer changes per hour needs longer with nobody in it than one with better ventilation — there is no single number that fits every operatory in the building. Walking back in early because the chair looks empty treats a visual impression as if it were the air itself."
+    },
+    {
+      "cue": "Schedule the next aerosol-generating appointment in this room after the settle time, not back to back.",
+      "id": "sequence-rooms",
+      "kind": "select",
+      "prompt": "Schedule the next aerosol-generating appointment in this room after the settle time, not back to back.",
+      "target": "room-schedule",
+      "title": "Book the next aerosol appointment around the fallow time",
+      "why": "A schedule that books aerosol-generating appointments back to back in the same room is asking the fallow time to happen on somebody else's clock. Sequencing rooms so one has time to settle while another is in use is what actually protects the next patient — a clean-looking chair with an unmet fallow time is not a clean chair."
+    },
+    {
+      "cue": "Disinfect the surfaces beyond the immediate splash zone once the fallow time has passed.",
+      "id": "terminal-clean",
+      "kind": "select",
+      "prompt": "Disinfect the surfaces beyond the immediate splash zone once the fallow time has passed.",
+      "target": "cleaning-cart",
+      "title": "Clean and disinfect beyond the splash zone",
+      "why": "Terminal cleaning happens after the room has actually settled, and it covers more than the tray and the chair — anything the aerosol reached during the appointment is due the same disinfection, on the schedule the product label sets, not a quick wipe timed to how long it takes to seat the next patient."
+    }
+  ],
+  "supportLine": "your employer's employee assistance program, or the ADHA's member resources if the exposure worry outlasts the fallow time",
+  "tagline": "Turning an operatory over for an aerosol-generating procedure: the room's own air changes and a portable HEPA unit sized to them, HVE and pre-procedural rinse, an N95 seal-checked every time it goes on, the dam where it fits, and the room left to settle its own fallow time before the next patient sits down",
+  "title": "SmartCiti.X~ Aerosol Management VR",
+  "trade": "Dental hygienist",
+  "underwater": null,
+  "weather": "clear"
+}

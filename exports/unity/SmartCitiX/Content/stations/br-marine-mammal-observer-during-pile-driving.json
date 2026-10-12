@@ -1,0 +1,426 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "clean-watch-clean-zone",
+    "name": "Clean Watch, Clean Zone",
+    "note": "The zone was scanned clear before every ramp-up, the rangefinder was used instead of an eyeball guess, the seal sighting got an immediate shutdown, and every entry made it into the log"
+  },
+  "category": "Maritime & Ports",
+  "certification": "Marine Mammal Protection Act take prohibition and Incidental Harassment Authorization conditions; NOAA Fisheries authorization and monitoring protocol for in-water pile driving; Endangered Species Act consultation behind the same authorization; OSHA 29 CFR 1910.95 occupational noise exposure at the rail near an operating derrick; Pile Drivers Local 34 (UBC) and IUOE Local 3 training standards for the crew the observer works beside; San Francisco Bay Conservation and Development Commission (BCDC) Bay Plan permit conditions for the work window",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "BCDC",
+        "citedAs": "BCDC",
+        "id": "bcdc-bay-plan",
+        "title": "San Francisco Bay Plan and BCDC permit conditions under the McAteer-Petris Act"
+      },
+      {
+        "body": "union",
+        "citedAs": "UBC",
+        "id": "carpenters-ictf",
+        "title": "United Brotherhood of Carpenters International Training Fund — carpenter, pile driver and millwright apprenticeship"
+      },
+      {
+        "body": "union",
+        "citedAs": "IUOE",
+        "id": "iuoe-training",
+        "title": "IUOE local training funds and the IUOE National Training Fund — operating and stationary engineer apprenticeship"
+      },
+      {
+        "body": "Marine Mammal Protection Act",
+        "citedAs": "Incidental Harassment Authorization",
+        "id": "mmpa-take-and-harassment",
+        "title": "Marine Mammal Protection Act take prohibition and Incidental Harassment Authorization conditions for in-water construction noise affecting marine mammals"
+      },
+      {
+        "body": "NOAA Fisheries",
+        "citedAs": "NOAA Fisheries",
+        "id": "noaa-fisheries-mmpa-esa",
+        "title": "NOAA Fisheries (National Marine Fisheries Service) Marine Mammal Protection Act authorizations and Endangered Species Act consultation for in-water work affecting marine mammals"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.95",
+        "id": "osha-1910-95",
+        "title": "29 CFR 1910.95 — Occupational noise exposure"
+      },
+      {
+        "body": "USFWS",
+        "citedAs": "Endangered Species Act",
+        "id": "usfws-esa",
+        "title": "Endangered Species Act §7 consultation and species protection measures set by the U.S. Fish and Wildlife Service"
+      }
+    ]
+  },
+  "district": "Maritime & Ports",
+  "domain": "Maritime & Ports",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "true-range",
+        "name": "True Range",
+        "note": "The rangefinder read and calibrated before the first scan, never eyeballed"
+      },
+      {
+        "id": "clean-shutdown",
+        "name": "Clean Shutdown",
+        "note": "Never skipped the soft start, never left the post, never logged late"
+      },
+      {
+        "id": "held-the-wait",
+        "name": "Held The Wait",
+        "note": "The post-shutdown clearance wait held inside the correct band, first time"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-scan",
+        "name": "Clean Scan",
+        "note": "No corrections across the whole watch"
+      },
+      {
+        "id": "steady-eyes",
+        "name": "Steady Eyes",
+        "note": "Held the zone scan in band through both ramp-up and full power"
+      },
+      {
+        "id": "logged-fast",
+        "name": "Logged Fast",
+        "note": "Watch closed out inside 80% of par"
+      }
+    ],
+    "currency": "SIGHTINGS",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Trainee Observer",
+      "Observer",
+      "Lead Observer",
+      "Senior Observer",
+      "Pile-Driving Watch Certified"
+    ],
+    "system": "Protected Species Watch"
+  },
+  "hazards": {
+    "eyeball-the-range": "You judged whether the animal was inside the shutdown zone by eye instead of reading the rangefinder. A shutdown zone is a fixed distance under the authorization, and a harbor seal's head breaking the surface looks closer or farther depending on the light and the chop — the rangefinder is what turns a guess into the number NOAA Fisheries actually issued the permit against.",
+    "leave-post-for-photo": "You left the rail to get a closer photo of the animal for the record. The observer's whole value is a continuous scan of the shutdown zone from one fixed post, and a zone nobody is watching while the observer chases a photo is a zone the crew is now driving into blind — the sighting is logged from where you were standing, not from as close as you can get.",
+    "log-it-later": "You decided to remember the sighting and log it once the watch was over instead of logging it right away. A sighting logged from memory after a full shift of driving noise and other sightings is a sighting that has already lost its exact time, its exact bearing and half of what NOAA Fisheries' own monitoring report will ask this crew for — the log is filled in at the sighting, not reconstructed afterward.",
+    "skip-soft-start": "You told the crew to go straight to full power and skip the soft-start warning strikes. The soft start is what gives any animal still in the zone the chance to leave under noise it can move away from, before the hammer reaches the power that can actually injure it — skipping it turns the ramp-up from a warning into the same shutdown-zone violation the whole watch exists to prevent."
+  },
+  "id": "br-marine-mammal-observer-during-pile-driving",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "fullpower-scan",
+      "alert": "A harbor seal has surfaced right inside the shutdown zone while the hammer is at full power.",
+      "cue": "Call the shutdown immediately on the dedicated shutdown channel — do not wait for the current strike count to finish.",
+      "delay": 3,
+      "id": "seal-in-zone",
+      "kind": "Harbor seal surfaces inside the shutdown zone",
+      "missNote": "The hammer kept driving at full power while the seal sat inside the shutdown zone — exactly the exposure the authorization's shutdown-zone rule exists to prevent.",
+      "seconds": 14,
+      "target": "radio-shutdown",
+      "why": "The Incidental Harassment Authorization exists precisely for this moment: an animal inside the shutdown zone during driving is a take the authorization does not cover, and the only thing that stops it from becoming one is calling the shutdown the instant the animal is confirmed, not at the end of the strike the crew is already mid-way through.",
+      "wrongNote": "The shutdown channel — that radio calls the hammer off, and nothing else on this deck does."
+    },
+    {
+      "after": "rampup-watch",
+      "alert": "A small boat with no idea the crew is working has turned straight toward the derrick's safety zone.",
+      "cue": "Hail the boat on the loudhailer and wave it off before it gets under the boom or the falling-object zone around the derrick.",
+      "delay": 2,
+      "id": "boat-in-safety-zone",
+      "kind": "Unaware boat enters the safety zone",
+      "missNote": "Nobody hailed the boat, and it held its course straight in under the derrick's swinging boom and its falling-object zone.",
+      "seconds": 14,
+      "target": "hailer",
+      "why": "The safety zone around a working derrick is about falling loads and swinging rigging, not about marine mammals, and a boat with no radio and no idea anyone is working here is not going to turn away on its own — the loudhailer is the one thing on this deck that reaches a boat with no VHF, and it has to reach it before the boat is under the boom, not after.",
+      "wrongNote": "The loudhailer — that boat has no radio, and the wave-off has to reach it before it gets under the boom."
+    }
+  ],
+  "lateNotes": {
+    "resume-clock": "Nothing to read yet — the shutdown has to actually be called and the zone re-cleared before the clearance wait starts.",
+    "sighting-log": "Nothing to log yet — the zone hasn't been scanned and nothing has happened worth an entry."
+  },
+  "name": "Marine Mammal Observer During Pile Driving",
+  "parSeconds": 310,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "bay-restoration-maritime-underwater"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "salvageCraneBarge",
+        "count": 1,
+        "kit": "fleet"
+      },
+      {
+        "builder": "skiff",
+        "count": 1,
+        "kit": "fleet"
+      },
+      {
+        "builder": "workboat",
+        "count": 1,
+        "kit": "fleet"
+      },
+      {
+        "builder": "radio",
+        "count": 3,
+        "kit": "toolkit"
+      }
+    ],
+    "error": null,
+    "footprint": 3,
+    "hits": [
+      "binoculars-mount",
+      "crew-radio",
+      "eyeball-the-range",
+      "fogged-lens",
+      "hailer",
+      "hard-hat",
+      "hearing-protection",
+      "leave-post-for-photo",
+      "log-it-later",
+      "log-start-time",
+      "log-wrong-page",
+      "monitoring-plan-board",
+      "pfd-on",
+      "radio-clear-call",
+      "radio-shutdown",
+      "rangefinder-dial",
+      "resume-clock",
+      "sighting-log",
+      "skip-soft-start",
+      "species-id-board"
+    ],
+    "meshes": 273
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "anyOrder": true,
+      "cue": "Before stepping to the rail: hearing protection in, PFD on and buckled, hard hat on.",
+      "id": "ppe-brief",
+      "itemNames": {
+        "hard-hat": "hard hat on",
+        "hearing-protection": "hearing protection in",
+        "pfd-on": "PFD on and buckled"
+      },
+      "kind": "sequence",
+      "prompt": "Before stepping to the rail: hearing protection in, PFD on and buckled, hard hat on.",
+      "targets": [
+        "hearing-protection",
+        "pfd-on",
+        "hard-hat"
+      ],
+      "title": "Gear up at the rail before the watch starts",
+      "why": "The rail puts the observer close enough to the derrick to hear every strike once the hammer is at full power, which is the noise exposure OSHA's occupational noise standard exists for, and the same rail is a place to go over the side from a moving deck — the hearing protection and the PFD are not optional because the job is watching, not driving."
+    },
+    {
+      "cue": "Read today's monitoring plan: the shutdown zone and the safety zone per the permit, the soft-start sequence, and who gets called for what.",
+      "id": "monitoring-plan-board",
+      "kind": "select",
+      "prompt": "Read today's monitoring plan: the shutdown zone and the safety zone per the permit, the soft-start sequence, and who gets called for what.",
+      "target": "monitoring-plan-board",
+      "title": "Read the day's monitoring plan",
+      "why": "The shutdown-zone distance, the safety-zone distance and the soft-start sequence are all set in the authorization NOAA Fisheries issued for this specific work window, not decided on the deck, and the plan board is where the observer confirms today's numbers against the permit before a single strike goes in — the same plan the report at the end of the job will be checked against."
+    },
+    {
+      "cue": "Review the species reference card: the harbor seal, the harbor porpoise, and what a false alarm from a diving bird or a floating log tends to look like.",
+      "id": "species-id-board",
+      "kind": "select",
+      "prompt": "Review the species reference card: the harbor seal, the harbor porpoise, and what a false alarm from a diving bird or a floating log tends to look like.",
+      "target": "species-id-board",
+      "title": "Review the species reference before the watch",
+      "why": "A shutdown call on a bird or a log costs the crew a strike sequence for nothing, and a missed harbor porpoise's low, fast roll because nobody had looked at the reference that morning is a take that never gets called — five minutes with the card is what keeps today's calls both fast and correct."
+    },
+    {
+      "cue": "Walk the deck and find anything wrong with the gear before the watch starts logging anything.",
+      "id": "check-gear",
+      "itemNames": {
+        "fogged-lens": "the spare binoculars, lens fogged",
+        "log-wrong-page": "the log left open on yesterday's page"
+      },
+      "itemNotes": {
+        "fogged-lens": "The spare set of binoculars has fogged over — reach for these mid-watch and the zone goes unscanned for as long as it takes to notice.",
+        "log-wrong-page": "The log is still open to yesterday's entries — a sighting written on the wrong day's page is a sighting the monitoring report can't find."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the deck and find anything wrong with the gear before the watch starts logging anything.",
+      "targets": [
+        "fogged-lens",
+        "log-wrong-page"
+      ],
+      "title": "Check the gear before the scan starts",
+      "why": "The spare binoculars and the open log are the two things a rushed observer never checks until they're needed mid-scan, and finding the fogged lens and the wrong page now, at the rail with nothing yet happening, costs nothing — finding them during a shutdown call costs the seconds the call cannot spare."
+    },
+    {
+      "cue": "Turn the rangefinder's ring to the shutdown-zone distance the monitoring plan gave you, before the first scan.",
+      "id": "rangefinder-dial",
+      "kind": "turn",
+      "prompt": "Turn the rangefinder's ring to the shutdown-zone distance the monitoring plan gave you, before the first scan.",
+      "target": "rangefinder-dial",
+      "title": "Calibrate the rangefinder to today's zone",
+      "turn": {
+        "label": "RANGEFINDER",
+        "turns": 0.6
+      },
+      "why": "The rangefinder only tells the observer whether an animal is inside or outside the zone if it is set to the actual distance the authorization defines for today, and a rangefinder still set to another site's number, or to no number at all, turns every reading back into the eyeball guess it exists to replace."
+    },
+    {
+      "cue": "Hold a steady scan across the shutdown zone with the binoculars — the crew cannot start the soft start until you call it clear.",
+      "holdBreakNote": "The scan broke before the zone was covered end to end — steady the binoculars and finish the pass before calling it clear.",
+      "id": "prerampup-scan",
+      "kind": "track",
+      "prompt": "Hold a steady scan across the shutdown zone with the binoculars — the crew cannot start the soft start until you call it clear.",
+      "seconds": 6,
+      "target": "binoculars-mount",
+      "title": "Scan the shutdown zone before the soft start",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.42,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "ZONE SCAN",
+        "rise": 0.5,
+        "start": 0.12
+      },
+      "why": "The soft start exists to warn anything still in the zone before the hammer reaches full power, and it can only do that job if the zone was actually empty when the soft start begins — a scan rushed across the near edge or dragged past the far edge is a zone that was never really checked at all, whatever the observer tells the crew."
+    },
+    {
+      "cue": "Call the crew: 'zone clear, soft start authorized' — then log the time the soft start began.",
+      "id": "zone-clear-call",
+      "itemNames": {
+        "log-start-time": "the soft-start time logged",
+        "radio-clear-call": "'zone clear, soft start authorized' called to the crew"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Call the zone clear to the crew first — the time only means anything logged against a soft start the crew has actually been told to begin.",
+      "prompt": "Call the crew: 'zone clear, soft start authorized' — then log the time the soft start began.",
+      "targets": [
+        "radio-clear-call",
+        "log-start-time"
+      ],
+      "title": "Call the zone clear and authorize the soft start",
+      "why": "The crew cannot legally begin the soft start until the observer says the zone is clear, and the call has to happen before the first strike, not be inferred from the observer's silence — logging the exact time afterward is what lets the monitoring report show the soft start actually preceded full power, in order, the way the authorization requires."
+    },
+    {
+      "cue": "Hold the binoculars steady on the zone through the whole soft-start sequence — anything that surfaces now still has time to leave before full power.",
+      "holdBreakNote": "The watch broke partway through the soft start — get back on the binoculars and hold it through to the end of the sequence.",
+      "id": "rampup-watch",
+      "kind": "hold",
+      "prompt": "Hold the binoculars steady on the zone through the whole soft-start sequence — anything that surfaces now still has time to leave before full power.",
+      "seconds": 5,
+      "target": "binoculars-mount",
+      "title": "Hold the watch through the soft start",
+      "why": "The soft start is the one part of the sequence built to give an animal a way out, and that only works if someone is actually watching for it to take that way out — a watch that wanders during the soft start is a watch that finds out an animal was there only once the crew is already at full power."
+    },
+    {
+      "cue": "Hold the scan on the shutdown zone through full-power driving — this is the reading the whole watch exists for.",
+      "holdBreakNote": "The scan lost the zone during full-power driving — the one time in the whole sequence that cannot happen. Steady it and pick the pass back up.",
+      "id": "fullpower-scan",
+      "kind": "track",
+      "prompt": "Hold the scan on the shutdown zone through full-power driving — this is the reading the whole watch exists for.",
+      "seconds": 7,
+      "target": "binoculars-mount",
+      "title": "Scan the zone through full-power driving",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.45,
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "ZONE SCAN",
+        "rise": 0.55,
+        "start": 0.15
+      },
+      "why": "Full power is where an animal inside the shutdown zone is actually at risk, which makes this the one scan in the whole sequence that cannot be allowed to drift — a scan that loses the near or far edge of the zone during full-power driving is the exact gap a harbor seal or harbor porpoise needs to be missed in."
+    },
+    {
+      "cue": "Log the sighting: species, time, bearing, the shutdown called and the time driving stopped.",
+      "id": "log-shutdown-entry",
+      "kind": "select",
+      "prompt": "Log the sighting: species, time, bearing, the shutdown called and the time driving stopped.",
+      "target": "sighting-log",
+      "title": "Log the shutdown and the sighting",
+      "why": "NOAA Fisheries' monitoring report is built entirely out of entries like this one, and an entry made right after the shutdown — while the bearing and the time are still what the observer actually saw, not what they remember an hour later — is the only version of this sighting that can stand behind the authorization's own record of how the work was actually monitored."
+    },
+    {
+      "cue": "Watch the clearance clock and call ramp-up authorized only once the zone has read clear for the wait the monitoring plan sets — not before it, and not long past it either.",
+      "gauge": {
+        "green": [
+          0.46,
+          0.64
+        ],
+        "label": "CLEARANCE WAIT",
+        "missNote": "Off the band. The wait the monitoring plan sets has to actually run its course before ramp-up starts again.",
+        "speed": 0.55
+      },
+      "id": "resume-wait",
+      "kind": "gauge",
+      "prompt": "Watch the clearance clock and call ramp-up authorized only once the zone has read clear for the wait the monitoring plan sets — not before it, and not long past it either.",
+      "target": "resume-clock",
+      "title": "Hold the clearance wait before ramp-up resumes",
+      "why": "The clearance wait exists so a shutdown means the zone is actually re-confirmed empty, not just that the hammer paused for a moment — calling ramp-up back too early treats the shutdown as a formality, and holding well past the wait for no reason is time the crew and the tide do not have either."
+    },
+    {
+      "cue": "Call the crew again: zone re-confirmed clear, soft start authorized to resume from the top of the sequence.",
+      "id": "resume-authorization",
+      "kind": "select",
+      "prompt": "Call the crew again: zone re-confirmed clear, soft start authorized to resume from the top of the sequence.",
+      "target": "radio-clear-call",
+      "title": "Authorize the resume",
+      "why": "A resume after a shutdown goes back through the soft start from the beginning, not straight to full power, because the animal that caused the shutdown may not actually be gone — the same call that started the day's work is the one that restarts it after every shutdown, in the same order, for the same reason."
+    },
+    {
+      "cue": "On the working channel: the watch is current, the shutdown and the boat are both handled, and how the crew is doing after a stop mid-drive.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "On the working channel: the watch is current, the shutdown and the boat are both handled, and how the crew is doing after a stop mid-drive.",
+      "target": "crew-radio",
+      "title": "Check in with the derrick crew",
+      "why": "A shutdown mid-drive costs the crew time and can cost a foundation schedule, and the crew that just stopped and restarted a pile on the observer's word deserves to hear directly that the call was made for something real — the check-in is also where the observer's own read on a tense watch gets a place to go besides staying with them at the rail."
+    },
+    {
+      "cue": "Close the log: total driving time, every sighting and shutdown, the boat waved off, and the watch secured.",
+      "id": "closing-log",
+      "kind": "select",
+      "prompt": "Close the log: total driving time, every sighting and shutdown, the boat waved off, and the watch secured.",
+      "target": "sighting-log",
+      "title": "Close out the watch log",
+      "why": "The closing entry is what turns today's individual sightings and shutdowns into the record NOAA Fisheries actually reviews against the authorization — a log closed out completely, in order, is the difference between an authorization that gets renewed on the strength of its own monitoring and one that raises questions nobody on this deck can answer months later."
+    }
+  ],
+  "supportLine": "your agency's employee assistance programme, with NOAA Fisheries' own observer support line behind it",
+  "tagline": "The watch that lets a pile-driving crew work at all: the shutdown zone scanned clean before the first soft-start strike, the rangefinder used instead of a guess, the soft-start and full-power calls made in order, a harbor seal or harbor porpoise in the zone answered with an immediate shutdown call, a stray boat waved off the safety zone, the wait held out before ramp-up resumes, and every sighting logged the way the authorization requires",
+  "title": "SmartCiti.X~ Marine Mammal Observer During Pile Driving VR",
+  "trade": "NOAA-Fisheries-authorized protected species observer, posted on the support workboat for a restoration pile-driving crew — Pile Drivers Local 34 on the derrick, IUOE Local 3 on the crane",
+  "underwater": null,
+  "weather": "overcast"
+}

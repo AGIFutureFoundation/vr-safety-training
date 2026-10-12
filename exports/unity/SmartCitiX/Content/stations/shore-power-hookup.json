@@ -1,0 +1,393 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "cold-iron-clean",
+    "name": "Cold Iron Clean",
+    "note": "Ground proven first, the breaker closed only on the port's order, synchronisation confirmed with the ship, and both auxiliaries shut down clean — first time"
+  },
+  "category": "Maritime & Ports",
+  "certification": "IBEW port electricians; ILWU Local 10 — the longshore side of the hookup; California Air Resources Board At-Berth Regulation; IEC/ISO/IEEE 80005-1 high-voltage shore connection; NFPA 70E; OSHA 1918 marine terminals",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "IBEW",
+        "id": "ibew-neca-jatc",
+        "title": "IBEW/NECA Joint Apprenticeship and Training Committee — inside and outside wireman apprenticeship standards, taught from the electrical training ALLIANCE curriculum"
+      },
+      {
+        "body": "IEEE",
+        "citedAs": "IEEE 80005",
+        "id": "ieee-80005",
+        "title": "IEC/IEEE 80005 — Utility connections in port: high-voltage shore connection systems"
+      },
+      {
+        "body": "union",
+        "citedAs": "ILWU",
+        "id": "ilwu-pma-training",
+        "title": "ILWU-PMA joint training for longshore, crane and clerk work, and the Inlandboatmen's Union marine division"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 70E",
+        "id": "nfpa-70e",
+        "title": "NFPA 70E — Standard for Electrical Safety in the Workplace"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Maritime & Ports",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "ground-first",
+        "name": "Ground First",
+        "note": "The ground connector landed and proven before either phase bank"
+      },
+      {
+        "id": "never-live",
+        "name": "Never Live Early",
+        "note": "Never touched the panel before the interlock, never closed a breaker without the order"
+      },
+      {
+        "id": "sync-true",
+        "name": "Sync True",
+        "note": "Insulation test and synchronisation both read inside the band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-hookup",
+        "name": "Clean Hookup",
+        "note": "No corrections anywhere in the connection"
+      },
+      {
+        "id": "steady-payout",
+        "name": "Steady Pay-out",
+        "note": "Held the reel rate in band the whole run"
+      },
+      {
+        "id": "stack-clear-fast",
+        "name": "Stack Clear",
+        "note": "Auxiliaries shut down inside 80% of par"
+      }
+    ],
+    "currency": "VOLT",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Apprentice Electrician",
+      "Journeyman",
+      "Port Electrician",
+      "Lead Electrician",
+      "Shore Power Certified"
+    ],
+    "system": "Shore Power Crew"
+  },
+  "hazards": {
+    "breaker-no-order": "You reached for the shore breaker before the port gave the order to close it. The breaker belongs to the port's own switching discipline — closing it on your own judgment is the one thing that discipline exists to prevent, whoever is standing at the handle.",
+    "cable-drag-deck": "You hauled the cable across the quay by hand instead of paying it out with the crane. A cable dragged over a rough quay edge abrades and kinks in ways no visual check catches, and OSHA 1918 exists precisely because a quay does that to any load nobody is supposed to be carrying by hand.",
+    "live-panel-touch": "You put a bare hand on the vessel's shore connection panel before the interlock was proven. IEC/ISO/IEEE 80005-1 treats that panel as live until the interlock and the pilot circuit both prove otherwise — not until it merely looks safe from the outside.",
+    "sync-skip": "You called for the vessel breaker to close without the ship's electrician confirming synchronisation. Closing two breakers onto systems that are not in step is exactly the fault a cold-ironing synchronisation check exists to catch before it happens, not after."
+  },
+  "id": "shore-power-hookup",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "reel-payout",
+      "alert": "The tide has lifted the ship against its lines and the cable has come up hard against the CMS — the tension alarm on the reel is sounding.",
+      "cue": "Recheck the cable management system before the pay-out goes any further.",
+      "delay": 3,
+      "id": "tide-tension-check",
+      "kind": "Cable tension alarm as the ship moves on the tide",
+      "missNote": "The pay-out kept going while the cable stayed hard up against the CMS, and the strain that should have stopped at the cable management system carried straight through to the connector landed at the other end.",
+      "seconds": 12,
+      "target": "cms-unit",
+      "why": "A shore-power run carries some slack for exactly this — the berth's own tidal range — but once the cable comes up hard against the CMS, that slack is gone and the next few centimetres of tide movement load the connector itself rather than the cable. Checking the CMS the moment the alarm sounds keeps that load off pins that were never rated to carry it.",
+      "wrongNote": "It's the cable management system. A tension alarm from the reel means the CMS is the point actually taking the load right now — check it before anything else moves."
+    },
+    {
+      "after": "sync-check",
+      "alert": "The pilot circuit's continuity light has dropped out while the ship's electrician is still confirming synchronisation.",
+      "cue": "A dropped pilot circuit means the interlock's own proof is gone — recheck it now.",
+      "delay": 2,
+      "id": "pilot-circuit-dropout",
+      "kind": "Pilot circuit dropping out mid-transfer",
+      "missNote": "The synchronisation call went ahead with the pilot circuit already open, on the strength of a continuity check that had been true several minutes earlier and was no longer true now.",
+      "seconds": 12,
+      "target": "pilot-circuit-check",
+      "why": "The pilot circuit is the low-voltage line the interlock's own proof depends on, and IEC/ISO/IEEE 80005-1 trips the whole connection if it opens — a dropout mid-transfer means the interlock can no longer prove what it proved at the start, and the connection is only as safe as the last continuity check that is still actually true.",
+      "wrongNote": "It's the pilot circuit test point. A dropout there means the interlock's own proof has to be re-established before anything else moves forward."
+    }
+  ],
+  "lateNotes": {
+    "insulation-tester": "Nothing to test until the connectors are actually landed on the shore connection box.",
+    "shore-breaker": "The shore breaker closes only after the port gives the order — nothing to close until then.",
+    "sync-panel": "There is nothing to synchronise until the shore breaker is actually closed and feeding the connection.",
+    "vessel-breaker": "The vessel breaker closes after synchronisation is confirmed with the ship's electrician, not before."
+  },
+  "name": "Shore Power Hookup",
+  "parSeconds": 260,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "ports-maritime-ecology"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "berth-plan",
+      "breaker-no-order",
+      "cable-drag-deck",
+      "cable-reel",
+      "cms-unit",
+      "connection-point",
+      "engine-port-off",
+      "engine-stbd-off",
+      "ground-connector",
+      "insulation-tester",
+      "interlock-engaged",
+      "live-panel-touch",
+      "loose-clamp",
+      "phase-connector-1",
+      "phase-connector-2",
+      "pilot-circuit-check",
+      "port-radio",
+      "shore-breaker",
+      "stage-arc",
+      "stage-gloves",
+      "stage-mat",
+      "sync-panel",
+      "sync-skip",
+      "vessel-breaker"
+    ],
+    "meshes": 227
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Confirm the vessel's shore-power system and the berth's rated capacity match the connection plan.",
+      "id": "plan",
+      "kind": "select",
+      "prompt": "Confirm the vessel's shore-power system and the berth's rated capacity match the connection plan.",
+      "target": "berth-plan",
+      "title": "Check compatibility and the berth rating against the plan",
+      "why": "California's At-Berth Regulation is the reason this hookup happens at all — the vessel's own receptacle, voltage and frequency have to match what this berth actually delivers, and IEC/ISO/IEEE 80005-1 sets the compatibility both sides are built to. A mismatch found here is a mismatch found on paper, not with a live cable in someone's hands."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Rated gloves, arc-rated coveralls and the insulating mat down before a connector is touched.",
+      "id": "stage",
+      "itemNames": {
+        "stage-arc": "arc-rated coveralls",
+        "stage-gloves": "rated dielectric gloves",
+        "stage-mat": "insulating mat"
+      },
+      "kind": "sequence",
+      "prompt": "Rated gloves, arc-rated coveralls and the insulating mat down before a connector is touched.",
+      "targets": [
+        "stage-gloves",
+        "stage-arc",
+        "stage-mat"
+      ],
+      "title": "Stage PPE for the connection",
+      "why": "IEC/ISO/IEEE 80005-1 puts real voltage on this connector once it is live — high enough that NFPA 70E treats the shore connection box as its own arc-flash boundary — and the gloves, the coveralls and the mat underfoot are what stand between a fault and the electrician making the connection up."
+    },
+    {
+      "cue": "Wheel the CMS into place under the ship's shore-power receptacle and drop it on the mark.",
+      "drag": {
+        "missNote": "Not on the mark — the CMS has to sit square under the receptacle or the cable comes in at an angle.",
+        "radius": 0.5,
+        "to": "connection-point"
+      },
+      "id": "cms-position",
+      "kind": "drag",
+      "prompt": "Wheel the CMS into place under the ship's shore-power receptacle and drop it on the mark.",
+      "target": "cms-unit",
+      "title": "Position the cable management system at the vessel's connection point",
+      "why": "The cable management system supports the run from the reel to the ship's receptacle so the cable lands on the connector straight, not at an angle that strains the pins the moment it takes a load. Positioned here first, the pay-out, the landing and the strain relief that follow all take the line the CMS sets."
+    },
+    {
+      "cue": "Signal the crane to lower the reel's load steadily — never let the cable go slack on the quay or snatch tight.",
+      "holdBreakNote": "The rate broke rhythm and the cable dropped slack onto the quay — exactly the abrasion the crane exists to prevent. Bring it back to a steady pay-out.",
+      "id": "reel-payout",
+      "kind": "track",
+      "prompt": "Signal the crane to lower the reel's load steadily — never let the cable go slack on the quay or snatch tight.",
+      "seconds": 6,
+      "target": "cable-reel",
+      "title": "Pay out the cable reel with the crane",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.48,
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "REEL RATE",
+        "rise": 0.6,
+        "start": 0.1
+      },
+      "why": "OSHA 1918's marine terminal rules and the cable's own bend-radius limit both assume this run is carried, not dragged: a shore-power cable pulled by hand across a quay picks up abrasion and kinks a megger will not catch until the cable is already energised. The crane carries the weight; the deck never does."
+    },
+    {
+      "cue": "Land the ground connector into the shore connection box, then the two phase connector banks.",
+      "id": "connectors",
+      "itemNames": {
+        "ground-connector": "ground connector",
+        "phase-connector-1": "phase connector — bank 1",
+        "phase-connector-2": "phase connector — bank 2"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Ground first, then the phase banks — the ground path has to exist before there is anything else to land.",
+      "prompt": "Land the ground connector into the shore connection box, then the two phase connector banks.",
+      "targets": [
+        "ground-connector",
+        "phase-connector-1",
+        "phase-connector-2"
+      ],
+      "title": "Land the connectors, ground first",
+      "why": "IEC/ISO/IEEE 80005-1 requires the ground path made and proven before either phase bank is landed, because a fault on an ungrounded connection has nowhere safe to go — the ground connector is what gives it somewhere before there is anything else to fault to."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Engage the mechanical interlock and prove continuity on the pilot circuit before anything is energised.",
+      "id": "interlock",
+      "itemNames": {
+        "interlock-engaged": "mechanical interlock",
+        "pilot-circuit-check": "pilot circuit continuity"
+      },
+      "kind": "sequence",
+      "prompt": "Engage the mechanical interlock and prove continuity on the pilot circuit before anything is energised.",
+      "targets": [
+        "interlock-engaged",
+        "pilot-circuit-check"
+      ],
+      "title": "Prove the interlock and the pilot circuit",
+      "why": "The interlock makes it physically impossible to close the shore breaker onto an unmated connector, and the pilot circuit is the low-voltage line that interlock depends on — both are proven now, dead, because proving them after the breaker closes is proving them on a connector that is already live."
+    },
+    {
+      "cue": "Run the megger on the made-up cable and commit the reading against the minimum.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "MΩ",
+        "missNote": "Below the minimum insulation resistance — do not energise. Find the fault before the next reading.",
+        "speed": 0.7
+      },
+      "id": "insulation-test",
+      "kind": "gauge",
+      "prompt": "Run the megger on the made-up cable and commit the reading against the minimum.",
+      "target": "insulation-tester",
+      "title": "Test insulation resistance before energising",
+      "why": "A cable that has been coiled, paid out and landed picks up nicks and damp ingress a visual check misses; the insulation resistance reading is the number that says the cable can actually carry the load IEC/ISO/IEEE 80005-1 is about to put on it, not just that it looks fine."
+    },
+    {
+      "cue": "Radio the port's control room: connection made, interlock proven, ready to energise.",
+      "id": "breaker-permission",
+      "kind": "select",
+      "prompt": "Radio the port's control room: connection made, interlock proven, ready to energise.",
+      "target": "port-radio",
+      "title": "Call the port for the order to close the shore breaker",
+      "why": "The shore breaker only closes on an order from the port that owns the feeder behind it — IBEW port electricians work this side of the connection under a switching discipline that never lets the person standing at the breaker decide alone that the moment has come."
+    },
+    {
+      "cue": "Turn the shore breaker's handle through to closed, on the port's order.",
+      "id": "breaker-close",
+      "kind": "turn",
+      "prompt": "Turn the shore breaker's handle through to closed, on the port's order.",
+      "target": "shore-breaker",
+      "title": "Close the shore-side breaker",
+      "turn": {
+        "axis": "y",
+        "label": "SHORE BREAKER",
+        "turns": 0.85
+      },
+      "why": "Closing this breaker puts real voltage onto a cable an ILWU Local 10 gang may still be working around on the same quay, and it is the one control that turns the whole run from dead cable to live feeder."
+    },
+    {
+      "cue": "Hold the sync check while the ship's electrician confirms voltage, frequency and phase rotation match.",
+      "holdBreakNote": "Released before the ship's electrician confirmed the match — hold until the sync reading is called good from both sides.",
+      "id": "sync-check",
+      "kind": "hold",
+      "prompt": "Hold the sync check while the ship's electrician confirms voltage, frequency and phase rotation match.",
+      "seconds": 5,
+      "target": "sync-panel",
+      "title": "Confirm synchronisation with the ship's electrician",
+      "why": "Cold ironing does not simply plug a ship into shore power — the vessel's own system has to be brought into synchronism with the shore feeder before load transfers, or the mismatch shows up as a fault the moment the vessel breaker closes. This is confirmed with the ship's own electrician, never assumed from the shore side alone."
+    },
+    {
+      "cue": "Confirm with the ship's electrician that the vessel's shore breaker is closed and load is transferring.",
+      "id": "vessel-breaker",
+      "kind": "select",
+      "prompt": "Confirm with the ship's electrician that the vessel's shore breaker is closed and load is transferring.",
+      "target": "vessel-breaker",
+      "title": "Have the vessel breaker closed",
+      "why": "The vessel breaker is the ship's own control, closed by the ship's electrician once synchronism is confirmed — the load only actually moves from the auxiliary generators to the shore feeder once both breakers are closed in the right order."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Confirm both auxiliary engines have shut down now that shore power is carrying the ship's load.",
+      "id": "shutdown-observe",
+      "itemNames": {
+        "engine-port-off": "port auxiliary engine",
+        "engine-stbd-off": "starboard auxiliary engine"
+      },
+      "kind": "sequence",
+      "prompt": "Confirm both auxiliary engines have shut down now that shore power is carrying the ship's load.",
+      "targets": [
+        "engine-port-off",
+        "engine-stbd-off"
+      ],
+      "title": "Watch the auxiliary engines shut down",
+      "why": "This is the whole point of the hookup: California's At-Berth Regulation exists because a ship idling its diesel auxiliaries at berth puts exhaust into a port neighbourhood for the whole time it is alongside, and the stack only goes clear once both auxiliaries are actually off, not merely once the breaker reads closed."
+    },
+    {
+      "cue": "Check every connector, the interlock and the strain relief before logging the hookup complete.",
+      "id": "walk",
+      "itemNames": {
+        "loose-clamp": "strain-relief clamp"
+      },
+      "itemNotes": {
+        "loose-clamp": "The strain-relief clamp on the phase connector bank nearest the CMS was never fully tightened — the cable's own weight has started to pull on the landed connector."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Check every connector, the interlock and the strain relief before logging the hookup complete.",
+      "targets": [
+        "loose-clamp"
+      ],
+      "title": "Walk the connection before signing off",
+      "why": "A connector that is landed but not fully secured does not fail today — it fails on the next tide movement or the next gust, hours into the call, well after anyone is still watching this closely."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Cold ironing a berthed ship: compatibility and berth rating checked against the plan, the CMS positioned, the reel paid out by crane, ground landed first, interlock and pilot circuit proven, the breaker closed on the port's order, synchronisation confirmed, and the auxiliaries shut down clean",
+  "title": "SmartCiti.X~ Shore Power Hookup VR",
+  "trade": "Port electrician — shore power (cold ironing)",
+  "underwater": null,
+  "weather": "overcast"
+}

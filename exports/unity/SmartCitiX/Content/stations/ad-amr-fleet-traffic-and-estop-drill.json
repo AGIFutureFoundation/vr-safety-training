@@ -1,0 +1,425 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "lane-discipline",
+    "name": "Lane Discipline",
+    "note": "Crossed only at marked points, proved the e-stops and recovered the faulted robot out of the fleet"
+  },
+  "category": "Manufacturing & Automation",
+  "certification": "UAW and IAM skilled-trades training as bodies; OSHA 29 CFR 1910.212 general requirements for machines, 29 CFR 1910.147 the control of hazardous energy and 29 CFR 1910.178 powered industrial trucks where lift trucks share the aisle; ANSI R15.06 and ISO 10218 as the robot-safety frame; the fleet manufacturer's manual and the site's traffic plan",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI R15.06",
+        "id": "ansi-r15-06",
+        "title": "ANSI/RIA R15.06 — Industrial robots and robot systems: safety requirements"
+      },
+      {
+        "body": "union",
+        "citedAs": "IAM",
+        "id": "iam-winpisinger-center",
+        "title": "IAM — the William W. Winpisinger Education and Technology Center's machinist and transportation training"
+      },
+      {
+        "body": "ISO",
+        "citedAs": "ISO 10218",
+        "id": "iso-10218",
+        "title": "ISO 10218 — Robots and robotic devices: safety requirements for industrial robots"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.178",
+        "id": "osha-1910-178",
+        "title": "29 CFR 1910.178 — Powered industrial trucks"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.212",
+        "id": "osha-1910-212",
+        "title": "29 CFR 1910.212 — General requirements for all machines (machine guarding)"
+      },
+      {
+        "body": "union",
+        "citedAs": "UAW",
+        "id": "uaw-training",
+        "title": "UAW joint apprenticeship and skilled-trades training for manufacturing and automation work"
+      }
+    ]
+  },
+  "district": "robotics-factory",
+  "domain": "Robotics",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "drill-proven",
+        "name": "Drill Proven",
+        "note": "Proved every robot stopped on the e-stop drill"
+      },
+      {
+        "id": "walkway-only",
+        "name": "Walkway Only",
+        "note": "Never stepped into a live lane"
+      },
+      {
+        "id": "steady-escort",
+        "name": "Steady Escort",
+        "note": "Held the manual push near band centre"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "quick-drill",
+        "name": "Inside Par",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "clean-floor",
+        "name": "Clean Shift",
+        "note": "Clean run, no corrections"
+      }
+    ],
+    "currency": "LANE",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Floor Walker",
+      "Lane Aware",
+      "Fleet Technician",
+      "Fleet Lead",
+      "Lane Discipline Certified"
+    ],
+    "system": "Lane Discipline"
+  },
+  "hazards": {
+    "block-scanner-hazard": "That hangs a jacket over the robot's scanner to stop it slowing near the bench. A robot that cannot see is a robot that will not stop for the next person, and its safety comes entirely from that scanner.",
+    "cut-across-hazard": "That cuts across the live lane between two robots. A robot's scanner is set to slow and stop for what it can see, but a person stepping out from behind a rack or another robot may be inside its stopping distance before it sees them.",
+    "push-live-hazard": "That pushes the faulted robot by hand while it is still in the fleet. A unit the controller still thinks is available can be given a new mission and start moving under your hands.",
+    "ride-the-robot-hazard": "That stands on the robot's lift plate to reach the shelf. The lift plate carries loads, not people, and the robot has no way to know a person is riding it when it decides to move."
+  },
+  "id": "ad-amr-fleet-traffic-and-estop-drill",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "escort-push",
+      "alert": "Another robot has drifted off its lane toward the walkway where a visitor is standing.",
+      "cue": "Hit the fleet pause at the console now.",
+      "delay": 4,
+      "id": "robot-leaves-lane",
+      "kind": "Robot off its lane",
+      "missNote": "The fleet kept running with a robot off its lane beside a person. A lost robot is paused first and diagnosed second.",
+      "seconds": 11,
+      "target": "fleet-pause",
+      "why": "A robot off its lane is a robot whose map or localisation no longer matches the floor, and pausing the whole fleet is the one control that stops every unit at once while somebody works out which one is lost and why.",
+      "wrongNote": "Not that — the robot off its lane is answered with the fleet pause."
+    },
+    {
+      "after": "hold-lane-closed",
+      "alert": "A lift truck has turned into the AMR lane you have just closed for the recovery.",
+      "cue": "Use the zone access request to hold the lane closed and wave the truck back.",
+      "delay": 4,
+      "id": "forklift-in-lane",
+      "kind": "Mixed traffic",
+      "missNote": "The lift truck came down the closed lane. A closed lane is only closed if everybody driving the floor is kept out of it.",
+      "seconds": 11,
+      "target": "zone-request",
+      "why": "The closed lane is protecting you and the faulted robot, and a lift truck driving into it undoes that protection, so the zone request is used to keep the lane held while the driver is waved back to the aisle the traffic plan gives them.",
+      "wrongNote": "That isn't it — the lift truck in the closed lane is what needs holding back."
+    }
+  ],
+  "lateNotes": {
+    "crossing-point": "The lane is crossed at the marked point, after looking both ways, every time.",
+    "fleet-remove": "The faulted robot is taken out of the fleet at the console before anyone touches it."
+  },
+  "name": "AMR Fleet Traffic & E-stop Drill",
+  "parSeconds": 320,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "aerospace-defense-and-robotics"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "amrRobot",
+        "count": 3,
+        "kit": "equipment"
+      }
+    ],
+    "error": null,
+    "footprint": 2.9,
+    "hits": [
+      "barrier-lift",
+      "block-scanner-hazard",
+      "clean-bumper",
+      "crossing-point",
+      "cut-across-hazard",
+      "drill-unit-1",
+      "drill-unit-2",
+      "drill-unit-3",
+      "fleet-console",
+      "fleet-log",
+      "fleet-pause",
+      "fleet-remove",
+      "floor-arrow",
+      "hi-vis-vest",
+      "lane-barrier",
+      "lane-dock",
+      "lane-hold",
+      "lane-reopen",
+      "missing-mirror",
+      "push-live-hazard",
+      "push-meter",
+      "ride-the-robot-hazard",
+      "safety-glasses-amr",
+      "safety-shoes-amr",
+      "scanner-meter",
+      "shrink-wrap",
+      "traffic-plan",
+      "unit-estop",
+      "zone-request"
+    ],
+    "meshes": 211
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track"
+  ],
+  "steps": [
+    {
+      "anyOrder": true,
+      "cue": "Hi-vis vest, safety shoes and safety glasses before you step onto the floor.",
+      "id": "ppe",
+      "itemNames": {
+        "hi-vis-vest": "hi-vis vest",
+        "safety-glasses-amr": "safety glasses",
+        "safety-shoes-amr": "safety shoes"
+      },
+      "kind": "sequence",
+      "prompt": "Hi-vis vest, safety shoes and safety glasses before you step onto the floor.",
+      "targets": [
+        "hi-vis-vest",
+        "safety-shoes-amr",
+        "safety-glasses-amr"
+      ],
+      "title": "Dress for the floor",
+      "why": "A robot floor is shared with lift trucks and tuggers driven by people, and the hi-vis vest is for their eyes, not the robots' — the robots' scanners see a body either way, but a driver turning a corner needs every bit of contrast they can get."
+    },
+    {
+      "cue": "Find today's lanes, crossings and closed zones before walking onto the floor.",
+      "id": "brief",
+      "kind": "select",
+      "prompt": "Find today's lanes, crossings and closed zones before walking onto the floor.",
+      "target": "traffic-plan",
+      "title": "Read the traffic plan",
+      "why": "Robot lanes and crossings change when the floor layout changes, and the traffic plan is what shows today's version — walking the floor from memory means walking yesterday's lanes."
+    },
+    {
+      "cue": "Walk to the marked crossing, look both ways and cross.",
+      "id": "cross-lane",
+      "kind": "select",
+      "prompt": "Walk to the marked crossing, look both ways and cross.",
+      "target": "crossing-point",
+      "title": "Cross at the marked point",
+      "why": "The marked crossing is where robots are configured to slow and where they expect people, and it is the only place where the floor's design has already done half the work of keeping you out of a robot's path."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Trigger the drill and confirm each robot on the lane has actually stopped.",
+      "id": "estop-drill",
+      "itemNames": {
+        "drill-unit-1": "unit 12 stopped",
+        "drill-unit-2": "unit 14 stopped",
+        "drill-unit-3": "unit 17 stopped"
+      },
+      "kind": "sequence",
+      "prompt": "Trigger the drill and confirm each robot on the lane has actually stopped.",
+      "targets": [
+        "drill-unit-1",
+        "drill-unit-2",
+        "drill-unit-3"
+      ],
+      "title": "Run the e-stop drill",
+      "why": "An e-stop drill proves the stop works on every unit, not just the one the technician happened to check last month, and a robot that keeps rolling on the drill is found now instead of on the day somebody needs it to stop."
+    },
+    {
+      "cue": "Read the scanner field check and commit only in the green band.",
+      "gauge": {
+        "green": [
+          0.43,
+          0.61
+        ],
+        "label": "SCANNER FIELD",
+        "missNote": "Not in the green — clean or check the scanner window before the unit rejoins the lane.",
+        "speed": 0.6
+      },
+      "id": "scanner-check",
+      "kind": "gauge",
+      "prompt": "Read the scanner field check and commit only in the green band.",
+      "target": "scanner-meter",
+      "title": "Check the unit's scanner field",
+      "why": "The robot's scanner is the thing that slows and stops it for people, and the field check is what shows it is clean, aligned and seeing the zone the risk assessment says it should, not a smudged window guessing."
+    },
+    {
+      "cue": "At the fleet console, take unit 14 out of the fleet before touching it.",
+      "id": "recover-select",
+      "kind": "select",
+      "prompt": "At the fleet console, take unit 14 out of the fleet before touching it.",
+      "target": "fleet-remove",
+      "title": "Take the faulted unit out of the fleet",
+      "why": "A faulted robot the controller still counts as available can be handed a new mission at any moment, and taking it out of the fleet at the console is what guarantees it will not start moving while a person is next to it."
+    },
+    {
+      "cue": "Carry the lane barrier to the lane mouth and set it.",
+      "drag": {
+        "missNote": "Not set — place the barrier across the lane mouth before walking into the lane.",
+        "radius": 0.4,
+        "to": "lane-dock"
+      },
+      "id": "close-lane",
+      "kind": "drag",
+      "prompt": "Carry the lane barrier to the lane mouth and set it.",
+      "target": "lane-barrier",
+      "title": "Close the lane",
+      "why": "The barrier tells the fleet and every driver on the floor that this lane is closed, so the recovery happens inside a space nothing else is routed through rather than in a gap between moving robots."
+    },
+    {
+      "cue": "In manual mode, keep the push steady inside the band as the unit rolls to the service bay.",
+      "holdBreakNote": "The push left the band. Steady it before the unit rolls any further.",
+      "id": "escort-push",
+      "kind": "track",
+      "prompt": "In manual mode, keep the push steady inside the band as the unit rolls to the service bay.",
+      "seconds": 8,
+      "target": "push-meter",
+      "title": "Push the unit to the bay",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.45,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "MANUAL PUSH",
+        "rise": 0.4,
+        "start": 0.5
+      },
+      "why": "A robot pushed in manual mode has no drive holding it back, and a steady push inside the band keeps it under your control instead of rolling on its own into a rack or a person's ankles."
+    },
+    {
+      "cue": "Look along the shelf for what took the unit off its lane.",
+      "decoyNotes": {
+        "clean-bumper": "A clean bumper strip, intact. Nothing to flag there."
+      },
+      "id": "find-cause",
+      "itemNames": {
+        "shrink-wrap": "shrink wrap on the caster"
+      },
+      "itemNotes": {
+        "shrink-wrap": "Shrink wrap wound round a caster is a common reason a unit drifts or faults; it comes off before the unit rejoins."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look along the shelf for what took the unit off its lane.",
+      "targets": [
+        "shrink-wrap"
+      ],
+      "title": "Find the cause",
+      "why": "A robot that faulted once will fault again unless the cause is found, and the floor debris wound into a caster is also a sign the lane itself needs sweeping before the next unit runs over it."
+    },
+    {
+      "cue": "Hold the lane closure on the console while the unit is inspected.",
+      "holdBreakNote": "Released the lane hold early. Keep it held until the inspection is done.",
+      "id": "hold-lane-closed",
+      "kind": "hold",
+      "prompt": "Hold the lane closure on the console while the unit is inspected.",
+      "seconds": 5,
+      "target": "lane-hold",
+      "title": "Hold the lane closed",
+      "why": "The lane stays closed on the console for the whole inspection, not only until the barrier is in place, because a fleet that reopens the lane on its own schedule can route a unit into the space you are working in."
+    },
+    {
+      "cue": "Return unit 14 to the fleet once the cause is cleared and the scanner checks green.",
+      "id": "return-unit",
+      "kind": "select",
+      "prompt": "Return unit 14 to the fleet once the cause is cleared and the scanner checks green.",
+      "target": "fleet-console",
+      "title": "Return the unit to the fleet",
+      "why": "A unit rejoins the fleet only after its fault is cleared and its scanner is proven, because putting it back early turns a known fault into an unexpected one somewhere else on the floor."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Remove the barrier and reopen the lane on the console.",
+      "id": "reopen",
+      "itemNames": {
+        "barrier-lift": "barrier removed",
+        "lane-reopen": "lane reopened"
+      },
+      "kind": "sequence",
+      "prompt": "Remove the barrier and reopen the lane on the console.",
+      "targets": [
+        "barrier-lift",
+        "lane-reopen"
+      ],
+      "title": "Reopen the lane",
+      "why": "Reopening is done deliberately at both the barrier and the console so that the floor and the fleet agree the lane is live again, instead of one thinking it is closed while the other sends robots through it."
+    },
+    {
+      "cue": "Before you leave, find what makes this lane less safe than the plan says.",
+      "decoyNotes": {
+        "floor-arrow": "A lane arrow, freshly painted. Nothing to flag there."
+      },
+      "id": "find-blind-corner",
+      "itemNames": {
+        "missing-mirror": "missing corner mirror"
+      },
+      "itemNotes": {
+        "missing-mirror": "The convex mirror at the blind corner is gone; it is reported so the crossing can be made safe again."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Before you leave, find what makes this lane less safe than the plan says.",
+      "targets": [
+        "missing-mirror"
+      ],
+      "title": "Walk the lane",
+      "why": "The traffic plan assumes the floor matches it, and a missing mirror at a blind corner is the kind of gap that lets a person and a robot meet with no warning, so it is reported now rather than noticed after a near miss."
+    },
+    {
+      "cue": "Log the e-stop results, the fault cause and the missing mirror.",
+      "id": "closeout",
+      "kind": "select",
+      "prompt": "Log the e-stop results, the fault cause and the missing mirror.",
+      "target": "fleet-log",
+      "title": "Log the drill and the recovery",
+      "why": "The fleet log is how a pattern shows up — the same unit faulting, the same corner causing trouble — and a drill and a recovery that are not written down teach the floor nothing."
+    }
+  ],
+  "supportLine": "your UAW or IAM local's member assistance programme, or the site's employee assistance line if a close call on the floor is what stayed with you",
+  "tagline": "A floor shared with autonomous mobile robots worked the way the traffic plan intends: people on the walkways and robots on the marked lanes, crossings made only at the marked points, an e-stop drill that proves every robot actually stops, and a fault robot recovered only after it is taken out of the fleet",
+  "title": "SmartCiti.X~ AMR Fleet Traffic & E-stop Drill VR",
+  "trade": "Automation technician, AMR fleet traffic and e-stop — UAW/IAM",
+  "underwater": null,
+  "weather": "overcast"
+}

@@ -1,0 +1,363 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "never-alone",
+    "name": "Never Alone",
+    "note": "The drink retained, the patron never left with a stranger, and the report written before the shift ended"
+  },
+  "category": "Culinary & Hospitality",
+  "certification": "The California ABC Responsible Beverage Service (RBS) Training Program Act's guidance on patron safety; the county Environmental Health department's food-contact standards for glassware a suspect drink is decanted into (NSF-certified, sealed, and never poured out); OSHA 29 CFR 1910.1030 bloodborne pathogens for any contact with an unconscious or vomiting patron; the local police non-emergency line and UNITE HERE Local 2's own guidance on staff never escorting a patron alone",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "Cal. ABC",
+        "citedAs": "RBS",
+        "id": "abc-rbs-training",
+        "title": "California Responsible Beverage Service Training Act — ABC RBS certification for anyone who serves alcohol"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1030",
+        "id": "osha-1910-1030",
+        "title": "29 CFR 1910.1030 — Bloodborne pathogens"
+      },
+      {
+        "body": "union",
+        "citedAs": "UNITE HERE",
+        "id": "unite-here-training",
+        "title": "UNITE HERE hospitality training funds — cooks, housekeepers, bartenders and banquet staff"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Culinary & Hospitality",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "rail-clean",
+        "name": "Rail Clean",
+        "note": "Every unattended drink on the rail caught in one pass"
+      },
+      {
+        "id": "stayed-with-her",
+        "name": "Stayed With Her",
+        "note": "No unsafe action anywhere in the run"
+      },
+      {
+        "id": "held-the-watch",
+        "name": "Held the Watch",
+        "note": "Both watch periods held the full count"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "fast-and-calm",
+        "name": "Fast and Calm",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "no-corrections",
+        "name": "No Corrections",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "seven-straight",
+        "name": "Seven Straight",
+        "note": "Seven correct actions in a row"
+      }
+    ],
+    "currency": "WATCH",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Barback",
+      "Service Bartender",
+      "Shift Lead",
+      "Bar Manager",
+      "RBS Certified Trainer"
+    ],
+    "system": "Patron Safety"
+  },
+  "hazards": {
+    "let-stranger-carry": "You let somebody you don't know pick her up and start walking. \"I've got her, I'll get her home\" from a stranger is the single most dangerous sentence said around a spiked drink, and it is refused before it is questioned.",
+    "pour-out-suspect": "That is the sink, and the suspect glass is in your hand next to it. Pouring out a drink that might be spiked destroys the one piece of physical evidence anybody will ever have — it gets capped and kept, never rinsed away because the bar was busy.",
+    "smoke-break-alone": "You sent her outside for air on her own. A patron who may have been dosed does not get better with fresh air, and alone in a parking lot is the last place anybody watching for her wants her to be.",
+    "unattended-bag-open": "Her bag has been sitting open on the rail with nobody's hand on it since this started. An unattended bag next to an unattended patron is the second half of the same problem — anything in reach of the rail is in reach of anybody standing at it."
+  },
+  "id": "spiked-drink-response",
+  "indoor": "bar",
+  "interrupts": [
+    {
+      "after": "stay-with-patron",
+      "alert": "A man you don't recognise has picked her bag up off the rail and is saying he'll walk her out to get some air.",
+      "cue": "Nobody you know just picked up her bag.",
+      "delay": 3,
+      "id": "stranger-offers-to-walk-out",
+      "kind": "Unknown patron intervening",
+      "missNote": "He walked off with her bag in his hand and her a step behind him. Everything retained, sealed and called in up to this point protected the investigation; it did nothing for her the moment a stranger got her out the door.",
+      "seconds": 12,
+      "target": "patron-bag",
+      "why": "\"I've got her\" from somebody who was not at her table thirty seconds ago is not help, it is the exact scenario this whole response exists to stop — the bag comes back to her hand and he does not leave with either of them.",
+      "wrongNote": "It is the bag in the stranger's hand. Whatever else is happening, that does not leave with somebody nobody at this bar knows."
+    },
+    {
+      "after": "continue-watch",
+      "alert": "Two stools down, a fresh drink is sitting alone on the rail while somebody leans in close over it, hand near the glass.",
+      "cue": "That is exactly what you just swept the rail for.",
+      "delay": 3,
+      "id": "unattended-drink-leaned-over",
+      "kind": "Second drink at risk",
+      "missNote": "The glass sat there through the lean and past it. The habit this station teaches is watching the rail continuously, not until the first save of the night feels like enough.",
+      "seconds": 12,
+      "target": "abandoned-rail-drink",
+      "why": "One incident tonight does not make the rail safer for the rest of the shift — a drink left alone with a hand hovering over it is the same risk you already caught once, and it gets the same response: move it or stay on it, immediately.",
+      "wrongNote": "It is the drink on the rail with a hand over it. That is the pattern repeating in front of you."
+    }
+  ],
+  "lateNotes": {},
+  "name": "Spiked Drink Response",
+  "parSeconds": 280,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "bartending-course"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.8,
+    "hits": [
+      "abandoned-rail-drink",
+      "angela-poster",
+      "call-medical",
+      "call-police",
+      "cctv-lock",
+      "covered-drink",
+      "door-radio",
+      "evidence-seal",
+      "evidence-tray",
+      "incident-log-board",
+      "known-contact",
+      "let-stranger-carry",
+      "patron-bag",
+      "patron-flag",
+      "pour-out-suspect",
+      "rail-scan-dial",
+      "responsiveness-check",
+      "smoke-break-alone",
+      "stay-close-point",
+      "suspect-glass",
+      "unattended-bag-open",
+      "unattended-drink-1",
+      "unattended-drink-2",
+      "unattended-drink-3"
+    ],
+    "meshes": 168
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Walk the rail once. Three drinks are sitting with nobody's eyes or hand on them.",
+      "decoyNotes": {
+        "covered-drink": "That one has a coaster over the top and a hand resting on the stool beside it. Covered and watched is exactly the habit this whole station is teaching — leave it alone."
+      },
+      "id": "rail-sweep",
+      "itemNames": {
+        "unattended-drink-1": "unattended drink, no coaster",
+        "unattended-drink-2": "unattended drink, owner across the room",
+        "unattended-drink-3": "unattended drink, left mid-conversation"
+      },
+      "itemNotes": {
+        "unattended-drink-1": "No coaster, no hand on the glass, and nobody within arm's reach of it — thirty seconds is all tampering ever needs.",
+        "unattended-drink-2": "Its owner is at the far end of the bar with her back turned. The glass has been alone longer than she has been away.",
+        "unattended-drink-3": "Left mid-sentence to say hello to somebody two tables over — a drink does not need to be forgotten to be unattended, just unwatched."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the rail once. Three drinks are sitting with nobody's eyes or hand on them.",
+      "targets": [
+        "unattended-drink-1",
+        "unattended-drink-2",
+        "unattended-drink-3"
+      ],
+      "title": "Sweep the rail for drinks nobody is watching",
+      "why": "The rail is the easiest place in the bar to tamper with a drink, because it is the one surface where a glass regularly sits further from its owner than an arm can reach — watching it is not paranoia, it is the same habit as watching a till."
+    },
+    {
+      "cue": "Check the restroom-hallway poster: how a guest can ask for help without saying it to the room.",
+      "id": "angela-poster",
+      "kind": "select",
+      "prompt": "Check the restroom-hallway poster: how a guest can ask for help without saying it to the room.",
+      "target": "angela-poster",
+      "title": "Confirm the safe-word scheme is posted where it works",
+      "why": "An \"Ask for Angela\"-style scheme only works if a guest already knows the phrase and where to say it before she needs it — posted in the one place she can read it alone, away from whoever she might be asking for help about."
+    },
+    {
+      "cue": "She says her drink tastes wrong, or her friend is far more impaired than her count explains. Either one starts this.",
+      "id": "patron-report",
+      "kind": "select",
+      "prompt": "She says her drink tastes wrong, or her friend is far more impaired than her count explains. Either one starts this.",
+      "target": "patron-flag",
+      "title": "Take the report seriously the first time it is said",
+      "why": "\"It tastes wrong\" and \"she's had three, not eight\" are both the same report in different words — a taste, a smell or a level of impairment that does not match what was actually served, and neither one waits for a second opinion before it is acted on."
+    },
+    {
+      "cue": "Take the glass off the bar and move it to the evidence tray — do not tip it out.",
+      "drag": {
+        "missNote": "Not on the tray. A suspect drink set down anywhere else in a working bar gets picked up, rinsed or poured out inside a minute.",
+        "radius": 0.45,
+        "to": "evidence-tray"
+      },
+      "id": "remove-drink",
+      "kind": "drag",
+      "prompt": "Take the glass off the bar and move it to the evidence tray — do not tip it out.",
+      "target": "suspect-glass",
+      "title": "Remove the drink and retain it",
+      "why": "The glass is the only physical evidence this ever produces. Removed from where anybody could touch it again and kept exactly as poured, it is worth something to a lab; rinsed at the end of a busy shift, it is worth nothing to anybody."
+    },
+    {
+      "cue": "Turn the cap until it locks — nobody adds to it or pours it out from here.",
+      "id": "seal-evidence",
+      "kind": "turn",
+      "prompt": "Turn the cap until it locks — nobody adds to it or pours it out from here.",
+      "target": "evidence-seal",
+      "title": "Seal the tray with a tamper-evident cap",
+      "turn": {
+        "axis": "y",
+        "label": "SEAL",
+        "turns": 1
+      },
+      "why": "A sealed tray is a chain of custody with one link in it: you. An unsealed glass sitting behind the bar is just a drink again the moment anybody else has a reason to move it."
+    },
+    {
+      "cue": "Ask her a simple question and read how clearly she answers it.",
+      "gauge": {
+        "green": [
+          0.55,
+          1
+        ],
+        "label": "RESP",
+        "missNote": "That is a slow, confused answer to a simple question. This has stopped being 'had too much' and started being a medical situation — treat it that way now.",
+        "speed": 0.7
+      },
+      "id": "assess-symptoms",
+      "kind": "gauge",
+      "prompt": "Ask her a simple question and read how clearly she answers it.",
+      "target": "responsiveness-check",
+      "title": "Check how she is actually responding",
+      "why": "The count on her tab and the way she is actually responding either match or they do not, and when they do not, the mismatch itself is the finding — it is what tells you this is bigger than overservice."
+    },
+    {
+      "cue": "Stay at arm's length while the rest of what needs to happen gets handed to somebody else.",
+      "holdBreakNote": "You stepped away from her to handle something else. The whole point of the response is that somebody stays within reach of her the entire time — that job does not get to sit empty even for a phone call.",
+      "id": "stay-with-patron",
+      "kind": "hold",
+      "prompt": "Stay at arm's length while the rest of what needs to happen gets handed to somebody else.",
+      "seconds": 6,
+      "target": "stay-close-point",
+      "title": "Stay with her — do not step away to make calls",
+      "why": "The one job that cannot be delegated is staying with her. Everything else — the call, the door, the CCTV — can be somebody else's hands; leaving her alone even to dial a phone is the gap this exact scheme exists to close."
+    },
+    {
+      "cue": "Check ID or a name she already gave you before anybody besides EMS takes her anywhere.",
+      "id": "verify-escort",
+      "kind": "select",
+      "prompt": "Check ID or a name she already gave you before anybody besides EMS takes her anywhere.",
+      "target": "known-contact",
+      "title": "Hand her off only to somebody you can actually verify",
+      "why": "\"I'll get her home\" is not a credential. A verified name, a phone already in her contacts, or a friend who has been at the table the whole night is the only kind of escort that is ever good enough to release her to."
+    },
+    {
+      "cue": "Medical first — she is the priority — then police for the drink itself.",
+      "id": "call-for-help",
+      "itemNames": {
+        "call-medical": "call medical (911)",
+        "call-police": "call police"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Medical first, then police — a suspected tampering is worth reporting, but not ahead of the patient it happened to.",
+      "prompt": "Medical first — she is the priority — then police for the drink itself.",
+      "targets": [
+        "call-medical",
+        "call-police"
+      ],
+      "title": "Call for medical help, then the police",
+      "why": "Her condition is the emergency; the drink is the investigation. Medical goes first because nothing about proving what happened matters if she is not being watched by somebody trained to catch it getting worse."
+    },
+    {
+      "cue": "Describe the stranger to whoever is working the door before they reach it.",
+      "id": "brief-door-staff",
+      "kind": "select",
+      "prompt": "Describe the stranger to whoever is working the door before they reach it.",
+      "target": "door-radio",
+      "title": "Brief the door on who not to let leave with her",
+      "why": "The door is the only chokepoint in the whole building. A description called ahead of them is the difference between the door stopping the one person you actually need stopped and just watching two more people walk out."
+    },
+    {
+      "cue": "Flag and save the CCTV segment before it cycles out of storage.",
+      "id": "preserve-cctv",
+      "kind": "select",
+      "prompt": "Flag and save the CCTV segment before it cycles out of storage.",
+      "target": "cctv-lock",
+      "title": "Lock the camera footage covering this window",
+      "why": "Most systems overwrite themselves in days, sometimes hours. Locking the segment tonight is the only reason there is anything left to hand to police by the time anybody asks for it."
+    },
+    {
+      "cue": "Keep your attention moving across the rail — this is not the only drink on it tonight.",
+      "holdBreakNote": "Your attention locked onto one spot or drifted off the rail entirely. One incident does not mean the rail stops needing watched — if anything it means it needs it more.",
+      "id": "continue-watch",
+      "kind": "track",
+      "prompt": "Keep your attention moving across the rail — this is not the only drink on it tonight.",
+      "seconds": 7,
+      "target": "rail-scan-dial",
+      "title": "Keep sweeping the rail while the rest of this plays out",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.4,
+        "green": [
+          0.3,
+          0.75
+        ],
+        "label": "RAIL SCAN",
+        "rise": 0.5,
+        "start": 0.5
+      },
+      "why": "One tampered drink does not mean the rail is safe again for the rest of the night — it means somebody in the room has already shown they will do it, and a steady sweep is the only thing standing between this incident and the next one."
+    },
+    {
+      "cue": "Time, what she reported, what was retained, who responded, and the outcome.",
+      "id": "write-report",
+      "kind": "select",
+      "prompt": "Time, what she reported, what was retained, who responded, and the outcome.",
+      "target": "incident-log-board",
+      "title": "Write the report before the shift ends",
+      "why": "This report is what a lab, a detective or her own family asks for later, and every one of those requests comes after the CCTV has cycled and everybody's memory of tonight has already started to blur."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Watching the rail, the safe-word scheme, and the response once a drink is actually suspect — remove it, retain it, stay with her, call it in",
+  "title": "SmartCiti.X~ Spiked Drink Response VR",
+  "trade": "Bartender — UNITE HERE Local 2",
+  "underwater": null,
+  "weather": "clear"
+}

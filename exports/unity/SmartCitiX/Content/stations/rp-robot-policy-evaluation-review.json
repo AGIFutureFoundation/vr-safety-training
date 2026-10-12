@@ -1,0 +1,409 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "measured-not-claimed",
+    "name": "Measured, Not Claimed",
+    "note": "Traced the lineage, compared the policy with both baselines on held-out seeds, replayed its failure and signed only what was measured"
+  },
+  "category": "Manufacturing & Automation",
+  "certification": "UAW and IAM skilled-trades training as bodies; ANSI R15.06 and ISO 10218 industrial robot safety (the integrated cell and its risk assessment), with ISO/TS 15066 named for collaborative operation; OSHA 29 CFR 1910.212 general requirements for machines and 29 CFR 1910.147 the control of hazardous energy; the bench's written risk assessment, its release criteria and the platform's own consent and dataset-card rules",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI R15.06",
+        "id": "ansi-r15-06",
+        "title": "ANSI/RIA R15.06 — Industrial robots and robot systems: safety requirements"
+      },
+      {
+        "body": "union",
+        "citedAs": "IAM",
+        "id": "iam-winpisinger-center",
+        "title": "IAM — the William W. Winpisinger Education and Technology Center's machinist and transportation training"
+      },
+      {
+        "body": "ISO",
+        "citedAs": "ISO 10218",
+        "id": "iso-10218",
+        "title": "ISO 10218 — Robots and robotic devices: safety requirements for industrial robots"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.212",
+        "id": "osha-1910-212",
+        "title": "29 CFR 1910.212 — General requirements for all machines (machine guarding)"
+      },
+      {
+        "body": "union",
+        "citedAs": "UAW",
+        "id": "uaw-training",
+        "title": "UAW joint apprenticeship and skilled-trades training for manufacturing and automation work"
+      }
+    ]
+  },
+  "district": "robotics-training-centre",
+  "domain": "Robotics",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "card-first",
+        "name": "Card First",
+        "note": "Read the dataset card before the results"
+      },
+      {
+        "id": "stale-caught",
+        "name": "Stale Caught",
+        "note": "Found the policy trained on revoked data"
+      },
+      {
+        "id": "steady-enable",
+        "name": "Steady Enable",
+        "note": "Held the enabling device near band centre"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "quick-review",
+        "name": "Inside Par",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "clean-review",
+        "name": "Clean Review",
+        "note": "Clean run, no corrections"
+      }
+    ],
+    "currency": "EV",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Reader",
+      "Reviewer",
+      "Evaluator",
+      "Release Reviewer",
+      "Safety Sign-off"
+    ],
+    "system": "Measured, Not Claimed"
+  },
+  "hazards": {
+    "full-speed-trial-hazard": "That runs the first supervised trial at production speed to see the policy at its best. A first trial is where an untested policy meets a real arm, and the reduced-speed mode in the risk assessment is what keeps a wrong move small.",
+    "inside-zone-hazard": "That stands inside the protective zone to watch the gripper close up during the trial. The person supervising a learned policy is the one most likely to be surprised by it, and the zones apply to the reviewer exactly as they do to anyone else.",
+    "success-only-hazard": "That signs the release from the success column alone. A policy that finishes the task by cutting through the keep-out zone has a high success rate and an unsafe habit; the violations column is read with the same weight as the successes.",
+    "training-seeds-hazard": "That quotes the results on the seeds the policy was trained on. A behaviour-cloning policy can repeat its demonstrations almost perfectly, so only seeds it never saw say anything about how it behaves on a new day."
+  },
+  "id": "rp-robot-policy-evaluation-review",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "replay-hold",
+      "alert": "A technician has walked onto the bench's protective-zone tape to fetch a part while the policy's replay is cued on the bench.",
+      "cue": "Press the bench e-stop now.",
+      "delay": 3,
+      "id": "person-in-zone",
+      "kind": "Person in zone",
+      "missNote": "The replay stayed cued with a person on the zone tape. Stop the bench first, then clear the zone.",
+      "seconds": 11,
+      "target": "bench-estop-pe",
+      "why": "A cued replay can start moving the arm on the next command, and a person on the protective-zone tape is where the arm can reach; stopping the bench before the replay runs costs a minute, and a learned policy has no reason to know the technician is there except the safeguards.",
+      "wrongNote": "Not that — a person on the zone tape is answered with the bench e-stop."
+    },
+    {
+      "after": "trial-track",
+      "alert": "The explanation panel says the policy chose to move because the zone was clear, but the scanner shows a person at the warning tape.",
+      "cue": "Pause the trial.",
+      "delay": 3,
+      "id": "explain-mismatch",
+      "kind": "Explanation mismatch",
+      "missNote": "The trial ran on with the explanation and the scanner disagreeing. A policy acting on a wrong picture of the world is paused first and investigated second.",
+      "seconds": 11,
+      "target": "pause-trial",
+      "why": "The explanation is built from the features the policy saw, so an explanation that disagrees with the scanner means the policy is acting on a stale or wrong reading of the world; the trial is paused at once, because whatever made it wrong once will make it wrong again.",
+      "wrongNote": "Not that — a mismatch between the explanation and the scanner is answered by pausing the trial."
+    }
+  ],
+  "lateNotes": {
+    "dataset-card": "The dataset card is read before the results: who consented, how many demonstrations are synthetic, and how many were revoked since the last training.",
+    "enable-device": "The enabling device is held in its middle position for the whole trial; letting go or squeezing through stops the arm, and that is the point."
+  },
+  "name": "Reviewing a Robot Policy's Evaluation",
+  "parSeconds": 330,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "cobotBench",
+        "count": 1,
+        "kit": "equipment"
+      },
+      {
+        "builder": "teachPendant",
+        "count": 1,
+        "kit": "toolkit"
+      }
+    ],
+    "error": null,
+    "footprint": 2.9,
+    "hits": [
+      "bench-estop-pe",
+      "criteria-dial",
+      "dataset-card",
+      "enable-device",
+      "episode-clean",
+      "episode-keepout",
+      "episode-timeout",
+      "eval-record",
+      "explain-panel",
+      "full-speed-trial-hazard",
+      "hold-slot",
+      "inside-zone-hazard",
+      "lineage-board",
+      "pause-trial",
+      "policy-tag",
+      "policy-v1",
+      "policy-v2",
+      "policy-v3",
+      "replay-pad",
+      "replay-screen",
+      "result-expert",
+      "result-policy",
+      "result-random",
+      "signoff-risk",
+      "signoff-rollback",
+      "signoff-second",
+      "success-only-hazard",
+      "training-seeds-hazard",
+      "violations-board"
+    ],
+    "meshes": 194
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track"
+  ],
+  "steps": [
+    {
+      "cue": "Read the dataset card: who consented, how many demonstrations are synthetic, how many were revoked.",
+      "id": "dataset-card",
+      "kind": "select",
+      "prompt": "Read the dataset card: who consented, how many demonstrations are synthetic, how many were revoked.",
+      "target": "dataset-card",
+      "title": "Read the dataset card",
+      "why": "A policy is only as trustworthy as what it learned from, and the dataset card is where that is written down: which demonstrations came from consenting adults, which were synthetic stand-ins from the scripted expert, and which have since been revoked and must no longer be in any policy that runs."
+    },
+    {
+      "cue": "Trace the lineage board from each dataset to the policy versions trained on it and to their evaluations.",
+      "id": "lineage",
+      "kind": "select",
+      "prompt": "Trace the lineage board from each dataset to the policy versions trained on it and to their evaluations.",
+      "target": "lineage-board",
+      "title": "Trace the lineage",
+      "why": "Lineage is what lets a revocation reach the robot: if nobody can say which demonstrations went into which version, a person's withdrawn consent stays baked into a policy that keeps running, and an evaluation cannot be matched to the thing it actually tested."
+    },
+    {
+      "cue": "Find the policy version trained on revoked demonstrations.",
+      "decoyNotes": {
+        "policy-v1": "An archived early version, already withdrawn. Nothing to flag there.",
+        "policy-v3": "The version trained after the revocation was applied. This is the one under review today."
+      },
+      "id": "find-stale",
+      "itemNames": {
+        "policy-v2": "policy version trained on revoked demonstrations"
+      },
+      "itemNotes": {
+        "policy-v2": "A policy trained on demonstrations that were later revoked is stale: it is withdrawn from trials and retrained without them, never reviewed for release."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Find the policy version trained on revoked demonstrations.",
+      "target": "policy-v2",
+      "targets": [
+        "policy-v2"
+      ],
+      "title": "Find the stale policy",
+      "why": "Revoking consent deletes the recordings, but a policy trained on them still carries what it copied, which is why the platform marks dependent policies stale; a reviewer who catches the stale version keeps the promise the consent screen made to the demonstrator."
+    },
+    {
+      "cue": "Set the dial to the release criteria's threshold and commit when it matches the written value.",
+      "gauge": {
+        "green": [
+          0.44,
+          0.62
+        ],
+        "label": "CRITERIA",
+        "missNote": "The dial does not match the criteria sheet. Set the threshold from the sheet before reading any result.",
+        "speed": 0.6
+      },
+      "id": "criteria-gauge",
+      "kind": "gauge",
+      "prompt": "Set the dial to the release criteria's threshold and commit when it matches the written value.",
+      "target": "criteria-dial",
+      "title": "Set the release threshold from the criteria",
+      "why": "The threshold a policy must clear is written down before the results are seen, so the bar cannot drift to meet whatever the policy happened to score; setting it from the criteria sheet, not from memory or from the result, is what makes the decision a test rather than a story."
+    },
+    {
+      "anyOrder": false,
+      "cue": "Read the random baseline, then the scripted expert, then where the policy falls between them.",
+      "id": "baselines",
+      "itemNames": {
+        "result-expert": "scripted expert",
+        "result-policy": "the learned policy",
+        "result-random": "random baseline"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order — read the random baseline, then the scripted expert, then the policy between them.",
+      "prompt": "Read the random baseline, then the scripted expert, then where the policy falls between them.",
+      "targets": [
+        "result-random",
+        "result-expert",
+        "result-policy"
+      ],
+      "title": "Read the results between two baselines",
+      "why": "A success rate means nothing alone: the random baseline shows how much of the task is luck, the scripted expert shows what is possible, and the policy's place between them — all on held-out seeds — is the honest measure of what the demonstrations actually taught."
+    },
+    {
+      "cue": "Read the safe-practice violations per episode alongside the successes.",
+      "id": "violations",
+      "kind": "select",
+      "prompt": "Read the safe-practice violations per episode alongside the successes.",
+      "target": "violations-board",
+      "title": "Count the violations",
+      "why": "A learned policy can reach the goal by a route no person would be allowed to take, through a keep-out zone or with an over-force grip, and the violation count is how that shows up; a release decision weighs it as heavily as the success column, because the bench will repeat the habit."
+    },
+    {
+      "cue": "Find the held-out episode where the policy crossed the keep-out zone.",
+      "decoyNotes": {
+        "episode-clean": "A held-out episode that finished clean. Nothing to replay there.",
+        "episode-timeout": "An episode that ran out of time without any unsafe move. Noted, not a safety finding."
+      },
+      "id": "find-fail",
+      "itemNames": {
+        "episode-keepout": "held-out episode where the policy crossed the keep-out zone"
+      },
+      "itemNotes": {
+        "episode-keepout": "One held-out episode crossed the keep-out zone: it is replayed and explained before any trial, and it goes in the review record by name."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Find the held-out episode where the policy crossed the keep-out zone.",
+      "targets": [
+        "episode-keepout"
+      ],
+      "title": "Find the failing episode",
+      "why": "Averages hide the one episode that matters most, and a single crossing of the keep-out zone on held-out seeds is a pattern the policy can repeat on the bench; finding it by name is how the review turns a number into something a person can watch and judge."
+    },
+    {
+      "cue": "Hold at the replay screen while the failing episode plays as a ghost.",
+      "holdBreakNote": "Stepped away before the replay reached the crossing. Hold until it does.",
+      "id": "replay-hold",
+      "kind": "hold",
+      "prompt": "Hold at the replay screen while the failing episode plays as a ghost.",
+      "seconds": 5,
+      "target": "replay-pad",
+      "title": "Watch the ghost replay",
+      "why": "Watching the policy's own replay shows what the numbers cannot: the moment it chose the wrong route and what it was near when it did, which is the evidence a reviewer needs before deciding whether more demonstrations, a shield or a different task setup is the fix."
+    },
+    {
+      "cue": "Read the explanation panel: which features of that moment drove the choice.",
+      "id": "explain-read",
+      "kind": "select",
+      "prompt": "Read the explanation panel: which features of that moment drove the choice.",
+      "target": "explain-panel",
+      "title": "Read the plain explanation",
+      "why": "The explanation is a heuristic built from the policy's own features, not a language model's guess, and reading it against the replay tells the reviewer whether the policy was confused about where the person was or simply copied a demonstrator who cut the corner."
+    },
+    {
+      "cue": "Carry the stale version's tag to the withdrawn slot on the release board.",
+      "drag": {
+        "missNote": "Not placed — set the stale version's tag in the withdrawn slot on the board.",
+        "radius": 0.4,
+        "to": "hold-slot"
+      },
+      "id": "hold-tag",
+      "kind": "drag",
+      "prompt": "Carry the stale version's tag to the withdrawn slot on the release board.",
+      "target": "policy-tag",
+      "title": "Withdraw the stale version",
+      "why": "A stale policy has to be visibly out of reach, not just remembered as bad, so the next person who loads the bench picks from the versions still allowed; moving its tag to the withdrawn slot is the physical form of the stale mark revocation applied."
+    },
+    {
+      "cue": "Hold the enabling device in its middle position while the policy runs at reduced speed from outside the zone.",
+      "holdBreakNote": "The enabling device left its middle position and the arm stopped. Reset and resume only from outside the zone.",
+      "id": "trial-track",
+      "kind": "track",
+      "prompt": "Hold the enabling device in its middle position while the policy runs at reduced speed from outside the zone.",
+      "seconds": 8,
+      "target": "enable-device",
+      "title": "Run the supervised trial on the enabling device",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.45,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "ENABLE",
+        "rise": 0.4,
+        "start": 0.5
+      },
+      "why": "A first trial of a learned policy is supervised by a person who can stop it with one hand: the three-position enabling device stops the arm if it is released or squeezed through, so holding it steady in the middle is the reviewer's continuous permission for the trial to go on."
+    },
+    {
+      "anyOrder": true,
+      "cue": "A second reviewer, the risk assessment updated for this policy, and a rollback plan.",
+      "id": "signoff",
+      "itemNames": {
+        "signoff-risk": "risk assessment updated for the policy",
+        "signoff-rollback": "rollback to the scripted controller planned",
+        "signoff-second": "a second reviewer"
+      },
+      "kind": "sequence",
+      "prompt": "A second reviewer, the risk assessment updated for this policy, and a rollback plan.",
+      "targets": [
+        "signoff-second",
+        "signoff-risk",
+        "signoff-rollback"
+      ],
+      "title": "Gather the sign-off conditions",
+      "why": "Letting a learned policy drive a real arm is a change to the cell, so it carries the same sign-off a change to the cell would: another person who checked the evidence, a risk assessment that now names the policy, and a way back to the scripted controller if it misbehaves."
+    },
+    {
+      "cue": "Write the record: dataset, policy version, held-out results, violations, decision.",
+      "id": "eval-record",
+      "kind": "select",
+      "prompt": "Write the record: dataset, policy version, held-out results, violations, decision.",
+      "target": "eval-record",
+      "title": "Write the evaluation record",
+      "why": "The record joins dataset, policy and evaluation into one line that anyone can audit later, and it states the decision in plain words — including 'not yet' — so the next reviewer starts from what was measured rather than from what somebody remembers being claimed."
+    }
+  ],
+  "supportLine": "your UAW or IAM local's member assistance programme, or the employee assistance line, if a near miss with an automated cell is what stayed with you",
+  "tagline": "Deciding whether a learned robot policy may run a supervised trial: the dataset card and its consent read, the lineage traced and a policy built on revoked data caught, held-out results compared with a random baseline and the scripted expert, violations counted as well as successes, a failing episode replayed and explained, and a supervised trial run at reduced speed with an enabling device before anyone signs",
+  "title": "SmartCiti.X~ Reviewing a Robot Policy's Evaluation VR",
+  "trade": "AI-training specialist and robot safety lead, policy evaluation review — UAW/IAM",
+  "underwater": null,
+  "weather": "overcast"
+}

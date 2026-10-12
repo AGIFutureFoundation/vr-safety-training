@@ -1,0 +1,418 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "every-opening-guarded",
+    "name": "Every Opening Guarded",
+    "note": "Every skylight screened, the hatch railed and gated, and nobody left an opening for the membrane crew to find the hard way"
+  },
+  "category": "Construction & Structural Trades",
+  "certification": "OSHA 29 CFR 1926.501 and 29 CFR 1926.502 fall protection, skylight screens and hole covers, and 29 CFR 1926 Subpart M Fall protection generally; ANSI Z359 for the harness and anchor; NRCA skylight and hatch guarding practice; Roofers Local 40 apprenticeship and training",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI Z359",
+        "id": "ansi-z359",
+        "title": "ANSI/ASSP Z359 — Fall Protection Code"
+      },
+      {
+        "body": "NRCA",
+        "citedAs": "NRCA",
+        "id": "nrca-roofing-practices",
+        "title": "National Roofing Contractors Association — roofing and waterproofing application, safety and quality practices"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.501",
+        "id": "osha-1926-501",
+        "title": "29 CFR 1926.501 — Duty to have fall protection"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.502",
+        "id": "osha-1926-502",
+        "title": "29 CFR 1926.502 — Fall protection systems criteria and practices"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926 Subpart M Fall protection",
+        "id": "osha-1926-subpart-m",
+        "title": "OSHA 29 CFR 1926 Subpart M Fall protection"
+      },
+      {
+        "body": "union",
+        "citedAs": "Roofers Local 40",
+        "id": "roofers-local-40-training",
+        "title": "Roofers Local 40 — United Union of Roofers, Waterproofers and Allied Workers apprenticeship and training"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Construction & Structural Trades",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "plan-first",
+        "name": "Plan First",
+        "note": "The guarding plan read before the first screen came out"
+      },
+      {
+        "id": "steady-seal",
+        "name": "Steady Seal",
+        "note": "The sealant bead ran the whole frame without a break in pace"
+      },
+      {
+        "id": "never-left-open",
+        "name": "Never Left Open",
+        "note": "No dome stepped on, no heat gun left hot, no panel carried across the wind"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-guard",
+        "name": "Clean Guard",
+        "note": "No corrections anywhere on the roof"
+      },
+      {
+        "id": "proof-positive",
+        "name": "Proof Positive",
+        "note": "Both proof-load readings committed inside band first time"
+      },
+      {
+        "id": "roof-closed",
+        "name": "Roof Closed",
+        "note": "Logged inside 80% of par"
+      }
+    ],
+    "currency": "GUARD",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Apprentice",
+      "Screen Hand",
+      "Guard Runner",
+      "Lead Guardsman",
+      "Guarding Certified"
+    ],
+    "system": "Guard Line"
+  },
+  "hazards": {
+    "heat-gun-idle-near-screen": "The heat gun is switched on and lying against the stack of screen mesh instead of set down cold on open deck. A heat gun left running near plastic screen components or synthetic mesh does not need a spark to start something — it just needs enough time sitting against the wrong material, which is exactly what it is doing right now.",
+    "screen-panel-catch-wind": "You are about to carry the next screen panel flat across the gust coming off the parapet. A wire mesh screen panel is wide and light enough to catch wind exactly like an unclipped roof panel or a drainage board does, and a gust that gets under it at an unguarded opening can as easily pull a person toward that opening as take the panel out of their hands.",
+    "sealant-fumes-enclosed": "You are bedding the screen frame's sealant down inside the skylight curb's own well, where the curb walls box the fumes in on four sides with nowhere to vent. A solvent-based sealant used in the open air off the curb is a smell; the same sealant worked inside a curb well with no airflow is a lungful with every breath.",
+    "unscreened-skylight": "You are stepping toward the skylight dome with no screen or guardrail on it yet. 29 CFR 1926.501 treats an unguarded skylight opening the same as a hole in the deck — from a few feet away in work boots, a dirty acrylic dome and the roof around it look like the same surface, and a dome carries no one's weight at all."
+  },
+  "id": "rf-skylight-and-hatch-guarding",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "screen-carry",
+      "alert": "A gust catches the next screen panel staged at the curb before its fasteners are driven, and it starts sliding toward the open opening.",
+      "cue": "Get to the panel and set it down flat before it slides into the opening it is supposed to be guarding.",
+      "delay": 2,
+      "id": "gust-catches-panel",
+      "kind": "Gust catches the next panel",
+      "missNote": "The panel slid half over the opening and stopped there, looking guarded to anyone glancing at it from a few feet away — which is exactly the moment someone puts weight on it expecting a screen and finds a curb edge instead.",
+      "seconds": 14,
+      "target": "panel-flat",
+      "why": "An unfastened screen panel sliding toward the exact opening it is meant to cover is the one moment a screen actively makes things worse rather than better — a panel half over a hole looks guarded from a glance and is not, which is why it gets set down flat the instant it starts moving rather than chased across the curb.",
+      "wrongNote": "That does not stop a sliding panel. Get to it and set it down flat before it reaches the opening."
+    },
+    {
+      "after": "new-screen-proof",
+      "alert": "A coworker radios that the hatch on the far side of the roof has been left open with no rail up while the membrane crew took their break.",
+      "cue": "Get over to the far hatch and cover it before anyone walks back out onto that stretch.",
+      "delay": 2,
+      "id": "hatch-left-open-elsewhere",
+      "kind": "Coworker radios a second hatch left open",
+      "missNote": "The far hatch stayed open through the whole break, with nothing around it to stop anyone walking back out onto that stretch from finding it the hard way.",
+      "seconds": 14,
+      "target": "far-hatch-cover",
+      "why": "An open hatch does not stop being a hole just because the crew working near it stepped away for ten minutes, and a hatch with its rail down during a break is exactly the kind of gap between two people's responsibility that a hole falls through — covering it is what closes that gap instead of hoping the next person remembers it is open.",
+      "wrongNote": "Not that. Get over to the far hatch and cover it before anyone walks that stretch again."
+    }
+  ],
+  "lateNotes": {
+    "log-board": "The log is written once the walk-round has found what it is going to find, not before.",
+    "new-screen-proof": "The new screen is proof-tested once it is fastened and sealed, not before.",
+    "screen-fastener": "The frame is fastened once the panel is actually carried out and seated on the curb — there is nothing to fasten yet."
+  },
+  "name": "Skylight & Hatch Guarding",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "roofers-and-waterproofers"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "anchor-clip",
+      "cracked-dome",
+      "curb-line",
+      "existing-screen-gauge",
+      "far-hatch-cover",
+      "harness",
+      "hatch-gate",
+      "hatch-rail",
+      "heat-gun",
+      "heat-gun-idle-near-screen",
+      "log-board",
+      "missing-screen-fastener",
+      "new-screen-proof",
+      "panel-flat",
+      "plan-board",
+      "radio",
+      "screen-fastener",
+      "screen-panel-catch-wind",
+      "screen-seat",
+      "screen-stack",
+      "sealant-fumes-enclosed",
+      "sealant-gun",
+      "second-cracked-dome",
+      "unmarked-vent-hole",
+      "unscreened-skylight"
+    ],
+    "meshes": 149
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the plan: which openings need a screen, which need a guardrail, and the load the screens are rated to hold.",
+      "id": "guarding-plan",
+      "kind": "select",
+      "prompt": "Read the plan: which openings need a screen, which need a guardrail, and the load the screens are rated to hold.",
+      "target": "plan-board",
+      "title": "Read the skylight and hatch guarding plan",
+      "why": "Not every opening on a roof gets guarded the same way — a skylight gets a screen or a rail, a hatch gets a rail and a self-latching gate — and the plan is where the competent person has already matched each opening to what it actually needs, rated to the manufacturer's figure rather than whatever screen happened to be on the truck."
+    },
+    {
+      "cue": "Put the harness on and snug it, then clip the lanyard to the certified roof anchor before working toward the first unguarded opening.",
+      "id": "harness-on",
+      "itemNames": {
+        "anchor-clip": "lanyard clipped to the roof anchor",
+        "harness": "full-body harness on and snugged"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Harness first — the lanyard clips to the back D-ring of a harness that is already on, not to one still on the rack.",
+      "prompt": "Put the harness on and snug it, then clip the lanyard to the certified roof anchor before working toward the first unguarded opening.",
+      "targets": [
+        "harness",
+        "anchor-clip"
+      ],
+      "title": "Harness on, then clipped to the roof anchor",
+      "why": "Every opening on this roof is, by definition, unguarded until you have finished with it, which makes the anchor, harness and connection the only fall protection actually in place while you work around each one. 29 CFR 1926.502 makes those three one rated system, snugged before it is clipped."
+    },
+    {
+      "cue": "Look under the existing screens for a cracked dome, and check each frame's fasteners for anything backed out.",
+      "id": "roof-inspect",
+      "itemNames": {
+        "cracked-dome": "a cracked skylight dome under an existing screen",
+        "missing-screen-fastener": "a backed-out fastener on an existing screen frame"
+      },
+      "itemNotes": {
+        "cracked-dome": "The dome under this screen has a spider-crack across it from age or hail — the screen above it is still doing its job, but the dome itself would not have held anyone even before it cracked.",
+        "missing-screen-fastener": "One fastener on this screen's frame has backed most of the way out. A screen held by three corners instead of four does not fail gracefully — it fails at the fourth corner, under whoever happens to be standing nearest it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look under the existing screens for a cracked dome, and check each frame's fasteners for anything backed out.",
+      "targets": [
+        "cracked-dome",
+        "missing-screen-fastener"
+      ],
+      "title": "Walk the roof and check the existing screens before starting new ones",
+      "why": "A screen that was installed correctly last year is not guaranteed to still be doing its job today — fasteners work loose, domes crack from age and hail, and the only way to know an existing screen is still good is to actually check it before trusting it with anyone's weight."
+    },
+    {
+      "cue": "Press the proof-load gauge onto the existing screen and commit once the reading holds inside the plan's rated band.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "EXISTING SCREEN — PROOF LOAD",
+        "missNote": "That reading is not conclusive. Read the proof load again before trusting this screen with anyone's weight.",
+        "speed": 0.55
+      },
+      "id": "existing-screen-check",
+      "kind": "gauge",
+      "prompt": "Press the proof-load gauge onto the existing screen and commit once the reading holds inside the plan's rated band.",
+      "target": "existing-screen-gauge",
+      "title": "Proof-test an existing screen before trusting it",
+      "why": "A screen that looks intact can still have lost its holding strength at a corner that is not visibly damaged, and the only way to actually know is to load it under control and read what it does — not to stand on it and find out the same way the plan is designed to prevent."
+    },
+    {
+      "cue": "Switch the heat gun off and set it down on open deck, clear of the mesh and the plastic screen stock.",
+      "id": "heat-gun-off",
+      "kind": "select",
+      "prompt": "Switch the heat gun off and set it down on open deck, clear of the mesh and the plastic screen stock.",
+      "target": "heat-gun",
+      "title": "Set the heat gun down cold before handling screen material",
+      "why": "A heat gun stays hot for a while after it is switched off, and set down against the wrong material it does not need to still be running to start something — set down cold on open deck, it is not touching anything it could start."
+    },
+    {
+      "cue": "Carry the next mesh screen panel out to the next unguarded curb, kept low and edge-on to the gust rather than flat and broadside.",
+      "drag": {
+        "missNote": "Not at the curb. Carry the panel all the way out, edge-on to the wind, before setting it down.",
+        "radius": 0.55,
+        "to": "curb-line"
+      },
+      "id": "screen-carry",
+      "kind": "drag",
+      "prompt": "Carry the next mesh screen panel out to the next unguarded curb, kept low and edge-on to the gust rather than flat and broadside.",
+      "target": "screen-stack",
+      "title": "Carry the next screen panel out of the wind",
+      "why": "A wide, light mesh panel carried flat across an open gust catches it the same way an unclipped roof panel does, and doing that anywhere near an opening the panel is meant to guard is exactly the wrong place for a gust to get hold of anything."
+    },
+    {
+      "cue": "Set the frame square on the curb and drive its fasteners until each one seats flush.",
+      "id": "screen-fastener",
+      "kind": "turn",
+      "prompt": "Set the frame square on the curb and drive its fasteners until each one seats flush.",
+      "target": "screen-fastener",
+      "title": "Fasten the screen frame to the curb",
+      "turn": {
+        "axis": "z",
+        "label": "FRAME FASTENER",
+        "turns": 0.5
+      },
+      "why": "A screen only holds its rated load through fasteners actually seated the way the manufacturer specifies — proud, loose or missing even one, and the frame's rated capacity is a number that no longer describes the screen actually bolted to this curb."
+    },
+    {
+      "cue": "Press the frame down square on the curb and hold it while the corner clips take the load.",
+      "holdBreakNote": "The frame lifted before the clips took hold — press it back down square and hold a little longer.",
+      "id": "screen-seat",
+      "kind": "hold",
+      "prompt": "Press the frame down square on the curb and hold it while the corner clips take the load.",
+      "seconds": 4,
+      "target": "screen-seat",
+      "title": "Hold the screen seated while the clips take it up",
+      "why": "A frame released before its clips have actually taken hold can rock back off true, leaving one corner sitting slightly proud of the curb — a gap a foot can still find even after every fastener is driven."
+    },
+    {
+      "cue": "Run a continuous bead around the frame's perimeter at a steady pace — too slow pools it, too fast leaves gaps.",
+      "holdBreakNote": "The bead broke out of the steady band. Bring the gun back to a steady pace around the frame.",
+      "id": "sealant-bead",
+      "kind": "track",
+      "prompt": "Run a continuous bead around the frame's perimeter at a steady pace — too slow pools it, too fast leaves gaps.",
+      "seconds": 6,
+      "target": "sealant-gun",
+      "title": "Run the sealant bead around the frame at a steady pace",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.42,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "SEALANT BEAD RATE",
+        "rise": 0.5,
+        "start": 0.15
+      },
+      "why": "The sealant bead is what keeps water from finding the seam between the new screen frame and the curb, and it only does that as a continuous, even bead — too slow and it pools and skins over unevenly, too fast and it skips stretches that water will find on the very first rain."
+    },
+    {
+      "cue": "Press the proof-load gauge onto the new screen and commit once the reading holds inside the plan's rated band.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "NEW SCREEN — PROOF LOAD",
+        "missNote": "That reading is not conclusive. Read the proof load again before this screen is signed off.",
+        "speed": 0.55
+      },
+      "id": "new-screen-proof",
+      "kind": "gauge",
+      "prompt": "Press the proof-load gauge onto the new screen and commit once the reading holds inside the plan's rated band.",
+      "target": "new-screen-proof",
+      "title": "Proof-test the screen you just installed",
+      "why": "The new screen gets the exact same proof test the old ones just got, because a screen fresh off the truck can still be installed with a fastener that never quite seated — a proof test now is what turns 'installed to the plan' into 'holds the way the plan says it should.'"
+    },
+    {
+      "cue": "Confirm the hatch's guardrail is up all the way round, then confirm the gate is closed and latched.",
+      "id": "hatch-guard",
+      "itemNames": {
+        "hatch-gate": "hatch gate confirmed latched",
+        "hatch-rail": "hatch guardrail confirmed up"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "The rail is confirmed up before the gate is checked — a latched gate on a rail that was never actually there guards nothing.",
+      "prompt": "Confirm the hatch's guardrail is up all the way round, then confirm the gate is closed and latched.",
+      "targets": [
+        "hatch-rail",
+        "hatch-gate"
+      ],
+      "title": "Confirm the hatch's guardrail, then its gate",
+      "why": "A roof hatch is a hole with a lid, and the rail around it is what keeps anyone from stepping back into that hole while the lid is open — the rail is confirmed first because a latched gate on a rail that has come loose is confirming the wrong thing."
+    },
+    {
+      "cue": "Walk the far half of the roof against the plan: find the second cracked dome and the unmarked vent hole nobody has guarded yet.",
+      "id": "final-walk",
+      "itemNames": {
+        "second-cracked-dome": "a second cracked dome further along the roof",
+        "unmarked-vent-hole": "an unmarked, unguarded vent hole"
+      },
+      "itemNotes": {
+        "second-cracked-dome": "A second skylight further along the roof has the same spider-crack as the first — easy to miss once, easy to miss twice if the walk-round only covers half the roof.",
+        "unmarked-vent-hole": "A plumbing vent stack was cut loose during the re-roof and never got its temporary cover put back — a hole the size of a boot, sitting open and completely unmarked."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the far half of the roof against the plan: find the second cracked dome and the unmarked vent hole nobody has guarded yet.",
+      "targets": [
+        "second-cracked-dome",
+        "unmarked-vent-hole"
+      ],
+      "title": "Walk the whole roof one more time before signing off",
+      "why": "A guarding job is only as good as its coverage, and the openings most likely to get missed are the ones on the stretch of roof the crew has not walked yet — which is exactly why the last step before signing off is walking every square foot, not just the half that has already been worked."
+    },
+    {
+      "cue": "Write the cracked domes flagged, the backed-out fastener replaced, the new screen's proof reading, and the hatch confirmed into the log.",
+      "id": "log-board",
+      "kind": "select",
+      "prompt": "Write the cracked domes flagged, the backed-out fastener replaced, the new screen's proof reading, and the hatch confirmed into the log.",
+      "target": "log-board",
+      "title": "Log every opening, its guard and its finds",
+      "why": "The membrane crew coming in behind you trusts this log to know which openings are actually safe to work around, so an opening flagged but not yet fixed has to be written down as clearly as one that is already guarded — the two look identical from a few feet away."
+    },
+    {
+      "cue": "Radio the membrane crew: every opening on this stretch is screened, railed or flagged, and name the support line.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Radio the membrane crew: every opening on this stretch is screened, railed or flagged, and name the support line.",
+      "target": "radio",
+      "title": "Check in with the membrane crew coming in behind you",
+      "why": "The membrane crew is about to work this whole stretch trusting that every opening on it has already been dealt with, and a short check-in is what makes that trust something you actually confirmed rather than something they assumed."
+    }
+  ],
+  "supportLine": "Roofers Local 40's member assistance programme, or your contractor's employee assistance line",
+  "tagline": "The guarding plan read, harness clipped, a cracked dome and a backed-out screen fastener found, an existing screen proof-tested, the heat gun set down cold, a new screen carried out of the wind, fastened, seated and sealed, its own proof test held, the hatch's rail and gate confirmed in order, a second dome and an unmarked vent found on the walk-round, and the day logged, with a gust catching the next panel and a coworker radioing that a second hatch was left open along the way",
+  "title": "SmartCiti.X~ Skylight & Hatch Guarding VR",
+  "trade": "Roofer screening skylights and railing roof hatches ahead of a re-roof crew",
+  "underwater": null,
+  "weather": "wind"
+}

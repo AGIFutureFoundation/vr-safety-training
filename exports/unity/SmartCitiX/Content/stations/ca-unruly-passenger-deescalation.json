@@ -1,0 +1,358 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "cabin-deescalated",
+    "name": "Cabin De-escalated",
+    "note": "Distance kept, the calm approach tried, the flight deck secured and the captain notified, and nothing about restraint decided by anyone but the captain"
+  },
+  "category": "Mobility & Transit",
+  "certification": "AFA-CWA cabin-safety training; the airline's own disruptive-passenger response procedure under 14 CFR 121; Cal/OSHA's workplace violence prevention standard, 8 CCR 3342, for the hazard scan and the honest incident record this station teaches — no physical restraint technique is taught here, only distance, notification and the captain's own authorization",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFA-CWA",
+        "id": "afa-cwa-training",
+        "title": "AFA-CWA apprenticeship and training, as a training body"
+      },
+      {
+        "body": "Cal/OSHA",
+        "citedAs": "8 CCR 3342",
+        "id": "cal-osha-3342",
+        "title": "8 CCR 3342 — Workplace violence prevention plan"
+      },
+      {
+        "body": "FAA",
+        "citedAs": "14 CFR 121",
+        "id": "faa-14-cfr-121",
+        "title": "14 CFR Part 121 — Operating requirements for domestic, flag and supplemental air carriers"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Aviation",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "distance-kept",
+        "name": "Distance Kept",
+        "note": "Noticed the cues and kept distance before anything else"
+      },
+      {
+        "id": "deck-secured",
+        "name": "Flight Deck Secured",
+        "note": "The flight deck door reinforced the moment it mattered"
+      },
+      {
+        "id": "captain-authorized",
+        "name": "Captain Authorized",
+        "note": "Nothing about restraint happened without the captain's own explicit word"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-response",
+        "name": "Clean Response",
+        "note": "No corrections anywhere in the response"
+      },
+      {
+        "id": "steady-hold",
+        "name": "Steady Hold",
+        "note": "Held position at the aisle the full count, first try"
+      },
+      {
+        "id": "fast-response",
+        "name": "Fast Response",
+        "note": "Complete inside 80% of par"
+      }
+    ],
+    "currency": "CALM",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "New Flight Attendant",
+      "Line Qualified",
+      "Lead Flight Attendant",
+      "Purser",
+      "Cabin De-escalated Certified"
+    ],
+    "system": "Cabin De-escalated"
+  },
+  "hazards": {
+    "argue-back-decoy": "That card reads \"you need to calm down right now.\" Barking an order at someone already keyed up doesn't settle a single thing — it hands them one more reason to push back harder instead of easing off.",
+    "blocked-deck-path-hazard": "That cart is parked square in the path to the flight deck door. Nothing sits between this crew and the ability to reach and reinforce that door the instant it's needed — a blocked path here is a blocked path to the one door this entire response is built around protecting.",
+    "improvised-weapon-hazard": "That broken bottle is sitting well within the passenger's own reach. Anything that can be picked up and used to hurt someone gets moved out of reach the moment it's spotted — this is not a detail that waits for the situation to calm down on its own.",
+    "premature-restraint-decoy": "That restraint kit is sitting open on a seat back, in plain view, before anyone has decided anything. A restraint kit gets staged out of sight and stays closed until the captain gives an explicit answer — laid out like this, it escalates the exact situation this crew is trying to calm."
+  },
+  "id": "ca-unruly-passenger-deescalation",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "notice-and-distance",
+      "alert": "A passenger two rows back is on their feet, recording video and calling out encouragement at the disruptive passenger.",
+      "cue": "Get them back with the rest of the row, not into a conversation about the footage.",
+      "delay": 3,
+      "id": "bystander-films-and-encourages",
+      "kind": "Someone starts recording and egging it on",
+      "missNote": "The recording and the cheering kept going the whole time, unaddressed. One disruptive seat now has an audience actively feeding it.",
+      "seconds": 12,
+      "target": "nearby-passengers",
+      "why": "Trading words with someone actively cheering this on just opens a second front on top of the one already running — folding them back into the general instruction to clear the area is what keeps this contained to the one seat it started at instead of turning into a performance.",
+      "wrongNote": "Fold them back with everyone else being cleared — talking to them directly about the camera only adds a second thing to manage."
+    },
+    {
+      "after": "notify-captain",
+      "alert": "The passenger stands and starts moving up the aisle toward the flight deck door.",
+      "cue": "That door gets reinforced right now, not after they arrive at it.",
+      "delay": 3,
+      "id": "passenger-moves-toward-deck",
+      "kind": "The passenger moves toward the flight deck door",
+      "missNote": "The passenger kept moving toward the flight deck door while it sat unreinforced. That is exactly the outcome this entire procedure exists to prevent.",
+      "seconds": 12,
+      "target": "flight-deck-door-lever",
+      "why": "The instant anyone moves toward that door with the situation already tense, the reinforcement lever stops being a step for later and becomes the one thing that matters most right now — waiting for them to actually reach the door is waiting too long.",
+      "wrongNote": "Reinforce the door now — nothing else in this cabin matters more the moment someone is moving toward it."
+    }
+  ],
+  "lateNotes": {
+    "flight-deck-door-lever": "Hold that. The captain has to actually be notified before there's any reason to reinforce the door beyond its normal state.",
+    "restraint-kit": "Not yet — the captain's authorization comes first. A restraint kit staged before that answer is a decision this crew hasn't actually been given yet."
+  },
+  "name": "Unruly Passenger De-escalation",
+  "parSeconds": 340,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "airline-cabin-and-flight-crew"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "cabinInterior",
+        "count": 1,
+        "kit": "equipment"
+      }
+    ],
+    "error": null,
+    "footprint": 2.7,
+    "hits": [
+      "acknowledge-concern",
+      "argue-back-decoy",
+      "blocked-deck-path",
+      "blocked-deck-path-hazard",
+      "calm-tone",
+      "captain-authorization-panel",
+      "crew-alert-code",
+      "crew-alert-panel",
+      "debrief-request",
+      "disruptive-passenger-card",
+      "flight-deck-door-lever",
+      "improvised-weapon",
+      "improvised-weapon-hazard",
+      "incident-log",
+      "interphone-captain",
+      "keep-distance",
+      "nearby-passengers",
+      "notice-cues",
+      "offer-choice",
+      "premature-restraint-decoy",
+      "restraint-kit",
+      "staging-spot"
+    ],
+    "meshes": 178
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "select",
+    "sequence",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Open the airline's own procedure before approaching the passenger.",
+      "id": "pull-procedure",
+      "kind": "select",
+      "prompt": "Open the airline's own procedure before approaching the passenger.",
+      "target": "disruptive-passenger-card",
+      "title": "Pull the disruptive-passenger procedure",
+      "why": "This procedure is what the airline actually trained for exactly this situation — working from it is what keeps every step that follows in the order the airline decided works, not whatever this crew member's own instinct says to try first."
+    },
+    {
+      "anyOrder": false,
+      "cue": "Watch for the raised volume and the sharp movements first, then put real space between yourself and them before saying a word.",
+      "id": "notice-and-distance",
+      "itemNames": {
+        "keep-distance": "put a row of seats between yourself and them",
+        "notice-cues": "read the raised volume and the fast movements"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Read it first, then open the space — moving without having actually taken stock of what's unfolding is just relocating, not responding to it.",
+      "prompt": "Watch for the raised volume and the sharp movements first, then put real space between yourself and them before saying a word.",
+      "targets": [
+        "notice-cues",
+        "keep-distance"
+      ],
+      "title": "Read the situation, then open up space",
+      "why": "A loud voice and quick, sharp movement are simply what this looks like right now — reading them for what they are, without guessing at a cause, is what earns the seconds this crew needs to open up real space before anything gets closer to a confrontation."
+    },
+    {
+      "cue": "Two things near this seat aren't right. Find them before this goes any further.",
+      "id": "scan-area",
+      "itemNames": {
+        "blocked-deck-path": "a cart blocking the path to the flight deck door",
+        "improvised-weapon": "a broken bottle within the passenger's reach"
+      },
+      "itemNotes": {
+        "blocked-deck-path": "This gets cleared now — the path to the flight deck door is not something this crew can afford to discover blocked at the moment it's actually needed.",
+        "improvised-weapon": "This gets moved out of reach the instant it's spotted — anything that can be picked up and used to hurt someone doesn't wait for a calmer moment to be dealt with."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Two things near this seat aren't right. Find them before this goes any further.",
+      "targets": [
+        "improvised-weapon",
+        "blocked-deck-path"
+      ],
+      "title": "Scan the area around the seat",
+      "why": "Anything within reach that can be turned into a weapon, and anything blocking the path to the one door this whole response protects, both get caught and fixed now, while there's still time to fix them without a confrontation over it."
+    },
+    {
+      "cue": "Use the discreet crew alert code to bring other flight attendants aware, without announcing anything to the cabin.",
+      "id": "alert-crew",
+      "kind": "select",
+      "prompt": "Use the discreet crew alert code to bring other flight attendants aware, without announcing anything to the cabin.",
+      "target": "crew-alert-code",
+      "title": "Alert the other crew members",
+      "why": "Every other crew member on this aircraft needs to know this is happening without the passenger or the surrounding rows hearing it announced — the discreet code is what makes the whole crew aware without turning one seat's problem into the entire cabin's spectacle."
+    },
+    {
+      "cue": "Slow your own voice down, say out loud what set them off, then hand them one real option to take.",
+      "id": "calm-script",
+      "itemNames": {
+        "acknowledge-concern": "name what set them off, out loud",
+        "calm-tone": "slow your own voice down",
+        "offer-choice": "hand them one real option"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Slow down first, then name it, then hand over the option — an option offered before anyone felt heard reads as being managed, not helped.",
+      "prompt": "Slow your own voice down, say out loud what set them off, then hand them one real option to take.",
+      "targets": [
+        "calm-tone",
+        "acknowledge-concern",
+        "offer-choice"
+      ],
+      "title": "Talk them down before anything else",
+      "why": "Slowing your own pace is the single lever this crew actually has over how fast this keeps escalating, and it tends to drag the other person's pace down along with it — naming what set them off before handing over an option is what keeps that option from landing as being talked down to."
+    },
+    {
+      "cue": "Call the flight deck and report the situation, in plain factual terms.",
+      "id": "notify-captain",
+      "kind": "select",
+      "prompt": "Call the flight deck and report the situation, in plain factual terms.",
+      "target": "interphone-captain",
+      "title": "Notify the captain",
+      "why": "The captain's own decisions from here — whether the flight deck door gets reinforced, whether this flight diverts, whether restraint is ever authorized — all rest on hearing an accurate report now, not being caught up on it after the fact."
+    },
+    {
+      "cue": "Turn the reinforcement lever on the flight deck door per the airline's procedure.",
+      "id": "secure-flight-deck-door",
+      "kind": "turn",
+      "prompt": "Turn the reinforcement lever on the flight deck door per the airline's procedure.",
+      "target": "flight-deck-door-lever",
+      "title": "Reinforce the flight deck door",
+      "turn": {
+        "axis": "y",
+        "label": "DECK DOOR",
+        "turns": 0.3
+      },
+      "why": "The flight deck door is what this entire response ultimately protects, and reinforcing it the moment a disturbance is confirmed is what keeps that protection ahead of the situation instead of reacting to it only if things get worse."
+    },
+    {
+      "cue": "Read the alert panel and confirm every crew station acknowledged.",
+      "gauge": {
+        "green": [
+          0.7,
+          1
+        ],
+        "label": "CREW ALERT",
+        "missNote": "Moved on before every crew station acknowledged. An alert that some of the crew never actually got is an alert that failed exactly where it counted.",
+        "speed": 0.6
+      },
+      "id": "confirm-alert-sent",
+      "kind": "gauge",
+      "prompt": "Read the alert panel and confirm every crew station acknowledged.",
+      "target": "crew-alert-panel",
+      "title": "Confirm the crew alert actually sent",
+      "why": "An alert sent and an alert received by every crew station are two different facts, and confirming the second one is what makes sure this crew is actually acting together rather than one person assuming everyone else already knows."
+    },
+    {
+      "cue": "Direct the passengers in the surrounding rows away from the seat, calmly.",
+      "id": "protect-nearby-passengers",
+      "kind": "select",
+      "prompt": "Direct the passengers in the surrounding rows away from the seat, calmly.",
+      "target": "nearby-passengers",
+      "title": "Move nearby passengers back",
+      "why": "Everyone else near this seat is a bystander to whatever's happening, not part of it — moving them back is what keeps a one-passenger situation from turning into a crowd standing around it."
+    },
+    {
+      "cue": "Move the restraint kit to a staging spot out of the passenger's line of sight — do not open it.",
+      "drag": {
+        "missNote": "Not at the staging spot — a kit left in view is a kit that can make this situation worse before anyone has decided anything.",
+        "radius": 0.45,
+        "to": "staging-spot"
+      },
+      "id": "stage-restraint-kit",
+      "kind": "drag",
+      "prompt": "Move the restraint kit to a staging spot out of the passenger's line of sight — do not open it.",
+      "target": "restraint-kit",
+      "title": "Stage the restraint kit out of sight",
+      "why": "Staging the kit out of sight is what keeps this crew ready without escalating anything by letting the passenger see it — it stays closed and stays staged until the captain gives an actual answer, not before."
+    },
+    {
+      "cue": "Confirm the captain's explicit authorization before anything about restraint moves forward.",
+      "id": "captain-authorizes",
+      "kind": "select",
+      "prompt": "Confirm the captain's explicit authorization before anything about restraint moves forward.",
+      "target": "captain-authorization-panel",
+      "title": "Confirm the captain's authorization",
+      "why": "Whether restraint is ever used is the captain's decision alone, made with the full picture from the flight deck — this crew's job is confirming that explicit word was actually given, never assuming it or acting ahead of it."
+    },
+    {
+      "cue": "Record exactly what happened and when — observed facts only, no interpretation.",
+      "id": "log-incident",
+      "kind": "select",
+      "prompt": "Record exactly what happened and when — observed facts only, no interpretation.",
+      "target": "incident-log",
+      "title": "Log the incident factually",
+      "why": "This log is what the airline, and potentially law enforcement at the next stop, reads afterward — it holds up only if it says exactly what was observed and when, not what this crew guessed the passenger was thinking."
+    },
+    {
+      "cue": "Request a debrief for the crew who handled this, not just an incident form about the passenger.",
+      "id": "request-debrief",
+      "kind": "select",
+      "prompt": "Request a debrief for the crew who handled this, not just an incident form about the passenger.",
+      "target": "debrief-request",
+      "title": "Request a debrief for yourself",
+      "why": "An incident report is a record about what the passenger did — a debrief is about what this crew just went through standing at that seat, and it deserves its own line, not an afterthought bolted onto the report."
+    }
+  ],
+  "supportLine": "your AFA-CWA local's member assistance resources, or the airline's own employee assistance line — an unruly passenger in a sealed metal tube is its own kind of pressure, whatever the outcome",
+  "tagline": "Distance kept, a calm scripted approach tried first, the flight deck door reinforced and the captain notified the moment things move the wrong way, and any restraint kit staged and never opened without the captain's own explicit authorization",
+  "title": "SmartCiti.X~ Unruly Passenger De-escalation VR",
+  "trade": "Flight attendant — AFA-CWA cabin crew",
+  "underwater": null,
+  "weather": null
+}

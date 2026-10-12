@@ -1,0 +1,606 @@
+<title>C.L.E.A.R. Clean-up Demo</title>
+<style>
+:root{
+  --paper:#f1f1ec; --surface:#fbfbf8; --ink:#1d221e; --ink-2:#4d544d; --rule:#d3d5cc;
+  --marsh:#3b6a3e; --marsh-soft:#dfe9d8; --flag:#d9531c; --flag-soft:#fbe3d6; --silt:#767a72; --silt-soft:#e4e4de;
+  --bar:#b9c7b0; --code:#eceee6;
+  --display:"Barlow Condensed","Arial Narrow",Arial,sans-serif; --body:"Barlow","Segoe UI",Helvetica,Arial,sans-serif; --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#121512; --surface:#1a1e1a; --ink:#e5e8e1; --ink-2:#a8afa5; --rule:#2f352f;
+    --marsh:#8fc184; --marsh-soft:#223022; --flag:#ff7d45; --flag-soft:#3a2418; --silt:#9ca098; --silt-soft:#262a26;
+    --bar:#3f5a3b; --code:#232823; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#121512; --surface:#1a1e1a; --ink:#e5e8e1; --ink-2:#a8afa5; --rule:#2f352f;
+  --marsh:#8fc184; --marsh-soft:#223022; --flag:#ff7d45; --flag-soft:#3a2418; --silt:#9ca098; --silt-soft:#262a26;
+  --bar:#3f5a3b; --code:#232823; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font:400 16px/1.55 var(--body);margin:0}
+.wrap{max-width:1040px;margin:0 auto;padding-inline:16px;padding-block:28px 64px}
+a{color:var(--marsh);text-underline-offset:2px}
+a:focus-visible,summary:focus-visible,video:focus-visible{outline:2px solid var(--flag);outline-offset:2px}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;letter-spacing:.01em;line-height:1.1;margin:0}
+h2{font-size:1.9rem;font-weight:700;text-transform:uppercase;letter-spacing:.03em}
+h3{font-size:1.25rem;font-weight:600}
+p{margin:0}
+code{font-family:var(--mono);font-size:.82em;background:var(--code);padding:.05em .35em;border-radius:3px}
+.muted{color:var(--ink-2)}
+section{display:grid;gap:18px;padding-block:36px;border-top:1px solid var(--rule)}
+.eyebrow{font-family:var(--display);font-weight:600;text-transform:uppercase;letter-spacing:.12em;font-size:.85rem;color:var(--silt)}
+.prose{max-width:66ch;display:grid;gap:12px}
+
+/* header */
+header{display:grid;gap:14px;padding-block:8px 30px}
+.tags{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center}
+.demo-name{font-family:var(--display);font-weight:700;font-size:1.05rem;letter-spacing:.14em;text-transform:uppercase;color:var(--flag)}
+.proto{font-family:var(--mono);font-size:.75rem;text-transform:uppercase;letter-spacing:.08em;border:1px solid var(--flag);color:var(--flag);padding:2px 8px;border-radius:2px}
+header h1{font-size:clamp(2.2rem,6vw,3.6rem);font-weight:700;text-transform:uppercase;letter-spacing:.015em}
+.lede{font-size:1.15rem;max-width:62ch;color:var(--ink)}
+.for{color:var(--ink-2)}
+.for b{color:var(--ink)}
+
+/* phase ribbon: the cleanup sequence as survey stakes */
+.ribbon{list-style:none;margin:10px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:14px 10px}
+.ph{flex:var(--n) 1 0;min-width:min(100%, max(128px, calc(var(--n) * 30px + 20px)));display:grid;gap:6px;align-content:start}
+.ticks{list-style:none;margin:0;padding:0;display:flex;gap:3px}
+.ticks li{flex:1 1 0;min-width:0;height:34px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:3px;border-radius:2px 2px 0 0;font:500 .7rem/1 var(--mono);color:var(--paper)}
+.ph-record .ticks li{background:var(--silt)}
+.ph-survey .ticks li{background:var(--flag)}
+.ph-haul .ticks li{background:color-mix(in srgb,var(--flag) 55%,var(--silt))}
+.ph-ground .ticks li{background:color-mix(in srgb,var(--silt) 60%,var(--marsh))}
+.ph-shore .ticks li{background:var(--marsh)}
+.ph-label{font-family:var(--display);font-size:.98rem;font-weight:600;text-transform:uppercase;letter-spacing:.05em;line-height:1.2}
+.ph-label b{color:var(--flag);margin-right:3px}
+.ph-range{font-family:var(--mono);font-weight:400;font-size:.75rem;color:var(--ink-2);letter-spacing:0;margin-left:4px}
+
+/* video */
+.video{display:grid;gap:10px}
+.video video{width:100%;max-width:100%;aspect-ratio:16/9;background:#0e110e;border-radius:4px;display:block}
+.video p{color:var(--ink-2);font-size:.95rem}
+
+/* figures */
+.figs{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:4px;overflow:hidden}
+.fig{background:var(--surface);padding:14px 16px;display:grid;gap:2px}
+.fig b{font-family:var(--display);font-size:2rem;font-weight:700;line-height:1;font-variant-numeric:tabular-nums}
+.fig span{font-size:.85rem;color:var(--ink-2)}
+
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:22px 32px}
+.cols > div{display:grid;gap:10px;align-content:start}
+ul.plain{margin:0;padding-left:1.1em;display:grid;gap:8px}
+.rule-box{border-left:3px solid var(--flag);padding:4px 0 4px 14px;display:grid;gap:8px}
+
+/* briefing */
+.brief{background:var(--silt-soft);border-radius:4px;padding:20px;display:grid;gap:16px}
+.brief-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:18px 26px}
+.brief-grid article{display:grid;gap:6px;align-content:start}
+.brief-grid h3{font-size:1.05rem;text-transform:uppercase;letter-spacing:.05em}
+.brief small{font-size:.8rem;color:var(--ink-2)}
+.brief small a{color:var(--ink-2)}
+
+/* station table */
+.tablewrap{overflow-x:auto;border:1px solid var(--rule);border-radius:4px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:980px;font-size:.9rem}
+thead th{font-family:var(--display);font-weight:600;text-transform:uppercase;letter-spacing:.06em;font-size:.82rem;text-align:left;padding:10px 10px;border-bottom:2px solid var(--ink);position:sticky;top:0;background:var(--surface)}
+td{padding:10px;border-bottom:1px solid var(--rule);vertical-align:top}
+td.num,th.num{width:1%;white-space:nowrap;text-align:right;font-variant-numeric:tabular-nums;font-family:var(--mono);font-size:.85rem}
+td.st{width:200px}
+td.st b{display:block;font-weight:600}
+td.st code{display:inline-block;margin:3px 0}
+td.st small{display:block;color:var(--ink-2);font-size:.78rem;line-height:1.35}
+td.what{min-width:380px;line-height:1.45}
+.why{display:block;margin-top:6px;color:var(--ink-2);font-size:.83rem;font-style:italic}
+.kinds{width:150px}
+.kinds span{display:inline-block;font-family:var(--mono);font-size:.7rem;background:var(--code);border-radius:2px;padding:1px 5px;margin:0 3px 3px 0}
+.ev{min-width:70px}
+.evn{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.bar{display:block;height:4px;background:var(--silt-soft);margin-top:5px;border-radius:2px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--marsh)}
+.phase-row th{text-align:left;padding:14px 10px 8px;font-family:var(--display);font-size:1.05rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;border-bottom:1px solid var(--rule);background:var(--paper)}
+.pr-num{color:var(--flag);margin-right:6px}
+.pr-meta{font-family:var(--mono);font-weight:400;font-size:.75rem;color:var(--ink-2);text-transform:none;letter-spacing:0;margin-left:8px}
+tbody.ph-shore .phase-row th{border-top:0}
+
+.pill{display:inline-block;font-size:.8rem;background:var(--marsh-soft);border-radius:2px;padding:1px 7px;margin:3px 2px 0 0}
+ul.sites{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+ul.sites li{padding-bottom:12px;border-bottom:1px dashed var(--rule)}
+
+/* screens */
+.shots{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:22px}
+figure{margin:0;display:grid;gap:8px}
+figure img{width:100%;max-width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:4px;border:1px solid var(--rule);background:var(--silt-soft)}
+figcaption{font-size:.88rem;color:var(--ink-2)}
+
+/* build */
+.commits{overflow-x:auto;border:1px solid var(--rule);border-radius:4px;background:var(--surface)}
+.commits table{min-width:640px}
+.commits td{padding:7px 10px}
+.commits td:first-child a{font-family:var(--mono);font-size:.82rem}
+.commits td:nth-child(2){font-family:var(--mono);font-size:.82rem;white-space:nowrap;color:var(--ink-2)}
+ul.std{margin:0;padding:0;list-style:none;display:grid;gap:6px;font-size:.92rem}
+ul.std code{margin-right:6px}
+
+ol.next{margin:0;padding-left:1.3em;display:grid;gap:10px;max-width:66ch}
+footer{padding-top:28px;border-top:1px solid var(--rule);color:var(--ink-2);font-size:.85rem;display:grid;gap:6px}
+@media (prefers-reduced-motion: reduce){*{scroll-behavior:auto!important}}
+</style>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+
+<div class="wrap">
+<header>
+  <div class="tags"><span class="demo-name">C.L.E.A.R. — Hunters Point clean-up demo</span><span class="proto">Working prototype</span></div>
+  <h1>Hunters Point Clean-up and Bay Restoration</h1>
+  <p class="lede">A 26-station training programme that walks a Superfund shoreline clean-up in the order the work runs: the record, the survey, excavation and haul, the groundwater that stays behind, and the shoreline given back.</p>
+  <p class="for">Prepared for <b>the C.L.E.A.R. team</b> by the SmartCiti.X ~ Holodeck project. The software is a prototype: every station runs, is scored and is recorded, and every one is open for your review.</p>
+  <ol class="ribbon" aria-label="The 26 stations in cleanup order, grouped into five phases">
+      <li class="ph ph-record" style="--n:1">
+        <ol class="ticks" start="1"><li title="Hunters Point Briefing"><span>1</span></li></ol>
+        <p class="ph-label"><b>I</b> The record <span class="ph-range">1</span></p>
+      </li>
+      <li class="ph ph-survey" style="--n:3">
+        <ol class="ticks" start="2"><li title="Rad Survey"><span>2</span></li><li title="Building Rad Scan"><span>3</span></li><li title="Perimeter Air"><span>4</span></li></ol>
+        <p class="ph-label"><b>II</b> Survey <span class="ph-range">2–4</span></p>
+      </li>
+      <li class="ph ph-haul" style="--n:6">
+        <ol class="ticks" start="5"><li title="Soil Loadout"><span>5</span></li><li title="Haul Road Dust"><span>6</span></li><li title="PCB Equipment Removal"><span>7</span></li><li title="Transite Pipe Removal"><span>8</span></li><li title="UST Removal"><span>9</span></li><li title="Decon Line"><span>10</span></li></ol>
+        <p class="ph-label"><b>III</b> Excavation and haul <span class="ph-range">5–10</span></p>
+      </li>
+      <li class="ph ph-ground" style="--n:7">
+        <ol class="ticks" start="11"><li title="Sampling Well"><span>11</span></li><li title="Well Install"><span>12</span></li><li title="Pump and Treat"><span>13</span></li><li title="Vapor Mitigation"><span>14</span></li><li title="ISCO Injection"><span>15</span></li><li title="Stormwater Outfall"><span>16</span></li><li title="Bioswale Build"><span>17</span></li></ol>
+        <p class="ph-label"><b>IV</b> Groundwater and runoff <span class="ph-range">11–17</span></p>
+      </li>
+      <li class="ph ph-shore" style="--n:9">
+        <ol class="ticks" start="18"><li title="Dredge Barge"><span>18</span></li><li title="Oyster Reef Monitoring"><span>19</span></li><li title="Marsh Transect Survey"><span>20</span></li><li title="Sediment Cap"><span>21</span></li><li title="Creosote Pile Removal"><span>22</span></li><li title="Tide Gate"><span>23</span></li><li title="Living Shoreline"><span>24</span></li><li title="Spartina Removal"><span>25</span></li><li title="Eelgrass Transplant"><span>26</span></li></ol>
+        <p class="ph-label"><b>V</b> The shoreline given back <span class="ph-range">18–26</span></p>
+      </li>
+  </ol>
+</header>
+
+<section class="video" aria-labelledby="v-h">
+  <h2 id="v-h">Video demo</h2>
+  <video controls playsinline preload="metadata" poster="assets/poster.jpg" src="demo.mp4"></video>
+  <p>93 seconds. The home page, the track page, 8 stations recorded from real runs across the phases, then the open worlds: a programme site in the Deep and the shoreline in Bay World. Each station clip opens on its title card and plays the first steps of a scripted run.</p>
+</section>
+
+<section aria-labelledby="o-h">
+  <h2 id="o-h">Overview</h2>
+  <div class="prose">
+    <p>A Superfund shoreline and the bay beside it, worked in the order a cleanup actually runs: the record first, then survey, then excavation and haul, then the groundwater that stays behind, then the water's edge given back — sediment out, tide back in, marsh planted. The first station is a sourced briefing on the real site and the data-integrity case at the centre of it; every station after it is a union trade doing its part of the work, and the discipline that made the case is taught as procedure: an instrument source-checked before and after, a sample that is the place it came from, and a split for a lab that does not work for you.</p>
+    <p class="muted">The programme's own summary, from <code>catalog.json</code>.</p>
+  </div>
+  <div class="figs">
+    <div class="fig"><b>26</b><span>stations, in cleanup order</span></div>
+    <div class="fig"><b>339</b><span>scored steps</span></div>
+    <div class="fig"><b>104</b><span>registered hazards</span></div>
+    <div class="fig"><b>50</b><span>mid-task interruptions</span></div>
+    <div class="fig"><b>20</b><span>ladder levels</span></div>
+    <div class="fig"><b>94.5</b><span>content-eval mean, lowest 73</span></div>
+  </div>
+  <div class="cols">
+    <div>
+      <h3>What a learner does</h3>
+      <p>Each station is a procedure run in a 3D scene: pick the right control, put steps in order, turn a valve, hold a reading steady, drag an item into place, find what is out of place. Station 1 is different. It is a flat, sourced briefing and a knowledge check where the unsafe choices are wrong conclusions. Stations 2 to 26 are simulated scenes sited generically (a shoreline parcel, a remediation cell, a derelict switch room); none is presented as the real site.</p>
+      <p>Limits never appear as numbers. A station reads a monitor “against its action level”, mixes “to the label rate” or holds the cap to the design thickness “read off the permit”; the plan or permit sets the value.</p>
+    </div>
+    <div>
+      <h3>How a run is graded</h3>
+      <div class="rule-box">
+        <p><b>Stars.</b> 3 stars: no corrections at all and finished inside par. 2 stars: at most one correction and finished inside 1.5x par. 1 star: anything else. Stars, not score, decide whether a run counts.</p>
+        <p><b>Unsafe actions.</b> A wrong control costs 25; touching a registered hazard costs 50 and is recorded as an unsafe action. A wrong answer and no answer are treated the same way: the condition is still there, so both cost 50 and count as an unsafe action.</p>
+        <p><b>Programme completion:</b> every station has a passing attempt (stars &gt;= 2, no unsafe action).</p>
+      </div>
+      <p class="muted">Score rewards speed and streaks. Mastery asks a different question — was it safe and complete — so a fast run with one unsafe action scores well and counts for nothing.</p>
+    </div>
+    <div>
+      <h3>The ladder and the competency</h3>
+      <p>20 levels, 1,590 lessons and 122 tasks, with 20 of 20 levels full at a lesson bar of 75. A lesson is one station step under one condition.</p>
+      <p>Competency: <b>Work a radiological and chemical cleanup inside the fence and at the water's edge</b>, demonstrated by a mastery run on 6 of the 26 stations. A run demonstrates mastery when it earns two or more stars, records zero unsafe actions, answers every interruption it was given, and finishes within 1.5 times the station's par time.</p>
+    </div>
+  </div>
+
+  <div class="brief" aria-labelledby="b-h">
+    <div class="prose">
+      <p class="eyebrow">Station 1 · Hunters Point Briefing</p>
+      <h3 id="b-h">The record, as the briefing station sources it</h3>
+      <p class="muted">Everything in this box is quoted or closely paraphrased from the dossier in <a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/WebXR/smartcity/js/sims/hunters-point.js">hunters-point.js</a>, with the sources that file cites. The station's own comment says the settlement and the lawsuit are live matters and its text is re-checked when the record changes.</p>
+    </div>
+    <div class="brief-grid">
+      <article><h3>What the site is</h3><p>A former U.S. Navy shipyard on the southeast San Francisco waterfront, “on the EPA's National Priorities List (a Superfund site) since 1989”. The briefing says “The Navy is the lead agency for investigation and cleanup; the U.S. EPA and California's regulators (DTSC and the Regional Water Board) oversee and enforce the Navy's work”. It lists radionuclides, PCBs, heavy metals, petroleum fuels, pesticides and volatile organic compounds, “in soil and groundwater on land and in bay sediment offshore”.</p><small>Source cited: <a href="https://cumulis.epa.gov/supercpad/cursites/csitinfo.cfm?id=0902722">EPA Superfund site profile</a> · <a href="https://www.sf.gov/hpns-cleanup-learn">SF.gov — HPNS cleanup</a></small></article><article><h3>The data-integrity case</h3><p>The briefing describes federal False Claims Act litigation that “alleged that employees and subcontractors substituted clean soil for potentially contaminated samples and fabricated radiological readings the Navy relied on”, at the Navy's radiological remediation contractor. It records a 2026 settlement of the government's claims in which “the company did not admit liability”, and notes that it does not resolve a separate suit by homeowners.</p><small>Source cited: <a href="https://www.justice.gov/opa/pr/tetra-tech-ec-inc-agrees-pay-57m-settle-false-claims-act-allegations-falsifying-soil-test">U.S. Department of Justice press release (2026)</a></small></article><article><h3>The neighbourhood's own air record</h3><p>“Bayview Hunters Point is a residential neighborhood next to the shipyard fence.” The briefing points learners to the community air-monitoring effort as “the independent neighborhood air record” and states that “there is no on-site monitoring program of ours here”.</p><small>Source cited: <a href="https://greenaction.org/bayview-hunters-point/">Greenaction — Bayview Hunters Point</a></small></article><article><h3>What the case teaches the crew</h3><p>“independent split samples, chain of custody and third-party verification are the only reason anyone can trust a clearance number.” That is the discipline the other twenty-five stations teach as procedure.</p><small>Source cited: <a href="https://www.osha.gov/laws-regs/regulations/standardnumber/1910/1910.120">OSHA 29 CFR 1910.120 — HAZWOPER</a></small></article>
+    </div>
+  </div>
+</section>
+
+<section aria-labelledby="d-h">
+  <h2 id="d-h">Details</h2>
+  <div class="prose">
+    <h3>The cleanup sequence, station by station</h3>
+    <p>The order below is the programme's own order in <code>catalog.json</code>. The five phase headings follow the phases its summary names. Italic lines are the programme's reason for including each station. Eval is the content-evaluation score from <code>tools/eval-content.json</code>: a ranking aid on the project's own scale, not a standard or a pass mark.</p>
+  </div>
+  <div class="tablewrap" role="region" aria-label="Station list" tabindex="0">
+    <table>
+      <thead><tr><th class="num">#</th><th>Station</th><th>What it trains · why it is here</th><th class="num">Steps</th><th>Interaction kinds</th><th class="num">Hazards</th><th class="num">Interr.</th><th>Eval</th></tr></thead>
+      
+        <tbody class="ph-record">
+          <tr class="phase-row"><th colspan="8" scope="colgroup"><span class="pr-num">Phase I</span> The record <span class="pr-meta">stations 1 · 1 station</span></th></tr>
+          <tr>
+            <td class="num">1</td>
+            <td class="st"><b>Hunters Point Briefing</b><code>hunters-point</code><small>Environmental monitoring technician</small></td>
+            <td class="what">A real Superfund site, a real data-fraud case, a real community air-monitoring effort — flat briefing and knowledge check, not a walkable scene<span class="why">The record: what the site is, who oversees it, what the contractor data case established, and where the neighbourhood's own air data comes from — before any simulated work.</span></td>
+            <td class="num">10</td>
+            <td class="kinds"><span>select</span><span>sequence</span></td>
+            <td class="num">4</td>
+            <td class="num">0</td>
+            <td class="ev"><span class="evn">73</span><span class="bar"><i style="width:73%"></i></span></td>
+          </tr>
+        </tbody>
+        <tbody class="ph-survey">
+          <tr class="phase-row"><th colspan="8" scope="colgroup"><span class="pr-num">Phase II</span> Survey <span class="pr-meta">stations 2–4 · 3 stations</span></th></tr>
+          <tr>
+            <td class="num">2</td>
+            <td class="st"><b>Rad Survey</b><code>rad-survey</code><small>Radiation control technician</small></td>
+            <td class="what">Gamma walkover and static count on a shoreline parcel: instrument bracketed by a check source, a gridded scan, GPS-tagged flags and a split sample under chain of custody<span class="why">The gamma walkover done so its numbers can be trusted: source-check, background, grid speed, a static count over the investigation level, a split sample under chain of custody.</span></td>
+            <td class="num">15</td>
+            <td class="kinds"><span>select</span><span>sequence</span><span>turn</span><span>hold</span><span>gauge</span><span>track</span><span>drag</span><span>find</span></td>
+            <td class="num">4</td>
+            <td class="num">2</td>
+            <td class="ev"><span class="evn">94</span><span class="bar"><i style="width:94%"></i></span></td>
+          </tr><tr>
+            <td class="num">3</td>
+            <td class="st"><b>Building Rad Scan</b><code>building-rad-scan</code><small>Radiation control technician — building structure-surface survey</small></td>
+            <td class="what">A derelict building's structure-surface survey ahead of demolition: instrument bracketed by a check source, floor and walls scanned to the plan's coverage, drains scanned as collection points, and a swipe bagged under chain of custody<span class="why">The same discipline turned indoors, on a derelict building ahead of demolition: floor and walls scanned to the plan's coverage, drains scanned as collection points, and a swipe bagged under chain of custody before a roll-up door opens on ground that isn't released yet.</span></td>
+            <td class="num">15</td>
+            <td class="kinds"><span>select</span><span>sequence</span><span>hold</span><span>gauge</span><span>track</span><span>turn</span><span>drag</span><span>find</span></td>
+            <td class="num">4</td>
+            <td class="num">2</td>
+            <td class="ev"><span class="evn">94</span><span class="bar"><i style="width:94%"></i></span></td>
+          </tr><tr>
+            <td class="num">4</td>
+            <td class="st"><b>Perimeter Air</b><code>air-monitor</code><small>Environmental monitoring technician</small></td>
+            <td class="what">Real-time PM10 fence-line monitoring: wind, placement, flow calibration, zero check, and the exceedance response<span class="why">Fence-line monitoring for the people on the other side of the fence: placement, calibration, and an exceedance response that happens now.</span></td>
+            <td class="num">10</td>
+            <td class="kinds"><span>select</span><span>sequence</span><span>gauge</span><span>hold</span><span>turn</span><span>find</span></td>
+            <td class="num">4</td>
+            <td class="num">2</td>
+            <td class="ev"><span class="evn">92</span><span class="bar"><i style="width:92%"></i></span></td>
+          </tr>
+        </tbody>
+        <tbody class="ph-haul">
+          <tr class="phase-row"><th colspan="8" scope="colgroup"><span class="pr-num">Phase III</span> Excavation and haul <span class="pr-meta">stations 5–10 · 6 stations</span></th></tr>
+          <tr>
+            <td class="num">5</td>
+            <td class="st"><b>Soil Loadout</b><code>soil-loadout</code><small>Excavation &amp; haul-out crew — IUOE operator, LIUNA hazmat laborer directing, Teamsters driver</small></td>
+            <td class="what">Excavation and haul-out from a remediation cell: zones set from the wind, dust read clean before the first bucket, a lined and tarped load under a hazardous-waste manifest, and the perimeter alarm that stops everything<span class="why">Excavation and haul-out of what the survey found: zones set from the wind, the face wetted, a lined and manifested truck, and the dust alarm that stops the excavator.</span></td>
+            <td class="num">13</td>
+            <td class="kinds"><span>sequence</span><span>select</span><span>gauge</span><span>drag</span><span>turn</span><span>hold</span><span>track</span><span>find</span></td>
+            <td class="num">4</td>
+            <td class="num">2</td>
+            <td class="ev"><span class="evn">92</span><span class="bar"><i style="width:92%"></i></span></td>
+          </tr><tr>
+            <td class="num">6</td>
+            <td class="st"><b>Haul Road Dust</b><code>haul-road-dust</code><small>Haul road dust control crew — Teamsters haul and water-truck drivers, LIUNA laborers, IUOE Local 3</small></td>
+            <td class="what">Dust control on the haul road during a soil haul: monitors read against their action level, the road wetted on the plan's schedule, the load tarped and washed clean before the gate, and the alarm that stops the haul the moment the wind turns<span class="why">What keeps that loaded truck from becoming its own dust source once it's rolling: perimeter monitors read against their action level, the road wetted on schedule, a tarped load washed clean at the gate, and the alarm that stops the haul the moment the wind turns.</span></td>
+            <td class="num">12</td>
+            <td class="kinds"><span>select</span><span>sequence</span><span>gauge</span><span>turn</span><span>track</span><span>drag</span><span>hold</span><span>find</span></td>
+            <td class="num">4</td>
+            <td class="num">2</td>
+            <td class="ev"><span class="evn">93</span><span class="bar"><i style="width:93%"></i></span></td>
+          </tr><tr>
+            <td class="num">7</td>
+            <td class="st"><b>PCB Equipment Removal</b><code>pcb-equipment-removal</code><small>Electrician and rigger's helper — IBEW Local 6 electrician, LIUNA hazmat laborer, IUOE Local 3 hoist operator</small></td>
+            <td class="what">A derelict switch room's PCB transformer, taken down as a regulated shipment: nameplate against the inventory, the circuit proven dead and locked out, the unit lifted onto a lined pallet, sealed, labelled and manifested<span class="why">A derelict switch room's own hazard, found and taken down as its own regulated shipment: the circuit proven dead and locked out before a wrench touches it, the transformer rigged and lined out on a pallet, and the manifest signed before it ever reaches the gate.</span></td>
+            <td class="num">15</td>
+            <td class="kinds"><span>sequence</span><span>gauge</span><span>find</span><span>turn</span><span>select</span><span>drag</span><span>track</span><span>hold</span></td>
+            <td class="num">4</td>
+            <td class="num">2</td>
+            <td class="ev"><span class="evn">97</span><span class="bar"><i style="width:97%"></i></span></td>
+          </tr><tr>
+            <td class="num">8</td>
+            <td class="st"><b>Transite Pipe Removal</b><code>transite-pipe-removal</code><small>Asbestos abatement laborer and pipefitter — LIUNA asbestos laborer, UA Local 38 pipefitter, IUOE Local 3 excavation operator</small></td>
+            <td class="what">Asbestos-cement water pipe out of an excavation as Class II work: wetted and kept wet, cut with a snap cutter — never a power saw — double-bagged at the point of removal, and the air sampling pump running the whole time<span class="why">Asbestos-cement pipe out of the same ground as Class II work: wetted and kept wet, cut by hand rather than power tool, bagged where it comes out, and the sampling pump running the whole time.</span></td>
+            <td class="num">12</td>
+            <td class="kinds"><span>select</span><span>turn</span><span>sequence</span><span>find</span><span>gauge</span><span>hold</span><span>track</span><span>drag</span></td>
+            <td class="num">4</td>
+            <td class="num">2</td>
+            <td class="ev"><span class="evn">96</span><span class="bar"><i style="width:96%"></i></span></td>
+          </tr><tr>
+            <td class="num">9</td>
+            <td class="st"><b>UST Removal</b><code>ust-removal</code><small>Excavation &amp; UST closure crew — LIUNA hazmat laborer directing, IUOE Local 3 operating engineer, UA Local 38 pipefitter</small></td>
+            <td class="what">Closing out an underground fuel tank: product pumped and the tank proven inert on the LEL, the pit shored, the tank rigged and lifted by the laborer directing rather than the operator's own eye, and the pit sampled and fenced before anyone leaves<span class="why">What the survey and the pipe crew leave behind for the ground itself to answer for: a fuel tank pumped and proven inert on the LEL before the pit ever opens wide, rigged and lifted with nobody under the hook, and the pit sampled under chain of custody and fenced before the crew leaves.</span></td>
+            <td class="num">14</td>
+            <td class="kinds"><span>select</span><span>hold</span><span>gauge</span><span>sequence</span><span>drag</span><span>track</span><span>find</span></td>
+            <td class="num">4</td>
+            <td class="num">2</td>
+            <td class="ev"><span class="evn">97</span><span class="bar"><i style="width:97%"></i></span></td>
+          </tr><tr>
+            <td class="num">10</td>
+            <td class="st"><b>Decon Line</b><code>decon-line</code><small>Hazmat firefighter / decon technician</small></td>
+            <td class="what">Hazmat decontamination corridor: zones by the wind, pools in order, gross wash, doffing order, runoff contained<span class="why">The corridor everyone and everything leaves the exclusion zone through.</span></td>
+            <td class="num">11</td>
+            <td class="kinds"><span>select</span><span>sequence</span><span>drag</span><span>turn</span><span>track</span><span>gauge</span><span>find</span></td>
+            <td class="num">4</td>
+            <td class="num">2</td>
+            <td class="ev"><span class="evn">96</span><span class="bar"><i style="width:96%"></i></span></td>
+          </tr>
+        </tbody>
+        <tbody class="ph-ground">
+          <tr class="phase-row"><th colspan="8" scope="colgroup"><span class="pr-num">Phase IV</span> Groundwater and runoff <span class="pr-meta">stations 11–17 · 7 stations</span></th></tr>
+          <tr>
+            <td class="num">11</td>
+            <td class="st"><b>Sampling Well</b><code>sampling-well</code><small>Environmental sampling technician</small></td>
+            <td class="what">Low-flow groundwater sampling: water level, pump set, stabilised purge, volatiles first, chain of custody<span class="why">Low-flow groundwater sampling: the plume's own numbers, volatiles first, chain of custody on every bottle.</span></td>
+            <td class="num">11</td>
+            <td class="kinds"><span>select</span><span>sequence</span><span>gauge</span><span>drag</span><span>track</span><span>hold</span><span>find</span></td>
+            <td class="num">4</td>
+            <td class="num">2</td>
+            <td class="ev"><span class="evn">99</span><span class="bar"><i style="width:99%"></i></span></td>
+          </tr><tr>
+            <td class="num">12</td>
+            <td class="st"><b>Well Install</b><code>well-install</code><small>Environmental geologist — field lead</small></td>
+            <td class="what">Hollow-stem auger monitoring well: locate and permit checked, the mast raised inside its clearance, cuttings screened and drummed, screen and casing set, filter pack and seal placed and hydrated before the grout, the well developed clear, the survey point logged<span class="why">The well that sampling-well later draws from, put in by the book: cleared and cased before it is ever sampled, screened at the interval the geology calls for, and sealed so nothing but formation water ever reaches it.</span></td>
+            <td class="num">15</td>
+            <td class="kinds"><span>select</span><span>find</span><span>sequence</span><span>track</span><span>gauge</span><span>drag</span><span>hold</span><span>turn</span></td>
+            <td class="num">4</td>
+            <td class="num">2</td>
+            <td class="ev"><span class="evn">97</span><span class="bar"><i style="width:97%"></i></span></td>
+          </tr><tr>
+            <td class="num">13</td>
+            <td class="st"><b>Pump and Treat</b><code>pump-and-treat</code><small>Pipefitter / groundwater pump-and-treat plant operator</small></td>
+            <td class="what">Groundwater treatment O&amp;M: well flow and drawdown against design, blower and off-gas carbon checked, a GAC vessel isolated, bled and changed out, lead/lag swapped, and a compliance sample sealed under chain of custody<span class="why">The system that holds the plume for years after the excavators leave: carbon changed out as hazardous waste, the compliance port sampled, the permit log kept.</span></td>
+            <td class="num">14</td>
+            <td class="kinds"><span>select</span><span>gauge</span><span>find</span><span>sequence</span><span>turn</span><span>track</span><span>drag</span><span>hold</span></td>
+            <td class="num">4</td>
+            <td class="num">2</td>
+            <td class="ev"><span class="evn">96</span><span class="bar"><i style="width:96%"></i></span></td>
+          </tr><tr>
+            <td class="num">14</td>
+            <td class="st"><b>Vapor Mitigation</b><code>vapor-mitigation</code><small>Sub-slab depressurisation system installer</small></td>
+            <td class="what">Commissioning a sub-slab depressurisation system: communication proven at every test point, the fan circuit proven dead before the housing opens, the fan hung and vented clear of any intake, the vacuum verified against design, and an indoor-air sample sealed under chain of custody<span class="why">The plume's other path — up through the slab and into a building's air — cut off at the source: communication proven, the fan hung and vented clear of any intake, and the vacuum verified before anyone signs the placard.</span></td>
+            <td class="num">15</td>
+            <td class="kinds"><span>select</span><span>find</span><span>track</span><span>sequence</span><span>drag</span><span>turn</span><span>gauge</span><span>hold</span></td>
+            <td class="num">4</td>
+            <td class="num">2</td>
+            <td class="ev"><span class="evn">91</span><span class="bar"><i style="width:91%"></i></span></td>
+          </tr><tr>
+            <td class="num">15</td>
+            <td class="st"><b>ISCO Injection</b><code>isco-injection</code><small>In-situ chemical oxidation crew — LIUNA hazmat laborers, UA Local 38 pipefitters, IUOE stationary engineers</small></td>
+            <td class="what">In-situ chemical oxidation of a groundwater plume: permanganate mixed to design in the batch tank, the manifold pressure-tested before it runs, the injection held at design pressure and flow while the neighbouring wells are watched for daylighting, and the spent totes and rinse handled as hazardous<span class="why">Treating the plume pump-and-treat holds rather than only containing it: permanganate mixed to design, a manifold proven tight before it runs, and the injection held in band while the neighbouring wells are watched for oxidant finding its own way back to the surface.</span></td>
+            <td class="num">14</td>
+            <td class="kinds"><span>select</span><span>sequence</span><span>track</span><span>drag</span><span>gauge</span><span>turn</span><span>hold</span><span>find</span></td>
+            <td class="num">4</td>
+            <td class="num">2</td>
+            <td class="ev"><span class="evn">95</span><span class="bar"><i style="width:95%"></i></span></td>
+          </tr><tr>
+            <td class="num">16</td>
+            <td class="st"><b>Stormwater Outfall</b><code>stormwater-outfall</code><small>Environmental sampling technician — stormwater</small></td>
+            <td class="what">Wet-weather NPDES grab: permit window, meters calibrated before the rain, bank staged with a buddy and tripod, grab from the flow, bottles in preservation order, field readings logged, custody sealed, sample on ice<span class="why">The wet-weather grab at the outfall, on the permit clock, because the bay is where the site drains.</span></td>
+            <td class="num">11</td>
+            <td class="kinds"><span>select</span><span>sequence</span><span>gauge</span><span>hold</span><span>drag</span><span>find</span></td>
+            <td class="num">4</td>
+            <td class="num">2</td>
+            <td class="ev"><span class="evn">98</span><span class="bar"><i style="width:98%"></i></span></td>
+          </tr><tr>
+            <td class="num">17</td>
+            <td class="st"><b>Bioswale Build</b><code>bioswale-build</code><small>Laborer / stormwater bioswale construction crew</small></td>
+            <td class="what">Building a stormwater bioswale to grade: the design read against the survey stakes, subgrade compaction checked and the underdrain laid to fall, engineered soil placed loose to depth, check dams and the overflow riser set to the design numbers, plants set to the plan, and the first inflow watched to see the swale actually work<span class="why">What keeps the next storm's runoff from undoing all of it: a bioswale built to the design grade rather than by eye, so the site's own water reaches the bay slower and cleaner than it arrived.</span></td>
+            <td class="num">13</td>
+            <td class="kinds"><span>select</span><span>find</span><span>sequence</span><span>gauge</span><span>drag</span><span>track</span><span>turn</span><span>hold</span></td>
+            <td class="num">4</td>
+            <td class="num">2</td>
+            <td class="ev"><span class="evn">98</span><span class="bar"><i style="width:98%"></i></span></td>
+          </tr>
+        </tbody>
+        <tbody class="ph-shore">
+          <tr class="phase-row"><th colspan="8" scope="colgroup"><span class="pr-num">Phase V</span> The shoreline given back <span class="pr-meta">stations 18–26 · 9 stations</span></th></tr>
+          <tr>
+            <td class="num">18</td>
+            <td class="st"><b>Dredge Barge</b><code>dredge-barge</code><small>Dredge deck lead / marine construction crew</small></td>
+            <td class="what">Environmental dredging of contaminated bay sediment: baseline turbidity read, curtain and anchors checked, the closed bucket over the open one, a controlled cycle with no overflow, the scow to the freeboard line, decant tested before discharge, and the tug called before the scow moves<span class="why">Contaminated sediment out of the bay inside a turbidity curtain, with the scow never over its freeboard line and decant water tested before it goes anywhere.</span></td>
+            <td class="num">13</td>
+            <td class="kinds"><span>select</span><span>gauge</span><span>sequence</span><span>drag</span><span>find</span><span>turn</span><span>track</span><span>hold</span></td>
+            <td class="num">4</td>
+            <td class="num">2</td>
+            <td class="ev"><span class="evn">94</span><span class="bar"><i style="width:94%"></i></span></td>
+          </tr><tr>
+            <td class="num">19</td>
+            <td class="st"><b>Oyster Reef Monitoring</b><code>oyster-reef-monitoring</code><small>Environmental monitoring technician / restoration monitoring crew</small></td>
+            <td class="what">Quarterly reef monitoring on a falling tide: fixed quadrats found by tag and GPS, density counted and logged before the frame moves, tiles turned back to their mark, the sonde read against the permit's own flag level, the drill counted, and the sheet reconciled with the photos before the flood<span class="why">The reef that shoreline built, checked on afterward: fixed quadrats found by tag and GPS, density logged before the frame moves, and the sonde read against the Water Board's own flag level before the flood takes the reef back.</span></td>
+            <td class="num">13</td>
+            <td class="kinds"><span>select</span><span>sequence</span><span>find</span><span>hold</span><span>drag</span><span>turn</span><span>track</span><span>gauge</span></td>
+            <td class="num">4</td>
+            <td class="num">2</td>
+            <td class="ev"><span class="evn">96</span><span class="bar"><i style="width:96%"></i></span></td>
+          </tr><tr>
+            <td class="num">20</td>
+            <td class="st"><b>Marsh Transect Survey</b><code>marsh-transect-survey</code><small>Environmental monitoring technician / vegetation survey crew</small></td>
+            <td class="what">Vegetation survey on a fixed transect: bearing set from the start stake, tape run taut to the end stake, percent cover read to protocol class at every quadrat, elevation shot against the benchmark, the invasive hybrid Spartina flagged for the control crew, and the channel edge's erosion pins read before the tide takes the low transect<span class="why">The marsh behind the reef, walked on a fixed line: cover read to protocol class at every quadrat, the invasive hybrid flagged for the control crew, and the transect stopped cold the moment a listed bird flushes near it.</span></td>
+            <td class="num">13</td>
+            <td class="kinds"><span>select</span><span>sequence</span><span>find</span><span>turn</span><span>drag</span><span>gauge</span><span>hold</span><span>track</span></td>
+            <td class="num">4</td>
+            <td class="num">2</td>
+            <td class="ev"><span class="evn">96</span><span class="bar"><i style="width:96%"></i></span></td>
+          </tr><tr>
+            <td class="num">21</td>
+            <td class="st"><b>Sediment Cap</b><code>sediment-cap</code><small>Cap placement deck lead / marine construction crew</small></td>
+            <td class="what">Capping contaminated bay sediment left in place: design thickness read off the permit, bathymetry checked against the plan, a turbidity curtain anchored, sand placed in thin lifts one grid cell at a time, thickness proven by core rather than by eye, and the placement stopped the moment turbidity or a short core says so<span class="why">The sediment that stays behind: an engineered cap placed in thin lifts to a design grid, proven by core rather than by eye, and stopped the moment turbidity or a short reading says so.</span></td>
+            <td class="num">13</td>
+            <td class="kinds"><span>select</span><span>gauge</span><span>sequence</span><span>drag</span><span>find</span><span>turn</span><span>track</span><span>hold</span></td>
+            <td class="num">4</td>
+            <td class="num">2</td>
+            <td class="ev"><span class="evn">94</span><span class="bar"><i style="width:94%"></i></span></td>
+          </tr><tr>
+            <td class="num">22</td>
+            <td class="st"><b>Creosote Pile Removal</b><code>creosote-pile-removal</code><small>Pile removal deck lead / rigger — marine construction crew</small></td>
+            <td class="what">Pulling a derelict creosote pile clean: the removal plan and work window read, a turbidity curtain anchored, the choker rigged to the pile head, a steady vertical pull with no stub left below the mudline, the pile drained over the barge, cut and binned, and the sediment settled before the curtain comes up<span class="why">The derelict structures still standing in the mud: a century-old creosote pile pulled whole inside a curtain of its own, drained over the barge rather than the bay, and any stub it leaves behind marked before the barge moves on.</span></td>
+            <td class="num">13</td>
+            <td class="kinds"><span>select</span><span>sequence</span><span>drag</span><span>find</span><span>turn</span><span>track</span><span>gauge</span><span>hold</span></td>
+            <td class="num">4</td>
+            <td class="num">2</td>
+            <td class="ev"><span class="evn">96</span><span class="bar"><i style="width:96%"></i></span></td>
+          </tr><tr>
+            <td class="num">23</td>
+            <td class="st"><b>Tide Gate</b><code>tide-gate</code><small>Operating engineer / laborer — tidal wetland restoration crew</small></td>
+            <td class="what">Tide-window gate swap: levels read before the cofferdam goes in, a failed flap gate backed out and replaced, the new gate levelled to design elevation, and the cofferdam pulled in order before the first flood<span class="why">The tide let back into a diked marsh: a self-regulating gate hung at low water, the cofferdam pulled in the order that keeps the levee.</span></td>
+            <td class="num">15</td>
+            <td class="kinds"><span>select</span><span>gauge</span><span>sequence</span><span>hold</span><span>find</span><span>drag</span><span>track</span></td>
+            <td class="num">4</td>
+            <td class="num">2</td>
+            <td class="ev"><span class="evn">96</span><span class="bar"><i style="width:96%"></i></span></td>
+          </tr><tr>
+            <td class="num">24</td>
+            <td class="st"><b>Living Shoreline</b><code>living-shoreline</code><small>Marine construction laborer / living shoreline crew</small></td>
+            <td class="what">Building a living shoreline on a falling tide: curtain set and tensioned, coir and oyster shell to the stakes, cordgrass at grade, silt fence at the edge, and the reach walked before the flood takes anything back<span class="why">The water's edge rebuilt as habitat — coir, oyster shell, cordgrass at the design elevation — inside the tide window and the fish window.</span></td>
+            <td class="num">14</td>
+            <td class="kinds"><span>select</span><span>sequence</span><span>find</span><span>drag</span><span>turn</span><span>gauge</span><span>track</span><span>hold</span></td>
+            <td class="num">4</td>
+            <td class="num">2</td>
+            <td class="ev"><span class="evn">95</span><span class="bar"><i style="width:95%"></i></span></td>
+          </tr><tr>
+            <td class="num">25</td>
+            <td class="st"><b>Spartina Removal</b><code>spartina-removal</code><small>Invasive species control laborer — Spartina crew</small></td>
+            <td class="what">Invasive hybrid cordgrass control on a restored marsh: treatment map and tide window read, boundary and rail buffer set out, imazapyr mixed off the marsh to the label rate, sprayer calibrated, applied under the wind limit with the drift card checked, clumps flagged for follow-up, containers triple-rinsed, and the treatment logged<span class="why">The planted marsh defended from the cordgrass that would take it over: the treatment map read instead of the eye, a buffer held around a nesting endangered rail no label rate excuses crossing, and the herbicide mixed off the marsh and applied under the wind limit.</span></td>
+            <td class="num">14</td>
+            <td class="kinds"><span>select</span><span>sequence</span><span>gauge</span><span>drag</span><span>turn</span><span>track</span><span>hold</span><span>find</span></td>
+            <td class="num">4</td>
+            <td class="num">2</td>
+            <td class="ev"><span class="evn">95</span><span class="bar"><i style="width:95%"></i></span></td>
+          </tr><tr>
+            <td class="num">26</td>
+            <td class="st"><b>Eelgrass Transplant</b><code>eelgrass-transplant</code><small>Dive supervisor / commercial diving crew</small></td>
+            <td class="what">Diver-assisted eelgrass restoration: the dive plan and the tide window read, the donor bed harvested to its permitted share, shoots bundled inside the holding time, the standby diver ready before anyone splashes, planted to the grid on the surface tender's line, and the divers recalled the moment a vessel or the visibility says so<span class="why">The habitat the fill once displaced, replanted underwater: a donor bed cut to its share, shoots bundled inside the clock, and a diver directed to the grid by a supervisor who never gets in the water.</span></td>
+            <td class="num">11</td>
+            <td class="kinds"><span>select</span><span>gauge</span><span>sequence</span><span>hold</span><span>track</span><span>turn</span><span>find</span></td>
+            <td class="num">4</td>
+            <td class="num">2</td>
+            <td class="ev"><span class="evn">96</span><span class="bar"><i style="width:96%"></i></span></td>
+          </tr>
+        </tbody>
+    </table>
+  </div>
+
+  <div class="cols">
+    <div>
+      <h3>Unions and certification line</h3>
+      <p><b>Unions:</b> LIUNA Local 261 hazmat and environmental laborers, IUOE Local 3 operating engineers, Teamsters regulated-soil drivers, Pile Drivers Local 34 (Carpenters), UA Local 38 plumbers and pipefitters, and the Inlandboatmen's Union of the Pacific.</p>
+      <p><b>Certification line:</b> OSHA 29 CFR 1910.120 HAZWOPER as the floor for everyone inside the fence; MARSSIM radiological survey practice and NRC 10 CFR 20 for the survey crew; EPA RCRA 40 CFR 262 manifests for the haul; U.S. Army Corps of Engineers Section 404, BCDC and Regional Water Board 401 permit conditions for every hour of in-water work.</p>
+    </div>
+    <div>
+      <h3>Where it lives in the open worlds</h3>
+      <p>The programme is anchored at 2 Bay World sites and 7 dive sites in the Deep, from <code>bayworld-data.js</code> and <code>underwater-data.js</code>. Each site's job board opens its stations.</p>
+    </div>
+  </div>
+  <div class="cols">
+    <div>
+      <p class="eyebrow">Bay World · on the shoreline</p>
+      <ul class="sites"><li><b>Shoreline Park Trailhead</b> <code>estuary-shoreline-park-trailhead</code><br><span class="muted">Bay World · zone Estuary Waterfront</span><br>Programme stations here: <span class="pill">2 · Rad Survey</span></li><li><b>North Shoreline Field Lab</b> <code>north-shoreline-field-lab</code><br><span class="muted">Bay World · zone North Shoreline</span><br>Programme stations here: <span class="pill">4 · Perimeter Air</span> <span class="pill">20 · Marsh Transect Survey</span> <span class="pill">26 · Eelgrass Transplant</span></li></ul>
+      <p class="eyebrow">Bay World quests</p>
+      <ul class="sites"><li><b>Hunters Point Clean-up and Bay Restoration — First Shift</b> <span class="muted">(opener, 100 XP)</span><br>Stations: <span class="pill">1 · Hunters Point Briefing</span> <span class="pill">2 · Rad Survey</span> <span class="pill">3 · Building Rad Scan</span></li><li><b>Hunters Point Clean-up and Bay Restoration — Capstone</b> <span class="muted">(capstone, 250 XP)</span><br>Stations: <span class="pill">24 · Living Shoreline</span> <span class="pill">25 · Spartina Removal</span> <span class="pill">26 · Eelgrass Transplant</span></li></ul>
+    </div>
+    <div>
+      <p class="eyebrow">The Deep · under the water</p>
+      <ul class="sites"><li><b>Pier Creosote Pile Site</b> <code>pier-creosote-pile-site</code><br><span class="muted">The Deep · zone The Pier Pilings</span><br>Programme stations here: <span class="pill">22 · Creosote Pile Removal</span></li><li><b>Eelgrass Transplant Plots</b> <code>eelgrass-transplant-plots</code><br><span class="muted">The Deep · zone Eelgrass Meadow</span><br>Programme stations here: <span class="pill">26 · Eelgrass Transplant</span></li><li><b>Marsh Mouth Tide Gate</b> <code>marsh-mouth-tide-gate</code><br><span class="muted">The Deep · zone Marsh Channel Mouth</span><br>Programme stations here: <span class="pill">23 · Tide Gate</span> <span class="pill">20 · Marsh Transect Survey</span> <span class="pill">24 · Living Shoreline</span></li><li><b>Marsh Mouth Invasive Plot</b> <code>marsh-mouth-invasive-plot</code><br><span class="muted">The Deep · zone Marsh Channel Mouth</span><br>Programme stations here: <span class="pill">25 · Spartina Removal</span></li><li><b>Channel Dredge Survey</b> <code>channel-dredge-survey</code><br><span class="muted">The Deep · zone The Shipping Channel</span><br>Programme stations here: <span class="pill">18 · Dredge Barge</span></li><li><b>Reef Ball Monitoring Plot</b> <code>reef-ball-monitoring-plot</code><br><span class="muted">The Deep · zone Reef Ball Field</span><br>Programme stations here: <span class="pill">19 · Oyster Reef Monitoring</span></li><li><b>Mud Plain Hotspot Survey</b> <code>mud-plain-hotspot-survey</code><br><span class="muted">The Deep · zone The Mud Plain</span><br>Programme stations here: <span class="pill">21 · Sediment Cap</span> <span class="pill">2 · Rad Survey</span></li></ul>
+    </div>
+  </div>
+  <div class="cols">
+    <div>
+      <h3>The Guide</h3>
+      <p>A help button on every page answers typed questions, and spoken ones where the browser supports speech, from a knowledge base generated from the repository. It holds a row for this programme, one for each of its 26 stations and 2 from its programme document, so a learner can ask what a station trains or where it sits.</p>
+    </div>
+    <div>
+      <h3>Devices</h3>
+      <p>The stations are WebXR pages. They run flat in any browser on a <b>phone</b> (touch) or a <b>laptop</b> (mouse and keyboard), and in immersive VR in a <b>headset</b> browser such as the Meta Quest line. The page detects the device, says how it will run, and can be pinned with <code>?device=</code>. See <a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/docs/devices.md">devices.md</a>.</p>
+    </div>
+    <div>
+      <h3>Related programme</h3>
+      <p>The companion edition, <b>Hunters Point Edition — Can We Live?</b> (26 stations), covers community science beside the fence. It is a separate programme: <a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/docs/programmes/hunters-point-can-we-live.md">docs/programmes/hunters-point-can-we-live.md</a>.</p>
+    </div>
+  </div>
+</section>
+
+<section aria-labelledby="s-h">
+  <h2 id="s-h">Screens</h2>
+  <div class="shots">
+    <figure><img src="assets/home-search.jpg" alt="Home page: a search for “hunters point” in the trade finder brings up this programme and its companion edition." loading="lazy"><figcaption>Home page: a search for “hunters point” in the trade finder brings up this programme and its companion edition.</figcaption></figure>
+    <figure><img src="assets/track.jpg" alt="The programme's track page: the ladder, the stations in cleanup order, the standards it evidences." loading="lazy"><figcaption>The programme's track page: the ladder, the stations in cleanup order, the standards it evidences.</figcaption></figure>
+    <figure><img src="assets/st-rad-survey.jpg" alt="Station 2, Rad Survey: the gamma walkover on a generic shoreline parcel." loading="lazy"><figcaption>Station 2, Rad Survey: the gamma walkover on a generic shoreline parcel.</figcaption></figure>
+    <figure><img src="assets/st-soil-loadout.jpg" alt="Station 5, Soil Loadout: excavation and haul-out from a remediation cell." loading="lazy"><figcaption>Station 5, Soil Loadout: excavation and haul-out from a remediation cell.</figcaption></figure>
+    <figure><img src="assets/bayworld-shoreline.jpg" alt="Bay World at Shoreline Park Trailhead, one of the two Bay World sites for this programme." loading="lazy"><figcaption>Bay World at Shoreline Park Trailhead, one of the two Bay World sites for this programme.</figcaption></figure>
+    <figure><img src="assets/deep-eelgrass.jpg" alt="The Deep at Eelgrass Transplant Plots, where station 26 is anchored underwater." loading="lazy"><figcaption>The Deep at Eelgrass Transplant Plots, where station 26 is anchored underwater.</figcaption></figure>
+  </div>
+</section>
+
+<section aria-labelledby="bi-h">
+  <h2 id="bi-h">Build info</h2>
+  <div class="cols">
+    <div>
+      <h3>Snapshot</h3>
+      <p>Branch <code>claude/vr-ar-safety-training-wkwmve</code> at <a href="https://github.com/AGIFutureFoundation/vr-safety-training/commit/ce62330"><code>ce62330</code></a> (2026-09-28). Content evaluation across the 26 stations: mean <b>94.5</b>, lowest <b>73</b> (Hunters Point Briefing, the flat briefing), highest <b>99</b>.</p>
+      <p>The platform holds 671 procedures in 60 programmes, per <code>platform-summary.json</code>.</p>
+    </div>
+    <div>
+      <h3>Checkers that guard it</h3>
+      <p><code>tools/check_all.mjs</code> runs 66 checkers. Two name this programme's files directly: <code>check_smartcity.mjs</code> plays a scripted perfect run through each named station's procedure, and <code>check_underwater.mjs</code> fails if this programme is anchored at no dive site. Programme-wide gates also cover it: <code>check_competency.mjs</code>, <code>check_tracks.mjs</code>, <code>check_ladders.mjs</code>, <code>check_standards.mjs</code>, <code>check_bay_quests.mjs</code>, <code>check_bayworld.mjs</code>, <code>check_investor.mjs</code>, <code>check_guide.mjs</code>, <code>check_links.mjs</code>.</p>
+    </div>
+  </div>
+  <h3>Commits touching the programme's station files (20)</h3>
+  <div class="commits" role="region" aria-label="Commits" tabindex="0">
+    <table><tbody>
+      <tr><td><a href="https://github.com/AGIFutureFoundation/vr-safety-training/commit/bea1b52">bea1b52</a></td><td>2026-09-26</td><td>Add Hard Hat Hunt helper and plant hard hats in twelve stations</td></tr>
+      <tr><td><a href="https://github.com/AGIFutureFoundation/vr-safety-training/commit/3624339">3624339</a></td><td>2026-09-22</td><td>Raise air monitor, press brake, lift station and concrete pour to eval 90+</td></tr>
+      <tr><td><a href="https://github.com/AGIFutureFoundation/vr-safety-training/commit/81433c3">81433c3</a></td><td>2026-09-22</td><td>Raise stormwater outfall, battery yard, confined rescue and airport ramp to eval 90+</td></tr>
+      <tr><td><a href="https://github.com/AGIFutureFoundation/vr-safety-training/commit/724ebb9">724ebb9</a></td><td>2026-09-22</td><td>Raise dock crane, CNC cell, sampling well and microwave backhaul to eval 90+</td></tr>
+      <tr><td><a href="https://github.com/AGIFutureFoundation/vr-safety-training/commit/ad7e22f">ad7e22f</a></td><td>2026-09-22</td><td>Raise fly system, valve vault, decon line and cell-site battery to eval 90+</td></tr>
+      <tr><td><a href="https://github.com/AGIFutureFoundation/vr-safety-training/commit/55f6cd1">55f6cd1</a></td><td>2026-09-22</td><td>Add seven stations across culinary, bay ecology and air quality</td></tr>
+      <tr><td><a href="https://github.com/AGIFutureFoundation/vr-safety-training/commit/8c0910f">8c0910f</a></td><td>2026-09-22</td><td>Add five stations: ballast water, spartina, nitrous, chairside emergency, amalgam</td></tr>
+      <tr><td><a href="https://github.com/AGIFutureFoundation/vr-safety-training/commit/da3791c">da3791c</a></td><td>2026-09-22</td><td>Add six stations, GLB environment loader and three hospitality programmes</td></tr>
+      <tr><td><a href="https://github.com/AGIFutureFoundation/vr-safety-training/commit/34d16db">34d16db</a></td><td>2026-09-22</td><td>Add Creosote Pile Removal and Bioswale Build — stations 85 and 86</td></tr>
+      <tr><td><a href="https://github.com/AGIFutureFoundation/vr-safety-training/commit/fcb8943">fcb8943</a></td><td>2026-09-21</td><td>Add PCB Equipment Removal and Transite Pipe Removal — stations 87 and 88</td></tr>
+      <tr><td><a href="https://github.com/AGIFutureFoundation/vr-safety-training/commit/c22310a">c22310a</a></td><td>2026-09-21</td><td>Add Sediment Cap and Eelgrass Transplant — stations 81 and 82</td></tr>
+      <tr><td><a href="https://github.com/AGIFutureFoundation/vr-safety-training/commit/8321eb6">8321eb6</a></td><td>2026-09-21</td><td>Add Vapor Mitigation and Well Install — stations 83 and 84</td></tr>
+      <tr><td><a href="https://github.com/AGIFutureFoundation/vr-safety-training/commit/12a7bed">12a7bed</a></td><td>2026-09-21</td><td>Hunters Point Clean-up and Bay Restoration: four stations and a programme</td></tr>
+      <tr><td><a href="https://github.com/AGIFutureFoundation/vr-safety-training/commit/263243a">263243a</a></td><td>2026-09-21</td><td>Add Pump and Treat and Tide Gate — stations 79 and 80</td></tr>
+      <tr><td><a href="https://github.com/AGIFutureFoundation/vr-safety-training/commit/5e723d4">5e723d4</a></td><td>2026-09-19</td><td>Ten more interruptions, and a placement rule that had been asleep</td></tr>
+      <tr><td><a href="https://github.com/AGIFutureFoundation/vr-safety-training/commit/705ed47">705ed47</a></td><td>2026-09-18</td><td>Weather layer: every station declares the conditions its procedure is written for</td></tr>
+      <tr><td><a href="https://github.com/AGIFutureFoundation/vr-safety-training/commit/b92b611">b92b611</a></td><td>2026-09-18</td><td>SmartCiti.X stations 42-44: Microwave Backhaul, Stormwater Outfall, Battery Yard</td></tr>
+      <tr><td><a href="https://github.com/AGIFutureFoundation/vr-safety-training/commit/0e33a1c">0e33a1c</a></td><td>2026-09-17</td><td>SmartCiti.X: Press Brake, Decon Line, Stage Power — every one-deep category gains a second station</td></tr>
+      <tr><td><a href="https://github.com/AGIFutureFoundation/vr-safety-training/commit/e0fa02f">e0fa02f</a></td><td>2026-09-16</td><td>SmartCiti.X: Perimeter Air and Sampling Well — Environmental Monitoring grows to three stations</td></tr>
+      <tr><td><a href="https://github.com/AGIFutureFoundation/vr-safety-training/commit/bfb55e6">bfb55e6</a></td><td>2026-09-16</td><td>SmartCiti.X: Environmental Monitoring category, opened by a flat Hunters Point briefing station</td></tr>
+    </tbody></table>
+  </div>
+  <div class="cols">
+    <div>
+      <h3>Standards it cites (15)</h3>
+      <ul class="std"><li><code>bcdc-bay-plan</code>BCDC: San Francisco Bay Plan and BCDC permit conditions under the McAteer-Petris Act</li><li><code>carpenters-ictf</code>union: United Brotherhood of Carpenters International Training Fund — carpenter, pile driver and millwright apprenticeship</li><li><code>ilwu-pma-training</code>union: ILWU-PMA joint training for longshore, crane and clerk work, and the Inlandboatmen's Union marine division</li><li><code>iuoe-training</code>union: IUOE local training funds and the IUOE National Training Fund — operating and stationary engineer apprenticeship</li><li><code>liuna-training-fund</code>union: LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula</li><li><code>marssim</code>EPA: MARSSIM — Multi-Agency Radiation Survey and Site Investigation Manual</li><li><code>nrc-10-cfr-20</code>NRC: 10 CFR Part 20 — Standards for protection against radiation</li><li><code>osha-1910-120</code>OSHA: 29 CFR 1910.120 — Hazardous waste operations and emergency response (HAZWOPER)</li><li><code>osha-1910-134</code>OSHA: 29 CFR 1910.134 — Respiratory protection</li><li><code>osha-1926-1101</code>OSHA: 29 CFR 1926.1101 — Asbestos in construction</li><li><code>rcra-40-cfr-262</code>RCRA: 40 CFR Part 262 — Standards applicable to generators of hazardous waste, including the manifest</li><li><code>rwqcb-401-certification</code>RWQCB: Regional Water Quality Control Board Clean Water Act §401 certification and waste discharge requirements</li><li><code>teamsters-training</code>union: Teamsters apprenticeship and driver training programmes, including regulated-soil and yard work</li><li><code>ua-apprenticeship</code>union: UA — United Association plumber, pipefitter and HVAC service apprenticeship standards and UA Star certification</li><li><code>usace-section-404</code>USACE: Clean Water Act §404 permit conditions for the discharge of dredged or fill material</li></ul>
+    </div>
+    <div>
+      <h3>Source</h3>
+      <ul class="plain">
+        <li><a href="https://github.com/AGIFutureFoundation/vr-safety-training/tree/claude/vr-ar-safety-training-wkwmve">Repository, branch claude/vr-ar-safety-training-wkwmve</a></li>
+        <li><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/docs/programmes/hunters-point-bay-restoration.md">docs/programmes/hunters-point-bay-restoration.md</a> (generated programme document)</li>
+        <li><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/WebXR/smartcity/catalog.json">WebXR/smartcity/catalog.json</a> and <a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/WebXR/smartcity/js/curricula.js">curricula.js</a></li>
+        <li><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/WebXR/smartcity/js/sims/hunters-point.js">sims/hunters-point.js</a> (the sourced briefing), <a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/WebXR/smartcity/js/sims/rad-survey.js">rad-survey.js</a>, <a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/WebXR/smartcity/js/sims/soil-loadout.js">soil-loadout.js</a>, <a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/WebXR/smartcity/js/sims/sediment-cap.js">sediment-cap.js</a></li>
+        <li><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/WebXR/shared/bayworld-data.js">shared/bayworld-data.js</a> · <a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/WebXR/shared/underwater-data.js">shared/underwater-data.js</a> · <a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/WebXR/shared/competency.js">shared/competency.js</a></li>
+        <li><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/WebXR/home/tracks/hunters-point-bay-restoration.html">Track page source</a> · <a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/docs/ladders.md">ladders.md</a> · <a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/tools/check_all.mjs">tools/check_all.mjs</a></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section aria-labelledby="n-h">
+  <h2 id="n-h">Next steps for a pilot</h2>
+  <ol class="next">
+    <li>Would your team review every station, all 26, in order? Each one opens in a browser.</li>
+    <li>Where a step, a hazard or the order of work does not match how your crews do it, would you mark it? Those corrections are what the prototype needs most.</li>
+    <li>Is there a phase you would want to try first with a small cohort, on phones, laptops or a headset you already have?</li>
+    <li>Are there stations missing from the sequence, or trades that should be named differently?</li>
+  </ol>
+</section>
+
+<footer>
+  <p>Built 2026-09-28 from the repository at <code>ce62330</code>. Counts on this page are computed from <code>catalog.json</code>, <code>stations.csv</code>, the world data modules and <code>git log</code> at build time.</p>
+  <p>SmartCiti.X ~ Holodeck is a working prototype. C.L.E.A.R. is used here only as the name of this demo.</p>
+</footer>
+</div>

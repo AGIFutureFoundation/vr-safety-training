@@ -1,0 +1,384 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "rope-set-proven",
+    "name": "Rope Set Proven",
+    "note": "Every rope inspected, gauged and equalized, with the sheave groove checked against its own wear limit"
+  },
+  "category": "Building Systems & Facilities",
+  "certification": "IUEC elevator constructors; NEIEP apprenticeship curriculum for rope and sheave maintenance; ASME A17.1 the safety code for elevators and escalators, whose wire-rope and sheave-wear provisions this station follows; OSHA 29 CFR 1910.147 control of hazardous energy for the drive isolation",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ASME",
+        "citedAs": "ASME A17.1",
+        "id": "asme-a17-1",
+        "title": "ASME A17.1 — Safety Code for Elevators and Escalators"
+      },
+      {
+        "body": "union",
+        "citedAs": "NEIEP",
+        "id": "neiep-training",
+        "title": "IUEC and the National Elevator Industry Educational Program (NEIEP) — elevator constructor apprenticeship and continuing education, taught to the National Elevator Industry Educational Program curriculum"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Facilities",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "isolated-first",
+        "name": "Isolated First",
+        "note": "Never handled a rope before the drive was isolated and locked"
+      },
+      {
+        "id": "true-tension",
+        "name": "True Tension",
+        "note": "Held tension, diameter and groove readings all near band centre"
+      },
+      {
+        "id": "clean-restore",
+        "name": "Clean Restore",
+        "note": "Restored in the correct order, no correction"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "no-callback",
+        "name": "No Callback",
+        "note": "Clean run, no corrections"
+      },
+      {
+        "id": "equalizer-held",
+        "name": "Equalizer Held",
+        "note": "Never let the equalizer adjustment slip mid-turn"
+      },
+      {
+        "id": "rope-fast",
+        "name": "Rope Fast",
+        "note": "Complete inside 80% of par"
+      }
+    ],
+    "currency": "TENSION",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Helper",
+      "Rope Mechanic",
+      "Adjuster",
+      "Lead Mechanic",
+      "Rope Authority Certified"
+    ],
+    "system": "Rope Authority"
+  },
+  "hazards": {
+    "broken-wire-snag": "You ran a bare hand along a section of rope with broken wires standing proud of the strand. Those broken ends are exactly sharp and stiff enough to open a hand at speed, which is why a rope like this is checked with a gloved hand moving slowly, feeling for exactly this.",
+    "equalizer-spring-release": "You loosened the rope equalizer's locknut without confirming the spring behind it was not still compressed under load. An equalizer spring under tension that lets go while a wrench is on it does not ease open — it releases whatever energy it was holding all at once.",
+    "open-rope-shaft-opening": "You stood over the machine room's rope holes without checking the guards were in place. Those holes exist so the ropes can pass down into the hoistway, and an unguarded one is a fall straight down the shaft for anyone whose footing is a little off.",
+    "rope-pinch-sheave": "That nip point is where a rope disappears into its groove, and a groove machined to grip a moving rope tightly enough to drive a loaded car grips anything else offered to it exactly as firmly. Nobody's fingers get a vote in that once the meter has not yet said this machine is actually still."
+  },
+  "id": "ew-rope-inspection-and-sheave-wear",
+  "indoor": "service",
+  "interrupts": [
+    {
+      "after": "rope-inspect",
+      "alert": "A hall call has just registered on the controller while you are still handling the rope set.",
+      "cue": "Prove the disconnect is still open before your hands go back to the ropes.",
+      "delay": 4,
+      "id": "second-source-call",
+      "kind": "Call registered",
+      "missNote": "The call sat there registered with the disconnect unconfirmed. A sheave that turns even a little while a hand is following a rope into it does not give a warning first.",
+      "seconds": 12,
+      "target": "main-disconnect",
+      "why": "A registered call on a machine that should be dead means either the isolation has failed or a second source is feeding this controller — either way, nothing about the rope inspection continues until the disconnect is confirmed open again, with your own eyes on it.",
+      "wrongNote": "It is the main disconnect. A call registering on a machine that should be dead is the only thing worth checking right now."
+    },
+    {
+      "after": "diameter-gauge",
+      "alert": "A second mechanic has walked up and started turning a different rope's equalizer nut without checking with you first.",
+      "cue": "Stop them — nobody adjusts an equalizer off a reading they have not seen.",
+      "delay": 4,
+      "id": "uncoordinated-adjustment",
+      "kind": "Equalizer interfered with",
+      "missNote": "The second mechanic kept turning the equalizer on their own reading. Whatever tension that rope ends up at now, nobody wrote down why, and the next inspection starts from a number nobody trusts.",
+      "seconds": 11,
+      "target": "equalizer-nut",
+      "why": "An equalizer turned by someone who has not seen this visit's tension readings can just as easily throw the set further out of balance as bring it into line, and two mechanics adjusting the same rope set without talking is how a correctly diagnosed problem gets a guessed-at fix.",
+      "wrongNote": "It is the equalizer nut. Whoever is turning it needs to see this visit's readings before it moves any further."
+    }
+  ],
+  "lateNotes": {
+    "equalizer-nut": "The equalizer is only adjusted once every rope's own readings are already logged.",
+    "rope-tension": "Tension is only compared across the rope set once the drive is proven dead and the car is not moving."
+  },
+  "name": "Rope Inspection and Sheave Wear",
+  "parSeconds": 265,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "elevator-constructors"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.2,
+    "hits": [
+      "broken-wire-cluster",
+      "broken-wire-snag",
+      "controller-panel",
+      "drive-meter",
+      "dry-rope-section",
+      "equalizer-nut",
+      "equalizer-spring-release",
+      "job-ticket",
+      "kinked-rope",
+      "lockout-hasp",
+      "machine-room-permit",
+      "main-disconnect",
+      "oil-can",
+      "open-rope-shaft-opening",
+      "rope-diameter",
+      "rope-log",
+      "rope-lube-point",
+      "rope-pinch-sheave",
+      "rope-tension",
+      "sheave-groove"
+    ],
+    "meshes": 174
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "select",
+    "sequence",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the job ticket and confirm which car's rope set this service is for.",
+      "id": "checkin",
+      "kind": "select",
+      "prompt": "Read the job ticket and confirm which car's rope set this service is for.",
+      "target": "job-ticket",
+      "title": "Check in at the machine room",
+      "why": "More than one car can share a machine room, sometimes with sheaves close enough together that a rope set from one blends into another at a glance, and the ticket names the specific rope set before a tool touches any sheave — so the isolation that follows actually covers the car this job is about, and not the one parked next to it."
+    },
+    {
+      "cue": "Read the work order and confirm car-out-of-service signage is posted at every landing.",
+      "id": "permit",
+      "kind": "select",
+      "prompt": "Read the work order and confirm car-out-of-service signage is posted at every landing.",
+      "target": "machine-room-permit",
+      "title": "Post out-of-service signage",
+      "why": "Signage goes up at every landing before the disconnect comes down, because a rope inspection puts hands directly on the ropes and sheave this car's next passenger would otherwise be relying on without a second thought — and a car that answers a call in the middle of this visit is a car answering it with somebody's hand already on the rope set."
+    },
+    {
+      "cue": "Take the machine room's main handle all the way to its open detent.",
+      "id": "disconnect",
+      "kind": "turn",
+      "prompt": "Take the machine room's main handle all the way to its open detent.",
+      "target": "main-disconnect",
+      "title": "Cut the drive's feed",
+      "turn": {
+        "axis": "z",
+        "label": "MAIN LINE DISCONNECT",
+        "reverse": true,
+        "turns": 0.2
+      },
+      "why": "A sheave does not need much rotation to close whatever is between it and its groove, so this handle goes to its full detent rather than somewhere that merely looks open. Ropes are inspected by feel, close to the groove, and the person doing that is trusting this one motion more than anything else in the room."
+    },
+    {
+      "cue": "Your lock goes on before a glove touches a single rope.",
+      "id": "lock",
+      "kind": "select",
+      "prompt": "Your lock goes on before a glove touches a single rope.",
+      "target": "lockout-hasp",
+      "title": "Fit your padlock to the hasp",
+      "why": "A sheave sitting still because a handle is open is not the same claim as a sheave that cannot be started by somebody who does not know a hand is following one of its ropes right now — that second claim is what the padlock makes, and it is the only one this job actually needs."
+    },
+    {
+      "cue": "Read the drive input and commit once it settles at zero.",
+      "gauge": {
+        "green": [
+          0,
+          0.08
+        ],
+        "label": "DRIVE INPUT — VOLTAGE",
+        "missNote": "Still reading live. Recheck the disconnect before the ropes are handled.",
+        "speed": 0.6
+      },
+      "id": "verify-zero",
+      "kind": "gauge",
+      "prompt": "Read the drive input and commit once it settles at zero.",
+      "target": "drive-meter",
+      "title": "Confirm the drive is dead at the terminals",
+      "why": "The padlock is a statement about the handle; the reading on this meter is a statement about the motor windings themselves, which is the thing actually connected to the sheave. Prove the meter against a source known to be alive first, so a dead reading here means the drive is dead and not that the meter's fuse already failed."
+    },
+    {
+      "cue": "Look and feel along each rope with a gloved hand. Three things need fixing before this set is gauged.",
+      "id": "rope-inspect",
+      "itemNames": {
+        "broken-wire-cluster": "a cluster of broken wires",
+        "dry-rope-section": "a dry, unlubricated section of rope",
+        "kinked-rope": "a rope with a visible kink"
+      },
+      "itemNotes": {
+        "broken-wire-cluster": "A handful of broken wires within one lay length of rope is counted against the rope's own retirement criteria, not judged by whether the rope still looks strong overall.",
+        "dry-rope-section": "A dry section of rope is wearing its own wires against each other with nothing between them, which turns ordinary flexing over the sheave into the thing that produces the next broken wire.",
+        "kinked-rope": "A kink is a permanent deformation the rope carries with it into every bend it makes from now on, concentrating stress at that one point on every single trip this car makes."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look and feel along each rope with a gloved hand. Three things need fixing before this set is gauged.",
+      "targets": [
+        "broken-wire-cluster",
+        "dry-rope-section",
+        "kinked-rope"
+      ],
+      "title": "Walk the rope set before gauging anything",
+      "why": "A rope inspection is done by hand as much as by eye, because a lot of what actually ends a rope's service life — the first few broken wires, a section running dry — is easier to feel through a glove than to see from the machine room floor."
+    },
+    {
+      "cue": "Set the tension gauge on the rope reading lowest and commit against the rest of the set.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "ROPE TENSION",
+        "missNote": "Outside the equalization band. This rope gets flagged for the equalizer adjustment, not ignored.",
+        "speed": 0.6
+      },
+      "id": "tension-check",
+      "kind": "gauge",
+      "prompt": "Set the tension gauge on the rope reading lowest and commit against the rest of the set.",
+      "target": "rope-tension",
+      "title": "Check rope tension across the set",
+      "why": "Ropes share the load only as long as their tensions stay close to each other — a rope that has stretched more than its neighbours quietly starts carrying less of the load than it should, right up until it is carrying almost none of it."
+    },
+    {
+      "cue": "Set the go/no-go gauge on the rope and commit the reading against the manufacturer's minimum.",
+      "gauge": {
+        "green": [
+          0.44,
+          0.62
+        ],
+        "label": "ROPE DIAMETER",
+        "missNote": "Below the manufacturer's minimum. This rope is flagged for replacement, not carried forward on a hopeful reading.",
+        "speed": 0.55
+      },
+      "id": "diameter-gauge",
+      "kind": "gauge",
+      "prompt": "Set the go/no-go gauge on the rope and commit the reading against the manufacturer's minimum.",
+      "target": "rope-diameter",
+      "title": "Gauge the rope diameter",
+      "why": "A rope's diameter shrinks as its wires wear and its core compacts, and that reduction is exactly what the manufacturer's retirement criteria are written against — a rope a few percent under its nominal diameter is a rope with measurably less wire left to carry the load."
+    },
+    {
+      "cue": "Carry the rope lubricant to the dry section and apply it along the rope.",
+      "drag": {
+        "missNote": "Not at the lubrication point. Lubricant applied anywhere else on the rope run does nothing for the dry section it is meant to reach.",
+        "radius": 0.4,
+        "to": "rope-lube-point"
+      },
+      "id": "lubrication",
+      "kind": "drag",
+      "prompt": "Carry the rope lubricant to the dry section and apply it along the rope.",
+      "target": "oil-can",
+      "title": "Lubricate the rope set",
+      "why": "Lubrication is applied after tension and diameter are already measured and logged, so the numbers on file describe the rope's true condition rather than one softened by lubricant nobody accounted for — and a dry section left dry any longer than that is one more trip over the sheave wearing wire against wire with nothing between them."
+    },
+    {
+      "cue": "Turn the equalizer locknut to bring the flagged rope's tension back in line with the rest of the set.",
+      "id": "equalizer-adjust",
+      "kind": "turn",
+      "prompt": "Turn the equalizer locknut to bring the flagged rope's tension back in line with the rest of the set.",
+      "target": "equalizer-nut",
+      "title": "Adjust the rope equalizer",
+      "turn": {
+        "axis": "z",
+        "label": "EQUALIZER NUT",
+        "turns": 0.3
+      },
+      "why": "The equalizer is what lets one rope's tension be corrected without disturbing the others, and it is turned to the reading already taken, not by feel — a rope over-corrected here just trades one unequal tension for another."
+    },
+    {
+      "cue": "Set the groove wear gauge in the sheave and commit the reading against the wear template.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "GROOVE WEAR",
+        "missNote": "Past the wear template's limit. This sheave gets flagged for re-grooving or replacement before the ropes go back on it.",
+        "speed": 0.55
+      },
+      "id": "groove-wear",
+      "kind": "gauge",
+      "prompt": "Set the groove wear gauge in the sheave and commit the reading against the wear template.",
+      "target": "sheave-groove",
+      "title": "Check the sheave groove wear",
+      "why": "A worn groove no longer grips a rope the way a fresh one does, and it wears the rope sitting in it faster in return, which is how a sheave and its own rope set end up wearing each other out together — a groove is checked against the template's own profile, not against how deep it looks by eye."
+    },
+    {
+      "cue": "Your padlock comes off the hasp first; the handle goes home last.",
+      "id": "restore",
+      "itemNames": {
+        "lockout-hasp": "your lock off the hasp",
+        "main-disconnect": "main line disconnect"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Wrong order — your lock off first, and the handle closed last.",
+      "prompt": "Your padlock comes off the hasp first; the handle goes home last.",
+      "targets": [
+        "lockout-hasp",
+        "main-disconnect"
+      ],
+      "title": "Bring the machine back the way it left",
+      "why": "Taking your own lock off is the one act in this whole job nobody else is allowed to do for you, and it happens only once every hand that has been near the sheave is somewhere else. The handle closing is what actually lets the sheave turn again, so it is the very last thing this visit does."
+    },
+    {
+      "cue": "Let the car make one full run through its floors before you call this finished.",
+      "id": "test-run",
+      "kind": "select",
+      "prompt": "Let the car make one full run through its floors before you call this finished.",
+      "target": "controller-panel",
+      "title": "Send the car on an ordinary trip",
+      "why": "Everything measured so far describes ropes and a sheave standing still; an ordinary run is what actually puts the set under the load it spends its whole life carrying, and it is the only check in this visit that does."
+    },
+    {
+      "cue": "Write the tension, diameter and groove readings on the rope log.",
+      "id": "log",
+      "kind": "select",
+      "prompt": "Write the tension, diameter and groove readings on the rope log.",
+      "target": "rope-log",
+      "title": "Log the rope service",
+      "why": "The next mechanic who opens this machine room reads this log before they read the ropes themselves, and a reading left unwritten today is a reading somebody else has to retake from zero the next time this set is due — with no way of knowing whether a number that looks off is new wear or the same fault this visit already found and fixed."
+    }
+  ],
+  "supportLine": "your IUEC local's member assistance programme, or the NEIEP training coordinator for anything about the certification record",
+  "tagline": "Isolating the drive, walking the rope set for broken wires, gauging tension, diameter and groove wear, lubricating and re-equalizing before the car returns to service",
+  "title": "SmartCiti.X~ Rope Inspection and Sheave Wear VR",
+  "trade": "Elevator constructor / mechanic — IUEC",
+  "underwater": null,
+  "weather": null
+}

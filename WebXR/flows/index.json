@@ -1,0 +1,420 @@
+{
+  "protocol": 1,
+  "note": "The example flows shipped with this repository. A static page cannot list a directory, so the instructor console reads this index to fill its flow picker; tools/check_flowhub.mjs fails the build if it and WebXR/flows/*.json disagree.",
+  "flows": [
+    {
+      "id": "new-apprentice-safety",
+      "file": "new-apprentice-safety.json",
+      "title": "New Apprentice — Site Safety Induction",
+      "shape": "brief -> three stations across three categories -> competency gate -> check-in"
+    },
+    {
+      "id": "dental-careers-orientation",
+      "file": "dental-careers-orientation.json",
+      "title": "Dental Careers — Orientation (Unspoken Smiles)",
+      "shape": "the dental careers programme, then a branch on stars"
+    },
+    {
+      "id": "first-responder-refresher",
+      "file": "first-responder-refresher.json",
+      "title": "First Responder — Annual Refresher",
+      "shape": "fire size-up -> EMS -> external host assessment -> debrief station -> check-in"
+    },
+    {
+      "id": "basketball-fundamentals",
+      "file": "basketball-fundamentals.json",
+      "title": "Basketball Fundamentals — Programme Hand-off",
+      "shape": "the basketball programme -> mastery gate over three safety stations -> external hand-off -> check-in"
+    },
+    {
+      "id": "k12-practical-math",
+      "file": "k12-practical-math.json",
+      "title": "K-12 Practical Maths — Classroom Flow",
+      "shape": "pre-brief -> the programme -> class check-in -> teacher gate -> check-in"
+    },
+    {
+      "id": "k12-science",
+      "file": "k12-science.json",
+      "title": "K-12 Science — Classroom Flow",
+      "shape": "pre-brief -> the programme -> class check-in -> teacher gate -> check-in"
+    },
+    {
+      "id": "k12-history-and-civics",
+      "file": "k12-history-and-civics.json",
+      "title": "K-12 History and Civics — Classroom Flow",
+      "shape": "pre-brief -> the programme -> class check-in -> teacher gate -> check-in"
+    },
+    {
+      "id": "k12-literacy-and-life-skills",
+      "file": "k12-literacy-and-life-skills.json",
+      "title": "K-12 Literacy and Life Skills — Classroom Flow",
+      "shape": "pre-brief -> the programme -> class check-in -> teacher gate -> check-in"
+    },
+    {
+      "id": "by-levee",
+      "file": "by-levee.json",
+      "title": "Parish Lesson — How a Levee Holds Water Back",
+      "shape": "pre-brief -> station -> check question -> hand-off to the parish apply step -> check-in"
+    },
+    {
+      "id": "by-pump",
+      "file": "by-pump.json",
+      "title": "Parish Lesson — What a Pump Station Does in the Rain",
+      "shape": "pre-brief -> station -> check question -> hand-off to the parish apply step -> check-in"
+    },
+    {
+      "id": "by-wetlands",
+      "file": "by-wetlands.json",
+      "title": "Parish Lesson — Wetlands as a Storm's Speed Bump",
+      "shape": "pre-brief -> station -> check question -> hand-off to the parish apply step -> check-in"
+    },
+    {
+      "id": "by-river",
+      "file": "by-river.json",
+      "title": "Parish Lesson — The River's Current and a Pilot's Job",
+      "shape": "pre-brief -> station -> check question -> hand-off to the parish apply step -> check-in"
+    },
+    {
+      "id": "by-family-plan",
+      "file": "by-family-plan.json",
+      "title": "Parish Lesson — A Family Readiness Plan",
+      "shape": "pre-brief -> station -> check question -> hand-off to the parish apply step -> check-in"
+    },
+    {
+      "id": "by-water-cycle",
+      "file": "by-water-cycle.json",
+      "title": "Parish Lesson — The Water Cycle from Lake to Tap",
+      "shape": "pre-brief -> station -> check question -> hand-off to the parish apply step -> check-in"
+    },
+    {
+      "id": "by-streetcar",
+      "file": "by-streetcar.json",
+      "title": "Parish Lesson — A Streetcar Timetable",
+      "shape": "pre-brief -> station -> check question -> hand-off to the parish apply step -> check-in"
+    },
+    {
+      "id": "by-ferry",
+      "file": "by-ferry.json",
+      "title": "Parish Lesson — A Ferry Timetable and the Tide",
+      "shape": "pre-brief -> station -> check question -> hand-off to the parish apply step -> check-in"
+    },
+    {
+      "id": "by-catch",
+      "file": "by-catch.json",
+      "title": "Parish Lesson — A Shrimp Boat's Fair Count",
+      "shape": "pre-brief -> station -> check question -> hand-off to the parish apply step -> check-in"
+    },
+    {
+      "id": "by-flood-map",
+      "file": "by-flood-map.json",
+      "title": "Parish Lesson — Reading a Flood Map's Colours",
+      "shape": "pre-brief -> station -> check question -> hand-off to the parish apply step -> check-in"
+    },
+    {
+      "id": "by-containers",
+      "file": "by-containers.json",
+      "title": "Parish Lesson — Sorting Containers at the Port",
+      "shape": "pre-brief -> station -> check question -> hand-off to the parish apply step -> check-in"
+    },
+    {
+      "id": "by-floodwall",
+      "file": "by-floodwall.json",
+      "title": "Parish Lesson — Measuring a Floodwall in Steps",
+      "shape": "pre-brief -> station -> check question -> hand-off to the parish apply step -> check-in"
+    },
+    {
+      "id": "es-storm-drain",
+      "file": "es-storm-drain.json",
+      "title": "Bay Lesson — Where the Storm Drain Goes",
+      "shape": "pre-brief -> station -> check question -> hand-off to the apply step (BAYQUEST game or ESTUARY fallback) -> check-in"
+    },
+    {
+      "id": "es-trash-capture",
+      "file": "es-trash-capture.json",
+      "title": "Bay Lesson — What a Trash Capture Device Does",
+      "shape": "pre-brief -> station -> check question -> hand-off to the apply step (BAYQUEST game or ESTUARY fallback) -> check-in"
+    },
+    {
+      "id": "es-rain-garden",
+      "file": "es-rain-garden.json",
+      "title": "Bay Lesson — Rain Gardens: a Sponge in the Sidewalk",
+      "shape": "pre-brief -> station -> check question -> hand-off to the apply step (BAYQUEST game or ESTUARY fallback) -> check-in"
+    },
+    {
+      "id": "es-marsh-nursery",
+      "file": "es-marsh-nursery.json",
+      "title": "Bay Lesson — The Tidal Marsh Nursery",
+      "shape": "pre-brief -> station -> check question -> hand-off to the apply step (BAYQUEST game or ESTUARY fallback) -> check-in"
+    },
+    {
+      "id": "es-mud-on-the-move",
+      "file": "es-mud-on-the-move.json",
+      "title": "Bay Lesson — Mud on the Move",
+      "shape": "pre-brief -> station -> check question -> hand-off to the apply step (BAYQUEST game or ESTUARY fallback) -> check-in"
+    },
+    {
+      "id": "es-nutrients",
+      "file": "es-nutrients.json",
+      "title": "Bay Lesson — Too Much of a Good Thing",
+      "shape": "pre-brief -> station -> check question -> hand-off to the apply step (BAYQUEST game or ESTUARY fallback) -> check-in"
+    },
+    {
+      "id": "es-food-web",
+      "file": "es-food-web.json",
+      "title": "Bay Lesson — The Bay Food Web",
+      "shape": "pre-brief -> station -> check question -> hand-off to the apply step (BAYQUEST game or ESTUARY fallback) -> check-in"
+    },
+    {
+      "id": "es-plastics",
+      "file": "es-plastics.json",
+      "title": "Bay Lesson — Plastics and the Bay",
+      "shape": "pre-brief -> station -> check question -> hand-off to the apply step (BAYQUEST game or ESTUARY fallback) -> check-in"
+    },
+    {
+      "id": "es-clean-air-port",
+      "file": "es-clean-air-port.json",
+      "title": "Bay Lesson — Clean Air at the Port",
+      "shape": "pre-brief -> station -> check question -> hand-off to the apply step (BAYQUEST game or ESTUARY fallback) -> check-in"
+    },
+    {
+      "id": "es-who-does-this-work",
+      "file": "es-who-does-this-work.json",
+      "title": "Bay Lesson — Who Does This Work",
+      "shape": "pre-brief -> station -> check question -> hand-off to the apply step (BAYQUEST game or ESTUARY fallback) -> check-in"
+    },
+    {
+      "id": "es-count-it",
+      "file": "es-count-it.json",
+      "title": "Bay Lesson — Count It: a Fair Survey",
+      "shape": "pre-brief -> station -> check question -> hand-off to the apply step (BAYQUEST game or ESTUARY fallback) -> check-in"
+    },
+    {
+      "id": "es-measure-rain-garden",
+      "file": "es-measure-rain-garden.json",
+      "title": "Bay Lesson — Measure a Rain Garden",
+      "shape": "pre-brief -> station -> check question -> hand-off to the apply step (BAYQUEST game or ESTUARY fallback) -> check-in"
+    },
+    {
+      "id": "lk-new-marsh",
+      "file": "lk-new-marsh.json",
+      "title": "Louisiana Lesson — New Marsh from Mud",
+      "shape": "pre-brief -> station -> check question -> hand-off to the two-minute apply game (LA-COHORTS) -> check-in"
+    },
+    {
+      "id": "lk-lock-and-levee",
+      "file": "lk-lock-and-levee.json",
+      "title": "Louisiana Lesson — How a Lock Lifts a Boat",
+      "shape": "pre-brief -> station -> check question -> hand-off to the two-minute apply game (LA-COHORTS) -> check-in"
+    },
+    {
+      "id": "lk-power-path",
+      "file": "lk-power-path.json",
+      "title": "Louisiana Lesson — Follow the Energy",
+      "shape": "pre-brief -> station -> check question -> hand-off to the two-minute apply game (LA-COHORTS) -> check-in"
+    },
+    {
+      "id": "lk-wing-lift",
+      "file": "lk-wing-lift.json",
+      "title": "Louisiana Lesson — What Lifts a Wing",
+      "shape": "pre-brief -> station -> check question -> hand-off to the two-minute apply game (LA-COHORTS) -> check-in"
+    },
+    {
+      "id": "lk-steel-hull",
+      "file": "lk-steel-hull.json",
+      "title": "Louisiana Lesson — Why Steel Can Float",
+      "shape": "pre-brief -> station -> check question -> hand-off to the two-minute apply game (LA-COHORTS) -> check-in"
+    },
+    {
+      "id": "lk-crews-behind-the-build",
+      "file": "lk-crews-behind-the-build.json",
+      "title": "Louisiana Lesson — Who Builds It",
+      "shape": "pre-brief -> station -> check question -> hand-off to the two-minute apply game (LA-COHORTS) -> check-in"
+    },
+    {
+      "id": "lk-dust-you-cannot-see",
+      "file": "lk-dust-you-cannot-see.json",
+      "title": "Louisiana Lesson — Dust You Cannot See",
+      "shape": "pre-brief -> station -> check question -> hand-off to the two-minute apply game (LA-COHORTS) -> check-in"
+    },
+    {
+      "id": "lk-robot-knows-to-stop",
+      "file": "lk-robot-knows-to-stop.json",
+      "title": "Louisiana Lesson — How a Robot Knows to Stop",
+      "shape": "pre-brief -> station -> check question -> hand-off to the two-minute apply game (LA-COHORTS) -> check-in"
+    },
+    {
+      "id": "lk-robot-waits-for-ok",
+      "file": "lk-robot-waits-for-ok.json",
+      "title": "Louisiana Lesson — A Robot Waits for a Grown-up's OK",
+      "shape": "pre-brief -> station -> check question -> hand-off to the two-minute apply game (LA-COHORTS) -> check-in"
+    },
+    {
+      "id": "cg-measuring-and-scaling-the-court",
+      "file": "cg-measuring-and-scaling-the-court.json",
+      "title": "Learning Module — Measuring and Scaling the Court",
+      "shape": "brief -> station -> check -> close; a missed check -> re-teach -> check"
+    },
+    {
+      "id": "cg-household-budget-and-first-paycheck",
+      "file": "cg-household-budget-and-first-paycheck.json",
+      "title": "Learning Module — A Household Budget and a First Paycheck",
+      "shape": "brief -> station -> check -> close; a missed check -> re-teach -> check"
+    },
+    {
+      "id": "cg-reading-a-map-scale-in-bay-world",
+      "file": "cg-reading-a-map-scale-in-bay-world.json",
+      "title": "Learning Module — Reading a Map Scale in Bay World",
+      "shape": "brief -> station -> check -> close; a missed check -> re-teach -> check"
+    },
+    {
+      "id": "cg-fractions-in-the-kitchen",
+      "file": "cg-fractions-in-the-kitchen.json",
+      "title": "Learning Module — Fractions in the Kitchen",
+      "shape": "brief -> station -> check -> close; a missed check -> re-teach -> check"
+    },
+    {
+      "id": "cg-slope-and-angles-on-a-ramp",
+      "file": "cg-slope-and-angles-on-a-ramp.json",
+      "title": "Learning Module — Slope and Angles on a Ramp",
+      "shape": "brief -> station -> check -> close; a missed check -> re-teach -> check"
+    },
+    {
+      "id": "cg-graphing-tide-readings-at-the-pier",
+      "file": "cg-graphing-tide-readings-at-the-pier.json",
+      "title": "Learning Module — Graphing Tide Readings at the Pier",
+      "shape": "brief -> station -> check -> close; a missed check -> re-teach -> check"
+    },
+    {
+      "id": "cg-probability-with-a-fair-spinner",
+      "file": "cg-probability-with-a-fair-spinner.json",
+      "title": "Learning Module — Probability with a Fair Spinner",
+      "shape": "brief -> station -> check -> close; a missed check -> re-teach -> check"
+    },
+    {
+      "id": "cg-geometry-of-a-turbine-blade-sweep",
+      "file": "cg-geometry-of-a-turbine-blade-sweep.json",
+      "title": "Learning Module — Geometry of a Turbine's Blade Sweep",
+      "shape": "brief -> station -> check -> close; a missed check -> re-teach -> check"
+    },
+    {
+      "id": "cg-water-cycle-and-filtration",
+      "file": "cg-water-cycle-and-filtration.json",
+      "title": "Learning Module — The Water Cycle and Filtration",
+      "shape": "brief -> station -> check -> close; a missed check -> re-teach -> check"
+    },
+    {
+      "id": "cg-buoyancy-and-pressure-in-the-deep",
+      "file": "cg-buoyancy-and-pressure-in-the-deep.json",
+      "title": "Learning Module — Buoyancy and Pressure in the Deep",
+      "shape": "brief -> station -> check -> close; a missed check -> re-teach -> check"
+    },
+    {
+      "id": "cg-circuits-at-the-electrical-bench",
+      "file": "cg-circuits-at-the-electrical-bench.json",
+      "title": "Learning Module — Circuits at the Electrical Bench",
+      "shape": "brief -> station -> check -> close; a missed check -> re-teach -> check"
+    },
+    {
+      "id": "cg-energy-transfer-at-the-wind-farm",
+      "file": "cg-energy-transfer-at-the-wind-farm.json",
+      "title": "Learning Module — Energy Transfer at the Wind Farm",
+      "shape": "brief -> station -> check -> close; a missed check -> re-teach -> check"
+    },
+    {
+      "id": "cg-ecosystems-at-the-kelp-transect",
+      "file": "cg-ecosystems-at-the-kelp-transect.json",
+      "title": "Learning Module — Ecosystems at the Kelp Transect",
+      "shape": "brief -> station -> check -> close; a missed check -> re-teach -> check"
+    },
+    {
+      "id": "cg-weather-and-the-sky",
+      "file": "cg-weather-and-the-sky.json",
+      "title": "Learning Module — Weather and the Sky",
+      "shape": "brief -> station -> check -> close; a missed check -> re-teach -> check"
+    },
+    {
+      "id": "cg-simple-machines-at-a-crane",
+      "file": "cg-simple-machines-at-a-crane.json",
+      "title": "Learning Module — Simple Machines at a Crane",
+      "shape": "brief -> station -> check -> close; a missed check -> re-teach -> check"
+    },
+    {
+      "id": "cg-a-controlled-experiment",
+      "file": "cg-a-controlled-experiment.json",
+      "title": "Learning Module — A Controlled Experiment",
+      "shape": "brief -> station -> check -> close; a missed check -> re-teach -> check"
+    },
+    {
+      "id": "cg-primary-and-secondary-sources",
+      "file": "cg-primary-and-secondary-sources.json",
+      "title": "Learning Module — Primary and Secondary Sources",
+      "shape": "brief -> station -> check -> close; a missed check -> re-teach -> check"
+    },
+    {
+      "id": "cg-building-a-timeline-from-documents",
+      "file": "cg-building-a-timeline-from-documents.json",
+      "title": "Learning Module — Building a Timeline from Documents",
+      "shape": "brief -> station -> check -> close; a missed check -> re-teach -> check"
+    },
+    {
+      "id": "cg-how-a-local-council-meeting-works",
+      "file": "cg-how-a-local-council-meeting-works.json",
+      "title": "Learning Module — How a Local Council Meeting Works",
+      "shape": "brief -> station -> check -> close; a missed check -> re-teach -> check"
+    },
+    {
+      "id": "cg-oral-history-interview-skills",
+      "file": "cg-oral-history-interview-skills.json",
+      "title": "Learning Module — Oral History Interview Skills",
+      "shape": "brief -> station -> check -> close; a missed check -> re-teach -> check"
+    },
+    {
+      "id": "cg-guilds-and-the-history-of-work",
+      "file": "cg-guilds-and-the-history-of-work.json",
+      "title": "Learning Module — Guilds and the History of Work",
+      "shape": "brief -> station -> check -> close; a missed check -> re-teach -> check"
+    },
+    {
+      "id": "cg-map-literacy-across-eras",
+      "file": "cg-map-literacy-across-eras.json",
+      "title": "Learning Module — Map Literacy Across Eras",
+      "shape": "brief -> station -> check -> close; a missed check -> re-teach -> check"
+    },
+    {
+      "id": "cg-reading-instructions-and-safety-labels",
+      "file": "cg-reading-instructions-and-safety-labels.json",
+      "title": "Learning Module — Reading Instructions and Safety Labels",
+      "shape": "brief -> station -> check -> close; a missed check -> re-teach -> check"
+    },
+    {
+      "id": "cg-writing-a-clear-incident-report",
+      "file": "cg-writing-a-clear-incident-report.json",
+      "title": "Learning Module — Writing a Clear Incident Report",
+      "shape": "brief -> station -> check -> close; a missed check -> re-teach -> check"
+    },
+    {
+      "id": "cg-first-aid-awareness-call-for-help",
+      "file": "cg-first-aid-awareness-call-for-help.json",
+      "title": "Learning Module — First Aid Awareness: Call for Help",
+      "shape": "brief -> station -> check -> close; a missed check -> re-teach -> check"
+    },
+    {
+      "id": "cg-public-speaking-at-the-hall",
+      "file": "cg-public-speaking-at-the-hall.json",
+      "title": "Learning Module — Public Speaking at the Hall",
+      "shape": "brief -> station -> check -> close; a missed check -> re-teach -> check"
+    },
+    {
+      "id": "cg-digital-citizenship-and-online-safety",
+      "file": "cg-digital-citizenship-and-online-safety.json",
+      "title": "Learning Module — Digital Citizenship and Online Safety",
+      "shape": "brief -> station -> check -> close; a missed check -> re-teach -> check"
+    },
+    {
+      "id": "cg-teamwork-and-feedback",
+      "file": "cg-teamwork-and-feedback.json",
+      "title": "Learning Module — Teamwork and Feedback",
+      "shape": "brief -> station -> check -> close; a missed check -> re-teach -> check"
+    }
+  ]
+}

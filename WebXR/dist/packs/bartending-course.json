@@ -1,0 +1,204 @@
+{
+  "id": "bartending-course",
+  "kind": "programme",
+  "name": "Bartending — Behind the Bar",
+  "title": "SmartCiti.X Bartending — Behind the Bar — Powered by AGI Corp",
+  "audience": "trades",
+  "summary": "Stations from opening the well to closing the till, and the customers in between: the one who is twenty, the one who has had enough, the one who will not take no, and the one whose drink was touched while she looked away. Every step names the law or the standard a bartender is held to.",
+  "certification": "California ABC Responsible Beverage Service certification (mandatory for anyone serving alcohol since 2022), TIPS or ServSafe Alcohol, the California Retail Food Code for ice and glassware, Cal/OSHA's workplace violence prevention plan requirement, and California Labor Code 351 on tips",
+  "programmes": [
+    "bartending-course"
+  ],
+  "stations": [
+    {
+      "app": "trades",
+      "id": "kitchen"
+    },
+    {
+      "app": "smartcity",
+      "id": "bar-well-setup"
+    },
+    {
+      "app": "smartcity",
+      "id": "id-check-underage"
+    },
+    {
+      "app": "smartcity",
+      "id": "jigger-pour-spec"
+    },
+    {
+      "app": "smartcity",
+      "id": "cutoff-overservice"
+    },
+    {
+      "app": "smartcity",
+      "id": "spiked-drink-response"
+    },
+    {
+      "app": "smartcity",
+      "id": "patron-deescalation"
+    },
+    {
+      "app": "smartcity",
+      "id": "keg-cellar-co2"
+    },
+    {
+      "app": "smartcity",
+      "id": "ice-well-breakage"
+    },
+    {
+      "app": "smartcity",
+      "id": "draught-line-cleaning"
+    },
+    {
+      "app": "smartcity",
+      "id": "till-drop-robbery"
+    },
+    {
+      "app": "smartcity",
+      "id": "allergen-cocktail"
+    },
+    {
+      "app": "smartcity",
+      "id": "last-call-lockup"
+    },
+    {
+      "app": "smartcity",
+      "id": "tip-pool-labor"
+    },
+    {
+      "app": "smartcity",
+      "id": "wvpp-panic-button"
+    },
+    {
+      "app": "smartcity",
+      "id": "rbs-service-capstone"
+    }
+  ],
+  "unions": [
+    "unite-here"
+  ],
+  "unionLine": "UNITE HERE Local 2 bartenders and barbacks",
+  "k12Bands": [],
+  "path": "union-trades",
+  "alsoPaths": [],
+  "worlds": [
+    {
+      "world": "bayworld",
+      "sites": [
+        "uptown-theatre-district",
+        "uptown-restaurant-row"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "orleans",
+      "sites": [
+        "hospitality-row",
+        "no-sw-treme-restaurant-kitchen"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "st-tammany",
+      "sites": [
+        "st-sw-covington-restaurant-kitchen"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-downtown",
+      "sites": [
+        "fishermans-wharf-kitchens",
+        "dt-sw-north-beach-restaurant-kitchen"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-marina",
+      "sites": [
+        "ma-sw-western-addition-restaurant-kitchen",
+        "ma-sw-russian-hill-restaurant-kitchen"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-bayview",
+      "sites": [
+        "bv-sw-excelsior-restaurant-kitchen"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-north-beach",
+      "sites": [
+        "columbus-restaurant-row"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-haight-castro",
+      "sites": [
+        "castro-restaurant-kitchens"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-downtown-lake",
+      "sites": [
+        "chinatown-kitchens"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "laf-downtown",
+      "sites": [
+        "lafd-kitchen-fitout"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "nola-french-quarter-cbd",
+      "sites": [
+        "nfq-restaurant-row"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "nola-uptown-garden",
+      "sites": [
+        "nup-magazine-street-kitchen"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "nola-bywater-lower-ninth",
+      "sites": [
+        "nbw-marigny-kitchen"
+      ]
+    }
+  ],
+  "stationNames": {
+    "kitchen": "Hot Line",
+    "bar-well-setup": "Opening the Well",
+    "id-check-underage": "Checking ID",
+    "jigger-pour-spec": "Pouring to Spec",
+    "cutoff-overservice": "Cut-Off / Overservice",
+    "spiked-drink-response": "Spiked Drink Response",
+    "patron-deescalation": "Patron De-escalation",
+    "keg-cellar-co2": "Keg Cellar CO2",
+    "ice-well-breakage": "Ice Well Breakage",
+    "draught-line-cleaning": "Draught Line Cleaning",
+    "till-drop-robbery": "Till Drop & Robbery Response",
+    "allergen-cocktail": "Allergens & Honest Drinks",
+    "last-call-lockup": "Last Call & Lockup",
+    "tip-pool-labor": "Tip Pool & Labor",
+    "wvpp-panic-button": "WVPP & Panic Button",
+    "rbs-service-capstone": "RBS Service Capstone"
+  },
+  "version": "1.0.0",
+  "contentHash": "fc603d72",
+  "brand": "SmartCiti.X · Powered by AGI Corp",
+  "generator": "tools/gen_packs.mjs",
+  "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."
+}

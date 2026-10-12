@@ -1,0 +1,412 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "clean-buffer-clean-window",
+    "name": "Clean Buffer, Clean Window",
+    "note": "The buffer was set by rangefinder, the crew heard the brief and the operator answered, the flush got an immediate stop, and the excavator never crossed the flagged line"
+  },
+  "category": "Environmental Monitoring",
+  "certification": "Endangered Species Act nesting-buffer conditions and U.S. Fish and Wildlife Service (USFWS) consultation for Ridgway's rail; San Francisco Bay Conservation and Development Commission (BCDC) permit conditions for the work window; San Francisco Bay Regional Water Quality Control Board (RWQCB) monitoring conditions; IUOE Local 3 operating-engineer training for the amphibious excavator; LIUNA Local 261 laborer training for the ground crew waiting on the buffer sign-off",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "BCDC",
+        "citedAs": "BCDC",
+        "id": "bcdc-bay-plan",
+        "title": "San Francisco Bay Plan and BCDC permit conditions under the McAteer-Petris Act"
+      },
+      {
+        "body": "union",
+        "citedAs": "IUOE",
+        "id": "iuoe-training",
+        "title": "IUOE local training funds and the IUOE National Training Fund — operating and stationary engineer apprenticeship"
+      },
+      {
+        "body": "union",
+        "citedAs": "LIUNA",
+        "id": "liuna-training-fund",
+        "title": "LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula"
+      },
+      {
+        "body": "RWQCB",
+        "citedAs": "RWQCB",
+        "id": "rwqcb-401-certification",
+        "title": "Regional Water Quality Control Board Clean Water Act §401 certification and waste discharge requirements"
+      },
+      {
+        "body": "USFWS",
+        "citedAs": "Endangered Species Act",
+        "id": "usfws-esa",
+        "title": "Endangered Species Act §7 consultation and species protection measures set by the U.S. Fish and Wildlife Service"
+      }
+    ]
+  },
+  "district": "Environmental Monitoring",
+  "domain": "Environmental",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "true-buffer",
+        "name": "True Buffer",
+        "note": "The rangefinder read and the flag run to the confirmed point, never paced off by eye"
+      },
+      {
+        "id": "clean-window",
+        "name": "Clean Window",
+        "note": "Never skipped the brief, never flagged by eye, never let the machine keep working through a flush"
+      },
+      {
+        "id": "held-the-wait",
+        "name": "Held The Wait",
+        "note": "The post-flush wait held inside the correct band, first time"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-watch",
+        "name": "Clean Watch",
+        "note": "No corrections across the whole watch"
+      },
+      {
+        "id": "steady-eyes",
+        "name": "Steady Eyes",
+        "note": "Held the nest scan in band before and during the work"
+      },
+      {
+        "id": "logged-fast",
+        "name": "Logged Fast",
+        "note": "Watch closed out inside 80% of par"
+      }
+    ],
+    "currency": "SIGN-OFFS",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Field Aide",
+      "Compliance Monitor",
+      "Lead Monitor",
+      "Senior Monitor",
+      "Buffer & Window Certified"
+    ],
+    "system": "Buffer Watch"
+  },
+  "hazards": {
+    "flag-by-eye": "You set the buffer flag where it looked about right instead of at the point the rangefinder confirmed. A flag a few metres short leaves the nest exposed to a machine that thinks it's clear; a flag set generously past the real point costs the crew ground they don't have to give up — the flag goes exactly where the confirmed distance puts it, not wherever looks safe enough.",
+    "guess-the-buffer": "You paced off the buffer distance by eye instead of reading the rangefinder. A footstep isn't a fixed unit and a nest half-hidden in pickleweed looks closer or farther depending on where you're standing — the rangefinder is the only thing on this bench that turns a guess into the distance the permit actually specifies.",
+    "keep-working-through-flush": "You told the crew the machine could finish its current pass after the bird flushed. A flushed adult leaves whatever is in that nest exposed for every extra minute the disturbance continues, and 'almost done' is exactly the reasoning the buffer exists to override — a flush stops the work immediately, not after the pass in progress.",
+    "skip-the-brief": "You let the excavator operator start maneuvering into position before confirming they'd actually heard where the buffer line was. An operator who never got the brief is an operator who finds the buffer by getting close enough for the ground crew to shout — the acknowledgement has to come back before the machine moves, not after it's already rolling."
+  },
+  "id": "br-bird-nesting-buffer-and-work-window",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "prework-scan",
+      "alert": "The excavator is maneuvering into position and its track is drifting straight toward the flagged buffer line.",
+      "cue": "Wave the operator off with the warning paddle before the machine reaches the flag — it can't see the line from the cab the way you can from here.",
+      "delay": 2,
+      "id": "excavator-approaches-buffer",
+      "kind": "Excavator drifts toward the buffer line",
+      "missNote": "Nobody waved the operator off, and the track kept drifting toward the flagged line while the machine maneuvered into position.",
+      "seconds": 14,
+      "target": "warning-paddle",
+      "why": "A pontoon excavator's operator is watching the ground ahead of the bucket, not a thin flag line off to the side, and by the time the machine is close enough for the operator to notice the flag it may already be inside the buffer — the warning paddle is what reaches the operator before the track does, the same way a spotter's signal stops a swinging load before it reaches someone.",
+      "wrongNote": "The warning paddle — that's the one signal the operator in the cab can actually see from here."
+    },
+    {
+      "after": "work-watch",
+      "alert": "A Ridgway's rail has flushed out of the pickleweed right at the edge of the buffer, calling as it goes, with the excavator still working.",
+      "cue": "Call the stop over the dedicated stop-work channel immediately — do not wait for the bucket to finish its current pass.",
+      "delay": 3,
+      "id": "rail-flushes",
+      "kind": "Ridgway's rail flushes near the excavator",
+      "missNote": "The machine kept working through the flush while the rail called from the edge of the buffer — exactly the disturbance the whole watch exists to stop.",
+      "seconds": 14,
+      "target": "stop-work-radio",
+      "why": "A flushed adult this close to a working machine is exactly the disturbance the buffer and the work window exist to prevent, and the stop has to reach the operator before the next swing of the bucket, not after — the dedicated stop-work channel is the one call on this bench that overrides everything else in progress, including a pass that's almost finished.",
+      "wrongNote": "The stop-work channel — that's the one call that reaches the operator immediately, over whatever else is being said."
+    }
+  ],
+  "lateNotes": {
+    "monitoring-log": "Nothing to log yet — the buffer hasn't been confirmed and nothing has happened worth an entry.",
+    "resume-wait-clock": "Nothing to read yet — the flush has to actually happen and the stop has to be called before the wait starts."
+  },
+  "name": "Bird Nesting Buffer & Work Window",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "bay-restoration-maritime-underwater"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "amphibiousExcavator",
+        "count": 1,
+        "kit": "equipment"
+      },
+      {
+        "builder": "skiff",
+        "count": 1,
+        "kit": "fleet"
+      },
+      {
+        "builder": "radio",
+        "count": 4,
+        "kit": "toolkit"
+      }
+    ],
+    "error": null,
+    "footprint": 3,
+    "hits": [
+      "active-nest",
+      "boots-on",
+      "brief-crew-buffer",
+      "buffer-plan-board",
+      "buffer-stake-socket",
+      "crew-radio",
+      "field-radio-on",
+      "flag-by-eye",
+      "flag-reel",
+      "guess-the-buffer",
+      "hi-vis-vest",
+      "keep-working-through-flush",
+      "loose-flagging",
+      "monitoring-log",
+      "nest-scope",
+      "operator-ack",
+      "rangefinder-check",
+      "resume-wait-clock",
+      "skip-the-brief",
+      "stop-work-radio",
+      "warning-paddle",
+      "work-window-calendar"
+    ],
+    "meshes": 266
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "anyOrder": true,
+      "cue": "Before stepping onto the bench: hi-vis vest on, waterproof boots on, field radio powered on.",
+      "id": "ppe-brief",
+      "itemNames": {
+        "boots-on": "waterproof boots on",
+        "field-radio-on": "field radio powered on",
+        "hi-vis-vest": "hi-vis vest on"
+      },
+      "kind": "sequence",
+      "prompt": "Before stepping onto the bench: hi-vis vest on, waterproof boots on, field radio powered on.",
+      "targets": [
+        "hi-vis-vest",
+        "boots-on",
+        "field-radio-on"
+      ],
+      "title": "Gear up before walking the bench",
+      "why": "The bench sits between a working excavator's swing radius and soft mud that doesn't announce a soft spot until a boot is already in one, and the hi-vis vest is what keeps the operator's ground crew from mistaking the monitor's own silhouette for a hazard flag out of the corner of an eye already busy watching the bucket."
+    },
+    {
+      "cue": "Read the work-window calendar and confirm today's date falls inside the window the permit sets for this bench.",
+      "id": "work-window-calendar",
+      "kind": "select",
+      "prompt": "Read the work-window calendar and confirm today's date falls inside the window the permit sets for this bench.",
+      "target": "work-window-calendar",
+      "title": "Check today's date against the work window",
+      "why": "The nesting work window is set in the permit around the season this species actually nests here, not around the crew's own schedule, and a date checked against the calendar before anyone unloads equipment is what keeps a whole day's mobilization from having to reverse itself because nobody looked at the board first."
+    },
+    {
+      "cue": "Read the buffer plan: the buffer distance per the permit, and what to do if a second nest turns up outside today's flagged line.",
+      "id": "buffer-plan-board",
+      "kind": "select",
+      "prompt": "Read the buffer plan: the buffer distance per the permit, and what to do if a second nest turns up outside today's flagged line.",
+      "target": "buffer-plan-board",
+      "title": "Read the buffer plan for this bench",
+      "why": "The buffer distance is set in the same Endangered Species Act consultation that opened the work window, not decided on the bench by whoever is standing there that morning, and reading the plan before the rangefinder ever comes out is what keeps today's flag line matched to the same number the permit was actually written around."
+    },
+    {
+      "cue": "Walk the bench edge and find the active nest and any flagging that's come loose since yesterday.",
+      "id": "find-nest",
+      "itemNames": {
+        "active-nest": "the active nest, low in the pickleweed",
+        "loose-flagging": "yesterday's flagging, come loose"
+      },
+      "itemNotes": {
+        "active-nest": "Low in the pickleweed, easy to walk past without the scope — this is the point every later distance and every later watch is measured from.",
+        "loose-flagging": "A stretch of yesterday's flagging has come loose in the wind — left down, it stops marking anything and the crew has no way to tell the line ever moved."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the bench edge and find the active nest and any flagging that's come loose since yesterday.",
+      "targets": [
+        "active-nest",
+        "loose-flagging"
+      ],
+      "title": "Find the nest and check yesterday's flagging",
+      "why": "Every distance, every flag and every watch on this bench starts from the nest's actual position, not from where it was assumed to be, and a stretch of flagging found loose now — before the excavator is anywhere near it — costs nothing to fix, where the same gap found mid-work costs the whole crew a stop."
+    },
+    {
+      "cue": "Turn the rangefinder onto the nest and read the distance against the buffer the plan board gave you.",
+      "id": "rangefinder-check",
+      "kind": "turn",
+      "prompt": "Turn the rangefinder onto the nest and read the distance against the buffer the plan board gave you.",
+      "target": "rangefinder-check",
+      "title": "Read the buffer distance to the nest",
+      "turn": {
+        "label": "RANGEFINDER",
+        "turns": 0.6
+      },
+      "why": "The rangefinder is the only thing on this bench that turns 'about right' into the actual distance the permit specifies, and reading it here, before the flag goes anywhere, is what lets the flag line that gets set next actually mean something to a machine operator who has to trust it from thirty metres away."
+    },
+    {
+      "cue": "Run the flagging out from the reel to the point the rangefinder confirmed — not short of it, and not past it either.",
+      "drag": {
+        "missNote": "Not at the confirmed point — the flag has to land where the rangefinder actually put it, not somewhere that looks close enough.",
+        "radius": 0.4,
+        "to": "buffer-stake-socket"
+      },
+      "id": "flag-buffer-line",
+      "kind": "drag",
+      "prompt": "Run the flagging out from the reel to the point the rangefinder confirmed — not short of it, and not past it either.",
+      "target": "flag-reel",
+      "title": "Run the buffer flag out to the confirmed point",
+      "why": "A buffer flag is only as good as the distance it actually marks, and running it to the rangefinder's confirmed point — rather than to wherever the reel happens to run out or a step feels like enough — is what turns today's reading into a line an excavator operator who has never seen this nest can actually trust from the cab."
+    },
+    {
+      "cue": "Brief the whole crew on the buffer line and the work window, then wait for the operator to acknowledge it back over the radio.",
+      "id": "crew-brief",
+      "itemNames": {
+        "brief-crew-buffer": "the buffer line and the work window briefed to the whole crew",
+        "operator-ack": "the operator's own acknowledgement heard back"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Brief the crew before asking for the acknowledgement — there's nothing to acknowledge until the line has actually been described.",
+      "prompt": "Brief the whole crew on the buffer line and the work window, then wait for the operator to acknowledge it back over the radio.",
+      "targets": [
+        "brief-crew-buffer",
+        "operator-ack"
+      ],
+      "title": "Brief the crew and get the operator's acknowledgement",
+      "why": "A buffer line nobody in the cab has actually heard about is a line that exists only on the monitor's own clipboard, and the acknowledgement is what proves the one person who can actually put a bucket inside it knows exactly where it is — the machine does not move until that acknowledgement comes back, not after it starts moving."
+    },
+    {
+      "cue": "Hold a steady scan on the nest with the scope before the excavator is cleared to maneuver into position.",
+      "holdBreakNote": "The scan lost the nest before the check was complete — steady the scope and pick the watch back up before clearing the machine.",
+      "id": "prework-scan",
+      "kind": "track",
+      "prompt": "Hold a steady scan on the nest with the scope before the excavator is cleared to maneuver into position.",
+      "seconds": 6,
+      "target": "nest-scope",
+      "title": "Scan the nest before the machine moves",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.42,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "NEST SCAN",
+        "rise": 0.5,
+        "start": 0.12
+      },
+      "why": "The machine can only be cleared to move once the nest has actually been watched long enough to show whether the adult is settled or already agitated, and a scan rushed through or left to drift off the nest is a clearance given on a guess rather than on what the bird is actually doing right now."
+    },
+    {
+      "cue": "Hold the scope steady on the nest while the excavator works its first pass — anything the bird does now has to be seen immediately.",
+      "holdBreakNote": "The watch broke while the machine was working — get back on the scope and hold it through to the end of the pass.",
+      "id": "work-watch",
+      "kind": "hold",
+      "prompt": "Hold the scope steady on the nest while the excavator works its first pass — anything the bird does now has to be seen immediately.",
+      "seconds": 5,
+      "target": "nest-scope",
+      "title": "Hold the watch while the excavator works",
+      "why": "Once the machine is actually moving, the nest is the one thing on this bench that can go from settled to flushed in a few seconds, and a watch that wanders during the first working pass is a watch that finds out only once the disturbance is already well under way."
+    },
+    {
+      "cue": "Log the flush: time, what the bird did, the stop called, and the time the machine actually stopped.",
+      "id": "log-flush-entry",
+      "kind": "select",
+      "prompt": "Log the flush: time, what the bird did, the stop called, and the time the machine actually stopped.",
+      "target": "monitoring-log",
+      "title": "Log the flush and the stop",
+      "why": "The permit's own monitoring record is built entirely from entries like this one, and an entry written immediately — while the exact time and the exact sequence are still what actually happened, not what gets remembered an hour later — is the version of this event that can stand behind the work window the next time it comes up for renewal."
+    },
+    {
+      "cue": "Watch the wait clock and clear the machine to resume only once the nest has read settled for the wait the plan sets — not before it, and not long past it either.",
+      "gauge": {
+        "green": [
+          0.46,
+          0.64
+        ],
+        "label": "RESETTLE WAIT",
+        "missNote": "Off the band. The wait the plan sets has to actually run before the machine is cleared again.",
+        "speed": 0.55
+      },
+      "id": "resume-wait",
+      "kind": "gauge",
+      "prompt": "Watch the wait clock and clear the machine to resume only once the nest has read settled for the wait the plan sets — not before it, and not long past it either.",
+      "target": "resume-wait-clock",
+      "title": "Hold the wait before clearing the machine again",
+      "why": "The resettle wait exists so a stop actually means the adult is back on the nest and behaving normally, not just that the machine paused for a moment — clearing the resume too early treats the stop as a formality, and holding well past the wait for no reason is time the crew's schedule does not have either."
+    },
+    {
+      "cue": "Call the crew: nest settled, buffer confirmed, cleared to resume from a stop — then wait for the operator to acknowledge it back, the same as the first brief.",
+      "id": "resume-brief",
+      "itemNames": {
+        "crew-radio": "resume cleared, called to the crew",
+        "operator-ack": "the operator's acknowledgement heard a second time"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Call the resume to the crew before listening for the acknowledgement — there's nothing to acknowledge until the call has gone out.",
+      "prompt": "Call the crew: nest settled, buffer confirmed, cleared to resume from a stop — then wait for the operator to acknowledge it back, the same as the first brief.",
+      "targets": [
+        "crew-radio",
+        "operator-ack"
+      ],
+      "title": "Clear the crew to resume",
+      "why": "A resume after a flush starts the pass over rather than picking up mid-swing, because the ground conditions and the machine's own position may have shifted during the stop — hearing the operator's acknowledgement a second time is what confirms the resume actually reached the cab, rather than assuming it did because the first brief did."
+    },
+    {
+      "cue": "On the working channel: the watch is current, the flush is handled, and how the crew is doing after a stop mid-pass.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "On the working channel: the watch is current, the flush is handled, and how the crew is doing after a stop mid-pass.",
+      "target": "crew-radio",
+      "title": "Check in with the crew",
+      "why": "A stop mid-pass costs the crew time on a schedule that answers to the tide as much as the calendar, and the crew that just held a machine still on the monitor's word deserves to hear directly that the call was made for something real, not for its own sake."
+    },
+    {
+      "cue": "Close the log: the window confirmed, the buffer set and held, the flush and the resume, and the bench secured for the day.",
+      "id": "closing-log",
+      "kind": "select",
+      "prompt": "Close the log: the window confirmed, the buffer set and held, the flush and the resume, and the bench secured for the day.",
+      "target": "monitoring-log",
+      "title": "Close out the day's monitoring log",
+      "why": "The closing entry is what turns today's individual readings into the record the permit's own compliance review is actually built from — a log closed out completely, in order, is the difference between a work window that renews on the strength of its own monitoring and one that raises a question nobody on this bench can answer months later."
+    }
+  ],
+  "supportLine": "your agency's employee assistance programme, with U.S. Fish and Wildlife Service's own permit-compliance line behind it",
+  "tagline": "The sign-off a grading crew waits on: today's date checked against the work-window calendar, the nest found and its buffer confirmed by rangefinder rather than by eye, the flag line actually run out to the confirmed point, the crew briefed and the operator's own acknowledgement heard, the nest watched through the work, a flush answered with an immediate stop, the excavator waved off before it ever reaches the flagged line, and the day's monitoring logged the way the permit requires",
+  "title": "SmartCiti.X~ Bird Nesting Buffer & Work Window VR",
+  "trade": "Wildlife compliance biologist, clearing a shoreline restoration bench for an IUOE Local 3 amphibious-excavator crew and its LIUNA Local 261 ground crew",
+  "underwater": null,
+  "weather": "clear"
+}

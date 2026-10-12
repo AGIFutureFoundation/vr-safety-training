@@ -1,0 +1,420 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "lessons-owned",
+    "name": "Lessons Owned",
+    "note": "The frontline heard first, nobody blamed by name, and every lesson turned into an action with an owner and a date"
+  },
+  "category": "Emergency Services",
+  "certification": "WHO after-action review practice — a facilitated, no-blame review of what was planned, what actually happened, what went well and what should change, with actions owned and dated — as the national authority runs it after an outbreak; WHO infection prevention and control guidance and CDC isolation precautions as the benchmarks the clinical findings are read against; OSHA 29 CFR 1910.1030 and 29 CFR 1910.134 for the worker-safety findings; WHO outbreak communication guidance for the community-engagement findings and for how the report is shared; the Sphere Handbook's core commitments on learning and improvement and IASC cluster coordination for sharing it with the Health Cluster; worked by SEIU and AFSCME public-health staff with NNU/CNA nurses",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFSCME",
+        "id": "afscme-training",
+        "title": "AFSCME member education and safety training for public-service and air-district members"
+      },
+      {
+        "body": "CDC",
+        "citedAs": "CDC",
+        "id": "cdc-guidance",
+        "title": "CDC infection-prevention and public-health guidance, including the Guidelines for Infection Control in Dental Health-Care Settings and Legionella control guidance"
+      },
+      {
+        "body": "IASC",
+        "citedAs": "IASC",
+        "id": "iasc-cluster-coordination",
+        "title": "Inter-Agency Standing Committee (IASC) cluster approach and cluster coordination guidance"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1030",
+        "id": "osha-1910-1030",
+        "title": "29 CFR 1910.1030 — Bloodborne pathogens"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.134",
+        "id": "osha-1910-134",
+        "title": "29 CFR 1910.134 — Respiratory protection"
+      },
+      {
+        "body": "union",
+        "citedAs": "SEIU",
+        "id": "seiu-training",
+        "title": "SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members"
+      },
+      {
+        "body": "Sphere",
+        "citedAs": "Sphere Handbook",
+        "id": "sphere-handbook",
+        "title": "The Sphere Handbook: Humanitarian Charter and Minimum Standards in Humanitarian Response"
+      },
+      {
+        "body": "WHO",
+        "citedAs": "WHO",
+        "id": "who-guidance",
+        "title": "World Health Organization technical and field guidance for health emergencies and outbreak response"
+      },
+      {
+        "body": "WHO",
+        "citedAs": "WHO infection prevention and control guidance",
+        "id": "who-ipc-guidance",
+        "title": "WHO guidance on infection prevention and control in health care"
+      },
+      {
+        "body": "WHO",
+        "citedAs": "WHO outbreak communication guidance",
+        "id": "who-outbreak-communication",
+        "title": "WHO outbreak communication guidance"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Emergency Services",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "timeline-true",
+        "name": "Timeline True",
+        "note": "The timeline laid in order first time"
+      },
+      {
+        "id": "no-blame",
+        "name": "No Blame",
+        "note": "No name blamed, no floor closed early, no vague action, no rumour as a finding"
+      },
+      {
+        "id": "vote-read",
+        "name": "Vote Read",
+        "note": "Priority committed to match the vote"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-review",
+        "name": "Clean Review",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "balanced-room",
+        "name": "Balanced Room",
+        "note": "Talking time kept balanced without a dropout"
+      },
+      {
+        "id": "eight-straight",
+        "name": "Eight Straight",
+        "note": "Eight correct actions in a row"
+      }
+    ],
+    "currency": "LESSON",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Note-taker",
+      "Co-facilitator",
+      "Facilitator",
+      "Lead Facilitator",
+      "Review Room Certified"
+    ],
+    "system": "Review Room"
+  },
+  "hazards": {
+    "war-name-blame": "You wrote the laboratory driver's name on the board as the cause of the specimen delay. An after-action review looks at systems — why the transport plan had no backup vehicle — not at the person nearest the failure; a name on the board ends honest talk in the room and teaches every frontline worker that the review is a trial.",
+    "war-rumour-finding": "You entered a story a participant had heard second-hand as a finding. Findings come from the record and from people who saw it — a rumour written into the report is repeated to every partner who reads it, and it is the report's credibility that pays when it proves untrue.",
+    "war-skip-frontline": "You moved to close the discussion before the ward nurses and the community representative had spoken. The people nearest the work see the gaps managers never hear about, and a review that closes after the senior voices have spoken records the version of events the organisation already believed.",
+    "war-vague-action": "You pinned up 'improve communication' as an action with no owner and no date. An action nobody owns is a wish; it will be on the next review's board in the same words. Every action says what will change, who will do it and by when."
+  },
+  "id": "who-after-action-review",
+  "indoor": "service",
+  "interrupts": [
+    {
+      "after": "frontline-first",
+      "alert": "A senior manager stands up mid-account and says the delay was the driver's fault and everyone knows it.",
+      "cue": "Raise the ground-rules card — no blame, no rank — and bring the room back to the system.",
+      "delay": 2,
+      "id": "manager-blames",
+      "kind": "Blame in the room",
+      "missNote": "The blame went unchallenged. The frontline staff stopped talking about what went wrong, and the report ended up describing a driver instead of a transport plan with no backup.",
+      "seconds": 13,
+      "target": "war-rules-card",
+      "why": "The first blame spoken in a review decides what everyone else is willing to say. Stopping it at once, by pointing to the rules the room agreed, protects the person being blamed and keeps the review on why the system failed, which is the only question that produces a fix.",
+      "wrongNote": "Not that. Raise the ground-rules card and bring the room back to the system."
+    },
+    {
+      "after": "talk-time",
+      "alert": "The interpreter's lamp is flashing: the community representative has lost the thread and the discussion has run on without her.",
+      "cue": "Pause the room at the interpreter's booth until interpretation catches up.",
+      "delay": 3,
+      "id": "interpreter-behind",
+      "kind": "Interpretation lagging",
+      "missNote": "The discussion ran on. The community representative sat silent through the section on community engagement, and the report recorded no community view on the one topic she was invited to speak to.",
+      "seconds": 13,
+      "target": "war-interpreter-booth",
+      "why": "The community representative's view is one of the reasons she is in the room, and she cannot give it on a discussion she cannot follow. Pausing until interpretation catches up costs the room a minute and gives the review the one perspective nobody else in it can supply.",
+      "wrongNote": "Not that. Pause the room at the interpreter's booth until she has caught up."
+    }
+  ],
+  "lateNotes": {
+    "war-card-actual": "Set what actually happened against the plan once the timeline is laid and its gaps are found — there is nothing to compare before that.",
+    "war-vote-dial": "Commit a priority once the room has discussed why the gap happened; a vote on a problem nobody has explained is a guess."
+  },
+  "name": "After-Action Review",
+  "parSeconds": 320,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "outbreak-response-who"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "war-aar-log",
+      "war-act-what",
+      "war-act-when",
+      "war-act-who",
+      "war-card-actual",
+      "war-crew-board",
+      "war-facilitator-mic",
+      "war-gap-lab",
+      "war-gap-socket",
+      "war-gap-supply",
+      "war-ground-rules",
+      "war-interpreter-booth",
+      "war-invite-list",
+      "war-name-blame",
+      "war-report-tray",
+      "war-rules-card",
+      "war-rumour-finding",
+      "war-screen-crank",
+      "war-skip-frontline",
+      "war-talk-meter",
+      "war-tl-alert",
+      "war-tl-close",
+      "war-tl-scale",
+      "war-tl-verify",
+      "war-vague-action",
+      "war-vote-dial"
+    ],
+    "meshes": 228
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check the attendance against the invite list: ward nurses, tracers, burial and WASH teams, the community representative and partners — not only managers.",
+      "id": "invite-list",
+      "kind": "select",
+      "prompt": "Check the attendance against the invite list: ward nurses, tracers, burial and WASH teams, the community representative and partners — not only managers.",
+      "target": "war-invite-list",
+      "title": "Check who is in the room",
+      "why": "A review can only learn from the people in it. If the room holds only coordinators, it will learn what coordinators already knew; the frontline teams, the community representative and the partners who worked alongside them are the people who saw the response from the angles that matter most."
+    },
+    {
+      "cue": "Crank the screen down so the whole room can see the timeline from every seat.",
+      "id": "screen-crank",
+      "kind": "turn",
+      "prompt": "Crank the screen down so the whole room can see the timeline from every seat.",
+      "target": "war-screen-crank",
+      "title": "Lower the timeline screen",
+      "turn": {
+        "axis": "z",
+        "label": "SCREEN",
+        "turns": 1
+      },
+      "why": "A timeline only one side of the room can read becomes one side's timeline. Putting it where everybody can see it — including the people at the back who were in the field — makes the shared record the thing the conversation is about, rather than whoever is standing nearest to it."
+    },
+    {
+      "cue": "Read the rules to the room: no blame, no rank, what is said here stays here, and every voice counts once.",
+      "id": "ground-rules",
+      "kind": "select",
+      "prompt": "Read the rules to the room: no blame, no rank, what is said here stays here, and every voice counts once.",
+      "target": "war-ground-rules",
+      "title": "Read the ground rules aloud",
+      "why": "People will only say what went wrong if they are sure it will not be used against them or their colleagues. The ground rules, read aloud at the start and held to all day, are what make the review a place for learning rather than a hearing — and they give the facilitator something to point to when the room forgets them."
+    },
+    {
+      "cue": "Place the cards in order: first alert, signal verified, response scaled up, outbreak declared over.",
+      "id": "timeline",
+      "itemNames": {
+        "war-tl-alert": "first alert",
+        "war-tl-close": "outbreak declared over",
+        "war-tl-scale": "response scaled up",
+        "war-tl-verify": "signal verified"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Alert, verified, scaled up, declared over — the timeline follows what happened when.",
+      "prompt": "Place the cards in order: first alert, signal verified, response scaled up, outbreak declared over.",
+      "targets": [
+        "war-tl-alert",
+        "war-tl-verify",
+        "war-tl-scale",
+        "war-tl-close"
+      ],
+      "title": "Lay the timeline in order",
+      "why": "A timeline built from the surveillance record, the logs and the reports is the shared account everyone argues from. Laid in order, it shows where the delays sat between one milestone and the next — which is usually where the review's most useful findings are."
+    },
+    {
+      "cue": "Look along the timeline and pick out the stretches the record does not explain.",
+      "id": "timeline-gaps",
+      "itemNames": {
+        "war-gap-lab": "the unexplained lab delay",
+        "war-gap-supply": "the PPE stock-out"
+      },
+      "itemNotes": {
+        "war-gap-lab": "Four days between the first specimen and its result, with nothing on the record to say why.",
+        "war-gap-supply": "A week where the doffing logs show gloves ran out and the supply report shows none requested."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look along the timeline and pick out the stretches the record does not explain.",
+      "targets": [
+        "war-gap-lab",
+        "war-gap-supply"
+      ],
+      "title": "Find the gaps in the record",
+      "why": "The interesting parts of a response are the parts nobody wrote down: the days a specimen sat somewhere, the week the gloves ran out without anyone asking for more. Finding those gaps before the discussion starts is what gives the room specific questions to answer instead of general impressions to trade."
+    },
+    {
+      "cue": "Carry the card describing what actually happened with specimen transport and place it beside the plan's card.",
+      "drag": {
+        "missNote": "Not beside the plan. Put what happened next to what was planned, so the room can see the gap.",
+        "radius": 0.45,
+        "to": "war-gap-socket"
+      },
+      "id": "planned-vs-actual",
+      "kind": "drag",
+      "prompt": "Carry the card describing what actually happened with specimen transport and place it beside the plan's card.",
+      "target": "war-card-actual",
+      "title": "Set what happened against what was planned",
+      "why": "The core question of an after-action review is the difference between what was planned and what actually happened. Placing the two side by side for each gap makes that difference concrete, and it moves the discussion from who got it wrong to why the plan and the reality came apart."
+    },
+    {
+      "cue": "Hand the microphone to the ward nurses and tracers first, and hold while they explain the gap in their own words.",
+      "holdBreakNote": "You took the microphone back before they had finished. Hand it back and let them finish in their own words.",
+      "id": "frontline-first",
+      "kind": "hold",
+      "prompt": "Hand the microphone to the ward nurses and tracers first, and hold while they explain the gap in their own words.",
+      "seconds": 5,
+      "target": "war-facilitator-mic",
+      "title": "Hear the frontline first",
+      "why": "Managers speak easily in rooms like this and frontline staff often do not; if the managers go first, the frontline tends to agree rather than contradict. Hearing the people who did the work first puts their account on the record before anyone has framed it for them."
+    },
+    {
+      "cue": "Sweep the dial and commit when it matches the dot-vote tally on the board: 14 dots.",
+      "gauge": {
+        "green": [
+          0.675,
+          0.724
+        ],
+        "label": "DOTS",
+        "missNote": "That is not the tally. Commit the number of dots the room actually placed — 14.",
+        "speed": 0.6
+      },
+      "id": "priority",
+      "kind": "gauge",
+      "prompt": "Sweep the dial and commit when it matches the dot-vote tally on the board: 14 dots.",
+      "target": "war-vote-dial",
+      "title": "Commit the priority from the vote",
+      "why": "Priorities chosen by the most senior person in the room reflect that person's view of the response. A dot vote lets everybody who worked it weigh the gaps equally, and the facilitator's job is to record what the room decided — the tally on the board — not to round it toward what the organisation would prefer."
+    },
+    {
+      "cue": "Watch the talking-time meter as the discussion runs, and keep it in the balanced band.",
+      "holdBreakNote": "The discussion tipped out of balance. Draw in the voices you have not heard yet.",
+      "id": "talk-time",
+      "kind": "track",
+      "prompt": "Watch the talking-time meter as the discussion runs, and keep it in the balanced band.",
+      "seconds": 7,
+      "target": "war-talk-meter",
+      "title": "Keep the talking time balanced",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.45,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "TALK TIME",
+        "rise": 0.55,
+        "start": 0.2
+      },
+      "why": "In any review a few voices fill the time unless someone watches for it. A facilitator keeping an eye on who has spoken — and drawing in the ones who have not — is how the review hears from the burial team and the community representative, not just the loudest coordinator."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Fill in the action card: what will change, who owns it, and by when — any order, all three.",
+      "id": "action-cards",
+      "itemNames": {
+        "war-act-what": "what will change",
+        "war-act-when": "by when",
+        "war-act-who": "who owns it"
+      },
+      "kind": "sequence",
+      "prompt": "Fill in the action card: what will change, who owns it, and by when — any order, all three.",
+      "targets": [
+        "war-act-what",
+        "war-act-who",
+        "war-act-when"
+      ],
+      "title": "Write the action properly",
+      "why": "A lesson becomes an improvement only when someone is responsible for it and there is a date to check it against. Writing all three on every card — the change, the owner, the deadline — is what lets the next review ask whether it happened, instead of rediscovering the same gap."
+    },
+    {
+      "cue": "Place the agreed report in the tray for the national authority and the Health Cluster coordinator.",
+      "id": "share-report",
+      "kind": "select",
+      "prompt": "Place the agreed report in the tray for the national authority and the Health Cluster coordinator.",
+      "target": "war-report-tray",
+      "title": "Share the report with the Health Cluster",
+      "why": "A review kept in one office improves one office. Sharing the report through the Health Cluster, under IASC cluster coordination, lets every partner who worked the response take its lessons into their own plans — and feeds the national authority's preparation for the next outbreak."
+    },
+    {
+      "cue": "Before everyone leaves, check in on how the day and the whole response sat with them, and point them to staff care.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Before everyone leaves, check in on how the day and the whole response sat with them, and point them to staff care.",
+      "target": "war-crew-board",
+      "title": "Check in with the people in the room",
+      "why": "An after-action review asks people to relive the hardest weeks of their working lives, often the first time they have looked back at it at all. Checking in before they leave — and making sure every person knows where staff care is — is the last duty of care the response owes the people who carried it."
+    },
+    {
+      "cue": "Hold the review log open and read back the findings, the actions, their owners and dates before you sign.",
+      "holdBreakNote": "You signed without reading it back. Open the log and read the actions and owners to the room first.",
+      "id": "closing-log",
+      "kind": "hold",
+      "prompt": "Hold the review log open and read back the findings, the actions, their owners and dates before you sign.",
+      "seconds": 4,
+      "target": "war-aar-log",
+      "title": "Close the review log",
+      "why": "The review log is the record the next review will be measured against. Read back to the room before it is signed, every owner hears their name next to their action; signed without reading, the actions become someone else's problem the moment people walk out of the door."
+    }
+  ],
+  "supportLine": "your agency's staff welfare or staff counsellor service, or the peer-support contact named at your deployment briefing",
+  "tagline": "The review once the outbreak is over: the right people in the room, no blame and no rank, a timeline from the record, planned against actual, the frontline heard first, every action with an owner and a date, and the report shared",
+  "title": "SmartCiti.X~ After-Action Review VR",
+  "trade": "AAR facilitator — SEIU and AFSCME public-health staff, NNU/CNA nurses, and the humanitarian workforce deployed under IASC clusters",
+  "underwater": null,
+  "weather": "clear"
+}

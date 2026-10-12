@@ -1,0 +1,414 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "lead-safe-ready",
+    "name": "Lead-Safe Ready",
+    "note": "A unit turned with the paint disturbed safely, the dust verified gone and every device proven before the keys changed hands"
+  },
+  "category": "Building Systems & Facilities",
+  "certification": "EPA's Renovation, Repair and Painting rule under 40 CFR 745 for work that disturbs paint in pre-1978 housing — certified renovator and firm, containment, no dry sanding or open-flame removal, HEPA cleaning and cleaning verification; the asbestos NESHAP under 40 CFR 61 and OSHA's asbestos standard, 29 CFR 1926.1101, for textured ceilings that have not been surveyed; OSHA's lead standard for construction work, 29 CFR 1926.62; ASHRAE 188 for managing the building's hot water against Legionella and scald alike; NFPA 72 for the unit's smoke alarms; the local housing code's habitability standards and the state landlord-tenant statute's move-in condition; the apartment association's CAMT credential; SEIU and IUOE Local 39 building staff.",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ASHRAE",
+        "citedAs": "ASHRAE 188",
+        "id": "ashrae-188",
+        "title": "ANSI/ASHRAE 188 — Legionellosis: risk management for building water systems"
+      },
+      {
+        "body": "EPA",
+        "citedAs": "40 CFR 61",
+        "id": "epa-40-cfr-61",
+        "title": "40 CFR Part 61 — National Emission Standards for Hazardous Air Pollutants, including the asbestos NESHAP"
+      },
+      {
+        "body": "EPA",
+        "citedAs": "40 CFR 745",
+        "id": "epa-40-cfr-745",
+        "title": "40 CFR Part 745 — Lead-based paint activities and the Renovation, Repair and Painting rule"
+      },
+      {
+        "body": "union",
+        "citedAs": "IUOE",
+        "id": "iuoe-training",
+        "title": "IUOE local training funds and the IUOE National Training Fund — operating and stationary engineer apprenticeship"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 72",
+        "id": "nfpa-72",
+        "title": "NFPA 72 National Fire Alarm and Signaling Code"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.1101",
+        "id": "osha-1926-1101",
+        "title": "29 CFR 1926.1101 — Asbestos in construction"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.62",
+        "id": "osha-1926-62",
+        "title": "29 CFR 1926.62 — Lead in construction"
+      },
+      {
+        "body": "union",
+        "citedAs": "SEIU",
+        "id": "seiu-training",
+        "title": "SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Property Management",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "no-dust-out",
+        "name": "No Dust Out",
+        "note": "No unsafe action anywhere in the turn"
+      },
+      {
+        "id": "contained-first",
+        "name": "Contained First",
+        "note": "Containment set up in order on the first try"
+      },
+      {
+        "id": "tap-true",
+        "name": "Tap True",
+        "note": "Hot water committed near band centre"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-turn-unit",
+        "name": "Clean Turn",
+        "note": "No corrections anywhere"
+      },
+      {
+        "id": "turn-pace",
+        "name": "Turn Pace",
+        "note": "Inside 80% of par"
+      },
+      {
+        "id": "nine-straight",
+        "name": "Nine Straight",
+        "note": "Nine correct actions in a row"
+      }
+    ],
+    "currency": "UNITS",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Maintenance Helper",
+      "Maintenance Tech",
+      "Lead Tech",
+      "Maintenance Supervisor",
+      "Make-Ready Certified"
+    ],
+    "system": "Make-Ready"
+  },
+  "hazards": {
+    "door-wedge": "You are wedging the unit's entry door open onto the corridor to get some air through. That is a self-closing, rated door, and it is also your containment boundary — propped, it lets lead dust drift down a corridor where neighbours and their children walk, and it lets smoke into the corridor if anything in the unit ever catches.",
+    "dry-sander": "You are reaching for the orbital sander to take the trim back to bare wood. In a pre-1978 unit that paint is presumed lead, and 40 CFR 745 prohibits high-speed sanding without a HEPA shroud for exactly this reason: it turns a few chips into a fine dust that settles in the carpet and on the sills, where the next resident's toddler finds it on their hands.",
+    "popcorn-ceiling": "You are about to scrape the textured ceiling to 'freshen it up'. Nobody has surveyed it, and in a building this age that texture may contain asbestos. The asbestos NESHAP under 40 CFR 61 and OSHA's 29 CFR 1926.1101 both start from the same place: you find out what it is before you disturb it, not after a room is full of it.",
+    "shop-vac": "That is the ordinary shop vacuum. Its filter passes the fine lead dust straight through and blows it back into the room through the exhaust, which is worse than not vacuuming at all. EPA's renovation rule calls for a HEPA vacuum for exactly this clean-up."
+  },
+  "id": "pm-unit-turnover",
+  "indoor": "hotel",
+  "interrupts": [
+    {
+      "after": "wet-scrape",
+      "alert": "A painting contractor walks into the unit with a power sander, says he was sent to 'speed things up', and has no renovation firm certification on him.",
+      "cue": "Stop him at the door and check the certification board before anyone touches the paint.",
+      "delay": 2,
+      "id": "contractor-no-cert",
+      "kind": "Contractor without certification",
+      "missNote": "The contractor started without anyone checking his certification. Whatever his sander does next happens inside your containment, under your building's name, in a unit a family moves into on Friday.",
+      "seconds": 12,
+      "target": "rrp-cert-board",
+      "why": "Under 40 CFR 745, anyone paid to disturb paint in pre-1978 housing has to work for a certified firm with a certified renovator directing the job — and a power sander without a HEPA shroud is a prohibited practice whoever is holding it. Checking the posted certifications before he starts is the only point at which stopping him costs nothing.",
+      "wrongNote": "That does not stop him. Check the certification board — no certified firm, no paint work."
+    },
+    {
+      "after": "hepa-clean",
+      "alert": "The resident from next door knocks on the frame: there is fine dust coming under her door and her toddler is crawling on that floor.",
+      "cue": "Re-seal the containment flap at the unit door now, then talk to her.",
+      "delay": 3,
+      "id": "neighbour-dust",
+      "kind": "Neighbour at the door with a complaint",
+      "missNote": "The flap stayed open while the neighbour stood in the corridor. Dust kept moving out of the unit towards her door, and a complaint that started as a concern is now an exposure.",
+      "seconds": 12,
+      "target": "door-seal-flap",
+      "why": "Dust reaching the corridor means the containment has failed at its weakest point — the doorway flap — and the neighbour's child is exactly who the renovation rule exists to protect. Closing the breach first stops the exposure while you are still talking; the conversation, the corridor clean-up and a note to the manager follow.",
+      "wrongNote": "Not that. The breach is at the doorway — re-seal the containment flap first."
+    }
+  ],
+  "lateNotes": {
+    "building-log": "The turnover goes in the log when the unit is actually ready, not while the paint is still wet.",
+    "deadbolt-cylinder": "The lock is re-keyed last, once every trade is out of the unit. Change it now and you will be handing out the new key to contractors.",
+    "verification-card": "Cleaning verification comes after the HEPA clean — wiping the floor now would just prove it is still dirty."
+  },
+  "name": "Unit Turnover",
+  "parSeconds": 290,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "property-management"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "anti-tip-bracket",
+      "building-log",
+      "chip-bag",
+      "co-alarm",
+      "crew-checkin-board",
+      "deadbolt-cylinder",
+      "door-seal-flap",
+      "door-wedge",
+      "dry-sander",
+      "floor-plastic",
+      "gfci-outlet",
+      "hepa-vac",
+      "hepa-wand",
+      "make-ready-order",
+      "outlet-cover",
+      "popcorn-ceiling",
+      "rrp-cert-board",
+      "scrape-trim",
+      "shop-vac",
+      "sink-stop-valve",
+      "smoke-alarm",
+      "tap-thermometer",
+      "verification-card",
+      "warning-sign",
+      "waste-drum-socket",
+      "window-lock"
+    ],
+    "meshes": 206
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the move-out inspection and the make-ready scope, and note the building's year and the lead and asbestos records.",
+      "id": "make-ready-order",
+      "kind": "select",
+      "prompt": "Read the move-out inspection and the make-ready scope, and note the building's year and the lead and asbestos records.",
+      "target": "make-ready-order",
+      "title": "Read the make-ready order and the building records",
+      "why": "The make-ready order tells you what the last resident left and what the next one is owed; the building's year tells you which rules apply before you pick up a tool. A pre-1978 building means painted surfaces are presumed lead unless tested otherwise, and an unsurveyed textured ceiling is presumed a problem — both decisions are made at the clipboard, not halfway up a ladder."
+    },
+    {
+      "cue": "Before any paint is touched, three defects in this unit would fail a move-in inspection. Find them.",
+      "id": "unit-walk",
+      "itemNames": {
+        "anti-tip-bracket": "range anti-tip bracket missing",
+        "outlet-cover": "cracked outlet cover by the sink",
+        "window-lock": "window lock missing"
+      },
+      "itemNotes": {
+        "anti-tip-bracket": "The range has no anti-tip bracket. A child standing on an open oven door can pull a freestanding range over onto themselves — the bracket is the whole defence and it is often missing after a range is moved for cleaning.",
+        "outlet-cover": "A cracked cover beside a sink leaves live contacts a wet hand can find. It is a two-minute fix now and a shock later.",
+        "window-lock": "The window's sash lock is gone. Security of the unit is a habitability item in most local housing codes, and a ground-floor window that will not lock is the first thing a new resident notices at night."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Before any paint is touched, three defects in this unit would fail a move-in inspection. Find them.",
+      "targets": [
+        "window-lock",
+        "outlet-cover",
+        "anti-tip-bracket"
+      ],
+      "title": "Walk the unit for habitability defects",
+      "why": "The local housing code sets the floor the next resident is owed — locks that lock, outlets that are safe, appliances that cannot fall on anyone — and a make-ready is the one time the unit is empty enough to find everything. Walking it before the paint work means the fixes go on the list now instead of into a complaint the first week."
+    },
+    {
+      "anyOrder": false,
+      "cue": "Post the warning sign at the doorway, cover the floor beyond the work, and stage the HEPA vacuum inside.",
+      "id": "containment",
+      "itemNames": {
+        "floor-plastic": "floor covered six feet out from the trim",
+        "hepa-vac": "HEPA vacuum staged in the work area",
+        "warning-sign": "warning sign at the work-area entry"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Sign first, then plastic, then the vacuum. A work area with plastic down but no sign up is one someone walks into and tracks out of.",
+      "prompt": "Post the warning sign at the doorway, cover the floor beyond the work, and stage the HEPA vacuum inside.",
+      "targets": [
+        "warning-sign",
+        "floor-plastic",
+        "hepa-vac"
+      ],
+      "title": "Set up lead-safe containment",
+      "why": "EPA's renovation rule under 40 CFR 745 is built on keeping the dust where it is made: a sign so nobody walks in unaware, plastic that catches every chip, and the right vacuum within reach so clean-up happens inside the containment. Set up in that order, the boundary exists before the first chip falls rather than being chased afterwards."
+    },
+    {
+      "cue": "Mist the peeling paint on the window trim and scrape it while it is wet, holding the stroke through the whole flaking patch.",
+      "holdBreakNote": "You stopped before the patch was done and the edge is drying. Mist it again and finish the stroke while it is wet.",
+      "id": "wet-scrape",
+      "kind": "hold",
+      "prompt": "Mist the peeling paint on the window trim and scrape it while it is wet, holding the stroke through the whole flaking patch.",
+      "seconds": 5,
+      "target": "scrape-trim",
+      "title": "Mist and wet-scrape the peeling trim",
+      "why": "Water is the cheapest dust control there is: a misted surface lets the paint come away as damp chips that drop onto the plastic instead of a powder that hangs in the air. It is the method the renovation rule's training teaches in place of dry sanding, and OSHA's lead standard for construction, 29 CFR 1926.62, rewards it with far lower exposures for the person holding the scraper."
+    },
+    {
+      "cue": "Fold the chips into the heavy bag, goose-neck it shut and carry it to the covered waste drum.",
+      "drag": {
+        "missNote": "Not in the drum. Sealed chips go straight into the covered waste drum — not left on the floor outside the containment.",
+        "radius": 0.5,
+        "to": "waste-drum-socket"
+      },
+      "id": "bag-chips",
+      "kind": "drag",
+      "prompt": "Fold the chips into the heavy bag, goose-neck it shut and carry it to the covered waste drum.",
+      "target": "chip-bag",
+      "title": "Bag the chips and move them to the waste drum",
+      "why": "Paint chips that stay on the plastic get walked on and ground back into dust; bagged, sealed and carried to a covered container, they leave the work area as waste rather than as contamination. Folding the plastic inward before lifting it keeps the dirty side inside the bag."
+    },
+    {
+      "cue": "Work the HEPA wand across the floor and sills in slow, overlapping passes — fast strokes leave dust behind.",
+      "holdBreakNote": "The passes drifted out of the slow band. Bring the wand back to a steady, overlapping stroke and finish the floor.",
+      "id": "hepa-clean",
+      "kind": "track",
+      "prompt": "Work the HEPA wand across the floor and sills in slow, overlapping passes — fast strokes leave dust behind.",
+      "seconds": 6,
+      "target": "hepa-wand",
+      "title": "HEPA-vacuum the work area in slow passes",
+      "track": {
+        "drift": 0.1,
+        "fall": 0.4,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "HEPA WAND — PASS SPEED",
+        "rise": 0.45,
+        "start": 0.2
+      },
+      "why": "A HEPA filter only captures what the wand actually lifts, and a quick pass skims the top of the dust while leaving the fine fraction in the texture of the floor. Slow, overlapping strokes are what the renovation rule's cleaning procedure means, and they are what makes the verification card come out clean the first time rather than the third."
+    },
+    {
+      "cue": "Wipe the floor with a wet cleaning cloth and compare it to the verification card.",
+      "id": "cleaning-verification",
+      "kind": "select",
+      "prompt": "Wipe the floor with a wet cleaning cloth and compare it to the verification card.",
+      "target": "verification-card",
+      "title": "Verify the floor against the cleaning card",
+      "why": "Clean-looking is not clean: lead dust at a level that harms a child is invisible. The cleaning verification the renovation rule requires — a wet wipe held against a standard card — is the only step in the whole job that proves the dust is gone rather than asserting it, and a cloth darker than the card means the area is cleaned again."
+    },
+    {
+      "cue": "Turn the stop valve under the sink closed before the old faucet comes off.",
+      "id": "water-stop",
+      "kind": "turn",
+      "prompt": "Turn the stop valve under the sink closed before the old faucet comes off.",
+      "target": "sink-stop-valve",
+      "title": "Isolate the kitchen faucet",
+      "turn": {
+        "axis": "z",
+        "label": "SINK STOP VALVE",
+        "turns": 1.25
+      },
+      "why": "Every fixture in a unit should have its own stop so a faucet swap does not take down a whole riser and a floor of neighbours with it. Closing it and cracking the old faucet to prove it is off is the difference between a ten-minute job and a flooded cabinet — and a stop that will not close is itself a repair to log."
+    },
+    {
+      "cue": "Run the new faucet hot and commit when the thermometer settles inside the delivery band.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.56
+        ],
+        "label": "HOT WATER AT THE TAP",
+        "missNote": "Outside the delivery band — either a scald risk at the tap or a sign the system is running too cool. Let it settle and read it again.",
+        "speed": 0.55
+      },
+      "id": "water-heater-temp",
+      "kind": "gauge",
+      "prompt": "Run the new faucet hot and commit when the thermometer settles inside the delivery band.",
+      "target": "tap-thermometer",
+      "title": "Read the hot water at the tap",
+      "why": "Hot water is a balance between two harms. Too hot at the tap and a child or an older resident is scalded in seconds; too cool in the system and Legionella grows in the tank and the pipes. ASHRAE 188's water management approach keeps storage hot and delivery safe, and the tap reading on a make-ready is the number that tells you which side of the line this unit is on."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Test the smoke alarm, test the CO alarm, and trip and reset the GFCI by the sink.",
+      "id": "alarm-checks",
+      "itemNames": {
+        "co-alarm": "CO alarm tested",
+        "gfci-outlet": "GFCI tripped and reset",
+        "smoke-alarm": "smoke alarm tested"
+      },
+      "kind": "sequence",
+      "prompt": "Test the smoke alarm, test the CO alarm, and trip and reset the GFCI by the sink.",
+      "targets": [
+        "smoke-alarm",
+        "co-alarm",
+        "gfci-outlet"
+      ],
+      "title": "Prove the unit's life-safety devices",
+      "why": "These three are the devices that act when nobody is watching: NFPA 72 sets how a unit's smoke alarms are installed and kept working, a CO alarm is the only warning of a gas appliance going wrong at night, and a GFCI is what stops a shock at the sink. Each one is proven by making it act, and a make-ready is the last chance before a resident depends on it."
+    },
+    {
+      "cue": "Fit the re-keyed cylinder and turn the new key through until the bolt throws fully.",
+      "id": "rekey-deadbolt",
+      "kind": "turn",
+      "prompt": "Fit the re-keyed cylinder and turn the new key through until the bolt throws fully.",
+      "target": "deadbolt-cylinder",
+      "title": "Install the re-keyed cylinder and prove the deadbolt",
+      "turn": {
+        "axis": "z",
+        "label": "DEADBOLT",
+        "turns": 0.5
+      },
+      "why": "The previous resident, their friends and every contractor who has been through this week may still have a working key. A re-keyed cylinder is what makes the new resident's key the only one, and turning it through a full throw proves the bolt actually reaches the strike — a deadbolt that stops short is a lock in name only."
+    },
+    {
+      "cue": "Record the defects fixed, the lead-safe work and verification result, the tap temperature and the new key.",
+      "id": "building-log",
+      "kind": "select",
+      "prompt": "Record the defects fixed, the lead-safe work and verification result, the tap temperature and the new key.",
+      "target": "building-log",
+      "title": "Log the turnover in the building log",
+      "why": "EPA's renovation rule expects records of the lead-safe work to be kept, and the building log is where the rest of the turnover lives: what was fixed, what the tap read, which key is now live. When a new resident reports a problem in the first week, this entry is the difference between knowing what was done and guessing."
+    },
+    {
+      "cue": "Ask your co-worker how the day went — the contractor, the neighbour — and name the member line before you move on.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Ask your co-worker how the day went — the contractor, the neighbour — and name the member line before you move on.",
+      "target": "crew-checkin-board",
+      "title": "Check in with the painter before the next unit",
+      "why": "A turnover crew moves from unit to unit all week, fielding contractors who cut corners and neighbours who are upset about the dust, and a lot of that friction lands on whoever is holding the scraper. A short check-in between units, with the SEIU and IUOE Local 39 member lines named, is how a crew notices when one of them is carrying more than the job."
+    }
+  ],
+  "supportLine": "the SEIU member assistance line, IUOE Local 39's member services or your employer's EAP",
+  "tagline": "A pre-1978 unit made ready: defects found, lead-safe containment set, trim wet-scraped, chips bagged, the floor HEPA-cleaned and verified, the faucet swapped on an isolated line, hot water read at the tap, alarms proven and the lock re-keyed",
+  "title": "SmartCiti.X~ Unit Turnover VR",
+  "trade": "Maintenance technician — apartment association CAMT credential, SEIU building service and IUOE Local 39 engineering staff",
+  "underwater": null,
+  "weather": null
+}

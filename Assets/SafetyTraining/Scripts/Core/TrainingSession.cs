@@ -9,7 +9,8 @@ namespace SafetyTraining.Core
         Warehouse,
         FireResponse,
         ChemicalProcessing,
-        ElectricalMaintenance
+        ElectricalMaintenance,
+        ImmersiveLab
     }
 
     public enum InspectionOutcome

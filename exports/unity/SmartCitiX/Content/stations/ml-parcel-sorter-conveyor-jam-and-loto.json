@@ -1,0 +1,439 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "parcel-loto-certified",
+    "name": "Parcel Sorter LOTO Certified",
+    "note": "Isolated and locked the sorter before opening the guard, cleared the stuck parcel without reaching past a live gate, and proved the light curtain before trusting it again"
+  },
+  "category": "Manufacturing & Automation",
+  "certification": "OSHA 29 CFR 1910.147 the control of hazardous energy (lockout/tagout); OSHA 29 CFR 1910.212 general requirements for all machines, including presence-sensing safety devices; ASME B20.1 safety standard for conveyors and related equipment; NIOSH criteria on caught-in and entanglement injuries at unguarded conveyor lines; APWU training for mail processing plant clerks",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "APWU",
+        "id": "apwu-training",
+        "title": "APWU apprenticeship and training, as a training body"
+      },
+      {
+        "body": "ASME",
+        "citedAs": "ASME B20.1",
+        "id": "asme-b20-1",
+        "title": "ASME B20.1 — Safety standard for conveyors and related equipment"
+      },
+      {
+        "body": "NIOSH",
+        "citedAs": "NIOSH",
+        "id": "niosh-criteria",
+        "title": "NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.212",
+        "id": "osha-1910-212",
+        "title": "29 CFR 1910.212 — General requirements for all machines (machine guarding)"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Postal & Mail Processing",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "clean-line-read",
+        "name": "Clean Line Read",
+        "note": "Every guarding defect found without a hint"
+      },
+      {
+        "id": "wrap-point-caught",
+        "name": "Wrap Point Caught",
+        "note": "The coworker's loose drawstring flagged before it reached the belt"
+      },
+      {
+        "id": "curtain-proven",
+        "name": "Curtain Proven",
+        "note": "The light curtain was actually tested, not just trusted"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-shift",
+        "name": "Clean Shift",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "quick-clear",
+        "name": "Quick Clear",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "isolation-streak",
+        "name": "Isolation Streak",
+        "note": "Nine correct actions in a row"
+      }
+    ],
+    "currency": "ISOLATION",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Plant Clerk",
+      "Jam Aware",
+      "Isolation Handler",
+      "Parcel Line Authority",
+      "Parcel Sorter LOTO Certified"
+    ],
+    "system": "Parcel Line Isolation"
+  },
+  "hazards": {
+    "cardboard-guard-hazard": "A section of the belt's own guarding has been swapped for a taped-together patch of cardboard. Cardboard stops nothing — it is a guard-shaped placeholder that tells a passing clerk the opening is covered when it is not covered by anything that could actually stop a hand.",
+    "light-curtain-defeated-hazard": "The safety light curtain at the guard opening has been taped over so it reads clear no matter what actually breaks the beam. A defeated light curtain is a guard that looks like it is still doing its job right up until a hand crosses the opening and the line never stops for it.",
+    "loose-drawstring-hazard": "A coworker's hoodie drawstring is hanging loose within reach of the belt line. A drawstring, a loose glove cuff or a dangling ID lanyard near a moving belt is how a wrap-point injury starts — the belt does not need to be reached into for the belt to reach the clothing first.",
+    "stuck-divert-gate-hazard": "The divert gate is jammed half-open mid-cycle with a parcel wedged against its own hinge. A gate stuck like this can still swing the rest of its travel the instant whatever is holding it lets go, and a hand freeing the parcel by pushing the gate is a hand riding exactly that swing."
+  },
+  "id": "ml-parcel-sorter-conveyor-jam-and-loto",
+  "indoor": "plant",
+  "interrupts": [
+    {
+      "after": "clear-stuck-gate",
+      "alert": "The barcode scanner keeps alarming as an unreadable parcel loops back around the line instead of sorting, backing traffic up behind it.",
+      "cue": "Route it to the exception lane rather than reaching for it as it passes.",
+      "delay": 3,
+      "id": "recirculating-parcel",
+      "kind": "Unreadable parcel keeps recirculating",
+      "missNote": "The recirculating parcel was reached for on the live belt. The rest of the line was never isolated by anything this jam's lockout covered, and it was still moving the whole time.",
+      "seconds": 12,
+      "target": "exception-lane-button",
+      "why": "A parcel that will not scan is a parcel that keeps circulating until something is done about it, and reaching for a moving parcel on a live belt to solve that treats an active line the same as the isolated one this whole procedure has been protecting — the exception lane solves it without a hand ever going near the belt.",
+      "wrongNote": "Not that — the recirculating parcel goes to the exception lane, not into anyone's hand."
+    },
+    {
+      "after": "sensor-test",
+      "alert": "A coworker across the line has started to open a second access panel just as the restart begins.",
+      "cue": "Call out and stop them before the restart continues.",
+      "delay": 3,
+      "id": "coworker-second-panel",
+      "kind": "A coworker starts to open a second panel",
+      "missNote": "The restart continued while the second panel was still opening. One clerk's isolation does not cover a panel somebody else on the line just decided to open.",
+      "seconds": 11,
+      "target": "coworker-call-out",
+      "why": "A restart in progress and a second panel opening on the same line at the same moment is exactly the kind of overlap the plant's own procedure exists to prevent — calling out now is what keeps one clerk's restart from becoming another clerk's surprise.",
+      "wrongNote": "Not that — the coworker at the second panel gets called out to before this restart continues."
+    }
+  ],
+  "lateNotes": {
+    "sorter-access-guard": "The guard opens only once the drive is isolated and locked, never as the first move toward the jam.",
+    "stuck-parcel": "The parcel is cleared once the sorter is proven isolated, not on the strength of how still the gate looks."
+  },
+  "name": "Parcel Sorter Conveyor Jam & LOTO",
+  "parSeconds": 280,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "postal-and-mail-processing"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "conveyorSection",
+        "count": 4,
+        "kit": "equipment"
+      },
+      {
+        "builder": "1.04x1.7x1.24",
+        "count": 1,
+        "kit": "unknown"
+      },
+      {
+        "builder": "2.62x4.22x1.18",
+        "count": 1,
+        "kit": "unknown"
+      }
+    ],
+    "error": null,
+    "footprint": 2.8,
+    "hits": [
+      "belt-return-roller",
+      "cardboard-guard-hazard",
+      "coworker-call-out",
+      "crew-notify",
+      "divert-gate",
+      "exception-lane-button",
+      "intact-guard-decoy",
+      "light-curtain-defeated-hazard",
+      "light-curtain-test",
+      "loose-drawstring-hazard",
+      "loto-permit-board",
+      "maintenance-log",
+      "reject-bin-socket",
+      "residual-motion-indicator",
+      "safety-glasses",
+      "snug-gloves",
+      "sorter-access-guard",
+      "sorter-disconnect",
+      "sorter-lock",
+      "sorter-lock-remove",
+      "sorter-tag",
+      "sorter-tag-remove",
+      "stuck-divert-gate-hazard",
+      "stuck-parcel"
+    ],
+    "meshes": 156
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "anyOrder": true,
+      "cue": "Safety glasses and snug-fitting gloves — nothing loose — before stepping up to the sorter.",
+      "id": "ppe",
+      "itemNames": {
+        "safety-glasses": "safety glasses",
+        "snug-gloves": "snug-fitting gloves"
+      },
+      "kind": "sequence",
+      "prompt": "Safety glasses and snug-fitting gloves — nothing loose — before stepping up to the sorter.",
+      "targets": [
+        "safety-glasses",
+        "snug-gloves"
+      ],
+      "title": "Suit up before approaching the line",
+      "why": "A parcel line runs packages and stretch-wrapped loads past head height in places, and gloves that fit snug rather than hang loose at the cuff are what keep a clerk's own PPE from becoming the first thing the belt actually catches."
+    },
+    {
+      "cue": "Confirm today's LOTO permit for this sorter before touching anything on it.",
+      "id": "permit-read",
+      "kind": "select",
+      "prompt": "Confirm today's LOTO permit for this sorter before touching anything on it.",
+      "target": "loto-permit-board",
+      "title": "Read the isolation permit",
+      "why": "The permit is what tells a clerk which disconnect actually isolates this section of the sorter and who else may already be locked onto it — clearing a jam without reading it first means guessing at a disconnect that might belong to an entirely different span of line."
+    },
+    {
+      "cue": "Look over the line before touching it. Three things are already wrong with it — find them.",
+      "decoyNotes": {
+        "intact-guard-decoy": "That guard panel is the OEM steel panel, seated and fastened. Nothing to flag there."
+      },
+      "id": "machine-hazard-read",
+      "itemNames": {
+        "cardboard-guard-hazard": "the cardboard guard patch",
+        "light-curtain-defeated-hazard": "the taped-over light curtain",
+        "stuck-divert-gate-hazard": "the jammed divert gate"
+      },
+      "itemNotes": {
+        "cardboard-guard-hazard": "A guard-shaped patch of cardboard where real guarding used to be. It gets replaced, not walked past.",
+        "light-curtain-defeated-hazard": "Taped over so it reads clear no matter what breaks the beam. It gets reported and freed before this guard is trusted at all.",
+        "stuck-divert-gate-hazard": "Jammed half-open with a parcel wedged against its hinge. It gets isolated before it's ever pushed by hand."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look over the line before touching it. Three things are already wrong with it — find them.",
+      "targets": [
+        "light-curtain-defeated-hazard",
+        "cardboard-guard-hazard",
+        "stuck-divert-gate-hazard"
+      ],
+      "title": "Read the sorter for what is already wrong with it",
+      "why": "A sorter that looks fine from the aisle is not the same thing as one a clerk has actually checked — a defeated light curtain, a cardboard patch or a gate already jammed each quietly removes a control the line depends on, and finding them now costs a work order instead of costing someone the moment a hand crosses an opening the guard was supposed to cover."
+    },
+    {
+      "cue": "Look over the coworker working the line beside you. One thing about their own PPE is already a wrap-point risk — find it.",
+      "id": "coworker-ppe-check",
+      "itemNames": {
+        "loose-drawstring-hazard": "the coworker's loose drawstring"
+      },
+      "itemNotes": {
+        "loose-drawstring-hazard": "Hanging loose within reach of the belt line. It gets tucked in or cut off before it gets anywhere near moving parts."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look over the coworker working the line beside you. One thing about their own PPE is already a wrap-point risk — find it.",
+      "targets": [
+        "loose-drawstring-hazard"
+      ],
+      "title": "Read the line for a wrap-point risk",
+      "why": "A conveyor line does not need a hand reached into it to cause a wrap-point injury — a drawstring, a loose cuff or a lanyard hanging near a moving belt is enough on its own, and it is exactly the kind of hazard that is easier to see on somebody else than to notice on yourself."
+    },
+    {
+      "anyOrder": false,
+      "cue": "Isolate the sorter at its disconnect, apply your own lock, then apply the tag — in that order.",
+      "id": "main-disconnect-loto",
+      "itemNames": {
+        "sorter-disconnect": "sorter disconnect",
+        "sorter-lock": "personal lock",
+        "sorter-tag": "danger tag"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Disconnect, then lock, then tag — a lock with nothing isolated behind it protects nobody, and a tag with no lock behind it is only a note.",
+      "prompt": "Isolate the sorter at its disconnect, apply your own lock, then apply the tag — in that order.",
+      "targets": [
+        "sorter-disconnect",
+        "sorter-lock",
+        "sorter-tag"
+      ],
+      "title": "Isolate and lock the sorter",
+      "why": "The disconnect alone can be closed again by anyone who does not know a hand is about to be inside the guard; the lock is what makes that impossible without that person's own key, and the tag is what tells the next clerk on the floor why the lock is there — skip any one of the three and the jam gets cleared on a promise instead of a proof."
+    },
+    {
+      "cue": "Read the sorter's residual motion indicator and commit only once it shows fully stopped.",
+      "gauge": {
+        "green": [
+          0,
+          0.14
+        ],
+        "label": "RESIDUAL MOTION",
+        "missNote": "Committed while the gate was still coasting. The guard does not open until this reads fully stopped.",
+        "speed": 0.6
+      },
+      "id": "zero-energy-check",
+      "kind": "gauge",
+      "prompt": "Read the sorter's residual motion indicator and commit only once it shows fully stopped.",
+      "target": "residual-motion-indicator",
+      "title": "Check for residual motion",
+      "why": "A divert gate that has just been isolated can still be coasting on its own spring return, and opening the guard on the assumption that isolated means stopped is exactly the gap a residual motion check exists to close — the indicator is the only honest answer, not how still the gate looks."
+    },
+    {
+      "cue": "Turn the guard latch to open it, now that the sorter is isolated and stopped.",
+      "id": "guard-open",
+      "kind": "turn",
+      "prompt": "Turn the guard latch to open it, now that the sorter is isolated and stopped.",
+      "target": "sorter-access-guard",
+      "title": "Open the access guard",
+      "turn": {
+        "axis": "x",
+        "label": "GUARD LATCH",
+        "turns": 0.4
+      },
+      "why": "The guard is the last thing between a hand and the divert gate's own hinge, and opening it only after the sorter is proven isolated and stopped is what keeps this step from ever being the moment the line was still live."
+    },
+    {
+      "cue": "Carry the wedged parcel clear of the divert gate to the reject bin.",
+      "drag": {
+        "missNote": "Not into the reject bin — carry the parcel all the way clear of the gate before letting go.",
+        "radius": 0.45,
+        "to": "reject-bin-socket"
+      },
+      "id": "clear-stuck-gate",
+      "kind": "drag",
+      "prompt": "Carry the wedged parcel clear of the divert gate to the reject bin.",
+      "target": "stuck-parcel",
+      "title": "Clear the stuck parcel",
+      "why": "Clearing the parcel with the sorter isolated and the guard open means a hand never has to trust the gate's own spring to stay where it looks like it is — the parcel comes free because a hand pulled it, not because the gate happened to still be jammed when it did."
+    },
+    {
+      "cue": "Check the divert gate the parcel was wedged against for damage before closing the guard.",
+      "id": "gate-inspect",
+      "kind": "select",
+      "prompt": "Check the divert gate the parcel was wedged against for damage before closing the guard.",
+      "target": "divert-gate",
+      "title": "Inspect the divert gate",
+      "why": "A gate hinge that was strained by the jam will keep sticking on the next parcel that crosses it, and catching that now is a hinge repair on a scheduled work order, not a second jam an hour into the next shift."
+    },
+    {
+      "cue": "Turn the guard latch closed and confirm it seats before restoring power.",
+      "id": "guard-close",
+      "kind": "turn",
+      "prompt": "Turn the guard latch closed and confirm it seats before restoring power.",
+      "target": "sorter-access-guard",
+      "title": "Close and latch the guard",
+      "turn": {
+        "axis": "x",
+        "label": "GUARD LATCH",
+        "turns": 0.4
+      },
+      "why": "A guard that is not actually latched is not a guard once the sorter is re-energised — confirming the latch now is what keeps this from being the jam that gets cleared safely and then reopened by the first vibration once the line is running again."
+    },
+    {
+      "anyOrder": false,
+      "cue": "Remove the tag, remove your lock, then notify the crew — in that order, before the sorter is re-energised.",
+      "id": "restore-power",
+      "itemNames": {
+        "crew-notify": "notify the crew",
+        "sorter-lock-remove": "remove your lock",
+        "sorter-tag-remove": "remove the tag"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Tag off, then lock off, then the crew notified — restoring power before the crew knows is restoring it onto an assumption, not a confirmation.",
+      "prompt": "Remove the tag, remove your lock, then notify the crew — in that order, before the sorter is re-energised.",
+      "targets": [
+        "sorter-tag-remove",
+        "sorter-lock-remove",
+        "crew-notify"
+      ],
+      "title": "Return the isolation",
+      "why": "The tag and the lock come off in the order they went on, and notifying the crew before restoring power is what keeps anyone else on the line from being surprised by a sorter that starts moving again — reversing this order is how somebody re-energises a machine while another clerk still believes it is locked out."
+    },
+    {
+      "cue": "Hold your hand across the light curtain and confirm the power indicator drops before releasing it.",
+      "holdBreakNote": "The hand was pulled back before the power indicator was confirmed to drop. The light curtain is proven by watching it work, not by how it looks once the tape is off.",
+      "id": "sensor-test",
+      "kind": "hold",
+      "prompt": "Hold your hand across the light curtain and confirm the power indicator drops before releasing it.",
+      "seconds": 8,
+      "target": "light-curtain-test",
+      "title": "Prove the light curtain before trusting it",
+      "why": "A light curtain that was found taped over once is a light curtain worth proving rather than assumed fixed — holding a hand across it and watching for the power to actually drop is the difference between a guard trusted because it was repaired and one trusted because nobody checked."
+    },
+    {
+      "cue": "Restart the drive while keeping the belt tracking indicator inside the centred band.",
+      "holdBreakNote": "The belt drifted out of the centred band. Bring the tracking back under control before continuing the restart.",
+      "id": "restart-tracking",
+      "kind": "track",
+      "prompt": "Restart the drive while keeping the belt tracking indicator inside the centred band.",
+      "seconds": 8,
+      "target": "belt-return-roller",
+      "title": "Bring the line back up to speed",
+      "track": {
+        "drift": 0.1,
+        "fall": 0.4,
+        "green": [
+          0.38,
+          0.62
+        ],
+        "label": "BELT TRACKING",
+        "rise": 0.42,
+        "start": 0.5
+      },
+      "why": "Watching the tracking indicator through the restart is what catches a belt that is about to walk off true before it starts grinding against the frame — bringing a sorter back to speed is not just a power switch, it is confirming the belt is actually running where it is supposed to."
+    },
+    {
+      "cue": "Log the jam, the light curtain repair, the cardboard patch and the restart before moving on.",
+      "id": "closing-log",
+      "kind": "select",
+      "prompt": "Log the jam, the light curtain repair, the cardboard patch and the restart before moving on.",
+      "target": "maintenance-log",
+      "title": "Log the jam, the defects and the fix",
+      "why": "The maintenance log is what turns one cleared jam and one taped-over light curtain into a pattern the plant's own maintenance team can actually see — found but never logged is a recurring guarding failure nobody upstream ever gets the chance to fix for good."
+    }
+  ],
+  "supportLine": "your APWU local's member assistance representative, or the plant's own employee assistance line",
+  "tagline": "A parcel sorter's divert gate jammed mid-cycle: a defeated light curtain and a cardboard field patch found before either is trusted, a coworker's own loose drawstring read as a wrap-point risk, the drive isolated and locked before the guard opens, residual motion checked, the stuck parcel cleared without reaching past a live gate, and the light curtain proven before the line runs again",
+  "title": "SmartCiti.X~ Parcel Sorter Conveyor Jam & LOTO VR",
+  "trade": "Mail processing plant clerk — parcel sorter conveyor jam and lockout, APWU",
+  "underwater": null,
+  "weather": null
+}

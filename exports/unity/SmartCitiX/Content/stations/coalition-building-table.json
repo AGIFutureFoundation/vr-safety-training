@@ -1,0 +1,429 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "table-held",
+    "name": "Table Held",
+    "note": "Every partner heard, the opposition kept in the room, and a support count nobody had to inflate"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "The Ralph M. Brown Act (California Government Code section 54950 and following) and its bar on serial meetings, which a coalition breaks when it carries positions between members of a legislative body; the Political Reform Act, administered by the FPPC, and the municipal ethics code for gifts to officials and for paid advocacy; Robert's Rules of Order, or whatever decision rule the coalition adopts for itself, as a practice rather than a law; SAMHSA's trauma-informed principles of collaboration and mutuality and of voice and choice; SEIU and AFSCME as the labour partners at many such tables. The leadership principles practised here are principles commonly taught in civic-leadership programmes; the foundation's own curriculum is not sourced in this repository",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFSCME",
+        "id": "afscme-training",
+        "title": "AFSCME member education and safety training for public-service and air-district members"
+      },
+      {
+        "body": "California Government Code",
+        "citedAs": "Ralph M. Brown Act",
+        "id": "brown-act",
+        "title": "The Ralph M. Brown Act, California Government Code section 54950 and following — open and public meetings of local legislative bodies: the posted agenda, the public's right to comment, action only on noticed items, and the bar on serial meetings of a majority"
+      },
+      {
+        "body": "municipal ethics code",
+        "citedAs": "municipal ethics code",
+        "id": "municipal-ethics-code",
+        "title": "A city or county ethics code and the charter's ethics provisions — gifts from interested parties, lobbyist contact, misuse of public position and the revolving door; named generically, with no one jurisdiction's sections cited"
+      },
+      {
+        "body": "FPPC",
+        "citedAs": "Political Reform Act",
+        "id": "political-reform-act",
+        "title": "The Political Reform Act of 1974, administered by the Fair Political Practices Commission — annual economic-interest disclosure on the Statement of Economic Interests (Form 700), disqualification from any decision an official has a financial interest in, and gift limits and gift reporting"
+      },
+      {
+        "body": "Robert's Rules",
+        "citedAs": "Robert's Rules of Order",
+        "id": "roberts-rules",
+        "title": "Robert's Rules of Order Newly Revised — the parliamentary authority a body adopts in its own rules of procedure: a practice the body chooses, not a law"
+      },
+      {
+        "body": "SAMHSA",
+        "citedAs": "SAMHSA",
+        "id": "samhsa-trauma-informed",
+        "title": "SAMHSA's six principles of a trauma-informed approach"
+      },
+      {
+        "body": "union",
+        "citedAs": "SEIU",
+        "id": "seiu-training",
+        "title": "SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Civic",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "empty-chairs-seen",
+        "name": "Empty Chairs Seen",
+        "note": "Everybody missing from the table noticed before the meeting started"
+      },
+      {
+        "id": "nobody-shut-out",
+        "name": "Nobody Shut Out",
+        "note": "No unsafe action anywhere at the table"
+      },
+      {
+        "id": "honest-count",
+        "name": "Honest Count",
+        "note": "The support count read without a single inflated line"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-table",
+        "name": "Clean Table",
+        "note": "No corrections anywhere in the session"
+      },
+      {
+        "id": "right-sized",
+        "name": "Right-Sized Ask",
+        "note": "The ask sized inside the band"
+      },
+      {
+        "id": "patient-convenor",
+        "name": "Patient Convenor",
+        "note": "The listening and the tension both carried their full count"
+      }
+    ],
+    "currency": "ALLIES",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Volunteer",
+      "Convenor",
+      "Coalition Lead",
+      "Campaign Director",
+      "Organiser Mentor"
+    ],
+    "system": "Common Ground"
+  },
+  "hazards": {
+    "hidden-sponsor-envelope": "You took the developer's envelope to cover the coalition's costs without telling the partners. Undisclosed money from a party with a stake in the outcome is the fastest way to lose the tenants and the labour local both, and gifts that pass on to officials have to be reported.",
+    "private-majority-dinner": "You set up a private dinner for three of the five council members to \"talk it through\" with the coalition. Three of five is a majority of that body; a majority discussing the item out of public view, with you as the host, is the meeting the open-meeting law exists to stop — and your partners' names are on the invitation.",
+    "promise-locked-votes": "You told the partners the council votes are locked. They are not, nobody at this table can lock them, and a coalition that turns out on a promise of certain victory breaks up the night the vote goes the other way.",
+    "wave-down-opposition": "You waved the neighbourhood association's speaker down before she finished. The people who oppose you are the ones whose objections will come back at the hearing, and a coalition that will not hear them in its own room teaches them that the only place they will be heard is against you."
+  },
+  "id": "coalition-building-table",
+  "indoor": "hotel",
+  "interrupts": [
+    {
+      "after": "hear-each-partner",
+      "alert": "The labour local's rep holds up her phone: a council member has texted asking the coalition to find out privately how the other two supportive members will vote and report back.",
+      "cue": "Decline, in the room: the coalition will not carry one member's position to another.",
+      "delay": 3,
+      "id": "conduit-request",
+      "kind": "Asked to carry votes",
+      "missNote": "The rep texted back that the coalition would find out. Two partners have now been drawn into shuttling positions between council members, and if it surfaces the proposal and the coalition's credibility go down together.",
+      "seconds": 12,
+      "target": "no-conduit-card",
+      "why": "A coalition can lobby each member in the open as much as it likes. What it cannot do is become the go-between that lets a majority of the body deliberate without meeting — carrying one member's position to the next is a serial meeting with the coalition as its hub. Saying no out loud, at the table, protects the partners and the members both.",
+      "wrongNote": "The listening marker is for the partner who is speaking. The text needs an answer in the room: the coalition does not carry votes between members."
+    },
+    {
+      "after": "hold-the-table",
+      "alert": "The tenants' association rep has stood up, picked up her bag and is heading for the door, saying nobody at this table listens to renters.",
+      "cue": "Go to her: pull out her chair and ask her to finish her point first, before anybody else speaks.",
+      "delay": 3,
+      "id": "tenant-walks-out",
+      "kind": "Partner walking out",
+      "missNote": "She left. The coalition now speaks for the renters without any renters in it, and the neighbourhood association will say exactly that at the hearing.",
+      "seconds": 12,
+      "target": "pull-out-a-chair",
+      "why": "The partner walking out is telling you the table failed her, and the tenants are the people the proposal affects most. Asking her back by name, pulling out her chair and giving her the floor before anybody else speaks brings her in rather than letting the room close behind her — and everybody else at the table learns what happens here when a partner is not heard.",
+      "wrongNote": "The tension meter is the room. She is one person leaving it — go to her directly and give her the floor."
+    }
+  ],
+  "lateNotes": {
+    "local-hire-card": "Common ground comes after every partner has been heard and one position has been turned into its interest — not before.",
+    "notes-log-board": "The notes go out once the commitments are assigned; there is nothing agreed to circulate yet."
+  },
+  "name": "Coalition Building Table",
+  "parSeconds": 330,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "civic-leadership-and-ei"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "agenda-wheel",
+      "ask-meter",
+      "ask-what-you-fear",
+      "ask-what-you-want",
+      "ask-why-it-matters",
+      "common-ground-board",
+      "count-condition-unmet",
+      "count-double-counted",
+      "count-in-writing",
+      "count-maybe-as-yes",
+      "crew-checkin-board",
+      "gap-name-tents",
+      "gap-no-interpreter",
+      "gap-renters-uninvited",
+      "gap-weekday-afternoon",
+      "ground-rules-card",
+      "hidden-sponsor-envelope",
+      "listen-bead",
+      "local-hire-card",
+      "no-conduit-card",
+      "notes-log-board",
+      "private-majority-dinner",
+      "promise-locked-votes",
+      "pull-out-a-chair",
+      "reflect-the-interest",
+      "task-testimony",
+      "task-translation",
+      "task-turnout",
+      "tension-meter",
+      "tradeoff-card",
+      "wave-down-opposition"
+    ],
+    "meshes": 235
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Look around the room. Three things are keeping people who belong here out of it.",
+      "decoyNotes": {
+        "gap-name-tents": "Name tents are a courtesy that helps people address each other. They are not what keeps anybody away."
+      },
+      "id": "who-is-missing",
+      "itemNames": {
+        "gap-no-interpreter": "no interpreter for the partners who asked for one",
+        "gap-renters-uninvited": "the renters in the affected blocks — never invited",
+        "gap-weekday-afternoon": "a two o'clock weekday meeting time"
+      },
+      "itemNotes": {
+        "gap-no-interpreter": "Two partners asked for interpretation. Without it they are present and not at the table.",
+        "gap-renters-uninvited": "The people the proposal affects most have an empty chair with a name tent and no invitation behind it. Fix that before anything else is decided.",
+        "gap-weekday-afternoon": "Two in the afternoon on a weekday means shift workers, parents and students cannot come. The time chose the coalition before you did."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look around the room. Three things are keeping people who belong here out of it.",
+      "targets": [
+        "gap-renters-uninvited",
+        "gap-no-interpreter",
+        "gap-weekday-afternoon"
+      ],
+      "title": "Find who is missing from the table",
+      "why": "A coalition is only as strong as the people it actually represents, and the ones missing from the first meeting become the ones who say at the hearing that nobody asked them. Uninvited renters, a partner who cannot follow the conversation and a meeting time only salaried people can make all narrow the table quietly. Bringing people in starts with noticing who is not there."
+    },
+    {
+      "cue": "Turn the wheel so every partner's slot is the same size — the biggest organisation does not get the biggest slice.",
+      "id": "turn-the-agenda-wheel",
+      "kind": "turn",
+      "prompt": "Turn the wheel so every partner's slot is the same size — the biggest organisation does not get the biggest slice.",
+      "target": "agenda-wheel",
+      "title": "Set equal time on the agenda wheel",
+      "turn": {
+        "axis": "y",
+        "label": "AGENDA TIME",
+        "turns": 0.5
+      },
+      "why": "Time at the table is power at the table. Left alone, it flows to whoever has the most staff, the loudest voice or the longest history with the convenor, and the youth programme and the tenants learn in the first twenty minutes that they are there for the photograph. Equal slots set out in public before anybody speaks are a small structure that changes who gets heard."
+    },
+    {
+      "cue": "One speaker at a time, argue with ideas not people, nothing said here is quoted outside without permission.",
+      "id": "set-ground-rules",
+      "kind": "select",
+      "prompt": "One speaker at a time, argue with ideas not people, nothing said here is quoted outside without permission.",
+      "target": "ground-rules-card",
+      "title": "Agree the ground rules out loud",
+      "why": "Ground rules agreed by the room, rather than announced by the convenor, are what the room can hold itself to when the item gets hot. They also say to the partners with the least power that the meeting will protect them — that disagreeing with the labour local, or with you, will not cost them their seat or be repeated on the street tomorrow."
+    },
+    {
+      "cue": "Hold your attention on the speaker. No rebuttal, no side comments, no drafting your reply.",
+      "holdBreakNote": "You started drafting your reply while she was still talking, and it showed. Put the pen down and hear the rest.",
+      "id": "hear-each-partner",
+      "kind": "hold",
+      "prompt": "Hold your attention on the speaker. No rebuttal, no side comments, no drafting your reply.",
+      "seconds": 8,
+      "target": "listen-bead",
+      "title": "Hear each partner state their position in full",
+      "why": "Every partner arrives with a position, and the position is almost never the whole story. The only way to find what sits underneath it is to let each one say it completely, in their own words, without the convenor visibly preparing a response. Listening first is not a courtesy here; it is how the coalition learns what it can actually agree on."
+    },
+    {
+      "cue": "Ask what they want, then why it matters, then what they fear — then say the interest back.",
+      "id": "position-to-interest",
+      "itemNames": {
+        "ask-what-you-fear": "what are you afraid happens if you don't get it?",
+        "ask-what-you-want": "what do you want?",
+        "ask-why-it-matters": "why does that matter to you?",
+        "reflect-the-interest": "say the interest back in their words"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "What, then why, then the fear, then reflect it back. Opening with their fear before you have asked what they want sounds like you have already decided what they are.",
+      "prompt": "Ask what they want, then why it matters, then what they fear — then say the interest back.",
+      "targets": [
+        "ask-what-you-want",
+        "ask-why-it-matters",
+        "ask-what-you-fear",
+        "reflect-the-interest"
+      ],
+      "title": "Turn the business group's position into its interest",
+      "why": "The small-business group's position is \"no construction on our block\". The interest underneath is that three months of blocked frontage would close two shops that have no cushion. Positions collide; interests often do not — a phased schedule and a guaranteed loading zone meet this one without killing the project. The questions have to come in order, because \"what are you afraid of\" asked first sounds like an accusation."
+    },
+    {
+      "cue": "Local hiring came up from three partners. Carry it from the positions wall to the common-ground board.",
+      "drag": {
+        "missNote": "Not on the common-ground board. An interest three partners share is the spine of the coalition — put it where everybody can see it holds them together.",
+        "radius": 0.6,
+        "to": "common-ground-board"
+      },
+      "id": "move-to-common-ground",
+      "kind": "drag",
+      "prompt": "Local hiring came up from three partners. Carry it from the positions wall to the common-ground board.",
+      "target": "local-hire-card",
+      "title": "Move the shared interest onto the common-ground board",
+      "why": "Coalitions are built on the interests partners share, not the positions they came in with. Local hiring was said three different ways by the labour local, the youth programme and the tenants; putting it on the common-ground board in plain sight turns three separate asks into one thing the whole table can stand behind, and it gives the next hard conversation somewhere solid to start."
+    },
+    {
+      "cue": "Commit the ask inside the band: big enough to move people, small enough that nobody walks away.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "THE ASK",
+        "missNote": "Outside the band. An ask nobody would turn out for does not need a coalition; one the business group or the neighbourhood association cannot live with splits the table before the hearing. Find the one they can all carry.",
+        "speed": 0.6
+      },
+      "id": "size-the-ask",
+      "kind": "gauge",
+      "prompt": "Commit the ask inside the band: big enough to move people, small enough that nobody walks away.",
+      "target": "ask-meter",
+      "title": "Size the coalition's ask",
+      "why": "The size of the ask decides who stays. Ask for too little and the partners with the most at stake stop coming, because nothing worth their evenings is on the table; ask for everything and the partners who were only half in go home. The right ask is the largest one every partner at the table can defend in front of their own members."
+    },
+    {
+      "cue": "Say it plainly: labour gives up the project labour agreement ask, the business group gives up a full veto, the tenants get the phasing.",
+      "id": "name-the-tradeoffs",
+      "kind": "select",
+      "prompt": "Say it plainly: labour gives up the project labour agreement ask, the business group gives up a full veto, the tenants get the phasing.",
+      "target": "tradeoff-card",
+      "title": "Name what each partner is giving up, out loud",
+      "why": "Every coalition agreement costs every partner something, and the cost nobody names is the one that resurfaces as a grievance later. Saying out loud, in the room, what each organisation is giving up treats the partners as adults, lets them take it back to their own members honestly, and makes it much harder for anybody to claim afterwards that they were not told."
+    },
+    {
+      "cue": "The neighbourhood association is speaking against the proposal. Keep the tension in the band — not smothered, not boiling.",
+      "holdBreakNote": "The table slipped — either the argument was shut down or it ran away. Bring it back: the opposition keeps the floor, and nobody interrupts her.",
+      "id": "hold-the-table",
+      "kind": "track",
+      "prompt": "The neighbourhood association is speaking against the proposal. Keep the tension in the band — not smothered, not boiling.",
+      "seconds": 8,
+      "target": "tension-meter",
+      "title": "Hold the table together while the opposition speaks",
+      "track": {
+        "drift": 0.16,
+        "fall": 0.4,
+        "green": [
+          0.3,
+          0.7
+        ],
+        "label": "TENSION",
+        "rise": 0.48,
+        "start": 0.5
+      },
+      "why": "Disagreement is the coalition's raw material, and smothering it only moves it to the parking lot. Letting it boil over loses the partners who came to build something, not to fight. The convenor's job while the opposition speaks is continuous: a hand up to stop a heckle, a nod that says keep going, the same patience for the people against you as for the people with you."
+    },
+    {
+      "cue": "Read the support tally. Mark every line that is not really a yes.",
+      "decoyNotes": {
+        "count-in-writing": "A letter of support signed by the business group's board is exactly what a confirmed yes looks like. Leave it counted."
+      },
+      "id": "count-honestly",
+      "itemNames": {
+        "count-condition-unmet": "a yes whose condition has not been met",
+        "count-double-counted": "one organisation counted twice through two reps",
+        "count-maybe-as-yes": "a \"maybe\" written down as a yes"
+      },
+      "itemNotes": {
+        "count-condition-unmet": "Labour's yes depends on the local-hire language, which is not written yet. Mark it conditional until it is.",
+        "count-double-counted": "Two people from the same congregation are two voices and one organisation. Count the organisation once.",
+        "count-maybe-as-yes": "The youth programme said they would take it to their board. That is not a yes yet, and counting it as one is how you find out on the night that it was not."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Read the support tally. Mark every line that is not really a yes.",
+      "targets": [
+        "count-maybe-as-yes",
+        "count-condition-unmet",
+        "count-double-counted"
+      ],
+      "title": "Count your support honestly before anybody says it is won",
+      "why": "Counting the votes before the vote is one of the oldest rules in public life, and its whole value is that the count is honest. A tally padded with maybes, conditional yeses and the same organisation counted twice tells the coalition it is winning right up until it loses. The convenor's job is to be the person at the table who writes down what people actually said."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Turnout, testimony and translation — each one owned by a named partner before anybody leaves.",
+      "id": "assign-commitments",
+      "itemNames": {
+        "task-testimony": "three-minute testimony — the business group and the youth programme",
+        "task-translation": "translated flyers — the neighbourhood association, who offered",
+        "task-turnout": "turnout for the hearing — the tenants and the labour local"
+      },
+      "kind": "sequence",
+      "prompt": "Turnout, testimony and translation — each one owned by a named partner before anybody leaves.",
+      "targets": [
+        "task-turnout",
+        "task-testimony",
+        "task-translation"
+      ],
+      "title": "Leave with a commitment from every partner",
+      "why": "A coalition that leaves the room with a warm feeling and no tasks has held a meeting, not built anything. Each partner leaving with a specific, named piece of work — and the opposed neighbourhood association offering the translation because it was heard tonight — is what makes the coalition exist on the day of the hearing rather than only on the night it met."
+    },
+    {
+      "cue": "Agreements, who owes what by when, and the neighbourhood association's objection recorded in its own words.",
+      "id": "circulate-notes",
+      "kind": "select",
+      "prompt": "Agreements, who owes what by when, and the neighbourhood association's objection recorded in its own words.",
+      "target": "notes-log-board",
+      "title": "Circulate the notes, with the dissent in them",
+      "why": "Notes that record only the agreement tell the partners who disagreed that their objection has already been erased. Writing the dissent down in the objector's own words, alongside the commitments and the dates, keeps faith with everybody in the room and is the record the coalition will need when somebody asks, months later, what was actually agreed."
+    },
+    {
+      "cue": "Two minutes by the door: how did that land, and what do we each need before the next one?",
+      "id": "crew-check-in",
+      "kind": "select",
+      "prompt": "Two minutes by the door: how did that land, and what do we each need before the next one?",
+      "target": "crew-checkin-board",
+      "title": "Check in with your co-organiser before you pack up",
+      "why": "Holding a divided table for two hours is draining, and the convenor absorbs a share of everybody's frustration. A short check-in with the co-organiser — how did it land, who needs a call tomorrow, the support line if it stays with you — is how organisers last long enough to build the coalitions that take years rather than evenings."
+    }
+  ],
+  "supportLine": "your organisation's own support line, or a fellow organiser who has held a coalition together and will take the call",
+  "tagline": "Five organisations, one proposal and a room that could split: find who is missing, hear every partner, turn positions into interests, size the ask, keep the opposition at the table — and count your support honestly",
+  "title": "SmartCiti.X~ Coalition Building Table VR",
+  "trade": "Community organiser — coalition convenor",
+  "underwater": null,
+  "weather": "clear"
+}

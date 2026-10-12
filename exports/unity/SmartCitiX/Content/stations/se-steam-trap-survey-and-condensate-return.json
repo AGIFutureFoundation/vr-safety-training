@@ -1,0 +1,385 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "trap-line-certified",
+    "name": "Trap Line Certified",
+    "note": "Every trap isolated before it was opened, the swap made in order, and the bypass valve never touched without the permit"
+  },
+  "category": "Building Systems & Facilities",
+  "certification": "ASME Boiler and Pressure Vessel Code practice for the steam side of this plant, the National Board Inspection Code for the vessels it feeds, ASME B31.9 building services piping for the trap and return lines, 29 CFR 1910.147 control of hazardous energy for isolating a trap before it is opened, and IUOE local training fund stationary engineer curricula",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ASME",
+        "citedAs": "ASME B31.9",
+        "id": "asme-b31-9",
+        "title": "ASME B31.9 — Building services piping"
+      },
+      {
+        "body": "ASME",
+        "citedAs": "Boiler and Pressure Vessel Code",
+        "id": "asme-bpvc",
+        "title": "ASME Boiler and Pressure Vessel Code"
+      },
+      {
+        "body": "union",
+        "citedAs": "IUOE",
+        "id": "iuoe-training",
+        "title": "IUOE local training funds and the IUOE National Training Fund — operating and stationary engineer apprenticeship"
+      },
+      {
+        "body": "NBIC",
+        "citedAs": "National Board Inspection Code",
+        "id": "nbic",
+        "title": "National Board Inspection Code, maintained by the National Board of Boiler and Pressure Vessel Inspectors — inspection, repair and alteration practice for boilers and pressure vessels in service"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Facilities",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "isolated-before-open",
+        "name": "Isolated Before Open",
+        "note": "The trap under test locked and tagged before the swap began"
+      },
+      {
+        "id": "pump-primed-clean",
+        "name": "Pump Primed Clean",
+        "note": "The return pump held to a full catch on the first try"
+      },
+      {
+        "id": "never-a-shortcut",
+        "name": "Never a Shortcut",
+        "note": "Never the bypass valve touched without a permit, never a bare hand on live steam, never the cutout overridden"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-survey",
+        "name": "Clean Survey",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "differential-on-the-band",
+        "name": "Differential On The Band",
+        "note": "Temperature differential committed inside the band first time"
+      },
+      {
+        "id": "survey-logged-fast",
+        "name": "Survey Logged Fast",
+        "note": "Survey log closed inside 80% of par"
+      }
+    ],
+    "currency": "TAG",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Plant Hand",
+      "Survey Crew",
+      "Trap Line Lead",
+      "Condensate Certified",
+      "Stationary Engineer Certified"
+    ],
+    "system": "Trap Survey"
+  },
+  "hazards": {
+    "bare-hand-steam-line": "You put a bare hand on the uninsulated steam line instead of keeping the heat-resistant glove on. A line carrying saturated steam is well past the temperature a bare hand can touch for even a moment without a burn, and the glove exists specifically for the sections of this survey — like reading a trap body by feel — where an instrument alone will not tell you what your hand can.",
+    "bypass-without-permit": "You opened the manual bypass valve around the stuck trap without a permit or a call to the plant supervisor. The bypass routes live steam straight past the trap that is supposed to be controlling it, and opening it on your own authority — rather than under a written bypass permit everyone on shift can see — is how a temporary workaround becomes the reason nobody downstream knows there is uncontrolled steam in a line they think is trapped.",
+    "override-pump-cutout": "You forced the condensate pump's low-level cutout switch to keep it running instead of letting it stop on its own. The cutout exists to stop the pump before it runs dry and burns out its seals, and overriding it to squeeze one more cycle out of a low tank is how a pump that would have restarted fine in ten minutes becomes a pump that needs to be pulled and rebuilt.",
+    "stand-in-vent-path": "You stood directly in line with the vent stack's discharge instead of stepping to the side before it fired. A condensate vent can discharge flash steam without warning the moment a trap cycles, and standing in its path is choosing to find out how hot that discharge is by standing in it rather than by reading the plant's own diagram of where it points."
+  },
+  "id": "se-steam-trap-survey-and-condensate-return",
+  "indoor": "plant",
+  "interrupts": [
+    {
+      "after": "temp-differential",
+      "alert": "A pressure relief valve on a nearby vessel has just lifted with a loud, sustained discharge.",
+      "cue": "Break off the trap reading and move to the muster point until the discharge is confirmed clear.",
+      "delay": 2,
+      "id": "relief-valve-lift",
+      "kind": "A pressure relief valve lifts nearby mid-survey",
+      "missNote": "The trap reading continued through the discharge; nobody moved to the muster point until the supervisor came looking for the crew still standing at the trap line.",
+      "seconds": 14,
+      "target": "muster-point",
+      "why": "A relief valve lifting is the vessel telling the whole room it is at its set pressure, and standing near a trap reading while that discharge is still running is standing near a plant that just told you it is working outside its normal band. The muster point is where the survey waits until someone confirms the vessel is back under control.",
+      "wrongNote": "The muster point — a relief valve lift is answered by clearing the area, not by finishing the reading you were already taking."
+    },
+    {
+      "after": "prime-pump",
+      "alert": "The condensate pump's alarm is sounding for cavitation — a knocking sound has started at the pump casing.",
+      "cue": "Hit the pump's emergency stop now — the sight glass reading waits.",
+      "delay": 2,
+      "id": "pump-cavitation-alarm",
+      "kind": "The condensate pump alarms for cavitation mid-prime",
+      "missNote": "The pump kept running while the sight glass was checked first; the knocking continued the whole time until someone finally reached the e-stop.",
+      "seconds": 12,
+      "target": "pump-estop",
+      "why": "A cavitating pump is already damaging its own impeller with every second it keeps turning, and the emergency stop is what ends that before a knocking sound becomes a pump that needs new internals — reading the sight glass can wait the few seconds the e-stop takes to reach.",
+      "wrongNote": "The pump's emergency stop — a cavitation alarm is answered immediately, not after finishing the reading already underway."
+    }
+  ],
+  "lateNotes": {
+    "isolation-valve": "Nothing to reopen yet — the new trap goes in before the isolation valve is turned back open.",
+    "new-trap": "There is no trap to swap yet — the line under test has to be locked out first.",
+    "pump-switch": "Nothing to prime yet — check the receiver tank's level before starting the pump."
+  },
+  "name": "Steam Trap Survey & Condensate Return",
+  "parSeconds": 330,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "stationary-engineer"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.8,
+    "hits": [
+      "acoustic-detector",
+      "bare-hand-steam-line",
+      "bypass-without-permit",
+      "face-shield",
+      "failed-trap-tag",
+      "heat-gloves",
+      "ir-thermometer",
+      "isolation-valve",
+      "leaking-union",
+      "muster-point",
+      "new-trap",
+      "override-pump-cutout",
+      "plant-radio",
+      "pump-estop",
+      "pump-switch",
+      "sight-glass",
+      "stand-in-vent-path",
+      "survey-board",
+      "survey-log-board",
+      "tank-level-gauge",
+      "trap-lockout",
+      "trap-socket"
+    ],
+    "meshes": 152
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the work order: which trap is under test, the differential band that counts as passing, and the bypass permit rule.",
+      "id": "read-work-order",
+      "kind": "select",
+      "prompt": "Read the work order: which trap is under test, the differential band that counts as passing, and the bypass permit rule.",
+      "target": "survey-board",
+      "title": "Read the survey work order",
+      "why": "The work order is what turns a walk down the steam main into a survey with a pass criterion, rather than a guess at which of three traps actually needs attention — it names the trap, the differential band a healthy trap should read, and the one rule that never changes: the bypass valve does not open without its own permit."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Heat-resistant gloves and a face shield on before reading any trap by hand or cracking a fitting.",
+      "id": "don-ppe",
+      "itemNames": {
+        "face-shield": "face shield",
+        "heat-gloves": "heat-resistant gloves"
+      },
+      "kind": "sequence",
+      "prompt": "Heat-resistant gloves and a face shield on before reading any trap by hand or cracking a fitting.",
+      "targets": [
+        "heat-gloves",
+        "face-shield"
+      ],
+      "title": "Heat-resistant gloves and face shield on before touching the main",
+      "why": "A steam main runs hot enough to burn skin on contact and can vent without warning the moment a trap or a union lets go, and the gloves and face shield are what let this survey involve actually touching pipe rather than reading everything from three feet back."
+    },
+    {
+      "cue": "Close the trap's isolation valve, lock it and hang your tag before doing anything else to this trap.",
+      "id": "lockout-trap-line",
+      "kind": "select",
+      "prompt": "Close the trap's isolation valve, lock it and hang your tag before doing anything else to this trap.",
+      "target": "trap-lockout",
+      "title": "Lock and tag the trap under test before opening it",
+      "why": "29 CFR 1910.147 exists because a trap that looks isolated and a trap that is actually locked out are not the same thing to the hand about to open it — the lock and tag are what keep someone else on shift from opening that valve back up while this trap is apart on the bench."
+    },
+    {
+      "cue": "Read the inlet and outlet temperatures with the infrared thermometer and commit the differential once it settles inside the band.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "Δ TEMP",
+        "missNote": "Not settled inside the band — hold the thermometer on both sides of the trap until the reading stops moving before you commit it.",
+        "speed": 0.65
+      },
+      "id": "temp-differential",
+      "kind": "gauge",
+      "prompt": "Read the inlet and outlet temperatures with the infrared thermometer and commit the differential once it settles inside the band.",
+      "target": "ir-thermometer",
+      "title": "Read the temperature differential across the trap",
+      "why": "A healthy trap runs measurably hotter on the inlet side than the outlet, and a differential outside that band is the trap telling you which way it has failed — stuck open and blowing steam straight through, or stuck shut and backing condensate up into the main. Reading it now, before the trap comes apart, is what tells you whether this is even the trap the work order sent you to."
+    },
+    {
+      "cue": "Hold the acoustic detector against the trap body, keeping the reading inside the band the whole listen.",
+      "holdBreakNote": "The listen broke off before the interval finished — an intermittent blow-through is exactly what a short listen misses.",
+      "id": "listen-for-blow-through",
+      "kind": "track",
+      "prompt": "Hold the acoustic detector against the trap body, keeping the reading inside the band the whole listen.",
+      "seconds": 6,
+      "target": "acoustic-detector",
+      "title": "Hold the acoustic reading on the trap, listening for blow-through",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.3,
+        "green": [
+          0.2,
+          0.42
+        ],
+        "label": "ACOUSTIC",
+        "rise": 0.4,
+        "start": 0.3
+      },
+      "why": "A trap that is blowing through sounds different under an acoustic probe than one cycling normally, and holding the listen for the full interval — rather than a quick touch — is what catches a trap that only blows through intermittently instead of passing it on a lucky half-second."
+    },
+    {
+      "cue": "Look down the length of the steam main for anything venting that should not be — a weeping union, a hissing gasket.",
+      "id": "find-hidden-leak",
+      "itemNames": {
+        "leaking-union": "weeping union fitting down the line"
+      },
+      "itemNotes": {
+        "leaking-union": "A union fitting further down the steam main is weeping a thin plume — small enough to miss from a distance, big enough to tag for the next maintenance window before it grows."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look down the length of the steam main for anything venting that should not be — a weeping union, a hissing gasket.",
+      "targets": [
+        "leaking-union"
+      ],
+      "title": "Walk the rest of the main before moving to the trap swap",
+      "why": "A survey that stops at the one trap on the work order misses everything else on the main that is failing quietly in the background, and walking the rest of the line with your eyes up — rather than heading straight for the trap under test — is what catches a small leak while it is still small enough to schedule instead of emergency work."
+    },
+    {
+      "cue": "Hang a failed-equipment tag on the trap once the differential and the acoustic reading both confirm it has failed.",
+      "id": "tag-failed-trap",
+      "kind": "select",
+      "prompt": "Hang a failed-equipment tag on the trap once the differential and the acoustic reading both confirm it has failed.",
+      "target": "failed-trap-tag",
+      "title": "Tag the failed trap for replacement",
+      "why": "A trap pulled without a tag on the record is a trap the next engineer has no way of knowing was ever tested, and tagging it now — while the readings that condemned it are still fresh — is what makes the swap traceable back to the actual survey rather than a guess made later from memory."
+    },
+    {
+      "cue": "Carry the new trap from the bench and seat it into the isolated trap body's socket.",
+      "drag": {
+        "missNote": "Not seated in the trap body — the replacement has to go fully into the socket the old trap came out of, not rest against the outside of it.",
+        "radius": 0.5,
+        "to": "trap-socket"
+      },
+      "id": "swap-trap",
+      "kind": "drag",
+      "prompt": "Carry the new trap from the bench and seat it into the isolated trap body's socket.",
+      "target": "new-trap",
+      "title": "Set the replacement trap into the isolated body",
+      "why": "The replacement only does its job seated fully into the body the old trap came out of, and doing this with the line already locked out is what makes the swap a maintenance task instead of a race against live steam on the other side of a valve someone forgot to close."
+    },
+    {
+      "cue": "Turn the isolation valve back open slowly, watching for a clean cycle rather than counting turns.",
+      "id": "restore-isolation",
+      "kind": "turn",
+      "prompt": "Turn the isolation valve back open slowly, watching for a clean cycle rather than counting turns.",
+      "target": "isolation-valve",
+      "title": "Reopen the trap's isolation valve",
+      "turn": {
+        "label": "VALVE",
+        "turns": 1
+      },
+      "why": "Reopening the valve too fast slams live steam into a trap that has been sitting cold, which is exactly the thermal shock that shortens the life of the replacement you just installed — opening it slowly, watching the trap take up steam evenly, is what makes this swap last until the next scheduled survey instead of failing again in a month."
+    },
+    {
+      "cue": "Read the receiver tank's level gauge and commit the reading once it settles inside the band before starting the pump.",
+      "gauge": {
+        "green": [
+          0.35,
+          0.6
+        ],
+        "label": "TANK LEVEL",
+        "missNote": "Not settled inside the band — hold the gauge until the level stops moving before you commit it.",
+        "speed": 0.65
+      },
+      "id": "condensate-level-gauge",
+      "kind": "gauge",
+      "prompt": "Read the receiver tank's level gauge and commit the reading once it settles inside the band before starting the pump.",
+      "target": "tank-level-gauge",
+      "title": "Read the condensate receiver's level",
+      "why": "The return pump is sized to run against a tank that is actually holding condensate, and starting it against a tank reading near empty is exactly the situation its own low-level cutout exists to prevent — reading the level first is what tells you whether this is a normal cycle or a pump about to run dry."
+    },
+    {
+      "cue": "Hold the return pump's start switch until it catches and settles to a steady run.",
+      "holdBreakNote": "The switch let go before the pump caught — it cycled straight back off. Hold it again through the full prime.",
+      "id": "prime-pump",
+      "kind": "hold",
+      "prompt": "Hold the return pump's start switch until it catches and settles to a steady run.",
+      "seconds": 5,
+      "target": "pump-switch",
+      "title": "Hold the pump switch through the prime",
+      "why": "A condensate pump released before it actually primes can cycle its motor on and off against a column of steam instead of water, which is exactly the kind of short-cycling that burns out a starter well before its rated life. Holding the switch through the full prime, watching it settle rather than assuming the first click worked, is what makes the start reliable."
+    },
+    {
+      "cue": "Check the sight glass on the return line for flash steam or a solid column of condensate.",
+      "id": "read-sight-glass",
+      "kind": "select",
+      "prompt": "Check the sight glass on the return line for flash steam or a solid column of condensate.",
+      "target": "sight-glass",
+      "title": "Read the return line's sight glass",
+      "why": "A sight glass full of flash steam instead of a solid liquid column is telling you the return line is running hotter than the system was designed for, and reading it now, right after the pump comes up to speed, is how that gets caught on the survey instead of showing up later as a return line that keeps losing pressure."
+    },
+    {
+      "cue": "Call the second engineer: the trap swapped, isolation restored, tank level and the pump both good.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Call the second engineer: the trap swapped, isolation restored, tank level and the pump both good.",
+      "target": "plant-radio",
+      "title": "Check in with the engineer at the condensate skid",
+      "why": "The second engineer's own log at the skid is only as good as what actually gets radioed up from the trap line, and calling it in now — rather than assuming the readings will still be remembered at the end of the shift — is what keeps the two halves of this survey matching."
+    },
+    {
+      "cue": "Record the failed trap, the swap, the weeping union found down the line, and the condensate readings before signing off.",
+      "id": "close-survey-log",
+      "kind": "select",
+      "prompt": "Record the failed trap, the swap, the weeping union found down the line, and the condensate readings before signing off.",
+      "target": "survey-log-board",
+      "title": "Close the survey log",
+      "why": "The survey log is the plant's own record of which trap failed and when, and a weeping union found on today's walk that never makes the log is a leak the next survey finds by luck instead of by the page that was supposed to already know about it."
+    }
+  ],
+  "supportLine": "your IUOE local's member assistance programme",
+  "tagline": "The annual survey down the steam main: the work order read, gloves and a face shield on, the trap under test locked and tagged out, its differential read across the trap, the acoustic reading held to catch a blow-through, a weeping union found down the line before it is stepped past, the failed trap tagged, swapped and its isolation reopened in order, the condensate tank level and the sight glass read, the return pump primed and held to catch, the crew checked in, and the survey logged",
+  "title": "SmartCiti.X~ Steam Trap Survey & Condensate Return VR VR",
+  "trade": "IUOE stationary engineer running the annual steam trap survey, with a second engineer logging results at the condensate skid",
+  "underwater": null,
+  "weather": null
+}

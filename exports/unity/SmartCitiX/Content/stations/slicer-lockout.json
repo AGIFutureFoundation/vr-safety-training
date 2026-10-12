@@ -1,0 +1,380 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "blade-secured",
+    "name": "Blade Secured",
+    "note": "A full changeover clean with the cord locked out first and the interlock proven before power came back"
+  },
+  "category": "Culinary & Hospitality",
+  "certification": "UNITE HERE Local 2 — hospitality and food service; Cal/OSHA General Industry Safety Orders; OSHA 29 CFR 1910.147 control of hazardous energy; OSHA 29 CFR 1910.138 hand protection; ANSI/ISEA 105 cut-resistance ratings; NSF/ANSI 8 commercial food slicer sanitation",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI/ISEA A4",
+        "id": "ansi-isea-105",
+        "title": "ANSI/ISEA 105 — Hand protection classification, including the A1–A9 cut levels"
+      },
+      {
+        "body": "NSF",
+        "citedAs": "NSF/ANSI 8",
+        "id": "nsf-ansi-8",
+        "title": "NSF/ANSI 8 — Commercial powered food preparation equipment"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.138",
+        "id": "osha-1910-138",
+        "title": "29 CFR 1910.138 — Hand protection"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      },
+      {
+        "body": "union",
+        "citedAs": "UNITE HERE",
+        "id": "unite-here-training",
+        "title": "UNITE HERE hospitality training funds — cooks, housekeepers, bartenders and banquet staff"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Food service",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "cord-first",
+        "name": "Cord First",
+        "note": "Locked the cord out before the guard ever came off"
+      },
+      {
+        "id": "edge-away",
+        "name": "Edge Away",
+        "note": "Never touched the blade's edge directly"
+      },
+      {
+        "id": "interlock-proven",
+        "name": "Interlock Proven",
+        "note": "Proved the guard interlock before the plug went back in"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-changeover",
+        "name": "Clean Changeover",
+        "note": "No corrections through the whole clean"
+      },
+      {
+        "id": "held-the-hold",
+        "name": "Held The Hold",
+        "note": "Never broke a timed hold early"
+      },
+      {
+        "id": "changeover-fast",
+        "name": "Changeover Fast",
+        "note": "Complete inside 80% of par"
+      }
+    ],
+    "currency": "AMP",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Dish Hand",
+      "Deli Cook",
+      "Line Lead",
+      "Kitchen Supervisor",
+      "Lockout Authority Certified"
+    ],
+    "system": "Lockout Authority"
+  },
+  "hazards": {
+    "bare-blade-touch": "You touched the mounted blade's edge directly. Gloved or not, a fingertip is never how this edge gets checked — a folded cloth held flat against the face of the blade tells you everything a touch would, without an edge anywhere near your skin.",
+    "override-latch": "That's the manual interlock override, and it exists for a mechanic's bench test — not a shift clean. Flipping it lets the guard sit open while the motor can still be told to run, which defeats the one thing standing between this blade and your hand.",
+    "spare-blade-bare": "That spare blade is sitting on the shelf with nothing over its edge. A slicer blade has no dull side to pick up by — store it in its edge guard or don't take it off the shelf bare-handed at all.",
+    "wrong-plug": "That's the panini press's cord, not the slicer's. Locking out the wrong plug leaves this blade fully live while your hands are inside the guard — the tag on the cord in your hand has to match the machine you're standing at, every time."
+  },
+  "id": "slicer-lockout",
+  "indoor": "kitchen",
+  "interrupts": [
+    {
+      "after": "clean-blade",
+      "alert": "A second cook has grabbed the slicer's cord and is reaching for the outlet — they've got an order to slice and haven't clocked your lock.",
+      "cue": "Your hand is on the blade and somebody is about to give it power.",
+      "delay": 3,
+      "id": "replug-midclean",
+      "kind": "Lockout defeated",
+      "missNote": "They plugged it in with your hand still at the blade. The lock was doing its job right up until somebody didn't look for it — a cord-lockout only protects the person who makes sure it gets seen.",
+      "seconds": 11,
+      "target": "cord-lock",
+      "why": "Your lock on that cord is the entire reason it's safe to have a hand on this blade right now, and it only works if everyone else sees it before they reach for the outlet. Stop them and point at the lock — the order waits; the hand on the blade does not get to find out the hard way that it wasn't actually locked out.",
+      "wrongNote": "It's your lock on that cord — get their hand off the plug and make sure they see it before anything else happens."
+    },
+    {
+      "after": "sanitize-hold",
+      "alert": "The test strip curling out of the sanitiser bucket is reading well outside the labelled range.",
+      "cue": "That number on the strip doesn't match the label concentration you're relying on right now.",
+      "delay": 3,
+      "id": "strip-out-of-range",
+      "kind": "Sanitiser out of spec",
+      "missNote": "You finished the hold on a batch reading outside spec. Whatever contact time you counted, it wasn't protecting the next thing sliced on this blade the way the label promised.",
+      "seconds": 11,
+      "target": "sani-mix",
+      "why": "A sanitiser reading outside its labelled range isn't working at the claimed contact time even if you hold it for twice as long — too weak and it isn't killing anything, too strong and it's a food-contact surface hazard on its own. The fix is a freshly mixed batch, checked again, not a longer hold on a batch that's already wrong.",
+      "wrongNote": "It's the mixing station — remake the batch to spec and check it again before it goes anywhere near the blade."
+    }
+  ],
+  "lateNotes": {
+    "blade-guard": "Not yet — the cord comes out and gets locked before that guard is touched at all.",
+    "power-plug": "Not until the guard's interlock is proven and your lock is off. The last thing this procedure does is give the machine power back.",
+    "slicer-blade": "Glove on first. The blade doesn't get wiped bare-handed, not even once."
+  },
+  "name": "Slicer Lockout",
+  "parSeconds": 235,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "culinary-kitchen"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.2,
+    "hits": [
+      "bare-blade-touch",
+      "blade-guard",
+      "carriage",
+      "clean-card",
+      "cord-lock",
+      "cord-underfoot",
+      "cut-glove",
+      "loose-guard-screw",
+      "outlet",
+      "override-latch",
+      "parts-tray",
+      "power-plug",
+      "sani-bottle",
+      "sani-mix",
+      "slicer-blade",
+      "slicer-body",
+      "slicer-rail",
+      "spare-blade-bare",
+      "test-switch",
+      "thickness-dial",
+      "wrong-plug"
+    ],
+    "meshes": 159
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "hold",
+    "select",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check what changed, the reassembly order, and the sanitiser's contact time.",
+      "id": "clean-card",
+      "kind": "select",
+      "prompt": "Check what changed, the reassembly order, and the sanitiser's contact time.",
+      "target": "clean-card",
+      "title": "Read the between-products cleaning card",
+      "why": "Federal law bars anyone under eighteen from operating or cleaning a power-driven meat or food slicer at all — U.S. DOL Hazardous Occupations Order 10 — so this card assumes an adult worker doing an adult's job, and it names the reassembly order because a slicer that goes back together wrong is a slicer with a guard that only looks closed."
+    },
+    {
+      "cue": "Turn the thickness dial down to zero while the blade is still guarded.",
+      "id": "zero-thickness",
+      "kind": "turn",
+      "prompt": "Turn the thickness dial down to zero while the blade is still guarded.",
+      "target": "thickness-dial",
+      "title": "Ring the thickness gauge to zero",
+      "turn": {
+        "axis": "y",
+        "label": "THICKNESS",
+        "turns": 0.4
+      },
+      "why": "Zeroing the gauge plate closes the gap it normally holds open between the blade and the guard ring — the safest position the blade has while it's still spinning up power, and the position it should always be left in between products regardless of what happens next."
+    },
+    {
+      "cue": "Pull the plug and clip your padlock through the cord-lockout device over the prongs.",
+      "id": "unplug-lock",
+      "kind": "select",
+      "prompt": "Pull the plug and clip your padlock through the cord-lockout device over the prongs.",
+      "target": "cord-lock",
+      "title": "Unplug the slicer and lock the cord out",
+      "why": "A cord-lockout device covers the prongs so the plug physically cannot be reinserted while your padlock is through it — the same promise OSHA 1910.147 asks a breaker lock to make, sized for an appliance instead of a panel. Nobody, including you in a hurry, plugs this back in until that lock comes off."
+    },
+    {
+      "cue": "Lift the guard ring clear of the blade and set it on the parts tray.",
+      "drag": {
+        "missNote": "Not on the tray — set the guard down in the order it comes apart, or reassembly starts from a guess.",
+        "radius": 0.3,
+        "to": "parts-tray"
+      },
+      "id": "guard-off",
+      "kind": "drag",
+      "prompt": "Lift the guard ring clear of the blade and set it on the parts tray.",
+      "target": "blade-guard",
+      "title": "Remove the blade guard",
+      "why": "The guard comes off only after the cord is out and locked — reaching for it before that is reaching toward a spinning blade with nothing standing between you and the shaft that turns it. Off, it goes straight onto the tray in the order it will go back on."
+    },
+    {
+      "cue": "Draw the product carriage off the rail and onto the parts tray.",
+      "drag": {
+        "missNote": "Not on the tray — the carriage goes down where the rest of the parts are, not wherever there was room.",
+        "radius": 0.3,
+        "to": "parts-tray"
+      },
+      "id": "carriage-off",
+      "kind": "drag",
+      "prompt": "Draw the product carriage off the rail and onto the parts tray.",
+      "target": "carriage",
+      "title": "Slide the carriage off its rail",
+      "why": "The carriage rides right past the edge on every pass it makes, and it comes off the rail the same locked-out way the guard did — there is no version of this clean where the blade is still capable of moving while a hand is this close to it."
+    },
+    {
+      "cue": "Pull the ANSI/ISEA A4-rated cut-resistant glove on before your hand goes near the blade.",
+      "id": "glove-on",
+      "kind": "select",
+      "prompt": "Pull the ANSI/ISEA A4-rated cut-resistant glove on before your hand goes near the blade.",
+      "target": "cut-glove",
+      "title": "Glove the cleaning hand",
+      "why": "Locking the cord out stops the blade from moving; it does not stop the blade from being a blade. The rated glove — OSHA 1910.138 — is what actually stands between the edge and your skin for the one part of this job where your hand has to be right next to it."
+    },
+    {
+      "cue": "Fold the cloth flat and wipe outward from the centre, keeping clear of the edge, staying in the safe band.",
+      "holdBreakNote": "Drifted toward the edge. Bring the wipe back out to a safe distance from the blade before continuing.",
+      "id": "clean-blade",
+      "kind": "track",
+      "prompt": "Fold the cloth flat and wipe outward from the centre, keeping clear of the edge, staying in the safe band.",
+      "seconds": 6,
+      "target": "slicer-blade",
+      "title": "Wipe the blade edge-away",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.4,
+        "green": [
+          0.35,
+          0.6
+        ],
+        "label": "DISTANCE FROM EDGE",
+        "rise": 0.5,
+        "start": 0.15
+      },
+      "why": "The blade gets cleaned by wiping away from the edge with a folded cloth held flat against the face, never dragged along it — stray too close and you're running a cloth-covered hand across the one part of this machine that's still sharp with the guard sitting on a tray six feet away."
+    },
+    {
+      "cue": "Apply sanitiser to the blade face and slicing bed and hold for the full labelled contact time.",
+      "holdBreakNote": "Wiped it off early. Contact time is what makes the sanitiser work — spray it again and hold the full count.",
+      "id": "sanitize-hold",
+      "kind": "hold",
+      "prompt": "Apply sanitiser to the blade face and slicing bed and hold for the full labelled contact time.",
+      "seconds": 8,
+      "target": "sani-bottle",
+      "title": "Sanitise the blade and bed, and hold contact time",
+      "why": "Between-product sanitising is what stops the last thing sliced from riding along into the next order — allergen carryover off an unsanitised deli slicer is a real and fast route to a reaction, and the sanitiser only earns its kill claim for the full time on the label, not the time it takes to feel done."
+    },
+    {
+      "cue": "Return the carriage from the parts tray to its rail.",
+      "drag": {
+        "missNote": "Not seated on the rail — line the carriage up square before it goes anywhere near the guard ring.",
+        "radius": 0.3,
+        "to": "slicer-rail"
+      },
+      "id": "carriage-on",
+      "kind": "drag",
+      "prompt": "Return the carriage from the parts tray to its rail.",
+      "target": "carriage",
+      "title": "Seat the carriage back on the rail",
+      "why": "Reassembly runs in the reverse of teardown for a reason: a carriage forced onto a rail before the guard is in position can bind against the ring you're about to reseat, and a bound part now is a part somebody forces later under load."
+    },
+    {
+      "cue": "Set the guard ring back over the blade and seat it fully against the housing.",
+      "drag": {
+        "missNote": "Not fully seated — the guard has to sit flush against the housing before the interlock behind it can close.",
+        "radius": 0.3,
+        "to": "slicer-body"
+      },
+      "id": "guard-on",
+      "kind": "drag",
+      "prompt": "Set the guard ring back over the blade and seat it fully against the housing.",
+      "target": "blade-guard",
+      "title": "Reseat the blade guard",
+      "why": "A guard that looks back in place and a guard that's actually seated are not the same thing — it has to sit flush against the housing so the interlock underneath it can even close. That's what the next step is for."
+    },
+    {
+      "cue": "Bump the power switch with the guard seated and confirm the motor is live only now.",
+      "id": "prove-interlock",
+      "kind": "select",
+      "prompt": "Bump the power switch with the guard seated and confirm the motor is live only now.",
+      "target": "test-switch",
+      "title": "Prove the guard interlock",
+      "why": "The interlock is what should have kept this machine from running the entire time the guard was off, and the only way to know it still does its job is to test it after reassembly, guard seated, before the lock comes off and before this slicer sees a customer's order again."
+    },
+    {
+      "cue": "Take your padlock off the cord-lockout device now that the machine is fully reassembled and proven.",
+      "id": "release-lock",
+      "kind": "select",
+      "prompt": "Take your padlock off the cord-lockout device now that the machine is fully reassembled and proven.",
+      "target": "cord-lock",
+      "title": "Remove your lock from the cord",
+      "why": "Your lock, your call — nobody else removes it, and it comes off only once the interlock is proven and every part is back where it belongs. Taking it off any earlier hands live power back to a slicer somebody else might still be mid-reassembly on."
+    },
+    {
+      "cue": "Seat the plug fully into the outlet, last, after everything else is done.",
+      "drag": {
+        "missNote": "Not seated in the outlet — push the plug fully home.",
+        "radius": 0.25,
+        "to": "outlet"
+      },
+      "id": "plug-in",
+      "kind": "drag",
+      "prompt": "Seat the plug fully into the outlet, last, after everything else is done.",
+      "target": "power-plug",
+      "title": "Plug the slicer back in",
+      "why": "Power comes back to this machine exactly once in this whole procedure, and it's the very last thing that happens — after the guard, after the interlock test, after your own lock is off. There is no safe reason to plug it in a step earlier than that."
+    },
+    {
+      "cue": "Two things at this bench are wrong. Find them by looking.",
+      "id": "walk",
+      "itemNames": {
+        "cord-underfoot": "power cord coiled across the walkway",
+        "loose-guard-screw": "guard retaining screw left loose"
+      },
+      "itemNotes": {
+        "cord-underfoot": "The cord is coiled straight across the walkway behind the station instead of routed along the wall. That's a trip carrying a tray of sliced product, not a wiring problem.",
+        "loose-guard-screw": "The guard's retaining screw is finger-tight, not torqued down. A guard that can shift under a hand isn't fully reassembled — it just looks like it is."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Two things at this bench are wrong. Find them by looking.",
+      "targets": [
+        "loose-guard-screw",
+        "cord-underfoot"
+      ],
+      "title": "Walk the station before signing off",
+      "why": "The changeover isn't finished when the slicer runs again — it's finished when the bench around it is as safe as the machine itself. Two things left wrong here become somebody else's surprise on the next shift."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Cord locked before the guard comes off, the blade cleaned gloved and edge-away, sanitiser contact time, and the interlock proven before the plug goes back in",
+  "title": "SmartCiti.X~ Slicer Lockout VR",
+  "trade": "Deli / prep cook",
+  "underwater": null,
+  "weather": null
+}

@@ -1,0 +1,265 @@
+{
+  "id": "k12-primary-and-secondary-sources",
+  "index": "803",
+  "prefix": "kps",
+  "accent": "#c08a4a",
+  "floor": [
+    "#7a6a58",
+    "#6c5e4e"
+  ],
+  "wall": [
+    "#e6dcc8",
+    "#d8ceba"
+  ],
+  "trade": "History class in the community archive room — learner and archivist",
+  "header": "Lower- and upper-secondary history taught as method: reading a primary source against a secondary one, from the lesson's own fictional archive, labelled as such.",
+  "name": "Primary and Secondary Sources",
+  "tagline": "Ask who made it, when, why and for whom — then check the story against the evidence",
+  "badge": {
+    "id": "source-checked",
+    "name": "Source Checked",
+    "note": "A primary and a secondary source read against each other, with every claim traced to evidence"
+  },
+  "board": {
+    "name": "Archive Board",
+    "currency": "SOURCES",
+    "ranks": [
+      "Reader",
+      "Questioner",
+      "Researcher",
+      "Historian",
+      "Archivist"
+    ]
+  },
+  "hazards": [
+    {
+      "id": "trust-it-because-it-is-old",
+      "label": "Trust the letter because it is old?",
+      "face": "OLD MEANS\nTRUE",
+      "text": "You accepted the letter as true because it is old. Age makes a source a primary source, not a reliable one: the writer may have been mistaken, may have wanted to persuade someone, or may have seen only part of what happened. Every source, old or new, is questioned for who made it and why."
+    },
+    {
+      "id": "copy-the-textbook-claim",
+      "label": "Copy the secondary account's claim without checking?",
+      "face": "THE BOOK\nSAYS SO",
+      "text": "You copied the secondary account's claim straight into your answer. A secondary source is someone else's interpretation, and a good historian checks its claims against the primary evidence it rests on; when you cannot find that evidence, you say so rather than repeat the claim."
+    },
+    {
+      "id": "fill-the-gap-with-a-guess",
+      "label": "Fill the missing page with what probably happened?",
+      "face": "PROBABLY\nHAPPENED",
+      "text": "You filled the gap in the diary with what probably happened and wrote it as fact. When the evidence runs out, a historian says the evidence runs out; a guess written as fact is invention, and it is how false stories about the past get started."
+    },
+    {
+      "id": "handle-without-washing",
+      "label": "Handle the fragile papers straight after lunch?",
+      "face": "STRAIGHT\nFROM LUNCH",
+      "text": "You picked up the fragile papers without clean, dry hands. Archive papers are damaged by grease and moisture, which is why archivists ask for clean hands and a support under the page; the archive's own rules protect the evidence for every class that comes after yours."
+    }
+  ],
+  "find1": {
+    "title": "Sort what is on the table",
+    "cue": "Mark each item on the table that was made at the time of the events — the primary sources.",
+    "why": "The first question a historian asks of any item is when it was made and by whom. A letter written at the time, a notice posted at the time and a photograph taken at the time are primary sources; a book written later about those events is secondary. Everything on this table belongs to the lesson's own fictional archive, labelled as such, so the method can be practised without any real claim being made.",
+    "items": [
+      [
+        "letter",
+        "a letter written at the time",
+        "Made by someone who was there, at the time. Primary — but still a point of view."
+      ],
+      [
+        "notice",
+        "a notice posted at the time",
+        "An official notice from the time. Primary, and written for a purpose."
+      ],
+      [
+        "photo",
+        "a photograph taken at the time",
+        "A photograph is primary, but someone chose what to put in the frame."
+      ]
+    ],
+    "decoy": [
+      "later-book",
+      "a history book written later",
+      "Written later, about the events. That is a secondary source — set it aside for now."
+    ]
+  },
+  "select1": {
+    "id": "follow-the-archive-s-handling-rules",
+    "title": "Follow the archive's handling rules",
+    "cue": "Clean, dry hands, and a support under every page before you touch anything.",
+    "why": "An archive exists so that evidence survives for every reader who comes later. Following its handling rules, clean dry hands and a support under fragile pages, is part of the historian's method, not a separate rule: damaged evidence cannot be checked again, and history depends on evidence that can be checked.",
+    "key": "clean-hands",
+    "label": "Clean, dry hands and a page support",
+    "face": "CLEAN\nHANDS"
+  },
+  "seq": {
+    "title": "Question the source in order",
+    "cue": "Who made it, when, why, and for whom.",
+    "why": "Asking who made a source, when, why and for whom tells you what kind of evidence it is before you trust what it says. A letter to a friend and a notice to the public can describe the same day very differently. Asking in this order, author first and audience last, builds a picture of the source's purpose, which is the thing most likely to shape what it leaves out.",
+    "oon": "Out of order. Start with who made it — you cannot judge why until you know who.",
+    "items": [
+      [
+        "ord-who",
+        "who made it"
+      ],
+      [
+        "ord-when",
+        "when"
+      ],
+      [
+        "ord-why",
+        "why"
+      ],
+      [
+        "ord-whom",
+        "for whom"
+      ]
+    ]
+  },
+  "hold": {
+    "title": "Read the letter slowly, line by line",
+    "cue": "Hold your place and read the whole letter before you decide anything about it.",
+    "why": "Reading a source all the way through before judging it stops you seizing on the first line that fits what you expected. Historians read slowly because the detail that changes the meaning is often late in a document: a date, a condition, a sentence that undercuts the rest.",
+    "brk": "You stopped reading and jumped to a conclusion. Go back and read the whole letter first.",
+    "key": "read-slowly",
+    "label": "Reading the letter line by line"
+  },
+  "turn": {
+    "title": "Turn from the primary to the secondary source",
+    "cue": "Now turn the lens from the letter to the later book that tells the same story.",
+    "why": "Once you know what the primary source says, you can read the secondary account critically: which evidence it uses, where it agrees with the letter, and where it goes further than the letter can support. Turning deliberately from one to the other is the core skill of this lesson, and of history.",
+    "key": "lens-dial",
+    "label": "Primary to secondary",
+    "dial": "SECONDARY"
+  },
+  "gauge": {
+    "id": "judge-how-certain-the-book-s",
+    "title": "Judge how certain the book's claim is",
+    "cue": "Commit when your certainty matches the evidence: supported by the letter, but not proven by it alone.",
+    "why": "Historians rarely say certainly or never; they say how strongly the evidence supports a claim. One letter agreeing with a book makes a claim more likely, not proven, because a single witness can be wrong. Judging certainty to match the evidence is what separates careful history from a confident story.",
+    "key": "certainty-meter",
+    "label": "How certain is the claim?",
+    "meter": "CERTAINTY",
+    "miss": "Outside the band. Too sure and one letter is doing too much; too doubtful and you ignore real evidence. Weigh it again."
+  },
+  "drag": {
+    "title": "Link the claim to its evidence",
+    "cue": "Drag the book's main claim onto the primary source that supports it.",
+    "why": "Tracing a claim to the evidence behind it is how historians check each other's work. Placing the book's claim beside the letter that supports it shows the reader exactly where the claim comes from, and it reveals at once any claim with nothing beneath it, which is the claim to be most careful about.",
+    "key": "claim-token",
+    "label": "The book's claim",
+    "spot": "evidence-spot",
+    "spotLabel": "Next to its evidence",
+    "miss": "The claim is not linked to its evidence yet. Put it beside the source that supports it."
+  },
+  "select2": {
+    "title": "Say where the evidence runs out",
+    "cue": "The diary has a missing page. Say what the evidence cannot tell us.",
+    "why": "Saying where the evidence runs out is honest history, and it is often the most useful thing a historian writes. A missing page is a question for further research, not a space to fill with a likely story; naming the gap tells the next researcher exactly where to look.",
+    "key": "gap-card",
+    "label": "Say where the evidence runs out",
+    "face": "EVIDENCE\nRUNS OUT"
+  },
+  "find2": {
+    "id": "spot-the-problems-in-a-classmate",
+    "title": "Spot the problems in a classmate's essay",
+    "cue": "Look at the draft essay and mark each problem before it is handed in.",
+    "why": "A history essay makes claims and backs each with evidence. The usual problems are a claim with no source, a secondary account treated as if it were a witness, and a guess written as fact. Spotting them in someone else's draft is how you learn to see them in your own, and it is exactly what a teacher will look for.",
+    "items": [
+      [
+        "ess-no-source",
+        "a claim with no source",
+        "Every claim needs evidence behind it. Where is it from?"
+      ],
+      [
+        "ess-book-as-witness",
+        "the book quoted as if it were there",
+        "The book was written later. It is an interpretation, not a witness."
+      ],
+      [
+        "ess-guess-fact",
+        "a guess written as fact",
+        "Where the evidence stops, say so. A guess must be labelled as one."
+      ]
+    ],
+    "decoy": [
+      "ess-question",
+      "a question for further research",
+      "Naming an open question is good history. Keep it."
+    ]
+  },
+  "track": {
+    "title": "Keep the argument balanced as you write",
+    "cue": "Hold your conclusion in band — weighing both sources, not leaning on one.",
+    "why": "A balanced argument gives each source its due weight: what the letter shows, what the book adds and where they differ. Leaning on one source because it says what you hoped is the easiest trap in history, and holding the balance while you write is what makes the conclusion trustworthy.",
+    "brk": "The argument tipped to one side. Bring the other source back in before you conclude.",
+    "key": "balance-meter",
+    "label": "Balance of the argument",
+    "meter": "BALANCE"
+  },
+  "record": {
+    "title": "Record the sources, the links and the gaps",
+    "cue": "Write down each source, which claim it supports, and where the evidence runs out.",
+    "why": "A research log lets anyone follow your reasoning back to the sources and check it for themselves. Recording the gaps as carefully as the findings tells the next researcher where the questions are, which is how historical knowledge actually grows: by one careful reader building on another.",
+    "key": "research-log",
+    "label": "Research log",
+    "done": "Sources and gaps recorded"
+  },
+  "share": {
+    "title": "Show the class how you checked the claim",
+    "cue": "Explain how you traced the book's claim to the letter and where the evidence ran out.",
+    "why": "Showing classmates how a claim was traced to its evidence teaches the method, not just the answer, and it lets them test your reading against theirs. Historians publish their sources for exactly this reason: so that anyone can check the claim.",
+    "key": "share-board",
+    "label": "Share the method",
+    "done": "Method shared"
+  },
+  "checkin": {
+    "title": "Check in at the end of the lesson",
+    "cue": "How did that go? What was difficult about questioning a source?",
+    "why": "A short check-in lets the teacher hear what made sense and what did not, and it gives each learner a moment to name one question they still have. Nobody is graded here, and a teacher or trusted adult is there for anyone who wants to talk more.",
+    "label": "End-of-lesson check-in"
+  },
+  "interrupts": [
+    {
+      "id": "a-page-starts-to-tear",
+      "kind": "Fragile page",
+      "key": "support-the-page",
+      "label": "Stop and support the page",
+      "alert": "A classmate lifts a fragile page by one corner and it starts to tear.",
+      "cue": "Tell them to stop, lay the page flat on its support, and call the archivist.",
+      "why": "A tear in an archive document is permanent damage to evidence that exists nowhere else. Stopping, laying the page flat on its support and calling the archivist, who knows how to handle it, protects the source for every reader who comes after this class.",
+      "miss": "Nobody stopped them, and the page tore across the date line — the one detail the lesson needed.",
+      "wrong": "That does not protect the page. Stop, lay it flat and call the archivist.",
+      "done": "Page laid flat and the archivist called. The evidence survives for the next reader."
+    },
+    {
+      "id": "the-teacher-asks-how-you-know",
+      "kind": "Teacher question",
+      "key": "name-the-source",
+      "label": "Name the source behind the claim",
+      "alert": "The teacher points to a sentence in your notes and asks how you know it.",
+      "cue": "Name the source the claim comes from, or say plainly that you do not yet have one.",
+      "why": "How do you know is the historian's question. Naming the source behind a claim, or admitting that there is not one yet, shows you understand that history is built from evidence rather than from what sounds right.",
+      "miss": "You had no source and defended the claim anyway, so it stayed in your notes as if it were fact.",
+      "wrong": "That does not name a source. Say where the claim comes from, or that you do not know yet.",
+      "done": "Source named. That sentence can now be checked by anyone."
+    }
+  ],
+  "crew": [
+    "History teacher",
+    "Archivist",
+    "Classmate",
+    "Librarian"
+  ],
+  "guide": {
+    "start": "Who made it? When? Why?",
+    "after": "Primary: made at the time. Secondary: made later, about it.",
+    "hazard": "Stop. A claim needs a source — trace it before you accept it."
+  },
+  "lateRecord": "The research log is written once the claims are traced — nothing to record yet.",
+  "lateCheckin": "The check-in comes at the very end of the lesson.",
+  "scene": "wall",
+  "order": "b",
+  "desk": "#9a6a3a"
+}

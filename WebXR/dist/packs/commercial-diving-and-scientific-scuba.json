@@ -1,0 +1,139 @@
+{
+  "id": "commercial-diving-and-scientific-scuba",
+  "kind": "programme",
+  "name": "Commercial Diving & Scientific Scuba",
+  "title": "SmartCiti.X Commercial Diving & Scientific Scuba — Powered by AGI Corp",
+  "audience": "trades",
+  "summary": "Eight jobs of the commercial dive crew and the scientific scuba pair, weighted to the surface side that keeps the diver alive: the welding tender at the knife switch, the diver reading a pile by hand and fitting its wrap, the ROV tender's tether, the chamber attendant and the post-dive watch, the scientific pair's buddy check and lost-buddy drill, a night search on a guideline, an intake locked out before a hydraulic tool goes down, and the paper that closes the day honestly. No depth, gas, decompression or time figure is ever stated; those live in the dive plan and the tables the supervisor holds.",
+  "certification": "Programme completion record; the dive credentials it rehearses are issued only by their own bodies — OSHA 29 CFR 1910 Subpart T commercial diving operations (29 CFR 1910.421 through 1910.425, 1910.430 and 1910.440), the ADCI consensus standards, AWS D3.6 for the wet weld, USCG 46 CFR 197 Subpart B from a vessel, 29 CFR 1910.424 and the programme's diving safety manual for the scientific scuba; every depth, gas, decompression, current and time limit lives in the dive plan and the tables the supervisor holds",
+  "programmes": [
+    "commercial-diving-and-scientific-scuba"
+  ],
+  "stations": [
+    {
+      "app": "smartcity",
+      "id": "cd-underwater-wet-welding-and-cutting"
+    },
+    {
+      "app": "smartcity",
+      "id": "cd-pier-piling-inspection-and-wrap-repair"
+    },
+    {
+      "app": "smartcity",
+      "id": "cd-rov-launch-recovery-and-tether-management"
+    },
+    {
+      "app": "smartcity",
+      "id": "cd-decompression-chamber-operations-and-post-dive"
+    },
+    {
+      "app": "smartcity",
+      "id": "cd-scientific-scuba-buddy-check-and-lost-buddy-drill"
+    },
+    {
+      "app": "smartcity",
+      "id": "cd-low-visibility-and-night-dive-line-work"
+    },
+    {
+      "app": "smartcity",
+      "id": "cd-hydraulic-tools-and-suction-hazards-underwater"
+    },
+    {
+      "app": "smartcity",
+      "id": "cd-dive-records-and-incident-review"
+    }
+  ],
+  "unions": [
+    "carpenters",
+    "liuna"
+  ],
+  "unionLine": "Pile Drivers of the Carpenters (UBC) and LIUNA as training bodies; the scientific diving community's own diving safety manuals for the scuba work",
+  "k12Bands": [],
+  "path": "union-trades",
+  "alsoPaths": [],
+  "worlds": [
+    {
+      "world": "bayworld",
+      "sites": [
+        "estuary-research-dock",
+        "north-shoreline-field-lab",
+        "channel-buoy-tender-pier"
+      ]
+    },
+    {
+      "world": "underwater",
+      "sites": [
+        "pier-piling-inspection-station",
+        "pier-surface-supplied-station",
+        "shelf-checkout-site",
+        "kelp-night-line-site",
+        "outfall-intake-lockout-site",
+        "trench-rov-station"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "orleans",
+      "sites": [
+        "no-sw-industrial-canal-boat-repair-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "jefferson",
+      "sites": [
+        "jf-sw-west-bank-waterfront-boat-repair-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "st-bernard",
+      "sites": [
+        "sb-sw-shell-beach-boat-repair-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "plaquemines",
+      "sites": [
+        "pq-venice-marina"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-mission",
+      "sites": [
+        "mi-sw-dogpatch-boat-repair-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bay-san-pablo",
+      "sites": [
+        "richmond-shipyard-crew"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "br-riverplex-ascension",
+      "sites": [
+        "brr-river-dock"
+      ]
+    }
+  ],
+  "stationNames": {
+    "cd-underwater-wet-welding-and-cutting": "Underwater Wet Welding & Cutting — Surface Side",
+    "cd-pier-piling-inspection-and-wrap-repair": "Pier Piling Inspection & Wrap Repair",
+    "cd-rov-launch-recovery-and-tether-management": "ROV Launch, Recovery & Tether Management",
+    "cd-decompression-chamber-operations-and-post-dive": "Decompression Chamber Operations & Post-Dive",
+    "cd-scientific-scuba-buddy-check-and-lost-buddy-drill": "Scientific Scuba: Buddy Check & Lost-Buddy Drill",
+    "cd-low-visibility-and-night-dive-line-work": "Low-Visibility & Night Dive Line Work",
+    "cd-hydraulic-tools-and-suction-hazards-underwater": "Hydraulic Tools & Suction Hazards Underwater",
+    "cd-dive-records-and-incident-review": "Dive Records & Incident Review"
+  },
+  "version": "1.0.0",
+  "contentHash": "0080552b",
+  "brand": "SmartCiti.X · Powered by AGI Corp",
+  "generator": "tools/gen_packs.mjs",
+  "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."
+}

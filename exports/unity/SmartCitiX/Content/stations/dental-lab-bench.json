@@ -1,0 +1,423 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "case-made-right",
+    "name": "Case Made Right",
+    "note": "One case carried from a disinfected impression to a finished tray with the dust controlled and the prescription honoured"
+  },
+  "category": "Dental & Oral Health",
+  "certification": "The National Board for Certification in Dental Laboratory Technology's Certified Dental Technician (CDT) credential and the National Association of Dental Laboratories as the trade's body; the state dental practice act, which requires a written prescription from the dentist for every case a laboratory makes; the CDC's Guidelines for Infection Control in Dental Health-Care Settings for handling incoming impressions and outgoing cases; the FDA's device requirements for what a laboratory fabricates; OSHA 29 CFR 1910.1053 respirable crystalline silica, 1910.212 machine guarding, 1910.1200 hazard communication and NIOSH's dust-control guidance; SEIU and UFCW clinic and laboratory staff agreements",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ADA",
+        "citedAs": "CDT",
+        "id": "ada-cdt-code",
+        "title": "The ADA's Code on Dental Procedures and Nomenclature (CDT), the procedure-code set dental claims and pre-authorisations are written in; cited as the body and the code set, never by a code number"
+      },
+      {
+        "body": "CDC",
+        "citedAs": "CDC",
+        "id": "cdc-guidance",
+        "title": "CDC infection-prevention and public-health guidance, including the Guidelines for Infection Control in Dental Health-Care Settings and Legionella control guidance"
+      },
+      {
+        "body": "NIOSH",
+        "citedAs": "NIOSH",
+        "id": "niosh-criteria",
+        "title": "NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards"
+      },
+      {
+        "body": "union",
+        "citedAs": "SEIU",
+        "id": "seiu-training",
+        "title": "SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members"
+      },
+      {
+        "body": "state dental board",
+        "citedAs": "dental practice act",
+        "id": "state-dental-board",
+        "title": "The state dental board and its dental practice act: licensure, scope of practice, and the allowable-duties rules for dental assistants and hygienists"
+      },
+      {
+        "body": "union",
+        "citedAs": "UFCW",
+        "id": "ufcw-training",
+        "title": "UFCW member training for retail food, clinic and dental support work"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Dental",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "disinfected-on-arrival",
+        "name": "Disinfected On Arrival",
+        "note": "The impression was disinfected to its own time before anything was poured"
+      },
+      {
+        "id": "dust-controlled",
+        "name": "Dust Controlled",
+        "note": "No unsafe action anywhere on the bench"
+      },
+      {
+        "id": "ratio-by-measure",
+        "name": "Ratio By Measure",
+        "note": "Water and powder committed inside the band rather than guessed"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-case",
+        "name": "Clean Case",
+        "note": "No corrections anywhere in the case"
+      },
+      {
+        "id": "held-the-mix",
+        "name": "Held The Mix",
+        "note": "Both timed passages carried without a break"
+      },
+      {
+        "id": "case-on-time",
+        "name": "Case On Time",
+        "note": "Complete inside 80% of par"
+      }
+    ],
+    "currency": "CASE",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Lab Apprentice",
+      "Bench Technician",
+      "Certified Dental Technician",
+      "Laboratory Lead",
+      "Bench Craft Certified"
+    ],
+    "system": "Bench Craft"
+  },
+  "hazards": {
+    "dlb-dry-trimming": "That model is being ground on the trimmer with the water off. Dental stone and investment are silica-bearing, and dry grinding is how respirable crystalline silica gets into the air of a laboratory — OSHA's silica standard exists because that dust causes irreversible lung disease, and the water feed on the trimmer is the engineering control that stops it ever becoming airborne.",
+    "dlb-glove-at-lathe": "A gloved hand and a loose sleeve are reaching over the polishing wheel. A lathe has no clutch and no pain reflex: a glove finger or a cuff that touches the wheel is pulled in with the whole hand behind it, which is why the lathe is worked with bare hands, sleeves fastened, hair tied and nothing loose anywhere near the spindle.",
+    "dlb-shared-pumice": "The pumice in that pan has been used across every case on the bench today. Wet pumice is an ideal carrier: contamination from one case is worked into the surface of the next appliance by the same wheel, and the fix is trivial — fresh slurry in a disinfected pan for each case, which is exactly why nobody does it when they are behind.",
+    "dlb-undisinfected-impression": "That impression has come out of the courier bag and gone straight onto the bench. Anything arriving from an operatory has been in a patient's mouth and has not been decontaminated by the journey — the CDC's dental guidelines put disinfection at the point the case is received, because after that it has already touched everything you touch."
+  },
+  "id": "dental-lab-bench",
+  "indoor": "clinic",
+  "interrupts": [
+    {
+      "after": "disinfect-impression",
+      "alert": "The impression has been sitting in the disinfectant well past the time on the bottle and the material is visibly swelling.",
+      "cue": "Get it out and rinsed before the swelling is built into the model.",
+      "delay": 3,
+      "id": "dlb-over-immersed",
+      "kind": "Material distortion",
+      "missNote": "The impression stayed in the bath. Everything poured from it will be dimensionally wrong in a way no measurement on the bench will reveal, and the fault will surface as an appliance that does not seat — which means the patient is recalled for a new impression and the whole case is made twice.",
+      "seconds": 12,
+      "target": "dlb-rinse-station",
+      "why": "Hydrocolloid and several other impression materials absorb water, so immersion beyond the manufacturer's stated time swells the impression and every dimension taken from it afterwards is wrong. The answer is the rinse station: out, rinsed, drained, and poured — an over-immersed impression cannot be corrected later, only re-taken.",
+      "wrongNote": "It is the rinse station. Out of the bath, rinsed and drained, and pour it now — time in disinfectant is a maximum, not just a minimum."
+    },
+    {
+      "after": "vacuum-mix",
+      "alert": "The extraction has been switched off at the wall and someone on the next bench is grinding a model dry — the room is filling with dust.",
+      "cue": "The extraction comes back on before anyone takes another breath in here.",
+      "delay": 3,
+      "id": "dlb-extraction-off",
+      "kind": "Dust control failure",
+      "missNote": "The extraction stayed off while the bench kept working. Nobody in the room noticed anything at all — that is the entire nature of a silica exposure, and the dose from a shift like this is added to every other shift like it for the rest of a career.",
+      "seconds": 11,
+      "target": "dlb-extraction-switch",
+      "why": "Respirable silica does not smell, does not sting and does not make anyone cough on the day, which is why an extraction system that has been switched off at the wall can stay off for a whole shift. OSHA's silica standard puts engineering controls first precisely because the exposure is invisible; the switch is the control, and it is on the wall rather than on the machine.",
+      "wrongNote": "It is the wall switch for the extraction. Nothing else in this room removes dust from the air once it is airborne."
+    }
+  ],
+  "lateNotes": {
+    "dlb-blank-sheet": "Hold that. There is no model to form over yet, and a thermoformed sheet pulled over an empty platform is a wasted blank and a wasted heat cycle.",
+    "dlb-case-log": "The case is not finished. The record is written from what was actually made and measured, at the end of the bench work.",
+    "dlb-impression": "Not yet. There is no mix to pour, and an impression lifted out of the bath before its time has been disinfected for less time than its own label calls for."
+  },
+  "name": "Dental Laboratory Bench",
+  "parSeconds": 320,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "dental-careers-unspoken-smiles"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.3,
+    "hits": [
+      "dlb-blank-sheet",
+      "dlb-case-log",
+      "dlb-case-pan",
+      "dlb-cracked-wheel",
+      "dlb-disinfect-bath",
+      "dlb-dry-trimming",
+      "dlb-extraction-hood",
+      "dlb-extraction-switch",
+      "dlb-face-shield",
+      "dlb-former-slot",
+      "dlb-glove-at-lathe",
+      "dlb-impression",
+      "dlb-lathe-shield",
+      "dlb-loose-chuck",
+      "dlb-prescription-checkin",
+      "dlb-pumice-pan",
+      "dlb-respirator",
+      "dlb-rinse-station",
+      "dlb-separate-model",
+      "dlb-shared-pumice",
+      "dlb-trimmer-guard",
+      "dlb-trimmer-switch",
+      "dlb-trimmer-water",
+      "dlb-undisinfected-impression",
+      "dlb-vacuum-mixer",
+      "dlb-vibrator-dial",
+      "dlb-vibrator-slot",
+      "dlb-water-powder"
+    ],
+    "meshes": 230
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Take the case into a labelled pan with its prescription, and treat everything in it as contaminated.",
+      "id": "receive-case",
+      "kind": "select",
+      "prompt": "Take the case into a labelled pan with its prescription, and treat everything in it as contaminated.",
+      "target": "dlb-case-pan",
+      "title": "Receive the case into its own pan",
+      "why": "A case arriving from an operatory is an impression, a bite registration and a written prescription, and all of it has been in or near a patient's mouth. Keeping it in one labelled pan means nothing gets separated from the prescription that says what to make, and treating the pan as contaminated until the impression has been disinfected keeps the boundary somewhere you can actually see it."
+    },
+    {
+      "cue": "Rinse the debris off, immerse or spray to the product's instructions, and hold for that time — no longer.",
+      "holdBreakNote": "Taken out early. The impression has not had the contact time the product's own instructions call for, so nothing that follows happens on a decontaminated surface.",
+      "id": "disinfect-impression",
+      "kind": "hold",
+      "prompt": "Rinse the debris off, immerse or spray to the product's instructions, and hold for that time — no longer.",
+      "seconds": 6,
+      "target": "dlb-disinfect-bath",
+      "title": "Disinfect the impression for its own stated time",
+      "why": "Two rules collide here and both matter. An impression must be disinfected before anyone works on it, because it carries saliva and blood into a room with no patient in it; and an impression left in disinfectant past the time its own manufacturer states absorbs water and distorts, so the model poured from it fits nothing. The stated time is a maximum as much as a minimum."
+    },
+    {
+      "cue": "Weigh the stone and measure the water to the ratio on the box, and commit inside the band.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.58
+        ],
+        "label": "WATER : POWDER",
+        "missNote": "Off the stated ratio. Too little water gives a mix too thick to flow into the detail; too much gives a model soft enough to abrade under a finger, and either way the fit of everything built on it is already wrong.",
+        "speed": 0.6
+      },
+      "id": "measure-ratio",
+      "kind": "gauge",
+      "prompt": "Weigh the stone and measure the water to the ratio on the box, and commit inside the band.",
+      "target": "dlb-water-powder",
+      "title": "Measure the water and powder by ratio",
+      "why": "The strength, setting time and dimensional accuracy of dental stone are all properties of one number: the water-powder ratio the manufacturer states. Mixed by eye it is never that number, and the model that results is either too weak to trim or too thick to have flowed into the detail — and nothing later in the case can recover accuracy that was lost in a mixing bowl."
+    },
+    {
+      "cue": "Run the vacuum mixer and keep the spatulation speed inside the band for the whole mix.",
+      "holdBreakNote": "The mix speed left the band. Settle it back inside and carry the rest of the mix there — an uneven mix sets unevenly.",
+      "id": "vacuum-mix",
+      "kind": "track",
+      "prompt": "Run the vacuum mixer and keep the spatulation speed inside the band for the whole mix.",
+      "seconds": 7,
+      "target": "dlb-vacuum-mixer",
+      "title": "Mix under vacuum at a steady speed",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.44,
+        "green": [
+          0.38,
+          0.6
+        ],
+        "label": "SPATULATION",
+        "rise": 0.5,
+        "start": 0.16
+      },
+      "why": "Vacuum mixing pulls the air out of the slurry, and air is what becomes a bubble on a cusp tip or a void under a margin. Speed matters in both directions: too slow and the powder is not fully wetted before the stone starts to set, too fast and the mix is whipped and heats, shortening the working time you were counting on to pour a whole arch."
+    },
+    {
+      "cue": "Wind the vibrator down to a gentle setting before the impression goes on it.",
+      "id": "vibrator-amplitude",
+      "kind": "turn",
+      "prompt": "Wind the vibrator down to a gentle setting before the impression goes on it.",
+      "target": "dlb-vibrator-dial",
+      "title": "Set the vibrator to a low amplitude",
+      "turn": {
+        "axis": "y",
+        "label": "VIBRATOR",
+        "turns": 1
+      },
+      "why": "A vibrator is there to walk the stone into the deepest part of the impression and to float trapped air up out of it, and that only happens at low amplitude. Turned up, the vibration throws the mix around the impression instead of moving it forward, tears the finer detail off a wet surface and drives air in rather than out."
+    },
+    {
+      "cue": "Set the impression on the vibrator platform and run the stone in from one corner in small increments.",
+      "drag": {
+        "missNote": "Not on the platform. Seat the impression squarely on the vibrator so the stone flows where the vibration is, not off the edge of the tray.",
+        "radius": 0.4,
+        "to": "dlb-vibrator-slot"
+      },
+      "id": "pour-model",
+      "kind": "drag",
+      "prompt": "Set the impression on the vibrator platform and run the stone in from one corner in small increments.",
+      "target": "dlb-impression",
+      "title": "Pour the model from one corner",
+      "why": "Stone poured in from one corner and allowed to flow across the impression pushes the air ahead of it and out; dumped in all at once it traps air in the exact places the model matters most, which are the deep, narrow parts — the cusp tips and the margins. Small increments from one place is the only pouring technique that reliably produces a bubble-free model."
+    },
+    {
+      "cue": "Wait out the setting time on the box before you lift the impression off.",
+      "id": "separate-model",
+      "kind": "select",
+      "prompt": "Wait out the setting time on the box before you lift the impression off.",
+      "target": "dlb-separate-model",
+      "title": "Separate the model only when it has set",
+      "why": "Dental stone reaches its handling strength at the time its manufacturer states, and the last part to get there is the fine detail at the tooth surfaces. Separated early, the cusp tips and margins come away inside the impression rather than staying on the model, and the damage is invisible until something is built on it that does not fit."
+    },
+    {
+      "cue": "Guard down, water flowing, then switch on.",
+      "id": "start-trimmer",
+      "itemNames": {
+        "dlb-trimmer-guard": "guard down",
+        "dlb-trimmer-switch": "then power",
+        "dlb-trimmer-water": "water on"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order. Guard down, water running, and only then the switch — a trimmer started dry or unguarded has already thrown dust and grit before anyone can reach the controls again. Reset and take them in that order.",
+      "prompt": "Guard down, water flowing, then switch on.",
+      "targets": [
+        "dlb-trimmer-guard",
+        "dlb-trimmer-water",
+        "dlb-trimmer-switch"
+      ],
+      "title": "Start the model trimmer in order",
+      "why": "The order is the control. The guard has to be in place before there is anything spinning behind it, and the water has to be running before the wheel touches stone, because the first second of dry grinding is the second that puts silica in the air. Started in any other order the machine is briefly doing exactly what all the guarding exists to prevent."
+    },
+    {
+      "cue": "Two things on this lathe will fail the moment it is under load. Find them.",
+      "id": "lathe-faults",
+      "itemNames": {
+        "dlb-cracked-wheel": "a cracked polishing wheel",
+        "dlb-loose-chuck": "a chuck that has not been tightened"
+      },
+      "itemNotes": {
+        "dlb-cracked-wheel": "There is a split running in from the rim of this wheel. At lathe speed a cracked wheel comes apart and leaves in pieces along the plane it was spinning in, which is straight at whoever is standing at the machine.",
+        "dlb-loose-chuck": "This chuck is finger-tight only. A mandrel that works loose under load walks out of the spindle with the wheel still turning, and it takes the appliance in your fingers with it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Two things on this lathe will fail the moment it is under load. Find them.",
+      "targets": [
+        "dlb-cracked-wheel",
+        "dlb-loose-chuck"
+      ],
+      "title": "Find the two faults on the lathe before it is switched on",
+      "why": "A polishing lathe spins fast, has a lot of rotating mass and nothing to stop it once it is going, so the whole inspection happens before the switch. A cracked wheel and an untightened chuck are both plainly visible standing still and both entirely invisible at speed — they announce themselves by failing, and OSHA's machine guarding requirements exist because that failure is always in someone's direction."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Extraction on at the hood, respirator fitted, face shield down — order doesn't matter.",
+      "id": "dust-controls",
+      "itemNames": {
+        "dlb-extraction-hood": "local extraction on",
+        "dlb-face-shield": "full face shield",
+        "dlb-respirator": "fit-tested respirator"
+      },
+      "itemNotes": {
+        "dlb-extraction-hood": "The hood captures dust at the point it is generated, which is the only place it can be captured before it is in the room's air.",
+        "dlb-face-shield": "A shield rather than glasses: a lathe throws pumice slurry and, on a bad day, the fragments of a wheel.",
+        "dlb-respirator": "A fit-tested respirator, because extraction is never total on a hand-held workpiece and the residue is respirable silica."
+      },
+      "kind": "sequence",
+      "prompt": "Extraction on at the hood, respirator fitted, face shield down — order doesn't matter.",
+      "targets": [
+        "dlb-extraction-hood",
+        "dlb-respirator",
+        "dlb-face-shield"
+      ],
+      "title": "Set the dust and face controls before polishing",
+      "why": "Polishing and grinding acrylic, stone and alloy is the part of this trade that carries a long-term health cost rather than an immediate one, which is exactly why it gets skipped. Local extraction at the source, a fit-tested respirator for what the extraction misses, and a shield for what the wheel throws: OSHA's silica standard treats the first as the primary control and the respirator as what sits on top of it, never instead."
+    },
+    {
+      "cue": "Bring the shield down and keep your hands below the spindle line.",
+      "id": "lathe-shield",
+      "kind": "select",
+      "prompt": "Bring the shield down and keep your hands below the spindle line.",
+      "target": "dlb-lathe-shield",
+      "title": "Work behind the lathe's own shield",
+      "why": "The shield is between your face and the plane the wheel would leave in, and hands below the spindle line means the wheel throws slurry and debris downward and away rather than up into your eyes. Both of those are habits rather than fittings: the shield only works when it is down, and a technician who reaches over the top of it has removed the guard without touching it."
+    },
+    {
+      "cue": "Empty the pan, disinfect it, and mix fresh slurry before this appliance touches the wheel.",
+      "id": "fresh-pumice",
+      "kind": "select",
+      "prompt": "Empty the pan, disinfect it, and mix fresh slurry before this appliance touches the wheel.",
+      "target": "dlb-pumice-pan",
+      "title": "Change to fresh pumice for this case",
+      "why": "Wet pumice shared between cases is a transport medium — one case's contamination gets worked into the surface of the next appliance by the same wheel, and that appliance is going into somebody's mouth. A pan emptied and disinfected between cases with fresh slurry mixed in it costs a couple of minutes and is the only version of polishing that does not undo the disinfection at both ends of the job."
+    },
+    {
+      "cue": "Load the blank into the former's frame over the model and pull it down.",
+      "drag": {
+        "missNote": "Not seated in the frame. A blank clamped crooked draws down unevenly and comes off thin on one side — set it square before the heater comes over it.",
+        "radius": 0.4,
+        "to": "dlb-former-slot"
+      },
+      "id": "form-tray",
+      "kind": "drag",
+      "prompt": "Load the blank into the former's frame over the model and pull it down.",
+      "target": "dlb-blank-sheet",
+      "title": "Thermoform the tray over the model",
+      "why": "A thermoformed tray is only as good as the model under it and the sheet chosen for the job: too thin and it tears at the incisal edges, too thick and it will not seat. Loaded square in the frame over a properly trimmed model, the sheet draws down into the detail and comes off as an appliance that matches the mouth it was made from rather than one that needs adjusting in the chair."
+    },
+    {
+      "cue": "Read the dentist's written prescription back against what you have made, with the lead.",
+      "id": "prescription-checkin",
+      "kind": "select",
+      "prompt": "Read the dentist's written prescription back against what you have made, with the lead.",
+      "target": "dlb-prescription-checkin",
+      "title": "Check the finished case against the prescription with the laboratory lead",
+      "why": "A laboratory works from a written prescription from the dentist, which every state practice act requires and which is the only document that says what was actually ordered — material, design, shade, date wanted. Reading it back against the finished case with the lead is what catches the case made correctly to the wrong instruction, which is by far the most common way a technically perfect appliance comes back from a surgery."
+    },
+    {
+      "cue": "Record the materials and lots, note the disinfection in and out, and bag the case for return.",
+      "id": "case-log",
+      "kind": "select",
+      "prompt": "Record the materials and lots, note the disinfection in and out, and bag the case for return.",
+      "target": "dlb-case-log",
+      "title": "Close the case record and disinfect the case out",
+      "why": "The record closes the loop the prescription opened: what was made, from which material and lot, by whom, and that the case was disinfected both on arrival and before it went back. The outgoing disinfection is the half people forget — an appliance that has been handled all day on a bench goes back into a patient's mouth, and the record is what says somebody dealt with that."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "The lab bench as a trade: impressions disinfected to time, stone mixed by ratio under vacuum, models poured and trimmed wet, a lathe behind its shield, pumice changed per case and a tray made to the written prescription",
+  "title": "SmartCiti.X~ Dental Laboratory Bench VR",
+  "trade": "Dental laboratory technician (CDT)",
+  "underwater": null,
+  "weather": "clear"
+}

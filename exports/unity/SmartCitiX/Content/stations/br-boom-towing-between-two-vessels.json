@@ -1,0 +1,452 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "the-u-held",
+    "name": "The U Held",
+    "note": "Never in the bight, never a line near the screw, no flame near the slick, no hand in the oil, and both the escaping oil and the dead outboard answered"
+  },
+  "category": "Maritime & Ports",
+  "certification": "Inlandboatmen's Union (IBU) deck and spill response practice; MEBA engineering watch; OSHA 29 CFR 1910.120 HAZWOPER for oil spill responders; EPA National Contingency Plan (40 CFR 300) and the USCG Area Contingency Plan, with discharge removal under 33 CFR 153; NIMS ICS incident command; NOAA Office of Response and Restoration spill guidance; USCG 46 CFR 25 lifesaving equipment and a lookout kept under the Inland Navigation Rules",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "EPA",
+        "citedAs": "40 CFR 300",
+        "id": "epa-40-cfr-300",
+        "title": "40 CFR Part 300 — National Oil and Hazardous Substances Pollution Contingency Plan"
+      },
+      {
+        "body": "union",
+        "citedAs": "IBU",
+        "id": "ilwu-pma-training",
+        "title": "ILWU-PMA joint training for longshore, crane and clerk work, and the Inlandboatmen's Union marine division"
+      },
+      {
+        "body": "union",
+        "citedAs": "MEBA",
+        "id": "meba-calhoon-school",
+        "title": "MEBA — the Calhoon MEBA Engineering School's licensed marine engineer training"
+      },
+      {
+        "body": "NIMS/ICS",
+        "citedAs": "ICS",
+        "id": "nims-ics",
+        "title": "NIMS incident command system — the structure a multi-agency response runs inside"
+      },
+      {
+        "body": "NOAA",
+        "citedAs": "NOAA Office of Response and Restoration",
+        "id": "noaa-office-of-response-and-restoration",
+        "title": "NOAA Office of Response and Restoration oil spill response guidance and job aids, including shoreline assessment"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "HAZWOPER",
+        "id": "osha-1910-120",
+        "title": "29 CFR 1910.120 — Hazardous waste operations and emergency response (HAZWOPER)"
+      },
+      {
+        "body": "USCG",
+        "citedAs": "33 CFR 153",
+        "id": "uscg-33-cfr-153",
+        "title": "33 CFR Part 153 — Control of pollution by oil and hazardous substances, discharge removal"
+      },
+      {
+        "body": "USCG",
+        "citedAs": "Inland Navigation Rules",
+        "id": "uscg-33-cfr-83",
+        "title": "33 CFR Part 83 — Inland Navigation Rules"
+      },
+      {
+        "body": "USCG",
+        "citedAs": "46 CFR 25",
+        "id": "uscg-46-cfr-25",
+        "title": "46 CFR Part 25 — Requirements for uninspected vessels, including lifesaving and fire-fighting equipment"
+      },
+      {
+        "body": "USCG",
+        "citedAs": "Area Contingency Plan",
+        "id": "uscg-area-contingency-plan",
+        "title": "The San Francisco Bay and Delta Area Contingency Plan — the federal and state spill response plan for the Bay under the National Contingency Plan"
+      }
+    ]
+  },
+  "district": "Maritime & Ports",
+  "domain": "Maritime & Ports",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "air-first",
+        "name": "Air First",
+        "note": "The air read at the rail before anyone worked near the slick"
+      },
+      {
+        "id": "apex-true",
+        "name": "Apex True",
+        "note": "LEL reading committed inside the band first time"
+      },
+      {
+        "id": "out-of-the-bight",
+        "name": "Out Of The Bight",
+        "note": "Never in the bight, never a line near the screw, no flame, no hand in the oil"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-sweep",
+        "name": "Clean Sweep",
+        "note": "No corrections from the plan to the log"
+      },
+      {
+        "id": "steady-u",
+        "name": "Steady U",
+        "note": "The apex held in band all the way through the sweep"
+      },
+      {
+        "id": "before-it-spreads",
+        "name": "Before It Spreads",
+        "note": "Tow logged inside 80% of par"
+      }
+    ],
+    "currency": "SWEEP",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Ordinary",
+      "Deckhand",
+      "Boom Hand",
+      "Lead Deckhand",
+      "Boom Tow Certified"
+    ],
+    "system": "Boom Tow"
+  },
+  "hazards": {
+    "hand-in-oil": "You leaned over the stern to grab the boom skirt with your hands. The skirt is coated in fresh product and hangs under a boom being dragged through the water; a hand on it is a hand in oil and a body leaning past the stern of a moving boat — the boom is handled with the tow line and the boat hook, and oiled gear with gloves only.",
+    "line-near-screw": "You paid the tow line out over the stern straight across the outboards. Slack tow line in the wheel wash is pulled into the propeller, and a line round the screw stops the lead boat dead with a boom full of oil astern of it and the skiff still pulling — the line is led out over the quarter, clear of the outboards, and kept taut.",
+    "open-flame": "You reached for a lighter on the afterdeck with a fresh slick alongside. Light ends evaporating off a new spill can put the air at the rail inside its flammable range, and the air monitoring the plan asks for exists because that cannot be seen or smelled reliably — there is no flame and no smoking on a response vessel working a fresh slick.",
+    "stand-in-bight": "You stepped into the bight of the tow line between the bitt and the stern. A boom under tow in a current loads its tow line hard and unevenly, and when the skiff surges or the boom snags the line straightens across the afterdeck — whoever is standing in the bight is swept with it toward the stern. The deckhand works the line from outside the bight, always."
+  },
+  "id": "br-boom-towing-between-two-vessels",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "hold-u",
+      "alert": "A dark streak is trailing out behind the apex — oil is being dragged under the boom's skirt as both boats come ahead.",
+      "cue": "Call the master on the wheelhouse intercom to slow the tow, and have the skiff told to slow with you.",
+      "delay": 2,
+      "id": "oil-under-apex",
+      "kind": "Oil escaping under the apex",
+      "missNote": "The tow carried on at the same speed; the streak behind the apex became a second slick drifting away on the ebb, outside any boom.",
+      "seconds": 14,
+      "target": "wheelhouse-intercom",
+      "why": "Oil going under the apex means the U is being towed faster than the boom can hold it; the current under the skirt is carrying the oil down and out. Only slowing both boats together fixes it, and the master has to hear it from the deck, because from the wheelhouse the boom looks the same whether it is holding oil or losing it.",
+      "wrongNote": "The wheelhouse intercom — the master has to slow the tow, and the skiff with it, before more oil goes under."
+    },
+    {
+      "after": "hold-tension",
+      "alert": "The skiff's outboard has quit — she is stopping, her leg of the boom is going slack and the U is starting to fold toward the workboat.",
+      "cue": "Raise the skiff on the handheld: tell them to get their anchor ready and hold, while the lead boat eases off to keep the boom from folding.",
+      "delay": 2,
+      "id": "skiff-outboard-quits",
+      "kind": "Skiff dead in the water",
+      "missNote": "Nobody called the skiff; her crew tried to restart the outboard while the lead boat kept towing, and the boom folded back over the skiff's stern and round her outboard leg.",
+      "seconds": 14,
+      "target": "vhf-handheld",
+      "why": "A two-boat tow with one boat dead turns into a boom wrapping round the stopped boat and a tow line pulling the other one sideways. The skiff has to hear from the lead boat at once — anchor ready, hold position — so the two crews act together while the master eases off, rather than each doing something different with a boom full of oil between them.",
+      "wrongNote": "The handheld to the skiff — they need to hear what to do now, from the boat they are towing with."
+    }
+  ],
+  "lateNotes": {
+    "capstan-control": "The U is held on the capstan once the tow line is made fast, paid out and the skiff has answered the radio check — not before.",
+    "gas-meter": "The air is read once the tow gear has been walked and before anyone goes to the rail beside the slick.",
+    "tow-log": "The tow is logged once the apex is buoyed, the tension held through the skimmer's pass and the oiled waste bagged — last, not first."
+  },
+  "name": "Boom Towing Between Two Vessels",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "bay-restoration-maritime-underwater"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "skiff",
+        "count": 1,
+        "kit": "fleet"
+      },
+      {
+        "builder": "workboat",
+        "count": 1,
+        "kit": "fleet"
+      },
+      {
+        "builder": "fourGasMeter",
+        "count": 1,
+        "kit": "toolkit"
+      },
+      {
+        "builder": "radio",
+        "count": 1,
+        "kit": "toolkit"
+      }
+    ],
+    "error": null,
+    "footprint": 3,
+    "hits": [
+      "apex-point",
+      "boom-twist",
+      "boom-vest",
+      "bridle-chafe",
+      "capstan-control",
+      "connector-unlatched",
+      "gas-meter",
+      "hand-in-oil",
+      "line-near-screw",
+      "marker-buoy",
+      "oil-gloves",
+      "oiled-sorbent",
+      "open-flame",
+      "splash-over",
+      "stand-in-bight",
+      "tow-bitt",
+      "tow-line",
+      "tow-log",
+      "tow-plan",
+      "vhf-handheld",
+      "waste-drum",
+      "wheelhouse-intercom"
+    ],
+    "meshes": 190
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "anyOrder": true,
+      "cue": "At the wheelhouse door, before stepping onto the afterdeck: work vest on and fastened, oil-resistant gloves on over liners.",
+      "id": "pfd-and-gloves",
+      "itemNames": {
+        "boom-vest": "work vest (PFD) on and fastened",
+        "oil-gloves": "oil-resistant gloves over liners"
+      },
+      "kind": "sequence",
+      "prompt": "At the wheelhouse door, before stepping onto the afterdeck: work vest on and fastened, oil-resistant gloves on over liners.",
+      "targets": [
+        "boom-vest",
+        "oil-gloves"
+      ],
+      "title": "PFD and oil-resistant gloves on at the wheelhouse door",
+      "why": "The afterdeck of a boom-towing boat is low, wet and slick with product by the end of the job, and the tow line on it can move fast. The work vest is on before the deck because a fall over the stern into oiled water is the moment it is for; the oil-resistant gloves go on before anything is touched, because fresh crude or diesel on skin is an exposure HAZWOPER training treats as seriously as any other."
+    },
+    {
+      "cue": "Read the plan: the U configuration and the tow-line lengths, the boom's tow-speed limit, the working channel and stop signals, the skimmer's approach, and the air monitoring action level.",
+      "id": "tow-plan",
+      "kind": "select",
+      "prompt": "Read the plan: the U configuration and the tow-line lengths, the boom's tow-speed limit, the working channel and stop signals, the skimmer's approach, and the air monitoring action level.",
+      "target": "tow-plan",
+      "title": "Read the tow plan with the master",
+      "why": "Two boats towing one boom are one machine with two drivers, and the plan is where they agree how long each leg is, how fast the U can be towed before oil escapes under it, and what the signal is to stop. The boom's tow-speed rating is in the plan because it is low and easy to exceed, and the air monitoring action level is in it because the first boats into a fresh slick are working in whatever it is giving off."
+    },
+    {
+      "cue": "Walk the boom's end on deck before it goes over: the end connector locked and pinned, the tow bridle's legs, shackles and thimbles.",
+      "id": "gear-walk",
+      "itemNames": {
+        "bridle-chafe": "tow bridle chafed through its cover",
+        "connector-unlatched": "boom end connector with its locking pin missing"
+      },
+      "itemNotes": {
+        "bridle-chafe": "One leg of the tow bridle has worn through its cover where it rubs the connector — the bridle takes the whole pull of the boom, and a chafed leg is where it parts.",
+        "connector-unlatched": "The end connector joining the tow bridle to the first boom section has no locking pin — under tow the two halves can slide apart and the boom's end goes free."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the boom's end on deck before it goes over: the end connector locked and pinned, the tow bridle's legs, shackles and thimbles.",
+      "targets": [
+        "connector-unlatched",
+        "bridle-chafe"
+      ],
+      "title": "Walk the tow bridle and the end connector",
+      "why": "The whole pull of a boom full of oil comes through its end connector and tow bridle, and they fail where people did not look: a connector not pinned slides apart, a chafed bridle leg parts, and the boom's end is loose in the current with the oil following it. They are walked on deck because once the boom is streamed, nobody on the tow boat can reach them."
+    },
+    {
+      "cue": "Hold the gas meter at the stern rail on the slick side and commit the LEL reading once it has steadied, against the action level in the site safety plan.",
+      "gauge": {
+        "green": [
+          0.14,
+          0.34
+        ],
+        "label": "LEL AT THE RAIL",
+        "missNote": "Outside the band — let the meter steady at the rail before reading it, and read it against the plan's action level.",
+        "speed": 0.72
+      },
+      "id": "read-air",
+      "kind": "gauge",
+      "prompt": "Hold the gas meter at the stern rail on the slick side and commit the LEL reading once it has steadied, against the action level in the site safety plan.",
+      "target": "gas-meter",
+      "title": "Read the air at the rail before working near the slick",
+      "why": "A fresh slick gives off its light ends fastest in the first hours, and the afterdeck of the lead boat is often downwind of it and only a metre above it. The LEL reading at the rail says whether the air there is inside the plan's limits before anyone works at the stern — above them, the boat repositions upwind before the deck does anything else."
+    },
+    {
+      "cue": "Take turns of the boom's tow line round the tow bitt and finish with figure-eights, so it holds without anyone holding it.",
+      "id": "make-fast",
+      "kind": "turn",
+      "prompt": "Take turns of the boom's tow line round the tow bitt and finish with figure-eights, so it holds without anyone holding it.",
+      "target": "tow-bitt",
+      "title": "Make the tow line fast on the tow bitt",
+      "turn": {
+        "label": "TOW BITT",
+        "turns": 1.5
+      },
+      "why": "The tow line will carry the lead boat's share of the boom's drag for the whole sweep, and it has to hold on the bitt without a hand on it — a deckhand holding a tow line is a deckhand in the bight. Turns and figure-eights make it fast and still leave it able to be surged or slipped from outside the bight if the master calls for it."
+    },
+    {
+      "cue": "Pay the tow line out over the quarter — clear of the outboards — as the boom streams astern, keeping it taut and your hands outside the bight.",
+      "holdBreakNote": "Let go of the tow line as it was paying out — it went slack toward the outboards. Take it up again and pay it out steady.",
+      "id": "pay-out",
+      "kind": "hold",
+      "prompt": "Pay the tow line out over the quarter — clear of the outboards — as the boom streams astern, keeping it taut and your hands outside the bight.",
+      "seconds": 5,
+      "target": "tow-line",
+      "title": "Pay out the tow line over the quarter as the boom streams",
+      "why": "The tow line goes out over the quarter, not the stern, so that it never crosses the outboards' wash while it is slack. It is paid out steadily and kept taut, because a loose tow line in a current sinks, snags the boom's skirt or finds the propeller, and the deckhand stays outside the bight the whole time in case the skiff surges ahead."
+    },
+    {
+      "cue": "On the handheld, raise the skiff on the working channel: confirm the U is set, the tow speed, and the stop signal.",
+      "id": "radio-check",
+      "kind": "select",
+      "prompt": "On the handheld, raise the skiff on the working channel: confirm the U is set, the tow speed, and the stop signal.",
+      "target": "vhf-handheld",
+      "title": "Radio check with the skiff on the working channel",
+      "why": "The two boats towing a U cannot see each other's decks, and the U only keeps its shape if they move as one: same speed, same heading, same moment to turn or stop. The radio check before the sweep proves the channel works and puts the stop signal in both crews' heads, so the first time they need it is not the first time they use it."
+    },
+    {
+      "cue": "Tend the tow line on the capstan to hold the apex opening in band as both boats come ahead together into the slick.",
+      "holdBreakNote": "The apex fell out of band — the U flattened or the legs closed. Bring the line back on the capstan and hold it.",
+      "id": "hold-u",
+      "kind": "track",
+      "prompt": "Tend the tow line on the capstan to hold the apex opening in band as both boats come ahead together into the slick.",
+      "seconds": 6,
+      "target": "capstan-control",
+      "title": "Hold the U on the capstan as the sweep begins",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.44,
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "APEX OPENING",
+        "rise": 0.58,
+        "start": 0.14
+      },
+      "why": "The U gathers oil only while its apex is open and the boom stays upright: too much line and the U flattens and oil runs round the ends; too little and the legs close and the apex is dragged too fast. Tending the line on the capstan keeps the lead leg matched to the skiff's, and the tension in the line is the deckhand's best measure of whether the boom is being towed within its rating."
+    },
+    {
+      "cue": "Look along both legs to the apex: the float riding upright, the skirt down, and nothing going over or under the boom.",
+      "id": "apex-watch",
+      "itemNames": {
+        "boom-twist": "a boom section rolled flat with its skirt twisted",
+        "splash-over": "chop splashing over the boom at the apex"
+      },
+      "itemNotes": {
+        "boom-twist": "One section on the lead leg has rolled flat, its skirt twisted up out of the water — oil goes under it, and it will not right itself under tow.",
+        "splash-over": "The chop at the apex is breaking over the boom's float and carrying oil over the top with it — the U is too tight or the tow too fast for this sea."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look along both legs to the apex: the float riding upright, the skirt down, and nothing going over or under the boom.",
+      "targets": [
+        "splash-over",
+        "boom-twist"
+      ],
+      "title": "Watch the boom for where it is losing oil",
+      "why": "A boom loses oil in ways that are visible if someone is looking: over the top when chop splashes across a tight apex, under it when the tow is too fast, and past it where a section has rolled and its skirt twisted. The deckhand is the only person placed to see the boom along its whole length, and what they see decides whether the master slows, opens the U or stops to fix a section."
+    },
+    {
+      "cue": "Drop the marker buoy on its line so it rides at the apex, where the skimmer will come in to work the gathered oil.",
+      "drag": {
+        "missNote": "Not at the apex — the buoy has to ride where the boom's legs meet, or the skimmer works the thin oil at the side.",
+        "radius": 0.7,
+        "to": "apex-point"
+      },
+      "id": "buoy-apex",
+      "kind": "drag",
+      "prompt": "Drop the marker buoy on its line so it rides at the apex, where the skimmer will come in to work the gathered oil.",
+      "target": "marker-buoy",
+      "title": "Mark the apex with the buoy for the skimmer",
+      "why": "The skimmer works the thickest oil, and that is at the apex; the buoy marks it for a skimmer operator approaching low on the water who cannot see the boom's shape the way the tow boats can. It goes in on its own line, from inside the rail, so nobody leans out to place it."
+    },
+    {
+      "cue": "Hold the tow line steady on the capstan while the skimmer works the apex, so the U stays open and still under it.",
+      "holdBreakNote": "Let the tow line surge while the skimmer was working — the apex shifted under it. Take it up again and hold it steady.",
+      "id": "hold-tension",
+      "kind": "hold",
+      "prompt": "Hold the tow line steady on the capstan while the skimmer works the apex, so the U stays open and still under it.",
+      "seconds": 5,
+      "target": "capstan-control",
+      "title": "Hold tension while the skimmer works the apex",
+      "why": "A skimmer working the apex needs the boom still and open around it; any surge on the tow line changes the apex under the skimmer head and spills what has been gathered. Holding the line steady through the skimmer's pass is slow, dull work that decides how much of the oil actually comes out of the water."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Bag the oiled sorbent pads and your outer gloves, and put the bag in the lidded oily-waste drum on deck.",
+      "id": "bag-waste",
+      "itemNames": {
+        "oiled-sorbent": "oiled sorbent pads and outer gloves bagged",
+        "waste-drum": "bag into the lidded oily-waste drum"
+      },
+      "kind": "sequence",
+      "prompt": "Bag the oiled sorbent pads and your outer gloves, and put the bag in the lidded oily-waste drum on deck.",
+      "targets": [
+        "oiled-sorbent",
+        "waste-drum"
+      ],
+      "title": "Bag the oiled sorbents and gloves into the waste drum",
+      "why": "Every oiled pad and glove on the afterdeck is product that can go over the side again or onto the next person's hands, and the response's waste has to be tracked to its disposal. Bagging it into the lidded drum keeps it on the boat and counted, and changing the outer gloves before going aft keeps the oil off the wheelhouse."
+    },
+    {
+      "cue": "Log the tow: the air readings, the unpinned connector and the chafed bridle, the oil lost under the apex, the splash-over and the twisted section, and the skiff's dead outboard.",
+      "id": "tow-log",
+      "kind": "select",
+      "prompt": "Log the tow: the air readings, the unpinned connector and the chafed bridle, the oil lost under the apex, the splash-over and the twisted section, and the skiff's dead outboard.",
+      "target": "tow-log",
+      "title": "Log the tow and what the boom lost",
+      "why": "The tow log feeds the incident command's picture of what the boom recovered and what it lost, and it is where a chafed bridle becomes a replacement before the next sweep. The escaping oil and the dead outboard go in because they changed how the sweep went, and the next crew working this boom needs to know both happened."
+    },
+    {
+      "cue": "On the intercom and the handheld: the tow line is fast and the boom holding, the gear defects, and how everyone is after oil going under the apex and the skiff going dead in the water.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "On the intercom and the handheld: the tow line is fast and the boom holding, the gear defects, and how everyone is after oil going under the apex and the skiff going dead in the water.",
+      "target": "wheelhouse-intercom",
+      "title": "Check in with the master, the skiff and the engineer",
+      "why": "The master and the skiff crew towed the U blind to each other's decks, and the engineer may be asked to go across to the skiff's outboard — each needs the deck's report now. It is also the crew's own check-in: working hours in fumes beside a spreading slick takes it out of people, and the union's member assistance line is there for what does not get said on the radio."
+    }
+  ],
+  "supportLine": "your union hall's member assistance programme — the Inlandboatmen's Union or MEBA — with the employer's employee assistance line behind it",
+  "tagline": "Two boats towing boom in a U through a fresh sheen: PFD and oil-resistant gloves on, the tow plan read, the bridle and connector walked, the air read at the rail, the tow line made fast and paid out, a radio check with the skiff, the U held on the capstan through oil escaping under the apex, splash-over and a twisted section spotted, the apex buoyed for the skimmer, tension held as the skiff's outboard quits, oiled waste bagged and the tow logged",
+  "title": "SmartCiti.X~ Boom Towing Between Two Vessels VR",
+  "trade": "Inlandboatmen's Union (IBU) deckhand on the lead workboat of a two-boat boom tow, with an IBU crew on the skiff towing the other leg and a MEBA engineer on watch",
+  "underwater": null,
+  "weather": "wind"
+}

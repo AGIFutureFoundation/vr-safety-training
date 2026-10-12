@@ -1,0 +1,442 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "push-authority",
+    "name": "Push Authority",
+    "note": "Bypass pin seated, brakes released and set only on the flight deck's own word, and the headset never disconnected before the final signal"
+  },
+  "category": "Mobility & Transit",
+  "certification": "IAM and TWU ramp training; FAA 14 CFR Part 121 air carrier ground-handling operations and 14 CFR Part 139 movement-area operations; OSHA 29 CFR 1910.178 powered industrial trucks and 29 CFR 1910.132 personal protective equipment",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "IAM",
+        "id": "iam-winpisinger-center",
+        "title": "IAM — the William W. Winpisinger Education and Technology Center's machinist and transportation training"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.132",
+        "id": "osha-1910-132",
+        "title": "29 CFR 1910.132 — Personal protective equipment, general requirements"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.178",
+        "id": "osha-1910-178",
+        "title": "29 CFR 1910.178 — Powered industrial trucks"
+      },
+      {
+        "body": "union",
+        "citedAs": "TWU",
+        "id": "twu-training",
+        "title": "TWU member training for transit and airline ground operations"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Aviation",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "pin-first",
+        "name": "Pin First",
+        "note": "Never pushed without the steering bypass pin seated"
+      },
+      {
+        "id": "brake-word",
+        "name": "Brake on Their Word",
+        "note": "Never moved the aircraft without the flight deck's own confirmation"
+      },
+      {
+        "id": "steady-push",
+        "name": "Steady Push",
+        "note": "Held the tow speed and the steering near band centre the whole push"
+      },
+      {
+        "id": "clean-connect",
+        "name": "Clean Connect Certified",
+        "note": "Connected the towbar clean, first time"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "quick-push",
+        "name": "Quick Push",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "clean-shift",
+        "name": "Clean Shift",
+        "note": "Clean run, no corrections"
+      },
+      {
+        "id": "push-streak",
+        "name": "Push Streak",
+        "note": "Nine correct actions in a row"
+      }
+    ],
+    "currency": "PUSH",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Ramp Hand",
+      "Tug Qualified",
+      "Headset Agent",
+      "Lead Pushback",
+      "Push Authority Certified"
+    ],
+    "system": "Push Authority"
+  },
+  "hazards": {
+    "early-disconnect-hazard": "That disconnects the headset before the final brakes-set signal was given. The headset is the only open line to the flight deck for the entire push, and cutting it before the last confirmation means nobody has a way to tell the crew if something is wrong with the aircraft in the last few seconds before the tug actually clears it.",
+    "push-blind-hazard": "That pushes the aircraft before the flight deck confirmed the parking brake is released. A brake that is still set fights the tug's own force straight through the towbar and the nose gear, and the crew has no way to feel that resistance from the tug's own seat before something in that load path gives.",
+    "skip-bypass-pin-hazard": "That skips the steering bypass pin. Without it, the tug's own force is fed straight into the nosewheel's steering linkage every time the tow turns, and that is exactly the load path that bends a steering collar or tears a hydraulic line the crew will not find until the aircraft's own steering fails on a taxi it should never have failed on.",
+    "tow-path-stand-hazard": "You are standing in the tow path while the aircraft is moving. A jet under tow does not stop for a person the way it would for an obstacle a driver could see coming — the tug operator's own view down the fuselage is already partly blocked, and the tow path is kept clear so that blind spot never has to matter."
+  },
+  "id": "av-pushback-tug-and-towbar-connection",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "push-back",
+      "alert": "A catering truck has turned into the tow path just ahead of the tail, well inside the aircraft's own swept path under tow.",
+      "cue": "Stop the tug now — nothing crosses the tow path while the aircraft is moving.",
+      "delay": 5,
+      "id": "vehicle-enters-tow-path",
+      "kind": "Tow-path incursion",
+      "missNote": "The push kept going while the truck was still in the tail's own swept path. A jet under tow takes far longer to stop than the tug itself does, which is the entire reason the tow path is kept clear rather than trusted to a driver's own judgement.",
+      "seconds": 12,
+      "target": "tow-path-stop",
+      "why": "The tug operator's own view down the fuselage cannot cover the ground the tail is about to sweep, and the only real defence against a vehicle that wanders into that path is a crew that stops the push the instant it is no longer clear, not one that trusts the vehicle to notice first.",
+      "wrongNote": "Wrong call for this moment — the vehicle sitting in the tow path is the thing that needs this push stopped right now."
+    },
+    {
+      "after": "stop-on-mark",
+      "alert": "The flight deck's brake-set call came through broken on the headset — the crew cannot actually confirm whether the parking brake is set.",
+      "cue": "Get the chocks back under the wheels right now, before anything else happens.",
+      "delay": 3,
+      "id": "unclear-brake-confirmation",
+      "kind": "Brake confirmation unclear",
+      "missNote": "The crew moved on without ever actually confirming the brake, and nothing physical was holding the aircraft in the meantime. An aircraft nobody can confirm is braked is an aircraft that is, as far as this crew actually knows, still free to roll.",
+      "seconds": 12,
+      "target": "chock-nose",
+      "why": "An unclear confirmation is the same as no confirmation at all, and the one thing that holds this aircraft regardless of what the brake is actually doing is a chock physically under the wheel — that goes back on immediately rather than waiting for a clearer radio call.",
+      "wrongNote": "Wrong call for this moment — getting the chocks back under this aircraft is what needs to happen before the disconnect goes any further."
+    }
+  ],
+  "lateNotes": {
+    "bypass-pin": "The bypass pin goes in before the tug ever takes a load, not fitted afterward once the tow is already under way.",
+    "engine-status": "The flight deck sets and confirms the parking brake before the towbar is disconnected, not after."
+  },
+  "name": "Pushback Tug & Towbar Connection",
+  "parSeconds": 310,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "aviation-maintenance-and-ground"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "pushbackTug",
+        "count": 1,
+        "kit": "equipment"
+      },
+      {
+        "builder": "regionalJet",
+        "count": 1,
+        "kit": "equipment"
+      }
+    ],
+    "error": null,
+    "footprint": 2.9,
+    "hits": [
+      "bypass-pin",
+      "bypass-pin-out",
+      "chock-main",
+      "chock-nose",
+      "chock-nose-2",
+      "cracked-towbar-head",
+      "early-disconnect-hazard",
+      "engine-status",
+      "final-signal-paddle",
+      "headset-gear",
+      "headset-jack",
+      "hi-vis-vest",
+      "hydraulic-leak-tug",
+      "nose-gear-socket",
+      "path-cones",
+      "push-blind-hazard",
+      "push-plan-board",
+      "skip-bypass-pin-hazard",
+      "sound-tow-bar-jaw",
+      "steer-tiller",
+      "stop-bar",
+      "tow-path-stand-hazard",
+      "tow-path-stop",
+      "towbar-disconnect",
+      "towbar-head-seat",
+      "towbar-retain-pin",
+      "tug-body",
+      "tug-controls",
+      "work-gloves",
+      "worn-shear-pin"
+    ],
+    "meshes": 163
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "anyOrder": true,
+      "cue": "Hi-vis vest, headset and gloves before anyone touches the towbar.",
+      "id": "ppe",
+      "itemNames": {
+        "headset-gear": "headset",
+        "hi-vis-vest": "hi-vis vest",
+        "work-gloves": "work gloves"
+      },
+      "kind": "sequence",
+      "prompt": "Hi-vis vest, headset and gloves before anyone touches the towbar.",
+      "targets": [
+        "hi-vis-vest",
+        "headset-gear",
+        "work-gloves"
+      ],
+      "title": "Suit up for the push",
+      "why": "The headset is the only open line to the flight deck for the entire push, and it goes on with the rest of the gear before the towbar is even inspected, because every step from here on assumes that line is already live and every crew member already has it on."
+    },
+    {
+      "cue": "Confirm the aircraft type, the push path and the towbar rating before rigging up.",
+      "id": "brief",
+      "kind": "select",
+      "prompt": "Confirm the aircraft type, the push path and the towbar rating before rigging up.",
+      "target": "push-plan-board",
+      "title": "Read the pushback plan",
+      "why": "The pushback plan is what sets the towbar and shear-pin rating for this specific aircraft, and a crew that has not read it has no way to know before the tug is already connected whether the towbar in front of them is even rated for what they are about to push."
+    },
+    {
+      "cue": "Walk the tug and towbar. Three problems are hiding on it — find them by looking.",
+      "decoyNotes": {
+        "sound-tow-bar-jaw": "The towbar jaw is clean, dry and shows no wear. Nothing to flag there."
+      },
+      "id": "inspect-towbar",
+      "itemNames": {
+        "cracked-towbar-head": "cracked towbar head",
+        "hydraulic-leak-tug": "hydraulic leak on the tug",
+        "worn-shear-pin": "worn shear pin"
+      },
+      "itemNotes": {
+        "cracked-towbar-head": "A cracked towbar head can let go of the nose gear under load exactly when the tow needs it holding hardest.",
+        "hydraulic-leak-tug": "A leak on the tug's own hydraulics is steering or braking pressure this rig is losing before the push has even started.",
+        "worn-shear-pin": "A shear pin worn thinner than its rating shears at a load well under the one it is there to protect the nose gear from."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the tug and towbar. Three problems are hiding on it — find them by looking.",
+      "targets": [
+        "worn-shear-pin",
+        "cracked-towbar-head",
+        "hydraulic-leak-tug"
+      ],
+      "title": "Inspect the tug and towbar",
+      "why": "A towbar that looks fine from a distance is not the same thing as one a competent person has actually walked before it ever touches the nose gear — a worn shear pin, a cracked head or a hydraulic leak found now costs a swap, and found once the tug is already under load costs a nose gear this crew cannot easily replace on the ramp."
+    },
+    {
+      "cue": "Drive the tug in and line the towbar up square with the nose gear.",
+      "drag": {
+        "missNote": "Not squared up to the nose gear — bring the tug in straight before the towbar goes anywhere near it.",
+        "radius": 0.45,
+        "to": "nose-gear-socket"
+      },
+      "id": "position-tug",
+      "kind": "drag",
+      "prompt": "Drive the tug in and line the towbar up square with the nose gear.",
+      "target": "tug-body",
+      "title": "Position the tug",
+      "why": "The towbar only seats cleanly on the nose gear if the tug is actually squared up to it first — a tug brought in at an angle is a towbar head that goes on crooked, and a crooked connection is the first thing to fail once real load goes through it."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Seat the towbar head on the nose gear and secure the retaining pin.",
+      "id": "attach-towbar",
+      "itemNames": {
+        "towbar-head-seat": "towbar head seated",
+        "towbar-retain-pin": "retaining pin secured"
+      },
+      "kind": "sequence",
+      "prompt": "Seat the towbar head on the nose gear and secure the retaining pin.",
+      "targets": [
+        "towbar-head-seat",
+        "towbar-retain-pin"
+      ],
+      "title": "Connect the towbar",
+      "why": "The towbar is the entire load path between the tug and the aircraft for the whole push, and a head that is seated but not pinned is a connection that looks finished from a few feet away right up until the first turn puts a side load on it that a seated-but-unpinned head was never going to hold."
+    },
+    {
+      "cue": "Install the bypass pin in the nosewheel steering before the tug takes any load.",
+      "id": "install-bypass-pin",
+      "kind": "select",
+      "prompt": "Install the bypass pin in the nosewheel steering before the tug takes any load.",
+      "target": "bypass-pin",
+      "title": "Seat the steering bypass pin",
+      "why": "The bypass pin is what disconnects the nosewheel's own hydraulic steering from the tug's force, so the tug can turn the wheel without fighting a steering system built to be driven by the flight deck, not shoved by a tug on the ramp."
+    },
+    {
+      "cue": "Plug the headset into the nose interphone and confirm comms with the flight deck.",
+      "id": "headset-connect",
+      "kind": "select",
+      "prompt": "Plug the headset into the nose interphone and confirm comms with the flight deck.",
+      "target": "headset-jack",
+      "title": "Connect the headset",
+      "why": "Everything from here — the brake release, the push itself, the final brake-set confirmation — is coordinated over this one line, and it gets tested now, before the chocks come off, rather than assumed live the first time it is actually needed."
+    },
+    {
+      "cue": "Hold at the headset and wait for the flight deck's own confirmation before anything moves.",
+      "holdBreakNote": "Let go of the headset before the confirmation came through. Hold at it — the brake only comes off once the flight deck actually says so.",
+      "id": "brake-release-confirm",
+      "kind": "hold",
+      "prompt": "Hold at the headset and wait for the flight deck's own confirmation before anything moves.",
+      "seconds": 6,
+      "target": "headset-jack",
+      "title": "Wait for the brake-release call",
+      "why": "The parking brake only comes off on the flight deck's own word, because they are the one crew that can actually see it release from inside the cockpit — a tug operator who assumes it is already off is betting the whole push on a guess."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Pull the chocks now the brake is confirmed released, and cone the tow path clear.",
+      "id": "stage-for-push",
+      "itemNames": {
+        "chock-main": "main chocks",
+        "chock-nose": "nose chocks",
+        "path-cones": "tow path cones"
+      },
+      "kind": "sequence",
+      "prompt": "Pull the chocks now the brake is confirmed released, and cone the tow path clear.",
+      "targets": [
+        "chock-nose",
+        "chock-main",
+        "path-cones"
+      ],
+      "title": "Clear the chocks and the path",
+      "why": "The chocks only come off once the brake is confirmed released, in that order, because until that confirmation the chocks are the only thing definitely holding this aircraft — and the path gets coned the same moment so nothing rolls into a lane the tow is about to sweep."
+    },
+    {
+      "cue": "Hold the tow speed steady down the push line, watching the tail clearance the whole way.",
+      "holdBreakNote": "Tow speed out of band. Bring it back to a steady push before the tail swings any further.",
+      "id": "push-back",
+      "kind": "track",
+      "prompt": "Hold the tow speed steady down the push line, watching the tail clearance the whole way.",
+      "seconds": 8,
+      "target": "tug-controls",
+      "title": "Push the aircraft back",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.45,
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "TOW SPEED",
+        "rise": 0.5,
+        "start": 0.15
+      },
+      "why": "A push that speeds up and slows down is a push the tug operator is reacting to rather than controlling, and a steady speed is what keeps the tail's own swing predictable to everyone watching it, including whoever is walking the wingtip."
+    },
+    {
+      "cue": "Turn the tiller to keep the nosewheel tracking the push line with the bypass pin engaged.",
+      "id": "steer-nosewheel",
+      "kind": "turn",
+      "prompt": "Turn the tiller to keep the nosewheel tracking the push line with the bypass pin engaged.",
+      "target": "steer-tiller",
+      "title": "Steer the nosewheel straight",
+      "turn": {
+        "axis": "y",
+        "label": "NOSEWHEEL",
+        "turns": 0.4
+      },
+      "why": "With the bypass pin seated, the tiller is the only thing actually steering the nosewheel for the whole push — letting it wander off the line is exactly the side load the bypass pin exists to keep off the nose gear's own hydraulics."
+    },
+    {
+      "cue": "Stop the push when the nosewheel reaches the mark — commit inside the band.",
+      "gauge": {
+        "green": [
+          0.46,
+          0.58
+        ],
+        "label": "NOSEWHEEL",
+        "missNote": "Off the mark — the aircraft's own first turn onto the taxiway will not match the plan.",
+        "speed": 0.68
+      },
+      "id": "stop-on-mark",
+      "kind": "gauge",
+      "prompt": "Stop the push when the nosewheel reaches the mark — commit inside the band.",
+      "target": "stop-bar",
+      "title": "Stop on the mark",
+      "why": "The mark is set for where this aircraft's own turn onto the taxiway actually starts clean, and stopping short or long of it hands the flight deck a first turn that does not match the one the plan was built around, on a taxiway this crew is not the one steering through it."
+    },
+    {
+      "cue": "Confirm the flight deck has set and reported the parking brake before disconnecting anything.",
+      "id": "brake-set-confirm",
+      "kind": "select",
+      "prompt": "Confirm the flight deck has set and reported the parking brake before disconnecting anything.",
+      "target": "engine-status",
+      "title": "Confirm the brake is set",
+      "why": "Nothing gets disconnected from this aircraft until the flight deck's own brake is confirmed set, because until that exact confirmation comes through over the headset, the tug and the towbar are the only thing standing between this aircraft and rolling on its own."
+    },
+    {
+      "cue": "Chocks on first, then the bypass pin out, then the towbar disconnected last.",
+      "id": "disconnect-sequence",
+      "itemNames": {
+        "bypass-pin-out": "bypass pin removed",
+        "chock-nose-2": "chocks placed",
+        "towbar-disconnect": "towbar disconnected"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Chocks, then the bypass pin, then the towbar — the aircraft is held before anything is disconnected from it.",
+      "prompt": "Chocks on first, then the bypass pin out, then the towbar disconnected last.",
+      "targets": [
+        "chock-nose-2",
+        "bypass-pin-out",
+        "towbar-disconnect"
+      ],
+      "title": "Disconnect in order",
+      "why": "The chocks go on before anything else comes off so the aircraft is never for a moment held only by a brake this crew cannot actually see or feel — the bypass pin and the towbar come off only once something physical, right there under the wheels, is already holding it."
+    },
+    {
+      "cue": "Give the brakes-set hand signal to the flight deck, then disconnect the headset last.",
+      "id": "final-signal",
+      "kind": "select",
+      "prompt": "Give the brakes-set hand signal to the flight deck, then disconnect the headset last.",
+      "target": "final-signal-paddle",
+      "title": "Give the final signal and clear",
+      "why": "The hand signal is the flight deck's own visual confirmation, from a cockpit that cannot see the towbar or the chocks, that the ramp crew is fully clear — and the headset stays live until that signal is given, not a moment before."
+    }
+  ],
+  "supportLine": "your IAM or TWU local's member assistance programme, or the site's employee assistance line if a close call under the nose gear is what stayed with you",
+  "tagline": "A jet pushed off the gate: the towbar inspected and connected, the steering bypass pin seated, headset comms confirmed with the flight deck before a chock moves, the brake released only on their word, the push held on line, and the brake set and confirmed again before anything is disconnected",
+  "title": "SmartCiti.X~ Pushback Tug & Towbar Connection VR",
+  "trade": "Pushback tug operator and headset agent — IAM/TWU ramp crew",
+  "underwater": null,
+  "weather": "overcast"
+}

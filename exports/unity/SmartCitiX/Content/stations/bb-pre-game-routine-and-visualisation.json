@@ -1,0 +1,423 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "ready-not-wound-up",
+    "name": "Ready, Not Wound Up",
+    "note": "A pre-game hour that left the team calm, focused and rested, not amped past the point of good decisions"
+  },
+  "category": "Youth Sports & Coaching",
+  "certification": "USA Basketball youth development guidelines on a calm, rest-first pre-game routine rather than last-minute extra work; the Association for Applied Sport Psychology's guidance on pre-performance routines and visualisation — picturing a play calmly and specifically before it happens; NFHS basketball rules and its sportsmanship expectations for how a team carries itself before it ever takes the floor; CDC Heads Up for a heat or head concern noticed before the game starts; the U.S. Center for SafeSport for privacy and consent in a locker room and calm handling of a parent at the door; the American Red Cross first aid course for a player who is unwell before tip-off",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "Association for Applied Sport Psychology",
+        "citedAs": "Association for Applied Sport Psychology",
+        "id": "aasp-sport-psychology-guidance",
+        "title": "Association for Applied Sport Psychology guidance on mental-skills routines for young athletes: composure after a mistake, pre-performance routines, coach feedback and growth mindset, and decision-making under pressure"
+      },
+      {
+        "body": "CDC",
+        "citedAs": "CDC Heads Up",
+        "id": "cdc-heads-up",
+        "title": "CDC Heads Up concussion-in-youth-sports training for coaches, parents and athletes: recognise the signs, remove the player from play, refer for evaluation, and return only with clearance"
+      },
+      {
+        "body": "NFHS",
+        "citedAs": "NFHS",
+        "id": "nfhs-basketball-rules",
+        "title": "National Federation of State High School Associations (NFHS) basketball rules and its sports medicine advisory guidance on concussion, heat and hydration for school sport"
+      },
+      {
+        "body": "Red Cross",
+        "citedAs": "American Red Cross first aid",
+        "id": "red-cross-first-aid-course",
+        "title": "American Red Cross first aid, CPR and AED course for coaches and staff: check the scene, call, care, and hand over to emergency services"
+      },
+      {
+        "body": "U.S. Center for SafeSport",
+        "citedAs": "U.S. Center for SafeSport",
+        "id": "safesport-code",
+        "title": "U.S. Center for SafeSport abuse-prevention training and policies for adults who work with young athletes: two adults present, observable and interruptible interactions, and reporting"
+      },
+      {
+        "body": "USA Basketball",
+        "citedAs": "USA Basketball",
+        "id": "usa-basketball-youth-guidelines",
+        "title": "USA Basketball youth development guidelines: age-appropriate play, practice length and frequency, rest and multi-sport participation for young players, and the coach licence that teaches them"
+      }
+    ]
+  },
+  "district": "gym-court",
+  "domain": "Youth Sports",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "clear-locker-room",
+        "name": "Clear Locker Room",
+        "note": "Every hazard in the locker room found before warm-ups"
+      },
+      {
+        "id": "calm-tip-off",
+        "name": "Calm Tip-Off",
+        "note": "No unsafe action in the whole pre-game hour"
+      },
+      {
+        "id": "ready-energy",
+        "name": "Ready Energy",
+        "note": "Energy level and team energy through the final minutes both inside the band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-routine",
+        "name": "Clean Routine",
+        "note": "No corrections anywhere in the pre-game hour"
+      },
+      {
+        "id": "steady-through-tip-off",
+        "name": "Steady Through Tip-Off",
+        "note": "Held team energy in band through the final minutes"
+      },
+      {
+        "id": "on-time-for-tip-off",
+        "name": "On Time for Tip-Off",
+        "note": "Practice log reached inside 80% of par"
+      }
+    ],
+    "currency": "FOCUS POINTS",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Locker Helper",
+      "Warm-Up Coach",
+      "Assistant Coach",
+      "Head Coach",
+      "Routine Mentor"
+    ],
+    "system": "Tip-Off Countdown"
+  },
+  "hazards": {
+    "extra-sprints-right-before-tip": "You had the team run extra sprints right before tip-off so they would 'feel it in their legs'. Youth guidance favours rest before performance, not fresh fatigue loaded on minutes before the game that actually counts — tired legs at tip-off are the last thing a player who has already done a full pre-game warm-up needs.",
+    "hype-video-turns-reckless": "You played the loudest, hardest hype video right up until the whistle and let it carry the team onto the floor still amped past focus. Energy that never comes back down before contact starts is exactly the kind of arousal that turns a hard, competitive game into reckless, out-of-control contact in the first few minutes.",
+    "locker-room-fans-off": "You left the locker room fans off with the door shut before a game already making players sweat before they moved. A stuffy, unventilated room raises the odds of dizziness and heat illness before a player has taken a single competitive step, and it is the kind of thing that is trivial to fix and easy to forget under pre-game pressure.",
+    "phone-recording-without-consent": "You let a phone keep recording players changing and stretching in the locker room without anyone asking first. A locker room is a private space for young athletes, and filming it without consent is exactly the kind of unwatched, unasked-about moment safe-sport guidance expects an adult in charge to notice and stop."
+  },
+  "id": "bb-pre-game-routine-and-visualisation",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "quiet-visualisation",
+      "alert": "A parent pushes into the locker room mid-visualisation, loudly hyping the team up before the biggest game of the season.",
+      "cue": "Send the assistant to walk the parent back out and set a time to talk after the game — keep the room quiet and the head coach with the team.",
+      "delay": 3,
+      "id": "parent-bursts-into-the-locker-room",
+      "kind": "Parent at the door",
+      "missNote": "The head coach stopped the visualisation to argue with the parent in front of the team, and by the time it was sorted out the quiet the room needed was gone for good.",
+      "seconds": 12,
+      "target": "door-greeting-spot",
+      "why": "A well-meaning parent bursting into a quiet visualisation undoes it for the whole room in one loud sentence. Sending the assistant to walk them back out calmly, and fixing a time to talk later, keeps the routine intact and keeps the conversation itself calm and in the open, the way safe-sport guidance expects adult conversations near a team to be handled.",
+      "wrongNote": "That does not settle it. Send the assistant to walk the parent back out, calmly."
+    },
+    {
+      "after": "captains-word",
+      "alert": "The fire alarm sounds right in the middle of the captain's word, with the whole team still sitting on the benches.",
+      "cue": "Everyone up and out through the marked exit now, gear left where it is, headcount outside against the roster.",
+      "delay": 3,
+      "id": "fire-alarm-in-the-locker-room",
+      "kind": "Fire alarm",
+      "missNote": "The captain finished the word and the team filed out slowly gathering bags on the way. Outside, the headcount took twice as long as it should have and nobody could say for certain everyone had actually left the room when the alarm first sounded.",
+      "seconds": 12,
+      "target": "fire-exit-door",
+      "why": "A locker room alarm moves a seated, half-dressed team, which takes longer than moving players already on their feet — all the more reason to start immediately rather than finish the sentence. Gear stays behind, the team leaves together through the marked exit, and a headcount against the roster happens outside before anyone is told it was a drill or the real thing.",
+      "wrongNote": "The alarm comes first. Everybody up and out through the marked exit, gear left behind."
+    }
+  ],
+  "lateNotes": {
+    "crew-checkin-board": "The staff check-in comes after the log, right before tip-off.",
+    "practice-log-board": "The log closes the pre-game hour once the shoot-around and the captain's word have run — nothing to record yet."
+  },
+  "name": "Pre-Game Routine and Visualisation",
+  "parSeconds": 330,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "basketball-fundamentals"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.5,
+    "hits": [
+      "captains-word-marker",
+      "crew-checkin-board",
+      "door-greeting-spot",
+      "energy-gauge",
+      "extra-sprints-right-before-tip",
+      "fire-exit-door",
+      "focus-image-card",
+      "gear-rack-socket",
+      "hype-video-turns-reckless",
+      "jitter-avoiding-eye-contact",
+      "jitter-deep-breathing",
+      "jitter-forced-joking",
+      "jitter-leg-bouncing",
+      "locker-room-fans-off",
+      "loose-gear-bag",
+      "music-dial",
+      "phone-recording-without-consent",
+      "practice-log-board",
+      "pre-captain-leading-stretch",
+      "pre-gear-bag-in-doorway",
+      "pre-phone-filming",
+      "pre-untied-shoelace",
+      "quiet-corner-spot",
+      "routine-arrival",
+      "routine-shoot-around",
+      "routine-stretch",
+      "routine-visualise",
+      "schedule-board",
+      "team-energy-meter",
+      "visualisation-marker"
+    ],
+    "meshes": 262
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Look around the room. Mark what has to be fixed before the team gets moving.",
+      "decoyNotes": {
+        "pre-captain-leading-stretch": "A captain leading the stretch calmly is exactly what the routine wants. Look for what is actually wrong."
+      },
+      "id": "scan-the-locker-room",
+      "itemNames": {
+        "pre-gear-bag-in-doorway": "a gear bag blocking the doorway",
+        "pre-phone-filming": "a phone filming the room, unasked",
+        "pre-untied-shoelace": "a player with an untied shoelace"
+      },
+      "itemNotes": {
+        "pre-gear-bag-in-doorway": "A bag in the doorway is a trip waiting for the first player moving fast toward the court. Move it to the rack.",
+        "pre-phone-filming": "Nobody has asked whether it is fine to be filmed changing or stretching. Stop it and ask, or put it away.",
+        "pre-untied-shoelace": "A loose lace is a rolled ankle the moment a player plants and cuts. Tie it before warm-ups start."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look around the room. Mark what has to be fixed before the team gets moving.",
+      "targets": [
+        "pre-gear-bag-in-doorway",
+        "pre-untied-shoelace",
+        "pre-phone-filming"
+      ],
+      "title": "Scan the locker room before warm-ups start",
+      "why": "A locker room an hour before a game is full of small, fixable things that become bigger ones once the team is moving fast: a bag in the doorway, a loose lace, a phone recording without anyone's consent. Catching all three now, calmly, sets the tone for a routine that stays calm the rest of the hour."
+    },
+    {
+      "cue": "Put up the order: arrival and gear check, stretch, visualisation, shoot-around, captain's word.",
+      "id": "post-the-pregame-schedule",
+      "kind": "select",
+      "prompt": "Put up the order: arrival and gear check, stretch, visualisation, shoot-around, captain's word.",
+      "target": "schedule-board",
+      "title": "Post the pre-game schedule where everyone can see it",
+      "why": "A posted schedule tells every player exactly what is coming and when, which is itself calming — nerves feed on uncertainty. Following the same order before every game also means the routine is something a player can lean on when the game matters more than usual, not something that only exists when things are calm."
+    },
+    {
+      "cue": "The team sits quietly and pictures the game going well — hold this here, no talking over it, no music.",
+      "holdBreakNote": "The quiet broke before the visualisation finished. Bring the room back down and hold it the whole way through.",
+      "id": "quiet-visualisation",
+      "kind": "hold",
+      "prompt": "The team sits quietly and pictures the game going well — hold this here, no talking over it, no music.",
+      "seconds": 7,
+      "target": "visualisation-marker",
+      "title": "Hold a genuinely quiet visualisation",
+      "why": "The Association for Applied Sport Psychology's guidance on visualisation is that picturing a play calmly and specifically — the catch, the footwork, the shot — rehearses it mentally the way a walk-through rehearses it physically. None of this is promised to change the score; it only works at all if the room is actually quiet enough for a young player to picture anything."
+    },
+    {
+      "cue": "Arrival and gear first, then the stretch, then visualisation, then the shoot-around.",
+      "id": "build-the-pregame-routine",
+      "itemNames": {
+        "routine-arrival": "arrival and gear check",
+        "routine-shoot-around": "shoot-around",
+        "routine-stretch": "dynamic stretch",
+        "routine-visualise": "visualisation"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order. Gear and the body come first — a mind cannot settle into visualisation while a lace is untied or a hamstring is still cold, and a shoot-around before the mind is calm just rehearses the nerves.",
+      "prompt": "Arrival and gear first, then the stretch, then visualisation, then the shoot-around.",
+      "targets": [
+        "routine-arrival",
+        "routine-stretch",
+        "routine-visualise",
+        "routine-shoot-around"
+      ],
+      "title": "Build the pre-game routine in order",
+      "why": "Each part sets up the next: gear checked and bodies warm before anyone tries to sit still and focus, the mind settled by visualisation before the body is asked to perform in the shoot-around. Run out of order, the routine becomes a checklist instead of a build toward tip-off."
+    },
+    {
+      "cue": "Post one concrete picture to hold — a made free throw, a defensive stop, a calm bench — not a vague 'play well'.",
+      "id": "choose-a-focus-image",
+      "kind": "select",
+      "prompt": "Post one concrete picture to hold — a made free throw, a defensive stop, a calm bench — not a vague 'play well'.",
+      "target": "focus-image-card",
+      "title": "Choose one specific image to picture",
+      "why": "A specific, practised image is something a young player can actually hold in their mind under nerves; 'play well' gives the mind nothing to picture at all. The image chosen matters less than how concretely it is pictured — the same specific detail a routine anywhere else in this programme relies on."
+    },
+    {
+      "cue": "Commit when the energy reads ready — not flat and sleepy, not amped past focus.",
+      "gauge": {
+        "green": [
+          0.44,
+          0.62
+        ],
+        "label": "ENERGY",
+        "missNote": "Outside the band. Flat plays slow to start; amped past focus is where reckless contact starts. Find ready and commit.",
+        "speed": 0.65
+      },
+      "id": "energy-level-check",
+      "kind": "gauge",
+      "prompt": "Commit when the energy reads ready — not flat and sleepy, not amped past focus.",
+      "target": "energy-gauge",
+      "title": "Read the team's energy before it locks in",
+      "why": "A team that is flat an hour out will be a step slow at tip-off, and a team wound up past focus is a team about to make its first hard foul in the opening minute without meaning to. Reading energy honestly, rather than assuming louder is always better, is what keeps the hour building toward ready instead of toward reckless."
+    },
+    {
+      "cue": "Turn the music dial to a level that lifts the room without burying the coach's voice.",
+      "id": "set-the-locker-room-music",
+      "kind": "turn",
+      "prompt": "Turn the music dial to a level that lifts the room without burying the coach's voice.",
+      "target": "music-dial",
+      "title": "Set the locker room music to energise, not drown out",
+      "turn": {
+        "axis": "z",
+        "label": "MUSIC",
+        "turns": 0.5
+      },
+      "why": "Music before a game is a tool for energy, not a replacement for the coach being heard. Set too loud, it pushes a team toward the amped-past-focus end of the energy band and drowns out the one voice that needs to cut through in the final minutes; set well, it lifts the room without taking it over."
+    },
+    {
+      "cue": "The captain says a short, calm word to the team — hold the room quiet here so it actually lands.",
+      "holdBreakNote": "The room talked over the captain before the word finished. Quiet it and let the captain finish.",
+      "id": "captains-word",
+      "kind": "hold",
+      "prompt": "The captain says a short, calm word to the team — hold the room quiet here so it actually lands.",
+      "seconds": 6,
+      "target": "captains-word-marker",
+      "title": "Hold the room for the captain's short word",
+      "why": "A short word from a peer carries differently than the same word from a coach, and it only lands if the room is genuinely quiet for it, the same way the visualisation only works quiet. Keeping it short is deliberate too: a long speech this close to tip-off gives nerves more time to build, not less."
+    },
+    {
+      "cue": "Watch the room for who the routine has not reached yet. Mark what needs a quiet word.",
+      "decoyNotes": {
+        "jitter-deep-breathing": "Deep, slow breathing before a game is the routine working, not a problem. Look for what is not settling."
+      },
+      "id": "spot-the-jitters",
+      "itemNames": {
+        "jitter-avoiding-eye-contact": "a player avoiding eye contact with everyone",
+        "jitter-forced-joking": "a player joking too hard, too fast",
+        "jitter-leg-bouncing": "a player whose leg will not stop bouncing"
+      },
+      "itemNotes": {
+        "jitter-avoiding-eye-contact": "Withdrawing is as much a sign of pre-game nerves as bouncing off the walls is. Check in with them quietly.",
+        "jitter-forced-joking": "Joking that is louder and faster than usual is often nerves wearing a mask. Notice it without calling it out in front of the group.",
+        "jitter-leg-bouncing": "That is nervous energy with nowhere to go yet. A quiet word and a breath before the shoot-around helps more than ignoring it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Watch the room for who the routine has not reached yet. Mark what needs a quiet word.",
+      "targets": [
+        "jitter-leg-bouncing",
+        "jitter-forced-joking",
+        "jitter-avoiding-eye-contact"
+      ],
+      "title": "Spot the signs of pre-game nerves",
+      "why": "Nerves before a game show up differently in different players — bouncing, over-joking, going quiet — and a coach who only watches for the loud version misses the ones going the other way. Catching it here, before the shoot-around, is what a pre-game routine is actually for."
+    },
+    {
+      "cue": "Carry the gear bag from the doorway to its spot on the rack.",
+      "drag": {
+        "missNote": "Not on the rack. A bag left anywhere else is a bag still in somebody's way — carry it all the way to its spot.",
+        "radius": 0.45,
+        "to": "gear-rack-socket"
+      },
+      "id": "rack-the-loose-gear",
+      "kind": "drag",
+      "prompt": "Carry the gear bag from the doorway to its spot on the rack.",
+      "target": "loose-gear-bag",
+      "title": "Move the loose gear onto the rack",
+      "why": "Clearing gear off the floor and onto the rack before the team moves toward the court removes the last trip hazard from the room, and doing it as part of the routine — not as an afterthought — means it happens the same way before every game."
+    },
+    {
+      "cue": "Step to the corner with the player who is struggling to settle — brief, calm, private.",
+      "id": "quiet-word-for-the-anxious-player",
+      "kind": "select",
+      "prompt": "Step to the corner with the player who is struggling to settle — brief, calm, private.",
+      "target": "quiet-corner-spot",
+      "title": "Give the most nervous player a quiet word",
+      "why": "A player who cannot settle needs to hear that nerves are normal and expected, said quietly and to them alone rather than as a speech to the group. Said privately, it is reassurance; said in front of the team, it becomes something else for that player to be nervous about."
+    },
+    {
+      "cue": "Keep the room's energy in band right up to tip-off — building, not spiking, not fading.",
+      "holdBreakNote": "Energy left the band in the last minutes — fading, or spiking past focus. Bring it back to building and ready.",
+      "id": "hold-team-energy-to-tip-off",
+      "kind": "track",
+      "prompt": "Keep the room's energy in band right up to tip-off — building, not spiking, not fading.",
+      "seconds": 8,
+      "target": "team-energy-meter",
+      "title": "Hold the team's energy through the final minutes",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.4,
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "TEAM ENERGY",
+        "rise": 0.5,
+        "start": 0.34
+      },
+      "why": "The last few minutes before tip-off are when a carefully built calm can either hold or come apart — into a flat, checked-out team or a jittery, over-hyped one. Holding the energy in band through those minutes is the last thing the routine has to get right before the whistle takes it out of the coach's hands."
+    },
+    {
+      "cue": "Record the focus image used, who needed a quiet word, and anything the athletic trainer noticed.",
+      "id": "log-the-pregame-routine",
+      "kind": "select",
+      "prompt": "Record the focus image used, who needed a quiet word, and anything the athletic trainer noticed.",
+      "target": "practice-log-board",
+      "title": "Log the pre-game routine",
+      "why": "The focus image that worked, who needed a quiet word and any early sign of illness or injury are exactly what the next pre-game hour needs to build on. Written down before the game rather than remembered after it, the log is the more honest record."
+    },
+    {
+      "cue": "One last minute before tip-off: anything either of you saw, and is everybody good to go?",
+      "id": "crew-check-in",
+      "kind": "select",
+      "prompt": "One last minute before tip-off: anything either of you saw, and is everybody good to go?",
+      "target": "crew-checkin-board",
+      "title": "Check in with the assistant coach and the athletic trainer",
+      "why": "The assistant met the parent at the door and the athletic trainer watched for anyone unwell before the game even started; a last, short check-in pools what each adult saw and agrees the staff is walking onto the sideline as one team, not three separate ones."
+    }
+  ],
+  "supportLine": "your league's coach coordinator, or the assistant who met the parent at the door with you — a tense pre-game hour is worth talking through afterwards too",
+  "tagline": "Gear checked, a genuinely quiet visualisation, a shoot-around and a short captain's word — a calm hour before tip-off instead of a wound-up one",
+  "title": "SmartCiti.X~ Pre-Game Routine and Visualisation VR",
+  "trade": "Youth basketball coach",
+  "underwater": null,
+  "weather": "clear"
+}

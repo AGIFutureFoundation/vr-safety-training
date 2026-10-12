@@ -1,0 +1,393 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "roadable-clean",
+    "name": "Roadable Clean",
+    "note": "Chocked before a hand went under, the genset isolated before a wrench went on, the lane and the reefer both answered, and the chassis signed roadable"
+  },
+  "category": "Maritime & Ports",
+  "certification": "ILWU maintenance and repair with the PMA training programme; IUOE stationary engineers for the generator sets; OSHA 29 CFR 1917 marine terminals, including the chassis and intermodal equipment provisions; 29 CFR 1910.147 control of hazardous energy for the genset; NFPA 70E for the genset's output and the reefer pigtail; 29 CFR 1910.132 for the eye protection at the grinder",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "ILWU",
+        "id": "ilwu-pma-training",
+        "title": "ILWU-PMA joint training for longshore, crane and clerk work, and the Inlandboatmen's Union marine division"
+      },
+      {
+        "body": "union",
+        "citedAs": "IUOE",
+        "id": "iuoe-training",
+        "title": "IUOE local training funds and the IUOE National Training Fund — operating and stationary engineer apprenticeship"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 70E",
+        "id": "nfpa-70e",
+        "title": "NFPA 70E — Standard for Electrical Safety in the Workplace"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.132",
+        "id": "osha-1910-132",
+        "title": "29 CFR 1910.132 — Personal protective equipment, general requirements"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1917",
+        "id": "osha-1917",
+        "title": "29 CFR 1917 — Marine terminals"
+      }
+    ]
+  },
+  "district": "Maritime & Ports",
+  "domain": "Maritime & Ports",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "chocked-first",
+        "name": "Chocked First",
+        "note": "Chocks, landing gear and air bled in that order before a hand went near the frame"
+      },
+      {
+        "id": "isolated-genset",
+        "name": "Isolated Genset",
+        "note": "The genset's battery disconnected and locked before the filter came off"
+      },
+      {
+        "id": "yard-discipline",
+        "name": "Yard Discipline",
+        "note": "Never under an unchocked chassis, never between the hustler and the kingpin, never a live pigtail pulled, never a grinder by the tank"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-inspection",
+        "name": "Clean Inspection",
+        "note": "No corrections anywhere in the inspection"
+      },
+      {
+        "id": "steady-run",
+        "name": "Steady Run",
+        "note": "Held the genset's output in band for the whole run test"
+      },
+      {
+        "id": "back-on-the-road",
+        "name": "Back On The Road",
+        "note": "Chassis signed roadable inside 80% of par"
+      }
+    ],
+    "currency": "AXLE",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Yard Hand",
+      "Chassis Mechanic",
+      "Genset Tech",
+      "Lead Mechanic",
+      "Chassis Yard Certified"
+    ],
+    "system": "Chassis Yard"
+  },
+  "hazards": {
+    "between-hustler-chassis": "You stepped between the hustler's fifth wheel and the chassis kingpin while the hustler was backing to hook. The gap closes at the hustler's speed and the driver cannot see it from the cab — anyone in it is the coupling. Nobody stands between a hooking hustler and a chassis for any reason; the hand signal comes from the side.",
+    "creep-under-unchocked": "You went under the chassis with no wheel chocks set. A chassis on a yard with a slope you cannot see rolls on its own brakes' leak-down, and a chassis that rolls with somebody under its crossmembers does not stop for them — the chocks go in before anything else because 29 CFR 1917's rule on securing intermodal equipment before work is written for exactly this piece of the yard.",
+    "grind-near-fuel-tank": "You started the grinder on the crossmember a metre from the genset's fuel tank with its filler open. A grinder throws sparks further than the eye follows them, and diesel vapour at an open filler on a warm day is what those sparks are looking for — the tank is closed and the hot work moved or shielded before a disc turns, and 29 CFR 1917 has the hot-work rule on the terminal for that reason.",
+    "pull-pigtail-live": "You pulled the genset's pigtail out of the reefer with the genset running under load. The pigtail carries the reefer's compressor current, and a plug drawn under that load draws an arc across its contacts into the hand holding it — NFPA 70E treats the plug as a disconnecting means only with the load off, and the reefer goes down at its controller before the plug moves."
+  },
+  "id": "pt-chassis-and-genset-yard",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "brake-hold",
+      "alert": "A hustler has turned into the lane and is backing toward the chassis beside this one to hook it — its fifth wheel is coming past the bay at walking pace.",
+      "cue": "Hit the bay stop sign now — the driver is looking in his mirror at the kingpin, not at the bay.",
+      "delay": 2,
+      "id": "hustler-hooking",
+      "kind": "Hustler entering the lane to hook a chassis",
+      "missNote": "The hustler backed past the bay with the stop sign dark and hooked the next chassis with its fifth wheel passing a metre from the mechanic at the brake valve — the brake hold carried on as if the lane were empty.",
+      "seconds": 12,
+      "target": "bay-stop-sign",
+      "why": "A hustler backing to hook is driven from the mirrors with the driver's attention on a kingpin the size of a fist, and a repair bay beside the lane is out of that picture entirely; the bay stop sign is the lit signal the driver is trained to check before backing past a bay, and 29 CFR 1917 puts the traffic control on the terminal rather than on a mechanic being seen. It is hit the moment the hustler turns in, because a backing hustler closes on a bay faster than a shout carries.",
+      "wrongNote": "The bay stop sign — the driver checks the lit sign in his mirror before backing past a bay, and nothing else here is in that mirror."
+    },
+    {
+      "after": "run-test",
+      "alert": "The reefer on the neighbouring chassis has thrown a low-voltage fault on its controller — its alarm is flashing and its genset is surging.",
+      "cue": "Break off and read the code at that reefer's controller before its genset stalls and the code goes with it.",
+      "delay": 2,
+      "id": "reefer-code-next-door",
+      "kind": "Fault code on the reefer next door",
+      "missNote": "The fault code sat unread until the neighbouring genset stalled and the controller went dark with it — the code was gone, the box was warming, and nobody knew whether it was the genset or the pigtail until it was both.",
+      "seconds": 14,
+      "target": "reefer-controller",
+      "why": "A reefer that faults on low voltage while its genset surges is either a genset about to stall or a pigtail failing under load — the same two faults this bay has just been chasing on the chassis beside it — and the code on the controller is the only evidence of which, until the genset stalls and the controller goes dark. Reading it at the controller now is what keeps a second chassis from leaving the yard with the fault this one came in with, and the cargo in that box has a temperature clock running.",
+      "wrongNote": "That reefer's controller — the code is the only evidence of what tripped, and it is read at the controller before the genset stalls and takes it."
+    }
+  ],
+  "lateNotes": {
+    "genset-controller": "The genset is run for its test once the new filter is fitted and primed — not before.",
+    "new-fuel-filter": "The fuel filter comes off once the genset's battery is disconnected and locked — not before.",
+    "yard-log": "The chassis is signed roadable once the pigtail has been inspected and the run test is complete — the log is the last thing."
+  },
+  "name": "Chassis & Genset Yard",
+  "parSeconds": 270,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "bay-area-union-edition"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "air-bleed",
+      "battery-disconnect",
+      "bay-stop-sign",
+      "between-hustler-chassis",
+      "brake-hand-valve",
+      "cracked-crossmember",
+      "creep-under-unchocked",
+      "filter-head",
+      "genset-controller",
+      "genset-dipstick",
+      "genset-fuel-cap",
+      "grind-near-fuel-tank",
+      "landing-gear",
+      "new-fuel-filter",
+      "pigtail-damage",
+      "pull-pigtail-live",
+      "reefer-controller",
+      "roadability-board",
+      "slack-adjuster",
+      "tyre-gauge",
+      "wheel-chocks",
+      "yard-log",
+      "yard-radio"
+    ],
+    "meshes": 237
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check the roadability inspection sheet for this chassis: the driver's defect, the last inspection, and what the genset's hour meter says.",
+      "id": "roadability-sheet",
+      "kind": "select",
+      "prompt": "Check the roadability inspection sheet for this chassis: the driver's defect, the last inspection, and what the genset's hour meter says.",
+      "target": "roadability-board",
+      "title": "Read the chassis inspection sheet and the driver's defect",
+      "why": "A chassis moves on public roads between the terminal and the customer, and the intermodal equipment provider owes it a roadability inspection on a schedule and after every defect a driver reports; the sheet is what says which of those this visit is, and what the last mechanic found. The driver wrote up a brake pull and a genset that stalled under load — two systems, two procedures, and the sheet is what keeps them from being handled as one job."
+    },
+    {
+      "cue": "Chocks both sides of an axle first, the landing gear cranked down onto its pads, then the air tanks bled to zero.",
+      "id": "secure-chassis",
+      "itemNames": {
+        "air-bleed": "air system bled at the tanks",
+        "landing-gear": "landing gear cranked down to the pads",
+        "wheel-chocks": "wheel chocks set both sides"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Chocks first, then the landing gear, then the air — a chassis that can roll is not one to crank a leg down on, and a brake chamber under air is not one to reach into.",
+      "prompt": "Chocks both sides of an axle first, the landing gear cranked down onto its pads, then the air tanks bled to zero.",
+      "targets": [
+        "wheel-chocks",
+        "landing-gear",
+        "air-bleed"
+      ],
+      "title": "Chock the chassis, drop the landing gear, bleed the air",
+      "why": "The three moves take the chassis's energy out in the order it can hurt: the chocks stop it rolling on a yard grade, the landing gear takes its nose weight so it cannot tip on the kingpin if a hustler bumps it, and the air bled to zero means the brake chambers are on their springs rather than on stored pressure when a hand goes near a slack adjuster. 29 CFR 1917 has intermodal equipment secured before it is worked on, and a chassis secured in another order is a chassis that can still move at one of those three steps."
+    },
+    {
+      "cue": "Look along the main rails and every crossmember, at the slider rails and their locking pins, for cracks, bright metal and bent steel.",
+      "id": "frame-walk",
+      "itemNames": {
+        "cracked-crossmember": "cracked crossmember at the slider rail"
+      },
+      "itemNotes": {
+        "cracked-crossmember": "The crossmember behind the slider rail has a crack running from the rail bolt hole with bright metal in it — it has been opening under every loaded trip and it will not survive many more."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look along the main rails and every crossmember, at the slider rails and their locking pins, for cracks, bright metal and bent steel.",
+      "targets": [
+        "cracked-crossmember"
+      ],
+      "title": "Walk the frame, crossmembers and slider",
+      "why": "A chassis frame carries a loaded container on the road at highway speed, and a crossmember cracked at a bolt hole is a frame that will let go on a pothole with a box on it. The crack shows as a line with bright metal in it long before it shows as a bent chassis, and it is found by walking the frame with a light — from beside it, on a chocked chassis — because nobody looks at the underside of a chassis at a truck stop."
+    },
+    {
+      "cue": "Gauge each tyre and commit the reading against the placarded cold pressure.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "TYRE PRESSURE",
+        "missNote": "Outside the band — seat the gauge square on the valve stem and read it again, cold.",
+        "speed": 0.7
+      },
+      "id": "tyre-pressure",
+      "kind": "gauge",
+      "prompt": "Gauge each tyre and commit the reading against the placarded cold pressure.",
+      "target": "tyre-gauge",
+      "title": "Gauge the tyre pressures against the sidewall figure",
+      "why": "A chassis tyre under pressure runs hot and fails on the highway with a box over it, and one over pressure wears its centre and loses grip on a wet ramp; the placarded cold pressure is the number both are measured against, and the gauge is how the mechanic gets to it rather than a thump with a bar. Every tyre is gauged, including the inside duals nobody can see, because the inside dual is the one that has been flat for a week."
+    },
+    {
+      "cue": "Turn the slack adjuster to bring the pushrod stroke inside its limit, then check the stroke with the brakes applied.",
+      "id": "slack-adjuster",
+      "kind": "turn",
+      "prompt": "Turn the slack adjuster to bring the pushrod stroke inside its limit, then check the stroke with the brakes applied.",
+      "target": "slack-adjuster",
+      "title": "Set the brake slack adjuster on the pulling axle",
+      "turn": {
+        "label": "SLACK ADJUSTER",
+        "turns": 0.75
+      },
+      "why": "The driver's brake pull is a brake on one side doing more work than the other, and a slack adjuster set wrong is the usual reason: too much stroke and the chamber runs out of travel before the shoe meets the drum, too little and the shoe drags and heats. The adjuster is set with the air bled and checked with the brakes applied afterwards, because the pushrod stroke under application is the number that says whether the brake will actually stop a loaded chassis — and it is the number a roadside inspection measures."
+    },
+    {
+      "cue": "Recharge the air, make a full brake application on the hand valve and hold it: pushrod stroke checked, and the system listened to for leaks.",
+      "holdBreakNote": "Released before the application had held long enough to show a slow leak — the leak that matters is the one that takes a few seconds. Apply and hold again.",
+      "id": "brake-hold",
+      "kind": "hold",
+      "prompt": "Recharge the air, make a full brake application on the hand valve and hold it: pushrod stroke checked, and the system listened to for leaks.",
+      "seconds": 5,
+      "target": "brake-hand-valve",
+      "title": "Apply the brakes and hold, listening for air leaks",
+      "why": "A full application held is the test of the whole air system at once: the pushrod stroke under pressure says the adjusters are right, and a leak that only shows under application — a chamber diaphragm, a glad hand seal — hisses where it can be heard only while the pressure is on. The hold is for the full interval because a slow leak takes that long to show as a gauge drop, and a chassis with a slow leak is a chassis whose brakes drag on and fade out somewhere on the freeway."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Check the fuel filler is closed and the tank clean, and pull the dipstick for the oil level and its condition.",
+      "id": "genset-checks",
+      "itemNames": {
+        "genset-dipstick": "engine oil level",
+        "genset-fuel-cap": "fuel filler cap and tank"
+      },
+      "kind": "sequence",
+      "prompt": "Check the fuel filler is closed and the tank clean, and pull the dipstick for the oil level and its condition.",
+      "targets": [
+        "genset-fuel-cap",
+        "genset-dipstick"
+      ],
+      "title": "Check the genset's fuel and oil before it is touched",
+      "why": "The genset stalled under load, and the two cheapest reasons are a tank that ran dry or drew water and an engine that has run low on oil until it lost pressure — both are found in a minute with the engine off. The filler is checked closed as well as full because the grinder is coming out for the crossmember later, and an open diesel filler a metre from a grinder is the hot-work hazard the terminal's rule on it exists to stop."
+    },
+    {
+      "cue": "Open the genset's battery disconnect and hang your lock on it before the fuel system is opened.",
+      "id": "genset-isolate",
+      "kind": "select",
+      "prompt": "Open the genset's battery disconnect and hang your lock on it before the fuel system is opened.",
+      "target": "battery-disconnect",
+      "title": "Disconnect and lock the genset's battery",
+      "why": "A genset's starter turns on a controller signal, and a controller set to auto-start restarts the engine the moment its reefer calls for power — with a mechanic's hands in the fuel system. 29 CFR 1910.147 puts the disconnect open and locked before any part of the engine is opened, because the genset is a machine that decides for itself when to start, and the lock is what takes that decision away while the filter is off."
+    },
+    {
+      "cue": "Drain the old filter into the tray, carry the new one from the bench and spin it onto the filter head, gasket wetted, hand tight plus the turn on the label.",
+      "drag": {
+        "missNote": "Not on the head — the filter has to spin onto the head square, gasket to the face, before it is tightened.",
+        "radius": 0.5,
+        "to": "filter-head"
+      },
+      "id": "fuel-filter",
+      "kind": "drag",
+      "prompt": "Drain the old filter into the tray, carry the new one from the bench and spin it onto the filter head, gasket wetted, hand tight plus the turn on the label.",
+      "target": "new-fuel-filter",
+      "title": "Fit the new fuel filter to the filter head",
+      "why": "A genset that stalls under load with fuel in the tank is usually starving through a filter that has picked up the tank's water and growth, and the filter is changed with a tray under it because a chassis yard drains to the terminal's stormwater. The new filter's gasket is wetted so it seats without tearing, and it is tightened by the label's figure rather than by arm, because an over-tightened spin-on filter is the one that cannot be changed next time without a chisel."
+    },
+    {
+      "cue": "Lock off, prime the filter, start the genset and put the reefer's load on it — hold the output frequency and voltage in band as the compressor cycles.",
+      "holdBreakNote": "The output broke out of band under the compressor — that is the stall or the hunt the test exists to find. Hold it and watch it settle.",
+      "id": "run-test",
+      "kind": "track",
+      "prompt": "Lock off, prime the filter, start the genset and put the reefer's load on it — hold the output frequency and voltage in band as the compressor cycles.",
+      "seconds": 6,
+      "target": "genset-controller",
+      "title": "Prime, start and hold the genset's output in band under load",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.48,
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "OUTPUT",
+        "rise": 0.6,
+        "start": 0.1
+      },
+      "why": "The run test is the only thing that proves the stall is fixed: a genset that starts and idles proves nothing, and a genset that holds its frequency and voltage while a compressor starts against it is one that will carry a reefer to the customer without dropping its cargo's temperature. The output is held in band rather than watched to start because the stall was under load, and a governor hunting under a compressor start is a stall about to happen again on the freeway."
+    },
+    {
+      "cue": "Follow the pigtail from the genset's output to the reefer's plug: jacket chafe at the rails, the plug's pins and its strain relief, the clips that route it.",
+      "id": "pigtail-walk",
+      "itemNames": {
+        "pigtail-damage": "chafed genset pigtail at the chassis rail"
+      },
+      "itemNotes": {
+        "pigtail-damage": "The pigtail from the genset to the reefer has chafed through its jacket where it crosses the chassis rail — the conductor insulation is showing and the rail edge has been cutting it on every trip."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Follow the pigtail from the genset's output to the reefer's plug: jacket chafe at the rails, the plug's pins and its strain relief, the clips that route it.",
+      "targets": [
+        "pigtail-damage"
+      ],
+      "title": "Inspect the genset pigtail and its route to the reefer",
+      "why": "The pigtail is the genset's output on a cable that rides the chassis over every pothole, and a jacket chafed through at a rail edge is a phase conductor one trip from the frame — a fault the reefer clerk finds as a tripped genset and a driver finds as a shock on a wet chassis. NFPA 70E treats the pigtail as the live cord it is, and the walk is how a fault that has not happened yet gets found on a chocked chassis rather than on the road."
+    },
+    {
+      "cue": "Record the crack found and tagged, the adjuster set and the brake test, the tyre pressures, the filter and pigtail replaced, the run test held — and sign the chassis roadable or hold it.",
+      "id": "yard-log",
+      "kind": "select",
+      "prompt": "Record the crack found and tagged, the adjuster set and the brake test, the tyre pressures, the filter and pigtail replaced, the run test held — and sign the chassis roadable or hold it.",
+      "target": "yard-log",
+      "title": "Sign the chassis roadable on the inspection log",
+      "why": "The roadability record is what the intermodal equipment provider produces when a roadside inspection asks who last touched this chassis, and it is what the next mechanic reads before the next defect; the crack found is a hold on the chassis until it is repaired, whatever else was fixed. The sign-off is a decision — roadable, or held — and it is made by the mechanic who did the work, on the record, because a chassis released by inference is a chassis on the freeway with a crack nobody wrote down."
+    },
+    {
+      "cue": "Call the yard and the driver who wrote up the defect: the chassis is held for the crack, the genset is back, and how the crew is after a shift in the bay beside the hooking lane.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Call the yard and the driver who wrote up the defect: the chassis is held for the crack, the genset is back, and how the crew is after a shift in the bay beside the hooking lane.",
+      "target": "yard-radio",
+      "title": "Check in with the hustler driver and the yard",
+      "why": "The driver who wrote up the brake pull deserves to hear what it was and that the chassis is held for a crack they could not have seen, and the yard needs the hold before a dispatcher assigns the chassis to a box. The call is also the crew's check-in — a shift with a hustler backing past the bay and a reefer alarming next door is a shift with something left in it, and asking the crew before the bay is swept is how the ILWU does it; the member assistance line is named out loud because a line nobody names is a line nobody calls."
+    }
+  ],
+  "supportLine": "your ILWU local's member assistance programme, with the PMA-ILWU benefit plan's counselling line behind it",
+  "tagline": "A chassis in the repair bay with its genset: chocked, landing gear down and the air bled before anything else, the frame walked for a crack, tyres gauged, the slack adjuster set, the brakes held and listened to while a hustler turns in, the genset checked, its battery isolated and locked, a new fuel filter fitted, the run test held in band while the reefer next door throws a code, the damaged pigtail found, and the chassis logged roadable",
+  "title": "SmartCiti.X~ Chassis & Genset Yard VR",
+  "trade": "ILWU maintenance and repair mechanic — chassis and genset yard, PMA training programme, with IUOE stationary engineers on the gensets",
+  "underwater": null,
+  "weather": "overcast"
+}

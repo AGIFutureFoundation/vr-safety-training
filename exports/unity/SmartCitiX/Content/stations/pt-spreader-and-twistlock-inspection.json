@@ -1,0 +1,405 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "spreader-signed-back",
+    "name": "Spreader Signed Back",
+    "note": "Every corner proven, the indicator caught, the lane and the boom both answered, and the spreader handed back to the crane clean"
+  },
+  "category": "Maritime & Ports",
+  "certification": "ILWU maintenance and repair with the PMA training programme; IUOE crane maintenance; OSHA 29 CFR 1917 marine terminals; 29 CFR 1910.147 control of hazardous energy; ASME B30.20 below-the-hook lifting devices; ASME B30.2 for the shop's overhead crane",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ASME",
+        "citedAs": "ASME B30.2",
+        "id": "asme-b30-2",
+        "title": "ASME B30.2 — Overhead and gantry cranes (top running bridge, single or multiple girder, top running trolley hoist)"
+      },
+      {
+        "body": "ASME",
+        "citedAs": "ASME B30.20",
+        "id": "asme-b30-20",
+        "title": "ASME B30.20 — Below-the-hook lifting devices"
+      },
+      {
+        "body": "union",
+        "citedAs": "ILWU",
+        "id": "ilwu-pma-training",
+        "title": "ILWU-PMA joint training for longshore, crane and clerk work, and the Inlandboatmen's Union marine division"
+      },
+      {
+        "body": "union",
+        "citedAs": "IUOE",
+        "id": "iuoe-training",
+        "title": "IUOE local training funds and the IUOE National Training Fund — operating and stationary engineer apprenticeship"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1917",
+        "id": "osha-1917",
+        "title": "29 CFR 1917 — Marine terminals"
+      }
+    ]
+  },
+  "district": "Maritime & Ports",
+  "domain": "Maritime & Ports",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "locked-before-reach",
+        "name": "Locked Before Reach",
+        "note": "The supply isolated, locked and tried before a hand went into a housing"
+      },
+      {
+        "id": "indicator-caught",
+        "name": "Indicator Caught",
+        "note": "The lying landed-and-locked indicator found before the spreader went back"
+      },
+      {
+        "id": "clear-of-everything",
+        "name": "Clear Of Everything",
+        "note": "Never under the boom, never in the lane, never a pin pulled under load"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-inspection",
+        "name": "Clean Inspection",
+        "note": "No corrections anywhere in the inspection"
+      },
+      {
+        "id": "steady-telescope",
+        "name": "Steady Telescope",
+        "note": "Held the telescope rate in band for the whole run"
+      },
+      {
+        "id": "shop-turnaround",
+        "name": "Shop Turnaround",
+        "note": "Spreader back to the crane inside 80% of par"
+      }
+    ],
+    "currency": "CONE",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Shop Hand",
+      "M&R Mechanic",
+      "Spreader Tech",
+      "Lead Mechanic",
+      "Spreader Certified"
+    ],
+    "system": "Spreader Shop"
+  },
+  "hazards": {
+    "flipper-pin-loaded": "You pulled the flipper's pivot pin while the flipper arm was still hanging on it. A flipper is a heavy steel arm with the whole of its weight on that pin; the moment the pin clears, the arm drops onto whatever is under it — the pin comes out only once the arm is cribbed or slung and the load is off it.",
+    "no-lockout-reach": "You reached into the twist-lock housing with the spreader's supply still live. A spreader's twist-locks are hydraulic or electric actuators that fire on a signal from a crane cab you cannot see into — 29 CFR 1910.147 exists because a hand in that housing is inside the machine, and the machine does not know you are there until it is isolated, locked and tried.",
+    "switch-jumper": "You jumpered the landed-pin switch to clear the fault. That switch is the only thing that tells the crane operator the spreader is actually sitting on the box before the twist-locks fire — a jumper makes the fault go away and makes the next lift a lift on unproven cones, which is how a container comes off a spreader mid-air.",
+    "under-headblock": "You walked under the headblock hanging on the shop crane. Nothing goes under a suspended load — not the headblock, not a boom, not a spreader — because a sheave pin or a wire rope does not announce that it is about to let go, and 29 CFR 1917 puts that rule on every crane in the terminal for exactly that reason."
+  },
+  "id": "pt-spreader-and-twistlock-inspection",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "stand-check",
+      "alert": "The crane working the vessel two bays over has slewed its boom out across the shop bay — its headblock is passing overhead.",
+      "cue": "Nothing continues under a moving boom. Call the crane on the shop radio and have it hold clear of the bay.",
+      "delay": 2,
+      "id": "boom-overhead",
+      "kind": "Vessel crane boom swinging over the bay",
+      "missNote": "The boom finished its swing over the bay with the headblock passing above the stands, and the stand check went on underneath it as if the sky were empty. Nothing fell; nothing was ever going to be allowed to.",
+      "seconds": 14,
+      "target": "shop-radio",
+      "why": "29 CFR 1917 puts the crane operator's clearance from workers in the operator's hands and the workers' clearance from the load in theirs, and the two meet on the radio: a boom over the shop bay means the operator either does not know the bay is manned or has been told otherwise. The call stops the swing before anything is hanging over a mechanic's head, and it is made by the person who can see the boom, not the one who cannot.",
+      "wrongNote": "The shop radio — the boom is the crane operator's to move, and the only thing in the bay that reaches the operator is the radio."
+    },
+    {
+      "after": "telescope-run",
+      "alert": "A hustler has turned into the shop lane beside the bay with a chassis on, and the beams are extended out toward the lane.",
+      "cue": "Drop the lane stop paddle now — the beams are across the hustler's line.",
+      "delay": 2,
+      "id": "hustler-in-lane",
+      "kind": "Hustler entering the shop lane",
+      "missNote": "The hustler came down the lane past the extended beam with nothing telling the driver to stop; the chassis cleared it by less than the width of a hand, and the telescope run carried on as if it had not.",
+      "seconds": 12,
+      "target": "lane-stop-paddle",
+      "why": "A spreader telescoped to forty feet on its stands reaches past the bay line into the lane, at a height the hustler driver is not looking at and the chassis behind him will not clear. The stop paddle is the shop's own traffic control, and it is dropped the instant a vehicle turns into the lane rather than once it is obviously not going to stop, because the driver cannot see an extended beam end-on and the paddle is the one thing he is trained to see.",
+      "wrongNote": "The stop paddle at the lane — the hustler driver answers to the paddle, and nothing else in the bay is in his eyeline."
+    }
+  ],
+  "lateNotes": {
+    "retaining-bolts": "The retaining bolts are torqued once the replacement unit is seated in the corner, not before there is anything to hold.",
+    "spreader-tag": "The spreader is signed back to the crane only after the new unit is fitted and torqued and the indicator fault is closed.",
+    "telescope-lever": "Nothing telescopes until the supply has been restored for the function test — the spreader is still locked out."
+  },
+  "name": "Spreader & Twist-lock Inspection",
+  "parSeconds": 270,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "bay-area-union-edition"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "chafed-hose",
+      "corner-socket",
+      "flipper-left",
+      "flipper-pin-loaded",
+      "flipper-right",
+      "isolator-handle",
+      "lane-stop-paddle",
+      "lock-hasp",
+      "lying-switch",
+      "no-lockout-reach",
+      "replacement-unit",
+      "retaining-bolts",
+      "shop-radio",
+      "spreader-tag",
+      "stand-chock",
+      "switch-jumper",
+      "telescope-lever",
+      "try-control",
+      "twistlock-handle",
+      "under-headblock",
+      "wear-gauge",
+      "work-order-board"
+    ],
+    "meshes": 244
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check what the crane crew reported, the last periodic inspection and which corner has the open fault.",
+      "id": "work-order",
+      "kind": "select",
+      "prompt": "Check what the crane crew reported, the last periodic inspection and which corner has the open fault.",
+      "target": "work-order-board",
+      "title": "Read the work order and the spreader's inspection history",
+      "why": "ASME B30.20 has a below-the-hook device inspected on a schedule and every time it comes in with a fault, and the two are different jobs: the work order says the crane crew saw a landed-and-locked light that did not agree with the corner, which is a fault that points at one corner and one switch, while the history says when the cones were last measured and which ones are already near their limit. Reading both first is what turns a shop visit into an inspection with a reason."
+    },
+    {
+      "cue": "Open the isolator on the supply from the headblock, hang your own lock on the hasp, then try the twist-lock control to prove it is dead.",
+      "id": "isolate",
+      "itemNames": {
+        "isolator-handle": "spreader supply isolator",
+        "lock-hasp": "your lock on the hasp",
+        "try-control": "try the twist-lock control"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Isolator first, then your lock, then the try — the try proves the isolation, and a lock hung on a closed isolator proves nothing.",
+      "prompt": "Open the isolator on the supply from the headblock, hang your own lock on the hasp, then try the twist-lock control to prove it is dead.",
+      "targets": [
+        "isolator-handle",
+        "lock-hasp",
+        "try-control"
+      ],
+      "title": "Isolate the spreader's supply, lock it, and try it",
+      "why": "29 CFR 1910.147 puts the three moves in that order because each one proves the one before it: the isolator opens the supply, the lock keeps it open against anyone else in the shop, and the try is the only evidence that the isolator actually opened the circuit the twist-locks fire on rather than one that looked like it. A spreader that still answers its control after the lock is on is a spreader nobody should have a hand in, and the try is how that is found out while everyone is still standing back."
+    },
+    {
+      "cue": "Hold the stand check: each stand plumb, each chock seated, the beams level on all four.",
+      "holdBreakNote": "Released before all four stands were checked — a spreader is square on four stands or it is not square at all. Start the check again.",
+      "id": "stand-check",
+      "kind": "hold",
+      "prompt": "Hold the stand check: each stand plumb, each chock seated, the beams level on all four.",
+      "seconds": 4,
+      "target": "stand-chock",
+      "title": "Prove the spreader is square on its stands",
+      "why": "A spreader on stands is a few tonnes of steel resting on four points, and the twist-lock and flipper work that follows puts a mechanic's weight and a pry bar's leverage on one end of it at a time. A stand that is not plumb or a chock that is not seated is the difference between a beam that takes that load and one that walks off the stand, and the check is held long enough to look at all four rather than the two nearest the door."
+    },
+    {
+      "cue": "Follow every hose from the power pack to its actuator: chafe at the guides, kinks at the corners, weeps at the fittings.",
+      "id": "hose-walk",
+      "itemNames": {
+        "chafed-hose": "chafed hydraulic hose at the beam guide"
+      },
+      "itemNotes": {
+        "chafed-hose": "The hose on the inner beam's guide has worn through its outer cover where the beam telescopes across it — the braid is showing, and the next full extension would open it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Follow every hose from the power pack to its actuator: chafe at the guides, kinks at the corners, weeps at the fittings.",
+      "targets": [
+        "chafed-hose"
+      ],
+      "title": "Walk the hydraulic hoses and the loom",
+      "why": "The hoses on a telescoping spreader move every time the beams do, which is dozens of times an hour on a working crane, and they chafe at exactly the guides the beams slide through. A hose that lets go under pressure sprays fluid across a hot power pack and drops a twist-lock actuator to whatever state it fails into — the walk finds the one hose that is one extension away from that while it is still a hose and not an incident."
+    },
+    {
+      "cue": "Turn the cone through its quarter turn each way — it should move freely to both stops without binding or slop.",
+      "id": "cycle-twistlock",
+      "kind": "turn",
+      "prompt": "Turn the cone through its quarter turn each way — it should move freely to both stops without binding or slop.",
+      "target": "twistlock-handle",
+      "title": "Cycle the twist-lock by hand through lock and unlock",
+      "turn": {
+        "label": "TWIST-LOCK",
+        "turns": 0.25
+      },
+      "why": "A twist-lock that binds part-way through its quarter turn is a cone that will stop part-way on the crane too, and the indicator will call it locked while it sits across the corner casting half engaged. Cycling it by hand with the supply dead is the only way to feel the binding a working actuator would simply force through, and the slop at the stops is what tells you the shaft bushing is on its way out before the cone starts to lean in the casting."
+    },
+    {
+      "cue": "Set the wear gauge on the cone and commit the reading inside the manufacturer's band.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "CONE WEAR",
+        "missNote": "Outside the band — measure again with the gauge seated square on the cone's shoulder, not rocked onto the point.",
+        "speed": 0.7
+      },
+      "id": "cone-wear",
+      "kind": "gauge",
+      "prompt": "Set the wear gauge on the cone and commit the reading inside the manufacturer's band.",
+      "target": "wear-gauge",
+      "title": "Measure the twist-lock cone against the go/no-go gauge",
+      "why": "A twist-lock cone wears where it bears on the corner casting, and a cone that has worn past the manufacturer's limit still locks, still shows locked, and still lifts the box — right up to the lift where the worn shoulder pulls through the casting. ASME B30.20 makes wear a measured figure against a stated limit because the eye cannot see the difference between a cone with service left in it and one that has none, and the gauge is what makes the discard decision a number rather than an opinion."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Lift each flipper through its arc: the pin retained, the bushing without play, the arm not bent.",
+      "id": "flippers",
+      "itemNames": {
+        "flipper-left": "left flipper pivot and bushing",
+        "flipper-right": "right flipper pivot and bushing"
+      },
+      "kind": "sequence",
+      "prompt": "Lift each flipper through its arc: the pin retained, the bushing without play, the arm not bent.",
+      "targets": [
+        "flipper-left",
+        "flipper-right"
+      ],
+      "title": "Check the flipper pivots, pins and bushings",
+      "why": "The flippers are the guides that centre the spreader on the box, and they take every side-load the crane operator's approach puts on the corners. A flipper with a worn bushing wanders, a bent flipper guides the spreader onto the casting off-centre, and a pin that has lost its retainer is one lift away from dropping the arm onto the lashing gang below — all three are found by moving the arm through its arc by hand, and none of them are found by looking at it from the floor."
+    },
+    {
+      "cue": "Everyone clear of the beams and corners, your lock off, the isolator closed — the spreader is live again for the test only.",
+      "id": "restore-for-test",
+      "kind": "select",
+      "prompt": "Everyone clear of the beams and corners, your lock off, the isolator closed — the spreader is live again for the test only.",
+      "target": "isolator-handle",
+      "title": "Clear the spreader and restore the supply for the function test",
+      "why": "The telescope and the indicator checks that follow need the spreader powered, and the moment the isolator closes it is a machine again: the beams can extend across the bay and the twist-locks can fire on a signal. Restoring the supply is a deliberate step with a head count before it — the same head count 29 CFR 1910.147 requires before any lock comes off — because the person most likely to be in the machine when it wakes up is the mechanic who was just working inside it."
+    },
+    {
+      "cue": "Run the beams from twenty to forty and back, steady on the lever — never let the rate surge and never stall them mid-stroke.",
+      "holdBreakNote": "The rate broke out of band and the beams stalled mid-stroke — that is the surge or bind the test is looking for. Bring the lever back to a steady rate.",
+      "id": "telescope-run",
+      "kind": "track",
+      "prompt": "Run the beams from twenty to forty and back, steady on the lever — never let the rate surge and never stall them mid-stroke.",
+      "seconds": 6,
+      "target": "telescope-lever",
+      "title": "Telescope the beams out and back on test power",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.48,
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "TELESCOPE RATE",
+        "rise": 0.6,
+        "start": 0.1
+      },
+      "why": "The telescope stroke is where the hoses, the guides and the beam wear pads all get exercised at once, and the rate at which the beams move tells the mechanic what the pump and the guides are doing: a surge means the flow control is not holding, a stall mid-stroke means a guide is binding or a hose is pinched. Holding a steady rate through the whole stroke is the test; a stroke run at whatever speed it wants proves only that the beams can move, not that they move the way a crane operator will need them to."
+    },
+    {
+      "cue": "Cycle the locks on test power and compare each corner's panel light with the position of the cone under it.",
+      "id": "indicator-check",
+      "itemNames": {
+        "lying-switch": "landed-pin switch reading locked with the cone open"
+      },
+      "itemNotes": {
+        "lying-switch": "The aft-right corner's landed-pin switch reads locked on the panel while the cone below it is plainly in the open position — the switch has been knocked off its bracket and is closing on the housing instead of the pin."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Cycle the locks on test power and compare each corner's panel light with the position of the cone under it.",
+      "targets": [
+        "lying-switch"
+      ],
+      "title": "Prove every corner's indicator agrees with its cone",
+      "why": "The crane operator locks and unlocks a spreader on the strength of four lights in the cab, and a light that says locked while the cone is open is the fault that lifts a container off the deck on three corners. The light is only worth what the switch behind it is actually sensing, so the check is not whether the lights come on but whether each one comes on when — and only when — its own cone has turned, corner by corner, with somebody standing where the cones can be seen."
+    },
+    {
+      "cue": "Isolate again, then carry the new twist-lock unit from the cart and seat it in the aft-right corner housing.",
+      "drag": {
+        "missNote": "Not seated — the unit has to sit square in the corner housing, shaft in the bore, before a bolt goes near it.",
+        "radius": 0.5,
+        "to": "corner-socket"
+      },
+      "id": "fit-unit",
+      "kind": "drag",
+      "prompt": "Isolate again, then carry the new twist-lock unit from the cart and seat it in the aft-right corner housing.",
+      "target": "replacement-unit",
+      "title": "Fit the replacement twist-lock unit into the corner",
+      "why": "The unit goes into the corner as an assembly — cone, shaft, actuator lever and the switch bracket — and it goes in with the supply dead again, because the actuator it connects to is the same one that fires on a cab signal. A unit seated square in the housing takes the retaining bolts straight; one dropped in at an angle looks fitted, torques up, and leans the cone in the casting on the first lift."
+    },
+    {
+      "cue": "Pull the retaining bolts up in sequence to the figure on the work order, with the wrench clicking on each one.",
+      "id": "torque-bolts",
+      "kind": "turn",
+      "prompt": "Pull the retaining bolts up in sequence to the figure on the work order, with the wrench clicking on each one.",
+      "target": "retaining-bolts",
+      "title": "Torque the retaining bolts to the manufacturer's figure",
+      "turn": {
+        "label": "TORQUE",
+        "turns": 1.5
+      },
+      "why": "The twist-lock's retaining bolts carry the whole of the container's weight into the spreader beam on every lift, and a bolt pulled up by feel is either under-tensioned and working loose under the shock loads of a lift, or over-tensioned and yielded. The figure on the work order is the manufacturer's, the sequence keeps the unit from cocking in the housing as it pulls down, and the click is the only evidence anybody has that the bolt is at that figure and not at whatever the mechanic's arm thought it was."
+    },
+    {
+      "cue": "Close the fault, record the cone wear figures, the hose and the unit replaced, and tag the spreader as inspected.",
+      "id": "sign-back",
+      "kind": "select",
+      "prompt": "Close the fault, record the cone wear figures, the hose and the unit replaced, and tag the spreader as inspected.",
+      "target": "spreader-tag",
+      "title": "Sign the spreader back to the crane on the inspection log",
+      "why": "ASME B30.20 wants the inspection recorded so the next mechanic knows what was measured and when, and the crane crew knows the fault they reported is closed rather than merely quiet. The log carries the wear figures forward so the next periodic inspection is a comparison and not a fresh guess, and the tag on the spreader is the only thing the crane operator will see before it goes back on the headblock — it says what was done, and by whom, and that is the whole of the handover."
+    },
+    {
+      "cue": "Call the crane operator and the gang boss: what was found, what was changed, and how the shop crew is after a shift under a live boom.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Call the crane operator and the gang boss: what was found, what was changed, and how the shop crew is after a shift under a live boom.",
+      "target": "shop-radio",
+      "title": "Check in with the crane crew and the gang boss on the handover",
+      "why": "The spreader goes back onto a crane whose operator was working on the strength of a lying indicator all morning, and the gang boss under it deserves to hear that the fault was real and is closed rather than to find out from the next lift. The call is also the shop's own check-in — a shift spent beside a live lane and under a working boom is a shift with a couple of close calls in it, and the ILWU's own practice is to name them out loud, and name the support that exists, before everybody goes home."
+    }
+  ],
+  "supportLine": "your ILWU local's member assistance programme, with the PMA-ILWU benefit plan's counselling line behind it",
+  "tagline": "A spreader on its stands: supply isolated and locked, stands proven under a live boom, every hose walked, a twist-lock cycled and measured, flippers checked, the telescope run on test power beside a hustler lane, an indicator caught lying, a new twist-lock fitted and torqued, and the spreader signed back to the crane",
+  "title": "SmartCiti.X~ Spreader & Twist-lock Inspection VR",
+  "trade": "ILWU maintenance and repair mechanic — spreader shop, PMA training programme, with IUOE crane maintenance",
+  "underwater": null,
+  "weather": "overcast"
+}

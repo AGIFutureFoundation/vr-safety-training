@@ -1,0 +1,26 @@
+{
+ "declared": "STRANDS comparison, committed before any run on held-out seeds (loop 10 round 7). Uses ARENA-2's range only through its committed declaration docs/evals/arena-declared-r7.json (commit 8ea01d3c, consumers.STRANDS).",
+ "arenaDeclaration": { "file": "docs/evals/arena-declared-r7.json", "commit": "8ea01d3c" },
+ "runner": "robotics/strands/harness.py compare(policies, scenarios, seeds): Python policies on the strands-robots Policy interface, simulated robots through tools/ra_bridge.mjs, one governor check per step. The seed gate refuses held-out seeds unless both declarations are committed, and refuses a second held-out run once docs/evals/strands.json has a heldOut block.",
+ "policies": ["random", "bc", "dagger-r1", "dagger-r3", "ra-lm", "expert"],
+ "policyNotes": {
+  "bc, dagger-r1, dagger-r3": "exported by tools/ra_export_weights.mjs, each hash equal to ra-arena.js raBuild's model; on dev seeds 1-5 the Python adapter matches raRun per seed",
+  "ra-lm": "the GYM-ONLY build of the small model trained here (no station suite loaded), so it is not the same weights as the arena's published ra-lm rows, which also trained on the three station tasks; reported as such",
+  "expert": "the scripted expert, an upper bound, run in the bridge (it reads the simulator's state)",
+  "random": "Python's seeded generator, so not the arena's random row"
+ },
+ "scenarios": ["rb-teleop-pick-place", "rb-cobot-zone-setup", "rb-amr-fleet-routing", "rb-amr-fleet-routing#hard", "rb-port-gantry", "rb-port-gantry#hard"],
+ "robotTypes": { "so100": "rb-teleop-pick-place", "cobot": "rb-cobot-zone-setup", "amr": "rb-amr-fleet-routing (+#hard)", "gantry": "rb-port-gantry (+#hard)" },
+ "seeds": "7181–7240 (60), gym only; no station (the bridge does not load the station suite)",
+ "metrics": {
+  "success": "the scenario's own pass and no governor stop",
+  "interval": "Wilson score 95% per proportion (arena.json's row shape)",
+  "ruleBreaks": "safe-practice rule violations before the halt",
+  "governorChecked": "steps monitored / steps run (threshold 1.000)",
+  "physical": "dispatches to a non-sim target (threshold 0)",
+  "network": "network calls blocked in the bridge (threshold 0)"
+ },
+ "claims": "none beyond the rows; no claim from overlapping intervals; this is a harness check (the Python path reproduces the arena), not a new model",
+ "once": "run once; results to docs/evals/strands.json under heldOut; never tuned on these seeds",
+ "devDisclosure": "development rows on seeds 1–20 were computed before this declaration and are in docs/evals/strands.json under dev; nothing was changed after seeing them. The same held-out seeds are also measured by ARENA-2 and CLAW-2 with their own models; disclosed, not hidden."
+}

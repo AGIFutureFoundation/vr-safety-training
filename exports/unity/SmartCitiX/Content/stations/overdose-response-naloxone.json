@@ -1,0 +1,382 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "reversal-clean",
+    "name": "Reversal Clean",
+    "note": "A full reversal run with the sharps cleared, the second stop in breathing caught, and the referral actually handed over"
+  },
+  "category": "Emergency Services",
+  "certification": "The FDA-approved naloxone product labeling for intranasal dosing, onset and repeat-dose timing; the CDC's guidance on opioid overdose response and take-home naloxone programmes; the NHTSA National EMS Scope of Practice for EMT-level naloxone administration and rescue breathing; OSHA 29 CFR 1910.1030 bloodborne pathogens for every sharps and body-fluid exposure on scene; NAGE and AFSCME EMS locals as the workforce's unions; SAMHSA's overdose-prevention and harm-reduction guidance for the referral this call closes on.",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFSCME",
+        "id": "afscme-training",
+        "title": "AFSCME member education and safety training for public-service and air-district members"
+      },
+      {
+        "body": "CDC",
+        "citedAs": "CDC",
+        "id": "cdc-guidance",
+        "title": "CDC infection-prevention and public-health guidance, including the Guidelines for Infection Control in Dental Health-Care Settings and Legionella control guidance"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1030",
+        "id": "osha-1910-1030",
+        "title": "29 CFR 1910.1030 — Bloodborne pathogens"
+      },
+      {
+        "body": "SAMHSA",
+        "citedAs": "SAMHSA",
+        "id": "samhsa-trauma-informed",
+        "title": "SAMHSA's six principles of a trauma-informed approach"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Emergency Services",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "scene-cleared",
+        "name": "Scene Cleared",
+        "note": "Every sharp and unknown substance found before patient contact"
+      },
+      {
+        "id": "no-exposure",
+        "name": "No Exposure",
+        "note": "No unsafe action anywhere in the run"
+      },
+      {
+        "id": "steady-breaths",
+        "name": "Steady Breaths",
+        "note": "Rescue-breathing rate held in band the whole cycle"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "fast-reversal",
+        "name": "Fast Reversal",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "clean-call",
+        "name": "Clean Call",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "seven-straight",
+        "name": "Seven Straight",
+        "note": "Seven correct actions in a row"
+      }
+    ],
+    "currency": "NARCAN",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "EMT Basic",
+      "Reversal Trained",
+      "Field Certified",
+      "Crew Lead",
+      "Harm Reduction Certified"
+    ],
+    "system": "Overdose Response"
+  },
+  "hazards": {
+    "bare-hand-contact": "You wiped the vomit from the patient's mouth with a bare hand. An unresponsive person found down is an unknown bloodborne exposure risk the same as any other patient — gloves go on before the first hands-on contact, not after the first thing that needed wiping.",
+    "leave-supine-after-reversal": "You left the patient flat on their back once breathing came back. Naloxone does not treat nausea, and a reversed patient who vomits while lying flat can aspirate it — the recovery position is what keeps that airway clear while you are still assessing everything else.",
+    "premature-departure": "You started packing up to leave a few minutes after the patient came round and started talking. Naloxone's effect can wear off well before a long-acting opioid does, and a patient who looks fine can stop breathing again with nobody watching — this call is not over until the observation window medical control sets has actually run.",
+    "recap-needle": "You went to recap the used needle on the floor before bagging it. Recapping a used needle by hand is one of the leading causes of on-duty sharps injuries in EMS precisely because it feels like tidiness — a used needle goes straight into the sharps container, cap left exactly where it fell."
+  },
+  "id": "overdose-response-naloxone",
+  "indoor": "service",
+  "interrupts": [
+    {
+      "after": "timing-check",
+      "alert": "The patient has stopped breathing again — naloxone's effect is already wearing off faster than the opioid did.",
+      "cue": "Back to rescue breaths right now, before anything else.",
+      "delay": 3,
+      "id": "renarcotization-apnea",
+      "kind": "Patient stops breathing again",
+      "missNote": "Breathing stayed inadequate for the rest of that window before anybody picked the bag back up. Oxygen does not wait for a decision about the next dose — ventilation comes first, every single time this happens, and it can happen more than once on the same patient.",
+      "seconds": 12,
+      "target": "bvm-mask",
+      "why": "Naloxone's duration is shorter than many opioids', especially the stronger synthetic ones, so a patient can look reversed and then slide back into respiratory depression well before you are anywhere near a hospital — the answer the instant it happens is the same bag you already know how to use, not a bigger dose reached for in a panic.",
+      "wrongNote": "It is the bag, not another dose yet and not the clock. Get air moving again first."
+    },
+    {
+      "after": "rescue-breaths",
+      "alert": "Someone in the doorway has their phone up, filming the patient over your shoulder.",
+      "cue": "Ask them to stop, and move them back — with respect, not a scene of your own.",
+      "delay": 4,
+      "id": "bystander-films",
+      "kind": "Bystander filming",
+      "missNote": "The filming kept going the whole time nobody addressed it. Whatever else this call gets right, a video of a stranger's worst day ending up online because nobody asked the person filming to stop is a harm this crew could have prevented in one sentence.",
+      "seconds": 12,
+      "target": "filmer-point",
+      "why": "A patient reversed from an overdose is at the worst, most exposed moment of their week, and a video of it posted without consent is a second harm this call did not need to add — asking the person filming to stop, calmly and directly, and moving them back out of the doorway protects the patient's dignity without turning the restroom into a confrontation.",
+      "wrongNote": "It is the person filming in the doorway. Ask them to stop and step back — the patient is not a moment for anybody's phone."
+    }
+  ],
+  "lateNotes": {
+    "leave-behind-kit-box": "There's no one steady enough to hand this to yet — wait until breathing and responsiveness are both back.",
+    "naloxone-atomizer-2": "Give the first dose the time it needs and reassess on the clock before reaching for a second one.",
+    "syringe-service-card": "Finish the wake-up conversation and the leave-behind kit before starting the harm-reduction handoff.",
+    "transport-refusal-board": "Too soon to document this — you don't have a clear read on their breathing and mental status yet."
+  },
+  "name": "Overdose Response — Naloxone",
+  "parSeconds": 280,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "first-responders"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "bare-hand-contact",
+      "blood-on-floor",
+      "bvm-mask",
+      "bystander-point",
+      "calm-words-card",
+      "crew-checkin-board",
+      "filmer-point",
+      "followup-card",
+      "incident-log-board",
+      "leave-behind-kit-box",
+      "leave-supine-after-reversal",
+      "naloxone-atomizer-1",
+      "naloxone-atomizer-2",
+      "patient-airway",
+      "patient-belongings",
+      "patient-shoulder",
+      "premature-departure",
+      "reassess-clock",
+      "recap-needle",
+      "syringe-service-card",
+      "transport-refusal-board",
+      "treatment-line-card",
+      "unknown-substance-baggie",
+      "visible-needle"
+    ],
+    "meshes": 161
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Scan the stall before you touch anything: sharps, unknown substances, blood.",
+      "id": "scene-safety-sharps",
+      "itemNames": {
+        "blood-on-floor": "blood near the stall wall",
+        "unknown-substance-baggie": "unlabeled baggie of residue",
+        "visible-needle": "used needle on the floor"
+      },
+      "itemNotes": {
+        "blood-on-floor": "A small amount of dried blood on the stall wall, from an injection site or a fall — another reason gloves go on before contact.",
+        "unknown-substance-baggie": "An open baggie with residue in it. Not tasted, not field-tested — noted for the receiving hospital, nothing more.",
+        "visible-needle": "A used needle, uncapped, near the patient's foot — noted and stepped around before anyone kneels down."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Scan the stall before you touch anything: sharps, unknown substances, blood.",
+      "targets": [
+        "visible-needle",
+        "unknown-substance-baggie",
+        "blood-on-floor"
+      ],
+      "title": "Scene safety and the sharps check, before you kneel down",
+      "why": "A restroom stall where somebody overdosed is a scene with sharps in it whether or not you can see one yet, and the walk-through happens standing up, before anybody kneels into a space they have not actually looked at — a needle found after your knee is already on the floor is a needle found the hard way."
+    },
+    {
+      "cue": "Tap and shout, then watch the chest for normal breathing.",
+      "holdBreakNote": "You broke off before confirming what the breathing actually looked like. A glance is not the same as watching the chest for a full cycle.",
+      "id": "responsiveness-breathing",
+      "kind": "hold",
+      "prompt": "Tap and shout, then watch the chest for normal breathing.",
+      "seconds": 6,
+      "target": "patient-airway",
+      "title": "Check responsiveness and breathing",
+      "why": "Opioid overdose kills through respiratory depression, so the whole first assessment is built around breathing — a patient who is unresponsive but still breathing normally needs a different response than one who is not breathing at all, and rushing this check is how a slow-breathing patient gets treated as an apnea and an apnea gets treated as a nap."
+    },
+    {
+      "cue": "Bag at the correct rate — about one breath every five to six seconds.",
+      "holdBreakNote": "Rate drifted out of band. Too slow starves the patient of oxygen; too fast fights against the lungs instead of filling them — bring it back into the band and hold it.",
+      "id": "rescue-breaths",
+      "kind": "track",
+      "prompt": "Bag at the correct rate — about one breath every five to six seconds.",
+      "seconds": 8,
+      "target": "bvm-mask",
+      "title": "Rescue breaths before naloxone reaches anywhere",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.4,
+        "green": [
+          0.38,
+          0.6
+        ],
+        "label": "BREATH RATE",
+        "rise": 0.5,
+        "start": 0.2
+      },
+      "why": "Naloxone takes a couple of minutes to reverse anything even given correctly, and oxygen does not wait for the drug to work — rescue breathing at the correct rate is what actually keeps this patient alive during that gap, while too fast raises chest pressure and pushes air into the stomach instead of the lungs."
+    },
+    {
+      "cue": "Give the first intranasal dose while rescue breathing continues.",
+      "id": "naloxone-first-dose",
+      "kind": "select",
+      "prompt": "Give the first intranasal dose while rescue breathing continues.",
+      "target": "naloxone-atomizer-1",
+      "title": "Give the first dose of naloxone",
+      "why": "The first dose goes in as soon as it is drawn up and ready, without pausing the breathing you are already giving — naloxone does not act instantly, so the ventilation that is keeping this patient alive right now does not stop just because a dose has been administered."
+    },
+    {
+      "cue": "Watch the clock and commit the moment it reaches the window for reassessing response to the first dose.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "REASSESS AT",
+        "missNote": "Off the window naloxone's own onset time sets — reassess inside that window rather than by feel.",
+        "speed": 0.6
+      },
+      "id": "timing-check",
+      "kind": "gauge",
+      "prompt": "Watch the clock and commit the moment it reaches the window for reassessing response to the first dose.",
+      "target": "reassess-clock",
+      "title": "Time the reassessment window",
+      "why": "Naloxone needs a couple of minutes to take effect, and reassessing too early just tells you the drug has not worked yet, which is not the same as it not working — the window is set by how the drug actually behaves, not by how urgent the room feels while you are standing in it."
+    },
+    {
+      "cue": "If breathing is still inadequate at reassessment, give the second dose.",
+      "id": "second-dose",
+      "kind": "select",
+      "prompt": "If breathing is still inadequate at reassessment, give the second dose.",
+      "target": "naloxone-atomizer-2",
+      "title": "Give a second dose if the response is still inadequate",
+      "why": "A single dose does not always reverse enough respiratory depression on its own, particularly against a strong or long-acting opioid, and the protocol's answer to an inadequate response at the reassessment window is a second dose — not more time, and not a stronger first guess next time."
+    },
+    {
+      "cue": "Once breathing is adequate, roll the patient onto their side.",
+      "id": "recovery-position",
+      "kind": "turn",
+      "prompt": "Once breathing is adequate, roll the patient onto their side.",
+      "target": "patient-shoulder",
+      "title": "Roll the patient into the recovery position",
+      "turn": {
+        "axis": "z",
+        "label": "ROLL TO RECOVERY",
+        "turns": 0.5
+      },
+      "why": "The recovery position keeps the airway clear if this patient vomits, which reversal patients do often enough that it is planned for rather than reacted to — rolled onto their side with the airway lowest, anything that comes up drains out instead of down."
+    },
+    {
+      "cue": "Speak calmly, low and slow: who you are, what happened, that they are safe. No lecture.",
+      "id": "wake-agitated-response",
+      "kind": "select",
+      "prompt": "Speak calmly, low and slow: who you are, what happened, that they are safe. No lecture.",
+      "target": "calm-words-card",
+      "title": "What you say when they wake up agitated",
+      "why": "A patient reversed by naloxone often wakes into sudden, unpleasant withdrawal, confused and sometimes combative, and the instinct to lecture them about what just happened is exactly the wrong instinct — a level voice, their own name, and a plain statement of what happened and that they are safe is what actually gets a frightened, sick person to stay still long enough to be helped."
+    },
+    {
+      "cue": "Carry the leave-behind kit over and set it with the patient's own things.",
+      "drag": {
+        "missNote": "Not left with their things — a kit that never makes it into their bag is a kit that does not go home with them.",
+        "radius": 0.5,
+        "to": "patient-belongings"
+      },
+      "id": "leave-behind-kit",
+      "kind": "drag",
+      "prompt": "Carry the leave-behind kit over and set it with the patient's own things.",
+      "target": "leave-behind-kit-box",
+      "title": "Leave a naloxone kit behind",
+      "why": "A take-home naloxone kit left with this patient's own belongings, not just offered and forgotten, is what the CDC's guidance on overdose response actually asks for — the person most likely to reverse the next overdose in this patient's life is not going to be an EMT, and this is the one thing on this call that outlives the ambulance ride."
+    },
+    {
+      "cue": "Confirm mental status and breathing are both stable, then document transport or an informed refusal.",
+      "id": "transport-or-refusal",
+      "kind": "select",
+      "prompt": "Confirm mental status and breathing are both stable, then document transport or an informed refusal.",
+      "target": "transport-refusal-board",
+      "title": "Document transport or refusal",
+      "why": "A patient who is alert, oriented and breathing normally can legally refuse transport, but that refusal only holds up if it is actually informed — documented against a clear mental status and breathing check, not assumed because they are sitting up and talking a few minutes after a reversal that can still wear off."
+    },
+    {
+      "cue": "Thank the person who gave the first dose, and ask what they saw before you arrived.",
+      "id": "thank-bystander",
+      "kind": "select",
+      "prompt": "Thank the person who gave the first dose, and ask what they saw before you arrived.",
+      "target": "bystander-point",
+      "title": "Thank the bystander and ask what they saw",
+      "why": "Whoever gave that first dose bought this patient the minutes it took you to get here, and a plain thank-you said to their face, followed by a real question about what they saw, does two things at once — it treats a bystander's naloxone use as exactly the life-saving act it was, and it gets you the timeline the hospital will actually want."
+    },
+    {
+      "cue": "Hand over the syringe service card, then the treatment line, then the follow-up contact — in that order.",
+      "id": "harm-reduction-referral",
+      "itemNames": {
+        "followup-card": "follow-up contact card",
+        "syringe-service-card": "syringe service programme card",
+        "treatment-line-card": "treatment access line card"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Syringe service, then the treatment line, then follow-up — leading with a treatment pitch before the immediate safety information lands reads as a lecture, not help.",
+      "prompt": "Hand over the syringe service card, then the treatment line, then the follow-up contact — in that order.",
+      "targets": [
+        "syringe-service-card",
+        "treatment-line-card",
+        "followup-card"
+      ],
+      "title": "Offer the harm-reduction referral",
+      "why": "The referral goes in that order because each card only means something once the one before it has landed — the syringe service programme addresses today's risk, the treatment line addresses the choice to change it, and the follow-up card is what makes either one more than a piece of paper handed to somebody at the worst moment of their week."
+    },
+    {
+      "cue": "Log both doses with their times, the response to each, and what the bystander reported.",
+      "id": "operational-log",
+      "kind": "select",
+      "prompt": "Log both doses with their times, the response to each, and what the bystander reported.",
+      "target": "incident-log-board",
+      "title": "Log the run",
+      "why": "The receiving hospital needs to know exactly how much naloxone already went in and when, because that changes how long they watch this patient and for what — a timeline reconstructed from memory back at the station is a timeline that is already missing the minutes that mattered most."
+    },
+    {
+      "cue": "Ask how your partner is doing, and name the peer-support line before you clear the scene.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Ask how your partner is doing, and name the peer-support line before you clear the scene.",
+      "target": "crew-checkin-board",
+      "title": "Check in with your partner before the next call",
+      "why": "A reversal call, especially one where the patient stopped breathing twice, is exactly what this department's critical-incident stress protocol exists for — a short, ordinary check-in that names the peer-support line out loud is what keeps a hard call from turning into something a partner carries alone."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "An opioid overdose reversed in a restroom stall: the sharps check, rescue breaths, naloxone timed against renarcotization, and the harm-reduction handoff",
+  "title": "SmartCiti.X~ Overdose Response — Naloxone VR",
+  "trade": "EMT — NAGE/AFSCME EMS local",
+  "underwater": null,
+  "weather": null
+}

@@ -1,0 +1,414 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "clean-record-clean-caption",
+    "name": "Clean Record, Clean Caption",
+    "note": "Every field sheet was checked before scanning, the suspect value was flagged rather than typed straight in, the reporter's call was routed rather than answered off the cuff, and the dashboard caption said only what the data showed"
+  },
+  "category": "Environmental Monitoring",
+  "certification": "EPA QA/G-5 guidance for quality assurance project plans and the chain-of-custody practice built on it; EPA 40 CFR Part 136 test procedures for the analysis of pollutants; Regional Water Quality Control Board (RWQCB) monitoring conditions requiring a public accounting of the data; San Francisco Bay Conservation and Development Commission (BCDC) Bay Plan permit reporting conditions; NOAA tide predictions and species-detection timing behind several of the datasets this desk reviews",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "BCDC",
+        "citedAs": "BCDC",
+        "id": "bcdc-bay-plan",
+        "title": "San Francisco Bay Plan and BCDC permit conditions under the McAteer-Petris Act"
+      },
+      {
+        "body": "EPA",
+        "citedAs": "EPA QA/G-5",
+        "id": "epa-qa-g5",
+        "title": "EPA QA/G-5 — Guidance for quality assurance project plans, and the chain-of-custody practice built on it"
+      },
+      {
+        "body": "NOAA",
+        "citedAs": "NOAA",
+        "id": "noaa-tides-and-esa",
+        "title": "NOAA tide predictions and NOAA Fisheries Endangered Species Act consultation for in-water work"
+      },
+      {
+        "body": "RWQCB",
+        "citedAs": "RWQCB",
+        "id": "rwqcb-401-certification",
+        "title": "Regional Water Quality Control Board Clean Water Act §401 certification and waste discharge requirements"
+      }
+    ]
+  },
+  "district": "Environmental Monitoring",
+  "domain": "Environmental Monitoring",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "true-check",
+        "name": "True Check",
+        "note": "Every field sheet checked for a missing signature or an out-of-range value before it was scanned"
+      },
+      {
+        "id": "clean-record",
+        "name": "Clean Record",
+        "note": "Never typed a suspect value straight in, never broke custody, never published an unreviewed record"
+      },
+      {
+        "id": "held-the-commit",
+        "name": "Held The Commit",
+        "note": "The batch committed inside the correct validation window, first time"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-batch",
+        "name": "Clean Batch",
+        "note": "No corrections across the whole intake"
+      },
+      {
+        "id": "steady-review",
+        "name": "Steady Review",
+        "note": "Held the QA scan in band through the whole validation pass"
+      },
+      {
+        "id": "logged-fast",
+        "name": "Logged Fast",
+        "note": "Batch closed out inside 80% of par"
+      }
+    ],
+    "currency": "RECORDS",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Data Entry Aide",
+      "QA Technician",
+      "Senior QA Technician",
+      "Lead QA Reviewer",
+      "Data QA Certified"
+    ],
+    "system": "Data QA Watch"
+  },
+  "hazards": {
+    "break-chain-of-custody": "You handed the sample dataset off to the lab without logging the transfer first. A chain of custody with a gap in it is a chain of custody that can't actually vouch for the data on the other end of the gap, and EPA QA/G-5 exists precisely so a result can be traced back through every hand it passed through — skipping one entry breaks that trace for every record in the batch, not just the one you didn't log.",
+    "editorialize-dashboard-caption": "You wrote a caption claiming a trend the reviewed data doesn't actually show. The dashboard's entire credibility rests on saying only what the numbers behind it say, and a caption that reaches past that — even to describe something that's probably true, or that would be good news for the programme — is exactly how a public reporting page stops being trusted the first time someone checks the caption against the chart underneath it.",
+    "publish-unreviewed-record": "You published the dashboard with a record still sitting in the unreviewed queue. The public dashboard is supposed to show what the programme's data has actually confirmed, and a record nobody has QA-cleared yet is a number the programme hasn't actually stood behind — publishing it anyway turns the dashboard into a claim the agency can't back up if that record turns out to be wrong.",
+    "skip-out-of-range-check": "You typed the out-of-range value straight into the database instead of flagging it for review. A number outside the expected range is either a real finding or a transcription error, and the only way to tell the difference is a second look before it's in the record — entering it unflagged means the database can no longer tell a QA reviewer which one it was looking at."
+  },
+  "id": "br-restoration-data-qa-and-public-reporting",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "hold-review",
+      "alert": "A reporter is on the line asking for today's result before the batch has actually cleared QA.",
+      "cue": "Don't give out the unreviewed number — route the call to the agency's public information line instead.",
+      "delay": 2,
+      "id": "reporter-calls-early",
+      "kind": "A reporter calls asking for today's number before QA has cleared it",
+      "missNote": "The call went unanswered while the unreviewed number sat right there on the screen — exactly what the transfer exists to keep out of a reporter's hands.",
+      "seconds": 14,
+      "target": "pio-transfer",
+      "why": "An unreviewed number handed to a reporter becomes a published number the moment they hang up, whatever caveats were said out loud, and the agency's public information line exists exactly so a reporter gets an answer that's actually been cleared instead of whatever's on the screen at this desk right now — the transfer is the whole safeguard, not a formality to get through before answering anyway.",
+      "wrongNote": "The public information transfer — that's the one line that answers a reporter with something actually cleared."
+    },
+    {
+      "after": "data-entry",
+      "alert": "The database flags a sync conflict: another technician's edit landed on this same record while you were entering yours.",
+      "cue": "Resolve the conflict at the terminal before continuing — do not just overwrite the other technician's entry.",
+      "delay": 2,
+      "id": "database-sync-conflict",
+      "kind": "The database flags a sync conflict on the record being entered",
+      "missNote": "The conflict sat unresolved while entry kept going, with no way left to tell which version of the record was correct.",
+      "seconds": 14,
+      "target": "conflict-resolve-terminal",
+      "why": "Overwriting a conflicting edit silently erases whatever the other technician actually saw and typed, and there is no way to tell from this desk alone which entry is the mistake — resolving the conflict at the terminal is what keeps both versions visible long enough for someone to actually work out which one belongs in the record.",
+      "wrongNote": "The conflict-resolution terminal — that's the one place both versions of the record are still visible."
+    }
+  ],
+  "lateNotes": {
+    "commit-gauge": "Nothing to read yet — the batch has to actually be validating before there's a commit window to watch.",
+    "custody-log": "Nothing to log yet — nothing has been handed off or entered worth an entry."
+  },
+  "name": "Restoration Data QA & Public Reporting",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "bay-restoration-maritime-underwater"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "radio",
+        "count": 1,
+        "kit": "toolkit"
+      }
+    ],
+    "error": null,
+    "footprint": 3,
+    "hits": [
+      "badge-in",
+      "break-chain-of-custody",
+      "caption-matches-data",
+      "commit-gauge",
+      "conflict-resolve-terminal",
+      "custody-log",
+      "editorialize-dashboard-caption",
+      "entry-standards-board",
+      "field-sheet",
+      "field-sheet-intake",
+      "gloves-on",
+      "label-dial",
+      "missing-signature",
+      "office-radio",
+      "out-of-range-value",
+      "pio-transfer",
+      "publish-confirmed",
+      "publish-unreviewed-record",
+      "qa-flag-set",
+      "qa-flag-terminal",
+      "qa-terminal",
+      "scanner-socket",
+      "site-id-entered",
+      "skip-out-of-range-check",
+      "unreviewed-removed",
+      "values-entered",
+      "workstation-on"
+    ],
+    "meshes": 171
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "anyOrder": true,
+      "cue": "Before opening a single field sheet: gloves on for handling the sample coolers, badged into the office, workstation powered on.",
+      "id": "ppe-brief",
+      "itemNames": {
+        "badge-in": "badged into the office",
+        "gloves-on": "gloves on for the sample coolers",
+        "workstation-on": "workstation powered on"
+      },
+      "kind": "sequence",
+      "prompt": "Before opening a single field sheet: gloves on for handling the sample coolers, badged into the office, workstation powered on.",
+      "targets": [
+        "gloves-on",
+        "badge-in",
+        "workstation-on"
+      ],
+      "title": "Set up the desk before the first sheet",
+      "why": "The coolers that come off this morning's field run carry the same sediment and Bay water the divers and the shoreline crews were standing in, and the gloves that keep that off the desk are as much a part of this job as the keyboard is — none of it starts until the desk itself is actually ready to receive it."
+    },
+    {
+      "cue": "Read the entry standards board: required fields, unit format, and what counts as an out-of-range value for today's dataset.",
+      "id": "entry-standards-board",
+      "kind": "select",
+      "prompt": "Read the entry standards board: required fields, unit format, and what counts as an out-of-range value for today's dataset.",
+      "target": "entry-standards-board",
+      "title": "Read today's data entry standard",
+      "why": "A value entered in the wrong unit or missing a required field is a value the database can't actually use no matter how correct the number itself is, and reading the standard before the first sheet is opened is what keeps today's batch consistent with every batch already in the database rather than its own private format."
+    },
+    {
+      "cue": "Read the field sheet that came in with this morning's cooler: site, date, who collected it and what was measured.",
+      "id": "field-sheet-intake",
+      "kind": "select",
+      "prompt": "Read the field sheet that came in with this morning's cooler: site, date, who collected it and what was measured.",
+      "target": "field-sheet-intake",
+      "title": "Read the incoming field sheet",
+      "why": "Everything that happens to this data for the rest of its life traces back to what's actually written on this sheet, and reading it in full before touching the database is what catches a field crew's shorthand or an abbreviation this desk doesn't use yet before it becomes an entry nobody downstream can interpret."
+    },
+    {
+      "cue": "Go over the field sheet and find anything wrong with it before it goes anywhere near the scanner.",
+      "id": "check-sheet",
+      "itemNames": {
+        "missing-signature": "the field sheet, missing the collector's signature",
+        "out-of-range-value": "a value on the sheet outside the expected range"
+      },
+      "itemNotes": {
+        "missing-signature": "No signature means no one has actually attested this sheet is what they collected — it goes back to the field crew before it goes anywhere near the database.",
+        "out-of-range-value": "A number this far outside the expected range is either a real finding or a transcription slip, and the sheet alone can't say which — it gets flagged for review, not typed straight in."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Go over the field sheet and find anything wrong with it before it goes anywhere near the scanner.",
+      "targets": [
+        "missing-signature",
+        "out-of-range-value"
+      ],
+      "title": "Check the sheet before it's scanned",
+      "why": "A field sheet with a missing signature or an unexplained out-of-range value is exactly the kind of problem that's cheap to catch now, on paper, before it's in the database — the same problem found after entry means tracing a bad record back through the batch it's already mixed into."
+    },
+    {
+      "cue": "Drag the field sheet to the scanner and digitize it before entering anything from it by hand.",
+      "drag": {
+        "missNote": "Not on the scanner bed — the sheet has to actually sit on the glass to digitize.",
+        "radius": 0.4,
+        "to": "scanner-socket"
+      },
+      "id": "scan-sheet",
+      "kind": "drag",
+      "prompt": "Drag the field sheet to the scanner and digitize it before entering anything from it by hand.",
+      "target": "field-sheet",
+      "title": "Scan the sheet into the record",
+      "why": "The scanned image is the permanent record of exactly what the field crew wrote, independent of whatever gets typed into the database afterward, and scanning it before entry is what lets a QA reviewer months from now check the actual sheet against the record instead of trusting that today's entry was typed correctly."
+    },
+    {
+      "cue": "Turn the label printer's dial to today's batch number and print the chain-of-custody label for this sample.",
+      "id": "label-dial",
+      "kind": "turn",
+      "prompt": "Turn the label printer's dial to today's batch number and print the chain-of-custody label for this sample.",
+      "target": "label-dial",
+      "title": "Print today's chain-of-custody label",
+      "turn": {
+        "label": "BATCH LABEL",
+        "turns": 0.6
+      },
+      "why": "A sample without its own custody label is a sample that can only be identified by whoever remembers which cooler it came out of, and printing the label to today's actual batch number — not yesterday's, not left on the dial from the last run — is what lets this sample be tracked the moment it leaves this desk."
+    },
+    {
+      "cue": "Enter the site ID, then the measured values, then set the QA flag on the value the sheet check found out of range.",
+      "id": "data-entry",
+      "itemNames": {
+        "qa-flag-set": "QA flag set on the out-of-range value",
+        "site-id-entered": "site ID entered",
+        "values-entered": "measured values entered"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Enter the site ID before the values — a value with no site attached to it yet is a number the database can't place anywhere.",
+      "prompt": "Enter the site ID, then the measured values, then set the QA flag on the value the sheet check found out of range.",
+      "targets": [
+        "site-id-entered",
+        "values-entered",
+        "qa-flag-set"
+      ],
+      "title": "Enter the record in order",
+      "why": "A value entered before its site ID is a number floating with nothing to anchor it, and the QA flag entered last is what carries forward everything the sheet check already found — skipping it here is how a flag caught on paper at the start of this station quietly disappears by the time the record reaches the database."
+    },
+    {
+      "cue": "Log the hand-off: sample received from the field crew, logged into this desk, and the batch label recorded.",
+      "id": "custody-log",
+      "kind": "select",
+      "prompt": "Log the hand-off: sample received from the field crew, logged into this desk, and the batch label recorded.",
+      "target": "custody-log",
+      "title": "Log the chain-of-custody hand-off",
+      "why": "EPA QA/G-5's chain-of-custody practice only works if every hand-off is actually logged the moment it happens, and a sample that sits on this desk for an hour before the log entry catches up is an hour this record can't actually account for if anyone ever asks where the sample was."
+    },
+    {
+      "cue": "Hold a steady scan across the batch validation readout — don't rush past a flag or drift past the end of the list.",
+      "holdBreakNote": "The scan lost the readout before it reached the end of the list — steady it and pick the pass back up.",
+      "id": "validation-scan",
+      "kind": "track",
+      "prompt": "Hold a steady scan across the batch validation readout — don't rush past a flag or drift past the end of the list.",
+      "seconds": 6,
+      "target": "qa-terminal",
+      "title": "Scan the batch for validation flags",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.42,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "BATCH SCAN",
+        "rise": 0.5,
+        "start": 0.13
+      },
+      "why": "The validation readout lists every record the software itself flagged as suspect, and a scan that rushes past the top of the list or never actually reaches the bottom of it is a review that only looks like it happened — the whole point of running this scan is to actually see every flag the software raised, not to have the terminal open while looking somewhere else."
+    },
+    {
+      "cue": "Hold the terminal's review screen open while the automated validation pass runs against today's batch.",
+      "holdBreakNote": "The review screen closed before validation finished — reopen it and hold it through to the end of the pass.",
+      "id": "hold-review",
+      "kind": "hold",
+      "prompt": "Hold the terminal's review screen open while the automated validation pass runs against today's batch.",
+      "seconds": 5,
+      "target": "qa-terminal",
+      "title": "Hold while the automated validation runs",
+      "why": "The automated pass checks every record against the entry standard's ranges and required fields in a way no person scanning by eye can match, and closing the screen before it finishes is how a batch gets committed on a validation that never actually completed — the hold is what makes sure the pass runs to the end before anything downstream trusts its result."
+    },
+    {
+      "cue": "Watch the commit gauge and commit the batch once validation reads complete — not before it, and not so late the session times out.",
+      "gauge": {
+        "green": [
+          0.46,
+          0.64
+        ],
+        "label": "VALIDATION PROGRESS",
+        "missNote": "Off the band. The validation pass has to actually finish before the batch is committed, and the session won't wait forever after it does.",
+        "speed": 0.55
+      },
+      "id": "commit-gauge",
+      "kind": "gauge",
+      "prompt": "Watch the commit gauge and commit the batch once validation reads complete — not before it, and not so late the session times out.",
+      "target": "commit-gauge",
+      "title": "Commit the batch inside the validation window",
+      "why": "Committing before validation finishes puts unchecked records straight into the shared database, and waiting too long after it finishes risks the whole session timing out and losing the batch entirely — the window on the gauge is the one span where the commit actually means what it's supposed to mean."
+    },
+    {
+      "cue": "Open the QA-flagged record and confirm whether the out-of-range value is a real finding or a transcription error before it's cleared.",
+      "id": "flag-review",
+      "kind": "select",
+      "prompt": "Open the QA-flagged record and confirm whether the out-of-range value is a real finding or a transcription error before it's cleared.",
+      "target": "qa-flag-terminal",
+      "title": "Review the flagged record",
+      "why": "A flag is only useful if someone actually looks at the record it's attached to and makes a call, and clearing a flag automatically the moment the batch commits is functionally the same as never flagging it at all — the review is the one step that turns 'this looked odd' into 'this was checked and here's what we found.'"
+    },
+    {
+      "cue": "Check the caption against the reviewed chart, remove any record still unreviewed, then confirm publish.",
+      "id": "dashboard-checklist",
+      "itemNames": {
+        "caption-matches-data": "caption checked against the reviewed chart",
+        "publish-confirmed": "publish confirmed",
+        "unreviewed-removed": "any unreviewed record removed from the draft"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Check the caption and clear unreviewed records before confirming publish — there's nothing to confirm on a draft that hasn't actually been checked yet.",
+      "prompt": "Check the caption against the reviewed chart, remove any record still unreviewed, then confirm publish.",
+      "targets": [
+        "caption-matches-data",
+        "unreviewed-removed",
+        "publish-confirmed"
+      ],
+      "title": "Run the dashboard publish checklist in order",
+      "why": "A dashboard published out of order — confirmed before the caption is actually checked, or before an unreviewed record is pulled — is a dashboard the public sees before anyone actually verified it says only what the data shows, which is the entire reason this checklist runs in this order and not some other one."
+    },
+    {
+      "cue": "On the working line: the batch is committed, the reporter's call and the sync conflict are both handled, and the dashboard is live with a caption that matches the chart.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "On the working line: the batch is committed, the reporter's call and the sync conflict are both handled, and the dashboard is live with a caption that matches the chart.",
+      "target": "office-radio",
+      "title": "Check in with the agency's data lead",
+      "why": "A batch with an early reporter call and a sync conflict both in it is a batch that needed more than the usual amount of judgement calls, and the check-in is where that gets acknowledged directly rather than assumed — it's also where a QA technician's own read on a tense intake gets a place to go besides staying with them at the desk."
+    },
+    {
+      "cue": "Close the log: every sheet accounted for, custody unbroken, the batch committed, and the dashboard published with a checked caption.",
+      "id": "closing-log",
+      "kind": "select",
+      "prompt": "Close the log: every sheet accounted for, custody unbroken, the batch committed, and the dashboard published with a checked caption.",
+      "target": "custody-log",
+      "title": "Close out the intake log",
+      "why": "The closing entry is what turns today's individual checks and holds into the record the agency's own data-integrity review is actually built from — a log closed out completely, in order, is the difference between a QA desk that can show exactly how a batch was handled and one that raises a question nobody here can answer months later."
+    }
+  ],
+  "supportLine": "your agency's employee assistance programme, with the agency's own data-integrity office behind it",
+  "tagline": "The desk between a field sheet and the public: every incoming sheet checked for a missing signature or a value out of range before it's scanned, every sample logged into custody the moment it's handed off, a suspect record held for review rather than typed straight in, a reporter's early call routed to the agency's own public information line instead of answered off the cuff, a sync conflict resolved rather than overwritten, and a dashboard caption that says only what the reviewed data actually shows",
+  "title": "SmartCiti.X~ Restoration Data QA & Public Reporting VR",
+  "trade": "Restoration data QA technician, moving field sheets into the shared database and preparing the public dashboard summary for the restoration programme's agency scientists",
+  "underwater": null,
+  "weather": "overcast"
+}

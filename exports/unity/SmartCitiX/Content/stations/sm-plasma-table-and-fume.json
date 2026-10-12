@@ -1,0 +1,422 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "fume-down-the-bed",
+    "name": "Fume Down The Bed",
+    "note": "A nest cut with the extractor proven before the arc and the zone clear through the whole run"
+  },
+  "category": "Manufacturing & Automation",
+  "certification": "SMART and its International Training Institute plasma cutting and welding-fume curriculum; OSHA 29 CFR 1910.252 welding, cutting and brazing (ventilation and fire prevention), 29 CFR 1910.134 respiratory protection where the extractor cannot hold the exposure, 29 CFR 1910.1000 air contaminants and ACGIH threshold limit values for metal fume, NIOSH guidance on plasma cutting fume, 29 CFR 1910.212 guarding of the table's cutting zone; NFPA 51B fire prevention during hot work",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ACGIH",
+        "citedAs": "ACGIH",
+        "id": "acgih-tlvs",
+        "title": "ACGIH Threshold Limit Values and Biological Exposure Indices"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 51B",
+        "id": "nfpa-51b",
+        "title": "NFPA 51B — Fire Prevention During Welding, Cutting and Other Hot Work"
+      },
+      {
+        "body": "NIOSH",
+        "citedAs": "NIOSH",
+        "id": "niosh-criteria",
+        "title": "NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1000",
+        "id": "osha-1910-1000",
+        "title": "29 CFR 1910.1000 — Air contaminants and the permissible exposure limits"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.134",
+        "id": "osha-1910-134",
+        "title": "29 CFR 1910.134 — Respiratory protection"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.212",
+        "id": "osha-1910-212",
+        "title": "29 CFR 1910.212 — General requirements for all machines (machine guarding)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.252",
+        "id": "osha-1910-252",
+        "title": "29 CFR 1910.252 — Welding, cutting and brazing, general requirements"
+      },
+      {
+        "body": "union",
+        "citedAs": "SMART",
+        "id": "smart-iti",
+        "title": "SMART and the International Training Institute — sheet metal, rail and transportation apprenticeship"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Manufacturing & Automation",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "static-proven",
+        "name": "Static Proven",
+        "note": "The extractor's static read on the manometer before the arc, not assumed"
+      },
+      {
+        "id": "zone-kept",
+        "name": "Zone Kept",
+        "note": "Never in the cut zone live, never bare on hot dross"
+      },
+      {
+        "id": "on-speed",
+        "name": "On Speed",
+        "note": "The cut held inside the speed band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-nest",
+        "name": "Clean Nest",
+        "note": "The nest cut without a correction"
+      },
+      {
+        "id": "steady-arc",
+        "name": "Steady Arc",
+        "note": "Cut speed never dropped out of band"
+      },
+      {
+        "id": "nest-in-time",
+        "name": "Nest In Time",
+        "note": "Parts off and logged inside 80% of par"
+      }
+    ],
+    "currency": "PIERCE",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Pre-apprentice",
+      "Table Helper",
+      "Plasma Operator",
+      "Cut Lead",
+      "Cut Bay Certified"
+    ],
+    "system": "Cut Bay"
+  },
+  "hazards": {
+    "aluminium-plate": "You set an aluminium plate over the water in the slat tray. Aluminium cut over water makes hydrogen, and the hydrogen collects under the plate and in the tray's corners until the next pierce lights it; shops have blown the slats off a table that way. Aluminium is cut with the tray drained and the bed aerated, per the table maker's procedure, and never over standing water.",
+    "bare-dross": "You picked hot dross out of the slat bin with a bare hand. Dross off a plasma cut is molten metal a minute ago and looks like grey gravel a minute later, and a glove that would have saved your palm is on the bench. The bin is emptied with the scoop, after the cool timer, with gloves on.",
+    "hood-switch-off": "You went to pierce with the extractor's main switch off. A plasma arc on mild steel puts iron oxide and manganese into the air at the rate of a small foundry, and on galvanised plate it adds zinc; the downdraft bed is the only thing between that and the shop's lungs, and it does nothing switched off. 29 CFR 1910.252 assumes the ventilation is running before the arc — the switch is checked every time, not on Mondays.",
+    "torch-zone": "You reached into the cutting zone with the program running. The gantry moves at rapid traverse between cuts, faster than a person steps back, and the torch fires a pilot arc on its way to the next pierce; the zone is entered with the program held and the torch parked, never to nudge a part that has tipped. A tipped part waits."
+  },
+  "id": "sm-plasma-table-and-fume",
+  "indoor": "shop",
+  "interrupts": [
+    {
+      "after": "cut-run",
+      "alert": "The extractor's differential alarm has come on. The cartridge has blinded and the fume is rolling off the edge of the table towards you.",
+      "cue": "The capture is gone, and the arc is still burning.",
+      "delay": 3,
+      "id": "filter-alarm",
+      "kind": "Extractor alarm",
+      "missNote": "You held your speed and finished the nest with the extractor alarming. The fume went where it went — over the table, past your hood and across the shop. The cut chart does not have a column for that, and 29 CFR 1910.252 does not have an exception for being nearly done.",
+      "seconds": 12,
+      "target": "torch-pause",
+      "why": "A blinded cartridge means the fan is moving no air through the bed, and every second the arc burns from now on puts the fume into the shop instead of the filter. The program is held at the console — torch off, gantry stopped — and the alarm dealt with before another inch is cut. The speed you were holding can be held again in a minute; a lungful of manganese cannot be given back.",
+      "wrongNote": "It is the cycle hold on the console. Stop the arc first; the extractor is a separate problem and it waits for a parked torch."
+    },
+    {
+      "after": "cool-wait",
+      "alert": "The lift alarm — the shop crane is travelling in over the table with the next plate on the hook, and the plate is swinging.",
+      "cue": "There is a tonne of steel on a hook moving over your head.",
+      "delay": 3,
+      "id": "crane-over-table",
+      "kind": "Lift alarm overhead",
+      "missNote": "You stood at the bed with the timer running while a swinging plate came in over your head. It landed on the far end of the table that time. A crane travel alarm is the loudest warning in a shop precisely because the load above you is the thing you cannot see while you are watching the bed.",
+      "seconds": 12,
+      "target": "crane-pendant-stop",
+      "why": "The crane's travel alarm means the operator has started a move, and a plate on a swinging hook over a cutting table is a load with nobody under it only until somebody looks up too late. The stop on the pendant is pressed by whoever is under the load, not by whoever is driving it; the cool timer can run down under a parked crane.",
+      "wrongNote": "It is the stop on the crane pendant. Get the load stopped over your head first — the plate can be re-slung after."
+    }
+  ],
+  "lateNotes": {
+    "cut-speed": "Not yet — the zone is cleared and reset before the program runs. A cut started with the zone open is a gantry moving through a space nobody has proven empty.",
+    "part-hook": "Parts come off after the cool timer, not while the plate is still red under the dross."
+  },
+  "name": "Plasma Table and Fume",
+  "parSeconds": 275,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "bay-area-union-edition"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.2,
+    "hits": [
+      "aluminium-plate",
+      "bare-dross",
+      "cool-timer",
+      "crane-pendant-stop",
+      "cut-log",
+      "cut-speed",
+      "duct-kink",
+      "extractor-damper",
+      "filter-lamp",
+      "hearing-plugs",
+      "hood-switch-off",
+      "hot-dross",
+      "manometer",
+      "nest-screen",
+      "part-cart",
+      "part-hook",
+      "plasma-gloves",
+      "shade-glasses",
+      "shift-board",
+      "slat-bed",
+      "slat-warp",
+      "steel-plate",
+      "torch-consumables",
+      "torch-pause",
+      "torch-zone",
+      "zone-reset"
+    ],
+    "meshes": 247
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Mark yourself onto the table, note who has the crane today and whether the extractor's filter was changed.",
+      "id": "check-in",
+      "kind": "select",
+      "prompt": "Mark yourself onto the table, note who has the crane today and whether the extractor's filter was changed.",
+      "target": "shift-board",
+      "title": "Sign on at the cut bay board",
+      "why": "The cut bay shares its air and its ceiling with the rest of the shop: the crane runs over the table, the extractor serves two machines, and the board is where all of that is known before anybody strikes an arc. Signing on means the crane operator knows there is a plate going onto the table under their runway, and the lead knows whether the extractor's filter service was done; a SMART shop reads the board as the first control on the bay, not as a formality."
+    },
+    {
+      "cue": "Material, thickness, pierce count, the cut speed and amperage the program calls for, and where the parts fall.",
+      "id": "nest-read",
+      "kind": "select",
+      "prompt": "Material, thickness, pierce count, the cut speed and amperage the program calls for, and where the parts fall.",
+      "target": "nest-screen",
+      "title": "Read the nest",
+      "why": "The nest program carries the material and thickness the cut chart was built for, and the amperage, gas and speed follow from it; a program run on the wrong plate cuts too fast and leaves a dross skirt on every part, or too slow and blows through the slats. It also says where the parts and the skeleton will lie when the cut finishes, which is what decides where a hand can go afterwards and where it cannot."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Shaded glasses for the arc, leather gloves for the parts, plugs for the plasma's whistle.",
+      "id": "ppe",
+      "itemNames": {
+        "hearing-plugs": "hearing protection",
+        "plasma-gloves": "leather gloves",
+        "shade-glasses": "shaded safety glasses"
+      },
+      "kind": "sequence",
+      "prompt": "Shaded glasses for the arc, leather gloves for the parts, plugs for the plasma's whistle.",
+      "targets": [
+        "shade-glasses",
+        "plasma-gloves",
+        "hearing-plugs"
+      ],
+      "title": "Dress for the arc",
+      "why": "A plasma arc is a welding arc that moves, and the glasses are shaded to the amperage on the program because the flash off a wet slat bed reaches an operator standing at the console. The gloves are leather rather than cut-rated because the parts come off hot as well as sharp, and the plugs are for a cut that screams at the pitch of a torch for a whole nest; every one of those is the kind of exposure that is a nuisance today and a diagnosis at fifty."
+    },
+    {
+      "cue": "Turn the zone damper for the table's active section fully open so the extractor pulls under the plate you are about to cut.",
+      "id": "extractor-on",
+      "kind": "turn",
+      "prompt": "Turn the zone damper for the table's active section fully open so the extractor pulls under the plate you are about to cut.",
+      "target": "extractor-damper",
+      "title": "Open the downdraft zone damper",
+      "turn": {
+        "axis": "y",
+        "label": "ZONE",
+        "turns": 1
+      },
+      "why": "A downdraft table is divided into zones, and the extractor only pulls through the one whose damper is open; cutting over a closed zone puts the fume up past your face while the fan roars usefully under an empty bed. The damper follows the nest — it is opened for the zone under the plate before the arc, and the turn is made all the way, because a half-open damper halves the capture velocity and the fume does not know that."
+    },
+    {
+      "cue": "Read the static across the filter cartridge and commit inside the band — not too low, not blinded high.",
+      "gauge": {
+        "green": [
+          0.44,
+          0.6
+        ],
+        "label": "STATIC",
+        "missNote": "The static is off the band — a hose off or a filter blinded. Find it before the arc, not after.",
+        "speed": 0.72
+      },
+      "id": "static-check",
+      "kind": "gauge",
+      "prompt": "Read the static across the filter cartridge and commit inside the band — not too low, not blinded high.",
+      "target": "manometer",
+      "title": "Prove the extractor's static on the manometer",
+      "why": "The manometer is the only instrument that says the extractor is doing its job: too low a static and the damper or a hose has come off and nothing is pulling at the bed; too high and the cartridge is blinded with fume and the fan is moving no air through it. A fan that sounds right moves nothing through a blinded filter, and the number is the difference between capture and a shop full of manganese fume."
+    },
+    {
+      "cue": "Bring the plate over on the lifter and set it down square on the slats of the open zone, clear of the datum stops.",
+      "drag": {
+        "missNote": "Not on the open zone's slats — the extractor pulls through the zone you opened, not the one the plate is on.",
+        "radius": 0.45,
+        "to": "slat-bed"
+      },
+      "id": "plate-load",
+      "kind": "drag",
+      "prompt": "Bring the plate over on the lifter and set it down square on the slats of the open zone, clear of the datum stops.",
+      "target": "steel-plate",
+      "title": "Land the plate on the slats",
+      "why": "The plate goes onto the slats flat and square to the datum, because the program's zero is measured off that corner and a plate skewed on the bed puts every part a few millimetres into the next one. It is set down on the lifter rather than slid, because a sheared plate edge dragged across steel slats is a hand's worth of sharp on the far side of the table where somebody is standing."
+    },
+    {
+      "cue": "Nozzle, electrode, shield and swirl ring — matched to the amperage on the program and not worn past their pierce count.",
+      "id": "consumables",
+      "kind": "select",
+      "prompt": "Nozzle, electrode, shield and swirl ring — matched to the amperage on the program and not worn past their pierce count.",
+      "target": "torch-consumables",
+      "title": "Check the torch consumables",
+      "why": "A worn nozzle gives a wide, wandering arc that cuts a bevel and throws dross, and an electrode past its pierce count fails mid-cut and takes the nozzle with it; both are read off the parts afterwards, when the plate is already scrap. The consumables are matched to the amperage on the nest because a 45-amp nozzle on an 85-amp program melts in the first pierce, and the torch is checked with the machine held and the torch parked, never live."
+    },
+    {
+      "cue": "Everybody and everything out of the gantry's travel, the lifter parked, then reset the light barrier at the console.",
+      "id": "zone-clear",
+      "kind": "select",
+      "prompt": "Everybody and everything out of the gantry's travel, the lifter parked, then reset the light barrier at the console.",
+      "target": "zone-reset",
+      "title": "Clear the zone and reset the barrier",
+      "why": "The gantry traverses the whole table between cuts, at a speed that does not allow for a person in its path, and the light barrier is what stops it if somebody is; resetting the barrier is a statement that you looked and the zone was empty, not a button to clear a fault. The lifter is parked outside the zone because a gantry that hits a suspended plate lifter takes the torch off and the crane hook with it."
+    },
+    {
+      "cue": "Start the program and hold the feed override on the chart speed — watch the kerf, not the arc.",
+      "holdBreakNote": "The speed dropped out of band — a dross skirt on that edge and heat into the slats. Steady the override.",
+      "id": "cut-run",
+      "kind": "track",
+      "prompt": "Start the program and hold the feed override on the chart speed — watch the kerf, not the arc.",
+      "seconds": 6,
+      "target": "cut-speed",
+      "title": "Run the cut at speed",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.44,
+        "green": [
+          0.42,
+          0.62
+        ],
+        "label": "SPEED",
+        "rise": 0.56
+      },
+      "why": "Cut speed is the whole quality of a plasma cut: too fast and the arc lags, leaves a bevel and a hard dross on the bottom edge; too slow and the kerf widens, the plate takes heat it does not need and the slats burn. The override is held on the chart speed and adjusted by what the kerf is doing, and the eyes stay on the kerf through shaded glass rather than on the arc itself, which is the brightest thing in the room and tells you nothing."
+    },
+    {
+      "cue": "Torch parked, program ended: start the cool timer and stay out of the zone until it runs down and the extractor has cleared the bed.",
+      "holdBreakNote": "You went to the bed before the timer ran down. The parts are still hot under the dross and the fume is still clearing.",
+      "id": "cool-wait",
+      "kind": "hold",
+      "prompt": "Torch parked, program ended: start the cool timer and stay out of the zone until it runs down and the extractor has cleared the bed.",
+      "seconds": 4,
+      "target": "cool-timer",
+      "title": "Let the plate cool and the fume clear",
+      "why": "The parts are at cutting temperature under a skin of grey dross that looks cold, and the fume that came off the last cut is still being pulled down through the slats. The timer is the difference between a part lifted with gloves and a part that welds itself to a glove; it is also the extractor's time to clear the bed, so the first breath taken over the plate is air rather than what was in the kerf."
+    },
+    {
+      "cue": "Torch on the bed, look at the slats and the dross and click the two things that change what you do next.",
+      "id": "dross-check",
+      "itemNames": {
+        "hot-dross": "dross still glowing on the slats",
+        "slat-warp": "a warped slat under the cut"
+      },
+      "itemNotes": {
+        "hot-dross": "That dross is still glowing under the plate edge — the cool timer is for exactly this, and a gloved hand on that lump is a glove on fire.",
+        "slat-warp": "The slat under the last cut has warped up into the kerf line; the next plate will rock on it and the cut will bevel. Slats are turned or changed, not cut through."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Torch on the bed, look at the slats and the dross and click the two things that change what you do next.",
+      "targets": [
+        "hot-dross",
+        "slat-warp"
+      ],
+      "title": "Look under the plate before anything is lifted",
+      "why": "The bed tells you what the cut did: glowing dross says the plate is still far too hot for a hand, and a warped slat says the next plate will not sit flat and the next cut will bevel. Both are found by looking under the skeleton with the arc off, and both are missed by an operator who goes straight from the end of the program to the parts, which is the habit this step exists to break."
+    },
+    {
+      "cue": "Hook the parts out of the skeleton first, then stack them on the cart edge-in, gloved.",
+      "id": "parts-off",
+      "itemNames": {
+        "part-cart": "stack them on the cart",
+        "part-hook": "hook the parts off the skeleton"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Hook first, then cart — the hook is what keeps your arm out of the skeleton while the parts are still hot.",
+      "prompt": "Hook the parts out of the skeleton first, then stack them on the cart edge-in, gloved.",
+      "targets": [
+        "part-hook",
+        "part-cart"
+      ],
+      "title": "Take the parts off",
+      "why": "Parts come out of the skeleton with the hook because the skeleton is a lattice of sharp, hot edges at every angle and the hook keeps the arm above it; onto the cart second, edges inward, because a cart of plasma-cut parts with edges out is a cart nobody can push. A part that will not lift with the hook is tabbed to the skeleton and is broken out with the plate on the bench, not by pulling harder over the slats."
+    },
+    {
+      "cue": "Look at the extractor cabinet and the duct run and click the two faults that explain the fume you saw.",
+      "id": "filter-walk",
+      "itemNames": {
+        "duct-kink": "the kinked flex duct behind the extractor",
+        "filter-lamp": "the filter-change lamp"
+      },
+      "itemNotes": {
+        "duct-kink": "The flex between the table and the extractor has a kink in it where the cart hit it; half the bed's capture is lost in that bend.",
+        "filter-lamp": "The filter-change lamp on the extractor is lit and has been all shift — the cartridge is blinded and the static you read was the filter, not the bed."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look at the extractor cabinet and the duct run and click the two faults that explain the fume you saw.",
+      "targets": [
+        "filter-lamp",
+        "duct-kink"
+      ],
+      "title": "Walk the extractor before the next plate",
+      "why": "The extractor is the control that keeps this trade's lungs in the shop, and it fails quietly: a lamp nobody looks at, a duct kinked by a cart, a cartridge blinded by a week of galvanised. Walking it between plates is what catches those before the next cut, and it is the operator who walks it, because the operator is the one who saw the fume roll off the table edge and knows something is wrong."
+    },
+    {
+      "cue": "Enter the nest, the plate, the pierce count, the extractor's static and the filter and duct faults, and sign it.",
+      "id": "cut-log",
+      "kind": "select",
+      "prompt": "Enter the nest, the plate, the pierce count, the extractor's static and the filter and duct faults, and sign it.",
+      "target": "cut-log",
+      "title": "Log the nest",
+      "why": "The log carries the extractor's static reading against the date, which is the only record the shop has of whether its fume control was working when this nest was cut; a health question in ten years is answered from these numbers or not at all. It also carries the filter lamp and the kinked duct, so the faults are fixed on the record instead of found by the next operator through a mouthful of fume."
+    }
+  ],
+  "supportLine": "your SMART local's training coordinator, or your employer's employee assistance program if the crane over your head is the thing you keep hearing",
+  "tagline": "Nest read, downdraft zone opened and static proven on the manometer, plate landed on the slats, zone cleared, the cut held at speed, cooled and hooked off, the extractor walked before the next plate",
+  "title": "SmartCiti.X~ Plasma Table and Fume VR",
+  "trade": "Sheet metal worker, CNC plasma — SMART, International Training Institute cutting and fume-control curriculum",
+  "underwater": null,
+  "weather": null
+}

@@ -1,0 +1,411 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "marsh-maker",
+    "name": "Marsh Maker",
+    "note": "Ran a fair wave-tank test with and without marsh plants, explained where the wave's energy went and planted with the crew"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFT",
+        "id": "aft-training",
+        "title": "AFT — American Federation of Teachers training for paraprofessionals and school-related personnel"
+      },
+      {
+        "body": "INEE",
+        "citedAs": "INEE Minimum Standards",
+        "id": "inee-minimum-standards",
+        "title": "INEE Minimum Standards for Education in emergencies, as a body whose standards a lesson is aligned to; it certifies nothing"
+      },
+      {
+        "body": "national curriculum authority",
+        "citedAs": "national curriculum framework",
+        "id": "national-curriculum-framework",
+        "title": "The national curriculum framework the school itself follows, as a category rather than any one country's document; no grade-level code is cited"
+      },
+      {
+        "body": "union",
+        "citedAs": "National Education Association",
+        "id": "nea-training",
+        "title": "NEA apprenticeship and training, as a training body"
+      },
+      {
+        "body": "UN",
+        "citedAs": "Sustainable Development Goal 4",
+        "id": "un-sdg-4-quality-education",
+        "title": "UN Sustainable Development Goal 4 (Quality Education), as a framework a lesson is aligned to; it certifies nothing"
+      },
+      {
+        "body": "UNESCO",
+        "citedAs": "UNESCO education guidance",
+        "id": "unesco-education-guidance",
+        "title": "UNESCO education guidance, as a body whose published guidance a lesson is aligned to; it certifies nothing"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Education",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "clean-read",
+        "name": "First Look",
+        "note": "Everything in the opening scan found first time"
+      },
+      {
+        "id": "no-shortcut",
+        "name": "No Shortcuts",
+        "note": "No misconception or unsafe shortcut anywhere in the run"
+      },
+      {
+        "id": "in-the-band",
+        "name": "In the Band",
+        "note": "Every gauge and meter held inside its band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-run",
+        "name": "Clean Run",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "steady-hands",
+        "name": "Steady Hands",
+        "note": "Every hold and track carried its full count"
+      },
+      {
+        "id": "quick-and-right",
+        "name": "Quick and Right",
+        "note": "Finished inside 80% of par"
+      }
+    ],
+    "currency": "STEMS",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Seedling",
+      "Sprout",
+      "Stem",
+      "Clump",
+      "Marsh Keeper"
+    ],
+    "system": "Marsh Board"
+  },
+  "hazards": {
+    "change-two-things": "You added plants and turned the wave maker down in the same run. With two changes you cannot tell which one made the waves smaller. A fair test changes one thing, the plants, and keeps the wave maker the same.",
+    "plants-stop-all-water": "You said the marsh stops storm water completely. A marsh slows water and takes energy out of waves, like a speed bump slows a car. It does not stop the water, which is why a parish uses wetlands, levees and pumps together.",
+    "pull-up-a-plant": "You pulled up a marsh plant. Every stem helps hold the mud together, and the crew planted each one by hand. Look, sketch and photograph; the plants stay where they are.",
+    "step-off-the-boat": "You stepped off the boat onto the marsh. Marsh mud is soft and can hold a boot fast, and trampling kills young plants. The crew plants from the boat or from mats laid down for the job, and visitors stay aboard."
+  },
+  "id": "k12-by-wetlands-as-a-storms-speed-bump",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "hold-the-model-plants-in-place",
+      "alert": "A passing work boat's wake rocks the deck and the tank sloshes.",
+      "cue": "Sit low, hold the handrail and wait for the rocking to stop.",
+      "delay": 3,
+      "id": "a-boat-wake-rocks-the-deck",
+      "kind": "Boat wake",
+      "missNote": "Nobody sat down, and a classmate lost their balance on the wet deck as the boat rocked from side to side.",
+      "seconds": 12,
+      "target": "byw-hold-rail",
+      "why": "A wake can tip a standing person off balance. Sitting low and holding on keeps everyone safe until the water is calm again. The test can be run again afterwards; a slip on a wet deck cannot be undone.",
+      "wrongNote": "That leaves you standing on a rocking deck. Sit low and hold the rail. Choose the response that deals with it now."
+    },
+    {
+      "after": "follow-a-wave-across-the-marsh",
+      "alert": "The crew lead asks which run you are comparing the plant run against.",
+      "cue": "Say that the bare-tank run is the control, with the same waves and no plants.",
+      "delay": 3,
+      "id": "the-crew-lead-asks-about-the-control",
+      "kind": "Crew question",
+      "missNote": "You could not say which run was the control, and the crew lead had to explain the comparison before the group could go on.",
+      "seconds": 12,
+      "target": "byw-name-control",
+      "why": "Naming the control shows you understand why the test is fair. Without it, a smaller wave means nothing, because you have nothing to compare it with. The crew compares restored marsh with bare mud in exactly the same way.",
+      "wrongNote": "That does not name the control run. Say which run had no plants. Choose the response that deals with it now."
+    }
+  ],
+  "lateNotes": {
+    "byw-checkin": "The check-in comes at the very end of the trip.",
+    "byw-tank-log": "The wave-tank record is written once both runs are done — nothing to record yet."
+  },
+  "name": "Wetlands as a Storm's Speed Bump",
+  "parSeconds": 330,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "k12-science"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "byw-checkin",
+      "byw-cr-cooler",
+      "byw-cr-fence",
+      "byw-cr-mats",
+      "byw-cr-rows",
+      "byw-heron",
+      "byw-hold-rail",
+      "byw-marsh-strip",
+      "byw-mat-hold",
+      "byw-mud",
+      "byw-name-control",
+      "byw-ord-again",
+      "byw-ord-bare",
+      "byw-ord-measure",
+      "byw-ord-plant",
+      "byw-plant-mat",
+      "byw-result-card",
+      "byw-seat-card",
+      "byw-share-board",
+      "byw-stems",
+      "byw-tank-log",
+      "byw-wave-dial",
+      "byw-wave-meter",
+      "byw-wave-track",
+      "byw-width",
+      "change-two-things",
+      "plants-stop-all-water",
+      "pull-up-a-plant",
+      "step-off-the-boat"
+    ],
+    "meshes": 233
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Mark the three parts of the marsh that take energy out of a wave.",
+      "decoyNotes": {
+        "byw-heron": "Lovely to see, but it is not what slows the wave."
+      },
+      "id": "find-what-slows-the-water-in",
+      "itemNames": {
+        "byw-mud": "the shallow mud floor",
+        "byw-stems": "the grass stems standing in the water",
+        "byw-width": "the wide stretch of marsh"
+      },
+      "itemNotes": {
+        "byw-mud": "Shallow bottoms drag on the wave.",
+        "byw-stems": "Stems rub against the moving water.",
+        "byw-width": "A longer path takes away more energy."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Mark the three parts of the marsh that take energy out of a wave.",
+      "targets": [
+        "byw-stems",
+        "byw-mud",
+        "byw-width"
+      ],
+      "title": "Find what slows the water in the marsh",
+      "why": "A wave carries energy. When it moves over a marsh, grass stems rub against the water, shallow mud drags on the bottom of the wave, and a wide stretch of marsh gives the water a long way to travel. Each of these takes a little energy away, and together they make the wave smaller before it reaches land."
+    },
+    {
+      "cue": "Run waves with no plants, measure them, add the plants, then run the same waves again.",
+      "id": "put-the-wave-tank-test-in",
+      "itemNames": {
+        "byw-ord-again": "4 · run the same waves again",
+        "byw-ord-bare": "1 · run waves over the bare tank",
+        "byw-ord-measure": "2 · measure the waves at the far end",
+        "byw-ord-plant": "3 · add the model marsh plants"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order. Run and measure the waves with no plants first, as your control.",
+      "prompt": "Run waves with no plants, measure them, add the plants, then run the same waves again.",
+      "targets": [
+        "byw-ord-bare",
+        "byw-ord-measure",
+        "byw-ord-plant",
+        "byw-ord-again"
+      ],
+      "title": "Put the wave-tank test in order",
+      "why": "Running the tank first with no plants gives you something to compare against, called a control. Measuring before you add the plants, then keeping the wave maker exactly the same for the second run, means the plants are the only difference. Then any change you see belongs to the plants."
+    },
+    {
+      "cue": "Take your seat and put on your life jacket before the crew lead starts the engine.",
+      "id": "sit-down-in-the-boat-before",
+      "kind": "select",
+      "prompt": "Take your seat and put on your life jacket before the crew lead starts the engine.",
+      "target": "byw-seat-card",
+      "title": "Sit down in the boat before it moves",
+      "why": "A boat in a marsh channel can turn and stop suddenly around bends and shallow spots. Sitting down low with a life jacket fastened keeps everyone steady and ready if the boat rocks. The crew does the same before every trip, because a calm start makes the whole visit calm."
+    },
+    {
+      "cue": "Turn the wave maker dial to the teacher's setting and do not touch it again.",
+      "id": "set-the-wave-maker-and-leave",
+      "kind": "turn",
+      "prompt": "Turn the wave maker dial to the teacher's setting and do not touch it again.",
+      "target": "byw-wave-dial",
+      "title": "Set the wave maker and leave it",
+      "turn": {
+        "axis": "y",
+        "label": "WAVES",
+        "turns": 0.5
+      },
+      "why": "The wave maker must stay on the same setting for both runs. If the waves are different sizes each time, you cannot tell whether the plants did anything. Setting it once and leaving it is how scientists control a variable, the thing they keep the same on purpose."
+    },
+    {
+      "cue": "Commit when the marker sits at the top of the wave on the far ruler.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.58
+        ],
+        "label": "WAVE",
+        "missNote": "Not at the top of the wave. Read where the crest meets the ruler.",
+        "speed": 0.6
+      },
+      "id": "read-the-wave-height-at-the",
+      "kind": "gauge",
+      "prompt": "Commit when the marker sits at the top of the wave on the far ruler.",
+      "target": "byw-wave-meter",
+      "title": "Read the wave height at the far end",
+      "why": "To compare the two runs, you read the wave at the same place each time, on the ruler at the land end of the tank. Reading at the top of the wave, and at eye level, makes your reading one that a classmate would agree with. Careful reading is what makes the comparison honest."
+    },
+    {
+      "cue": "Hold the plant mat flat on the tank floor until its weights settle.",
+      "holdBreakNote": "The mat lifted before the weights settled. Hold it flat again until it stays.",
+      "id": "hold-the-model-plants-in-place",
+      "kind": "hold",
+      "prompt": "Hold the plant mat flat on the tank floor until its weights settle.",
+      "seconds": 6,
+      "target": "byw-mat-hold",
+      "title": "Hold the model plants in place",
+      "why": "If the plant mat lifts or slides, the test changes halfway through. Holding it flat until the weights settle keeps the plants standing where you put them. Real marsh grass is held in place by its roots, which is exactly what the weights stand in for in the model."
+    },
+    {
+      "cue": "Drag the plant mat to the marked strip between the wave maker and the shore.",
+      "drag": {
+        "missNote": "Not on the marsh strip yet. Place it between the waves and the shore.",
+        "radius": 0.45,
+        "to": "byw-marsh-strip"
+      },
+      "id": "set-the-plant-mat-in-the",
+      "kind": "drag",
+      "prompt": "Drag the plant mat to the marked strip between the wave maker and the shore.",
+      "target": "byw-plant-mat",
+      "title": "Set the plant mat in the middle of the tank",
+      "why": "A real marsh lies between open water and the land. Putting the plant mat in the same place in the tank means the waves must cross it to reach the model shore, just as storm waves cross a marsh. The position matters, because plants behind the shore would not slow anything."
+    },
+    {
+      "cue": "Look across the marsh from the boat and mark each part of the crew's work.",
+      "decoyNotes": {
+        "byw-cr-cooler": "Important to the crew, but not part of the restoration."
+      },
+      "id": "spot-what-the-restoration-crew-is",
+      "itemNames": {
+        "byw-cr-fence": "a low fence that traps sediment",
+        "byw-cr-mats": "mats laid over bare mud",
+        "byw-cr-rows": "rows of young grass plants"
+      },
+      "itemNotes": {
+        "byw-cr-fence": "It helps the ground build up again.",
+        "byw-cr-mats": "Mats stop the mud washing away.",
+        "byw-cr-rows": "New plants will spread and knit the mud."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look across the marsh from the boat and mark each part of the crew's work.",
+      "targets": [
+        "byw-cr-rows",
+        "byw-cr-mats",
+        "byw-cr-fence"
+      ],
+      "title": "Spot what the restoration crew is doing",
+      "why": "Restoring a marsh is patient work. The crew plants young grass in rows, lays mats that stop the mud washing away, and places fences that trap sediment so the ground can build up again. Seeing each job helps you understand that a marsh can be helped to grow back, and that people do that work."
+    },
+    {
+      "cue": "Choose the sentence that says what your two runs showed.",
+      "id": "say-what-the-plants-did-to",
+      "kind": "select",
+      "prompt": "Choose the sentence that says what your two runs showed.",
+      "target": "byw-result-card",
+      "title": "Say what the plants did to the waves",
+      "why": "Your control run and your plant run used the same waves. If the waves were smaller at the shore with plants, the plants took energy out of them. A good conclusion says only that, with your readings as the evidence, and does not claim more than the test showed."
+    },
+    {
+      "cue": "Keep the marker on one wave as it travels over the plants and shrinks.",
+      "holdBreakNote": "The marker lost the wave. Find the same wave again and follow it to the shore.",
+      "id": "follow-a-wave-across-the-marsh",
+      "kind": "track",
+      "prompt": "Keep the marker on one wave as it travels over the plants and shrinks.",
+      "seconds": 8,
+      "target": "byw-wave-track",
+      "title": "Follow a wave across the marsh strip",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.38,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "FOLLOW",
+        "rise": 0.46,
+        "start": 0.3
+      },
+      "why": "Watching one wave from start to finish shows the change happening, not just the result. You see it lose height as it pushes through the stems and over the shallow floor. That picture, energy being taken away step by step, is the heart of why wetlands act like a speed bump."
+    },
+    {
+      "cue": "Write the wave height for the control run and the plant run in a two-column table.",
+      "id": "record-both-runs-side-by-side",
+      "kind": "select",
+      "prompt": "Write the wave height for the control run and the plant run in a two-column table.",
+      "target": "byw-tank-log",
+      "title": "Record both runs side by side",
+      "why": "Two columns side by side make the comparison easy to see and easy to check. Anyone reading your table can see the setting, the two readings and the one thing that changed. That is how a test result travels from your bench to someone else's, and how it can be repeated."
+    },
+    {
+      "cue": "Put your table next to another group's and look for the same pattern.",
+      "id": "compare-with-another-group",
+      "kind": "select",
+      "prompt": "Put your table next to another group's and look for the same pattern.",
+      "target": "byw-share-board",
+      "title": "Compare with another group",
+      "why": "One test can be a fluke. If another group, with its own tank, sees waves shrink over plants too, the result is much stronger. Comparing results is how scientists build confidence, and it is why the crew shares its marsh surveys with other crews along the coast."
+    },
+    {
+      "cue": "What did the tank show you? What is one way people help a marsh grow back?",
+      "id": "crew-check-in",
+      "kind": "select",
+      "prompt": "What did the tank show you? What is one way people help a marsh grow back?",
+      "target": "byw-checkin",
+      "title": "Check in before the boat heads back",
+      "why": "The restoration crew talks over each day's planting on the ride back, so the class does the same before the engine starts. Each learner says what the plants did to the waves and names one job they saw the crew doing. If anyone thinks the marsh stops all water, the group sorts that out together now."
+    }
+  ],
+  "supportLine": "your teacher, a school counsellor or a trusted adult at home — if anything in this lesson was hard, talk it through afterwards",
+  "tagline": "Grass, mud and shallow water slow a wave down — test it fairly, then help the crew plant",
+  "title": "SmartCiti.X~ Wetlands as a Storm's Speed Bump VR",
+  "trade": "Science class on the restoration crew's boat at the wetlands — learner and restoration crew lead",
+  "underwater": null,
+  "weather": "clear"
+}

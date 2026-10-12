@@ -1,0 +1,1994 @@
+{
+  "eval": "COLEARN co-learning",
+  "version": "col/1",
+  "generator": "tools/col_eval.mjs",
+  "learners": {
+    "robot": "behaviour cloning, k-nearest neighbours (k=5) over hand-written features",
+    "tutor": "UCB1 bandit over hint styles + per-step error table",
+    "explanations": "heuristic feature attribution, fixed phrases, no model call",
+    "shield": "reservation rule (AMR only), not learnt"
+  },
+  "data": "synthetic demonstrations (scripted expert at skill 0.85 with action noise), labelled synthetic; held-out seeds 7001-7060",
+  "policies": [
+    {
+      "scenario": "rb-cell-entry",
+      "demosOffered": 40,
+      "demosKept": 24,
+      "rows": 584,
+      "random": {
+        "n": 60,
+        "success": 0,
+        "clean": 0.05,
+        "meanSteps": 159.4
+      },
+      "expert": {
+        "n": 60,
+        "success": 1,
+        "clean": 1,
+        "meanSteps": 22.583
+      },
+      "bcFiltered": {
+        "n": 60,
+        "success": 1,
+        "clean": 1,
+        "meanSteps": 24.583
+      },
+      "bcUnfiltered": {
+        "n": 60,
+        "success": 1,
+        "clean": 1,
+        "meanSteps": 23.583
+      },
+      "bcFilteredShield": null,
+      "gapToExpert": 0,
+      "modelHash": "31f876a605368d44"
+    },
+    {
+      "scenario": "rb-cobot-zone-setup",
+      "demosOffered": 40,
+      "demosKept": 39,
+      "rows": 241,
+      "random": {
+        "n": 60,
+        "success": 0.05,
+        "clean": 0.05,
+        "meanSteps": 4.367
+      },
+      "expert": {
+        "n": 60,
+        "success": 1,
+        "clean": 1,
+        "meanSteps": 6
+      },
+      "bcFiltered": {
+        "n": 60,
+        "success": 1,
+        "clean": 1,
+        "meanSteps": 6.05
+      },
+      "bcUnfiltered": {
+        "n": 60,
+        "success": 1,
+        "clean": 1,
+        "meanSteps": 6.05
+      },
+      "bcFilteredShield": null,
+      "gapToExpert": 0,
+      "modelHash": "52faed1b6ea1f4eb"
+    },
+    {
+      "scenario": "rb-teleop-pick-place",
+      "demosOffered": 40,
+      "demosKept": 19,
+      "rows": 984,
+      "random": {
+        "n": 60,
+        "success": 0,
+        "clean": 0.533,
+        "meanSteps": 400
+      },
+      "expert": {
+        "n": 60,
+        "success": 0.983,
+        "clean": 0.983,
+        "meanSteps": 51.05
+      },
+      "bcFiltered": {
+        "n": 60,
+        "success": 0.967,
+        "clean": 0.967,
+        "meanSteps": 62.633
+      },
+      "bcUnfiltered": {
+        "n": 60,
+        "success": 0,
+        "clean": 0,
+        "meanSteps": 400
+      },
+      "bcFilteredShield": null,
+      "gapToExpert": 0.016,
+      "modelHash": "d9b2001591c00551"
+    },
+    {
+      "scenario": "rb-amr-fleet-routing",
+      "demosOffered": 40,
+      "demosKept": 37,
+      "rows": 1168,
+      "random": {
+        "n": 60,
+        "success": 0,
+        "clean": 0,
+        "meanSteps": 120
+      },
+      "expert": {
+        "n": 60,
+        "success": 1,
+        "clean": 1,
+        "meanSteps": 13.85
+      },
+      "bcFiltered": {
+        "n": 60,
+        "success": 0.817,
+        "clean": 0.817,
+        "meanSteps": 24.65
+      },
+      "bcUnfiltered": {
+        "n": 60,
+        "success": 0.6,
+        "clean": 0.6,
+        "meanSteps": 15.5
+      },
+      "bcFilteredShield": {
+        "n": 60,
+        "success": 0.867,
+        "clean": 0.917,
+        "meanSteps": 26.117
+      },
+      "gapToExpert": 0.183,
+      "modelHash": "91a7b57c6a817b04"
+    },
+    {
+      "scenario": "rb-construction-drilling",
+      "demosOffered": 40,
+      "demosKept": 17,
+      "rows": 320,
+      "random": {
+        "n": 60,
+        "success": 0,
+        "clean": 0,
+        "meanSteps": 59.283
+      },
+      "expert": {
+        "n": 60,
+        "success": 1,
+        "clean": 1,
+        "meanSteps": 17.767
+      },
+      "bcFiltered": {
+        "n": 60,
+        "success": 1,
+        "clean": 1,
+        "meanSteps": 17.767
+      },
+      "bcUnfiltered": {
+        "n": 60,
+        "success": 1,
+        "clean": 1,
+        "meanSteps": 17.767
+      },
+      "bcFilteredShield": null,
+      "gapToExpert": 0,
+      "modelHash": "2f23e1aba60c630b"
+    },
+    {
+      "scenario": "rb-port-gantry",
+      "demosOffered": 40,
+      "demosKept": 25,
+      "rows": 623,
+      "random": {
+        "n": 60,
+        "success": 0,
+        "clean": 0.167,
+        "meanSteps": 160
+      },
+      "expert": {
+        "n": 60,
+        "success": 1,
+        "clean": 1,
+        "meanSteps": 27.8
+      },
+      "bcFiltered": {
+        "n": 60,
+        "success": 1,
+        "clean": 1,
+        "meanSteps": 27.7
+      },
+      "bcUnfiltered": {
+        "n": 60,
+        "success": 1,
+        "clean": 1,
+        "meanSteps": 27.917
+      },
+      "bcFilteredShield": null,
+      "gapToExpert": 0,
+      "modelHash": "d9e4b96357ba131b"
+    }
+  ],
+  "variants": [
+    {
+      "scenario": "rb-construction-drilling",
+      "variant": "hard",
+      "id": "rb-construction-drilling#hard",
+      "demosOffered": 40,
+      "demosKept": 20,
+      "rows": 406,
+      "random": {
+        "n": 60,
+        "success": 0,
+        "clean": 0,
+        "meanSteps": 64.9
+      },
+      "expert": {
+        "n": 60,
+        "success": 1,
+        "clean": 1,
+        "meanSteps": 19.433
+      },
+      "bcFiltered": {
+        "n": 60,
+        "success": 1,
+        "clean": 1,
+        "meanSteps": 19.433
+      },
+      "bcUnfiltered": {
+        "n": 60,
+        "success": 1,
+        "clean": 1,
+        "meanSteps": 19.433
+      },
+      "gapToExpert": 0,
+      "modelHash": "37aace20e62ec800"
+    },
+    {
+      "scenario": "rb-port-gantry",
+      "variant": "hard",
+      "id": "rb-port-gantry#hard",
+      "demosOffered": 40,
+      "demosKept": 24,
+      "rows": 621,
+      "random": {
+        "n": 60,
+        "success": 0,
+        "clean": 0.233,
+        "meanSteps": 160
+      },
+      "expert": {
+        "n": 60,
+        "success": 1,
+        "clean": 1,
+        "meanSteps": 30.1
+      },
+      "bcFiltered": {
+        "n": 60,
+        "success": 0.717,
+        "clean": 1,
+        "meanSteps": 64.8
+      },
+      "bcUnfiltered": {
+        "n": 60,
+        "success": 0.717,
+        "clean": 1,
+        "meanSteps": 64.917
+      },
+      "gapToExpert": 0.283,
+      "modelHash": "be33fde93e0264f5"
+    },
+    {
+      "scenario": "rb-amr-fleet-routing",
+      "variant": "hard",
+      "id": "rb-amr-fleet-routing#hard",
+      "demosOffered": 40,
+      "demosKept": 32,
+      "rows": 1291,
+      "random": {
+        "n": 60,
+        "success": 0,
+        "clean": 0,
+        "meanSteps": 120
+      },
+      "expert": {
+        "n": 60,
+        "success": 1,
+        "clean": 1,
+        "meanSteps": 19.483
+      },
+      "bcFiltered": {
+        "n": 60,
+        "success": 0.05,
+        "clean": 0.9,
+        "meanSteps": 113.05
+      },
+      "bcUnfiltered": {
+        "n": 60,
+        "success": 0.117,
+        "clean": 0.933,
+        "meanSteps": 107.783
+      },
+      "bcFilteredShield": {
+        "n": 60,
+        "success": 0.067,
+        "clean": 1,
+        "meanSteps": 113.05
+      },
+      "gapToExpert": 0.95,
+      "modelHash": "2bc954504a77c552"
+    }
+  ],
+  "stations": [
+    {
+      "scenario": "rb-station-robot-cell",
+      "station": "ad-robot-cell-lockout-and-safe-reentry",
+      "demosOffered": 20,
+      "demosKept": 13,
+      "rows": 3717,
+      "random": {
+        "n": 10,
+        "success": 0,
+        "clean": 0,
+        "meanSteps": 20000
+      },
+      "expert": {
+        "n": 10,
+        "success": 1,
+        "clean": 1,
+        "meanSteps": 278
+      },
+      "bcFiltered": {
+        "n": 10,
+        "success": 1,
+        "clean": 1,
+        "meanSteps": 278
+      },
+      "gapToExpert": 0,
+      "modelHash": "10fa790f52017137"
+    },
+    {
+      "scenario": "rb-station-amr-fleet",
+      "station": "ad-amr-fleet-traffic-and-estop-drill",
+      "demosOffered": 20,
+      "demosKept": 6,
+      "rows": 1680,
+      "random": {
+        "n": 10,
+        "success": 0,
+        "clean": 0,
+        "meanSteps": 20000
+      },
+      "expert": {
+        "n": 10,
+        "success": 1,
+        "clean": 1,
+        "meanSteps": 278
+      },
+      "bcFiltered": {
+        "n": 10,
+        "success": 1,
+        "clean": 1,
+        "meanSteps": 278
+      },
+      "gapToExpert": 0,
+      "modelHash": "8bd01eff3776b06f"
+    },
+    {
+      "scenario": "rb-station-cobot",
+      "station": "ad-cobot-risk-assessment-and-speed-separation",
+      "demosOffered": 20,
+      "demosKept": 12,
+      "rows": 3501,
+      "random": {
+        "n": 10,
+        "success": 0,
+        "clean": 0,
+        "meanSteps": 20000
+      },
+      "expert": {
+        "n": 10,
+        "success": 1,
+        "clean": 1,
+        "meanSteps": 279
+      },
+      "bcFiltered": {
+        "n": 10,
+        "success": 1,
+        "clean": 1,
+        "meanSteps": 279
+      },
+      "gapToExpert": 0,
+      "modelHash": "50572e6935df6069"
+    }
+  ],
+  "tutor": {
+    "mixed": {
+      "learners": 300,
+      "population": "mixed",
+      "seed": 11,
+      "model": "simulated learners (colTutorSim's own response model)",
+      "static": {
+        "attempts": {
+          "mean": 64.577,
+          "lo": 60.445,
+          "hi": 68.708
+        },
+        "mistakes": {
+          "mean": 10.41,
+          "lo": 9.674,
+          "hi": 11.146
+        },
+        "hints": {
+          "mean": 10.41,
+          "lo": 9.674,
+          "hi": 11.146
+        },
+        "passRate": 1
+      },
+      "adaptive": {
+        "attempts": {
+          "mean": 59.897,
+          "lo": 56.41,
+          "hi": 63.384
+        },
+        "mistakes": {
+          "mean": 9.03,
+          "lo": 8.427,
+          "hi": 9.633
+        },
+        "hints": {
+          "mean": 12.44,
+          "lo": 11.64,
+          "hi": 13.24
+        },
+        "passRate": 1
+      },
+      "gain": {
+        "attempts": {
+          "mean": 4.68,
+          "lo": 0.25,
+          "hi": 9.11
+        },
+        "mistakes": {
+          "mean": 1.38,
+          "lo": 0.661,
+          "hi": 2.099
+        }
+      }
+    },
+    "tellBest": {
+      "learners": 300,
+      "population": "tell-best",
+      "seed": 11,
+      "model": "simulated learners (colTutorSim's own response model)",
+      "static": {
+        "attempts": {
+          "mean": 54.513,
+          "lo": 51.431,
+          "hi": 57.596
+        },
+        "mistakes": {
+          "mean": 7.947,
+          "lo": 7.444,
+          "hi": 8.449
+        },
+        "hints": {
+          "mean": 7.947,
+          "lo": 7.444,
+          "hi": 8.449
+        },
+        "passRate": 1
+      },
+      "adaptive": {
+        "attempts": {
+          "mean": 58.35,
+          "lo": 54.876,
+          "hi": 61.824
+        },
+        "mistakes": {
+          "mean": 8.75,
+          "lo": 8.15,
+          "hi": 9.35
+        },
+        "hints": {
+          "mean": 11.98,
+          "lo": 11.192,
+          "hi": 12.768
+        },
+        "passRate": 1
+      },
+      "gain": {
+        "attempts": {
+          "mean": -3.837,
+          "lo": -7.639,
+          "hi": -0.034
+        },
+        "mistakes": {
+          "mean": -0.803,
+          "lo": -1.388,
+          "hi": -0.218
+        }
+      }
+    },
+    "note": "simulated learners from colTutorSim's own response model; not measurements of people"
+  },
+  "preference": {
+    "version": "rt6/1",
+    "learner": "Bradley–Terry reward model: logistic regression, no intercept, on the difference of two runs' trajectory features; L2 0.01, 500 full-batch steps from zero",
+    "features": [
+      "success",
+      "clean",
+      "unsafeRate",
+      "length",
+      "waitRate",
+      "progress"
+    ],
+    "rater": "synthetic rater: utility = 2·finished + 1·progress − 4·min(1, unsafe steps / 3) − 1.5·(steps / cap); Bradley–Terry choice at temperature 0.5",
+    "keep": "the top 50% of the 40 demonstrations by learned reward, fixed before any held-out seed was run; the other shares are a sensitivity sweep",
+    "pairs": "200 synthetic pairs per scenario (150 to fit, 50 held out), each two runs of one seed by the scripted stand-in at two skills; labelled synthetic. A learner's consented local pairs join the fit only through rt6LocalPairs (0 here: no person's pairs exist)",
+    "scenarios": [
+      {
+        "scenario": "rb-amr-fleet-routing",
+        "pairs": {
+          "synthetic": 200,
+          "train": 150,
+          "heldOut": 50,
+          "local": 0,
+          "rater": "synthetic rater: utility = 2·finished + 1·progress − 4·min(1, unsafe steps / 3) − 1.5·(steps / cap); Bradley–Terry choice at temperature 0.5"
+        },
+        "model": {
+          "names": [
+            "success",
+            "clean",
+            "unsafeRate",
+            "length",
+            "waitRate",
+            "progress"
+          ],
+          "w": [
+            1.0668,
+            1.0668,
+            -0.2245,
+            -0.3267,
+            -0.3423,
+            0.6608
+          ],
+          "l2": 0.01,
+          "iters": 500,
+          "meanNll": 0.599,
+          "sources": [
+            "synthetic"
+          ]
+        },
+        "accuracy": {
+          "train": 0.607,
+          "heldOut": 0.61,
+          "raterCeilingHeldOut": 0.584
+        },
+        "keep": 0.5,
+        "keptClean": 20,
+        "keptOf": 40,
+        "unfiltered": {
+          "demos": 40,
+          "rows": 1294,
+          "n": 60,
+          "success": 0.6,
+          "clean": 0.6,
+          "meanSteps": 15.5,
+          "modelHash": "3da939b0b47ae8bc"
+        },
+        "ruleFiltered": {
+          "demos": 37,
+          "rows": 1168,
+          "n": 60,
+          "success": 0.817,
+          "clean": 0.817,
+          "meanSteps": 24.65,
+          "modelHash": "91a7b57c6a817b04"
+        },
+        "rewardFiltered": {
+          "demos": 20,
+          "rows": 531,
+          "n": 60,
+          "success": 0.483,
+          "clean": 0.483,
+          "meanSteps": 47.783,
+          "modelHash": "fa09c27760ef653f"
+        },
+        "sweep": [
+          {
+            "keep": 0.25,
+            "demos": 10,
+            "rows": 248,
+            "n": 60,
+            "success": 0.45,
+            "clean": 0.45,
+            "meanSteps": 56.067,
+            "modelHash": "583a794fdc88ace7"
+          },
+          {
+            "keep": 0.5,
+            "demos": 20,
+            "rows": 531,
+            "n": 60,
+            "success": 0.483,
+            "clean": 0.483,
+            "meanSteps": 47.783,
+            "modelHash": "fa09c27760ef653f"
+          },
+          {
+            "keep": 0.75,
+            "demos": 30,
+            "rows": 908,
+            "n": 60,
+            "success": 0.55,
+            "clean": 0.55,
+            "meanSteps": 59.367,
+            "modelHash": "27990afbf83894c3"
+          }
+        ],
+        "rewardWeighted": {
+          "weight": "sigmoid(reward − median reward): the reward model's own probability that the demonstration is preferred over the median one, scaling every row's vote; all demonstrations kept",
+          "minWeight": 0.078,
+          "maxWeight": 0.508,
+          "demos": 40,
+          "rows": 1294,
+          "n": 60,
+          "success": 0.6,
+          "clean": 0.6,
+          "meanSteps": 15.5,
+          "modelHash": "941e2e8d85dce961"
+        },
+        "stepReward": {
+          "version": "rt7/1",
+          "window": 3,
+          "features": [
+            "broke",
+            "waitRate",
+            "progress"
+          ],
+          "rater": "synthetic window rater: utility = −4·(any rule broken in the window) + 1·progress; Bradley–Terry choice at temperature 0.5",
+          "pairs": {
+            "synthetic": 200,
+            "train": 150,
+            "heldOut": 50,
+            "from": "one window from each run of ROBOTRAIN-6's synthetic pair i (labelled synthetic)"
+          },
+          "model": {
+            "names": [
+              "broke",
+              "waitRate",
+              "progress"
+            ],
+            "w": [
+              -0.8117,
+              0.2746,
+              1.5179
+            ],
+            "l2": 0.01,
+            "iters": 500,
+            "meanNll": 0.6119
+          },
+          "accuracy": {
+            "train": 0.66,
+            "heldOut": 0.66,
+            "raterCeilingHeldOut": 0.65
+          },
+          "medianStepReward": 1.012,
+          "rule": "drop a step when sigmoid(its window's reward − the median step reward) < 0.25; keep every other step of every demonstration (no run-level filter)",
+          "threshold": 0.25,
+          "stepsDropped": 3,
+          "stepsOf": 560,
+          "ruleBrokenSteps": 4,
+          "ruleBrokenDropped": 2,
+          "demos": 40,
+          "rows": 1290,
+          "n": 60,
+          "success": 0.55,
+          "clean": 0.55,
+          "meanSteps": 59.367,
+          "modelHash": "9213debd050e9b7d",
+          "sweep": [
+            {
+              "threshold": 0.1,
+              "stepsDropped": 0,
+              "demos": 40,
+              "rows": 1294,
+              "n": 60,
+              "success": 0.6,
+              "clean": 0.6,
+              "meanSteps": 15.5
+            },
+            {
+              "threshold": 0.25,
+              "stepsDropped": 3,
+              "demos": 40,
+              "rows": 1290,
+              "n": 60,
+              "success": 0.55,
+              "clean": 0.55,
+              "meanSteps": 59.367
+            },
+            {
+              "threshold": 0.5,
+              "stepsDropped": 183,
+              "demos": 40,
+              "rows": 944,
+              "n": 60,
+              "success": 0.917,
+              "clean": 0.917,
+              "meanSteps": 14.1
+            }
+          ]
+        }
+      },
+      {
+        "scenario": "rb-amr-fleet-routing#hard",
+        "pairs": {
+          "synthetic": 200,
+          "train": 150,
+          "heldOut": 50,
+          "local": 0,
+          "rater": "synthetic rater: utility = 2·finished + 1·progress − 4·min(1, unsafe steps / 3) − 1.5·(steps / cap); Bradley–Terry choice at temperature 0.5"
+        },
+        "model": {
+          "names": [
+            "success",
+            "clean",
+            "unsafeRate",
+            "length",
+            "waitRate",
+            "progress"
+          ],
+          "w": [
+            1.3158,
+            1.3158,
+            -0.2376,
+            0.0021,
+            0.1871,
+            0.6439
+          ],
+          "l2": 0.01,
+          "iters": 500,
+          "meanNll": 0.5336,
+          "sources": [
+            "synthetic"
+          ]
+        },
+        "accuracy": {
+          "train": 0.703,
+          "heldOut": 0.6,
+          "raterCeilingHeldOut": 0.651
+        },
+        "keep": 0.5,
+        "keptClean": 20,
+        "keptOf": 40,
+        "unfiltered": {
+          "demos": 40,
+          "rows": 1651,
+          "n": 60,
+          "success": 0.117,
+          "clean": 0.933,
+          "meanSteps": 107.783,
+          "modelHash": "fa611b200d05fa6c"
+        },
+        "ruleFiltered": {
+          "demos": 32,
+          "rows": 1291,
+          "n": 60,
+          "success": 0.05,
+          "clean": 0.9,
+          "meanSteps": 113.05,
+          "modelHash": "2bc954504a77c552"
+        },
+        "rewardFiltered": {
+          "demos": 20,
+          "rows": 838,
+          "n": 60,
+          "success": 0.05,
+          "clean": 0.9,
+          "meanSteps": 113.083,
+          "modelHash": "586eb7af8cf14e27"
+        },
+        "sweep": [
+          {
+            "keep": 0.25,
+            "demos": 10,
+            "rows": 424,
+            "n": 60,
+            "success": 0,
+            "clean": 0.983,
+            "meanSteps": 120,
+            "modelHash": "bfb1b8c5005816a5"
+          },
+          {
+            "keep": 0.5,
+            "demos": 20,
+            "rows": 838,
+            "n": 60,
+            "success": 0.05,
+            "clean": 0.9,
+            "meanSteps": 113.083,
+            "modelHash": "586eb7af8cf14e27"
+          },
+          {
+            "keep": 0.75,
+            "demos": 30,
+            "rows": 1199,
+            "n": 60,
+            "success": 0,
+            "clean": 0.983,
+            "meanSteps": 120,
+            "modelHash": "0ee7f7ee3e925b7c"
+          }
+        ],
+        "rewardWeighted": {
+          "weight": "sigmoid(reward − median reward): the reward model's own probability that the demonstration is preferred over the median one, scaling every row's vote; all demonstrations kept",
+          "minWeight": 0.044,
+          "maxWeight": 0.508,
+          "demos": 40,
+          "rows": 1651,
+          "n": 60,
+          "success": 0.067,
+          "clean": 0.883,
+          "meanSteps": 111.4,
+          "modelHash": "1127d60bd1abc1b3"
+        },
+        "stepReward": {
+          "version": "rt7/1",
+          "window": 3,
+          "features": [
+            "broke",
+            "waitRate",
+            "progress"
+          ],
+          "rater": "synthetic window rater: utility = −4·(any rule broken in the window) + 1·progress; Bradley–Terry choice at temperature 0.5",
+          "pairs": {
+            "synthetic": 200,
+            "train": 150,
+            "heldOut": 50,
+            "from": "one window from each run of ROBOTRAIN-6's synthetic pair i (labelled synthetic)"
+          },
+          "model": {
+            "names": [
+              "broke",
+              "waitRate",
+              "progress"
+            ],
+            "w": [
+              -1.1618,
+              -0.6921,
+              0.9564
+            ],
+            "l2": 0.01,
+            "iters": 500,
+            "meanNll": 0.6403
+          },
+          "accuracy": {
+            "train": 0.633,
+            "heldOut": 0.72,
+            "raterCeilingHeldOut": 0.671
+          },
+          "medianStepReward": 0.478,
+          "rule": "drop a step when sigmoid(its window's reward − the median step reward) < 0.25; keep every other step of every demonstration (no run-level filter)",
+          "threshold": 0.25,
+          "stepsDropped": 18,
+          "stepsOf": 839,
+          "ruleBrokenSteps": 9,
+          "ruleBrokenDropped": 2,
+          "demos": 40,
+          "rows": 1620,
+          "n": 60,
+          "success": 0.017,
+          "clean": 0.867,
+          "meanSteps": 118.283,
+          "modelHash": "6d0a47f0830ff75e",
+          "sweep": [
+            {
+              "threshold": 0.1,
+              "stepsDropped": 0,
+              "demos": 40,
+              "rows": 1651,
+              "n": 60,
+              "success": 0.117,
+              "clean": 0.933,
+              "meanSteps": 107.783
+            },
+            {
+              "threshold": 0.25,
+              "stepsDropped": 18,
+              "demos": 40,
+              "rows": 1620,
+              "n": 60,
+              "success": 0.017,
+              "clean": 0.867,
+              "meanSteps": 118.283
+            },
+            {
+              "threshold": 0.5,
+              "stepsDropped": 419,
+              "demos": 40,
+              "rows": 816,
+              "n": 60,
+              "success": 0.083,
+              "clean": 0.767,
+              "meanSteps": 111.317
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "dagger": {
+    "scenario": "rb-amr-fleet-routing#hard",
+    "rollouts": 20,
+    "labels": "the scripted expert's action (rb-env's planner at skill 1) on each state the clone visits; not a person's correction",
+    "aliasing": {
+      "rows": 20525,
+      "vectors": 100,
+      "ambiguousVectors": 29,
+      "rowsOnAmbiguousVectors": 19343,
+      "ceiling": 0.696
+    },
+    "seeds": "training 800100–800519; held-out 7001–7060",
+    "rounds": [
+      {
+        "round": 0,
+        "labelledStates": 0,
+        "rows": 1291,
+        "n": 60,
+        "success": 0.05,
+        "clean": 0.9,
+        "meanSteps": 113.05,
+        "modelHash": "2bc954504a77c552"
+      },
+      {
+        "round": 1,
+        "labelledStates": 2295,
+        "rows": 4675,
+        "n": 60,
+        "success": 0.117,
+        "clean": 0.85,
+        "meanSteps": 108.2,
+        "modelHash": "71c72e0ad7906190"
+      },
+      {
+        "round": 2,
+        "labelledStates": 4496,
+        "rows": 9028,
+        "n": 60,
+        "success": 0,
+        "clean": 1,
+        "meanSteps": 120,
+        "modelHash": "c2f07754bbabb4e0"
+      },
+      {
+        "round": 3,
+        "labelledStates": 6896,
+        "rows": 15004,
+        "n": 60,
+        "success": 0.05,
+        "clean": 0.967,
+        "meanSteps": 114.8,
+        "modelHash": "a71bd25397568b73"
+      },
+      {
+        "round": 4,
+        "labelledStates": 9296,
+        "rows": 18783,
+        "n": 60,
+        "success": 0.183,
+        "clean": 0.783,
+        "meanSteps": 100.033,
+        "modelHash": "0cca7bdd9da3ce95"
+      },
+      {
+        "round": 5,
+        "labelledStates": 11293,
+        "rows": 21816,
+        "n": 60,
+        "success": 0.05,
+        "clean": 1,
+        "meanSteps": 114.8,
+        "modelHash": "2f89fed7c0872dc7"
+      }
+    ],
+    "pathFeatures": {
+      "scenario": "rb-amr-fleet-routing#hard",
+      "featureSet": "amr-path",
+      "rollouts": 20,
+      "labels": "the scripted expert's action (rb-env's planner at skill 1) on each state the clone visits; not a person's correction",
+      "aliasing": {
+        "rows": 15548,
+        "vectors": 99,
+        "ambiguousVectors": 32,
+        "rowsOnAmbiguousVectors": 13390,
+        "ceiling": 0.745
+      },
+      "seeds": "training 800100–800519; held-out 7001–7060",
+      "rounds": [
+        {
+          "round": 0,
+          "labelledStates": 0,
+          "rows": 1291,
+          "n": 60,
+          "success": 0.15,
+          "clean": 0.967,
+          "meanSteps": 102.6,
+          "modelHash": "ef64261633f9189e"
+        },
+        {
+          "round": 1,
+          "labelledStates": 2193,
+          "rows": 4466,
+          "n": 60,
+          "success": 0.233,
+          "clean": 0.983,
+          "meanSteps": 95.5,
+          "modelHash": "c624229a9d77592c"
+        },
+        {
+          "round": 2,
+          "labelledStates": 3955,
+          "rows": 7308,
+          "n": 60,
+          "success": 0.35,
+          "clean": 0.65,
+          "meanSteps": 81.533,
+          "modelHash": "3ae92602ddc62676"
+        },
+        {
+          "round": 3,
+          "labelledStates": 5506,
+          "rows": 10910,
+          "n": 60,
+          "success": 0.133,
+          "clean": 0.917,
+          "meanSteps": 104.333,
+          "modelHash": "21a10366bcc3e2f8"
+        },
+        {
+          "round": 4,
+          "labelledStates": 7282,
+          "rows": 14380,
+          "n": 60,
+          "success": 0.4,
+          "clean": 0.9,
+          "meanSteps": 75.5,
+          "modelHash": "5b364de12192f7d5"
+        },
+        {
+          "round": 5,
+          "labelledStates": 8602,
+          "rows": 16839,
+          "n": 60,
+          "success": 0.417,
+          "clean": 0.9,
+          "meanSteps": 73.75,
+          "modelHash": "96e5e5cb24f32003"
+        }
+      ],
+      "aliasingOnTheseStates": {
+        "amr-robots": {
+          "rows": 15548,
+          "vectors": 260,
+          "ambiguousVectors": 6,
+          "rowsOnAmbiguousVectors": 1361,
+          "ceiling": 0.959
+        },
+        "amr-holders": {
+          "rows": 15548,
+          "vectors": 212,
+          "ambiguousVectors": 40,
+          "rowsOnAmbiguousVectors": 10503,
+          "ceiling": 0.796
+        }
+      }
+    },
+    "robotFeatures": {
+      "scenario": "rb-amr-fleet-routing#hard",
+      "featureSet": "amr-robots",
+      "rollouts": 20,
+      "labels": "the scripted expert's action (rb-env's planner at skill 1) on each state the clone visits; not a person's correction",
+      "aliasing": {
+        "rows": 5840,
+        "vectors": 298,
+        "ambiguousVectors": 23,
+        "rowsOnAmbiguousVectors": 1035,
+        "ceiling": 0.978
+      },
+      "seeds": "training 800100–800519; held-out 7001–7060",
+      "rounds": [
+        {
+          "round": 0,
+          "labelledStates": 0,
+          "rows": 1291,
+          "n": 60,
+          "success": 0.85,
+          "clean": 0.85,
+          "meanSteps": 34.367,
+          "modelHash": "127eba4470d1a192"
+        },
+        {
+          "round": 1,
+          "labelledStates": 686,
+          "rows": 2763,
+          "n": 60,
+          "success": 0.917,
+          "clean": 0.917,
+          "meanSteps": 23.567,
+          "modelHash": "f7d4edd35c8671db"
+        },
+        {
+          "round": 2,
+          "labelledStates": 1167,
+          "rows": 3798,
+          "n": 60,
+          "success": 0.917,
+          "clean": 0.933,
+          "meanSteps": 23.667,
+          "modelHash": "124e7663400e0dcb"
+        },
+        {
+          "round": 3,
+          "labelledStates": 1767,
+          "rows": 5006,
+          "n": 60,
+          "success": 0.9,
+          "clean": 0.9,
+          "meanSteps": 23.75,
+          "modelHash": "c2ee74848a029832"
+        },
+        {
+          "round": 4,
+          "labelledStates": 2147,
+          "rows": 5840,
+          "n": 60,
+          "success": 0.917,
+          "clean": 0.917,
+          "meanSteps": 22.017,
+          "modelHash": "35c438a8984c1644"
+        },
+        {
+          "round": 5,
+          "labelledStates": 2745,
+          "rows": 7131,
+          "n": 60,
+          "success": 0.983,
+          "clean": 0.983,
+          "meanSteps": 20.017,
+          "modelHash": "77b3d6ff8f7daf77"
+        }
+      ]
+    },
+    "holderFeatures": {
+      "scenario": "rb-amr-fleet-routing#hard",
+      "featureSet": "amr-holders",
+      "rollouts": 20,
+      "labels": "the scripted expert's action (rb-env's planner at skill 1) on each state the clone visits; not a person's correction",
+      "aliasing": {
+        "rows": 13060,
+        "vectors": 217,
+        "ambiguousVectors": 39,
+        "rowsOnAmbiguousVectors": 8545,
+        "ceiling": 0.823
+      },
+      "seeds": "training 800100–800519; held-out 7001–7060",
+      "rounds": [
+        {
+          "round": 0,
+          "labelledStates": 0,
+          "rows": 1291,
+          "n": 60,
+          "success": 0.217,
+          "clean": 0.967,
+          "meanSteps": 96.367,
+          "modelHash": "26744c78c3cd28ec"
+        },
+        {
+          "round": 1,
+          "labelledStates": 2193,
+          "rows": 4574,
+          "n": 60,
+          "success": 0.783,
+          "clean": 0.9,
+          "meanSteps": 38,
+          "modelHash": "00c5bece209945ac"
+        },
+        {
+          "round": 2,
+          "labelledStates": 2793,
+          "rows": 5830,
+          "n": 60,
+          "success": 0.467,
+          "clean": 0.983,
+          "meanSteps": 71.95,
+          "modelHash": "50426398a03493f4"
+        },
+        {
+          "round": 3,
+          "labelledStates": 4088,
+          "rows": 9176,
+          "n": 60,
+          "success": 0.6,
+          "clean": 0.9,
+          "meanSteps": 67.667,
+          "modelHash": "578e3288e9f39804"
+        },
+        {
+          "round": 4,
+          "labelledStates": 5428,
+          "rows": 11198,
+          "n": 60,
+          "success": 0.25,
+          "clean": 1,
+          "meanSteps": 95.783,
+          "modelHash": "69e40df05494d6b4"
+        },
+        {
+          "round": 5,
+          "labelledStates": 7066,
+          "rows": 14351,
+          "n": 60,
+          "success": 0.517,
+          "clean": 0.933,
+          "meanSteps": 66.517,
+          "modelHash": "91025f72af1a27ca"
+        }
+      ]
+    }
+  },
+  "rt8": {
+    "version": "rt8/1",
+    "heldOut": "7061–7120 (fresh this round; every rule declared before any run on them)",
+    "data": "synthetic pairs, synthetic demonstrations and simulated robots; correction labels are the scripted expert's action, not a person's",
+    "stepReward": [
+      {
+        "scenario": "rb-amr-fleet-routing",
+        "version": "rt8/1",
+        "heldOut": "7061–7120",
+        "window": 3,
+        "features": [
+          "broke",
+          "waitRate",
+          "progress"
+        ],
+        "rater": "synthetic window rater: utility = −4·(any rule broken in the window) + 1·progress; Bradley–Terry choice at temperature 0.5",
+        "pairs": {
+          "synthetic": 200,
+          "train": 150,
+          "heldOut": 50,
+          "rule": "for an even pair index, window A starts 0–2 steps before a rule-broken step drawn uniformly from every rule-broken step of the 400 synthetic runs, and window B starts uniformly in run b of pair i; for an odd index both windows start uniformly in pair i's runs, as ROBOTRAIN-7 (amended before any held-out run: the first rule, pair i's own runs only, gave 23 and 48 of 200)",
+          "aimed": 100,
+          "withBrokenRule": 104,
+          "rt7PairsWithBrokenRule": 11
+        },
+        "model": {
+          "names": [
+            "broke",
+            "waitRate",
+            "progress"
+          ],
+          "w": [
+            -2.6568,
+            -0.8551,
+            1.4341
+          ],
+          "l2": 0.01,
+          "iters": 500,
+          "meanNll": 0.3871
+        },
+        "accuracy": {
+          "train": 0.853,
+          "heldOut": 0.78,
+          "raterCeilingHeldOut": 0.828
+        },
+        "rule": "drop a step when sigmoid(its window's reward − the median step reward) < 0.25; keep every other step of every demonstration (no run-level filter)",
+        "declared": {
+          "threshold": 0.25,
+          "medianStepReward": 0.957,
+          "stepsDropped": 14,
+          "stepsOf": 560,
+          "ruleBrokenSteps": 4,
+          "ruleBrokenDropped": 4,
+          "demos": 40,
+          "rows": 1264,
+          "n": 60,
+          "success": 0.517,
+          "clean": 0.517,
+          "meanSteps": 63.583,
+          "modelHash": "d65bfdb39b8ebebb"
+        },
+        "hintOversampled": {
+          "threshold": 0.5,
+          "medianStepReward": 0.957,
+          "stepsDropped": 203,
+          "stepsOf": 560,
+          "ruleBrokenSteps": 4,
+          "ruleBrokenDropped": 4,
+          "demos": 40,
+          "rows": 886,
+          "n": 60,
+          "success": 0.467,
+          "clean": 0.467,
+          "meanSteps": 67.167,
+          "modelHash": "f5bbfcd58c7bb65d"
+        },
+        "hintRt7Pairs": {
+          "pairs": "ROBOTRAIN-7's own window pairs (rt7WindowPairs), unchanged",
+          "model": {
+            "names": [
+              "broke",
+              "waitRate",
+              "progress"
+            ],
+            "w": [
+              -0.8117,
+              0.2746,
+              1.5179
+            ],
+            "l2": 0.01,
+            "iters": 500,
+            "meanNll": 0.6119
+          },
+          "accuracy": {
+            "train": 0.66,
+            "heldOut": 0.66,
+            "raterCeilingHeldOut": 0.65
+          },
+          "threshold": 0.5,
+          "medianStepReward": 1.012,
+          "stepsDropped": 183,
+          "stepsOf": 560,
+          "ruleBrokenSteps": 4,
+          "ruleBrokenDropped": 4,
+          "demos": 40,
+          "rows": 944,
+          "n": 60,
+          "success": 0.883,
+          "clean": 0.883,
+          "meanSteps": 15.433,
+          "modelHash": "6eaefe866ee5f424"
+        },
+        "ruleFiltered": {
+          "demos": 37,
+          "rows": 1168,
+          "n": 60,
+          "success": 0.65,
+          "clean": 0.65,
+          "meanSteps": 40.117,
+          "modelHash": "91a7b57c6a817b04"
+        },
+        "unfiltered": {
+          "demos": 40,
+          "rows": 1294,
+          "n": 60,
+          "success": 0.533,
+          "clean": 0.533,
+          "meanSteps": 16.75,
+          "modelHash": "3da939b0b47ae8bc"
+        }
+      },
+      {
+        "scenario": "rb-amr-fleet-routing#hard",
+        "version": "rt8/1",
+        "heldOut": "7061–7120",
+        "window": 3,
+        "features": [
+          "broke",
+          "waitRate",
+          "progress"
+        ],
+        "rater": "synthetic window rater: utility = −4·(any rule broken in the window) + 1·progress; Bradley–Terry choice at temperature 0.5",
+        "pairs": {
+          "synthetic": 200,
+          "train": 150,
+          "heldOut": 50,
+          "rule": "for an even pair index, window A starts 0–2 steps before a rule-broken step drawn uniformly from every rule-broken step of the 400 synthetic runs, and window B starts uniformly in run b of pair i; for an odd index both windows start uniformly in pair i's runs, as ROBOTRAIN-7 (amended before any held-out run: the first rule, pair i's own runs only, gave 23 and 48 of 200)",
+          "aimed": 100,
+          "withBrokenRule": 105,
+          "rt7PairsWithBrokenRule": 17
+        },
+        "model": {
+          "names": [
+            "broke",
+            "waitRate",
+            "progress"
+          ],
+          "w": [
+            -3.214,
+            -0.2663,
+            1.3429
+          ],
+          "l2": 0.01,
+          "iters": 500,
+          "meanNll": 0.4299
+        },
+        "accuracy": {
+          "train": 0.79,
+          "heldOut": 0.9,
+          "raterCeilingHeldOut": 0.856
+        },
+        "rule": "drop a step when sigmoid(its window's reward − the median step reward) < 0.25; keep every other step of every demonstration (no run-level filter)",
+        "declared": {
+          "threshold": 0.25,
+          "medianStepReward": 0.807,
+          "stepsDropped": 24,
+          "stepsOf": 839,
+          "ruleBrokenSteps": 9,
+          "ruleBrokenDropped": 6,
+          "demos": 40,
+          "rows": 1601,
+          "n": 60,
+          "success": 0.05,
+          "clean": 0.767,
+          "meanSteps": 111.35,
+          "modelHash": "808d009ab224153e"
+        },
+        "hintOversampled": {
+          "threshold": 0.5,
+          "medianStepReward": 0.807,
+          "stepsDropped": 398,
+          "stepsOf": 839,
+          "ruleBrokenSteps": 9,
+          "ruleBrokenDropped": 9,
+          "demos": 40,
+          "rows": 849,
+          "n": 60,
+          "success": 0.067,
+          "clean": 0.783,
+          "meanSteps": 111.317,
+          "modelHash": "c52adaa75078832f"
+        },
+        "hintRt7Pairs": {
+          "pairs": "ROBOTRAIN-7's own window pairs (rt7WindowPairs), unchanged",
+          "model": {
+            "names": [
+              "broke",
+              "waitRate",
+              "progress"
+            ],
+            "w": [
+              -1.1618,
+              -0.6921,
+              0.9564
+            ],
+            "l2": 0.01,
+            "iters": 500,
+            "meanNll": 0.6403
+          },
+          "accuracy": {
+            "train": 0.633,
+            "heldOut": 0.72,
+            "raterCeilingHeldOut": 0.671
+          },
+          "threshold": 0.5,
+          "medianStepReward": 0.478,
+          "stepsDropped": 419,
+          "stepsOf": 839,
+          "ruleBrokenSteps": 9,
+          "ruleBrokenDropped": 9,
+          "demos": 40,
+          "rows": 816,
+          "n": 60,
+          "success": 0.117,
+          "clean": 0.7,
+          "meanSteps": 104.183,
+          "modelHash": "06c6b33ceaaa8452"
+        },
+        "ruleFiltered": {
+          "demos": 32,
+          "rows": 1291,
+          "n": 60,
+          "success": 0.083,
+          "clean": 0.933,
+          "meanSteps": 107.9,
+          "modelHash": "2bc954504a77c552"
+        },
+        "unfiltered": {
+          "demos": 40,
+          "rows": 1651,
+          "n": 60,
+          "success": 0.033,
+          "clean": 0.95,
+          "meanSteps": 114.717,
+          "modelHash": "fa611b200d05fa6c"
+        }
+      }
+    ],
+    "routeCeiling": {
+      "featureSet": "amr-path",
+      "seeds": "training 800100–800519; held-out none (no held-out seed scored)",
+      "onTheAmrPathRoundsStates": {
+        "amr-path": {
+          "rows": 15548,
+          "vectors": 99,
+          "ambiguousVectors": 32,
+          "rowsOnAmbiguousVectors": 13390,
+          "ceiling": 0.745
+        },
+        "amr-holders": {
+          "rows": 15548,
+          "vectors": 212,
+          "ambiguousVectors": 40,
+          "rowsOnAmbiguousVectors": 10503,
+          "ceiling": 0.796
+        },
+        "amr-robots": {
+          "rows": 15548,
+          "vectors": 260,
+          "ambiguousVectors": 6,
+          "rowsOnAmbiguousVectors": 1361,
+          "ceiling": 0.959
+        },
+        "amr-local": {
+          "rows": 15548,
+          "vectors": 535,
+          "ambiguousVectors": 54,
+          "rowsOnAmbiguousVectors": 8724,
+          "ceiling": 0.91
+        },
+        "amr-holders-local": {
+          "rows": 15548,
+          "vectors": 546,
+          "ambiguousVectors": 52,
+          "rowsOnAmbiguousVectors": 8353,
+          "ceiling": 0.911
+        }
+      }
+    },
+    "localFeatures": {
+      "scenario": "rb-amr-fleet-routing#hard",
+      "featureSet": "amr-local",
+      "rollouts": 20,
+      "labels": "the scripted expert's action (rb-env's planner at skill 1) on each state the clone visits; not a person's correction",
+      "aliasing": {
+        "rows": 10948,
+        "vectors": 624,
+        "ambiguousVectors": 52,
+        "rowsOnAmbiguousVectors": 5224,
+        "ceiling": 0.905
+      },
+      "seeds": "training 800100–800519; held-out 7061–7120",
+      "rounds": [
+        {
+          "round": 0,
+          "labelledStates": 0,
+          "rows": 1291,
+          "n": 60,
+          "success": 0.217,
+          "clean": 0.867,
+          "meanSteps": 98.633,
+          "modelHash": "9881edbd7946e231"
+        },
+        {
+          "round": 1,
+          "labelledStates": 2101,
+          "rows": 3855,
+          "n": 60,
+          "success": 0.45,
+          "clean": 0.783,
+          "meanSteps": 62.017,
+          "modelHash": "fa3ee196549ca8ce"
+        },
+        {
+          "round": 2,
+          "labelledStates": 3055,
+          "rows": 5259,
+          "n": 60,
+          "success": 0.2,
+          "clean": 0.733,
+          "meanSteps": 100.217,
+          "modelHash": "ae4d42772a38923f"
+        },
+        {
+          "round": 3,
+          "labelledStates": 4853,
+          "rows": 8079,
+          "n": 60,
+          "success": 0.383,
+          "clean": 0.883,
+          "meanSteps": 77.017,
+          "modelHash": "6ef7077ad2370796"
+        },
+        {
+          "round": 4,
+          "labelledStates": 6678,
+          "rows": 10334,
+          "n": 60,
+          "success": 0.367,
+          "clean": 0.783,
+          "meanSteps": 72.45,
+          "modelHash": "52f6ff30e07c1308"
+        },
+        {
+          "round": 5,
+          "labelledStates": 8107,
+          "rows": 12239,
+          "n": 60,
+          "success": 0.317,
+          "clean": 0.75,
+          "meanSteps": 79.433,
+          "modelHash": "880853a251751ee8"
+        }
+      ],
+      "expert": {
+        "n": 60,
+        "success": 1,
+        "clean": 1,
+        "meanSteps": 19.2
+      },
+      "gap": 0.683
+    },
+    "holdersLocal": {
+      "scenario": "rb-amr-fleet-routing#hard",
+      "featureSet": "amr-holders-local",
+      "rollouts": 20,
+      "labels": "the scripted expert's action (rb-env's planner at skill 1) on each state the clone visits; not a person's correction",
+      "aliasing": {
+        "rows": 8465,
+        "vectors": 619,
+        "ambiguousVectors": 34,
+        "rowsOnAmbiguousVectors": 3378,
+        "ceiling": 0.953
+      },
+      "seeds": "training 800100–800519; held-out 7061–7120",
+      "rounds": [
+        {
+          "round": 0,
+          "labelledStates": 0,
+          "rows": 1291,
+          "n": 60,
+          "success": 0.233,
+          "clean": 0.917,
+          "meanSteps": 94.167,
+          "modelHash": "e28ef50af6f0553e"
+        },
+        {
+          "round": 1,
+          "labelledStates": 2110,
+          "rows": 4065,
+          "n": 60,
+          "success": 0.817,
+          "clean": 0.817,
+          "meanSteps": 28.033,
+          "modelHash": "3ab61489196f5f1d"
+        },
+        {
+          "round": 2,
+          "labelledStates": 2465,
+          "rows": 4871,
+          "n": 60,
+          "success": 0.783,
+          "clean": 0.867,
+          "meanSteps": 36.633,
+          "modelHash": "b9c5b398bb8edd54"
+        },
+        {
+          "round": 3,
+          "labelledStates": 3308,
+          "rows": 6839,
+          "n": 60,
+          "success": 0.717,
+          "clean": 0.933,
+          "meanSteps": 47.483,
+          "modelHash": "0d423ef13853bddd"
+        },
+        {
+          "round": 4,
+          "labelledStates": 4467,
+          "rows": 8424,
+          "n": 60,
+          "success": 0.767,
+          "clean": 0.95,
+          "meanSteps": 41.383,
+          "modelHash": "6e28f7da0d5343b2"
+        },
+        {
+          "round": 5,
+          "labelledStates": 5316,
+          "rows": 9756,
+          "n": 60,
+          "success": 0.75,
+          "clean": 0.967,
+          "meanSteps": 44.25,
+          "modelHash": "50135aac8c32c2a0"
+        }
+      ],
+      "expert": {
+        "n": 60,
+        "success": 1,
+        "clean": 1,
+        "meanSteps": 19.2
+      },
+      "gap": 0.25
+    },
+    "holdersFresh": {
+      "scenario": "rb-amr-fleet-routing#hard",
+      "featureSet": "amr-holders",
+      "rollouts": 20,
+      "labels": "the scripted expert's action (rb-env's planner at skill 1) on each state the clone visits; not a person's correction",
+      "aliasing": {
+        "rows": 13060,
+        "vectors": 217,
+        "ambiguousVectors": 39,
+        "rowsOnAmbiguousVectors": 8545,
+        "ceiling": 0.823
+      },
+      "seeds": "training 800100–800519; held-out 7061–7120",
+      "rounds": [
+        {
+          "round": 0,
+          "labelledStates": 0,
+          "rows": 1291,
+          "n": 60,
+          "success": 0.2,
+          "clean": 0.933,
+          "meanSteps": 97.767,
+          "modelHash": "26744c78c3cd28ec"
+        },
+        {
+          "round": 1,
+          "labelledStates": 2193,
+          "rows": 4574,
+          "n": 60,
+          "success": 0.633,
+          "clean": 0.767,
+          "meanSteps": 48.95,
+          "modelHash": "00c5bece209945ac"
+        },
+        {
+          "round": 2,
+          "labelledStates": 2793,
+          "rows": 5830,
+          "n": 60,
+          "success": 0.4,
+          "clean": 0.967,
+          "meanSteps": 76.633,
+          "modelHash": "50426398a03493f4"
+        },
+        {
+          "round": 3,
+          "labelledStates": 4088,
+          "rows": 9176,
+          "n": 60,
+          "success": 0.6,
+          "clean": 0.833,
+          "meanSteps": 67.633,
+          "modelHash": "578e3288e9f39804"
+        },
+        {
+          "round": 4,
+          "labelledStates": 5428,
+          "rows": 11198,
+          "n": 60,
+          "success": 0.217,
+          "clean": 1,
+          "meanSteps": 98.917,
+          "modelHash": "69e40df05494d6b4"
+        },
+        {
+          "round": 5,
+          "labelledStates": 7066,
+          "rows": 14351,
+          "n": 60,
+          "success": 0.317,
+          "clean": 0.817,
+          "meanSteps": 80.067,
+          "modelHash": "91025f72af1a27ca"
+        }
+      ],
+      "expert": {
+        "n": 60,
+        "success": 1,
+        "clean": 1,
+        "meanSteps": 19.2
+      },
+      "gap": 0.683
+    },
+    "robotsFresh": {
+      "scenario": "rb-amr-fleet-routing#hard",
+      "featureSet": "amr-robots",
+      "rollouts": 20,
+      "labels": "the scripted expert's action (rb-env's planner at skill 1) on each state the clone visits; not a person's correction",
+      "aliasing": {
+        "rows": 5840,
+        "vectors": 298,
+        "ambiguousVectors": 23,
+        "rowsOnAmbiguousVectors": 1035,
+        "ceiling": 0.978
+      },
+      "seeds": "training 800100–800519; held-out 7061–7120",
+      "rounds": [
+        {
+          "round": 0,
+          "labelledStates": 0,
+          "rows": 1291,
+          "n": 60,
+          "success": 0.783,
+          "clean": 0.783,
+          "meanSteps": 41.1,
+          "modelHash": "127eba4470d1a192"
+        },
+        {
+          "round": 1,
+          "labelledStates": 686,
+          "rows": 2763,
+          "n": 60,
+          "success": 0.85,
+          "clean": 0.85,
+          "meanSteps": 28.717,
+          "modelHash": "f7d4edd35c8671db"
+        },
+        {
+          "round": 2,
+          "labelledStates": 1167,
+          "rows": 3798,
+          "n": 60,
+          "success": 0.85,
+          "clean": 0.85,
+          "meanSteps": 27.3,
+          "modelHash": "124e7663400e0dcb"
+        },
+        {
+          "round": 3,
+          "labelledStates": 1767,
+          "rows": 5006,
+          "n": 60,
+          "success": 0.85,
+          "clean": 0.85,
+          "meanSteps": 27.6,
+          "modelHash": "c2ee74848a029832"
+        },
+        {
+          "round": 4,
+          "labelledStates": 2147,
+          "rows": 5840,
+          "n": 60,
+          "success": 0.85,
+          "clean": 0.85,
+          "meanSteps": 27.117,
+          "modelHash": "35c438a8984c1644"
+        },
+        {
+          "round": 5,
+          "labelledStates": 2745,
+          "rows": 7131,
+          "n": 60,
+          "success": 0.933,
+          "clean": 0.933,
+          "meanSteps": 21.767,
+          "modelHash": "77b3d6ff8f7daf77"
+        }
+      ],
+      "expert": {
+        "n": 60,
+        "success": 1,
+        "clean": 1,
+        "meanSteps": 19.2
+      },
+      "gap": 0.067
+    },
+    "portLane": {
+      "scenario": "rb-port-gantry#hard",
+      "rollouts": 20,
+      "labels": "the scripted expert's action (rb-env's planner at skill 1) on each state the clone visits; not a person's correction",
+      "aliasing": null,
+      "seeds": "training 800100–800519; held-out 7061–7120",
+      "rounds": [
+        {
+          "round": 0,
+          "labelledStates": 0,
+          "rows": 621,
+          "n": 60,
+          "success": 0.783,
+          "clean": 1,
+          "meanSteps": 53.667,
+          "modelHash": "be33fde93e0264f5"
+        },
+        {
+          "round": 1,
+          "labelledStates": 904,
+          "rows": 1525,
+          "n": 60,
+          "success": 0.517,
+          "clean": 0.85,
+          "meanSteps": 71.983,
+          "modelHash": "0a17b1f76e8f4a37"
+        },
+        {
+          "round": 2,
+          "labelledStates": 2354,
+          "rows": 2975,
+          "n": 60,
+          "success": 0.867,
+          "clean": 1,
+          "meanSteps": 43.533,
+          "modelHash": "346bf6dbca2d7f1b"
+        },
+        {
+          "round": 3,
+          "labelledStates": 3244,
+          "rows": 3865,
+          "n": 60,
+          "success": 0.75,
+          "clean": 1,
+          "meanSteps": 59.067,
+          "modelHash": "7ff5a146881c20a2"
+        },
+        {
+          "round": 4,
+          "labelledStates": 4536,
+          "rows": 5157,
+          "n": 60,
+          "success": 0.967,
+          "clean": 1,
+          "meanSteps": 31.683,
+          "modelHash": "e001215907b8aeb5"
+        },
+        {
+          "round": 5,
+          "labelledStates": 5218,
+          "rows": 5839,
+          "n": 60,
+          "success": 0.717,
+          "clean": 1,
+          "meanSteps": 64.65,
+          "modelHash": "6fd91b4e1d872b0e"
+        }
+      ],
+      "expert": {
+        "n": 60,
+        "success": 1,
+        "clean": 1,
+        "meanSteps": 26.3
+      },
+      "gap": 0.283
+    },
+    "reactive": {
+      "scenario": "rb-amr-fleet-routing#hard",
+      "agent": "ROBOTRAIN-7's reactive rule-follower plus wait-then-sidestep on AMR (k = 3): no search, no planner, no learning; it reads only RT7_REACTIVE_FIELDS",
+      "k": 3,
+      "training": {
+        "seeds": "101–130",
+        "rt7": {
+          "n": 30,
+          "passed": 16,
+          "truncated": 14,
+          "violations": 0,
+          "meanSteps": 64.067
+        },
+        "rt8": {
+          "n": 30,
+          "passed": 29,
+          "truncated": 1,
+          "violations": 0,
+          "meanSteps": 19.133
+        }
+      },
+      "heldOut": {
+        "seeds": "7061–7120",
+        "rt7": {
+          "n": 60,
+          "passed": 26,
+          "truncated": 34,
+          "violations": 0,
+          "meanSteps": 74.35
+        },
+        "rt8": {
+          "n": 60,
+          "passed": 55,
+          "truncated": 5,
+          "violations": 0,
+          "meanSteps": 23.85
+        }
+      }
+    }
+  }
+}

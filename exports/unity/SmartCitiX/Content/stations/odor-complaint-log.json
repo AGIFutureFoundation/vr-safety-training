@@ -1,0 +1,357 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "fence-line-record",
+    "name": "Fence-Line Record",
+    "note": "A route walked in order, an event logged completely, and a complaint filed without ever stepping past the fence"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "Community Pollution Patrol Network practice; the Bay Area Air Quality Management District's complaint and Community Advisory Council process; OSHA 29 CFR 1910.120 HAZWOPER for anyone who crosses the fence, which a patrol member never does; EPA Superfund community involvement guidance for a parcel under a federal cleanup order",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "OSHA",
+        "citedAs": "HAZWOPER",
+        "id": "osha-1910-120",
+        "title": "29 CFR 1910.120 — Hazardous waste operations and emergency response (HAZWOPER)"
+      }
+    ]
+  },
+  "district": "Environmental Monitoring",
+  "domain": "Environmental",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "route-walked-right",
+        "name": "Route Walked Right",
+        "note": "Covered every waypoint in the order the route sets"
+      },
+      {
+        "id": "never-crossed",
+        "name": "Never Crossed",
+        "note": "Never went past the fence, no matter what was on the other side of it"
+      },
+      {
+        "id": "wind-read-true",
+        "name": "Wind Read True",
+        "note": "Held the handheld meter's reading inside its band on the first try"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-shift",
+        "name": "Clean Shift",
+        "note": "No corrections through the whole patrol"
+      },
+      {
+        "id": "distance-held",
+        "name": "Distance Held",
+        "note": "Never broke the safe-distance hold at the fence"
+      },
+      {
+        "id": "shift-fast",
+        "name": "Shift Fast",
+        "note": "Route walked, event logged and complaint filed inside 80% of par"
+      }
+    ],
+    "currency": "OBSERVATION",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Patrol Trainee",
+      "Patrol Member",
+      "Route Lead",
+      "Complaint Steward",
+      "Patrol Log Certified"
+    ],
+    "system": "Patrol Log"
+  },
+  "hazards": {
+    "file-incomplete": "You filed the complaint without the photo and description attached. An inspector who cannot see what the patrol saw, or read what it smelled like and how strong, is left deciding whether to act on a time and a place alone — and a complaint an inspector cannot act on confidently is one that teaches the district to expect less detail from this patrol next time, not more.",
+    "guess-wind": "You logged a wind direction without actually reading the handheld meter. The wind is what tells the Air District whether this parcel could plausibly be the source of what you smelled, and a guessed direction that happens to be wrong does not just weaken this complaint — it can point an inspector at the wrong fence line entirely.",
+    "ignore-load": "You waved the uncovered haul truck through without noting it. A truck leaving an active parcel with no tarp over its load is not a detail for later — it is dust the wind is already carrying past this fence line while the patrol watches, and the one thing standing between that and a written record is somebody choosing to write it down.",
+    "walk-in": "You went through the gap in the fence to get a closer look. A community monitor works this line from the public side of it — a fenced parcel under a cleanup order is behind fences and institutional controls for a reason nobody standing outside can fully see, and the photo from three feet closer is not worth becoming the incident the patrol exists to prevent, not report."
+  },
+  "id": "odor-complaint-log",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "find-event",
+      "alert": "Your partner has started through the gap in the fence to get a closer photo of the source.",
+      "cue": "Your partner is already halfway to the gap in the fence line.",
+      "delay": 3,
+      "id": "gap-photo",
+      "kind": "Partner heading for the fence",
+      "missNote": "Nobody called out, and your partner went through the gap to get the shot. Whatever that photo shows, it was taken by someone who is not supposed to be there, and the patrol's whole report for today now has that fact attached to it whether the source photo was worth it or not.",
+      "seconds": 13,
+      "target": "call-back",
+      "why": "A patrol's whole value is that it documents from a position nobody can call unsafe or unauthorised, and one photo taken from inside the fence turns a credible, unanswerable observation into a trespass an inspector — or the parcel's own operator — can use to dismiss everything else the patrol reported that day. Calling your partner back now is the only response that reaches them before the fence line does.",
+      "wrongNote": "That does not reach your partner. Call them back before they cross the fence — nothing at the log table changes what is happening at the gap."
+    },
+    {
+      "after": "log-event",
+      "alert": "A truck is pulling out of the parcel's gate with an uncovered load, dust already blowing off the back of it.",
+      "cue": "An uncovered truck is leaving the site right now, past the patrol.",
+      "delay": 4,
+      "id": "untarped-truck",
+      "kind": "Uncovered haul truck",
+      "missNote": "The truck pulled away uncovered and nobody got the shot. The patrol still smelled the dust and can still say a truck left without a tarp, but without the photo there is no way to identify which truck, and that is the difference between a complaint an inspector can follow up on and one they cannot.",
+      "seconds": 13,
+      "target": "photograph-truck",
+      "why": "A truck like this is gone in under a minute, and a haul-route violation nobody photographed is a haul-route violation nobody can prove happened — the license plate, the time and the open load all have to be caught in the same frame before the truck turns the corner, because there will not be a second chance at this exact vehicle.",
+      "wrongNote": "That is not the truck. Get the camera on the load and the plate before it clears the gate, not on the log you were already holding."
+    }
+  ],
+  "lateNotes": {
+    "file-complaint": "The complaint needs the wind reading, the pinned location and the logged event before it is worth filing — check all three are on the record first.",
+    "map-pin": "There is nothing to pin to the map until you have actually found the event's source.",
+    "wind-meter": "Orient the meter into the wind before reading it — a reading taken side-on to the wind is not a direction, it is a guess with a number attached."
+  },
+  "name": "Pollution Patrol",
+  "parSeconds": 250,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "hunters-point-can-we-live"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "call-back",
+      "fence-signage",
+      "file-complaint",
+      "file-incomplete",
+      "guess-wind",
+      "ignore-load",
+      "log-description",
+      "log-photo",
+      "log-time",
+      "map-drop-point",
+      "map-pin",
+      "meter-vane",
+      "odor-source",
+      "patrol-kit",
+      "patrol-route-card",
+      "photograph-truck",
+      "radio-checkin",
+      "safe-distance-mark",
+      "shift-log",
+      "walk-in",
+      "waypoint-1",
+      "waypoint-2",
+      "waypoint-3",
+      "wind-meter"
+    ],
+    "meshes": 246
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Confirm the handheld meter, camera, notebook and radio are all in the bag before heading out.",
+      "id": "muster",
+      "kind": "select",
+      "prompt": "Confirm the handheld meter, camera, notebook and radio are all in the bag before heading out.",
+      "target": "patrol-kit",
+      "title": "Check the patrol kit and brief your partner",
+      "why": "A patrol that discovers a dead meter battery or a full memory card three blocks from the truck has already lost the one chance it had to document whatever it finds today — checking the kit at the start, together, is what keeps a real event from going unrecorded for a reason that had nothing to do with the event itself."
+    },
+    {
+      "cue": "Check the fence-line signage marking where the parcel's cleanup order puts the public side of the line.",
+      "id": "fence-signage",
+      "kind": "select",
+      "prompt": "Check the fence-line signage marking where the parcel's cleanup order puts the public side of the line.",
+      "target": "fence-signage",
+      "title": "Read the exclusion boundary",
+      "why": "The fence is not a suggestion — it marks the boundary of an active cleanup parcel's institutional controls, and a patrol member has to know exactly where that line runs before the shift starts, not discover it by accident while chasing a smell toward it."
+    },
+    {
+      "cue": "Check today's segment and waypoints before starting the walk.",
+      "id": "patrol-route",
+      "kind": "select",
+      "prompt": "Check today's segment and waypoints before starting the walk.",
+      "target": "patrol-route-card",
+      "title": "Read today's assigned route",
+      "why": "The network's routes are assigned so that the whole fence line gets covered across a week rather than the same easy stretch every shift — a patrol that improvises its own path leaves gaps in the record exactly where nobody happens to have walked recently."
+    },
+    {
+      "cue": "Cover waypoint 1, then 2, then 3 — the order the route assigns, not whichever looks interesting first.",
+      "id": "walk-route",
+      "itemNames": {
+        "waypoint-1": "waypoint 1",
+        "waypoint-2": "waypoint 2",
+        "waypoint-3": "waypoint 3"
+      },
+      "itemNotes": {
+        "waypoint-1": "The route starts at the near corner, the standard check-in point for this segment.",
+        "waypoint-2": "The midpoint sits opposite the parcel's old loading gate, where past complaints have clustered.",
+        "waypoint-3": "The far corner closes the segment and hands off to whichever patrol covers the next block."
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "The route runs corner to midpoint to corner. Skipping ahead to wherever seems interesting leaves the rest of the segment uncovered today.",
+      "prompt": "Cover waypoint 1, then 2, then 3 — the order the route assigns, not whichever looks interesting first.",
+      "targets": [
+        "waypoint-1",
+        "waypoint-2",
+        "waypoint-3"
+      ],
+      "title": "Walk the route in order",
+      "why": "Walking the waypoints in the assigned order is what lets the network compare this shift's coverage to every other shift's on the same route, and a patrol that jumps straight to the spot where something smells interesting today is a patrol that quietly stops covering the rest of the line the way the route was designed to."
+    },
+    {
+      "cue": "Turn the meter's vane until it settles facing into the wind.",
+      "id": "wind-orient",
+      "kind": "turn",
+      "prompt": "Turn the meter's vane until it settles facing into the wind.",
+      "target": "meter-vane",
+      "title": "Orient the handheld meter into the wind",
+      "turn": {
+        "axis": "y",
+        "label": "METER VANE",
+        "turns": 0.5
+      },
+      "why": "A wind reading only means something if the meter is actually facing the wind when it is taken — turned even a little off-axis, the same instrument reports a direction and speed that describe nothing real, and the complaint that follows would be built on a number the meter never actually measured."
+    },
+    {
+      "cue": "Hold the reading steady and commit once it settles in the meter's valid range.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "WIND",
+        "missNote": "That reading has not settled. Hold the meter steady until the speed stops jumping before committing it.",
+        "speed": 0.7
+      },
+      "id": "wind-read",
+      "kind": "gauge",
+      "prompt": "Hold the reading steady and commit once it settles in the meter's valid range.",
+      "target": "wind-meter",
+      "title": "Read the wind speed and direction",
+      "why": "The wind direction is what tells the Air District whether this fenced parcel could plausibly be upwind of what the patrol is about to log, and a reading taken and committed properly, rather than glanced at once, is what keeps that number defensible when an inspector checks it against the day's actual weather."
+    },
+    {
+      "cue": "Stay behind the marked line while you scan the fence line for the source.",
+      "holdBreakNote": "You moved before the scan finished. Stepping toward the fence before the source is actually located is exactly the habit that puts a patrol member at the gap without meaning to be there.",
+      "id": "hold-distance",
+      "kind": "hold",
+      "prompt": "Stay behind the marked line while you scan the fence line for the source.",
+      "seconds": 5,
+      "target": "safe-distance-mark",
+      "title": "Hold position at the marked safe distance",
+      "why": "Standing still at the marked distance for a moment before doing anything else is what lets a patrol member actually place where a smell or a dust cloud is coming from — moving toward it immediately, before the source is even located, is how a patrol ends up closer to the fence than the shift ever needed anyone to be."
+    },
+    {
+      "cue": "Scan the fence line and click where the dust and odour are actually coming from.",
+      "id": "find-event",
+      "itemNames": {
+        "odor-source": "the dust and odour source"
+      },
+      "itemNotes": {
+        "odor-source": "A haze is drifting off a disturbed patch inside the fence line, downwind of where the patrol is standing — that is the source to log, not to approach."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Scan the fence line and click where the dust and odour are actually coming from.",
+      "targets": [
+        "odor-source"
+      ],
+      "title": "Locate the source from the public side of the fence",
+      "why": "Naming the source's location precisely, from where the patrol is standing, is what turns 'something smells off around here' into an observation an inspector can go check against a specific point on the parcel — vague is not evidence, and it does not require crossing anything to be exact."
+    },
+    {
+      "cue": "Drag the location pin onto the map at the spot where the source sits along the fence.",
+      "drag": {
+        "missNote": "That is not the source's location on the map. Drop the pin at the spot along the fence where the haze is actually drifting from.",
+        "radius": 0.5,
+        "to": "map-drop-point"
+      },
+      "id": "pin-location",
+      "kind": "drag",
+      "prompt": "Drag the location pin onto the map at the spot where the source sits along the fence.",
+      "target": "map-pin",
+      "title": "Pin the exact location on the patrol map",
+      "why": "A time and a smell without an exact place on the map is a complaint an inspector has to come find for themselves before they can act on it — the pin is what turns 'somewhere along this block' into a point somebody else can walk straight to."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Record the time, take the photo and write the description — any order, but all three before you move on.",
+      "id": "log-event",
+      "itemNames": {
+        "log-description": "write the description",
+        "log-photo": "take the photo",
+        "log-time": "log the time"
+      },
+      "itemNotes": {
+        "log-description": "What it smelled like, how strong, and how long it lasted — in the patrol member's own words, while it is still fresh.",
+        "log-photo": "A photo of the haze against the fence line is evidence a description alone cannot fully carry.",
+        "log-time": "The exact time is what lets the Air District match this observation against the parcel's own activity log for the day."
+      },
+      "kind": "sequence",
+      "prompt": "Record the time, take the photo and write the description — any order, but all three before you move on.",
+      "targets": [
+        "log-time",
+        "log-photo",
+        "log-description"
+      ],
+      "title": "Log the event completely",
+      "why": "An inspector reading this complaint days later was not standing at the fence when it happened, and the time, the photo and the description are the only three things that can put them there — leave one out and the complaint is asking the district to act on a partial account of something the patrol actually witnessed in full."
+    },
+    {
+      "cue": "Submit the complaint with the wind reading, the pinned location and the full event log attached.",
+      "id": "file-complaint",
+      "kind": "select",
+      "prompt": "Submit the complaint with the wind reading, the pinned location and the full event log attached.",
+      "target": "file-complaint",
+      "title": "File the Air District complaint",
+      "why": "The Air District's complaint process is what turns one patrol's observation into something the agency can act on — inspect the parcel, cross-reference other complaints, open a file — and it can only do that with every field filled in the way the process asks for, not with a good story told out of order later."
+    },
+    {
+      "cue": "Radio dispatch that the complaint is filed, then close out the shift log — in that order.",
+      "id": "radio-checkin",
+      "itemNames": {
+        "radio-checkin": "check in with dispatch",
+        "shift-log": "log the shift"
+      },
+      "itemNotes": {
+        "radio-checkin": "Dispatch is told the complaint is filed while the patrol is still on the route, not after the shift has already ended.",
+        "shift-log": "The shift log closes out with what was walked, what was found and what was filed."
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Dispatch is told first, while the patrol is still out here and could still be useful if the source is still active — the shift log can wait the extra minute.",
+      "prompt": "Radio dispatch that the complaint is filed, then close out the shift log — in that order.",
+      "targets": [
+        "radio-checkin",
+        "shift-log"
+      ],
+      "title": "Check in with dispatch, then log the shift",
+      "why": "Dispatch checking in while the patrol is still in the field is what lets the network send a second patrol member if the source is still active when this shift ends, which a shift log written up later, alone, back at the office, cannot do anything about."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "A patrol shift worked from the public side of the fence: the route in order, the wind off a handheld meter, an event logged with time, place, photo and description, and the complaint filed with the fields the Air District needs",
+  "title": "SmartCiti.X~ Pollution Patrol VR",
+  "trade": "Community environmental monitor",
+  "underwater": null,
+  "weather": "wind"
+}

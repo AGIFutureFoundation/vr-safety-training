@@ -1,0 +1,458 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "closed-loop",
+    "name": "Closed Loop",
+    "note": "The curtain closed from anchor to shore with the skirt clear of the bottom before the first bucket, and the shore gap sealed the moment it opened"
+  },
+  "category": "Environmental Monitoring",
+  "certification": "LIUNA Local 261 shoreline and environmental remediation crew training (LIUNA Training and Education Fund); Inlandboatmen's Union deck practice for the workboat skipper; IUOE Local 3 operating engineer on the barge-mounted excavator the curtain encloses; the Regional Water Quality Control Board's Section 401 water quality certification, which judges turbidity at the compliance point against background; Army Corps Section 404 permit conditions for the dredging; BCDC permit conditions for work in the Bay; NOAA tide predictions for the skirt clearance; OSHA HAZWOPER, 29 CFR 1910.120, for work over contaminated sediment; DMMO testing of the material the curtain keeps in place; EPA QA/G-5 field records for the turbidity readings",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "BCDC",
+        "citedAs": "BCDC",
+        "id": "bcdc-bay-plan",
+        "title": "San Francisco Bay Plan and BCDC permit conditions under the McAteer-Petris Act"
+      },
+      {
+        "body": "DMMO",
+        "citedAs": "DMMO",
+        "id": "dmmo-dredged-material-testing",
+        "title": "San Francisco Bay Dredged Material Management Office — sediment testing, suitability determinations and placement-site review for dredged material"
+      },
+      {
+        "body": "EPA",
+        "citedAs": "EPA QA/G-5",
+        "id": "epa-qa-g5",
+        "title": "EPA QA/G-5 — Guidance for quality assurance project plans, and the chain-of-custody practice built on it"
+      },
+      {
+        "body": "union",
+        "citedAs": "IUOE",
+        "id": "iuoe-training",
+        "title": "IUOE local training funds and the IUOE National Training Fund — operating and stationary engineer apprenticeship"
+      },
+      {
+        "body": "union",
+        "citedAs": "LIUNA Training",
+        "id": "liuna-training-fund",
+        "title": "LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula"
+      },
+      {
+        "body": "NOAA",
+        "citedAs": "NOAA",
+        "id": "noaa-tides-and-esa",
+        "title": "NOAA tide predictions and NOAA Fisheries Endangered Species Act consultation for in-water work"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.120",
+        "id": "osha-1910-120",
+        "title": "29 CFR 1910.120 — Hazardous waste operations and emergency response (HAZWOPER)"
+      },
+      {
+        "body": "RWQCB",
+        "citedAs": "Section 401",
+        "id": "rwqcb-401-certification",
+        "title": "Regional Water Quality Control Board Clean Water Act §401 certification and waste discharge requirements"
+      },
+      {
+        "body": "USACE",
+        "citedAs": "Section 404",
+        "id": "usace-section-404",
+        "title": "Clean Water Act §404 permit conditions for the discharge of dredged or fill material"
+      }
+    ]
+  },
+  "district": "Environmental Monitoring",
+  "domain": "Environmental",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "read-the-tide",
+        "name": "Read The Tide",
+        "note": "The design read and the skirt set against the tide table clean"
+      },
+      {
+        "id": "never-in-the-bight",
+        "name": "Never In The Bight",
+        "note": "Never in a bight, never a hand on a running line, never the curtain opened for a shortcut"
+      },
+      {
+        "id": "true-background",
+        "name": "True Background",
+        "note": "Tide and background both committed inside their bands"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-deploy",
+        "name": "Clean Deploy",
+        "note": "No corrections from the design to the check-in"
+      },
+      {
+        "id": "slow-tow",
+        "name": "Slow Tow",
+        "note": "The tow held in band the whole way out"
+      },
+      {
+        "id": "released-early",
+        "name": "Released Early",
+        "note": "Curtain logged inside 80% of par"
+      }
+    ],
+    "currency": "SECTION",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Float Hand",
+      "Curtain Hand",
+      "Curtain Lead",
+      "Containment Foreman",
+      "Curtain Line Certified"
+    ],
+    "system": "Curtain Line"
+  },
+  "hazards": {
+    "hand-on-running-line": "You went to guide the anchor line through the davit block with a hand while the winch was paying it out. A running line pulls a glove into the block faster than anyone can let go, and the davit does not stop because a hand is in it. The winch brake and the fairlead guide the line; hands come off it before the winch turns.",
+    "open-curtain-shortcut": "You went to unclip a curtain connector so the workboat could cut through to the barge instead of going round. An open section is a gap in the only boundary between the dredging and the Bay, and the plume goes out through it on the next tide whether or not the boat is still there. The boat goes round the anchor buoys; the curtain is opened only under the design's own procedure, with the dredge stopped.",
+    "reach-over-rail": "You leaned out over the float's edge to grab a drifting float section by hand. Cold bay water and a wind chop turn a lean into a man overboard in one wave, and a curtain section full of water is too heavy to hold onto from the edge. Drifting gear is brought in with the boat hook from a braced stance, or left for the boat.",
+    "stand-in-bight": "You stood in the bight of the anchor line on the float as the workboat took up the tow. A line coming under strain straightens along the shortest path between the boat and the anchor, and anyone standing inside the loop it makes is swept off the float with it. Line is handled from outside the bight, and the float crew calls the boat to stop before stepping over one."
+  },
+  "id": "br-turbidity-curtain-deployment",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "tow-out",
+      "alert": "The slack in the tow bridle has drifted under the stern — the outboard is labouring and the line is winding onto the prop.",
+      "cue": "Pull the engine kill switch: stop the prop before it winds the line and the curtain in.",
+      "delay": 3,
+      "id": "line-in-the-prop",
+      "kind": "Tow line fouling the prop",
+      "missNote": "The prop kept turning and wound the bridle and a metre of curtain skirt round the hub before the engine stalled; the boat was dead in the current with the curtain dragging it off the alignment.",
+      "seconds": 13,
+      "target": "engine-kill",
+      "why": "A line winding onto a turning prop pulls whatever it is attached to — the curtain, a deckhand's leg — straight into the stern, and the throttle does not stop the prop fast enough. The kill switch does, in one pull. Only once the prop is dead does anyone reach for the line, from the boat, with the knife.",
+      "wrongNote": "The engine kill switch — stop the prop first; the line is cleared only once it has stopped turning."
+    },
+    {
+      "after": "sound-skirt",
+      "alert": "The tide has swung the curtain's tail off the bulkhead — there is a widening gap of open water at the shore end and a brown thread running out through it.",
+      "cue": "Reseat the shore-end clamp on the bulkhead rail and close the gap.",
+      "delay": 2,
+      "id": "shore-end-open",
+      "kind": "Gap opening at the shore end",
+      "missNote": "The gap stayed open through the change of tide; the thread of sediment reached the compliance point and the day's first reading was an exceedance before the dredge had dug a bucket.",
+      "seconds": 14,
+      "target": "shore-clamp",
+      "why": "The shore end is where a curtain most often fails, because the bulkhead is hard, the tide moves along it and a clamp that was snug at one water level is loose at another. A gap there is a straight path out for everything the curtain was holding, and it is closed now, with the clamp reseated, before the dredge is released into a loop that is open at one end.",
+      "wrongNote": "The shore-end clamp — the gap is at the bulkhead, and reseating the clamp is what closes it."
+    }
+  ],
+  "lateNotes": {
+    "background-meter": "Background is read once the curtain is closed and sounded — the reading is the reference the compliance point is judged against for the whole dig.",
+    "curtain-log": "The curtain log is written after the line walk — it records what the walk found as well as how the curtain went in.",
+    "lead-end": "Shackle the curtain's lead end on once the upcurrent anchor is down and holding — a curtain made fast to an anchor still swinging on the davit just drags the whole line off its alignment.",
+    "tow-throttle": "The tow starts once the lead end is shackled to the anchor buoy — towing a curtain with nothing holding its first end streams it away on the current."
+  },
+  "name": "Turbidity Curtain Deployment",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "bay-restoration-maritime-underwater"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "excavator",
+        "count": 1,
+        "kit": "equipment"
+      },
+      {
+        "builder": "spudBarge",
+        "count": 1,
+        "kit": "fleet"
+      },
+      {
+        "builder": "workboat",
+        "count": 1,
+        "kit": "fleet"
+      }
+    ],
+    "error": null,
+    "footprint": 2.5,
+    "hits": [
+      "anchor-2",
+      "anchor-3",
+      "anchor-buoy-up",
+      "background-meter",
+      "connector-pin",
+      "crew-radio",
+      "curtain-log",
+      "curtain-plan",
+      "davit-winch",
+      "debris-fouled",
+      "engine-kill",
+      "float-crushed",
+      "float-riding-under",
+      "gear-helmet",
+      "gear-knife",
+      "gear-pfd",
+      "hand-on-running-line",
+      "lead-end",
+      "open-curtain-shortcut",
+      "reach-over-rail",
+      "release-flag",
+      "shore-anchor",
+      "shore-clamp",
+      "skirt-probe",
+      "stand-in-bight",
+      "tide-board",
+      "tow-throttle"
+    ],
+    "meshes": 253
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "At the board: the curtain alignment and anchor marks, the skirt depth for this reach, the compliance point outside the curtain, and where background is read.",
+      "id": "curtain-plan",
+      "kind": "select",
+      "prompt": "At the board: the curtain alignment and anchor marks, the skirt depth for this reach, the compliance point outside the curtain, and where background is read.",
+      "target": "curtain-plan",
+      "title": "Read the curtain design and the certification's turbidity conditions",
+      "why": "The Section 401 certification does not say keep the water clean; it says turbidity at a compliance point outside the work may not rise past background by more than it allows, and the curtain design is how the job meets that. The alignment, the anchor marks and the skirt depth all come from the design for this reach, and a crew that improvises any of them has built a curtain nobody sized."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Work vest PFD on and zipped, hard hat, and a line knife clipped where either hand reaches it.",
+      "id": "gear-up",
+      "itemNames": {
+        "gear-helmet": "hard hat",
+        "gear-knife": "line knife on the vest",
+        "gear-pfd": "work vest PFD"
+      },
+      "kind": "sequence",
+      "prompt": "Work vest PFD on and zipped, hard hat, and a line knife clipped where either hand reaches it.",
+      "targets": [
+        "gear-pfd",
+        "gear-helmet",
+        "gear-knife"
+      ],
+      "title": "Gear up for the float and the boat",
+      "why": "Everyone on the staging float and the workboat is working at the edge of cold, moving water with lines under strain, so the PFD is worn and fastened for every step, not carried. The hard hat is for a davit and swinging anchor hardware overhead, and the line knife is on the vest because a line fouled round a leg or a prop is cut in the first seconds or not at all."
+    },
+    {
+      "cue": "Walk the staged sections: every float riding full, every skirt and ballast chain whole, every end connector pinned.",
+      "id": "section-check",
+      "itemNames": {
+        "connector-pin": "an end connector with its pin missing",
+        "float-crushed": "a crushed flotation segment"
+      },
+      "itemNotes": {
+        "connector-pin": "An end connector has no pin through its slot. That joint will pull apart the first time the tide loads the curtain, and it opens a gap in the middle of the line where nobody is watching.",
+        "float-crushed": "One section's float is crushed flat along a third of its length — it will ride low, let the top of the curtain go under in a chop, and the plume will pass over it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the staged sections: every float riding full, every skirt and ballast chain whole, every end connector pinned.",
+      "targets": [
+        "float-crushed",
+        "connector-pin"
+      ],
+      "title": "Check the curtain sections on the float",
+      "why": "A turbidity curtain is only as tight as its weakest section, and the ways a section fails — a crushed float, a torn skirt, a connector without its pin — are all visible on the float and invisible once it is in the water. Finding them now costs a spare section; finding them after the dig starts costs a gap in the boundary during the one operation it exists for."
+    },
+    {
+      "cue": "Read the tide board and the day's NOAA prediction, and commit the reading against the design's skirt clearance for the lowest water in the working window.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.58
+        ],
+        "label": "TIDE vs SKIRT",
+        "missNote": "Outside the band — let the board settle between swells and read it against the tide table for the lowest water of the window.",
+        "speed": 0.66
+      },
+      "id": "skirt-vs-tide",
+      "kind": "gauge",
+      "prompt": "Read the tide board and the day's NOAA prediction, and commit the reading against the design's skirt clearance for the lowest water in the working window.",
+      "target": "tide-board",
+      "title": "Read the tide against the skirt the design calls for",
+      "why": "A skirt that reaches the bottom at low tide drags in the contaminated sediment, stirs it up and pins the curtain, which then fails as the tide rises against it; a skirt too short leaves a gap underneath for the plume. The design sets the skirt for this reach against the tide range, and reading the tide board against the prediction confirms today's window is one the design covered."
+    },
+    {
+      "cue": "At the upcurrent mark, wind the davit winch down steadily until the anchor is on the bottom and the line slacks.",
+      "id": "lower-anchor",
+      "kind": "turn",
+      "prompt": "At the upcurrent mark, wind the davit winch down steadily until the anchor is on the bottom and the line slacks.",
+      "target": "davit-winch",
+      "title": "Lower the upcurrent anchor on the davit",
+      "turn": {
+        "label": "DAVIT WINCH",
+        "turns": 1.5
+      },
+      "why": "The curtain is laid from its upcurrent end so the current streams it down along its alignment instead of peeling it off; the upcurrent anchor goes down first and holds everything that follows. It is lowered on the winch, steadily and all the way, so it lands at the surveyed mark and bites rather than being dropped and dragged into place."
+    },
+    {
+      "cue": "Carry the curtain's lead end to the anchor buoy's pendant and shackle it on, pin moused.",
+      "drag": {
+        "missNote": "Not on the buoy's pendant — the lead end is shackled at the upcurrent anchor buoy, where the line will pull from.",
+        "radius": 0.55,
+        "to": "anchor-buoy-up"
+      },
+      "id": "shackle-lead",
+      "kind": "drag",
+      "prompt": "Carry the curtain's lead end to the anchor buoy's pendant and shackle it on, pin moused.",
+      "target": "lead-end",
+      "title": "Shackle the curtain's lead end to the anchor buoy",
+      "why": "The lead end is what the whole line pulls against once the current loads it, so it is shackled to the buoy pendant with the pin moused — not tied, not clipped with a carabiner that will open under a twisting load. A lead end that lets go takes the whole curtain downcurrent in a single piece, which is the most expensive way to find out a shackle was not closed."
+    },
+    {
+      "cue": "Call the skipper's throttle: dead slow along the alignment, the curtain streaming straight behind, no surge.",
+      "holdBreakNote": "The tow surged and the curtain rolled behind it. Ease back to dead slow and let it stream straight again.",
+      "id": "tow-out",
+      "kind": "track",
+      "prompt": "Call the skipper's throttle: dead slow along the alignment, the curtain streaming straight behind, no surge.",
+      "seconds": 7,
+      "target": "tow-throttle",
+      "title": "Tow the curtain out along its alignment",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.46,
+        "green": [
+          0.38,
+          0.56
+        ],
+        "label": "TOW THROTTLE",
+        "rise": 0.56,
+        "start": 0.14
+      },
+      "why": "A curtain towed fast planes up on its floats, rolls the skirt up behind it and can twist a whole section into a rope; towed too slow in a current, it sags into a belly and drifts off the line. Dead slow and steady keeps the skirt hanging and the curtain on the alignment the anchors were placed for, so it lands where the design put it."
+    },
+    {
+      "cue": "Anchor 2, then anchor 3 at the downcurrent turn, then make the tail fast at the shore anchor — in that order.",
+      "id": "set-anchors",
+      "itemNames": {
+        "anchor-2": "anchor 2 down the line",
+        "anchor-3": "anchor 3 at the downcurrent turn",
+        "shore-anchor": "the shore anchor on the bulkhead"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order — the anchors go down in the order the current loads them: anchor 2, anchor 3, then the shore end last.",
+      "prompt": "Anchor 2, then anchor 3 at the downcurrent turn, then make the tail fast at the shore anchor — in that order.",
+      "targets": [
+        "anchor-2",
+        "anchor-3",
+        "shore-anchor"
+      ],
+      "title": "Set the anchors down the line to the shore",
+      "why": "Each anchor takes the curtain's load in turn from upcurrent, so they go down in the order the current reaches them. Set out of order, the current is holding a section that is not yet anchored and drags the one before it off its mark; the shore end goes last because it closes the loop, and a loop closed before the line is anchored is a loop pulled out of shape."
+    },
+    {
+      "cue": "Hold the sounding pole down along the skirt at the curtain's deepest point until it reads steady — skirt hanging, clear of the bottom.",
+      "holdBreakNote": "The pole came off the skirt before it read steady. Hold it down along the skirt at the deepest point until the reading settles.",
+      "id": "sound-skirt",
+      "kind": "hold",
+      "prompt": "Hold the sounding pole down along the skirt at the curtain's deepest point until it reads steady — skirt hanging, clear of the bottom.",
+      "seconds": 5,
+      "target": "skirt-probe",
+      "title": "Sound the skirt at the deepest section",
+      "why": "The skirt's hang is checked in the water, not assumed from the deck: a skirt folded back on itself, twisted round the ballast chain or already touching the bottom at this tide is found only by sounding it. Holding the pole steady at the deepest section gives a reading the log can record, which is what the certification's monitoring will lean on if a reading at the compliance point is questioned."
+    },
+    {
+      "cue": "At the background station upcurrent of the curtain, read the meter and commit it as the day's reference.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "BACKGROUND",
+        "missNote": "Outside the band — let the meter settle out of the prop wash and read background again at the upcurrent station.",
+        "speed": 0.7
+      },
+      "id": "background",
+      "kind": "gauge",
+      "prompt": "At the background station upcurrent of the curtain, read the meter and commit it as the day's reference.",
+      "target": "background-meter",
+      "title": "Read background turbidity upcurrent",
+      "why": "Every compliance reading today is judged against background — the water the work has not touched — so background is read upcurrent of the curtain, at the station the design names, with the meter calibrated and settled. A background taken downcurrent or in the prop wash makes the compliance point look clean when it is not, and the certification's whole test depends on this number being honest."
+    },
+    {
+      "cue": "Raise the green flag to the barge: the curtain is closed, sounded and background is in — the operator may start.",
+      "id": "release",
+      "kind": "select",
+      "prompt": "Raise the green flag to the barge: the curtain is closed, sounded and background is in — the operator may start.",
+      "target": "release-flag",
+      "title": "Release the dredge to dig inside the curtain",
+      "why": "The IUOE operator on the barge cannot see the curtain's far end or the skirt under the water, and starts digging on the float crew's release. The release is given only once the loop is closed, the skirt sounded and background read, because a bucket that goes in before any of those is digging into a boundary that does not yet exist."
+    },
+    {
+      "cue": "Look along the whole line: debris loading it, any section riding under, any connector gaping.",
+      "id": "line-walk",
+      "itemNames": {
+        "debris-fouled": "a raft of debris caught against the curtain",
+        "float-riding-under": "a section riding under at the downcurrent turn"
+      },
+      "itemNotes": {
+        "debris-fouled": "Driftwood and trash have piled against the curtain on the current; the load is pulling that section down and bellying it toward the barge.",
+        "float-riding-under": "At the downcurrent turn one section is riding under the surface — its top is below the water and anything on the surface passes over it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look along the whole line: debris loading it, any section riding under, any connector gaping.",
+      "targets": [
+        "debris-fouled",
+        "float-riding-under"
+      ],
+      "title": "Walk the curtain line from the float",
+      "why": "A curtain in a current is loaded all the time, and what goes wrong with it builds slowly: debris piles against it, a section drowns at a turn where the load is greatest. The line walk after the dig starts finds these while they are still a boat-hook job, before the belly becomes a gap and the gap becomes a plume at the compliance point."
+    },
+    {
+      "cue": "Log the sections set and the one swapped out, the tide and skirt reading, the anchors in order, the fouled prop, the shore gap and its fix, background, the release time and the line walk.",
+      "id": "curtain-log",
+      "kind": "select",
+      "prompt": "Log the sections set and the one swapped out, the tide and skirt reading, the anchors in order, the fouled prop, the shore gap and its fix, background, the release time and the line walk.",
+      "target": "curtain-log",
+      "title": "Write the curtain log",
+      "why": "The curtain log is the record that the boundary existed when the dredge started and stayed intact while it worked, and it is what the Water Board and the Corps read if the compliance point ever shows a spike. The shore gap and its fix are written with their times, because a gap logged with its response is a controlled event and one left out is an unexplained exceedance."
+    },
+    {
+      "cue": "On the radio: the curtain is logged and holding, who walks it next and when, and how the skipper and the float crew are after a fouled prop in a chop.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "On the radio: the curtain is logged and holding, who walks it next and when, and how the skipper and the float crew are after a fouled prop in a chop.",
+      "target": "crew-radio",
+      "title": "Check in with the skipper and the operator",
+      "why": "The skipper cleared a line from a prop in a chop, and the float crew spent the morning on a moving edge beside cold water. The check-in says out loud who watches the curtain through the tide change, and it is also the crew's own — the member assistance line is there for anything that is still with someone after the radio goes quiet."
+    }
+  ],
+  "supportLine": "your union hall's member assistance programme — LIUNA Local 261, the Inlandboatmen's Union or IUOE Local 3 — with the employer's employee assistance line behind it",
+  "tagline": "Closing the water round a dredge before it digs: the curtain design and the certification read, sections checked on the float, the skirt read against the tide table, the upcurrent anchor lowered and the lead end shackled, the curtain towed out slow while a line fouls the prop, anchors set down the line, the skirt sounded while the shore end opens, background read, the dredge released, the line walked, logged and the crew checked in",
+  "title": "SmartCiti.X~ Turbidity Curtain Deployment VR",
+  "trade": "LIUNA Local 261 curtain crew lead on the staging float, with an Inlandboatmen's Union skipper on the workboat and an IUOE Local 3 operator on the barge-mounted excavator",
+  "underwater": null,
+  "weather": "wind"
+}

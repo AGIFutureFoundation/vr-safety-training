@@ -1,0 +1,263 @@
+{
+  "id": "k12-energy-transfer-at-the-wind-farm",
+  "index": "814",
+  "prefix": "kew",
+  "accent": "#4fb88a",
+  "floor": [
+    "#6d7470",
+    "#616864"
+  ],
+  "wall": [
+    "#dfe6e2",
+    "#cfd8d4"
+  ],
+  "trade": "Science class at the wind farm's visitor point — learner and teacher",
+  "header": "Upper-primary and lower-secondary science at the wind farm's visitor point: energy followed from moving air to turning blades to electricity, qualitatively, with no output figures stated.",
+  "name": "Energy Transfer at the Wind Farm",
+  "tagline": "Energy is never made or lost — follow it from the wind to the wire",
+  "badge": {
+    "id": "energy-followed",
+    "name": "Energy Followed",
+    "note": "Energy traced store to store with a model turbine, wasted energy named and nothing claimed that the test did not show"
+  },
+  "board": {
+    "name": "Energy Board",
+    "currency": "JOULES",
+    "ranks": [
+      "Observer",
+      "Tracer",
+      "Tester",
+      "Explainer",
+      "Engineer"
+    ]
+  },
+  "hazards": [
+    {
+      "id": "say-the-turbine-makes-energy",
+      "label": "Say the turbine makes energy?",
+      "face": "TURBINE\nMAKES IT",
+      "text": "You said the turbine makes energy. Energy is never made or destroyed; the turbine transfers the energy of moving air into electrical energy, with some wasted as heat and sound. Saying where the energy came from is the whole point of the lesson."
+    },
+    {
+      "id": "ignore-the-wasted-energy",
+      "label": "Say all the wind's energy becomes electricity?",
+      "face": "ALL OF IT\nBECOMES POWER",
+      "text": "You said all of the wind's energy becomes electricity. Every real transfer wastes some energy, here as heat in the moving parts and as sound; naming the wasted energy is what makes the energy story complete and honest."
+    },
+    {
+      "id": "cross-the-visitor-barrier",
+      "label": "Walk past the visitor barrier towards the tower?",
+      "face": "PAST THE\nBARRIER",
+      "text": "You walked past the visitor barrier towards the tower. The barrier keeps visitors clear of the working area around a turbine, and the model turbine is brought to the visitor point for the lesson; the lesson stays behind the barrier."
+    },
+    {
+      "id": "change-fan-and-blades-together",
+      "label": "Change the fan speed and the blade shape in one test?",
+      "face": "CHANGE\nBOTH",
+      "text": "You changed the fan speed and the blades in the same test. A fair test changes one thing at a time, so you know which change made the difference to the model's output."
+    }
+  ],
+  "find1": {
+    "title": "Find the energy stores and transfers",
+    "cue": "Mark the three places on the model where energy is stored or transferred.",
+    "why": "Following energy starts with finding where it is: in the moving air from the fan, in the turning blades and shaft, and in the electrical circuit that lights the small lamp. Naming each store and transfer before testing anything is what lets you tell the full energy story afterwards.",
+    "items": [
+      [
+        "moving-air",
+        "the moving air from the fan",
+        "The energy starts here, in moving air."
+      ],
+      [
+        "turning-blades",
+        "the turning blades and shaft",
+        "The moving air's energy is transferred to the turning parts."
+      ],
+      [
+        "lamp-circuit",
+        "the lamp in the circuit",
+        "Electrical energy, transferred to light — and some heat."
+      ]
+    ],
+    "decoy": [
+      "tower-paint",
+      "the colour of the model tower",
+      "The paint does not store or transfer the energy we are following."
+    ]
+  },
+  "select1": {
+    "title": "Take your place behind the barrier",
+    "cue": "Stand at the visitor point; the guide brings the model turbine to you.",
+    "why": "The visitor barrier keeps people clear of the working area around real turbines, and the model is brought to the visitor point for exactly that reason. Starting behind the barrier is the site's rule, and a lesson at a working site always keeps the site's rules first.",
+    "key": "barrier-card",
+    "label": "Stay behind the visitor barrier",
+    "face": "BEHIND THE\nBARRIER"
+  },
+  "seq": {
+    "title": "Put the energy chain in order",
+    "cue": "Moving air, turning blades, generator, electricity in the circuit.",
+    "why": "Each link in the chain passes energy to the next: moving air pushes the blades, the turning shaft drives the generator, and the generator transfers energy into the circuit. Putting the links in order shows how the energy travels, which matters far more than memorising the words.",
+    "oon": "Out of order. The energy starts in the moving air — follow it from there.",
+    "items": [
+      [
+        "ord-air",
+        "moving air"
+      ],
+      [
+        "ord-blades",
+        "turning blades"
+      ],
+      [
+        "ord-generator",
+        "the generator"
+      ],
+      [
+        "ord-circuit",
+        "electricity in the circuit"
+      ]
+    ]
+  },
+  "hold": {
+    "title": "Watch the lamp as the blades turn",
+    "cue": "Keep still and watch the lamp brighten as the model's blades speed up.",
+    "why": "Watching the lamp while the blades turn links something you can see to the energy transfer you cannot. Keeping still and watching carefully, without nudging the model, lets you see the lamp respond to the moving air, which is the evidence for the whole chain.",
+    "brk": "You nudged the model and spoiled the observation. Let it run on its own again.",
+    "key": "watch-lamp",
+    "label": "Watching the lamp"
+  },
+  "turn": {
+    "title": "Turn the fan to a faster setting",
+    "cue": "Turn only the fan setting up, keeping the blades the same.",
+    "why": "Changing only the fan setting, with the same blades, is the fair test that shows more moving air means more energy transferred. Keeping everything else the same is what lets you say the fan speed made the difference. If the blade angle had changed too, you could not tell which one caused it.",
+    "key": "fan-dial",
+    "label": "Fan setting",
+    "dial": "FASTER"
+  },
+  "gauge": {
+    "title": "Set the blade angle to catch the wind",
+    "cue": "Commit when the blade angle catches the moving air well — not flat to it, not edge on.",
+    "why": "Blades flat to the wind are pushed but do not turn well; blades edge on let the air slip past. An angle in between turns the push of the air into rotation best, which is why real turbines can change their blade angle. Turning the blades lets a turbine catch more of a gentle wind and spill some of a strong one.",
+    "key": "angle-meter",
+    "label": "Blade angle",
+    "meter": "ANGLE",
+    "miss": "Outside the band. Flat or edge on, the blades barely turn. Try again."
+  },
+  "drag": {
+    "title": "Put your result on the class board",
+    "cue": "Drag your result card onto the class results board beside everyone else's.",
+    "why": "One group's result could be a fluke; the whole class's results together show whether the pattern is real. Putting yours on the board is how science builds confidence in a finding, and it lets the class spot any result worth repeating. Comparing results across groups shows which patterns hold up and which were chance.",
+    "key": "result-token",
+    "label": "Your result card",
+    "spot": "results-spot",
+    "spotLabel": "On the class results board",
+    "miss": "Not in place yet. Take it all the way to on the class results board."
+  },
+  "select2": {
+    "title": "Name where energy is wasted",
+    "cue": "The model hums and the shaft is slightly warm. Say where energy is being wasted.",
+    "why": "The hum and the warm shaft are energy transferred to places we did not want: sound and heat. Naming the wasted energy completes the story and explains why no machine turns all of its input into useful output. Engineers work to reduce that waste, but they can never remove it completely.",
+    "key": "waste-card",
+    "label": "Name the wasted energy",
+    "face": "HEAT +\nSOUND"
+  },
+  "find2": {
+    "id": "spot-the-problems-in-a-classmate",
+    "title": "Spot the problems in a classmate's energy story",
+    "cue": "Look at the classmate's energy story and mark each problem.",
+    "why": "Energy stories go wrong in predictable ways: saying energy is made, forgetting wasted energy and drawing a conclusion from an unfair test. Spotting them in someone else's story makes your own explanation more careful and more complete. Finding a missing step in someone else's chain often reveals the same gap in your own.",
+    "items": [
+      [
+        "es-made",
+        "energy described as made",
+        "Energy is transferred, not made. Where did it come from?"
+      ],
+      [
+        "es-no-waste",
+        "no wasted energy mentioned",
+        "Some always goes to heat and sound."
+      ],
+      [
+        "es-unfair",
+        "a conclusion from an unfair test",
+        "Two things changed at once. Which made the difference?"
+      ]
+    ],
+    "decoy": [
+      "es-chain",
+      "the energy chain in order",
+      "The chain in order is right. Keep it."
+    ]
+  },
+  "track": {
+    "title": "Keep your notes matched to the model",
+    "cue": "Hold your notes in band with what the lamp actually does as you change settings.",
+    "why": "It is easy to write the result you expected. Keeping notes matched to what the lamp actually does, including a result that surprised you, is the honesty that makes a science finding worth trusting and repeating. An unexpected result is a reason to test again, not a reason to change the numbers.",
+    "brk": "Your notes drifted from what the model shows. Look again and write what you see.",
+    "key": "track-meter",
+    "label": "Honest observation",
+    "meter": "HONEST"
+  },
+  "record": {
+    "title": "Record the energy story and the tests",
+    "cue": "Write the energy chain, the fair tests and where energy was wasted.",
+    "why": "Recording the chain, the tests and the wasted energy gives a complete, checkable energy story. Anyone can repeat the tests from your record, and the record shows how your explanation was built from evidence. It also lets another group repeat your test and see if they find the same.",
+    "key": "lab-log",
+    "label": "Lab record",
+    "done": "Energy story recorded"
+  },
+  "share": {
+    "title": "Tell the energy story to the class",
+    "cue": "Tell the class where the energy came from, where it went, and where some was wasted.",
+    "why": "Telling the energy story aloud, from moving air to light and the heat and sound along the way, is the best test of whether it makes sense. Classmates who said the turbine makes energy learn most from hearing where it really comes from. Saying it in your own words is the best check that you understand it yourself.",
+    "key": "share-board",
+    "label": "Share with the class",
+    "done": "Energy story shared"
+  },
+  "checkin": {
+    "title": "Check in at the end of the lesson",
+    "cue": "How did the energy lesson go? What surprised you, and what would you test next?",
+    "why": "Ending with a short check-in lets the teacher hear what made sense and what did not, and gives each learner a moment to name one thing they would test next. Nobody is marked here, and anyone who found the lesson hard can talk to the teacher or a trusted adult afterwards.",
+    "label": "End-of-lesson check-in"
+  },
+  "interrupts": [
+    {
+      "id": "a-gust-knocks-the-model",
+      "kind": "Gust",
+      "key": "steady-and-tell",
+      "label": "Step back and tell the guide",
+      "alert": "A gust of wind tips the model turbine towards the edge of the table.",
+      "cue": "Step back from the spinning blades and tell the guide; do not grab them.",
+      "why": "Grabbing spinning blades, even small ones, is how fingers get hurt. Stepping back and telling the guide, who can stop the fan and steady the model, is the safe response, and the test can be run again.",
+      "miss": "Nobody told the guide, and a classmate grabbed the blades and caught a finger. Next time, stop the lesson and deal with it first.",
+      "wrong": "That does not make it safe. Step back and tell the guide. Choose the response that deals with it now.",
+      "done": "Guide told, fan off, model steadied. The test runs again."
+    },
+    {
+      "id": "the-guide-asks-where-the-energy-comes-from",
+      "kind": "Guide question",
+      "key": "trace-to-the-wind",
+      "label": "Trace the energy back to the moving air",
+      "alert": "The visitor point guide asks where the lamp's energy came from.",
+      "cue": "Trace it back through the generator and blades to the moving air.",
+      "why": "The guide is checking that you understand energy is transferred, not made. Tracing the lamp's energy back through each link to the moving air shows the whole chain and the idea underneath it.",
+      "miss": "You said the turbine made it, which misses where the energy came from. Next time, stop the lesson and deal with it first.",
+      "wrong": "That says the turbine made it. Trace it back to the moving air.",
+      "done": "Traced back to the moving air. The chain is understood."
+    }
+  ],
+  "crew": [
+    "Science teacher",
+    "Classmate",
+    "Visitor point guide",
+    "Teaching assistant"
+  ],
+  "guide": {
+    "start": "Where does the energy go next?",
+    "after": "Moving air, turning blades, electricity, and some wasted as heat and sound.",
+    "hazard": "Stop. Energy is transferred, not made — where did it come from?"
+  },
+  "lateRecord": "The lab record is written once the tests are done — nothing to record yet.",
+  "lateCheckin": "The check-in comes at the very end of the lesson.",
+  "scene": "bench",
+  "order": "c",
+  "desk": "#4f9a7a"
+}

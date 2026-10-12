@@ -1,0 +1,395 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "pipe-out-clean",
+    "name": "Pipe Out Clean",
+    "note": "A transite run removed wet, hand-cut, bagged at the point of removal and manifested, with the sampling pump running the whole job"
+  },
+  "category": "Water & Environmental",
+  "certification": "LIUNA asbestos and hazmat laborers, Cal/OSHA-registered for asbestos work, with UA Local 38 on the pipe and IUOE Local 3 on the excavation; OSHA 29 CFR 1926.1101 Class II asbestos work; EPA NESHAP 40 CFR 61 Subpart M; the local air district's asbestos notification; OSHA 29 CFR 1926 Subpart P excavations",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "EPA",
+        "citedAs": "40 CFR 61",
+        "id": "epa-40-cfr-61",
+        "title": "40 CFR Part 61 — National Emission Standards for Hazardous Air Pollutants, including the asbestos NESHAP"
+      },
+      {
+        "body": "union",
+        "citedAs": "IUOE",
+        "id": "iuoe-training",
+        "title": "IUOE local training funds and the IUOE National Training Fund — operating and stationary engineer apprenticeship"
+      },
+      {
+        "body": "union",
+        "citedAs": "LIUNA",
+        "id": "liuna-training-fund",
+        "title": "LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926",
+        "id": "osha-1926",
+        "title": "29 CFR 1926 — Safety and health regulations for construction"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.1101",
+        "id": "osha-1926-1101",
+        "title": "29 CFR 1926.1101 — Asbestos in construction"
+      },
+      {
+        "body": "RCRA",
+        "citedAs": "RCRA",
+        "id": "rcra-40-cfr-262",
+        "title": "40 CFR Part 262 — Standards applicable to generators of hazardous waste, including the manifest"
+      },
+      {
+        "body": "union",
+        "citedAs": "UA",
+        "id": "ua-apprenticeship",
+        "title": "UA — United Association plumber, pipefitter and HVAC service apprenticeship standards and UA Star certification"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Environmental",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "never-dry",
+        "name": "Never Dry",
+        "note": "The pipe face was wet through every cut, first time"
+      },
+      {
+        "id": "hand-tools-only",
+        "name": "Hand Tools Only",
+        "note": "Never reached for a power tool on this pipe"
+      },
+      {
+        "id": "steady-cut",
+        "name": "Steady Cut",
+        "note": "Held the cutter's feed inside the safe band the whole cut"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-pull",
+        "name": "Clean Pull",
+        "note": "No corrections anywhere in the removal"
+      },
+      {
+        "id": "unbroken-wet",
+        "name": "Unbroken Wet",
+        "note": "Never broke the wet-method hold"
+      },
+      {
+        "id": "bagged-fast",
+        "name": "Bagged Fast",
+        "note": "Section bagged and the manifest signed inside 80% of par"
+      }
+    ],
+    "currency": "FIBRE",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Ground Hand",
+      "Wet-Method Crew",
+      "Lead Laborer",
+      "Regulated-Area Authority",
+      "Fibre Control Certified"
+    ],
+    "system": "Fibre Control"
+  },
+  "hazards": {
+    "dry-cut": "You lined up on the stub that was never wetted. A dry face under a snap cutter sheds fibre the instant the blade bites, and 'it's only one cut' is how a Class II job turns into an air sample nobody wants to open — the water goes on before the tool does, every section, no exceptions.",
+    "early-mask-off": "You pulled the respirator off before you were clear of the regulated area boundary. Fibre that settled on the outside of that mask and on your skin is still on you at the boundary line — the respirator comes off on the clean side of decon, not the moment the last section is in the bag.",
+    "power-saw": "You reached for the circular saw sitting on the bench. A power saw spinning through asbestos-cement pipe aerosolises exactly the fibre the wet method exists to bind — that is the one tool OSHA's Class II asbestos rule takes off the table outright, no matter how much amended water is standing by.",
+    "unwrapped-toss": "You tossed the cut section onto the spoil pile instead of bagging it where it came out. A section of transite sitting loose on open ground is a source the wind and every boot on this excavation can spread — it gets sealed in two labelled bags at the point of removal, not carried anywhere first."
+  },
+  "id": "transite-pipe-removal",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "cut-pipe",
+      "alert": "A gust just swept down the excavation and the cut face has gone matte and pale — the water on it is drying out while the cutter is still on the pipe.",
+      "cue": "Get the sprayer back on that face before the cutter goes through it dry.",
+      "delay": 3,
+      "id": "wind-dries-face",
+      "kind": "Wind gust",
+      "missNote": "The cutter went through a face that had dried in the wind, and that cut is now an air sample nobody planned on taking.",
+      "seconds": 12,
+      "target": "sprayer",
+      "why": "A face that reads wet a minute ago can be dry now — wind off open ground does that in seconds, and a dry face under a moving blade is the one condition the whole wet-method procedure was built to keep from happening. The cutter waits on the water, not the other way round.",
+      "wrongNote": "Not that — the sprayer, back on the face, before the cutter moves again."
+    },
+    {
+      "after": "decon",
+      "alert": "The personal air-sampling pump on your belt just alarmed — the flow indicator has dropped into the red, well under the calibrated rate.",
+      "cue": "Clear the line and get the pump back to its calibrated flow before decon finishes.",
+      "delay": 3,
+      "id": "pump-low-flow",
+      "kind": "Low flow",
+      "missNote": "The pump kept running low-flow through the rest of decon, and the shift's exposure sample is now a number nobody can stand behind.",
+      "seconds": 11,
+      "target": "air-pump",
+      "why": "A sample pulled at the wrong flow rate is not a smaller version of a real sample — it is a different, uninterpretable number, and the exposure result for this whole shift rides on that pump having run at the rate it was calibrated to, not on it having simply been switched on.",
+      "wrongNote": "It's the pump — clear the line and get the flow back to the calibrated rate before anything else here."
+    }
+  ],
+  "lateNotes": {
+    "manifest-clipboard": "Nothing to sign until the section is bagged, labelled and out at the load-out — a manifest for a shipment that doesn't exist yet is a guess.",
+    "snap-cutter": "The cutter waits until the face in front of it is wet — a dry face under a blade is the thing this whole procedure exists to prevent.",
+    "sprayer": "Nothing to wet yet — the pipe has to actually be exposed and the regulated area set before the sprayer does any good out here.",
+    "waste-bag": "Nothing to bag until a section is actually cut free — a bag opened before there's a section is just an open bag standing in the regulated area."
+  },
+  "name": "Transite Pipe Removal",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "hunters-point-bay-restoration"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "adjacent-utility",
+      "air-pump",
+      "bag-out-point",
+      "coveralls",
+      "decon-station",
+      "dry-cut",
+      "early-mask-off",
+      "glove-tape",
+      "loose-bag-seam",
+      "manifest-clipboard",
+      "pipe-crack",
+      "power-saw",
+      "regulated-tape",
+      "respirator",
+      "snap-cutter",
+      "sprayer",
+      "trench-shield",
+      "unwrapped-toss",
+      "warning-sign",
+      "waste-bag",
+      "work-plan"
+    ],
+    "meshes": 191
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Confirm the NESHAP notification, the work plan and the Cal/OSHA asbestos registration before anyone breaks ground.",
+      "id": "notification",
+      "kind": "select",
+      "prompt": "Confirm the NESHAP notification, the work plan and the Cal/OSHA asbestos registration before anyone breaks ground.",
+      "target": "work-plan",
+      "title": "Read the notification and the work plan",
+      "why": "The notification is what tells the air district and the regulators this specific excavation is happening, on this schedule, with this material — a crew that starts cutting before that clock has run is doing the work outside the only oversight this job is required to have."
+    },
+    {
+      "cue": "Crank the screw jacks until the shield is seated tight against both walls of the excavation.",
+      "id": "shore",
+      "kind": "turn",
+      "prompt": "Crank the screw jacks until the shield is seated tight against both walls of the excavation.",
+      "target": "trench-shield",
+      "title": "Set the trench shield",
+      "turn": {
+        "axis": "y",
+        "label": "JACK",
+        "turns": 0.5
+      },
+      "why": "An excavation deep enough to expose a buried main is deep enough to kill somebody in a collapse long before the asbestos in the pipe becomes the day's worst hazard — the shield goes in and is proven tight before anyone works below grade, under OSHA's excavation standard, not the asbestos one."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Tape the boundary around the excavation and post the asbestos warning signs before the pipe is touched.",
+      "id": "regulated-area",
+      "itemNames": {
+        "regulated-tape": "regulated-area tape",
+        "warning-sign": "asbestos warning signs"
+      },
+      "kind": "sequence",
+      "prompt": "Tape the boundary around the excavation and post the asbestos warning signs before the pipe is touched.",
+      "targets": [
+        "regulated-tape",
+        "warning-sign"
+      ],
+      "title": "Set the regulated area",
+      "why": "A regulated area is what makes the line between people who are supposed to be exposed to this work and people who are not into something anyone can see, not something they have to already know. Nobody who isn't on this crew has any business crossing that tape, and the sign is what tells them why before they try."
+    },
+    {
+      "cue": "Dig it clear and click the two things on this run that change the plan.",
+      "id": "expose-pipe",
+      "itemNames": {
+        "adjacent-utility": "a live utility crossing close to the pipe",
+        "pipe-crack": "a crack already open in the pipe wall"
+      },
+      "itemNotes": {
+        "adjacent-utility": "There's a live utility line crossing within reach of where the cut is planned. That changes where the excavation can widen and where a hand tool can safely swing — it doesn't stop the job, but it moves the plan.",
+        "pipe-crack": "That section already has a crack running through the wall. A pipe that's already compromised is shedding fibre before a single tool touches it — it gets wetted immediately, not on the same schedule as the sound sections."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Dig it clear and click the two things on this run that change the plan.",
+      "targets": [
+        "pipe-crack",
+        "adjacent-utility"
+      ],
+      "title": "Expose the pipe and read what's actually there",
+      "why": "The drawing says what should be down there; the excavation says what actually is. A crack already open and a utility crossing close by are both things that move where and how this pipe gets cut, and both are invisible until the pipe is dug out in front of you."
+    },
+    {
+      "cue": "Coveralls first, then the respirator, then tape the gloves and boot covers.",
+      "id": "don-ppe",
+      "itemNames": {
+        "coveralls": "coveralls",
+        "glove-tape": "taped gloves and boot covers",
+        "respirator": "respirator"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Coveralls first, then the respirator seated against your face, then gloves and boots taped last.",
+      "prompt": "Coveralls first, then the respirator, then tape the gloves and boot covers.",
+      "targets": [
+        "coveralls",
+        "respirator",
+        "glove-tape"
+      ],
+      "title": "Don PPE in order",
+      "why": "The respirator seals against skin, which only works once the suit's hood is out of the way — pull the hood up first and the facepiece is sealing against fabric instead of a face. Taping goes on last because it's what keeps a sleeve from riding up while reaching into the trench, which is most of this job."
+    },
+    {
+      "cue": "Read the flow indicator and commit once it holds in the calibrated band before you clip it on.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.58
+        ],
+        "label": "SAMPLE FLOW",
+        "missNote": "Not in the calibrated band. Adjust the pump and check it again before it goes on your belt.",
+        "speed": 0.65
+      },
+      "id": "cassette",
+      "kind": "gauge",
+      "prompt": "Read the flow indicator and commit once it holds in the calibrated band before you clip it on.",
+      "target": "air-pump",
+      "title": "Calibrate the personal sampling pump",
+      "why": "This pump's reading is the exposure record for everyone doing this cut today — a pump calibrated wrong reads a number that means nothing, no matter how carefully the rest of the job goes, and there is no way to redo a shift's sample after the fact."
+    },
+    {
+      "cue": "Hold the amended-water spray on the pipe until the whole face is visibly soaked, not just damp.",
+      "holdBreakNote": "Released the sprayer before the face was actually soaked through — a quick pass just wets the surface, and the fibre underneath is still bound to nothing.",
+      "id": "wet-pipe",
+      "kind": "hold",
+      "prompt": "Hold the amended-water spray on the pipe until the whole face is visibly soaked, not just damp.",
+      "seconds": 5,
+      "target": "sprayer",
+      "title": "Wet the pipe with amended water",
+      "why": "Amended water carries a surfactant so it soaks into the cement matrix instead of beading off it, and that binding is the entire reason this pipe can be cut at all without a containment tent over the trench — a face that's merely misted dries out again before the cutter ever reaches it."
+    },
+    {
+      "cue": "Hold the cutter's feed steady in the band while the chain works through the wetted pipe.",
+      "holdBreakNote": "Cut rate out of band — forcing the chain tears the wetted face and stalling it just burnishes a dry ring. Bring it back and hold it there.",
+      "id": "cut-pipe",
+      "kind": "track",
+      "prompt": "Hold the cutter's feed steady in the band while the chain works through the wetted pipe.",
+      "seconds": 8,
+      "target": "snap-cutter",
+      "title": "Cut the pipe with the snap cutter",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.44,
+        "green": [
+          0.36,
+          0.56
+        ],
+        "label": "CUT RATE",
+        "rise": 0.5,
+        "start": 0.12
+      },
+      "why": "A snap cutter or a hand saw parts asbestos-cement the way it's meant to be parted here: slowly, with the wet fibre held in the material instead of thrown into the air. Steady feed is what keeps the cut clean and the face wet through the whole pass — a jerked or rushed cut re-exposes dry material at exactly the edge the blade just made."
+    },
+    {
+      "cue": "Seal the cut section in two labelled bags right where it came out, then carry it to the load-out.",
+      "drag": {
+        "missNote": "Not at the load-out. A bagged section set down anywhere else in the regulated area still has to be carried through it again.",
+        "radius": 0.45,
+        "to": "bag-out-point"
+      },
+      "id": "bag-section",
+      "kind": "drag",
+      "prompt": "Seal the cut section in two labelled bags right where it came out, then carry it to the load-out.",
+      "target": "waste-bag",
+      "title": "Double-bag the section at the point of removal",
+      "why": "Bagging happens at the point of removal because that is the only moment this section is guaranteed to still be wet and still be exactly where the crew can see it — set it down anywhere else first and it is drying out, unlabelled, on open ground."
+    },
+    {
+      "cue": "Hold the wash-down at the boundary station until your suit and boots run clear before crossing the tape.",
+      "holdBreakNote": "Crossed the boundary before the wash-down finished — the suit and boots were still carrying material from the trench.",
+      "id": "decon",
+      "kind": "hold",
+      "prompt": "Hold the wash-down at the boundary station until your suit and boots run clear before crossing the tape.",
+      "seconds": 5,
+      "target": "decon-station",
+      "title": "Decon at the boundary",
+      "why": "The regulated-area boundary is the one place a person crosses from work that is presumed contaminated to ground that isn't — decon here is what keeps that crossing from being the way fibre actually leaves the site, on somebody's boots instead of in a bag."
+    },
+    {
+      "cue": "Fill out and sign the hazardous-waste manifest for the bagged sections before the load-out truck takes them.",
+      "id": "manifest",
+      "kind": "select",
+      "prompt": "Fill out and sign the hazardous-waste manifest for the bagged sections before the load-out truck takes them.",
+      "target": "manifest-clipboard",
+      "title": "Complete the waste manifest",
+      "why": "Under NESHAP and RCRA together, bagged transite is not a legal shipment until the manifest states what it is, how much, and where it's going — bags at a load-out with no manifest are just bags as far as anyone downstream can prove."
+    },
+    {
+      "cue": "Walk the bagged sections and click the one seam that's still open before the truck pulls out.",
+      "id": "walk",
+      "itemNames": {
+        "loose-bag-seam": "a loose seam on a bagged section"
+      },
+      "itemNotes": {
+        "loose-bag-seam": "That bag's outer seam never actually sealed. A bag that looks closed but isn't is the same failure as no bag at all, just harder to notice — this is the last look before it goes on the truck."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the bagged sections and click the one seam that's still open before the truck pulls out.",
+      "targets": [
+        "loose-bag-seam"
+      ],
+      "title": "Walk the load-out before the truck leaves",
+      "why": "Cutting the pipe wet and bagging it fast are two different disciplines from actually checking the bags afterward — this walk is the last chance to catch a seal that didn't take before the manifest's promises are out on a public road."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Asbestos-cement water pipe out of an excavation as Class II work: wetted and kept wet, cut with a snap cutter — never a power saw — double-bagged at the point of removal, and the air sampling pump running the whole time",
+  "title": "SmartCiti.X~ Transite Pipe Removal VR",
+  "trade": "Asbestos abatement laborer and pipefitter — LIUNA asbestos laborer, UA Local 38 pipefitter, IUOE Local 3 excavation operator",
+  "underwater": null,
+  "weather": "wind"
+}

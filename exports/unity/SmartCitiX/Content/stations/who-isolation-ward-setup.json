@@ -1,0 +1,420 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "ward-ready",
+    "name": "Ward Ready",
+    "note": "A ward that keeps suspected and confirmed apart, runs one way, holds its pressure and puts hand hygiene within reach of every bed"
+  },
+  "category": "Emergency Services",
+  "certification": "WHO infection prevention and control guidance for isolation areas — one-way flow, separation of suspected and confirmed patients, hand hygiene at the point of care; CDC isolation precautions for standard and transmission-based precautions, door signage, dedicated patient equipment and the negative-pressure room; OSHA 29 CFR 1910.1030 for sharps and infectious waste and 29 CFR 1910.134 for the respirators worn in the single room; WHO outbreak communication guidance for the families at the ward door; the Sphere Handbook's health standards and IASC cluster coordination for the partners who share the ward; worked by NNU/CNA nurses with SEIU and AFSCME public-health staff",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFSCME",
+        "id": "afscme-training",
+        "title": "AFSCME member education and safety training for public-service and air-district members"
+      },
+      {
+        "body": "CDC",
+        "citedAs": "CDC",
+        "id": "cdc-guidance",
+        "title": "CDC infection-prevention and public-health guidance, including the Guidelines for Infection Control in Dental Health-Care Settings and Legionella control guidance"
+      },
+      {
+        "body": "IASC",
+        "citedAs": "IASC",
+        "id": "iasc-cluster-coordination",
+        "title": "Inter-Agency Standing Committee (IASC) cluster approach and cluster coordination guidance"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1030",
+        "id": "osha-1910-1030",
+        "title": "29 CFR 1910.1030 — Bloodborne pathogens"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.134",
+        "id": "osha-1910-134",
+        "title": "29 CFR 1910.134 — Respiratory protection"
+      },
+      {
+        "body": "union",
+        "citedAs": "SEIU",
+        "id": "seiu-training",
+        "title": "SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members"
+      },
+      {
+        "body": "Sphere",
+        "citedAs": "Sphere Handbook",
+        "id": "sphere-handbook",
+        "title": "The Sphere Handbook: Humanitarian Charter and Minimum Standards in Humanitarian Response"
+      },
+      {
+        "body": "WHO",
+        "citedAs": "WHO",
+        "id": "who-guidance",
+        "title": "World Health Organization technical and field guidance for health emergencies and outbreak response"
+      },
+      {
+        "body": "WHO",
+        "citedAs": "WHO infection prevention and control guidance",
+        "id": "who-ipc-guidance",
+        "title": "WHO guidance on infection prevention and control in health care"
+      },
+      {
+        "body": "WHO",
+        "citedAs": "WHO outbreak communication guidance",
+        "id": "who-outbreak-communication",
+        "title": "WHO outbreak communication guidance"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Emergency Services",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "one-way",
+        "name": "One Way",
+        "note": "The staff route walked in order, first time"
+      },
+      {
+        "id": "apart",
+        "name": "Kept Apart",
+        "note": "No mixed cohort, no propped door, no shared thermometer, no guessed dilution"
+      },
+      {
+        "id": "spaced",
+        "name": "Spaced",
+        "note": "Bed spacing set on the plan mark"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-ward",
+        "name": "Clean Ward",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "held-negative",
+        "name": "Held Negative",
+        "note": "Pressure watch held without a dropout"
+      },
+      {
+        "id": "ward-fast",
+        "name": "Ward Fast",
+        "note": "Ward set inside 85% of par"
+      }
+    ],
+    "currency": "BARRIER",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Ward Aide",
+      "Ward Nurse",
+      "Isolation Nurse",
+      "IPC Lead",
+      "Ward Command Certified"
+    ],
+    "system": "Ward Command"
+  },
+  "hazards": {
+    "wiw-chlorine-by-eye": "You topped up the chlorine bucket by eye. Chlorine solution is mixed from the dilution chart, measured, every time: too weak and it disinfects nothing while everyone believes it does, too strong and it burns skin and eyes and corrodes the equipment it is wiped on.",
+    "wiw-mixed-cohort": "You parked a confirmed patient's bed in the suspected bay to save a trip. Suspected patients are kept apart from confirmed ones because some of them do not have the disease at all, and a night beside a confirmed case is how a person who came in for the wrong reason leaves with the right one.",
+    "wiw-propped-door": "You wedged the single-room door open to make the rounds easier. A negative-pressure room only works with its door shut; propped open, the air the room is designed to pull in and exhaust drifts out into the corridor instead.",
+    "wiw-shared-thermometer": "You walked one thermometer bed to bed. Equipment that touches one patient is dedicated to that patient, or cleaned and disinfected between patients, because a shared instrument carries whatever the last bed left on it to the next one."
+  },
+  "id": "who-isolation-ward-setup",
+  "indoor": "clinic",
+  "interrupts": [
+    {
+      "after": "pressure-watch",
+      "alert": "A relative carrying a food parcel has come through the clean door and is heading for the patient bays, no PPE, looking for her brother.",
+      "cue": "Stop her at the visitor barrier — kindly, and before the bay.",
+      "delay": 3,
+      "id": "visitor-walks-in",
+      "kind": "Visitor at the bay",
+      "missNote": "Nobody stopped her. She reached her brother's bed without PPE, sat on the edge of it and held his hand, and spent the next weeks on the contact list — frightened, and less willing to tell the tracing team who else she had seen.",
+      "seconds": 13,
+      "target": "wiw-visitor-barrier",
+      "why": "Families bring food, news and comfort, and in many places they do real nursing care — which is why the barrier and the visitor point exist, so contact can happen without an unprotected person walking into the patient bays. Stopping her gently at the barrier, and taking the parcel there, keeps her safe and keeps her coming back.",
+      "wrongNote": "That will not stop her. Meet her at the visitor barrier before she reaches the bay."
+    },
+    {
+      "after": "anteroom-hold",
+      "alert": "A body-fluid spill has spread across the floor beside bed two while you hold the door, and a cleaner is about to mop it with the general mop.",
+      "cue": "Get the spill kit to it — contain and disinfect, not mop.",
+      "delay": 2,
+      "id": "spill-by-bed",
+      "kind": "Spill",
+      "missNote": "The spill was mopped with the general mop, which went back to the corridor bucket. By the end of the shift it had been across the clean store and the staff room floor.",
+      "seconds": 14,
+      "target": "wiw-spill-kit",
+      "why": "A body-fluid spill is contained with absorbent, disinfected with solution mixed to strength, and picked up by someone in PPE — not pushed around the floor with a mop that will then be used in the corridor. The spill kit is kept at the bay for exactly this minute.",
+      "wrongNote": "Not that. The spill kit is on the wall by the bay — bring it to the spill."
+    }
+  ],
+  "lateNotes": {
+    "wiw-exhaust-damper": "Open the exhaust once the room is prepared; there is nothing to watch on the monitor until the damper is set.",
+    "wiw-spacing-tape": "Set bed spacing once the cohorts are separated — spacing a bed that is about to move is wasted effort."
+  },
+  "name": "Isolation Ward Setup",
+  "parSeconds": 320,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "outbreak-response-who"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "wiw-anteroom-door",
+      "wiw-bed-no-rub",
+      "wiw-chlorine-by-eye",
+      "wiw-crew-board",
+      "wiw-dedicated-kit",
+      "wiw-door-sign",
+      "wiw-empty-dispenser",
+      "wiw-exhaust-damper",
+      "wiw-floor-plan",
+      "wiw-general-bin",
+      "wiw-infectious-bin",
+      "wiw-mixed-cohort",
+      "wiw-pressure-monitor",
+      "wiw-propped-door",
+      "wiw-shared-thermometer",
+      "wiw-sharps-point",
+      "wiw-spacing-tape",
+      "wiw-spill-kit",
+      "wiw-suspected-bay",
+      "wiw-suspected-bed",
+      "wiw-visitor-barrier",
+      "wiw-ward-log",
+      "wiw-zone-clean",
+      "wiw-zone-doffing",
+      "wiw-zone-donning",
+      "wiw-zone-patient"
+    ],
+    "meshes": 194
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the plan: where the clean area, donning, patient bays, doffing and exit sit, and which way people move through them.",
+      "id": "floor-plan",
+      "kind": "select",
+      "prompt": "Read the plan: where the clean area, donning, patient bays, doffing and exit sit, and which way people move through them.",
+      "target": "wiw-floor-plan",
+      "title": "Read the isolation floor plan",
+      "why": "An isolation area is designed around one rule — people and materials move from clean to contaminated and never back the same way. Reading the plan before touching a bed is what makes every later choice fit that flow, rather than building a tidy-looking ward in which the only way out of the patient bay is back through the clean store."
+    },
+    {
+      "cue": "Mark the route in the order staff will walk it: clean area, donning, patient bays, doffing and out.",
+      "id": "flow-sequence",
+      "itemNames": {
+        "wiw-zone-clean": "clean area",
+        "wiw-zone-doffing": "doffing and exit",
+        "wiw-zone-donning": "donning",
+        "wiw-zone-patient": "patient bays"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Clean, donning, patient bays, doffing — the route runs one way, from clean to contaminated and out.",
+      "prompt": "Mark the route in the order staff will walk it: clean area, donning, patient bays, doffing and out.",
+      "targets": [
+        "wiw-zone-clean",
+        "wiw-zone-donning",
+        "wiw-zone-patient",
+        "wiw-zone-doffing"
+      ],
+      "title": "Walk the staff route one way",
+      "why": "The route is marked on the floor so nobody has to remember it on a night shift. WHO infection prevention and control guidance for isolation areas relies on a one-way flow because contamination follows people; a route that doubles back puts a worker straight out of a patient bay beside colleagues who are still gowning up."
+    },
+    {
+      "cue": "Move the bed tagged SUSPECTED out of the confirmed bay and into the suspected bay.",
+      "drag": {
+        "missNote": "Not in the suspected bay. A suspected patient stays out of the confirmed bay until the lab says otherwise.",
+        "radius": 0.6,
+        "to": "wiw-suspected-bay"
+      },
+      "id": "cohort",
+      "kind": "drag",
+      "prompt": "Move the bed tagged SUSPECTED out of the confirmed bay and into the suspected bay.",
+      "target": "wiw-suspected-bed",
+      "title": "Separate suspected from confirmed",
+      "why": "A suspected case is a person who meets the clinical definition but has no laboratory result, and some of them will turn out not to have the disease. Keeping them apart from confirmed patients until the result is back is the only way to avoid exposing someone in the ward itself, which is the one place they came to be kept safe."
+    },
+    {
+      "cue": "Run the tape between beds and commit when the gap sits on the plan's mark.",
+      "gauge": {
+        "green": [
+          0.46,
+          0.58
+        ],
+        "label": "BED GAP",
+        "missNote": "Not on the plan's mark. Run the tape again and commit where the gap matches the plan.",
+        "speed": 0.6
+      },
+      "id": "bed-spacing",
+      "kind": "gauge",
+      "prompt": "Run the tape between beds and commit when the gap sits on the plan's mark.",
+      "target": "wiw-spacing-tape",
+      "title": "Set bed spacing to the plan",
+      "why": "Space between beds is what lets staff work at one bedside without brushing the next patient, and what keeps droplets from one bed landing on another. The plan's mark is set for this ward by the IPC lead; a bed pushed closer to fit one more in takes that margin away from every patient in the row, not just the new one."
+    },
+    {
+      "cue": "Turn the exhaust damper wheel until the single room's extract is fully open.",
+      "id": "damper",
+      "kind": "turn",
+      "prompt": "Turn the exhaust damper wheel until the single room's extract is fully open.",
+      "target": "wiw-exhaust-damper",
+      "title": "Open the single room's exhaust",
+      "turn": {
+        "axis": "z",
+        "label": "EXHAUST",
+        "turns": 1
+      },
+      "why": "The single room is set aside for aerosol-generating procedures, and CDC isolation precautions describe that room as held at negative pressure so air flows in from the corridor and out through the exhaust, not the other way. The damper sets that extract; with it closed, the room is just a room with a sign on the door."
+    },
+    {
+      "cue": "Keep your eyes on the pressure monitor as the room settles, and stay in the band.",
+      "holdBreakNote": "The reading drifted out of the band. The room is not proven yet — bring it back and hold until it settles.",
+      "id": "pressure-watch",
+      "kind": "track",
+      "prompt": "Keep your eyes on the pressure monitor as the room settles, and stay in the band.",
+      "seconds": 7,
+      "target": "wiw-pressure-monitor",
+      "title": "Watch the room hold negative",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.45,
+        "green": [
+          0.4,
+          0.64
+        ],
+        "label": "PRESSURE",
+        "rise": 0.55,
+        "start": 0.2
+      },
+      "why": "A negative-pressure room is proved by its monitor, not by the damper position. Watching it settle — without doors opening, without a drift back toward neutral — is what tells you the room is ready before the first patient needing it arrives, instead of discovering the fault with a procedure already under way."
+    },
+    {
+      "cue": "Walk the bays and pick out every place where hand hygiene is not within reach.",
+      "id": "hand-points",
+      "itemNames": {
+        "wiw-bed-no-rub": "bed with no hand rub",
+        "wiw-empty-dispenser": "empty dispenser"
+      },
+      "itemNotes": {
+        "wiw-bed-no-rub": "Bed three has no hand rub at the bedside at all; the nearest is two beds away.",
+        "wiw-empty-dispenser": "The dispenser at the bay entrance is empty — the first thing every entering worker reaches for."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the bays and pick out every place where hand hygiene is not within reach.",
+      "targets": [
+        "wiw-empty-dispenser",
+        "wiw-bed-no-rub"
+      ],
+      "title": "Find the missing hand-hygiene points",
+      "why": "Hand hygiene happens when it is within reach at the moment it is needed — before touching a patient, after touching one and after touching their surroundings, as the WHO guidance sets out. A dispenser that is empty or two beds away is a moment that gets skipped on a busy shift, however well trained the staff."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Set a sharps container, an infectious-waste bin and a general bin at their marked points — any order.",
+      "id": "waste-points",
+      "itemNames": {
+        "wiw-general-bin": "general waste",
+        "wiw-infectious-bin": "infectious waste",
+        "wiw-sharps-point": "sharps container"
+      },
+      "kind": "sequence",
+      "prompt": "Set a sharps container, an infectious-waste bin and a general bin at their marked points — any order.",
+      "targets": [
+        "wiw-sharps-point",
+        "wiw-infectious-bin",
+        "wiw-general-bin"
+      ],
+      "title": "Place the three waste streams",
+      "why": "Waste sorted at the point of use stays sorted; waste sorted later is handled twice. A sharps container within reach of the bed is what stops a needle travelling across a room in a gloved hand, and a separate general stream keeps the infectious stream from overflowing with packaging — both are what OSHA 29 CFR 1910.1030 expects of a sharps and waste plan."
+    },
+    {
+      "cue": "Post the transmission-based precautions sign at the ward entrance: what to wear, and who may enter.",
+      "id": "signage",
+      "kind": "select",
+      "prompt": "Post the transmission-based precautions sign at the ward entrance: what to wear, and who may enter.",
+      "target": "wiw-door-sign",
+      "title": "Post the precautions at the door",
+      "why": "CDC isolation precautions put the sign at the door because the door is the last place a person decides whether to walk in. A porter, a cleaner or a relative who does not know the ward has changed will read a sign they cannot miss, and will not read a memo pinned in the office."
+    },
+    {
+      "cue": "Set a thermometer and blood-pressure cuff at each bed and label them to that bed.",
+      "id": "dedicate-kit",
+      "kind": "select",
+      "prompt": "Set a thermometer and blood-pressure cuff at each bed and label them to that bed.",
+      "target": "wiw-dedicated-kit",
+      "title": "Dedicate equipment to each bed",
+      "why": "Every instrument walked from bed to bed is a route between patients. Dedicating the non-critical equipment each patient needs — or cleaning and disinfecting it every time it moves — takes that route away, and costs a few thermometers against the risk of carrying the pathogen along the row."
+    },
+    {
+      "cue": "Hold the single room's anteroom door closed until it latches and the monitor settles.",
+      "holdBreakNote": "You let go before it latched. A door that has not latched is an open door as far as the air is concerned — hold it closed.",
+      "id": "anteroom-hold",
+      "kind": "hold",
+      "prompt": "Hold the single room's anteroom door closed until it latches and the monitor settles.",
+      "seconds": 4,
+      "target": "wiw-anteroom-door",
+      "title": "Hold the anteroom door until it latches",
+      "why": "The anteroom is the buffer between the negative-pressure room and the corridor, and it only works if one door is shut before the other opens. Holding it until it latches, rather than letting it swing, is the difference between a room that holds its pressure through a shift and one that leaks every time somebody goes in."
+    },
+    {
+      "cue": "Before the first patient arrives, check in with the team on how everyone is doing and point them to staff care.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Before the first patient arrives, check in with the team on how everyone is doing and point them to staff care.",
+      "target": "wiw-crew-board",
+      "title": "Check in with the ward team",
+      "why": "The team about to staff an isolation ward is walking into long shifts in PPE, sick patients and worried families, often while worrying about their own. Checking in before the ward opens — and naming the staff welfare contact and the rota out loud — is how the team is still there in week three."
+    },
+    {
+      "cue": "Hold the readiness log open and read back each item — flow, cohorts, pressure, hand hygiene, waste, signage — before you sign.",
+      "holdBreakNote": "You signed without reading the items back. Open it again and go through each one before signing.",
+      "id": "closing-log",
+      "kind": "hold",
+      "prompt": "Hold the readiness log open and read back each item — flow, cohorts, pressure, hand hygiene, waste, signage — before you sign.",
+      "seconds": 4,
+      "target": "wiw-ward-log",
+      "title": "Sign the ward readiness log",
+      "why": "The readiness log is what the incoming shift and the IPC lead rely on to know the ward was actually checked, not assumed. Reading it back item by item before signing is what catches the one line that was ticked because everything else was, and it is what an audit asks for when something goes wrong."
+    }
+  ],
+  "supportLine": "your agency's staff welfare or staff counsellor service, or the peer-support contact named at your deployment briefing",
+  "tagline": "An ordinary ward turned into an isolation area: one-way flow, suspected and confirmed kept apart, beds at spacing, a negative-pressure room, hand hygiene at every bed, three waste streams and a door that stays shut",
+  "title": "SmartCiti.X~ Isolation Ward Setup VR",
+  "trade": "Ward nurse and IPC lead — NNU/CNA nurses, SEIU and AFSCME public-health staff, and the humanitarian workforce deployed under IASC clusters",
+  "underwater": null,
+  "weather": "clear"
+}

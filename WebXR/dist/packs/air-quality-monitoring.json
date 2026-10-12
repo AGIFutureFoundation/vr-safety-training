@@ -1,0 +1,114 @@
+{
+  "id": "air-quality-monitoring",
+  "kind": "programme",
+  "name": "Air Quality — Monitoring and Control",
+  "title": "SmartCiti.X Air Quality — Monitoring and Control — Powered by AGI Corp",
+  "audience": "trades",
+  "summary": "The air a neighbourhood breathes is measured by a short chain of people and instruments, from a fence-line monitor to a stack test to a certified eye reading a plume, each one held to a different standard for a different reason. This block runs that chain end to end, from where the readings are taken to where the emissions actually come from.",
+  "certification": "EPA Method 9 visible emissions (40 CFR 60 Appendix A), EPA 40 CFR Part 58 ambient air quality monitoring, the Bay Area Air Quality Management District's own regulations, and a site's Air Monitoring Plan under a cleanup order",
+  "programmes": [
+    "air-quality-monitoring"
+  ],
+  "stations": [
+    {
+      "app": "smartcity",
+      "id": "air-monitor"
+    },
+    {
+      "app": "smartcity",
+      "id": "mobile-air-lab"
+    },
+    {
+      "app": "smartcity",
+      "id": "opacity-reading"
+    },
+    {
+      "app": "smartcity",
+      "id": "stack-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "landfill-gas"
+    },
+    {
+      "app": "smartcity",
+      "id": "soil-loadout"
+    }
+  ],
+  "unions": [
+    "afscme",
+    "liuna",
+    "iuoe",
+    "usw"
+  ],
+  "unionLine": "AFSCME air-district technicians, LIUNA environmental laborers, IUOE and USW plant crews",
+  "k12Bands": [],
+  "path": "union-trades",
+  "alsoPaths": [],
+  "worlds": [
+    {
+      "world": "bayworld",
+      "sites": [
+        "west-oakland-air-monitoring-post",
+        "north-shoreline-field-lab"
+      ]
+    },
+    {
+      "world": "underwater",
+      "sites": [
+        "flats-sonde-station"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-bayview",
+      "sites": [
+        "hunters-point-shipyard",
+        "shipyard-soil-cell"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-west-oakland",
+      "sites": [
+        "west-oakland-air-monitoring-station"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-san-leandro-bay",
+      "sites": [
+        "slb-debris-haul-transfer"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-san-mateo-shoreline",
+      "sites": [
+        "smc-decon-line",
+        "smc-regulated-soil-loadout",
+        "smc-air-monitoring"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-nutrient-pilot",
+      "sites": [
+        "npp-solids-loadout"
+      ]
+    }
+  ],
+  "stationNames": {
+    "air-monitor": "Perimeter Air",
+    "mobile-air-lab": "Mobile Air Lab",
+    "opacity-reading": "Opacity Reading",
+    "stack-test": "Stack Test",
+    "landfill-gas": "Landfill Gas",
+    "soil-loadout": "Soil Loadout"
+  },
+  "version": "1.0.0",
+  "contentHash": "7b3242c4",
+  "brand": "SmartCiti.X · Powered by AGI Corp",
+  "generator": "tools/gen_packs.mjs",
+  "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."
+}

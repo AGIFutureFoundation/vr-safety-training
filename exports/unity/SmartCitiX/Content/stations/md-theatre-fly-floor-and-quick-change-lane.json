@@ -1,0 +1,373 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "clean-change-clean-cue",
+    "name": "Clean Change, Clean Cue",
+    "note": "The crossover swept clean, the brake tension proven before the batten flew, the wrong-batten start caught on the headset, and the crossover confirmed clear before anyone crossed under the landed batten"
+  },
+  "category": "Entertainment & Live Events",
+  "certification": "Actors' Equity Association safety standards for stage actors and stage managers; IATSE fly crew and stagehand practice; ANSI E1.4 counterweight rigging systems for the fly floor; OSHA 29 CFR 1910.22 walking-working surfaces for the backstage crossover; NFPA 101 Life Safety Code requirements for keeping the crossover clear as an egress path",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "Actors' Equity Association",
+        "id": "aea-training",
+        "title": "Actors' Equity apprenticeship and training, as a training body"
+      },
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI E1.4",
+        "id": "ansi-e1-4",
+        "title": "ANSI E1.4 — Entertainment technology: manual counterweight rigging systems"
+      },
+      {
+        "body": "union",
+        "citedAs": "IATSE",
+        "id": "iatse-training-trust",
+        "title": "IATSE Training Trust Fund — stagecraft, rigging and entertainment electrical skills training"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 101",
+        "id": "nfpa-101",
+        "title": "NFPA 101 — Life Safety Code"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.22",
+        "id": "osha-1910-22",
+        "title": "29 CFR 1910.22 — Walking-working surfaces, general requirements"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Screen & Media Crafts",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "tension-proven-first",
+        "name": "Tension Proven First",
+        "note": "Never called go before the brake tension read proven"
+      },
+      {
+        "id": "wrong-batten-caught",
+        "name": "Wrong Batten Caught",
+        "note": "The wrong-batten start was called off on the headset, not let run"
+      },
+      {
+        "id": "never-under-the-batten",
+        "name": "Never Under the Batten",
+        "note": "Never reached under a flying batten, never crossed the blind corner unchecked, never reached into the rig while it was being pinned, never blocked the crossover with the cart"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-call",
+        "name": "Clean Call",
+        "note": "No corrections from the cue sheet to the closing log"
+      },
+      {
+        "id": "steady-fly",
+        "name": "Steady Fly",
+        "note": "The batten held its speed band the whole way in, first time"
+      },
+      {
+        "id": "curtain-on-time",
+        "name": "Curtain On Time",
+        "note": "Change made and cue called inside 80% of par"
+      }
+    ],
+    "currency": "CUE",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Deck Hand",
+      "Assistant Stage Manager",
+      "Stage Manager",
+      "Production Stage Manager",
+      "Equity Steward Certified"
+    ],
+    "system": "Calling Desk"
+  },
+  "hazards": {
+    "block-crossover-with-wardrobe-cart": "You left the wardrobe cart parked in the middle of the backstage crossover. That crossover is the only way an actor gets from one side of the stage to the other during the show, and a cart parked in it is an actor's cue-to-cue cross turned into an obstacle course in the dark.",
+    "cross-blind-corner-backstage": "You crossed the backstage blind corner without checking it first. A crossover in the dark, under a working fly floor, has exactly one blind spot where an actor coming the other way and a moving batten both converge, and checking it before stepping through is the only thing that catches either one in time.",
+    "reach-into-quick-rig-while-pinning": "You reached into the quick-rig costume's snap mechanism while the dresser still had a hand inside pinning it closed. A quick-change rig is built to close fast under one dresser's practiced hands, and a second hand in the same mechanism is how a pin meant for fabric finds a finger instead.",
+    "reach-under-flying-batten": "You reached up toward the batten while it was still in motion. A flying batten carries whatever scenery or electrics are hung on it, and the gap between where a hand is safe and where it isn't closes the instant the batten is actually moving — it gets reached for only once it's landed and dead-hung, never while it's still flying."
+  },
+  "id": "md-theatre-fly-floor-and-quick-change-lane",
+  "indoor": "theatre",
+  "interrupts": [
+    {
+      "after": "standby-hold",
+      "alert": "A crew member has started flying a different batten from the wrong lineset, right while you're holding standby for cue 3.",
+      "cue": "Call HOLD on the headset before the wrong batten moves any further.",
+      "delay": 2,
+      "id": "wrong-batten-starts",
+      "kind": "Crew member starts the wrong batten",
+      "missNote": "The wrong batten kept flying. Cue 3's own crew had to scramble to confirm it wasn't theirs before anyone caught the real mistake.",
+      "seconds": 12,
+      "target": "sm-headset",
+      "why": "The standby light you're holding only communicates one cue to the crew already watching it — it says nothing to someone flying a different lineset who was never looking at cue 3's light in the first place. The headset reaches every channel the call is actually going out on, which is what stops the wrong batten before it moves any further.",
+      "wrongNote": "Not the standby light — it only speaks to cue 3's own crew. The headset is what reaches whoever started the wrong batten."
+    },
+    {
+      "after": "batten-fly",
+      "alert": "An actor has stepped into the crossover from the wrong wing, right under the batten's landing path, just as it settles in.",
+      "cue": "Flash the crossover warning light and call them clear before the batten fully lands.",
+      "delay": 2,
+      "id": "actor-steps-into-landing-path",
+      "kind": "Actor steps into the landing batten's path",
+      "missNote": "The actor crossed directly under the batten as it landed. Nothing in the dark backstage gave them any warning it was even moving.",
+      "seconds": 12,
+      "target": "crossover-warning-light",
+      "why": "An actor crossing in the dark on their own cue has no way to see a batten settling in above them, and a shout competes with the show's own sound cues running at the same moment. The warning light is built to be seen in peripheral vision even mid-cross, which a voice in a noisy backstage is not.",
+      "wrongNote": "Not the headset call alone — the actor isn't wearing one. The crossover warning light is built to be seen mid-cross in the dark."
+    }
+  ],
+  "lateNotes": {
+    "batten-fly": "The batten only flies once the crossover is swept and the headset is on the calling channel — flying it before either of those is flying blind.",
+    "sm-headset": "The go call only means anything once the brake tension has already read proven — calling go on an unproven fly system just times a guess.",
+    "sm-log": "The log is written last, after the cross under the landed batten is confirmed clear."
+  },
+  "name": "Theatre Fly Floor & Quick-Change Lane",
+  "parSeconds": 340,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "screen-and-media-crafts"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.9,
+    "hits": [
+      "batten-fly",
+      "block-crossover-with-wardrobe-cart",
+      "brake-tension-gauge",
+      "costume-hook",
+      "costume-piece",
+      "cross-blind-corner-backstage",
+      "cross-mark",
+      "crossover-warning-light",
+      "cue-sheet-panel",
+      "fly-plot-panel",
+      "headset-dial",
+      "missing-personal-prop",
+      "missing-spike-mark",
+      "personal-props-table",
+      "props-table-blocking-crossover",
+      "quick-rig-hat",
+      "quick-rig-jacket",
+      "reach-into-quick-rig-while-pinning",
+      "reach-under-flying-batten",
+      "sm-headset",
+      "sm-log",
+      "standby-light"
+    ],
+    "meshes": 165
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read today's cue sheet: which batten flies on which cue, and how much time the quick change actually has in the wings.",
+      "id": "read-cue-sheet",
+      "kind": "select",
+      "prompt": "Read today's cue sheet: which batten flies on which cue, and how much time the quick change actually has in the wings.",
+      "target": "cue-sheet-panel",
+      "title": "Read the cue sheet's fly and change timing",
+      "why": "The cue sheet is where today's show is actually specified before the calling desk does anything — which batten is cue 3, how many bars the quick change has before the next entrance, and which of those two clocks is tighter tonight."
+    },
+    {
+      "cue": "Dress the quick-rig jacket first, then the hat — the rig's snaps are sewn to close in that order and no other.",
+      "id": "quick-rig-dress",
+      "itemNames": {
+        "quick-rig-hat": "quick-rig hat",
+        "quick-rig-jacket": "quick-rig jacket"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Jacket, then hat — not the other way around. The rig's own snaps are sewn to close in that order, and out of order they catch rather than close.",
+      "prompt": "Dress the quick-rig jacket first, then the hat — the rig's snaps are sewn to close in that order and no other.",
+      "targets": [
+        "quick-rig-jacket",
+        "quick-rig-hat"
+      ],
+      "title": "Dress the quick-rig costume in its own snap order",
+      "why": "A quick-rig costume is built around one specific order of snaps and velcro so a dresser can close the whole thing in seconds without looking — dressed out of order, a snap that expects the jacket already closed catches on fabric that isn't there yet, and the two extra seconds spent freeing it is exactly the two seconds the change doesn't have."
+    },
+    {
+      "cue": "Walk the crossover in the dark and click the three things wrong with how it was set.",
+      "id": "crossover-sweep",
+      "itemNames": {
+        "missing-personal-prop": "missing personal prop",
+        "missing-spike-mark": "missing spike mark",
+        "props-table-blocking-crossover": "props table blocking the crossover"
+      },
+      "itemNotes": {
+        "missing-personal-prop": "One actor's personal prop isn't on the table where the pre-show check says it should be. A prop that isn't where an actor expects it in the dark, seconds before an entrance, is a prop that either gets found late or doesn't make it onstage at all.",
+        "missing-spike-mark": "The glow tape spike mark for tonight's furniture reset has come up off the floor. A stagehand resetting a piece by feel in the dark needs that mark to be exactly where it always is, not wherever the piece happens to land without it.",
+        "props-table-blocking-crossover": "The personal props table has been rolled out into the crossover itself instead of against the wall. An actor crossing in blackout finds the corner of that table with a hip long before they see it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the crossover in the dark and click the three things wrong with how it was set.",
+      "targets": [
+        "props-table-blocking-crossover",
+        "missing-spike-mark",
+        "missing-personal-prop"
+      ],
+      "title": "Sweep the crossover before places is called",
+      "why": "A crossover reads the same whether it's actually clear or almost clear, and these three — a table in the path, a mark that's gone missing and a prop that isn't where it should be — are exactly what turns a routine cross into a stumble or a missed entrance."
+    },
+    {
+      "cue": "Confirm the personal props table is fully restocked and squared against the wall, clear of the crossover.",
+      "id": "personal-props-check",
+      "kind": "select",
+      "prompt": "Confirm the personal props table is fully restocked and squared against the wall, clear of the crossover.",
+      "target": "personal-props-table",
+      "title": "Restock the personal props table",
+      "why": "The table only does its job if every prop on it is exactly where the actor expects to find it without looking — restocking it here, right after the sweep found it short, is what keeps tonight's near miss from becoming tomorrow's missed entrance."
+    },
+    {
+      "cue": "Check the fly plot's timing for cue 3 against exactly when the actor's cross happens underneath it.",
+      "id": "fly-plot-check",
+      "kind": "select",
+      "prompt": "Check the fly plot's timing for cue 3 against exactly when the actor's cross happens underneath it.",
+      "target": "fly-plot-panel",
+      "title": "Check the fly plot against the actor's cross",
+      "why": "The fly plot and the actor's cross are two separate documents that happen to share the same few seconds of stage, and the calling desk is the one place both get checked against each other before either one actually runs."
+    },
+    {
+      "cue": "Read the fly system's brake tension gauge and commit inside the band before cue 3 flies over a live crossover.",
+      "gauge": {
+        "green": [
+          0.45,
+          0.62
+        ],
+        "label": "BRAKE TENSION",
+        "missNote": "Not proven — a brake reading outside the band gets checked again before this batten flies over anyone.",
+        "speed": 0.6
+      },
+      "id": "brake-tension-check",
+      "kind": "gauge",
+      "prompt": "Read the fly system's brake tension gauge and commit inside the band before cue 3 flies over a live crossover.",
+      "target": "brake-tension-gauge",
+      "title": "Prove the fly system's brake tension before flying over the crossover",
+      "why": "A batten flying directly over a crossover actors are still using has no margin for a brake that reads close but not proven — the gauge is what turns 'it's held every other night' into an actual reading, checked again, for the one cue where the ground underneath it is a path someone else is about to walk."
+    },
+    {
+      "cue": "Turn the headset dial to the calling channel before any cue goes out over it.",
+      "id": "headset-channel",
+      "kind": "turn",
+      "prompt": "Turn the headset dial to the calling channel before any cue goes out over it.",
+      "target": "headset-dial",
+      "title": "Dial the headset to the calling channel",
+      "turn": {
+        "label": "HEADSET",
+        "turns": 1
+      },
+      "why": "A calling desk with several channels running is only as good as everyone actually being on the one the call is going out on — dialling to the right channel before the first cue is what keeps a call from going out to a channel nobody flying tonight's battens is listening to."
+    },
+    {
+      "cue": "Hold the standby light on cue 3 until the fly crew, the crossover and the actor's mark are all confirmed ready.",
+      "holdBreakNote": "You released standby before everything was actually confirmed. A cue called on 'probably ready' is a cue called early.",
+      "id": "standby-hold",
+      "kind": "hold",
+      "prompt": "Hold the standby light on cue 3 until the fly crew, the crossover and the actor's mark are all confirmed ready.",
+      "seconds": 4,
+      "target": "standby-light",
+      "title": "Hold standby for cue 3",
+      "why": "Standby is held, not flashed, because the moment it turns into 'go' has to be a real decision made with all three things confirmed — releasing it the instant it feels close is how a batten flies a beat before the crossover is actually clear."
+    },
+    {
+      "cue": "Call 'go' on cue 3 once the brake tension is proven and the crossover reads clear.",
+      "id": "go-call",
+      "kind": "select",
+      "prompt": "Call 'go' on cue 3 once the brake tension is proven and the crossover reads clear.",
+      "target": "sm-headset",
+      "title": "Call go for cue 3",
+      "why": "'Go' is the one word on this headset that actually moves a batten, and it only gets said once both the mechanical proof and the human check underneath it agree — not because the beat in the music says it's time."
+    },
+    {
+      "cue": "Watch the batten's speed as it flies in, staying inside the safe band the whole way — too fast overshoots the trim, too slow drifts the timing off the music.",
+      "holdBreakNote": "The batten's speed left the band — ease it back toward the held speed rather than snatching the line.",
+      "id": "batten-fly",
+      "kind": "track",
+      "prompt": "Watch the batten's speed as it flies in, staying inside the safe band the whole way — too fast overshoots the trim, too slow drifts the timing off the music.",
+      "seconds": 5,
+      "target": "batten-fly",
+      "title": "Watch the batten fly in at a safe speed",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.5,
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "FLY SPEED",
+        "rise": 0.5,
+        "start": 0.5
+      },
+      "why": "A batten that comes in too fast overshoots its trim and has to be corrected in front of the audience, and one that drifts too slow lands off the music's own cue — holding it inside the band the whole way in is what makes the cue read as deliberate rather than lucky."
+    },
+    {
+      "cue": "Carry the just-worn costume piece from the quick-change lane onto the dresser's waiting hook.",
+      "drag": {
+        "missNote": "Not on the hook — a costume piece set down nearby is a costume piece wardrobe has to go looking for.",
+        "radius": 0.5,
+        "to": "costume-hook"
+      },
+      "id": "costume-handoff",
+      "kind": "drag",
+      "prompt": "Carry the just-worn costume piece from the quick-change lane onto the dresser's waiting hook.",
+      "target": "costume-piece",
+      "title": "Hand the costume piece off to the dresser's hook",
+      "why": "The hook is where tonight's costume actually gets tracked between changes — a piece dropped anywhere else in the dark is a piece the wardrobe department is hunting for at intermission instead of already knowing exactly where it is."
+    },
+    {
+      "cue": "Confirm the actor's cross under the now-landed batten is clear before calling places for the next scene.",
+      "id": "cross-under-clear",
+      "kind": "select",
+      "prompt": "Confirm the actor's cross under the now-landed batten is clear before calling places for the next scene.",
+      "target": "cross-mark",
+      "title": "Confirm the cross under the landed batten is clear",
+      "why": "A batten reading landed on the fly rail is not the same fact as the actual floor underneath it being clear to walk — confirming the cross itself, not just the batten's position, is what the calling desk actually owes the next actor walking through it."
+    },
+    {
+      "cue": "Log tonight's quick-change time, the fly cue's brake reading, and the props table and spike mark found and fixed.",
+      "id": "sm-log",
+      "kind": "select",
+      "prompt": "Log tonight's quick-change time, the fly cue's brake reading, and the props table and spike mark found and fixed.",
+      "target": "sm-log",
+      "title": "Log the change, the cue and the crossover finds",
+      "why": "The log is what the next stage manager calling this show reads before their own first cue — a spike mark that came up and a props table that drifted into the crossover are exactly what the next call needs to watch for, not facts they should have to rediscover mid-show."
+    }
+  ],
+  "supportLine": "your Actors' Equity or IATSE local's member assistance contact, or the production's own employee assistance programme",
+  "tagline": "A backstage crossover under the fly floor: the cue sheet read, the quick-rig costume dressed in its own snap order, the crossover swept for a blocking props table and a missing spike mark, the fly plot checked against the actor's cross, the brake tension proven, the headset dialled to the calling channel, standby held, go called, the batten watched in at a safe speed, the costume piece handed off, the cross under the landed batten confirmed clear, and the change and the cue logged — a crew member starting the wrong batten and an actor stepping into a landing batten's path both answered off a control that isn't the one already in the learner's hand",
+  "title": "SmartCiti.X~ Theatre Fly Floor & Quick-Change Lane VR",
+  "trade": "Actors' Equity stage manager, calling a fly cue and a quick change over the same backstage crossover",
+  "underwater": null,
+  "weather": null
+}

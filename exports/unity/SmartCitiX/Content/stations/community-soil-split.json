@@ -1,0 +1,359 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "split-clean",
+    "name": "Split Clean",
+    "note": "A witnessed core, decontaminated tools, both jars sealed and signed for, and the community jar on its way to an independent lab"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "EPA QA/QC and chain-of-custody guidance (EPA QA/G-5) for any split sample relied on in public; California DTSC and EPA Superfund community-involvement oversight of the parcel; OSHA 29 CFR 1910.120 HAZWOPER for anyone who steps inside the fence — the monitor does not; California's Environmental Laboratory Accreditation Program (ELAP), which is what makes a lab \"independent\" of the agency's own contractor mean something; the Community Pollution Patrol Network's split-sample protocol",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "DTSC",
+        "citedAs": "DTSC",
+        "id": "dtsc-hazardous-waste-control",
+        "title": "California Department of Toxic Substances Control — state hazardous waste control rules and oversight of contaminated-site cleanups"
+      },
+      {
+        "body": "EPA",
+        "citedAs": "EPA QA/G-5",
+        "id": "epa-qa-g5",
+        "title": "EPA QA/G-5 — Guidance for quality assurance project plans, and the chain-of-custody practice built on it"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "HAZWOPER",
+        "id": "osha-1910-120",
+        "title": "29 CFR 1910.120 — Hazardous waste operations and emergency response (HAZWOPER)"
+      }
+    ]
+  },
+  "district": "Environmental Monitoring",
+  "domain": "Environmental",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "point-honest",
+        "name": "Point Honest",
+        "note": "Never traded the plan's grid point for a different spot"
+      },
+      {
+        "id": "chain-unbroken",
+        "name": "Chain Unbroken",
+        "note": "Never a hazard — decon, an independent lab and two signatures, every time"
+      },
+      {
+        "id": "custody-true",
+        "name": "Custody True",
+        "note": "Both signatures on before the cooler ever left the table"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-witness",
+        "name": "Clean Witness",
+        "note": "No corrections across the whole witnessed sample"
+      },
+      {
+        "id": "steady-mix",
+        "name": "Steady Mix",
+        "note": "Held the homogenising bowl through the full mix"
+      },
+      {
+        "id": "split-fast",
+        "name": "Split Away",
+        "note": "Jar sealed and signed inside 80% of par"
+      }
+    ],
+    "currency": "CORE",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Witness",
+      "Field Monitor",
+      "Custody Holder",
+      "Patrol Lead",
+      "Split Sample Certified"
+    ],
+    "system": "Split Sample"
+  },
+  "hazards": {
+    "cross-fence": "You stepped through the sampling gate to reach the agency's own tools inside the fence. The parcel is under a federal cleanup order and the fence is the boundary of it — a community monitor works the public side; going in is a HAZWOPER decision for a trained, badged and escorted worker, not something a witness does to save a trip to the gate.",
+    "handoff-unsigned": "You handed the cooler to the courier before both signatures were on the chain of custody. An unsigned form is a jar nobody can prove came from this grid point on this day — a lab can run every test correctly on a sample that a defence attorney or a skeptical agency can still throw out for a broken chain.",
+    "same-lab": "You addressed the community jar to the agency's own contract lab because the mailer was already sitting on the table. The entire point of a split is a second, independent answer — sending both halves of the same core to the same lab for the same test gives the neighbourhood one number reported twice, not two.",
+    "skip-decon": "You took the trowel straight from the last hole to this one without decontaminating it. Soil carried on the blade from one grid point to the next puts a false hit at a location that never had it — the community's split is only as honest as the tool that cut it, and an undecontaminated trowel is a false result waiting to be witnessed as real."
+  },
+  "id": "community-soil-split",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "homogenize",
+      "alert": "The agency sampler nods toward a patch of ground ten feet off, drier and easier to dig: \"That spot's cleaner-looking, we could just fill both jars from over there instead.\"",
+      "cue": "Point back to the plan's own grid point — the split is only a split if it is the same core.",
+      "delay": 3,
+      "id": "offer-different-spot",
+      "kind": "Agency offers a substitute location",
+      "missNote": "The offer went unanswered and the crew moved on as if it had been accepted — the field sheet now names a grid point neither jar actually came from, and the community's own result is a number for the wrong hole in the ground.",
+      "seconds": 13,
+      "target": "grid-point",
+      "why": "The grid point is on the plan for a reason a monitor standing at the fence does not get to see — it is where the agency's own contamination model says the answer matters most. A cleaner-looking patch of ground ten feet away is a different sample entirely, and a split taken from it proves nothing about the point anyone actually asked about.",
+      "wrongNote": "That's not the grid point — the flag at the plan's own marker is what the split has to stay tied to, not anything else on this table."
+    },
+    {
+      "after": "cooler-pack",
+      "alert": "The tamper seal on the community jar has split along its fold as it went down into the ice — the label's still legible, but the seal itself is no longer intact.",
+      "cue": "That seal is broken. Reseal the jar and re-sign before the cooler goes anywhere.",
+      "delay": 3,
+      "id": "seal-cracks-cooler",
+      "kind": "Custody seal cracks",
+      "missNote": "The cooler went to the courier with a cracked seal riding along inside it. The independent lab flagged the sample as chain-of-custody compromised on arrival — the exact question a split sample exists to settle came back unanswered.",
+      "seconds": 13,
+      "target": "reseal-jar",
+      "why": "A broken seal is a gap in the one thing that makes this jar mean something after it leaves the monitor's hands — with the seal intact, nobody between the table and the lab bench can open the jar without it showing; with it cracked, the independent lab has no way to tell a clean chain from a compromised one, and the result gets footnoted as unverifiable no matter how carefully it was taken.",
+      "wrongNote": "Not that — the fresh tamper tape at the table is what reseals the jar. Nothing else here fixes a broken seal."
+    }
+  ],
+  "lateNotes": {
+    "jar-community": "Nothing to fill yet — the core has to be homogenised first, or the two jars are two different samples, not one split in half."
+  },
+  "name": "Community Soil Split",
+  "parSeconds": 280,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "hunters-point-can-we-live"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "coc-agency-sign",
+      "coc-clip",
+      "coc-community-sign",
+      "cooler",
+      "courier-van",
+      "cross-fence",
+      "decon-dry",
+      "decon-rinse",
+      "decon-wash",
+      "field-sheet",
+      "gps-unit",
+      "grid-point",
+      "handoff-unsigned",
+      "jar-agency",
+      "jar-community",
+      "label-agency",
+      "label-community",
+      "mixing-bowl",
+      "reseal-jar",
+      "same-lab",
+      "seal-tape",
+      "skip-decon",
+      "split-plan",
+      "uncapped-agency-jar"
+    ],
+    "meshes": 173
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence"
+  ],
+  "steps": [
+    {
+      "cue": "Check the grid point, the split protocol and which independent lab the community jar goes to.",
+      "id": "plan",
+      "kind": "select",
+      "prompt": "Check the grid point, the split protocol and which independent lab the community jar goes to.",
+      "target": "split-plan",
+      "title": "Read the split-sample plan",
+      "why": "The plan names the exact grid point the agency will sample, the order the split gets divided and labelled in, and the independent lab the community half is bound for — a monitor who has not read it is trusting memory for the one thing the whole station exists to get right the first time."
+    },
+    {
+      "cue": "Read the handheld GPS against the plan's coordinates before the agency's auger goes in.",
+      "gauge": {
+        "green": [
+          0.44,
+          0.6
+        ],
+        "label": "GRID FIX",
+        "missNote": "That is not close enough to the plotted point — let the fix settle and read it again before the auger goes in.",
+        "speed": 0.7
+      },
+      "id": "locate",
+      "kind": "gauge",
+      "prompt": "Read the handheld GPS against the plan's coordinates before the agency's auger goes in.",
+      "target": "gps-unit",
+      "title": "Confirm the grid point coordinates",
+      "why": "The grid point on the ground and the grid point on the plan have to be the same point, checked independently rather than taken on the agency crew's word — a split sample witnessed at the wrong coordinates is a split sample of nothing the plan called for, no matter how carefully everything after it is done."
+    },
+    {
+      "anyOrder": false,
+      "cue": "Wash, then deionised rinse, then air dry — before the blade touches this grid point's soil.",
+      "id": "decon",
+      "itemNames": {
+        "decon-dry": "air dry",
+        "decon-rinse": "deionised rinse",
+        "decon-wash": "detergent wash"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Wash, then deionised rinse, then dry — a rinse before the wash just spreads what the wash was going to remove.",
+      "prompt": "Wash, then deionised rinse, then air dry — before the blade touches this grid point's soil.",
+      "targets": [
+        "decon-wash",
+        "decon-rinse",
+        "decon-dry"
+      ],
+      "title": "Decontaminate the trowel",
+      "why": "A trowel that last cut soil at a different grid point carries that soil on it until something removes it — the wash breaks the film loose, the deionised rinse takes the wash water's own chemistry off before it can be mistaken for the site's, and the dry keeps a rinse droplet from diluting the very sample the blade is about to cut."
+    },
+    {
+      "cue": "Turn the soil over in the bowl until the colour and texture read even, top to bottom.",
+      "holdBreakNote": "You let go before the mix read even — an unmixed core splits into two different samples, not one sample in two jars.",
+      "id": "homogenize",
+      "kind": "hold",
+      "prompt": "Turn the soil over in the bowl until the colour and texture read even, top to bottom.",
+      "seconds": 8,
+      "target": "mixing-bowl",
+      "title": "Homogenise the core",
+      "why": "One core is not one sample until it is mixed — soil settles by grain size and moisture the moment it is cut, and a spoon taken from the top of an unmixed core is a different, biased sample from a spoon taken from the bottom. Homogenising first is what makes the two jars that follow actually be one split, not two different soils that happened to come from the same hole."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Spoon the mixed soil into the agency jar and the community jar in even scoops.",
+      "id": "split-jars",
+      "itemNames": {
+        "jar-agency": "agency jar",
+        "jar-community": "community jar"
+      },
+      "kind": "sequence",
+      "prompt": "Spoon the mixed soil into the agency jar and the community jar in even scoops.",
+      "targets": [
+        "jar-agency",
+        "jar-community"
+      ],
+      "title": "Divide the homogenised core into both jars",
+      "why": "Alternating scoops into each jar, rather than filling one and then the other, is what keeps a settling difference across the bowl from ending up entirely in one jar — the two jars are supposed to be the same sample twice, and how the soil is portioned out is the last chance to make that actually true."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Grid point, date, time and sampler's initials on both labels before either lid goes on.",
+      "id": "label-jars",
+      "itemNames": {
+        "label-agency": "label — agency jar",
+        "label-community": "label — community jar"
+      },
+      "kind": "sequence",
+      "prompt": "Grid point, date, time and sampler's initials on both labels before either lid goes on.",
+      "targets": [
+        "label-agency",
+        "label-community"
+      ],
+      "title": "Label both jars",
+      "why": "A lab a hundred miles from this fence has no way to know which hole in the ground a jar came from except what is written on it — the same grid point, date and time on both labels is what lets two independent results, months apart, be compared as answers to the same question instead of two unrelated numbers."
+    },
+    {
+      "cue": "Run the tamper seal tape across each lid and hold it down until it sets.",
+      "holdBreakNote": "The tape let go before it set — a seal that lifts in the cooler is no seal by the time the jar gets where it's going.",
+      "id": "seal-jars",
+      "kind": "hold",
+      "prompt": "Run the tamper seal tape across each lid and hold it down until it sets.",
+      "seconds": 6,
+      "target": "seal-tape",
+      "title": "Seal both jars",
+      "why": "A tamper seal is what tells everyone downstream — the courier, the lab, a regulator questioning the result — that nobody opened this jar between the table and the bench. Held only long enough to look sealed, the tape lifts in the cooler; held to set, it is the physical proof the custody form is about to describe in writing."
+    },
+    {
+      "anyOrder": false,
+      "cue": "Agency sampler signs first, then the community monitor signs the same line.",
+      "id": "custody",
+      "itemNames": {
+        "coc-agency-sign": "agency signature",
+        "coc-community-sign": "community signature"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "The agency signs the line first, describing the sample as taken — the community signature underneath is a witness to that, not the other way around.",
+      "prompt": "Agency sampler signs first, then the community monitor signs the same line.",
+      "targets": [
+        "coc-agency-sign",
+        "coc-community-sign"
+      ],
+      "title": "Sign the chain of custody — both parties",
+      "why": "A split sample is only as credible as the record that both parties actually stood at the same hole at the same time — one signature says a monitor was there; two signatures on the same form, in the same hand's ink, are what an independent lab and a skeptical regulator both accept as proof neither jar was substituted after the fact."
+    },
+    {
+      "cue": "Set the sealed, signed jar into the cooler and hold the lid until it seats.",
+      "holdBreakNote": "The lid came up before it seated — the cooler never sealed and the jar rides warm until someone notices.",
+      "id": "cooler-pack",
+      "kind": "hold",
+      "prompt": "Set the sealed, signed jar into the cooler and hold the lid until it seats.",
+      "seconds": 6,
+      "target": "cooler",
+      "title": "Pack the community jar on ice",
+      "why": "Most soil holding times assume the jar is at 4 °C from the minute it leaves the table — a jar left warm on the tailgate for the ride to the courier can already be outside its holding time before it ever reaches the independent lab that was supposed to give the neighbourhood its own answer."
+    },
+    {
+      "cue": "Carry the sealed cooler across to the courier, not the agency's own truck.",
+      "drag": {
+        "missNote": "Not the agency's truck — the cooler goes to the independent lab's courier.",
+        "radius": 0.5,
+        "to": "courier-van"
+      },
+      "id": "courier",
+      "kind": "drag",
+      "prompt": "Carry the sealed cooler across to the courier, not the agency's own truck.",
+      "target": "cooler",
+      "title": "Hand the cooler to the independent lab's courier",
+      "why": "The independent lab is the whole reason for this station — a jar handed to the agency's own vehicle by habit, however carefully it was sampled and sealed, ends up analysed by the same lab whose number the split was supposed to check. \"Independent\" means a lab holding its own ELAP accreditation, answerable to the state rather than to the agency that ordered the first sample."
+    },
+    {
+      "cue": "Record the grid point, the time, the split method and both jars' fates on the field sheet.",
+      "id": "field-sheet",
+      "kind": "select",
+      "prompt": "Record the grid point, the time, the split method and both jars' fates on the field sheet.",
+      "target": "field-sheet",
+      "title": "Complete the field sheet",
+      "why": "The custody form proves the sample; the field sheet is what lets the next monitor, or the foundation reviewing a season of splits, understand what actually happened at this hole — the weather, who was present, what the agency's own instrument read — none of which the lab report will ever carry."
+    },
+    {
+      "cue": "Check both jars, both signatures and the table before anyone walks away from this grid point.",
+      "id": "walk",
+      "itemNames": {
+        "uncapped-agency-jar": "the agency jar, lid resting loose"
+      },
+      "itemNotes": {
+        "uncapped-agency-jar": "The agency's own jar has its lid set on top but not turned down — it is still their sample to seal, but a monitor who has just watched the whole procedure is the one person at this table positioned to say so before it is carried off half-sealed."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Check both jars, both signatures and the table before anyone walks away from this grid point.",
+      "targets": [
+        "uncapped-agency-jar"
+      ],
+      "title": "Look over the table before it is broken down",
+      "why": "This grid point does not get sampled again this season — a lid noticed loose now is a word to the agency sampler before the truck door closes; noticed later, on a truck fifteen minutes down the road, it is a sample nobody can vouch for and a split with only one honest half left."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Witnessing an agency soil sample and taking the community's own split of it: the grid point, the decontaminated trowel, one core homogenised and divided into two jars, both labelled and sealed, custody signed by both parties, and the community jar carried to an independent lab",
+  "title": "SmartCiti.X~ Community Soil Split VR",
+  "trade": "Community environmental monitor",
+  "underwater": null,
+  "weather": "overcast"
+}

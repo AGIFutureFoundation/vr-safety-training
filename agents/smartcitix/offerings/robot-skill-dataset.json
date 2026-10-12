@@ -1,0 +1,79 @@
+{
+  "$comment": "An offering in the shape acp-cli's `acp offering create` takes (src/commands/offering.ts at commit 9aa61ae): name, description, priceType, priceValue, slaMinutes, requirements, deliverable, requiredFunds, isHidden, subscriptionIds. Prices are null: set by the owner. Keys under x-smartcitix are this repository's own and are never sent. Draft, in preparation; nothing is published.",
+  "name": "robot-skill-dataset",
+  "description": "A curated slice of synthetic robot-skill episodes from the SmartCiti.X Holodeck in native, LeRobot-style and RLDS-style layouts, with the manifest's licence and consent fields and the dataset card. Synthetic rollouts only; no learner data.",
+  "priceType": null,
+  "priceValue": null,
+  "priceNote": "set by the owner",
+  "slaMinutes": 60,
+  "requirements": {
+    "type": "object",
+    "properties": {
+      "app": {
+        "type": "string",
+        "enum": [
+          "smartcity",
+          "trades"
+        ]
+      },
+      "stations": {
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 20
+      },
+      "seeds": {
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 5
+      },
+      "skills": {
+        "type": "array",
+        "items": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      }
+    },
+    "required": [
+      "app"
+    ],
+    "additionalProperties": false
+  },
+  "deliverable": {
+    "type": "object",
+    "properties": {
+      "manifest": {
+        "type": "object"
+      },
+      "layouts": {
+        "type": "object"
+      },
+      "licence": {
+        "type": "object"
+      },
+      "files": {
+        "type": "array"
+      }
+    },
+    "required": [
+      "manifest",
+      "layouts",
+      "licence"
+    ]
+  },
+  "requiredFunds": false,
+  "isHidden": true,
+  "subscriptionIds": [],
+  "x-smartcitix": {
+    "function": "export_skill_dataset",
+    "handler": "exportDatasetSlice",
+    "registry": {
+      "module": "WebXR/shared/skill-registry.js",
+      "export": "skStation",
+      "app": "trades",
+      "exampleStation": "electrical"
+    },
+    "tool": "tools/export_dataset.mjs"
+  }
+}

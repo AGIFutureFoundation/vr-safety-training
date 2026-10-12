@@ -1,0 +1,439 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "word-kept",
+    "name": "Word Kept",
+    "note": "Every commitment made at the desk was one the office could keep, and the resident left with it in writing"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "Title II of the ADA for an accessible counter and effective communication, including a language or sign interpreter on request; SAMHSA's trauma-informed care principles and Psychological First Aid (NCTSN) for a resident who arrives exhausted and angry; the Political Reform Act and the city ethics code for a gift from a party to a complaint and for favouring a donor's case; SEIU and AFSCME for the public-service staff who work the desk. The leadership principles practised here are principles commonly taught in civic-leadership programmes; the foundation's own curriculum is not sourced in this repository",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "DOJ",
+        "citedAs": "Title II of the ADA",
+        "id": "ada-title-ii",
+        "title": "Americans with Disabilities Act Title II — programme accessibility for public entities and their services"
+      },
+      {
+        "body": "union",
+        "citedAs": "AFSCME",
+        "id": "afscme-training",
+        "title": "AFSCME member education and safety training for public-service and air-district members"
+      },
+      {
+        "body": "municipal ethics code",
+        "citedAs": "city ethics code",
+        "id": "municipal-ethics-code",
+        "title": "A city or county ethics code and the charter's ethics provisions — gifts from interested parties, lobbyist contact, misuse of public position and the revolving door; named generically, with no one jurisdiction's sections cited"
+      },
+      {
+        "body": "NCTSN",
+        "citedAs": "Psychological First Aid",
+        "id": "pfa-field-guide",
+        "title": "Psychological First Aid Field Operations Guide (NCTSN and the National Center for PTSD), and the WHO field guide"
+      },
+      {
+        "body": "FPPC",
+        "citedAs": "Political Reform Act",
+        "id": "political-reform-act",
+        "title": "The Political Reform Act of 1974, administered by the Fair Political Practices Commission — annual economic-interest disclosure on the Statement of Economic Interests (Form 700), disqualification from any decision an official has a financial interest in, and gift limits and gift reporting"
+      },
+      {
+        "body": "SAMHSA",
+        "citedAs": "trauma-informed care",
+        "id": "samhsa-trauma-informed",
+        "title": "SAMHSA's six principles of a trauma-informed approach"
+      },
+      {
+        "body": "union",
+        "citedAs": "SEIU",
+        "id": "seiu-training",
+        "title": "SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Civic",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "door-open",
+        "name": "Door Open",
+        "note": "Every barrier in the lobby noticed before the resident sat down"
+      },
+      {
+        "id": "nothing-overpromised",
+        "name": "Nothing Overpromised",
+        "note": "No unsafe action anywhere at the desk"
+      },
+      {
+        "id": "heard-to-the-end",
+        "name": "Heard to the End",
+        "note": "The listening and the steady voice both carried their full count"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-case",
+        "name": "Clean Case",
+        "note": "No corrections anywhere in the visit"
+      },
+      {
+        "id": "honest-date",
+        "name": "Honest Date",
+        "note": "The follow-up date set inside the band"
+      },
+      {
+        "id": "eight-straight",
+        "name": "Eight Straight",
+        "note": "Eight correct actions in a row"
+      }
+    ],
+    "currency": "FOLLOW-THROUGH",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Intake Aide",
+      "Caseworker",
+      "Senior Caseworker",
+      "District Director",
+      "Casework Mentor"
+    ],
+    "system": "Casework"
+  },
+  "hazards": {
+    "donor-first-note": "You worked the sticky note that says to put a donor's parking complaint first. Using a public office's time to favour a supporter over the resident in front of you is misuse of position under the city ethics code, and the queue can see whose case jumped it.",
+    "inspector-tomorrow": "You promised an inspector at her door tomorrow. Code enforcement schedules its own inspections and this office cannot order one; the promise feels kind for exactly as long as it takes tomorrow to arrive without anybody knocking.",
+    "manager-envelope": "You took the envelope from the landlord's property manager. A gift from a party to an open complaint is the plainest conflict there is — reportable at best, disqualifying at worst — and it will be the first thing anyone asks about if her case goes wrong.",
+    "not-our-department": "You told her it is not this office's department. It may be true, and it is still the sentence that sends a tenant back out into the cold with nothing — she came here because every other door already said it. Take the case, route it yourself, and tell her where it went."
+  },
+  "id": "constituent-service-desk",
+  "indoor": "service",
+  "interrupts": [
+    {
+      "after": "listen-uninterrupted",
+      "alert": "The desk phone lights up: the council member's office, wanting you to drop what you are doing and handle a supporter's parking complaint right now.",
+      "cue": "Take the callback slip: tell them you will call back when this resident's visit is done.",
+      "delay": 3,
+      "id": "member-office-calls",
+      "kind": "Pressure from above",
+      "missNote": "The phone rang on through her story and then you picked it up mid-sentence. She watched a supporter's parking complaint jump her no-heat case, and she will tell every neighbour in the queue exactly what that looked like.",
+      "seconds": 12,
+      "target": "callback-slip",
+      "why": "The resident in the chair came first and waited forty minutes. Telling the member's office, politely, that you will call back when this visit is done keeps the queue honest and keeps the office's time from being spent on whoever has the closest connection — which is the fairness the whole district office exists to provide.",
+      "wrongNote": "Not by abandoning her — the case in front of you comes first. The slip is how you answer the phone without leaving the conversation."
+    },
+    {
+      "after": "steady-voice",
+      "alert": "A man in the queue has stepped forward holding up his phone, filming, and saying loudly that this office never helps anybody.",
+      "cue": "Update the queue: say the wait time and that everybody will be seen today.",
+      "delay": 3,
+      "id": "queue-filming",
+      "kind": "Frustration in the queue",
+      "missNote": "The queue got louder, two people left without being seen, and the video that goes up tonight shows a caseworker who looked straight past a room full of people who had been waiting an hour.",
+      "seconds": 12,
+      "target": "queue-update-board",
+      "why": "The man filming is the queue's frustration made visible, and the answer is information, not a confrontation. Telling the whole line the real wait, that everybody will be seen, and that urgent cases can say so now brings them into the process instead of shutting them out of it — and it lets the resident in front of you finish her visit.",
+      "wrongNote": "The tone meter is for the resident in front of you. The queue needs information: the wait, the plan, and that they will be seen."
+    }
+  ],
+  "lateNotes": {
+    "case-card": "The case gets routed once you have the whole story and her consent to share it — take the intake first.",
+    "commitment-log-board": "The log closes on commitments you have actually made. Give her the case number, your line and the date first."
+  },
+  "name": "Constituent Service Desk",
+  "parSeconds": 330,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "civic-leadership-and-ei"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "callback-slip",
+      "case-card",
+      "case-consent-to-share",
+      "case-what-happened",
+      "case-what-she-tried",
+      "case-what-she-wants",
+      "code-enforcement-tray",
+      "commitment-log-board",
+      "crew-checkin-board",
+      "donor-first-note",
+      "follow-up-dial",
+      "give-callback-day",
+      "give-case-number",
+      "give-direct-line",
+      "greeting-card",
+      "history-closed-duplicate",
+      "history-no-inspection-logged",
+      "history-two-calls-unreturned",
+      "history-wrong-unit",
+      "inspector-tomorrow",
+      "limits-card",
+      "listen-marker",
+      "lobby-brochure-rack",
+      "lobby-language-line",
+      "lobby-low-counter",
+      "lobby-queue-display",
+      "manager-envelope",
+      "not-our-department",
+      "own-it-card",
+      "queue-update-board",
+      "tone-meter",
+      "tracker-dial"
+    ],
+    "meshes": 199
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Three things in this room decide whether everybody in it can actually be served.",
+      "decoyNotes": {
+        "lobby-brochure-rack": "The brochure rack is fine as it is. It is information, not a barrier to anybody getting served."
+      },
+      "id": "read-the-lobby",
+      "itemNames": {
+        "lobby-language-line": "the language line phone for interpretation",
+        "lobby-low-counter": "the lowered counter section",
+        "lobby-queue-display": "the queue display — forty minutes and climbing"
+      },
+      "itemNotes": {
+        "lobby-language-line": "The interpreter line is how a resident who is more comfortable in another language gets the same visit as everybody else. Know where it is before you need it.",
+        "lobby-low-counter": "The lowered section is where a wheelchair user or a resident who cannot stand for long is served — not a spare shelf for brochures.",
+        "lobby-queue-display": "Forty minutes is a long time to wait for help with no heat. Everybody in that line has already decided something about this office."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Three things in this room decide whether everybody in it can actually be served.",
+      "targets": [
+        "lobby-language-line",
+        "lobby-low-counter",
+        "lobby-queue-display"
+      ],
+      "title": "Read the lobby before you call the next number",
+      "why": "A service desk is open to the people who can reach it, understand it and wait for it. An interpreter line nobody knows about, a counter only standing people can use and a queue nobody has spoken to for forty minutes all close the door quietly, and the residents they close it on are the ones with the fewest other places to go. The caseworker checks the room before the first case, not after a complaint."
+    },
+    {
+      "cue": "Call her name from the ticket, introduce yourself, and offer the chair at the lowered counter.",
+      "id": "greet-by-name",
+      "kind": "select",
+      "prompt": "Call her name from the ticket, introduce yourself, and offer the chair at the lowered counter.",
+      "target": "greeting-card",
+      "title": "Greet her by name and offer a seat",
+      "why": "She has waited forty minutes and been passed between offices for weeks. Her own name said correctly, your name offered in return and a chair pulled out tells her in five seconds that this visit is going to be different — which is the only thing that makes her willing to tell the whole story rather than the short, angry version she has rehearsed in the queue."
+    },
+    {
+      "cue": "Hold your attention on her. No typing, no questions yet, no glancing at the phone.",
+      "holdBreakNote": "You looked away to type. She stopped mid-sentence and started again more briefly. Put the keyboard down and let her finish.",
+      "id": "listen-uninterrupted",
+      "kind": "hold",
+      "prompt": "Hold your attention on her. No typing, no questions yet, no glancing at the phone.",
+      "seconds": 8,
+      "target": "listen-marker",
+      "title": "Listen to the whole story without interrupting",
+      "why": "Listening first is how a caseworker finds out what the case actually is. The heat is the complaint; the mould in her child's room, the two unreturned calls and the landlord's threat to raise the rent if she complains again are the case. Interrupt to fill in a form field and she will answer the field and never mention the part that matters."
+    },
+    {
+      "cue": "The facts in her words, then the outcome she wants, then what she has already tried, then her consent to share.",
+      "id": "take-the-case",
+      "itemNames": {
+        "case-consent-to-share": "her consent to share it with the department",
+        "case-what-happened": "what happened, in her words",
+        "case-what-she-tried": "what she has already tried",
+        "case-what-she-wants": "what she wants to happen"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Facts, then what she wants, then what she tried, then consent. Sharing before consent can put a tenant's name in front of the landlord she is afraid of.",
+      "prompt": "The facts in her words, then the outcome she wants, then what she has already tried, then her consent to share.",
+      "targets": [
+        "case-what-happened",
+        "case-what-she-wants",
+        "case-what-she-tried",
+        "case-consent-to-share"
+      ],
+      "title": "Take the case in order",
+      "why": "The order protects her. Her own account comes first so nothing is filtered through your categories; what she wants comes next, because the interest behind \"fix my heat\" might be \"keep my lease\"; what she has already tried stops you sending her back to the office that already failed her; and consent comes before anything leaves this desk, because a retaliation-wary tenant decides for herself whether her name reaches the landlord."
+    },
+    {
+      "cue": "Carry the case card to the code enforcement tray yourself — she does not go back out to find it.",
+      "drag": {
+        "missNote": "Not in the code enforcement tray. Heat and mould in a rental are a housing code case; filed anywhere else it waits in the wrong queue while she waits in the cold.",
+        "radius": 0.5,
+        "to": "code-enforcement-tray"
+      },
+      "id": "route-to-department",
+      "kind": "drag",
+      "prompt": "Carry the case card to the code enforcement tray yourself — she does not go back out to find it.",
+      "target": "case-card",
+      "title": "Route the case to the department that can act",
+      "why": "Routing is the part of casework the resident never sees and always feels. Put in the right department's queue, with her words and her consent attached, the case starts moving today; handed back to her as a phone number, it becomes her third attempt to explain the same problem to a stranger. The office does the walking so that she does not have to."
+    },
+    {
+      "cue": "Commit to a callback date inside the band — not tomorrow to please her, not a month out to be safe.",
+      "gauge": {
+        "green": [
+          0.3,
+          0.52
+        ],
+        "label": "CALL BACK IN",
+        "missNote": "Outside the band. Too soon is a promise you already know you will miss; too far is the same as not calling. Pick the date the department's own queue can support and say it out loud.",
+        "speed": 0.62
+      },
+      "id": "set-a-real-date",
+      "kind": "gauge",
+      "prompt": "Commit to a callback date inside the band — not tomorrow to please her, not a month out to be safe.",
+      "target": "follow-up-dial",
+      "title": "Set a follow-up date the office can actually meet",
+      "why": "Keep your word starts with choosing a word you can keep. A date too close to be real feels generous at the desk and becomes the office's third broken promise to her by Friday; a date too far away tells her the case does not matter. The honest date is the one the department's actual queue supports, said plainly, written down, and met."
+    },
+    {
+      "cue": "\"I can't order an inspection. I can put your case in front of the people who do, today, and chase it.\"",
+      "id": "say-what-you-cannot-do",
+      "kind": "select",
+      "prompt": "\"I can't order an inspection. I can put your case in front of the people who do, today, and chase it.\"",
+      "target": "limits-card",
+      "title": "Tell her plainly what the office can and cannot do",
+      "why": "Residents are almost never angry about limits honestly stated; they are angry about limits discovered later. Saying out loud that the office cannot order an inspector, cannot stop a rent increase, but can escalate, track and chase gives her a true picture to plan around — and it is the ground every later promise stands on."
+    },
+    {
+      "cue": "Turn the tracker from NEW to OPEN so the case, the date and your name are on the record.",
+      "id": "open-the-tracker",
+      "kind": "turn",
+      "prompt": "Turn the tracker from NEW to OPEN so the case, the date and your name are on the record.",
+      "target": "tracker-dial",
+      "title": "Open the case in the tracker",
+      "turn": {
+        "axis": "y",
+        "label": "CASE STATUS",
+        "turns": 0.5
+      },
+      "why": "A commitment that only lives in a caseworker's memory ends when the caseworker is out sick. Opening the case in the tracker, with her consent, the department it went to and the callback date, turns a kind conversation into an obligation the whole office can see — which is exactly why her first two calls, logged nowhere, went nowhere."
+    },
+    {
+      "cue": "She is angry at the office, not at you. Hold your tone in the band — not cold, not placating.",
+      "holdBreakNote": "Your tone slipped — colder, or softer than the facts. Come back to level: you do not have to defend the office or rescue the moment, only stay with her.",
+      "id": "steady-voice",
+      "kind": "track",
+      "prompt": "She is angry at the office, not at you. Hold your tone in the band — not cold, not placating.",
+      "seconds": 8,
+      "target": "tone-meter",
+      "title": "Keep your voice steady while she vents",
+      "track": {
+        "drift": 0.16,
+        "fall": 0.42,
+        "green": [
+          0.3,
+          0.7
+        ],
+        "label": "TONE",
+        "rise": 0.5,
+        "start": 0.5
+      },
+      "why": "Her anger is information: it tells you how long this has gone on and how many times she has been dismissed. A cold, procedural voice confirms that she is a file; a placating one starts making promises to make the anger stop. Steady — warm, level, taking it without defending the office — is what lets the anger run its course and the conversation come back."
+    },
+    {
+      "cue": "Open her old record. Mark every place the office dropped it.",
+      "decoyNotes": {
+        "history-closed-duplicate": "A duplicate entry closed as a duplicate is ordinary housekeeping; it is not the reason her case stalled."
+      },
+      "id": "check-the-history",
+      "itemNames": {
+        "history-no-inspection-logged": "an inspection request never logged",
+        "history-two-calls-unreturned": "two earlier calls, never returned",
+        "history-wrong-unit": "the wrong unit number on the old record"
+      },
+      "itemNotes": {
+        "history-no-inspection-logged": "The request she was told was sent never reached code enforcement. Say so.",
+        "history-two-calls-unreturned": "She called twice. Somebody wrote it down and nobody called back. That is this office's miss, not hers.",
+        "history-wrong-unit": "An inspector sent to the wrong door finds nothing wrong. Correct it now or the whole case fails again."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Open her old record. Mark every place the office dropped it.",
+      "targets": [
+        "history-two-calls-unreturned",
+        "history-no-inspection-logged",
+        "history-wrong-unit"
+      ],
+      "title": "Check the case history for what the office got wrong",
+      "why": "Before you can own a miss you have to find it. The history shows two calls taken and never returned, a request that was never actually sent, and a unit number that would have sent an inspector to a neighbour's door. Reading it honestly, with her in the chair, is the difference between repeating the office's failure and correcting it."
+    },
+    {
+      "cue": "\"You called twice and nobody called you back. That was us, and I'm sorry. Here is what I'm doing differently.\"",
+      "id": "own-the-miss",
+      "kind": "select",
+      "prompt": "\"You called twice and nobody called you back. That was us, and I'm sorry. Here is what I'm doing differently.\"",
+      "target": "own-it-card",
+      "title": "Own the office's miss, without excuses",
+      "why": "An apology that names the actual failure, takes it for the office and moves straight to what changes is the fastest way back to trust. Explaining the staffing shortage, the new system or the colleague who left turns the apology into a defence, and she has heard enough of those. Owning it costs one sentence; not owning it costs her belief in everything you say next."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Case number, your name and direct line, and the day you will call — on one card she can keep.",
+      "id": "leave-with-three-things",
+      "itemNames": {
+        "give-callback-day": "the day you will call her",
+        "give-case-number": "the case number",
+        "give-direct-line": "your name and direct line"
+      },
+      "kind": "sequence",
+      "prompt": "Case number, your name and direct line, and the day you will call — on one card she can keep.",
+      "targets": [
+        "give-case-number",
+        "give-direct-line",
+        "give-callback-day"
+      ],
+      "title": "Send her away with three things in writing",
+      "why": "The card is the promise in a form she can hold the office to. A case number means she never has to tell the story from the beginning again; a direct line means her next call reaches a person who knows her; the day written down means everybody, including you, knows exactly when your word falls due."
+    },
+    {
+      "cue": "Record the routing, the corrected unit number, the apology and the callback date against her case.",
+      "id": "log-commitments",
+      "kind": "select",
+      "prompt": "Record the routing, the corrected unit number, the apology and the callback date against her case.",
+      "target": "commitment-log-board",
+      "title": "Log every commitment you made",
+      "why": "The log is what makes the callback happen when this afternoon is a blur. Every commitment made at the desk goes against the case — where it went, what was corrected, when you will call — so that your supervisor can see it, a colleague can cover it and the resident's third call, if it comes, lands on a record instead of a blank."
+    },
+    {
+      "cue": "Two minutes: how did that one land, and is there anything you need before the next case?",
+      "id": "crew-check-in",
+      "kind": "select",
+      "prompt": "Two minutes: how did that one land, and is there anything you need before the next case?",
+      "target": "crew-checkin-board",
+      "title": "Check in with your supervisor before the next number",
+      "why": "A shift at a service counter is a shift of other people's worst weeks, and the case that ends well still leaves something behind. A two-minute check with the supervisor — how did it land, is the queue manageable, the employee assistance line if it stays with you — is what keeps a good caseworker in the job long enough to get very good at it."
+    }
+  ],
+  "supportLine": "your employee assistance program, or the supervisor who has sat through a hard counter shift and will hear you out",
+  "tagline": "A tenant with no heat, two unreturned calls and a queue behind her: hear it all, route it right, promise only a date you can keep, own the office's miss — and send her away with a name, a number and a day",
+  "title": "SmartCiti.X~ Constituent Service Desk VR",
+  "trade": "District office caseworker",
+  "underwater": null,
+  "weather": "clear"
+}

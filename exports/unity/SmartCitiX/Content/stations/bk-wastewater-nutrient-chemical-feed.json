@@ -1,0 +1,435 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "dose-and-air",
+    "name": "Dose And Air",
+    "note": "The feed calibrated and the basin read without a splash on skin or a hand over the rail"
+  },
+  "category": "Water & Environmental",
+  "certification": "California State Water Resources Control Board wastewater treatment plant operator certification practice; OSHA 29 CFR 1910.1200 hazard communication and the chemical's safety data sheet; 29 CFR 1910.132 and 1910.133 for the splash protection; ANSI Z358.1 for the eyewash and safety shower; 29 CFR 1910.147 control of hazardous energy for the metering pump; 29 CFR 1910.22 and 1910.23 walking-working surfaces and guardrails on the basin walkway; NFPA 820 for the plant's classified areas; NIOSH findings on drownings in aerated tanks",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI Z358.1",
+        "id": "ansi-z358-1",
+        "title": "ANSI/ISEA Z358.1 — Emergency eyewash and shower equipment"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 820",
+        "id": "nfpa-820",
+        "title": "NFPA 820 — Fire Protection in Wastewater Treatment and Collection Facilities"
+      },
+      {
+        "body": "NIOSH",
+        "citedAs": "NIOSH",
+        "id": "niosh-criteria",
+        "title": "NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1200",
+        "id": "osha-1910-1200",
+        "title": "29 CFR 1910.1200 — Hazard communication"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.132",
+        "id": "osha-1910-132",
+        "title": "29 CFR 1910.132 — Personal protective equipment, general requirements"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.22",
+        "id": "osha-1910-22",
+        "title": "29 CFR 1910.22 — Walking-working surfaces, general requirements"
+      }
+    ]
+  },
+  "district": "Environmental Monitoring",
+  "domain": "Environmental",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "sds-first",
+        "name": "SDS First",
+        "note": "The order and the safety data sheet read and the feed area walked before a fitting was touched"
+      },
+      {
+        "id": "no-splash",
+        "name": "No Splash",
+        "note": "Never over the rail, never a line broken live, never chemicals mixed, never a drum poured overhead"
+      },
+      {
+        "id": "true-reads",
+        "name": "True Reads",
+        "note": "Dose and oxygen both committed inside their bands"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-rounds",
+        "name": "Clean Rounds",
+        "note": "No corrections from the order to the check-in"
+      },
+      {
+        "id": "steady-draw",
+        "name": "Steady Draw",
+        "note": "Held the calibration draw in band throughout"
+      },
+      {
+        "id": "on-shift",
+        "name": "On Shift",
+        "note": "Rounds logged inside 80% of par"
+      }
+    ],
+    "currency": "DOSE",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Rounds Trainee",
+      "Feed Hand",
+      "Process Operator",
+      "Shift Operator",
+      "Nutrient Rounds Certified"
+    ],
+    "system": "Nutrient Rounds"
+  },
+  "hazards": {
+    "mix-chemicals": "You went to tip the last of one tote into a drum of a different chemical to save space. Treatment chemicals that are safe apart can react together — heat, gas or spatter — and 29 CFR 1910.1200 is why each container stays labelled with only what its SDS describes. Leftovers go back to their own container or to the plant's waste procedure.",
+    "open-line-live": "You started to loosen the pump's discharge fitting with the pump still running. A metering pump holds pressure in its discharge line, and a fitting opened under pressure sprays chemical straight at the hands and face working on it. The pump is locked out and the line is bled before any fitting is turned.",
+    "pour-overhead": "You lifted a drum to top up the day tank by pouring over its lip. Pouring a corrosive chemical from a drum held above chest height is the classic way to take a splash in the face, and the day tank is filled through its transfer pump and hose, not by hand.",
+    "reach-over-rail": "You leaned out over the basin's guardrail to see the diffusers. Aerated water is full of air bubbles and will not hold a person up the way still water does, and NIOSH has investigated operators who went into aeration tanks and could not stay afloat. The basin is read from the walkway behind the rail, with the probe pole doing the reaching."
+  },
+  "id": "bk-wastewater-nutrient-chemical-feed",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "calibrate",
+      "alert": "A hose fitting on the calibration column has let go and sprayed your coworker across the forearm and the side of his face shield.",
+      "cue": "Get him to the safety shower and start the flush.",
+      "delay": 3,
+      "id": "fitting-spray",
+      "kind": "Fitting spraying",
+      "missNote": "The spray went unattended while the calibration ran; the coworker wiped his arm on his sleeve and kept working, and the chemical kept working on his skin under the wet cloth.",
+      "seconds": 12,
+      "target": "safety-shower",
+      "why": "Chemical on skin is washed off with a lot of water for a long time, and the minutes it takes to decide are minutes the chemical is working. The safety shower is there for exactly this, sited near the hazard as ANSI Z358.1 expects, and the flush starts before anyone reads the rest of the SDS or calls anyone.",
+      "wrongNote": "The safety shower — get him under it and start the flush now."
+    },
+    {
+      "after": "probe-pull",
+      "alert": "A coworker's hard hat has blown into the basin and he is leaning over the rail to grab it.",
+      "cue": "Call him back and hook the hat out with the reach pole from behind the rail.",
+      "delay": 2,
+      "id": "hat-in-basin",
+      "kind": "Coworker reaching over the rail",
+      "missNote": "He kept leaning, his boot slipped on the wet grating and only the rail across his hips stopped him going over into the bubbling water.",
+      "seconds": 12,
+      "target": "reach-pole",
+      "why": "Nothing in an aeration basin is worth leaning over the rail for, and a hard hat least of all. The reach pole is racked on the walkway so that anything that falls in is fetched from behind the rail — a person who follows it in is in water that may not hold them up, which is why the plant's rule is that nobody reaches and nobody goes in.",
+      "wrongNote": "The reach pole — call him back and fetch the hat from behind the rail."
+    }
+  ],
+  "lateNotes": {
+    "bleed-valve": "Bleed the line only once the pump is locked out — bleeding a line the pump is still charging just sprays from the bleed.",
+    "do-meter": "Read the oxygen once the probe has been cleaned and put back in the basin — a probe hanging in the air reads the air.",
+    "drip-tray": "The drip tray goes under the fitting once the line is bled and before it is opened — its job is the last few drops, not a live line.",
+    "rounds-log": "The log is written after the basin reads — it records the whole round."
+  },
+  "name": "Nutrient Reduction Chemical Feed and Aeration",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "bay-program-projects"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 3,
+    "hits": [
+      "bleed-valve",
+      "cal-column",
+      "containment-crack",
+      "crew-radio",
+      "do-meter",
+      "dose-gauge",
+      "drip-tray",
+      "eyewash",
+      "eyewash-blocked",
+      "grating-gap",
+      "lock-applied",
+      "mix-chemicals",
+      "open-line-live",
+      "pour-overhead",
+      "ppe-apron",
+      "ppe-gloves",
+      "ppe-goggles",
+      "ppe-shield",
+      "probe-pole",
+      "pump-disconnect",
+      "reach-over-rail",
+      "reach-pole",
+      "ring-missing",
+      "rounds-log",
+      "safety-shower",
+      "tray-mark",
+      "valves-closed",
+      "work-order"
+    ],
+    "meshes": 169
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "At the board: the calibration due on the feed pump, the chemical's SDS — its hazards, the PPE it calls for, first aid and what it must never contact — and the lockout for the pump.",
+      "id": "work-order",
+      "kind": "select",
+      "prompt": "At the board: the calibration due on the feed pump, the chemical's SDS — its hazards, the PPE it calls for, first aid and what it must never contact — and the lockout for the pump.",
+      "target": "work-order",
+      "title": "Read the work order and the chemical's safety data sheet",
+      "why": "The safety data sheet is the chemical's own instructions for surviving contact with it, and 29 CFR 1910.1200 puts it in front of every worker who handles it. Reading it before the job tells the operator which gloves and face protection this chemical actually needs, what the first aid is, and what it must never be mixed with — none of which is safe to remember from a different chemical at a different plant."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Splash goggles, the face shield over them, the chemical-resistant gloves, and the apron.",
+      "id": "gear",
+      "itemNames": {
+        "ppe-apron": "chemical-resistant apron",
+        "ppe-gloves": "chemical-resistant gloves the SDS names",
+        "ppe-goggles": "chemical splash goggles",
+        "ppe-shield": "face shield over them"
+      },
+      "kind": "sequence",
+      "prompt": "Splash goggles, the face shield over them, the chemical-resistant gloves, and the apron.",
+      "targets": [
+        "ppe-goggles",
+        "ppe-shield",
+        "ppe-gloves",
+        "ppe-apron"
+      ],
+      "title": "Put on the splash protection the SDS calls for",
+      "why": "A splash from a pressurised feed line travels sideways and upward as easily as down, so goggles sealed round the eyes come first and the face shield goes over them — a shield alone lets spray in underneath. Gloves are chosen by the chemical, because a glove material that stops one chemical can be permeated by the next, which is why the SDS names it."
+    },
+    {
+      "cue": "Look along the route to the eyewash and shower, and round the containment berm under the tanks and pump.",
+      "id": "feed-walk",
+      "itemNames": {
+        "containment-crack": "a crack in the skid's containment berm",
+        "eyewash-blocked": "drums stacked in front of the eyewash"
+      },
+      "itemNotes": {
+        "containment-crack": "The containment berm under the feed skid has a crack at one corner. A leak would run out through it to the floor drain; it is reported and a temporary berm set before any line is opened.",
+        "eyewash-blocked": "Two empty drums have been stacked in the path to the eyewash. ANSI Z358.1 wants the path clear so a person who cannot see can reach it in seconds; the drums are moved before the job starts."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look along the route to the eyewash and shower, and round the containment berm under the tanks and pump.",
+      "targets": [
+        "eyewash-blocked",
+        "containment-crack"
+      ],
+      "title": "Walk the feed area before touching the skid",
+      "why": "The eyewash and the containment are the two things that make a chemical feed job survivable when it goes wrong, and both are checked before the job, when a blocked path or a cracked berm costs a few minutes. Found after a splash, a blocked eyewash is seconds lost that the eye cannot spare."
+    },
+    {
+      "cue": "Push the eyewash paddle and hold it until the water runs clear and even from both heads.",
+      "holdBreakNote": "The paddle came off before the water ran clear. Hold it until both heads run clean and even.",
+      "id": "eyewash-flush",
+      "kind": "hold",
+      "prompt": "Push the eyewash paddle and hold it until the water runs clear and even from both heads.",
+      "seconds": 5,
+      "target": "eyewash",
+      "title": "Flush the eyewash to prove it runs clean",
+      "why": "An eyewash that sits unused collects rust, sediment and bacteria in its line, and the first water out is exactly what a damaged eye must not receive. Activating it on the plant's schedule, as ANSI Z358.1 expects, clears the line and proves the flow before anyone depends on it today."
+    },
+    {
+      "cue": "Disconnect off, the suction and discharge valves closed, then your own lock and tag on the disconnect.",
+      "id": "lockout",
+      "itemNames": {
+        "lock-applied": "personal lock and tag on the disconnect",
+        "pump-disconnect": "pump disconnect off",
+        "valves-closed": "suction and discharge valves closed"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order — the disconnect goes off first, then the valves are closed, and your lock and tag go on last.",
+      "prompt": "Disconnect off, the suction and discharge valves closed, then your own lock and tag on the disconnect.",
+      "targets": [
+        "pump-disconnect",
+        "valves-closed",
+        "lock-applied"
+      ],
+      "title": "Lock out the metering pump",
+      "why": "A metering pump can start on its controller at any moment, and it moves chemical, not just motion, so both its power and its liquid path are isolated before a fitting is touched. The operator's own lock on the disconnect is what 29 CFR 1910.147 relies on — a switch someone else turned off can be turned back on by someone who does not know you are there."
+    },
+    {
+      "cue": "Turn the bleed valve slowly, aimed into the containment, until the discharge gauge falls to zero.",
+      "id": "bleed",
+      "kind": "turn",
+      "prompt": "Turn the bleed valve slowly, aimed into the containment, until the discharge gauge falls to zero.",
+      "target": "bleed-valve",
+      "title": "Bleed the trapped pressure from the discharge line",
+      "turn": {
+        "label": "BLEED VALVE",
+        "turns": 1.25
+      },
+      "why": "Closing the valves traps pressure in the line between them, and that pressure is still there after the lockout. Bleeding it slowly through the valve built for it, pointed into the containment, empties it in a controlled trickle instead of a spray from whichever fitting is loosened first."
+    },
+    {
+      "cue": "Carry the drip tray to the mark under the discharge fitting before it is opened.",
+      "drag": {
+        "missNote": "Not on the mark — the tray sits directly under the discharge fitting.",
+        "radius": 0.5,
+        "to": "tray-mark"
+      },
+      "id": "drip-tray",
+      "kind": "drag",
+      "prompt": "Carry the drip tray to the mark under the discharge fitting before it is opened.",
+      "target": "drip-tray",
+      "title": "Set the drip tray under the fitting",
+      "why": "Even a bled line holds a little chemical that runs out when the fitting opens, and a tray under it keeps those drops off the floor, boots and the drain. It goes on the mark directly under the fitting because a tray to one side catches nothing and leaves a puddle the next person walks through."
+    },
+    {
+      "cue": "With the pump back in service drawing from the calibration column, keep the column's draw steady so the timed drop is true.",
+      "holdBreakNote": "The draw stalled or surged and the timing was lost. Bring the column back to a steady draw.",
+      "id": "calibrate",
+      "kind": "track",
+      "prompt": "With the pump back in service drawing from the calibration column, keep the column's draw steady so the timed drop is true.",
+      "seconds": 7,
+      "target": "cal-column",
+      "title": "Calibrate the pump on the draw-down column",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.45,
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "CALIBRATION DRAW",
+        "rise": 0.53,
+        "start": 0.2
+      },
+      "why": "The pump is calibrated by timing how fast it draws the level down in the graduated column, which is the only honest check that the dose the controller asks for is the dose going into the process. An unsteady draw — valves half-open, air in the suction — gives a number that is wrong in a way no one notices until the process drifts."
+    },
+    {
+      "cue": "Read the timed draw-down on the column against the controller's setpoint band and commit it.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "DOSE vs SETPOINT",
+        "missNote": "Outside the band — read the column level at the meniscus against the setpoint again.",
+        "speed": 0.7
+      },
+      "id": "dose-read",
+      "kind": "gauge",
+      "prompt": "Read the timed draw-down on the column against the controller's setpoint band and commit it.",
+      "target": "dose-gauge",
+      "title": "Read the dose against the controller's setpoint",
+      "why": "Nutrient removal depends on the dose matching what the process needs: too little and the nitrogen or phosphorus stays in the effluent; too much wastes chemical and can upset the next stage. The column reading against the setpoint is what the controller's adjustment is based on, so it is read level and committed, not rounded to what it usually is."
+    },
+    {
+      "cue": "Look along the walkway's grating and rail, and at the rescue equipment on its posts.",
+      "id": "basin-walk",
+      "itemNames": {
+        "grating-gap": "a grating panel lifted out of the walkway",
+        "ring-missing": "the ring buoy gone from its post"
+      },
+      "itemNotes": {
+        "grating-gap": "A grating panel has been lifted for access and left out, leaving a hole in the walkway beside the basin. It is barricaded and put back before the round continues.",
+        "ring-missing": "The ring buoy's post is empty. It is reported and replaced from the spare — though in aerated water a ring may not keep a person up, it is the first thing thrown while the blowers are shut off."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look along the walkway's grating and rail, and at the rescue equipment on its posts.",
+      "targets": [
+        "grating-gap",
+        "ring-missing"
+      ],
+      "title": "Walk the aeration basin's walkway",
+      "why": "The basin walkway is where operators spend much of their day beside deep, moving water, and 29 CFR 1910.22 and 1910.23 expect its surface whole and its rail continuous. The rescue gear is checked on the same walk, because the plant's plan for a person in an aerated tank — shut off the air, throw the ring, never go in after them — only works if the gear is on its post."
+    },
+    {
+      "cue": "From behind the rail, hold the probe pole steady as you lift the probe clear of the basin.",
+      "holdBreakNote": "The pole dipped and the probe swung back into the basin. Hold it steady until it is clear of the water.",
+      "id": "probe-pull",
+      "kind": "hold",
+      "prompt": "From behind the rail, hold the probe pole steady as you lift the probe clear of the basin.",
+      "seconds": 5,
+      "target": "probe-pole",
+      "title": "Lift the dissolved-oxygen probe for cleaning",
+      "why": "A dissolved-oxygen probe fouls with biological growth and starts reading low, which makes the blowers run harder than the process needs. It is lifted on its pole from behind the rail so the operator's body never crosses it, and held steady so the probe does not swing into the rail and crack its membrane."
+    },
+    {
+      "cue": "With the cleaned probe back in the basin, read the dissolved oxygen against the process band on the meter.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.58
+        ],
+        "label": "DISSOLVED OXYGEN",
+        "missNote": "Outside the band — let the probe settle and read the dissolved oxygen again.",
+        "speed": 0.72
+      },
+      "id": "do-read",
+      "kind": "gauge",
+      "prompt": "With the cleaned probe back in the basin, read the dissolved oxygen against the process band on the meter.",
+      "target": "do-meter",
+      "title": "Read the basin's dissolved oxygen after cleaning",
+      "why": "The blowers are the biggest energy user at most treatment plants and the microbes that remove nitrogen depend on the oxygen they supply, so the reading after cleaning tells the operator whether the air control is doing its job. A reading taken before the probe has settled describes the air, not the basin."
+    },
+    {
+      "cue": "Log the blocked eyewash cleared and the cracked berm, the lockout and the bleed, the calibration and the dose, the spraying fitting, the grating and the ring buoy, the oxygen read and the coworker at the rail.",
+      "id": "rounds-log",
+      "kind": "select",
+      "prompt": "Log the blocked eyewash cleared and the cracked berm, the lockout and the bleed, the calibration and the dose, the spraying fitting, the grating and the ring buoy, the oxygen read and the coworker at the rail.",
+      "target": "rounds-log",
+      "title": "Write the rounds log",
+      "why": "The rounds log is how the next shift inherits the plant: a cracked berm, a fitting that sprayed and a missing ring are repairs someone has to know about, and the calibration and oxygen reads are the record the process decisions are made from. Near misses go in plainly, because they are the cheapest warnings a plant ever gets."
+    },
+    {
+      "cue": "On the radio: the pump calibrated and back in service, the repairs reported, and how your coworker is after a spray at the skid and a lean over the rail.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "On the radio: the pump calibrated and back in service, the repairs reported, and how your coworker is after a spray at the skid and a lean over the rail.",
+      "target": "crew-radio",
+      "title": "Check in with the shift",
+      "why": "A spray of chemical and a lean over an aeration basin are both near misses, and the check-in names them while the shift is still together, including how the people involved are doing. The member assistance line is there for anything still with someone after the radio goes quiet."
+    }
+  ],
+  "supportLine": "your union's member assistance programme, with the employer's employee assistance line behind it",
+  "tagline": "A treatment plant's nutrient-removal rounds: the order and the SDS read, splash gear on, the feed area walked, the eyewash flushed, the metering pump locked out, the line bled, the drip tray set, the pump calibrated while a fitting sprays, the dose read, the basin walkway walked, the oxygen probe pulled while a coworker leans for a hard hat, the oxygen read, logged and the crew checked in",
+  "title": "SmartCiti.X~ Nutrient Reduction Chemical Feed and Aeration VR",
+  "trade": "Wastewater treatment plant operator on the nutrient-removal rounds: the chemical feed skid and the aeration basin",
+  "underwater": null,
+  "weather": "overcast"
+}

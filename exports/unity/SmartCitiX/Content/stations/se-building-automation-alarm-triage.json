@@ -1,0 +1,373 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "queue-triaged-clean",
+    "name": "Queue Triaged Clean",
+    "note": "Every alarm read on its own merits, the panel never opened without PPE, and a buried alarm caught before it was scrolled past"
+  },
+  "category": "Building Systems & Facilities",
+  "certification": "ANSI/ASHRAE 111 measurement, testing and balancing practice for verifying a point against the physical system, NFPA 70 National Electrical Code and NFPA 70E for the arc-flash label and boundary at the AHU-3 panel, 29 CFR 1910.147 control of hazardous energy for locking out the fan motor before a breaker reset, and IUOE local training fund stationary engineer curricula",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ASHRAE",
+        "citedAs": "ASHRAE 111",
+        "id": "ashrae-111",
+        "title": "ANSI/ASHRAE 111 — Measurement, Testing, Adjusting and Balancing of Building HVAC Systems"
+      },
+      {
+        "body": "union",
+        "citedAs": "IUOE",
+        "id": "iuoe-training",
+        "title": "IUOE local training funds and the IUOE National Training Fund — operating and stationary engineer apprenticeship"
+      },
+      {
+        "body": "NEC/NFPA 70",
+        "citedAs": "NFPA 70",
+        "id": "nec-nfpa-70",
+        "title": "NFPA 70 — National Electrical Code"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 70E",
+        "id": "nfpa-70e",
+        "title": "NFPA 70E — Standard for Electrical Safety in the Workplace"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Facilities",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "locked-before-reset",
+        "name": "Locked Before Reset",
+        "note": "AHU-3's fan motor locked out before the breaker was touched"
+      },
+      {
+        "id": "airflow-held-clean",
+        "name": "Airflow Held Clean",
+        "note": "The airflow watch stayed in band the whole restart"
+      },
+      {
+        "id": "never-a-shortcut",
+        "name": "Never a Shortcut",
+        "note": "Never the panel opened bare, never a breaker reset without lockout, never a freeze-stat alarm silenced unread"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-triage",
+        "name": "Clean Triage",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "point-on-the-band",
+        "name": "Point On The Band",
+        "note": "Point-value gauge committed inside the band first time"
+      },
+      {
+        "id": "queue-cleared-fast",
+        "name": "Queue Cleared Fast",
+        "note": "Triage log closed inside 80% of par"
+      }
+    ],
+    "currency": "TAG",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Control Room Hand",
+      "Triage Crew",
+      "Panel Lead",
+      "BAS Certified",
+      "Stationary Engineer Certified"
+    ],
+    "system": "Alarm Queue"
+  },
+  "hazards": {
+    "bypass-safety-interlock": "You forced the software override to run the fan past its own safety interlock instead of finding out why the interlock tripped. The interlock is there because something downstream — a fire damper, a low-limit switch, a smoke detector — decided the fan should not be running, and overriding it from a screen does not change whatever condition made that decision in the first place.",
+    "open-panel-no-ppe": "You reached for the panel door before your safety glasses and insulated gloves were on. The arc-flash label on this panel is there because a fault inside it can put more energy into the air in a tenth of a second than the door was ever meant to contain, and the PPE is what stands between that event and the hand that opens it.",
+    "silence-freeze-alarm-without-check": "You silenced the freeze-stat alarm from the workstation without walking the coil or checking outside air conditions. A freeze-stat trips because coil temperature actually dropped low enough to risk splitting a coil full of water, and silencing it from a screen three floors away, without confirming why it tripped, is how a nuisance alarm and a burst coil get treated exactly the same way until the water shows up.",
+    "skip-lockout-reset-breaker": "You reset the tripped breaker before locking out AHU-3's fan motor. A breaker that trips once has a reason, and resetting it onto a motor that is not locked out means the very first thing that happens if the fault is still there is the motor trying to start again with nobody positioned to catch it."
+  },
+  "id": "se-building-automation-alarm-triage",
+  "indoor": "plant",
+  "interrupts": [
+    {
+      "after": "reset-breaker",
+      "alert": "A second air handler has just tripped on its own high-temperature alarm while AHU-3's restart is still being watched.",
+      "cue": "Break off and lock out the second AHU before it cascades further — the airflow watch on AHU-3 waits.",
+      "delay": 2,
+      "id": "second-ahu-alarm-trips",
+      "kind": "A second AHU trips while the first restart is still being watched",
+      "missNote": "The airflow watch on AHU-3 continued while the second AHU sat tripped and unlocked; by the time anyone reached it, a third handler on the same feeder had also tripped.",
+      "seconds": 14,
+      "target": "second-ahu-marker",
+      "why": "Two air handlers tripping close together is often one shared cause — a chiller fault, a shared electrical feeder — and getting the second one locked out now is what keeps a two-alarm event from becoming a three- or four-alarm one while attention stays fixed on the first restart.",
+      "wrongNote": "The second AHU's own lockout — a cascading trip is answered by securing the next unit, not by finishing the watch already underway."
+    },
+    {
+      "after": "find-hidden-alarm",
+      "alert": "A smoke-detector point on the BAS has just spiked into alarm while you are still working the queue.",
+      "cue": "Go to the fire alarm panel now and verify it directly — the freeze-stat escalation waits.",
+      "delay": 2,
+      "id": "fire-alarm-point-spike",
+      "kind": "A life-safety point spikes on the BAS mid-triage",
+      "missNote": "The freeze-stat escalation was finished first while the smoke-detector point sat unverified; the fire alarm panel was not checked until the monitoring company's own callback came in.",
+      "seconds": 12,
+      "target": "fire-panel-marker",
+      "why": "A life-safety alarm always outranks a routine BAS queue, and verifying it at the actual fire alarm panel — not from the BAS screen's own summary of it — is the only way to know in the next few seconds whether this building needs an evacuation or is reading a false alarm from a dusty detector.",
+      "wrongNote": "The fire alarm panel — a life-safety spike is verified immediately, ahead of anything already in the routine queue."
+    }
+  ],
+  "lateNotes": {
+    "airflow-meter": "Nothing to watch yet — the breaker has to be reset before there is any airflow to read.",
+    "breaker-handle": "The fan motor has to be locked out before this breaker is touched — not after.",
+    "correction-tag": "Nothing to log yet — escalate the freeze-stat alarm before updating the point database."
+  },
+  "name": "Building Automation Alarm Triage",
+  "parSeconds": 320,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "stationary-engineer"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.7,
+    "hits": [
+      "ahu-lockout",
+      "airflow-meter",
+      "alarm-board",
+      "bas-screen",
+      "breaker-handle",
+      "bypass-safety-interlock",
+      "control-radio",
+      "correction-tag",
+      "escalation-radio",
+      "field-sensor",
+      "fire-panel-marker",
+      "freeze-stat-alarm",
+      "insulated-gloves",
+      "open-panel-no-ppe",
+      "panel-label",
+      "point-db-marker",
+      "priority-alarm",
+      "safety-glasses",
+      "second-ahu-marker",
+      "silence-freeze-alarm-without-check",
+      "skip-lockout-reset-breaker",
+      "triage-log"
+    ],
+    "meshes": 155
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the queue: which alarm is highest priority, what AHU it is on, and what the point history shows.",
+      "id": "read-alarm-queue",
+      "kind": "select",
+      "prompt": "Read the queue: which alarm is highest priority, what AHU it is on, and what the point history shows.",
+      "target": "alarm-board",
+      "title": "Read the alarm queue at shift start",
+      "why": "A queue read top to bottom by priority, rather than in whatever order alarms happened to arrive, is what keeps a shift from spending the first hour on a nuisance alarm while a high-priority one sits three rows down unread."
+    },
+    {
+      "cue": "Acknowledge the AHU-3 discharge high-temperature alarm before doing anything else with the queue.",
+      "id": "ack-priority-alarm",
+      "kind": "select",
+      "prompt": "Acknowledge the AHU-3 discharge high-temperature alarm before doing anything else with the queue.",
+      "target": "priority-alarm",
+      "title": "Acknowledge the top-priority alarm",
+      "why": "Acknowledging the alarm is what tells the rest of the building's operators someone is already on it, and doing it before walking to the panel is what keeps a second engineer from independently chasing the same alarm at the same time."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Safety glasses and insulated gloves on before touching the AHU-3 panel door.",
+      "id": "don-panel-ppe",
+      "itemNames": {
+        "insulated-gloves": "insulated gloves",
+        "safety-glasses": "safety glasses"
+      },
+      "kind": "sequence",
+      "prompt": "Safety glasses and insulated gloves on before touching the AHU-3 panel door.",
+      "targets": [
+        "safety-glasses",
+        "insulated-gloves"
+      ],
+      "title": "Safety glasses and insulated gloves on before the panel door opens",
+      "why": "The panel's own arc-flash label sets a PPE requirement for exactly this kind of door-open, breaker-reset work, and putting the glasses and gloves on before the door even opens is what keeps the label's requirement from being something read after the fact."
+    },
+    {
+      "cue": "Read the panel's arc-flash label: the boundary distance and the PPE category, before the door comes open.",
+      "id": "read-arc-flash-label",
+      "kind": "select",
+      "prompt": "Read the panel's arc-flash label: the boundary distance and the PPE category, before the door comes open.",
+      "target": "panel-label",
+      "title": "Read the arc-flash label before opening the door",
+      "why": "The label is the one place this panel's own incident-energy study is written down where the person about to open it can actually see it, and reading it now — not from memory of the last panel that looked similar — is what makes the PPE already on your hands and eyes the PPE this specific panel actually calls for."
+    },
+    {
+      "cue": "Read the discharge sensor at the AHU and commit the reading once it settles inside the band the screen's own alarm implies.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "DISCHARGE TEMP",
+        "missNote": "Not settled inside the band — hold the sensor reading until it stops moving before you commit it.",
+        "speed": 0.65
+      },
+      "id": "verify-point-value",
+      "kind": "gauge",
+      "prompt": "Read the discharge sensor at the AHU and commit the reading once it settles inside the band the screen's own alarm implies.",
+      "target": "field-sensor",
+      "title": "Check the physical sensor against the BAS screen's reading",
+      "why": "A BAS screen shows what its sensor reports, not necessarily what the air is actually doing, and checking the field sensor directly is what tells you whether this is a real high-temperature condition or a sensor that has drifted and is reporting one that is not there."
+    },
+    {
+      "cue": "Lock and tag the fan motor's disconnect before reaching for the tripped breaker.",
+      "id": "lockout-ahu",
+      "kind": "select",
+      "prompt": "Lock and tag the fan motor's disconnect before reaching for the tripped breaker.",
+      "target": "ahu-lockout",
+      "title": "Lock out AHU-3's fan motor before touching the breaker",
+      "why": "29 CFR 1910.147 exists for exactly this sequence — a motor that faulted once and tripped its breaker is a motor that can fault again the instant power is restored, and locking it out first is what keeps that second fault from happening with a hand already inside the panel."
+    },
+    {
+      "cue": "Turn the breaker handle from tripped through off to reset, watching it seat rather than forcing it.",
+      "id": "reset-breaker",
+      "kind": "turn",
+      "prompt": "Turn the breaker handle from tripped through off to reset, watching it seat rather than forcing it.",
+      "target": "breaker-handle",
+      "title": "Reset the tripped breaker",
+      "turn": {
+        "label": "BREAKER",
+        "turns": 0.5
+      },
+      "why": "A breaker reset that skips through its own off position, or is forced past where it should seat, is a reset that does not actually clear the trip mechanism — cycling it through off first, and feeling it seat at reset, is what makes this breaker good for the next fault it needs to catch."
+    },
+    {
+      "cue": "Watch the airflow reading as the fan restarts, keeping it inside the band all the way to a steady run.",
+      "holdBreakNote": "The watch broke off before the airflow settled — a restart that is only checked for the first second misses exactly the fault that trips a few seconds in.",
+      "id": "restart-airflow-watch",
+      "kind": "track",
+      "prompt": "Watch the airflow reading as the fan restarts, keeping it inside the band all the way to a steady run.",
+      "seconds": 6,
+      "target": "airflow-meter",
+      "title": "Watch the airflow climb back into band",
+      "track": {
+        "drift": 0.1,
+        "fall": 0.2,
+        "green": [
+          0.55,
+          0.8
+        ],
+        "label": "AIRFLOW",
+        "rise": 0.5,
+        "start": 0.1
+      },
+      "why": "A fan that restarts and then trips again a few seconds later looks fine for the first moment, and holding the watch through the whole climb — rather than walking away the moment airflow appears — is what catches a fault that only shows up once the motor is actually under load."
+    },
+    {
+      "cue": "Clear the AHU-3 discharge alarm once the airflow reading has actually settled into its steady band.",
+      "id": "clear-alarm",
+      "kind": "select",
+      "prompt": "Clear the AHU-3 discharge alarm once the airflow reading has actually settled into its steady band.",
+      "target": "bas-screen",
+      "title": "Clear the alarm on the BAS screen",
+      "why": "Clearing the alarm is the record that this specific condition was checked, corrected and confirmed — not just acknowledged — and doing it only after the airflow watch settled is what keeps the queue's own history honest about what was actually fixed."
+    },
+    {
+      "cue": "Scroll down through the rest of the alarm queue for anything else that has been sitting unread.",
+      "id": "find-hidden-alarm",
+      "itemNames": {
+        "freeze-stat-alarm": "freeze-stat alarm lower in the queue"
+      },
+      "itemNotes": {
+        "freeze-stat-alarm": "A freeze-stat alarm on a different air handler sits several rows down the queue, easy to scroll past while AHU-3 held the screen's attention — it is escalated, not silenced."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Scroll down through the rest of the alarm queue for anything else that has been sitting unread.",
+      "targets": [
+        "freeze-stat-alarm"
+      ],
+      "title": "Scroll the rest of the queue before closing it out",
+      "why": "A queue that gets closed the moment the top alarm clears is a queue that never gets read past the first row, and scrolling the rest of it now — while you are already at the workstation — is what catches a second, quieter alarm before a full shift goes by with nobody having read it."
+    },
+    {
+      "cue": "Call the freeze-stat alarm in for a coil check rather than clearing it from the screen alone.",
+      "id": "escalate-freeze-alarm",
+      "kind": "select",
+      "prompt": "Call the freeze-stat alarm in for a coil check rather than clearing it from the screen alone.",
+      "target": "escalation-radio",
+      "title": "Escalate the freeze-stat alarm",
+      "why": "A freeze-stat trip needs eyes on the actual coil before anyone decides it was nuisance, and escalating it now — while it is still fresh in the queue — is what gets a second engineer walking that AHU before outside air conditions get any colder."
+    },
+    {
+      "cue": "Carry the correction tag from the workstation to the point database entry for AHU-3's discharge sensor.",
+      "drag": {
+        "missNote": "Not on the point database entry — the correction tag has to land on AHU-3's own point record, not just back on the workstation desk.",
+        "radius": 0.5,
+        "to": "point-db-marker"
+      },
+      "id": "update-point-log",
+      "kind": "drag",
+      "prompt": "Carry the correction tag from the workstation to the point database entry for AHU-3's discharge sensor.",
+      "target": "correction-tag",
+      "title": "Update the point database with today's correction",
+      "why": "A sensor that drifted enough to trigger a false high-temperature alarm needs its calibration corrected in the point database, not just cleared on today's screen, and moving the correction tag onto the actual point entry is what keeps tomorrow's shift from triaging the exact same drift as a brand-new alarm."
+    },
+    {
+      "cue": "Call the operator: AHU-3 cleared, the freeze-stat escalated, and the panel closed up.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Call the operator: AHU-3 cleared, the freeze-stat escalated, and the panel closed up.",
+      "target": "control-radio",
+      "title": "Check in with the control room operator",
+      "why": "The operator watching the workstation is the one who sees the next alarm the moment it lands, and a triage that ends without a verbal handoff is a triage the operator has to reconstruct from the screen alone instead of hearing directly from the engineer who was just at the panel."
+    },
+    {
+      "cue": "Record the AHU-3 fault, the sensor correction, and the freeze-stat escalation before signing off the shift.",
+      "id": "close-triage-log",
+      "kind": "select",
+      "prompt": "Record the AHU-3 fault, the sensor correction, and the freeze-stat escalation before signing off the shift.",
+      "target": "triage-log",
+      "title": "Close the triage log",
+      "why": "The triage log is what the next shift reads before their own queue starts filling, and a freeze-stat escalation that never makes the log is a coil check the next engineer has no way of knowing was already called in."
+    }
+  ],
+  "supportLine": "your IUOE local's member assistance programme",
+  "tagline": "The queue at shift start: the alarm board read and the top alarm acknowledged, glasses and insulated gloves on, the arc-flash label read before the panel door opens, the physical sensor checked against the screen's own reading, AHU-3's fan motor locked out before the breaker is touched, the breaker reset, the airflow watched back into band, the alarm cleared, a freeze-stat alarm found buried lower in the queue and escalated before it is dismissed as noise, a live fire-alarm spike answered at the panel itself, the point log updated, the crew checked in, and the triage closed",
+  "title": "SmartCiti.X~ Building Automation Alarm Triage VR VR",
+  "trade": "IUOE stationary engineer triaging the building automation alarm queue, with a control room operator watching the workstation",
+  "underwater": null,
+  "weather": null
+}

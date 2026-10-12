@@ -1,0 +1,368 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "gate-watched",
+    "name": "Gate Watched",
+    "note": "Every check made from the sidewalk, every observation logged with a plate, a time and a photo, and never once through the gate"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "BAAQMD complaint line and Regulation 6 track-out and dust rules; EPA RCRA hazardous-waste manifest placarding (40 CFR 262); the site's own Dust Control Plan requiring a tarped, washed load at every gate; the California Vehicle Code's posted residential speed limit; CARB's 13 CCR 2485 five-minute diesel idling limit; OSHA 29 CFR 1910.120 HAZWOPER for anyone who crosses the gate — not required here, because this patrol never does",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "BAAQMD",
+        "citedAs": "BAAQMD",
+        "id": "baaqmd-regulations",
+        "title": "Bay Area Air Quality Management District regulations, complaint line and Community Advisory Council process"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "HAZWOPER",
+        "id": "osha-1910-120",
+        "title": "29 CFR 1910.120 — Hazardous waste operations and emergency response (HAZWOPER)"
+      },
+      {
+        "body": "RCRA",
+        "citedAs": "RCRA",
+        "id": "rcra-40-cfr-262",
+        "title": "40 CFR Part 262 — Standards applicable to generators of hazardous waste, including the manifest"
+      }
+    ]
+  },
+  "district": "Environmental Monitoring",
+  "domain": "Environmental",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "full-check",
+        "name": "Full Check",
+        "note": "Tarp, wash and placard all checked before the truck cleared the gate"
+      },
+      {
+        "id": "never-past-curb",
+        "name": "Never Past The Curb",
+        "note": "Never entered the gate, the lane or the street, and never posted a plate publicly"
+      },
+      {
+        "id": "framed-true",
+        "name": "Framed True",
+        "note": "Held the radar and the viewfinder near band centre"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-watch",
+        "name": "Clean Watch",
+        "note": "No corrections anywhere in the observation"
+      },
+      {
+        "id": "unbroken-frame",
+        "name": "Unbroken Frame",
+        "note": "Never broke the viewfinder tracking"
+      },
+      {
+        "id": "logged-fast",
+        "name": "Logged Fast",
+        "note": "Filed inside 80% of par"
+      }
+    ],
+    "currency": "PLATE",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Sidewalk Observer",
+      "Log Keeper",
+      "Route Lead",
+      "Complaint Authority",
+      "Route Watch Certified"
+    ],
+    "system": "Route Watch"
+  },
+  "hazards": {
+    "chase-truck": "You ran into the street after the departing truck to catch its plate before it turned the corner. The whole reason this patrol works from a fixed post is that a moving truck on a public street is a moving hazard, and a patrol member in the roadway trying to keep pace with it is one stumble away from being under it — no single plate is worth that trade.",
+    "enter-gate": "You walked through the open gate to get a closer look at the truck. A patrol's entire standing is that its record comes from the public side of the fence — an unbadged, untrained monitor inside a cleanup parcel's own traffic lane is not a witness any more, it's a hazard the site now has to manage, and every observation this station took beforehand is now attached to someone who crossed the one line the whole programme runs on.",
+    "post-publicly": "You posted the truck's plate and the driver's photo to the neighbourhood social media page instead of filing them with the Air District and the site's own hotline. The record this patrol keeps exists to get an exceedance in front of a regulator who can act on it, not to identify a driver to the public — the same programme that trains consent before a biomonitoring sample is taken does not skip it here just because the sample this time is a photograph.",
+    "stand-in-lane": "You stood on the truck's own turning apron instead of behind the marked line on the sidewalk. A loaded haul truck swinging wide out of a gate has blind corners a driver twelve feet up cannot see into, and a better camera angle from inside that swing radius is not worth the truck not knowing you're there until it's already turning."
+  },
+  "id": "haul-route-observation",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "frame-hold",
+      "alert": "A second truck is already rolling out of the gate with its tarp cinched at only two corners — the other half of the bed is open to the wind.",
+      "cue": "You can't stop that truck from the sidewalk — get on the radio to the site's hotline with the plate and direction before it's out of sight.",
+      "delay": 4,
+      "id": "half-open-tarp",
+      "kind": "Untarped departure",
+      "missNote": "The truck cleared the corner and was gone before the radio call went out — the site's hotline got a report of a half-tarped load with no plate and no direction, which is a complaint nobody can act on by the time it lands.",
+      "seconds": 14,
+      "target": "urgent-radio",
+      "why": "A half-tarped load moving at road speed is shedding whatever the tarp was supposed to contain over every block between here and wherever it's headed, and a patrol member on the public sidewalk has no authority to flag it down or block the gate — the only lever this post has is a report made while the truck is still in sight, with a plate and a direction of travel, not a report made from memory after it's three turns gone.",
+      "wrongNote": "Not that — get on the radio. Nothing else at this post reaches a truck that's already rolling and that this patrol has no authority to stop."
+    },
+    {
+      "after": "steady-shot",
+      "alert": "The bell just rang and a haul truck is sitting with its engine running at the school crossing while children cross in front of it.",
+      "cue": "Start the idle clock now — a truck idling past five minutes at a school crossing is its own violation, on top of everything else this route already answers for.",
+      "delay": 4,
+      "id": "idle-at-crossing",
+      "kind": "Idling at the crossing",
+      "missNote": "The truck sat idling through the whole crossing with nobody timing it, and by the time anyone thought to note it the children had already crossed and gone inside — the exposure happened whether or not the clock was running, but only a timed log turns it into something the regulator can act on.",
+      "seconds": 14,
+      "target": "idle-log",
+      "why": "California's own diesel idling rule gives a truck five minutes before the clock the regulation cares about even starts, and a truck sitting at a crossing full of children at bell time is exactly the case the rule exists for — a patrol that only logs the tarp and the placard and lets an idling engine at a school crossing pass unremarked is missing the one observation on this route with a child standing closest to the tailpipe.",
+      "wrongNote": "Not that — start the idle clock. Nothing else at this post proves how long that engine actually ran before the crossing guard waved the last child through."
+    }
+  ],
+  "lateNotes": {
+    "camera-zoom-dial": "Nothing to focus on yet — get the camera up and the truck framed first, or you're zooming in on an empty gate.",
+    "observation-log": "Nothing worth writing down yet — the tarp, the wash, the placard and the speed all have to actually be checked first, or the entry is a guess dressed up as a record.",
+    "radar-gun": "Aim it at the truck on the route before you read it — a radar reading with no truck in its beam is a reading of nothing.",
+    "shutter-button": "Nothing to hold steady for yet — the shot has to actually be zoomed and framed on the plate before a held shutter proves anything."
+  },
+  "name": "Haul Route Observation",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "hunters-point-can-we-live"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "call-airdistrict",
+      "camera",
+      "camera-zoom-dial",
+      "chase-truck",
+      "enter-gate",
+      "idle-log",
+      "manifest-placard",
+      "notify-site-hotline",
+      "observation-log",
+      "patrol-board",
+      "post-publicly",
+      "radar-gun",
+      "shot-frame",
+      "shutter-button",
+      "sidewalk-mark",
+      "stand-in-lane",
+      "tarp-fl",
+      "tarp-fr",
+      "tarp-rear",
+      "trackout-patch",
+      "urgent-radio",
+      "viewfinder",
+      "wheel-wash-pad"
+    ],
+    "meshes": 200
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check what this route requires on every truck — tarp, wash, placard, speed — and where each observation gets filed.",
+      "id": "read-protocol",
+      "kind": "select",
+      "prompt": "Check what this route requires on every truck — tarp, wash, placard, speed — and where each observation gets filed.",
+      "target": "patrol-board",
+      "title": "Read the patrol's observation protocol",
+      "why": "The protocol is what turns a truck driving past into evidence instead of an impression — it names the four things every truck gets checked against and the two places every finding gets filed, and a patrol that skips reading it is deciding from memory what counts, which is exactly the kind of inconsistency a site can point to when it wants a complaint dismissed."
+    },
+    {
+      "cue": "Stand on the marked sidewalk spot with a clear sightline to the gate, clear of the truck's turning lane.",
+      "id": "position-post",
+      "kind": "select",
+      "prompt": "Stand on the marked sidewalk spot with a clear sightline to the gate, clear of the truck's turning lane.",
+      "target": "sidewalk-mark",
+      "title": "Take the observation post",
+      "why": "Where a patrol stands decides two things at once: whether the sightline actually catches the tarp and the placard as the truck clears the gate, and whether the patrol member is standing somewhere a swinging truck can actually see them. The marked spot is the one place on this sidewalk that answers both."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Look at all three visible corners of the load — a tarp cinched at two corners and loose at the third is still an open load.",
+      "id": "check-tarp",
+      "itemNames": {
+        "tarp-fl": "front-left corner",
+        "tarp-fr": "front-right corner",
+        "tarp-rear": "rear corner"
+      },
+      "kind": "sequence",
+      "prompt": "Look at all three visible corners of the load — a tarp cinched at two corners and loose at the third is still an open load.",
+      "targets": [
+        "tarp-fl",
+        "tarp-fr",
+        "tarp-rear"
+      ],
+      "title": "Check every tarp corner before the truck clears the gate",
+      "why": "A dust source under a tarp is only contained where the tarp is actually cinched down, and one corner working loose on the drive out is exactly what road speed and a turn are going to find first — checking all three corners visible from the sidewalk, not just the one facing the gate, is what catches a load that looks tarped from the wrong angle."
+    },
+    {
+      "cue": "Look for the wet, clean tread the wash leaves — dry, caked tires mean the truck skipped it.",
+      "id": "check-wash",
+      "kind": "select",
+      "prompt": "Look for the wet, clean tread the wash leaves — dry, caked tires mean the truck skipped it.",
+      "target": "wheel-wash-pad",
+      "title": "Confirm the truck ran the wheel wash",
+      "why": "The wheel wash exists to stop the cell's own soil from leaving on the truck's tires, and it is the one part of the plan a patrol on the sidewalk can actually confirm at a glance — dry, dirt-caked tires rolling through the gate is the wash having failed or been skipped, and either way it is tracked soil about to be laid down on the public street this patrol is standing on."
+    },
+    {
+      "cue": "Walk the stretch of street just past the gate and click the one patch that shows tracked soil.",
+      "id": "trackout-walk",
+      "itemNames": {
+        "trackout-patch": "tracked soil on the public street"
+      },
+      "itemNotes": {
+        "trackout-patch": "That patch of the street just past the gate still shows a truck's tire prints in soil — exactly the track-out the wheel wash was supposed to stop, sitting on a public street rather than the parcel."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the stretch of street just past the gate and click the one patch that shows tracked soil.",
+      "targets": [
+        "trackout-patch"
+      ],
+      "title": "Walk the frontage and check for track-out",
+      "why": "Confirming the wash ran and confirming nothing got tracked onto the street anyway are two different checks — a truck can run the wash and still shed a little soil off a wheel well the wash never reached, and this is the only way a patrol on foot actually finds that rather than assuming a wash that ran means a street that's clean."
+    },
+    {
+      "cue": "Confirm the truck is carrying the hazardous-waste placard the manifest requires before it reaches the residential route.",
+      "id": "check-placard",
+      "kind": "select",
+      "prompt": "Confirm the truck is carrying the hazardous-waste placard the manifest requires before it reaches the residential route.",
+      "target": "manifest-placard",
+      "title": "Check the manifest placard",
+      "why": "Under RCRA, a truck hauling manifested waste has to carry the placard that identifies what it's hauling for exactly the reason a patrol checks it — so that a truck involved in anything on a public road, from a fender-bender to a spill, is identifiable to first responders as carrying more than dirt, without anyone having to open the manifest itself to find out."
+    },
+    {
+      "cue": "Aim the radar at the truck as it turns onto the route and commit the reading inside the posted limit.",
+      "gauge": {
+        "green": [
+          0.2,
+          0.42
+        ],
+        "label": "SPEED",
+        "missNote": "That reading is over the posted limit for this stretch — re-aim the radar and read it again before you log a number you can't defend.",
+        "speed": 0.65
+      },
+      "id": "radar-speed",
+      "kind": "gauge",
+      "prompt": "Aim the radar at the truck as it turns onto the route and commit the reading inside the posted limit.",
+      "target": "radar-gun",
+      "title": "Clock the truck's speed off the gate",
+      "why": "The posted limit on this stretch is not a suggestion a driver can round up from — it is the number that decides how much stopping distance a driver has if a child steps off a curb, and a radar reading is the only thing this patrol has that turns 'that truck looked fast' into a number a regulator or the site itself can be shown."
+    },
+    {
+      "cue": "Carry the camera from the bag to the shooting position before the truck is out of frame.",
+      "drag": {
+        "missNote": "Not braced in the shooting position — a camera held off to the side of the frame is aimed at the gate's edge, not the plate coming through it.",
+        "radius": 0.4,
+        "to": "shot-frame"
+      },
+      "id": "camera-ready",
+      "kind": "drag",
+      "prompt": "Carry the camera from the bag to the shooting position before the truck is out of frame.",
+      "target": "camera",
+      "title": "Get the camera up",
+      "why": "A photo taken one-handed while still digging the camera out of the bag is a photo of whatever happened to be in frame, not the plate — getting the camera into position before the truck reaches the shot is what makes the rest of this observation a photo the Air District can actually use rather than a blur logged as evidence."
+    },
+    {
+      "cue": "Turn the zoom ring until the plate fills the frame and its characters are actually readable.",
+      "id": "camera-zoom",
+      "kind": "turn",
+      "prompt": "Turn the zoom ring until the plate fills the frame and its characters are actually readable.",
+      "target": "camera-zoom-dial",
+      "title": "Zoom in on the plate",
+      "turn": {
+        "axis": "y",
+        "label": "ZOOM",
+        "turns": 0.6
+      },
+      "why": "A wide shot that shows the whole truck proves a truck left the gate; it does not prove which one, and 'which one' is the entire point of logging a plate. The zoom ring is what turns a photo of a truck into a photo of a specific, identifiable truck a complaint can actually be traced to."
+    },
+    {
+      "cue": "Keep the truck framed in the viewfinder as it turns onto the residential route, holding the frame steady.",
+      "holdBreakNote": "The frame drifted off the plate mid-turn — bring the viewfinder back onto the truck before the angle is gone for good.",
+      "id": "frame-hold",
+      "kind": "track",
+      "prompt": "Keep the truck framed in the viewfinder as it turns onto the residential route, holding the frame steady.",
+      "seconds": 8,
+      "target": "viewfinder",
+      "title": "Track the truck through the turn",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.5,
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "FRAME",
+        "rise": 0.55,
+        "start": 0.5
+      },
+      "why": "A truck turning off the gate apron onto the route swings across the frame fast, and a viewfinder that drifts off it loses the shot at exactly the moment the plate is squared up to the camera — holding the frame through the turn is what keeps the one clean angle on the plate from being over before the shutter is ever pressed."
+    },
+    {
+      "cue": "Hold the shutter down until the frame reads sharp — a rushed press blurs a plate at this zoom.",
+      "holdBreakNote": "Released early — the shot fired before the frame settled. Hold the shutter until it reads sharp, not until it looks about right.",
+      "id": "steady-shot",
+      "kind": "hold",
+      "prompt": "Hold the shutter down until the frame reads sharp — a rushed press blurs a plate at this zoom.",
+      "seconds": 5,
+      "target": "shutter-button",
+      "title": "Hold for a clear shot",
+      "why": "At full zoom, the smallest shake blurs the one detail this whole photo exists to capture — holding the shutter steady for the full count is what tells the camera to wait out that shake instead of firing on the first unsteady frame and calling the plate close enough."
+    },
+    {
+      "cue": "Write up the plate, the time, and the four checks — tarp, wash, placard, speed — while it's still fresh.",
+      "id": "log-observation",
+      "kind": "select",
+      "prompt": "Write up the plate, the time, and the four checks — tarp, wash, placard, speed — while it's still fresh.",
+      "target": "observation-log",
+      "title": "Log the observation",
+      "why": "A photo and a memory of what you saw are not the same as a record somebody else can act on days later — writing the plate, the time and every check into the log while it's still fresh is what turns a patrol shift into evidence instead of an anecdote the next shift has to take on faith."
+    },
+    {
+      "cue": "File with the Air District first, then notify the site's own hotline.",
+      "id": "file-report",
+      "itemNames": {
+        "call-airdistrict": "file with the Air District",
+        "notify-site-hotline": "notify the site's own hotline"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "The Air District first — the site's own hotline second, or the only account of this observation is the one the site itself controls.",
+      "prompt": "File with the Air District first, then notify the site's own hotline.",
+      "targets": [
+        "call-airdistrict",
+        "notify-site-hotline"
+      ],
+      "title": "File the observation",
+      "why": "The Air District's line is the record a regulator holds outside the site's own chain, and it goes first for the same reason it does at the fence line — the site's own hotline is the party whose trucks this observation is about, and filing outside first is what keeps the record a community one instead of something the site alone gets to shape before anyone independent hears about it."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Watching a cleanup parcel's gate from the public sidewalk: the tarp, the wheel wash, track-out onto the street, the manifest placard and the residential speed limit, each observation logged with a plate, a time and a photo for the Air District and the site's own complaint line",
+  "title": "SmartCiti.X~ Haul Route Observation VR",
+  "trade": "Community environmental monitor",
+  "underwater": null,
+  "weather": "overcast"
+}

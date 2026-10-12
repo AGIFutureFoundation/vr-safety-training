@@ -1,0 +1,69 @@
+{
+  "id": "union-alpa",
+  "kind": "union",
+  "name": "ALPA Union Package",
+  "title": "SmartCiti.X ALPA Union Package — Powered by AGI Corp",
+  "audience": "trades",
+  "summary": "Every station the platform ties to Air Line Pilots Association, International: the programmes whose union line names it and the stations whose own certification does.",
+  "certification": null,
+  "programmes": [
+    "airline-cabin-and-flight-crew"
+  ],
+  "stations": [
+    {
+      "app": "smartcity",
+      "id": "ca-fatigue-and-duty-time-self-check"
+    },
+    {
+      "app": "smartcity",
+      "id": "ca-flight-deck-crew-resource-management"
+    },
+    {
+      "app": "smartcity",
+      "id": "ca-door-evacuation-drill"
+    },
+    {
+      "app": "smartcity",
+      "id": "ca-cabin-decompression-and-oxygen-masks"
+    },
+    {
+      "app": "smartcity",
+      "id": "ca-unruly-passenger-deescalation"
+    },
+    {
+      "app": "smartcity",
+      "id": "ca-cabin-medical-event-response"
+    },
+    {
+      "app": "smartcity",
+      "id": "ca-galley-and-cart-safety"
+    },
+    {
+      "app": "smartcity",
+      "id": "ca-cabin-preflight-safety-check"
+    }
+  ],
+  "unions": [
+    "alpa"
+  ],
+  "unionLine": "Air Line Pilots Association, International",
+  "k12Bands": [],
+  "path": "union-trades",
+  "alsoPaths": [],
+  "worlds": [],
+  "stationNames": {
+    "ca-fatigue-and-duty-time-self-check": "Fatigue and Duty-Time Self-Check",
+    "ca-flight-deck-crew-resource-management": "Flight Deck Crew Resource Management Briefing",
+    "ca-door-evacuation-drill": "Door Evacuation Drill",
+    "ca-cabin-decompression-and-oxygen-masks": "Cabin Decompression and Oxygen Mask Drill",
+    "ca-unruly-passenger-deescalation": "Unruly Passenger De-escalation",
+    "ca-cabin-medical-event-response": "Cabin Medical Event Response",
+    "ca-galley-and-cart-safety": "Galley and Cart Safety",
+    "ca-cabin-preflight-safety-check": "Cabin Pre-Flight Safety Check"
+  },
+  "version": "1.0.0",
+  "contentHash": "edf044f2",
+  "brand": "SmartCiti.X · Powered by AGI Corp",
+  "generator": "tools/gen_packs.mjs",
+  "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."
+}

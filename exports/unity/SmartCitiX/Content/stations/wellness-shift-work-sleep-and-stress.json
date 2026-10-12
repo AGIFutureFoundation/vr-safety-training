@@ -1,0 +1,413 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "anchor-held",
+    "name": "Anchor Held",
+    "note": "The anchor sleep block held against the extra shift, the caffeine and the keys, and the drive home decided by the check"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "NIOSH guidance on work schedules, long hours and shift work — the anchor-sleep, light, caffeine and nap practices this station scores; CDC and NIOSH training on shift work and long work hours; SAMHSA guidance on sleep, stress and substance use as connected risks; OSHA, which has no shift-length limit in 29 CFR 1910 and treats worker fatigue through its long-work-hours guidance; FMCSA's hours-of-service rule for property-carrying drivers, which the Class A block of this edition teaches and which the drive home is measured against here; the Teamsters' training programmes for the warehouse and the cab; the programme's own peer-support team and the employee assistance programme (EAP) line",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "CDC",
+        "citedAs": "CDC",
+        "id": "cdc-guidance",
+        "title": "CDC infection-prevention and public-health guidance, including the Guidelines for Infection Control in Dental Health-Care Settings and Legionella control guidance"
+      },
+      {
+        "body": "NIOSH",
+        "citedAs": "NIOSH",
+        "id": "niosh-criteria",
+        "title": "NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910",
+        "id": "osha-1910",
+        "title": "29 CFR 1910 — Occupational safety and health standards for general industry"
+      },
+      {
+        "body": "SAMHSA",
+        "citedAs": "SAMHSA",
+        "id": "samhsa-trauma-informed",
+        "title": "SAMHSA's six principles of a trauma-informed approach"
+      },
+      {
+        "body": "union",
+        "citedAs": "Teamsters",
+        "id": "teamsters-training",
+        "title": "Teamsters apprenticeship and driver training programmes, including regulated-soil and yard work"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Workforce readiness",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "traps-read",
+        "name": "Traps Read",
+        "note": "Every fatigue trap found on the roster before the plan was made"
+      },
+      {
+        "id": "keys-stayed",
+        "name": "Keys Stayed",
+        "note": "No unsafe action anywhere in the run — the keys and the shots stayed where they were"
+      },
+      {
+        "id": "plan-held",
+        "name": "Plan Held",
+        "note": "The anchor block and the nap both carried their full count"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-week",
+        "name": "Clean Week",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "honest-dial",
+        "name": "Honest Dial",
+        "note": "The stress check committed inside the band first time"
+      },
+      {
+        "id": "six-straight",
+        "name": "Six Straight",
+        "note": "Six correct actions in a row"
+      }
+    ],
+    "currency": "REST",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Trainee",
+      "Roster-Aware",
+      "Anchor Sleeper",
+      "Shift Steward",
+      "Rested and Ready"
+    ],
+    "system": "Wellness Resource Center"
+  },
+  "hazards": {
+    "beer-to-sleep": "You took the beer from the fridge to get to sleep after the night shift. Alcohol brings sleep on and then fragments it, cutting the deep sleep in the second half of the block that the body was actually waiting for, and it is the most common way a shift worker's sleep problem becomes a substance problem — SAMHSA's guidance treats the two as one risk for exactly that reason.",
+    "double-back-accepted": "You signed the swap form for the double — a shift that ends eight hours before the next one starts. Eight hours between shifts is the commute, the meal and the wind-down before it is any sleep at all; NIOSH's guidance calls the quick return the single most fatiguing feature a roster can have, and a person who signs for one has traded the anchor sleep block for a day's pay and a week of recovery.",
+    "drive-on-no-sleep": "You took the car keys off the hook after a missed sleep window. Driving after twenty hours awake impairs a driver about as much as being over the alcohol limit, and a microsleep at the wheel lasts long enough to leave a lane. The Class A block of this edition teaches FMCSA's hours-of-service rule for exactly this reason; nothing in the warehouse writes that rule for you, so you are the one who has to hold it on the drive home.",
+    "energy-shot-for-shift": "You reached for an energy shot to make the shift. A stimulant taken to cover a missed sleep window does not replace the sleep; it hides the sleepiness from you while the reaction time stays where the sleep debt left it, and it lands on top of the next sleep block and shortens that one too. NIOSH's shift-work guidance is blunt about it: caffeine is for the first half of a night shift, in a planned amount, never as the thing that makes a shift possible."
+  },
+  "id": "wellness-shift-work-sleep-and-stress",
+  "indoor": "service",
+  "interrupts": [
+    {
+      "after": "hold-the-anchor",
+      "alert": "The phone lights up on the table: dispatch has an extra shift tonight, time and a half, ending four hours before your next start.",
+      "cue": "Decline it. Reply once — not tonight — and keep hold of the anchor block.",
+      "delay": 3,
+      "id": "extra-shift-offered",
+      "kind": "Dispatch text — extra shift",
+      "missNote": "The offer sat on the screen until dispatch filled it with somebody else — and next time they will not ask, they will assume. The anchor block you were holding has a hole in it the shape of a double.",
+      "seconds": 12,
+      "target": "decline-extra-shift",
+      "why": "The extra shift is the anchor block's natural enemy, and it always arrives when the block is being set, because that is when the roster is short. Time and a half for a shift that ends four hours before the next start is a quick return you volunteered for, and the recovery costs more than the pay. Saying no once, by text, while the plan is in front of you is the whole skill; the version of you at three in the morning will not say it.",
+      "wrongNote": "Not the anchor point, and not the phone itself. The thing that has to happen is the reply that says not tonight — anything else is leaving the offer open."
+    },
+    {
+      "after": "nap-timer",
+      "alert": "The coworker who has been up twenty hours is on his feet by the door with his keys out — \"come on, I'll drop you, I'm fine.\"",
+      "cue": "Take the ride card, not the lift. Call the ride for both of you.",
+      "delay": 3,
+      "id": "coworker-offers-to-drive",
+      "kind": "Coworker with keys out",
+      "missNote": "He drove, and you went with him. Whatever the self-check said ten minutes ago, two people were in a car driven by somebody who had been awake for twenty hours, and the training that was supposed to prevent it was watching.",
+      "seconds": 13,
+      "target": "ride-card",
+      "why": "A colleague twenty hours awake offering to drive is the drive-on-no-sleep hazard wearing a friendly face, and the second person in the car does not make it safer. The ride card on the wall exists for this exact moment: it takes the decision off both of you and puts it on a plan that was made when everybody was awake. Saying yes to the lift is agreeing that pride outranks the check you have just run.",
+      "wrongNote": "Not the nap timer, and not the keys. The right answer is the ride card — the call that gets both of you home without either of you driving."
+    }
+  ],
+  "lateNotes": {
+    "ride-home-plan": "The drive-home decision comes after the self-check, not before it. A plan made before the check is a plan made on how you feel, and how you feel is the thing sleep loss lies about first.",
+    "sleep-log-board": "Nothing to log yet — the plan is not made until the anchor block is held, the room is set and the drive home is decided."
+  },
+  "name": "Wellness — Shift Work, Sleep and Stress",
+  "parSeconds": 330,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "job-readiness-edition",
+    "wojrc-pathway-edition"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "anchor-block",
+      "anchor-pick",
+      "anchor-point",
+      "anchor-tell",
+      "beer-to-sleep",
+      "blind-roller",
+      "caffeine-card",
+      "charging-shelf",
+      "decline-extra-shift",
+      "double-back-accepted",
+      "drive-on-no-sleep",
+      "energy-shot-for-shift",
+      "light-plan-card",
+      "log-tray",
+      "nap-timer",
+      "phone-handset",
+      "plan-sheet",
+      "ride-card",
+      "ride-home-plan",
+      "roster-day-off",
+      "roster-forward-rotation",
+      "sc-head-nod",
+      "sc-lane-drift",
+      "sc-lost-miles",
+      "sc-radio-up",
+      "sc-window-down",
+      "sleep-log-board",
+      "stress-dial",
+      "trap-backward-rotation",
+      "trap-quick-return",
+      "trap-third-night"
+    ],
+    "meshes": 242
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Three things on this week's roster will cost you sleep before you have lost any. Find them.",
+      "decoyNotes": {
+        "roster-day-off": "A day off is not a trap. It is where the anchor sleep block goes.",
+        "roster-forward-rotation": "Days into evenings is the forward direction, the one the body clock adjusts to most easily. The trap is the other way round."
+      },
+      "id": "read-the-roster",
+      "itemNames": {
+        "trap-backward-rotation": "the rotation running backwards",
+        "trap-quick-return": "the quick return — eight hours between shifts",
+        "trap-third-night": "the third consecutive night"
+      },
+      "itemNotes": {
+        "trap-backward-rotation": "Nights, then evenings, then days. A rotation that runs backwards asks the body clock to move against the direction it moves most easily; forward rotation — days, evenings, nights — is the one NIOSH's guidance prefers.",
+        "trap-quick-return": "Wednesday ends at 22:00 and Thursday starts at 06:00. Eight hours between shifts is not eight hours of sleep — it is the commute, the meal and the wind-down, and about five hours in bed if everything goes right.",
+        "trap-third-night": "Three nights in a row. Sleep debt is cumulative and the third night is where reaction time is measurably worst, which is why the plan has to be made before the first one."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Three things on this week's roster will cost you sleep before you have lost any. Find them.",
+      "targets": [
+        "trap-quick-return",
+        "trap-third-night",
+        "trap-backward-rotation"
+      ],
+      "title": "Read the roster for the fatigue traps",
+      "why": "A roster is a fatigue forecast if you know how to read one. The quick return, the run of consecutive nights and the backward rotation are the three features NIOSH's shift-work guidance names as most fatiguing, and they are visible a week in advance — which means a plan can be made for them. A trainee who reads the roster as a list of start times finds out about the traps on Thursday at 05:00, and by then the only tool left is caffeine."
+    },
+    {
+      "cue": "The dial swings one to ten. Commit it where this week actually is, not where you would like it to be.",
+      "gauge": {
+        "green": [
+          0.62,
+          0.84
+        ],
+        "label": "STRESS",
+        "missNote": "That reading does not match the roster you just read. Three traps in one week and a household to run is not a three out of ten, and it is not a ten either — the check only works if the number is the true one.",
+        "speed": 0.6
+      },
+      "id": "stress-check",
+      "kind": "gauge",
+      "prompt": "The dial swings one to ten. Commit it where this week actually is, not where you would like it to be.",
+      "target": "stress-dial",
+      "title": "Rate the stress honestly",
+      "why": "The stress check is the guide's own card, brought to the front of the station instead of the end, because a sleep plan made by somebody who has just told themselves they are fine is a plan with no reason to exist. Rating it honestly — a seven or an eight on this week — is what makes the next eleven steps worth doing, and it is the same practice the peer-support station asks you to offer somebody else. SAMHSA's guidance ties stress, sleep and substance use together as one risk; the dial is where that risk gets a number."
+    },
+    {
+      "cue": "Pick the block, put it on the calendar, tell the people you live with — in that order.",
+      "id": "anchor-sleep",
+      "itemNames": {
+        "anchor-block": "block it on the calendar",
+        "anchor-pick": "pick the anchor block the roster cannot move",
+        "anchor-tell": "tell the household when it is"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Pick it, then block it, then tell them. Telling the household about a block you have not fixed to the roster yet is announcing a plan you will have to change by Wednesday.",
+      "prompt": "Pick the block, put it on the calendar, tell the people you live with — in that order.",
+      "targets": [
+        "anchor-pick",
+        "anchor-block",
+        "anchor-tell"
+      ],
+      "title": "Set the anchor sleep block",
+      "why": "Anchor sleep is the four or five hours that stay at the same clock time on every day of the week, work or not, so the body clock has one fixed point to hold onto while the shifts move around it. It has to be picked off the roster first, because it has to fit every day; it goes on the calendar second, because a block that is only in your head is the first thing to move; and the household hears about it last, because they are the ones who will be asked not to run the vacuum through it."
+    },
+    {
+      "cue": "Keep the sleep block inside the seven-to-nine-hour band while the week pushes at it.",
+      "holdBreakNote": "The block got away from you — shrunk into the shift or sprawled over the next start. Bring it back to the band and hold it there; the week does not stop pushing.",
+      "id": "hold-the-anchor",
+      "kind": "track",
+      "prompt": "Keep the sleep block inside the seven-to-nine-hour band while the week pushes at it.",
+      "seconds": 7,
+      "target": "anchor-point",
+      "title": "Hold the anchor block against the week",
+      "track": {
+        "drift": 0.15,
+        "fall": 0.42,
+        "green": [
+          0.4,
+          0.66
+        ],
+        "label": "ANCHOR SLEEP",
+        "rise": 0.5,
+        "start": 0.5
+      },
+      "why": "A sleep plan is not a decision, it is a thing that gets defended every day of the week against a schedule that would rather have the hours. Let the block shrink and you are back to the five hours the quick return left you; let it sprawl and you sleep through the start of the next shift and lose the job the plan was for. Holding it in the band is the practice — small corrections, every day, against a drift that never stops."
+    },
+    {
+      "cue": "Turn the roller until the room is dark. Daylight through a curtain is a signal to wake.",
+      "id": "blackout",
+      "kind": "turn",
+      "prompt": "Turn the roller until the room is dark. Daylight through a curtain is a signal to wake.",
+      "target": "blind-roller",
+      "title": "Roll the blackout blind down",
+      "turn": {
+        "axis": "y",
+        "label": "BLACKOUT BLIND",
+        "turns": 1.5
+      },
+      "why": "Light is the strongest signal the body clock takes, and daylight leaking round an ordinary curtain at nine in the morning tells a night worker's brain to end the sleep it has just started. A blackout blind rolled fully down is the single cheapest change in this room and the one NIOSH's guidance puts first for daytime sleep — ahead of the mattress, ahead of the noise, ahead of anything you would buy."
+    },
+    {
+      "cue": "Last coffee at least six hours before the sleep block — read the card, not the rack beside it.",
+      "id": "caffeine-cutoff",
+      "kind": "select",
+      "prompt": "Last coffee at least six hours before the sleep block — read the card, not the rack beside it.",
+      "target": "caffeine-card",
+      "title": "Set the caffeine cut-off",
+      "why": "Caffeine has a half-life of about five to six hours, so a coffee at four in the morning is still half in the blood at ten, when the sleep block starts, and it is the difference between the deep sleep the block was for and a light, broken version of it. The card puts the cut-off on the clock: caffeine in the first half of the night shift, in a planned amount, and nothing after. The energy-shot rack beside it is the opposite plan, and it is on the counter because that is where it is on a real one."
+    },
+    {
+      "cue": "Carry the phone to the shelf by the door. It does not come to bed.",
+      "drag": {
+        "missNote": "Still within reach of the bed. The shelf is by the door for a reason — a phone you can reach without standing up is a phone you will answer.",
+        "radius": 0.55,
+        "to": "charging-shelf"
+      },
+      "id": "phone-out",
+      "kind": "drag",
+      "prompt": "Carry the phone to the shelf by the door. It does not come to bed.",
+      "target": "phone-handset",
+      "title": "Put the phone on the charging shelf outside the sleep space",
+      "why": "The phone is the roster, the group chat and dispatch, and every one of those will offer you something during the sleep block. On the shelf by the door it still rings for the emergency it is kept on for, and it stops being the thing you reach for at the first light waking; the screen's own light is a wake signal on top of whatever the message says. Moving it is a physical act, which is why it is a step and not a resolution."
+    },
+    {
+      "cue": "Set the timer and hold the nap for its full count. Twenty minutes, not ninety.",
+      "holdBreakNote": "You got up before the count. A nap cut short is a nap that did not clear anything; lie back down and let the timer run.",
+      "id": "nap-timer",
+      "kind": "hold",
+      "prompt": "Set the timer and hold the nap for its full count. Twenty minutes, not ninety.",
+      "seconds": 8,
+      "target": "nap-timer",
+      "title": "Take the twenty-minute nap — and stop at twenty",
+      "why": "A twenty-minute nap before a night shift clears a measurable amount of the sleepiness without going deep enough to leave you groggy on waking; a ninety-minute one runs into deep sleep and you wake worse than you lay down, which is the sleep inertia that makes people swear naps do not work. The timer is the whole technique — a nap without a set length is a gamble on which side of the line you wake up on."
+    },
+    {
+      "cue": "Bright light at the start of the night, sunglasses for the drive home, dark room after. Read the card.",
+      "id": "light-plan",
+      "kind": "select",
+      "prompt": "Bright light at the start of the night, sunglasses for the drive home, dark room after. Read the card.",
+      "target": "light-plan-card",
+      "title": "Set the light plan for the shift",
+      "why": "The body clock can be steered by light, and the shift worker who steers it deliberately sleeps better than the one who lets it happen. Bright light in the first hours of the night shift pushes the clock later and holds alertness; dark glasses on the drive home stop the morning sun from pulling it straight back; the blackout blind finishes the job. It is the same three moves every night, which is why they are on one card."
+    },
+    {
+      "cue": "Three signs on the board mean you do not drive. Find them; leave the things people do instead.",
+      "decoyNotes": {
+        "sc-radio-up": "Turning the radio up feels like a countermeasure and is not one. It is on the board because it is what people actually do instead of stopping.",
+        "sc-window-down": "Cold air wakes you for about a minute. It is not a sign and it is not a fix."
+      },
+      "id": "drive-self-check",
+      "itemNames": {
+        "sc-head-nod": "the head nod",
+        "sc-lane-drift": "drifting toward the line",
+        "sc-lost-miles": "miles you cannot remember driving"
+      },
+      "itemNotes": {
+        "sc-head-nod": "The chin drops and comes back up. That is a microsleep, not a yawn, and it lasts long enough to cover the length of a football field at highway speed.",
+        "sc-lane-drift": "The rumble strip or the line, more than once. Steering is the first fine-motor task sleep loss takes.",
+        "sc-lost-miles": "You are at the exit and do not remember the last two. That is not concentration — that is sleep with the eyes open."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Three signs on the board mean you do not drive. Find them; leave the things people do instead.",
+      "targets": [
+        "sc-head-nod",
+        "sc-lane-drift",
+        "sc-lost-miles"
+      ],
+      "title": "Run the drive-home self-check",
+      "why": "Nobody feels as tired as they are at the end of a night shift, so the drive-home decision cannot be made on feeling. The self-check gives it three observable signs — the head nod, the lane drift, the lost miles — any one of which means the keys stay on the hook. FMCSA's hours-of-service rule does this arithmetic for a driver in a cab by law; a warehouse trainee has to do it for themselves, and the check is how."
+    },
+    {
+      "cue": "The check said no. The ride card, the nap, or the transit pass — not the keys.",
+      "id": "ride-home-plan",
+      "kind": "select",
+      "prompt": "The check said no. The ride card, the nap, or the transit pass — not the keys.",
+      "target": "ride-home-plan",
+      "title": "Decide the drive home",
+      "why": "Deciding the ride before the shift, in the plan, is what makes the decision available at six in the morning when the check says you should not drive and every part of you wants to be home. A standing arrangement — a colleague on the same shift, the transit pass in the bag, the ride card on the wall — costs less than the drive would, and it is a plan a Class A trainee will recognise: the rule that keeps a driver off the road is written down before the trip, never negotiated at the end of it."
+    },
+    {
+      "cue": "Carry the plan sheet to the log tray. A plan on the table is a plan that gets lost under the roster.",
+      "drag": {
+        "missNote": "Not in the tray. The plan goes where the roster goes, so the two are read together — next week's roster will have next week's traps.",
+        "radius": 0.5,
+        "to": "log-tray"
+      },
+      "id": "file-the-plan",
+      "kind": "drag",
+      "prompt": "Carry the plan sheet to the log tray. A plan on the table is a plan that gets lost under the roster.",
+      "target": "plan-sheet",
+      "title": "File the sleep plan",
+      "why": "The plan is written down and filed for the same reason the roster is: so it exists when you are too tired to remember it. Next week's roster brings next week's traps, and the sheet in the tray is what next week's plan starts from. Filing it also puts it where the programme's wellness staff can see the pattern across a cohort, which is how a roster with a built-in quick return gets raised with the people who write rosters."
+    },
+    {
+      "cue": "Close the log, then answer the guide's check-in. It is never scored.",
+      "id": "close-the-log",
+      "kind": "select",
+      "prompt": "Close the log, then answer the guide's check-in. It is never scored.",
+      "target": "sleep-log-board",
+      "title": "Log the week and ask how you are doing",
+      "why": "The log records that the plan was made and what it holds; the check-in records nothing anywhere but your own browser, and asks the question the week was about. A trainee who can say \"a bit shaken\" at the end of a station about sleep and stress has already done the thing the peer-support station teaches next. The programme's peer-support team and the EAP line are named on the results card for the run where the honest answer is \"need a minute\"."
+    }
+  ],
+  "supportLine": "the programme's peer-support team or the employee assistance programme (EAP) line your employer or union carries",
+  "tagline": "The week the roster flips to nights: the traps read off the roster, a stress check rated honestly, one block of anchor sleep held against the extra shift, the room darkened, the caffeine cut, a twenty-minute nap, and the drive home decided by a check instead of by pride",
+  "title": "SmartCiti.X~ Wellness — Shift Work, Sleep and Stress VR",
+  "trade": "Warehouse and Class A pre-apprentice — Teamsters-bound",
+  "underwater": null,
+  "weather": "clear"
+}

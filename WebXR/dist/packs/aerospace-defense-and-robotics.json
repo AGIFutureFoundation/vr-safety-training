@@ -1,0 +1,127 @@
+{
+  "id": "aerospace-defense-and-robotics",
+  "kind": "programme",
+  "name": "Aerospace Depot and Robotics — IAM and UAW Skilled Trades",
+  "title": "SmartCiti.X Aerospace Depot and Robotics — IAM and UAW Skilled Trades — Powered by AGI Corp",
+  "audience": "trades",
+  "summary": "Eight civilian-style workplace-safety jobs in a generic aerospace depot and a robotics factory and training centre: a cleanroom entered in the posted gowning order with the strap test proven, a payload moved by overhead crane on a briefed lift plan, a hazardous fluid serviced from its safety data sheet with a buddy in place, a depot bay released only on a complete tool count and a FOD walk, a test stand's exclusion zone swept and held, a robot cell locked out and re-entered with a personal lock, an AMR floor worked on its traffic plan with an e-stop drill, and a cobot bench released only when every control on its risk assessment was tested with a body. Every station also runs with a declared fault (`?fault=`) that changes one step's right answer. Civilian-style workplace safety only; no real site, programme or vehicle is named.",
+  "certification": "IAM aerospace and depot maintenance training and UAW skilled-trades training as bodies, tested against OSHA 29 CFR 1910.147, 1910.212, 1910.132, 1910.1200 and 1910.95, FAA 14 CFR 43 and 145 as the civil maintenance frame, ASME B30.2 and B30.16 for overhead cranes, NFPA 77 for static electricity, ANSI Z358.1 for eyewash, and ANSI R15.06 and ISO 10218 for industrial and collaborative robots, across eight civilian-style workplace-safety jobs",
+  "programmes": [
+    "aerospace-defense-and-robotics"
+  ],
+  "stations": [
+    {
+      "app": "smartcity",
+      "id": "ad-cleanroom-gowning-and-esd-discipline"
+    },
+    {
+      "app": "smartcity",
+      "id": "ad-payload-crane-lift-with-a-lift-plan"
+    },
+    {
+      "app": "smartcity",
+      "id": "ad-hazardous-fluid-servicing-with-a-buddy"
+    },
+    {
+      "app": "smartcity",
+      "id": "ad-depot-tool-control-and-fod-walk"
+    },
+    {
+      "app": "smartcity",
+      "id": "ad-test-stand-exclusion-zone-and-holds"
+    },
+    {
+      "app": "smartcity",
+      "id": "ad-robot-cell-lockout-and-safe-reentry"
+    },
+    {
+      "app": "smartcity",
+      "id": "ad-amr-fleet-traffic-and-estop-drill"
+    },
+    {
+      "app": "smartcity",
+      "id": "ad-cobot-risk-assessment-and-speed-separation"
+    }
+  ],
+  "unions": [
+    "iam",
+    "uaw"
+  ],
+  "unionLine": "IAM (International Association of Machinists and Aerospace Workers) aerospace and depot training, with UAW skilled-trades training for the robotics floor",
+  "k12Bands": [],
+  "path": "union-trades",
+  "alsoPaths": [],
+  "worlds": [
+    {
+      "world": "bayworld",
+      "sites": [
+        "west-oakland-robotics-centre"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-downtown",
+      "sites": [
+        "dt-sw-south-of-market-fabrication-shop"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-mission",
+      "sites": [
+        "soma-maker-workshop",
+        "mi-sw-islais-creek-fabrication-shop",
+        "mi-sw-mission-bay-research-lab-building"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-bayview",
+      "sites": [
+        "bv-sw-islais-creek-fabrication-shop"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "la-starbase-vermilion",
+      "sites": [
+        "lsb-propellant-tank-farm",
+        "lsb-vehicle-processing-hangar"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "la-saronic-franklin",
+      "sites": [
+        "lsf-tool-crib",
+        "lsf-machine-shop"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "la-avex-new-iberia",
+      "sites": [
+        "lav-freighter-conversion-bay",
+        "lav-apron-work",
+        "lav-sheet-metal-shop",
+        "lav-composite-shop",
+        "lav-avionics-wiring"
+      ]
+    }
+  ],
+  "stationNames": {
+    "ad-cleanroom-gowning-and-esd-discipline": "Cleanroom Gowning & ESD Discipline",
+    "ad-payload-crane-lift-with-a-lift-plan": "Payload Crane Lift with a Lift Plan",
+    "ad-hazardous-fluid-servicing-with-a-buddy": "Hazardous Fluid Servicing with a Buddy",
+    "ad-depot-tool-control-and-fod-walk": "Depot Tool Control & FOD Walk",
+    "ad-test-stand-exclusion-zone-and-holds": "Test Stand Exclusion Zone & Holds",
+    "ad-robot-cell-lockout-and-safe-reentry": "Robot Cell Lockout & Safe Re-entry",
+    "ad-amr-fleet-traffic-and-estop-drill": "AMR Fleet Traffic & E-stop Drill",
+    "ad-cobot-risk-assessment-and-speed-separation": "Cobot Risk Assessment & Speed-and-Separation"
+  },
+  "version": "1.0.0",
+  "contentHash": "65d9dfea",
+  "brand": "SmartCiti.X · Powered by AGI Corp",
+  "generator": "tools/gen_packs.mjs",
+  "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."
+}

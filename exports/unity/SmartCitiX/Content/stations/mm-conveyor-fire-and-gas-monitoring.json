@@ -1,0 +1,383 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "belt-entry-examined",
+    "name": "Belt Entry Examined",
+    "note": "A belt examined to the plan: the friction source found and freed under lockout, the dust cleared, suppression armed, both monitors read and trusted"
+  },
+  "category": "Manufacturing & Automation",
+  "certification": "UMWA health and safety training; per the mine's examination and ventilation plan and the mine safety regulations, named generically; NFPA 69 explosion prevention systems; OSHA 29 CFR 1910.147 control of hazardous energy (lockout/tagout)",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 69",
+        "id": "nfpa-69",
+        "title": "NFPA 69 — Standard on Explosion Prevention Systems"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      },
+      {
+        "body": "union",
+        "citedAs": "UMWA",
+        "id": "umwa-training",
+        "title": "UMWA — United Mine Workers of America health and safety training for underground and surface mine crews"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Mining",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "locked-before-freed",
+        "name": "Locked Before Freed",
+        "note": "The belt drive locked out before the stuck roller was ever touched, first time"
+      },
+      {
+        "id": "never-trusted-a-guess",
+        "name": "Never Trusted A Guess",
+        "note": "Never covered a monitor, reached the pulley nip, brought an ignition source in, or bypassed suppression"
+      },
+      {
+        "id": "both-monitors-read",
+        "name": "Both Monitors Read",
+        "note": "CO and methane both read clear before the belt ran the shift"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-exam",
+        "name": "Clean Exam",
+        "note": "No corrections through the whole examination"
+      },
+      {
+        "id": "run-unbroken",
+        "name": "Run Unbroken",
+        "note": "The observed belt run never broke its watched rate"
+      },
+      {
+        "id": "exam-fast",
+        "name": "Exam Fast",
+        "note": "Examination completed inside 80% of par"
+      }
+    ],
+    "currency": "ROLLER",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Beltman Helper",
+      "Belt Attendant",
+      "Mine Examiner",
+      "Fire Boss",
+      "Belt Examiner Authority Certified"
+    ],
+    "system": "Belt Examiner Authority"
+  },
+  "hazards": {
+    "ignition-source": "You brought an open flame source into the belt entry. Coal dust in the air or settled along the structure is exactly the fuel a belt fire needs, and an ignition source brought in around it removes the one thing standing between routine dust and a fire — nothing that can spark or flame comes into a belt entry, full stop.",
+    "monitor-covered": "You covered the gas monitor's sensor. A monitor that has been taped or bagged over to stop a nuisance alarm is a belt entry with no early warning at all — the sensor cannot read an atmosphere it has been blocked from, and it fails exactly the way that matters most: silently, with everyone assuming it is still watching.",
+    "pinch-point-pulley": "You reached toward the pulley while the belt was running. A conveyor pulley's nip pulls in whatever reaches it at the belt's own running speed and does not release it — the nip is treated as live any time the belt can move, guard or no guard, hand or sleeve.",
+    "suppression-bypass": "You opened the suppression system's bypass instead of leaving it armed. The bypass exists for maintenance under a written procedure, not as a way to stop nuisance discharges — a belt fire that starts while the suppression is bypassed has nothing standing between it and however far it can spread before anyone reaches it by hand."
+  },
+  "id": "mm-conveyor-fire-and-gas-monitoring",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "belt-run-observe",
+      "alert": "The CO monitor's alarm trips while the belt is running the observed pass.",
+      "cue": "The monitor you already checked is now alarming.",
+      "delay": 4,
+      "id": "co-alarm-trips",
+      "kind": "CO alarm trips",
+      "missNote": "The belt kept running after the CO alarm tripped. A carbon monoxide alarm on a belt line is the earliest warning a fire gives, and treating it as background noise while the belt keeps running is choosing to find out the hard way whether it was real.",
+      "seconds": 13,
+      "target": "belt-stop-button",
+      "why": "A monitor that was clear ten minutes ago and is alarming now is telling you the entry's condition has changed since the last reading, not that the earlier check was wrong. The belt stop is what takes the heat source out of the equation immediately, before anyone tries to reason out whether the alarm is real from where they are standing.",
+      "wrongNote": "It is the belt stop. Nothing else takes the heat source out of the loop this fast."
+    },
+    {
+      "after": "lockout-belt",
+      "alert": "The roller you just locked out to work on starts visibly smoking from heat that built up before the lockout took effect.",
+      "cue": "There is visible smoke coming off the roller right in front of you.",
+      "delay": 3,
+      "id": "roller-smokes",
+      "kind": "Roller smoking",
+      "missNote": "The smoking roller was left to sit while the work continued. Heat already in a stuck roller does not care that the drive is locked out, and a fire that starts next to dust the exam already found does not wait for the roller to be freed on schedule.",
+      "seconds": 12,
+      "target": "manual-suppression-pull",
+      "why": "Heat that built up before the lockout does not stop being heat just because the drive is now dead — a smoking roller next to dust is a fire starting, not a fire that lockout already prevented. The manual suppression pull is the answer that is actually in reach, right now, rather than waiting to see whether it goes out on its own.",
+      "wrongNote": "It is the manual suppression pull. Nothing else reaches this fire from right here, right now."
+    }
+  ],
+  "lateNotes": {
+    "belt-run-lever": "Not yet. The guard is back, the monitors read clear and suppression is armed before the belt runs.",
+    "roller-tool": "Not yet. The drive is locked out before the stuck roller is touched."
+  },
+  "name": "Conveyor Belt Fire & Gas Monitoring",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "mill-and-mine"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "belt-drive-disconnect",
+      "belt-guard",
+      "belt-misalignment",
+      "belt-run-lever",
+      "belt-stop-button",
+      "cleanup-shovel",
+      "co-monitor",
+      "control-panel-armed",
+      "dust-accumulation",
+      "dust-pile",
+      "exam-board",
+      "exam-book",
+      "ignition-source",
+      "manual-suppression-pull",
+      "methane-monitor",
+      "monitor-covered",
+      "nozzle-check",
+      "pinch-point-pulley",
+      "roller-tool",
+      "stuck-roller",
+      "suppression-bypass",
+      "suppression-valve"
+    ],
+    "meshes": 112
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check what the last examiner logged for this belt entry before starting your own exam.",
+      "id": "shift-exam",
+      "kind": "select",
+      "prompt": "Check what the last examiner logged for this belt entry before starting your own exam.",
+      "target": "exam-book",
+      "title": "Read the pre-shift examination book",
+      "why": "The examination book is a record of exactly this entry over time, and reading it first is what tells you whether today's exam is starting clean or picking up a condition that was already being watched — an exam that skips the book is an exam blind to its own belt's history."
+    },
+    {
+      "cue": "Check the rollers and the structure and click what you find.",
+      "id": "walk-belt",
+      "itemNames": {
+        "dust-accumulation": "a build-up of dust along the structure",
+        "stuck-roller": "a frozen idler roller grinding against the belt"
+      },
+      "itemNotes": {
+        "dust-accumulation": "There is a build-up of dust along the belt structure here — fine fuel sitting right next to the one part of the belt line that generates friction heat when something goes wrong with it.",
+        "stuck-roller": "This idler roller is not turning with the belt any more — it is grinding a flat against a moving belt, and friction heat from exactly this kind of fault is how most belt fires actually start."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Check the rollers and the structure and click what you find.",
+      "targets": [
+        "stuck-roller",
+        "dust-accumulation"
+      ],
+      "title": "Walk the belt entry",
+      "why": "A stuck roller and a dust build-up are each ordinary on their own and dangerous together, which is exactly why the exam looks for both — a fire needs a heat source and a fuel source in the same place, and this walk is what finds them before a shift runs on top of them."
+    },
+    {
+      "cue": "Carry the shovel to the dust pile and clear it from the structure.",
+      "drag": {
+        "missNote": "Not on the pile — the dust has to actually be cleared from the structure, not just carried past it.",
+        "radius": 0.4,
+        "to": "dust-pile"
+      },
+      "id": "clean-dust",
+      "kind": "drag",
+      "prompt": "Carry the shovel to the dust pile and clear it from the structure.",
+      "target": "cleanup-shovel",
+      "title": "Clean up the dust accumulation",
+      "why": "Dust cleared off the structure is fuel that is no longer sitting next to the belt line's own heat sources — cleaning it up during the exam, rather than logging it for later, is what actually changes the entry's risk before the shift starts."
+    },
+    {
+      "cue": "Lock the belt drive before touching the stuck roller.",
+      "id": "lockout-belt",
+      "kind": "turn",
+      "prompt": "Lock the belt drive before touching the stuck roller.",
+      "target": "belt-drive-disconnect",
+      "title": "Lock out the belt drive",
+      "turn": {
+        "axis": "y",
+        "label": "BELT DRIVE",
+        "turns": 0.5
+      },
+      "why": "A roller that is stuck against a moving belt is still part of a machine that can move the instant the drive is live — locking it out first is what makes it safe to actually put hands and a tool on the roller rather than working next to a belt that could start moving under them."
+    },
+    {
+      "cue": "Hold the tool steady on the roller until it turns free again.",
+      "holdBreakNote": "You stopped before the roller was fully free. A roller that still catches is a roller that will grind again under load.",
+      "id": "free-roller",
+      "kind": "hold",
+      "prompt": "Hold the tool steady on the roller until it turns free again.",
+      "seconds": 5,
+      "target": "roller-tool",
+      "title": "Free the stuck roller",
+      "why": "A roller freed properly turns smoothly again on its own bearing — one freed halfway and left can seize again under the first load the belt puts back on it, which is the same friction-heat problem the exam just found, now hidden again inside a roller that looks fixed."
+    },
+    {
+      "cue": "Check the guard is back over the roller before the drive is restored.",
+      "id": "guard-check",
+      "kind": "select",
+      "prompt": "Check the guard is back over the roller before the drive is restored.",
+      "target": "belt-guard",
+      "title": "Confirm the guard is back",
+      "why": "The guard is what keeps the nip at this roller from being a reach-in hazard once the belt is moving again — it goes back before power does, in that order, every time."
+    },
+    {
+      "cue": "Confirm the area is clear, take your lock off, then restore the belt drive.",
+      "id": "restart-belt",
+      "kind": "turn",
+      "prompt": "Confirm the area is clear, take your lock off, then restore the belt drive.",
+      "target": "belt-drive-disconnect",
+      "title": "Remove your lock and restore the drive",
+      "turn": {
+        "axis": "y",
+        "label": "BELT DRIVE",
+        "turns": 0.5
+      },
+      "why": "Your lock, your call — restoring the drive is the one action that only the person who applied the lock gets to take, because only that person actually watched the roller and the guard the whole time they were being worked on."
+    },
+    {
+      "cue": "Check the CO monitor and confirm it reads clear before continuing the exam.",
+      "gauge": {
+        "green": [
+          0.55,
+          1
+        ],
+        "label": "CO MONITOR",
+        "missNote": "Not reading clear — investigate before treating this entry as normal.",
+        "speed": 0.7
+      },
+      "id": "co-monitor-check",
+      "kind": "gauge",
+      "prompt": "Check the CO monitor and confirm it reads clear before continuing the exam.",
+      "target": "co-monitor",
+      "title": "Read the carbon monoxide monitor",
+      "why": "A rising carbon monoxide reading is the earliest warning a belt fire gives, often before anything is visible at all, and the monitor is read on its own display — never assumed clear because nothing looks or smells wrong yet, which is exactly the stage a CO monitor exists to catch instead of a person's own senses."
+    },
+    {
+      "cue": "Check the methane monitor and confirm it is clear to work before the belt runs the shift.",
+      "gauge": {
+        "green": [
+          0.55,
+          1
+        ],
+        "label": "METHANE MONITOR",
+        "missNote": "Not reading clear — withdraw from the entry and recheck before anyone works in it.",
+        "speed": 0.7
+      },
+      "id": "methane-check",
+      "kind": "gauge",
+      "prompt": "Check the methane monitor and confirm it is clear to work before the belt runs the shift.",
+      "target": "methane-monitor",
+      "title": "Read the methane monitor",
+      "why": "The methane monitor is read the same way the CO monitor is — off its own display, against the plan's clear-to-work reading, never estimated from how the air in the entry seems. Methane gives no reliable warning to the senses at all, which is the entire reason the monitor exists in the first place."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Confirm the supply valve is open, the nozzles are clear, and the panel shows armed.",
+      "id": "suppression-check",
+      "itemNames": {
+        "control-panel-armed": "control panel armed",
+        "nozzle-check": "nozzles checked clear",
+        "suppression-valve": "suppression supply valve open"
+      },
+      "kind": "sequence",
+      "prompt": "Confirm the supply valve is open, the nozzles are clear, and the panel shows armed.",
+      "targets": [
+        "suppression-valve",
+        "nozzle-check",
+        "control-panel-armed"
+      ],
+      "title": "Verify the fire suppression system",
+      "why": "A fire suppression system is only as good as its weakest link on the day it is actually needed — a valve left shut, a nozzle blocked by the same dust the walk just found, or a panel left in bypass all produce the same result: a system that looks installed but does nothing when a fire actually starts."
+    },
+    {
+      "cue": "Hold the run lever and watch the belt track true at a steady, watched pace.",
+      "holdBreakNote": "Rate out of band — this is an observed run, not full production; bring it back so the belt can actually be watched.",
+      "id": "belt-run-observe",
+      "kind": "track",
+      "prompt": "Hold the run lever and watch the belt track true at a steady, watched pace.",
+      "seconds": 6,
+      "target": "belt-run-lever",
+      "title": "Run the belt and observe it",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.42,
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "OBSERVED RATE",
+        "rise": 0.5,
+        "start": 0.1
+      },
+      "why": "A belt observed at a steady pace right after an exam is what catches a roller that is not quite right or a belt that has started to wander before the shift is run at full load on top of it — the exam is not finished until the belt has actually been watched running."
+    },
+    {
+      "cue": "Check the belt is tracking true and click what you see.",
+      "id": "final-walk",
+      "itemNames": {
+        "belt-misalignment": "the belt running off-centre on the return"
+      },
+      "itemNotes": {
+        "belt-misalignment": "The belt is running slightly off-centre on the return side — worth a training adjustment before it rubs a structure member the way the roller you just fixed was doing."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Check the belt is tracking true and click what you see.",
+      "targets": [
+        "belt-misalignment"
+      ],
+      "title": "Walk the belt one more time after the restart",
+      "why": "The exam's whole point was to stop a friction problem before it started a fire, and the surest way to know it worked is to watch the belt after the restart rather than trusting that fixing one roller fixed everything about how the belt tracks."
+    },
+    {
+      "cue": "Record the roller, the dust, the monitor readings and the suppression check in the exam book.",
+      "id": "log-exam",
+      "kind": "select",
+      "prompt": "Record the roller, the dust, the monitor readings and the suppression check in the exam book.",
+      "target": "exam-board",
+      "title": "Log the examination",
+      "why": "The examination book is what the next examiner and the mine's records both depend on — a belt entry examined thoroughly but never logged is, to everyone who was not standing there, an entry nobody has checked."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "A belt-entry exam: a stuck roller freed under lockout, the dust swept up, suppression proven armed, and the CO and methane monitors read and trusted",
+  "title": "SmartCiti.X~ Conveyor Belt Fire & Gas Monitoring VR",
+  "trade": "Underground belt examiner / conveyor attendant",
+  "underwater": null,
+  "weather": "clear"
+}

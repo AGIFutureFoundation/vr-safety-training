@@ -1,0 +1,413 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "tube-rolled-true",
+    "name": "Tube Rolled True",
+    "note": "Cut, bevelled, rolled to the specified expansion and seal-welded, with nothing left behind in the drum"
+  },
+  "category": "Building Systems & Facilities",
+  "certification": "Boilermakers Local 549 apprenticeship and training; ASME Section I rules for the construction and repair of power boilers; ASME Section IX welding qualification for the seal weld; National Board Inspection Code (NBIC) repair and alteration practice; OSHA 29 CFR 1910.147 the control of hazardous energy",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ASME",
+        "citedAs": "ASME Section I",
+        "id": "asme-section-i",
+        "title": "ASME Boiler and Pressure Vessel Code, Section I — Rules for Construction of Power Boilers"
+      },
+      {
+        "body": "ASME",
+        "citedAs": "ASME Section IX",
+        "id": "asme-section-ix",
+        "title": "ASME Boiler and Pressure Vessel Code, Section IX — Welding, Brazing and Fusing Qualifications"
+      },
+      {
+        "body": "union",
+        "citedAs": "Boilermakers Local 549",
+        "id": "boilermakers-local-549",
+        "title": "Boilermakers Local 549 apprenticeship and training, as a training body"
+      },
+      {
+        "body": "NBIC",
+        "citedAs": "National Board Inspection Code",
+        "id": "nbic",
+        "title": "National Board Inspection Code, maintained by the National Board of Boiler and Pressure Vessel Inspectors — inspection, repair and alteration practice for boilers and pressure vessels in service"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Facilities",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "nothing-left-inside",
+        "name": "Nothing Left Inside",
+        "note": "Never closed the manway with anything unaccounted for"
+      },
+      {
+        "id": "expansion-precise",
+        "name": "Expansion Precise",
+        "note": "Held the roll expander near band centre"
+      },
+      {
+        "id": "seal-clean",
+        "name": "Seal Clean",
+        "note": "Ran the seal weld with no correction"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-repair",
+        "name": "Clean Repair",
+        "note": "No corrections from the work order to the stamp"
+      },
+      {
+        "id": "steady-weld",
+        "name": "Steady Weld",
+        "note": "Held the seal weld travel speed through the whole pass"
+      },
+      {
+        "id": "fast-tube",
+        "name": "Fast Tube",
+        "note": "Complete inside 80% of par"
+      }
+    ],
+    "currency": "RIVET",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Helper",
+      "Boilermaker",
+      "Lead Mechanic",
+      "Repair Foreman",
+      "Boilermaker Certified"
+    ],
+    "system": "Boilermaker Certified"
+  },
+  "hazards": {
+    "cheater-bar": "You reached for the length of pipe slipped over the expander wrench handle. A cheater bar puts more torque into the roller than the tool or the tube sheet was ever designed to take, and a tube rolled past its specified expansion does not fail today — it work-hardens, cracks at the tube sheet and fails on a later shift, at pressure, with nobody standing where they were when it was overtightened.",
+    "dropped-wrench-in-drum": "There is a wrench lying inside the drum and the manway is about to close. A tool left inside a boiler drum rattles loose the moment steam starts moving through it, and it does not stay wherever it landed — it travels until it jams a valve, scores a tube, or turns into shrapnel the next time this vessel is opened. Nothing goes back together until every tool that went in is accounted for coming out.",
+    "guard-off-grinder": "That angle grinder is sitting there with its guard removed for a tighter fit against the tube sheet. The guard is what stands between a disc that grabs or shatters and the hand holding the tool — taking it off to reach an awkward angle trades a few seconds of convenience for exactly the injury the guard exists to stop.",
+    "live-adjacent-tube": "The header valve for the tube bank next to this one reads closed, but it was never actually proven — it is residual pressure sitting behind a valve nobody double-checked, one row over from where you are about to cut. Isolation on a multi-tube boiler is proven bank by bank, not assumed because the gauge on the bank you are working looks quiet."
+  },
+  "id": "ib-boiler-tube-replacement-and-rolling",
+  "indoor": "plant",
+  "interrupts": [
+    {
+      "after": "roll-expander",
+      "alert": "The control room is asking to bring a different boiler on this header online, and wants your isolation reconfirmed first.",
+      "cue": "Reverify the lockout at the isolation station before anyone answers that call.",
+      "delay": 4,
+      "id": "adjacent-startup-call",
+      "kind": "Isolation reverify",
+      "missNote": "The roll continued while the isolation went unverified. A lock nobody rechecked at the moment another unit wanted to start up is a lock that was only ever assumed to still be there.",
+      "seconds": 12,
+      "target": "lockout-station",
+      "why": "Another boiler on the same header coming online is exactly the moment an isolation that has held quietly for an hour gets tested for real — reverifying the lock now, before anyone answers that call, is what confirms the tag is still where it was left rather than finding out from a sudden pressure change with your hands still on the tube sheet.",
+      "wrongNote": "It is the lockout station. Nothing about this drum is provably isolated until that lock is looked at again."
+    },
+    {
+      "after": "seal-weld",
+      "alert": "Someone outside is starting to swing the manway door shut on a schedule push, before the foreign-object check is done.",
+      "cue": "Prop the manway open until the drum has actually been walked clear.",
+      "delay": 4,
+      "id": "early-close-call",
+      "kind": "Manway pressure",
+      "missNote": "The door swung most of the way shut while the drum still had not been walked for tools. Whatever this crew forgot to look for stayed inside a drum that then became difficult to reopen without another permit.",
+      "seconds": 12,
+      "target": "manway-prop",
+      "why": "A manway closing on a schedule rather than on a finished foreign-object check is how a dropped wrench ends up sealed inside a boiler drum — the prop is what buys the time this last check actually needs, regardless of what the schedule outside the drum is asking for.",
+      "wrongNote": "That is not it. The manway prop is what actually keeps this door from closing before the drum is checked clear."
+    }
+  ],
+  "lateNotes": {
+    "expander-wrench": "The expander only turns once the new stub is actually seated in the tube sheet — not dry-run on an empty hole to see how it feels.",
+    "weld-torch": "The seal weld goes on once the tube is rolled to the specified expansion and inspected, not before the roll is confirmed."
+  },
+  "name": "Boiler Tube Replacement and Rolling",
+  "parSeconds": 320,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "insulators-and-boilermakers"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.3,
+    "hits": [
+      "cheater-bar",
+      "csp-permit",
+      "dropped-wrench-in-drum",
+      "drum-gauge",
+      "dye-pen-kit",
+      "expander-wrench",
+      "far-end-cut",
+      "grinder",
+      "guard-off-grinder",
+      "ibbt-closing-log",
+      "ibbt-crew-checkin",
+      "live-adjacent-tube",
+      "lockout-station",
+      "loose-bolt",
+      "loose-ferrule",
+      "manway-prop",
+      "nb-stamp-form",
+      "near-end-cut",
+      "new-tube-stub",
+      "overheat-discolour",
+      "tube-extraction",
+      "tube-sheet-hole",
+      "wall-loss-tube",
+      "weld-spatter-loose",
+      "weld-torch",
+      "work-order",
+      "wrench-in-drum"
+    ],
+    "meshes": 154
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Confirm the failed tube's location, the tube sheet row and the repair authorization.",
+      "id": "work-order",
+      "kind": "select",
+      "prompt": "Confirm the failed tube's location, the tube sheet row and the repair authorization.",
+      "target": "work-order",
+      "title": "Read the repair work order",
+      "why": "A boiler with dozens of tubes in close rows makes the wrong tube look identical to the right one from arm's length, and the work order is what actually ties this repair to the National Board authorization covering it — pulling a tube that was not the one scoped is a second failure created while fixing the first."
+    },
+    {
+      "cue": "Watch the drum pressure and temperature fall, and commit once it reads inside the safe entry band.",
+      "gauge": {
+        "green": [
+          0,
+          0.16
+        ],
+        "label": "DRUM PRESSURE / TEMPERATURE",
+        "missNote": "Still hot and pressurised. The manway stays shut until this reads inside the safe entry band.",
+        "speed": 0.5
+      },
+      "id": "cooldown-check",
+      "kind": "gauge",
+      "prompt": "Watch the drum pressure and temperature fall, and commit once it reads inside the safe entry band.",
+      "target": "drum-gauge",
+      "title": "Confirm the drum has cooled and depressurized",
+      "why": "A boiler drum this size holds stored heat in thick steel long after the last firing, and the tube sheet stays hot enough to burn through a glove well after the gauge shows zero pressure. The safe band on this gauge is what actually makes the manway approachable, not how long it has been since the burner stopped."
+    },
+    {
+      "cue": "Sign the permit for drum entry: attendant posted, retrieval plan named.",
+      "id": "entry-permit",
+      "kind": "select",
+      "prompt": "Sign the permit for drum entry: attendant posted, retrieval plan named.",
+      "target": "csp-permit",
+      "title": "Sign the confined-space entry permit",
+      "why": "The inside of this drum is a permit-required confined space independent of whether the boiler itself is isolated — limited entry, no ventilation of its own, and not built for anyone to work inside for long. An attendant who never enters and a named retrieval plan go on the permit before anyone's shoulders go through the manway."
+    },
+    {
+      "cue": "Three things about this tube sheet are not right yet. Find them before the failed tube comes out.",
+      "id": "tube-sheet-survey",
+      "itemNames": {
+        "loose-ferrule": "the loose ferrule on a neighbouring tube",
+        "overheat-discolour": "the overheat discolouration on the sheet",
+        "wall-loss-tube": "the adjacent tube with visible wall loss"
+      },
+      "itemNotes": {
+        "loose-ferrule": "A ferrule rocking loose on a nearby tube is a joint already working its way toward the same kind of failure sitting in front of you right now — it gets caught here, while the crew and the tools are already on this drum.",
+        "overheat-discolour": "Discolouration on the tube sheet around the failure is evidence of a hot spot that did more than break one tube — the extent of that overheating gets checked before the assumption is 'just the one tube.'",
+        "wall-loss-tube": "A neighbouring tube already showing wall loss did not fail today, and it will not wait for its own separately scheduled outage if it is left alone now — it goes on the list before this manway closes."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Three things about this tube sheet are not right yet. Find them before the failed tube comes out.",
+      "targets": [
+        "wall-loss-tube",
+        "overheat-discolour",
+        "loose-ferrule"
+      ],
+      "title": "Survey the tube sheet before cutting",
+      "why": "A repair scoped to exactly one tube and a tube sheet that is actually failing in one place only are not automatically the same thing — the wall loss, the discolouration and the loose ferrule are the three signs that this failure had company, and all three are easiest to find with the drum already open and the crew already here."
+    },
+    {
+      "cue": "Cut the near end free, then the far end, then draw the tube out of the sheet.",
+      "id": "cut-out-tube",
+      "itemNames": {
+        "far-end-cut": "far end cut free",
+        "near-end-cut": "near end cut free",
+        "tube-extraction": "tube drawn out"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Wrong order — both ends cut free first, then the tube draws straight out instead of binding partway.",
+      "prompt": "Cut the near end free, then the far end, then draw the tube out of the sheet.",
+      "targets": [
+        "near-end-cut",
+        "far-end-cut",
+        "tube-extraction"
+      ],
+      "title": "Cut and draw out the failed tube",
+      "why": "Both ends are cut free of the sheet before any pulling starts, because a tube still welded at one end and forced at the other bends inside the sheet and scores the hole it is supposed to leave clean — a hole that then has to be re-machined before a new stub can seat in it at all."
+    },
+    {
+      "cue": "Grind the weld bevel on the new stub's end and hold the pass steady until it is fully prepped.",
+      "holdBreakNote": "Let go before the bevel was even. An uneven bevel becomes an uneven weld the moment the torch reaches that spot.",
+      "id": "bevel-prep",
+      "kind": "hold",
+      "prompt": "Grind the weld bevel on the new stub's end and hold the pass steady until it is fully prepped.",
+      "seconds": 5,
+      "target": "grinder",
+      "title": "Bevel the new tube stub",
+      "why": "A clean, consistent bevel is what gives the seal weld full penetration all the way around the joint — a bevel ground unevenly leaves a thin spot in the weld exactly where a boiler tube joint is least able to tolerate one."
+    },
+    {
+      "cue": "Carry the new tube stub to the tube sheet and drive it into the cleaned hole.",
+      "drag": {
+        "missNote": "Not seated in the hole yet. The stub has to actually be in place before the expander does anything useful to it.",
+        "radius": 0.5,
+        "to": "tube-sheet-hole"
+      },
+      "id": "insert-new-tube",
+      "kind": "drag",
+      "prompt": "Carry the new tube stub to the tube sheet and drive it into the cleaned hole.",
+      "target": "new-tube-stub",
+      "title": "Insert the new tube stub",
+      "why": "The stub goes in only once the hole itself has been checked clean of the old tube's scale and scoring — a stub driven into a hole that was not actually cleaned out seats on debris instead of bare steel, and the roll expander that comes next is rolling against a surface that was never really ready for it."
+    },
+    {
+      "cue": "Turn the expander wrench steadily and commit once the expansion reads inside the specified range.",
+      "id": "roll-expander",
+      "kind": "turn",
+      "prompt": "Turn the expander wrench steadily and commit once the expansion reads inside the specified range.",
+      "target": "expander-wrench",
+      "title": "Roll the tube to the tube sheet",
+      "turn": {
+        "axis": "z",
+        "label": "TUBE EXPANSION",
+        "turns": 1.4
+      },
+      "why": "The roller expands the tube wall out against the sheet until it grips by friction, tight enough to seal and hold under pressure — under-rolled and it can work loose and weep; over-rolled and the tube wall thins and work-hardens right where it is already under the most stress, which is exactly the failure this repair exists to fix, not repeat."
+    },
+    {
+      "cue": "Hold the torch travel speed steady around the tube-to-tube-sheet joint.",
+      "holdBreakNote": "Travel speed slipped out of band. An uneven pass here is a joint that looks welded and was never actually fused all the way round.",
+      "id": "seal-weld",
+      "kind": "track",
+      "prompt": "Hold the torch travel speed steady around the tube-to-tube-sheet joint.",
+      "seconds": 7,
+      "target": "weld-torch",
+      "title": "Run the seal weld",
+      "track": {
+        "drift": 0.11,
+        "fall": 0.44,
+        "green": [
+          0.36,
+          0.6
+        ],
+        "label": "WELD TRAVEL SPEED",
+        "rise": 0.5,
+        "start": 0.1
+      },
+      "why": "A steady travel speed is what gives this joint even penetration all the way around — too fast and the weld never fully fuses to the sheet; too slow and heat builds enough to warp the thin tube wall right where it was just rolled to a precise fit."
+    },
+    {
+      "cue": "Run the dye-penetrant check on the finished weld and commit once it reads clear.",
+      "gauge": {
+        "green": [
+          0,
+          0.12
+        ],
+        "label": "DYE PENETRANT — INDICATIONS",
+        "missNote": "Indications found. Grind out and reweld before this joint goes anywhere near pressure.",
+        "speed": 0.6
+      },
+      "id": "weld-inspect",
+      "kind": "gauge",
+      "prompt": "Run the dye-penetrant check on the finished weld and commit once it reads clear.",
+      "target": "dye-pen-kit",
+      "title": "Inspect the seal weld",
+      "why": "A finished weld that looks sound and a weld actually free of surface cracking are told apart by the dye penetrant, not by eye — a hairline crack in a seal weld on a boiler tube is exactly the kind of defect that hides completely until the drum is back at pressure."
+    },
+    {
+      "cue": "Fill out the repair record and confirm the inspector's witness signature line.",
+      "id": "stamp-repair",
+      "kind": "select",
+      "prompt": "Fill out the repair record and confirm the inspector's witness signature line.",
+      "target": "nb-stamp-form",
+      "title": "Complete the National Board repair form",
+      "why": "The repair form under the National Board Inspection Code is the record that ties this specific tube, this weld and this inspection back to the authorization covering the work — a boiler repaired without that paperwork is a boiler an inspector years from now has no way to trust, however sound the weld actually is."
+    },
+    {
+      "cue": "Three things inside this drum should not be there. Find them before anyone closes the manway.",
+      "id": "final-walk",
+      "itemNames": {
+        "loose-bolt": "the loose bolt on the tube sheet",
+        "weld-spatter-loose": "the loose weld spatter",
+        "wrench-in-drum": "the wrench left in the drum"
+      },
+      "itemNotes": {
+        "loose-bolt": "A bolt sitting loose on the tube sheet instead of torqued into place is a bolt that becomes debris the first time this drum sees flow — it gets found and seated now, while the crew is still standing right next to it.",
+        "weld-spatter-loose": "Loose spatter from the seal weld that never got brushed off can flake free once this drum is back in service, and a boiler drum is exactly the wrong place for anything to be moving around loose.",
+        "wrench-in-drum": "A wrench left inside the drum is a foreign object that will move the moment this boiler is back in service — it comes out before the manway closes, not after someone hears it rattling weeks later."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Three things inside this drum should not be there. Find them before anyone closes the manway.",
+      "targets": [
+        "wrench-in-drum",
+        "loose-bolt",
+        "weld-spatter-loose"
+      ],
+      "title": "Walk the drum before closing the manway",
+      "why": "Everything found now costs a minute to pick up; anything missed becomes debris moving through a pressurised boiler the next time it fires. The final walk is the last chance to catch a dropped tool, a loose bolt or spatter before the manway makes the inside of this drum invisible again."
+    },
+    {
+      "cue": "Report the adjacent wall loss, the loose ferrule and how the roll expander felt going in.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Report the adjacent wall loss, the loose ferrule and how the roll expander felt going in.",
+      "target": "ibbt-crew-checkin",
+      "title": "Check in with the repair foreman",
+      "why": "The adjacent tube's wall loss and the loose ferrule both need to go on the next outage's scope before anyone assumes this repair covered everything this tube sheet needed. The check-in is also where an expander that felt like it was fighting the sheet gets flagged before it is issued to the next crew."
+    },
+    {
+      "cue": "Record the tube location, the expansion reading and the weld inspection result, then sign.",
+      "id": "closing-log",
+      "kind": "select",
+      "prompt": "Record the tube location, the expansion reading and the weld inspection result, then sign.",
+      "target": "ibbt-closing-log",
+      "title": "Sign the repair closeout log",
+      "why": "The closeout log is what lets an inspector years from now find exactly which tube was replaced, what expansion it was rolled to and what the dye-penetrant check found — the paperwork that turns a repair into something the next person can actually trust rather than take on faith."
+    }
+  ],
+  "supportLine": "your employer's employee assistance programme, or your Boilermakers Local 549 business agent if you are not sure how to reach it",
+  "tagline": "A failed firetube cut out and a new stub bevelled, rolled to the tube sheet and seal-welded, closed out on a foreign-object check before the manway shuts",
+  "title": "SmartCiti.X~ Boiler Tube Replacement and Rolling VR",
+  "trade": "Boilermaker, tube replacement and rolling — Boilermakers Local 549",
+  "underwater": null,
+  "weather": null
+}

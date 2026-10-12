@@ -1,0 +1,390 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "brought-him-home",
+    "name": "Brought Him Home",
+    "note": "His gas first, the snag cut and never his umbilical, never flown up on a bag, never his helmet off, and your own umbilical kept clear"
+  },
+  "category": "Maritime & Ports",
+  "certification": "Pile Drivers of the Carpenters commercial diver apprenticeship and the UBC International Training Fund; OSHA 29 CFR 1910 Subpart T commercial diving operations — the standby diver, the emergency procedures in the safe practices manual and the dive record; ADCI consensus standards for commercial diving, standby and emergency response; USCG 46 CFR 197 Subpart B where the dive is worked from a vessel; Inlandboatmen's Union of the ILWU deck practice on the dive boat; ascent and treatment per the dive plan and the tables the supervisor holds",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ADCI",
+        "citedAs": "ADCI",
+        "id": "adci-consensus-standards",
+        "title": "Association of Diving Contractors International — International Consensus Standards for Commercial Diving and Underwater Operations"
+      },
+      {
+        "body": "union",
+        "citedAs": "UBC",
+        "id": "carpenters-ictf",
+        "title": "United Brotherhood of Carpenters International Training Fund — carpenter, pile driver and millwright apprenticeship"
+      },
+      {
+        "body": "union",
+        "citedAs": "ILWU",
+        "id": "ilwu-pma-training",
+        "title": "ILWU-PMA joint training for longshore, crane and clerk work, and the Inlandboatmen's Union marine division"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910 Subpart T",
+        "id": "osha-1910-subpart-t",
+        "title": "29 CFR 1910 Subpart T — Commercial diving operations (dive team qualifications, the safe practices manual, pre-dive, during-dive and post-dive procedures, equipment and the dive record)"
+      },
+      {
+        "body": "USCG",
+        "citedAs": "46 CFR 197 Subpart B",
+        "id": "uscg-46-cfr-197-subpart-b",
+        "title": "46 CFR Part 197 Subpart B — Commercial diving operations from vessels and facilities under Coast Guard jurisdiction"
+      }
+    ]
+  },
+  "district": "bay-underwater",
+  "domain": "Maritime & Ports",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "gas-first",
+        "name": "Gas First",
+        "note": "His faceplate checked and his bailout opened before anything was cut"
+      },
+      {
+        "id": "read-true-rescue",
+        "name": "Read True",
+        "note": "Pneumo committed inside the band first time"
+      },
+      {
+        "id": "never-his-umbilical",
+        "name": "Never His Umbilical",
+        "note": "Never cut his umbilical, never flew him up, never took his helmet off, never fouled your own"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-recovery",
+        "name": "Clean Recovery",
+        "note": "No corrections from the on-bottom call to the log"
+      },
+      {
+        "id": "steady-free-flow",
+        "name": "Steady Free-Flow",
+        "note": "His free-flow held in band the whole time he was freed"
+      },
+      {
+        "id": "fast-to-the-stage",
+        "name": "Fast To The Stage",
+        "note": "Diver on the stage and the job read up inside 80% of par"
+      }
+    ],
+    "currency": "BREATH",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Standby Trainee",
+      "Standby Diver",
+      "Rescue Diver",
+      "Lead Standby",
+      "Standby Diver Certified"
+    ],
+    "system": "Standby Diver"
+  },
+  "hazards": {
+    "cut-his-umbilical": "You went to cut the working diver's umbilical to free him from the wire. His umbilical is his gas, his comms, his pneumo and the line the tenders will recover him on — cut it and a diver who was fouled becomes a diver with nothing but the bailout on his back and no way to be hauled up. You cut the snag, never the umbilical, and if it cannot be freed you tell the supervisor and work it clear.",
+    "fly-him-up": "You went to put air into a lift bag clipped to his harness to fly him to the surface. A lift bag expands as it rises and runs away, and a diver sent up on one ascends uncontrolled — past every decompression stop the tables the supervisor holds call for, with any gas in his lungs expanding as he goes. He goes up on the stage, clipped on, at the supervisor's call.",
+    "helmet-off": "You reached to take his helmet off to see his face. On the bottom his helmet is the only thing he can breathe in; taking it off puts an unconscious diver's airway in the water. You look through the faceplate, give him gas through the free-flow and his bailout, and leave the helmet on until he is on deck.",
+    "own-umbilical-under": "You started under the fallen timber after him from the far side. Your own umbilical follows you, and taking it under the timber and back round fouls the standby exactly as the working diver is fouled — two divers down on one wire and nobody left to go in for either. You go to him along his umbilical, the way he went."
+  },
+  "id": "mw-diver-emergency-and-recovery",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "follow-umbilical",
+      "alert": "You can hear a propeller turning overhead and closing — a vessel is moving near the dive while both divers are down.",
+      "cue": "Call the supervisor on the comms: a screw is turning overhead — get that vessel stopped before you go on.",
+      "delay": 2,
+      "id": "screw-overhead",
+      "kind": "Vessel's screw turning near the dive",
+      "missNote": "You kept following his umbilical while the screw came closer overhead, and the tenders felt both umbilicals jerk in its wash before the supervisor knew anything was moving.",
+      "seconds": 14,
+      "target": "sb-comms",
+      "why": "Two divers' umbilicals rise to the surface from this spot, and a turning screw drawn over them takes both. Only the surface can stop the vessel, and the standby is the one who can hear it; the call goes to the supervisor at once, because following the umbilical on under a turning screw risks the recovery becoming two recoveries.",
+      "wrongNote": "The comms — only the surface can stop that vessel, and the supervisor has to hear it from you now."
+    },
+    {
+      "after": "steady-free-flow",
+      "alert": "Your own comms have gone dead while you are working him free — no voice from the surface and no answer to your call.",
+      "cue": "Give line-pull signals on your own umbilical to your tender, and keep his free-flow going.",
+      "delay": 2,
+      "id": "standby-comms-lost",
+      "kind": "Comms lost with the surface",
+      "missNote": "You worked on in silence; the surface, hearing nothing from either diver, started dressing a second standby and took up slack on your umbilical in the middle of the freeing.",
+      "seconds": 14,
+      "target": "sb-umbilical-pull",
+      "why": "The surface is now running an emergency with no voice from either diver, and the first thing they need is to know the standby is still working. Line-pull signals on the standby's own umbilical tell the tender that, in the one language that does not need comms, while the standby keeps his gas going with the other hand.",
+      "wrongNote": "Your own umbilical — line-pull signals to your tender say you are all right and still working, without comms."
+    }
+  ],
+  "lateNotes": {
+    "line-cutter": "The cutter comes off the stage once you have found exactly what he is caught on — look first, then cut, and never near his umbilical.",
+    "sb-slate": "The emergency is read up for the dive log once he is on the stage and the call to come up has been made.",
+    "wd-harness": "He goes to the stage once he is free, his gas is steady and his gear has been checked for anything that will catch on the way."
+  },
+  "name": "Diver Emergency & Recovery",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "bay-area-union-edition"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "clip-diver-stage",
+      "cut-his-umbilical",
+      "fly-him-up",
+      "harness-strap-loose",
+      "helmet-off",
+      "line-cutter",
+      "monofilament-tangle",
+      "own-umbilical-under",
+      "sb-comms",
+      "sb-pneumo",
+      "sb-slate",
+      "sb-umbilical-pull",
+      "stage-seat",
+      "stage-up-call",
+      "tangle-cut-point",
+      "umbilical-wrap-wire",
+      "wd-bailout-valve",
+      "wd-freeflow",
+      "wd-harness",
+      "wd-helmet",
+      "wd-umbilical",
+      "weight-belt-snag"
+    ],
+    "meshes": 186
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Call the supervisor: standby on the bottom, on the working diver's umbilical, starting along it — and hear it repeated back.",
+      "id": "standby-on-bottom",
+      "kind": "select",
+      "prompt": "Call the supervisor: standby on the bottom, on the working diver's umbilical, starting along it — and hear it repeated back.",
+      "target": "sb-comms",
+      "title": "Report on the bottom on the working diver's umbilical",
+      "why": "The standby exists for exactly this minute, and the supervisor running the emergency from the surface needs to know where the standby is at every step: on the bottom, on the right umbilical, moving. 29 CFR 1910 Subpart T and the ADCI consensus standards put a standby at the station ready to go in precisely so this report can be made quickly, and the first report is made before anything else so the surface can plan the recovery around it."
+    },
+    {
+      "cue": "Keep a hand on the working diver's umbilical and follow it from the stage along the bottom to him — never let go, never cut across.",
+      "holdBreakNote": "You let go of his umbilical — in this visibility, the line is the only way to him. Take it up again where you left it and follow it on.",
+      "id": "follow-umbilical",
+      "kind": "hold",
+      "prompt": "Keep a hand on the working diver's umbilical and follow it from the stage along the bottom to him — never let go, never cut across.",
+      "seconds": 5,
+      "target": "wd-umbilical",
+      "title": "Follow his umbilical hand over hand to him",
+      "why": "In low visibility the working diver's umbilical is the only certain path to him: it goes exactly where he went, round whatever he went round. The standby follows it hand over hand without letting go, because letting go to cut a corner is how a standby ends up on the wrong side of a pile with their own umbilical fouled — the umbilical check here is on his line, and it is also the route."
+    },
+    {
+      "cue": "Get face to face with him: look through the faceplate — breathing, eyes, any response to your hand on his shoulder — and tell the supervisor what you see.",
+      "id": "check-diver",
+      "kind": "select",
+      "prompt": "Get face to face with him: look through the faceplate — breathing, eyes, any response to your hand on his shoulder — and tell the supervisor what you see.",
+      "target": "wd-helmet",
+      "title": "Check the diver through his faceplate",
+      "why": "What the standby sees through the faceplate decides what the surface does next: a diver who is breathing and responsive is freed and brought to the stage; one who is not is a medical emergency that changes how fast the surface wants him and what is waiting on deck. The standby looks and reports in plain words, because the supervisor is already reading the tables they hold for the ascent and needs facts, not impressions."
+    },
+    {
+      "cue": "Reach to his bailout bottle and open the valve fully, then check the gas is getting to his helmet through the side block.",
+      "id": "open-bailout",
+      "kind": "turn",
+      "prompt": "Reach to his bailout bottle and open the valve fully, then check the gas is getting to his helmet through the side block.",
+      "target": "wd-bailout-valve",
+      "title": "Open his bailout valve",
+      "turn": {
+        "label": "HIS BAILOUT",
+        "turns": 0.75
+      },
+      "why": "A fouled diver whose surface supply has been pinched or cut by the snag is breathing whatever is left in his helmet, and his bailout is the gas he carries for exactly that. Opening it is the first thing the standby does for him with their hands, before any cutting, because a diver freed from the wire who has run out of gas on the way has not been saved by being freed."
+    },
+    {
+      "cue": "Hold your pneumo end beside him while the supervisor bleeds and reads it, and commit the reading against the depth the dive plan gives.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.58
+        ],
+        "label": "PNEUMO AT DIVER",
+        "missNote": "Outside the band — hold the pneumo end still beside him while it is bled, and read it against the plan.",
+        "speed": 0.7
+      },
+      "id": "pneumo-at-diver",
+      "kind": "gauge",
+      "prompt": "Hold your pneumo end beside him while the supervisor bleeds and reads it, and commit the reading against the depth the dive plan gives.",
+      "target": "sb-pneumo",
+      "title": "Hold your pneumo at the diver for the supervisor",
+      "why": "The depth the working diver is lying at is what his ascent, and any treatment after it, will be planned on from the tables the supervisor holds — and his own pneumo may be pinched in the snag or reading wrong. The standby's pneumo held beside him gives the supervisor a reading to trust while the recovery goes on, and it is committed against the dive plan so the surface knows at once if he had gone deeper than planned."
+    },
+    {
+      "cue": "Before any cutting, trace his umbilical and his harness with your hands: what is it round, what is round him, and what is safe to cut.",
+      "id": "find-snag",
+      "itemNames": {
+        "monofilament-tangle": "monofilament snarled round his harness and fin",
+        "umbilical-wrap-wire": "his umbilical wrapped round a sunken wire rope"
+      },
+      "itemNotes": {
+        "monofilament-tangle": "A snarl of fishing monofilament is wound round his harness and one leg; it is nearly invisible in the silt and it is what stopped him working himself clear.",
+        "umbilical-wrap-wire": "His umbilical has taken two turns round a length of sunken wire rope pinned under the fallen timber — every pull from the surface has tightened it, which is why the tenders could not bring him back."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Before any cutting, trace his umbilical and his harness with your hands: what is it round, what is round him, and what is safe to cut.",
+      "targets": [
+        "umbilical-wrap-wire",
+        "monofilament-tangle"
+      ],
+      "title": "Find exactly what he is caught on",
+      "why": "Freeing a fouled diver starts with finding the snag exactly, by hand, because the wrong cut is worse than no cut: a knife that goes into a tangle blind can go into the umbilical, the harness or the diver. Two things usually hold a fouled diver — the umbilical round structure and something wound round him — and each is freed differently: the umbilical is worked back off the wire, and the monofilament is cut."
+    },
+    {
+      "cue": "The tender has sent the line cutter down on the stage — unclip it and bring it to the monofilament at his harness, well away from his umbilical.",
+      "drag": {
+        "missNote": "Not at the snag — the cutter goes to the monofilament at his harness, well away from his umbilical.",
+        "radius": 0.5,
+        "to": "tangle-cut-point"
+      },
+      "id": "cutter-down",
+      "kind": "drag",
+      "prompt": "The tender has sent the line cutter down on the stage — unclip it and bring it to the monofilament at his harness, well away from his umbilical.",
+      "target": "line-cutter",
+      "title": "Take the line cutter off the stage to the snag",
+      "why": "The cutter comes down on the stage from the tender rather than on a loose line, so it arrives where the standby can find it and cannot tangle with either umbilical on the way. It is taken to the monofilament at his harness, well clear of his umbilical, because the cutter's job is the snag and nothing else; the umbilical round the wire is worked back off by hand."
+    },
+    {
+      "cue": "Keep his helmet's free-flow cracked in the band as you work his umbilical back off the wire — enough gas to ventilate his helmet, never enough to empty his bailout.",
+      "holdBreakNote": "His free-flow went out of band — his helmet went stale or his bailout was running away. Bring it back to a steady flow and hold it.",
+      "id": "steady-free-flow",
+      "kind": "track",
+      "prompt": "Keep his helmet's free-flow cracked in the band as you work his umbilical back off the wire — enough gas to ventilate his helmet, never enough to empty his bailout.",
+      "seconds": 6,
+      "target": "wd-freeflow",
+      "title": "Hold his free-flow steady while you free him",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.46,
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "HIS FREE-FLOW",
+        "rise": 0.56,
+        "start": 0.14
+      },
+      "why": "A diver who is not breathing well is ventilated through his helmet's free-flow, and the standby controls it with one hand while freeing him with the other. Too little and the gas in his helmet goes stale; too much and his bailout empties while he is still on the wire. The flow is held in band because his gas is the thing that decides how long the standby has."
+    },
+    {
+      "cue": "Before he moves: anything still catching on the timber or the wire, and his harness done up so it can take the stage clip.",
+      "id": "gear-check",
+      "itemNames": {
+        "harness-strap-loose": "harness leg strap undone",
+        "weight-belt-snag": "weight belt buckle caught on the timber"
+      },
+      "itemNotes": {
+        "harness-strap-loose": "One leg strap of his harness has come undone in the struggle — the harness is what the stage clip and the tenders' pull go through, and with a strap loose it can ride up over his chest.",
+        "weight-belt-snag": "His weight belt's buckle has hooked over the edge of the timber; move him now and it pulls him back or tears loose and sends him light."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Before he moves: anything still catching on the timber or the wire, and his harness done up so it can take the stage clip.",
+      "targets": [
+        "weight-belt-snag",
+        "harness-strap-loose"
+      ],
+      "title": "Check his gear before you move him",
+      "why": "A diver who has just been freed is moved once, to the stage, and anything still catching on the way turns that move into a second fouling. His harness is what everything will pull through — the stage clip and the tenders' umbilical — so a strap that has come undone is done up now, on the bottom, not discovered when he rides up out of it on the way to the surface."
+    },
+    {
+      "cue": "Take him by his harness and bring him along his umbilical to the stage, keeping his helmet upright and your own umbilical clear of his.",
+      "drag": {
+        "missNote": "Not on the stage — bring him by the harness to the stage and sit him in it, helmet upright.",
+        "radius": 0.6,
+        "to": "stage-seat"
+      },
+      "id": "to-the-stage",
+      "kind": "drag",
+      "prompt": "Take him by his harness and bring him along his umbilical to the stage, keeping his helmet upright and your own umbilical clear of his.",
+      "target": "wd-harness",
+      "title": "Bring him to the stage",
+      "why": "The stage is the way up: it is on its lift wire with the tenders and the supervisor controlling it, and a diver on it can be brought up at the rate and with the stops the tables the supervisor holds call for. He is brought to it by his harness, helmet upright so the gas in it stays where he can breathe it, along his own umbilical so neither umbilical crosses the other."
+    },
+    {
+      "cue": "Clip his harness to the stage first and check it, get on the stage beside him, then call the supervisor: diver on the stage, clipped in, ready to come up.",
+      "id": "clip-and-call",
+      "itemNames": {
+        "clip-diver-stage": "his harness clipped to the stage",
+        "stage-up-call": "call to the supervisor: diver on the stage, clipped, ready"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order — he is clipped to the stage and the clip checked before the call goes up; never the call first.",
+      "prompt": "Clip his harness to the stage first and check it, get on the stage beside him, then call the supervisor: diver on the stage, clipped in, ready to come up.",
+      "targets": [
+        "clip-diver-stage",
+        "stage-up-call"
+      ],
+      "title": "Clip him to the stage, then call it up",
+      "why": "The order is the whole of it: a stage called up before the diver is clipped on is a stage that leaves an unconscious diver on the bottom or drops him off halfway. He is clipped and the clip checked, the standby rides beside him, and only then does the supervisor hear 'ready' — the ascent itself, its rate and its stops, are the supervisor's from the tables they hold."
+    },
+    {
+      "cue": "Read your slate to the supervisor: where he was, what he was caught on, his condition, when his bailout was opened, the pneumo reading, the vessel's screw and your own comms drop.",
+      "id": "emergency-log",
+      "kind": "select",
+      "prompt": "Read your slate to the supervisor: where he was, what he was caught on, his condition, when his bailout was opened, the pneumo reading, the vessel's screw and your own comms drop.",
+      "target": "sb-slate",
+      "title": "Read the emergency up for the dive log",
+      "why": "The dive log of an emergency is what the diver's treatment, the investigation and the next dive plan on this pier will all be built from, and the standby is the only person who saw the bottom. It is read up now, on the stage, while it is exact: the time his bailout was opened and the depth he was lying at matter to whoever treats him on deck."
+    },
+    {
+      "cue": "On the stage with him: how he is now, how you are, and that you will both be looked at on deck — and tell the supervisor you want the debrief.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "On the stage with him: how he is now, how you are, and that you will both be looked at on deck — and tell the supervisor you want the debrief.",
+      "target": "sb-comms",
+      "title": "Check in with the supervisor on the way up",
+      "why": "A standby who has just recovered a fouled diver has been through one of the hardest things the trade asks, and the check-in on the stage is the first place it is said out loud. The supervisor needs to know how both divers are for the ascent the tables call for; the team needs the debrief afterwards, and the member assistance line and a critical-incident debrief exist because some of this does not settle on the comms."
+    }
+  ],
+  "supportLine": "your union hall's member assistance programme — the Pile Drivers of the Carpenters or the Inlandboatmen's Union — with the employer's employee assistance line and a critical-incident debrief behind it",
+  "tagline": "The standby goes in: on the bottom on the working diver's umbilical, followed hand over hand while a vessel's screw turns overhead, the diver checked through his faceplate, his bailout opened, the pneumo read, the wire and the monofilament found, the cutter passed down the stage, his free-flow held steady while your own comms go, his gear checked, brought to the stage, clipped on before the call up, and the emergency read up for the dive log",
+  "title": "SmartCiti.X~ Diver Emergency & Recovery VR",
+  "trade": "Pile Drivers of the Carpenters commercial diver as the standby diver recovering a fouled working diver, with the dive supervisor, the tenders and an Inlandboatmen's Union of the ILWU deckhand on the dive boat at the surface",
+  "underwater": {
+    "bottomTimeSeconds": 600,
+    "depthLabel": "Per dive plan"
+  },
+  "weather": "clear"
+}

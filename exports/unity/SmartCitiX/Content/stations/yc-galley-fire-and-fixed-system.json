@@ -1,0 +1,399 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "fuel-off-first",
+    "name": "Fuel Off First",
+    "note": "The fuel shut before anything else, no water near the grease, the hatch cracked and never thrown open, and both the door and the reflash answered"
+  },
+  "category": "Maritime & Ports",
+  "certification": "IBU and SIU deck training in shipboard fire-fighting; MEBA engineering watch on the fuel isolation; USCG fire-fighting equipment rules at 46 CFR 25 as the vessel's certificate applies them; NFPA 306 control of gas hazards on vessels; OSHA 29 CFR 1910.157 portable fire extinguishers and 29 CFR 1910.132 personal protective equipment; IMO STCW fire prevention and fire fighting",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "IBU",
+        "id": "ilwu-pma-training",
+        "title": "ILWU-PMA joint training for longshore, crane and clerk work, and the Inlandboatmen's Union marine division"
+      },
+      {
+        "body": "IMO",
+        "citedAs": "IMO STCW",
+        "id": "imo-stcw",
+        "title": "STCW — Convention on Standards of Training, Certification and Watchkeeping for Seafarers"
+      },
+      {
+        "body": "union",
+        "citedAs": "MEBA",
+        "id": "meba-calhoon-school",
+        "title": "MEBA — the Calhoon MEBA Engineering School's licensed marine engineer training"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 306",
+        "id": "nfpa-306",
+        "title": "NFPA 306 — Control of Gas Hazards on Vessels"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.132",
+        "id": "osha-1910-132",
+        "title": "29 CFR 1910.132 — Personal protective equipment, general requirements"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.157",
+        "id": "osha-1910-157",
+        "title": "29 CFR 1910.157 — Portable fire extinguishers"
+      },
+      {
+        "body": "union",
+        "citedAs": "SIU",
+        "id": "siu-paul-hall-center",
+        "title": "SIU — the Paul Hall Center for Maritime Training and Education's unlicensed mariner programmes"
+      },
+      {
+        "body": "USCG",
+        "citedAs": "46 CFR 25",
+        "id": "uscg-46-cfr-25",
+        "title": "46 CFR Part 25 — Requirements for uninspected vessels, including lifesaving and fire-fighting equipment"
+      }
+    ]
+  },
+  "district": "Maritime & Ports",
+  "domain": "Maritime & Ports",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "plan-read",
+        "name": "Plan Read",
+        "note": "The fire plan read before the range was touched"
+      },
+      {
+        "id": "cracked-right",
+        "name": "Cracked Right",
+        "note": "Hatch opening committed inside the band first time"
+      },
+      {
+        "id": "dry-hands",
+        "name": "Dry Hands",
+        "note": "No water on the grease, no hatch thrown open, no early re-entry, no aim at the flames"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-knockdown",
+        "name": "Clean Knockdown",
+        "note": "No corrections from the plan to the log"
+      },
+      {
+        "id": "smoke-watched",
+        "name": "Smoke Watched",
+        "note": "The smoke watched in band the whole way"
+      },
+      {
+        "id": "one-pan",
+        "name": "One Pan",
+        "note": "Fire logged inside 80% of par"
+      }
+    ],
+    "currency": "KNOT",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Green Hand",
+      "Steward",
+      "Lead Steward",
+      "Fire Party Lead",
+      "Galley Watch Certified"
+    ],
+    "system": "Galley Watch"
+  },
+  "hazards": {
+    "aim-at-flames": "You aimed the extinguisher at the flames above the pan. The flames are the light show; the fuel is the oil in the pan, and an extinguisher discharged into the air above it wastes its whole charge on nothing while the fire keeps burning underneath. The label and the training say the same thing: aim at the base, sweep across it, from the distance the label gives, until the extinguisher is empty or the fire is out.",
+    "hatch-wide": "You threw the overhead hatch fully open to clear the smoke. A hatch thrown wide over a fire that is not yet out gives it all the air it wants and pulls the flames up toward the opening — and toward the face of whoever is opening it. The hatch is cracked to the plan's opening once the fire is knocked down, to let the smoke out without feeding the fire, and it is opened wide only when the galley is cold.",
+    "reenter-early": "You went back into the galley to check the pan the moment the flames went down. A grease fire that has been knocked down is a pan of oil still hotter than its flash point, waiting for air; the compartment behind a closed door is full of the smoke and the products the fixed system left, and the fire plan gives the time to wait before the door opens. The door stays shut, the engineer confirms the fuel is off, and re-entry is on the captain's word with the time run down.",
+    "water-bucket": "You reached for the water bucket to throw on the pan. Water on burning grease flashes to steam under the oil and throws the burning oil out of the pan and across the galley — onto the steward, the bulkhead and the overhead — and turns a pan fire into a compartment fire in a second. A grease fire is smothered: the blanket, the lid, the extinguisher the label says is for it. Water is for nothing in this galley."
+  },
+  "id": "yc-galley-fire-and-fixed-system",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "blanket-hold",
+      "alert": "A guest has pulled the galley door open from the passageway to see what the smell is — air is coming in across the range and the smoke is going out past them.",
+      "cue": "Get the galley door shut with the guest on the other side of it, and keep the blanket down with the other hand.",
+      "delay": 2,
+      "id": "guest-opens-door",
+      "kind": "Guest opens the galley door mid-blanket",
+      "missNote": "The door stayed open, the draught across the range lifted the blanket's edge and the pan relit, and the guest took the smoke in the face in the doorway.",
+      "seconds": 14,
+      "target": "galley-door",
+      "why": "An open door is air to the fire and smoke to the guests, and a guest in the doorway of a galley fire is a person about to be hurt trying to help. The door is shut with the guest outside it — not argued with, shut — because the blanket only works with the air still and the passageway only stays clear with the door closed; the captain's hailer call sends the guest aft, and the steward's hand never leaves the blanket.",
+      "wrongNote": "The galley door — shut, with the guest outside it; the blanket stays down under the other hand."
+    },
+    {
+      "after": "smoke-watch",
+      "alert": "The smoke at the door seal has thickened and the door is warming under your hand — the pan has reflashed behind the closed door with the fixed system spent.",
+      "cue": "Take the second extinguisher from the passageway bracket and stand ready at the door with it; the door stays shut and the captain is told the galley has reflashed.",
+      "delay": 2,
+      "id": "pan-reflash",
+      "kind": "Pan reflashes at the door seal",
+      "missNote": "The door was opened on the reflash with nothing in hand, the fire took the air from the passageway, and the steward backed out with their gloves alight.",
+      "seconds": 14,
+      "target": "second-extinguisher",
+      "why": "A reflash after the fixed system is a fire with the first response spent, and the answer is the next response in hand before the door moves: the passageway extinguisher, pin pulled, at the label's distance from the door, with the captain told. The door stays shut because opening it to a reflash feeds it; the extinguisher is ready for the moment the captain decides the door opens, and if the door stays shut until the galley is cold, it was ready for nothing, which is the good outcome.",
+      "wrongNote": "The second extinguisher — in hand, pin out, at the door; the door itself stays shut until the captain says otherwise."
+    }
+  ],
+  "lateNotes": {
+    "fire-log": "The fire is logged once the galley is cold, the fuel tag confirmed and the guests counted — last, not first.",
+    "fixed-system-pull": "The fixed system is pulled once the fuel is off and the portable has been tried — the plan's order, not the panic's."
+  },
+  "name": "Galley Fire & Fixed System",
+  "parSeconds": 280,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "yacht-and-charter-crew"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "aim-at-flames",
+      "companionway-hailer",
+      "extinguisher-gauge-low",
+      "fire-blanket-hold",
+      "fire-blanket-pouch",
+      "fire-log",
+      "fire-plan-board",
+      "fixed-system-pull",
+      "fuel-isolation-tag",
+      "galley-door",
+      "galley-fuel-shutoff",
+      "galley-gloves",
+      "galley-intercom",
+      "grease-filter-loaded",
+      "hatch-wide",
+      "headcount-board",
+      "muster-alarm",
+      "overhead-hatch",
+      "pan-fire-base",
+      "portable-extinguisher",
+      "reenter-early",
+      "second-extinguisher",
+      "smoke-watch",
+      "water-bucket"
+    ],
+    "meshes": 157
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the galley section of the fire plan on the companionway board: the fuel shut-off's location, the blanket and the extinguisher and what the label says they are for, the fixed system's pull and the wait time after it, who musters the guests and where.",
+      "id": "fire-plan",
+      "kind": "select",
+      "prompt": "Read the galley section of the fire plan on the companionway board: the fuel shut-off's location, the blanket and the extinguisher and what the label says they are for, the fixed system's pull and the wait time after it, who musters the guests and where.",
+      "target": "fire-plan-board",
+      "title": "Read the vessel's fire plan for the galley",
+      "why": "A galley fire gives the steward seconds and the fire plan is where the vessel has already spent them: it says where the fuel shut-off is so nobody searches for it with the pan burning, what the extinguisher is for so nobody discharges the wrong one, and how long to wait after the fixed system before the door opens. The equipment rules put the plan and the gear aboard; the plan being read at the start of every trip is what turns gear into a response."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Heat-resistant gloves on, and the fire blanket's pull tabs checked hanging free from the pouch by the range — the blanket is the first move on a pan fire and it has to come out in one pull.",
+      "id": "gloves-and-blanket",
+      "itemNames": {
+        "fire-blanket-pouch": "fire blanket in its pouch, tabs out",
+        "galley-gloves": "heat-resistant galley gloves"
+      },
+      "kind": "sequence",
+      "prompt": "Heat-resistant gloves on, and the fire blanket's pull tabs checked hanging free from the pouch by the range — the blanket is the first move on a pan fire and it has to come out in one pull.",
+      "targets": [
+        "galley-gloves",
+        "fire-blanket-pouch"
+      ],
+      "title": "Gloves on, the fire blanket's tabs checked",
+      "why": "The blanket is the first thing a steward reaches for on a pan fire, and a blanket whose tabs have been tucked into the pouch to look tidy is a blanket that takes two hands and ten seconds to get out while the pan burns; the gloves are for the blanket's edges over the pan and for the lid and the handle after. Both are checked before the range is lit because the moment they are needed is the moment there is no time to find out they are wrong."
+    },
+    {
+      "cue": "Look at the hood and its filter, the extinguisher's gauge and pin, the blanket, the fuel shut-off's handle and the door: everything the fire plan names, in the state the plan expects.",
+      "id": "galley-walk",
+      "itemNames": {
+        "extinguisher-gauge-low": "extinguisher with its gauge in the red",
+        "grease-filter-loaded": "hood grease filter loaded with grease"
+      },
+      "itemNotes": {
+        "extinguisher-gauge-low": "The galley extinguisher's gauge needle is in the red — an extinguisher with no pressure discharges nothing, and the steward finds that out with the pan burning and the handle squeezed.",
+        "grease-filter-loaded": "The hood's grease filter is loaded and dripping — a pan flare-up under a loaded filter goes up the hood and into the ducting where no blanket or extinguisher reaches it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look at the hood and its filter, the extinguisher's gauge and pin, the blanket, the fuel shut-off's handle and the door: everything the fire plan names, in the state the plan expects.",
+      "targets": [
+        "grease-filter-loaded",
+        "extinguisher-gauge-low"
+      ],
+      "title": "Walk the galley before the range is lit",
+      "why": "The galley walk is where the fire plan's promises are checked against the galley as it is: an extinguisher with pressure, a filter that will not carry a flare into the ducting, a shut-off that turns. A fire is the worst time to learn that the extinguisher is empty or the filter is a wick, and both are found in a minute by someone who looks at the gauge and the filter rather than past them."
+    },
+    {
+      "cue": "The pan has lit — the first move is the fuel: turn the galley fuel shut-off on the bulkhead to closed, so the range stops feeding the fire, then turn to the pan.",
+      "id": "fuel-shutoff",
+      "kind": "select",
+      "prompt": "The pan has lit — the first move is the fuel: turn the galley fuel shut-off on the bulkhead to closed, so the range stops feeding the fire, then turn to the pan.",
+      "target": "galley-fuel-shutoff",
+      "title": "Shut off the galley fuel first",
+      "why": "A pan fire on a range is two fires: the oil in the pan and the burner under it, and smothering the pan while the burner keeps heating it is a fire that comes back the moment the blanket lifts. The fuel shut-off on the bulkhead kills the burner and every other burner in the galley in one movement, from arm's length, before anyone bends over the pan — it is the first move on the plan because it is the one that makes every other move work."
+    },
+    {
+      "cue": "Pull the blanket by its tabs, hold it in front of you with the edges over your gloved hands, lay it over the pan from the near side away from you, and hold it down — do not lift it to look.",
+      "holdBreakNote": "The blanket was lifted before the pan had cooled — air under the blanket, the oil relit. Lay it again and hold it down for the plan's time.",
+      "id": "blanket-hold",
+      "kind": "hold",
+      "prompt": "Pull the blanket by its tabs, hold it in front of you with the edges over your gloved hands, lay it over the pan from the near side away from you, and hold it down — do not lift it to look.",
+      "seconds": 5,
+      "target": "fire-blanket-hold",
+      "title": "Lay the blanket over the pan and hold it",
+      "why": "The blanket puts out a pan fire by taking its air away, and it works only while it stays down: lifted to check, it lets air in and the fire relights on oil that is still above its flash point. It is laid from the near side so the flames go away from the steward, with the edges over the gloved hands so nothing is exposed, and it is held for the plan's time — long enough for the oil to cool below the point where air alone will light it again."
+    },
+    {
+      "cue": "The blanket has not held it — take the extinguisher from its bracket, pull the pin, stand back to the label's distance, aim at the base of the fire and sweep across it until the flames are down.",
+      "drag": {
+        "missNote": "Not at the base — the agent goes on the oil in the pan, swept across it from the label's distance, not into the flames above it.",
+        "radius": 0.6,
+        "to": "pan-fire-base"
+      },
+      "id": "extinguisher-sweep",
+      "kind": "drag",
+      "prompt": "The blanket has not held it — take the extinguisher from its bracket, pull the pin, stand back to the label's distance, aim at the base of the fire and sweep across it until the flames are down.",
+      "target": "portable-extinguisher",
+      "title": "Extinguisher at the base of the fire, swept",
+      "why": "The portable extinguisher is the second move because it is the one that works from a distance and puts an agent on the oil rather than on the flames above it; the base is where the fuel is and the sweep covers all of it. The pin is pulled at the bracket, not at the fire, and the steward stands at the label's distance with the door behind them — an extinguisher used from too close blows burning oil out of the pan, and a steward with the fire between them and the door has no way out when it does not work."
+    },
+    {
+      "cue": "The pan has taken the hood — everyone out, the galley door closed, and the fixed system's pull handle by the door turned and pulled to discharge into the galley; the door stays shut.",
+      "id": "fixed-system-pull",
+      "kind": "turn",
+      "prompt": "The pan has taken the hood — everyone out, the galley door closed, and the fixed system's pull handle by the door turned and pulled to discharge into the galley; the door stays shut.",
+      "target": "fixed-system-pull",
+      "title": "Pull the fixed system and close the door",
+      "turn": {
+        "label": "FIXED SYSTEM",
+        "turns": 1.25
+      },
+      "why": "When a fire has left the pan for the hood, the portable is finished and the fixed system is the answer: it floods the galley with an agent that the door keeps in, and it needs everyone out and the door shut to work — a fixed system discharged with the door open is agent in the passageway and a fire that keeps its air. The handle is turned and pulled deliberately, as the plan describes, and the door does not open again until the plan's wait has run down."
+    },
+    {
+      "cue": "Sound the muster alarm, tell the guests over the hailer to go to the aft deck muster point and stay there, and count them against the board with the captain.",
+      "id": "muster-guests",
+      "itemNames": {
+        "companionway-hailer": "hailer — guests aft",
+        "headcount-board": "headcount board",
+        "muster-alarm": "muster alarm"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Alarm, then the hailer, then the count — the alarm moves the guests, the hailer tells them where, the count proves they got there.",
+      "prompt": "Sound the muster alarm, tell the guests over the hailer to go to the aft deck muster point and stay there, and count them against the board with the captain.",
+      "targets": [
+        "muster-alarm",
+        "companionway-hailer",
+        "headcount-board"
+      ],
+      "title": "Sound the alarm, send the guests aft on the hailer, count them",
+      "why": "A fire below is the moment guests go the wrong way — toward their cabins for their things, toward the galley to see — and the alarm and the hailer are how a crew of three moves a deck of guests to the one place they can be counted and kept clear of the crew's work. The order matters because a hailer call before the alarm is a suggestion and a count before the hailer is a count of people still moving; alarm, hailer, count is the sequence that ends with a number."
+    },
+    {
+      "cue": "At the closed galley door, watch the smoke at the door seal and the door's temperature by the back of a gloved hand, and call it to the engineer steadily through the plan's wait — thinning, holding, or building.",
+      "holdBreakNote": "The smoke watch broke — eyes off the seal or the calls over the engineer. Back on the door, the hand on it, steady calls, through the plan's wait.",
+      "id": "smoke-watch",
+      "kind": "track",
+      "prompt": "At the closed galley door, watch the smoke at the door seal and the door's temperature by the back of a gloved hand, and call it to the engineer steadily through the plan's wait — thinning, holding, or building.",
+      "seconds": 6,
+      "target": "smoke-watch",
+      "title": "Watch the smoke at the galley door through the wait",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.46,
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "SMOKE AT THE DOOR",
+        "rise": 0.6,
+        "start": 0.14
+      },
+      "why": "The fixed system has discharged and the plan's wait is running, and the door is the only instrument: smoke thinning at the seal and a door cooling under the hand mean the agent is winning, smoke building and a door warming mean it is not and the captain needs to know now, not when the wait is up. The watch is steady and called out loud because the engineer below is isolating fuel on the strength of what the door is saying."
+    },
+    {
+      "cue": "With the wait run down and the door cool, crack the galley's overhead hatch from the deck above to the opening the fire plan gives — enough to vent the smoke, not enough to feed anything still hot — and commit it.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "HATCH OPENING",
+        "missNote": "Outside the band — the hatch is cracked to the plan's opening, enough to vent and no more, and committed from the deck above.",
+        "speed": 0.7
+      },
+      "id": "hatch-crack",
+      "kind": "gauge",
+      "prompt": "With the wait run down and the door cool, crack the galley's overhead hatch from the deck above to the opening the fire plan gives — enough to vent the smoke, not enough to feed anything still hot — and commit it.",
+      "target": "overhead-hatch",
+      "title": "Crack the overhead hatch to the plan's opening",
+      "why": "Venting a galley after a fire is a gauge, not a switch: the plan's opening lets the smoke and the agent out at a rate that does not pull fresh air across a pan of oil that is still hot, and a hatch thrown wide does the opposite. The hatch is cracked from the deck above with the door still shut, so the galley vents upward and the steward is never in the smoke's path, and it is opened wide only when the engineer has been in with a lamp and called it cold."
+    },
+    {
+      "cue": "Before the galley door opens, check the engineer's tag on the galley fuel valve below: isolated, tagged, the engineer's name, and the engineer's word on the intercom that it stays that way until the galley is cold and inspected.",
+      "id": "fuel-tag-confirm",
+      "kind": "select",
+      "prompt": "Before the galley door opens, check the engineer's tag on the galley fuel valve below: isolated, tagged, the engineer's name, and the engineer's word on the intercom that it stays that way until the galley is cold and inspected.",
+      "target": "fuel-isolation-tag",
+      "title": "Confirm the engineer's fuel isolation tag before re-entry",
+      "why": "A galley whose fuel is shut at the range but still live at the tank is a galley one turned handle from relighting, and the engineer's tag on the valve below is what makes the isolation something that survives the steward walking away from the shut-off. The tag carries a name because the rules for isolating energy say the person who isolated it is the only one who restores it; the galley is re-entered on that tag and the engineer's word, not on the flames being out."
+    },
+    {
+      "cue": "Enter the fire in the log: the pan, the fuel shut first, the blanket and the extinguisher used, the fixed system discharged and the wait, the guests mustered and counted, the filter and the gauge found beforehand, the door opened and the reflash.",
+      "id": "fire-log",
+      "kind": "select",
+      "prompt": "Enter the fire in the log: the pan, the fuel shut first, the blanket and the extinguisher used, the fixed system discharged and the wait, the guests mustered and counted, the filter and the gauge found beforehand, the door opened and the reflash.",
+      "target": "fire-log",
+      "title": "Log the fire",
+      "why": "The fire log is the record the operator, the insurer and a boarding officer will read, and it is the record that gets the fixed system recharged and the extinguisher replaced before the next trip rather than found empty at the next fire. The loaded filter and the low gauge are logged with the fire because they are the two things that made it worse than it needed to be, and the guest who opened the door is logged because the next brief needs to say why the door stays shut."
+    },
+    {
+      "cue": "On the intercom: the galley cold and vented, the fuel tagged, the fixed system discharged and due for recharge, the guests counted and calm, and how you are after a fire in a space the size of a cupboard.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "On the intercom: the galley cold and vented, the fuel tagged, the fixed system discharged and due for recharge, the guests counted and calm, and how you are after a fire in a space the size of a cupboard.",
+      "target": "galley-intercom",
+      "title": "Check in with the engineer and the captain",
+      "why": "The captain takes the vessel back to the berth on the strength of the crew's word that the galley is cold and the fuel is isolated, and the engineer needs to hear that the fixed system is spent before anyone relies on it again. It is also the crew's own check-in: a fire fought at arm's length in a closed galley, with a guest opening the door into it, is a hard thing, and the union's member assistance line is there for what the intercom does not carry."
+    }
+  ],
+  "supportLine": "your union hall's member assistance programme — the IBU, SIU or MEBA — with the operator's employee assistance line behind it",
+  "tagline": "A pan fire on the range: the fire plan read, gloves on and the blanket checked, the galley walked for the loaded grease filter and the low extinguisher gauge, the fuel shut off first, the blanket held over the pan while a guest opens the galley door, the extinguisher swept at the base, the fixed system pulled, the alarm, the hailer and the headcount in order, the smoke watched as the pan reflashes, the hatch cracked to the plan, the engineer's fuel tag confirmed, the fire logged and the crew checked in",
+  "title": "SmartCiti.X~ Galley Fire & Fixed System VR",
+  "trade": "Charter yacht steward-deckhand at the galley fire, IBU and SIU trained, with the MEBA engineer isolating fuel below and the captain mustering guests",
+  "underwater": null,
+  "weather": "overcast"
+}

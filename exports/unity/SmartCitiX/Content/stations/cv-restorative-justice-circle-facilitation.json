@@ -1,0 +1,452 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "circle-kept",
+    "name": "Circle Kept",
+    "note": "A whole circle held fair: every voice heard, nobody shamed, nothing promised that was not yours to promise"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "SAMHSA's trauma-informed principles — safety, trustworthiness and transparency, peer support, collaboration, empowerment and voice, and cultural responsiveness — for a circle where harm is named; Psychological First Aid (NCTSN and the National Center for PTSD) for a participant overwhelmed mid-circle; the California Child Abuse and Neglect Reporting Act (CANRA), named as a body, for the limit of any confidentiality promised to a minor when a keeper or co-keeper is a mandated reporter; the NASW Code of Ethics for the social worker co-keeping; Title II of the ADA for access to a city-run programme; SEIU and AFSCME for the recreation-centre staff who host community programmes. The restorative questions are stated generically; no restorative-justice programme's curriculum is sourced in this repository. The leadership principles practised here are those commonly taught in civic-leadership programmes; the foundation whose principles the programme draws on is not sourced in this repository",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "DOJ",
+        "citedAs": "Title II of the ADA",
+        "id": "ada-title-ii",
+        "title": "Americans with Disabilities Act Title II — programme accessibility for public entities and their services"
+      },
+      {
+        "body": "union",
+        "citedAs": "AFSCME",
+        "id": "afscme-training",
+        "title": "AFSCME member education and safety training for public-service and air-district members"
+      },
+      {
+        "body": "California Penal Code",
+        "citedAs": "CANRA",
+        "id": "ca-canra",
+        "title": "The California Child Abuse and Neglect Reporting Act (CANRA), as a body — the duty of mandated reporters to report known or reasonably suspected child abuse or neglect, which limits any promise of confidentiality made to a minor"
+      },
+      {
+        "body": "union",
+        "citedAs": "NASW Code of Ethics",
+        "id": "nasw-code-of-ethics",
+        "title": "NASW Code of Ethics and the association's practice standards for social work and crisis counselling"
+      },
+      {
+        "body": "NCTSN",
+        "citedAs": "Psychological First Aid",
+        "id": "pfa-field-guide",
+        "title": "Psychological First Aid Field Operations Guide (NCTSN and the National Center for PTSD), and the WHO field guide"
+      },
+      {
+        "body": "SAMHSA",
+        "citedAs": "SAMHSA",
+        "id": "samhsa-trauma-informed",
+        "title": "SAMHSA's six principles of a trauma-informed approach"
+      },
+      {
+        "body": "union",
+        "citedAs": "SEIU",
+        "id": "seiu-training",
+        "title": "SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Civic",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "circle-ready",
+        "name": "Circle Ready",
+        "note": "Every part of the circle set up first time"
+      },
+      {
+        "id": "nobody-shamed",
+        "name": "Nobody Shamed",
+        "note": "No unsafe action anywhere in the circle"
+      },
+      {
+        "id": "harm-seen",
+        "name": "Harm Seen",
+        "note": "Everyone the harm reached found first time"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-circle",
+        "name": "Clean Circle",
+        "note": "No corrections anywhere in the circle"
+      },
+      {
+        "id": "fair-share",
+        "name": "Fair Share",
+        "note": "Speaking time set inside the band"
+      },
+      {
+        "id": "deep-listening",
+        "name": "Deep Listening",
+        "note": "Both listening holds and the temperature carried their full count"
+      }
+    ],
+    "currency": "REPAIR",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Circle Member",
+      "Co-Keeper",
+      "Circle Keeper",
+      "Lead Keeper",
+      "Keeper Mentor"
+    ],
+    "system": "Talking Piece"
+  },
+  "hazards": {
+    "demand-apology-now": "You told him to apologise right now, in front of everyone. A forced apology is a performance, and everyone in the circle can hear it; it shames him without repairing anything and teaches him that the circle is a punishment with chairs. An apology that means something comes when he has heard what the harm was — if it comes at all, it is his.",
+    "promise-no-charges": "You told him that if the circle goes well the police report will disappear. What happens to the report is decided by people who are not in this room, a keeper cannot promise it, and a promise like that turns a voluntary circle into a bargain — if the outcome goes the other way, he will believe the circle lied to him, and he will be right.",
+    "share-circle-story": "You told the neighbourhood association what he said about why he did it. What is said in the circle stays in the circle, except for the limits named at the start; repeating his story outside turns the most honest thing a fifteen-year-old has said all year into neighbourhood gossip, and nobody in this circle will speak freely in one of yours again.",
+    "third-circle-tonight": "You agreed to keep a third circle tonight, back to back, without a debrief. Keeping a circle means holding grief, anger and shame in the room for hours; a keeper who runs on empty misses the moment someone goes quiet, and one tired lapse can undo a family's trust in the whole programme."
+  },
+  "id": "cv-restorative-justice-circle-facilitation",
+  "indoor": "service",
+  "interrupts": [
+    {
+      "after": "listen-to-the-young-person",
+      "alert": "While he is speaking, his grandmother breaks in over him: \"Tell them the truth — tell them how you've shamed this family!\"",
+      "cue": "Gently restate the talking-piece guideline, give the piece back to him, and promise her turn is coming.",
+      "delay": 3,
+      "id": "grandmother-breaks-in",
+      "kind": "Talking-piece rule broken",
+      "missNote": "Nobody stopped it. He went silent under her words and would not take the talking piece again; the rest of the circle heard about him from the adults, and never from him.",
+      "seconds": 12,
+      "target": "talking-piece-guideline",
+      "why": "A grandmother's shame is real and it will need its own time, but breaking in takes away the one thing the circle promised him: to be heard to the end. Restating the guideline gently and to everyone, handing the piece back to him and assuring her that her turn comes next protects his voice without shaming hers. Her words will matter more when they come in her own turn.",
+      "wrongNote": "Listening harder to him does not stop her. Restate the talking-piece guideline, gently, and give the piece back to him."
+    },
+    {
+      "after": "hold-the-temperature",
+      "alert": "Asked what was going on for him that night, he says quietly that he did not want to go home, because of what his stepfather does when he has been drinking.",
+      "cue": "Pause the circle with care, let the co-keeper hold the room, and speak with him privately — the report limit you named at the start now applies.",
+      "delay": 3,
+      "id": "disclosure-mid-circle",
+      "kind": "Disclosure of possible abuse",
+      "missNote": "The circle moved on to the agreement as if nothing had been said. He had told a room of adults something frightening and watched them carry on; nobody reported it, and the one person the circle most needed to protect went home to it.",
+      "seconds": 12,
+      "target": "pause-and-support-card",
+      "why": "This is the limit the keeper named in the opening. A mandated reporter who hears a young person disclose possible abuse has to report it, and has to handle the moment so that he is safe and not exposed in front of the circle. Pausing with care, letting the co-keeper hold the room, and speaking with him privately — honestly, about what happens next — is both the law and the kindest thing in the room.",
+      "wrongNote": "Lowering the temperature is not the response to a disclosure. Pause the circle, let the co-keeper hold the room, and speak with him privately."
+    }
+  ],
+  "lateNotes": {
+    "agreement-card": "The agreement comes once everyone affected has been named and heard — the circle is not there yet.",
+    "circle-log-board": "The circle record closes once the agreement is written. There is nothing to record yet."
+  },
+  "name": "Restorative Justice Circle",
+  "parSeconds": 340,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "civic-leadership-and-ei"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.3,
+    "hits": [
+      "affected-artist",
+      "affected-centre-kids",
+      "affected-family",
+      "affected-grandmother",
+      "affected-insurer",
+      "agree-achievable",
+      "agree-follow-up",
+      "agree-his-own",
+      "agree-specific",
+      "agreement-board",
+      "agreement-card",
+      "balance-meter",
+      "circle-log-board",
+      "consent-card",
+      "crew-checkin-board",
+      "demand-apology-now",
+      "listen-artist",
+      "listen-youth",
+      "open-confidential-limits",
+      "open-guidelines",
+      "open-talking-piece",
+      "open-welcome-purpose",
+      "pause-and-support-card",
+      "prep-centrepiece",
+      "prep-chairs-in-circle",
+      "prep-podium",
+      "prep-talking-piece",
+      "prep-tissues-water",
+      "privacy-latch",
+      "promise-no-charges",
+      "reflect-card",
+      "share-circle-story",
+      "talking-piece-guideline",
+      "temperature-meter",
+      "third-circle-tonight"
+    ],
+    "meshes": 238
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Find everything the circle needs to feel equal and safe before the participants come in.",
+      "decoyNotes": {
+        "prep-podium": "A podium puts one person above the circle. Nobody needs to stand and speak down to anyone tonight; leave it against the wall."
+      },
+      "id": "prepare-the-circle",
+      "itemNames": {
+        "prep-centrepiece": "a centrepiece that reminds everyone why they came",
+        "prep-chairs-in-circle": "chairs in one circle, no table, the same for everyone",
+        "prep-talking-piece": "a talking piece that means something here",
+        "prep-tissues-water": "tissues and water within everyone's reach"
+      },
+      "itemNotes": {
+        "prep-centrepiece": "A photo of the mural as it was, and a small lamp. People look at the centre when it is hard to look at each other.",
+        "prep-chairs-in-circle": "One circle, the same chairs, no table: nobody sits at the head and nobody hides behind furniture. The shape itself says everyone here is equal.",
+        "prep-talking-piece": "A brush from the mural's paint kit, lent by the artist. Only the person holding it speaks — it slows the room down and gives the quiet ones a turn.",
+        "prep-tissues-water": "Somebody will cry tonight. Tissues within reach say that is allowed without anyone having to ask."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Find everything the circle needs to feel equal and safe before the participants come in.",
+      "targets": [
+        "prep-chairs-in-circle",
+        "prep-talking-piece",
+        "prep-centrepiece",
+        "prep-tissues-water"
+      ],
+      "title": "Set up the circle before anyone arrives",
+      "why": "People arriving at a circle about a harm come in braced: the young person expects a trial, the people harmed expect to be disappointed. A single circle of matching chairs with no table, a talking piece with meaning, a centrepiece that holds the reason everyone came, and tissues in reach tell them before a word is spoken that this is a different kind of room — one where every voice has the same weight and feeling is allowed."
+    },
+    {
+      "cue": "Before starting, confirm from the pre-circle meetings that the young person and the people harmed each agreed freely to be here.",
+      "id": "confirm-consent",
+      "kind": "select",
+      "prompt": "Before starting, confirm from the pre-circle meetings that the young person and the people harmed each agreed freely to be here.",
+      "target": "consent-card",
+      "title": "Confirm everyone is here by choice",
+      "why": "A restorative circle only works if the person who caused harm chooses to face it, and the people harmed choose to take part. Pre-circle meetings with each of them are where that choice is made; the keeper confirms it before the talking piece moves. A young person pushed into a circle by adults, or a harmed person who feels obliged, turns repair into pressure, and the whole programme's promise that it is voluntary becomes untrue."
+    },
+    {
+      "cue": "Turn the latch on the room's door so the sign reads IN SESSION and nobody walks in mid-circle.",
+      "id": "latch-the-door",
+      "kind": "turn",
+      "prompt": "Turn the latch on the room's door so the sign reads IN SESSION and nobody walks in mid-circle.",
+      "target": "privacy-latch",
+      "title": "Turn the privacy latch and the in-session sign",
+      "turn": {
+        "axis": "z",
+        "label": "IN SESSION",
+        "turns": 0.5
+      },
+      "why": "The things that matter most in a circle — a grandmother's shame, a young person's reason, an artist's grief — are said only when people believe no one else will hear them. A recreation centre is full of people who wander into rooms. Turning the latch and the in-session sign is the physical half of the confidentiality the keeper is about to promise, and it keeps a well-meaning staff member from walking into the hardest moment of the evening."
+    },
+    {
+      "cue": "Welcome and purpose, the guidelines the circle agrees, confidentiality and its limit, then the talking piece.",
+      "id": "open-the-circle",
+      "itemNames": {
+        "open-confidential-limits": "what stays here — and the one limit",
+        "open-guidelines": "guidelines the circle agrees on together",
+        "open-talking-piece": "how the talking piece works",
+        "open-welcome-purpose": "welcome everyone, and say why we are here"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Welcome and purpose, guidelines, confidentiality and its limit, then the talking piece. Handing round the piece before the limits are said means someone may speak believing a promise nobody made.",
+      "prompt": "Welcome and purpose, the guidelines the circle agrees, confidentiality and its limit, then the talking piece.",
+      "targets": [
+        "open-welcome-purpose",
+        "open-guidelines",
+        "open-confidential-limits",
+        "open-talking-piece"
+      ],
+      "title": "Open the circle in order",
+      "why": "The opening sets the room's rules and makes them the circle's own. Welcome and purpose first, so everyone knows this is about repairing harm and not about punishing; guidelines the circle agrees together, so they are not the keeper's; confidentiality with its honest limit — a keeper who is a mandated reporter must report suspected abuse of a child — so nobody is misled; and last the talking piece, which puts all of it into practice."
+    },
+    {
+      "cue": "The artist has the talking piece. Hold your attention on her until she passes it on — no nodding him along, no summarising.",
+      "holdBreakNote": "You looked away while she was speaking and she faltered. Come back to her until she passes the piece.",
+      "id": "listen-to-the-artist",
+      "kind": "hold",
+      "prompt": "The artist has the talking piece. Hold your attention on her until she passes it on — no nodding him along, no summarising.",
+      "seconds": 8,
+      "target": "listen-artist",
+      "title": "Hear the artist whole",
+      "why": "The person harmed usually speaks first, and what she says is rarely only about paint. The mural was for a young man from this block who died; painting over it felt to her like painting over him. Listening to all of it, without interrupting, summarising or glancing at the young person to check his reaction, lets the real harm come into the room — and it is the thing he most needs to hear, from her, not from the keeper."
+    },
+    {
+      "cue": "The piece has gone round twice. Commit the balance for the next round inside the band — every voice with a real share, no voice swallowing the room.",
+      "gauge": {
+        "green": [
+          0.38,
+          0.6
+        ],
+        "label": "SPEAKING TIME",
+        "missNote": "Outside the band. When the adults take all the time, the young person goes silent; when one voice floods the round, the others stop trying. Keep a real share for everyone.",
+        "speed": 0.6
+      },
+      "id": "keep-speaking-time-fair",
+      "kind": "gauge",
+      "prompt": "The piece has gone round twice. Commit the balance for the next round inside the band — every voice with a real share, no voice swallowing the room.",
+      "target": "balance-meter",
+      "title": "Keep speaking time fair across the circle",
+      "why": "Circles tip easily. Five adults with strong feelings can fill every round and leave the young person a sentence at the end; one grieving voice can fill a round so completely that the others give up. The keeper watches the balance and gently resets it — a reminder of the guideline, starting the next round with the quietest person — because the repair only happens if every person in the circle is actually heard."
+    },
+    {
+      "cue": "He has the talking piece now. Hold your attention on him — no correcting, no prompting, no rescuing him from the silence.",
+      "holdBreakNote": "You filled his silence for him. He stopped, relieved and unfinished. Give him back the pause and wait.",
+      "id": "listen-to-the-young-person",
+      "kind": "hold",
+      "prompt": "He has the talking piece now. Hold your attention on him — no correcting, no prompting, no rescuing him from the silence.",
+      "seconds": 8,
+      "target": "listen-youth",
+      "title": "Hear the young person whole",
+      "why": "A fifteen-year-old facing the people he hurt will speak slowly, badly and with long silences. Listening without correcting his version, prompting him towards the right words or rescuing him from the pause gives him the chance to say something true — about the dare, the brother he never knew, the anger he did not know where to put. What he says in his own words is what the agreement will later be built on."
+    },
+    {
+      "cue": "\"What I'm hearing is that the mural held a memory for this block, and that you didn't know that when you painted over it.\"",
+      "id": "reflect-the-impact",
+      "kind": "select",
+      "prompt": "\"What I'm hearing is that the mural held a memory for this block, and that you didn't know that when you painted over it.\"",
+      "target": "reflect-card",
+      "title": "Reflect back what you heard, without blame",
+      "why": "A good reflection gives each person proof they were heard and puts the impact and the intent side by side without ranking them. Naming what the mural meant to the block, and what he says he did not know, lets the artist hear that her grief landed and lets him hear the harm described without being called a vandal. It is how the keeper takes the heat out of the room without taking the truth out."
+    },
+    {
+      "cue": "Look around the circle and beyond it. Mark every person or group this harm affected.",
+      "decoyNotes": {
+        "affected-insurer": "The centre's insurer will process a claim, but it is not a person in this story. The circle is about the people the harm reached."
+      },
+      "id": "name-who-was-affected",
+      "itemNames": {
+        "affected-artist": "the artist, who painted it over a summer",
+        "affected-centre-kids": "the children who walk past it to the centre every day",
+        "affected-family": "the family of the young man it remembers",
+        "affected-grandmother": "his grandmother, who has to face the neighbours"
+      },
+      "itemNotes": {
+        "affected-artist": "A summer of work and a promise to a grieving family, both painted over in one night.",
+        "affected-centre-kids": "The children who come to the centre watched their wall be defaced, and are watching what happens next.",
+        "affected-family": "They were not in the room, but the neighbour is his brother. For them, the wall was a grave marker.",
+        "affected-grandmother": "Harm spreads to the family of the person who caused it too. She is carrying shame she did nothing to earn."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look around the circle and beyond it. Mark every person or group this harm affected.",
+      "targets": [
+        "affected-artist",
+        "affected-family",
+        "affected-centre-kids",
+        "affected-grandmother"
+      ],
+      "title": "Name everyone the harm reached",
+      "why": "The restorative question is not only what happened but who has been affected and how, and the answer is always wider than the obvious victim. Naming the artist, the family the mural remembers, the children who pass it every day, and his own grandmother lets him see the full reach of one night's act — which does more for accountability than any lecture — and lets everyone in the circle see that their hurt has been counted."
+    },
+    {
+      "cue": "Keep the room inside the band while the brother speaks about his loss: warm enough for grief, steady enough that nobody is swept away.",
+      "holdBreakNote": "The room slipped — it boiled over, or went cold and silent. Slow the round down and bring it back into the band.",
+      "id": "hold-the-temperature",
+      "kind": "track",
+      "prompt": "Keep the room inside the band while the brother speaks about his loss: warm enough for grief, steady enough that nobody is swept away.",
+      "seconds": 8,
+      "target": "temperature-meter",
+      "title": "Hold the emotional temperature of the circle",
+      "track": {
+        "drift": 0.16,
+        "fall": 0.4,
+        "green": [
+          0.3,
+          0.7
+        ],
+        "label": "TEMPERATURE",
+        "rise": 0.48,
+        "start": 0.5
+      },
+      "why": "Grief and anger will rise in a circle about a memorial, and they should: that is the harm being felt. The keeper's job is not to cool the room to nothing but to keep it inside a band — a slower round, a pause, a hand on the talking piece, a reminder of the guidelines — so that feeling is expressed without anybody being attacked or anybody shutting down. Psychological First Aid's slow, calm presence is the same skill."
+    },
+    {
+      "cue": "He has offered to help the artist repaint the mural. Carry that card to the agreement board.",
+      "drag": {
+        "missNote": "Not on the agreement board. What he has offered belongs where the whole circle can see it and shape it — not in your notes.",
+        "radius": 0.55,
+        "to": "agreement-board"
+      },
+      "id": "carry-the-agreement",
+      "kind": "drag",
+      "prompt": "He has offered to help the artist repaint the mural. Carry that card to the agreement board.",
+      "target": "agreement-card",
+      "title": "Carry his first offer to the agreement board",
+      "why": "The best agreements come from the person who caused the harm, shaped by the people it hurt. His offer to help repaint — with the artist, alongside the brother if the family wants it — goes onto the board where the whole circle can see it, question it and add to it. Putting it in the middle of the room rather than writing it in the keeper's notebook keeps it his offer and the circle's agreement, not the keeper's plan."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Specific, achievable for him, in his words, and a date to meet again.",
+      "id": "shape-the-agreement",
+      "itemNames": {
+        "agree-achievable": "achievable for a fifteen-year-old",
+        "agree-follow-up": "a follow-up circle, with a date",
+        "agree-his-own": "in his own words, not the adults'",
+        "agree-specific": "specific: which Saturdays, with whom"
+      },
+      "kind": "sequence",
+      "prompt": "Specific, achievable for him, in his words, and a date to meet again.",
+      "targets": [
+        "agree-specific",
+        "agree-achievable",
+        "agree-his-own",
+        "agree-follow-up"
+      ],
+      "title": "Shape the agreement so it can actually be kept",
+      "why": "An agreement that says \"he will make amends\" is kept by nobody; one that says which Saturdays he will paint, with whom, in words he chose, and when the circle meets again to see how it went, can be kept and checked. It has to be achievable for a fifteen-year-old with school and a grandmother to help — an agreement built to fail is punishment in disguise. The follow-up date is what turns an evening into repair."
+    },
+    {
+      "cue": "Log that the circle took place, who agreed to what, and the follow-up date. Nothing anyone said in the round.",
+      "id": "close-the-circle-log",
+      "kind": "select",
+      "prompt": "Log that the circle took place, who agreed to what, and the follow-up date. Nothing anyone said in the round.",
+      "target": "circle-log-board",
+      "title": "Record the agreement — not the stories",
+      "why": "The programme needs a record that the circle happened, what was agreed and when it will be reviewed; it must not hold what people said in the round, which was said on a promise of confidentiality. Recording the agreement and the date, and noting separately that a mandated report was made if one was, keeps the programme accountable and keeps faith with every person who spoke tonight."
+    },
+    {
+      "cue": "Ten minutes: how did it land on each of you, did either of you lean, and who follows up on the report?",
+      "id": "crew-check-in",
+      "kind": "select",
+      "prompt": "Ten minutes: how did it land on each of you, did either of you lean, and who follows up on the report?",
+      "target": "crew-checkin-board",
+      "title": "Debrief with your co-keeper before you go",
+      "why": "Keeping a circle means holding other people's grief and shame without letting it show, and it comes out afterwards. A debrief with the co-keeper — how did it land, did either of us favour someone, who is following up on the report and the family — is how keepers stay steady for the next circle and catch their own blind spots. Naming the clinical supervisor or employee assistance line is part of the job, not an extra."
+    }
+  ],
+  "supportLine": "your programme's clinical supervisor or employee assistance line, or the co-keeper you debrief with — holding other people's grief and shame for two hours is real work",
+  "tagline": "A mural painted over, and the people it hurt in one circle: consent checked, the talking piece's rule held, the artist and the young person each heard whole, speaking time kept fair, the heat taken out without the truth — and an agreement he owns",
+  "title": "SmartCiti.X~ Restorative Justice Circle VR",
+  "trade": "Restorative circle keeper — community programme",
+  "underwater": null,
+  "weather": "overcast"
+}

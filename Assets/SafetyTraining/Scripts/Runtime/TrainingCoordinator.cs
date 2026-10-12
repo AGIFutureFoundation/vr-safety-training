@@ -64,7 +64,7 @@ namespace SafetyTraining.Runtime
             {
                 var time = Mathf.Clamp01(SessionElapsedSeconds / GuidedSessionPlan.MinimumSessionSeconds);
                 var checks = (float)IdentifiedHazardCount / Mathf.Max(1, TotalHazardCount);
-                var coach = (float)CompletedCoachTurns / 10f;
+                var coach = (float)CompletedCoachTurns / GuidedSessionPlan.RequiredCoachTurns;
                 var practical = practicals?.Progress01 ?? 0f;
                 return Mathf.Clamp01(time * 0.4f + checks * 0.3f + coach * 0.2f + practical * 0.1f);
             }
@@ -183,6 +183,7 @@ namespace SafetyTraining.Runtime
                 TrainingSiteId.FireResponse => "Fire Response",
                 TrainingSiteId.ChemicalProcessing => "Chemical Processing",
                 TrainingSiteId.ElectricalMaintenance => "Electrical Maintenance",
+                TrainingSiteId.ImmersiveLab => "Immersive Lab",
                 _ => siteId.ToString()
             };
             ActiveSiteName = siteName.ToUpperInvariant();

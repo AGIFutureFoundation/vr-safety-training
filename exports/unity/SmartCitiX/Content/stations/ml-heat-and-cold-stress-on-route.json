@@ -1,0 +1,407 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "all-weather-route",
+    "name": "All-Weather Route",
+    "note": "Both the cold start and the heat stretch worked to the plan, the shade break actually held, and a coworker's heat-illness call answered without a single unsafe move"
+  },
+  "category": "Mobility & Transit",
+  "certification": "NIOSH guidance on heat stress and cold stress for outdoor workers; OSHA 29 CFR 1910.132 personal protective equipment, general requirements; OSHA 29 CFR 1910.38 emergency action plans, for a heat-illness or cold-stress response; Cal/OSHA's Injury and Illness Prevention Program, 8 CCR 3203, as the model for a written cold-and-heat plan; NALC training for city letter carrier route safety",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "Cal/OSHA",
+        "citedAs": "8 CCR 3203",
+        "id": "cal-osha-3203",
+        "title": "8 CCR 3203 — Injury and Illness Prevention Program"
+      },
+      {
+        "body": "union",
+        "citedAs": "NALC",
+        "id": "nalc-training",
+        "title": "NALC apprenticeship and training, as a training body"
+      },
+      {
+        "body": "NIOSH",
+        "citedAs": "NIOSH",
+        "id": "niosh-criteria",
+        "title": "NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.132",
+        "id": "osha-1910-132",
+        "title": "29 CFR 1910.132 — Personal protective equipment, general requirements"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.38",
+        "id": "osha-1910-38",
+        "title": "29 CFR 1910.38 — Emergency action plans"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Postal & Mail Processing",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "cold-start-clean",
+        "name": "Cold Start Clean",
+        "note": "Both cold-start hazards found without a hint"
+      },
+      {
+        "id": "held-the-break",
+        "name": "Held the Break",
+        "note": "The shade break held its full time, first try"
+      },
+      {
+        "id": "steady-pace",
+        "name": "Steady Pace",
+        "note": "Pace held in the moderate band the whole hot stretch"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-shift",
+        "name": "Clean Shift",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "on-time",
+        "name": "On Time",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "safe-route",
+        "name": "Safe Route",
+        "note": "No unsafe action anywhere in the run"
+      }
+    ],
+    "currency": "CONDITION",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Casual Carrier",
+      "Route Trainee",
+      "Letter Carrier",
+      "Lead Carrier",
+      "All-Weather Certified"
+    ],
+    "system": "Route Conditioning"
+  },
+  "hazards": {
+    "direct-sun-bench-hazard": "The usual break bench sits in full sun with no shade anywhere near it at midday. A rest break taken here does almost nothing to actually cool a carrier down — the shaded spot forty feet away is the one the break is supposed to happen at.",
+    "frozen-slot-hazard": "The mail slot flap is frozen shut against its frame. Forcing it open with a shove is how a stiff hinge lets go all at once and a hand ends up in the gap it was just fighting — a frozen flap gets worked gently, or reported, never forced.",
+    "hot-cab-hazard": "The van's windows have been left fully shut through the whole hot stretch, and the cab behind that glass has been baking since the last stop. Climbing straight back in and pulling away is stepping into trapped heat that a few seconds of venting would have let out first.",
+    "icy-steps-hazard": "Frost has skinned over the porch steps at the pre-dawn stop, invisible in the low light until a boot is already on it. A carrier who reads the steps before committing weight to them catches this; one who climbs on habit alone finds out about the ice the same way every year's first fall does."
+  },
+  "id": "ml-heat-and-cold-stress-on-route",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "slot-thaw",
+      "alert": "A patch of black ice is visible on the next stretch of walk, barely different in colour from the dry pavement around it.",
+      "cue": "Flag the patch before walking through it rather than trusting the same stride that just worked on dry pavement.",
+      "delay": 3,
+      "id": "black-ice-patch",
+      "kind": "Black ice spotted ahead",
+      "missNote": "The ice patch was walked through unmarked. Black ice punishes exactly the confident, normal-paced stride a dry sidewalk earns, and it gives no warning before it does.",
+      "seconds": 11,
+      "target": "ice-warning-flag",
+      "why": "Black ice is dangerous specifically because it does not look different from safe pavement until weight is already on it, and flagging it now is what turns a hidden hazard into a marked one for whoever crosses this stretch next, carrier or otherwise.",
+      "wrongNote": "Not that — the ice patch ahead gets flagged before it gets walked on."
+    },
+    {
+      "after": "shade-break-hold",
+      "alert": "A coworker elsewhere on the route radios in that they feel dizzy and nauseated in the heat and are not sure they can keep walking their loop.",
+      "cue": "Answer the radio immediately and start the plan's heat-illness response rather than finishing your own break first.",
+      "delay": 3,
+      "id": "coworker-heat-call",
+      "kind": "Coworker radios in feeling dizzy",
+      "missNote": "The call was left for later. A carrier who is dizzy and nauseated in the heat and radios it in is already past being fine on their own — every minute that response is delayed is a minute the heat keeps working on them.",
+      "seconds": 13,
+      "target": "heat-illness-radio",
+      "why": "Early heat illness looks like it can wait a few minutes and often cannot — the plan's response exists because the gap between 'feeling off' and a genuine heat emergency can close fast, and a coworker who has already radioed it in has already decided they need help now.",
+      "wrongNote": "Not that — the coworker's call comes before anything else on this break."
+    }
+  ],
+  "lateNotes": {
+    "frozen-mail-slot-flap": "The flap is worked open gently once it's been read as frozen, never forced straight away.",
+    "van-cab-vent": "The cab is vented before getting back in, not after the van is already rolling with the windows still shut."
+  },
+  "name": "Heat & Cold Stress on Route",
+  "parSeconds": 320,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "postal-and-mail-processing"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "deliveryVan",
+        "count": 1,
+        "kit": "fleet"
+      }
+    ],
+    "error": null,
+    "footprint": 2.8,
+    "hits": [
+      "bottle-refill-socket",
+      "cold-watch-radio",
+      "conditioning-log-panel",
+      "direct-sun-bench-hazard",
+      "dispatch-radio-final",
+      "frozen-mail-slot-flap",
+      "frozen-slot-hazard",
+      "heat-illness-radio",
+      "heat-index-meter",
+      "heat-watch-radio",
+      "hot-cab-hazard",
+      "ice-warning-flag",
+      "icy-steps-hazard",
+      "layered-jacket",
+      "route-pace-marker",
+      "salted-steps-decoy",
+      "shaded-bench-decoy",
+      "van-cab-vent",
+      "water-bottle",
+      "water-jug",
+      "weather-bulletin-board"
+    ],
+    "meshes": 116
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "anyOrder": true,
+      "cue": "Layered jacket for the cold start and a full water bottle for the heat stretch — both before the first stop.",
+      "id": "ppe",
+      "itemNames": {
+        "layered-jacket": "layered jacket",
+        "water-bottle": "water bottle"
+      },
+      "kind": "sequence",
+      "prompt": "Layered jacket for the cold start and a full water bottle for the heat stretch — both before the first stop.",
+      "targets": [
+        "layered-jacket",
+        "water-bottle"
+      ],
+      "title": "Pack for both ends of the swing",
+      "why": "A route that swings from a pre-dawn frost to a midday heat stretch is dressed for at the start of the shift, not partway through it — a jacket that comes off in layers as the day warms and a bottle that starts full both do their whole job only if they were there from the first stop."
+    },
+    {
+      "cue": "Read today's bulletin: a cold start, a warm afternoon, and the plan for each.",
+      "id": "weather-bulletin",
+      "kind": "select",
+      "prompt": "Read today's bulletin: a cold start, a warm afternoon, and the plan for each.",
+      "target": "weather-bulletin-board",
+      "title": "Read the day's bulletin",
+      "why": "The bulletin is what turns 'it might get cold, then hot' into an actual plan for this specific shift — reading it before the first stop is what makes the cold-start habits and the heat-stretch habits both deliberate instead of improvised as the temperature happens to change."
+    },
+    {
+      "cue": "Read the porch before climbing it in the low light. Two things are already wrong with it — find them.",
+      "decoyNotes": {
+        "salted-steps-decoy": "Those steps have already been salted and are clear underfoot. Nothing to flag there."
+      },
+      "id": "cold-hazard-read",
+      "itemNames": {
+        "frozen-slot-hazard": "the frozen mail slot",
+        "icy-steps-hazard": "the frosted porch steps"
+      },
+      "itemNotes": {
+        "frozen-slot-hazard": "Frozen shut against the frame. It gets worked gently, never forced.",
+        "icy-steps-hazard": "Frost skinned over in the low light. Test each step's footing before committing your weight to it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Read the porch before climbing it in the low light. Two things are already wrong with it — find them.",
+      "targets": [
+        "icy-steps-hazard",
+        "frozen-slot-hazard"
+      ],
+      "title": "Read the pre-dawn stop before climbing it",
+      "why": "Frost and a frozen slot both look like ordinary parts of a porch until they are tested — a carrier who reads the steps and the slot before touching either one catches both while they are still just things to be careful with, not things already gone wrong."
+    },
+    {
+      "cue": "Turn the flap slowly rather than forcing it, letting the frozen seal give a little at a time.",
+      "id": "slot-thaw",
+      "kind": "turn",
+      "prompt": "Turn the flap slowly rather than forcing it, letting the frozen seal give a little at a time.",
+      "target": "frozen-mail-slot-flap",
+      "title": "Work the frozen flap open gently",
+      "turn": {
+        "axis": "x",
+        "label": "SLOT FLAP",
+        "turns": 0.35
+      },
+      "why": "A frozen hinge forced all at once tends to let go all at once too, right as a hand is still on it — working it open gradually is what keeps the flap's own stiffness from turning into a sudden, uncontrolled snap."
+    },
+    {
+      "cue": "Radio the two-person cold-stress check-in for the pre-dawn stretch.",
+      "id": "buddy-checkin-cold",
+      "kind": "select",
+      "prompt": "Radio the two-person cold-stress check-in for the pre-dawn stretch.",
+      "target": "cold-watch-radio",
+      "title": "Check in on the cold watch",
+      "why": "Cold stress signs — fumbling hands, slurred speech, a carrier who has stopped shivering — are often easier for somebody else to notice than to notice in yourself, which is the entire reason the plan runs the cold watch as a pair rather than trusting each carrier to self-report."
+    },
+    {
+      "cue": "Carry the water jug from the cooler to your bottle and top it off before the heat stretch starts.",
+      "drag": {
+        "missNote": "Not at the bottle — carry the jug all the way to the refill point before pouring.",
+        "radius": 0.45,
+        "to": "bottle-refill-socket"
+      },
+      "id": "hydration-load",
+      "kind": "drag",
+      "prompt": "Carry the water jug from the cooler to your bottle and top it off before the heat stretch starts.",
+      "target": "water-jug",
+      "title": "Refill at the midday changeover",
+      "why": "A bottle that started full at dawn is not still full by midday, and refilling before the hot stretch — rather than partway through it once thirst has already set in — is what keeps hydration ahead of the heat instead of chasing it."
+    },
+    {
+      "cue": "Look over the midday stop before taking the break. Two things are already wrong with it — find them.",
+      "decoyNotes": {
+        "shaded-bench-decoy": "That bench sits under full tree cover. Nothing to flag there."
+      },
+      "id": "heat-hazard-read",
+      "itemNames": {
+        "direct-sun-bench-hazard": "the break bench in full sun",
+        "hot-cab-hazard": "the van's shut, superheated cab"
+      },
+      "itemNotes": {
+        "direct-sun-bench-hazard": "No shade anywhere near it. A break here barely cools anyone down — use the shaded spot instead.",
+        "hot-cab-hazard": "Windows shut the whole hot stretch. The cab gets vented before anyone climbs back in."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look over the midday stop before taking the break. Two things are already wrong with it — find them.",
+      "targets": [
+        "direct-sun-bench-hazard",
+        "hot-cab-hazard"
+      ],
+      "title": "Read the midday stop before the break",
+      "why": "A break spot and a parked van both look fine from a glance, and both can be quietly working against a carrier already running warm — the sun-baked bench that does not actually cool anyone down, and the shut cab that has been storing heat since the last stop."
+    },
+    {
+      "cue": "Read the heat advisory meter and commit once you've acknowledged today's band.",
+      "gauge": {
+        "green": [
+          0.3,
+          0.75
+        ],
+        "label": "HEAT ADVISORY",
+        "missNote": "Not acknowledged — read the advisory band before moving on.",
+        "speed": 0.55
+      },
+      "id": "heat-index-gauge",
+      "kind": "gauge",
+      "prompt": "Read the heat advisory meter and commit once you've acknowledged today's band.",
+      "target": "heat-index-meter",
+      "title": "Read the posted heat advisory",
+      "why": "The meter is the day's actual heat advisory in one glance, not a guess based on how the air feels — acknowledging it before the break is what turns the shade break and the pace that follow into a response to today's real conditions rather than a routine run on autopilot."
+    },
+    {
+      "cue": "Turn the vent crank to open the windows and let the trapped heat out before climbing back into the van.",
+      "id": "vent-cab",
+      "kind": "turn",
+      "prompt": "Turn the vent crank to open the windows and let the trapped heat out before climbing back into the van.",
+      "target": "van-cab-vent",
+      "title": "Vent the cab before getting back in",
+      "turn": {
+        "axis": "y",
+        "label": "CAB VENT",
+        "turns": 0.4
+      },
+      "why": "A cab that has been sealed shut in the sun is significantly hotter than the air outside it, and a few seconds of venting before getting back in is what keeps the first minute back in the van from being spent breathing trapped, superheated air."
+    },
+    {
+      "cue": "Sit at the shaded bench and hold the full break — no rushing back out early.",
+      "holdBreakNote": "The break ended early. The full time in the shade is what the break is actually for — cutting it short is the same as skipping it.",
+      "id": "shade-break-hold",
+      "kind": "hold",
+      "prompt": "Sit at the shaded bench and hold the full break — no rushing back out early.",
+      "seconds": 10,
+      "target": "shaded-bench-decoy",
+      "title": "Hold the shade break",
+      "why": "A shade break cut short to get back on schedule defeats the entire reason it is mandatory in the plan — the body needs the whole break to actually cool down, and a carrier who cuts it to five minutes because the route feels behind is trading a real recovery for a false sense of being on time."
+    },
+    {
+      "cue": "Walk the hot stretch keeping your pace indicator inside the moderate band.",
+      "holdBreakNote": "Pace drifted out of the moderate band. In heat, the safe pace is the one that does not add to the day's own heat load.",
+      "id": "pace-track",
+      "kind": "track",
+      "prompt": "Walk the hot stretch keeping your pace indicator inside the moderate band.",
+      "seconds": 8,
+      "target": "route-pace-marker",
+      "title": "Keep the pace through the hot stretch",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.4,
+        "green": [
+          0.35,
+          0.65
+        ],
+        "label": "PACE",
+        "rise": 0.4,
+        "start": 0.5
+      },
+      "why": "Rushing to make up time in the heat is exactly backwards — a body working harder in high heat produces more of its own heat on top of what the day is already adding, and the moderate pace is what keeps a carrier from turning a hot stretch into a self-inflicted one."
+    },
+    {
+      "cue": "Radio the second buddy check-in for the hot stretch, watching for dizziness or confusion.",
+      "id": "buddy-checkin-heat",
+      "kind": "select",
+      "prompt": "Radio the second buddy check-in for the hot stretch, watching for dizziness or confusion.",
+      "target": "heat-watch-radio",
+      "title": "Check in on the heat watch",
+      "why": "Heat illness signs escalate quietly, and a coworker is often the one who notices confusion or stumbling before the carrier experiencing it does — the second check-in exists because the hot stretch is exactly when that early notice matters most."
+    },
+    {
+      "cue": "Log the cold-start hazards, the heat-stretch hazards, and both check-ins before closing out.",
+      "id": "daily-log",
+      "kind": "select",
+      "prompt": "Log the cold-start hazards, the heat-stretch hazards, and both check-ins before closing out.",
+      "target": "conditioning-log-panel",
+      "title": "Log both ends of the shift",
+      "why": "A shift that swings between two extremes and gets logged as an ordinary day tells the next carrier nothing useful about either end of it — logging both halves is what keeps the route's own record honest about what the day actually asked of whoever worked it."
+    },
+    {
+      "cue": "Tell dispatch the route is complete and both the cold-start and heat-stretch plans were followed.",
+      "id": "route-checkin",
+      "kind": "select",
+      "prompt": "Tell dispatch the route is complete and both the cold-start and heat-stretch plans were followed.",
+      "target": "dispatch-radio-final",
+      "title": "Check in with dispatch",
+      "why": "Dispatch is tracking the whole route against the day's bulletin, and a clean check-in is what confirms the plan actually held up in practice — not just that it was read at the start of the shift."
+    }
+  ],
+  "supportLine": "your NALC branch's member assistance representative, or the station's own employee assistance line",
+  "tagline": "One shift, both extremes: a pre-dawn cold start with frost read on the steps and a frozen mail slot worked open rather than forced, and a midday heat stretch with the day's bulletin read, a hydration refill, the van's cab vented before re-entry, a held shade break, a kept pace and a second buddy check for heat illness signs",
+  "title": "SmartCiti.X~ Heat & Cold Stress on Route VR",
+  "trade": "City letter carrier — heat and cold stress on the walking route, NALC",
+  "underwater": null,
+  "weather": "clear"
+}

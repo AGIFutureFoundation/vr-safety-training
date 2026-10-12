@@ -1,0 +1,373 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "shift-set-right",
+    "name": "Shift Set Right",
+    "note": "A bench set up to the operator, a full seam run in the posture band, the break taken, and an early symptom logged"
+  },
+  "category": "Sewing & Garment Trades",
+  "certification": "Workers United (SEIU) industrial sewing machine operator apprenticeship standards; OSHA 29 CFR 1910.212 machine guarding for the needle guard; NIOSH ergonomics guidance for seated repetitive work; the Cal/OSHA repetitive motion injury standard, 8 CCR 5110",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "Cal/OSHA",
+        "citedAs": "8 CCR 5110",
+        "id": "cal-osha-5110",
+        "title": "8 CCR 5110 — Repetitive motion injuries"
+      },
+      {
+        "body": "NIOSH",
+        "citedAs": "NIOSH",
+        "id": "niosh-criteria",
+        "title": "NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.212",
+        "id": "osha-1910-212",
+        "title": "29 CFR 1910.212 — General requirements for all machines (machine guarding)"
+      },
+      {
+        "body": "union",
+        "citedAs": "SEIU",
+        "id": "seiu-training",
+        "title": "SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Apparel manufacturing",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "no-twist",
+        "name": "No Twist",
+        "note": "Never reached for the twist-bin instead of turning the chair"
+      },
+      {
+        "id": "steady-seam",
+        "name": "Steady Seam",
+        "note": "Held the seam run in the posture band without a break"
+      },
+      {
+        "id": "in-the-band",
+        "name": "In The Band",
+        "note": "Table height and the fit measurement both close to the mark"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-setup",
+        "name": "Clean Setup",
+        "note": "No corrections through the whole setup"
+      },
+      {
+        "id": "break-kept",
+        "name": "Break Kept",
+        "note": "Took the micro-break the moment the timer called it"
+      },
+      {
+        "id": "shift-fast",
+        "name": "Shift Fast",
+        "note": "Complete inside 80% of par"
+      }
+    ],
+    "currency": "STITCH",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Bundle Runner",
+      "Machine Operator",
+      "Line Operator",
+      "Lead Operator",
+      "Line Authority Certified"
+    ],
+    "system": "Line Authority"
+  },
+  "hazards": {
+    "cord-underfoot": "The pedal cord is lying straight across the walking aisle, not tucked along the table leg. A cord underfoot gets pulled taut by the next person through, and it takes the pedal's plug half out of the strip or the walker down next to a running machine — neither one is a small thing on a production floor.",
+    "low-chair": "That's the spare stool from the idle machine — its gas lift is seized flat and it's set for somebody a foot shorter than you. Sitting into a chair that isn't adjusted to you puts your spine into the same hunched, twisted posture the whole ergonomics standard exists to catch before it becomes a repeat strain claim.",
+    "needle-reach": "You reached toward the needle bar while the machine was still turning over. OSHA 1910.212 exists for this exact point on a lockstitch head: the needle does not know the difference between thread and a fingertip, and a snag gets cleared with the machine stopped, never with a hand following the last stitch in.",
+    "twist-reach": "You reached back into the twist-bin instead of turning the swivel chair to face it. Twisting the spine under load, over and over, at piece-rate speed, is exactly the loading pattern NIOSH's ergonomics guidance flags first — the chair turns for a reason, and the reason is that your back doesn't get to."
+  },
+  "id": "sewing-ergonomics-shift",
+  "indoor": "shop",
+  "interrupts": [
+    {
+      "after": "seam-run",
+      "alert": "The supervisor calls out over the line that the piece rate on this operation just went up — sew it faster, starting now.",
+      "cue": "The rate changed mid-seam. Your hands stay in the band; the steward hears about the change.",
+      "delay": 3,
+      "id": "piece-rate-push",
+      "kind": "Rate change mid-shift",
+      "missNote": "You sped the seam up to chase the new rate instead of calling it in. The posture band exists at the speed the setup was proven at — pushed past it under rate pressure, it's exactly the loading NIOSH's guidance warns adds up fastest.",
+      "seconds": 11,
+      "target": "steward-call",
+      "why": "A rate posted mid-shift is a contract matter for the shop steward, not something an operator settles alone by simply speeding past the posture band that was just set for this seam. Pressing the steward call is what puts the change on the record without you being the one who has to argue it while the machine is still running.",
+      "wrongNote": "It's the rate change, not the seam. Press the steward call — the machine can wait a second."
+    },
+    {
+      "after": "micro-break",
+      "alert": "Two machines down, a coworker is shaking numbness out of their fingers and telling the operator next to them it's nothing, it'll pass.",
+      "cue": "That's the exact early symptom this bench just logged for you. It doesn't go unrecorded because it's somebody else's hand.",
+      "delay": 3,
+      "id": "numb-fingers-ignored",
+      "kind": "Coworker symptom waved off",
+      "missNote": "The numbness went unlogged because it wasn't your hand. A repetitive motion standard that only catches symptoms the person reports themselves misses exactly the operators who've been told, by example, to shake it off and keep sewing.",
+      "seconds": 11,
+      "target": "rmi-log",
+      "why": "The repetitive motion injury standard depends on early reporting, and 'it'll pass' said out loud on the floor is how an early symptom stops being reported at all — by that operator or by the next one who hears it's normal to wave off. Logging it is not overriding a coworker's own choice; it's making sure the pattern doesn't disappear because nobody wrote it down.",
+      "wrongNote": "It's the coworker's numb fingers. Log it on the RMI board — that's what the log is actually for."
+    }
+  ],
+  "lateNotes": {
+    "chair-crank": "Set the table height and the pedal position first — a chair adjusted before the rest of the bench is set is a chair adjusted to the wrong bench.",
+    "sewing-machine": "Not yet. The needle guard comes down before the machine ever turns over."
+  },
+  "name": "Sewing Ergonomics",
+  "parSeconds": 250,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "sewing-garment-trades"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.3,
+    "hits": [
+      "break-timer",
+      "bundle",
+      "bundle-ticket",
+      "chair-crank",
+      "clutch-pedal",
+      "cord-underfoot",
+      "ergo-poster",
+      "gooseneck-lamp",
+      "low-chair",
+      "needle-guard",
+      "needle-reach",
+      "pedal-mark",
+      "reach-zone",
+      "rmi-log",
+      "sewing-machine",
+      "steward-call",
+      "stretch-neck",
+      "stretch-shoulder",
+      "stretch-wrist",
+      "table-crank",
+      "twist-reach"
+    ],
+    "meshes": 177
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check the operation, the piece rate and the bundle count before you touch the machine.",
+      "id": "ticket",
+      "kind": "select",
+      "prompt": "Check the operation, the piece rate and the bundle count before you touch the machine.",
+      "target": "bundle-ticket",
+      "title": "Read the bundle ticket",
+      "why": "The ticket is what the whole bench gets set for — this operation's seam, this bundle's fabric weight, this rate. An operator who sits down and starts sewing before reading it is setting up for whatever the last ticket asked for, and a bench built for the wrong operation is a bench that fights the operator on every single piece in the bundle."
+    },
+    {
+      "cue": "Read the seated-posture card clipped to the post before you adjust anything.",
+      "id": "ergo-poster",
+      "kind": "select",
+      "prompt": "Read the seated-posture card clipped to the post before you adjust anything.",
+      "target": "ergo-poster",
+      "title": "Check the posture reference",
+      "why": "NIOSH's guidance for seated repetitive work gives a target, not a feeling — elbows near ninety degrees, wrists straight over the needle plate, feet flat and level on the pedal. Adjusting a chair and a table by eye, without the reference in front of you, is how a bench ends up close enough to work and wrong enough to hurt over a full shift."
+    },
+    {
+      "cue": "Turn the seat-height wheel until the pan sits level with the posture card's mark.",
+      "id": "chair-height",
+      "kind": "turn",
+      "prompt": "Turn the seat-height wheel until the pan sits level with the posture card's mark.",
+      "target": "chair-crank",
+      "title": "Wind the chair to seat height",
+      "turn": {
+        "axis": "y",
+        "label": "SEAT HEIGHT",
+        "turns": 0.6
+      },
+      "why": "The screw column is what actually carries your weight at the height you set it to, not a lever that can creep down under load through the shift. Winding it to the card's mark before the first seam is what keeps your knees, hips and the table edge in the same relationship for eight hours instead of drifting lower stitch by stitch."
+    },
+    {
+      "cue": "Wind the table crank until the needle plate sits level with your elbow, in the marked band.",
+      "gauge": {
+        "green": [
+          0.44,
+          0.6
+        ],
+        "label": "TABLE HEIGHT",
+        "missNote": "Off the elbow-height band — wind the crank again and stop inside the marked range.",
+        "speed": 0.8
+      },
+      "id": "table-height",
+      "kind": "gauge",
+      "prompt": "Wind the table crank until the needle plate sits level with your elbow, in the marked band.",
+      "target": "table-crank",
+      "title": "Set the table to elbow height",
+      "why": "A table set too low pulls the shoulders forward and down for the whole seam; set too high, it lifts them into a shrug that never fully releases. The marked band on the crank's readout is where the needle plate sits level with a seated elbow — the number the ergonomics guidance actually specifies, not a height chosen because it matches the machine next to you."
+    },
+    {
+      "cue": "Slide the foot pedal to the mark directly under the ball of your working foot.",
+      "drag": {
+        "missNote": "Not on the mark — the pedal has to sit square under your foot, not off to the side.",
+        "radius": 0.3,
+        "to": "pedal-mark"
+      },
+      "id": "pedal-position",
+      "kind": "drag",
+      "prompt": "Slide the foot pedal to the mark directly under the ball of your working foot.",
+      "target": "clutch-pedal",
+      "title": "Position the clutch pedal",
+      "why": "A pedal set off to the side turns every stitch into an ankle twisted sideways to reach it, which loads the joint at an angle it was never meant to hold under repeated pressure. Squared up under the ball of the foot, the same motion that runs the machine all day is a straight push, not a reach."
+    },
+    {
+      "cue": "Swing the gooseneck lamp down onto the needle plate, off your eyeline.",
+      "id": "task-light",
+      "kind": "select",
+      "prompt": "Swing the gooseneck lamp down onto the needle plate, off your eyeline.",
+      "target": "gooseneck-lamp",
+      "title": "Aim the task light",
+      "why": "A lamp left aimed up at head height does two things wrong at once: it puts no light on the stitch line, so the eyes and neck crane in to compensate, and it glares straight back at the operator all shift. Aimed down at the needle, it does the one job a task light has, which is showing you the seam without asking your neck to find it."
+    },
+    {
+      "cue": "Carry the cut bundle from the side cart onto the marked reach zone on the table.",
+      "drag": {
+        "missNote": "Not in the reach zone — the bundle has to land where you can pull from it without leaning.",
+        "radius": 0.3,
+        "to": "reach-zone"
+      },
+      "id": "bundle-reach",
+      "kind": "drag",
+      "prompt": "Carry the cut bundle from the side cart onto the marked reach zone on the table.",
+      "target": "bundle",
+      "title": "Bring the bundle into reach",
+      "why": "A bundle staged on the far cart gets fetched by reaching or by standing up and sitting back down, piece after piece, all shift. Landed inside the reach zone, the same motion is a short forward pull from a seated, squared position — the difference NIOSH's guidance is built around between a reach that costs nothing and one that costs a little bit, ten thousand times."
+    },
+    {
+      "cue": "Fold the finger guard down over the needle before the machine turns over.",
+      "id": "guard-check",
+      "kind": "select",
+      "prompt": "Fold the finger guard down over the needle before the machine turns over.",
+      "target": "needle-guard",
+      "title": "Lower the needle guard",
+      "why": "The guard is what stands between a fingertip and the needle bar on every single stitch, and OSHA's machine-guarding rule holds it in place for exactly that reason — a lockstitch head has no clutch that knows your hand is close. It comes down before the first seam of the shift, not after a near miss teaches the same lesson the hard way."
+    },
+    {
+      "cue": "Feed the seam through and hold your wrist and shoulder in the posture band as the machine picks up speed.",
+      "holdBreakNote": "Posture broke out of the band mid-seam. A wrist rolled under or a shoulder hiked at running speed is the load that adds up shift over shift — settle back into the band and feed the seam through again.",
+      "id": "seam-run",
+      "kind": "track",
+      "prompt": "Feed the seam through and hold your wrist and shoulder in the posture band as the machine picks up speed.",
+      "seconds": 7,
+      "target": "sewing-machine",
+      "title": "Run a seam at speed",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.42,
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "WRIST / SHOULDER",
+        "rise": 0.55,
+        "start": 0.15
+      },
+      "why": "A posture that looks fine at a slow stitch can round the wrist or hike the shoulder the moment the pedal goes down and the rate climbs — speed is exactly when a marginal position turns into a loaded one. Holding the band at running speed is the actual test the setup was for; a bench adjusted perfectly and then abandoned the moment the seam gets fast has not actually protected anybody."
+    },
+    {
+      "cue": "When the timer calls it, hands off the pedal and hold the stretch position for the full count.",
+      "holdBreakNote": "Hands went back to the machine before the count finished. The break only does its job held the full duration — wait for the timer and hold it through.",
+      "id": "micro-break",
+      "kind": "hold",
+      "prompt": "When the timer calls it, hands off the pedal and hold the stretch position for the full count.",
+      "seconds": 5,
+      "target": "break-timer",
+      "title": "Take the micro-break",
+      "why": "The repetitive-motion standard doesn't ask for a long break, it asks for a short one taken on schedule — hands off the controls, tendons given a moment they don't get during a running seam. A timer that goes off and gets worked through anyway is a break that exists on paper and nowhere else, and it's the shifts where it gets skipped that show up later as a claim."
+    },
+    {
+      "cue": "Work the wrist, then the shoulder, then the neck, in that order, before you sit back down to the bundle.",
+      "id": "stretch",
+      "itemNames": {
+        "stretch-neck": "neck release",
+        "stretch-shoulder": "shoulder roll",
+        "stretch-wrist": "wrist extension"
+      },
+      "itemNotes": {
+        "stretch-wrist": "The joint that just spent seven seconds guiding a seam gets stretched first, before it stiffens into the position it was just held in."
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Wrist first, then shoulder, then neck — the joint carrying the most repetition gets released before the others.",
+      "prompt": "Work the wrist, then the shoulder, then the neck, in that order, before you sit back down to the bundle.",
+      "targets": [
+        "stretch-wrist",
+        "stretch-shoulder",
+        "stretch-neck"
+      ],
+      "title": "Run the stretch sequence",
+      "why": "The order runs from the joint doing the most repeated work to the one doing the least, so the wrist — which just held a fixed angle through a whole seam — gets released before it's asked to cool down stiff. A stretch done out of order, or skipped down to one, treats the break as a formality instead of the recovery it's actually there for."
+    },
+    {
+      "cue": "Note the tingling in your own hand on the RMI log before it becomes something worse.",
+      "id": "symptom-report",
+      "kind": "select",
+      "prompt": "Note the tingling in your own hand on the RMI log before it becomes something worse.",
+      "target": "rmi-log",
+      "title": "Log the early symptom",
+      "why": "The Cal/OSHA repetitive motion injury standard exists because tingling reported in week one is a desk adjustment; the same tingling ignored for six months is carpal tunnel surgery. The log is checked by the safety committee specifically to catch a pattern early, and it only works if the first, mildest instance actually gets written down instead of shrugged off."
+    },
+    {
+      "cue": "Two things at this bench are wrong. Find them by looking.",
+      "id": "closing-walk",
+      "itemNames": {
+        "cord-underfoot": "pedal cord across the aisle",
+        "low-chair": "the seized spare stool"
+      },
+      "itemNotes": {
+        "cord-underfoot": "A cord left across the walking aisle instead of run along the leg is a trip and a pull on the plug waiting for the next person through.",
+        "low-chair": "The spare stool's lift is seized flat and it's set for a different operator entirely — sitting into it unadjusted is the posture problem this whole shift was set up to avoid."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Two things at this bench are wrong. Find them by looking.",
+      "targets": [
+        "cord-underfoot",
+        "low-chair"
+      ],
+      "title": "Walk the bench before the next bundle",
+      "why": "A production line moves fast enough that nothing gets a second look unless it's a habit built into the routine. Two things wrong with this bench — a cord in the aisle, a chair nobody adjusted — are exactly the kind of thing that sits there for a week because everyone assumed someone else would notice it first."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Chair, table, pedal and light set to the operator, the bundle in reach, the micro-break taken, and a symptom reported early",
+  "title": "SmartCiti.X~ Sewing Ergonomics VR",
+  "trade": "Industrial sewing machine operator — Workers United (SEIU)",
+  "underwater": null,
+  "weather": null
+}

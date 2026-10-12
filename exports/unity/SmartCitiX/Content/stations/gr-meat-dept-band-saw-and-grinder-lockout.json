@@ -1,0 +1,405 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "case-clean",
+    "name": "Case Clean",
+    "note": "Both machines torn down, cleaned and reassembled with every lock proven before power came back"
+  },
+  "category": "Culinary & Hospitality",
+  "certification": "UFCW member training for retail food and meatpacking work; OSHA 29 CFR 1910.147 control of hazardous energy; OSHA 29 CFR 1910.212 machine guarding; OSHA 29 CFR 1910.138 hand protection; ANSI/ISEA 105 cut-resistance ratings; NSF/ANSI 8 commercial powered food preparation equipment; USDA inspection marks on meat and poultry",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI/ISEA 105",
+        "id": "ansi-isea-105",
+        "title": "ANSI/ISEA 105 — Hand protection classification, including the A1–A9 cut levels"
+      },
+      {
+        "body": "NSF",
+        "citedAs": "NSF/ANSI 8",
+        "id": "nsf-ansi-8",
+        "title": "NSF/ANSI 8 — Commercial powered food preparation equipment"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.138",
+        "id": "osha-1910-138",
+        "title": "29 CFR 1910.138 — Hand protection"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.212",
+        "id": "osha-1910-212",
+        "title": "29 CFR 1910.212 — General requirements for all machines (machine guarding)"
+      },
+      {
+        "body": "union",
+        "citedAs": "UFCW",
+        "id": "ufcw-training",
+        "title": "UFCW member training for retail food, clinic and dental support work"
+      },
+      {
+        "body": "USDA",
+        "citedAs": "USDA",
+        "id": "usda-fsis-marks",
+        "title": "USDA Food Safety and Inspection Service inspection and grading marks on meat and poultry"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Grocery meat department",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "lock-first",
+        "name": "Lock First",
+        "note": "Locked the disconnect out before the guard ever came off"
+      },
+      {
+        "id": "edge-away",
+        "name": "Edge Away",
+        "note": "Never touched a mounted blade's edge directly"
+      },
+      {
+        "id": "zero-proven",
+        "name": "Zero Proven",
+        "note": "Tested for zero energy inside the safe band every time"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-changeover",
+        "name": "Clean Changeover",
+        "note": "No corrections through the whole teardown"
+      },
+      {
+        "id": "held-the-hold",
+        "name": "Held The Hold",
+        "note": "Never broke the sanitiser hold early"
+      },
+      {
+        "id": "changeover-fast",
+        "name": "Changeover Fast",
+        "note": "Complete inside 80% of par"
+      }
+    ],
+    "currency": "CUT",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Wrapper",
+      "Meat Cutter",
+      "Lead Cutter",
+      "Meat Manager",
+      "Meat Room Authority Certified"
+    ],
+    "system": "Meat Room Authority"
+  },
+  "hazards": {
+    "bare-blade-touch": "You touched the band blade's edge directly to feel for nicks. That edge runs the full loop between both wheels with nothing covering it once the guard is off — a folded cloth held flat against the flat of the blade tells you everything a fingertip would, without an edge anywhere near your skin.",
+    "override-bypass": "That switch is the guard interlock's manual override, wired in for a mechanic's bench test — not a between-use clean. Flipping it lets the wheel housing sit open while the motor can still be told to run, which defeats the one thing standing between this blade and the hand reaching in to wipe it down.",
+    "spare-blade-bare": "That spare band blade is coiled on the hook with no sheath over its edge. A band blade has no dull side to carry it by — it goes up in its guard or it does not come off that hook bare-handed at all, whatever is waiting on the saw.",
+    "wrong-disconnect": "That is the walk-in condenser's own disconnect, not the saw's — the two boxes sit side by side on this wall and look almost identical. Locking out the wrong one leaves the band saw's motor fully live while your hands are inside the wheel housing; the tag in your hand has to match the machine you are standing at, every single time."
+  },
+  "id": "gr-meat-dept-band-saw-and-grinder-lockout",
+  "indoor": "shop",
+  "interrupts": [
+    {
+      "after": "sanitize-saw",
+      "alert": "A second cutter has walked up to the saw's disconnect box, reaching to flip it back on for the next order — they have not clocked your lock.",
+      "cue": "Your hand is inside the wheel housing and somebody is about to give this saw power.",
+      "delay": 4,
+      "id": "colleague-reflip",
+      "kind": "Lockout not seen",
+      "missNote": "They flipped the switch with your hand still inside the wheel housing. The lock was doing its job right up until somebody didn't look for it first — a disconnect lockout only protects the person who makes sure it gets noticed.",
+      "seconds": 13,
+      "target": "saw-disconnect",
+      "why": "Your lock on that switch is the entire reason it is safe to have a hand inside this housing right now, and it only works if the next person reaching for it sees it first. Stop them and point at the lock — the next order waits; the hand inside the guard does not get to find out the lock wasn't actually seen.",
+      "wrongNote": "It's the saw's disconnect — get their hand off it and make sure they see your lock before anything else happens."
+    },
+    {
+      "after": "grinder-guard-off",
+      "alert": "A stock clerk has wheeled a cart of trim scraps up to the grinder and is about to tip it straight into the open hopper.",
+      "cue": "That hopper has no feed pan on it and no proof this grinder is even locked out to anyone but you.",
+      "delay": 3,
+      "id": "cart-into-hopper",
+      "kind": "Product headed for an open machine",
+      "missNote": "The trim went into the open hopper before the grinder was proven, guarded or reassembled. Whatever was in that scoop is now mixed into a machine somebody else believed was ready — because nothing here told them it wasn't.",
+      "seconds": 12,
+      "target": "grinder-cord-lock",
+      "why": "An open hopper with the guard sitting on a tray looks, to anyone who has not been standing here for the last two minutes, like a machine that is simply between batches. Pointing them at the lock is what tells them otherwise before a scoop of trim goes in on top of a teardown that is not finished.",
+      "wrongNote": "It's the grinder's cord lock — stop the cart and point at it before anything goes into that hopper."
+    }
+  ],
+  "lateNotes": {
+    "grinder-guard": "The grinder's own cord gets locked first — the feed pan and worm come off a dead machine, not a running one somebody forgot to unplug.",
+    "saw-blade": "Glove on, and only once the guard is already on the tray. The blade never comes off a live wheel.",
+    "saw-guard": "Not yet — the disconnect gets locked and tested dead before that guard is touched at all."
+  },
+  "name": "Meat Dept Band Saw & Grinder Lockout",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "grocery-and-meatpacking"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.7,
+    "hits": [
+      "bare-blade-touch",
+      "belly-guard",
+      "changeover-log",
+      "clean-motor-housing",
+      "cut-ticket",
+      "grinder-cord-lock",
+      "grinder-guard",
+      "loose-insert-screw",
+      "mesh-glove",
+      "override-bypass",
+      "parts-tray",
+      "residue-buildup",
+      "sani-spray",
+      "saw-blade",
+      "saw-body",
+      "saw-disconnect",
+      "saw-guard",
+      "saw-test-switch",
+      "saw-wheels",
+      "spare-blade-bare",
+      "voltage-tester",
+      "wrong-disconnect",
+      "your-locks"
+    ],
+    "meshes": 167
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence"
+  ],
+  "steps": [
+    {
+      "cue": "Check what the case needs next and confirm both machines are between runs, not mid-cut.",
+      "id": "cutting-ticket",
+      "kind": "select",
+      "prompt": "Check what the case needs next and confirm both machines are between runs, not mid-cut.",
+      "target": "cut-ticket",
+      "title": "Read the changeover ticket",
+      "why": "The ticket says what is coming off the saw and into the grinder next, and confirming both machines are actually stopped before touching either one is the first fact this whole teardown depends on — starting a lockout on a saw that is still finishing a cut is how a hand ends up where a blade already is."
+    },
+    {
+      "cue": "Pull on the mesh glove, then buckle the belly guard over it — in that order.",
+      "id": "don-ppe",
+      "itemNames": {
+        "belly-guard": "chain-mail belly guard",
+        "mesh-glove": "cut-resistant mesh glove"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Wrong order — the glove goes on first, then the belly guard buckles over its cuff, not the other way around.",
+      "prompt": "Pull on the mesh glove, then buckle the belly guard over it — in that order.",
+      "targets": [
+        "mesh-glove",
+        "belly-guard"
+      ],
+      "title": "Glove and guard up",
+      "why": "ANSI/ISEA 105 rates the mesh glove for exactly this job, and OSHA 29 CFR 1910.138 is why it goes on before anything else — the belly guard buckles over the glove's cuff, not under it, so a slipped blade meets the guard before it ever reaches the wrist the glove stops at."
+    },
+    {
+      "cue": "Open the band saw's own disconnect switch and clip your padlock through it.",
+      "id": "saw-lockout",
+      "kind": "select",
+      "prompt": "Open the band saw's own disconnect switch and clip your padlock through it.",
+      "target": "saw-disconnect",
+      "title": "Lock out the band saw's disconnect",
+      "why": "OSHA 29 CFR 1910.147 asks for one thing before any guard comes off a powered machine: the energy source isolated and locked by the person about to work on it. This switch is wired to the saw alone, so your lock here — and nowhere else — is what keeps that motor from being told to run while your hands are inside it."
+    },
+    {
+      "cue": "Touch the non-contact tester to the motor leads and commit once it reads dead.",
+      "gauge": {
+        "green": [
+          0,
+          0.14
+        ],
+        "label": "MOTOR LEAD VOLTAGE",
+        "missNote": "Still reading live — do not touch the guard. Recheck the lock before this goes any further.",
+        "speed": 0.7
+      },
+      "id": "verify-saw-dead",
+      "kind": "gauge",
+      "prompt": "Touch the non-contact tester to the motor leads and commit once it reads dead.",
+      "target": "voltage-tester",
+      "title": "Test the motor leads for zero energy",
+      "why": "A locked switch is a promise, not a proof — the tester is what actually confirms the promise held. OSHA 1910.147 calls this the try step for a reason: a breaker that was mislabelled, or a lock clipped on the wrong hasp, only shows up here, before the guard comes off, not after."
+    },
+    {
+      "cue": "Lift the upper wheel guard clear and set it on the parts tray.",
+      "drag": {
+        "missNote": "Not on the tray — set the guard down where the rest of the teardown lands, in order.",
+        "radius": 0.32,
+        "to": "parts-tray"
+      },
+      "id": "saw-guard-off",
+      "kind": "drag",
+      "prompt": "Lift the upper wheel guard clear and set it on the parts tray.",
+      "target": "saw-guard",
+      "title": "Remove the wheel guard",
+      "why": "The guard comes off only after the saw is proven dead — reaching for it before that tests a hope, not a lock. Off, it goes straight onto the tray in the order it will go back on, so reassembly starts from a sequence instead of a guess."
+    },
+    {
+      "cue": "Release the tension handle and draw the blade off both wheels onto the tray.",
+      "drag": {
+        "missNote": "Not on the tray — the blade coils flat where the rest of the parts are, not wherever there was room.",
+        "radius": 0.32,
+        "to": "parts-tray"
+      },
+      "id": "saw-blade-off",
+      "kind": "drag",
+      "prompt": "Release the tension handle and draw the blade off both wheels onto the tray.",
+      "target": "saw-blade",
+      "title": "Slip the band blade off the wheels",
+      "why": "The blade rides both wheels under real tension, and it comes off only once that tension is released and the guard is already clear — pulling a tensioned blade off a wheel with a hand still inside the housing is exactly the motion this whole lockout exists to prevent."
+    },
+    {
+      "cue": "Two things on this machine are wrong. Find them before reassembly starts.",
+      "decoyNotes": {
+        "clean-motor-housing": "The motor housing is clean and dry, screws seated. Leave it."
+      },
+      "id": "saw-walk",
+      "itemNames": {
+        "loose-insert-screw": "table insert screw backed out finger-tight",
+        "residue-buildup": "trim residue packed behind the lower wheel guard"
+      },
+      "itemNotes": {
+        "loose-insert-screw": "The table insert's retaining screw is backed out to finger-tight. A table insert that can lift under a cut is a snag waiting for the next primal pushed across it.",
+        "residue-buildup": "Trim has packed in behind the lower wheel guard where the blade path passes through it. Product left to build up there is exactly what turns into bacterial harbourage the case's own inspection is checking for."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Two things on this machine are wrong. Find them before reassembly starts.",
+      "targets": [
+        "residue-buildup",
+        "loose-insert-screw"
+      ],
+      "title": "Walk the saw before it goes back together",
+      "why": "The teardown is not finished when the guard and blade are off — it is finished when the machine underneath them is checked, not just wiped. Two things left wrong here become the next shift's surprise, or the health inspector's."
+    },
+    {
+      "cue": "Spray the food-contact surfaces and hold for the full labelled contact time.",
+      "holdBreakNote": "Wiped it off early. Hold the full labelled contact time — a fast pass moves the soil around instead of killing what is on it.",
+      "id": "sanitize-saw",
+      "kind": "hold",
+      "prompt": "Spray the food-contact surfaces and hold for the full labelled contact time.",
+      "seconds": 8,
+      "target": "sani-spray",
+      "title": "Sanitise the table, guides and wheel wells",
+      "why": "NSF/ANSI 8 governs this machine as food-contact equipment for a reason — whatever rode the last cut across this table is what the next customer's dinner touches if it is not actually killed, and a sanitiser only earns that claim over its full contact time, not the time it takes to feel done."
+    },
+    {
+      "cue": "Return the blade from the tray onto both wheels and tension it true.",
+      "drag": {
+        "missNote": "Not seated on the wheels — track the blade centred before it takes any tension at all.",
+        "radius": 0.32,
+        "to": "saw-wheels"
+      },
+      "id": "saw-blade-on",
+      "kind": "drag",
+      "prompt": "Return the blade from the tray onto both wheels and tension it true.",
+      "target": "saw-blade",
+      "title": "Seat the band blade back on the wheels",
+      "why": "Reassembly runs the teardown in reverse for a reason: a blade forced onto the wheels before the guard is anywhere near ready can walk off-track under tension, and a blade that walks under load is one nobody wants to be standing beside."
+    },
+    {
+      "cue": "Set the guard back over the wheel housing and seat it flush.",
+      "drag": {
+        "missNote": "Not fully seated — the guard has to sit flush against the housing before the interlock behind it can close.",
+        "radius": 0.32,
+        "to": "saw-body"
+      },
+      "id": "saw-guard-on",
+      "kind": "drag",
+      "prompt": "Set the guard back over the wheel housing and seat it flush.",
+      "target": "saw-guard",
+      "title": "Reseat the wheel guard",
+      "why": "A guard that looks back in place and a guard that is actually seated are not the same thing — it has to sit flush against the housing so the interlock behind it can even close, which is what the next step is there to prove."
+    },
+    {
+      "cue": "Bump the test switch with the guard seated and confirm the motor is live only now.",
+      "id": "saw-interlock-test",
+      "kind": "select",
+      "prompt": "Bump the test switch with the guard seated and confirm the motor is live only now.",
+      "target": "saw-test-switch",
+      "title": "Prove the guard interlock",
+      "why": "The interlock should have kept this saw from running the entire time the guard was off, and testing it after reassembly — guard seated, before your lock comes off — is the only way to know it still does that job before this machine sees a primal again."
+    },
+    {
+      "cue": "Pull the grinder's plug and clip your padlock through the cord-lockout device.",
+      "id": "grinder-lockout",
+      "kind": "select",
+      "prompt": "Pull the grinder's plug and clip your padlock through the cord-lockout device.",
+      "target": "grinder-cord-lock",
+      "title": "Unplug the grinder and lock the cord out",
+      "why": "The grinder gets its own lock on its own cord, separate from the saw — a device with a single auger and a knife spinning at the bottom of an open hopper does not get a hand near it on a hope that somebody else already unplugged it."
+    },
+    {
+      "cue": "Lift the feed pan and stomper guard clear and set them on the parts tray.",
+      "drag": {
+        "missNote": "Not on the tray — the feed pan and stomper guard go down with the rest of the teardown, in reach for reassembly.",
+        "radius": 0.3,
+        "to": "parts-tray"
+      },
+      "id": "grinder-guard-off",
+      "kind": "drag",
+      "prompt": "Lift the feed pan and stomper guard clear and set them on the parts tray.",
+      "target": "grinder-guard",
+      "title": "Remove the grinder's feed pan and stomper guard",
+      "why": "The feed pan sits directly over the worm that feeds the knife and plate, and it comes off only once the cord is out and locked — the same promise the saw's own lockout just made, sized for a machine you feed by hand instead of a blade you guide by eye."
+    },
+    {
+      "cue": "Take both of your padlocks off the lock board now that each machine is proven and reassembled.",
+      "id": "release-locks",
+      "kind": "select",
+      "prompt": "Take both of your padlocks off the lock board now that each machine is proven and reassembled.",
+      "target": "your-locks",
+      "title": "Remove your locks",
+      "why": "Your locks, your call — nobody else takes them off, and neither comes off until its own machine is fully back together and proven. Pulling either one early hands live power back to a machine somebody else might still have a hand inside."
+    },
+    {
+      "cue": "Sign the log to close out the between-use clean on both machines.",
+      "id": "sign-log",
+      "kind": "select",
+      "prompt": "Sign the log to close out the between-use clean on both machines.",
+      "target": "changeover-log",
+      "title": "Sign the changeover log",
+      "why": "The signature is the cutter taking responsibility for the whole changeover — both machines locked, both cleaned, both proven — and it is the line a manager or an inspector reads when either machine's history is ever questioned."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "The band saw and the grinder both locked out, guarded, cleaned and proven before either one sees the case again",
+  "title": "SmartCiti.X~ Meat Dept Band Saw & Grinder Lockout VR",
+  "trade": "Retail meat cutter",
+  "underwater": null,
+  "weather": null
+}

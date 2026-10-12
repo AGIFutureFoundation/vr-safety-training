@@ -1,0 +1,360 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "site-power-certified",
+    "name": "Site Power Certified",
+    "note": "A temporary service grounded, GFCI-protected, AEGCP-current and walked clean at the end of the shift"
+  },
+  "category": "Energy & Power",
+  "certification": "IBEW inside wireman; OSHA 29 CFR 1926.404 (wiring design and protection) and 1926.405 (wiring methods, temporary wiring); NFPA 70 Article 590 temporary installations",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "IBEW",
+        "id": "ibew-neca-jatc",
+        "title": "IBEW/NECA Joint Apprenticeship and Training Committee — inside and outside wireman apprenticeship standards, taught from the electrical training ALLIANCE curriculum"
+      },
+      {
+        "body": "NEC/NFPA 70",
+        "citedAs": "NFPA 70",
+        "id": "nec-nfpa-70",
+        "title": "NFPA 70 — National Electrical Code"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.404",
+        "id": "osha-1926-404",
+        "title": "29 CFR 1926.404 — Wiring design and protection on a construction site"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Energy",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "grounded-first",
+        "name": "Grounded First",
+        "note": "Never energised the panel before the grounding electrode was proven"
+      },
+      {
+        "id": "gfci-everywhere",
+        "name": "GFCI Everywhere",
+        "note": "Every receptacle tripped and reset clean, no exceptions"
+      },
+      {
+        "id": "quarter-precise",
+        "name": "Quarter Precise",
+        "note": "Held every test reading inside its band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "no-callback",
+        "name": "No Callback",
+        "note": "Clean run, no corrections"
+      },
+      {
+        "id": "test-held",
+        "name": "Test Held",
+        "note": "Never let a splice test drop before it read good"
+      },
+      {
+        "id": "service-up",
+        "name": "Service Up",
+        "note": "Panel energised and walked inside 80% of par"
+      }
+    ],
+    "currency": "VOLT",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Apprentice Wireman",
+      "Journeyman Wireman",
+      "Site Electrician",
+      "Site Lead",
+      "Site Power Authority Certified"
+    ],
+    "system": "Site Power Authority"
+  },
+  "hazards": {
+    "cord-in-mud": "That cord is lying flat in standing water at the edge of the lay-down yard, still under tension from the reel. Water does not care that the jacket is rated for wet locations — a nicked jacket sitting in a puddle is a ground fault waiting on the first person who steps in that puddle at the same time.",
+    "gfci-bypass": "That is a cheater plug pulled off a GFCI receptacle to feed a three-prong tool straight from a two-prong outlet somewhere else on site. It defeats the one protection device standing between whoever is holding that tool and a ground fault, and it does it silently — nothing about the tool running tells you the GFCI it needs is gone.",
+    "raw-lugs": "You went for the lugs behind the main instead of a receptacle. Every outlet on this panel is GFCI-protected and every breaker is sized to the circuit; the lugs are neither — they are the one point in this whole service with no protection device between a hand and the transformer, and nothing that plugs in ever gets landed there.",
+    "wrong-tag-color": "You tagged that cord with last quarter's colour. The colour code is how anyone on this site can tell a current test from an overdue one at a glance, without reading a date stamped in grease pencil on a cord lying in the mud — a wrong-coloured tag says a cord is current when the programme says it is not."
+  },
+  "id": "temporary-site-power",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "route",
+      "alert": "Past the cable ramp, a cord has come uncoiled into a puddle at the low corner of the site, and the worm-drive saw plugged into the far end of it is still spinning under load with nobody's hand on it.",
+      "cue": "Do not touch the cord or the saw standing in the water. Kill the panel main first.",
+      "delay": 4,
+      "id": "saw-in-puddle",
+      "kind": "Live tool in water",
+      "missNote": "The saw kept running in the puddle for the whole window. Whether the GFCI behind it had already tripped or was about to is not something anyone could see from the cable ramp — the only certain response was cutting the source, and it did not happen.",
+      "seconds": 12,
+      "target": "panel-main",
+      "why": "A saw left running while its cord lies in standing water is a live ground-fault path sitting in the one place a foot is most likely to land, and the GFCI on that circuit may already be doing its job or may already have failed — there is no way to tell by looking, and touching the cord to find out is how the fault reaches a person instead of just the water. The panel main is the one action that is safe from every side of that puddle at once.",
+      "wrongNote": "It is the panel main. Nothing about that cord or that saw is safe to touch while either one might still be carrying current into that puddle."
+    },
+    {
+      "after": "aegcp-test",
+      "alert": "A subcontractor has the panel door open and is stripping a cord end to jam straight onto the lugs behind the main, skipping every receptacle and every GFCI on the panel to feed his own splitter.",
+      "cue": "Stop him before that cord touches the lugs.",
+      "delay": 4,
+      "id": "sub-taps-lugs",
+      "kind": "Unauthorized tap",
+      "missNote": "The subcontractor's cord went on the lugs before he was stopped. Everything fed from that tap now has none of the GFCI protection, none of the breaker sizing, and none of the fault clearing that the rest of this panel was built to provide.",
+      "seconds": 11,
+      "target": "subcontractor",
+      "why": "The lugs behind this panel's main are the one point in the whole temporary service with no GFCI, no breaker and no overcurrent protection sized to anything downstream of them — landing a cord there is not a shortcut around a full panel, it is a direct connection to the transformer that every other protection device on this service exists specifically to stand between people and.",
+      "wrongNote": "It is the subcontractor at the open panel door. Stop him before that cord touches the lugs — talk to him after."
+    }
+  ],
+  "lateNotes": {
+    "gfci-recept-a": "Every receptacle gets tested, not a sample of them — the one skipped is the one that matters.",
+    "ground-rod": "The rod goes in and the bonding jumper goes on before the panel's main is ever closed."
+  },
+  "name": "Temporary Site Power",
+  "parSeconds": 250,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "electrical-first-period"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.3,
+    "hits": [
+      "aegcp-tester",
+      "bonding-jumper",
+      "cable-ramp",
+      "cone-a",
+      "cone-b",
+      "cord-coil",
+      "cord-in-mud",
+      "damaged-cord",
+      "gfci-bypass",
+      "gfci-recept-a",
+      "gfci-recept-b",
+      "gfci-recept-c",
+      "ground-rod",
+      "ground-tester",
+      "panel-main",
+      "quarter-tag",
+      "raw-lugs",
+      "site-log",
+      "site-plan",
+      "subcontractor",
+      "unlabeled-panel",
+      "worn-cord-jacket",
+      "wrong-tag-color"
+    ],
+    "meshes": 164
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "select",
+    "sequence",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Site the panel on high ground, clear of the haul road and the crane's swing, with its grounding electrode location marked.",
+      "id": "plan",
+      "kind": "select",
+      "prompt": "Site the panel on high ground, clear of the haul road and the crane's swing, with its grounding electrode location marked.",
+      "target": "site-plan",
+      "title": "Read the siting plan",
+      "why": "Where this panel sits decides half of the hazards it will have for the rest of the job — parked in the swing of equipment it gets struck, parked in a low corner it floods, and parked without a clear grounding electrode location the whole rest of this procedure has nowhere to start from. The plan is drawn before the first stake goes in the ground, not adjusted after the panel is already sitting somewhere convenient."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Drive the rod its full length and connect the bonding jumper from the panel's ground bus to the rod clamp.",
+      "id": "ground",
+      "itemNames": {
+        "bonding-jumper": "bonding jumper to the panel",
+        "ground-rod": "grounding electrode rod"
+      },
+      "kind": "sequence",
+      "prompt": "Drive the rod its full length and connect the bonding jumper from the panel's ground bus to the rod clamp.",
+      "targets": [
+        "ground-rod",
+        "bonding-jumper"
+      ],
+      "title": "Drive the ground rod and bond it to the panel",
+      "why": "A temporary service has no building steel or water main to fall back on for a grounding electrode the way permanent wiring often does — the rod driven today is the only path fault current has back to earth on this whole site, and every GFCI and every piece of equipment grounded to this panel is trusting that connection to actually be there."
+    },
+    {
+      "cue": "Test continuity from the panel's ground bus through the bonding jumper to the rod before the panel carries any load.",
+      "gauge": {
+        "green": [
+          0,
+          0.14
+        ],
+        "label": "Ω",
+        "missNote": "That reading is too high to trust as a grounding-electrode path. Recheck the rod and the bonding jumper before this panel carries anything.",
+        "speed": 0.7
+      },
+      "id": "ground-test",
+      "kind": "gauge",
+      "prompt": "Test continuity from the panel's ground bus through the bonding jumper to the rod before the panel carries any load.",
+      "target": "ground-tester",
+      "title": "Prove the grounding-electrode connection",
+      "why": "A rod that looks driven and a jumper that looks connected are not the same thing as a path fault current can actually use — a loose clamp or a rod that hit rock two feet down reads exactly like a good connection until something needs it, which is why this gets measured before the panel is trusted with a single circuit, not assumed from how the install looked."
+    },
+    {
+      "cue": "With the ground proven, close the panel's main breaker to energise the temporary service.",
+      "id": "main",
+      "kind": "turn",
+      "prompt": "With the ground proven, close the panel's main breaker to energise the temporary service.",
+      "target": "panel-main",
+      "title": "Close the panel main",
+      "turn": {
+        "axis": "y",
+        "label": "PANEL MAIN",
+        "turns": 0.4
+      },
+      "why": "The main only closes once the one thing every downstream protection device depends on — an actual path to earth — has been measured, not assumed. A panel energised on a ground that merely looks connected is a panel where every GFCI on it is trusting a connection nobody actually checked."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Press the test button on every receptacle on the panel, confirm each one trips, then reset it.",
+      "id": "gfci-check",
+      "itemNames": {
+        "gfci-recept-a": "receptacle 1 test button",
+        "gfci-recept-b": "receptacle 2 test button",
+        "gfci-recept-c": "receptacle 3 test button"
+      },
+      "kind": "sequence",
+      "prompt": "Press the test button on every receptacle on the panel, confirm each one trips, then reset it.",
+      "targets": [
+        "gfci-recept-a",
+        "gfci-recept-b",
+        "gfci-recept-c"
+      ],
+      "title": "Test every receptacle's GFCI protection",
+      "why": "OSHA's construction electrical rule requires ground-fault protection on every 125-volt receptacle on a temporary service precisely because this equipment gets plugged and unplugged all day by people who are not electricians and cannot verify it themselves — every receptacle gets tested because the one left unchecked is the one somebody's saw ends up plugged into."
+    },
+    {
+      "cue": "Continuity and insulation test on the cord and tool going into service, and commit inside the pass band.",
+      "gauge": {
+        "green": [
+          0.7,
+          0.86
+        ],
+        "label": "CONTINUITY",
+        "missNote": "Outside the pass band — that cord or tool does not go into service on this reading. Test it again or pull it.",
+        "speed": 0.72
+      },
+      "id": "aegcp-test",
+      "kind": "gauge",
+      "prompt": "Continuity and insulation test on the cord and tool going into service, and commit inside the pass band.",
+      "target": "aegcp-tester",
+      "title": "Run the assured equipment grounding conductor test",
+      "why": "An assured equipment grounding conductor programme is the alternative OSHA allows to GFCI on every circuit, and it works only if every cord and every tool is actually tested on a schedule and the result is actually recorded — a programme that exists on paper but skips the testing is not an assured programme, it is a hope with a binder."
+    },
+    {
+      "cue": "Match the tag colour to the chart posted on the panel for the current quarter — not last quarter's colour off the rack.",
+      "id": "color-tag",
+      "kind": "select",
+      "prompt": "Match the tag colour to the chart posted on the panel for the current quarter — not last quarter's colour off the rack.",
+      "target": "quarter-tag",
+      "title": "Tag the tested cord with this quarter's colour",
+      "why": "The colour code exists so a foreman can walk the site and know at a glance which cords are current without reading a date off a tag left out in the weather — the colour on the tag is the whole test result compressed into something visible from ten feet away, and it is only true if it matches the chart posted for the quarter this test actually happened in."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Cone off both sides of the whip where it crosses the vehicle path.",
+      "id": "traffic",
+      "itemNames": {
+        "cone-a": "cone at the haul-road crossing",
+        "cone-b": "cone at the panel apron"
+      },
+      "kind": "sequence",
+      "prompt": "Cone off both sides of the whip where it crosses the vehicle path.",
+      "targets": [
+        "cone-a",
+        "cone-b"
+      ],
+      "title": "Mark the cord crossing the haul road",
+      "why": "A cord crossing a haul road is invisible to a loaded truck from the cab, and a crushed cord is not just a repair — a jacket split under a tire load with the circuit still energised is a fault at ground level in a spot equipment drives over all day. The cones are what make the crossing visible before a tire finds it."
+    },
+    {
+      "cue": "Lift the coiled whip and set it into the cable-protector ramp, clear of the standing water at the low corner.",
+      "drag": {
+        "missNote": "Not set in the ramp — a cord left flat on the grade is exposed to both the traffic and the water this step exists to keep it clear of.",
+        "radius": 0.45,
+        "to": "cable-ramp"
+      },
+      "id": "route",
+      "kind": "drag",
+      "prompt": "Lift the coiled whip and set it into the cable-protector ramp, clear of the standing water at the low corner.",
+      "target": "cord-coil",
+      "title": "Run the whip through the cable ramp",
+      "why": "Cable ramps do two jobs at once: they keep a cord's jacket off the ground a vehicle tire would otherwise crush, and routed correctly they keep the run out of the low corner where rain collects — a whip left flat on the grade does neither, and it is usually the same cord that ends up doing both jobs badly at once."
+    },
+    {
+      "cue": "Pull the cord with the cut jacket out of the pile and tag it out of service.",
+      "id": "damaged-cord",
+      "kind": "select",
+      "prompt": "Pull the cord with the cut jacket out of the pile and tag it out of service.",
+      "target": "damaged-cord",
+      "title": "Tag out the damaged cord",
+      "why": "A cut through to the conductors is not a cosmetic flaw that waits for a slow day — it is an energised conductor one layer of dirt away from open air, and the only correct place for that cord until it is repaired and re-tested is out of the pile entirely, tagged so nobody grabs it because it was the closest one coiled by the panel."
+    },
+    {
+      "cue": "Look over the panel, the cord runs and the lay-down area before you leave; click what needs attention before tomorrow's shift.",
+      "id": "walk",
+      "itemNames": {
+        "unlabeled-panel": "panel with no circuit directory",
+        "worn-cord-jacket": "cord with jacket abrasion"
+      },
+      "itemNotes": {
+        "unlabeled-panel": "This panel has no circuit directory on the door. Whoever needs to kill a circuit in an emergency and cannot read what feeds what is choosing between guessing and shutting down the whole panel — either one costs time a real emergency does not give back.",
+        "worn-cord-jacket": "This cord's jacket is worn through to the inner insulation at a point where it runs over the skid steer's turning radius. It is not cut yet, but it is one more pass of a tracked machine away from being exactly the cord this job already tagged out once today."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look over the panel, the cord runs and the lay-down area before you leave; click what needs attention before tomorrow's shift.",
+      "targets": [
+        "worn-cord-jacket",
+        "unlabeled-panel"
+      ],
+      "title": "Walk the site at the end of the shift",
+      "why": "A temporary service gets walked at the end of every shift because nothing about it stays the way it was set up — cords get dragged, tags fade, rain moves the puddles, and the next crew on site inherits whatever was left standing. What gets caught on tonight's walk is what tomorrow's shift does not have to discover the hard way."
+    },
+    {
+      "cue": "Record what the walk found and the time on the site electrical log.",
+      "id": "log",
+      "kind": "select",
+      "prompt": "Record what the walk found and the time on the site electrical log.",
+      "target": "site-log",
+      "title": "Log the end-of-shift walk",
+      "why": "The log is how the next shift knows this walk actually happened and what it found — a worn jacket or an unlabelled panel noticed tonight and never written down is exactly as unknown to tomorrow's crew as if nobody had walked the site at all."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Standing up construction power: panel grounded, GFCI on every receptacle, the AEGCP schedule, cords clear of traffic and water",
+  "title": "SmartCiti.X~ Temporary Site Power VR",
+  "trade": "Inside wireman — IBEW",
+  "underwater": null,
+  "weather": "rain"
+}

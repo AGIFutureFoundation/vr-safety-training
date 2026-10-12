@@ -1,0 +1,279 @@
+{
+  "app": "trades",
+  "badge": {
+    "id": "fire-watch",
+    "name": "Fire Watch Held",
+    "note": "Permit to fire watch with no hot-work shortcut"
+  },
+  "category": "Trade Skills Simulator",
+  "certification": "AWS D1.1 welder performance qualification; OSHA 29 CFR 1910.252 welding, cutting and brazing; NFPA 51B hot work permit and fire watch; ANSI Z49.1 fume control and lens shade",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI Z49.1",
+        "id": "ansi-z49-1",
+        "title": "ANSI/AWS Z49.1 — Safety in welding, cutting and allied processes"
+      },
+      {
+        "body": "AWS",
+        "citedAs": "AWS D1.1",
+        "id": "aws-d1-1",
+        "title": "AWS D1.1 — Structural Welding Code, Steel"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 51B",
+        "id": "nfpa-51b",
+        "title": "NFPA 51B — Fire Prevention During Welding, Cutting and Other Hot Work"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.252",
+        "id": "osha-1910-252",
+        "title": "29 CFR 1910.252 — Welding, cutting and brazing, general requirements"
+      }
+    ]
+  },
+  "district": null,
+  "domain": null,
+  "flat": false,
+  "game": null,
+  "hazards": {
+    "arc-bare": "You looked at the arc without the helmet down. Arc eye is a burn to the cornea and it does not announce itself for hours — the hood goes down before the arc is struck.",
+    "cylinder-loose": "That cylinder is lying unsecured with the cap off. A knocked-over cylinder with a sheared valve becomes a projectile — upright, chained, capped when not in use.",
+    "grinder-noguard": "The guard is off that grinder. A disc that lets go at full speed goes straight into whatever is in line with it, and that is usually your hand or your face.",
+    "solvent-drum": "There is an open solvent drum inside the hot work radius. Sparks travel further than people think and vapour ignites well below the flash you can see — it leaves the area or the work does.",
+    "wet-gloves": "Those gloves are damp. Wet leather conducts, and SMAW open-circuit voltage does not need much help to find a path through you."
+  },
+  "id": "welding",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "amps",
+      "alert": "The fume extraction has tripped out. The hood is dead and the fan noise has stopped.",
+      "cue": "The arc is not lit yet. Put it right before it is.",
+      "delay": 5,
+      "id": "extraction-trips",
+      "kind": "Plant alarm",
+      "missNote": "You set the machine and welded with dead extraction. The fume goes straight up inside your hood for the whole bead, and that is the exposure nobody notices happening.",
+      "seconds": 14,
+      "target": "fume-arm",
+      "why": "Extraction goes back on before the arc does. Manganese and hexavalent chromium do their damage over a career and a hood that is off looks exactly like a hood that is on.",
+      "wrongNote": "That is not what tripped. The extraction is off, and nothing else on this bench matters until the fan is running again."
+    },
+    {
+      "after": "bead",
+      "alert": "The fire blanket has slipped off the conduit run and sparks are landing on bare cable.",
+      "cue": "Put the arc down and re-cover it.",
+      "delay": 6,
+      "id": "blanket-slipped",
+      "kind": "Fire watch",
+      "missNote": "You welded on with the run uncovered. A spark lodged in the insulation and smouldered; the fire started hours after everyone had gone home, which is the exact thing the fire watch exists to prevent.",
+      "seconds": 12,
+      "target": "fire-blanket",
+      "why": "Anything that cannot leave the radius stays covered for the whole job, not just at the start. Re-covering it costs ten seconds.",
+      "wrongNote": "The sparks are landing on the conduit run. Cover it — everything else on this job can wait ten seconds."
+    }
+  ],
+  "lateNotes": {
+    "fire-extinguisher": "The watch starts when the arc stops. There is still work in front of you.",
+    "stinger": "Put the arc down. Nothing gets struck before the area is cleared, the extraction is running and the kit is on.",
+    "welder-dial": "Set the machine after the work is earthed — a live return path through the bench is not a return path."
+  },
+  "name": "welding",
+  "parSeconds": 230,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "situational-awareness"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": null,
+    "hits": [
+      "arc-bare",
+      "clear-zone",
+      "combustibles",
+      "cylinder-loose",
+      "fire-blanket",
+      "fire-extinguisher",
+      "fume-arm",
+      "fume-switch",
+      "gloves",
+      "grinder-noguard",
+      "helmet",
+      "helmet-lens",
+      "jacket",
+      "permit-board",
+      "solvent-drum",
+      "stinger",
+      "welder-dial",
+      "wet-gloves",
+      "work-clamp"
+    ],
+    "meshes": 392
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the permit: area, time window and who holds the fire watch.",
+      "id": "permit",
+      "kind": "select",
+      "prompt": "Read the permit: area, time window and who holds the fire watch.",
+      "target": "permit-board",
+      "title": "Check the hot work permit",
+      "why": "The permit is what turns a hot-work area from 'nobody checked' into 'somebody signed for it' — NFPA 51B requires the fire-watch assignment and the time window in writing before the first arc, because the person who surveyed the floor and the person swinging the stinger are rarely the same set of eyes."
+    },
+    {
+      "cue": "Pick up the stacked packaging and carry it onto the marked clear zone.",
+      "drag": {
+        "missNote": "Not clear of the radius — carry it all the way onto the marked zone, not just off to the side of the bench.",
+        "radius": 0.75,
+        "to": "clear-zone"
+      },
+      "id": "clear",
+      "kind": "drag",
+      "prompt": "Pick up the stacked packaging and carry it onto the marked clear zone.",
+      "target": "combustibles",
+      "title": "Clear combustibles from the radius",
+      "why": "Sparks and slag routinely travel well past where they look like they should stop, so NFPA 51B sets a minimum clear radius around hot work rather than trusting a guess. Packaging left inside that radius is exactly the kind of smoulder that goes unnoticed until the shift is over and the building is empty."
+    },
+    {
+      "cue": "Drape the fire blanket over the fixed conduit run.",
+      "id": "blanket",
+      "kind": "select",
+      "prompt": "Drape the fire blanket over the fixed conduit run.",
+      "target": "fire-blanket",
+      "title": "Cover what cannot be moved",
+      "why": "A conduit run bolted to the wall cannot be carried out to the clear radius, so it gets shielded instead. A single spark lodging unnoticed in the insulation and smouldering for hours is the classic hot-work fire — it starts long after the welder has clocked out, which is exactly why the blanket goes on before the arc, not after it."
+    },
+    {
+      "cue": "Turn the extraction fan switch to ON before the hood comes over the weld.",
+      "id": "vent",
+      "kind": "turn",
+      "prompt": "Turn the extraction fan switch to ON before the hood comes over the weld.",
+      "target": "fume-switch",
+      "title": "Switch on the fume extraction",
+      "turn": {
+        "axis": "x",
+        "label": "EXTRACTION FAN",
+        "turns": 0.4
+      },
+      "why": "Manganese and hexavalent chromium in welding fume do their damage slowly, well below the level that makes anyone cough, which is why ANSI Z49.1 calls for capture at the arc rather than general room ventilation. Running the fan before the arc is struck means every breath from the first spark onward is already headed up the duct instead of into your lungs."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Helmet, leathers and gloves — all three before the arc.",
+      "id": "ppe",
+      "itemNames": {
+        "gloves": "welding gloves",
+        "helmet": "welding helmet",
+        "jacket": "leather jacket"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Still missing a piece of kit — every item goes on before you strike.",
+      "prompt": "Helmet, leathers and gloves — all three before the arc.",
+      "targets": [
+        "helmet",
+        "jacket",
+        "gloves"
+      ],
+      "title": "Put on the full kit",
+      "why": "An open arc puts out ultraviolet intense enough to sunburn exposed skin in minutes and throws spatter that finds any gap in the leathers. OSHA 29 CFR 1910.252 treats helmet, jacket and gloves as one kit for exactly this reason — leaving off any single piece just relocates the burn to whichever patch of skin was left uncovered."
+    },
+    {
+      "cue": "Dial the auto-darkening lens to the right shade for this process and current.",
+      "gauge": {
+        "green": [
+          0.5,
+          0.68
+        ],
+        "label": "LENS SHADE",
+        "missNote": "Wrong shade for this current. Match the shade to the process and amperage before the hood goes down.",
+        "speed": 0.75
+      },
+      "id": "lens",
+      "kind": "gauge",
+      "prompt": "Dial the auto-darkening lens to the right shade for this process and current.",
+      "target": "helmet-lens",
+      "title": "Set the lens shade",
+      "why": "Shade is matched to process and amperage from the ANSI Z49.1 tables, not picked by feel: too light and ultraviolet from the arc still reaches the cornea, producing arc eye that shows up hours later; too dark and the puddle disappears, so you chase a bead you cannot see and lay a poor one."
+    },
+    {
+      "cue": "Clamp the return lead directly to the workpiece.",
+      "id": "ground",
+      "kind": "select",
+      "prompt": "Clamp the return lead directly to the workpiece.",
+      "target": "work-clamp",
+      "title": "Attach the work clamp",
+      "why": "The return lead clamps directly to the workpiece, close to the joint, so the welding current has one clean path back to the machine. Let it find its own way through the bench, the building steel or a nearby bearing race instead, and stray current pits and destroys whatever conductive part it passed through on its way home."
+    },
+    {
+      "cue": "Set current for a 3.2 mm electrode on 6 mm plate.",
+      "gauge": {
+        "green": [
+          0.44,
+          0.6
+        ],
+        "label": "WELDING CURRENT",
+        "missNote": "Off the working range for this electrode. Reset the dial before you strike.",
+        "speed": 0.7
+      },
+      "id": "amps",
+      "kind": "gauge",
+      "prompt": "Set current for a 3.2 mm electrode on 6 mm plate.",
+      "target": "welder-dial",
+      "title": "Set the amperage",
+      "why": "Amperage is set from electrode diameter and plate thickness, not guessed at the dial: too low and the rod sticks and stubs out instead of striking cleanly; too high and it burns through the plate and undercuts the toes of the weld, leaving a groove that becomes the crack that fails the joint under load."
+    },
+    {
+      "cue": "Strike the arc and hold your travel speed inside the band.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.56
+        ],
+        "label": "TRAVEL SPEED",
+        "missNote": "Travel speed off band — the puddle tells you. Reset and run it again.",
+        "speed": 1.15
+      },
+      "id": "bead",
+      "kind": "gauge",
+      "prompt": "Strike the arc and hold your travel speed inside the band.",
+      "target": "stinger",
+      "title": "Run the bead",
+      "why": "A steady travel speed and a consistent arc length are what actually build a sound bead under AWS D1.1. Move too fast and the pool never fully wets the joint, leaving a thin ropey cap with poor fusion; crawl too slow and filler piles up over trapped slag that becomes a void the next pass welds straight over."
+    },
+    {
+      "cue": "Stay on the fire watch with the extinguisher until the timer clears.",
+      "holdBreakNote": "You broke the watch early. Smouldering takes time to show — hold the full period.",
+      "id": "firewatch",
+      "kind": "hold",
+      "prompt": "Stay on the fire watch with the extinguisher until the timer clears.",
+      "seconds": 14,
+      "target": "fire-extinguisher",
+      "title": "Hold the fire watch",
+      "why": "NFPA 51B requires the fire watch to continue after the arc goes out, because smouldering slag and hot spatter can take far longer than the weld itself to find something combustible to ignite. Walking off at the last bead instead of holding the full watch is exactly how a shop that looked fine at five o'clock is on fire by two in the morning."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Hot work permit, fume extraction, lens shade, bead control and fire watch",
+  "title": "Weld Bay",
+  "trade": "Welder / fabricator",
+  "underwater": null,
+  "weather": null
+}

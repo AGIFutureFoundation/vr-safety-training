@@ -1,0 +1,425 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "tugged-and-looked",
+    "name": "Tugged and Looked",
+    "note": "A coupling tugged, looked at and written up, and a drop with the legs down before the jaws opened — first time"
+  },
+  "category": "Mobility & Transit",
+  "certification": "FMCSA 49 CFR 380 Subpart F entry-level driver training, whose Class A theory and range curriculum covers coupling and uncoupling, delivered by a provider on the Training Provider Registry; 49 CFR 393 parts and accessories, including coupling devices and the air and electrical connections between tractor and trailer; 49 CFR 396 inspection and the driver vehicle inspection report; the CVSA North American Standard Out-of-Service Criteria for fifth wheels and coupling devices; ANSI/ISEA 107 high-visibility apparel for anyone on foot in the yard; Teamsters (IBT) freight locals' driver training",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI/ISEA 107",
+        "id": "ansi-isea-107",
+        "title": "ANSI/ISEA 107 — High-visibility safety apparel and accessories"
+      },
+      {
+        "body": "CVSA",
+        "citedAs": "CVSA",
+        "id": "cvsa-out-of-service-criteria",
+        "title": "CVSA North American Standard Inspection Program and North American Standard Out-of-Service Criteria for roadside inspection of drivers and commercial motor vehicles"
+      },
+      {
+        "body": "FMCSA",
+        "citedAs": "49 CFR 380 Subpart F",
+        "id": "fmcsa-49-cfr-380-subpart-f",
+        "title": "49 CFR Part 380 Subpart F — Entry-level driver training requirements for Class A and Class B commercial driver licence applicants, delivered by a provider listed on the Training Provider Registry"
+      },
+      {
+        "body": "FMCSA",
+        "citedAs": "49 CFR 393",
+        "id": "fmcsa-49-cfr-393",
+        "title": "49 CFR Part 393 — Parts and accessories necessary for safe operation, including brakes, tires, emergency equipment and Subpart I protection against shifting and falling cargo"
+      },
+      {
+        "body": "FMCSA",
+        "citedAs": "49 CFR 396",
+        "id": "fmcsa-49-cfr-396",
+        "title": "49 CFR Part 396 — Inspection, repair and maintenance, including the driver vehicle inspection report"
+      },
+      {
+        "body": "union",
+        "citedAs": "IBT",
+        "id": "teamsters-training",
+        "title": "Teamsters apprenticeship and driver training programmes, including regulated-soil and yard work"
+      }
+    ]
+  },
+  "district": "Mobility & Transit",
+  "domain": "Commercial Driving",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "open-jaws",
+        "name": "Open Jaws",
+        "note": "Every fifth-wheel fault found before backing under"
+      },
+      {
+        "id": "never-high-hooked",
+        "name": "Never High-Hooked",
+        "note": "Never drove off untugged, crawled under a live rig, backed in too high or crossed the lines"
+      },
+      {
+        "id": "dead-slow",
+        "name": "Dead Slow",
+        "note": "The back-under held in band the whole way"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-hook",
+        "name": "Clean Hook and Drop",
+        "note": "No corrections anywhere"
+      },
+      {
+        "id": "right-height",
+        "name": "Right Height",
+        "note": "Trailer height read near the centre of the band"
+      },
+      {
+        "id": "yard-pace",
+        "name": "Yard Pace",
+        "note": "Finished inside 80% of par"
+      }
+    ],
+    "currency": "PIN",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Permit Holder",
+      "Driver Trainee",
+      "Class A Driver",
+      "Yard Lead",
+      "Coupling Certified"
+    ],
+    "system": "Coupling"
+  },
+  "hazards": {
+    "cpl-crossed-lines": "You went to connect the service line to the emergency glad-hand. Crossed lines on a trailer with spring brakes can leave it without brakes, or with brakes that only release when they should apply. Red goes to red, blue to blue, and the colours are checked every time.",
+    "cpl-drive-no-tug": "You went to pull away without tugging against the trailer. A fifth wheel that has not locked, or a kingpin that went over the jaws instead of into them, looks exactly like a good coupling until the trailer comes off the tractor — at the first bump, the first turn or the first stop. The tug test takes five seconds.",
+    "cpl-high-hook": "You went to back under with the trailer set too high. The kingpin rides over the top of the jaws instead of into them — a high hook — and the rig can look coupled and even pull, until the trailer drops off the back of the tractor onto the frame and the landing gear.",
+    "cpl-under-trailer": "You went to crawl under the trailer to look at the jaws with the tractor running and the brakes off. If the rig moves, you are under the fifth wheel. The look is done with the parking brakes set, the engine off and the key in your pocket, and with a flashlight rather than your whole body."
+  },
+  "id": "tdl-coupling-and-uncoupling",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "back-under",
+      "alert": "A yard worker has walked into the gap between your tractor and the trailer nose to hand you a paper, while you are backing.",
+      "cue": "Warn them and stop.",
+      "delay": 3,
+      "id": "worker-between",
+      "kind": "Person between the units",
+      "missNote": "You kept backing with someone in the gap. People are crushed between tractors and trailers during coupling; the driver almost never sees them, which is why the horn and a full stop are the only safe answer.",
+      "seconds": 10,
+      "target": "cpl-horn",
+      "why": "The gap between a reversing tractor and a trailer nose closes to nothing in a couple of seconds, and a person in it cannot be seen in either mirror. The horn warns them, and the tractor does not move another inch until they are clear and you can see them.",
+      "wrongNote": "It is the horn. Someone is in the gap between your tractor and the trailer while you are reversing."
+    },
+    {
+      "after": "tug-test",
+      "alert": "A coworker has climbed onto your catwalk behind the cab to re-seat a glad-hand, while you are pulling against the trailer.",
+      "cue": "Stop pulling and set the brakes.",
+      "delay": 3,
+      "id": "coworker-on-catwalk",
+      "kind": "Person on the rig",
+      "missNote": "You kept pulling with someone on the catwalk. If the coupling had let go, the tractor would have jumped forward and thrown them into the gap between cab and trailer.",
+      "seconds": 12,
+      "target": "cpl-parking-valve",
+      "why": "A tug test is a deliberate strain on the coupling, and if it fails the tractor lurches forward — with a person standing on the catwalk between the cab and the trailer. Setting the parking brakes stops the pull and holds the rig still until they are down and you know where they are.",
+      "wrongNote": "It is the yellow parking brake valve. Someone is standing on the rig while you are straining the coupling."
+    }
+  ],
+  "lateNotes": {
+    "cpl-back-under": "The tractor backs under only after the air lines are on and the trailer's brakes are set, so the trailer cannot be pushed away.",
+    "cpl-dvir": "The report is written once the drop is done, so the fifth-wheel faults and the coupling check are both on it.",
+    "cpl-release-handle": "The release handle is pulled only after the landing gear is down and carrying the trailer, and the lines are off."
+  },
+  "name": "Coupling and Uncoupling",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "job-readiness-edition",
+    "wojrc-pathway-edition"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "semiTractor",
+        "count": 1,
+        "kit": "fleet"
+      },
+      {
+        "builder": "trailer:pup",
+        "count": 1,
+        "kit": "fleet"
+      }
+    ],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "cpl-back-under",
+      "cpl-chock-pull",
+      "cpl-chock-socket",
+      "cpl-crew-checkin",
+      "cpl-crossed-lines",
+      "cpl-drive-no-tug",
+      "cpl-dry-plate",
+      "cpl-dvir",
+      "cpl-emergency-gladhand",
+      "cpl-high-hook",
+      "cpl-horn",
+      "cpl-jaws-closed",
+      "cpl-jaws-shank",
+      "cpl-landing-crank",
+      "cpl-lower-legs",
+      "cpl-mount-bolt",
+      "cpl-no-gap",
+      "cpl-parking-valve",
+      "cpl-pigtail",
+      "cpl-release-handle",
+      "cpl-release-locked",
+      "cpl-service-gladhand",
+      "cpl-supply-knob",
+      "cpl-trailer-chock",
+      "cpl-trailer-height",
+      "cpl-tug-test",
+      "cpl-under-trailer",
+      "cpl-yard-card"
+    ],
+    "meshes": 249
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the trailer number, the weight and where it goes, and match the number on the trailer nose before you move.",
+      "id": "yard-card",
+      "kind": "select",
+      "prompt": "Read the trailer number, the weight and where it goes, and match the number on the trailer nose before you move.",
+      "target": "cpl-yard-card",
+      "title": "Read the yard card and match the trailer",
+      "why": "Hooking the wrong trailer is one of the commonest and most expensive yard mistakes: a load in the wrong city, a hazmat trailer pulled by a driver who was not expecting it, or a trailer taken off a dock while it was still being loaded. The yard card's number is matched against the nose of the trailer itself, not the slot it is parked in."
+    },
+    {
+      "cue": "Look at the plate, the jaws and the mounting before you back up to anything. Find the three faults.",
+      "id": "fifth-wheel-check",
+      "itemNames": {
+        "cpl-dry-plate": "the dry, ungreased fifth-wheel plate",
+        "cpl-jaws-closed": "the jaws already closed",
+        "cpl-mount-bolt": "the missing mounting bolt"
+      },
+      "itemNotes": {
+        "cpl-dry-plate": "The plate is dry and scored. Without grease the trailer's apron grinds on the plate and the rig steers stiffly and unpredictably in turns.",
+        "cpl-jaws-closed": "The locking jaws are already closed. Backed into like this, the kingpin cannot enter; the release handle goes to the open position before coupling.",
+        "cpl-mount-bolt": "A bolt is missing from the fifth-wheel mounting bracket. Everything the trailer does goes through these bolts to the tractor frame; this one is a mechanic's job before the tractor hooks anything."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look at the plate, the jaws and the mounting before you back up to anything. Find the three faults.",
+      "targets": [
+        "cpl-dry-plate",
+        "cpl-jaws-closed",
+        "cpl-mount-bolt"
+      ],
+      "title": "Inspect the fifth wheel",
+      "why": "The fifth wheel is the only thing joining forty tons of trailer to the tractor. Driver manuals ask for it to be greased, tilted down toward the rear, with its jaws open and the release handle in the open position, securely mounted with nothing loose or missing. A fault found here is a delay; found after coupling it is a trailer coming loose."
+    },
+    {
+      "cue": "Carry the chock to the trailer's rear tandem and set it snug against the tire.",
+      "drag": {
+        "missNote": "Not against the tire — set the chock snug to the trailer's rear tandem.",
+        "radius": 0.45,
+        "to": "cpl-chock-socket"
+      },
+      "id": "trailer-chock",
+      "kind": "drag",
+      "prompt": "Carry the chock to the trailer's rear tandem and set it snug against the tire.",
+      "target": "cpl-trailer-chock",
+      "title": "Chock the trailer wheels",
+      "why": "A dropped trailer is held only by its spring brakes, and a driver backing a tractor into it pushes against those brakes. The chock is what stops the trailer being pushed back as the fifth wheel meets the apron — especially on a trailer whose brakes have leaked off, or on a yard that slopes toward a dock."
+    },
+    {
+      "cue": "Crank the landing gear until the trailer's apron sits just below the top of the fifth wheel, then commit.",
+      "gauge": {
+        "green": [
+          0.38,
+          0.58
+        ],
+        "label": "APRON vs FIFTH WHEEL",
+        "missNote": "That height will not couple — too high rides over the jaws, too low hits the nose. Crank again.",
+        "speed": 0.7
+      },
+      "id": "trailer-height",
+      "kind": "gauge",
+      "prompt": "Crank the landing gear until the trailer's apron sits just below the top of the fifth wheel, then commit.",
+      "target": "cpl-trailer-height",
+      "title": "Check the trailer height against the fifth wheel",
+      "why": "The trailer should be low enough that it is lifted slightly as the tractor backs under — that is how the kingpin is guided into the jaws. Too high and the kingpin goes over the top of the jaws; too low and the tractor hits the trailer's nose. The manual's check is simple: look along the fifth wheel at the apron, and adjust with the landing gear crank before backing."
+    },
+    {
+      "cue": "Red emergency line to the red glad-hand, blue service line to the blue, then push the red valve to charge the trailer and pull it to set the trailer's brakes.",
+      "id": "air-lines",
+      "itemNames": {
+        "cpl-emergency-gladhand": "red emergency line to red",
+        "cpl-service-gladhand": "blue service line to blue",
+        "cpl-supply-knob": "charge the trailer, then set its brakes"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Emergency, service, then the valve — the lines go on before any air is sent back to the trailer.",
+      "prompt": "Red emergency line to the red glad-hand, blue service line to the blue, then push the red valve to charge the trailer and pull it to set the trailer's brakes.",
+      "targets": [
+        "cpl-emergency-gladhand",
+        "cpl-service-gladhand",
+        "cpl-supply-knob"
+      ],
+      "title": "Connect the air lines and set the trailer brakes",
+      "why": "The emergency line carries the air that holds the trailer's spring brakes off; the service line carries the brake applications. Connecting them before backing under lets the driver charge the trailer and then set its brakes on purpose, so the trailer cannot be pushed away as the tractor comes under it. The order is the manual's: lines, air, then trailer brakes."
+    },
+    {
+      "cue": "Back straight under the trailer at a crawl in the lowest reverse gear until the fifth wheel locks.",
+      "holdBreakNote": "Speed out of band — back under at a crawl or you will shunt the trailer instead of coupling it.",
+      "id": "back-under",
+      "kind": "track",
+      "prompt": "Back straight under the trailer at a crawl in the lowest reverse gear until the fifth wheel locks.",
+      "seconds": 8,
+      "target": "cpl-back-under",
+      "title": "Back under slowly",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.46,
+        "green": [
+          0.34,
+          0.54
+        ],
+        "label": "REVERSE",
+        "rise": 0.52,
+        "start": 0.1
+      },
+      "why": "Backing under slowly is what lets the kingpin find the jaws: the tractor lifts the apron, the pin slides into the throat, and the jaws close with a sound you can hear. Speed turns that into a collision — a bent kingpin, a trailer shunted into the chock or the dock, and a lock that may not have closed. Straight matters too; an angle can let the pin miss the throat."
+    },
+    {
+      "cue": "Trailer brakes set: in the lowest gear, pull gently forward against the trailer and hold it.",
+      "holdBreakNote": "You eased off before the tug was proven. Pull gently and hold against the trailer.",
+      "id": "tug-test",
+      "kind": "hold",
+      "prompt": "Trailer brakes set: in the lowest gear, pull gently forward against the trailer and hold it.",
+      "seconds": 7,
+      "target": "cpl-tug-test",
+      "title": "Tug test",
+      "why": "The tug test is the only proof, from the cab, that the jaws have closed around the kingpin. With the trailer's brakes set, a gentle pull forward in the lowest gear should be met by the trailer holding firm. If the tractor moves forward alone, the coupling is not made — which is exactly what a high hook looks like until it lets go on the road."
+    },
+    {
+      "cue": "Brakes set, engine off, key in your pocket: look at the coupling with a flashlight and find the three things that prove it is made.",
+      "id": "visual-check",
+      "itemNames": {
+        "cpl-jaws-shank": "jaws closed around the kingpin's shank",
+        "cpl-no-gap": "no space between the apron and the fifth wheel",
+        "cpl-release-locked": "release arm locked with the safety latch in place"
+      },
+      "itemNotes": {
+        "cpl-jaws-shank": "The jaws are closed around the shank of the kingpin, not its head. Jaws closed on the head, or closed with no pin in them, will not hold.",
+        "cpl-no-gap": "The apron sits flat on the plate with no daylight between them. A gap means the trailer is riding on something other than the plate — often a high hook.",
+        "cpl-release-locked": "The release arm is in the locked position and the safety latch is over it. An arm left out, or a latch left off, can let the jaws open on the road."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Brakes set, engine off, key in your pocket: look at the coupling with a flashlight and find the three things that prove it is made.",
+      "targets": [
+        "cpl-no-gap",
+        "cpl-jaws-shank",
+        "cpl-release-locked"
+      ],
+      "title": "Get out and look at the coupling",
+      "why": "The tug test proves the trailer is attached; the look proves how. Driver manuals ask for exactly these three: no space between the upper and lower fifth wheel, the locking jaws closed around the shank of the kingpin, and the release arm in the locked position with its safety catch in place. They take thirty seconds, done safely from beside the tractor, never from under a live rig."
+    },
+    {
+      "cue": "Connect the electrical cord, raise the landing gear fully and stow the handle, then take the chock away.",
+      "id": "finish-hook",
+      "itemNames": {
+        "cpl-chock-pull": "chock removed",
+        "cpl-landing-crank": "landing gear raised and handle stowed",
+        "cpl-pigtail": "electrical cord connected"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Cord, legs, then chock — the trailer stays chocked until the tractor is ready to move it.",
+      "prompt": "Connect the electrical cord, raise the landing gear fully and stow the handle, then take the chock away.",
+      "targets": [
+        "cpl-pigtail",
+        "cpl-landing-crank",
+        "cpl-chock-pull"
+      ],
+      "title": "Electrical, landing gear, chocks",
+      "why": "The electrical cord powers every trailer light and its anti-lock brake system; a cord left hanging is a trailer nobody can see at night. The landing gear goes all the way up and the handle is stowed, because legs left partway down catch on railway crossings and driveways. The chock comes out last, when nothing else needs the trailer held still."
+    },
+    {
+      "cue": "At the drop spot, set the brakes, chock the trailer, crank the landing gear down until it takes the weight, then disconnect the lines and cord.",
+      "id": "lower-legs",
+      "kind": "select",
+      "prompt": "At the drop spot, set the brakes, chock the trailer, crank the landing gear down until it takes the weight, then disconnect the lines and cord.",
+      "target": "cpl-lower-legs",
+      "title": "Start the drop: legs down, lines off",
+      "why": "Uncoupling reverses the hook with one rule above the rest: the trailer's own legs carry its weight before the jaws open. Legs that have not reached the ground let the trailer's nose fall onto the tractor frame or into the yard the moment the tractor pulls out. Lowering them until the load just comes off the fifth wheel, on firm ground, is what makes the rest of the drop safe."
+    },
+    {
+      "cue": "Swing the release handle out to open the jaws, then pull ahead slowly until the frame is just clear of the apron, stop, and check the legs hold.",
+      "id": "release-handle",
+      "kind": "turn",
+      "prompt": "Swing the release handle out to open the jaws, then pull ahead slowly until the frame is just clear of the apron, stop, and check the legs hold.",
+      "target": "cpl-release-handle",
+      "title": "Pull the fifth-wheel release",
+      "turn": {
+        "axis": "y",
+        "label": "RELEASE HANDLE",
+        "turns": 0.25
+      },
+      "why": "The release handle opens the jaws, and it is pulled standing beside the tractor with the brakes set, not reached for from underneath. Pulling ahead only partway first, with the tractor frame still under the trailer, means that if the legs sink or were not quite down, the trailer drops a few inches onto the frame instead of all the way to the ground."
+    },
+    {
+      "cue": "Report the fifth-wheel faults, the trailer dropped and where, and the worker who stepped in, and say how the yard felt today.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Report the fifth-wheel faults, the trailer dropped and where, and the worker who stepped in, and say how the yard felt today.",
+      "target": "cpl-crew-checkin",
+      "title": "Check in with the yard lead",
+      "why": "The yard lead tracks which trailers are where and which tractors are fit to pull; the missing mounting bolt takes this tractor off the board until the shop fixes it. The worker who stepped between the units is a near miss the whole yard should hear about, and the check-in is where a new driver can say the yard felt rushed or crowded without that being a complaint."
+    },
+    {
+      "cue": "Write up the fifth-wheel faults and the coupling check, note the trailer number and drop location, and sign.",
+      "id": "dvir",
+      "kind": "select",
+      "prompt": "Write up the fifth-wheel faults and the coupling check, note the trailer number and drop location, and sign.",
+      "target": "cpl-dvir",
+      "title": "Write the inspection report",
+      "why": "The dry plate, the closed jaws and the missing bolt are defects under 49 CFR 396 and belong on the report so a mechanic fixes them before the next hook. The trailer number and where it was dropped let the next driver find it. A report that says only 'no defects' after a coupling like this one is not a record of the truck; it is a guess."
+    }
+  ],
+  "supportLine": "your carrier's employee assistance programme, or your Teamsters steward if you are not sure how to reach it",
+  "tagline": "Hook and drop a trailer the manual's way: right trailer, fifth wheel open and greased, chocked, height checked, lines on and trailer brakes set, backed under slowly, tugged, looked at, legs up, chocks out — and then legs down, lines off, release pulled and written up",
+  "title": "SmartCiti.X~ Coupling and Uncoupling VR",
+  "trade": "Class A driver trainee, TDL pre-apprenticeship — Teamsters freight driving: coupling and uncoupling under the entry-level driver training rule (FMCSA 49 CFR 380 Subpart F)",
+  "underwater": null,
+  "weather": "overcast"
+}

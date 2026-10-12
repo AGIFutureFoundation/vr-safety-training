@@ -1,0 +1,422 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "span-placed",
+    "name": "Span Placed",
+    "note": "A span lashed with the lane closed, the strand bonded and the supply space never entered"
+  },
+  "category": "Connectivity & Telecom",
+  "certification": "CWA and IBEW outside-plant locals; OSHA 29 CFR 1910.268 telecommunications; 29 CFR 1926 Subpart V and 1910.269 for the supply space a communications worker is not qualified to enter; ANSI A92 for the vehicle-mounted aerial device; the National Electrical Safety Code for joint-use separations; MUTCD temporary traffic control",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI A92",
+        "id": "ansi-a92",
+        "title": "ANSI/SAIA A92 — Mobile elevating work platforms: design, safe use and training"
+      },
+      {
+        "body": "union",
+        "citedAs": "CWA",
+        "id": "cwa-training",
+        "title": "CWA member training for outside-plant, tower and broadcast work"
+      },
+      {
+        "body": "union",
+        "citedAs": "IBEW",
+        "id": "ibew-neca-jatc",
+        "title": "IBEW/NECA Joint Apprenticeship and Training Committee — inside and outside wireman apprenticeship standards, taught from the electrical training ALLIANCE curriculum"
+      },
+      {
+        "body": "MUTCD",
+        "citedAs": "MUTCD",
+        "id": "mutcd",
+        "title": "Manual on Uniform Traffic Control Devices — temporary traffic control for work zones (Part 6)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.268",
+        "id": "osha-1910-268",
+        "title": "29 CFR 1910.268 — Telecommunications"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926",
+        "id": "osha-1926",
+        "title": "29 CFR 1926 — Safety and health regulations for construction"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Telecom",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "stayed-low",
+        "name": "Stayed In The Comms Space",
+        "note": "Never let the boom or the body approach the supply conductors"
+      },
+      {
+        "id": "bond-proven",
+        "name": "Bond Proven",
+        "note": "Bonded the strand and proved it before any cable went on it"
+      },
+      {
+        "id": "sag-kept",
+        "name": "Sag Kept",
+        "note": "Paid the reel off inside the tension the make-ready sag allows"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-span",
+        "name": "Clean Span",
+        "note": "Whole span placed with no corrections"
+      },
+      {
+        "id": "held-the-bond",
+        "name": "Held The Bond",
+        "note": "Held every timed contact for its full count"
+      },
+      {
+        "id": "lane-back",
+        "name": "Lane Back Early",
+        "note": "Bucket stowed and the lane handed back inside 80% of par"
+      }
+    ],
+    "currency": "SPAN",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Cable Hand",
+      "Aerial Technician",
+      "Line Placer",
+      "OSP Crew Lead",
+      "Outside Plant Authority Certified"
+    ],
+    "system": "Outside Plant Authority"
+  },
+  "hazards": {
+    "climb-supply": "You went up into the supply space to move the service drop out of your way. Above the communications space the pole belongs to the electric utility and so does everything on it, and a communications worker is not a qualified employee there — not because of a demarcation agreement, but because nothing in a cable placer's training or tools is built for an energized primary. That drop gets moved by a qualified line worker, and until they arrive the job stops.",
+    "crank-tension": "You wound the reel tension up to pull the sag out of the span. Sag is not slack to be tidied away: it is the designed condition the make-ready calculated the poles, the guys and the road crossing against. Over-tension the pull and you overhaul the strand, lift the crossing out of the profile the make-ready allowed, and load the poles in a direction nobody checked — and a wood pole carrying an unbalanced pull its guying does not answer fails at the groundline, which is also the part of it you cannot see.",
+    "open-lane": "You worked with the travelled lane open under the bucket. Outside-plant crews are not killed by poles, they are killed by traffic: struck by a vehicle, or dropped on when a vehicle hits the lift. The lane closure is not a courtesy to the crew, it is the only thing standing between a moving vehicle and a truck with someone in the air on top of it.",
+    "unbonded-strand": "You lashed the cable onto a strand whose bond you had not proved. The bond is what ties the messenger, the pole ground and the utility's grounded conductor into one potential across the whole span. Open it and the strand stops being grounded steel and becomes a long conductor between two different potentials — which is what you are about to clamp a cable and a lashing machine to, by hand, from a bucket."
+  },
+  "id": "aerial-lashing",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "boom-swing",
+      "alert": "A secondary service drop has been re-run since the make-ready and now crosses the arc your boom is swinging through, low, with a taped splice in it.",
+      "cue": "Something belonging to the power company is in the space you are turning the boom through.",
+      "delay": 3,
+      "id": "supply-encroach",
+      "kind": "Supply space",
+      "missNote": "You kept swinging and took the drop on the boom. A taped splice in a secondary is not insulation, the fibreglass upper boom is only as good as the last dielectric test and the dirt on it, and the first anyone knows about that is the truck body going to potential with a ground worker's hand on it.",
+      "seconds": 13,
+      "target": "line-crew-radio",
+      "why": "You are qualified for the communications space and for nothing above it. A drop in the swing path is not a judgement call to be made from a bucket by eye — the minimum approach distance for someone who is not a qualified line worker is a distance you stay outside of, and the way you stay outside of it is by stopping and getting the utility's line crew to move the drop.",
+      "wrongNote": "It is the radio to the utility's line crew. Nothing in this bucket and nothing in your bag makes that drop yours to touch."
+    },
+    {
+      "after": "lash-run",
+      "alert": "A car has come through the taper, flattened the second cone and stopped in the closed lane directly beneath the bucket, with the driver looking up at you.",
+      "cue": "The lane you closed is not closed any more.",
+      "delay": 4,
+      "id": "lane-breach",
+      "kind": "Vehicle in the work zone",
+      "missNote": "You carried on lashing over an open lane with a car under you. The next vehicle through the gap did not stop, and the crew found out which of the two possible outcomes they had — something dropped from the bucket onto a moving car, or a moving car into the outriggers of a truck with someone forty feet up on it.",
+      "seconds": 12,
+      "target": "flagger-station",
+      "why": "A breached taper is a live lane again, and everything above it — the bucket, the lasher, the hand line, the cable — is now over a vehicle and over whatever follows it. Work stops, the flagger holds traffic, and the taper goes back in before anything else moves. Re-establishing the closure is the whole of the response; nothing about the pull matters until the road is yours again.",
+      "wrongNote": "It is the flagger's post. Traffic gets held and the taper gets put back before you touch the lasher again."
+    }
+  ],
+  "lateNotes": {
+    "boom-slew": "The boom does not move until the lift is set up on its outriggers and the supply space above the work has been marked and agreed.",
+    "cable-end": "The cable goes up onto the strand after the bond is proved, not before — an unbonded strand is not a place to be clamping things.",
+    "lasher-drive": "The lasher rides a strand that is bonded and a cable that is already clamped in at the pole. Everything it does after that is unattended."
+  },
+  "name": "Aerial Lashing",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.2,
+    "hits": [
+      "bond-clamp",
+      "bond-meter",
+      "boom-slew",
+      "boom-stow",
+      "cable-end",
+      "climb-supply",
+      "cone-stack",
+      "crank-tension",
+      "existing-cable",
+      "flagger-station",
+      "lash-clamps",
+      "lasher-drive",
+      "line-crew-radio",
+      "low-clearance",
+      "make-ready-print",
+      "open-bond",
+      "open-lane",
+      "outrigger-left",
+      "outrigger-right",
+      "park-brake",
+      "payoff-gauge",
+      "reel-brake",
+      "sounding-hammer",
+      "strand-seat",
+      "supply-boundary",
+      "taper-point",
+      "unbonded-strand",
+      "wheel-chocks"
+    ],
+    "meshes": 261
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read who owns which space on this pole, what the make-ready called for, and what the sag and clearance over the road are meant to be.",
+      "id": "package",
+      "kind": "select",
+      "prompt": "Read who owns which space on this pole, what the make-ready called for, and what the sag and clearance over the road are meant to be.",
+      "target": "make-ready-print",
+      "title": "Take the make-ready print and the joint-use record",
+      "why": "A joint-use pole is shared property with a written allocation: the electric utility's supply conductors at the top, the communications space below, and a separation between them that the National Electrical Safety Code sets and the make-ready engineering recorded span by span. The print is what tells you which of those spaces you are allowed in and what the crossing was designed to be before you hang anything else on it."
+    },
+    {
+      "cue": "Carry the cones out and run the taper upstream of the truck, working with your back to the traffic side.",
+      "drag": {
+        "missNote": "The taper has to start upstream, far enough back that a driver reads it and moves over before they reach you. Cones around the truck are a decoration.",
+        "radius": 0.6,
+        "to": "taper-point"
+      },
+      "id": "traffic",
+      "kind": "drag",
+      "prompt": "Carry the cones out and run the taper upstream of the truck, working with your back to the traffic side.",
+      "target": "cone-stack",
+      "title": "Set the traffic control before anything goes up",
+      "why": "The taper comes first, before the outriggers and long before the boom. A crew that sets up and then closes the lane spends the whole set-up standing in live traffic, which is exactly the part of this job that kills people. The taper is also what the driver reads — it is the warning, not the cones around the truck."
+    },
+    {
+      "cue": "Hammer from the groundline up, listening for the ring going dull, and hold while you work round the pole.",
+      "holdBreakNote": "You stopped sounding partway round. A pole is sounded all the way round and up from the groundline — the soft face is the one you did not get to.",
+      "id": "sound-pole",
+      "kind": "hold",
+      "prompt": "Hammer from the groundline up, listening for the ring going dull, and hold while you work round the pole.",
+      "seconds": 4,
+      "target": "sounding-hammer",
+      "title": "Sound and inspect the pole before it takes a load change",
+      "why": "A wood pole rots from the inside out at the groundline, where the sound one rings and the hollow one thuds. This pole is about to take a new cable, a new pull and a lift working off it, and a load change is exactly what finds a shell-rotten pole. A pole you would not climb is a pole you do not add a span to either."
+    },
+    {
+      "cue": "Brake, chocks, then both outriggers down onto pads — kerb side first, traffic side last.",
+      "id": "setup",
+      "itemNames": {
+        "outrigger-left": "kerb-side outrigger",
+        "outrigger-right": "traffic-side outrigger",
+        "park-brake": "park brake set",
+        "wheel-chocks": "wheels chocked"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Wrong order — brake, then chocks, then the outriggers, and the traffic-side outrigger last so you are stood in the lane for as little time as possible.",
+      "prompt": "Brake, chocks, then both outriggers down onto pads — kerb side first, traffic side last.",
+      "targets": [
+        "park-brake",
+        "wheel-chocks",
+        "outrigger-left",
+        "outrigger-right"
+      ],
+      "title": "Set the lift up on the roadway",
+      "why": "The ANSI A92 aerial device standards treat the chassis as part of the machine: an aerial device worked off a truck that can roll or settle is a different machine from the one that was rated. Brake and chocks before outriggers, because outriggers set on a truck that is still free to move take the load and then lose it. Traffic side last so the time you spend in the lane is the shortest it can be."
+    },
+    {
+      "cue": "Mark the boundary of the space you will not go above, and say it out loud to the ground worker before the boom moves.",
+      "id": "supply-line",
+      "kind": "select",
+      "prompt": "Mark the boundary of the space you will not go above, and say it out loud to the ground worker before the boom moves.",
+      "target": "supply-boundary",
+      "title": "Mark the supply space and agree the limit",
+      "why": "The limit is agreed on the ground, in daylight, by two people, and not judged from a bucket by one. Everything above that mark belongs to the electric utility and needs a qualified line worker; everything below it is yours. Naming it out loud is what makes it something the ground worker can call you on when the boom starts creeping up toward it."
+    },
+    {
+      "cue": "Clean the strand, get the clamp on bare metal and hold it while the bond is made up to the pole ground.",
+      "holdBreakNote": "The clamp came off before the bond was made up. A bond that was nearly on is an open bond, which is the condition this whole step exists to prevent.",
+      "id": "bond",
+      "kind": "hold",
+      "prompt": "Clean the strand, get the clamp on bare metal and hold it while the bond is made up to the pole ground.",
+      "seconds": 5,
+      "target": "bond-clamp",
+      "title": "Bond the strand at the pole",
+      "why": "The messenger is a grounded conductor and the bond is what makes the entire span, the pole ground and the utility's grounded conductor into a single potential. It is the difference between a strand that stays at earth and a strand that sits between two potentials for the length of the block. It is also what carries fault current away from the person holding a lashing machine on it."
+    },
+    {
+      "cue": "Read the bond across the strand and the pole ground, and commit on the resistance.",
+      "gauge": {
+        "green": [
+          0.02,
+          0.16
+        ],
+        "label": "BOND RESISTANCE",
+        "missNote": "That is not a bond, that is a clamp resting on a strand. Clean back to bright metal and re-make it before any cable goes up.",
+        "speed": 0.7
+      },
+      "id": "bond-read",
+      "kind": "gauge",
+      "prompt": "Read the bond across the strand and the pole ground, and commit on the resistance.",
+      "target": "bond-meter",
+      "title": "Prove the bond, do not assume it",
+      "why": "A clamp that looks right on a galvanised strand can be sitting on zinc oxide and reading open. The reason to measure is that a bad bond and a good bond are visually identical, and the span you are about to clamp a cable to is either grounded for a thousand feet or it is not."
+    },
+    {
+      "cue": "Bring the bucket up to the communications space and hold the clearance steady the whole way through the swing.",
+      "id": "boom-swing",
+      "kind": "track",
+      "prompt": "Bring the bucket up to the communications space and hold the clearance steady the whole way through the swing.",
+      "seconds": 6,
+      "target": "boom-slew",
+      "title": "Swing the boom up to the strand and keep it clear",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.42,
+        "green": [
+          0.55,
+          0.85
+        ],
+        "label": "CLEARANCE TO SUPPLY",
+        "rise": 0.5
+      },
+      "why": "Clearance is not a position, it is the whole arc. The boom passes through everything between where it started and where it stops, and the tightest point is almost never where the bucket ends up. Swing in too far and you are into the supply space you are not qualified for; swing out too far and the bucket and everything in it is hanging over the open travelled lane instead of the closed one."
+    },
+    {
+      "cue": "Take the cable end up on the hand line and clamp it into the strand at the pole.",
+      "drag": {
+        "missNote": "The cable end is not seated in the strand clamp. Nothing is lashed off a cable that is only resting there.",
+        "radius": 0.6,
+        "to": "strand-seat"
+      },
+      "id": "hang-cable",
+      "kind": "drag",
+      "prompt": "Take the cable end up on the hand line and clamp it into the strand at the pole.",
+      "target": "cable-end",
+      "title": "Get the cable up onto the strand",
+      "why": "The cable is carried to the strand rather than pulled along the ground, because a fibre cable dragged over a kerb and a driveway arrives with the sheath opened and the buffer tubes crushed, and none of that shows up until the span is up and the OTDR says so. The pole end is clamped first so the lasher has something to pull against."
+    },
+    {
+      "cue": "Set the payoff brake and commit when the running tension sits where the make-ready sag calls for.",
+      "gauge": {
+        "green": [
+          0.36,
+          0.56
+        ],
+        "label": "RUNNING TENSION",
+        "missNote": "Over the tension the make-ready sag allows. Back the payoff off — the sag in that span is the design, not slack to be taken up.",
+        "speed": 0.72
+      },
+      "id": "reel-tension",
+      "kind": "gauge",
+      "prompt": "Set the payoff brake and commit when the running tension sits where the make-ready sag calls for.",
+      "target": "payoff-gauge",
+      "title": "Set the reel payoff under tension control",
+      "why": "The reel is what decides the tension in the span, and tension decides the sag, and sag is what the road crossing clearance was calculated from. Too loose and the cable is on the ground behind you; too tight and you overhaul the strand, lift the crossing and load poles and guys in a direction the make-ready never checked."
+    },
+    {
+      "cue": "Hold the pull steady and let the lasher ride the strand out to midspan while the reel pays off behind it.",
+      "id": "lash-run",
+      "kind": "track",
+      "prompt": "Hold the pull steady and let the lasher ride the strand out to midspan while the reel pays off behind it.",
+      "seconds": 6,
+      "target": "lasher-drive",
+      "title": "Run the lasher out across the span",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.45,
+        "green": [
+          0.42,
+          0.62
+        ],
+        "label": "PULL RATE",
+        "rise": 0.55
+      },
+      "why": "The lasher rides the strand and wraps the cable to it as it goes, at a rate the reel can feed. Snatch it and the lashing wire breaks or the reel overhauls; stall it and you get a bare run with the cable sitting on the strand unattached. Everything it does happens out at midspan, above the road, where nobody can reach it once it is going."
+    },
+    {
+      "cue": "Tighten the clamps that terminate the lashing wire either side of the pole.",
+      "id": "clamp-in",
+      "kind": "turn",
+      "prompt": "Tighten the clamps that terminate the lashing wire either side of the pole.",
+      "target": "lash-clamps",
+      "title": "Make up the lashing clamps at the pole",
+      "turn": {
+        "axis": "z",
+        "label": "LASHING CLAMPS",
+        "turns": 1.2
+      },
+      "why": "The lashing wire is only as good as what holds its ends. An unterminated lashing run unwinds from the end, slowly, over a season of wind, and hands you a cable hanging off a strand at midspan over a road. The clamps are the reason the span stays a span."
+    },
+    {
+      "cue": "Bring the bucket down, cradle the boom and get everything out of the travelled way.",
+      "id": "stow",
+      "kind": "select",
+      "prompt": "Bring the bucket down, cradle the boom and get everything out of the travelled way.",
+      "target": "boom-stow",
+      "title": "Stow the boom before anything else",
+      "why": "The boom comes down before the paperwork, before the tools and before the cones. A stowed boom is the point at which the job stops being something a passing vehicle can turn into a fatality, and every minute between finishing the work and stowing is a minute spent in the air for no reason at all."
+    },
+    {
+      "cue": "Look up at the crossing, look down the pole at the ground, and click what has to be fixed before traffic comes back.",
+      "decoyNotes": {
+        "existing-cable": "The existing copper on this pole is somebody else's plant, properly clamped and properly sagged. Leave it alone."
+      },
+      "id": "walk",
+      "itemNames": {
+        "low-clearance": "the crossing at midspan",
+        "open-bond": "the pole ground at the molding"
+      },
+      "itemNotes": {
+        "low-clearance": "The new cable has pulled the strand down and the crossing over the travelled way is now lower than the make-ready allowed for. That is re-sagged before the lane is handed back, not written up for later — the next high load through here is the one that finds it.",
+        "open-bond": "The pole ground wire is broken behind the molding, below the point you bonded to. Your bond reads fine against the strand and is going nowhere: the span is bonded to a pole ground that is not connected to anything."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look up at the crossing, look down the pole at the ground, and click what has to be fixed before traffic comes back.",
+      "targets": [
+        "low-clearance",
+        "open-bond"
+      ],
+      "title": "Walk the span before the lane goes back",
+      "why": "The last look is the only part of this job done with the cable in its final condition and the lane still yours. After the cones come in, anything you find here needs the road closed all over again, so it will not get found — it will get reported by somebody else, months later, as damage."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Placing fibre on an existing strand from a bucket over a live road: traffic control first, pole sounded, strand bonded, the supply space kept above you and the sag left where the make-ready put it",
+  "title": "SmartCiti.X~ Aerial Lashing VR",
+  "trade": "Outside plant aerial technician (line and cable placer)",
+  "underwater": null,
+  "weather": "overcast"
+}

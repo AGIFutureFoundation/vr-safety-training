@@ -1,0 +1,146 @@
+{
+  "id": "k12-lk-why-a-steel-boat-floats",
+  "index": "968",
+  "prefix": "lkb",
+  "accent": "#3f8f9a",
+  "floor": ["#6c6e70", "#5e6062"],
+  "wall": ["#dfe6e6", "#cad6d6"],
+  "trade": "Science and making lesson with a shipyard crew on a Louisiana bayou — learner and shipfitter",
+  "header": "Upper-primary science at a bayou shipyard like the ones at Franklin: why a heavy steel hull floats, how its shape pushes water aside, why a boat has a mark showing how deep it may sit, and how a new hull slides down a slip into the water, worked with model hulls in a test tank and a model slip in the scene.",
+  "name": "Why a Steel Boat Floats",
+  "tagline": "A lump of steel sinks, a steel hull floats — shape it, load it and launch it down the slip",
+  "badge": { "id": "hull-shaper", "name": "Hull Shaper", "note": "Shaped a hull that floats, loaded it to its mark and watched a model hull launch down the slip" },
+  "board": { "name": "Shipyard Board", "currency": "RIVETS", "ranks": ["Raft", "Skiff", "Tug", "Workboat", "Hull Shaper"] },
+  "hazards": [
+    { "id": "look-at-the-weld-arc", "label": "Watch the welder's bright arc without a screen?", "face": "LOOK\nAT ARC", "text": "You turned to watch the welding arc. The light from a welding arc is so bright it can burn your eyes, even from a distance and even in a quick look. Welders wear dark helmets and put up screens so people nearby are protected; watch from behind the screen." },
+    { "id": "steel-always-sinks", "label": "Say steel always sinks, so boats must be magic?", "face": "STEEL\nSINKS", "text": "You said steel always sinks. A solid lump of steel does sink. Shaped into a hull full of air, the same steel pushes aside much more water, and the water pushes back up hard enough to hold it. It is shape, not magic." },
+    { "id": "stand-at-the-slip-end", "label": "Stand at the bottom of the slip to watch?", "face": "SLIP\nEND", "text": "You went to the bottom of the slip. When a hull is launched, it slides down fast and pushes a wave of water ahead of it. Everyone except the launch crew watches from the viewing area to the side, well clear of the slip and the water." },
+    { "id": "overload-the-hull", "label": "Pile on cargo past the load mark?", "face": "PILE\nON", "text": "You loaded the model past its mark. A boat loaded too deep has too little hull above the water, so waves can wash over the deck. The load mark on the side shows how deep it may safely sit, and crews never load past it." }
+  ],
+  "find1": {
+    "title": "Find the parts of the hull",
+    "cue": "Mark the keel, the side plating and the deck on the model hull.",
+    "why": "A hull is built like a strong box. The keel runs along the bottom like a backbone and keeps the boat straight and steady. Side plates of steel are welded on to form the watertight shell. The deck closes the top. Together they make a shape that holds air inside and keeps water outside, which is what lets it float.",
+    "items": [
+      ["keel", "the keel along the bottom", "The backbone of the hull."],
+      ["plating", "the side plating", "Keeps the water out."],
+      ["deck", "the deck on top", "Closes the box."]
+    ],
+    "decoy": ["crane", "the yard crane overhead", "It lifts the plates, but it is not part of the hull."]
+  },
+  "select1": {
+    "title": "Stand behind the welding screen",
+    "cue": "Join the shipfitter behind the green welding screen at the edge of the yard.",
+    "why": "Shipyards are full of welding, cutting and lifting. The welding screen blocks the bright light and the sparks, and the painted line keeps visitors clear of moving loads. The shipfitter explains the work from behind the screen, which is where the class stays for the whole visit.",
+    "key": "screen-card",
+    "label": "Behind the screen",
+    "face": "BEHIND THE\nSCREEN"
+  },
+  "seq": {
+    "title": "Put the building of a hull in order",
+    "cue": "Order the steps a shipyard follows to turn steel plates into a boat in the water.",
+    "why": "A hull is built in an order. Steel plates are cut to shape first. Then fitters line them up and welders join them into blocks. The blocks are joined on the slip into a whole hull. Last, the hull slides down the slip into the water. Each step depends on the one before it being done well.",
+    "oon": "Out of order. The plates must be cut before anything can be welded.",
+    "items": [
+      ["ord-cut", "cut the steel plates to shape"],
+      ["ord-weld", "fit and weld the plates into blocks"],
+      ["ord-join", "join the blocks on the slip"],
+      ["ord-launch", "slide the hull into the water"]
+    ]
+  },
+  "hold": {
+    "title": "Hold the lump under the water",
+    "cue": "Hold the steel lump on the scale under the water until the reading settles.",
+    "why": "Under water the lump seems lighter, because the water pushes up on it. But the lump is small and pushes aside only a little water, so the upward push is weaker than its weight and it sinks. Holding it still lets you read how much lighter it feels, which is the push the water gives.",
+    "brk": "The lump moved and the reading jumped. Hold it still under the water.",
+    "key": "lump-hold",
+    "label": "Hold the lump"
+  },
+  "select2": {
+    "title": "Say why the hull floats and the lump sinks",
+    "cue": "Choose the sentence that explains the difference between the lump and the hull.",
+    "why": "The lump and the hull are made of the same steel. You saw the hull sit high while the lump went to the bottom. A good answer says the hull's wide, hollow shape pushes aside enough water to match its weight, so the water holds it up; the lump pushes aside too little. It uses what the tank showed.",
+    "key": "result-card",
+    "label": "State why",
+    "face": "WHY DOES\nIT FLOAT?"
+  },
+  "find2": {
+    "title": "Spot the trades working on the new hull",
+    "cue": "Look along the slip and mark three kinds of work on the hull.",
+    "why": "Many trades build a boat. Welders join the steel plates. Marine electricians run the cables for lights, engines and controls. Painters coat the hull so salt water cannot rust it. These are kinds of work people train for, and each one uses the science of this lesson in their own way.",
+    "items": [
+      ["welder", "a welder behind a screen", "Joins the plates."],
+      ["electrician", "a marine electrician at a panel", "Runs power through the boat."],
+      ["painter", "a painter coating the hull", "Keeps the rust out."]
+    ],
+    "decoy": ["gull", "a gull on a piling", "A bayou neighbour, not a shipyard trade."]
+  },
+  "turn": {
+    "title": "Turn the winch to ease the hull down",
+    "cue": "Turn the model slip winch slowly so the hull eases down toward the water.",
+    "why": "A hull on a slip is held back until the launch crew is ready. Easing it down slowly on a model shows how gravity pulls it toward the water along the slope. On a real slip the crew controls the launch with great care, because a big hull moving down a slope carries a lot of energy.",
+    "key": "slip-winch",
+    "label": "Slip winch",
+    "dial": "WINCH"
+  },
+  "gauge": {
+    "title": "Read the load mark at the water line",
+    "cue": "Commit when the marker sits where the water line meets the load mark on the hull.",
+    "why": "Every working boat has a mark painted on its side that shows how deep it may safely sit in the water. As cargo goes on, the hull sinks lower and the water climbs toward the mark. Reading it tells the crew when the boat is fully loaded. Past the mark, too little hull stays above the water.",
+    "key": "mark-meter",
+    "label": "Load mark",
+    "meter": "MARK",
+    "miss": "Not at the mark yet. Read where the water meets the painted line."
+  },
+  "drag": {
+    "title": "Load the cargo block into the middle",
+    "cue": "Drag the cargo block to the middle of the model hull's deck.",
+    "why": "Where the load goes matters as much as how heavy it is. A block in the middle keeps the hull level. A block at one side makes the boat lean, and a leaning boat can tip in a wave. Crews load the heaviest things low and in the middle, so the boat stays upright and steady.",
+    "key": "cargo-block",
+    "label": "Cargo block",
+    "spot": "middle-spot",
+    "spotLabel": "The middle of the deck",
+    "miss": "Not in the middle yet. Place it on the centre of the deck."
+  },
+  "track": {
+    "title": "Follow the hull down the slip",
+    "cue": "Keep the marker on the model hull as it slides down the slip and floats.",
+    "why": "Following the hull shows the moment it stops being carried and starts floating. As it slides into the water, the water pushes up more and more until the hull rides on its own. The wave it makes shows how much water it pushed aside, the same water that now holds it up.",
+    "brk": "The marker lost the hull. Find it again and follow it into the water.",
+    "key": "hull-track",
+    "label": "Hull followed",
+    "meter": "FOLLOW"
+  },
+  "record": {
+    "title": "Record the lump, the hull and the load",
+    "cue": "Write what happened to the lump, the empty hull and the loaded hull.",
+    "why": "Three short lines tell the whole story: the lump sank, the empty hull floated high, and the loaded hull sat lower but still floated to its mark. A record like this lets anyone check your thinking later. Shipyards keep careful records of every hull for the same reason.",
+    "key": "hull-log",
+    "label": "Float record",
+    "done": "Float test recorded"
+  },
+  "share": {
+    "title": "Swap a question with a partner",
+    "cue": "Ask a partner one question about floating, then answer one of theirs.",
+    "why": "Asking and answering questions shows what you understand and what you still wonder about. A good question might be why a loaded boat sits lower. Shipfitters ask each other questions all day, because asking early is how mistakes get caught before the steel is welded.",
+    "key": "share-board",
+    "label": "Swap questions",
+    "done": "Questions swapped"
+  },
+  "checkin": {
+    "title": "Check in at the viewing area",
+    "cue": "Why does the steel hull float? What does the load mark tell the crew?",
+    "why": "The shipfitter ends the visit by checking what everyone learned. Each learner gives one reason the hull floats and says what the mark is for. If anyone still thinks steel must always sink, the group works it out together before leaving the yard.",
+    "label": "Viewing-area check-in"
+  },
+  "interrupts": [
+    { "id": "the-crane-horn-sounds-overhead", "kind": "Crane signal", "key": "stop-still", "label": "Stop still and look up", "alert": "The yard crane sounds its horn as it lifts a steel plate.", "cue": "Stop where you are, look up and stay out from under the load until it has passed.", "why": "A crane horn warns everyone that a load is moving overhead. Nobody walks under a hanging load, ever. Stopping and looking up lets you see where it is going and stay clear, just as the yard crew does.", "miss": "The class kept walking under the path of the moving plate. When the crane horn sounds, stop and step clear, because nobody stands or walks under a load that is being lifted.", "wrong": "That keeps the class under the load. Stop and look up. Choose the response that deals with it now.", "done": "Class stopped, the plate passed over. The lesson carries on." },
+    { "id": "the-shipfitter-asks-about-the-load", "kind": "Crew question", "key": "name-middle", "label": "Say heavy loads go low and in the middle", "alert": "The shipfitter asks where the heaviest cargo should go.", "cue": "Say heavy loads go low and in the middle, so the boat stays level and steady.", "why": "A boat that leans can tip in a wave. Loading heavy things low and central keeps it upright. Knowing this shows you understand that floating is not only about weight but also about balance.", "miss": "You could not say where the load goes, and the shipfitter explained before the class went on.", "wrong": "That does not answer where the load goes. Say where heavy cargo belongs. Choose the response that deals with it now.", "done": "Loading explained. The lesson carries on." }
+  ],
+  "crew": ["Science teacher", "Classmate", "Shipfitter", "Launch crew member"],
+  "guide": { "start": "Behind the screen with the shipfitter.", "after": "Shape pushes water aside; water pushes back up.", "hazard": "Stop. Do not look at the arc." },
+  "lateRecord": "The float record is written once you have tested the lump and the hull — nothing to record yet.",
+  "lateCheckin": "The check-in comes at the end, at the viewing area.",
+  "scene": "deck",
+  "order": "b"
+}

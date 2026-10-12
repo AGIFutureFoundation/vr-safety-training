@@ -1,0 +1,431 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "nothing-left-behind",
+    "name": "Nothing Left Behind",
+    "note": "Every tool counted before and after, the engine locked out for the whole scan, and the finding logged before the plug went back in"
+  },
+  "category": "Mobility & Transit",
+  "certification": "IAM and TWU maintenance training; FAA 14 CFR Part 43 maintenance, preventive maintenance, rebuilding and alteration and 14 CFR Part 145 repair stations; OSHA 29 CFR 1910.147 the control of hazardous energy and 29 CFR 1910.132 personal protective equipment",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "IAM",
+        "id": "iam-winpisinger-center",
+        "title": "IAM — the William W. Winpisinger Education and Technology Center's machinist and transportation training"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.132",
+        "id": "osha-1910-132",
+        "title": "29 CFR 1910.132 — Personal protective equipment, general requirements"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      },
+      {
+        "body": "union",
+        "citedAs": "TWU",
+        "id": "twu-training",
+        "title": "TWU member training for transit and airline ground operations"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Aviation",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "count-twice",
+        "name": "Count Twice",
+        "note": "Matched the tool count before and after, first time"
+      },
+      {
+        "id": "locked-for-the-scan",
+        "name": "Locked for the Scan",
+        "note": "Never had the engine unlocked while the probe was inside it"
+      },
+      {
+        "id": "steady-scan",
+        "name": "Steady Scan Certified",
+        "note": "Held the borescope view centred near band centre through the whole pass"
+      },
+      {
+        "id": "clean-start",
+        "name": "Clean Start",
+        "note": "Had every tool accounted for before the engine was ever touched"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "quick-scope",
+        "name": "Quick Scope",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "clean-shift",
+        "name": "Clean Shift",
+        "note": "Clean run, no corrections"
+      },
+      {
+        "id": "scope-streak",
+        "name": "Scope Streak",
+        "note": "Nine correct actions in a row"
+      }
+    ],
+    "currency": "SCOPE",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Ramp Hand",
+      "Tool Control Qualified",
+      "Borescope Certified",
+      "Lead Inspector",
+      "Nothing Left Behind Certified"
+    ],
+    "system": "Nothing Left Behind"
+  },
+  "hazards": {
+    "blanking-plug-missing-hazard": "That leaves the intake without its blanking plug after the scan. An open intake on an engine that has not run yet is an invitation for anything loose nearby to end up ingested the first time it does.",
+    "borescope-force-hazard": "That forces the probe past resistance instead of backing it off. A borescope pushed hard against something it should not be touching can score a blade or a seal this crew was sent in specifically to inspect, not to damage.",
+    "no-lockout-hazard": "That inserts the probe before the engine is locked out. A borescope inside an engine that can start turning is a probe this crew has no way to pull clear fast enough, and the lockout is what makes that scenario impossible rather than merely unlikely.",
+    "tool-left-behind-hazard": "That signs off the job while the shadow board still shows an empty outline. A tool unaccounted for is a tool that might still be inside this engine, and the only honest response to an empty outline is finding it — not assuming it turned up somewhere else on the cart."
+  },
+  "id": "av-borescope-and-tool-control-inventory",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "inspect-scan",
+      "alert": "The borescope's video feed has glitched out entirely — the screen shows nothing but static.",
+      "cue": "Stop advancing the probe now, before it moves any further with no view of where it is going.",
+      "delay": 5,
+      "id": "video-feed-glitches",
+      "kind": "Feed lost",
+      "missNote": "The probe kept advancing with no video feed at all. A borescope pushed forward blind can catch on a blade or a seal this crew never saw coming because there was nothing to see it on.",
+      "seconds": 11,
+      "target": "borescope-stop",
+      "why": "Advancing a probe inside a running clearance this tight with no video feed is advancing blind, and the only safe response to losing the picture is to stop moving the probe until it comes back, not keep pushing on the hope it clears itself.",
+      "wrongNote": "Not it — the lost feed is what stops this probe advancing, nothing else about the scan."
+    },
+    {
+      "after": "withdraw-borescope",
+      "alert": "A coworker who does not realise the probe was just in this engine is reaching for the ignition switch nearby.",
+      "cue": "Stop them and confirm the lockout tag is still in place before anything near that switch happens.",
+      "delay": 4,
+      "id": "coworker-reaches-for-ignition",
+      "kind": "Lockout challenge",
+      "missNote": "Nobody stopped the reach for the ignition switch while the lockout's own status went unconfirmed. A tag nobody is watching protects exactly nobody the moment somebody who does not know about it reaches past it.",
+      "seconds": 11,
+      "target": "lockout-tag",
+      "why": "A lockout only protects this crew as long as everyone near the switch it is protecting knows it is there, and the moment somebody who does not know reaches for it, the tag has to be pointed to and confirmed before anything else happens near that switch.",
+      "wrongNote": "That's not the answer — the reach for the ignition switch is what needs stopping first."
+    }
+  ],
+  "lateNotes": {
+    "lockout-tag": "The lockout goes on before the probe goes anywhere near the engine, not fitted after the scan has already started.",
+    "missing-tool": "The tool count is proven before the engine is touched and proven again before the job is signed off — never just once, and never from memory."
+  },
+  "name": "Borescope & Tool-Control Inventory",
+  "parSeconds": 320,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "aviation-maintenance-and-ground"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "regionalJet",
+        "count": 1,
+        "kit": "equipment"
+      }
+    ],
+    "error": null,
+    "footprint": 2.9,
+    "hits": [
+      "access-port",
+      "blade-nick",
+      "blanking-plug",
+      "blanking-plug-missing-hazard",
+      "borescope-force-hazard",
+      "borescope-probe",
+      "borescope-stop",
+      "borescope-view",
+      "breaker-open",
+      "closing-log",
+      "hearing-protection",
+      "inspection-sheet",
+      "lockout-tag",
+      "missing-tool",
+      "no-lockout-hazard",
+      "probe-retract-control",
+      "safety-glasses-bs",
+      "sound-blade",
+      "sound-tool-slot",
+      "tool-left-behind-hazard",
+      "tool-slot-1",
+      "tool-slot-2",
+      "tool-slot-3",
+      "work-gloves-bs",
+      "work-order-board",
+      "zero-energy-meter"
+    ],
+    "meshes": 158
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track"
+  ],
+  "steps": [
+    {
+      "anyOrder": true,
+      "cue": "Safety glasses, hearing protection and gloves before anyone opens the tool chest.",
+      "id": "ppe",
+      "itemNames": {
+        "hearing-protection": "hearing protection",
+        "safety-glasses-bs": "safety glasses",
+        "work-gloves-bs": "work gloves"
+      },
+      "kind": "sequence",
+      "prompt": "Safety glasses, hearing protection and gloves before anyone opens the tool chest.",
+      "targets": [
+        "safety-glasses-bs",
+        "hearing-protection",
+        "work-gloves-bs"
+      ],
+      "title": "Suit up before the scope",
+      "why": "The hangar around this engine runs other work at the same noise level whether or not this specific job is quiet, and this crew wears the same protection on a borescope job as on any other, because the hazard is the hangar's, not just this one task's."
+    },
+    {
+      "cue": "Confirm the engine, the access port and the finding the borescope is looking for before opening anything.",
+      "id": "brief",
+      "kind": "select",
+      "prompt": "Confirm the engine, the access port and the finding the borescope is looking for before opening anything.",
+      "target": "work-order-board",
+      "title": "Read the work order",
+      "why": "The work order is what tells this crew exactly which port to use and what they are actually looking for once the probe is inside — without it, a clean-looking scan proves nothing about the specific concern this inspection was ordered to check."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Check every tool against its own shadow-board outline before the engine is touched.",
+      "id": "pretask-tool-count",
+      "itemNames": {
+        "tool-slot-1": "borescope probe accounted for",
+        "tool-slot-2": "inspection mirror accounted for",
+        "tool-slot-3": "flashlight accounted for"
+      },
+      "kind": "sequence",
+      "prompt": "Check every tool against its own shadow-board outline before the engine is touched.",
+      "targets": [
+        "tool-slot-1",
+        "tool-slot-2",
+        "tool-slot-3"
+      ],
+      "title": "Count the tools before starting",
+      "why": "This count is the only baseline the post-task count is ever going to be compared against — skip it now and a missing tool found afterward has no way to prove it was not already missing before this crew ever opened the chest on this particular job."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Apply the lockout tag and open the start breaker before anything goes near the intake.",
+      "id": "lockout-engine",
+      "itemNames": {
+        "breaker-open": "start breaker opened",
+        "lockout-tag": "lockout tag applied"
+      },
+      "kind": "sequence",
+      "prompt": "Apply the lockout tag and open the start breaker before anything goes near the intake.",
+      "targets": [
+        "lockout-tag",
+        "breaker-open"
+      ],
+      "title": "Lock out the engine",
+      "why": "A probe is about to sit inside an engine this crew has no way to pull clear of quickly, and the lockout is what makes it physically impossible for that engine to start turning while it is in there — not a formality, the actual reason the next step is survivable."
+    },
+    {
+      "cue": "Read the zero-energy meter and commit only once it confirms no stored energy remains.",
+      "gauge": {
+        "green": [
+          0.44,
+          0.62
+        ],
+        "label": "ZERO ENERGY",
+        "missNote": "Not confirmed zero — recheck the lockout before anything goes near the intake.",
+        "speed": 0.6
+      },
+      "id": "verify-zero-energy",
+      "kind": "gauge",
+      "prompt": "Read the zero-energy meter and commit only once it confirms no stored energy remains.",
+      "target": "zero-energy-meter",
+      "title": "Verify zero energy",
+      "why": "A lockout tag on a switch is not the same fact as an engine actually holding no energy to start with — this meter is what turns the tag from a label into a confirmed, checked state before anyone treats it as safe to work around."
+    },
+    {
+      "cue": "Remove the intake blanking plug only once the lockout is verified.",
+      "id": "remove-blanking-plug",
+      "kind": "select",
+      "prompt": "Remove the intake blanking plug only once the lockout is verified.",
+      "target": "blanking-plug",
+      "title": "Remove the blanking plug",
+      "why": "The plug comes off last, after the lockout is already confirmed, so the intake is never open on an engine this crew has not already made sure cannot start turning while a probe or a hand is anywhere near it — the two facts stay locked together for the whole scope."
+    },
+    {
+      "cue": "Carry the probe to the access port and feed it in slowly.",
+      "drag": {
+        "missNote": "Not seated in the access port — guide the probe fully in before starting the scan.",
+        "radius": 0.4,
+        "to": "access-port"
+      },
+      "id": "insert-borescope",
+      "kind": "drag",
+      "prompt": "Carry the probe to the access port and feed it in slowly.",
+      "target": "borescope-probe",
+      "title": "Insert the probe",
+      "why": "The probe only goes where this crew actually guides it — fed in slowly and deliberately is what keeps the first resistance it meets from being a blade or a seal it was never supposed to touch that hard, rather than a clearance the probe could have found more gently."
+    },
+    {
+      "cue": "Keep the borescope view centred on the blades as you pan the probe through.",
+      "holdBreakNote": "View drifted off the blades. Bring it back to centre before continuing the pass.",
+      "id": "inspect-scan",
+      "kind": "track",
+      "prompt": "Keep the borescope view centred on the blades as you pan the probe through.",
+      "seconds": 8,
+      "target": "borescope-view",
+      "title": "Scan the engine internals",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.45,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "VIEW CENTRE",
+        "rise": 0.4,
+        "start": 0.5
+      },
+      "why": "A view that drifts off the blades is a scan that is technically running but not actually looking at anything useful, and keeping it centred is what turns the pass into an inspection instead of a probe moving through the dark."
+    },
+    {
+      "cue": "Look through the borescope view and find the nicked blade among the ones you're passing.",
+      "decoyNotes": {
+        "sound-blade": "This blade shows normal wear for its hours. Nothing to flag there."
+      },
+      "id": "find-defect",
+      "itemNames": {
+        "blade-nick": "nicked compressor blade"
+      },
+      "itemNotes": {
+        "blade-nick": "This is the nick the work order sent this scope in to look for — logged now, with the blade and stage noted, not just remembered for later."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look through the borescope view and find the nicked blade among the ones you're passing.",
+      "targets": [
+        "blade-nick"
+      ],
+      "title": "Find the defect",
+      "why": "A finding this small is exactly what a scan is built to catch and a walk-around from outside the engine never could — the whole reason this borescope job exists is that this specific defect is invisible from anywhere except right where the probe is now."
+    },
+    {
+      "cue": "Log the blade, the stage and the finding on the inspection sheet before withdrawing the probe.",
+      "id": "log-finding",
+      "kind": "select",
+      "prompt": "Log the blade, the stage and the finding on the inspection sheet before withdrawing the probe.",
+      "target": "inspection-sheet",
+      "title": "Log the finding",
+      "why": "A finding logged while the probe is still on the blade in question is a finding with the exact stage and position still fresh — pulled out first and logged from memory, it is a detail this crew is trusting itself to still have right afterward."
+    },
+    {
+      "cue": "Hold the retract control through a slow, steady withdrawal.",
+      "holdBreakNote": "Released the retract control mid-withdrawal. Hold it through the whole way out — a fast pull now undoes how carefully this probe went in.",
+      "id": "withdraw-borescope",
+      "kind": "hold",
+      "prompt": "Hold the retract control through a slow, steady withdrawal.",
+      "seconds": 6,
+      "target": "probe-retract-control",
+      "title": "Withdraw the probe",
+      "why": "A probe pulled out fast can catch the same blade it was just carefully guided past on the way in — holding a slow, steady retraction is what keeps the withdrawal as controlled as the insertion already was, instead of undoing that care in the last few seconds of the job."
+    },
+    {
+      "cue": "Reinstall the intake blanking plug once the probe is fully clear.",
+      "id": "install-blanking-plug",
+      "kind": "select",
+      "prompt": "Reinstall the intake blanking plug once the probe is fully clear.",
+      "target": "blanking-plug",
+      "title": "Reinstall the blanking plug",
+      "why": "An open intake left sitting is an invitation for anything loose in the hangar to end up ingested the first time this engine runs, and the plug goes back the moment the probe is out, not sometime later when someone happens to remember it is still open."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Remove the lockout tag and close the breaker only once the plug is back in and the scope is clear.",
+      "id": "remove-lockout",
+      "itemNames": {
+        "breaker-open": "start breaker closed",
+        "lockout-tag": "lockout tag removed"
+      },
+      "kind": "sequence",
+      "prompt": "Remove the lockout tag and close the breaker only once the plug is back in and the scope is clear.",
+      "targets": [
+        "lockout-tag",
+        "breaker-open"
+      ],
+      "title": "Remove the lockout",
+      "why": "The lockout comes off last, after everything this crew put inside the engine is confirmed out and the intake is closed again — restoring power to an engine before that is confirmed is restoring it to a state nobody actually checked yet."
+    },
+    {
+      "cue": "Recheck the shadow board against the pre-task count — one tool is not back where it belongs.",
+      "decoyNotes": {
+        "sound-tool-slot": "This tool is back on its own outline, clean and accounted for. Nothing to flag there."
+      },
+      "id": "posttask-tool-count",
+      "itemNames": {
+        "missing-tool": "missing inspection mirror"
+      },
+      "itemNotes": {
+        "missing-tool": "This is the tool the shadow board came up short on — found now, on the cart where it was set down, rather than left for the next crew to discover the hard way."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Recheck the shadow board against the pre-task count — one tool is not back where it belongs.",
+      "targets": [
+        "missing-tool"
+      ],
+      "title": "Recount the tools",
+      "why": "This is the count that actually matters: not that tools went out, but that every one of them came back, and an empty outline gets found and closed out before this job is anywhere close to finished, not signed off with a shrug and a guess about where it probably is."
+    },
+    {
+      "cue": "Log the finding, the tool count confirmation and the lockout times before releasing the engine.",
+      "id": "closeout-log",
+      "kind": "select",
+      "prompt": "Log the finding, the tool count confirmation and the lockout times before releasing the engine.",
+      "target": "closing-log",
+      "title": "Sign off the inspection",
+      "why": "The inspection record is what the next shift and the aircraft's own maintenance log both read — a scan that found exactly what it was sent to find but never gets logged against a confirmed tool count leaves nothing behind to prove either one actually happened."
+    }
+  ],
+  "supportLine": "your IAM or TWU local's member assistance programme, or the site's employee assistance line if a close call around a running engine is what stayed with you",
+  "tagline": "A borescope inspection tool-controlled end to end: every tool counted against the shadow board before the engine is touched, the engine locked out before the probe goes in, a finding scanned and logged, and the same count run again afterward until every outline on the board is full",
+  "title": "SmartCiti.X~ Borescope & Tool-Control Inventory VR",
+  "trade": "Aircraft maintenance technician, borescope and tool control — IAM/TWU",
+  "underwater": null,
+  "weather": "overcast"
+}

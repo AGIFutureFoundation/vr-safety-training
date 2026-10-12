@@ -1,0 +1,461 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "screen-clear",
+    "name": "Screen Clear And Locked Right",
+    "note": "LOTO applied and removed clean, approach velocity true both times, nobody near the drum under power — first time"
+  },
+  "category": "Water & Environmental",
+  "certification": "IUOE Local 3 operating engineers — fish screen mechanical maintenance; LIUNA Local 261 laborers — screen cleaning and debris crew; OSHA 29 CFR 1910.147 lockout/tagout of the screen drive motor; OSHA 29 CFR 1926 general construction safety; U.S. Army Corps of Engineers Clean Water Act (CWA) Section 404 permit conditions; San Francisco Bay Regional Water Quality Control Board CWA Section 401 water quality certification; California Department of Fish and Wildlife fish screening criteria under the Fish and Game Code; U.S. Fish and Wildlife Service Endangered Species Act fish passage protections; work window per the permit",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "CDFW",
+        "citedAs": "California Department of Fish and Wildlife",
+        "id": "cdfw-lake-streambed-alteration",
+        "title": "California Department of Fish and Wildlife oversight under the California Fish and Game Code, including Lake and Streambed Alteration Agreements (§1602) for work affecting a river, stream or lake"
+      },
+      {
+        "body": "union",
+        "citedAs": "CWA",
+        "id": "cwa-training",
+        "title": "CWA member training for outside-plant, tower and broadcast work"
+      },
+      {
+        "body": "union",
+        "citedAs": "IUOE",
+        "id": "iuoe-training",
+        "title": "IUOE local training funds and the IUOE National Training Fund — operating and stationary engineer apprenticeship"
+      },
+      {
+        "body": "union",
+        "citedAs": "LIUNA",
+        "id": "liuna-training-fund",
+        "title": "LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926",
+        "id": "osha-1926",
+        "title": "29 CFR 1926 — Safety and health regulations for construction"
+      },
+      {
+        "body": "RWQCB",
+        "citedAs": "Section 401",
+        "id": "rwqcb-401-certification",
+        "title": "Regional Water Quality Control Board Clean Water Act §401 certification and waste discharge requirements"
+      },
+      {
+        "body": "USACE",
+        "citedAs": "Section 404",
+        "id": "usace-section-404",
+        "title": "Clean Water Act §404 permit conditions for the discharge of dredged or fill material"
+      },
+      {
+        "body": "USFWS",
+        "citedAs": "Endangered Species Act",
+        "id": "usfws-esa",
+        "title": "Endangered Species Act §7 consultation and species protection measures set by the U.S. Fish and Wildlife Service"
+      }
+    ]
+  },
+  "district": "Environmental Monitoring",
+  "domain": "Environmental",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "no-energy",
+        "name": "No Stored Energy",
+        "note": "Never a hazard, the drive motor locked out for the whole job"
+      },
+      {
+        "id": "velocity-true",
+        "name": "Velocity Read True",
+        "note": "Approach velocity and motor startup both read inside the working band"
+      },
+      {
+        "id": "screen-first",
+        "name": "Screen Read Clean",
+        "note": "Access points and the first velocity reading both read clean before LOTO was applied"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-screen",
+        "name": "Clean Screen",
+        "note": "No corrections across the whole maintenance run"
+      },
+      {
+        "id": "steady-startup",
+        "name": "Steady Startup",
+        "note": "Held the motor startup inside the working band the whole ramp"
+      },
+      {
+        "id": "screen-fast",
+        "name": "Screen Cleared Fast",
+        "note": "Maintenance closed out inside 80% of par"
+      }
+    ],
+    "currency": "MESH",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Laborer",
+      "Technician",
+      "Lead Technician",
+      "Site Steward",
+      "Fish Screen Certified"
+    ],
+    "system": "Screen Crew"
+  },
+  "hazards": {
+    "bare-hand-mesh-edge": "You handled the torn screen mesh bare-handed instead of gloving up first. Perforated screen mesh is stamped and cut metal, and a torn edge is sharper than the intact panel around it — a laceration from mesh like this is a clean, deep cut that happens faster than a bare hand can react to it.",
+    "energize-without-loto": "You reached into the drum screen mechanism before the drive motor was locked out. A screen drum this size turns on stored momentum even after power is cut, and reaching into it on the assumption that it is off because it looks still is exactly how a hand or a sleeve gets pulled into a mechanism that was never actually isolated in the first place.",
+    "remove-loto-without-confirm": "You pulled your lock and tag and moved to restart the motor without confirming every crew member was clear and accounted for. A group lockout only works when the last lock off the disconnect is the signal that everyone who put one on is actually clear — restarting on an assumption instead of a headcount is exactly how a second technician still inside the enclosure gets caught by a drum that starts turning underneath them.",
+    "work-near-water-no-pfd": "You leaned out over the forebay to reach the screen face without the PFD staged for exactly this. The water beside a diversion intake moves toward the intake by design, and a slip into it here is a slip toward the one place on this structure built to pull things in, not push them back out."
+  },
+  "id": "br-fish-screen-maintenance",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "debris-haul",
+      "alert": "A surge of storm debris has hit the screen face while the crew is still cleaning it, and the head loss across the screen is climbing fast.",
+      "cue": "Open the bypass gate now — the screen needs relief before the head loss climbs any further.",
+      "delay": 3,
+      "id": "debris-surge-during-cleaning",
+      "kind": "Debris surge hits the screen mid-cleaning",
+      "missNote": "The head loss kept climbing while the crew finished the section they were on, and the approach velocity across the remaining clear mesh went well past the band this screen is designed to hold before anyone opened the bypass to relieve it.",
+      "seconds": 13,
+      "target": "bypass-gate",
+      "why": "A fish screen under rising head loss is a screen where the approach velocity at whatever mesh is still clear keeps climbing past what a fish can swim against, and the bypass is what gives the flow somewhere else to go while the crew finishes clearing the face — opening it now is what keeps the surge from turning a cleaning job into an impingement event.",
+      "wrongNote": "That is not it. The bypass gate is what relieves the screen under a debris surge — nothing else on this structure gives the flow somewhere else to go."
+    },
+    {
+      "after": "loto-remove",
+      "alert": "A second technician is still inside the screen enclosure, tools in hand, when the restart sequence is about to begin.",
+      "cue": "Hit the restart estop now. Nothing turns over while somebody is still inside the enclosure.",
+      "delay": 3,
+      "id": "second-worker-in-enclosure",
+      "kind": "Second worker discovered still inside the screen enclosure",
+      "missNote": "The restart sequence continued and the drum began to turn while the second technician was still inside the enclosure — the exact failure a group lockout's headcount step exists to catch before it ever becomes a real injury instead of a close call.",
+      "seconds": 12,
+      "target": "restart-estop",
+      "why": "The whole point of a group lockout is that the last lock coming off is supposed to mean every hand is out and accounted for — finding out that assumption was wrong after the restart sequence has already begun is exactly the gap the estop exists to close before the drum ever turns over on the technician still inside.",
+      "wrongNote": "It's the restart estop. Nothing else on this panel stops the sequence before the drum turns over on somebody still inside."
+    }
+  ],
+  "lateNotes": {
+    "disconnect-switch": "Apply the lock and tag only after the access points are confirmed and the first velocity reading is taken — locking out blind, before the crew knows what state the screen is actually in, just wastes the one clean reading available before the work starts.",
+    "disconnect-switch-2": "Remove the lock only after every panel bolt is torqued back down — pulling it early just means restarting a screen that is not actually buttoned back up yet.",
+    "drum-crank": "Index the drum only after the disconnect is locked and tagged — cranking it by hand before the lockout is confirmed is exactly the moment the drive could still be live."
+  },
+  "name": "Fish Screen Maintenance",
+  "parSeconds": 320,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "bay-program-projects",
+    "bay-restoration-maritime-underwater"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.7,
+    "hits": [
+      "bare-hand-mesh-edge",
+      "bypass-gate",
+      "closing-log",
+      "collection-bin",
+      "debris-clump",
+      "disconnect-switch",
+      "disconnect-switch-2",
+      "drum-crank",
+      "energize-without-loto",
+      "loose-bolt-flag",
+      "maintenance-plan-board",
+      "mesh-patch",
+      "motor-panel",
+      "panel-bolt-1",
+      "panel-bolt-2",
+      "panel-bolt-3",
+      "remove-loto-without-confirm",
+      "restart-estop",
+      "screen-panel-1",
+      "screen-panel-2",
+      "screen-panel-3",
+      "stage-eye",
+      "stage-gloves",
+      "stage-pfd",
+      "torn-mesh",
+      "unlatched-hatch",
+      "velocity-meter",
+      "velocity-meter-2",
+      "work-near-water-no-pfd"
+    ],
+    "meshes": 158
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the fish screening criteria, the 404 and 401 conditions, and the lockout/tagout procedure before any tool is staged.",
+      "id": "check-in",
+      "kind": "select",
+      "prompt": "Read the fish screening criteria, the 404 and 401 conditions, and the lockout/tagout procedure before any tool is staged.",
+      "target": "maintenance-plan-board",
+      "title": "Check the maintenance plan and lockout procedure before staging",
+      "why": "This screen is maintained under the same conditions the whole diversion runs under — the Corps' Section 404 permit, the Water Board's 401 certification, and California Department of Fish and Wildlife's fish screening criteria — plus a lockout/tagout procedure that is not optional the moment anyone's hands go near the drive train, and a crew that skips the plan because 'it's just a cleaning' still answers for every condition on it."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Life vest, gloves and eye protection before anyone works the intake platform.",
+      "id": "stage-ppe",
+      "itemNames": {
+        "stage-eye": "eye protection",
+        "stage-gloves": "gloves",
+        "stage-pfd": "life vest"
+      },
+      "kind": "sequence",
+      "prompt": "Life vest, gloves and eye protection before anyone works the intake platform.",
+      "targets": [
+        "stage-pfd",
+        "stage-gloves",
+        "stage-eye"
+      ],
+      "title": "Stage the screen crew's PPE",
+      "why": "The platform sits directly over water moving toward the intake by design, and the vest is buoyancy the moment a slip puts somebody in it; gloves are for the screen mesh's own cut edges and whatever the debris rack has caught; eye protection is for whatever a cleaning brush or a wrench throws working this close to a grated deck."
+    },
+    {
+      "cue": "Walk the platform and click the three panel access points the inspection is built from.",
+      "id": "find-access",
+      "itemNames": {
+        "screen-panel-1": "screen panel 1 — near",
+        "screen-panel-2": "screen panel 2 — center",
+        "screen-panel-3": "screen panel 3 — far"
+      },
+      "itemNotes": {
+        "screen-panel-1": "Panel 1 is the near access point. Today's inspection starts here, not wherever the fouling looks worst from the platform.",
+        "screen-panel-2": "Panel 2 is the center access point — the check that every panel gets inspected in turn instead of just the ones easiest to reach.",
+        "screen-panel-3": "Panel 3 is the far access point, closest to the drive housing."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the platform and click the three panel access points the inspection is built from.",
+      "targets": [
+        "screen-panel-1",
+        "screen-panel-2",
+        "screen-panel-3"
+      ],
+      "title": "Find the three access points along the screen face",
+      "why": "A screen face this wide fouls unevenly, and a crew that only checks the easy near panel misses exactly the far section most likely to be restricting flow the worst — finding all three access points first is what turns today's inspection into a full-face check instead of a look at whatever was closest to the ladder."
+    },
+    {
+      "cue": "Open the disconnect, apply your lock and tag, and verify zero energy before anyone works near the drum.",
+      "id": "loto-apply",
+      "kind": "select",
+      "prompt": "Open the disconnect, apply your lock and tag, and verify zero energy before anyone works near the drum.",
+      "target": "disconnect-switch",
+      "title": "Lock out and tag the screen drive motor",
+      "why": "A drum screen's drive train carries enough stored momentum to keep turning for a moment even after the disconnect opens, and the lock and tag are what turn 'the switch is off' into a fact every crew member can verify for themselves instead of a claim they have to take on faith from whoever flipped it."
+    },
+    {
+      "cue": "Take the reading at the screen face and commit it inside the working band before the panels are opened.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "APPROACH VEL",
+        "missNote": "Outside the working band. Let the reading settle and commit again before the panels are opened.",
+        "speed": 0.7
+      },
+      "id": "approach-velocity-check",
+      "kind": "gauge",
+      "prompt": "Take the reading at the screen face and commit it inside the working band before the panels are opened.",
+      "target": "velocity-meter",
+      "title": "Read the approach velocity before opening the screen",
+      "why": "The approach velocity is the one number that tells the crew whether fish reaching this screen can still swim clear of it, and reading it before any cleaning starts is what gives every reading taken for the rest of the job a real baseline instead of a guess about how fouled the screen already was."
+    },
+    {
+      "cue": "Turn the manual crank to index the drum screen so the fouled section faces the platform.",
+      "id": "drum-drive-crank",
+      "kind": "turn",
+      "prompt": "Turn the manual crank to index the drum screen so the fouled section faces the platform.",
+      "target": "drum-crank",
+      "title": "Hand-crank the drum into position",
+      "turn": {
+        "axis": "y",
+        "label": "DRUM CRANK",
+        "turns": 0.8
+      },
+      "why": "With the drive locked out, the only way to bring a different section of the drum around to the platform is the manual crank built for exactly this — indexing it by hand is what lets the crew inspect and clean the whole drum's circumference without ever needing the drive motor live to do it."
+    },
+    {
+      "cue": "Check the drum section now facing the platform for debris buildup and mesh damage.",
+      "id": "find-fouling",
+      "itemNotes": {
+        "debris-clump": "A mat of debris has built up against the mesh here, restricting flow through this section of the screen.",
+        "torn-mesh": "The mesh has torn here — a gap this size is a gap fish-sized enough to be exactly what the screen exists to prevent."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Check the drum section now facing the platform for debris buildup and mesh damage.",
+      "targets": [
+        "debris-clump",
+        "torn-mesh"
+      ],
+      "title": "Find the fouling and damage on the indexed section",
+      "why": "Debris buildup and a torn panel are two different problems with two different fixes, and finding both before starting either job is what keeps the crew from patching a tear and then discovering the debris behind it was the bigger restriction the whole time."
+    },
+    {
+      "cue": "Pull the debris mat clear of the mesh and haul it to the collection bin.",
+      "drag": {
+        "missNote": "Not at the bin — debris left short of it is debris the next surge can wash straight back onto the screen.",
+        "radius": 0.5,
+        "to": "collection-bin"
+      },
+      "id": "debris-haul",
+      "kind": "drag",
+      "prompt": "Pull the debris mat clear of the mesh and haul it to the collection bin.",
+      "target": "debris-clump",
+      "title": "Clear the debris to the collection bin",
+      "why": "Debris left against the mesh even after the visible clump is broken up keeps restricting flow through that section, and hauling it clear to the bin — not just off to the side of the platform — is what keeps it from washing straight back against the screen on the next surge."
+    },
+    {
+      "cue": "Hold the patch flat over the torn section while the second technician fastens it down.",
+      "holdBreakNote": "The patch shifted before it was fully fastened — reset it flat over the tear and hold until every fastener is set.",
+      "id": "mesh-patch-hold",
+      "kind": "hold",
+      "prompt": "Hold the patch flat over the torn section while the second technician fastens it down.",
+      "seconds": 5,
+      "target": "mesh-patch",
+      "title": "Hold the mesh patch steady while it's fastened",
+      "why": "A patch that shifts while it's being fastened goes on crooked, and a crooked patch leaves the same gap at one edge that the original tear left across the whole section — held flat and steady until every fastener is in, it closes the gap the screen exists to not have."
+    },
+    {
+      "cue": "Torque the bolts in order: top, then bottom, then center — never around the panel in sequence.",
+      "id": "bolt-torque",
+      "itemNames": {
+        "panel-bolt-1": "bolt 1 — top",
+        "panel-bolt-2": "bolt 2 — bottom",
+        "panel-bolt-3": "bolt 3 — center"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Top, then bottom, then center — a cross pattern, not a circle. Bolted in sequence around the edge, the panel bows before the last bolt ever seats.",
+      "prompt": "Torque the bolts in order: top, then bottom, then center — never around the panel in sequence.",
+      "targets": [
+        "panel-bolt-1",
+        "panel-bolt-2",
+        "panel-bolt-3"
+      ],
+      "title": "Torque the access panel bolts in a cross pattern",
+      "why": "A panel bolted down in a simple round-the-edge sequence pulls unevenly and can bow the panel enough to leave a gap at the last bolt tightened; a cross pattern draws the panel down flat and even, the same reason a wheel's lug nuts are never torqued in a simple circle either."
+    },
+    {
+      "cue": "Confirm every crew member is clear and accounted for, then remove your lock and tag from the disconnect.",
+      "id": "loto-remove",
+      "kind": "select",
+      "prompt": "Confirm every crew member is clear and accounted for, then remove your lock and tag from the disconnect.",
+      "target": "disconnect-switch-2",
+      "title": "Remove the lock and tag with a confirmed headcount",
+      "why": "A group lockout is only as safe as its last step: every lock that went on has to come off with a confirmed headcount behind it, not a glance around the platform — the moment that confirmation is skipped is the moment a lockout stops actually protecting whoever might still be near the drum."
+    },
+    {
+      "cue": "Watch the startup current and hold it inside the safe ramp band as the motor comes up to speed.",
+      "holdBreakNote": "The startup current drifted out of the safe band. Bring the ramp back under control before the motor reaches full speed.",
+      "id": "motor-startup",
+      "kind": "track",
+      "prompt": "Watch the startup current and hold it inside the safe ramp band as the motor comes up to speed.",
+      "seconds": 7,
+      "target": "motor-panel",
+      "title": "Monitor the motor through startup",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.45,
+        "green": [
+          0.36,
+          0.58
+        ],
+        "label": "STARTUP",
+        "rise": 0.55,
+        "start": 0.1
+      },
+      "why": "A drive motor's startup current spikes hard for a moment before settling, and holding attention on that ramp is what catches a motor straining against something still fouling the drum before it trips a breaker or, worse, keeps pushing against an obstruction it should have been shut down for instead."
+    },
+    {
+      "cue": "Take the reading after the motor is back up to speed and commit it inside the working band.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "APPROACH VEL",
+        "missNote": "Still outside the working band. Let the reading settle and commit again before signing off.",
+        "speed": 0.7
+      },
+      "id": "flow-verify",
+      "kind": "gauge",
+      "prompt": "Take the reading after the motor is back up to speed and commit it inside the working band.",
+      "target": "velocity-meter-2",
+      "title": "Re-check the approach velocity after restart",
+      "why": "The only way to know the maintenance actually fixed the restriction the crew found is to read the same measurement again under the same running conditions — a screen that reads clean now, after the patch and the cleaning, is a screen this crew can actually sign off on instead of one they are hoping is better."
+    },
+    {
+      "cue": "Check the proud bolt and the unlatched hatch before the crew calls this job done.",
+      "id": "walk-hazards",
+      "itemNotes": {
+        "loose-bolt-flag": "A bolt on the platform grating sits proud instead of flush — click it to confirm the crew catches it before a boot does.",
+        "unlatched-hatch": "The access hatch cover was never latched back down after the crank work."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Check the proud bolt and the unlatched hatch before the crew calls this job done.",
+      "targets": [
+        "loose-bolt-flag",
+        "unlatched-hatch"
+      ],
+      "title": "Walk the platform and confirm nothing is left open",
+      "why": "A loose bolt or an unlatched hatch on a grated platform over moving water is easy to miss once the crew's attention has moved to signing off the readings — walking the platform now, before anyone leaves, is the last chance to catch what the next person on this deck would otherwise find with a misstep instead."
+    },
+    {
+      "cue": "Record the panels inspected, the velocity readings, the repair made, and the lockout status for the crew's record.",
+      "id": "log-maintenance",
+      "kind": "select",
+      "prompt": "Record the panels inspected, the velocity readings, the repair made, and the lockout status for the crew's record.",
+      "target": "closing-log",
+      "title": "Log the day's maintenance",
+      "why": "The next crew on this screen reads today's log, not today's memory of it — a maintenance visit that went clean but was never logged looks, from the record, exactly like a screen nobody has checked, and a velocity reading that was never written down is a fact the next inspection has no way to confirm on its own."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Servicing a positive-barrier fish screen on a tidal diversion intake: the drive motor locked out before anyone works the drum, the approach velocity read before and after, fouling found and cleared, a torn panel patched and cross-torqued back down, the bypass opened the moment a debris surge hits, and the lock never comes off until every hand is confirmed clear",
+  "title": "SmartCiti.X~ Fish Screen Maintenance VR",
+  "trade": "Water diversion technician — fish screen maintenance crew",
+  "underwater": null,
+  "weather": "clear"
+}

@@ -1,0 +1,412 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "load-always-held",
+    "name": "Load Always Held",
+    "note": "The deck carried by the old rope, the temporary jacks or the new rope at every moment of the change"
+  },
+  "category": "Construction & Structural Trades",
+  "certification": "Ironworkers and IMPACT bridge crew training; the owner's engineered replacement procedure and load-transfer sequence; AASHTO Maintenance Manual practice for suspension-bridge ropes; ASME B30.9 and ASME B30.26 for the slings and rigging hardware on the tugger; OSHA 29 CFR 1926.502 and ANSI/ASSP Z359 for tie-off at the deck edge; 29 CFR 1926.106 for work over water; MUTCD for the closure the crew works inside",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "AASHTO",
+        "citedAs": "AASHTO",
+        "id": "aashto-bridge-inspection",
+        "title": "AASHTO Manual for Bridge Element Inspection and the LRFD Bridge Design Specifications"
+      },
+      {
+        "body": "AASHTO",
+        "citedAs": "AASHTO Maintenance Manual",
+        "id": "aashto-maintenance-manual",
+        "title": "AASHTO Maintenance Manual for Roadways and Bridges"
+      },
+      {
+        "body": "ASME",
+        "citedAs": "ASME B30.26",
+        "id": "asme-b30-26",
+        "title": "ASME B30.26 — Rigging hardware"
+      },
+      {
+        "body": "ASME",
+        "citedAs": "ASME B30.9",
+        "id": "asme-b30-9",
+        "title": "ASME B30.9 — Slings"
+      },
+      {
+        "body": "union",
+        "citedAs": "Ironworkers",
+        "id": "ironworkers-impact",
+        "title": "Ironworkers and IMPACT — apprenticeship and safety training for structural, ornamental and reinforcing ironwork"
+      },
+      {
+        "body": "MUTCD",
+        "citedAs": "MUTCD",
+        "id": "mutcd",
+        "title": "Manual on Uniform Traffic Control Devices — temporary traffic control for work zones (Part 6)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.106",
+        "id": "osha-1926-106",
+        "title": "29 CFR 1926.106 — Working over or near water"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.502",
+        "id": "osha-1926-502",
+        "title": "29 CFR 1926.502 — Fall protection systems criteria and practices"
+      }
+    ]
+  },
+  "district": "golden-gate-deck",
+  "domain": "Construction",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "transfer-first",
+        "name": "Transfer First",
+        "note": "Temporary jacks loaded before the old socket was touched"
+      },
+      {
+        "id": "on-the-figure",
+        "name": "On The Figure",
+        "note": "New rope tensioned inside the band the whole pull"
+      },
+      {
+        "id": "clear-of-the-bight",
+        "name": "Clear Of The Bight",
+        "note": "Never under the rope, never a hand in the socket throat"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-change",
+        "name": "Clean Change",
+        "note": "No corrections from the plan to the log"
+      },
+      {
+        "id": "steady-pull",
+        "name": "Steady Pull",
+        "note": "The tensioning never dropped out of band"
+      },
+      {
+        "id": "rope-inside-par",
+        "name": "Rope Inside Par",
+        "note": "Logged inside 80% of par"
+      }
+    ],
+    "currency": "STRAND",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Deck Rigger",
+      "Jack Hand",
+      "Rope Setter",
+      "Rope Foreman",
+      "Rope Gang Certified"
+    ],
+    "system": "Rope Gang"
+  },
+  "hazards": {
+    "hand-in-socket-throat": "You put a hand into the band socket's throat to guide the new rope in. As the rope seats, the socket closes on it with the weight of the rope and the pull of the tugger behind it, and there is no gap left for fingers. The rope is guided from the tag line and the tugger stopped on your call; hands stay out of any opening a load is about to close.",
+    "old-rope-early": "You put the wrench on the old rope's lower socket nut before the temporary jacks were carrying the load. That rope is still holding its share of the deck, and backing its socket off unloaded nothing — it let that share drop onto the ropes either side of it, suddenly, and put a live rope's tension into the thread you were turning. The engineer's sequence loads the jacks first because the load has to be somewhere at every moment.",
+    "under-rope-on-tugger": "You walked under the new rope while the tugger was lifting it to the band. A suspender rope is heavy, stiff and springy, and on a tugger line it swings and whips as it comes off the reel; if the hitch slips or the line parts, the rope comes down along its own length onto whoever is beneath it. The drop zone is barricaded for exactly this, and nobody crosses it while the rope is in the air.",
+    "untethered-hammer": "The pinning hammer is lying loose on the lift platform's toe board, at the edge, over the deck and the strait beyond the railing. A hammer is swung, set down, knocked and swung again all shift, and the one time it goes over the edge it lands on a lane, a crew or a boat. It rides on its wrist lanyard at height, every swing."
+  },
+  "id": "gg-suspender-rope-replacement",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "load-temps",
+      "alert": "A cyclist has come off the sidewalk through the barrier gap and is riding into the closure, heading for the drop zone under the rope.",
+      "cue": "Sound the air horn and call the flagger — stop the cyclist before they reach the drop zone.",
+      "delay": 2,
+      "id": "cyclist-in-closure",
+      "kind": "Cyclist in the closure",
+      "missNote": "The cyclist rode on into the drop zone under the rope's path with nobody stopping them. Had the tugger hitch slipped at that moment, the rope would have come down on someone who never knew there was a load above them.",
+      "seconds": 12,
+      "target": "air-horn",
+      "why": "A closure is only a closure to the people who know it is one: a cyclist who has come off the sidewalk does not know there is a load in the air or a jack under pressure. The air horn stops people in a way a shout across traffic does not, and the flagger turns the cyclist round; the jack pressure is held where it is, because a load transfer is not abandoned halfway — it is held steady while the public is cleared.",
+      "wrongNote": "The air horn — the cyclist is heading for the drop zone and has to be stopped before anything else."
+    },
+    {
+      "after": "tension",
+      "alert": "A gust hits the span — the windsock on the frame stands straight out red and the new rope starts to swing on the jack.",
+      "cue": "Close the jack's load-holding valve to lock the tension where it is, and stand clear of the rope until the gust passes.",
+      "delay": 3,
+      "id": "gust-on-the-rope",
+      "kind": "Gust past the work-stop limit",
+      "missNote": "The pumping went on through the gust with the rope swinging on the jack. A rope tensioned while it is being blown about is tensioned to whatever the wind added, and the pump hand was beside a rope that was moving.",
+      "seconds": 12,
+      "target": "jack-lock-valve",
+      "why": "A rope half-tensioned in a gust is moving on a jack that is still being pumped, and the pump hand is the hand nearest the rope. The load-holding valve locks the jack's pressure where it is without anyone pumping, so the rope stays at a known tension and the crew can step back from it; the pull resumes on the figure when the wind is back under the limit.",
+      "wrongNote": "The jack's load-holding valve — lock the tension, then step clear of the rope."
+    }
+  ],
+  "lateNotes": {
+    "old-socket-nut": "The old socket is backed off only once the temporary jacks are carrying the deck — load them first.",
+    "rope-log": "The rope is logged once the temporary jacks are bled off and the new rope carries the deck on its own.",
+    "tension-jack": "The new rope is tensioned once it is rigged into the band socket and the lower socket is on the jack."
+  },
+  "name": "Suspender Rope Replacement",
+  "parSeconds": 330,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "bay-area-union-edition"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.8,
+    "hits": [
+      "air-horn",
+      "band-socket-seat",
+      "cotter-key",
+      "crew-radio",
+      "deck-anchor-lanyard",
+      "drop-zone-barrier",
+      "hand-in-socket-throat",
+      "jack-lock-valve",
+      "new-rope-socket",
+      "old-rope-early",
+      "old-socket-nut",
+      "replacement-plan",
+      "rope-log",
+      "rope-marking",
+      "seating-mark",
+      "socket-cert-tag",
+      "socket-pin",
+      "temp-jack-bleed",
+      "temp-jack-valve",
+      "tension-jack",
+      "tension-readout",
+      "under-rope-on-tugger",
+      "untethered-hammer",
+      "wind-meter"
+    ],
+    "meshes": 222
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read which rope is coming out, the load-transfer sequence, the temporary jack pressures, the design tension for the new rope and the hold points the engineer witnesses.",
+      "id": "plan",
+      "kind": "select",
+      "prompt": "Read which rope is coming out, the load-transfer sequence, the temporary jack pressures, the design tension for the new rope and the hold points the engineer witnesses.",
+      "target": "replacement-plan",
+      "title": "Read the engineer's replacement procedure",
+      "why": "A suspender carries a share of the deck's weight, and changing one means moving that share three times: onto the temporary jacks, off the old rope, onto the new one. The engineer's procedure sets that order and the pressure and tension at each stage, and it names the hold points where the work stops for the engineer to witness a reading. Nothing about a load transfer is improvised in the closure."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Clip your lanyard to the deck anchor post at the lift platform, and close the barricade round the drop zone under the rope's path.",
+      "id": "edge-and-zone",
+      "itemNames": {
+        "deck-anchor-lanyard": "lanyard clipped to the deck anchor post",
+        "drop-zone-barrier": "drop zone under the rope barricaded"
+      },
+      "kind": "sequence",
+      "prompt": "Clip your lanyard to the deck anchor post at the lift platform, and close the barricade round the drop zone under the rope's path.",
+      "targets": [
+        "deck-anchor-lanyard",
+        "drop-zone-barrier"
+      ],
+      "title": "Tie off at the deck edge and barricade the drop zone",
+      "why": "The rope work happens at the deck edge and on a lift platform, where a slip is a fall past the railing, so the lanyard goes on before the platform. The drop zone is everything under the rope's path from the reel to the band, and it is barricaded before the rope moves because a rope coming off a tugger does not drop straight down — it swings, and the barricade has to be wide enough for the swing."
+    },
+    {
+      "cue": "Read the anemometer on the frame and commit the reading while it sits inside the band below the procedure's lifting limit.",
+      "gauge": {
+        "green": [
+          0.14,
+          0.48
+        ],
+        "label": "WIND · % OF LIFTING LIMIT",
+        "missNote": "That is past the lifting limit, or a lull between gusts. The rope stays on the reel until a steady reading sits inside the band.",
+        "speed": 0.64
+      },
+      "id": "wind",
+      "kind": "gauge",
+      "prompt": "Read the anemometer on the frame and commit the reading while it sits inside the band below the procedure's lifting limit.",
+      "target": "wind-meter",
+      "title": "Take the wind before the rope goes up",
+      "why": "A suspender rope in the air is a long, light target for the wind: it sails, twists on the tugger line and swings toward the frame and the crew. The procedure sets a lifting limit below the general work-stop limit for exactly that reason, and the reading is taken and committed before the rope leaves the reel, because once it is up it has to come the rest of the way."
+    },
+    {
+      "cue": "Before it goes up, find the three things that say this is the right rope and a sound one: the socket's certificate, the rope marking, and the seating mark.",
+      "id": "rope-accept",
+      "itemNames": {
+        "rope-marking": "the rope's marking against the drawing",
+        "seating-mark": "the paint seating mark at the socket",
+        "socket-cert-tag": "the socket's proof-load certificate tag"
+      },
+      "itemNotes": {
+        "rope-marking": "The rope's marking matches the drawing's diameter, construction and length. The wrong rope looks exactly like the right one until it is tensioned to a figure it was never made for.",
+        "seating-mark": "The paint mark where the rope enters the socket is square and unbroken. After tensioning, a mark that has moved away from the socket face is a rope pulling out of its socket, and the only way to see it is to have a mark to compare.",
+        "socket-cert-tag": "The tag on the upper socket carries its proof-load test and the heat it was poured from. A socket without a certificate is an assumption about the one joint in the rope nobody can see into."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Before it goes up, find the three things that say this is the right rope and a sound one: the socket's certificate, the rope marking, and the seating mark.",
+      "targets": [
+        "socket-cert-tag",
+        "rope-marking",
+        "seating-mark"
+      ],
+      "title": "Accept the new rope: socket tag, marking, seating mark",
+      "why": "Once the new rope is in the band and tensioned, its sockets are overhead and under load, and nothing about them can be checked again without taking the rope out. The acceptance check at the reel is the last close look anyone gets: the proof-load tag, the marking against the drawing, and a clean seating mark to compare against after tensioning. Under AASHTO maintenance practice the rope is accepted by record, not by eye."
+    },
+    {
+      "cue": "Pump the temporary jacks under the floor beam up to the procedure's pressure and hold there while the rods' nuts are run down.",
+      "holdBreakNote": "The pressure fell off before the rod nuts were down — the old rope is still carrying. Bring the jacks back to pressure and hold.",
+      "id": "load-temps",
+      "kind": "hold",
+      "prompt": "Pump the temporary jacks under the floor beam up to the procedure's pressure and hold there while the rods' nuts are run down.",
+      "seconds": 5,
+      "target": "temp-jack-valve",
+      "title": "Load the temporary jacks to the procedure's pressure",
+      "why": "The temporary jacking rods take the old rope's share of the deck before anything else happens. They are pumped to the procedure's pressure and held while the nuts are run down on the rods, so the load stays on the rods mechanically rather than on the hydraulics alone; only then is the old rope carrying nothing, and only then can it be unpinned without dropping its share onto its neighbours."
+    },
+    {
+      "cue": "With the jacks carrying, back the old rope's lower socket nut off its thread until the rope hangs free.",
+      "id": "old-socket",
+      "kind": "turn",
+      "prompt": "With the jacks carrying, back the old rope's lower socket nut off its thread until the rope hangs free.",
+      "target": "old-socket-nut",
+      "title": "Back off the old rope's lower socket",
+      "turn": {
+        "label": "OLD SOCKET NUT",
+        "turns": 1
+      },
+      "why": "With the temporary jacks carrying the deck, the old rope's lower socket should come off with nothing on it but the rope's own weight. It is backed off slowly and watched, because a nut that is hard to turn is a rope still carrying load, and that is a stop, not a job for a longer wrench."
+    },
+    {
+      "cue": "With the tugger on your call, bring the new rope's upper socket up to the band and seat it in the socket seat.",
+      "drag": {
+        "missNote": "Not seated — the socket has to sit fully in the band's seat before the pin will go through. Bring it square into the seat.",
+        "radius": 0.45,
+        "to": "band-socket-seat"
+      },
+      "id": "rig-new",
+      "kind": "drag",
+      "prompt": "With the tugger on your call, bring the new rope's upper socket up to the band and seat it in the socket seat.",
+      "target": "new-rope-socket",
+      "title": "Bring the new rope up into the band socket",
+      "why": "The new rope comes up on the tugger with a tag line, and it is guided into the band's socket seat by the tag line and by calls to the tugger operator — never by a hand in the throat. The upper socket is pinned first because it is the fixed end; the lower end is the one the jack will pull, and it hangs until the upper end is sure."
+    },
+    {
+      "cue": "Pump the tension jack on the lower socket up to the design tension and hold it steady on the figure while the socket nut is run down.",
+      "holdBreakNote": "The tension came off the figure while the nut was being run down — the rope would lock in whatever it was at that moment. Bring it back to the figure.",
+      "id": "tension",
+      "kind": "track",
+      "prompt": "Pump the tension jack on the lower socket up to the design tension and hold it steady on the figure while the socket nut is run down.",
+      "seconds": 7,
+      "target": "tension-jack",
+      "title": "Tension the new rope to the engineer's figure",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.46,
+        "green": [
+          0.42,
+          0.62
+        ],
+        "label": "ROPE TENSION · DESIGN FIGURE",
+        "rise": 0.58,
+        "start": 0.1
+      },
+      "why": "A suspender that is slack leaves its share of the deck on the ropes either side of it, and one over-tensioned takes more than its share and lifts the deck at that point. The jack brings the rope to the engineer's design tension and holds it there while the socket nut is run down, so the tension locked into the rope is the figure on the procedure, not the peak of an overshoot."
+    },
+    {
+      "cue": "Drive the socket pin fully home, then put the cotter through its hole and spread the legs.",
+      "id": "pin-socket",
+      "itemNames": {
+        "cotter-key": "cotter through the pin and spread",
+        "socket-pin": "socket pin driven home"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Pin first — a cotter can only lock a pin that is already fully home.",
+      "prompt": "Drive the socket pin fully home, then put the cotter through its hole and spread the legs.",
+      "targets": [
+        "socket-pin",
+        "cotter-key"
+      ],
+      "title": "Pin the socket, then cotter the pin",
+      "why": "The pin carries the rope's tension through the socket into the band; the cotter is what keeps the pin there under a lifetime of traffic vibration and wind. A cotter put in before the pin is fully home holds a pin that is only partly bearing, and a pin without its cotter walks out slowly and silently. Pin, then cotter, and both checked by hand."
+    },
+    {
+      "cue": "Take the confirmation reading on the rope's tension meter with the engineer and commit it inside the band.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "ROPE TENSION · % OF DESIGN",
+        "missNote": "Outside the band — either the reading was taken with the meter off the rope's centreline, or the rope needs the jack again. The engineer decides which.",
+        "speed": 0.6
+      },
+      "id": "confirm-tension",
+      "kind": "gauge",
+      "prompt": "Take the confirmation reading on the rope's tension meter with the engineer and commit it inside the band.",
+      "target": "tension-readout",
+      "title": "Confirm the rope's tension for the engineer",
+      "why": "The jack's gauge says what the jack pulled; the confirmation reading says what the rope is holding now the jack is off. The engineer witnesses it as a hold point in the procedure, because it is the number that goes into the bridge's record for this rope and the number every future inspection compares against."
+    },
+    {
+      "cue": "Back the rod nuts off a turn and bleed the temporary jacks down slowly, watching the new rope take the load.",
+      "holdBreakNote": "The bleed ran too fast — the load came off the rods in a jolt. Close the valve and bleed again, slowly.",
+      "id": "bleed-temps",
+      "kind": "hold",
+      "prompt": "Back the rod nuts off a turn and bleed the temporary jacks down slowly, watching the new rope take the load.",
+      "seconds": 5,
+      "target": "temp-jack-bleed",
+      "title": "Bleed the temporary jacks down slowly",
+      "why": "Bleeding the temporary jacks hands the deck's share from the rods to the new rope, and it is done slowly so the rope takes it smoothly and the tension reading can be watched as it does. A jack dumped fast drops the share onto the rope in a jolt and can shock-load the new socket, which is the part of the rope with the least margin for surprise."
+    },
+    {
+      "cue": "Record the rope's marking and socket certificates, the design and confirmed tensions, the seating marks, and the engineer's witness.",
+      "id": "rope-log",
+      "kind": "select",
+      "prompt": "Record the rope's marking and socket certificates, the design and confirmed tensions, the seating marks, and the engineer's witness.",
+      "target": "rope-log",
+      "title": "Log the new rope",
+      "why": "The rope record is what the bridge knows about this suspender for the rest of its life: which rope, which sockets, what tension it went in at, and the seating marks every future inspection will read against. A replaced rope without its record is one the next inspection cannot compare with anything, and one the engineer cannot defend if its neighbours start to behave differently."
+    },
+    {
+      "cue": "Call the crew, the engineer and the flagger at the closure: rope in and logged, drop zone open, and how the crew is after the change.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Call the crew, the engineer and the flagger at the closure: rope in and logged, drop zone open, and how the crew is after the change.",
+      "target": "crew-radio",
+      "title": "Check in with the crew, the engineer and the flagger",
+      "why": "The flagger holds the closure until the crew says the drop zone is open, and the engineer closes the hold points on the strength of the call. A rope change is a long, careful job with a cyclist and a gust through the middle of it, and the crew checks in with each other before the tugger is stowed — the Ironworkers' member assistance line is there for anything that lasts longer than the shift."
+    }
+  ],
+  "supportLine": "the Ironworkers' member assistance programme through your local, and the crew's peer-support contact",
+  "tagline": "A suspender changed under load: the plan read, tied off and the drop zone barricaded, the wind taken, the new rope's sockets checked, the temporary jacks loaded while a cyclist rides into the closure, the old socket backed off only once they carry, the new rope rigged and tensioned to the figure through a gust, pinned and cottered, the tension confirmed, the jacks bled down and the rope logged",
+  "title": "SmartCiti.X~ Suspender Rope Replacement VR",
+  "trade": "Ironworkers and IMPACT — suspender rope replacement crew, with the owner's engineer witnessing the tension",
+  "underwater": null,
+  "weather": null
+}

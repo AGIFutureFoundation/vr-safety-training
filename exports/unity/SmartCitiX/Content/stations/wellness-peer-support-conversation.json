@@ -1,0 +1,420 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "asked-directly",
+    "name": "Asked Directly",
+    "note": "A peer conversation run as one — nothing waved off, nothing promised that could not be kept, the direct question asked, and a follow-up on the calendar"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "Psychological First Aid as the NCTSN field guide and the Red Cross's psychological first aid course teach it — look, listen, link — applied by a peer rather than a clinician; SAMHSA's trauma-informed care principles and its guidance on peer support, including asking the direct question about suicide and the warm handoff to the 988 Suicide and Crisis Lifeline; the Sphere Handbook's minimum standard on mental health and psychosocial support, which this station's non-clinical scope is drawn from; HIPAA, for why the employee assistance programme's records stay with its clinician; NIOSH's work-organisation and stress guidance for the signs read at the start; the programme's own peer-support team and the EAP line its employer partners and the Teamsters and SEIU locals carry",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "HHS",
+        "citedAs": "HIPAA",
+        "id": "hipaa-privacy-rule",
+        "title": "HIPAA Privacy and Security Rules (45 CFR Parts 160 and 164)"
+      },
+      {
+        "body": "NIOSH",
+        "citedAs": "NIOSH",
+        "id": "niosh-criteria",
+        "title": "NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards"
+      },
+      {
+        "body": "NCTSN",
+        "citedAs": "Psychological First Aid",
+        "id": "pfa-field-guide",
+        "title": "Psychological First Aid Field Operations Guide (NCTSN and the National Center for PTSD), and the WHO field guide"
+      },
+      {
+        "body": "Red Cross",
+        "citedAs": "Red Cross",
+        "id": "red-cross-disaster-services",
+        "title": "American Red Cross shelter operations, Disaster Mental Health and first aid/CPR course standards"
+      },
+      {
+        "body": "SAMHSA",
+        "citedAs": "SAMHSA",
+        "id": "samhsa-trauma-informed",
+        "title": "SAMHSA's six principles of a trauma-informed approach"
+      },
+      {
+        "body": "union",
+        "citedAs": "SEIU",
+        "id": "seiu-training",
+        "title": "SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members"
+      },
+      {
+        "body": "Sphere",
+        "citedAs": "Sphere Handbook",
+        "id": "sphere-handbook",
+        "title": "The Sphere Handbook: Humanitarian Charter and Minimum Standards in Humanitarian Response"
+      },
+      {
+        "body": "union",
+        "citedAs": "Teamsters",
+        "id": "teamsters-training",
+        "title": "Teamsters apprenticeship and driver training programmes, including regulated-soil and yard work"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Workforce readiness",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "noticed-first",
+        "name": "Noticed First",
+        "note": "Every sign found before a word was said"
+      },
+      {
+        "id": "nothing-waved-off",
+        "name": "Nothing Waved Off",
+        "note": "No unsafe action anywhere in the conversation"
+      },
+      {
+        "id": "silence-held",
+        "name": "Silence Held",
+        "note": "Their pace and the pause both carried their full count"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "no-corrections",
+        "name": "No Corrections",
+        "note": "No corrections anywhere in the conversation"
+      },
+      {
+        "id": "their-number",
+        "name": "Their Number",
+        "note": "The stress check committed where they put it, first time"
+      },
+      {
+        "id": "seven-straight",
+        "name": "Seven Straight",
+        "note": "Seven correct actions in a row"
+      }
+    ],
+    "currency": "TRUST",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Trainee",
+      "Peer Trained",
+      "Peer Supporter",
+      "Cohort Lead",
+      "Peer Team Coordinator"
+    ],
+    "system": "Wellness Resource Center"
+  },
+  "hazards": {
+    "broadcast-to-crew": "You put it in the cohort group chat so people would look out for them. Whatever the intention, a disclosure made to one person and read by twenty is a betrayal, and the person who made it finds out on their phone. Look-out is arranged with their consent and by name, or not at all.",
+    "dismiss-disclosure": "You waved it off — \"you'll be fine, everybody's tired in week six.\" A disclosure is the hardest sentence a person will say all year, and a peer who answers it with reassurance has told them it was too much for the room. They will not say it again, to you or to anybody else in the cohort, and the next person who hears about it will be whoever finds them.",
+    "fix-it-advice": "You told them what to do — quit the drinking, see a doctor, talk to the instructor. A peer is not a clinician and not a case manager, and Psychological First Aid is built on the difference: listen, reflect, link. Advice given in the first ten minutes tells a person the conversation is about your plan for them, and people do not come back to conversations about somebody else's plan.",
+    "secrecy-promise": "You swore that whatever he says stays sealed forever. It is the vow a peer most wants to give and the one SAMHSA's peer-support guidance warns hardest against, because a peer's confidentiality has edges — a danger to him, a danger to another person — and when one of those edges arrives you must either break your word or sit on something that harms him. The honest version, with its two exceptions and the promise to warn him first, costs nothing and is what he will remember."
+  },
+  "id": "wellness-peer-support-conversation",
+  "indoor": "service",
+  "interrupts": [
+    {
+      "after": "hold-the-silence",
+      "alert": "The door opens a hand's width — the instructor: \"I need you both back on the floor in five, we're doing the forklift eval.\"",
+      "cue": "Ask for ten. The evaluation waits; this does not.",
+      "delay": 3,
+      "id": "instructor-at-the-door",
+      "kind": "Instructor at the door",
+      "missNote": "Nobody spoke and the instructor waited, so the two of you got up. The sentence that was coming next never came, and the next place your cohort-mate hears his own worry said aloud will be the floor, from somebody else.",
+      "seconds": 12,
+      "target": "ask-for-ten",
+      "why": "The instructor means no harm — the class is short-handed and the evaluation is on the timetable — but a cohort-mate who has just said the thing he was most afraid of will not pick it back up after twenty minutes on a forklift. Asking for ten, flatly and without a reason, is the peer's job and only the peer's: if your cohort-mate has to ask, he has to explain, in front of the instructor, what this is.",
+      "wrongNote": "Neither the quiet you were holding nor the door handle does it. What has to happen is the plain sentence to the instructor — ten minutes — and nothing else counts as having asked."
+    },
+    {
+      "after": "their-pace",
+      "alert": "\"Some days I think everybody'd be better off without me.\" He says it to the table, not to you.",
+      "cue": "Ask the direct question, in those words: \"Are you thinking about killing yourself?\"",
+      "delay": 3,
+      "id": "the-hard-sentence",
+      "kind": "The sentence that changes the conversation",
+      "missNote": "The sentence went past. He said the most dangerous thing a person can say and the room treated it as a turn of phrase, so the next place he says it — if he does — will be somewhere he is not sitting across from anybody.",
+      "seconds": 14,
+      "target": "ask-directly",
+      "why": "A sentence like that is not a figure of speech and it is not a test; it is the door opening, and SAMHSA's guidance and every crisis line's training say the same thing about what to do next — ask directly, in plain words, without softening it. Asking does not plant the idea; it tells the person you heard them and that the word can be said in this room. A yes goes straight to the warm handoff and the 988 Suicide and Crisis Lifeline; a no, asked directly, is a no you can believe.",
+      "wrongNote": "Not the pace point, and not reassurance. The right response is the direct question, in the plain words on the card — anything softer tells him the word cannot be said here."
+    }
+  ],
+  "lateNotes": {
+    "peer-log-board": "Nothing to log yet. The contact is logged when it is over — that it happened, when, and what was offered.",
+    "warm-handoff-card": "The handoff comes after the doors are named, not before — walking somebody to a phone they do not yet know the purpose of is moving them, not linking them."
+  },
+  "name": "Wellness — Peer Support Conversation",
+  "parSeconds": 340,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "job-readiness-edition",
+    "wojrc-pathway-edition"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "ask-directly",
+      "ask-for-ten",
+      "broadcast-to-crew",
+      "cal-48h",
+      "case-manager-card",
+      "dismiss-disclosure",
+      "door-sign",
+      "drawer-slot",
+      "eap-card",
+      "fix-it-advice",
+      "followup-card",
+      "my-phone",
+      "open-card",
+      "pace-point",
+      "peer-log-board",
+      "peer-roster-card",
+      "rule-limits",
+      "rule-stays",
+      "rule-tell-first",
+      "secrecy-promise",
+      "sign-eating-alone",
+      "sign-late-three-times",
+      "sign-new-boots",
+      "sign-quiet-in-class",
+      "sign-short-fuse",
+      "silence-point",
+      "stress-dial",
+      "supporter-checkin-board",
+      "warm-handoff-card"
+    ],
+    "meshes": 195
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Three things changed this week. Find them — and leave the things that did not.",
+      "decoyNotes": {
+        "sign-new-boots": "New boots are new boots. Reading meaning into everything is how peer support turns into surveillance.",
+        "sign-quiet-in-class": "He was always quiet in class. Quiet is only a sign when it is a change."
+      },
+      "id": "notice-the-signs",
+      "itemNames": {
+        "sign-eating-alone": "eating alone at the far table",
+        "sign-late-three-times": "late three times this week",
+        "sign-short-fuse": "short with everyone"
+      },
+      "itemNotes": {
+        "sign-eating-alone": "He has moved to the far table at lunch. Withdrawal from the group is the quietest sign and the one most often read as a preference.",
+        "sign-late-three-times": "Three late arrivals in a week from somebody who was never late. A change in pattern is the sign; the lateness itself is not.",
+        "sign-short-fuse": "Snapped at the instructor and at a cohort-mate over nothing. Irritability is the stress reaction people notice in others and never in themselves."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Three things changed this week. Find them — and leave the things that did not.",
+      "targets": [
+        "sign-late-three-times",
+        "sign-short-fuse",
+        "sign-eating-alone"
+      ],
+      "title": "Notice the signs before you say anything",
+      "why": "Peer support starts with observation because the person will not open with any of it, and because the opening line has to be about something you actually saw. A change in pattern — late from somebody never late, short from somebody easy-going, alone from somebody who sat with the group — is what NIOSH's work-stress guidance describes as the visible signature of a stress reaction, and naming a concrete change is the only opening that does not ask a person to admit anything first."
+    },
+    {
+      "cue": "Turn the sign. This conversation does not happen with the door being tried every two minutes.",
+      "id": "in-use-sign",
+      "kind": "turn",
+      "prompt": "Turn the sign. This conversation does not happen with the door being tried every two minutes.",
+      "target": "door-sign",
+      "title": "Turn the door sign to In Use",
+      "turn": {
+        "axis": "y",
+        "label": "DOOR SIGN",
+        "turns": 0.5
+      },
+      "why": "Nobody says a true thing in a room that might fill up. The sign is small and it is the first evidence your cohort-mate gets that this is being treated as his, not as a chat at the coffee machine — and it removes the crowd he would otherwise be playing to, because the account a trainee gives with classmates in earshot is the brave, brief, useless one. Turning it is thirty seconds of setup that decides whether the next thirty minutes happen at all."
+    },
+    {
+      "cue": "Carry your phone to the drawer and leave it there. Face down on the table is not away.",
+      "drag": {
+        "missNote": "Still on the table. A phone in view is a phone that might buzz, and the person watching it decides what they say around that.",
+        "radius": 0.5,
+        "to": "drawer-slot"
+      },
+      "id": "phone-away",
+      "kind": "drag",
+      "prompt": "Carry your phone to the drawer and leave it there. Face down on the table is not away.",
+      "target": "my-phone",
+      "title": "Put your own phone in the drawer",
+      "why": "A phone on the table says the conversation has a competitor, and a person deciding whether to say something hard reads that before they read your face. Putting it in the drawer is a physical act they can see, and it is also the thing that keeps you from the group chat when the temptation to tell somebody comes — which it will, about twenty minutes from now. The listening starts when the phone is gone."
+    },
+    {
+      "cue": "\"You've been late three times and you've been eating on your own. How are you doing — really?\"",
+      "id": "open-with-what-you-saw",
+      "kind": "select",
+      "prompt": "\"You've been late three times and you've been eating on your own. How are you doing — really?\"",
+      "target": "open-card",
+      "title": "Open with what you saw",
+      "why": "The opening has to be about something observable, said without judgement, followed by a question that cannot be answered with \"fine\". \"How are you\" gets \"fine\"; \"I noticed this, and I wanted to ask\" gets a pause and then an answer. It also puts the truth in the room without demanding they agree with it — they can correct you, and either way the conversation has started with you having paid attention."
+    },
+    {
+      "cue": "The rule, then the exceptions, then the promise about the exceptions — in that order.",
+      "id": "the-rule-with-limits",
+      "itemNames": {
+        "rule-limits": "\"except if you're in danger, or somebody else is\"",
+        "rule-stays": "\"what you tell me stays with me\"",
+        "rule-tell-first": "\"and I'd tell you before I told anyone\""
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Protection, then the two exceptions, then the warning clause. Open with the exceptions and it sounds like a caution; open with the warning clause and it sounds like a trick.",
+      "prompt": "The rule, then the exceptions, then the promise about the exceptions — in that order.",
+      "targets": [
+        "rule-stays",
+        "rule-limits",
+        "rule-tell-first"
+      ],
+      "title": "Say the confidentiality rule, limits included",
+      "why": "Confidentiality is only worth offering with its edges showing. Told where the boundary sits, a person can choose what to put inside it; sworn to total secrecy, he has been given a vow that will fail on the worst possible day. Sequence is the message — protection first, so he hears what he is getting; the two exceptions second, so he hears you being straight with him; and \"I'd warn you first\" last, because that clause is the cheapest thing you will say tonight and the one he will carry out of the room."
+    },
+    {
+      "cue": "Keep it in the band — not filling every gap, not leaving them alone in one.",
+      "holdBreakNote": "You lost his rhythm — hurried him, or left him too long in the quiet. Find his tempo again and match it.",
+      "id": "their-pace",
+      "kind": "track",
+      "prompt": "Keep it in the band — not filling every gap, not leaving them alone in one.",
+      "seconds": 7,
+      "target": "pace-point",
+      "title": "Follow their pace",
+      "track": {
+        "drift": 0.15,
+        "fall": 0.42,
+        "green": [
+          0.36,
+          0.7
+        ],
+        "label": "PACE",
+        "rise": 0.5,
+        "start": 0.5
+      },
+      "why": "Tempo is set by the person talking, and a peer's whole discipline is to notice when it has stopped being theirs. Hurry him and the replies shrink to single words; leave him too long and the quiet turns from breathing space into being left alone with it. Neither drift feels like a mistake from your chair, which is why the band is on a dial: the habit of small corrections, listening for his rhythm and matching it, is what carries a person to the sentence he came in unable to say."
+    },
+    {
+      "cue": "Hand them the dial. Commit the reading they give, not the one you would give for them.",
+      "gauge": {
+        "green": [
+          0.66,
+          0.9
+        ],
+        "label": "THEIR NUMBER",
+        "missNote": "That is not where they put it. The check is theirs — a peer who rounds it down to make the room feel better has just told them their number was wrong.",
+        "speed": 0.6
+      },
+      "id": "their-stress-check",
+      "kind": "gauge",
+      "prompt": "Hand them the dial. Commit the reading they give, not the one you would give for them.",
+      "target": "stress-dial",
+      "title": "Offer the stress check — and commit it where they put it",
+      "why": "The guide's stress check is a card any station can offer, and in a peer conversation it does something the words cannot: it gives a person a way to say \"eight\" who could not say \"I am not coping\". The peer's job is to take the number they give and not argue with it — rounding it down is reassurance in disguise, rounding it up is diagnosis, and either one takes the number away from the person it belongs to. SAMHSA's peer-support principles put it plainly: their experience, their words, their number."
+    },
+    {
+      "cue": "He has told you the part he was afraid to. Say nothing. Let the quiet be his.",
+      "holdBreakNote": "You broke the quiet with something kind. Kindness was not what the gap was for — it was where his next sentence lived, and you have filled it.",
+      "id": "hold-the-silence",
+      "kind": "hold",
+      "prompt": "He has told you the part he was afraid to. Say nothing. Let the quiet be his.",
+      "seconds": 9,
+      "target": "silence-point",
+      "title": "Sit in the quiet after the worst of it",
+      "why": "Every instinct after a confession is to shrink it — a kind word, an explanation, a joke, a subject change — and each one teaches the person that what they said was more than the listener could bear. Staying quiet teaches the reverse: that it fit in the room. It also leaves a gap, and the thing people say into that gap is usually the reason they started talking. Nine seconds feels like a minute from your chair; from his, it is the first time anybody has waited."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Three specific options, each with a name and a number. Not \"there's help if you need it\".",
+      "id": "name-the-doors",
+      "itemNames": {
+        "case-manager-card": "the programme's case manager — the schedule, the rent, the ride",
+        "eap-card": "the employee assistance programme — by name and number, records with the clinician",
+        "peer-roster-card": "the peer-support roster — who else in the programme has done this"
+      },
+      "kind": "sequence",
+      "prompt": "Three specific options, each with a name and a number. Not \"there's help if you need it\".",
+      "targets": [
+        "eap-card",
+        "peer-roster-card",
+        "case-manager-card"
+      ],
+      "title": "Name three real doors",
+      "why": "Vague help is no help: \"there's stuff you can access\" gets a nod and no call. A door is a person's name, a phone number, and a one-line account of what happens when you use it — that the employee assistance clinician keeps his own file under HIPAA and the programme never reads it; that the peer roster is trainees who have sat where he is sitting; that the case manager is who moves a schedule, chases a rent problem and fixes a ride. Half of what a cohort-mate carries is logistics, and a peer who can point at the right desk for the logistics has lifted something real."
+    },
+    {
+      "cue": "\"Do you want to call now? I'll sit here while you do.\" Walk them to the phone; do not send them.",
+      "id": "warm-handoff",
+      "kind": "select",
+      "prompt": "\"Do you want to call now? I'll sit here while you do.\" Walk them to the phone; do not send them.",
+      "target": "warm-handoff-card",
+      "title": "Make the warm handoff",
+      "why": "A referral said out loud is a suggestion; a referral where you stay in the room while the call is made is a handoff. Psychological First Aid calls it linking for a reason — the link has to be made while the person is still with you, because the version of them that leaves this room alone with a phone number does not call it. Offering to sit there while they dial is the difference between the two, and it asks their permission first."
+    },
+    {
+      "cue": "Set the follow-up at forty-eight hours, in writing, before either of you leaves.",
+      "drag": {
+        "missNote": "Not on the calendar. A follow-up that lives as \"I'll check in\" gets remembered on the fourth day, which is after the one that matters.",
+        "radius": 0.5,
+        "to": "cal-48h"
+      },
+      "id": "book-the-follow-up",
+      "kind": "drag",
+      "prompt": "Set the follow-up at forty-eight hours, in writing, before either of you leaves.",
+      "target": "followup-card",
+      "title": "Put the follow-up on the calendar",
+      "why": "A first disclosure becomes something that actually changes only in the second meeting, and the second meeting has to be fixed in ink because the days after a hard talk are precisely when both of you would prefer to act as if it never happened. Two days out is close enough that the opening is still there and far enough that a phone call has had time to be made and answered. On paper it outlives a roster change, a bad night and a Friday."
+    },
+    {
+      "cue": "Date, time, doors offered, follow-up date. Nothing he told you goes on paper.",
+      "id": "log-the-contact",
+      "kind": "select",
+      "prompt": "Date, time, doors offered, follow-up date. Nothing he told you goes on paper.",
+      "target": "peer-log-board",
+      "title": "Write down that it happened — never what was said",
+      "why": "A peer programme has to show its funders and its wellness staff that trainees are being reached, and it has to do that without a single sentence of anybody's story on file — the whole design lives in that gap. Date, time, which doors were offered, when the follow-up is: enough to count contacts and spot a cohort that is struggling, nothing a trainee would dread being read. Put his words on the sheet and the sheet becomes a rumour with a signature, and the programme ends the first time somebody opens the folder."
+    },
+    {
+      "cue": "You just carried somebody else's worst week. Book your own contact with the peer team, then answer the guide's check-in.",
+      "id": "supporter-check-in",
+      "kind": "select",
+      "prompt": "You just carried somebody else's worst week. Book your own contact with the peer team, then answer the guide's check-in.",
+      "target": "supporter-checkin-board",
+      "title": "Get your own check-in before you leave",
+      "why": "Whatever he handed you in that chair, you are now holding, and the peer programmes that last are the ones whose rule for the listener is written down and kept: the person who ran the conversation gets one of their own. Saying it aloud while he is still in the room does something else too — a trainee who sees a peer book their own contact learns, faster than any poster could teach, that using the programme is not a confession. The guide's question on the results card is the same habit in small, and nothing about it is scored."
+    }
+  ],
+  "supportLine": "the programme's peer-support team or the employee assistance programme (EAP) line your employer or union carries — and, in a crisis, the 988 Suicide and Crisis Lifeline",
+  "tagline": "A cohort-mate says he cannot keep doing this: the signs noticed first, the room made private, the rule said with its limits, their pace followed, the direct question asked when the words call for it, three real doors named, and the peer's own check-in after",
+  "title": "SmartCiti.X~ Wellness — Peer Support Conversation VR",
+  "trade": "Pre-apprentice trained as a programme peer supporter",
+  "underwater": null,
+  "weather": "overcast"
+}

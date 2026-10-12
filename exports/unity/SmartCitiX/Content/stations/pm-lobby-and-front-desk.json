@@ -1,0 +1,400 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "desk-opened",
+    "name": "Desk Opened",
+    "note": "A lobby opened, watched and handed over with every exit clear and every resident served the same way"
+  },
+  "category": "Building Systems & Facilities",
+  "certification": "NFPA 101 (Life Safety Code) for the exit access, the self-closing stair door and the illuminated exit signs; NFPA 72 for the fire alarm annunciator the desk watches and the records an inspector asks for; OSHA 29 CFR 1910.22 for a lobby floor kept clean, dry and free of trip edges, 29 CFR 1910.36 for exit routes kept unobstructed, 29 CFR 1910.38 for the building's emergency action plan and its announcements, and 29 CFR 1910.1200 for the floor cleaner on the porter's cart; SEIU contract language for building service staff; the state landlord-tenant statute's written notice before a unit is entered and the Fair Housing Act's rule that every resident is served the same way; the apartment association's CAM credential for the manager the desk reports to.",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 101",
+        "id": "nfpa-101",
+        "title": "NFPA 101 — Life Safety Code"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 25",
+        "id": "nfpa-25",
+        "title": "NFPA 25 — Inspection, Testing and Maintenance of Water-Based Fire Protection Systems"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 72",
+        "id": "nfpa-72",
+        "title": "NFPA 72 National Fire Alarm and Signaling Code"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1200",
+        "id": "osha-1910-1200",
+        "title": "29 CFR 1910.1200 — Hazard communication"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.22",
+        "id": "osha-1910-22",
+        "title": "29 CFR 1910.22 — Walking-working surfaces, general requirements"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.36",
+        "id": "osha-1910-36",
+        "title": "29 CFR 1910.36 — Design and construction requirements for exit routes"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.38",
+        "id": "osha-1910-38",
+        "title": "29 CFR 1910.38 — Emergency action plans"
+      },
+      {
+        "body": "union",
+        "citedAs": "SEIU",
+        "id": "seiu-training",
+        "title": "SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Property Management",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "exits-clear",
+        "name": "Exits Clear",
+        "note": "No unsafe action anywhere in the shift"
+      },
+      {
+        "id": "roster-first",
+        "name": "Roster First",
+        "note": "The lockout handled in order on the first try"
+      },
+      {
+        "id": "steady-mop",
+        "name": "Steady Mop",
+        "note": "Every timed task carried through without a break"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-desk",
+        "name": "Clean Desk",
+        "note": "No corrections anywhere in the shift"
+      },
+      {
+        "id": "quick-open",
+        "name": "Quick Open",
+        "note": "Desk opened inside 80% of par"
+      },
+      {
+        "id": "eight-straight-desk",
+        "name": "Eight Straight",
+        "note": "Eight correct actions in a row"
+      }
+    ],
+    "currency": "SHIFTS",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Relief Porter",
+      "Desk Attendant",
+      "Lead Attendant",
+      "Lobby Supervisor",
+      "Front of House Certified"
+    ],
+    "system": "Front of House"
+  },
+  "hazards": {
+    "annunciator-silence": "You are pressing silence on the fire alarm annunciator without finding out what it is telling you. A trouble or supervisory signal is the system reporting that part of it cannot do its job; silencing it at the desk and carrying on turns a fault the monitoring company could act on into one nobody knows about until the night it matters.",
+    "directory-screen": "You are reading a resident's unit number off the directory to a caller who asked for them by name. The desk never confirms who lives where — not to a delivery driver, a friend or an ex. For a resident who has moved to get away from someone, that one courtesy is the whole safety plan, and every resident is owed the same answer: we will call up and let them know you are here.",
+    "master-key-hook": "That is the master key, not the unit key. A master opens every door on the property, and handing it across the desk — to a resident, a mover or a contractor who asked nicely — is how a building ends up with a copy nobody can account for. The key log exists so that one door opens for one person with a name beside it.",
+    "stair-door-wedge": "You are wedging the stair door open so the movers can run boxes through. That door is a rated smoke barrier and NFPA 101 wants it self-closing and latched for exactly the minute when nobody is thinking about it: a fire on any floor fills a wedged stair with smoke, and the stair is the only way down for the residents above it."
+  },
+  "id": "pm-lobby-and-front-desk",
+  "indoor": "hotel",
+  "interrupts": [
+    {
+      "after": "mop-entry",
+      "alert": "A resident from 4B comes to the desk, upset: water has been dripping through her bathroom ceiling since last night and nobody has called her back.",
+      "cue": "Stop mopping and take it properly — open a work order while she is standing there.",
+      "delay": 3,
+      "id": "tenant-complaint",
+      "kind": "Resident at the desk with a complaint",
+      "missNote": "The resident stood at the desk while you kept mopping, and left without a work order. The leak above 4B is still running into her ceiling, and there is now no record the building was ever told.",
+      "seconds": 12,
+      "target": "work-order-terminal",
+      "why": "A leak through a ceiling is a habitability repair under the local housing code and very often the first sign of a failed pipe in the unit above. Logging it in front of the resident gives her a number, gives the engineer a location, and starts the clock that the building is actually measured against — which a promise to pass it on does not.",
+      "wrongNote": "That does not help her. Open a work order at the terminal — the leak needs a ticket and a number, not a nod."
+    },
+    {
+      "after": "pa-announce",
+      "alert": "A fire prevention inspector walks in unannounced for the annual inspection and asks for the building's fire alarm and sprinkler test records.",
+      "cue": "Finish the notice, then hand over the life-safety binder — do not send them hunting.",
+      "delay": 2,
+      "id": "inspector-arrives",
+      "kind": "Inspector arrives",
+      "missNote": "The inspector waited at the desk and nobody produced the records. An inspection that starts with the building unable to show its test history is written up for the records before anyone has looked at a single device.",
+      "seconds": 12,
+      "target": "life-safety-binder",
+      "why": "NFPA 72 and NFPA 25 both expect inspection and testing records to be kept on site and produced on request. The binder behind the desk is the building's proof that its systems were tested when they were due; a desk that can put it in the inspector's hands in a minute tells them the rest of the building is run the same way.",
+      "wrongNote": "Not that. The inspector wants the fire alarm and sprinkler test records — the red life-safety binder on the wall behind the desk."
+    }
+  ],
+  "lateNotes": {
+    "building-log": "The building log closes the shift. It gets written once the shift's events have actually happened, not filled in ahead of them.",
+    "crew-checkin-board": "The check-in is the very end — once the log is written and the desk is handed over.",
+    "entry-mode-key": "Night mode is the last thing the desk does. Switched now, residents coming home through the day would be held at a card reader they were not told about."
+  },
+  "name": "Lobby and Front Desk",
+  "parSeconds": 270,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "property-management"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "annunciator",
+      "annunciator-silence",
+      "building-log",
+      "callbox",
+      "cctv-monitor",
+      "crew-checkin-board",
+      "curled-mat",
+      "directory-screen",
+      "entry-door",
+      "entry-mode-key",
+      "entry-sign-socket",
+      "exit-sign",
+      "key-cabinet",
+      "lease-roster",
+      "life-safety-binder",
+      "master-key-hook",
+      "mop-bucket",
+      "pa-mic",
+      "package-pile",
+      "package-scanner",
+      "passdown-log",
+      "resident-id",
+      "stair-door-wedge",
+      "wet-floor-sign",
+      "work-order-terminal"
+    ],
+    "meshes": 207
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read what the overnight attendant left for you before you touch anything else at the desk.",
+      "id": "passdown",
+      "kind": "select",
+      "prompt": "Read what the overnight attendant left for you before you touch anything else at the desk.",
+      "target": "passdown-log",
+      "title": "Read the overnight pass-down",
+      "why": "The pass-down is how the night's loose ends — a resident expecting a locksmith, a trouble light the engineer already knows about, a mover booked for ten — survive a shift change. A desk opened without it starts the day answering questions the last shift already answered, and misses the one thing they flagged because they could not fix it before they left."
+    },
+    {
+      "anyOrder": false,
+      "cue": "Check the camera channels, ring the entry callbox through to the desk, then read the fire alarm annunciator.",
+      "id": "open-desk",
+      "itemNames": {
+        "annunciator": "fire alarm annunciator reads normal",
+        "callbox": "entry callbox rings through",
+        "cctv-monitor": "cameras live on every channel"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Cameras, then callbox, then the annunciator. The annunciator is read last so that anything the first two checks set off is on it when you look.",
+      "prompt": "Check the camera channels, ring the entry callbox through to the desk, then read the fire alarm annunciator.",
+      "targets": [
+        "cctv-monitor",
+        "callbox",
+        "annunciator"
+      ],
+      "title": "Prove the desk's systems live",
+      "why": "Each of these fails quietly: a camera channel that froze at 3 a.m. still shows a lobby, a callbox with a dead line just rings for the visitor, and an annunciator with a lamp out reads normal. Proving each one at the start of the shift is the only way to know the desk can see, hear and report, rather than finding out during the one call that needed it."
+    },
+    {
+      "cue": "Open the entrance door fully, let it go, and commit when the closing time sits inside the band on the hardware schedule.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "ENTRANCE DOOR — CLOSING TIME",
+        "missNote": "Outside the band. Too quick and it slams on someone slow; too slow and it hangs open against the draft. Read it again and commit inside the hardware schedule's range.",
+        "speed": 0.55
+      },
+      "id": "door-closer",
+      "kind": "gauge",
+      "prompt": "Open the entrance door fully, let it go, and commit when the closing time sits inside the band on the hardware schedule.",
+      "target": "entry-door",
+      "title": "Read the entrance door's closing time",
+      "why": "A closer set too fast slams a heavy glass door on a resident with a walker or a stroller; set too slow, it never latches against the stack-effect draft that a tall building pulls through its lobby, and the door that is meant to be secure stands an inch open all night. The closing time is the number that decides both."
+    },
+    {
+      "cue": "Three things between the lobby and the way out are wrong this morning. Find them.",
+      "id": "egress-walk",
+      "itemNames": {
+        "curled-mat": "the entry mat, corner curled",
+        "exit-sign": "the stair exit sign, dark",
+        "package-pile": "packages stacked in the exit path"
+      },
+      "itemNotes": {
+        "curled-mat": "The entry mat's corner has curled up. It is the single most walked square metre in the building and a raised edge there is a trip for every resident with a bag in each hand.",
+        "exit-sign": "The exit sign over the stair door has a lamp out. NFPA 101 wants the way out marked and lit, and in smoke a dark sign is a door nobody finds.",
+        "package-pile": "Last night's delivery is stacked between the lobby and the stair door. 29 CFR 1910.36 and NFPA 101 both want the exit access kept clear — a pile that is fine in daylight is a wall in the dark."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Three things between the lobby and the way out are wrong this morning. Find them.",
+      "targets": [
+        "exit-sign",
+        "curled-mat",
+        "package-pile"
+      ],
+      "title": "Walk the lobby's way out",
+      "why": "The lobby is the exit discharge for every stair in the building, so its faults are everybody's faults. None of these three shows up on a panel or a camera — they are found only by walking the route a resident would take in the dark, with smoke overhead, and seeing it as they would."
+    },
+    {
+      "cue": "Carry the wet-floor sign from beside the desk and stand it at the entrance before any water touches the floor.",
+      "drag": {
+        "missNote": "Not at the entry yet — the sign has to stand where people walk in, not beside the desk where only you can see it.",
+        "radius": 0.55,
+        "to": "entry-sign-socket"
+      },
+      "id": "wet-floor-sign",
+      "kind": "drag",
+      "prompt": "Carry the wet-floor sign from beside the desk and stand it at the entrance before any water touches the floor.",
+      "target": "wet-floor-sign",
+      "title": "Set the wet-floor sign at the entry",
+      "why": "Polished stone goes from grippy to glass with a film of water on it, and the entry is where residents walk in looking at their phones. OSHA's walking-working surfaces rule, 29 CFR 1910.22, asks for floors kept clean and dry; where a floor has to be wet for a few minutes, the sign going up first is what turns a hidden hazard into one people can see."
+    },
+    {
+      "cue": "Wring the mop and work the entry in steady passes — damp enough to lift the grit, never dripping.",
+      "holdBreakNote": "The mop drifted out of the damp band. Wring it back and finish the entry in even passes — a wet streak is the patch somebody slips on after the sign is gone.",
+      "id": "mop-entry",
+      "kind": "track",
+      "prompt": "Wring the mop and work the entry in steady passes — damp enough to lift the grit, never dripping.",
+      "seconds": 6,
+      "target": "mop-bucket",
+      "title": "Mop the entry with a damp, not wet, mop",
+      "track": {
+        "drift": 0.1,
+        "fall": 0.4,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "MOP — WETNESS",
+        "rise": 0.45,
+        "start": 0.2
+      },
+      "why": "A dripping mop leaves a film that stays slick long after the sign has gone back behind the desk, and a dry one just moves the grit around. The floor cleaner on the cart has its own SDS under 29 CFR 1910.1200 and a dilution the label sets; a damp pass at that dilution is what actually leaves a floor that dries in the minutes the sign is up."
+    },
+    {
+      "cue": "Scan the cleared packages into the package room so each resident gets their notice.",
+      "id": "package-intake",
+      "kind": "select",
+      "prompt": "Scan the cleared packages into the package room so each resident gets their notice.",
+      "target": "package-scanner",
+      "title": "Log the delivery into the package room",
+      "why": "A package that is scanned has an owner, a time and a shelf; one that is not is a box on the lobby floor that somebody will eventually carry off or trip over. Logging it the moment it is moved is also what lets the desk answer every resident the same way, instead of by who happens to ask loudest."
+    },
+    {
+      "cue": "Key the PA and hold it through the whole notice: riser, floors affected, start and end time.",
+      "holdBreakNote": "You let the key go mid-notice. Half an announcement tells some floors the water is going off and not when it comes back — key it again and read it through.",
+      "id": "pa-announce",
+      "kind": "hold",
+      "prompt": "Key the PA and hold it through the whole notice: riser, floors affected, start and end time.",
+      "seconds": 5,
+      "target": "pa-mic",
+      "title": "Read the water shut-off notice over the PA",
+      "why": "The engineer is shutting the domestic water to one riser this afternoon, and the residents on it need to hear which floors and for how long. A notice that cuts out halfway is worse than none — half a building fills bathtubs it did not need to. The building's emergency action plan under 29 CFR 1910.38 runs over the same PA, which is why the desk keeps it honest."
+    },
+    {
+      "anyOrder": false,
+      "cue": "Check the resident's ID, match it to the lease roster, then issue the unit key and sign it out.",
+      "id": "lockout-key",
+      "itemNames": {
+        "key-cabinet": "unit key issued and signed out",
+        "lease-roster": "name matched on the lease roster",
+        "resident-id": "photo ID checked"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "ID, roster, then key. A key that comes off the hook before the name is on the roster is a door already opened on somebody's word.",
+      "prompt": "Check the resident's ID, match it to the lease roster, then issue the unit key and sign it out.",
+      "targets": [
+        "resident-id",
+        "lease-roster",
+        "key-cabinet"
+      ],
+      "title": "Let a locked-out resident back in",
+      "why": "A person who says they live in 7C and a person on the lease for 7C are not the same claim. Checking the roster first protects the resident whose door it is — an estranged partner is also a person who knows the unit number — and running the same three checks for everyone is what keeps the desk on the right side of the Fair Housing Act."
+    },
+    {
+      "cue": "Turn the entrance key switch to night: card and callbox only.",
+      "id": "night-mode",
+      "kind": "turn",
+      "prompt": "Turn the entrance key switch to night: card and callbox only.",
+      "target": "entry-mode-key",
+      "title": "Switch the entrance to night mode",
+      "turn": {
+        "axis": "z",
+        "label": "ENTRANCE MODE",
+        "turns": 0.5
+      },
+      "why": "After hours the lobby door stops being a door anyone can push and becomes one the desk or a resident's card has to open. Doing it at the scheduled time, with the key rather than a propped latch, is what keeps the building's security the same whichever attendant is on — and the key switch leaves the door free to open outward for anyone leaving."
+    },
+    {
+      "cue": "Write the shift into the building log: the exit sign and mat, the notice, the lockout, the complaint and the inspector's visit.",
+      "id": "building-log",
+      "kind": "select",
+      "prompt": "Write the shift into the building log: the exit sign and mat, the notice, the lockout, the complaint and the inspector's visit.",
+      "target": "building-log",
+      "title": "Close the shift in the building log",
+      "why": "The building log is the one record that follows the building rather than the attendant. The exit sign ticket, the resident let in and by whom, the complaint and the inspector's request all need to be findable by the next shift, the manager and — if anything goes wrong — anyone who later asks what the desk knew and when."
+    },
+    {
+      "cue": "Ask the porter how the shift sat with them, and name the member assistance line before you hand over.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Ask the porter how the shift sat with them, and name the member assistance line before you hand over.",
+      "target": "crew-checkin-board",
+      "title": "Check in with the porter before handover",
+      "why": "A front desk absorbs every resident's worst day — the flood, the lockout, the neighbour dispute — and most of it is said to the person behind the counter. Two minutes between the attendant and the porter, with the SEIU member assistance line named out loud, is what keeps a hard shift from being carried home unspoken and turning up on the next one."
+    }
+  ],
+  "supportLine": "the SEIU member assistance line or your employer's EAP — a desk that takes every complaint in the building carries some of it home",
+  "tagline": "The desk opened in order: pass-down read, cameras, callbox and annunciator proven, the door closer read, the egress path walked, the entry mopped under a sign, a notice read over the PA, a lockout handled against the roster, and the shift closed in the building log",
+  "title": "SmartCiti.X~ Lobby and Front Desk VR",
+  "trade": "Front desk attendant and porter — SEIU building service members, with IUOE Local 39 stationary engineers on call and a CAM-credentialed property manager",
+  "underwater": null,
+  "weather": null
+}

@@ -1,0 +1,13 @@
+# CLEARWATER console
+- 2026-09-28T04:17:57Z started; read BRIEF.md
+- 2026-09-28T04:18:37Z read programme doc, hp-edition-brief, hunters-point.js, can-we-live-story.js; started station clips (rec_review.mjs showcase-clear, 8 stations) pid 3504
+- 2026-09-28T04:20:58Z clear_build.mjs → clear-data.json: 26 stations, 5 phases (1 / 2-4 / 5-10 / 11-17 / 18-26, boundaries asserted against the catalog summary), eval mean 94.5 min 73 (hunters-point), 2 Bay World sites, 7 Deep sites, 2 quests, 20 commits touching station files
+- 2026-09-28T04:24:42Z wrote clear_page.mjs (briefing fragments asserted verbatim against hunters-point.js) and clear_rec_pages.mjs; 4/8 station clips done
+- 2026-09-28T04:29:09Z 8/8 station clips ok (review/showcase-clear/raw); starting clear_rec_pages.mjs (home, track, bayworld, deep)
+- 2026-09-28T04:32:13Z page/world clips ok (home, track, bayworld ?site=estuary-shoreline-park-trailhead with job board, deep ?site=eelgrass-transplant-plots with job board); stills extracted; assembling video (clear_video.py → clear_promo.py)
+- 2026-09-28T04:39:06Z demo.mp4 92.8 s 4.2 MB (12 clips: home, track, 8 stations, Deep, Bay World; start points checked on contact sheets); index.html regenerated
+- 2026-09-28T04:39:45Z one preview look (desktop light, 400px dark: no horizontal scroll); fixed ribbon label width, table column widths, sixth figure tile
+- 2026-09-28T04:40:08Z unused stills moved to work/unused; final assets: poster, home-search, track, st-rad-survey, st-soil-loadout, bayworld-shoreline, deep-eelgrass (.png), demo.mp4
+- Facts sources: catalog.json (curriculum + stations), docs/investor/stations.csv, docs/programmes/hunters-point-bay-restoration.md (standards, competency, ladder lines), shared/competency.js (MASTERY, RUBRIC), shared/bayworld-data.js, shared/underwater-data.js, bayworld/js/quests-data.js, shared/guide-kb.js, tools/check_all.mjs, platform-summary.json, git log; briefing box quotes asserted verbatim against smartcity/js/sims/hunters-point.js. can-we-live-story.js read but not quoted (companion named only with its docs link).
+- Phase grouping (1 / 2-4 / 5-10 / 11-17 / 18-26) is editorial, keyed to the five phases the catalog summary names; station order is the catalog's. Stormwater (16-17) placed under "Groundwater and runoff".
+- Not verified: headset performance; Kokoro pronunciation of "C L E A R" in the hook (not listened to); Google Fonts not loaded in the offline preview (fallback faces rendered).

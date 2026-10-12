@@ -1,0 +1,361 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "usrh-badge",
+    "name": "Clean Off the Pad",
+    "note": "Loaded, covered, decontaminated and papered before the wheels touched the street"
+  },
+  "category": "Environmental Monitoring",
+  "certification": "LIUNA hazmat laborers under OSHA HAZWOPER (29 CFR 1910.120) at the load-out and the decontamination pad; PHMSA 49 CFR 172 hazmat employee training, shipping papers and placards where the load is a regulated hazardous material; EPA RCRA 40 CFR 262 for the hazardous-waste manifest; OSHA 29 CFR 1926.601 motor vehicles on a work site; 29 CFR 1910.132 PPE; the NPDES stormwater rules, 40 CFR 122.26, for track-out reaching a storm drain; and the site's own work plan for the load-out route, the decon pad and the receiving facility",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "EPA",
+        "citedAs": "40 CFR 122.26",
+        "id": "epa-40-cfr-122-26",
+        "title": "40 CFR 122.26 — Storm water discharges under the NPDES permit programme"
+      },
+      {
+        "body": "union",
+        "citedAs": "LIUNA",
+        "id": "liuna-training-fund",
+        "title": "LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.120",
+        "id": "osha-1910-120",
+        "title": "29 CFR 1910.120 — Hazardous waste operations and emergency response (HAZWOPER)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.132",
+        "id": "osha-1910-132",
+        "title": "29 CFR 1910.132 — Personal protective equipment, general requirements"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.601",
+        "id": "osha-1926-601",
+        "title": "OSHA 29 CFR 1926.601 Motor vehicles"
+      },
+      {
+        "body": "PHMSA",
+        "citedAs": "49 CFR 172",
+        "id": "phmsa-49-cfr-172",
+        "title": "49 CFR Part 172 — Hazardous materials table, communications, emergency response information and training"
+      },
+      {
+        "body": "RCRA",
+        "citedAs": "40 CFR 262",
+        "id": "rcra-40-cfr-262",
+        "title": "40 CFR Part 262 — Standards applicable to generators of hazardous waste, including the manifest"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Environmental",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "usrh-clean-read",
+        "name": "Clean Read",
+        "note": "The key reading committed inside its band first time"
+      },
+      {
+        "id": "usrh-held",
+        "name": "Held Steady",
+        "note": "Every watch and hold ran unbroken"
+      },
+      {
+        "id": "usrh-safe",
+        "name": "Never a Shortcut",
+        "note": "No unsafe action reached for anywhere in the run"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "usrh-clean",
+        "name": "Clean Run",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "usrh-fast",
+        "name": "Inside Par",
+        "note": "Finished inside 80% of par"
+      }
+    ],
+    "currency": "TAG",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Yard Hand",
+      "Crew Hand",
+      "Lead Hand",
+      "Certified Hand",
+      "Journey Level"
+    ],
+    "system": "Clean Off the Pad"
+  },
+  "hazards": {
+    "climb-onto-load": "You went to climb onto the load to spread the tarp. Pull the tarp from the ground with the crank.",
+    "drive-into-exclusion-zone": "You went to back the truck across the load-out line. The truck stays on the clean side; the bucket comes to it.",
+    "hose-soil-into-gutter": "You went to hose the exit apron into the gutter. Sweep track-out back onto the pad.",
+    "sign-blank-manifest": "You reached to sign the manifest before checking its lines. Check the facility and description first, then sign."
+  },
+  "id": "us-regulated-soil-haul-load-tarp-and-manifest",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "stand-clear-of-swing",
+      "alert": "A laborer has walked behind the truck toward the tailgate while the bucket is still swinging.",
+      "cue": "Call the laborer back to the safe spot and signal the operator to stop the swing.",
+      "delay": 2,
+      "id": "worker-walks-behind",
+      "kind": "A laborer walks behind the truck",
+      "missNote": "You kept holding your spot while the laborer stood under the swing; the next bucket passed over a person.",
+      "seconds": 12,
+      "target": "stop-laborer",
+      "why": "A person behind the truck and under the bucket's path is answered before loading goes on; the operator cannot see the tailgate side from the cab.",
+      "wrongNote": "The laborer first — a person under the swing is answered before loading goes on."
+    },
+    {
+      "after": "brush-tyres-on-pad",
+      "alert": "The decon pad's sump high-level lamp has lit — the wash water is about to overtop the pad.",
+      "cue": "Stop the wash and call for the sump to be pumped to its holding tank before brushing again.",
+      "delay": 2,
+      "id": "pad-sump-full",
+      "kind": "The decon pad's sump alarm lights",
+      "missNote": "You kept brushing and the pad overtopped; wash water ran off the pad toward the street.",
+      "seconds": 12,
+      "target": "sump-alarm-lamp",
+      "why": "Wash water from the pad carries the same soil the decon is removing, and a sump that overtops sends it off the pad; stopping the wash until it is pumped keeps it contained.",
+      "wrongNote": "The sump first — wash water stays on the pad, so stop and pump it."
+    }
+  ],
+  "lateNotes": {},
+  "name": "Regulated Soil Haul: Load, Tarp and Manifest",
+  "parSeconds": 330,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 3,
+    "hits": [
+      "clean-side-bay",
+      "climb-onto-load",
+      "decon-brush-meter",
+      "decon-pad-edge",
+      "dispatch-radio",
+      "drive-into-exclusion-zone",
+      "driver-safe-spot",
+      "front-tarp-strap",
+      "haul-log",
+      "haul-plan",
+      "hose-soil-into-gutter",
+      "load-height-gauge",
+      "manifest-form",
+      "placard-board",
+      "rear-tarp-strap",
+      "sign-blank-manifest",
+      "stop-laborer",
+      "street-broom",
+      "sump-alarm-lamp",
+      "tarp-crank",
+      "torn-liner-corner",
+      "truck-position-marker"
+    ],
+    "meshes": 232
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track"
+  ],
+  "steps": [
+    {
+      "cue": "Read the haul page: the load-out route on site, the decon pad, the approved receiving facility and the paperwork the load needs.",
+      "id": "read-haul-plan",
+      "kind": "select",
+      "prompt": "Read the haul page: the load-out route on site, the decon pad, the approved receiving facility and the paperwork the load needs.",
+      "target": "haul-plan",
+      "title": "Read the work plan's haul page",
+      "why": "The work plan names the only facility that may receive the soil and the route out of the exclusion zone, and hauling regulated soil to the wrong facility is a violation that follows the load; the driver reads it before the truck is staged, not at the gate."
+    },
+    {
+      "cue": "Move the staging marker to the marked position on the clean side, where the excavator reaches the bed without the truck entering the cut.",
+      "drag": {
+        "missNote": "Not in the bay — the truck must sit fully on the clean side of the line.",
+        "radius": 0.5,
+        "to": "clean-side-bay"
+      },
+      "id": "stage-clean-side",
+      "kind": "drag",
+      "prompt": "Move the staging marker to the marked position on the clean side, where the excavator reaches the bed without the truck entering the cut.",
+      "target": "truck-position-marker",
+      "title": "Stage the truck on the clean side of the load-out line",
+      "why": "Keeping the truck on the clean side of the line means the tyres never touch contaminated ground, so the decon pad has only splash to deal with; 29 CFR 1910.120 site control keeps vehicles out of the exclusion zone unless the plan allows it."
+    },
+    {
+      "cue": "Look along the bed liner and the tailgate seal for tears or gaps before anything is loaded.",
+      "id": "check-bed-liner",
+      "itemNames": {
+        "torn-liner-corner": "torn corner of the bed liner"
+      },
+      "itemNotes": {
+        "torn-liner-corner": "The liner is torn at the tailgate corner — wet soil would weep out onto the road. Replace it before loading."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look along the bed liner and the tailgate seal for tears or gaps before anything is loaded.",
+      "targets": [
+        "torn-liner-corner"
+      ],
+      "title": "Check the bed liner and tailgate seal",
+      "why": "Wet regulated soil weeps through a torn liner or an open tailgate seal and leaves a trail on every road to the facility; finding the tear before loading is a new liner, finding it after is a spill report."
+    },
+    {
+      "cue": "Out of the cab and outside the swing, hold at the marked safe spot in the operator's view until loading stops.",
+      "holdBreakNote": "You stepped off the safe spot while the bucket was still swinging — stay put until loading stops.",
+      "id": "stand-clear-of-swing",
+      "kind": "hold",
+      "prompt": "Out of the cab and outside the swing, hold at the marked safe spot in the operator's view until loading stops.",
+      "seconds": 5,
+      "target": "driver-safe-spot",
+      "title": "Stand at the safe spot while the bucket loads",
+      "why": "29 CFR 1926.601 keeps drivers clear of a bucket passing over the cab unless the cab is protected, and standing at the marked spot in the operator's view means the operator always knows where the driver is while the loaded bucket swings."
+    },
+    {
+      "cue": "Commit when the load settles below the rail line with room for the tarp to lie flat.",
+      "gauge": {
+        "green": [
+          0.55,
+          0.8
+        ],
+        "label": "LOAD HEIGHT",
+        "missNote": "Not in the band — heaped above the rails, the tarp cannot close; stop in the band.",
+        "speed": 0.6
+      },
+      "id": "watch-load-height",
+      "kind": "gauge",
+      "prompt": "Commit when the load settles below the rail line with room for the tarp to lie flat.",
+      "target": "load-height-gauge",
+      "title": "Watch the load height against the bed rails",
+      "why": "A load heaped above the rails cannot be covered properly and sheds soil on every bump, and an overloaded truck breaks its axle weights; stopping in the band leaves a load the tarp can close over and a truck inside its weights."
+    },
+    {
+      "cue": "Crank the tarp fully over the load from the ground, then fasten the front strap and the rear strap.",
+      "id": "pull-and-strap-tarp",
+      "itemNames": {
+        "front-tarp-strap": "front tarp strap",
+        "rear-tarp-strap": "rear tarp strap",
+        "tarp-crank": "tarp crank"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order — the tarp is cranked fully over before either strap is fastened, or the straps pin it half-open.",
+      "prompt": "Crank the tarp fully over the load from the ground, then fasten the front strap and the rear strap.",
+      "targets": [
+        "tarp-crank",
+        "front-tarp-strap",
+        "rear-tarp-strap"
+      ],
+      "title": "Pull the tarp, then strap it front and rear",
+      "why": "A regulated load is covered so nothing leaves the truck on the road, and a tarp pulled from the ground with the crank keeps the driver off the load itself; strapping both ends stops the wind lifting it on the freeway."
+    },
+    {
+      "cue": "With the truck on the decon pad, keep the brush pressure in band while the laborer works each tyre and mudflap.",
+      "holdBreakNote": "The brushing left the band — go back over the tyre so nothing is carried off the pad.",
+      "id": "brush-tyres-on-pad",
+      "kind": "track",
+      "prompt": "With the truck on the decon pad, keep the brush pressure in band while the laborer works each tyre and mudflap.",
+      "seconds": 6,
+      "target": "decon-brush-meter",
+      "title": "Brush the tyres and mudflaps on the decon pad",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.27,
+        "green": [
+          0.36,
+          0.66
+        ],
+        "label": "BRUSH",
+        "rise": 0.3,
+        "start": 0.45
+      },
+      "why": "Soil on the tyres and mudflaps is the load leaving the site by another route, and the decon pad exists so that none of it reaches the public road; steady brushing on the pad, with the water caught there, is what the plan's track-out control depends on."
+    },
+    {
+      "cue": "Check the generator, the receiving facility, the description and the quantity against the plan, then sign as transporter.",
+      "id": "check-manifest-lines",
+      "kind": "select",
+      "prompt": "Check the generator, the receiving facility, the description and the quantity against the plan, then sign as transporter.",
+      "target": "manifest-form",
+      "title": "Check the manifest line by line, then sign",
+      "why": "Where the soil is a hazardous waste, EPA 40 CFR 262 has the manifest travel with it from the generator to the receiving facility, and the transporter's signature says the load and the paper match; signing a manifest that names the wrong facility makes the driver part of the error."
+    },
+    {
+      "cue": "Confirm the placards on the truck match the hazard class on the shipping paper, or that none are required for this load.",
+      "id": "match-placards",
+      "kind": "select",
+      "prompt": "Confirm the placards on the truck match the hazard class on the shipping paper, or that none are required for this load.",
+      "target": "placard-board",
+      "title": "Match the placards to the shipping paper",
+      "why": "PHMSA 49 CFR 172 placards tell a first responder what is in the truck before anyone gets close, and a placard that does not match the paper sends a responder the wrong message at the worst moment; the driver checks the match before leaving."
+    },
+    {
+      "cue": "Sweep the soil at the site exit back onto the pad before the next truck, never into the gutter.",
+      "drag": {
+        "missNote": "Not back on the pad — sweep the soil all the way onto the pad, never toward the gutter.",
+        "radius": 0.5,
+        "to": "decon-pad-edge"
+      },
+      "id": "sweep-track-out",
+      "kind": "drag",
+      "prompt": "Sweep the soil at the site exit back onto the pad before the next truck, never into the gutter.",
+      "target": "street-broom",
+      "title": "Sweep any track-out at the site exit",
+      "why": "Any soil that does reach the exit apron washes into the nearest storm drain in the next rain, which is the pathway source-control work exists to cut; sweeping it back onto the pad closes that route."
+    },
+    {
+      "cue": "Radio the load number, the time and the facility to the site lead, and confirm the facility expects the load.",
+      "id": "radio-departure",
+      "kind": "select",
+      "prompt": "Radio the load number, the time and the facility to the site lead, and confirm the facility expects the load.",
+      "target": "dispatch-radio",
+      "title": "Call the departure to the site and the facility",
+      "why": "The site's haul log has to account for every regulated load that left, and a receiving facility that does not expect a load may turn it away, leaving a covered regulated load parked on a street; the call closes both gaps."
+    },
+    {
+      "cue": "Record the load number, the manifest number, the facility and the time out.",
+      "id": "log-the-haul",
+      "kind": "select",
+      "prompt": "Record the load number, the manifest number, the facility and the time out.",
+      "target": "haul-log",
+      "title": "Log the haul",
+      "why": "The haul log ties every manifest to a load and a time, which is how the site shows that everything that left arrived where the plan said; a missing line is a load the site cannot account for."
+    }
+  ],
+  "supportLine": "your union's member assistance programme",
+  "tagline": "A regulated-soil load-out: the work plan's route and receiving facility read, the truck staged on the clean side, the bed liner checked, the load watched in from outside the swing, the tarp pulled and strapped, the tyres and mudflaps brushed on the decon pad, the manifest checked line by line and signed, placards matched, the track-out swept, and the haul logged",
+  "title": "SmartCiti.X~ Regulated Soil Haul: Load, Tarp and Manifest VR VR",
+  "trade": "Teamsters driver hauling regulated soil and debris from a cleanup or source-control site, with a LIUNA laborer at the load-out and the decontamination pad",
+  "underwater": null,
+  "weather": "overcast"
+}

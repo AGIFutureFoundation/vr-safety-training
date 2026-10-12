@@ -1,0 +1,447 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "lining-held",
+    "name": "Lining Held",
+    "note": "A tank lined on measured numbers — breathing air, profile, dew point, film thickness and a holiday test — and disinfected before it went back"
+  },
+  "category": "Surface Prep & Coatings",
+  "certification": "IUPAT industrial painters and the bridge and tank locals; AMPP (formerly SSPC and NACE) applicator and coating inspector qualification, with the surface preparation standard the specification names; NSF/ANSI 61 certification for a coating in contact with drinking water; AWWA C652 disinfection of water-storage facilities before return to service; OSHA 29 CFR 1910.146 permit-required confined spaces, 1910.134 for the supplied-air respirator and its breathing-air quality, and 1926.1153 respirable crystalline silica",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "AWWA",
+        "citedAs": "AWWA C652",
+        "id": "awwa-c652",
+        "title": "AWWA C652 — Disinfection of water-storage facilities"
+      },
+      {
+        "body": "union",
+        "citedAs": "IUPAT",
+        "id": "iupat-fti",
+        "title": "IUPAT Finishing Trades Institute — industrial painter, glazier and drywall finisher apprenticeship, including lead and containment training"
+      },
+      {
+        "body": "NSF",
+        "citedAs": "NSF/ANSI 61",
+        "id": "nsf-ansi-61",
+        "title": "NSF/ANSI/CAN 61 — Drinking water system components: health effects"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.146",
+        "id": "osha-1910-146",
+        "title": "29 CFR 1910.146 — Permit-required confined spaces"
+      },
+      {
+        "body": "SSPC",
+        "citedAs": "SSPC",
+        "id": "sspc-surface-preparation",
+        "title": "SSPC-SP surface preparation standards (SP 1 to SP 11), now published by AMPP"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Coatings",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "air-proven",
+        "name": "Air Proven",
+        "note": "The breathing air was sited and monitored before anybody put a hood on"
+      },
+      {
+        "id": "nothing-guessed",
+        "name": "Nothing Guessed",
+        "note": "Never coated below the dew point rule, never blasted with silica, never took an unrated light in"
+      },
+      {
+        "id": "film-held",
+        "name": "Film Held",
+        "note": "Wet film inside the specified range across the whole application"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-tank",
+        "name": "Clean Tank",
+        "note": "No corrections from the permit to the sample"
+      },
+      {
+        "id": "steady-gun",
+        "name": "Steady Gun",
+        "note": "Held the application rate through the whole pass"
+      },
+      {
+        "id": "inside-window",
+        "name": "Inside The Window",
+        "note": "Coated and closed out inside 80% of par"
+      }
+    ],
+    "currency": "MIL",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Helper",
+      "Blaster",
+      "Applicator",
+      "Coatings Foreman",
+      "Coatings Authority Certified"
+    ],
+    "system": "Coatings Authority"
+  },
+  "hazards": {
+    "coat-below-dewpoint": "You put coating on steel that was at the dew point. There is condensate on that surface whether or not anybody can see it, and the lining goes on over the water rather than over the steel. It will look perfect on the day, pass a thickness check, and disbond from underneath a year later — in a tank that has to be drained, emptied of a city's water and re-entered to find out why.",
+    "intake-by-exhaust": "You set the breathing-air compressor intake beside the generator exhaust. That hose ends inside a hood on somebody's face in a tank they cannot quickly get out of, and carbon monoxide has no smell, no taste and no warning — the first symptom is the blaster stopping answering. The intake goes upwind and well clear of every exhaust on the site, and the monitor on the line is the backstop, not the plan.",
+    "silica-abrasive": "You reached for the bag of silica sand. Blasting with it fills a closed steel tank with respirable crystalline silica, and a Type CE hood protects the person wearing it and nobody else — the pot tender, the hose watch and whoever opens the hatch next are all breathing what the blaster made. The specification names a non-silica abrasive for exactly this reason, and it is not a cost line to be traded away.",
+    "unrated-light": "You took an ordinary work light into a tank being sprayed with a solvent-borne coating. The ventilation in there is doing two jobs at once, and the second one is keeping the vapour below anything that will light. Every lamp, switch and cord that goes through that hatch is rated for the atmosphere the job creates, or it stays on the deck."
+  },
+  "id": "tank-lining",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "blast",
+      "alert": "The carbon monoxide monitor on the breathing-air line is in alarm and the pot tender is waving at the hatch.",
+      "cue": "The air going into the hood is not air any more.",
+      "delay": 4,
+      "id": "co-alarm",
+      "kind": "Breathing air",
+      "missNote": "The alarm ran while the blasting carried on. Carbon monoxide does not announce itself to the person breathing it, so the way that ends is the hose watch noticing the nozzle has stopped moving.",
+      "seconds": 12,
+      "target": "air-panel",
+      "why": "A CO alarm on a supplied-air line is not a reading to be watched — it is the reason that monitor exists. The blaster cannot smell it, cannot taste it and will not notice it before it has them, so the line is shut down and everybody comes out on the alarm, and the intake is found afterwards rather than diagnosed while somebody is still breathing off it.",
+      "wrongNote": "Not that. The breathing-air panel is where this stops, and it stops now."
+    },
+    {
+      "after": "spray",
+      "alert": "The extraction fan has stopped and the LEL head inside the tank is climbing.",
+      "cue": "The thing keeping the vapour down has stopped keeping it down.",
+      "delay": 4,
+      "id": "vent-stopped",
+      "kind": "Ventilation down",
+      "missNote": "Spraying continued into a tank with no extraction on it. The vapour came up past the LEL head while the applicator was still inside working to a wet film reading.",
+      "seconds": 13,
+      "target": "vent-fan",
+      "why": "Ventilation in a tank being sprayed is doing two jobs: keeping the applicator's atmosphere breathable and keeping the solvent vapour below anything that will light. Lose it and the second one fails quietly — the space fills from the floor up while the work carries on, and the ignition source is whatever is already in there.",
+      "wrongNote": "That is not the fan. Nothing else in this tank matters until the air is moving again."
+    }
+  ],
+  "lateNotes": {
+    "blast-nozzle": "Blasting starts after the breathing air is sited, proven and monitored — the hood is the last thing on, not the first.",
+    "holiday-detector": "The holiday test comes after the coating has reached the cure the data sheet asks for, not while it is still soft.",
+    "spray-gun": "The first coat goes on after the profile is measured and the dew point rule is met, not on the shift it was scheduled for."
+  },
+  "name": "Tank Lining",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.3,
+    "hits": [
+      "air-intake",
+      "air-panel",
+      "blast-nozzle",
+      "co-monitor",
+      "coat-below-dewpoint",
+      "cure-log",
+      "dewpoint-meter",
+      "disinfect-rig",
+      "entry-permit",
+      "flash-rust",
+      "grounding-clamp",
+      "holiday-detector",
+      "hose-watch",
+      "intake-by-exhaust",
+      "mixer",
+      "pitting",
+      "profile-gauge",
+      "silica-abrasive",
+      "spray-gun",
+      "tank-hatch",
+      "unrated-light",
+      "upwind-stand",
+      "vent-fan",
+      "weld-spatter",
+      "wft-comb"
+    ],
+    "meshes": 225
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the entry permit and the spec together: the space, the abrasive named, the surface standard, and the coating's own data sheet.",
+      "id": "permit",
+      "kind": "select",
+      "prompt": "Read the entry permit and the spec together: the space, the abrasive named, the surface standard, and the coating's own data sheet.",
+      "target": "entry-permit",
+      "title": "Take the permit and the coating specification",
+      "why": "The permit governs the space and the specification governs the work, and on this job they are the same conversation — the abrasive, the ventilation rate and the respiratory protection are all set by what the coating needs and what blasting it creates."
+    },
+    {
+      "cue": "Carry the intake stand upwind and well clear of every exhaust on the site.",
+      "drag": {
+        "missNote": "Not clear of the exhausts — an intake anywhere downwind of a running engine is a CO line with a hose on the end of it.",
+        "radius": 0.5,
+        "to": "upwind-stand"
+      },
+      "id": "air-intake",
+      "kind": "drag",
+      "prompt": "Carry the intake stand upwind and well clear of every exhaust on the site.",
+      "target": "air-intake",
+      "title": "Site the breathing-air intake",
+      "why": "This is the decision the whole job rests on and it is made on the ground, before anybody is in the tank. The hose from here ends inside a hood on a face, and carbon monoxide arrives there with no warning of any kind."
+    },
+    {
+      "cue": "Read the carbon monoxide monitor on the line and commit on what it shows.",
+      "gauge": {
+        "green": [
+          0,
+          0.1
+        ],
+        "label": "CO IN LINE",
+        "missNote": "That is carbon monoxide in a breathing-air line. Nobody goes on air until the intake has been moved and it reads clean.",
+        "speed": 0.72
+      },
+      "id": "air-quality",
+      "kind": "gauge",
+      "prompt": "Read the carbon monoxide monitor on the line and commit on what it shows.",
+      "target": "co-monitor",
+      "title": "Prove the breathing air",
+      "why": "Grade D breathing air with a monitor and an alarm on the line, proven before the hood goes on. The monitor is not a formality: it is the only thing in this system that can tell the blaster something they physically cannot detect."
+    },
+    {
+      "cue": "Turn the extraction fan on and confirm air is moving through the tank.",
+      "id": "vent",
+      "kind": "turn",
+      "prompt": "Turn the extraction fan on and confirm air is moving through the tank.",
+      "target": "vent-fan",
+      "title": "Start the extraction",
+      "turn": {
+        "axis": "z",
+        "label": "EXTRACTION FAN",
+        "turns": 0.3
+      },
+      "why": "Continuous, and started before entry. It carries the dust out while blasting and the solvent vapour out while coating, and the permit is written on the assumption it is running the whole time."
+    },
+    {
+      "cue": "Through the hatch with the attendant at it and the air moving.",
+      "id": "enter",
+      "kind": "select",
+      "prompt": "Through the hatch with the attendant at it and the air moving.",
+      "target": "tank-hatch",
+      "title": "Enter through the shell hatch",
+      "why": "One way in, one way out, and somebody at it who is not going in. Everything that follows happens at the end of a hose that runs back through this opening."
+    },
+    {
+      "cue": "Hold the nozzle standoff and rate steady and work the plate.",
+      "holdBreakNote": "Standoff out of band — the profile is what the lining keys into, and it is only as even as the nozzle was.",
+      "id": "blast",
+      "kind": "track",
+      "prompt": "Hold the nozzle standoff and rate steady and work the plate.",
+      "seconds": 7,
+      "target": "blast-nozzle",
+      "title": "Blast to the specified standard",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.45,
+        "green": [
+          0.36,
+          0.58
+        ],
+        "label": "NOZZLE STANDOFF",
+        "rise": 0.5,
+        "start": 0.1
+      },
+      "why": "Standoff and angle are what put the profile in the steel rather than just cleaning it. Too close and the abrasive shatters without cutting; too far and the pattern is soft and the profile comes out shallow and uneven."
+    },
+    {
+      "cue": "Take the profile on the blasted plate and commit against the range the specification calls for.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.64
+        ],
+        "label": "PROFILE",
+        "missNote": "Outside the profile the specification calls for. Change the abrasive or the standoff and re-blast the area rather than coating over it.",
+        "speed": 0.7
+      },
+      "id": "profile",
+      "kind": "gauge",
+      "prompt": "Take the profile on the blasted plate and commit against the range the specification calls for.",
+      "target": "profile-gauge",
+      "title": "Measure the anchor profile",
+      "why": "The lining grips the peaks and valleys the blast cut, so the profile is a specified dimension and not a finish. Too shallow and there is nothing to key into; too deep and the peaks stand proud of the film and rust through it from the tip down."
+    },
+    {
+      "cue": "Walk the plate and click the three things that will fail this lining if they are coated over.",
+      "id": "inspect",
+      "itemNames": {
+        "flash-rust": "flash rust on the shell",
+        "pitting": "pitting in the floor plate",
+        "weld-spatter": "weld spatter on the seam"
+      },
+      "itemNotes": {
+        "flash-rust": "The shell has flashed rust since it was blasted. Blasted steel starts rusting immediately in a damp tank, and the specification says what degree of flash rust is acceptable and what has to be re-blasted.",
+        "pitting": "The floor plate is pitted. Pits hold blast dust and solvent and they are where the film ends up thinnest, so they are cleaned out and struck up by hand before the general coat.",
+        "weld-spatter": "There is spatter left on the seam. Coating will not hold a sharp edge or a loose bead — it pulls thin over both, and the first holiday on this tank will be along that weld."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the plate and click the three things that will fail this lining if they are coated over.",
+      "targets": [
+        "weld-spatter",
+        "pitting",
+        "flash-rust"
+      ],
+      "title": "Inspect the prepared surface",
+      "why": "A blasted tank looks uniformly grey and is not. The seam, the pits and the flash rust are the three places a lining goes on thin or goes on over something, and all three are invisible by the time the first coat has covered them."
+    },
+    {
+      "cue": "Read the surface temperature and the dew point and commit on the margin between them.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.85
+        ],
+        "label": "STEEL ABOVE DEW POINT",
+        "missNote": "Not enough margin over the dew point. There is water on that steel — warm the tank or wait for the conditions, but do not coat it.",
+        "speed": 0.7
+      },
+      "id": "dewpoint",
+      "kind": "gauge",
+      "prompt": "Read the surface temperature and the dew point and commit on the margin between them.",
+      "target": "dewpoint-meter",
+      "title": "Take the steel temperature against the dew point",
+      "why": "Steel at or below the dew point has condensate on it that the eye cannot find. The data sheet's rule is the steel at least three degrees Celsius above the dew point and rising, and it is a measurement rather than a judgement because the failure it prevents does not appear for a year."
+    },
+    {
+      "cue": "Hold the mixer through the full time the data sheet gives, then let it stand for the induction.",
+      "holdBreakNote": "The mix was cut short. Streaks of unmixed component in an immersion lining are soft spots that stay soft.",
+      "id": "mix",
+      "kind": "hold",
+      "prompt": "Hold the mixer through the full time the data sheet gives, then let it stand for the induction.",
+      "seconds": 5,
+      "target": "mixer",
+      "title": "Mix and induct the material",
+      "why": "A two-component lining is a chemical reaction that has already started. Under-mixed material has unreacted resin in it that never cures, and skipping the induction puts it through the gun before the reaction has begun — both of which look perfectly fine going on."
+    },
+    {
+      "cue": "Hold the gun distance and pass rate steady across the plate.",
+      "holdBreakNote": "Pass rate out of band — slow and it sags off the shell, fast and it lands dry and never flows out.",
+      "id": "spray",
+      "kind": "track",
+      "prompt": "Hold the gun distance and pass rate steady across the plate.",
+      "seconds": 7,
+      "target": "spray-gun",
+      "title": "Apply the first coat",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.45,
+        "green": [
+          0.38,
+          0.58
+        ],
+        "label": "PASS RATE",
+        "rise": 0.5,
+        "start": 0.12
+      },
+      "why": "Even film comes from an even hand: a steady distance, a constant rate and a fifty per cent overlap. The recoat window on the data sheet starts now, and coating outside it means abrading the first coat before the second will bond to it."
+    },
+    {
+      "cue": "Take the wet film with the comb behind the gun and commit on the reading.",
+      "gauge": {
+        "green": [
+          0.44,
+          0.66
+        ],
+        "label": "WET FILM",
+        "missNote": "Off the wet film the specification calls for — thin will not protect and thick will solvent-entrap and stay soft underneath.",
+        "speed": 0.7
+      },
+      "id": "wft",
+      "kind": "gauge",
+      "prompt": "Take the wet film with the comb behind the gun and commit on the reading.",
+      "target": "wft-comb",
+      "title": "Check wet film as you go",
+      "why": "Wet film is the only thickness anybody can correct. Measured behind the gun it is a pass that can be adjusted; measured after it cures, the same number is a report about a tank that has to be abraded and recoated."
+    },
+    {
+      "cue": "Run the detector over the cured lining and commit on what it finds.",
+      "gauge": {
+        "green": [
+          0,
+          0.1
+        ],
+        "label": "HOLIDAYS",
+        "missNote": "That many discontinuities is not a repair list, it is a coat that has to go back on.",
+        "speed": 0.75
+      },
+      "id": "holiday",
+      "kind": "gauge",
+      "prompt": "Run the detector over the cured lining and commit on what it finds.",
+      "target": "holiday-detector",
+      "title": "Find the holidays",
+      "why": "A lining for immersion service is judged on its worst pinhole, not its average thickness. The detector finds what the eye cannot — the pit that starved, the edge that pulled thin, the run that trapped solvent — and every one found is marked and struck up before the tank sees water."
+    },
+    {
+      "cue": "Disinfect the tank to the standard, flush it, and take the sample.",
+      "id": "disinfect",
+      "kind": "select",
+      "prompt": "Disinfect the tank to the standard, flush it, and take the sample.",
+      "target": "disinfect-rig",
+      "title": "Disinfect and sample before it goes back",
+      "why": "The coating is certified for contact with drinking water, and the tank still has to be disinfected before it holds any. AWWA C652 is where that is written, and the sample coming back clean is what turns the whole job from finished into accepted."
+    },
+    {
+      "cue": "Click the three things that have to be right before the crew leaves.",
+      "id": "walk",
+      "itemNames": {
+        "cure-log": "the cure and conditions log",
+        "grounding-clamp": "bonding on the blast pot",
+        "hose-watch": "the hose watch"
+      },
+      "itemNotes": {
+        "cure-log": "The log carries the conditions every coat went on in. When a lining is questioned years later, the dew point margin written down on the day is the whole of the defence.",
+        "grounding-clamp": "The blast pot and the tank shell are bonded. Abrasive moving down a hose builds static, and a tank is a large isolated conductor until somebody ties it to something.",
+        "hose-watch": "The hose watch is still on the hatch. They tend the air line and the blast hose and they are the person who notices when the nozzle stops moving."
+      },
+      "kind": "find",
+      "prompt": "Click the three things that have to be right before the crew leaves.",
+      "targets": [
+        "hose-watch",
+        "grounding-clamp",
+        "cure-log"
+      ],
+      "title": "Close the job out",
+      "why": "Two of these keep somebody alive while the work is happening and one of them is the only evidence the work was done right. All three are the things nobody photographs."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Blasting and lining a potable water tank: breathing air proven before the hood goes on, profile and dew point measured before the first coat, film thickness held, holidays found, and the tank disinfected before it holds water again",
+  "title": "SmartCiti.X~ Tank Lining VR",
+  "trade": "Industrial painter / protective coatings applicator",
+  "underwater": null,
+  "weather": "overcast"
+}

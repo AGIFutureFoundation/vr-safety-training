@@ -1,0 +1,405 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "course-certified",
+    "name": "Course Certified",
+    "note": "A course laid off a scaffold that was actually checked, block cut wet to Table 1, and a cleanup that never put the dust back in the air"
+  },
+  "category": "Construction & Structural Trades",
+  "certification": "International Union of Bricklayers and Allied Craftworkers apprenticeship standards; OSHA 29 CFR 1926.1153 respirable crystalline silica — Table 1 for stationary masonry saws; OSHA 29 CFR 1926 Subpart L scaffolds — 1926.451 platforms, guardrails and access; NIOSH silicosis prevention guidance for the masonry trades",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "NIOSH",
+        "citedAs": "NIOSH",
+        "id": "niosh-criteria",
+        "title": "NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926",
+        "id": "osha-1926",
+        "title": "29 CFR 1926 — Safety and health regulations for construction"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.1153",
+        "id": "osha-1926-1153",
+        "title": "29 CFR 1926.1153 — Respirable crystalline silica in construction"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.451",
+        "id": "osha-1926-451",
+        "title": "29 CFR 1926.451 — Scaffolds, general requirements"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Construction",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "platform-sound",
+        "name": "Platform Sound",
+        "note": "Planks, guardrails and access checked before the first step up, first time"
+      },
+      {
+        "id": "wet-every-cut",
+        "name": "Wet Every Cut",
+        "note": "Never cut a block without water running"
+      },
+      {
+        "id": "true-to-the-line",
+        "name": "True to the Line",
+        "note": "Every course held plumb to the mason's line"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-course",
+        "name": "Clean Course",
+        "note": "No corrections through the whole lay-up"
+      },
+      {
+        "id": "held-the-cut",
+        "name": "Held the Cut",
+        "note": "Held a steady feed through the whole cut"
+      },
+      {
+        "id": "course-by-break",
+        "name": "Course by Break",
+        "note": "Cut, laid and cleaned inside 80% of par"
+      }
+    ],
+    "currency": "COURSE",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Tender",
+      "Apprentice Mason",
+      "Journeyman Bricklayer",
+      "Lead Mason",
+      "Masonry Authority Certified"
+    ],
+    "system": "Masonry Authority"
+  },
+  "hazards": {
+    "dry-cut-block": "You ran the saw against the block with no water on the blade. Dry-cutting masonry throws respirable crystalline silica into the air at many times the permissible exposure limit under 29 CFR 1926.1153 — the water is not there to keep the block cool, it is the entire control that keeps that dust out of your lungs.",
+    "dry-sweep-broom": "You swept the settled dust with a dry broom instead of the HEPA vacuum or a wet method. Table 1's engineering controls only work while the dust is still wet or captured — a dry broom puts every particle the water controls kept out of the air back into it, and the settled dust from a shift of wet-cut block is exactly the fine respirable fraction the whole rest of the procedure existed to keep down.",
+    "platform-overload": "You stacked block on the platform well past what this scaffold's duty rating carries. OSHA's scaffold rule at 29 CFR 1926.451 rates a platform for a specific working load, and every unit staged on it before it is used is weight the planks, the ledgers and the frames are carrying whether or not anyone has climbed up yet — the platform does not fail when it is convenient to notice.",
+    "skip-respirator": "You cut on this saw with no respirator, in the exact condition Table 1 lists one for. Table 1 sets the respirator requirement by the task and the duration, not by how the air looks — a boxed-in cut with no way for the dust to disperse is precisely the condition that puts a respirator on the required side of the table instead of the optional one."
+  },
+  "id": "masonry-silica-scaffold",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "cut",
+      "alert": "The flow at the blade has stopped — the water line has run dry mid-cut and the blade is spinning against bare block.",
+      "cue": "That blade is cutting dry right now.",
+      "delay": 3,
+      "id": "water-runs-dry",
+      "kind": "Water line dry",
+      "missNote": "The cut kept going after the water stopped. A masonry saw cutting dry throws respirable crystalline silica into the air at many times the permissible limit for every second the blade keeps spinning, and that exposure does not reverse once the line is fixed.",
+      "seconds": 12,
+      "target": "saw-estop",
+      "why": "The instant the water stops, this cut is producing exactly the exposure Table 1's control exists to prevent — there is no version of finishing this one cut dry that is worth it, because the saw is still spinning silica into the air for every second it keeps running. Stop the saw first; the line gets checked once the blade is not turning.",
+      "wrongNote": "Stop the saw. A dry blade does not get a few more seconds of cutting while somebody checks the line."
+    },
+    {
+      "after": "line-check",
+      "alert": "The mason tender has picked up a broom and started dry-sweeping the settled dust off the platform behind you.",
+      "cue": "That broom is putting a shift's worth of dust back into the air.",
+      "delay": 3,
+      "id": "tender-dry-sweep",
+      "kind": "Dry sweeping",
+      "missNote": "The tender kept dry-sweeping while the course was laid. Every pass of that broom put more of a shift's worth of respirable silica back into the air the whole crew was breathing, undoing exactly what the wet cutting and the respirator were there to prevent.",
+      "seconds": 12,
+      "target": "hepa-vac",
+      "why": "A dry broom does not know the difference between ordinary site dirt and the fine respirable fraction Table 1's controls have been keeping out of the air all shift — handing the tender the HEPA vac instead is the only way this settled dust stays where the wet cutting and the respirator already put the effort into keeping it.",
+      "wrongNote": "Get them the HEPA vac. A dry broom on this dust undoes everything the wet cut and the respirator were doing all day."
+    }
+  ],
+  "lateNotes": {
+    "hepa-vac": "Cleanup on a silica task is a HEPA vacuum or a wet method, never a dry broom, no matter how settled the dust looks.",
+    "respirator": "Table 1 already read what this task needs — the respirator being inconvenient does not change what the table says.",
+    "saw-feed": "The blade only runs once the flow gauge reads a real number — a saw with a dry blade is a saw that should not be moving toward the block at all."
+  },
+  "name": "Masonry Silica Scaffold",
+  "parSeconds": 295,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "builders-trades"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "access-cleared",
+      "bed-socket",
+      "block",
+      "course-socket",
+      "dry-cut-block",
+      "dry-sweep-broom",
+      "flow-gauge",
+      "guardrails-fixed",
+      "hepa-vac",
+      "jointer",
+      "mason-line-gauge",
+      "mortar-batch",
+      "mortar-load",
+      "planks-fixed",
+      "platform-overload",
+      "respirator",
+      "saw-estop",
+      "saw-feed",
+      "scaffold-access",
+      "scaffold-guardrails",
+      "scaffold-planks",
+      "scaffold-tag",
+      "skip-respirator",
+      "table-1-chart",
+      "water-valve"
+    ],
+    "meshes": 223
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Confirm the competent person's tag is current before climbing on.",
+      "id": "tag",
+      "kind": "select",
+      "prompt": "Confirm the competent person's tag is current before climbing on.",
+      "target": "scaffold-tag",
+      "title": "Check the scaffold's inspection tag",
+      "why": "The tag is somebody else's claim that this scaffold was actually checked today, not an assumption carried over from yesterday because it looks the same — OSHA's scaffold rule at 29 CFR 1926.451 puts that inspection before each work shift, and climbing on a scaffold nobody has re-checked today is climbing on yesterday's inspection."
+    },
+    {
+      "cue": "Walk the platform, the rails and the ladder, and click anything that is not fit to work from.",
+      "id": "inspect",
+      "itemNames": {
+        "scaffold-access": "ladder access",
+        "scaffold-guardrails": "guardrails",
+        "scaffold-planks": "platform planks"
+      },
+      "itemNotes": {
+        "scaffold-access": "A pallet of block has been staged right at the foot of the access ladder.",
+        "scaffold-guardrails": "The toeboard is missing on the open end of the platform, over the wall side.",
+        "scaffold-planks": "There is a visible crack running most of the way across one plank near the middle of the platform."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the platform, the rails and the ladder, and click anything that is not fit to work from.",
+      "targets": [
+        "scaffold-planks",
+        "scaffold-guardrails",
+        "scaffold-access"
+      ],
+      "title": "Inspect the planks, guardrails and access",
+      "why": "This is the inspection the tag on the post is supposed to represent — a plank that reads fine from the ground can be the one that lets go under a mason's weight, and a scaffold with sound planks but a blocked ladder just moves the same fall risk from the platform to whatever the crew improvises to climb instead."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Swap the cracked plank, fit the missing toeboard, and clear the pallet off the ladder.",
+      "id": "fix",
+      "itemNames": {
+        "access-cleared": "ladder cleared",
+        "guardrails-fixed": "toeboard fitted",
+        "planks-fixed": "cracked plank swapped"
+      },
+      "kind": "sequence",
+      "prompt": "Swap the cracked plank, fit the missing toeboard, and clear the pallet off the ladder.",
+      "targets": [
+        "planks-fixed",
+        "guardrails-fixed",
+        "access-cleared"
+      ],
+      "title": "Correct what the inspection found",
+      "why": "A defect the inspection found and nobody corrected is worse than one nobody spotted — it lets the whole crew believe the platform was checked and is fit to work from, when the only thing that actually happened is somebody noticed and moved on."
+    },
+    {
+      "cue": "Check which controls this saw and this task fall under — water flow, task duration and whether the cut is boxed in.",
+      "id": "table1",
+      "kind": "select",
+      "prompt": "Check which controls this saw and this task fall under — water flow, task duration and whether the cut is boxed in.",
+      "target": "table-1-chart",
+      "title": "Read Table 1 for this saw",
+      "why": "Table 1 in 29 CFR 1926.1153 is what tells a crew, without any air sampling, exactly which engineering controls and which respiratory protection a specific task and duration requires — a stationary masonry saw with water is one line on that table, and today's cut, boxed in against the wall, is the line that also calls for a respirator."
+    },
+    {
+      "cue": "Put on the respirator before the saw runs, because today's cut falls on the side of the table that requires it.",
+      "id": "respirator",
+      "kind": "select",
+      "prompt": "Put on the respirator before the saw runs, because today's cut falls on the side of the table that requires it.",
+      "target": "respirator",
+      "title": "Don the respirator Table 1 calls for",
+      "why": "Table 1 has already made this decision — the respirator is not a judgement call left to how dusty the saw looks today, it is what the table requires for this exact task and condition, and skipping it because the water is running does not change what the table says."
+    },
+    {
+      "cue": "Turn the valve on the saw's water line and let the feed line pressurise.",
+      "id": "water-valve",
+      "kind": "turn",
+      "prompt": "Turn the valve on the saw's water line and let the feed line pressurise.",
+      "target": "water-valve",
+      "title": "Open the water valve",
+      "turn": {
+        "axis": "z",
+        "label": "WATER VALVE",
+        "turns": 1
+      },
+      "why": "The water is the actual engineering control Table 1 is built around, not a courtesy to the blade — nothing on this saw is ready to touch a block until this line is proven to be delivering water to it."
+    },
+    {
+      "cue": "Watch the flow gauge and commit only once it reads a steady flow at the blade.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.66
+        ],
+        "label": "FLOW AT BLADE",
+        "missNote": "Not proven — check the line for a kink or a clogged nozzle before cutting anything.",
+        "speed": 0.7
+      },
+      "id": "flow-check",
+      "kind": "gauge",
+      "prompt": "Watch the flow gauge and commit only once it reads a steady flow at the blade.",
+      "target": "flow-gauge",
+      "title": "Prove the flow at the blade",
+      "why": "A valve that is open is not the same thing as water actually reaching the blade — a kinked line or a clogged nozzle can leave the valve wide open and the cutting edge running dry, and the gauge is the one honest way to know the control is doing its job before the first cut starts."
+    },
+    {
+      "cue": "Feed the block into the blade at a steady rate, water running the whole time.",
+      "holdBreakNote": "Feed rate ran out of band. Bring it back to a steady rate before the blade binds or chips the block.",
+      "id": "cut",
+      "kind": "track",
+      "prompt": "Feed the block into the blade at a steady rate, water running the whole time.",
+      "seconds": 7,
+      "target": "saw-feed",
+      "title": "Cut the block wet",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.5,
+        "green": [
+          0.38,
+          0.6
+        ],
+        "label": "FEED RATE",
+        "rise": 0.55,
+        "start": 0.14
+      },
+      "why": "Feeding too fast binds and chips the block at the cut face and can kick it back off the table; feeding too slow does nothing for safety and just spends more time with the blade spinning in the cut. Steady, wet, all the way through is what Table 1's control depends on actually working for the whole cut, not just the first few seconds of it."
+    },
+    {
+      "cue": "Work the batch and commit once it holds a bed joint without slumping or crumbling.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "MORTAR CONSISTENCY",
+        "missNote": "Not workable yet — that batch is either too dry to bond or too wet to hold a joint.",
+        "speed": 0.68
+      },
+      "id": "mortar-mix",
+      "kind": "gauge",
+      "prompt": "Work the batch and commit once it holds a bed joint without slumping or crumbling.",
+      "target": "mortar-batch",
+      "title": "Mix the mortar to working consistency",
+      "why": "Mortar too wet slumps out from under the block the moment it is set and will not hold the line; too dry and it will not bond to the block face at all. This is judged by hand every batch, because the water a bag of mortar actually needs changes with the humidity and the sand moisture on any given morning."
+    },
+    {
+      "cue": "Carry a trowel load of mortar to the top of the course and spread the bed joint.",
+      "drag": {
+        "missNote": "Not on the course — carry the mortar to the top of the wall before it sets on the board.",
+        "radius": 0.45,
+        "to": "bed-socket"
+      },
+      "id": "bed",
+      "kind": "drag",
+      "prompt": "Carry a trowel load of mortar to the top of the course and spread the bed joint.",
+      "target": "mortar-load",
+      "title": "Spread the bed joint",
+      "why": "The bed joint is what the next block actually sits on — spread thin or uneven, the block above it beds down unevenly the moment it takes any weight, and the course starts drifting out of level from the very first block laid on it."
+    },
+    {
+      "cue": "Carry the block into the bed joint and align its face with the mason's line.",
+      "drag": {
+        "missNote": "Not on the line — carry the block back and align its face with the string before it beds in.",
+        "radius": 0.45,
+        "to": "course-socket"
+      },
+      "id": "set-block",
+      "kind": "drag",
+      "prompt": "Carry the block into the bed joint and align its face with the mason's line.",
+      "target": "block",
+      "title": "Set the block to the line",
+      "why": "The line is the only reference for the whole course staying straight over its full length — a block set to how it looks against the last one, rather than to the line, is how a wall drifts a little at a time until the whole course is visibly out by the far end."
+    },
+    {
+      "cue": "Sight the block face against the line and commit once it reads true.",
+      "gauge": {
+        "green": [
+          0.44,
+          0.6
+        ],
+        "label": "FACE TO LINE",
+        "missNote": "Off the line — tap it back true before the mortar sets.",
+        "speed": 0.7
+      },
+      "id": "line-check",
+      "kind": "gauge",
+      "prompt": "Sight the block face against the line and commit once it reads true.",
+      "target": "mason-line-gauge",
+      "title": "Check the block against the line",
+      "why": "A block that looks close enough by eye against a taut line is exactly how a face wall ends up with a visible wave in it — the line does not lie, and checking against it rather than against the last block laid is what keeps that error from compounding down the whole course."
+    },
+    {
+      "cue": "Run the jointer along the mortar joint and hold a steady pass until it is compacted.",
+      "holdBreakNote": "Came off the joint before it compacted — go back over it before the mortar sets any further.",
+      "id": "tool-joint",
+      "kind": "hold",
+      "prompt": "Run the jointer along the mortar joint and hold a steady pass until it is compacted.",
+      "seconds": 4,
+      "target": "jointer",
+      "title": "Tool the joint",
+      "why": "Tooling compacts the mortar face and closes it against water intrusion — struck too soon it smears and never compacts, struck too late and the mortar has already started to set and just crumbles instead of closing, and a joint that was never actually compacted is where the wall starts taking on water years before anyone can see it from the outside."
+    },
+    {
+      "cue": "Vacuum the settled dust with the HEPA vac instead of reaching for the broom.",
+      "id": "cleanup",
+      "kind": "select",
+      "prompt": "Vacuum the settled dust with the HEPA vac instead of reaching for the broom.",
+      "target": "hepa-vac",
+      "title": "Clean up without dry sweeping",
+      "why": "Everything upstream of this — the wet cut, the respirator, the valve proven before the blade touched anything — was a control on silica dust, and a dry broom at the end of the shift puts that same fine dust straight back into the air the crew is standing in. Table 1's controls only hold if the cleanup respects them too."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Block work off a frame scaffold under the silica rule: planks, guardrails and access inspected, the saw's water proven, block cut to Table 1, the respirator where the table calls for it, mortar mixed and the course laid to the line, cleanup without dry sweeping",
+  "title": "SmartCiti.X~ Masonry Silica Scaffold VR",
+  "trade": "Bricklayer — BAC, with the mason tender",
+  "underwater": null,
+  "weather": "clear"
+}

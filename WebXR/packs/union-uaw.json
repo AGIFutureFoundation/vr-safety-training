@@ -1,0 +1,177 @@
+{
+  "id": "union-uaw",
+  "kind": "union",
+  "name": "UAW Union Package",
+  "title": "SmartCiti.X UAW Union Package — Powered by AGI Corp",
+  "audience": "trades",
+  "summary": "Every station the platform ties to International Union, United Automobile, Aerospace and Agricultural Implement Workers of America: the programmes whose union line names it and the stations whose own certification does.",
+  "certification": null,
+  "programmes": [
+    "aerospace-defense-and-robotics"
+  ],
+  "stations": [
+    {
+      "app": "smartcity",
+      "id": "robot-cell"
+    },
+    {
+      "app": "smartcity",
+      "id": "conveyor-guard"
+    },
+    {
+      "app": "smartcity",
+      "id": "rt-speed-separation-monitoring-setup"
+    },
+    {
+      "app": "smartcity",
+      "id": "rt-robot-estop-recovery-and-restart"
+    },
+    {
+      "app": "smartcity",
+      "id": "rt-cobot-power-force-limit-check"
+    },
+    {
+      "app": "smartcity",
+      "id": "rt-teach-pendant-safe-jogging"
+    },
+    {
+      "app": "smartcity",
+      "id": "ad-cobot-risk-assessment-and-speed-separation"
+    },
+    {
+      "app": "smartcity",
+      "id": "ad-payload-crane-lift-with-a-lift-plan"
+    },
+    {
+      "app": "smartcity",
+      "id": "ad-test-stand-exclusion-zone-and-holds"
+    },
+    {
+      "app": "smartcity",
+      "id": "ad-hazardous-fluid-servicing-with-a-buddy"
+    },
+    {
+      "app": "smartcity",
+      "id": "ad-depot-tool-control-and-fod-walk"
+    },
+    {
+      "app": "smartcity",
+      "id": "ad-amr-fleet-traffic-and-estop-drill"
+    },
+    {
+      "app": "smartcity",
+      "id": "ad-robot-cell-lockout-and-safe-reentry"
+    },
+    {
+      "app": "smartcity",
+      "id": "ad-cleanroom-gowning-and-esd-discipline"
+    },
+    {
+      "app": "smartcity",
+      "id": "rp-robot-policy-evaluation-review"
+    },
+    {
+      "app": "smartcity",
+      "id": "rp-teleop-demonstration-collection"
+    },
+    {
+      "app": "smartcity",
+      "id": "vb-supervising-agent-dispatched-robots"
+    }
+  ],
+  "unions": [
+    "uaw"
+  ],
+  "unionLine": "International Union, United Automobile, Aerospace and Agricultural Implement Workers of America",
+  "k12Bands": [],
+  "path": "union-trades",
+  "alsoPaths": [],
+  "worlds": [
+    {
+      "world": "bayworld",
+      "sites": [
+        "west-oakland-robotics-centre"
+      ]
+    },
+    {
+      "world": "redwood",
+      "sites": [
+        "sawmill"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-downtown",
+      "sites": [
+        "dt-sw-south-of-market-fabrication-shop"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-mission",
+      "sites": [
+        "soma-maker-workshop",
+        "mi-sw-islais-creek-fabrication-shop",
+        "mi-sw-mission-bay-research-lab-building"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-bayview",
+      "sites": [
+        "bv-sw-islais-creek-fabrication-shop"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "la-starbase-vermilion",
+      "sites": [
+        "lsb-propellant-tank-farm",
+        "lsb-vehicle-processing-hangar"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "la-saronic-franklin",
+      "sites": [
+        "lsf-tool-crib",
+        "lsf-machine-shop"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "la-avex-new-iberia",
+      "sites": [
+        "lav-freighter-conversion-bay",
+        "lav-apron-work",
+        "lav-sheet-metal-shop",
+        "lav-composite-shop",
+        "lav-avionics-wiring"
+      ]
+    }
+  ],
+  "stationNames": {
+    "robot-cell": "Robot Cell",
+    "conveyor-guard": "Conveyor Guard",
+    "rt-speed-separation-monitoring-setup": "Setting Up Speed-and-Separation Monitoring",
+    "rt-robot-estop-recovery-and-restart": "Bringing a Robot Back After an E-stop",
+    "rt-cobot-power-force-limit-check": "Measuring a Cobot's Contact Forces",
+    "rt-teach-pendant-safe-jogging": "Teaching a Robot from the Pendant",
+    "ad-cobot-risk-assessment-and-speed-separation": "Cobot Risk Assessment & Speed-and-Separation",
+    "ad-payload-crane-lift-with-a-lift-plan": "Payload Crane Lift with a Lift Plan",
+    "ad-test-stand-exclusion-zone-and-holds": "Test Stand Exclusion Zone & Holds",
+    "ad-hazardous-fluid-servicing-with-a-buddy": "Hazardous Fluid Servicing with a Buddy",
+    "ad-depot-tool-control-and-fod-walk": "Depot Tool Control & FOD Walk",
+    "ad-amr-fleet-traffic-and-estop-drill": "AMR Fleet Traffic & E-stop Drill",
+    "ad-robot-cell-lockout-and-safe-reentry": "Robot Cell Lockout & Safe Re-entry",
+    "ad-cleanroom-gowning-and-esd-discipline": "Cleanroom Gowning & ESD Discipline",
+    "rp-robot-policy-evaluation-review": "Reviewing a Robot Policy's Evaluation",
+    "rp-teleop-demonstration-collection": "Collecting a Robot Demonstration Safely",
+    "vb-supervising-agent-dispatched-robots": "Supervising Robots Dispatched by Software Agents"
+  },
+  "version": "1.0.0",
+  "contentHash": "1a28369c",
+  "brand": "SmartCiti.X · Powered by AGI Corp",
+  "generator": "tools/gen_packs.mjs",
+  "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."
+}

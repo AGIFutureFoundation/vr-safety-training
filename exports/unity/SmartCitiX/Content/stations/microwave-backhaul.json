@@ -1,0 +1,375 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "path-restored",
+    "name": "Path Restored",
+    "note": "A link re-aligned with the far end locked out, the boundary respected and the receive level inside spec — first time"
+  },
+  "category": "Connectivity & Telecom",
+  "certification": "CWA and IBEW telecom locals; FCC 47 CFR 1.1310 maximum permissible exposure and OSHA 29 CFR 1910.268(p) RF work practices; NATE CTS tower/rooftop climber; TIA-222 structural loading and TIA-1019 rigging",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "CWA",
+        "id": "cwa-training",
+        "title": "CWA member training for outside-plant, tower and broadcast work"
+      },
+      {
+        "body": "FCC",
+        "citedAs": "FCC",
+        "id": "fcc-rf-exposure",
+        "title": "FCC radiofrequency exposure limits for transmitter sites (47 CFR 1.1310)"
+      },
+      {
+        "body": "union",
+        "citedAs": "IBEW",
+        "id": "ibew-neca-jatc",
+        "title": "IBEW/NECA Joint Apprenticeship and Training Committee — inside and outside wireman apprenticeship standards, taught from the electrical training ALLIANCE curriculum"
+      },
+      {
+        "body": "NATE",
+        "citedAs": "NATE",
+        "id": "nate-climber-training",
+        "title": "NATE tower climber fall-protection and climber safety training"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.268",
+        "id": "osha-1910-268",
+        "title": "29 CFR 1910.268 — Telecommunications"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Connectivity & Telecom",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "keyed-down",
+        "name": "Keyed Down",
+        "note": "Far end down and locked before anyone went past the sign, first time"
+      },
+      {
+        "id": "boundary-kept",
+        "name": "Boundary Kept",
+        "note": "Never in the beam live, never on the parapet unanchored"
+      },
+      {
+        "id": "on-the-path",
+        "name": "On the Path",
+        "note": "Receive level and azimuth both inside the band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-align",
+        "name": "Clean Alignment",
+        "note": "No corrections anywhere on the roof"
+      },
+      {
+        "id": "steady-pan",
+        "name": "Steady Pan",
+        "note": "Pan held steady through the whole sweep"
+      },
+      {
+        "id": "link-fast",
+        "name": "Link Up Fast",
+        "note": "Path restored inside 80% of par"
+      }
+    ],
+    "currency": "dBm",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Helper",
+      "RF Technician",
+      "Link Engineer",
+      "Backhaul Lead",
+      "Backhaul Ops Certified"
+    ],
+    "system": "Backhaul Ops"
+  },
+  "hazards": {
+    "climb-with-tools-loose": "You went up with loose tools and hardware in an open pouch. Anything dropped from a roof is lethal on the pavement below; tools are tethered and hardware is in a closed container before the ladder.",
+    "hot-swap-waveguide": "You opened the waveguide flange with the transmitter still keyed. Opening a pressurised, energised waveguide sprays the dry air charge and puts the full transmit power out of an open flange at head height.",
+    "in-beam-live": "You stepped in front of a live microwave feed. At the dish face a backhaul link is far above the maximum permissible exposure limit; the injury is thermal, it is to the eyes and skin, and there is nothing to feel until the damage is done.",
+    "parapet-unanchored": "You worked at the parapet with no anchor. A rooftop edge is a fall hazard at any height, and a dish that swings while you are leaning on it takes your balance with it."
+  },
+  "id": "microwave-backhaul",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "pan",
+      "alert": "The radio keys up mid-sweep — NOC wants a live confirmation that the far end is still down before you swing the dish any closer to its old bearing.",
+      "cue": "NOC's calling for a lockout confirmation.",
+      "delay": 3,
+      "id": "noc-recheck-pan",
+      "kind": "NOC calls mid-sweep",
+      "missNote": "The call went unanswered and the sweep continued across the beam's centreline on a lockout that was three steps old. NOC logged the ticket unconfirmed, and the far end could just as easily have been re-keyed by a second crew working the same site that morning.",
+      "seconds": 12,
+      "target": "radio-far-end",
+      "why": "A remote keydown is a status in somebody else's equipment log, not a fact visible from this roof, and the whole reason the far end came down by ticket instead of a phone call is so that status has an answer on demand. Confirming it again mid-sweep costs ten seconds and closes the gap between what the ticket says and what could have changed at the far site since.",
+      "wrongNote": "That's not what NOC is asking about — key the radio and confirm the far end's status before the sweep goes any further."
+    },
+    {
+      "after": "pan",
+      "alert": "A gust catches you leaning into the sweep and the lanyard snaps taut — you've drifted further from the anchor than you meant to.",
+      "cue": "You've drifted off your anchor line.",
+      "delay": 5,
+      "id": "gust-drift-pan",
+      "kind": "Gust drift at the parapet",
+      "missNote": "The drift went unnoticed through the rest of the sweep, well past the radius the anchor was rated to catch cleanly. Nothing happened this time, which is exactly how a rooftop crew stops checking the one thing that was never actually tested.",
+      "seconds": 12,
+      "target": "anchor-point",
+      "why": "A rooftop anchor only protects the radius the lanyard actually reaches, and a slow sweep across the dish face naturally walks a technician sideways along the mast while chasing the bearing. Checking back in at the anchor mid-sweep is what keeps the fall-arrest distance short enough to matter if the parapet edge turns out closer than it felt a minute ago.",
+      "wrongNote": "That's not the anchor — go back to the certified roof anchor and confirm you're still within its reach before sweeping any further."
+    }
+  ],
+  "lateNotes": {
+    "pan-control": "The dish pans after the far end is down, the dish is unclamped and the technician is anchored — a dish that swings on a live path is the exposure.",
+    "rsl-meter": "Receive level means nothing until the far end is keyed back up on the test carrier.",
+    "tilt-control": "Tilt follows the pan: find the azimuth first, then walk the elevation into the band."
+  },
+  "name": "Microwave Backhaul",
+  "parSeconds": 250,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "fall-protection"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "anchor-point",
+      "azimuth-clamp",
+      "climb-with-tools-loose",
+      "handback",
+      "harness-lanyard",
+      "hot-swap-waveguide",
+      "in-beam-live",
+      "loose-radome",
+      "mount-crack",
+      "mpe-sign",
+      "pan-control",
+      "parapet-unanchored",
+      "radio-far-end",
+      "rf-survey",
+      "rsl-meter",
+      "tilt-control",
+      "tool-tether",
+      "torque-clamp",
+      "tx-breaker",
+      "tx-key-down",
+      "tx-lock",
+      "weatherproof"
+    ],
+    "meshes": 152
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "find",
+    "gauge",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check the rooftop's emitters, the MPE boundary and which links are live.",
+      "id": "survey",
+      "kind": "select",
+      "prompt": "Check the rooftop's emitters, the MPE boundary and which links are live.",
+      "target": "rf-survey",
+      "title": "Read the RF site survey",
+      "why": "A shared rooftop carries other tenants' antennas, most of them still live while you work. The survey is what says which of those are transmitting right now, where the exposure boundary actually sits in front of each one and who on the NOC has to sign off before this specific link comes down."
+    },
+    {
+      "cue": "Locate the RF notice and the marked boundary in front of the dish face.",
+      "id": "boundary",
+      "kind": "select",
+      "prompt": "Locate the RF notice and the marked boundary in front of the dish face.",
+      "target": "mpe-sign",
+      "title": "Find the MPE boundary",
+      "why": "The boundary marks where the field strength in front of the dish exceeds the maximum permissible exposure limit for an occupational worker under FCC 47 CFR 1.1310. It's painted and signed so 'stand clear of the beam' is a distance in metres the crew can check against the deck, not a feeling about how close feels too close."
+    },
+    {
+      "cue": "Raise the far site on the radio and get the link scheduled down with the network operations centre.",
+      "id": "callfar",
+      "kind": "select",
+      "prompt": "Raise the far site on the radio and get the link scheduled down with the network operations centre.",
+      "target": "radio-far-end",
+      "title": "Call the far end",
+      "why": "The other end of a link is a radio at a site nobody on this roof can see or control. It comes down by a logged agreement with the network operations centre, not by an assumption that the far end is idle — because the only thing worse than a live beam is one that came down on a guess and got put back up on a schedule nobody here knew about."
+    },
+    {
+      "cue": "Key the local transmitter down, open its breaker, then lock and tag it.",
+      "id": "lockout",
+      "itemNames": {
+        "tx-breaker": "transmit breaker open",
+        "tx-key-down": "transmitter keyed down",
+        "tx-lock": "lock and tag"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Key down, then breaker, then lock — the radio is quiet before the power is removed, and the lock goes on last.",
+      "prompt": "Key the local transmitter down, open its breaker, then lock and tag it.",
+      "targets": [
+        "tx-key-down",
+        "tx-breaker",
+        "tx-lock"
+      ],
+      "title": "Key down and lock out the transmitter",
+      "why": "Keyed down is a software state, and software states come back on their own — a watchdog timer, a remote command, a firmware reset can all put the transmitter back on the air with nobody at this end touching anything. The breaker and the lock are what actually remove the power the software would need to do that while you're standing in front of the dish."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Clip the lanyard to the certified roof anchor, check the harness, tether every tool.",
+      "id": "fall",
+      "itemNames": {
+        "anchor-point": "roof anchor",
+        "harness-lanyard": "harness and lanyard",
+        "tool-tether": "tools tethered"
+      },
+      "kind": "sequence",
+      "prompt": "Clip the lanyard to the certified roof anchor, check the harness, tether every tool.",
+      "targets": [
+        "anchor-point",
+        "harness-lanyard",
+        "tool-tether"
+      ],
+      "title": "Set up for the parapet",
+      "why": "The dish sits right at the parapet, which means every task on it happens at the edge of a fall. The anchor holds the technician, the tether holds every tool and every piece of hardware, and the pavement below this particular roof is a public sidewalk — anything dropped from here lands where people are walking."
+    },
+    {
+      "cue": "Look over the whole assembly and click the storm damage you find.",
+      "id": "inspect",
+      "itemNames": {
+        "loose-radome": "torn radome cover",
+        "mount-crack": "cracked mount weld"
+      },
+      "itemNotes": {
+        "loose-radome": "The radome cover has torn free along its lower edge and is letting water into the feed.",
+        "mount-crack": "The azimuth mount's weld is cracked through on the near side — this is why the link drifted in the storm."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look over the whole assembly and click the storm damage you find.",
+      "targets": [
+        "mount-crack",
+        "loose-radome"
+      ],
+      "title": "Inspect the mount and radome",
+      "why": "A link that drifted in a storm did not drift on its own — something on the mount or the radome gave way and let the wind move it. That damage is found and recorded before the alignment starts, because a fresh alignment on a cracked mount or a torn radome just walks off again in the next wind that comes through."
+    },
+    {
+      "cue": "Back the azimuth clamp off far enough for the dish to swing under hand pressure.",
+      "id": "unclamp",
+      "kind": "turn",
+      "prompt": "Back the azimuth clamp off far enough for the dish to swing under hand pressure.",
+      "target": "azimuth-clamp",
+      "title": "Free the azimuth clamp",
+      "turn": {
+        "axis": "y",
+        "label": "AZ CLAMP",
+        "turns": 1
+      },
+      "why": "The clamp is what holds a couple of square feet of dish face steady against wind load, and it is loosened rather than removed for exactly that reason — even mid-adjustment, the dish stays held enough to stop it running away and swinging on the mast the moment a gust catches the face."
+    },
+    {
+      "cue": "Sweep the dish slowly across the far site's bearing — steady, no jerks.",
+      "holdBreakNote": "Sweep rate out of band — you will pass the main lobe. Settle it and hold.",
+      "id": "pan",
+      "kind": "track",
+      "prompt": "Sweep the dish slowly across the far site's bearing — steady, no jerks.",
+      "seconds": 7,
+      "target": "pan-control",
+      "title": "Pan onto the far site",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.5,
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "PAN",
+        "rise": 0.6,
+        "start": 0.1
+      },
+      "why": "A backhaul beam is a couple of degrees wide. Sweeping slowly is the only way to find the main lobe instead of locking onto a side lobe that will drop the link in the first rain."
+    },
+    {
+      "cue": "Walk the tilt through the peak and commit at the highest receive level.",
+      "gauge": {
+        "green": [
+          0.46,
+          0.6
+        ],
+        "label": "ELEVATION",
+        "missNote": "Off the peak — walk the tilt back through and watch the level.",
+        "speed": 0.7
+      },
+      "id": "tilt",
+      "kind": "gauge",
+      "prompt": "Walk the tilt through the peak and commit at the highest receive level.",
+      "target": "tilt-control",
+      "title": "Set the elevation",
+      "why": "Elevation is the other half of aiming the beam, and the true peak is one specific point across two axes at once — pan and tilt together, not either one alone. The eye can't judge a couple of degrees of elevation on a dish this size; the number climbing on the receive-level meter is the only honest way to know the peak has actually been found."
+    },
+    {
+      "cue": "With the far end on the test carrier, commit when the receive level is inside the design figure.",
+      "gauge": {
+        "green": [
+          0.5,
+          0.64
+        ],
+        "label": "RSL",
+        "missNote": "Below the design figure — re-peak the pan and tilt before you accept the path.",
+        "speed": 0.75
+      },
+      "id": "rsl",
+      "kind": "gauge",
+      "prompt": "With the far end on the test carrier, commit when the receive level is inside the design figure.",
+      "target": "rsl-meter",
+      "title": "Confirm the receive level",
+      "why": "The design receive level is the number this path was engineered around, with a margin built in specifically for weather. A link accepted three decibels low still works fine on a clear day and drops out in exactly the rain fade the fade margin existed to survive, so an underpowered path fails the day it's actually needed."
+    },
+    {
+      "cue": "Torque the azimuth and elevation clamps to spec, re-tape the connectors, then hand the path back to the operations centre.",
+      "id": "close",
+      "itemNames": {
+        "handback": "path handed back",
+        "torque-clamp": "clamps torqued",
+        "weatherproof": "connectors weatherproofed"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Torque, then weatherproof, then hand back — the link is mechanically and physically sound before it carries traffic.",
+      "prompt": "Torque the azimuth and elevation clamps to spec, re-tape the connectors, then hand the path back to the operations centre.",
+      "targets": [
+        "torque-clamp",
+        "weatherproof",
+        "handback"
+      ],
+      "title": "Torque, weatherproof and hand back",
+      "why": "The alignment just proven on the meter lasts exactly as long as the clamp torque holding it and the weatherproofing keeping water out of the connectors — loose either one and the path drifts or corrodes out from under a peak that was perfect an hour ago. The hand-back is the one thing that tells the network this link is carrying live traffic again."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Rooftop link re-alignment: RF survey and MPE boundary, far end keyed down and locked out, fall protection before the parapet, dish freed, panned and tilted on receive level, polarisation proven, torqued, weatherproofed, path handed back",
+  "title": "SmartCiti.X~ Microwave Backhaul VR",
+  "trade": "Microwave / RF technician — backhaul",
+  "underwater": null,
+  "weather": "overcast"
+}

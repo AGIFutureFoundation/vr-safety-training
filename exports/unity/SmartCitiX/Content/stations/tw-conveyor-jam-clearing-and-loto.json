@@ -1,0 +1,434 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "conveyor-loto-certified",
+    "name": "Conveyor LOTO Certified",
+    "note": "Isolated and locked the drive before opening the guard, cleared the jam without reaching past a live nip point, and proved the line clear before restoring power"
+  },
+  "category": "Manufacturing & Automation",
+  "certification": "Teamsters warehouse and logistics automation training; OSHA 29 CFR 1910.147 the control of hazardous energy, 29 CFR 1910.212 machine guarding and 29 CFR 1910.178 powered industrial trucks for the lift truck staged at the line's end; ASME B20.1 safety standard for conveyors and related equipment; NIOSH findings on caught-in injuries at unguarded nip points",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ASME",
+        "citedAs": "ASME B20.1",
+        "id": "asme-b20-1",
+        "title": "ASME B20.1 — Safety standard for conveyors and related equipment"
+      },
+      {
+        "body": "NIOSH",
+        "citedAs": "NIOSH",
+        "id": "niosh-criteria",
+        "title": "NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.178",
+        "id": "osha-1910-178",
+        "title": "29 CFR 1910.178 — Powered industrial trucks"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.212",
+        "id": "osha-1910-212",
+        "title": "29 CFR 1910.212 — General requirements for all machines (machine guarding)"
+      },
+      {
+        "body": "union",
+        "citedAs": "Teamsters",
+        "id": "teamsters-training",
+        "title": "Teamsters apprenticeship and driver training programmes, including regulated-soil and yard work"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Warehousing & Logistics",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "cord-first",
+        "name": "Cord First",
+        "note": "Pulled the local E-stop before ever reaching toward the jam"
+      },
+      {
+        "id": "locked-before-opened",
+        "name": "Locked Before Opened",
+        "note": "Isolated and locked the drive before the guard ever opened"
+      },
+      {
+        "id": "steady-restart",
+        "name": "Steady Restart",
+        "note": "Held belt tracking near band centre through the whole restart"
+      },
+      {
+        "id": "clean-line-read",
+        "name": "Clean Line Read",
+        "note": "Never missed a hazard on the line read"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "quick-clear",
+        "name": "Quick Clear",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "clean-shift",
+        "name": "Clean Shift",
+        "note": "Clean run, no corrections"
+      },
+      {
+        "id": "isolation-streak",
+        "name": "Isolation Streak",
+        "note": "Nine correct actions in a row"
+      }
+    ],
+    "currency": "ISOLATION",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Line Hand",
+      "Jam Aware",
+      "Isolation Handler",
+      "Line Isolation Authority",
+      "Conveyor LOTO Certified"
+    ],
+    "system": "Line Isolation"
+  },
+  "hazards": {
+    "missing-guard-hazard": "That nip-point guard is propped open with a block of wood instead of latched — someone left themselves a shortcut back into the pinch point instead of relatching it. A guard that is not actually closed is not actually a guard; it is a suggestion the next pair of hands past it has no reason to notice.",
+    "reach-in-running-hazard": "That is the shortcut habit of reaching straight into a running nip point to walk a jam free by hand instead of stopping the line first. A roller does not know the difference between a jammed carton and the fingers pulling it loose, and it will draw either one in exactly the same way once contact is made.",
+    "skip-loto-hazard": "That is the quick-restart lever that skips isolating and locking the drive before the guard opens. A drive that looks stopped because the belt is not moving right now can still restart on its own control logic the moment something downstream calls for product — the isolator and the lock are what make 'stopped' provable instead of hoped for.",
+    "tied-cord-hazard": "That pull-cord is zip-tied off to the frame, out of reach of anyone who actually needs to stop this line in a hurry. A pull-cord that cannot be pulled is a line that only stops when somebody reaches the panel across the room — every second between those two things is a second the belt keeps running over whatever just got caught in it."
+  },
+  "id": "tw-conveyor-jam-clearing-and-loto",
+  "indoor": "plant",
+  "interrupts": [
+    {
+      "after": "restart-tracking",
+      "alert": "The belt has visibly drifted off-centre on the return roller mid-restart, rubbing against the frame.",
+      "cue": "Stop the restart and call it in to the mechanic rather than nudging the belt back by hand while it runs.",
+      "delay": 3,
+      "id": "belt-drift-fault",
+      "kind": "Belt tracking drift",
+      "missNote": "The drifting belt was left to run. A belt rubbing the frame wears through a cover fast, and the habit of nudging it back by hand is how a caught-in injury actually starts.",
+      "seconds": 12,
+      "target": "mechanic-radio",
+      "why": "A belt that drifts this early in a restart is a tracking problem that gets worse under load, not better on its own, and a hand used to nudge a moving belt back into line is a hand working exactly at the nip point the guard exists to keep it away from — calling the mechanic is what gets the idler adjusted instead of guessed at.",
+      "wrongNote": "Not that — the drifting belt goes to the mechanic before this restart continues."
+    },
+    {
+      "after": "clear-jam",
+      "alert": "A second carton has jammed at the transfer point further down the line while the first is still being cleared.",
+      "cue": "Report the second jam to the line lead. Do not reach into it until it has its own isolation.",
+      "delay": 4,
+      "id": "second-jam-fault",
+      "kind": "Second jam downstream",
+      "missNote": "The second jam was reached into without its own isolation. One locked-out point does not make the next pinch point down the line safe to reach into.",
+      "seconds": 13,
+      "target": "lead-report",
+      "why": "A second jam is a second hazard with its own nip point, not an extension of the one already isolated — reaching into it on the strength of the first jam's lockout treats one isolation as if it covered a machine section it was never applied to.",
+      "wrongNote": "Not that — the second jam gets reported to the line lead, not cleared on the first jam's isolation."
+    }
+  ],
+  "lateNotes": {
+    "estop-cord": "The pull-cord gets tried before a hand goes anywhere near the jam, not after someone is already reaching into the rollers.",
+    "guard-latch": "The guard only opens once the drive is isolated and locked, never as the first move toward a jam."
+  },
+  "name": "Conveyor Jam Clearing & LOTO",
+  "parSeconds": 265,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "warehouse-and-logistics-automation"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "conveyorSection",
+        "count": 4,
+        "kit": "equipment"
+      },
+      {
+        "builder": "1.04x1.7x1.24",
+        "count": 2,
+        "kit": "unknown"
+      },
+      {
+        "builder": "1.37x1.26x1.83",
+        "count": 1,
+        "kit": "unknown"
+      },
+      {
+        "builder": "2.62x4.22x1.18",
+        "count": 1,
+        "kit": "unknown"
+      }
+    ],
+    "error": null,
+    "footprint": 2.7,
+    "hits": [
+      "belt-return-roller",
+      "crew-notify",
+      "drive-disconnect",
+      "drive-lock",
+      "drive-lock-remove",
+      "drive-tag",
+      "drive-tag-remove",
+      "estop-cord",
+      "guard-latch",
+      "hi-vis-vest",
+      "intact-idler-guard",
+      "jammed-carton",
+      "lead-report",
+      "loto-board",
+      "maintenance-log",
+      "mechanic-radio",
+      "missing-guard-hazard",
+      "motion-indicator",
+      "reach-in-running-hazard",
+      "reject-bin-socket",
+      "roller-bank",
+      "safety-glasses",
+      "skip-loto-hazard",
+      "tied-cord-hazard"
+    ],
+    "meshes": 170
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "anyOrder": true,
+      "cue": "Hi-vis vest and safety glasses before stepping up to the conveyor.",
+      "id": "ppe",
+      "itemNames": {
+        "hi-vis-vest": "hi-vis vest",
+        "safety-glasses": "safety glasses"
+      },
+      "kind": "sequence",
+      "prompt": "Hi-vis vest and safety glasses before stepping up to the conveyor.",
+      "targets": [
+        "hi-vis-vest",
+        "safety-glasses"
+      ],
+      "title": "Suit up before approaching the line",
+      "why": "The line runs cartons and stretch-wrapped loads past head height in places, and the glasses are what keeps a dropped strap end or a kicked-up sliver of packing tape out of an eye while both hands are busy with the jam."
+    },
+    {
+      "cue": "Confirm today's LOTO permit for this line before touching anything on it.",
+      "id": "permit-read",
+      "kind": "select",
+      "prompt": "Confirm today's LOTO permit for this line before touching anything on it.",
+      "target": "loto-board",
+      "title": "Read the isolation permit",
+      "why": "The permit is what tells an associate which disconnect actually isolates this section of line and who else may already be locked onto it — clearing a jam without reading it first means guessing at a disconnect that might belong to a completely different span of conveyor."
+    },
+    {
+      "cue": "Look over the line before touching it. Three things are already wrong with it — find them.",
+      "decoyNotes": {
+        "intact-idler-guard": "That idler guard is seated and latched, showing no damage. Nothing to flag there."
+      },
+      "id": "line-hazard-read",
+      "itemNames": {
+        "missing-guard-hazard": "nip-point guard propped open",
+        "reach-in-running-hazard": "reach-in shortcut lever",
+        "tied-cord-hazard": "pull-cord zip-tied off"
+      },
+      "itemNotes": {
+        "missing-guard-hazard": "A guard propped open with a block is a guard that is not doing its job — it gets closed and latched, not left as somebody's shortcut.",
+        "reach-in-running-hazard": "A lever built to let a hand reach a running nip point has no honest use — it gets reported and removed, not exercised.",
+        "tied-cord-hazard": "A pull-cord that cannot be pulled stops nothing — the tie comes off before this line is trusted at all."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look over the line before touching it. Three things are already wrong with it — find them.",
+      "targets": [
+        "tied-cord-hazard",
+        "missing-guard-hazard",
+        "reach-in-running-hazard"
+      ],
+      "title": "Read the line for what is already wrong with it",
+      "why": "A line that looks fine from the aisle is not the same thing as one an associate has actually checked — a tied-off cord, a propped guard or a reach-in shortcut each quietly removes a control the line depends on, and finding them now costs a work order instead of costing someone the moment the belt restarts on its own."
+    },
+    {
+      "cue": "Pull the local E-stop cord before reaching anywhere near the jam.",
+      "id": "pull-cord",
+      "kind": "select",
+      "prompt": "Pull the local E-stop cord before reaching anywhere near the jam.",
+      "target": "estop-cord",
+      "title": "Pull the local E-stop",
+      "why": "The pull-cord is the fastest stop this line has, reachable from right where the jam actually is — trying it first, before the slower walk to isolate and lock the drive, is what keeps the belt from moving again the instant a hand gets close to the jam."
+    },
+    {
+      "anyOrder": false,
+      "cue": "Isolate the drive at its disconnect, apply your own lock, then apply the tag — in that order.",
+      "id": "drive-loto",
+      "itemNames": {
+        "drive-disconnect": "drive disconnect",
+        "drive-lock": "personal lock",
+        "drive-tag": "danger tag"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Disconnect, then lock, then tag — a lock with nothing isolated behind it protects nobody, and a tag with no lock behind it is only a note.",
+      "prompt": "Isolate the drive at its disconnect, apply your own lock, then apply the tag — in that order.",
+      "targets": [
+        "drive-disconnect",
+        "drive-lock",
+        "drive-tag"
+      ],
+      "title": "Isolate and lock the drive",
+      "why": "The disconnect alone can be closed again by anyone who does not know a hand is about to be inside the guard; the lock is what makes that impossible without that person's own key, and the tag is what tells the next associate walking the line why the lock is there — skip any one of the three and the jam gets cleared on a promise instead of a proof."
+    },
+    {
+      "cue": "Read the drive's residual motion indicator and commit only once it shows fully stopped.",
+      "gauge": {
+        "green": [
+          0,
+          0.14
+        ],
+        "label": "RESIDUAL MOTION",
+        "missNote": "Committed while the drive was still coasting. The guard does not open until this reads fully stopped.",
+        "speed": 0.6
+      },
+      "id": "zero-energy-check",
+      "kind": "gauge",
+      "prompt": "Read the drive's residual motion indicator and commit only once it shows fully stopped.",
+      "target": "motion-indicator",
+      "title": "Check for residual motion",
+      "why": "A drive that has just been isolated can still be coasting down under its own momentum, and reaching into the guard on the assumption that isolated means stopped is exactly the gap a residual motion check exists to close — the indicator is the only honest answer, not how quiet the belt sounds."
+    },
+    {
+      "cue": "Turn the guard latch to open it, now that the drive is isolated and stopped.",
+      "id": "guard-open",
+      "kind": "turn",
+      "prompt": "Turn the guard latch to open it, now that the drive is isolated and stopped.",
+      "target": "guard-latch",
+      "title": "Open the nip-point guard",
+      "turn": {
+        "axis": "x",
+        "label": "GUARD LATCH",
+        "turns": 0.4
+      },
+      "why": "The guard is the last thing between a hand and the nip point, and opening it only after the drive is proven isolated and stopped is what keeps this step from ever being the moment the line was still live."
+    },
+    {
+      "cue": "Carry the jammed carton clear of the rollers to the reject bin.",
+      "drag": {
+        "missNote": "Not into the reject bin — carry the carton all the way clear of the rollers before letting go.",
+        "radius": 0.45,
+        "to": "reject-bin-socket"
+      },
+      "id": "clear-jam",
+      "kind": "drag",
+      "prompt": "Carry the jammed carton clear of the rollers to the reject bin.",
+      "target": "jammed-carton",
+      "title": "Clear the jam",
+      "why": "Clearing the carton with the drive isolated and the guard open means a hand never has to trust the line's own restart timer while it is inside the nip point — the carton comes free because a hand pulled it, not because the belt happened to still be stopped when it did."
+    },
+    {
+      "cue": "Check the rollers the jam was wedged against for damage before closing the guard.",
+      "id": "roller-inspect",
+      "kind": "select",
+      "prompt": "Check the rollers the jam was wedged against for damage before closing the guard.",
+      "target": "roller-bank",
+      "title": "Inspect the rollers",
+      "why": "A roller that was scored or dented by the jam will keep snagging the next carton that crosses it — catching that now is a roller swap on a scheduled repair ticket, not a second jam an hour into the next shift."
+    },
+    {
+      "cue": "Turn the guard latch closed and confirm it seats before restoring power.",
+      "id": "guard-close",
+      "kind": "turn",
+      "prompt": "Turn the guard latch closed and confirm it seats before restoring power.",
+      "target": "guard-latch",
+      "title": "Close and latch the guard",
+      "turn": {
+        "axis": "x",
+        "label": "GUARD LATCH",
+        "turns": 0.4
+      },
+      "why": "A guard that is not actually latched is not a guard once the drive is re-energised — confirming the latch now is what keeps this from being the jam that gets cleared safely and then reopened by the first vibration once the belt is running again."
+    },
+    {
+      "anyOrder": false,
+      "cue": "Remove the tag, remove your lock, then notify the crew — in that order, before the drive is re-energised.",
+      "id": "restore-power",
+      "itemNames": {
+        "crew-notify": "notify the crew",
+        "drive-lock-remove": "remove your lock",
+        "drive-tag-remove": "remove the tag"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Tag off, then lock off, then the crew notified — restoring power before the crew knows is restoring it onto an assumption, not a confirmation.",
+      "prompt": "Remove the tag, remove your lock, then notify the crew — in that order, before the drive is re-energised.",
+      "targets": [
+        "drive-tag-remove",
+        "drive-lock-remove",
+        "crew-notify"
+      ],
+      "title": "Return the isolation",
+      "why": "The tag and the lock come off in the order they went on, and notifying the crew before restoring power is what keeps anyone else on the line from being surprised by a belt that starts moving again — reversing this order is how somebody re-energises a drive while another associate still believes it is locked out."
+    },
+    {
+      "cue": "Restart the drive while keeping the belt tracking indicator inside the centred band.",
+      "holdBreakNote": "The belt drifted out of the centred band. Bring the tracking back under control before continuing the restart.",
+      "id": "restart-tracking",
+      "kind": "track",
+      "prompt": "Restart the drive while keeping the belt tracking indicator inside the centred band.",
+      "seconds": 8,
+      "target": "belt-return-roller",
+      "title": "Bring the line back up to speed",
+      "track": {
+        "drift": 0.1,
+        "fall": 0.4,
+        "green": [
+          0.38,
+          0.62
+        ],
+        "label": "BELT TRACKING",
+        "rise": 0.42,
+        "start": 0.5
+      },
+      "why": "Watching the tracking indicator through the restart is what catches a belt that is about to walk off true before it starts grinding against the frame — bringing a conveyor back to speed is not just a power switch, it is confirming the belt is actually running where it is supposed to."
+    },
+    {
+      "cue": "Log the jam, the isolation and the restart before moving on to the next task.",
+      "id": "closing-log",
+      "kind": "select",
+      "prompt": "Log the jam, the isolation and the restart before moving on to the next task.",
+      "target": "maintenance-log",
+      "title": "Log the jam and the restart",
+      "why": "The maintenance log is what turns one cleared jam into a pattern a mechanic can actually see — a jam that gets cleared but never logged is a recurring roller problem that nobody upstream ever gets the chance to fix."
+    }
+  ],
+  "supportLine": "your Teamsters local's member assistance programme, or the site's employee assistance line if a close call at a conveyor nip point is what stayed with you",
+  "tagline": "Clearing a jammed carton off a live roller line the way the line's own isolation sequence requires it: the pull-cord tried first, the drive isolated and locked at its own disconnect, the residual motion actually checked, the jam cleared with a hand that never has to trust the line's timer, and the guard and the isolation both returned before the belt sees power again",
+  "title": "SmartCiti.X~ Conveyor Jam Clearing & LOTO VR",
+  "trade": "Teamsters warehouse associate — conveyor line clearing",
+  "underwater": null,
+  "weather": null
+}

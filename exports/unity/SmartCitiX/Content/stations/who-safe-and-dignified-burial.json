@@ -1,0 +1,410 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "safe-and-dignified",
+    "name": "Safe and Dignified",
+    "note": "The family heard first, the body carried by the whole team, the grave marked for the family to find, and every team member doffed under supervision"
+  },
+  "category": "Emergency Services",
+  "certification": "WHO safe and dignified burial practice as the national response adopts it — a trained team with assigned roles, the family engaged with a community or religious representative before anything is done, and dignity treated as part of safety; WHO infection prevention and control guidance for the team's PPE, chlorine solutions and handling of the body; CDC isolation precautions for the transmission-based precautions the team works under; OSHA 29 CFR 1910.1030 for body fluids and 29 CFR 1910.134 for the respirators worn; WHO outbreak communication guidance for what is said to the family and the neighbours; the Sphere Handbook's minimum standards and IASC cluster coordination for the partners who field burial teams; worked by SEIU and AFSCME public-health staff with NNU/CNA nurses",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFSCME",
+        "id": "afscme-training",
+        "title": "AFSCME member education and safety training for public-service and air-district members"
+      },
+      {
+        "body": "CDC",
+        "citedAs": "CDC",
+        "id": "cdc-guidance",
+        "title": "CDC infection-prevention and public-health guidance, including the Guidelines for Infection Control in Dental Health-Care Settings and Legionella control guidance"
+      },
+      {
+        "body": "IASC",
+        "citedAs": "IASC",
+        "id": "iasc-cluster-coordination",
+        "title": "Inter-Agency Standing Committee (IASC) cluster approach and cluster coordination guidance"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1030",
+        "id": "osha-1910-1030",
+        "title": "29 CFR 1910.1030 — Bloodborne pathogens"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.134",
+        "id": "osha-1910-134",
+        "title": "29 CFR 1910.134 — Respiratory protection"
+      },
+      {
+        "body": "union",
+        "citedAs": "SEIU",
+        "id": "seiu-training",
+        "title": "SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members"
+      },
+      {
+        "body": "Sphere",
+        "citedAs": "Sphere Handbook",
+        "id": "sphere-handbook",
+        "title": "The Sphere Handbook: Humanitarian Charter and Minimum Standards in Humanitarian Response"
+      },
+      {
+        "body": "WHO",
+        "citedAs": "WHO",
+        "id": "who-guidance",
+        "title": "World Health Organization technical and field guidance for health emergencies and outbreak response"
+      },
+      {
+        "body": "WHO",
+        "citedAs": "WHO infection prevention and control guidance",
+        "id": "who-ipc-guidance",
+        "title": "WHO guidance on infection prevention and control in health care"
+      },
+      {
+        "body": "WHO",
+        "citedAs": "WHO outbreak communication guidance",
+        "id": "who-outbreak-communication",
+        "title": "WHO outbreak communication guidance"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Emergency Services",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "family-first",
+        "name": "Family First",
+        "note": "The family meeting held to the end before anything else happened"
+      },
+      {
+        "id": "never-alone",
+        "name": "Never Alone",
+        "note": "No lone handling, no opened bag, no spray at the family, no guessed mix"
+      },
+      {
+        "id": "mixed-true",
+        "name": "Mixed True",
+        "note": "Sprayer solution committed inside the band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-burial",
+        "name": "Clean Burial",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "level-carry",
+        "name": "Level Carry",
+        "note": "Carried the stretcher level without a dropout"
+      },
+      {
+        "id": "seven-straight",
+        "name": "Seven Straight",
+        "note": "Seven correct actions in a row"
+      }
+    ],
+    "currency": "RESPECT",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Team Trainee",
+      "Burial Team Member",
+      "Sprayer",
+      "Team Leader",
+      "Burial Team Certified"
+    ],
+    "system": "Burial Team"
+  },
+  "hazards": {
+    "wsb-guessed-mix": "You topped up the sprayer with a splash of concentrate that nobody measured. A chlorine solution mis-mixed fails both ways: too weak and it disinfects nothing while the team trusts it, too strong and it burns the team's skin and eyes through a long day. It is mixed to the protocol chart, measured.",
+    "wsb-lone-handling": "You started to lift the body on your own while the rest of the team was still gowning. A body handled without the team is a body handled without a sprayer standing by, without anyone watching your PPE and without the hands to lift it steadily — which is when bags tear, gloves split and fluids reach skin. The team moves the body together, every time.",
+    "wsb-open-bag": "You began to unzip the closed, disinfected bag so a relative could look once more. Once the bag is closed and disinfected it stays closed; the family's chance to see their relative is agreed at the family meeting and given before the bag is closed, under the team's precautions — not by reopening it at the graveside.",
+    "wsb-spray-family": "You swung the sprayer toward the mourners standing at the edge of the compound. Spraying chlorine at grieving people treats them as contamination, frightens them and is exactly the kind of moment that turns a community against burial teams. The sprayer is for the bag, the stretcher and the team's own PPE."
+  },
+  "id": "who-safe-and-dignified-burial",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "family-meeting",
+      "alert": "While you talk with the family, two relatives move toward the house, wanting to wash and hold their relative the way they always have.",
+      "cue": "Ask the community representative to go with them to the viewing point — kindly, now.",
+      "delay": 2,
+      "id": "mourners-approach",
+      "kind": "Mourners approach",
+      "missNote": "Nobody went with them. The two relatives washed their relative before the team was ready, and both spent the following weeks on the contact list while the family's trust in the burial team went with them.",
+      "seconds": 13,
+      "target": "wsb-community-rep",
+      "why": "Touching and washing the body are the practices safe burial has to change, and asking grieving relatives to stop is hardest coming from a stranger in PPE. The community or religious representative can explain it in the family's terms and take them to where they can be close without contact — which is why they are part of the visit.",
+      "wrongNote": "Not that. Ask the community representative to go with the relatives to the viewing point."
+    },
+    {
+      "after": "carry",
+      "alert": "Mid-carry, the carrier at the foot end calls out: his outer glove has split along the thumb.",
+      "cue": "Set the stretcher down, get the spare gloves to him, and send him to the doffing point to change under the sprayer.",
+      "delay": 2,
+      "id": "glove-tears",
+      "kind": "PPE breach",
+      "missNote": "The team carried on with the split glove to the vehicle. By the time it was changed, the carrier's hand had been against the stretcher's wet handle for two minutes, and he spent the next weeks under follow-up.",
+      "seconds": 13,
+      "target": "wsb-spare-gloves",
+      "why": "A breach is handled at once, not at the end of the carry: the stretcher goes down level, the sprayer covers the torn glove, and the carrier changes it at the doffing point with a spare while the team waits. Carrying on to the vehicle with a split glove is the moment an exposure becomes likely rather than possible.",
+      "wrongNote": "Not that. The spare gloves are on the PPE table — get them to the carrier."
+    }
+  ],
+  "lateNotes": {
+    "wsb-sprayer-pump": "Pump the sprayer once the solution has been mixed to the protocol; pressurising the wrong mix only sprays it further.",
+    "wsb-stretcher": "The carry comes after the body is in the bag and the bag is disinfected — the team moves together, not before it is ready."
+  },
+  "name": "Safe and Dignified Burial",
+  "parSeconds": 330,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "outbreak-response-who"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "wsb-body-bag",
+      "wsb-burial-log",
+      "wsb-community-rep",
+      "wsb-crew-board",
+      "wsb-doff-point",
+      "wsb-don-coverall",
+      "wsb-don-gloves",
+      "wsb-don-goggles",
+      "wsb-don-mask",
+      "wsb-family-cloth",
+      "wsb-family-elder",
+      "wsb-family-photo",
+      "wsb-grave-marker",
+      "wsb-grave-socket",
+      "wsb-guessed-mix",
+      "wsb-lone-handling",
+      "wsb-open-bag",
+      "wsb-prayer-point",
+      "wsb-spare-gloves",
+      "wsb-spray-family",
+      "wsb-sprayer-mix",
+      "wsb-sprayer-pump",
+      "wsb-stretcher",
+      "wsb-team-board"
+    ],
+    "meshes": 214
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Before the vehicle doors open, confirm who leads, who sprays, who carries and who speaks with the family.",
+      "id": "team-brief",
+      "kind": "select",
+      "prompt": "Before the vehicle doors open, confirm who leads, who sprays, who carries and who speaks with the family.",
+      "target": "wsb-team-board",
+      "title": "Assign the team's roles",
+      "why": "A burial team works as one unit in a place full of grief and attention, and the worst moments come from two people doing the same job while nobody does another. Roles fixed before arriving — a leader, a sprayer, the carriers and a team member who stays with the family — mean every step at the house has an owner."
+    },
+    {
+      "cue": "With the community or religious representative beside you, explain what the team will do and hold while the family says what they want.",
+      "holdBreakNote": "You moved on before the family had finished. Stay with them — their wishes decide how the rest of this visit goes.",
+      "id": "family-meeting",
+      "kind": "hold",
+      "prompt": "With the community or religious representative beside you, explain what the team will do and hold while the family says what they want.",
+      "seconds": 5,
+      "target": "wsb-family-elder",
+      "title": "Meet the family with their representative",
+      "why": "The family is burying someone they love, and the response is asking them to do it differently from how they always have. Listening to what they need — prayers, an item placed with the body, a chance to see their relative, a grave they can find — and agreeing it before anything happens is what makes a safe burial one the family and the neighbours can accept."
+    },
+    {
+      "cue": "Coverall, then respirator, then goggles, then gloves over the cuffs — away from the family's view if you can.",
+      "id": "don",
+      "itemNames": {
+        "wsb-don-coverall": "coverall",
+        "wsb-don-gloves": "gloves",
+        "wsb-don-goggles": "goggles",
+        "wsb-don-mask": "respirator"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Coverall, respirator, goggles, gloves — gloves last over the cuffs.",
+      "prompt": "Coverall, then respirator, then goggles, then gloves over the cuffs — away from the family's view if you can.",
+      "targets": [
+        "wsb-don-coverall",
+        "wsb-don-mask",
+        "wsb-don-goggles",
+        "wsb-don-gloves"
+      ],
+      "title": "Don the team's PPE",
+      "why": "The team's PPE is built up in an order that leaves no gap: the body covering first, the respirator sealed to the face, eye protection over its straps, and gloves last so they pull over the cuffs. Doing it a little way off, out of the family's direct view, is part of treating their home as a home."
+    },
+    {
+      "cue": "Measure the concentrate into the sprayer and commit when the level sits on the protocol chart's mark.",
+      "gauge": {
+        "green": [
+          0.48,
+          0.58
+        ],
+        "label": "MIX",
+        "missNote": "Not on the chart's mark. Adjust and commit where the mix reads on the mark.",
+        "speed": 0.55
+      },
+      "id": "sprayer-mix",
+      "kind": "gauge",
+      "prompt": "Measure the concentrate into the sprayer and commit when the level sits on the protocol chart's mark.",
+      "target": "wsb-sprayer-mix",
+      "title": "Mix the sprayer to the protocol",
+      "why": "The sprayer solution is the team's disinfection for the bag, the stretcher and their own PPE, and its strength is set on the protocol chart the IPC team issued. Measured to the mark it does its job all day; guessed, it either does nothing or burns the people wearing it."
+    },
+    {
+      "cue": "Work the pump handle until the sprayer is at working pressure.",
+      "id": "pump-up",
+      "kind": "turn",
+      "prompt": "Work the pump handle until the sprayer is at working pressure.",
+      "target": "wsb-sprayer-pump",
+      "title": "Pump up the sprayer",
+      "turn": {
+        "axis": "y",
+        "label": "PUMP",
+        "turns": 1
+      },
+      "why": "A sprayer at working pressure delivers an even, controlled spray where it is aimed; one that is half pumped dribbles, and the sprayer ends up shaking it or pumping mid-task beside the body. Pressurising it now means the sprayer's attention is on the task, not the equipment."
+    },
+    {
+      "cue": "Find the items the family asked to go with their relative and to the grave.",
+      "id": "family-items",
+      "itemNames": {
+        "wsb-family-cloth": "the family's burial cloth",
+        "wsb-family-photo": "the photograph for the grave"
+      },
+      "itemNotes": {
+        "wsb-family-cloth": "Folded on the bench by the door — the family asked for it to go with the body.",
+        "wsb-family-photo": "Propped against the water jar — they want it on the grave marker."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Find the items the family asked to go with their relative and to the grave.",
+      "targets": [
+        "wsb-family-cloth",
+        "wsb-family-photo"
+      ],
+      "title": "Find the family's items",
+      "why": "The items a family asks for are how they take part in a burial they cannot conduct themselves. Finding them before the body is moved, and handling them with the same care, is a small thing for the team and a large one for the family — and forgetting them is remembered for years."
+    },
+    {
+      "cue": "With every carrier in position and the sprayer ready, the team places the body and the family's cloth in the bag together.",
+      "id": "bag-body",
+      "kind": "select",
+      "prompt": "With every carrier in position and the sprayer ready, the team places the body and the family's cloth in the bag together.",
+      "target": "wsb-body-bag",
+      "title": "Place the body in the bag as a team",
+      "why": "Placing the body is the moment of closest contact, and it is done by the whole team at once so that it is steady, quick and respectful, with the sprayer standing by for any spill. It is never done by one worker, and never before the team leader has checked every person's PPE."
+    },
+    {
+      "cue": "Lift on the leader's word and keep the stretcher level all the way to the vehicle.",
+      "holdBreakNote": "The stretcher tipped. Steady it back to level before anyone takes another step.",
+      "id": "carry",
+      "kind": "track",
+      "prompt": "Lift on the leader's word and keep the stretcher level all the way to the vehicle.",
+      "seconds": 7,
+      "target": "wsb-stretcher",
+      "title": "Carry together, keep it level",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.45,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "LEVEL",
+        "rise": 0.55,
+        "start": 0.2
+      },
+      "why": "A stretcher carried unevenly tips the weight toward one end and one person, and a carrier who stumbles puts their hand where it should not go. Lifting on one word and keeping it level shares the load, keeps the bag steady and gives the family a carry that looks careful because it is."
+    },
+    {
+      "cue": "Carry the marker with the family's photograph to the head of the grave and set it in.",
+      "drag": {
+        "missNote": "Not at the head of the grave. The marker goes where the family will look for it.",
+        "radius": 0.5,
+        "to": "wsb-grave-socket"
+      },
+      "id": "grave-marker",
+      "kind": "drag",
+      "prompt": "Carry the marker with the family's photograph to the head of the grave and set it in.",
+      "target": "wsb-grave-marker",
+      "title": "Mark the grave",
+      "why": "A family that cannot find their relative's grave has lost them twice. The marker set at the head of the grave, with the name or code and the photograph they asked for, is what lets them come back — and it is recorded, so the grave can be found even if the marker is not."
+    },
+    {
+      "cue": "Invite the family to the prayer point by the grave and stop while they pray.",
+      "id": "family-prayer",
+      "kind": "select",
+      "prompt": "Invite the family to the prayer point by the grave and stop while they pray.",
+      "target": "wsb-prayer-point",
+      "title": "Pause for the family's prayers",
+      "why": "The prayer point is placed so the family can be close to the grave and see the burial without handling anything. Stopping for their prayers — the whole team still and quiet — is a small moment that tells the family and the neighbours watching that this was a burial, not a removal."
+    },
+    {
+      "cue": "At the doffing point, hold while the team leader talks each carrier through the doff and the sprayer disinfects between steps.",
+      "holdBreakNote": "You moved away before the doff was done. Come back to the point and finish it under supervision.",
+      "id": "doff",
+      "kind": "hold",
+      "prompt": "At the doffing point, hold while the team leader talks each carrier through the doff and the sprayer disinfects between steps.",
+      "seconds": 5,
+      "target": "wsb-doff-point",
+      "title": "Doff under supervision",
+      "why": "After the carry, the outside of every coverall and glove is the most contaminated surface on site, and tired people doff badly. A supervised doff — one person at a time, talked through it, with the sprayer disinfecting between steps — is how the team leaves the compound without taking anything home."
+    },
+    {
+      "cue": "In the vehicle, check in with each other about this one, and point anyone who needs it to staff care.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "In the vehicle, check in with each other about this one, and point anyone who needs it to staff care.",
+      "target": "wsb-crew-board",
+      "title": "Check in with the burial team",
+      "why": "Burial teams carry a weight that most of the response never sees — the family's grief, the neighbours' fear, sometimes hostility at the gate — and they do it several times a day. Checking in with each other before the next call, and naming staff care out loud, is part of the procedure, not a courtesy."
+    },
+    {
+      "cue": "Hold the burial log open and read back the case code, the grave location, the family present and the team before you sign.",
+      "holdBreakNote": "You signed without reading it back. Open the log and read the grave location and names out before signing.",
+      "id": "closing-log",
+      "kind": "hold",
+      "prompt": "Hold the burial log open and read back the case code, the grave location, the family present and the team before you sign.",
+      "seconds": 4,
+      "target": "wsb-burial-log",
+      "title": "Record the burial",
+      "why": "The burial record is how surveillance closes a case, how tracing knows who was present, and how a family finds the grave years from now. Read back before it is signed, the grave location and the names are right; signed unread, a family may be told the wrong row of a cemetery."
+    }
+  ],
+  "supportLine": "your agency's staff welfare or staff counsellor service, or the peer-support contact named at your deployment briefing",
+  "tagline": "A burial team's visit: roles assigned, the family met with their community representative, PPE, the sprayer mixed to protocol, the family's items found, the body carried by the whole team, the grave marked, a pause for prayer, a supervised doff",
+  "title": "SmartCiti.X~ Safe and Dignified Burial VR",
+  "trade": "Burial team member — SEIU and AFSCME public-health staff, NNU/CNA nurses, and the humanitarian workforce deployed under IASC clusters",
+  "underwater": null,
+  "weather": "overcast"
+}

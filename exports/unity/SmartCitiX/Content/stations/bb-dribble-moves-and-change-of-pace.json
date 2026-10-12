@@ -1,0 +1,422 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "sell-it-then-burst",
+    "name": "Sell It, Then Burst",
+    "note": "A change of pace sharp enough to create separation, run low and under control from the hesitation to the burst"
+  },
+  "category": "Youth Sports & Coaching",
+  "certification": "USA Basketball youth development guidelines on live, defender-read ball-handling built on top of a player's basic dribble rather than skipped straight to game speed; NFHS basketball rules on legal dribbling and carrying, and its sportsmanship expectations for live moves run near a teammate; CDC Heads Up for a knock to the head taken in a collision between two live-move lines; the U.S. Center for SafeSport for calm, observable correction of a move that breaks down rather than a fault called out in front of the group; the American Red Cross first aid course for a rolled ankle on a hard change of pace",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "CDC",
+        "citedAs": "CDC Heads Up",
+        "id": "cdc-heads-up",
+        "title": "CDC Heads Up concussion-in-youth-sports training for coaches, parents and athletes: recognise the signs, remove the player from play, refer for evaluation, and return only with clearance"
+      },
+      {
+        "body": "NFHS",
+        "citedAs": "NFHS",
+        "id": "nfhs-basketball-rules",
+        "title": "National Federation of State High School Associations (NFHS) basketball rules and its sports medicine advisory guidance on concussion, heat and hydration for school sport"
+      },
+      {
+        "body": "Red Cross",
+        "citedAs": "American Red Cross first aid",
+        "id": "red-cross-first-aid-course",
+        "title": "American Red Cross first aid, CPR and AED course for coaches and staff: check the scene, call, care, and hand over to emergency services"
+      },
+      {
+        "body": "U.S. Center for SafeSport",
+        "citedAs": "U.S. Center for SafeSport",
+        "id": "safesport-code",
+        "title": "U.S. Center for SafeSport abuse-prevention training and policies for adults who work with young athletes: two adults present, observable and interruptible interactions, and reporting"
+      },
+      {
+        "body": "USA Basketball",
+        "citedAs": "USA Basketball",
+        "id": "usa-basketball-youth-guidelines",
+        "title": "USA Basketball youth development guidelines: age-appropriate play, practice length and frequency, rest and multi-sport participation for young players, and the coach licence that teaches them"
+      }
+    ]
+  },
+  "district": "gym-court",
+  "domain": "Youth Sports",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "clear-lane-first",
+        "name": "Clear Lane First",
+        "note": "Every hazard in the lane found before live moves start"
+      },
+      {
+        "id": "no-collision",
+        "name": "No Collision",
+        "note": "No unsafe action anywhere in the session"
+      },
+      {
+        "id": "controlled-burst",
+        "name": "Controlled Burst",
+        "note": "Change of pace and dribble height both inside the band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-session",
+        "name": "Clean Session",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "unbroken-series",
+        "name": "Unbroken Series",
+        "note": "Held dribble height in band through the whole series"
+      },
+      {
+        "id": "quick-session",
+        "name": "Quick Session",
+        "note": "Practice log reached inside 80% of par"
+      }
+    ],
+    "currency": "SEPARATION POINTS",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Bench Helper",
+      "Line Coach",
+      "Assistant Coach",
+      "Head Coach",
+      "Handles Mentor"
+    ],
+    "system": "Change-of-Pace Board"
+  },
+  "hazards": {
+    "add-extra-conditioning-sprints-as-a-fault-punishment": "You added extra conditioning sprints as punishment every time a player's crossover got picked or carried. Loading on unplanned sprint volume as a consequence for a skill fault is exactly the kind of overuse youth guidelines warn against, and it teaches a player that a mistake in a skill drill gets answered with fatigue instead of a fix.",
+    "let-two-live-move-lines-cross-paths": "You ran two lines of live dribble moves through the same stretch of floor without staggering them, so two players burst into the same space at the same time. NFHS sportsmanship expectations assume a drill is actually organised to keep players apart, and a defender-read move by its nature has a player looking at a defender, not at who else is coming through the same lane.",
+    "push-through-a-rolled-ankle-to-finish-the-set": "You had a player finish the rest of the set after rolling an ankle on a hard change of pace because they said it barely hurt. An ankle that just rolled once is far more likely to roll again on the very next cut, and the American Red Cross first aid course is clear that it gets checked and rested before any more live moves, not played through to finish a rep count.",
+    "run-live-moves-around-a-loose-ball": "You let players run live crossover moves through the lane with a loose ball still rolling underfoot. A change of pace already asks a player's feet to move fast and low without watching the floor, and a stray ball in that same space is exactly what a plant foot lands on wrong at the worst possible moment."
+  },
+  "id": "bb-dribble-moves-and-change-of-pace",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "track-the-dribble-height-through-the-series",
+      "alert": "A player plants hard on a change of pace, rolls an ankle, and goes down holding it right in the middle of the live line.",
+      "cue": "Get on the radio to the athletic trainer right away, and freeze the rest of the line exactly where it stands.",
+      "delay": 3,
+      "id": "player-rolls-an-ankle-on-a-hard-change-of-pace",
+      "kind": "Player down",
+      "missNote": "The next player in line had already started their move before anyone reached for the radio, and the player on the ground had tried standing up on the ankle alone by the time the trainer actually arrived.",
+      "seconds": 12,
+      "target": "athletic-trainer-radio-spot",
+      "why": "Nobody on the bench can tell from a distance whether an ankle that rolled hard is a bruise or something that needs an X-ray, which is exactly the judgement the athletic trainer is there to make. Freezing the rest of the live-move line the instant it happens keeps a second player from bursting through the same stretch of floor while attention is on the player who is down.",
+      "wrongNote": "That does not get help to the player on the floor. Call the athletic trainer over the radio and freeze the line."
+    },
+    {
+      "after": "hold-a-controlled-stop-after-the-burst",
+      "alert": "The fire alarm sounds mid-line, with a ball still live in a player's hands and the group scattered across the lane.",
+      "cue": "Drop the ball where it is and clear everyone out the marked fire exit, then count heads outside against today's list.",
+      "delay": 3,
+      "id": "fire-alarm-during-dribble-moves",
+      "kind": "Fire alarm",
+      "missNote": "The player finished the move they were mid-burst on before joining everyone else, and outside the headcount came up one short until somebody remembered they had stayed to land it first.",
+      "seconds": 12,
+      "target": "fire-exit-door",
+      "why": "A player mid-crossover has no way of knowing on their own whether an alarm is real, so the whole gym moves the same way every time it sounds: the ball stays on the floor, the group leaves together through the marked exit with an adult front and back, and the headcount outside is what actually confirms everyone made it out.",
+      "wrongNote": "The alarm outranks the drill. Drop the ball and clear out through the marked fire exit."
+    }
+  ],
+  "lateNotes": {
+    "crew-checkin-board": "The staff check-in comes after the log, at the very end.",
+    "practice-log-board": "The log closes the dribble session once the live series has run and the moves have held — nothing to record yet."
+  },
+  "name": "Dribble Moves and Change of Pace",
+  "parSeconds": 330,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "basketball-fundamentals"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "add-extra-conditioning-sprints-as-a-fault-punishment",
+      "athletic-trainer-radio-spot",
+      "burst-zone",
+      "cone-out-of-place",
+      "cones-set-correctly",
+      "controlled-stop-marker",
+      "crew-checkin-board",
+      "defender-side-dial",
+      "defender-too-close-for-a-live-read",
+      "dribble-height-meter",
+      "fault-carrying-the-ball",
+      "fault-dribbling-too-upright",
+      "fault-low-tight-handle",
+      "fault-not-selling-the-hesitation",
+      "fire-exit-door",
+      "hand-rotation-dial",
+      "let-two-live-move-lines-cross-paths",
+      "loose-ball-mid-lane",
+      "low-stance-marker",
+      "move-burst",
+      "move-crossover",
+      "move-hesitate",
+      "move-menu-card",
+      "move-read-the-defender",
+      "pace-gauge",
+      "pace-token",
+      "practice-log-board",
+      "push-through-a-rolled-ankle-to-finish-the-set",
+      "quiet-word-spot",
+      "run-live-moves-around-a-loose-ball"
+    ],
+    "meshes": 170
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Look at the lane, the cones and the defender's starting spot. Mark what has to be fixed before anyone goes live.",
+      "decoyNotes": {
+        "cones-set-correctly": "Cones already spaced correctly are exactly what the drill needs. Look for what is actually out of place."
+      },
+      "id": "scan-the-lane-before-dribble-moves",
+      "itemNames": {
+        "cone-out-of-place": "a cone knocked out of its spacing line",
+        "defender-too-close-for-a-live-read": "a defender starting too close for a live, safe read",
+        "loose-ball-mid-lane": "a loose ball sitting in the middle of the lane"
+      },
+      "itemNotes": {
+        "cone-out-of-place": "A cone out of its spacing line changes where a player expects the lane to be mid-move. Reset it before anyone reads a defender against it.",
+        "defender-too-close-for-a-live-read": "A defender set up too close turns a controlled read into a collision the moment the burst happens. Reset the spacing before going live.",
+        "loose-ball-mid-lane": "A stray ball in the same space a live move is about to happen in is exactly what a fast, low plant foot lands on wrong. Rack it before the first rep."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look at the lane, the cones and the defender's starting spot. Mark what has to be fixed before anyone goes live.",
+      "targets": [
+        "loose-ball-mid-lane",
+        "cone-out-of-place",
+        "defender-too-close-for-a-live-read"
+      ],
+      "title": "Scan the lane before live dribble moves start",
+      "why": "A live-move drill puts a player's eyes on a defender instead of the floor, which makes the floor itself the coach's job to check: a loose ball underfoot, a cone that has drifted out of its spacing line, and a defender starting too close for a controlled read are all the same kind of problem — caught now, before the first live rep, instead of during one."
+    },
+    {
+      "cue": "Put up the combo being drilled: hesitation into a crossover, in-and-out into a burst.",
+      "id": "post-the-move-menu",
+      "kind": "select",
+      "prompt": "Put up the combo being drilled: hesitation into a crossover, in-and-out into a burst.",
+      "target": "move-menu-card",
+      "title": "Post today's move menu",
+      "why": "A posted menu tells every player exactly which combo this rep is building toward, which is what turns a live-move line into deliberate practice instead of players improvising whatever move feels comfortable. Naming the combo also tells the defender what to actually give a realistic look at."
+    },
+    {
+      "cue": "Read the defender first, then hesitate, then crossover low and quick, then burst past on the change of pace.",
+      "id": "build-the-crossover-move-in-order",
+      "itemNames": {
+        "move-burst": "burst past on the change of pace",
+        "move-crossover": "crossover low and quick",
+        "move-hesitate": "hesitate to freeze them",
+        "move-read-the-defender": "read the defender's balance"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order. Reading the defender comes first — a hesitation aimed at nothing in particular does not freeze anyone, and bursting before the crossover has actually happened is just running in a straight line.",
+      "prompt": "Read the defender first, then hesitate, then crossover low and quick, then burst past on the change of pace.",
+      "targets": [
+        "move-read-the-defender",
+        "move-hesitate",
+        "move-crossover",
+        "move-burst"
+      ],
+      "title": "Build the crossover move in order",
+      "why": "Each part of the move sets up the next: reading the defender's balance is what tells a player which side is actually open, the hesitation only freezes a defender who is watching for it, the crossover has to stay low and quick to protect the ball through the switch, and the burst only creates separation because everything before it looked unhurried by comparison."
+    },
+    {
+      "cue": "Commit when the change reads sharp — not so smooth the defender stays with you, not so early it loses control of the ball.",
+      "gauge": {
+        "green": [
+          0.44,
+          0.62
+        ],
+        "label": "PACE CHANGE",
+        "missNote": "Outside the band. Too smooth a change never actually surprises the defender; committing to the burst too early costs control of the ball before the separation is even won. Find sharp and commit.",
+        "speed": 0.6
+      },
+      "id": "gauge-the-change-of-pace",
+      "kind": "gauge",
+      "prompt": "Commit when the change reads sharp — not so smooth the defender stays with you, not so early it loses control of the ball.",
+      "target": "pace-gauge",
+      "title": "Read the change of pace before committing to the burst",
+      "why": "A change of pace only works as a surprise, which means a gradual speed-up that a defender can match step for step is not really a change at all, and a burst started before the hesitation has actually sold itself just means losing the ball while still trying to accelerate. Reading the moment honestly is what turns a change of pace into real separation instead of a fast dribble that goes nowhere."
+    },
+    {
+      "cue": "Turn the side dial to whichever side the defender's set foot is actually overplaying today.",
+      "id": "turn-to-the-live-defender-side",
+      "kind": "turn",
+      "prompt": "Turn the side dial to whichever side the defender's set foot is actually overplaying today.",
+      "target": "defender-side-dial",
+      "title": "Turn the board to the side the defender is overplaying",
+      "turn": {
+        "axis": "y",
+        "label": "ATTACK SIDE",
+        "turns": 0.5
+      },
+      "why": "A move drilled toward the same side every single rep only ever teaches a player to read one kind of defender. Turning the dial to change which side is being attacked is what makes the read — not just the move itself — something a player has actually practised against a realistic defensive look."
+    },
+    {
+      "cue": "Stay low through the hesitation and the crossover — hold here and check it, no standing up early.",
+      "holdBreakNote": "The stance came up before the move finished. Hold it low all the way through the crossover.",
+      "id": "hold-a-low-stance-through-the-move",
+      "kind": "hold",
+      "prompt": "Stay low through the hesitation and the crossover — hold here and check it, no standing up early.",
+      "seconds": 5,
+      "target": "low-stance-marker",
+      "title": "Hold a low stance all the way through the move",
+      "why": "A player who stands up out of their stance partway through a crossover both loses the ball to a reaching defender more easily and gives away the move before the burst even starts. Holding a genuinely low stance through the whole sequence is what keeps the ball protected and the defender guessing until the change of pace actually happens."
+    },
+    {
+      "cue": "Keep the dribble height in band through the whole series — not so high it gets picked, not so low control breaks down.",
+      "holdBreakNote": "Dribble height left the band — too high, or too low to control. Bring it back to steady before the next move.",
+      "id": "track-the-dribble-height-through-the-series",
+      "kind": "track",
+      "prompt": "Keep the dribble height in band through the whole series — not so high it gets picked, not so low control breaks down.",
+      "seconds": 8,
+      "target": "dribble-height-meter",
+      "title": "Track the dribble height through the live series",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.4,
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "DRIBBLE HEIGHT",
+        "rise": 0.48,
+        "start": 0.32
+      },
+      "why": "A dribble that climbs too high through a long series is an easy target for a defender's hands, and one pushed too low to compensate starts to break down a player's actual control of the ball. Holding the height in band through the whole series, not just the first rep, is what makes a low, controlled handle something a player can actually rely on deep into a live drill."
+    },
+    {
+      "cue": "Drag the pace marker from the 'cruise' side of the board to the 'burst' zone, right as the change of pace happens.",
+      "drag": {
+        "missNote": "Still on the 'cruise' side. A change of pace that never actually moves off cruise is no change at all — drag the marker all the way into the burst zone.",
+        "radius": 0.45,
+        "to": "burst-zone"
+      },
+      "id": "drag-the-pace-to-the-burst-zone",
+      "kind": "drag",
+      "prompt": "Drag the pace marker from the 'cruise' side of the board to the 'burst' zone, right as the change of pace happens.",
+      "target": "pace-token",
+      "title": "Drag the pace marker from cruise to burst",
+      "why": "Feeling a change of pace and actually committing to it are two different things under a defender's pressure, and a physical marker moved from cruise to burst gives that commitment something concrete to point at. A player who understands the idea but never actually changes gears has not learned the move — they have only learned to talk about it."
+    },
+    {
+      "cue": "Watch each rep for what breaks down in the move, not just whether the defender got beat. Mark what needs a correction.",
+      "decoyNotes": {
+        "fault-low-tight-handle": "A low, tight handle through the whole move is exactly the form this drill wants. Look for what actually needs correcting."
+      },
+      "id": "spot-the-move-faults",
+      "itemNames": {
+        "fault-carrying-the-ball": "a crossover with the hand coming up under the ball",
+        "fault-dribbling-too-upright": "a player dribbling the whole move too upright",
+        "fault-not-selling-the-hesitation": "a hesitation that does not actually sell — the defender never bites"
+      },
+      "itemNotes": {
+        "fault-carrying-the-ball": "A hand sliding up under the ball on the crossover is a carry every time it is called correctly. Reset the hand position before the next rep.",
+        "fault-dribbling-too-upright": "Dribbling the whole move upright puts the ball far from the body and easy for a defender to reach. That needs a lower stance, not just a faster crossover.",
+        "fault-not-selling-the-hesitation": "A hesitation the defender never reacts to has not actually sold anything — it is just a pause. That needs real weight shift and eye contact, not just a beat of stillness."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Watch each rep for what breaks down in the move, not just whether the defender got beat. Mark what needs a correction.",
+      "targets": [
+        "fault-carrying-the-ball",
+        "fault-dribbling-too-upright",
+        "fault-not-selling-the-hesitation"
+      ],
+      "title": "Spot the move faults in the line",
+      "why": "A move can beat a defender on pure speed and still be full of faults that catch up with a player in a real game: a hand sliding into a carry, a stance too upright to protect the ball, and a hesitation that never actually looks believable are all worth catching here, in a controlled line, before a game referee or a better defender catches them instead."
+    },
+    {
+      "cue": "Pull the player whose move needs work off to the side for a low-key word, rather than flagging the fault in front of the whole line.",
+      "id": "correct-a-fault-with-a-quiet-word",
+      "kind": "select",
+      "prompt": "Pull the player whose move needs work off to the side for a low-key word, rather than flagging the fault in front of the whole line.",
+      "target": "quiet-word-spot",
+      "title": "Correct a move fault with a quiet word",
+      "why": "A move that is still developing draws enough self-consciousness from a young player without a fault being narrated out loud for the whole line to hear. Taking it aside, briefly and calmly, keeps the correction about the footwork itself rather than turning into a moment the player has to recover from socially as well as technically."
+    },
+    {
+      "cue": "Come under control and hold a balanced stop after the burst — no sprinting straight into the next player's space.",
+      "holdBreakNote": "The stop was still moving fast when the hold ended. Come under control and hold a balanced stop before moving on.",
+      "id": "hold-a-controlled-stop-after-the-burst",
+      "kind": "hold",
+      "prompt": "Come under control and hold a balanced stop after the burst — no sprinting straight into the next player's space.",
+      "seconds": 5,
+      "target": "controlled-stop-marker",
+      "title": "Hold a controlled stop after the burst",
+      "why": "A burst that ends with a player still at full speed, uncontrolled, is one step from colliding with whoever or whatever is next in the lane. Holding a genuinely controlled stop after every burst is what keeps the change of pace a basketball move rather than a sprint that happens to end near a hoop."
+    },
+    {
+      "cue": "Turn the hand-rotation dial from strong hand to weak hand so every player runs the move both ways.",
+      "id": "turn-the-reps-to-the-weak-hand",
+      "kind": "turn",
+      "prompt": "Turn the hand-rotation dial from strong hand to weak hand so every player runs the move both ways.",
+      "target": "hand-rotation-dial",
+      "title": "Turn the reps over to the weak hand",
+      "turn": {
+        "axis": "y",
+        "label": "WEAK HAND",
+        "turns": 0.5
+      },
+      "why": "A crossover that only ever starts from a player's strong hand is a move a defense learns to anticipate by the second time down the floor. Turning the reps over to the weak hand, deliberately and on a schedule rather than only when it comes up, is what makes the whole combo something a player can actually use whichever way a defender forces them."
+    },
+    {
+      "cue": "Write down the faults that kept recurring, how well the pace change and dribble height actually held under live pressure, and whatever the athletic trainer flagged.",
+      "id": "log-the-dribble-session",
+      "kind": "select",
+      "prompt": "Write down the faults that kept recurring, how well the pace change and dribble height actually held under live pressure, and whatever the athletic trainer flagged.",
+      "target": "practice-log-board",
+      "title": "Log the dribble session",
+      "why": "The next ball-handling session builds on whichever faults kept recurring under live pressure and on anything the athletic trainer noticed about the ankle roll, and neither of those is reliable from memory a day later. Getting it into the log while the series is still fresh is what makes next week's correction target the actual pattern instead of a guess at it."
+    },
+    {
+      "cue": "Before moving to the next drill: compare notes on anything either of you noticed, and confirm everybody is genuinely ready to continue.",
+      "id": "crew-check-in",
+      "kind": "select",
+      "prompt": "Before moving to the next drill: compare notes on anything either of you noticed, and confirm everybody is genuinely ready to continue.",
+      "target": "crew-checkin-board",
+      "title": "Check in with the assistant coach and the athletic trainer",
+      "why": "Two sets of eyes on a live-move line rarely see exactly the same thing — one adult reading the footwork, the other watching for the collision risk in the spacing — so comparing notes catches what either one alone would have missed. It is the same kind of deliberate noticing the guide's check-in is built around."
+    }
+  ],
+  "supportLine": "your league's coach coordinator, or the assistant and athletic trainer who were running the live-move lines with you — a rolled ankle on a hard change of pace is worth talking through afterwards too",
+  "tagline": "A crossover only beats a defender because of what happens around it — a believable slow stretch that makes the sudden burst actually sudden, run low and under control the whole way through",
+  "title": "SmartCiti.X~ Dribble Moves and Change of Pace VR",
+  "trade": "Youth basketball coach",
+  "underwater": null,
+  "weather": "clear"
+}

@@ -1,0 +1,412 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "clean-haul-clean-release",
+    "name": "Clean Haul, Clean Release",
+    "note": "The permit was checked before the net was set, the protected species got priority release, the snag was eased off rather than forced, and every fish went back inside the handling window"
+  },
+  "category": "Water & Environmental",
+  "certification": "California Department of Fish and Wildlife (CDFW) permit conditions for the take, handling and release of fish in survey work; NOAA tide predictions and Endangered Species Act consultation for any protected species encountered; USCG 33 CFR Part 83 Inland Navigation Rules for the skiff set; USCG 46 CFR Part 160 lifesaving equipment, including personal flotation devices; OSHA 29 CFR 1910.132 personal protective equipment, general requirements",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "CDFW",
+        "citedAs": "CDFW",
+        "id": "cdfw-lake-streambed-alteration",
+        "title": "California Department of Fish and Wildlife oversight under the California Fish and Game Code, including Lake and Streambed Alteration Agreements (§1602) for work affecting a river, stream or lake"
+      },
+      {
+        "body": "NOAA",
+        "citedAs": "NOAA",
+        "id": "noaa-tides-and-esa",
+        "title": "NOAA tide predictions and NOAA Fisheries Endangered Species Act consultation for in-water work"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.132",
+        "id": "osha-1910-132",
+        "title": "29 CFR 1910.132 — Personal protective equipment, general requirements"
+      },
+      {
+        "body": "USCG",
+        "citedAs": "Inland Navigation Rules",
+        "id": "uscg-33-cfr-83",
+        "title": "33 CFR Part 83 — Inland Navigation Rules"
+      },
+      {
+        "body": "USFWS",
+        "citedAs": "Endangered Species Act",
+        "id": "usfws-esa",
+        "title": "Endangered Species Act §7 consultation and species protection measures set by the U.S. Fish and Wildlife Service"
+      }
+    ]
+  },
+  "district": "Water & Environmental",
+  "domain": "Water & Environmental",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "true-permit",
+        "name": "True Permit",
+        "note": "The permit board checked and the gear cleared before the net ever left the skiff"
+      },
+      {
+        "id": "clean-haul",
+        "name": "Clean Haul",
+        "note": "Never handled a fish past the window, never released one back into the net, never skipped the PFD"
+      },
+      {
+        "id": "held-the-window",
+        "name": "Held The Window",
+        "note": "The handling window landed inside the correct band, first time"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-survey",
+        "name": "Clean Survey",
+        "note": "No corrections across the whole haul"
+      },
+      {
+        "id": "steady-watch",
+        "name": "Steady Watch",
+        "note": "Held the net scan in band through the whole haul"
+      },
+      {
+        "id": "logged-fast",
+        "name": "Logged Fast",
+        "note": "Survey closed out inside 80% of par"
+      }
+    ],
+    "currency": "HAULS",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Beach Crew",
+      "Seine Technician",
+      "Lead Technician",
+      "Senior Technician",
+      "Beach Seine Certified"
+    ],
+    "system": "Seine Survey Watch"
+  },
+  "hazards": {
+    "handle-fish-too-long": "You kept a fish out of the water past the handling window to finish the measurement. Every extra second out of the water is a second of stress a fish that's already been netted, hauled and handled doesn't have to spare, and 'just one more measurement' is exactly the reasoning the handling window exists to override — the fish goes back in the water on the window's schedule, not once the last number is written down.",
+    "no-pfd-net-set": "You hopped back into the skiff to reset the net without your PFD on. Setting a net from a small skiff means leaning out over the gunwale with both hands busy with the net, which is exactly the moment a PFD matters most and exactly the moment it's easiest to skip because it feels like a two-minute job — it goes on before every trip off the beach, not just the ones that feel long enough to bother.",
+    "release-into-net": "You released a fish back into the water right next to the net that's still set. A fish released inside or against a net that hasn't been pulled yet is a fish that's simply caught again, now further stressed by a second capture that taught the survey nothing new — release only happens clear of the net, in open water, every time.",
+    "skip-permit-check": "You set the net without checking today's permit conditions first. The species, the quota and the season this survey is allowed to work under are all set in the CDFW permit for this specific site, not decided by the crew on the beach, and a net set on yesterday's assumption instead of today's permit is a take the permit was never actually issued to cover."
+  },
+  "id": "br-beach-seine-fish-survey-and-handling",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "haul-checklist",
+      "alert": "A young salmonid protected under the Endangered Species Act has turned up in the haul, still in the net with the rest of the catch.",
+      "cue": "Give it priority release immediately — do not add it to the routine tally first.",
+      "delay": 2,
+      "id": "protected-species-in-net",
+      "kind": "A young salmonid turns up in the net",
+      "missNote": "The salmonid sat in the net waiting its turn at the tally board instead of getting released first — exactly the extra handling its protected status exists to prevent.",
+      "seconds": 14,
+      "target": "priority-release",
+      "why": "A listed species gets released with the least possible handling the permit's Endangered Species Act consultation allows, which means it does not wait in line behind the rest of the catch for its turn at the tally board — the routine count can wait; a protected fish still out of the water cannot.",
+      "wrongNote": "Priority release — that's the one action that gets a protected species back in the water ahead of the routine count."
+    },
+    {
+      "after": "net-scan",
+      "alert": "The net has snagged on something submerged partway through the haul, and the rope has gone taut against it.",
+      "cue": "Signal the skiff to stop hauling immediately — do not force it through the snag.",
+      "delay": 2,
+      "id": "net-snags-submerged-object",
+      "kind": "The net snags on something submerged mid-haul",
+      "missNote": "The haul kept pulling against the snag instead of stopping — exactly the moment a torn panel or a skiff in trouble is most likely.",
+      "seconds": 14,
+      "target": "haul-stop-signal",
+      "why": "Forcing a haul through a snag is how a net panel tears or how a skiff pulling against a fixed object suddenly loses its own stability, and neither the beach crew nor the skiff can tell from their end alone what the net has actually caught on — the stop signal is what gets both ends easing off together instead of one side pulling against a problem the other side can't see.",
+      "wrongNote": "The stop signal — that's the one call that gets both ends of the haul easing off together."
+    }
+  ],
+  "lateNotes": {
+    "handling-clock": "Nothing to read yet — a fish has to actually be out of the water before there's a handling window to watch.",
+    "tally-board": "Nothing to log yet — the net hasn't been hauled and nothing has been counted."
+  },
+  "name": "Beach Seine Fish Survey & Handling",
+  "parSeconds": 310,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "bay-restoration-maritime-underwater"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "skiff",
+        "count": 1,
+        "kit": "fleet"
+      },
+      {
+        "builder": "radio",
+        "count": 1,
+        "kit": "toolkit"
+      }
+    ],
+    "error": null,
+    "footprint": 3,
+    "hits": [
+      "beach-anchor-socket",
+      "beach-radio",
+      "boots-on",
+      "cracked-livewell",
+      "fish-released",
+      "gloves-on",
+      "handle-fish-too-long",
+      "handling-clock",
+      "handling-timer-dial",
+      "haul-begun",
+      "haul-stop-signal",
+      "net-bag",
+      "net-line",
+      "no-pfd-net-set",
+      "permit-board",
+      "pfd-on",
+      "priority-release",
+      "release-into-net",
+      "revival-bucket-checked",
+      "shore-end-secured",
+      "skiff-end-set",
+      "skip-permit-check",
+      "species-id-board",
+      "tally-board",
+      "torn-net-panel"
+    ],
+    "meshes": 168
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "anyOrder": true,
+      "cue": "Before the skiff launches: PFD on and buckled, wading boots on, wet-work gloves on.",
+      "id": "ppe-brief",
+      "itemNames": {
+        "boots-on": "wading boots on",
+        "gloves-on": "wet-work gloves on",
+        "pfd-on": "PFD on and buckled"
+      },
+      "kind": "sequence",
+      "prompt": "Before the skiff launches: PFD on and buckled, wading boots on, wet-work gloves on.",
+      "targets": [
+        "pfd-on",
+        "boots-on",
+        "gloves-on"
+      ],
+      "title": "Gear up before the skiff launches",
+      "why": "Setting a net from a small skiff means leaning over the gunwale with both hands on the net rather than on anything that would catch a fall, and the PFD is what keeps that fall survivable — the boots and gloves are what get the rest of the crew through a beach and a net that are both wet the entire shift."
+    },
+    {
+      "cue": "Read the permit board: today's site, season and species conditions, and the handling window per the permit.",
+      "id": "permit-board",
+      "kind": "select",
+      "prompt": "Read the permit board: today's site, season and species conditions, and the handling window per the permit.",
+      "target": "permit-board",
+      "title": "Read today's permit conditions",
+      "why": "The species this survey is allowed to target, the season it's allowed to run in and the window a fish can be handled for are all set in CDFW's own permit for this site, not decided on the beach, and reading the board before the net ever leaves the skiff is what keeps today's haul inside the permit it's actually being run under."
+    },
+    {
+      "cue": "Review the species reference: Pacific herring, topsmelt, staghorn sculpin, and what a young salmonid looks like against all three.",
+      "id": "species-id-board",
+      "kind": "select",
+      "prompt": "Review the species reference: Pacific herring, topsmelt, staghorn sculpin, and what a young salmonid looks like against all three.",
+      "target": "species-id-board",
+      "title": "Review the species reference before the haul",
+      "why": "A haul identified wrong at the tally board is a survey record that says something that didn't actually happen, and five minutes with the reference before the first set is what keeps the crew fast and correct once the net is actually full and every fish in it needs an answer quickly."
+    },
+    {
+      "cue": "Walk the gear laid out on the beach and find anything wrong with it before the skiff sets the net.",
+      "id": "check-gear",
+      "itemNames": {
+        "cracked-livewell": "the livewell aerator, cracked at the fitting",
+        "torn-net-panel": "the seine net, torn along one panel"
+      },
+      "itemNotes": {
+        "cracked-livewell": "A cracked fitting means the livewell won't actually hold water under pressure, and a fish that goes in for a quick revival needs that water to actually be there — check it before the first fish needs it.",
+        "torn-net-panel": "A torn panel lets exactly the smaller fish this survey is trying to count slip straight back out mid-haul — found now, on the beach, it's a patch; found mid-haul it's a survey with a hole in its own data."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the gear laid out on the beach and find anything wrong with it before the skiff sets the net.",
+      "targets": [
+        "torn-net-panel",
+        "cracked-livewell"
+      ],
+      "title": "Check the gear before the net goes out",
+      "why": "The net and the livewell are the two pieces of equipment this whole survey depends on, and finding a torn panel or a cracked fitting now, before either one is actually needed, costs nothing — finding either one mid-haul costs the survey a clean count or a fish that needed the livewell and didn't have one."
+    },
+    {
+      "cue": "Drag the net bag from the skiff out to the offshore anchor point, running the line as the skiff motors out.",
+      "drag": {
+        "missNote": "Not at the anchor point — the net has to actually reach the marked stretch, not just get close to it.",
+        "radius": 0.4,
+        "to": "beach-anchor-socket"
+      },
+      "id": "set-net-from-skiff",
+      "kind": "drag",
+      "prompt": "Drag the net bag from the skiff out to the offshore anchor point, running the line as the skiff motors out.",
+      "target": "net-bag",
+      "title": "Run the net out from the skiff",
+      "why": "A beach seine only samples the water it's actually set across, and running the offshore end out clean from the skiff — rather than dumping it over the side wherever the skiff happens to be — is what makes today's haul a survey of a known stretch of water instead of a stretch of net that ended up wherever the current took it."
+    },
+    {
+      "cue": "Secure the shore end, confirm the skiff end is set at the anchor point, then signal both ends to begin the haul together.",
+      "id": "haul-checklist",
+      "itemNames": {
+        "haul-begun": "haul signal given to both ends",
+        "shore-end-secured": "shore end of the net secured",
+        "skiff-end-set": "skiff end confirmed set at the anchor point"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Secure the shore end before the skiff end is even confirmed set — a haul that starts before both ends are actually anchored just pulls the net sideways.",
+      "prompt": "Secure the shore end, confirm the skiff end is set at the anchor point, then signal both ends to begin the haul together.",
+      "targets": [
+        "shore-end-secured",
+        "skiff-end-set",
+        "haul-begun"
+      ],
+      "title": "Confirm both ends and start the haul",
+      "why": "A net hauled from one end before the other is actually secured doesn't close around anything, it just drags sideways through the water, and confirming both ends before the haul signal is what turns two separate crews doing two separate jobs into one haul that actually samples the water between them."
+    },
+    {
+      "cue": "Turn the stopwatch dial to today's permit handling window before the first fish comes out of the net.",
+      "id": "handling-timer-dial",
+      "kind": "turn",
+      "prompt": "Turn the stopwatch dial to today's permit handling window before the first fish comes out of the net.",
+      "target": "handling-timer-dial",
+      "title": "Set the handling-time stopwatch",
+      "turn": {
+        "label": "HANDLING WINDOW",
+        "turns": 0.6
+      },
+      "why": "The handling window is set in the permit to what a netted fish can actually tolerate out of the water, not to whatever pace feels comfortable for the crew, and setting the stopwatch before the first fish is handled is what turns that number into something the crew is actually held to rather than a rule remembered only after the fact."
+    },
+    {
+      "cue": "Hold a steady scan along the net as it's hauled in — a snag or a protected species has to be caught the moment it shows, not after the net's already on the beach.",
+      "holdBreakNote": "The scan lost the net before the haul finished — steady it and pick the pass back up.",
+      "id": "net-scan",
+      "kind": "track",
+      "prompt": "Hold a steady scan along the net as it's hauled in — a snag or a protected species has to be caught the moment it shows, not after the net's already on the beach.",
+      "seconds": 6,
+      "target": "net-line",
+      "title": "Scan the net as it comes in",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.42,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "NET SCAN",
+        "rise": 0.5,
+        "start": 0.13
+      },
+      "why": "A net hauled without anyone actually watching it come in is a net that only gets checked once everything in it is already on the beach, and a scan that rushes past the near end or drags past the far end is exactly how a snag or a protected species goes unnoticed until the haul is already finished."
+    },
+    {
+      "cue": "Hold the net steady on the beach while the catch is sorted and counted — a net that's still moving is a fish that's still stressed.",
+      "holdBreakNote": "The net slipped before the tally finished — steady it and hold it through to the end of the count.",
+      "id": "catch-hold",
+      "kind": "hold",
+      "prompt": "Hold the net steady on the beach while the catch is sorted and counted — a net that's still moving is a fish that's still stressed.",
+      "seconds": 5,
+      "target": "net-line",
+      "title": "Hold the net steady for the tally",
+      "why": "A net that keeps shifting on the beach makes every fish in it work harder to stay upright in water that won't hold still, which adds exactly the kind of stress the handling window is trying to minimise — holding it steady for the tally is what keeps the counting itself from costing the catch anything extra."
+    },
+    {
+      "cue": "Watch the handling clock and get the catch back in the water once it reads inside the window — not before every fish is counted, and not past the window either.",
+      "gauge": {
+        "green": [
+          0.46,
+          0.64
+        ],
+        "label": "HANDLING WINDOW",
+        "missNote": "Off the band. The permit's handling window has to actually be read and released on, not guessed at.",
+        "speed": 0.55
+      },
+      "id": "handling-clock",
+      "kind": "gauge",
+      "prompt": "Watch the handling clock and get the catch back in the water once it reads inside the window — not before every fish is counted, and not past the window either.",
+      "target": "handling-clock",
+      "title": "Release inside the handling window",
+      "why": "Releasing before the tally is finished loses data the survey needs, and releasing past the window is exactly how a fish that survived the haul doesn't survive the counting — the window on the clock is the one number that isn't a judgement call, it's what the permit says this catch can actually tolerate."
+    },
+    {
+      "cue": "Log the tally: species counts at the generic reference level, the protected species released, and the handling time for the haul.",
+      "id": "tally-board",
+      "kind": "select",
+      "prompt": "Log the tally: species counts at the generic reference level, the protected species released, and the handling time for the haul.",
+      "target": "tally-board",
+      "title": "Log today's tally",
+      "why": "The restoration programme's own fish survey record is built entirely out of entries like this one, and a tally logged right after release — while the exact counts are still what was actually seen, not what gets remembered back at the truck — is the version of today's haul that can actually stand behind next season's comparison."
+    },
+    {
+      "cue": "Check the livewell for any fish that needs a moment to revive, then release the whole catch clear of the net.",
+      "id": "release-checklist",
+      "itemNames": {
+        "fish-released": "catch released clear of the net",
+        "revival-bucket-checked": "livewell checked for any fish needing revival"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Check the livewell for any fish that needs reviving before the rest of the catch is released — a fish that's still recovering shouldn't go back in with the ones that are ready.",
+      "prompt": "Check the livewell for any fish that needs a moment to revive, then release the whole catch clear of the net.",
+      "targets": [
+        "revival-bucket-checked",
+        "fish-released"
+      ],
+      "title": "Run the release checklist in order",
+      "why": "A fish that came up stressed sometimes needs a minute in aerated water before it can swim off on its own, and checking for that before the general release is what keeps a fish that isn't ready yet from going back into open water where it can't actually hold its own position — release only happens once every fish in the catch is actually able to swim away."
+    },
+    {
+      "cue": "On the working channel: the haul is complete, the salmonid and the snag are both handled, and how the skiff crew is doing after a haul with two interruptions in it.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "On the working channel: the haul is complete, the salmonid and the snag are both handled, and how the skiff crew is doing after a haul with two interruptions in it.",
+      "target": "beach-radio",
+      "title": "Check in with the skiff",
+      "why": "A haul with a protected species and a snag both in it is a haul the skiff crew spent more alert than a routine set, and the check-in is where that gets acknowledged directly — it's also where the beach crew's own read on a tense haul gets a place to go besides staying with them on the sand."
+    },
+    {
+      "cue": "Close the log: the permit conditions held, the tally complete, the salmonid released, and every fish back in the water inside the window.",
+      "id": "closing-log",
+      "kind": "select",
+      "prompt": "Close the log: the permit conditions held, the tally complete, the salmonid released, and every fish back in the water inside the window.",
+      "target": "tally-board",
+      "title": "Close out the survey log",
+      "why": "The closing entry is what turns today's individual counts and holds into the record CDFW's own permit compliance review is actually built from — a log closed out completely, in order, is the difference between a survey programme that renews on the strength of its own record and one that raises a question nobody on this beach can answer months later."
+    }
+  ],
+  "supportLine": "your agency's employee assistance programme, with CDFW's own permit-compliance line behind it",
+  "tagline": "The survey that never costs a fish more than it has to: today's permit read before the net leaves the skiff, the gear checked for a torn panel before it's set, the net run out from the skiff and hauled in as one crew, a protected species released ahead of the routine tally, a snag answered by easing off rather than forcing the haul, every fish handled and identified inside the permit's window, and every one of them back in the water before that window closes",
+  "title": "SmartCiti.X~ Beach Seine Fish Survey & Handling VR",
+  "trade": "Fisheries technician, running a beach seine survey and skiff set for a restoration monitoring programme under a CDFW permit",
+  "underwater": null,
+  "weather": "clear"
+}

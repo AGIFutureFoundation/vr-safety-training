@@ -1,0 +1,423 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "correction-not-collapse",
+    "name": "Correction, Not Collapse",
+    "note": "A hard mistake on film corrected specifically and taken by the player as something to fix, not as who they are"
+  },
+  "category": "Youth Sports & Coaching",
+  "certification": "USA Basketball youth development guidelines on coaching feedback that builds a young athlete's game rather than their fear of the next mistake; the Association for Applied Sport Psychology's guidance on growth-mindset feedback — the specific behaviour, its impact, one actionable fix, and genuine credit for effort; NFHS basketball rules and its sportsmanship expectations for how a team treats a teammate's mistakes on film as much as on the court; the U.S. Center for SafeSport for private, observable correction rather than a mistake replayed for laughs in front of the team; CDC Heads Up for a knock to the head noticed while walking a correction through at game speed; the American Red Cross first aid course for a player who is unwell or dehydrated sitting through a long review session",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "Association for Applied Sport Psychology",
+        "citedAs": "Association for Applied Sport Psychology",
+        "id": "aasp-sport-psychology-guidance",
+        "title": "Association for Applied Sport Psychology guidance on mental-skills routines for young athletes: composure after a mistake, pre-performance routines, coach feedback and growth mindset, and decision-making under pressure"
+      },
+      {
+        "body": "CDC",
+        "citedAs": "CDC Heads Up",
+        "id": "cdc-heads-up",
+        "title": "CDC Heads Up concussion-in-youth-sports training for coaches, parents and athletes: recognise the signs, remove the player from play, refer for evaluation, and return only with clearance"
+      },
+      {
+        "body": "NFHS",
+        "citedAs": "NFHS",
+        "id": "nfhs-basketball-rules",
+        "title": "National Federation of State High School Associations (NFHS) basketball rules and its sports medicine advisory guidance on concussion, heat and hydration for school sport"
+      },
+      {
+        "body": "Red Cross",
+        "citedAs": "American Red Cross first aid",
+        "id": "red-cross-first-aid-course",
+        "title": "American Red Cross first aid, CPR and AED course for coaches and staff: check the scene, call, care, and hand over to emergency services"
+      },
+      {
+        "body": "U.S. Center for SafeSport",
+        "citedAs": "U.S. Center for SafeSport",
+        "id": "safesport-code",
+        "title": "U.S. Center for SafeSport abuse-prevention training and policies for adults who work with young athletes: two adults present, observable and interruptible interactions, and reporting"
+      },
+      {
+        "body": "USA Basketball",
+        "citedAs": "USA Basketball",
+        "id": "usa-basketball-youth-guidelines",
+        "title": "USA Basketball youth development guidelines: age-appropriate play, practice length and frequency, rest and multi-sport participation for young players, and the coach licence that teaches them"
+      }
+    ]
+  },
+  "district": "gym-court",
+  "domain": "Youth Sports",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "clear-room-first",
+        "name": "Clear Room First",
+        "note": "Every hazard in the film room found before the review starts"
+      },
+      {
+        "id": "no-collapse",
+        "name": "No Collapse",
+        "note": "No unsafe action anywhere in the session"
+      },
+      {
+        "id": "steady-review",
+        "name": "Steady Review",
+        "note": "Receptiveness and composure through the review both inside the band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-session",
+        "name": "Clean Session",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "unshaken",
+        "name": "Unshaken",
+        "note": "Held the player's composure in band through the rest of the review"
+      },
+      {
+        "id": "quick-review",
+        "name": "Quick Review",
+        "note": "Practice log reached inside 80% of par"
+      }
+    ],
+    "currency": "GROWTH POINTS",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Bench Helper",
+      "Line Coach",
+      "Assistant Coach",
+      "Head Coach",
+      "Feedback Mentor"
+    ],
+    "system": "Film Room Board"
+  },
+  "hazards": {
+    "compare-the-player-to-a-teammate": "You told the player watching film that they should just do it the way a specific teammate does. The Association for Applied Sport Psychology's guidance on growth-mindset feedback is built around a player's own progress against their own last attempt, not a comparison to someone else — a comparison teaches a player to measure themselves against people they cannot control instead of a fix they actually can.",
+    "give-only-criticism-no-specific-fix": "You listed everything wrong with the play and left the room without naming one specific thing to actually do differently. Feedback with no actionable fix is not coaching, it is a verdict — a player who hears only what went wrong, with nothing concrete to try next time, walks away with the mistake and nothing to replace it with.",
+    "leave-the-projector-cable-across-the-walkway": "You left the projector's cable running straight across the walkway between the bench and the screen. A player getting up mid-review to demonstrate a footwork fix, watching the film and not their feet, is exactly who catches a foot on a cable like that, and a room full of chairs makes a fall from a trip worse, not better.",
+    "mock-the-mistake-in-front-of-the-team": "You played the blooper clip for the whole team to laugh at instead of reviewing it privately with the player it happened to. The U.S. Center for SafeSport's own standard for correction is that it should be observable and private, not a performance for an audience — a mistake turned into a joke for the team stops being a coaching moment and becomes something that player carries into every game after."
+  },
+  "id": "bb-coach-feedback-and-growth-mindset",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "hold-the-quiet-after-the-fix",
+      "alert": "The player stands up abruptly, blinking back tears, and moves toward the door as if they are about to walk out of the review entirely.",
+      "cue": "Point them calmly to the step-outside spot for a minute of air, rather than blocking the door or telling them to sit back down.",
+      "delay": 3,
+      "id": "player-stands-up-to-walk-out",
+      "kind": "Emotional moment",
+      "missNote": "Nobody offered anywhere to go, and the player either sat back down still holding it in or left the gym entirely with nobody checking on them outside.",
+      "seconds": 12,
+      "target": "step-outside-spot",
+      "why": "A player who needs to step away from a hard correction is not refusing to be coached, they are regulating, and blocking the door or ordering them back into the chair turns a normal reaction into a bigger confrontation. Pointing calmly to a real space to take a minute keeps the moment from escalating and tells the player the room is not going to chase them for having a feeling.",
+      "wrongNote": "That does not give them anywhere to go. Point them to the step-outside spot for a minute of air."
+    },
+    {
+      "after": "hold-composure-through-the-rest-of-the-review",
+      "alert": "The rest of the team wanders past the open door, spots the blooper clip still frozen on the screen, and starts laughing at it.",
+      "cue": "Send the assistant to turn the screen away and close the door — the review stays between the coach and the player.",
+      "delay": 3,
+      "id": "the-team-sees-the-clip-and-laughs",
+      "kind": "Team moment",
+      "missNote": "The laughing kept going for another minute before anyone closed the door, and the player in the review chair heard every second of it.",
+      "seconds": 12,
+      "target": "screen-privacy-spot",
+      "why": "A private correction stops being private the moment the rest of the team can see the screen and laugh at it, and the damage is done the instant it happens, not after someone finally notices. Sending the assistant to turn the screen away and shut the door immediately is what keeps this review the private conversation it was always supposed to be.",
+      "wrongNote": "That does not stop the team from seeing it. Send the assistant to turn the screen away and close the door."
+    }
+  ],
+  "lateNotes": {
+    "crew-checkin-board": "The staff check-in comes after the log, at the very end.",
+    "practice-log-board": "The log closes the film session once the review has run and the player has taken the correction — nothing to record yet."
+  },
+  "name": "Coach Feedback and Growth Mindset",
+  "parSeconds": 335,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "basketball-fundamentals"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "action-bin",
+      "angle-dial",
+      "cable-across-the-walkway",
+      "compare-the-player-to-a-teammate",
+      "context-marker",
+      "crew-checkin-board",
+      "empty-water-bottle",
+      "fb-actionable-fix",
+      "fb-effort-credit",
+      "fb-impact",
+      "fb-specific-behavior",
+      "feedback-model-card",
+      "fixed-asking-a-clarifying-question",
+      "fixed-comparing-down",
+      "fixed-defensive-excuse",
+      "fixed-giving-up-posture",
+      "give-only-criticism-no-specific-fix",
+      "identity-token",
+      "landing-marker",
+      "leave-the-projector-cable-across-the-walkway",
+      "mock-the-mistake-in-front-of-the-team",
+      "player-arms-crossed-already",
+      "player-notebook-ready",
+      "practice-log-board",
+      "quiet-word-spot",
+      "receptiveness-gauge",
+      "review-composure-meter",
+      "screen-privacy-spot",
+      "single-fix-card",
+      "step-outside-spot"
+    ],
+    "meshes": 201
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Look at the room and at the player. Mark what has to be fixed underfoot and what tells you how they are arriving to this conversation.",
+      "decoyNotes": {
+        "player-notebook-ready": "A player with a notebook out, ready to write something down, is exactly the posture the review wants. Look for what actually needs fixing first."
+      },
+      "id": "scan-the-film-room-before-review",
+      "itemNames": {
+        "cable-across-the-walkway": "the projector cable running across the walkway",
+        "empty-water-bottle": "an empty water bottle on the bench",
+        "player-arms-crossed-already": "the player sitting with arms already crossed"
+      },
+      "itemNotes": {
+        "cable-across-the-walkway": "A cable across the one path between the bench and the screen is a trip waiting for someone standing up to demonstrate a fix. Tape it down or reroute it before anyone moves.",
+        "empty-water-bottle": "A long film session is still practice time. An empty bottle before the review even starts means somebody needs water before the lights go down.",
+        "player-arms-crossed-already": "Crossed arms before the film has even started is a player already braced for a verdict, not a conversation. That tells you how to open the review."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look at the room and at the player. Mark what has to be fixed underfoot and what tells you how they are arriving to this conversation.",
+      "targets": [
+        "cable-across-the-walkway",
+        "player-arms-crossed-already",
+        "empty-water-bottle"
+      ],
+      "title": "Scan the film room before the review starts",
+      "why": "A film session starts before the first clip plays: a cable across the walkway is a fall waiting to happen the moment someone stands up to demonstrate a fix, an empty water bottle means a player sitting through a long review already thirsty, and crossed arms tell a coach exactly how braced this player already is for what is coming."
+    },
+    {
+      "cue": "Put up the order: the specific behaviour, its impact, one actionable fix, and credit for what is already working.",
+      "id": "post-the-feedback-model",
+      "kind": "select",
+      "prompt": "Put up the order: the specific behaviour, its impact, one actionable fix, and credit for what is already working.",
+      "target": "feedback-model-card",
+      "title": "Post the feedback shape before the first clip",
+      "why": "A player who knows the shape a correction is going to take — what happened, why it mattered, one thing to change, and something real about their effort — can actually listen for the fix instead of bracing for however long the criticism is going to run. The order matters as much as the words: process before the sentence starts."
+    },
+    {
+      "cue": "Tell the player which clip they are about to see and why, then hold here before hitting play — no surprises, no ambush.",
+      "holdBreakNote": "The clip started before the player knew what was coming. Hold the pause and tell them what they are about to see first.",
+      "id": "pause-before-the-clip-plays",
+      "kind": "hold",
+      "prompt": "Tell the player which clip they are about to see and why, then hold here before hitting play — no surprises, no ambush.",
+      "seconds": 5,
+      "target": "context-marker",
+      "title": "Hold a real pause before the clip plays",
+      "why": "A mistake replayed with no warning lands as an ambush no matter how gently the words afterward are chosen. Giving the player a moment to know what they are about to watch, and holding that pause instead of rushing straight to the clip, is what keeps the whole review feeling like coaching instead of a setup."
+    },
+    {
+      "cue": "Name the behaviour first, then its impact, then one fix, then real credit for effort.",
+      "id": "build-the-feedback-in-order",
+      "itemNames": {
+        "fb-actionable-fix": "give one actionable fix",
+        "fb-effort-credit": "credit something real about effort",
+        "fb-impact": "name its impact on the play",
+        "fb-specific-behavior": "name the specific behaviour"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order. The specific behaviour gets named first — starting with the fix before the player even knows what is being fixed leaves them guessing at what you actually saw.",
+      "prompt": "Name the behaviour first, then its impact, then one fix, then real credit for effort.",
+      "targets": [
+        "fb-specific-behavior",
+        "fb-impact",
+        "fb-actionable-fix",
+        "fb-effort-credit"
+      ],
+      "title": "Build the feedback in order",
+      "why": "Each part earns the next: naming the exact behaviour keeps the conversation about the play and not the player, naming its impact is what makes the fix worth caring about, one specific fix is something a player can actually go practise, and credit for genuine effort at the end is what keeps a hard correction from reading as a verdict on the whole session."
+    },
+    {
+      "cue": "Post the single actionable correction this review is actually about — not everything that could be improved.",
+      "id": "choose-one-fix-not-five",
+      "kind": "select",
+      "prompt": "Post the single actionable correction this review is actually about — not everything that could be improved.",
+      "target": "single-fix-card",
+      "title": "Choose one fix to give, not a list",
+      "why": "A player who leaves a review with five things to fix leaves with none of them, because there is no way to practise five corrections at once. Choosing the one fix that matters most right now, and saving the rest for another day, is what makes a correction something a player can actually go do something with."
+    },
+    {
+      "cue": "Turn the angle dial until the clip shows the footwork or the read clearly, not just the ball.",
+      "id": "turn-to-the-right-camera-angle",
+      "kind": "turn",
+      "prompt": "Turn the angle dial until the clip shows the footwork or the read clearly, not just the ball.",
+      "target": "angle-dial",
+      "title": "Turn the film to the angle that actually shows the fix",
+      "turn": {
+        "axis": "y",
+        "label": "ANGLE",
+        "turns": 0.5
+      },
+      "why": "A player who can actually see the thing being corrected — the foot that stepped wrong, the gap they missed — believes it faster than a player who is only told about it while looking at a different part of the screen. Turning to the angle that shows the fix clearly does more of the convincing than any sentence a coach says over it."
+    },
+    {
+      "cue": "Commit when the player reads as open — not still bracing, not checked out of the conversation.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "OPEN",
+        "missNote": "Outside the band. Landed too soon, the fix bounces off a player still bracing for criticism; too late, they have already stopped listening. Find open and commit.",
+        "speed": 0.6
+      },
+      "id": "read-the-players-receptiveness",
+      "kind": "gauge",
+      "prompt": "Commit when the player reads as open — not still bracing, not checked out of the conversation.",
+      "target": "receptiveness-gauge",
+      "title": "Read how open the player is before landing the fix",
+      "why": "The exact same correction lands differently depending on when it is given: too soon and a player still bracing for criticism does not actually hear it, too late and a player who has emotionally checked out of the conversation is not listening for anything at all. Reading the moment honestly, rather than by the clock, is what makes the fix worth giving at all."
+    },
+    {
+      "cue": "Say the fix once, clearly, then stop talking — hold the quiet here instead of piling on more.",
+      "holdBreakNote": "The talking started again before the fix had a chance to land. Hold the quiet a few more seconds and let it sit.",
+      "id": "hold-the-quiet-after-the-fix",
+      "kind": "hold",
+      "prompt": "Say the fix once, clearly, then stop talking — hold the quiet here instead of piling on more.",
+      "seconds": 5,
+      "target": "landing-marker",
+      "title": "Hold a quiet moment for the correction to land",
+      "why": "A coach who keeps talking after the fix has already been said is not reinforcing it, they are drowning it in more words for a player to sort through. Holding quiet right after the correction gives it room to actually land, and it tells the player the conversation is a fix, not the opening of a longer lecture."
+    },
+    {
+      "cue": "Watch how the player is carrying the correction, not just whether they nodded along. Mark what needs redirecting.",
+      "decoyNotes": {
+        "fixed-asking-a-clarifying-question": "A player asking exactly what to do differently is the growth-mindset response working. Look for who is not asking anything at all."
+      },
+      "id": "spot-the-fixed-mindset-signs",
+      "itemNames": {
+        "fixed-comparing-down": "the player comparing themselves unfavourably to a teammate, unprompted",
+        "fixed-defensive-excuse": "the player already making an excuse for the mistake",
+        "fixed-giving-up-posture": "the player's posture reading as ready to give up on the whole session"
+      },
+      "itemNotes": {
+        "fixed-comparing-down": "A player putting themselves down against a teammate is treating one mistake as proof of something bigger. That needs redirecting to the one specific fix, not the whole comparison.",
+        "fixed-defensive-excuse": "An excuse offered before the fix is even finished being said is a sign the correction landed as a verdict, not a fix. Slow down and name the behaviour again, plainly.",
+        "fixed-giving-up-posture": "Slumped shoulders and a player checking out of the room is the fixed-mindset spiral in full — the credit-for-effort part of the feedback shape needs to come back in now, not later."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Watch how the player is carrying the correction, not just whether they nodded along. Mark what needs redirecting.",
+      "targets": [
+        "fixed-defensive-excuse",
+        "fixed-comparing-down",
+        "fixed-giving-up-posture"
+      ],
+      "title": "Spot the signs of a fixed-mindset response",
+      "why": "A correction can be given exactly right and still land as a verdict if the player was already braced to hear one. Catching a defensive excuse, an unprompted comparison to a teammate, or a posture that has already given up on the session is what tells a coach the feedback needs redirecting back to the one specific, fixable thing before the review goes any further."
+    },
+    {
+      "cue": "Drag the mistake token from the 'who I am' side of the board to the 'what I'll do differently' side.",
+      "drag": {
+        "missNote": "Still on the 'who I am' side. A mistake left there stays a verdict on the player instead of one thing to practise — move it all the way to the action side.",
+        "radius": 0.45,
+        "to": "action-bin"
+      },
+      "id": "move-the-mistake-from-identity-to-action",
+      "kind": "drag",
+      "prompt": "Drag the mistake token from the 'who I am' side of the board to the 'what I'll do differently' side.",
+      "target": "identity-token",
+      "title": "Move the mistake from who-I-am to what-I'll-do",
+      "why": "A growth mindset is not a feeling a coach can talk a player into — it is treating a mistake as an action to change rather than a fact about who you are. Moving a physical token from one side of the board to the other gives that distinction something concrete to point at, which is easier for a young player to hold onto than the phrase alone."
+    },
+    {
+      "cue": "Step to the side with the player who is still struggling with the correction — brief, calm, private.",
+      "id": "quiet-word-for-the-struggling-player",
+      "kind": "select",
+      "prompt": "Step to the side with the player who is still struggling with the correction — brief, calm, private.",
+      "target": "quiet-word-spot",
+      "title": "Give a player who took it hard a quiet word",
+      "why": "A player who visibly took a correction hard needs to hear, quietly and to them alone, that the mistake is not the whole story of their game. Said privately, it is reassurance that keeps the growth-mindset frame intact; said in front of the team, it becomes one more thing for that player to be self-conscious about."
+    },
+    {
+      "cue": "Keep the player's composure in band through the remaining clips — not shut down, not swinging into overconfidence to cover it.",
+      "holdBreakNote": "Composure left the band — shut down, or overcorrecting with bravado. Bring it back to steady before the next clip.",
+      "id": "hold-composure-through-the-rest-of-the-review",
+      "kind": "track",
+      "prompt": "Keep the player's composure in band through the remaining clips — not shut down, not swinging into overconfidence to cover it.",
+      "seconds": 8,
+      "target": "review-composure-meter",
+      "title": "Hold the player's composure through the rest of the review",
+      "track": {
+        "drift": 0.15,
+        "fall": 0.42,
+        "green": [
+          0.38,
+          0.62
+        ],
+        "label": "COMPOSURE",
+        "rise": 0.5,
+        "start": 0.32
+      },
+      "why": "One hard correction can either be absorbed and built on or can colour every clip that follows it, either shutting the player down for the rest of the session or pushing them into a defensive bravado that covers the same thing up. Holding composure in band through the remaining clips is what tells a coach the growth-mindset frame actually held past the first fix."
+    },
+    {
+      "cue": "Record the fix given, how the player took it, and anything the athletic trainer noticed.",
+      "id": "log-the-film-review",
+      "kind": "select",
+      "prompt": "Record the fix given, how the player took it, and anything the athletic trainer noticed.",
+      "target": "practice-log-board",
+      "title": "Log the film review",
+      "why": "The one fix given, how the player actually took the correction and anything the athletic trainer noticed about their state are what the next practice needs to build on. Written down at the time, the log is the fairest record of whether this player needs the same fix reinforced gently or is ready for the next one."
+    },
+    {
+      "cue": "After the room clears: how the review felt to run, anything either of you saw, and is the player good to rejoin the group?",
+      "id": "crew-check-in",
+      "kind": "select",
+      "prompt": "After the room clears: how the review felt to run, anything either of you saw, and is the player good to rejoin the group?",
+      "target": "crew-checkin-board",
+      "title": "Check in with the assistant coach and the athletic trainer",
+      "why": "Giving a hard correction and watching a player take it takes something out of the coach delivering it too. A short check-in — what did you see, how did that feel to say, is this player worth a follow-up conversation — keeps the staff working as a team and is exactly the kind of noticing the guide's check-in points to."
+    }
+  ],
+  "supportLine": "your league's coach coordinator, or the assistant who handled the team side of the room while you ran the review — a player who takes a correction hard is worth a follow-up conversation too",
+  "tagline": "The same mistake on film either becomes one specific, fixable thing or a verdict on the player watching it — the difference is entirely in how the correction is given",
+  "title": "SmartCiti.X~ Coach Feedback and Growth Mindset VR",
+  "trade": "Youth basketball coach",
+  "underwater": null,
+  "weather": "clear"
+}

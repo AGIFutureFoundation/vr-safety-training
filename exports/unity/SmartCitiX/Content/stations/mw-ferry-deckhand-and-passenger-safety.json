@@ -1,0 +1,398 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "every-soul-counted",
+    "name": "Every Soul Counted",
+    "note": "The count held against the certificate, the passenger overboard answered with the ring, and the gangway never crossed before it was landed"
+  },
+  "category": "Maritime & Ports",
+  "certification": "Inlandboatmen's Union of the ILWU deck department practice; MEBA engineering watch; SIU Paul Hall Center unlicensed training for relief ratings; IMO STCW basic safety training and crowd management for passenger-ship crew; IMO SOLAS muster, station bill and life-saving appliance requirements as the vessel's own certificate of inspection applies them; IMO MARPOL for anything that goes over the side",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "ILWU",
+        "id": "ilwu-pma-training",
+        "title": "ILWU-PMA joint training for longshore, crane and clerk work, and the Inlandboatmen's Union marine division"
+      },
+      {
+        "body": "IMO",
+        "citedAs": "IMO MARPOL",
+        "id": "imo-marpol",
+        "title": "MARPOL — International Convention for the Prevention of Pollution from Ships"
+      },
+      {
+        "body": "IMO",
+        "citedAs": "IMO SOLAS",
+        "id": "imo-solas",
+        "title": "SOLAS — International Convention for the Safety of Life at Sea"
+      },
+      {
+        "body": "IMO",
+        "citedAs": "IMO STCW",
+        "id": "imo-stcw",
+        "title": "STCW — Convention on Standards of Training, Certification and Watchkeeping for Seafarers"
+      },
+      {
+        "body": "union",
+        "citedAs": "MEBA",
+        "id": "meba-calhoon-school",
+        "title": "MEBA — the Calhoon MEBA Engineering School's licensed marine engineer training"
+      },
+      {
+        "body": "union",
+        "citedAs": "SIU",
+        "id": "siu-paul-hall-center",
+        "title": "SIU — the Paul Hall Center for Maritime Training and Education's unlicensed mariner programmes"
+      }
+    ]
+  },
+  "district": "Maritime & Ports",
+  "domain": "Maritime & Ports",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "bill-before-boarding",
+        "name": "Bill Before Boarding",
+        "note": "The station bill read before the first passenger came near the gangway"
+      },
+      {
+        "id": "counted-true",
+        "name": "Counted True",
+        "note": "Count committed against the certificate inside the band, first time"
+      },
+      {
+        "id": "no-shortcuts-on-deck",
+        "name": "No Shortcuts On Deck",
+        "note": "Never across the gap, never in the bight, never a wedged watertight door, never a line near the screw"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-run",
+        "name": "Clean Run",
+        "note": "No corrections from the station bill to the log"
+      },
+      {
+        "id": "line-held",
+        "name": "Line Held",
+        "note": "The bow line held in band on the capstan the whole landing"
+      },
+      {
+        "id": "on-schedule",
+        "name": "On Schedule",
+        "note": "Run logged inside 80% of par"
+      }
+    ],
+    "currency": "SOUL",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Ordinary Deckhand",
+      "Deckhand",
+      "Lead Deckhand",
+      "Bosun",
+      "Ferry Deck Certified"
+    ],
+    "system": "Ferry Deck"
+  },
+  "hazards": {
+    "bight-at-bitt": "You stood inside the bight of the bow line between the bitt and the fairlead. When the capstan takes the line up, the bight closes at the speed of the drum on whatever is inside it, and a line under load that parts whips back along its own lead — the deckhand works the line from outside every loop it makes, with the loop in sight.",
+    "gap-jump": "You stepped across the gap to the float before the gangway had landed. The gap between a ferry's rubbing strake and a float opens and closes with every surge, and a foot that misses goes into cold water between two moving masses that can crush as well as drown — the gangway exists so nobody, crew included, ever crosses that gap any other way.",
+    "stern-line-screw": "You threw the stern line off and let its tail go over the side with the master already putting the wheel ahead. A slack line in the water aft is drawn straight into the wash, and a line round the screw stops the shaft, strips the gear and leaves a ferry full of passengers without propulsion alongside a float — the line comes aboard hand over hand, and the wheelhouse hears 'line clear aft' before the screw turns.",
+    "wt-door-wedged": "You wedged the watertight door open to make the passenger flow easier. A watertight door is part of the ferry's subdivision, the thing that keeps flooding in one compartment out of the next, and the station bill and the vessel's certificate assume it is closed whenever it is not actually being passed through. A wedge makes it a hole in the bulkhead at exactly the moment nobody is watching it."
+  },
+  "id": "mw-ferry-deckhand-and-passenger-safety",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "boarding-count",
+      "alert": "A passenger has slipped off the float's edge and gone into the water between the float and the ferry's hull — they are in the gap and the ferry is surging on her lines.",
+      "cue": "Throw the life ring from the rail to the person in the water and shout the alarm — keep eyes on them and point.",
+      "delay": 2,
+      "id": "passenger-overboard",
+      "kind": "Passenger overboard between the float and the hull",
+      "missNote": "The passenger stayed in the gap with nothing to hold, the ferry surged back toward the float, and the boarding count carried on as if the gangway were the only thing on deck that mattered.",
+      "seconds": 14,
+      "target": "life-ring",
+      "why": "A person in the water between a float and a hull is in the most dangerous gap on the waterfront: cold water takes the grip out of the hands in minutes and the hull can close the gap on the next surge. The ring buoy is on the rail for exactly this and it goes to the person immediately, with the alarm raised and a finger pointing so the wheelhouse holds the ferry off rather than landing her on them.",
+      "wrongNote": "The life ring — the person is in the water now, and the ring on the rail is the one thing on deck that reaches them immediately."
+    },
+    {
+      "after": "capstan-landing",
+      "alert": "The ebb has set in hard across the float — the bow is being carried off and the stern is swinging toward the next float's piles.",
+      "cue": "Call the master on the deck radio: tell the wheelhouse the set, where the bow is and what the line is doing.",
+      "delay": 2,
+      "id": "current-shift-landing",
+      "kind": "Current shift at the landing",
+      "missNote": "The ebb carried the bow off the float with the capstan still heaving, the line came bar-tight, and the stern closed on the next float's piles before anyone told the wheelhouse what the deck could see.",
+      "seconds": 14,
+      "target": "deck-radio",
+      "why": "The master in the wheelhouse feels the ferry move but cannot see the bow line or how far the stern is from the piles; the deckhand forward can. A current shift at a landing is answered with information first — the set, the distance and the state of the line on the radio — so the master can use the engines, rather than the deckhand trying to win against the tide with a capstan.",
+      "wrongNote": "The deck radio — the capstan cannot beat the tide, and the master needs to hear what the bow is doing to answer it with the engines."
+    }
+  ],
+  "lateNotes": {
+    "bow-line-bitt": "The bow line comes off the bitt on the master's order once the count is reported and the gate is chained — not while passengers are still crossing.",
+    "deck-log": "The run is logged once the passengers are ashore and counted off — the log records what happened, so it comes last.",
+    "passenger-counter": "Boarding starts with the gangway landed and the deck walked — the counter comes out once there is a safe way aboard to count people across."
+  },
+  "name": "Ferry Deckhand & Passenger Safety",
+  "parSeconds": 280,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "bay-area-union-edition"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "bight-at-bitt",
+      "blocked-exit",
+      "bow-line-bitt",
+      "capstan-control",
+      "coi-placard",
+      "crew-board",
+      "deck-log",
+      "deck-radio",
+      "extinguisher-tag",
+      "gangway",
+      "gangway-landing",
+      "gap-jump",
+      "gate-chain",
+      "life-ring",
+      "lifejacket-seal",
+      "loose-mat",
+      "passenger-counter",
+      "station-bill",
+      "stern-line-screw",
+      "wheelhouse-intercom",
+      "work-vest",
+      "wt-door-wedged"
+    ],
+    "meshes": 242
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the station bill on the cabin bulkhead: your muster station, your duty in a fire, in abandon ship and in person overboard, and who works the rescue gear.",
+      "id": "station-bill",
+      "kind": "select",
+      "prompt": "Read the station bill on the cabin bulkhead: your muster station, your duty in a fire, in abandon ship and in person overboard, and who works the rescue gear.",
+      "target": "station-bill",
+      "title": "Read the station bill before the boarding",
+      "why": "The station bill is how a passenger ferry turns a crew into an emergency organisation without a meeting: every name has a place and a job for fire, abandon ship and person overboard, and IMO SOLAS builds its muster requirements on each crew member knowing that job before the vessel carries anyone. Reading it at the start of the watch — not during the alarm — is what makes the first thirty seconds of an emergency a drill instead of a discussion."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Work vest on and fastened for the edge of the deck, and the deck radio checked with the wheelhouse on the working channel.",
+      "id": "vest-and-radio",
+      "itemNames": {
+        "deck-radio": "deck radio on the working channel",
+        "work-vest": "work vest"
+      },
+      "kind": "sequence",
+      "prompt": "Work vest on and fastened for the edge of the deck, and the deck radio checked with the wheelhouse on the working channel.",
+      "targets": [
+        "work-vest",
+        "deck-radio"
+      ],
+      "title": "Put on the work vest and check the deck radio",
+      "why": "A deckhand's job puts them at the edge of the deck at every landing, handling lines and a gangway over water, and the work vest is what keeps a fall between the hull and the float survivable in cold bay water. The radio check is the other half: the master in the wheelhouse cannot see the gangway or the lines from the controls, and the deckhand's voice on the working channel is the only way the wheelhouse knows the deck is ready — a radio that has not been checked is a radio found dead when it is needed."
+    },
+    {
+      "cue": "Walk the deck from the gangway head to the aft exit: trip hazards, wet patches, anything across an exit or a lifejacket locker.",
+      "id": "deck-walk",
+      "itemNames": {
+        "blocked-exit": "luggage cart parked across the aft emergency exit",
+        "loose-mat": "curled non-slip mat at the gangway head"
+      },
+      "itemNotes": {
+        "blocked-exit": "A luggage cart has been left across the aft emergency exit. The exits are part of the vessel's evacuation plan, marked and kept clear because a full cabin empties toward them in the dark; one cart across a door turns an exit into a crush point.",
+        "loose-mat": "The non-slip mat at the head of the gangway has curled up at one corner — every passenger coming aboard steps onto it with their eyes on the deck ahead, and a curled mat on a wet deck is the commonest injury a ferry deck produces."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the deck from the gangway head to the aft exit: trip hazards, wet patches, anything across an exit or a lifejacket locker.",
+      "targets": [
+        "loose-mat",
+        "blocked-exit"
+      ],
+      "title": "Walk the passenger deck before anyone boards",
+      "why": "Passengers board looking for a seat, not at the deck, and many of them are elderly, carrying children or wheeling bags; a deck that is safe for a crew who know it is not the same as a deck that is safe for three hundred strangers. The walk is done before the gangway is landed because once passengers are aboard there is no clearing an exit or fixing a mat without working against the crowd."
+    },
+    {
+      "cue": "Bring the gangway across and land it on the float's rollers with its side chains up — the ferry end on its hinge, the float end free to ride.",
+      "drag": {
+        "missNote": "Not landed — the gangway's float end has to sit on the rollers, clear of the float's edge, before anyone crosses.",
+        "radius": 0.5,
+        "to": "gangway-landing"
+      },
+      "id": "land-gangway",
+      "kind": "drag",
+      "prompt": "Bring the gangway across and land it on the float's rollers with its side chains up — the ferry end on its hinge, the float end free to ride.",
+      "target": "gangway",
+      "title": "Land the gangway on the float",
+      "why": "The gangway is the only crossing between two things that move independently: the ferry surges and rolls on her lines while the float rides the tide. It lands on rollers at the float end so the ferry's movement slides it instead of dragging it off, and its chains or rails go up before anyone sets foot on it. A gangway that is pinned at both ends or landed short is the thing that throws a passenger into the gap on the first surge."
+    },
+    {
+      "cue": "Stand at the gangway head with the counter: one click per person, children and infants included, eyes on the gangway the whole time.",
+      "holdBreakNote": "The watch broke with passengers still crossing — the count is only good if every person on the gangway was seen. Start the count again from the gangway head.",
+      "id": "boarding-count",
+      "kind": "hold",
+      "prompt": "Stand at the gangway head with the counter: one click per person, children and infants included, eyes on the gangway the whole time.",
+      "seconds": 5,
+      "target": "passenger-counter",
+      "title": "Hold the boarding watch and count every passenger aboard",
+      "why": "The number on the counter is the number the master reports, the number the vessel's certificate of inspection is measured against, and the number a search starts from if anyone ends up in the water. It is held without a break because the moment the deckhand looks away is the moment two people cross on one click — and a count that is wrong by one is a person who does not exist on paper."
+    },
+    {
+      "cue": "Commit the count against the passenger figure on the certificate of inspection posted at the gangway head — inside the certificate, never over it.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.58
+        ],
+        "label": "COUNT vs COI",
+        "missNote": "Outside the band — the count has to be complete and inside the certificate's figure before the gate closes.",
+        "speed": 0.72
+      },
+      "id": "coi-check",
+      "kind": "gauge",
+      "prompt": "Commit the count against the passenger figure on the certificate of inspection posted at the gangway head — inside the certificate, never over it.",
+      "target": "coi-placard",
+      "title": "Read the count against the certificate of inspection",
+      "why": "The certificate of inspection sets how many people this ferry can carry, because that is the number her lifesaving gear, her stability and her crewing were measured against — one more person than the figure is one more person without a seat in a liferaft. The deckhand closes the gate at the certificate's figure whatever the queue says, and the count is committed against the posted certificate rather than against memory."
+    },
+    {
+      "cue": "Gate chained across, and on the intercom: 'all aboard, count reported, gangway clear to come in'.",
+      "id": "all-aboard",
+      "kind": "select",
+      "prompt": "Gate chained across, and on the intercom: 'all aboard, count reported, gangway clear to come in'.",
+      "target": "wheelhouse-intercom",
+      "title": "Chain the gate and report the count to the wheelhouse",
+      "why": "The master cannot see the gangway from the controls and will not take the ferry off the float until the deck says the gangway is clear and the count is in. The report is a closed loop — the deckhand says it, the master repeats it back — because 'clear' misheard over an engine is the difference between a gangway coming in empty and one coming in with a passenger still on it."
+    },
+    {
+      "cue": "On 'let go forward', take the figure-of-eight turns off the bitt one at a time, keeping the last turn until the line is slack, then bring it aboard.",
+      "id": "let-go-bow",
+      "kind": "turn",
+      "prompt": "On 'let go forward', take the figure-of-eight turns off the bitt one at a time, keeping the last turn until the line is slack, then bring it aboard.",
+      "target": "bow-line-bitt",
+      "title": "Take the bow line's turns off the bitt on the master's order",
+      "turn": {
+        "label": "BITT TURNS",
+        "turns": 1.25
+      },
+      "why": "A mooring line under load on a bitt holds the vessel's surge with friction, and taking the turns off in order keeps that friction under the deckhand's control: the last turn comes off only when the line has gone slack, so the line cannot run out through bare hands. It comes off on the master's order and not before, because the master is working the engines against that line to hold the ferry while the gangway comes in."
+    },
+    {
+      "cue": "Walk the lifejacket lockers, the ring buoys and the extinguishers on the deck round: seals intact, counts right, gauges in the green.",
+      "id": "lsa-round",
+      "itemNames": {
+        "extinguisher-tag": "extinguisher with its gauge needle in the red",
+        "lifejacket-seal": "broken seal on the lifejacket locker"
+      },
+      "itemNotes": {
+        "extinguisher-tag": "The extinguisher by the cabin door reads in the red on its gauge: it has lost pressure and will discharge a dribble when somebody pulls the pin in a galley fire.",
+        "lifejacket-seal": "The seal on the aft lifejacket locker is broken and the door is ajar — someone has been into it, and a locker that has been opened is a locker whose count of adult and child lifejackets is no longer known."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the lifejacket lockers, the ring buoys and the extinguishers on the deck round: seals intact, counts right, gauges in the green.",
+      "targets": [
+        "lifejacket-seal",
+        "extinguisher-tag"
+      ],
+      "title": "Walk the life-saving and fire gear underway",
+      "why": "The life-saving appliances on a passenger ferry are counted against the number of people she is certificated to carry, and a broken seal or a discharged extinguisher is found on a round like this or found in the emergency it was carried for. IMO SOLAS puts the gear aboard and the crew's inspection keeps it ready; the round is walked underway because that is when the passengers are aboard and the gear is what stands between them and the water."
+    },
+    {
+      "cue": "Hold the capstan's heave steady as the master works the ferry alongside the next float — enough to bring the bow in, never snatching the line.",
+      "holdBreakNote": "The heave broke out of band — the bow line either went slack or snatched. Bring the capstan back to a steady heave and hold it there.",
+      "id": "capstan-landing",
+      "kind": "track",
+      "prompt": "Hold the capstan's heave steady as the master works the ferry alongside the next float — enough to bring the bow in, never snatching the line.",
+      "seconds": 6,
+      "target": "capstan-control",
+      "title": "Tend the bow line on the capstan as the master lands her",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.46,
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "CAPSTAN",
+        "rise": 0.58,
+        "start": 0.15
+      },
+      "why": "Landing a ferry is the master's engines and the deckhand's capstan working one line between them: too little heave and the bow falls off the float with the tide, too much and the line snatches, the stored stretch in it jumps, and the fitting or the line is the thing that gives. The heave is held in band and watched rather than wound on, because the master's next move depends on the line doing what the deckhand says it is doing."
+    },
+    {
+      "cue": "Gangway landed on the rollers first, then the gate chain off, then the passengers counted ashore to the same number that came aboard.",
+      "id": "land-passengers",
+      "itemNames": {
+        "gangway-landing": "gangway landed on the float's rollers",
+        "gate-chain": "gate chain off",
+        "passenger-counter": "passengers counted off"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order — the gangway lands before the chain comes off, and the count is taken as they cross, never before the gate is open.",
+      "prompt": "Gangway landed on the rollers first, then the gate chain off, then the passengers counted ashore to the same number that came aboard.",
+      "targets": [
+        "gangway-landing",
+        "gate-chain",
+        "passenger-counter"
+      ],
+      "title": "Land the passengers in order",
+      "why": "The order is the safety: a gate opened before the gangway has landed invites the first impatient passenger into the gap, and a count taken off is what proves the number that boarded is the number that left — the only way a crew knows nobody is still aboard, asleep in the cabin or gone over the side unseen. A count that does not match is reported to the master before the ferry leaves the float again."
+    },
+    {
+      "cue": "Log the count aboard and ashore, the person in the water and the recovery, the broken locker seal and the discharged extinguisher, and the current shift at the landing.",
+      "id": "deck-log",
+      "kind": "select",
+      "prompt": "Log the count aboard and ashore, the person in the water and the recovery, the broken locker seal and the discharged extinguisher, and the current shift at the landing.",
+      "target": "deck-log",
+      "title": "Enter the run in the deck log",
+      "why": "The deck log is the vessel's own record, and it is what the master signs, the company reviews and an inspector reads after anything goes wrong. A person in the water, a discharged extinguisher and a locker seal broken are each a report and a repair; written now, at the float, they are facts with times on them, and the next crew starts from the log rather than from what somebody remembers at the end of a long day."
+    },
+    {
+      "cue": "Crew huddle at the crew board: the recovery debriefed, who needs relief, and how everyone is after pulling a passenger out of the water.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Crew huddle at the crew board: the recovery debriefed, who needs relief, and how everyone is after pulling a passenger out of the water.",
+      "target": "crew-board",
+      "title": "Check in with the crew before the next run",
+      "why": "A person-overboard recovery is over in a minute and stays with a crew for much longer, and the Inlandboatmen's Union practice is to say out loud how it went before the next boarding rather than to carry it silently onto the next run. The check-in is also operational — who is wet, who is hurt, who needs relief before the gangway goes out again — and the member assistance line is named because saying it costs nothing."
+    }
+  ],
+  "supportLine": "your union hall's member assistance programme — the Inlandboatmen's Union, MEBA or SIU — with the employer's employee assistance line behind it",
+  "tagline": "A passenger ferry at the float: the station bill read, vest and radio on, the deck walked before boarding, the gangway landed, the count held against the certificate while a passenger goes in between the float and the hull, the lines let go, the life-saving gear walked, the bow line tended on the capstan through a current shift, the passengers landed in order and the run logged",
+  "title": "SmartCiti.X~ Ferry Deckhand & Passenger Safety VR",
+  "trade": "Inlandboatmen's Union of the ILWU deckhand on a Bay passenger ferry, with the MEBA licensed engineer below and SIU-trained ratings in the relief crew",
+  "underwater": null,
+  "weather": "wind"
+}

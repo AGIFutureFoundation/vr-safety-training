@@ -1,0 +1,402 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "gas-free-proven",
+    "name": "Gas Free Proven",
+    "note": "A biogas main opened only after purge, LEL and H2S were all proven, and closed leak-tight"
+  },
+  "category": "Water & Environmental",
+  "certification": "UA / AFSCME — wastewater treatment operator and plant pipefitter; OSHA 29 CFR 1910.146 permit-required confined space; NFPA 820 for the classified area; 1910.147 energy control; NFPA 69 explosion prevention by purging",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFSCME",
+        "id": "afscme-training",
+        "title": "AFSCME member education and safety training for public-service and air-district members"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 69",
+        "id": "nfpa-69",
+        "title": "NFPA 69 — Standard on Explosion Prevention Systems"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 820",
+        "id": "nfpa-820",
+        "title": "NFPA 820 — Fire Protection in Wastewater Treatment and Collection Facilities"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.146",
+        "id": "osha-1910-146",
+        "title": "29 CFR 1910.146 — Permit-required confined spaces"
+      },
+      {
+        "body": "union",
+        "citedAs": "UA",
+        "id": "ua-apprenticeship",
+        "title": "UA — United Association plumber, pipefitter and HVAC service apprenticeship standards and UA Star certification"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Wastewater treatment",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "purged-first",
+        "name": "Purged First",
+        "note": "Nitrogen in before the flange came apart, first time"
+      },
+      {
+        "id": "no-ignition",
+        "name": "No Ignition Source",
+        "note": "Never brought a spark into the classified area"
+      },
+      {
+        "id": "read-true",
+        "name": "Read True",
+        "note": "LEL and H2S both read inside limits"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "leak-tight",
+        "name": "Leak Tight",
+        "note": "Passed the leak test first time"
+      },
+      {
+        "id": "bond-held",
+        "name": "Bond Held",
+        "note": "Held the bonding contact the full count"
+      },
+      {
+        "id": "back-on-gas",
+        "name": "Back On Gas",
+        "note": "Main returned to service inside 80% of par"
+      }
+    ],
+    "currency": "SCFM",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Operator I",
+      "Operator II",
+      "Plant Pipefitter",
+      "Shift Supervisor",
+      "Digester Authority Certified"
+    ],
+    "system": "Digester Authority"
+  },
+  "hazards": {
+    "grinder": "You reached for the grinder to free the flange. Hot work on a biogas main is not something you permit carefully — it is something you do not do. The bolts come off cold, with non-sparking tools, or the line gets gas-freed and certified first.",
+    "no-scba": "You opened the flange on air alone. Hydrogen sulphide at the concentrations a digester main carries destroys your sense of smell in seconds and drops you in a couple of breaths — the warning you are relying on stops working before the gas does.",
+    "phone-out": "You brought a phone into the classified area. Division 1 means an explosive atmosphere is expected here in normal operation — the phone, the torch and the non-rated meter all stay outside the boundary, because the thing that ignites biogas is not a flame, it is any spark at all.",
+    "vent-downwind": "You set the purge vent at grade downwind of the work. A purge discharge at grade puts the whole contents of the main through the breathing zone of everybody standing there — it does not matter that biogas is slightly buoyant, because a few inches of water column pushing it out of a low stack sends it sideways across the crew long before it climbs. The stack goes up and away so the gas has somewhere to go that is not a lung."
+  },
+  "id": "digester-gas",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "purge",
+      "alert": "The digester dome indicator is climbing. With the main isolated the gas has nowhere to go and the roof is lifting on its seal.",
+      "cue": "The digester did not stop making gas because you closed a valve.",
+      "delay": 4,
+      "id": "dome-rising",
+      "kind": "Digester pressure",
+      "missNote": "The dome relieved through its seal. That is several hundred cubic metres of methane released at grade over a working plant, an odour complaint the city will hear about, and a roof seal to re-flood before the digester can run again.",
+      "seconds": 12,
+      "target": "relief-bypass",
+      "why": "A digester produces gas continuously. Isolate its outlet and the pressure goes into the dome, which is built to lift and then to relieve through a water seal — messily, into the open, all of it. The bypass to the flare is what keeps production going somewhere safe while the main is down.",
+      "wrongNote": "It is the relief bypass to the flare. The digester is still making gas and it needs somewhere to send it."
+    },
+    {
+      "after": "lel",
+      "alert": "The wind has come round. The purge vent is now discharging straight back over the pit and your gas meter has started ticking up.",
+      "cue": "Your own vent is feeding the space you are working in.",
+      "delay": 3,
+      "id": "wind-shift",
+      "kind": "Vent downwind of crew",
+      "missNote": "The vent kept discharging over the pit. The readings you took to justify opening that flange were taken before the wind moved, and by the time the flange came apart they described a different pit.",
+      "seconds": 11,
+      "target": "purge-vent",
+      "why": "A vent is only safe relative to where people are standing and which way the air is moving, and both of those change. When the meter climbs with the purge still running, the first suspect is your own discharge.",
+      "wrongNote": "It is the purge vent. Move the discharge before you take another reading or turn another bolt."
+    }
+  ],
+  "lateNotes": {
+    "flange-bolts": "The flange comes apart after the purge is complete and the atmosphere is proven, not before.",
+    "n2-valve": "The nitrogen goes in after the main is isolated at both ends."
+  },
+  "name": "Digester Gas",
+  "parSeconds": 265,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "situational-awareness"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.2,
+    "hits": [
+      "area-boundary",
+      "arrester-seat",
+      "bonding-cable",
+      "corroded-drip",
+      "cracked-seal",
+      "csp-permit",
+      "downstream-valve",
+      "flange-bolts",
+      "gas-meter",
+      "grinder",
+      "h2s-meter",
+      "manometer",
+      "n2-valve",
+      "new-arrester",
+      "no-scba",
+      "phone-box",
+      "phone-out",
+      "purge-vent",
+      "rated-meter",
+      "relief-bypass",
+      "scba-set",
+      "upstream-valve",
+      "valve-locks",
+      "vent-downwind",
+      "vent-mast"
+    ],
+    "meshes": 227
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the classification, the isolation points, the purge volume and the entry conditions.",
+      "id": "permit",
+      "kind": "select",
+      "prompt": "Read the classification, the isolation points, the purge volume and the entry conditions.",
+      "target": "csp-permit",
+      "title": "Take the confined space and hot work permits",
+      "why": "This is a classified area and the pit around the arrester is a permit space. The permit names the isolation, the purge and the atmospheric limits, and it is signed by someone who is not the person doing the work."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Boundary up, phone and non-rated torch in the box outside it, intrinsically safe meter in hand.",
+      "id": "boundary",
+      "itemNames": {
+        "area-boundary": "classified-area boundary",
+        "phone-box": "phone and torch in the box",
+        "rated-meter": "intrinsically safe meter"
+      },
+      "kind": "sequence",
+      "prompt": "Boundary up, phone and non-rated torch in the box outside it, intrinsically safe meter in hand.",
+      "targets": [
+        "area-boundary",
+        "phone-box",
+        "rated-meter"
+      ],
+      "title": "Set the boundary and strip the ignition sources",
+      "why": "Division 1 is not a warning, it is a statement that an explosive atmosphere is expected here. Everything that crosses the boundary is rated for it or it does not cross."
+    },
+    {
+      "cue": "Close upstream first, then downstream, and confirm both are seated.",
+      "id": "isolate",
+      "itemNames": {
+        "downstream-valve": "downstream plug valve",
+        "upstream-valve": "upstream plug valve"
+      },
+      "kind": "sequence",
+      "prompt": "Close upstream first, then downstream, and confirm both are seated.",
+      "targets": [
+        "upstream-valve",
+        "downstream-valve"
+      ],
+      "title": "Isolate the main both sides",
+      "why": "Upstream first, because closing the downstream valve on a live digester backs pressure into the dome. The digester makes gas whether or not you are ready for it and the roof is designed to lift, not to hold."
+    },
+    {
+      "cue": "Chain and lock on each valve, your tag on both.",
+      "id": "lock",
+      "kind": "select",
+      "prompt": "Chain and lock on each valve, your tag on both.",
+      "target": "valve-locks",
+      "title": "Lock both valves and tag them",
+      "why": "A plug valve that somebody cracks to relieve a header while you have the flange apart fills the pit with methane in under a minute. The chain is what makes that impossible rather than merely unlikely."
+    },
+    {
+      "cue": "Carry the vent stack to the mast and get the discharge above head height, away from the crew.",
+      "drag": {
+        "missNote": "Not on the mast — at grade and downwind of the pit is exactly where it must not be.",
+        "radius": 0.45,
+        "to": "vent-mast"
+      },
+      "id": "vent-set",
+      "kind": "drag",
+      "prompt": "Carry the vent stack to the mast and get the discharge above head height, away from the crew.",
+      "target": "purge-vent",
+      "title": "Set the purge vent high and downwind",
+      "why": "What comes out of the purge is the whole point. Above head height and downwind, it mixes with moving air and is gone. At grade it is released straight into the breathing zone and drifts along the ground into the pit you are about to work in, whatever its density says it should do."
+    },
+    {
+      "cue": "Open the nitrogen and hold until the purge volume has passed.",
+      "holdBreakNote": "The purge stopped short. A partly purged line is a line still holding gas — start the volume again.",
+      "id": "purge",
+      "kind": "hold",
+      "prompt": "Open the nitrogen and hold until the purge volume has passed.",
+      "seconds": 6,
+      "target": "n2-valve",
+      "title": "Purge the section with nitrogen",
+      "why": "Nitrogen displaces the methane out through the vent so the section never passes through its explosive range at a concentration that matters. Five volumes is the figure on the permit, and it is held, not estimated."
+    },
+    {
+      "cue": "Sample at the top of the pit, at mid-depth and at the bottom, and commit on the worst reading.",
+      "gauge": {
+        "green": [
+          0.02,
+          0.14
+        ],
+        "label": "LEL %",
+        "missNote": "Still reading gas — keep purging, and do not put a wrench on that flange.",
+        "speed": 0.75
+      },
+      "id": "lel",
+      "kind": "gauge",
+      "prompt": "Sample at the top of the pit, at mid-depth and at the bottom, and commit on the worst reading.",
+      "target": "gas-meter",
+      "title": "Prove it gas-free — LEL",
+      "why": "Biogas is about ninety-four per cent the density of air and it leaves the main warm, so the methane rises and collects under the top of the space while the hydrogen sulphide sinks. One reading proves one height. The meter goes down in stages and the number you act on is the worst of them."
+    },
+    {
+      "cue": "Second reading, second gas, same places.",
+      "gauge": {
+        "green": [
+          0.02,
+          0.13
+        ],
+        "label": "H2S ppm",
+        "missNote": "Hydrogen sulphide still present — respiratory protection stays on and the purge continues.",
+        "speed": 0.75
+      },
+      "id": "h2s",
+      "kind": "gauge",
+      "prompt": "Second reading, second gas, same places.",
+      "target": "h2s-meter",
+      "title": "Prove it gas-free — hydrogen sulphide",
+      "why": "LEL and H2S are different instruments answering different questions. A line can be below the explosive limit and still carry enough hydrogen sulphide to kill somebody leaning into the pit."
+    },
+    {
+      "cue": "On air for the break itself, however good the readings were.",
+      "id": "scba",
+      "kind": "select",
+      "prompt": "On air for the break itself, however good the readings were.",
+      "target": "scba-set",
+      "title": "Supplied air for the flange break",
+      "why": "The readings say what was in the line a minute ago. What comes out of a flange as it separates is whatever was trapped behind the gasket, and that is the moment the protection has to already be on."
+    },
+    {
+      "cue": "Clamp both sides of the joint and hold until the bond reads continuous.",
+      "holdBreakNote": "The bond broke before it read continuous — clamp it again and hold.",
+      "id": "bond",
+      "kind": "hold",
+      "prompt": "Clamp both sides of the joint and hold until the bond reads continuous.",
+      "seconds": 4,
+      "target": "bonding-cable",
+      "title": "Bond across the flange before it opens",
+      "why": "Separating two pieces of pipe carrying a flowing gas builds a static charge across the gap. The bond gives that charge somewhere to go other than across the joint as a spark."
+    },
+    {
+      "cue": "Bronze wrench, crack the bolts opposite each other, and let the joint open slowly.",
+      "id": "break-flange",
+      "kind": "turn",
+      "prompt": "Bronze wrench, crack the bolts opposite each other, and let the joint open slowly.",
+      "target": "flange-bolts",
+      "title": "Break the flange with non-sparking tools",
+      "turn": {
+        "axis": "z",
+        "label": "FLANGE",
+        "turns": 1.5
+      },
+      "why": "Opposite pairs so the flange comes apart square rather than hinging on one side and springing. Bronze because a dropped steel wrench on a steel flange in a Division 1 area is a spark with an audience."
+    },
+    {
+      "cue": "Old element out, new element in, flow arrow pointing to the digester.",
+      "drag": {
+        "missNote": "Not seated, or not the right way round — check the flow arrow against the dome.",
+        "radius": 0.4,
+        "to": "arrester-seat"
+      },
+      "id": "swap",
+      "kind": "drag",
+      "prompt": "Old element out, new element in, flow arrow pointing to the digester.",
+      "target": "new-arrester",
+      "title": "Fit the replacement flame arrester",
+      "why": "A flame arrester only works one way round. Fitted backwards it is a restriction in the line and nothing else, and the next flashback from the flare goes straight into the dome."
+    },
+    {
+      "cue": "Pressurise with nitrogen and hold the manometer inside the acceptance band.",
+      "gauge": {
+        "green": [
+          0.46,
+          0.62
+        ],
+        "label": "in. W.C.",
+        "missNote": "The joint is losing pressure — break it down and re-make it.",
+        "speed": 0.7
+      },
+      "id": "leak-test",
+      "kind": "gauge",
+      "prompt": "Pressurise with nitrogen and hold the manometer inside the acceptance band.",
+      "target": "manometer",
+      "title": "Leak-test the joint before gas returns",
+      "why": "A few inches of water column will not tear a flange apart, which is exactly why a bad joint on a biogas main leaks quietly for months instead of announcing itself. The test is the only thing that catches it."
+    },
+    {
+      "cue": "Look over the condensate legs, the traps and the supports before the valves come open; click what needs a work order.",
+      "id": "walk",
+      "itemNames": {
+        "corroded-drip": "corroded drip trap",
+        "cracked-seal": "cracked sight-glass seal"
+      },
+      "itemNotes": {
+        "corroded-drip": "The drip trap under the main is corroded through at the weld. When it fails, the main loses its water seal and the flare pulls air back down the line.",
+        "cracked-seal": "The sight glass on the condensate leg has a cracked seal. That is a continuous small release of H2S-bearing gas at head height for anybody reading the glass."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look over the condensate legs, the traps and the supports before the valves come open; click what needs a work order.",
+      "targets": [
+        "cracked-seal",
+        "corroded-drip"
+      ],
+      "title": "Walk the line before it goes back on gas",
+      "why": "Biogas lines fail slowly and quietly. Almost everything that gets caught on these lines gets caught by somebody walking them with their eyes open, not by an instrument."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Flame arrester change on a live biogas main: classified-area control, nitrogen purge, LEL and H2S proven, no hot work, bonded and re-leak-tested",
+  "title": "SmartCiti.X~ Digester Gas VR",
+  "trade": "Wastewater plant operator / pipefitter",
+  "underwater": null,
+  "weather": "fog"
+}

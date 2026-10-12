@@ -1,0 +1,395 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "on-spec-orange",
+    "name": "On-Spec Orange",
+    "note": "A recoat applied inside the weather window, at the specified film, with the airless pump relieved before its tip was touched"
+  },
+  "category": "Construction & Structural Trades",
+  "certification": "IUPAT and the Finishing Trades Institute industrial and bridge painter training; the owner's coating specification, with the blasted surface prepared to SSPC-SP 10 and an SSPC-QP 1 qualified contractor for field application; 29 CFR 1910.134 respiratory protection for solvent-borne coatings; 29 CFR 1910.1200 hazard communication for the coating's safety data sheets; OSHA 29 CFR 1926.502 and ANSI/ASSP Z359 for tie-off at the railing; the coating maker's product data for mixing, pot life and recoat windows",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "IUPAT",
+        "id": "iupat-fti",
+        "title": "IUPAT Finishing Trades Institute — industrial painter, glazier and drywall finisher apprenticeship, including lead and containment training"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1200",
+        "id": "osha-1910-1200",
+        "title": "29 CFR 1910.1200 — Hazard communication"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.134",
+        "id": "osha-1910-134",
+        "title": "29 CFR 1910.134 — Respiratory protection"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.502",
+        "id": "osha-1926-502",
+        "title": "29 CFR 1926.502 — Fall protection systems criteria and practices"
+      },
+      {
+        "body": "SSPC",
+        "citedAs": "SSPC-QP 1",
+        "id": "sspc-qp-1",
+        "title": "SSPC-QP 1 — Qualification procedure for painting contractors doing field application on complex industrial structures, now administered by AMPP"
+      },
+      {
+        "body": "SSPC",
+        "citedAs": "SSPC-SP 10",
+        "id": "sspc-sp-10",
+        "title": "SSPC-SP 10 / NACE No. 2 — Near-white metal blast cleaning"
+      }
+    ]
+  },
+  "district": "golden-gate-deck",
+  "domain": "Construction",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "inside-the-window",
+        "name": "Inside The Window",
+        "note": "Dew point margin committed inside the band first time"
+      },
+      {
+        "id": "even-film",
+        "name": "Even Film",
+        "note": "Spray held at a steady distance the whole pass"
+      },
+      {
+        "id": "respect-the-tip",
+        "name": "Respect The Tip",
+        "note": "Never a hand at the tip, never an open rag pile, never over the rail unclipped"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-coat",
+        "name": "Clean Coat",
+        "note": "No corrections from the specification to the log"
+      },
+      {
+        "id": "no-runs",
+        "name": "No Runs",
+        "note": "The spray pass never dropped out of band"
+      },
+      {
+        "id": "coat-inside-par",
+        "name": "Coat Inside Par",
+        "note": "Logged inside 80% of par"
+      }
+    ],
+    "currency": "COAT",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Paint Hand",
+      "Brush Painter",
+      "Spray Painter",
+      "Coating Lead",
+      "Paint Programme Certified"
+    ],
+    "system": "Paint Programme"
+  },
+  "hazards": {
+    "airless-tip-hand": "You put a finger up to the airless gun's tip to clear a blockage with the pump still pressurised. An airless sprayer drives paint through that tip at a pressure that goes straight through skin, and an injection injury looks like a small cut while the coating spreads through the hand under it; it is a surgical emergency every time. The tip is cleared only after the pressure has been relieved and the trigger locked, and with the tip guard on.",
+    "lean-over-rail-unclipped": "You leaned out over the railing to reach its outside face with your lanyard still hanging from your harness. The outside face of a bridge railing is over the edge of the deck, and a painter concentrating on a brush stroke is a painter not holding on. The lanyard goes onto the rated anchor before any reach past the rail.",
+    "solvent-rags-open": "You dropped the solvent-soaked rag onto the open pile beside the cart. Rags soaked with solvent and coating give off vapour that can find an ignition source, and rags soaked with some coatings heat themselves as they cure until they catch fire on their own. They go into the closed, labelled rag can, and the can leaves the deck at the end of the shift.",
+    "untethered-paint-pot": "You hung the paint pot on the outside of the railing with nothing holding it but its hook. A full pot hung over the railing is a weight over the strait on a hook that a gust or an elbow can lift, and paint dropped from a bridge goes into the water as surely as a tool does. Pots, brushes and rollers at the railing ride on tethers."
+  },
+  "id": "gg-international-orange-recoat",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "profile",
+      "alert": "A fog bank rolls in over the railing off the strait — the steel beads with moisture and the far light standards disappear.",
+      "cue": "Close the lid on the mixed coating and cover the pails — nothing gets coated or opened while the fog is on the steel.",
+      "delay": 2,
+      "id": "fog-on-the-steel",
+      "kind": "Fog bank rolling in",
+      "missNote": "The work went on with the fog beading on the steel and the mixed pail standing open. Anything coated in that window was coated over water, and the pail took on moisture that will show as a defect wherever it is used.",
+      "seconds": 12,
+      "target": "pail-lid",
+      "why": "Fog puts water straight onto the steel, and the dew point margin taken ten minutes ago no longer means anything. The coating work stops, and the first thing that happens is the lid goes on the mixed coating so the fog does not get into it either; the recoat waits until the steel is dry and the margin is back inside the specification, measured again rather than assumed.",
+      "wrongNote": "The pail lid — cover the mixed coating first. Nothing gets opened or coated while the fog is on the steel."
+    },
+    {
+      "after": "spray",
+      "alert": "A gust comes over the railing and the overspray lifts off the steel in an orange cloud, drifting across the closure toward the open lanes.",
+      "cue": "Stop the airless pump — no spraying in a wind that carries the coating off the steel.",
+      "delay": 3,
+      "id": "gust-on-the-spray",
+      "kind": "Gust past the work-stop limit",
+      "missNote": "Spraying went on through the gust, and the coating drifted off the steel across the open lanes and toward the water, with a live gun in the hand of a painter bracing against the wind.",
+      "seconds": 12,
+      "target": "airless-pump-stop",
+      "why": "In a gust past the limit, overspray does not settle on the steel; it drifts across the deck onto vehicles in the open lanes, onto the crew, and over the railing toward the water. The pump stops, not just the trigger, because a painter holding a live gun in a gust is holding a pressurised tool while trying to keep their footing, and spraying resumes only when the wind is back under the limit.",
+      "wrongNote": "The pump stop — stop making overspray first, and take the pressure off the gun while the wind is up."
+    }
+  ],
+  "lateNotes": {
+    "paint-log": "The recoat is logged once the pump is relieved and the wet paint is signed.",
+    "spray-gun": "The coat is sprayed once the edges and rivet heads have been striped by brush — the brush coat goes first.",
+    "trigger-lock": "The trigger lock goes on once the pump's pressure has been relieved through the gun — relieve first."
+  },
+  "name": "International Orange Recoat",
+  "parSeconds": 320,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "bay-area-union-edition"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.8,
+    "hits": [
+      "airless-pump-stop",
+      "airless-tip-hand",
+      "coating-spec",
+      "dewpoint-meter",
+      "dust-on-steel",
+      "lean-over-rail-unclipped",
+      "mixer-paddle",
+      "pail-lid",
+      "paint-log",
+      "paint-radio",
+      "painter-anchor",
+      "pump-relief",
+      "replica-tape",
+      "respirator-cartridge",
+      "rivet-row",
+      "rust-bloom",
+      "sharp-edge",
+      "sign-post",
+      "solvent-rags-open",
+      "spray-gun",
+      "stripe-brush",
+      "trigger-lock",
+      "untethered-paint-pot",
+      "wet-paint-sign",
+      "wft-comb"
+    ],
+    "meshes": 203
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the specification: the surface preparation standard, the coating system and its colour, the film thickness for each coat, the weather limits and the recoat window.",
+      "id": "spec",
+      "kind": "select",
+      "prompt": "Read the specification: the surface preparation standard, the coating system and its colour, the film thickness for each coat, the weather limits and the recoat window.",
+      "target": "coating-spec",
+      "title": "Read the coating specification for the recoat",
+      "why": "The colour is the part of the job everyone sees, but the specification is what keeps the steel under it: the surface preparation standard the coating was tested over, the film thickness each coat has to reach, and the weather it can be applied in. A coat that is the right orange over the wrong preparation or outside its weather window fails early, and the failure shows as rust bleeding through the colour."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Clip your lanyard to the rated anchor beside the railing, and fit organic vapour cartridges to your respirator for the solvent-borne coating.",
+      "id": "ready",
+      "itemNames": {
+        "painter-anchor": "lanyard on the railing-side anchor",
+        "respirator-cartridge": "organic vapour cartridges in the respirator"
+      },
+      "kind": "sequence",
+      "prompt": "Clip your lanyard to the rated anchor beside the railing, and fit organic vapour cartridges to your respirator for the solvent-borne coating.",
+      "targets": [
+        "painter-anchor",
+        "respirator-cartridge"
+      ],
+      "title": "Tie off at the railing and fit the right cartridges",
+      "why": "Painting a railing means reaching over it, so the lanyard is on a rated anchor before the first reach. The respirator needs cartridges matched to the coating's solvents under 29 CFR 1910.134, which is why the safety data sheet names the vapour: a particulate filter that was right for blasting does nothing against solvent vapour, and a painter wearing the wrong one is breathing the coating while believing they are protected."
+    },
+    {
+      "cue": "Read the surface temperature against the dew point on the meter and commit when the margin sits inside the specification's band.",
+      "gauge": {
+        "green": [
+          0.5,
+          0.78
+        ],
+        "label": "STEEL OVER DEW POINT · MARGIN",
+        "missNote": "That margin is too small — the steel is close enough to the dew point to be carrying moisture. Wait for the margin to open, or do not coat today.",
+        "speed": 0.64
+      },
+      "id": "dew-point",
+      "kind": "gauge",
+      "prompt": "Read the surface temperature against the dew point on the meter and commit when the margin sits inside the specification's band.",
+      "target": "dewpoint-meter",
+      "title": "Take the steel's margin over the dew point",
+      "why": "Steel colder than a few degrees above the dew point collects a film of moisture too thin to see, and a coating sprayed onto it is sprayed onto water: it loses adhesion from the first day. On a bridge in the marine layer the margin moves by the hour, so it is measured on the steel itself and recorded, not judged by whether the air feels damp."
+    },
+    {
+      "cue": "Look over the blasted patch and find what would make the coating fail: rust that has come back, dust left on the steel, edges that will pull thin.",
+      "id": "prep-check",
+      "itemNames": {
+        "dust-on-steel": "blast dust left on the surface",
+        "rust-bloom": "flash rust blooming on the blasted steel",
+        "sharp-edge": "a sharp flange edge that needs striping"
+      },
+      "itemNotes": {
+        "dust-on-steel": "A tape pressed onto the steel comes away grey with blast dust. Coating over dust is coating over a layer that is not stuck to anything; the surface is blown down and vacuumed first.",
+        "rust-bloom": "A faint orange bloom has come up on the blasted steel since it was cleaned — the steel has started to flash rust in the damp air. It is re-cleaned to the specified preparation before any coat goes on it.",
+        "sharp-edge": "The flange edge is sharp, and a spray coat pulls thin over a sharp edge as it dries. Edges and rivet heads get a brush stripe coat before the spray so the film there reaches its thickness."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look over the blasted patch and find what would make the coating fail: rust that has come back, dust left on the steel, edges that will pull thin.",
+      "targets": [
+        "rust-bloom",
+        "dust-on-steel",
+        "sharp-edge"
+      ],
+      "title": "Check the prepared surface before any coating",
+      "why": "The surface preparation is judged against the standard the specification names — here SSPC-SP 10 near-white blast — and it has to still meet that standard at the moment the coating goes on, not only when the blasting finished. Flash rust, dust and sharp edges are the three things that undo a good blast between the blasting and the brush, and each is cheaper to fix now than as a blister later."
+    },
+    {
+      "cue": "Press the replica tape onto the blasted steel and hold the burnishing tool on it until the whole window is burnished.",
+      "holdBreakNote": "The burnishing stopped before the whole window was pressed onto the steel — the tape will read shallow. Burnish it again, fully.",
+      "id": "profile",
+      "kind": "hold",
+      "prompt": "Press the replica tape onto the blasted steel and hold the burnishing tool on it until the whole window is burnished.",
+      "seconds": 4,
+      "target": "replica-tape",
+      "title": "Burnish the replica tape to read the surface profile",
+      "why": "The profile is the depth of the anchor pattern the blast cut into the steel, and the specification sets it because a coating grips by keying into it: too shallow and the coat has nothing to hold, too deep and the peaks stick up through a thin film and rust. Replica tape takes an impression of the profile that a gauge reads, and it only reads true if it is burnished fully onto the steel."
+    },
+    {
+      "cue": "Add the hardener to the base in the specified ratio and run the mixer until the colour and the body are even, top to bottom.",
+      "id": "mix",
+      "kind": "turn",
+      "prompt": "Add the hardener to the base in the specified ratio and run the mixer until the colour and the body are even, top to bottom.",
+      "target": "mixer-paddle",
+      "title": "Mix the two-part coating",
+      "turn": {
+        "label": "MIXER · TWO-PART COATING",
+        "turns": 1.2
+      },
+      "why": "A two-part coating cures by the reaction between its parts, and the reaction only goes right if the ratio is the maker's and the mix is complete: streaks of unmixed base stay soft for weeks, and pockets of hardener cure brittle. The mixer runs until the International Orange is one colour from the bottom of the pail to the top, and the pot life starts counting from the moment the parts meet."
+    },
+    {
+      "cue": "Carry the loaded brush to the rivet row and the flange edge and work a stripe coat into them before the spray.",
+      "drag": {
+        "missNote": "Not on the rivet row — the stripe coat goes onto the rivet heads and the flange edge, where spray pulls thin.",
+        "radius": 0.45,
+        "to": "rivet-row"
+      },
+      "id": "stripe",
+      "kind": "drag",
+      "prompt": "Carry the loaded brush to the rivet row and the flange edge and work a stripe coat into them before the spray.",
+      "target": "stripe-brush",
+      "title": "Stripe coat the edges and rivet heads by brush",
+      "why": "Sprayed coating pulls away from edges, corners and the round heads of rivets as it flows and dries, so those are the first places a coating system thins and the first places rust starts. A brush stripe coat works the coating into them by hand before the spray coat goes over the whole surface, and it is the step coating inspectors look for on riveted steel."
+    },
+    {
+      "cue": "Spray the patch with the gun square to the steel, holding a steady distance and pace so the wet film builds evenly.",
+      "holdBreakNote": "The pass left the band — that stretch is either sagging or dry. Go back over it at the right distance.",
+      "id": "spray",
+      "kind": "track",
+      "prompt": "Spray the patch with the gun square to the steel, holding a steady distance and pace so the wet film builds evenly.",
+      "seconds": 7,
+      "target": "spray-gun",
+      "title": "Spray the coat at a steady distance and speed",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.46,
+        "green": [
+          0.42,
+          0.62
+        ],
+        "label": "SPRAY · DISTANCE AND PACE",
+        "rise": 0.56,
+        "start": 0.1
+      },
+      "why": "The film thickness the specification asks for is built by the painter's distance and pace: too close or too slow and the coat sags and runs, too far or too fast and it goes on dry and thin with the solvent flashing off before it reaches the steel. Held square and steady, the pass lays an even wet film that dries to the thickness the coating was tested at."
+    },
+    {
+      "cue": "Press the wet-film comb into the fresh coat, square, and read the last tooth wetted against the specification's wet film figure.",
+      "id": "wft",
+      "kind": "select",
+      "prompt": "Press the wet-film comb into the fresh coat, square, and read the last tooth wetted against the specification's wet film figure.",
+      "target": "wft-comb",
+      "title": "Check the wet film with the comb",
+      "why": "The dry film thickness is what the specification is about, but it cannot be measured until the coat has cured, and by then it is too late to add more without a recoat. The wet-film comb read straight after the pass lets the painter correct the next pass while the coat is still open, and the reading goes on the log with the batch number."
+    },
+    {
+      "cue": "Follow the sprayer's pressure-relief procedure: pump off, pressure relieved through the gun into a grounded pail, then the trigger lock on before the tip is touched.",
+      "id": "relieve",
+      "itemNames": {
+        "pump-relief": "pump off and pressure relieved through the gun into the pail",
+        "trigger-lock": "trigger lock on before the tip is handled"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Relieve the pressure first — a locked trigger on a pressurised gun is still a pressurised gun.",
+      "prompt": "Follow the sprayer's pressure-relief procedure: pump off, pressure relieved through the gun into a grounded pail, then the trigger lock on before the tip is touched.",
+      "targets": [
+        "pump-relief",
+        "trigger-lock"
+      ],
+      "title": "Relieve the airless pump, then lock the trigger",
+      "why": "An airless sprayer holds its pressure in the hose and the gun after the pump stops, and every injection injury in the trade starts with someone believing a stopped pump meant a safe gun. The maker's pressure-relief procedure bleeds that pressure off through the gun into a pail, and the trigger lock goes on after it so nothing can fire while the tip is being cleaned or changed."
+    },
+    {
+      "cue": "Carry the wet paint sign to the stanchion beside the recoated patch and hang it facing the walkway.",
+      "drag": {
+        "missNote": "Not on the stanchion — the sign hangs beside the patch, facing the walkway, where people reaching for the railing will see it.",
+        "radius": 0.45,
+        "to": "sign-post"
+      },
+      "id": "sign",
+      "kind": "drag",
+      "prompt": "Carry the wet paint sign to the stanchion beside the recoated patch and hang it facing the walkway.",
+      "target": "wet-paint-sign",
+      "title": "Sign the wet coating at the railing",
+      "why": "The recoat is soft for hours, and a hand on it or a bag dragged across it leaves a defect the next inspection has to find and the next crew has to repair. The sign also tells the next crew what was coated and when, so nobody sands or recoats the patch outside its recoat window."
+    },
+    {
+      "cue": "Record the coating batch numbers, the mix time, the dew point margin, the profile, the wet film readings and the time the coat went on.",
+      "id": "paint-log",
+      "kind": "select",
+      "prompt": "Record the coating batch numbers, the mix time, the dew point margin, the profile, the wet film readings and the time the coat went on.",
+      "target": "paint-log",
+      "title": "Log the batch, the film and the weather",
+      "why": "The paint log is how a coating failure is traced years later: which batch, mixed when, applied over what profile, in what weather, at what film. Without it, rust bleeding through a recoat is a mystery; with it, it is a cause. It is also the record the owner's coating inspector signs off against the specification."
+    },
+    {
+      "cue": "Call the coating lead and the crew on the paint channel: patch coated and signed, pump relieved, log done — and how everyone is.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Call the coating lead and the crew on the paint channel: patch coated and signed, pump relieved, log done — and how everyone is.",
+      "target": "paint-radio",
+      "title": "Check in with the coating lead and the crew",
+      "why": "The coating lead decides the next coat's time from the log and needs to hear the patch is finished and signed. A shift spraying at the railing in fog and gusts, in a respirator, is tiring in a way people underrate, and the crew checks in before breaking down the cart; the IUPAT member assistance line is there for anything that lasts past the shift."
+    }
+  ],
+  "supportLine": "the IUPAT member assistance programme through your district council, and the crew's peer-support contact",
+  "tagline": "A blasted patch of railing brought back to International Orange: the specification read, tied off with the right cartridges in, the steel's margin over the dew point taken, the prep checked and the profile read while the fog comes in, the coating mixed, edges and rivets striped, the coat sprayed at a steady film through a gust, the film combed, the pump relieved and locked, the wet paint signed and the batch logged",
+  "title": "SmartCiti.X~ International Orange Recoat VR",
+  "trade": "IUPAT bridge painters — coating crew on the paint programme, trained through the Finishing Trades Institute (FTI)",
+  "underwater": null,
+  "weather": null
+}

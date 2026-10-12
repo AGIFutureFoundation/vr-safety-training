@@ -1,0 +1,359 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "concurrent-certified",
+    "name": "Concurrent Certified",
+    "note": "A tap-off landed on a live busway with the redundant side proven, the boundary held and nothing dropped"
+  },
+  "category": "Connectivity & Telecom",
+  "certification": "IBEW — critical facilities / data centre electrician; NFPA 70E arc-flash risk assessment and energised electrical work permit; OSHA 29 CFR 1910.333 for working on or near live parts; Uptime Institute concurrent maintainability practice",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "IBEW",
+        "id": "ibew-neca-jatc",
+        "title": "IBEW/NECA Joint Apprenticeship and Training Committee — inside and outside wireman apprenticeship standards, taught from the electrical training ALLIANCE curriculum"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 70E",
+        "id": "nfpa-70e",
+        "title": "NFPA 70E — Standard for Electrical Safety in the Workplace"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.333",
+        "id": "osha-1910-333",
+        "title": "29 CFR 1910.333 — Selection and use of work practices for electrical safety"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Data centre",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "right-side",
+        "name": "Right Side",
+        "note": "Proved the B-side dead and never touched the A-side"
+      },
+      {
+        "id": "boundary-held",
+        "name": "Boundary Held",
+        "note": "No unqualified approach inside the restricted boundary"
+      },
+      {
+        "id": "torque-true",
+        "name": "Torque True",
+        "note": "Tap-off landed inside the torque and thermal spec"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "no-trip",
+        "name": "No Trip",
+        "note": "Clean run — nothing on the floor lost a feed"
+      },
+      {
+        "id": "held-the-stab",
+        "name": "Held The Stab",
+        "note": "Held the tap-off engagement the full count"
+      },
+      {
+        "id": "in-the-window",
+        "name": "In The Window",
+        "note": "Complete inside 80% of par"
+      }
+    ],
+    "currency": "KW",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Facilities Apprentice",
+      "Critical Electrician",
+      "Shift Engineer",
+      "Hall Lead",
+      "Hall Authority Certified"
+    ],
+    "system": "Hall Authority"
+  },
+  "hazards": {
+    "a-side-bus": "That is the A-side busway — the live one carrying the floor. Concurrent maintainability means one side is always energised so the hall never goes down; it also means the energised side is always an arm's length from the one you are working on, and the only thing telling them apart is the label and the meter.",
+    "cardboard": "You brought packaging into the hall. Cardboard and pallets shed fibre straight into the air handlers and the containment, which is why they are broken down at the dock and never cross the threshold.",
+    "no-eewp": "You started work on energised equipment without the permit. An energised electrical work permit is not paperwork for its own sake — it is the document where somebody senior had to write down why this cannot be done de-energised, and sign their name to that.",
+    "open-floor": "You left the raised-floor tile out behind you with no barrier. A missing tile in a dark hot aisle is a broken ankle for the next person through, and the tile puller is sitting in the hole where nobody can see it."
+  },
+  "id": "data-hall",
+  "indoor": "datahall",
+  "interrupts": [
+    {
+      "after": "lock-b",
+      "alert": "The busway above you is labelled B-SIDE. The breaker you have just locked is tagged A-FEED on the panel schedule.",
+      "cue": "Two labels, and they disagree.",
+      "delay": 4,
+      "id": "wrong-side-tag",
+      "kind": "Mislabelled equipment",
+      "missNote": "You carried on with the contradiction unresolved. It happened to be the B-side. The label that was wrong is still wrong, and the next person will read it the same way you nearly did.",
+      "seconds": 12,
+      "target": "bus-meter",
+      "why": "Labels are applied by people and edited by nobody. When the schedule and the equipment disagree, neither is evidence — the meter is, and it gets used again rather than argued with.",
+      "wrongNote": "It is the meter. When two labels disagree, you do not pick the one you prefer — you measure again."
+    },
+    {
+      "after": "stab",
+      "alert": "Somebody has moved your barrier to get a cart past. The floor tile is still out and the hole is open in the aisle behind you.",
+      "cue": "There is an open floor void behind you and your hands are full.",
+      "delay": 3,
+      "id": "tile-out",
+      "kind": "Open floor void",
+      "missNote": "The hole stayed open and unbarriered for the rest of the job. Nobody went into it. That was luck and traffic, not control — and the cart that moved your barrier came back the other way.",
+      "seconds": 11,
+      "target": "floor-barrier",
+      "why": "A raised-floor void is half a metre deep and invisible in a dark hot aisle. The barrier is the only thing making it visible, and it only works while it is where you put it.",
+      "wrongNote": "It is the floor barrier. Put it back round the hole before you finish what you are holding."
+    }
+  ],
+  "lateNotes": {
+    "tap-off": "The tap-off lands after the side is proven and the PPE is on.",
+    "torque-tool": "Torque comes after the box is stabbed home, not before."
+  },
+  "name": "Data Hall",
+  "parSeconds": 250,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "situational-awareness"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.1,
+    "hits": [
+      "a-side-bus",
+      "arc-gloves",
+      "arc-hood",
+      "b-breaker",
+      "b-breaker-lock",
+      "blanking-gap",
+      "boundary-tape",
+      "bus-meter",
+      "cardboard",
+      "eewp-permit",
+      "floor-barrier",
+      "floor-tile",
+      "no-eewp",
+      "open-floor",
+      "plug-opening",
+      "strained-whip",
+      "tap-off",
+      "thermal-camera",
+      "tile-rack",
+      "torque-tool",
+      "waste-cart"
+    ],
+    "meshes": 278
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read why this cannot be de-energised, the incident energy, and the approach boundaries.",
+      "id": "eewp",
+      "kind": "select",
+      "prompt": "Read why this cannot be de-energised, the incident energy, and the approach boundaries.",
+      "target": "eewp-permit",
+      "title": "Take the energised electrical work permit",
+      "why": "Everything in this hall is fed twice so that no single feed ever has to be someone's emergency. The permit is where the justification for working it live is written down and signed, and it carries the incident energy the PPE is chosen against."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Hood and gloves to the stated category, boundary tape before anyone else walks the aisle.",
+      "id": "arc-ppe",
+      "itemNames": {
+        "arc-gloves": "class 0 gloves with leathers",
+        "arc-hood": "arc-rated hood",
+        "boundary-tape": "restricted-approach boundary"
+      },
+      "kind": "sequence",
+      "prompt": "Hood and gloves to the stated category, boundary tape before anyone else walks the aisle.",
+      "targets": [
+        "arc-hood",
+        "arc-gloves",
+        "boundary-tape"
+      ],
+      "title": "Arc PPE to the permit's category, and the boundary",
+      "why": "The boundary is as much for the technician walking past with an armful of drives as for you. In a hot aisle nobody expects an energised worker, because normally there isn't one."
+    },
+    {
+      "cue": "Meter on the B-side tap point, live-dead-live, and commit on the reading.",
+      "gauge": {
+        "green": [
+          0.02,
+          0.16
+        ],
+        "label": "BUS V",
+        "missNote": "That is the live side. Stop, re-read the labels, and meter again before anything else happens.",
+        "speed": 0.8
+      },
+      "id": "prove-side",
+      "kind": "gauge",
+      "prompt": "Meter on the B-side tap point, live-dead-live, and commit on the reading.",
+      "target": "bus-meter",
+      "title": "Prove which side you are on",
+      "why": "A and B run parallel, a metre apart, in identical housings, with the labels facing whichever way the installer felt like. The meter is the only thing in this hall that actually knows which one is which."
+    },
+    {
+      "cue": "Your lock on the B-side breaker upstream, tag with the permit number.",
+      "id": "lock-b",
+      "kind": "select",
+      "prompt": "Your lock on the B-side breaker upstream, tag with the permit number.",
+      "target": "b-breaker-lock",
+      "title": "Lock and tag the B-side feeder",
+      "why": "The side you are working is off and stays off because your lock is on it. Without that, the only thing between you and a re-energised busway is the fact that nobody happened to want it back yet."
+    },
+    {
+      "cue": "Puller on the tile, lift it out, and set the barrier round the opening.",
+      "drag": {
+        "missNote": "Not on the rack — a loose tile leaning on a cabinet is the next thing somebody walks into.",
+        "radius": 0.45,
+        "to": "tile-rack"
+      },
+      "id": "tile",
+      "kind": "drag",
+      "prompt": "Puller on the tile, lift it out, and set the barrier round the opening.",
+      "target": "floor-tile",
+      "title": "Lift the floor tile and barrier the hole",
+      "why": "The tap-off's whip drops into the floor void to the cabinet. The tile comes up, and the hole gets a barrier immediately — not when you remember, because you will be looking up for the next twenty minutes."
+    },
+    {
+      "cue": "Box, bag and pallet go on the cart and out — nothing with fibre on it crosses the threshold.",
+      "id": "clean",
+      "kind": "select",
+      "prompt": "Box, bag and pallet go on the cart and out — nothing with fibre on it crosses the threshold.",
+      "target": "waste-cart",
+      "title": "Break down the packaging outside the hall",
+      "why": "The hall's air handlers pull everything that sheds into the containment and then through fifty thousand pounds of server. Cardboard is not untidy in here, it is contamination."
+    },
+    {
+      "cue": "Two people, or the lift — the box goes up square to the plug-in opening.",
+      "drag": {
+        "missNote": "Not aligned to the plug-in opening — bring it square before it goes anywhere near the bus.",
+        "radius": 0.4,
+        "to": "plug-opening"
+      },
+      "id": "hoist",
+      "kind": "drag",
+      "prompt": "Two people, or the lift — the box goes up square to the plug-in opening.",
+      "target": "tap-off",
+      "title": "Lift the tap-off box to the busway",
+      "why": "A tap-off box is thirty kilos held overhead at arm's length. Square to the opening or it will not seat, and a box hanging half-engaged off a live busway run is the worst place in the hall to be standing."
+    },
+    {
+      "cue": "Steady pressure, straight in, and hold until the interlock latches.",
+      "holdBreakNote": "It came off part way. A partly stabbed tap-off is not installed, it is a hazard hanging on a bus — set it again.",
+      "id": "stab",
+      "kind": "hold",
+      "prompt": "Steady pressure, straight in, and hold until the interlock latches.",
+      "seconds": 5,
+      "target": "tap-off",
+      "title": "Stab the tap-off home",
+      "why": "The stabs have to engage together. Rocking it in engages one phase before the others, which is a phase-to-phase fault inside a box you are holding. Straight in, held, until the mechanical interlock says it is home."
+    },
+    {
+      "cue": "Each lug to the figure on the label, and commit inside the band.",
+      "gauge": {
+        "green": [
+          0.46,
+          0.62
+        ],
+        "label": "Nm",
+        "missNote": "Outside the torque band — that lug is a future arcing fault. Set it again.",
+        "speed": 0.72
+      },
+      "id": "torque",
+      "kind": "gauge",
+      "prompt": "Each lug to the figure on the label, and commit inside the band.",
+      "target": "torque-tool",
+      "title": "Torque the tap-off terminations",
+      "why": "Under-torqued lugs are the single most common cause of failures in this equipment: they run hot, oxidise, run hotter, and fail as an arcing fault months later with the hall on them."
+    },
+    {
+      "cue": "Lock off, permit closed, and close the breaker to re-energise the side.",
+      "id": "restore",
+      "kind": "turn",
+      "prompt": "Lock off, permit closed, and close the breaker to re-energise the side.",
+      "target": "b-breaker",
+      "title": "Close the B-side feeder",
+      "turn": {
+        "axis": "y",
+        "label": "B FEED",
+        "turns": 0.5
+      },
+      "why": "The side comes back on when the work is finished and the permit is closed, in that order. The hall has been running on one side for the whole job, which is the point of building it that way — and also why finishing matters."
+    },
+    {
+      "cue": "Scan each lug once the load is on and commit inside the temperature band.",
+      "gauge": {
+        "green": [
+          0.04,
+          0.2
+        ],
+        "label": "ΔT °C",
+        "missNote": "That joint is running hot. Take the side back down and re-make it — it will not improve on its own.",
+        "speed": 0.75
+      },
+      "id": "thermal",
+      "kind": "gauge",
+      "prompt": "Scan each lug once the load is on and commit inside the temperature band.",
+      "target": "thermal-camera",
+      "title": "Thermal-scan the terminations under load",
+      "why": "Torque is a proxy; temperature is the measurement. A joint that reads twenty degrees over its neighbours under load is a bad joint regardless of what the wrench said, and it is found now or it is found by the fire alarm."
+    },
+    {
+      "cue": "Look over the containment, the whips and the tiles before the barrier comes down; click what needs a ticket.",
+      "id": "walk",
+      "itemNames": {
+        "blanking-gap": "missing blanking panel",
+        "strained-whip": "strained power whip"
+      },
+      "itemNotes": {
+        "blanking-gap": "There is a rack space with no blanking panel. Hot aisle air short-circuits straight back through it into the cold aisle, which is how a hall with plenty of cooling still cooks one cabinet.",
+        "strained-whip": "A neighbouring cabinet's whip is pulled taut across the floor void opening. One tile lift away from being disconnected by somebody's boot."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look over the containment, the whips and the tiles before the barrier comes down; click what needs a ticket.",
+      "targets": [
+        "blanking-gap",
+        "strained-whip"
+      ],
+      "title": "Walk the aisle before you sign off",
+      "why": "In a hall where nothing can be switched off, the things that take a floor down are almost never the work anyone planned. They are the loose ends left behind by work that went fine."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Busway tap-off on a live overhead run: EEWP, A/B side proven, arc PPE, boundary held, torqued and thermally verified",
+  "title": "SmartCiti.X~ Data Hall VR",
+  "trade": "Critical facilities electrician",
+  "underwater": null,
+  "weather": "overcast"
+}

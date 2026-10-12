@@ -1,0 +1,10 @@
+{
+  "what": "Provenance of the Trade Craft Academy street artifact the parish worlds reuse (pack \"parishes\", maps/streets/<fips>.json): each file's source stamp and the lng/lat origin of its local-metre frame. Copied from the artifact once by `node tools/export_shared.mjs --refresh-streets` when the artifact is on this machine; the shared export reads only this file, so a clean checkout builds the same document as the machine that holds the artifact.",
+  "files": [
+    { "parish": "orleans", "fips": "22071", "sourceStamp": "d51bb450837b78d7", "frameOrigin": [-89.927224, 30.070098] },
+    { "parish": "jefferson", "fips": "22051", "sourceStamp": "d51bb450837b78d7", "frameOrigin": [-90.112935, 29.741878] },
+    { "parish": "st-bernard", "fips": "22087", "sourceStamp": "d51bb450837b78d7", "frameOrigin": [-89.541465, 29.875819] },
+    { "parish": "plaquemines", "fips": "22075", "sourceStamp": "d51bb450837b78d7", "frameOrigin": [-89.623085, 29.433573] },
+    { "parish": "st-tammany", "fips": "22103", "sourceStamp": "d51bb450837b78d7", "frameOrigin": [-89.957388, 30.410254] }
+  ]
+}

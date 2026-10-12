@@ -1,0 +1,417 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "never-untended",
+    "name": "Never Untended",
+    "note": "The diver's umbilical in the tender's hands from the ladder to the flake box, never wrapped, tied off or stood in, and never a slack bight near a propeller"
+  },
+  "category": "Maritime & Ports",
+  "certification": "Pile Drivers Local 34 commercial diver training under the UBC International Training Fund; OSHA 29 CFR 1910 Subpart T commercial diving operations — 29 CFR 1910.425 surface-supplied air diving (each diver continuously tended, the standby diver), 29 CFR 1910.422 procedures during the dive and 29 CFR 1910.423 post-dive procedures (the diver's condition); ADCI International Consensus Standards for Commercial Diving and Underwater Operations; USCG 46 CFR 197 Subpart B where the dive is worked from a vessel; the employer's safe practices manual for line-pull signals; depth, gas, bottom time and working radius per the dive plan",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ADCI",
+        "citedAs": "ADCI",
+        "id": "adci-consensus-standards",
+        "title": "Association of Diving Contractors International — International Consensus Standards for Commercial Diving and Underwater Operations"
+      },
+      {
+        "body": "union",
+        "citedAs": "Pile Drivers",
+        "id": "carpenters-ictf",
+        "title": "United Brotherhood of Carpenters International Training Fund — carpenter, pile driver and millwright apprenticeship"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.422",
+        "id": "osha-1910-422",
+        "title": "29 CFR 1910.422 — Procedures during the dive (water entry and exit, communications, decompression tables, power tools, termination of the dive)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.423",
+        "id": "osha-1910-423",
+        "title": "29 CFR 1910.423 — Post-dive procedures (the diver's condition, instructions to report symptoms, the recompression chamber and the record of dive)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.425",
+        "id": "osha-1910-425",
+        "title": "29 CFR 1910.425 — Surface-supplied air diving (limits, the tended diver, the standby diver and the reserve breathing gas)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910 Subpart T",
+        "id": "osha-1910-subpart-t",
+        "title": "29 CFR 1910 Subpart T — Commercial diving operations (dive team qualifications, the safe practices manual, pre-dive, during-dive and post-dive procedures, equipment and the dive record)"
+      },
+      {
+        "body": "USCG",
+        "citedAs": "46 CFR 197 Subpart B",
+        "id": "uscg-46-cfr-197-subpart-b",
+        "title": "46 CFR Part 197 Subpart B — Commercial diving operations from vessels and facilities under Coast Guard jurisdiction"
+      }
+    ]
+  },
+  "district": "Maritime & Ports",
+  "domain": "Maritime & Ports",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "dressed-right",
+        "name": "Dressed Right",
+        "note": "The harness and the strain relief found before the helmet went on"
+      },
+      {
+        "id": "marks-read",
+        "name": "Marks Read",
+        "note": "The paid-out marks committed inside the band first time"
+      },
+      {
+        "id": "line-in-hand",
+        "name": "Line In Hand",
+        "note": "Never wrapped round a hand, never stood in a bight, never tied off, never on the rail"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-tend",
+        "name": "Clean Tend",
+        "note": "No corrections from the brief to the check-in"
+      },
+      {
+        "id": "steady-payout",
+        "name": "Steady Pay-out",
+        "note": "The umbilical paid out in band the whole descent"
+      },
+      {
+        "id": "tended-in-time",
+        "name": "Tended In Time",
+        "note": "Log written inside 80% of par"
+      }
+    ],
+    "currency": "FATHOM LINE",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Deckhand",
+      "Tender",
+      "Diver-Tender",
+      "Lead Tender",
+      "Tending Certified"
+    ],
+    "system": "Tending"
+  },
+  "hazards": {
+    "sit-on-rail": "You went to sit on the rail to tend the umbilical over the side. A tender sitting on the rail is one surge, one snatch or one lean away from going over, into cold, moving water with a current running — and the diver below loses their tender at the same moment. You tend standing on the deck, PFD on, braced behind the chafe roller.",
+    "stand-in-bight": "You stepped into the middle of the umbilical's coil on deck. A bight that pays out under your feet takes your ankle with it, and a tender dragged across the deck toward the rail is a tender who has let go of the diver. You stand outside the flake, feed it from the side, and keep your feet out of every loop.",
+    "tie-off-umbilical": "You went to tie the umbilical off to the rail to rest your hands. A tied-off umbilical cannot be paid out when the diver needs slack or taken in when they need hauling, and it turns a surge of the boat into a snatch on the diver's helmet. 29 CFR 1910.425 wants a surface-supplied diver continuously tended, and a line on a cleat is not tended by anyone.",
+    "wrap-hand": "You went to take a wrap of the umbilical round your hand for a better grip. If the diver slips off the ladder, the current snatches the umbilical or the boat surges, a wrap cinches tight and takes the hand — and the tender — over the rail after it. The umbilical is held in open hands, hand over hand, so it can always be let run or taken in without it taking you."
+  },
+  "id": "br-dive-tender-and-umbilical-management",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "pay-out",
+      "alert": "A slack bight of the umbilical has drifted aft on the current — and the crew boat off the stern has just started its outboards to come alongside.",
+      "cue": "Hail the crew boat's skipper on the handheld to shut the outboards down, then take the bight in.",
+      "delay": 2,
+      "id": "bight-to-outboards",
+      "kind": "Umbilical bight drifting toward a propeller",
+      "missNote": "The crew boat came in with its outboards turning while the bight hung in the water off the stern; the umbilical was pulled clear at the last moment by the deckhand, with a gouge in its jacket from the skeg.",
+      "seconds": 14,
+      "target": "crew-boat-radio",
+      "why": "A turning propeller and a diver's umbilical must never meet: the propeller cuts the gas and comms and can drag the diver up into it. The engines have to stop before the bight can be taken in, because pulling a bight away from a propeller that is already turning can pull it into the blades — so the skipper is told first, on the radio, and the slack is recovered once the outboards are silent.",
+      "wrongNote": "The handheld to the crew boat — stop the outboards before you do anything else with that bight."
+    },
+    {
+      "after": "feel-diver",
+      "alert": "The diver reports their umbilical fouled round debris on the bottom and cannot clear it — the supervisor orders the standby dressed and ready.",
+      "cue": "Hand the standby diver their helmet and latch and pin it for them, keeping your own diver's line in your other hand.",
+      "delay": 2,
+      "id": "standby-ordered",
+      "kind": "Diver fouled — standby ordered dressed",
+      "missNote": "The standby dressed alone, fumbling the neck clamp while the supervisor waited on the comms with a fouled diver; the tender's attention had gone to the panel and the diver's line lay slack.",
+      "seconds": 14,
+      "target": "standby-helmet",
+      "why": "29 CFR 1910.425 keeps a standby diver at the station for exactly this, and the standby goes in only as fast as they can be dressed. The tender helps: helmet on, clamp latched and pinned, while keeping a hand on their own diver's umbilical so the fouled diver is never untended. The standby then follows the fouled diver's umbilical down to them.",
+      "wrongNote": "The standby's helmet — help them dress while your other hand stays on your diver's line."
+    }
+  ],
+  "lateNotes": {
+    "paid-out-marks": "The marks are read once the diver is working on the bottom.",
+    "payout-hands": "The umbilical is paid out once it is led over the roller and the diver is on the ladder.",
+    "tender-log": "The log is written once the diver is out and the umbilical is flaked."
+  },
+  "name": "Dive Tender & Umbilical Management",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "bay-restoration-maritime-underwater"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "workboat",
+        "count": 1,
+        "kit": "fleet"
+      }
+    ],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "chafe-mark",
+      "chafe-roller",
+      "clamp-pin",
+      "crew-boat-radio",
+      "crotch-strap",
+      "diver-assist",
+      "feel-line",
+      "flake-box",
+      "hockle",
+      "neck-clamp",
+      "paid-out-marks",
+      "payout-hands",
+      "sit-on-rail",
+      "stand-in-bight",
+      "standby-helmet",
+      "strain-relief",
+      "team-board",
+      "tender-brief",
+      "tender-log",
+      "tie-off-umbilical",
+      "time-slate",
+      "umbilical-coil",
+      "umbilical-lead",
+      "washdown-valve",
+      "wrap-hand"
+    ],
+    "meshes": 218
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "At the panel, in your PFD: the diver's task and working area per the dive plan, the umbilical's path from the ladder, the line-pull signals from the employer's safe practices manual, and what you do if the comms go.",
+      "id": "tender-brief",
+      "kind": "select",
+      "prompt": "At the panel, in your PFD: the diver's task and working area per the dive plan, the umbilical's path from the ladder, the line-pull signals from the employer's safe practices manual, and what you do if the comms go.",
+      "target": "tender-brief",
+      "title": "Take the tender brief from the supervisor",
+      "why": "The tender is the diver's other end of the umbilical: their slack, their haul, their line-pull signals and the person who feels what the diver is doing. To do that the tender has to know where the diver will be working and how far away, what path the umbilical will take past the ladder and the piles, and the signals the employer's safe practices manual sets, because when the comms fail those signals are the only language left."
+    },
+    {
+      "cue": "Walk round the diver on the ladder platform: every harness strap buckled, the bailout secured, the umbilical's strain relief clipped to the harness ring.",
+      "id": "dress-check",
+      "itemNames": {
+        "crotch-strap": "diver's harness crotch strap left unbuckled",
+        "strain-relief": "umbilical's strain relief not clipped to the harness ring"
+      },
+      "itemNotes": {
+        "crotch-strap": "The harness's crotch strap is hanging loose. Without it, a haul on the harness rides the whole harness up round the diver's chest and arms instead of lifting them by the hips.",
+        "strain-relief": "The umbilical's strain relief snap is hanging free instead of clipped to the harness's ring, so any pull on the umbilical would go straight to the helmet's fittings."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk round the diver on the ladder platform: every harness strap buckled, the bailout secured, the umbilical's strain relief clipped to the harness ring.",
+      "targets": [
+        "crotch-strap",
+        "strain-relief"
+      ],
+      "title": "Check the diver's harness and strain relief before the helmet",
+      "why": "When a diver has to be hauled — up the ladder, out of a foul, unconscious — it is the harness that takes their weight and the strain relief that makes a pull on the umbilical a pull on the harness rather than on the helmet's gas fitting. Both are checked by the tender before the helmet goes on, because once it is on the diver cannot see their own harness and nobody else will look again."
+    },
+    {
+      "cue": "With the diver's helmet seated on the neck dam, close the neck clamp, then push its locking pin home and tug it to check.",
+      "id": "helmet-on",
+      "itemNames": {
+        "clamp-pin": "neck clamp's locking pin in and checked",
+        "neck-clamp": "helmet's neck clamp closed on the neck dam"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order — close the neck clamp first; the pin goes in to lock a clamp that is already shut.",
+      "prompt": "With the diver's helmet seated on the neck dam, close the neck clamp, then push its locking pin home and tug it to check.",
+      "targets": [
+        "neck-clamp",
+        "clamp-pin"
+      ],
+      "title": "Latch the helmet's neck clamp, then pin it",
+      "why": "The neck clamp is what holds the helmet onto the diver, and the locking pin is what stops the clamp opening if it is knocked against the ladder or a pile. The clamp is closed first and then pinned, and the pin is tugged, because a clamp that looks closed with no pin in it is a helmet that can come off at depth — the one piece of equipment failure a diver cannot bail out of."
+    },
+    {
+      "cue": "Take the umbilical from the flake and lead it over the chafe roller at the tending point, clear of the ladder's edges and the rail's corners.",
+      "drag": {
+        "missNote": "Not on the roller — lead the umbilical over the chafe roller at the tending point, clear of the edges.",
+        "radius": 0.5,
+        "to": "chafe-roller"
+      },
+      "id": "lead-umbilical",
+      "kind": "drag",
+      "prompt": "Take the umbilical from the flake and lead it over the chafe roller at the tending point, clear of the ladder's edges and the rail's corners.",
+      "target": "umbilical-lead",
+      "title": "Lead the umbilical over the chafe roller at the tending point",
+      "why": "Every time the diver moves, the umbilical saws back and forth over whatever it crosses at the side, and a sharp rail corner or ladder edge cuts through its jacket in a morning. The chafe roller is where it is meant to cross, turning as the line moves, and leading it there before the diver leaves the ladder keeps the tender's hands and the umbilical in one place for the whole dive."
+    },
+    {
+      "cue": "Feed the umbilical out hand over hand as the diver goes down the downline, matching their descent — no slack loops in the water, no strain on the diver.",
+      "holdBreakNote": "The pay-out went out of band — holding the diver back, or piling slack in the water. Get back in step with the diver's descent.",
+      "id": "pay-out",
+      "kind": "track",
+      "prompt": "Feed the umbilical out hand over hand as the diver goes down the downline, matching their descent — no slack loops in the water, no strain on the diver.",
+      "seconds": 6,
+      "target": "payout-hands",
+      "title": "Pay the umbilical out steadily as the diver descends",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.46,
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "PAY-OUT",
+        "rise": 0.56,
+        "start": 0.14
+      },
+      "why": "Too little slack holds the diver back against their own descent; too much drops loops into the water that the current carries off toward the boat's stern, the piles and the other vessel's propeller. The tender feeds it at the diver's pace, feeling for them through the line, so the umbilical goes down in a clean run beside the downline and the diver never has to fight it."
+    },
+    {
+      "cue": "Call 'left surface' and 'on the bottom' to the supervisor as they happen and write both times on the tender's slate.",
+      "id": "call-times",
+      "kind": "select",
+      "prompt": "Call 'left surface' and 'on the bottom' to the supervisor as they happen and write both times on the tender's slate.",
+      "target": "time-slate",
+      "title": "Call out and write the diver's times",
+      "why": "The dive is timed from the moment the diver leaves the surface, and the tables the supervisor holds are read against that time, so the tender calls it out as it happens and writes it down. Two people noting the same times is the check that catches a missed stopwatch, and the tender's slate is still there if the panel's clock is the thing that fails."
+    },
+    {
+      "cue": "Hold the umbilical lightly at the roller and feel the diver moving and working through it — steady tugs as they work, slack as they move toward you.",
+      "holdBreakNote": "You let go of the umbilical — the diver's end went unfelt. Put your hand back on the line at the roller.",
+      "id": "feel-diver",
+      "kind": "hold",
+      "prompt": "Hold the umbilical lightly at the roller and feel the diver moving and working through it — steady tugs as they work, slack as they move toward you.",
+      "seconds": 5,
+      "target": "feel-line",
+      "title": "Keep a hand on the umbilical and feel the diver working",
+      "why": "The tender's hand on the umbilical is how the surface feels what the comms cannot tell it: a diver moving away, a diver stopped, a snag, a steady rhythm of work. A tender who keeps that contact knows before anyone else when something changes, and is already holding the line when the diver calls for slack or a haul — a tender who puts it down finds out last."
+    },
+    {
+      "cue": "Read the umbilical's marks at the roller and commit when what is paid out matches the diver's working area in the dive plan, with just enough slack.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "PAID OUT vs PLAN",
+        "missNote": "Outside the band — read the mark at the roller and match it to the working area the dive plan gives.",
+        "speed": 0.68
+      },
+      "id": "read-marks",
+      "kind": "gauge",
+      "prompt": "Read the umbilical's marks at the roller and commit when what is paid out matches the diver's working area in the dive plan, with just enough slack.",
+      "target": "paid-out-marks",
+      "title": "Read the paid-out marks against the dive plan",
+      "why": "The umbilical is marked along its length so the tender knows how much is out, and the dive plan says how far from the downline the diver will work. Too little out and the diver is held short of the job; far too much and a belly of slack is lying on the bottom where the diver can foul it round the debris. Reading the marks against the plan is how the tender keeps the slack honest."
+    },
+    {
+      "cue": "As the supervisor calls the diver up, open the fresh-water wash-down valve for the decon at the ladder.",
+      "id": "open-washdown",
+      "kind": "turn",
+      "prompt": "As the supervisor calls the diver up, open the fresh-water wash-down valve for the decon at the ladder.",
+      "target": "washdown-valve",
+      "title": "Open the wash-down as the diver comes up",
+      "turn": {
+        "label": "WASH-DOWN",
+        "turns": 1
+      },
+      "why": "The water at a restoration site carries whatever the site is being restored from, and it comes aboard on the diver's suit, helmet and umbilical. The wash-down is running before the diver reaches the ladder so the decon starts on the top rung, before the helmet comes off and before anyone's bare hands touch the suit — and the umbilical is rinsed as it is taken in."
+    },
+    {
+      "cue": "Take the umbilical in hand over hand as the diver ascends, looking and feeling along it for chafe, cuts, twists and anything that has picked up on the bottom.",
+      "id": "inspect-inbound",
+      "itemNames": {
+        "chafe-mark": "chafed jacket on the umbilical where it crossed a pile edge",
+        "hockle": "a twist forming a hockle in the coil as it comes in"
+      },
+      "itemNotes": {
+        "chafe-mark": "A section of the umbilical's outer jacket is scuffed through to the braid where it lay across a pile edge on the bottom. A jacket worn through lets the gas hose and the comms cable underneath take the wear next.",
+        "hockle": "A twist in the umbilical is closing into a hockle as it comes in. Pulled tight, a hockle kinks the gas hose inside it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Take the umbilical in hand over hand as the diver ascends, looking and feeling along it for chafe, cuts, twists and anything that has picked up on the bottom.",
+      "targets": [
+        "chafe-mark",
+        "hockle"
+      ],
+      "title": "Look at the umbilical as it comes in",
+      "why": "The tender is the only person who handles every metre of the umbilical after every dive, so the tender is the one who finds the damage: a jacket chafed through on a pile edge, a twist that is turning into a hockle, a fitting that has taken a knock. It is found as it comes in because that is when it is passing through the tender's hands anyway, and marked so it is fixed before the next diver breathes through it."
+    },
+    {
+      "cue": "Help the diver up the ladder and through the wash-down, take the helmet off when the supervisor says, and watch them — how they move, how they talk, what they say about how they feel.",
+      "id": "diver-out",
+      "kind": "select",
+      "prompt": "Help the diver up the ladder and through the wash-down, take the helmet off when the supervisor says, and watch them — how they move, how they talk, what they say about how they feel.",
+      "target": "diver-assist",
+      "title": "Help the diver out and watch their condition",
+      "why": "29 CFR 1910.423 has the diver's physical condition checked after the dive, and the tender is the first person to see it: a diver who is slow on the ladder, confused, or rubbing a joint may be showing the start of something the supervisor needs to know about at once. The tender also reminds the diver to report anything that appears later, because symptoms do not always show on the deck."
+    },
+    {
+      "cue": "Flake the rinsed umbilical down into the flake box in figure-eights, the chafed section tagged and on top.",
+      "drag": {
+        "missNote": "Not in the flake box — flake the umbilical down in figure-eights into the box.",
+        "radius": 0.5,
+        "to": "flake-box"
+      },
+      "id": "flake-umbilical",
+      "kind": "drag",
+      "prompt": "Flake the rinsed umbilical down into the flake box in figure-eights, the chafed section tagged and on top.",
+      "target": "umbilical-coil",
+      "title": "Flake the umbilical into the flake box",
+      "why": "An umbilical flaked in figure-eights pays out cleanly on the next dive without twisting; one coiled round and round builds a twist that becomes the next hockle. The chafed section is tagged and left on top of the flake so it is the first thing the supervisor and the next tender see, and nobody puts that umbilical on a diver before it is repaired or retired."
+    },
+    {
+      "cue": "Write the equipment log: the umbilical's chafe and the hockle, the diver's times, the bight near the crew boat and the standby dressed for the foul.",
+      "id": "tender-log",
+      "kind": "select",
+      "prompt": "Write the equipment log: the umbilical's chafe and the hockle, the diver's times, the bight near the crew boat and the standby dressed for the foul.",
+      "target": "tender-log",
+      "title": "Log the umbilical's condition and the dive's events",
+      "why": "The umbilical's history lives in the equipment log: where it has chafed, when it was repaired and how many dives it has done, and the tender who found the damage is the one who writes it down. The events of the dive go beside it — the bight near the outboards, the foul below — because the supervisor's dive record and the next job's plan are both built from what the tender saw at the rail."
+    },
+    {
+      "cue": "At the team board: the diver's condition and who is watching them, the umbilical tagged out, the foul and the outboards, and how everyone is.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "At the team board: the diver's condition and who is watching them, the umbilical tagged out, the foul and the outboards, and how everyone is.",
+      "target": "team-board",
+      "title": "Check in with the team",
+      "why": "The check-in closes the dive for the whole team: who is watching the diver for symptoms, which umbilical is out of service, what happened at the stern and on the bottom. A foul that brought the standby to dress and a bight drifting toward a propeller are moments a tender carries home; the Pile Drivers Local 34 member assistance line is there for what the deck conversation does not settle."
+    }
+  ],
+  "supportLine": "your union hall's member assistance programme — Pile Drivers Local 34 — with the employer's employee assistance line behind it",
+  "tagline": "The diver's line for the whole dive: the tender brief taken, the harness strap and the strain relief found, the neck clamp latched and pinned, the umbilical led over the roller, paid out steady while a bight drifts toward the crew boat's outboards, the times called, the diver felt working while the standby is ordered dressed, the marks read against the plan, the wash-down opened, the chafe and the kink found, the diver helped out and watched, the umbilical flaked and the log written — every step in a PFD",
+  "title": "SmartCiti.X~ Dive Tender & Umbilical Management VR",
+  "trade": "Pile Drivers Local 34 diver-tender keeping a surface-supplied diver's umbilical on a Bay restoration dive, with the dive supervisor, the diver and the standby diver",
+  "underwater": null,
+  "weather": "overcast"
+}

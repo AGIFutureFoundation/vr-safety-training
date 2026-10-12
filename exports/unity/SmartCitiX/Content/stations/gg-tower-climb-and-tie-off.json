@@ -1,0 +1,404 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "always-on-something",
+    "name": "Always On Something",
+    "note": "Up the ladder, across the transfer and onto the platform without a moment when neither lanyard leg was on a rated anchor"
+  },
+  "category": "Construction & Structural Trades",
+  "certification": "Ironworkers and IMPACT bridge crew training; OSHA 29 CFR 1926 Subpart M fall protection, including 29 CFR 1926.501 and 29 CFR 1926.502 for the anchorage, the lanyard and the rope grab; ANSI/ASSP Z359 for the harness, the twin-leg lanyard and the vertical lifeline; 29 CFR 1926 Subpart R where the tower work is ironwork; 29 CFR 1926.106 for work over water; the owner's climbing and rescue plan",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "AASHTO",
+        "citedAs": "AASHTO Maintenance Manual",
+        "id": "aashto-maintenance-manual",
+        "title": "AASHTO Maintenance Manual for Roadways and Bridges"
+      },
+      {
+        "body": "union",
+        "citedAs": "Ironworkers",
+        "id": "ironworkers-impact",
+        "title": "Ironworkers and IMPACT — apprenticeship and safety training for structural, ornamental and reinforcing ironwork"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926",
+        "id": "osha-1926",
+        "title": "29 CFR 1926 — Safety and health regulations for construction"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.106",
+        "id": "osha-1926-106",
+        "title": "29 CFR 1926.106 — Working over or near water"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.501",
+        "id": "osha-1926-501",
+        "title": "29 CFR 1926.501 — Duty to have fall protection"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.502",
+        "id": "osha-1926-502",
+        "title": "29 CFR 1926.502 — Fall protection systems criteria and practices"
+      }
+    ]
+  },
+  "district": "golden-gate-deck",
+  "domain": "Construction",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "one-leg-live",
+        "name": "One Leg Live",
+        "note": "The transfer made with one lanyard leg always connected"
+      },
+      {
+        "id": "steady-grab",
+        "name": "Steady Grab",
+        "note": "Rope grab held above the D-ring the whole climb"
+      },
+      {
+        "id": "nothing-dropped",
+        "name": "Nothing Dropped",
+        "note": "No unsafe action from the deck to the platform and back to the log"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-climb",
+        "name": "Clean Climb",
+        "note": "No corrections anywhere in the climb"
+      },
+      {
+        "id": "unbroken-climb",
+        "name": "Unbroken Climb",
+        "note": "The rope grab never dropped out of band"
+      },
+      {
+        "id": "tower-inside-par",
+        "name": "Tower Inside Par",
+        "note": "Logged inside 80% of par"
+      }
+    ],
+    "currency": "RIVET",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Deck Hand",
+      "Tower Climber",
+      "Transfer Qualified",
+      "Lead Climber",
+      "Tower Crew Certified"
+    ],
+    "system": "Tower Crew"
+  },
+  "hazards": {
+    "free-climb-start": "You started up the ladder before the rope grab was on the lifeline. The first few rungs feel like nothing — you could step off them — but a slip from the fourth rung onto a steel deck is a fall with no arrest at all, and the habit of 'I will clip on when I get higher' is the habit that is still unclipped when the rung is ice or oil. The grab goes on at the bottom, every climb.",
+    "guardrail-tie-off": "You went to clip your lanyard to the platform's guardrail. A guardrail is built to stop someone leaning or stumbling into it, not to arrest a free fall; 29 CFR 1926.502 sets an anchorage for personal fall arrest at a strength a top rail was never designed to take, and a rail that bends or tears out under an arrest load takes the climber with it. The rated anchor is the plate marked for it.",
+    "transfer-unclipped": "You reached across from the ladder to the platform with both lanyard legs off. For that reach you were connected to nothing, and a transfer is exactly where climbers fall: body weight moving sideways, one hand off, one foot on a rung and one on grating. A twin-leg lanyard exists so the second leg goes on the new anchor before the first comes off the old one — clip, then unclip, never the other way round.",
+    "untethered-wrench": "That spanner is lying loose on the platform grating at the open edge, with the deck and the traffic lanes below it and the strait beyond the railing. A dropped tool from tower height reaches the deck faster than anyone below can look up, and the crew's dropped-object rule is simple: every hand tool above the deck rides on a tether or in a closed bucket, no exceptions for 'just a minute'."
+  },
+  "id": "gg-tower-climb-and-tie-off",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "climb",
+      "alert": "A gust comes round the tower leg and the anemometer on the mast jumps past the work-stop limit — the windsock stands straight out and the strobe on the mast starts flashing.",
+      "cue": "Stop climbing and clip the positioning lanyard to the ladder rail — ride the gust out stationary with three points of contact.",
+      "delay": 3,
+      "id": "gust-on-the-leg",
+      "kind": "Gust past the work-stop limit",
+      "missNote": "The climb carried on through the gust with both hands moving on the rungs. A climber on a ladder in a gust past the work-stop limit is the climber the rescue plan was written for.",
+      "seconds": 12,
+      "target": "positioning-hook",
+      "why": "A climber moving on a ladder in a gust is a climber with one hand and one foot off at the worst moment. Stopping, clipping the positioning lanyard to the rail and holding three points of contact turns a moving climber into a fixed one until the gust passes; the rope grab is still there if the hands go, but the point is that they do not. The work-stop limit on the permit is the crew's own line, and a gust past it means stop now, decide afterwards.",
+      "wrongNote": "The positioning hook — stop where you are and clip to the rail. Nothing else on the tower matters until you are stationary."
+    },
+    {
+      "after": "haul",
+      "alert": "A fog bank rolls in off the strait over the railing — the deck below goes grey and the deck crew at the foot of the leg drops out of sight.",
+      "cue": "Call the deck on the tower radio: visibility gone, hauling stopped, and switch to radio-only calls for the drop zone.",
+      "delay": 2,
+      "id": "fog-bank-in",
+      "kind": "Fog bank rolling in",
+      "missNote": "The haul went on into the fog with nobody able to see the drop zone. Had the bucket slipped, it would have landed on a deck crew who could not see it coming and had not been told to stand clear.",
+      "seconds": 13,
+      "target": "tower-radio",
+      "why": "With the deck out of sight the climber can no longer see whether the drop zone under the haul line is clear, and the deck crew can no longer see a bucket coming down if it slips. The radio becomes the only way either side knows where the other is, so the call goes out the moment the fog arrives: hauling stops, the drop zone is held by voice, and nothing moves on the line until somebody below confirms they are clear.",
+      "wrongNote": "The tower radio — once the fog takes the deck out of sight, the only way to hold the drop zone is by voice."
+    }
+  ],
+  "lateNotes": {
+    "beam-clamp-screw": "The beam clamp is set once the tools are up and tethered; it needs both hands and the torque wrench from the bucket.",
+    "climb-log": "The climb is logged once you are back on the deck and the work position has been walked — the log records what was done, not what is planned.",
+    "haul-line": "The bucket comes up once you are on the platform and tied off to its anchor — not while you are still on the ladder with a hand needed for the rungs."
+  },
+  "name": "Tower Climb & Tie-Off",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "bay-area-union-edition"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.8,
+    "hits": [
+      "beam-clamp-screw",
+      "climb-log",
+      "climb-permit",
+      "free-climb-start",
+      "guardrail-tie-off",
+      "harness-rack",
+      "haul-line",
+      "ladder-gate",
+      "lifeline-release",
+      "lifeline-top-bracket",
+      "loose-grating-clip",
+      "platform-anchor",
+      "positioning-hook",
+      "rescue-kit",
+      "rope-grab-label",
+      "rope-grab-sleeve",
+      "rust-bleed-rivet",
+      "tool-anchor",
+      "tool-bucket",
+      "tower-radio",
+      "transfer-unclipped",
+      "trauma-straps",
+      "twin-lanyard",
+      "untethered-wrench",
+      "wind-meter"
+    ],
+    "meshes": 227
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the tower climb permit: which leg and which cell, the work-stop wind limit, radio channel, and the named rescue plan for a climber suspended on the lifeline.",
+      "id": "permit",
+      "kind": "select",
+      "prompt": "Read the tower climb permit: which leg and which cell, the work-stop wind limit, radio channel, and the named rescue plan for a climber suspended on the lifeline.",
+      "target": "climb-permit",
+      "title": "Read the climb permit and the rescue plan",
+      "why": "A tower climb is permitted work because the rescue is harder than the climb: a climber hanging in a harness on a vertical lifeline inside a tower cell cannot be reached from the deck by a ladder truck, and suspension in a harness starts to hurt circulation within minutes. The permit names the leg, the channel and the wind limit, and the rescue plan names who brings the climber down and with what — read before the climb, because nobody writes a rescue plan while someone is hanging."
+    },
+    {
+      "cue": "Harness on and snug at the legs and chest, the twin-leg lanyard on the back D-ring, then the suspension relief straps clipped to the harness where you can reach them hanging.",
+      "id": "don",
+      "itemNames": {
+        "harness-rack": "full-body harness, fitted and checked",
+        "trauma-straps": "suspension relief straps on the harness",
+        "twin-lanyard": "twin-leg shock-absorbing lanyard on the back D-ring"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Harness first — a lanyard or a strap clipped to nothing is not fall protection. Build it from the body outward.",
+      "prompt": "Harness on and snug at the legs and chest, the twin-leg lanyard on the back D-ring, then the suspension relief straps clipped to the harness where you can reach them hanging.",
+      "targets": [
+        "harness-rack",
+        "twin-lanyard",
+        "trauma-straps"
+      ],
+      "title": "Put on the harness, the twin-leg lanyard and the relief straps",
+      "why": "The order matters because each piece depends on the last: a lanyard is only as good as the harness it hangs from, and the relief straps only work if they are on the harness before the fall, where a suspended climber can reach them and stand in them to take pressure off the leg straps. ANSI/ASSP Z359 treats the harness, the connector and the anchorage as one system, and a system is put together from the body outward, checked at each connection."
+    },
+    {
+      "cue": "Before a foot goes on a rung, find the three things the climb depends on: the lifeline's top bracket, the grab matched to the line, and the gate at the ladder head.",
+      "id": "system-check",
+      "itemNames": {
+        "ladder-gate": "self-closing gate at the ladder head",
+        "lifeline-top-bracket": "lifeline's top bracket bolted and tagged",
+        "rope-grab-label": "rope grab matched to this lifeline"
+      },
+      "itemNotes": {
+        "ladder-gate": "The self-closing gate at the head of the ladder swings shut on its own. An open ladderway at a platform is a hole in the platform's own guardrail, and the gate is what closes it behind the climber.",
+        "lifeline-top-bracket": "The lifeline's top bracket is bolted to the leg with its inspection tag current. Every fall on this ladder ends at that bracket, so it is looked at from the deck before anyone trusts it from the ladder.",
+        "rope-grab-label": "The rope grab's label names the lifeline diameter and construction it is certified for, and this line matches. A grab on the wrong line can slip or fail to lock, and a mismatch is invisible until it matters."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Before a foot goes on a rung, find the three things the climb depends on: the lifeline's top bracket, the grab matched to the line, and the gate at the ladder head.",
+      "targets": [
+        "lifeline-top-bracket",
+        "rope-grab-label",
+        "ladder-gate"
+      ],
+      "title": "Check the climbing system from the deck",
+      "why": "The vertical lifeline, the rope grab and the ladder gate are the three parts of this climb that nobody can inspect once they are on the ladder: the bracket is overhead, the grab is already locked on, and the gate is behind you. Checking them from the deck is the only moment the climber can still decide not to climb, and the three together are the difference between a fall that stops in a few centimetres and one that does not stop."
+    },
+    {
+      "cue": "Read the anemometer on the mast and commit the reading while it sits inside the band below the permit's climb limit.",
+      "gauge": {
+        "green": [
+          0.16,
+          0.5
+        ],
+        "label": "WIND · % OF CLIMB LIMIT",
+        "missNote": "That reading is at or past the climb limit — or you committed a lull. Wait for a steady reading inside the band before anyone leaves the deck.",
+        "speed": 0.66
+      },
+      "id": "wind-reading",
+      "kind": "gauge",
+      "prompt": "Read the anemometer on the mast and commit the reading while it sits inside the band below the permit's climb limit.",
+      "target": "wind-meter",
+      "title": "Take the wind at the tower base against the climb limit",
+      "why": "Wind on a tower is not the wind on the deck: it gets stronger with height and gustier round the legs, and a climber on a vertical ladder is a sail with both hands busy. The permit sets the work-stop limit and the crew reads the anemometer against it before the climb, not by feel on the way up, because the reading that matters is the one that decides whether anyone leaves the deck at all."
+    },
+    {
+      "cue": "Climb steadily with the rope grab trailing above chest height — not dragging below your D-ring, not jammed up against your hand.",
+      "holdBreakNote": "The grab dropped out of its riding position — a fall from there is a longer fall than the system was set up for. Settle it back above the chest and climb on.",
+      "id": "climb",
+      "kind": "track",
+      "prompt": "Climb steadily with the rope grab trailing above chest height — not dragging below your D-ring, not jammed up against your hand.",
+      "seconds": 7,
+      "target": "rope-grab-sleeve",
+      "title": "Climb on the rope grab, keeping it above your D-ring",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.44,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "ROPE GRAB ABOVE D-RING",
+        "rise": 0.55,
+        "start": 0.1
+      },
+      "why": "A rope grab arrests a fall by locking on the lifeline, and the distance a climber falls before it locks depends on where it was riding: a grab dragging below the D-ring adds that length to the free fall and the shock the lanyard has to absorb, and a grab shoved up against the hand can be held open by the hand that is falling with it. Kept riding just above the chest, it locks in the shortest distance the system allows."
+    },
+    {
+      "cue": "At the ladder head, clip the free leg of the twin lanyard to the platform's rated anchor first; only then take the rope grab off the lifeline and step through the gate.",
+      "id": "transfer",
+      "itemNames": {
+        "lifeline-release": "rope grab off the lifeline",
+        "platform-anchor": "second lanyard leg onto the platform anchor"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Anchor first, grab off second — taking the grab off before the lanyard leg is on the anchor is a transfer with nothing connected.",
+      "prompt": "At the ladder head, clip the free leg of the twin lanyard to the platform's rated anchor first; only then take the rope grab off the lifeline and step through the gate.",
+      "targets": [
+        "platform-anchor",
+        "lifeline-release"
+      ],
+      "title": "Transfer to the platform: clip on, then unclip",
+      "why": "This is the moment the whole climb is set up for. The rope grab has held you all the way up the ladder, and the platform anchor will hold you on the platform, and the only time you can be on neither is the second between them — so the new connection goes on before the old one comes off. 29 CFR 1926.502 asks for continuous protection, and the twin-leg lanyard is the tool that makes a transfer continuous rather than a hopeful step."
+    },
+    {
+      "cue": "Tied off at the platform, haul the closed tool bucket up the tag line hand over hand, never letting the line run.",
+      "holdBreakNote": "The line ran through your hands — the bucket dropped back toward the deck. Take it up again hand over hand.",
+      "id": "haul",
+      "kind": "hold",
+      "prompt": "Tied off at the platform, haul the closed tool bucket up the tag line hand over hand, never letting the line run.",
+      "seconds": 5,
+      "target": "haul-line",
+      "title": "Haul the tool bucket up hand over hand",
+      "why": "Tools do not come up the ladder in pockets or on belts: a climber's hands belong to the rungs, and a tool falling from a pocket on the climb has the whole tower height to fall. The bucket is closed, the line is hauled hand over hand from a tied-off position, and the deck crew keeps clear of the drop zone under it, because a bucket that slips from a hand in the fog is a load falling onto a deck that looks empty from above."
+    },
+    {
+      "cue": "Carry the bucket's lanyard to the tool anchor ring on the platform and clip it on before anything comes out of it.",
+      "drag": {
+        "missNote": "Not on the ring — the bucket's lanyard clips to the tool anchor itself, not to the guardrail or a grating bar.",
+        "radius": 0.45,
+        "to": "tool-anchor"
+      },
+      "id": "tether-bucket",
+      "kind": "drag",
+      "prompt": "Carry the bucket's lanyard to the tool anchor ring on the platform and clip it on before anything comes out of it.",
+      "target": "tool-bucket",
+      "title": "Tether the bucket to the platform's tool anchor",
+      "why": "A bucket sitting loose on grating is one knock away from the open edge; clipped to the tool anchor it can tip over and still not leave the platform. The tethered bucket is also where every tool goes back between uses, and each tool inside rides on its own wrist or tool lanyard, so nothing at height depends on a hand not slipping."
+    },
+    {
+      "cue": "Seat the beam clamp on the flange and turn the screw down until the jaw bears, then to the maker's figure.",
+      "id": "beam-clamp",
+      "kind": "turn",
+      "prompt": "Seat the beam clamp on the flange and turn the screw down until the jaw bears, then to the maker's figure.",
+      "target": "beam-clamp-screw",
+      "title": "Set the beam-clamp anchor on the flange for the next crew",
+      "turn": {
+        "label": "BEAM CLAMP SCREW",
+        "turns": 1.1
+      },
+      "why": "The next crew's tie-off point has to be as good as the one you are standing on: a beam clamp is rated as an anchor only when it is seated on a flange of the width its label names, with the jaw bearing and the screw run down to the maker's figure. A clamp that is loose on the flange can slide to the end of the beam under a fall, and a clamp over-tightened can crack the jaw — both are found by the turn, not by looking."
+    },
+    {
+      "cue": "Confirm with the rescue attendant on the deck that the rescue kit is staged at the leg and the attendant is watching the climb.",
+      "id": "rescue-kit",
+      "kind": "select",
+      "prompt": "Confirm with the rescue attendant on the deck that the rescue kit is staged at the leg and the attendant is watching the climb.",
+      "target": "rescue-kit",
+      "title": "Confirm the rescue kit with the attendant",
+      "why": "The rescue plan is only real if the kit is at the foot of the leg and a named person is watching, because a suspended climber has minutes, not a shift, before suspension becomes an emergency of its own. Confirming it now, from the platform, is the check that the plan read at the permit is still the plan in force after the crew has moved round the deck."
+    },
+    {
+      "cue": "From the platform, find what has changed since the last climb: the plate, the rivets, the grating underfoot.",
+      "id": "work-position",
+      "itemNames": {
+        "loose-grating-clip": "a grating clip backed off at the platform edge",
+        "rust-bleed-rivet": "rust bleeding from a rivet head on the leg"
+      },
+      "itemNotes": {
+        "loose-grating-clip": "One grating clip at the platform edge has backed off its bolt, so the panel can lift at the corner under a boot. It is a trip at the open side of a platform, and it is tightened or tagged before the next climb.",
+        "rust-bleed-rivet": "A rivet head on the leg plate has rust bleeding down the orange from under it: the paint system has broken at the head and water is getting behind it. It goes on the log for the paint crew and the owner's engineer."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "From the platform, find what has changed since the last climb: the plate, the rivets, the grating underfoot.",
+      "targets": [
+        "rust-bleed-rivet",
+        "loose-grating-clip"
+      ],
+      "title": "Walk the work position for what the next crew needs to know",
+      "why": "A tower is inspected every time somebody climbs it, whether that is the job or not, because the people on the platform are the only ones close enough to see a rivet head bleeding rust or a grating clip working loose. A bridge maintained to the AASHTO Maintenance Manual depends on those small findings reaching the log, and the climber who saw them is the only one who can put them there accurately."
+    },
+    {
+      "cue": "Back on the deck, log the climb: the wind reading, the transfer point, the beam clamp set, the rivet and the grating clip, and the time down.",
+      "id": "climb-log",
+      "kind": "select",
+      "prompt": "Back on the deck, log the climb: the wind reading, the transfer point, the beam clamp set, the rivet and the grating clip, and the time down.",
+      "target": "climb-log",
+      "title": "Log the climb, the transfer and the findings",
+      "why": "The climb log is what the next crew reads before they commit to the same leg: where the beam clamp is and what it is set for, what the wind was, which grating clip needs a wrench. It is also the record the owner's engineer reads when a rivet head is bleeding rust, and a finding that stayed in a climber's memory is a finding the paint programme never hears about."
+    },
+    {
+      "cue": "Call the attendant and the foreman on the tower channel: climber down, clamp set, findings logged — and how the climb went.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Call the attendant and the foreman on the tower channel: climber down, clamp set, findings logged — and how the climb went.",
+      "target": "tower-radio",
+      "title": "Check in with the attendant and the deck foreman",
+      "why": "The attendant stays at the leg until the climber says they are down, so the call is what releases them, and the foreman reassigns the deck on the strength of it. It is also the crew's own check-in: a climb through a gust and a fog bank is a climb that leaves things unsaid, and saying them on the radio before the next job is how a crew notices who is rattled. The Ironworkers' member assistance line is there for anything that lasts longer than the shift."
+    }
+  ],
+  "supportLine": "the Ironworkers' member assistance programme through your local, and the crew's own peer-support contact",
+  "tagline": "Up a tower leg on a rope grab and across to the platform on a twin-leg lanyard: the permit and the rescue plan read, the wind taken, the climb held steady through a gust, one leg always clipped at the transfer, the tools hauled up in a tethered bucket while the fog comes in, a beam clamp set for the next crew, and the climb logged",
+  "title": "SmartCiti.X~ Tower Climb & Tie-Off VR",
+  "trade": "Ironworkers — bridge ironworker on the tower, trained through the Ironworkers' IMPACT programme, with the crew's rescue attendant on the deck",
+  "underwater": null,
+  "weather": null
+}

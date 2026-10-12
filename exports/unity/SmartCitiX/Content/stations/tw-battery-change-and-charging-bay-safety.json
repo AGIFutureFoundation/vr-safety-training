@@ -1,0 +1,415 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "battery-bay-certified",
+    "name": "Battery Bay Certified",
+    "note": "Confirmed the eyewash and ventilation before starting, powered the truck down before touching the battery, and proved the charge before trusting it"
+  },
+  "category": "Manufacturing & Automation",
+  "certification": "Teamsters (IBT) warehouse and logistics automation training; OSHA 29 CFR 1910.178 powered industrial trucks including battery charging, 29 CFR 1910.1200 hazard communication for battery electrolyte, and 29 CFR 1910.132 personal protective equipment for the face shield and apron; NIOSH findings on hydrogen off-gassing incidents in poorly ventilated charging bays",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "NIOSH",
+        "citedAs": "NIOSH",
+        "id": "niosh-criteria",
+        "title": "NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1200",
+        "id": "osha-1910-1200",
+        "title": "29 CFR 1910.1200 — Hazard communication"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.132",
+        "id": "osha-1910-132",
+        "title": "29 CFR 1910.132 — Personal protective equipment, general requirements"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.178",
+        "id": "osha-1910-178",
+        "title": "29 CFR 1910.178 — Powered industrial trucks"
+      },
+      {
+        "body": "union",
+        "citedAs": "IBT",
+        "id": "teamsters-training",
+        "title": "Teamsters apprenticeship and driver training programmes, including regulated-soil and yard work"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Warehousing & Logistics",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "power-down-first",
+        "name": "Power Down First",
+        "note": "Confirmed the key off before touching the battery, first try"
+      },
+      {
+        "id": "never-block-the-eyewash",
+        "name": "Never Block the Eyewash",
+        "note": "Never missed a hazard on the bay read"
+      },
+      {
+        "id": "steady-charge",
+        "name": "Steady Charge",
+        "note": "Held the charging amperage near band centre"
+      },
+      {
+        "id": "clean-extraction",
+        "name": "Clean Extraction",
+        "note": "Extracted the battery onto the cart, first try"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "quick-change",
+        "name": "Quick Change",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "clean-shift",
+        "name": "Clean Shift",
+        "note": "Clean run, no corrections"
+      },
+      {
+        "id": "ampere-streak",
+        "name": "Ampere Streak",
+        "note": "Nine correct actions in a row"
+      }
+    ],
+    "currency": "AMPERE",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Bay Visitor",
+      "Bay Aware",
+      "Battery Handler",
+      "Charging Bay Authority",
+      "Battery Bay Certified"
+    ],
+    "system": "Charging Bay Discipline"
+  },
+  "hazards": {
+    "blocked-eyewash-hazard": "That eyewash station has cases stacked in front of it. An eyewash that takes ten extra seconds to reach because someone has to move boxes first is ten seconds an electrolyte splash spends in someone's eyes before it gets flushed.",
+    "blocked-vent-hazard": "That ventilation intake is covered with a tarp. A battery on charge gives off hydrogen as a normal part of charging, and a bay that cannot actually vent it is a bay where that gas has nowhere to go but up and out toward the first spark that finds it.",
+    "corroded-terminal-hazard": "That battery terminal is visibly corroded, with white crust built up around the connector. A corroded terminal runs hotter under load than a clean one, and reaching in to disconnect it without expecting resistance is how a hand ends up closer to an arc than planned.",
+    "tool-across-terminals-hazard": "That wrench is resting across two open terminals. A battery this size does not need a request to short across a bridge like that — metal touching both terminals at once is exactly the spark source the ventilation and the no-flame rule both exist to keep away from this bay."
+  },
+  "id": "tw-battery-change-and-charging-bay-safety",
+  "indoor": "service",
+  "interrupts": [
+    {
+      "after": "charge-start-hold",
+      "alert": "The bay's ventilation fan has stopped turning while the battery is on charge.",
+      "cue": "Stop the charge and report the fan to facilities rather than letting the battery keep charging with no ventilation.",
+      "delay": 4,
+      "id": "vent-fan-fault",
+      "kind": "Ventilation fan stops",
+      "missNote": "The charge continued with the fan stopped. Hydrogen does not wait for someone to notice the fan is off before it starts building up.",
+      "seconds": 12,
+      "target": "facilities-radio",
+      "why": "A charging battery keeps giving off hydrogen whether or not the fan is moving it out of the bay, and continuing to charge into a bay that has stopped venting is choosing to let that gas accumulate — reporting it is what gets the fan fixed before the next battery goes on charge, not just this one.",
+      "wrongNote": "Not that — a stopped fan gets reported to facilities before this charge continues."
+    },
+    {
+      "after": "extract-battery",
+      "alert": "A small electrolyte spill has appeared at the base of the extracted battery on the cart.",
+      "cue": "Report the spill and contain it per the spill kit rather than just wiping it up and continuing.",
+      "delay": 3,
+      "id": "acid-spill-fault",
+      "kind": "Electrolyte spill",
+      "missNote": "The spill was wiped up without being reported. A splash that never gets logged is a splash the next associate through this bay has no reason to expect.",
+      "seconds": 12,
+      "target": "spill-report",
+      "why": "Battery electrolyte is corrosive on skin and on the floor finish alike, and wiping a spill without reporting it skips the neutralising step a real spill kit is built to provide — reporting it is what turns a splash into a contained clean-up instead of a slip hazard someone else finds barefoot later.",
+      "wrongNote": "Not that — the spill gets reported and contained per the spill kit, not just wiped up."
+    }
+  ],
+  "lateNotes": {
+    "eyewash-station": "The eyewash gets confirmed clear before anything is unplugged, not located for the first time after a splash already happened.",
+    "key-off-switch": "The truck gets powered down and the key removed before a hand goes near the battery connector, not checked by assumption afterward."
+  },
+  "name": "Battery Change & Charging Bay Safety",
+  "parSeconds": 275,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "warehouse-and-logistics-automation"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "batteryChargingStation",
+        "count": 2,
+        "kit": "equipment"
+      },
+      {
+        "builder": "forkliftCounterbalance",
+        "count": 2,
+        "kit": "fleet"
+      }
+    ],
+    "error": null,
+    "footprint": 2.7,
+    "hits": [
+      "battery-connector",
+      "blocked-eyewash-hazard",
+      "blocked-vent-hazard",
+      "cart-socket",
+      "charged-battery",
+      "charger-ammeter",
+      "charger-connector",
+      "charger-start",
+      "closing-log",
+      "compartment-hood",
+      "compartment-socket",
+      "corroded-terminal-hazard",
+      "eyewash-station",
+      "face-shield",
+      "facilities-radio",
+      "intact-charger-cable",
+      "key-off-switch",
+      "permit-board",
+      "rubber-apron",
+      "spent-battery",
+      "spill-report",
+      "tool-across-terminals-hazard"
+    ],
+    "meshes": 226
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "turn"
+  ],
+  "steps": [
+    {
+      "anyOrder": true,
+      "cue": "Face shield and rubber apron and gloves before approaching the battery compartment.",
+      "id": "ppe",
+      "itemNames": {
+        "face-shield": "face shield",
+        "rubber-apron": "rubber apron and gloves"
+      },
+      "kind": "sequence",
+      "prompt": "Face shield and rubber apron and gloves before approaching the battery compartment.",
+      "targets": [
+        "face-shield",
+        "rubber-apron"
+      ],
+      "title": "Suit up before touching the battery",
+      "why": "Battery electrolyte splashes outward, not down, the instant a connector comes free under any resistance at all — the face shield and the apron are what keeps that splash off skin and out of eyes instead of finding out the hard way which way it went."
+    },
+    {
+      "cue": "Confirm today's battery-change permit and the safety data sheet reference before starting.",
+      "id": "permit-read",
+      "kind": "select",
+      "prompt": "Confirm today's battery-change permit and the safety data sheet reference before starting.",
+      "target": "permit-board",
+      "title": "Read the battery-change permit",
+      "why": "The permit is what confirms this is the truck and the battery actually scheduled for a change today — starting on the wrong unit because it happened to be parked closest wastes a charged battery on a truck that did not need one yet."
+    },
+    {
+      "cue": "Look the bay over before starting. Three things are already wrong with it — find them.",
+      "decoyNotes": {
+        "intact-charger-cable": "That charger cable is intact, with no visible wear. Nothing to flag there."
+      },
+      "id": "bay-hazard-read",
+      "itemNames": {
+        "blocked-eyewash-hazard": "eyewash blocked by stacked cases",
+        "blocked-vent-hazard": "ventilation intake covered",
+        "corroded-terminal-hazard": "corroded battery terminal"
+      },
+      "itemNotes": {
+        "blocked-eyewash-hazard": "The cases come off the eyewash before anything else in this bay starts — it has to be reachable in seconds, not minutes.",
+        "blocked-vent-hazard": "The tarp comes off the intake before any battery goes on charge in this bay again.",
+        "corroded-terminal-hazard": "A corroded terminal gets flagged for the electrician, not disconnected as if it were a clean one."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look the bay over before starting. Three things are already wrong with it — find them.",
+      "targets": [
+        "blocked-eyewash-hazard",
+        "blocked-vent-hazard",
+        "corroded-terminal-hazard"
+      ],
+      "title": "Read the bay for what is already wrong with it",
+      "why": "A bay that looks routine from the door is not the same thing as one an associate has actually checked — a blocked eyewash, a covered vent or a corroded terminal each quietly removes a control this bay depends on, and finding them now costs a work order instead of costing someone the moment a splash or a spark actually happens."
+    },
+    {
+      "cue": "Confirm the eyewash station is clear and reachable before starting the change.",
+      "id": "eyewash-confirm",
+      "kind": "select",
+      "prompt": "Confirm the eyewash station is clear and reachable before starting the change.",
+      "target": "eyewash-station",
+      "title": "Confirm the eyewash station",
+      "why": "An eyewash that takes ten extra seconds to reach because it was never actually confirmed clear is ten seconds an electrolyte splash spends untreated — confirming it now, deliberately, is what makes it a control instead of a fixture on the wall."
+    },
+    {
+      "cue": "Confirm the truck's key is off and removed before touching the battery.",
+      "id": "key-off",
+      "kind": "select",
+      "prompt": "Confirm the truck's key is off and removed before touching the battery.",
+      "target": "key-off-switch",
+      "title": "Power down the truck",
+      "why": "A truck that is still keyed on can still draw from the battery the instant a connector makes contact — powering it down first is what keeps the disconnect from happening under load, arcing at the terminal instead of separating cleanly."
+    },
+    {
+      "cue": "Turn the hood latch to open the battery compartment.",
+      "id": "hood-open",
+      "kind": "turn",
+      "prompt": "Turn the hood latch to open the battery compartment.",
+      "target": "compartment-hood",
+      "title": "Open the battery compartment",
+      "turn": {
+        "axis": "x",
+        "label": "COMPARTMENT HOOD",
+        "turns": 0.4
+      },
+      "why": "Opening the hood is the point of no return for this procedure — doing it only after the truck is confirmed off is what keeps this step from ever being the one where the compartment turns out to still be live and a hand is already reaching into it."
+    },
+    {
+      "cue": "Disconnect the battery connector before attempting to move the battery.",
+      "id": "disconnect-battery",
+      "kind": "select",
+      "prompt": "Disconnect the battery connector before attempting to move the battery.",
+      "target": "battery-connector",
+      "title": "Disconnect the spent battery",
+      "why": "A battery connector still attached fights back the instant the battery starts to slide — disconnecting it fully first is what keeps the extraction from becoming a cable caught halfway out of the compartment, pulling the connector apart under load instead of by hand."
+    },
+    {
+      "cue": "Slide the spent battery out of the compartment and onto the transfer cart.",
+      "drag": {
+        "missNote": "Not onto the cart — the battery only leaves the compartment under control when it lands on the cart, not beside it.",
+        "radius": 0.45,
+        "to": "cart-socket"
+      },
+      "id": "extract-battery",
+      "kind": "drag",
+      "prompt": "Slide the spent battery out of the compartment and onto the transfer cart.",
+      "target": "spent-battery",
+      "title": "Extract the spent battery",
+      "why": "A lift-truck battery this size moves on a rail and a cart for a reason — sliding it out under control, rather than lifting or forcing it, is what keeps its own weight from becoming the hazard the moment it clears the compartment and nothing else is holding it up."
+    },
+    {
+      "cue": "Connect the spent battery's connector to the charger before starting the charge.",
+      "id": "connect-charger",
+      "kind": "select",
+      "prompt": "Connect the spent battery's connector to the charger before starting the charge.",
+      "target": "charger-connector",
+      "title": "Connect the spent battery to the charger",
+      "why": "A battery on the cart but not actually connected to the charger is a battery that is not charging no matter how long it sits there — confirming the connection is what makes the next shift's charged battery real instead of assumed."
+    },
+    {
+      "cue": "Hold the charger's start control until charging initialises.",
+      "holdBreakNote": "Released the start control before charging initialised. A charger that never confirmed a start is not a charger to walk away from.",
+      "id": "charge-start-hold",
+      "kind": "hold",
+      "prompt": "Hold the charger's start control until charging initialises.",
+      "seconds": 6,
+      "target": "charger-start",
+      "title": "Start the charge",
+      "why": "Holding the start control until the charger actually confirms it has begun is what catches a connection that looked seated but was not — a charge that never really started is a battery that shows up dead on the next shift with no warning at all."
+    },
+    {
+      "cue": "Read the charger's ammeter and commit only inside the safe charging band.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.66
+        ],
+        "label": "CHARGING AMPERAGE",
+        "missNote": "Committed outside the safe charging band. Stop and inspect the connection before leaving this battery on charge.",
+        "speed": 0.55
+      },
+      "id": "charge-gauge-check",
+      "kind": "gauge",
+      "prompt": "Read the charger's ammeter and commit only inside the safe charging band.",
+      "target": "charger-ammeter",
+      "title": "Confirm the charging amperage",
+      "why": "A charger pulling outside its normal amperage band is telling you something about the battery or the connection before either one fails outright — the ammeter is the only honest read of that, not how normal the charger sounds from across the bay."
+    },
+    {
+      "cue": "Select the fully charged battery from the rack for this truck.",
+      "id": "select-charged",
+      "kind": "select",
+      "prompt": "Select the fully charged battery from the rack for this truck.",
+      "target": "charged-battery",
+      "title": "Select the charged replacement",
+      "why": "Taking the battery that is actually marked fully charged, rather than the one that has simply been sitting the longest, is what keeps a truck from going back to work on a battery that only looks ready and stalls out an hour into the shift."
+    },
+    {
+      "cue": "Slide the charged battery into the truck's compartment.",
+      "drag": {
+        "missNote": "Not seated in the compartment — the battery has to land fully in its cradle, not balanced on the edge of it.",
+        "radius": 0.45,
+        "to": "compartment-socket"
+      },
+      "id": "install-battery",
+      "kind": "drag",
+      "prompt": "Slide the charged battery into the truck's compartment.",
+      "target": "charged-battery",
+      "title": "Install the charged battery",
+      "why": "Sliding the replacement in under control, the same way the spent one came out, is what keeps this step as controlled as the extraction — a battery dropped the last few centimetres into place can crack a case seam that will not show a problem until it leaks days later."
+    },
+    {
+      "cue": "Reconnect the battery connector before closing the compartment.",
+      "id": "reconnect-battery",
+      "kind": "select",
+      "prompt": "Reconnect the battery connector before closing the compartment.",
+      "target": "battery-connector",
+      "title": "Reconnect the battery",
+      "why": "A truck closed up on a battery that was never actually reconnected looks ready from the outside and simply will not start — confirming the connection now is cheaper than a service call after the operator has already climbed in expecting to drive it away."
+    },
+    {
+      "cue": "Turn the hood latch closed and confirm it seats.",
+      "id": "hood-close",
+      "kind": "turn",
+      "prompt": "Turn the hood latch closed and confirm it seats.",
+      "target": "compartment-hood",
+      "title": "Close the battery compartment",
+      "turn": {
+        "axis": "x",
+        "label": "COMPARTMENT HOOD",
+        "turns": 0.4
+      },
+      "why": "A hood that is not actually latched can pop open under the first hard bump this truck takes back out on the floor — confirming the latch now is what keeps that from being someone else's surprise an aisle away, with a battery still wired live underneath it."
+    },
+    {
+      "cue": "Sign the battery-change log before releasing the truck back to service.",
+      "id": "closing-log",
+      "kind": "select",
+      "prompt": "Sign the battery-change log before releasing the truck back to service.",
+      "target": "closing-log",
+      "title": "Sign the battery-change log",
+      "why": "The signed log is the record of which battery went into which truck and when — a change that is never logged is a fleet team guessing at run times instead of tracking them, and a warranty claim nobody can actually document."
+    }
+  ],
+  "supportLine": "your Teamsters local's member assistance programme, or the site's employee assistance line if a close call in the charging bay is what stayed with you",
+  "tagline": "Changing a lift-truck battery the way the charging bay's own sequence requires it: the eyewash and ventilation confirmed clear first, the truck powered down before the spent battery is extracted, the spent battery proven inside its safe charging band, and the replacement installed and reconnected before the truck goes back to work",
+  "title": "SmartCiti.X~ Battery Change & Charging Bay Safety VR",
+  "trade": "Teamsters warehouse associate — lift-truck battery change",
+  "underwater": null,
+  "weather": null
+}

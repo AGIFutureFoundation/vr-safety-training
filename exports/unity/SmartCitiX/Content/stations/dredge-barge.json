@@ -1,0 +1,414 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "clean-cut",
+    "name": "Clean Cut",
+    "note": "A load dredged, tested and moved without a reading over limit or a line unaccounted for"
+  },
+  "category": "Maritime & Ports",
+  "certification": "IUOE Local 3 operating engineers (dredge crane operator); Inlandboatmen's Union of the Pacific (IBU, ILWU marine division) — tug and scow crew; U.S. Army Corps of Engineers dredging permit conditions; San Francisco Bay Dredged Material Management Office (DMMO) sediment testing; OSHA 29 CFR 1926 Subpart CC cranes and derricks; USCG barge and towing regulations",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "DMMO",
+        "citedAs": "DMMO",
+        "id": "dmmo-dredged-material-testing",
+        "title": "San Francisco Bay Dredged Material Management Office — sediment testing, suitability determinations and placement-site review for dredged material"
+      },
+      {
+        "body": "union",
+        "citedAs": "ILWU",
+        "id": "ilwu-pma-training",
+        "title": "ILWU-PMA joint training for longshore, crane and clerk work, and the Inlandboatmen's Union marine division"
+      },
+      {
+        "body": "union",
+        "citedAs": "IUOE",
+        "id": "iuoe-training",
+        "title": "IUOE local training funds and the IUOE National Training Fund — operating and stationary engineer apprenticeship"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926",
+        "id": "osha-1926",
+        "title": "29 CFR 1926 — Safety and health regulations for construction"
+      },
+      {
+        "body": "USACE",
+        "citedAs": "Army Corps",
+        "id": "usace-section-404",
+        "title": "Clean Water Act §404 permit conditions for the discharge of dredged or fill material"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Maritime",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "baseline-honest",
+        "name": "Baseline Honest",
+        "note": "Read the pre-dredge turbidity baseline clean before the first bucket"
+      },
+      {
+        "id": "nothing-over-limit",
+        "name": "Nothing Over Limit",
+        "note": "Never a hazard, never a reading called outside its band"
+      },
+      {
+        "id": "true-freeboard",
+        "name": "True Freeboard",
+        "note": "Freeboard and decant both read inside the working band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-load",
+        "name": "Clean Load",
+        "note": "No corrections across the whole load"
+      },
+      {
+        "id": "steady-cycle",
+        "name": "Steady Cycle",
+        "note": "Held the bucket cycle in band the whole way"
+      },
+      {
+        "id": "scow-away",
+        "name": "Scow Away",
+        "note": "Scow cast off inside 80% of par"
+      }
+    ],
+    "currency": "CY",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Deckhand",
+      "Dredge Deck Lead",
+      "Scow Boss",
+      "Dredging Foreman",
+      "Dredge Deck Certified"
+    ],
+    "system": "Dredge Deck"
+  },
+  "hazards": {
+    "hopper-reach": "You reached into the scow's hopper to clear a hang-up while the bucket was still cycling overhead. A loaded clamshell bucket swinging on a crane wire does not stop for a hand in the hopper, and a caught-between injury at a moving load happens faster than anybody can react to a shout. The bucket stops and locks out before anyone's arm goes anywhere near that opening.",
+    "open-bucket-pick": "You reached for the open clamshell bucket instead of the sealed environmental one. An open bucket loses its load through the seams on every lift — fine sediment sifting out the sides all the way up through the water column. The environmental bucket exists because the permit was written on the assumption that what leaves the bottom is what lands in the scow, not what leaks out on the way.",
+    "premature-decant-discharge": "You opened the scow's decant valve before the water was tested. Decant is exactly the water the DMMO sediment testing program exists to check — release it untested and whatever the dredged sediment was carrying goes straight back into the bay the whole permit was written to keep it out of, with no sample to show it didn't.",
+    "vessel-gap-step": "You stepped across the open gap between the dredge barge and the scow instead of using the gangway. Two vessels working alongside each other move independently on every wake and swell — the gap between them opens and closes on its own schedule, and a foot caught in it when the hulls come back together is a foot that does not come back out clean."
+  },
+  "id": "dredge-barge",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "cycle",
+      "alert": "The real-time turbidity monitor off the stern has jumped past the permit limit — the last two bucket cycles are stirring more than the curtain is holding.",
+      "cue": "The monitor is over limit. Check it and call a pause before the next cycle.",
+      "delay": 4,
+      "id": "turbidity-exceedance",
+      "kind": "Turbidity monitor alarming",
+      "missNote": "The crane kept cycling through the alarm and the plume kept building past the curtain's own capacity to hold it, turning one exceedance into a run of them — which is the difference between a reading a regulator notes and a permit violation a regulator acts on.",
+      "seconds": 13,
+      "target": "baseline-monitor",
+      "why": "The dredging permit is not a promise to be careful, it is a number a monitor either confirms or contradicts in real time, and a reading over limit means the curtain and the cycle rate together are not doing the job the permit assumed they would. It gets read and acted on the moment it alarms — not after the next bucket has already gone in on the same bad conditions.",
+      "wrongNote": "That's not it. The turbidity monitor is the one instrument reading what is actually leaving the work area right now — nothing else on this deck tells you that."
+    },
+    {
+      "after": "tug-call",
+      "alert": "The scow's forward mooring line has parted under the strain of the current, and the loaded scow is swinging out on the line still holding aft.",
+      "cue": "Get a second line on before the one line left lets go too.",
+      "delay": 3,
+      "id": "scow-line-parted",
+      "kind": "Scow line parted",
+      "missNote": "The one remaining line let go under the extra load it was never meant to carry alone, and a loaded scow went adrift on a falling tide with the channel still open behind it — a recoverable moment became a boat somebody now has to chase down.",
+      "seconds": 12,
+      "target": "scow-winch",
+      "why": "A loaded scow held by a single remaining line is a load the size of a building held by one point of failure, and the line still holding is now carrying a share of the strain it was never rigged to take alone. A second line on the winch is what turns one point of failure back into an arrangement that can actually hold — done now, while there is still a line left to work with.",
+      "wrongNote": "It's the scow's own mooring winch. Getting a second line on is the only thing that takes the load off the line still holding."
+    }
+  ],
+  "lateNotes": {
+    "decant-meter": "Decant is tested after the scow carries a load — there's no decant water off an empty hopper.",
+    "freeboard-mark": "Read the freeboard after the cycle is running, not before there is anything in the scow to read it against.",
+    "hoist-lever": "The cycle starts after the environmental bucket is on and the spuds are set — nothing to cycle before the barge is actually anchored.",
+    "vhf-tug": "The tug is called once the scow is loaded and tested, not before there is anything ready to move."
+  },
+  "name": "Dredge Barge",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "hunters-point-bay-restoration"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "anchor-1",
+      "anchor-2",
+      "anchor-3",
+      "baseline-monitor",
+      "bridle-check",
+      "curtain-ring",
+      "curtain-seam-check",
+      "decant-meter",
+      "env-bucket",
+      "freeboard-mark",
+      "hoist-lever",
+      "hopper-reach",
+      "open-bucket-pick",
+      "permit-board",
+      "premature-decant-discharge",
+      "scow-winch",
+      "spud-winch",
+      "stage-comms",
+      "stage-helmet",
+      "stage-vest",
+      "turbidity-curtain",
+      "vessel-gap-step",
+      "vhf-tug"
+    ],
+    "meshes": 216
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the Corps' dredging permit, the DMMO sediment testing results, and today's disposal call.",
+      "id": "permit",
+      "kind": "select",
+      "prompt": "Read the Corps' dredging permit, the DMMO sediment testing results, and today's disposal call.",
+      "target": "permit-board",
+      "title": "Check the dredging permit and the sediment testing conditions",
+      "why": "Sediment testing under the Dredged Material Management Office program is what decides where this load is even allowed to go — open water, an upland site, or nowhere until it is tested again. Dredging first and asking where the material goes afterward is how a scow ends up sitting loaded with nowhere permitted to take it."
+    },
+    {
+      "cue": "Take the reading at the monitoring buoy and commit it before the first bucket goes in.",
+      "gauge": {
+        "green": [
+          0.38,
+          0.58
+        ],
+        "label": "BASELINE NTU",
+        "missNote": "Outside the expected background band. Let the buoy settle and read it again before anything else starts.",
+        "speed": 0.7
+      },
+      "id": "baseline",
+      "kind": "gauge",
+      "prompt": "Take the reading at the monitoring buoy and commit it before the first bucket goes in.",
+      "target": "baseline-monitor",
+      "title": "Read the pre-dredge turbidity baseline",
+      "why": "Every reading taken for the rest of the job is judged against this one. Skip it, or take it after the water is already stirred, and there is no honest baseline left to prove the dredging itself is the reason for anything the monitor reads later."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Life vest, hard hat, and a radio headset before stepping under the boom.",
+      "id": "stage",
+      "itemNames": {
+        "stage-comms": "radio headset",
+        "stage-helmet": "hard hat",
+        "stage-vest": "life vest"
+      },
+      "kind": "sequence",
+      "prompt": "Life vest, hard hat, and a radio headset before stepping under the boom.",
+      "targets": [
+        "stage-vest",
+        "stage-helmet",
+        "stage-comms"
+      ],
+      "title": "Stage the deck lead's own gear",
+      "why": "A dredge deck is a working crane over open water with a scow alongside and a tug standing by — the vest is buoyancy the moment a wet steel deck takes a foot out, the hard hat is for a rigging failure nobody sees coming, and the headset is how the deck lead and the crane operator stay one crew instead of two people guessing at each other's hand signals over diesel noise."
+    },
+    {
+      "cue": "Carry the curtain out and clip it to the ring around the dredge footprint.",
+      "drag": {
+        "missNote": "Not on the ring — the curtain has to close the full loop around the footprint or the plume goes straight out the gap.",
+        "radius": 0.5,
+        "to": "curtain-ring"
+      },
+      "id": "curtain-deploy",
+      "kind": "drag",
+      "prompt": "Carry the curtain out and clip it to the ring around the dredge footprint.",
+      "target": "turbidity-curtain",
+      "title": "Deploy the turbidity curtain around the work area",
+      "why": "The curtain is what keeps the plume the bucket raises inside a boundary the permit actually drew, rather than free to drift with the tide across the whole reach. Everything the crew reads on the turbidity monitor for the rest of the job is a measurement of how well this curtain is doing its one job."
+    },
+    {
+      "cue": "Click all three anchors and confirm each one is actually holding, not just clipped on.",
+      "id": "anchor-check",
+      "itemNames": {
+        "anchor-1": "anchor 1",
+        "anchor-2": "anchor 2",
+        "anchor-3": "anchor 3"
+      },
+      "itemNotes": {
+        "anchor-1": "Anchor 1 is set and holding — chain taut, no slack for the curtain to sag on.",
+        "anchor-2": "Anchor 2 is set and holding — the curtain skirt hangs plumb here, not bellied by the current.",
+        "anchor-3": "Anchor 3 is set and holding — the last point in the loop, and the one a tug's wake finds first if it drags."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Click all three anchors and confirm each one is actually holding, not just clipped on.",
+      "targets": [
+        "anchor-1",
+        "anchor-2",
+        "anchor-3"
+      ],
+      "title": "Walk the curtain and check every anchor",
+      "why": "A curtain is only as good as the anchors holding it against the bottom, and an anchor that looks set from the deck can already be walking in soft mud. Checking all three before the first cycle is the only way to know the boundary the monitor is about to be judged against is actually where it is supposed to be."
+    },
+    {
+      "cue": "Confirm the sealed environmental bucket is on the wire, not the open one on the rack beside it.",
+      "id": "bucket-select",
+      "kind": "select",
+      "prompt": "Confirm the sealed environmental bucket is on the wire, not the open one on the rack beside it.",
+      "target": "env-bucket",
+      "title": "Rig the environmental clamshell bucket",
+      "why": "An environmental bucket closes level and seals its own seams, so what closes on the bottom is what arrives in the scow instead of sifting out through the water column on the way up. It is the one piece of rigging that decides whether every other control on this deck is protecting real water quality or just looking like it does."
+    },
+    {
+      "cue": "Wind the spud winch down until both piles are seated and the barge stops moving on the current.",
+      "id": "spuds",
+      "kind": "turn",
+      "prompt": "Wind the spud winch down until both piles are seated and the barge stops moving on the current.",
+      "target": "spud-winch",
+      "title": "Lower and set the spuds",
+      "turn": {
+        "axis": "y",
+        "label": "SPUD WINCH",
+        "turns": 1
+      },
+      "why": "A dredge barge working loose on the current is a crane trying to place a bucket from a platform that will not hold still, and every cycle after that is a guess at where the bucket actually lands. The spuds pin the barge to the bottom so the footprint the curtain is drawn around stays the footprint the bucket is actually working."
+    },
+    {
+      "cue": "Hold the hoist lever in the working range — no rushed cycles, no overflow on the way up.",
+      "holdBreakNote": "The cycle broke rhythm and the bucket lurched on the wire — that is exactly where an overflow starts. Bring it back to a steady rate.",
+      "id": "cycle",
+      "kind": "track",
+      "prompt": "Hold the hoist lever in the working range — no rushed cycles, no overflow on the way up.",
+      "seconds": 7,
+      "target": "hoist-lever",
+      "title": "Run the bucket cycle at a controlled speed",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.45,
+        "green": [
+          0.38,
+          0.58
+        ],
+        "label": "HOIST RATE",
+        "rise": 0.55,
+        "start": 0.1
+      },
+      "why": "A bucket hoisted too fast trails water and fines over its own sealed edges before it clears the surface, which is exactly the overflow an environmental bucket is supposed to prevent; hoisted too slow, the crew is burning cycle time the tide is not going to give back. Steady is what keeps a sealed bucket actually sealed all the way to the scow."
+    },
+    {
+      "cue": "Read the load marks on the scow's side and commit before the waterline passes the working line.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "FREEBOARD",
+        "missNote": "Past the working mark. Stop loading and read the freeboard again before the next bucket goes in.",
+        "speed": 0.68
+      },
+      "id": "freeboard",
+      "kind": "gauge",
+      "prompt": "Read the load marks on the scow's side and commit before the waterline passes the working line.",
+      "target": "freeboard-mark",
+      "title": "Watch the scow's freeboard as it loads",
+      "why": "A scow loaded past its marked freeboard rides low enough that its own wake, or a following sea in the channel, comes aboard over the coaming — a boat is not overloaded gradually, it is overloaded and then it is a different, much worse problem. The mark is what says stop while there is still freeboard left to lose."
+    },
+    {
+      "cue": "Draw the sample from the scow's decant line and commit the reading against the DMMO limit.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "DECANT",
+        "missNote": "Over the discharge limit. This water does not go back to the bay until a retest reads inside the band.",
+        "speed": 0.72
+      },
+      "id": "decant",
+      "kind": "gauge",
+      "prompt": "Draw the sample from the scow's decant line and commit the reading against the DMMO limit.",
+      "target": "decant-meter",
+      "title": "Test the decant water before any discharge",
+      "why": "Decant is the water the load releases as the sediment settles, and it carries whatever that sediment was carrying — it is tested under the same DMMO program that decided where the sediment itself could go, because the water is not exempt just because the solid already passed."
+    },
+    {
+      "cue": "Hold the transmit key and make the full call — scow loaded, tested, ready to take in tow.",
+      "holdBreakNote": "The call cut off partway through. A half-made call leaves the tug taking a line on a load it only half knows about — key up and finish it.",
+      "id": "tug-call",
+      "kind": "hold",
+      "prompt": "Hold the transmit key and make the full call — scow loaded, tested, ready to take in tow.",
+      "seconds": 5,
+      "target": "vhf-tug",
+      "title": "Call the tug before the scow moves",
+      "why": "The tug crew cannot see the freeboard mark or the decant result from where they are standing off, and they are about to put a line on a loaded scow on the strength of what this call tells them. Made in full, it is the deck lead putting a name to the load being ready, not a wave across open water."
+    },
+    {
+      "cue": "Wind the mooring winch to pay out the line as the tug takes up the strain.",
+      "id": "cast-off",
+      "kind": "turn",
+      "prompt": "Wind the mooring winch to pay out the line as the tug takes up the strain.",
+      "target": "scow-winch",
+      "title": "Cast off the scow to the tug",
+      "turn": {
+        "axis": "y",
+        "label": "SCOW WINCH",
+        "reverse": true,
+        "turns": 0.85
+      },
+      "why": "A line cast off in a rush snaps taut the instant the tug takes the strain, and a snap load on deck hardware is how a cleat or a winch drum lets go. Paid out steadily against the tug's own pull, the same line comes off the barge clean instead of coming off however it happens to."
+    },
+    {
+      "cue": "Check the tow bridle and the curtain before anything moves off this footprint.",
+      "id": "walk",
+      "itemNames": {
+        "bridle-check": "the tow bridle",
+        "curtain-seam-check": "the curtain seam"
+      },
+      "itemNotes": {
+        "bridle-check": "The tow bridle's shackles are pinned and moused. An unmoused pin works itself loose exactly when the load on it is highest, which is the moment the tug takes up the tow.",
+        "curtain-seam-check": "The curtain seam nearest the scow has come open under the day's traffic. Left as is, it is a gap in the one boundary still supposed to be holding the last of today's plume."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Check the tow bridle and the curtain before anything moves off this footprint.",
+      "targets": [
+        "bridle-check",
+        "curtain-seam-check"
+      ],
+      "title": "Walk the deck before the scow gets underway",
+      "why": "The tug is about to take a loaded scow into a channel with other traffic in it, and the curtain is about to be the only control left running with the crew's attention on the departure instead of on the water. Both get one more look here, because neither one gets a second chance once the scow is moving."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Environmental dredging of contaminated bay sediment: baseline turbidity read, curtain and anchors checked, the closed bucket over the open one, a controlled cycle with no overflow, the scow to the freeboard line, decant tested before discharge, and the tug called before the scow moves",
+  "title": "SmartCiti.X~ Dredge Barge VR",
+  "trade": "Dredge deck lead / marine construction crew",
+  "underwater": null,
+  "weather": "fog"
+}

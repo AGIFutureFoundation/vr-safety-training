@@ -1,0 +1,415 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "code-bead",
+    "name": "Code Bead",
+    "note": "A stainless seam run to the procedure with the fume arm on the arc and a fire watch behind the screen the whole way"
+  },
+  "category": "Manufacturing & Automation",
+  "certification": "SMART and its International Training Institute welding curriculum; AWS D9.1 Sheet Metal Welding Code for the weld procedure, visual acceptance and welder qualification on sheet; OSHA 29 CFR 1910.252 welding, cutting and brazing, 29 CFR 1910.1026 hexavalent chromium for stainless fume, 29 CFR 1910.134 respiratory protection; ANSI Z49.1 safety in welding, cutting and allied processes; NFPA 51B fire watch during hot work",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI Z49.1",
+        "id": "ansi-z49-1",
+        "title": "ANSI/AWS Z49.1 — Safety in welding, cutting and allied processes"
+      },
+      {
+        "body": "AWS",
+        "citedAs": "AWS D9.1",
+        "id": "aws-d9-1",
+        "title": "AWS D9.1/D9.1M — Sheet Metal Welding Code"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 51B",
+        "id": "nfpa-51b",
+        "title": "NFPA 51B — Fire Prevention During Welding, Cutting and Other Hot Work"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1026",
+        "id": "osha-1910-1026",
+        "title": "29 CFR 1910.1026 — Chromium (VI) (hexavalent chromium exposure in welding and cutting of stainless and chromate-coated steel)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.134",
+        "id": "osha-1910-134",
+        "title": "29 CFR 1910.134 — Respiratory protection"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.252",
+        "id": "osha-1910-252",
+        "title": "29 CFR 1910.252 — Welding, cutting and brazing, general requirements"
+      },
+      {
+        "body": "union",
+        "citedAs": "SMART",
+        "id": "smart-iti",
+        "title": "SMART and the International Training Institute — sheet metal, rail and transportation apprenticeship"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Manufacturing & Automation",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "procedure-first",
+        "name": "Procedure First",
+        "note": "The weld procedure read before the bottle was opened"
+      },
+      {
+        "id": "fume-on-arc",
+        "name": "Fume On The Arc",
+        "note": "No unsafe action in the booth — arm on the weld, watch on post"
+      },
+      {
+        "id": "travel-held",
+        "name": "Travel Held",
+        "note": "Travel speed inside the band along the whole seam"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-seam",
+        "name": "Clean Seam",
+        "note": "One seam, no corrections"
+      },
+      {
+        "id": "steady-hand",
+        "name": "Steady Hand",
+        "note": "Never dropped out of the travel band"
+      },
+      {
+        "id": "booth-in-time",
+        "name": "Booth In Time",
+        "note": "Welded, read and logged inside 80% of par"
+      }
+    ],
+    "currency": "BEAD",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Pre-apprentice",
+      "Tack Welder",
+      "Sheet Welder",
+      "Code Welder",
+      "Weld Booth Certified"
+    ],
+    "system": "Weld Booth"
+  },
+  "hazards": {
+    "bare-arm-arc": "You went to weld in the T-shirt from your locker with your forearms bare. A TIG arc is the cleanest arc in the shop and still puts out enough ultraviolet to burn skin like an afternoon on a roof in a few minutes; the leather jacket on the hook is the one ANSI Z49.1 assumes you are wearing. Sleeves down, jacket on, collar closed.",
+    "fume-switch-off": "You struck an arc on stainless with the fume arm's fan switched off. Stainless fume carries hexavalent chromium, and 29 CFR 1910.1026 puts an exposure limit on it that a booth without extraction exceeds in the first minute of arc time; the arm is the control, and the switch is the first thing checked, not the fan's noise. No extraction, no arc.",
+    "oily-rags": "You left the oily rags from the fit-up wipe-down on the bench under the arc. Spatter from a spot weld and the sparks off a grinder both land on the bench, and a rag soaked in the cutting oil you cleaned off the seam is the first thing in the booth to light. Rags go in the closed metal can before the arc, every time.",
+    "wet-gloves": "You picked up the wet gloves off the spot welder's water line to hold the flange. A resistance welder puts a few volts across the tips and a few thousand amps through them, and wet leather on a steel flange is a path across your chest that dry leather is not. Wet gloves go on the rack to dry, and the pair on your hands stays dry."
+  },
+  "id": "sm-tig-and-spot-welding",
+  "indoor": "shop",
+  "interrupts": [
+    {
+      "after": "weld-run",
+      "alert": "The fire watch has stepped away from the booth. The pallet of packing cardboard behind the screen is unwatched while you are laying a bead.",
+      "cue": "Nobody is watching the side of the screen you cannot see.",
+      "delay": 3,
+      "id": "fire-watch-away",
+      "kind": "Fire watch off post",
+      "missNote": "You finished the seam with nobody behind the screen. The spatter landed where it landed; the cardboard did not take that time. NFPA 51B and 29 CFR 1910.252 put a fire watch on hot work because the fire starts on the side the welder is not looking at, in the minutes when everybody assumes somebody else is watching.",
+      "seconds": 12,
+      "target": "watch-radio",
+      "why": "A welding screen stops the arc's light and not its sparks, which go over and under it onto whatever is stacked behind; the fire watch is posted there because the welder in the hood cannot see it. A watch who steps away for a minute is a watch who is not there for the spark that lands, and the radio brings them back before the bead goes on — the seam waits, the cardboard does not.",
+      "wrongNote": "It is the radio. Call the watch back to the post before the arc goes on again — nothing else in the booth sees behind the screen."
+    },
+    {
+      "after": "spot-weld",
+      "alert": "The fume arm has swung off the weld. The fume off the flange is going up under your hood instead of down the arm.",
+      "cue": "You are breathing what the arm was meant to take.",
+      "delay": 3,
+      "id": "arm-swung",
+      "kind": "Extraction lost",
+      "missNote": "You held the pedal and finished the spots with the arm swung away. The fume went up under the hood and into your lungs for the rest of the cycle. Chromium exposure is not a burn you feel; it is a number on a medical record, and today's number was not controlled.",
+      "seconds": 12,
+      "target": "fume-arm",
+      "why": "An articulated arm drifts when its joints loosen, and the moment its hood is a foot from the arc it captures the smell and nothing else. On stainless the difference between a hood on the weld and a hood a foot away is the difference 29 CFR 1910.1026 draws between an exposure the shop can show was controlled and one it cannot; the pedal comes up, the arm goes back on the weld, and then the cycle runs.",
+      "wrongNote": "It is the fume arm. Put the hood back on the weld — the extractor is running, it just is not pointed at anything."
+    }
+  ],
+  "lateNotes": {
+    "spot-pedal": "The spot welder is cycled after the tips are cool and dressed; a hot, mushroomed tip gives a weld that looks fine and pulls apart in the field.",
+    "tig-torch": "The torch is struck after the fit-up is clamped and the fume arm is on the seam — an arc struck to see how the puddle looks is chromium in the booth with nothing taking it away."
+  },
+  "name": "TIG and Spot Welding",
+  "parSeconds": 285,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "bay-area-union-edition"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.2,
+    "hits": [
+      "arc-strike",
+      "argon-valve",
+      "bare-arm-arc",
+      "edge-clamp",
+      "flow-regulator",
+      "frayed-lead",
+      "fume-arm",
+      "fume-switch-off",
+      "hood-shade",
+      "oily-rags",
+      "porosity-spot",
+      "seam-line",
+      "spot-pedal",
+      "spot-tips-cool",
+      "tig-gloves",
+      "tig-torch",
+      "tip-dress-file",
+      "unchained-bottle",
+      "watch-radio",
+      "weld-board",
+      "weld-jacket",
+      "weld-log",
+      "wet-gloves",
+      "work-clamp",
+      "wps-sheet"
+    ],
+    "meshes": 243
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Mark yourself into the booth and confirm who the fire watch is for your arc time.",
+      "id": "check-in",
+      "kind": "select",
+      "prompt": "Mark yourself into the booth and confirm who the fire watch is for your arc time.",
+      "target": "weld-board",
+      "title": "Sign on at the weld shop board",
+      "why": "A booth is a screened space, and everything outside the screen is the fire watch's to see; the board is how that person is named for your arc time rather than assumed. Signing on also tells the lead that a first-year is on stainless, which is the one material in the shop with an exposure limit low enough that the fume arm's condition becomes their problem too. SMART shops treat the board as the first control on hot work, not a courtesy."
+    },
+    {
+      "cue": "Process, base metal and thickness, filler, amperage range, shielding gas and flow, and the AWS D9.1 acceptance criteria.",
+      "id": "wps-read",
+      "kind": "select",
+      "prompt": "Process, base metal and thickness, filler, amperage range, shielding gas and flow, and the AWS D9.1 acceptance criteria.",
+      "target": "wps-sheet",
+      "title": "Read the weld procedure",
+      "why": "The weld procedure is the shop's qualified recipe for this joint under AWS D9.1: the filler that matches the stainless, the amperage band the gauge will take without burning through, and the gas flow that keeps the puddle clean. A seam welded from habit on a different gauge or a different alloy is a weld the code never qualified, and the visual criteria on the sheet are what the weld is read against afterwards, not how it looks in the hood."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Jacket on and closed, dry TIG gloves, and the hood's shade checked against the procedure's amperage.",
+      "id": "ppe",
+      "itemNames": {
+        "hood-shade": "the hood, shade checked",
+        "tig-gloves": "TIG gloves",
+        "weld-jacket": "leather welding jacket"
+      },
+      "kind": "sequence",
+      "prompt": "Jacket on and closed, dry TIG gloves, and the hood's shade checked against the procedure's amperage.",
+      "targets": [
+        "weld-jacket",
+        "tig-gloves",
+        "hood-shade"
+      ],
+      "title": "Dress for the arc",
+      "why": "The jacket covers the ultraviolet the arc puts out for the whole of your forearms and neck, the gloves are thin enough to feed filler and dry enough to insulate, and the hood's shade is set to the amperage on the procedure because too light a shade is an arc eye by the end of the shift. ANSI Z49.1 assumes all three; the fume arm handles what you breathe, and these handle what you touch and see."
+    },
+    {
+      "cue": "Stand to the side of the regulator and crack the cylinder valve open, then all the way.",
+      "id": "argon-open",
+      "kind": "turn",
+      "prompt": "Stand to the side of the regulator and crack the cylinder valve open, then all the way.",
+      "target": "argon-valve",
+      "title": "Open the argon",
+      "turn": {
+        "axis": "y",
+        "label": "ARGON",
+        "turns": 1
+      },
+      "why": "The cylinder valve is opened with your body to the side of the regulator face, because a regulator that fails does so towards whoever is looking at it, and cracked first so the seat is not slammed by full cylinder pressure. Argon is inert and will not burn, but a cylinder that is knocked over with its valve open is a projectile, which is why it is chained to the rack before the valve is touched."
+    },
+    {
+      "cue": "Set the flowmeter to the procedure's figure with the torch switch held — not by ear.",
+      "gauge": {
+        "green": [
+          0.44,
+          0.6
+        ],
+        "label": "FLOW",
+        "missNote": "Off the procedure's flow — porosity at the low end, turbulence at the high. Reset it.",
+        "speed": 0.72
+      },
+      "id": "flow-set",
+      "kind": "gauge",
+      "prompt": "Set the flowmeter to the procedure's figure with the torch switch held — not by ear.",
+      "target": "flow-regulator",
+      "title": "Set the shielding gas flow",
+      "why": "Too little argon and air reaches the puddle, the tungsten oxidises and the weld comes out grey and porous; too much and the flow turns turbulent at the cup and drags air in anyway, while emptying a bottle in half a shift. The number is on the procedure, the flowmeter ball is read at eye level with gas actually flowing through the torch, and the sound of the gas means nothing."
+    },
+    {
+      "cue": "Clean metal, clamp tight on the duct section itself — not on the bench, not on the fixture.",
+      "id": "work-lead",
+      "kind": "select",
+      "prompt": "Clean metal, clamp tight on the duct section itself — not on the bench, not on the fixture.",
+      "target": "work-clamp",
+      "title": "Clamp the work lead to the part",
+      "why": "The work lead completes the circuit, and where it is clamped is where the current goes home; a lead on the bench sends the arc's current through whatever else touches that bench, including the clamp on the spot welder and the frame of the fume arm. On the part, on clean metal, tight — a loose or dirty clamp arcs itself, heats up and gives a wandering arc at the torch you will blame on your hand."
+    },
+    {
+      "cue": "Bring the edge clamp over and set it on the seam so the two edges are tight and flush along the whole joint.",
+      "drag": {
+        "missNote": "The clamp is off the seam — the edges are still standing apart where the bead has to go.",
+        "radius": 0.4,
+        "to": "seam-line"
+      },
+      "id": "fitup",
+      "kind": "drag",
+      "prompt": "Bring the edge clamp over and set it on the seam so the two edges are tight and flush along the whole joint.",
+      "target": "edge-clamp",
+      "title": "Fit the seam and clamp it",
+      "why": "A TIG seam on sheet is fusion of two edges that have to touch: a gap of half the sheet thickness is a hole, and a mismatch in height is a bead that fuses one side and rides over the other. The clamp holds the fit-up so the puddle bridges metal and not air, and it is set before the arc rather than adjusted during it, because a hand adjusting a clamp is a hand a few inches from a live tungsten."
+    },
+    {
+      "cue": "Swing the arm's hood to within a hand's width of the weld, on the side the fume will rise, and check the fan is running.",
+      "id": "extractor-arm",
+      "kind": "select",
+      "prompt": "Swing the arm's hood to within a hand's width of the weld, on the side the fume will rise, and check the fan is running.",
+      "target": "fume-arm",
+      "title": "Put the fume arm on the seam",
+      "why": "The arm only captures what is within a hand's width of its hood, and fume rises off the puddle and drifts with the room's air; an arm parked a foot away captures the smell and none of the chromium. On stainless, 29 CFR 1910.1026 makes the position of that hood the difference between an exposure the shop can defend and one it cannot, so the arm moves with the weld, and the fan is checked running before the arc, not heard."
+    },
+    {
+      "cue": "Strike the arc, hold the tungsten off the puddle and travel at the procedure's speed — read the puddle width, not the arc.",
+      "holdBreakNote": "The travel fell out of band — a wide spot where the puddle sagged, or a cold stretch that did not fuse. Steady the hand.",
+      "id": "weld-run",
+      "kind": "track",
+      "prompt": "Strike the arc, hold the tungsten off the puddle and travel at the procedure's speed — read the puddle width, not the arc.",
+      "seconds": 6,
+      "target": "tig-torch",
+      "title": "Run the seam",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.44,
+        "green": [
+          0.42,
+          0.62
+        ],
+        "label": "TRAVEL",
+        "rise": 0.56
+      },
+      "why": "Travel speed is what decides the weld on sheet: too slow and the heat piles up until the puddle drops through, too fast and the bead is narrow, cold and does not fuse the second edge. The procedure gives the speed as a band, and the puddle's width is the gauge you have for it in the hood; a bead run at a steady travel is the difference between a seam that passes AWS D9.1 visual and one that is ground out and run again."
+    },
+    {
+      "cue": "Flange between the tips, hands clear, then hold the pedal through squeeze, weld and hold time — do not lift early.",
+      "holdBreakNote": "Pedal released before the hold time ended — that nugget solidified without pressure and will not hold. Redo the spot beside it.",
+      "id": "spot-weld",
+      "kind": "hold",
+      "prompt": "Flange between the tips, hands clear, then hold the pedal through squeeze, weld and hold time — do not lift early.",
+      "seconds": 3,
+      "target": "spot-pedal",
+      "title": "Spot the flange",
+      "why": "A resistance spot weld is squeeze, weld and hold, and the hold is where the nugget solidifies under pressure; lifting the pedal before the hold time ends gives a weld that looks right and shears off in the field with a click. The pedal is held for the full cycle with both hands clear of the tips, because the tips close with force enough to weld steel and do not distinguish a flange from a fingertip."
+    },
+    {
+      "cue": "Hood up, arc off, gas post-flow finished: look along the bead and click what the acceptance criteria would reject.",
+      "id": "weld-inspect",
+      "itemNames": {
+        "arc-strike": "an arc strike off the seam",
+        "porosity-spot": "porosity in the bead"
+      },
+      "itemNotes": {
+        "arc-strike": "A stray arc strike on the sheet beside the seam. On stainless that is a hard spot and a crack starter, and the code treats it as a defect to be removed, not a mark to be ignored.",
+        "porosity-spot": "A cluster of pinholes where the gas lost cover — the arm's draught pulled the argon off the puddle for a moment. AWS D9.1 rejects it; it is ground out and re-run."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Hood up, arc off, gas post-flow finished: look along the bead and click what the acceptance criteria would reject.",
+      "targets": [
+        "porosity-spot",
+        "arc-strike"
+      ],
+      "title": "Read the weld against the code",
+      "why": "A weld is read against the acceptance criteria on the procedure, not against how it felt to run, and sheet welds fail on the small things: porosity where the shielding was lost, an arc strike off the joint, undercut along one edge. The welder reads it first because the welder knows where the hand hesitated, and a defect ground out on the bench costs a minute against a seam that fails on the leakage test in a ceiling."
+    },
+    {
+      "cue": "Wait for the tips to cool, then dress the mushroomed faces back to diameter with the file.",
+      "id": "tip-dress",
+      "itemNames": {
+        "spot-tips-cool": "let the tips cool",
+        "tip-dress-file": "dress the tips"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Cool first, then dress — a file on hot copper loads up, and the hand holding it is next to the tips.",
+      "prompt": "Wait for the tips to cool, then dress the mushroomed faces back to diameter with the file.",
+      "targets": [
+        "spot-tips-cool",
+        "tip-dress-file"
+      ],
+      "title": "Cool and dress the spot welder's tips",
+      "why": "Copper tips mushroom with every weld, and a mushroomed face spreads the current over a wider area until the nugget stops forming; the tips are dressed back to the diameter the setting was made for, and cooled first because a file on hot copper loads up and a hand near hot tips is a burn. Cool, then dress — the order is the difference between a dressed tip and a dressed hand."
+    },
+    {
+      "cue": "Bottles, leads, the bench and the floor — click the two things the next welder should not find.",
+      "id": "bottle-walk",
+      "itemNames": {
+        "frayed-lead": "the frayed work lead",
+        "unchained-bottle": "the cylinder with its chain off"
+      },
+      "itemNotes": {
+        "frayed-lead": "The work lead's insulation is gone for a hand's width where it crosses the bench edge. That is bare copper at welding current, on a steel bench, in a booth with a water line.",
+        "unchained-bottle": "The spare argon cylinder is standing free with its chain on the floor — a full bottle knocked over with its valve knocked off goes through a wall."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Bottles, leads, the bench and the floor — click the two things the next welder should not find.",
+      "targets": [
+        "unchained-bottle",
+        "frayed-lead"
+      ],
+      "title": "Walk the booth before you leave it",
+      "why": "A booth passes from welder to welder, and its faults travel with it: a cylinder left unchained, a lead worn through at the bench edge, a can of rags left open. The walk at the end of the arc time is when the person who knows the booth best looks at it with the hood up, and it is the only inspection this booth gets between the safety walk on Monday and the incident that would otherwise happen on Thursday."
+    },
+    {
+      "cue": "Procedure number, filler, amps and flow, the defects found and repaired, the fume arm's condition, and sign it.",
+      "id": "weld-log",
+      "kind": "select",
+      "prompt": "Procedure number, filler, amps and flow, the defects found and repaired, the fume arm's condition, and sign it.",
+      "target": "weld-log",
+      "title": "Log the weld",
+      "why": "The log ties this seam to the procedure and the welder who ran it, which is what AWS D9.1 traceability means in a shop; a seam that fails a leakage test in a ceiling is traced back to this entry or to nobody. It also carries the fume arm's condition on the day, which is the shop's only record of the chromium control for a stainless job when an exposure question comes years later."
+    }
+  ],
+  "supportLine": "your SMART local's training coordinator or the shop's welding lead, or your employer's employee assistance program if the smoke behind the screen is what stayed with you",
+  "tagline": "The weld procedure read, argon on and the flow set, work lead clamped and the seam fitted, the fume arm at the arc, a bead run at travel speed, a flange spot-welded, the weld read against the code and the booth walked",
+  "title": "SmartCiti.X~ TIG and Spot Welding VR",
+  "trade": "Sheet metal welder — SMART, International Training Institute welding curriculum to AWS D9.1",
+  "underwater": null,
+  "weather": null
+}

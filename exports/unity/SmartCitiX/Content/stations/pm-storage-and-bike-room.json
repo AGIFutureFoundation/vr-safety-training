@@ -1,0 +1,416 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "clear-heads",
+    "name": "Clear Heads",
+    "note": "Every sprinkler head clear, no fuel in a cage, the flow alarm proven, and the lagging left untouched"
+  },
+  "category": "Building Systems & Facilities",
+  "certification": "NFPA 25 for sprinkler obstructions and the inspector's test, and NFPA 72 for the waterflow alarm and its monitoring; EPA's asbestos rules at 40 CFR 61 and OSHA 29 CFR 1926.1101 for the old pipe lagging; 29 CFR 1910.157 portable extinguishers, 29 CFR 1910.36 exit routes and 29 CFR 1910.23 ladders for the upper bike rack; the local fire and housing codes on basement storage, battery charging and abandoned property; SEIU building staff, IUOE Local 39 engineers for the sprinkler and the lagging, and the apartment association's CAMT credential",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "EPA",
+        "citedAs": "40 CFR 61",
+        "id": "epa-40-cfr-61",
+        "title": "40 CFR Part 61 — National Emission Standards for Hazardous Air Pollutants, including the asbestos NESHAP"
+      },
+      {
+        "body": "union",
+        "citedAs": "IUOE",
+        "id": "iuoe-training",
+        "title": "IUOE local training funds and the IUOE National Training Fund — operating and stationary engineer apprenticeship"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 25",
+        "id": "nfpa-25",
+        "title": "NFPA 25 — Inspection, Testing and Maintenance of Water-Based Fire Protection Systems"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 72",
+        "id": "nfpa-72",
+        "title": "NFPA 72 National Fire Alarm and Signaling Code"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.157",
+        "id": "osha-1910-157",
+        "title": "29 CFR 1910.157 — Portable fire extinguishers"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.23",
+        "id": "osha-1910-23",
+        "title": "29 CFR 1910.23 — Ladders"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.36",
+        "id": "osha-1910-36",
+        "title": "29 CFR 1910.36 — Design and construction requirements for exit routes"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.1101",
+        "id": "osha-1926-1101",
+        "title": "29 CFR 1926.1101 — Asbestos in construction"
+      },
+      {
+        "body": "union",
+        "citedAs": "SEIU",
+        "id": "seiu-training",
+        "title": "SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Building Systems & Facilities",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "eighteen-clear",
+        "name": "Eighteen Clear",
+        "note": "Sprinkler clearance read inside the band first time"
+      },
+      {
+        "id": "hands-off-lagging",
+        "name": "Hands Off",
+        "note": "No unsafe act anywhere in the basement"
+      },
+      {
+        "id": "riser-back",
+        "name": "Riser Back",
+        "note": "Brought the riser back without breaking the band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-audit",
+        "name": "Clean Audit",
+        "note": "No corrections across the whole audit"
+      },
+      {
+        "id": "steady-riser",
+        "name": "Steady Riser",
+        "note": "Held the riser without breaking the band"
+      },
+      {
+        "id": "audit-done",
+        "name": "Audit Done by Noon",
+        "note": "Finished inside 80% of par"
+      }
+    ],
+    "currency": "CAGES",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Porter",
+      "Maintenance Tech",
+      "Lead Tech",
+      "Building Engineer",
+      "Storage Audit Certified"
+    ],
+    "system": "Basement Audit"
+  },
+  "hazards": {
+    "charge-swollen-battery": "You plugged in the e-bike battery with the swollen case. A lithium pack that has swollen has already failed inside, and charging it is how basement fires start — it goes in the sand bin, away from the building, and the resident is told why.",
+    "disturb-lagging": "You started pulling the loose, torn lagging off the old pipe by hand. Pipe insulation from that era is presumed to contain asbestos until a sample says otherwise, and torn by hand it sheds fibres into a basement residents walk through — it is sealed off, left alone and removed by a licensed abatement crew.",
+    "gas-can-to-compactor": "You went to tip the gas can from the storage cage into the trash compactor chute. Fuel in a compactor is fuel next to a hydraulic ram and a spark, in a room connected to every floor — it goes back to the resident or to a hazardous waste pickup, never in the trash.",
+    "ladder-on-bike-rack": "You climbed the two-tier bike rack to reach a bike on the top row. The rack is built for bikes, not a person's weight on its rail, and a fall from it lands you on the handlebars and pedals below — the step ladder, footed and held, is for the top tier."
+  },
+  "id": "pm-storage-and-bike-room",
+  "indoor": "garage",
+  "interrupts": [
+    {
+      "after": "wait-flow-alarm",
+      "alert": "While you hold the test flowing, a resident arrives with bolt cutters and starts on the lock of cage 9 — he says it's been abandoned for a year and he wants the space.",
+      "cue": "Stop him and log the cage on the abandoned-property sheet for the office's notice process. Keep the test flowing.",
+      "delay": 3,
+      "id": "bolt-cutter-neighbour",
+      "kind": "Resident cutting a neighbour's cage lock",
+      "missNote": "He kept cutting at the lock the whole window. The cage's owner comes back to a cut lock and missing belongings, and the building let it happen.",
+      "seconds": 13,
+      "target": "abandoned-property-log",
+      "why": "A storage cage belongs to whoever rents it until the building's notice process under the lease and local law says otherwise, and cutting a lock — even on a cage that looks abandoned — is taking somebody's property. Logging it for the office starts the lawful process, and the neighbour gets an answer rather than a confrontation.",
+      "wrongNote": "That doesn't stop him. The abandoned-property sheet starts the office's notice process — log cage 9 and ask him to put the cutters down."
+    },
+    {
+      "after": "close-test-valve",
+      "alert": "A charging e-bike battery on the far rack starts hissing and pouring white smoke — the monitoring account is still on test.",
+      "cue": "Pull the fire alarm station by the exit and get out and call 911. The monitoring company won't dispatch while the system is on test.",
+      "delay": 3,
+      "id": "battery-venting",
+      "kind": "E-bike battery venting smoke",
+      "missNote": "The battery smoked the whole window and nobody pulled the alarm. With the monitoring on test, the building had no warning and the fire department had no call.",
+      "seconds": 12,
+      "target": "fire-alarm-pull",
+      "why": "A lithium battery in thermal runaway can go from smoke to fire in seconds and reignite after it seems out, and the building's alarm is what gets every resident above this room moving. With the monitoring account on test, pulling the station sounds the building and the 911 call is yours — nobody else is going to make it.",
+      "wrongNote": "That doesn't warn the building. The pull station by the exit sounds the alarm — pull it, get out and call 911."
+    }
+  ],
+  "lateNotes": {
+    "extinguisher-gauge": "The extinguisher is read on the way out, once the room is safe to leave.",
+    "test-valve-hold": "Not yet — the flow alarm test comes after the inspector's test valve has been opened, with the monitoring company told."
+  },
+  "name": "Storage & Bike Room",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "property-management"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.5,
+    "hits": [
+      "abandoned-property-log",
+      "abatement-call",
+      "audit-notice",
+      "bike-on-exit-rail",
+      "building-log",
+      "charge-swollen-battery",
+      "charger-tag",
+      "charger-unplug",
+      "coworker-checkin",
+      "disturb-lagging",
+      "extinguisher-gauge",
+      "fire-alarm-pull",
+      "gas-can-in-cage",
+      "gas-can-to-compactor",
+      "inspector-test-valve",
+      "ladder-on-bike-rack",
+      "lower-shelf-slot",
+      "propane-in-cage",
+      "riser-pressure",
+      "sprinkler-clearance",
+      "test-valve-hold",
+      "top-box",
+      "torn-pipe-lagging"
+    ],
+    "meshes": 189
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check the notice posted to residents: the date, the rules and what happens to prohibited items.",
+      "id": "read-audit-notice",
+      "kind": "select",
+      "prompt": "Check the notice posted to residents: the date, the rules and what happens to prohibited items.",
+      "target": "audit-notice",
+      "title": "Read the storage audit notice",
+      "why": "Residents' storage cages hold residents' property, and the lease and local housing code decide what staff may do with it — usually only after written notice. The notice posted two weeks ago is what lets the audit open a cage's contents to a flashlight and remove fuel from it, and working without it turns a safety audit into a dispute about somebody's belongings."
+    },
+    {
+      "cue": "Find the fuel stored where the fire code says it never goes.",
+      "id": "walk-cages",
+      "itemNames": {
+        "gas-can-in-cage": "petrol can in cage 7",
+        "propane-in-cage": "barbecue propane cylinder in cage 12"
+      },
+      "itemNotes": {
+        "gas-can-in-cage": "A petrol can for a lawn mower that no longer exists, sitting in cage 7. Fuel vapour in a basement storage room is the fire the building's sprinklers were never meant to have to fight.",
+        "propane-in-cage": "A barbecue propane cylinder is stored in cage 12. Propane is heavier than air, and a slow leak in a basement pools at floor level until it finds a pilot light."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Find the fuel stored where the fire code says it never goes.",
+      "targets": [
+        "propane-in-cage",
+        "gas-can-in-cage"
+      ],
+      "title": "Walk the cages for prohibited fuel",
+      "why": "Basement storage sits below every apartment in the building, and local fire codes keep flammable gases and liquids out of it for that reason. The two classic finds in any storage audit are a propane cylinder and a petrol can, both stored with good intentions and both able to turn a small fire into a building fire."
+    },
+    {
+      "cue": "Lift the top box off the stack and set it on the empty lower shelf.",
+      "drag": {
+        "missNote": "Not on the lower shelf — a box set in the aisle trades an obstructed sprinkler for a blocked exit route.",
+        "radius": 0.5,
+        "to": "lower-shelf-slot"
+      },
+      "id": "lower-boxes",
+      "kind": "drag",
+      "prompt": "Lift the top box off the stack and set it on the empty lower shelf.",
+      "target": "top-box",
+      "title": "Bring the top box down below the sprinkler line",
+      "why": "The fix for an obstructed head is the plain one: take the top layer down until the stack is back below the line painted on the cage. Moved to a lower shelf rather than the floor, the box stays in the resident's cage and out of the aisle, and the head above it is clear again."
+    },
+    {
+      "cue": "Run the tape from the top of the lowered stack to the deflector and commit when it reads in the band.",
+      "gauge": {
+        "green": [
+          0.5,
+          0.8
+        ],
+        "label": "HEAD CLEARANCE",
+        "missNote": "Outside the band — too close and the spray is blocked. Measure again from the top of the stack to the deflector.",
+        "speed": 0.55
+      },
+      "id": "measure-clearance",
+      "kind": "gauge",
+      "prompt": "Run the tape from the top of the lowered stack to the deflector and commit when it reads in the band.",
+      "target": "sprinkler-clearance",
+      "title": "Prove the clearance below the sprinkler heads",
+      "why": "A sprinkler head needs clear space below its deflector to throw water in its designed pattern, and boxes stacked into that space turn the spray into a trickle down the side of the pile. NFPA 25 inspections check for exactly this obstruction, and the 18-inch figure they check against is the clearance a basement fire actually needs."
+    },
+    {
+      "cue": "With the monitoring company told the system is on test, open the inspector's test valve.",
+      "id": "open-test-valve",
+      "kind": "turn",
+      "prompt": "With the monitoring company told the system is on test, open the inspector's test valve.",
+      "target": "inspector-test-valve",
+      "title": "Open the inspector's test valve",
+      "turn": {
+        "axis": "z",
+        "label": "INSPECTOR'S TEST",
+        "turns": 0.6
+      },
+      "why": "The inspector's test valve flows the same water one open sprinkler would, which is how the waterflow alarm is proven without setting off a head. The monitoring company is told first, because a waterflow signal from this building with nobody warning them sends the fire department out on a test."
+    },
+    {
+      "cue": "Keep the test valve flowing and hold until the bell and the panel both show the alarm.",
+      "holdBreakNote": "You shut it off before the alarm came in. The flow switch is still unproven — hold the test flowing until the bell sounds.",
+      "id": "wait-flow-alarm",
+      "kind": "hold",
+      "prompt": "Keep the test valve flowing and hold until the bell and the panel both show the alarm.",
+      "seconds": 5,
+      "target": "test-valve-hold",
+      "title": "Hold the test flowing until the waterflow alarm sounds",
+      "why": "NFPA 72 sets how quickly a waterflow switch must report once water moves, and the only way to prove it does is to let the test flow and time it. Shut too early, the test proves nothing about the switch, its delay or the path to the monitoring company — hold until both the bell and the panel say it arrived."
+    },
+    {
+      "cue": "Unplug the charger left running on the power strip, then tag it with the building's charging rule.",
+      "id": "audit-chargers",
+      "itemNames": {
+        "charger-tag": "charger tagged with the building's charging rule",
+        "charger-unplug": "unattended charger unplugged from the power strip"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Unplug first, then tag — tagging a charger that is still charging leaves the risk running while the paperwork gets done.",
+      "prompt": "Unplug the charger left running on the power strip, then tag it with the building's charging rule.",
+      "targets": [
+        "charger-unplug",
+        "charger-tag"
+      ],
+      "title": "Audit the e-bike chargers",
+      "why": "Lithium e-bike batteries fail most often while charging, and a room of them charging unattended on power strips is a room where one failure lights the rest. Unplugging first takes the energy out of the situation; the tag tells the resident why, and points them to the rule about where and how the building allows charging."
+    },
+    {
+      "cue": "Close the inspector's test valve slowly, keeping the riser pressure in the band as it recovers.",
+      "holdBreakNote": "The riser left the band. A spike means the valve was shut too fast; still flowing means it isn't shut — bring it back into the band.",
+      "id": "close-test-valve",
+      "kind": "track",
+      "prompt": "Close the inspector's test valve slowly, keeping the riser pressure in the band as it recovers.",
+      "seconds": 7,
+      "target": "riser-pressure",
+      "title": "Close the test valve and watch the riser recover",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.38,
+        "green": [
+          0.4,
+          0.64
+        ],
+        "label": "RISER PRESSURE",
+        "rise": 0.44,
+        "start": 0.25
+      },
+      "why": "Slammed shut, a flowing test valve sends a pressure spike back through the sprinkler main that can trip the alarm again or stress old fittings; closed slowly, the riser pressure climbs back to static and the alarm resets cleanly. The gauge on the riser is how you know the system is back to the pressure it was at before you touched it."
+    },
+    {
+      "cue": "Find what is shedding overhead and what is blocking the way out.",
+      "id": "walk-overhead",
+      "itemNames": {
+        "bike-on-exit-rail": "bike locked to the exit stair handrail",
+        "torn-pipe-lagging": "torn lagging on the old steam pipe"
+      },
+      "itemNotes": {
+        "bike-on-exit-rail": "Somebody has locked a bike to the handrail of the exit stair. In smoke, the stair is found by touch, and a bike across it is the first thing a resident falls over.",
+        "torn-pipe-lagging": "The old steam pipe's lagging has been torn open where a bike handlebar caught it. That material has to be presumed to contain asbestos, and it is now loose and shedding over the bike room."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Find what is shedding overhead and what is blocking the way out.",
+      "targets": [
+        "torn-pipe-lagging",
+        "bike-on-exit-rail"
+      ],
+      "title": "Walk the overhead and the exit",
+      "why": "A basement's overhead carries the building's history — steam pipes insulated in an era of asbestos — and its exit stair carries everyone's way out. The asbestos rules exist because damaged lagging releases fibres at the moment it is disturbed, and the exit-route rule exists because a stair is useless the moment anything is tied across it."
+    },
+    {
+      "cue": "Post the do-not-disturb sign, tape off the area and call the licensed abatement contractor.",
+      "id": "call-abatement",
+      "kind": "select",
+      "prompt": "Post the do-not-disturb sign, tape off the area and call the licensed abatement contractor.",
+      "target": "abatement-call",
+      "title": "Seal off the lagging and call the licensed abatement contractor",
+      "why": "Damaged suspect lagging is not a maintenance job: the asbestos rules require it to be assessed and removed by trained, licensed abatement workers, and 1926.1101 treats the disturbance itself as the hazard. The building's part is to stop anyone touching it, keep residents away from it and get the right crew in."
+    },
+    {
+      "cue": "Check the extinguisher by the exit and commit when its needle sits in the green.",
+      "gauge": {
+        "green": [
+          0.38,
+          0.62
+        ],
+        "label": "EXTINGUISHER",
+        "missNote": "Needle out of the green — recharge or overcharge. Read it again, and tag it out if it holds there.",
+        "speed": 0.55
+      },
+      "id": "read-extinguisher",
+      "kind": "gauge",
+      "prompt": "Check the extinguisher by the exit and commit when its needle sits in the green.",
+      "target": "extinguisher-gauge",
+      "title": "Read the extinguisher's pressure gauge",
+      "why": "The portable extinguisher by the bike room exit is the one somebody will grab when a battery starts to smoke, and an extinguisher that has lost pressure empties in a cough. The monthly check that 1910.157 asks for is mostly this: a needle in the green, a pin in place and a tag that shows somebody looked."
+    },
+    {
+      "cue": "Hand over the lagging closure, the battery and the cage issues, and ask how the tech is doing.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Hand over the lagging closure, the battery and the cage issues, and ask how the tech is doing.",
+      "target": "coworker-checkin",
+      "title": "Check in with the maintenance tech",
+      "why": "The maintenance tech will meet the abatement contractor, field the resident whose battery went in the sand bin and the one whose cage lock was nearly cut, so they need all of it handed over in person. A basement shift that included a smoking battery is also worth an honest question about how a coworker is doing."
+    },
+    {
+      "cue": "Log the fuel removed, the clearances fixed, the flow alarm time, the lagging closure and the battery incident.",
+      "id": "building-log",
+      "kind": "select",
+      "prompt": "Log the fuel removed, the clearances fixed, the flow alarm time, the lagging closure and the battery incident.",
+      "target": "building-log",
+      "title": "Enter the audit in the building log",
+      "why": "The building log is where the flow alarm's response time is kept for the sprinkler inspector, where the lagging closure and the abatement call are dated for the asbestos records, and where the fuel removed from each cage is noted for the residents' notices. A basement audit that is not written down has to be done again from scratch next year."
+    }
+  ],
+  "supportLine": "your union steward or member-assistance contact, or your employer's employee assistance program",
+  "tagline": "The basement audit: fuel out of the cages, boxes below the sprinklers, the inspector's test run with the monitoring company told, the e-bike chargers audited, and the old lagging left for the licensed crew",
+  "title": "SmartCiti.X~ Storage & Bike Room VR",
+  "trade": "Building porter and maintenance technician — SEIU building staff, IUOE Local 39 engineers for the sprinkler and the pipe lagging, and the apartment association's CAMT credential",
+  "underwater": null,
+  "weather": null
+}

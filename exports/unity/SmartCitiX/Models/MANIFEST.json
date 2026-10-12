@@ -1,0 +1,2399 @@
+{
+  "bytes": 7445344,
+  "entries": [
+    {
+      "build": "aerialBoomLift",
+      "bytes": 105688,
+      "file": "equipment--aerialBoomLift.glb",
+      "footprint": [
+        2.42,
+        2.61,
+        9
+      ],
+      "key": "aerialBoomLift",
+      "kit": "equipment",
+      "materials": 12,
+      "meshes": 19,
+      "meshesDeclared": 19,
+      "note": "60 ft telescopic boom lift, stowed",
+      "parts": [
+        "turntable",
+        "boom",
+        "boomTele",
+        "jib",
+        "platform",
+        "controls",
+        "groundControls",
+        "wheels",
+        "beacon"
+      ]
+    },
+    {
+      "build": "amphibiousExcavator",
+      "bytes": 107120,
+      "file": "equipment--amphibiousExcavator.glb",
+      "footprint": [
+        4.65,
+        5.21,
+        10.81
+      ],
+      "key": "amphibiousExcavator",
+      "kit": "equipment",
+      "materials": 13,
+      "meshes": 22,
+      "meshesDeclared": 22,
+      "note": "amphibious pontoon excavator, dig-ready",
+      "parts": [
+        "pontoonL",
+        "pontoonR",
+        "house",
+        "door",
+        "boom",
+        "stick",
+        "bucket",
+        "lights",
+        "counterweight"
+      ]
+    },
+    {
+      "build": "amrRobot",
+      "bytes": 24972,
+      "file": "equipment--amrRobot.glb",
+      "footprint": [
+        0.68,
+        0.41,
+        0.92
+      ],
+      "key": "amrRobot",
+      "kit": "equipment",
+      "materials": 7,
+      "meshes": 7,
+      "meshesDeclared": 7,
+      "note": "autonomous mobile robot (AMR/AGV), low chassis on caster feet",
+      "parts": [
+        "liftPlate",
+        "statusRing",
+        "lidar"
+      ]
+    },
+    {
+      "build": "backhoe",
+      "bytes": 120912,
+      "file": "equipment--backhoe.glb",
+      "footprint": [
+        2.36,
+        3.75,
+        7.46
+      ],
+      "key": "backhoe",
+      "kit": "equipment",
+      "materials": 13,
+      "meshes": 23,
+      "meshesDeclared": 23,
+      "note": "loader backhoe, travel pose",
+      "parts": [
+        "loaderArms",
+        "loaderBucket",
+        "swingFrame",
+        "boom",
+        "stick",
+        "bucket",
+        "stabilizers",
+        "wheels",
+        "door",
+        "lights"
+      ]
+    },
+    {
+      "build": "batteryChargingStation",
+      "bytes": 21348,
+      "file": "equipment--batteryChargingStation.glb",
+      "footprint": [
+        1,
+        1.67,
+        0.8
+      ],
+      "key": "batteryChargingStation",
+      "kit": "equipment",
+      "materials": 6,
+      "meshes": 6,
+      "meshesDeclared": 6,
+      "note": "lift-truck battery charger cabinet with a spill containment tray",
+      "parts": [
+        "beacon",
+        "cable"
+      ]
+    },
+    {
+      "build": "cabinInterior",
+      "bytes": 81320,
+      "file": "equipment--cabinInterior.glb",
+      "footprint": [
+        3.24,
+        2.13,
+        4.13
+      ],
+      "key": "cabinInterior",
+      "kit": "equipment",
+      "materials": 19,
+      "meshes": 23,
+      "meshesDeclared": 23,
+      "note": "single-aisle cabin section: two 3+3 seat rows, overhead bins, a galley and cart, and the forward door",
+      "parts": [
+        "overheadBinL",
+        "overheadBinR",
+        "oxygenPanel",
+        "galley",
+        "galleyCart",
+        "door"
+      ]
+    },
+    {
+      "build": "cargoBeltLoader",
+      "bytes": 66960,
+      "file": "equipment--cargoBeltLoader.glb",
+      "footprint": [
+        1.38,
+        1.68,
+        5.04
+      ],
+      "key": "cargoBeltLoader",
+      "kit": "equipment",
+      "materials": 7,
+      "meshes": 9,
+      "meshesDeclared": 9,
+      "note": "self-propelled cargo belt loader, ramp raised",
+      "parts": [
+        "beltRamp",
+        "controlPanel",
+        "wheels",
+        "wheelsF"
+      ]
+    },
+    {
+      "build": "cleanRoomBay",
+      "bytes": 27532,
+      "file": "equipment--cleanRoomBay.glb",
+      "footprint": [
+        5,
+        3.03,
+        4
+      ],
+      "key": "cleanRoomBay",
+      "kit": "equipment",
+      "materials": 11,
+      "meshes": 11,
+      "meshesDeclared": 11,
+      "note": "cleanroom bay: gowning bench, air-shower door, ESD tester, grounded bench, filter grid",
+      "parts": [
+        "airShowerDoor",
+        "esdTester",
+        "esdLamp",
+        "workBench",
+        "filterGrid"
+      ]
+    },
+    {
+      "build": "cobotBench",
+      "bytes": 19760,
+      "file": "equipment--cobotBench.glb",
+      "footprint": [
+        3,
+        1.53,
+        2.2
+      ],
+      "key": "cobotBench",
+      "kit": "equipment",
+      "materials": 10,
+      "meshes": 10,
+      "meshesDeclared": 10,
+      "note": "collaborative robot bench with area scanner and painted separation zones",
+      "parts": [
+        "arm",
+        "elbow",
+        "gripper",
+        "scanner",
+        "zoneWarn",
+        "zoneStop"
+      ]
+    },
+    {
+      "build": "compactor",
+      "bytes": 68640,
+      "file": "equipment--compactor.glb",
+      "footprint": [
+        2.4,
+        3.12,
+        5.68
+      ],
+      "key": "compactor",
+      "kit": "equipment",
+      "materials": 11,
+      "meshes": 14,
+      "meshesDeclared": 14,
+      "note": "single-drum soil compactor",
+      "parts": [
+        "frontFrame",
+        "drum",
+        "wheels",
+        "rops",
+        "seat",
+        "controls",
+        "lights",
+        "beacon"
+      ]
+    },
+    {
+      "build": "concretePump",
+      "bytes": 83008,
+      "file": "equipment--concretePump.glb",
+      "footprint": [
+        2.04,
+        1.58,
+        4.95
+      ],
+      "key": "concretePump",
+      "kit": "equipment",
+      "materials": 10,
+      "meshes": 16,
+      "meshesDeclared": 16,
+      "note": "trailer line pump",
+      "parts": [
+        "hopper",
+        "grate",
+        "outlet",
+        "controlPanel",
+        "outriggers",
+        "wheels",
+        "jack",
+        "lights"
+      ]
+    },
+    {
+      "build": "continuousMinerFront",
+      "bytes": 57500,
+      "file": "equipment--continuousMinerFront.glb",
+      "footprint": [
+        3.09,
+        1.28,
+        4.44
+      ],
+      "key": "continuousMinerFront",
+      "kit": "equipment",
+      "materials": 8,
+      "meshes": 12,
+      "meshesDeclared": 12,
+      "note": "continuous mining machine cutting end, low profile for a coal seam",
+      "parts": [
+        "trackL",
+        "trackR",
+        "chassis",
+        "gatheringArmL",
+        "gatheringArmR",
+        "cuttingDrum",
+        "boomConveyor",
+        "cabGuard"
+      ]
+    },
+    {
+      "build": "conveyorSection",
+      "bytes": 18276,
+      "file": "equipment--conveyorSection.glb",
+      "footprint": [
+        0.6,
+        0.79,
+        1.2
+      ],
+      "key": "conveyorSection",
+      "kit": "equipment",
+      "materials": 5,
+      "meshes": 5,
+      "meshesDeclared": 5,
+      "note": "roller-conveyor bed section with nip-point guard and pull-cord E-stop",
+      "parts": [
+        "guard",
+        "estopCord",
+        "rollers"
+      ]
+    },
+    {
+      "build": "craneSpreader",
+      "bytes": 40324,
+      "file": "equipment--craneSpreader.glb",
+      "footprint": [
+        2.49,
+        2.17,
+        12.45
+      ],
+      "key": "craneSpreader",
+      "kit": "equipment",
+      "materials": 8,
+      "meshes": 18,
+      "meshesDeclared": 18,
+      "note": "telescopic container spreader, 40 ft",
+      "parts": [
+        "headblock",
+        "telescopeFore",
+        "telescopeAft",
+        "twistlocks",
+        "flippers",
+        "indicators",
+        "landed",
+        "locked",
+        "unlocked"
+      ]
+    },
+    {
+      "build": "crawlerCrane",
+      "bytes": 133236,
+      "file": "equipment--crawlerCrane.glb",
+      "footprint": [
+        4.76,
+        7.3,
+        14.81
+      ],
+      "key": "crawlerCrane",
+      "kit": "equipment",
+      "materials": 10,
+      "meshes": 18,
+      "meshesDeclared": 18,
+      "note": "lattice-boom crawler crane, boom raised",
+      "parts": [
+        "trackL",
+        "trackR",
+        "house",
+        "counterweight",
+        "cabDoor",
+        "boom",
+        "boomSections",
+        "hook",
+        "lights"
+      ]
+    },
+    {
+      "build": "dataHall",
+      "bytes": 42872,
+      "file": "equipment--dataHall.glb",
+      "footprint": [
+        7.2,
+        3.9,
+        6.4
+      ],
+      "key": "dataHall",
+      "kit": "equipment",
+      "materials": 16,
+      "meshes": 19,
+      "meshesDeclared": 19,
+      "note": "data-hall module: raised floor with a lifting tile, hot and cold aisles, racks, busway, CRAH and suppression panel",
+      "parts": [
+        "floor",
+        "liftTile",
+        "tileVoid",
+        "racksA",
+        "racksB",
+        "busway",
+        "tapBox",
+        "crah",
+        "crahAlarm",
+        "suppressionPanel",
+        "abortSwitch"
+      ]
+    },
+    {
+      "build": "deicingTruck",
+      "bytes": 107016,
+      "file": "equipment--deicingTruck.glb",
+      "footprint": [
+        2.52,
+        4.78,
+        7.65
+      ],
+      "key": "deicingTruck",
+      "kit": "equipment",
+      "materials": 10,
+      "meshes": 12,
+      "meshesDeclared": 12,
+      "note": "deicing truck, boom stowed along the tank",
+      "parts": [
+        "cabDoor",
+        "wheelsF",
+        "wheelsM",
+        "wheelsR",
+        "boomBase",
+        "boomArm",
+        "basket"
+      ]
+    },
+    {
+      "build": "depotHangarBay",
+      "bytes": 101888,
+      "file": "equipment--depotHangarBay.glb",
+      "footprint": [
+        8,
+        4,
+        7
+      ],
+      "key": "depotHangarBay",
+      "kit": "equipment",
+      "materials": 25,
+      "meshes": 37,
+      "meshesDeclared": 37,
+      "note": "depot hangar bay around the shared regionalJet, with tool crib, work stand and fluid-servicing cart",
+      "parts": [
+        "jet",
+        "toolCrib",
+        "workStand",
+        "servicingCart",
+        "spillKit",
+        "dripPan"
+      ]
+    },
+    {
+      "build": "dockLevelerBay",
+      "bytes": 30056,
+      "file": "equipment--dockLevelerBay.glb",
+      "footprint": [
+        2.3,
+        2.49,
+        2.1
+      ],
+      "key": "dockLevelerBay",
+      "kit": "equipment",
+      "materials": 7,
+      "meshes": 10,
+      "meshesDeclared": 10,
+      "note": "dock leveler, lip, dock bumpers and ICC bar vehicle restraint",
+      "parts": [
+        "leverPlate",
+        "lip",
+        "restraintArm",
+        "dockLightRed",
+        "dockLightGreen",
+        "restraintLightRed",
+        "restraintLightGreen"
+      ]
+    },
+    {
+      "build": "dozer",
+      "bytes": 80284,
+      "file": "equipment--dozer.glb",
+      "footprint": [
+        3.2,
+        3.01,
+        5.35
+      ],
+      "key": "dozer",
+      "kit": "equipment",
+      "materials": 12,
+      "meshes": 20,
+      "meshesDeclared": 20,
+      "note": "mid-size crawler dozer, blade down",
+      "parts": [
+        "trackL",
+        "trackR",
+        "blade",
+        "ripper",
+        "rops",
+        "seat",
+        "controls",
+        "lights"
+      ]
+    },
+    {
+      "build": "dumpTruck",
+      "bytes": 173580,
+      "file": "equipment--dumpTruck.glb",
+      "footprint": [
+        3.02,
+        3.26,
+        9.57
+      ],
+      "key": "dumpTruck",
+      "kit": "equipment",
+      "materials": 16,
+      "meshes": 20,
+      "meshesDeclared": 20,
+      "note": "tri-axle dump truck",
+      "parts": [
+        "bed",
+        "tailgate",
+        "hoist",
+        "doorL",
+        "doorR",
+        "mirrorL",
+        "mirrorR",
+        "wheels",
+        "lights"
+      ]
+    },
+    {
+      "build": "excavator",
+      "bytes": 98280,
+      "file": "equipment--excavator.glb",
+      "footprint": [
+        3.05,
+        4.83,
+        10.78
+      ],
+      "key": "excavator",
+      "kit": "equipment",
+      "materials": 12,
+      "meshes": 21,
+      "meshesDeclared": 21,
+      "note": "20 t tracked excavator, dig-ready",
+      "parts": [
+        "trackL",
+        "trackR",
+        "house",
+        "door",
+        "boom",
+        "stick",
+        "bucket",
+        "lights",
+        "counterweight"
+      ]
+    },
+    {
+      "build": "fuelTruck",
+      "bytes": 116192,
+      "file": "equipment--fuelTruck.glb",
+      "footprint": [
+        3.08,
+        2.8,
+        9.88
+      ],
+      "key": "fuelTruck",
+      "kit": "equipment",
+      "materials": 12,
+      "meshes": 14,
+      "meshesDeclared": 14,
+      "note": "ramp fuel truck with a rear hose reel",
+      "parts": [
+        "cabDoor",
+        "wheelsF",
+        "wheelsM",
+        "wheelsR",
+        "hoseReel",
+        "nozzleMount",
+        "dispensePanel"
+      ]
+    },
+    {
+      "build": "generatorTrailer",
+      "bytes": 58096,
+      "file": "equipment--generatorTrailer.glb",
+      "footprint": [
+        1.9,
+        2.41,
+        4.54
+      ],
+      "key": "generatorTrailer",
+      "kit": "equipment",
+      "materials": 11,
+      "meshes": 14,
+      "meshesDeclared": 14,
+      "note": "towable diesel generator",
+      "parts": [
+        "doorL",
+        "doorR",
+        "controlPanel",
+        "eStop",
+        "wheels",
+        "jack",
+        "lights"
+      ]
+    },
+    {
+      "build": "grader",
+      "bytes": 92912,
+      "file": "equipment--grader.glb",
+      "footprint": [
+        3.7,
+        3.2,
+        13.35
+      ],
+      "key": "grader",
+      "kit": "equipment",
+      "materials": 12,
+      "meshes": 15,
+      "meshesDeclared": 15,
+      "note": "motor grader, blade down",
+      "parts": [
+        "moldboard",
+        "circle",
+        "frontWheel",
+        "wheels",
+        "door",
+        "lights"
+      ]
+    },
+    {
+      "build": "groundPowerUnit",
+      "bytes": 59664,
+      "file": "equipment--groundPowerUnit.glb",
+      "footprint": [
+        1.21,
+        1.02,
+        2.47
+      ],
+      "key": "groundPowerUnit",
+      "kit": "equipment",
+      "materials": 9,
+      "meshes": 10,
+      "meshesDeclared": 10,
+      "note": "towable ground power cart with a static-bonding reel",
+      "parts": [
+        "cableReel",
+        "bondingReel",
+        "controlPanel",
+        "wheels"
+      ]
+    },
+    {
+      "build": "ladleCrane",
+      "bytes": 27232,
+      "file": "equipment--ladleCrane.glb",
+      "footprint": [
+        2.7,
+        3.21,
+        1.16
+      ],
+      "key": "ladleCrane",
+      "kit": "equipment",
+      "materials": 9,
+      "meshes": 10,
+      "meshesDeclared": 10,
+      "note": "overhead ladle crane, ladle hanging free to tilt on its trunnions",
+      "parts": [
+        "bridge",
+        "trolley",
+        "hookBlock",
+        "ladleBody",
+        "ladleTrunnion",
+        "pourLip"
+      ]
+    },
+    {
+      "build": "lightTower",
+      "bytes": 72708,
+      "file": "equipment--lightTower.glb",
+      "footprint": [
+        2.34,
+        9.29,
+        3.49
+      ],
+      "key": "lightTower",
+      "kit": "equipment",
+      "materials": 10,
+      "meshes": 17,
+      "meshesDeclared": 17,
+      "note": "towable light tower, raised",
+      "parts": [
+        "mast",
+        "mastUpper",
+        "lamps",
+        "outriggers",
+        "controlPanel",
+        "wheels",
+        "jack"
+      ]
+    },
+    {
+      "build": "lightTower",
+      "bytes": 72752,
+      "file": "equipment--lightTower_stowed.glb",
+      "footprint": [
+        1.58,
+        1.77,
+        4.81
+      ],
+      "key": "lightTower:stowed",
+      "kit": "equipment",
+      "materials": 10,
+      "meshes": 17,
+      "meshesDeclared": 17,
+      "note": "towable light tower, stowed for tow",
+      "parts": [
+        "mast",
+        "mastUpper",
+        "lamps",
+        "outriggers",
+        "controlPanel",
+        "wheels",
+        "jack"
+      ]
+    },
+    {
+      "build": "mobileCrane",
+      "bytes": 154352,
+      "file": "equipment--mobileCrane.glb",
+      "footprint": [
+        2.96,
+        3.49,
+        11.46
+      ],
+      "key": "mobileCrane",
+      "kit": "equipment",
+      "materials": 14,
+      "meshes": 27,
+      "meshesDeclared": 27,
+      "note": "rough-terrain crane, travel pose",
+      "parts": [
+        "outriggers",
+        "house",
+        "counterweight",
+        "cabDoor",
+        "boom",
+        "boomSections",
+        "hook",
+        "wheels",
+        "lights"
+      ]
+    },
+    {
+      "build": "oceanDataPod",
+      "bytes": 85460,
+      "file": "equipment--oceanDataPod.glb",
+      "footprint": [
+        2.24,
+        4.43,
+        6.15
+      ],
+      "key": "oceanDataPod",
+      "kit": "equipment",
+      "materials": 11,
+      "meshes": 12,
+      "meshesDeclared": 12,
+      "note": "sealed ocean data pod on a seabed skid with a service hatch, cable, bridle and leak lamp",
+      "parts": [
+        "pod",
+        "frame",
+        "hatch",
+        "hatchBolts",
+        "cable",
+        "bridle",
+        "masterLink",
+        "leakLamp"
+      ]
+    },
+    {
+      "build": "pileDrivingRig",
+      "bytes": 83480,
+      "file": "equipment--pileDrivingRig.glb",
+      "footprint": [
+        3.94,
+        13.28,
+        5
+      ],
+      "key": "pileDrivingRig",
+      "kit": "equipment",
+      "materials": 12,
+      "meshes": 20,
+      "meshesDeclared": 20,
+      "note": "crawler pile driving rig, leads erected",
+      "parts": [
+        "trackL",
+        "trackR",
+        "house",
+        "raisingBoom",
+        "leads",
+        "hammer",
+        "gate",
+        "cabDoor",
+        "lights"
+      ]
+    },
+    {
+      "build": "pushbackTug",
+      "bytes": 72428,
+      "file": "equipment--pushbackTug.glb",
+      "footprint": [
+        1.9,
+        1.43,
+        4.24
+      ],
+      "key": "pushbackTug",
+      "kit": "equipment",
+      "materials": 9,
+      "meshes": 11,
+      "meshesDeclared": 11,
+      "note": "pushback tug with towbar and shoe",
+      "parts": [
+        "cabDoor",
+        "wheelsF",
+        "wheelsR",
+        "towbarArm",
+        "beacon"
+      ]
+    },
+    {
+      "build": "ranchGrader",
+      "bytes": 120604,
+      "file": "equipment--ranchGrader.glb",
+      "footprint": [
+        2.07,
+        2.86,
+        8.24
+      ],
+      "key": "ranchGrader",
+      "kit": "equipment",
+      "materials": 14,
+      "meshes": 17,
+      "meshesDeclared": 17,
+      "note": "motor grader, blade down for a finish pass",
+      "parts": [
+        "rops",
+        "seat",
+        "controls",
+        "wheels",
+        "blade",
+        "lights",
+        "beacon"
+      ]
+    },
+    {
+      "build": "regionalJet",
+      "bytes": 80172,
+      "file": "equipment--regionalJet.glb",
+      "footprint": [
+        5.18,
+        2.81,
+        5.19
+      ],
+      "key": "regionalJet",
+      "kit": "equipment",
+      "materials": 14,
+      "meshes": 26,
+      "meshesDeclared": 26,
+      "note": "stylised single-aisle regional jet, gear down",
+      "parts": [
+        "fuselage",
+        "wingL",
+        "wingR",
+        "tailfin",
+        "engineL",
+        "engineR",
+        "noseGear",
+        "mainGearL",
+        "mainGearR",
+        "doorFwd",
+        "cargoDoor",
+        "servicePanel"
+      ]
+    },
+    {
+      "build": "robotCell",
+      "bytes": 36120,
+      "file": "equipment--robotCell.glb",
+      "footprint": [
+        4,
+        2.02,
+        4
+      ],
+      "key": "robotCell",
+      "kit": "equipment",
+      "materials": 14,
+      "meshes": 16,
+      "meshesDeclared": 16,
+      "note": "fenced six-axis robot cell with light curtain, interlocked gate, stack light and lockable disconnect",
+      "parts": [
+        "base",
+        "upperArm",
+        "foreArm",
+        "wrist",
+        "gate",
+        "lightCurtain",
+        "stackLight",
+        "disconnect"
+      ]
+    },
+    {
+      "build": "roboticPalletizer",
+      "bytes": 30184,
+      "file": "equipment--roboticPalletizer.glb",
+      "footprint": [
+        1.24,
+        2.9,
+        2.58
+      ],
+      "key": "roboticPalletizer",
+      "kit": "equipment",
+      "materials": 6,
+      "meshes": 8,
+      "meshesDeclared": 8,
+      "note": "articulated palletizer arm on a pedestal, with a build-pallet turntable",
+      "parts": [
+        "turret",
+        "upperArm",
+        "foreArm",
+        "wrist",
+        "turntable"
+      ]
+    },
+    {
+      "build": "rollingMillStand",
+      "bytes": 46900,
+      "file": "equipment--rollingMillStand.glb",
+      "footprint": [
+        3.86,
+        3.1,
+        5
+      ],
+      "key": "rollingMillStand",
+      "kit": "equipment",
+      "materials": 10,
+      "meshes": 16,
+      "meshesDeclared": 16,
+      "note": "four-high hot-strip mill stand with an entry/exit roller table",
+      "parts": [
+        "housingL",
+        "housingR",
+        "workRollTop",
+        "workRollBottom",
+        "backupRollTop",
+        "backupRollBottom",
+        "screwdown",
+        "guardGate",
+        "entryTable",
+        "exitTable"
+      ]
+    },
+    {
+      "build": "scissorLift",
+      "bytes": 125880,
+      "file": "equipment--scissorLift.glb",
+      "footprint": [
+        1.16,
+        2.34,
+        2.3
+      ],
+      "key": "scissorLift",
+      "kit": "equipment",
+      "materials": 10,
+      "meshes": 15,
+      "meshesDeclared": 15,
+      "note": "26 ft slab scissor, stowed",
+      "parts": [
+        "scissors",
+        "platform",
+        "extensionDeck",
+        "controls",
+        "gate",
+        "potholeGuards",
+        "wheels",
+        "beacon"
+      ]
+    },
+    {
+      "build": "serviceCart",
+      "bytes": 63048,
+      "file": "equipment--serviceCart.glb",
+      "footprint": [
+        1.73,
+        1.77,
+        4.05
+      ],
+      "key": "serviceCart",
+      "kit": "equipment",
+      "materials": 10,
+      "meshes": 10,
+      "meshesDeclared": 10,
+      "note": "lavatory service truck",
+      "parts": [
+        "hoseReel",
+        "serviceValve",
+        "wheels"
+      ]
+    },
+    {
+      "build": "serviceCart",
+      "bytes": 63052,
+      "file": "equipment--serviceCart_potable.glb",
+      "footprint": [
+        1.73,
+        1.77,
+        4.05
+      ],
+      "key": "serviceCart:potable",
+      "kit": "equipment",
+      "materials": 10,
+      "meshes": 10,
+      "meshesDeclared": 10,
+      "note": "potable water service truck",
+      "parts": [
+        "hoseReel",
+        "serviceValve",
+        "wheels"
+      ]
+    },
+    {
+      "build": "skidSteer",
+      "bytes": 77920,
+      "file": "equipment--skidSteer.glb",
+      "footprint": [
+        1.83,
+        2.07,
+        3.31
+      ],
+      "key": "skidSteer",
+      "kit": "equipment",
+      "materials": 9,
+      "meshes": 12,
+      "meshesDeclared": 12,
+      "note": "wheeled skid steer",
+      "parts": [
+        "arms",
+        "bucket",
+        "wheelsL",
+        "wheelsR",
+        "wheels",
+        "door",
+        "lights"
+      ]
+    },
+    {
+      "build": "testStand",
+      "bytes": 25368,
+      "file": "equipment--testStand.glb",
+      "footprint": [
+        4.4,
+        2.88,
+        4.4
+      ],
+      "key": "testStand",
+      "kit": "equipment",
+      "materials": 9,
+      "meshes": 10,
+      "meshesDeclared": 10,
+      "note": "generic propulsion test stand pad with deflector, bunkered window, hold beacon and exclusion gate",
+      "parts": [
+        "frame",
+        "deflector",
+        "beacon",
+        "gate",
+        "controlWindow"
+      ]
+    },
+    {
+      "build": "wheelLoader",
+      "bytes": 98088,
+      "file": "equipment--wheelLoader.glb",
+      "footprint": [
+        2.6,
+        3.9,
+        7.53
+      ],
+      "key": "wheelLoader",
+      "kit": "equipment",
+      "materials": 13,
+      "meshes": 17,
+      "meshesDeclared": 17,
+      "note": "articulated wheel loader, 3-4 yd bucket",
+      "parts": [
+        "arms",
+        "bucket",
+        "wheels",
+        "door",
+        "lights"
+      ]
+    },
+    {
+      "build": "windTurbine",
+      "bytes": 58272,
+      "file": "equipment--windTurbine.glb",
+      "footprint": [
+        16.36,
+        32.65,
+        6.3
+      ],
+      "key": "windTurbine",
+      "kit": "equipment",
+      "materials": 16,
+      "meshes": 20,
+      "meshesDeclared": 20,
+      "note": "utility wind turbine at a stylised scale: tower door, ladder with fall-arrest rail, nacelle hatch and service crane, three blades",
+      "parts": [
+        "tower",
+        "towerDoor",
+        "ladder",
+        "fallArrestRail",
+        "nacelle",
+        "hatch",
+        "serviceCrane",
+        "yawDeck",
+        "hub",
+        "blades"
+      ]
+    },
+    {
+      "build": "ambulance",
+      "bytes": 120620,
+      "file": "fleet--ambulance.glb",
+      "footprint": [
+        2.62,
+        3.13,
+        7.06
+      ],
+      "key": "ambulance",
+      "kit": "fleet",
+      "materials": 18,
+      "meshes": 25,
+      "meshesDeclared": 25,
+      "note": "Type III, generic markings, rear chevrons",
+      "parts": [
+        "doorL",
+        "doorR",
+        "doorSide",
+        "doorRearL",
+        "doorRearR",
+        "compartments",
+        "warningLights",
+        "wheels",
+        "mirrorL",
+        "mirrorR",
+        "lights"
+      ]
+    },
+    {
+      "build": "boxTruck",
+      "bytes": 137048,
+      "file": "fleet--boxTruck.glb",
+      "footprint": [
+        3.02,
+        4.05,
+        10
+      ],
+      "key": "boxTruck",
+      "kit": "fleet",
+      "materials": 19,
+      "meshes": 21,
+      "meshesDeclared": 21,
+      "note": "Class 6, 26 ft box, roll-up door",
+      "parts": [
+        "doorL",
+        "doorR",
+        "mirrorL",
+        "mirrorR",
+        "wheels",
+        "lights",
+        "rearDoor"
+      ]
+    },
+    {
+      "build": "bucketTruck",
+      "bytes": 168772,
+      "file": "fleet--bucketTruck.glb",
+      "footprint": [
+        3.3,
+        3.44,
+        9.6
+      ],
+      "key": "bucketTruck",
+      "kit": "fleet",
+      "materials": 23,
+      "meshes": 32,
+      "meshesDeclared": 32,
+      "note": "insulated aerial device, articulated turret-boom-bucket",
+      "parts": [
+        "doorL",
+        "doorR",
+        "mirrorL",
+        "mirrorR",
+        "wheels",
+        "lights",
+        "turret",
+        "boom",
+        "boomUpper",
+        "bucket",
+        "outriggers",
+        "compartments",
+        "controls"
+      ]
+    },
+    {
+      "build": "busTransit",
+      "bytes": 103892,
+      "file": "fleet--busTransit.glb",
+      "footprint": [
+        3.3,
+        3.26,
+        12.42
+      ],
+      "key": "busTransit",
+      "kit": "fleet",
+      "materials": 12,
+      "meshes": 16,
+      "meshesDeclared": 16,
+      "note": "40 ft low-floor",
+      "parts": [
+        "doorFront",
+        "doorRear",
+        "destinationSign",
+        "wheels",
+        "mirrorL",
+        "mirrorR",
+        "lights"
+      ]
+    },
+    {
+      "build": "cargoVan",
+      "bytes": 88564,
+      "file": "fleet--cargoVan.glb",
+      "footprint": [
+        2.41,
+        2.72,
+        5.99
+      ],
+      "key": "cargoVan",
+      "kit": "fleet",
+      "materials": 13,
+      "meshes": 18,
+      "meshesDeclared": 18,
+      "note": "high-roof cargo van",
+      "parts": [
+        "doorL",
+        "doorR",
+        "doorSlide",
+        "doorRearL",
+        "doorRearR",
+        "wheels",
+        "mirrorL",
+        "mirrorR",
+        "lights"
+      ]
+    },
+    {
+      "build": "deckBarge",
+      "bytes": 43664,
+      "file": "fleet--deckBarge.glb",
+      "footprint": [
+        6.24,
+        2.7,
+        16
+      ],
+      "key": "deckBarge",
+      "kit": "fleet",
+      "materials": 7,
+      "meshes": 13,
+      "meshesDeclared": 13,
+      "note": "16 m flat steel deck barge, raked ends",
+      "parts": [
+        "bitts",
+        "ladder"
+      ]
+    },
+    {
+      "build": "deckBarge",
+      "bytes": 50408,
+      "file": "fleet--deckBarge_hopper.glb",
+      "footprint": [
+        6.24,
+        3.1,
+        16
+      ],
+      "key": "deckBarge:hopper",
+      "kit": "fleet",
+      "materials": 10,
+      "meshes": 16,
+      "meshesDeclared": 16,
+      "note": "deck barge with a lined sediment hopper",
+      "parts": [
+        "bitts",
+        "ladder",
+        "coaming",
+        "liner",
+        "load"
+      ]
+    },
+    {
+      "build": "deckCrane",
+      "bytes": 36012,
+      "file": "fleet--deckCrane.glb",
+      "footprint": [
+        0.95,
+        4.58,
+        4.65
+      ],
+      "key": "deckCrane",
+      "kit": "fleet",
+      "materials": 8,
+      "meshes": 12,
+      "meshesDeclared": 12,
+      "note": "pedestal knuckle-boom deck crane",
+      "parts": [
+        "slew",
+        "mainBoom",
+        "jib",
+        "hook",
+        "controls"
+      ]
+    },
+    {
+      "build": "deliveryVan",
+      "bytes": 91148,
+      "file": "fleet--deliveryVan.glb",
+      "footprint": [
+        2.41,
+        2.42,
+        4.66
+      ],
+      "key": "deliveryVan",
+      "kit": "fleet",
+      "materials": 13,
+      "meshes": 18,
+      "meshesDeclared": 18,
+      "note": "right-hand-drive walk-in postal delivery van, single curb-side door, no traffic-side door",
+      "parts": [
+        "doorCurb",
+        "doorRearL",
+        "doorRearR",
+        "wheels",
+        "mirrorL",
+        "mirrorR",
+        "markerLights",
+        "lights"
+      ]
+    },
+    {
+      "build": "derelictBoat",
+      "bytes": 30764,
+      "file": "fleet--derelictBoat.glb",
+      "footprint": [
+        2.99,
+        3.9,
+        9
+      ],
+      "key": "derelictBoat",
+      "kit": "fleet",
+      "materials": 10,
+      "meshes": 12,
+      "meshesDeclared": 12,
+      "note": "9 m derelict sailboat, dismasted and fouled",
+      "parts": [
+        "hatch",
+        "cleats",
+        "slingPoints",
+        "fuelVent"
+      ]
+    },
+    {
+      "build": "fireEngine",
+      "bytes": 196136,
+      "file": "fleet--fireEngine.glb",
+      "footprint": [
+        3.2,
+        3.23,
+        10.25
+      ],
+      "key": "fireEngine",
+      "kit": "fleet",
+      "materials": 22,
+      "meshes": 28,
+      "meshesDeclared": 28,
+      "note": "pumper: pump panel, hose bed, roof ladders",
+      "parts": [
+        "doorL",
+        "doorR",
+        "doorCrewL",
+        "doorCrewR",
+        "pumpPanel",
+        "pumpControls",
+        "hoseBed",
+        "ladder",
+        "compartments",
+        "warningLights",
+        "wheels",
+        "mirrorL",
+        "mirrorR",
+        "lights"
+      ]
+    },
+    {
+      "build": "forkliftCounterbalance",
+      "bytes": 151412,
+      "file": "fleet--forkliftCounterbalance.glb",
+      "footprint": [
+        1.12,
+        2.28,
+        3.57
+      ],
+      "key": "forkliftCounterbalance",
+      "kit": "fleet",
+      "materials": 12,
+      "meshes": 21,
+      "meshesDeclared": 21,
+      "note": "5,000 lb LPG counterbalance",
+      "parts": [
+        "mast",
+        "innerMast",
+        "carriage",
+        "forks",
+        "overheadGuard",
+        "counterweight",
+        "lpgTank",
+        "seat",
+        "controls",
+        "beacon",
+        "wheels",
+        "lights"
+      ]
+    },
+    {
+      "build": "motorYacht",
+      "bytes": 138236,
+      "file": "fleet--motorYacht.glb",
+      "footprint": [
+        6.72,
+        8.01,
+        24.23
+      ],
+      "key": "motorYacht",
+      "kit": "fleet",
+      "materials": 29,
+      "meshes": 35,
+      "meshesDeclared": 35,
+      "note": "24 m motor yacht: flybridge, swim platform, tender in a davit, shore-power inlet",
+      "parts": [
+        "saloonDoor",
+        "helm",
+        "bowCleats",
+        "springCleats",
+        "sternCleats",
+        "fuelFill",
+        "shorePowerInlet",
+        "engineHatch",
+        "davit",
+        "tender",
+        "fenders",
+        "lifeRing",
+        "navLights",
+        "portLight",
+        "starboardLight",
+        "mastheadLight",
+        "sternLight"
+      ]
+    },
+    {
+      "build": "pickup",
+      "bytes": 93168,
+      "file": "fleet--pickup.glb",
+      "footprint": [
+        2.39,
+        1.93,
+        5.92
+      ],
+      "key": "pickup",
+      "kit": "fleet",
+      "materials": 11,
+      "meshes": 17,
+      "meshesDeclared": 17,
+      "note": "full-size crew cab",
+      "parts": [
+        "doorFL",
+        "doorFR",
+        "doorRL",
+        "doorRR",
+        "wheels",
+        "mirrorL",
+        "mirrorR",
+        "lights",
+        "tailgate"
+      ]
+    },
+    {
+      "build": "rov",
+      "bytes": 40300,
+      "file": "fleet--rov.glb",
+      "footprint": [
+        0.62,
+        0.55,
+        1.01
+      ],
+      "key": "rov",
+      "kit": "fleet",
+      "materials": 8,
+      "meshes": 9,
+      "meshesDeclared": 9,
+      "note": "observation-class ROV, four thrusters, camera dome, manipulator",
+      "parts": [
+        "thrusters",
+        "camera",
+        "lights",
+        "manipulator",
+        "tetherPoint"
+      ]
+    },
+    {
+      "build": "salvageCraneBarge",
+      "bytes": 92520,
+      "file": "fleet--salvageCraneBarge.glb",
+      "footprint": [
+        7.24,
+        13.59,
+        18
+      ],
+      "key": "salvageCraneBarge",
+      "kit": "fleet",
+      "materials": 19,
+      "meshes": 30,
+      "meshesDeclared": 30,
+      "note": "18 m spud barge with a revolving lattice-boom crane",
+      "parts": [
+        "house",
+        "boom",
+        "hook",
+        "hoistLine",
+        "counterweight",
+        "cabDoor",
+        "spuds",
+        "bitts",
+        "ladder"
+      ]
+    },
+    {
+      "build": "schoolBus",
+      "bytes": 274744,
+      "file": "fleet--schoolBus.glb",
+      "footprint": [
+        3.16,
+        3.1,
+        10.79
+      ],
+      "key": "schoolBus",
+      "kit": "fleet",
+      "materials": 25,
+      "meshes": 33,
+      "meshesDeclared": 33,
+      "note": "Type C conventional, 35 ft, 8-way warning lights, stop arm and crossing gate",
+      "parts": [
+        "doorEntry",
+        "doorRear",
+        "mirrorL",
+        "mirrorR",
+        "crossviewMirror",
+        "wheels",
+        "lights",
+        "stopArm",
+        "crossingGate",
+        "warningLights"
+      ]
+    },
+    {
+      "build": "sedan",
+      "bytes": 92480,
+      "file": "fleet--sedan.glb",
+      "footprint": [
+        2.23,
+        1.45,
+        4.92
+      ],
+      "key": "sedan",
+      "kit": "fleet",
+      "materials": 10,
+      "meshes": 17,
+      "meshesDeclared": 17,
+      "note": "mid-size four-door",
+      "parts": [
+        "doorFL",
+        "doorFR",
+        "doorRL",
+        "doorRR",
+        "wheels",
+        "mirrorL",
+        "mirrorR",
+        "lights",
+        "trunk"
+      ]
+    },
+    {
+      "build": "semiTractor",
+      "bytes": 243500,
+      "file": "fleet--semiTractor.glb",
+      "footprint": [
+        3.02,
+        3.95,
+        6.86
+      ],
+      "key": "semiTractor",
+      "kit": "fleet",
+      "materials": 18,
+      "meshes": 24,
+      "meshesDeclared": 24,
+      "note": "Class 8 day cab, tandem drive, fifth wheel, air lines and glad hands",
+      "parts": [
+        "doorL",
+        "doorR",
+        "mirrorL",
+        "mirrorR",
+        "hood",
+        "wheels",
+        "lights",
+        "headlights",
+        "markerLights",
+        "tailLights",
+        "fifthWheel",
+        "fifthWheelRelease",
+        "gladHandService",
+        "gladHandEmergency"
+      ]
+    },
+    {
+      "build": "semiTractor",
+      "bytes": 241200,
+      "file": "fleet--semiTractor_sleeper.glb",
+      "footprint": [
+        3.02,
+        4,
+        8.66
+      ],
+      "key": "semiTractor:sleeper",
+      "kit": "fleet",
+      "materials": 18,
+      "meshes": 24,
+      "meshesDeclared": 24,
+      "note": "Class 8 raised-roof sleeper",
+      "parts": [
+        "doorL",
+        "doorR",
+        "mirrorL",
+        "mirrorR",
+        "wheels",
+        "lights",
+        "fifthWheel",
+        "gladHandService",
+        "gladHandEmergency"
+      ]
+    },
+    {
+      "build": "skiff",
+      "bytes": 42228,
+      "file": "fleet--skiff.glb",
+      "footprint": [
+        2.11,
+        1.79,
+        5.69
+      ],
+      "key": "skiff",
+      "kit": "fleet",
+      "materials": 14,
+      "meshes": 17,
+      "meshesDeclared": 17,
+      "note": "5.2 m aluminium centre-console skiff",
+      "parts": [
+        "outboard",
+        "console",
+        "killSwitch",
+        "bowCleat",
+        "sternCleat",
+        "navLights",
+        "portLight",
+        "starboardLight",
+        "sternLight"
+      ]
+    },
+    {
+      "build": "skimmerVessel",
+      "bytes": 64236,
+      "file": "fleet--skimmerVessel.glb",
+      "footprint": [
+        4.22,
+        4.1,
+        12.21
+      ],
+      "key": "skimmerVessel",
+      "kit": "fleet",
+      "materials": 18,
+      "meshes": 20,
+      "meshesDeclared": 20,
+      "note": "11 m catamaran debris and oil skimmer",
+      "parts": [
+        "conveyor",
+        "basket",
+        "sweepArms",
+        "tankHatch",
+        "wheelhouseDoor",
+        "navLights",
+        "portLight",
+        "starboardLight",
+        "mastheadLight"
+      ],
+      "repairedMaterials": 1
+    },
+    {
+      "build": "spudBarge",
+      "bytes": 62220,
+      "file": "fleet--spudBarge.glb",
+      "footprint": [
+        6.38,
+        6.72,
+        12.2
+      ],
+      "key": "spudBarge",
+      "kit": "fleet",
+      "materials": 10,
+      "meshes": 20,
+      "meshesDeclared": 20,
+      "note": "12.2 m sectional spud barge with spill coaming",
+      "parts": [
+        "spuds",
+        "bitts",
+        "coaming",
+        "sump",
+        "navLights",
+        "portLight",
+        "starboardLight"
+      ]
+    },
+    {
+      "build": "tractorTrailer",
+      "bytes": 334092,
+      "file": "fleet--tractorTrailer.glb",
+      "footprint": [
+        3.02,
+        4.11,
+        20.71
+      ],
+      "key": "tractorTrailer",
+      "kit": "fleet",
+      "materials": 24,
+      "meshes": 38,
+      "meshesDeclared": 38,
+      "note": "day cab coupled to a 53 ft dry van",
+      "parts": [
+        "tractor",
+        "trailer"
+      ]
+    },
+    {
+      "build": "trailer",
+      "bytes": 91744,
+      "file": "fleet--trailer_dryVan.glb",
+      "footprint": [
+        2.63,
+        4.11,
+        16.27
+      ],
+      "key": "trailer:dryVan",
+      "kit": "fleet",
+      "materials": 12,
+      "meshes": 14,
+      "meshesDeclared": 14,
+      "note": "53 ft dry van, swing doors, conspicuity tape",
+      "parts": [
+        "doorL",
+        "doorR",
+        "wheels",
+        "landingGear",
+        "gladHands",
+        "lights"
+      ]
+    },
+    {
+      "build": "trailer",
+      "bytes": 142540,
+      "file": "fleet--trailer_flatbed.glb",
+      "footprint": [
+        2.66,
+        1.53,
+        14.69
+      ],
+      "key": "trailer:flatbed",
+      "kit": "fleet",
+      "materials": 9,
+      "meshes": 13,
+      "meshesDeclared": 13,
+      "note": "48 ft flatbed with stake pockets and winches",
+      "parts": [
+        "wheels",
+        "landingGear",
+        "gladHands",
+        "lights",
+        "stakePockets",
+        "winches"
+      ]
+    },
+    {
+      "build": "trailer",
+      "bytes": 66712,
+      "file": "fleet--trailer_pup.glb",
+      "footprint": [
+        2.63,
+        4.11,
+        8.65
+      ],
+      "key": "trailer:pup",
+      "kit": "fleet",
+      "materials": 12,
+      "meshes": 13,
+      "meshesDeclared": 13,
+      "note": "28 ft single-axle pup van",
+      "parts": [
+        "doorL",
+        "doorR",
+        "wheels",
+        "landingGear",
+        "gladHands",
+        "lights"
+      ]
+    },
+    {
+      "build": "trailer",
+      "bytes": 97632,
+      "file": "fleet--trailer_reefer.glb",
+      "footprint": [
+        2.63,
+        4.11,
+        16.7
+      ],
+      "key": "trailer:reefer",
+      "kit": "fleet",
+      "materials": 15,
+      "meshes": 17,
+      "meshesDeclared": 17,
+      "note": "53 ft reefer with nose-mounted unit",
+      "parts": [
+        "doorL",
+        "doorR",
+        "wheels",
+        "landingGear",
+        "gladHands",
+        "lights",
+        "reeferUnit"
+      ]
+    },
+    {
+      "build": "trailer",
+      "bytes": 140400,
+      "file": "fleet--trailer_tanker.glb",
+      "footprint": [
+        2.63,
+        3.26,
+        12.94
+      ],
+      "key": "trailer:tanker",
+      "kit": "fleet",
+      "materials": 10,
+      "meshes": 14,
+      "meshesDeclared": 14,
+      "note": "42 ft DOT-406 style tanker, placarded 3 / 1203",
+      "parts": [
+        "wheels",
+        "landingGear",
+        "gladHands",
+        "lights",
+        "manholes",
+        "valves"
+      ]
+    },
+    {
+      "build": "workboat",
+      "bytes": 70144,
+      "file": "fleet--workboat.glb",
+      "footprint": [
+        3.15,
+        3.45,
+        8.18
+      ],
+      "key": "workboat",
+      "kit": "fleet",
+      "materials": 16,
+      "meshes": 16,
+      "meshesDeclared": 16,
+      "note": "7.6 m aluminium workboat",
+      "parts": [
+        "wheelhouseDoor",
+        "outboards",
+        "davit",
+        "navLights",
+        "portLight",
+        "starboardLight",
+        "mastheadLight"
+      ]
+    },
+    {
+      "build": "yachtTender",
+      "bytes": 53876,
+      "file": "fleet--yachtTender.glb",
+      "footprint": [
+        1.89,
+        1.52,
+        4.55
+      ],
+      "key": "yachtTender",
+      "kit": "fleet",
+      "materials": 14,
+      "meshes": 15,
+      "meshesDeclared": 15,
+      "note": "4.2 m rigid inflatable tender with an outboard and a kill-cord",
+      "parts": [
+        "outboard",
+        "killCord",
+        "console",
+        "bowEye",
+        "sternCleat",
+        "fuelTank",
+        "navLight"
+      ]
+    },
+    {
+      "build": "yardHustler",
+      "bytes": 137808,
+      "file": "fleet--yardHustler.glb",
+      "footprint": [
+        2.91,
+        3.43,
+        5.61
+      ],
+      "key": "yardHustler",
+      "kit": "fleet",
+      "materials": 16,
+      "meshes": 19,
+      "meshesDeclared": 19,
+      "note": "terminal tractor, lifting fifth wheel",
+      "parts": [
+        "doorL",
+        "doorRear",
+        "mirrorL",
+        "mirrorR",
+        "wheels",
+        "fifthWheel",
+        "gladHandService",
+        "gladHandEmergency",
+        "beacon",
+        "lights"
+      ]
+    },
+    {
+      "build": "angleGrinder",
+      "bytes": 29552,
+      "file": "toolkit--angleGrinder.glb",
+      "footprint": [
+        0.2,
+        0.07,
+        0.42
+      ],
+      "key": "angleGrinder",
+      "kit": "toolkit",
+      "materials": 4,
+      "meshes": 4,
+      "meshesDeclared": 4,
+      "note": "125 mm angle grinder with guard",
+      "parts": [
+        "guard",
+        "disc"
+      ]
+    },
+    {
+      "build": "chock",
+      "bytes": 14676,
+      "file": "toolkit--chock.glb",
+      "footprint": [
+        0.2,
+        0.26,
+        0.28
+      ],
+      "key": "chock",
+      "kit": "toolkit",
+      "materials": 2,
+      "meshes": 2,
+      "meshesDeclared": 2,
+      "note": "wheel chock",
+      "parts": [
+        "handle"
+      ]
+    },
+    {
+      "build": "creeper",
+      "bytes": 25520,
+      "file": "toolkit--creeper.glb",
+      "footprint": [
+        0.44,
+        0.13,
+        0.98
+      ],
+      "key": "creeper",
+      "kit": "toolkit",
+      "materials": 2,
+      "meshes": 3,
+      "meshesDeclared": 3,
+      "note": "mechanic's creeper",
+      "parts": [
+        "casters"
+      ]
+    },
+    {
+      "build": "drill",
+      "bytes": 14560,
+      "file": "toolkit--drill.glb",
+      "footprint": [
+        0.08,
+        0.27,
+        0.32
+      ],
+      "key": "drill",
+      "kit": "toolkit",
+      "materials": 3,
+      "meshes": 4,
+      "meshesDeclared": 4,
+      "note": "cordless drill-driver",
+      "parts": [
+        "trigger"
+      ]
+    },
+    {
+      "build": "flashlight",
+      "bytes": 11984,
+      "file": "toolkit--flashlight.glb",
+      "footprint": [
+        0.04,
+        0.04,
+        0.22
+      ],
+      "key": "flashlight",
+      "kit": "toolkit",
+      "materials": 3,
+      "meshes": 3,
+      "meshesDeclared": 3,
+      "note": "aluminium flashlight",
+      "parts": [
+        "lens"
+      ]
+    },
+    {
+      "build": "fourGasMeter",
+      "bytes": 7796,
+      "file": "toolkit--fourGasMeter.glb",
+      "footprint": [
+        0.07,
+        0.12,
+        0.05
+      ],
+      "key": "fourGasMeter",
+      "kit": "toolkit",
+      "materials": 3,
+      "meshes": 3,
+      "meshesDeclared": 3,
+      "note": "O2 / LEL / CO / H2S monitor, live screen",
+      "parts": [
+        "screen"
+      ]
+    },
+    {
+      "build": "gladHandGauge",
+      "bytes": 8716,
+      "file": "toolkit--gladHandGauge.glb",
+      "footprint": [
+        0.13,
+        0.14,
+        0.06
+      ],
+      "key": "gladHandGauge",
+      "kit": "toolkit",
+      "materials": 3,
+      "meshes": 3,
+      "meshesDeclared": 3,
+      "note": "glad-hand air gauge, live dial",
+      "parts": [
+        "dial"
+      ]
+    },
+    {
+      "build": "glassVacuumLifter",
+      "bytes": 7720,
+      "file": "toolkit--glassVacuumLifter.glb",
+      "footprint": [
+        0.55,
+        0.24,
+        0.06
+      ],
+      "key": "glassVacuumLifter",
+      "kit": "toolkit",
+      "materials": 3,
+      "meshes": 3,
+      "meshesDeclared": 4,
+      "note": "two-cup manual glass vacuum lifter, live vacuum gauge",
+      "parts": [
+        "gauge"
+      ]
+    },
+    {
+      "build": "hammer",
+      "bytes": 9572,
+      "file": "toolkit--hammer.glb",
+      "footprint": [
+        0.17,
+        0.03,
+        0.32
+      ],
+      "key": "hammer",
+      "kit": "toolkit",
+      "materials": 3,
+      "meshes": 3,
+      "meshesDeclared": 3,
+      "note": "framing hammer",
+      "parts": [
+        "head"
+      ]
+    },
+    {
+      "build": "hardHatLamp",
+      "bytes": 22588,
+      "file": "toolkit--hardHatLamp.glb",
+      "footprint": [
+        0.29,
+        0.16,
+        0.29
+      ],
+      "key": "hardHatLamp",
+      "kit": "toolkit",
+      "materials": 3,
+      "meshes": 3,
+      "meshesDeclared": 3,
+      "note": "hard hat with cap lamp",
+      "parts": [
+        "lamp"
+      ]
+    },
+    {
+      "build": "hoseReel",
+      "bytes": 42616,
+      "file": "toolkit--hoseReel.glb",
+      "footprint": [
+        0.28,
+        0.37,
+        0.39
+      ],
+      "key": "hoseReel",
+      "kit": "toolkit",
+      "materials": 3,
+      "meshes": 4,
+      "meshesDeclared": 4,
+      "note": "air hose reel",
+      "parts": [
+        "drum",
+        "nozzle"
+      ]
+    },
+    {
+      "build": "impactWrench",
+      "bytes": 14248,
+      "file": "toolkit--impactWrench.glb",
+      "footprint": [
+        0.09,
+        0.27,
+        0.23
+      ],
+      "key": "impactWrench",
+      "kit": "toolkit",
+      "materials": 3,
+      "meshes": 4,
+      "meshesDeclared": 4,
+      "note": "1/2 in cordless impact wrench",
+      "parts": [
+        "trigger"
+      ]
+    },
+    {
+      "build": "level",
+      "bytes": 5416,
+      "file": "toolkit--level.glb",
+      "footprint": [
+        0.63,
+        0.06,
+        0.03
+      ],
+      "key": "level",
+      "kit": "toolkit",
+      "materials": 3,
+      "meshes": 3,
+      "meshesDeclared": 3,
+      "note": "600 mm spirit level",
+      "parts": [
+        "vials"
+      ]
+    },
+    {
+      "build": "multimeter",
+      "bytes": 28660,
+      "file": "toolkit--multimeter.glb",
+      "footprint": [
+        0.33,
+        0.2,
+        0.13
+      ],
+      "key": "multimeter",
+      "kit": "toolkit",
+      "materials": 4,
+      "meshes": 4,
+      "meshesDeclared": 4,
+      "note": "digital multimeter, live screen",
+      "parts": [
+        "screen",
+        "leadRed",
+        "leadBlack"
+      ]
+    },
+    {
+      "build": "radio",
+      "bytes": 10340,
+      "file": "toolkit--radio.glb",
+      "footprint": [
+        0.06,
+        0.26,
+        0.04
+      ],
+      "key": "radio",
+      "kit": "toolkit",
+      "materials": 4,
+      "meshes": 4,
+      "meshesDeclared": 4,
+      "note": "portable two-way radio",
+      "parts": [
+        "screen",
+        "ptt"
+      ]
+    },
+    {
+      "build": "tagLine",
+      "bytes": 51152,
+      "file": "toolkit--tagLine.glb",
+      "footprint": [
+        0.45,
+        0.08,
+        0.34
+      ],
+      "key": "tagLine",
+      "kit": "toolkit",
+      "materials": 2,
+      "meshes": 2,
+      "meshesDeclared": 2,
+      "note": "coiled tag line with snap hook",
+      "parts": [
+        "hook"
+      ]
+    },
+    {
+      "build": "tapeMeasure",
+      "bytes": 9372,
+      "file": "toolkit--tapeMeasure.glb",
+      "footprint": [
+        0.3,
+        0.07,
+        0.05
+      ],
+      "key": "tapeMeasure",
+      "kit": "toolkit",
+      "materials": 4,
+      "meshes": 4,
+      "meshesDeclared": 4,
+      "note": "8 m tape, blade run out",
+      "parts": [
+        "blade"
+      ]
+    },
+    {
+      "build": "teachPendant",
+      "bytes": 10748,
+      "file": "toolkit--teachPendant.glb",
+      "footprint": [
+        0.31,
+        0.07,
+        0.22
+      ],
+      "key": "teachPendant",
+      "kit": "toolkit",
+      "materials": 4,
+      "meshes": 4,
+      "meshesDeclared": 4,
+      "note": "robot teach pendant with live screen, e-stop and enabling switch",
+      "parts": [
+        "screen",
+        "estop",
+        "enable"
+      ]
+    },
+    {
+      "build": "tieDownStrap",
+      "bytes": 11156,
+      "file": "toolkit--tieDownStrap.glb",
+      "footprint": [
+        0.43,
+        0.05,
+        0.14
+      ],
+      "key": "tieDownStrap",
+      "kit": "toolkit",
+      "materials": 3,
+      "meshes": 3,
+      "meshesDeclared": 3,
+      "note": "2 in ratchet tie-down",
+      "parts": [
+        "ratchet",
+        "hook"
+      ]
+    },
+    {
+      "build": "tireGauge",
+      "bytes": 6884,
+      "file": "toolkit--tireGauge.glb",
+      "footprint": [
+        0.03,
+        0.02,
+        0.31
+      ],
+      "key": "tireGauge",
+      "kit": "toolkit",
+      "materials": 3,
+      "meshes": 3,
+      "meshesDeclared": 3,
+      "note": "dual-foot truck tyre gauge",
+      "parts": [
+        "bar"
+      ]
+    },
+    {
+      "build": "torqueWrench",
+      "bytes": 9364,
+      "file": "toolkit--torqueWrench.glb",
+      "footprint": [
+        0.04,
+        0.04,
+        0.51
+      ],
+      "key": "torqueWrench",
+      "kit": "toolkit",
+      "materials": 3,
+      "meshes": 3,
+      "meshesDeclared": 3,
+      "note": "click-type torque wrench",
+      "parts": [
+        "scale"
+      ]
+    },
+    {
+      "build": "wrenchSet",
+      "bytes": 23028,
+      "file": "toolkit--wrenchSet.glb",
+      "footprint": [
+        0.42,
+        0.01,
+        0.3
+      ],
+      "key": "wrenchSet",
+      "kit": "toolkit",
+      "materials": 2,
+      "meshes": 2,
+      "meshesDeclared": 2,
+      "note": "combination wrenches in a roll",
+      "parts": [
+        "wrenches"
+      ]
+    }
+  ],
+  "exported": 99,
+  "generator": "three GLTFExporter r160 via tools/export_unity.mjs --models",
+  "licence": "CC0-1.0 — the platform's own procedural builders (WebXR/shared/fleet.js, equipment.js, toolkit.js). No third-party model, no avatar, no track GLB.",
+  "schema": "smartcitix.models/1",
+  "total": 99,
+  "units": "metres, +Z forward, +X driver's side, y = 0 ground; Unity flips X on import (glTF is right-handed)"
+}

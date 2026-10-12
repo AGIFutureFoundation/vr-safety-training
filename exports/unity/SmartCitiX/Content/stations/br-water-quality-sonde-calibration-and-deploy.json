@@ -1,0 +1,467 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "defensible-number",
+    "name": "Defensible Number",
+    "note": "Every sensor calibrated against in-date standards, checked side by side and logged before the first reading counted"
+  },
+  "category": "Environmental Monitoring",
+  "certification": "LIUNA Local 261 environmental remediation and monitoring training (LIUNA Training and Education Fund); IUOE Local 3 operating engineer on the barge-mounted dredge the monitoring governs; the Regional Water Quality Control Board's Section 401 water quality certification and its monitoring and reporting requirements; Army Corps Section 404 permit conditions; EPA QA/G-5 quality assurance project plan practice for calibration records and field checks; 40 CFR 136 for the grab samples that verify the sonde; OSHA HAZWOPER, 29 CFR 1910.120, for work at a contaminated-sediment site; BCDC permit conditions for the monitoring pile in the Bay; DMMO dredging the readings are reported against",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "BCDC",
+        "citedAs": "BCDC",
+        "id": "bcdc-bay-plan",
+        "title": "San Francisco Bay Plan and BCDC permit conditions under the McAteer-Petris Act"
+      },
+      {
+        "body": "DMMO",
+        "citedAs": "DMMO",
+        "id": "dmmo-dredged-material-testing",
+        "title": "San Francisco Bay Dredged Material Management Office — sediment testing, suitability determinations and placement-site review for dredged material"
+      },
+      {
+        "body": "EPA",
+        "citedAs": "40 CFR 136",
+        "id": "epa-40-cfr-136",
+        "title": "40 CFR Part 136 — Test procedures for the analysis of pollutants"
+      },
+      {
+        "body": "EPA",
+        "citedAs": "EPA QA/G-5",
+        "id": "epa-qa-g5",
+        "title": "EPA QA/G-5 — Guidance for quality assurance project plans, and the chain-of-custody practice built on it"
+      },
+      {
+        "body": "union",
+        "citedAs": "IUOE",
+        "id": "iuoe-training",
+        "title": "IUOE local training funds and the IUOE National Training Fund — operating and stationary engineer apprenticeship"
+      },
+      {
+        "body": "union",
+        "citedAs": "LIUNA Training",
+        "id": "liuna-training-fund",
+        "title": "LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.120",
+        "id": "osha-1910-120",
+        "title": "29 CFR 1910.120 — Hazardous waste operations and emergency response (HAZWOPER)"
+      },
+      {
+        "body": "RWQCB",
+        "citedAs": "Section 401",
+        "id": "rwqcb-401-certification",
+        "title": "Regional Water Quality Control Board Clean Water Act §401 certification and waste discharge requirements"
+      },
+      {
+        "body": "USACE",
+        "citedAs": "Section 404",
+        "id": "usace-section-404",
+        "title": "Clean Water Act §404 permit conditions for the discharge of dredged or fill material"
+      }
+    ]
+  },
+  "district": "Environmental Monitoring",
+  "domain": "Environmental",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "plan-then-probe",
+        "name": "Plan Then Probe",
+        "note": "The monitoring plan read and the sonde inspected clean before any calibration"
+      },
+      {
+        "id": "nothing-over-the-side",
+        "name": "Nothing Over The Side",
+        "note": "Never a buffer poured overboard, never a lean over the rail, never a cable round the hand, never under the swing"
+      },
+      {
+        "id": "checks-in-band",
+        "name": "Checks In Band",
+        "note": "The turbidity check and the telemetry match both committed inside their bands"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-cal",
+        "name": "Clean Cal",
+        "note": "No corrections from the plan to the check-in"
+      },
+      {
+        "id": "steady-comparison",
+        "name": "Steady Comparison",
+        "note": "Held the side-by-side in band the whole time"
+      },
+      {
+        "id": "on-station",
+        "name": "On Station",
+        "note": "Sonde deployed and logged inside 80% of par"
+      }
+    ],
+    "currency": "READING",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Probe Hand",
+      "Monitoring Tech",
+      "Sonde Lead",
+      "Water Quality Coordinator",
+      "Sonde Deck Certified"
+    ],
+    "system": "Sonde Deck"
+  },
+  "hazards": {
+    "buffer-overboard": "You went to tip the spent buffer and standards over the side of the pier. Calibration solutions are chemicals, and the Bay is the water the certification protects; tipping them in is a discharge the job has no permit for, done in view of the monitoring pile that is supposed to catch exactly that. Spent solutions go in the labelled waste jug and are handled as the work plan says.",
+    "cable-round-hand": "You started to take a wrap of the sonde cable round your hand to hold the weight. If the sonde snags on the pipe or the boat surges, a wrapped line cannot be let go — it takes the hand with it. Line is held in an open palm and payed out hand over hand, so it can be dropped the instant it loads.",
+    "lean-over-rail": "You leaned out past the pier rail to lower the sonde by hand into the deployment pipe. A sonde and its cable are heavy at arm's length, a wake arrives without warning, and a lean past the rail over cold water is how a technician goes in after the instrument. The sonde is lowered on its line from behind the rail, with the PFD fastened.",
+    "under-the-swing": "You waved the workboat in under the barge excavator's swing to reach the far side of the pile. An operator watching the bucket and the barge does not see a small boat nosing under the boom, and a loaded bucket or a swinging counterweight comes down wherever the house turns. The boat goes round, clear of the swing, or the operator grounds the bucket and says so on the radio first."
+  },
+  "id": "br-water-quality-sonde-calibration-and-deploy",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "do-cal",
+      "alert": "While the oxygen settles you notice the lot sticker on the ten buffer you just used — its expiry date has passed.",
+      "cue": "Pull the expired bottle and set out a fresh in-date one, so the pH point can be recalibrated.",
+      "delay": 2,
+      "id": "expired-buffer",
+      "kind": "Expired calibration standard on the bench",
+      "missNote": "The expired buffer stayed on the bench and the sonde was deployed on a slope fitted to it; the week's pH record carried a qualifier and a recalibration trip was needed to find out how far off it was.",
+      "seconds": 13,
+      "target": "fresh-buffer",
+      "why": "A calibration is a comparison against a standard whose value is known, and a standard past its expiry no longer has a known value — the pH slope set from it is fitted to a guess. The bottle is pulled and a fresh, in-date buffer set out so the point can be redone before the sonde goes in, and the pulled lot goes in the log.",
+      "wrongNote": "The fresh buffer — pull the expired bottle and set out an in-date one before anything else."
+    },
+    {
+      "after": "side-by-side",
+      "alert": "The shore station's alarm has gone off: turbidity at the compliance pile is over the plan's trigger, and the dredge is still swinging buckets.",
+      "cue": "Call the dredge operator on the work channel: the trigger has tripped, stop and hold per the plan.",
+      "delay": 2,
+      "id": "trigger-reading",
+      "kind": "Telemetry trigger at the compliance pile",
+      "missNote": "The dredge kept working through the trigger for another dozen buckets; the plume held over the compliance pile for most of an hour and the day's report went to the Water Board as an exceedance with no response in it.",
+      "seconds": 14,
+      "target": "dredge-radio",
+      "why": "A trigger reading is the moment the monitoring exists for, and the plan's response starts with the dredge stopping, because every bucket after the trigger adds to a plume that is already past what the certification allows. The technician holding the side-by-side knows the reading is real, and the call goes to the operator on the work channel before anything else.",
+      "wrongNote": "The dredge's work radio — the operator has to hear the trigger and stop before anything else."
+    }
+  ],
+  "lateNotes": {
+    "cage-clamp": "The clamp is locked once the sonde is down the pipe at the plan's depth mark — locked early, it holds the sonde at the wrong depth all deployment.",
+    "cal-log": "The calibration log is written once the kit is put away — it is the last record of the deployment and it needs every standard's lot and every check.",
+    "ph10-buffer": "The ten buffer is the second point: calibrate the seven first so the offset is set before the slope is — and rinse between them.",
+    "sonde-body": "Deploy the sonde once every sensor is calibrated and the oxygen has settled — a sonde lowered half-calibrated reports numbers nobody can defend."
+  },
+  "name": "Water Quality Sonde Calibration & Deploy",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "bay-restoration-maritime-underwater"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "excavator",
+        "count": 1,
+        "kit": "equipment"
+      },
+      {
+        "builder": "spudBarge",
+        "count": 1,
+        "kit": "fleet"
+      },
+      {
+        "builder": "workboat",
+        "count": 1,
+        "kit": "fleet"
+      }
+    ],
+    "error": null,
+    "footprint": 2.5,
+    "hits": [
+      "buffer-overboard",
+      "cable-chafe",
+      "cable-round-hand",
+      "cage-clamp",
+      "cal-log",
+      "check-standard",
+      "crew-radio",
+      "deploy-pipe",
+      "do-cap-scratched",
+      "do-chamber",
+      "dredge-radio",
+      "fresh-buffer",
+      "gear-glasses",
+      "gear-nitrile",
+      "gear-pfd",
+      "handheld-probe",
+      "lean-over-rail",
+      "monitoring-plan",
+      "ph10-buffer",
+      "ph7-buffer",
+      "pile-light-out",
+      "rinse-bottle",
+      "sonde-body",
+      "standards-case",
+      "telemetry-screen",
+      "under-the-swing",
+      "waste-jug",
+      "wiper-fouled"
+    ],
+    "meshes": 245
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "At the board: the parameters, the calibration standards and their order, the check-standard acceptance, the compliance pile and depth, and what a trigger reading requires.",
+      "id": "read-plan",
+      "kind": "select",
+      "prompt": "At the board: the parameters, the calibration standards and their order, the check-standard acceptance, the compliance pile and depth, and what a trigger reading requires.",
+      "target": "monitoring-plan",
+      "title": "Read the monitoring plan for this deployment",
+      "why": "The Section 401 certification's monitoring requirements say what must be measured, where and how often, and the monitoring plan turns that into the technician's day: which standards, in what order, what a passing check looks like and who is called when a reading trips. A sonde calibrated from memory produces readings, but not ones anyone can stand behind when a regulator asks."
+    },
+    {
+      "anyOrder": true,
+      "cue": "PFD fastened for the pier edge and the boat, nitrile gloves for the standards and the sonde, glasses for the splash.",
+      "id": "pier-gear",
+      "itemNames": {
+        "gear-glasses": "safety glasses",
+        "gear-nitrile": "nitrile gloves",
+        "gear-pfd": "work vest PFD, fastened"
+      },
+      "kind": "sequence",
+      "prompt": "PFD fastened for the pier edge and the boat, nitrile gloves for the standards and the sonde, glasses for the splash.",
+      "targets": [
+        "gear-pfd",
+        "gear-nitrile",
+        "gear-glasses"
+      ],
+      "title": "Gear up at the pier edge",
+      "why": "The deployment happens at the edge of cold water beside a working barge, so the PFD is worn and fastened from the start. Gloves keep skin off the standards and off a sonde that has sat in water over contaminated sediment, and glasses are for the buffer that flicks off a sensor when it is shaken dry."
+    },
+    {
+      "cue": "Look over every sensor and the guard: sensor faces clean and unscored, the wiper pad fresh, the O-rings seated.",
+      "id": "inspect-sonde",
+      "itemNames": {
+        "do-cap-scratched": "the oxygen sensor cap scored across its face",
+        "wiper-fouled": "the turbidity wiper pad matted with growth"
+      },
+      "itemNotes": {
+        "do-cap-scratched": "The optical oxygen cap has a score across its face — light scatters off it and the reading drifts. It is swapped for a fresh cap before the oxygen calibration, not after.",
+        "wiper-fouled": "The wiper pad is matted with growth from the last deployment. A fouled wiper smears the turbidity window instead of clearing it, and turbidity is the reading the dredge will be stopped on."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look over every sensor and the guard: sensor faces clean and unscored, the wiper pad fresh, the O-rings seated.",
+      "targets": [
+        "do-cap-scratched",
+        "wiper-fouled"
+      ],
+      "title": "Inspect the sonde before calibrating",
+      "why": "Calibration corrects a sensor's reading; it does not fix a damaged sensor, and a calibration performed on a scored cap or a fouled wiper passes on the bench and drifts in the water. Inspecting first means the calibration record describes a sonde that can hold it, which is the only kind worth deploying at a compliance point."
+    },
+    {
+      "cue": "Rinse the sensor, calibrate at the seven buffer, rinse again, then calibrate at the ten.",
+      "id": "ph-cal",
+      "itemNames": {
+        "ph10-buffer": "calibrate at the pH 10 buffer",
+        "ph7-buffer": "calibrate at the pH 7 buffer",
+        "rinse-bottle": "rinse with clean water"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order — rinse, the seven buffer first to set the offset, then the ten to set the slope.",
+      "prompt": "Rinse the sensor, calibrate at the seven buffer, rinse again, then calibrate at the ten.",
+      "targets": [
+        "rinse-bottle",
+        "ph7-buffer",
+        "ph10-buffer"
+      ],
+      "title": "Calibrate pH at two points, seven then ten",
+      "why": "A pH sensor is calibrated at the neutral buffer first because that sets its offset, and at the second buffer afterwards because that sets its slope; done the other way round, the slope is fitted to an uncorrected offset. The rinse before each keeps one buffer from carrying into the next, which would shift both points and leave a calibration that looks accepted and reads wrong."
+    },
+    {
+      "cue": "Put the sonde's turbidity sensor in the check standard and commit the reading against the plan's acceptance.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.58
+        ],
+        "label": "TURBIDITY CHECK",
+        "missNote": "Outside the band — tap the bubbles off the window, let the wiper park, and read the check standard again.",
+        "speed": 0.68
+      },
+      "id": "turbidity-check",
+      "kind": "gauge",
+      "prompt": "Put the sonde's turbidity sensor in the check standard and commit the reading against the plan's acceptance.",
+      "target": "check-standard",
+      "title": "Read the turbidity check standard",
+      "why": "Turbidity is the reading the dredge will be stopped on, so after it is calibrated it is proved against a check standard the calibration did not use. A reading inside the plan's acceptance says the sensor reads true across the range; one outside it means recalibrating now, on the pier, rather than finding out from a disputed exceedance a week later."
+    },
+    {
+      "cue": "Seat the sonde in the calibration chamber with its damp sponge and hold it still until the oxygen reading settles.",
+      "holdBreakNote": "The sonde moved before the oxygen settled and the reading jumped. Seat it again in the chamber and hold it still until it stops drifting.",
+      "id": "do-cal",
+      "kind": "hold",
+      "prompt": "Seat the sonde in the calibration chamber with its damp sponge and hold it still until the oxygen reading settles.",
+      "seconds": 5,
+      "target": "do-chamber",
+      "title": "Calibrate oxygen in air-saturated water",
+      "why": "Dissolved oxygen is calibrated against water that is saturated with air at the day's temperature and pressure, and the reading has to be allowed to settle before it is accepted — an oxygen sensor calibrated while still drifting carries that drift into every reading afterwards. Holding the sonde still in the chamber is the whole technique; it is what makes the saturation point real."
+    },
+    {
+      "cue": "Carry the sonde to the compliance pile and lower it on its line down the slotted deployment pipe, from behind the rail.",
+      "drag": {
+        "missNote": "Not in the pipe — the sonde goes down the slotted deployment pipe on the compliance pile, not over the side beside it.",
+        "radius": 0.5,
+        "to": "deploy-pipe"
+      },
+      "id": "lower-sonde",
+      "kind": "drag",
+      "prompt": "Carry the sonde to the compliance pile and lower it on its line down the slotted deployment pipe, from behind the rail.",
+      "target": "sonde-body",
+      "title": "Lower the sonde into the deployment pipe",
+      "why": "The deployment pipe holds the sonde in the same place in the water column for the whole deployment, protected from debris and from boats, with slots that let the water through. It is lowered on its line from behind the rail, because a sonde lowered by hand at arm's length over the edge is how instruments and technicians both end up in the Bay."
+    },
+    {
+      "cue": "With the line's depth mark at the pipe top, turn the clamp down until it is locked on the line.",
+      "id": "lock-depth",
+      "kind": "turn",
+      "prompt": "With the line's depth mark at the pipe top, turn the clamp down until it is locked on the line.",
+      "target": "cage-clamp",
+      "title": "Lock the sonde at the plan's depth mark",
+      "turn": {
+        "label": "DEPTH CLAMP",
+        "turns": 1.25
+      },
+      "why": "The monitoring plan sets the depth the compliance reading is taken at, because turbidity and oxygen both change with depth and a reading from the wrong depth is a reading of different water. The clamp locks the line at the mark so the sonde stays there through every tide, and a sonde that slides down the pipe overnight reports a plume that is not there."
+    },
+    {
+      "cue": "Hold the calibrated handheld probe at the sonde's depth beside the pipe, steady, while both readings are logged together.",
+      "holdBreakNote": "The handheld drifted off the sonde's depth. Bring it back alongside and hold it steady while both readings log.",
+      "id": "side-by-side",
+      "kind": "track",
+      "prompt": "Hold the calibrated handheld probe at the sonde's depth beside the pipe, steady, while both readings are logged together.",
+      "seconds": 7,
+      "target": "handheld-probe",
+      "title": "Hold a side-by-side reading against the handheld",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.46,
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "HANDHELD DEPTH",
+        "rise": 0.56,
+        "start": 0.14
+      },
+      "why": "The side-by-side is the field proof that the sonde reads the same water the same way once it is in place: a separately calibrated handheld at the same depth, at the same moment. It catches what a bench calibration cannot — a sonde fouled on the way down, a sensor knocked on the pipe — and it has to be held steady, because a probe bobbing through the water column is comparing two different depths."
+    },
+    {
+      "cue": "Read the shore station's live feed and commit it against the side-by-side just logged.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "LIVE FEED",
+        "missNote": "Outside the band — wait for a fresh packet and read the live feed against the side-by-side again.",
+        "speed": 0.72
+      },
+      "id": "telemetry",
+      "kind": "gauge",
+      "prompt": "Read the shore station's live feed and commit it against the side-by-side just logged.",
+      "target": "telemetry-screen",
+      "title": "Confirm the live feed matches the side-by-side",
+      "why": "The readings that matter are the ones the shore station records and the dredge is told about, not the ones on the sonde's own memory. Confirming the live feed matches the side-by-side proves the telemetry is carrying the right sensor's data, at the right time, into the record the Water Board will read."
+    },
+    {
+      "cue": "Look over the pile: the line where it enters the pipe, the telemetry box, the pile's warning light.",
+      "id": "deploy-walk",
+      "itemNames": {
+        "cable-chafe": "the sonde line chafing on the pipe's rim",
+        "pile-light-out": "the compliance pile's warning light dark"
+      },
+      "itemNotes": {
+        "cable-chafe": "The line is sawing on the sharp rim of the deployment pipe with every swell. It will part in a day or two and take the sonde to the bottom; a rim guard goes on now.",
+        "pile-light-out": "The pile's warning light is dark. An unlit pile in a work zone at dusk is a hazard to every boat, and to the sonde on it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look over the pile: the line where it enters the pipe, the telemetry box, the pile's warning light.",
+      "targets": [
+        "cable-chafe",
+        "pile-light-out"
+      ],
+      "title": "Walk the deployment before leaving it",
+      "why": "A deployed sonde is left alone for days, and what ends a deployment early is usually already visible when it goes in: a line chafing on a rim, a light that is out and invites a boat into the pile. One walk before leaving turns those into a rim guard and a lamp change rather than a lost instrument and a gap in the record."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Spent buffer and standards into the labelled waste jug, the fresh standards capped and back in their case.",
+      "id": "kit-away",
+      "itemNames": {
+        "standards-case": "standards capped and back in their case",
+        "waste-jug": "spent solutions into the labelled waste jug"
+      },
+      "kind": "sequence",
+      "prompt": "Spent buffer and standards into the labelled waste jug, the fresh standards capped and back in their case.",
+      "targets": [
+        "waste-jug",
+        "standards-case"
+      ],
+      "title": "Put the calibration kit away",
+      "why": "Spent calibration solutions are waste and are handled as the work plan says, not tipped at the pier edge, and a standard left uncapped in the sun is not the standard its label claims by the next calibration. Putting the kit away properly is what makes tomorrow's calibration traceable to in-date, uncontaminated standards."
+    },
+    {
+      "cue": "Log each sensor's calibration and standard lot, the expired buffer pulled, the check standard, the side-by-side, the telemetry trip and who was called, the depth, and the chafe guard.",
+      "id": "cal-log",
+      "kind": "select",
+      "prompt": "Log each sensor's calibration and standard lot, the expired buffer pulled, the check standard, the side-by-side, the telemetry trip and who was called, the depth, and the chafe guard.",
+      "target": "cal-log",
+      "title": "Write the calibration and deployment log",
+      "why": "Every reading this sonde reports for the deployment is only as good as the calibration log behind it, and EPA QA/G-5 practice is what makes that log a required record rather than a habit. The expired buffer and the trip go in with their times, because the log is what shows the data was produced by a calibrated instrument and acted on when it said to."
+    },
+    {
+      "cue": "On the radio: the sonde is deployed and logged, who reads the feed overnight, and how the skipper and the dredge crew are after a stop on a trigger reading.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "On the radio: the sonde is deployed and logged, who reads the feed overnight, and how the skipper and the dredge crew are after a stop on a trigger reading.",
+      "target": "crew-radio",
+      "title": "Check in with the skipper and the dredge",
+      "why": "The dredge crew was stopped mid-bucket on the sonde's say-so, and the skipper held a boat beside a pile in a wake; the check-in makes sure everyone knows the sonde is trusted and who watches it overnight. It is also the crew's own — the member assistance line is there for anything that is still with someone after the radio goes quiet."
+    }
+  ],
+  "supportLine": "your union hall's member assistance programme — LIUNA Local 261 — with the employer's employee assistance line behind it",
+  "tagline": "The instrument the whole certification leans on: the monitoring plan read, the sonde inspected, pH calibrated seven then ten with a rinse between, the turbidity check standard read, oxygen calibrated in saturated air while an expired buffer turns up, the sonde lowered and locked on the compliance pile, a side-by-side held while the telemetry trips, the live feed confirmed, the deployment walked, the kit put away, the calibration logged and the crew checked in",
+  "title": "SmartCiti.X~ Water Quality Sonde Calibration & Deploy VR",
+  "trade": "LIUNA Local 261 monitoring technician calibrating and deploying the compliance sonde, working from a pier beside an Inlandboatmen's Union workboat, with an IUOE Local 3 operator running the dredge the sonde watches",
+  "underwater": null,
+  "weather": "clear"
+}

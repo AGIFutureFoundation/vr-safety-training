@@ -1,0 +1,374 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "rotation-held",
+    "name": "Rotation Held",
+    "note": "A topside shift worked to the plan's rotation, PPE on, the buddy system kept, and every cooldown taken in full"
+  },
+  "category": "Manufacturing & Automation",
+  "certification": "USW Tony Mazzocchi Center health and safety training; ACGIH Threshold Limit Values heat stress guidance; NIOSH criteria documents on occupational heat exposure; OSHA 29 CFR 1910.132 personal protective equipment",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ACGIH",
+        "citedAs": "ACGIH",
+        "id": "acgih-tlvs",
+        "title": "ACGIH Threshold Limit Values and Biological Exposure Indices"
+      },
+      {
+        "body": "NIOSH",
+        "citedAs": "NIOSH",
+        "id": "niosh-criteria",
+        "title": "NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.132",
+        "id": "osha-1910-132",
+        "title": "29 CFR 1910.132 — Personal protective equipment, general requirements"
+      },
+      {
+        "body": "union",
+        "citedAs": "USW",
+        "id": "usw-mazzocchi-center",
+        "title": "USW Tony Mazzocchi Center health, safety and environmental training"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Manufacturing",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "ppe-and-buddy",
+        "name": "PPE And Buddy",
+        "note": "Full PPE on and the buddy checked in with before going topside, first time"
+      },
+      {
+        "id": "off-the-rail",
+        "name": "Off The Rail",
+        "note": "Never touched a hot door face, stood in the larry car's path, reached into the hopper or reached for the wrong drink"
+      },
+      {
+        "id": "strain-in-band",
+        "name": "Strain In Band",
+        "note": "Heat-strain monitor read inside its safe band the whole shift"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-rotation",
+        "name": "Clean Rotation",
+        "note": "No corrections through the whole rotation"
+      },
+      {
+        "id": "charge-unbroken",
+        "name": "Charge Unbroken",
+        "note": "The larry car charge never broke its controlled rate"
+      },
+      {
+        "id": "rotation-fast",
+        "name": "Rotation Fast",
+        "note": "Rotation completed inside 80% of par"
+      }
+    ],
+    "currency": "CHARGE",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Larry Car Helper",
+      "Topside Worker",
+      "Battery Operator",
+      "Battery Foreman",
+      "Battery Topside Authority Certified"
+    ],
+    "system": "Battery Topside Authority"
+  },
+  "hazards": {
+    "energy-drink-cooler": "You reached for the caffeinated energy drink instead of the water station. A rotation built around staying hydrated in the heat is undone by a drink that works against that — caffeine is exactly what the plan's hydration guidance asks a crew to avoid during a heat rotation, not a stimulant to reach for when the heat gets to you.",
+    "hopper-reach": "You reached into the hopper gate while it was discharging. Coal moving out of a hopper behaves like anything else that flows — it takes a hand in before the hand can be pulled back out, and the gate is watched and worked from the control lever, never from inside the chute.",
+    "hot-door-face": "You put a bare hand on the oven door face. Every door on a working battery is radiating the heat of the oven behind it whether or not anyone is charging or pushing at that moment, and a door face gives no visible warning before it burns a hand that touches it.",
+    "larry-car-path": "You stepped into the larry car's rail path while it was moving. The car travels the same track every time it charges an oven, on a schedule the operator is watching from the cab, not the deck — the path is respected as if the car could arrive any moment, because on a working battery it can."
+  },
+  "id": "mm-coke-oven-heat-rotation",
+  "indoor": "plant",
+  "interrupts": [
+    {
+      "after": "heat-strain-check",
+      "alert": "Your rotation buddy has stopped talking mid-sentence and is standing still, looking confused about which way to walk.",
+      "cue": "Your buddy is showing early signs of heat illness.",
+      "delay": 3,
+      "id": "buddy-distress",
+      "kind": "Buddy showing signs",
+      "missNote": "You kept working while your buddy stood there confused. Heat illness gets worse, not better, on its own, and the interval a buddy still has left on the rotation board means nothing once the early signs are already showing.",
+      "seconds": 12,
+      "target": "heat-illness-alert",
+      "why": "Confusion and stopping mid-task are early heat-illness signs precisely because the person having them usually cannot recognise it in themselves — that is what the buddy system exists to catch. The alert calls it in and gets your buddy to the cooling station now, not at the end of the work interval.",
+      "wrongNote": "It is the heat-illness alert. Nothing else gets your buddy relief this fast."
+    },
+    {
+      "after": "check-door-latch",
+      "alert": "The larry car has started moving toward this oven earlier than the schedule showed, and you are still close to the rail.",
+      "cue": "The car is moving and you are near the track.",
+      "delay": 3,
+      "id": "larry-approaches",
+      "kind": "Car on the move",
+      "missNote": "The car kept coming while you were still near the rail. A larry car does not swerve for a person on its track, and a schedule that said it would arrive later is not a reason to stay on the rail once it is already moving.",
+      "seconds": 11,
+      "target": "larry-horn",
+      "why": "A schedule tells you when a car is supposed to move; it does not stop the car from moving early if the operator's own sequence calls for it sooner. The horn is what warns the operator someone is still on the track it is about to travel, answered from beside the rail, not by guessing whether there is time to clear it on foot.",
+      "wrongNote": "It is the larry car horn. Nothing else reaches the operator fast enough from where you are standing."
+    }
+  ],
+  "lateNotes": {
+    "cooling-station": "The cooldown comes after the rotation's work interval is actually finished — not early, and not skipped.",
+    "larry-car-lever": "Not yet. The door latch is confirmed and the track is clear before the car moves."
+  },
+  "name": "Coke Oven Heat Rotation",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "mill-and-mine"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "buddy-partner",
+      "cooling-station",
+      "door-latch-bar",
+      "door-seal",
+      "door-seal-leak",
+      "energy-drink-cooler",
+      "heat-illness-alert",
+      "heat-shield-visor",
+      "heat-strain-monitor",
+      "hopper-gate",
+      "hopper-guard-missing",
+      "hopper-reach",
+      "hot-door-face",
+      "insulated-gloves",
+      "larry-car-lever",
+      "larry-car-path",
+      "larry-horn",
+      "luting-tool",
+      "reflective-suit",
+      "rotation-board",
+      "shift-lead",
+      "water-station"
+    ],
+    "meshes": 154
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check the work/rest rotation and today's crew assignments on the board.",
+      "id": "rotation-schedule",
+      "kind": "select",
+      "prompt": "Check the work/rest rotation and today's crew assignments on the board.",
+      "target": "rotation-board",
+      "title": "Read today's rotation schedule",
+      "why": "The rotation board is what sets how long a crew works topside before the next cooldown, and it is set for the day's conditions rather than left the same as yesterday's. A shift that starts from habit instead of from the board is a shift betting that today's conditions match a day nobody actually measured against this one."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Reflective suit on, heat-shield visor down, insulated gloves on — all three before going topside.",
+      "id": "ppe-donning",
+      "itemNames": {
+        "heat-shield-visor": "heat-shield visor down",
+        "insulated-gloves": "insulated gloves on",
+        "reflective-suit": "reflective suit on"
+      },
+      "kind": "sequence",
+      "prompt": "Reflective suit on, heat-shield visor down, insulated gloves on — all three before going topside.",
+      "targets": [
+        "reflective-suit",
+        "heat-shield-visor",
+        "insulated-gloves"
+      ],
+      "title": "Put on the full topside PPE",
+      "why": "Radiant heat off a working battery reaches exposed skin at a distance a person would not expect from looking at the ovens, and the suit, the visor and the gloves each cover a different part of that exposure. Skipping any one of them leaves exactly the part of the body it was covering exposed to a source that does not announce itself before it burns."
+    },
+    {
+      "cue": "Confirm with your buddy that you are both going topside together and know each other's rotation time.",
+      "id": "buddy-checkin",
+      "kind": "select",
+      "prompt": "Confirm with your buddy that you are both going topside together and know each other's rotation time.",
+      "target": "buddy-partner",
+      "title": "Check in with your rotation buddy",
+      "why": "The buddy system is what catches the early signs of heat illness in somebody who has stopped noticing them in themselves — confusion and poor judgement are two of the first symptoms, and they are exactly the symptoms that make a person unreliable at reporting their own condition. Checking in before going up is what makes sure two people are actually watching, not just one who assumes the other is fine."
+    },
+    {
+      "cue": "Check the oven doors for a leaking seal and click what you see.",
+      "id": "topside-walk",
+      "itemNames": {
+        "door-seal-leak": "a leaking oven door seal"
+      },
+      "itemNotes": {
+        "door-seal-leak": "There is a visible leak along this oven door's seal — the luting that is supposed to keep the oven's contents from finding a way out along the door's edge has failed at this spot."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Check the oven doors for a leaking seal and click what you see.",
+      "targets": [
+        "door-seal-leak"
+      ],
+      "title": "Walk the topside before starting work",
+      "why": "A door seal that has started to leak does not fix itself, and it is found on a walk of the topside before it is found by whoever has to work directly beside it for the rest of the shift. Luting a leak early is a short job; leaving it for the next crew to find is a longer one."
+    },
+    {
+      "cue": "Carry the luting tool to the leaking seal and reseal it.",
+      "drag": {
+        "missNote": "Not on the seal — work the luting compound into the leak itself, not the door face beside it.",
+        "radius": 0.4,
+        "to": "door-seal"
+      },
+      "id": "lute-door-seal",
+      "kind": "drag",
+      "prompt": "Carry the luting tool to the leaking seal and reseal it.",
+      "target": "luting-tool",
+      "title": "Lute the leaking door seal",
+      "why": "Luting compound worked into the seal by hand, with the tool rather than the glove, is what actually closes the gap the leak found — a leak left alone gets wider under the oven's own heat cycling, and a door resealed at the first sign of a leak stays a smaller job than the same door resealed after a full shift of it opening further."
+    },
+    {
+      "cue": "Turn the latch bar to confirm the door is fully seated and locked before the larry car approaches.",
+      "id": "check-door-latch",
+      "kind": "turn",
+      "prompt": "Turn the latch bar to confirm the door is fully seated and locked before the larry car approaches.",
+      "target": "door-latch-bar",
+      "title": "Confirm the door latch before the car moves",
+      "turn": {
+        "axis": "y",
+        "label": "LATCH",
+        "turns": 0.5
+      },
+      "why": "A door that is not fully latched can work itself open under the oven's own pressure once the car is charging, and the moment to find that out is before the car is on its way, not after it has already committed to the charge with an unlatched door underneath it."
+    },
+    {
+      "cue": "Hold the larry car control steady and travel the charge at a controlled rate along the rail.",
+      "holdBreakNote": "Car speed out of band — bring it back before the charge overshoots the oven mouth.",
+      "id": "larry-charge",
+      "kind": "track",
+      "prompt": "Hold the larry car control steady and travel the charge at a controlled rate along the rail.",
+      "seconds": 6,
+      "target": "larry-car-lever",
+      "title": "Charge the oven at a controlled rate",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.42,
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "CAR SPEED",
+        "rise": 0.5,
+        "start": 0.1
+      },
+      "why": "A charge run too fast overshoots the oven mouth and spills coal along the topside deck; run too slow, it leaves the car sitting exposed over an open oven longer than the charge needs. The steady, controlled rate a topside crew holds is what gets the coal into the oven and the car clear of it without either."
+    },
+    {
+      "cue": "Hold the hopper release lever and watch the coal clear without reaching toward the gate.",
+      "holdBreakNote": "You let go of the lever before the hopper finished clearing. A gate released mid-discharge is a gate that has to be started again from a coal face nobody has actually seen clear.",
+      "id": "watch-hopper",
+      "kind": "hold",
+      "prompt": "Hold the hopper release lever and watch the coal clear without reaching toward the gate.",
+      "seconds": 5,
+      "target": "hopper-gate",
+      "title": "Watch the hopper clear",
+      "why": "The hopper gate is worked from the lever the whole time it is discharging, because coal flowing out of a hopper does not stop for a hand that reaches in to clear a hang-up — the lever is released, the flow is watched, and anything that needs clearing is cleared with the flow stopped, not while it is running."
+    },
+    {
+      "cue": "Check the wearable heat-strain monitor and confirm the reading is inside the plan's safe band.",
+      "gauge": {
+        "green": [
+          0.2,
+          0.55
+        ],
+        "label": "STRAIN",
+        "missNote": "Reading is outside the safe band — that is the cue to rotate out now, not at the end of the interval.",
+        "speed": 0.72
+      },
+      "id": "heat-strain-check",
+      "kind": "gauge",
+      "prompt": "Check the wearable heat-strain monitor and confirm the reading is inside the plan's safe band.",
+      "target": "heat-strain-monitor",
+      "title": "Read your heat-strain monitor",
+      "why": "A heat-strain monitor reads the body's own response to the heat, which is what actually matters, rather than the air temperature alone — two people doing the same job in the same heat can carry very different strain. Reading it against the plan's band, rather than against how a person feels, is what catches strain building before it becomes an illness."
+    },
+    {
+      "cue": "Drink from the water and electrolyte station at your scheduled break.",
+      "id": "hydration-break",
+      "kind": "select",
+      "prompt": "Drink from the water and electrolyte station at your scheduled break.",
+      "target": "water-station",
+      "title": "Take your hydration break",
+      "why": "The rotation's hydration guidance names water and electrolyte replacement specifically, on a schedule rather than only when a person feels thirsty — thirst lags well behind the body's actual fluid loss in this kind of heat, so the break is taken on the plan's schedule whether or not anyone feels like they need it yet."
+    },
+    {
+      "cue": "Hold your rest at the cooling station for the plan's full rest interval before returning topside.",
+      "holdBreakNote": "You got up before the interval finished. A cooldown cut short is heat strain carried straight into the next rotation.",
+      "id": "cooldown-rest",
+      "kind": "hold",
+      "prompt": "Hold your rest at the cooling station for the plan's full rest interval before returning topside.",
+      "seconds": 5,
+      "target": "cooling-station",
+      "title": "Take the cooldown in full",
+      "why": "The rest interval is what lets the body actually shed the heat it picked up during the work interval, and cutting it short to get back to work sooner just carries that heat into the next work interval on top of whatever it adds. The interval is taken in full, on the rotation board's schedule, not until a person feels ready to go back."
+    },
+    {
+      "cue": "Confirm with the shift lead that your rest interval is complete before returning topside.",
+      "id": "supervisor-clearance",
+      "kind": "select",
+      "prompt": "Confirm with the shift lead that your rest interval is complete before returning topside.",
+      "target": "shift-lead",
+      "title": "Check in with the shift lead before going back up",
+      "why": "The shift lead is tracking every crew's rotation at once, not just yours, and checking in is what keeps the board's schedule matched to who is actually where — a crew that goes back up on their own clock rather than the shift lead's is a crew the rotation can no longer actually account for."
+    },
+    {
+      "cue": "Check the hopper drive and click what needs a work order.",
+      "id": "final-scan",
+      "itemNames": {
+        "hopper-guard-missing": "a missing guard panel on the hopper drive"
+      },
+      "itemNotes": {
+        "hopper-guard-missing": "The guard panel over the hopper's drive chain has been left off — a reach-in point next to a mechanism that does not stop for a hand any more than the coal it moves does."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Check the hopper drive and click what needs a work order.",
+      "targets": [
+        "hopper-guard-missing"
+      ],
+      "title": "Walk the topside before you sign off",
+      "why": "The rotation covers the heat; it does not cover a guard that went missing during the shift and that the next crew would otherwise find the hard way. A walk before signing off is what catches it while it is still a work order and not an injury report."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "A battery topside shift worked to the plan's heat-stress rotation: PPE on, a buddy checked in with, a leaking door seal luted, the larry car's path respected, cooldown taken in full",
+  "title": "SmartCiti.X~ Coke Oven Heat Rotation VR",
+  "trade": "Coke oven battery topside worker",
+  "underwater": null,
+  "weather": null
+}

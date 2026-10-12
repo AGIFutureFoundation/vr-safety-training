@@ -1,0 +1,411 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "crew-matcher",
+    "name": "Crew Matcher",
+    "note": "Matched trades to each stage of a big build, sorted the tools each trade uses and planned a path into an apprenticeship"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFT",
+        "id": "aft-training",
+        "title": "AFT — American Federation of Teachers training for paraprofessionals and school-related personnel"
+      },
+      {
+        "body": "INEE",
+        "citedAs": "INEE Minimum Standards",
+        "id": "inee-minimum-standards",
+        "title": "INEE Minimum Standards for Education in emergencies, as a body whose standards a lesson is aligned to; it certifies nothing"
+      },
+      {
+        "body": "national curriculum authority",
+        "citedAs": "national curriculum framework",
+        "id": "national-curriculum-framework",
+        "title": "The national curriculum framework the school itself follows, as a category rather than any one country's document; no grade-level code is cited"
+      },
+      {
+        "body": "union",
+        "citedAs": "National Education Association",
+        "id": "nea-training",
+        "title": "NEA apprenticeship and training, as a training body"
+      },
+      {
+        "body": "UN",
+        "citedAs": "Sustainable Development Goal 4",
+        "id": "un-sdg-4-quality-education",
+        "title": "UN Sustainable Development Goal 4 (Quality Education), as a framework a lesson is aligned to; it certifies nothing"
+      },
+      {
+        "body": "UNESCO",
+        "citedAs": "UNESCO education guidance",
+        "id": "unesco-education-guidance",
+        "title": "UNESCO education guidance, as a body whose published guidance a lesson is aligned to; it certifies nothing"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Education",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "clean-read",
+        "name": "First Look",
+        "note": "Everything in the opening scan found first time"
+      },
+      {
+        "id": "no-shortcut",
+        "name": "No Shortcuts",
+        "note": "No misconception or unsafe shortcut anywhere in the run"
+      },
+      {
+        "id": "in-the-band",
+        "name": "In the Band",
+        "note": "Every gauge and meter held inside its band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-run",
+        "name": "Clean Run",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "steady-hands",
+        "name": "Steady Hands",
+        "note": "Every hold and track carried its full count"
+      },
+      {
+        "id": "quick-and-right",
+        "name": "Quick and Right",
+        "note": "Finished inside 80% of par"
+      }
+    ],
+    "currency": "HARD HATS",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Visitor",
+      "Explorer",
+      "Pre-Apprentice",
+      "Apprentice",
+      "Crew Matcher"
+    ],
+    "system": "Workforce Board"
+  },
+  "hazards": {
+    "only-one-kind-of-job": "You said a big build is just construction workers. A large site needs surveyors, operators, electricians, pipefitters, ironworkers, carpenters, welders, painters, mechanics and many more, and after it opens it needs people to run and repair it. There are many different trades to choose from.",
+    "skip-the-safety-talk": "You wanted to skip the safety talk. Every crew starts the day by talking through the jobs, the risks and who does what. It takes a few minutes and it is how the whole crew gets home well. Skipping it is never a shortcut.",
+    "trades-need-no-school": "You said trades need no maths or reading. Electricians work with measurements and formulas, fitters read drawings, operators read load charts, and everyone reads safety labels. The maths and reading from school are tools of every trade.",
+    "try-the-tool-without-training": "You reached for a power tool. Power tools are used by trained people wearing the right protection, after they learn how. In the workforce centre, tools on the wall are for looking at; you would learn to use them step by step in a training programme."
+  },
+  "id": "k12-lk-the-crews-behind-a-big-build",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "hold-the-level-on-the-model",
+      "alert": "A forklift beeps as it reverses across the training bay with a pallet.",
+      "cue": "Step onto the marked walkway and wait until the forklift has passed.",
+      "delay": 3,
+      "id": "a-forklift-beeps-in-the-training-bay",
+      "kind": "Moving machine",
+      "missNote": "The class stayed in the bay while the forklift reversed. When a reversing alarm beeps, step back to the marked walkway and wait until the driver has stopped and seen you.",
+      "seconds": 12,
+      "target": "lkj-step-aside",
+      "why": "A reversing beep means a machine is backing up and the driver's view is limited. Moving to the walkway and waiting keeps you where the driver expects people to be. On every site, people and machines keep to their own lanes.",
+      "wrongNote": "That keeps the class in the forklift's path. Step onto the walkway. Choose the response that deals with it now."
+    },
+    {
+      "after": "follow-the-concrete-truck-to-the",
+      "alert": "The coordinator asks which school subjects help in a trade.",
+      "cue": "Say maths and reading help every trade, for measuring, drawings and safety labels.",
+      "delay": 3,
+      "id": "the-coordinator-asks-about-school-subjects",
+      "kind": "Coordinator question",
+      "missNote": "You could not name a useful subject, and the coordinator explained before the class went on.",
+      "seconds": 12,
+      "target": "lkj-name-maths",
+      "why": "Every trade measures, reads drawings and follows written instructions. Knowing that shows why doing well in school keeps doors open to every kind of work on a big build.",
+      "wrongNote": "That does not name a subject. Say which subjects help and why. Choose the response that deals with it now."
+    }
+  ],
+  "lateNotes": {
+    "lkj-checkin": "The check-in comes at the end of the visit.",
+    "lkj-trade-log": "The trade list is written once you have explored the site model — nothing to record yet."
+  },
+  "name": "The Crews Behind a Big Build",
+  "parSeconds": 330,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "k12-literacy-and-life-skills"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "lkj-banner",
+      "lkj-checkin",
+      "lkj-electrician",
+      "lkj-hat-token",
+      "lkj-hvac",
+      "lkj-level-hold",
+      "lkj-match-dial",
+      "lkj-name-maths",
+      "lkj-operator",
+      "lkj-ord-finish",
+      "lkj-ord-frame",
+      "lkj-ord-site",
+      "lkj-ord-systems",
+      "lkj-path-spot",
+      "lkj-result-card",
+      "lkj-safety",
+      "lkj-share-board",
+      "lkj-step-aside",
+      "lkj-survey",
+      "lkj-talk-card",
+      "lkj-tape-meter",
+      "lkj-trade-log",
+      "lkj-tree",
+      "lkj-truck-track",
+      "lkj-utility",
+      "only-one-kind-of-job",
+      "skip-the-safety-talk",
+      "trades-need-no-school",
+      "try-the-tool-without-training"
+    ],
+    "meshes": 275
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Mark the three kinds of work that happen before any building goes up.",
+      "decoyNotes": {
+        "lkj-banner": "It names the project, but it is not a crew."
+      },
+      "id": "find-the-first-crews-on-a",
+      "itemNames": {
+        "lkj-operator": "an operator on a dozer",
+        "lkj-survey": "a surveyor with a tripod",
+        "lkj-utility": "a utility crew laying pipe"
+      },
+      "itemNotes": {
+        "lkj-operator": "Clears and levels the ground.",
+        "lkj-survey": "Measures and marks the land.",
+        "lkj-utility": "Brings water and power in."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Mark the three kinds of work that happen before any building goes up.",
+      "targets": [
+        "lkj-survey",
+        "lkj-operator",
+        "lkj-utility"
+      ],
+      "title": "Find the first crews on a new site",
+      "why": "A big build starts long before the walls go up. Surveyors measure the land and mark where everything will go. Equipment operators clear and level the ground with large machines. Utility crews bring in water, power and roads. Knowing the order shows that a big build is a chain of trades, each ready for the next."
+    },
+    {
+      "cue": "Order the stages from bare land to a working building.",
+      "id": "put-the-stages-of-the-build",
+      "itemNames": {
+        "lkj-ord-finish": "4 · finish, test and open the building",
+        "lkj-ord-frame": "2 · raise the steel and concrete frame",
+        "lkj-ord-site": "1 · clear, level and pour foundations",
+        "lkj-ord-systems": "3 · install power, pipes and cooling"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order. The ground has to be ready before any steel goes up.",
+      "prompt": "Order the stages from bare land to a working building.",
+      "targets": [
+        "lkj-ord-site",
+        "lkj-ord-frame",
+        "lkj-ord-systems",
+        "lkj-ord-finish"
+      ],
+      "title": "Put the stages of the build in order",
+      "why": "Each stage of a build needs different trades. Site work comes first: clearing, levelling and foundations. Then the structure goes up with steel and concrete. Next come the systems: power, pipes, heating and cooling. Last is finishing and testing before the building opens. Seeing the stages shows how one project keeps many trades busy for a long time."
+    },
+    {
+      "cue": "Stand with the crew at the board and listen to the morning safety talk.",
+      "id": "join-the-morning-safety-talk",
+      "kind": "select",
+      "prompt": "Stand with the crew at the board and listen to the morning safety talk.",
+      "target": "lkj-talk-card",
+      "title": "Join the morning safety talk",
+      "why": "Every good crew starts the same way: a short talk about what work is planned, what could hurt someone and how the crew will prevent it. Everyone listens, and anyone can ask a question or raise a worry. Joining the talk shows that on a well-run site, safety is part of the job, not something extra."
+    },
+    {
+      "cue": "Turn the matching dial until the pipefitter lines up with the pipe wrench.",
+      "id": "turn-the-dial-to-match-a",
+      "kind": "turn",
+      "prompt": "Turn the matching dial until the pipefitter lines up with the pipe wrench.",
+      "target": "lkj-match-dial",
+      "title": "Turn the dial to match a trade to its tool",
+      "turn": {
+        "axis": "y",
+        "label": "MATCH",
+        "turns": 0.5
+      },
+      "why": "Every trade has tools it knows best. Pipefitters use pipe wrenches and threaders, electricians use testers and wire strippers, and ironworkers use spud wrenches and harnesses. Matching tools to trades helps you picture a day in each job and notice which kind of work suits the way you like to use your hands."
+    },
+    {
+      "cue": "Commit when the marker sits at the length the drawing asks for on the tape.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.58
+        ],
+        "label": "TAPE",
+        "missNote": "Not at the length yet. Read the mark the drawing asks for.",
+        "speed": 0.6
+      },
+      "id": "read-the-tape-to-the-drawings",
+      "kind": "gauge",
+      "prompt": "Commit when the marker sits at the length the drawing asks for on the tape.",
+      "target": "lkj-tape-meter",
+      "title": "Read the tape to the drawing's length",
+      "why": "Trades turn drawings into real things, and that means measuring exactly. The drawing gives a length; the tape shows it on the material. Reading the tape carefully is the difference between a part that fits and one that must be made again. Measuring is school maths used every single day on site."
+    },
+    {
+      "cue": "Hold the spirit level on the model beam until the bubble settles in the middle.",
+      "holdBreakNote": "The level moved and the bubble ran off. Hold it still and let it settle.",
+      "id": "hold-the-level-on-the-model",
+      "kind": "hold",
+      "prompt": "Hold the spirit level on the model beam until the bubble settles in the middle.",
+      "seconds": 6,
+      "target": "lkj-level-hold",
+      "title": "Hold the level on the model beam",
+      "why": "A spirit level shows whether something is truly flat. The bubble moves to the high end and sits in the middle only when the beam is level. Holding it still gives the bubble time to settle so you can read it. A carpenter, an ironworker and a mason all use a level many times a day."
+    },
+    {
+      "cue": "Drag your hard hat token onto the pathway board at the pre-apprentice step.",
+      "drag": {
+        "missNote": "Not on the pre-apprentice step yet. Place it at the first training step.",
+        "radius": 0.45,
+        "to": "lkj-path-spot"
+      },
+      "id": "put-your-hard-hat-on-the",
+      "kind": "drag",
+      "prompt": "Drag your hard hat token onto the pathway board at the pre-apprentice step.",
+      "target": "lkj-hat-token",
+      "title": "Put your hard hat on the pathway board",
+      "why": "A pathway board shows how people move into a trade: exploring the trades at school, a pre-apprenticeship to learn the basics and safety, an apprenticeship to learn the full trade while earning, and then journey-level work. Placing your token at the first training step shows where a learner could begin after school."
+    },
+    {
+      "cue": "Look at the finished-building side of the model and mark three kinds of work that keep it running.",
+      "decoyNotes": {
+        "lkj-tree": "Nice to have, but not a kind of work."
+      },
+      "id": "spot-the-trades-that-run-the",
+      "itemNames": {
+        "lkj-electrician": "an electrician at a panel",
+        "lkj-hvac": "a technician on the cooling units",
+        "lkj-safety": "a safety officer on a walk-round"
+      },
+      "itemNotes": {
+        "lkj-electrician": "Keeps the power on safely.",
+        "lkj-hvac": "Keeps things at the right temperature.",
+        "lkj-safety": "Looks after the people inside."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look at the finished-building side of the model and mark three kinds of work that keep it running.",
+      "targets": [
+        "lkj-electrician",
+        "lkj-hvac",
+        "lkj-safety"
+      ],
+      "title": "Spot the trades that run the finished building",
+      "why": "When a building opens, the work does not stop. Electricians keep the power safe and working. Heating and cooling technicians keep the air and equipment at the right temperature. Security and safety staff look after the people inside. These long-term jobs mean a big build can lead to careers that last."
+    },
+    {
+      "cue": "Choose the sentence that describes an apprenticeship correctly.",
+      "id": "say-what-an-apprenticeship-is",
+      "kind": "select",
+      "prompt": "Choose the sentence that describes an apprenticeship correctly.",
+      "target": "lkj-result-card",
+      "title": "Say what an apprenticeship is",
+      "why": "An apprenticeship is a way into a trade where you are paid while you learn. Apprentices work on real jobs beside experienced workers and also take classes, step by step, until they reach full skill in the trade. A good answer includes both parts: learning on the job and in class, while earning."
+    },
+    {
+      "cue": "Keep the marker on the model concrete truck as it drives from the gate to the pour.",
+      "holdBreakNote": "The marker lost the truck. Find it again and follow it to the pour.",
+      "id": "follow-the-concrete-truck-to-the",
+      "kind": "track",
+      "prompt": "Keep the marker on the model concrete truck as it drives from the gate to the pour.",
+      "seconds": 8,
+      "target": "lkj-truck-track",
+      "title": "Follow the concrete truck to the pour",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.38,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "FOLLOW",
+        "rise": 0.46,
+        "start": 0.3
+      },
+      "why": "Following one delivery shows how many crews one task needs. The driver brings the truck, a flagger guides it, labourers place the concrete, and finishers smooth it. Each depends on the others doing their part at the right moment. Big builds work because crews plan and talk to one another all day."
+    },
+    {
+      "cue": "Write the names of three trades and one thing each one does.",
+      "id": "record-three-trades-you-want-to",
+      "kind": "select",
+      "prompt": "Write the names of three trades and one thing each one does.",
+      "target": "lkj-trade-log",
+      "title": "Record three trades you want to learn about",
+      "why": "Writing down trades that interest you turns a visit into a plan. Later you can look each one up, ask a teacher or talk to someone who does the work. Choosing a career starts with noticing what you enjoy, and a short list is a good first step."
+    },
+    {
+      "cue": "Tell a partner which trade you picked first and why it suits you.",
+      "id": "tell-a-partner-which-trade-suits",
+      "kind": "select",
+      "prompt": "Tell a partner which trade you picked first and why it suits you.",
+      "target": "lkj-share-board",
+      "title": "Tell a partner which trade suits you",
+      "why": "Saying your choice out loud helps you think it through. Your partner might notice a reason you had not thought of, or suggest a trade you missed. Crews talk through choices together too, because good decisions come from sharing ideas."
+    },
+    {
+      "cue": "Name two trades a big build needs. What is an apprenticeship?",
+      "id": "crew-check-in",
+      "kind": "select",
+      "prompt": "Name two trades a big build needs. What is an apprenticeship?",
+      "target": "lkj-checkin",
+      "title": "Check in before leaving the centre",
+      "why": "The coordinator ends the visit by checking what each learner will take away. Everyone names two trades and describes an apprenticeship in their own words. If anyone still thinks a big build is only one kind of job, the group sorts it out now."
+    }
+  ],
+  "supportLine": "your teacher, a school counsellor or a trusted adult at home — if anything in this lesson was hard, talk it through afterwards",
+  "tagline": "Surveyors to electricians, operators to painters — match the crews to the work and plan a path into a trade",
+  "title": "SmartCiti.X~ The Crews Behind a Big Build VR",
+  "trade": "Careers awareness at a workforce centre beside a large Louisiana development site — learner and apprenticeship coordinator",
+  "underwater": null,
+  "weather": "clear"
+}

@@ -1,0 +1,407 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "tested-not-guessed",
+    "name": "Tested, Not Guessed",
+    "note": "Every delivery temperature probed, the sanitizer tested to the strip, and nothing left holding at a strength nobody actually checked"
+  },
+  "category": "Culinary & Hospitality",
+  "certification": "AFT and CSEA school nutrition training; the California Retail Food Code (the FDA Food Code as adopted) for receiving temperatures, date marking and warewashing; ServSafe Food Protection Manager practice for the sanitizer contact time and concentration; OSHA's Hazard Communication standard (29 CFR 1910.1200) for the sanitizer's own SDS and label; NSF/ANSI 2 for the food-contact equipment in the dish room",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFT",
+        "id": "aft-training",
+        "title": "AFT — American Federation of Teachers training for paraprofessionals and school-related personnel"
+      },
+      {
+        "body": "CalCode",
+        "citedAs": "California Retail Food Code",
+        "id": "calcode-retail-food",
+        "title": "California Retail Food Code (Health and Safety Code Division 104, Part 7) — the FDA Food Code as California adopts it"
+      },
+      {
+        "body": "union",
+        "citedAs": "CSEA",
+        "id": "csea-training",
+        "title": "CSEA — California School Employees Association training for classified school employees"
+      },
+      {
+        "body": "FDA",
+        "citedAs": "FDA Food Code",
+        "id": "fda-food-code",
+        "title": "FDA Food Code — the model code for retail food establishments"
+      },
+      {
+        "body": "NSF",
+        "citedAs": "NSF/ANSI 2",
+        "id": "nsf-ansi-2",
+        "title": "NSF/ANSI 2 — Food equipment"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1200",
+        "id": "osha-1910-1200",
+        "title": "29 CFR 1910.1200 — Hazard communication"
+      },
+      {
+        "body": "ServSafe",
+        "citedAs": "ServSafe",
+        "id": "servsafe-certification",
+        "title": "ServSafe Food Protection Manager and ServSafe Alcohol certification (National Restaurant Association)"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Culinary & Hospitality",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "never-accepted-blind",
+        "name": "Never Accepted Blind",
+        "note": "Every delivery temperature-checked and inspected before signing for it"
+      },
+      {
+        "id": "clean-shift",
+        "name": "Clean Shift",
+        "note": "No corrections across the whole shift"
+      },
+      {
+        "id": "steady-rack-feed",
+        "name": "Steady Rack Feed",
+        "note": "The dish rack feed rate held in band without a break"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "dock-cleared-on-time",
+        "name": "Dock Cleared on Time",
+        "note": "Whole receiving and dish-room run finished inside 80% of par"
+      },
+      {
+        "id": "one-pass-delivery-check",
+        "name": "One-Pass Delivery Check",
+        "note": "Delivery inspection clean on the first pass"
+      },
+      {
+        "id": "nine-in-a-row",
+        "name": "Nine in a Row",
+        "note": "Nine correct actions in a row"
+      }
+    ],
+    "currency": "PPM",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Kitchen Aide",
+      "Nutrition Worker",
+      "Lead Nutrition Worker",
+      "Kitchen Manager",
+      "Food Safety Certified"
+    ],
+    "system": "Dock to Dish Room"
+  },
+  "hazards": {
+    "accept-damaged-can-without-check": "That can is swollen at both ends and it's headed for the shelf anyway. A swollen can is a sign of gas from bacterial growth inside it, and it gets rejected on sight — not opened, not tasted, not shelved next to cans that are fine.",
+    "bare-hand-in-dish-water": "That's a bare hand going into the hot sanitizer basin instead of the tongs or the rack. The basin runs hot enough to scald and concentrated enough to irritate skin on prolonged contact — hands stay out of it, full stop.",
+    "mixed-chemical-storage-near-food": "That's a shelf of cleaning chemicals sitting directly above open food product. Anything that leaks or gets knocked off that shelf lands in the food below it — chemicals are stored below and away from food, never over it.",
+    "sanitizer-bypass-eyeball": "That's mixing the sanitizer by eye instead of reading the test strip. A solution too weak doesn't actually sanitize anything sitting in it for the full contact time, and one too strong is its own hazard on food-contact surfaces — the strip is what turns a guess into a known concentration."
+  },
+  "id": "ed-kitchen-receiving-and-warewash-sanitizing",
+  "indoor": "kitchen",
+  "interrupts": [
+    {
+      "after": "dish-contact-time",
+      "alert": "A server has grabbed a stack of plates straight off the rack, before the sanitizer's contact time actually finished.",
+      "cue": "Ring the pass-through bell and call them back now.",
+      "delay": 2,
+      "id": "plates-pulled-early",
+      "kind": "A server grabs plates before contact time finishes",
+      "missNote": "The plates left the dish room before contact time finished — sanitizer at the right concentration still needs its full time to work, and a shortened dip is the same as skipping it.",
+      "seconds": 10,
+      "target": "expo-bell",
+      "why": "Plates pulled before contact time are plates that were in the sanitizer without ever actually reaching the exposure the label's concentration depends on — the fix is calling the server back before they clear the pass-through, not letting them go and noting it for later.",
+      "wrongNote": "The pass-through bell — ring it now, before the server carries those plates any further."
+    },
+    {
+      "after": "feed-dish-rack",
+      "alert": "A stack of trays has jammed sideways in the dish machine, and the belt is grinding against them.",
+      "cue": "Hit the emergency stop.",
+      "delay": 2,
+      "id": "machine-jam",
+      "kind": "The dish machine jams on a stack of trays",
+      "missNote": "The belt kept grinding against the jam — a machine that stays powered while jammed is one more turn away from damaging the belt or catching a hand reaching in to clear it.",
+      "seconds": 9,
+      "target": "machine-estop",
+      "why": "A jammed machine still under power is stressing both the belt and whatever's jammed against it — the emergency stop cuts power immediately, before anyone reaches in to clear the jam by hand while the belt is still trying to move.",
+      "wrongNote": "The emergency stop — that cuts the belt before anyone reaches toward the jam."
+    }
+  ],
+  "lateNotes": {
+    "dish-basket": "The dishes go in for contact time once the sanitizer has actually tested at the right concentration, not before.",
+    "test-strip-reader": "Not yet — the sanitizer gets tested once the sink or machine is actually filled and dialled in, not before."
+  },
+  "name": "Kitchen Receiving & Warewash Sanitizing",
+  "parSeconds": 320,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "education-support-staff"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.8,
+    "hits": [
+      "accept-damaged-can-without-check",
+      "bare-hand-in-dish-water",
+      "chemicals-locked",
+      "clean-rack",
+      "damaged-case",
+      "date-label-applied",
+      "delivery-thermometer",
+      "dish-basket",
+      "dish-machine",
+      "drains-covered",
+      "expo-bell",
+      "kitchen-log",
+      "lights-off",
+      "machine-estop",
+      "manifest-board",
+      "mixed-chemical-storage-near-food",
+      "new-stock-placed-back",
+      "oldest-moved-front",
+      "pest-droppings",
+      "return-pallet-spot",
+      "sanitizer-bypass-eyeball",
+      "sanitizer-dispenser",
+      "storage-shelf-spot",
+      "swollen-can",
+      "test-strip-reader",
+      "torn-packaging"
+    ],
+    "meshes": 119
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the manifest for what's arriving and what temperature each item should hold.",
+      "id": "read-manifest",
+      "kind": "select",
+      "prompt": "Read the manifest for what's arriving and what temperature each item should hold.",
+      "target": "manifest-board",
+      "title": "Read today's delivery manifest",
+      "why": "The manifest is what tells the receiving worker whether a pallet of frozen goods is actually supposed to be frozen solid or partly thawed by design — without reading it first, a temperature reading at the dock means nothing to compare it against."
+    },
+    {
+      "cue": "Probe a case from the reefer and commit the reading against the manifest's expected range.",
+      "gauge": {
+        "green": [
+          0.3,
+          0.5
+        ],
+        "label": "DELIVERY TEMP",
+        "missNote": "Outside the expected range for this item. A delivery that's climbed out of range on the way here doesn't get accepted on the strength of the manifest alone.",
+        "speed": 0.6
+      },
+      "id": "probe-delivery-temp",
+      "kind": "gauge",
+      "prompt": "Probe a case from the reefer and commit the reading against the manifest's expected range.",
+      "target": "delivery-thermometer",
+      "title": "Probe the delivery truck's temperature",
+      "why": "A reefer unit's own dial says where the truck's controls are set, not what the product inside actually reached over the whole trip — probing the food itself is the only way to know it never left the safe range between the supplier's dock and this one."
+    },
+    {
+      "cue": "Three things about this delivery are not right. Find them before it comes inside.",
+      "id": "delivery-inspect",
+      "itemNames": {
+        "pest-droppings": "signs of pests on the pallet",
+        "swollen-can": "the swollen can",
+        "torn-packaging": "the torn case packaging"
+      },
+      "itemNotes": {
+        "pest-droppings": "There are pest droppings on this pallet's wrapping. A delivery that arrives with pest signs already on it gets refused at the dock, not brought inside to deal with later.",
+        "swollen-can": "This can is swollen at both ends. That's gas from bacterial activity inside a sealed can, and it's pulled and rejected before it ever reaches a shelf.",
+        "torn-packaging": "This case's packaging is torn open on one corner. Torn packaging means the product inside was exposed somewhere between the supplier and this dock, and it doesn't get shelved without a closer look at what's actually inside."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Three things about this delivery are not right. Find them before it comes inside.",
+      "targets": [
+        "torn-packaging",
+        "pest-droppings",
+        "swollen-can"
+      ],
+      "title": "Inspect the delivery before it comes off the dock",
+      "why": "The dock is the one point in the whole chain where a bad case can be turned around and sent back rather than becoming this kitchen's problem — every one of these three signs is easy to miss once the pallet is already broken down and shelved among cases that are fine."
+    },
+    {
+      "cue": "Carry the case with the swollen can to the return pallet, separate from accepted stock.",
+      "drag": {
+        "missNote": "Not on the return pallet yet. A rejected case stays separate from accepted stock until it's actually off this dock.",
+        "radius": 0.5,
+        "to": "return-pallet-spot"
+      },
+      "id": "reject-damaged-case",
+      "kind": "drag",
+      "prompt": "Carry the case with the swollen can to the return pallet, separate from accepted stock.",
+      "target": "damaged-case",
+      "title": "Set the damaged case aside for return",
+      "why": "A rejected case has to physically leave the path to the shelves, not just get a note written about it — the return pallet is where it goes so nobody restocking later mistakes it for something already cleared."
+    },
+    {
+      "anyOrder": false,
+      "cue": "Date-label the new delivery, move the oldest stock to the front, then place the new stock behind it, in that order.",
+      "id": "date-and-rotate",
+      "itemNames": {
+        "date-label-applied": "date label applied",
+        "new-stock-placed-back": "new stock placed behind it",
+        "oldest-moved-front": "oldest stock moved to the front"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Date it, then move the old stock forward, then place the new stock behind — the shelf can't be rotated correctly until today's delivery is actually dated.",
+      "prompt": "Date-label the new delivery, move the oldest stock to the front, then place the new stock behind it, in that order.",
+      "targets": [
+        "date-label-applied",
+        "oldest-moved-front",
+        "new-stock-placed-back"
+      ],
+      "title": "Date and rotate the stock",
+      "why": "First-in-first-out only works if the oldest stock is actually in front of the newest, and it stays that way only if new stock always goes in behind — dating comes first because a shelf full of undated cases has no way to know which one is oldest at all."
+    },
+    {
+      "cue": "Turn the dispenser's selector to the sanitizer's labelled concentration.",
+      "id": "sanitizer-mix",
+      "kind": "turn",
+      "prompt": "Turn the dispenser's selector to the sanitizer's labelled concentration.",
+      "target": "sanitizer-dispenser",
+      "title": "Dial in the sanitizer dispenser",
+      "turn": {
+        "label": "SANITIZER DIAL",
+        "turns": 0.5
+      },
+      "why": "The dispenser is built to hit one specific concentration reliably, the same way the dilution station in the supply closet is — turning the selector to the label's own setting is what makes the test strip step that follows a confirmation instead of a guess."
+    },
+    {
+      "cue": "Dip the test strip and commit the reading against the label's required band.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "SANITIZER PPM",
+        "missNote": "Off the label's band. Adjust the dispenser and test again before anything goes into the basin.",
+        "speed": 0.6
+      },
+      "id": "sanitizer-concentration-gauge",
+      "kind": "gauge",
+      "prompt": "Dip the test strip and commit the reading against the label's required band.",
+      "target": "test-strip-reader",
+      "title": "Test the sanitizer concentration",
+      "why": "The dispenser's dial says where it's set, not what actually came out of it today — the test strip is the only proof the basin or the machine is actually sanitizing at the concentration the label calls for, checked fresh at the start of the shift."
+    },
+    {
+      "cue": "Hold the basket submerged for the full contact time before pulling it out.",
+      "holdBreakNote": "The basket came out before contact time finished. A short dip at the right concentration still isn't the same as the full time the label calls for.",
+      "id": "dish-contact-time",
+      "kind": "hold",
+      "prompt": "Hold the basket submerged for the full contact time before pulling it out.",
+      "seconds": 6,
+      "target": "dish-basket",
+      "title": "Hold dishes through the sanitizer's contact time",
+      "why": "A dish pulled early has been in the sanitizer without actually reaching the exposure time the label's concentration is built around — the basket stays down for the whole hold, not until it looks clean, because looking clean and being sanitized are two different things."
+    },
+    {
+      "cue": "Keep the rack feed rate steady as the machine runs.",
+      "holdBreakNote": "Feed rate out of band — too slow backs up the line, too fast outruns the machine's own cycle. Bring it back to steady.",
+      "id": "feed-dish-rack",
+      "kind": "track",
+      "prompt": "Keep the rack feed rate steady as the machine runs.",
+      "seconds": 6,
+      "target": "dish-machine",
+      "title": "Feed the dish machine at a steady rate",
+      "track": {
+        "drift": 0.1,
+        "fall": 0.38,
+        "green": [
+          0.38,
+          0.6
+        ],
+        "label": "FEED RATE",
+        "rise": 0.4,
+        "start": 0.2
+      },
+      "why": "A rack fed too fast doesn't give the machine's own wash-rinse-sanitize cycle time to finish on each load, and one fed too slow backs up everything behind it — a steady feed rate is what keeps every rack getting the full cycle it needs."
+    },
+    {
+      "cue": "Carry the finished rack of clean dishes to the drying and storage shelf.",
+      "drag": {
+        "missNote": "Not at the storage shelf yet. Carry the rack all the way clear of the machine's splash zone.",
+        "radius": 0.5,
+        "to": "storage-shelf-spot"
+      },
+      "id": "move-clean-rack",
+      "kind": "drag",
+      "prompt": "Carry the finished rack of clean dishes to the drying and storage shelf.",
+      "target": "clean-rack",
+      "title": "Move the clean rack to storage",
+      "why": "A clean rack left sitting at the machine's outfeed is a clean rack at risk of getting splashed by the next dirty load coming through — moving it straight to storage keeps sanitized dishes sanitized until they're actually needed."
+    },
+    {
+      "cue": "Record the delivery temperature, the rejected case and today's sanitizer concentration.",
+      "id": "log-receiving-and-sanitizer",
+      "kind": "select",
+      "prompt": "Record the delivery temperature, the rejected case and today's sanitizer concentration.",
+      "target": "kitchen-log",
+      "title": "Log receiving temps and sanitizer readings",
+      "why": "The log is the kitchen's own proof, if a health inspector or the district ever asks, that the delivery was actually checked and the sanitizer actually tested today — a clean dish room with no record behind it can't answer that question."
+    },
+    {
+      "anyOrder": false,
+      "cue": "Cover the floor drains, lock the chemicals away, then turn off the lights, in that order.",
+      "id": "close-down-kitchen",
+      "itemNames": {
+        "chemicals-locked": "chemicals locked away",
+        "drains-covered": "floor drains covered",
+        "lights-off": "lights off"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Drains, then chemicals locked, then the lights — the chemicals get secured before the room goes dark, not as an afterthought on the way out.",
+      "prompt": "Cover the floor drains, lock the chemicals away, then turn off the lights, in that order.",
+      "targets": [
+        "drains-covered",
+        "chemicals-locked",
+        "lights-off"
+      ],
+      "title": "Close down the kitchen",
+      "why": "Chemicals get locked away before the lights go off because that's the one closing task that keeps food and cleaning chemicals apart overnight — the drains and the lights matter, but a chemical cabinet left unlocked overnight is the one mistake that's still a problem when the doors open again tomorrow."
+    }
+  ],
+  "supportLine": "your AFT or CSEA chapter's member assistance line, or the district's employee assistance programme",
+  "tagline": "The dock before the walk-in: the delivery's temperature probed, damage and pest signs caught before a case is accepted, stock dated and rotated oldest first, a damaged case turned away, the sanitizer mixed to the test strip rather than by eye, dishes timed through contact, the rack fed at a steady pace, and the room closed with the chemicals locked away from the food",
+  "title": "SmartCiti.X~ Kitchen Receiving & Warewash Sanitizing VR",
+  "trade": "AFT- or CSEA-represented school nutrition worker receiving deliveries and running the dish room",
+  "underwater": null,
+  "weather": "overcast"
+}

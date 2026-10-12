@@ -1,0 +1,411 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "sky-reader",
+    "name": "Sky Reader",
+    "note": "Clouds, wind and the station's instruments read together, weather told apart from climate and a forecast stated as a likelihood"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFT",
+        "id": "aft-training",
+        "title": "AFT — American Federation of Teachers training for paraprofessionals and school-related personnel"
+      },
+      {
+        "body": "INEE",
+        "citedAs": "INEE Minimum Standards",
+        "id": "inee-minimum-standards",
+        "title": "INEE Minimum Standards for Education in emergencies, as a body whose standards a lesson is aligned to; it certifies nothing"
+      },
+      {
+        "body": "national curriculum authority",
+        "citedAs": "national curriculum framework",
+        "id": "national-curriculum-framework",
+        "title": "The national curriculum framework the school itself follows, as a category rather than any one country's document; no grade-level code is cited"
+      },
+      {
+        "body": "union",
+        "citedAs": "National Education Association",
+        "id": "nea-training",
+        "title": "NEA apprenticeship and training, as a training body"
+      },
+      {
+        "body": "UN",
+        "citedAs": "Sustainable Development Goal 4",
+        "id": "un-sdg-4-quality-education",
+        "title": "UN Sustainable Development Goal 4 (Quality Education), as a framework a lesson is aligned to; it certifies nothing"
+      },
+      {
+        "body": "UNESCO",
+        "citedAs": "UNESCO education guidance",
+        "id": "unesco-education-guidance",
+        "title": "UNESCO education guidance, as a body whose published guidance a lesson is aligned to; it certifies nothing"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Education",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "clean-read",
+        "name": "First Look",
+        "note": "Everything in the opening scan found first time"
+      },
+      {
+        "id": "no-shortcut",
+        "name": "No Shortcuts",
+        "note": "No misconception or unsafe shortcut anywhere in the run"
+      },
+      {
+        "id": "in-the-band",
+        "name": "In the Band",
+        "note": "Every gauge and meter held inside its band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-run",
+        "name": "Clean Run",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "steady-hands",
+        "name": "Steady Hands",
+        "note": "Every hold and track carried its full count"
+      },
+      {
+        "id": "quick-and-right",
+        "name": "Quick and Right",
+        "note": "Finished inside 80% of par"
+      }
+    ],
+    "currency": "OBSERVATIONS",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Watcher",
+      "Observer",
+      "Recorder",
+      "Forecaster",
+      "Meteorologist"
+    ],
+    "system": "Sky Board"
+  },
+  "hazards": {
+    "forecast-is-a-promise": "You said the forecast promised no rain. A forecast gives the likelihood of weather from what the instruments show now; it can be wrong, which is why it is stated as a chance, and why forecasters keep checking and updating.",
+    "one-cold-day-disproves-climate": "You said one cold day shows the climate is not changing. Weather is what the sky does today; climate is the pattern over many years. One day, cold or hot, cannot tell you about a pattern that needs decades of records to see.",
+    "stay-out-with-thunder": "You wanted to stay outside to watch the storm. When thunder can be heard, lightning is close enough to be dangerous; the field lab's rule is everyone indoors, and the instruments keep recording without you.",
+    "wind-named-by-where-it-goes": "You named the wind by where it was blowing to. Winds are named by where they come from, so a wind from the sea is a sea wind even though it blows inland. Getting it backwards turns every forecast you read upside down."
+  },
+  "id": "k12-weather-and-the-sky",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "hold-the-compass-steady-to-read",
+      "alert": "A low rumble of thunder rolls in from the hills.",
+      "cue": "Go straight indoors with your group and wait for the technician's all-clear.",
+      "delay": 3,
+      "id": "thunder-is-heard",
+      "kind": "Thunder",
+      "missNote": "The group stayed out to watch, and the technician had to call everyone in as the storm arrived.",
+      "seconds": 12,
+      "target": "kws-go-indoors",
+      "why": "If you can hear thunder, lightning is close enough to strike. Going straight inside with your group, and waiting for the all-clear, is the rule weather services give everyone; the instruments keep recording while you are safe.",
+      "wrongNote": "That keeps you outside. Go indoors now. Choose the response that deals with it now."
+    },
+    {
+      "after": "follow-the-gusts-on-the-wind",
+      "alert": "The field technician asks you which way the wind is blowing.",
+      "cue": "Say where the wind is coming from, reading the windsock and compass.",
+      "delay": 3,
+      "id": "the-technician-asks-wind-direction",
+      "kind": "Technician question",
+      "missNote": "You said where the wind was going, and the technician's log would have been backwards.",
+      "seconds": 12,
+      "target": "kws-say-wind",
+      "why": "The technician is checking you name winds by their source. Saying where it comes from, and how you read it, shows you would write the same thing in the station log as they would.",
+      "wrongNote": "That names where it goes, not where it comes from. Choose the response that deals with it now."
+    }
+  ],
+  "lateNotes": {
+    "kws-checkin": "The check-in comes at the very end of the lesson.",
+    "kws-sky-log": "The weather record is written once every reading is taken — nothing to record yet."
+  },
+  "name": "Weather and the Sky",
+  "parSeconds": 330,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "k12-science"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "forecast-is-a-promise",
+      "kws-checkin",
+      "kws-cloud-spot",
+      "kws-cloud-token",
+      "kws-clouds",
+      "kws-compare-card",
+      "kws-compass",
+      "kws-go-indoors",
+      "kws-gulls-flying",
+      "kws-lg-climate",
+      "kws-lg-sketch",
+      "kws-lg-time",
+      "kws-lg-wind",
+      "kws-lightning-card",
+      "kws-ord-instruments",
+      "kws-ord-sky",
+      "kws-ord-wind",
+      "kws-ord-write",
+      "kws-rain-meter",
+      "kws-say-wind",
+      "kws-share-board",
+      "kws-sky-log",
+      "kws-station-display",
+      "kws-track-meter",
+      "kws-wind-dial",
+      "kws-windsock",
+      "one-cold-day-disproves-climate",
+      "stay-out-with-thunder",
+      "wind-named-by-where-it-goes"
+    ],
+    "meshes": 240
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Mark the three things you read before describing today's weather.",
+      "decoyNotes": {
+        "kws-gulls-flying": "Folk sayings about gulls are fun but are not a reliable instrument."
+      },
+      "id": "find-what-the-sky-and-station",
+      "itemNames": {
+        "kws-clouds": "the kind of cloud overhead",
+        "kws-station-display": "the station's live display",
+        "kws-windsock": "the windsock on its mast"
+      },
+      "itemNotes": {
+        "kws-clouds": "Tall, heaped clouds and flat grey sheets bring different weather.",
+        "kws-station-display": "It shows readings the lesson can use; no figures are invented.",
+        "kws-windsock": "It points away from where the wind comes from."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Mark the three things you read before describing today's weather.",
+      "targets": [
+        "kws-clouds",
+        "kws-windsock",
+        "kws-station-display"
+      ],
+      "title": "Find what the sky and station show",
+      "why": "Describing the weather properly means reading the sky and the instruments together: the kind of cloud, which way the wind is coming from, and what the station's displays show. Each one alone can mislead; all three together give a description another observer would recognise."
+    },
+    {
+      "cue": "Look at the sky, read the wind, read the instruments, then write the observation.",
+      "id": "put-the-observation-in-order",
+      "itemNames": {
+        "kws-ord-instruments": "3 · read the instruments",
+        "kws-ord-sky": "1 · look at the sky",
+        "kws-ord-wind": "2 · read where the wind comes from",
+        "kws-ord-write": "4 · write the observation"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order. Start with the sky and the wind before the instruments.",
+      "prompt": "Look at the sky, read the wind, read the instruments, then write the observation.",
+      "targets": [
+        "kws-ord-sky",
+        "kws-ord-wind",
+        "kws-ord-instruments",
+        "kws-ord-write"
+      ],
+      "title": "Put the observation in order",
+      "why": "Looking at the sky first gives the big picture, the wind shows what is coming, and the instruments put careful measurements to both. Writing the observation last, in the same order every time, makes records from different days easy to compare, which is how patterns are spotted."
+    },
+    {
+      "cue": "Read the lab's rule on the card: if you hear thunder, go indoors.",
+      "id": "learn-the-field-labs-lightning-rule",
+      "kind": "select",
+      "prompt": "Read the lab's rule on the card: if you hear thunder, go indoors.",
+      "target": "kws-lightning-card",
+      "title": "Learn the field lab's lightning rule",
+      "why": "Lightning can strike well away from the storm cloud, so waiting until it is overhead is too late. The simple rule, hear thunder and go inside, is the one weather services and outdoor workers use, and knowing it before the lesson starts means nobody has to think in a hurry."
+    },
+    {
+      "cue": "Turn the arrow on the weather chart to show where the wind is coming from.",
+      "id": "turn-the-wind-arrow-to-match",
+      "kind": "turn",
+      "prompt": "Turn the arrow on the weather chart to show where the wind is coming from.",
+      "target": "kws-wind-dial",
+      "title": "Turn the wind arrow to match the sock",
+      "turn": {
+        "axis": "y",
+        "label": "WIND",
+        "turns": 0.5
+      },
+      "why": "On a weather chart the wind arrow is drawn flying with the wind, from where it comes. Turning it to match the windsock builds the habit of naming winds by their source, so a chart you draw means the same thing as a chart a forecaster draws."
+    },
+    {
+      "cue": "Commit when your eye is level with the water in the gauge.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.58
+        ],
+        "label": "RAIN",
+        "missNote": "Not level yet. Bring your eye to the water's surface and read the middle.",
+        "speed": 0.6
+      },
+      "id": "read-the-rain-gauge-at-eye",
+      "kind": "gauge",
+      "prompt": "Commit when your eye is level with the water in the gauge.",
+      "target": "kws-rain-meter",
+      "title": "Read the rain gauge at eye level",
+      "why": "The water in a rain gauge curves slightly at the edge, and reading it from above or below gives the wrong amount. Reading at eye level, at the flat middle of the surface, is the same care scientists take with any measuring cylinder."
+    },
+    {
+      "cue": "Hold the compass flat and still beside the windsock until the needle settles.",
+      "holdBreakNote": "The compass tilted and the needle stuck. Hold it flat and let it settle.",
+      "id": "hold-the-compass-steady-to-read",
+      "kind": "hold",
+      "prompt": "Hold the compass flat and still beside the windsock until the needle settles.",
+      "seconds": 6,
+      "target": "kws-compass",
+      "title": "Hold the compass steady to read the wind",
+      "why": "A compass needle swings before it settles, and a tilted compass can stick. Holding it flat and still beside the windsock gives the direction the wind is coming from, which is the single most useful clue to what the next few hours will bring."
+    },
+    {
+      "cue": "Drag the tall heaped cloud card to the weather it can bring.",
+      "drag": {
+        "missNote": "Not matched yet. Tall heaped clouds bring showers and thunder.",
+        "radius": 0.45,
+        "to": "kws-cloud-spot"
+      },
+      "id": "match-the-cloud-to-its-weather",
+      "kind": "drag",
+      "prompt": "Drag the tall heaped cloud card to the weather it can bring.",
+      "target": "kws-cloud-token",
+      "title": "Match the cloud to its weather",
+      "why": "Tall, heaped clouds that build upwards through the day can bring heavy showers and thunder; flat grey sheets tend to bring steady drizzle. Matching cloud to weather is forecasting at its simplest, and it has helped sailors and farmers long before any instrument."
+    },
+    {
+      "cue": "Look at the draft weather log and mark each problem.",
+      "decoyNotes": {
+        "kws-lg-sketch": "A cloud sketch is good practice. Keep it."
+      },
+      "id": "spot-the-problems-in-a-classmates",
+      "itemNames": {
+        "kws-lg-climate": "one day used to judge the climate",
+        "kws-lg-time": "a reading with no time",
+        "kws-lg-wind": "a wind named by where it blows to"
+      },
+      "itemNotes": {
+        "kws-lg-climate": "Climate needs many years of records.",
+        "kws-lg-time": "Every reading needs its time.",
+        "kws-lg-wind": "Name winds by where they come from."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look at the draft weather log and mark each problem.",
+      "targets": [
+        "kws-lg-wind",
+        "kws-lg-time",
+        "kws-lg-climate"
+      ],
+      "title": "Spot the problems in a classmate's weather log",
+      "why": "Weather logs go wrong in predictable ways: a wind named by where it goes, a reading with no time, and one day's weather used to judge the climate. Spotting them in a classmate's log is practice for keeping your own records useful."
+    },
+    {
+      "cue": "Say what weather is, what climate is, and why one day cannot show a climate.",
+      "id": "say-the-difference-between-weather-and",
+      "kind": "select",
+      "prompt": "Say what weather is, what climate is, and why one day cannot show a climate.",
+      "target": "kws-compare-card",
+      "title": "Say the difference between weather and climate",
+      "why": "Weather is what happens today; climate is the pattern of weather over many years. Being able to say that clearly, and why one day is not enough, is what lets you make sense of news about climate without being fooled by a single hot or cold spell."
+    },
+    {
+      "cue": "Keep the marker with the wind speed as the gusts rise and fall.",
+      "holdBreakNote": "The marker lost the wind reading. Catch up with the display and follow it.",
+      "id": "follow-the-gusts-on-the-wind",
+      "kind": "track",
+      "prompt": "Keep the marker with the wind speed as the gusts rise and fall.",
+      "seconds": 8,
+      "target": "kws-track-meter",
+      "title": "Follow the gusts on the wind display",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.38,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "GUSTS",
+        "rise": 0.46,
+        "start": 0.3
+      },
+      "why": "Wind comes in gusts and lulls, not one steady speed. Following the display for a while shows why observers describe the typical wind and the strongest gust separately, and why a single glance can give a very different picture."
+    },
+    {
+      "cue": "Write the cloud, the wind direction, the readings and the time.",
+      "id": "record-todays-observation",
+      "kind": "select",
+      "prompt": "Write the cloud, the wind direction, the readings and the time.",
+      "target": "kws-sky-log",
+      "title": "Record today's observation",
+      "why": "One observation is a snapshot; a year of them, in the same form, is a record from which patterns emerge. Writing the time and the same details every day is how weather records, and eventually climate records, are built."
+    },
+    {
+      "cue": "Say what you think the weather will do next, and how likely it is.",
+      "id": "make-a-forecast-as-a-likelihood",
+      "kind": "select",
+      "prompt": "Say what you think the weather will do next, and how likely it is.",
+      "target": "kws-share-board",
+      "title": "Make a forecast as a likelihood",
+      "why": "A good forecast uses today's observations to say what is likely, not what is certain. Stating it as a likelihood, and checking it later against what happened, is how forecasters learn, and how you will too."
+    },
+    {
+      "cue": "What will you notice about the sky on the way home? What was hard today?",
+      "id": "crew-check-in",
+      "kind": "select",
+      "prompt": "What will you notice about the sky on the way home? What was hard today?",
+      "target": "kws-checkin",
+      "title": "Check in at the end of the lesson",
+      "why": "At the field lab's door the class reviews the readings against the sky it watched, and each learner offers a forecast for the next hour with a reason. The reasons matter more than being right, because a forecast with a reason can be checked tomorrow, and that is how the station's own observers learn."
+    }
+  ],
+  "supportLine": "your teacher, a school counsellor or a trusted adult at home — if anything in this lesson was hard, talk it through afterwards",
+  "tagline": "Read the sky and the instruments together — and head indoors when the lightning rule says so",
+  "title": "SmartCiti.X~ Weather and the Sky VR",
+  "trade": "Science class at the shoreline field lab's weather station — learner and field technician",
+  "underwater": null,
+  "weather": "clear"
+}

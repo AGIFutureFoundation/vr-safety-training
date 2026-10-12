@@ -1,0 +1,385 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "line-held-call-made",
+    "name": "Line Held, Call Made",
+    "note": "The barricade pinned and gauged to the plan, the show-stop chain briefed before doors, the load spike answered and the medical lane opened without a shortcut"
+  },
+  "category": "Entertainment & Live Events",
+  "certification": "IATSE training trust; ANSI E1.6 entertainment technology powered systems for the flown FOH speaker array over the line; NFPA 101 Life Safety Code for the mixed zone and egress width; OSHA 29 CFR 1910.28 duty to have fall protection on the barricade riser; ANSI/ISEA 107 high-visibility apparel for the barricade crew",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI E1.6",
+        "id": "ansi-e1-6",
+        "title": "ANSI E1.6 — Entertainment technology: powered hoist systems for the entertainment industry"
+      },
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI/ISEA 107",
+        "id": "ansi-isea-107",
+        "title": "ANSI/ISEA 107 — High-visibility safety apparel and accessories"
+      },
+      {
+        "body": "union",
+        "citedAs": "IATSE",
+        "id": "iatse-training-trust",
+        "title": "IATSE Training Trust Fund — stagecraft, rigging and entertainment electrical skills training"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 101",
+        "id": "nfpa-101",
+        "title": "NFPA 101 — Life Safety Code"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.28",
+        "id": "osha-1910-28",
+        "title": "29 CFR 1910.28 — Duty to have fall protection and falling object protection"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Entertainment & Live Events",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "pinned-clean",
+        "name": "Pinned Clean",
+        "note": "Every coupling pin locked home, no shortcut"
+      },
+      {
+        "id": "line-held",
+        "name": "Line Held",
+        "note": "The rail held steady through the load spike"
+      },
+      {
+        "id": "never-a-shortcut",
+        "name": "Never a Shortcut",
+        "note": "Never an unrated clip, never over the rail, never the medical lane blocked"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-build",
+        "name": "Clean Build",
+        "note": "No corrections building or running the line"
+      },
+      {
+        "id": "gap-on-the-plan",
+        "name": "Gap On The Plan",
+        "note": "Mixed zone gap committed inside the band first time"
+      },
+      {
+        "id": "doors-on-time",
+        "name": "Doors On Time",
+        "note": "Shift logged inside 80% of par"
+      }
+    ],
+    "currency": "POINT",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Line Hand",
+      "Barricade Crew",
+      "Barricade Lead",
+      "FOH Security Liaison",
+      "Arena Rigging Certified"
+    ],
+    "system": "Barricade Line"
+  },
+  "hazards": {
+    "block-medical-lane": "You stacked empty road cases in the medical and evacuation lane at the barricade gate. That lane is the one path wide enough for a stretcher or a wheelchair between the rail and the exit, kept clear for exactly the reason it has a name — and gear stacked in it during the show is gear a medical team is climbing over on the night it matters.",
+    "climb-barricade-shortcut": "You climbed over the locked barricade line instead of walking to the gate. The line is locked section to section specifically so it reads as one continuous barrier to a crowd under pressure, and a crew member who climbs it teaches everyone watching that it can be climbed — which is exactly the behaviour the barricade exists to prevent once the house is full.",
+    "genset-fuel-while-running": "You went to refuel the generator with it still running. A generator's exhaust and alternator are both hot and both live while it runs, and diesel poured near either one is a fire next to the position that is powering the whole FOH rail and its lighting. The generator is shut down, and given time to cool, before the cap comes off.",
+    "unrated-barricade-clip": "You reached for the loose bent clip from the bottom of the hardware bag to lock a barricade section. A barricade's coupling pin is sized and rated to hold two sections together against a crowd leaning on the rail, and a bent clip that happens to fit the hole is not the same part — it is a piece of metal that looks right until several hundred people lean on it at once. Only the rated pin locks a section."
+  },
+  "id": "le-crowd-barricade-and-show-stop-call",
+  "indoor": "theatre",
+  "interrupts": [
+    {
+      "after": "crush-watch",
+      "alert": "The barricade's load gauge has jumped hard past the safe band — the crowd has surged forward for the opening number and the rail is taking more than it is rated for.",
+      "cue": "Call the show stop on the production radio — security and the stage manager both need it now, not the load gauge you were just reading.",
+      "delay": 2,
+      "id": "barricade-load-spike",
+      "kind": "Load spike at the rail during the opening rush",
+      "missNote": "The load kept climbing past the safe band with nobody calling it; the rail bowed at the centre section before security worked their way to the front on their own and eased the crowd back.",
+      "seconds": 12,
+      "target": "production-radio",
+      "why": "A load spike this far past the safe band is the exact situation the show-stop chain was briefed for, and the radio is what actually reaches the stage manager and security in time to ease the crowd back — watching the gauge climb further does nothing for the people leaning on the rail. The call goes the moment the spike is seen, not after it is confirmed to keep climbing.",
+      "wrongNote": "The production radio — the load gauge only tells you there is a problem, and the radio is what gets help to the rail."
+    },
+    {
+      "after": "medical-lane",
+      "alert": "Security has pulled a crowd member over the barricade who is not moving well on their own — they need the medical lane open now.",
+      "cue": "Open the medical gate — the lane behind it has to be clear and moving, not the barricade line you were just working.",
+      "delay": 2,
+      "id": "person-pulled-over-rail",
+      "kind": "Crowd member pulled over the barricade",
+      "missNote": "The gate stayed shut while security looked for the crew member holding it; the patient was passed hand to hand over the locked rail instead of through it.",
+      "seconds": 12,
+      "target": "medical-gate",
+      "why": "A person pulled over the rail in distress needs a clear path to the medical post immediately, and the gate is the one piece of the barricade built to open for exactly that reason — everything else about the line is built to stay locked. Opening it fast, because the lane behind it was kept clear earlier in the shift, is the entire reason that lane was cleared in the first place.",
+      "wrongNote": "The medical gate — the barricade line itself has to stay locked, and the gate is the one section built to open on this call."
+    }
+  ],
+  "lateNotes": {
+    "genset-start-switch": "The generator starts once the light tower's outriggers are down and the mast is still stowed — not before.",
+    "pin-lock-point": "The pin locks home once the spare section is butted square against the run at the gap — there is nothing to lock yet.",
+    "shift-log": "The shift is logged once the rail is stood down after the show and the gate is latched — the log is last."
+  },
+  "name": "Crowd Barricade & Show-Stop Call",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "live-events"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "generatorTrailer",
+        "count": 1,
+        "kit": "equipment"
+      },
+      {
+        "builder": "lightTower:stowed",
+        "count": 1,
+        "kit": "equipment"
+      }
+    ],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "bent-coupling-pin",
+      "block-medical-lane",
+      "case-cleared",
+      "climb-barricade-shortcut",
+      "genset-fuel-while-running",
+      "genset-start-switch",
+      "headset",
+      "hi-vis-vest",
+      "lane-cone",
+      "line-gap",
+      "load-gauge",
+      "medical-gate",
+      "mixed-zone-gauge",
+      "pin-lock-point",
+      "production-radio",
+      "shift-log",
+      "showstop-briefing",
+      "site-security-plan",
+      "spare-section",
+      "tower-outriggers",
+      "unrated-barricade-clip"
+    ],
+    "meshes": 271
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the plan: the barricade layout and the mixed zone width, the venue's capacity, the medical post location, and who calls a show stop and how it reaches the stage.",
+      "id": "site-security-plan",
+      "kind": "select",
+      "prompt": "Read the plan: the barricade layout and the mixed zone width, the venue's capacity, the medical post location, and who calls a show stop and how it reaches the stage.",
+      "target": "site-security-plan",
+      "title": "Read the site security plan: capacity, barricade layout and the show-stop chain",
+      "why": "A barricade line only works if it matches the plan it was designed against — the mixed zone width, the capacity the venue is licensed for, and where the medical post sits relative to the gate. The show-stop chain is the other half of the plan: who has the authority to call it, what radio channel carries it, and how it reaches the stage manager fast enough to matter, and it has to be read before doors rather than worked out live during the one night it is needed."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Hi-vis vest on so security and the crowd both see the barricade crew clearly, and the production headset on before any radio call matters.",
+      "id": "barricade-ppe",
+      "itemNames": {
+        "headset": "production headset",
+        "hi-vis-vest": "hi-vis vest"
+      },
+      "kind": "sequence",
+      "prompt": "Hi-vis vest on so security and the crowd both see the barricade crew clearly, and the production headset on before any radio call matters.",
+      "targets": [
+        "hi-vis-vest",
+        "headset"
+      ],
+      "title": "Hi-vis vest and headset on before the line goes up",
+      "why": "A barricade crew works in front of a crowd all night, and a hi-vis vest is what lets security find the right person to signal in a packed room where a raised hand is easy to lose. The headset goes on before the line is built because the first call that matters — a bent pin, a gate that will not latch — can happen during setup, and a crew member without a live headset is a crew member security cannot reach."
+    },
+    {
+      "cue": "Check the next section's frame for bends or cracks and its coupling pin for straightness before rolling it into the gap.",
+      "id": "pin-inspect",
+      "itemNames": {
+        "bent-coupling-pin": "bent coupling pin on the next barricade section"
+      },
+      "itemNotes": {
+        "bent-coupling-pin": "The coupling pin on the next section in the stack is visibly bent — it will start in the hole but will not seat home, and a pin that is not seated lets that joint open under a crowd's lean. It is set aside and a straight pin is pulled from the spares box."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Check the next section's frame for bends or cracks and its coupling pin for straightness before rolling it into the gap.",
+      "targets": [
+        "bent-coupling-pin"
+      ],
+      "title": "Inspect the barricade section and its coupling pin before it goes in the line",
+      "why": "A barricade line is only as strong as its weakest joint, and a bent pin is the kind of fault that looks fine leaning against the truck and only shows itself once a crowd is pushing on the rail it was supposed to lock. Checking the pin on the ground, before the section is in the line and dressed with cable, is the only point where swapping it costs nothing."
+    },
+    {
+      "cue": "Roll the spare section in and butt its frame square against the end of the line at the gap.",
+      "drag": {
+        "missNote": "Not squared at the gap — the section's frame has to butt flush against the run's end before any pin goes in.",
+        "radius": 0.5,
+        "to": "line-gap"
+      },
+      "id": "barricade-drag",
+      "kind": "drag",
+      "prompt": "Roll the spare section in and butt its frame square against the end of the line at the gap.",
+      "target": "spare-section",
+      "title": "Roll the spare section into the gap and butt it square",
+      "why": "A barricade line reads as one continuous rail to the crowd only if its sections sit flush; a section rolled in at an angle leaves a gap at floor level wide enough for a foot or a hand, and it loads one side of the coupling pin instead of both. Squaring it up on the ground, where it is easy to see and correct, is what makes the next step — pinning it — actually lock something straight."
+    },
+    {
+      "cue": "Turn the coupling pin's locking collar until it seats fully home on the new section.",
+      "id": "pin-lock",
+      "kind": "turn",
+      "prompt": "Turn the coupling pin's locking collar until it seats fully home on the new section.",
+      "target": "pin-lock-point",
+      "title": "Lock the coupling pin home",
+      "turn": {
+        "label": "PIN",
+        "turns": 1
+      },
+      "why": "A barricade's coupling pin only does its job seated all the way home; a pin resting partway in the hole holds the sections together for as long as nobody leans on the joint, which is not the situation a barricade exists for. Turning it to its stop, and checking it by hand, is what makes the line one piece instead of a row of sections standing near each other."
+    },
+    {
+      "cue": "Measure the gap between the barricade rail and the stage lip and commit it against the plan's minimum width for the mixed zone.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.58
+        ],
+        "label": "MIXED ZONE",
+        "missNote": "Not on the plan's minimum — measure the gap at the narrowest point along the line, not at the gate where it is widest.",
+        "speed": 0.65
+      },
+      "id": "mixed-zone-gauge",
+      "kind": "gauge",
+      "prompt": "Measure the gap between the barricade rail and the stage lip and commit it against the plan's minimum width for the mixed zone.",
+      "target": "mixed-zone-gauge",
+      "title": "Measure the mixed zone against the plan's minimum",
+      "why": "The mixed zone is the strip between the rail and the stage where photographers, security and the crew all have to move, and the plan sets its minimum width for exactly that reason — a zone pinched narrower than the plan traps the people working in it against a moving crowd on one side and the stage on the other. Measuring it after the line is built, rather than trusting where the sections happened to land, is what catches a barricade that crept forward during the build."
+    },
+    {
+      "cue": "Set the light tower's outriggers down and level before raising the mast.",
+      "id": "tower-outriggers",
+      "kind": "select",
+      "prompt": "Set the light tower's outriggers down and level before raising the mast.",
+      "target": "tower-outriggers",
+      "title": "Deploy the light tower's outriggers before the mast goes up",
+      "why": "A light tower's mast raises its lamps and ballast several metres above a base that is otherwise no wider than the trailer underneath it, and the outriggers are what turns that base into something a raised mast cannot tip off of. Deploying them before the mast moves, not after, is the same order every piece of equipment in this rig is set up in: the thing that keeps it standing goes down first."
+    },
+    {
+      "cue": "Hold the generator's start switch until the engine catches and settles to a steady idle.",
+      "holdBreakNote": "You let go of the start switch before the engine caught — it died on the crank. Hold it again through the full start.",
+      "id": "genset-start",
+      "kind": "hold",
+      "prompt": "Hold the generator's start switch until the engine catches and settles to a steady idle.",
+      "seconds": 5,
+      "target": "genset-start-switch",
+      "title": "Start the generator and hold it to catch",
+      "why": "A generator that is released from its start switch before the engine has actually caught can crank down its battery over several short attempts, leaving the FOH position without power at the one moment doors are about to open. Holding the switch through the catch, watching the engine settle rather than assuming the first turnover worked, is what makes the generator a power source instead of a maybe."
+    },
+    {
+      "cue": "Walk security through the show-stop hand signal, the radio call and who it reaches on the production side, before doors.",
+      "id": "showstop-briefing",
+      "kind": "select",
+      "prompt": "Walk security through the show-stop hand signal, the radio call and who it reaches on the production side, before doors.",
+      "target": "showstop-briefing",
+      "title": "Brief the show-stop signal and chain with security",
+      "why": "A show stop is a call that has to work the one time it is needed without anyone stopping to remember the procedure, and that only happens if the barricade crew and security agree on the signal and the radio channel before the room is full and loud. Briefing it now, at the rail, in daylight, is what makes the call reflexive rather than improvised in the ten seconds it actually has to happen in."
+    },
+    {
+      "cue": "Hold your position at the rail as the crowd pushes forward for the opening number, watching the barricade's load gauge stay in the safe band.",
+      "holdBreakNote": "The load ran past the safe band while you were watching the stage instead of the gauge — that is the exact moment a show-stop call is for.",
+      "id": "crush-watch",
+      "kind": "track",
+      "prompt": "Hold your position at the rail as the crowd pushes forward for the opening number, watching the barricade's load gauge stay in the safe band.",
+      "seconds": 6,
+      "target": "load-gauge",
+      "title": "Hold the rail through the opening rush, watching the load gauge",
+      "track": {
+        "drift": 0.16,
+        "fall": 0.4,
+        "green": [
+          0.35,
+          0.6
+        ],
+        "label": "RAIL LOAD",
+        "rise": 0.55,
+        "start": 0.3
+      },
+      "why": "The opening number is when a crowd pushes hardest on the rail, and the barricade's own load gauge is the one instrument that reads that pressure directly rather than by eye across a dark room. Standing at the rail with eyes on the gauge, rather than on the stage, is how the crew catches a load climbing toward the line's limit early enough to call for help before the gauge is the only thing anyone is watching."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Clear any gear out of the lane beside the barricade gate and mark it with cones so it stays open all night.",
+      "id": "medical-lane",
+      "itemNames": {
+        "case-cleared": "road cases cleared from the lane",
+        "lane-cone": "lane marked with cones"
+      },
+      "kind": "sequence",
+      "prompt": "Clear any gear out of the lane beside the barricade gate and mark it with cones so it stays open all night.",
+      "targets": [
+        "case-cleared",
+        "lane-cone"
+      ],
+      "title": "Clear and mark the medical and evacuation lane",
+      "why": "The medical lane exists for the one call nobody wants to make, and it only works if it is actually clear when that call comes — a road case parked in it during setup is a road case still there at eleven at night when a medical team needs the path. Marking it with cones after clearing it is what keeps the next crew member walking through from putting something back in it."
+    },
+    {
+      "cue": "Call the stage manager that the line is pinned, powered and gauged, and check in with security after the load spike.",
+      "id": "showstop-checkin",
+      "kind": "select",
+      "prompt": "Call the stage manager that the line is pinned, powered and gauged, and check in with security after the load spike.",
+      "target": "production-radio",
+      "title": "Check in with the stage manager and security lead",
+      "why": "The stage manager's own show-stop authority depends on knowing the barricade is actually ready before doors, so the call has to be accurate rather than assumed. It is also the crew's own check-in: a load spike at the rail is the kind of near miss that stays with the person who watched the gauge climb, and IATSE's practice is to name it on the radio along with the member assistance line, not carry it home unsaid."
+    },
+    {
+      "cue": "Record the bent pin swapped, the mixed zone reading, the load spike and how it was answered, and the generator's running hours.",
+      "id": "shift-log",
+      "kind": "select",
+      "prompt": "Record the bent pin swapped, the mixed zone reading, the load spike and how it was answered, and the generator's running hours.",
+      "target": "shift-log",
+      "title": "Log the line, the pin and the generator",
+      "why": "The shift log is what the next crew reads before they build the same line tomorrow night, and a bent pin that is not written down is a bent pin someone else finds by hand again. A load spike that reached the safe band's edge and was answered is exactly the kind of near miss the log exists to carry forward, so the next barricade lead knows which section of tonight's crowd pushed hardest."
+    }
+  ],
+  "supportLine": "your IATSE local's member assistance contact, or the employee assistance programme your employer or the local carries",
+  "tagline": "The rail before doors: the site security plan read for capacity and the show-stop chain, hi-vis and headset on, a bent coupling pin caught before it locks, the spare section rolled into the gap and pinned home, the mixed zone gauged against the plan's minimum, the light tower's outriggers down before the mast goes up, the generator started and held to catch, the show-stop signal briefed with security, the rail held through the opening rush as the load gauge spikes, a medical lane cleared and opened for someone pulled over the rail, and the shift logged",
+  "title": "SmartCiti.X~ Crowd Barricade & Show-Stop Call VR",
+  "trade": "IATSE stagehand running the front-of-house barricade line, with the show-stop call in the security chain",
+  "underwater": null,
+  "weather": null
+}

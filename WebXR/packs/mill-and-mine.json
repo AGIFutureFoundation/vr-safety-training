@@ -1,0 +1,70 @@
+{
+  "id": "mill-and-mine",
+  "kind": "programme",
+  "name": "Mill and Mine",
+  "title": "SmartCiti.X Mill and Mine — Powered by AGI Corp",
+  "audience": "trades",
+  "summary": "Four mill stations and four mine stations under one steelworkers-and-miners pack: a hot-strip stand's roll change, a ladle tilted to pour, a coke battery's heat rotation, a paper machine's felt change; then a continuous miner's cut-and-bolt cycle, an escapeway and self-rescuer drill, a haul truck's berm and dump point, and a belt entry's fire and gas exam.",
+  "certification": "USW Tony Mazzocchi Center health and safety training; UMWA health and safety training; OSHA 29 CFR 1910.147 control of hazardous energy for the mill stations; the mine safety regulations, named generically, and each mine's own roof-control, ventilation and emergency plans for the mine stations",
+  "programmes": [
+    "mill-and-mine"
+  ],
+  "stations": [
+    {
+      "app": "smartcity",
+      "id": "mm-hot-strip-mill-stand"
+    },
+    {
+      "app": "smartcity",
+      "id": "mm-ladle-pour"
+    },
+    {
+      "app": "smartcity",
+      "id": "mm-coke-oven-heat-rotation"
+    },
+    {
+      "app": "smartcity",
+      "id": "mm-paper-machine-dryer"
+    },
+    {
+      "app": "smartcity",
+      "id": "mm-continuous-miner-face"
+    },
+    {
+      "app": "smartcity",
+      "id": "mm-mine-escapeway-drill"
+    },
+    {
+      "app": "smartcity",
+      "id": "mm-haul-truck-berm"
+    },
+    {
+      "app": "smartcity",
+      "id": "mm-conveyor-fire-and-gas-monitoring"
+    }
+  ],
+  "unions": [
+    "usw",
+    "umwa"
+  ],
+  "unionLine": "USW steelworkers and paper crews, UMWA underground and surface mine crews",
+  "k12Bands": [],
+  "path": "union-trades",
+  "alsoPaths": [],
+  "worlds": [],
+  "stationNames": {
+    "mm-hot-strip-mill-stand": "Hot-Strip Mill Stand",
+    "mm-ladle-pour": "Ladle Pour",
+    "mm-coke-oven-heat-rotation": "Coke Oven Heat Rotation",
+    "mm-paper-machine-dryer": "Paper Machine Dryer Section",
+    "mm-continuous-miner-face": "Continuous Miner Face",
+    "mm-mine-escapeway-drill": "Mine Escapeway & Self-Rescuer Drill",
+    "mm-haul-truck-berm": "Haul Truck Berm & Dump Point",
+    "mm-conveyor-fire-and-gas-monitoring": "Conveyor Belt Fire & Gas Monitoring"
+  },
+  "version": "1.0.0",
+  "contentHash": "ef1f724b",
+  "brand": "SmartCiti.X · Powered by AGI Corp",
+  "generator": "tools/gen_packs.mjs",
+  "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."
+}

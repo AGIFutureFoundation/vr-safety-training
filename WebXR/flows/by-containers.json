@@ -1,0 +1,101 @@
+{
+  "id": "by-containers",
+  "title": "Parish Lesson — Sorting Containers at the Port",
+  "version": 1,
+  "start": "brief",
+  "meta": {
+    "audience": "A learner or a small group at the Riverfront Wharves Terminal, upper primary.",
+    "why": "One idea taught at a real parish site, checked with one question, then used straight away in a two-minute game in the parish.",
+    "hostNotes": "The SmartCiti.X side of the flow contract only (docs/flowhub.md, docs/k12.md): nothing here states how Cognition.X or any other host stores or presents it. The apply node is external: the parishes app or a GRIOT character (by-flow-agent.js) runs the step and posts the resume.",
+    "lowConnectivity": "Works offline once the page has loaded; the run waits in this browser's own storage.",
+    "bayou": {
+      "lesson": "by-lesson-containers",
+      "parish": "orleans",
+      "site": "port-terminal",
+      "band": "upper primary",
+      "guide": "gr-np-port-foreman"
+    }
+  },
+  "nodes": [
+    {
+      "id": "brief",
+      "kind": "brief",
+      "app": "smartcity",
+      "ref": "k12-by-sorting-containers-at-the-port",
+      "title": "Pre-brief — Sorting Containers at the Port",
+      "why": "The station's own study card, read first, so the learner knows the one idea the lesson is for."
+    },
+    {
+      "id": "lesson",
+      "kind": "station",
+      "app": "smartcity",
+      "ref": "k12-by-sorting-containers-at-the-port",
+      "title": "Sorting Containers at the Port",
+      "why": "The K-12 station itself, launched from its parish site; a run that does not pass goes back to the brief."
+    },
+    {
+      "id": "check",
+      "kind": "checkin",
+      "app": "smartcity",
+      "title": "Check question — Sorting Containers at the Port",
+      "why": "One question on the idea just taught, answered before the game; a wrong answer shows the why and asks again. Never scored against anyone.",
+      "params": {
+        "check": {
+          "q": "Which box goes on top of the stack?",
+          "options": [
+            "The one that leaves first",
+            "The heaviest one"
+          ],
+          "answer": 0,
+          "why": "One lift gets it out, and heavy boxes stay low."
+        }
+      }
+    },
+    {
+      "id": "apply",
+      "kind": "external",
+      "app": "host",
+      "ref": "kw-container-sort",
+      "title": "Apply it in the parish — Yard Stack",
+      "why": "A two-minute game at the parish site that uses the idea just taught; the passport records the lesson and the game.",
+      "params": {
+        "parish": "orleans",
+        "site": "port-terminal",
+        "minutes": 2,
+        "fallback": "by-apply-yard-stack"
+      }
+    },
+    {
+      "id": "close",
+      "kind": "checkin",
+      "app": "smartcity",
+      "title": "End-of-lesson check-in",
+      "why": "The lesson closes on the learner's own answer about how it went, not on a score."
+    }
+  ],
+  "edges": [
+    {
+      "from": "brief",
+      "to": "lesson"
+    },
+    {
+      "from": "lesson",
+      "to": "check",
+      "when": {
+        "passed": true
+      }
+    },
+    {
+      "from": "lesson",
+      "to": "brief"
+    },
+    {
+      "from": "check",
+      "to": "apply"
+    },
+    {
+      "from": "apply",
+      "to": "close"
+    }
+  ]
+}

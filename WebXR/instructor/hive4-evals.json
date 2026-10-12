@@ -1,0 +1,78 @@
+{
+  "schema": "smartcitix.holodeck.hive4-evals@1",
+  "note": "Written by node tools/check_hive4.mjs --write. Before is the base 048869d5 (the default hive, byte-identical); after is the panel's configuration. No timings.",
+  "rows": [
+    {
+      "measure": "Agent-to-agent exchanges per seeded day (seed 7, 200 jobs)",
+      "before": "0",
+      "after": "258 (handoff 173, question 45, report 40)",
+      "source": "check_hive4 2"
+    },
+    {
+      "measure": "Exchange lines grounded (every fact re-derived from the award, the winning bid or the chain)",
+      "before": "n/a",
+      "after": "516 of 516",
+      "source": "check_hive4 2"
+    },
+    {
+      "measure": "Turn-taking: replies directly after their opener / lines overlapping on the floor",
+      "before": "n/a",
+      "after": "258 of 258 / 0 of 1294",
+      "source": "check_hive4 2"
+    },
+    {
+      "measure": "Memory references per seeded day (seed 7)",
+      "before": "0",
+      "after": "36, from 4 agents",
+      "source": "check_hive4 3"
+    },
+    {
+      "measure": "Memory references grounded in the hive's own chain (count, last site, hive-clock time)",
+      "before": "n/a",
+      "after": "36 of 36; planted errors caught 3 of 3",
+      "source": "check_hive4 3"
+    },
+    {
+      "measure": "Spanish: exchanges and memory references per seeded day (seed 7)",
+      "before": "0 and 0 (an exchange fell back to the single line)",
+      "after": "258 exchanges, 36 memory references",
+      "source": "check_hive4 3b"
+    },
+    {
+      "measure": "Spanish: lines grounded / sentences in band / English fragments",
+      "before": "n/a",
+      "after": "516 of 516 exchange lines and 36 of 36 memory lines / 869 of 869 / 0",
+      "source": "check_hive4 3b"
+    },
+    {
+      "measure": "Governor with the talk on: dispatched steps checked / physical dispatches",
+      "before": "161 of 161, 3631 of 3631 steps / 0",
+      "after": "161 of 161, 3631 of 3631 steps / 0",
+      "source": "check_hive4 4"
+    },
+    {
+      "measure": "Exchange lines spoken (stubbed voices: one local, one network)",
+      "before": "n/a",
+      "after": "56 of 56 in order, local voice only, at most 1 at once; voice off: 0 spoken, 56 captions",
+      "source": "check_hive4 5"
+    },
+    {
+      "measure": "Trait recovery: Spearman rho per trait, 50 held-out personas (seeds 51-100; ridge fitted on seeds 1-50)",
+      "before": "not measured",
+      "after": "warmth 0.959, formality 0.832, verbosity 0.977, caution 0.799",
+      "source": "check_hive4 6 (declared in docs/consoles/HIVE-4.md, commit ca8e2deb). Earlier held-out readings: the first run 0.963, 0.812, 0.979, 0.804; after the band fix (padding only) 0.958, 0.795, 0.980, 0.798; these follow the steward's question cooldown (fewer questions in the re-said days)"
+    },
+    {
+      "measure": "Trait recovery on the seven real agents (seed 101; n = 7, secondary)",
+      "before": "not measured",
+      "after": "warmth 0.964, formality 0.929, verbosity 1, caution 0.643",
+      "source": "check_hive4 6"
+    },
+    {
+      "measure": "Distinct-2 per agent (seed 7, fact-masked): before -> after (variety only, same events)",
+      "before": "Orrin 0.057, Selka 0.145, Brann 0.078, Ivo 0.237, Tamsa 0.06, Quen 0.116, Lio 0.05",
+      "after": "Orrin 0.075 (0.099), Selka 0.159 (0.182), Brann 0.161 (0.134), Ivo 0.32 (0.32), Tamsa 0.11 (0.097), Quen 0.155 (0.158), Lio 0.115 (0.106)",
+      "source": "check_hive4 7"
+    }
+  ]
+}

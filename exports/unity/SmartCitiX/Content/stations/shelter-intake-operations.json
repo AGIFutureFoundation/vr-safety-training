@@ -1,0 +1,413 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "shelter-open",
+    "name": "Shelter Open",
+    "note": "Every resident registered with dignity, every need flagged, the floor run clean, and a real count handed to the next shift"
+  },
+  "category": "Emergency Services",
+  "certification": "NIMS/ICS through FEMA IS-100 and IS-700, worked here as the shelter's own check-in structure; the American Red Cross's shelter operations standards for registration, cot spacing and pet co-location; Title II of the ADA for the access and functional needs of residents with disabilities; OSHA 29 CFR 1910.1030 bloodborne pathogens for any first aid contact at intake; the AFSCME and LIUNA safety language covering the disaster-relief crews who staff these shelters alongside Red Cross volunteers",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "DOJ",
+        "citedAs": "Title II of the ADA",
+        "id": "ada-title-ii",
+        "title": "Americans with Disabilities Act Title II — programme accessibility for public entities and their services"
+      },
+      {
+        "body": "union",
+        "citedAs": "AFSCME",
+        "id": "afscme-training",
+        "title": "AFSCME member education and safety training for public-service and air-district members"
+      },
+      {
+        "body": "FEMA",
+        "citedAs": "FEMA IS-100",
+        "id": "fema-is-courses",
+        "title": "FEMA Emergency Management Institute IS-100 and IS-700 independent-study courses in ICS and NIMS"
+      },
+      {
+        "body": "union",
+        "citedAs": "LIUNA",
+        "id": "liuna-training-fund",
+        "title": "LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula"
+      },
+      {
+        "body": "NIMS/ICS",
+        "citedAs": "ICS",
+        "id": "nims-ics",
+        "title": "NIMS incident command system — the structure a multi-agency response runs inside"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1030",
+        "id": "osha-1910-1030",
+        "title": "29 CFR 1910.1030 — Bloodborne pathogens"
+      },
+      {
+        "body": "Red Cross",
+        "citedAs": "Red Cross",
+        "id": "red-cross-disaster-services",
+        "title": "American Red Cross shelter operations, Disaster Mental Health and first aid/CPR course standards"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Emergency Services",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "asked-once",
+        "name": "Asked Once",
+        "note": "Every intake question asked once, in order, never repeated"
+      },
+      {
+        "id": "nobody-exposed",
+        "name": "Nobody Exposed",
+        "note": "No unsafe or undignified action anywhere in the run"
+      },
+      {
+        "id": "spacing-held",
+        "name": "Spacing Held",
+        "note": "Cot spacing set inside the standard's band on the first try"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-open",
+        "name": "Clean Open",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "steady-floor",
+        "name": "Steady Floor",
+        "note": "Held the floor watch without losing the count"
+      },
+      {
+        "id": "seven-straight",
+        "name": "Seven Straight",
+        "note": "Seven correct actions in a row"
+      }
+    ],
+    "currency": "REGISTER",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Shelter Volunteer",
+      "Registration Trained",
+      "Floor Lead",
+      "Shelter Manager",
+      "Shelter Ops Certified"
+    ],
+    "system": "Shelter Ops"
+  },
+  "hazards": {
+    "improvised-registration": "You started registering a resident at the folding table by the door instead of behind the privacy screen. Everything a resident says at intake — who they lost, what they need, where they are sleeping tonight — is said out loud in a gym that will hold hundreds of strangers by tonight, and the screen is the only thing standing between that conversation and everyone in line behind it.",
+    "overpack-cots": "You shoved this row a foot tighter to fit one more cot in. The spacing a shelter standard sets is not about comfort — it is an aisle wide enough to walk between cots without stepping over someone, and a row squeezed to make room for one more person is a row that makes it harder to reach every person already in it.",
+    "pet-loose-in-sleeping-row": "That leash is tied to a cot in the general sleeping area, not in the pet area. A pet loose or tethered among strangers' cots is a bite risk, an allergy risk and a tripping hazard for residents walking the row in the dark — the pet area exists so nobody in that decision is put at risk by it.",
+    "reask-trauma-question": "You asked the household question a second time 'just to make sure.' The whole reason intake asks each question once, gently, is that a resident who just evacuated a disaster is being asked to say hard things one time — asking again because a form looked incomplete tells them their story did not land the first time, and the answer will not come easier the second time either."
+  },
+  "id": "shelter-intake-operations",
+  "indoor": "service",
+  "interrupts": [
+    {
+      "after": "confirm-headcount",
+      "alert": "A resident has reached the registration line shaking and in tears — everything she owned, including her ID, is gone.",
+      "cue": "Register her anyway. Nobody is turned away for a document a disaster just took from them.",
+      "delay": 3,
+      "id": "resident-no-id",
+      "kind": "Resident arrives in distress, no ID",
+      "missNote": "She stood at the desk, still shaking, while the registration line moved around her and nobody used the waiver. A resident who has just lost everything does not get steadier by being made to wait for a document the disaster already took.",
+      "seconds": 13,
+      "target": "no-id-waiver",
+      "why": "Nobody arrives at an emergency shelter with a complete wallet, and a shelter that treats a missing ID as a reason to make a resident wait outside while she is standing there in distress has confused a paperwork convenience with a safety requirement — the waiver exists precisely so registering her with care, right now, is the correct procedure and not an exception to it.",
+      "wrongNote": "That does not register her. Use the no-ID waiver at the desk — she gets checked in with care, not turned away for a document she no longer has."
+    },
+    {
+      "after": "monitor-floor",
+      "alert": "The gym's fire alarm cuts through the floor, unannounced, mid-shift — a scheduled system test nobody warned intake about.",
+      "cue": "Treat it as real. Direct the floor to the evacuation muster point now.",
+      "delay": 4,
+      "id": "fire-alarm-test",
+      "kind": "Fire alarm test",
+      "missNote": "The alarm kept sounding while intake carried on as if nothing had happened. A floor full of residents who see staff not react to an alarm learns, from that, not to react to the next one either — including the one that is not a test.",
+      "seconds": 14,
+      "target": "muster-sign",
+      "why": "A shelter's own fire-alarm test is indistinguishable from a real alarm to the hundreds of residents standing on the floor when it goes off, and hesitating to check whether it counts costs the exact seconds the evacuation plan is built to use — the muster point gets called immediately, and it gets stood down once command confirms it was only a test, not the other way around.",
+      "wrongNote": "That does not answer the alarm. Direct the floor to the evacuation muster point — sort out afterward whether it was only a test."
+    }
+  ],
+  "lateNotes": {
+    "family-cot-a": "Hold off — the family has to actually be found and counted together before any cot gets marked as theirs.",
+    "needs-flag": "There is no need to flag yet — the intake questions have to be asked first, or there is nothing for the health station to act on."
+  },
+  "name": "Shelter Intake Operations",
+  "parSeconds": 320,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "first-responders"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "ask-household",
+      "ask-name",
+      "ask-needs",
+      "capacity-board",
+      "command-radio",
+      "crew-checkin-board",
+      "family-child-a",
+      "family-child-b",
+      "family-cot-a",
+      "family-cot-b",
+      "family-cot-c",
+      "family-parent",
+      "handover-log",
+      "health-station-inbox",
+      "ics-checkin-board",
+      "improvised-registration",
+      "information-board",
+      "muster-sign",
+      "needs-flag",
+      "no-id-waiver",
+      "overpack-cots",
+      "pet-checkin",
+      "pet-loose-in-sleeping-row",
+      "privacy-screen-crank",
+      "quiet-room-sign",
+      "reask-trauma-question",
+      "spacing-wand"
+    ],
+    "meshes": 290
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Sign into the shelter's own ICS organization chart before touching anything else.",
+      "id": "ics-checkin",
+      "kind": "select",
+      "prompt": "Sign into the shelter's own ICS organization chart before touching anything else.",
+      "target": "ics-checkin-board",
+      "title": "Check in with the incident commander",
+      "why": "A shelter this size runs inside a NIMS/ICS structure the moment it opens — a registration desk, a health station and a floor crew that do not know who is actually in command of the building are five separate operations sharing one gym by accident. Checking in first is what puts you on the org chart the incident commander is already running the rest of the shelter from."
+    },
+    {
+      "cue": "Turn the crank until the folding screen stands fully open around the registration desk.",
+      "id": "privacy-screen",
+      "kind": "turn",
+      "prompt": "Turn the crank until the folding screen stands fully open around the registration desk.",
+      "target": "privacy-screen-crank",
+      "title": "Unfold the registration privacy screen",
+      "turn": {
+        "axis": "y",
+        "label": "PRIVACY SCREEN",
+        "turns": 0.75
+      },
+      "why": "A resident who has just lost a home is going to say so at this desk, in a gym that will be full of strangers by nightfall. The screen is the only physical thing in the room that makes that conversation private rather than overheard by whoever is next in line — it goes up before the first resident does, not after somebody notices."
+    },
+    {
+      "cue": "Name first, then who they are sheltering with, then medical and access needs — asked once each.",
+      "id": "intake-questions",
+      "itemNames": {
+        "ask-household": "ask who is with them",
+        "ask-name": "ask their name",
+        "ask-needs": "ask about medical and access needs"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Name, then household, then medical and access needs — leading with the hardest question before any rapport is built is what turns intake into an interrogation instead of a welcome.",
+      "prompt": "Name first, then who they are sheltering with, then medical and access needs — asked once each.",
+      "targets": [
+        "ask-name",
+        "ask-household",
+        "ask-needs"
+      ],
+      "title": "Ask the intake questions once, gently, in order",
+      "why": "Starting with a name builds the smallest possible rapport before anything harder is asked; who they are sheltering with comes next because it decides whether cots get assigned as a group; medical and access needs come last because a resident who has just answered two easier questions is in a steadier place to answer the hardest one. Asked in that order, once each, intake reads as care rather than an interrogation."
+    },
+    {
+      "cue": "Carry the resident's needs flag across the floor and drop it in the health station's own inbox.",
+      "drag": {
+        "missNote": "Not in the health station's inbox. A flag left anywhere else is a need the health station still does not know about.",
+        "radius": 0.5,
+        "to": "health-station-inbox"
+      },
+      "id": "flag-needs",
+      "kind": "drag",
+      "prompt": "Carry the resident's needs flag across the floor and drop it in the health station's own inbox.",
+      "target": "needs-flag",
+      "title": "Flag medical and access needs to the health station",
+      "why": "A need written on an intake form and left in a binder at the registration desk is a need the health station will not learn about until someone happens to ask again. Physically carrying the flag to their inbox is what turns 'we asked' into 'they know' — the two are not the same thing, and only one of them helps the resident tonight."
+    },
+    {
+      "cue": "Sweep the spacing wand across the row and commit once it reads inside the shelter standard's band.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.62
+        ],
+        "label": "COT GAP",
+        "missNote": "Outside the standard's band. Sweep the wand again and commit only once the row's gap reads inside it.",
+        "speed": 0.65
+      },
+      "id": "cot-spacing",
+      "kind": "gauge",
+      "prompt": "Sweep the spacing wand across the row and commit once it reads inside the shelter standard's band.",
+      "target": "spacing-wand",
+      "title": "Set the cot rows to the standard's spacing",
+      "why": "The Red Cross's own shelter standard sets a minimum distance between cots for a reason that has nothing to do with comfort: a real aisle wide enough to walk, kneel and pull a cot clear without touching a stranger's bedding to do it. A row eyeballed tighter to fit more people in is a row that looks fine until someone actually needs to move through it in the dark."
+    },
+    {
+      "cue": "Locate the parent and both children — a family gets counted and housed as a unit, not one at a time.",
+      "id": "family-locate",
+      "itemNames": {
+        "family-child-a": "the older child",
+        "family-child-b": "the younger child",
+        "family-parent": "the parent"
+      },
+      "itemNotes": {
+        "family-child-a": "Sitting on a duffel bag a few feet from the parent, tracked but not yet counted with them.",
+        "family-child-b": "Holding onto the parent's sleeve, easy to count twice or not at all if the family is not found as a unit.",
+        "family-parent": "Standing near the registration line, watching for both kids at once."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Locate the parent and both children — a family gets counted and housed as a unit, not one at a time.",
+      "targets": [
+        "family-parent",
+        "family-child-a",
+        "family-child-b"
+      ],
+      "title": "Find every member of this family before assigning cots",
+      "why": "Registration lines rarely move a family through together — a parent signs in while a child is still finding a bathroom, and if cots get assigned to whoever is standing at the desk at that moment, a family that arrived together spends its first night in a shelter split across the floor. Finding all three before assigning anything is what keeps that from happening by accident."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Mark the three cots next to each other as this family's — any order.",
+      "id": "family-cots",
+      "itemNames": {
+        "family-cot-a": "parent's cot",
+        "family-cot-b": "older child's cot",
+        "family-cot-c": "younger child's cot"
+      },
+      "kind": "sequence",
+      "prompt": "Mark the three cots next to each other as this family's — any order.",
+      "targets": [
+        "family-cot-a",
+        "family-cot-b",
+        "family-cot-c"
+      ],
+      "title": "Assign the family three adjoining cots",
+      "why": "Three cots anywhere in the gym technically houses three people; three adjoining cots is what actually keeps this family together through the night, close enough that a child waking up scared can see a parent without getting up and walking a strange room full of strangers to find them."
+    },
+    {
+      "cue": "Hold the radio until the command post reads your count back correctly.",
+      "holdBreakNote": "You let go before the count was read back. An unconfirmed number is not part of the shelter-wide picture yet — hold the radio until the command post repeats it correctly.",
+      "id": "confirm-headcount",
+      "kind": "hold",
+      "prompt": "Hold the radio until the command post reads your count back correctly.",
+      "seconds": 5,
+      "target": "command-radio",
+      "title": "Confirm the running count with the command post",
+      "why": "The incident commander is building a shelter-wide picture out of every desk's count, and a number given once and never confirmed is a number that might have been misheard, mistyped or already out of date by the time it is used to order more cots or more meals. Holding until it is read back is what turns your count into a number the command post can actually act on."
+    },
+    {
+      "cue": "Walk the pet to its own crate in the pet area and check it in on the log.",
+      "id": "pet-area",
+      "kind": "select",
+      "prompt": "Walk the pet to its own crate in the pet area and check it in on the log.",
+      "target": "pet-checkin",
+      "title": "Check the resident's pet into the pet area",
+      "why": "A resident who cannot bring a pet into a shelter is a resident who may choose to stay in an unsafe home instead — the Red Cross's own standard sets up a co-located pet area precisely so that choice never has to be made. Checking the pet in on its own log, in its own space, is what keeps that promise real rather than theoretical."
+    },
+    {
+      "cue": "Confirm the curtained room off the gym floor is open and marked as the quiet room.",
+      "id": "quiet-room",
+      "kind": "select",
+      "prompt": "Confirm the curtained room off the gym floor is open and marked as the quiet room.",
+      "target": "quiet-room-sign",
+      "title": "Post and open the quiet room",
+      "why": "A shelter floor with hundreds of cots is loud, lit and constant, and some residents — an overwhelmed child, someone in genuine crisis, a person who is neurodivergent and cannot regulate in that much stimulation — need somewhere that is none of those things for ten minutes. A quiet room that exists but is not posted is a room nobody in a strange gym knows to ask for."
+    },
+    {
+      "cue": "Hold attention on the capacity board and keep the count inside the gym's safe occupancy band.",
+      "holdBreakNote": "The count drifted out of the safe band while your attention was elsewhere. A shelter running over its rated capacity is a problem for every resident in the building, not just the next one through the door.",
+      "id": "monitor-floor",
+      "kind": "track",
+      "prompt": "Hold attention on the capacity board and keep the count inside the gym's safe occupancy band.",
+      "seconds": 7,
+      "target": "capacity-board",
+      "title": "Watch the shelter floor against its rated capacity",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.4,
+        "green": [
+          0.3,
+          0.7
+        ],
+        "label": "FLOOR COUNT",
+        "rise": 0.45,
+        "start": 0.4
+      },
+      "why": "A shelter's rated capacity is a real number set by the building's exits and floor area, not a soft target — a gym that is quietly let run over it is a life-safety problem the moment anything else goes wrong in the building. Watching the board through the intake rush, not just checking it once, is what catches the count before it climbs past that line rather than after."
+    },
+    {
+      "cue": "Post meal times, curfew, and the shelter's own hotline number where residents can actually read it.",
+      "id": "info-board",
+      "kind": "select",
+      "prompt": "Post meal times, curfew, and the shelter's own hotline number where residents can actually read it.",
+      "target": "information-board",
+      "title": "Post the shelter information board",
+      "why": "A resident who does not know when meals are served or who to call with a question is a resident who has to find and interrupt a staff member for information that could have been posted once, in plain sight, for everyone. The board is what turns a hundred individual questions into one thing residents can check for themselves."
+    },
+    {
+      "cue": "Hold the log open long enough to actually read the registration total, the pet count and any open needs back to yourself before you sign it.",
+      "holdBreakNote": "You closed the log before reading the counts back. A handover nobody checked is a guess with a signature on it, not a real account of the shift.",
+      "id": "shift-log",
+      "kind": "hold",
+      "prompt": "Hold the log open long enough to actually read the registration total, the pet count and any open needs back to yourself before you sign it.",
+      "seconds": 4,
+      "target": "handover-log",
+      "title": "Hold the handover log open and read the counts back",
+      "why": "The crew coming on next shift was not here for any of this — a log filled in and closed without being read back is exactly how a wrong headcount or a missed open need rides straight through to the next shift unnoticed. Holding it open long enough to actually check it is what makes the handover trustworthy instead of just completed."
+    },
+    {
+      "cue": "Confirm with the rest of the crew how the shift actually was, and point anyone who needs it to the disaster-relief peer-support line.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Confirm with the rest of the crew how the shift actually was, and point anyone who needs it to the disaster-relief peer-support line.",
+      "target": "crew-checkin-board",
+      "title": "Check in with your own crew before you go off shift",
+      "why": "A registration desk that spends a whole shift absorbing other people's worst day is not a neutral place to stand, and the Red Cross's own critical-incident support line and the AFSCME/LIUNA peer-support contacts exist because the crew that just opened this shelter is carrying something too. Checking in with each other before anyone drives home is the same care this whole shift just gave every resident who walked through the door."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Opening a school-gym shelter: ICS check-in, private registration, intake asked once and gently, needs flagged to health, cots at spacing, family kept together, a pet area and a quiet room, and a real handover",
+  "title": "SmartCiti.X~ Shelter Intake Operations VR",
+  "trade": "Disaster relief worker — AFSCME / LIUNA with the Red Cross volunteer workforce",
+  "underwater": null,
+  "weather": "overcast"
+}

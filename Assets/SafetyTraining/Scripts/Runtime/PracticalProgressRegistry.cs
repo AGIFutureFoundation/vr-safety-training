@@ -22,7 +22,8 @@ namespace SafetyTraining.Runtime
             (construction?.TotalSteps ?? 0) + sitePracticals.Sum(item => item.TotalSteps);
 
         public bool IsComplete => construction != null && construction.IsComplete &&
-                                  sitePracticals.Length == 4 && sitePracticals.All(item => item.IsComplete);
+                                  sitePracticals.Length == GuidedSessionPlan.SiteCount - 1 &&
+                                  sitePracticals.All(item => item.IsComplete);
 
         public float Progress01 => (float)CompletedSteps / Mathf.Max(1, TotalSteps);
 

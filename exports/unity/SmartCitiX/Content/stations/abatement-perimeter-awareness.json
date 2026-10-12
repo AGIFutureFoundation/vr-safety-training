@@ -1,0 +1,421 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "perimeter-held",
+    "name": "Perimeter Held",
+    "note": "The watch kept clean: nothing crossed, nothing touched, the competent person called the moment it mattered"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "LIUNA hazmat and environmental laborer entry-level and asbestos-awareness training; OSHA 29 CFR 1926.1101 asbestos in construction (awareness-level duties and the site's competent person); 29 CFR 1910.134 respiratory protection for the entrants the standard actually covers; EPA NESHAP 40 CFR 61 Subpart M for demolition asbestos waste; the local air district's demolition and asbestos notification rules",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "EPA",
+        "citedAs": "40 CFR 61",
+        "id": "epa-40-cfr-61",
+        "title": "40 CFR Part 61 — National Emission Standards for Hazardous Air Pollutants, including the asbestos NESHAP"
+      },
+      {
+        "body": "union",
+        "citedAs": "LIUNA",
+        "id": "liuna-training-fund",
+        "title": "LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.134",
+        "id": "osha-1910-134",
+        "title": "29 CFR 1910.134 — Respiratory protection"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.1101",
+        "id": "osha-1926-1101",
+        "title": "29 CFR 1926.1101 — Asbestos in construction"
+      }
+    ]
+  },
+  "district": "Environmental Monitoring",
+  "domain": "Environmental",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "never-crossed",
+        "name": "Never Crossed the Line",
+        "note": "Never entered the regulated area or touched suspect material"
+      },
+      {
+        "id": "clean-watch",
+        "name": "Clean Watch",
+        "note": "No corrections anywhere in the shift"
+      },
+      {
+        "id": "steady-eye",
+        "name": "Steady Eye",
+        "note": "Held the fence-line dust reading close to band centre"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "quick-watch",
+        "name": "Quick Watch",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "clean-shift",
+        "name": "Clean Shift",
+        "note": "Clean run, no corrections"
+      },
+      {
+        "id": "nine-straight",
+        "name": "Nine Straight",
+        "note": "Nine correct actions in a row"
+      }
+    ],
+    "currency": "WATCH",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "New Hire",
+      "Perimeter Hand",
+      "Fence-Line Lead",
+      "Awareness Authority",
+      "Perimeter Watch Certified"
+    ],
+    "system": "Perimeter Watch"
+  },
+  "hazards": {
+    "cross-boundary": "You stepped past the boundary marker onto regulated ground. An awareness-level laborer's protection is distance and the training that stops at the fence line — the tape, the sign and the marker are the only things standing between you and material nobody has cleared you to be near, and crossing them for a better look is exactly the exposure this post exists to prevent.",
+    "self-patch-tape": "You grabbed the tape and tried to reseal the torn bag yourself. Fixing a compromised container puts your bare hands and your breathing zone closer to whatever is inside it than any part of this job calls for — a torn bag gets called in to the competent person, not repaired by whoever happens to be standing nearest when it splits.",
+    "touch-debris": "You picked up the loose scrap lying against the fence instead of leaving it where it fell and flagging it. You don't know what that material is, what it has been near, or whether it is still shedding fibre — an awareness worker's job is to point at a hazard, never to handle it, and the competent person is the one trained to decide what happens to it next.",
+    "wave-through-load": "You waved the load-out truck through the gate without anyone actually checking the bags. Every bag that leaves this gate has to be double-bagged and labeled before it goes, because once it is on a public street there is no way to pull a bag back that wasn't — the gate is the last place anyone can still stop it."
+  },
+  "id": "abatement-perimeter-awareness",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "steady-watch",
+      "alert": "A bag being carried up the loading ramp just split at the seam, and whatever was inside it is now sitting open on the ramp deck in the open air.",
+      "cue": "That bag failed right in front of you. This is not yours to patch.",
+      "delay": 4,
+      "id": "bag-tears-ramp",
+      "kind": "Bag failure on the ramp",
+      "missNote": "You watched it happen and moved on to the next thing on your list. The material sat open on the ramp for the rest of the window, and nobody who was actually trained and equipped to handle it knew it was there until long after the moment it mattered.",
+      "seconds": 14,
+      "target": "radio-unit",
+      "why": "A torn bag on an open ramp is exactly the kind of thing this post exists to catch, and exactly the kind of thing an awareness-level worker is not equipped or authorized to fix: touching torn material to re-bag it yourself puts your hands and your breathing zone directly against whatever that bag was holding, with none of the training, respirator or containment procedure the crew inside the fence actually has. The radio is the tool this job gives you for this exact moment — use it the instant it happens, not after you've already tried something else.",
+      "wrongNote": "Not the bags themselves — put your hands on this one and you've done exactly what an awareness-level worker is not authorized to do. The radio is the tool for this, not another set of untrained hands."
+    },
+    {
+      "after": "wet-method-watch",
+      "alert": "Someone from the sidewalk has ducked under the tape a few feet down the fence line and is walking toward the building with a phone raised to shoot a photo.",
+      "cue": "A member of the public just crossed the line you're supposed to be holding.",
+      "delay": 3,
+      "id": "visitor-under-tape",
+      "kind": "Public incursion",
+      "missNote": "The visitor kept walking while you dealt with something else, and by the time anyone looked back they were most of the way to the building — a bystander standing that close to active demolition and abatement work with no PPE and no idea what they're breathing is a problem this post exists to prevent, not one it gets to notice after the fact.",
+      "seconds": 12,
+      "target": "tape-gap",
+      "why": "The tape only works as a boundary if somebody enforces the part that says do not cross, and the right way to enforce it is not a chase into ground you are not authorized to enter either — it is calling the person back to the public side and closing the gap they came through, which actually restores the boundary instead of adding a second unauthorized person inside it.",
+      "wrongNote": "Not by following them across the line yourself — that only puts a second unescorted, unequipped person inside the regulated area. Call them back and close the gap in the tape."
+    }
+  ],
+  "lateNotes": {
+    "dust-monitor": "Read the meter once you're actually standing the watch, not before the shift has properly started.",
+    "radio-unit": "Nothing to report yet — the radio matters once there is something to call in, not before."
+  },
+  "name": "Abatement Perimeter Awareness",
+  "parSeconds": 260,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "hunters-point-can-we-live"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "bag-good",
+      "bag-no-label",
+      "bag-single-bag",
+      "binoculars",
+      "boundary-marker",
+      "cone-socket",
+      "cross-boundary",
+      "danger-sign",
+      "dust-monitor",
+      "exhaust-duct",
+      "hard-hat",
+      "hi-vis-vest",
+      "log-closure",
+      "manifest-board",
+      "negative-air-unit",
+      "radio-unit",
+      "recheck-sign",
+      "regulated-tape",
+      "retie-tape",
+      "safety-glasses",
+      "self-patch-tape",
+      "site-log",
+      "tape-gap",
+      "touch-debris",
+      "traffic-cone",
+      "warning-placard",
+      "wash-valve",
+      "wave-through-load"
+    ],
+    "meshes": 183
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Sign in as today's perimeter awareness assignment and note which regulated area is active.",
+      "id": "check-in",
+      "kind": "select",
+      "prompt": "Sign in as today's perimeter awareness assignment and note which regulated area is active.",
+      "target": "site-log",
+      "title": "Check in on the site log",
+      "why": "The site log is what tells anyone reading it later — the competent person, an inspector, the next shift — who was actually watching this fence line and when, and it is also where today's boundary gets confirmed before you rely on it: a regulated area drawn yesterday can move as the demolition works its way across the parcel, and the log is the one place that says where it actually stands right now."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Put on the hard hat, hi-vis vest and safety glasses — the PPE this post actually calls for.",
+      "id": "ppe-don",
+      "itemNames": {
+        "hard-hat": "hard hat",
+        "hi-vis-vest": "hi-vis vest",
+        "safety-glasses": "safety glasses"
+      },
+      "kind": "sequence",
+      "prompt": "Put on the hard hat, hi-vis vest and safety glasses — the PPE this post actually calls for.",
+      "targets": [
+        "hard-hat",
+        "hi-vis-vest",
+        "safety-glasses"
+      ],
+      "title": "Don the awareness-level PPE",
+      "why": "An awareness-level post outside the fence is not an entry post, and the PPE says so: a hard hat, a vest that keeps you visible to the trucks working the gate, and glasses against dust and debris are what this job requires, and reaching for a respirator or coveralls you were never fit-tested or trained on would only tell the next person who saw you that you thought you were about to go where you are not authorized to go."
+    },
+    {
+      "cue": "Key the radio and get a response from the competent person before starting the watch.",
+      "id": "radio-check",
+      "kind": "select",
+      "prompt": "Key the radio and get a response from the competent person before starting the watch.",
+      "target": "radio-unit",
+      "title": "Confirm the line to the competent person",
+      "why": "This whole post rests on one working link: the moment something crosses from noting it to stopping it, the only tool an awareness worker actually has is the ability to reach the person who is trained and authorized to act — not their own hands. Confirming that radio answers before the shift starts is the difference between calling it in the instant it matters and discovering, mid-emergency, that nobody can hear you."
+    },
+    {
+      "cue": "Find the three postings that make this boundary readable to somebody who has never seen this site before.",
+      "id": "walk-signage",
+      "itemNames": {
+        "danger-sign": "the asbestos danger sign",
+        "regulated-tape": "the regulated-area tape",
+        "warning-placard": "the lead warning placard"
+      },
+      "itemNotes": {
+        "danger-sign": "Posted at eye height where the tape meets the gate — the asbestos danger sign that has to be legible from the public side, not only from inside the fence.",
+        "regulated-tape": "The barrier tape itself, run continuously around the work area — a gap in it is a gap in the only thing telling a stranger where not to walk.",
+        "warning-placard": "The lead warning placard on the demolition trailer, naming the second hazard this parcel carries alongside the asbestos."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Find the three postings that make this boundary readable to somebody who has never seen this site before.",
+      "targets": [
+        "danger-sign",
+        "warning-placard",
+        "regulated-tape"
+      ],
+      "title": "Walk the postings that define this regulated area",
+      "why": "A regulated area only exists as a boundary if somebody who knows nothing about this job can see it and understand it without asking — the danger sign, the lead placard and the tape are what do that, and checking all three are actually up, actually legible and actually where they belong is the first thing this post does every shift, before anything else on the fence line is worth trusting."
+    },
+    {
+      "cue": "Stand at the marked post and confirm you are on the public side of the line.",
+      "id": "verify-boundary",
+      "kind": "select",
+      "prompt": "Stand at the marked post and confirm you are on the public side of the line.",
+      "target": "boundary-marker",
+      "title": "Confirm your own position at the boundary",
+      "why": "An awareness-level laborer's entire scope of work is defined by which side of this marker they are standing on, and that has to be confirmed on purpose rather than assumed — the boundary can shift as the crew's work area grows, and a marker that used to sit ten feet further back is a marker somebody moved for a reason you need to know before you plant your feet next to it."
+    },
+    {
+      "cue": "Locate the running negative-air machine and check where its exhaust duct actually lets out.",
+      "id": "negative-air-watch",
+      "itemNames": {
+        "exhaust-duct": "its exhaust duct",
+        "negative-air-unit": "the negative-air unit"
+      },
+      "itemNotes": {
+        "exhaust-duct": "The duct running off the unit and out through the wall, discharging away from the fence line and the public walkway rather than toward either one.",
+        "negative-air-unit": "Running on the far side of the fence, its fan audible even from here — the machine that is supposed to be holding the containment negative for as long as anyone is working inside it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Locate the running negative-air machine and check where its exhaust duct actually lets out.",
+      "targets": [
+        "negative-air-unit",
+        "exhaust-duct"
+      ],
+      "title": "Find and confirm the negative-air unit and its discharge",
+      "why": "You cannot see fibre and you are not equipped to test for it, so what you actually watch for is the machine that is supposed to be controlling it: a negative-air unit that has stopped, or a duct discharging toward the fence instead of away from it, are both things a competent person needs to hear about immediately — not things an awareness worker fixes, but things only an awareness worker standing here all shift is positioned to notice at all."
+    },
+    {
+      "cue": "Keep the view steady on the crew wetting the material behind the fence — don't let it drift off target.",
+      "holdBreakNote": "The view drifted off the work before the pass was done — bring it back and hold it there, or you've stopped actually watching.",
+      "id": "wet-method-watch",
+      "kind": "track",
+      "prompt": "Keep the view steady on the crew wetting the material behind the fence — don't let it drift off target.",
+      "seconds": 6,
+      "target": "binoculars",
+      "title": "Hold the binoculars steady on the wet method work",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.4,
+        "green": [
+          0.35,
+          0.6
+        ],
+        "label": "VIEW",
+        "rise": 0.45,
+        "start": 0.15
+      },
+      "why": "A glance that slides off the work after two seconds tells you nothing about whether the wet method held for the whole time that material was being disturbed, and disturbance is exactly when a dry patch shows itself — holding the view steady long enough to actually watch the spray stay on the material is the difference between an awareness worker who observed the procedure and one who only confirmed a crew was present."
+    },
+    {
+      "cue": "Brace the handheld monitor against the gusts and hold it still for a clean reading.",
+      "holdBreakNote": "You let the monitor swing before the reading settled. Steady it again — a reading taken while it's still moving isn't a reading of the air.",
+      "id": "steady-watch",
+      "kind": "hold",
+      "prompt": "Brace the handheld monitor against the gusts and hold it still for a clean reading.",
+      "seconds": 5,
+      "target": "dust-monitor",
+      "title": "Hold the monitor steady against the wind",
+      "why": "A meter waved around in a gust reads its own motion as much as it reads the air, and a fence-line reading nobody can trust is worse than no reading at all because it still gets written down and believed — holding the monitor still for the full count is what turns the number on the screen into something worth acting on."
+    },
+    {
+      "cue": "Read the handheld particulate monitor at the fence and commit once it holds under the site's action level.",
+      "gauge": {
+        "green": [
+          0.15,
+          0.42
+        ],
+        "label": "FENCE-LINE PM",
+        "missNote": "That reading is climbing past the action level. Note the time and call it in — do not wait to see if it comes back down on its own.",
+        "speed": 0.62
+      },
+      "id": "dust-reading",
+      "kind": "gauge",
+      "prompt": "Read the handheld particulate monitor at the fence and commit once it holds under the site's action level.",
+      "target": "dust-monitor",
+      "title": "Read the fence-line dust monitor",
+      "why": "A properly wetted material barely dusts at all, so a fence-line reading that climbs is usually the first outside sign that the wet method has stopped working behind that fence, long before anyone outside could see or smell anything wrong — reading this meter honestly, rather than glancing at it and moving on, is how an awareness post actually does the one thing it is here to do."
+    },
+    {
+      "cue": "Open the wheel-wash valve so the truck's tires are rinsed before it rolls onto the public street.",
+      "id": "wheel-wash",
+      "kind": "turn",
+      "prompt": "Open the wheel-wash valve so the truck's tires are rinsed before it rolls onto the public street.",
+      "target": "wash-valve",
+      "title": "Run the tire wash before a load-out truck leaves",
+      "turn": {
+        "axis": "y",
+        "label": "WHEEL WASH",
+        "turns": 0.5
+      },
+      "why": "Whatever dust or debris is sitting on a truck's tires when it crosses this gate does not stay on the truck — it tracks straight onto the public street the moment the tires touch it, which turns a controlled site into an uncontrolled one one truck at a time. Running the wash before the gate opens, every time, is a five-second habit that is the only thing standing between this parcel's dust and the sidewalk outside it."
+    },
+    {
+      "cue": "Find the bags at the gate that are not ready to leave — not properly double-bagged and labeled.",
+      "decoyNotes": {
+        "bag-good": "That one is double-bagged, labeled and sitting with its manifest — let it go through."
+      },
+      "id": "check-labels",
+      "itemNames": {
+        "bag-no-label": "the bag with no label",
+        "bag-single-bag": "the single-bagged section"
+      },
+      "itemNotes": {
+        "bag-no-label": "A sealed bag with nothing written on it. A bag that cannot be identified is a bag that cannot be tracked once it leaves this gate — it does not go on the truck until it is labeled.",
+        "bag-single-bag": "One layer of poly around a section that should be wearing two. A single bag is one puncture away from being no bag at all, and it gets the second layer before it goes anywhere near the load-out."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Find the bags at the gate that are not ready to leave — not properly double-bagged and labeled.",
+      "targets": [
+        "bag-no-label",
+        "bag-single-bag"
+      ],
+      "title": "Check the waste bags staged for load-out",
+      "why": "The gate is the last point anyone can catch a bag before it is on a public road, so this is where the double-bag-and-label rule either holds or it does not: flagging the two that are not ready, rather than waving the whole stack through because most of it looks fine, is the entire value an awareness worker adds standing at this load-out."
+    },
+    {
+      "cue": "Carry the cone to the gap in the barrier where the sidewalk runs closest to the truck ramp.",
+      "drag": {
+        "missNote": "Not over the gap — a cone set anywhere else still leaves the actual cut-through open.",
+        "radius": 0.45,
+        "to": "cone-socket"
+      },
+      "id": "place-cone",
+      "kind": "drag",
+      "prompt": "Carry the cone to the gap in the barrier where the sidewalk runs closest to the truck ramp.",
+      "target": "traffic-cone",
+      "title": "Reroute foot traffic away from the loading ramp",
+      "why": "A loading ramp with trucks backing across it and a public sidewalk running six feet from it only stays safe if somebody has actually closed the gap between them — a cone set exactly where pedestrians would otherwise cut the corner prevents the specific, ordinary way someone not on this crew ends up standing where a reversing truck cannot see them."
+    },
+    {
+      "cue": "Confirm the load-out truck has its waste manifest before it's logged through the gate.",
+      "id": "gate-log",
+      "kind": "select",
+      "prompt": "Confirm the load-out truck has its waste manifest before it's logged through the gate.",
+      "target": "manifest-board",
+      "title": "Verify the manifest is with the outbound load",
+      "why": "A truck that leaves this site without its manifest is a load nobody downstream can prove is what the paperwork says it is, and by the time that gets noticed the truck is already off-site — checking that the manifest is physically with the load, not just filed somewhere back at the office, is the last check this post can make before the load stops being this crew's problem and becomes the hauler's."
+    },
+    {
+      "cue": "Retie any loose tape, recheck the signage is still posted, then log the closing check — in that order.",
+      "id": "secure-perimeter",
+      "itemNames": {
+        "log-closure": "log the closing check",
+        "recheck-sign": "recheck the sign",
+        "retie-tape": "retie the tape"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Retie the tape first, then recheck the sign, then log it — logging before the fence is actually secure writes down a check that hasn't happened yet.",
+      "prompt": "Retie any loose tape, recheck the signage is still posted, then log the closing check — in that order.",
+      "targets": [
+        "retie-tape",
+        "recheck-sign",
+        "log-closure"
+      ],
+      "title": "Close out the watch in order",
+      "why": "Retying the tape before rechecking the sign means the boundary is already whole by the time you're confirming what it says, and logging last means the entry in the site book actually reflects a fence line that was checked rather than one that is about to be checked after the shift is already over — reversing that order is how a closing entry ends up describing a boundary nobody actually verified."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "A new laborer's fence-line watch on a demolition perimeter: the postings, the negative-air units, the wet method, the waste labels, and the line between watching and calling it in",
+  "title": "SmartCiti.X~ Abatement Perimeter Awareness VR",
+  "trade": "Hazmat and environmental laborer — LIUNA",
+  "underwater": null,
+  "weather": "wind"
+}

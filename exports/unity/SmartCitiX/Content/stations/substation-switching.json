@@ -1,0 +1,335 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "order-held",
+    "name": "Order Held",
+    "note": "Every step of the switching order read back, done in sequence, tested dead and grounded before the hand-off"
+  },
+  "category": "Energy & Power",
+  "certification": "IBEW — utility switching and tagging authorisation; OSHA 29 CFR 1910.269 (electric power generation, transmission and distribution); NFPA 70E arc-flash PPE for the verification",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "IBEW",
+        "id": "ibew-neca-jatc",
+        "title": "IBEW/NECA Joint Apprenticeship and Training Committee — inside and outside wireman apprenticeship standards, taught from the electrical training ALLIANCE curriculum"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 70E",
+        "id": "nfpa-70e",
+        "title": "NFPA 70E — Standard for Electrical Safety in the Workplace"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.269",
+        "id": "osha-1910-269",
+        "title": "29 CFR 1910.269 — Electric power generation, transmission and distribution"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Energy",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "read-back",
+        "name": "Read-Back",
+        "note": "Every step confirmed with the control centre before it was done"
+      },
+      {
+        "id": "breaker-first",
+        "name": "Breaker First",
+        "note": "Never opened a disconnect under load, never grounded untested bus"
+      },
+      {
+        "id": "proven-dead",
+        "name": "Proven Dead",
+        "note": "Phase-to-ground readings inside the dead band on every phase"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-order",
+        "name": "Clean Order",
+        "note": "No corrections through the whole switching order"
+      },
+      {
+        "id": "grounds-held",
+        "name": "Grounds Held",
+        "note": "Held the ground clamps to the click every time"
+      },
+      {
+        "id": "outage-window",
+        "name": "Outage Window",
+        "note": "Feeder cleared inside 80% of par"
+      }
+    ],
+    "currency": "STEP",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Sub Tech",
+      "Switching Operator",
+      "Senior Operator",
+      "System Operator",
+      "Switching Authority Certified"
+    ],
+    "system": "Switching Authority"
+  },
+  "hazards": {
+    "disconnect-under-load": "You went to open the line disconnect with the breaker still closed. A disconnect is not rated to break load — opening it under 12 kV of feeder current draws an arc across the blades that does not stop until something melts.",
+    "ground-untested": "You reached for the ground clamps before the bus was tested dead. Grounds on an energised bus are a bolted fault with your hands on the lead; the test comes first, every phase, every time.",
+    "no-arc-ppe": "You approached the cubicle for the test without arc-rated PPE. The verification is the one step where the bus might still be live; the label on the cubicle says what to wear, and it is worn.",
+    "skip-readback": "You did the step without reading it back to the control centre. The order exists so two people agree on every switch before it moves — a step done alone is a step the system operator does not know happened."
+  },
+  "id": "substation-switching",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "test",
+      "alert": "Somebody has walked into the yard behind you in a hard hat and a hi-vis and nothing else. They want a word.",
+      "cue": "Stop. Go to the person and walk them back out of the boundary.",
+      "delay": 5,
+      "id": "unescorted-visitor",
+      "kind": "Yard breach",
+      "missNote": "You carried on testing with an unprotected person standing inside the boundary. If that bus had been live behind the disconnect, the person who did not know what they had walked into would have taken the incident energy with you.",
+      "seconds": 12,
+      "target": "yard-visitor",
+      "why": "The boundary is not a courtesy. Anyone inside it while a bus is being proved is inside the arc-flash boundary, and a hi-vis vest is fuel. You do not shout a warning across a yard and carry on — you stop the job and escort them out, because they are the only person here who does not know what they have walked into.",
+      "wrongNote": "The person in the yard is the hazard right now. Deal with them before anything else on this order."
+    },
+    {
+      "after": "grounds",
+      "alert": "Control is calling. They are asking you to leave one set of grounds off because another crew wants the line back early.",
+      "cue": "Take the call and read it back before you do anything with it.",
+      "delay": 5,
+      "id": "order-changed",
+      "kind": "Control call",
+      "missNote": "You ignored control mid-operation. Either the change was real and you are now out of step with the people operating the other end of that line, or it was not and nobody knows which.",
+      "seconds": 14,
+      "target": "radio",
+      "why": "A verbal change to a switching order is not a switching order. It gets read back, logged and re-issued, or it did not happen — and the person holding the grounds is the one who wears the consequence of a change nobody wrote down.",
+      "wrongNote": "That is not the radio. A call from control during a switching operation is answered and read back, every time."
+    }
+  ],
+  "lateNotes": {
+    "ground-a": "Grounds go on after the bus is proven dead on every phase, never before.",
+    "line-disconnect": "The breaker opens first — a disconnect is opened only with no current through it."
+  },
+  "name": "Substation Switching",
+  "parSeconds": 245,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "electrical-first-period",
+    "energy-transition",
+    "situational-awareness"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "arc-hood",
+      "arc-suit",
+      "bus-disconnect",
+      "cracked-insulator",
+      "disconnect-under-load",
+      "feeder-breaker",
+      "ground-a",
+      "ground-b",
+      "ground-c",
+      "ground-clamp",
+      "ground-untested",
+      "hold-tag",
+      "line-disconnect",
+      "no-arc-ppe",
+      "radio",
+      "radio-handoff",
+      "skip-readback",
+      "switching-order",
+      "test-probe",
+      "yard-visitor"
+    ],
+    "meshes": 171
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the order end to end: feeder, breaker, disconnects, test points, grounds, tag.",
+      "id": "order",
+      "kind": "select",
+      "prompt": "Read the order end to end: feeder, breaker, disconnects, test points, grounds, tag.",
+      "target": "switching-order",
+      "title": "Read the switching order",
+      "why": "A switching order is drafted by one operator and independently checked by another before it is ever issued, precisely because a single step done out of sequence against a live 12 kV bus is an arc flash, not a paperwork error. The operator reads the whole order before touching the first line, since a step that looks harmless in isolation — opening a disconnect before the breaker, grounding before the test — is only safe in the sequence the order puts it in."
+    },
+    {
+      "cue": "Call the system operator, identify yourself, read back the step, get the go-ahead.",
+      "id": "readback",
+      "kind": "select",
+      "prompt": "Call the system operator, identify yourself, read back the step, get the go-ahead.",
+      "target": "radio",
+      "title": "Read back step 1 to the control centre",
+      "why": "Two people agree on every switch before it moves, because the operator at the cubicle cannot see the rest of the system and the control centre cannot see the cubicle. The read-back is the only check that the order in your hand is the exact order the control centre thinks it is issuing — a misheard step number here can leave a breaker elsewhere opening on a line a different crew still has hands on."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Suit, hood and gloves to the cubicle's arc-flash label before the door opens.",
+      "id": "ppe",
+      "itemNames": {
+        "arc-hood": "arc-rated hood and gloves",
+        "arc-suit": "arc-rated suit"
+      },
+      "kind": "sequence",
+      "prompt": "Suit, hood and gloves to the cubicle's arc-flash label before the door opens.",
+      "targets": [
+        "arc-suit",
+        "arc-hood"
+      ],
+      "title": "Arc-rated PPE for the cubicle",
+      "why": "The cubicle's own arc-flash label states the incident energy that door can release if the bus behind it turns out to still be live. The suit, hood and gloves are rated to that specific number, not to a general sense of caution, and none of it is optional to put on after the door is already open — by then the exposure it exists to prevent has already started."
+    },
+    {
+      "cue": "Trip the feeder breaker and confirm it shows OPEN on the mimic.",
+      "id": "breaker",
+      "kind": "turn",
+      "prompt": "Trip the feeder breaker and confirm it shows OPEN on the mimic.",
+      "target": "feeder-breaker",
+      "title": "Open the feeder breaker",
+      "turn": {
+        "axis": "y",
+        "label": "BREAKER",
+        "turns": 0.5
+      },
+      "why": "The breaker is the one device in this line-up built to interrupt load current without destroying itself doing it. It opens first so everything downstream of it — the disconnects, the bus, the grounds — is de-energised before any of it is touched, since none of that other equipment is rated to break the current the breaker was designed for."
+    },
+    {
+      "cue": "Line-side disconnect open, then bus-side — visible breaks each side of the breaker.",
+      "id": "disconnects",
+      "itemNames": {
+        "bus-disconnect": "bus-side disconnect",
+        "line-disconnect": "line-side disconnect"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Line side first, then bus side — the order says so, and the order is what was read back.",
+      "prompt": "Line-side disconnect open, then bus-side — visible breaks each side of the breaker.",
+      "targets": [
+        "line-disconnect",
+        "bus-disconnect"
+      ],
+      "title": "Open the disconnects",
+      "why": "With the breaker already open there is no load current left for a disconnect to interrupt, which is the only reason it is safe to move by hand. Opening both the line side and the bus side leaves two visible breaks in the circuit, isolating the breaker from either direction it could otherwise be back-fed from — one disconnect left closed is a path the grounds you hang next do not account for."
+    },
+    {
+      "cue": "Prove the tester on a live source, test A, B and C phase to ground, prove the tester again; commit on a dead reading.",
+      "gauge": {
+        "green": [
+          0,
+          0.14
+        ],
+        "label": "PHASE-GND",
+        "missNote": "That phase is not dead — stop. Recheck the disconnects and the source before anything else.",
+        "speed": 0.75
+      },
+      "id": "test",
+      "kind": "gauge",
+      "prompt": "Prove the tester on a live source, test A, B and C phase to ground, prove the tester again; commit on a dead reading.",
+      "target": "test-probe",
+      "title": "Test the bus dead — every phase",
+      "why": "Open disconnects are a claim about the state of the bus, not a measurement of it — the tester is the only proof there is. Every phase gets tested on its own, and the tester is proved against a known live source both before and after, because a bus that reads dead on a broken tester looks exactly like a bus that actually is dead, right up until somebody grounds it and finds out which one it was."
+    },
+    {
+      "cue": "Ground end to the ground bus first, then the clamp to each phase, A, B, C, with the hot stick.",
+      "id": "grounds",
+      "itemNames": {
+        "ground-a": "A-phase ground",
+        "ground-b": "B-phase ground",
+        "ground-c": "C-phase ground"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "A, B, C in the order on the switching order — the read-back was for that sequence.",
+      "prompt": "Ground end to the ground bus first, then the clamp to each phase, A, B, C, with the hot stick.",
+      "targets": [
+        "ground-a",
+        "ground-b",
+        "ground-c"
+      ],
+      "title": "Apply the grounds",
+      "why": "Grounds are what actually make an isolated bus safe to work on: if anything back-feeds past the open disconnects, the fault current has a path to ground instead of a path through whoever is standing at the bus. The ground end goes onto the ground bus first and the clamp goes onto the phase second, so the clamp end in your hand is never the live end of an unterminated ground lead."
+    },
+    {
+      "cue": "Hold each clamp to the click of the hot-stick torque head.",
+      "holdBreakNote": "Came off before the click — the clamp is not seated. Set it again.",
+      "id": "clamp",
+      "kind": "hold",
+      "prompt": "Hold each clamp to the click of the hot-stick torque head.",
+      "seconds": 4,
+      "target": "ground-clamp",
+      "title": "Torque the ground clamps",
+      "why": "A ground clamp that is only hand-tight can lift clear of the phase under the mechanical force of real fault current, at the exact moment the ground exists to carry that current instead of the crew. The hot-stick torque head clicks at the manufacturer's rated torque, and holding to that click — not to a guess at how tight feels right — is what keeps the clamp seated when a fault actually arrives."
+    },
+    {
+      "cue": "Hang the hold tag with the order number on the breaker and each disconnect, and lock them.",
+      "id": "tag",
+      "kind": "select",
+      "prompt": "Hang the hold tag with the order number on the breaker and each disconnect, and lock them.",
+      "target": "hold-tag",
+      "title": "Tag and lock the isolation",
+      "why": "The hold tag names the switching order number, the operator who hung it, and the crew that now holds exclusive control of this feeder. Locked onto the breaker and both disconnects, it is a physical statement that nothing on this equipment moves again until the crew named on it calls the control centre and releases it — not once the outage merely looks finished."
+    },
+    {
+      "cue": "Inspect the bus, supports and connections while it is dead, and click what the maintenance crew needs to know.",
+      "id": "walk",
+      "itemNames": {
+        "cracked-insulator": "cracked bus insulator"
+      },
+      "itemNotes": {
+        "cracked-insulator": "The C-phase bus support insulator is cracked through the skirts — a tracking path to the frame. It goes on the outage work list now, while the feeder is dead."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Inspect the bus, supports and connections while it is dead, and click what the maintenance crew needs to know.",
+      "targets": [
+        "cracked-insulator"
+      ],
+      "title": "Walk the cubicle before the hand-off",
+      "why": "The feeder is only dead for the length of this outage window, and whatever the walk-down finds now is what gets fixed inside it. A cracked insulator or a loose connection missed during this window is live again the moment the feeder is restored, left waiting either for the next planned outage to catch it or to fail on its own and cause one."
+    },
+    {
+      "cue": "Call the control centre: order complete, feeder isolated, grounded and tagged, handed to the maintenance crew.",
+      "id": "handoff",
+      "kind": "select",
+      "prompt": "Call the control centre: order complete, feeder isolated, grounded and tagged, handed to the maintenance crew.",
+      "target": "radio-handoff",
+      "title": "Report the feeder clear",
+      "why": "The hand-off is what formally closes the switching order: the control centre logs the feeder out of service against your name and this order number, and the maintenance crew now holds clearance on it until they call control back to release it. Nobody re-energises a feeder that is still logged to another crew's open order."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Feeder outage on a written switching order: read-back, breaker open, disconnects open, test dead, grounds on, tag, hand-off",
+  "title": "SmartCiti.X~ Substation Switching VR",
+  "trade": "Substation electrician / switching operator",
+  "underwater": null,
+  "weather": "overcast"
+}

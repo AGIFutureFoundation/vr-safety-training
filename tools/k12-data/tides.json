@@ -1,0 +1,261 @@
+{
+  "id": "k12-graphing-tide-readings-at-the-pier",
+  "index": "816",
+  "prefix": "ktp",
+  "accent": "#5a9fd8",
+  "floor": [
+    "#7d7768",
+    "#6f6a5c"
+  ],
+  "wall": [
+    "#dce4e6",
+    "#ccd6d8"
+  ],
+  "trade": "Maths class on the pier's viewing deck — learner and harbour technician",
+  "header": "Upper-primary and lower-secondary maths on a pier's viewing deck: reading a tide staff, recording readings with their times, plotting them as a line graph and reading the pattern, using only the readings the scene itself shows.",
+  "name": "Graphing Tide Readings at the Pier",
+  "tagline": "Time along the bottom, height up the side — and keep behind the rail while you read the staff",
+  "badge": {
+    "id": "rise-and-fall",
+    "name": "Rise and Fall",
+    "note": "Tide readings taken from the staff, plotted on labelled axes and the pattern described from the graph"
+  },
+  "board": {
+    "name": "Tide Board",
+    "currency": "READINGS",
+    "ranks": [
+      "Watcher",
+      "Reader",
+      "Recorder",
+      "Plotter",
+      "Hydrographer"
+    ]
+  },
+  "hazards": [
+    {
+      "id": "time-up-the-side",
+      "label": "Put time up the side and height along the bottom?",
+      "face": "AXES\nSWAPPED",
+      "text": "You put time up the side and height along the bottom. Time is what you chose to measure at, so it goes along the bottom; the height is what you found, so it goes up the side. Swapped axes turn a rising tide into a picture nobody can read."
+    },
+    {
+      "id": "uneven-axis-steps",
+      "label": "Space the axis marks however they fit?",
+      "face": "UNEVEN\nSCALE",
+      "text": "You spaced the marks on the axis unevenly to make the points fit. Each step along an axis must stand for the same amount, or the graph's shape lies: a steady rise can look like a sudden jump and a jump can look like nothing at all."
+    },
+    {
+      "id": "lean-over-the-rail",
+      "label": "Lean over the rail to read the staff closer?",
+      "face": "LEAN\nOVER",
+      "text": "You leaned over the pier rail to see the staff better. The rail is there because the drop to the water is dangerous; the technician's camera feed on the bench shows the staff close up, and you read it from behind the rail."
+    },
+    {
+      "id": "join-dots-as-straight-rule",
+      "label": "Say the tide will keep rising in a straight line?",
+      "face": "STRAIGHT\nFOREVER",
+      "text": "You said the tide will keep rising along the same straight line. Your graph shows only the readings you took; a tide rises and falls again, and a line drawn past your last reading is a guess, not a finding."
+    }
+  ],
+  "find1": {
+    "title": "Find what the tide staff shows",
+    "cue": "Mark the three things you need before taking a reading from the tide staff.",
+    "why": "A tide staff is a tall ruler fixed in the water, and a reading means nothing without three things: where the water surface meets the scale, what unit the scale is marked in, and the time you read it. Taking all three together is what turns looking at the water into data you can plot.",
+    "items": [
+      [
+        "waterline",
+        "where the water meets the scale",
+        "Read at the water surface, looking level, not from above."
+      ],
+      [
+        "scale-unit",
+        "the unit the staff is marked in",
+        "Write it beside every reading."
+      ],
+      [
+        "clock",
+        "the time on the pier clock",
+        "Every reading needs its time, or it cannot be plotted."
+      ]
+    ],
+    "decoy": [
+      "gull",
+      "a gull sitting on the piling",
+      "Nice to watch, but it is not part of the reading."
+    ]
+  },
+  "select1": {
+    "title": "Take your place behind the rail",
+    "cue": "Stand at the viewing rail before the technician switches on the staff camera.",
+    "why": "A pier is a working edge above deep water, and the rail marks where visitors stop. Taking your place behind it first means the whole lesson can happen without anyone near the drop, which is the same habit harbour workers keep when they work to the edge only with the right equipment.",
+    "key": "rail-card",
+    "label": "Stand behind the rail",
+    "face": "BEHIND\nTHE RAIL"
+  },
+  "seq": {
+    "title": "Put the graphing method in order",
+    "cue": "Record the readings, draw the axes, choose an even scale, then plot the points.",
+    "why": "Recording the readings first, in a table with their times, means the graph is drawn from data and not from memory. Drawing and labelling the axes, choosing an even scale that fits the smallest and largest readings, and only then plotting each point keeps every point honest and the shape true.",
+    "oon": "Out of order. Record the readings in a table before you draw anything.",
+    "items": [
+      [
+        "ord-table",
+        "record each reading with its time"
+      ],
+      [
+        "ord-axes",
+        "draw and label both axes"
+      ],
+      [
+        "ord-scale",
+        "choose an even scale"
+      ],
+      [
+        "ord-plot",
+        "plot each reading as a point"
+      ]
+    ]
+  },
+  "hold": {
+    "title": "Read the staff at eye level",
+    "cue": "Hold your view level with the waterline on the camera feed until the ripples settle.",
+    "why": "Looking at a scale from above or below makes the reading seem higher or lower than it is, which is called parallax. Holding your eye level with the waterline and waiting for the ripples to settle gives a reading that another person would agree with, and that is what makes data trustworthy.",
+    "brk": "The view tilted and the reading jumped. Look level again and let the ripples settle.",
+    "key": "eye-level",
+    "label": "Eye level with the waterline"
+  },
+  "turn": {
+    "title": "Turn the graph to the right way round",
+    "cue": "Turn the axis dial until time runs along the bottom and height runs up the side.",
+    "why": "By agreement, the thing you choose to measure at goes along the bottom and the thing you find goes up the side. Following that agreement means anyone who picks up your graph reads it the right way first time, which is why every scientist and engineer draws time along the bottom.",
+    "key": "axis-dial",
+    "label": "Axis orientation",
+    "dial": "AXES"
+  },
+  "gauge": {
+    "title": "Plot the latest reading at the right height",
+    "cue": "Commit when the point sits exactly at the height the latest reading shows.",
+    "why": "Plotting means finding the time along the bottom, going straight up to the reading's height, and marking there. Stopping exactly at the height the table shows, not roughly near it, is what keeps the line honest when the points are joined.",
+    "key": "plot-meter",
+    "label": "Point height",
+    "meter": "HEIGHT",
+    "miss": "Off the reading. Go straight up from the time to the height in your table."
+  },
+  "drag": {
+    "title": "Place the point at its time",
+    "cue": "Drag the marker along the bottom to the time the reading was taken.",
+    "why": "A point sits where its time and its height meet. Placing it at the time the reading was actually taken, not at the next free space, keeps the gaps between readings true, so that a graph with readings taken at uneven times still shows the tide's real shape.",
+    "key": "time-marker",
+    "label": "Reading marker",
+    "spot": "time-spot",
+    "spotLabel": "The reading's time",
+    "miss": "Not at its time yet. Slide it along the bottom to the time in the table."
+  },
+  "select2": {
+    "title": "Say what the graph shows",
+    "cue": "Say whether the tide was rising or falling across your readings, and how the graph shows it.",
+    "why": "A line going up from left to right means the height grew as time went on; going down means it fell. Describing the pattern in words, and pointing to the part of the graph that shows it, is reading a graph rather than just drawing one.",
+    "key": "compare-card",
+    "label": "Read the pattern",
+    "face": "RISING OR\nFALLING?"
+  },
+  "find2": {
+    "title": "Spot the problems in a classmate's tide graph",
+    "cue": "Look at the draft graph and mark each problem.",
+    "why": "Line graphs go wrong in a few familiar ways: an axis with no label, a scale whose steps are not even, and a point plotted at the wrong time. Spotting them on someone else's graph trains the eye that checks your own before it is shared.",
+    "items": [
+      [
+        "gr-no-label",
+        "an axis with no label",
+        "Name the axis and its unit."
+      ],
+      [
+        "gr-uneven",
+        "axis steps that are not even",
+        "Every step stands for the same amount."
+      ],
+      [
+        "gr-wrong-time",
+        "a point at the wrong time",
+        "Check each point against the table."
+      ]
+    ],
+    "decoy": [
+      "gr-title",
+      "a clear title at the top",
+      "A clear title is good practice. Keep it."
+    ]
+  },
+  "track": {
+    "title": "Follow the waterline as the tide moves",
+    "cue": "Keep the marker on the waterline as the water moves up and down the staff.",
+    "why": "Water in a harbour is never perfectly still, and a reading is the level the surface keeps returning to, not one splash. Following the waterline for a while shows why a technician takes the middle of the movement, and why one quick glance can be off.",
+    "brk": "The marker lost the waterline. Follow the surface back and settle on its middle.",
+    "key": "track-meter",
+    "label": "Waterline followed",
+    "meter": "WATERLINE"
+  },
+  "record": {
+    "title": "Record the table and the graph",
+    "cue": "Write each reading with its time and unit, and label the graph's axes and title.",
+    "why": "The table is the evidence and the graph is the picture of it; keeping both lets anyone check a point against the reading it came from. Labelled axes, units and a title mean the graph still makes sense to someone who was not on the pier when the readings were taken.",
+    "key": "tide-log",
+    "label": "Tide record",
+    "done": "Table and graph recorded"
+  },
+  "share": {
+    "title": "Compare your graph with the technician's",
+    "cue": "Hold your graph beside the technician's own record and look for differences.",
+    "why": "Comparing with an independent record is how scientists check their measurements. If both graphs show the same shape, the readings agree; if they differ, you look for the reason, a misread staff or a point at the wrong time, before trusting either one.",
+    "key": "share-board",
+    "label": "Compare with the technician",
+    "done": "Graphs compared"
+  },
+  "checkin": {
+    "title": "Check in at the end of the visit",
+    "cue": "How did the readings and the graph go? What would you change next time?",
+    "why": "The pier crew closes every shift by reading the day's log back together, so the class does the same with its tide graph. Each learner points to one reading they plotted and says what the curve told them; a puzzled face here is worth more than a tidy chart, because it shows where the graph still needs explaining.",
+    "label": "End-of-visit check-in"
+  },
+  "interrupts": [
+    {
+      "id": "a-wave-splashes-the-deck",
+      "kind": "Wet deck",
+      "key": "move-back",
+      "label": "Move back to the dry part of the deck",
+      "alert": "A boat's wake sends a wave over the lower deck and the boards near the rail are wet.",
+      "cue": "Move back to the dry part of the deck and tell the technician the boards are wet.",
+      "why": "Wet boards are slippery, and near a rail a slip is serious. Moving back and telling the technician lets them mark or dry the area; carrying on at the rail because the lesson is going well is how a small hazard becomes a fall.",
+      "miss": "Nobody moved back, and a classmate slipped on the wet boards right beside the rail.",
+      "wrong": "That leaves you on the wet boards. Move back and tell the technician. Choose the response that deals with it now.",
+      "done": "Group moved back, wet boards coned off. The lesson carries on."
+    },
+    {
+      "id": "the-technician-asks-for-a-reading",
+      "kind": "Technician question",
+      "key": "say-reading",
+      "label": "Give the reading with its time and unit",
+      "alert": "The harbour technician asks you to read out the staff as it is now.",
+      "cue": "Give the reading with its time and its unit.",
+      "why": "A reading without its time or unit cannot go in anyone's record. Saying all three together is the habit that makes your data usable by the technician, and it is exactly how readings are passed on at a working harbour.",
+      "miss": "You gave a bare number with no time or unit, and the technician could not write it in the record.",
+      "wrong": "That misses the time or the unit. Give all three. Choose the response that deals with it now.",
+      "done": "Reading given with its time and unit. It goes in the record."
+    }
+  ],
+  "crew": [
+    "Maths teacher",
+    "Classmate",
+    "Harbour technician",
+    "Deckhand"
+  ],
+  "guide": {
+    "start": "Time along, height up.",
+    "after": "Up to the right: the tide is rising.",
+    "hazard": "Stop. Are the axes the right way round, with even steps?"
+  },
+  "lateRecord": "The tide record is written once every reading is plotted — nothing to record yet.",
+  "lateCheckin": "The check-in comes at the very end of the visit.",
+  "scene": "deck",
+  "order": "c"
+}

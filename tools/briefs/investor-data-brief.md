@@ -1,0 +1,19 @@
+# Investor data brief — the platform's inventory, programme overviews and figures, generated from the repo
+
+Binds LEDGER (console LEDGER). `console-brief.md` applies. Every figure is computed from the repo by the generator; nothing is typed by hand, estimated or projected. No revenue, price, market size, user count or customer is stated anywhere in these files.
+
+## Deliverables
+1. `tools/gen_investor.mjs` (deterministic: sorted, no timestamps) writing `docs/investor/`:
+   - `platform-summary.json` + `.csv` — procedures, SmartCiti.X stations, Trade Skills rooms, programmes, categories, unions, training bodies, standards, competencies, ladder levels, checkers, eval corpus mean and the per-band distribution (≥95, 90–94, <90), worlds with their counts (Bay World zones/sites/landmarks/roads, the Deep zones/sites/landmarks/lines, Fairway holes, Regatta yachts/courses/events), quests/eggs/activities per world, Unity export counts. Each value carries `source` (the file or command).
+   - `programmes.csv` — one row per programme: id, name, category mix, station count, union/training bodies named, competency require-count, ladder levels full, Bay World / Deep sites anchoring it, eval mean of its stations.
+   - `stations.csv` — one row per procedure: id, title, category, programme ids, step count, kinds, hazards, interruptions, citations count, eval score, standards score, mesh count if the catalog carries it.
+   - `assets.csv` — every builder in `EQUIPMENT_BUDGET`, `FLEET_BUDGET`, `PROPS_BUDGET`, the toolkit budget, `WILDLIFE_BUDGET`, `SKY_BUDGET`: name, family (equipment / vehicle / boat / prop / tool / wildlife / sky), meshes, footprint, parts, the stations using it (grep the sims), exported to Unity (from `exports/unity/SmartCitiX/Models/MANIFEST.json`).
+   - `vehicles-and-boats.csv` — the vehicle and vessel subset with a plain description from each builder's doc comment.
+   - `worlds.csv` — each open-world scene and scenic district: name, page, bounds, zones, sites, landmarks, routes, mesh budgets, quests, eggs, activities.
+   - `ui-surfaces.csv` — every page in `WebXR/dist/` and each app's HUD panels (home, SmartCiti.X, Trade Skills, Holodeck, instructor console, arcade, race, Fairway, Bay World, Atlas, Regatta, the Deep, the track pages): name, path, purpose in one line from the page's own heading or description, input modes supported.
+   - `unions.csv` — every union in `tools/unions.json` with its training body and the programmes that name it.
+2. `docs/programmes/<id>.md` — one overview per programme generated from the catalog: the programme's own description and union line, who it is for (from its `why` lines), the station list with a one-line summary each (the station's tagline or first `why` sentence), the competency rule, the ladder, where it sits in Bay World and the Deep, the standards it cites, and a link to its track page. `docs/programmes/README.md` indexes them. For `job-readiness-edition` and `wojrc-pathway-edition`, the only statements about the organisation are the sourced text in `tools/briefs/wojrc-brief.md`; the person the sponsor named is referred to only as "named by the sponsor of this edition".
+3. `tools/check_investor.mjs` in `check_all`: the generator's output is up to date (re-run and diff clean), every programme has an overview, every CSV parses with a header and consistent columns, no forbidden commercial words (revenue, price, customers, ARR, valuation, market size, users) appear in the generated files, no model name.
+
+## Process
+Start with `git fetch origin claude/vr-ar-safety-training-wkwmve && git merge --ff-only FETCH_HEAD`. Keep `docs/consoles/LEDGER.md`. Commit in steps; each commit message ends with the two trailer lines in your task. Gate with `node tools/check_all.mjs` (exact "All N checkers pass" line). Hand back within 35 minutes: ≤200 words, commit hashes, the check_all line, row counts per file.

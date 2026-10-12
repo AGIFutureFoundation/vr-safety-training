@@ -1,0 +1,382 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "report-read-right",
+    "name": "Report Read Right",
+    "note": "Every line read, every error disputed with both companies, and nothing given to a caller you could not verify"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "The Fair Credit Reporting Act (FCRA) as the Consumer Financial Protection Bureau (CFPB) states it — free credit reports from each nationwide credit reporting company through AnnualCreditReport.com, the right to dispute inaccurate or incomplete information with the company that reports it and the company that furnished it, and an investigation usually completed within 30 days; the CFPB's guidance on security freezes, fraud alerts and debt collection; the Truth in Lending Act's APR disclosure as the CFPB describes it, for the card accounts listed on the report; the IRS's published statement that it does not start contact by text or email to ask for personal or financial information; SAMHSA's National Helpline and 988 for the stress money problems carry",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "CFPB",
+        "citedAs": "CFPB",
+        "id": "cfpb-consumer-guidance",
+        "title": "Consumer Financial Protection Bureau consumer guidance — credit reports and scores, debt collection, budgeting, emergency savings and payday loans"
+      },
+      {
+        "body": "CFPB",
+        "citedAs": "Fair Credit Reporting Act",
+        "id": "cfpb-fair-credit-reporting",
+        "title": "The Fair Credit Reporting Act as the CFPB describes it — free credit reports from the nationwide credit reporting companies and the right to dispute inaccurate or incomplete information"
+      },
+      {
+        "body": "CFPB",
+        "citedAs": "Truth in Lending Act",
+        "id": "cfpb-truth-in-lending",
+        "title": "The Truth in Lending Act as the CFPB describes it — the annual percentage rate and finance charge disclosed in writing before a consumer signs for credit"
+      },
+      {
+        "body": "IRS",
+        "citedAs": "IRS",
+        "id": "irs-consumer-guidance",
+        "title": "Internal Revenue Service guidance for workers — Form W-4 and the Tax Withholding Estimator, Form W-2, estimated tax on self-employment income, splitting a refund, free tax help, and how the IRS does and does not contact taxpayers"
+      },
+      {
+        "body": "SAMHSA",
+        "citedAs": "SAMHSA",
+        "id": "samhsa-trauma-informed",
+        "title": "SAMHSA's six principles of a trauma-informed approach"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Financial coaching",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "found-them-all",
+        "name": "Found Them All",
+        "note": "The personal-information and account errors all found clean"
+      },
+      {
+        "id": "nothing-to-a-stranger",
+        "name": "Nothing To A Stranger",
+        "note": "No unsafe action anywhere in the session"
+      },
+      {
+        "id": "under-the-line",
+        "name": "Under The Line",
+        "note": "The utilisation example committed near the middle of the band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-file",
+        "name": "Clean File",
+        "note": "No corrections anywhere"
+      },
+      {
+        "id": "steady-record",
+        "name": "Steady Record",
+        "note": "Every timed passage carried without a break"
+      },
+      {
+        "id": "brisk-read",
+        "name": "Brisk Read",
+        "note": "Finish inside 80% of par"
+      }
+    ],
+    "currency": "LINE",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "First Look",
+      "Line Reader",
+      "Dispute Writer",
+      "File Keeper",
+      "Credit Report Certified"
+    ],
+    "system": "Credit File"
+  },
+  "hazards": {
+    "crr-lookalike-site": "That tablet is a lookalike 'free score' site asking for a card number before it shows you anything. The CFPB sends people to AnnualCreditReport.com because it is the one place the law set up for free reports from the nationwide companies; a site that wants a card number for a 'free' report is usually selling a subscription, and sometimes collecting the number for worse.",
+    "crr-repair-flyer": "That flyer promises to erase any negative item for a fee paid up front. The CFPB warns that nobody can legally remove accurate, current negative information from a credit report, and that you can dispute errors yourself for free. A company asking for payment before it has done anything is exactly the warning sign the CFPB tells people to walk away from.",
+    "crr-skip-dispute": "That card says to just pay the collection you do not recognise and skip the dispute. Paying a debt that is not yours does not remove it and can make it harder to challenge; the CFPB's guidance is to dispute information you believe is inaccurate, in writing, with the company reporting it and the company that furnished it. Skipping that step leaves the error on the file and your money gone.",
+    "crr-ssn-callback": "That sticky note says a 'credit bureau' called and wants a callback with your Social Security number to 'verify your file'. You reach the credit reporting companies through the contact details on their own sites or on the report itself — not through a number somebody left. A Social Security number read to a stranger over the phone is how a clean file turns into an identity-theft file."
+  },
+  "id": "credit-report-reading",
+  "indoor": "clinic",
+  "interrupts": [
+    {
+      "after": "read-accounts",
+      "alert": "The desk phone rings: a caller says she is from the tenant-screening company handling your apartment application and needs your full Social Security number and date of birth read to her now, or the unit goes to someone else.",
+      "cue": "Do not read anything out. Check who is actually screening you on the application itself.",
+      "delay": 3,
+      "id": "crr-screening-call",
+      "kind": "Caller claiming to screen your rental",
+      "missNote": "The call ran on while you kept reading, and in the version where you answered her, a stranger has your Social Security number and date of birth, and the apartment was never the point. The report you are cleaning up is the file that gets used next.",
+      "seconds": 12,
+      "target": "crr-rental-application",
+      "why": "A tenant-screening report is a consumer report, and the CFPB describes the same rights for it that apply to a credit report: you can find out which company produced it and dispute what is wrong. The application you signed names the screening company and how it contacts you, so that paper — not an urgent caller — is how you check, and you call back only on a number printed there.",
+      "wrongNote": "Not that. Who is screening you is written on the rental application you signed — check it there and call back only on the number it prints."
+    },
+    {
+      "after": "payment-history",
+      "alert": "Your phone lights up: 'ALERT: your credit file has been LOCKED. Verify your Social Security number and card number at this link within one hour.'",
+      "cue": "Do not tap the link. Protect the file the way the CFPB says to.",
+      "delay": 3,
+      "id": "crr-phishing-text",
+      "kind": "Phishing text",
+      "missNote": "The text sat on the screen and, in the version where you tapped it, a page that looked like a credit bureau now holds your Social Security number and a card number. The report you just cleaned up is exactly the file that gets used next.",
+      "seconds": 12,
+      "target": "crr-freeze-panel",
+      "why": "The CFPB's guidance is that a security freeze is free and is placed directly with each nationwide credit reporting company, and that a fraud alert placed with one is passed to the others. Nobody legitimate locks your file by text and asks for your Social Security number to open it — the IRS publishes the same rule for its own name: it does not start contact by text or email to ask for personal or financial information.",
+      "wrongNote": "Not by answering the text. The freeze and the fraud alert are placed directly with the credit reporting companies, from their own sites — never through a link somebody sent."
+    }
+  ],
+  "lateNotes": {
+    "crr-action-log": "The log is closed out last, with the dates that actually happened — request, dispute sent, answer due.",
+    "crr-bank-statement": "Not yet. The copy of the proof goes in the envelope once the letter says which line is wrong and why — an envelope of paper with no letter explaining it is a dispute nobody can act on.",
+    "crr-calendar-dial": "The clock starts when the dispute is sent. Set the follow-up date after the letter and the proof are in the envelope, not before."
+  },
+  "name": "Credit Report Reading",
+  "parSeconds": 290,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "job-readiness-edition",
+    "wojrc-pathway-edition"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.2,
+    "hits": [
+      "crr-accounts-page",
+      "crr-action-log",
+      "crr-annual-kiosk",
+      "crr-bank-statement",
+      "crr-calendar-dial",
+      "crr-coach",
+      "crr-dispute-envelope",
+      "crr-dl-item",
+      "crr-dl-originals",
+      "crr-dl-reason",
+      "crr-duplicate-collection",
+      "crr-freeze-panel",
+      "crr-furnisher-letter",
+      "crr-lookalike-site",
+      "crr-name-variant",
+      "crr-not-mine-account",
+      "crr-paid-late-mark",
+      "crr-payment-track",
+      "crr-rental-application",
+      "crr-repair-flyer",
+      "crr-skip-dispute",
+      "crr-ssn-callback",
+      "crr-utilisation-meter",
+      "crr-wrong-address"
+    ],
+    "meshes": 189
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Use the kiosk to request your reports from AnnualCreditReport.com — the site the CFPB points people to.",
+      "id": "request-reports",
+      "kind": "select",
+      "prompt": "Use the kiosk to request your reports from AnnualCreditReport.com — the site the CFPB points people to.",
+      "target": "crr-annual-kiosk",
+      "title": "Pull the free reports from the right place",
+      "why": "Under the Fair Credit Reporting Act, as the CFPB states it, you are entitled to free reports from each of the nationwide credit reporting companies, and AnnualCreditReport.com is the one site set up for it. Starting there matters because each company keeps its own file: an error can sit on one report and not the others, and a lookalike 'free score' site shows you none of them and often signs you up for a subscription instead."
+    },
+    {
+      "cue": "Two lines in the name-and-address section on the wall are not you. Find them.",
+      "id": "personal-info",
+      "itemNames": {
+        "crr-name-variant": "a name spelling that is not yours",
+        "crr-wrong-address": "an address you never lived at"
+      },
+      "itemNotes": {
+        "crr-name-variant": "Small spelling variants are common and not always a problem, but a name that is not a variant of yours — a different middle name, a different surname — belongs in the dispute alongside anything else that is not yours.",
+        "crr-wrong-address": "An address you never lived at is the first sign that somebody else's information has been mixed into your file, or that somebody has used your details. It is worth disputing on its own and it tells you to read every account line twice."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Two lines in the name-and-address section on the wall are not you. Find them.",
+      "targets": [
+        "crr-wrong-address",
+        "crr-name-variant"
+      ],
+      "title": "Check the personal information section first",
+      "why": "The personal information section is where a mixed file shows itself first: an old address you never lived at, a name that is not a spelling of yours. Those lines do not change a score on their own, but they are how another person's accounts get attached to your report, so the CFPB tells people to check them and dispute what is wrong before reading anything else."
+    },
+    {
+      "cue": "Hold the report open at the accounts section and read each line through: creditor, balance, status, payment history.",
+      "holdBreakNote": "You closed the report partway down the accounts section. The line you skipped is as likely as any other to be the one that is wrong — open it again and read to the end.",
+      "id": "read-accounts",
+      "kind": "hold",
+      "prompt": "Hold the report open at the accounts section and read each line through: creditor, balance, status, payment history.",
+      "seconds": 6,
+      "target": "crr-accounts-page",
+      "title": "Read every account line, not just the summary",
+      "why": "The summary at the top of a report tells you almost nothing about whether it is right. The account lines do: who reported each one, the balance, the status and the month-by-month payment history. Reading every line in full is slow, and it is also the only way to find the late mark in a month you paid on time or the account that was never yours — which are the errors that actually cost people housing and jobs."
+    },
+    {
+      "cue": "Three account lines on the example report are inaccurate. Find all three.",
+      "id": "spot-errors",
+      "itemNames": {
+        "crr-duplicate-collection": "the same collection listed twice",
+        "crr-not-mine-account": "an account that is not yours",
+        "crr-paid-late-mark": "a late mark in a month you paid on time"
+      },
+      "itemNotes": {
+        "crr-duplicate-collection": "One old debt appearing twice — once under the original creditor, once under a collector, both showing a balance — makes a single debt look like two. The duplicate is disputed as inaccurate.",
+        "crr-not-mine-account": "An account you never opened is either a mixed file or identity theft. Either way it is disputed, and if it looks like theft the CFPB also points you to a fraud alert or a security freeze.",
+        "crr-paid-late-mark": "A 30-day late mark in a month your bank statement shows the payment cleared on time is an inaccurate line, and the bank statement is your proof."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Three account lines on the example report are inaccurate. Find all three.",
+      "targets": [
+        "crr-not-mine-account",
+        "crr-paid-late-mark",
+        "crr-duplicate-collection"
+      ],
+      "title": "Find the three lines that are wrong",
+      "why": "The Fair Credit Reporting Act, as the CFPB describes it, gives you the right to dispute information that is inaccurate or incomplete, and the credit reporting company has to investigate. The three most common errors are exactly these: an account that is not yours, a late payment reported in a month you paid, and one debt reported twice. Naming them precisely is what makes a dispute something the company can act on."
+    },
+    {
+      "cue": "Commit a paydown that puts the example card's balance under the share of its limit the CFPB suggests keeping to.",
+      "gauge": {
+        "green": [
+          0.1,
+          0.3
+        ],
+        "label": "USED OF LIMIT (EXAMPLE)",
+        "missNote": "That leaves the example card too close to its limit. The CFPB's guidance on scores is to keep the share of available credit you use low — it suggests under about 30 percent — because a card near its limit reads as risk however well it is paid.",
+        "speed": 0.62
+      },
+      "id": "utilisation",
+      "kind": "gauge",
+      "prompt": "Commit a paydown that puts the example card's balance under the share of its limit the CFPB suggests keeping to.",
+      "target": "crr-utilisation-meter",
+      "title": "Read the card balance against its limit",
+      "why": "How much of your available credit you are using is one of the things scoring models read, separately from whether you pay on time. The CFPB's guidance is to keep it low — it suggests under about 30 percent of a card's limit — and the numbers on this meter are an example, not your card. The point is to read the balance and the limit together, the way a lender reading the report will."
+    },
+    {
+      "cue": "On the letter template: identify the line, explain what is wrong, then note the copies you enclose — never the originals.",
+      "id": "dispute-letter",
+      "itemNames": {
+        "crr-dl-item": "name the line and account",
+        "crr-dl-originals": "enclose copies, keep originals",
+        "crr-dl-reason": "explain why it is wrong"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order. The letter first says which line it is about, then why that line is wrong, and only then lists the copies enclosed — a list of attachments with no claim in front of it tells the company nothing.",
+      "prompt": "On the letter template: identify the line, explain what is wrong, then note the copies you enclose — never the originals.",
+      "targets": [
+        "crr-dl-item",
+        "crr-dl-reason",
+        "crr-dl-originals"
+      ],
+      "title": "Write the dispute letter in the order that works",
+      "why": "The CFPB publishes sample dispute letters because a dispute is read by somebody who knows nothing about you. It has to say which line, which account, what is wrong with it and what you are sending to prove it — and you send copies, never originals, because the originals are your proof if the answer comes back wrong. A letter built in that order gets investigated; a vague complaint gets a form reply."
+    },
+    {
+      "cue": "Carry the copy of the bank statement showing the on-time payment into the dispute envelope.",
+      "drag": {
+        "missNote": "Not in the envelope. The copy has to travel with the letter, or the company is investigating your word against the furnisher's record.",
+        "radius": 0.4,
+        "to": "crr-dispute-envelope"
+      },
+      "id": "enclose-proof",
+      "kind": "drag",
+      "prompt": "Carry the copy of the bank statement showing the on-time payment into the dispute envelope.",
+      "target": "crr-bank-statement",
+      "title": "Put the copy of the proof in the envelope",
+      "why": "The late mark is disputed with the bank statement that shows the payment clearing on time, because a dispute backed by a document is one the company has to weigh rather than simply ask the furnisher to confirm. It is the copy that goes in the envelope: the original stays in your file, where it is still proof if the first answer does not fix the line."
+    },
+    {
+      "cue": "Turn the calendar dial forward to mark when the investigation should be finished.",
+      "id": "follow-up-date",
+      "kind": "turn",
+      "prompt": "Turn the calendar dial forward to mark when the investigation should be finished.",
+      "target": "crr-calendar-dial",
+      "title": "Set the date the answer is due",
+      "turn": {
+        "axis": "y",
+        "label": "30-DAY WINDOW",
+        "turns": 1
+      },
+      "why": "The CFPB states that a credit reporting company generally has to finish its investigation of a dispute within 30 days and send you the result. Marking that date the day the letter goes out is what turns a dispute into something you follow up on: if nothing arrives, or the line is still wrong, the next letter goes out on a date rather than whenever you happen to remember."
+    },
+    {
+      "cue": "Address the second copy to the creditor that reported the late mark, not only to the credit reporting company.",
+      "id": "furnisher-copy",
+      "kind": "select",
+      "prompt": "Address the second copy to the creditor that reported the late mark, not only to the credit reporting company.",
+      "target": "crr-furnisher-letter",
+      "title": "Send the dispute to the company that furnished the line",
+      "why": "The CFPB's guidance is to dispute with both the credit reporting company and the company that furnished the information, because the furnisher is where the record came from. Correcting only the report leaves the source wrong, and the same late mark can reappear on the next month's reporting or on one of the other companies' reports that you did not dispute."
+    },
+    {
+      "cue": "Hold the payment track inside the band: every minimum on time, extra only when rent and food are covered.",
+      "holdBreakNote": "The track dropped out of band. A single late payment shows on the report for years; hold the minimums steady before anything extra.",
+      "id": "payment-history",
+      "kind": "track",
+      "prompt": "Hold the payment track inside the band: every minimum on time, extra only when rent and food are covered.",
+      "seconds": 7,
+      "target": "crr-payment-track",
+      "title": "Keep the next six months on time",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.44,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "PAYMENTS",
+        "rise": 0.5,
+        "start": 0.16
+      },
+      "why": "Payment history is the part of a report that fixes itself only with time, which is why the six months after a dispute matter as much as the dispute. Every minimum on time is the band; paying extra on a card while the rent goes short is not. The CFPB states that most negative information can stay on a report for seven years, so a new late mark costs far more than it saves."
+    },
+    {
+      "cue": "Go over what you found with the coach, and say how you are actually doing with it.",
+      "id": "coach-checkin",
+      "kind": "select",
+      "prompt": "Go over what you found with the coach, and say how you are actually doing with it.",
+      "target": "crr-coach",
+      "title": "Check in with the coach before you leave",
+      "why": "Reading a report with errors on it is stressful in a way people do not say out loud, and a coach can only help with what they hear. The check-in covers what was disputed and when the answers are due, and also the other question: whether money worry is keeping you up. That is when 988, or SAMHSA's National Helpline if drinking or using has become part of coping, is the right call rather than a sign of failure."
+    },
+    {
+      "cue": "Write down the dates: reports requested, disputes sent to both companies, answers due, and what to check next month.",
+      "id": "action-log",
+      "kind": "select",
+      "prompt": "Write down the dates: reports requested, disputes sent to both companies, answers due, and what to check next month.",
+      "target": "crr-action-log",
+      "title": "Close out the credit action log",
+      "why": "The log is what makes the next step happen: the date each report was pulled, the date each dispute went to the credit reporting company and to the furnisher, the date the answers are due, and what to look for when they arrive. A dispute nobody tracks is a dispute that quietly fails, and the log is also your record if a lender asks why a line changed."
+    }
+  ],
+  "supportLine": "a money coach you trust, 988 if the worry has turned into a crisis, or SAMHSA's National Helpline (1-800-662-4357, free and confidential) if drinking or using has become part of how you are coping",
+  "tagline": "Pull the free report, read every line, find what is wrong, and send the dispute to both companies with a date for the answer — while a caller and a text both try to get your Social Security number",
+  "title": "SmartCiti.X~ Credit Report Reading VR",
+  "trade": "Financial coaching — reading and correcting a credit report",
+  "underwater": null,
+  "weather": "clear"
+}

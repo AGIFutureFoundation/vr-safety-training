@@ -1,0 +1,14 @@
+# SUMMIT-2 memory — read this after SUMMIT.md
+
+Short, durable lessons for the next team at this console. SUMMIT's memory still holds; this adds to it.
+
+- **Worktree start.** A worktree can be cut from the wrong commit (this one started at the first prototype). Check `git log -1` against the branch head before reading anything; `git reset --hard <head>` on your own worktree branch is safe and touches nothing else.
+- **The sandbox refuses long shell one-liners** (heredocs, `&&` chains with git). Write patch scripts to `$SP/holodeck/summit-2/` and run them with one plain command each.
+- **Triangles: trees still dominate.** Halving ring 2 (`SM_TREE_RING_FACTOR[2] = 0.28`) and drawing it as two-quad impostors (`SM_IMPOSTOR_RING`) cut a high-tier view from 145–191k to 68–113k triangles with 32 LOD-0 segments; the pure `smTriangleEstimate(tier)` (97k high, 62k low) sits ~15k under the measured view because it leaves out the fixed features (towers, wires, dam, ribbons). check_summit holds the estimate to `SM_BUDGET.triangles`; measure real numbers with the capture script (`?tier=low|balanced|high`, `window.__summitTest.stats()`).
+- **A river needs its own profile, like the road.** The valley floor is noisy, so a river polyline over `smHeightAt` ran uphill a third of the time. `SM_RIVER_PROFILE` samples the natural ground every 16 m along the river and keeps the running minimum; the banks blend to it over `SM_RIVER_CHANNEL.corridor`, and the channel cut is closed within 40 m of the pass road (the culvert). Sample at vertices only and the bed still rises between them.
+- **Aspect is cheap.** `smGradAt` returns the gradient the terrain geometry already paid for; `aspect = -dz / slope` (north is -z). The snowline is `SM_SNOWLINE ± SM_SNOW_ASPECT`.
+- **Stills: yaw.** `teleport(x, z, yaw, pitch, lift)`: forward is (-sin yaw, -cos yaw), so yaw 0 faces north, -π/2 faces east, π faces south. Frame the subject with a quick `smHeightAt` check first; a shot from inside a snowfield shows only snow.
+- **Import aliases die in the bundle.** `import { pickup as flPickup }` bundles as `pickup`, and the page threw `flPickup is not defined` only in dist (the module page was fine). Import shared names as exported; smoke-test `summit/dist/summit.html`, not just `summit/index.html`, before a still.
+- **fleet.js drags kit.js and textures.js** into the module list (the bundler names each missing one in turn); the three add ~330 KB. A pickup is 7 KB of boxes if it is ever worth a lighter builder.
+- **Wildlife budgets are exact.** check_sky counts every mesh a builder makes (a deer is body + neck + head + four legs = 7); write the count after building, not before. Deer stand at one `zone.y`, so put a group on a flat pad.
+- **Lesson signs collide with cairns.** check_summit now holds every lesson ≥ 10 m from every other lesson and every cairn, and within 60 m of its anchor; a placement fails loudly instead of two E-prompts fighting.

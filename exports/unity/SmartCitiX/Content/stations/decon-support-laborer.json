@@ -1,0 +1,381 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "corridor-supported",
+    "name": "Corridor Supported",
+    "note": "The line stocked, contained and logged, with every entrant washed clean and every drum labelled before it moved"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "LIUNA hazmat and environmental laborer, decon-line support role; OSHA 29 CFR 1910.120 HAZWOPER decontamination procedures; 29 CFR 1910.134 respiratory and PPE selection for the decon crew's own protection; EPA hazardous-waste labeling and manifesting requirements for drummed wastewater; the Regional Water Quality Control Board's (RWQCB) discharge prohibitions on containment water leaving the corridor",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "LIUNA",
+        "id": "liuna-training-fund",
+        "title": "LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "HAZWOPER",
+        "id": "osha-1910-120",
+        "title": "29 CFR 1910.120 — Hazardous waste operations and emergency response (HAZWOPER)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.134",
+        "id": "osha-1910-134",
+        "title": "29 CFR 1910.134 — Respiratory protection"
+      },
+      {
+        "body": "RWQCB",
+        "citedAs": "RWQCB",
+        "id": "rwqcb-401-certification",
+        "title": "Regional Water Quality Control Board Clean Water Act §401 certification and waste discharge requirements"
+      }
+    ]
+  },
+  "district": "Environmental Monitoring",
+  "domain": "Environmental",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "contained-it",
+        "name": "Contained It",
+        "note": "Never let wash water or a drum leave this corridor uncontrolled"
+      },
+      {
+        "id": "clean-line",
+        "name": "Clean Line",
+        "note": "No corrections anywhere on the corridor"
+      },
+      {
+        "id": "steady-hand",
+        "name": "Steady Hand",
+        "note": "Held the pool level and the rinse rate close to band centre"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "line-up-fast",
+        "name": "Line Up Fast",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "clean-shift",
+        "name": "Clean Shift",
+        "note": "Clean run, no corrections"
+      },
+      {
+        "id": "nine-straight",
+        "name": "Nine Straight",
+        "note": "Nine correct actions in a row"
+      }
+    ],
+    "currency": "RINSE",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Ground Hand",
+      "Wash Station Hand",
+      "Corridor Support Lead",
+      "Decon Support Authority",
+      "Decon Support Certified"
+    ],
+    "system": "Decon Support"
+  },
+  "hazards": {
+    "bare-hands-wash": "You reached for the entrant's boots without your own gloves and apron on. Whatever this corridor is washing off someone else's suit and boots does not stop being a hazard just because it is now in the wash water on your hands — the support laborer works this line in the same level of protection the water itself calls for, every time, not only when the entrant looks obviously dirty.",
+    "reuse-dirty-rag": "You wiped the next tool down with the rag that's already black from the last one. A wipe that just spread contamination from one tool to the next hasn't decontaminated anything — it has only moved whatever was on the dirty tool onto a tool that was supposed to leave this line clean.",
+    "roll-unlabeled-drum": "You started rolling a full drum toward the load-out truck without checking it was labeled and sealed. A drum of decon wastewater with nothing written on it is a drum nobody downstream can legally accept, characterize or dispose of — once it is on the truck, whatever chance there was to fix that is gone.",
+    "runoff-to-drain": "You ran a hose past the berm and let wash water head for the storm drain instead of the containment pool. This corridor's whole purpose is keeping whatever came off the entrant's PPE inside a system somebody can test and dispose of correctly — a hose aimed outside the berm turns a controlled decon line into an uncontrolled discharge with your name on the log."
+  },
+  "id": "decon-support-laborer",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "boots-wash",
+      "alert": "The entrant you just started on climbs out of the boot-wash pool and starts walking toward the tool crib, still in a suit that hasn't been rinsed.",
+      "cue": "They just left the corridor before the rinse. Call them back.",
+      "delay": 3,
+      "id": "entrant-steps-out",
+      "kind": "Entrant left the corridor early",
+      "missNote": "They kept walking toward the tool crib and the rest of the site in a suit that was only half washed, carrying whatever the first pool loosened onto everything they touched next — the crib, the door handle, the next person who shook their hand.",
+      "seconds": 12,
+      "target": "recall-point",
+      "why": "The corridor only works as a sequence — wash, then rinse — and a suit that stops after the wash is a suit that still has whatever the wash loosened sitting on its surface, not removed from it. Calling the entrant back to the recall point the instant they step out is the support laborer's job precisely because the entrant, tired and half-decontaminated, is the person least likely to notice they skipped a stage.",
+      "wrongNote": "Not another pass at the boots — the entrant already left the pool. Call them back to the corridor before anything else here."
+    },
+    {
+      "after": "glove-rinse",
+      "alert": "The containment pool behind you has climbed almost to the top of the berm while your attention was on the rinse, and the next wash pass will put it over.",
+      "cue": "That pool is about to go over the berm.",
+      "delay": 3,
+      "id": "pool-overflow",
+      "kind": "Containment pool rising",
+      "missNote": "The next wash pass put the pool over the berm, and the wastewater that was supposed to stay inside this corridor's containment went out across the ground instead — the exact uncontrolled discharge the whole berm-and-pool setup exists to prevent.",
+      "seconds": 13,
+      "target": "sump-pump",
+      "why": "A berm only contains water up to its own height, and a pool this close to the top is one more wash pass away from doing exactly what the berm was built to prevent — running out across the ground instead of staying somewhere a drum can capture it. The sump pump draws it down into the wastewater drum before that happens, which is the one response that actually solves the problem rather than just pausing the next task until it does anyway.",
+      "wrongNote": "Not the wash station — the water already in the pool is the problem. The sump pump is what draws it down before it goes over."
+    }
+  ],
+  "lateNotes": {
+    "wash-station": "Nothing to wash yet — the pool has to actually be charged and holding water before anyone stands in it.",
+    "waste-drum": "Nothing to drum until the wash and rinse stations have actually been run for the shift."
+  },
+  "name": "Decon Support Laborer",
+  "parSeconds": 270,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "hunters-point-can-we-live"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "bare-hands-wash",
+      "berm-seal",
+      "corridor-log",
+      "decon-plan",
+      "drum-fill-check",
+      "drum-label",
+      "drum-seal",
+      "level-gauge",
+      "outer-suit",
+      "pool-liner",
+      "recall-point",
+      "reuse-dirty-rag",
+      "rinse-supply",
+      "rinse-wand",
+      "roll-unlabeled-drum",
+      "runoff-to-drain",
+      "suit-bag-bin",
+      "sump-pump",
+      "tool-wipes",
+      "wash-brushes",
+      "wash-station",
+      "waste-drum",
+      "water-valve",
+      "wipe-tool-1",
+      "wipe-tool-2",
+      "wipe-tool-3"
+    ],
+    "meshes": 166
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check the plan for what's coming through today, the wash method, and where the wastewater goes.",
+      "id": "read-plan",
+      "kind": "select",
+      "prompt": "Check the plan for what's coming through today, the wash method, and where the wastewater goes.",
+      "target": "decon-plan",
+      "title": "Read today's decon corridor plan",
+      "why": "The plan is what tells the support laborer whether today's corridor is washing off soil, sediment or something the containment pool has to be sized differently for, and it sets the wastewater's destination before the first entrant is even suited up — a corridor set up from habit instead of today's plan is a corridor built for yesterday's job."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Set out the wash brushes, confirm the rinse water supply, and stock the tool wipes.",
+      "id": "stock-stations",
+      "itemNames": {
+        "rinse-supply": "rinse water supply",
+        "tool-wipes": "tool wipes",
+        "wash-brushes": "wash brushes"
+      },
+      "kind": "sequence",
+      "prompt": "Set out the wash brushes, confirm the rinse water supply, and stock the tool wipes.",
+      "targets": [
+        "wash-brushes",
+        "rinse-supply",
+        "tool-wipes"
+      ],
+      "title": "Stock the wash and rinse stations",
+      "why": "A corridor that runs out of brushes or wipes halfway through the shift doesn't stop the entrants coming through it — it just means somebody starts improvising with whatever's on hand, which is exactly how a wash station stops doing what it's actually there to do. Stocking it before the first entrant arrives is what keeps the line running the same way for the tenth person as it did for the first."
+    },
+    {
+      "cue": "Check the berm and the pool liner for anything that would let water out before you charge the line.",
+      "id": "check-containment",
+      "itemNames": {
+        "berm-seal": "a gap in the berm",
+        "pool-liner": "a tear in the pool liner"
+      },
+      "itemNotes": {
+        "berm-seal": "A low spot in the berm where it never quite closed against the ground. Water finds exactly this kind of gap before it finds anywhere else.",
+        "pool-liner": "A small tear in the liner at the seam. A pool that leaks from underneath fails just as completely as one that overflows from the top, and it fails somewhere nobody's watching."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Check the berm and the pool liner for anything that would let water out before you charge the line.",
+      "targets": [
+        "berm-seal",
+        "pool-liner"
+      ],
+      "title": "Walk the containment before the water goes in",
+      "why": "Everything this corridor does depends on the containment actually holding the water it's about to be given, and a gap in the berm or a tear in the liner is far easier to fix on a dry pool than a wet one — checking for both before the valve opens is the only point in the shift where a leak is still a five-minute repair instead of a puddle already on its way to the storm drain."
+    },
+    {
+      "cue": "Open the supply valve and fill the pools to their working level.",
+      "id": "charge-water",
+      "kind": "turn",
+      "prompt": "Open the supply valve and fill the pools to their working level.",
+      "target": "water-valve",
+      "title": "Charge the wash and rinse pools",
+      "turn": {
+        "axis": "y",
+        "label": "WATER SUPPLY",
+        "turns": 1
+      },
+      "why": "Charging the pools before anyone is suited up means the water is already at temperature and level by the time the first entrant needs it, rather than the corridor starting cold and low while somebody stands in a contaminated suit waiting for it to catch up — the valve opens on the support laborer's schedule, not the entrant's."
+    },
+    {
+      "cue": "Read the level gauge and commit once it holds in the working band — not so low it can't wash, not so high it risks the berm.",
+      "gauge": {
+        "green": [
+          0.38,
+          0.6
+        ],
+        "label": "POOL LEVEL",
+        "missNote": "Outside the working band — too low to wash properly, or high enough to be one pass from the berm. Adjust the supply before the first entrant comes through.",
+        "speed": 0.65
+      },
+      "id": "pool-level",
+      "kind": "gauge",
+      "prompt": "Read the level gauge and commit once it holds in the working band — not so low it can't wash, not so high it risks the berm.",
+      "target": "level-gauge",
+      "title": "Read the containment pool level",
+      "why": "Too low and the pool can't actually submerge a boot or a glove, which means the wash isn't reaching what it's supposed to reach; too high and every additional pass of runoff pushes it closer to the berm's own limit — the working band is the only range where the corridor can keep running all shift without needing a mid-shift rescue."
+    },
+    {
+      "cue": "Hold the scrub brush against the entrant's boots and gloves until the wash is actually done, not just started.",
+      "holdBreakNote": "You let go before the wash was actually finished. A boot half-scrubbed still carries whatever the ground put on it into the rinse pool next.",
+      "id": "boots-wash",
+      "kind": "hold",
+      "prompt": "Hold the scrub brush against the entrant's boots and gloves until the wash is actually done, not just started.",
+      "seconds": 5,
+      "target": "wash-station",
+      "title": "Wash the entrant's boots and gloves",
+      "why": "A scrub that's cut short leaves exactly the same problem a scrub that never happened does, just with less of it — the point of holding it for the full count is that the boots and gloves are the two surfaces that touched the ground and the material directly, and they're worth doing completely rather than quickly."
+    },
+    {
+      "cue": "Hold the rinse wand's flow steady — enough to carry the wash off, not so much it splashes back over the berm.",
+      "holdBreakNote": "Rinse rate out of band — bring it back before you finish this pass, or the suit leaves this pool either dirty or the berm gets water it shouldn't have.",
+      "id": "glove-rinse",
+      "kind": "track",
+      "prompt": "Hold the rinse wand's flow steady — enough to carry the wash off, not so much it splashes back over the berm.",
+      "seconds": 6,
+      "target": "rinse-wand",
+      "title": "Rinse at a steady rate",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.44,
+        "green": [
+          0.36,
+          0.58
+        ],
+        "label": "RINSE RATE",
+        "rise": 0.5,
+        "start": 0.12
+      },
+      "why": "Too light a rinse leaves wash residue sitting on the suit instead of carrying it away, and too hard a stream is exactly what sends water splashing back out over the berm you just checked — the steady band in the middle is the rate that actually moves contamination into the pool instead of moving water out of it."
+    },
+    {
+      "cue": "Wipe the hand tool, then the sampling rod, then the meter probe — a fresh section of wipe for each.",
+      "id": "wipe-tools",
+      "itemNames": {
+        "wipe-tool-1": "hand tool",
+        "wipe-tool-2": "sampling rod",
+        "wipe-tool-3": "meter probe"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Hand tool, then the sampling rod, then the meter probe — the most sensitive instrument gets wiped last, with the cleanest attention, not first out of habit.",
+      "prompt": "Wipe the hand tool, then the sampling rod, then the meter probe — a fresh section of wipe for each.",
+      "targets": [
+        "wipe-tool-1",
+        "wipe-tool-2",
+        "wipe-tool-3"
+      ],
+      "title": "Wipe the tools down in order",
+      "why": "Wiping the least sensitive tool first and the meter probe last means the probe — the one instrument whose reading actually depends on a clean, undamaged surface — gets the wipe before it has spent the longest sitting contaminated, and it's also the one worth handling last because a scratched or fouled probe reads wrong the next time somebody trusts it."
+    },
+    {
+      "cue": "Carry the removed outer suit to the suit-bag bin once the entrant has stepped clear of it.",
+      "drag": {
+        "missNote": "Not in the bin — a suit left on the deck is a suit somebody else has to pick up before the next entrant comes through.",
+        "radius": 0.45,
+        "to": "suit-bag-bin"
+      },
+      "id": "bag-suit",
+      "kind": "drag",
+      "prompt": "Carry the removed outer suit to the suit-bag bin once the entrant has stepped clear of it.",
+      "target": "outer-suit",
+      "title": "Bag the entrant's outer suit",
+      "why": "The outer suit is the one item on this corridor that was never meant to be reused, and bagging it the moment it comes off — rather than setting it down on the deck to deal with later — is what keeps a decon line from quietly turning into a pile of contaminated Tyvek that somebody has to sort out at the end of the day."
+    },
+    {
+      "cue": "Pump the pool's wastewater into the labeled drum before it's due for changeout.",
+      "id": "drum-wastewater",
+      "kind": "select",
+      "prompt": "Pump the pool's wastewater into the labeled drum before it's due for changeout.",
+      "target": "waste-drum",
+      "title": "Transfer wastewater to the drum",
+      "why": "The pool is containment, not disposal — it holds the water only until it can be moved somewhere it can actually be characterized and hauled away, and transferring it to the drum on a schedule, rather than waiting until the pool is nearly full, is what keeps the corridor from ever being one bad shift away from a containment that's already at capacity."
+    },
+    {
+      "cue": "Check the fill level is within limits, apply the label, then seal the bung — in that order.",
+      "id": "label-drum",
+      "itemNames": {
+        "drum-fill-check": "check the fill level",
+        "drum-label": "label the drum",
+        "drum-seal": "seal the drum"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Check the fill level, then label, then seal — sealing first leaves you labeling a closed drum you're trusting yourself to remember correctly.",
+      "prompt": "Check the fill level is within limits, apply the label, then seal the bung — in that order.",
+      "targets": [
+        "drum-fill-check",
+        "drum-label",
+        "drum-seal"
+      ],
+      "title": "Check, label and seal the drum in order",
+      "why": "Checking the fill level before sealing catches an overfilled drum while the bung is still open to fix it; labeling before sealing means the label goes on a drum somebody can still confirm is the one it describes, rather than being applied to a sealed drum from memory — reverse either step and the paperwork stops matching the drum it's supposed to describe."
+    },
+    {
+      "cue": "Record how many entrants went through, the drums filled, and the pool and berm checks.",
+      "id": "log-corridor",
+      "kind": "select",
+      "prompt": "Record how many entrants went through, the drums filled, and the pool and berm checks.",
+      "target": "corridor-log",
+      "title": "Log the corridor for the shift",
+      "why": "The corridor log is the only record that this decon line actually ran the way the plan called for — entrants washed, water contained, drums accounted for — and it is what the next shift's support laborer reads before they trust the pool they're about to stand next to."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Working the decon corridor from the clean side: stations stocked, the pool contained, entrants washed and tools wiped in order, suits bagged, wastewater drummed and labelled, the corridor logged",
+  "title": "SmartCiti.X~ Decon Support Laborer VR",
+  "trade": "Hazmat and environmental laborer — LIUNA",
+  "underwater": null,
+  "weather": null
+}

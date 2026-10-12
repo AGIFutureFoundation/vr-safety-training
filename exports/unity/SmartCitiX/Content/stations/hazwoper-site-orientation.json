@@ -1,0 +1,389 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "orientation-complete",
+    "name": "Orientation Complete",
+    "note": "Every part of the orientation finished in order, with nothing skipped for the sake of starting sooner"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "LIUNA HAZWOPER-trained hazmat and environmental laborer; OSHA 29 CFR 1910.120(e) HAZWOPER 40-hour training and the site-specific orientation it requires before work begins; 29 CFR 1910.134 respiratory protection and the user seal check; NIOSH exposure guidance behind the site's action levels; Cal/OSHA's injury and illness prevention program (8 CCR 3203) for the site health and safety plan",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "Cal/OSHA",
+        "citedAs": "8 CCR 3203",
+        "id": "cal-osha-3203",
+        "title": "8 CCR 3203 — Injury and Illness Prevention Program"
+      },
+      {
+        "body": "union",
+        "citedAs": "LIUNA",
+        "id": "liuna-training-fund",
+        "title": "LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula"
+      },
+      {
+        "body": "NIOSH",
+        "citedAs": "NIOSH",
+        "id": "niosh-criteria",
+        "title": "NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "HAZWOPER",
+        "id": "osha-1910-120",
+        "title": "29 CFR 1910.120 — Hazardous waste operations and emergency response (HAZWOPER)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.134",
+        "id": "osha-1910-134",
+        "title": "29 CFR 1910.134 — Respiratory protection"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Environmental",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "read-it-all",
+        "name": "Read It All",
+        "note": "The plan and the map both answered clean"
+      },
+      {
+        "id": "never-skipped",
+        "name": "Never Skipped a Step",
+        "note": "Never went for the wrong PPE, the wrong door or the wrong crowd"
+      },
+      {
+        "id": "steady-read",
+        "name": "Steady Read",
+        "note": "Held the demo readings close to band centre"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "quick-orientation",
+        "name": "Quick Orientation",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "clean-day-one",
+        "name": "Clean Day One",
+        "note": "No corrections anywhere"
+      },
+      {
+        "id": "nine-straight",
+        "name": "Nine Straight",
+        "note": "Nine correct actions in a row"
+      }
+    ],
+    "currency": "CLEAR",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Trainee",
+      "Site Hand",
+      "Crew Laborer",
+      "Site Orientation Lead",
+      "Site Clearance Certified"
+    ],
+    "system": "Site Clearance"
+  },
+  "hazards": {
+    "bypass-hasp": "You went for the door to the work floor before the Health and Safety Plan was actually signed. The HASP is what tells you which zone you're allowed in, what PPE this parcel requires today and who the site's emergency contacts are — walking past it to get started means walking onto an active parcel with none of that in your hands yet.",
+    "silence-alarm": "You reached over and silenced the alarm mid-demonstration instead of following the muster route. An alarm silenced before everyone is accounted for doesn't mean the emergency is over — it means the one signal that gets a headcount started just went quiet.",
+    "solo-exit": "You headed for the gate without checking who your buddy is. HAZWOPER's buddy system exists because a parcel under a federal cleanup order is not a place to be the only person who knows where you are — going out solo removes the one person whose whole job is noticing if you don't come back.",
+    "wrong-ppe-kit": "You grabbed the Level D kit off the shelf when today's board calls for Level C. The PPE level posted for this parcel is set by what the air monitoring has actually found here, not by what's fastest to put on — showing up in the wrong ensemble means showing up under-protected for exactly the exposure the plan already knows to expect."
+  },
+  "id": "hazwoper-site-orientation",
+  "indoor": "service",
+  "interrupts": [
+    {
+      "after": "muster-pace",
+      "alert": "A crew lead sticks their head in and tells you to grab your gear and come out now — they're short-handed on the parcel and don't want to wait for you to finish the paperwork.",
+      "cue": "Somebody just asked you to skip the rest of this.",
+      "delay": 3,
+      "id": "start-before-orientation",
+      "kind": "Pulled off orientation early",
+      "missNote": "You went with the crew lead. You spent your first hour on an active cleanup parcel not knowing which zone you were in, what PPE it called for, who your buddy was, or where to go if the alarm sounded — all because somebody in a hurry asked first.",
+      "seconds": 12,
+      "target": "checklist-board",
+      "why": "The orientation checklist exists precisely because 'we're short-handed, come now' is the moment it is most tempting to skip — and the parts still unchecked are the map, the action levels, the buddy assignment and the muster point, every one of which you would otherwise be learning for the first time in the middle of an actual incident. Pointing at the checklist and finishing it is not slowing the crew down; it is the one thing standing between a new hire and being genuinely lost on an active parcel.",
+      "wrongNote": "Not by grabbing your gear and going — the checklist is what says whether you're actually ready, and right now it says you're not."
+    },
+    {
+      "after": "apr-fit-demo",
+      "alert": "The safety officer's demo air monitor on the table suddenly alarms — a sharp, sustained tone nobody triggered on purpose — and everyone in the room looks at you to see what you do.",
+      "cue": "That alarm just went off in the middle of your orientation. Show the response.",
+      "delay": 3,
+      "id": "pump-alarms-demo",
+      "kind": "Air monitor alarms",
+      "missNote": "You stood there waiting for someone to tell you it was a drill. On an actual parcel, the seconds spent waiting to be told what an alarm means are seconds a real exposure keeps building — the muster point is where you go first and ask questions second.",
+      "seconds": 12,
+      "target": "muster-point",
+      "why": "The correct answer to an alarm you don't yet have context for is the same answer every time: stop what you're doing and move to the muster point, because that is the one response that is right whether the alarm is a real reading, a false trip or a drill nobody warned you about — sorting out which one it was happens after the headcount, never before it.",
+      "wrongNote": "Not by staying at the table to watch the meter — an alarm means move to the muster point, and you find out what it was after everyone is accounted for."
+    }
+  ],
+  "lateNotes": {
+    "apr-demo": "Wait for the safety officer's demonstration before holding the seal check yourself.",
+    "ppe-kit": "Nothing to issue yet — confirm today's PPE level on the board first, or you don't know what you're issuing."
+  },
+  "name": "HAZWOPER Site Orientation",
+  "parSeconds": 255,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "hunters-point-can-we-live"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.2,
+    "hits": [
+      "alarm-signal",
+      "apr-demo",
+      "buddy-board",
+      "bypass-hasp",
+      "card-desk",
+      "checklist-board",
+      "confirm-complete",
+      "decon-corridor",
+      "exclusion-zone",
+      "eyewash-valve",
+      "file-hasp-copy",
+      "hasp-binder",
+      "headcount",
+      "locker-slot",
+      "log-badge-number",
+      "muster-point",
+      "muster-route",
+      "pid-demo",
+      "ppe-kit",
+      "ppe-level-board",
+      "sign-in-sheet",
+      "silence-alarm",
+      "solo-exit",
+      "support-zone",
+      "wrong-ppe-kit"
+    ],
+    "meshes": 174
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Sign the trailer's sign-in sheet and present your 40-hour HAZWOPER card.",
+      "id": "sign-in",
+      "kind": "select",
+      "prompt": "Sign the trailer's sign-in sheet and present your 40-hour HAZWOPER card.",
+      "target": "sign-in-sheet",
+      "title": "Check in and show your HAZWOPER card",
+      "why": "This orientation is the site-specific layer on top of the 40-hour HAZWOPER training you already hold under 29 CFR 1910.120(e) — it is not a substitute for it, so the first thing it confirms is that the training underneath it is actually current before anything site-specific gets added on top of a gap that shouldn't be there."
+    },
+    {
+      "cue": "Read the HASP for this parcel and sign the acknowledgment page.",
+      "id": "hasp-sign",
+      "kind": "select",
+      "prompt": "Read the HASP for this parcel and sign the acknowledgment page.",
+      "target": "hasp-binder",
+      "title": "Read and sign the site Health and Safety Plan",
+      "why": "The HASP is the one document that ties this specific parcel's hazards, PPE requirements, monitoring plan and emergency procedures together, and signing it is not a formality — it is your record that you were actually told what this site expects before you set foot on it, which is exactly the record a site book is missing when somebody gets hurt not knowing something the plan already said."
+    },
+    {
+      "cue": "Read the wall map and locate the exclusion zone, the decon corridor, the support zone and the muster point.",
+      "id": "walk-map",
+      "itemNames": {
+        "decon-corridor": "the decontamination corridor",
+        "exclusion-zone": "the exclusion zone",
+        "muster-point": "the muster point",
+        "support-zone": "the support zone"
+      },
+      "itemNotes": {
+        "decon-corridor": "The decontamination corridor, running between the exclusion zone and the support zone — the only doorway anyone or anything is supposed to use to leave the contaminated ground.",
+        "exclusion-zone": "The exclusion zone: where the actual contaminated work happens, and the one area on this map you do not enter without the training and PPE it specifically requires.",
+        "muster-point": "The muster point, marked well outside all three zones — where every single person on this parcel goes the instant an alarm sounds, no exceptions.",
+        "support-zone": "The support zone: the clean side, where the trailer, the tool crib and this orientation itself are actually standing."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Read the wall map and locate the exclusion zone, the decon corridor, the support zone and the muster point.",
+      "targets": [
+        "exclusion-zone",
+        "decon-corridor",
+        "support-zone",
+        "muster-point"
+      ],
+      "title": "Find the zones and the muster point on the site map",
+      "why": "Every one of today's rules is a rule about which of these areas you're standing in, so the map is the thing everything else in this orientation hangs off of — you cannot follow a PPE level, an action level or an evacuation route correctly if you don't already know, without having to think about it, which zone is which the moment it matters."
+    },
+    {
+      "cue": "Read the board and confirm the PPE level posted for today's work on this parcel.",
+      "id": "ppe-level",
+      "kind": "select",
+      "prompt": "Read the board and confirm the PPE level posted for today's work on this parcel.",
+      "target": "ppe-level-board",
+      "title": "Confirm today's PPE level for this parcel",
+      "why": "The PPE level posted here is not a default — it comes out of what the air monitoring on this parcel has actually shown, updated as conditions change, and it can be a different level tomorrow than it is today. Confirming it before you touch a single piece of gear is what keeps the ensemble you put on matched to the exposure this specific shift is actually expected to see."
+    },
+    {
+      "cue": "Carry the kit matching today's posted level from the issue shelf to your locker.",
+      "drag": {
+        "missNote": "Not in your locker — a kit left on the bench is a kit somebody else has to sort out before the shift starts.",
+        "radius": 0.45,
+        "to": "locker-slot"
+      },
+      "id": "ppe-issue",
+      "kind": "drag",
+      "prompt": "Carry the kit matching today's posted level from the issue shelf to your locker.",
+      "target": "ppe-kit",
+      "title": "Draw your assigned PPE kit",
+      "why": "Issuing PPE at orientation, before the parcel rather than at the fence line under time pressure, is what lets somebody actually check the ensemble against the board while there is still time to swap out the wrong kit — a mismatch caught here costs a minute; the same mismatch caught at the gate costs the whole crew's schedule."
+    },
+    {
+      "cue": "Turn the eyewash valve and confirm it actually flows before you rely on knowing where it is.",
+      "id": "eyewash-check",
+      "kind": "turn",
+      "prompt": "Turn the eyewash valve and confirm it actually flows before you rely on knowing where it is.",
+      "target": "eyewash-valve",
+      "title": "Test the emergency eyewash station",
+      "turn": {
+        "axis": "y",
+        "label": "EYEWASH",
+        "turns": 0.5
+      },
+      "why": "Knowing where the eyewash station is only helps if it actually works when somebody needs it, and the only way to know that is to have run it — an eyewash that has sat unused for months can have a fouled line or a valve that won't turn, and the orientation walk-through is the moment to find that out, not the moment after something is already in somebody's eyes."
+    },
+    {
+      "cue": "Read the demonstration monitor and commit once the reading holds below the action level posted for Level C.",
+      "gauge": {
+        "green": [
+          0.1,
+          0.42
+        ],
+        "label": "BREATHING ZONE PID",
+        "missNote": "That reading is above the action level posted for Level C — the plan calls for stopping and upgrading protection, not finishing the reading and moving on.",
+        "speed": 0.68
+      },
+      "id": "action-levels",
+      "kind": "gauge",
+      "prompt": "Read the demonstration monitor and commit once the reading holds below the action level posted for Level C.",
+      "target": "pid-demo",
+      "title": "Read the PID against today's action level",
+      "why": "An action level is the number written into the plan at which the PPE ensemble has to change, and it is set below the level that would actually hurt you specifically so there is room to react before anyone is exposed to something worse — reading this meter honestly during orientation, rather than treating the number as background noise, is what makes that number mean anything the first time it actually matters in the field."
+    },
+    {
+      "cue": "Block the cartridges on the demo respirator and hold the facepiece collapsed for the full count.",
+      "holdBreakNote": "You released before the check was over. A facepiece that leaks slowly passes a quick squeeze and fails a shift — hold it the full count.",
+      "id": "apr-fit-demo",
+      "kind": "hold",
+      "prompt": "Block the cartridges on the demo respirator and hold the facepiece collapsed for the full count.",
+      "seconds": 5,
+      "target": "apr-demo",
+      "title": "Hold the demonstration seal check",
+      "why": "OSHA's respiratory protection standard requires a user seal check every time a respirator goes on, not once at the annual fit test, and orientation is where a new laborer does that check for the first time with someone actually watching — a facepiece that creeps back out before the count is done is exactly what a rushed, unwatched check would let through unnoticed on the parcel."
+    },
+    {
+      "cue": "Read the buddy board and confirm who you're paired with for today's shift.",
+      "id": "buddy-assign",
+      "kind": "select",
+      "prompt": "Read the buddy board and confirm who you're paired with for today's shift.",
+      "target": "buddy-board",
+      "title": "Confirm your assigned buddy",
+      "why": "The buddy system is not a courtesy on a cleanup parcel — it is the only mechanism that actually notices if someone doesn't come back from the exclusion zone on schedule, and it only works if the pairing is confirmed before anyone walks out, not sorted out after somebody is already overdue."
+    },
+    {
+      "cue": "Hold a brisk walking pace along the route — not a run, not a dawdle.",
+      "holdBreakNote": "Pace dropped out of band — hold a steady brisk walk the whole length of the route, not a run and not a stroll.",
+      "id": "muster-pace",
+      "kind": "track",
+      "prompt": "Hold a brisk walking pace along the route — not a run, not a dawdle.",
+      "seconds": 5,
+      "target": "muster-route",
+      "title": "Walk the muster route at a steady pace",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.42,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "PACE",
+        "rise": 0.5,
+        "start": 0.15
+      },
+      "why": "Running to the muster point is how a new hire trips over their own feet or someone else's on a parcel with uneven ground and equipment underfoot, and dawdling defeats the point of a headcount that is supposed to happen fast — the pace that actually works is the same brisk walk every time, practiced now so it is not being improvised for the first time during a real alarm."
+    },
+    {
+      "cue": "Learn the alarm signal first, then how the headcount at the muster point is taken.",
+      "id": "emergency-brief",
+      "itemNames": {
+        "alarm-signal": "the alarm signal",
+        "headcount": "the headcount procedure"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "The alarm signal first, then the headcount — you have to recognize the alarm before knowing how the headcount runs matters at all.",
+      "prompt": "Learn the alarm signal first, then how the headcount at the muster point is taken.",
+      "targets": [
+        "alarm-signal",
+        "headcount"
+      ],
+      "title": "Learn the emergency response in order",
+      "why": "Recognizing the alarm has to come first because none of the rest matters if you don't know an emergency has started, and the headcount comes second because it is what tells the site whether the response actually worked — teaching them out of order leaves a new hire able to recite a headcount procedure while still not sure what the alarm even sounds like."
+    },
+    {
+      "cue": "Confirm your details and take the site-specific orientation card from the desk.",
+      "id": "card-issued",
+      "kind": "select",
+      "prompt": "Confirm your details and take the site-specific orientation card from the desk.",
+      "target": "card-desk",
+      "title": "Receive your site-specific card",
+      "why": "The card is what a gate guard, a crew lead or an inspector checks before assuming any of today's orientation actually happened — without it, every step you just completed exists only as your word, and a site under a federal cleanup order runs on records that outlast a conversation."
+    },
+    {
+      "cue": "File the signed HASP copy, log your badge number, then mark the orientation complete.",
+      "id": "close-out",
+      "itemNames": {
+        "confirm-complete": "confirm orientation complete",
+        "file-hasp-copy": "file the signed HASP copy",
+        "log-badge-number": "log your badge number"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "File the HASP copy, then log the badge number, then mark it complete — marking it complete before the paperwork is actually filed writes down a record that doesn't exist yet.",
+      "prompt": "File the signed HASP copy, log your badge number, then mark the orientation complete.",
+      "targets": [
+        "file-hasp-copy",
+        "log-badge-number",
+        "confirm-complete"
+      ],
+      "title": "Close out the orientation record in order",
+      "why": "Filing the signed plan before logging the badge number means the record that gets tied to your number is one that actually exists on paper, and marking the orientation complete last means that mark is true when it's made rather than a promise made in advance of the filing that is supposed to back it up."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "A HAZWOPER-trained laborer's first-day orientation: the site plan signed, the zones on the map, today's PPE level, the action levels, the buddy system, the muster point and the card that says you're cleared",
+  "title": "SmartCiti.X~ HAZWOPER Site Orientation VR",
+  "trade": "Hazmat and environmental laborer — LIUNA",
+  "underwater": null,
+  "weather": null
+}

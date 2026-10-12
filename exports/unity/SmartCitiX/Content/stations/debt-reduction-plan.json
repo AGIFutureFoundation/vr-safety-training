@@ -1,0 +1,385 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "plan-with-a-date",
+    "name": "Plan With A Date",
+    "note": "Every debt listed, sorted by rate, and a plan with a finish date that nobody talked you out of"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "The Consumer Financial Protection Bureau (CFPB) guidance on debt collection — asking a collector for validation information in writing, disputing a debt, and what a collector may not threaten — and its budgeting and debt tools; the Truth in Lending Act as the CFPB describes it, including the APR and the minimum-payment warning printed on every card statement; the Fair Credit Reporting Act (FCRA) as the CFPB states it, under which accurate negative information can stay on a report for years; IRS guidance that a canceled or forgiven debt may count as income and is reported on Form 1099-C; SAMHSA's National Helpline and 988 for the stress debt carries",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "CFPB",
+        "citedAs": "CFPB",
+        "id": "cfpb-consumer-guidance",
+        "title": "Consumer Financial Protection Bureau consumer guidance — credit reports and scores, debt collection, budgeting, emergency savings and payday loans"
+      },
+      {
+        "body": "CFPB",
+        "citedAs": "Fair Credit Reporting Act",
+        "id": "cfpb-fair-credit-reporting",
+        "title": "The Fair Credit Reporting Act as the CFPB describes it — free credit reports from the nationwide credit reporting companies and the right to dispute inaccurate or incomplete information"
+      },
+      {
+        "body": "CFPB",
+        "citedAs": "Truth in Lending Act",
+        "id": "cfpb-truth-in-lending",
+        "title": "The Truth in Lending Act as the CFPB describes it — the annual percentage rate and finance charge disclosed in writing before a consumer signs for credit"
+      },
+      {
+        "body": "IRS",
+        "citedAs": "IRS",
+        "id": "irs-consumer-guidance",
+        "title": "Internal Revenue Service guidance for workers — Form W-4 and the Tax Withholding Estimator, Form W-2, estimated tax on self-employment income, splitting a refund, free tax help, and how the IRS does and does not contact taxpayers"
+      },
+      {
+        "body": "SAMHSA",
+        "citedAs": "SAMHSA",
+        "id": "samhsa-trauma-informed",
+        "title": "SAMHSA's six principles of a trauma-informed approach"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Financial coaching",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "read-the-fine-print",
+        "name": "Read The Fine Print",
+        "note": "The statement lines and the settlement contract both read clean"
+      },
+      {
+        "id": "nothing-signed-blind",
+        "name": "Nothing Signed Blind",
+        "note": "No unsafe action anywhere in the plan"
+      },
+      {
+        "id": "honest-number",
+        "name": "Honest Number",
+        "note": "The monthly amount committed near the middle of what the budget supports"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-plan",
+        "name": "Clean Plan",
+        "note": "No corrections anywhere"
+      },
+      {
+        "id": "held-the-plan",
+        "name": "Held The Plan",
+        "note": "Every timed passage carried without a break"
+      },
+      {
+        "id": "quick-plan",
+        "name": "Quick Plan",
+        "note": "Finish inside 80% of par"
+      }
+    ],
+    "currency": "PAYDOWN",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Statement Pile",
+      "Debt Lister",
+      "Plan Builder",
+      "Plan Keeper",
+      "Debt Plan Certified"
+    ],
+    "system": "Payoff Ledger"
+  },
+  "hazards": {
+    "drp-gift-cards": "Those are prepaid gift cards bought to pay a collector who asked for them. Legitimate debt collectors do not demand payment by gift card, and money sent that way is almost impossible to get back. The CFPB treats a demand for gift cards or wire transfers as a scam warning sign, whatever the caller says about the debt.",
+    "drp-settlement-signature": "You reached for the signature line on the debt settlement contract before reading it. That contract charges a fee and tells you to stop paying your creditors while it 'negotiates' — the CFPB warns that stopping payments brings late fees, collection calls and damage to your report, and that a company selling settlement by phone may not charge you before it has actually settled a debt. A signature on a page you have not read is agreement to all of it.",
+    "drp-skip-minimums": "That note says to skip the minimums on the other debts this month to throw everything at one card. A missed minimum brings a late fee, can raise the rate, and puts a late mark on your report that the CFPB states can stay for years. Every plan that works keeps every minimum paid first and puts only the extra toward the target debt.",
+    "drp-ssn-script": "That card is a script for 'confirming your identity' to a caller by reading out your Social Security number. The CFPB's advice is not to give personal or financial information to a caller you cannot verify; a real collector can send you validation information in writing, and a fake one only needs the number to open accounts in your name."
+  },
+  "id": "debt-reduction-plan",
+  "indoor": "clinic",
+  "interrupts": [
+    {
+      "after": "minimum-warning",
+      "alert": "The phone rings: a collector about the old store-card balance says you will be arrested this week unless you pay today with gift cards, and asks you to read out your Social Security number.",
+      "cue": "Do not pay and do not confirm anything. Answer in writing.",
+      "delay": 3,
+      "id": "drp-collector-threat",
+      "kind": "Collector threatening arrest",
+      "missNote": "The call ran while you kept reading, and in the version where you went along with it the gift cards are spent and the caller has your Social Security number. The old balance is exactly where it was, and now there is a second problem on top of it.",
+      "seconds": 12,
+      "target": "drp-validation-request",
+      "why": "The CFPB's debt-collection guidance is that you can ask a collector for validation information and dispute the debt in writing, that a collector may not threaten you with arrest, and that you should not give personal information to a caller you cannot verify. A demand for gift cards today, backed by a threat, is the pattern of a scam — the written request answers a real collector and ends a fake one.",
+      "wrongNote": "Not that. The answer to a collector who threatens and wants gift cards is the written request for validation information — no payment and no personal details over the phone."
+    },
+    {
+      "after": "keep-the-plan",
+      "alert": "A text arrives: 'PRE-APPROVED debt consolidation — 0% today! Sign in the next hour. Reply with your SSN to lock your rate.'",
+      "cue": "Do not reply. Read the real cost the way Truth in Lending says it has to be shown.",
+      "delay": 3,
+      "id": "drp-consolidation-text",
+      "kind": "Consolidation offer",
+      "missNote": "The text sat unanswered on the screen while the plan ran, and in the version where you replied, somebody now has your Social Security number and a 'loan' whose real rate nobody has seen. The plan you built was cheaper than anything that text could have been.",
+      "seconds": 12,
+      "target": "drp-apr-compare",
+      "why": "Under the Truth in Lending Act, as the CFPB describes it, a lender has to disclose the APR and the finance charge in writing before you sign, so any real offer can be compared against the plan you already have. A text that wants your Social Security number and a signature within the hour, with a teaser rate and no disclosure, is not an offer you can compare — which is the point of it.",
+      "wrongNote": "Not by replying. A consolidation offer is compared on its written APR and finance charge against your own plan — never accepted from a text."
+    }
+  ],
+  "lateNotes": {
+    "drp-debt-log": "The debt log is closed out once the plan is set and the calls are made, with the real dates — not filled in from the first statement.",
+    "drp-payoff-dial": "The finish date comes from the plan. Set the monthly amount and the order first, then the dial has something to count."
+  },
+  "name": "Debt Reduction Plan",
+  "parSeconds": 290,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "job-readiness-edition",
+    "wojrc-pathway-edition"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.2,
+    "hits": [
+      "drp-apr-compare",
+      "drp-apr-line",
+      "drp-card-highest",
+      "drp-coach",
+      "drp-debt-log",
+      "drp-due-line",
+      "drp-extra-slot",
+      "drp-flag-stop-paying",
+      "drp-flag-tax",
+      "drp-flag-upfront",
+      "drp-gift-cards",
+      "drp-issuer-phone",
+      "drp-min-line",
+      "drp-payoff-dial",
+      "drp-plan-extra",
+      "drp-plan-minimums",
+      "drp-plan-roll",
+      "drp-plan-track",
+      "drp-settlement-signature",
+      "drp-skip-minimums",
+      "drp-ssn-script",
+      "drp-statement-folder",
+      "drp-surplus-meter",
+      "drp-validation-request",
+      "drp-warning-box"
+    ],
+    "meshes": 189
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Open the folder and lay out a current statement for every debt — cards, the car loan, the store card, the old collection.",
+      "id": "gather-statements",
+      "kind": "select",
+      "prompt": "Open the folder and lay out a current statement for every debt — cards, the car loan, the store card, the old collection.",
+      "target": "drp-statement-folder",
+      "title": "Put every debt on the table",
+      "why": "A plan built from memory leaves out the debt that is hardest to think about, and that is usually the one doing the most damage. The CFPB's debt tools start the same way: every debt listed from a current statement, with the balance, the rate and the minimum as the lender states them, because a plan can only be as honest as the list it is built on."
+    },
+    {
+      "cue": "Find the APR, the minimum payment and the due date on the card statement.",
+      "id": "statement-lines",
+      "itemNames": {
+        "drp-apr-line": "the APR",
+        "drp-due-line": "the due date",
+        "drp-min-line": "the minimum payment"
+      },
+      "itemNotes": {
+        "drp-apr-line": "The annual percentage rate is the cost of carrying the balance for a year. It is the number the plan sorts by, and the Truth in Lending Act, as the CFPB describes it, is why it is printed on the statement at all.",
+        "drp-due-line": "The due date decides when the minimum has to land. A payment a day late is a late payment, whatever the amount.",
+        "drp-min-line": "The minimum payment is the floor — the amount that keeps the account current. Every plan pays every minimum first."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Find the APR, the minimum payment and the due date on the card statement.",
+      "targets": [
+        "drp-apr-line",
+        "drp-min-line",
+        "drp-due-line"
+      ],
+      "title": "Read the three numbers off the example statement",
+      "why": "Three numbers on every statement run the whole plan: the APR says what the debt costs, the minimum says what keeps it current, and the due date says when. The Truth in Lending Act, as the CFPB describes it, is why the rate is disclosed on the statement in a standard form, so the same numbers can be compared across every card and loan on the table."
+    },
+    {
+      "cue": "Commit the amount the budget supports every month for debt, above the minimums — not the most you could manage once.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "EXTRA TO DEBT / MONTH (EXAMPLE)",
+        "missNote": "That amount will not hold. Too little and the plan never gets ahead of the interest; too much and the first slow month sends the rent onto a card, which is how plans turn into new debt.",
+        "speed": 0.6
+      },
+      "id": "monthly-amount",
+      "kind": "gauge",
+      "prompt": "Commit the amount the budget supports every month for debt, above the minimums — not the most you could manage once.",
+      "target": "drp-surplus-meter",
+      "title": "Set the monthly amount you can actually keep",
+      "why": "The monthly amount is the engine of the plan, and the commonest mistake is setting it at the best month instead of the usual one. The CFPB's budgeting guidance works from what comes in and what has to go out; the figure here is an example. An amount you can keep through a slow month finishes the plan, and an amount you cannot is the first thing that breaks it."
+    },
+    {
+      "cue": "Hold the statement at the warning box and read how long paying only the minimum would take, and what it would cost.",
+      "holdBreakNote": "You put the statement down before the total. The years are the headline; the total paid in interest underneath is the part that changes minds.",
+      "id": "minimum-warning",
+      "kind": "hold",
+      "prompt": "Hold the statement at the warning box and read how long paying only the minimum would take, and what it would cost.",
+      "seconds": 6,
+      "target": "drp-warning-box",
+      "title": "Read the minimum-payment warning to the end",
+      "why": "Every credit card statement carries a minimum-payment warning — the CFPB describes it as part of what the Truth in Lending rules require — showing how long the balance takes to clear on minimums alone and how much it costs in total. Reading it through is the moment most people decide to make a plan, because the number of years on an example balance is usually far longer than anyone guessed."
+    },
+    {
+      "cue": "Carry the highest-APR card from the rail into the 'extra goes here' slot.",
+      "drag": {
+        "missNote": "Not in the 'extra' slot. The extra money has one target at a time, and it is the debt with the highest rate on the rail.",
+        "radius": 0.4,
+        "to": "drp-extra-slot"
+      },
+      "id": "sort-by-rate",
+      "kind": "drag",
+      "prompt": "Carry the highest-APR card from the rail into the 'extra goes here' slot.",
+      "target": "drp-card-highest",
+      "title": "Move the highest-rate debt to the front of the line",
+      "why": "Paying extra on the highest-rate debt first while keeping every minimum current is the order that costs the least interest, which is why the plan sorts by APR rather than by balance or by whichever creditor calls most. The CFPB's debt tools also describe paying the smallest balance first for momentum; either works when it is kept up, and this plan uses the rate order because every dollar goes furthest there."
+    },
+    {
+      "cue": "On the plan board: minimums first, then the extra to the highest rate, then roll the freed payment onto the next debt.",
+      "id": "plan-order",
+      "itemNames": {
+        "drp-plan-extra": "extra to the highest rate",
+        "drp-plan-minimums": "every minimum paid",
+        "drp-plan-roll": "roll it forward when one is paid"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order. Minimums come first, every month, on every debt; the extra goes to the target debt; and only when that one is paid does its payment roll forward onto the next.",
+      "prompt": "On the plan board: minimums first, then the extra to the highest rate, then roll the freed payment onto the next debt.",
+      "targets": [
+        "drp-plan-minimums",
+        "drp-plan-extra",
+        "drp-plan-roll"
+      ],
+      "title": "Write the plan in the order it runs every month",
+      "why": "The order is the plan. Minimums first keeps every account current and every late mark off the report; the extra goes to one target so it actually moves; and when that debt is gone its whole payment rolls onto the next, so the monthly amount never shrinks back into spending. Written in that order, the plan is a rule to follow on a tired payday rather than a decision to make again."
+    },
+    {
+      "cue": "Turn the payoff dial to the month the plan says the last example debt is paid.",
+      "id": "payoff-date",
+      "kind": "turn",
+      "prompt": "Turn the payoff dial to the month the plan says the last example debt is paid.",
+      "target": "drp-payoff-dial",
+      "title": "Set the finish date",
+      "turn": {
+        "axis": "y",
+        "label": "PAYOFF MONTHS",
+        "turns": 1
+      },
+      "why": "A plan with a finish date is one people keep, because every month moves the dial and the end is visible. The date comes from the plan itself — the list, the monthly amount and the order — and on the example balances here it is a real number of months rather than 'someday'. When something changes, the dial is reset honestly instead of the plan being quietly abandoned."
+    },
+    {
+      "cue": "Use the number printed on the back of the card or on the statement — not one from a text or an ad — and ask what hardship options exist.",
+      "id": "hardship-call",
+      "kind": "select",
+      "prompt": "Use the number printed on the back of the card or on the statement — not one from a text or an ad — and ask what hardship options exist.",
+      "target": "drp-issuer-phone",
+      "title": "Call the card issuer about a hardship plan",
+      "why": "Creditors often have hardship or payment programmes they do not advertise, and the CFPB suggests contacting them directly when you cannot make payments. Calling the number printed on the card or the statement matters as much as the question: the numbers in texts and ads promising to 'lower your rate' are where settlement pitches and scams come from, and the issuer's own line is where a real change gets written down."
+    },
+    {
+      "cue": "Before anything is signed, read the example contract and find the three things the CFPB and the IRS warn about.",
+      "id": "settlement-flags",
+      "itemNames": {
+        "drp-flag-stop-paying": "an instruction to stop paying creditors",
+        "drp-flag-tax": "no mention that forgiven debt may be taxed",
+        "drp-flag-upfront": "a fee charged before anything is settled"
+      },
+      "itemNotes": {
+        "drp-flag-stop-paying": "Being told to stop paying creditors while the company 'negotiates' leads to late fees, collections and a damaged report — the CFPB names it as one of the main risks.",
+        "drp-flag-tax": "The IRS says a canceled or forgiven debt may count as income and is reported on Form 1099-C. A contract that never mentions it leaves you to find out at tax time.",
+        "drp-flag-upfront": "The CFPB warns that a company selling debt settlement by phone may not charge a fee before it has settled or reduced a debt. A fee up front is the first red flag."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Before anything is signed, read the example contract and find the three things the CFPB and the IRS warn about.",
+      "targets": [
+        "drp-flag-upfront",
+        "drp-flag-stop-paying",
+        "drp-flag-tax"
+      ],
+      "title": "Find the three red flags in the settlement contract",
+      "why": "Debt settlement is sold hardest to people who are already behind, and the contract is where the cost hides. The CFPB warns about fees charged before anything is settled and about being told to stop paying creditors; the IRS says forgiven debt may count as income. Finding all three before the signature line is the difference between a decision and a trap."
+    },
+    {
+      "cue": "Hold the plan track in the band: minimums on time, the extra paid, nothing new on the cards.",
+      "holdBreakNote": "The plan slipped out of band. One missed month is recoverable; the fix is to get back to minimums first and the extra second, not to start a new plan.",
+      "id": "keep-the-plan",
+      "kind": "track",
+      "prompt": "Hold the plan track in the band: minimums on time, the extra paid, nothing new on the cards.",
+      "seconds": 7,
+      "target": "drp-plan-track",
+      "title": "Keep the plan through the next six months",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.44,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "PLAN",
+        "rise": 0.5,
+        "start": 0.16
+      },
+      "why": "Plans rarely fail in the first week; they fail in month three, when a slow paycheck or a car repair makes the extra payment look optional. Keeping the track in the band — minimums on time, the extra paid, nothing new charged — is the whole skill. The Fair Credit Reporting Act, as the CFPB states it, lets accurate late marks stay on a report for years, which is why steady beats heroic here."
+    },
+    {
+      "cue": "Walk the coach through the plan and the calls you made, and say honestly how the debt is sitting with you.",
+      "id": "coach-checkin",
+      "kind": "select",
+      "prompt": "Walk the coach through the plan and the calls you made, and say honestly how the debt is sitting with you.",
+      "target": "drp-coach",
+      "title": "Check in with the coach",
+      "why": "A coach checks the arithmetic, and also the part arithmetic misses: debt is one of the heaviest things people carry quietly, and a plan made alone under stress is easier to abandon. Saying out loud how it is going is part of the plan, and if the worry has become a crisis, 988 — or SAMHSA's National Helpline if drinking or using has become part of coping — is a real next step, not a detour."
+    },
+    {
+      "cue": "Record each debt, its rate and minimum, the monthly extra, the target debt, the finish date and the hardship call you made.",
+      "id": "debt-log",
+      "kind": "select",
+      "prompt": "Record each debt, its rate and minimum, the monthly extra, the target debt, the finish date and the hardship call you made.",
+      "target": "drp-debt-log",
+      "title": "Close out the debt log",
+      "why": "The log is the plan on one page, dated, so next month starts from where this one ended rather than from the statement pile. It also records what was said on the hardship call and when, which matters if the issuer's answer later changes, and it is the first thing a coach will ask to see at the next session."
+    }
+  ],
+  "supportLine": "a money coach you trust, 988 if the debt worry has turned into a crisis, or SAMHSA's National Helpline (1-800-662-4357, free and confidential) if drinking or using has become part of how you are coping with it",
+  "tagline": "Every debt on the table with its rate and minimum, sorted highest rate first, a monthly amount you can keep, and a plan with a finish date — past a threatening collector, a settlement contract and a consolidation text",
+  "title": "SmartCiti.X~ Debt Reduction Plan VR",
+  "trade": "Financial coaching — building a debt reduction plan",
+  "underwater": null,
+  "weather": "clear"
+}
