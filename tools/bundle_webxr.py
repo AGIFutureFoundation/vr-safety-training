@@ -329,6 +329,7 @@ APPS = {
             SHARED / "auth.js",
             SHARED / "av-sprites.js",
             SHARED / "oh-hive-data.js",  # OMEGA-HIVE: the hive roster the governance tab shows (data only)
+            SHARED / "aa-agent-hd.js",  # AVATARS-HD: the high-detail figure the portraits are drawn from (no imports)
             SHARED / "aa-agent-portraits.js",  # AGENT-AVATARS: the agent roster's portraits on the governance tab (read at render time)
             # HIVE-4: the Omega Hive tab replays the hive's seeded day on the device (read-only): the robot env and VBRIDGE's
             # governor and bridge the hive runs over, the hive's words and the hive, then the tab.
@@ -1041,7 +1042,9 @@ APPS = {
             # ROBOTRAIN-2: the COLEARN-trained policy as the agent-jobs provider (after col-learn.js and vb-bridge.js).
             SHARED / "vb-colearn.js",
             SHARED / "vb-panel.js",
-            # AGENT-AVATARS' portraits come before the hive panel, whose roster cards show them at 2× (HIVE-IN-WORLD).
+            # AGENT-AVATARS' portraits come before the hive panel, whose roster cards show them at 2× (HIVE-IN-WORLD); AVATARS-HD's
+            # high-detail figure (no imports) comes before both: the portraits are drawn from it and the figures build it on high.
+            SHARED / "aa-agent-hd.js",
             SHARED / "aa-agent-portraits.js",
             # OMEGA-HIVE: the agent collective over the agent-jobs stream (after vb-panel.js, av-sprites.js and dx-data.js).
             SHARED / "oh-hive-data.js",
