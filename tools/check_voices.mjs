@@ -318,6 +318,13 @@ await check("5 characters and agents share one line of speech; an idle controlle
   synth.start(); synth.end();
   ok(synth.st.spoken.length === 2 && synth.st.overlaps === 0, `the waiting controller did not start when the first ended (${synth.st.spoken.length} spoken)`);
   synth.start(); synth.end();
+  // turns at line boundaries: a controller with a long queue does not make a waiting peer wait for the whole queue
+  { const s = mkSynth(DEVICES.one); const x = OV.ohVoiceController({ synth: s, Utterance: U, doc: null, win: null, enabled: true }); const y = OV.ohVoiceController({ synth: s, Utterance: U, doc: null, win: null, enabled: true }); x.link(y);
+    for (let i = 0; i < 4; i += 1) x.say(ag("x"), `x${i}`); y.say(ag("y"), "y0");
+    s.start(); s.end(); // x0 ends: y goes next, before x1
+    ok(s.st.speaking?.text === "y0", `after the first line the next voice was ${s.st.speaking?.text}, not the waiting peer's line`);
+    s.start(); s.end(); ok(s.st.speaking?.text === "x1", `then the first controller carries on (${s.st.speaking?.text})`);
+    s.flush(); ok(s.st.spoken.length === 5 && s.st.overlaps === 0, "lines lost or overlapping in the hand-over"); }
   // an idle controller's stop() does not cancel the peer's utterance
   a.say(ag("a"), "again"); synth.start();
   const cancels = synth.st.cancels; b.stop();

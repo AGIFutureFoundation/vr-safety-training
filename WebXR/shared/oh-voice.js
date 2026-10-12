@@ -74,7 +74,8 @@ export function ohVoiceController({ synth = globalThis.speechSynthesis ?? null, 
     u.voice = voice; u.lang = voice.lang || item.agent.voice.lang; u.rate = item.agent.voice.rate ?? 1; u.pitch = item.agent.voice.pitch ?? 1;
     busy = true; current = item;
     u.onstart = () => { if (current === item) { try { item.opts.onstart?.(); } catch (_) { /* ignore */ } } };
-    const finish = () => { if (!busy || current !== item) return; busy = false; current = null; done(item); pump(); kickPeers(); };
+    // Linked controllers take turns at line boundaries: a peer with a line waiting goes next, then this one's next line.
+    const finish = () => { if (!busy || current !== item) return; busy = false; current = null; done(item); kickPeers(); pump(); };
     u.onend = finish; u.onerror = finish;
     spoken.push({ agent: item.agent.id, voice: voice.name, localService: voice.localService, text: item.text });
     try { synth.speak(u); } catch (_) { finish(); }
