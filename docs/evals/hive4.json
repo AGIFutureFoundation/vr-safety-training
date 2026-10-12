@@ -1,0 +1,66 @@
+{
+  "schema": "smartcitix.holodeck.hive4-evals@1",
+  "note": "Written by node tools/check_hive4.mjs --write. Before is the base 048869d5 (the default hive, byte-identical); after is the panel's configuration. No timings.",
+  "rows": [
+    {
+      "measure": "Agent-to-agent exchanges per seeded day (seed 7, 200 jobs)",
+      "before": "0",
+      "after": "316 (handoff 173, question 103, report 40)",
+      "source": "check_hive4 2"
+    },
+    {
+      "measure": "Exchange lines grounded (every fact re-derived from the award, the winning bid or the chain)",
+      "before": "n/a",
+      "after": "632 of 632",
+      "source": "check_hive4 2"
+    },
+    {
+      "measure": "Turn-taking: replies directly after their opener / lines overlapping on the floor",
+      "before": "n/a",
+      "after": "316 of 316 / 0 of 1410",
+      "source": "check_hive4 2"
+    },
+    {
+      "measure": "Memory references per seeded day (seed 7)",
+      "before": "0",
+      "after": "36, from 4 agents",
+      "source": "check_hive4 3"
+    },
+    {
+      "measure": "Memory references grounded in the hive's own chain (count, last site, hive-clock time)",
+      "before": "n/a",
+      "after": "36 of 36; planted errors caught 3 of 3",
+      "source": "check_hive4 3"
+    },
+    {
+      "measure": "Governor with the talk on: dispatched steps checked / physical dispatches",
+      "before": "161 of 161, 3631 of 3631 steps / 0",
+      "after": "161 of 161, 3631 of 3631 steps / 0",
+      "source": "check_hive4 4"
+    },
+    {
+      "measure": "Exchange lines spoken (stubbed voices: one local, one network)",
+      "before": "n/a",
+      "after": "76 of 76 in order, local voice only, at most 1 at once; voice off: 0 spoken, 76 captions",
+      "source": "check_hive4 5"
+    },
+    {
+      "measure": "Trait recovery: Spearman rho per trait, 50 held-out personas (seeds 51-100; ridge fitted on seeds 1-50)",
+      "before": "not measured",
+      "after": "warmth 0.958, formality 0.795, verbosity 0.98, caution 0.798",
+      "source": "check_hive4 6 (declared in docs/consoles/HIVE-4.md, commit ca8e2deb)"
+    },
+    {
+      "measure": "Trait recovery on the seven real agents (seed 101; n = 7, secondary)",
+      "before": "not measured",
+      "after": "warmth 0.964, formality 0.929, verbosity 1, caution 0.643",
+      "source": "check_hive4 6"
+    },
+    {
+      "measure": "Distinct-2 per agent (seed 7, fact-masked): before -> after (variety only, same events)",
+      "before": "Orrin 0.057, Selka 0.145, Brann 0.078, Ivo 0.237, Tamsa 0.06, Quen 0.116, Lio 0.05",
+      "after": "Orrin 0.077 (0.099), Selka 0.097 (0.182), Brann 0.144 (0.134), Ivo 0.32 (0.32), Tamsa 0.102 (0.097), Quen 0.155 (0.158), Lio 0.102 (0.106)",
+      "source": "check_hive4 7"
+    }
+  ]
+}

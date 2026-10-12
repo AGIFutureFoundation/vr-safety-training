@@ -34,6 +34,17 @@
 //   for the learner's approval before it is approved and dispatched (reason "supervise"), and a job approved earlier under the
 //   standing approval is held at dispatch until the learner approves it, so while the setting is on no job dispatches without
 //   the learner. metrics().dispatchedWithoutLearner counts the ones that did.
+//   HIVE-4 (loop 10 round 4), all three off by default so round 3's events are unchanged; the panel turns them on:
+//   `exchanges: true`: agents talk to each other at handoffs. The dispatcher hands the job over and the winner confirms
+//     (in place of the winner's single award line); the steward questions a contested winning bid that comes from another map
+//     (hops >= 2) or from an agent already holding a job, and the bidder answers; the auditor reports a clean chain to the
+//     dispatcher, who acknowledges. Each line is a speak event with `exchange: { id, kind, turn, of, with }` and `toAgent`; the
+//     caption names the speaker and the addressee. Every speak event also carries `floor: { startMs, endMs }`: one floor per
+//     step, so lines in a step follow each other with a gap and never overlap (a caption-timing seam for the figures).
+//   `memory: true`: when a worker completes a job, it may say how many jobs of that kind it has completed today, the site of
+//     the last one and its time on the hive clock. ohRecall reads all three from the hive's own chain (the oh-award and
+//     oh-complete lines), never from the event or the agent; `logSeq` says how much of the chain the line read.
+//   `variety: true`: ohSay's variety path (more variants; parts in the agent's last four lines are skipped when another fits).
 //
 // Every top-level name starts with `oh`/`OH_` (the bundler shares one scope).
 
@@ -52,6 +63,45 @@ export const OH_BID_WEIGHTS = Object.freeze({ skill: 0.6, hops: 0.12, load: 0.25
 export const OH_STEWARD = Object.freeze({ zBase: 4, zPerCaution: 2, sharePerCaution: 0.15 });
 export const OH_AUDIT_EVERY = 5;
 export const OH_STANDING = "standing approval for governor-allowed simulated jobs";
+/** HIVE-4: one floor per step. A line's reading window mirrors the figures' caption clock (400 ms plus the words at 165 per minute, 1.5 to 12 s). */
+export const OH_FLOOR = Object.freeze({ wpm: 165, baseMs: 400, minMs: 1500, maxMs: 12000, gapMs: 250 });
+/** HIVE-4: the exchanges (opener kind, reply kind). The steward's question is "question_far" or "question_load" by what it asks about. */
+export const OH_EXCHANGES = Object.freeze({ handoff: Object.freeze(["handoff", "confirm"]), question: Object.freeze(["question", "answer"]), report: Object.freeze(["report", "ack"]) });
+/** HIVE-4: how a worker names a task kind when it counts its day (plural), and which kinds reset a robot (a cell restart, a zone set-up). */
+export const OH_TASK_NOUNS = Object.freeze({ "rb-cell-entry": "cell entries", "rb-cobot-zone-setup": "zone set-ups", "rb-teleop-pick-place": "pick-and-place runs", "rb-amr-fleet-routing": "routing runs" });
+export const OH_RESET_TASKS = Object.freeze(["rb-cell-entry", "rb-cobot-zone-setup"]);
+/** HIVE-4: a worker speaks a memory line at most once in this many hive minutes. */
+export const OH_MEMORY_COOLDOWN = 30;
+export const OH_RECENT = 4;
+
+/** HIVE-4: a line's reading window in ms (the floor's unit). */
+export function ohLineMs(text) {
+  const words = String(text ?? "").trim().split(/\s+/).filter(Boolean).length;
+  return Math.round(Math.min(OH_FLOOR.maxMs, Math.max(OH_FLOOR.minMs, OH_FLOOR.baseMs + (words * 60000) / OH_FLOOR.wpm)));
+}
+/** HIVE-4: the hive clock as hours and minutes from the day's start: "H+0123" (a chain line's `at`) or 123 (a tick) -> "02:03". */
+export function ohClock(at) {
+  const n = typeof at === "number" ? at : Number(String(at ?? "").replace(/^H\+/, ""));
+  if (!Number.isFinite(n) || n < 0) return "";
+  return `${String(Math.floor(n / 60)).padStart(2, "0")}:${String(n % 60).padStart(2, "0")}`;
+}
+/**
+ * HIVE-4: what an agent remembers of its day, from the hive's own chain only: its completed jobs of one task kind, in order,
+ * joined from the oh-award lines (job, task, site, agent) and the oh-complete lines (job, "completed", time).
+ * Returns { count, jobs: [{ jobId, siteId, at, seq }], last } where `last` is the one before the most recent.
+ */
+export function ohRecall(chain = [], agentId, taskType) {
+  const awards = new Map();
+  const jobs = [];
+  for (const l of chain) {
+    if (l.action === "oh-award") { const m = /^(\S+) (\S+) @ (\S+) -> (\S+) /.exec(l.detail); if (m) awards.set(m[1], { task: m[2], siteId: m[3], agent: m[4] }); }
+    else if (l.action === "oh-complete") {
+      const m = /^(\S+) @ (\S+): completed,/.exec(l.detail); const a = m ? awards.get(m[1]) : null;
+      if (a && a.agent === agentId && a.task === taskType) jobs.push({ jobId: m[1], siteId: a.siteId, at: l.at, seq: l.seq });
+    }
+  }
+  return { count: jobs.length, jobs, last: jobs.length >= 2 ? jobs[jobs.length - 2] : null };
+}
 
 function ohHash(s) { let h = 0x811c9dc5; for (let i = 0; i < s.length; i += 1) { h ^= s.charCodeAt(i); h = Math.imul(h, 0x01000193) >>> 0; } return h.toString(16).padStart(8, "0"); }
 function ohLineHash(l) { const b = `${l.seq}|${l.at}|${l.action}|${l.detail}|${l.prev}`; return ohHash(b) + ohHash(b.split("").reverse().join("")); }
@@ -119,7 +169,7 @@ export function ohStewardReview(steward, request, decision) {
   return null;
 }
 
-export function ohHive({ seed = 1, governor = null, audit = null, agents = OH_AGENTS, jobs = null, nJobs = 200, ticksPerDay = 480, decide = null, supervisor = "Supervisor (this device)", mode = "hive", capacity = OH_CAPACITY, policyFor = null, say = ohSay, sites = RB_SITES, supervise = false } = {}) {
+export function ohHive({ seed = 1, governor = null, audit = null, agents = OH_AGENTS, jobs = null, nJobs = 200, ticksPerDay = 480, decide = null, supervisor = "Supervisor (this device)", mode = "hive", capacity = OH_CAPACITY, policyFor = null, say = ohSay, sites = RB_SITES, supervise = false, exchanges = false, memory = false, variety = false } = {}) {
   const roster = agents.slice();
   const byKey = (k) => roster.find((a) => a.key === k) ?? roster[0];
   const dispatcher = byKey("dispatcher"), steward = byKey("safety-steward"), keeper = byKey("consent-keeper"), trainer = byKey("trainer"), auditor = byKey("auditor");
@@ -156,11 +206,41 @@ export function ohHive({ seed = 1, governor = null, audit = null, agents = OH_AG
     for (const fn of [...(listeners.get(e.type) ?? []), ...(listeners.get("*") ?? [])]) { try { fn(e); } catch (_) { /* a listener never stops the hive */ } }
     return e;
   }
-  function speak(agent, about, facts) {
+  // HIVE-4: the floor (one per step), each agent's recent lines (for variety) and the time of its last memory line.
+  let floorT = -1, floorAt = 0, xSeq = 0;
+  const recentLines = new Map(), memAt = new Map();
+  function speak(agent, about, facts, meta = null) {
     const ev = { about, ...facts, t };
-    const text = say(agent, ev);
+    const text = variety ? say(agent, ev, { variety: true, recent: recentLines.get(agent.id) ?? [] }) : say(agent, ev);
     if (!text) return null;
-    return emit({ type: "speak", agent: agent.id, about, ...facts, text, caption: `${agent.name} (${agent.label ?? "software agent"}): ${text}` });
+    if (!exchanges && !memory && !variety) return emit({ type: "speak", agent: agent.id, about, ...facts, text, caption: `${agent.name} (${agent.label ?? "software agent"}): ${text}` });
+    // HIVE-4: the caption names the speaker (and the addressee in an exchange); the floor serialises the step's lines.
+    const to = facts?.toAgent ? roster.find((x) => x.id === facts.toAgent) : null;
+    const extra = { ...(meta ?? {}) };
+    if (exchanges) { if (floorT !== t) { floorT = t; floorAt = 0; } const d = ohLineMs(text); extra.floor = { startMs: floorAt, endMs: floorAt + d }; floorAt += d + OH_FLOOR.gapMs; }
+    if (variety) { const r = recentLines.get(agent.id) ?? []; r.push(text); if (r.length > OH_RECENT) r.shift(); recentLines.set(agent.id, r); }
+    return emit({ type: "speak", agent: agent.id, about, ...facts, text, caption: `${agent.name} (${agent.label ?? "software agent"})${to ? ` to ${to.name}` : ""}: ${text}`, ...extra });
+  }
+  /** HIVE-4: an exchange between two agents: the opener (a to b), then the reply (b to a). Null when the opener cannot be said. */
+  function exchange(kind, a, b, facts, openKind = null) {
+    if (!a || !b || a.id === b.id) return null;
+    const [open, reply] = OH_EXCHANGES[kind];
+    xSeq += 1; const id = `x-${t}-${xSeq}`;
+    const e1 = speak(a, openKind ?? open, { ...facts, toName: b.name, toAgent: b.id }, { exchange: { id, kind, turn: 0, of: 2, with: b.id } });
+    if (!e1) return null;
+    const e2 = speak(b, reply, { ...facts, toName: a.name, toAgent: a.id }, { exchange: { id, kind, turn: 1, of: 2, with: a.id } });
+    return e2 ? [e1, e2] : [e1];
+  }
+  /** HIVE-4: a worker recalls its day from the hive's own chain (count, last site, last time), at most once per cooldown. */
+  function remember(w, j) {
+    const task = j.spec.request.taskType;
+    const r = ohRecall(chain, w.id, task);
+    if (r.count < 2 || !r.last) return null;
+    const lastSpoke = memAt.get(w.id);
+    if (lastSpoke != null && t - lastSpoke < OH_MEMORY_COOLDOWN) return null;
+    const e = speak(w, "memory", factsOf(j, { count: r.count, kinds: OH_TASK_NOUNS[task] ?? task, lastSite: siteName(r.last.siteId), lastSiteId: r.last.siteId, lastJobId: r.last.jobId, lastAt: r.last.at, clock: ohClock(r.last.at), reset: OH_RESET_TASKS.includes(task), logSeq: chain.length }), { memory: true });
+    if (e) memAt.set(w.id, t);
+    return e;
   }
   const factsOf = (j, extra = {}) => ({ jobId: j.vb?.id ?? j.firstId, to: j.spec.request.siteId, siteName: siteName(j.spec.request.siteId), task: VB_TASKS[j.spec.request.taskType]?.label ?? j.spec.request.taskType, ...extra });
 
@@ -189,7 +269,9 @@ export function ohHive({ seed = 1, governor = null, audit = null, agents = OH_AG
     j.status = status; m.closed += 1;
     if (m.closed % OH_AUDIT_EVERY === 0) {
       const v = verify();
-      speak(auditor, v.ok ? "audit" : "audit_broken", { jobId: j.firstId, lines: v.ok ? v.lines : v.brokenAt, ok: v.ok });
+      const facts = { jobId: j.firstId, lines: v.ok ? v.lines : v.brokenAt, ok: v.ok };
+      // HIVE-4: a clean chain is reported to the dispatcher, who acknowledges it; a broken one stays the auditor's own line.
+      if (!(exchanges && v.ok && exchange("report", auditor, dispatcher, { ...facts, logSeq: chain.length }))) speak(auditor, v.ok ? "audit" : "audit_broken", facts);
     }
   }
 
@@ -210,7 +292,11 @@ export function ohHive({ seed = 1, governor = null, audit = null, agents = OH_AG
     state.get(best.a.id).load += 1;
     emit({ type: "award", agent: best.a.id, by: dispatcher.id, ...factsOf(j, { bid: best.score }) });
     write("oh-award", `${j.vb.id} ${task} @ ${siteId} -> ${best.a.id} (bid ${best.score}, ${bids.length} bid(s))`);
-    speak(best.a, "award", factsOf(j, { bid: best.score }));
+    // HIVE-4: with exchanges, the dispatcher hands the job over and the winner confirms (in place of the winner's award line),
+    // and the steward questions a contested winning bid from another map or from an agent already holding a job.
+    const handed = exchanges ? exchange("handoff", dispatcher, best.a, factsOf(j, { bid: best.score })) : null;
+    if (!handed) speak(best.a, "award", factsOf(j, { bid: best.score }));
+    if (exchanges && bids.length > 1 && (best.hops >= 2 || best.load >= 1)) exchange("question", steward, best.a, factsOf(j, { bid: best.score, hops: best.hops, load: best.load, skill: best.skill }), best.hops >= 2 ? "question_far" : "question_load");
     // The governor checks the winner's request (unchanged VBRIDGE negotiation). The request reaches the governor now,
     // so it carries the hive clock (one step = OH_TICK_MS, plus the job's place in the step): the per-agent rate limit
     // and the cadence feature see requests in the order they are checked. The job id was fixed at arrival.
@@ -288,6 +374,7 @@ export function ohHive({ seed = 1, governor = null, audit = null, agents = OH_AG
     write("oh-complete", `${j.vb.id} @ ${siteId}: ${ok ? "completed" : `not accepted (${reason})`}, score ${score}, ${steps} steps`);
     speak(w, ok ? "complete" : "halted", factsOf(j, { score, steps, ...(reason ? { reason } : {}) }));
     if (!ok) speak(trainer, "coach", factsOf(j, { score, steps, reason }));
+    if (memory && ok) remember(w, j); // HIVE-4: the worker recalls its day from the chain (the oh-complete line above is in it)
     close(j, ok ? "completed" : "not-accepted");
   }
 
@@ -358,6 +445,7 @@ export function ohHive({ seed = 1, governor = null, audit = null, agents = OH_AG
       steps: dispatched.reduce((a, j) => a + j.vb.deliverable.episode.steps.length, 0),
       physicalDispatched: dispatched.filter((j) => j.vb.request.target.kind !== "sim").length,
       supervise: superviseAll, dispatchedWithoutLearner: dispatched.filter((j) => !j.learnerApproved && !j.approvedSim).length,
+      ...(exchanges || memory || variety ? { exchanges: log.filter((e) => e.type === "speak" && e.exchange && e.exchange.turn === 0).length, memories: log.filter((e) => e.type === "speak" && e.memory).length } : {}),
       lines: chain.length,
     };
   }
@@ -388,6 +476,7 @@ export function ohHive({ seed = 1, governor = null, audit = null, agents = OH_AG
     done() { return stream.every((j) => !["future", "queued", "moving", "running"].includes(j.status)); },
     governor: base,
     now() { return t; },
+    talk: Object.freeze({ exchanges: !!exchanges, memory: !!memory, variety: !!variety }), // HIVE-4
   };
 }
 

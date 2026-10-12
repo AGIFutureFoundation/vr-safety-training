@@ -120,6 +120,7 @@ const CHECKERS = [
   "check_voices.mjs",
   // HIVE-3: visitors in the robotics rooms, the hive's remembered settings per profile, the panel in Spanish, "A day in the hive" (docs/consoles/HIVE-3.md).
   "check_hive3.mjs",
+  "check_hive4.mjs",
   // LA-COHORTS: Louisiana lesson flows and apply games, classroom boards, Home links, cohort run sheets (docs/consoles/LA-COHORTS.md).
   "check_la_cohorts.mjs",
   "check_geo.mjs",

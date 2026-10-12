@@ -15,8 +15,13 @@
 // reply is used only when ohGrounded() passes on it — otherwise the on-device line is spoken.
 //
 // SEAM:
-//   ohSay(agent, event, { neutral, lang }) -> string   event: { type | about, t, jobId, to, siteName, task, reason, score, steps, lines, bid, z }
+//   ohSay(agent, event, { neutral, lang, variety, recent }) -> string   event: { type | about, t, jobId, to, siteName, task, reason, score, steps, lines, bid, z }
 //     lang is "en" (the default) or "es"; an agent from ohAgentIn(agent, lang) speaks its own language (its style, padding and voice).
+//   HIVE-4 (loop 10 round 4): the talk kinds (OH_CORES_TALK: an opener and a reply at a handoff, a question about a bid and its
+//     answer, the auditor's report and the dispatcher's acknowledgement) and the day's memory (two sentences: the count, then the
+//     site and the hive-clock time of the last one), slotted from the event: toName, hops, load, skill, count, kinds, lastSite,
+//     clock. `variety: true` adds more cores, openers, closers and padding of the same kinds and skips any part used in the
+//     agent's `recent` lines when another fits; without it the output is byte-identical to round 3's.
 //   ohGrounded(line, event, { siteNames }) -> { ok, facts: [string], missing: [string] }
 //   ohWords(text) -> [word], ohSentences(text) -> [sentence]
 //   ohDialogueAdapter(agent, { transport }) -> { describe(), configure(fields), respond(event) -> Promise<{ ok, line, source, reason? }> }
@@ -77,9 +82,58 @@ export const OH_CORES_ES = Object.freeze({
   supervise_on: ["{supervisor} aprueba ahora cada trabajo antes de que se ejecute", "Cada trabajo espera a {supervisor} antes de ejecutarse"],
 });
 
+/**
+ * HIVE-4: what agents say TO each other (each kind names its addressee as {toName}) and the day's memory. Every number, id, site
+ * and name is a slot filled from the event (oh-hive.js fills them from the award, the winner's bid, the chain check and the hive's
+ * own chain); a template carries no fact of its own. Each kind has variants short enough for its speakers' bands.
+ */
+export const OH_CORES_TALK = Object.freeze({
+  handoff: ["{toName}, {job} at {site} is yours", "{toName}, please take {job} for {site}", "Over to you, {toName}: {job} at {site}", "{job} at {site} goes to you, {toName}, bid {bid}"],
+  confirm: ["Confirmed, {toName}: I have {job} at {site}", "Got it, {toName}, {job} for {site} is with me", "Thanks, {toName}, I will take {job} at {site}", "{job} at {site} is mine, {toName}"],
+  question_far: ["{toName}, your bid of {bid} on {job} comes from {hops} hops out; is it sound?", "{toName}, you are {hops} hops from {site}; why bid {bid} on {job}?", "{toName}, {job} is {hops} hops from you; can your bid of {bid} hold?"],
+  question_load: ["{toName}, you carry a load of {load}; why bid {bid} on {job}?", "{toName}, with a load of {load}, can you take {job} at {site}?", "{toName}, your load is {load}; is a bid of {bid} on {job} wise?"],
+  answer: ["{toName}, my skill for this task is {skill}, so {bid} still won", "Fair question, {toName}: skill {skill}, load {load}, {hops} hops, and no bid beat {bid}", "My skill here is {skill}, and {bid} was the top bid, {toName}", "{toName}, {bid} was the best bid on {job}, with skill {skill}"],
+  report: ["{toName}, the chain after {job} holds {lines} lines, all intact", "{toName}, chain check done: {lines} lines, every one intact", "For you, {toName}: {lines} lines in the chain, none broken"],
+  ack: ["Thanks, {toName}, {lines} intact lines noted on the board", "Noted, {toName}: {lines} lines checked, so the board keeps moving", "Good to hear, {toName}; {lines} lines intact and the queue goes on"],
+  memory: ["That makes {count} {kinds} for me today", "Today I have done {count} {kinds} so far", "{count} {kinds} for me today, counting this one"],
+});
+/** HIVE-4: a second sentence for a kind (the memory's last site and its time on the hive clock; "reset" for cell entries and zone set-ups). */
+export const OH_SECOND = Object.freeze({
+  memory: ["The last was at {lastSite}, {clock} on the hive clock", "Last one: {lastSite}, {clock} hive time", "Before this, {lastSite} at {clock}"],
+  memory_reset: ["I last reset {lastSite} at {clock} on the hive clock", "Last reset: {lastSite}, {clock} hive time", "The last one I reset was {lastSite}, at {clock} hive time"],
+});
+/** HIVE-4 variety: more cores of the same kinds (used only with `variety: true`). */
+export const OH_CORES_MORE = Object.freeze({
+  announce: ["Fresh job {job} for {site}", "On the board now: {job} at {site}", "We have {job} waiting at {site}", "Incoming for {site}: {job}, {task}"],
+  award: ["{job} for {site} is with me now", "I have {job} at {site}, bid {bid}"],
+  move: ["Off to {site} for {job}", "Making my way to {site}, {job} in hand", "Bound for {site} to start {job}"],
+  wait: ["{site} has a robot busy, so {job} holds", "{job} queues behind the running job at {site}"],
+  dispatch: ["The simulated robot at {site} is running {job}", "{job} under way at {site}, simulated robot only", "Sim run for {job} begins at {site}"],
+  complete: ["{job} closed out at {site}, score {score}", "Done with {job} at {site}: {score} in {steps} steps", "{site} reports {job} complete, scoring {score}"],
+  refused: ["No run for {job} at {site}: the governor said {reason}", "The governor stopped {job} at {site} on {reason}"],
+  veto: ["I hold {job} at {site} back: {reason}", "{job} at {site} gets my veto for {reason}"],
+  approval: ["{job} at {site} asks for a physical robot, so the supervisor decides", "Supervisor, {job} at {site} names a physical robot; a simulated run or none?"],
+  approved: ["{job} is cleared for the simulated robot at {site}, and only there", "The supervisor said yes to {job} at {site}, in the sim only"],
+  declined: ["{job} at {site} stays closed: the supervisor declined it", "The supervisor said no to {job} at {site}, so it closes"],
+  coach: ["{job} ended at {score} after {steps} steps; we look at {reason}", "Let us review {reason} on {job}: score {score}, {steps} steps"],
+  audit: ["Chain walked after {job}: {lines} lines, all intact"],
+});
+/** HIVE-4 variety: more padding per agent (its own lexicon, by role key), more openers and closers of the same register and warmth. */
+export const OH_PADS_MORE = Object.freeze({
+  dispatcher: ["board is current", "next one up soon", "queue in good order"],
+  "safety-steward": ["with the zone marked out", "after a fresh look", "with the stop in reach"],
+  "maintenance-planner": ["kit checked twice", "rig prepped", "with the work order ready"],
+  "consent-keeper": ["your call as always", "noted for you", "with your consent on record"],
+  trainer: ["good effort all round", "learning as we go", "steady hands"],
+  auditor: ["entry by entry", "as the log shows", "chain first"],
+  logistics: ["carts lined up", "route set", "fast lane"],
+});
+export const OH_OPENER_MORE = Object.freeze({ "formal-warm": ["Pleased to say,", "Gladly,"], "formal-cool": ["For clarity,", "Logged:"], "casual-warm": ["Hey all,", "Alright team,"], "casual-cool": ["Okay then,", "Heads up:"] });
+export const OH_CLOSER_MORE = Object.freeze({ "warm-careful": ["Thanks for checking with me", "Safe work, everyone"], "warm-brisk": ["Great going, all", "Nice one, team"], "cool-careful": ["Entered in the log", "Checked and closed"], "cool-brisk": ["Onward", "That is all"] });
+
 /** The phrase packs by language: the cores, the reasons' calm phrases, the sentence that explains an approval request. */
 export const OH_PACKS = Object.freeze({
-  en: Object.freeze({ cores: OH_CORES, reasonPhrases: OH_REASON_PHRASES, approvalWhy: "the physical path is disabled, so only a simulated run is possible", fallbackPhrase: "a rule asked for it" }),
+  en: Object.freeze({ cores: OH_CORES, reasonPhrases: OH_REASON_PHRASES, approvalWhy: "the physical path is disabled, so only a simulated run is possible", fallbackPhrase: "a rule asked for it", talk: OH_CORES_TALK, second: OH_SECOND, more: OH_CORES_MORE }),
   es: Object.freeze({ cores: OH_CORES_ES, reasonPhrases: OH_REASON_PHRASES_ES, approvalWhy: "la vía física está desactivada, así que solo es posible una ejecución simulada", fallbackPhrase: "una regla lo pidió" }),
 });
 
@@ -105,13 +159,15 @@ function ohFill(tpl, ev, pack = OH_PACKS.en) {
   const slots = {
     job: ev.jobId ?? "", site: ev.siteName ?? ev.to ?? "", task: (ev.task ?? "").replace(/^./, (c) => c.toLowerCase()), reason, phrase: pack.reasonPhrases[reason] ?? pack.fallbackPhrase,
     score: ev.score ?? "", steps: ev.steps ?? "", lines: ev.lines ?? "", bid: ev.bid ?? "", z: ev.z ?? "", supervisor: ev.supervisor ?? "",
+    // HIVE-4: the talk and memory slots (from the award, the winner's bid, the chain check and the hive's own chain).
+    toName: ev.toName ?? "", hops: ev.hops ?? "", load: ev.load ?? "", skill: ev.skill ?? "", count: ev.count ?? "", kinds: ev.kinds ?? "", lastSite: ev.lastSite ?? "", clock: ev.clock ?? "",
   };
   return tpl.replace(/\{(\w+)\}/g, (_, k) => String(slots[k] ?? ""));
 }
 // A sentence starts with a capital, unless it starts with an id (a job id stays exactly as the event has it).
 function ohCap(s) { return /^[a-z]+-[0-9a-z]/.test(s) ? s : s.replace(/^\s*([a-z])/, (m, c) => m.replace(c, c.toUpperCase())); }
 // After an opener, an ordinary capitalised word drops its capital; "I", ids and names keep theirs.
-function ohAfterOpener(s) { return /^(I\b|[A-Z][a-z]*[A-Z0-9-])/.test(s) || /^[A-Z][a-z]+ [A-Z]/.test(s) ? s : s.replace(/^[A-Z]/, (c) => c.toLowerCase()); }
+function ohAfterOpener(s, keep = []) { return /^(I\b|[A-Z][a-z]*[A-Z0-9-])/.test(s) || /^[A-Z][a-z]+ [A-Z]/.test(s) || keep.some((k) => k && s.startsWith(k)) ? s : s.replace(/^[A-Z]/, (c) => c.toLowerCase()); }
 function ohEnd(s) { return /[.!?]$/.test(s) ? s : `${s}.`; }
 
 /**
@@ -136,12 +192,14 @@ function ohFit(body, band, pads, rnd) {
  * every agent speaks the bare core sentence (no opener, hedge, padding or closer): the control for the
  * distinctiveness eval, where only the role is left to tell speakers apart.
  */
-export function ohSay(agentIn, event = {}, { neutral = false, lang = null } = {}) {
+export function ohSay(agentIn, event = {}, { neutral = false, lang = null, variety = false, recent = null } = {}) {
   const want = ohLangFor(lang ?? agentIn?.lang ?? "en");
   // An agent asked for another language than its own is localised first (its style, padding and voice follow the language).
   const agent = agentIn && (agentIn.lang ?? "en") !== want ? ohAgentIn(agentIn, want) : agentIn;
   const pack = OH_PACKS[want];
   const kind = event.about ?? event.type;
+  // HIVE-4: the talk kinds, the memory and the variety path are built by ohSayMore; round 3's kinds without variety stay below.
+  if (agent && !neutral && (variety || (!pack.cores[kind] && pack.talk?.[kind]))) return ohSayMore(agent, event, pack, kind, { variety, recent });
   const cores = pack.cores[kind];
   if (!agent || !cores) return "";
   const st = agent.style ?? {};
@@ -163,6 +221,60 @@ export function ohSay(agentIn, event = {}, { neutral = false, lang = null } = {}
   const sentences = [ohEnd(ohCap(ohFit(core, band, pads, rnd)))];
   if (OH_WHY.has(kind) && pack.reasonPhrases[event.reason]) sentences.push(ohEnd(ohCap(ohFit(why(kind), band, pads, rnd))));
   if ((st.closers ?? []).length && rnd() < st.closerRate) sentences.push(ohEnd(ohCap(ohFit(st.closers[Math.floor(rnd() * st.closers.length)], band, pads, rnd))));
+  return sentences.join(" ");
+}
+
+/** HIVE-4: the warmth and caution classes of a style (the same thresholds as ohStyleFromTraits). */
+function ohClasses(agent) {
+  const tr = agent?.traits ?? {};
+  const warm = Number(tr.warmth ?? 0.5) >= 0.6, careful = Number(tr.caution ?? 0.5) >= 0.6;
+  return { open: `${agent?.style?.register ?? "casual"}-${warm ? "warm" : "cool"}`, close: `${warm ? "warm" : "cool"}-${careful ? "careful" : "brisk"}` };
+}
+/** The longest literal run of a template (its words outside the slots): how a repeated template is recognised in recent lines. */
+function ohLiteral(tpl) { return String(tpl).split(/\{\w+\}/).map((x) => x.replace(/^[\s,.:;?]+|[\s,.:;?]+$/g, "")).sort((a, b) => b.length - a.length)[0] ?? ""; }
+
+/**
+ * HIVE-4: a line for the talk kinds, the memory, or any kind with `variety`. The same grammar as ohSay (the band, the opener,
+ * hedge and closer rates, padding from the agent's own lexicon), with more variants when `variety` is on, and with any variant,
+ * opener, closer or pad already in the agent's `recent` lines skipped when another fits. Facts are slotted from the event only.
+ */
+function ohSayMore(agent, event, pack, kind, { variety = false, recent = null } = {}) {
+  const tpls = [...(pack.cores[kind] ?? pack.talk?.[kind] ?? []), ...(variety ? pack.more?.[kind] ?? [] : [])];
+  if (!tpls.length) return "";
+  const st = agent.style ?? {};
+  const band = st.band ?? [6, 14];
+  const rnd = ohRng(ohFnv(`h4|${agent.id}|${kind}|${event.jobId ?? ""}|${event.t ?? 0}|${event.reason ?? ""}|${event.lines ?? ""}|${event.count ?? ""}|${event.toName ?? ""}`));
+  const seen = (recent ?? []).join(" \n ").toLowerCase();
+  const fresh = (xs, lit = (x) => x) => { if (!seen) return xs; const ys = xs.filter((x) => { const l = lit(x).toLowerCase(); return l.length < 4 || !seen.includes(l); }); return ys.length ? ys : xs; };
+  const pick = (xs) => xs[Math.floor(rnd() * xs.length)];
+  const cls = ohClasses(agent);
+  const keep = [event.toName].filter(Boolean);
+  // The core: a variant that fits the band and was not in the agent's recent lines (else the shortest).
+  const all = tpls.map((tp) => ({ tp, text: ohFill(tp, event, pack) }));
+  const fitting = all.filter((c) => ohWords(c.text).length <= band[1]);
+  let core = (fitting.length ? pick(fresh(fitting, (c) => ohLiteral(c.tp))) : all.slice().sort((a, b) => ohWords(a.text).length - ohWords(b.text).length)[0]).text;
+  const openers = fresh([...(st.openers ?? []), ...(variety && pack === OH_PACKS.en ? OH_OPENER_MORE[cls.open] ?? [] : [])]);
+  if (openers.length && rnd() < st.openerRate) { const op = pick(openers); if (ohWords(`${op} ${core}`).length <= band[1]) core = `${op} ${ohAfterOpener(core, keep)}`; }
+  if (OH_HEDGED.has(kind) && (st.hedges ?? []).length && rnd() < st.hedgeRate) {
+    const h = pick(fresh(st.hedges));
+    if (ohWords(`${core}, ${h}`).length <= band[1]) core = `${core}, ${h}`;
+  }
+  const allPads = [...(st.pad ?? []), ...(variety && pack === OH_PACKS.en ? OH_PADS_MORE[agent.key] ?? [] : []), ...(st.hedges ?? [])];
+  const pads = fresh(allPads);
+  // Fresh padding first; if the band's lower bound is still not reached, the agent's other pads (never one already in the sentence).
+  const fit = (body) => { const a = ohFit(body, band, pads, rnd); return ohWords(a).length >= band[0] ? a : ohFit(a, band, allPads.filter((x) => !a.includes(x)), rnd); };
+  const sentences = [ohEnd(ohCap(fit(core)))];
+  // A second sentence: the reason's phrase (as in ohSay), or the memory's last site and time.
+  if (OH_WHY.has(kind) && pack.reasonPhrases[event.reason]) sentences.push(ohEnd(ohCap(fit(kind === "approval" ? pack.approvalWhy : pack.reasonPhrases[event.reason]))));
+  const second = pack.second?.[event.reset ? `${kind}_reset` : kind];
+  if (second?.length) {
+    const opts = second.map((tp) => ({ tp, text: ohFill(tp, event, pack) }));
+    const fit2 = opts.filter((c) => ohWords(c.text).length <= band[1]);
+    const s2 = (fit2.length ? pick(fresh(fit2, (c) => ohLiteral(c.tp))) : opts.slice().sort((a, b) => ohWords(a.text).length - ohWords(b.text).length)[0]).text;
+    sentences.push(ohEnd(ohCap(fit(s2))));
+  }
+  const closers = fresh([...(st.closers ?? []), ...(variety && pack === OH_PACKS.en ? OH_CLOSER_MORE[cls.close] ?? [] : [])]);
+  if (closers.length && rnd() < st.closerRate) sentences.push(ohEnd(ohCap(fit(pick(closers)))));
   return sentences.join(" ");
 }
 
