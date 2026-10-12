@@ -42,7 +42,7 @@ Source: `docs/virtuals-bridge.md`, `docs/robotics-programme.md`
 
 Source: `docs/consoles/ROBOTRAIN.md`, `docs/consoles/ROBOTRAIN-2.md`
 
-- **Preference pair** A learner's thumbs up on one agent run and thumbs down on another run of the same station, each with one reason from a fixed list. The pairs are recorded and matched up; nothing trains on them yet.
+- **Preference pair** A learner's thumbs up on one agent run and thumbs down on another run of the same station, each with one reason from a fixed list. The pairs are recorded and matched up, and they train a reward model (a Bradley–Terry model; so far on synthetic pairs from a synthetic rater). Used to filter demonstrations before cloning, it did not beat the rule filter.
 
 Source: `docs/consoles/AGENTGYM.md`
 

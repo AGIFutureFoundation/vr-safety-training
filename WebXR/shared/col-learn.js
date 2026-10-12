@@ -170,13 +170,63 @@ export const COL_FEATURES = {
 export const colBase = (sc) => String(sc).split("#")[0];
 /** The harder variants measured beside the base scenarios (rbEnv(`${scenario}#${variant}`)). */
 export const COL_VARIANTS = [{ scenario: "rb-construction-drilling", variant: "hard" }, { scenario: "rb-port-gantry", variant: "hard" }, { scenario: "rb-amr-fleet-routing", variant: "hard" }];
-export function colF(sc) { const b = colBase(sc); return COL_FEATURES[b] ?? (String(b).startsWith("rb-station-") ? COL_FEATURES.station : null); }
+export function colF(sc, featureSet = null) { if (featureSet) return COL_FEATURE_SETS[featureSet] ?? null; const b = colBase(sc); return COL_FEATURES[b] ?? (String(b).startsWith("rb-station-") ? COL_FEATURES.station : null); }
+
+/** ROBOTRAIN-6: a shortest path's first move from (x, y) to (gx, gy) around shelves and the blocked cell, other robots ignored:
+ * the first direction in N/S/E/W order that starts a shortest path (what a breadth-first search from (x, y) expanding N/S/E/W
+ * returns). Distances to each goal are computed once per grid, goal and blocked cell, and cached. [0, 0] when already there or
+ * walled in. */
+const COL_PATH_FIELDS = new Map();
+function colPathField(o, gx, gy) {
+  const W = o.width, H = o.height, key = `${W}x${H}:${gx},${gy}:${o.blocked ? o.blocked.join(",") : "-"}`;
+  const hit = COL_PATH_FIELDS.get(key);
+  if (hit) return hit;
+  const open = (a, b) => a >= 0 && b >= 0 && a < W && b < H && !COL_SHELF(a, b) && !(o.blocked && o.blocked[0] === a && o.blocked[1] === b);
+  const f = new Int16Array(W * H).fill(-1), queue = [[gx, gy]];
+  f[gy * W + gx] = 0;
+  for (let q = 0; q < queue.length; q++) {
+    const [a, b] = queue[q];
+    for (const d of Object.values(COL_DIRS)) { const na = a + d[0], nb = b + d[1]; if (open(na, nb) && f[nb * W + na] < 0) { f[nb * W + na] = f[b * W + a] + 1; queue.push([na, nb]); } }
+  }
+  COL_PATH_FIELDS.set(key, f);
+  return f;
+}
+function colPathMove(o, x, y, gx, gy) {
+  if (x === gx && y === gy) return [0, 0];
+  const W = o.width, f = colPathField(o, gx, gy), d = f[y * W + x];
+  if (d <= 0) return [0, 0];
+  for (const [dx, dy] of Object.values(COL_DIRS)) { const nx = x + dx, ny = y + dy; if (nx >= 0 && ny >= 0 && nx < W && ny < o.height && f[ny * W + nx] === d - 1) return [dx, dy]; }
+  return [0, 0];
+}
+/** ROBOTRAIN-6: named alternative feature sets, opt-in per model (`colTrain(sc, demos, { featureSet })`); COLEARN's defaults
+ * above are unchanged. "amr-path" is AMR's nine features plus four from a shortest path to the drop-off around shelves and the
+ * blocked cell (other robots ignored): its first move east/west and south/north, whether that next cell holds a robot, and
+ * whether it steps into a busy walkway. Measured in docs/evals/colearn.json `dagger.pathFeatures`. */
+export const COL_FEATURE_SETS = {
+  "amr-path": {
+    names: [...COL_FEATURES["rb-amr-fleet-routing"].names, "pathE", "pathS", "pathCellTaken", "pathIntoBusyWalkway"],
+    weights: [...COL_FEATURES["rb-amr-fleet-routing"].weights, 4, 4, 4, 4],
+    mid: [...COL_FEATURES["rb-amr-fleet-routing"].mid, 0, 0, 0.5, 0.5],
+    text: [...COL_FEATURES["rb-amr-fleet-routing"].text, ["the route's next step is east", "the route's next step is west or level"], ["the route's next step is south", "the route's next step is north or level"],
+      ["a robot holds the route's next cell", "the route's next cell is free of robots"], ["the route's next step enters a busy walkway", "the route's next step does not enter a busy walkway"]],
+    perRobot: (o) => {
+      const base = COL_FEATURES["rb-amr-fleet-routing"].perRobot(o);
+      const occ = new Set(o.robots.filter((r) => !r.delivered).map((r) => r.at.join(",")));
+      const ws = o.walkways ?? [{ column: o.walkwayColumn, busy: o.personOnWalkway }];
+      return o.robots.map((r, i) => {
+        const [x, y] = r.at, [dx, dy] = colPathMove(o, x, y, r.goal[0], r.goal[1]), nx = x + dx, ny = y + dy;
+        const taken = (dx || dy) && occ.has(`${nx},${ny}`) ? 1 : 0, busy = (dx || dy) && ws.some((w) => w.busy && nx === w.column && x !== w.column) ? 1 : 0;
+        return { delivered: base[i].delivered, f: [...base[i].f, dx, dy, taken, busy] };
+      });
+    },
+  },
+};
 const colIsStation = (sc) => String(sc).startsWith("rb-station-");
 
 /** The feature rows and labels of one demonstration step. */
-function colRows(sc0, obs, action) {
+function colRows(sc0, obs, action, featureSet = null) {
   const sc = colBase(sc0);
-  const F = colF(sc);
+  const F = colF(sc, featureSet);
   if (sc === "rb-amr-fleet-routing") {
     if (action.type !== "route") return [];
     return F.perRobot(obs).flatMap((r, i) => (r.delivered ? [] : [{ x: r.f, label: action.moves?.[i] ?? "wait", p: null }]));
@@ -306,39 +356,57 @@ export async function colLocalDemos(sc, { store = dxStore, signals = null } = {}
  * seeded shuffle, and a cap keeps a seeded subsample. `onlySuccessful` keeps
  * demonstrations that passed with clean safe practice (filtered BC).
  */
-export function colTrain(sc, demos, { k = 5, seed = 1, onlySuccessful = true, maxPoints = 4000 } = {}) {
-  const F = colF(sc);
-  if (!F) throw new Error(`colTrain: no features for ${sc}`);
+export function colTrain(sc, demos, { k = 5, seed = 1, onlySuccessful = true, maxPoints = 4000, featureSet = null, rowWeight = null } = {}) {
+  const F = colF(sc, featureSet);
+  if (!F) throw new Error(`colTrain: no features for ${sc}${featureSet ? ` (set ${featureSet})` : ""}`);
   const used = demos.filter((d) => !onlySuccessful || (d.success && d.clean));
   let rows = [];
-  for (const d of used) for (const s of d.steps) rows.push(...colRows(sc, s.observation, s.action));
+  // ROBOTRAIN-6: `rowWeight` ({ demoId: weight }, opt-in) scales each row's vote; rows carry `w` only when it is given.
+  for (const d of used) for (const s of d.steps) rows.push(...colRows(sc, s.observation, s.action, featureSet).map((r) => (rowWeight ? { ...r, w: rowWeight[d.id] ?? 1 } : r)));
   rows = rows.filter((r) => r.label !== "wait" || colBase(sc) === "rb-amr-fleet-routing" || colIsStation(sc));
   const R = rng(seed * 7 + 3);
   for (let i = rows.length - 1; i > 0; i--) { const j = Math.floor(R() * (i + 1)); [rows[i], rows[j]] = [rows[j], rows[i]]; }
   if (rows.length > maxPoints) rows = rows.slice(0, maxPoints);
-  rows = rows.map((r) => ({ x: r.x.map(colR3), label: r.label, p: r.p ? Object.fromEntries(Object.entries(r.p).map(([a, b]) => [a, colR3(b)])) : null }));
-  return { v: COL_VERSION, kind: "behaviour cloning (k-nearest neighbours)", scenario: sc, k, seed, onlySuccessful, demos: used.length, demosOffered: demos.length, sources: [...new Set(used.map((d) => d.source))].sort(), features: F.names, weights: F.weights ?? F.names.map(() => 1), rows };
+  rows = rows.map((r) => ({ x: r.x.map(colR3), label: r.label, p: r.p ? Object.fromEntries(Object.entries(r.p).map(([a, b]) => [a, colR3(b)])) : null, ...(r.w !== undefined ? { w: colR3(r.w) } : {}) }));
+  return { v: COL_VERSION, kind: "behaviour cloning (k-nearest neighbours)", scenario: sc, k, seed, onlySuccessful, demos: used.length, demosOffered: demos.length, sources: [...new Set(used.map((d) => d.source))].sort(), features: F.names, weights: F.weights ?? F.names.map(() => 1), rows, ...(featureSet ? { featureSet } : {}) };
 }
 
+// ROBOTRAIN-6: rows that share a feature vector are grouped once per model (a cache beside the model, never in its JSON),
+// and a query measures one distance per group. The neighbours are exactly those of a scan over every row: the k smallest
+// by (distance, row index), because rows with equal vectors have equal distances and each group keeps its first k row
+// indices in order. AMR's features are discrete, so DAgger's aggregated rows collapse to a few hundred groups.
+const COL_GROUPS = new WeakMap();
+function colGroups(model) {
+  const hit = COL_GROUPS.get(model);
+  if (hit && hit.n === model.rows.length) return hit.list;
+  const by = new Map();
+  model.rows.forEach((r, i) => { const key = r.x.join(","); let e = by.get(key); if (!e) by.set(key, (e = { x: r.x, idx: [] })); if (e.idx.length < model.k) e.idx.push(i); });
+  const list = [...by.values()];
+  COL_GROUPS.set(model, { n: model.rows.length, list });
+  return list;
+}
 function colNeighbours(model, x) {
   const w = model.weights;
-  // Top-k by insertion (ties keep the lower row index), not a full sort: this runs every step.
+  // Top-k by insertion on (distance, row index), not a full sort: this runs every step.
   const best = [];
-  for (let i = 0; i < model.rows.length; i++) {
-    const rx = model.rows[i].x; let s = 0;
+  for (const g of colGroups(model)) {
+    const rx = g.x; let s = 0;
     for (let f = 0; f < x.length; f++) { const d = (x[f] - rx[f]) * w[f]; s += d * d; }
-    if (best.length === model.k && s >= best[best.length - 1].s) continue;
-    let j = best.length; best.push(null);
-    while (j > 0 && best[j - 1].s > s) { best[j] = best[j - 1]; j -= 1; }
-    best[j] = { i, s };
-    if (best.length > model.k) best.pop();
+    for (const i of g.idx) {
+      const worst = best[best.length - 1];
+      if (best.length === model.k && (s > worst.s || (s === worst.s && i > worst.i))) break;
+      let j = best.length; best.push(null);
+      while (j > 0 && (best[j - 1].s > s || (best[j - 1].s === s && best[j - 1].i > i))) { best[j] = best[j - 1]; j -= 1; }
+      best[j] = { i, s };
+      if (best.length > model.k) best.pop();
+    }
   }
   return best.map((n) => ({ i: n.i, d: Math.sqrt(n.s), row: model.rows[n.i] }));
 }
 
 function colVote(nb) {
   const votes = {};
-  for (const n of nb) votes[n.row.label] = (votes[n.row.label] ?? 0) + 1 / (n.d + 0.05);
+  for (const n of nb) votes[n.row.label] = (votes[n.row.label] ?? 0) + (n.row.w ?? 1) / (n.d + 0.05);
   const label = Object.keys(votes).sort((a, b) => votes[b] - votes[a] || (a < b ? -1 : 1))[0];
   return { label, votes, ps: nb.filter((n) => n.row.label === label).map((n) => n.row.p) };
 }
@@ -352,7 +420,7 @@ export function colPolicy(model, { shield = false } = {}) {
   return (obs) => {
     if (!model.rows.length) return { type: "wait" };
     if (sc === "rb-amr-fleet-routing") {
-      const moves = colF(sc).perRobot(obs).map((r) => (r.delivered ? "wait" : colVote(colNeighbours(model, r.f)).label));
+      const moves = colF(sc, model.featureSet).perRobot(obs).map((r) => (r.delivered ? "wait" : colVote(colNeighbours(model, r.f)).label));
       if (shield) {
         const claim = new Set(), key = (p) => p.join(","), moving = new Map();
         obs.robots.forEach((r, i) => { if (r.delivered || moves[i] === "wait") claim.add(key(r.at)); });
@@ -366,7 +434,7 @@ export function colPolicy(model, { shield = false } = {}) {
       }
       return { type: "route", moves };
     }
-    const { label, ps } = colVote(colNeighbours(model, colF(sc).of(obs)));
+    const { label, ps } = colVote(colNeighbours(model, colF(sc, model.featureSet).of(obs)));
     return colAction(sc, label, ps, obs);
   };
 }
@@ -451,7 +519,7 @@ const COL_ACTION_TEXT = {
  * the nearest demonstrated moments agree.
  */
 export function colExplain(model, obs, robot = 0) {
-  const sc = colBase(model.scenario), F = colF(sc);
+  const sc = colBase(model.scenario), F = colF(sc, model.featureSet);
   const x = sc === "rb-amr-fleet-routing" ? F.perRobot(obs)[robot]?.f ?? F.names.map(() => 0) : F.of(obs);
   const nb = colNeighbours(model, x), { label, ps } = colVote(nb);
   const action = sc === "rb-amr-fleet-routing" ? { type: "route", robot, move: label } : colAction(sc, label, ps, obs);

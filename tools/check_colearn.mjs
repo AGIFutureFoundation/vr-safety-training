@@ -153,5 +153,50 @@ check(/tutor\.nextReview\(\)\[0\]/.test(src) && /Review first: /.test(src), "the
 const dw = readFileSync(join(SHARED, "dx-world.js"), "utf8");
 check(/export function dxCaptureRollout[\s\S]{0,80}if \(!dxCollecting\(\)\) return null;/.test(dw), "dxCaptureRollout returns before recording when not collecting");
 
+// 11 preference pairs train a reward model (ROBOTRAIN-6, shared/rt6-learn.js)
+console.log("11 preference pairs → Bradley–Terry reward model → reward-filtered cloning (ROBOTRAIN-6; synthetic pairs, synthetic rater)");
+const R6 = await import("../WebXR/shared/rt6-learn.js");
+const fb = await import("../WebXR/shared/ag-feedback.js");
+const P6 = R6.rt6SyntheticPairs("rb-amr-fleet-routing", { n: 40, seed: 1 });
+const m6a = R6.rt6FitReward(P6.pairs), m6b = R6.rt6FitReward(R6.rt6SyntheticPairs("rb-amr-fleet-routing", { n: 40, seed: 1 }).pairs);
+check(C.colHash(m6a) === C.colHash(m6b) && P6.pairs.every((p) => p.source === "synthetic" && p.x.chosen.length === R6.RT6_TRAJ_FEATURES.length && fb.AG_RATING_REASONS.up.includes(p.reasons.chosen) && fb.AG_RATING_REASONS.down.includes(p.reasons.rejected)), `the reward model fits deterministically (hash ${C.colHash(m6a)}) from synthetic pairs in AGENTGYM's pair shape, each labelled synthetic, reasons from AG_RATING_REASONS`);
+for (const p of EV.preference.scenarios) {
+  check(p.pairs.synthetic === 200 && p.pairs.local === 0 && p.accuracy.heldOut > 0.5 && [p.unfiltered, p.ruleFiltered, p.rewardFiltered].every((a) => a.n === 60) && p.keep === R6.RT6_KEEP,
+    `${p.scenario}: held-out pair accuracy ${p.accuracy.heldOut} (chance 0.5; the rater's own ceiling ${p.accuracy.raterCeilingHeldOut}); clone success on 60 held-out seeds: reward-filtered ${p.rewardFiltered.success} (top ${p.keep * 100}%, ${p.rewardFiltered.demos} demos, ${p.keptClean} clean passes) · rule-filtered ${p.ruleFiltered.success} (${p.ruleFiltered.demos}) · unfiltered ${p.unfiltered.success} (${p.unfiltered.demos}); sweep ${p.sweep.map((s) => `${s.keep}: ${s.success}`).join(", ")}`);
+}
+check(EV.preference.scenarios.every((p) => p.rewardWeighted?.n === 60 && p.rewardWeighted.demos === p.unfiltered.demos) && !C.colTrain("rb-amr-fleet-routing", C.colDemosFromEpisodes(C.colSyntheticDemos("rb-amr-fleet-routing", { n: 4, seed: 1 }), "rb-amr-fleet-routing").demos).rows.some((r) => "w" in r),
+  `reward-weighted votes (every demonstration kept, each vote scaled by the model's P(preferred over the median demonstration); default models carry no weight): ${EV.preference.scenarios.map((p) => `${p.scenario} ${p.rewardWeighted.success} (weights ${p.rewardWeighted.minWeight}–${p.rewardWeighted.maxWeight}) vs rule-filtered ${p.ruleFiltered.success}, unfiltered ${p.unfiltered.success}`).join("; ")}`);
+// A learner's consented pairs join only while collecting; K-12 and revoke leave none (DATAWORKS' rules).
+const lstore = dx.dxMakeStore(dx.dxMemBackend());
+await dx.dxRevoke({ store: lstore });
+const ADULT6 = { demo: false, signedIn: true, k12: false, adult: true };
+const fakeRun = (passed, hazard) => ({ summary: { station: "valve-vault", passed, stationScore: passed ? 90 : 20, errors: hazard, hazardHits: hazard, seed: 1 },
+  steps: [{ t: 1, observation: { stepIndex: 0 }, action: { type: "select", id: "a" }, info: { hazard: hazard > 0, stationDelta: 0 } }, { t: 2, observation: { stepIndex: 1 }, action: { type: "confirm", id: "b" }, info: { stationDelta: 10 } }] });
+const before6 = await R6.rt6LocalPairs({ store: lstore, signals: ADULT6 });
+dx.dxOptIn({ licence: "CC0-1.0", adult: true, signals: { demo: false, signedIn: true, k12: false } });
+const up6 = await fb.agRate({ run: fakeRun(true, 0), agent: "expert", rating: "up", reason: "safe-order", signals: ADULT6 }, { store: lstore });
+const down6 = await fb.agRate({ run: fakeRun(false, 2), agent: "random", rating: "down", reason: "unsafe-touch", signals: ADULT6 }, { store: lstore });
+const local6 = await R6.rt6LocalPairs({ store: lstore, signals: ADULT6 });
+const k12six = await R6.rt6LocalPairs({ store: lstore, signals: { ...ADULT6, k12: true } });
+const mixed6 = R6.rt6FitReward([...P6.pairs, ...local6]);
+await dx.dxRevoke({ store: lstore });
+const after6 = await R6.rt6LocalPairs({ store: lstore, signals: ADULT6 });
+check(before6.length === 0 && up6.ok && down6.ok && local6.length === 1 && local6[0].source === "human" && k12six.length === 0 && mixed6.sources.join() === "human,synthetic" && after6.length === 0 && (await lstore.list()).length === 0,
+  `a learner's consented pairs join the fit only while collecting: before opt-in ${before6.length}, opted in ${local6.length} (source human), K-12 ${k12six.length}, after revoke ${after6.length} and the store empty`);
+
+// 12 DAgger-style corrections on the hardest gap (ROBOTRAIN-6)
+console.log("12 DAgger-style corrections on rb-amr-fleet-routing#hard (ROBOTRAIN-6; the labels are the scripted expert's, not a person's)");
+const D6 = EV.dagger, V6 = EV.variants.find((v) => v.id === D6.scenario);
+check(D6.rounds.length === 6 && D6.rounds.every((r) => r.n === 60) && D6.rounds[0].success === V6?.bcFiltered.success && /scripted expert/.test(D6.labels) && /not a person/.test(D6.labels),
+  `${D6.scenario}: success per round on 60 held-out seeds ${D6.rounds.map((r) => r.success).join(" → ")} (round 0 is the filtered clone in variants; ${D6.rounds.at(-1).labelledStates} expert-labelled states from ${D6.rollouts} rollouts a round; expert ${V6?.expert.success})`);
+check(D6.aliasing && D6.aliasing.ceiling > 0 && D6.aliasing.ceiling <= 1,
+  `the clone's features against the expert's labels: ${D6.aliasing?.rows} labelled rows on ${D6.aliasing?.vectors} feature vectors; ${D6.aliasing?.ambiguousVectors} vectors carry more than one expert label (${D6.aliasing?.rowsOnAmbiguousVectors} rows); best agreement any policy over these features could reach: ${D6.aliasing?.ceiling}`);
+const DP6 = D6.pathFeatures;
+check(DP6?.featureSet === "amr-path" && DP6.rounds.length === 6 && DP6.rounds.every((r) => r.n === 60) && C.colF("rb-amr-fleet-routing", "amr-path").names.length === C.colF("rb-amr-fleet-routing").names.length + 4 && !("featureSet" in C.colTrain("rb-amr-fleet-routing", [], {})),
+  `the same rounds with four route features (opt-in set amr-path; COLEARN's default unchanged): ${DP6?.rounds.map((r) => r.success).join(" → ")}; gap to the expert after round ${DP6?.rounds.length - 1}: ${(V6?.expert.success - DP6?.rounds.at(-1).success).toFixed(3)}; best agreement over these features ${DP6?.aliasing?.ceiling} (${DP6?.aliasing?.ambiguousVectors} of ${DP6?.aliasing?.vectors} vectors ambiguous)`);
+const src6 = readFileSync(join(SHARED, "rt6-learn.js"), "utf8");
+check(!/\bfetch\s*\(|XMLHttpRequest|sendBeacon|WebSocket|EventSource|https?:\/\//.test(src6) && !MODEL_ID.test(src6) && /BRADLEY–TERRY/.test(src6) && /DAGGER/.test(src6) && /SCRIPTED EXPERT/.test(src6) && /SYNTHETIC RATER/.test(src6) && !/import\s*\{[^}]*\bas\b/.test(src6),
+  "rt6-learn.js: no network, no model identifier, no import alias; it names each piece for what it is (a Bradley–Terry model, DAgger rounds, the scripted expert's labels, a synthetic rater)");
+
 console.log(`\ncheck_colearn: ${passes} passed, ${failures} failed`);
 process.exit(failures ? 1 : 0);

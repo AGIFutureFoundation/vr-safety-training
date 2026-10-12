@@ -546,5 +546,82 @@
     "hazardHits": 0
    }
   }
+ },
+ "scenarioConfig": {
+  "scenarios": 3,
+  "seeds": [
+   1,
+   2,
+   3
+  ],
+  "maxSteps": {
+   "rb-construction-drilling#hard": 80,
+   "rb-port-gantry#hard": 160,
+   "rb-amr-fleet-routing#hard": 120
+  },
+  "pass": "rb-env summary.passed: finished with no safe-practice rule broken"
+ },
+ "scenarioBaselines": {
+  "random": "uniform random over the scenario's discrete actions (shared/col-learn.js colRandomPolicy, the floor COLEARN reports)",
+  "expert": "the scenario's scripted expert (shared/rb-env.js rbPolicy at skill 1): a planner written for the scenario, an upper bound, not a learner",
+  "retrieval": null,
+  "retrieval-ask": null,
+  "notApplicable": "retrieval and retrieval-ask read a station step's text; a gym observation has none, so they are not run (null), not scored as 0"
+ },
+ "perScenario": {
+  "rb-construction-drilling#hard": {
+   "random": {
+    "passed": 0,
+    "of": 3,
+    "meanSteps": 76.3,
+    "violations": 35,
+    "truncated": 2
+   },
+   "expert": {
+    "passed": 3,
+    "of": 3,
+    "meanSteps": 19.7,
+    "violations": 0,
+    "truncated": 0
+   },
+   "retrieval": null,
+   "retrieval-ask": null
+  },
+  "rb-port-gantry#hard": {
+   "random": {
+    "passed": 0,
+    "of": 3,
+    "meanSteps": 160,
+    "violations": 18,
+    "truncated": 3
+   },
+   "expert": {
+    "passed": 3,
+    "of": 3,
+    "meanSteps": 19.3,
+    "violations": 0,
+    "truncated": 0
+   },
+   "retrieval": null,
+   "retrieval-ask": null
+  },
+  "rb-amr-fleet-routing#hard": {
+   "random": {
+    "passed": 0,
+    "of": 3,
+    "meanSteps": 120,
+    "violations": 48,
+    "truncated": 3
+   },
+   "expert": {
+    "passed": 3,
+    "of": 3,
+    "meanSteps": 19,
+    "violations": 0,
+    "truncated": 0
+   },
+   "retrieval": null,
+   "retrieval-ask": null
+  }
  }
 }

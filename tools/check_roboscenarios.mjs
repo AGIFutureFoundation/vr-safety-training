@@ -207,6 +207,24 @@ for (const id of NEW.map((b) => `${b}#hard`)) {
   });
 }
 
+// 10. ROBOTRAIN-6: every hard variant has an AGENTGYM baseline in the supplement (tools/ag_eval.mjs --seeds 3 --scenarios …), on the
+//     station rows' seeds; random and the scripted expert re-measured live here; the word-overlap agents listed as not applicable.
+check("hard variants with an AGENTGYM baseline in the robotics supplement (random and the scripted expert, seeds 1–3, re-measured live; retrieval agents not applicable)", () => {
+  const sup = JSON.parse(readFileSync(join(ROOT, "docs/perf/agent-baselines-robotics.json"), "utf8"));
+  const ids = RB_SCENARIOS.flatMap((s) => Object.keys(s.variants ?? {}).map((v) => `${s.id}#${v}`));
+  ok(ids.length === 3 && sup.scenarioConfig && JSON.stringify(sup.scenarioConfig.seeds) === JSON.stringify(sup.config.seeds), "supplement scenario config missing or on other seeds");
+  const out = [];
+  for (const id of ids) {
+    const row = sup.perScenario?.[id];
+    ok(row?.random && row?.expert && row.retrieval === null && row["retrieval-ask"] === null, `${id}: no baseline row`);
+    const live = (mk) => sup.scenarioConfig.seeds.filter((seed) => { const env = rbEnv(id, { seed }); return rbRollout(env, { seed, policy: mk(env, seed) }).summary.passed; }).length;
+    const lr = live((env, seed) => colRandomPolicy(id, seed)), le = live((env, seed) => rbPolicy(env, { skill: 1, seed }));
+    ok(lr === row.random.passed && le === row.expert.passed && row.expert.of === sup.scenarioConfig.seeds.length, `${id}: file random ${row.random.passed} / expert ${row.expert.passed}, live ${lr} / ${le}`);
+    out.push(`${id} random ${row.random.passed}/${row.random.of}, expert ${row.expert.passed}/${row.expert.of}`);
+  }
+  return `${ids.length} of ${ids.length} hard variants baselined: ${out.join("; ")}; retrieval and retrieval-ask n/a (no step text in a gym observation)`;
+});
+
 // 8. hygiene
 check("Kids rule and hygiene: calm text in the new scenarios and rules; no model identifier in the files this console touched", () => {
   const FEAR = /\b(danger\w*|deadly|death|die[sd]?|kill\w*|crush\w*|injur\w*|hurt\w*|maim\w*|scar(y|e[sd]?)|fear\w*|terrif\w*|amputat\w*|blood\w*)\b/i;
