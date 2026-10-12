@@ -114,9 +114,13 @@ why `H3_ROOM_FIGURES` is 3. In the seed-1 day no room ever needed a fourth.
 - `UX_PORT=9111 node tools/check_interface.mjs`: 20 passed, 1 failed. The failure is `me:vc-voice-character:244x36`, which is
   already fixed on the integration head as d5054257; per the coordinator, ignore it.
 - `python3 tools/bundle_webxr.py parishes && node tools/drive_hive3.mjs 9111 $SP/loop10/h3`: all steps pass (A1–A4, B, C, D),
-  page errors 0, off-host requests 0 (`$SP/loop10/h3/drive-final.txt`, on the bundle of ec30d380; f68a32cb after it only renames
-  a parameter and reorders two option lists, which the checkers confirm).
+  page errors 0, off-host requests 0. It ran twice: on the bundle of ec30d380 (`$SP/loop10/h3/drive-final.txt`) and again on
+  f68a32cb's (`drive-final2.txt`) with the same results. The scene ran 28.0 s on its clock.
 - `node tools/check_newton.mjs`: 60 checks, 0 failed.
+- `node tools/check_parse.mjs`: all 2,696 shipped modules parse as JavaScript modules.
+- Settings neighbours (`auth.js` and `profiles.js` changed): `check_auth` passes all account, demo and private-profile checks;
+  `check_gates` has 8,602 checks and 0 failed; `check_dataworks` is 59 / 0; `check_enterprise` passes all organisation-layer
+  checks; `check_console` passes all instructor-console checks; `check_enterprise3` is 16 / 0.
 - Not run: `tools/check_all.mjs` (the coordinator gates), `eval_worlds` (no world subject changed) and `eval_content` (no
   station added).
 
