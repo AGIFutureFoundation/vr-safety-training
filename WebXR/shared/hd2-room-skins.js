@@ -18,7 +18,8 @@
 //   HD2_SKIN_STYLES                 plain data: style id -> { set: "industrial" | "tile" | "hall", sites, metal? } (sites = how many
 //                                     parish-engine sites open the style, counted over the maps: why these first; metal = the
 //                                     prop kinds that take brushed metal when not the default rack/machine/tank/cabinet/hood)
-//   HD2_SIGN_BYTES                  GPU bytes of one LA-ROOMS name-sign canvas per tier (512 x 120, the phone 256 x 60, mips)
+//   HD2_SIGN_BYTES                  GPU bytes of one LA-ROOMS name-sign canvas per tier (high 512 x 120; balanced and the phone
+//                                     256 x 60 since ENV-HD-5, lar-rooms.js LAR_SIGN_PX; mips)
 //   hd2RoomBytes(group, tier)       -> texture bytes a room already carries before the skin (shell signs + LA name signs)
 //   HD2_TEX_BUDGET                  GPU texture bytes per room per tier (w × h × 4, × 4/3 with a mip chain), every texture in
 //                                     the room counted, the shell's two 512 × 256 signs included: high 24 MiB, balanced and
@@ -60,8 +61,9 @@ export const HD2_SKIN_STYLES = {
   "hd4-hive-ops": { set: "tile", sites: 0 }, // ENV-HD-4: the hive operations room (no map site opens it; it has its own door)
 };
 export const HD2_TEX_BUDGET = { high: 24 * 1024 * 1024, balanced: 3 * 1024 * 1024, low: 3 * 1024 * 1024 };
-/** One LA-ROOMS name-sign canvas (lar-rooms.js larSignMaterial: 512 x 120, 256 x 60 on the phone tier), with mips. */
-export const HD2_SIGN_BYTES = { high: Math.round(512 * 120 * 4 * 4 / 3), balanced: Math.round(512 * 120 * 4 * 4 / 3), low: Math.round(256 * 60 * 4 * 4 / 3) };
+/** One LA-ROOMS name-sign canvas (lar-rooms.js LAR_SIGN_PX: 512 x 120 on high; 256 x 60 on balanced, as on the phone tier,
+ *  since ENV-HD-5, so the six Louisiana rooms fit balanced's 3 MiB), with mips. */
+export const HD2_SIGN_BYTES = { high: Math.round(512 * 120 * 4 * 4 / 3), balanced: Math.round(256 * 60 * 4 * 4 / 3), low: Math.round(256 * 60 * 4 * 4 / 3) };
 const HD2_SHELL_BYTES = 2 * Math.round(512 * 256 * 4 * 4 / 3); // the shell's two 512 x 256 signs (IXR_SHELL_SIGNS)
 const hd2MapBytes = (res) => Math.round(res * res * 4 * 4 / 3);
 /** Texture bytes a room carries before the skin, counted the same way headless and in the page: the shell's two signs and one
