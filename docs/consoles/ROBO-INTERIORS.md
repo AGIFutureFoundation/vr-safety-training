@@ -21,7 +21,7 @@ product, and the robots are simulated (nothing in a room moves).
 | `rb-site-orleans-warehouse` (orleans) | `ixr-maint-bay` robot maintenance bay | a lockout board with padlocks and tags, three parts racks with bins, a robot arm locked out on a maintenance stand, an AMR on a lift table, a workbench, a parts cart |
 
 Each room shows the site's robot stations as lit pads (the shell's pattern; 3–4 catalog stations per room, the site's own
-station first among them) and two named **agent spots** (`room.spots.agent`) where the Omega Hive's avatars will stand, marked
+station always among them) and two named **agent spots** (`room.spots.agent`) where the Omega Hive's avatars will stand, marked
 by a ring on the floor. The texture set is drawn on canvases from code: the room's epoxy floor (with its striping, rings or
 walkway crossing painted in), painted concrete walls, brushed metal props and the guard mesh — 1024 px on the desktop high tier,
 256 px on the phone, balanced and headset-browser tiers.
