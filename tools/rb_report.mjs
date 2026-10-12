@@ -22,6 +22,33 @@ const EXPORTS = join(ROOT, "exports", "robotics");
 const esc = (s) => String(s ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 const pct = (x) => `${Math.round(Number(x) * 1000) / 10}%`;
 
+/** ROBOTRAIN-6: the lineage as a figure (consent → dataset → policy → eval → deployment), counted from the governance
+ * registry's own nodes and audit lines. Two static inline SVGs, a row for wide screens and a column for phones, themed by
+ * the page's --at-* tokens through classes; no script, no URL (inline SVG needs no namespace attribute). */
+export function rt6LineageSvg(governance) {
+  const count = (t) => (governance.lineage?.nodes ?? []).filter((n) => n.type === t).length;
+  const consents = (governance.audit ?? []).filter((a) => a.action === "dataset-register").reduce((n, a) => n + (+(/(\d+) consents?/.exec(a.detail ?? "")?.[1] ?? 0)), 0);
+  const nodes = [
+    ["Consent", `${consents} learner consents`, "synthetic: none needed"],
+    ["Datasets", `${count("dataset")} synthetic sets`, "labelled, CC0-1.0"],
+    ["Policies", `${count("policy")} k-NN clones`, "hash = colearn.json"],
+    ["Evals", `${count("eval")} measured`, "60 held-out seeds"],
+    ["Deployments", `${count("site")} simulated sites`, "no hardware run"],
+  ];
+  const box = (x, y, w, h, [t, a, b], cx, ty) => `<rect class="lin-box" x="${x}" y="${y}" width="${w}" height="${h}" rx="10"/><text class="lin-t" x="${cx}" y="${ty}" text-anchor="middle">${esc(t)}</text><text class="lin-s" x="${cx}" y="${ty + 22}" text-anchor="middle">${esc(a)}</text><text class="lin-d" x="${cx}" y="${ty + 41}" text-anchor="middle">${esc(b)}</text>`;
+  const title = "Lineage: consent, dataset, policy, eval, deployment";
+  const desc = nodes.map(([t, a, b]) => `${t}: ${a} (${b})`).join("; ");
+  const head = (id) => `<title id="${id}-t">${esc(title)}</title><desc id="${id}-d">${esc(desc)}</desc><defs><marker id="${id}-arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="lin-ah" d="M0 0L10 5L0 10z"/></marker></defs>`;
+  const h = `<svg class="lin lin-h" viewBox="0 0 1000 116" role="img" aria-labelledby="lin-h-t lin-h-d">${head("lin-h")}${nodes.map((n, i) => box(i * 207, 8, 172, 100, n, i * 207 + 86, 42)).join("")}${nodes.slice(1).map((_, i) => `<line class="lin-a" x1="${i * 207 + 174}" y1="58" x2="${i * 207 + 205}" y2="58" marker-end="url(#lin-h-arr)"/>`).join("")}</svg>`;
+  const v = `<svg class="lin lin-v" viewBox="0 0 320 520" role="img" aria-labelledby="lin-v-t lin-v-d">${head("lin-v")}${nodes.map((n, i) => box(20, 8 + i * 104, 280, 80, n, 160, 8 + i * 104 + 26)).join("")}${nodes.slice(1).map((_, i) => `<line class="lin-a" x1="160" y1="${8 + i * 104 + 82}" x2="160" y2="${8 + (i + 1) * 104 - 2}" marker-end="url(#lin-v-arr)"/>`).join("")}</svg>`;
+  return `<section class="lineage" aria-label="lineage">
+<h2>Lineage</h2>
+<p class="muted small">From the registry in <code>exports/robotics/governance.json</code>: who consented, which data each policy learned from, the measured evals and the simulated sites it serves. Every dataset here is synthetic, so no learner consent was needed; a learner's own takes enter only after an adult opts in on the device (DATAWORKS).</p>
+${h}
+${v}
+</section>`;
+}
+
 /** Build the page from exports/robotics/ (or a handed-in { index, cards, governance }). */
 export function rxReportHtml({ index = null, cards = null, governance = null } = {}) {
   index ??= JSON.parse(readFileSync(join(EXPORTS, "index.json"), "utf8"));
@@ -101,6 +128,12 @@ td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
 .scroll{overflow-x:auto}
 footer{margin-top:var(--at-sp-10);padding-top:var(--at-sp-4);border-top:1px solid var(--at-border);font-size:var(--at-fs-sm);color:var(--at-on-surface-muted);max-width:var(--at-measure)}
 @media (max-width:480px){.row{grid-template-columns:minmax(0,7em) 1fr 3.5em}.facts{grid-template-columns:1fr}}
+.lineage{margin-top:var(--at-sp-8);display:grid;gap:var(--at-sp-3)}
+.lin{display:block;width:100%;height:auto}.lin-v{display:none;max-width:420px}
+.lin-box{fill:var(--at-surface-2);stroke:var(--at-border-strong);stroke-width:1.5}
+.lin-t{fill:var(--at-on-surface);font:600 17px var(--at-font-display)}.lin-s{fill:var(--at-on-surface-muted);font:400 14px var(--at-font-body)}.lin-d{fill:var(--at-on-surface-dim);font:400 13px var(--at-font-body)}
+.lin-a{stroke:var(--at-primary);stroke-width:2}.lin-ah{fill:var(--at-primary)}
+@media (max-width:719px){.lin-h{display:none}.lin-v{display:block}}
 </style>
 </head>
 <body>
@@ -121,6 +154,7 @@ footer{margin-top:var(--at-sp-10);padding-top:var(--at-sp-4);border-top:1px soli
 <tbody>
 ${cards.map((c) => `<tr><td><a href="#${esc(c.scenario)}">${esc(c.policy.id)}</a></td><td>${esc(c.name)}</td><td class="num">${pct(c.results.random.success)}</td><td class="num"><strong>${pct(c.results.bcFiltered.success)}</strong></td><td class="num">${pct(c.results.expert.success)}</td><td class="num">${esc(c.results.gapToExpert)}</td><td class="num">${c.invariants.policyViolations} (${c.invariants.policyEpisodesWithViolations} of ${c.invariants.of})</td><td><code>${esc(c.lineage.auditHead)}</code></td></tr>`).join("\n")}
 </tbody></table></div>
+${rt6LineageSvg(governance)}
 <section class="grid" aria-label="policy cards">
 ${cards.map(card).join("\n")}
 </section>
