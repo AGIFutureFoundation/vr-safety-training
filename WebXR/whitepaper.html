@@ -53,7 +53,7 @@
   .swp-cta { display: flex; flex-wrap: wrap; gap: 10px; }
   .swp-btn { display: inline-flex; align-items: center; min-height: 48px; padding: 0 18px; border-radius: var(--at-r-md, 10px); border: 1px solid var(--line); background: var(--panel); color: var(--ink); text-decoration: none; font: 700 15px/1 var(--cond); letter-spacing: .05em; text-transform: uppercase; }
   .swp-btn.primary { background: var(--accent); color: var(--at-on-primary, #03202b); border-color: var(--accent); }
-  section.swp-sec { border-top: 1px solid var(--line); padding: 36px 0 30px; scroll-margin-top: 12px; }
+  section.swp-sec { border-top: 1px solid var(--line); padding: 36px 0 30px; scroll-margin-top: 56px; }
   .swp-kicker { margin: 0; color: var(--muted); font: 700 13.5px/1.2 var(--cond); letter-spacing: .16em; text-transform: uppercase; }
   h2 { margin: 4px 0 12px; font: 700 clamp(26px, 3.6vw, 36px)/1.12 var(--cond); text-transform: uppercase; letter-spacing: .02em; }
   h3 { margin: 22px 0 8px; font: 700 21px/1.2 var(--cond); color: var(--accent); letter-spacing: .02em; }
@@ -65,7 +65,9 @@
   ul.swp-claims { padding-left: 20px; margin: 10px 0; }
   ul.swp-claims > li { margin: 8px 0; max-width: 78ch; }
   cite { display: inline; font-style: normal; font-size: 16px; color: var(--muted); }
-  cite a { font-family: var(--mono); font-size: 14.5px; color: var(--muted); text-decoration-color: var(--line); word-break: break-all; }
+  cite a { font-family: var(--mono); font-size: 14.5px; color: var(--muted); text-decoration-color: var(--line); overflow-wrap: anywhere; }
+  td cite { display: block; }
+  @media (min-width: 761px) { .swp-table td:last-child, .swp-table th:last-child { width: 300px; } }
   cite a:hover { color: var(--accent); }
   code { font: 15px var(--mono); background: var(--at-raised, #0a121b); padding: 1px 5px; border-radius: var(--at-r-xs, 5px); }
   .swp-table { overflow-x: auto; margin: 10px 0; }
@@ -83,6 +85,12 @@
     .swp-hero { grid-template-columns: 1fr; padding-top: 28px; }
     .swp-hero svg { max-width: 420px; margin: 0 auto; }
     body { font-size: 16.5px; }
+    /* On a phone each table row becomes a card: feature, then measure, then its source on a line of its own. */
+    .swp-table table, .swp-table tbody, .swp-table tr, .swp-table td { display: block; width: 100%; }
+    .swp-table thead { position: absolute; left: -9999px; }
+    .swp-table tr { background: var(--panel); border: 1px solid var(--line); border-radius: var(--at-r-md, 10px); padding: 8px 14px; margin: 10px 0; }
+    .swp-table td { border: 0; padding: 3px 0; }
+    .swp-table td:first-child { font-weight: 700; }
   }
   @media print { header.swp-top, .swp-cta, footer.swp-foot ul { display: none; } body { background: #fff; color: #000; } }
 </style>
@@ -158,7 +166,7 @@
 
     <section class="swp-sec" id="problem" aria-labelledby="problem-h">
       <p class="swp-kicker">The problem</p>
-      <h2 id="problem-h">Robots are arriving at work faster than safe practice can be taught</h2>
+      <h2 id="problem-h">The dangerous moments need practice without the danger</h2>
       <p>People who work beside robots — apprentices, robot technicians, the specialists who collect and review demonstrations — need to practise the dangerous moments without the danger. The teams building robot and software-agent behaviour need demonstrations with the safety rules built in, gathered with consent. Today these are two separate efforts. This platform makes them one practice, with the teaching job first.</p>
       <ul class="swp-claims">
         <li class="swp-claim">Who it is for: apprentices and robot technicians who need robot-safety training; AI-training specialists who collect and review demonstrations; robotics and software-agent teams who want a gym with safety rules built in. No union, employer or robot maker is named as a partner, because there is none. <cite><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/main/docs/wiki/Executive-Summary.md">docs/wiki/Executive-Summary.md</a></cite></li>
@@ -299,11 +307,11 @@
         <thead><tr><th scope="col">Layer</th><th scope="col">What it is</th><th scope="col">Source</th></tr></thead>
         <tbody>
           <tr class="swp-claim"><td>WebXR and three.js</td><td>Every world is a WebXR page rendered with three.js, vendored with its licence, so a page runs on a flat screen, a phone or a headset from static files.</td><td><cite><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/main/WebXR/vendor/three/LICENSE">WebXR/vendor/three/LICENSE</a></cite></td></tr>
-          <tr class="swp-claim"><td>The flat bundler</td><td>Shared modules are folded into one scope per page and published to one flat folder; every top-level name in a module carries its console's prefix, and import aliases are not used in shared modules.</td><td><cite><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/main/tools/bundle_webxr.py">tools/bundle_webxr.py</a></cite></td></tr>
+          <tr class="swp-claim"><td>The flat bundler</td><td>One script inlines each app's ES modules and the shared engine into a distributable HTML file, publishes every app beside the homepage in one flat folder, and lets SmartCiti.X lazy-load its station sims; a gatekeeper checker proves every module calls only what it declares or imports.</td><td><cite><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/main/tools/bundle_webxr.py">tools/bundle_webxr.py</a></cite> <cite><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/main/tools/check_imports.mjs">tools/check_imports.mjs</a></cite></td></tr>
           <tr class="swp-claim"><td>On-device speech</td><td>Only a speech-synthesis voice whose <code>localService</code> is true is ever used; a network voice is never chosen. Voice is off until the learner turns it on, and captions always show.</td><td><cite><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/main/WebXR/shared/oh-voice.js">WebXR/shared/oh-voice.js</a></cite></td></tr>
           <tr class="swp-claim"><td>The checker suite and gate</td><td>One command runs every headless checker and reports one line each: the parse and import gatekeepers first, then the rest in a pool that respects the shared machine's load.</td><td><cite><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/main/tools/check_all.mjs">tools/check_all.mjs</a></cite></td></tr>
-          <tr class="swp-claim"><td>CI</td><td>The WebXR checks workflow runs the whole gate on each push and pull request.</td><td><cite><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/main/.github/workflows/webxr-checks.yml">.github/workflows/webxr-checks.yml</a></cite></td></tr>
-          <tr class="swp-claim"><td>Deploy configs</td><td>The flat build deploys as static files: a Pages config, an API router, generated header and redirect rules, and a deploy agent that runs build, gate, deploy, verify and rollback, as a dry run by default with credentials only from the environment. A workflow without its secrets does nothing.</td><td><cite><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/main/docs/deploy-cloudflare.md">docs/deploy-cloudflare.md</a></cite> <cite><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/main/wrangler.toml">wrangler.toml</a></cite></td></tr>
+          <tr class="swp-claim"><td>CI</td><td>The WebXR checks workflow runs the whole gate on every push and pull request that touches the WebXR apps or the tools, and fails a stale committed bundle.</td><td><cite><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/main/.github/workflows/webxr-checks.yml">.github/workflows/webxr-checks.yml</a></cite></td></tr>
+          <tr class="swp-claim"><td>Deploy configs</td><td>The flat build deploys as static files: a Pages config, an API router, generated header and redirect rules, and a deploy agent that runs build, gate, deploy, verify and rollback, as a dry run by default with credentials only from the environment. The deploy workflow is gated on its secrets being present.</td><td><cite><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/main/docs/deploy-cloudflare.md">docs/deploy-cloudflare.md</a></cite> <cite><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/main/wrangler.toml">wrangler.toml</a></cite></td></tr>
           <tr class="swp-claim"><td>Data formats</td><td>Training records export as CSV, xAPI, Open Badges and a printed transcript; robot episodes export in LeRobot-style and RLDS-style layouts with a dataset card.</td><td><cite><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/main/WebXR/privacy.html">WebXR/privacy.html</a></cite> <cite><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/main/docs/robot-datasets.md">docs/robot-datasets.md</a></cite></td></tr>
           <tr class="swp-claim"><td>Search and share metadata</td><td>One generator stamps every page's title, description, canonical link, Open Graph and Twitter tags and JSON-LD, and writes the sitemap — this page included.</td><td><cite><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/main/tools/gen_seo.mjs">tools/gen_seo.mjs</a></cite></td></tr>
         </tbody>
