@@ -23,7 +23,7 @@ robot would need a named human approver, and that path ships disabled (`VB_PHYSI
 | File | What it is |
 |---|---|
 | `WebXR/shared/vb-shared-data.js` | The plain, dependency-free data: phases, roles, memo types, governor rules, tasks, rig limits, the physical-path flag, and `VB_SHARED` (all of it as one object, read by the TradeQuest export) |
-| `WebXR/shared/vb-governor.js` | The safety governor: nine enumerated refusal reasons, the run monitor, a hash-chained decision log, ENTERPRISE-3 hooks (guarded) |
+| `WebXR/shared/vb-governor.js` | The safety governor: eleven enumerated refusal reasons (nine hard rules, then the per-agent rate limit and the anomaly check), the run monitor, a hash-chained decision log, ENTERPRISE-3 hooks (guarded) |
 | `WebXR/shared/vb-bridge.js` | The job model: phases, roles, memos, deliverables (RLDS/LeRobot-style episode plus eval card), deterministic under a seed |
 | `WebXR/shared/vb-providers.js` | Where jobs come from, off by default: `mock` and the `acp-proxy` descriptor; the GAME function export and executor |
 | `WebXR/shared/vb-panel.js` | "Agent jobs (simulated robots)" in the parishes app's drills menu: a seeded queue of mock agent jobs to approve or refuse, step through, e-stop and evaluate |
@@ -106,6 +106,20 @@ Refusal reasons, in precedence order (all of them are collected; the first one i
 | `stale-policy` | ENTERPRISE-3 marks the policy stale (trained on, or built from, revoked data), or the fleet row shows its deployment stale |
 | `over-speed` | Speed above the rig's limit, or above the reduced speed (`RB_SSM.reducedSpeed`) with a person inside the warning distance |
 | `inside-separation` | The nearest person is closer than the rig's minimum separation (`RB_SSM.stop`) |
+| `rate-limited` | GOVERNOR-2. The agent (the command's `clientId`) has made `VB_RATE_LIMIT.perMinute` requests (default 20) in the sliding window (60 s). Every new job request counts, refused ones included; a repeat check of a job id already admitted (a GAME session's function calls) is a step of that job and counts once. Time is the command's `atMs`, else the governor's `now()`, else one logical second per decision |
+| `anomalous` | GOVERNOR-2. The command passes every rule above but one feature sits more than `VB_ANOMALY.threshold` (4) standard deviations past the accepted mean for its task, in the risky direction: payload (kg) higher, speed (as a share of the limit that applies) higher, nearest person closer, or the agent's repeat quicker (log scale). The refusal names the feature, its value, the mean and the distance |
+
+**Beside the rules, never above them (GOVERNOR-2).** The two new reasons come after every hard rule in the order, so a
+held e-stop or a broken hard rule is always the primary reason, and neither safeguard can turn a refusal into a
+permission (check_vbridge 14 tests this on 300 random commands). The anomaly model is a per-task, per-feature mean and
+standard deviation (`vbAnomalyModel`) fitted to a **seeded, procedural** history of 480 rule-legal accepted jobs
+(`vbAnomalyHistory`, ranges in `VB_ANOMALY.history`): a stand-in for a site's own log, which a deployment hands in as
+`vbGovernor({ anomaly: { history } })`. Measured (check_vbridge EVAL-2): 100 rule-legal injections, 66 caught (payload
+1.5–4 times the accepted maximum 49/50; repeats 5–200 ms after the agent's last request 17/50), 0 of them refused by the
+nine rules alone; false refusals 0/200 on held-out accepted jobs and 0/200 on the rule-edge safe jobs. Repeats slower
+than about 40 ms sit inside the accepted spread, so the rate limit is what stops a sustained stream. Within the current
+rig limits the speed and separation features cannot fire before a hard rule does; they are there for a site whose own
+history is narrower than its limits.
 
 During a run, `monitor` returns `estop` (held e-stop or the supervisor's press), `protective-stop` (person inside the
 separation distance, or a deviation: any safe-practice rule the step broke), `slow`, or `continue`. Every allow,

@@ -194,18 +194,25 @@ export function vbGovernor({ ent3 = null, limits = VB_RIG_LIMITS, estops = [], a
       if (Number.isFinite(sep) && sep < lim.minSeparation) reasons.add("inside-separation");
     } else if (!VB_TASKS[c.taskType]) reasons.add("task-not-allowed");
     if (vbText(c.policyId)) { const st = policyStatus(c.policyId, c.siteId); if (st === "unregistered") reasons.add("unregistered-policy"); if (st === "stale") reasons.add("stale-policy"); }
-    // GOVERNOR-2: the per-agent sliding window. Every request counts, refused ones included.
+    // GOVERNOR-2: the per-agent sliding window. Every new request counts, refused ones included. A repeat check of a
+    // job id this agent already had admitted inside the window is a step of that job (a GAME session's function calls
+    // share one job id), so it is not counted again and has no cadence.
     const atMs = vbNum(c.atMs);
     const t = atMs !== undefined ? atMs : (typeof now === "function" ? Number(now()) : decisions * rateCfg.logicalTickMs);
     decisions += 1;
-    const agent = vbText(c.clientId, 40);
+    const agent = vbText(c.clientId, 40); const jobKey = vbText(c.jobId, 80);
     let rateInfo = null; let cadenceS;
     if (agent) {
       const past = perAgent.get(agent) ?? [];
-      if (past.length) cadenceS = Math.max(0, (t - past[past.length - 1]) / 1000);
-      const inWindow = past.filter((x) => x > t - rateCfg.windowMs && x <= t);
-      if (inWindow.length >= rateCfg.perMinute) { reasons.add("rate-limited"); rateInfo = { agent, count: inWindow.length, perMinute: rateCfg.perMinute, windowS: rateCfg.windowMs / 1000 }; }
-      inWindow.push(t);
+      const inWindow = past.filter((x) => x.t > t - rateCfg.windowMs && x.t <= t);
+      const step = !!jobKey && inWindow.some((x) => x.jobId === jobKey && x.admitted);
+      if (!step) {
+        if (past.length) cadenceS = Math.max(0, (t - past[past.length - 1].t) / 1000);
+        const counted = inWindow.length;
+        const entry = { t, jobId: jobKey, admitted: counted < rateCfg.perMinute };
+        if (!entry.admitted) { reasons.add("rate-limited"); rateInfo = { agent, count: counted, perMinute: rateCfg.perMinute, windowS: rateCfg.windowMs / 1000 }; }
+        inWindow.push(entry);
+      }
       perAgent.set(agent, inWindow);
     }
     // GOVERNOR-2: the anomaly check, beside the rules (it only ever adds a reason).

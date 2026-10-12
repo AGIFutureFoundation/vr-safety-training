@@ -330,7 +330,13 @@ await check("13. the per-agent rate limit: a sliding window per agent id, every 
   const gl = G.vbGovernor();
   const rl = Array.from({ length: L + 1 }, (_, i) => gl.check(ok({ jobId: `l${i}` })).ok);
   assert(rl.slice(0, L).every(Boolean) && !rl[L], "the logical clock (one decision a second) does not limit the 21st request in a minute");
-  console.log(`      burst of ${2 * L} from one agent, a second apart: allowed ${res.filter((d) => d.ok).length}, rate-limited ${res.filter((d) => d.primary === "rate-limited").length}; a second agent at 20/min untouched; ${logged.length} lines in the audit chain`);
+  // A GAME session's function calls are steps of one job (one job id): 60 calls in a row are not 60 requests.
+  const gg = G.vbGovernor(); const session = { governor: gg, job: { id: "game-session-1", clientId: "game-worker", siteId: SITE.cobot, speed: 0.2, nearestPersonM: 8, policyId: "vb-scripted-expert", seed: 2 } };
+  const calls = Array.from({ length: 60 }, () => P.vbGameExecute("teleop_pick_place__wait", {}, session));
+  assert(calls.every((r) => !/rate-limited|anomalous/.test(r.feedback_message)), `a GAME session's steps were rate-limited: ${calls.find((r) => /rate-limited|anomalous/.test(r.feedback_message))?.feedback_message}`);
+  const fresh = Array.from({ length: L + 1 }, (_, i) => gg.check(ok({ jobId: `new-${i}`, clientId: "game-worker" })).ok);
+  assert(fresh.slice(0, L).every(Boolean) && !fresh[L], "after its session, new job ids from the same agent are not counted as usual");
+  console.log(`      burst of ${2 * L} from one agent, a second apart: allowed ${res.filter((d) => d.ok).length}, rate-limited ${res.filter((d) => d.primary === "rate-limited").length}; a second agent at 20/min untouched; ${logged.length} lines in the audit chain; a GAME session's 60 function calls count as one request`);
 });
 
 await check("14. the anomaly check beside the rules: deterministic model, names the feature, never outranks the e-stop or a hard rule, adds a refusal and never a permission", () => {

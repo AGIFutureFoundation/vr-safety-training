@@ -28,9 +28,10 @@ export const VB_REASONS = Object.freeze([
 export const VB_REASON_IDS = Object.freeze(VB_REASONS.map((r) => r.id));
 
 /**
- * GOVERNOR-2 — the per-agent rate limit: a sliding window per agent id (the command's clientId). Every request counts,
+ * GOVERNOR-2 — the per-agent rate limit: a sliding window per agent id (the command's clientId). Every new job request counts
+ * (a repeat check of a job id already admitted is a step of that job, as a GAME session's function calls are),
  * refused ones included, so an agent that keeps hammering stays limited. Time is the command's `atMs` when it carries
- * one, else the governor's `now()` when one is handed in (the parishes panel hands in the wall clock), else a logical
+ * one, else the governor's `now()` when one is handed in (the parishes panel stamps its queued jobs with scenario times), else a logical
  * clock where each decision counts as `logicalTickMs` (deterministic, like the audit line clock).
  */
 export const VB_RATE_LIMIT = Object.freeze({ perMinute: 20, windowMs: 60000, logicalTickMs: 1000, note: "default 20 requests per agent per minute; configurable per governor (vbGovernor({ rate: { perMinute } }))" });

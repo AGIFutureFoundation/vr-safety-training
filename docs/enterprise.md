@@ -202,6 +202,20 @@ trains or runs nothing itself.
 - **Audit** — append-only and hash-chained: each line carries the FNV-1a pair hash of the line before;
   `ent3VerifyAudit()` re-walks it and finds an edited or deleted line. No clear or edit is exported. Tamper-evident on
   the device, not cryptographic proof.
+- **Between devices (GOVERNOR-2)** — `ent3Export()` writes one JSON document (`ENT3_EXPORT_SCHEMA`): the records
+  (consents, datasets, policies, deployments), the lineage graph, the whole audit chain, its head `{ seq, hash, lines }`
+  and a digest of the records sealed with the head. `ent3Import(doc)` checks it on its own first and refuses with a
+  named reason: `bad-schema`, `chain-broken` (an edited or deleted line), `head-mismatch` (a truncated chain),
+  `digest-mismatch` (a record edited after export), `lineage-mismatch` (an edited graph), `unaudited-record` (a record
+  with no registering line). Then it merges by fast-forward: when this device's chain is a prefix of the file's, the
+  newer lines and records are adopted; when the file's is a prefix of this device's there is nothing to add; two chains
+  that diverge are `forked` and refused. Records are keyed by id, so nothing duplicates and a second import adds
+  nothing. The import is noted beside the chain (`ent3Imports()`), not in it, so both devices keep one chain and can
+  keep exchanging files. The Data governance tab has the **Export registry** / **Import registry** button pair (a file
+  the person carries; nothing is sent). FNV is not a secure hash: this catches edits and forks; it is not proof against
+  someone who rewrites a whole history for a device that never held the original. Measured (check_enterprise3 14–15):
+  200 seeded graphs round-trip identical, re-import adds nothing 200/200, fast-forward 200/200; 50 tampered documents
+  refused 50/50 with the expected reason; forks refused 20/20.
 - **Billing adapters** — `WebXR/shared/ent3-billing.js`, off by default, Chargebee (subscriptions and entitlements) and
   PayPal (invoices) as request descriptors sent only to the deployment's own proxy; mock provider for tests; no key, no
   price, no Crew Credits. See `docs/billing-adapters.md`.
