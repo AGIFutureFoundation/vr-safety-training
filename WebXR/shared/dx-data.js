@@ -250,6 +250,9 @@ export async function dxRevoke({ store = dxStore } = {}) {
   for (const k of DX_LEGACY_KEYS) dxDel(k);
   dxLiveRecorders.forEach((r) => r.abort());
   dxLiveRecorders.clear();
+  // ROBOTRAIN-5: a take parked or already being written when the learner revokes must not land after the clear. Consent is gone
+  // (above), so the flush discards every parked write and waits for any put already in flight; only then is the store emptied.
+  try { await dxFlush(); } catch (_) { /* nothing parked */ }
   await store.clear();
   return { ok: true, remaining: (await store.list()).length };
 }
@@ -372,7 +375,8 @@ export function dxFlush() {
     const pending = [...dxPendingWrites]; dxPendingWrites.clear();
     const inflight = [...dxInflightWrites];
     let written = 0;
-    for (const w of pending) { dxCancelIdle(w.handle); if (await w.run()) written += 1; }
+    // settle(): run the write now, or, when its idle slot started it while this flush was awaiting an earlier one, await that put.
+    for (const w of pending) { dxCancelIdle(w.handle); if (await w.settle()) written += 1; }
     for (const w of inflight) { if (await w.done) written += 1; }
     return written;
   });
@@ -413,7 +417,7 @@ export function dxRecorder(meta = {}, { store = dxStore, signals = null, clock =
       rec.episode = dxMakeEpisode({ ...meta, startedAt, endedAt: new Date(clock()).toISOString(), durationS: (clock() - t0) / 1000, summary, truncated, source: "human" }, steps);
       const ep = rec.episode;
       // The parked write: the idle slot or dxFlush() runs it, whichever comes first, once; `written` resolves with the result.
-      const w = { handle: null, run: null, done: null };
+      const w = { handle: null, run: null, done: null, settle: null };
       let ran = false;
       rec.written = new Promise((res) => {
         w.run = async () => {
@@ -425,6 +429,7 @@ export function dxRecorder(meta = {}, { store = dxStore, signals = null, clock =
           dxInflightWrites.delete(w);
           res(ok); return ok;
         };
+        w.settle = () => (ran ? w.done : w.run());
       });
       w.handle = dxIdle(() => { w.run(); });
       dxPendingWrites.add(w);
