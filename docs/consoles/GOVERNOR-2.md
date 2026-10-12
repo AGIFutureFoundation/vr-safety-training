@@ -124,6 +124,8 @@ answers it from `WebXR/vendor/three` and aborts every other outside host. The pa
 - `node tools/check_imports.mjs`: All 1103 modules call only what they declare or import.
 - `node tools/check_dataworks.mjs`: 59 passed, 0 failed.
 - `node tools/check_guide.mjs`: 268 checks pass (after the doc edits).
+- `node tools/check_payments.mjs`: All seat-billing checks pass (governance.js gained the button pair).
+- `node tools/check_virtuals.mjs`: All 11 SmartCiti.X checks pass.
 
 ## Seams
 
