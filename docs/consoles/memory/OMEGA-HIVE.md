@@ -20,7 +20,7 @@
 - Gotcha: an agent with two jobs can walk to its second job's site, so `dispatch` emits a walk-back `move` first (check 2b,
   the avatar-side fixture). Without it, 9 jobs on seed 7 started away from their figure.
 - Measured: NB distinctiveness 0.950 (neutral control 0.870, chance 0.143); style 7/7; grounding 954/954; governor
-  161/161 jobs checked and 3,631/3,631 steps monitored; approvals 10/10; hive 0.034 against single 14.159 steps to
+  161/161 jobs checked and 3,631/3,631 steps monitored; approvals 10/10; hive 0.034 against single 13.715 steps to
   award (both 159 completed).
 - Drives: `$SP/loop10/oh/drive_hive.mjs` (gate, voice stub, approvals, audit), `drive_budget.mjs` (scene stats with a
   settle wait and a no-step control). Signing in for a drive:

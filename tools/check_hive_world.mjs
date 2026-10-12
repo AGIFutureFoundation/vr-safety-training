@@ -215,7 +215,7 @@ let supEval = null;
   ok(lines.length > 0 && grounded === lines.length && inBand === lines.length && !/physical/.test(lines.map((e) => e.text).join(" ")), `the setting's lines are grounded in their events (${grounded} of ${lines.length}), hold the consent keeper's band (${inBand} of ${lines.length}) and never speak of the physical path`, lines[0]?.text);
   const panel = read("WebXR/shared/oh-panel.js");
   ok(/import \{ aaPortraitImg \} from "\.\/aa-agent-portraits\.js";/.test(panel) && /aaPortraitImg\(a, \{ size: 48 \}\)/.test(panel) && /else pic\.innerHTML = avSpriteSvg\(avAgentLook/.test(panel) && /mk\("span", "oh-label", OH_AGENT_LABEL\)/.test(panel), "the hive panel's cards show AGENT-AVATARS' 2× portrait (aaPortraitImg), keep the badge SVG as the fallback and keep the \"software agent\" label (drive_hive_world checks the 96 px PNGs in the page)");
-  ok(/data-?oh|dataset\.oh = "supervise"/.test(panel) && /api\.supervise\(!hive\.supervising\(\)\)/.test(panel) && /ohHive\(\{ seed, audit, nJobs, ticksPerDay, supervise \}\)/.test(panel), "the panel has the \"Supervise every job\" toggle (off by default) wired to the hive");
+  ok(/data-?oh|dataset\.oh = "supervise"/.test(panel) && /api\.supervise\(!hive\.supervising\(\)\)/.test(panel) && /ohHive\(\{ seed, audit, nJobs, ticksPerDay, supervise[ ,}]/.test(panel), "the panel has the \"Supervise every job\" toggle (off by default) wired to the hive");
 }
 
 // ------------------------------------------------------------------------------------------------ 4. walks round buildings

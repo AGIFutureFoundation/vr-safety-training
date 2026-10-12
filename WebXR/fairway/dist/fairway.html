@@ -52795,10 +52795,13 @@ function lkIsTradesRoom(id) { return LK_TRADES_ROOMS.includes(String(id ?? ""));
  * SmartCiti.X station, `<trades>?room=<id>&from=<app>` for a Trade Skills
  * room, each with `&return=<page>#site=<siteId>` when `page` is given (the
  * way home the runner's "Back to <world>" button takes, docs/interop.md).
+ * `returnHash` ("key=value") rides on the return's hash after the site
+ * (HIVE-IN-WORLD: `ixr=<style>` brings the learner back into a robotics room).
  */
-function lkStationLink(id, { runner = "../../smartcity/index.html", trades = LK_TRADES_PAGE, from = null, page = null, siteId = null, extra = "" } = {}) {
+function lkStationLink(id, { runner = "../../smartcity/index.html", trades = LK_TRADES_PAGE, from = null, page = null, siteId = null, extra = "", returnHash = "" } = {}) {
   if (!id) throw new Error("lkStationLink needs a station id");
-  const ret = page ? `${page}${siteId ? `#site=${encodeURIComponent(siteId)}` : ""}` : null;
+  const more = returnHash ? `${siteId ? "&" : "#"}${returnHash}` : "";
+  const ret = page ? `${page}${siteId ? `#site=${encodeURIComponent(siteId)}` : ""}${more}` : null;
   const back = ret ? `&return=${encodeURIComponent(ret)}` : "";
   const room = lkIsTradesRoom(id);
   const base = room ? trades : runner;

@@ -46,12 +46,14 @@ with the same capacity, behind the same governor, steward and approvals.
 |---|---|---|
 | Completed / 200 | 159 | 159 |
 | Refused (governor) / vetoed / declined / not accepted | 29 / 7 / 3 / 2 | 29 / 7 / 3 / 2 |
-| Mean steps from announcement to award | **0.034** | 14.159 |
-| Mean steps from arrival to completion | **4.398** | 18.882 |
+| Mean steps from announcement to award | **0.034** | 13.715 |
+| Mean steps from arrival to completion | **4.398** | 18.478 |
 | Contested awards (more than one bid) resolved, double awards | 207, 0 | 0, 0 |
-| Site conflicts (a robot busy) resolved | 19/19 | 18/18 |
+| Site conflicts (a robot busy) resolved | 19/19 | 15/15 |
 | Most jobs on one robot at once | 1 | 1 |
 | Awards to the best-skilled agent | 158/207 | 207/207 (only one agent) |
+
+Corrected in loop 10 round 2: the single-dispatcher column first carried 14.159, 18.882 and 18/18, from an earlier run; the figures above are what `check_omega_hive` prints on this commit. The hive column and the safety counts did not change.
 
 **Read honestly.**
 - The day has slack, so the single dispatcher also finishes all 159 completable jobs. It just takes four times as
@@ -98,7 +100,7 @@ settled. The phone and headset budgets do not change. No high-detail work was in
    refusals to the hive's 28, because requests reached the governor out of time order. `atMs` was stamped at arrival
    but checked at award, so the cadence feature read a negative gap as 0 s and refused two jobs as `anomalous`. Fixed
    at the source: the request carries the hive clock when the provider negotiates. Then the outcomes were identical
-   (29/7/10 in both) and the latency differed: 0.034 against 14.159 steps to award. Committed with the hive.
+   (29/7/10 in both) and the latency differed: 0.034 against 13.715 steps to award. Committed with the hive.
 4. Reason: one checker proves every claim, with the before from the same script. Check: `check_omega_hive` on a
    `git archive` of 43d3e3f6 and on the tree. Act: the checker, the `check_all` entry and the estimated baseline row.
    Observe: base 1/13. Tree 12/2:

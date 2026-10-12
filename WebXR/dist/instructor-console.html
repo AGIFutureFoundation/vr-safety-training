@@ -76745,10 +76745,13 @@ function lkIsTradesRoom(id) { return LK_TRADES_ROOMS.includes(String(id ?? ""));
  * SmartCiti.X station, `<trades>?room=<id>&from=<app>` for a Trade Skills
  * room, each with `&return=<page>#site=<siteId>` when `page` is given (the
  * way home the runner's "Back to <world>" button takes, docs/interop.md).
+ * `returnHash` ("key=value") rides on the return's hash after the site
+ * (HIVE-IN-WORLD: `ixr=<style>` brings the learner back into a robotics room).
  */
-function lkStationLink(id, { runner = "./smartcity-x.html", trades = LK_TRADES_PAGE, from = null, page = null, siteId = null, extra = "" } = {}) {
+function lkStationLink(id, { runner = "./smartcity-x.html", trades = LK_TRADES_PAGE, from = null, page = null, siteId = null, extra = "", returnHash = "" } = {}) {
   if (!id) throw new Error("lkStationLink needs a station id");
-  const ret = page ? `${page}${siteId ? `#site=${encodeURIComponent(siteId)}` : ""}` : null;
+  const more = returnHash ? `${siteId ? "&" : "#"}${returnHash}` : "";
+  const ret = page ? `${page}${siteId ? `#site=${encodeURIComponent(siteId)}` : ""}${more}` : null;
   const back = ret ? `&return=${encodeURIComponent(ret)}` : "";
   const room = lkIsTradesRoom(id);
   const base = room ? trades : runner;
@@ -79771,9 +79774,22 @@ function ent3BillingAdapter(config, { transport = null, now = null } = {}) {
 // AGENT-AVATARS: the agent roster with crisp portraits (no trailing comment on an import line: the flat bundler strips imports line by line).
 
 function ent3El(tag, cls, text) { const node = document.createElement(tag); if (cls) node.className = cls; if (text !== undefined) node.textContent = text; return node; }
-const ent3View = { root: null, toast: null, config: null, card: null, agents: [] };
+const ent3View = { root: null, toast: null, config: null, card: null, agents: [], notice: null };
 
-function ent3Say(t) { try { ent3View.toast?.(t); } catch (_) { /* no toast */ } }
+/** Say what an action did ON THIS TAB (HIVE-IN-WORLD): a status line in the panel where it happened (the registry panel for
+ * export and import, the top of the tab for the rest), kept until the next action; refusals are marked as refusals. The
+ * console's toast line also gets it, but that line sits in the Live-class view, hidden while this tab is open. */
+function ent3Say(t, { kind = "ok", where = "top" } = {}) {
+  ent3View.notice = { text: String(t), kind: kind === "bad" ? "bad" : "ok", where, at: Date.now() };
+  try { ent3View.toast?.(t); } catch (_) { /* no toast */ }
+}
+function ent3Notice(where) {
+  const n = ent3View.notice;
+  if (!n || n.where !== where) return null;
+  const p = ent3El("p", `ent3-notice ${n.kind === "bad" ? "ent3-bad" : "ent3-ok"}`, n.text);
+  p.id = "ent3-notice"; p.dataset.kind = n.kind; p.setAttribute("role", n.kind === "bad" ? "alert" : "status");
+  return p;
+}
 function ent3Btn(label, onClick, cls = "small") { const b = ent3El("button", cls, label); b.type = "button"; b.addEventListener("click", onClick); return b; }
 function ent3Panel(title, note) { const p = ent3El("section", "panel"); p.append(ent3El("h2", null, title)); if (note) p.append(ent3El("p", "fine", note)); return p; }
 function ent3Table(headers, rows, empty) {
@@ -79793,7 +79809,8 @@ function ent3DownloadRegistry() {
   a.download = `ent3-registry-${doc.exportedAt.slice(0, 10)}-line${doc.head.seq}.json`;
   document.body.append(a); a.click(); a.remove();
   setTimeout(() => URL.revokeObjectURL(a.href), 1000);
-  ent3Say(`Exported the registry: ${doc.head.lines} audit line(s), ${doc.lineage.nodes.length} lineage node(s).`);
+  ent3Say(`Exported the registry: ${doc.head.lines} audit line(s), ${doc.lineage.nodes.length} lineage node(s).`, { where: "registry" });
+  ent3Render();
   return doc;
 }
 const ENT3_IMPORT_SAY = { "bad-schema": "not a registry export", "chain-broken": "the audit chain was edited", "head-mismatch": "the chain head does not match", "digest-mismatch": "the records were edited after export", "lineage-mismatch": "the lineage graph was edited", "unaudited-record": "a record has no audit line", forked: "it forks from this device's chain" };
@@ -79801,7 +79818,7 @@ function ent3ReadRegistryText(text) {
   let doc = null;
   try { doc = JSON.parse(text); } catch (_) { doc = null; }
   const r = ent3Import(doc);
-  ent3Say(r.ok ? (r.mode === "already-current" ? "Nothing new: this device already holds that chain." : `Imported (${r.mode}): ${r.added.lines} audit line(s), ${r.added.consents} consent(s), ${r.added.datasets} dataset(s), ${r.added.policies} policy(ies), ${r.added.deployments} deployment(s).`) : `Refused (${r.reason}): ${ENT3_IMPORT_SAY[r.reason] ?? ""} — ${r.detail ?? ""}`);
+  ent3Say(r.ok ? (r.mode === "already-current" ? "Nothing new: this device already holds that chain." : `Imported (${r.mode}): ${r.added.lines} audit line(s), ${r.added.consents} consent(s), ${r.added.datasets} dataset(s), ${r.added.policies} policy(ies), ${r.added.deployments} deployment(s).`) : `Refused (${r.reason}): ${ENT3_IMPORT_SAY[r.reason] ?? ""} — ${r.detail ?? ""}`, { kind: r.ok ? "ok" : "bad", where: "registry" });
   ent3Render();
   return r;
 }
@@ -79812,6 +79829,7 @@ function ent3Render() {
   const root = ent3View.root; if (!root) return;
   const consents = ent3Consents(); const datasets = ent3Datasets(); const policies = ent3Policies();
   const out = [];
+  const topNotice = ent3Notice("top"); if (topNotice) out.push(topNotice);
 
   const intro = ent3Panel("Training-data governance", "A registry, not a training system: it records which consented learners' episodes (DATAWORKS receipts — consent id, time, licence, statement hash; never a name or an episode) went into which dataset, which dataset trained which robot policy or agent tutor, how each was evaluated and where it runs in the sim. Revoking a consent marks every dataset holding it for rebuild and every policy trained on it — or based on such a policy — stale. Kept with the signed-in profile on this device; nothing is sent anywhere.");
   if (!datasets.length) intro.append(ent3Btn("Load the sample registry", () => { ent3LoadSample(); ent3Say("Sample registry loaded (sample figures are marked)."); ent3Render(); }));
@@ -79836,7 +79854,7 @@ function ent3Render() {
   fp.append(ent3Table(["Site", "Map", "Rig", "Policy", "Eval", "Flag", ""], ent3Fleet().map((r) => {
     const sel = ent3El("select"); sel.setAttribute("aria-label", `Policy for ${r.name}`);
     for (const p of [{ id: "", name: "Deploy a policy…" }, ...current]) { const o = ent3El("option", null, p.id ? `${p.id} @${p.version}` : p.name); o.value = p.id; sel.append(o); }
-    sel.addEventListener("change", () => { if (!sel.value) return; const res = ent3Deploy({ policyId: sel.value, siteId: r.siteId }); ent3Say(res.ok ? `Deployed ${sel.value} to ${r.name} (sim).` : res.reason); ent3Render(); });
+    sel.addEventListener("change", () => { if (!sel.value) return; const res = ent3Deploy({ policyId: sel.value, siteId: r.siteId }); ent3Say(res.ok ? `Deployed ${sel.value} to ${r.name} (sim).` : res.reason, { kind: res.ok ? "ok" : "bad" }); ent3Render(); });
     return [r.name, r.parish, r.rig, r.deployment ? `${r.deployment.policyId} @${r.deployment.version}` : "—", r.evalScore == null ? "—" : `${r.evalScore}${r.evalMeasured ? "" : " (sample)"}`, r.stale ? "STALE — retrain" : (r.deployment ? "ok" : ""), sel];
   }), "No robot sites."));
   const agents = policies.filter((p) => p.kind === "agent");
@@ -79861,6 +79879,7 @@ function ent3Render() {
   const xrow = ent3El("div", "row");
   xrow.append(ent3Btn("Export registry", ent3DownloadRegistry), ent3Btn("Import registry", () => picker.click()), picker);
   xp.append(xrow);
+  const regNotice = ent3Notice("registry"); if (regNotice) xp.append(regNotice);
   const lastIn = ent3Imports().slice(-1)[0];
   xp.append(ent3El("p", "fine", lastIn ? `Last import: ${lastIn.mode}, ${lastIn.added.lines} line(s) up to line ${lastIn.head.seq}, ${String(lastIn.at).slice(0, 19).replace("T", " ")}.` : "No import on this device yet."));
   out.push(xp);
@@ -79874,7 +79893,7 @@ function ent3Render() {
   root.replaceChildren(...out);
 }
 
-const ENT3_CSS = "#ent3-root .ent3-scroll{overflow-x:auto}#ent3-root pre.ent3-card{white-space:pre-wrap;max-height:360px;overflow:auto;background:var(--bg,transparent);border:1px solid var(--edge);border-radius:10px;padding:12px;font-size:12px}#ent3-root .ent3-ok{color:var(--ok,inherit)}#ent3-root .ent3-bad{color:var(--danger,inherit);font-weight:600}#ent3-root h2{font-size:16px;margin:0 0 6px}#ent3-root h3{font-size:14px;margin:14px 0 6px}#ent3-root select{max-width:220px}";
+const ENT3_CSS = "#ent3-root .ent3-scroll{overflow-x:auto}#ent3-root pre.ent3-card{white-space:pre-wrap;max-height:360px;overflow:auto;background:var(--bg,transparent);border:1px solid var(--edge);border-radius:10px;padding:12px;font-size:12px}#ent3-root .ent3-ok{color:var(--ok,inherit)}#ent3-root .ent3-bad{color:var(--danger,inherit);font-weight:600}#ent3-root .ent3-notice{border:1px solid currentColor;border-radius:8px;padding:6px 10px;margin:8px 0}#ent3-root h2{font-size:16px;margin:0 0 6px}#ent3-root h3{font-size:14px;margin:14px 0 6px}#ent3-root select{max-width:220px}";
 
 /** Mount the view; `config` is the parsed auth-config (for the billing block). Returns { render, setConfig }. */
 function ent3MountGovernanceView(root, { toast = null, config = null, agents = [] } = {}) {
@@ -81027,6 +81046,64 @@ const OH_REASON_PHRASES = Object.freeze({
   "unusual-payload": "the payload is well above what the site usually accepts",
 });
 
+// ---- A second language (VOICES, loop 10 round 2). The hive speaks English by default and Spanish when the page's language is
+// Spanish. A language has its own phrase cores (oh-say.js OH_CORES / OH_CORES_ES), its own style pools below (openers, closers,
+// hedges, the reasons' calm phrases, each agent's padding lexicon) and its own voice language and preferred local voice names. The
+// style GRAMMAR (the band of words per sentence, the rates) is derived from the traits exactly as in English. Facts (job ids, site
+// names, scores, counts, reason ids) are slotted from the event and are the same in every language. Proper names stay in English.
+const OH_LANGS = Object.freeze({ en: Object.freeze({ tag: "en-US", name: "English" }), es: Object.freeze({ tag: "es-US", name: "Español" }) });
+/** The hive's language for a page language code ("es", "es-MX", "en-GB", "fr"...): a language it speaks, else English. */
+function ohLangFor(code) { const c = String(code ?? "en").toLowerCase().split(/[-_]/)[0]; return Object.prototype.hasOwnProperty.call(OH_LANGS, c) ? c : "en"; }
+
+const OH_OPENER_POOLS_ES = Object.freeze({
+  "formal-warm": ["Buenas noticias:", "Con gusto,", "Le informo:", "Si me permite,"],
+  "formal-cool": ["Para el registro,", "Anotado:", "Confirmo:", "Atención:"],
+  "casual-warm": ["Hola equipo,", "Muy bien, amigos,", "Bueno,", "Hola a todos,"],
+  "casual-cool": ["Bien,", "Listo,", "Entonces,", "Dato rápido:"],
+});
+const OH_CLOSER_POOLS_ES = Object.freeze({
+  "warm-careful": ["Gracias por cuidar la seguridad", "Gracias por su paciencia", "Qué bueno que revisamos primero"],
+  "warm-brisk": ["Buen trabajo, equipo", "Buen trabajo en conjunto", "Saludos a todos"],
+  "cool-careful": ["Registrado y verificado", "Anotado en la cadena", "Sin más"],
+  "cool-brisk": ["Sigo", "Siguiente", "Listo aquí"],
+});
+const OH_HEDGE_POOLS_ES = Object.freeze({
+  careful: ["solo en el robot simulado", "con la parada de emergencia a mano", "si el gobernador está de acuerdo", "dentro de los límites del sitio"],
+  brisk: ["sin demora", "de inmediato", "tan rápido como permiten las reglas"],
+});
+const OH_REASON_PHRASES_ES = Object.freeze({
+  "estop-held": "la parada de emergencia está activada",
+  "physical-target": "nombra un robot físico y esa vía está desactivada",
+  malformed: "falta un campo que el gobernador necesita",
+  "unknown-site": "en la simulación no existe un sitio con ese id",
+  "task-not-allowed": "esa tarea no está en la lista del sitio",
+  "unregistered-policy": "la política no está en el registro",
+  "stale-policy": "la política se entrenó con datos revocados",
+  "over-speed": "la velocidad supera el límite del sitio",
+  "inside-separation": "hay una persona dentro de la distancia de separación",
+  "rate-limited": "el agente envió más solicitudes de las que permite el límite",
+  anomalous: "queda muy lejos de lo que el sitio ha aceptado",
+  "steward-veto": "la persona de seguridad pidió que alguien mire primero",
+  "supervisor-declined": "la persona supervisora lo rechazó",
+  "near-limit-with-person": "hay una persona cerca y la velocidad roza el límite reducido",
+  "unusual-payload": "la carga es mucho mayor de lo habitual en el sitio",
+});
+/** Each agent's own padding phrases in Spanish, and the local voice names it prefers for Spanish (an order; a name the device lacks is skipped). */
+const OH_PADS_ES = Object.freeze({
+  dispatcher: ["siguiente en el tablero", "la cola sigue avanzando", "por orden de llegada", "tablero actualizado"],
+  "safety-steward": ["con la protección cerrada", "con cada persona contada", "según la regla de separación", "con el bloqueo verificado"],
+  "maintenance-planner": ["herramientas listas", "después de los controles de bloqueo", "repuestos en el carro", "torque y etiquetas revisados"],
+  "consent-keeper": ["con su decisión respetada", "como usted acordó", "con la elección en sus manos", "guardado en este dispositivo"],
+  trainer: ["con calma y firmeza", "paso a paso", "aprendemos de cada ejecución", "buena práctica en todo"],
+  auditor: ["según la cadena", "hash por hash", "tal como se registró", "línea por línea"],
+  logistics: ["cajas rodando", "pasillos libres", "salto rápido", "en movimiento"],
+});
+const OH_PREFER_ES = Object.freeze({
+  dispatcher: ["Jorge", "Juan", "Pablo"], "safety-steward": ["Monica", "Helena", "Paulina"], "maintenance-planner": ["Diego", "Raul", "Jorge"],
+  "consent-keeper": ["Paulina", "Sabina", "Monica"], trainer: ["Sabina", "Helena", "Paulina"], auditor: ["Pablo", "Jorge", "Diego"], logistics: ["Juan", "Raul", "Diego"],
+});
+const OH_POOLS = { en: { opener: OH_OPENER_POOLS, closer: OH_CLOSER_POOLS, hedge: OH_HEDGE_POOLS }, es: { opener: OH_OPENER_POOLS_ES, closer: OH_CLOSER_POOLS_ES, hedge: OH_HEDGE_POOLS_ES } };
+
 function ohSeedOf(s) { let h = 2166136261; for (const ch of String(s)) { h ^= ch.charCodeAt(0); h = Math.imul(h, 16777619) >>> 0; } return h; }
 function ohPick(pool, n, seed) { const out = []; const xs = pool.slice(); let s = seed >>> 0; while (out.length < n && xs.length) { s = (Math.imul(s ^ (s >>> 15), 2246822507) + 0x9e3779b9) >>> 0; out.push(xs.splice(s % xs.length, 1)[0]); } return out; }
 
@@ -81039,7 +81116,8 @@ function ohPick(pool, n, seed) { const out = []; const xs = pool.slice(); let s 
  *   warmth    -> the closer pool with caution (warm at 0.6 and above), and how often a closer is used
  *   caution   -> the hedges (careful at 0.6 and above) and how often a hedge is used
  */
-function ohStyleFromTraits(traits = {}, lexicon = {}) {
+function ohStyleFromTraits(traits = {}, lexicon = {}, lang = "en") {
+  const P = OH_POOLS[lang] ?? OH_POOLS.en;
   const t = (k) => Math.min(1, Math.max(0, Number(traits[k] ?? 0.5)));
   const w = t("warmth"), f = t("formality"), v = t("verbosity"), c = t("caution");
   const lo = 4 + Math.round(10 * v);
@@ -81050,9 +81128,9 @@ function ohStyleFromTraits(traits = {}, lexicon = {}) {
   return Object.freeze({
     band: Object.freeze([lo, lo + 6]),
     register,
-    openers: Object.freeze(ohPick(OH_OPENER_POOLS[`${register}-${warm ? "warm" : "cool"}`], 2 + (f >= 0.8 ? 1 : 0), seed)),
-    closers: Object.freeze(ohPick(OH_CLOSER_POOLS[`${warm ? "warm" : "cool"}-${careful ? "careful" : "brisk"}`], 2, seed >>> 3)),
-    hedges: Object.freeze(ohPick(OH_HEDGE_POOLS[careful ? "careful" : "brisk"], 2, seed >>> 5)),
+    openers: Object.freeze(ohPick(P.opener[`${register}-${warm ? "warm" : "cool"}`], 2 + (f >= 0.8 ? 1 : 0), seed)),
+    closers: Object.freeze(ohPick(P.closer[`${warm ? "warm" : "cool"}-${careful ? "careful" : "brisk"}`], 2, seed >>> 3)),
+    hedges: Object.freeze(ohPick(P.hedge[careful ? "careful" : "brisk"], 2, seed >>> 5)),
     pad: Object.freeze((lexicon.pad ?? []).slice()),
     openerRate: +(0.25 + 0.6 * f).toFixed(3),
     closerRate: +(0.15 + 0.6 * w).toFixed(3),
@@ -81112,6 +81190,26 @@ const OH_AGENTS = Object.freeze(OH_DEFS.map((d) => Object.freeze({
 })));
 
 function ohAgent(id) { return OH_AGENTS.find((a) => a.id === id || a.key === id) ?? null; }
+
+const ohAgentInCache = new Map();
+/**
+ * The agent as it speaks in `lang`: the same persona, traits and skills, with the style derived from the traits over that language's
+ * pools and the agent's padding lexicon in that language, and the voice asking for that language (rate and pitch unchanged, preferred
+ * local voice names for that language). English returns the agent itself. A Spanish line is therefore never read by an English voice:
+ * with no local Spanish voice the agent is silent and its caption still shows.
+ */
+function ohAgentIn(agent, lang = "en") {
+  const l = ohLangFor(lang);
+  if (!agent) return agent;
+  if (l === "en") return agent.lang && agent.lang !== "en" ? (OH_AGENTS.find((a) => a.id === agent.id) ?? agent) : agent;
+  const key = `${agent.id}|${l}`;
+  if (ohAgentInCache.has(key)) return ohAgentInCache.get(key);
+  const pad = OH_PADS_ES[agent.key] ?? [];
+  const out = Object.freeze({ ...agent, lang: l, style: ohStyleFromTraits(agent.traits, { pad }, l), lexicon: Object.freeze({ pad: Object.freeze(pad.slice()) }),
+    voice: Object.freeze({ lang: OH_LANGS[l].tag, rate: agent.voice.rate, pitch: agent.voice.pitch, prefer: Object.freeze((OH_PREFER_ES[agent.key] ?? []).slice()) }) });
+  ohAgentInCache.set(key, out);
+  return out;
+}
 
 /** A chip word for each trait (for roster cards): a word for high, one for low, none in the middle. */
 function ohTraitChips(traits = {}) {
@@ -81241,10 +81339,15 @@ function aaFigureInner(look, kind) {
     out.push(`<circle cx="${aaF(cx - 0.09 * k)}" cy="${aaF(cy + 0.2 * k)}" r="${aaF(0.05 * k)}" fill="#ffffff"/>`, aaGlyph(look.glyph, cx - 0.09 * k, cy + 0.2 * k, 0.04 * k, "#0b1a24"));
     out.push(`<rect x="${aaF(cx + 0.05 * k)}" y="${aaF(cy + 0.15 * k)}" width="${aaF(0.13 * k)}" height="${aaF(0.17 * k)}" rx="1.5" fill="#1d2a33" stroke="${a}" stroke-width="0.8"/>`); // the tablet
     out.push(`<rect x="${aaF(cx + 0.065 * k)}" y="${aaF(cy + 0.165 * k)}" width="${aaF(0.1 * k)}" height="${aaF(0.12 * k)}" fill="${a}" opacity="0.55"/>`);
+    // HIVE-IN-WORLD: the outfit the agent names shows too, so two agents with one glyph and accent (the hive's safety steward
+    // and VBRIDGE's governor persona) never share a portrait. "agent" (the personas) draws nothing more.
+    if (look.outfit === "hivis-vest") out.push(`<rect x="${aaF(cx - 0.21 * k)}" y="${aaF(cy + 0.34 * k)}" width="${aaF(0.42 * k)}" height="${aaF(0.02 * k)}" fill="#dfe8ee"/>`, `<rect x="${aaF(cx - 0.17 * k)}" y="${aaF(cy + 0.12 * k)}" width="${aaF(0.02 * k)}" height="${aaF(0.22 * k)}" fill="#dfe8ee"/>`); // a second reflective band and a brace
+    else if (look.outfit === "tablet") out.push(`<path d="M${aaF(cx + 0.08 * k)} ${aaF(cy + 0.2 * k)}H${aaF(cx + 0.15 * k)}M${aaF(cx + 0.08 * k)} ${aaF(cy + 0.24 * k)}H${aaF(cx + 0.13 * k)}" stroke="#0b1a24" stroke-width="0.7"/>`); // lines on the tablet's screen
   }
   out.push(`<path d="${aaProfilePath(P.HEAD_PROFILE, cx, cy, k, 0.95)}" fill="${a}" opacity="0.82"/>`); // a hologram head, no skin
   out.push(`<rect x="${aaF(cx - 0.105 * k)}" y="${aaF(cy - 0.035 * k)}" width="${aaF(0.21 * k)}" height="${aaF(0.055 * k)}" rx="${aaF(0.025 * k)}" fill="#0b1a24" stroke="${a}" stroke-width="0.8"/>`); // the visor, where a face would be
   out.push(`<ellipse cx="${aaF(cx)}" cy="${aaF(cy - 0.18 * k)}" rx="${aaF(0.1 * k)}" ry="${aaF(0.022 * k)}" fill="none" stroke="${a}" stroke-width="1.4"/>`); // the halo
+  if (look.outfit === "visor") out.push(`<rect x="${aaF(cx - 0.125 * k)}" y="${aaF(cy - 0.045 * k)}" width="${aaF(0.25 * k)}" height="${aaF(0.012 * k)}" fill="${a}"/>`); // a wraparound visor's brow
   return out.join("");
 }
 
