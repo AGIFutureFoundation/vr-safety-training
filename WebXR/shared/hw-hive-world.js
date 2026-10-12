@@ -32,6 +32,15 @@
 //   hwFxDoorAt(fxDoor)                 -> { x, z, face } for ixrDoorsFor's doorAt (the door's outside spot), or null
 //   hwReturnHash(style)                -> "ixr=<style>" for a robotics room (appended to a station link's return), else ""
 //   hwRoomFromHash(hash, search?)      -> the ixr style a return asks to re-enter, or null
+// 4. Walks round buildings: the agents' outdoor walks (AGENT-AVATARS' walk-ins) follow a route round the page's collider boxes
+//    (CITYWORKS' buildings or NEWTON's massing fallback, parked vehicles, the robotics buildings), and a standing slot inside a
+//    box is skipped:
+//   hwBoxesIn(colliders, parish, x0, z0, x1, z1, { size, chunk, pad }) -> the boxes overlapping the rectangle (a box is filed
+//                                         under its centre's chunk, so the chunks within `pad` m are read; cached per chunk)
+//   hwSegBox(a, b, box)                -> true when the segment a–b passes through the box { x0, z0, x1, z1 }
+//   hwRouter(boxesIn, { radius, margin, step, reach }) -> { route(from, to), blocked(x, z) }: route returns waypoints ending at
+//                                         `to` (straight when the line is clear, else an A* path on a `step` grid round the boxes
+//                                         grown by radius + margin, pulled tight), or null when no path exists
 
 import { aaMountAgentAvatars } from "./aa-agent-avatars.js";
 import { ixrAgentSpot, IXR_ROOMS } from "./ixr-robo-interiors.js";
@@ -106,3 +115,83 @@ export function hwRoomFromHash(hash = "", search = "") {
   const v = read(hash) ?? read(search);
   return v && IXR_ROOMS[v] ? v : null;
 }
+
+// ------------------------------------------------------------------------------------------------ 4. walks round buildings
+
+/** The collider boxes that overlap a rectangle (`colliders(parish, "cx,cz")`, the page's seam), cached per chunk. The seam
+ * files a box under the chunk of its centre, so a long building reaches into the next chunk: the chunks of the rectangle grown
+ * by `pad` metres are read, and only the boxes that overlap the rectangle are kept. */
+export function hwBoxesIn(colliders, parish, x0, z0, x1, z1, { size = 4096, chunk = 256, cache = null, pad = 64 } = {}) {
+  const n = size / chunk, out = [], memo = cache ?? new Map();
+  const lx = Math.min(x0, x1), hx = Math.max(x0, x1), lz = Math.min(z0, z1), hz = Math.max(z0, z1);
+  const c0x = Math.max(0, Math.floor((lx - pad + size / 2) / chunk)), c1x = Math.min(n - 1, Math.floor((hx + pad + size / 2) / chunk));
+  const c0z = Math.max(0, Math.floor((lz - pad + size / 2) / chunk)), c1z = Math.min(n - 1, Math.floor((hz + pad + size / 2) / chunk));
+  for (let cx = c0x; cx <= c1x; cx += 1) for (let cz = c0z; cz <= c1z; cz += 1) {
+    const key = `${cx},${cz}`;
+    if (!memo.has(key)) { let list = []; try { list = colliders(parish, key) ?? []; } catch (_) { list = []; } memo.set(key, list); }
+    for (const b of memo.get(key)) if (b?.min && b?.max && b.max[0] >= lx && b.min[0] <= hx && b.max[2] >= lz && b.min[2] <= hz) out.push(b);
+  }
+  return out;
+}
+
+/** Does the segment a–b pass through the open box { x0, z0, x1, z1 }? (the slab test in two dimensions) */
+export function hwSegBox(a, b, q) {
+  let t0 = 0, t1 = 1;
+  const dx = b.x - a.x, dz = b.z - a.z;
+  for (const [p, d, lo, hi] of [[a.x, dx, q.x0, q.x1], [a.z, dz, q.z0, q.z1]]) {
+    if (Math.abs(d) < 1e-12) { if (p <= lo || p >= hi) return false; continue; }
+    let u = (lo - p) / d, v = (hi - p) / d; if (u > v) [u, v] = [v, u];
+    t0 = Math.max(t0, u); t1 = Math.min(t1, v); if (t0 >= t1) return false;
+  }
+  return true;
+}
+
+/** A router round axis-aligned boxes (see the header). `boxesIn(x0, z0, x1, z1)` answers the boxes near a rectangle. */
+export function hwRouter(boxesIn, { radius = 0.35, margin = 0.3, step = 0.5, reach = 30, minHeight = 0.5 } = {}) {
+  const r = radius + margin;
+  const grown = (x0, z0, x1, z1) => (boxesIn(Math.min(x0, x1), Math.min(z0, z1), Math.max(x0, x1), Math.max(z0, z1)) ?? [])
+    .filter((b) => Array.isArray(b?.min) && Array.isArray(b?.max) && !(Number.isFinite(b.max[1]) && b.max[1] <= minHeight))
+    .map((b) => ({ x0: b.min[0] - r, z0: b.min[2] - r, x1: b.max[0] + r, z1: b.max[2] + r }));
+  const inside = (g, x, z) => g.some((q) => x > q.x0 && x < q.x1 && z > q.z0 && z < q.z1);
+  const clear = (g, a, b) => !g.some((q) => hwSegBox(a, b, q));
+  function blocked(x, z) { return inside(grown(x - 1, z - 1, x + 1, z + 1), x, z); }
+  function route(from, to) {
+    const x0 = Math.min(from.x, to.x) - reach, z0 = Math.min(from.z, to.z) - reach, x1 = Math.max(from.x, to.x) + reach, z1 = Math.max(from.z, to.z) + reach;
+    const g = grown(x0, z0, x1, z1);
+    if (clear(g, from, to)) return [{ x: to.x, z: to.z }];
+    const nx = Math.max(2, Math.ceil((x1 - x0) / step)), nz = Math.max(2, Math.ceil((z1 - z0) / step));
+    const cx = (i) => x0 + (i + 0.5) * step, cz = (j) => z0 + (j + 0.5) * step;
+    const free = new Uint8Array(nx * nz);
+    for (let i = 0; i < nx; i += 1) for (let j = 0; j < nz; j += 1) free[i * nz + j] = inside(g, cx(i), cz(j)) ? 0 : 1;
+    const cell = (x, z) => [Math.max(0, Math.min(nx - 1, Math.floor((x - x0) / step))), Math.max(0, Math.min(nz - 1, Math.floor((z - z0) / step)))];
+    const nearestFree = ([i0, j0]) => { for (let rr = 0; rr < 40; rr += 1) for (let di = -rr; di <= rr; di += 1) for (let dj = -rr; dj <= rr; dj += 1) { const i = i0 + di, j = j0 + dj; if (i >= 0 && j >= 0 && i < nx && j < nz && free[i * nz + j]) return [i, j]; } return null; };
+    const s0 = nearestFree(cell(from.x, from.z)), g0 = nearestFree(cell(to.x, to.z));
+    if (!s0 || !g0) return null;
+    // A* with a binary heap over 8-connected cells (no corner cutting)
+    const N = nx * nz, dist = new Float64Array(N).fill(Infinity), prev = new Int32Array(N).fill(-1), done = new Uint8Array(N);
+    const heap = []; const push = (k, f) => { heap.push([f, k]); let i = heap.length - 1; while (i > 0) { const pa = (i - 1) >> 1; if (heap[pa][0] <= heap[i][0]) break; [heap[pa], heap[i]] = [heap[i], heap[pa]]; i = pa; } };
+    const pop = () => { const top = heap[0], last = heap.pop(); if (heap.length) { heap[0] = last; let i = 0; for (;;) { const l = 2 * i + 1, rt = l + 1; let m = i; if (l < heap.length && heap[l][0] < heap[m][0]) m = l; if (rt < heap.length && heap[rt][0] < heap[m][0]) m = rt; if (m === i) break; [heap[m], heap[i]] = [heap[i], heap[m]]; i = m; } } return top; };
+    const goal = g0[0] * nz + g0[1], start = s0[0] * nz + s0[1];
+    dist[start] = 0; push(start, 0);
+    while (heap.length) {
+      const [, k] = pop(); if (done[k]) continue; done[k] = 1; if (k === goal) break;
+      const i = Math.floor(k / nz), j = k % nz;
+      for (const [di, dj, c] of HW_STEPS) {
+        const a = i + di, b = j + dj; if (a < 0 || b < 0 || a >= nx || b >= nz) continue;
+        const kk = a * nz + b; if (!free[kk] || (di && dj && (!free[(i + di) * nz + j] || !free[i * nz + j + dj]))) continue;
+        const nd = dist[k] + c * step;
+        if (nd < dist[kk]) { dist[kk] = nd; prev[kk] = k; push(kk, nd + Math.hypot(a - g0[0], b - g0[1]) * step); }
+      }
+    }
+    if (!Number.isFinite(dist[goal])) return null;
+    const cells = []; for (let k = goal; k !== -1; k = prev[k]) cells.push({ x: cx(Math.floor(k / nz)), z: cz(k % nz) });
+    cells.reverse();
+    const path = [{ x: from.x, z: from.z }, ...cells, { x: to.x, z: to.z }];
+    // pulled tight: from each point, the farthest later point in a clear straight line
+    const out = []; let at = 0;
+    while (at < path.length - 1) { let j = path.length - 1; while (j > at + 1 && !clear(g, path[at], path[j])) j -= 1; out.push(path[j]); at = j; }
+    return out;
+  }
+  return { route, blocked };
+}
+const HW_STEPS = [[1, 0, 1], [-1, 0, 1], [0, 1, 1], [0, -1, 1], [1, 1, Math.SQRT2], [1, -1, Math.SQRT2], [-1, 1, Math.SQRT2], [-1, -1, Math.SQRT2]];

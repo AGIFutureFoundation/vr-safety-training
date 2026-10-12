@@ -38,6 +38,10 @@
 //              room-local; yaw is the figure's rotation.y) used instead of a slot round the site; null falls back to a slot.
 //     textureScale (default 1): the label and caption canvases are drawn at this fraction of their size (a room on the
 //              balanced tier uses 0.5 to stay inside its texture budget); the layout is the same at every scale.
+//     blocked(x, z) -> bool: a standing slot (or a re-projected walk start) there is skipped (HIVE-IN-WORLD: inside a
+//              building's collider box).
+//     route(from, to) -> [{ x, z }, …] | null: the walk follows these waypoints (ending at `to`) instead of a straight line
+//              (HIVE-IN-WORLD's hwRouter round the colliders); null walks straight.
 //     -> { root, handle(ev), animate(t, dt, here), attach(source), detach(source), addAgents(list), agents(),
 //          state(id), talkStart(id), talkEnd(id), talkLog(), captionLog(), gestureLog(), counts(), dispose() }
 //   aaVbridgeAgents(homeSite) -> the four VBRIDGE personas as agents standing at homeSite
@@ -242,7 +246,7 @@ function aaCountObject(obj) {
  * answers this map's site position ({ x, y, z } / [x, z] / null when the site is not on this map). `here` passed to
  * animate is the learner's [x, z] (null = everyone near). Headless without `three`: the state machine still runs.
  */
-export function aaMountAgentAvatars({ three = null, parent = null, agents = [], source = null, siteAt = () => null, reducedMotion = false, tier = "high", groundAt = null, spotFor = null, textureScale = 1 } = {}) {
+export function aaMountAgentAvatars({ three = null, parent = null, agents = [], source = null, siteAt = () => null, reducedMotion = false, tier = "high", groundAt = null, spotFor = null, textureScale = 1, blocked = null, route = null } = {}) {
   const T = three;
   const build = !!(T && parent && AA_TIERS[tier] !== false);
   const root = build ? new T.Group() : null;
@@ -255,11 +259,25 @@ export function aaMountAgentAvatars({ three = null, parent = null, agents = [], 
   const subs = new Map();
 
   const sitePt = (id) => { if (!id) return null; let p = null; try { p = aaSitePoint(siteAt(id)); } catch (_) { p = null; } return p; };
+  const isBlocked = (x, z) => { if (typeof blocked !== "function") return false; try { return !!blocked(x, z); } catch (_) { return false; } };
   function takeSlot(siteId, agentIndex) {
     const used = occupied.get(siteId) ?? new Set();
-    let i = 0; const start = agentIndex % AA_SLOTS.length;
-    for (let k = 0; k < AA_SLOTS.length; k += 1) { const s = (start + k) % AA_SLOTS.length; if (!used.has(s)) { i = s; break; } }
+    const c = typeof blocked === "function" ? sitePt(siteId) : null; // a slot inside a building is skipped while another is free
+    const clear = (s) => !c || !isBlocked(c.x + AA_SLOTS[s][0], c.z + AA_SLOTS[s][1]);
+    let i = -1; const start = agentIndex % AA_SLOTS.length;
+    for (let k = 0; k < AA_SLOTS.length && i < 0; k += 1) { const s = (start + k) % AA_SLOTS.length; if (!used.has(s) && clear(s)) i = s; }
+    for (let k = 0; k < AA_SLOTS.length && i < 0; k += 1) { const s = (start + k) % AA_SLOTS.length; if (!used.has(s)) i = s; }
+    if (i < 0) i = 0;
     used.add(i); occupied.set(siteId, used); return i;
+  }
+  /** A walk from `from` to the spot `to`: along route()'s waypoints when it answers, else straight. */
+  function walkPlan(from, to) {
+    let pts = null;
+    if (typeof route === "function") { try { const r = route({ x: from.x, z: from.z }, { x: to.x, z: to.z }); if (Array.isArray(r) && r.length) pts = [{ x: from.x, z: from.z }, ...r.map((q) => ({ x: +q.x, z: +q.z }))]; } catch (_) { pts = null; } }
+    if (!pts || pts.length < 2 || pts.some((q) => !Number.isFinite(q.x) || !Number.isFinite(q.z))) return { from: { x: from.x, y: from.y, z: from.z }, to, start: clock, dur: Math.hypot(to.x - from.x, to.z - from.z) / AA_WALK_SPEED };
+    pts[pts.length - 1] = { x: to.x, z: to.z };
+    const cum = [0]; for (let i = 1; i < pts.length; i += 1) cum.push(cum[i - 1] + Math.hypot(pts[i].x - pts[i - 1].x, pts[i].z - pts[i - 1].z));
+    return { from: { x: from.x, y: from.y, z: from.z }, to, start: clock, dur: Math.max(1e-3, cum[cum.length - 1] / AA_WALK_SPEED), pts, cum, routed: pts.length > 2 };
   }
   const freeSlot = (siteId, i) => occupied.get(siteId)?.delete(i);
   function spotAt(siteId, slot, agent = null) {
@@ -365,8 +383,15 @@ export function aaMountAgentAvatars({ three = null, parent = null, agents = [], 
     if (!spot) { f.offMap = true; f.walk = null; f.visible = false; if (f.fig) f.fig.group.visible = false; return; }
     const dist = Math.hypot(spot.x - f.x, spot.z - f.z);
     if (!reducedMotion && !f.offMap && dist > AA_WALK_MAX) { // re-project short of the spot, then walk in
-      const k = AA_WALK_IN / dist; f.x = spot.x + (f.x - spot.x) * k; f.z = spot.z + (f.z - spot.z) * k; f.y = spot.y;
-      f.walk = { from: { x: f.x, y: f.y, z: f.z }, to: spot, start: clock, dur: AA_WALK_IN / AA_WALK_SPEED, reprojected: true };
+      const ux = (f.x - spot.x) / dist, uz = (f.z - spot.z) / dist; let sx = spot.x + ux * AA_WALK_IN, sz = spot.z + uz * AA_WALK_IN;
+      if (isBlocked(sx, sz)) { // a start clear of buildings: further or nearer on the same bearing, then turning round the spot
+        search: for (const deg of [0, 20, -20, 40, -40, 60, -60, 90, -90, 120, -120, 150, -150, 180]) {
+          const a = (deg * Math.PI) / 180, vx = ux * Math.cos(a) - uz * Math.sin(a), vz = ux * Math.sin(a) + uz * Math.cos(a);
+          for (const d of [AA_WALK_IN, 28, 20, 32, 16, 36, 12, 40]) { const x = spot.x + vx * d, z = spot.z + vz * d; if (!isBlocked(x, z)) { sx = x; sz = z; break search; } }
+        }
+      }
+      f.x = sx; f.z = sz; f.y = spot.y;
+      f.walk = { ...walkPlan({ x: f.x, y: f.y, z: f.z }, spot), reprojected: true };
       if (f.fig) f.fig.group.position.set(f.x, f.y, f.z);
       return;
     }
@@ -376,7 +401,7 @@ export function aaMountAgentAvatars({ three = null, parent = null, agents = [], 
       if (f.fig) { f.fig.group.position.set(f.x, f.y, f.z); f.fig.group.rotation.y = f.yaw; f.fig.group.visible = true; }
       return;
     }
-    f.walk = { from: { x: f.x, y: f.y, z: f.z }, to: spot, start: clock, dur: dist / AA_WALK_SPEED };
+    f.walk = walkPlan({ x: f.x, y: f.y, z: f.z }, spot);
   }
 
   function poseGesture(f) {
@@ -397,8 +422,15 @@ export function aaMountAgentAvatars({ three = null, parent = null, agents = [], 
       if (f.gesture && clock >= f.gesture.end) f.gesture = null;
       if (f.walk) {
         const w = f.walk, k = aaClamp((clock - w.start) / w.dur, 0, 1);
-        f.x = w.from.x + (w.to.x - w.from.x) * k; f.z = w.from.z + (w.to.z - w.from.z) * k; f.y = w.from.y + (w.to.y - w.from.y) * k;
-        f.yaw = Math.atan2(w.to.x - w.from.x, w.to.z - w.from.z);
+        if (w.pts) { // along the route's legs, at the same speed
+          const d = k * w.cum[w.cum.length - 1]; let i = 1; while (i < w.cum.length - 1 && w.cum[i] < d) i += 1;
+          const a = w.pts[i - 1], b = w.pts[i], u = aaClamp((d - w.cum[i - 1]) / ((w.cum[i] - w.cum[i - 1]) || 1), 0, 1);
+          f.x = a.x + (b.x - a.x) * u; f.z = a.z + (b.z - a.z) * u; f.y = w.from.y + (w.to.y - w.from.y) * k;
+          f.yaw = Math.atan2(b.x - a.x, b.z - a.z);
+        } else {
+          f.x = w.from.x + (w.to.x - w.from.x) * k; f.z = w.from.z + (w.to.z - w.from.z) * k; f.y = w.from.y + (w.to.y - w.from.y) * k;
+          f.yaw = Math.atan2(w.to.x - w.from.x, w.to.z - w.from.z);
+        }
         if (k >= 1) { f.walk = null; f.yaw = w.to.yaw; }
       }
       if (!f.fig) continue;
@@ -438,7 +470,7 @@ export function aaMountAgentAvatars({ three = null, parent = null, agents = [], 
     }
     return { figures: [...figures.values()].filter((f) => f.fig).length, agents: figures.size, meshes, sprites, triangles, worstPerFigure: worst, budget: AA_AGENT_BUDGET, textureBytes, tier, built: build };
   }
-  const stateOf = (f) => ({ id: f.agent.id, name: f.agent.name ?? f.agent.id, label: f.fig?.roleText ?? `software agent · ${aaRoleLabel(f.agent)}`, site: f.site, slot: f.slot, x: f.x, y: f.y, z: f.z, yaw: f.yaw, offMap: f.offMap, visible: f.visible, walking: !!f.walk,
+  const stateOf = (f) => ({ id: f.agent.id, name: f.agent.name ?? f.agent.id, label: f.fig?.roleText ?? `software agent · ${aaRoleLabel(f.agent)}`, site: f.site, slot: f.slot, x: f.x, y: f.y, z: f.z, yaw: f.yaw, offMap: f.offMap, visible: f.visible, walking: !!f.walk, routed: !!f.walk?.routed,
     speaking: !!(f.talk && clock >= f.talk.start && (f.talk.voiced || clock < f.talk.end)), line: f.talk?.text ?? null, caption: f.caption?.text ?? null, gesture: f.gesture?.kind ?? null, queued: f.queue.length,
     talkVisible: f.fig ? !!f.fig.parts.talk.visible : null, captionVisible: f.fig ? !!f.fig.caption.visible : null, headPitch: f.fig ? f.fig.parts.head.rotation.x : null, tabletY: f.fig ? f.fig.parts.tablet.position.y : null });
 

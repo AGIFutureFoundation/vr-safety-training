@@ -14,7 +14,10 @@
  *      outside spot), clear of every exterior collider box;
  *   3. return into the room: a station link launched from a robotics room carries `ixr=<style>` on its return, the return
  *      resolves on this origin to the same site and style, and a link without it is unchanged;
- *   4. the wiring: the parishes app, the bundle list, check_all and the estimated baseline row.
+ *   4. walks round buildings: on the five robot-site maps, with the page's own collider set (CITYWORKS or NEWTON's massing,
+ *      parked vehicles, the robotics buildings), the agents' standing slots and their walk-ins (AGENT-AVATARS' own walk code,
+ *      from eight directions and from each other robot site's) keep every walk point out of every collider box, before → after;
+ *   5. the wiring: the parishes app, the bundle list, check_all and the estimated baseline row.
  */
 import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
@@ -215,13 +218,63 @@ let supEval = null;
   ok(/data-?oh|dataset\.oh = "supervise"/.test(panel) && /api\.supervise\(!hive\.supervising\(\)\)/.test(panel) && /ohHive\(\{ seed, audit, nJobs, ticksPerDay, supervise \}\)/.test(panel), "the panel has the \"Supervise every job\" toggle (off by default) wired to the hive");
 }
 
-// ------------------------------------------------------------------------------------------------ 4. the wiring
+// ------------------------------------------------------------------------------------------------ 4. walks round buildings
+let walkEval = null;
+{
+  const CW = await imp("shared/cw-cityworks.js"), NW = await imp("shared/nw-physics.js"), WK = await imp("shared/wk-walkable.js");
+  const MV = await imp("shared/mv-world.js"), TF = await imp("shared/tf-terraform.js"), NPP = await imp("shared/np-parish.js");
+  const maps = [...new Set(RB.RB_SITES.map((s) => s.parish))];
+  const R0 = 0.35; // NEWTON's avatar radius: a figure's centre this close to a box is inside it
+  const tally = { before: { slots: 0, slotsIn: 0, pts: 0, ptsIn: 0, walks: 0, walksIn: 0 }, after: { slots: 0, slotsIn: 0, pts: 0, ptsIn: 0, walks: 0, walksIn: 0, routed: 0 } };
+  for (const id of maps) {
+    const parish = NP.npParish(id);
+    let parked = []; try { parked = MV.mvPlacements(parish, { waterDepthAt: (x, z) => TF.tfWaterDepthAt(parish, x, z) }, { tier: "high" }); } catch (_) { parked = []; }
+    const col = WK.wkColliderSeam(CW.cwColliders, NW.nwParishColliders, [...(WK.wkSolidBoxes(parked, (x, z) => NPP.npHeightAt(parish, x, z)) ?? []), ...FX.fxColliders(parish)]); // as the page builds it
+    const cache = new Map(), boxesIn = (x0, z0, x1, z1) => HW.hwBoxesIn(col, parish, x0, z0, x1, z1, { cache });
+    const walk = HW.hwRouter(boxesIn);
+    const inBox = (x, z) => boxesIn(x - 1, z - 1, x + 1, z + 1).some((b) => !(b.max[1] <= 0.5) && x > b.min[0] - R0 && x < b.max[0] + R0 && z > b.min[2] - R0 && z < b.max[2] + R0);
+    const sites = RBW.rbSitesFor(parish);
+    for (const site of sites) {
+      const c = { x: site.position[0], y: 0, z: site.position[1] };
+      for (const mode of ["before", "after"]) {
+        const opts = mode === "after" ? { route: walk.route, blocked: walk.blocked } : {};
+        // the seven agents standing at this site (slots)
+        const seven = OHD.OH_AGENTS.map((a) => ({ ...a, homeSite: site.id }));
+        const w7 = AA.aaMountAgentAvatars({ agents: seven, siteAt: (sid) => (sid === site.id ? c : null), ...opts });
+        for (const st of w7.agents()) { tally[mode].slots += 1; if (inBox(st.x, st.z)) tally[mode].slotsIn += 1; }
+        // walk-ins: from 200 m out in eight directions and from each other robot site on the map, through the module's walk
+        const dirs = [...Array(8)].map((_, k) => [Math.cos((k * Math.PI) / 4), Math.sin((k * Math.PI) / 4)]);
+        for (const o of sites) if (o !== site) { const dx = o.position[0] - c.x, dz = o.position[1] - c.z, L = Math.hypot(dx, dz); dirs.push([dx / L, dz / L]); }
+        dirs.forEach(([ux, uz], k) => {
+          const far = { x: c.x + ux * 200, y: 0, z: c.z + uz * 200 };
+          const ag = { ...OHD.OH_AGENTS[k % 7], homeSite: "hw-far" };
+          const em = AA.aaEmitter();
+          const w = AA.aaMountAgentAvatars({ agents: [ag], source: em, siteAt: (sid) => (sid === site.id ? c : sid === "hw-far" ? far : null), ...opts });
+          let t = 0; w.animate(t, 0, null); em.emit({ type: "move", agent: ag.id, to: site.id });
+          let hit = false;
+          for (let n = 0; n < 2400; n += 1) { const s0 = w.state(ag.id); tally[mode].pts += 1; if (inBox(s0.x, s0.z)) { tally[mode].ptsIn += 1; hit = true; } if (!s0.walking) break; if (mode === "after" && n === 0 && s0.routed) tally.after.routed += 1; t += 0.05; w.animate(t, 0.05, null); }
+          tally[mode].walks += 1; if (hit) tally[mode].walksIn += 1;
+        });
+      }
+    }
+  }
+  const B = tally.before, A = tally.after;
+  walkEval = { before: `${B.ptsIn} of ${B.pts} walk points (${B.walksIn} of ${B.walks} walks), ${B.slotsIn} of ${B.slots} standing slots`, after: `${A.ptsIn} of ${A.pts} walk points (${A.walksIn} of ${A.walks} walks), ${A.slotsIn} of ${A.slots} standing slots` };
+  ok(A.slotsIn === 0 && A.slots === B.slots, `standing slots inside a collider box on the five robot-site maps: ${B.slotsIn} of ${B.slots} → ${A.slotsIn} of ${A.slots} (a slot inside a building is skipped)`);
+  ok(A.ptsIn === 0 && A.walks === B.walks && A.routed > 0, `walk points inside a collider box (the agents' walk-ins, sampled at 20 Hz through AGENT-AVATARS' walk): ${B.ptsIn} of ${B.pts} in ${B.walksIn} of ${B.walks} walks → ${A.ptsIn} of ${A.pts}; ${A.routed} walks took a route round a building`);
+  const q = HW.hwRouter((x0, z0, x1, z1) => [{ min: [-2, 0, -2], max: [2, 4, 2] }].filter((b) => b.max[0] >= x0 && b.min[0] <= x1 && b.max[2] >= z0 && b.min[2] <= z1));
+  const rr = q.route({ x: -10, z: 0 }, { x: 10, z: 0 }), straight = q.route({ x: -10, z: 5 }, { x: 10, z: 5 });
+  ok(Array.isArray(rr) && rr.length >= 2 && rr.at(-1).x === 10 && rr.every((p) => !(Math.abs(p.x) < 2.65 && Math.abs(p.z) < 2.65)) && straight.length === 1 && q.blocked(0, 0) && !q.blocked(0, 5), "hwRouter: a clear line stays one leg; a box in the way is walked round (every leg's end outside the grown box); blocked() reads the grown boxes", JSON.stringify(rr?.map((p) => [Math.round(p.x * 10) / 10, Math.round(p.z * 10) / 10])));
+}
+
+// ------------------------------------------------------------------------------------------------ 5. the wiring
 {
   const app = read("WebXR/parishes/js/app.js"), src = read("WebXR/shared/hw-hive-world.js");
   const names = [...src.matchAll(/^(?:export\s+)?(?:const|let|var|function|class)\s+([A-Za-z_$][\w$]*)/gm)].map((m) => m[1]);
   ok(names.length > 0 && names.every((n) => /^(hw|HW_)/.test(n)), `hw-hive-world.js: every top-level name carries the hw/HW_ prefix (${names.length})`);
   ok(!/import \{[^}]*\bas\b[^}]*\}/.test(src) && !/\bfetch\(|XMLHttpRequest|WebSocket|sendBeacon|getUserMedia|speechSynthesis|SpeechRecognition/.test(src), "hw-hive-world.js: no import aliases, no network, no voice, no microphone");
-  ok(/^import \{ hwSyncRoom, hwFxDoorAt, hwReturnHash, hwRoomFromHash \} from "\.\.\/\.\.\/shared\/hw-hive-world\.js";$/m.test(app), "parishes app imports the seams (the import line ends at its semicolon, for the flat bundler)");
+  ok(/^import \{ hwSyncRoom, hwFxDoorAt, hwReturnHash, hwRoomFromHash, hwRouter, hwBoxesIn \} from "\.\.\/\.\.\/shared\/hw-hive-world\.js";$/m.test(app), "parishes app imports the seams (the import line ends at its semicolon, for the flat bundler)");
+  ok(/hwRouter\(\(x0, z0, x1, z1\) => hwBoxesIn\(wkColliders, parish,/.test(app) && /route: hwWalk\?\.route \?\? null, blocked: hwWalk\?\.blocked \?\? null \}\);/.test(app), "parishes app: the agents' walks route round the walk's own colliders (wkColliders) and skip slots inside them");
   ok(/window\.__parishTest\.hive\?\.hive \?\? null; \/\/ HIVE-IN-WORLD/.test(app), "parishes app: the outdoor avatars attach the hive itself (the panel's api has no on() and no agents, so the seven were never embodied in the page)");
   ok(/hwFxDoorAt\(fxDoorFor\(parish, id\)\)/.test(app) && /hwReturnHash\(s\.style\)/.test(app) && /hwRoomFromHash\(location\.hash, location\.search\)/.test(app), "parishes app: the room door is the exterior door; a pad launched in a robotics room carries its style; arrival re-enters the room");
   ok(/if \(hwRoomMount\?\.room !== \(ixWorld\.room \?\? null\)/.test(app) && /hwRoomMount\?\.animate\(now \/ 1000, dt\)/.test(app) && /hwRoomMount\?\.avatars\?\.talkStart\(id\)/.test(app), "parishes app: the room's agents follow the open room every frame, animate, and take the voice's talk light");
@@ -231,6 +284,7 @@ let supEval = null;
   ok(read("tools/check_all.mjs").includes("check_hive_world.mjs") && /check_hive_world/.test(read("docs/perf/checkers-baseline.json")), "check_all.mjs lists this checker; checkers-baseline.json carries its estimated row");
 }
 
+console.log(`\n  eval: dispatches without the learner's approval ${supEval?.before} → ${supEval?.after}; walks: ${walkEval?.before} → ${walkEval?.after}`);
 console.log(`\n  eval: agents standing at their room spots ${standing.high} of ${expected} (rooms × agents, high; ${standing.balanced} balanced); rooms inside budget ${inBudget} of ${roomsTiers} room-tiers`);
 console.log(failures ? `\ncheck_hive_world: ${failures} problem(s) found (${passes} passed).` : `\ncheck_hive_world: all ${passes} checks pass.`);
 process.exit(failures ? 1 : 0);

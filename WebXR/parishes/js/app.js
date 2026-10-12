@@ -87,7 +87,7 @@ import { vbColearnProvider, vbColearnLocalSource } from "../../shared/vb-colearn
 // AGENT-AVATARS: the software agents embodied at the robot sites.
 import { aaMountAgentAvatars, aaVbridgeAgents, aaVbridgeSource } from "../../shared/aa-agent-avatars.js";
 // HIVE-IN-WORLD: the hive's agents inside the robotics rooms, one door with the exterior, and the return into the room.
-import { hwSyncRoom, hwFxDoorAt, hwReturnHash, hwRoomFromHash } from "../../shared/hw-hive-world.js";
+import { hwSyncRoom, hwFxDoorAt, hwReturnHash, hwRoomFromHash, hwRouter, hwBoxesIn } from "../../shared/hw-hive-world.js";
 // CLEANPORTS: key the zero-emission port stations to BAYMAP's West Oakland sites (a no-op until that map merges).
 cpPlaceInParish(npParish);
 // BAYQUEST: the Bay Program play board (games, the Bay Keeper's Trail, Crew Credits) under the ledger; importing it
@@ -1243,11 +1243,14 @@ window.__parishTest.vbColearn = vbProvider;
 // line shows as a caption, nothing listens, and the phone tier builds no figures.
 var aaSiteAt = (id) => { const s = rbWorld?.sites?.find((x) => x.id === id); return s ? { x: s.position[0], y: s.y, z: s.position[1] } : null; };
 var aaVbSource = (() => { try { return window.__parishTest.vbridge ? aaVbridgeSource(window.__parishTest.vbridge) : null; } catch (_) { return null; } })();
+// HIVE-IN-WORLD: the agents' walks go round the page's own collider boxes (the walk's colliders: CITYWORKS or NEWTON's massing,
+// parked vehicles, the robotics buildings), and a standing slot inside one is skipped.
+var hwWalk = (() => { try { const cache = new Map(); return hwRouter((x0, z0, x1, z1) => hwBoxesIn(wkColliders, parish, x0, z0, x1, z1, { cache })); } catch (_) { return null; } })();
 var aaWorld = !rbWorld?.sites?.length ? null : (() => { // a map with no robot site has nowhere for an agent to stand
   try {
     const hive = window.__parishTest.hive?.hive ?? null; // HIVE-IN-WORLD: the hive itself (on, agents), not the panel's api
     const hiveAgents = hive ? (typeof hive.agents === "function" ? hive.agents() : hive.agents) ?? [] : [];
-    return aaMountAgentAvatars({ three: THREE, parent: root, agents: [...hiveAgents, ...aaVbridgeAgents(rbWorld?.sites?.[0]?.id ?? null)], source: [hive, aaVbSource].filter(Boolean), siteAt: aaSiteAt, reducedMotion: npReduced, tier: npTierName, groundAt: (x, z) => Math.max(npHeightAt(parish, x, z), 0) });
+    return aaMountAgentAvatars({ three: THREE, parent: root, agents: [...hiveAgents, ...aaVbridgeAgents(rbWorld?.sites?.[0]?.id ?? null)], source: [hive, aaVbSource].filter(Boolean), siteAt: aaSiteAt, reducedMotion: npReduced, tier: npTierName, groundAt: (x, z) => Math.max(npHeightAt(parish, x, z), 0), route: hwWalk?.route ?? null, blocked: hwWalk?.blocked ?? null });
   } catch (_) { return null; }
 })();
 window.__parishTest.agentAvatars = aaWorld;
