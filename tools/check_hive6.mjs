@@ -20,6 +20,10 @@
  *   7. the combined case (the round-5 integration lesson): entering the operations room at minute 0 through hwSyncRoom holds the
  *      briefing once, seven stand, the wall carries it, and the room with seven figures speaking it stays inside IX_BUDGET and
  *      IXR_TEX_BUDGET on high and balanced.
+ *   8. HIVE-7: the figures show the mood. The ops room (the app's crowd mount on high, today's figure on balanced) stepped through a
+ *      seeded day to its refusals: each figure's mood equals the hive's mood(id) (N of N agents at every sampled minute), its glow
+ *      brightness follows H5_MOOD_GLOW (hue unchanged, never above the built colour), reduced motion holds it steady, and the room's
+ *      meshes and triangles are unchanged by the moods (no geometry) and inside IX_BUDGET.
  */
 import { readFileSync, existsSync } from "node:fs";
 import { join, dirname } from "node:path";
@@ -302,6 +306,62 @@ await check("7 the briefing in the operations room: entering at minute 0 holds i
       out.push(`${tier}: 7 turns, 7 standing, ${m.meshes} meshes / ${m.triangles} triangles / ${(m.bytes / 1048576).toFixed(2)} MiB`);
       evals.push(`the briefing in the ops room (headless, ${tier}): 7 of 7 standing, the wall carries it; ${m.meshes} meshes, ${m.triangles} triangles, ${(m.bytes / 1048576).toFixed(2)} MiB (IX_BUDGET ${IX.IX_BUDGET.meshes} / ${IX.IX_BUDGET.triangles.high}; ${(IXR.IXR_TEX_BUDGET[tier] / 1048576).toFixed(0)} MiB)`);
       mount.dispose();
+    }
+  } finally { delete globalThis.document; }
+  return out.join("; ");
+});
+
+// ------------------------------------------------------------------------------------------------ 8. figures show the mood
+await check("8 HIVE-7: the figures show the mood: figure mood = hive mood(id) N of N through refusals, glow pulse in its band, no geometry", async () => {
+  const THREE = await imp("WebXR/vendor/three/dist/three.module.min.js");
+  const IX = await imp("WebXR/shared/ix-interiors.js"), IXR = await imp("WebXR/shared/ixr-robo-interiors.js"), HD2 = await imp("WebXR/shared/hd2-room-skins.js");
+  const HD4 = await imp("WebXR/shared/hd4-rooms.js"), HW = await imp("WebXR/shared/hw-hive-world.js"), AA = await imp("WebXR/shared/aa-agent-avatars.js");
+  const OPS = await imp("WebXR/shared/h5-ops-room.js");
+  const DESK = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36";
+  const fake = () => { const ctx = new Proxy({}, { get: (_t, k) => (k === "measureText" ? (s) => ({ width: String(s).length * 6 }) : typeof k === "string" && k.startsWith("create") ? () => ({ addColorStop() {} }) : k === "getImageData" ? (x, y, w, h) => ({ data: new Uint8ClampedArray(Math.max(4, 4 * (w | 0) * (h | 0))) }) : () => {}), set: () => true }); return { width: 0, height: 0, getContext: () => ctx }; };
+  const dressers = (() => { const d = {}; const r = { ixRegisterDresser: (st, fn) => (d[st] ??= []).push(fn) }; IXR.ixrRegisterDressers(r); HD4.hd4RegisterDressers(r, { ultra: false, ua: DESK }); HD2.hd2RegisterSkins(r); return d; })();
+  ok(OPS.h5MoodGlow("calm", 1.3) === 1 && OPS.h5MoodGlow("concerned", 1.3, true) === 1 && OPS.h5MoodGlow("nope", 2) === 1, "calm, reduced motion and an unknown mood hold the glow at 1");
+  const out = [];
+  globalThis.document = { createElement: fake };
+  try {
+    for (const tier of ["high", "balanced"]) for (const reduced of [false, true]) {
+      const room = IX.ixBuild(HD4.HD4_OPS_STYLE, { three: THREE, tier, site: HD4.hd4OpsSite(HD4.hd4OpsHome(), null), dressers });
+      const hive = H.ohHive({ seed: 1, decide: standIn, ...PANEL, moods: true, briefing: true });
+      const mount = HW.hwSyncRoom(null, { room, three: THREE, agents: hive.agents, source: hive, tier, reducedMotion: reduced, mount: tier === "high" ? AA.aaCrowdAvatarMount({ room }) : AA.aaMountAgentAvatars });
+      const m0 = IXR.ixrMeasure(room);
+      const roomB = IX.ixBuild(HD4.HD4_OPS_STYLE, { three: THREE, tier, site: HD4.hd4OpsSite(HD4.hd4OpsHome(), null), dressers });
+      const hiveB = H.ohHive({ seed: 1, decide: standIn, ...PANEL, briefing: true });
+      const mountB = HW.hwSyncRoom(null, { room: roomB, three: THREE, agents: hiveB.agents, source: hiveB, tier, reducedMotion: reduced, mount: tier === "high" ? AA.aaCrowdAvatarMount({ room: roomB }) : AA.aaMountAgentAvatars });
+      let same = 0;
+      let samples = 0, matched = 0, glowed = 0, inBand = 0, seen = new Set(), refusals = 0, t = 0;
+      for (let i = 0; i < 240; i += 1) {
+        hive.step(); t += 0.37; mount.animate(t, 0.37); hiveB.step(); mountB.animate(t, 0.37);
+        if (i % 20 === 19) { const a1 = IXR.ixrMeasure(room), b1 = IXR.ixrMeasure(roomB); if (a1.meshes === b1.meshes && a1.triangles === b1.triangles) same += 1; }
+        refusals = hive.events().filter((e) => e.type === "refused").length;
+        const moods = mount.moods();
+        for (const a of hive.agents) {
+          samples += 1; const want = hive.mood(a.id).mood, got = moods[a.id];
+          if (got.mood === want) matched += 1; seen.add(want);
+          const fig = mount.avatars.figure(a.id);
+          if (!fig || got.glow === null) continue;
+          glowed += 1;
+          const g = OPS.H5_MOOD_GLOW[want], k = got.glow;
+          const mat = (fig.userData.parts.glow ?? fig.userData.parts.halo).material, base = (fig.userData.parts.glow ?? fig.userData.parts.halo).userData.h7Base;
+          const hueKept = base && Math.abs(mat.color.r - base[0] * k) < 1e-6 && Math.abs(mat.color.g - base[1] * k) < 1e-6 && Math.abs(mat.color.b - base[2] * k) < 1e-6;
+          if (fig.userData.h7Mood === want && k <= 1 && k >= 1 - g.depth - 1e-9 && (!reduced || k === 1) && hueKept) inBand += 1;
+        }
+      }
+      ok(refusals > 0 && seen.has("concerned") && seen.has("relieved"), `${tier}: the day reached ${refusals} refusals and moods ${[...seen].join(", ")}`);
+      ok(matched === samples, `${tier}${reduced ? " (reduced motion)" : ""}: figure mood = hive mood(id) ${matched} of ${samples}`);
+      ok(glowed > 0 && inBand === glowed, `${tier}${reduced ? " (reduced motion)" : ""}: glow in its band, hue kept ${inBand} of ${glowed}`);
+      const m1 = IXR.ixrMeasure(room);
+      ok(same === 12, `${tier}: the room with moods equals the room without them (meshes, triangles) at ${same} of 12 sampled minutes`);
+      ok(m1.triangles <= IX.IX_BUDGET.triangles.high && m1.meshes <= IX.IX_BUDGET.meshes, `${tier}: ${m1.meshes} meshes / ${m1.triangles} triangles outside IX_BUDGET`);
+      if (!reduced) {
+        out.push(`${tier}: ${matched}/${samples} figure moods = hive, glow ${inBand}/${glowed} in band, ${refusals} refusals, room ${m1.meshes} meshes / ${m1.triangles} tris, = moods off ${same}/12`);
+        evals.push(`figures show the mood (headless ops room, ${tier}, seed 1, 240 minutes): figure mood = hive mood(id) ${matched} of ${samples} (7 agents); glow in band ${inBand} of ${glowed}; moods seen ${[...seen].sort().join(", ")}; room ${m1.meshes} meshes / ${m1.triangles} triangles (at entry ${m0.meshes} / ${m0.triangles}), equal to the room with moods off at ${same} of 12 sampled minutes`);
+      }
+      mount.dispose(); mountB.dispose();
     }
   } finally { delete globalThis.document; }
   return out.join("; ");
