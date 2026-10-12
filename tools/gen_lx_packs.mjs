@@ -20,6 +20,7 @@ const { RB_SITES } = await import(SH("rb-robotics-data.js"));
 const { BAY_SITES } = await import(SH("bayworld-data.js"));
 const { DEEP_SITES } = await import(SH("underwater-data.js"));
 const { SM_SITES } = await import(SH("summit-data.js"));
+const { NP_SF_DOWNTOWN } = await import(SH("np-data-sf-downtown.js"));
 
 export const LX_GEN_MAX_STATIONS = 6;
 
@@ -37,12 +38,17 @@ export const LX_GEN_DECLS = [
     leader: "hive", sites: pick(SM_SITES, ["water-plant", "dam", "substation"]) },
 ];
 
-// ACCESS (round 8b) builds four walk-in interiors with station pads. Their ids are not in this tree yet; the pack
-// stays pending (never filled with stand-ins) until they are posted and the pads name real stations.
-export const LX_GEN_PENDING = [
-  { id: "lx-pack-access-interiors", world: "parishes", worldName: "The parishes (walk-in interiors)", title: "Walk-in interiors: apparatus bay, drop-off lobby, classroom wing, park pavilion",
-    waitingFor: "ACCESS's interior ids and their station pads (acc-*.js)" },
-];
+// ACCESS (round 8b, b98b57fe) adds four walk-in interior styles to ix-interiors.js, opened from the doors of the
+// fire-station, hospital, school and park sites; each room's pads launch the site's first stations (8 on high, 4 on
+// balanced and phone: ix-interiors.js `stations.slice(0, low ? 4 : 8)`). This pack takes the four sites on sf-downtown
+// (the robot cell's map), two pad stations per room, so every station sits on a pad on every tier.
+export const LX_GEN_INTERIOR_STYLE = Object.freeze({ "fire-station": "acc-fire-bay", hospital: "acc-drop-off-lobby", school: "acc-classroom-wing", park: "acc-park-pavilion" });
+LX_GEN_DECLS.push({ id: "lx-pack-access-interiors", world: "parishes", worldName: "The parishes (walk-in interiors, sf-downtown)",
+  title: "Walk-in interiors: apparatus bay, drop-off lobby, classroom wing, park pavilion", leader: "hive", perSite: 2, max: 8,
+  sites: pick(NP_SF_DOWNTOWN.sites, ["dt-sw-mission-dolores-fire-station", "cathedral-hill-hospital", "dt-sw-mission-dolores-school-campus", "dt-sw-russian-hill-park-grounds-yard"])
+    .map((s) => ({ ...s, interior: LX_GEN_INTERIOR_STYLE[NP_SF_DOWNTOWN.sites.find((x) => x.id === s.id).kind] })) });
+
+export const LX_GEN_PENDING = [];
 
 function pick(list, ids) {
   return ids.map((id) => {
@@ -95,12 +101,16 @@ export function lxGenBuild() {
   for (const d of LX_GEN_DECLS) {
     const stations = [];
     const left = [];
+    const max = d.max ?? LX_GEN_MAX_STATIONS;
     for (const site of d.sites) {
-      for (const id of site.stations) {
+      let taken = 0;
+      for (const [pad, id] of site.stations.entries()) {
         if (stations.some((s) => s.id === id)) continue;
         if (/^k12-/.test(id)) { left.push({ id, why: "K-12 station (adult pack)" }); continue; }
-        if (stations.length >= LX_GEN_MAX_STATIONS) { left.push({ id, why: `pack holds ${LX_GEN_MAX_STATIONS}` }); continue; }
-        stations.push({ id, site: site.id, siteName: site.name });
+        if (d.perSite && taken >= d.perSite) { left.push({ id, why: `${d.perSite} per room` }); continue; }
+        if (stations.length >= max) { left.push({ id, why: `pack holds ${max}` }); continue; }
+        taken += 1;
+        stations.push({ id, site: site.id, siteName: site.name, ...(site.interior ? { interior: site.interior, pad } : {}) });
         if (enterable.has(id)) {
           const st = lxGenSteps(id);
           if (st.length) steps[id] = st;

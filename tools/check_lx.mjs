@@ -80,6 +80,26 @@ section("2. packs compose from the real roster; every station exists and is ente
   return `packs 0 → ${packs.length} across ${worlds.size} worlds (${[...worlds].join(", ")}), ${st} stations, ${pending.length} pending (${pending.map((p) => p.id).join(", ")})`;
 });
 
+section("2a. ACCESS's interiors: every pack station is on a pad of its room on every tier", (errs) => {
+  const p = packs.find((x) => x.id === "lx-pack-access-interiors");
+  if (!p) { errs.push("the interiors pack did not compose"); return ""; }
+  const decl = LX_PACK_DECLS.find((x) => x.id === p.id);
+  const sfSrc = readFileSync(join(ROOT, "WebXR/shared/np-data-sf-downtown.js"), "utf8");
+  const rooms = new Set();
+  for (const s of decl.stations) {
+    rooms.add(s.interior);
+    if (!(s.pad >= 0 && s.pad < 4)) errs.push(`${s.id}: pad ${s.pad} is not inside the 4 pads every tier builds`);
+    const m = sfSrc.match(new RegExp(`"id":\\s*"${s.site}"[\\s\\S]*?"stations":\\s*(\\[[^\\]]*\\])`)) ?? sfSrc.match(new RegExp(`id:\\s*"${s.site}"[\\s\\S]*?stations:\\s*(\\[[^\\]]*\\])`));
+    let list = null; try { list = m ? JSON.parse(m[1]) : null; } catch { list = null; }
+    if (!list || list[s.pad] !== s.id) errs.push(`${s.id}: not station ${s.pad} of ${s.site} on sf-downtown`);
+  }
+  if (rooms.size !== 4) errs.push(`${rooms.size} rooms, expected the four ACCESS kinds`);
+  const ix = readFileSync(join(ROOT, "WebXR/shared/ix-interiors.js"), "utf8");
+  const landed = [...rooms].filter((r) => ix.includes(`"${r}"`));
+  if (landed.length && landed.length !== rooms.size) errs.push(`only ${landed.join(", ")} of the four styles are in ix-interiors.js`);
+  return `${decl.stations.length} stations on pads in ${rooms.size} rooms (${[...rooms].join(", ")}); styles in this tree's ix-interiors.js: ${landed.length} of 4${landed.length ? "" : " (ACCESS's b98b57fe, joins at integration)"}`;
+});
+
 section("2b. standards taken from the stations, N of N", (errs) => {
   let n = 0, total = 0;
   for (const p of packs) for (const std of p.standards) {
@@ -150,7 +170,7 @@ section("4. impossible requests refused", (errs) => {
     ["no stations", { ...base, stations: [] }],
   ];
   for (const [what, spec] of cases) { const r = composePack(spec, roster, { stepsOf: LX.lxStepsOf }); if (r.ok) errs.push(`composed ${what}`); }
-  const robot = packs.filter((p) => p.world === "parishes");
+  const robot = packs.filter((p) => p.id === "lx-pack-parish-robot-sites");
   const imp = LX.lxComposeIn("underwater wet welding block for divers", roster, robot);
   if (!imp.refused) errs.push("the robot sites composed a diving lesson");
   for (const junk of ["make me a sandwich", "hello"]) if (!LX.lxComposeIn(junk, roster, packs).refused) errs.push(`"${junk}" composed`);
