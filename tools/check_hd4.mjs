@@ -226,7 +226,7 @@ for (const tier of ["high", "balanced", "low"]) {
   check(scr && scr.cells.length === 7 && scr.wall && typeof scr.paint === "function" && typeof scr.repaint === "function", `${OPS}/${tier}: the screens seam (7 console cells on one canvas, the video wall, paint and repaint)`);
   const walk = IXR.ixrWalkAll(room);
   check(walk.reached === walk.total && walk.total >= 7, `${OPS}/${tier}: walkable from the door to every station pad and agent spot (${walk.reached} of ${walk.total})`);
-  note(`${OPS}/${tier}: ${s.meshes} meshes, ${s.triangles} tris, ${s.lights} lights, ${fmtB(s.bytes)} (the skin, the screens and the shell's signs)${tier === "high" ? `; consoles at ${ops.consoles.map((c) => `${c.key} (${c.x.toFixed(1)}, ${c.z.toFixed(1)})`).join(", ")}` : ""}`);
+  note(`${OPS}/${tier}: ${s.meshes} meshes, ${s.triangles} tris, ${s.lights} lights, ${fmtB(s.bytes)} (the skin, the screens and the shell's signs), walked ${walk.reached} of ${walk.total}${tier === "high" ? `; consoles at ${ops.consoles.map((c) => `${c.key} (${c.x.toFixed(1)}, ${c.z.toFixed(1)})`).join(", ")}` : ""}`);
 }
 {
   const home = H.hd4OpsHome(), p = R.NP_PARISHES.find((x) => x.id === home.parish);
