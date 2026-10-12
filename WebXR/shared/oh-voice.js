@@ -27,8 +27,10 @@
 //
 // Every top-level name starts with `oh`/`OH_` (the bundler shares one scope).
 
-/** AVATARS-HD-2: how long a line handed to the voice may wait for its onstart before `pending` gives up on the voice (ms). */
-export const OH_START_WAIT_MS = 1500;
+/** AVATARS-HD-2: how long a line handed to the voice may wait for its onstart before `pending` gives up on the voice (ms). 4 s, not
+ * 1.5 s: a page under load can hold a real onstart past 1.5 s (a drive at about one frame a second did), and a stuck voice only
+ * costs the light and the mouth until then; captions show throughout. */
+export const OH_START_WAIT_MS = 4000;
 
 /** Local voices only. */
 export function ohLocalVoices(voices = []) { return (Array.isArray(voices) ? voices : []).filter((v) => v && v.localService === true); }
