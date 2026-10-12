@@ -16,6 +16,7 @@ import { fileURLToPath } from "node:url";
 import { COL_SCENARIOS, COL_VARIANTS, COL_VERSION, colEvalScenario, colTutorSim } from "../WebXR/shared/col-learn.js";
 import { RB_SCENARIOS } from "../WebXR/shared/rb-robotics-data.js";
 import { RT6_VERSION, RT6_KEEP, RT6_RATER, RT6_TRAJ_FEATURES, rt6EvalPreference, rt6Dagger } from "../WebXR/shared/rt6-learn.js";
+import { rt7EvalStepReward } from "../WebXR/shared/rt7-learn.js";
 import { loadSmartCity } from "./lib/headless.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
@@ -63,11 +64,18 @@ export async function colEvalAll() {
       version: RT6_VERSION, learner: "Bradley–Terry reward model: logistic regression, no intercept, on the difference of two runs' trajectory features; L2 0.01, 500 full-batch steps from zero",
       features: RT6_TRAJ_FEATURES, rater: RT6_RATER, keep: `the top ${RT6_KEEP * 100}% of the 40 demonstrations by learned reward, fixed before any held-out seed was run; the other shares are a sensitivity sweep`,
       pairs: "200 synthetic pairs per scenario (150 to fit, 50 held out), each two runs of one seed by the scripted stand-in at two skills; labelled synthetic. A learner's consented local pairs join the fit only through rt6LocalPairs (0 here: no person's pairs exist)",
-      scenarios: ["rb-amr-fleet-routing", "rb-amr-fleet-routing#hard"].map((sc) => rt6EvalPreference(sc)),
+      // ROBOTRAIN-7 (shared/rt7-learn.js): a per-step reward on short step windows; only the low-reward moments are dropped
+      // before cloning. Appended as the last key of each scenario, so the arms above it are unchanged.
+      scenarios: ["rb-amr-fleet-routing", "rb-amr-fleet-routing#hard"].map((sc) => ({ ...rt6EvalPreference(sc), stepReward: rt7EvalStepReward(sc) })),
     },
     // The same rounds with COLEARN's AMR features plus four route features (col-learn.js COL_FEATURE_SETS["amr-path"], opt-in):
     // measured once, after the aliasing figure above pointed at the features; COLEARN's default clone is unchanged.
-    dagger: { ...rt6Dagger("rb-amr-fleet-routing#hard", { rounds: 5, rollouts: 20 }), pathFeatures: rt6Dagger("rb-amr-fleet-routing#hard", { rounds: 5, rollouts: 20, featureSet: "amr-path" }) },
+    // ROBOTRAIN-7: the aliasing ceiling of "amr-robots" on the amr-path rounds' own labelled training states (measured first),
+    // then the same declared rounds, run once, with the per-robot features (col-learn.js COL_FEATURE_SETS["amr-robots"], opt-in).
+    dagger: { ...rt6Dagger("rb-amr-fleet-routing#hard", { rounds: 5, rollouts: 20 }), pathFeatures: rt6Dagger("rb-amr-fleet-routing#hard", { rounds: 5, rollouts: 20, featureSet: "amr-path", aliasingSets: ["amr-robots", "amr-holders"] }),
+      robotFeatures: rt6Dagger("rb-amr-fleet-routing#hard", { rounds: 5, rollouts: 20, featureSet: "amr-robots" }),
+      // The ablation, declared after the result above: the holder and order features without the detour move, run once.
+      holderFeatures: rt6Dagger("rb-amr-fleet-routing#hard", { rounds: 5, rollouts: 20, featureSet: "amr-holders" }) },
   };
 }
 

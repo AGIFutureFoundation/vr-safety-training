@@ -24,6 +24,7 @@ import { RB_SCENARIOS, RB_SITES, RB_RULES } from "../WebXR/shared/rb-robotics-da
 import { rbEnv, rbRollout, rbPolicy } from "../WebXR/shared/rb-env.js";
 import { colRandomPolicy, colHeldOut, COL_SCENARIOS, colSyntheticDemos } from "../WebXR/shared/col-learn.js";
 import { RT_TASKS, RT_TASK_IDS, rtRecordTakes } from "../WebXR/shared/rt-teleop.js";
+import { rt7ReactivePolicy, RT7_REACTIVE_FIELDS } from "../WebXR/shared/rt7-learn.js";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 let passes = 0, failures = 0;
@@ -209,20 +210,23 @@ for (const id of NEW.map((b) => `${b}#hard`)) {
 
 // 10. ROBOTRAIN-6: every hard variant has an AGENTGYM baseline in the supplement (tools/ag_eval.mjs --seeds 3 --scenarios …), on the
 //     station rows' seeds; random and the scripted expert re-measured live here; the word-overlap agents listed as not applicable.
-check("hard variants with an AGENTGYM baseline in the robotics supplement (random and the scripted expert, seeds 1–3, re-measured live; retrieval agents not applicable)", () => {
+check("hard variants with an AGENTGYM baseline in the robotics supplement (random, the reactive agent and the scripted expert, seeds 1–3, re-measured live; retrieval agents not applicable)", () => {
   const sup = JSON.parse(readFileSync(join(ROOT, "docs/perf/agent-baselines-robotics.json"), "utf8"));
   const ids = RB_SCENARIOS.flatMap((s) => Object.keys(s.variants ?? {}).map((v) => `${s.id}#${v}`));
   ok(ids.length === 3 && sup.scenarioConfig && JSON.stringify(sup.scenarioConfig.seeds) === JSON.stringify(sup.config.seeds), "supplement scenario config missing or on other seeds");
   const out = [];
   for (const id of ids) {
     const row = sup.perScenario?.[id];
-    ok(row?.random && row?.expert && row.retrieval === null && row["retrieval-ask"] === null, `${id}: no baseline row`);
+    ok(row?.random && row?.expert && row?.reactive && row.retrieval === null && row["retrieval-ask"] === null, `${id}: no baseline row`);
     const live = (mk) => sup.scenarioConfig.seeds.filter((seed) => { const env = rbEnv(id, { seed }); return rbRollout(env, { seed, policy: mk(env, seed) }).summary.passed; }).length;
-    const lr = live((env, seed) => colRandomPolicy(id, seed)), le = live((env, seed) => rbPolicy(env, { skill: 1, seed }));
-    ok(lr === row.random.passed && le === row.expert.passed && row.expert.of === sup.scenarioConfig.seeds.length, `${id}: file random ${row.random.passed} / expert ${row.expert.passed}, live ${lr} / ${le}`);
-    out.push(`${id} random ${row.random.passed}/${row.random.of}, expert ${row.expert.passed}/${row.expert.of}`);
+    const lr = live((env, seed) => colRandomPolicy(id, seed)), le = live((env, seed) => rbPolicy(env, { skill: 1, seed })), lx = live(() => rt7ReactivePolicy(id));
+    ok(lr === row.random.passed && le === row.expert.passed && lx === row.reactive.passed && row.expert.of === sup.scenarioConfig.seeds.length, `${id}: file random ${row.random.passed} / reactive ${row.reactive.passed} / expert ${row.expert.passed}, live ${lr} / ${lx} / ${le}`);
+    out.push(`${id} random ${row.random.passed}/${row.random.of}, reactive ${row.reactive.passed}/${row.reactive.of}, expert ${row.expert.passed}/${row.expert.of}`);
   }
-  return `${ids.length} of ${ids.length} hard variants baselined: ${out.join("; ")}; retrieval and retrieval-ask n/a (no step text in a gym observation)`;
+  // ROBOTRAIN-7: the reactive agent reads only its declared fields (the observation is cut down before any rule runs) and has no planner.
+  const rsrc = readFileSync(join(ROOT, "WebXR/shared/rt7-learn.js"), "utf8").split("// ================================================================ a non-privileged reactive agent")[1].split("// ================================================================ robot-run ratings")[0];
+  ok(Object.keys(RT7_REACTIVE_FIELDS).length === 3 && /const o = see\(o0\)/.test(rsrc) && !/expert|rbPolicy|queue|prev\.set|colPathMove|colDetour/.test(rsrc), "the reactive agent must read only the projected observation and carry no search or expert call");
+  return `${ids.length} of ${ids.length} hard variants baselined: ${out.join("; ")}; the reactive agent reads only its declared fields, with no planner; retrieval and retrieval-ask n/a (no step text in a gym observation)`;
 });
 
 // 8. hygiene

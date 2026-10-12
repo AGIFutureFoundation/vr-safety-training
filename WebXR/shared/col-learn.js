@@ -221,6 +221,58 @@ export const COL_FEATURE_SETS = {
     },
   },
 };
+/** ROBOTRAIN-7: the first move of a shortest path from (x, y) to (gx, gy) around shelves, the blocked cell and every cell in
+ * `walls` (the other robots), in the same N/S/E/W tie order as colPathMove. Not cached: it depends on where the robots stand.
+ * [0, 0] when already there or walled in. */
+function colDetourMove(o, x, y, gx, gy, walls) {
+  if (x === gx && y === gy) return [0, 0];
+  const W = o.width, H = o.height;
+  const open = (a, b) => a >= 0 && b >= 0 && a < W && b < H && !COL_SHELF(a, b) && !(o.blocked && o.blocked[0] === a && o.blocked[1] === b) && !walls.has(`${a},${b}`);
+  const f = new Int16Array(W * H).fill(-1), queue = [[gx, gy]];
+  f[gy * W + gx] = 0;
+  for (let q = 0; q < queue.length; q++) {
+    const [a, b] = queue[q];
+    for (const d of Object.values(COL_DIRS)) { const na = a + d[0], nb = b + d[1]; if (((na === x && nb === y) || open(na, nb)) && na >= 0 && nb >= 0 && na < W && nb < H && f[nb * W + na] < 0) { f[nb * W + na] = f[b * W + a] + 1; if (!(na === x && nb === y)) queue.push([na, nb]); } }
+  }
+  const d = f[y * W + x];
+  if (d <= 0) return [0, 0];
+  for (const [dx, dy] of Object.values(COL_DIRS)) { const nx = x + dx, ny = y + dy; if (nx >= 0 && ny >= 0 && nx < W && ny < H && f[ny * W + nx] === d - 1 && (open(nx, ny) || (nx === gx && ny === gy))) return [dx, dy]; }
+  return [0, 0];
+}
+/** ROBOTRAIN-7: "amr-robots" is "amr-path" plus six features about the other robots: whether a robot holds the route's next
+ * cell and moves earlier or later in the move order, whether that robot has delivered and stays, this robot's place among
+ * the robots still moving (0 first, 1 last), and the first move of a shortest path around every other robot's cell.
+ * Opt-in; measured in docs/evals/colearn.json `dagger.robotFeatures`. */
+COL_FEATURE_SETS["amr-robots"] = {
+  names: [...COL_FEATURE_SETS["amr-path"].names, "holderEarlier", "holderLater", "holderParked", "order", "detourE", "detourS"],
+  weights: [...COL_FEATURE_SETS["amr-path"].weights, 4, 4, 4, 4, 4, 4],
+  mid: [...COL_FEATURE_SETS["amr-path"].mid, 0.5, 0.5, 0.5, 0.5, 0, 0],
+  text: [...COL_FEATURE_SETS["amr-path"].text, ["a robot that moves earlier holds the route's next cell", "no earlier robot holds the route's next cell"],
+    ["a robot that moves later holds the route's next cell", "no later robot holds the route's next cell"], ["the robot on the route's next cell has delivered and stays", "no parked robot is on the route"],
+    ["this robot moves late in the order", "this robot moves early in the order"], ["the way around the other robots goes east", "the way around the other robots goes west or level"],
+    ["the way around the other robots goes south", "the way around the other robots goes north or level"]],
+  perRobot: (o) => {
+    const base = COL_FEATURE_SETS["amr-path"].perRobot(o);
+    const moving = o.robots.map((r, i) => (r.delivered ? -1 : i)).filter((i) => i >= 0);
+    return o.robots.map((r, i) => {
+      const [x, y] = r.at, [dx, dy] = colPathMove(o, x, y, r.goal[0], r.goal[1]);
+      const j = dx || dy ? o.robots.findIndex((q, k) => k !== i && q.at[0] === x + dx && q.at[1] === y + dy) : -1;
+      const walls = new Set(o.robots.filter((q, k) => k !== i).map((q) => q.at.join(",")));
+      const [ex, ey] = colDetourMove(o, x, y, r.goal[0], r.goal[1], walls);
+      const pos = moving.indexOf(i), order = pos < 0 || moving.length < 2 ? 0 : pos / (moving.length - 1);
+      return { delivered: base[i].delivered, f: [...base[i].f, j >= 0 && j < i ? 1 : 0, j > i ? 1 : 0, j >= 0 && o.robots[j].delivered ? 1 : 0, order, ex, ey] };
+    });
+  },
+};
+/** ROBOTRAIN-7 ablation: "amr-holders" is "amr-robots" without the detour move (the holder and order features only), to show
+ * how much of the gain the way around the robots carries. Opt-in; measured in colearn.json `dagger.holderFeatures`. */
+COL_FEATURE_SETS["amr-holders"] = {
+  names: COL_FEATURE_SETS["amr-robots"].names.slice(0, -2),
+  weights: COL_FEATURE_SETS["amr-robots"].weights.slice(0, -2),
+  mid: COL_FEATURE_SETS["amr-robots"].mid.slice(0, -2),
+  text: COL_FEATURE_SETS["amr-robots"].text.slice(0, -2),
+  perRobot: (o) => COL_FEATURE_SETS["amr-robots"].perRobot(o).map((r) => ({ delivered: r.delivered, f: r.f.slice(0, -2) })),
+};
 const colIsStation = (sc) => String(sc).startsWith("rb-station-");
 
 /** The feature rows and labels of one demonstration step. */

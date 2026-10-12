@@ -564,6 +564,7 @@
  "scenarioBaselines": {
   "random": "uniform random over the scenario's discrete actions (shared/col-learn.js colRandomPolicy, the floor COLEARN reports)",
   "expert": "the scenario's scripted expert (shared/rb-env.js rbPolicy at skill 1): a planner written for the scenario, an upper bound, not a learner",
+  "reactive": "a non-privileged reactive rule-follower (shared/rt7-learn.js rt7ReactivePolicy): no search, no planner, no learning; it reads only the safety fields plus the task's own position and goal (rb-construction-drilling: personInside, scanned, barricaded, dust, isolated, bitWorn, remaining; rb-port-gantry: at, carrying, job, lanes, width, crossingColumn, personOnCrossing, pinned, obstruction; rb-amr-fleet-routing: robots, width, height, walkwayColumn, personOnWalkway, walkways, blocked); written on training seeds 101–130, measured once here",
   "retrieval": null,
   "retrieval-ask": null,
   "notApplicable": "retrieval and retrieval-ask read a station step's text; a gym observation has none, so they are not run (null), not scored as 0"
@@ -578,6 +579,13 @@
     "truncated": 2
    },
    "expert": {
+    "passed": 3,
+    "of": 3,
+    "meanSteps": 19.7,
+    "violations": 0,
+    "truncated": 0
+   },
+   "reactive": {
     "passed": 3,
     "of": 3,
     "meanSteps": 19.7,
@@ -602,6 +610,13 @@
     "violations": 0,
     "truncated": 0
    },
+   "reactive": {
+    "passed": 3,
+    "of": 3,
+    "meanSteps": 22.3,
+    "violations": 0,
+    "truncated": 0
+   },
    "retrieval": null,
    "retrieval-ask": null
   },
@@ -619,6 +634,13 @@
     "meanSteps": 19,
     "violations": 0,
     "truncated": 0
+   },
+   "reactive": {
+    "passed": 1,
+    "of": 3,
+    "meanSteps": 84.7,
+    "violations": 0,
+    "truncated": 2
    },
    "retrieval": null,
    "retrieval-ask": null

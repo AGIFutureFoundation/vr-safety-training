@@ -1016,6 +1016,8 @@ APPS = {
             SHARED / "dx-world.js",
             # COLEARN: behaviour cloning, the robot-demonstrates ghost and the bandit tutor (after rb-env.js and dx-data.js).
             SHARED / "col-learn.js",
+            # ROBOTRAIN-7: AGENTGYM's consented ratings, which the teleop pad's "Rate two robot runs" stores through (after dx-data.js).
+            SHARED / "ag-feedback.js",
             # ROBOTRAIN: the controller-pose teleoperation recorder over the gym (after col-learn.js; records only through dx-data.js).
             SHARED / "rt-teleop.js",
             # VBRIDGE: agent jobs to simulated robots through the safety governor (after rb-env.js, col-learn.js; ENTERPRISE-3's registry for the audit log).

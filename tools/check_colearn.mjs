@@ -166,6 +166,12 @@ for (const p of EV.preference.scenarios) {
 }
 check(EV.preference.scenarios.every((p) => p.rewardWeighted?.n === 60 && p.rewardWeighted.demos === p.unfiltered.demos) && !C.colTrain("rb-amr-fleet-routing", C.colDemosFromEpisodes(C.colSyntheticDemos("rb-amr-fleet-routing", { n: 4, seed: 1 }), "rb-amr-fleet-routing").demos).rows.some((r) => "w" in r),
   `reward-weighted votes (every demonstration kept, each vote scaled by the model's P(preferred over the median demonstration); default models carry no weight): ${EV.preference.scenarios.map((p) => `${p.scenario} ${p.rewardWeighted.success} (weights ${p.rewardWeighted.minWeight}–${p.rewardWeighted.maxWeight}) vs rule-filtered ${p.ruleFiltered.success}, unfiltered ${p.unfiltered.success}`).join("; ")}`);
+// ROBOTRAIN-7: a per-step reward on short step windows (shared/rt7-learn.js); only the low-reward moments are dropped.
+const R7 = await import("../WebXR/shared/rt7-learn.js");
+const W7a = R7.rt7WindowPairs("rb-amr-fleet-routing", { n: 30, seed: 1 }), W7b = R7.rt7WindowPairs("rb-amr-fleet-routing", { n: 30, seed: 1 });
+const m7a = R6.rt6FitReward(W7a.pairs, { names: R7.RT7_WINDOW_FEATURES }), m7b = R6.rt6FitReward(W7b.pairs, { names: R7.RT7_WINDOW_FEATURES });
+check(C.colHash(m7a) === C.colHash(m7b) && W7a.pairs.every((p) => p.source === "synthetic" && p.window === R7.RT7_WINDOW && p.x.chosen.length === R7.RT7_WINDOW_FEATURES.length) && EV.preference.scenarios.every((p) => p.stepReward?.n === 60 && p.stepReward.threshold === R7.RT7_DROP_BELOW && p.stepReward.window === R7.RT7_WINDOW && p.stepReward.pairs.synthetic === 200 && p.stepReward.sweep.length === R7.RT7_DROP_SWEEP.length),
+  `a per-step reward (Bradley–Terry on ${R7.RT7_WINDOW}-step windows, synthetic window pairs, deterministic hash ${C.colHash(m7a)}); steps whose window the model prefers to the median one with P < ${R7.RT7_DROP_BELOW} are dropped, every other step kept: ${EV.preference.scenarios.map((p) => `${p.scenario} ${p.stepReward.success} (dropped ${p.stepReward.stepsDropped} of ${p.stepReward.stepsOf} steps, ${p.stepReward.ruleBrokenDropped} of ${p.stepReward.ruleBrokenSteps} rule-broken; window-pair accuracy ${p.stepReward.accuracy.heldOut}, ceiling ${p.stepReward.accuracy.raterCeilingHeldOut}) vs rule-filtered ${p.ruleFiltered.success}, unfiltered ${p.unfiltered.success}; sweep ${p.stepReward.sweep.map((x) => `${x.threshold}: ${x.success}`).join(", ")} (not chosen from)`).join("; ")}`);
 // A learner's consented pairs join only while collecting; K-12 and revoke leave none (DATAWORKS' rules).
 const lstore = dx.dxMakeStore(dx.dxMemBackend());
 await dx.dxRevoke({ store: lstore });
@@ -184,6 +190,29 @@ const after6 = await R6.rt6LocalPairs({ store: lstore, signals: ADULT6 });
 check(before6.length === 0 && up6.ok && down6.ok && local6.length === 1 && local6[0].source === "human" && k12six.length === 0 && mixed6.sources.join() === "human,synthetic" && after6.length === 0 && (await lstore.list()).length === 0,
   `a learner's consented pairs join the fit only while collecting: before opt-in ${before6.length}, opted in ${local6.length} (source human), K-12 ${k12six.length}, after revoke ${after6.length} and the store empty`);
 
+// ROBOTRAIN-7: ratings of two cloned robot runs (the teleop pad's "Rate two robot runs", rt7RobotRun) through agRate; rt6LocalPairs
+// returns them only while collecting; K-12, demo and signed-out sessions store and return nothing; revoke empties them.
+const RTT = await import("../WebXR/shared/rt-teleop.js");
+const rstore = dx.dxMakeStore(dx.dxMemBackend());
+await dx.dxRevoke({ store: rstore });
+const rsc = "rb-teleop-pick-place", rmod = C.colTrain(rsc, C.colDemosFromEpisodes(C.colSyntheticDemos(rsc, { n: 10, seed: 1 }), rsc).demos, { seed: 1 });
+const runA7 = RTT.rt7RobotRun(rmod, 7001), runB7 = RTT.rt7RobotRun(rmod, 7002);
+const rate7 = async (signals) => { const r = [await fb.agRate({ run: runA7, agent: "robot-clone:synthetic", rating: "up", reason: "safe-order", signals }, { store: rstore }), await fb.agRate({ run: runB7, agent: "robot-clone:synthetic", rating: "down", reason: "slow", signals }, { store: rstore })]; return r.filter((x) => x.ok).length; };
+const K12_7 = { ...ADULT6, k12: true }, DEMO7 = { ...ADULT6, demo: true }, OUT7 = { ...ADULT6, signedIn: false };
+const notOpted7 = await rate7(ADULT6);
+dx.dxOptIn({ licence: "CC0-1.0", adult: true, signals: { demo: false, signedIn: true, k12: false } });
+const refused7 = { k12: await rate7(K12_7), demo: await rate7(DEMO7), signedOut: await rate7(OUT7), stored: (await rstore.list()).length };
+const kept7 = await rate7(ADULT6);
+const pairs7 = await R6.rt6LocalPairs({ store: rstore, signals: ADULT6 });
+const none7 = { k12: (await R6.rt6LocalPairs({ store: rstore, signals: K12_7 })).length, demo: (await R6.rt6LocalPairs({ store: rstore, signals: DEMO7 })).length, signedOut: (await R6.rt6LocalPairs({ store: rstore, signals: OUT7 })).length };
+await dx.dxRevoke({ store: rstore });
+const revoked7 = { pairs: (await R6.rt6LocalPairs({ store: rstore, signals: ADULT6 })).length, stored: (await rstore.list()).length };
+check(notOpted7 === 0 && refused7.k12 + refused7.demo + refused7.signedOut + refused7.stored === 0 && kept7 === 2 && pairs7.length === 1 && pairs7[0].source === "human" && pairs7[0].station === rsc && pairs7[0].x.chosen.length === R6.RT6_TRAJ_FEATURES.length && none7.k12 + none7.demo + none7.signedOut === 0 && revoked7.pairs + revoked7.stored === 0,
+  `robot-run ratings (two cloned runs of ${rsc}, thumbs up and down through agRate): kept before opt-in ${notOpted7}; opted in but K-12 ${refused7.k12}, demo ${refused7.demo}, signed-out ${refused7.signedOut}; an opted-in adult ${kept7} → rt6LocalPairs ${pairs7.length} pair (source human); K-12, demo and signed-out read ${none7.k12 + none7.demo + none7.signedOut}; after revoke ${revoked7.pairs} pairs, store ${revoked7.stored}`);
+const rtsrc = readFileSync(join(SHARED, "rt-teleop.js"), "utf8"), bundle7 = readFileSync(join(ROOT, "tools/bundle_webxr.py"), "utf8");
+check(/const on = dxCollecting\(signals\);/.test(rtsrc) && /b\.disabled = !on;/.test(rtsrc) && /await agRate\(\{ run, agent: `robot-clone:/.test(rtsrc) && bundle7.indexOf('SHARED / "ag-feedback.js"') > bundle7.indexOf('SHARED / "dx-data.js",\n            SHARED / "dx-consent-ui.js",\n            SHARED / "dx-world.js"') && bundle7.indexOf('SHARED / "ag-feedback.js"') < bundle7.indexOf('SHARED / "rt-teleop.js"'),
+  "the teleop pad's \"Rate two robot runs\": its thumbs are enabled only while collecting and store only through agRate; ag-feedback.js is bundled after dx-data.js and before rt-teleop.js");
+
 // 12 DAgger-style corrections on the hardest gap (ROBOTRAIN-6)
 console.log("12 DAgger-style corrections on rb-amr-fleet-routing#hard (ROBOTRAIN-6; the labels are the scripted expert's, not a person's)");
 const D6 = EV.dagger, V6 = EV.variants.find((v) => v.id === D6.scenario);
@@ -194,6 +223,15 @@ check(D6.aliasing && D6.aliasing.ceiling > 0 && D6.aliasing.ceiling <= 1,
 const DP6 = D6.pathFeatures;
 check(DP6?.featureSet === "amr-path" && DP6.rounds.length === 6 && DP6.rounds.every((r) => r.n === 60) && C.colF("rb-amr-fleet-routing", "amr-path").names.length === C.colF("rb-amr-fleet-routing").names.length + 4 && !("featureSet" in C.colTrain("rb-amr-fleet-routing", [], {})),
   `the same rounds with four route features (opt-in set amr-path; COLEARN's default unchanged): ${DP6?.rounds.map((r) => r.success).join(" → ")}; gap to the expert after round ${DP6?.rounds.length - 1}: ${(V6?.expert.success - DP6?.rounds.at(-1).success).toFixed(3)}; best agreement over these features ${DP6?.aliasing?.ceiling} (${DP6?.aliasing?.ambiguousVectors} of ${DP6?.aliasing?.vectors} vectors ambiguous)`);
+const DR7 = D6.robotFeatures, AL7 = DP6?.aliasingOnTheseStates?.["amr-robots"];
+check(DR7?.featureSet === "amr-robots" && DR7.rounds.length === 6 && DR7.rounds.every((r) => r.n === 60) && AL7?.rows === DP6?.aliasing?.rows && C.colF("rb-amr-fleet-routing", "amr-robots").names.length === C.colF("rb-amr-fleet-routing", "amr-path").names.length + 6 && C.colF("rb-amr-fleet-routing").names.length === 9,
+  `the other robots in view (opt-in set amr-robots: who holds the route's next cell and its move order, a way around the robots): the aliasing ceiling first, on the amr-path rounds' ${AL7?.rows} labelled training rows, ${DP6?.aliasing?.ceiling} → ${AL7?.ceiling} (${AL7?.ambiguousVectors} of ${AL7?.vectors} vectors ambiguous); then the declared 5 rounds, once: ${DR7?.rounds.map((r) => r.success).join(" → ")}; AMR hard gap after round ${DR7?.rounds.length - 1}: ${(V6?.expert.success - DR7?.rounds.at(-1).success).toFixed(3)} (0.583 with amr-path)`);
+const DH7 = D6.holderFeatures, AH7 = DP6?.aliasingOnTheseStates?.["amr-holders"];
+check(DH7?.featureSet === "amr-holders" && DH7.rounds.length === 6 && DH7.rounds.every((r) => r.n === 60) && C.colF("rb-amr-fleet-routing", "amr-holders").names.length === C.colF("rb-amr-fleet-routing", "amr-robots").names.length - 2,
+  `the ablation (declared after that result; holder and order features without the way around the robots, set amr-holders): ceiling on the same training rows ${AH7?.ceiling}; 5 rounds, once: ${DH7?.rounds.map((r) => r.success).join(" → ")}; AMR hard gap after round ${DH7?.rounds.length - 1}: ${(V6?.expert.success - DH7?.rounds.at(-1).success).toFixed(3)}`);
+const src7 = readFileSync(join(SHARED, "rt7-learn.js"), "utf8");
+check(!/\bfetch\s*\(|XMLHttpRequest|sendBeacon|WebSocket|EventSource|https?:\/\//.test(src7) && !MODEL_ID.test(src7) && /PER-STEP REWARD/.test(src7) && /SYNTHETIC WINDOW RATER/.test(src7) && /NON-PRIVILEGED REACTIVE AGENT/.test(src7) && !/import\s*\{[^}]*\bas\b/.test(src7),
+  "rt7-learn.js: no network, no model identifier, no import alias; it names each piece for what it is (a per-step reward, a synthetic window rater, a reactive agent)");
 const src6 = readFileSync(join(SHARED, "rt6-learn.js"), "utf8");
 check(!/\bfetch\s*\(|XMLHttpRequest|sendBeacon|WebSocket|EventSource|https?:\/\//.test(src6) && !MODEL_ID.test(src6) && /BRADLEY–TERRY/.test(src6) && /DAGGER/.test(src6) && /SCRIPTED EXPERT/.test(src6) && /SYNTHETIC RATER/.test(src6) && !/import\s*\{[^}]*\bas\b/.test(src6),
   "rt6-learn.js: no network, no model identifier, no import alias; it names each piece for what it is (a Bradley–Terry model, DAgger rounds, the scripted expert's labels, a synthetic rater)");

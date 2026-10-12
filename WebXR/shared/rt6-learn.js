@@ -136,7 +136,9 @@ export async function rt6LocalPairs({ store = dxStore, signals = null } = {}) {
   const out = [];
   for (const p of agPreferencePairs(eps)) {
     const c = byId.get(p.chosen.episodeId), r = byId.get(p.rejected.episodeId);
-    if (c && r) out.push({ ...p, source: "human", x: { chosen: rt6TrajFeatures(c), rejected: rt6TrajFeatures(r) } });
+    // ROBOTRAIN-7: a rated robot run (the teleop pad's "Rate two robot runs") is read against its task's step cap.
+    const cap = rbScenario(String(p.station ?? ""))?.maxSteps ?? null;
+    if (c && r) out.push({ ...p, source: "human", x: { chosen: rt6TrajFeatures(c, { maxSteps: cap }), rejected: rt6TrajFeatures(r, { maxSteps: cap }) } });
   }
   return out;
 }
@@ -259,7 +261,7 @@ export const RT6_DAGGER_LABELS = "the scripted expert's action (rb-env's planner
  * seeds, labels every visited state with the expert's action, aggregates, retrains (every row kept: maxPoints is lifted
  * so no labelled state is subsampled away) and scores on the held-out seeds.
  */
-export function rt6Dagger(sc, { rounds = 5, rollouts = 20, demos = 40, seed = 1, heldOut = 60, maxPoints = 1000000, featureSet = null } = {}) {
+export function rt6Dagger(sc, { rounds = 5, rollouts = 20, demos = 40, seed = 1, heldOut = 60, maxPoints = 1000000, featureSet = null, aliasingSets = null } = {}) {
   const eps = colSyntheticDemos(sc, { n: demos, seed });
   const { demos: ds } = colDemosFromEpisodes(eps, sc);
   const seeds = colHeldOut(heldOut);
@@ -284,5 +286,8 @@ export function rt6Dagger(sc, { rounds = 5, rollouts = 20, demos = 40, seed = 1,
     model = colTrain(sc, [...ds, { id: "rt6-dagger-labels", source: "synthetic", success: true, clean: true, steps: agg }], { seed, onlySuccessful: true, maxPoints, featureSet });
     score(r);
   }
-  return { scenario: sc, ...(featureSet ? { featureSet } : {}), rollouts, labels: RT6_DAGGER_LABELS, aliasing: rt6Aliasing(sc, agg, featureSet), seeds: `training ${RT6_DAGGER_SEED0 + 100}–${RT6_DAGGER_SEED0 + rounds * 100 + rollouts - 1}; held-out ${seeds[0]}–${seeds[seeds.length - 1]}`, rounds: out };
+  // ROBOTRAIN-7: `aliasingSets` (opt-in) measures other feature sets' ceilings on these same labelled training states; the key
+  // is added only when given, so earlier outputs are unchanged.
+  return { scenario: sc, ...(featureSet ? { featureSet } : {}), rollouts, labels: RT6_DAGGER_LABELS, aliasing: rt6Aliasing(sc, agg, featureSet), seeds: `training ${RT6_DAGGER_SEED0 + 100}–${RT6_DAGGER_SEED0 + rounds * 100 + rollouts - 1}; held-out ${seeds[0]}–${seeds[seeds.length - 1]}`, rounds: out,
+    ...(aliasingSets?.length ? { aliasingOnTheseStates: Object.fromEntries(aliasingSets.map((fs) => [fs, rt6Aliasing(sc, agg, fs)])) } : {}) };
 }
