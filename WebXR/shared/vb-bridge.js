@@ -59,7 +59,9 @@ function vbMove(job, to, from, type, content) {
   return job;
 }
 
-/** A new job in REQUEST. `request` = { taskType, siteId, robotId, target, speed, nearestPersonM, policyId, note }. */
+/** A new job in REQUEST. `request` = { taskType, siteId, robotId, target, speed, nearestPersonM, policyId, note, payloadKg?, atMs? }
+ *  (GOVERNOR-2: `payloadKg` feeds the anomaly check and `atMs` the per-agent rate limit; both are kept only when given,
+ *  so jobs without them hash exactly as before). */
 export function vbCreateJob({ seed = 1, client = { id: "client-mock-1", name: "Mock client agent" }, request = {} } = {}) {
   const site = RB_SITES.find((s) => s.id === request.siteId) ?? null;
   const req = {
@@ -67,6 +69,8 @@ export function vbCreateJob({ seed = 1, client = { id: "client-mock-1", name: "M
     target: { kind: request.target?.kind ?? "sim", robotId: String(request.target?.robotId ?? (site ? `${site.id}:${site.rig}` : "")), ...(request.target?.approver ? { approver: String(request.target.approver) } : {}) },
     speed: Number(request.speed ?? 0), nearestPersonM: Number(request.nearestPersonM ?? 10),
     policyId: String(request.policyId ?? "vb-scripted-expert"), note: String(request.note ?? "").slice(0, 160),
+    ...(request.payloadKg != null && Number.isFinite(Number(request.payloadKg)) ? { payloadKg: Number(request.payloadKg) } : {}),
+    ...(request.atMs != null && Number.isFinite(Number(request.atMs)) ? { atMs: Number(request.atMs) } : {}),
   };
   const id = `vbjob-${vbHash({ seed, client: client.id, req })}`;
   const job = { schema: VB_SCHEMA, id, seed: seed >>> 0, tick: 0, phase: "REQUEST", phaseId: 0, client: { id: String(client.id), name: String(client.name ?? client.id) }, provider: { id: site ? `provider-${site.id}` : "provider-unknown", policyId: req.policyId }, evaluator: { id: "evaluator-scenario-scoring" }, request: req, governor: null, approval: null, deliverable: null, evaluation: null, memos: [] };
@@ -76,13 +80,15 @@ export function vbCreateJob({ seed = 1, client = { id: "client-mock-1", name: "M
 
 /** The governor's command for a job. */
 export function vbCommand(job) {
-  return { jobId: job.id, clientId: job.client.id, taskType: job.request.taskType, siteId: job.request.siteId, target: job.request.target, speed: job.request.speed, nearestPersonM: job.request.nearestPersonM, policyId: job.request.policyId };
+  const r = job.request;
+  return { jobId: job.id, clientId: job.client.id, taskType: r.taskType, siteId: r.siteId, target: r.target, speed: r.speed, nearestPersonM: r.nearestPersonM, policyId: r.policyId, ...(r.payloadKg !== undefined ? { payloadKg: r.payloadKg } : {}), ...(r.atMs !== undefined ? { atMs: r.atMs } : {}) };
 }
 
 /** NEGOTIATION: the provider checks the job with the governor and states its terms, or the job is REJECTED. */
 export function vbNegotiate(job, governor) {
   const d = governor.check(vbCommand(job));
   job.governor = { decision: d.decision, reasons: d.reasons, primary: d.primary, auditSeq: d.line?.seq ?? null };
+  if (!d.ok && (d.primary === "rate-limited" || d.primary === "anomalous")) job.governor.why = d.text;
   if (!d.ok) return vbMove(job, "REJECTED", "provider", "NOTIFICATION", { refusedBy: "safety governor", reasons: d.reasons, text: d.text });
   return vbMove(job, "NEGOTIATION", "provider", "MESSAGE", { terms: ["runs on the simulated robot only", "a human supervisor approves before it starts", "the e-stop wins at any moment", "every decision is logged"], policyId: job.request.policyId });
 }

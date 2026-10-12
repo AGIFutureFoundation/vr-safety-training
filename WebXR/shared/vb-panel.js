@@ -8,6 +8,8 @@
 // registry is handed in, its local audit log.
 //
 // SEAM: vbMountDispatch(el, { reducedMotion, ent3, stationHref, policyFor }) -> { next(), approve(), refuse(), estop(), state() }
+//   GOVERNOR-2: queue entry 9 is a burst (24 requests a second apart from one mock agent: the last 4 are refused as
+//   rate-limited) and entry 10 a rule-legal 25 kg pick-and-place (refused as anomalous, the card names the feature).
 //   `policyFor(policyId, env, seed)` is vb-colearn.js' provider hook (ROBOTRAIN-2): jobs that name `vb-colearn-bc-knn` run a
 //   COLEARN-trained behaviour-cloning policy as the provider; without the hook they run the scripted expert. The governor
 //   checks every step either way.
@@ -30,13 +32,24 @@ export const VB_PANEL_QUEUE = Object.freeze([
   // ROBOTRAIN-2: the same cell job and a zone set-up, provided by the COLEARN-trained policy (vb-colearn.js) instead of the script.
   { seed: 107, client: { id: "client-mock-1" }, request: { taskType: "rb-cell-entry", siteId: "rb-site-soma-robot-cell", speed: 0.4, nearestPersonM: 8, policyId: "vb-colearn-bc-knn", note: "clear a jam in the cell (learned policy)" } },
   { seed: 108, client: { id: "client-mock-2" }, request: { taskType: "rb-cobot-zone-setup", siteId: "rb-site-san-jose-robotics-lab", speed: 0.2, nearestPersonM: 8, policyId: "vb-colearn-bc-knn", note: "set the zones (learned policy)" } },
+  // GOVERNOR-2: an agent that sends 24 requests in 24 seconds (the governor's limit is VB_RATE_LIMIT.perMinute a minute),
+  // and a request that passes every rule but carries a payload far beyond anything the site has accepted.
+  { seed: 109, burst: 24, client: { id: "client-mock-4" }, request: { taskType: "rb-amr-fleet-routing", siteId: "rb-site-west-oakland-warehouse", speed: 0.6, nearestPersonM: 9, policyId: "vb-scripted-expert", payloadKg: 12, note: "route totes (sent again and again)" } },
+  { seed: 110, client: { id: "client-mock-3" }, request: { taskType: "rb-teleop-pick-place", siteId: "rb-site-san-jose-robotics-lab", speed: 0.1, nearestPersonM: 8, policyId: "vb-scripted-expert", payloadKg: 25, note: "move a 25 kg casting" } },
 ]);
+
+/** GOVERNOR-2: scenario time between two queued jobs (a mock agent sends about one job every 45 s). */
+export const VB_PANEL_ARRIVAL_MS = 45000;
 
 const VB_PANEL_CSS = ".vb-panel{font:13px/1.4 system-ui,sans-serif;padding:10px;border:1px solid #2c5a63;border-radius:10px;background:#0b1a1f;color:#dff6fa;margin:8px 0}.vb-panel h3{margin:0 0 6px;font-size:15px}.vb-panel .vb-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}.vb-panel button{background:#16343b;color:#dff6fa;border:1px solid #3d7480;border-radius:6px;padding:5px 9px;cursor:pointer}.vb-panel button[data-vb=estop]{background:#7a1717;border-color:#d2312b}.vb-panel .vb-note{opacity:.8;font-size:12px}.vb-panel .vb-card{white-space:pre-line;margin-top:6px}.vb-panel .vb-phase{font-weight:600;color:#5ec8d8}";
 
 export function vbMountDispatch(el, { reducedMotion = false, ent3 = null, stationHref = null, policyFor = null, providerLabel = null } = {}) {
   if (!el || typeof document === "undefined") return null;
   const gov = vbGovernor({ ent3 });
+  // GOVERNOR-2: the queue is a scenario, so its jobs carry the scenario's arrival times (VB_PANEL_ARRIVAL_MS apart, a
+  // burst a second apart), not the moment a button was pressed: a fast click-through or a scripted drive must not look
+  // like an agent sending at machine speed to the rate limit and the anomaly check.
+  let simT = 0; let burstNote = "";
   const box = document.createElement("section");
   box.className = "vb-panel"; box.id = "vb-dispatch";
   const style = document.createElement("style"); style.textContent = VB_PANEL_CSS; box.appendChild(style);
@@ -64,7 +77,8 @@ export function vbMountDispatch(el, { reducedMotion = false, ent3 = null, statio
     // ROBOTRAIN-3: `providerLabel(taskType)` (vb-colearn.js' describe) names the training data honestly — the learner's own consented takes, or the synthetic stand-in.
     let learned = null; if (policyFor && providerLabel) { try { learned = providerLabel(r.taskType); } catch (_) { learned = null; } }
     lines.push(`Provider: ${r.policyId === "vb-colearn-bc-knn" ? (policyFor ? learned ?? "COLEARN-trained behaviour-cloning policy (synthetic demonstrations, labelled as a stand-in)" : "COLEARN policy requested, no learned provider mounted: the scripted expert runs") : r.policyId === "vb-scripted-lapsing" ? "scripted expert that lapses" : "scripted expert"}`);
-    if (job.governor) lines.push(job.governor.decision === "refuse" ? `Governor: REFUSED — ${VB_REASONS.find((x) => x.id === job.governor.primary)?.text ?? job.governor.primary}` : "Governor: allowed in the sim. Your decision.");
+    if (burstNote) lines.push(burstNote);
+    if (job.governor) lines.push(job.governor.decision === "refuse" ? `Governor: REFUSED (${job.governor.primary}) — ${job.governor.why ?? VB_REASONS.find((x) => x.id === job.governor.primary)?.text ?? job.governor.primary}` : "Governor: allowed in the sim. Your decision.");
     if (job.phase === "TRANSACTION" && frames.length) lines.push(`Run: step ${fi + 1} of ${frames.length}${frames[fi]?.info?.violations?.length ? ` — deviation: ${frames[fi].info.violations[0]}` : ""}`);
     if (job.evaluation) lines.push(`Evaluation: ${job.evaluation.accepted ? "completed" : "rejected"} — ${job.evaluation.reason}`);
     const v = gov.verify(); lines.push(`Audit: ${v.lines} line(s), chain ${v.ok ? "intact" : "BROKEN"}`);
@@ -75,7 +89,14 @@ export function vbMountDispatch(el, { reducedMotion = false, ent3 = null, statio
     next() {
       clearInterval(timer); frames = [];
       qi = (qi + 1) % VB_PANEL_QUEUE.length;
-      job = vbCreateJob(VB_PANEL_QUEUE[qi]); vbNegotiate(job, gov); show(); return job;
+      const spec = VB_PANEL_QUEUE[qi]; burstNote = "";
+      if (spec.burst) {
+        // The burst arrives a second apart, ending now; the panel shows the last request and counts the rest.
+        const t0 = simT; let refused = 0; simT += spec.burst * 1000;
+        for (let i = 0; i < spec.burst; i += 1) { job = vbCreateJob({ ...spec, seed: spec.seed * 100 + i, request: { ...spec.request, atMs: t0 + i * 1000 } }); vbNegotiate(job, gov); if (job.governor.primary === "rate-limited") refused += 1; }
+        burstNote = `Burst: ${spec.burst} requests from ${spec.client.id} in ${spec.burst} s — ${spec.burst - refused} checked as usual, ${refused} refused as rate-limited. Showing the last one.`;
+      } else { simT += VB_PANEL_ARRIVAL_MS; job = vbCreateJob({ ...spec, request: { ...spec.request, atMs: simT } }); vbNegotiate(job, gov); }
+      show(); return job;
     },
     approve() {
       if (!job || job.phase !== "NEGOTIATION") return null;

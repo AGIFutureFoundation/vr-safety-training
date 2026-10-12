@@ -27,6 +27,7 @@
  *  13. GOVERNOR-2: the per-agent rate limit (sliding window, default in VB_RATE_LIMIT), a seeded burst, logged;
  *  14. GOVERNOR-2: the anomaly check beside the rules: deterministic, explainable, never outranks the e-stop
  *      or a hard rule, adds a refusal and never a permission;
+ *  15. GOVERNOR-2: the parishes panel shows the rate-limited and anomalous refusals plainly;
  *  EVAL: 200 seeded adversarial jobs blocked share, 200 safe jobs false-block rate.
  *  EVAL-2 (GOVERNOR-2): seeded rule-legal anomaly injections caught, false refusals on two safe sets, the burst.
  */
@@ -369,6 +370,29 @@ await check("14. the anomaly check beside the rules: deterministic model, names 
   const own = G.vbGovernor({ anomaly: { history: h1.map((r) => ({ ...r, payloadKg: r.payloadKg * 10 })) } });
   assert(own.check(ok({ clientId: "h4", taskType: "rb-teleop-pick-place", siteId: SITE.cobot, speed: 0.1, payloadKg: 25 })).ok, "a handed-in history was ignored");
   console.log(`      model: ${m.n} accepted rows over ${Object.keys(m.tasks).length} tasks, ${m.features.length} features, threshold ${m.threshold} sd; 300 random commands: ${hardRefused} refused by a hard rule (always primary), ${extra} refused only beside the rules`);
+});
+
+await check("15. the parishes panel shows both refusals plainly: the burst (rate-limited, with the count) and the heavy pick-and-place (anomalous, naming the feature)", async () => {
+  // A minimal stand-in for the few DOM calls vbMountDispatch makes (createElement, appendChild, textContent).
+  const el = () => ({ children: [], dataset: {}, style: {}, textContent: "", disabled: false, appendChild(c) { this.children.push(c); return c; }, setAttribute() {} });
+  const hadDoc = "document" in globalThis; const prev = globalThis.document;
+  globalThis.document = { createElement: el };
+  try {
+    const Pn = await load("../WebXR/shared/vb-panel.js"); need(Pn, "vb-panel.js");
+    const root = el(); const api = Pn.vbMountDispatch(root, { reducedMotion: true });
+    const card = () => root.children[0].children.find((c) => c.className === "vb-card").textContent;
+    const iBurst = Pn.VB_PANEL_QUEUE.findIndex((q) => q.burst); const iHeavy = Pn.VB_PANEL_QUEUE.findIndex((q) => q.request.payloadKg >= 20);
+    assert(iBurst >= 0 && iHeavy >= 0, "the queue has no burst or heavy job");
+    let shown = {};
+    for (let i = 0; i < Pn.VB_PANEL_QUEUE.length; i += 1) { const j = api.next(); shown[i] = { primary: j.governor.primary, text: card() }; }
+    const b = shown[iBurst], h = shown[iHeavy];
+    assert(b.primary === "rate-limited" && /Governor: REFUSED \(rate-limited\)/.test(b.text) && /Burst: 24 requests from client-mock-4 in 24 s — 20 checked as usual, 4 refused as rate-limited/.test(b.text) && /client-mock-4: 23 requests in the last 60 s; the limit is 20 per minute/.test(b.text), `the burst card: ${b.text.split("\n").slice(-4).join(" | ")}`);
+    assert(h.primary === "anomalous" && /Governor: REFUSED \(anomalous\)/.test(h.text) && /payload \(kg\) 25\.0 is [\d.]+ sd above the accepted mean/.test(h.text), `the heavy card: ${h.text}`);
+    const others = Object.entries(shown).filter(([i]) => +i !== iBurst && +i !== iHeavy).map(([, v]) => v.primary);
+    eq(others, [null, "over-speed", null, "physical-target", "task-not-allowed", null, null, null], "the first eight jobs keep their outcomes");
+    assert(api.state().verify.ok, "the panel's chain broke");
+    console.log(`      ${Pn.VB_PANEL_QUEUE.length} queue jobs; burst card: "${b.text.split("\n").find((l) => l.startsWith("Burst"))}"; heavy card names ${/payload \(kg\)/.test(h.text) ? "payload (kg)" : "?"}; ${api.state().audit.length} audit lines, chain intact`);
+  } finally { if (hadDoc) globalThis.document = prev; else delete globalThis.document; }
 });
 
 // ------------------------------------------------------------------ EVAL
