@@ -13,16 +13,19 @@ SmartCiti.X Holodeck is a browser and headset training platform in which the sam
 - 742 training stations, each scored by the platform's own content evaluation: mean 95.8 out of 100, 612 at 95 or more `docs/investor/platform-summary.json`
 - 0.717 vs 1.00 success of the cloned policy against the scripted expert on the **hard** port lane variant, 60 held-out seeds: a gap of 0.283. On the base task it was 1.00 against 1.00 `docs/evals/colearn.json`
 - 200 of 200 seeded unsafe agent jobs blocked by the safety governor, each for the intended reason; 0 of 200 safe jobs wrongly blocked `docs/consoles/VBRIDGE.md`
+- 66 of 100 rule-legal anomalous jobs caught by the governor's new learned check, which the rules alone passed (0 of 100); 0 of 200 held-out safe jobs wrongly refused `docs/consoles/GOVERNOR-2.md`
+- 200 of 200 seeded lineage graphs exported from one device and imported on another, identical; 50 of 50 tampered files refused, each with a named reason `docs/consoles/GOVERNOR-2.md`
 - 11.5% pass rate of the best text-reading software agent on 721 stations, against 100% for a scripted expert that sees the targets `docs/perf/agent-baselines.json`
-- 797 of 797 dependent deployments marked stale after a consent revoke, across 200 seeded lineage graphs `docs/consoles/ENTERPRISE-3.md`
 
 ### Built
 
 - **Built** A training catalogue for people around robots: 742 stations in 61 programmes, with a robotics programme of 6 tracks and 5 levels, each level with a robot station of its own (30 of 30).
 - **Built** A robot gym: 6 simulated scenarios, scripted experts and a behaviour-cloning learner, scored on held-out seeds beside a random floor.
 - **Built** The learning loop in the app: demonstrate, consent, train, evaluate, the robot demonstrates back (5 of 5 steps live).
-- **Built** A safety governor between software agents and simulated robots: e-stop first, 9 refusal reasons, a hash-chained audit log.
-- **Built** Consent, dataset cards and lineage: a revoke marks dependent policies stale.
+- **Built** A safety governor between software agents and simulated robots: e-stop first, 11 refusal reasons including a per-agent rate limit and a learned anomaly check that can only add a refusal, a hash-chained audit log.
+- **Built** Consent, dataset cards and lineage: a revoke marks dependent policies stale, and the registry moves between devices as a file whose tampering is refused by name.
+- **Built** A learner's own takes train the agent-jobs provider, observed in the built page: 3 takes, the card reads “your 3 takes”, and a revoke leaves 0 episodes. The takes are a scripted stand-in; no person was measured.
+- **Built** A pilot kit: 30 cohort templates, the instructor console, the consent flow with its draft terms, a policy report for each of 6 policies and a bench protocol that is a method (0 hardware runs).
 - **Built** Labelled synthetic datasets with a dataset card, the cloned policy's parameters and an eval card for each of the 6 gym scenarios, in the LeRobot and RLDS layouts, licence CC0-1.0.
 
 ### Planned, not built
@@ -35,11 +38,11 @@ SmartCiti.X Holodeck is a browser and headset training platform in which the sam
  **The ask** [To be set by the founders.] Nothing on this page states a price, a valuation, a raise or a return.
  **Pilot contact** [To be set by the founders.]
 
- [Read the roadmap](Roadmap-and-Changelog.md)[Check every number](Evidence.md)[Ask the hard questions](Risks-and-FAQ.md#investor-faq)
+ [See the pilot kit][Read the roadmap](Roadmap-and-Changelog.md)[Check every number](Evidence.md)[Ask the hard questions](Risks-and-FAQ.md#investor-faq)
 
 The evidence table, the roadmap and the changelog follow on the next pages. Standards are named, never quoted; nothing here claims compliance.
 
 
 ---
 
-_Every figure on this page was checked against the repository file named beside it when the page was built (head `be2f2b68`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._
+_Every figure on this page was checked against the repository file named beside it when the page was built (head `bd748fca`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._

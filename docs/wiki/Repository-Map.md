@@ -13,7 +13,7 @@ How the SmartCiti.X Holodeck repository is laid out, where the robotics training
 | Content evaluation, corpus mean (of 100) | 95.8 | `tools/eval-content.json` |
 | Stations scoring 95 or more | 612 of 742 | `tools/eval-content.json` |
 | Checkers in the gate | 143 | `tools/check_all.mjs` |
-| Console notes | 148 | `docs/consoles/` |
+| Console notes | 150 | `docs/consoles/` |
 
 ## Where things are
 
@@ -43,6 +43,7 @@ Hard variants (a second person or pedestrian with random timing, a wearing bit o
 |---|---|---|---|---|
 | `rb-construction-drilling#hard` | 0.000 | 1.000 | 1.000 | 0.000 |
 | `rb-port-gantry#hard` | 0.000 | 0.717 | 1.000 | 0.283 |
+| `rb-amr-fleet-routing#hard` | 0.000 | 0.050 | 1.000 | 0.950 |
 
 The gap is reported whatever it is. No tuning was done to close it.
 
@@ -67,4 +68,4 @@ The GitHub Actions workflow `.github/workflows/webxr-checks.yml` runs the same g
 
 ---
 
-_Every figure on this page was checked against the repository file named beside it when the page was built (head `be2f2b68`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._
+_Every figure on this page was checked against the repository file named beside it when the page was built (head `bd748fca`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._

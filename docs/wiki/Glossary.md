@@ -14,7 +14,7 @@ Source: `docs/evals/colearn.json`, `docs/consoles/COLEARN.md`
 
 Source: `docs/evals/colearn.json`
 
-- **Governor** A set of rules between a software agent and a simulated robot that checks every command and every step, with the e-stop first. It has 9 refusal reasons, and being rules only it cannot see a hazard that no rule names.
+- **Governor** A set of rules between a software agent and a simulated robot that checks every command and every step, with the e-stop first. It has 11 refusal reasons, and being rules only it cannot see a hazard that no rule names.
 
 Source: `docs/virtuals-bridge.md`, `docs/consoles/VBRIDGE.md`
 
@@ -51,4 +51,4 @@ Definitions follow how the repository uses each term, not an outside textbook.
 
 ---
 
-_Every figure on this page was checked against the repository file named beside it when the page was built (head `be2f2b68`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._
+_Every figure on this page was checked against the repository file named beside it when the page was built (head `bd748fca`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._

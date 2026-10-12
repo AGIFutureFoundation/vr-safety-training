@@ -59,7 +59,7 @@ These are the risks we can point to in the work itself, each with what the repos
 
 - **Mitigation built** Data stay on the device, with no upload endpoint. Revoking deletes the takes and marks dependent policies stale: 797 of 797 deployments flagged correctly across 200 seeded graphs. Agent ratings go through the same gate.
 
-- **Still open** No real learner has been measured, so the consent screen itself has not been tested on people. A registry that moves between devices is not built.
+- **Still open** No real learner has been measured, so the consent screen itself has not been tested on people. A registry moves between devices only as a file a person carries; no sync service exists.
 
 ### Data quality
 
@@ -73,9 +73,9 @@ These are the risks we can point to in the work itself, each with what the repos
 
 - **What the repository shows** A software agent can ask for a robot job, and an unsafe job must not reach a robot. The governor is a rule set: it cannot see a hazard no rule names.
 
-- **Mitigation built** E-stop first, then 9 refusal reasons; 200 of 200 seeded unsafe jobs blocked and 0 of 200 safe jobs wrongly blocked. Agent commands reach simulated robots only, the physical path ships disabled even with a named approver, and every decision is hash-chained.
+- **Mitigation built** E-stop first, then 11 refusal reasons; 200 of 200 seeded unsafe jobs blocked and 0 of 200 safe jobs wrongly blocked. Agent commands reach simulated robots only, the physical path ships disabled even with a named approver, and every decision is hash-chained.
 
-- **Still open** A learned anomaly check and a per-agent rate limit are not built. A person supervises, and the supervising station trains for exactly that job.
+- **Still open** The anomaly check's history is a procedural stand-in, not any site's accepted-job log, and its cadence feature catches only 17 of 50 fast repeats. A person still supervises, and the supervising station trains for exactly that job.
 
 ### Dependence on outside protocols
 
@@ -120,7 +120,7 @@ Sources: `docs/consoles/DATAWORKS.md`, `docs/consoles/ENTERPRISE-3.md`, `docs/ro
 
 ### What does “agents on chain” mean here, and what does it not mean?
 
-It is a product plan. SmartCiti.X plans to use the Holodeck to bridge on-chain software agents that manage robots, and plans to use Virtuals Protocol as a technology for that. What is built is the seam: a job model shaped like that protocol's job phases, 24 GAME-style functions across 4 workers, and a safety governor with 9 refusal reasons that every agent command passes, e-stop first.
+It is a product plan. SmartCiti.X plans to use the Holodeck to bridge on-chain software agents that manage robots, and plans to use Virtuals Protocol as a technology for that. What is built is the seam: a job model shaped like that protocol's job phases, 24 GAME-style functions across 4 workers, and a safety governor with 11 refusal reasons that every agent command passes, e-stop first.
 
 It does not mean a wallet, a key, a signature, a chain call, a contract, a payment or a token exists in the build: none does. Agent commands reach simulated robots only, and the physical-robot path ships disabled. Nothing from the protocol's SDKs is installed, bundled or called, and the repository states that there is no partnership or endorsement.
 
@@ -192,15 +192,17 @@ Sources: `docs/virtuals-bridge.md`, `docs/consoles/VBRIDGE.md`
 
 ### What must the team build next?
 
-From the build notes' own lists of what is left: a real headset session for the teleoperation pad, which today is proven with stubbed sessions; the page-level proof of a learner's own takes training the agent-jobs provider, which is proven in Node but not yet observed in the built page; a result on a harder construction or port task, since the new scenarios are small and discrete and the clone already matches the expert; a learned anomaly check and a per-agent rate limit beside the governor's rules; registry export and import between devices; and training on agent preference pairs.
+Since the last list, `ROBOTRAIN-5` observed the page-level proof in the built page (the card read “your 3 takes”, and a revoke left 0 episodes) and pinned the hard variants with checkers; `GOVERNOR-2` added a per-agent rate limit and a learned anomaly check to the governor (9 → 11 refusal reasons) and registry export and import between devices. Those items are built and are no longer on it.
 
-Beyond the code, the first measured real learners, who opt in, and the bench pilot with the gap published. These are planned, not built, and the roadmap page marks each.
+From the build notes' own lists of what is left: a real headset session for the teleoperation pad, which today is proven with stubbed sessions; a robot-side answer to the hard variants where the clone trails the expert: the port lane (0.717 against 1.00) and fleet routing (0.05 against 1.00, a gap of 0.95), and software-agent baselines for the hard variants, which have none; the page proof's drive script in the gate, where it is not yet, because it needs an idle-machine timing; a per-agent cadence baseline for the anomaly check, which catches 17 of 50 fast repeats, and a history from a site's own accepted jobs instead of a procedural one; a lineage diagram instead of a table; and training on agent preference pairs.
 
-Sources: `docs/consoles/ROBOTRAIN-3.md`, `docs/consoles/ROBOSCENARIOS.md`, `docs/consoles/VBRIDGE.md`, `docs/consoles/ENTERPRISE-3.md`, `docs/consoles/AGENTGYM.md`
+Beyond the code, the first measured real learners, who opt in, and the bench pilot with the gap published. A cohort pilot would also need named adults, a site, hardware for any bench run and a legal review of the learner-data terms: the pilot page lists what exists and what does not. These are planned, not built, and the roadmap page marks each.
+
+Sources: `docs/consoles/ROBOTRAIN-5.md`, `docs/consoles/GOVERNOR-2.md`, `docs/consoles/ROBOTRAIN-4.md`, `docs/consoles/ROBOTRAIN-3.md`, `docs/consoles/VBRIDGE.md`, `docs/consoles/ENTERPRISE-3.md`, `docs/consoles/AGENTGYM.md`, `docs/bench-protocol.md`
 
 Every figure carries its source file in the table of evidence. Nothing here states a valuation, a raise, revenue, a customer or a partner.
 
 
 ---
 
-_Every figure on this page was checked against the repository file named beside it when the page was built (head `be2f2b68`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._
+_Every figure on this page was checked against the repository file named beside it when the page was built (head `bd748fca`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._

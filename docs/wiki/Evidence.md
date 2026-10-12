@@ -49,14 +49,14 @@ Every number in this whitepaper is in the table below with the repository file i
 | Seeded unsafe agent jobs blocked after, each for the intended reason | 200 of 200 | `docs/consoles/VBRIDGE.md` | simulated |
 | Seeded safe jobs wrongly blocked | 0 of 200 | `docs/consoles/VBRIDGE.md` | simulated |
 | Safe jobs run end to end to COMPLETED | 50 of 50 | `docs/consoles/VBRIDGE.md` | simulated |
-| Refusal reasons that fire alone as the primary reason | 9 of 9 | `docs/consoles/VBRIDGE.md` | simulated |
+| Refusal reasons that fire alone as the primary reason, in the VBRIDGE note (the original reasons); in the current checker every one of the 11 reasons fires: 11 of 11 | 9 of 9 | `docs/consoles/VBRIDGE.md` | simulated |
 | Bad provider configurations refused | 12 of 12 | `docs/consoles/VBRIDGE.md` | simulated |
-| Governor refusal reasons in the shared export; job phases; GAME-style functions across 4 workers | 9 · 7 · 24 | `exports/shared/holodeck-shared.json` and `exports/shared/vb-game-functions.json` | count |
-| Checker checks passed, failed | 14, 0 | `docs/consoles/VBRIDGE.md` | count |
+| Governor refusal reasons in the shared export; job phases; GAME-style functions across 4 workers | 11 · 7 · 24 | `exports/shared/holodeck-shared.json` and `exports/shared/vb-game-functions.json` | count |
+| Checker checks passed, failed, in the VBRIDGE console's own note (the checker now passes 18, see the `GOVERNOR-2` rows) | 14, 0 | `docs/consoles/VBRIDGE.md` | count |
 | **`ENTERPRISE-3`: consent revoke marks dependent policies stale** | | | |
 | Seeded random lineage graphs; deployments flagged correctly | 200 · 797 of 797 | `docs/consoles/ENTERPRISE-3.md` | simulated |
 | Stale-marking precision and recall | 1.000 · 1.000 | `docs/consoles/ENTERPRISE-3.md` | simulated |
-| Checker checks passed | 13 | `docs/consoles/ENTERPRISE-3.md` | count |
+| Checker checks passed, in the `ENTERPRISE-3` note (the checker now passes 16) | 13 | `docs/consoles/ENTERPRISE-3.md` | count |
 | **Programme coverage** | | | |
 | Tracks × levels, each level with a robot station of its own | 6 × 5 = 30 of 30 | `docs/robotics-programme.md` and `docs/consoles/ROBOPROG.md` | count |
 | The same measure before the programme was built | 15 of 30 | `docs/robotics-programme.md` and `docs/consoles/ROBOPROG.md` | count |
@@ -90,10 +90,32 @@ Every number in this whitepaper is in the table below with the repository file i
 | Synthetic demonstration episodes across them; episodes kept as clean passes for training | 240 · 161 | `exports/robotics/index.json` | count |
 | Steps in those episodes | 6,395 | `exports/robotics/index.json` | count |
 | Licence of the simulated data; held-out evaluation seeds | CC0-1.0 · 7001–7060 | `exports/robotics/index.json` | count |
+| **`ROBOTRAIN-4`: hard variants of the drilling and port scenarios (random / cloned / scripted expert)** | | | |
+| Ceiling-Drilling Robot Set-Up, hard (a second person enters the barricade; the bit wears at a random rate), success on 60 seeds; demonstrations kept 20 of 40 | 0.00 / 1.00 / 1.00 | `docs/evals/colearn.json` | simulated |
+| Port Automation Lane, hard (a second pedestrian with random timing and a lane obstruction), success on 60 seeds; demonstrations kept 24 of 40. The gap to the expert is reported as it is | 0.00 / 0.717 / 1.00; gap 0.283 | `docs/evals/colearn.json` | simulated |
+| Ghost tasks that move the product's own in-world scene (the arm; now the cell walker too), before and after | 1 → 2 | `docs/consoles/ROBOTRAIN-4.md` | count |
+| **`ROBOTRAIN-5`: the page-level proof, the hard variants pinned** | | | |
+| Open roadmap proofs (the provider card after a take, in the built page), before and after | 1 → 0 | `docs/consoles/ROBOTRAIN-5.md` | observed |
+| Takes on the store when the flush resolves, built page, before and after the fix; page errors | 1 → 3; 0 | `docs/consoles/ROBOTRAIN-5.md` | observed |
+| Fleet Routing, hard (a second walkway crossing with random timing; one blocked aisle cell), success on 60 seeds; demonstrations kept 32 of 40. With the reservation rule: 0.067; cloned from every demonstration: 0.117. The gap to the expert is reported as it is | 0.00 / 0.05 / 1.00; gap 0.95 | `docs/evals/colearn.json` | simulated |
+| Hard variants pinned by a checker, before and after; hard variants with a measured result, before and after | 0 → 3; 2 → 3 | `docs/consoles/ROBOTRAIN-5.md` | count |
+| Teleop tasks the recorded-against-synthetic comparison covers, before and after the hard variants joined | 4 → 6 | `WebXR/shared/rt-teleop.js` via `docs/consoles/ROBOTRAIN-5.md` | count |
+| Hard drilling through the pose path, N = 40: recorded against synthetic | 1.000 / 1.000 | `docs/consoles/ROBOTRAIN-5.md` | simulated |
+| Hard port lane through the pose path, N = 40: recorded against synthetic. The lagging stand-in's clone does worse | 0.650 / 0.717 | `docs/consoles/ROBOTRAIN-5.md` | simulated |
+| Robotics checker checks; roboscenarios rows, before and after | 291 → 334; 10 → 12 | `docs/consoles/ROBOTRAIN-5.md` | count |
+| **`GOVERNOR-2`: a per-agent rate limit, a learned anomaly check, the registry between devices** | | | |
+| Governor refusal reasons, before and after (`rate-limited`, `anomalous`); default limit per agent per minute | 9 → 11; 20 | `exports/shared/holodeck-shared.json` via `docs/consoles/GOVERNOR-2.md` | count |
+| A burst of 40 requests a second apart from one agent: over-limit requests refused, before and after | 0 of 20 → 20 of 20 | `docs/consoles/GOVERNOR-2.md` | simulated |
+| Rule-legal anomaly injections caught, before (the rules alone) and after; of them by payload; by a fast repeat | 0 of 100 → 66 of 100; 49 of 50; 17 of 50 | `docs/consoles/GOVERNOR-2.md` | simulated |
+| Safe jobs wrongly refused: held-out accepted-distribution jobs; jobs sitting on a limit. The injections are rule-legal by construction | 0 of 200; 0 of 200 | `docs/consoles/GOVERNOR-2.md` | simulated |
+| Anomaly detector: z-score threshold in standard deviations; features; seeded accepted-job history it is fitted to (a stand-in, not a site's data) | 4; 4; 480 | `docs/consoles/GOVERNOR-2.md` | count |
+| Registry export and import, 200 seeded lineage graphs: round trip identical, before and after | 0 of 200 → 200 of 200 | `docs/consoles/GOVERNOR-2.md` | simulated |
+| Tampered registry documents refused with the expected named reason, before and after; forked documents refused | 0 of 50 → 50 of 50; 20 of 20 | `docs/consoles/GOVERNOR-2.md` | simulated |
+| Governor checker checks; enterprise checker checks, before and after | 14 → 18; 13 → 16 | `docs/consoles/GOVERNOR-2.md` | count |
 
 Simulated: produced by the simulator on seeded runs, with synthetic demonstrations or simulated learners. Count: read from the data the repository ships. Content score: the platform's own station evaluation, scored out of 100. Each value is re-checked against its file by the build script that wrote this table. The scripted expert sees the targets, so it is a ceiling and not a competitor.
 
 
 ---
 
-_Every figure on this page was checked against the repository file named beside it when the page was built (head `be2f2b68`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._
+_Every figure on this page was checked against the repository file named beside it when the page was built (head `bd748fca`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._

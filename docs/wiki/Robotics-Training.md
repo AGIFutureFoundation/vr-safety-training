@@ -16,11 +16,11 @@ _(The diagram in the HTML version of this page is drawn as an inline SVG; its co
 
 4. **Evaluate.** Seeds 7001–7060 are never used for training. The AMR fleet task shows the honest gap: 0.817 for the clone against 1.00 for the expert.
 
-5. **The robot demonstrates back.** The ghost replays the task on a schematic track, and each frame carries a reason chosen from a fixed phrase table. A button on the teleoperation pad replays the policy as a ghost on the same rig (27 frames on the cell task); on the cell task the rig has no drawn effector, so there the replay is the schematic track.
+5. **The robot demonstrates back.** The ghost replays the task on a schematic track, and each frame carries a reason chosen from a fixed phrase table. A button on the teleoperation pad replays the policy as a ghost on the same rig (27 frames on the cell task); on the cell task the ghost drives a walker figure to each control and poses the arm by the robot's mode (2 ghost tasks now move the product's own scene).
 
 6. **The tutor adapts.** Against static hints, on 300 simulated learners, the adaptive tutor cut mistakes by 1.38 per learner (95% interval 0.66 to 2.10). When one static hint already suits everyone it does worse, by −3.84 steps (−7.64 to −0.03 in steps), and we report that too. These are simulated learners, not people.
 
-*Planned* The agent-jobs panel can run a policy cloned from synthetic demonstrations as the provider, still under the governor: it completed 28 of 30 seeded safe jobs against 30 of 30 for the scripted expert, and the governor judged 413 of 413 steps. When an adult has opted in, the provider trains on that learner's own takes and its card says so: in a Node run, 12 cell takes trained it, a seeded job completed with the governor judging 31 of 31 steps, and revoking returned it to synthetic demonstrations. The same step is not yet observed inside the built page. Sources: `docs/evals/colearn.json`, `docs/consoles/COLEARN.md`, `docs/consoles/ROBOTRAIN.md`, `docs/virtuals-bridge.md`.
+**Built** The agent-jobs panel can run a policy cloned from synthetic demonstrations as the provider, still under the governor: it completed 28 of 30 seeded safe jobs against 30 of 30 for the scripted expert, and the governor judged 413 of 413 steps. When an adult has opted in, the provider trains on that learner's own takes and its card says so: in a Node run, 12 cell takes trained it, a seeded job completed with the governor judging 31 of 31 steps, and revoking returned it to synthetic demonstrations. The same step is now observed inside the built page: 3 takes from a scripted stand-in went through the same opt-in, the card read "your 3 takes", and after a revoke it read synthetic demonstrations with 0 episodes in the store. No person was measured. Sources: `docs/evals/colearn.json`, `docs/consoles/COLEARN.md`, `docs/consoles/ROBOTRAIN.md`, `docs/virtuals-bridge.md`.
 
 
 ## Where people and robots teach each other
@@ -77,6 +77,8 @@ Each use case says what the person learns, what the robot learns and where the p
 
 Every scenario named on these cards now has an exported synthetic dataset and an eval card (6 scenarios, `exports/robotics/index.json`), so a robotics team can load the demonstrations and the cloned policy without the app. They are labelled synthetic and describe a simulated task only.
 
+On the hard fleet-routing variant (a second walkway crossing and a blocked aisle cell) the clone falls to 0.05 against the expert's 1.00 on 60 held-out seeds, a gap of 0.95, and it mostly fails by waiting. That is a result about the learner, measured and not tuned away (`docs/consoles/ROBOTRAIN-5.md`).
+
 Station content scores are the platform's own content evaluation (`docs/investor/stations.csv`). Standards are named so learners can find them; no clause is quoted and nothing here claims compliance.
 
 
@@ -118,4 +120,4 @@ Robot stations are the ones the programme page tags as robot stations (`docs/rob
 
 ---
 
-_Every figure on this page was checked against the repository file named beside it when the page was built (head `be2f2b68`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._
+_Every figure on this page was checked against the repository file named beside it when the page was built (head `bd748fca`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._
