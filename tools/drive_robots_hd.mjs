@@ -31,7 +31,7 @@ const { RB_SITES } = await imp("WebXR/shared/rb-robotics-data.js");
 const { IX_BUDGET } = await imp("WebXR/shared/ix-interiors.js");
 const { rbSsmMode } = await imp("WebXR/shared/rb-env.js");
 
-const port = Number(process.argv[2]) || 9144, outDir = process.argv[3] || null, ultra = process.argv[4] === "ultra", only = process.env.RHD_ONLY || null; // RHD_ONLY=still: the cell stills alone; RHD_ONLY=jobs: the agent-jobs run alone; RHD_ONLY=rooms: the rooms alone; RHD_ONLY=zone: the zone indoors alone; RHD_ONLY=outdoor: A and C alone
+const port = Number(process.argv[2]) || 9144, outDir = process.argv[3] || null, ultra = process.argv[4] === "ultra", only = process.env.RHD_ONLY || null; // RHD_ONLY=still: the cell stills alone; RHD_ONLY=jobs: the agent-jobs run alone; RHD_ONLY=rooms: the rooms alone; RHD_ONLY=zone: the zone indoors alone; RHD_ONLY=outdoor: A and C alone; RHD_ONLY=port: the port control room's carrier alone (ROBOTS-HD-3)
 if (outDir) mkdirSync(outDir, { recursive: true });
 const { base, close } = await pvServe(port);
 const browser = await pvLaunch();
@@ -217,17 +217,25 @@ if (!only || only === "rooms") {
   for (const st of styles) {
     const r = await page.evaluate(async (style) => {
       const T = window.__parishTest; const s = T.ixScene(style);
-      await new Promise((res) => requestAnimationFrame(() => requestAnimationFrame(() => requestAnimationFrame(res))));
+      const frames = (n) => new Promise((res) => { const f = () => (n-- <= 0 ? res() : requestAnimationFrame(f)); requestAnimationFrame(f); });
+      await frames(3);
+      // ROBOTS-HD-3 with AVATARS-HD-5: top the room up to its figure limit (3, as drive_avatars_hd4.mjs does: agents not already
+      // here walk to the places by the door), then count figures and agents held by the room mount's triangle cap.
+      const mt = T.hiveWorld?.room?.(), had = mt?.placed?.length ?? 0, here = new Set((mt?.placed ?? []).map((p) => p.agent.id)), add = [];
+      for (const a of T.hive?.hive?.agents ?? []) { if (had + add.length >= 3) break; if (!here.has(a.id)) add.push(a.id); }
+      add.forEach((id, k) => mt?.avatars?.handle({ type: "move", agent: id, to: `hw-room:door:${k}` }));
+      await frames(6);
+      const c = mt?.avatars?.counts?.() ?? {}, held = (mt?.avatars?.agents?.() ?? []).filter((x) => x.held).length;
       const m = T.roboInteriors.measure(), room = T.interiors?.mount?.room ?? null;
-      return { style: s?.style, meshes: m.meshes, calls: m.calls, triangles: m.triangles, built: m.trianglesBuilt, hd: room?.rhd?.robots?.length ?? 0, hdTris: room?.rhd?.triangles ?? 0, agents: T.hiveWorld?.room?.()?.placed?.length ?? 0, hive: !!T.hive };
+      return { style: s?.style, meshes: m.meshes, calls: m.calls, triangles: m.triangles, built: m.trianglesBuilt, hd: room?.rhd?.robots?.length ?? 0, hdKinds: (room?.rhd?.robots ?? []).map((q) => q.kind).join("+"), hdTris: room?.rhd?.triangles ?? 0, agents: mt?.placed?.length ?? 0, had, figures: c.figures ?? 0, levels: c.levels ?? null, held, hive: !!T.hive };
     }, st);
     const triCap = ultra ? 8500 : IX_BUDGET.triangles.high;
-    const ok = r.meshes <= IX_BUDGET.meshes && r.triangles <= triCap && r.built <= triCap;
+    const ok = r.meshes <= IX_BUDGET.meshes && r.triangles <= triCap && r.built <= triCap && r.held === 0 && r.figures === 3;
     if (ok) inside++;
-    say(ok, `room ${st}: ${r.meshes} meshes, ${r.calls} draw calls, ${r.triangles} triangles drawn (${r.built} built) <= ${IX_BUDGET.meshes} / ${triCap}; HD robots ${r.hd} (${r.hdTris} tris), hive agents in the room ${r.agents} (hive mounted: ${r.hive})`);
+    say(ok, `room ${st}: ${r.meshes} meshes, ${r.calls} draw calls, ${r.triangles} triangles drawn (${r.built} built) <= ${IX_BUDGET.meshes} / ${triCap}; HD robots ${r.hd} ${r.hdKinds} (${r.hdTris} tris); figures ${r.figures} ${JSON.stringify(r.levels)}, held ${r.held} (${r.had} the hive's own, topped up to 3; hive mounted: ${r.hive})`);
     if (outDir) await page.screenshot({ path: join(outDir, `room-${st}.png`) });
   }
-  say(inside === styles.length, `robot rooms inside IX_BUDGET with the HD robots and the hive's agents: ${inside} of ${styles.length}`);
+  say(inside === styles.length, `robot rooms inside IX_BUDGET with the HD robots and three agent figures each, 0 held: ${inside} of ${styles.length}`);
   await context.close();
 }
 
@@ -267,6 +275,27 @@ if (!only || only === "zone") {
     await context.close();
   }
   say(nAll > 0 && okAll === nAll && robotsIn === robotsN, `the zone indoors in the built page: ${okAll} of ${nAll} steps exactly inside the warning distance; shown for ${robotsIn} of ${robotsN} robots`);
+}
+
+// ------------------------------------------------- B3. the port control room's straddle carrier on its own map (ROBOTS-HD-3)
+if (!only || only === "port") {
+  const { page, context } = await openPage("oak-west-oakland", "high");
+  const opened = await page.evaluate(() => window.__parishTest.ixScene("ixr-port-control"));
+  await frames(page, 4);
+  const info = await page.evaluate(() => { const T = window.__parishTest, room = window.ixWorld.room, q = room.rhd?.robots?.[0]; const m = T.roboInteriors.measure(); return { site: room.ixr?.site ?? null, st: T.robotics.state(room.ixr?.site), kind: q?.kind ?? null, light: q?.robot?.lightState ?? null, tris: q?.robot?.triangles ?? 0, calls: q?.robot?.calls ?? 0, meshes: m.meshes, drawn: m.triangles, built: m.trianglesBuilt, dc: m.calls }; });
+  const rule = (st) => (!st ? null : st.estopped ? "e-stop" : st.locked || st.mode === "stop" ? "protective-stop" : "running");
+  say(opened?.here && info.kind === "straddle" && info.light === rule(info.st) && info.meshes <= IX_BUDGET.meshes && info.built <= IX_BUDGET.triangles.high, `port control room on oak-west-oakland (its site ${info.site} here): the straddle carrier in the window, ${info.tris} tris / ${info.calls} calls, beacons ${info.light} = the site's state; room ${info.meshes} meshes, ${info.dc} calls, ${info.drawn} drawn (${info.built} built)`);
+  if (outDir) await page.screenshot({ path: join(outDir, "room-port-carrier.png") });
+  // e-stop the port site through its own act(): the beacons go red; reset.
+  const red = await page.evaluate(async () => { const T = window.__parishTest, id = window.ixWorld.room.ixr.site; T.robotics.act(id, "press-estop"); await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r))); const l = window.ixWorld.room.rhd.robots[0].robot.lightState; return { l, st: T.robotics.state(id) }; });
+  say(red.l === "e-stop" && red.st?.estopped, `the port site's e-stop pressed: the carrier's beacons -> ${red.l}`);
+  if (outDir) {
+    // close: the learner at the centre desk looking at the pane the carrier stands in
+    await page.evaluate(() => { const P = window.ixWorld.pose; P.x = -7.25; P.z = -4.0; });
+    await frames(page, 3); await page.screenshot({ path: join(outDir, "room-port-carrier-close.png") });
+  }
+  await page.evaluate(async () => { const T = window.__parishTest; T.robotics.act(window.ixWorld.room.ixr.site, "restart"); });
+  await context.close();
 }
 
 // ------------------------------------------------------------------------------------------------------- C. balanced

@@ -543,7 +543,7 @@ export const RHD_ROOM_ROBOTS = {
   "ixr-cell-hall": { strip: [["cell robot", () => true]], robots: [{ kind: "cell-arm", x: 0, y: 0, z: -4, yaw: 0, light: "site" }] },
   "ixr-cobot-lab": { strip: [["cobot arm", () => true], ["second cobot cell", (y) => y > 0.95]], robots: [{ kind: "cobot", x: -0.4, y: 0.9, z: -2.2, yaw: 0, light: "site", scale: 0.85, pedestal: false }, { kind: "cobot", x: -5.12, y: 0.9, z: -4.2, yaw: 0, light: "site", scale: 0.7, pedestal: false }] },
   "ixr-amr-warehouse": { strip: [["AMR", () => true], ["docked AMR", () => true]], robots: [{ kind: "amr", x: -3.5, y: 0, z: -3.0, yaw: 0, light: "site" }, { kind: "amr", x: -10.9, y: 0, z: 3.5, yaw: Math.PI / 2, light: "site" }] },
-  "ixr-port-control": { strip: [], robots: [{ kind: "straddle", x: -0.8, y: 1.18, z: -5.95, yaw: -0.55, light: "site", zone: false, relief: { scale: 1 / 16, depth: 0.07 } }] },
+  "ixr-port-control": { strip: [], robots: [{ kind: "straddle", x: -5.69, y: 1.18, z: -5.95, yaw: -0.55, light: "site", zone: false, relief: { scale: 1 / 16, depth: 0.07 } }] },
   "ixr-drilling-deck": { strip: [["drilling robot", () => true], ["robot battery", () => true]], robots: [{ kind: "drill", x: 0, y: 0, z: -3.5, yaw: 0, light: "site" }] },
   "ixr-maint-bay": { strip: [["robot arm on the stand", () => true], ["AMR on the lift", () => true]], robots: [{ kind: "cell-arm", x: 3.6, y: 0.9, z: -3.2, yaw: 0, light: null, scale: 0.75, pedestal: false, parked: true }, { kind: "amr", x: 5.8, y: 0.7, z: -0.2, yaw: Math.PI / 2, light: null }] },
 };
