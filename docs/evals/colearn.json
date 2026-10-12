@@ -1081,6 +1081,13 @@
           "ambiguousVectors": 6,
           "rowsOnAmbiguousVectors": 1361,
           "ceiling": 0.959
+        },
+        "amr-holders": {
+          "rows": 15548,
+          "vectors": 212,
+          "ambiguousVectors": 40,
+          "rowsOnAmbiguousVectors": 10503,
+          "ceiling": 0.796
         }
       }
     },
@@ -1157,6 +1164,82 @@
           "clean": 0.983,
           "meanSteps": 20.017,
           "modelHash": "77b3d6ff8f7daf77"
+        }
+      ]
+    },
+    "holderFeatures": {
+      "scenario": "rb-amr-fleet-routing#hard",
+      "featureSet": "amr-holders",
+      "rollouts": 20,
+      "labels": "the scripted expert's action (rb-env's planner at skill 1) on each state the clone visits; not a person's correction",
+      "aliasing": {
+        "rows": 13060,
+        "vectors": 217,
+        "ambiguousVectors": 39,
+        "rowsOnAmbiguousVectors": 8545,
+        "ceiling": 0.823
+      },
+      "seeds": "training 800100–800519; held-out 7001–7060",
+      "rounds": [
+        {
+          "round": 0,
+          "labelledStates": 0,
+          "rows": 1291,
+          "n": 60,
+          "success": 0.217,
+          "clean": 0.967,
+          "meanSteps": 96.367,
+          "modelHash": "26744c78c3cd28ec"
+        },
+        {
+          "round": 1,
+          "labelledStates": 2193,
+          "rows": 4574,
+          "n": 60,
+          "success": 0.783,
+          "clean": 0.9,
+          "meanSteps": 38,
+          "modelHash": "00c5bece209945ac"
+        },
+        {
+          "round": 2,
+          "labelledStates": 2793,
+          "rows": 5830,
+          "n": 60,
+          "success": 0.467,
+          "clean": 0.983,
+          "meanSteps": 71.95,
+          "modelHash": "50426398a03493f4"
+        },
+        {
+          "round": 3,
+          "labelledStates": 4088,
+          "rows": 9176,
+          "n": 60,
+          "success": 0.6,
+          "clean": 0.9,
+          "meanSteps": 67.667,
+          "modelHash": "578e3288e9f39804"
+        },
+        {
+          "round": 4,
+          "labelledStates": 5428,
+          "rows": 11198,
+          "n": 60,
+          "success": 0.25,
+          "clean": 1,
+          "meanSteps": 95.783,
+          "modelHash": "69e40df05494d6b4"
+        },
+        {
+          "round": 5,
+          "labelledStates": 7066,
+          "rows": 14351,
+          "n": 60,
+          "success": 0.517,
+          "clean": 0.933,
+          "meanSteps": 66.517,
+          "modelHash": "91025f72af1a27ca"
         }
       ]
     }

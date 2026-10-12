@@ -72,8 +72,10 @@ export async function colEvalAll() {
     // measured once, after the aliasing figure above pointed at the features; COLEARN's default clone is unchanged.
     // ROBOTRAIN-7: the aliasing ceiling of "amr-robots" on the amr-path rounds' own labelled training states (measured first),
     // then the same declared rounds, run once, with the per-robot features (col-learn.js COL_FEATURE_SETS["amr-robots"], opt-in).
-    dagger: { ...rt6Dagger("rb-amr-fleet-routing#hard", { rounds: 5, rollouts: 20 }), pathFeatures: rt6Dagger("rb-amr-fleet-routing#hard", { rounds: 5, rollouts: 20, featureSet: "amr-path", aliasingSets: ["amr-robots"] }),
-      robotFeatures: rt6Dagger("rb-amr-fleet-routing#hard", { rounds: 5, rollouts: 20, featureSet: "amr-robots" }) },
+    dagger: { ...rt6Dagger("rb-amr-fleet-routing#hard", { rounds: 5, rollouts: 20 }), pathFeatures: rt6Dagger("rb-amr-fleet-routing#hard", { rounds: 5, rollouts: 20, featureSet: "amr-path", aliasingSets: ["amr-robots", "amr-holders"] }),
+      robotFeatures: rt6Dagger("rb-amr-fleet-routing#hard", { rounds: 5, rollouts: 20, featureSet: "amr-robots" }),
+      // The ablation, declared after the result above: the holder and order features without the detour move, run once.
+      holderFeatures: rt6Dagger("rb-amr-fleet-routing#hard", { rounds: 5, rollouts: 20, featureSet: "amr-holders" }) },
   };
 }
 

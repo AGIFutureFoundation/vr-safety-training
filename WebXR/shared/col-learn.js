@@ -264,6 +264,15 @@ COL_FEATURE_SETS["amr-robots"] = {
     });
   },
 };
+/** ROBOTRAIN-7 ablation: "amr-holders" is "amr-robots" without the detour move (the holder and order features only), to show
+ * how much of the gain the way around the robots carries. Opt-in; measured in colearn.json `dagger.holderFeatures`. */
+COL_FEATURE_SETS["amr-holders"] = {
+  names: COL_FEATURE_SETS["amr-robots"].names.slice(0, -2),
+  weights: COL_FEATURE_SETS["amr-robots"].weights.slice(0, -2),
+  mid: COL_FEATURE_SETS["amr-robots"].mid.slice(0, -2),
+  text: COL_FEATURE_SETS["amr-robots"].text.slice(0, -2),
+  perRobot: (o) => COL_FEATURE_SETS["amr-robots"].perRobot(o).map((r) => ({ delivered: r.delivered, f: r.f.slice(0, -2) })),
+};
 const colIsStation = (sc) => String(sc).startsWith("rb-station-");
 
 /** The feature rows and labels of one demonstration step. */
