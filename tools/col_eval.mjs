@@ -16,7 +16,9 @@ import { fileURLToPath } from "node:url";
 import { COL_SCENARIOS, COL_VARIANTS, COL_VERSION, colEvalScenario, colTutorSim } from "../WebXR/shared/col-learn.js";
 import { RB_SCENARIOS } from "../WebXR/shared/rb-robotics-data.js";
 import { RT6_VERSION, RT6_KEEP, RT6_RATER, RT6_TRAJ_FEATURES, rt6EvalPreference, rt6Dagger } from "../WebXR/shared/rt6-learn.js";
-import { rt7EvalStepReward } from "../WebXR/shared/rt7-learn.js";
+import { rt7EvalStepReward, rt7ReactivePolicy } from "../WebXR/shared/rt7-learn.js";
+import { RT8_VERSION, RT8_HELD_OUT, RT8_SIDESTEP_K, RT8_REACTIVE, rt8EvalStepReward, rt8Dagger, rt8ReactivePolicy } from "../WebXR/shared/rt8-learn.js";
+import { rbEnv, rbRollout } from "../WebXR/shared/rb-env.js";
 import { loadSmartCity } from "./lib/headless.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
@@ -76,6 +78,35 @@ export async function colEvalAll() {
       robotFeatures: rt6Dagger("rb-amr-fleet-routing#hard", { rounds: 5, rollouts: 20, featureSet: "amr-robots" }),
       // The ablation, declared after the result above: the holder and order features without the detour move, run once.
       holderFeatures: rt6Dagger("rb-amr-fleet-routing#hard", { rounds: 5, rollouts: 20, featureSet: "amr-holders" }) },
+    // ROBOTRAIN-8 (shared/rt8-learn.js): the declared retests on this round's fresh held-out seeds 7061–7120. Every rule was
+    // declared and committed before any run on them (docs/consoles/ROBOTRAIN-8.md). Appended last, so every row above is unchanged.
+    rt8: colEvalRt8(),
+  };
+}
+
+/** ROBOTRAIN-8's retests: the per-step reward with oversampled pairs, the local route features (ceiling on training states
+ * first, then the rounds), the port-lane correction rounds and the reactive agent with wait-then-sidestep. */
+function colEvalRt8() {
+  const amr = "rb-amr-fleet-routing#hard";
+  const reactiveOn = (mk, seeds) => {
+    const rs = seeds.map((s) => rbRollout(rbEnv(amr, { seed: s }), { seed: s, policy: mk(amr) }).summary);
+    return { n: rs.length, passed: rs.filter((s) => s.passed).length, truncated: rs.filter((s) => s.truncated).length, violations: rs.reduce((n, s) => n + s.violationCount, 0), meanSteps: Math.round((rs.reduce((n, s) => n + s.steps, 0) / rs.length) * 1000) / 1000 };
+  };
+  const training = Array.from({ length: 30 }, (_, i) => 101 + i);
+  const ceiling = rt8Dagger(amr, { featureSet: "amr-path", score: false, aliasingSets: ["amr-path", "amr-holders", "amr-robots", "amr-local", "amr-holders-local"] });
+  return {
+    version: RT8_VERSION, heldOut: `${RT8_HELD_OUT[0]}–${RT8_HELD_OUT[RT8_HELD_OUT.length - 1]} (fresh this round; every rule declared before any run on them)`,
+    data: "synthetic pairs, synthetic demonstrations and simulated robots; correction labels are the scripted expert's action, not a person's",
+    stepReward: ["rb-amr-fleet-routing", amr].map((sc) => rt8EvalStepReward(sc)),
+    routeCeiling: { featureSet: ceiling.featureSet, seeds: ceiling.seeds, onTheAmrPathRoundsStates: ceiling.aliasingOnTheseStates },
+    localFeatures: rt8Dagger(amr, { featureSet: "amr-local" }),
+    holdersLocal: rt8Dagger(amr, { featureSet: "amr-holders-local" }),
+    holdersFresh: rt8Dagger(amr, { featureSet: "amr-holders" }),
+    robotsFresh: rt8Dagger(amr, { featureSet: "amr-robots" }),
+    portLane: rt8Dagger("rb-port-gantry#hard"),
+    reactive: { scenario: amr, agent: RT8_REACTIVE, k: RT8_SIDESTEP_K,
+      training: { seeds: "101–130", rt7: reactiveOn(rt7ReactivePolicy, training), rt8: reactiveOn(rt8ReactivePolicy, training) },
+      heldOut: { seeds: `${RT8_HELD_OUT[0]}–${RT8_HELD_OUT[RT8_HELD_OUT.length - 1]}`, rt7: reactiveOn(rt7ReactivePolicy, RT8_HELD_OUT), rt8: reactiveOn(rt8ReactivePolicy, RT8_HELD_OUT) } },
   };
 }
 

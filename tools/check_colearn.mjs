@@ -236,5 +236,32 @@ const src6 = readFileSync(join(SHARED, "rt6-learn.js"), "utf8");
 check(!/\bfetch\s*\(|XMLHttpRequest|sendBeacon|WebSocket|EventSource|https?:\/\//.test(src6) && !MODEL_ID.test(src6) && /BRADLEY–TERRY/.test(src6) && /DAGGER/.test(src6) && /SCRIPTED EXPERT/.test(src6) && /SYNTHETIC RATER/.test(src6) && !/import\s*\{[^}]*\bas\b/.test(src6),
   "rt6-learn.js: no network, no model identifier, no import alias; it names each piece for what it is (a Bradley–Terry model, DAgger rounds, the scripted expert's labels, a synthetic rater)");
 
+// 13 ROBOTRAIN-8: the declared retests on fresh held-out seeds 7061–7120 (shared/rt8-learn.js; docs/consoles/ROBOTRAIN-8.md)
+console.log("13 the declared retests on fresh held-out seeds 7061–7120 (ROBOTRAIN-8; every rule committed before any run on them)");
+const R8 = await import("../WebXR/shared/rt8-learn.js");
+const E8 = EV.rt8, fresh = (a) => a?.n === 60;
+const W8a = R8.rt8WindowPairs("rb-amr-fleet-routing", { n: 40, seed: 1 }), W8b = R8.rt8WindowPairs("rb-amr-fleet-routing", { n: 40, seed: 1 });
+check(R8.RT8_HELD_OUT.length === 60 && R8.RT8_HELD_OUT[0] === 7061 && R8.RT8_HELD_OUT[59] === 7120 && /^7061–7120/.test(E8?.heldOut ?? "") && C.colHash(W8a.pairs) === C.colHash(W8b.pairs) && W8a.pairs.every((p) => p.source === "synthetic"),
+  `held-out seeds ${E8?.heldOut}; the oversampled window pairs are synthetic and deterministic (hash ${C.colHash(W8a.pairs)})`);
+for (const s of E8?.stepReward ?? []) {
+  check(s.pairs.synthetic === 200 && s.pairs.withBrokenRule >= 80 && s.pairs.withBrokenRule <= 120 && [s.declared, s.hintOversampled, s.hintRt7Pairs, s.ruleFiltered, s.unfiltered].every(fresh) && s.declared.threshold === 0.25 && s.hintOversampled.threshold === 0.5,
+    `${s.scenario}: pairs with a broken rule ${s.pairs.withBrokenRule}/200 (ROBOTRAIN-7's ${s.pairs.rt7PairsWithBrokenRule}/200); window weights ${s.model.w.join(", ")}; per-step reward (declared, P < 0.25) ${s.declared.success} against the rule filter ${s.ruleFiltered.success} (unfiltered ${s.unfiltered.success}); P < 0.5 hint ${s.hintOversampled.success} (oversampled) and ${s.hintRt7Pairs.success} (ROBOTRAIN-7's pairs)`);
+}
+const CE8 = E8?.routeCeiling?.onTheAmrPathRoundsStates, LF8 = E8?.localFeatures, HL8 = E8?.holdersLocal, HF8 = E8?.holdersFresh, RF8 = E8?.robotsFresh;
+const localSrc = C.COL_FEATURE_SETS["amr-local"]?.perRobot.toString() ?? "", r8src = readFileSync(join(SHARED, "rt8-learn.js"), "utf8");
+const localFn = r8src.split("function rt8LocalFeatures(o) {")[1]?.split("\n}\n")[0] ?? "";
+check(CE8?.["amr-path"]?.rows === DP6?.aliasing?.rows && CE8?.["amr-path"]?.ceiling === DP6?.aliasing?.ceiling && !("rounds" in (E8?.routeCeiling ?? {})) && /held-out none/.test(E8?.routeCeiling?.seeds ?? "") && localFn.length > 100 && !/colPathMove|colDetour|queue|amr-path|amr-holders/.test(localSrc + localFn),
+  `the ceiling first, on the amr-path rounds' ${CE8?.["amr-path"]?.rows} labelled training rows (no held-out seed scored): amr-path ${CE8?.["amr-path"]?.ceiling}, amr-holders ${CE8?.["amr-holders"]?.ceiling}, amr-local ${CE8?.["amr-local"]?.ceiling} (no search output), amr-holders-local ${CE8?.["amr-holders-local"]?.ceiling}, amr-robots ${CE8?.["amr-robots"]?.ceiling}`);
+check([LF8, HL8, HF8, RF8].every((d) => d?.rounds.length === 6 && d.rounds.every(fresh) && d.expert?.n === 60) && LF8.featureSet === "amr-local" && C.colF("rb-amr-fleet-routing", "amr-local").names.length === 26 && C.colF("rb-amr-fleet-routing", "amr-holders-local").names.length === 33,
+  `AMR hard, 5 rounds once on 7061–7120 (expert ${LF8?.expert?.success}): amr-local ${LF8?.rounds.map((r) => r.success).join(" → ")} (gap ${LF8?.gap}); amr-holders-local → ${HL8?.rounds.at(-1).success} (gap ${HL8?.gap}); amr-holders → ${HF8?.rounds.at(-1).success} (gap ${HF8?.gap}); the detour feature, amr-robots → ${RF8?.rounds.at(-1).success} (gap ${RF8?.gap})`);
+const PL8 = E8?.portLane;
+check(PL8?.scenario === "rb-port-gantry#hard" && PL8.rounds.length === 6 && PL8.rounds.every(fresh) && /scripted expert/.test(PL8.labels) && /not a person/.test(PL8.labels),
+  `the port-lane hard variant, 5 correction rounds once on 7061–7120: ${PL8?.rounds.map((r) => r.success).join(" → ")}; gap after round 5 ${PL8?.gap} (expert ${PL8?.expert?.success})`);
+const RX8 = E8?.reactive;
+check(RX8?.k === R8.RT8_SIDESTEP_K && RX8.heldOut.rt8.n === 60 && RX8.training.rt8.n === 30 && RX8.heldOut.rt8.violations === 0,
+  `the reactive agent on AMR hard with wait-then-sidestep (k = ${RX8?.k}): training 101–130 ${RX8?.training.rt7.passed}/30 → ${RX8?.training.rt8.passed}/30; fresh seeds 7061–7120 ${RX8?.heldOut.rt7.passed}/60 → ${RX8?.heldOut.rt8.passed}/60 (${RX8?.heldOut.rt8.truncated} at the step cap, ${RX8?.heldOut.rt8.violations} rules broken)`);
+check(!/\bfetch\s*\(|XMLHttpRequest|sendBeacon|WebSocket|EventSource|https?:\/\//.test(r8src) && !MODEL_ID.test(r8src) && /OVERSAMPLED WINDOW PAIRS/.test(r8src) && /NO SEARCH OUTPUT/.test(r8src) && /SCRIPTED EXPERT/.test(r8src) && !/import\s*\{[^}]*\bas\b/.test(r8src) && !/^(export )?(const|let|function) (?!rt8|RT8_)/m.test(r8src),
+  "rt8-learn.js: no network, no model identifier, no import alias, every top-level name prefixed; it names each piece for what it is (oversampled synthetic pairs, local features with no search output, the scripted expert's labels)");
+
 console.log(`\ncheck_colearn: ${passes} passed, ${failures} failed`);
 process.exit(failures ? 1 : 0);
