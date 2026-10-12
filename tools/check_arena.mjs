@@ -30,7 +30,9 @@ import { RA_LM_LABEL } from "../WebXR/shared/ra-lm.js";
 import { raDeclaration, raDiffCI, raDeclarationR7, raStations, raFirstCommit, RA_R7_MODELS } from "./arena_eval.mjs";
 import { raDsBuild, RA_DS_OUT, RA_DS_SPLITS, RA_DS_SCHEMA } from "./ra_dataset.mjs";
 import { RX_FOREIGN } from "./rb_export.mjs";
-import { DX_CARD_SECTIONS } from "../WebXR/shared/dx-data.js";
+import { DX_CARD_SECTIONS, dxMakeStore, dxMemBackend, dxOptIn, dxRevoke, dxMakeEpisode, dxConsent } from "../WebXR/shared/dx-data.js";
+import { raTakesExport, raTakesLine, RA_TAKES_SCHEMA } from "../WebXR/shared/ra-takes.js";
+import { colSyntheticDemos } from "../WebXR/shared/col-learn.js";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 let passes = 0, failures = 0;
@@ -218,6 +220,40 @@ await check("retest7 (ARENA-2): declared and committed before the run, matches t
   ok(JSON.stringify(live.perSeed.map((p) => [p.seed, p.success ? 1 : 0, p.steps, p.ruleBreaks, p.stopped ? 1 : 0])) === JSON.stringify(file.perSeed), "bc on port#hard: live ≠ file");
   const h = r7.comparisons.headline;
   return `${order}; ${r7.totals.stepsChecked}/${r7.totals.stepsRun} steps checked, ${r7.totals.physical} physical; ra-lm-h − bc on AMR + port ${h.diff.diff} [${h.diff.ci95.join(", ")}]; cobot station ${r7.comparisons.cobotStation["ra-lm"]} → ${r7.comparisons.cobotStation["ra-lm-h"]}`;
+});
+
+await check("consented takes (ARENA-2): signed out 0, opted in N with provenance per sample, revoke 0; a take without a receipt refused; lines as the set writes them", async () => {
+  ok(RA_TAKES_SCHEMA === RA_DS_SCHEMA, "ra-takes.js and ra_dataset.mjs disagree on the schema");
+  // Parity: a synthetic episode's line from the page module equals the tool's line for the same step.
+  const syn = colSyntheticDemos("rb-cell-entry", { n: 1, seed: 1, skill: 0.85, noise: 0.3 })[0];
+  const { full } = raDsBuild();
+  const toolLine = [...full.entries()].find(([k]) => k.startsWith("train/rb-cell-entry"))[1].split("\n")[0];
+  ok(raTakesLine(syn, syn.steps[0], 0, "train", "rb-cell-entry") === toolLine, "ra-takes.js line ≠ ra_dataset.mjs line");
+  const backend = dxMemBackend(), store = dxMakeStore(backend);
+  const out = { demo: false, signedIn: false, k12: false, adult: null };
+  const take = (consent) => dxMakeEpisode({ source: "human", world: "robotics", kind: "robot-game", scenario: "rb-cell-entry", episodeId: `ra-take-${consent ? "ok" : "none"}`, summary: syn.summary, consent }, syn.steps);
+  // 1. Signed out: nothing, whatever is stored.
+  // The store's own put() refuses a human take without a receipt, so it is written straight into the backend: the export
+  // must refuse it again (defence in depth).
+  await backend.save([...(await backend.all()), { ...take(null), consent: null }]);
+  const r0 = await raTakesExport({ store, signals: out });
+  ok(r0.ok === false && r0.takes === 0 && r0.lines === 0, "signed out must export 0");
+  // 2. Signed in, opted in as an adult: the stored take with its receipt is exported; the one without is refused.
+  const sig = { demo: false, signedIn: true, k12: false };
+  ok(dxOptIn({ licence: "CC-BY-4.0", adult: true, signals: sig }).ok, "fixture opt-in");
+  const c = dxConsent();
+  await store.put(take({ consentId: c.id, at: c.at, licence: c.licence, adult: true, statementHash: c.statementHash }));
+  const r1 = await raTakesExport({ store, signals: { ...sig, adult: true } });
+  ok(r1.ok && r1.takes === 1 && r1.provenance[0].consentId === c.id && r1.provenance[0].licence === "CC-BY-4.0" && r1.lines === syn.steps.length, `opted in must export 1 take with its receipt (got ${r1.takes})`);
+  ok(r1.refused.length === 1 && /consent/.test(r1.refused[0].why), "a take without an adult consent receipt must be refused");
+  ok(r1.jsonl.trim().split("\n").every((l) => { const o = JSON.parse(l); return o.source === "human" && o.consent?.consentId === c.id && o.consent.adult === true && o.split === "train"; }), "every line carries its consent provenance");
+  // 3. K-12 or demo while opted in: nothing.
+  ok((await raTakesExport({ store, signals: { ...sig, adult: true, k12: true } })).takes === 0 && (await raTakesExport({ store, signals: { ...sig, adult: true, demo: true } })).takes === 0, "K-12 or demo must export 0");
+  // 4. Revoke deletes: the next export has 0.
+  await dxRevoke({ store });
+  const r2 = await raTakesExport({ store, signals: { ...sig, adult: true } });
+  ok(r2.takes === 0 && (await store.list()).length === 0, "revoke must delete the takes");
+  return `signed out ${r0.takes}; opted in ${r1.takes} take (${r1.lines} lines, receipt ${String(c.id).slice(0, 4)}…, ${r1.refused.length} refused without a receipt); K-12 0, demo 0; after revoke ${r2.takes}; line parity with ra_dataset.mjs`;
 });
 
 console.log(`\ncheck_arena: ${passes} passed, ${failures} failed (${Date.now() - t0} ms)`);

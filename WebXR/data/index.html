@@ -135,6 +135,13 @@ $("dx-export").addEventListener("click", () => {
 dxMountConsent($("dx-consent"), { btnClass: "at-btn at-btn--secondary", dataHref: null, onChange: loadLocal });
 loadLocal();
 </script>
+<script type="module">
+// ARENA-2: the learner's own consented robot takes into the arena set (shared/ra-takes.js): 0 unless opted in as an adult; saved on this device.
+import { raTakesMount } from "../shared/ra-takes.js";
+const raTakesBox = raTakesMount(document);
+raTakesBox.id = "ra-takes"; raTakesBox.style.cssText = "margin:var(--at-sp-10, 24px) auto;max-width:960px;padding:0 16px;box-sizing:border-box";
+document.querySelector("main")?.appendChild(raTakesBox);
+</script>
 <script type="module">import { ctlMount } from "../shared/controls.js"; ctlMount({ world: "the DATAWORKS analysis page", except: { move: "A page, not a world: Tab walks the tables.", look: "Scroll the page." } });</script>
 <script type="module">import { gdMount } from "../shared/guide.js"; gdMount({ root: "../" });</script>
 </body>
