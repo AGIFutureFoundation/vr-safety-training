@@ -29,6 +29,100 @@
 ## Evals (before → after, each with its source)
 | eval | before | after | source |
 |---|---|---|---|
+| LA rooms on balanced (texture bytes per room, every texture counted) | **3.21–6.02 MiB**, 0 of 6 ≤ 3 MiB (512 × 120 name signs, 6–15 a room) | **2.47–2.86 MiB** with the skin's floor (walls where they fit), **6 of 6** ≤ 3 MiB; measured = model on 18 of 18 builds (six rooms × three tiers) | before: `$SP/loop10/hd5/before-room-skins.txt` ("rooms over their budget before the skin: lar-craft-hall/balanced 6.02 MiB … lar-hangar/balanced 3.21 MiB"); after: `node tools/check_room_skins.mjs` ("LA rooms on balanced 3.21–6.02 MiB (before) → 2.47 MiB–2.86 MiB with the skin, 6 of 6 ≤ 3.00 MiB") |
+| LA rooms' meshes / triangles / lights, every tier | — | **unchanged** (only the canvas resolution changed; the sign planes 1.8 × 0.42 m on all three tiers) | `check_room_skins` (one line per style and tier; "the name-sign planes are the same size on every tier") |
+| rooms over their texture budget before the skin | 6 (reported, not failed) | **0**, and now a failing check | `check_room_skins` ("every room fits its texture budget on every tier before the skin (0 over …)") |
+| scene presets (`__parishTest.scene`) | **18** (12 robot-site + 6 non-robot) | **26** (+ park crew yard, fire station, hospital campus, school campus × wide/street) | before: `$SP/loop10/hd5/before-exteriors.txt` ("12 … -> 18"); after: `node tools/check_exteriors.mjs` ("12 → 18 (ENV-HD-3) → 26 (ENV-HD-5)"); the page lists 26 (drive B's lines) |
+| street cameras ≥ 12 m from the site's own building | 6 of 7 (the hospital campus at 8.3 m) | **7 of 7** (hospital 19.7 m) | `check_exteriors` ("the street camera stands … m from the site's own building") |
+| balanced robot rooms with lighting | **0** of 6 | **6 of 6** (+ the ops room): LED panels, a flush panel over every station pad, 3 beacon lenses; one instanced mesh, 0 real lights, 0 texture bytes | `node tools/check_hd4.mjs` ("balanced robot rooms with lighting: 0 -> 6 of 6") |
+| balanced robot rooms, meshes / triangles / lights / texture bytes | 18–20 / 1,016–2,340 / 2 / 2.33–2.67 MiB | **19–21 / 1,148–2,568 / 2 / 2.33–2.67 MiB** (+1 mesh, +132–228 triangles; stated budget +1 / ≤ 400 / +0 / +0; IX_BUDGET 120 / 6,000) | `check_hd4` §3 (one line per room) |
+| ops room on balanced | 21 meshes / 1,334 tris / 2 lights / 2.42 MiB | **22 / 1,538 / 2 / 2.42 MiB** (stated budget 40 / 6,000 / 2 / 3 MiB) | `check_hd4` §6 |
+| phone tier and headset browser | — | **identical**: robot rooms 18 of 18 builds (phone; a headset on balanced; a headset on high, Ultra asked for); LA rooms on the phone tier unchanged (256 × 60 signs as before) | `check_hd4` §3; `check_room_skins` (low rows unchanged against the before log) |
+| stills re-shot after the dawn-sky and sign-fit fixes | 0 | **13** (San José and West Oakland at dawn and fog-at-dawn: 6; the seven lit rooms) | drive A (`$SP/loop10/hd5/driveA.txt`) |
+| new stills | 0 | **25** (the four new scenes × wide/street × day/night: 16, the hospital street pair re-shot: 2, the seven balanced rooms: 7); 2 rejected by eye and re-shot | drives B, C1, C2 (`$SP/loop10/hd5/driveB.txt`, `driveC1.txt`, `driveC2.txt`) |
+| page errors / external requests in the drives | — | **0 / 0** in all four drives (38 captures, 0 failed) | the drives' last lines |
+| `check_room_skins` | 401 pass | **480** pass | `$SP/loop10/hd5/before-room-skins.txt`; `node tools/check_room_skins.mjs` |
+| `check_exteriors` | 278 pass | **309** pass | `$SP/loop10/hd5/before-exteriors.txt`; `node tools/check_exteriors.mjs` |
+| `check_hd4` | 118 pass | **127** pass | `$SP/loop10/hd5/before-hd4.txt`; `node tools/check_hd4.mjs` |
+| `check_la_rooms` · `check_interiors` · `check_robo_interiors` · `check_classrooms` · `check_hive_world` · `check_bridge` | 3,787 · 957 · 302 · 2,057 · 35 · 139/139 (ENV-HD-4's figures) | **3,787 · 957 · 302 · 2,057 · 35 · 139/139** pass | each checker |
+| `check_newton` · `check_imports` · `check_parse` | — | **60 checks, 0 failed · all 1,124 modules · all 2,703 modules** | each checker |
+
+## Stills
+All 1920 × 1080 JPEG (q92) from the built parishes page on port 9133 (headless Chromium, SwiftShader), the page's buttons
+hidden for the still, every frame looked at. Named by location, kind, preset and time of day:
+`<site>-wide-<look>-<time>.jpg` (robot sites), `<map>-<kind>-<shot>-<day|night>.jpg` (the new scenes) and
+`<site>-<style>-lit[-balanced]-interior.jpg` (rooms; the site whose door opens the room). The preset id is what
+`window.__parishTest.scene(siteId, shot[, look])` takes; rooms open through `__parishTest.ixScene(style)` and
+`__parishTest.hd4.opsRoom()`.
+
+**Re-shot after the dawn-sky and sign-fit fixes** (`$SP/loop10/hd5/reshoot/`, drive A: "13 captures, 0 failed, page errors
+0, external requests 0, 232 s, load 5.15"):
+
+| still | preset id | draw calls | triangles | notes |
+|---|---|---|---|---|
+| `san-jose-robotics-lab-wide-dawn-dawn.jpg` | `rb-site-san-jose-robotics-lab:wide:dawn` | 163 | 193,541 | rose-violet low sky between the towers, the lab's floodlights on (0.6) |
+| `san-jose-robotics-lab-wide-fog-dawn.jpg` | `rb-site-san-jose-robotics-lab:wide:fog` | 169 | 220,419 | rose haze on the far towers, fog 13.8–230 m |
+| `west-oakland-port-automation-wide-dawn-dawn.jpg` | `rb-site-west-oakland-port-automation:wide:dawn` | 210 | 154,149 | the low sun in the east over the cranes, deep-blue zenith with stars |
+| `west-oakland-port-automation-wide-fog-dawn.jpg` | `rb-site-west-oakland-port-automation:wide:fog` | 212 | 169,233 | the cranes fade into the rose fog |
+| `west-oakland-warehouse-wide-dawn-dawn.jpg` | `rb-site-west-oakland-warehouse:wide:dawn` | 217 | 175,759 | dock lamps and floodlight pools under the dawn sky |
+| `west-oakland-warehouse-wide-fog-dawn.jpg` | `rb-site-west-oakland-warehouse:wide:fog` | 219 | 178,635 | ground fog over the yards, the lamps glowing |
+| `soma-robot-cell-ixr-cell-hall-lit-interior.jpg` | `ixScene('ixr-cell-hall')` | 25 | 2,184 drawn (3 lights, 22.67 MiB) | title fits; a fence post covers part of the honesty line (framing) |
+| `san-jose-robotics-lab-ixr-cobot-lab-lit-interior.jpg` | `ixScene('ixr-cobot-lab')` | 23 | 1,748 drawn (3 lights, 17.33 MiB) | sign reads in full |
+| `west-oakland-warehouse-ixr-amr-warehouse-lit-interior.jpg` | `ixScene('ixr-amr-warehouse')` | 22 | 2,716 drawn (3 lights, 17.33 MiB) | sign reads in full |
+| `west-oakland-port-automation-ixr-port-control-lit-interior.jpg` | `ixScene('ixr-port-control')` | 24 | 1,320 drawn (3 lights, 18.67 MiB) | title fits; window mullions draw over the sign (framing) |
+| `richland-drilling-robot-ixr-drilling-deck-lit-interior.jpg` | `ixScene('ixr-drilling-deck')` | 23 | 1,864 drawn (3 lights, 17.33 MiB) | "CEILING-DRILLING DECK" fits (was clipped) |
+| `orleans-warehouse-ixr-maint-bay-lit-interior.jpg` | `ixScene('ixr-maint-bay')` | 22 | 2,068 drawn (3 lights, 17.33 MiB) | sign reads in full |
+| `west-oakland-warehouse-hd4-hive-ops-lit-interior.jpg` | `hd4.opsRoom()` | 25 | 1,982 drawn (3 lights, 18.67 MiB) | "HIVE OPERATIONS ROOM" fits (was clipped) |
+
+**The new scenes, by day and night** (`$SP/loop10/hd5/scenes/`, drive B: `node tools/drive_hd3_scenes.mjs 9133 high
+$SP/loop10/hd5/scenes wide,street presidio-crew-yard,no-sw-mid-city-fire-station,hospital-district,mission-school-campus` —
+"16 captures, 0 failed, page errors 0, external requests 0, 787 s, load 7.22"; the page listed 26 presets):
+
+| still | preset id | draw calls | triangles | notes |
+|---|---|---|---|---|
+| `sf-marina-park-wide-day.jpg` | `presidio-crew-yard:wide` | 140 | 170,889 | the crew yard among park trees, the suspension bridge over the bay behind — the strongest of the set |
+| `sf-marina-park-wide-night.jpg` | `presidio-crew-yard:wide` | 153 | 176,445 | lit windows, the bridge against the night sky |
+| `sf-marina-park-street-day.jpg` | `presidio-crew-yard:street` | 151 | 175,163 | eye level across the yard; a tree crown overhead fills the top-left (Left) |
+| `sf-marina-park-street-night.jpg` | `presidio-crew-yard:street` | 152 | 169,689 | the same; the board's lamp a small bar in the sky |
+| `orleans-fire-station-wide-day.jpg` | `no-sw-mid-city-fire-station:wide` | 213 | 218,522 | the yard by its road, the neighbourhood's houses and trees beyond |
+| `orleans-fire-station-wide-night.jpg` | `no-sw-mid-city-fire-station:wide` | 215 | 224,210 | lit windows, stars |
+| `orleans-fire-station-street-day.jpg` | `no-sw-mid-city-fire-station:street` | 175 | 212,600 | across the road: the building, cones, the board from behind |
+| `orleans-fire-station-street-night.jpg` | `no-sw-mid-city-fire-station:street` | 176 | 211,054 | the board's lamp reads as a white bar in the sky (Left) |
+| `orleans-hospital-wide-day.jpg` | `hospital-district:wide` | 197 | 221,419 | the campus yard by a wide road and crossing, a red vehicle in the yard |
+| `orleans-hospital-wide-night.jpg` | `hospital-district:wide` | 199 | 226,569 | street lamps and their pools along the road |
+| `sf-mission-school-wide-day.jpg` | `mission-school-campus:wide` | 122 | 227,681 | the solver's fallback, 30 m up over the rowhouses, hills behind |
+| `sf-mission-school-wide-night.jpg` | `mission-school-campus:wide` | 124 | 231,345 | lit rowhouse windows |
+| `sf-mission-school-street-day.jpg` | `mission-school-campus:street` | 114 | 225,960 | eye level across the yard: the building, a bus, the rowhouses |
+| `sf-mission-school-street-night.jpg` | `mission-school-campus:street` | 115 | 226,488 | the same at night |
+
+The hospital's first street pair (253 / 256 draw calls) stood 8.3 m from the site's own wall, which filled the left of the
+frame: moved to `scenes/rejected/` and re-shot after cycle 5 (drive C1: `node tools/drive_hd3_scenes.mjs 9133 high
+$SP/loop10/hd5/scenes street hospital-district` — "2 captures, 0 failed, page errors 0, external requests 0, 124 s, load
+13.93"):
+
+| still | preset id | draw calls | triangles | notes |
+|---|---|---|---|---|
+| `orleans-hospital-street-day.jpg` | `hospital-district:street` | 208 | 162,881 | the whole building and its door, the board and cones, the neighbourhood behind; fewer yard props than at night (likely still streaming at load 13.9) |
+| `orleans-hospital-street-night.jpg` | `hospital-district:street` | 210 | 223,151 | the same at night, the yard props in, the board's lamp a bar in the sky |
+
+**Balanced lit rooms** (`$SP/loop10/hd5/balanced/`, drive C2: `node tools/drive_hd4_scenes.mjs 9133 balanced
+$SP/loop10/hd5/balanced oak-west-oakland dawn rooms high notime none` — "7 captures, 0 failed, page errors 0, external
+requests 0, 81 s, load 10.84"; measured in the page, the same counts as `check_hd4`):
+
+| still | preset id | meshes / draw calls | triangles built | lights | textures | lighting |
+|---|---|---|---|---|---|---|
+| `soma-robot-cell-ixr-cell-hall-lit-balanced-interior.jpg` | `ixScene('ixr-cell-hall')` on balanced | 21 / 22 | 1,868 | 2 | 2.67 MiB | 8 panels, 4 task panels, 3 beacons |
+| `san-jose-robotics-lab-ixr-cobot-lab-lit-balanced-interior.jpg` | `ixScene('ixr-cobot-lab')` | 20 / 20 | 1,576 | 2 | 2.33 MiB | 6, 4, 3 |
+| `west-oakland-warehouse-ixr-amr-warehouse-lit-balanced-interior.jpg` | `ixScene('ixr-amr-warehouse')` | 20 / 19 | 2,568 | 2 | 2.33 MiB | 12, 4, 3 |
+| `west-oakland-port-automation-ixr-port-control-lit-balanced-interior.jpg` | `ixScene('ixr-port-control')` | 21 / 21 | 1,148 | 2 | 2.67 MiB | 4, 4, 3 |
+| `richland-drilling-robot-ixr-drilling-deck-lit-balanced-interior.jpg` | `ixScene('ixr-drilling-deck')` | 20 / 20 | 1,736 | 2 | 2.33 MiB | 6, 3, 3 |
+| `orleans-warehouse-ixr-maint-bay-lit-balanced-interior.jpg` | `ixScene('ixr-maint-bay')` | 19 / 19 | 1,896 | 2 | 2.33 MiB | 6, 4, 3 |
+| `west-oakland-warehouse-hd4-hive-ops-lit-balanced-interior.jpg` | `hd4.opsRoom()` on balanced | 22 / 22 | 1,538 | 2 | 2.42 MiB | 6, 11 (4 pads + 7 consoles), 0 |
+
+**For the video review and the deck:** `sf-marina-park-wide-day.jpg` (the park crew yard under the suspension bridge),
+`west-oakland-port-automation-wide-fog-dawn.jpg` (the cranes in a rose fog at dawn), `west-oakland-warehouse-hd4-hive-ops-lit-interior.jpg`
+(the ops room's sign now fits) and `west-oakland-port-automation-ixr-port-control-lit-balanced-interior.jpg` (balanced's warm
+task panels).
 
 ## Cycles
 1. Reason: the LA rooms fit balanced's 3 MiB with their name signs at the phone size, and the checker's model of a sign
@@ -78,6 +172,14 @@
    grown footprint, the old 1.2 m pass the fallback; `check_exteriors` checks every street camera ≥ 12 m from its own
    building. Observe: only the hospital's street camera moves (14 presets compared before → after; 8.3 → 19.7 m); "all 309
    checks pass". Re-shot in drive C.
+6. Reason: the scenes, the re-shot hospital pair and the balanced rooms in the page, page errors 0; proof = drives B and C's
+   last lines and looking at every frame. Act: rebuild, drive B (16), drive C1 (the hospital street pair), drive C2 (the
+   seven rooms on balanced), one at a time on port 9133. Observe: B "16 captures, 0 failed, page errors 0, external requests
+   0, 787 s, load 7.22", C1 "2 captures … 0 … 0, 124 s, load 13.93", C2 "7 captures … 0 … 0, 81 s, load 10.84"; the page
+   lists 26 presets; the balanced rooms measure in the page what `check_hd4` says (19–22 meshes, 2 lights, 2.33–2.67 MiB, the
+   fixtures per room). Every frame looked at: the re-shot hospital street frames the whole building; the balanced rooms show
+   the panels, the warm task panels and the beacon lenses, no pendants or pools. Found by eye and left (Left): the park
+   street shot under a tree crown, the board's lamp at night, the plain generic building. Pass.
 
 ## Seams
 - `lar-rooms.js`: `LAR_SIGN_PX` (`{ high: [512, 120], balanced: [256, 60], low: [256, 60] }`), `larSignMaterial(THREE, text,
@@ -90,3 +192,21 @@
   `meshesAdded` 1, `trianglesAdded` 400.
 
 ## Left
+- **The four new kinds read as "a low building".** Their presets frame the parish engine's plain generic site building (a
+  box with a door) with its yard props and job board; nothing in the frame says fire station, hospital, school or park
+  crew yard beyond the setting (the park's trees and bridge, the hospital's wide road, the school's rowhouses). A kind cue
+  on the site building, generic and procedural, is the next step (`tools/briefs/next/hd5-next.md` item 1).
+- **The park's street shot stands under a tree crown** the solver does not see: `hd3Obstacles` reads the massing's crowns,
+  and the tree in the frame comes from another source (not found in the time; next item 2).
+- **The job board's lamp at night** reads as a small white bar over each board, and as a bar in the sky in the low street
+  shots (the fire station's night street shot shows it large); its arm or post is not drawn (next item 3).
+- **Room sign framing** (seen in the re-shoot): a guard-fence post covers part of the cell hall's honesty line and the port
+  control room's window mullions draw over its sign (next item 4).
+- **The low sun at dawn** is sky.js's dusk disc: at the warehouse's wide shot it sits large and stretched near the frame's
+  corner. sky.js is shared with other worlds and was not changed.
+- **Not run here** (the shared machine): `check_mobile` (it drives the dist pages and rewrites `docs/perf/phone-maps.json`),
+  `check_walkable`'s browser leg, `eval_worlds`, `check_interface` (no control was added or changed). The phone and headset
+  tiers are proven unchanged by `check_hd4` §3 and `check_room_skins`' low rows.
+- `check_room_skins`' and `check_hd4`'s rows in `docs/perf/checkers-baseline.json` are estimates (to re-measure quiet).
+- The committed `WebXR/dist/parishes.html` and `WebXR/parishes/dist/parishes.html` were rebuilt for the drives and
+  restored; the coordinator's integration rebuild carries these changes.
