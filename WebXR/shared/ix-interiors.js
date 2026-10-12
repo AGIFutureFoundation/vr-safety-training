@@ -76,6 +76,14 @@ export const IX_STYLES = {
   "lar-control-room": { label: "Process control room", w: 14, d: 12, h: 3.6, wall: 0xdcdfe2, floor: 0x5d6770, ceiling: 0xe8eaec, trim: 0x2f5d8c, accent: 0x4fb8c9, lamp: 0xf2f6fa, dress: [] },
   "lar-compressor":   { label: "Gas storage compressor building", w: 20, d: 14, h: 8, wall: 0xbcc4ca, floor: 0x5f666c, ceiling: 0x8f989f, trim: 0xf2c14b, accent: 0xf2a23b, lamp: 0xeef5fb, dress: [] },
   "lar-craft-hall":   { label: "Louisiana crafts training hall", w: 24, d: 18, h: 6, wall: 0xd8cfbf, floor: 0x7a5a42, ceiling: 0xe8e2d6, trim: 0x2f5d8c, accent: 0xc0392b, lamp: 0xfff0d8, dress: [] },
+  // ROBO-INTERIORS (docs/consoles/ROBO-INTERIORS.md): one walk-in robotics room per ROBOTICS site (rb-robotics-data.js RB_SITES);
+  // ixr-robo-interiors.js furnishes them (dressers), maps each site to its style (IXR_SITE_STYLE) and paints their textures.
+  "ixr-cell-hall":     { label: "Robot cell hall", w: 20, d: 18, h: 7, wall: 0xc9ced3, floor: 0x5e666d, ceiling: 0x8f989f, trim: 0xf2c14b, accent: 0xe2701f, lamp: 0xf2f8ff, dress: [] },
+  "ixr-cobot-lab":     { label: "Cobot lab", w: 16, d: 14, h: 4.2, wall: 0xe4e8ec, floor: 0x7d8790, ceiling: 0xe8eaec, trim: 0x3a8fd8, accent: 0x37d6c0, lamp: 0xf6fbff, dress: [] },
+  "ixr-amr-warehouse": { label: "AMR warehouse", w: 24, d: 20, h: 9, wall: 0xb8bfc4, floor: 0x5f656b, ceiling: 0x8b959c, trim: 0xf2c14b, accent: 0xf2a23b, lamp: 0xeef5fb, dress: [] },
+  "ixr-port-control":  { label: "Port control room", w: 16, d: 12, h: 3.8, wall: 0xdcdfe2, floor: 0x4d5660, ceiling: 0xe8eaec, trim: 0x2f6f8c, accent: 0x4fb8c9, lamp: 0xf2f6fa, dress: [] },
+  "ixr-drilling-deck": { label: "Ceiling-drilling deck", w: 20, d: 16, h: 4.2, wall: 0xa9adb0, floor: 0x8d9093, ceiling: 0x9a9ea2, trim: 0xf2c14b, accent: 0xe8b923, lamp: 0xf2f2ea, dress: [] },
+  "ixr-maint-bay":     { label: "Robot maintenance bay", w: 16, d: 14, h: 5.2, wall: 0xc4cad0, floor: 0x56606a, ceiling: 0x8f989f, trim: 0xf2c14b, accent: 0x3a8fd8, lamp: 0xf2f8ff, dress: [] },
   "shop":         { label: "Rented shop", w: 11, d: 9, h: 3.6, wall: 0xf0ebe0, floor: 0x9a8f80, ceiling: 0xf4f1ea, trim: 0x2f6f8c, accent: 0xf2c14b, lamp: 0xfff4e0,
     dress: [["counter", "front"], ["rack", "wall:4"], ["crate", "row:2"]] },
 };
@@ -159,6 +167,15 @@ export const IX_FEATURES = {
   "lar-control-room": [[8, 2, 0.08, 0, 2.2, -0.99, "dark"], [8.4, 0.1, 0.1, 0, 3.25, -0.98, "trim"], [10, 0.1, 1, 0, 3.4, -0.2, "pale"], [0.05, 1.2, 5, -0.99, 1.9, 0.5, "pale"]],
   "lar-compressor":   [[19.5, 0.5, 0.5, 0, 7.2, 0, "accent"], [18, 0.35, 0.35, 0, 4.2, -0.8, "metal"], [0.05, 1.2, 4, 0.99, 5.5, 0, "dark"], [0.05, 1.2, 4, -0.99, 5.5, 0, "dark"], [18, 0.02, 1.2, 0, 0.01, 0.2, "accent"]],
   "lar-craft-hall":   [[8, 1.4, 0.05, 0, 4.4, -0.99, "accent"], [0.05, 2, 5, -0.99, 3.4, -0.4, "pale"], [0.05, 2, 5, 0.99, 3.4, -0.4, "pale"], [0.15, 0.02, 14, 0, 0.01, 0, "accent"]],
+  // ROBO-INTERIORS: the cell hall's crane runway and safety board; the cobot lab's cable tray, whiteboard and wall panel; the
+  // warehouse's roof trusses and roller door; the control room's window sill and status-wall rails; the deck's pilasters and
+  // soffit beam; the maintenance bay's crane beam, hoist rail and sign rail.
+  "ixr-cell-hall":     [[19.4, 0.4, 0.4, 0, 6.3, -0.45, "dark"], [19.4, 0.4, 0.4, 0, 6.3, 0.45, "dark"], [6, 1.2, 0.05, 0, 4.4, -0.99, "accent"]],
+  "ixr-cobot-lab":     [[14.8, 0.08, 0.3, 0, 3.7, -0.4, "metal"], [0.05, 1.1, 3.6, -0.99, 2.0, -0.45, "pale"], [3.2, 0.9, 0.05, 0.55, 2.4, -0.99, "trim"]],
+  "ixr-amr-warehouse": [[23.6, 0.35, 0.35, 0, 8.4, -0.5, "metal"], [23.6, 0.35, 0.35, 0, 8.4, 0, "metal"], [23.6, 0.35, 0.35, 0, 8.4, 0.5, "metal"], [3.6, 4.2, 0.1, -0.5, 2.1, 0.99, "metal"]],
+  "ixr-port-control":  [[15.4, 0.08, 0.4, 0, 0.95, -0.97, "trim"], [0.05, 0.1, 3.4, 0.99, 2.8, -0.1, "dark"], [0.05, 0.1, 3.4, 0.99, 1.0, -0.1, "dark"]],
+  "ixr-drilling-deck": [[0.4, 4.2, 0.4, -0.99, 2.1, 0.1, "wall"], [0.4, 4.2, 0.4, 0.99, 2.1, 0.1, "wall"], [19.6, 0.4, 0.4, 0, 4.0, 0.55, "wall"]],
+  "ixr-maint-bay":     [[15.6, 0.3, 0.3, 0, 4.7, -0.2, "accent"], [0.3, 0.3, 4, 0.45, 4.7, -0.45, "dark"], [0.05, 0.6, 2.4, -0.99, 3.0, -0.3, "trim"]],
 };
 
 export function ixStyleFor(kind, siteId = null) { return (siteId && IX_SITE_STYLE[siteId]) || (IX_KIND_STYLE[kind] ?? "civic-lobby"); }
