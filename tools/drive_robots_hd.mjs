@@ -62,6 +62,20 @@ const standAt = (page, id, dc, pitch) => page.evaluate(([id, dc, pitch]) => {
 }, [id, dc, pitch]);
 const robotOffset = (page, id) => page.evaluate((id) => { const T = window.__parishTest, s = T.robotics.sites.find((x) => x.id === id), rig = T.robotics.rigNode(id), p = rig.getWorldPosition(new rig.position.constructor()); return Math.hypot(p.x - s.position[0], p.z - s.position[1]); }, id);
 
+/** Hold the person the robot sees `d` metres from the site centre while the camera moves (a drive-only trick). The page's
+ *  own animate and tick are kept ONCE (on first use) and every later call only moves the held point — round 6's still-only
+ *  rerun wrapped the wrapper, so its second hold still passed the first one's 2.2 m and the "running" frame stayed amber. */
+const holdLearner = (page, id, d) => page.evaluate(([id, d]) => {
+  const T = window.__parishTest, R = T.robotics, H = T.robotsHd, s = R.sites.find((x) => x.id === id);
+  let h = window.__rhdHold;
+  if (!h) {
+    h = window.__rhdHold = { animate: R.animate, tick: H.tick, px: 0, pz: 0, wrapped: 0 };
+    R.animate = (dt) => h.animate(dt, h.px, h.pz); H.tick = (dt) => h.tick(dt, h.px, h.pz); h.wrapped++;
+  }
+  h.px = s.position[0] + 0.55 * d; h.pz = s.position[1] + 0.83 * d;
+  return { d: +Math.hypot(h.px - s.position[0], h.pz - s.position[1]).toFixed(2), wrapped: h.wrapped };
+}, [id, d]);
+
 const rule = (st) => (!st ? null : st.estopped || st.locked ? "e-stop" : st.mode === "stop" ? "protective-stop" : "running");
 
 // ------------------------------------------------------------------------------------------------ A. the robots outdoors
@@ -126,16 +140,17 @@ if (outDir) {
   await page.screenshot({ path: join(outDir, "cell-protective-stop-inside.png") });
   const st = await page.evaluate((id) => window.__parishTest.robotics.state(id), id);
   // freeze the learner's position for the site (the camera moves; the person the robot sees stays at 2.2 m)
-  await page.evaluate((id) => { const T = window.__parishTest, R = T.robotics, s = R.sites.find((x) => x.id === id), A = R.animate, H = T.robotsHd, tk = H.tick; const px = s.position[0] + 0.55 * 2.2, pz = s.position[1] + 0.83 * 2.2; R.animate = (dt) => A(dt, px, pz); H.tick = (dt) => tk(dt, px, pz); }, id);
+  await holdLearner(page, id, 2.2);
   await standAt(page, id, 6.8, -0.3); await frames(page, 20);
   const s2 = await page.evaluate((id) => ({ light: window.__parishTest.robotsHd.light(id), zone: window.__parishTest.robotsHd.measure().robots.find((x) => x.id === id).zone }), id);
   say(st.mode === "stop" && s2.light === "protective-stop" && s2.zone, `protective-stop still: site mode ${st.mode}, light ${s2.light}, zone ${s2.zone ? "shown" : "hidden"}`);
   await page.screenshot({ path: join(outDir, "cell-protective-stop.png") });
   if (only) { // the same framing for the other two states (the learner moved back outside the warning distance)
-    await page.evaluate((id) => { const T = window.__parishTest, R = T.robotics, s = R.sites.find((x) => x.id === id), A = R.animate, H = T.robotsHd, tk = H.tick; const px = s.position[0] + 0.55 * 9, pz = s.position[1] + 0.83 * 9; R.animate = (dt) => A(dt, px, pz); H.tick = (dt) => tk(dt, px, pz); }, id);
-    await frames(page, 20);
-    const g = await page.evaluate((id) => window.__parishTest.robotsHd.light(id), id);
-    say(g === "running", `cell still, running: light ${g}`); await page.screenshot({ path: join(outDir, "cell-running.png") });
+    const held = await holdLearner(page, id, 9);
+    await frames(page, 30);
+    const g = await page.evaluate((id) => ({ light: window.__parishTest.robotsHd.light(id), st: window.__parishTest.robotics.state(id), zone: window.__parishTest.robotsHd.measure().robots.find((x) => x.id === id).zone }), id);
+    say(held.wrapped === 1 && g.light === "running" && g.light === rule(g.st) && !g.zone, `cell still, running: the held learner moved to ${held.d} m (wrapped once: ${held.wrapped}), site mode ${g.st.mode}, light ${g.light}, zone ${g.zone ? "shown" : "hidden"}`);
+    await page.screenshot({ path: join(outDir, "cell-running.png") });
     await page.evaluate((id) => window.__parishTest.robotics.act(id, "press-estop"), id); await frames(page, 8);
     const e = await page.evaluate((id) => window.__parishTest.robotsHd.light(id), id);
     say(e === "e-stop", `cell still, e-stop: light ${e}`); await page.screenshot({ path: join(outDir, "cell-estop.png") });
