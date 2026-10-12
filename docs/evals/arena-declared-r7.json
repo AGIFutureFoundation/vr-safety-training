@@ -1,0 +1,49 @@
+{
+ "declared": "ARENA-2 protocol, committed before any run on the held-out seeds 7181–7240 (loop 10 round 7). The round-6b declaration (arena-declared.json, seeds 7121–7180) and its published rows stay as they are.",
+ "protocol": {
+  "version": "ra/2",
+  "models": ["bc", "ra-lm", "ra-lm-h"],
+  "scenarios": ["rb-teleop-pick-place", "rb-amr-fleet-routing", "rb-amr-fleet-routing#hard", "rb-cobot-zone-setup", "rb-cell-entry", "rb-construction-drilling", "rb-construction-drilling#hard", "rb-port-gantry", "rb-port-gantry#hard", "rb-station-robot-cell", "rb-station-amr-fleet", "rb-station-cobot"],
+  "seeds": { "gym": "7181–7240", "stations": "7181–7190" },
+  "lmH": { "version": "ra-lm-h/1", "change": "hidden layer", "H": 24, "activation": "tanh", "train": { "epochs": 10, "lr": 0.1, "l2": 0.0001, "seed": 1 }, "T": 24, "D": 14 }
+ },
+ "change": {
+  "model": "ra-lm-h, a new model id beside ra-lm (ra-lm and its published rows are unchanged)",
+  "oneDeclaredChange": "a hidden layer between the scene and the text-conditioned output: h = tanh(V·[s,1]) with H = 24 units shared across tasks; logit(label) = tᵀ·W_label·[h,1]; V and W trained together by seeded SGD (backpropagation). Everything else is ra-lm's: the same task texts, TF-IDF hashed into 24 buckets, the same scene features (COLEARN's defaults, clipped to [−4, 4]), the same label masks, the same 5-nearest-moment parameter head, the same synthetic demonstrations and the same task balance.",
+  "why": "ra-lm is linear in the scene features for a given text; the clone (k-NN on the same features) is not. The gaps are AMR base 0.417 vs 0.700 and port 0.767 vs 1.000 on 7121–7180 (arena.json results).",
+  "notChosen": "the clone's per-robot order feature (COLEARN amr-robots): it could only touch AMR, and the arena's bc does not use it either",
+  "hyperparameters": "H, epochs and learning rate above are the declared values. They may be changed only after runs on development seeds 1–20 (gym) and 1–3 (stations), and only by an amendment to this file committed before the held-out run; the amendment says what was tried and what each scored on development seeds."
+ },
+ "cobotStation": {
+  "known": "ra-lm scores 0 of 10 on rb-station-cobot (7121–7130); bc 10 of 10",
+  "diagnosis": "on training data only (the 20 synthetic station demonstrations, seed 1): compare ra-lm's argmax with the demonstration label per stepId and name the step it misses",
+  "fix": "declared by amendment to this file before the held-out run, with the diagnosis. A fix that touches only station inputs applies to ra-lm-h on the stations and cannot change any gym row; it is reported as such. The before → after is ra-lm 0 of 10 (7121–7130, published) → ra-lm-h on 7181–7190, with the hidden layer and the fix both present, said plainly; the training-data per-step accuracy before and after the fix is reported beside it."
+ },
+ "training": {
+  "demonstrations": "unchanged from arena-declared.json: COLEARN colSyntheticDemos, labelled synthetic, scripted expert at skill 0.85 with action noise 0.3, seed 1, 40 per gym task, 20 per station; learners keep clean passes only",
+  "heldOutTasks": "the three hard variants are never trained on",
+  "consented": "none present headless",
+  "devDisclosure": "development uses seeds 1–20 (gym) and 1–3 (stations) only. Nothing was run on 7181–7240 before this commit. Every development change after this commit is listed in an amendment before the held-out run."
+ },
+ "governor": "unchanged: vbGovernor.monitor on every step of a seeded safe simulated job at the scenario's site (half the rig's speed limit, nearest person 8 m); a broken rule is a deviation and halts the run with a protective stop; target always the simulator",
+ "metrics": {
+  "success": "the scenario's own pass and no governor stop",
+  "ruleBreaks": "safe-practice rule violations reported by the scenario (before the halt)",
+  "steps": "mean steps per episode",
+  "stops": "episodes the governor halted",
+  "governorChecked": "steps monitored / steps run (threshold 1.000)",
+  "physical": "dispatches to a non-sim target (threshold 0)",
+  "interval": "Wilson score 95% per proportion; Newcombe hybrid score 95% for a difference"
+ },
+ "comparisons": {
+  "headline": "ra-lm-h minus bc, pooled success over rb-amr-fleet-routing and rb-port-gantry (the two declared gaps), seeds 7181–7240, 120 episodes each; measured once; reported whatever it is, with the Newcombe interval",
+  "secondary": ["ra-lm-h minus bc on rb-amr-fleet-routing and on rb-port-gantry separately (60 each)", "ra-lm-h minus ra-lm on the same two (the effect of the change, same seeds)", "ra-lm-h minus bc over all twelve scenarios", "ra-lm-h minus bc on the three hard variants (held-out tasks), 180 each", "rb-station-cobot successes of 10 for ra-lm-h, ra-lm and bc"],
+  "noClaim": "no claim is made from a difference whose interval spans 0",
+  "once": "the held-out run is made once by tools/arena_eval.mjs --r7, which refuses unless this file is committed and matches the code; its results go to docs/evals/arena.json under retest7"
+ },
+ "consumers": {
+  "note": "Other consoles use this range only through this committed file (cite its commit). Each consumer's comparison is declared in its own file before it runs, names its models and metric, runs once, and never tunes on these seeds. The same seeds measured once by different consumers with different models is disclosed, not hidden.",
+  "STRANDS": "robotics/strands compare(): may run its policies once on gym seeds 7181–7240 (stations 7181–7190) citing this commit; rows to docs/evals/strands.json in arena.json's row shape",
+  "CLAW-2": "oc-*.js declarations may draw held-out seeds from 7181–7240 (stations 7181–7190) citing this commit; the claw's auditor treats a second run of the same declared comparison as seed reuse"
+ }
+}
