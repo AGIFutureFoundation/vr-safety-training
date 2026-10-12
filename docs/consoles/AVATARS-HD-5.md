@@ -98,10 +98,10 @@ heartbeat (20:37).
 
 ## Checkers (single runs, on this branch with ROBOTS-HD-3's ed54ad3d merged)
 
-- `node tools/check_agent_avatars.mjs`: 123 of 124 at load 30–47. The one failure is §9f's mouth-boundary line (157–158 of 159 words).
+- `node tools/check_agent_avatars.mjs`: **all 124 pass** on the final run (21:44, load 22). Earlier runs at load 30–47 were 123 of 124, failing §9f's mouth-boundary line (157–158 of 159 words).
   Its mount takes no `now`, so word boundaries are mapped by `performance.now()` between frames, which makes the line depend on the load.
   Run against the base `aa-agent-avatars.js` at the same load, it passed 159 of 159 once. That is why it is listed here rather than
-  waved away. It should pass on a quiet machine, and CI is the record. Everything new passes: in §9n, posture = glow over mid-day
+  waved away. It passed on the final run. Everything new passes: in §9n, posture = glow over mid-day
   entries (6,370 of 6,370); the aaMoodOf guards; the ops room's last triangles (margin 8 as built; +13 → all crowd, 5,599; +300 → 5,886);
   the cap rule (hidden for good 0, hidden but can show 1,120 triangles); the six robot rooms inside the cap with 0 held.
 - `check_robots_hd`: 62 passed, 0 failed. `check_hive5`: pass. `check_hive6`, `check_hive_world` (35), `check_hive3` (32) and
