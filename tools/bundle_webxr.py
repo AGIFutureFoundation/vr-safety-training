@@ -352,6 +352,13 @@ APPS = {
             # Cognition.X extract (generated) and the bridge that reads it; no request, no storage.
             SHARED / "eco-blocks-data.js",
             SHARED / "eco-blocks.js",
+            # LESSONS-X: the Agent lessons tab — the composer, the generated packs and steps, the hive's voice (local only,
+            # off by default), the lessons and the panel (after dx-data.js, oh-hive-data.js and aa-agent-portraits.js above).
+            SHARED / "lessons.js",
+            SHARED / "lx-packs-data.js",
+            SHARED / "oh-voice.js",
+            SHARED / "lx-lessons.js",
+            SHARED / "lx-panel.js",
             SHARED / "account.js",
             SHARED / "controls.js",
             WEBXR / "instructor/js/app.js",
@@ -1114,6 +1121,11 @@ APPS = {
             # HARVEST: hidden regional and seasonal activities (after np-parishes, tf-terraform, ty-economy, at-atmos, profiles,
             # st-paths, and account.js, which brings treasures.js).
             SHARED / "hv-harvest.js",
+            # LESSONS-X: agent-led lessons at the robot sites (after dx-data.js, oh-hive-data.js, oh-voice.js and
+            # aa-agent-portraits.js above): the composer, the generated packs and steps, then the lessons.
+            SHARED / "lessons.js",
+            SHARED / "lx-packs-data.js",
+            SHARED / "lx-lessons.js",
             WEBXR / "parishes/js/app.js",
         ],
         "entry": '<script type="module" src="./js/app.js"></script>',
