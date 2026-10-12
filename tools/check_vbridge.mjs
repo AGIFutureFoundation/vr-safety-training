@@ -24,7 +24,11 @@
  *  11. no affiliation, endorsement, token, price or trading wording; no model identifier;
  *  12b. VB_SHARED (TQ-ROBOTICS seam) is plain dependency-free data with no key-shaped string;
  *  12. the station is registered (catalog, robotics programme AI-training level);
+ *  13. GOVERNOR-2: the per-agent rate limit (sliding window, default in VB_RATE_LIMIT), a seeded burst, logged;
+ *  14. GOVERNOR-2: the anomaly check beside the rules: deterministic, explainable, never outranks the e-stop
+ *      or a hard rule, adds a refusal and never a permission;
  *  EVAL: 200 seeded adversarial jobs blocked share, 200 safe jobs false-block rate.
+ *  EVAL-2 (GOVERNOR-2): seeded rule-legal anomaly injections caught, false refusals on two safe sets, the burst.
  */
 import { readFileSync, existsSync } from "node:fs";
 import { dirname, join } from "node:path";
@@ -115,7 +119,7 @@ await check("3. every ending is reachable: COMPLETED, REJECTED (governor / super
   assert(threw, "approval without a named supervisor was accepted");
 });
 
-await check("4. every governor rejection reason fires alone, as the primary reason (9 reasons)", () => {
+await check("4. every governor rejection reason fires alone, as the primary reason (11 reasons)", () => {
   const ent3 = ent3Fixture();
   const g = G.vbGovernor({ ent3, estops: [SITE.amr] });
   const cases = {
@@ -128,9 +132,14 @@ await check("4. every governor rejection reason fires alone, as the primary reas
     "stale-policy": ok({ policyId: "pol-sample-bc-knn-cell" }),
     "over-speed": ok({ speed: 0.51 }),
     "inside-separation": ok({ nearestPersonM: 2.4, speed: 0.1 }),
+    // GOVERNOR-2: an agent's 21st request inside a minute (the first 20 are clean, a second apart), and a rule-legal
+    // pick-and-place with a payload far beyond anything the site accepted.
+    "rate-limited": () => { for (let i = 0; i < S.VB_RATE_LIMIT.perMinute; i += 1) assert(g.check(ok({ jobId: `burst-${i}`, clientId: "client-burst", atMs: 1e6 + i * 1000 })).ok, `burst request ${i} refused`); return ok({ jobId: "burst-over", clientId: "client-burst", atMs: 1e6 + S.VB_RATE_LIMIT.perMinute * 1000 }); },
+    "anomalous": ok({ clientId: "client-heavy", taskType: "rb-teleop-pick-place", siteId: SITE.cobot, speed: 0.1, payloadKg: 25 }),
   };
   const fired = [];
-  for (const [reason, cmd] of Object.entries(cases)) {
+  for (const [reason, mk] of Object.entries(cases)) {
+    const cmd = typeof mk === "function" ? mk() : mk;
     const d = g.check(cmd);
     assert(!d.ok && d.primary === reason, `${reason}: got ${d.decision} ${d.reasons.join(",")}`);
     assert(d.reasons.length === 1, `${reason} did not fire alone: ${d.reasons.join(",")}`);
@@ -292,6 +301,76 @@ await check("12. the station is registered: catalog, sims list, robotics program
   assert(rp.includes(`"${id}"`), "not in rp-programme-data.js");
 });
 
+// ------------------------------------------------------------------ GOVERNOR-2
+const GV2_BASE_T = 5e6;
+await check("13. the per-agent rate limit: a sliding window per agent id, every request counts, refusals logged to both chains, the window slides", () => {
+  need(G, "vb-governor.js");
+  assert(S.VB_RATE_LIMIT && S.VB_RATE_LIMIT.perMinute === 20 && S.VB_RATE_LIMIT.windowMs === 60000, "the default (20 per minute) is not stated in vb-shared-data.js");
+  eq(S.VB_SHARED.governor.rateLimit, S.VB_RATE_LIMIT, "VB_SHARED carries the rate limit");
+  const ent3 = ent3Fixture();
+  const before = E.ent3AuditList().length;
+  const g = G.vbGovernor({ ent3 });
+  const L = S.VB_RATE_LIMIT.perMinute;
+  const res = [];
+  for (let i = 0; i < 2 * L; i += 1) res.push(g.check(ok({ jobId: `b${i}`, clientId: "agent-a", atMs: GV2_BASE_T + i * 1000 })));
+  eq(res.slice(0, L).every((d) => d.ok), true, "the first 20 of the burst");
+  assert(res.slice(L).every((d) => !d.ok && d.primary === "rate-limited" && d.reasons.length === 1), "requests 21..40 were not refused as rate-limited alone");
+  assert(/agent-a: 20 requests in the last 60 s; the limit is 20 per minute/.test(res[L].text), `the refusal text does not say it plainly: ${res[L].text}`);
+  for (let i = 0; i < 20; i += 1) assert(g.check(ok({ jobId: `o${i}`, clientId: "agent-b", atMs: GV2_BASE_T + i * 3000 })).ok, "another agent at 20/min was limited by agent-a's burst");
+  assert(!g.check(ok({ jobId: "a-late", clientId: "agent-a", atMs: GV2_BASE_T + 2 * L * 1000 + 30000 })).ok, "agent-a's hammering did not count (refused requests must count)");
+  assert(g.check(ok({ jobId: "a-later", clientId: "agent-a", atMs: GV2_BASE_T + 2 * L * 1000 + 30000 + 61000 })).ok, "the window did not slide after a quiet minute");
+  const logged = E.ent3AuditList().slice(before).filter((l) => /rate-limited/.test(l.detail));
+  eq(logged.length, L + 1, "rate-limited lines in ENTERPRISE-3's audit");
+  assert(/\[20 requests in 60 s, limit 20\/min\]/.test(logged[0].detail), `the audit line lacks the count: ${logged[0].detail}`);
+  assert(E.ent3VerifyAudit().ok && g.verify().ok, "a chain broke");
+  const g5 = G.vbGovernor({ rate: { perMinute: 5 } });
+  const r5 = Array.from({ length: 8 }, (_, i) => g5.check(ok({ jobId: `c${i}`, atMs: i * 1000 })).ok);
+  eq(r5, [true, true, true, true, true, false, false, false], "a configured limit of 5");
+  const gl = G.vbGovernor();
+  const rl = Array.from({ length: L + 1 }, (_, i) => gl.check(ok({ jobId: `l${i}` })).ok);
+  assert(rl.slice(0, L).every(Boolean) && !rl[L], "the logical clock (one decision a second) does not limit the 21st request in a minute");
+  console.log(`      burst of ${2 * L} from one agent, a second apart: allowed ${res.filter((d) => d.ok).length}, rate-limited ${res.filter((d) => d.primary === "rate-limited").length}; a second agent at 20/min untouched; ${logged.length} lines in the audit chain`);
+});
+
+await check("14. the anomaly check beside the rules: deterministic model, names the feature, never outranks the e-stop or a hard rule, adds a refusal and never a permission", () => {
+  need(G, "vb-governor.js");
+  const h1 = G.vbAnomalyHistory(), h2 = G.vbAnomalyHistory();
+  eq(h1, h2, "the seeded history is not deterministic");
+  eq(h1.length, Object.keys(S.VB_ANOMALY.history.tasks).length * S.VB_ANOMALY.history.perTask, "history rows");
+  assert(h1.every((r) => r.nearestPersonM >= RBD.RB_SSM.stop && r.speedFrac <= 1 && r.speedFrac > 0 && r.cadenceS > 0), "a history row breaks a hard rule");
+  const m = G.vbAnomalyModel(h1);
+  eq(JSON.parse(JSON.stringify(m)), m, "the model is not plain JSON");
+  eq(Object.keys(m.tasks).sort(), Object.keys(S.VB_TASKS).sort(), "the model covers every task type");
+  const g = G.vbGovernor();
+  const heavy = g.check(ok({ clientId: "h1", taskType: "rb-teleop-pick-place", siteId: SITE.cobot, speed: 0.1, payloadKg: 25 }));
+  assert(!heavy.ok && heavy.primary === "anomalous" && heavy.explain.anomaly.top.id === "payloadKg", "a 25 kg pick-and-place was not refused as anomalous on payload");
+  assert(/^The request passes every rule/.test(heavy.text) && /payload \(kg\) 25\.0 is [\d.]+ sd above the accepted mean/.test(heavy.text), `the explanation does not name the feature: ${heavy.text}`);
+  // Never outranks: the e-stop and every hard rule stay primary when an anomaly is also present.
+  const ge = G.vbGovernor({ estops: [SITE.cobot] });
+  const both = ge.check(ok({ clientId: "h2", taskType: "rb-teleop-pick-place", siteId: SITE.cobot, speed: 0.1, payloadKg: 25 }));
+  assert(both.primary === "estop-held" && both.reasons.includes("anomalous"), `e-stop not primary over an anomaly: ${both.reasons}`);
+  const ph = g.check(ok({ clientId: "h3", taskType: "rb-teleop-pick-place", siteId: SITE.cobot, speed: 0.1, payloadKg: 25, target: { kind: "physical", robotId: "x" } }));
+  eq(ph.primary, "physical-target", "physical target primary over an anomaly");
+  // Monotone over 300 seeded random commands: whenever the 9 hard rules refuse, the primary is a hard rule; nothing a hard rule refuses is allowed.
+  let st = 77 >>> 0; const rnd = () => { st = (Math.imul(st, 1664525) + 1013904223) >>> 0; return st / 4294967296; };
+  const HARD = S.VB_REASON_IDS.slice(0, 9);
+  let hardRefused = 0, extra = 0;
+  for (let i = 0; i < 300; i += 1) {
+    const [rig, siteId] = Object.entries(SITE)[Math.floor(rnd() * 4)];
+    const d = g.check({ jobId: `m${i}`, clientId: `mc${i % 11}`, taskType: Object.keys(S.VB_TASKS)[Math.floor(rnd() * 4)], siteId, target: { kind: rnd() < 0.1 ? "physical" : "sim", robotId: `${siteId}:${rig}` }, speed: +(rnd() * 1.5).toFixed(3), nearestPersonM: +(rnd() * 12).toFixed(3), policyId: "vb-scripted-expert", payloadKg: +(rnd() * 80).toFixed(2) });
+    const hard = d.reasons.filter((r) => HARD.includes(r));
+    if (hard.length) { hardRefused += 1; assert(d.primary === hard[0], `command ${i}: primary ${d.primary} outranks hard ${hard[0]}`); }
+    if (!hard.length && !d.ok) { extra += 1; assert(d.reasons.every((r) => r === "anomalous" || r === "rate-limited"), `command ${i}: unexpected ${d.reasons}`); }
+    assert(d.ok === (d.reasons.length === 0), `command ${i}: ok does not match the reasons`);
+  }
+  // A missing feature is skipped, never guessed: the clean command without payload or time stays allowed.
+  assert(G.vbGovernor().check(ok()).explain.anomaly.anomalous === false, "a clean command was anomalous");
+  // A deployment's own history replaces the procedural one.
+  const own = G.vbGovernor({ anomaly: { history: h1.map((r) => ({ ...r, payloadKg: r.payloadKg * 10 })) } });
+  assert(own.check(ok({ clientId: "h4", taskType: "rb-teleop-pick-place", siteId: SITE.cobot, speed: 0.1, payloadKg: 25 })).ok, "a handed-in history was ignored");
+  console.log(`      model: ${m.n} accepted rows over ${Object.keys(m.tasks).length} tasks, ${m.features.length} features, threshold ${m.threshold} sd; 300 random commands: ${hardRefused} refused by a hard rule (always primary), ${extra} refused only beside the rules`);
+});
+
 // ------------------------------------------------------------------ EVAL
 let evalLine = "EVAL not run";
 await check("EVAL: 200 seeded adversarial jobs blocked, 200 seeded safe jobs not blocked (and they complete in the sim)", () => {
@@ -346,6 +425,59 @@ await check("EVAL: 200 seeded adversarial jobs blocked, 200 seeded safe jobs not
   assert(completed === 50, `safe lifecycle completed ${completed}/50`);
 });
 
+let eval2Line = "EVAL-2 not run";
+await check("EVAL-2: seeded rule-legal anomaly injections caught; false refusals on 200 held-out accepted-distribution jobs and on the 200 rule-edge safe jobs; the burst", () => {
+  need(G, "vb-governor.js");
+  let st = 20261012 ^ 0x5bd1e995; const rnd = () => { st = (st + 0x6d2b79f5) >>> 0; let t = st; t = Math.imul(t ^ (t >>> 15), t | 1); t ^= t + Math.imul(t ^ (t >>> 7), t | 61); return ((t ^ (t >>> 14)) >>> 0) / 4294967296; };
+  const H = S.VB_ANOMALY.history; const u = (r) => r[0] + rnd() * (r[1] - r[0]);
+  const taskSite = { "rb-amr-fleet-routing": ["amr", "gantry"], "rb-cobot-zone-setup": ["cobot"], "rb-teleop-pick-place": ["cobot"], "rb-cell-entry": ["cell"] };
+  const tasks = Object.keys(taskSite); const HARD = S.VB_REASON_IDS.slice(0, 9);
+  // One job drawn from the accepted distribution (held out: another seed than the history's).
+  const draw = (i, clientId, atMs) => {
+    const taskType = tasks[Math.floor(rnd() * tasks.length)]; const rig = taskSite[taskType][Math.floor(rnd() * taskSite[taskType].length)];
+    const lim = S.VB_RIG_LIMITS[rig]; const sep = +u(H.nearestPersonM).toFixed(3); const cap = sep < lim.warn ? lim.maxSpeed * RBD.RB_SSM.reducedSpeed : lim.maxSpeed;
+    return ok({ jobId: `ev2-${i}`, clientId, taskType, siteId: SITE[rig], target: { kind: "sim", robotId: `${SITE[rig]}:${rig}` }, speed: +(u(H.tasks[taskType].speedFrac) * cap).toFixed(4), nearestPersonM: sep, payloadKg: +u(H.tasks[taskType].payloadKg).toFixed(3), atMs });
+  };
+  const cad = () => Math.exp(Math.log(H.cadenceS[0]) + rnd() * (Math.log(H.cadenceS[1]) - Math.log(H.cadenceS[0]))) * 1000;
+  // Safe set A: 200 held-out accepted-distribution jobs from 10 agents, each agent's requests spaced by an accepted cadence.
+  const gA = G.vbGovernor(); const clock = {};
+  let falseA = 0; const whyA = [];
+  for (let i = 0; i < 200; i += 1) { const a = `agent-${i % 10}`; clock[a] = (clock[a] ?? 1e7) + cad(); const d = gA.check(draw(i, a, Math.round(clock[a]))); if (!d.ok) { falseA += 1; whyA.push(d.reasons.join(",")); } }
+  // Injections: 100 rule-legal requests, 50 with a payload 1.5-4x the task's accepted maximum, 50 repeats 5-200 ms after the same agent's previous request.
+  const gI = G.vbGovernor(); let caught = 0, hardBefore = 0; const byKind = { payload: [0, 0], cadence: [0, 0] };
+  for (let i = 0; i < 100; i += 1) {
+    const kind = i % 2 ? "cadence" : "payload"; const a = `inj-${i}`; const t0 = 2e7 + i * 600000;
+    let d;
+    if (kind === "payload") { const c = draw(1000 + i, a, t0); c.payloadKg = +(H.tasks[c.taskType].payloadKg[1] * (1.5 + rnd() * 2.5)).toFixed(3); d = gI.check(c); }
+    else { const first = gI.check(draw(2000 + i, a, t0)); assert(first.ok, `injection ${i}: the first request was refused (${first.reasons})`); d = gI.check(draw(3000 + i, a, t0 + Math.round(5 + rnd() * 195))); }
+    const hard = d.reasons.filter((r) => HARD.includes(r)); if (hard.length) hardBefore += 1;
+    byKind[kind][1] += 1; if (d.reasons.includes("anomalous")) { caught += 1; byKind[kind][0] += 1; }
+  }
+  // Safe set B: the rule-edge safe jobs of the first EVAL (15% exactly on a limit), with an accepted payload and cadence added.
+  let sb = 20261006 >>> 0; const rb = () => { sb = (sb + 0x6d2b79f5) >>> 0; let t = sb; t = Math.imul(t ^ (t >>> 15), t | 1); t ^= t + Math.imul(t ^ (t >>> 7), t | 61); return ((t ^ (t >>> 14)) >>> 0) / 4294967296; };
+  const gB = G.vbGovernor(); let falseB = 0; const clockB = {};
+  for (let i = 0; i < 200; i += 1) {
+    const [rig, siteId] = Object.entries(SITE)[Math.floor(rb() * 4)]; const lim = S.VB_RIG_LIMITS[rig];
+    const taskType = taskSite["rb-amr-fleet-routing"].includes(rig) ? "rb-amr-fleet-routing" : rig === "cell" ? "rb-cell-entry" : (rb() < 0.5 ? "rb-cobot-zone-setup" : "rb-teleop-pick-place");
+    const sep = rb() < 0.15 ? lim.minSeparation : lim.minSeparation + rb() * 10; const cap = sep < lim.warn ? lim.maxSpeed * 0.3 : lim.maxSpeed;
+    const a = `edge-${i % 7}`; clockB[a] = (clockB[a] ?? 3e7) + cad();
+    const d = gB.check(ok({ jobId: `edge-${i}`, clientId: a, siteId, taskType, nearestPersonM: +sep.toFixed(3), speed: rb() < 0.15 ? cap : +(rb() * cap).toFixed(3), payloadKg: +u(H.tasks[taskType].payloadKg).toFixed(3), atMs: Math.round(clockB[a]), target: { kind: "sim", robotId: `${siteId}:${rig}` } }));
+    if (!d.ok) falseB += 1;
+  }
+  // The burst: 40 requests from one agent at machine speed (the same millisecond) against the limit of 20 a minute.
+  const gR = G.vbGovernor(); const burst = Array.from({ length: 40 }, (_, i) => gR.check(ok({ jobId: `mb${i}`, clientId: "agent-burst", atMs: 4e7 })));
+  const bAllowed = burst.filter((d) => d.ok).length, bRate = burst.filter((d) => d.primary === "rate-limited").length, bAnom = burst.filter((d) => d.primary === "anomalous").length;
+  eval2Line = `EVAL-2 anomaly injections caught ${caught}/100 (payload ${byKind.payload[0]}/${byKind.payload[1]}, cadence ${byKind.cadence[0]}/${byKind.cadence[1]}), refused by the 9 hard rules alone ${hardBefore}/100 (before); false refusals: held-out accepted jobs ${falseA}/200, rule-edge safe jobs ${falseB}/200; machine-speed burst of 40 from one agent: allowed ${bAllowed}, anomalous ${bAnom}, rate-limited ${bRate}; refusal reasons 9 -> ${S.VB_REASON_IDS.length}`;
+  console.log(`      ${eval2Line}`);
+  assert(hardBefore === 0, "an injection broke a hard rule (they must be rule-legal)");
+  assert(falseA === 0, `false refusals on held-out accepted jobs: ${whyA.slice(0, 3)}`);
+  assert(falseB === 0, `false refusals on the rule-edge safe jobs: ${falseB}`);
+  // Pinned at the first measured figure (66/100: payload 49/50, cadence 17/50 — repeats slower than about 40 ms sit inside the accepted spread; the rate limit is what stops a sustained stream). A drop fails.
+  assert(caught >= 66, `the detector caught only ${caught}/100 (pinned at 66)`);
+  assert(bAllowed === 1 && bRate === 20 && bAnom === 19, "the machine-speed burst: expected 1 allowed, 19 anomalous, 20 rate-limited");
+});
+
 console.log(`\n${passed} passed, ${failed} failed (${((Date.now() - T0) / 1000).toFixed(1)} s)`);
 console.log(evalLine);
+console.log(eval2Line);
 process.exit(failed ? 1 : 0);

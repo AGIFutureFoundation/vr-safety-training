@@ -5,7 +5,7 @@
 // Simulated robots only; the build holds no token and makes no payments.
 //
 // SEAM: VB_SHARED = { schema, phases, terminal, moves, roles, memoTypes, deadlineTicks, policies,
-//                     governor: { rules, tasks, rigLimits, physical, order, note } }
+//                     governor: { rules, tasks, rigLimits, physical, rateLimit, anomaly, order, note } }
 //
 // Every top-level name starts with `VB_` (the bundler shares one scope).
 
@@ -20,8 +20,52 @@ export const VB_REASONS = Object.freeze([
   { id: "stale-policy", text: "The policy is stale: it was trained on (or built from) data whose consent was revoked. Retrain before it runs." },
   { id: "over-speed", text: "The requested speed is above the site's limit (or above the reduced speed with a person inside the warning distance)." },
   { id: "inside-separation", text: "A person is closer than the site's minimum separation distance. The robot holds a protective stop." },
+  // GOVERNOR-2: two safeguards beside the rules. Both come after every hard rule, so they can add a refusal but never
+  // outrank the e-stop or a hard rule, and neither can turn a refusal into a permission.
+  { id: "rate-limited", text: "This agent has sent more requests in the last minute than the governor's per-agent limit allows. Wait, or ask a person to look at why it is sending so many." },
+  { id: "anomalous", text: "The request passes every rule but is far outside what this site has accepted before (the explanation names the feature). A person should look at it before it runs." },
 ]);
 export const VB_REASON_IDS = Object.freeze(VB_REASONS.map((r) => r.id));
+
+/**
+ * GOVERNOR-2 — the per-agent rate limit: a sliding window per agent id (the command's clientId). Every request counts,
+ * refused ones included, so an agent that keeps hammering stays limited. Time is the command's `atMs` when it carries
+ * one, else the governor's `now()` when one is handed in (the parishes panel hands in the wall clock), else a logical
+ * clock where each decision counts as `logicalTickMs` (deterministic, like the audit line clock).
+ */
+export const VB_RATE_LIMIT = Object.freeze({ perMinute: 20, windowMs: 60000, logicalTickMs: 1000, note: "default 20 requests per agent per minute; configurable per governor (vbGovernor({ rate: { perMinute } }))" });
+
+/**
+ * GOVERNOR-2 — the learned anomaly check beside the rules: a one-sided per-feature z-score against a history of
+ * accepted jobs, fitted per task type. A request is anomalous when any feature sits more than `threshold` standard
+ * deviations past the accepted mean in its risky direction (dir 1: higher is riskier, dir -1: lower is riskier).
+ * Features a request does not carry are skipped. `log: true` features are compared on a log scale. The history is a
+ * SEEDED, PROCEDURAL stand-in for a site's accepted-job log (the ranges below; vbAnomalyHistory builds it), not data
+ * from any real site; a deployment hands in its own log (vbGovernor({ anomaly: { history } })).
+ */
+export const VB_ANOMALY = Object.freeze({
+  threshold: 4,
+  minSd: 0.001,
+  features: Object.freeze([
+    { id: "payloadKg", label: "payload (kg)", dir: 1, log: false },
+    { id: "speedFrac", label: "requested speed as a share of the speed limit that applies (reduced inside the warning distance)", dir: 1, log: false },
+    { id: "nearestPersonM", label: "distance to the nearest person (m)", dir: -1, log: false },
+    { id: "cadenceS", label: "seconds since this agent's previous request", dir: -1, log: true },
+  ]),
+  history: Object.freeze({
+    seed: 20261012,
+    perTask: 120,
+    cadenceS: [2, 600],
+    nearestPersonM: [3, 14],
+    tasks: Object.freeze({
+      "rb-amr-fleet-routing": { payloadKg: [2, 40], speedFrac: [0.3, 1.0] },
+      "rb-cobot-zone-setup": { payloadKg: [0, 1.5], speedFrac: [0.2, 0.9] },
+      "rb-teleop-pick-place": { payloadKg: [0.1, 3], speedFrac: [0.1, 0.8] },
+      "rb-cell-entry": { payloadKg: [0, 8], speedFrac: [0.2, 1.0] },
+    }),
+  }),
+  note: "adds a refusal, never a permission; never outranks the e-stop or a hard rule; the history ranges are procedural simulation parameters, not ratings of any machine",
+});
 
 /** The physical-robot path: needs a named human approver and ships disabled. Frozen; there is no setter. */
 export const VB_PHYSICAL = Object.freeze({ enabled: false, requires: "a named human approver at the site, on top of every governor rule", note: "disabled in this build: agent commands reach simulated robots only" });
@@ -88,6 +132,8 @@ export const VB_SHARED = Object.freeze({
     tasks: VB_TASKS,
     rigLimits: VB_RIG_LIMITS,
     physical: VB_PHYSICAL,
+    rateLimit: VB_RATE_LIMIT,
+    anomaly: { threshold: VB_ANOMALY.threshold, features: VB_ANOMALY.features, note: VB_ANOMALY.note },
     note: "Agent-originated commands reach simulated robots only. Every decision is written to a hash-chained audit log (ENTERPRISE-3). Rig limits are procedural simulation parameters (stop and warn distances match RB_SSM), not ratings of any machine.",
   },
 });
