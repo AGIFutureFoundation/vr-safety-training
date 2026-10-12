@@ -47,6 +47,7 @@ export const RHD_BUDGET = {
   cell: { triangles: 3600, calls: 10 },
   "cell-arm": { triangles: 2400, calls: 6 },
   drill: { triangles: 2400, calls: 5 }, // ROBOTS-HD-2: the drilling deck's robot (base, mast, light + the zone discs)
+  "amr-room": { triangles: 600, calls: 3 }, // ROBOTS-HD-3: the AMR's room level (rooms only; the robot without its zone discs)
 };
 
 /** The status light's colours. Three states, each the page's own. */
@@ -258,7 +259,11 @@ function rhdGuarding(THREE, parent) {
   return { frame, panels };
 }
 
-function rhdAmr(THREE, root) {
+function rhdAmr(THREE, root, room = false) {
+  // ROBOTS-HD-3: `room` is the AMR's room level (RHD_BUDGET["amr-room"]): a robot room never moves its robots, so the casters
+  // under the skirts are one block each (no swivel plate or fork), the lidar puck is two rings, the drive wheels coarser; the
+  // silhouette, bumpers, skirts, scanner window and the light bar are the same. It gives the AMR warehouse back the triangles
+  // a third agent figure needs (the cap AVATARS-HD-5 and ROBOTS-HD-3 agreed: count every mesh that can be drawn).
   const C = RHD_C, k = rhdKit(THREE), links = {};
   // Chassis (forward is +z, the way the site's loop drives it): body, top deck, bumpers front and back, side skirts.
   k.box(0.78, 0.3, 1.14, 0, 0.27, 0, C.amber);
@@ -266,17 +271,19 @@ function rhdAmr(THREE, root) {
   for (const z of [-0.6, 0.6]) { k.box(0.8, 0.12, 0.07, 0, 0.18, z, C.rubber); k.box(0.62, 0.025, 0.075, 0, 0.255, z, C.yellow); }
   for (const x of [-0.4, 0.4]) k.box(0.025, 0.16, 0.9, x, 0.2, 0, C.dark);
   // Lidar puck on the front: base, a dark window band, a cap; a safety scanner window low on the front bumper.
-  k.cyl(0.075, 0.08, 0.04, 16, 0, 0.49, 0.42, C.dark); k.cyl(0.07, 0.07, 0.05, 16, 0, 0.535, 0.42, 0x0e1114); k.cyl(0.075, 0.07, 0.03, 16, 0, 0.575, 0.42, C.dark);
+  if (room) { k.cyl(0.08, 0.08, 0.06, 12, 0, 0.5, 0.42, C.dark); k.cyl(0.07, 0.075, 0.07, 12, 0, 0.565, 0.42, 0x0e1114); }
+  else { k.cyl(0.075, 0.08, 0.04, 16, 0, 0.49, 0.42, C.dark); k.cyl(0.07, 0.07, 0.05, 16, 0, 0.535, 0.42, 0x0e1114); k.cyl(0.075, 0.07, 0.03, 16, 0, 0.575, 0.42, C.dark); }
   k.box(0.3, 0.05, 0.02, 0, 0.3, 0.575, 0x0e1114);
   // Casters at the four corners: a swivel plate, a fork and a small wheel.
   for (const [x, z] of [[-0.3, -0.45], [0.3, -0.45], [-0.3, 0.45], [0.3, 0.45]]) {
+    if (room) { k.box(0.06, 0.12, 0.08, x, 0.06, z, C.mid); continue; }
     k.cyl(0.04, 0.04, 0.02, 10, x, 0.11, z, C.mid); k.box(0.012, 0.06, 0.05, x - 0.025, 0.07, z, C.mid); k.box(0.012, 0.06, 0.05, x + 0.025, 0.07, z, C.mid);
     k.cyl(0.035, 0.035, 0.03, 10, x, 0.035, z, C.rubber, 0, 0, Math.PI / 2);
   }
   rhdMesh(THREE, k, "rhd-amr-chassis", root);
   // Drive wheels: one axle across the middle, both wheels in one mesh so a turn about x turns both.
   const wheels = links.wheels = rhdLink(THREE, root, "rhd-amr-wheels", 0, 0.09, 0);
-  for (const x of [-0.36, 0.36]) { k.cyl(0.09, 0.09, 0.05, 16, x, 0, 0, C.rubber, 0, 0, Math.PI / 2); k.cyl(0.05, 0.05, 0.055, 10, x, 0, 0, C.mid, 0, 0, Math.PI / 2); k.box(0.056, 0.02, 0.16, x, 0, 0, C.mid); }
+  for (const x of [-0.36, 0.36]) { k.cyl(0.09, 0.09, 0.05, room ? 12 : 16, x, 0, 0, C.rubber, 0, 0, Math.PI / 2); k.cyl(0.05, 0.05, 0.055, room ? 8 : 10, x, 0, 0, C.mid, 0, 0, Math.PI / 2); k.box(0.056, 0.02, 0.16, x, 0, 0, C.mid); }
   rhdMesh(THREE, k, "rhd-amr-wheel-pair", wheels);
   // The status light bar round the top edge.
   const lm = new THREE.MeshBasicMaterial({ color: RHD_LIGHT.off, vertexColors: true }); lm.name = "rhd-status-light";
@@ -376,8 +383,12 @@ function rhdZone(THREE, parent) {
   const warn = new THREE.RingGeometry(RB_SSM.stop, RB_SSM.warn, 48); const stop = new THREE.CircleGeometry(RB_SSM.stop, 40);
   const mats = [new THREE.MeshBasicMaterial({ color: 0xffb020, transparent: true, opacity: 0.22, depthWrite: false, side: 2 }), new THREE.MeshBasicMaterial({ color: 0xe0402a, transparent: true, opacity: 0.28, depthWrite: false, side: 2 })];
   const g = new THREE.Group(); g.name = "rhd-ssm-zone"; g.visible = false; parent.add(g);
+  // ROBOTS-HD-3: hidden until a person is inside the warning distance, so it CAN be drawn and a room's cap counts it (the rule
+  // agreed with AVATARS-HD-5: every hidden mesh under a robot room's group carries this tag; one hidden for good leaves the group).
+  g.userData.rhdCanShow = "ssm-zone";
   const a = new THREE.Mesh(warn, mats[0]); a.name = "rhd-zone-warn"; a.rotation.x = -Math.PI / 2; a.position.y = 0.13;
   const b = new THREE.Mesh(stop, mats[1]); b.name = "rhd-zone-stop"; b.rotation.x = -Math.PI / 2; b.position.y = 0.14;
+  a.userData.rhdCanShow = b.userData.rhdCanShow = "ssm-zone";
   g.add(a, b);
   return g;
 }
@@ -390,12 +401,12 @@ function rhdEase(t) { return t * t * t * (t * (t * 6 - 15) + 10); } // smoothers
  * Build one HD robot. kind: "cobot" | "amr" | "gantry" | "cell" | "cell-arm" | "drill". `zone` adds the floor zone (outdoors).
  * `ground` (optional): where static ground parts go (the gantry's rails, the cell's guarding) when the robot's group moves.
  */
-export function rhdBuildRobot(THREE, kind, { zone = false, ground = null, scale = 1, pedestal = true } = {}) {
+export function rhdBuildRobot(THREE, kind, { zone = false, ground = null, scale = 1, pedestal = true, detail = "full" } = {}) {
   const group = new THREE.Group(); group.name = `rhd-robot-${kind}`; group.userData.rhd = kind;
   let r;
   if (kind === "cobot") r = rhdArm(THREE, group, scale, false, pedestal);
   else if (kind === "cell" || kind === "cell-arm") r = rhdArm(THREE, group, 1.45 * scale, true, pedestal);
-  else if (kind === "amr") r = rhdAmr(THREE, group);
+  else if (kind === "amr") r = rhdAmr(THREE, group, detail === "room");
   else if (kind === "gantry") r = rhdGantry(THREE, group, ground ?? group);
   else if (kind === "drill") r = rhdDrill(THREE, group);
   else throw new Error(`rhd: unknown robot kind "${kind}"`);
@@ -530,7 +541,7 @@ export function rhdDressRoom({ three: THREE, group, room, tier = "high", ua = ty
     // stand lifts the robot, never the zone); a robot locked out on a stand or a lift has none (de-energised).
     const floor = q.light === "site" ? new THREE.Group() : null;
     if (floor) { floor.name = `rhd-room-zone-${q.kind}`; floor.position.set(q.x, 0, q.z); group.add(floor); }
-    const r = rhdBuildRobot(THREE, q.kind, { scale: q.scale ?? 1, pedestal: q.pedestal !== false, zone: !!floor, ground: floor });
+    const r = rhdBuildRobot(THREE, q.kind, { scale: q.scale ?? 1, pedestal: q.pedestal !== false, zone: !!floor, ground: floor, detail: q.kind === "amr" ? "room" : "full" });
     r.group.position.set(q.x, q.y ?? 0, q.z); r.group.rotation.y = q.yaw;
     r.pose(q.parked ? 2.2 : 0);
     r.setLight(null); // dark until the app gives it the site's state (rhdRoomLights); a robot locked out on a stand stays dark

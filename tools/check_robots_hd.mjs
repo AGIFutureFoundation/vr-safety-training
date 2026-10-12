@@ -320,6 +320,30 @@ const lit = build("ixr-amr-warehouse", "high", roomsWith({ rhd: true }));
 const L1 = RHD.rhdRoomLights(lit, { mode: "stop", estopped: false, locked: false }), L2 = RHD.rhdRoomLights(lit, null);
 const bay = build("ixr-maint-bay", "high", roomsWith({ rhd: true })), L3 = RHD.rhdRoomLights(bay, { mode: "full", estopped: false, locked: false });
 check(L1.every((x) => x === "protective-stop") && L2.every((x) => x === null) && L3.every((x) => x === null), "room robots show their site's state, dark with none, and the locked-out robots on the stand and the lift stay dark");
+// ROBOTS-HD-3 with AVATARS-HD-5 (heartbeat 20:20 / 20:22): a robot room's figure cap counts every mesh that CAN be drawn, as
+// ixrMeasure counts — visible, or hidden but shown by a state (the floor zones, tagged userData.rhdCanShow); a mesh hidden for
+// good must leave the room's group. With that count, three agent figures at the crowd budget must fit beside the HD robots in
+// every robot room, so no agent is held; the AMR's room level (rooms never move their robots) is what makes the warehouse fit.
+{
+  const AAH = await imp("shared/aa-agent-hd.js"), AAV = await imp("shared/aa-agent-avatars.js");
+  const cap = AAV.AA_ROOM_TRI_CAP, nFig = AAV.AA_ROOM_FIGURES, crowd = AAH.AA_HD_CROWD_BUDGET.triangles;
+  let fit = 0, forGood = 0, canShow = 0; const rows = [];
+  for (const st of STYLES) {
+    const room = build(st, "high", roomsWith({ rhd: true })), own = IXR.ixrMeasure(room).triangles;
+    room.group.traverse((o) => {
+      if (!o.isMesh) return;
+      let shown = true, tagged = false; for (let p = o; p && p !== room.group.parent; p = p.parent) { if (!p.visible) shown = false; if (p.userData?.rhdCanShow) tagged = true; }
+      if (!shown) { if (tagged) canShow++; else forGood++; }
+    });
+    const room3 = own + nFig * crowd; if (room3 <= cap) fit++;
+    rows.push(`${st.replace("ixr-", "")} ${own} + ${nFig} x ${crowd} = ${room3}`);
+  }
+  check(forGood === 0 && canShow > 0, `the robot rooms' hidden meshes are all ones a state can show (floor zones): ${canShow} can show, ${forGood} hidden for good`);
+  check(fit === STYLES.length, `three agent figures at the crowd budget fit beside the HD robots under the room cap (${cap}), so none is held: ${fit} of ${STYLES.length} (${rows.join("; ")})`);
+  const amrF = RHD.rhdBuildRobot(THREE, "amr"), amrR = RHD.rhdBuildRobot(THREE, "amr", { detail: "room" }), BR = RHD.RHD_BUDGET["amr-room"];
+  const wh = build("ixr-amr-warehouse", "high", roomsWith({ rhd: true }));
+  check(amrR.triangles <= BR.triangles && amrR.calls <= BR.calls && amrR.triangles < amrF.triangles && JSON.stringify(Object.keys(amrR.links)) === JSON.stringify(Object.keys(amrF.links)) && wh.rhd.robots.every((q) => q.robot.triangles === amrR.triangles), `the AMR's room level: ${amrF.triangles} -> ${amrR.triangles} triangles, ${amrR.calls} draw calls (<= ${BR.triangles} / ${BR.calls}), same links and light; both warehouse AMRs use it; outdoors keeps the full AMR (§1)`);
+}
 
 // ------------------------------------------------------------------------------- 5b. the floor zone indoors (ROBOTS-HD-2)
 console.log("5b. the floor zone indoors: a walk past every robot");
