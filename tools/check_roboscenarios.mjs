@@ -11,6 +11,8 @@
  *   6. teleoperation: RT_TASKS covers both; the skill-1 stand-in passes through the pose path
  *   7. sites: the port yard runs the lane scenario, the Richland deck runs the drilling scenario; AGENTGYM supplement
  *      baselines the construction robot station
+ *   9. the hard variants (rb-construction-drilling#hard, rb-port-gantry#hard): one row each — seeded, expert clean on 60 held-out
+ *      seeds with the invariant held, random below, the colearn.json row with the gap stated, a teleop task (ROBOTRAIN-5)
  *   8. hygiene: Kids rule on the new text, no model identifier in the files this console touched
  *
  *     node tools/check_roboscenarios.mjs
@@ -163,6 +165,47 @@ check("sites: the West Oakland port yard runs the lane scenario and the Richland
   ok(row && row.expert.passed === row.expert.of && portRow, "construction or port station not baselined");
   return `supplement ${sup.config.stations} stations × ${sup.config.seeds.length} seeds; construction robot station expert ${row.expert.passed}/${row.expert.of}, retrieval-ask ${row["retrieval-ask"].passed}/${row["retrieval-ask"].of}`;
 });
+
+// 9. the hard variants (ROBOTRAIN-4 built them, ROBOTRAIN-5 pins them): one row each — seeded, the expert clean on all 60 held-out
+//    seeds with the invariants held on every step, the random floor below, colearn.json's measured row with the gap stated, and a teleop task
+for (const id of NEW.map((b) => `${b}#hard`)) {
+  check(`hard variant ${id}: seeded; expert 60/60 clean with the invariant held on every step; random below; colearn.json row with the gap stated; a teleop task`, () => {
+    const base = id.split("#")[0];
+    const a = JSON.stringify(rbRollout(rbEnv(id, { seed: 5 }), { skill: 0.65, seed: 5 }));
+    ok(a === JSON.stringify(rbRollout(rbEnv(id, { seed: 5 }), { skill: 0.65, seed: 5 })), `${id}: seed 5 differs run to run`);
+    ok(new Set([1, 2, 3, 4, 5, 6].map((seed) => JSON.stringify(rbEnv(id, { seed }).reset()))).size > 1, `${id}: six seeds give one start`);
+    let exp = 0, rnd = 0, steps = 0;
+    for (const seed of seeds) {
+      const r = rbRollout(rbEnv(id, { seed }), { skill: 1, seed });
+      if (r.summary.passed && r.summary.violationCount === 0) exp += 1;
+      for (const st of r.steps) {
+        steps += 1;
+        ok(!st.info.violations.includes(INVARIANT[base]), `${id}: expert broke ${INVARIANT[base]} (seed ${seed})`);
+        if (base === "rb-construction-drilling" && st.action.type === "drill") ok(!st.observation.personInside, `${id}: drilled with a person inside`);
+        if (base === "rb-port-gantry" && st.action.type === "move") { const o = st.observation, d = { N: [0, -1], S: [0, 1], E: [1, 0], W: [-1, 0] }[st.action.dir]; ok(!(o.personOnCrossing && o.at[0] + d[0] === o.crossingColumn && o.at[0] !== o.crossingColumn), `${id}: drove into the busy crossing`); }
+      }
+      if (rbRollout(rbEnv(id, { seed }), { seed, policy: colRandomPolicy(id, seed) }).summary.passed) rnd += 1;
+    }
+    ok(exp === seeds.length && rnd < exp, `${id}: expert ${exp}/${seeds.length}, random ${rnd}`);
+    const ev = JSON.parse(readFileSync(join(ROOT, "docs/evals/colearn.json"), "utf8"));
+    const v = (ev.variants ?? []).find((x) => x.id === id);
+    ok(v && v.bcFiltered.n === 60 && v.random.n === 60 && v.expert.n === 60, `${id}: no 60-seed row in colearn.json variants`);
+    ok(v.bcFiltered.success > v.random.success && Math.abs(v.gapToExpert - (v.expert.success - v.bcFiltered.success)) < 0.002, `${id}: clone ${v.bcFiltered.success}, random ${v.random.success}, gap ${v.gapToExpert}`);
+    ok(RT_TASK_IDS.includes(id) && RT_TASKS[id].poseToAction === RT_TASKS[base].poseToAction, `${id}: not a teleop task on its base controls`);
+    // The skill-1 stand-in through the pose path on seeds 1–20: its hand lags, so on the hard port lane it can reach the stop zone as a
+    // pedestrian steps on; the env then refuses the move and holds the gantry (the only rule it may record is the crossing hold).
+    // The pass rate is reported as measured (base port lane 13/20, hard 8/20 when this row was written); at least one pass is required.
+    let sp = 0; const rules = new Set();
+    for (let seed = 1; seed <= 20; seed++) {
+      const env = rbEnv(id, { seed }), human = RT_TASKS[id].human(env, { seed, skill: 1 });
+      const pr = rbRollout(env, { seed, policy: (o) => RT_TASKS[id].poseToAction(human(o), o) });
+      if (pr.summary.passed) sp += 1;
+      for (const r of pr.summary.violationRules ?? []) rules.add(r);
+    }
+    ok(sp >= 1 && [...rules].every((r) => r === "crossing-stop-zone"), `${id}: the stand-in passed ${sp}/20 through the pose path; rules ${[...rules].join(",")}`);
+    return `expert ${exp}/${seeds.length} clean over ${steps} steps, random ${rnd}/${seeds.length}; colearn.json clone ${v.bcFiltered.success} (clean ${v.bcFiltered.clean}) vs expert ${v.expert.success}, gap ${v.gapToExpert}; stand-in through the pose path ${sp}/20${rules.size ? ` (held by the env: ${[...rules].join(", ")})` : ""}`;
+  });
+}
 
 // 8. hygiene
 check("Kids rule and hygiene: calm text in the new scenarios and rules; no model identifier in the files this console touched", () => {
