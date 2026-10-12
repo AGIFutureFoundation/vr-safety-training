@@ -1225,7 +1225,7 @@ window.__parishTest.vbridge = vbMountDispatch($("menu-drills"), { reducedMotion:
 // requests come to the learner as approvals (approving lets only the simulated job run); every award, veto, refusal and approval
 // goes to ENTERPRISE-3's audit log. Not mounted in K-12, demo or signed-out sessions (DATAWORKS' eligibility at the offer stage, and the
 // page's own ?demo flag, as the GEO gate reads it).
-window.__parishTest.hive = (() => { try { let ok = false; try { ok = !npParams.has("demo") && dxEligibility(dxReadSignals(), { stage: "offer" }).eligible === true; } catch (_) { ok = false; } return ok ? ohMountHive($("menu-drills"), { reducedMotion: npReduced, audit: ent3AuditAppend, seed: 1 }) : null; } catch (_) { return null; } })();
+window.__parishTest.hive = (() => { try { let ok = false; try { ok = !npParams.has("demo") && dxEligibility(dxReadSignals(), { stage: "offer" }).eligible === true; } catch (_) { ok = false; } return ok ? ohMountHive($("menu-drills"), { reducedMotion: npReduced, audit: ent3AuditAppend, seed: 1, onTalk: (id, on) => { if (on) aaWorld?.talkStart(id); else aaWorld?.talkEnd(id); } }) : null; } catch (_) { return null; } })();
 window.__parishTest.vbColearn = vbProvider;
 // AGENT-AVATARS (docs/consoles/AGENT-AVATARS.md): the software agents embodied at this map's robot sites — the four VBRIDGE
 // personas over the agent-jobs panel's job stream (the client asks, the governor checks, the provider walks to a running job's

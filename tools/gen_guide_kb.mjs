@@ -220,7 +220,7 @@ async function build() {
     const lines = readFileSync(join(ROOT, rel), "utf8").split("\n");
     let docTitle = null, head = null, para = [], n = 0;
     const flush = () => {
-      if (head && para.length && n < (rel === "docs/bench-protocol.md" || rel === "docs/learner-data-terms.md" ? 0 : rel.startsWith("docs/programmes/") || rel.startsWith("docs/virtuals") || rel === "docs/robotics-programme.md" || rel === "docs/louisiana-cohorts.md" || rel === "docs/ladders.md" ? 2 : 5)) { // five sections a doc (two for generated programme and ladder docs and the agent-network docs; none for ROBOEXPORT's two, whose FAQ entry carries the terms): the KB holds its 672 KB cap as docs grow
+      if (head && para.length && n < (rel === "docs/bench-protocol.md" || rel === "docs/learner-data-terms.md" || rel === "docs/omega-hive.md" ? 0 : rel.startsWith("docs/programmes/") || rel.startsWith("docs/virtuals") || rel === "docs/robotics-programme.md" || rel === "docs/louisiana-cohorts.md" || rel === "docs/ladders.md" ? 2 : 5)) { // five sections a doc (two for generated programme and ladder docs and the agent-network docs; none for ROBOEXPORT's two, whose FAQ entry carries the terms): the KB holds its 672 KB cap as docs grow
         const text = plain(para.join(" "));
         if (text.length > 30) {
           add({ id: `doc:${rel.slice(5)}#${n}`, kind: "doc", title: head === docTitle ? docTitle : `${docTitle} — ${head}`, src: rel,
@@ -274,6 +274,9 @@ async function build() {
     ["guide-what", "What can the Guide answer?", "guide you who are what can answer",
       "I answer only from this platform's own pages: the programmes and stations, the worlds and their sites, the controls, the unions and the docs. When nothing matches I say so. I run on this device and send nothing anywhere unless this site's owner has set a hosted answer service.",
       "WebXR/shared/guide.js", [{ label: "Open the programme finder", href: "index.html#catalog" }]],
+    ["omega-hive", "What is the Omega Hive?", "omega hive software agents robots personality voice avatar governor approve",
+      "The Omega Hive is seven software agents that run the simulated robots: each has a personality, an on-device voice (off until you turn it on; captions always show) and an avatar labelled software agent. Every job goes through the safety governor, and anything that would touch a real machine waits for a person's approval. No language model or network call is used.",
+      "docs/omega-hive.md, WebXR/shared/oh-hive.js", []],
     ["data-terms", "What are the terms for my training data?", "data terms privacy consent record collect delete revoke opt in training robot episodes",
       "docs/learner-data-terms.md, a draft for counsel, says only what the code enforces: nothing is recorded unless an adult, signed-in learner opts in; K-12, demo and signed-out sessions never collect; the data stay on this device and train only the local provider; one tap revokes and deletes everything. The Me tab's data panel links it.",
       "docs/learner-data-terms.md, WebXR/shared/dx-data.js", []],
@@ -332,7 +335,7 @@ export async function gdBuildKb() {
 if (import.meta.url === pathToFileURL(process.argv[1]).href) {
   const src = await gdBuildKb();
   if (process.argv.includes("--stdout")) process.stdout.write(src);
-  else if (src.length > GD_KB_CAP) { console.error(`guide-kb.js would be ${(src.length / 1024).toFixed(0)} KB, over the ${GD_KB_CAP / 1024} KB cap`); process.exit(1); }
+  else if (src.length > GD_KB_CAP) { console.error(`guide-kb.js would be ${(src.length / 1024).toFixed(0)} KB (${src.length} characters), over the ${GD_KB_CAP / 1024} KB cap (${GD_KB_CAP})`); process.exit(1); }
   else {
     writeFileSync(GD_KB_OUT, src);
     console.log(`Wrote WebXR/shared/guide-kb.js — ${chunks.length} chunks, ${(src.length / 1024).toFixed(0)} KB`);

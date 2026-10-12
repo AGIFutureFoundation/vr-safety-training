@@ -324,7 +324,10 @@ await check("13 wiring: the panel mounts behind DATAWORKS' eligibility (not K-12
   const el = (sg) => DX.dxEligibility(sg, { stage: "offer" }).eligible;
   ok(!el({ demo: true, signedIn: true, k12: false }) && !el({ demo: false, signedIn: false, k12: false }) && !el({ demo: false, signedIn: true, k12: true }) && !el({ demo: null, signedIn: true, k12: false }) && el({ demo: false, signedIn: true, k12: false }), "the gate's logic");
   const py = src("tools/bundle_webxr.py");
-  const order = ["vb-panel.js", "oh-hive-data.js", "oh-say.js", "oh-voice.js", "oh-hive.js", "oh-panel.js"].map((f) => py.indexOf(`SHARED / "${f}"`));
+  // The parishes list carries the hive after the agent-jobs panel; the instructor list also carries oh-hive-data.js (the governance
+  // tab's roster), earlier in the file, so each module is looked up after vb-panel.js's position.
+  const vbAt = py.indexOf(`SHARED / "vb-panel.js"`);
+  const order = ["vb-panel.js", "oh-hive-data.js", "oh-say.js", "oh-voice.js", "oh-hive.js", "oh-panel.js"].map((f, i) => (i === 0 ? vbAt : py.indexOf(`SHARED / "${f}"`, vbAt)));
   ok(order.every((i) => i > 0) && order.every((x, i) => i === 0 || x > order[i - 1]), "the bundle list order");
   ok(src("tools/check_all.mjs").includes('"check_omega_hive.mjs"'), "check_all does not list check_omega_hive.mjs");
   const doc = src("docs/omega-hive.md"); ok(/software agent/i.test(doc) && /What it is not/i.test(doc), "docs/omega-hive.md");

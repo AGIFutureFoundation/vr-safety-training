@@ -328,6 +328,7 @@ APPS = {
             # The account chip controls.js mounts (shared/account.js) and what it reads.
             SHARED / "auth.js",
             SHARED / "av-sprites.js",
+            SHARED / "oh-hive-data.js",  # OMEGA-HIVE: the hive roster the governance tab shows (data only)
             SHARED / "aa-agent-portraits.js",  # AGENT-AVATARS: the agent roster's portraits on the governance tab (read at render time)
             SHARED / "account.js",
             SHARED / "controls.js",

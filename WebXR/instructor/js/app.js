@@ -24,6 +24,7 @@ import { Auth } from "../../shared/auth.js";
 import { dnMountView } from "./dean.js";
 // ENTERPRISE-3 (docs/enterprise.md section 6): the Data governance tab — consent registry, dataset cards, lineage, fleet, revoke, audit, billing status.
 import { ent3MountGovernanceView } from "./governance.js";
+import { OH_AGENTS } from "../../shared/oh-hive-data.js"; // OMEGA-HIVE: the hive roster for the governance tab (AGENT-AVATARS draws the portraits)
 import { PP_PROGRAMMES } from "../../shared/passport-programmes.js";
 
 // The instructor console. It owns no simulation and no records: it listens to
@@ -668,7 +669,7 @@ enMountCohortView($("en-root"), { toast });
 pmMountBillingView($("pm-root"), { toast });
 // DEAN's tab (docs/modules.md). PACKS' pkPacks and SCHOLAR's scSessions register through dnUsePacks/dnUseSessions once merged.
 var dnView = dnMountView($("dn-root"), { toast });
-var ent3Tab = ent3MountGovernanceView($("ent3-root"), { toast });
+var ent3Tab = ent3MountGovernanceView($("ent3-root"), { toast, agents: OH_AGENTS });
 function enApplyDeployment() {
   const e = Auth.config?.enterprise ?? null;
   enSetEnterprise(e);
