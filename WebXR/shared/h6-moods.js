@@ -34,10 +34,12 @@ export const H6_MOOD_PHRASES = Object.freeze({
     concerned: Object.freeze({ formal: Object.freeze(["mindful of the last refusal", "with care after that refusal"]), casual: Object.freeze(["watching closely after that refusal", "careful after that refusal"]) }),
     relieved: Object.freeze({ formal: Object.freeze(["with the audit clean", "glad the audit came back clean"]), casual: Object.freeze(["good to see a clean audit", "relieved the audit is clean"]) }),
   }),
+  // HIVE-7: the Spanish re-read for fluency by a software agent (not a native speaker): "con las manos ocupadas" (busy), a casual
+  // concerned pair that no longer repeats the formal one, "más tranquilo" (relieved). A native speaker's review is still open.
   es: Object.freeze({
-    busy: Object.freeze({ formal: Object.freeze(["con la cola llena", "con mi cola completa"]), casual: Object.freeze(["con mucho entre manos", "con las manos llenas"]) }),
-    concerned: Object.freeze({ formal: Object.freeze(["atento al último rechazo", "con cuidado tras ese rechazo"]), casual: Object.freeze(["con ojo tras ese rechazo", "con cuidado tras ese rechazo"]) }),
-    relieved: Object.freeze({ formal: Object.freeze(["con la auditoría limpia", "con la auditoría en orden"]), casual: Object.freeze(["qué bien, auditoría limpia", "tranquilo con la auditoría limpia"]) }),
+    busy: Object.freeze({ formal: Object.freeze(["con la cola llena", "con mi cola completa"]), casual: Object.freeze(["con mucho entre manos", "con las manos ocupadas"]) }),
+    concerned: Object.freeze({ formal: Object.freeze(["atento al último rechazo", "con cuidado tras ese rechazo"]), casual: Object.freeze(["con los ojos bien abiertos tras ese rechazo", "con más cuidado tras ese rechazo"]) }),
+    relieved: Object.freeze({ formal: Object.freeze(["con la auditoría limpia", "con la auditoría en orden"]), casual: Object.freeze(["qué bien, auditoría limpia", "más tranquilo con la auditoría limpia"]) }),
   }),
 });
 /** The gentle band: a mood moves rate and pitch by at most this much, and never outside H6_VOICE_BAND. */

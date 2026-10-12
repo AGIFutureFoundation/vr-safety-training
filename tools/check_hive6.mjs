@@ -28,6 +28,9 @@
  *      BroadcastChannel to h5LiveReader: every snapshot's moods equal the hive's mood(id) (N of N agents per snapshot), the causes
  *      carry only the hive's own fields, the briefing captions are the hive's, a hive without moods sends the old shape, and the tab
  *      takes the live moods from the reader's snapshot (the replay stays the fallback; nothing posted or stored).
+ *  10. HIVE-7: the Spanish hive (the panel's Spanish configuration, moods and the briefing on, approvals in the window): no English
+ *      fragment in a Spanish line but names (site and agent names, the supervisor) and ids (job ids, reason ids); the mood words and
+ *      phrases and the briefing kinds are Spanish.
  */
 import { readFileSync, existsSync } from "node:fs";
 import { join, dirname } from "node:path";
@@ -441,6 +444,33 @@ await check("9 HIVE-7: moods on the live console link: each snapshot's moods = t
   ok(/h4MoodPanel\(seed, [^;]*reader\.snapshot\(\)/.test(tab) && /function h4LiveMoodPanel\(live\)/.test(tab) && /Array\.isArray\(live\.moods\)/.test(tab) && !/postMessage|localStorage|sessionStorage|indexedDB/.test(tab), "the tab's moods panel reads the live snapshot when it carries moods, else the replay; posts and stores nothing");
   evals.push(`moods on the live console link (seed 3, panel hive, 240 minutes): live moods = hive mood(id) ${agentsOk} of ${agentsAll} (${snaps} snapshots x 7 agents); mood changes ${changes}; briefing 7 of 7 captions; 0 requests, 0 storage`);
   return `${agentsOk}/${agentsAll} over ${snaps} snapshots; changes ${changes}; briefing 7/7; old shape without moods; dropped on off`;
+});
+
+// ------------------------------------------------------------------------------------------------ 10. the Spanish lines
+await check("10 HIVE-7: Spanish lines carry no English fragment but names and ids (moods, briefing and corrections on)", async () => {
+  const P = await imp("WebXR/shared/oh-panel.js");
+  const VB = await imp("WebXR/shared/vb-shared-data.js");
+  const EN = /\b(the|and|with|at|my|is|of|to|on|for|I|job|jobs|queue|audit|clean|briefing|morning|first|refusal|after|from|ready|every|line|chain|approval|approved|learner|careful|mindful|glad|plate|hands|full|watching|relieved|good|start|change|now|moved|changed|since|nothing|board|minutes|calm|busy|concerned|mood)\b/;
+  const names = [...SITE_NAMES, ...D.OH_AGENTS.map((a) => a.name), "Supervisor (este dispositivo)"].sort((a, b) => b.length - a.length);
+  const ids = new Set([...VB.VB_REASONS.map((r) => r.id), ...Object.keys(D.OH_REASON_PHRASES ?? {})]);
+  let n = 0, clean = 0, fixes = 0, briefN = 0; const bad = [];
+  for (const seed of [1, 2]) {
+    const hv = H.ohHive({ seed, ...PANEL, moods: true, briefing: true, say: (a, ev) => S.ohSay(a, ev, { lang: "es" }), agents: D.OH_AGENTS.map((a) => D.ohAgentIn(a, "es")), supervisor: "Supervisor (este dispositivo)" });
+    briefN += (hv.brief() ?? []).length;
+    for (let i = 0; i < 480; i += 1) { hv.step(); if (hv.now() >= 1 && hv.now() <= M.H6_BRIEF.window) for (const p of hv.pending()) hv.approve(p.jobId); }
+    for (const e of hv.events().filter((x) => x.type === "speak")) {
+      n += 1; if (e.briefing?.fix) fixes += 1;
+      let s = e.text; for (const nm of names) s = s.split(nm).join(" ");
+      s = s.replace(/\bvbjob-[0-9a-f]+\b/g, " ").split(/\s+/).filter((w) => !ids.has(w.replace(/[.,;:]$/, ""))).join(" ");
+      if (EN.test(s)) bad.push(e.text); else clean += 1;
+    }
+  }
+  ok(clean === n, `Spanish lines with an English fragment: ${bad.length} of ${n}: ${bad.slice(0, 2).join(" | ")}`);
+  const words = Object.values(M.H6_MOOD_PHRASES.es).flatMap((m) => Object.values(m).flat()).concat(Object.values(P.OH_MOOD_WORDS.es), Object.values(S.OH_CORES_BRIEF_ES).flat(), Object.values(S.OH_SECOND_ES ?? {}).flat());
+  const wbad = words.filter((w) => EN.test(String(w).replace(/\{\w+\}/g, " ")));
+  ok(!wbad.length, `Spanish phrase lists with English: ${wbad.join(" | ")}`);
+  evals.push(`Spanish lines without an English fragment but names and ids (seeds 1-2, moods, briefing, approvals in the window): ${clean} of ${n} (briefing turns ${briefN}, corrections ${fixes}); phrase lists ${words.length} of ${words.length}`);
+  return `${clean}/${n} lines; ${words.length} phrases and words; briefing ${briefN}; corrections ${fixes}`;
 });
 
 console.log(`\n${passed} passed, ${failed} failed`);

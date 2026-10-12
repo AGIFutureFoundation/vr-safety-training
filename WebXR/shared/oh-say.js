@@ -68,12 +68,14 @@ export const OH_CORES_BRIEF = Object.freeze({
   brief_fix: ["Change of plan, I start with {job} at {site}", "My first job is now {job} at {site}"],
   brief_fix_q: ["Change of plan, I start with {job} at {site}", "My first job is now {job} at {site}"],
 });
+// HIVE-7: re-read for fluency by a software agent (not a native speaker): the keeper's "sigue necesitando" (the English "still
+// needs"), "Hoy" first in the supervise line; the correction kinds added. A native speaker's review is still open.
 export const OH_CORES_BRIEF_ES = Object.freeze({
   brief_open: ["Buenos días: {count} trabajos en la cola de hoy, {first} en la primera hora", "La cola de hoy tiene {count} trabajos, {first} en la primera hora"],
   brief_first: ["Mi primer trabajo es {job} en {site}", "Empiezo con {job} en {site}"],
   brief_steward: ["Reviso cada trabajo que el gobernador permite, {count} en la cola de hoy"],
-  brief_keeper: ["{supervisor} tiene una aprobación vigente para trabajos simulados; un robot físico necesita una decisión"],
-  brief_keeper_sup: ["{supervisor} aprueba cada trabajo antes de que se ejecute hoy"],
+  brief_keeper: ["{supervisor} tiene una aprobación vigente para trabajos simulados; un robot físico sigue necesitando una decisión"],
+  brief_keeper_sup: ["Hoy {supervisor} aprueba cada trabajo antes de que se ejecute"],
   brief_auditor: ["Reviso la cadena cada {every} trabajos cerrados, desde la línea {lines}"],
   brief_none: ["Nada en mi tablero en los primeros {window} minutos; listo en {site}"],
   brief_fix: ["Cambio de plan, empiezo con {job} en {site}", "Mi primer trabajo ahora es {job} en {site}"],
