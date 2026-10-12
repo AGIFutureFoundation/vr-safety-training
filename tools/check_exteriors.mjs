@@ -91,6 +91,7 @@ for (const [p, l] of layouts) {
 
 // 3. budgets per site and the chunk with FACADES
 const perTier = { low: [], balanced: [], high: [] };
+const worstChunk = { low: [0, ""], balanced: [0, ""], high: [0, ""] }; // ENV-HD-3: the worst robot-site chunk per tier (FACADES + kit meshes)
 for (const [p, l] of layouts) {
   const counts = {}, chunkRow = [];
   for (const tier of TIERS) {
@@ -109,6 +110,7 @@ for (const [p, l] of layouts) {
       check(dm + fx.meshes <= F.FC_BUDGET.meshesPerChunk[tier], `${l.id}/${tier}: chunk ${key} FACADES ${dm} + kit ${fx.meshes} meshes ≤ FC_BUDGET ${F.FC_BUDGET.meshesPerChunk[tier]}`);
       check(dt + fx.triangles <= F.FC_BUDGET.trianglesPerChunk[tier], `${l.id}/${tier}: chunk ${key} FACADES ${dt} + kit ${fx.triangles} triangles ≤ FC_BUDGET ${F.FC_BUDGET.trianglesPerChunk[tier]}`);
       chunkRow.push(`${tier} ${key} ${dm}+${fx.meshes} meshes / ${dt}+${fx.triangles} tris`);
+      if (dm + fx.meshes > worstChunk[tier][0]) worstChunk[tier] = [dm + fx.meshes, `${l.id} ${key}`];
       det?.dispose();
     }
     g.dispose();
@@ -116,6 +118,8 @@ for (const [p, l] of layouts) {
   note(`${l.id} chunks (FACADES + kit vs FC_BUDGET ${F.FC_BUDGET.meshesPerChunk.low}/${F.FC_BUDGET.meshesPerChunk.high} meshes, ${F.FC_BUDGET.trianglesPerChunk.low}/${F.FC_BUDGET.trianglesPerChunk.high} tris): ${chunkRow.join("; ")}`);
   check(counts.low.meshes === 1 && counts.low.triangles < counts.balanced.triangles, `${l.id}: the phone kit is the cheapest (${counts.low.meshes} mesh / ${counts.low.triangles} tris vs balanced ${counts.balanced.meshes} / ${counts.balanced.triangles}, high ${counts.high.meshes} / ${counts.high.triangles})`);
 }
+check(worstChunk.high[0] < F.FC_BUDGET.meshesPerChunk.high, `worst robot-site chunk on high: ${worstChunk.high[0]} meshes (FACADES + kit), below FC_BUDGET ${F.FC_BUDGET.meshesPerChunk.high} (${worstChunk.high[1]})`);
+note(`worst robot-site chunk, FACADES + kit meshes: low ${worstChunk.low[0]} (${worstChunk.low[1]}), balanced ${worstChunk.balanced[0]} (${worstChunk.balanced[1]}), high ${worstChunk.high[0]} (${worstChunk.high[1]})`);
 note(`triangles per site: low ${perTier.low.join("/")}, balanced ${perTier.balanced.join("/")}, high ${perTier.high.join("/")}`);
 note(`texture bytes per map (planned atlas + quarter-size glow mask, RGBA, mipmapped): low 0, balanced ${Math.round((512 ** 2 + 128 ** 2) * 4 * 4 / 3)}, high ${Math.round((1024 ** 2 + 256 ** 2) * 4 * 4 / 3)} (budget ${FX.FX_BUDGET.textureBytes.balanced} / ${FX.FX_BUDGET.textureBytes.high}; the browser drive measures the canvases drawn)`);
 check((1024 ** 2 + 256 ** 2) * 4 * 4 / 3 <= FX.FX_BUDGET.textureBytes.high && (512 ** 2 + 128 ** 2) * 4 * 4 / 3 <= FX.FX_BUDGET.textureBytes.balanced, "the atlas sizes fit the stated texture budgets");
