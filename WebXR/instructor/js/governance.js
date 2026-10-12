@@ -9,7 +9,7 @@
 // markup from strings on this page, and every id and name here is untrusted.
 // Every top-level name starts with `ent3` (the bundler shares one scope).
 
-import { ent3Consents, ent3Datasets, ent3DatasetCard, ent3Policies, ent3LineageRows, ent3Fleet, ent3Revoke, ent3AuditList, ent3VerifyAudit, ent3LoadSample, ent3Deploy, ENT3_METHODS } from "../../shared/ent3-governance.js";
+import { ent3Consents, ent3Datasets, ent3DatasetCard, ent3Policies, ent3LineageRows, ent3Fleet, ent3Revoke, ent3AuditList, ent3VerifyAudit, ent3LoadSample, ent3Deploy, ENT3_METHODS, ent3Export, ent3Import, ent3Imports } from "../../shared/ent3-governance.js";
 import { ent3BillingAdapter, ent3BillingConfig } from "../../shared/ent3-billing.js";
 
 function ent3El(tag, cls, text) { const node = document.createElement(tag); if (cls) node.className = cls; if (text !== undefined) node.textContent = text; return node; }
@@ -25,6 +25,27 @@ function ent3Table(headers, rows, empty) {
   for (const cells of rows) { const tr = ent3El("tr"); for (const c of cells) { const td = ent3El("td"); if (c && c.nodeType) td.append(c); else td.textContent = String(c ?? ""); tr.append(td); } tb.append(tr); }
   if (!rows.length) { const tr = ent3El("tr"); const td = ent3El("td", "muted", empty); td.colSpan = headers.length; tr.append(td); tb.append(tr); }
   t.append(tb); wrap.append(t); return wrap;
+}
+// GOVERNOR-2: the registry moves between devices as a file the person carries (nothing is sent anywhere).
+function ent3DownloadRegistry() {
+  const doc = ent3Export();
+  const blob = new Blob([JSON.stringify(doc, null, 2)], { type: "application/json" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = `ent3-registry-${doc.exportedAt.slice(0, 10)}-line${doc.head.seq}.json`;
+  document.body.append(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  ent3Say(`Exported the registry: ${doc.head.lines} audit line(s), ${doc.lineage.nodes.length} lineage node(s).`);
+  return doc;
+}
+const ENT3_IMPORT_SAY = { "bad-schema": "not a registry export", "chain-broken": "the audit chain was edited", "head-mismatch": "the chain head does not match", "digest-mismatch": "the records were edited after export", "lineage-mismatch": "the lineage graph was edited", "unaudited-record": "a record has no audit line", forked: "it forks from this device's chain" };
+function ent3ReadRegistryText(text) {
+  let doc = null;
+  try { doc = JSON.parse(text); } catch (_) { doc = null; }
+  const r = ent3Import(doc);
+  ent3Say(r.ok ? (r.mode === "already-current" ? "Nothing new: this device already holds that chain." : `Imported (${r.mode}): ${r.added.lines} audit line(s), ${r.added.consents} consent(s), ${r.added.datasets} dataset(s), ${r.added.policies} policy(ies), ${r.added.deployments} deployment(s).`) : `Refused (${r.reason}): ${ENT3_IMPORT_SAY[r.reason] ?? ""} — ${r.detail ?? ""}`);
+  ent3Render();
+  return r;
 }
 function ent3Method(id) { return ENT3_METHODS.find((m) => m.id === id)?.label ?? id; }
 function ent3Score(e) { return e ? `${e.metric} ${e.value}${e.measured ? "" : " (sample figure)"} — ${e.suite}, n=${e.n}` : "no eval"; }
@@ -70,6 +91,16 @@ function ent3Render() {
   bp.append(ent3El("p", null, d.enabled ? `Provider: ${d.provider} · capabilities: ${d.capabilities.join(", ")} · proxy: ${d.proxy ?? "on-device mock"}` : "Billing: off (not configured for this deployment)."));
   out.push(bp);
 
+  const xp = ent3Panel("Move the registry between devices", "Export registry writes the records, the lineage graph and the audit chain with its head to a JSON file you carry to another device. Import registry checks the chain, the head and the records, refuses a tampered or forked file and says why, then merges by fast-forward without duplicating anything. Nothing is sent anywhere.");
+  const picker = ent3El("input"); picker.type = "file"; picker.accept = "application/json,.json"; picker.hidden = true; picker.id = "ent3-import-file";
+  picker.addEventListener("change", () => { const f = picker.files?.[0]; if (!f) return; f.text().then(ent3ReadRegistryText); picker.value = ""; });
+  const xrow = ent3El("div", "row");
+  xrow.append(ent3Btn("Export registry", ent3DownloadRegistry), ent3Btn("Import registry", () => picker.click()), picker);
+  xp.append(xrow);
+  const lastIn = ent3Imports().slice(-1)[0];
+  xp.append(ent3El("p", "fine", lastIn ? `Last import: ${lastIn.mode}, ${lastIn.added.lines} line(s) up to line ${lastIn.head.seq}, ${String(lastIn.at).slice(0, 19).replace("T", " ")}.` : "No import on this device yet."));
+  out.push(xp);
+
   const ap = ent3Panel("Audit log (append-only)", "Every registry change, oldest first. Each line carries the hash of the one before it; the check below re-walks the chain. Tamper-evident on this device, not cryptographic proof.");
   const v = ent3VerifyAudit();
   ap.append(ent3El("p", v.ok ? "ent3-ok" : "ent3-bad", v.ok ? `Chain verified: ${v.lines} line(s) intact.` : `Chain broken at line ${v.brokenAt} of ${v.lines}.`));
@@ -88,5 +119,5 @@ export function ent3MountGovernanceView(root, { toast = null, config = null } = 
   if (!document.getElementById("ent3-style")) { const s = document.createElement("style"); s.id = "ent3-style"; s.textContent = ENT3_CSS; document.head.appendChild(s); }
   try { addEventListener("gt:profile", ent3Render); } catch (_) { /* headless */ }
   ent3Render();
-  return { render: ent3Render, setConfig: (c) => { ent3View.config = c ?? null; ent3Render(); } };
+  return { render: ent3Render, setConfig: (c) => { ent3View.config = c ?? null; ent3Render(); }, exportRegistry: ent3DownloadRegistry, importRegistryText: ent3ReadRegistryText };
 }

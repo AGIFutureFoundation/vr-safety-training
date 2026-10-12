@@ -25,6 +25,10 @@
  *  11. no network API in any ent3 file; the console view sets no markup from strings;
  *  12. the Data governance tab is in the console and the bundle;
  *  13. no model identifier in any ent3 file.
+ *  14. GOVERNOR-2: registry export → import between devices: 200 seeded graphs round-trip identical, a second
+ *      import adds nothing, a continued device fast-forwards;
+ *  15. GOVERNOR-2: 50 tampered documents refused with a named reason; forked documents refused;
+ *  16. GOVERNOR-2: the Export / Import button pair on the Data governance tab (a file the person carries; no network).
  */
 import { readFileSync, existsSync } from "node:fs";
 import { dirname, join } from "node:path";
@@ -279,6 +283,106 @@ await check("13. no model identifier in any ent3 file or doc", () => {
     assert(t.length, `${f} is missing`);
     assert(!/\b(claude-[a-z0-9-]+|gpt-[0-9][\w.-]*|opus[- ]?\d|sonnet[- ]?\d|haiku[- ]?\d|gemini-[0-9][\w.-]*|llama-?[0-9][\w.-]*)\b/i.test(t), `${f} names a model`);
   }
+});
+
+// ------------------------------------------------------------------ GOVERNOR-2: export / import between devices
+function gv2Graph(trial) {
+  const R = lcg(trial + 501);
+  const nC = 3 + Math.floor(R() * 6); const nD = 2 + Math.floor(R() * 4); const nP = 2 + Math.floor(R() * 6);
+  const consents = Array.from({ length: nC }, (_, i) => `c${i}`);
+  const t = (k) => ({ at: `2026-10-12T09:${String(k % 60).padStart(2, "0")}:00.000Z` }); let k = 0;
+  for (const c of consents) gov.ent3RegisterConsent({ orgId: "org-t", consentId: c, licence: R() < 0.5 ? "CC0-1.0" : "CC-BY-4.0", at: AT, statementHash: c, adult: true }, t(k++));
+  const ds = [];
+  for (let i = 0; i < nD; i += 1) { const ids = consents.filter(() => R() < 0.35); gov.ent3RegisterDataset({ id: `ds${i}`, orgId: "org-t", name: `d${i}`, source: ids.length ? "human" : "synthetic", episodes: 1 + Math.floor(R() * 40), steps: 100, consentIds: ids, licences: ["CC0-1.0"], scenarios: ["rb-cell-entry"], worlds: ["robotics"], createdAt: AT }, t(k++)); ds.push(`ds${i}`); }
+  const pols = [];
+  for (let i = 0; i < nP; i += 1) {
+    const trainedOn = ds.filter(() => R() < 0.4); if (!trainedOn.length) trainedOn.push(ds[Math.floor(R() * nD)]);
+    const basedOn = pols.filter(() => R() < 0.25);
+    gov.ent3RegisterPolicy({ id: `pol${i}`, version: "1", name: `p${i}`, method: "behaviour-cloning-knn", trainedOn, basedOn }, t(k++)); pols.push(`pol${i}`);
+    if (R() < 0.6) gov.ent3RecordEval(`pol${i}`, { suite: "seeded", metric: "success rate", value: Math.round(R() * 1000) / 1000, n: 8, measured: true, at: AT });
+  }
+  const sites = rbData.RB_SITES.map((x) => x.id);
+  pols.forEach((id, i) => { if (R() < 0.7) gov.ent3Deploy({ policyId: id, siteId: sites[i % sites.length] }, t(k++)); });
+  if (R() < 0.5) gov.ent3Revoke({ consentId: consents[Math.floor(R() * nC)] }, "learner withdrew", t(k++));
+  return { R, consents, ds, pols };
+}
+const gv2Same = (a, b) => JSON.stringify({ ...a, exportedAt: null }) === JSON.stringify({ ...b, exportedAt: null });
+
+await check("14. registry export → import between devices: 200 seeded graphs round-trip identical; a second import adds nothing; a continued device fast-forwards", () => {
+  need(gov, "ent3-governance.js"); need(rbData, "rb-robotics-data.js");
+  assert(typeof gov.ent3Export === "function" && typeof gov.ent3Import === "function", "ent3Export / ent3Import are missing");
+  let same = 0, again = 0, ff = 0, lines = 0, records = 0;
+  for (let trial = 0; trial < 200; trial += 1) {
+    const A = memStorage(); gov.ent3UseStorage(A); const g = gv2Graph(trial);
+    const docA = gov.ent3Export({ at: AT });
+    assert(docA.schema === gov.ENT3_EXPORT_SCHEMA && docA.head.lines === docA.audit.length && docA.lineage.nodes.length, `trial ${trial}: export shape`);
+    const B = memStorage(); gov.ent3UseStorage(B);
+    const r = gov.ent3Import(JSON.parse(JSON.stringify(docA)));
+    assert(r.ok && r.mode === "adopt", `trial ${trial}: import refused (${r.reason}: ${r.detail})`);
+    const docB = gov.ent3Export({ at: AT });
+    if (gv2Same(docA, docB)) same += 1;
+    assert(gov.ent3VerifyAudit().ok, `trial ${trial}: B's chain`);
+    const r2 = gov.ent3Import(docA);
+    if (r2.ok && r2.mode === "already-current" && Object.values(r2.added).every((n) => n === 0) && gv2Same(gov.ent3Export({ at: AT }), docA)) again += 1;
+    // A keeps working; B imports the newer file and fast-forwards with only the new records.
+    gov.ent3UseStorage(A); gov.ent3RegisterDataset({ id: `ds-new-${trial}`, orgId: "org-t", name: "later", source: "synthetic", episodes: 3, steps: 30, consentIds: [], licences: ["CC0-1.0"], scenarios: ["rb-cell-entry"], worlds: ["robotics"], createdAt: AT }, { at: AT });
+    const docA2 = gov.ent3Export({ at: AT });
+    gov.ent3UseStorage(B); const r3 = gov.ent3Import(docA2);
+    if (r3.ok && r3.mode === "fast-forward" && r3.added.datasets === 1 && r3.added.lines === 1 && gv2Same(gov.ent3Export({ at: AT }), docA2) && gov.ent3Datasets().length === g.ds.length + 1) ff += 1;
+    lines += docA2.audit.length; records += ["consents", "datasets", "policies", "deployments"].reduce((n, kk) => n + docA2.registry[kk].length, 0);
+  }
+  console.log(`      round trip identical ${same}/200; second import adds nothing ${again}/200; continued device fast-forwards ${ff}/200 (${records} records, ${lines} audit lines carried)`);
+  assert(same === 200 && again === 200 && ff === 200, "a round trip, re-import or fast-forward was wrong");
+});
+
+await check("15. tampered documents refused with a named reason (50 of 50); forked documents refused; nothing changes on a refusal", () => {
+  need(gov, "ent3-governance.js");
+  const kinds = {
+    "audit-edit": (d) => { d.audit[Math.floor(d.audit.length / 2)].detail += " (edited)"; return "chain-broken"; },
+    "audit-delete": (d) => { d.audit.splice(1, 1); return "chain-broken"; },
+    "record-edit": (d) => { const p = d.registry.policies[0]; p.trainedOn = p.trainedOn.length > 1 ? p.trainedOn.slice(1) : [...p.trainedOn, "ds-forged"]; return "digest-mismatch"; },
+    "head-edit": (d) => { d.audit.pop(); return "head-mismatch"; },
+    "lineage-edit": (d) => { d.lineage.edges.push({ from: "ds-forged", to: d.registry.policies[0].id, kind: "trained-on" }); return "lineage-mismatch"; },
+  };
+  let refused = 0, named = 0, unchanged = 0; const tally = {};
+  for (let i = 0; i < 50; i += 1) {
+    const kind = Object.keys(kinds)[i % 5];
+    const A = memStorage(); gov.ent3UseStorage(A); gv2Graph(1000 + i);
+    const doc = JSON.parse(JSON.stringify(gov.ent3Export({ at: AT })));
+    const want = kinds[kind](doc);
+    const B = memStorage(); gov.ent3UseStorage(B); gov.ent3RegisterConsent({ orgId: "org-b", consentId: `b${i}`, licence: "CC0-1.0", at: AT, statementHash: "b", adult: true });
+    const before = B.getItem(gov.ENT3_KEY);
+    const r = gov.ent3Import(doc);
+    if (!r.ok) refused += 1;
+    if (r.reason === want) named += 1;
+    if (B.getItem(gov.ENT3_KEY) === before) unchanged += 1;
+    tally[kind] = `${(tally[kind] ? +tally[kind].split("/")[0] : 0) + (r.reason === want ? 1 : 0)}/${(tally[kind] ? +tally[kind].split("/")[1] : 0) + 1}`;
+  }
+  // Forks: two devices start from the same file, each adds its own record; neither's later file imports into the other.
+  let forks = 0;
+  for (let i = 0; i < 20; i += 1) {
+    const A = memStorage(); gov.ent3UseStorage(A); gv2Graph(2000 + i); const base = gov.ent3Export({ at: AT });
+    const B = memStorage(); gov.ent3UseStorage(B); gov.ent3Import(base);
+    gov.ent3RegisterDataset({ id: "ds-on-b", orgId: "org-t", name: "b", source: "synthetic", episodes: 1, steps: 1, consentIds: [], licences: ["CC0-1.0"], scenarios: [], worlds: [] });
+    gov.ent3UseStorage(A); gov.ent3RegisterDataset({ id: "ds-on-a", orgId: "org-t", name: "a", source: "synthetic", episodes: 1, steps: 1, consentIds: [], licences: ["CC0-1.0"], scenarios: [], worlds: [] });
+    const docA = gov.ent3Export({ at: AT });
+    gov.ent3UseStorage(B); const r = gov.ent3Import(docA);
+    if (!r.ok && r.reason === "forked" && !gov.ent3Datasets().some((d) => d.id === "ds-on-a")) forks += 1;
+  }
+  // A whole forged history from another device is refused on a device that holds a different chain.
+  const F = memStorage(); gov.ent3UseStorage(F); gv2Graph(3001); const forged = gov.ent3Export({ at: AT });
+  const B2 = memStorage(); gov.ent3UseStorage(B2); gv2Graph(3002); const rf = gov.ent3Import(forged);
+  const bad = gov.ent3Import({ schema: "something-else" });
+  console.log(`      tampered refused ${refused}/50, with the expected named reason ${named}/50 (${Object.entries(tally).map(([k2, v]) => `${k2} ${v}`).join(", ")}), store untouched ${unchanged}/50; forked refused ${forks}/20; foreign history ${rf.reason}; wrong schema ${bad.reason}`);
+  assert(refused === 50 && named === 50 && unchanged === 50, "a tampered document was accepted or refused for the wrong reason");
+  assert(forks === 20 && rf.reason === "forked" && bad.reason === "bad-schema", "a fork or a foreign document was accepted");
+});
+
+await check("16. the Data governance tab has the Export / Import button pair (a file the person carries; no network)", () => {
+  const view = read("WebXR/instructor/js/governance.js");
+  assert(/ent3Export\b/.test(view) && /ent3Import\b/.test(view), "the view does not call ent3Export / ent3Import");
+  assert(/Export registry/.test(view) && /Import registry/.test(view), "the button pair is missing");
+  assert(/type\s*=\s*"file"|\.type = "file"/.test(view) && /application\/json/.test(view), "no file picker / JSON download");
 });
 
 console.log(`\n${failed ? "✗" : "✓"} ENTERPRISE-3 — ${passed} passed, ${failed} failed`);
