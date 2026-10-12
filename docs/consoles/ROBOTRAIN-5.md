@@ -55,7 +55,7 @@ where it is written. It goes through the same opt-in a person would click. No pe
 
 ## The drive's output (the built page, `?parish=sf-downtown`, port 9081, reduced motion)
 
-Script: `$SP/loop9/rt5/drive.mjs`, scratch. The takes are three skill-1 stand-in pose sequences replayed through the pad's XR
+Script: `tools/drive_robotrain_page.mjs`. It is not in the gate. Run `python3 tools/bundle_webxr.py parishes && node tools/drive_robotrain_page.mjs 9081`; it exits 1 when the proof does not hold. The takes are three skill-1 stand-in pose sequences replayed through the pad's XR
 seam (`teleop.xr`). The drive does not call `vbLocal.refresh()` between the flush and the card. The card is what the app
 rendered after its own `onTake` re-read.
 
@@ -162,6 +162,12 @@ clean. No tuning was done to close the gap.
 - `node tools/check_dataworks.mjs`: 59 passed, 0 failed
 - `node tools/check_robotics.mjs`: 19 passed, 0 failed
 - `node tools/check_imports.mjs`: All 1103 modules call only what they declare or import.
+- `node tools/check_bridge.mjs`: 138/139 at first. The shared export was stale for the new variant, so it was refreshed through
+  `tools/export_shared.mjs`. Then 139/139 checks, 0 failed.
+- `node tools/check_agentgym.mjs` 33/0 · `check_enterprise3` 13/0 · `check_vbridge` 14/0 · `check_silica` 41/0 ·
+  `check_roboexport` 8/0 · `check_robotics_programme` ok, 714 checks · `check_parishes` 62991 passed, 0 failed
+- `node tools/drive_robotrain_page.mjs 9081`: ok. Opted in, 3 takes → the card says "your 3 takes" (job completed, the governor
+  on every step); revoke → "synthetic demonstrations", store 0; page errors 0, external requests 0.
 
 ## Seams
 
@@ -179,8 +185,9 @@ clean. No tuning was done to close the gap.
 
 ## Left
 
-- The drive script stays in scratch (`$SP/loop9/rt5/drive.mjs`). The page proof is observed and pasted here, but no gate
-  re-runs it. A browser checker that drives the page (opt in → takes → card → revoke) would turn this observation into a check.
+- The page drive is a script (`tools/drive_robotrain_page.mjs`; it exits 1 when the proof fails), but it is not in the gate.
+  It boots the full page in about a minute. Adding it to `tools/check_all.mjs` needs the coordinator's idle-machine timing for
+  `docs/perf/checkers-baseline.json`, which this console must not commit.
 - The AMR hard clone completes 0.050 of runs. Closing that gap needs better features (the second crossing's timing ahead, a
   route around the pallet) or more demonstrations. That is a learning problem, left open on purpose and measured as it is.
 - No AGENTGYM baseline exists for the hard variants. The AMR variant has no teleop task, because fleet routing is not a
