@@ -155262,6 +155262,10 @@ const RB_SCENARIOS = [
     blurb: "Route a small fleet of warehouse robots to their drop-offs without two robots claiming the same spot, and hold them at the walkway while a person crosses.",
     station: "ad-amr-fleet-traffic-and-estop-drill", maxSteps: 120, dt: 1,
     params: { width: 9, height: 7, robots: 3, walkwayColumn: 4 },
+    // ROBOTRAIN-5 `hard` (rbEnv("rb-amr-fleet-routing#hard")): a second walkway crossing (column 3 or 5, seeded) with its own random
+    // timing (first step, period and crossing length seeded), and one blocked aisle cell on the pick-up side (a pallet left out, seeded; never a start, a
+    // drop-off or a walkway, and the floor stays connected).
+    variants: { hard: { walkways: 2, blockedCell: true } },
     actions: ["route {moves: [N|S|E|W|wait per robot]}", "estop", "wait"],
     safePractice: ["conflict", "yield-missed"],
   },
@@ -155546,6 +155550,9 @@ function rbAmrSim(sc) {
   const inside = (x, y) => x >= 0 && y >= 0 && x < W && y < H;
   let s;
   const person = (tick) => ((tick + s.phase) % s.period) < s.cross;
+  // ROBOTRAIN-5: every walkway with its own person schedule (the base scenario has one; `hard` adds a second) and the blocked cell.
+  const walks = (tick) => s.walks.map((w) => ({ column: w.column, busy: ((tick + w.phase) % w.period) < w.cross }));
+  const blockedAt = (x, y) => !!s.blocked && s.blocked[0] === x && s.blocked[1] === y;
   return {
     init(seed) {
       const R = rng(seed * 104729 + 3);
@@ -155553,26 +155560,36 @@ function rbAmrSim(sc) {
       const goals = rows.slice().sort(() => R() - 0.5);
       s = { tick: 0, phase: Math.floor(R() * 12), period: 12 + Math.floor(R() * 6), cross: 4,
         robots: rows.slice(0, P.robots).map((y, i) => ({ id: `amr-${i + 1}`, x: 0, y, gx: W - 1, gy: goals[i], done: false })), delivered: 0 };
+      s.walks = [{ column: WC, phase: s.phase, period: s.period, cross: s.cross }]; s.blocked = null;
+      // `hard`: drawn after the base draws, so the base scenario's seeds are unchanged.
+      if ((P.walkways ?? 1) > 1) s.walks.push({ column: R() < 0.5 ? WC - 1 : WC + 1, phase: Math.floor(R() * 12), period: 7 + Math.floor(R() * 8), cross: 2 + Math.floor(R() * 3) });
+      // The blocked cell is on the pick-up side (x 1–2): delivered robots stay parked at the drop-offs, so a pallet in a drop-off aisle
+      // (x 6–7) can wall a drop-off in for good (measured: the expert then failed 27 of 60). On this side every drop-off stays reachable.
+      if (P.blockedCell) { const cells = []; for (const y of rows) for (const x of [1, 2]) cells.push([x, y]); s.blocked = cells[Math.floor(R() * cells.length)]; }
     },
     observe() {
-      return {
+      const ws = walks(s.tick), anyBusy = ws.some((w) => w.busy);
+      const o = {
         scenario: sc.id, tick: s.tick, width: W, height: H, walkwayColumn: WC, personOnWalkway: person(s.tick),
         robots: s.robots.map((r) => ({ id: r.id, at: [r.x, r.y], goal: [r.gx, r.gy], delivered: r.done })),
         delivered: s.delivered, grasp: null, maxForce: "none", pose: null,
-        keepOut: { zones: person(s.tick) ? 1 : 0, inside: null, part: person(s.tick) ? "bystander" : null, authorised: true, nearest: null },
+        keepOut: { zones: ws.filter((w) => w.busy).length, inside: null, part: anyBusy ? "bystander" : null, authorised: true, nearest: null },
       };
+      // the variant's extra state is observed only where the variant has it (the base observation stays byte-identical)
+      if (s.walks.length > 1 || s.blocked) { o.walkways = ws; o.blocked = s.blocked ? s.blocked.slice() : null; }
+      return o;
     },
     apply(a) {
       const out = { reward: -0.01, violations: [], maxForce: "none", feedback: "tick" };
-      const busy = person(s.tick);
+      const ws = walks(s.tick);
       if (a.type === "route") {
         const moves = a.moves ?? [];
         const prop = s.robots.map((r, i) => {
           if (r.done) return [r.x, r.y];
           const d = RB_DIRS[moves[i]] ?? RB_DIRS.wait;
           const nx = r.x + d[0], ny = r.y + d[1];
-          if (!inside(nx, ny) || shelf(nx, ny)) return [r.x, r.y];
-          if (busy && nx === WC && r.x !== WC) { out.violations.push("yield-missed"); out.feedback = "held-for-walkway"; return [r.x, r.y]; }
+          if (!inside(nx, ny) || shelf(nx, ny) || blockedAt(nx, ny)) return [r.x, r.y];
+          if (ws.some((w) => w.busy && nx === w.column && r.x !== w.column)) { out.violations.push("yield-missed"); out.feedback = "held-for-walkway"; return [r.x, r.y]; }
           return [nx, ny];
         });
         // Conflicts: two robots to one cell, or a swap — both hold.
@@ -155607,7 +155624,9 @@ function rbAmrSim(sc) {
     finished() { return s.delivered >= s.robots.length; },
     passed() { return s.delivered >= s.robots.length; },
     expert(o, R, skill) {
-      const busy = o.personOnWalkway;
+      const ws = o.walkways ?? [{ column: o.walkwayColumn, busy: o.personOnWalkway }];
+      const intoBusy = (x, nx) => ws.some((w) => w.busy && nx === w.column && x !== w.column);
+      const bl = (x, y) => !!o.blocked && o.blocked[0] === x && o.blocked[1] === y;
       const reserved = new Set(), key = (x, y) => `${x},${y}`;
       const moves = [];
       o.robots.forEach((r, i) => {
@@ -155623,14 +155642,14 @@ function rbAmrSim(sc) {
           for (const [dn, [dx, dy]] of Object.entries(RB_DIRS)) {
             if (dn === "wait") continue;
             const nx = x + dx, ny = y + dy, k = key(nx, ny);
-            if (!inside(nx, ny) || shelf(nx, ny) || prev.has(k) || (blocked.has(k) && k !== goal)) continue;
+            if (!inside(nx, ny) || shelf(nx, ny) || bl(nx, ny) || prev.has(k) || (blocked.has(k) && k !== goal)) continue;
             prev.set(k, [key(x, y), dn]); queue.push([nx, ny]);
           }
         }
         let move = "wait";
         if (prev.has(goal)) { let k = goal; while (prev.get(k) && prev.get(k)[0] !== start) k = prev.get(k)[0]; move = prev.get(k)?.[1] ?? "wait"; }
         const d = RB_DIRS[move], nx = r.at[0] + d[0], ny = r.at[1] + d[1];
-        if (!lapse && (reserved.has(key(nx, ny)) || (busy && nx === o.walkwayColumn && r.at[0] !== o.walkwayColumn))) move = "wait";
+        if (!lapse && (reserved.has(key(nx, ny)) || intoBusy(r.at[0], nx))) move = "wait";
         const fin = move === "wait" ? r.at : [nx, ny];
         reserved.add(key(...fin)); if (move !== "wait") reserved.add(key(...r.at));
         moves.push(move);
@@ -163461,7 +163480,7 @@ function plCounts() {
 //   dxRevoke()                     -> deletes consent, every stored episode and the legacy episode log
 //   dxCollecting()                 -> true only when eligible AND opted in
 //   dxRecorder(meta)               -> { active, step(...), finish(summary), abort(), written }  (no-op when not collecting)
-//   dxFlush()                      -> Promise<n>: run the parked store writes now (same consent check; records nothing new)
+//   dxFlush()                      -> Promise<n>: run the parked store writes now and await those in flight (same consent check; records nothing new)
 //   dxStore                        -> async { put, list, clear, bytes, backend }
 //
 // Every top-level name carries the dx/DX_ prefix (the bundler shares one scope).
@@ -163679,6 +163698,9 @@ async function dxRevoke({ store = dxStore } = {}) {
   for (const k of DX_LEGACY_KEYS) dxDel(k);
   dxLiveRecorders.forEach((r) => r.abort());
   dxLiveRecorders.clear();
+  // ROBOTRAIN-5: a take parked or already being written when the learner revokes must not land after the clear. Consent is gone
+  // (above), so the flush discards every parked write and waits for any put already in flight; only then is the store emptied.
+  try { await dxFlush(); } catch (_) { /* nothing parked */ }
   await store.clear();
   return { ok: true, remaining: (await store.list()).length };
 }
@@ -163787,14 +163809,23 @@ const dxCancelIdle = (h) => { try { if (typeof globalThis.cancelIdleCallback ===
  * would have run (dxCollecting is re-checked at write time, so a revoke in between discards the take).
  */
 const dxPendingWrites = new Set();
-function dxPendingCount() { return dxPendingWrites.size; }
+// ROBOTRAIN-5: a write the idle slot has STARTED but not finished. The loop-8 flush awaited only the writes still parked, so a
+// write the idle slot had picked up a moment earlier was neither parked nor awaited: dxFlush() resolved while that put was still
+// in flight and the next read missed the take (observed in the built page: three takes, flush resolved, the store held 1).
+// A flush now also awaits every write in flight, so "flushed" means "on the store".
+const dxInflightWrites = new Set();
+function dxPendingCount() { return dxPendingWrites.size + dxInflightWrites.size; }
 let dxFlushChain = Promise.resolve(0);
 function dxFlush() {
   // Flushes queue behind one another, so two callers (the pad's onTake and the Me tab's refresh) never race the same writes.
+  // Resolves with the number of takes this flush saw onto the store: the parked writes it ran plus the in-flight ones it awaited.
   dxFlushChain = dxFlushChain.catch(() => 0).then(async () => {
     const pending = [...dxPendingWrites]; dxPendingWrites.clear();
+    const inflight = [...dxInflightWrites];
     let written = 0;
-    for (const w of pending) { dxCancelIdle(w.handle); if (await w.run()) written += 1; }
+    // settle(): run the write now, or, when its idle slot started it while this flush was awaiting an earlier one, await that put.
+    for (const w of pending) { dxCancelIdle(w.handle); if (await w.settle()) written += 1; }
+    for (const w of inflight) { if (await w.done) written += 1; }
     return written;
   });
   return dxFlushChain;
@@ -163834,14 +163865,19 @@ function dxRecorder(meta = {}, { store = dxStore, signals = null, clock = () => 
       rec.episode = dxMakeEpisode({ ...meta, startedAt, endedAt: new Date(clock()).toISOString(), durationS: (clock() - t0) / 1000, summary, truncated, source: "human" }, steps);
       const ep = rec.episode;
       // The parked write: the idle slot or dxFlush() runs it, whichever comes first, once; `written` resolves with the result.
-      const w = { handle: null, run: null };
+      const w = { handle: null, run: null, done: null, settle: null };
       let ran = false;
       rec.written = new Promise((res) => {
         w.run = async () => {
           if (ran) return false; ran = true; dxPendingWrites.delete(w);
-          let ok = false; try { ok = dxCollecting(signals) ? !!(await store.put(ep)) : false; } catch (_) { ok = false; }
+          // in flight from here until the put settles, so a flush that starts meanwhile awaits it (ROBOTRAIN-5)
+          w.done = (async () => { try { return dxCollecting(signals) ? !!(await store.put(ep)) : false; } catch (_) { return false; } })();
+          dxInflightWrites.add(w);
+          const ok = await w.done;
+          dxInflightWrites.delete(w);
           res(ok); return ok;
         };
+        w.settle = () => (ran ? w.done : w.run());
       });
       w.handle = dxIdle(() => { w.run(); });
       dxPendingWrites.add(w);
@@ -164347,9 +164383,11 @@ const COL_FEATURES = {
       const occ = new Set(o.robots.filter((r) => !r.delivered).map((r) => r.at.join(",")));
       return o.robots.map((r) => {
         const [x, y] = r.at;
-        const free = (d) => { const nx = x + COL_DIRS[d][0], ny = y + COL_DIRS[d][1]; return nx >= 0 && ny >= 0 && nx < o.width && ny < o.height && !COL_SHELF(nx, ny) && !occ.has(`${nx},${ny}`) ? 1 : 0; };
-        const busyE = o.personOnWalkway && x + 1 === o.walkwayColumn ? 1 : 0, busyW = o.personOnWalkway && x - 1 === o.walkwayColumn ? 1 : 0;
-        return { delivered: r.delivered, f: [Math.sign(r.goal[0] - x), Math.sign(r.goal[1] - y), free("N"), free("S"), free("E"), free("W"), busyE, busyW, x === o.walkwayColumn ? 1 : 0] };
+        // ROBOTRAIN-5: the hard variant's second walkway and blocked cell feed the same features (a base observation gives the same numbers).
+        const ws = o.walkways ?? [{ column: o.walkwayColumn, busy: o.personOnWalkway }];
+        const free = (d) => { const nx = x + COL_DIRS[d][0], ny = y + COL_DIRS[d][1]; return nx >= 0 && ny >= 0 && nx < o.width && ny < o.height && !COL_SHELF(nx, ny) && !(o.blocked && o.blocked[0] === nx && o.blocked[1] === ny) && !occ.has(`${nx},${ny}`) ? 1 : 0; };
+        const busyE = ws.some((w) => w.busy && x + 1 === w.column) ? 1 : 0, busyW = ws.some((w) => w.busy && x - 1 === w.column) ? 1 : 0;
+        return { delivered: r.delivered, f: [Math.sign(r.goal[0] - x), Math.sign(r.goal[1] - y), free("N"), free("S"), free("E"), free("W"), busyE, busyW, ws.some((w) => x === w.column) ? 1 : 0] };
       });
     },
   },
@@ -164405,7 +164443,7 @@ const COL_FEATURES = {
 /** ROBOTRAIN-4: a scenario id without its variant suffix ("rb-port-gantry#hard" → "rb-port-gantry"); a variant shares its base's features, labels and random policy. */
 const colBase = (sc) => String(sc).split("#")[0];
 /** The harder variants measured beside the base scenarios (rbEnv(`${scenario}#${variant}`)). */
-const COL_VARIANTS = [{ scenario: "rb-construction-drilling", variant: "hard" }, { scenario: "rb-port-gantry", variant: "hard" }];
+const COL_VARIANTS = [{ scenario: "rb-construction-drilling", variant: "hard" }, { scenario: "rb-port-gantry", variant: "hard" }, { scenario: "rb-amr-fleet-routing", variant: "hard" }];
 function colF(sc) { const b = colBase(sc); return COL_FEATURES[b] ?? (String(b).startsWith("rb-station-") ? COL_FEATURES.station : null); }
 const colIsStation = (sc) => String(sc).startsWith("rb-station-");
 
@@ -164923,7 +164961,7 @@ function colMountCoLearn(el, { reducedMotion = false, capture = null, storage = 
 // gamepad's trigger, squeeze and e-stop button, in the bench frame), the 3D rig at a ROBOTICS site following the pose live
 // (rtFollowRig: no new mesh, it turns the drawn arm), and a SECOND TASK, Robot Cell Entry, where the pose is the walker's body
 // along the approach plus the hand reaching for the post's controls (RT_TASKS). rtCompare() takes a `scenario`;
-// rtCompareAll() reports both tasks.
+// rtCompareAll() reports every task (loop 9, ROBOTRAIN-5: six, the two hard variants included).
 //
 // Loop 8 (ROBOTRAIN-4, docs/consoles/ROBOTRAIN-4.md): the cell task's ghost drives the rig AND a walker figure — the cell-entry
 // observation carries `walker { at, hand, control }` (rb-env.js), rtFollowRig moves an optional `walker` node (the app's
@@ -165076,11 +165114,15 @@ function rtScriptedHumanPort(env, { seed = 1, skill = 0.85, tremor = 0.012, lag 
 }
 
 /** The tasks the pose path covers: the pose → action mapping and the scripted stand-in for each. */
+// ROBOTRAIN-5: the hard variants (rb-env.js `<id>#hard`, measured in docs/evals/colearn.json `variants`) are tasks too, on the same
+// controls as their base scenario, so rtCompareAll() reports recorded-vs-synthetic on them. `label` is the pad's select text.
 const RT_TASKS = Object.freeze({
-  "rb-teleop-pick-place": { poseToAction: rtPoseToAction, human: rtScriptedHuman, frame: "bench: p is the hand (m)" },
-  "rb-cell-entry": { poseToAction: rtPoseToActionCell, human: rtScriptedHumanCell, frame: "approach: p is [hand x, hand y, body z]" },
-  "rb-construction-drilling": { poseToAction: rtPoseToActionDrill, human: rtScriptedHumanDrill, frame: "pendant: p is [hand x, hand y, 0] over the control panel" },
-  "rb-port-gantry": { poseToAction: rtPoseToActionPort, human: rtScriptedHumanPort, frame: "joystick: p is [east-west, 0, north-south] deflection" },
+  "rb-teleop-pick-place": { poseToAction: rtPoseToAction, human: rtScriptedHuman, frame: "bench: p is the hand (m)", label: "Teleop pick-and-place (the arm)" },
+  "rb-cell-entry": { poseToAction: rtPoseToActionCell, human: rtScriptedHumanCell, frame: "approach: p is [hand x, hand y, body z]", label: "Robot cell entry (walk, controls)" },
+  "rb-construction-drilling": { poseToAction: rtPoseToActionDrill, human: rtScriptedHumanDrill, frame: "pendant: p is [hand x, hand y, 0] over the control panel", label: "Drilling robot (pendant)" },
+  "rb-port-gantry": { poseToAction: rtPoseToActionPort, human: rtScriptedHumanPort, frame: "joystick: p is [east-west, 0, north-south] deflection", label: "Port gantry (joystick)" },
+  "rb-construction-drilling#hard": { poseToAction: rtPoseToActionDrill, human: rtScriptedHumanDrill, frame: "pendant: p is [hand x, hand y, 0] over the control panel", label: "Drilling robot, hard (second person, wearing bit)" },
+  "rb-port-gantry#hard": { poseToAction: rtPoseToActionPort, human: rtScriptedHumanPort, frame: "joystick: p is [east-west, 0, north-south] deflection", label: "Port gantry, hard (second pedestrian, obstruction)" },
 });
 const RT_TASK_IDS = Object.freeze(Object.keys(RT_TASKS));
 function rtTask(sc) { const t = RT_TASKS[sc]; if (!t) throw new Error(`rt-teleop: no pose mapping for ${sc}`); return t; }
@@ -165290,7 +165332,7 @@ function rtMountTeleop(el, { seed = 7001, store = dxStore, signals = null, reduc
   const row = doc.createElement("div"); row.className = "rt-row"; row.style.cssText = "display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:4px 0;";
   const sel = doc.createElement("select"); sel.className = "rt-task"; sel.setAttribute("aria-label", "Teleoperation task");
   sel.style.cssText = "min-height:44px;padding:8px 10px;font:inherit;max-width:100%;"; // a 44 px touch target on phones (check_interface)
-  for (const id of RT_TASK_IDS) { const o = doc.createElement("option"); o.value = id; o.textContent = id === RT_SCENARIO ? "Teleop pick-and-place (the arm)" : "Robot cell entry (walk, controls)"; sel.append(o); }
+  for (const id of RT_TASK_IDS) { const o = doc.createElement("option"); o.value = id; o.textContent = RT_TASKS[id].label ?? id; sel.append(o); }
   const bGhost = doc.createElement("button"); bGhost.type = "button"; bGhost.className = "rt-ghost"; bGhost.textContent = "Robot demonstrates back"; bGhost.disabled = true;
   bGhost.title = "After a take: the trained policy replays its own run on this rig, one step at a time, with its explanation.";
   row.append(sel, bGhost);
@@ -167735,6 +167777,7 @@ function hvMount({ THREE = null, root = null, parish, el = null, pos = () => nul
 
 
 
+
 // CLEANPORTS: key the zero-emission port stations to BAYMAP's West Oakland sites (a no-op until that map merges).
 cpPlaceInParish(npParish);
 // BAYQUEST: the Bay Program play board (games, the Bay Keeper's Trail, Crew Credits) under the ledger; importing it
@@ -168774,10 +168817,10 @@ window.__parishTest.colearn = colMountCoLearn($("menu-drills"), { reducedMotion:
 // ROBOTRAIN (docs/consoles/ROBOTRAIN.md): drive the teleop arm from a pointer pose; a take is kept only through DATAWORKS' recorder (inert unless opted in).
 // ROBOTRAIN-2: the pointer pad and touch drive the pose here; a WebXR session added to this app calls teleop.xr(frame, refSpace) from its frame callback and the controller takes over. The nearest arm rig on this map follows the pose live (no new mesh).
 // ROBOTRAIN-3: the pad drives the cell-entry task too (the select on the pad), the XR session loop above feeds it, a finished take
-// re-reads the learner's consented takes for the provider (vbLocal), and "Robot demonstrates back" replays the provider's policy as a ghost on the same rig.
+// re-reads the learner's consented takes for the provider (vbLocal; ROBOTRAIN-5: then re-renders the Me tab's count), and "Robot demonstrates back" replays the provider's policy as a ghost on the same rig.
 // ROBOTRAIN-4: on a cell site the pad also gets a walker figure (two boxes beside the rig, hidden until a take or the ghost moves it), so
 // "Robot demonstrates back" on the cell task walks the figure up the approach with its hand at each control (rtFollowCell).
-window.__parishTest.teleop = (() => { try { const host = document.createElement("div"); host.id = "rt-teleop"; $("menu-drills")?.append(host); const rtSite = rbWorld?.sites?.find((s) => s.rig === "cobot" || s.rig === "cell") ?? null; const rtRig = rtSite ? rbWorld.rigNode(rtSite.id) : null; return rtMountTeleop(host, { reducedMotion: npReduced, rig: rtRig, walker: rtSite?.rig === "cell" ? npWalkerFigure(rtRig) : null, task: rtSite?.rig === "cell" ? "rb-cell-entry" : "rb-teleop-pick-place", onTake: () => { vbLocal?.refresh().catch(() => {}); }, modelFor: (sc) => vbProvider?.modelFor(sc) ?? null }); } catch (_) { return null; } })();
+window.__parishTest.teleop = (() => { try { const host = document.createElement("div"); host.id = "rt-teleop"; $("menu-drills")?.append(host); const rtSite = rbWorld?.sites?.find((s) => s.rig === "cobot" || s.rig === "cell") ?? null; const rtRig = rtSite ? rbWorld.rigNode(rtSite.id) : null; return rtMountTeleop(host, { reducedMotion: npReduced, rig: rtRig, walker: rtSite?.rig === "cell" ? npWalkerFigure(rtRig) : null, task: rtSite?.rig === "cell" ? "rb-cell-entry" : "rb-teleop-pick-place", onTake: () => { vbLocal?.refresh().then(() => npDxPanel?.render?.()).catch(() => {}); }, modelFor: (sc) => vbProvider?.modelFor(sc) ?? null }); } catch (_) { return null; } })();
 function npWalkerFigure(rig) {
   if (!rig?.parent) return null;
   const w = new THREE.Group(); w.name = "rt-walker"; w.visible = false;
@@ -168798,6 +168841,10 @@ window.__parishTest.vbridge = vbMountDispatch($("menu-drills"), { reducedMotion:
 window.__parishTest.vbColearn = vbProvider;
 window.__parishTest.vbLocal = vbLocal;
 window.__parishTest.xr = npXRTest;
+// ROBOTRAIN-5: the page-level proof awaits the recorder's parked store writes (dxFlush resolves with the count written) and reads
+// the store's episode count; both are read-only views of what the recorder already did (nothing here records or uploads).
+window.__parishTest.dxFlush = dxFlush;
+window.__parishTest.dx = { flush: dxFlush, pending: () => dxPendingCount(), stored: async () => (await dxStore.list()).length };
 // PACKS: the Holodeck Packs that play in this map (docs/consoles/PACKS.md), the chosen STORYLINE path's first.
 npMountPacks($("menu-packs"), parish.id);
 // COGNITION: the K-12 learning module runner — this parish's lessons, each flow played through its GRIOT guide (docs/consoles/COGNITION.md).
@@ -168870,7 +168917,7 @@ function uxOpenMenu() {
   $("menu-start").focus();
 }
 uxPassport();
-dxMountConsent($("menu-dataworks"), { onChange: () => { vbLocal?.refresh().catch(() => {}); } }); // DATAWORKS: the consent panel in the Me tab (off by default); ROBOTRAIN-3: opt-in or revoke re-reads the learner's takes for the provider
+var npDxPanel = dxMountConsent($("menu-dataworks"), { onChange: () => { vbLocal?.refresh().catch(() => {}); } }); // DATAWORKS: the consent panel in the Me tab (off by default); ROBOTRAIN-3: opt-in or revoke re-reads the learner's takes for the provider
 $("ux-menu-open").addEventListener("click", uxOpenMenu);
 $("ux-open-map").addEventListener("click", () => npToggle("map"));
 $("ux-open-ways").addEventListener("click", () => npToggle("parishes"));

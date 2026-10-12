@@ -81,6 +81,10 @@ export const RB_SCENARIOS = [
     blurb: "Route a small fleet of warehouse robots to their drop-offs without two robots claiming the same spot, and hold them at the walkway while a person crosses.",
     station: "ad-amr-fleet-traffic-and-estop-drill", maxSteps: 120, dt: 1,
     params: { width: 9, height: 7, robots: 3, walkwayColumn: 4 },
+    // ROBOTRAIN-5 `hard` (rbEnv("rb-amr-fleet-routing#hard")): a second walkway crossing (column 3 or 5, seeded) with its own random
+    // timing (first step, period and crossing length seeded), and one blocked aisle cell on the pick-up side (a pallet left out, seeded; never a start, a
+    // drop-off or a walkway, and the floor stays connected).
+    variants: { hard: { walkways: 2, blockedCell: true } },
     actions: ["route {moves: [N|S|E|W|wait per robot]}", "estop", "wait"],
     safePractice: ["conflict", "yield-missed"],
   },

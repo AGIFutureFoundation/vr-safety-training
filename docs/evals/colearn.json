@@ -282,6 +282,46 @@
       },
       "gapToExpert": 0.283,
       "modelHash": "be33fde93e0264f5"
+    },
+    {
+      "scenario": "rb-amr-fleet-routing",
+      "variant": "hard",
+      "id": "rb-amr-fleet-routing#hard",
+      "demosOffered": 40,
+      "demosKept": 32,
+      "rows": 1291,
+      "random": {
+        "n": 60,
+        "success": 0,
+        "clean": 0,
+        "meanSteps": 120
+      },
+      "expert": {
+        "n": 60,
+        "success": 1,
+        "clean": 1,
+        "meanSteps": 19.483
+      },
+      "bcFiltered": {
+        "n": 60,
+        "success": 0.05,
+        "clean": 0.9,
+        "meanSteps": 113.05
+      },
+      "bcUnfiltered": {
+        "n": 60,
+        "success": 0.117,
+        "clean": 0.933,
+        "meanSteps": 107.783
+      },
+      "bcFilteredShield": {
+        "n": 60,
+        "success": 0.067,
+        "clean": 1,
+        "meanSteps": 113.05
+      },
+      "gapToExpert": 0.95,
+      "modelHash": "2bc954504a77c552"
     }
   ],
   "stations": [

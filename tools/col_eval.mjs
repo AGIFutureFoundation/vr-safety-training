@@ -45,7 +45,8 @@ export async function colEvalAll() {
     const id = `${scenario}#${variant}`;
     const f = colEvalScenario(id, { onlySuccessful: true });
     const u = colEvalScenario(id, { onlySuccessful: false });
-    return { scenario, variant, id, demosOffered: f.demosOffered, demosKept: f.demos, rows: f.rows, random: f.random, expert: f.expert, bcFiltered: f.bc, bcUnfiltered: u.bc, gapToExpert: f.gapToExpert, modelHash: f.modelHash };
+    // ROBOTRAIN-5: the AMR variant also reports the reservation shield (a rule, not learning), as the base AMR row does.
+    return { scenario, variant, id, demosOffered: f.demosOffered, demosKept: f.demos, rows: f.rows, random: f.random, expert: f.expert, bcFiltered: f.bc, bcUnfiltered: u.bc, ...(f.bcShield ? { bcFilteredShield: f.bcShield } : {}), gapToExpert: f.gapToExpert, modelHash: f.modelHash };
   });
   return {
     eval: "COLEARN co-learning", version: COL_VERSION, generator: "tools/col_eval.mjs",

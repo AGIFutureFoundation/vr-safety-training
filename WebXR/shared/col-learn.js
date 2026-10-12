@@ -109,9 +109,11 @@ export const COL_FEATURES = {
       const occ = new Set(o.robots.filter((r) => !r.delivered).map((r) => r.at.join(",")));
       return o.robots.map((r) => {
         const [x, y] = r.at;
-        const free = (d) => { const nx = x + COL_DIRS[d][0], ny = y + COL_DIRS[d][1]; return nx >= 0 && ny >= 0 && nx < o.width && ny < o.height && !COL_SHELF(nx, ny) && !occ.has(`${nx},${ny}`) ? 1 : 0; };
-        const busyE = o.personOnWalkway && x + 1 === o.walkwayColumn ? 1 : 0, busyW = o.personOnWalkway && x - 1 === o.walkwayColumn ? 1 : 0;
-        return { delivered: r.delivered, f: [Math.sign(r.goal[0] - x), Math.sign(r.goal[1] - y), free("N"), free("S"), free("E"), free("W"), busyE, busyW, x === o.walkwayColumn ? 1 : 0] };
+        // ROBOTRAIN-5: the hard variant's second walkway and blocked cell feed the same features (a base observation gives the same numbers).
+        const ws = o.walkways ?? [{ column: o.walkwayColumn, busy: o.personOnWalkway }];
+        const free = (d) => { const nx = x + COL_DIRS[d][0], ny = y + COL_DIRS[d][1]; return nx >= 0 && ny >= 0 && nx < o.width && ny < o.height && !COL_SHELF(nx, ny) && !(o.blocked && o.blocked[0] === nx && o.blocked[1] === ny) && !occ.has(`${nx},${ny}`) ? 1 : 0; };
+        const busyE = ws.some((w) => w.busy && x + 1 === w.column) ? 1 : 0, busyW = ws.some((w) => w.busy && x - 1 === w.column) ? 1 : 0;
+        return { delivered: r.delivered, f: [Math.sign(r.goal[0] - x), Math.sign(r.goal[1] - y), free("N"), free("S"), free("E"), free("W"), busyE, busyW, ws.some((w) => x === w.column) ? 1 : 0] };
       });
     },
   },
@@ -167,7 +169,7 @@ export const COL_FEATURES = {
 /** ROBOTRAIN-4: a scenario id without its variant suffix ("rb-port-gantry#hard" → "rb-port-gantry"); a variant shares its base's features, labels and random policy. */
 export const colBase = (sc) => String(sc).split("#")[0];
 /** The harder variants measured beside the base scenarios (rbEnv(`${scenario}#${variant}`)). */
-export const COL_VARIANTS = [{ scenario: "rb-construction-drilling", variant: "hard" }, { scenario: "rb-port-gantry", variant: "hard" }];
+export const COL_VARIANTS = [{ scenario: "rb-construction-drilling", variant: "hard" }, { scenario: "rb-port-gantry", variant: "hard" }, { scenario: "rb-amr-fleet-routing", variant: "hard" }];
 export function colF(sc) { const b = colBase(sc); return COL_FEATURES[b] ?? (String(b).startsWith("rb-station-") ? COL_FEATURES.station : null); }
 const colIsStation = (sc) => String(sc).startsWith("rb-station-");
 

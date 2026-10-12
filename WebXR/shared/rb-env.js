@@ -205,6 +205,9 @@ function rbAmrSim(sc) {
   const inside = (x, y) => x >= 0 && y >= 0 && x < W && y < H;
   let s;
   const person = (tick) => ((tick + s.phase) % s.period) < s.cross;
+  // ROBOTRAIN-5: every walkway with its own person schedule (the base scenario has one; `hard` adds a second) and the blocked cell.
+  const walks = (tick) => s.walks.map((w) => ({ column: w.column, busy: ((tick + w.phase) % w.period) < w.cross }));
+  const blockedAt = (x, y) => !!s.blocked && s.blocked[0] === x && s.blocked[1] === y;
   return {
     init(seed) {
       const R = rng(seed * 104729 + 3);
@@ -212,26 +215,36 @@ function rbAmrSim(sc) {
       const goals = rows.slice().sort(() => R() - 0.5);
       s = { tick: 0, phase: Math.floor(R() * 12), period: 12 + Math.floor(R() * 6), cross: 4,
         robots: rows.slice(0, P.robots).map((y, i) => ({ id: `amr-${i + 1}`, x: 0, y, gx: W - 1, gy: goals[i], done: false })), delivered: 0 };
+      s.walks = [{ column: WC, phase: s.phase, period: s.period, cross: s.cross }]; s.blocked = null;
+      // `hard`: drawn after the base draws, so the base scenario's seeds are unchanged.
+      if ((P.walkways ?? 1) > 1) s.walks.push({ column: R() < 0.5 ? WC - 1 : WC + 1, phase: Math.floor(R() * 12), period: 7 + Math.floor(R() * 8), cross: 2 + Math.floor(R() * 3) });
+      // The blocked cell is on the pick-up side (x 1–2): delivered robots stay parked at the drop-offs, so a pallet in a drop-off aisle
+      // (x 6–7) can wall a drop-off in for good (measured: the expert then failed 27 of 60). On this side every drop-off stays reachable.
+      if (P.blockedCell) { const cells = []; for (const y of rows) for (const x of [1, 2]) cells.push([x, y]); s.blocked = cells[Math.floor(R() * cells.length)]; }
     },
     observe() {
-      return {
+      const ws = walks(s.tick), anyBusy = ws.some((w) => w.busy);
+      const o = {
         scenario: sc.id, tick: s.tick, width: W, height: H, walkwayColumn: WC, personOnWalkway: person(s.tick),
         robots: s.robots.map((r) => ({ id: r.id, at: [r.x, r.y], goal: [r.gx, r.gy], delivered: r.done })),
         delivered: s.delivered, grasp: null, maxForce: "none", pose: null,
-        keepOut: { zones: person(s.tick) ? 1 : 0, inside: null, part: person(s.tick) ? "bystander" : null, authorised: true, nearest: null },
+        keepOut: { zones: ws.filter((w) => w.busy).length, inside: null, part: anyBusy ? "bystander" : null, authorised: true, nearest: null },
       };
+      // the variant's extra state is observed only where the variant has it (the base observation stays byte-identical)
+      if (s.walks.length > 1 || s.blocked) { o.walkways = ws; o.blocked = s.blocked ? s.blocked.slice() : null; }
+      return o;
     },
     apply(a) {
       const out = { reward: -0.01, violations: [], maxForce: "none", feedback: "tick" };
-      const busy = person(s.tick);
+      const ws = walks(s.tick);
       if (a.type === "route") {
         const moves = a.moves ?? [];
         const prop = s.robots.map((r, i) => {
           if (r.done) return [r.x, r.y];
           const d = RB_DIRS[moves[i]] ?? RB_DIRS.wait;
           const nx = r.x + d[0], ny = r.y + d[1];
-          if (!inside(nx, ny) || shelf(nx, ny)) return [r.x, r.y];
-          if (busy && nx === WC && r.x !== WC) { out.violations.push("yield-missed"); out.feedback = "held-for-walkway"; return [r.x, r.y]; }
+          if (!inside(nx, ny) || shelf(nx, ny) || blockedAt(nx, ny)) return [r.x, r.y];
+          if (ws.some((w) => w.busy && nx === w.column && r.x !== w.column)) { out.violations.push("yield-missed"); out.feedback = "held-for-walkway"; return [r.x, r.y]; }
           return [nx, ny];
         });
         // Conflicts: two robots to one cell, or a swap — both hold.
@@ -266,7 +279,9 @@ function rbAmrSim(sc) {
     finished() { return s.delivered >= s.robots.length; },
     passed() { return s.delivered >= s.robots.length; },
     expert(o, R, skill) {
-      const busy = o.personOnWalkway;
+      const ws = o.walkways ?? [{ column: o.walkwayColumn, busy: o.personOnWalkway }];
+      const intoBusy = (x, nx) => ws.some((w) => w.busy && nx === w.column && x !== w.column);
+      const bl = (x, y) => !!o.blocked && o.blocked[0] === x && o.blocked[1] === y;
       const reserved = new Set(), key = (x, y) => `${x},${y}`;
       const moves = [];
       o.robots.forEach((r, i) => {
@@ -282,14 +297,14 @@ function rbAmrSim(sc) {
           for (const [dn, [dx, dy]] of Object.entries(RB_DIRS)) {
             if (dn === "wait") continue;
             const nx = x + dx, ny = y + dy, k = key(nx, ny);
-            if (!inside(nx, ny) || shelf(nx, ny) || prev.has(k) || (blocked.has(k) && k !== goal)) continue;
+            if (!inside(nx, ny) || shelf(nx, ny) || bl(nx, ny) || prev.has(k) || (blocked.has(k) && k !== goal)) continue;
             prev.set(k, [key(x, y), dn]); queue.push([nx, ny]);
           }
         }
         let move = "wait";
         if (prev.has(goal)) { let k = goal; while (prev.get(k) && prev.get(k)[0] !== start) k = prev.get(k)[0]; move = prev.get(k)?.[1] ?? "wait"; }
         const d = RB_DIRS[move], nx = r.at[0] + d[0], ny = r.at[1] + d[1];
-        if (!lapse && (reserved.has(key(nx, ny)) || (busy && nx === o.walkwayColumn && r.at[0] !== o.walkwayColumn))) move = "wait";
+        if (!lapse && (reserved.has(key(nx, ny)) || intoBusy(r.at[0], nx))) move = "wait";
         const fin = move === "wait" ? r.at : [nx, ny];
         reserved.add(key(...fin)); if (move !== "wait") reserved.add(key(...r.at));
         moves.push(move);

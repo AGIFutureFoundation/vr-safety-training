@@ -31,7 +31,7 @@
 //   dxRevoke()                     -> deletes consent, every stored episode and the legacy episode log
 //   dxCollecting()                 -> true only when eligible AND opted in
 //   dxRecorder(meta)               -> { active, step(...), finish(summary), abort(), written }  (no-op when not collecting)
-//   dxFlush()                      -> Promise<n>: run the parked store writes now (same consent check; records nothing new)
+//   dxFlush()                      -> Promise<n>: run the parked store writes now and await those in flight (same consent check; records nothing new)
 //   dxStore                        -> async { put, list, clear, bytes, backend }
 //
 // Every top-level name carries the dx/DX_ prefix (the bundler shares one scope).
@@ -250,6 +250,9 @@ export async function dxRevoke({ store = dxStore } = {}) {
   for (const k of DX_LEGACY_KEYS) dxDel(k);
   dxLiveRecorders.forEach((r) => r.abort());
   dxLiveRecorders.clear();
+  // ROBOTRAIN-5: a take parked or already being written when the learner revokes must not land after the clear. Consent is gone
+  // (above), so the flush discards every parked write and waits for any put already in flight; only then is the store emptied.
+  try { await dxFlush(); } catch (_) { /* nothing parked */ }
   await store.clear();
   return { ok: true, remaining: (await store.list()).length };
 }
@@ -358,14 +361,23 @@ const dxCancelIdle = (h) => { try { if (typeof globalThis.cancelIdleCallback ===
  * would have run (dxCollecting is re-checked at write time, so a revoke in between discards the take).
  */
 const dxPendingWrites = new Set();
-export function dxPendingCount() { return dxPendingWrites.size; }
+// ROBOTRAIN-5: a write the idle slot has STARTED but not finished. The loop-8 flush awaited only the writes still parked, so a
+// write the idle slot had picked up a moment earlier was neither parked nor awaited: dxFlush() resolved while that put was still
+// in flight and the next read missed the take (observed in the built page: three takes, flush resolved, the store held 1).
+// A flush now also awaits every write in flight, so "flushed" means "on the store".
+const dxInflightWrites = new Set();
+export function dxPendingCount() { return dxPendingWrites.size + dxInflightWrites.size; }
 let dxFlushChain = Promise.resolve(0);
 export function dxFlush() {
   // Flushes queue behind one another, so two callers (the pad's onTake and the Me tab's refresh) never race the same writes.
+  // Resolves with the number of takes this flush saw onto the store: the parked writes it ran plus the in-flight ones it awaited.
   dxFlushChain = dxFlushChain.catch(() => 0).then(async () => {
     const pending = [...dxPendingWrites]; dxPendingWrites.clear();
+    const inflight = [...dxInflightWrites];
     let written = 0;
-    for (const w of pending) { dxCancelIdle(w.handle); if (await w.run()) written += 1; }
+    // settle(): run the write now, or, when its idle slot started it while this flush was awaiting an earlier one, await that put.
+    for (const w of pending) { dxCancelIdle(w.handle); if (await w.settle()) written += 1; }
+    for (const w of inflight) { if (await w.done) written += 1; }
     return written;
   });
   return dxFlushChain;
@@ -405,14 +417,19 @@ export function dxRecorder(meta = {}, { store = dxStore, signals = null, clock =
       rec.episode = dxMakeEpisode({ ...meta, startedAt, endedAt: new Date(clock()).toISOString(), durationS: (clock() - t0) / 1000, summary, truncated, source: "human" }, steps);
       const ep = rec.episode;
       // The parked write: the idle slot or dxFlush() runs it, whichever comes first, once; `written` resolves with the result.
-      const w = { handle: null, run: null };
+      const w = { handle: null, run: null, done: null, settle: null };
       let ran = false;
       rec.written = new Promise((res) => {
         w.run = async () => {
           if (ran) return false; ran = true; dxPendingWrites.delete(w);
-          let ok = false; try { ok = dxCollecting(signals) ? !!(await store.put(ep)) : false; } catch (_) { ok = false; }
+          // in flight from here until the put settles, so a flush that starts meanwhile awaits it (ROBOTRAIN-5)
+          w.done = (async () => { try { return dxCollecting(signals) ? !!(await store.put(ep)) : false; } catch (_) { return false; } })();
+          dxInflightWrites.add(w);
+          const ok = await w.done;
+          dxInflightWrites.delete(w);
           res(ok); return ok;
         };
+        w.settle = () => (ran ? w.done : w.run());
       });
       w.handle = dxIdle(() => { w.run(); });
       dxPendingWrites.add(w);
