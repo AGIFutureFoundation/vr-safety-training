@@ -124,6 +124,59 @@ for (const id of ["orleans", "sf-downtown", "oak-west-oakland"]) {
   }
 }
 
+// 7. ENV-HD-2: the robotics variant near robot sites, through FC_KIT_RESOLVERS. Every shed and tower the engine draws
+// within FC_ROBOTICS.radius of a robot site takes it (high tier), none beyond it does, every robotics kit is ordered
+// cheapest first in full, the phone tier builds exactly what it built without the resolver, and the chunks stay in budget.
+{
+  check(Array.isArray(F.FC_KIT_RESOLVERS) && F.FC_KIT_RESOLVERS.includes(F.fcRoboticsGroup), "FC_KIT_RESOLVERS carries the robotics resolver");
+  for (const kind of F.FC_ROBOTICS.kinds) {
+    const list = F.FC_KITS[kind]?.[F.FC_ROBOTICS.group] ?? [], tri = list.map((id) => F.fcDetailTriangles(THREE, id, kind));
+    check(list.length >= 4 && tri.every((t, i) => i === 0 || t >= tri[i - 1]), `${kind}/robotics: cheapest first in full (${list.map((id, i) => `${id} ${tri[i]}`).join(", ")} tris)`);
+    for (const g of Object.keys(F.FC_KITS[kind])) if (g !== F.FC_ROBOTICS.group) {
+      check(F.fcKitDetails(kind, F.FC_ROBOTICS.group, "low").slice().sort().join() === F.fcKitDetails(kind, g, "low").slice().sort().join(), `${kind}/robotics keeps ${kind}/${g}'s phone kit (the phone tier shares its bucket)`);
+    }
+  }
+  const resolvers = F.FC_KIT_RESOLVERS.slice();
+  let near = 0, nearRob = 0, farRob = 0, maps = 0, lowSame = 0, lowTried = 0, worst = { low: [0, 0], high: [0, 0] };
+  for (const p of R.NP_PARISHES) {
+    const sites = F.fcRobotSitesFor(p); if (!sites.length) continue;
+    maps++;
+    const filt = CW.cwMassFilter(p), keys = new Set(), R2 = F.FC_ROBOTICS.radius;
+    for (const s of sites) for (let dx = -R2 - 50; dx <= R2 + 50; dx += 50) for (let dz = -R2 - 50; dz <= R2 + 50; dz += 50) { const c = E.npChunkOf(s.x + dx, s.z + dz); keys.add(`${c.cx},${c.cz}`); }
+    for (const key of keys) {
+      const [cx, cz] = key.split(",").map(Number), spots = E.npMassingForChunk(p, cx, cz).filter(filt);
+      if (!spots.length) continue;
+      const chunk = { cx, cz, key, ring: 0, lod: 0 };
+      const hi = F.fcDetails({ THREE, parish: p, chunk, spots, tier: "high" });
+      const isNear = (s) => F.FC_ROBOTICS.kinds.includes(s.kind) && sites.some((r) => Math.hypot(s.x - r.x, s.z - r.z) <= R2);
+      const nearHere = spots.filter(isNear).length; near += nearHere;
+      let rob = 0; for (const o of hi?.children ?? []) if (/-robotics$/.test(o.name)) rob += o.count;
+      nearRob += Math.min(rob, nearHere); farRob += Math.max(0, rob - nearHere);
+      for (const tier of ["low", "high"]) {
+        const g = tier === "high" ? hi : F.fcDetails({ THREE, parish: p, chunk, spots, tier });
+        if (!g) continue;
+        const fc = g.userData.fc;
+        if (fc.meshes > worst[tier][0] || (fc.meshes === worst[tier][0] && fc.triangles > worst[tier][1])) worst[tier] = [fc.meshes, fc.triangles, `${p.id} ${key}`];
+        check(fc.meshes <= F.FC_BUDGET.meshesPerChunk[tier] && fc.triangles <= F.FC_BUDGET.trianglesPerChunk[tier], `${p.id} ${key}/${tier}: robotics variant chunk ${fc.meshes} meshes / ${fc.triangles} tris inside FC_BUDGET`);
+        if (tier === "low") {
+          F.FC_KIT_RESOLVERS.length = 0;
+          const plain0 = F.fcDetails({ THREE, parish: p, chunk, spots, tier: "low" });
+          F.FC_KIT_RESOLVERS.push(...resolvers);
+          lowTried++;
+          if (JSON.stringify(plain0?.userData.fc) === JSON.stringify(fc)) lowSame++;
+          plain0?.dispose();
+        }
+        if (tier === "low") g.dispose();
+      }
+      hi?.dispose();
+    }
+  }
+  check(near > 0 && nearRob === near, `buildings near robot sites with a robotics variant: ${nearRob} of ${near} (sheds and towers within ${F.FC_ROBOTICS.radius} m, ${maps} maps, high tier)`);
+  check(farRob === 0, `robotics variants beyond ${F.FC_ROBOTICS.radius} m of a robot site: ${farRob}`);
+  check(lowTried > 0 && lowSame === lowTried, `phone tier unchanged by the robotics variant: ${lowSame} of ${lowTried} chunks build the same details`);
+  note(`robotics variant: ${nearRob} of ${near} sheds/towers within ${F.FC_ROBOTICS.radius} m; worst chunk there low ${worst.low[0]} meshes / ${worst.low[1]} tris (${worst.low[2] ?? "-"}), high ${worst.high[0]} meshes / ${worst.high[1]} tris (${worst.high[2] ?? "-"})`);
+}
+
 // 6. wiring
 const app = readFileSync(join(WEBXR, "parishes/js/app.js"), "utf8");
 check(/import\s*\{[^}]*\bfcDetails\b[^}]*\}\s*from\s*"\.\.\/\.\.\/shared\/fc-facades\.js"/.test(app), "the parishes app imports fc-facades.js");
