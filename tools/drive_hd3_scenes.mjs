@@ -6,7 +6,7 @@
  * off-host requests. Files are named <map>-<kind>-<shot>-<day|night>.png. Rebuild the bundle first:
  * python3 tools/bundle_webxr.py parishes
  *
- *     node tools/drive_hd3_scenes.mjs [port=9112] [tier=high] [outDir] [shots=wide,street]
+ *     node tools/drive_hd3_scenes.mjs [port=9112] [tier=high] [outDir] [shots=wide,street] [sites=<id>,...]
  *
  * Exits 1 when a capture fails, a page error is thrown or a request leaves the host.
  */
@@ -20,6 +20,7 @@ const { HD3_SCENE_SITES, HD3_SHOTS } = await imp("WebXR/shared/hd3-scenes.js");
 
 const port = Number(process.argv[2]) || 9112, tier = process.argv[3] || "high", outDir = process.argv[4] || null;
 const only = (process.argv[5] || HD3_SHOTS.join(",")).split(","); // optional: re-shoot some shots only (e.g. "wide")
+const sites = process.argv[6] ? process.argv[6].split(",") : HD3_SCENE_SITES.map((s) => s.id); // optional: some sites only
 if (outDir) mkdirSync(outDir, { recursive: true });
 const { base, close } = await pvServe(port);
 const browser = await pvLaunch();
@@ -32,7 +33,7 @@ const t0 = Date.now();
 console.log(`drive_hd3_scenes: tier ${tier}, port ${port}, load ${pvLoad()}`);
 const frames = (n) => page.evaluate((n) => new Promise((res) => { let k = 0; const f = () => (++k >= n ? res() : requestAnimationFrame(f)); requestAnimationFrame(f); }), n);
 
-for (const site of HD3_SCENE_SITES) {
+for (const site of HD3_SCENE_SITES.filter((s) => sites.includes(s.id))) {
   await page.goto(`${base}/parishes/dist/parishes.html?parish=${site.parish}&tier=${tier}`, { waitUntil: "load", timeout: 240000 });
   await page.waitForFunction(() => typeof window.__parishTest?.scene === "function" && !!window.__parishTest?.exteriors, null, { timeout: 240000 });
   const presets = await page.evaluate(() => window.__parishTest.scenePresets?.().length ?? 0);

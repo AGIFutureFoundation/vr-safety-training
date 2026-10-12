@@ -91,10 +91,13 @@ export function hd3Scene(parish, siteId, shot = "wide") {
   // its board, with the near half of the sight line clear of massing; a street farther than 44 m: 34 m out on its side
   const ux = Math.sin(a0), uz = Math.cos(a0), vx = -uz, vz = ux;
   const hw = (near?.line?.width ?? 10) / 2, back = near && near.d <= 44 ? Math.max(14, near.d - hw - 1.9) : 34;
-  for (const lat of [11, -11, 17, -17, 5, -5, 0]) for (const extra of [0, -3, 3]) {
-    const px = tx + ux * (back + extra) + vx * lat, pz = tz + uz * (back + extra) + vz * lat;
-    if (!hd3Clear(parish, px, pz, 1.2, i)) continue;
-    if (![0.35, 0.6].every((t) => hd3Clear(parish, px + (tx - px) * t, pz + (tz - pz) * t, 1, i))) continue;
+  // the site's own building counts here (skip -1): the subject sits beside it, so a line from the wrong side runs through it
+  const cands = [];
+  for (const lat of [11, -11, 17, -17, 5, -5, 0]) for (const extra of [0, -3, 3]) cands.push([tx + ux * (back + extra) + vx * lat, tz + uz * (back + extra) + vz * lat]);
+  for (const dist of [28, 34, 24]) for (const da of bearings) cands.push([tx + Math.sin(a0 + da) * dist, tz + Math.cos(a0 + da) * dist]);
+  for (const [px, pz] of cands) {
+    if (!hd3Clear(parish, px, pz, 1.2, -1)) continue;
+    if (![0.2, 0.35, 0.5, 0.65].every((t) => hd3Clear(parish, px + (tx - px) * t, pz + (tz - pz) * t, 0.8, -1))) continue;
     return out([px, Math.max(y, npHeightAt(parish, px, pz)) + 1.7, pz], y + 3.2, 62);
   }
   const px = tx + ux * back, pz = tz + uz * back;
