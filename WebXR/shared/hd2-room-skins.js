@@ -57,6 +57,7 @@ export const HD2_SKIN_STYLES = {
   "lar-data-hall": { set: "tile", sites: 3 },
   "rented-room": { set: "hall", sites: 0 },
   "shop": { set: "tile", sites: 0 },
+  "hd4-hive-ops": { set: "tile", sites: 0 }, // ENV-HD-4: the hive operations room (no map site opens it; it has its own door)
 };
 export const HD2_TEX_BUDGET = { high: 24 * 1024 * 1024, balanced: 3 * 1024 * 1024, low: 3 * 1024 * 1024 };
 /** One LA-ROOMS name-sign canvas (lar-rooms.js larSignMaterial: 512 x 120, 256 x 60 on the phone tier), with mips. */

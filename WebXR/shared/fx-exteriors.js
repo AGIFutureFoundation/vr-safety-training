@@ -313,13 +313,14 @@ function fxPaintCell(g, id, x0, y0, s, mask) {
 const fxStore = new WeakMap(); // THREE -> { mats: Map, canvases: [] }
 function fxStoreOf(THREE) { let s = fxStore.get(THREE); if (!s) fxStore.set(THREE, (s = { mats: new Map(), canvases: [], textures: [] })); return s; }
 
-/** The tier's materials: { body, skin } (skin = the textured atlas, or a vertex-coloured stand-in headless). */
-function fxMaterials(THREE, tier) {
-  const st = fxStoreOf(THREE), key = tier;
+/** The tier's materials: { body, skin } (skin = the textured atlas, or a vertex-coloured stand-in headless). `atlasPx`
+ *  overrides the tier's atlas side (ENV-HD-4's opt-in Ultra setting draws it at 2048 on the desktop high tier). */
+function fxMaterials(THREE, tier, atlasPx = null) {
+  const st = fxStoreOf(THREE), key = atlasPx ? `${tier}@${atlasPx}` : tier;
   if (st.mats.has(key)) return st.mats.get(key);
   const body = Object.assign(new THREE.MeshLambertMaterial({ vertexColors: true, flatShading: true }), { name: "fx-body" });
   let skin = null;
-  const px = FX_BUDGET.atlasPx[tier] ?? 0;
+  const px = atlasPx ?? FX_BUDGET.atlasPx[tier] ?? 0;
   if (px && typeof document !== "undefined" && document.createElement) {
     try {
       const paint = (side, mask) => {
@@ -349,7 +350,7 @@ export function fxTextureBytes(THREE) { return Math.round((fxStore.get(THREE)?.c
 // ------------------------------------------------------------------ geometry
 
 /** Build one site's group: the body (vertex colours) and, above the phone tier, the atlas skin. Origin = the robot pad. */
-export function fxBuildSite(THREE, l, tier = "high") {
+export function fxBuildSite(THREE, l, tier = "high", { atlasPx = null } = {}) {
   const lean = tier === "low", K = FX_KINDS[l.kind];
   const body = { pos: [], col: [] }, skin = { pos: [], uv: [], col: [] };
   const bm = new THREE.Matrix4().makeRotationY(l.yaw).setPosition(l.x - l.pad[0], l.y - l.pad[1], l.z - l.pad[2]);
@@ -507,7 +508,7 @@ export function fxBuildSite(THREE, l, tier = "high") {
 
   const group = new THREE.Group(); group.name = `fx-site-${l.id}`;
   group.position.set(l.pad[0], l.pad[1], l.pad[2]);
-  const mats = fxMaterials(THREE, tier);
+  const mats = fxMaterials(THREE, tier, atlasPx);
   const geoOf = (bag, uv) => {
     const g = new THREE.BufferGeometry();
     g.setAttribute("position", new THREE.Float32BufferAttribute(bag.pos, 3));
@@ -526,19 +527,21 @@ export function fxBuildSite(THREE, l, tier = "high") {
 
 // ------------------------------------------------------------------ the mount
 
-/** Mount this map's robot-site exteriors under `root`. `hour` (0–24) sets the lit windows (ATMOS's dusk and dawn). */
-export function fxMountExteriors({ THREE, root, parish, tier = "high", hour = 12 } = {}) {
+/** Mount this map's robot-site exteriors under `root`. `hour` (0–24) sets the lit windows (ATMOS's dusk and dawn).
+ *  `atlasPx` (ENV-HD-4's Ultra, desktop high only) draws the facade atlas at that side instead of the tier's. */
+export function fxMountExteriors({ THREE, root, parish, tier = "high", hour = 12, atlasPx = null } = {}) {
   const tierKey = tier === "low" ? "low" : tier === "balanced" ? "balanced" : "high";
+  const px = tierKey === "high" && atlasPx ? atlasPx : null; // never on balanced or the phone tier
   const layouts = fxLayoutsFor(parish);
   const group = THREE ? new THREE.Group() : null;
   if (group) { group.name = "fx-exteriors"; root?.add(group); }
-  const built = THREE ? layouts.map((l) => { const g = fxBuildSite(THREE, l, tierKey); group.add(g); return g; }) : [];
+  const built = THREE ? layouts.map((l) => { const g = fxBuildSite(THREE, l, tierKey, { atlasPx: px }); group.add(g); return g; }) : [];
   let lit = null;
   function setHour(h) {
     const on = atLightsOn(h);
     if (on === lit || !THREE) return on;
     lit = on;
-    const m = fxMaterials(THREE, tierKey).skin;
+    const m = fxMaterials(THREE, tierKey, px).skin;
     m.emissive.setHex(on ? 0xffcf8a : 0x000000); m.emissiveIntensity = on ? 0.95 : 1;
     return on;
   }
