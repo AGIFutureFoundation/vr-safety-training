@@ -7,9 +7,11 @@
   - 85773db1: the lineage SVG on the policy report
   - baf414fe: opt-in route features `COL_FEATURE_SETS["amr-path"]` and the DAgger arm with them
   - 8dca89db: `rt6Pick` rename, for `check_imports`
-  - then the docs commit (this file, `docs/consoles/ROBOTRAIN-6.md`, `tools/briefs/next/rt6-next.md`, the wiki lines)
+  - 7b504458: the docs (this file, `docs/consoles/ROBOTRAIN-6.md`, `tools/briefs/next/rt6-next.md`, the wiki lines)
+  - a8f9cc4a: reward-weighted votes (`colTrain` `rowWeight`, opt-in): AMR 0.600, AMR hard 0.067
+  - then the docs refresh for that arm
 - Results, as measured (all in `docs/evals/colearn.json`):
-  - `preference`: AMR reward-filtered / rule / unfiltered 0.483 / 0.817 / 0.600; AMR hard 0.050 / 0.050 / 0.117.
+  - `preference`: AMR reward-filtered / rule / unfiltered 0.483 / 0.817 / 0.600; AMR hard 0.050 / 0.050 / 0.117. Reward-weighted votes: AMR 0.600, AMR hard 0.067.
   - `dagger`: AMR hard 0.05 after 5 rounds; aliasing ceiling 0.696.
   - `dagger.pathFeatures`: 0.417 after 5 rounds, gap 0.583, ceiling 0.745.
   - The supplement: three hard variants, random 0/3 and expert 3/3 each.

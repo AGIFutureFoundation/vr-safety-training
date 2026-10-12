@@ -12,10 +12,12 @@ held-out seeds 7001–7060.
      once.
    - Check: `check_colearn` section 12 prints the per-round line and the ceiling. Keep COLEARN's default rows byte-identical:
      `cmp` a regenerated `colearn.json` against the old file for every row above `preference`.
-2. **Reward-weighted cloning instead of a hard filter.**
-   - Weight each row's vote by its demonstration's learned reward (`rt6Reward`), so coverage is kept. Compare with the
-     rule-filtered (0.817) and unfiltered (0.600) arms on AMR, and the same on AMR hard.
-   - Check: a new row in `preference.scenarios[]` and a `check_colearn` line, beside the hard-filter result.
+2. **A per-step reward instead of a whole-run one.**
+   - The top-half filter (0.483) and reward-weighted votes (0.600) both stayed under the rule filter (0.817) on AMR. The
+     reward scores whole runs, so a failing run's good moments go with its bad ones. Fit the Bradley–Terry model on step
+     windows (a pair of short segments, the rater preferring the one with no rule broken), and drop only the low-reward
+     moments before cloning.
+   - Check: a new row in `preference.scenarios[]` and a `check_colearn` line, beside the three arms and the weighted arm.
 3. **Rate robot-game runs on the page.**
    - Today a learner's pairs are AGENTGYM ratings of agent runs on stations. A thumbs up or down on two cloned robot runs
      (through `agRate`, adult opt-in only) would give the reward model pairs about robot behaviour.
