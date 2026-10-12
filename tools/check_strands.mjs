@@ -73,14 +73,26 @@ check("docs/evals/strands.json rows valid, physical 0, every step governor-check
 check("held-out rows only after both declarations were committed", () => {
   const d = JSON.parse(read("docs/evals/strands.json"));
   if (!d.heldOut) return "no held-out block";
+  // Content first (works in any checkout): the block cites both declarations, the declaration file cites ARENA-2's commit.
+  const sd = JSON.parse(read("docs/evals/strands-declared.json"));
+  assert(d.heldOut.declarations?.strands && d.heldOut.declarations?.arena, "held-out block does not cite the declarations");
+  assert(d.heldOut.declarations.arena.startsWith(sd.arenaDeclaration.commit), "held-out block cites a different ARENA-2 declaration");
+  assert(d.heldOut.results.every((r) => r.perSeed.every((p) => p.seed >= 7181 && p.seed <= 7240)), "held-out seeds outside 7181-7240");
+  // Ancestry needs full history: a shallow clone (CI's default checkout) or no git skips it, and says so.
+  let shallow = true;
+  try { shallow = git("rev-parse", "--is-shallow-repository") === "true"; } catch (_) { return "git not available: ancestry not checked"; }
+  if (shallow) return `shallow clone: ancestry not checked (content checks passed; cites ${d.heldOut.declarations.strands.slice(0, 8)})`;
   const decl = git("log", "--diff-filter=A", "--format=%H", "--", "docs/evals/strands-declared.json").split("\n").pop();
   const arena = git("log", "--diff-filter=A", "--format=%H", "--", "docs/evals/arena-declared-r7.json").split("\n").pop();
   assert(decl && arena, "a declaration is not committed");
-  assert(d.heldOut.declarations?.strands && d.heldOut.declarations?.arena, "held-out block does not cite the declarations");
-  git("merge-base", "--is-ancestor", decl, d.heldOut.declarations.strands);
-  git("merge-base", "--is-ancestor", arena, d.heldOut.declarations.strands);
-  assert(d.heldOut.results.every((r) => r.perSeed.every((p) => p.seed >= 7181 && p.seed <= 7240)), "held-out seeds outside 7181-7240");
-  return `declared ${decl.slice(0, 8)} (arena ${arena.slice(0, 8)}), ${d.heldOut.totals.episodes} episodes`;
+  const anc = (a, b) => { try { git("merge-base", "--is-ancestor", a, b); return true; } catch (_) { return false; } };
+  // The results commit: the first commit whose strands.json carries a heldOut block.
+  const res = git("log", "--format=%H", "--reverse", "-S", "\"heldOut\"", "--", "docs/evals/strands.json").split("\n")[0];
+  assert(res, "the held-out block is not committed");
+  assert(anc(arena, decl), `ARENA-2's declaration ${arena.slice(0, 8)} does not precede this harness's ${decl.slice(0, 8)}`);
+  assert(anc(decl, d.heldOut.declarations.strands), `the run's base ${d.heldOut.declarations.strands.slice(0, 8)} does not contain the declaration ${decl.slice(0, 8)}`);
+  assert(res !== decl && anc(decl, res), `results ${res.slice(0, 8)} were not committed after the declaration ${decl.slice(0, 8)}`);
+  return `arena ${arena.slice(0, 8)} → declared ${decl.slice(0, 8)} → results ${res.slice(0, 8)}, ${d.heldOut.totals.episodes} episodes`;
 });
 
 // 4. honesty
