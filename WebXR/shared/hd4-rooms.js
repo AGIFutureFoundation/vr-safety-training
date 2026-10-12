@@ -48,10 +48,10 @@ export const HD4_OPS_STYLE = "hd4-hive-ops";
 export const HD4_ROOM_LIGHT_BUDGET = { meshesAdded: { low: 0, balanced: 0, high: 4 }, lightsAdded: { low: 0, balanced: 0, high: 1 }, trianglesAdded: { low: 0, balanced: 0, high: 900 }, textureBytes: 0 };
 export const HD4_ROOM_TARGETS = { "ixr-cell-hall": [0, -4], "ixr-cobot-lab": [0, -2.2], "ixr-amr-warehouse": [-3.5, -3], "ixr-port-control": [0, -3.3], "ixr-drilling-deck": [0, -3.5], "ixr-maint-bay": [3.6, -3.2], "hd4-hive-ops": [0, -2.4] };
 export const HD4_OPS_ROLES = ["dispatcher", "safety-steward", "maintenance-planner", "consent-keeper", "trainer", "auditor", "logistics"];
-const hd4MiB = 1024 * 1024;
+const hd4OpsMiB = 1024 * 1024;
 export const HD4_OPS_BUDGET = {
   meshes: { low: 40, balanced: 40, high: 40 }, triangles: { low: 3000, balanced: 6000, high: 6000 }, lights: { low: 1, balanced: 2, high: 3 },
-  textureBytes: { low: 3 * hd4MiB, balanced: 3 * hd4MiB, high: 24 * hd4MiB },
+  textureBytes: { low: 3 * hd4OpsMiB, balanced: 3 * hd4OpsMiB, high: 24 * hd4OpsMiB },
   screenPx: { low: 256, balanced: 256, high: 1024 }, wallPx: { low: [256, 64], balanced: [256, 64], high: [1024, 256] },
 };
 
