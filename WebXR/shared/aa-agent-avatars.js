@@ -33,7 +33,11 @@
 // from the caller as `three`.
 //
 // SEAM (the contract in the loop-10 brief):
-//   aaMountAgentAvatars({ three, parent, agents, source, siteAt, reducedMotion, tier, groundAt })
+//   aaMountAgentAvatars({ three, parent, agents, source, siteAt, reducedMotion, tier, groundAt, spotFor, textureScale })
+//     spotFor(agent, siteId) -> { x, y?, z, yaw } | null: a fixed standing spot (HIVE-IN-WORLD: a robotics room's agent spot,
+//              room-local; yaw is the figure's rotation.y) used instead of a slot round the site; null falls back to a slot.
+//     textureScale (default 1): the label and caption canvases are drawn at this fraction of their size (a room on the
+//              balanced tier uses 0.5 to stay inside its texture budget); the layout is the same at every scale.
 //     -> { root, handle(ev), animate(t, dt, here), attach(source), detach(source), addAgents(list), agents(),
 //          state(id), talkStart(id), talkEnd(id), talkLog(), captionLog(), gestureLog(), counts(), dispose() }
 //   aaVbridgeAgents(homeSite) -> the four VBRIDGE personas as agents standing at homeSite
@@ -109,11 +113,14 @@ const aaAgentId = (a) => (typeof a === "string" ? a : a?.id ?? null);
 
 // ------------------------------------------------------------------ canvases
 
-function aaCanvas(w, h) {
+function aaCanvas(w, h, scale = 1) {
   try {
     if (typeof document === "undefined" || typeof document.createElement !== "function") return null;
-    const c = document.createElement("canvas"); c.width = w; c.height = h;
-    const g = c.getContext?.("2d"); return g ? { c, g } : null;
+    const k = scale > 0 ? scale : 1;
+    const c = document.createElement("canvas"); c.width = Math.max(1, Math.round(w * k)); c.height = Math.max(1, Math.round(h * k));
+    const g = c.getContext?.("2d"); if (!g) return null;
+    g.scale?.(c.width / w, c.height / h); // draw in the logical w × h box at any scale
+    return { c, g, w, h };
   } catch (_) { return null; }
 }
 const aaCss = (n) => `#${(n >>> 0).toString(16).padStart(6, "0").slice(-6)}`;
@@ -124,7 +131,7 @@ function aaRoundRect(g, x, y, w, h, r) {
 }
 
 function aaDrawLabel(cv, name, roleText, accent) {
-  const { c, g } = cv, w = c.width, h = c.height;
+  const { g, w, h } = cv;
   g.clearRect(0, 0, w, h);
   aaRoundRect(g, 2, 2, w - 4, h - 4, 14); g.fillStyle = "rgba(8,22,32,0.86)"; g.fill(); g.lineWidth = 3; g.strokeStyle = aaCss(accent); g.stroke();
   g.textAlign = "center"; g.textBaseline = "middle"; g.fillStyle = "#ffffff";
@@ -147,7 +154,7 @@ function aaWrap(g, text, width, max) {
 }
 
 function aaDrawCaption(cv, text, accent) {
-  const { c, g } = cv, w = c.width, h = c.height;
+  const { g, w, h } = cv;
   g.clearRect(0, 0, w, h);
   aaRoundRect(g, 3, 3, w - 6, h - 22, 16); g.fillStyle = "rgba(255,255,255,0.94)"; g.fill(); g.lineWidth = 3; g.strokeStyle = aaCss(accent); g.stroke();
   g.beginPath(); g.moveTo(w / 2 - 12, h - 20); g.lineTo(w / 2, h - 4); g.lineTo(w / 2 + 12, h - 20); g.closePath(); g.fillStyle = "rgba(255,255,255,0.94)"; g.fill();
@@ -170,7 +177,7 @@ function aaSprite(T, cv, w, h) {
 }
 
 /** Build one agent's figure into a new group (feet at y = 0, facing +z). Returns { group, parts, label, caption, captionCv, labelCv, headY }. */
-function aaBuildFigure(T, agent, look) {
+function aaBuildFigure(T, agent, look, textureScale = 1) {
   const h = aaHash(agent.id);
   const body = AA_BODIES[h % AA_BODIES.length];
   const g = ctAvatarFigure(T, { body, skin: "tone-6", hair: "shaved", hairColour: "black", ppe: "none", hardHat: "white" });
@@ -189,7 +196,7 @@ function aaBuildFigure(T, agent, look) {
   const talk = add("talk", new T.SphereGeometry(0.045, 10, 8), new T.MeshBasicMaterial({ color: 0xffffff }), 0, headY - 0.07, 0.125);
   talk.visible = false;
   const roleText = `software agent · ${aaRoleLabel(agent)}`;
-  const labelCv = aaCanvas(AA_LABEL_PX[0], AA_LABEL_PX[1]);
+  const labelCv = aaCanvas(AA_LABEL_PX[0], AA_LABEL_PX[1], textureScale);
   if (labelCv) aaDrawLabel(labelCv, agent.name ?? agent.id, roleText, look.accent);
   const label = aaSprite(T, labelCv, 1.6, 0.4); label.position.set(0, headY + 0.62, 0); label.name = "aa-label";
   label.userData.text = roleText; label.userData.name = agent.name ?? agent.id; g.add(label);
@@ -218,7 +225,7 @@ function aaCountObject(obj) {
  * answers this map's site position ({ x, y, z } / [x, z] / null when the site is not on this map). `here` passed to
  * animate is the learner's [x, z] (null = everyone near). Headless without `three`: the state machine still runs.
  */
-export function aaMountAgentAvatars({ three = null, parent = null, agents = [], source = null, siteAt = () => null, reducedMotion = false, tier = "high", groundAt = null } = {}) {
+export function aaMountAgentAvatars({ three = null, parent = null, agents = [], source = null, siteAt = () => null, reducedMotion = false, tier = "high", groundAt = null, spotFor = null, textureScale = 1 } = {}) {
   const T = three;
   const build = !!(T && parent && AA_TIERS[tier] !== false);
   const root = build ? new T.Group() : null;
@@ -238,7 +245,11 @@ export function aaMountAgentAvatars({ three = null, parent = null, agents = [], 
     used.add(i); occupied.set(siteId, used); return i;
   }
   const freeSlot = (siteId, i) => occupied.get(siteId)?.delete(i);
-  function spotAt(siteId, slot) {
+  function spotAt(siteId, slot, agent = null) {
+    if (typeof spotFor === "function" && agent && siteId) { // a fixed spot (a room's agent spot) wins over the slots
+      let o = null; try { o = spotFor(agent, siteId); } catch (_) { o = null; }
+      if (o && Number.isFinite(+o.x) && Number.isFinite(+o.z)) return { x: +o.x, y: Number.isFinite(+o.y) ? +o.y : 0, z: +o.z, cx: +o.x, cz: +o.z, yaw: Number.isFinite(+o.yaw) ? +o.yaw : 0, fixed: true };
+    }
     const c = sitePt(siteId); if (!c) return null;
     const [dx, dz] = AA_SLOTS[slot]; const x = c.x + dx, z = c.z + dz;
     const y = groundAt ? Number(groundAt(x, z)) || c.y : c.y;
@@ -247,10 +258,10 @@ export function aaMountAgentAvatars({ three = null, parent = null, agents = [], 
 
   function ensureFig(f) {
     if (!build || f.fig) return;
-    f.fig = aaBuildFigure(T, f.agent, f.look);
+    f.fig = aaBuildFigure(T, f.agent, f.look, textureScale);
     f.fig.group.position.set(f.x, f.y, f.z); f.fig.group.rotation.y = f.yaw; f.fig.group.visible = f.visible;
     root.add(f.fig.group);
-    if (f.fig.labelCv) textureBytes += AA_LABEL_PX[0] * AA_LABEL_PX[1] * 4;
+    if (f.fig.labelCv) textureBytes += f.fig.labelCv.c.width * f.fig.labelCv.c.height * 4;
   }
 
   function addAgents(list) {
@@ -260,7 +271,7 @@ export function aaMountAgentAvatars({ three = null, parent = null, agents = [], 
       const idx = figures.size;
       const site = a.homeSite ?? null;
       const slot = site ? takeSlot(site, idx) : 0;
-      const spot = site ? spotAt(site, slot) : null;
+      const spot = site ? spotAt(site, slot, a) : null;
       const f = { agent: a, look, idx, site, slot, x: spot?.x ?? 0, y: spot?.y ?? 0, z: spot?.z ?? 0, yaw: spot?.yaw ?? 0, offMap: !spot,
         walk: null, queue: [], talk: null, caption: null, gesture: null, visible: !!spot, fig: null };
       if (spot) ensureFig(f); // an agent whose site is on another map gets its figure when it first arrives here
@@ -276,8 +287,8 @@ export function aaMountAgentAvatars({ three = null, parent = null, agents = [], 
     const cap = f.fig?.caption;
     if (cap) {
       if (!f.fig.captionCv) {
-        f.fig.captionCv = aaCanvas(AA_CAPTION_PX[0], AA_CAPTION_PX[1]);
-        if (f.fig.captionCv && T.CanvasTexture) { cap.material.map = new T.CanvasTexture(f.fig.captionCv.c); cap.material.needsUpdate = true; textureBytes += AA_CAPTION_PX[0] * AA_CAPTION_PX[1] * 4; }
+        f.fig.captionCv = aaCanvas(AA_CAPTION_PX[0], AA_CAPTION_PX[1], textureScale);
+        if (f.fig.captionCv && T.CanvasTexture) { cap.material.map = new T.CanvasTexture(f.fig.captionCv.c); cap.material.needsUpdate = true; textureBytes += f.fig.captionCv.c.width * f.fig.captionCv.c.height * 4; }
       }
       if (f.fig.captionCv) { aaDrawCaption(f.fig.captionCv, f.caption.text, f.look.accent); if (cap.material.map) cap.material.map.needsUpdate = true; }
       cap.userData.text = f.caption.text; cap.visible = true;
@@ -332,7 +343,7 @@ export function aaMountAgentAvatars({ three = null, parent = null, agents = [], 
     if (prevSite === siteId && !f.offMap) return;
     if (prevSite) freeSlot(prevSite, prevSlot);
     const slot = takeSlot(siteId, f.idx);
-    const spot = spotAt(siteId, slot);
+    const spot = spotAt(siteId, slot, f.agent);
     f.site = siteId; f.slot = slot;
     if (!spot) { f.offMap = true; f.walk = null; f.visible = false; if (f.fig) f.fig.group.visible = false; return; }
     const dist = Math.hypot(spot.x - f.x, spot.z - f.z);
@@ -410,7 +421,7 @@ export function aaMountAgentAvatars({ three = null, parent = null, agents = [], 
     }
     return { figures: [...figures.values()].filter((f) => f.fig).length, agents: figures.size, meshes, sprites, triangles, worstPerFigure: worst, budget: AA_AGENT_BUDGET, textureBytes, tier, built: build };
   }
-  const stateOf = (f) => ({ id: f.agent.id, name: f.agent.name ?? f.agent.id, label: f.fig?.roleText ?? `software agent · ${aaRoleLabel(f.agent)}`, site: f.site, slot: f.slot, x: f.x, y: f.y, z: f.z, offMap: f.offMap, visible: f.visible, walking: !!f.walk,
+  const stateOf = (f) => ({ id: f.agent.id, name: f.agent.name ?? f.agent.id, label: f.fig?.roleText ?? `software agent · ${aaRoleLabel(f.agent)}`, site: f.site, slot: f.slot, x: f.x, y: f.y, z: f.z, yaw: f.yaw, offMap: f.offMap, visible: f.visible, walking: !!f.walk,
     speaking: !!(f.talk && clock >= f.talk.start && (f.talk.voiced || clock < f.talk.end)), line: f.talk?.text ?? null, caption: f.caption?.text ?? null, gesture: f.gesture?.kind ?? null, queued: f.queue.length,
     talkVisible: f.fig ? !!f.fig.parts.talk.visible : null, captionVisible: f.fig ? !!f.fig.caption.visible : null, headPitch: f.fig ? f.fig.parts.head.rotation.x : null, tabletY: f.fig ? f.fig.parts.tablet.position.y : null });
 

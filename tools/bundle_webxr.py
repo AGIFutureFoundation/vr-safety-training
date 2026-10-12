@@ -1033,6 +1033,9 @@ APPS = {
             SHARED / "lar-rooms.js",
             # ROBO-INTERIORS: the robotics rooms' dresser, textures and robot-site doors (after ix-interiors.js and rb-world.js).
             SHARED / "ixr-robo-interiors.js",
+            # HIVE-IN-WORLD: the hive's agents inside the robotics rooms, the exterior door and the return into the room
+            # (after aa-agent-avatars.js and ixr-robo-interiors.js).
+            SHARED / "hw-hive-world.js",
             # HARVEST: hidden regional and seasonal activities (after np-parishes, tf-terraform, ty-economy, at-atmos, profiles,
             # st-paths, and account.js, which brings treasures.js).
             SHARED / "hv-harvest.js",

@@ -73,7 +73,7 @@ import { atMountSound } from "../../shared/at-sound.js";
 import { drMountDrills, drSetRecorder } from "../../shared/dr-drills.js";
 import { rbMountRobotics, rbGamesFor, rbRegisterMechanics } from "../../shared/rb-world.js";
 // ROBO-EXTERIORS: the robot sites' buildings from outside, their streetscape, night windows and establishing shots.
-import { fxMountExteriors, fxColliders, fxScene, fxSitesFor, fxSiteParish, FX_SHOTS } from "../../shared/fx-exteriors.js";
+import { fxMountExteriors, fxColliders, fxScene, fxSitesFor, fxSiteParish, fxDoorFor, FX_SHOTS } from "../../shared/fx-exteriors.js";
 import { uxMountTabs, uxOnboarding } from "../../shared/ux-menu.js";
 import { dxMountConsent } from "../../shared/dx-consent-ui.js";
 import { dxFlush, dxPendingCount, dxStore, dxReadSignals, dxEligibility } from "../../shared/dx-data.js";
@@ -86,6 +86,8 @@ import { ohMountHive } from "../../shared/oh-panel.js"; // OMEGA-HIVE: the agent
 import { vbColearnProvider, vbColearnLocalSource } from "../../shared/vb-colearn.js";
 // AGENT-AVATARS: the software agents embodied at the robot sites.
 import { aaMountAgentAvatars, aaVbridgeAgents, aaVbridgeSource } from "../../shared/aa-agent-avatars.js";
+// HIVE-IN-WORLD: the hive's agents inside the robotics rooms, one door with the exterior, and the return into the room.
+import { hwSyncRoom, hwFxDoorAt, hwReturnHash, hwRoomFromHash } from "../../shared/hw-hive-world.js";
 // CLEANPORTS: key the zero-emission port stations to BAYMAP's West Oakland sites (a no-op until that map merges).
 cpPlaceInParish(npParish);
 // BAYQUEST: the Bay Program play board (games, the Bay Keeper's Trail, Crew Credits) under the ledger; importing it
@@ -262,18 +264,20 @@ const ixDoors = parish.sites.map((s0, i) => {
 // clear of every site building) a door spot opens that site's robotics room — a robot cell hall, a cobot lab, an AMR warehouse,
 // a port control room, a ceiling-drilling deck or a maintenance bay, generic by kind. ROBO-EXTERIORS' building door wins when
 // its module offers one (globalThis.fxRobotDoorAt, guarded). The room's board and station returns use the anchor site.
+// HIVE-IN-WORLD: one door. The robotics building ROBO-EXTERIORS stands at the site (fxDoorFor) is where its room opens: the door
+// spot is the building door's outside spot (1.4 m out, on the pad side), so walking from the pad to the door and pressing E enters.
 const ixrDoors = (() => {
   try {
     const blds = parish.sites.map((_, i) => { try { return cwSiteBuilding(parish, i); } catch { return null; } }).filter(Boolean);
     const blocked = (x, z) => blds.some((b) => Math.abs(x - b.cx) < b.w / 2 + 0.6 && Math.abs(z - b.cz) < b.d / 2 + 0.6) || tfWaterDepthAt(parish, x, z) > 0.02;
-    const doorAt = typeof globalThis.fxRobotDoorAt === "function" ? (id) => globalThis.fxRobotDoorAt(parish, id) : null;
+    const doorAt = (id) => { try { const d = hwFxDoorAt(fxDoorFor(parish, id)); if (d) return d; } catch (_) { /* no kit here: the pad-side spot */ } return typeof globalThis.fxRobotDoorAt === "function" ? globalThis.fxRobotDoorAt(parish, id) : null; };
     return ixrDoorsFor(parish, { sites: rbSitesFor(parish), blocked, doorAt });
   } catch { return []; }
 })();
 const ixWorld = ixMountInteriors({
   three: THREE, scene, hide: [root], tier: npTierName,
   onBoard: (s) => npOpenBoard(s.board ?? s),
-  onLaunch: (id, s) => { location.href = npLink(id, s.linkSite ?? s.id); },
+  onLaunch: (id, s) => { location.href = npLink(id, s.linkSite ?? s.id, s.kind === "robotics" ? hwReturnHash(s.style) : ""); }, // HIVE-IN-WORLD: back into the same robotics room
   onToast: (m) => npToast(m, 5200),
 });
 // TYCOON: a rented room or shop has its own door 4 or 7 m along the same face, opening into a matching interior.
@@ -451,7 +455,7 @@ function npToggle(id) { if (np.modal === id) npClose(); else { if (id === "map")
 for (const b of document.querySelectorAll("[data-close]")) b.addEventListener("click", npClose);
 
 /** A station link with the way back: `#site=<parish>/<site>` so the return lands in the right parish. */
-function npLink(id, siteId) { return lkStationLink(id, { runner: NP_RUNNER, from: "parishes", page: ppHerePage(), siteId: siteId ? `${parish.id}/${siteId}` : null }); }
+function npLink(id, siteId, returnHash = "") { return lkStationLink(id, { runner: NP_RUNNER, from: "parishes", page: ppHerePage(), siteId: siteId ? `${parish.id}/${siteId}` : null, returnHash }); }
 
 function npOpenBoard(site) {
   $("board-title").textContent = site.name;
@@ -818,6 +822,8 @@ function frame(now) {
   drWorld?.animate(dt);
   rbWorld?.animate(dt, np.x, np.z);
   aaWorld?.animate(now / 1000, dt, np.playing && !np.modal ? [np.x, np.z] : null); // AGENT-AVATARS: walks, talk lights, captions (writes only within GRIOT's radius)
+  if (hwRoomMount?.room !== (ixWorld.room ?? null) && typeof hwSync === "function") hwSync(); // HIVE-IN-WORLD: the agents in the room open now
+  hwRoomMount?.animate(now / 1000, dt);
   if (np.playing && !np.modal) { tyClock += dt; if (tyClock >= 1) { tyAfterTick(tyTick(tyClock)); tyClock = 0; } }
   if (np.playing && !np.modal && tyClock === 0) bqTrailTick();
   npHudT += dt; npVisitT += dt;
@@ -1225,7 +1231,7 @@ window.__parishTest.vbridge = vbMountDispatch($("menu-drills"), { reducedMotion:
 // requests come to the learner as approvals (approving lets only the simulated job run); every award, veto, refusal and approval
 // goes to ENTERPRISE-3's audit log. Not mounted in K-12, demo or signed-out sessions (DATAWORKS' eligibility at the offer stage, and the
 // page's own ?demo flag, as the GEO gate reads it).
-window.__parishTest.hive = (() => { try { let ok = false; try { ok = !npParams.has("demo") && dxEligibility(dxReadSignals(), { stage: "offer" }).eligible === true; } catch (_) { ok = false; } return ok ? ohMountHive($("menu-drills"), { reducedMotion: npReduced, audit: ent3AuditAppend, seed: 1, onTalk: (id, on) => { if (on) aaWorld?.talkStart(id); else aaWorld?.talkEnd(id); } }) : null; } catch (_) { return null; } })();
+window.__parishTest.hive = (() => { try { let ok = false; try { ok = !npParams.has("demo") && dxEligibility(dxReadSignals(), { stage: "offer" }).eligible === true; } catch (_) { ok = false; } return ok ? ohMountHive($("menu-drills"), { reducedMotion: npReduced, audit: ent3AuditAppend, seed: 1, onTalk: (id, on) => { if (on) { aaWorld?.talkStart(id); hwRoomMount?.avatars?.talkStart(id); } else { aaWorld?.talkEnd(id); hwRoomMount?.avatars?.talkEnd(id); } } }) : null; } catch (_) { return null; } })();
 window.__parishTest.vbColearn = vbProvider;
 // AGENT-AVATARS (docs/consoles/AGENT-AVATARS.md): the software agents embodied at this map's robot sites — the four VBRIDGE
 // personas over the agent-jobs panel's job stream (the client asks, the governor checks, the provider walks to a running job's
@@ -1236,12 +1242,35 @@ var aaSiteAt = (id) => { const s = rbWorld?.sites?.find((x) => x.id === id); ret
 var aaVbSource = (() => { try { return window.__parishTest.vbridge ? aaVbridgeSource(window.__parishTest.vbridge) : null; } catch (_) { return null; } })();
 var aaWorld = !rbWorld?.sites?.length ? null : (() => { // a map with no robot site has nowhere for an agent to stand
   try {
-    const hive = window.__parishTest.hive ?? null;
+    const hive = window.__parishTest.hive?.hive ?? null; // HIVE-IN-WORLD: the hive itself (on, agents), not the panel's api
     const hiveAgents = hive ? (typeof hive.agents === "function" ? hive.agents() : hive.agents) ?? [] : [];
     return aaMountAgentAvatars({ three: THREE, parent: root, agents: [...hiveAgents, ...aaVbridgeAgents(rbWorld?.sites?.[0]?.id ?? null)], source: [hive, aaVbSource].filter(Boolean), siteAt: aaSiteAt, reducedMotion: npReduced, tier: npTierName, groundAt: (x, z) => Math.max(npHeightAt(parish, x, z), 0) });
   } catch (_) { return null; }
 })();
 window.__parishTest.agentAvatars = aaWorld;
+// HIVE-IN-WORLD (docs/consoles/HIVE-IN-WORLD.md): inside a robotics room the hive's agents homed at that site stand at the room's
+// agent spots (in the room's group, facing the spot's way) and the hive's captions show over them; one mount per open room, kept
+// in step by hwSync (every frame, and right after an enter). Only when the hive is mounted (signed in, adult, not K-12, not the demo).
+var hwRoomMount = null;
+function hwSync() {
+  const hv = window.__parishTest?.hive?.hive ?? null;
+  hwRoomMount = hwSyncRoom(hwRoomMount, { room: ixWorld.room, three: THREE, agents: hv?.agents ?? [], source: hv, tier: npTierName, reducedMotion: npReduced });
+  return hwRoomMount;
+}
+// A station launched from a robotics room comes back with #...&ixr=<style>: stand at that room's door and go back inside.
+var hwReturnStyle = hwRoomFromHash(location.hash, location.search);
+var hwReturned = (() => {
+  if (!hwReturnStyle) return null;
+  try {
+    const d = ixrDoors.find((x) => x.style === hwReturnStyle);
+    if (!d) return null;
+    window.__parishTest.teleport(d.x, d.z);
+    const room = ixWorld.enter(d.site, { x: d.x, z: d.z, yaw: np.yaw, pitch: np.pitch }, { style: d.style, title: d.title });
+    np.near = null; hwSync();
+    return room ? { style: room.id, site: d.site.id } : null;
+  } catch (_) { return null; }
+})();
+window.__parishTest.hiveWorld = { sync: hwSync, room: () => hwRoomMount, doors: ixrDoors, returned: hwReturned, returnStyle: hwReturnStyle };
 window.__parishTest.vbLocal = vbLocal;
 window.__parishTest.xr = npXRTest;
 // ROBOTRAIN-5: the page-level proof awaits the recorder's parked store writes (dxFlush resolves with the count written) and reads
