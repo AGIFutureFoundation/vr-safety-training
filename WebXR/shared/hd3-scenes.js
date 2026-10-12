@@ -22,10 +22,12 @@
 //                                       the first candidate that stands dry and clear of massing with its sight line clear;
 //                                       deterministic (no randomness), so a still can be re-shot exactly
 //   hd3ScenePresets()                 -> [{ siteId, shot, parish }] for the fourteen presets (seven sites x two shots)
+//   HD3_KW_HALF, hd3KitRects(parish)  ENV-HD-6: KREWE's kits (live oaks, bandstands, kiosks ...) count as obstacles too
 //   The parishes app routes `window.__parishTest.scene(siteId, shot)` (and `?scene=<siteId>:<shot>`) here for these sites.
 
 import { npHeightAt, npWaterAt, npChunkOf, npMassingForChunk, NP_SIZE } from "./np-parish.js";
 import { cwMassFilter, cwSpotBoxes, cwSiteBuilding, cwNearestLine } from "./cw-cityworks.js";
+import { kwPlacements } from "./kw-place.js";
 
 export const HD3_SHOTS = ["wide", "street"];
 export const HD3_SCENE_SITES = [
@@ -43,6 +45,20 @@ export function hd3ScenePresets() {
   return HD3_SCENE_SITES.flatMap((s) => HD3_SHOTS.map((shot) => ({ siteId: s.id, shot, parish: s.parish })));
 }
 
+// ENV-HD-6: KREWE's dressing (kw-place.js) plants live oaks and street kits the massing does not list; the park's street
+// camera stood 8 m from one, under its crown. A kit's half-footprint (a live oak's crown is 15.5 x 14.6 m) plus 1.5 m, so the
+// solver's 3.5 m first pass keeps a camera >= 5 m from any crown's edge; every other kit by a generic 6 m half-size.
+export const HD3_KW_HALF = { liveOak: 7.8 + 1.5, other: 6 };
+const hd3KwCache = new WeakMap();
+/** KREWE's placements as obstacle rects (the high tier's set, a superset of the phone tier's), cached per map. */
+export function hd3KitRects(parish) {
+  if (hd3KwCache.has(parish)) return hd3KwCache.get(parish);
+  let list = [];
+  try { list = kwPlacements(parish, { tier: "high" }); } catch { list = []; }
+  const rects = list.map((k) => { const r = HD3_KW_HALF[k.kit] ?? HD3_KW_HALF.other; return Object.assign([k.x - r, k.z - r, k.x + r, k.z + r], { kit: k.kit, x: k.x, z: k.z }); });
+  hd3KwCache.set(parish, rects);
+  return rects;
+}
 const hd3Hit = (a, b) => a[0] < b[2] && a[2] > b[0] && a[1] < b[3] && a[3] > b[1];
 /** Massing rects (grown by 2 m) and tree crowns around (x, z), and the other catalog sites' buildings; cached per map + chunk. */
 const hd3NearCache = new WeakMap();
@@ -63,6 +79,7 @@ function hd3Obstacles(parish, x, z, skip) {
     if (i === skip) return;
     try { const b = cwSiteBuilding(parish, i); rects.push([b.cx - b.w / 2 - 2, b.cz - b.d / 2 - 2, b.cx + b.w / 2 + 2, b.cz + b.d / 2 + 2]); } catch { /* none */ }
   });
+  for (const r of hd3KitRects(parish)) if (Math.abs(r.x - x) < 300 && Math.abs(r.z - z) < 300) rects.push(r); // ENV-HD-6
   per.set(k, rects);
   return rects;
 }

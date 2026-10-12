@@ -218,6 +218,17 @@ check(FX.fxScene(R.npParish("orleans"), "rb-site-soma-robot-cell", "wide") === n
       let ob = null; try { ob = CW.cwSiteBuilding(p, i); } catch { ob = null; }
       const od = ob ? Math.hypot(Math.max(Math.abs(s.position[0] - ob.cx) - ob.w / 2, 0), Math.max(Math.abs(s.position[2] - ob.cz) - ob.d / 2, 0)) : 99;
       check(od >= 12, `${pr.siteId}: the street camera stands ${od.toFixed(1)} m from the site's own building (>= 12 m)`);
+      // ENV-HD-6: no tree crown within 5 m of a street camera — the massing's trees (crown 7.3 m x their scale for a live
+      // oak, 3 m otherwise) and KREWE's live oaks (kw-place.js; crown 7.8 m), which the park's camera stood under (0.2 m)
+      const [qx, , qz] = s.position, { cx: qcx, cz: qcz } = E.npChunkOf(qx, qz);
+      let crown = Infinity, what = "none";
+      for (let dx = -1; dx <= 1; dx++) for (let dz = -1; dz <= 1; dz++) for (const m of E.npMassingForChunk(p, qcx + dx, qcz + dz)) {
+        if (CW.cwSpotBoxes(m).length || !CW.cwMassFilter(p)(m)) continue;
+        const r = m.kind === "liveOak" ? 7.3 * ((m.h ?? 10) / 10) : 3, e = Math.hypot(m.x - qx, m.z - qz) - r;
+        if (e < crown) { crown = e; what = `massing ${m.kind}`; }
+      }
+      for (const k of H.hd3KitRects(p)) if (k.kit === "liveOak") { const e = Math.hypot(k.x - qx, k.z - qz) - 7.8; if (e < crown) { crown = e; what = "KREWE live oak"; } }
+      check(crown >= 5, `${pr.siteId}: no tree crown within 5 m of the street camera (nearest: ${what}, ${Number.isFinite(crown) ? crown.toFixed(1) + " m from its edge" : "none within the 3 x 3 chunks"})`);
     }
   }
   check(H.hd3Scene(R.npParish("orleans"), "bridge-yard", "wide") === null && H.hd3Scene(R.npParish("orleans"), "port-terminal", "door") === null, "a non-robot scene asked on the wrong map, or for an unknown shot, is null");
