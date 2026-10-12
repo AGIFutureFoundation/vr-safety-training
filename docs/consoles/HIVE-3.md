@@ -62,7 +62,8 @@ why `H3_ROOM_FIGURES` is 3. In the seed-1 day no room ever needed a fourth.
   need the DATAWORKS adult attestation, which is about data collection. "Adult profile" here means a signed-in, non-K-12
   profile.
 - The scene is scripted. The approval is made by the scene and stands in for the learner's click; the caption bar says
-  "You approve". Every caption fact (job ids, bids, the reason text, steps) comes from the scene hive's own events, and the
+  "You approve". The caption facts come from the scene hive's own events: job ids, bids, the governor's reason text (from
+  `VB_REASONS`) and step counts. The "1.2 m" and the site wording come from the scene's fixed job list (`h3SceneJobs`). The
   scene writes nothing to the learner's governance registry.
 - The Spanish is machine-assisted and needs a native speaker's review. The panel says so in Spanish. Site names and task
   labels stay English, as they do in VOICES' Spanish lines.

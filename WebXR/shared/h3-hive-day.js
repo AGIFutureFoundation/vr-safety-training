@@ -35,6 +35,10 @@
 //   H3_SCENE                                the scene's beats (ids, start seconds, camera shot) and its duration
 //   h3SceneJobs(seed)                       -> the scene's seeded job list (ohHive's `jobs` shape)
 //   h3SceneHive(makeHive, { seed })         -> a hive over those jobs (the caller hands in OMEGA-HIVE's ohHive: no import)
+//   H3_SCENE_PROLOGUE_STEPS                 4: hive steps taken before the scene's clock starts
+//   h3SceneRelay(hive)                      -> { on, off, agents, jobs(), agentState(id), pending(), step(n), releaseThrough(type|fn),
+//                                                releaseRun(type), releaseAll(), held(), released(), dispose() }: the hive's events,
+//                                                held per step and handed on beat by beat
 
 export const H3_ROOM_FIGURES = 3;
 
