@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * ECOSYSTEM — the seams with SmartCiti.X and Cognition.X (docs/ecosystem.md). Single checker; headless, no browser.
+ * ECOSYSTEM — the seams with SmartCiti.X and Cognition.X (docs/ecosystem.md). Single checker; legs 1–6 headless, leg 7 in a browser.
  *   1. the Cognition.X extract: provenance (source, commit 47c1820, CC BY 4.0, attribution line) in the data module and the
  *      match table, under 200 KB, every block referenced by a match present and every block present referenced;
  *   2. the match rules are deterministic: re-matching the extract's own blocks gives the committed rows (top-k of a superset
@@ -14,7 +14,9 @@
  *      revoke deletes. With a read-only SmartCiti.X clone present, the messages also go through its real Bus (strict) and
  *      envelope(), and the audit entries through its AuditLog (skipped without one; nothing of it is copied);
  *   5. 0 network calls (fetch, XMLHttpRequest, WebSocket, sendBeacon stubbed to count) and no network API in the eco sources;
- *   6. Router.X is marked absent ("not yet built") in docs/ecosystem.md, and the instructor tab is wired read-only.
+ *   6. Router.X is marked absent ("not yet built") in docs/ecosystem.md, and the instructor tab is wired read-only;
+ *   7. the Ecosystem tab in the BUILT instructor page (Playwright): options and blocks as in the extract, 0 page errors,
+ *      0 requests and 0 storage writes after the click (skipped, saying so, only without Playwright).
  */
 import { readFileSync, existsSync, statSync } from "node:fs";
 import { join, dirname } from "node:path";
@@ -81,7 +83,7 @@ await check("2. match rules deterministic (extract re-match, shuffled, twice)", 
 
 const CX = join(SIB, "cognition.x");
 await check("2b. full re-extract from the read-only Cognition.X clone is byte-identical", () => {
-  if (!existsSync(join(CX, "data/blocks.csv"))) return "SKIP";
+  if (!existsSync(join(CX, "data/blocks.csv"))) { console.log(`     (skipped: no read-only Cognition.X clone at ${CX}; legs 1–3 re-match against the committed extract instead)`); return "SKIP"; }
   const blocks = EX.ecoParseCsv(readFileSync(join(CX, "data/blocks.csv"), "utf8"));
   const st = ECO.ecoMatchStations(EX.ecoStations(ROOT), blocks);
   const sk = ECO.ecoMatchSkills(RP.RP_TRACKS, blocks);
@@ -197,6 +199,70 @@ await check("6. Router.X marked absent; instructor tab wired read-only; bundles 
   const check = read("tools/check_all.mjs"), base = read("docs/perf/checkers-baseline.json");
   ok(check.includes('"check_eco.mjs"') && base.includes('"check_eco.mjs"'), "check_all and the baseline row");
   return `loop briefs ${Object.keys(briefs).length}; panel ${p.pick.children.length} options; electrical → ${ECO.ecoNextBlocks("electrical").map((b) => b.block_id).join(", ")}`;
+});
+
+// 7. The Ecosystem tab in the BUILT page (eco-next 1; ECOSYSTEM drove it once by hand). WebXR/ is served in-process on
+// ECO_PORT (9161), the cdnjs three.js URL is answered from WebXR/vendor/, every other external request is aborted and counted.
+// Expectations come from the extract, so a stale dist fails here with the rebuild command. Needs Playwright and Chromium
+// (CI installs both); it is skipped, saying so, only when Playwright cannot be found.
+await check("7. the Ecosystem tab in the built instructor page: options, blocks, 0 page errors, 0 requests, 0 storage writes", async () => {
+  const { createServer } = await import("node:http");
+  const { extname, normalize } = await import("node:path");
+  const PWL = await imp(join(ROOT, "tools/lib/pw.mjs"));
+  let pw; try { pw = await PWL.pwModule(); } catch (e) { console.log(`     (browser leg skipped: ${e.message})`); return "SKIP"; }
+  const WEBXR = join(ROOT, "WebXR"), PAGE = "instructor/dist/instructor-console.html";
+  ok(existsSync(join(WEBXR, PAGE)), `${PAGE} missing — run python3 tools/bundle_webxr.py instructor`);
+  const TYPES = { ".html": "text/html", ".js": "application/javascript", ".mjs": "application/javascript", ".json": "application/json", ".css": "text/css", ".png": "image/png", ".svg": "image/svg+xml", ".woff2": "font/woff2", ".webp": "image/webp" };
+  const server = createServer((req, res) => {
+    const path = normalize(decodeURIComponent(new URL(req.url, "http://x").pathname)).replace(/^([/\\])+/, "");
+    const file = join(WEBXR, path);
+    if (!file.startsWith(WEBXR) || !existsSync(file) || statSync(file).isDirectory()) { res.writeHead(404); res.end(); return; }
+    res.writeHead(200, { "content-type": TYPES[extname(file)] ?? "application/octet-stream" }); res.end(readFileSync(file));
+  });
+  const PORT = Number(process.env.ECO_PORT || 9161);
+  await new Promise((r, j) => { server.once("error", j); server.listen(PORT, "127.0.0.1", r); });
+  const origin = `http://127.0.0.1:${PORT}`;
+  const browser = await pw.chromium.launch({ executablePath: PWL.pwExecutable(), args: ["--no-sandbox"] });
+  try {
+    const page = await browser.newPage({ viewport: { width: 1280, height: 900 } });
+    const errors = [], external = []; let clicked = false; const afterClick = [];
+    page.on("pageerror", (e) => errors.push(String(e.message)));
+    page.on("request", (q) => { if (clicked) afterClick.push(q.url().replace(origin, "")); });
+    await page.route("**/*", (route) => {
+      const u = route.request().url();
+      if (u.startsWith(`${origin}/`)) return route.continue();
+      if (/cdnjs\.cloudflare\.com\/ajax\/libs\/three\.js\/.*three\.module\.min\.js$/.test(u)) return route.fulfill({ status: 200, contentType: "application/javascript", body: readFileSync(join(WEBXR, "vendor/three/dist/three.module.min.js"), "utf8") });
+      external.push(u); return route.abort();
+    });
+    await page.goto(`${origin}/${PAGE}`, { waitUntil: "load" });
+    await page.waitForFunction(() => !!document.getElementById("tab-eco"), null, { timeout: 15000 });
+    // The page's own font faces load lazily when bold text first shows; load them all first, so what is counted after the
+    // click is what the tab itself asks for (the font files are the stylesheet's, not the tab's).
+    const fonts = await page.evaluate(async () => { const all = [...document.fonts]; await Promise.all(all.map((f) => f.load().catch(() => null))); return all.length; });
+    await page.waitForTimeout(800);
+    const snap = () => page.evaluate(() => { const o = {}; for (let i = 0; i < localStorage.length; i += 1) { const k = localStorage.key(i); o[k] = localStorage.getItem(k); } return JSON.stringify(o); });
+    const before = await snap(); const extBefore = external.length;
+    clicked = true; await page.click("#tab-eco");
+    await page.waitForFunction(() => !!document.querySelector("#eco-root select"), null, { timeout: 10000 });
+    const r = await page.evaluate(() => {
+      const root = document.getElementById("eco-root"), sel = root.querySelector("select");
+      const shown = () => [...root.querySelectorAll("ol > li strong")].map((s) => s.textContent.split(" · ")[0]);
+      sel.value = "electrical"; sel.dispatchEvent(new Event("change"));
+      return { visible: !document.getElementById("view-eco").hidden, options: sel.options.length, electrical: shown(), attribution: root.querySelector("p")?.textContent ?? "" };
+    });
+    await page.waitForTimeout(300);
+    const after = await snap();
+    const wantOptions = DATA.stations.length + DATA.skills.length, wantBlocks = ECO.ecoNextBlocks("electrical").map((b) => b.block_id);
+    ok(r.visible, "the Ecosystem view is hidden after the click");
+    ok(r.options === wantOptions, `${r.options} options in the built page, the extract has ${wantOptions} — the dist is stale: run python3 tools/bundle_webxr.py instructor`);
+    ok(JSON.stringify(r.electrical) === JSON.stringify(wantBlocks), `electrical shows ${r.electrical.join(", ")}, the extract gives ${wantBlocks.join(", ")}`);
+    ok(r.attribution.includes(DATA.provenance.attribution), "the attribution line is not shown");
+    ok(errors.length === 0, `page errors: ${errors.slice(0, 3).join(" | ")}`);
+    ok(afterClick.length === 0, `${afterClick.length} requests after the click: ${afterClick.slice(0, 3).join(", ")}`);
+    ok(external.length === extBefore, `${external.length - extBefore} external requests after the click`);
+    ok(before === after, "the tab wrote to localStorage");
+    return `built page: ${r.options} options, electrical → ${r.electrical.join(", ")}; page errors 0, requests after the click 0, storage writes 0 (${fonts} font faces preloaded; external requests aborted before the click: ${extBefore})`;
+  } finally { await browser.close(); server.close(); }
 });
 
 console.log(`\ncheck_eco: ${passed} passed, ${failed} failed, ${skipped} skipped`);
