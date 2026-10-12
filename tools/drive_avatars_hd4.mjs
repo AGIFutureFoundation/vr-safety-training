@@ -13,7 +13,7 @@
 import { pathToFileURL, fileURLToPath } from "node:url";
 import { join, dirname } from "node:path";
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
-const PORT = Number(process.argv[2] ?? 9154), OUT = process.argv[3] ?? ".", TAG = process.argv[4] ?? "after";
+const PORT = Number(process.argv[2] ?? 9154), OUT = process.argv[3] ?? ".", TAG = process.argv[4] ?? "after", ONLY = process.argv[5] ?? null; // ONLY: A or B
 const { pvServe, pvLaunch, pvContext, pvLoad } = await import(pathToFileURL(join(ROOT, "tools/lib/pv_browser.mjs")).href);
 const { IX_BUDGET } = await import(pathToFileURL(join(ROOT, "WebXR/shared/ix-interiors.js")).href);
 const { base, close } = await pvServe(PORT);
@@ -41,7 +41,7 @@ async function open(parish) {
 const out = { tag: TAG };
 try {
   // ------------------------------------------------------------------------------------------------ A. the operations room
-  {
+  if (ONLY !== "B") {
     const { ctx, page } = await open("oak-west-oakland");
     const at = await page.evaluate(() => {
       const P = window.__parishTest.hive, H = P.hive;
@@ -81,13 +81,14 @@ try {
         const m = window.__parishTest.hiveWorld.room(), s = m.placed.map((p) => ({ id: p.agent.id, name: p.agent.name, ...m.avatars.state(p.agent.id) }));
         const near = s.find((x) => x.level === "room") ?? s[0];
         const other = s.filter((x) => x.id !== near.id).sort((a, b) => Math.hypot(a.x - near.x, a.z - near.z) - Math.hypot(b.x - near.x, b.z - near.z))[0];
-        window.__ah4Animate = m.animate;
+        // hold the room for the still (a frame can take seconds under load and would end the 1.8 s gesture), refuse, then bring the two
+        // figures to the stop hand's full pose by the mount's own clock (0.9 s in; the ease-in takes the first 18%)
+        window.__ah4Animate = m.animate; m.animate = () => {};
         for (const x of [near, other]) m.avatars.handle({ type: "refused", agent: x.id, reason: "the governor's safety check", jobId: "ah4-still" });
+        const c = m.avatars.clock(); m.avatars.animate(c + 0.9, 0.9, null);
         return { near: { id: near.id, name: near.name, x: near.x, z: near.z, yaw: near.yaw, level: near.level }, other: { id: other.id, name: other.name, x: other.x, z: other.z, yaw: other.yaw, level: other.level } };
       });
-      // hold the room for the still, then bring the two figures to the stop hand's full pose (0.9 s into its 1.8 s; ease in over the first
-      // 18%): under a heavy load a frame can take seconds, so the pose is set by the mount's own clock, not by waiting
-      await page.evaluate(() => { const m = window.__parishTest.hiveWorld.room(); m.animate = () => {}; const c = m.avatars.clock(); m.avatars.animate(c + 0.9, 0.9, null); });
+      console.log("stop gestures", JSON.stringify(await page.evaluate((ids) => ids.map((id) => window.__parishTest.hiveWorld.room().avatars.state(id).gesture), [pair.near.id, pair.other.id])));
       const mx = (pair.near.x + pair.other.x) / 2, mz = (pair.near.z + pair.other.z) / 2;
       // the figures face +z rotated by yaw; stand 2.4 m in front of the pair, looking back at them
       const fy = (pair.near.yaw + pair.other.yaw) / 2, cx = mx + Math.sin(fy) * 2.4, cz = mz + Math.cos(fy) * 2.4, yaw = Math.atan2(-(mx - cx), -(mz - cz));
@@ -102,7 +103,7 @@ try {
     await ctx.close();
   }
   // ------------------------------------------------------------------------------------------------ B. the six robot rooms
-  {
+  if (ONLY !== "A") {
     const { ctx, page } = await open("sf-downtown");
     await page.evaluate(() => { const P = window.__parishTest.hive; while (P.hive.now() < 150) P.step(); });
     const styles = await page.evaluate(() => window.__parishTest.roboInteriors.styles);
