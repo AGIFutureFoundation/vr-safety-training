@@ -8,7 +8,9 @@
 
 const raEsc = (s) => String(s ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 const raPct = (x) => `${Math.round((x ?? 0) * 1000) / 10}%`;
-const raCi = (ci) => (ci ? `${raPct(ci[0])}–${raPct(ci[1])}` : "");
+const raPct2 = (x) => raPct(x).replace("-", "−");
+/** An interval: "a–b" when both ends are non-negative, "a to b" (with true minus signs) when either is negative. */
+const raCi = (ci) => (!ci ? "" : ci[0] < 0 || ci[1] < 0 ? `${raPct2(ci[0])} to ${raPct2(ci[1])}` : `${raPct(ci[0])}–${raPct(ci[1])}`);
 
 export const RA_PANEL_CSS = `
   .ra-lead { display: grid; gap: var(--at-sp-3); grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); margin: var(--at-sp-3) 0; }
@@ -49,9 +51,9 @@ export function raPanelHtml(arena) {
     <div class="ra-lead">
       <div class="ra-stat"><span class="rp-muted">Model families</span><b>${t.families ?? "—"}</b><span class="rp-muted">on ${t.scenarios ?? "—"} scenarios, ${t.episodes ?? "—"} episodes</span></div>
       <div class="ra-stat"><span class="rp-muted">Steps the governor checked</span><b>${t.stepsChecked ?? "—"} / ${t.stepsRun ?? "—"}</b><span class="rp-muted">physical dispatches: ${t.physical ?? "—"}</span></div>
-      <div class="ra-stat" data-ra-lm><span class="rp-muted">Small model vs the clone, held-out tasks</span><b>${raPct(ht.lm?.success)} vs ${raPct(ht.bc?.success)}</b><span class="rp-muted">difference ${ht.lmMinusBc ? `${ht.lmMinusBc.diff > 0 ? "+" : ""}${raPct(ht.lmMinusBc.diff)} (95% ${raCi(ht.lmMinusBc.ci95)})` : "—"}</span></div>
+      <div class="ra-stat" data-ra-lm><span class="rp-muted">Small model vs the clone, held-out tasks</span><b>${raPct(ht.lm?.success)} vs ${raPct(ht.bc?.success)}</b><span class="rp-muted">difference ${ht.lmMinusBc ? `${ht.lmMinusBc.diff > 0 ? "+" : ""}${raPct2(ht.lmMinusBc.diff)} (95% ${raCi(ht.lmMinusBc.ci95)})` : "—"}</span></div>
     </div>
-    <p class="rp-muted"><strong>${raEsc(sm.label ?? "")}</strong> — ${sm.params ?? "?"} weights, trained here on synthetic demonstrations and the stations' own step and hazard texts. Over every scenario it scored ${raPct(hs.lm?.success)} against the clone's ${raPct(hs.bc?.success)} (difference ${hs.lmMinusBc ? `${raPct(hs.lmMinusBc.diff)}, 95% ${raCi(hs.lmMinusBc.ci95)}` : "—"}); with its instruction text blanked, ${raPct(hs.blankText?.success)}. Reported as measured.</p>
+    <p class="rp-muted"><strong>${raEsc(sm.label ?? "")}</strong> — ${sm.params ?? "?"} weights, trained here on synthetic demonstrations and the stations' own step and hazard texts. Over every scenario it scored ${raPct(hs.lm?.success)} against the clone's ${raPct(hs.bc?.success)} (difference ${hs.lmMinusBc ? `${raPct2(hs.lmMinusBc.diff)}, 95% ${raCi(hs.lmMinusBc.ci95)}` : "—"}); with its instruction text blanked, ${raPct(hs.blankText?.success)}. Reported as measured.</p>
     <h3>Leaderboard — the nine gym scenarios</h3>
     <div class="rp-scroll"><table class="rp-table" data-ra-leaderboard>
       <thead><tr><th scope="col" class="num">Rank</th><th scope="col">Model</th><th scope="col" class="num">Scenarios</th><th scope="col" class="num">Success</th><th scope="col" class="num">95% interval</th><th scope="col" class="num">Rule breaks</th><th scope="col" class="num">Governor stops</th><th scope="col" class="num">Mean steps</th><th scope="col" class="num">Steps checked</th></tr></thead>
