@@ -51,7 +51,7 @@
 | worst robot-site chunk, FACADES + kit vs FC_BUDGET (San José 9,7) | high 3+2 meshes / 4,918+880 tris | high 4+2 meshes / 4,158+880 tris (≤ 6 / 24,000); low 1+1 / 1,056+36 unchanged | `node tools/check_exteriors.mjs` (per-chunk notes) |
 | full streamed build, worst meshes / triangles (check_facades §5) | orleans high 186 / 93,263; oak-west-oakland high 163 / 90,030; every low tier 121 / 45,010 · 101 / 41,763 · 92 / 37,134 | orleans high 187 / 93,263; oak-west-oakland high 164 / 90,606; every low tier unchanged (≤ 260 / 400,000) | `check_facades` before/after logs |
 | scattered props inside robotics lots (every tier, ring 0) | **834** at high (inside the six lots, 10 chunks) | **0** on every tier | before: `$SP/loop10/hd2/probe-dt.mjs` over f4884d71's `dt-detail.js`; after: `node tools/check_detail.mjs` ("scattered props inside robotics lots: 0 …") |
-| `check_detail` generation median (CPU, high) | 10.8 ms at load 5.3–6.9 (ROBO-EXTERIORS' last run) | **10.1 ms** at load 11.8 → 8.1 (budget 12; judged only on a quiet machine) | `node tools/check_detail.mjs` |
+| `check_detail` generation median (CPU, high) | **10.6 ms** at load 6.6 → 7.1 (f4884d71's dt-detail.js and checker, run back to back with the after run) | **9.9 ms** at load 6.4 → 5.5 (an earlier run: 10.1 ms at load 11.8 → 8.1); budget 12, judged only on a quiet machine | `node tools/check_detail.mjs` (`$SP/loop10/hd2/logs/detail-base.txt`, `detail-after2.txt`) |
 | room styles with the high-detail texture set | 6 (ROBO-INTERIORS' robotics rooms) | **15** (+ workshop, plant room, port shed, civic lobby, classroom, apparatus bay, transit barn, clinic, warehouse) | `node tools/check_room_skins.mjs` ("6 → 15") |
 | meshes / triangles / lights per room, nine styles × three tiers | — | **identical** with and without the skin (27 of 27 builds) | `check_room_skins` (one line per style and tier) |
 | texture bytes per room (every texture, shell signs included) | 1.33 MiB on every tier (the shell's two signs) | high **17.33 MiB** (tile rooms 12.00 MiB in the page; budget 24 MiB), balanced and low **2.33 MiB** (budget 3 MiB) | `check_room_skins` (allocation), drive (canvases the page drew: 17.33 MiB on high) |
@@ -59,7 +59,9 @@
 | texture bytes per room in the built page (high, measured canvases) | — | industrial rooms and the classroom and clinic 17.33 MiB, civic lobby 12.00 MiB (no metal props) — ≤ 24 MiB | the drive's room lines |
 | `check_facades` | 2,860 pass | **2,957** pass | `node tools/check_facades.mjs` |
 | `check_exteriors` | 259 pass | 259 pass | `node tools/check_exteriors.mjs` |
-| `check_detail` | 479 pass (ROBO-EXTERIORS' figure) | **485** pass, 0 fail | `node tools/check_detail.mjs` |
+| `check_detail` | 479 pass, 0 fail (f4884d71) | **485** pass, 0 fail | `node tools/check_detail.mjs` |
+| `check_mobile` | — | 326 checks pass (drives the committed dist pages; the Node legs import the changed dt-detail.js and fc-facades.js) | `node tools/check_mobile.mjs` (it rewrites `docs/perf/phone-maps.json` with measured figures: restored, not committed) |
+| `check_dean` (reads the shared export) | — | 3362/3362 | `node tools/check_dean.mjs` |
 | `check_bridge` | 139/139 at the base | 138/139 after the kit change (stale export) → **139/139** after `node tools/export_shared.mjs` | `node tools/check_bridge.mjs` |
 | `check_interiors` · `check_classrooms` · `check_la_rooms` · `check_robo_interiors` | 925 · 2,057 · 3,787 · 302 pass | 925 · 2,057 · 3,787 · 302 pass | each checker, base files and branch files (see Cycles 5) |
 | `check_room_skins` | — | all 164 checks pass | `node tools/check_room_skins.mjs` |
@@ -94,7 +96,8 @@ eleven) and `drive-rooms-final.txt` (the rooms re-shot after the room preset lea
    comparison. Act: `node tools/export_shared.mjs`. Observe: 138/139 → 139/139. Pass (in 0417ec29).
 3. Reason: DETAIL scatters props inside the robotics lots; proof = a count of props inside the lots, before and after, and
    `check_detail`'s median. Act: `dtLotRects` and one test in `put` after the draws. Observe: 834 → 0 at high (every tier 0);
-   "DETAIL: 485 pass, 0 fail"; median 10.1 ms CPU at load 8–12. Pass; committed 8b9a8d3c.
+   "DETAIL: 485 pass, 0 fail"; median 10.1 ms CPU at load 8–12, and in a paired run 10.6 ms (base) → 9.9 ms (branch) at load
+   5.5–7.1. Pass; committed 8b9a8d3c.
 4. Reason: the canvas texture set on the most-visited rooms without a single new mesh; proof = `check_room_skins` (meshes,
    triangles, lights identical; maps at the tier's resolution; bytes inside the budget). Act: `hd2-room-skins.js`, two
    exports in `ixr-robo-interiors.js`, the app and bundler wiring, the checker. Observe: "ROOM-SKINS: all 164 checks pass";
