@@ -23,11 +23,13 @@
 //                                       deterministic (no randomness), so a still can be re-shot exactly
 //   hd3ScenePresets()                 -> [{ siteId, shot, parish }] for the fourteen presets (seven sites x two shots)
 //   HD3_KW_HALF, hd3KitRects(parish)  ENV-HD-6: KREWE's kits (live oaks, bandstands, kiosks ...) count as obstacles too
+//   HD3_PROP_HALF, hd3PropRects(parish) ENV-HD-7: NEWTON's parked site cars (mvPropPoints) block a street camera's sight line
 //   The parishes app routes `window.__parishTest.scene(siteId, shot)` (and `?scene=<siteId>:<shot>`) here for these sites.
 
 import { npHeightAt, npWaterAt, npChunkOf, npMassingForChunk, NP_SIZE } from "./np-parish.js";
 import { cwMassFilter, cwSpotBoxes, cwSiteBuilding, cwNearestLine } from "./cw-cityworks.js";
 import { kwPlacements } from "./kw-place.js";
+import { mvPropPoints } from "./mv-world.js";
 
 export const HD3_SHOTS = ["wide", "street"];
 export const HD3_SCENE_SITES = [
@@ -59,6 +61,22 @@ export function hd3KitRects(parish) {
   const rects = list.map((k) => { const r = HD3_KW_HALF[k.kit] ?? HD3_KW_HALF.other; return Object.assign([k.x - r, k.z - r, k.x + r, k.z + r], { kit: k.kit, x: k.x, z: k.z }); });
   hd3KwCache.set(parish, rects);
   return rects;
+}
+// ENV-HD-7: NEWTON's site props (two parked cars 18-21 m east of each site point, mv-world.js mvPropPoints) stood between the
+// school campus's street camera and its entrance canopy (ENV-HD-6's Left). A street camera's sight line now keeps clear of the
+// cars too (a car's half-length 2.3 m plus 1.2 m), in a first pass; the old test is the fallback.
+export const HD3_PROP_HALF = 3.5;
+const hd3PropCache = new WeakMap();
+export function hd3PropRects(parish) {
+  if (hd3PropCache.has(parish)) return hd3PropCache.get(parish);
+  const out = [];
+  for (const s of parish.sites ?? []) {
+    let pts = []; try { pts = mvPropPoints(s); } catch { pts = []; }
+    // the cars only (the cones and barrels stand low, below the eye line; the last point is the building, counted already)
+    for (const [x, z] of pts.slice(-3, -1)) out.push([x - HD3_PROP_HALF, z - HD3_PROP_HALF, x + HD3_PROP_HALF, z + HD3_PROP_HALF]);
+  }
+  hd3PropCache.set(parish, out);
+  return out;
 }
 const hd3Hit = (a, b) => a[0] < b[2] && a[2] > b[0] && a[1] < b[3] && a[3] > b[1];
 /** Massing rects (grown by 2 m) and tree crowns around (x, z), and the other catalog sites' buildings; cached per map + chunk. */
@@ -127,9 +145,12 @@ export function hd3Scene(parish, siteId, shot = "wide") {
   // building, so its wall does not fill the frame's near side (the hospital campus's camera stood 8.3 m from it); the old
   // 1.2 m pass is the fallback
   const ownD = (px, pz) => (b ? Math.hypot(Math.max(Math.abs(px - b.cx) - b.w / 2, 0), Math.max(Math.abs(pz - b.cz) - b.d / 2, 0)) : 99);
-  for (const [m, own] of [[3.5, 12], [1.2, 0]]) for (const [px, pz] of cands) {
+  const props = hd3PropRects(parish);
+  const propFree = (px, pz) => [0, 0.2, 0.35, 0.5, 0.65, 0.8].every((t) => { const x = px + (tx - px) * t, z = pz + (tz - pz) * t; return !props.some((r) => hd3Hit([x - 0.8, z - 0.8, x + 0.8, z + 0.8], r)); });
+  for (const [m, own, clearProps] of [[3.5, 12, true], [3.5, 12, false], [1.2, 0, false]]) for (const [px, pz] of cands) {
     if (ownD(px, pz) < own || !hd3Clear(parish, px, pz, m, -1)) continue;
     if (![0.2, 0.35, 0.5, 0.65].every((t) => hd3Clear(parish, px + (tx - px) * t, pz + (tz - pz) * t, 0.8, -1))) continue;
+    if (clearProps && !propFree(px, pz)) continue;
     return out([px, Math.max(y, npHeightAt(parish, px, pz)) + 1.7, pz], y + 3.2, 62);
   }
   const px = tx + ux * back, pz = tz + uz * back;
