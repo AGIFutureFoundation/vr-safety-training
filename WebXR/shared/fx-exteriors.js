@@ -410,7 +410,7 @@ export function fxBuildSite(THREE, l, tier = "high") {
     B(K.w, K.h, K.d, FX_C.wall, 0, K.h / 2, 0, true);
     B(K.w, 0.8, 0.3, FX_C.roof, 0, K.h + 0.4, D - 0.15); B(K.w, 0.8, 0.3, FX_C.roof, 0, K.h + 0.4, -D + 0.15); B(0.3, 0.8, K.d, FX_C.roof, W - 0.15, K.h + 0.4, 0); B(0.3, 0.8, K.d, FX_C.roof, -W + 0.15, K.h + 0.4, 0);
     wrap("tiltUp", K.w, K.d, K.h, 0, 7.5);
-    for (const x of [-8, 1]) { Q("rollUp", 5, 5.5, x, 2.75, D + 0.06); B(5.6, 0.4, 0.3, FX_C.steel, x, 5.7, D + 0.15); QF("hazard", 5, 0.9, x, D + 0.8); B(5, 5.5, 0.1, FX_C.steel, x, 2.75, D + 0.04, true); }
+    for (const x of [-8, 1]) { Q("rollUp", 5, 5.5, x, 2.75, D + 0.06); B(5.6, 0.4, 0.3, FX_C.steel, x, 5.7, D + 0.15); QF("hazard", 5, 0.9, x, D + 0.8); B(5, 5.5, 0.04, FX_C.steel, x, 2.75, D + 0.02, true); }
     Q("door", 1.4, 2.6, 10, 1.3, D + 0.06); B(3.2, 0.15, 1.8, FX_C.canopy, 10, 3.1, D + 0.9); B(0.1, 3, 0.1, FX_C.post, 8.5, 1.5, D + 1.7); B(0.1, 3, 0.1, FX_C.post, 11.5, 1.5, D + 1.7);
     B(3, 1.6, 2.2, FX_C.plant, -6, K.h + 0.8, -3, true); B(2.4, 1.4, 2, FX_C.plant, 5, K.h + 0.7, 3); B(6, 0.6, 0.6, FX_C.plant, -1, K.h + 0.3, -3);
     for (const z of [-5, 0, 5]) B(K.w * 0.6, 0.5, 1.4, FX_C.glass, -2, K.h + 0.25, z);
@@ -445,7 +445,7 @@ export function fxBuildSite(THREE, l, tier = "high") {
     wrap("corrugated", K.w, K.d, K.h, 0, 8);
     B(34, 1.2, 1.6, FX_C.steel, -3.75, 0.6, D + 0.8, true);
     for (const x of [-16.5, -8.5, -0.5, 7.5]) {
-      Q("dockDoor", 3.2, 3.4, x, 2.9, D + 0.06); B(3.2, 3.4, 0.08, FX_C.dark, x, 2.9, D + 0.04, true);
+      Q("dockDoor", 3.2, 3.4, x, 2.9, D + 0.06); B(3.2, 3.4, 0.04, FX_C.dark, x, 2.9, D + 0.02, true);
       B(0.3, 0.5, 0.3, FX_C.dark, x - 1.3, 0.9, D + 1.75); B(0.3, 0.5, 0.3, FX_C.dark, x + 1.3, 0.9, D + 1.75);
       B(0.28, 0.22, 0.34, FX_C.yellow, x + 2.1, 4.4, D + 0.2);
       QF("truckCourt", 3.6, 10, x, D + 6.8);
