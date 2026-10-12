@@ -192,9 +192,11 @@ await check("6. Router.X marked absent; instructor tab wired read-only; bundles 
   ok(p.pick.children.length === DATA.stations.length + DATA.skills.length && p.list.children.length > 0, "panel rows");
   p.pick.value = "electrical"; p.pick.listeners.change();
   ok(p.list.children.length === ECO.ecoNextBlocks("electrical").length && p.list.children.length > 0, "panel shows next blocks for a station");
+  const briefs = { "tools/briefs/ecosystem/smartcitix-adopt-bus-adapter.md": ["398f287", "./verify_all.sh", "node bus/test.mjs", "eco-bus.js"], "tools/briefs/ecosystem/cognitionx-vr-station-links.md": ["47c1820", "python3 tools/validate_blocks.py", "tests/test_platform.py", "VR station"], "tools/briefs/ecosystem/ecosystem-loop-rules.md": ["Router.X", "never write", "checkers"] };
+  for (const [f, need] of Object.entries(briefs)) { const b = read(f); for (const n of need) ok(b.includes(n), `${f} lacks "${n}"`); ok(/briefs only|changed nothing/i.test(b) || /ecosystem-loop-rules\.md/.test(b), `${f} must say it is a brief only`); }
   const check = read("tools/check_all.mjs"), base = read("docs/perf/checkers-baseline.json");
   ok(check.includes('"check_eco.mjs"') && base.includes('"check_eco.mjs"'), "check_all and the baseline row");
-  return `panel ${p.pick.children.length} options; electrical → ${ECO.ecoNextBlocks("electrical").map((b) => b.block_id).join(", ")}`;
+  return `loop briefs ${Object.keys(briefs).length}; panel ${p.pick.children.length} options; electrical → ${ECO.ecoNextBlocks("electrical").map((b) => b.block_id).join(", ")}`;
 });
 
 console.log(`\ncheck_eco: ${passed} passed, ${failed} failed, ${skipped} skipped`);
