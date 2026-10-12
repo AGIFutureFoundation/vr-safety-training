@@ -25,8 +25,12 @@
 //   rhdLightState(src)                                   -> "running" | "protective-stop" | "e-stop" | null (dark)
 //   rhdBuildRobot(THREE, kind, { zone })                 -> { kind, group, links, light, zone, meshes, triangles, calls,
 //                                                             setLight(state), setZone(mode), pose(phase), roll(dist) }
-//   rhdMountRobots({ THREE, robotics, tier, ua, reducedMotion }) -> { on, robots, tick(dt, px, pz), measure() } (outdoor rigs)
+//   rhdWorst(a, b)                                       -> the more severe of two light states (e-stop > protective stop > running)
+//   rhdJobRun(vb)                                        -> { read() } the agent-jobs panel's live run: the site and each step's
+//                                                           governor decision (vb-panel.js state().run), a halted run's last one
+//   rhdMountRobots({ THREE, robotics, tier, ua, reducedMotion, jobs }) -> { on, robots, tick(dt, px, pz), measure(), run() }
 //   rhdDressRoom({ three, group, room, tier, ua })       -> the room's HD robots (INTERIORS dresser, after ixr's)
+//   rhdRoomLights(room, siteState, pose?)                -> the room robots' lights, and their floor zones by the room-local pose
 //   rhdRegisterDressers(ix, { ua })                      -> styles registered
 
 import { RB_SSM } from "./rb-robotics-data.js";
@@ -42,6 +46,7 @@ export const RHD_BUDGET = {
   gantry: { triangles: 3000, calls: 6 },
   cell: { triangles: 3600, calls: 10 },
   "cell-arm": { triangles: 2400, calls: 6 },
+  drill: { triangles: 2400, calls: 5 }, // ROBOTS-HD-2: the drilling deck's robot (base, mast, light + the zone discs)
 };
 
 /** The status light's colours. Three states, each the page's own. */
@@ -66,6 +71,32 @@ export function rhdLightState(src) {
     if (src.mode === "full" || src.mode === "reduced") return "running";
   }
   return null;
+}
+
+const RHD_SEVERITY = { "e-stop": 3, "protective-stop": 2, running: 1 };
+/** The more severe of two light states (null is no state): an e-stop on either wins, then a protective stop. */
+export function rhdWorst(a, b) { return (RHD_SEVERITY[a] ?? 0) >= (RHD_SEVERITY[b] ?? 0) ? (a ?? b ?? null) : b; }
+
+/**
+ * The agent-jobs panel's live run (vb-panel.js vbMountDispatch): while a job runs on the simulated robot, the site and the
+ * governor's monitor decision for the step the panel is on (`state().run`, the preview the panel steps through); once the
+ * run is over, a run the governor HALTED (e-stop or protective stop) keeps its last decision — the real run's last step, the
+ * one written to the audit chain — until the supervisor takes the next job; a run that finished cleanly hands back at once.
+ * Nothing here decides: it only reads what the panel and the governor already decided. null when no run is showing.
+ */
+export function rhdJobRun(vb) {
+  return {
+    read() {
+      let st = null; try { st = vb?.state?.() ?? null; } catch (_) { st = null; }
+      const job = st?.job; if (!job?.id || !job.request?.siteId) return null;
+      const base = { jobId: job.id, siteId: job.request.siteId };
+      if (job.phase === "TRANSACTION" && st.run && typeof st.run.action === "string") return { ...base, step: st.run.step, of: st.run.of, decision: { action: st.run.action }, live: true };
+      const steps = job.deliverable?.episode?.steps, halted = job.deliverable?.evalCard?.halted;
+      const last = steps?.length ? steps[steps.length - 1]?.info?.governor : null;
+      if (halted && typeof last === "string") return { ...base, step: steps.length - 1, of: steps.length, decision: { action: last }, live: false };
+      return null;
+    },
+  };
 }
 
 // ------------------------------------------------------------------------------------------------------------ geometry
@@ -286,6 +317,59 @@ function rhdGantry(THREE, root, ground) {
   return { links, light };
 }
 
+// The ceiling-drilling robot (the drilling deck, ROBOTS-HD-2): a tracked base with outrigger jacks, a yellow upper body with
+// an e-stop, a mast with a feed carriage and a cable chain, a drill head with a bit inside a dust shroud and its hose, and a
+// swappable battery pack. Generic by kind; local origin at the centre of the base on the floor, the mast towards -z.
+function rhdDrill(THREE, root) {
+  const C = RHD_C, k = rhdKit(THREE), links = {};
+  // Tracks: on each side a belt (a box with rounded ends), a drive sprocket, an idler, four road wheels and grouser pads.
+  for (const x of [-0.55, 0.55]) {
+    k.box(0.2, 0.06, 1.1, x, 0.03, 0, C.rubber); k.box(0.2, 0.06, 1.1, x, 0.27, 0, C.rubber);
+    for (const z of [-0.55, 0.55]) k.cyl(0.15, 0.15, 0.2, 10, x, 0.15, z, C.rubber, 0, 0, Math.PI / 2);
+    for (const z of [-0.55, 0.55]) k.cyl(0.11, 0.11, 0.22, 10, x, 0.15, z, C.steel, 0, 0, Math.PI / 2);
+    for (const z of [-0.3, -0.1, 0.1, 0.3]) k.cyl(0.07, 0.07, 0.22, 8, x, 0.12, z, C.mid, 0, 0, Math.PI / 2);
+    for (let i = 0; i < 9; i++) { const z = -0.48 + i * 0.12; k.box(0.21, 0.025, 0.04, x, 0.305, z, C.black); }
+    k.box(0.04, 0.16, 1.0, x + (x < 0 ? 0.12 : -0.12), 0.16, 0, C.dark); // track frame
+  }
+  // Chassis between the tracks; four outrigger jacks with pads at the corners (deployed to the deck, the set-up position).
+  k.box(0.86, 0.3, 1.36, 0, 0.36, 0, 0x2e3338);
+  for (const [x, z] of [[-0.62, -0.72], [0.62, -0.72], [-0.62, 0.72], [0.62, 0.72]]) {
+    k.box(0.32, 0.08, 0.1, x * 0.8, 0.42, z, C.yellow); k.box(0.08, 0.38, 0.08, x * 1.05, 0.23, z, C.yellow); k.cyl(0.1, 0.12, 0.04, 10, x * 1.05, 0.02, z, C.dark);
+  }
+  // The upper body: a yellow housing with a dark top plate, side vents, an e-stop on the rear corner, a slew ring below it.
+  k.cyl(0.36, 0.36, 0.06, 20, 0, 0.54, 0, C.dark);
+  k.box(0.8, 0.46, 0.9, 0, 0.8, 0.05, C.yellow); k.box(0.82, 0.04, 0.92, 0, 1.05, 0.05, C.dark);
+  for (const x of [-0.405, 0.405]) for (let i = 0; i < 4; i++) k.box(0.01, 0.03, 0.5, x, 0.68 + i * 0.07, 0.1, C.dark);
+  k.box(0.14, 0.1, 0.14, 0.3, 1.12, 0.42, C.yellow); k.cyl(0.055, 0.055, 0.05, 12, 0.3, 1.19, 0.42, 0xd8322a); // e-stop
+  // The swappable battery pack on the rear deck: a case with a handle, two terminal caps, a charge strip.
+  k.box(0.45, 0.28, 0.35, 0, 1.21, 0.42, 0x3f8f5a); k.box(0.47, 0.03, 0.37, 0, 1.36, 0.42, C.dark);
+  k.box(0.3, 0.03, 0.03, 0, 1.43, 0.42, C.dark); for (const x of [-0.14, 0.14]) k.box(0.03, 0.07, 0.03, x, 1.395, 0.42, C.dark);
+  for (const x of [-0.12, 0.12]) k.cyl(0.025, 0.025, 0.03, 8, x, 1.38, 0.32, x < 0 ? 0xd8322a : C.black);
+  k.box(0.3, 0.02, 0.005, 0, 1.28, 0.598, 0x9be27a);
+  // The control box and its cable to the mast.
+  k.box(0.3, 0.26, 0.16, -0.24, 1.2, -0.25, C.dark); k.tube([-0.24, 1.33, -0.25], [-0.12, 1.5, -0.42], 0.02, 6, C.black);
+  rhdMesh(THREE, k, "rhd-drill-base", root);
+  // The mast (a square section with rails and slots), a feed carriage near the top, a cable chain beside it, the drill head
+  // (motor housing, gearbox, chuck), the bit inside a dust shroud at the soffit, and the shroud's hose down to the deck.
+  const mast = links.mast = rhdLink(THREE, root, "rhd-drill-mast", 0, 1.05, -0.1);
+  k.box(0.2, 2.2, 0.2, 0, 1.1, 0, 0x5d6a78); k.box(0.24, 0.12, 0.24, 0, 0.06, 0, C.dark); k.box(0.24, 0.08, 0.24, 0, 2.18, 0, C.dark);
+  for (const x of [-0.11, 0.11]) k.box(0.025, 2.1, 0.05, x, 1.1, -0.07, C.steel); // feed rails
+  for (let i = 0; i < 3; i++) k.box(0.12, 0.04, 0.005, 0, 0.4 + i * 0.6, 0.1, C.dark); // slots
+  k.box(0.08, 1.9, 0.12, 0.16, 1.05, 0.06, C.black); for (let i = 0; i < 8; i++) k.box(0.09, 0.05, 0.13, 0.16, 0.2 + i * 0.24, 0.06, C.dark); // cable chain
+  k.box(0.3, 0.34, 0.12, 0, 1.92, -0.15, C.yellow); // feed carriage
+  k.cyl(0.13, 0.13, 0.3, 16, 0, 2.3, -0.15, C.dark); k.cyl(0.1, 0.13, 0.08, 16, 0, 2.49, -0.15, C.mid); // motor housing, gearbox
+  k.cyl(0.045, 0.06, 0.08, 12, 0, 2.57, -0.15, C.steel); // chuck
+  k.cyl(0.012, 0.012, 0.42, 6, 0, 2.82, -0.15, 0xc3c8cd); // bit
+  k.cyl(0.14, 0.1, 0.16, 16, 0, 3.0, -0.15, 0x2c3a46, 0, 0, 0, true); k.cyl(0.145, 0.145, 0.02, 16, 0, 3.08, -0.15, C.rubber, 0, 0, 0, true); // dust shroud, open at the soffit, a brush lip
+  k.tube([0.1, 2.95, -0.15], [0.3, 2.6, -0.1], 0.03, 6, C.black); k.tube([0.3, 2.6, -0.1], [0.36, 0.3, 0.0], 0.03, 6, C.black); // shroud hose down the mast
+  rhdMesh(THREE, k, "rhd-drill-mast-body", mast);
+  // The status light: a beacon on the upper body's front corner.
+  const lm = new THREE.MeshBasicMaterial({ color: RHD_LIGHT.off, vertexColors: true }); lm.name = "rhd-status-light";
+  k.cyl(0.07, 0.07, 0.04, 12, -0.3, 1.09, 0.42, C.dark); k.cyl(0.06, 0.06, 0.16, 14, -0.3, 1.19, 0.42, 0xffffff); k.cyl(0.065, 0.065, 0.03, 12, -0.3, 1.285, 0.42, C.dark);
+  const light = rhdMesh(THREE, k, "rhd-status-light", root, lm);
+  return { links, light };
+}
+
 /** The floor zone: an amber warning annulus and a red stop disc, shown only when a person is inside the warning distance. */
 function rhdZone(THREE, parent) {
   const k = rhdKit(THREE);
@@ -303,7 +387,7 @@ const RHD_ARM_KEYS = [[0.35, 1.25, 0.9], [0.75, 1.0, 0.75], [0.55, 1.45, 1.05], 
 function rhdEase(t) { return t * t * t * (t * (t * 6 - 15) + 10); } // smootherstep: zero speed and acceleration at each key
 
 /**
- * Build one HD robot. kind: "cobot" | "amr" | "gantry" | "cell" | "cell-arm". `zone` adds the floor zone (outdoors).
+ * Build one HD robot. kind: "cobot" | "amr" | "gantry" | "cell" | "cell-arm" | "drill". `zone` adds the floor zone (outdoors).
  * `ground` (optional): where static ground parts go (the gantry's rails, the cell's guarding) when the robot's group moves.
  */
 export function rhdBuildRobot(THREE, kind, { zone = false, ground = null, scale = 1, pedestal = true } = {}) {
@@ -313,6 +397,7 @@ export function rhdBuildRobot(THREE, kind, { zone = false, ground = null, scale 
   else if (kind === "cell" || kind === "cell-arm") r = rhdArm(THREE, group, 1.45 * scale, true, pedestal);
   else if (kind === "amr") r = rhdAmr(THREE, group);
   else if (kind === "gantry") r = rhdGantry(THREE, group, ground ?? group);
+  else if (kind === "drill") r = rhdDrill(THREE, group);
   else throw new Error(`rhd: unknown robot kind "${kind}"`);
   let guard = null;
   if (kind === "cell") guard = rhdGuarding(THREE, ground ?? group);
@@ -355,8 +440,8 @@ export function rhdBuildRobot(THREE, kind, { zone = false, ground = null, scale 
  * so a teleop pose source that drives the rig group still drives the HD robot inside it). Elsewhere: { on: false } and
  * nothing is built or hidden.
  */
-export function rhdMountRobots({ THREE = null, robotics = null, tier = "balanced", ua = typeof navigator !== "undefined" ? navigator.userAgent : "", reducedMotion = false } = {}) {
-  const off = { on: false, robots: [], tick() {}, measure: () => ({ robots: [] }), light: () => null };
+export function rhdMountRobots({ THREE = null, robotics = null, tier = "balanced", ua = typeof navigator !== "undefined" ? navigator.userAgent : "", reducedMotion = false, jobs = null } = {}) {
+  const off = { on: false, robots: [], tick() {}, measure: () => ({ robots: [] }), light: () => null, run: () => null };
   if (!THREE || !robotics || !rhdAllowed(tier, ua)) return off;
   const robots = [];
   for (const s of robotics.sites ?? []) {
@@ -371,16 +456,22 @@ export function rhdMountRobots({ THREE = null, robotics = null, tier = "balanced
     robots.push({ id: s.id, kind, robot, rig, site, hidden, last: { x: rig.position.x, z: rig.position.z }, phase: 0 });
   }
   const fwd = { x: 0, z: 0 };
+  const follow = jobs ? (typeof jobs.read === "function" ? jobs : rhdJobRun(jobs)) : null;
+  let run = null; const runLog = []; // one entry per (job, step) the light showed, for the drive and the check
   return {
     on: true, robots,
-    /** Per frame, after rb-world's animate: the light from the site's state, the zone from rbSsmMode, the joints, the wheels. */
+    /** Per frame, after rb-world's animate: the light from the site's state (and, while the agent-jobs panel runs a job on
+     *  this site, the governor's decision for the step — the more severe wins), the zone from rbSsmMode, joints, wheels. */
     tick(dt, px = Infinity, pz = Infinity) {
+      run = follow ? follow.read() : null;
       for (const R of robots) {
         const st = robotics.state?.(R.id) ?? null, s = robotics.sites.find((x) => x.id === R.id);
-        R.robot.setLight(rhdLightState(st));
+        const mine = run && run.siteId === R.id ? run : null;
+        const shown = R.robot.setLight(mine ? rhdWorst(rhdLightState(st), rhdLightState(mine.decision)) : rhdLightState(st));
+        if (mine) { const k = `${mine.jobId}:${mine.step}:${mine.live}`; if (runLog[runLog.length - 1]?.k !== k) { runLog.push({ k, jobId: mine.jobId, siteId: R.id, step: mine.step, of: mine.of, action: mine.decision.action, live: mine.live, site: rhdLightState(st), light: shown }); if (runLog.length > 400) runLog.shift(); } }
         const d = s ? Math.hypot(px - s.position[0], pz - s.position[1]) : Infinity;
         R.robot.setZone(rbSsmMode(d).mode);
-        const speed = st && !st.estopped && !st.locked ? rbSsmMode(d).speed : 0;
+        const speed = st && !st.estopped && !st.locked && (shown === "running") ? rbSsmMode(d).speed : 0;
         if (!reducedMotion) R.phase += dt * speed * 0.6;
         R.robot.pose(R.phase);
         if (R.kind === "amr") {
@@ -392,6 +483,8 @@ export function rhdMountRobots({ THREE = null, robotics = null, tier = "balanced
       }
     },
     light: (id) => robots.find((R) => R.id === id)?.robot.lightState ?? null,
+    /** The agent-jobs run the lights followed on the last tick (null when none), and every (job, step) they showed. */
+    run: () => run, runLog: () => runLog.map((e) => ({ ...e })),
     measure: () => ({ robots: robots.map((R) => ({ id: R.id, kind: R.kind, meshes: R.robot.meshes, triangles: R.robot.triangles, calls: R.robot.calls, zoneTriangles: R.robot.zoneTriangles, light: R.robot.lightState, zone: !!R.robot.zone?.visible, hidden: R.hidden })) }),
   };
 }
@@ -400,11 +493,12 @@ export function rhdMountRobots({ THREE = null, robotics = null, tier = "balanced
 
 /** Which ROBO-INTERIORS parts each room's HD robots replace (tag + a test on the part's centre), and where the robots stand
  *  (room-local metres, yaw about +y). The port control room has no robot body (it watches the yard through its window) and
- *  the drilling deck's robot is not one of the four kinds: both rooms keep today's parts. */
+ *  keeps today's parts; the drilling deck's tracked robot is the "drill" kind (ROBOTS-HD-2), rooms only. */
 export const RHD_ROOM_ROBOTS = {
   "ixr-cell-hall": { strip: [["cell robot", () => true]], robots: [{ kind: "cell-arm", x: 0, y: 0, z: -4, yaw: 0, light: "site" }] },
   "ixr-cobot-lab": { strip: [["cobot arm", () => true], ["second cobot cell", (y) => y > 0.95]], robots: [{ kind: "cobot", x: -0.4, y: 0.9, z: -2.2, yaw: 0, light: "site", scale: 0.85, pedestal: false }, { kind: "cobot", x: -5.12, y: 0.9, z: -4.2, yaw: 0, light: "site", scale: 0.7, pedestal: false }] },
   "ixr-amr-warehouse": { strip: [["AMR", () => true], ["docked AMR", () => true]], robots: [{ kind: "amr", x: -3.5, y: 0, z: -3.0, yaw: 0, light: "site" }, { kind: "amr", x: -10.9, y: 0, z: 3.5, yaw: Math.PI / 2, light: "site" }] },
+  "ixr-drilling-deck": { strip: [["drilling robot", () => true], ["robot battery", () => true]], robots: [{ kind: "drill", x: 0, y: 0, z: -3.5, yaw: 0, light: "site" }] },
   "ixr-maint-bay": { strip: [["robot arm on the stand", () => true], ["AMR on the lift", () => true]], robots: [{ kind: "cell-arm", x: 3.6, y: 0.9, z: -3.2, yaw: 0, light: null, scale: 0.75, pedestal: false, parked: true }, { kind: "amr", x: 5.8, y: 0.7, z: -0.2, yaw: Math.PI / 2, light: null }] },
 };
 
@@ -432,7 +526,11 @@ export function rhdDressRoom({ three: THREE, group, room, tier = "high", ua = ty
   let dropped = 0;
   group.traverse((o) => { if (o.isInstancedMesh && /^ixr-/.test(o.name)) dropped += rhdStrip(o, spec.strip, THREE); });
   const robots = spec.robots.map((q) => {
-    const r = rhdBuildRobot(THREE, q.kind, { scale: q.scale ?? 1, pedestal: q.pedestal !== false });
+    // ROBOTS-HD-2: a robot that shows its site's state also gets the floor zone, on the room's floor under it (a bench or a
+    // stand lifts the robot, never the zone); a robot locked out on a stand or a lift has none (de-energised).
+    const floor = q.light === "site" ? new THREE.Group() : null;
+    if (floor) { floor.name = `rhd-room-zone-${q.kind}`; floor.position.set(q.x, 0, q.z); group.add(floor); }
+    const r = rhdBuildRobot(THREE, q.kind, { scale: q.scale ?? 1, pedestal: q.pedestal !== false, zone: !!floor, ground: floor });
     r.group.position.set(q.x, q.y ?? 0, q.z); r.group.rotation.y = q.yaw;
     r.pose(q.parked ? 2.2 : 0);
     r.setLight(null); // dark until the app gives it the site's state (rhdRoomLights); a robot locked out on a stand stays dark
@@ -443,10 +541,16 @@ export function rhdDressRoom({ three: THREE, group, room, tier = "high", ua = ty
   return room.rhd;
 }
 
-/** The room robots' lights from the room's site state (only robots marked "site"; a robot on a stand stays dark). */
-export function rhdRoomLights(room, state) {
+/** The room robots' lights from the room's site state (only robots marked "site"; a robot on a stand stays dark), and
+ *  (ROBOTS-HD-2) each one's floor zone from the learner's room-local pose by rbSsmMode — the same rule as outdoors —
+ *  shown only while the room has its site's state (dark when the site is on another map). */
+export function rhdRoomLights(room, state, pose = null) {
   const out = [];
-  for (const q of room?.rhd?.robots ?? []) out.push(q.robot.setLight(q.light === "site" ? rhdLightState(state) : null));
+  const live = !!state && typeof state === "object" && typeof state.mode === "string";
+  for (const q of room?.rhd?.robots ?? []) {
+    out.push(q.robot.setLight(q.light === "site" ? rhdLightState(state) : null));
+    if (q.robot.zone) q.robot.setZone(live && pose && Number.isFinite(pose.x) && Number.isFinite(pose.z) ? rbSsmMode(Math.hypot(pose.x - q.x, pose.z - q.z)).mode : "full");
+  }
   return out;
 }
 
