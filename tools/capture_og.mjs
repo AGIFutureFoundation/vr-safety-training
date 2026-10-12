@@ -4,6 +4,7 @@
  * that has no world capture, and 192/512 px PNGs of icon.svg.
  *
  *     node tools/capture_og.mjs
+ *     WF_OG_ONLY=whitepaper WF_PORT=9147 node tools/capture_og.mjs   (one capture; the icons are redrawn as before)
  */
 import { createServer } from "node:http";
 import { existsSync, mkdirSync, readFileSync, statSync } from "node:fs";
@@ -24,7 +25,11 @@ export const WF_OG_SHOTS = [
   { id: "race", page: "race.html", start: [], settle: 2500 },
   { id: "arcade", page: "arcade.html", start: [], settle: 2500 },
   { id: "instructor", page: "instructor-console.html", start: [], settle: 1500 },
+  // SEO-WHITEPAPER: the whitepaper's opening (its procedural diagram and title), as a visitor first sees it.
+  { id: "whitepaper", page: "whitepaper.html", start: [], settle: 1200 },
 ];
+// WF_OG_ONLY=whitepaper re-takes one capture and leaves the other captures' files untouched.
+const WF_OG_RUN = process.env.WF_OG_ONLY ? WF_OG_SHOTS.filter((s) => s.id === process.env.WF_OG_ONLY) : WF_OG_SHOTS;
 const SIZES = [{ w: 1200, h: 630 }];
 
 const TYPES = { ".html": "text/html", ".js": "application/javascript", ".json": "application/json", ".css": "text/css",
@@ -43,7 +48,7 @@ const browser = await chromium.launch({ executablePath: pwExecutable(), args: ["
 const THREE_SRC = readFileSync(join(WEBXR, "vendor/three/dist/three.module.min.js"), "utf8");
 const REACT = Object.fromEntries(["react.production.min.js", "react-dom.production.min.js"].map((f) => [f, readFileSync(join(WEBXR, "vendor/react/dist", f), "utf8")]));
 mkdirSync(OUT, { recursive: true });
-for (const shot of WF_OG_SHOTS) {
+for (const shot of WF_OG_RUN) {
   for (const size of SIZES) {
     const phone = size.w < 600;
     const context = await browser.newContext({ viewport: { width: size.w, height: size.h }, hasTouch: phone, isMobile: phone, deviceScaleFactor: 1 });

@@ -129,6 +129,19 @@ export const WF_APPS = [
     desc: "What each store holds, where it lives (this browser only), what the free demo keeps, what an export contains, and what a cohort view can and cannot see." },
 ];
 
+/**
+ * The whitepaper page (console SEO-WHITEPAPER): its source WebXR/whitepaper.html is copied
+ * beside the homepage by the bundler. Its text is the page's own; `sections` are its <h2>s' kickers.
+ */
+export const WF_WHITEPAPER = {
+  key: "whitepaper.html", og: "og/whitepaper.jpg",
+  title: "Holodeck Whitepaper — Agents, Robot Sites and the Stack",
+  desc: "How the SmartCiti.X Holodeck teaches safe work around robots and trains simulated ones: the Omega Hive agents, robot buildings, results, the stack.",
+  ogAlt: "The whitepaper's opening: software agents around a safety governor above six simulated robot sites",
+  sections: ["The problem", "What the platform does", "The Omega Hive", "Robotics buildings and scenes", "The agents' bodies",
+    "Robot learning, measured", "Added in loop ten", "The stack", "The roadmap"],
+};
+
 /** Repo-layout pages the flat folder does not publish: their canonical is themselves. */
 export const WF_REPO_ONLY = [
   { file: "portal/index.html", title: "Training Network — Every WebXR App in One Place",
@@ -213,6 +226,18 @@ export function wfPages() {
   pages.push({ key: "404.html", public: false, title: "Page Not Found — SmartCiti.X",
     desc: "That address does not match a page here. Go to the homepage, choose a world, find a programme or ask the Guide.",
     og: "og/home.jpg", ogAlt: "The SmartCiti.X homepage", ld: () => [], mirrors: [["dist/404.html", "dist/404.html"]] });
+  // The whitepaper page (console SEO-WHITEPAPER): a TechArticle, no VideoObject (no committed video of the whitepaper exists; the reel is scratch only).
+  pages.push({ key: WF_WHITEPAPER.key, public: true, title: WF_WHITEPAPER.title, desc: WF_WHITEPAPER.desc, og: WF_WHITEPAPER.og, ogAlt: WF_WHITEPAPER.ogAlt, ogType: "article",
+    ld: (u) => [
+      { "@context": "https://schema.org", "@type": "TechArticle", headline: WF_WHITEPAPER.title, description: WF_WHITEPAPER.desc, url: u(WF_WHITEPAPER.key),
+        mainEntityOfPage: u(WF_WHITEPAPER.key), image: u(WF_WHITEPAPER.og), inLanguage: WF_CONFIG.locale, author: wfOrg(), publisher: wfOrg(),
+        isPartOf: { "@type": "WebSite", name: WF_CONFIG.siteName, url: u("index.html") }, articleSection: WF_WHITEPAPER.sections,
+        about: ["WebXR safety training", "Software agents", "Robot learning in simulation"] },
+      { "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: u("index.html") },
+        { "@type": "ListItem", position: 2, name: "Whitepaper", item: u(WF_WHITEPAPER.key) }] },
+    ],
+    mirrors: [[`dist/${WF_WHITEPAPER.key}`, `dist/${WF_WHITEPAPER.key}`], [WF_WHITEPAPER.key, WF_WHITEPAPER.key]] });
   for (const r of WF_REPO_ONLY) {
     pages.push({ key: `repo:${r.file}`, public: false, repoOnly: true, title: r.title, desc: r.desc, og: "og/home.jpg", ogAlt: "The SmartCiti.X homepage",
       ld: () => [], mirrors: [[r.file, r.file]] });
@@ -261,7 +286,7 @@ export function wfBlock(page, at) {
     `<link rel="manifest" href="${esc(u("manifest.webmanifest"))}">`,
     `<link rel="icon" href="${esc(u("icons/icon.svg"))}" type="image/svg+xml">`,
     `<link rel="apple-touch-icon" href="${esc(u("icons/icon-192.png"))}">`,
-    `<meta property="og:type" content="website">`,
+    `<meta property="og:type" content="${page.ogType ?? "website"}">`,
     `<meta property="og:site_name" content="${esc(WF_CONFIG.siteName)}">`,
     `<meta property="og:locale" content="${esc(WF_CONFIG.locale)}">`,
     `<meta property="og:title" content="${esc(page.title)}">`,

@@ -1674,6 +1674,9 @@ def build_combined() -> int:
     # The privacy page (docs/enterprise.md), linked from the sign-in dialog and the footer.
     (DIST / "privacy.html").write_text((WEBXR / "privacy.html").read_text())
     copied += 1
+    # The whitepaper page (console SEO-WHITEPAPER), linked from the homepage footer and the docs index.
+    (DIST / "whitepaper.html").write_text((WEBXR / "whitepaper.html").read_text())
+    copied += 1
     for name in DIST_SHARED:
         (DIST / "shared").mkdir(parents=True, exist_ok=True)
         (DIST / "shared" / name).write_bytes((SHARED / name).read_bytes())
@@ -1791,7 +1794,7 @@ EDGE_FRAME_HOSTS = ["https://accounts.google.com", "https://login.microsoftonlin
 # (a 304 when nothing changed, the new bundle the moment one is deployed).
 EDGE_IMMUTABLE_DIRS = ["vendor", "media", "models", "og", "icons", "tracks/img"]
 EDGE_REVALIDATE_DIRS = ["shared", "sims"]
-EDGE_NO_STORE_PAGES = ["index.html", "404.html", "privacy.html", "treasures.html", "design/index.html", "auth-config.json",
+EDGE_NO_STORE_PAGES = ["index.html", "404.html", "privacy.html", "treasures.html", "whitepaper.html", "design/index.html", "auth-config.json",
                        "sitemap.xml", "robots.txt", "manifest.webmanifest"]
 EDGE_ROUTES_JSON = {"version": 1, "include": ["/api/*", "/auth-config.json"], "exclude": []}
 

@@ -223,8 +223,8 @@ async function audit(rel, full) {
   await page.close();
 }
 
-// The document pages take the full audit (the Treasure Map is one since WAYFINDER-2); the game pages the short one.
-const WF_FULL = ["index.html", "tracks/electrical-first-period.html", "404.html", "treasures.html"];
+// The document pages take the full audit (the Treasure Map is one since WAYFINDER-2, the whitepaper page since SEO-WHITEPAPER); the game pages the short one.
+const WF_FULL = ["index.html", "tracks/electrical-first-period.html", "404.html", "treasures.html", "whitepaper.html"];
 for (const rel of WF_FULL) await audit(rel, true);
 for (const rel of flatHtml.filter((f) => !WF_FULL.includes(f))) await audit(rel, false);
 
