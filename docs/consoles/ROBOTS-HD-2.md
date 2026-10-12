@@ -48,7 +48,7 @@
 | balanced / phone / headset | today's rigs and rooms | **unchanged**: 15 of 15 mounts, 18 of 18 rooms identical | `check_robots_hd` §2, §5 |
 
 Measured in the built page (`python3 tools/bundle_webxr.py parishes`, then `RHD_ONLY=<part> node tools/drive_robots_hd.mjs 9156
-$SP/loop10/rhd2/shots`, 1920 × 1080, load 15–35 on the shared machine; outputs `$SP/loop10/rhd2/{still1,jobs1,zone1,rooms1}.txt`):
+$SP/loop10/rhd2/shots`, 1920 × 1080, load 15–35 on the shared machine; outputs `$SP/loop10/rhd2/{still1,jobs1,zone1,rooms1,outdoor1}.txt`):
 
 | measured in the page (high) | before (round 6, drive2) → after | source |
 |---|---|---|
@@ -57,7 +57,8 @@ $SP/loop10/rhd2/shots`, 1920 × 1080, load 15–35 on the shared machine; output
 | the supervisor's E-stop mid-run (seed 107, step 2) | — → governor's last decision `estop` (REJECTED, audit 8 lines, chain intact), light **e-stop**, held; next job → handed back | jobs1 |
 | the zone indoors, each room on its own site's map | not drawn → **150 of 150** steps exactly inside the warning distance, **6 of 6** robots shown (drilling deck 25/25, cell hall 25/25, cobot lab 50/50, warehouse 50/50) | zone1 |
 | robot rooms with the HD robots, the zones **and the Omega Hive's agents** (signed in, hive mounted), meshes / calls / tris drawn | cell hall 36 / 37 / 4,992 → **38 / 37 / 4,992** (2 agents); cobot lab 38 / 38 / 4,400 → **42 / 38 / 4,400** (1); warehouse 32 / 28 / 4,484 → **36 / 28 / 4,484** (1); port control 27 / 27 / 2,236 → **27 / 27 / 2,236** (1); drilling deck 26 / 26 / 2,764 → **31 / 29 / 4,832** (1; the HD drill); maintenance bay 34 / 30 / 3,856 → **34 / 30 / 3,856** (1) — **6 of 6 inside IX_BUDGET** (≤ 120 / 6,000; worst built 5,838 in the warehouse) | rooms1 |
-| page errors / off-host requests | 0 / 0 → **0 / 0** in every drive | all four |
+| the four outdoor robots and balanced, re-run after the change (the run light must not move the default) | 34 of 35 ok (drive2) → **27 of 27 ok** (`RHD_ONLY=outdoor`): every light running / protective stop / e-stop / restart by the site's rule on 4 of 4 sites, AMR wheels turning, balanced draws today's rigs (7) and 0 HD meshes; cell on its view 152 → 157 calls, 159,492 → 161,288 tris | outdoor1 |
+| page errors / off-host requests | 0 / 0 → **0 / 0** in every drive | all five |
 
 The rooms open from sf-downtown in that table, so only the cell hall's robot has its site's state there, and its zone is
 hidden at the camera preset (outside the warning distance); the other rooms' zones are built but dark (two meshes a robot, no
