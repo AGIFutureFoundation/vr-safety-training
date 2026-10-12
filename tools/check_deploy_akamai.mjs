@@ -169,6 +169,10 @@ for (const [label, env, args] of [
   const log = existsSync(agentLog) ? readFileSync(agentLog, "utf8") : "";
   check(log.includes("## 7. Roll back") && log.includes("not executed") && Object.values(FAKE).every((v) => !log.includes(v)) && !cfFindSecret(log), `the agent's log ${label} holds the whole plan and no credential value`);
 }
+{
+  const committed = existsSync(join(ROOT, "docs/deploy/akamai-last-run.md")) ? read("docs/deploy/akamai-last-run.md") : "";
+  check(/DRY RUN/.test(committed) && /· all · not executed · dry run/.test(committed) && !/· (upload|snapshot|verify) · ok/.test(committed), "the committed docs/deploy/akamai-last-run.md is a dry run that executed nothing");
+}
 const job = await import(join(ROOT, "deploy/akamai/ak-robot-train.mjs"));
 check(job.akTrainParseArgs([]).apply === false && job.akTrainParseArgs([]).discover === false, "the training job defaults to a dry run (1 of 1 job scripts)");
 for (const [label, env, args] of [
@@ -226,7 +230,7 @@ for (const [label, env, args] of [
   }
   const counted = spawnSync(realGit || "git", ["ls-files", "--cached", "--others", "--exclude-standard"], { cwd: ROOT, encoding: "utf8", maxBuffer: 64 * 1024 * 1024 }).stdout.split("\n").filter(Boolean);
   check(!counted.some((f) => /(^|\/)(\.mcp\.json|\.env|\.edgerc|\.linode-cli|linode-cli)$/.test(f)), "no .mcp.json, .env, .edgerc or linode-cli config is in the tree");
-  const AK_FILES = ["tools/ak_deploy.mjs", ".github/workflows/deploy-akamai.yml", "deploy/akamai/ak-robot-train.mjs", "deploy/akamai/robot-train.md", "docs/deploy-akamai.md", ".mcp.json.example", "tools/check_deploy_akamai.mjs"];
+  const AK_FILES = ["tools/ak_deploy.mjs", ".github/workflows/deploy-akamai.yml", "deploy/akamai/ak-robot-train.mjs", "deploy/akamai/robot-train.md", "docs/deploy-akamai.md", ".mcp.json.example", "tools/check_deploy_akamai.mjs", "docs/deploy/akamai-last-run.md"];
   for (const f of AK_FILES) {
     if (!check(existsSync(join(ROOT, f)), `${f} exists`)) continue;
     const t = read(f);
