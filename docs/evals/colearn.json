@@ -517,5 +517,299 @@
       }
     },
     "note": "simulated learners from colTutorSim's own response model; not measurements of people"
+  },
+  "preference": {
+    "version": "rt6/1",
+    "learner": "Bradley–Terry reward model: logistic regression, no intercept, on the difference of two runs' trajectory features; L2 0.01, 500 full-batch steps from zero",
+    "features": [
+      "success",
+      "clean",
+      "unsafeRate",
+      "length",
+      "waitRate",
+      "progress"
+    ],
+    "rater": "synthetic rater: utility = 2·finished + 1·progress − 4·min(1, unsafe steps / 3) − 1.5·(steps / cap); Bradley–Terry choice at temperature 0.5",
+    "keep": "the top 50% of the 40 demonstrations by learned reward, fixed before any held-out seed was run; the other shares are a sensitivity sweep",
+    "pairs": "200 synthetic pairs per scenario (150 to fit, 50 held out), each two runs of one seed by the scripted stand-in at two skills; labelled synthetic. A learner's consented local pairs join the fit only through rt6LocalPairs (0 here: no person's pairs exist)",
+    "scenarios": [
+      {
+        "scenario": "rb-amr-fleet-routing",
+        "pairs": {
+          "synthetic": 200,
+          "train": 150,
+          "heldOut": 50,
+          "local": 0,
+          "rater": "synthetic rater: utility = 2·finished + 1·progress − 4·min(1, unsafe steps / 3) − 1.5·(steps / cap); Bradley–Terry choice at temperature 0.5"
+        },
+        "model": {
+          "names": [
+            "success",
+            "clean",
+            "unsafeRate",
+            "length",
+            "waitRate",
+            "progress"
+          ],
+          "w": [
+            1.0668,
+            1.0668,
+            -0.2245,
+            -0.3267,
+            -0.3423,
+            0.6608
+          ],
+          "l2": 0.01,
+          "iters": 500,
+          "meanNll": 0.599,
+          "sources": [
+            "synthetic"
+          ]
+        },
+        "accuracy": {
+          "train": 0.607,
+          "heldOut": 0.61,
+          "raterCeilingHeldOut": 0.584
+        },
+        "keep": 0.5,
+        "keptClean": 20,
+        "keptOf": 40,
+        "unfiltered": {
+          "demos": 40,
+          "rows": 1294,
+          "n": 60,
+          "success": 0.6,
+          "clean": 0.6,
+          "meanSteps": 15.5,
+          "modelHash": "3da939b0b47ae8bc"
+        },
+        "ruleFiltered": {
+          "demos": 37,
+          "rows": 1168,
+          "n": 60,
+          "success": 0.817,
+          "clean": 0.817,
+          "meanSteps": 24.65,
+          "modelHash": "91a7b57c6a817b04"
+        },
+        "rewardFiltered": {
+          "demos": 20,
+          "rows": 531,
+          "n": 60,
+          "success": 0.483,
+          "clean": 0.483,
+          "meanSteps": 47.783,
+          "modelHash": "fa09c27760ef653f"
+        },
+        "sweep": [
+          {
+            "keep": 0.25,
+            "demos": 10,
+            "rows": 248,
+            "n": 60,
+            "success": 0.45,
+            "clean": 0.45,
+            "meanSteps": 56.067,
+            "modelHash": "583a794fdc88ace7"
+          },
+          {
+            "keep": 0.5,
+            "demos": 20,
+            "rows": 531,
+            "n": 60,
+            "success": 0.483,
+            "clean": 0.483,
+            "meanSteps": 47.783,
+            "modelHash": "fa09c27760ef653f"
+          },
+          {
+            "keep": 0.75,
+            "demos": 30,
+            "rows": 908,
+            "n": 60,
+            "success": 0.55,
+            "clean": 0.55,
+            "meanSteps": 59.367,
+            "modelHash": "27990afbf83894c3"
+          }
+        ]
+      },
+      {
+        "scenario": "rb-amr-fleet-routing#hard",
+        "pairs": {
+          "synthetic": 200,
+          "train": 150,
+          "heldOut": 50,
+          "local": 0,
+          "rater": "synthetic rater: utility = 2·finished + 1·progress − 4·min(1, unsafe steps / 3) − 1.5·(steps / cap); Bradley–Terry choice at temperature 0.5"
+        },
+        "model": {
+          "names": [
+            "success",
+            "clean",
+            "unsafeRate",
+            "length",
+            "waitRate",
+            "progress"
+          ],
+          "w": [
+            1.3158,
+            1.3158,
+            -0.2376,
+            0.0021,
+            0.1871,
+            0.6439
+          ],
+          "l2": 0.01,
+          "iters": 500,
+          "meanNll": 0.5336,
+          "sources": [
+            "synthetic"
+          ]
+        },
+        "accuracy": {
+          "train": 0.703,
+          "heldOut": 0.6,
+          "raterCeilingHeldOut": 0.651
+        },
+        "keep": 0.5,
+        "keptClean": 20,
+        "keptOf": 40,
+        "unfiltered": {
+          "demos": 40,
+          "rows": 1651,
+          "n": 60,
+          "success": 0.117,
+          "clean": 0.933,
+          "meanSteps": 107.783,
+          "modelHash": "fa611b200d05fa6c"
+        },
+        "ruleFiltered": {
+          "demos": 32,
+          "rows": 1291,
+          "n": 60,
+          "success": 0.05,
+          "clean": 0.9,
+          "meanSteps": 113.05,
+          "modelHash": "2bc954504a77c552"
+        },
+        "rewardFiltered": {
+          "demos": 20,
+          "rows": 838,
+          "n": 60,
+          "success": 0.05,
+          "clean": 0.9,
+          "meanSteps": 113.083,
+          "modelHash": "586eb7af8cf14e27"
+        },
+        "sweep": [
+          {
+            "keep": 0.25,
+            "demos": 10,
+            "rows": 424,
+            "n": 60,
+            "success": 0,
+            "clean": 0.983,
+            "meanSteps": 120,
+            "modelHash": "bfb1b8c5005816a5"
+          },
+          {
+            "keep": 0.5,
+            "demos": 20,
+            "rows": 838,
+            "n": 60,
+            "success": 0.05,
+            "clean": 0.9,
+            "meanSteps": 113.083,
+            "modelHash": "586eb7af8cf14e27"
+          },
+          {
+            "keep": 0.75,
+            "demos": 30,
+            "rows": 1199,
+            "n": 60,
+            "success": 0,
+            "clean": 0.983,
+            "meanSteps": 120,
+            "modelHash": "0ee7f7ee3e925b7c"
+          }
+        ]
+      }
+    ]
+  },
+  "dagger": {
+    "scenario": "rb-amr-fleet-routing#hard",
+    "rollouts": 20,
+    "labels": "the scripted expert's action (rb-env's planner at skill 1) on each state the clone visits; not a person's correction",
+    "aliasing": {
+      "rows": 20525,
+      "vectors": 100,
+      "ambiguousVectors": 29,
+      "rowsOnAmbiguousVectors": 19343,
+      "ceiling": 0.696
+    },
+    "seeds": "training 800100–800519; held-out 7001–7060",
+    "rounds": [
+      {
+        "round": 0,
+        "labelledStates": 0,
+        "rows": 1291,
+        "n": 60,
+        "success": 0.05,
+        "clean": 0.9,
+        "meanSteps": 113.05,
+        "modelHash": "2bc954504a77c552"
+      },
+      {
+        "round": 1,
+        "labelledStates": 2295,
+        "rows": 4675,
+        "n": 60,
+        "success": 0.117,
+        "clean": 0.85,
+        "meanSteps": 108.2,
+        "modelHash": "71c72e0ad7906190"
+      },
+      {
+        "round": 2,
+        "labelledStates": 4496,
+        "rows": 9028,
+        "n": 60,
+        "success": 0,
+        "clean": 1,
+        "meanSteps": 120,
+        "modelHash": "c2f07754bbabb4e0"
+      },
+      {
+        "round": 3,
+        "labelledStates": 6896,
+        "rows": 15004,
+        "n": 60,
+        "success": 0.05,
+        "clean": 0.967,
+        "meanSteps": 114.8,
+        "modelHash": "a71bd25397568b73"
+      },
+      {
+        "round": 4,
+        "labelledStates": 9296,
+        "rows": 18783,
+        "n": 60,
+        "success": 0.183,
+        "clean": 0.783,
+        "meanSteps": 100.033,
+        "modelHash": "0cca7bdd9da3ce95"
+      },
+      {
+        "round": 5,
+        "labelledStates": 11293,
+        "rows": 21816,
+        "n": 60,
+        "success": 0.05,
+        "clean": 1,
+        "meanSteps": 114.8,
+        "modelHash": "2f89fed7c0872dc7"
+      }
+    ]
   }
 }

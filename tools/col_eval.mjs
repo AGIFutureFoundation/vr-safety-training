@@ -15,6 +15,7 @@ import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { COL_SCENARIOS, COL_VARIANTS, COL_VERSION, colEvalScenario, colTutorSim } from "../WebXR/shared/col-learn.js";
 import { RB_SCENARIOS } from "../WebXR/shared/rb-robotics-data.js";
+import { RT6_VERSION, RT6_KEEP, RT6_RATER, RT6_TRAJ_FEATURES, rt6EvalPreference, rt6Dagger } from "../WebXR/shared/rt6-learn.js";
 import { loadSmartCity } from "./lib/headless.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
@@ -56,6 +57,15 @@ export async function colEvalAll() {
     variants,
     stations: await colEvalStations(),
     tutor: { mixed: colTutorSim({ learners: 300 }), tellBest: colTutorSim({ learners: 300, population: "tell-best" }), note: "simulated learners from colTutorSim's own response model; not measurements of people" },
+    // ROBOTRAIN-6 (shared/rt6-learn.js): preference pairs train a Bradley–Terry reward model that ranks and filters the
+    // demonstrations before cloning; DAgger-style rounds on the hardest gap. Appended last, so every row above is unchanged.
+    preference: {
+      version: RT6_VERSION, learner: "Bradley–Terry reward model: logistic regression, no intercept, on the difference of two runs' trajectory features; L2 0.01, 500 full-batch steps from zero",
+      features: RT6_TRAJ_FEATURES, rater: RT6_RATER, keep: `the top ${RT6_KEEP * 100}% of the 40 demonstrations by learned reward, fixed before any held-out seed was run; the other shares are a sensitivity sweep`,
+      pairs: "200 synthetic pairs per scenario (150 to fit, 50 held out), each two runs of one seed by the scripted stand-in at two skills; labelled synthetic. A learner's consented local pairs join the fit only through rt6LocalPairs (0 here: no person's pairs exist)",
+      scenarios: ["rb-amr-fleet-routing", "rb-amr-fleet-routing#hard"].map((sc) => rt6EvalPreference(sc)),
+    },
+    dagger: rt6Dagger("rb-amr-fleet-routing#hard", { rounds: 5, rollouts: 20 }),
   };
 }
 

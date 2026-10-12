@@ -320,18 +320,35 @@ export function colTrain(sc, demos, { k = 5, seed = 1, onlySuccessful = true, ma
   return { v: COL_VERSION, kind: "behaviour cloning (k-nearest neighbours)", scenario: sc, k, seed, onlySuccessful, demos: used.length, demosOffered: demos.length, sources: [...new Set(used.map((d) => d.source))].sort(), features: F.names, weights: F.weights ?? F.names.map(() => 1), rows };
 }
 
+// ROBOTRAIN-6: rows that share a feature vector are grouped once per model (a cache beside the model, never in its JSON),
+// and a query measures one distance per group. The neighbours are exactly those of a scan over every row: the k smallest
+// by (distance, row index), because rows with equal vectors have equal distances and each group keeps its first k row
+// indices in order. AMR's features are discrete, so DAgger's aggregated rows collapse to a few hundred groups.
+const COL_GROUPS = new WeakMap();
+function colGroups(model) {
+  const hit = COL_GROUPS.get(model);
+  if (hit && hit.n === model.rows.length) return hit.list;
+  const by = new Map();
+  model.rows.forEach((r, i) => { const key = r.x.join(","); let e = by.get(key); if (!e) by.set(key, (e = { x: r.x, idx: [] })); if (e.idx.length < model.k) e.idx.push(i); });
+  const list = [...by.values()];
+  COL_GROUPS.set(model, { n: model.rows.length, list });
+  return list;
+}
 function colNeighbours(model, x) {
   const w = model.weights;
-  // Top-k by insertion (ties keep the lower row index), not a full sort: this runs every step.
+  // Top-k by insertion on (distance, row index), not a full sort: this runs every step.
   const best = [];
-  for (let i = 0; i < model.rows.length; i++) {
-    const rx = model.rows[i].x; let s = 0;
+  for (const g of colGroups(model)) {
+    const rx = g.x; let s = 0;
     for (let f = 0; f < x.length; f++) { const d = (x[f] - rx[f]) * w[f]; s += d * d; }
-    if (best.length === model.k && s >= best[best.length - 1].s) continue;
-    let j = best.length; best.push(null);
-    while (j > 0 && best[j - 1].s > s) { best[j] = best[j - 1]; j -= 1; }
-    best[j] = { i, s };
-    if (best.length > model.k) best.pop();
+    for (const i of g.idx) {
+      const worst = best[best.length - 1];
+      if (best.length === model.k && (s > worst.s || (s === worst.s && i > worst.i))) break;
+      let j = best.length; best.push(null);
+      while (j > 0 && (best[j - 1].s > s || (best[j - 1].s === s && best[j - 1].i > i))) { best[j] = best[j - 1]; j -= 1; }
+      best[j] = { i, s };
+      if (best.length > model.k) best.pop();
+    }
   }
   return best.map((n) => ({ i: n.i, d: Math.sqrt(n.s), row: model.rows[n.i] }));
 }
