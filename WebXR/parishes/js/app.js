@@ -1457,8 +1457,9 @@ var hwRoomMount = null;
 var aaRoomMount = aaRoomAvatarMount({ voiced: aaVoiced });
 // AVATARS-HD-3: the hive's operations room gets the crowd level on high (seven figures and the room inside IX_BUDGET; balanced keeps
 // HIVE-5's lightened standard figure), and its walks between the door and the consoles go round the room's colliders. One per room.
+// AVATARS-HD-4: the console nearest the learner as they enter gets the room level (one room-level and six crowd figures inside IX_BUDGET).
 var aaOpsMountRoom = null, aaOpsMount = null;
-function aaOpsMountFor(room) { if (room !== aaOpsMountRoom) { aaOpsMountRoom = room; aaOpsMount = aaCrowdAvatarMount({ voiced: aaVoiced, room, router: hwRouter }); } return aaOpsMount; }
+function aaOpsMountFor(room) { if (room !== aaOpsMountRoom) { aaOpsMountRoom = room; aaOpsMount = aaCrowdAvatarMount({ voiced: aaVoiced, room, router: hwRouter, nearest: "room", learner: () => ixWorld.pose }); } return aaOpsMount; }
 function hwSync() {
   const hv = h3Scene?.relay ?? window.__parishTest?.hive?.hive ?? null; // HIVE-3: the scene's paced hive while it plays
   hwRoomMount = hwSyncRoom(hwRoomMount, { room: ixWorld.room, three: THREE, agents: hv?.agents ?? [], source: hv, tier: npTierName, reducedMotion: npReduced, mount: h5IsOpsRoom(ixWorld.room) ? aaOpsMountFor(ixWorld.room) : aaRoomMount }); // the ops room: the crowd level (seven room-level HD figures would take it to 8,508 triangles, over its 6,000; check_agent_avatars §9l measures the crowd)

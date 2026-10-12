@@ -728,7 +728,7 @@ const HDV = {};
     const bal = measureRoom("ixr-cell-hall", "room", "balanced"), low = measureRoom("ixr-cell-hall", "room", "low"), balToday = measureRoom("ixr-cell-hall", "today", "balanced");
     ok(bal.c.hd === 0 && bal.all.triangles === balToday.all.triangles && bal.all.meshes === balToday.all.meshes && bal.tex === balToday.tex && low.c.figures === 0, `balanced and the phone unchanged in a room: balanced builds today's figure (${bal.all.triangles} triangles, ${bal.all.meshes} meshes, as without the room level), the phone tier none`);
     const appSrc = read("WebXR/parishes/js/app.js");
-    ok(/var aaRoomMount = aaRoomAvatarMount\(\{ voiced: aaVoiced \}\);/.test(appSrc) && /hwSyncRoom\(hwRoomMount, \{[^\n]*mount: h5IsOpsRoom\(ixWorld\.room\) \? aaOpsMountFor\(ixWorld\.room\) : aaRoomMount \}\)/.test(appSrc) && /aaCrowdAvatarMount\(\{ voiced: aaVoiced, room, router: hwRouter \}\)/.test(appSrc), "wiring: the page's robotics-room mount (hwSyncRoom's mount) is aaRoomAvatarMount with the voice's pending (AVATARS-HD-3: the ops room takes the crowd mount, aaCrowdAvatarMount with the room's router; §9l)");
+    ok(/var aaRoomMount = aaRoomAvatarMount\(\{ voiced: aaVoiced \}\);/.test(appSrc) && /hwSyncRoom\(hwRoomMount, \{[^\n]*mount: h5IsOpsRoom\(ixWorld\.room\) \? aaOpsMountFor\(ixWorld\.room\) : aaRoomMount \}\)/.test(appSrc) && /aaCrowdAvatarMount\(\{ voiced: aaVoiced, room, router: hwRouter, nearest: "room", learner: \(\) => ixWorld\.pose \}\)/.test(appSrc), "wiring: the page's robotics-room mount (hwSyncRoom's mount) is aaRoomAvatarMount with the voice's pending (AVATARS-HD-3: the ops room takes the crowd mount, aaCrowdAvatarMount with the room's router; §9l. AVATARS-HD-4: the console nearest the learner at the room level; §9m)");
     HDV.rooms = R.map((x) => ({ st: x.st, shell: x.room.shell.triangles, today: x.today.all.triangles, room: x.room.all.triangles, full: x.full.all.triangles, meshesToday: x.today.all.meshes, meshesRoom: x.room.all.meshes, inside: x.room.inside }));
     HDV.roomsInside = { n: inRoom, of: styles.length, fullOver: overFull, worstTri: worstRoomTri };
   }
@@ -756,7 +756,8 @@ const HDV = {};
       return room;
     };
     const triOf = (g) => { let tri = 0; g?.traverse((o) => { if (o.isMesh) tri += (o.geometry.index ? o.geometry.index.count : o.geometry.attributes.position.count) / 3; }); return tri; };
-    const mounts = { lite: () => undefined, room: () => AA.aaRoomAvatarMount(), crowd: (room) => AA.aaCrowdAvatarMount({ room, router: HW.hwRouter }), straight: () => AA.aaCrowdAvatarMount() };
+    const mounts = { lite: () => undefined, room: () => AA.aaRoomAvatarMount(), crowd: (room) => AA.aaCrowdAvatarMount({ room, router: HW.hwRouter }), straight: () => AA.aaCrowdAvatarMount(),
+      mixed: (room) => AA.aaCrowdAvatarMount({ room, router: HW.hwRouter, nearest: "room" }) }; // AVATARS-HD-4: the page's mount (the nearest console at the room level)
     const enter = (kind, tier = "high") => {
       const room = buildRoom(H4R.HD4_OPS_STYLE, tier), shell = measure(room), hive = OHH.ohHive({ seed: HIVE_SEED, ...PANEL });
       const m = HW.hwSyncRoom(null, { room, three: RTS, agents: hive.agents, source: hive, tier, mount: mounts[kind](room) });
@@ -885,6 +886,94 @@ const HDV = {};
     ok(stampCheck.ok === stampCheck.n, `word boundaries stamped with their own time (the event's timeStamp, mapped from the last frame), not the last frame's: ${stampCheck.ok} of ${stampCheck.n} within 1 ms`);
     ok(r1.framesOpen === r1.frames && r2.framesOpen === r2.frames && r1.frames > 0, `the mouth at a low frame rate: every frame after a new word shows the mouth open, 1 Hz ${r1.framesOpen} of ${r1.frames}, 2 Hz ${r2.framesOpen} of ${r2.frames}`);
     HDV.ops = { lite: E.lite.all, room: E.room.all, crowd: C.all, perFigure: [bestCrowd, worstCrowd], walks: { far: far.filter((x) => x.straight).length, farRouted: far.filter((x) => x.routed).length, farN: far.length, clear: routed.clear, straightClear: straight.clear, n: routed.n, raw: routed.raw, body: routed.body, margin: routed.margin, straight: straight.raw, straightBody: straight.body, straightMargin: straight.margin, straightN: straight.n }, stamps: stampCheck, r1, r2 };
+    // 9m. AVATARS-HD-4: the page's ops-room mount (the console nearest the learner as they enter at the room level, the other six at the
+    // crowd level), with captions up, on high; no swap while the learner moves; over the hive's whole day; and moods on the body
+    // (HIVE-6's mood event) per mood on the bones, the stop hand unchanged, and no mood events leaving the pose as it was.
+    {
+      const X = enter("mixed"), lv = X.c.levels ?? {};
+      const nearRole = AA.aaNearestRole(X.room), nearAgent = X.hive.agents.find((a) => a.key === nearRole);
+      const roomFig = X.hive.agents.filter((a) => X.m.avatars.figure(a.id)?.userData?.aaAgent?.level === "room").map((a) => a.id);
+      const trisMixed = X.hive.agents.map((a) => triOf(X.m.avatars.figure(a.id)));
+      console.log(`     ops room on high, page's mount (nearest console "${nearRole}" = ${nearAgent?.name} at the room level): ${X.all.meshes} meshes / ${X.all.triangles} triangles, ${(X.all.bytes / 1048576).toFixed(2)} MiB; figures ${trisMixed.join(", ")} triangles; headroom ${IX.IX_BUDGET.triangles.high - X.all.triangles}`);
+      ok(X.standing === 7 && lv.room === 1 && lv.crowd === 6 && roomFig.length === 1 && roomFig[0] === nearAgent?.id && inside(X.all), `the ops room on high with one room-level figure (the console nearest the learner's entry pose: ${nearAgent?.name}, ${nearRole}) and six crowd figures, captions up: ${X.standing} of 7 standing; ${X.all.meshes} meshes (≤ ${IX.IX_BUDGET.meshes}), ${X.all.triangles} triangles (≤ ${IX.IX_BUDGET.triangles.high}; ${IX.IX_BUDGET.triangles.high - X.all.triangles} to spare), ${(X.all.bytes / 1048576).toFixed(2)} MiB`);
+      // no swap while the learner moves: the level is chosen when the room mounts; a learner who then walks to another console keeps
+      // the same figures (the same objects, the same levels)
+      let at = { x: 0, z: X.room.d / 2 - 0.8 };
+      const room2 = buildRoom(H4R.HD4_OPS_STYLE), hive2 = OHH.ohHive({ seed: HIVE_SEED, ...PANEL });
+      const m2 = HW.hwSyncRoom(null, { room: room2, three: RTS, agents: hive2.agents, source: hive2, tier: "high", mount: AA.aaCrowdAvatarMount({ room: room2, router: HW.hwRouter, nearest: "room", learner: () => at }) });
+      m2.animate(0, 0);
+      const before = hive2.agents.map((a) => [m2.avatars.figure(a.id), m2.avatars.figure(a.id)?.userData?.aaAgent?.level]);
+      const far = room2.spots.agent.reduce((a, b) => (Math.hypot(b.x - at.x, b.z - at.z) > Math.hypot(a.x - at.x, a.z - at.z) ? b : a));
+      at = { x: far.x, z: far.z + 0.6 };
+      for (let k = 1; k <= 20; k += 1) m2.animate(k * 0.1, 0.1);
+      const kept = hive2.agents.filter((a, i) => m2.avatars.figure(a.id) === before[i][0] && m2.avatars.figure(a.id)?.userData?.aaAgent?.level === before[i][1]).length;
+      const chosenLater = AA.aaNearestRole(room2, at);
+      // a pose outside the room (the street's, before the room's enter() moves the learner) falls back to the door
+      const street = AA.aaNearestRole(room2, { x: 412.5, z: -980 }) === AA.aaNearestRole(room2);
+      ok(kept === 7 && chosenLater !== AA.aaNearestRole(room2) && street, `no swap while the learner moves: the learner walks to the far console (${far.role}, now nearest) and ${kept} of 7 figures stay the same objects at the same level; a street pose falls back to the door ${street}`);
+      m2.dispose();
+      const mixedDay = day("mixed");
+      ok(mixedDay.inSteps === mixedDay.steps && mixedDay.raw === 0 && mixedDay.body === 0, `the ops room with the page's mount over the hive's day: inside IX_BUDGET and IXR_TEX_BUDGET ${mixedDay.inSteps} of ${mixedDay.steps} steps (worst ${mixedDay.worst} triangles); walks through a box ${mixedDay.raw} of ${mixedDay.n}, within 0.3 m ${mixedDay.body}`);
+      // moods on the bones, per agent: before (no mood) → after (each mood)
+      const MP = HD.AA_HD_MOOD_POSE;
+      const per = { busy: 0, concerned: 0, relieved: 0, calm: 0 }, n = OHA.length; let stopSame = 0, rangeOk = 0;
+      const eq = (a, b) => JSON.stringify(a) === JSON.stringify(b);
+      const near = (a, b) => a.flat().every((v, i) => Math.abs(v - b.flat()[i]) <= 1e-9); // lerp(a, b, 1) is b to rounding
+      const ex = {};
+      for (const a of OHA) {
+        const spec = HD.aaHdSpec(a), P = spec.posture, st = { t: 3.7, speaking: false, mouth: 0, beat: 0, blink: 0 };
+        const p0 = HD.aaHdPose(spec, st), pm = Object.fromEntries(HD.AA_HD_MOODS.map((m) => [m, HD.aaHdPose(spec, { ...st, mood: m })]));
+        if (eq(pm.calm, p0)) per.calm += 1;
+        const k = HD.aaHdMoodTempo(spec, "busy");
+        if (k > 1 && P.tempo * k <= MP.tempoMax + 1e-9 && eq(pm.busy, p0)) per.busy += 1; // busy moves the idle clock (the mount), not the pose
+        const dHead = pm.concerned.r.head[0] - p0.r.head[0], abdR = -pm.concerned.r.shoulderR[2], abd0 = -p0.r.shoulderR[2];
+        if (Math.abs(dHead - MP.concernedHead) < 1e-12 && abdR <= abd0 + 1e-12 && eq(pm.concerned.s, p0.s) && eq(pm.concerned.o, p0.o)) per.concerned += 1; // a clasping (formal) agent's arms are already in
+        if (pm.relieved.o.shoulderL?.[1] === -MP.relievedShoulder && pm.relieved.o.shoulderR?.[1] === -MP.relievedShoulder && eq(pm.relieved.r, p0.r) && eq(pm.relieved.s, p0.s)) per.relieved += 1;
+        // inside the traits' own ranges: head pitch shift ≤ the traits' span (0.1), abduction inside [0.03, 0.4], tempo ≤ 1.3
+        const abdM = Math.max(MP.abductMin, P.abduct * MP.concernedAbduct);
+        if (MP.concernedHead <= 0.1 && abdM >= 0.03 && abdM <= P.abduct + 1e-12 && P.tempo * k <= 1.3 + 1e-9) rangeOk += 1;
+        // the stop hand at its full pose: the same right arm in every mood
+        const g = { kind: "stop", k: 0.5 }, s0 = HD.aaHdPose(spec, { ...st, gesture: g });
+        if (HD.AA_HD_MOODS.every((m) => { const q = HD.aaHdPose(spec, { ...st, gesture: g, mood: m }); return near([q.r.shoulderR, q.r.elbowR, q.r.wristR], [HD.AA_HD_STOP_POSE.sh, HD.AA_HD_STOP_POSE.el, HD.AA_HD_STOP_POSE.wr]); })) stopSame += 1;
+        if (a === OHA[0]) Object.assign(ex, { name: a.name, head: [p0.r.head[0], pm.concerned.r.head[0]], abd: [abd0, abdR], tempo: [P.tempo, P.tempo * k] });
+      }
+      console.log(`     moods on ${ex.name}'s bones: concerned head pitch ${ex.head[0].toFixed(3)} → ${ex.head[1].toFixed(3)} rad, right arm abduction ${ex.abd[0].toFixed(3)} → ${ex.abd[1].toFixed(3)}; busy idle tempo ${ex.tempo[0].toFixed(3)} → ${ex.tempo[1].toFixed(3)}; relieved shoulders −${MP.relievedShoulder * 100} cm`);
+      ok(per.calm === n && per.busy === n && per.concerned === n && per.relieved === n && rangeOk === n, `moods on the bones (HIVE-6's mood event), ${n} agents: calm no change ${per.calm} of ${n}; busy a faster idle tempo (×${MP.busyTempo}, ≤ ${MP.tempoMax}) ${per.busy} of ${n}; concerned head +${MP.concernedHead} rad and hands closer ${per.concerned} of ${n}; relieved shoulders −${MP.relievedShoulder * 100} cm ${per.relieved} of ${n}; inside the traits' ranges ${rangeOk} of ${n}; never the face (mouth, eyes, brows unchanged)`);
+      ok(stopSame === n, `the stop hand on a refusal is the same pose in every mood: ${stopSame} of ${n} agents (right shoulder, elbow and wrist at the gesture's full pose = AA_HD_STOP_POSE within 1e-9 rad)`);
+      // the room level goes only to a figure that fits: every console's agent tried as the nearest (the learner standing at its spot)
+      const fitsAll = X.room.spots.agent.map((s) => { const role = AA.aaNearestRole(X.room, { x: s.x, z: s.z + 0.5 }, { agents: X.hive.agents, level: "room" }), a = X.hive.agents.find((q) => q.key === role); const ex2 = a ? HD.aaHdGeometry(HD.aaHdSpec(a), "room").triangles.total - HD.aaHdGeometry(HD.aaHdSpec(a), "crowd").triangles.total : 0; return { at: s.role, role, ex2, nearest: role === s.role }; });
+      ok(fitsAll.every((x) => x.ex2 <= HD.AA_HD_NEAR_EXTRA), `the room level only where it fits: with the learner at each of the ${fitsAll.length} consoles the chosen figure adds ${fitsAll.map((x) => x.ex2).join(", ")} triangles (≤ AA_HD_NEAR_EXTRA ${HD.AA_HD_NEAR_EXTRA}); the console itself is chosen ${fitsAll.filter((x) => x.nearest).length} of ${fitsAll.length}, the next nearest that fits otherwise`);
+      // the real hive with moods on (HIVE-6), through the page's mount in the ops room: each figure's mood follows the hive's mood(id), the
+      // idle phase is continuous across a tempo change, and a hive without moods poses the same bones run after run
+      const runDay = (moods, steps = 480) => {
+        const room = buildRoom(H4R.HD4_OPS_STYLE), hive = OHH.ohHive({ seed: HIVE_SEED, ...PANEL, ...(moods ? { moods: true } : {}) });
+        const m = HW.hwSyncRoom(null, { room, three: RTS, agents: hive.agents, source: hive, tier: "high", mount: mounts.mixed(room) });
+        let clock = 0, match = 0, checks = 0, jumps = 0, poseHash = 0; m.animate(0, 0);
+        const headOf = (id) => { const f = m.avatars.figure(id), s = m.avatars.state(id); return f && !s?.walking && !s?.gesture ? f.userData?.parts?.head?.rotation?.y : undefined; };
+        for (let k = 0; k < steps; k += 1) {
+          hive.step();
+          for (let f = 0; f < 5; f += 1) {
+            const h0 = hive.agents.map((a) => headOf(a.id));
+            clock += 0.2; m.animate(clock, 0.2);
+            hive.agents.forEach((a, i) => { const h1 = headOf(a.id); if (h0[i] !== undefined && h1 !== undefined && Math.abs(h1 - h0[i]) > 0.02) jumps += 1; }); // the idle sway's own step in 0.2 s is under 0.01 rad
+          }
+          for (const a of hive.agents) {
+            const fig = m.avatars.figure(a.id); if (!fig) continue;
+            fig.traverse((o) => { if (o.isBone) for (const v of [o.rotation.x, o.rotation.y, o.rotation.z, o.position.y]) poseHash = (poseHash * 31 + Math.round(v * 1e9)) % 2147483647; });
+            if (!moods) continue;
+            checks += 1; const want = hive.mood(a.id)?.mood ?? "calm", got = m.avatars.state(a.id).mood ?? "calm"; if (want === got) match += 1;
+          }
+        }
+        const log = m.avatars.moodLog(), changes = hive.events().filter((e) => e.type === "mood").length;
+        m.dispose();
+        return { match, checks, jumps, poseHash, log: log.length, changes, kinds: [...new Set(log.map((x) => x.mood))] };
+      };
+      const md = runDay(true), plain = runDay(false), plainAgain = runDay(false);
+      ok(md.checks > 0 && md.match === md.checks && md.log === md.changes && md.jumps === 0, `the real hive with moods on (seed ${HIVE_SEED}, 480 steps), the page's ops-room mount: ${md.changes} mood events, ${md.log} reached the figures (${md.kinds.join(", ")}); each built figure's mood = the hive's mood(id) ${md.match} of ${md.checks} step-checks; head jumps across a tempo change ${md.jumps}`);
+      ok(plain.poseHash === plainAgain.poseHash && plain.log === 0, `no mood events: the bones over the hive's day are the same frame for frame (pose hash ${plain.poseHash} twice, 0 mood events; the idle clock is the mount's own clock exactly; the comparison with the base module is in the console note)`);
+      HDV.ah4 = { mixed: X.all, nearRole, nearName: nearAgent?.name, trisMixed, mixedDay, md, per, stopSame, n, ex };
+      X.m.dispose();
+    }
     globalThis.document = savedDoc;
   }
   // 9i. the wiring: the outdoor mount asks for hd; the bundles list the module before the portraits
