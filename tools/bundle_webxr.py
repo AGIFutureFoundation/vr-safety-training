@@ -1015,6 +1015,12 @@ APPS = {
             # ROBOTRAIN-2: the COLEARN-trained policy as the agent-jobs provider (after col-learn.js and vb-bridge.js).
             SHARED / "vb-colearn.js",
             SHARED / "vb-panel.js",
+            # OMEGA-HIVE: the agent collective over the agent-jobs stream (after vb-panel.js, av-sprites.js and dx-data.js).
+            SHARED / "oh-hive-data.js",
+            SHARED / "oh-say.js",
+            SHARED / "oh-voice.js",
+            SHARED / "oh-hive.js",
+            SHARED / "oh-panel.js",
             # CLASSROOMS: rooms that teach (after by-parish-lessons, es-bay-lessons, ps-projectsim and cg-runner).
             SHARED / "cr-classrooms.js",
             # LA-ROOMS: the Louisiana rooms' dressers (after ix-interiors.js and lp-programme-data.js).

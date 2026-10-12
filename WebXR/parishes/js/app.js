@@ -76,12 +76,13 @@ import { rbMountRobotics, rbGamesFor, rbRegisterMechanics } from "../../shared/r
 import { fxMountExteriors, fxColliders, fxScene, fxSitesFor, fxSiteParish, FX_SHOTS } from "../../shared/fx-exteriors.js";
 import { uxMountTabs, uxOnboarding } from "../../shared/ux-menu.js";
 import { dxMountConsent } from "../../shared/dx-consent-ui.js";
-import { dxFlush, dxPendingCount, dxStore } from "../../shared/dx-data.js";
+import { dxFlush, dxPendingCount, dxStore, dxReadSignals, dxEligibility } from "../../shared/dx-data.js";
 import { dxCaptureLesson, dxCaptureDrill, dxCaptureRollout } from "../../shared/dx-world.js";
 import { colMountCoLearn } from "../../shared/col-learn.js";
 import { rtMountTeleop } from "../../shared/rt-teleop.js";
 import { ent3AuditAppend, ent3Policies, ent3Fleet } from "../../shared/ent3-governance.js";
 import { vbMountDispatch } from "../../shared/vb-panel.js";
+import { ohMountHive } from "../../shared/oh-panel.js"; // OMEGA-HIVE: the agent collective panel beside the agent-jobs panel
 import { vbColearnProvider, vbColearnLocalSource } from "../../shared/vb-colearn.js";
 // CLEANPORTS: key the zero-emission port stations to BAYMAP's West Oakland sites (a no-op until that map merges).
 cpPlaceInParish(npParish);
@@ -1217,6 +1218,11 @@ var vbLocal = (() => { try { return vbColearnLocalSource(); } catch (_) { return
 var vbProvider = (() => { try { return vbColearnProvider(vbLocal ? { demosFor: vbLocal.demosFor } : {}); } catch (_) { return null; } })();
 vbLocal?.refresh().catch(() => {});
 window.__parishTest.vbridge = vbMountDispatch($("menu-drills"), { reducedMotion: npReduced, ent3: { auditAppend: ent3AuditAppend, policies: ent3Policies, fleet: ent3Fleet }, stationHref: (id) => npLink(id), policyFor: vbProvider ? (policyId, env, seed) => vbProvider.policyFor(policyId, env, seed) : null, providerLabel: vbProvider ? (sc) => vbProvider.describe(sc) : null });
+// OMEGA-HIVE (docs/omega-hive.md): seven software agents coordinate the robot jobs through the same governor; physical-path
+// requests come to the learner as approvals (approving lets only the simulated job run); every award, veto, refusal and approval
+// goes to ENTERPRISE-3's audit log. Not mounted in K-12, demo or signed-out sessions (DATAWORKS' eligibility at the offer stage, and the
+// page's own ?demo flag, as the GEO gate reads it).
+window.__parishTest.hive = (() => { try { let ok = false; try { ok = !npParams.has("demo") && dxEligibility(dxReadSignals(), { stage: "offer" }).eligible === true; } catch (_) { ok = false; } return ok ? ohMountHive($("menu-drills"), { reducedMotion: npReduced, audit: ent3AuditAppend, seed: 1 }) : null; } catch (_) { return null; } })();
 window.__parishTest.vbColearn = vbProvider;
 window.__parishTest.vbLocal = vbLocal;
 window.__parishTest.xr = npXRTest;

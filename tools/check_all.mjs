@@ -112,6 +112,8 @@ const CHECKERS = [
   "check_roboexport.mjs",
   // VBRIDGE: software-agent jobs reach simulated robots only, through the safety governor (docs/consoles/VBRIDGE.md).
   "check_vbridge.mjs",
+  // OMEGA-HIVE: seven software agents coordinate the robot jobs through the governor — persona, style, grounding, distinctiveness, voice on the device only, approvals, audit (docs/consoles/OMEGA-HIVE.md).
+  "check_omega_hive.mjs",
   // LA-COHORTS: Louisiana lesson flows and apply games, classroom boards, Home links, cohort run sheets (docs/consoles/LA-COHORTS.md).
   "check_la_cohorts.mjs",
   "check_geo.mjs",
