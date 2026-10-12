@@ -80,6 +80,9 @@ import { hd3Scene, hd3ScenePresets, HD3_SCENE_SITES, HD3_SHOTS } from "../../sha
 // fog, rain) with floodlights, dock lights and a wet tint, lit robot rooms and the hive's operations room.
 import { hd4UltraChoice, hd4MountUltraToggle, hd4MountUltraSites, HD4_ULTRA_BUDGET } from "../../shared/hd4-ultra.js";
 import { hd4MountSiteLights, hd4LookPresets, hd4LightLevel, hd4LookFog, hd4DawnSky, HD4_LOOKS } from "../../shared/hd4-looks.js";
+// ENV-HD-6 (docs/consoles/ENV-HD-6.md): kind cues on the busiest park, fire station, hospital and school buildings, the board
+// lamps' posts (high and balanced; the phone tier and a headset browser build nothing), Ultra's facade atlas for those four.
+import { hd6Build, hd6UltraShells } from "../../shared/hd6-kinds.js";
 import { hd4RegisterDressers, hd4OpsHome, hd4OpsSite, hd4OpsDoor, hd4OpsScreens, HD4_OPS_STYLE } from "../../shared/hd4-rooms.js";
 import { uxMountTabs, uxOnboarding } from "../../shared/ux-menu.js";
 import { dxMountConsent } from "../../shared/dx-consent-ui.js";
@@ -1234,6 +1237,13 @@ try {
   hd4Sites = hd4MountSiteLights({ THREE, root, layouts: fxWorld?.layouts ?? [], tier: npTierName, glow: fxMats.filter((m) => /^fx-atlas/.test(m.name)), wet: fxMats, groundAt: (x, z) => Math.max(npHeightAt(parish, x, z), 0) });
   hd4Sites.set({ band: NP_TIMES[np.timeIdx], weather: atWeatherNow });
 } catch (e) { console.warn("hd4-looks:", e); }
+var hd6Cues = null, hd6Ultra = null;
+try {
+  hd6Cues = hd6Build({ THREE, parish, boards: world.siteBoards, tier: npTierName });
+  if (hd6Cues) { hd6Cues.updateMatrix(); root.add(hd6Cues); }
+  if (hd4Ultra.on) { hd6Ultra = hd6UltraShells({ THREE, parish }); if (hd6Ultra) { hd6Ultra.updateMatrix(); root.add(hd6Ultra); } }
+} catch (e) { console.warn("hd6-kinds:", e); }
+window.__parishTest.hd6 = () => ({ cues: hd6Cues?.userData.hd6 ?? null, ultra: hd6Ultra?.userData.hd6 ?? null });
 /** ENV-HD-4: one of the six looks (HD4_LOOKS: dawn, day, dusk, night, fog at dawn, rain at dusk) through the page's own clock
  *  and weather; returns what it set: the fog's distances and density (ATMOS's atFog), wetness and the site light level. */
 function hd4ApplyLook(look) {
