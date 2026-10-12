@@ -3,7 +3,7 @@
 - Base 048869d5 (loop 10 round 4). Prefix `aa`/`AA_` (AGENT-AVATARS' files), port 9121. New module `WebXR/shared/aa-agent-hd.js`
   (no imports, on purpose: the instructor bundle draws portraits from it without crew.js or three.js). It is listed before
   `aa-agent-portraits.js` in both the parishes and the instructor bundles. Checker: `tools/check_agent_avatars.mjs` section 9
-  (91 checks in all; it imports the vendored three.js for section 9 only, the rest still runs on the stub). Drive:
+  (92 checks in all; it imports the vendored three.js for section 9 only, the rest still runs on the stub). Drive:
   `tools/drive_avatars_hd.mjs [port] [stillsDir]` (rebuild `python3 tools/bundle_webxr.py parishes instructor` first; not in
   the gate; it writes the 1920×1080 stills).
 - One description, three uses: `aaHdSpec(agent)` → `aaHdGeometry(spec)` gives plain arrays. They feed the three.js figure
@@ -26,7 +26,7 @@
   IX_BUDGET: three HD figures at about 2,700 triangles would take the cell hall past its 6,000 on high.
 - Gestures are logged on every tier with `on` (the event type, or the speak's `about`) and `jobId`. Kinds: raise (bid), accept
   (award), stop (refused), approve (a speak with about "approved"), nod (complete). The approval's kind is "approve", not "nod",
-  because section 3 holds the nod count equal to completions. The latest event wins.
+  because section 3 holds the nod count equal to completions. The latest event wins, except that raise and accept wait behind an active stop (one waits; a newer one replaces it, flagged `dropped`; the waiting entry is flagged `queued`).
 - The mouth: `f.talk.words` holds the caption's word onsets (`aaWordOnsets`, spread by word length over the line's window).
   `talkStart` re-times them at the voice's rate; `talkWord(id, charIndex)` records boundaries in `f.talk.bw`, and once one
   arrives the mouth follows boundaries only. `aaVoiceHooks(world, id)` → `{ onstart, onboundary, onend }`. oh-voice.js does not

@@ -19,7 +19,7 @@ listens in these modules.
 | `WebXR/shared/aa-agent-portraits.js` | Portraits drawn from the new figure. `aaPortraitFigureRgba(agent, px)` takes the same spec, geometry and rest pose through the rasteriser: head and shoulders on the card colour with the card's corners. `aaPortraitFigurePng` caches it as a PNG. `aaPortrait(agent, { size, scale })` is the seam HIVE-4's tab calls: it shows the SVG badge at once, then the figure portrait at size × scale (2× or 3×). `aaPortraitImg` now returns the same, so the hive panel's cards and the governance roster change with no edit to their files. The card layout is unchanged. Tokens keep the SVG raster. |
 | `WebXR/parishes/js/app.js` | The outdoor avatar mount passes `hd: true` (one option). |
 | `tools/bundle_webxr.py` | `aa-agent-hd.js` goes before `aa-agent-portraits.js` in the parishes and the instructor bundles. |
-| `tools/check_agent_avatars.mjs` | Section 9, AVATARS-HD: 21 new checks (70 → 91). The rest of the checker still runs on the stub; section 9 imports the vendored three.js r160 (nothing renders). |
+| `tools/check_agent_avatars.mjs` | Section 9, AVATARS-HD: 22 new checks (70 → 92). The rest of the checker still runs on the stub; section 9 imports the vendored three.js r160 (nothing renders). |
 | `tools/drive_avatars_hd.mjs` (new, not in the gate) | The headless drive of the built pages. A is the per-tier cost in the page. B is the 1920×1080 stills and the draw calls with the seven in view. C is the instructor roster at 2× and 3×. |
 
 **Budget, stated:** `AA_HD_BUDGET` per figure on the desktop high tier is 12 meshes + sprites (crew.js `CT_AVATAR_BUDGET`, as
@@ -42,6 +42,7 @@ today's figure: three HD figures at about 2,700 triangles would take the cell ha
 | Mouth timing, stubbed voice (word boundaries) | no mouth | within **15.3 ms** of each boundary, **20 of 20** within 25 ms | §9f |
 | Mouth timing, voice off (caption word timing) | no mouth | within **20.0 ms** of each word onset, **20 of 20**; closes between words 19 of 19 | §9f |
 | Gestures fired per event type (real hive, seed 1, 120 steps, a seeded stand-in learner who approves) | stop 20, nod 45; no raise, accept or approve | bid → raise **200 of 200**, award → accept **67 of 67**, refused → stop **20 of 20**, approved → approve **47 of 47**, complete → nod **45 of 45** | §9g |
+| A refusal's stop hand held for its full 1.8 s (real hive, every frame sampled) | 15 of 20 (a bid's raise or an award's accept cut five short) | **20 of 20** (9 gestures waited behind a stop; 4 replaced while waiting) | §9g |
 | Each gesture's pose, measured on the bones mid-gesture | — | **5 of 5** (raise: hand above the head; accept: hand at the chest; stop: hand forward and up, palm out; approve and complete: head pitch > 0.2) | §9g |
 | No skin tone on the head and hands | — | closest **0.177** RGB to crew.js's 12 tones (≥ 0.15) | §9c |
 | Portraits from the new figure | SVG badges rasterised at 2× | **22 of 22** at 96 px (2×) and 144 px (3×), distinct 11 of 11. In the built instructor console: **11 of 11** cards drawn from the figure, 96 px PNGs at 48 px on a 2× screen and 144 px on a 3× screen | §9j; drive C |
@@ -119,6 +120,15 @@ and are the measure: balanced was +54 calls and +5,220 triangles in the cleaner 
    - Act: the body's emissive is now a cool blue-grey lift (0x5a6e82 at 0.5), so the role colour stays on the visor band,
      halo, caps, belt, badge and collar or yoke.
    - Observe: §9 unchanged (91/91); stills retaken with section B (`drive-out-3.txt`) and looked at again.
+8. **A stop hand held in full.**
+   - Reason: a bid's raise or an award's accept could cut a refusal's stop hand short when both reach one agent within 1.8 s.
+     Check: a new §9g line samples every agent's posed gesture every frame of the real hive's run; no frame inside a stop's
+     window may show raise or accept.
+   - Observe, before (the previous commit's module under the new line): **15 of 20** stops held; five were cut.
+   - Act: raise and accept wait behind a stop and start where it ends (at most one waits; a newer one replaces it). A newer stop
+     or nod still wins.
+   - Observe: **20 of 20**. 9 gestures waited and 4 were replaced while waiting; every event type is still logged N of N.
+     92/92. Committed 51d7a2f6.
 
 ## Stills (1920×1080, `$SP/loop10/ah/`, each looked at)
 
@@ -138,7 +148,7 @@ moment wanted (mouth over 0.9; mid-gesture), and hides the page's panels.
 
 ## Checkers (single runs)
 
-- `node tools/check_agent_avatars.mjs`: all 91 checks pass (70 before).
+- `node tools/check_agent_avatars.mjs`: all 92 checks pass (70 before).
 - `node tools/check_hive_world.mjs`: all 35 checks pass.
 - `node tools/check_hive3.mjs`: all 32 checks pass.
 - `node tools/check_avatars.mjs`: all avatar checks pass.
@@ -178,6 +188,5 @@ moment wanted (mouth over 0.9; mid-gesture), and hides the page's panels.
   a stubbed utterance that fires boundaries, and with the real oh-voice.js, which forwards none.
 - With voice on, the line (light, mouth, caption) starts when the line arrives, not at onstart (h3-next item 2).
 - The robotics rooms keep today's figure (budget, above). HD there needs a lighter level or a two-nearest rule (`ah-next.md`).
-- Today the latest gesture wins, so a bid's raise can cut a refusal's stop hand short for the same agent within 1.8 s.
 - Frame time was not measured. Draw calls and triangles were, in the page and in the checker.
 - The bundles were rebuilt for the drive and are not committed (the coordinator regenerates them).
