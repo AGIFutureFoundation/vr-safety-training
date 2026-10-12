@@ -52,7 +52,7 @@ const arena = JSON.parse(read("docs/evals/arena.json"));
 await check("contract: the four functions return the contract's shapes; deterministic; governor on every step; physical 0", () => {
   const models = raModels(), scs = raScenarios();
   // 9 since ARENA-2 (round 7): ra-lm-h sits beside ra-lm; the round-6b declaration still names the first eight (RA_MODELS_R6).
-  ok(models.length === 9 && models.slice(0, 7).concat(models.slice(8)).map((m) => m.id).join() === RA_MODELS_R6.join() && models.every((m) => m.id && m.family && m.trainedOn && m.params && typeof m.params === "object"), "raModels shape");
+  ok(models.length === 10 && models[7].id === "ra-lm-h" && models[8].id === "ra-lm-h48" && models.slice(0, 7).concat(models.slice(9)).map((m) => m.id).join() === RA_MODELS_R6.join() && models.every((m) => m.id && m.family && m.trainedOn && m.params && typeof m.params === "object"), "raModels shape");
   ok(scs.length === 12 && scs.every((s) => s.id && (s.kind === "gym" || s.kind === "station") && typeof s.hard === "boolean"), "raScenarios shape");
   ok(scs.filter((s) => s.hard).length === 3 && scs.filter((s) => s.kind === "station").length === 3, "3 hard variants and 3 stations");
   const a = raRun({ modelId: "bc", scenarioId: "rb-port-gantry#hard", seeds: DEV }), b = raRun({ modelId: "bc", scenarioId: "rb-port-gantry#hard", seeds: DEV });
@@ -66,7 +66,7 @@ await check("contract: the four functions return the contract's shapes; determin
   ok(raRun({ modelId: "reactive", scenarioId: "rb-cell-entry", seeds: DEV }).applicable === false, "reactive on a scenario without rules must be n/a");
   const lb = raLeaderboard([a, r]);
   ok(lb.length === 2 && lb.every((x) => x.rank && Array.isArray(x.ci95) && x.ci95.length === 2), "raLeaderboard rows");
-  return `9 models (8 of round 6b + ra-lm-h), 12 scenarios; bc on port#hard ${a.success} over dev seeds 1–5, twice identical; random cell-entry ${r.stops} stops`;
+  return `10 models (8 of round 6b + ra-lm-h + ra-lm-h48, protocol 3), 12 scenarios; bc on port#hard ${a.success} over dev seeds 1–5, twice identical; random cell-entry ${r.stops} stops`;
 });
 
 await check("declared first: arena-declared.json matches the code, committed before arena.json", () => {

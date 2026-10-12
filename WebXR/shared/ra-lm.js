@@ -37,6 +37,10 @@ export const RA_LM_PARAM_K = 5;
 export const RA_LM_H_VERSION = "ra-lm-h/1";
 export const RA_LM_H_LABEL = "small language-conditioned model trained here, with one hidden layer (tanh units between the scene features and the text-conditioned softmax; not a large language model)";
 export const RA_LM_H_TRAIN = { epochs: 10, lr: 0.1, l2: 1e-4, seed: 1, hidden: 24, interruptText: true };
+/** ra-lm-h48 (protocol 3, docs/evals/arena-declared-r8.json): ra-lm-h with one declared change, 48 hidden units, for the AMR base gap. */
+export const RA_LM_H48_VERSION = "ra-lm-h48/1";
+export const RA_LM_H48_LABEL = "small language-conditioned model trained here, with one hidden layer of 48 tanh units (ra-lm-h with more hidden units; not a large language model)";
+export const RA_LM_H48_TRAIN = { ...RA_LM_H_TRAIN, hidden: 48 };
 export const RA_LM_PARAM_ROWS = 600;
 /** The tasks the model trains on: the six gym games (base only; hard variants are held-out tasks) and, when a station
  * builder is handed in, the three robot stations. */
@@ -167,7 +171,7 @@ export function raLmTrain({ demosFor, texts, station = null, consented = [], bla
   // Training accuracy (on the training rows, for the record only).
   let correct = 0; for (const r of rows) { const mask = maskIdx[r.sc], x = H ? hid(r.s) : r.s; let best = -Infinity, bl = -1; for (const l of mask) { const v = raLmLogit(w, l * P, r.t, x, S); if (v > best) { best = v; bl = l; } } if (bl === li.get(r.label)) correct += 1; }
   return {
-    v: H ? RA_LM_H_VERSION : RA_LM_VERSION, kind: H ? RA_LM_H_LABEL : RA_LM_LABEL, T, D: RA_LM_D, labels, labelsByTask, blankText, train: O, tasks: taskList,
+    v: H === RA_LM_H48_TRAIN.hidden ? RA_LM_H48_VERSION : H ? RA_LM_H_VERSION : RA_LM_VERSION, kind: H === RA_LM_H48_TRAIN.hidden ? RA_LM_H48_LABEL : H ? RA_LM_H_LABEL : RA_LM_LABEL, T, D: RA_LM_D, labels, labelsByTask, blankText, train: O, tasks: taskList,
     params: w.length + (V ? V.length : 0), w: Array.from(w, raLmR4), ...(H ? { H, V: Array.from(V, raLmR4) } : {}), pReg, provenance, rows: rows.length, trainAccuracy: raLmR4(correct / rows.length),
     texts: { task: Object.fromEntries(Object.entries(texts.task).map(([k, v]) => [k, raLmTokens(v).length])), sources: texts.sources, stepTexts: Object.fromEntries(Object.entries(texts.steps).map(([k, m]) => [k, Object.keys(m).length])) },
     _tv: { task: tvTask, step: tvStep, ...(tvInt ? { int: tvInt } : {}) },

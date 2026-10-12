@@ -87,5 +87,13 @@
   "STRANDS-2": "robotics/strands: may run a parity check once on gym seeds 7241–7300, citing this commit, for models in this protocol (bc, ra-lm-h exported by tools/ra_export_weights.mjs): the Python path's successes and rule breaks per scenario must equal the claw's record (claw3.json). No new model is compared on these seeds by STRANDS-2.",
   "others": "no other consumer this round"
  },
- "amendments": []
+ "amendments": [
+  {
+   "n": 1,
+   "committed": "before any run on 7241–7300 (declaration ec8bf4c5); with the code (OC_PROTOCOL_3, ra-lm-h48, claw_eval --protocol 3)",
+   "hyperparameters": "unchanged (ra-lm-h48: H 48, tanh, 10 epochs, lr 0.1, l2 0.0001, seed 1, interruptText true): nothing was tuned. One stub run on development seeds 1–20 only (claw_eval --protocol 3 --dev, which writes nothing): AMR base ra-lm-h48 / ra-lm-h / bc 12/20 / 12/20 / 14/20; port base 19 / 19 / 20; port hard 12 / 10 / 13; AMR hard 4 / 3 / 1; every other scenario level. On development seeds the change did not move AMR base; it is run as declared and reported whatever it scores.",
+   "reactive": "the reactive rule policy has rules only for the AMR, port gantry and construction drilling scenarios (and their hard variants); on rb-cell-entry, rb-cobot-zone-setup and rb-teleop-pick-place it is not applicable, so those three declared comparisons end as not-applicable refusals and 33 of 36 can reach a verdict. Development seeds: AMR base 16/20 (0 rule breaks) vs bc 14/20, AMR hard 19/20 vs 1/20, port hard 20/20 vs 13/20.",
+   "stubTotals": "development stub: 36 comparisons, 1,740 episodes, governor 65,509 / 65,509 steps, physical 0, refusals 4 of 4 kinds exercised, chain intact"
+  }
+ ]
 }
