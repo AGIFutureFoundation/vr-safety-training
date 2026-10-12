@@ -1072,10 +1072,10 @@ APPS = {
             # robot rooms and the hive operations room (after ixr-robo-interiors.js, fx-exteriors.js, oh-hive-data.js).
             SHARED / "hd4-ultra.js",
             SHARED / "hd4-looks.js",
+            SHARED / "hd4-rooms.js",
             # ENV-HD-6 (docs/consoles/ENV-HD-6.md): kind cues on the four kinds' busiest generic buildings, the board lamps'
             # posts, Ultra's facade atlas for those buildings (after cw-cityworks.js and hd3-scenes.js).
             SHARED / "hd6-kinds.js",
-            SHARED / "hd4-rooms.js",
             # HIVE-5 (docs/consoles/HIVE-5.md): the hive in its operations room (the seven agents at their consoles, the screens
             # painted from the hive; after aa-agent-avatars.js, h3-hive-day.js, hd4-rooms.js and oh-hive.js, before hw-hive-world.js,
             # which hands it the room), and the console link (the panel's hive to the instructor console on this device).
