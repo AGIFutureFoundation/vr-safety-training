@@ -71,6 +71,7 @@ import { drMountDrills, drSetRecorder } from "../../shared/dr-drills.js";
 import { rbMountRobotics, rbGamesFor, rbRegisterMechanics } from "../../shared/rb-world.js";
 import { uxMountTabs, uxOnboarding } from "../../shared/ux-menu.js";
 import { dxMountConsent } from "../../shared/dx-consent-ui.js";
+import { dxFlush, dxPendingCount, dxStore } from "../../shared/dx-data.js";
 import { dxCaptureLesson, dxCaptureDrill, dxCaptureRollout } from "../../shared/dx-world.js";
 import { colMountCoLearn } from "../../shared/col-learn.js";
 import { rtMountTeleop } from "../../shared/rt-teleop.js";
@@ -1117,10 +1118,10 @@ window.__parishTest.colearn = colMountCoLearn($("menu-drills"), { reducedMotion:
 // ROBOTRAIN (docs/consoles/ROBOTRAIN.md): drive the teleop arm from a pointer pose; a take is kept only through DATAWORKS' recorder (inert unless opted in).
 // ROBOTRAIN-2: the pointer pad and touch drive the pose here; a WebXR session added to this app calls teleop.xr(frame, refSpace) from its frame callback and the controller takes over. The nearest arm rig on this map follows the pose live (no new mesh).
 // ROBOTRAIN-3: the pad drives the cell-entry task too (the select on the pad), the XR session loop above feeds it, a finished take
-// re-reads the learner's consented takes for the provider (vbLocal), and "Robot demonstrates back" replays the provider's policy as a ghost on the same rig.
+// re-reads the learner's consented takes for the provider (vbLocal; ROBOTRAIN-5: then re-renders the Me tab's count), and "Robot demonstrates back" replays the provider's policy as a ghost on the same rig.
 // ROBOTRAIN-4: on a cell site the pad also gets a walker figure (two boxes beside the rig, hidden until a take or the ghost moves it), so
 // "Robot demonstrates back" on the cell task walks the figure up the approach with its hand at each control (rtFollowCell).
-window.__parishTest.teleop = (() => { try { const host = document.createElement("div"); host.id = "rt-teleop"; $("menu-drills")?.append(host); const rtSite = rbWorld?.sites?.find((s) => s.rig === "cobot" || s.rig === "cell") ?? null; const rtRig = rtSite ? rbWorld.rigNode(rtSite.id) : null; return rtMountTeleop(host, { reducedMotion: npReduced, rig: rtRig, walker: rtSite?.rig === "cell" ? npWalkerFigure(rtRig) : null, task: rtSite?.rig === "cell" ? "rb-cell-entry" : "rb-teleop-pick-place", onTake: () => { vbLocal?.refresh().catch(() => {}); }, modelFor: (sc) => vbProvider?.modelFor(sc) ?? null }); } catch (_) { return null; } })();
+window.__parishTest.teleop = (() => { try { const host = document.createElement("div"); host.id = "rt-teleop"; $("menu-drills")?.append(host); const rtSite = rbWorld?.sites?.find((s) => s.rig === "cobot" || s.rig === "cell") ?? null; const rtRig = rtSite ? rbWorld.rigNode(rtSite.id) : null; return rtMountTeleop(host, { reducedMotion: npReduced, rig: rtRig, walker: rtSite?.rig === "cell" ? npWalkerFigure(rtRig) : null, task: rtSite?.rig === "cell" ? "rb-cell-entry" : "rb-teleop-pick-place", onTake: () => { vbLocal?.refresh().then(() => npDxPanel?.render?.()).catch(() => {}); }, modelFor: (sc) => vbProvider?.modelFor(sc) ?? null }); } catch (_) { return null; } })();
 function npWalkerFigure(rig) {
   if (!rig?.parent) return null;
   const w = new THREE.Group(); w.name = "rt-walker"; w.visible = false;
@@ -1141,6 +1142,10 @@ window.__parishTest.vbridge = vbMountDispatch($("menu-drills"), { reducedMotion:
 window.__parishTest.vbColearn = vbProvider;
 window.__parishTest.vbLocal = vbLocal;
 window.__parishTest.xr = npXRTest;
+// ROBOTRAIN-5: the page-level proof awaits the recorder's parked store writes (dxFlush resolves with the count written) and reads
+// the store's episode count; both are read-only views of what the recorder already did (nothing here records or uploads).
+window.__parishTest.dxFlush = dxFlush;
+window.__parishTest.dx = { flush: dxFlush, pending: () => dxPendingCount(), stored: async () => (await dxStore.list()).length };
 // PACKS: the Holodeck Packs that play in this map (docs/consoles/PACKS.md), the chosen STORYLINE path's first.
 npMountPacks($("menu-packs"), parish.id);
 // COGNITION: the K-12 learning module runner — this parish's lessons, each flow played through its GRIOT guide (docs/consoles/COGNITION.md).
@@ -1213,7 +1218,7 @@ function uxOpenMenu() {
   $("menu-start").focus();
 }
 uxPassport();
-dxMountConsent($("menu-dataworks"), { onChange: () => { vbLocal?.refresh().catch(() => {}); } }); // DATAWORKS: the consent panel in the Me tab (off by default); ROBOTRAIN-3: opt-in or revoke re-reads the learner's takes for the provider
+var npDxPanel = dxMountConsent($("menu-dataworks"), { onChange: () => { vbLocal?.refresh().catch(() => {}); } }); // DATAWORKS: the consent panel in the Me tab (off by default); ROBOTRAIN-3: opt-in or revoke re-reads the learner's takes for the provider
 $("ux-menu-open").addEventListener("click", uxOpenMenu);
 $("ux-open-map").addEventListener("click", () => npToggle("map"));
 $("ux-open-ways").addEventListener("click", () => npToggle("parishes"));
