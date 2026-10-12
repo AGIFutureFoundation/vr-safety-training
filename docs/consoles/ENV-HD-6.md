@@ -39,9 +39,9 @@
 | cue parts on a carriageway / in water / into another building / within 1.5 m of the board | — | **0 / 0 / 0 / 0** at all four sites | `check_hd6` §2; mutations: yards on the board's side → "11 parts within 1.5 m"; a 60 m lane → "1 part on a carriageway" |
 | night lamp bars floating (boards with no post) | **90** on the three maps (every board: 27 + 35 + 28) | **0** (90 of 90 with a post, arm and housing over the lit face) | `check_hd6` §4; looked at in every night still |
 | street cameras clear of every tree (no crown within 5 m) | **6 of 7** (the park: 0.2 m from a KREWE live oak's crown) | **7 of 7** (the park: 11.0 m) | `node tools/check_exteriors.mjs` (7 new lines); `$SP/loop10/hd6/probe/cams.mjs` (13 of 14 cameras unchanged) |
-| Ultra hero buildings | **0** of 4 | **4 of 4** built, inside the stated budget (2048 px atlas 21.33 MiB ≤ 24 MiB a map; 8 tris a building); 2 of 4 shot in the page, 4 of 4 when drive D finishes (see Stills) | `check_hd6` §5; drive C; drive D |
+| Ultra hero buildings | **0** of 4 | **4 of 4** built, inside the stated budget (2048 px atlas 21.33 MiB ≤ 24 MiB a map; 8 tris a building), measured in the page on all three maps and shot 4 of 4 (8 stills) | `check_hd6` §5; drives C and D |
 | phone tier unchanged | — | **unchanged**: no hd6 mesh on low (headless and in the page), np-world.js untouched; `check_facades` 2,977 and `check_hd4` 127 pass as before | `check_hd6` §1b and §6; drive C (low: 0 cue meshes) |
-| page errors / external requests | — | **0 / 0** in drives A, B, C | the drives' last lines |
+| page errors / external requests | — | **0 / 0** in drives A, B, C, D | the drives' last lines |
 | `check_exteriors` | 309 pass | **316** pass | `node tools/check_exteriors.mjs` |
 | `check_hd6` | — (new) | **118** pass | `node tools/check_hd6.mjs` |
 | `check_facades` · `check_hd4` | 2,977 · 127 | **2,977 · 127** pass | each checker |
@@ -93,7 +93,15 @@ $SP/loop10/hd6/ultra '[…]'`, page `?tier=high&ultra=1`):
 | `orleans-hospital-street-ultra-day.jpg` | `hospital-district:street` (Ultra) | 211 | 169,499 | white panels, two ribbon-window bands, a blue band |
 | `orleans-hospital-wide-ultra-day.jpg` | `hospital-district:wide` (Ultra) | 200 | 222,053 | the panelled block behind the canopy |
 
-The school and park Ultra stills are in drive D (`$SP/loop10/hd6/driveD.txt`); see the hand-back for their state.
+Drive D (the same probe with only the Ultra load, on sf-mission and sf-marina — "page errors 0, external requests 0, 251 s,
+load 22.51" and "… 258 s, load 24.22"; Ultra 2048 px, 21.33 MiB, 8 triangles on each map):
+
+| still | preset id | draw calls | triangles | notes |
+|---|---|---|---|---|
+| `sf-mission-school-street-ultra-day.jpg` | `mission-school-campus:street` (Ultra) | 115 | 226,610 | buff brick, tall teal-framed windows, a yellow band; the canopy behind the yard's bus |
+| `sf-mission-school-wide-ultra-day.jpg` | `mission-school-campus:wide` (Ultra) | 125 | 235,835 | the brick school with its canopy and fenced play yard among the rowhouses |
+| `sf-marina-park-street-ultra-day.jpg` | `presidio-crew-yard:street` (Ultra) | 120 | 179,225 | timber boards and windows under the green gable roof |
+| `sf-marina-park-wide-ultra-day.jpg` | `presidio-crew-yard:wide` (Ultra) | 154 | 181,873 | the timber crew house, pavilion and shed, the bridge behind |
 
 **For the video review and the deck:** `orleans-fire-station-street-day.jpg` (bays and hose tower),
 `orleans-hospital-street-ultra-day.jpg` (the canopy, the H and the panelled facade), `orleans-fire-station-street-night.jpg`
