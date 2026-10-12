@@ -13,6 +13,9 @@
  *      step's governor decision in step order (the real vbRun with the supervisor's e-stop, and a scripted monitor run with an
  *      inside-separation step: green -> amber -> red), the more severe of the run and the site's own state wins, a halted run
  *      keeps its last decision until the next job, a clean run hands back; no run -> the default lights exactly.
+ *   3c. The preview and the real run agree (ROBOTS-HD-3): the real vb-panel.js (stand-in DOM) with the page's provider hook;
+ *      for every job the governor lets through and every E-stop step, the preview's governor decision equals the real run's at
+ *      every step before the stop, the real run stops there with "estop", and a clean run matches its preview in full.
  *   4. Motion: the arm's joints eased (zero speed at each key pose, no jump between frames); the AMR's wheels turn by the
  *      distance it travels and hold still when it stops.
  *   5. Rooms: the robot rooms with the HD robots (and ENV-HD-4's lighting, with and without Ultra) inside IX_BUDGET /
@@ -212,6 +215,50 @@ console.log("3b. the light follows a live agent-jobs run");
   check(o1 === own() && sameD === nD, `a run on another map's site leaves this robot on its own state (${o1}); with no run the lights, pose and zone are the default's exactly: ${sameD} of ${nD} steps`);
 }
 
+// ------------------------------------------------------------------- 3c. the preview and the real run agree (ROBOTS-HD-3)
+console.log("3c. the panel's preview frames and its real governor run agree step for step");
+{
+  // While a job plays, the light follows the panel's PREVIEW frames (vbRun on a copy with a fresh governor); the panel's own
+  // governor runs the REAL run when the supervisor steps past the end or presses E-stop, and that run is what the audit keeps.
+  // This drives the real vb-panel.js (a stand-in DOM, no browser) with the page's provider hook (vb-colearn.js): for every job
+  // in VB_PANEL_QUEUE the governor lets through, and for every E-stop step k (plus the clean run to the end), the jobs before
+  // it are approved and run to the end first (the panel's governor carries their chain), then the preview's decision at each
+  // step before the stop must equal the real run's, the real run must stop at k with "estop", and a clean run must match
+  // the preview in full. The light is a function of (site state, decision), so equal decisions light the same.
+  const VBP = await imp("shared/vb-panel.js"), VBC = await imp("shared/vb-colearn.js");
+  const el = () => ({ style: {}, dataset: {}, children: [], textContent: "", disabled: false, onclick: null, appendChild(c) { this.children.push(c); return c; }, setAttribute() {} });
+  const hadDoc = "document" in globalThis, prevDoc = globalThis.document;
+  globalThis.document = { createElement: el };
+  const provider = VBC.vbColearnProvider({});
+  const mount = () => VBP.vbMountDispatch(el(), { reducedMotion: true, policyFor: (p, env, seed) => provider.policyFor(p, env, seed), providerLabel: (sc) => provider.describe(sc) });
+  const Q = VBP.VB_PANEL_QUEUE;
+  // Bring a fresh panel to job j with every earlier job approved (when the governor allows it) and stepped to its end.
+  const panelAt = (j) => { const p = mount(); for (let i = 0; i < j; i++) { const jb = p.next(); if (jb.phase !== "NEGOTIATION") continue; p.approve(); let g = 0; while (p.state().run && g++ < 500) p.step(); } return p; };
+  let steps = 0, agree = 0, stops = 0, stopsOk = 0, clean = 0, cleanOk = 0, jobsRun = 0; const bad = [], perJob = [];
+  for (let j = 0; j < Q.length; j++) {
+    const probe = panelAt(j), jb = probe.next();
+    if (jb.phase !== "NEGOTIATION") { perJob.push(`${Q[j].seed}: refused (${jb.governor?.primary})`); continue; }
+    probe.approve(); const n = probe.state().run?.of ?? 0; if (!n) { perJob.push(`${Q[j].seed}: no frames`); continue; }
+    jobsRun++; let jobSteps = 0, jobAgree = 0;
+    for (let k = 0; k <= n; k++) { // k < n: the supervisor's E-stop at step k; k === n: stepped to the end (no E-stop)
+      const p = panelAt(j); p.next(); p.approve();
+      const preview = [];
+      for (let i = 0; i < k && p.state().run; i++) { preview.push(p.state().run.action); p.step(); }
+      if (k < n) { if (!p.state().run) { bad.push(`${Q[j].seed}@${k}: preview ended early`); continue; } preview.push(p.state().run.action); p.estop(); }
+      const real = p.state().job.deliverable.episode.steps.map((s) => s.info.governor);
+      const upto = k < n ? k : Math.max(preview.length, real.length);
+      for (let i = 0; i < upto; i++) { steps++; jobSteps++; if (preview[i] === real[i]) { agree++; jobAgree++; } else if (bad.length < 6) bad.push(`${Q[j].seed}@${k} step ${i}: preview ${preview[i]} / real ${real[i]}`); }
+      if (k < n) { stops++; if (real.length === k + 1 && real[k] === "estop" && p.state().job.deliverable.evalCard.halted?.action === "estop") stopsOk++; else if (bad.length < 6) bad.push(`${Q[j].seed}@${k}: real run ${real.length} steps ending ${real[real.length - 1]}`); }
+      else { clean++; if (real.length === preview.length) cleanOk++; else if (bad.length < 6) bad.push(`${Q[j].seed} clean: preview ${preview.length} / real ${real.length}`); }
+    }
+    perJob.push(`${Q[j].seed}: ${jobAgree}/${jobSteps} over ${n + 1} runs`);
+  }
+  if (hadDoc) globalThis.document = prevDoc; else delete globalThis.document;
+  console.log(`  per job: ${perJob.join("; ")}`);
+  check(jobsRun >= 5 && perJob.length === Q.length && steps > 0 && agree === steps, `the preview's governor decision equals the real run's at every step before the stop: ${agree} of ${steps} steps over ${jobsRun} jobs the governor let through (of ${Q.length} queued; the rest refused before any run) and ${stops + clean} runs`, bad.join(" | "));
+  check(stopsOk === stops && cleanOk === clean, `the real run stops at the supervisor's E-stop step with "estop" (${stopsOk} of ${stops}) and a clean run is as long as its preview (${cleanOk} of ${clean})`, bad.join(" | "));
+}
+
 // --------------------------------------------------------------------------------------------------------- 4. motion
 console.log("4. motion");
 const arm = RHD.rhdBuildRobot(THREE, "cobot"), ang = (p) => { arm.pose(p); return [arm.links.upper.rotation.x, arm.links.fore.rotation.x, arm.links.wrist.rotation.x]; };
@@ -257,7 +304,8 @@ for (const st of STYLES) {
     const spec = RHD.RHD_ROOM_ROBOTS[st], left = [];
     b.group.traverse((o) => { if (o.isInstancedMesh && o.userData.ixrTags) left.push(...o.userData.ixrTags.filter((t) => spec.strip.some(([tag]) => tag === t))); });
     const strippedOk = st === "ixr-cobot-lab" ? left.every((t) => t === "second cobot cell") && left.length >= 1 : left.length === 0;
-    check(strippedOk && b.rhd.dropped > 0, `${st}: the HD robots replace ROBO-INTERIORS' blocky robot (${b.rhd.dropped} parts dropped${st === "ixr-cobot-lab" ? `, the second cell's bench kept` : ""})`);
+    if (st === "ixr-port-control") check(spec.strip.length === 0 && b.rhd.dropped === 0, `${st}: the straddle carrier in the window replaces nothing (the room had no robot body; ${b.rhd.dropped} parts dropped)`); // ROBOTS-HD-3
+    else check(strippedOk && b.rhd.dropped > 0, `${st}: the HD robots replace ROBO-INTERIORS' blocky robot (${b.rhd.dropped} parts dropped${st === "ixr-cobot-lab" ? `, the second cell's bench kept` : ""})`);
   }
 }
 check(inBudget === STYLES.length, `robot rooms inside IX_BUDGET with the HD robots (${IX.IX_BUDGET.meshes} meshes, ${IX.IX_BUDGET.triangles.high} tris, ${IX.IX_BUDGET.lights.high} lights): ${inBudget} of ${STYLES.length} (${withHd} carry HD robots)`);
@@ -273,6 +321,44 @@ const lit = build("ixr-amr-warehouse", "high", roomsWith({ rhd: true }));
 const L1 = RHD.rhdRoomLights(lit, { mode: "stop", estopped: false, locked: false }), L2 = RHD.rhdRoomLights(lit, null);
 const bay = build("ixr-maint-bay", "high", roomsWith({ rhd: true })), L3 = RHD.rhdRoomLights(bay, { mode: "full", estopped: false, locked: false });
 check(L1.every((x) => x === "protective-stop") && L2.every((x) => x === null) && L3.every((x) => x === null), "room robots show their site's state, dark with none, and the locked-out robots on the stand and the lift stay dark");
+// ROBOTS-HD-3 with AVATARS-HD-5 (heartbeat 20:20 / 20:22): a robot room's figure cap counts every mesh that CAN be drawn, as
+// ixrMeasure counts — visible, or hidden but shown by a state (the floor zones, tagged userData.rhdCanShow); a mesh hidden for
+// good must leave the room's group. With that count, three agent figures at the crowd budget must fit beside the HD robots in
+// every robot room, so no agent is held; the AMR's room level (rooms never move their robots) is what makes the warehouse fit.
+{
+  const AAH = await imp("shared/aa-agent-hd.js"), AAV = await imp("shared/aa-agent-avatars.js");
+  const cap = AAV.AA_ROOM_TRI_CAP, nFig = AAV.AA_ROOM_FIGURES, crowd = AAH.AA_HD_CROWD_BUDGET.triangles;
+  let fit = 0, forGood = 0, canShow = 0; const rows = [];
+  for (const st of STYLES) {
+    const room = build(st, "high", roomsWith({ rhd: true })), own = IXR.ixrMeasure(room).triangles;
+    room.group.traverse((o) => {
+      if (!o.isMesh) return;
+      let shown = true, tagged = false; for (let p = o; p && p !== room.group.parent; p = p.parent) { if (!p.visible) shown = false; if (p.userData?.rhdCanShow) tagged = true; }
+      if (!shown) { if (tagged) canShow++; else forGood++; }
+    });
+    const room3 = own + nFig * crowd; if (room3 <= cap) fit++;
+    rows.push(`${st.replace("ixr-", "")} ${own} + ${nFig} x ${crowd} = ${room3}`);
+  }
+  check(forGood === 0 && canShow > 0, `the robot rooms' hidden meshes are all ones a state can show (floor zones): ${canShow} can show, ${forGood} hidden for good`);
+  check(fit === STYLES.length, `three agent figures at the crowd budget fit beside the HD robots under the room cap (${cap}), so none is held: ${fit} of ${STYLES.length} (${rows.join("; ")})`);
+  const amrF = RHD.rhdBuildRobot(THREE, "amr"), amrR = RHD.rhdBuildRobot(THREE, "amr", { detail: "room" }), BR = RHD.RHD_BUDGET["amr-room"];
+  const wh = build("ixr-amr-warehouse", "high", roomsWith({ rhd: true }));
+  // ROBOTS-HD-3: the port control room's robot, out in the yard: a straddle carrier as a relief in one window pane, inside its
+  // stated budget, between the window picture (ixr "window wall") and the mullions' front faces, inside the picture's height,
+  // clear of every mullion, its beacons showing the port site's state (dark with none) and no floor zone.
+  {
+    const pr = build("ixr-port-control", "high", roomsWith({ rhd: true })); pr.group.updateMatrixWorld(true);
+    const q = pr.rhd.robots[0], SB = RHD.RHD_BUDGET.straddle, bx = new THREE.Box3().setFromObject(q.robot.group), win = pr.group.getObjectByName("ixr-window-wall");
+    const mull = []; pr.group.traverse((o) => { if (o.isInstancedMesh && o.userData.ixrTags) { const m4 = new THREE.Matrix4(), p = new THREE.Vector3(); o.userData.ixrTags.forEach((t, i) => { if (t === "mullions") { o.getMatrixAt(i, m4); p.setFromMatrixPosition(m4); mull.push(p.x); } }); } });
+    const winH = win.geometry.parameters.height, clearOfMullions = mull.length > 0 && mull.every((x) => x + 0.04 < bx.min.x || x - 0.04 > bx.max.x);
+    const inBand = bx.min.z > win.position.z && bx.max.z < win.position.z + 0.12 && bx.min.y >= win.position.y - winH / 2 && bx.max.y <= win.position.y + winH / 2;
+    const lit = RHD.rhdRoomLights(pr, { mode: "stop", estopped: false, locked: false }, { x: 0, z: 0 }), dark = RHD.rhdRoomLights(pr, null), red = RHD.rhdRoomLights(pr, { mode: "full", estopped: true, locked: false });
+    const mp = IXR.ixrMeasure(pr);
+    check(pr.rhd.robots.length === 1 && q.kind === "straddle" && q.robot.triangles <= SB.triangles && q.robot.calls <= SB.calls && !q.robot.zone && inBand && clearOfMullions && lit[0] === "protective-stop" && dark[0] === null && red[0] === "e-stop" && mp.meshes <= IX.IX_BUDGET.meshes && mp.triangles <= IX.IX_BUDGET.triangles.high,
+      `the port control room's straddle carrier: ${q.robot.triangles} triangles, ${q.robot.calls} draw calls (<= ${SB.triangles} / ${SB.calls}); a relief ${(bx.max.z - bx.min.z).toFixed(3)} m deep between the window picture (z ${win.position.z}) and the mullions, y ${bx.min.y.toFixed(2)}-${bx.max.y.toFixed(2)} inside the picture, clear of ${mull.length} mullions; beacons ${lit[0]} / ${red[0]} / dark with no state; no floor zone; room ${mp.meshes} meshes / ${mp.triangles} tris`);
+  }
+  check(amrR.triangles <= BR.triangles && amrR.calls <= BR.calls && amrR.triangles < amrF.triangles && JSON.stringify(Object.keys(amrR.links)) === JSON.stringify(Object.keys(amrF.links)) && wh.rhd.robots.every((q) => q.robot.triangles === amrR.triangles), `the AMR's room level: ${amrF.triangles} -> ${amrR.triangles} triangles, ${amrR.calls} draw calls (<= ${BR.triangles} / ${BR.calls}), same links and light; both warehouse AMRs use it; outdoors keeps the full AMR (§1)`);
+}
 
 // ------------------------------------------------------------------------------- 5b. the floor zone indoors (ROBOTS-HD-2)
 console.log("5b. the floor zone indoors: a walk past every robot");
@@ -283,7 +369,7 @@ console.log("5b. the floor zone indoors: a walk past every robot");
   for (const st of Object.keys(RHD.RHD_ROOM_ROBOTS)) {
     const room = build(st, "high", roomsWith({ rhd: true }));
     const rs = room.rhd.robots, withZone = rs.filter((q) => q.robot.zone);
-    for (const q of rs) { if (q.robot.zone) { zoned++; const wp = new THREE.Vector3(); q.robot.zone.getWorldPosition(wp); if (Math.abs(wp.y) < 1e-6) onFloor++; } else if (q.light === "site") zoned = -999; }
+    for (const q of rs) { if (q.robot.zone) { zoned++; const wp = new THREE.Vector3(); q.robot.zone.getWorldPosition(wp); if (Math.abs(wp.y) < 1e-6) onFloor++; } else if (q.light === "site" && q.zone !== false) zoned = -999; } // ROBOTS-HD-3: the port room's carrier is out in the yard (zone: false)
     const start = { x: room.door.x, z: room.door.z - 0.8, yaw: 0, pitch: 0 };
     const seenIn = new Map(withZone.map((q) => [q, false]));
     // The learner walks from the door to a point beside each robot (the first walkable one of a few offsets), and back.
@@ -312,7 +398,7 @@ console.log("5b. the floor zone indoors: a walk past every robot");
     }
     IXR.ixrWalkTo(room, from, start, rec);
   }
-  check(zoned > 0 && onFloor === zoned, `every room robot that shows its site's state has a floor zone on the room floor (benches lift the robot, not the zone): ${onFloor} of ${zoned}; the maintenance bay's locked-out robots have none`);
+  check(zoned > 0 && onFloor === zoned, `every room robot that shows its site's state has a floor zone on the room floor (benches lift the robot, not the zone): ${onFloor} of ${zoned}; the maintenance bay's locked-out robots and the port room's carrier out in the yard have none`);
   check(steps > 0 && okSteps === steps && robotsShown === robotsN, `walking from the door past each robot (ixrWalkTo): the zone shows exactly inside the warning distance ${okSteps} of ${steps} robot-steps; inside it at least once for ${robotsShown} of ${robotsN} robots (${lines.join(", ")})`);
   check(darkN > 0 && darkOk === darkN, `with no site state (the site on another map) every zone stays dark: ${darkOk} of ${darkN} steps`);
 }

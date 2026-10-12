@@ -112,6 +112,17 @@ export const AA_EVENT_TYPES = Object.freeze(["speak", "move", "bid", "award", "d
 /** AVATARS-HD-4: HIVE-6's mood event ({ type: "mood", agent, mood, from?, cause }), listened to besides the contract's types, guarded:
  * an unknown mood or agent is ignored, and a source that never emits one leaves every pose as it was. */
 export const AA_MOOD_EVENT = "mood";
+/** AVATARS-HD-5: an agent's current mood from a source that keeps one (HIVE-6's hive.mood(id), or a relay's `.hive`), as
+ * { mood, cause } or null. A figure that enters mid-day takes the mood the hive already has, so its posture names the same mood as
+ * HIVE-7's glow (which seeds from hive.mood(id) as the ops room opens) before the next mood event. Guarded: a source without
+ * moods, a throwing one or an unknown mood gives null. */
+export function aaMoodOf(source, id) {
+  const s = source && typeof source.mood === "function" ? source : source?.hive && typeof source.hive.mood === "function" ? source.hive : null;
+  if (!s || !id) return null;
+  let m = null; try { m = s.mood(id); } catch (_) { m = null; }
+  const mood = typeof m === "string" ? m : m?.mood;
+  return typeof mood === "string" && AA_HD_MOODS.includes(mood) ? { mood, cause: (m && typeof m === "object" ? m.cause : null) ?? null } : null;
+}
 /** Standing spots around a site centre ([dx, dz] m): north, west and east sides, 9.3–16 m out. */
 export const AA_SLOTS = Object.freeze([[-4, -9.5], [4, -9.5], [-10.5, -3], [10.5, -3], [0, -12.5], [-10.5, 3], [10.5, 3], [-8, -13], [8, -13], [-13, -8], [13, -8], [0, -16]]);
 
@@ -208,15 +219,29 @@ export function aaRoomRoute(room, router, { radius = 0.3, margin = 0.05, step = 
  * level of the high-detail figure on the desktop high tier (seven figures and the room inside IX_BUDGET); balanced keeps today's figure
  * (HIVE-5 lightens it there) and the phone tier builds none. `extra`: { voiced, room, router } (room + router: walks go round the
  * consoles; aaRoomRoute). */
-export function aaCrowdAvatarMount({ room = null, router = null, nearest = null, learner = null, ...extra } = {}) {
+export function aaCrowdAvatarMount({ room = null, router = null, nearest = null, learner = null, triCap = AA_ROOM_TRI_CAP, ...extra } = {}) {
   const route = aaRoomRoute(room, router);
   return (opts = {}) => {
     // AVATARS-HD-4: the console nearest the learner as they enter gets the room level (chosen once, here, when the room mounts: no swap
     // while the learner moves, since a swap rebuilds a skinned mesh); the rest stay at the crowd level.
-    const role = nearest && AA_HD_LOD[nearest] ? aaNearestRole(room, learner, { agents: opts.agents, level: nearest }) : null;
+    // AVATARS-HD-5: the headroom is measured when the room mounts (aaRoomHeadroom: the cap less the room's own triangles and every
+    // agent's crowd figure), not the constant AA_HD_NEAR_EXTRA, so anything later added to the room comes out of the room-level figure
+    // first: the room stays inside its cap and every figure falls back to the crowd level.
+    const role = nearest && AA_HD_LOD[nearest] ? aaNearestRole(room, learner, { agents: opts.agents, level: nearest, extra: aaRoomHeadroom(opts.parent, opts.agents, triCap) }) : null;
     const hdFor = role ? (a) => (a?.key === role ? nearest : null) : null;
     return aaMountAgentAvatars({ ...opts, ...(route ? { route } : {}), ...(hdFor ? { hdFor } : {}), ...extra, hd: "crowd" });
   };
+}
+
+/** AVATARS-HD-5: the triangles a room has left for one figure above the crowd level: `cap` less the room group's own triangles (counted
+ * as ixrMeasure counts: every mesh, instanced ones times their count) and every agent's crowd figure. The ops room at a10f1ff8: 6,000 −
+ * (2,022 + 3,564) = 414 = AA_HD_NEAR_EXTRA. Without a parent, the cap less the figures. */
+export function aaRoomHeadroom(parent, agents = [], cap = AA_ROOM_TRI_CAP) {
+  let own = 0;
+  parent?.traverse?.((o) => { if (!o.isMesh) return; const g = o.geometry, c = g?.index ? g.index.count : g?.attributes?.position?.count ?? 0; own += (c / 3) * (o.isInstancedMesh ? o.count : 1); });
+  let crowd = 0;
+  for (const a of agents ?? []) { try { crowd += aaHdGeometry(aaHdSpec(a), "crowd").triangles.total; } catch (_) { crowd += AA_HD_CROWD_BUDGET.triangles; } }
+  return cap - own - crowd;
 }
 
 /** AVATARS-HD-4: the role of the agent spot (room.spots.agent) nearest the learner: `learner` is { x, z } or a function returning it
@@ -397,7 +422,7 @@ function aaCountObject(obj) {
  * answers this map's site position ({ x, y, z } / [x, z] / null when the site is not on this map). `here` passed to
  * animate is the learner's [x, z] (null = everyone near). Headless without `three`: the state machine still runs.
  */
-export function aaMountAgentAvatars({ three = null, parent = null, agents = [], source = null, siteAt = () => null, reducedMotion = false, tier = "high", groundAt = null, spotFor = null, textureScale = 1, blocked = null, route = null, hd = false, voiced = null, now = null, hdFor = null, triCap = null, capFigures = 1 } = {}) {
+export function aaMountAgentAvatars({ three = null, parent = null, agents = [], source = null, siteAt = () => null, reducedMotion = false, tier = "high", groundAt = null, spotFor = null, textureScale = 1, blocked = null, route = null, hd = false, voiced = null, now = null, hdFor = null, triCap = null, capFigures = 1, moodOf = null } = {}) {
   const T = three;
   const build = !!(T && parent && AA_TIERS[tier] !== false);
   // AVATARS-HD: the high-detail figure is opt-in (the outdoor mount asks for it) and only ever on the desktop "high" tier; balanced
@@ -492,6 +517,7 @@ export function aaMountAgentAvatars({ three = null, parent = null, agents = [], 
         walkPhase: 0, mood: null, idleK: 1, idleOff: 0, blinkPeriod: 3.2 + (hh % 200) / 100, blinkOff: ((hh >>> 8) % 300) / 100, mouth: 0 };
       if (spot) ensureFig(f); // an agent whose site is on another map gets its figure when it first arrives here
       figures.set(a.id, f);
+      seedMood(f); // AVATARS-HD-5: an agent added mid-day stands in the mood its hive already has
     }
     return figures.size;
   }
@@ -641,14 +667,23 @@ export function aaMountAgentAvatars({ three = null, parent = null, agents = [], 
 
   /** AVATARS-HD-4: the agent's mood (HIVE-6's event), for the posture; logged with its cause. The idle clock keeps its phase across a
    * tempo change (busy), so the figure never jumps. */
-  function setMood(f, ev) {
+  function setMood(f, ev, seeded = false) {
     const mood = String(ev.mood ?? ""); if (!AA_HD_MOODS.includes(mood)) return false;
     const k = hdOn ? aaHdMoodTempo(f.fig?.hd?.spec ?? (f.spec ??= aaHdSpec(f.agent)), mood) : 1;
     if (k !== f.idleK) { f.idleOff += clock * (f.idleK - k); f.idleK = k; }
-    f.mood = { mood, cause: ev.cause ?? null, at: clock };
-    moodLog.push({ agent: f.agent.id, mood, from: ev.from ?? null, cause: ev.cause ?? null, at: clock, t: ev.t ?? null });
+    f.mood = { mood, cause: ev.cause ?? null, at: clock, ...(seeded ? { seeded: true } : {}) };
+    if (!seeded) moodLog.push({ agent: f.agent.id, mood, from: ev.from ?? null, cause: ev.cause ?? null, at: clock, t: ev.t ?? null });
     if (f.fig?.hd) poseHd(f);
     return true;
+  }
+  /** AVATARS-HD-5: a figure without a mood yet takes the one its hive already has (the `moodOf(id)` option, else aaMoodOf over the
+   * attached sources); not logged as an event (moodLog stays the hive's own mood events). */
+  function seedMood(f) {
+    if (f.mood) return false;
+    let m = null;
+    if (typeof moodOf === "function") { try { m = moodOf(f.agent.id); } catch (_) { m = null; } m = typeof m === "string" ? { mood: m } : m; }
+    if (!m?.mood) for (const s of sources) { m = aaMoodOf(s, f.agent.id); if (m) break; }
+    return m?.mood ? setMood(f, { mood: m.mood, cause: m.cause ?? null }, true) : false;
   }
 
   function moveTo(f, siteId) {
@@ -791,6 +826,7 @@ export function aaMountAgentAvatars({ three = null, parent = null, agents = [], 
       try { const fn = (ev) => handle({ ...ev, type: AA_MOOD_EVENT }); s.on(AA_MOOD_EVENT, fn); fns.push([AA_MOOD_EVENT, fn]); } catch (_) { /* a source without moods */ } // AVATARS-HD-4
       subs.set(s, fns); sources.add(s);
     }
+    for (const f of figures.values()) seedMood(f); // AVATARS-HD-5
     return sources.size;
   }
   function detach(src) { const fns = subs.get(src); if (!fns) return; for (const [type, fn] of fns) { try { src.off?.(type, fn); } catch (_) { /* gone */ } } subs.delete(src); sources.delete(src); }
