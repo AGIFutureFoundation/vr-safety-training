@@ -16,7 +16,8 @@
 //   { t, type: "speak" | "move" | "bid" | "award" | "dispatch" | "refused" | "approval-request" | "complete",
 //     agent, text?, to?: siteId, jobId?, reason?, caption? }
 //   move     → walks to a free standing spot at the target site (property writes per frame, only within GRIOT's
-//              animate radius of the learner, hidden beyond its hide radius); a long move or reduced motion jumps.
+//              animate radius of the learner, hidden beyond its hide radius); a move longer than AA_WALK_MAX re-projects
+//              the agent AA_WALK_IN m short of the spot and it walks in; reduced motion or an off-map start jumps.
 //   speak    → the talk light runs for exactly the line (aaLineMs, queued per agent so an agent never talks over
 //              itself; talkStart/talkEnd let an on-device voice drive it instead) and a caption bubble shows the
 //              line above the figure.
@@ -34,7 +35,7 @@
 // SEAM (the contract in the loop-10 brief):
 //   aaMountAgentAvatars({ three, parent, agents, source, siteAt, reducedMotion, tier, groundAt })
 //     -> { root, handle(ev), animate(t, dt, here), attach(source), detach(source), addAgents(list), agents(),
-//          state(id), talkStart(id), talkEnd(id), talkLog(), captionLog(), counts(), dispose() }
+//          state(id), talkStart(id), talkEnd(id), talkLog(), captionLog(), gestureLog(), counts(), dispose() }
 //   aaVbridgeAgents(homeSite) -> the four VBRIDGE personas as agents standing at homeSite
 //   aaVbridgeSource(vbApi)    -> an on/off source that turns the agent-jobs panel's job (vbApi.state()) into
 //                                contract events: the client asks, the governor checks or refuses, the provider
@@ -51,9 +52,11 @@ export const AA_AGENT_BUDGET = CT_AVATAR_BUDGET;
 /** GRIOT's radii (npc.js GR_ANIMATE_RADIUS, GR_HIDE_RADIUS); check_agent_avatars holds them equal. */
 export const AA_ANIMATE_RADIUS = 150;
 export const AA_HIDE_RADIUS = 600;
-/** Walking speed (m/s) and the longest walk; a longer move re-projects the agent at the target (a jump). */
+/** Walking speed (m/s) and the longest walk. A longer move (robot sites on one map can be a kilometre apart) re-projects
+ * the agent AA_WALK_IN metres short of the target, on the line from where it was, and it walks the rest in. */
 export const AA_WALK_SPEED = 2.2;
 export const AA_WALK_MAX = 150;
+export const AA_WALK_IN = 24;
 /** A line's duration with no voice driving it: 400 ms plus the words at AA_WPM, clamped. */
 export const AA_WPM = 165;
 export const AA_LINE_MS = Object.freeze({ min: 1500, max: 12000 });
@@ -222,7 +225,7 @@ export function aaMountAgentAvatars({ three = null, parent = null, agents = [], 
   if (root) { root.name = "aa-agent-avatars"; parent.add(root); }
   const figures = new Map();
   const occupied = new Map(); // siteId -> Set(slot index)
-  const talkLog = [], captionLog = [];
+  const talkLog = [], captionLog = [], gestureLog = [];
   let clock = 0, textureBytes = 0;
   const sources = new Set();
   const subs = new Map();
@@ -308,12 +311,12 @@ export function aaMountAgentAvatars({ three = null, parent = null, agents = [], 
     }
     if (ev.type === "move") { moveTo(f, ev.to); return true; }
     if (ev.type === "refused") {
-      f.gesture = { kind: "stop", start: clock, end: clock + AA_GESTURE_MS.stop / 1000 };
+      f.gesture = { kind: "stop", start: clock, end: clock + AA_GESTURE_MS.stop / 1000 }; gestureLog.push({ agent: f.agent.id, ...f.gesture, reason: ev.reason ?? null });
       const t = ev.caption ?? ev.text ?? (ev.reason ? `Stopped: ${ev.reason}` : null);
       if (t && !f.talk) showCaption(f, t, clock, clock + Math.max(AA_GESTURE_MS.stop, aaLineMs(t)) / 1000, "refused");
       poseGesture(f); return true;
     }
-    if (ev.type === "complete") { f.gesture = { kind: "nod", start: clock, end: clock + AA_GESTURE_MS.nod / 1000 }; poseGesture(f); return true; }
+    if (ev.type === "complete") { f.gesture = { kind: "nod", start: clock, end: clock + AA_GESTURE_MS.nod / 1000 }; gestureLog.push({ agent: f.agent.id, ...f.gesture }); poseGesture(f); return true; }
     if ((ev.type === "approval-request" || ev.type === "award" || ev.type === "dispatch" || ev.type === "bid") && ev.caption && !f.talk) {
       showCaption(f, ev.caption, clock, clock + aaLineMs(ev.caption) / 1000, ev.type); return true;
     }
@@ -330,7 +333,13 @@ export function aaMountAgentAvatars({ three = null, parent = null, agents = [], 
     f.site = siteId; f.slot = slot;
     if (!spot) { f.offMap = true; f.walk = null; f.visible = false; if (f.fig) f.fig.group.visible = false; return; }
     const dist = Math.hypot(spot.x - f.x, spot.z - f.z);
-    if (reducedMotion || f.offMap || dist > AA_WALK_MAX || dist < 0.05) {
+    if (!reducedMotion && !f.offMap && dist > AA_WALK_MAX) { // re-project short of the spot, then walk in
+      const k = AA_WALK_IN / dist; f.x = spot.x + (f.x - spot.x) * k; f.z = spot.z + (f.z - spot.z) * k; f.y = spot.y;
+      f.walk = { from: { x: f.x, y: f.y, z: f.z }, to: spot, start: clock, dur: AA_WALK_IN / AA_WALK_SPEED, reprojected: true };
+      if (f.fig) f.fig.group.position.set(f.x, f.y, f.z);
+      return;
+    }
+    if (reducedMotion || f.offMap || dist < 0.05) {
       f.offMap = false; f.walk = null; f.x = spot.x; f.y = spot.y; f.z = spot.z; f.yaw = spot.yaw; f.visible = true;
       if (f.fig) { f.fig.group.position.set(f.x, f.y, f.z); f.fig.group.rotation.y = f.yaw; f.fig.group.visible = true; }
       return;
@@ -409,7 +418,7 @@ export function aaMountAgentAvatars({ three = null, parent = null, agents = [], 
     /** An on-device voice can drive the talk light instead of the clock: start holds it on, end lets it go. */
     talkStart: (id) => { const f = figures.get(id); if (f?.talk) { f.talk.voiced = true; return true; } return false; },
     talkEnd: (id) => { const f = figures.get(id); if (!f?.talk) return false; f.talk.voiced = false; f.talk.end = clock; const last = talkLog.findLast?.((x) => x.agent === id) ?? null; if (last) last.end = clock; if (f.caption) f.caption.end = clock; tickTalk(f); return true; },
-    talkLog: () => talkLog.slice(), captionLog: () => captionLog.slice(),
+    talkLog: () => talkLog.slice(), captionLog: () => captionLog.slice(), gestureLog: () => gestureLog.slice(),
     clock: () => clock, counts, sources: () => sources.size,
     dispose() { for (const s of [...sources]) detach(s); if (root) { root.parent?.remove(root); root.traverse((o) => { o.geometry?.dispose?.(); o.material?.map?.dispose?.(); o.material?.dispose?.(); }); } figures.clear(); },
   };

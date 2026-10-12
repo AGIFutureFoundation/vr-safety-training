@@ -198,10 +198,14 @@ const world = AA.aaMountAgentAvatars({ three: THREE, parent, agents: FIX, source
   src.emit({ type: "complete", agent: "fx-logistics" }); t += 0.45; w2.animate(t, 0.45, null);
   ok(w2.state("fx-logistics").gesture === "nod" && Math.abs(g.userData.parts.head.rotation.x) > 0.2, "complete: a nod (the head dips)", `pitch ${g.userData.parts.head.rotation.x.toFixed(2)}`);
   t += 1; w2.animate(t, 1, null); ok(g.userData.parts.head.rotation.x === 0, "and comes back up");
-  // a long move re-projects (jump): the agent does not walk across the map
+  // a long move re-projects short of the site and walks the last stretch in (it does not walk a kilometre through buildings)
   src.emit({ type: "move", agent: "fx-logistics", to: "rb-site-soma-robot-cell" });
-  const far = w2.state("fx-logistics");
-  ok(!far.walking && far.site === "rb-site-soma-robot-cell", `a move longer than ${AA.AA_WALK_MAX} m jumps (a software agent re-projects at the site)`);
+  const far = w2.state("fx-logistics"), soma = SITE_XY["rb-site-soma-robot-cell"];
+  const gap = Math.hypot(far.x - soma.x, far.z - soma.z);
+  t += 3; w2.animate(t, 3, null); const mid2 = w2.state("fx-logistics");
+  t += 30; w2.animate(t, 30, null); const in2 = w2.state("fx-logistics");
+  ok(far.walking && far.site === "rb-site-soma-robot-cell" && gap < AA.AA_WALK_IN + 17 && mid2.walking && !in2.walking && Math.hypot(in2.x - soma.x, in2.z - soma.z) < 17, `a move longer than ${AA.AA_WALK_MAX} m re-projects ${AA.AA_WALK_IN} m short of the spot and walks in`, `${gap.toFixed(1)} m from the site centre at the start, walking after 3 s, standing after 33 s`);
+  ok(w2.gestureLog().filter((g) => g.agent === "fx-logistics").map((g) => g.kind).join(",") === "stop,nod", "the gesture log records the stop and the nod");
   // off-map: a site this map does not hold hides the figure; coming back shows it
   src.emit({ type: "move", agent: "fx-logistics", to: "rb-site-nowhere" }); t += 0.1; w2.animate(t, 0.1, null);
   ok(!g.visible && w2.state("fx-logistics").offMap, "a site not on this map hides the figure");
