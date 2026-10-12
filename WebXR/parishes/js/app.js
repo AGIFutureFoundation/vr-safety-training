@@ -1250,7 +1250,8 @@ function hd4ApplyLook(look) {
  * handle used to be the THREE.Scene itself: it stays reachable as `__parishTest.threeScene`, and the old readers' calls
  * (traverse, getObjectByName, getObjectById, children) are delegated to it, so check_harvest's live leg reads it as before. */
 const fxSceneHandle = (siteId, shot = "wide", look = null) => {
-  // ENV-HD-3: the three busiest non-robot sites take two establishing shots each ("wide", "street"), by day or night
+  // ENV-HD-3: the three busiest non-robot sites take two establishing shots each ("wide", "street"), by day or night;
+  // ENV-HD-5: so do the busiest park, fire station, hospital and school (HD3_SCENE_SITES, seven in all)
   const hd3 = HD3_SCENE_SITES.find((s) => s.id === siteId);
   if (hd3) {
     if (hd3.parish !== parish.id) return { ok: false, parish: hd3.parish, href: `?parish=${encodeURIComponent(hd3.parish)}&scene=${encodeURIComponent(siteId)}:${shot}${look ? `:${look}` : ""}` };
@@ -1279,7 +1280,8 @@ for (const k of ["traverse", "getObjectByName", "getObjectById"]) fxSceneHandle[
 Object.defineProperty(fxSceneHandle, "children", { get: () => scene.children });
 window.__parishTest.threeScene = scene;
 window.__parishTest.scene = fxSceneHandle;
-/** Every establishing-shot preset the scene handle frames: ROBO-EXTERIORS' 12 (six robot sites x wide/door) + ENV-HD-3's 6. */
+/** Every establishing-shot preset the scene handle frames: ROBO-EXTERIORS' 12 (six robot sites x wide/door) + ENV-HD-3's and
+ *  ENV-HD-5's 14 (seven non-robot sites x wide/street). */
 window.__parishTest.scenePresets = () => [
   ...NP_PARISHES.flatMap((p) => { try { return fxSitesFor(p).flatMap((s) => FX_SHOTS.map((shot) => ({ siteId: s.id, shot, parish: p.id }))); } catch { return []; } }),
   ...hd3ScenePresets(),

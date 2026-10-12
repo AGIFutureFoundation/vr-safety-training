@@ -9,6 +9,8 @@
  *     the site's chunk with FACADES' details and this kit inside FC_BUDGET per tier; the full streamed build at every
  *     robot site inside the engine's budget (meshes = draw calls, triangles), before (no kit) -> after (kit), per tier;
  *   - night: lit windows on from ATMOS's dusk to dawn, off by day; scenes: two establishing shots per site (12);
+ *   - ENV-HD-5: the non-robot scenes add the busiest park, fire station, hospital and school (the four busiest kinds by
+ *     catalog stations without a preset; generic labels), two shots each: 18 -> 26 presets;
  *   - determinism, and the page and bundle wiring.
  *
  *     node tools/check_exteriors.mjs
@@ -178,12 +180,29 @@ check(FX.fxScene(R.npParish("orleans"), "rb-site-soma-robot-cell", "wide") === n
   for (const p of R.NP_PARISHES) for (const s of p.sites ?? []) all[s.id] = { p, s, n: (s.stations ?? []).length };
   const robotAnchors = new Set(RD.RB_SITES.map((r) => r.anchor));
   const nonRobot = Object.values(all).filter((x) => !robotAnchors.has(x.s.id)).sort((a, b) => b.n - a.n);
-  check(H.HD3_SCENE_SITES.length === 3 && new Set(H.HD3_SCENE_SITES.map((x) => x.kind)).size === 3, `three non-robot locations, three kinds (${H.HD3_SCENE_SITES.map((x) => x.kind).join(", ")})`);
+  // ENV-HD-5: seven locations — ENV-HD-3's three (by "site": among the catalog's three busiest non-robot sites) and four by
+  // "kind": the busiest site of each of the four busiest kinds (catalog stations) that had no preset, a tie of the busiest
+  // count going to a map the "site" presets already open. Labels name the kind only (generic by kind, no site's own name).
+  const bySite = H.HD3_SCENE_SITES.filter((x) => x.by === "site"), byKind = H.HD3_SCENE_SITES.filter((x) => x.by === "kind");
+  check(H.HD3_SCENE_SITES.length === 7 && bySite.length === 3 && byKind.length === 4 && new Set(H.HD3_SCENE_SITES.map((x) => x.kind)).size === 7, `seven non-robot locations, seven kinds (${H.HD3_SCENE_SITES.map((x) => `${x.kind} by ${x.by}`).join(", ")})`);
+  const kindStations = {};
+  for (const x of Object.values(all)) kindStations[x.s.kind] = (kindStations[x.s.kind] ?? 0) + x.n;
+  const nextKinds = Object.entries(kindStations).filter(([k]) => !bySite.some((x) => x.kind === k)).sort((a, b) => b[1] - a[1]).slice(0, 4);
+  check(nextKinds.map(([k]) => k).sort().join() === byKind.map((x) => x.kind).sort().join(), `the four "kind" presets are the four busiest kinds without a preset: ${nextKinds.map(([k, n]) => `${k} ${n} stations`).join(", ")}`);
+  const siteMaps = new Set(bySite.map((x) => x.parish));
+  const GENERIC = new Set(["bridge", "yard", "port", "terminal", "construction", "site", "park", "crew", "fire", "station", "hospital", "campus", "school"]);
   for (const spec of H.HD3_SCENE_SITES) {
     const got = all[spec.id];
     check(!!got && got.p.id === spec.parish && got.s.kind === spec.kind && got.n === spec.stations && !robotAnchors.has(spec.id), `${spec.id}: a ${spec.kind} site on ${spec.parish} with ${got?.n} catalog stations, not a robot site`);
     const busiestOfKind = nonRobot.find((x) => x.s.kind === spec.kind);
-    check(got && got.n >= nonRobot[2].n && got.n === busiestOfKind.n, `${spec.id}: among the busiest non-robot sites (${got?.n} stations; the busiest of its kind has ${busiestOfKind?.n}; third busiest overall ${nonRobot[2].n})`);
+    if (spec.by === "site") check(got && got.n >= nonRobot[2].n && got.n === busiestOfKind.n, `${spec.id}: among the busiest non-robot sites (${got?.n} stations; the busiest of its kind has ${busiestOfKind?.n}; third busiest overall ${nonRobot[2].n})`);
+    else {
+      const tied = nonRobot.filter((x) => x.s.kind === spec.kind && x.n === busiestOfKind.n);
+      const onListed = tied.filter((x) => siteMaps.has(x.p.id));
+      check(got && got.n === busiestOfKind.n && (onListed.length ? siteMaps.has(spec.parish) : true), `${spec.id}: the busiest ${spec.kind} site (${got?.n} stations; ${tied.length} tied${tied.length > 1 ? `, ${onListed.length} on a map already listed — ${spec.parish}` : ""})`);
+    }
+    const words = spec.label.toLowerCase().split(/[^a-z]+/).filter(Boolean);
+    check(words.every((w) => GENERIC.has(w)), `${spec.id}: the label "${spec.label}" names the kind only (not "${got?.s.name}")`);
   }
   let hd3Shots = 0;
   for (const pr of H.hd3ScenePresets()) {
@@ -197,8 +216,8 @@ check(FX.fxScene(R.npParish("orleans"), "rb-site-soma-robot-cell", "wide") === n
     if (check(ok && framed && dry && toSite < 20, `${pr.siteId}: the ${pr.shot} shot is set (camera ${d.toFixed(0)} m from the subject, ${(s?.position[1] - gy).toFixed(1)} m above the ground, dry), deterministic`)) hd3Shots++;
   }
   check(H.hd3Scene(R.npParish("orleans"), "bridge-yard", "wide") === null && H.hd3Scene(R.npParish("orleans"), "port-terminal", "door") === null, "a non-robot scene asked on the wrong map, or for an unknown shot, is null");
-  check(hd3Shots === 6, `non-robot scene presets: ${hd3Shots} of 6`);
-  note(`scene presets: 12 (ROBO-EXTERIORS, six robot sites x wide/door) -> ${shots + hd3Shots} (+ ${H.HD3_SCENE_SITES.map((x) => `${x.label.toLowerCase()} on ${x.parish} (${x.stations} stations)`).join(", ")}, x ${H.HD3_SHOTS.join("/")})`);
+  check(hd3Shots === 14, `non-robot scene presets: ${hd3Shots} of 14 (ENV-HD-3's 6 + ENV-HD-5's 8)`);
+  note(`scene presets: 12 (ROBO-EXTERIORS, six robot sites x wide/door) -> 18 (ENV-HD-3) -> ${shots + hd3Shots} (ENV-HD-5) (+ ${H.HD3_SCENE_SITES.map((x) => `${x.label.toLowerCase()} on ${x.parish} (${x.stations} stations)`).join(", ")}, x ${H.HD3_SHOTS.join("/")})`);
   const appSrc = readFileSync(join(WEBXR, "parishes/js/app.js"), "utf8");
   check(/import\s*\{[^}]*\bhd3Scene\b[^}]*\}\s*from\s*"\.\.\/\.\.\/shared\/hd3-scenes\.js"/.test(appSrc) && /hd3Scene\(parish, siteId, shot\)/.test(appSrc) && /__parishTest\.scenePresets\s*=/.test(appSrc), "the app routes __parishTest.scene to the non-robot presets and lists every preset");
   const bsrc = readFileSync(join(ROOT, "tools/bundle_webxr.py"), "utf8"), ih = bsrc.indexOf('SHARED / "hd3-scenes.js"');

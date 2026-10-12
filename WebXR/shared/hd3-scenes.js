@@ -8,15 +8,20 @@
 // Mission map (6; construction is the busiest kind, 350 stations over 91 sites). The shots frame the parish engine's own
 // generic site (its low building and job board) in the procedural streets around it: nothing here models a real building
 // and every label is generic by kind.
+// ENV-HD-5 (docs/consoles/ENV-HD-5.md) adds the same two shots for the next busiest kinds after construction, by catalog
+// stations: parks (214 stations over 54 sites), fire stations (178 over 46), hospitals (169 over 40) and schools (168 over
+// 43) — the busiest site of each kind, a tie going to a map the presets already open (one page load frames more shots).
+// The labels say only the kind ("Park crew yard", not the site's own name): the frame is the engine's generic building.
 //
 // SEAMS (every top-level name is hd3/HD3_-prefixed: the bundler shares one scope; no three.js):
 //   HD3_SHOTS                         ["wide", "street"]: a high three-quarter view from the road side, and an eye-level view
 //                                       from the near sidewalk of the nearest street
-//   HD3_SCENE_SITES                   plain data: [{ id, parish, kind, label, stations }] (why these: see above)
+//   HD3_SCENE_SITES                   plain data: [{ id, parish, kind, label, stations, by }] (why these: see above; by "site" =
+//                                       one of the catalog's busiest sites, "kind" = the busiest site of a next-busiest kind)
 //   hd3Scene(parish, siteId, shot)    -> { siteId, shot, parish, kind, label, position, target, fov } | null — the camera spot is
 //                                       the first candidate that stands dry and clear of massing with its sight line clear;
 //                                       deterministic (no randomness), so a still can be re-shot exactly
-//   hd3ScenePresets()                 -> [{ siteId, shot, parish }] for the six presets
+//   hd3ScenePresets()                 -> [{ siteId, shot, parish }] for the fourteen presets (seven sites x two shots)
 //   The parishes app routes `window.__parishTest.scene(siteId, shot)` (and `?scene=<siteId>:<shot>`) here for these sites.
 
 import { npHeightAt, npWaterAt, npChunkOf, npMassingForChunk, NP_SIZE } from "./np-parish.js";
@@ -24,9 +29,14 @@ import { cwMassFilter, cwSpotBoxes, cwSiteBuilding, cwNearestLine } from "./cw-c
 
 export const HD3_SHOTS = ["wide", "street"];
 export const HD3_SCENE_SITES = [
-  { id: "bridge-yard", parish: "sf-marina", kind: "bridge", label: "Bridge yard", stations: 7 },
-  { id: "port-terminal", parish: "orleans", kind: "port", label: "Port terminal", stations: 6 },
-  { id: "mission-bay-construction-site", parish: "sf-mission", kind: "construction", label: "Construction site", stations: 6 },
+  { id: "bridge-yard", parish: "sf-marina", kind: "bridge", label: "Bridge yard", stations: 7, by: "site" },
+  { id: "port-terminal", parish: "orleans", kind: "port", label: "Port terminal", stations: 6, by: "site" },
+  { id: "mission-bay-construction-site", parish: "sf-mission", kind: "construction", label: "Construction site", stations: 6, by: "site" },
+  // ENV-HD-5: the next busiest kinds (ties of the busiest count go to a map already listed above)
+  { id: "presidio-crew-yard", parish: "sf-marina", kind: "park", label: "Park crew yard", stations: 5, by: "kind" },
+  { id: "no-sw-mid-city-fire-station", parish: "orleans", kind: "fire-station", label: "Fire station", stations: 4, by: "kind" },
+  { id: "hospital-district", parish: "orleans", kind: "hospital", label: "Hospital campus", stations: 6, by: "kind" },
+  { id: "mission-school-campus", parish: "sf-mission", kind: "school", label: "School campus", stations: 5, by: "kind" },
 ];
 
 export function hd3ScenePresets() {
