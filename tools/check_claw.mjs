@@ -19,6 +19,9 @@
  *  10. people and robots side by side per scenario (learner stations re-derived from the programme's tracks; learner values
  *      only when eligible); the page module carries both records with chains trimmed to heads that match the JSON
  *  11. the world in the scene: a lamp per robot site on the desktop high tier only, inside its stated budget, busy or idle
+ *  12 protocol 3 (round 8, ROBOLEARN-9): seeds only through the committed declaration arena-declared-r8.json (ec8bf4c5),
+ *     which precedes the protocol, which precedes its record; 36 comparisons run once; verdicts re-derive; refusals 3 of 3
+ *     plus not-held-out; promotions clear; ra-lm-h and ra-lm-h48 applicable everywhere; arena.json retest8 equals the record
  * Run: node tools/check_claw.mjs   (OC_ROOT=<tree> runs it against another checkout, for a before measurement)
  */
 import { readFileSync } from "node:fs";
@@ -271,7 +274,7 @@ await check("8 controls at least 44 px; no model identifier and no claim wording
   ok(/\.oc-panel select,\.oc-panel button\{min-height:44px;min-width:44px/.test(css), "44 px controls");
   const MODEL = new RegExp("\\b(" + ["gp" + "t-?\\d", "cla" + "ude-\\d", "cla" + "ude [0-9]", "op" + "us", "son" + "net", "hai" + "ku", "gem" + "ini", "lla" + "ma", "mis" + "tral"].join("|") + ")\\b", "i");
   const CLAIM = new RegExp("\\b(" + ["partnered " + "with", "in partner" + "ship with", "endorsed " + "by", "our " + "customers", "valuation " + "of", "token " + "price", "raised \\$", "funding " + "round"].join("|") + ")", "i");
-  const files = [...OC_FILES, "WebXR/shared/oc-claw-record.js", "tools/claw_eval.mjs", "tools/check_claw.mjs", "docs/evals/claw.json", "docs/omega-claw.md", "docs/consoles/OMEGA-CLAW.md", "docs/consoles/memory/OMEGA-CLAW.md", "tools/briefs/next/oc-next.md", "docs/evals/claw2.json", "docs/consoles/CLAW-2.md", "docs/consoles/memory/CLAW-2.md", "tools/briefs/next/oc2-next.md"];
+  const files = [...OC_FILES, "WebXR/shared/oc-claw-record.js", "tools/claw_eval.mjs", "tools/check_claw.mjs", "docs/evals/claw.json", "docs/omega-claw.md", "docs/consoles/OMEGA-CLAW.md", "docs/consoles/memory/OMEGA-CLAW.md", "tools/briefs/next/oc-next.md", "docs/evals/claw2.json", "docs/consoles/CLAW-2.md", "docs/consoles/memory/CLAW-2.md", "tools/briefs/next/oc2-next.md", "docs/evals/claw3.json", "docs/evals/arena-declared-r8.json", "docs/consoles/ROBOLEARN-9.md", "docs/consoles/memory/ROBOLEARN-9.md", "tools/briefs/next/rl9-next.md"];
   let n = 0;
   for (const f of files) { const t = src(f); if (!t) continue; n += 1; ok(!MODEL.test(t), `${f}: model identifier`); ok(!CLAIM.test(t), `${f}: claim wording`); }
   return `${n} files clean`;
@@ -354,8 +357,11 @@ await check("10 side by side: each robot scenario with its learner stations (fro
   ok(/ocMountClaw\(\$\("menu-drills"\), \{ record: OC_RECORD, records: OC_RECORDS, human: ocHuman \}\)/.test(app), "parishes passes both records");
   // The page module: both records, each chain trimmed to its head, the head matching the committed record.
   const M = need(await imp("WebXR/shared/oc-claw-record.js"));
-  ok(M.OC_RECORDS?.length === 2 && M.OC_RECORD === M.OC_RECORDS[1], "two records, the latest first shown");
-  for (const [m, full] of [[M.OC_RECORDS[0], REC], [M.OC_RECORDS[1], REC2]]) {
+  // Round 8 adds protocol 3's record (claw3.json), so the module carries three records, the latest shown first.
+  const REC3m = json("docs/evals/claw3.json");
+  const want = REC3m ? 3 : 2;
+  ok(M.OC_RECORDS?.length === want && M.OC_RECORD === M.OC_RECORDS[want - 1], `${want} records, the latest first shown`);
+  for (const [m, full] of [[M.OC_RECORDS[0], REC], [M.OC_RECORDS[1], REC2], ...(REC3m ? [[M.OC_RECORDS[2], REC3m]] : [])]) {
     ok(!("chain" in m) && m.chainHead.lines === full.chain.length && m.chainHead.hash === full.chain[full.chain.length - 1].hash, `${m.protocol.version}: head does not match the committed chain`);
     ok(OC.ocVerifyHead(m.chainHead, m.chainTail).ok, `${m.protocol.version}: head check`);
     const bad = [{ ...m.chainTail[0], detail: m.chainTail[0].detail + "x" }]; ok(!OC.ocVerifyHead(m.chainHead, bad).ok, "a tampered last line is caught");
@@ -363,7 +369,7 @@ await check("10 side by side: each robot scenario with its learner stations (fro
   const bytes = Buffer.byteLength(src("WebXR/shared/oc-claw-record.js"));
   const full = (r) => Buffer.byteLength(JSON.stringify(r.chain));
   evals.push(`people beside robots, per scenario: ${no.length} rows; robot gaps ${robotGaps.length} (${robotGaps.join(", ")}); scenarios with no matching learner station ${uncovered.length} (${uncovered.join(", ")}); learner side only when eligible (fixture: cell entry 1 of ${ce.people.stations.length} passed)`);
-  evals.push(`page module: 2 records in ${bytes} B; chains trimmed to head + last line (full chains ${full(REC)} B and ${full(REC2)} B stay in docs/evals/claw.json and claw2.json)`);
+  evals.push(`page module: ${want} records in ${bytes} B; chains trimmed to head + last line (full chains ${full(REC)} B, ${full(REC2)} B${REC3m ? ` and ${full(REC3m)} B` : ""} stay in docs/evals/claw.json, claw2.json${REC3m ? " and claw3.json" : ""})`);
   return `${no.length} rows; robot gaps ${robotGaps.length}; uncovered ${uncovered.length}; module ${bytes} B`;
 });
 
@@ -389,6 +395,68 @@ await check("11 the world in the scene: a lamp per robot site on the desktop hig
   ok(/ocMountSiteLamps\(\{ three: THREE, root, sites: rbWorld\?\.sites \?\? \[\], tier: npTierName \}\)/.test(app) && /loop\.onTick\(\(\) => lamps\.update\(loop\.world\.stats\(\)\)\)/.test(app), "parishes mounts the lamps with the tier in force and updates them each tick");
   evals.push(`world in the scene: a lamp per robot site on high only (low and balanced: 0), ${B.trianglesPerSite} triangles and 1 mesh a site, 0 lights, 0 textures; busy/idle from the world`);
   return `${sites.length} lamps, ${tris} triangles, 0 lights, 0 textures; low/balanced none`;
+});
+
+// 12 — protocol 3 (round 8, ROBOLEARN-9)
+const REC3 = json("docs/evals/claw3.json");
+await check("12 protocol 3: seeds only through the committed declaration (arena-declared-r8.json); declared before its one run; 36 run once; verdicts re-derive; refusals 3 of 3 (+ not-held-out); promotions clear; arena.json retest8 equals the record", () => {
+  need(OC); ok(OC.OC_PROTOCOL_3, "OC_PROTOCOL_3 missing"); ok(REC3, "docs/evals/claw3.json missing");
+  const P = OC.OC_PROTOCOL_3;
+  ok(REC3.dev === false, "the record is a development run");
+  ok(REC3.protocol.hash === OC.ocHash(P), `protocol 3 hash ${REC3.protocol.hash} != current ${OC.ocHash(P)} (changed after the run)`);
+  const decl = json(P.seedSource.file); ok(decl?.protocol?.seeds?.gym, `${P.seedSource.file} missing`);
+  for (const k of ["version", "idPrefix", "scenarios", "models", "incumbent", "challengers", "negativeControl"]) ok(JSON.stringify(decl.protocol[k]) === JSON.stringify(P[k]), `OC_PROTOCOL_3.${k} differs from the declaration`);
+  const [a, b] = String(decl.protocol.seeds.gym).split("–").map(Number);
+  ok(P.seeds[0] === a && P.seeds[P.seeds.length - 1] === b && P.seeds.length === b - a + 1, `seeds ${P.seeds[0]}–${P.seeds[P.seeds.length - 1]} != declared ${decl.protocol.seeds.gym}`);
+  ok(!P.seeds.some((x) => OC.OC_HELD_OUT.includes(x) || OC.OC_HELD_OUT_2.includes(x)), "protocol 3 reuses protocol 1's or 2's seeds");
+  let note = "git not available (archive): ancestry not checked";
+  try {
+    const git = (...x) => execFileSync("git", x, { cwd: ROOT, encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] }).trim();
+    const p = git("log", "--format=%H", "--reverse", "-S", "export const OC_PROTOCOL_3", "--", "WebXR/shared/oc-claw.js").split("\n")[0];
+    const r = git("log", "--format=%H", "--reverse", "--diff-filter=A", "--", "docs/evals/claw3.json").split("\n")[0];
+    const sd = git("log", "--format=%H", "--reverse", "--diff-filter=A", "--", P.seedSource.file).split("\n")[0];
+    if (p && r && sd) {
+      ok(p !== r && sd !== r, "the declaration or protocol 3 landed in the same commit as its record");
+      const anc = (x, y) => { try { git("merge-base", "--is-ancestor", x, y); return true; } catch (_) { return false; } };
+      ok(sd.startsWith(P.seedSource.commit), `the declaration file was added in ${sd.slice(0, 8)}, not ${P.seedSource.commit}`);
+      ok(anc(sd, p), `the declaration ${sd.slice(0, 8)} is not an ancestor of protocol 3's ${p.slice(0, 8)}`);
+      ok(anc(p, r), `protocol 3's commit ${p.slice(0, 8)} is not an ancestor of its record's ${r.slice(0, 8)}`);
+      note = `declaration ${sd.slice(0, 8)} -> protocol ${p.slice(0, 8)} -> record ${r.slice(0, 8)}`;
+    }
+  } catch (e) { if (/ancestor|same commit|added in/.test(String(e?.message))) throw e; }
+  const decls = OC.ocProtocolDeclarations(P);
+  const N = decls.reduce((n, d) => n + d.challengers.length, 0);
+  ok(N === 36 && REC3.counts.declaredComparisons === N && REC3.comparisons.length === N && REC3.counts.comparisonsRunOnce === N, `comparisons ${REC3.comparisons.length} != declared ${N}`);
+  ok(REC3.runs.length === decls.length && decls.every((d) => REC3.declarations.some((x) => x.id === d.id && x.hash)), "declarations and runs");
+  ok(REC3.declarations.every((d) => d.seedRange === `${a}–${b}` || /probe/.test(d.id)), "every comparison on the declared seeds");
+  ok(REC3.audit.ok && REC3.audit.declaredFirst && REC3.audit.seedOnce && REC3.audit.heldOnly, "audit flags");
+  const ex = REC3.counts.exercised; ok(ex.undeclared && ex["seed-reused"] && ex["rule-broken"] && ex["not-held-out"], `exercised ${JSON.stringify(ex)}`);
+  ok(REC3.probes.find((x) => x.kind === "runs-added-by-probes")?.n === 0, "the probes ran nothing");
+  const claw = OC.ocClaw({ arena: stubArena() });
+  for (const c of REC3.comparisons) {
+    const run = REC3.runs.find((r) => r.declId === c.declId);
+    ok(claw.judge(run.results.find((x) => x.modelId === c.challenger), run.results.find((x) => x.modelId === c.incumbent)) === c.verdict, `${c.declId} ${c.challenger}: ${c.verdict} does not re-derive`);
+  }
+  const clear = REC3.promotions.filter((x) => x.cCi[0] > x.iCi[1] && x.ruleBreaks === 0 && x.governorChecked === x.steps && x.physical === 0).length;
+  ok(clear === REC3.promotions.length, "a protocol-3 promotion without a clear interval");
+  let steps = 0, checked = 0, phys = 0;
+  for (const r of REC3.runs) for (const x of r.results) { steps += x.steps; checked += x.governorChecked; phys += x.physical; }
+  ok(steps === checked && steps === REC3.counts.stepsRun && phys === 0, `governor ${checked}/${steps}, physical ${phys}`);
+  ok(REC3.world.physicalDispatched === 0 && REC3.world.governorEveryStep && REC3.world.stepsMonitored === REC3.world.steps, "protocol-3 world: governor and physical");
+  const ch = OC.ocVerifyChain(REC3.chain); ok(ch.ok, `protocol-3 chain broken at ${ch.brokenAt}`);
+  for (const id of ["ra-lm-h", "ra-lm-h48"]) { const n = REC3.runs.map((r) => r.results.find((x) => x.modelId === id)).filter((x) => x && x.applicable).length; ok(n === decls.length, `${id} applicable on ${n} of ${decls.length} scenarios`); }
+  // arena.json retest8 is a copy of this one run, not a second run.
+  const A = json("docs/evals/arena.json"); const r8 = A?.retest8; ok(r8, "arena.json lacks retest8");
+  ok(r8.declared?.commit === P.seedSource.commit, "retest8 cites a different declaration");
+  for (const x of r8.results) { const y = REC3.runs.find((r) => r.scenarioId === x.scenarioId)?.results.find((z) => z.modelId === x.modelId); ok(y && y.k === x.k && y.n === x.n && y.ruleBreaks === x.ruleBreaks && y.resultHash === x.resultHash, `retest8 ${x.modelId} ${x.scenarioId} differs from claw3.json`); }
+  ok(JSON.stringify(r8.comparisons) === JSON.stringify(REC3.challengerRows.declared), "retest8 comparisons differ from the record's");
+  const h = REC3.challengerRows.declared.amrHeadline;
+  const N12 = (REC ? REC.counts.declaredComparisons : 0) + (REC2 ? REC2.counts.declaredComparisons : 0);
+  evals.push(`declared comparisons: ${N12} -> ${N12 + N} (protocol 3: ${N} on ${a}–${b}, run once ${REC3.counts.comparisonsRunOnce}/${N}, ${REC3.counts.episodes} episodes)`);
+  evals.push(`protocol 3 refusals exercised: 3/3 (+ not-held-out) ${JSON.stringify(REC3.counts.refusalsByReason)}; promotions ${REC3.promotions.length}, clear ${clear}/${REC3.promotions.length}: ${REC3.promotions.map((x) => `${x.scenarioId} ${x.from} -> ${x.to}`).join("; ")}`);
+  evals.push(`AMR base headline ra-lm-h48 - bc: ${h["ra-lm-h48"]} vs ${h.bc}, ${h.diff} [${h.ci95.join(", ")}]${h.ci95[0] <= 0 && h.ci95[1] >= 0 ? " (spans 0: no claim)" : ""}`);
+  evals.push(`protocol 3 governor ${checked}/${steps} steps, physical ${phys}; chain intact (${ch.lines} lines); arena.json retest8 = claw3.json (${r8.results.length} rows)`);
+  return `${note}; ${N} comparisons, verdicts re-derived, ${REC3.promotions.length} promotions (clear ${clear}), chain ${ch.lines} lines intact, retest8 ${r8.results.length} rows equal`;
 });
 
 for (const e of evals) console.log(`EVAL ${e}`);
