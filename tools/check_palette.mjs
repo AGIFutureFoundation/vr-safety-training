@@ -34,7 +34,8 @@ const D = await imp("shared/pa-palette-data.js");
 check(typeof D.PA_CATEGORIES === "object" && Object.keys(D.PA_CATEGORIES).length >= 12, `pa-palette-data.js imports alone with ${Object.keys(D.PA_CATEGORIES).length} categories`);
 check(JSON.parse(JSON.stringify(D.PA_CATEGORIES))["mission-stucco"]?.walls?.length > 0, "PA_CATEGORIES round-trips through JSON (plain data)");
 
-const S = await buildSuite(["shared/kit.js", "shared/textures.js", "shared/perf.js", "shared/pa-palette-data.js", "shared/pa-palette.js"],
+// REALISM: pa-palette.js imports rz-surfaces.js (the surface classes), so the flat suite carries it before pa-palette.js.
+const S = await buildSuite(["shared/kit.js", "shared/textures.js", "shared/perf.js", "shared/pa-palette-data.js", "shared/rz-surfaces.js", "shared/pa-palette.js"],
   "export { TX_PX_PAINTERS, TX_PX_PAINTER_IDS, TX_PX_GAIN, txPxTile, txPxAtlas, txClapboardFace, txShingleFace, txStuccoFace, txSpanishTileFace, paMount, paMaterialFor, paAtlasFor, paStats, paReset, paPatchShader, paRegionPainters };",
   "palette");
 const R = await imp("shared/np-parishes.js");

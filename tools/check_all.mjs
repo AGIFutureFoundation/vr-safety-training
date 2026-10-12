@@ -146,6 +146,8 @@ const CHECKERS = [
   "check_parishes.mjs",
   // PALETTE: colour categories, pixel painters and the massing material hook (docs/consoles/PALETTE.md).
   "check_palette.mjs",
+  // REALISM: surface classes, detail map, grime and contact shading on the facades, the exposure table (docs/consoles/REALISM.md).
+  "check_rz.mjs",
   "check_landmarks.mjs",
   // INTERIORS: every room style builds in budget, every site kind maps to a style, enter/exit round-trips, stations launch inside (docs/consoles/INTERIORS.md).
   "check_interiors.mjs",

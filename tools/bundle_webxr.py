@@ -922,6 +922,9 @@ APPS = {
             SHARED / "dt-detail.js",
             # PALETTE: colour categories (plain data) and the massing material hook (after np-world.js and textures.js).
             SHARED / "pa-palette-data.js",
+            # REALISM: surface classes (before pa-palette.js, which imports them) and the exposure table.
+            SHARED / "rz-surfaces.js",
+            SHARED / "rz-light.js",
             SHARED / "pa-palette.js",
             # LANDMARKS-2: walk-in landmark interiors (the parishes app imports it).
             SHARED / "lx-walkin.js",

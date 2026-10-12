@@ -29,6 +29,8 @@ import { fcDetails } from "../../shared/fc-facades.js";
 // DETAIL: seeded instanced scatter (street kit, yards, roofs, vegetation, marsh, farm, industry, site clutter), one pool.
 import { dtMountDetail, dtLotRects } from "../../shared/dt-detail.js";
 import { paMount } from "../../shared/pa-palette.js";
+import { rzLevel } from "../../shared/rz-surfaces.js";
+import { rzLightFor } from "../../shared/rz-light.js";
 import { PA_CATEGORIES } from "../../shared/pa-palette-data.js";
 // LANDMARKS-2: walk-in landmark interiors (market hall, lamp room, pier shed, glasshouse) — generic, schematic rooms.
 import { lxWalkinDoors, lxWalkin } from "../../shared/lx-walkin.js";
@@ -421,6 +423,13 @@ function npApplySky() {
   const night = NP_TIMES[np.timeIdx] === "night";
   sun.intensity = (night ? 0.12 : NP_TIMES[np.timeIdx] === "day" ? 1.1 : 0.6) * atDim; // a storm front darkens the light
   hemi.intensity = (night ? 0.25 : 0.95) * atDim;
+  // REALISM (rz-light.js): the calibrated exposure table on the desktop tiers: sun intensity and colour by time of day,
+  // fog capped by weather (never below ATMOS's board-read floor). The phone tier and a headset browser keep the lights above.
+  if (rzLevel(npTierName)) {
+    const rzL = rzLightFor(NP_TIMES[np.timeIdx], atSkyKind(atWeatherNow), atDim);
+    sun.intensity = rzL.sun; sun.color.setHex(rzL.sunHex); hemi.intensity = rzL.hemi;
+    scene.fog.far = Math.max(180, Math.min(scene.fog.far, vis * rzL.fogFar));
+  }
   cwStreetsMount.setNight(night || NP_TIMES[np.timeIdx] === "dusk");
   $("hud-clock").textContent = NP_TIMES[np.timeIdx];
   $("hud-weather").textContent = NP_WEATHERS[np.weatherIdx];
