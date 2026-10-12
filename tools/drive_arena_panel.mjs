@@ -43,6 +43,17 @@ for (const scheme of ["dark", "light"]) {
   }
   await context.close();
 }
+// Phone width: the section must not scroll the page sideways (its table scrolls inside its own box).
+{
+  const context = await pvContext(browser, { viewport: { width: 390, height: 844 } });
+  const page = await context.newPage();
+  page.on("pageerror", (e) => out.pageErrors.push(e.message));
+  await page.goto(`${base}/robotics/programme.html#arena`, { waitUntil: "load", timeout: 120000 });
+  await page.waitForTimeout(400);
+  out.phoneOverflow = await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth + 1);
+  out.phoneArenaWidest = await page.evaluate(() => Math.max(...[...document.querySelectorAll("#arena > *, .ra-sc, .ra-stat")].map((e) => e.getBoundingClientRect().right)));
+  await context.close();
+}
 await browser.close();
 await close();
 console.log(JSON.stringify(out, null, 1));

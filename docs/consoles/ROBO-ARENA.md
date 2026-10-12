@@ -81,7 +81,7 @@ short:
     cards.
   - The hero has a "Robot arena" link.
   - No script runs for it, and nothing is fetched.
-- `tools/drive_arena_panel.mjs` is a headless drive on port 9145.
+- `tools/drive_arena_panel.mjs` is a headless drive on port 9145, at 1920×1080 and at phone width (390 px: no sideways page scroll; the widest arena element ends at 374 px).
 - `tools/check_arena.mjs` is the new checker, in `check_all` with an estimated baseline row.
 
 ## Evals (before → after)
