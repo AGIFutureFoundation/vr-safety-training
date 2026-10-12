@@ -95,7 +95,7 @@ edited (AVATARS-HD-2 owns them this round).
 - `h5-ops-room-centre.png`: the same minute from behind the middle of the arc: the seven figures, the cards on the screens, both wall
   panels and the room's honesty sign ("a generic room for this kind of site — not a model of the real building").
 - `h5-console-live.png`: the instructor console's Omega Hive tab, "Omega Hive (live, read-only)", reading the learner's hive at
-  minute 261 (the page's own minute): the counts, and each card's live queue and last lines (taken before the intro fix in cycle 8).
+  minute 261 (the page's own minute): the counts, and each card's live queue and last lines, under the corrected intro (re-shot after cycle 8; drive 4, 14 s, page errors 0, off-host 0).
 - Kept from drive 1 (minute 261, 6 of 7, overlays visible): `h5-ops-room-b.png` and `h5-ops-room-c.png` (a close view of three cards
   and the refusals panel).
 
