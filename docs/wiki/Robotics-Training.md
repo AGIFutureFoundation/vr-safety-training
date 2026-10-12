@@ -27,7 +27,7 @@ _(The diagram in the HTML version of this page is drawn as an inline SVG; its co
 
 Each use case says what the person learns, what the robot learns and where the proof sits in the repository. Robots here are simulated and every demonstration so far is synthetic or a labelled stand-in, so the result figures come from the simulator, not from hardware or measured learners. Where the robot side is not built, the card says so.
 
-### (Use case)Construction drilling and silica
+### Use case: Construction drilling and silica
 
 - **The person learns** Sets up a ceiling-drilling robot: reads the deck scan for conduit and tendons, keeps the zone under the mast clear, runs dust collection and isolates the battery for each bit change. On the drilling station the same learner answers dust cues, such as a collector hose popping off mid-drill or another crew's dust drifting in. Dust control follows OSHA 29 CFR 1926.1153 Table 1.
 
@@ -35,7 +35,7 @@ Each use case says what the person learns, what the robot learns and where the p
 
 - **Station and evidence** `rp-construction-drilling-robot-setup` (content score 98): 12 steps, 4 hazards, 2 interruptions. `sil-concrete-drilling-and-silica-dust-cues` (content score 97) with 41 checker checks passing; K-12 awareness version `k12-sil-dust-you-cannot-see-at-a-building-site` (content score 95). Scenario `rb-construction-drilling` at the site `rb-site-richland-drilling-robot`; its checker confirms the scripted expert never drills with a person inside the barricade (`tools/check_roboscenarios.mjs`, `docs/evals/colearn.json`). On the station's steps, a scripted expert passes 3 of 3 seeded runs and the best text-reading heuristic passes 0 of 3 (`docs/perf/agent-baselines-robotics.json`): the task is not solved by reading the station's words.
 
-### (Use case)Warehouse AMRs
+### Use case: Warehouse AMRs
 
 - **The person learns** Requests access at the gate instead of stepping past it, isolates and locks the dock before touching it, marks the floor, crosses lanes only at marked points, proves every robot stops on the e-stop drill and recovers a faulted robot out of the fleet.
 
@@ -43,7 +43,7 @@ Each use case says what the person learns, what the robot learns and where the p
 
 - **Station and evidence** `tw-amr-traffic-zone-entry-and-lockout` (content score 96), `ad-amr-fleet-traffic-and-estop-drill` (content score 95) and `tw-battery-change-and-charging-bay-safety` (content score 96). 2 procedural AMR sites carry the task in the worlds, on the New Orleans and West Oakland maps. A station-level clone for the AMR drill reaches 1.00 on 10 held-out seeds from 6 of 20 kept demonstrations (`docs/evals/colearn.json`).
 
-### (Use case)Cobot cells
+### Use case: Cobot cells
 
 - **The person learns** Walks the risk assessment, proves both scanner zones with a body, never mutes the scanner to finish faster, measures transient and quasi-static contact separately with a calibrated device (ISO/TS 15066 named, no clause quoted) and sets up speed-and-separation fields from the sheet.
 
@@ -51,7 +51,7 @@ Each use case says what the person learns, what the robot learns and where the p
 
 - **Station and evidence** `ad-cobot-risk-assessment-and-speed-separation` (content score 96), `rt-cobot-power-force-limit-check` (content score 98), `rt-speed-separation-monitoring-setup` (content score 98) and `rt-teach-pendant-safe-jogging` (content score 96). The pose-driven recorder trained on 40 takes with a scripted stand-in for the human reaches 0.967, equal to 0.967 from synthetic demonstrations (`docs/consoles/ROBOTRAIN.md`). No real person has been measured.
 
-### (Use case)Port automation
+### Use case: Port automation
 
 - **The person learns** Walks a gantry robot's warning and stop rings in a procedural port yard, drills the e-stop on a fleet of carriers, and works the charging yard: connectors, e-stops and cable handling, then high-voltage lockout on electric cargo equipment.
 
@@ -59,7 +59,7 @@ Each use case says what the person learns, what the robot learns and where the p
 
 - **Station and evidence** Site `rb-site-west-oakland-port-automation` (a gantry rig at the Outer Harbor Container Terminal) runs scenario `rb-port-gantry`; the checker confirms the scripted expert never drives into a busy crossing or a pinned container's keep-out (`tools/check_roboscenarios.mjs`). Stations `ad-amr-fleet-traffic-and-estop-drill` (content score 95), `cp-high-voltage-lockout-on-electric-cargo-equipment` (content score 98) and `cp-charging-yard-connectors-and-e-stops`; the fleet-routing task above runs at the warehouse sites.
 
-### (Use case)Maintenance and lockout
+### Use case: Maintenance and lockout
 
 - **The person learns** Locks the cell out with a personal lock, proves zero energy with a try-start before anyone goes in, never crosses the curtain with the arm live, and brings a robot back after an e-stop: stop log first, lockout before clearing, reset from outside, first cycle at reduced speed. Also jogs from the teach pendant with a second person at the e-stop.
 
@@ -67,7 +67,7 @@ Each use case says what the person learns, what the robot learns and where the p
 
 - **Station and evidence** `ad-robot-cell-lockout-and-safe-reentry` (content score 93), `rt-robot-estop-recovery-and-restart` (content score 96), `rt-teach-pendant-safe-jogging` (content score 96) and `tw-conveyor-jam-clearing-and-loto` (content score 95). A text-reading heuristic that asks for hints does pass the lockout station (3 of 3 seeded runs); on the drilling set-up it does not.
 
-### (Use case)AI-training roles: teleoperation, labelling, policy review
+### Use case: AI-training roles: teleoperation, labelling, policy review
 
 - **The person learns** An adult who has opted in records teleoperation takes, labels failed takes as failed, and reviews a policy's evaluation: dataset card and consent, lineage, a policy built on revoked data, results between the random floor and the expert on held-out seeds, a supervised trial, sign-off with a rollback. They can also rate a software agent's run, with one reason from a fixed list.
 
@@ -77,7 +77,7 @@ Each use case says what the person learns, what the robot learns and where the p
 
 Every scenario named on these cards now has an exported synthetic dataset and an eval card (6 scenarios, `exports/robotics/index.json`), so a robotics team can load the demonstrations and the cloned policy without the app. They are labelled synthetic and describe a simulated task only.
 
-On the hard fleet-routing variant (a second walkway crossing and a blocked aisle cell) the clone falls to 0.05 against the expert's 1.00 on 60 held-out seeds, a gap of 0.95, and it mostly fails by waiting. That is a result about the learner, measured and not tuned away (`docs/consoles/ROBOTRAIN-5.md`).
+On the hard fleet-routing variant (a second walkway crossing and a blocked aisle cell) the clone falls to 0.05 against the expert's 1.00 on 60 held-out seeds, a gap of 0.95, and it mostly fails by waiting. That is a result about the learner, measured and not tuned away (`docs/consoles/ROBOTRAIN-5.md`). 5 rounds of corrections labelled by the scripted expert, not a person, left the clone at 0.050; with 4 route features written afterwards the same rounds reach 0.417, a gap of 0.583 (`docs/consoles/ROBOTRAIN-6.md`).
 
 Station content scores are the platform's own content evaluation (`docs/investor/stations.csv`). Standards are named so learners can find them; no clause is quoted and nothing here claims compliance.
 
@@ -120,4 +120,4 @@ Robot stations are the ones the programme page tags as robot stations (`docs/rob
 
 ---
 
-_Every figure on this page was checked against the repository file named beside it when the page was built (head `bd748fca`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._
+_Every figure on this page was checked against the repository file named beside it when the page was built (head `41e41366`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._

@@ -46,9 +46,21 @@ Source: `docs/consoles/ROBOTRAIN.md`, `docs/consoles/ROBOTRAIN-2.md`
 
 Source: `docs/consoles/AGENTGYM.md`
 
+- **Omega Hive** The name for the software agents that manage the simulated robots: 7 named agents with a personality, an on-device voice and an avatar. They bid for jobs, the safety governor checks every step, and a request that names the physical path asks the learner first. They are software, not people, and not a language model.
+
+Source: `docs/omega-hive.md`, `docs/consoles/OMEGA-HIVE.md`
+
+- **Reward model** A small model that scores a whole run so that a better run scores higher, fitted on pairs of runs where one was preferred (a Bradley–Terry model). Here the pairs and the rater are synthetic, and used to choose demonstrations it did not beat the plain rule of keeping clean passes.
+
+Source: `docs/consoles/ROBOTRAIN-6.md`, `docs/evals/colearn.json`
+
+- **Corrections (DAgger)** Rounds in which the clone drives, every state it visits is labelled with what the scripted expert would do there, and the clone is retrained on the lot. The labels are the scripted expert’s, not a person’s.
+
+Source: `docs/consoles/ROBOTRAIN-6.md`
+
 Definitions follow how the repository uses each term, not an outside textbook.
 
 
 ---
 
-_Every figure on this page was checked against the repository file named beside it when the page was built (head `bd748fca`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._
+_Every figure on this page was checked against the repository file named beside it when the page was built (head `41e41366`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._

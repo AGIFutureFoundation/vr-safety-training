@@ -6,7 +6,7 @@ Three walkthroughs, each a real path through existing stations: an apprentice la
 
 These walkthroughs are each a real path through stations that exist in the repository, with each station's content score from the platform's own evaluation. The people are composites written to show the paths; no learner has been measured on them. Time figures are each station's par time, the target the scoring uses, and not a measured duration.
 
-### (Persona A)An apprentice laborer, new to a site with a drilling robot
+### Persona A: An apprentice laborer, new to a site with a drilling robot
 
 A composite, not a measured person. She starts at the awareness level, learns what silica dust does to a drilling crew and then sets up the ceiling-drilling robot that will work above her. Dust control follows OSHA 29 CFR 1926.1153 Table 1.
 
@@ -52,7 +52,7 @@ Content score 98 · 12 steps · 4 hazards · 2 interruptions · par 320 seconds
 
 This is the day with a robot-side result. A policy cloned from clean synthetic demonstrations (17 of 40 kept) sets up the drilling cell in the scenario's order with a success rate of 1.00 on 60 held-out seeds, against 0.00 for random and 1.00 for the scripted expert, and the scenario holds the robot whenever a person is inside the barricade, the moment this day teaches her to press the e-stop (`docs/evals/colearn.json`, `tools/check_roboscenarios.mjs`). The task is small and discrete and every demonstration is synthetic, so no robot has learned from her. The awareness lesson and the silica station collect no robot training data.
 
-### (Persona B)A robot technician, on a shift that touches several kinds of cell
+### Persona B: A robot technician, on a shift that touches several kinds of cell
 
 A composite, not a measured person. The path covers teaching, measuring, recovering, configuring and locking out, in one working day. One station on it, the speed-and-separation set-up, is an integrator-level station in the programme; a technician steps up to it.
 
@@ -122,7 +122,7 @@ Content score 93 · 14 steps · 4 hazards · 2 interruptions · par 320 seconds
 
 Cell entry is the one task on this path with a robot-side result: a policy cloned from clean passes has a success rate of 1.00 on 60 held-out seeds against 0.00 for random and 1.00 for the scripted expert, and the safety-zone set-up task scores 1.00 against 1.00 for the expert (`docs/evals/colearn.json`). The teach pendant, the contact-force check and the e-stop recovery have no gym scenario of their own, so no robot-side result yet. Everything on this path is simulated.
 
-### (Persona C)An AI-training specialist, supervising robots she helped teach
+### Persona C: An AI-training specialist, supervising robots she helped teach
 
 A composite, not a measured person. An adult who has opted in, working at the AI-training level: module score 85 within 28 days, with 24 robot-station places on offer.
 
@@ -175,4 +175,4 @@ Every station named is in `docs/investor/stations.csv`, and its steps and interr
 
 ---
 
-_Every figure on this page was checked against the repository file named beside it when the page was built (head `bd748fca`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._
+_Every figure on this page was checked against the repository file named beside it when the page was built (head `41e41366`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._

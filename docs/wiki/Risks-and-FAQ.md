@@ -6,7 +6,7 @@ Who the platform is for, told as use rather than as customers; the risks and the
 
 This describes who would use Holodeck and for what. The project has no customers to name and names none. Nobody named in its sources endorses it or partners with it.
 
-### (Used by)Union halls and training centres
+### Used by: Union halls and training centres
 
 - **How it is used** An instructor sets up an organisation and a cohort with seats, and the cohort's invite code is the class code. They load a level's template, set the due date and required score, assign it, run the stations, debrief with the instructor guide and issue the credential.
 
@@ -14,7 +14,7 @@ This describes who would use Holodeck and for what. The project has no customers
 
 - **Not there yet** No hall has run a cohort through it. Seats are a count; billing adapters ship off and no payment path is live.
 
-### (Used by)Schools and career centres
+### Used by: Schools and career centres
 
 - **How it is used** A class takes the awareness level: how a robot knows to stop, what its sensors and zones do, who restarts it, and what jobs robots do. A silica awareness lesson covers dust at a building site.
 
@@ -22,7 +22,7 @@ This describes who would use Holodeck and for what. The project has no customers
 
 - **Not there yet** No school has used it, and no school body has reviewed it.
 
-### (Used by)Employers and safety leads
+### Used by: Employers and safety leads
 
 - **How it is used** Technicians practise entering a cell under lockout, and integrators and safety leads set up and sign off a cell. A supervisor practises the job of holding the stop on robots that software agents dispatch.
 
@@ -30,7 +30,7 @@ This describes who would use Holodeck and for what. The project has no customers
 
 - **Not there yet** The cells are generic and procedural, not a site's own layout. No employer has used it.
 
-### (Used by)Robotics teams
+### Used by: Robotics teams
 
 - **How it is used** A team trains and scores a policy against the Holodeck's tasks, reads each policy's dataset card and lineage, and sees what a software agent can and cannot do on the same stations.
 
@@ -93,6 +93,14 @@ These are the risks we can point to in the work itself, each with what the repos
 
 - **Still open** Labour-market and injury statistics are not in this whitepaper, because the official sources could not be fetched when it was written.
 
+### Agents that look like people
+
+- **What the repository shows** The Omega Hive gives software agents names, personalities, voices and avatars. That can make software feel like a person, and a learner might trust it as one or take its manner for judgement.
+
+- **Mitigation built** Every card, label and caption says “software agent”; the names are invented; the portraits are badges and the figures a tinted hologram with a visor and halo, never a face. Voices are on the device and off until the learner turns them on, and captions always show. No agent outranks the governor: the e-stop wins, a veto only adds a refusal, and a request that names the physical path waits for a person.
+
+- **Still open** Whether learners read the labels has not been tested on people. The lines are built from a grammar, so they sound distinct but not natural: style adherence is full by construction, and personality adds about 8 points of speaker accuracy beyond what the role already gives away.
+
 Sources: `docs/consoles/COLEARN.md`, `docs/consoles/ROBOTRAIN.md`, `docs/consoles/VBRIDGE.md`, `docs/consoles/ENTERPRISE-3.md`, `docs/consoles/SILICA.md`, `docs/virtuals-bridge.md`, `docs/evals/colearn.json`, `docs/perf/agent-baselines.json`.
 
 
@@ -138,7 +146,7 @@ Sources: `docs/virtuals-bridge.md` (the robot rule), `docs/consoles/VBRIDGE.md`
 
 Every station is scored by the platform's content evaluation out of 100. Across 742 scored stations the mean is 95.8, with 612 scoring 95 or more, 126 between 90 to 94, and 4 below 90. The robotics stations built in the recent loops each score 95 or more.
 
-A full gate runs 133 checkers, and each build console records its own cycles: what it expected, what it measured and what it changed.
+A full gate runs 138 checkers, and each build console records its own cycles: what it expected, what it measured and what it changed.
 
 Sources: `docs/investor/platform-summary.json`, `docs/investor/stations.csv`, `tools/check_all.mjs`
 
@@ -194,15 +202,35 @@ Sources: `docs/virtuals-bridge.md`, `docs/consoles/VBRIDGE.md`
 
 Since the last list, `ROBOTRAIN-5` observed the page-level proof in the built page (the card read “your 3 takes”, and a revoke left 0 episodes) and pinned the hard variants with checkers; `GOVERNOR-2` added a per-agent rate limit and a learned anomaly check to the governor (9 → 11 refusal reasons) and registry export and import between devices. Those items are built and are no longer on it.
 
-From the build notes' own lists of what is left: a real headset session for the teleoperation pad, which today is proven with stubbed sessions; a robot-side answer to the hard variants where the clone trails the expert: the port lane (0.717 against 1.00) and fleet routing (0.05 against 1.00, a gap of 0.95; 0.417 with route features after five rounds of corrections labelled by the scripted expert); the page proof's drive script in the gate, where it is not yet, because it needs an idle-machine timing; a per-agent cadence baseline for the anomaly check, which catches 17 of 50 fast repeats, and a history from a site's own accepted jobs instead of a procedural one; and a lineage diagram instead of a table in the governance view.
+Since then, the loop 10 consoles built the Omega Hive (7 software agents behind the governor), an avatar layer for them, a walk-in room at 6 of 6 robot sites and an exterior kit at 6 of 6; and `ROBOTRAIN-6` trained a reward model on preference pairs, tried 5 rounds of corrections on the hardest gap and baselined the 3 hard variants. Those items are built and are no longer on the list.
+
+A second round of that loop attached the hive's agents to the avatar layer and stood them in the walk-in rooms, gave the 34 game characters on-device voices, and took the robotics look to 68 of 68 neighbouring sheds and towers.
+
+From the build notes' own lists of what is left: a real headset session for the teleoperation pad, which today is proven with stubbed sessions; a robot-side answer to the hard variants where the clone trails the expert: the port lane (0.717 against 1.00) and fleet routing (0.05 against 1.00, a gap of 0.95; 0.417 with route features after 5 rounds of corrections labelled by the scripted expert); the page proof's drive script in the gate, where it is not yet, because it needs an idle-machine timing; a per-agent cadence baseline for the anomaly check, which catches 17 of 50 fast repeats, and a history from a site's own accepted jobs instead of a procedural one; a measured study of how learners use the hive's approval setting, voices and labels, none of which has been tried by a person; a reward for steps instead of whole runs, a way to rate robot runs on the page and a reactive baseline for the gym scenarios; and a lineage diagram instead of a table in the governance view.
 
 Beyond the code, the first measured real learners, who opt in, and the bench pilot with the gap published. A cohort pilot would also need named adults, a site, hardware for any bench run and a legal review of the learner-data terms: the pilot page lists what exists and what does not. These are planned, not built, and the roadmap page marks each.
 
-Sources: `docs/consoles/ROBOTRAIN-5.md`, `docs/consoles/GOVERNOR-2.md`, `docs/consoles/ROBOTRAIN-4.md`, `docs/consoles/ROBOTRAIN-3.md`, `docs/consoles/VBRIDGE.md`, `docs/consoles/ENTERPRISE-3.md`, `docs/consoles/AGENTGYM.md`, `docs/bench-protocol.md`
+Sources: `docs/consoles/ROBOTRAIN-6.md`, `docs/consoles/OMEGA-HIVE.md`, `docs/consoles/ROBOTRAIN-5.md`, `docs/consoles/GOVERNOR-2.md`, `docs/consoles/ROBOTRAIN-4.md`, `docs/consoles/ROBOTRAIN-3.md`, `docs/consoles/VBRIDGE.md`, `docs/consoles/ENTERPRISE-3.md`, `docs/consoles/AGENTGYM.md`, `docs/bench-protocol.md`
+
+### Are the Omega Hive’s agents AI models, and can they move a real robot?
+
+They are software agents, and they say so on every card. Each line they speak is built on the device from the agent’s style grammar and the event’s own data; no language model is called and no network call exists in the hive. A dialogue adapter exists in the shape of the game’s own, and it refuses until it is configured.
+
+They cannot move a real robot: every robot is simulated and the physical path ships disabled. A request that names it is refused by the governor and comes to the learner as an approval request, and approving lets only a simulated job run. Across a seeded day 3,631 of 3,631 run steps were monitored and 0 jobs were dispatched to a physical robot.
+
+Sources: `docs/omega-hive.md`, `docs/consoles/OMEGA-HIVE.md`
+
+### Are the robotics buildings real places?
+
+No. The 6 of 6 robot sites’ buildings and the 6 of 6 walk-in rooms are generic by kind and drawn from code, with textures painted on canvases. The interiors note says no real building’s interior is modelled, nothing in a room moves, and the signs are pictograms with no words, so nothing names a company, union or trade body.
+
+What is measured is their cost: every room stays inside the room budget on both tiers, and the kits add 1 to 2 meshes a site to scenes that stay under 260 / 400,000 meshes and triangles.
+
+Sources: `docs/consoles/ROBO-INTERIORS.md`, `docs/consoles/ROBO-EXTERIORS.md`
 
 Every figure carries its source file in the table of evidence. Nothing here states a valuation, a raise, revenue, a customer or a partner.
 
 
 ---
 
-_Every figure on this page was checked against the repository file named beside it when the page was built (head `bd748fca`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._
+_Every figure on this page was checked against the repository file named beside it when the page was built (head `41e41366`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._

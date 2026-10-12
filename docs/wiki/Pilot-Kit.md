@@ -27,19 +27,19 @@ A cohort pilot is a union hall, a school or an employer running the robotics pro
 | **See it first** | | | |
 | A walkthrough to show the class or a hiring manager | 11 chapters of a recorded walkthrough, 91.7 minutes in all, were produced in the previous build loop; chapter 9, the learning loop in the app, was not recorded. The recording is kept outside the repository. Persona walkthroughs on real stations are in the wiki. | `docs/consoles/COORDINATOR.md`, `docs/wiki/Personas.md` | **Built** |
 
-### (Does not exist)Named adults
+### Does not exist: Named adults
 
 Nobody has been measured. The tutor's figures come from 300 simulated learners, and every demonstration so far is synthetic or a labelled scripted stand-in. A pilot's opted-in adults would be the first real learners; that is what the cohort would add, and nothing here says it has happened.
 
-### (Does not exist)A site
+### Does not exist: A site
 
 The cells are generic and procedural, not a site's own layout, and the repository holds no site survey. No union hall, school or employer has run a cohort through it, and none is named as having agreed to.
 
-### (Does not exist)Hardware
+### Does not exist: Hardware
 
 There is no robot, bench or sensor in the repository's evidence. Hardware runs reported: 0. The physical path in the software is disabled and frozen, and the bench protocol is a method, not a result.
 
-### (Does not exist)A legal review
+### Does not exist: A legal review
 
 The learner-data terms are a draft for counsel and have not been reviewed by a lawyer. The relay has no authentication, and billing adapters ship off. A pilot's own counsel and safety officer would need to review these before learners are enrolled.
 
@@ -52,4 +52,4 @@ Every figure here is read from the file named beside it. Standards are named, ne
 
 ---
 
-_Every figure on this page was checked against the repository file named beside it when the page was built (head `bd748fca`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._
+_Every figure on this page was checked against the repository file named beside it when the page was built (head `41e41366`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._
