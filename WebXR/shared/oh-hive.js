@@ -73,6 +73,8 @@ export const OH_RESET_TASKS = Object.freeze(["rb-cell-entry", "rb-cobot-zone-set
 /** HIVE-4: a worker speaks a memory line at most once in this many hive minutes. */
 export const OH_MEMORY_COOLDOWN = 30;
 export const OH_RECENT = 4;
+/** HIVE-4: the steward questions at most one bid in this many hive minutes (fewer, more varied questions). */
+export const OH_QUESTION_COOLDOWN = 6;
 
 /** HIVE-4: a line's reading window in ms (the floor's unit). */
 export function ohLineMs(text) {
@@ -207,7 +209,7 @@ export function ohHive({ seed = 1, governor = null, audit = null, agents = OH_AG
     return e;
   }
   // HIVE-4: the floor (one per step), each agent's recent lines (for variety) and the time of its last memory line.
-  let floorT = -1, floorAt = 0, xSeq = 0;
+  let floorT = -1, floorAt = 0, xSeq = 0, lastQuestionT = -Infinity;
   const recentLines = new Map(), memAt = new Map();
   function speak(agent, about, facts, meta = null) {
     const ev = { about, ...facts, t };
@@ -297,7 +299,7 @@ export function ohHive({ seed = 1, governor = null, audit = null, agents = OH_AG
     // and the steward questions a contested winning bid from another map or from an agent already holding a job.
     const handed = exchanges ? exchange("handoff", dispatcher, best.a, factsOf(j, { bid: best.score })) : null;
     if (!handed) speak(best.a, "award", factsOf(j, { bid: best.score }));
-    if (exchanges && bids.length > 1 && (best.hops >= 2 || best.load >= 1)) exchange("question", steward, best.a, factsOf(j, { bid: best.score, hops: best.hops, load: best.load, skill: best.skill }), best.hops >= 2 ? "question_far" : "question_load");
+    if (exchanges && bids.length > 1 && (best.hops >= 2 || best.load >= 1) && t - lastQuestionT >= OH_QUESTION_COOLDOWN && exchange("question", steward, best.a, factsOf(j, { bid: best.score, hops: best.hops, load: best.load, skill: best.skill }), best.hops >= 2 ? "question_far" : "question_load")) lastQuestionT = t;
     // The governor checks the winner's request (unchanged VBRIDGE negotiation). The request reaches the governor now,
     // so it carries the hive clock (one step = OH_TICK_MS, plus the job's place in the step): the per-agent rate limit
     // and the cadence feature see requests in the order they are checked. The job id was fixed at arrival.

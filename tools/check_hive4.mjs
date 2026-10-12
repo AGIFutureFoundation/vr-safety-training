@@ -335,7 +335,7 @@ await check("6 trait recovery from text: ridge on eight declared line features, 
     out[k] = r3(spearman(held.map((u) => model(u.x)), held.map((u) => u.p.traits[k])));
     real[k] = r3(spearman(realX.map((x) => model(x)), D.OH_AGENTS.map((a) => a.traits[k])));
   }
-  rows.push({ measure: "Trait recovery: Spearman rho per trait, 50 held-out personas (seeds 51-100; ridge fitted on seeds 1-50)", before: "not measured", after: D.OH_TRAITS.map((k) => `${k} ${out[k]}`).join(", "), source: "check_hive4 6 (declared in docs/consoles/HIVE-4.md, commit ca8e2deb; the first held-out run, before the band fix changed the padding, read warmth 0.963, formality 0.812, verbosity 0.979, caution 0.804)" });
+  rows.push({ measure: "Trait recovery: Spearman rho per trait, 50 held-out personas (seeds 51-100; ridge fitted on seeds 1-50)", before: "not measured", after: D.OH_TRAITS.map((k) => `${k} ${out[k]}`).join(", "), source: "check_hive4 6 (declared in docs/consoles/HIVE-4.md, commit ca8e2deb). Earlier held-out readings: the first run 0.963, 0.812, 0.979, 0.804; after the band fix (padding only) 0.958, 0.795, 0.980, 0.798; these follow the steward's question cooldown (fewer questions in the re-said days)" });
   rows.push({ measure: "Trait recovery on the seven real agents (seed 101; n = 7, secondary)", before: "not measured", after: D.OH_TRAITS.map((k) => `${k} ${real[k]}`).join(", "), source: "check_hive4 6" });
   evals.push(`trait recovery (held-out 51-100): ${JSON.stringify(out)}; real agents (n=7): ${JSON.stringify(real)}`);
   return `held-out Spearman ${D.OH_TRAITS.map((k) => `${k} ${out[k]}`).join(", ")}; the seven agents ${D.OH_TRAITS.map((k) => `${k} ${real[k]}`).join(", ")}`;
