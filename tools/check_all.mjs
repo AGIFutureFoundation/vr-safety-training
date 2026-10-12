@@ -127,6 +127,7 @@ const CHECKERS = [
   "check_hive5.mjs",
   // HIVE-6: agents with moods from the hive's own events, the morning briefing in the operations room, words on the balanced screens, the tab's moods (docs/consoles/HIVE-6.md).
   "check_hive6.mjs",
+  "check_eco.mjs",
   // OMEGA-CLAW: five software agents declare, train, run once on held-out seeds, audit and promote robot models through ROBO-ARENA; refusals with reasons; the persistent robot world on the parishes page (docs/consoles/OMEGA-CLAW.md).
   "check_claw.mjs",
   // STRANDS: a Python-first harness on the strands-robots Policy/AgentTool interface, simulated only; the arena through tools/ra_bridge.mjs (docs/strands-robots.md).
