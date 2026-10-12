@@ -235,7 +235,41 @@ await check("4 the morning briefing: the queue, then each agent in turn with its
   for (const k of ["completed", "refused", "vetoed", "declined", "dispatched", "dispatchedChecked", "stepsMonitored", "physicalDispatched"]) ok(a[k] === bm[k], `${k} ${bm[k]} with the briefing, ${a[k]} without`);
   ok(bm.dispatchedChecked === bm.dispatched && bm.physicalDispatched === 0 && bm.stepsMonitored === bm.steps, "the governor still checks every step, physical 0");
   evals.push(`morning briefing (seeds 1-5, at hive minute 0): 7 turns a day, lines grounded ${grounded} of ${lines} (first jobs equal the day's first awards ${firstOk} of ${firstN}), turn-taking overlaps 0; governor ${bm.dispatchedChecked} of ${bm.dispatched} checked, ${bm.stepsMonitored} of ${bm.steps} steps, physical 0`);
-  return `${grounded}/${lines} grounded, first jobs ${firstOk}/${firstN}, overlaps 0; once; not after minute ${M.H6_BRIEF.window}; outcomes unchanged; governor ${bm.dispatchedChecked}/${bm.dispatched}, physical 0`;
+  // HIVE-7: the page's case. The learner decides (no decide), and approves each waiting request from minute 1 to the window's end; the
+  // look-ahead could not know. An agent whose first award differs from its briefing line says the change in one line (brief_fix:
+  // the award and the approval since the briefing; brief_fix_q: the queue moved), grounded and in its band. With the hive's own
+  // decide (seeds 1-5 above) the briefing already held, so no correction is said there.
+  ok(DAYS.size && [...DAYS.values()].every((dd) => !dd.events.some((e) => e.briefing?.fix)), "no correction when the briefing held (the stand-in days)");
+  let said = 0, sayOk = 0, before = 0, fixes = 0, fixOk = 0;
+  for (const seed of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]) {
+    const hv = H.ohHive({ seed, ...PANEL, moods: true, briefing: true });
+    const bb = hv.brief();
+    let approved = 0;
+    for (let i = 0; i < 480; i += 1) { hv.step(); if (hv.now() >= 1 && hv.now() <= M.H6_BRIEF.window) for (const p of hv.pending()) if (hv.approve(p.jobId)) approved += 1; }
+    const ev = hv.events();
+    for (const e of bb.filter((x) => x.about === "brief_first" || x.about === "brief_none")) {
+      said += 1;
+      const aw = ev.find((x) => x.type === "award" && x.agent === e.agent);
+      const fix = ev.filter((x) => x.type === "speak" && x.agent === e.agent && x.briefing?.fix);
+      const held = e.about === "brief_first" ? aw?.jobId === e.jobId : !(aw && aw.t <= M.H6_BRIEF.lookahead);
+      if (held) before += 1;
+      ok(fix.length <= 1 && (held ? fix.length === 0 : fix.length === 1), `seed ${seed} ${e.agent}: ${fix.length} corrections for a briefing that ${held ? "held" : "did not hold"}`);
+      if (fix.length) {
+        fixes += 1; const f = fix[0], a = agentOf(f.agent);
+        const g = S.ohGrounded(f.text, f, { siteNames: SITE_NAMES });
+        const band = S.ohSentences(f.text).every((x) => { const w = S.ohWords(x).length; return w >= a.style.band[0] && w <= a.style.band[1]; });
+        const appr = ev.filter((x) => x.type === "speak" && x.about === "approved" && x.t >= e.t && x.t <= f.t).pop();
+        const named = f.about === "brief_fix" ? !!appr && f.approved === appr.jobId && f.text.includes(appr.jobId) : !appr;
+        if (g.ok && band && named && f.jobId === aw.jobId && f.t === aw.t && f.text.includes(aw.siteName) && / · morning briefing to Orrin: /.test(f.caption)) fixOk += 1;
+        else throw new Error(`seed ${seed} ${f.agent}: correction not grounded (${g.missing.join(", ")}; band ${band}; named ${named}): ${f.caption}`);
+      }
+      if (held || fix.length) sayOk += 1;
+    }
+    ok(approved > 0 || seed > 1, `seed ${seed}: the stand-in approved nothing in the window`);
+  }
+  ok(sayOk === said && fixOk === fixes, `first jobs said (with corrections) = first awards ${sayOk} of ${said}; corrections grounded ${fixOk} of ${fixes}`);
+  evals.push(`the briefing after the learner's approvals (seeds 1-10, no decide, every waiting request approved from minute 1 to ${M.H6_BRIEF.window}): first jobs said = first awards ${before} of ${said} before -> ${sayOk} of ${said} with the correction line; corrections ${fixes}, grounded and in band ${fixOk} of ${fixes}`);
+  return `${grounded}/${lines} grounded, first jobs ${firstOk}/${firstN}, overlaps 0; once; not after minute ${M.H6_BRIEF.window}; outcomes unchanged; governor ${bm.dispatchedChecked}/${bm.dispatched}, physical 0; after approvals ${before}/${said} -> ${sayOk}/${said} (${fixes} corrections)`;
 });
 
 // ------------------------------------------------------------------------------------------------ 5. the tab, the panel, the room

@@ -64,6 +64,9 @@ export const OH_CORES_BRIEF = Object.freeze({
   brief_keeper_sup: ["{supervisor} approves every job before it runs today", "Every job waits for {supervisor} before it runs today"],
   brief_auditor: ["I re-walk the chain every {every} closed jobs, starting from line {lines}", "Chain check every {every} closed jobs, from line {lines} on"],
   brief_none: ["Nothing on my board in the first {window} minutes; I am ready at {site}", "No job for me in the first {window} minutes, ready at {site}"],
+  // HIVE-7: a one-line correction when the day's first award differs from what the briefing said (after the learner's approval)
+  brief_fix: ["Change of plan, I start with {job} at {site}", "My first job is now {job} at {site}"],
+  brief_fix_q: ["Change of plan, I start with {job} at {site}", "My first job is now {job} at {site}"],
 });
 export const OH_CORES_BRIEF_ES = Object.freeze({
   brief_open: ["Buenos días: {count} trabajos en la cola de hoy, {first} en la primera hora", "La cola de hoy tiene {count} trabajos, {first} en la primera hora"],
@@ -73,6 +76,8 @@ export const OH_CORES_BRIEF_ES = Object.freeze({
   brief_keeper_sup: ["{supervisor} aprueba cada trabajo antes de que se ejecute hoy"],
   brief_auditor: ["Reviso la cadena cada {every} trabajos cerrados, desde la línea {lines}"],
   brief_none: ["Nada en mi tablero en los primeros {window} minutos; listo en {site}"],
+  brief_fix: ["Cambio de plan, empiezo con {job} en {site}", "Mi primer trabajo ahora es {job} en {site}"],
+  brief_fix_q: ["Cambio de plan, empiezo con {job} en {site}", "Mi primer trabajo ahora es {job} en {site}"],
 });
 
 /**
@@ -123,6 +128,8 @@ export const OH_CORES_TALK = Object.freeze({
 export const OH_SECOND = Object.freeze({
   memory: ["The last was at {lastSite}, {clock} on the hive clock", "Last one: {lastSite}, {clock} hive time", "Before this, {lastSite} at {clock}"],
   memory_reset: ["I last reset {lastSite} at {clock} on the hive clock", "Last reset: {lastSite}, {clock} hive time", "The last one I reset was {lastSite}, at {clock} hive time"],
+  brief_fix: ["The learner approved {approved} after the briefing", "That follows the approval of {approved} after the briefing"], // HIVE-7
+  brief_fix_q: ["The queue moved after the briefing", "The queue changed since the briefing"],
 });
 /** HIVE-4 variety: more cores of the same kinds (used only with `variety: true`). */
 export const OH_CORES_MORE = Object.freeze({
@@ -172,6 +179,8 @@ export const OH_CORES_TALK_ES = Object.freeze({
 export const OH_SECOND_ES = Object.freeze({
   memory: ["El trabajo anterior: {lastSite}, a las {clock}", "Antes: {lastSite}, a las {clock}", "Antes de este, {lastSite} a las {clock} de la colmena"],
   memory_reset: ["Reinicié por última vez {lastSite} a las {clock}", "Último reinicio: {lastSite}, {clock} en la colmena", "El último que reinicié fue {lastSite}, a las {clock}"],
+  brief_fix: ["El aprendiz aprobó {approved} después de la reunión", "Sigue a la aprobación de {approved} tras la reunión"], // HIVE-7
+  brief_fix_q: ["La cola cambió después de la reunión", "La cola se movió desde la reunión"],
 });
 /** HIVE-4: how a worker names a task kind in Spanish when it counts its day (by the event's task type). */
 export const OH_TASK_NOUNS_ES = Object.freeze({ "rb-cell-entry": "entradas a la celda", "rb-cobot-zone-setup": "ajustes de zona", "rb-teleop-pick-place": "tareas de recoger y colocar", "rb-amr-fleet-routing": "rutas de almacén" });
@@ -206,6 +215,7 @@ function ohFill(tpl, ev, pack = OH_PACKS.en) {
     score: ev.score ?? "", steps: ev.steps ?? "", lines: ev.lines ?? "", bid: ev.bid ?? "", z: ev.z ?? "", supervisor: ev.supervisor ?? "",
     // HIVE-4: the talk and memory slots (from the award, the winner's bid, the chain check and the hive's own chain).
     toName: ev.toName ?? "", hops: ev.hops ?? "", load: ev.load ?? "", skill: ev.skill ?? "", count: ev.count ?? "", first: ev.first ?? "", every: ev.every ?? "", window: ev.window ?? "", kinds: pack.taskNouns?.[ev.taskType] ?? ev.kinds ?? "", lastSite: ev.lastSite ?? "", clock: ev.clock ?? "",
+    approved: ev.approved ?? "", // HIVE-7: the job the learner approved (the briefing's correction)
   };
   return tpl.replace(/\{(\w+)\}/g, (_, k) => String(slots[k] ?? ""));
 }
