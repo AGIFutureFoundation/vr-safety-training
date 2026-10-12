@@ -30,15 +30,16 @@ Built means it is in the repository and its checker passes today. Planned means 
 - **Built** The hard variants are pinned by checkers (0 → 3) and are teleop tasks: recorded-against-synthetic on 6 tasks, up from 4.
 - **Built** A third hard variant, fleet routing with a second crossing and a blocked aisle cell, measured like the others: the clone reaches 0.05 against the expert's 1.00, a gap of 0.95, reported as it is.
 - **Built** Governor with a per-agent rate limit (default 20 a minute) and a learned anomaly check beside its rules: refusal reasons 9 → 11; rule-legal injections caught 66 of 100 (the rules alone 0 of 100); 0 of 200 held-out safe jobs wrongly refused. Both add a refusal and never a permission.
-- **Built** Registry export and import between devices as a file a person carries: a round trip of 200 of 200 seeded lineage graphs came back identical, and tampered files were refused 50 of 50, each with a named reason. Next
+- **Built** Registry export and import between devices as a file a person carries: a round trip of 200 of 200 seeded lineage graphs came back identical, and tampered files were refused 50 of 50, each with a named reason.
+- **Built** Preference pairs train a reward model (a Bradley–Terry model on whole-run features; synthetic pairs from a synthetic rater, labelled so; a learner's own pairs join only while they opt in). Used to rank and keep the top half of the demonstrations before cloning, it did not beat the rule filter: fleet routing 0.483 against 0.817 rule-filtered and 0.600 unfiltered, its hard variant 0.05 against 0.05 and 0.117, on 60 held-out seeds, reported as it is.
+- **Built** Software-agent baselines for the 3 hard variants: random 0 of 3 and the scripted expert 3 of 3 on each; the text-reading agents do not apply to a gym observation.
+- **Built** The lineage as a figure on the policy report: consent → dataset → policy → eval → deployment (0 learner consents, 6 synthetic datasets, 6 clones, 12 measured evals, 6 simulated sites). Next
 
 ### Richer demonstrations
 
 - *Planned* A real headset session for the recorder: the controller source is proven with stubbed sessions only.
-- *Open* Preference ratings are recorded and paired; nothing trains on them yet.
-- *Open* The fleet-routing hard variant: the clone completes only 3 of 60 runs, a gap of 0.95 to the expert. It mostly fails by waiting, not by colliding. Closing it is a learning problem left open and measured as it is.
+- *Open* The fleet-routing hard variant: the clone completes only 3 of 60 runs, a gap of 0.95 to the expert. Five rounds of corrections labelled by the scripted expert (not a person) left it at 0.05: its features cannot express the expert's choices (the best any policy over them could agree is 0.696). With four route features the same rounds reach 0.417, a gap of 0.583. Closing the rest is open and measured as it is.
 - *Planned* The page proof in the gate: the drive is a script (`tools/drive_robotrain_page.mjs`) that exits with an error when the proof fails, but it is not in the gate, because adding it needs the coordinator's idle-machine timing.
-- *Planned* Software-agent baselines for the hard variants, which have none.
 - *Planned* A per-agent cadence baseline for the anomaly check: it catches 17 of 50 fast repeats, and its history is a procedural stand-in, not any site's own accepted-job log. Then
 
 ### Sim to real
@@ -53,7 +54,7 @@ Built means it is in the repository and its checker passes today. Planned means 
 - *Planned* Consenting crews' practice keeps improving the policies their site uses, with lineage from consent to deployment.
 - *Planned* Per-site policy evaluation dashboards.
 - *Planned* A first cohort runs the 30 programme templates at a union hall, school or employer; the pilot page lists what it would bring and what is missing.
-- *Planned* A lineage diagram instead of a table.
+- *Planned* A lineage diagram instead of a table in the governance view (the policy report has one).
 
 Only the Now column is built. Planned items come from the "Left" lists in the build consoles' own notes and from the pitch page's roadmap, not from a sales plan, and none of them is promised for a date. This page states no hardware result, price, valuation or revenue.
 
