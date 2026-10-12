@@ -23,7 +23,7 @@
 import { readFileSync, writeFileSync, readdirSync, existsSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
-export const GD_KB_CAP = 672 * 1024;
+export const GD_KB_CAP = 680 * 1024;
 
 const here = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(here, "..");
@@ -36,6 +36,8 @@ export const GD_KB_OUT = join(WEBXR, "shared", "guide-kb.js");
 // catalog (docs/consoles/SCHOLAR.md), and from 640 KB when Redwood Reach's
 // sites joined the worlds (docs/consoles/REDWOOD-2.md); the rows themselves
 // are unchanged. The file loads lazily, when the Guide panel first opens.
+// Raised from 672 KB in loop 10 round 6 (docs/consoles/COORDINATOR.md): OMEGA-CLAW's claw doc (two sections,
+// like the other agent docs) and the docs index's new deploy and whitepaper lines took it 0.5 KB over.
 
 const imp = (rel) => import(pathToFileURL(join(ROOT, rel)).href);
 const clean = (s) => String(s ?? "").replace(/\s+/g, " ").trim();
@@ -220,7 +222,7 @@ async function build() {
     const lines = readFileSync(join(ROOT, rel), "utf8").split("\n");
     let docTitle = null, head = null, para = [], n = 0;
     const flush = () => {
-      if (head && para.length && n < (rel === "docs/bench-protocol.md" || rel === "docs/learner-data-terms.md" || rel === "docs/omega-hive.md" || rel === "docs/deploy-akamai.md" ? 0 : rel.startsWith("docs/programmes/") || rel.startsWith("docs/virtuals") || rel === "docs/robotics-programme.md" || rel === "docs/louisiana-cohorts.md" || rel === "docs/ladders.md" ? 2 : 5)) { // five sections a doc (two for generated programme and ladder docs and the agent-network docs; none for ROBOEXPORT's two, whose FAQ entry carries the terms, nor for the operator-only Akamai deploy page): the KB holds its 672 KB cap as docs grow
+      if (head && para.length && n < (rel === "docs/bench-protocol.md" || rel === "docs/learner-data-terms.md" || rel === "docs/omega-hive.md" || rel === "docs/deploy-akamai.md" ? 0 : rel.startsWith("docs/programmes/") || rel.startsWith("docs/virtuals") || rel === "docs/robotics-programme.md" || rel === "docs/omega-claw.md" || rel === "docs/louisiana-cohorts.md" || rel === "docs/ladders.md" ? 2 : 5)) { // five sections a doc (two for generated programme and ladder docs and the agent-network docs and OMEGA-CLAW's claw doc; none for ROBOEXPORT's two, whose FAQ entry carries the terms, nor for the operator-only Akamai deploy page): the KB holds its 672 KB cap as docs grow
         const text = plain(para.join(" "));
         if (text.length > 30) {
           add({ id: `doc:${rel.slice(5)}#${n}`, kind: "doc", title: head === docTitle ? docTitle : `${docTitle} — ${head}`, src: rel,
