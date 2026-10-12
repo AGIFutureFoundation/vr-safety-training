@@ -9,7 +9,7 @@
  * and in the cell hall. Files: <site>-wide-<look>-<time>.jpg and room-<style>-lit.jpg (JPEG q92: the machine's disk is shared).
  * Rebuild the bundle first: python3 tools/bundle_webxr.py parishes
  *
- *     node tools/drive_hd4_scenes.mjs [port=9123] [tier=high] [outDir] [maps=oak-west-oakland] [looks=all] [rooms|norooms] [ultra|high] [time|notime]
+ *     node tools/drive_hd4_scenes.mjs [port=9123] [tier=high] [outDir] [maps=oak-west-oakland] [looks=all] [rooms|norooms] [ultra|high] [time|notime] [sites=all]
  *
  * Exits 1 when a capture fails, a page error is thrown or a request leaves the host.
  */
@@ -26,6 +26,7 @@ const port = Number(process.argv[2]) || 9123, tier = process.argv[3] || "high", 
 const maps = (process.argv[5] || "oak-west-oakland").split(",");
 const looks = !process.argv[6] || process.argv[6] === "all" ? HD4_LOOK_IDS : process.argv[6].split(",");
 const rooms = (process.argv[7] || "rooms") === "rooms", ultra = process.argv[8] === "ultra", timing = (process.argv[9] || "time") === "time";
+const onlySites = process.argv[10] && process.argv[10] !== "all" ? process.argv[10].split(",") : null; // optional: some robot sites only
 if (outDir) mkdirSync(outDir, { recursive: true });
 const { base, close } = await pvServe(port);
 const browser = await pvLaunch();
@@ -52,13 +53,13 @@ for (const map of maps) {
   await page.goto(`${base}/parishes/dist/parishes.html?parish=${map}&tier=${tier}${ultra ? "&ultra=1" : ""}`, { waitUntil: "load", timeout: 300000 });
   await page.waitForFunction(() => typeof window.__parishTest?.scene === "function" && !!window.__parishTest?.hd4, null, { timeout: 300000 });
   const info = await page.evaluate(() => ({ ultra: window.__parishTest.hd4.ultra, presets: window.__parishTest.hd4.lookPresets().length, sites: window.__parishTest.hd4.lookPresets().filter((p) => p.parish === new URLSearchParams(location.search).get("parish")).map((p) => p.siteId), opsDoors: window.__parishTest.hd4.opsDoors.length }));
-  const siteIds = [...new Set(info.sites)];
+  const siteIds = [...new Set(info.sites)].filter((s) => !onlySites || onlySites.includes(s));
   console.log(`  ${map}: Ultra ${info.ultra.on ? "on" : "off"} (${info.ultra.source}), ${info.presets} look presets listed, robot sites here: ${siteIds.join(", ")}, ops-room doors here: ${info.opsDoors}`);
   for (const siteId of siteIds) {
     let firstLook = true;
     for (const look of looks) {
       const sc = await page.evaluate(([id, l]) => window.__parishTest.scene(id, "wide", l), [siteId, look]);
-      await frames(firstLook ? 36 : 14); firstLook = false;
+      await frames(firstLook ? 36 : 8); firstLook = false; // a new site streams its chunks; a new look only swaps sky, fog and lights
       const c = await measure();
       const cam = await page.evaluate((want) => { const p = window.__parishTest.camera.position; return want ? Math.hypot(p.x - want[0], p.y - want[1], p.z - want[2]) : 99; }, sc?.position ?? null);
       const sl = await page.evaluate(() => window.__parishTest.hd4.sites());
@@ -80,7 +81,7 @@ for (const map of maps) {
   if (rooms && first) {
     for (const style of [...Object.keys(IXR_ROOMS), "hd4-hive-ops"]) {
       const r = await page.evaluate((st) => (st === "hd4-hive-ops" ? window.__parishTest.hd4.opsRoom() : window.__parishTest.ixScene(st)), style);
-      await frames(18);
+      await frames(12);
       const c = await measure();
       const m = await page.evaluate(() => window.__parishTest.hd4.measure());
       const ok = !!r && m.inside && m.style === style && c.calls > 5;
