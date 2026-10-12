@@ -3,7 +3,8 @@
  * ENV-HD-3 (docs/consoles/ENV-HD-3.md): stills for the reel and the deck, in the built parishes page (not in the gate).
  * The six non-robot establishing shots (hd3-scenes.js: the three busiest non-robot sites x "wide" / "street"), each by day
  * and by night, at 1920x1080 through window.__parishTest.scene, with each frame's draw calls and triangles, page errors and
- * off-host requests. Files are named <map>-<kind>-<shot>-<day|night>.png. Rebuild the bundle first:
+ * off-host requests. Files are named <map>-<kind>-<shot>-<day|night>.jpg (JPEG q92 since ENV-HD-5: the machine's disk is
+ * shared). ENV-HD-5: the seven sites (+ park, fire station, hospital, school); one page load per map. Rebuild the bundle first:
  * python3 tools/bundle_webxr.py parishes
  *
  *     node tools/drive_hd3_scenes.mjs [port=9112] [tier=high] [outDir] [shots=wide,street] [sites=<id>,...]
@@ -33,9 +34,13 @@ const t0 = Date.now();
 console.log(`drive_hd3_scenes: tier ${tier}, port ${port}, load ${pvLoad()}`);
 const frames = (n) => page.evaluate((n) => new Promise((res) => { let k = 0; const f = () => (++k >= n ? res() : requestAnimationFrame(f)); requestAnimationFrame(f); }), n);
 
-for (const site of HD3_SCENE_SITES.filter((s) => sites.includes(s.id))) {
-  await page.goto(`${base}/parishes/dist/parishes.html?parish=${site.parish}&tier=${tier}`, { waitUntil: "load", timeout: 240000 });
-  await page.waitForFunction(() => typeof window.__parishTest?.scene === "function" && !!window.__parishTest?.exteriors, null, { timeout: 240000 });
+let loaded = null;
+for (const site of HD3_SCENE_SITES.filter((s) => sites.includes(s.id)).sort((a, b) => a.parish.localeCompare(b.parish))) {
+  if (loaded !== site.parish) { // one load per map: the sites on a map share the page
+    await page.goto(`${base}/parishes/dist/parishes.html?parish=${site.parish}&tier=${tier}`, { waitUntil: "load", timeout: 240000 });
+    await page.waitForFunction(() => typeof window.__parishTest?.scene === "function" && !!window.__parishTest?.exteriors, null, { timeout: 240000 });
+    loaded = site.parish;
+  }
   const presets = await page.evaluate(() => window.__parishTest.scenePresets?.().length ?? 0);
   for (const [label, idx] of [["day", 1], ["night", 3]]) {
     await page.evaluate((i) => window.__parishTest.setTime(i), idx);
@@ -49,11 +54,11 @@ for (const site of HD3_SCENE_SITES.filter((s) => sites.includes(s.id))) {
       }, sc?.position ?? null);
       const ok = !!sc?.ok && c.camOff < 0.5 && c.calls > 10;
       out.shots++; if (!ok) out.failed++;
-      const file = `${site.parish}-${site.kind}-${shot}-${label}.png`;
+      const file = `${site.parish}-${site.kind}-${shot}-${label}.jpg`;
       // a clean frame for the deck: the page's buttons and panels (fixed or absolute, not holding the canvas) are hidden
       const hidden = await page.evaluate(() => { let n = 0; for (const el of document.body.querySelectorAll("*")) { if (el.tagName === "CANVAS" || el.querySelector("canvas")) continue; const cs = getComputedStyle(el); if ((cs.position === "fixed" || cs.position === "absolute") && cs.visibility !== "hidden") { el.dataset.hd3Hid = "1"; el.style.visibility = "hidden"; n++; } } return n; });
       await frames(2);
-      if (outDir) { await page.screenshot({ path: join(outDir, file) }); out.files.push(file); }
+      if (outDir) { await page.screenshot({ path: join(outDir, file), type: "jpeg", quality: 92 }); out.files.push(file); }
       await page.evaluate(() => { for (const el of document.querySelectorAll("[data-hd3-hid]")) { el.style.visibility = ""; delete el.dataset.hd3Hid; } });
       console.log(`${ok ? "ok  " : "FAIL"} ${file}: preset ${site.id}:${shot}, ${c.calls} draw calls, ${c.triangles} triangles, camera ${c.camOff.toFixed(2)} m from the preset, ${hidden} overlay element(s) hidden for the still (presets listed by the page: ${presets})`);
     }

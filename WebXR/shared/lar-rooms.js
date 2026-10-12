@@ -21,6 +21,7 @@
 //                                          (a station as kind "station" so the mount's onLaunch takes it; a simulation as
 //                                          kind "lar-sim" running `launch`). The phone tier ("low") drops decoration only.
 //   larRegisterDressers(ix, { parish, launch })  -> the styles registered; ix = { ixRegisterDresser } (guarded: null = none)
+//   LAR_SIGN_PX                        a name sign's canvas per tier: high 512 × 120, balanced and low 256 × 60 (ENV-HD-5)
 //   `launch(l, r)` is the world's handler: the parishes app passes crLaunch (a station link, psWorld.open for a simulation).
 
 import { ixStyleFor } from "./ix-interiors.js";
@@ -259,11 +260,15 @@ export function larRoomsFor(parish) {
   return out;
 }
 
-/** An object's name on a small canvas (the phone tier draws it at half resolution); headless, a flat dark panel. */
-function larSignMaterial(THREE, text, low = false) {
+/** A name sign's canvas per tier. ENV-HD-5: balanced draws the phone tier's size (it drew the desktop size, which put the
+ *  six rooms at 3.21–6.02 MiB on balanced against its 3 MiB room budget; hd2-room-skins.js HD2_SIGN_BYTES counts the same). */
+export const LAR_SIGN_PX = { high: [512, 120], balanced: [256, 60], low: [256, 60] };
+
+/** An object's name on a small canvas (LAR_SIGN_PX: the desktop high tier at twice the phone size); headless, a flat dark panel. */
+function larSignMaterial(THREE, text, tier = "high") {
   const flat = () => new THREE.MeshBasicMaterial({ color: 0x101820 });
   if (typeof document === "undefined" || !document.createElement) return flat();
-  const k = low ? 1 : 2, c = document.createElement("canvas"); c.width = 256 * k; c.height = 60 * k;
+  const [w, h] = LAR_SIGN_PX[tier] ?? LAR_SIGN_PX.high, k = w / 256, c = document.createElement("canvas"); c.width = w; c.height = h;
   const g = c.getContext("2d"); if (!g) return flat();
   g.fillStyle = "#101820"; g.fillRect(0, 0, c.width, c.height); g.fillStyle = "#f2c14b"; g.fillRect(0, c.height - 4 * k, c.width, 4 * k);
   g.fillStyle = "#eaf6fb"; g.textAlign = "center"; g.textBaseline = "middle";
@@ -300,7 +305,7 @@ export function larDress({ THREE, group, room, r, tier = "high", launch = () => 
     const foot = LAR_SHAPES[f.shape][0], dir = LAR_DIR[f.face] ?? LAR_DIR.s, flat = !dir[0] && !dir[1];
     const [w, d] = larTurn(foot, f.face), half = dir[0] ? w / 2 : d / 2;
     const y = Math.min(room.h - 0.4, Math.max(2.3, foot[4] + foot[1] / 2 + 0.4));
-    const sign = new THREE.Mesh(signGeo, larSignMaterial(THREE, f.label.split(":")[0], low));
+    const sign = new THREE.Mesh(signGeo, larSignMaterial(THREE, f.label.split(":")[0], tier));
     sign.position.set(flat ? f.at[0] : f.at[0] + dir[0] * (half + 0.05), flat ? 2.4 : y, flat ? f.at[1] : f.at[1] + dir[1] * (half + 0.05));
     sign.rotation.y = flat ? 0 : Math.atan2(dir[0], dir[1]);
     sign.name = `lar-sign-${f.id}`; group.add(sign);

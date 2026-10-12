@@ -15,6 +15,11 @@
  * the maps it sets are exactly the ones that fit under HD2_TEX_BUDGET with the room's own textures counted (the shell's
  * signs and LA-ROOMS' name-sign canvases, which headless builds draw as flat panels), and a room the skin leaves over its
  * budget is one that was over before the skin (reported, with the bytes).
+ * ENV-HD-5 (docs/consoles/ENV-HD-5.md): LA-ROOMS draws its name signs at 256 x 60 on balanced (the phone size; 512 x 120 on
+ * high), so every room now fits its budget on every tier before the skin (a room over it fails; it used to be reported only).
+ * This checker's model of a sign canvas (larSignPx) is checked against the canvases larSignMaterial really allocates: the LA
+ * rooms are built again under a recording canvas stub (headless builds otherwise draw flat panels), with the skin, and every
+ * texture in the room is measured — the shell's signs, the name signs and the skin's maps.
  *
  *     node tools/check_room_skins.mjs
  */
@@ -78,14 +83,17 @@ for (const st of Object.keys(larSite)) {
   LAR.larRegisterDressers({ ixRegisterDresser: (s2, fn) => { if (s2 === st) (base.d[s2] ??= []).push(fn); } }, { parish: p });
   LAR.larRegisterDressers({ ixRegisterDresser: (s2, fn) => { if (s2 === st) (skinned.d[s2] ??= []).unshift(fn); } }, { parish: p });
 }
-const larSignBytes = (tier) => Math.round((tier === "low" ? 256 * 60 : 512 * 120) * 4 * 4 / 3); // lar-rooms.js larSignMaterial
+// lar-rooms.js larSignMaterial's canvas, this checker's model: 512 x 120 on high; 256 x 60 on balanced (ENV-HD-5: it was 512 x 120,
+// which put the six LA rooms at 3.21–6.02 MiB on balanced) and on the phone tier. Measured against the real canvases below.
+const larSignPx = (tier) => (tier === "high" ? [512, 120] : [256, 60]);
+const larSignBytes = (tier) => { const [w, h] = larSignPx(tier); return Math.round(w * h * 4 * 4 / 3); };
 const mapBytes = (res) => Math.round(res * res * 4 * 4 / 3);
 let overBefore = [];
 const counts = (room) => { let meshes = 0, triangles = 0, lights = 0; room.group.traverse((o) => { if (o.isLight) lights++; if (!o.isMesh) return; meshes++; const g = o.geometry; triangles += (g.index ? g.index.count : g.attributes.position.count) / 3 * (o.isInstancedMesh ? o.count : 1); }); return { meshes, triangles, lights }; };
 // a dressed site for each style where CLASSROOMS furnishes one on Orleans (else the generic room)
 const crSite = {};
 for (const r of CR.crRoomsFor(orleans)) { const s = orleans.sites.find((x) => x.id === r.site); const st = s && IX.ixStyleFor(s.kind, s.id); if (st && !crSite[st]) crSite[st] = s; }
-const rows = [], byTier = { high: 0, balanced: 0, low: 0 };
+const rows = [], byTier = { high: 0, balanced: 0, low: 0 }, modelBytes = {};
 for (const st of styles) {
   for (const tier of ["high", "balanced", "low"]) {
     const site = crSite[st] ? { ...crSite[st], stations: [] } : larSite[st] ? { ...larSite[st].s, stations: [] } : null;
@@ -116,6 +124,7 @@ for (const st of styles) {
     check(got.join() === want.join(), `${st}/${tier}: the ${set} set at ${res} px on ${got.join(", ") || "nothing"} (${metalProps.length} metal prop mesh(es)); the maps that fit the budget: ${want.join(", ") || "none"}`);
     check(b.hd2?.res === res && b.hd2?.style === st && b.hd2.maps.length === want.length, `${st}/${tier}: room.hd2 reports the skin (${b.hd2?.maps.length} maps${b.hd2?.skipped?.length ? `, skipped over budget: ${b.hd2.skipped.join(", ")}` : ""})`);
     const bytes = m.textureBytes + signBytes + larSigns * larSignBytes(tier);
+    if (larSite[st]) modelBytes[`${st}/${tier}`] = { bytes, before, larSigns, maps: got.join(", ") || "none" };
     check(bytes === acc && Math.abs((b.hd2?.bytes ?? -1) - bytes) <= 4, `${st}/${tier}: the skin's own byte count matches the measure (${fmtB(b.hd2?.bytes ?? 0)} vs ${fmtB(bytes)})`);
     if (before > HD.HD2_TEX_BUDGET[tier]) { overBefore.push(`${st}/${tier} ${fmtB(before)} (${larSigns} LA name signs)`); check(bytes === before, `${st}/${tier}: over budget before the skin (${fmtB(before)}: ${larSigns} LA-ROOMS name signs), and the skin adds nothing`); }
     else check(bytes <= HD.HD2_TEX_BUDGET[tier], `${st}/${tier}: texture bytes ${fmtB(bytes)} ≤ ${fmtB(HD.HD2_TEX_BUDGET[tier])}`);
@@ -127,6 +136,45 @@ console.log("  style          tier  meshes      tris        texture bytes (shell
 for (const r of rows) console.log(`  ${r}`);
 note(`worst texture bytes per room: high ${fmtB(byTier.high)} (budget ${fmtB(HD.HD2_TEX_BUDGET.high)}), balanced ${fmtB(byTier.balanced)} (budget ${fmtB(HD.HD2_TEX_BUDGET.balanced)}), low ${fmtB(byTier.low)} (budget ${fmtB(HD.HD2_TEX_BUDGET.low)}); headless stubs measure the size each canvas allocates (w × h × 4 × 4/3)`);
 note(`rooms over their budget before the skin (the skin adds nothing there): ${overBefore.length ? overBefore.join("; ") : "none"}`);
+check(overBefore.length === 0, `ENV-HD-5: every room fits its texture budget on every tier before the skin (${overBefore.length} over; the LA rooms' name signs are 256 × 60 on balanced)`);
+
+// ENV-HD-5: the LA rooms' canvases measured, not modelled — each Louisiana style built on its map, on three tiers, with LA-ROOMS'
+// dressers and the skin, under a canvas stub that records every canvas made; every texture in the room is then measured.
+const larMade = [];
+const larCtx = () => new Proxy({}, { get: (t, k) => (k in t ? t[k] : k === "measureText" ? (x) => ({ width: String(x).length * 9 }) : () => ({ addColorStop() {} })), set: (t, k, v) => { t[k] = v; return true; } });
+const hadDoc = Object.prototype.hasOwnProperty.call(globalThis, "document"), oldDoc = globalThis.document;
+globalThis.document = { createElement: (tag) => { const c = { tag, width: 0, height: 0, style: {}, getContext: () => larCtx() }; larMade.push(c); return c; } };
+const larRows = [];
+try {
+  for (const st of Object.keys(larSite)) {
+    const { p, s } = larSite[st];
+    const d = {};
+    LAR.larRegisterDressers({ ixRegisterDresser: (s2, fn) => { if (s2 === st) (d[s2] ??= []).push(fn); } }, { parish: p });
+    HD.hd2RegisterSkins({ ixRegisterDresser: (s2, fn) => { if (s2 === st) (d[s2] ??= []).push(fn); } });
+    const sizes = {};
+    for (const tier of ["high", "balanced", "low"]) {
+      larMade.length = 0;
+      const room = IX.ixBuild(st, { three: THREE, tier, site: { ...s, stations: [] }, dressers: d });
+      const signs = []; room.group.traverse((o) => { if (o.isMesh && /^lar-sign-/.test(o.name)) signs.push(o); });
+      const px = [...new Set(signs.map((o) => `${o.material.map?.image?.width} × ${o.material.map?.image?.height}`))];
+      const [mw, mh] = larSignPx(tier);
+      check(signs.length > 0 && signs.every((o) => larMade.includes(o.material.map?.image)) && px.length === 1 && px[0] === `${mw} × ${mh}`,
+        `${st}/${tier}: larSignMaterial drew ${signs.length} name-sign canvases at ${px.join(", ")} (the checker's model ${mw} × ${mh})`);
+      const signB = signs.reduce((a, o) => a + IXR.ixrTexBytes(o.material.map), 0);
+      check(signB === signs.length * HD.HD2_SIGN_BYTES[tier] && signB === signs.length * larSignBytes(tier), `${st}/${tier}: the name signs' bytes measured ${fmtB(signB)} = ${signs.length} × HD2_SIGN_BYTES.${tier} (what the skin counts)`);
+      const meas = IXR.ixrMeasure(room).textureBytes, model = modelBytes[`${st}/${tier}`];
+      check(!!model && meas === model.bytes, `${st}/${tier}: every texture in the room measured ${fmtB(meas)} (shell signs, ${signs.length} name signs, skin maps ${model?.maps}) = the model's ${fmtB(model?.bytes ?? 0)}`);
+      check(meas <= HD.HD2_TEX_BUDGET[tier], `${st}/${tier}: ${fmtB(meas)} ≤ ${fmtB(HD.HD2_TEX_BUDGET[tier])} measured`);
+      sizes[tier] = signs.map((o) => [o.geometry.parameters.width, o.geometry.parameters.height].join(" × "));
+      larRows.push(`${st.padEnd(16)} ${tier.padEnd(8)} ${String(signs.length).padStart(2)} signs at ${px.join(", ").padEnd(10)} room ${fmtB(meas)} (before the skin ${fmtB(model?.before ?? 0)}; maps: ${model?.maps})`);
+    }
+    check(sizes.high.join() === sizes.balanced.join() && sizes.balanced.join() === sizes.low.join(), `${st}: the name-sign planes are the same size on every tier (${sizes.high[0]} m; only the canvas resolution changes)`);
+  }
+} finally { if (hadDoc) globalThis.document = oldDoc; else delete globalThis.document; }
+console.log("  LA room          tier     name signs (measured canvases)   room texture bytes, measured");
+for (const r of larRows) console.log(`  ${r}`);
+const larBal = Object.keys(larSite).map((st) => modelBytes[`${st}/balanced`]?.bytes ?? Infinity);
+note(`ENV-HD-5: LA rooms on balanced 3.21–6.02 MiB (before) → ${fmtB(Math.min(...larBal))}–${fmtB(Math.max(...larBal))} with the skin, ${larBal.filter((b) => b <= HD.HD2_TEX_BUDGET.balanced).length} of ${larBal.length} ≤ ${fmtB(HD.HD2_TEX_BUDGET.balanced)}`);
 
 // 5. procedural and wired
 const src = readFileSync(join(WEBXR, "shared/hd2-room-skins.js"), "utf8");
