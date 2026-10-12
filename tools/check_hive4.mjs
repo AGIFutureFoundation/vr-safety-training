@@ -15,7 +15,7 @@
  *   7. distinct-2 per agent, before -> after;
  *   8. the instructor console's Omega Hive tab: read-only, local, built without markup strings, the evals from the committed JSON;
  *   9. hygiene: no network or model call, no import aliases, the prefix, check_all and the baseline row, docs present.
- * `--write` regenerates docs/evals/hive4.json from this run; without it, the committed JSON must match what this run computes.
+ * `--write` regenerates WebXR/instructor/hive4-evals.json from this run; without it, the committed JSON must match what this run computes.
  */
 import { readFileSync, writeFileSync, existsSync } from "node:fs";
 import { join, dirname } from "node:path";
@@ -330,16 +330,16 @@ await check("7 repetition per agent (distinct-2 over fact-masked lines), before 
 
 // 8 — the console tab
 const TAB = "WebXR/instructor/js/h4-hive.js";
-const JSON_PATH = "docs/evals/hive4.json";
+const JSON_PATH = "WebXR/instructor/hive4-evals.json";
 await check("8 the instructor console's Omega Hive tab: read-only and local, built without markup strings, the evals from the committed JSON", () => {
   const html = read("WebXR/instructor/index.html"), app = read("WebXR/instructor/js/app.js"), tab = read(TAB), py = read("tools/bundle_webxr.py");
   ok(/id="tab-hive" role="tab"[^>]*aria-controls="view-hive"[^>]*>Omega Hive</.test(html) && /<section id="view-hive" role="tabpanel" aria-labelledby="tab-hive" hidden>/.test(html) && html.includes('id="h4-root"'), "index.html: the tab and its panel");
   ok(/\["hive", "tab-hive", "view-hive"\]/.test(app) && /h4MountHiveTab\(/.test(app), "app.js: the view switch and the mount");
   ok(tab.length > 0 && !/innerHTML|outerHTML|insertAdjacentHTML|document\.write/.test(tab), "the tab builds from createElement/textContent only");
   ok(!/\.(approve|decline|setSupervise|setEstop)\(|auditAppend|ent3AuditAppend|localStorage|sessionStorage|\.speak\(/.test(tab), "the tab is read-only: no approve, decline, supervise, e-stop, audit write, storage or speech");
-  const url = /export const H4_EVALS_URL = "([^"]+)"/.exec(tab)?.[1] ?? "";
-  const fetches = [...tab.matchAll(/fetch\(([^)]*)\)/g)].map((m) => (m[1] === "H4_EVALS_URL" ? url : m[1]));
-  ok(fetches.length === 1 && /^\.\.\/\.\.\/docs\/evals\/hive4\.json$/.test(fetches[0]) && existsSync(join(ROOT, JSON_PATH)), `the tab fetches only the committed evals JSON, same origin (${fetches.join(" ")})`);
+  const urls = [.../export const H4_EVALS_URLS = Object\.freeze\(\[([^\]]+)\]\)/.exec(tab)?.[1].matchAll(/"([^"]+)"/g) ?? []].map((m) => m[1]);
+  const fetches = [...tab.matchAll(/fetch\(([^)]*)\)/g)].map((m) => m[1]);
+  ok(fetches.length === 1 && fetches[0] === "H4_EVALS_URLS[i]" && urls.length === 2 && urls.every((u) => /^\.\.?\/hive4-evals\.json$/.test(u)) && existsSync(join(ROOT, JSON_PATH)), `the tab fetches only the committed evals JSON beside the page, same origin (${fetches.join(" ")}: ${urls.join(", ")})`);
   ok(/audit: null/.test(tab), "the tab's hive writes nothing to the governance registry");
   ok(py.indexOf('WEBXR / "instructor/js/h4-hive.js"') > py.indexOf('SHARED / "oh-hive.js"', py.indexOf('"instructor": {')) && py.indexOf('WEBXR / "instructor/js/h4-hive.js"') < py.indexOf('WEBXR / "instructor/js/app.js"'), "bundle_webxr.py: the instructor bundle lists the hive and the tab before app.js");
   return "tab and panel present, read-only, one same-origin fetch (the evals JSON), bundled before app.js";
@@ -363,7 +363,7 @@ await check("9 hygiene: no network or model call in the hive and the tab, no imp
 });
 
 // The committed evals JSON (the console tab reads it).
-await check("10 docs/evals/hive4.json matches this run", () => {
+await check("10 WebXR/instructor/hive4-evals.json matches this run", () => {
   const doc = { schema: "smartcitix.holodeck.hive4-evals@1", note: "Written by node tools/check_hive4.mjs --write. Before is the base 048869d5 (the default hive, byte-identical); after is the panel's configuration. No timings.", rows };
   if (WRITE) { writeFileSync(join(ROOT, JSON_PATH), `${JSON.stringify(doc, null, 2)}\n`); return `wrote ${rows.length} rows`; }
   const have = (() => { try { return JSON.parse(read(JSON_PATH)); } catch (_) { return null; } })();

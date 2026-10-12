@@ -3,7 +3,7 @@
 // Read-only and local. The tab replays the hive's seeded day on this device (ohHive with the talk on, `audit: null`, no learner:
 // requests that name a robot stay waiting, because only the learner approves them in the parishes app) and shows each agent's
 // card (portrait, traits, voice), its queue and last ten lines, the governor's refusals with their reasons, and the evals table
-// from the committed JSON (docs/evals/hive4.json, written by tools/check_hive4.mjs). It approves nothing, declines nothing,
+// from the committed JSON (WebXR/instructor/hive4-evals.json, written by tools/check_hive4.mjs). It approves nothing, declines nothing,
 // writes nothing (no registry line, no storage), speaks nothing and listens to nothing; every agent is labelled a software agent.
 // Built from createElement/textContent only (the console's rule: ids and lines are data, never markup).
 //
@@ -20,7 +20,7 @@ import { aaPortraitImg } from "../../shared/aa-agent-portraits.js";
 
 export const H4_TAB_SEED = 1;
 export const H4_TAB_STEPS = Object.freeze([60, 120, 240, 480]);
-export const H4_EVALS_URL = "../../docs/evals/hive4.json";
+export const H4_EVALS_URLS = Object.freeze(["../hive4-evals.json", "./hive4-evals.json"]); // the dist page, then the source page
 const H4_CSS = "#h4-root .h4-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:10px}#h4-root .h4-card{border:1px solid var(--edge);border-radius:12px;padding:10px;min-width:0}#h4-root .h4-head{display:flex;gap:10px;align-items:center}#h4-root .h4-head img{border-radius:10px;flex:none}#h4-root .h4-chip{display:inline-block;font-size:11px;padding:1px 6px;border-radius:9px;border:1px solid currentColor;margin:2px 4px 0 0;opacity:.85}#h4-root .h4-role{font-size:12px;opacity:.85;overflow-wrap:anywhere}#h4-root .h4-traits{display:grid;grid-template-columns:auto 1fr auto;gap:2px 8px;font-size:12px;margin:6px 0;align-items:center}#h4-root meter{width:100%}#h4-root ol.h4-lines{margin:4px 0 0;padding-left:18px;font-size:12px;max-height:220px;overflow:auto}#h4-root ol.h4-lines li{margin:2px 0;overflow-wrap:anywhere}#h4-root ol.h4-lines li[data-x='1']{margin-left:10px}#h4-root .h4-q{font-size:12px;margin:4px 0}#h4-root .h4-scroll{overflow-x:auto}#h4-root select{min-height:44px;min-width:44px;font-size:14px}#h4-root h3{font-size:14px;margin:10px 0 4px}";
 
 function h4El(tag, cls, text) { const n = document.createElement(tag); if (cls) n.className = cls; if (text !== undefined) n.textContent = text; return n; }
@@ -38,8 +38,9 @@ const h4Reason = (id) => VB_REASONS.find((r) => r.id === id)?.text ?? OH_REASON_
 export function h4MountHiveTab(root, { seed = H4_TAB_SEED, steps = 120 } = {}) {
   if (!root || typeof document === "undefined") return null;
   if (!document.getElementById("h4-style")) { const s = document.createElement("style"); s.id = "h4-style"; s.textContent = H4_CSS; document.head.appendChild(s); }
-  let hive = null, at = steps, evals = null, evalsNote = "Reading docs/evals/hive4.json…";
-  fetch(H4_EVALS_URL).then((r) => (r.ok ? r.json() : Promise.reject(new Error(String(r.status))))).then((j) => { evals = j; render(at); }).catch(() => { evalsNote = "The evals file (docs/evals/hive4.json) could not be read from this origin."; render(at); });
+  let hive = null, at = steps, evals = null, evalsNote = "Reading WebXR/instructor/hive4-evals.json…";
+  const h4Try = (i) => (i >= H4_EVALS_URLS.length ? Promise.reject(new Error("none")) : fetch(H4_EVALS_URLS[i]).then((r) => (r.ok ? r.json() : h4Try(i + 1)), () => h4Try(i + 1)));
+  h4Try(0).then((j) => { evals = j; render(at); }).catch(() => { evalsNote = "The evals file (hive4-evals.json) could not be read from this origin."; render(at); });
 
   function replay(n) {
     hive = ohHive({ seed, audit: null, exchanges: true, memory: true, variety: true });
@@ -97,7 +98,7 @@ export function h4MountHiveTab(root, { seed = H4_TAB_SEED, steps = 120 } = {}) {
     rp.append(h4Table(["Hive clock", "Job", "Site", "By", "Reason", "Why"], ev.filter((e) => e.type === "refused").slice(-40).reverse().map((e) => [ohClock(e.t), e.jobId, e.siteName ?? h4Site(e.to), e.by ?? "", e.veto ?? e.reason, h4Reason(e.veto ?? e.reason)]), "No refusals yet in this replay."));
     out.push(rp);
 
-    const ep = h4El("section", "panel"); ep.append(h4El("h2", null, "Evals (from docs/evals/hive4.json)"));
+    const ep = h4El("section", "panel"); ep.append(h4El("h2", null, "Evals (from WebXR/instructor/hive4-evals.json)"));
     if (evals?.rows) { ep.append(h4El("p", "fine", evals.note ?? "")); ep.append(h4Table(["Measure", "Before", "After", "Source"], evals.rows.map((r) => [r.measure, r.before, r.after, r.source]), "No rows.")); }
     else ep.append(h4El("p", "fine", evalsNote));
     out.push(ep);
