@@ -80,7 +80,8 @@ for (const id of ALL) {
     const ctx = { obstacles: K.hd6Obstacles(p, site), board: [board.x, board.z], taken: before };
     for (const q of row.high.parts) {
       partsSeen++;
-      const f = K.hd6PartFault(p, q, ctx);
+      // ENV-HD-8: a wetland's deck, reeds and gauge (HD6_WET) may stand in the water; every other test still applies to them
+      const f = K.hd6PartFault(p, q, { ...ctx, wetOk: site.kind === "wetland" && K.HD6_WET.includes(q.group) });
       // a group on the building itself (within 0.5 m of its walls) may stand over water or at a carriageway's edge where the
       // engine's own building does (HD6_ON_BUILDING); every free-standing group (yard, pavilion, lane, canopy ...) may not
       if (f && !((f === "water" || f === "road") && K.HD6_ON_BUILDING.includes(q.group))) faults[f]++;
@@ -134,7 +135,7 @@ check(faults.buried === 0, `nothing buried inside a building's walls (${faults.b
         const f = footprint(q);
         let road = false;
         for (const [x, z] of [[f[0], f[1]], [f[2], f[1]], [f[2], f[3]], [f[0], f[3]], [(f[0] + f[2]) / 2, (f[1] + f[3]) / 2]]) { const nl = CW.cwNearestLine(p, x, z, 60, (l) => l.cls !== "ferry"); if (nl && nl.d < (nl.line.width ?? 10) / 2) road = true; }
-        const wet = E.npWaterAt(p, (f[0] + f[2]) / 2, (f[1] + f[3]) / 2) && !K.HD6_ON_BUILDING.includes(q.group);
+        const wet = E.npWaterAt(p, (f[0] + f[2]) / 2, (f[1] + f[3]) / 2) && !K.HD6_ON_BUILDING.includes(q.group) && !(site.kind === "wetland" && K.HD6_WET.includes(q.group)); // ENV-HD-8
         if ((road && !K.HD6_ON_BUILDING.includes(q.group)) || wet || others.some((o) => hit(f, o)) || hit(f, [board.x - 2.8, board.z - 1.6, board.x + 2.8, board.z + 1.6])) bad++;
       }
     }

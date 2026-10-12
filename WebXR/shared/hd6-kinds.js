@@ -47,7 +47,11 @@ import { HD3_SCENE_SITES } from "./hd3-scenes.js";
 export const HD6_KINDS = ["fire-station", "hospital", "school", "park"];
 /** ENV-HD-7: the next busiest kinds without a cue (catalog counts on the 46 maps: utility 36, substation 31; construction, the
  *  busiest, is the robot and crane sites' kind and has its own exteriors): a fenced equipment compound beside the building. */
-export const HD6_MORE_KINDS = ["utility", "substation"];
+export const HD6_MORE_KINDS = ["utility", "substation", "wetland", "workshop"];
+/** ENV-HD-8: the kinds after utility and substation (catalog counts: wetland 24, workshop 23, port 22). Port is a robot kind
+ *  (ROBO-EXTERIORS' port control tower at the port-automation robot site, fx-exteriors.js FX_SITE_KIND): the 22 catalog port
+ *  sites are not robot sites (fxSitesFor lists RB_SITES only), but port is left to the robot exteriors this round. */
+export const HD6_KIND_COUNTS = { wetland: 24, workshop: 23, port: 22 };
 export const HD6_CUED_KINDS = [...HD6_KINDS, ...HD6_MORE_KINDS];
 const hd6Bytes = (w, h = w) => Math.round(w * h * 4 * 4 / 3); // RGBA8 with a mip chain
 /** The stated budget. The cue mesh is one per map; triangles are per cued site; the lamp posts are counted per board. */
@@ -63,6 +67,8 @@ const HD6_C = {
   tower: 0xbdb3a2, towerCap: 0x5c6167, canopy: 0xeef0f2, blue: 0x2f6db5, white: 0xf7f8f9, post: 0x8a9096, lane: 0x4a4d52,
   kerb: 0xe2c44a, chain: 0x8e959b, pad: 0xa9a59c, xfmr: 0x6f7f74, bushing: 0xc9c2b0, cabinet: 0xb8bcb4, pipe: 0x5b6f86, unit: 0x9aa0a6, schoolCanopy: 0x2a9d8f, schoolPost: 0xe9c46a, fence: 0x3d6b4f, play: 0xb5654a, frameA: 0xe9c46a, frameB: 0x3a7bc8,
   timber: 0x7a5a3c, roof: 0x3f6e4a, gravel: 0xc8b68a, soil: 0x4a3a2a, shrub: 0x3c7a3a, shed: 0x8b7355, shedRoof: 0x55595e, lamp: 0x5c6167,
+  deck: 0x8a6a48, reed: 0x6f8f3a, reedTip: 0x9a8a50, gauge: 0xf2f2f2, gaugeBand: 0x2f6db5, louvre: 0x6b5238,
+  roll: 0x9aa4ab, rollFrame: 0x4a5560, leanto: 0x5b6f86, bench: 0x7a5a3c, pallet: 0xb08a5a, vent: 0x9aa0a6,
 };
 
 /** The cued sites on this map. ENV-HD-6 cued the busiest site of each kind (ENV-HD-5's "kind" presets); ENV-HD-7 cues every
@@ -226,6 +232,56 @@ export function hd6CueParts(parish, site, tier = "high", sideOverride = 0, varia
     }
     group = "roof";
     box(Math.min(3, L2), 1.1, Math.min(2.2, D2), 0, H + 0.55, -D2 * 0.3, HD6_C.unit); // a rooftop unit
+  } else if (kind === "wetland") {
+    // ENV-HD-8: a wetland field station: a timber viewing deck on posts with a rail beside the building (side away from the
+    // board), reed clumps along the deck's outer edge, a water-level gauge post (white with blue bands, no numbers), and a
+    // timber fascia with a louvred screen on the door face. Generic by kind; no signs, no words.
+    group = "deck";
+    const dw = sm ? 5 : 8, dd = sm ? 3.5 : 5, dx0 = side * (L2 + 1.2 + dw / 2), dh = 0.6;
+    box(dw, 0.12, dd, dx0, dh, 0, HD6_C.deck);
+    for (const [ax, az] of [[-1, -1], [1, -1], [-1, 1], [1, 1], [0, -1], [0, 1]]) box(0.18, dh, 0.18, dx0 + ax * (dw / 2 - 0.2), dh / 2, az * (dd / 2 - 0.2), HD6_C.deck);
+    box(dw, 0.08, 0.08, dx0, dh + 1, dd / 2 - 0.05, HD6_C.deck); // rails on three sides (open to the building)
+    box(dw, 0.08, 0.08, dx0, dh + 1, -dd / 2 + 0.05, HD6_C.deck);
+    box(0.08, 0.08, dd, dx0 + side * (dw / 2 - 0.05), dh + 1, 0, HD6_C.deck);
+    if (hi) for (let k = 0; k <= 4; k++) for (const rz of [dd / 2 - 0.05, -dd / 2 + 0.05]) box(0.08, 1, 0.08, dx0 - dw / 2 + (dw * k) / 4, dh + 0.5, rz, HD6_C.deck);
+    box(1.2, 0.3, 1.6, side * (L2 + 0.6), dh / 2, 0, HD6_C.deck); // a step up from the ground at the wall
+    group = "reeds";
+    const rx = dx0 + side * (dw / 2 + 0.8), n = sm ? 4 : hi ? 9 : 5;
+    for (let k = 0; k < n; k++) {
+      const z = -dd / 2 + (dd * (k + 0.5)) / n, h = 1.1 + ((k * 37) % 5) * 0.12;
+      box(0.5, h, 0.4, rx + ((k % 2) - 0.5) * 0.4, h / 2, z, HD6_C.reed, k * 0.5);
+      if (hi) box(0.12, 0.3, 0.12, rx + ((k % 2) - 0.5) * 0.4, h + 0.15, z, HD6_C.reedTip);
+    }
+    group = "gauge";
+    const gx = dx0 + side * (dw / 2 - 0.6), gz = dd / 2 + 0.9;
+    box(0.2, 2.4, 0.08, gx, 1.2, gz, HD6_C.gauge);
+    for (let k = 0; k < (hi ? 6 : 3); k++) box(0.22, 0.12, 0.09, gx, 0.3 + k * (hi ? 0.36 : 0.72), gz, HD6_C.gaugeBand);
+    group = "trim";
+    box(2 * L2 + 0.3, 0.45, 0.14, 0, H - 0.4, D2 + 0.07, HD6_C.louvre); // the timber fascia
+    const lw = Math.min(4, L2 - 1.5), lx = -side * (L2 - lw / 2 - 0.6);
+    for (let k = 0; k < (hi ? 8 : 4); k++) box(lw, 0.08, 0.1, lx, 1 + k * (hi ? 0.28 : 0.56), D2 + 0.05, HD6_C.louvre); // a louvred screen
+  } else if (kind === "workshop") {
+    // ENV-HD-8: a workshop: a wide roll-up door flush on the door face (beside the door), a lean-to canopy on posts over a work
+    // yard with a workbench on the side away from the board, a stack of pallets and timber, and two roof vents. Generic by
+    // kind; no signs, no words.
+    group = "rolldoor";
+    const rw = Math.min(4.2, L2 - 1.4), rh = Math.min(3.8, H - 1), rxc = side * Math.max(rw / 2 + 1.4, L2 * 0.45);
+    box(rw + 0.4, 0.3, 0.12, rxc, rh + 0.15, D2 + 0.06, HD6_C.rollFrame);
+    for (const jx of [-1, 1]) box(0.2, rh, 0.12, rxc + jx * (rw / 2 + 0.1), rh / 2, D2 + 0.06, HD6_C.rollFrame);
+    box(rw, rh, 0.06, rxc, rh / 2, D2 + 0.03, HD6_C.roll);
+    if (hi) for (let k = 1; k <= 9; k++) box(rw - 0.05, 0.04, 0.03, rxc, (rh * k) / 10, D2 + 0.08, HD6_C.rollFrame);
+    group = "leanto";
+    const ld = sm ? 3 : 4.5, ll = sm ? 2 * D2 * 0.5 : 2 * D2 * 0.8, lx0 = side * (L2 + ld / 2), lh = Math.min(3.2, H - 0.3);
+    box(ld + 0.3, 0.14, ll, lx0, lh, 0, HD6_C.leanto, 0); // the roof slab (flat, a slight fall is not modelled)
+    for (const pz of [-ll / 2 + 0.3, ll / 2 - 0.3]) box(0.18, lh, 0.18, side * (L2 + ld - 0.2), lh / 2, pz, HD6_C.rollFrame);
+    box(sm ? 1.6 : 2.4, 0.9, 0.7, side * (L2 + 0.6), 0.45, 0, HD6_C.bench); // a workbench against the wall
+    if (hi) box(sm ? 1.6 : 2.4, 0.06, 0.8, side * (L2 + 0.6), 0.93, 0, HD6_C.rollFrame);
+    group = "stack";
+    const sxs = side * (L2 + (sm ? 3 : 4.5) + 1.6), szs = -D2 + 1.2;
+    for (let k = 0; k < (hi ? 4 : 2); k++) box(1.2, 0.14, 1.0, sxs, 0.07 + k * 0.16, szs, HD6_C.pallet);
+    for (let k = 0; k < (hi ? 3 : 1); k++) box(0.25, 0.25, 3, sxs + 1.0 + k * 0.28, 0.13, szs + 0.9, HD6_C.timber);
+    group = "roof";
+    for (const vx of [-L2 * 0.4, L2 * 0.4]) { box(0.8, 0.6, 0.8, vx, H + 0.3, -D2 * 0.3, HD6_C.vent); if (hi) box(1, 0.1, 1, vx, H + 0.65, -D2 * 0.3, HD6_C.rollFrame); }
   } else if (kind === "park") {
     // the pavilion beside the building, on the side away from the board
     group = "pavilion";
@@ -310,7 +366,7 @@ export function hd6PartFault(parish, part, ctx) {
     const n = cwNearestLine(parish, x, z, 60, (l) => l.cls !== "ferry");
     if (n && n.d < (n.line.width ?? 10) / 2) return "road";
   }
-  if (npWaterAt(parish, (f[0] + f[2]) / 2, (f[1] + f[3]) / 2)) return "water";
+  if (!ctx.wetOk && npWaterAt(parish, (f[0] + f[2]) / 2, (f[1] + f[3]) / 2)) return "water"; // ENV-HD-8: HD6_WET groups may
   if (ctx.obstacles.some((o) => hd6Hit(f, o))) return "building";
   const [bx, bz] = ctx.board;
   if (hd6Hit(f, [bx - 1.3 - 1.5, bz - 0.1 - 1.5, bx + 1.3 + 1.5, bz + 0.1 + 1.5])) return "board";
@@ -323,17 +379,20 @@ function hd6PreferredSide(parish, site) {
   const bx = b.site.position[0] - b.cx, bz = b.site.position[1] + 6 - b.cz;
   return bx * cs - bz * sn > 0 ? -1 : 1;
 }
-const HD6_FREE = ["yard", "pavilion", "shed", "bed", "compound"];
+/** ENV-HD-8: the wetland's deck (on posts), reeds and gauge post may stand in the water (a marsh is where they belong; 13 of
+ *  the 24 wetland sites' buildings stand in it): exempt from the water test only, never from road, building, board or cue. */
+export const HD6_WET = ["deck", "reeds", "gauge"];
+const HD6_FREE = ["yard", "pavilion", "shed", "bed", "compound", "deck", "reeds", "gauge", "leanto", "stack"]; // ENV-HD-8: + the next kinds
 /** The groups that stand on or against the building itself (within 0.5 m of its walls): where the engine's building stands over
  *  water or at a carriageway's edge (a fort on a levee, a clinic on a narrow street), they may too, as the building does;
  *  the building is the engine's, not a cue's placement. */
-export const HD6_ON_BUILDING = ["roof", "trim", "wallsign", "entry", "baydoors"];
+export const HD6_ON_BUILDING = ["roof", "trim", "wallsign", "entry", "baydoors", "rolldoor"];
 /** The fallback groups: each stands only where the group it replaces was skipped. ENV-HD-8 adds the fire station's wall-flush
  *  bay doors (no aprons) for the bays. */
 export const HD6_FALLBACK = { wallsign: "canopy", entry: "canopy", baydoors: "bays" };
 /** ENV-HD-8: the groups with a smaller variant, tried (preferred side, then the other) after the full group and before skipping
  *  it: 33 of 250 sites skipped a group on a tight lot (ENV-HD-7). */
-export const HD6_SMALL = ["bays", "canopy", "lane", "yard", "compound", "pavilion", "path", "bed", "shed"];
+export const HD6_SMALL = ["bays", "canopy", "lane", "yard", "compound", "pavilion", "path", "bed", "shed", "deck", "reeds", "leanto", "stack"];
 /** ENV-HD-8: groups with a further variant after the small one (the park pavilion behind the building, the bed along a side). */
 export const HD6_BACK = ["pavilion", "bed"];
 /** One site's cue fitted to its ground (see SEAMS). `taken` collects the footprints of the cues already placed on the map. */
@@ -353,7 +412,7 @@ export function hd6FitCue(parish, site, tier = "high", taken = []) {
     for (const set of sets) {
       // the free-standing groups (yard, pavilion, shed, bed) keep clear of each other; paths, lanes and roofs may meet them
       const ps = set.filter((p) => p.group === g), all = HD6_FREE.includes(g) ? [...taken, ...own] : taken;
-      if (ps.length && ps.every((p) => { const f = hd6PartFault(parish, p, { ...ctx, taken: all }); return !f || ((f === "water" || f === "road") && HD6_ON_BUILDING.includes(g)); })) { placed = ps; if (sets.indexOf(set) > 1) small.push(sets.indexOf(set) > 3 ? `${g} (back)` : g); break; }
+      if (ps.length && ps.every((p) => { const f = hd6PartFault(parish, p, { ...ctx, taken: all, wetOk: site.kind === "wetland" && HD6_WET.includes(g) }); return !f || ((f === "water" || f === "road") && HD6_ON_BUILDING.includes(g)); })) { placed = ps; if (sets.indexOf(set) > 1) small.push(sets.indexOf(set) > 3 ? `${g} (back)` : g); break; }
     }
     if (!placed) { skipped.push(g); continue; }
     parts.push(...placed);
