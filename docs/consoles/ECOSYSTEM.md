@@ -45,6 +45,10 @@
    - Reason: DATAWORKS rules apply on top of SmartCiti.X's.
    - Act: six ineligible consent states are tested (unknown, demo, signed out, K-12, no adult attestation, not opted in). The checker also covers stripping of affect, mood and name, refusal of an email as an id, server time under clock skew, dedupe and revoke.
    - Observe: all hold. The check is `check_eco` 4.
+8. **The tab in the built page.**
+   - Reason: the integration rule, and a first drive that showed nothing.
+   - Act: the first drive aborted the cdnjs three.js request, so the module graph failed and the tab stayed empty. The drive now answers that request from the vendored copy, as `check_interface` does.
+   - Observe: 238 options, the right blocks, 0 page errors, 0 requests. The still is `$SP/loop10/eco/eco-tab.png`.
 7. **No network.**
    - Act: `fetch`, `XMLHttpRequest` and `WebSocket` are stubbed to count calls, and the eco sources are grepped for network and storage APIs.
    - Observe: 0 network calls. The check is `check_eco` 5.
@@ -65,12 +69,13 @@
 ## Integration
 
 - The instructor console gains one tab, Ecosystem. It sits after Omega Claw, is mounted on first open and is read-only, with no request and no storage.
-- `check_eco` 6 checks the markup, the app wiring and the bundle order, and drives the panel on a stub DOM. The tab is not yet measured in the built page.
+- `check_eco` 6 checks the markup, the app wiring and the bundle order, and drives the panel on a stub DOM.
+- **Measured in the built page** (`python3 tools/bundle_webxr.py instructor`, served on port 9150, with three.js answered from `WebXR/vendor/`; the drive script and still are in `$SP/loop10/eco/`). After clicking Ecosystem, the tab is visible with 238 options. The first option (`industrial-cells/operator`) shows CX-ROB-0898, 0530 and 0896. "Isolation Bay (electrical)" shows CX-TRADE-0004, 0005 and 0006, each with its band, credential and transfer check, under the attribution line. There were 0 page errors, 0 requests after the click, 0 external requests and 0 storage keys before and after. The only 404s were four `backgrounds.json` probes, all before the click and pre-existing. The committed dist was restored afterwards. A permanent browser leg in a checker is still to come (eco-next 1).
 - No other console's files were edited, apart from the one-line additions to the instructor console (index.html, app.js) and the bundle list. No console owns those files this round.
 
 ## What is left
 
 See `tools/briefs/next/eco-next.md`.
-- Drive the instructor tab in the built page on port 9150.
+- Make the built-page drive of the instructor tab a permanent checker leg.
 - Widen the rules, for example for culinary stations against Culinary Trades, which is school-band only and so needs a stated rule.
 - Wire `eco-bus` to the live learner path behind DATAWORKS consent.

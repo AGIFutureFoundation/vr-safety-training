@@ -2,7 +2,7 @@
 
 Read `docs/consoles/ECOSYSTEM.md`, `docs/consoles/memory/ECOSYSTEM.md`, `docs/ecosystem.md` and `tools/briefs/ecosystem/`. You own the `eco-*.js` files and `docs/ecosystem/`. Do these items in order.
 
-1. **Drive the Ecosystem tab in the built page.**
+1. **Make the Ecosystem tab's built-page drive a checker leg.** ECOSYSTEM measured it once by hand (238 options, 0 page errors, 0 requests).
    - Rebuild with `python3 tools/bundle_webxr.py`. Serve on your own port. Open `instructor-console.html` and click Ecosystem.
    - Measure page errors (0), the option count (238) and the three blocks shown for "electrical".
    - Confirm there are no requests and no storage writes, then restore the dist (`git checkout WebXR/*/dist`).
