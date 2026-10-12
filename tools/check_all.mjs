@@ -201,6 +201,9 @@ const CHECKERS = [
   "check_i18n.mjs",
   // Titles, descriptions, canonical, Open Graph, JSON-LD, the sitemap and phone usability on every page (docs/consoles/WAYFINDER.md).
   "check_seo.mjs",
+  // SEO-WHITEPAPER: the whitepaper page — its sections, every figure found in the committed file it cites, no commercial claim,
+  // its share tags and capture, linked from the homepage and the docs index, readable without JavaScript (docs/consoles/SEO-WHITEPAPER.md).
+  "check_whitepaper_page.mjs",
   // One design system: the shared stylesheet on every page, self-hosted fonts,
   // credited vendored packs, no emoji icons in the chrome, AA token pairs (docs/design-system/README.md).
   "check_design.mjs",
