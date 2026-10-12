@@ -136,6 +136,14 @@ const SITE = "rb-site-soma-robot-cell", STYLE = "ixr-cell-hall";
   const fitsOut = await page.evaluate(() => (window.__parishTest.agentAvatars?.agents() ?? []).map((s) => ({ s, fig: window.__parishTest.agentAvatars.figure(s.id) })).filter((x) => x.fig).map(({ s, fig }) => { const f = fig.children.find((o) => o.name === "aa-label")?.userData.fit?.role; return f ? { id: s.id, px: f.px, width: Math.round(f.width), fits: f.fits } : { id: s.id, fits: false }; }));
   want(fitsOut.length > 0 && fitsOut.every((f) => f.fits), `outdoors: every built figure's "software agent · <role>" fits its label in the real font (${fitsOut.length} figures; smallest ${Math.min(...fitsOut.map((f) => f.px))} px)`, fitsOut);
 
+  // the room's job board: its station links carry the room as well
+  const board = await page.evaluate(() => {
+    const T = window.__parishTest, ix = T.interiors.mount, a = ix.room.actions.find((x) => x.kind === "board"); ix.pose.x = a.x; ix.pose.z = a.z; T.interiors.use();
+    const links = [...document.querySelectorAll("#board-stations a[data-station]")].map((x) => decodeURIComponent(new URL(x.href).searchParams.get("return") ?? ""));
+    const np = window.__parishTest.np; if (np.modal) document.getElementById(np.modal).hidden = true; np.modal = null; // close it again for the steps below
+    return { n: links.length, withRoom: links.filter((r) => /&ixr=ixr-cell-hall$/.test(r)).length, sample: links[0] ?? null };
+  });
+  want(board.n > 0 && board.withRoom === board.n, `the room's job board: ${board.withRoom} of ${board.n} station links return into the room`, board.sample);
   // 4. the return: launch a pad in the room, follow the runner's Back link, land back inside the same room
   const launch = page.waitForURL(/smartcity\/index\.html/, { timeout: 30000 });
   await page.evaluate(() => { const ix = window.__parishTest.interiors.mount, a = ix.room.actions.find((x) => x.kind === "station"); ix.pose.x = a.x; ix.pose.z = a.z; window.__parishTest.interiors.use(); });

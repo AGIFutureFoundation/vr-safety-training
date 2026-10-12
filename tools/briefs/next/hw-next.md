@@ -13,23 +13,19 @@ only. Rebuild bundles (`python3 tools/bundle_webxr.py parishes instructor`) befo
 2. **The voice in the room.** With voice on, the room figure's talk light follows `onstart`/`onend`.
    - Check: a drive with a stubbed `speechSynthesis` (one local voice, one network voice): the light is on from `onstart`
      to `onend` for each line, and the network voice is never chosen.
-3. **Board-launched stations return into the room.** The room's job board (`npOpenBoard`) builds its own links. Pass
-   `hwReturnHash(room.id)` when the board is opened from inside a robotics room.
-   - Check: a board station link carries `ixr=<style>`.
-   - Check: the drive's return lands back in the room.
-4. **Remember "supervise every job"** per profile, on the device only, beside the voice choice. Show it on the instructor
+3. **Remember "supervise every job"** per profile, on the device only, beside the voice choice. Show it on the instructor
    console's governance tab with the hive's last ten audit lines (oh-next item 3).
    - Check: the setting survives a reload.
    - Check: `check_console` and `check_enterprise3` pass.
-5. **Captures.** `?parish=sf-downtown&ixr=ixr-cell-hall` opens the cell hall with the steward and the auditor standing (when
+4. **Captures.** `?parish=sf-downtown&ixr=ixr-cell-hall` opens the cell hall with the steward and the auditor standing (when
    signed in). Take 1920×1080 stills of each room with its agents for the reel (`IXR_SHOTS`).
    - Check: six stills.
    - Check: page errors 0.
-6. **Routes on the page's own walk-ins.** On oak-west-oakland (two robot sites about 980 m apart) the hive's moves re-project
+5. **Routes on the page's own walk-ins.** On oak-west-oakland (two robot sites about 980 m apart) the hive's moves re-project
    and walk in.
    - Check: a drive samples a figure every frame and finds no point inside the walk's collider boxes. Expose `wkColliders`
      read-only on `__parishTest` for the drive.
-7. **Re-measure** `check_hive_world` on a quiet gate and replace the estimated row in `docs/perf/checkers-baseline.json`.
+6. **Re-measure** `check_hive_world` on a quiet gate and replace the estimated row in `docs/perf/checkers-baseline.json`.
 
 ## Rules that stay
 

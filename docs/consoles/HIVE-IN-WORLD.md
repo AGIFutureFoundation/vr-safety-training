@@ -20,7 +20,7 @@ Robots are simulated, and the governor's rules stand: the e-stop comes first and
 | `WebXR/shared/oh-hive.js`, `oh-say.js`, `oh-panel.js` | "Supervise every job": `ohHive({ supervise })`, `setSupervise`, `supervising` and `metrics().dispatchedWithoutLearner`, with two new consent-keeper lines. The panel's cards show the 2× portraits (`aaPortraitImg`, with the badge SVG as the fallback) and have a toggle. |
 | `WebXR/parishes/js/app.js` | The outdoor avatars attach the hive itself (`window.__parishTest.hive.hive`). The room door is the building door, and pads launched in a robotics room carry the room in the return link; arrival re-enters it. `hwSync` keeps the room's agents in step with the open room, the voice's talk light reaches them, and walks route round the page's own colliders. Inside a room, the HUD location chip names the room. Test handle: `window.__parishTest.hiveWorld`. |
 | `WebXR/instructor/js/governance.js` | The Data governance tab shows refusals and successes on the tab itself, in `#ent3-notice`: in the registry panel for export and import, at the top for the rest. |
-| `tools/check_hive_world.mjs` (new) | 34 checks and the EVAL lines below. Listed in `check_all.mjs`; `docs/perf/checkers-baseline.json` carries an **estimated** row. |
+| `tools/check_hive_world.mjs` (new) | 35 checks and the EVAL lines below. Listed in `check_all.mjs`; `docs/perf/checkers-baseline.json` carries an **estimated** row. |
 | `tools/check_agent_avatars.mjs` | Embodies the real hive (ohHive seed 1) instead of the three-agent fixture. Adds the label-fit check (2b). 70 checks. |
 | `tools/drive_hive_world.mjs` (new) | The headless drive of the built pages (not in the gate). Sections A–D are listed under the evals. |
 | `tools/bundle_webxr.py` | `hw-hive-world.js` goes after the avatars and the robotics rooms. The portraits module now comes before the hive panel. |
@@ -38,7 +38,7 @@ Robots are simulated, and the governor's rules stand: the e-stop comes first and
 | The hive's captions over the room figures | 0 | **7 of 7** first lines (high and balanced). In the page, the steward's next line. | same |
 | Rooms inside `IX_BUDGET` and `IXR_TEX_BUDGET` with the agents in | 18 of 18 room-tiers, no agents | **18 of 18** with agents and captions; worst room in the next table | `check_hive_world` |
 | One door | 0 of 6 rooms opened at the building: the door was a pad-side spot 8.6 m south of the rig | **6 of 6** doors at the building door's outside spot (`fxDoorFor`), clear of every exterior collider. In the page: W from the pad along the approach, the prompt "E — go inside: Fabrication Robot Cell (procedural)", then E to enter. | `check_hive_world`; drive A |
-| Return into the room | 0: a pad launched in a room returned outdoors to the anchor site | **6 of 6** links carry `#site=…&ixr=<style>`. In the page: launch a pad, follow the Back link, and land back in the cell hall with its agents. | `check_hive_world`; drive A |
+| Return into the room | 0: a pad launched in a room returned outdoors to the anchor site | **6 of 6** links carry `#site=…&ixr=<style>`. In the page: launch a pad, follow the Back link, and land back in the cell hall with its agents. The room's job board: **4 of 4** station links return into the room. | `check_hive_world`; drive A |
 | Dispatches without the learner's approval, "supervise every job" on (seeded 200-job day) | No setting: 150 of 155 dispatches ran under the standing approval | **0 of 116**; 116 of 116 dispatch lines follow an approve line for their job. In the page: 0 after 40 steps, with 8 jobs waiting. | `check_hive_world`; drive C |
 | The refused-import message visible on the governance tab | Not visible: the text went only to `#sent`, which the drive found hidden while the tab is open | **Visible** in the registry panel: "Refused (bad-schema): not a registry export …" (role alert). A re-import shows "Nothing new: …" (status). | drive D; `check_console`, `check_enterprise3` |
 | The reel's label bug: "software agent · <role>" fits its canvas | 0 of 11 by the same 0.62 em per character measure (17 px, 253–316 px on a 236 px line; four of them also cut at 30 characters) | **11 of 11**, smallest 10 px under that measure. The real font in the page: 14–17 px. | `check_agent_avatars` 2b; drive A |
@@ -84,6 +84,8 @@ Rooms with one agent add 9 meshes, about 1,000 triangles and 2 sprites. In the p
    - Reason: a pad launched in a robotics room returns into that room. Check: drive A and the six links.
    - Act: `returnHash` on `lkStationLink`; `onLaunch` passes the room; arrival re-enters it.
    - Observe: passed first time. Back inside the cell hall with both agents standing (in 7fcebcb6 and 2d2dd221).
+   - Follow-up: the room's job board built its own links without the room. `npOpenBoard(site, returnHash)` now carries it,
+     and drive A reads 4 of 4 board links returning into the room.
 5. **The reel's two display bugs.**
    - Reason: "oftware agent · safety stewa", and the HUD chip naming the street inside a room. Checks: 11 of 11 labels fit; drive A, A5 and B for the chip.
    - Act: fit the font and pass `fillText`'s maxWidth; make `npHud` room-aware.
@@ -106,7 +108,7 @@ Rooms with one agent add 9 meshes, about 1,000 triangles and 2 sprites. In the p
 
 ## Checkers (single runs)
 
-- `node tools/check_hive_world.mjs`: all 34 checks pass.
+- `node tools/check_hive_world.mjs`: all 35 checks pass.
 - `node tools/check_agent_avatars.mjs`: all 70 agent-avatar checks pass.
 - `node tools/check_omega_hive.mjs`: 15 passed, 0 failed.
 - `node tools/check_avatars.mjs`: all avatar checks pass.
@@ -134,7 +136,6 @@ Rooms with one agent add 9 meshes, about 1,000 triangles and 2 sprites. In the p
 
 - Only agents **homed** at a site stand in its room. An agent the hive moves there for a job is not shown inside.
 - Room agents appear only where the hive is mounted: signed in, adult, not K-12 and not the demo. Signed out, the room is empty of agents.
-- A station opened from the room's **job board** returns outdoors. Only the room's pads carry the room.
 - The voice's talk light is wired to the room figures but was not driven with a stubbed `speechSynthesis`.
 - "Supervise every job" is not remembered across reloads. A job held at dispatch keeps its standing-approval record in the VBRIDGE job; the hive's audit line records the learner's approval.
 - The bundles were rebuilt for the drives and are not committed (the coordinator regenerates them).

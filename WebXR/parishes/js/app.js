@@ -276,7 +276,7 @@ const ixrDoors = (() => {
 })();
 const ixWorld = ixMountInteriors({
   three: THREE, scene, hide: [root], tier: npTierName,
-  onBoard: (s) => npOpenBoard(s.board ?? s),
+  onBoard: (s) => npOpenBoard(s.board ?? s, s.kind === "robotics" ? hwReturnHash(s.style) : ""), // HIVE-IN-WORLD: the room's board returns into the room too
   onLaunch: (id, s) => { location.href = npLink(id, s.linkSite ?? s.id, s.kind === "robotics" ? hwReturnHash(s.style) : ""); }, // HIVE-IN-WORLD: back into the same robotics room
   onToast: (m) => npToast(m, 5200),
 });
@@ -457,7 +457,7 @@ for (const b of document.querySelectorAll("[data-close]")) b.addEventListener("c
 /** A station link with the way back: `#site=<parish>/<site>` so the return lands in the right parish. */
 function npLink(id, siteId, returnHash = "") { return lkStationLink(id, { runner: NP_RUNNER, from: "parishes", page: ppHerePage(), siteId: siteId ? `${parish.id}/${siteId}` : null, returnHash }); }
 
-function npOpenBoard(site) {
+function npOpenBoard(site, returnHash = "") { // HIVE-IN-WORLD: returnHash brings a station opened here back into the room it was opened from
   $("board-title").textContent = site.name;
   $("board-trade").textContent = `${site.kind} · ${site.trades.join(", ")}`;
   $("board-blurb").textContent = site.blurb ?? "";
@@ -468,7 +468,7 @@ function npOpenBoard(site) {
     if (dnHere.glow.stations.has(id)) li.className = "dn-assigned";
     const name = document.createElement("span"); name.textContent = `${ppCompleted(id) ? "✓ " : ""}${lkStationLabel(id)}`;
     if (ppCompleted(id)) name.className = "done";
-    const a = document.createElement("a"); a.className = "btn primary"; a.href = npLink(id, site.id); a.dataset.station = id; a.textContent = "Start";
+    const a = document.createElement("a"); a.className = "btn primary"; a.href = npLink(id, site.id, returnHash); a.dataset.station = id; a.textContent = "Start";
     a.setAttribute("aria-label", `Start ${lkStationLabel(id)}`);
     li.append(name, a); ul.appendChild(li);
   }

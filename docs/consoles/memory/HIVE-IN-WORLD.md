@@ -17,7 +17,8 @@
 - `wkColliderSeam` files a box under the chunk of its CENTRE: a 45 m shed reaches into the next chunk. `hwBoxesIn` reads the
   chunks within 64 m and keeps the boxes that overlap.
 - The return link: `lkStationLink(…, { returnHash: "ixr=<style>" })` produces `return=<page>#site=<parish>/<site>&ixr=<style>`.
-  `ppReturnSite` still reads `site`. `?parish=<map>&ixr=<style>` opens straight into a room (good for captures).
+  `ppReturnSite` still reads `site`. `?parish=<map>&ixr=<style>` opens straight into a room (good for captures). The room's
+  pads (`onLaunch`) and its job board (`npOpenBoard(site, returnHash)`) both carry it.
 - Supervise every job: the award-time gate skips `vbApprove` until the learner approves, and a dispatch-time hold catches jobs
   approved under the standing approval before the switch. A physical-path approval re-creates the job under a NEW id (its
   approve line names the first id); map through `jobs()[i].firstId`.
