@@ -44,14 +44,18 @@
 | facade shader programs per tier | 1 | **1** (`pa-rz-high-1`, `pa-rz-bal-1`, `pa-tint-1` phone unchanged) | `check_rz` §5 |
 | exposure table, bands in range (full light and dim 0.8) | none | **8 of 8**; ordered day 1.509 > dawn 0.512, dusk 0.461 > night 0.263 | `check_rz` §6 |
 | phone tier | — | **unchanged** (no REALISM material, no texture, the same fixed lights) | `check_rz` §4–§5, §7 |
-| page errors in the built page | — | see the hand-back (`drive-after.txt`, last line) | `$SP/loop10/rz/drive_rz.mjs` |
+| built page, orleans, the other three shots (high) | street day 241 / 194,738; wide night 147 / 189,449; street night 243 / 199,462 | 240 / 190,888; 147 / 187,897; 243 / 198,274 (calls / tris). REALISM adds no geometry (`check_rz` §5); the small differences come from what moves and streams between runs (a walking worker is in the after frame) | `drive-after.txt` |
+| built page, orleans, balanced / phone (4 shots each) | — (the before drive's measure lines were lost) | balanced: 135–263 calls, 109,150–130,309 tris, 0 REALISM bytes; phone: 100–187 calls, 59,551–70,191 tris, **0 textures**, no REALISM material | `drive-after.txt` |
+| worst chunk mass in the built page (orleans, high / balanced / phone) | — | 2 meshes / 2,412 · 2 / 2,412 · 2 / 1,968 tris (unchanged by REALISM, which adds no mesh) | `drive-after.txt` |
+| page errors / external requests in the built page (12 loads × shots, three tiers) | — | **0 / 0** (shader-compile console errors watched too) | `drive-after.txt`, last line (737 s at load 31.8) |
 | `check_textures` / `check_palette` / `check_facades` / `check_interiors` | pass | **pass** (palette 684, facades 2,977, interiors 957) | the checkers |
 | `check_rz` | — | **127 pass** | `node tools/check_rz.mjs` |
 
 ## Stills
 `$SP/loop10/rz/`: `before-<map>-<wide|street>-<day|night>.jpg` for orleans, sf-mission and sf-marina (12, high tier, built
 from the base sources), and `after-orleans-*` (the after drive was cut to one map after the usage stop). At the presets'
-distances the change is subtle. The PALETTE-hooked houses and blocks are small in frame, and the large brick halls at
+distances the change can't be seen. Looking at them: the wide-day and street-day pairs match pixel for pixel to the eye
+(the only difference is a walking worker), and the night after still is lit and readable, with no blow-out. The PALETTE-hooked houses and blocks are small in frame, and the large brick halls at
 the port are ROBO-EXTERIORS' facades, not PALETTE's.
 
 ## Log
