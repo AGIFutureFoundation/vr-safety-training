@@ -10,11 +10,11 @@
  },
  "counts": {
   "stations": 670,
-  "stationsMatched": 214,
+  "stationsMatched": 285,
   "skills": 24,
   "skillsMatched": 24,
   "excludedK12Skills": 6,
-  "blocks": 91
+  "blocks": 157
  },
  "stations": {
   "matched": [
@@ -78,6 +78,16 @@
     ]
    },
    {
+    "station": "amalgam-waste-handling",
+    "name": "Amalgam Waste Handling",
+    "rule": "health-worker-safety",
+    "blocks": [
+     "CX-GHEALTH-1096",
+     "CX-GHEALTH-1097",
+     "CX-GHEALTH-1098"
+    ]
+   },
+   {
     "station": "ammonia-plant",
     "name": "Ammonia Plant",
     "rule": "process",
@@ -85,6 +95,26 @@
      "CX-TRADE-0014",
      "CX-TRADE-0032",
      "CX-TRADE-0033"
+    ]
+   },
+   {
+    "station": "apprenticeship-application-and-test",
+    "name": "Apprenticeship Application & Test",
+    "rule": "career-pathway",
+    "blocks": [
+     "CX-CORP-0501",
+     "CX-CORP-0502",
+     "CX-CORP-0503"
+    ]
+   },
+   {
+    "station": "apprenticeship-standards-reading",
+    "name": "Reading an Apprenticeship Standard",
+    "rule": "career-pathway",
+    "blocks": [
+     "CX-CORP-0501",
+     "CX-CORP-0502",
+     "CX-CORP-0503"
     ]
    },
    {
@@ -382,6 +412,16 @@
     ]
    },
    {
+    "station": "budget-tradeoff-hearing",
+    "name": "Budget Tradeoff Hearing",
+    "rule": "civic-advocacy",
+    "blocks": [
+     "CX-NPO-0501",
+     "CX-NPO-0502",
+     "CX-NPO-0503"
+    ]
+   },
+   {
     "station": "bus-depot-lift",
     "name": "Bus Depot Lift",
     "rule": "rigging",
@@ -408,6 +448,36 @@
      "CX-TRADE-0008",
      "CX-TRADE-0009",
      "CX-TRADE-0010"
+    ]
+   },
+   {
+    "station": "ca-fatigue-and-duty-time-self-check",
+    "name": "Fatigue and Duty-Time Self-Check",
+    "rule": "wellbeing",
+    "blocks": [
+     "CX-CORP-0821",
+     "CX-CORP-0822",
+     "CX-CORP-0823"
+    ]
+   },
+   {
+    "station": "ca-unruly-passenger-deescalation",
+    "name": "Unruly Passenger De-escalation",
+    "rule": "de-escalation",
+    "blocks": [
+     "CX-CORP-0975",
+     "CX-CORP-1091",
+     "CX-CORP-1092"
+    ]
+   },
+   {
+    "station": "cath-lab",
+    "name": "Cath Lab",
+    "rule": "patient-safety",
+    "blocks": [
+     "CX-GHEALTH-0511",
+     "CX-GHEALTH-0512",
+     "CX-GHEALTH-0513"
     ]
    },
    {
@@ -480,6 +550,16 @@
     ]
    },
    {
+    "station": "chairside-emergency",
+    "name": "Chairside Emergency",
+    "rule": "patient-safety",
+    "blocks": [
+     "CX-GHEALTH-0511",
+     "CX-GHEALTH-0512",
+     "CX-GHEALTH-0513"
+    ]
+   },
+   {
     "station": "chiller-plant",
     "name": "Chiller Plant",
     "rule": "hvac",
@@ -510,6 +590,26 @@
     ]
    },
    {
+    "station": "coalition-building-table",
+    "name": "Coalition Building Table",
+    "rule": "civic-advocacy",
+    "blocks": [
+     "CX-NPO-0701",
+     "CX-NPO-0702",
+     "CX-NPO-0703"
+    ]
+   },
+   {
+    "station": "community-listening-session",
+    "name": "Community Listening Session",
+    "rule": "civic-advocacy",
+    "blocks": [
+     "CX-NPO-0501",
+     "CX-NPO-0502",
+     "CX-NPO-0503"
+    ]
+   },
+   {
     "station": "confined-rescue",
     "name": "Confined Rescue",
     "rule": "process",
@@ -517,6 +617,16 @@
      "CX-TRADE-0014",
      "CX-TRADE-0032",
      "CX-TRADE-0033"
+    ]
+   },
+   {
+    "station": "conflict-mediation-room",
+    "name": "Conflict Mediation Room",
+    "rule": "de-escalation",
+    "blocks": [
+     "CX-CORP-0771",
+     "CX-CORP-0772",
+     "CX-CORP-0773"
     ]
    },
    {
@@ -599,6 +709,76 @@
     ]
    },
    {
+    "station": "crisis-communication-podium",
+    "name": "Crisis Communication Podium",
+    "rule": "crisis-comms",
+    "blocks": [
+     "CX-CORP-0861",
+     "CX-CORP-0862",
+     "CX-CORP-0863"
+    ]
+   },
+   {
+    "station": "critical-incident-debrief",
+    "name": "Critical Incident Debrief",
+    "rule": "psychosocial",
+    "blocks": [
+     "CX-MULTI-0566",
+     "CX-MULTI-0567",
+     "CX-MULTI-0568"
+    ]
+   },
+   {
+    "station": "cv-difficult-conversation-across-difference",
+    "name": "Difficult Conversation Across Difference",
+    "rule": "de-escalation",
+    "blocks": [
+     "CX-CORP-1091",
+     "CX-CORP-1092",
+     "CX-CORP-1093"
+    ]
+   },
+   {
+    "station": "cv-neighborhood-emergency-block-captain",
+    "name": "Neighborhood Emergency Block Captain",
+    "rule": "disaster-community",
+    "blocks": [
+     "CX-GHEALTH-0986",
+     "CX-GHEALTH-0987",
+     "CX-GHEALTH-0988"
+    ]
+   },
+   {
+    "station": "cv-restorative-justice-circle-facilitation",
+    "name": "Restorative Justice Circle",
+    "rule": "de-escalation",
+    "blocks": [
+     "CX-CORP-0771",
+     "CX-CORP-0772",
+     "CX-CORP-0773"
+    ]
+   },
+   {
+    "station": "cv-voter-registration-drive-and-nonpartisan-conduct",
+    "name": "Voter Registration Drive",
+    "rule": "civic-advocacy",
+    "blocks": [
+     "CX-NPO-0503",
+     "CX-NPO-0637",
+     "CX-NPO-0640"
+    ]
+   },
+   {
+    "station": "damage-assessment-team",
+    "name": "Damage Assessment Team",
+    "rule": "disaster-community",
+    "blocks": [
+     "CX-GHEALTH-0987",
+     "CX-GHEALTH-0986",
+     "CX-GHEALTH-0988"
+    ]
+   },
+   {
     "station": "devops",
     "name": "Deploy Bay",
     "rule": "it-ot",
@@ -606,6 +786,26 @@
      "CX-TRADE-0028",
      "CX-TRADE-0029",
      "CX-TRADE-0030"
+    ]
+   },
+   {
+    "station": "dn-dental-trauma-and-avulsed-tooth-response",
+    "name": "Dental Trauma & Avulsed Tooth Response",
+    "rule": "patient-safety",
+    "blocks": [
+     "CX-GHEALTH-0511",
+     "CX-GHEALTH-0512",
+     "CX-GHEALTH-0513"
+    ]
+   },
+   {
+    "station": "dn-public-health-dentistry-and-fluoridation-advocacy",
+    "name": "Public Health Dentistry & Fluoridation Advocacy",
+    "rule": "civic-advocacy",
+    "blocks": [
+     "CX-NPO-0637",
+     "CX-NPO-0502",
+     "CX-NPO-0503"
     ]
    },
    {
@@ -638,6 +838,16 @@
     ]
    },
    {
+    "station": "ei-conflict-on-the-crew",
+    "name": "Conflict on the Crew",
+    "rule": "de-escalation",
+    "blocks": [
+     "CX-CORP-0771",
+     "CX-CORP-0772",
+     "CX-CORP-0773"
+    ]
+   },
+   {
     "station": "electrical",
     "name": "Isolation Bay",
     "rule": "electrical",
@@ -648,6 +858,16 @@
     ]
    },
    {
+    "station": "endodontic-assisting",
+    "name": "Endodontic Assisting",
+    "rule": "patient-safety",
+    "blocks": [
+     "CX-GHEALTH-0511",
+     "CX-GHEALTH-0512",
+     "CX-GHEALTH-0513"
+    ]
+   },
+   {
     "station": "et-ev-fleet-depot-charging-and-arc-flash",
     "name": "EV Fleet Depot Charging & Arc Flash",
     "rule": "electrical",
@@ -655,6 +875,16 @@
      "CX-TRADE-0002",
      "CX-TRADE-0004",
      "CX-TRADE-0005"
+    ]
+   },
+   {
+    "station": "ethics-and-conflict-of-interest",
+    "name": "Ethics and Conflict of Interest",
+    "rule": "ethics",
+    "blocks": [
+     "CX-CORP-0911",
+     "CX-CORP-0912",
+     "CX-CORP-0913"
     ]
    },
    {
@@ -694,6 +924,16 @@
      "CX-TRADE-0005",
      "CX-TRADE-0021",
      "CX-TRADE-0024"
+    ]
+   },
+   {
+    "station": "four-handed-dentistry",
+    "name": "Four-Handed Dentistry",
+    "rule": "patient-safety",
+    "blocks": [
+     "CX-GHEALTH-0511",
+     "CX-GHEALTH-0512",
+     "CX-GHEALTH-0513"
     ]
    },
    {
@@ -856,6 +1096,16 @@
     ]
    },
    {
+    "station": "hc-code-response-support-and-crash-cart-check",
+    "name": "Code Response Support & Crash Cart Check",
+    "rule": "patient-safety",
+    "blocks": [
+     "CX-GHEALTH-0675",
+     "CX-GHEALTH-0511",
+     "CX-GHEALTH-0512"
+    ]
+   },
+   {
     "station": "hc-environmental-services-isolation-room-turnover",
     "name": "Isolation Room Turnover",
     "rule": "electrical",
@@ -863,6 +1113,36 @@
      "CX-TRADE-0002",
      "CX-TRADE-0004",
      "CX-TRADE-0005"
+    ]
+   },
+   {
+    "station": "hc-hazardous-drug-spill-kit-response",
+    "name": "Hazardous Drug Spill Kit Response",
+    "rule": "health-worker-safety",
+    "blocks": [
+     "CX-GHEALTH-1096",
+     "CX-GHEALTH-1097",
+     "CX-GHEALTH-1098"
+    ]
+   },
+   {
+    "station": "hc-linen-and-regulated-waste-handling",
+    "name": "Linen & Regulated Waste Handling",
+    "rule": "health-worker-safety",
+    "blocks": [
+     "CX-GHEALTH-1096",
+     "CX-GHEALTH-1097",
+     "CX-GHEALTH-1098"
+    ]
+   },
+   {
+    "station": "hc-patient-transport-and-safe-handling",
+    "name": "Patient Transport & Safe Handling",
+    "rule": "health-worker-safety",
+    "blocks": [
+     "CX-GHEALTH-1096",
+     "CX-GHEALTH-1097",
+     "CX-GHEALTH-1098"
     ]
    },
    {
@@ -876,6 +1156,16 @@
     ]
    },
    {
+    "station": "hc-workplace-violence-deescalation-at-the-desk",
+    "name": "Workplace Violence De-escalation at the Desk",
+    "rule": "de-escalation",
+    "blocks": [
+     "CX-CORP-0975",
+     "CX-CORP-0941",
+     "CX-CORP-0942"
+    ]
+   },
+   {
     "station": "hw-housekeeping-cart-and-chemical-safety",
     "name": "Housekeeping Cart & Chemical Safety",
     "rule": "process",
@@ -883,6 +1173,16 @@
      "CX-TRADE-0034",
      "CX-TRADE-0014",
      "CX-TRADE-0032"
+    ]
+   },
+   {
+    "station": "hz-decon-corridor-for-a-mass-casualty-drill",
+    "name": "Decon Corridor for a Mass-Casualty Drill",
+    "rule": "disaster-facility",
+    "blocks": [
+     "CX-GHEALTH-0602",
+     "CX-GHEALTH-0601",
+     "CX-GHEALTH-0603"
     ]
    },
    {
@@ -926,6 +1226,26 @@
     ]
    },
    {
+    "station": "implant-surgery-assisting",
+    "name": "Implant Surgery Assisting",
+    "rule": "patient-safety",
+    "blocks": [
+     "CX-GHEALTH-0511",
+     "CX-GHEALTH-0512",
+     "CX-GHEALTH-0513"
+    ]
+   },
+   {
+    "station": "infection-control-audit",
+    "name": "Infection Control Audit",
+    "rule": "health-worker-safety",
+    "blocks": [
+     "CX-GHEALTH-1097",
+     "CX-GHEALTH-1100",
+     "CX-GHEALTH-1096"
+    ]
+   },
+   {
     "station": "instrument-reprocessing",
     "name": "Instrument Reprocessing",
     "rule": "process",
@@ -933,6 +1253,16 @@
      "CX-TRADE-0014",
      "CX-TRADE-0032",
      "CX-TRADE-0033"
+    ]
+   },
+   {
+    "station": "jobsite-orientation-and-osha-10",
+    "name": "Jobsite Orientation & OSHA 10",
+    "rule": "career-pathway",
+    "blocks": [
+     "CX-CORP-0506",
+     "CX-CORP-0507",
+     "CX-CORP-0508"
     ]
    },
    {
@@ -1053,6 +1383,16 @@
     ]
    },
    {
+    "station": "mentorship-and-succession",
+    "name": "Mentorship and Succession",
+    "rule": "career-pathway",
+    "blocks": [
+     "CX-CORP-0776",
+     "CX-CORP-0777",
+     "CX-CORP-0778"
+    ]
+   },
+   {
     "station": "ml-flat-sorter-guarding-and-lockout",
     "name": "Flat Sorter Guarding & Lockout",
     "rule": "lockout",
@@ -1080,6 +1420,16 @@
      "CX-TRADE-0002",
      "CX-TRADE-0005",
      "CX-TRADE-0016"
+    ]
+   },
+   {
+    "station": "ml-retail-counter-deescalation",
+    "name": "Retail Counter De-escalation",
+    "rule": "de-escalation",
+    "blocks": [
+     "CX-CORP-0975",
+     "CX-CORP-1091",
+     "CX-CORP-1092"
     ]
    },
    {
@@ -1150,6 +1500,16 @@
      "CX-TRADE-0011",
      "CX-TRADE-0008",
      "CX-TRADE-0009"
+    ]
+   },
+   {
+    "station": "nitrous-oxide-monitoring",
+    "name": "Nitrous Oxide Monitoring",
+    "rule": "health-worker-safety",
+    "blocks": [
+     "CX-GHEALTH-1096",
+     "CX-GHEALTH-1097",
+     "CX-GHEALTH-1098"
     ]
    },
    {
@@ -1250,6 +1610,56 @@
     ]
    },
    {
+    "station": "oral-cancer-screening",
+    "name": "Oral Cancer Screening",
+    "rule": "patient-safety",
+    "blocks": [
+     "CX-GHEALTH-0511",
+     "CX-GHEALTH-0512",
+     "CX-GHEALTH-0513"
+    ]
+   },
+   {
+    "station": "oral-surgery-assisting",
+    "name": "Oral Surgery Assisting",
+    "rule": "patient-safety",
+    "blocks": [
+     "CX-GHEALTH-0511",
+     "CX-GHEALTH-0512",
+     "CX-GHEALTH-0513"
+    ]
+   },
+   {
+    "station": "orthodontic-assisting",
+    "name": "Orthodontic Assisting",
+    "rule": "patient-safety",
+    "blocks": [
+     "CX-GHEALTH-0511",
+     "CX-GHEALTH-0512",
+     "CX-GHEALTH-0513"
+    ]
+   },
+   {
+    "station": "patient-intake-screening",
+    "name": "Patient Intake Screening",
+    "rule": "patient-safety",
+    "blocks": [
+     "CX-GHEALTH-0511",
+     "CX-GHEALTH-0512",
+     "CX-GHEALTH-0513"
+    ]
+   },
+   {
+    "station": "patron-deescalation",
+    "name": "Patron De-escalation",
+    "rule": "de-escalation",
+    "blocks": [
+     "CX-CORP-0975",
+     "CX-CORP-1091",
+     "CX-CORP-1092"
+    ]
+   },
+   {
     "station": "pcb-equipment-removal",
     "name": "PCB Equipment Removal",
     "rule": "equipment",
@@ -1257,6 +1667,16 @@
      "CX-TRADE-0005",
      "CX-TRADE-0021",
      "CX-TRADE-0024"
+    ]
+   },
+   {
+    "station": "phlebotomy",
+    "name": "Draw Station",
+    "rule": "patient-safety",
+    "blocks": [
+     "CX-GHEALTH-0511",
+     "CX-GHEALTH-0512",
+     "CX-GHEALTH-0513"
     ]
    },
    {
@@ -1410,6 +1830,16 @@
     ]
    },
    {
+    "station": "psychological-first-aid",
+    "name": "Psychological First Aid",
+    "rule": "psychosocial",
+    "blocks": [
+     "CX-MULTI-0566",
+     "CX-MULTI-0616",
+     "CX-MULTI-0567"
+    ]
+   },
+   {
     "station": "pt-chassis-and-genset-yard",
     "name": "Chassis & Genset Yard",
     "rule": "equipment",
@@ -1436,6 +1866,26 @@
      "CX-TRADE-0006",
      "CX-TRADE-0002",
      "CX-TRADE-0004"
+    ]
+   },
+   {
+    "station": "public-comment-prep",
+    "name": "Public Comment Prep",
+    "rule": "civic-advocacy",
+    "blocks": [
+     "CX-NPO-0636",
+     "CX-NPO-0637",
+     "CX-NPO-0638"
+    ]
+   },
+   {
+    "station": "public-meeting-chair",
+    "name": "Public Meeting Chair",
+    "rule": "civic-advocacy",
+    "blocks": [
+     "CX-NPO-0636",
+     "CX-NPO-0637",
+     "CX-NPO-0638"
     ]
    },
    {
@@ -1475,6 +1925,16 @@
      "CX-TRADE-0037",
      "CX-TRADE-0036",
      "CX-TRADE-0038"
+    ]
+   },
+   {
+    "station": "radiograph-safety",
+    "name": "Radiograph Safety",
+    "rule": "health-worker-safety",
+    "blocks": [
+     "CX-GHEALTH-1096",
+     "CX-GHEALTH-1097",
+     "CX-GHEALTH-1098"
     ]
    },
    {
@@ -1656,6 +2116,36 @@
     ]
    },
    {
+    "station": "sharps-exposure-response",
+    "name": "Sharps Exposure Response",
+    "rule": "health-worker-safety",
+    "blocks": [
+     "CX-GHEALTH-1096",
+     "CX-GHEALTH-1097",
+     "CX-GHEALTH-1098"
+    ]
+   },
+   {
+    "station": "shelter-in-place-drill",
+    "name": "Shelter-in-Place Drill",
+    "rule": "disaster-community",
+    "blocks": [
+     "CX-GHEALTH-0989",
+     "CX-GHEALTH-0986",
+     "CX-GHEALTH-0987"
+    ]
+   },
+   {
+    "station": "shelter-intake-operations",
+    "name": "Shelter Intake Operations",
+    "rule": "disaster-community",
+    "blocks": [
+     "CX-GHEALTH-0986",
+     "CX-GHEALTH-0987",
+     "CX-GHEALTH-0988"
+    ]
+   },
+   {
     "station": "shipyard-hotwork",
     "name": "Shipyard Hot Work",
     "rule": "welding",
@@ -1745,6 +2235,16 @@
     ]
    },
    {
+    "station": "special-needs-and-geriatric-dentistry",
+    "name": "Special Needs & Geriatric Dentistry",
+    "rule": "patient-safety",
+    "blocks": [
+     "CX-GHEALTH-0674",
+     "CX-GHEALTH-0511",
+     "CX-GHEALTH-0512"
+    ]
+   },
+   {
     "station": "stage-load-in-and-truss-rigging",
     "name": "Stage Load-In & Truss Rigging",
     "rule": "rigging",
@@ -1761,6 +2261,16 @@
      "CX-TRADE-0008",
      "CX-TRADE-0009",
      "CX-TRADE-0010"
+    ]
+   },
+   {
+    "station": "sterilisation-technician-cycle",
+    "name": "Sterilisation Centre",
+    "rule": "health-worker-safety",
+    "blocks": [
+     "CX-GHEALTH-1096",
+     "CX-GHEALTH-1097",
+     "CX-GHEALTH-1098"
     ]
    },
    {
@@ -1800,6 +2310,16 @@
     "blocks": [
      "CX-TRADE-0024",
      "CX-TRADE-0025"
+    ]
+   },
+   {
+    "station": "teledentistry-and-triage",
+    "name": "Teledentistry & Triage",
+    "rule": "patient-safety",
+    "blocks": [
+     "CX-GHEALTH-0511",
+     "CX-GHEALTH-0512",
+     "CX-GHEALTH-0513"
     ]
    },
    {
@@ -1849,6 +2369,16 @@
      "CX-TRADE-0005",
      "CX-TRADE-0021",
      "CX-TRADE-0024"
+    ]
+   },
+   {
+    "station": "triage-point",
+    "name": "Triage Point",
+    "rule": "patient-safety",
+    "blocks": [
+     "CX-GHEALTH-0511",
+     "CX-GHEALTH-0512",
+     "CX-GHEALTH-0513"
     ]
    },
    {
@@ -1909,6 +2439,26 @@
      "CX-ROB-0501",
      "CX-ROB-0502",
      "CX-ROB-0503"
+    ]
+   },
+   {
+    "station": "ultrasonic-scaling",
+    "name": "Ultrasonic Scaling",
+    "rule": "health-worker-safety",
+    "blocks": [
+     "CX-GHEALTH-1096",
+     "CX-GHEALTH-1097",
+     "CX-GHEALTH-1098"
+    ]
+   },
+   {
+    "station": "union-hall-and-dispatch",
+    "name": "Union Hall & Dispatch",
+    "rule": "union-relations",
+    "blocks": [
+     "CX-CORP-0586",
+     "CX-CORP-0587",
+     "CX-CORP-0588"
     ]
    },
    {
@@ -2070,6 +2620,56 @@
     ]
    },
    {
+    "station": "wellness-asking-for-help-and-resources",
+    "name": "Wellness — Asking for Help and Resources",
+    "rule": "wellbeing",
+    "blocks": [
+     "CX-CORP-0824",
+     "CX-CORP-1037",
+     "CX-CORP-0821"
+    ]
+   },
+   {
+    "station": "wellness-peer-support-conversation",
+    "name": "Wellness — Peer Support Conversation",
+    "rule": "wellbeing",
+    "blocks": [
+     "CX-CORP-1037",
+     "CX-CORP-0822",
+     "CX-CORP-0821"
+    ]
+   },
+   {
+    "station": "wellness-shift-work-sleep-and-stress",
+    "name": "Wellness — Shift Work, Sleep and Stress",
+    "rule": "wellbeing",
+    "blocks": [
+     "CX-CORP-1037",
+     "CX-CORP-1039",
+     "CX-CORP-0821"
+    ]
+   },
+   {
+    "station": "wellness-substance-use-and-the-job",
+    "name": "Wellness — Substance Use and the Job",
+    "rule": "wellbeing",
+    "blocks": [
+     "CX-CORP-1037",
+     "CX-CORP-0821",
+     "CX-CORP-0822"
+    ]
+   },
+   {
+    "station": "who-contact-tracing-visit",
+    "name": "Contact Tracing Visit",
+    "rule": "outbreak",
+    "blocks": [
+     "CX-GHEALTH-0981",
+     "CX-GHEALTH-0982",
+     "CX-GHEALTH-0983"
+    ]
+   },
+   {
     "station": "who-isolation-ward-setup",
     "name": "Isolation Ward Setup",
     "rule": "electrical",
@@ -2087,6 +2687,106 @@
      "CX-TRADE-0002",
      "CX-TRADE-0024",
      "CX-TRADE-0034"
+    ]
+   },
+   {
+    "station": "who-risk-communication-and-community-engagement",
+    "name": "Risk Communication and Community Engagement",
+    "rule": "outbreak",
+    "blocks": [
+     "CX-GHEALTH-0981",
+     "CX-GHEALTH-0982",
+     "CX-GHEALTH-0983"
+    ]
+   },
+   {
+    "station": "who-safe-and-dignified-burial",
+    "name": "Safe and Dignified Burial",
+    "rule": "outbreak",
+    "blocks": [
+     "CX-GHEALTH-0981",
+     "CX-GHEALTH-0982",
+     "CX-GHEALTH-0983"
+    ]
+   },
+   {
+    "station": "who-surveillance-and-case-definition",
+    "name": "Surveillance and Case Definition",
+    "rule": "outbreak",
+    "blocks": [
+     "CX-GHEALTH-0981",
+     "CX-GHEALTH-0982",
+     "CX-GHEALTH-0983"
+    ]
+   },
+   {
+    "station": "who-treatment-centre-triage",
+    "name": "Treatment Centre Triage",
+    "rule": "patient-safety",
+    "blocks": [
+     "CX-GHEALTH-0511",
+     "CX-GHEALTH-0512",
+     "CX-GHEALTH-0513"
+    ]
+   },
+   {
+    "station": "who-vaccination-line",
+    "name": "Vaccination Line",
+    "rule": "outbreak",
+    "blocks": [
+     "CX-GHEALTH-0981",
+     "CX-GHEALTH-0982",
+     "CX-GHEALTH-0983"
+    ]
+   },
+   {
+    "station": "who-water-sanitation-and-hygiene",
+    "name": "Water, Sanitation and Hygiene",
+    "rule": "outbreak",
+    "blocks": [
+     "CX-GHEALTH-0981",
+     "CX-GHEALTH-0982",
+     "CX-GHEALTH-0983"
+    ]
+   },
+   {
+    "station": "wp-apprenticeship-enrollment-day",
+    "name": "Apprenticeship Enrollment Day",
+    "rule": "career-pathway",
+    "blocks": [
+     "CX-CORP-0501",
+     "CX-CORP-0502",
+     "CX-CORP-0503"
+    ]
+   },
+   {
+    "station": "wp-employer-meet-and-greet",
+    "name": "Employer Meet-and-Greet",
+    "rule": "career-pathway",
+    "blocks": [
+     "CX-CORP-0501",
+     "CX-CORP-0502",
+     "CX-CORP-0503"
+    ]
+   },
+   {
+    "station": "wp-graduation-and-alumni-mentors",
+    "name": "Graduation and Alumni-Mentor Day",
+    "rule": "career-pathway",
+    "blocks": [
+     "CX-CORP-0508",
+     "CX-CORP-0778",
+     "CX-CORP-0501"
+    ]
+   },
+   {
+    "station": "wp-mock-interview-and-resume",
+    "name": "Mock Interview and Resume",
+    "rule": "career-pathway",
+    "blocks": [
+     "CX-CORP-0501",
+     "CX-CORP-0502",
+     "CX-CORP-0503"
     ]
    },
    {
@@ -2116,6 +2816,16 @@
      "CX-TRADE-0002",
      "CX-TRADE-0004",
      "CX-TRADE-0005"
+    ]
+   },
+   {
+    "station": "wvpp-panic-button",
+    "name": "WVPP & Panic Button",
+    "rule": "de-escalation",
+    "blocks": [
+     "CX-CORP-0771",
+     "CX-CORP-0772",
+     "CX-CORP-0773"
     ]
    },
    {
@@ -2201,23 +2911,8 @@
     "why": "no rule's station pattern matches"
    },
    {
-    "station": "amalgam-waste-handling",
-    "name": "Amalgam Waste Handling",
-    "why": "no rule's station pattern matches"
-   },
-   {
     "station": "ambulance-scene-safety",
     "name": "Ambulance Scene Safety",
-    "why": "no rule's station pattern matches"
-   },
-   {
-    "station": "apprenticeship-application-and-test",
-    "name": "Apprenticeship Application & Test",
-    "why": "no rule's station pattern matches"
-   },
-   {
-    "station": "apprenticeship-standards-reading",
-    "name": "Reading an Apprenticeship Standard",
     "why": "no rule's station pattern matches"
    },
    {
@@ -2531,11 +3226,6 @@
     "why": "no rule's station pattern matches"
    },
    {
-    "station": "budget-tradeoff-hearing",
-    "name": "Budget Tradeoff Hearing",
-    "why": "no rule's station pattern matches"
-   },
-   {
     "station": "budget-with-irregular-income",
     "name": "Budget With Irregular Income",
     "why": "no rule's station pattern matches"
@@ -2566,11 +3256,6 @@
     "why": "no rule's station pattern matches"
    },
    {
-    "station": "ca-fatigue-and-duty-time-self-check",
-    "name": "Fatigue and Duty-Time Self-Check",
-    "why": "no rule's station pattern matches"
-   },
-   {
     "station": "ca-flight-deck-crew-resource-management",
     "name": "Flight Deck Crew Resource Management Briefing",
     "why": "no rule's station pattern matches"
@@ -2578,11 +3263,6 @@
    {
     "station": "ca-galley-and-cart-safety",
     "name": "Galley and Cart Safety",
-    "why": "no rule's station pattern matches"
-   },
-   {
-    "station": "ca-unruly-passenger-deescalation",
-    "name": "Unruly Passenger De-escalation",
     "why": "no rule's station pattern matches"
    },
    {
@@ -2601,11 +3281,6 @@
     "why": "no rule's station pattern matches"
    },
    {
-    "station": "cath-lab",
-    "name": "Cath Lab",
-    "why": "no rule's station pattern matches"
-   },
-   {
     "station": "cd-pier-piling-inspection-and-wrap-repair",
     "name": "Pier Piling Inspection & Wrap Repair",
     "why": "no rule's station pattern matches"
@@ -2618,11 +3293,6 @@
    {
     "station": "cd-scientific-scuba-buddy-check-and-lost-buddy-drill",
     "name": "Scientific Scuba: Buddy Check & Lost-Buddy Drill",
-    "why": "no rule's station pattern matches"
-   },
-   {
-    "station": "chairside-emergency",
-    "name": "Chairside Emergency",
     "why": "no rule's station pattern matches"
    },
    {
@@ -2676,16 +3346,6 @@
     "why": "no rule's station pattern matches"
    },
    {
-    "station": "coalition-building-table",
-    "name": "Coalition Building Table",
-    "why": "no rule's station pattern matches"
-   },
-   {
-    "station": "community-listening-session",
-    "name": "Community Listening Session",
-    "why": "no rule's station pattern matches"
-   },
-   {
     "station": "community-soil-split",
     "name": "Community Soil Split",
     "why": "no rule's station pattern matches"
@@ -2693,11 +3353,6 @@
    {
     "station": "concrete-pour",
     "name": "Concrete Pour",
-    "why": "no rule's station pattern matches"
-   },
-   {
-    "station": "conflict-mediation-room",
-    "name": "Conflict Mediation Room",
     "why": "no rule's station pattern matches"
    },
    {
@@ -2726,11 +3381,6 @@
     "why": "no rule's station pattern matches"
    },
    {
-    "station": "crisis-communication-podium",
-    "name": "Crisis Communication Podium",
-    "why": "no rule's station pattern matches"
-   },
-   {
     "station": "crisis-intervention-call",
     "name": "Crisis Intervention Call",
     "why": "no rule's station pattern matches"
@@ -2738,11 +3388,6 @@
    {
     "station": "crisis-line-shift",
     "name": "Crisis Line Shift",
-    "why": "no rule's station pattern matches"
-   },
-   {
-    "station": "critical-incident-debrief",
-    "name": "Critical Incident Debrief",
     "why": "no rule's station pattern matches"
    },
    {
@@ -2771,38 +3416,13 @@
     "why": "no rule's station pattern matches"
    },
    {
-    "station": "cv-difficult-conversation-across-difference",
-    "name": "Difficult Conversation Across Difference",
-    "why": "no rule's station pattern matches"
-   },
-   {
     "station": "cv-grant-application-and-nonprofit-compliance",
     "name": "Grant Application and Nonprofit Compliance",
     "why": "no rule's station pattern matches"
    },
    {
-    "station": "cv-neighborhood-emergency-block-captain",
-    "name": "Neighborhood Emergency Block Captain",
-    "why": "no rule's station pattern matches"
-   },
-   {
     "station": "cv-open-meeting-law-and-agenda-notice",
     "name": "Open Meeting Law and Agenda Notice",
-    "why": "no rule's station pattern matches"
-   },
-   {
-    "station": "cv-restorative-justice-circle-facilitation",
-    "name": "Restorative Justice Circle",
-    "why": "no rule's station pattern matches"
-   },
-   {
-    "station": "cv-voter-registration-drive-and-nonpartisan-conduct",
-    "name": "Voter Registration Drive",
-    "why": "no rule's station pattern matches"
-   },
-   {
-    "station": "damage-assessment-team",
-    "name": "Damage Assessment Team",
     "why": "no rule's station pattern matches"
    },
    {
@@ -2871,11 +3491,6 @@
     "why": "no rule's station pattern matches"
    },
    {
-    "station": "dn-dental-trauma-and-avulsed-tooth-response",
-    "name": "Dental Trauma & Avulsed Tooth Response",
-    "why": "no rule's station pattern matches"
-   },
-   {
     "station": "dn-digital-intraoral-scanning-and-cad-cam",
     "name": "Digital Intraoral Scanning & CAD/CAM",
     "why": "no rule's station pattern matches"
@@ -2888,11 +3503,6 @@
    {
     "station": "dn-oral-hygiene-instruction-and-motivational-interviewing",
     "name": "Oral Hygiene Instruction & Motivational Interviewing",
-    "why": "no rule's station pattern matches"
-   },
-   {
-    "station": "dn-public-health-dentistry-and-fluoridation-advocacy",
-    "name": "Public Health Dentistry & Fluoridation Advocacy",
     "why": "no rule's station pattern matches"
    },
    {
@@ -2941,11 +3551,6 @@
     "why": "no rule's station pattern matches"
    },
    {
-    "station": "ei-conflict-on-the-crew",
-    "name": "Conflict on the Crew",
-    "why": "no rule's station pattern matches"
-   },
-   {
     "station": "ei-giving-and-taking-feedback",
     "name": "Giving and Taking Feedback",
     "why": "no rule's station pattern matches"
@@ -2963,16 +3568,6 @@
    {
     "station": "emergency-savings-and-predatory-lending",
     "name": "Emergency Savings & Predatory Lending",
-    "why": "no rule's station pattern matches"
-   },
-   {
-    "station": "endodontic-assisting",
-    "name": "Endodontic Assisting",
-    "why": "no rule's station pattern matches"
-   },
-   {
-    "station": "ethics-and-conflict-of-interest",
-    "name": "Ethics and Conflict of Interest",
     "why": "no rule's station pattern matches"
    },
    {
@@ -3038,11 +3633,6 @@
    {
     "station": "formwork-shoring",
     "name": "Formwork Shoring",
-    "why": "no rule's station pattern matches"
-   },
-   {
-    "station": "four-handed-dentistry",
-    "name": "Four-Handed Dentistry",
     "why": "no rule's station pattern matches"
    },
    {
@@ -3211,33 +3801,8 @@
     "why": "no rule's station pattern matches"
    },
    {
-    "station": "hc-code-response-support-and-crash-cart-check",
-    "name": "Code Response Support & Crash Cart Check",
-    "why": "no rule's station pattern matches"
-   },
-   {
     "station": "hc-dietary-tray-line-and-allergy-flags",
     "name": "Dietary Tray Line & Allergy Flags",
-    "why": "no rule's station pattern matches"
-   },
-   {
-    "station": "hc-hazardous-drug-spill-kit-response",
-    "name": "Hazardous Drug Spill Kit Response",
-    "why": "no rule's station pattern matches"
-   },
-   {
-    "station": "hc-linen-and-regulated-waste-handling",
-    "name": "Linen & Regulated Waste Handling",
-    "why": "no rule's station pattern matches"
-   },
-   {
-    "station": "hc-patient-transport-and-safe-handling",
-    "name": "Patient Transport & Safe Handling",
-    "why": "no rule's station pattern matches"
-   },
-   {
-    "station": "hc-workplace-violence-deescalation-at-the-desk",
-    "name": "Workplace Violence De-escalation at the Desk",
     "why": "no rule's station pattern matches"
    },
    {
@@ -3281,11 +3846,6 @@
     "why": "no rule's station pattern matches"
    },
    {
-    "station": "hz-decon-corridor-for-a-mass-casualty-drill",
-    "name": "Decon Corridor for a Mass-Casualty Drill",
-    "why": "no rule's station pattern matches"
-   },
-   {
     "station": "hz-drum-staging-and-compatibility-segregation",
     "name": "Drum Staging & Compatibility Segregation",
     "why": "no rule's station pattern matches"
@@ -3326,18 +3886,8 @@
     "why": "no rule's station pattern matches"
    },
    {
-    "station": "implant-surgery-assisting",
-    "name": "Implant Surgery Assisting",
-    "why": "no rule's station pattern matches"
-   },
-   {
     "station": "industrial-press-steam",
     "name": "Industrial Press & Steam",
-    "why": "no rule's station pattern matches"
-   },
-   {
-    "station": "infection-control-audit",
-    "name": "Infection Control Audit",
     "why": "no rule's station pattern matches"
    },
    {
@@ -3348,11 +3898,6 @@
    {
     "station": "jigger-pour-spec",
     "name": "Pouring to Spec",
-    "why": "no rule's station pattern matches"
-   },
-   {
-    "station": "jobsite-orientation-and-osha-10",
-    "name": "Jobsite Orientation & OSHA 10",
     "why": "no rule's station pattern matches"
    },
    {
@@ -3491,11 +4036,6 @@
     "why": "no rule's station pattern matches"
    },
    {
-    "station": "mentorship-and-succession",
-    "name": "Mentorship and Succession",
-    "why": "no rule's station pattern matches"
-   },
-   {
     "station": "met-station-siting",
     "name": "Met Station Siting",
     "why": "no rule's station pattern matches"
@@ -3518,11 +4058,6 @@
    {
     "station": "ml-heat-and-cold-stress-on-route",
     "name": "Heat & Cold Stress on Route",
-    "why": "no rule's station pattern matches"
-   },
-   {
-    "station": "ml-retail-counter-deescalation",
-    "name": "Retail Counter De-escalation",
     "why": "no rule's station pattern matches"
    },
    {
@@ -3596,11 +4131,6 @@
     "why": "no rule's station pattern matches"
    },
    {
-    "station": "nitrous-oxide-monitoring",
-    "name": "Nitrous Oxide Monitoring",
-    "why": "no rule's station pattern matches"
-   },
-   {
     "station": "odor-complaint-log",
     "name": "Pollution Patrol",
     "why": "no rule's station pattern matches"
@@ -3626,21 +4156,6 @@
     "why": "no rule's station pattern matches"
    },
    {
-    "station": "oral-cancer-screening",
-    "name": "Oral Cancer Screening",
-    "why": "no rule's station pattern matches"
-   },
-   {
-    "station": "oral-surgery-assisting",
-    "name": "Oral Surgery Assisting",
-    "why": "no rule's station pattern matches"
-   },
-   {
-    "station": "orthodontic-assisting",
-    "name": "Orthodontic Assisting",
-    "why": "no rule's station pattern matches"
-   },
-   {
     "station": "overdose-response-naloxone",
     "name": "Overdose Response — Naloxone",
     "why": "no rule's station pattern matches"
@@ -3661,16 +4176,6 @@
     "why": "no rule's station pattern matches"
    },
    {
-    "station": "patient-intake-screening",
-    "name": "Patient Intake Screening",
-    "why": "no rule's station pattern matches"
-   },
-   {
-    "station": "patron-deescalation",
-    "name": "Patron De-escalation",
-    "why": "no rule's station pattern matches"
-   },
-   {
     "station": "pattern-marking-layout",
     "name": "Pattern Marking & Layout",
     "why": "no rule's station pattern matches"
@@ -3688,11 +4193,6 @@
    {
     "station": "periodontal-charting",
     "name": "Periodontal Charting",
-    "why": "no rule's station pattern matches"
-   },
-   {
-    "station": "phlebotomy",
-    "name": "Draw Station",
     "why": "no rule's station pattern matches"
    },
    {
@@ -3801,11 +4301,6 @@
     "why": "no rule's station pattern matches"
    },
    {
-    "station": "psychological-first-aid",
-    "name": "Psychological First Aid",
-    "why": "no rule's station pattern matches"
-   },
-   {
     "station": "pt-dock-fender-and-bollard-inspection",
     "name": "Dock Fender & Bollard Inspection",
     "why": "no rule's station pattern matches"
@@ -3828,16 +4323,6 @@
    {
     "station": "pt-terminal-lighting-mast-service",
     "name": "Terminal Lighting Mast Service",
-    "why": "no rule's station pattern matches"
-   },
-   {
-    "station": "public-comment-prep",
-    "name": "Public Comment Prep",
-    "why": "no rule's station pattern matches"
-   },
-   {
-    "station": "public-meeting-chair",
-    "name": "Public Meeting Chair",
     "why": "no rule's station pattern matches"
    },
    {
@@ -3878,11 +4363,6 @@
    {
     "station": "ra-tie-and-rail-replacement-with-track-machines",
     "name": "Tie & Rail Replacement with Track Machines",
-    "why": "no rule's station pattern matches"
-   },
-   {
-    "station": "radiograph-safety",
-    "name": "Radiograph Safety",
     "why": "no rule's station pattern matches"
    },
    {
@@ -3971,21 +4451,6 @@
     "why": "no rule's station pattern matches"
    },
    {
-    "station": "sharps-exposure-response",
-    "name": "Sharps Exposure Response",
-    "why": "no rule's station pattern matches"
-   },
-   {
-    "station": "shelter-in-place-drill",
-    "name": "Shelter-in-Place Drill",
-    "why": "no rule's station pattern matches"
-   },
-   {
-    "station": "shelter-intake-operations",
-    "name": "Shelter Intake Operations",
-    "why": "no rule's station pattern matches"
-   },
-   {
     "station": "shore-power-hookup",
     "name": "Shore Power Hookup",
     "why": "no rule's station pattern matches"
@@ -4031,11 +4496,6 @@
     "why": "no rule's station pattern matches"
    },
    {
-    "station": "special-needs-and-geriatric-dentistry",
-    "name": "Special Needs & Geriatric Dentistry",
-    "why": "no rule's station pattern matches"
-   },
-   {
     "station": "spiked-drink-response",
     "name": "Spiked Drink Response",
     "why": "no rule's station pattern matches"
@@ -4058,11 +4518,6 @@
    {
     "station": "stage-power",
     "name": "Stage Power",
-    "why": "no rule's station pattern matches"
-   },
-   {
-    "station": "sterilisation-technician-cycle",
-    "name": "Sterilisation Centre",
     "why": "no rule's station pattern matches"
    },
    {
@@ -4121,11 +4576,6 @@
     "why": "no rule's station pattern matches"
    },
    {
-    "station": "teledentistry-and-triage",
-    "name": "Teledentistry & Triage",
-    "why": "no rule's station pattern matches"
-   },
-   {
     "station": "tide-gate",
     "name": "Tide Gate",
     "why": "no rule's station pattern matches"
@@ -4166,11 +4616,6 @@
     "why": "no rule's station pattern matches"
    },
    {
-    "station": "triage-point",
-    "name": "Triage Point",
-    "why": "no rule's station pattern matches"
-   },
-   {
     "station": "tw-dock-leveler-and-trailer-restraint-check",
     "name": "Dock Leveler & Trailer Restraint Check",
     "why": "no rule's station pattern matches"
@@ -4178,16 +4623,6 @@
    {
     "station": "tw-pick-to-light-ergonomics-and-rotation",
     "name": "Pick-to-Light Ergonomics & Rotation",
-    "why": "no rule's station pattern matches"
-   },
-   {
-    "station": "ultrasonic-scaling",
-    "name": "Ultrasonic Scaling",
-    "why": "no rule's station pattern matches"
-   },
-   {
-    "station": "union-hall-and-dispatch",
-    "name": "Union Hall & Dispatch",
     "why": "no rule's station pattern matches"
    },
    {
@@ -4231,63 +4666,8 @@
     "why": "no rule's station pattern matches"
    },
    {
-    "station": "wellness-asking-for-help-and-resources",
-    "name": "Wellness — Asking for Help and Resources",
-    "why": "no rule's station pattern matches"
-   },
-   {
-    "station": "wellness-peer-support-conversation",
-    "name": "Wellness — Peer Support Conversation",
-    "why": "no rule's station pattern matches"
-   },
-   {
-    "station": "wellness-shift-work-sleep-and-stress",
-    "name": "Wellness — Shift Work, Sleep and Stress",
-    "why": "no rule's station pattern matches"
-   },
-   {
-    "station": "wellness-substance-use-and-the-job",
-    "name": "Wellness — Substance Use and the Job",
-    "why": "no rule's station pattern matches"
-   },
-   {
     "station": "who-after-action-review",
     "name": "After-Action Review",
-    "why": "no rule's station pattern matches"
-   },
-   {
-    "station": "who-contact-tracing-visit",
-    "name": "Contact Tracing Visit",
-    "why": "no rule's station pattern matches"
-   },
-   {
-    "station": "who-risk-communication-and-community-engagement",
-    "name": "Risk Communication and Community Engagement",
-    "why": "no rule's station pattern matches"
-   },
-   {
-    "station": "who-safe-and-dignified-burial",
-    "name": "Safe and Dignified Burial",
-    "why": "no rule's station pattern matches"
-   },
-   {
-    "station": "who-surveillance-and-case-definition",
-    "name": "Surveillance and Case Definition",
-    "why": "no rule's station pattern matches"
-   },
-   {
-    "station": "who-treatment-centre-triage",
-    "name": "Treatment Centre Triage",
-    "why": "no rule's station pattern matches"
-   },
-   {
-    "station": "who-vaccination-line",
-    "name": "Vaccination Line",
-    "why": "no rule's station pattern matches"
-   },
-   {
-    "station": "who-water-sanitation-and-hygiene",
-    "name": "Water, Sanitation and Hygiene",
     "why": "no rule's station pattern matches"
    },
    {
@@ -4301,33 +4681,13 @@
     "why": "no rule's station pattern matches"
    },
    {
-    "station": "wp-apprenticeship-enrollment-day",
-    "name": "Apprenticeship Enrollment Day",
-    "why": "no rule's station pattern matches"
-   },
-   {
-    "station": "wp-employer-meet-and-greet",
-    "name": "Employer Meet-and-Greet",
-    "why": "no rule's station pattern matches"
-   },
-   {
     "station": "wp-first-paycheck-coaching",
     "name": "First-Paycheck Coaching",
     "why": "no rule's station pattern matches"
    },
    {
-    "station": "wp-graduation-and-alumni-mentors",
-    "name": "Graduation and Alumni-Mentor Day",
-    "why": "no rule's station pattern matches"
-   },
-   {
     "station": "wp-intake-and-pathway-planning",
     "name": "Intake and Pathway Planning",
-    "why": "no rule's station pattern matches"
-   },
-   {
-    "station": "wp-mock-interview-and-resume",
-    "name": "Mock Interview and Resume",
     "why": "no rule's station pattern matches"
    },
    {
@@ -4363,11 +4723,6 @@
    {
     "station": "ws-turbine-climb-and-rescue-kit-check",
     "name": "Turbine Climb & Rescue-Kit Check",
-    "why": "no rule's station pattern matches"
-   },
-   {
-    "station": "wvpp-panic-button",
-    "name": "WVPP & Panic Button",
     "why": "no rule's station pattern matches"
    },
    {

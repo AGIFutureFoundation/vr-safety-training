@@ -22,6 +22,11 @@ export const ECO_TOP = 3;
 
 const ECO_TRADE = ["Trade School"];
 const ECO_ROBOT = ["Cognition.X : Robotics OS"];
+// ECOSYSTEM-2 (loop 10 round 8): adult-band packs for the station groups Trade School does not cover. Every one is "11–12 · adult".
+const ECO_HEALTH = ["Cognition.X : Global Health OS"];
+const ECO_CORP = ["Cognition.X : Corporate OS"];
+const ECO_FIELD = ["Cognition.X : Multilateral OS"];
+const ECO_NONPROFIT = ["Non-Profit Practice"];
 
 /** The declared rules, in order. `station` and `block` are case-insensitive regular-expression sources; `station` is matched at word starts against the station id and name with hyphens as spaces. */
 export const ECO_RULES = [
@@ -55,6 +60,34 @@ export const ECO_RULES = [
     packs: ECO_TRADE, block: "clearance|safety|equipment systems" },
   { id: "automation", station: "conveyor|press brake|cnc|palletiz|machine guard|automation|mechatronic|packaging line|sorter",
     packs: ECO_TRADE, block: "plc|automation|mechatronic|mechanical systems|motors" },
+  // ECOSYSTEM-2: appended after the trade rules, so no station matched in round 7 changes; each block pattern names a credential
+  // (docs/ecosystem.md, "Rules added in round 8", gives the reason for each).
+  { id: "health-worker-safety", station: "sharps exposure|radiograph safety|nitrous oxide|amalgam|regulated waste|hazardous drug|sterilis|steriliz|infection control|ultrasonic scaling|patient transport|safe handling",
+    packs: ECO_HEALTH, block: "healthcare worker safety" },
+  { id: "patient-safety", station: "oral surgery|implant surgery|endodont|orthodont|four handed|chairside|crash cart|code response|cath lab|triage|patient intake|draw station|dental trauma|oral cancer screening|geriatric dentistry",
+    packs: ECO_HEALTH, block: "patient safety" },
+  { id: "outbreak", station: "contact tracing|surveillance|case definition|water sanitation|vaccination|dignified burial|risk communication",
+    packs: ECO_HEALTH, block: "disease surveillance|health literacy" },
+  { id: "disaster-facility", station: "mass casualty",
+    packs: ECO_HEALTH, block: "health facility disaster" },
+  { id: "disaster-community", station: "shelter in place|shelter intake|damage assessment|block captain|disaster",
+    packs: ECO_HEALTH, block: "community health resilience" },
+  { id: "de-escalation", station: "de escalat|unruly|difficult conversation|workplace violence|wvpp|restorative justice|conflict mediation|conflict on the crew",
+    packs: ECO_CORP, block: "conflict de-escalation|conflict resolution|conflict management|conflict navigation" },
+  { id: "ethics", station: "ethics|conflict of interest",
+    packs: ECO_CORP, block: "ethics training|ethical decision|ethics & compliance" },
+  { id: "wellbeing", station: "wellness|peer support|fatigue|asking for help|substance use",
+    packs: ECO_CORP, block: "employee wellbeing|wellbeing programs" },
+  { id: "psychosocial", station: "psychological first aid|critical incident debrief",
+    packs: ECO_FIELD, block: "staff mental health & psychosocial|psychosocial support" },
+  { id: "union-relations", station: "union hall|steward|grievance|collective bargain",
+    packs: ECO_CORP, block: "union relations" },
+  { id: "career-pathway", station: "apprenticeship|mock interview|alumni mentor|mentorship|employer meet|onboarding|jobsite orientation",
+    packs: ECO_CORP, block: "apprenticeship|onboarding|career pathing|mentoring|succession planning" },
+  { id: "crisis-comms", station: "crisis communication",
+    packs: ECO_CORP, block: "crisis communications" },
+  { id: "civic-advocacy", station: "coalition|public comment|advocacy|voter registration|community listening|public meeting|budget tradeoff hearing",
+    packs: ECO_NONPROFIT, block: "advocacy|coalition|external relations" },
 ];
 
 /** The robotics programme's tracks → the words that pick their blocks (one declared rule per track, all Robotics OS, adult). */
