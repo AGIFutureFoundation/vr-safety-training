@@ -21,5 +21,9 @@ Read `docs/consoles/OMEGA-HIVE.md` (Seams, Left) and `docs/omega-hive.md` first.
    - Check: with the setting on, check 4 shows 0 dispatches without a learner approval.
 5. **A second language.** Add per-language cores in `OH_CORES` (not only `voice.lang`) and pick by the page's language.
    - Check: `ohGrounded` still passes N of N, style adherence holds per language, and voices stay local only.
+   - Done for Spanish by VOICES (loop 10 round 2): `OH_CORES_ES` and `OH_PACKS` in `oh-say.js`, the Spanish pools, reason phrases, padding
+     and voice names and `ohLangFor` / `ohAgentIn` in `oh-hive-data.js`, `ohMountHive({ lang })` (default: `<html lang>`), checked by
+     `check_voices` section 10. Machine-assisted Spanish: it needs a native-speaker review. A third language is a new core table, a
+     new set of pools and a voice tag.
 6. **Re-measure** `check_omega_hive` on a quiet gate and replace the estimated row in `docs/perf/checkers-baseline.json`.
 7. Regenerate `guide-kb.js` so the Guide can answer from `docs/omega-hive.md` (check: `check_guide`).

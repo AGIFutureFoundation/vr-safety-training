@@ -15,14 +15,15 @@
 // reply is used only when ohGrounded() passes on it — otherwise the on-device line is spoken.
 //
 // SEAM:
-//   ohSay(agent, event, { neutral }) -> string   event: { type | about, t, jobId, to, siteName, task, reason, score, steps, lines, bid, z }
+//   ohSay(agent, event, { neutral, lang }) -> string   event: { type | about, t, jobId, to, siteName, task, reason, score, steps, lines, bid, z }
+//     lang is "en" (the default) or "es"; an agent from ohAgentIn(agent, lang) speaks its own language (its style, padding and voice).
 //   ohGrounded(line, event, { siteNames }) -> { ok, facts: [string], missing: [string] }
 //   ohWords(text) -> [word], ohSentences(text) -> [sentence]
 //   ohDialogueAdapter(agent, { transport }) -> { describe(), configure(fields), respond(event) -> Promise<{ ok, line, source, reason? }> }
 //
 // Every top-level name starts with `oh`/`OH_` (the bundler shares one scope).
 
-import { OH_REASON_PHRASES } from "./oh-hive-data.js";
+import { OH_REASON_PHRASES, OH_REASON_PHRASES_ES, ohLangFor, ohAgentIn } from "./oh-hive-data.js";
 
 export const OH_REFUSAL = "configure per the provider's current documentation";
 
@@ -49,6 +50,37 @@ export const OH_CORES = Object.freeze({
   supervise_on: ["{supervisor} now approves every job before it runs", "Every job waits for {supervisor} before it runs"],
 });
 
+/**
+ * The same kinds in Spanish (VOICES, loop 10 round 2): written for the same slots, so a line's facts still come from the event alone.
+ * Each kind has a variant short enough for the narrowest band (6 to 12 words with a four-word site name), and the approval, approved,
+ * declined and standing kinds, which only the consent keeper says, fit its band (12 to 18).
+ */
+export const OH_CORES_ES = Object.freeze({
+  // No {task} slot in Spanish: a task's label is the registry's English name, and a Spanish line keeps no English fragment but names.
+  announce: ["Nuevo trabajo {job} en {site}", "Entra el trabajo {job} para {site}", "Anuncio {job} para {site}"],
+  award: ["Me quedo con {job} en {site}", "{job} en {site} es mío, con una oferta de {bid}", "Tomo {job} para {site}, mi oferta fue {bid}"],
+  move: ["Voy a {site} por {job}", "Camino a {site} para {job}", "Me acerco a {site} para {job}"],
+  wait: ["{job} espera al robot en {site}", "El robot de {site} está ocupado, así que {job} espera su turno"],
+  dispatch: ["{job} corre en el robot simulado de {site}", "Empiezo {job} en {site} con el robot simulado", "{job} está activo en la simulación de {site}"],
+  complete: ["{job} terminó en {site} con una puntuación de {score}", "{job} está listo en {site}, puntuación {score} en {steps} pasos", "Cierro {job} en {site} con una puntuación de {score}"],
+  halted: ["{job} se detuvo en {site} por {reason}", "La ejecución de {job} en {site} se detuvo por {reason}"],
+  refused: ["El gobernador rechazó {job} en {site}: {reason}", "{job} en {site} se rechaza por {reason}"],
+  veto: ["Veto {job} en {site}: {reason}", "Veto sobre {job} en {site} por {reason}"],
+  approval: ["{job} en {site} nombra un robot físico, así que pregunto a la persona supervisora", "La persona supervisora decide sobre {job} en {site}: una ejecución simulada o ninguna"],
+  approved: ["La persona supervisora aprobó {job} solo para el robot simulado de {site}", "{job} ya puede correr en la simulación de {site}, nunca en un robot físico"],
+  declined: ["La persona supervisora rechazó {job} en {site}, así que no correrá", "{job} en {site} fue rechazado por la persona supervisora y queda cerrado"],
+  coach: ["{job} sacó {score} en {steps} pasos, así que revisamos {reason}", "En {job} la puntuación fue {score}, y la revisión empieza en {reason}"],
+  audit: ["La cadena de auditoría tiene {lines} líneas y todas están intactas", "Revisión de la cadena tras {job}: {lines} líneas, todas intactas"],
+  audit_broken: ["La cadena se rompe en la línea {lines}: me detengo", "La revisión tras {job} falló en la línea {lines}"],
+  standing: ["La aprobación permanente de {supervisor} cubre solo trabajos simulados que el gobernador permite", "{supervisor} tiene una aprobación permanente para trabajos simulados que el gobernador permite"],
+});
+
+/** The phrase packs by language: the cores, the reasons' calm phrases, the sentence that explains an approval request. */
+export const OH_PACKS = Object.freeze({
+  en: Object.freeze({ cores: OH_CORES, reasonPhrases: OH_REASON_PHRASES, approvalWhy: "the physical path is disabled, so only a simulated run is possible", fallbackPhrase: "a rule asked for it" }),
+  es: Object.freeze({ cores: OH_CORES_ES, reasonPhrases: OH_REASON_PHRASES_ES, approvalWhy: "la vía física está desactivada, así que solo es posible una ejecución simulada", fallbackPhrase: "una regla lo pidió" }),
+});
+
 /** Kinds whose reason gets a sentence of its own: the reason's calm phrase (OH_REASON_PHRASES), fitted to the band. */
 const OH_WHY = new Set(["refused", "veto", "halted", "approval"]);
 
@@ -62,14 +94,14 @@ function ohRng(seed) {
 }
 
 /** Words: whitespace tokens that carry a letter or a digit. */
-export function ohWords(text) { return String(text ?? "").split(/\s+/).filter((w) => /[A-Za-z0-9]/.test(w)); }
+export function ohWords(text) { return String(text ?? "").split(/\s+/).filter((w) => /[\p{L}\p{N}]/u.test(w)); }
 /** Sentences: split after . ! ? followed by a space (decimals and ids carry no space after their dot). */
 export function ohSentences(text) { return String(text ?? "").split(/(?<=[.!?])\s+/).map((s) => s.trim()).filter((s) => ohWords(s).length); }
 
-function ohFill(tpl, ev) {
+function ohFill(tpl, ev, pack = OH_PACKS.en) {
   const reason = ev.reason ?? "";
   const slots = {
-    job: ev.jobId ?? "", site: ev.siteName ?? ev.to ?? "", task: (ev.task ?? "").replace(/^./, (c) => c.toLowerCase()), reason, phrase: OH_REASON_PHRASES[reason] ?? "a rule asked for it",
+    job: ev.jobId ?? "", site: ev.siteName ?? ev.to ?? "", task: (ev.task ?? "").replace(/^./, (c) => c.toLowerCase()), reason, phrase: pack.reasonPhrases[reason] ?? pack.fallbackPhrase,
     score: ev.score ?? "", steps: ev.steps ?? "", lines: ev.lines ?? "", bid: ev.bid ?? "", z: ev.z ?? "", supervisor: ev.supervisor ?? "",
   };
   return tpl.replace(/\{(\w+)\}/g, (_, k) => String(slots[k] ?? ""));
@@ -102,16 +134,21 @@ function ohFit(body, band, pads, rnd) {
  * every agent speaks the bare core sentence (no opener, hedge, padding or closer): the control for the
  * distinctiveness eval, where only the role is left to tell speakers apart.
  */
-export function ohSay(agent, event = {}, { neutral = false } = {}) {
+export function ohSay(agentIn, event = {}, { neutral = false, lang = null } = {}) {
+  const want = ohLangFor(lang ?? agentIn?.lang ?? "en");
+  // An agent asked for another language than its own is localised first (its style, padding and voice follow the language).
+  const agent = agentIn && (agentIn.lang ?? "en") !== want ? ohAgentIn(agentIn, want) : agentIn;
+  const pack = OH_PACKS[want];
   const kind = event.about ?? event.type;
-  const cores = OH_CORES[kind];
+  const cores = pack.cores[kind];
   if (!agent || !cores) return "";
   const st = agent.style ?? {};
   const band = st.band ?? [6, 14];
   const rnd = ohRng(ohFnv(`${agent.id}|${kind}|${event.jobId ?? ""}|${event.t ?? 0}|${event.reason ?? ""}|${event.lines ?? ""}`));
   // The core: the variant whose length suits the band best (the seed breaks ties between the ones that fit).
-  const filled = cores.map((c) => ohFill(c, event));
-  if (neutral) return [ohEnd(ohCap(filled[Math.floor(rnd() * filled.length)]))].concat(OH_WHY.has(kind) && OH_REASON_PHRASES[event.reason] ? [ohEnd(ohCap(kind === "approval" ? "the physical path is disabled, so only a simulated run is possible" : OH_REASON_PHRASES[event.reason]))] : []).join(" ");
+  const filled = cores.map((c) => ohFill(c, event, pack));
+  const why = (kind) => (kind === "approval" ? pack.approvalWhy : pack.reasonPhrases[event.reason]);
+  if (neutral) return [ohEnd(ohCap(filled[Math.floor(rnd() * filled.length)]))].concat(OH_WHY.has(kind) && pack.reasonPhrases[event.reason] ? [ohEnd(ohCap(why(kind)))] : []).join(" ");
   const fitting = filled.filter((c) => ohWords(c).length <= band[1]);
   let core = (fitting.length ? fitting : filled.slice().sort((a, b) => ohWords(a).length - ohWords(b).length).slice(0, 1))[Math.floor(rnd() * (fitting.length || 1))];
   const opener = (st.openers ?? []).length && rnd() < st.openerRate ? st.openers[Math.floor(rnd() * st.openers.length)] : "";
@@ -122,7 +159,7 @@ export function ohSay(agent, event = {}, { neutral = false } = {}) {
   }
   const pads = [...(st.pad ?? []), ...(st.hedges ?? [])];
   const sentences = [ohEnd(ohCap(ohFit(core, band, pads, rnd)))];
-  if (OH_WHY.has(kind) && OH_REASON_PHRASES[event.reason]) sentences.push(ohEnd(ohCap(ohFit(kind === "approval" ? "the physical path is disabled, so only a simulated run is possible" : OH_REASON_PHRASES[event.reason], band, pads, rnd))));
+  if (OH_WHY.has(kind) && pack.reasonPhrases[event.reason]) sentences.push(ohEnd(ohCap(ohFit(why(kind), band, pads, rnd))));
   if ((st.closers ?? []).length && rnd() < st.closerRate) sentences.push(ohEnd(ohCap(ohFit(st.closers[Math.floor(rnd() * st.closers.length)], band, pads, rnd))));
   return sentences.join(" ");
 }

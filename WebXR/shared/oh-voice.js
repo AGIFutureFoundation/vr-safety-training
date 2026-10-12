@@ -13,8 +13,11 @@
 //
 // SEAM:
 //   ohPickVoice(agent, voices) -> a local voice for agent.voice.lang, preferring agent.voice.prefer names, or null
-//   ohVoiceController({ synth, Utterance, doc, win, enabled, onCaption }) -> { enabled(), setEnabled(on), say(agent, text, { onstart, onend }),
-//                                                                             stop(), queued(), speaking(), chosen(agentId), spoken() }
+//   ohVoiceController({ synth, Utterance, doc, win, enabled, onCaption, pick }) -> { enabled(), setEnabled(on), say(agent, text, { onstart, onend }),
+//                                                                             stop(), queued(), speaking(), chosen(agentId), spoken(), link(other), kick() }
+//     `pick(agent, voices)` chooses the voice (default ohPickVoice); whatever it returns is used only if its `localService` is true.
+//     `link(other)` makes two controllers share one line of speech: neither starts a spoken line while the other is speaking
+//     (VOICES: GRIOT's characters and the Omega Hive's agents never talk over each other on one page).
 //   ohSpeakAs(agent, text, { onstart, onend }) -> the page's default controller's say()
 //
 // Every top-level name starts with `oh`/`OH_` (the bundler shares one scope).
@@ -42,25 +45,37 @@ export function ohPickVoice(agent, voices = []) {
   return same[h % same.length];
 }
 
-export function ohVoiceController({ synth = globalThis.speechSynthesis ?? null, Utterance = globalThis.SpeechSynthesisUtterance ?? null, doc = globalThis.document ?? null, win = globalThis.window ?? null, enabled = false, onCaption = null } = {}) {
+export function ohVoiceController({ synth = globalThis.speechSynthesis ?? null, Utterance = globalThis.SpeechSynthesisUtterance ?? null, doc = globalThis.document ?? null, win = globalThis.window ?? null, enabled = false, onCaption = null, pick = ohPickVoice } = {}) {
   let on = !!enabled;
   let busy = false;
   const queue = [];
   const picks = new Map();
   const spoken = [];
+  const peers = new Set();
+  let current = null; // the item being spoken, so stop() can tell its owner it ended (a talk light must not stay lit)
   const done = (item) => { try { item.opts.onend?.(); } catch (_) { /* a callback never stops the queue */ } };
+  const kickPeers = () => { for (const p of peers) { try { p.kick?.(); } catch (_) { /* a peer never stops this queue */ } } };
+  // Defence in depth: whatever `pick` returns, a voice that is not on-device is never used.
+  const choose = (agent) => {
+    let v = null;
+    try { v = pick(agent, (() => { try { return synth.getVoices() ?? []; } catch (_) { return []; } })()) ?? null; } catch (_) { v = null; }
+    return v && v.localService === true ? v : null;
+  };
 
   function pump() {
     if (busy || !queue.length) return;
-    const item = queue.shift();
-    const voice = on && synth && Utterance ? ohPickVoice(item.agent, (() => { try { return synth.getVoices() ?? []; } catch (_) { return []; } })()) : null;
+    const item = queue[0];
+    const voice = on && synth && Utterance ? choose(item.agent) : null;
+    if (voice) { for (const p of peers) if (p.speaking?.()) return; } // a linked controller is speaking: wait until it kicks us
+    queue.shift();
     picks.set(item.agent?.id, voice ? { name: voice.name, lang: voice.lang, localService: voice.localService } : null);
     if (!voice) { try { item.opts.onstart?.(); } catch (_) { /* ignore */ } done(item); pump(); return; }
     const u = new Utterance(item.text);
     u.voice = voice; u.lang = voice.lang || item.agent.voice.lang; u.rate = item.agent.voice.rate ?? 1; u.pitch = item.agent.voice.pitch ?? 1;
-    busy = true;
-    u.onstart = () => { try { item.opts.onstart?.(); } catch (_) { /* ignore */ } };
-    const finish = () => { if (!busy) return; busy = false; done(item); pump(); };
+    busy = true; current = item;
+    u.onstart = () => { if (current === item) { try { item.opts.onstart?.(); } catch (_) { /* ignore */ } } };
+    // Linked controllers take turns at line boundaries: a peer with a line waiting goes next, then this one's next line.
+    const finish = () => { if (!busy || current !== item) return; busy = false; current = null; done(item); kickPeers(); pump(); };
     u.onend = finish; u.onerror = finish;
     spoken.push({ agent: item.agent.id, voice: voice.name, localService: voice.localService, text: item.text });
     try { synth.speak(u); } catch (_) { finish(); }
@@ -68,16 +83,20 @@ export function ohVoiceController({ synth = globalThis.speechSynthesis ?? null, 
 
   function stop() {
     const left = queue.splice(0, queue.length);
-    busy = false;
-    try { synth?.cancel?.(); } catch (_) { /* nothing was speaking */ }
+    const inFlight = busy, cur = current;
+    busy = false; current = null;
+    // Cancel only when this controller has a line in flight: an idle controller never cuts off a peer's line (or the Guide's).
+    if (inFlight) { try { synth?.cancel?.(); } catch (_) { /* nothing was speaking */ } }
+    if (cur) done(cur); // its owner hears that the line ended
     for (const item of left) done(item);
+    if (inFlight) kickPeers();
   }
 
   const onHide = () => { if (!doc || doc.visibilityState === "hidden") stop(); };
   try { doc?.addEventListener?.("visibilitychange", onHide); } catch (_) { /* headless */ }
   try { win?.addEventListener?.("pagehide", () => stop()); } catch (_) { /* headless */ }
 
-  return {
+  const api = {
     enabled: () => on,
     setEnabled(v) { on = !!v; if (!on) stop(); return on; },
     say(agent, text, opts = {}) {
@@ -92,7 +111,11 @@ export function ohVoiceController({ synth = globalThis.speechSynthesis ?? null, 
     speaking: () => busy,
     chosen: (id) => picks.get(id) ?? null,
     spoken: () => spoken.slice(),
+    kick: () => pump(),
+    link(other) { if (!other || other === api) return false; if (peers.has(other)) return true; peers.add(other); try { other.link?.(api); } catch (_) { /* the other side links itself */ } return true; },
+    linked: () => peers.size,
   };
+  return api;
 }
 
 let ohDefaultVoice = null;

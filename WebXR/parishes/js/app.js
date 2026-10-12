@@ -84,6 +84,7 @@ import { rtMountTeleop } from "../../shared/rt-teleop.js";
 import { ent3AuditAppend, ent3Policies, ent3Fleet } from "../../shared/ent3-governance.js";
 import { vbMountDispatch } from "../../shared/vb-panel.js";
 import { ohMountHive } from "../../shared/oh-panel.js"; // OMEGA-HIVE: the agent collective panel beside the agent-jobs panel
+import { vcMountVoiceSettings } from "../../shared/vc-voices.js";
 import { vbColearnProvider, vbColearnLocalSource } from "../../shared/vb-colearn.js";
 // AGENT-AVATARS: the software agents embodied at the robot sites.
 import { aaMountAgentAvatars, aaVbridgeAgents, aaVbridgeSource } from "../../shared/aa-agent-avatars.js";
@@ -1408,6 +1409,14 @@ $("ux-open-ways").addEventListener("click", () => npToggle("parishes"));
   const paint = () => { b.textContent = sys ? "Reduced motion: on (system)" : `Reduced motion: ${on ? "on" : "off"}`; b.setAttribute("aria-pressed", String(sys || on)); };
   paint(); if (sys) b.disabled = true;
   b.addEventListener("click", () => { on = !on; try { localStorage.setItem("ux-reduced", on ? "1" : "0"); } catch { /* blocked */ } paint(); npToast(`Reduced motion ${on ? "on" : "off"}: reloading the world still${on ? "" : " off"}…`); setTimeout(() => location.reload(), 600); });
+}
+{
+  // VOICES: the Me tab's voice settings beside reduced motion — a toggle (off until you turn it on, not remembered), a voice test and
+  // a table of which on-device voice each character uses here. The characters' voice and the Omega Hive's share one line of speech.
+  try {
+    window.__parishTest.voices = vcMountVoiceSettings($("menu-voice"), asNpc.voice, { characters: asNpc.characters.map((e) => e.ch), infoEl: $("menu-voice-info") });
+    asNpc.voice.link(window.__parishTest.hive?.voiceController ?? null);
+  } catch (_) { /* the settings are an extra; the dialogue panel carries its own voice row */ }
 }
 const uxOb = npReturnSiteId ? null : uxOnboarding({
   el: $("ux-onboard"), key: "ux-onboarded-v1", force: npParams.get("onboard") === "1",

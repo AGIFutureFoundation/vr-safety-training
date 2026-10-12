@@ -116,6 +116,8 @@ const CHECKERS = [
   "check_omega_hive.mjs",
   // HIVE-IN-WORLD: the hive's agents inside the robotics rooms (spots, facing, captions, budgets), one door with the exterior, the return into the room (docs/consoles/HIVE-IN-WORLD.md).
   "check_hive_world.mjs",
+  // VOICES: GRIOT's characters speak their own pack lines in on-device voices — profiles, local voices only, verbatim, off by default, the talk light (docs/consoles/VOICES.md).
+  "check_voices.mjs",
   // LA-COHORTS: Louisiana lesson flows and apply games, classroom boards, Home links, cohort run sheets (docs/consoles/LA-COHORTS.md).
   "check_la_cohorts.mjs",
   "check_geo.mjs",

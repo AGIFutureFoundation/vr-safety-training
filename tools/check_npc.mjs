@@ -132,8 +132,9 @@ ok(GR_ROSTER.filter((c) => c.handoffs.some((h) => h.kind === "quest")).length >=
 ok(GR_ROSTER.filter((c) => c.handoffs.some((h) => h.kind === "treasure")).length >= 8, "hand-offs", "fewer than 8 characters hand off a treasure hint");
 
 // --------------------------------------------------------------- placement
-const S = await buildSuite(["shared/crew.js", "shared/links.js", "shared/npc-data.js", "shared/npc.js"],
-  "export { grMount, grDialogue, grResolveHandoff, grAgentAdapter, grRenderDialogueHtml, grRoutineAt, grRoutinePoints, grSiteFor, grSiteOf, grCharacters, grMeshBudget, GR_CSS, GR_TALK_RADIUS, GR_ANIMATE_RADIUS, GR_HIDE_RADIUS, GR_PARISH_KIND_ALIAS, THREE };", "npc");
+// VOICES: npc.js imports the on-device voice layer, so the suite lists oh-voice.js and vc-voices.js before it (the bundlers do too).
+const S = await buildSuite(["shared/crew.js", "shared/links.js", "shared/npc-data.js", "shared/oh-voice.js", "shared/vc-voices.js", "shared/npc.js"],
+  "export { grMount, grDialogue, grResolveHandoff, grAgentAdapter, grRenderDialogueHtml, grRoutineAt, grRoutinePoints, grSiteFor, grSiteOf, grCharacters, grMeshBudget, GR_CSS, GR_TALK_RADIUS, GR_ANIMATE_RADIUS, GR_HIDE_RADIUS, GR_PARISH_KIND_ALIAS, VC_CSS, vcVoiceBarHtml, vcDevice, THREE };", "npc");
 const countMeshes = (root) => { let n = 0; root.traverse((o) => { if (o.isMesh || o.isPoints) n += 1; }); return n; };
 const MOUNTS = {
   bayworld: { sites: BAY_SITES, bounds: BAY_BOUNDS, groundAt: () => 0, clear: (s) => [[s.pos[0], s.pos[1], 6, "the site centre"], [s.pos[0] + 6, s.pos[1] + 6, 4, "the pedestrian spawn"]] },
@@ -324,20 +325,26 @@ let phone = "skipped (no headless Chromium here)";
       const ch = GR_ROSTER.reduce((a, c) => (c.pack.reduce((n, l) => Math.max(n, l.text.length), 0) > a.pack.reduce((n, l) => Math.max(n, l.text.length), 0) ? c : a));
       const d = S.grDialogue(ch, { seed: 1 });
       const body = S.grRenderDialogueHtml(ch, d, S.grResolveHandoff(d.handoff, { from: ch.world, page: `${ch.world}.html` }));
-      await page.setContent(`<!doctype html><html><head><meta name="viewport" content="width=device-width,initial-scale=1"><style>html,body{margin:0;background:#123}${S.GR_CSS}</style></head><body>
+      // VOICES: the panel carries its voice row (a toggle, a test and a note) in the worst case for width: voice on, a long voice
+      // name, a test line captioned.
+      const bar = S.vcVoiceBarHtml({ on: true, canSpeak: true, device: { supported: true, local: ["Microsoft Zira Desktop - English (United States)", "Microsoft David Desktop - English (United States)"], network: [], note: "" }, character: ch, voiceName: "Microsoft Zira Desktop - English (United States)", rate: 0.93, pitch: 1.05, test: { text: ch.pack[1].text } });
+      await page.setContent(`<!doctype html><html><head><meta name="viewport" content="width=device-width,initial-scale=1"><style>html,body{margin:0;background:#123}${S.GR_CSS}${S.VC_CSS}</style></head><body>
 <div id="gr-prompt"><span class="gr-prompt-text">G — talk to ${ch.name}, ${ch.role.toLowerCase()}</span><button type="button" id="gr-talk">Talk</button></div>
 <section id="gr-panel" role="dialog"><header><h2 id="gr-title">${ch.name} · ${ch.role}</h2><button type="button" id="gr-close">Close</button></header><div class="gr-log">${body}</div>
+<div class="gr-voice" id="gr-voice" role="group" aria-label="Voice">${bar}</div>
 <form id="gr-form"><input id="gr-q" type="text" placeholder="Ask about the work here…"><button type="submit" id="gr-send">Ask</button></form></section></body></html>`);
       const m = await page.evaluate(() => {
         const p = document.getElementById("gr-panel").getBoundingClientRect();
         const buttons = [...document.querySelectorAll("#gr-panel button, #gr-panel a, #gr-prompt button")].map((b) => b.getBoundingClientRect().height);
-        return { scrollW: document.documentElement.scrollWidth, panelW: p.width, panelRight: p.right, panelLeft: p.left, panelBottom: p.bottom, minBtn: Math.min(...buttons), msgs: document.querySelectorAll("#gr-panel .gr-msg").length };
+        const vb = document.getElementById("gr-voice").getBoundingClientRect();
+        return { scrollW: document.documentElement.scrollWidth, panelW: p.width, panelRight: p.right, panelLeft: p.left, panelBottom: p.bottom, minBtn: Math.min(...buttons), msgs: document.querySelectorAll("#gr-panel .gr-msg").length, voiceRight: vb.right, voiceLeft: vb.left, voiceH: vb.height, voiceButtons: document.querySelectorAll("#gr-voice button").length };
       });
       ok(m.scrollW <= 390, "phone", `page scrolls sideways (${m.scrollW} px)`);
       ok(m.panelLeft >= 0 && m.panelRight <= 390 && m.panelBottom <= 844, "phone", `panel outside the viewport (${m.panelLeft}..${m.panelRight}, bottom ${m.panelBottom})`);
       ok(m.minBtn >= 36, "phone", `a button is ${m.minBtn} px tall (needs 36)`);
       ok(m.msgs === 3, "phone", `${m.msgs} messages rendered (greet, teach, hand-off)`);
-      phone = `panel ${Math.round(m.panelW)} px wide at 390 × 844, buttons ≥ ${Math.round(m.minBtn)} px, ${m.msgs} moves`;
+      ok(m.voiceButtons === 2 && m.voiceLeft >= m.panelLeft - 0.5 && m.voiceRight <= m.panelRight + 0.5, "phone", `the voice row (${m.voiceButtons} buttons) overflows the panel (${m.voiceLeft}..${m.voiceRight} against ${m.panelLeft}..${m.panelRight})`);
+      phone = `panel ${Math.round(m.panelW)} px wide at 390 × 844, buttons ≥ ${Math.round(m.minBtn)} px, ${m.msgs} moves, voice row ${Math.round(m.voiceH)} px tall inside the panel`;
     } catch (e) { fail("phone", `headless render failed: ${String(e.message).split("\n")[0]}`); }
     finally { await browser?.close(); }
   }
