@@ -198,12 +198,16 @@ export function rt6EvalPreference(sc, { pairs = 200, trainPairs = 150, demos = 4
   const { demos: ds } = colDemosFromEpisodes(eps, sc);
   const ranked = rt6RankDemos(model, eps);
   const seeds = colHeldOut(heldOut);
-  const arm = (subset, onlySuccessful) => {
-    const m = colTrain(sc, subset, { seed, onlySuccessful });
+  const arm = (subset, onlySuccessful, extra = {}) => {
+    const m = colTrain(sc, subset, { seed, onlySuccessful, ...extra });
     return { demos: m.demos, rows: m.rows.length, ...colEvalPolicy(sc, () => colPolicy(m), { seeds }), modelHash: colHash(m) };
   };
   const top = (f) => { const ids = new Set(ranked.slice(0, Math.max(1, Math.round(f * ranked.length))).map((r) => r.episodeId)); return ds.filter((d) => ids.has(d.id)); };
   const kept = top(keep);
+  // Reward-weighted votes (declared before running, measured once): every demonstration kept; each row's vote scaled by the
+  // reward model's own probability that its demonstration is preferred over the median demonstration.
+  const rs = ranked.map((r) => r.reward).sort((a, b) => a - b), med = rs.length ? (rs[(rs.length - 1) >> 1] + rs[rs.length >> 1]) / 2 : 0;
+  const weights = Object.fromEntries(ranked.map((r) => [r.episodeId, 1 / (1 + Math.exp(-(r.reward - med)))]));
   return {
     scenario: sc,
     pairs: { synthetic: P.pairs.length, train: trainPairs, heldOut: test.length, local: localPairs.length, rater: RT6_RATER },
@@ -212,8 +216,11 @@ export function rt6EvalPreference(sc, { pairs = 200, trainPairs = 150, demos = 4
     keep, keptClean: kept.filter((d) => d.success && d.clean).length, keptOf: ranked.length,
     unfiltered: arm(ds, false), ruleFiltered: arm(ds, true), rewardFiltered: arm(kept, false),
     sweep: sweep.map((f) => ({ keep: f, ...(f === keep ? arm(kept, false) : arm(top(f), false)) })),
+    rewardWeighted: { weight: RT6_WEIGHT, minWeight: rt6R3(Math.min(...Object.values(weights))), maxWeight: rt6R3(Math.max(...Object.values(weights))), ...arm(ds, false, { rowWeight: weights }) },
   };
 }
+/** How reward-weighted cloning weighs a demonstration (fixed before any held-out seed was run). */
+export const RT6_WEIGHT = "sigmoid(reward − median reward): the reward model's own probability that the demonstration is preferred over the median one, scaling every row's vote; all demonstrations kept";
 
 // ================================================================ DAgger-style corrections
 

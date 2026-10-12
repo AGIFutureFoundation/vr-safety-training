@@ -632,7 +632,19 @@
             "meanSteps": 59.367,
             "modelHash": "27990afbf83894c3"
           }
-        ]
+        ],
+        "rewardWeighted": {
+          "weight": "sigmoid(reward − median reward): the reward model's own probability that the demonstration is preferred over the median one, scaling every row's vote; all demonstrations kept",
+          "minWeight": 0.078,
+          "maxWeight": 0.508,
+          "demos": 40,
+          "rows": 1294,
+          "n": 60,
+          "success": 0.6,
+          "clean": 0.6,
+          "meanSteps": 15.5,
+          "modelHash": "941e2e8d85dce961"
+        }
       },
       {
         "scenario": "rb-amr-fleet-routing#hard",
@@ -733,7 +745,19 @@
             "meanSteps": 120,
             "modelHash": "0ee7f7ee3e925b7c"
           }
-        ]
+        ],
+        "rewardWeighted": {
+          "weight": "sigmoid(reward − median reward): the reward model's own probability that the demonstration is preferred over the median one, scaling every row's vote; all demonstrations kept",
+          "minWeight": 0.044,
+          "maxWeight": 0.508,
+          "demos": 40,
+          "rows": 1651,
+          "n": 60,
+          "success": 0.067,
+          "clean": 0.883,
+          "meanSteps": 111.4,
+          "modelHash": "1127d60bd1abc1b3"
+        }
       }
     ]
   },

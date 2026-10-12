@@ -356,17 +356,18 @@ export async function colLocalDemos(sc, { store = dxStore, signals = null } = {}
  * seeded shuffle, and a cap keeps a seeded subsample. `onlySuccessful` keeps
  * demonstrations that passed with clean safe practice (filtered BC).
  */
-export function colTrain(sc, demos, { k = 5, seed = 1, onlySuccessful = true, maxPoints = 4000, featureSet = null } = {}) {
+export function colTrain(sc, demos, { k = 5, seed = 1, onlySuccessful = true, maxPoints = 4000, featureSet = null, rowWeight = null } = {}) {
   const F = colF(sc, featureSet);
   if (!F) throw new Error(`colTrain: no features for ${sc}${featureSet ? ` (set ${featureSet})` : ""}`);
   const used = demos.filter((d) => !onlySuccessful || (d.success && d.clean));
   let rows = [];
-  for (const d of used) for (const s of d.steps) rows.push(...colRows(sc, s.observation, s.action, featureSet));
+  // ROBOTRAIN-6: `rowWeight` ({ demoId: weight }, opt-in) scales each row's vote; rows carry `w` only when it is given.
+  for (const d of used) for (const s of d.steps) rows.push(...colRows(sc, s.observation, s.action, featureSet).map((r) => (rowWeight ? { ...r, w: rowWeight[d.id] ?? 1 } : r)));
   rows = rows.filter((r) => r.label !== "wait" || colBase(sc) === "rb-amr-fleet-routing" || colIsStation(sc));
   const R = rng(seed * 7 + 3);
   for (let i = rows.length - 1; i > 0; i--) { const j = Math.floor(R() * (i + 1)); [rows[i], rows[j]] = [rows[j], rows[i]]; }
   if (rows.length > maxPoints) rows = rows.slice(0, maxPoints);
-  rows = rows.map((r) => ({ x: r.x.map(colR3), label: r.label, p: r.p ? Object.fromEntries(Object.entries(r.p).map(([a, b]) => [a, colR3(b)])) : null }));
+  rows = rows.map((r) => ({ x: r.x.map(colR3), label: r.label, p: r.p ? Object.fromEntries(Object.entries(r.p).map(([a, b]) => [a, colR3(b)])) : null, ...(r.w !== undefined ? { w: colR3(r.w) } : {}) }));
   return { v: COL_VERSION, kind: "behaviour cloning (k-nearest neighbours)", scenario: sc, k, seed, onlySuccessful, demos: used.length, demosOffered: demos.length, sources: [...new Set(used.map((d) => d.source))].sort(), features: F.names, weights: F.weights ?? F.names.map(() => 1), rows, ...(featureSet ? { featureSet } : {}) };
 }
 
@@ -405,7 +406,7 @@ function colNeighbours(model, x) {
 
 function colVote(nb) {
   const votes = {};
-  for (const n of nb) votes[n.row.label] = (votes[n.row.label] ?? 0) + 1 / (n.d + 0.05);
+  for (const n of nb) votes[n.row.label] = (votes[n.row.label] ?? 0) + (n.row.w ?? 1) / (n.d + 0.05);
   const label = Object.keys(votes).sort((a, b) => votes[b] - votes[a] || (a < b ? -1 : 1))[0];
   return { label, votes, ps: nb.filter((n) => n.row.label === label).map((n) => n.row.p) };
 }

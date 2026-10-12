@@ -164,6 +164,8 @@ for (const p of EV.preference.scenarios) {
   check(p.pairs.synthetic === 200 && p.pairs.local === 0 && p.accuracy.heldOut > 0.5 && [p.unfiltered, p.ruleFiltered, p.rewardFiltered].every((a) => a.n === 60) && p.keep === R6.RT6_KEEP,
     `${p.scenario}: held-out pair accuracy ${p.accuracy.heldOut} (chance 0.5; the rater's own ceiling ${p.accuracy.raterCeilingHeldOut}); clone success on 60 held-out seeds: reward-filtered ${p.rewardFiltered.success} (top ${p.keep * 100}%, ${p.rewardFiltered.demos} demos, ${p.keptClean} clean passes) · rule-filtered ${p.ruleFiltered.success} (${p.ruleFiltered.demos}) · unfiltered ${p.unfiltered.success} (${p.unfiltered.demos}); sweep ${p.sweep.map((s) => `${s.keep}: ${s.success}`).join(", ")}`);
 }
+check(EV.preference.scenarios.every((p) => p.rewardWeighted?.n === 60 && p.rewardWeighted.demos === p.unfiltered.demos) && !C.colTrain("rb-amr-fleet-routing", C.colDemosFromEpisodes(C.colSyntheticDemos("rb-amr-fleet-routing", { n: 4, seed: 1 }), "rb-amr-fleet-routing").demos).rows.some((r) => "w" in r),
+  `reward-weighted votes (every demonstration kept, each vote scaled by the model's P(preferred over the median demonstration); default models carry no weight): ${EV.preference.scenarios.map((p) => `${p.scenario} ${p.rewardWeighted.success} (weights ${p.rewardWeighted.minWeight}–${p.rewardWeighted.maxWeight}) vs rule-filtered ${p.ruleFiltered.success}, unfiltered ${p.unfiltered.success}`).join("; ")}`);
 // A learner's consented pairs join only while collecting; K-12 and revoke leave none (DATAWORKS' rules).
 const lstore = dx.dxMakeStore(dx.dxMemBackend());
 await dx.dxRevoke({ store: lstore });
