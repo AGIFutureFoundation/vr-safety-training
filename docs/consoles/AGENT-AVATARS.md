@@ -13,7 +13,7 @@ are embodied for real, over the agent-jobs panel's own job stream.
 | `WebXR/shared/aa-agent-portraits.js` | Faceless agent portraits in the outfit set (`aaPortraitSvg`), drawn over av-sprites.js's `AV_PARTS` head and torso silhouettes; `aaPortraitPng` rasterises at size × device pixel ratio once and caches; `aaPortraitImg`; `aaMountAgentRoster` (createElement/textContent only); `AA_VBRIDGE_PERSONAS` (mirrors the registry's four entries, held equal by the checker). |
 | `WebXR/parishes/js/app.js` | Mounts the four VBRIDGE personas at the map's first robot site over `aaVbridgeSource(window.__parishTest.vbridge)`, attaches the hive when `window.__parishTest.hive` exists (guarded), animates in the frame loop, exposes `window.__parishTest.agentAvatars`. |
 | `WebXR/instructor/js/governance.js` | "Software agents (roster)" panel on the governance tab: portraits at 2×, name, a "software agent" chip, role and home site; `ent3MountGovernanceView(root, { agents })` takes the hive's agents. |
-| `tools/check_agent_avatars.mjs` | The checker (67 checks; in `check_all`, estimated baseline row). |
+| `tools/check_agent_avatars.mjs` | The checker (69 checks; in `check_all`, estimated baseline row). |
 | `tools/drive_agent_avatars.mjs` | The headless drive of the built pages (not in the gate): per-tier cost, the VBRIDGE job, the fixture hive in real frames, reduced motion, the instructor roster at 2×. |
 | `tools/bundle_webxr.py` | Parishes bundle: the portraits then the avatars after `vb-panel.js`. Instructor bundle: the portraits after `av-sprites.js`. Bundles rebuilt for the drive, not committed. |
 
@@ -48,19 +48,23 @@ Behaviour, per event (contract: `{ t, type, agent, text?, to?, jobId?, reason?, 
 | Provider stands at the job's site when the panel runs a job | — | **yes** (job 1, `rb-site-soma-robot-cell`, 10.3 m from its centre) | drive section 2; `check_agent_avatars` section 6 |
 | Portraits crisp at 2× | SVG badges only | 48 px cards showing **96 px PNGs** rasterised once and cached | `check_agent_avatars` "48 px at 2× → 96 px, cached"; drive section 5 |
 | Atlas bytes (`AV_ATLAS_BUDGET_BYTES` 160 KiB) | 155.9 KiB | **155.9 KiB** (hive portraits drawn at runtime, not packed) | `check_avatars`, `check_agent_avatars` |
-| Page errors / external requests in the drives | — | see the drive table below | drive |
+| `eval_worlds --no-browser` (ASSAYER's rubric) | 51 subjects, mean 100, 5 findings | **51 subjects, mean 100, 5 findings** — all 51 subject lines identical | `node tools/eval_worlds.mjs --no-browser` on an export of 43d3e3f6 and on this tree |
+| Page errors / external requests in the drives | — | **0 / 0** (second run) | `node tools/drive_agent_avatars.mjs 9092` |
 
-Per tier, measured in the built parishes page on sf-downtown with the camera 24 m south of the robot site looking at it; "before"
-is the same frame with the agent layer hidden (nothing else differs from the base tree). Load average was 22–25 on the shared
-four-core machine, which affects frame times, not these counts.
+Per tier, measured in the built parishes page (`node tools/drive_agent_avatars.mjs 9092`, section 1, second run) on sf-downtown
+with the camera 24 m south of the robot site looking at it; "before" is the same frame with the agent layer hidden (nothing
+else differs from the base tree); scene meshes and sprites are counted with `traverseVisible`. Load average was 22–25 on the
+shared four-core machine, which affects frame times, not these counts.
 
-| Tier | Draw calls before → after | Triangles drawn before → after | Layer meshes / sprites / triangles | Layer texture bytes |
-|---|---|---|---|---|
-| low (phone) | 154 → **154** | 57,228 → **57,228** | 0 / 0 / 0 | 0 |
-| balanced | 192 → **228** (+36) | 119,896 → **123,376** (+3,480) | 36 / 8 / 4,048 (4 figures) | 262,144 (4 labels; captions on first line) |
-| high | 192 → **228** (+36) | 168,286 → **171,766** (+3,480) | 36 / 8 / 4,048 (4 figures) | 262,144 |
+| Tier | Draw calls before → after | Triangles drawn before → after | Visible scene meshes / sprites before → after | Layer meshes / sprites / triangles | Layer texture bytes |
+|---|---|---|---|---|---|
+| low (phone) | 153 → **153** | 56,490 → **56,490** | 194 / 0 → **194 / 0** | 0 / 0 / 0 (no figures) | 0 |
+| balanced | 192 → **228** (+36) | 117,852 → **121,332** (+3,480) | 266 / 0 → **298 / 4** | 36 / 8 / 4,048 (4 figures) | 262,144 (4 labels; a 262,144-byte caption canvas is added per figure on its first line) |
+| high | 190 → **226** (+36) | 159,668 → **163,148** (+3,480) | 266 / 0 → **298 / 4** | 36 / 8 / 4,048 (4 figures) | 262,144 |
 
-The +36 draw calls are the 32 shown meshes and 4 labels (talk lights and captions are hidden while no one speaks).
+The +36 draw calls are the 32 shown meshes and 4 labels (talk lights and captions are hidden while no one speaks); a speaking
+agent adds its talk light and caption (2 calls). Headset: the tier a headset gets is one of these three; on "low" nothing is
+built. A map with no robot site mounts nothing, and an agent homed on another map has no figure here until it arrives.
 
 ## Cycles (reason → act → observe)
 
