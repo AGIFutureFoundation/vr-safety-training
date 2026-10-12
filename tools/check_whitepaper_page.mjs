@@ -187,6 +187,24 @@ const swpArt = swpLd.find((o) => o["@type"] === "TechArticle");
 swpCheck(!!swpArt && !!swpArt.headline && !!swpArt.description && !!swpArt.publisher?.name && swpArt.articleSection?.length === SWP_SECTIONS.length, "the JSON-LD carries a TechArticle with headline, description, publisher and one section per <h2>");
 const swpVideos = swpLd.filter((o) => o["@type"] === "VideoObject" || o.video);
 swpCheck(swpVideos.every((v) => swpTracked.has(String(v.contentUrl ?? v.video?.contentUrl ?? "").replace(/^\.?\/?/, "WebXR/dist/"))), "no VideoObject without a committed video file", `${swpVideos.length} VideoObject`);
+// The video, when there is one: committed under the site's media folder within its rules (docs/home-backgrounds.md:
+// H.264 MP4 with the index first and no audio track, at most 1.2 MB, a JPEG poster under 200 KB), published byte-identical.
+if (WF_WHITEPAPER.video) {
+  const v = WF_WHITEPAPER.video;
+  const files = [v.file, v.poster].map((f) => ({ f, src: join(SWP_WEBXR, "home", f), pub: join(SWP_DIST, f) }));
+  swpCheck(files.every((x) => swpTracked.has(`WebXR/home/${x.f}`) && swpTracked.has(`WebXR/dist/${x.f}`) && existsSync(x.src) && existsSync(x.pub) && readFileSync(x.src).equals(readFileSync(x.pub))),
+    "the video and its poster are committed under WebXR/home/media and published byte-identical", files.map((x) => x.f).join(", "));
+  const mp4 = existsSync(files[0].src) ? readFileSync(files[0].src) : Buffer.alloc(0);
+  const moov = mp4.indexOf("moov"), mdat = mp4.indexOf("mdat");
+  swpCheck(mp4.length > 0 && mp4.length <= 1.2 * 1024 * 1024 && mp4.includes("avc1") && moov > 0 && moov < mdat && !mp4.includes("soun"),
+    "the video is an H.264 MP4 of at most 1.2 MB with its index first and no audio track", `${mp4.length} bytes`);
+  const jpg = existsSync(files[1].src) ? readFileSync(files[1].src) : Buffer.alloc(0);
+  swpCheck(jpg[0] === 0xff && jpg[1] === 0xd8 && jpg.length <= 200 * 1024, "the poster is a JPEG under 200 KB", `${jpg.length} bytes`);
+  const art = swpArt?.video ?? {};
+  swpCheck(art["@type"] === "VideoObject" && art.contentUrl === v.file && art.thumbnailUrl === v.poster && !!art.uploadDate && !!art.name && !!art.description,
+    "the TechArticle's VideoObject names the published clip, its poster, an upload date, a name and a description");
+  swpCheck(swpSrc.includes(`<source src="./${v.file}" type="video/mp4">`) && swpSrc.includes(`poster="./${v.poster}"`), "the page shows the same clip with its poster");
+}
 const swpOg = join(SWP_DIST, WF_WHITEPAPER.og);
 const swpOgSrc = join(SWP_WEBXR, "assets", "wf", `og-${WF_WHITEPAPER.og.split("/").pop()}`);
 function swpJpegSize(file) {

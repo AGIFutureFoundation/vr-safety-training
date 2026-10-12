@@ -265,6 +265,12 @@ const SWP_SECTION_DEFS = [
   ] },
   { id: "loop10", nav: "Loop ten", h2: "Agents with faces, voices and personalities; robot buildings inside and out", parts: () => [
     `      <p>Loop ten gave the robots' software agents a hive, gave the six robot sites real buildings, and closed the roadmap's next robot-learning items with measured results. It ran in rounds; each console committed a note with its own before-and-after table. The rows below are the wiki's measured table, one row per console, each citing the files it names.</p>`,
+    `      <figure class="swp-video">
+        <video controls muted playsinline preload="none" poster="./${WF_WHITEPAPER.video.poster}" width="960" height="540" aria-label="${swpEsc(WF_WHITEPAPER.video.name)}">
+          <source src="./${WF_WHITEPAPER.video.file}" type="video/mp4">
+        </video>
+        <figcaption>A short cut from the loop-ten video review, real captures with no sound: the hive's software agents at their morning briefing in the operations room, then the robot arena's leaderboard.</figcaption>
+      </figure>`,
     swpLoopTables(),
   ] },
   { id: "stack", nav: "Stack", h2: "Static files, a flat bundle, and a gate that runs before anything ships", parts: () => [
@@ -355,6 +361,9 @@ ${wfBlock(page, WF_WHITEPAPER.key)}
   cite a { font-family: var(--mono); font-size: 14.5px; color: var(--muted); text-decoration-color: var(--line); overflow-wrap: anywhere; }
   td cite { display: block; }
   .swp-row { display: block; margin: 0 0 4px; }
+  .swp-video { margin: 16px 0 8px; max-width: 760px; }
+  .swp-video video { display: block; width: 100%; height: auto; background: #000; border: 1px solid var(--line); border-radius: var(--at-r-md, 10px); }
+  .swp-video figcaption { color: var(--muted); font-size: 16px; margin-top: 6px; }
   @media (min-width: 761px) { .swp-table td:last-child, .swp-table th:last-child { width: 300px; } }
   cite a:hover { color: var(--accent); }
   code { font: 15px var(--mono); background: var(--at-raised, #0a121b); padding: 1px 5px; border-radius: var(--at-r-xs, 5px); }
