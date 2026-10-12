@@ -15,9 +15,22 @@ import { ent3BillingAdapter, ent3BillingConfig } from "../../shared/ent3-billing
 import { aaMountAgentRoster, AA_VBRIDGE_PERSONAS } from "../../shared/aa-agent-portraits.js";
 
 function ent3El(tag, cls, text) { const node = document.createElement(tag); if (cls) node.className = cls; if (text !== undefined) node.textContent = text; return node; }
-const ent3View = { root: null, toast: null, config: null, card: null, agents: [] };
+const ent3View = { root: null, toast: null, config: null, card: null, agents: [], notice: null };
 
-function ent3Say(t) { try { ent3View.toast?.(t); } catch (_) { /* no toast */ } }
+/** Say what an action did ON THIS TAB (HIVE-IN-WORLD): a status line in the panel where it happened (the registry panel for
+ * export and import, the top of the tab for the rest), kept until the next action; refusals are marked as refusals. The
+ * console's toast line also gets it, but that line sits in the Live-class view, hidden while this tab is open. */
+function ent3Say(t, { kind = "ok", where = "top" } = {}) {
+  ent3View.notice = { text: String(t), kind: kind === "bad" ? "bad" : "ok", where, at: Date.now() };
+  try { ent3View.toast?.(t); } catch (_) { /* no toast */ }
+}
+function ent3Notice(where) {
+  const n = ent3View.notice;
+  if (!n || n.where !== where) return null;
+  const p = ent3El("p", `ent3-notice ${n.kind === "bad" ? "ent3-bad" : "ent3-ok"}`, n.text);
+  p.id = "ent3-notice"; p.dataset.kind = n.kind; p.setAttribute("role", n.kind === "bad" ? "alert" : "status");
+  return p;
+}
 function ent3Btn(label, onClick, cls = "small") { const b = ent3El("button", cls, label); b.type = "button"; b.addEventListener("click", onClick); return b; }
 function ent3Panel(title, note) { const p = ent3El("section", "panel"); p.append(ent3El("h2", null, title)); if (note) p.append(ent3El("p", "fine", note)); return p; }
 function ent3Table(headers, rows, empty) {
@@ -37,7 +50,8 @@ function ent3DownloadRegistry() {
   a.download = `ent3-registry-${doc.exportedAt.slice(0, 10)}-line${doc.head.seq}.json`;
   document.body.append(a); a.click(); a.remove();
   setTimeout(() => URL.revokeObjectURL(a.href), 1000);
-  ent3Say(`Exported the registry: ${doc.head.lines} audit line(s), ${doc.lineage.nodes.length} lineage node(s).`);
+  ent3Say(`Exported the registry: ${doc.head.lines} audit line(s), ${doc.lineage.nodes.length} lineage node(s).`, { where: "registry" });
+  ent3Render();
   return doc;
 }
 const ENT3_IMPORT_SAY = { "bad-schema": "not a registry export", "chain-broken": "the audit chain was edited", "head-mismatch": "the chain head does not match", "digest-mismatch": "the records were edited after export", "lineage-mismatch": "the lineage graph was edited", "unaudited-record": "a record has no audit line", forked: "it forks from this device's chain" };
@@ -45,7 +59,7 @@ function ent3ReadRegistryText(text) {
   let doc = null;
   try { doc = JSON.parse(text); } catch (_) { doc = null; }
   const r = ent3Import(doc);
-  ent3Say(r.ok ? (r.mode === "already-current" ? "Nothing new: this device already holds that chain." : `Imported (${r.mode}): ${r.added.lines} audit line(s), ${r.added.consents} consent(s), ${r.added.datasets} dataset(s), ${r.added.policies} policy(ies), ${r.added.deployments} deployment(s).`) : `Refused (${r.reason}): ${ENT3_IMPORT_SAY[r.reason] ?? ""} — ${r.detail ?? ""}`);
+  ent3Say(r.ok ? (r.mode === "already-current" ? "Nothing new: this device already holds that chain." : `Imported (${r.mode}): ${r.added.lines} audit line(s), ${r.added.consents} consent(s), ${r.added.datasets} dataset(s), ${r.added.policies} policy(ies), ${r.added.deployments} deployment(s).`) : `Refused (${r.reason}): ${ENT3_IMPORT_SAY[r.reason] ?? ""} — ${r.detail ?? ""}`, { kind: r.ok ? "ok" : "bad", where: "registry" });
   ent3Render();
   return r;
 }
@@ -56,6 +70,7 @@ function ent3Render() {
   const root = ent3View.root; if (!root) return;
   const consents = ent3Consents(); const datasets = ent3Datasets(); const policies = ent3Policies();
   const out = [];
+  const topNotice = ent3Notice("top"); if (topNotice) out.push(topNotice);
 
   const intro = ent3Panel("Training-data governance", "A registry, not a training system: it records which consented learners' episodes (DATAWORKS receipts — consent id, time, licence, statement hash; never a name or an episode) went into which dataset, which dataset trained which robot policy or agent tutor, how each was evaluated and where it runs in the sim. Revoking a consent marks every dataset holding it for rebuild and every policy trained on it — or based on such a policy — stale. Kept with the signed-in profile on this device; nothing is sent anywhere.");
   if (!datasets.length) intro.append(ent3Btn("Load the sample registry", () => { ent3LoadSample(); ent3Say("Sample registry loaded (sample figures are marked)."); ent3Render(); }));
@@ -80,7 +95,7 @@ function ent3Render() {
   fp.append(ent3Table(["Site", "Map", "Rig", "Policy", "Eval", "Flag", ""], ent3Fleet().map((r) => {
     const sel = ent3El("select"); sel.setAttribute("aria-label", `Policy for ${r.name}`);
     for (const p of [{ id: "", name: "Deploy a policy…" }, ...current]) { const o = ent3El("option", null, p.id ? `${p.id} @${p.version}` : p.name); o.value = p.id; sel.append(o); }
-    sel.addEventListener("change", () => { if (!sel.value) return; const res = ent3Deploy({ policyId: sel.value, siteId: r.siteId }); ent3Say(res.ok ? `Deployed ${sel.value} to ${r.name} (sim).` : res.reason); ent3Render(); });
+    sel.addEventListener("change", () => { if (!sel.value) return; const res = ent3Deploy({ policyId: sel.value, siteId: r.siteId }); ent3Say(res.ok ? `Deployed ${sel.value} to ${r.name} (sim).` : res.reason, { kind: res.ok ? "ok" : "bad" }); ent3Render(); });
     return [r.name, r.parish, r.rig, r.deployment ? `${r.deployment.policyId} @${r.deployment.version}` : "—", r.evalScore == null ? "—" : `${r.evalScore}${r.evalMeasured ? "" : " (sample)"}`, r.stale ? "STALE — retrain" : (r.deployment ? "ok" : ""), sel];
   }), "No robot sites."));
   const agents = policies.filter((p) => p.kind === "agent");
@@ -105,6 +120,7 @@ function ent3Render() {
   const xrow = ent3El("div", "row");
   xrow.append(ent3Btn("Export registry", ent3DownloadRegistry), ent3Btn("Import registry", () => picker.click()), picker);
   xp.append(xrow);
+  const regNotice = ent3Notice("registry"); if (regNotice) xp.append(regNotice);
   const lastIn = ent3Imports().slice(-1)[0];
   xp.append(ent3El("p", "fine", lastIn ? `Last import: ${lastIn.mode}, ${lastIn.added.lines} line(s) up to line ${lastIn.head.seq}, ${String(lastIn.at).slice(0, 19).replace("T", " ")}.` : "No import on this device yet."));
   out.push(xp);
@@ -118,7 +134,7 @@ function ent3Render() {
   root.replaceChildren(...out);
 }
 
-const ENT3_CSS = "#ent3-root .ent3-scroll{overflow-x:auto}#ent3-root pre.ent3-card{white-space:pre-wrap;max-height:360px;overflow:auto;background:var(--bg,transparent);border:1px solid var(--edge);border-radius:10px;padding:12px;font-size:12px}#ent3-root .ent3-ok{color:var(--ok,inherit)}#ent3-root .ent3-bad{color:var(--danger,inherit);font-weight:600}#ent3-root h2{font-size:16px;margin:0 0 6px}#ent3-root h3{font-size:14px;margin:14px 0 6px}#ent3-root select{max-width:220px}";
+const ENT3_CSS = "#ent3-root .ent3-scroll{overflow-x:auto}#ent3-root pre.ent3-card{white-space:pre-wrap;max-height:360px;overflow:auto;background:var(--bg,transparent);border:1px solid var(--edge);border-radius:10px;padding:12px;font-size:12px}#ent3-root .ent3-ok{color:var(--ok,inherit)}#ent3-root .ent3-bad{color:var(--danger,inherit);font-weight:600}#ent3-root .ent3-notice{border:1px solid currentColor;border-radius:8px;padding:6px 10px;margin:8px 0}#ent3-root h2{font-size:16px;margin:0 0 6px}#ent3-root h3{font-size:14px;margin:14px 0 6px}#ent3-root select{max-width:220px}";
 
 /** Mount the view; `config` is the parsed auth-config (for the billing block). Returns { render, setConfig }. */
 export function ent3MountGovernanceView(root, { toast = null, config = null, agents = [] } = {}) {
