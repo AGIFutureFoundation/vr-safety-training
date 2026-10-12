@@ -301,6 +301,12 @@ Read honestly:
    - Reason: a checker outside my own list can catch a merge-level break. Check: their last lines.
    - Act: ran them one at a time, at nice priority.
    - Observe: all pass (below).
+8. **Is a fresh-seed difference the seeds or the new code?**
+   - Reason: `amr-holders` gave 0.317 on 7061–7120 against 0.517 published. Check: `rt8Dagger` must reproduce ROBOTRAIN-7's
+     published rounds on their own range, 7001–7060, which is already published, so nothing new is seen.
+   - Act: `rt8Dagger` with `amr-holders` and `amr-robots` on 7001–7060, in a scratch script.
+   - Observe: identical round by round in success, rows and model hash (0.217 → … → 0.517 and 0.85 → … → 0.983). The
+     last-move wrapper changes nothing for sets that do not read it, so the difference is the seeds.
 
 ## Checkers run (single checkers; last lines)
 
@@ -312,7 +318,7 @@ Read honestly:
 - `node tools/check_roboexport.mjs`: 8 passed, 0 failed. The export did not change: no default model changed.
 - `node tools/check_newton.mjs`: 60 checks, 0 failed, "All NEWTON checks pass."
 - `node tools/check_imports.mjs`: "All 1125 modules call only what they declare or import."
-- `node tools/check_parse.mjs`: see the hand-back.
+- `node tools/check_parse.mjs`: "All 2704 shipped modules parse as JavaScript modules."
 - `check_interface` was not run: no control was added or changed. `eval_worlds` and `eval_content` were not run either:
   this work adds no world subject and no station.
 
