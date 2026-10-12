@@ -15,7 +15,7 @@ product, and the robots are simulated (nothing in a room moves).
 |---|---|---|
 | `rb-site-soma-robot-cell` (sf-downtown) | `ixr-cell-hall` robot cell hall | perimeter guard fence (12 mesh panels, posts), a gate with an interlock, two pairs of light-curtain posts (gate and load opening), three e-stop posts, a hatched band and walkway striping on the floor, a teach-pendant cart, the cell robot inside with its fixture table, a transfer table, a controller cabinet with a beacon |
 | `rb-site-san-jose-robotics-lab` (bay-san-jose) | `ixr-cobot-lab` cobot lab | the cobot bench with an arm, an area scanner and a bench e-stop, a second cobot cell, painted stop and warning rings round both arms, wall benches with monitors, a back bench, a storage cabinet |
-| `rb-site-west-oakland-warehouse` (oak-west-oakland) | `ixr-amr-warehouse` AMR warehouse | five instanced racking rows (frames, beams, loads), two AMR travel lanes, a marked pedestrian walkway crossing with bollards and e-stop posts, two chargers, an AMR in the aisle and one docked |
+| `rb-site-west-oakland-warehouse` (oak-west-oakland) | `ixr-amr-warehouse` AMR warehouse | four instanced racking rows (frames, beams, loads) with the centre aisle open, two AMR travel lanes, a marked pedestrian walkway crossing with bollards and e-stop posts, two chargers, an AMR in the aisle and one docked |
 | `rb-site-west-oakland-port-automation` (oak-west-oakland) | `ixr-port-control` port control room | three console desks with screens, a window wall onto a procedural container yard (canvas), a plain status wall (canvas), a supervisor desk, a comms rack |
 | `rb-site-richland-drilling-robot` (la-meta-richland) | `ixr-drilling-deck` ceiling-drilling deck | a barricade round the robot's reach with an entry gap, shoring posts and beams, a dust extractor and hose, the anchor layout as a grid on the soffit, the drilling robot with its battery, a control tablet stand |
 | `rb-site-orleans-warehouse` (orleans) | `ixr-maint-bay` robot maintenance bay | a lockout board with padlocks and tags, three parts racks with bins, a robot arm locked out on a maintenance stand, an AMR on a lift table, a workbench, a parts cart |
@@ -32,13 +32,13 @@ walkway crossing painted in), painted concrete walls, brushed metal props and th
 |---|---|---|---|
 | Robot sites with a walk-in robotics interior | 0 of 6 | 6 of 6 | `check_robo_interiors` "robot sites with a walk-in robotics interior: 6 of 6" |
 | Robotics room styles on the shell | 0 | 6 | `check_robo_interiors` section 1 |
-| Props per room (named, high tier) | — | cell hall 12, cobot lab 11, AMR warehouse 9, port control 10, drilling deck 12, maintenance bay 12 | `check_robo_interiors` table (props column; the port room's two canvas walls counted) |
+| Props per room (named, high tier) | — | cell hall 11, cobot lab 11, AMR warehouse 9, port control 10, drilling deck 12, maintenance bay 12 named props (65, 31, 107, 33, 77, 87 instances), plus the painted floor marks | `check_robo_interiors` table (props and instances columns; the port room's two canvas walls counted) |
 | Meshes per room, high / balanced / low (budget 120) | — | 18–20 / 18–20 / 18–20 | `check_robo_interiors` table |
-| Triangles per room, high (budget 6000) | — | 1016–2520 | `check_robo_interiors` table |
-| Triangles per room, low (budget 3000) | — | 780–1828 | `check_robo_interiors` table |
+| Triangles per room, high (budget 6000) | — | 1016–2340 | `check_robo_interiors` table |
+| Triangles per room, low (budget 3000) | — | 780–1696 | `check_robo_interiors` table |
 | Lights per room, high / low (budget 3 / 1) | — | 2 / 1 | `check_robo_interiors` table |
 | Texture bytes per room, high (budget 24 MiB) | — | 17.33–22.67 MiB | `check_robo_interiors` table (the set at 1024 px with mips + the shell's two 512×256 signs) |
-| Texture bytes per room, balanced and low (budget 3 MiB) | — | 2.00–2.67 MiB | `check_robo_interiors` table |
+| Texture bytes per room, balanced and low (budget 3 MiB) | — | 2.33–2.67 MiB | `check_robo_interiors` table |
 | Station pads and agent spots walkable from the door (ixWalk) | — | 70 of 70 (high and low) | `check_robo_interiors` "walk-through (headless): 70 of 70" |
 | `check_interiors` | 733 passed, 0 failed | 925 passed, 0 failed | `node tools/check_interiors.mjs` (the six styles build bare on both tiers within budget) |
 | `check_la_rooms` / `check_classrooms` | ok | ok (3787 / 2057 passed, 0 failed) | the two other dresser checkers, unchanged |
@@ -74,7 +74,7 @@ requests 0 on both tiers; the walk-through is the page's own NEWTON step from th
 2. Reason: fix both, and prove walkability with the same step the page uses. Act: the storage cabinet is essential; the two
    canvas walls join the prop tags; an A* planner on a 0.2 m grid (`ixrPlan`) and `ixrWalkAll` (NEWTON's `ixWalk` along the
    path, `ixNear` must name each station). Observe: 70 of 70 station pads and agent spots reached from the door on the high
-   and low tiers; agent spots and camera presets clear of props. Committed 41f5115d (the trailer then amended to the repo's
+   and low tiers; agent spots and camera presets clear of props. Committed 52250c47 (the trailer amended to the repo's
    form, no model identifier).
 3. Reason: the learner must be able to walk in from the map. Act: `ixrDoorsFor` (a door spot 8.6 m south of the rig, off the
    pad and outside the 6 m warning ring, falling back n / w / e when a site building or water blocks it), the robot-site loop in
@@ -95,9 +95,13 @@ requests 0 on both tiers; the walk-through is the page's own NEWTON step from th
    Observe: `check_robo_interiors --browser` 331 passed, 0 failed — "E — go inside: Fabrication Robot Cell (procedural)" at
    the door, E goes inside the ixr-cell-hall; the warehouse sign reads down the open aisle (2276 triangles drawn, was 2456).
 6. Reason: the reel needs each preset to frame what makes the room its kind. Act: looked at all six captures; the
-   maintenance bay's preset missed the lockout board, so it now stands at (3.6, 5.0) facing the back-left corner. Observe:
-   headless `check_robo_interiors` 290 passed, 0 failed (the preset clear of props, inside the room); the recapture is in
-   CYCLE6
+   maintenance bay's preset missed the lockout board, so it turned to the back-left corner. Observe: the recapture showed
+   the board, racks, the locked-out arm and both agent rings — and the job-board prompt, because the preset stood inside
+   the board's reach.
+7. Reason: a capture should carry no prompt. Act: a checker rule (every preset outside every action's reach), the
+   maintenance bay's preset moved to (4.4, 4.6). Observe: headless `check_robo_interiors` 302 passed, 0 failed; the
+   high-tier drive on the rebuilt bundle (`IXR_TIERS=high`) 324 passed, 0 failed, the six captures prompt-free (scratch:
+   `$SP/loop10/ixr/shots4/`).
 
 ## Seams
 
@@ -127,8 +131,8 @@ requests 0 on both tiers; the walk-through is the page's own NEWTON step from th
 
 ## Checkers (last lines)
 
-- `node tools/check_robo_interiors.mjs` → PASS check_robo_interiors: 290 passed, 0 failed (about 1.5 s)
-- `node tools/check_robo_interiors.mjs --browser` (IXR_PORT 9093, IXR_PAGE, IXR_TIERS, IXR_SHOTS) → PASS check_robo_interiors: 331 passed, 0 failed (both tiers, about 4 minutes on the shared machine)
+- `node tools/check_robo_interiors.mjs` → PASS check_robo_interiors: 302 passed, 0 failed (about 1.5 s)
+- `node tools/check_robo_interiors.mjs --browser` (IXR_PORT 9093, IXR_PAGE, IXR_TIERS, IXR_SHOTS) → PASS check_robo_interiors: 331 passed, 0 failed (high and low, about 4 minutes on the shared machine); the last run after cycle 7, high only: 324 passed, 0 failed
 - `node tools/check_interiors.mjs` → PASS check_interiors: 925 passed, 0 failed
 - `node tools/check_la_rooms.mjs` → check_la_rooms: ok — 3787 passed, 0 failed
 - `node tools/check_classrooms.mjs` → check_classrooms: ok — 2057 passed, 0 failed

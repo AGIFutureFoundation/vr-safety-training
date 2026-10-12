@@ -118,6 +118,8 @@ for (const st of STYLES) for (const tier of ["high", "low"]) {
   const clear = (x, z, r = 0.36) => !room.colliders.some((c) => c.max[1] > 0.5 && Math.hypot(x - Math.max(c.min[0], Math.min(x, c.max[0])), z - Math.max(c.min[2], Math.min(z, c.max[2]))) < r);
   check(room.spots.agent.every((a) => clear(a.x, a.z)), `${st}/${tier}: agent spots stand clear of props`);
   const cam = IXR.IXR_ROOMS[st].camera; check(clear(cam.x, cam.z), `${st}/${tier}: the camera preset stands clear of props`);
+  const inReach = room.actions.filter((a) => Math.hypot(cam.x - a.x, cam.z - a.z) <= a.r);
+  check(!inReach.length, `${st}/${tier}: the camera preset stands outside every action's reach (no prompt in a capture)${inReach.length ? `: ${inReach.map((a) => a.id).join(", ")}` : ""}`);
 }
 note(`walk-through (headless): ${walkStats.reached} of ${walkStats.total} station pads and agent spots reached from the door`);
 
