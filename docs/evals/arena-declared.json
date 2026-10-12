@@ -1,0 +1,34 @@
+{
+ "declared": "ROBO-ARENA protocol, committed before any run on the held-out seeds 7121–7180 (loop 10 round 6b)",
+ "protocol": {
+  "version": "ra/1",
+  "models": ["random", "reactive", "bc", "dagger-r1", "dagger-r3", "step-reward", "ra-lm", "expert"],
+  "scenarios": ["rb-teleop-pick-place", "rb-amr-fleet-routing", "rb-amr-fleet-routing#hard", "rb-cobot-zone-setup", "rb-cell-entry", "rb-construction-drilling", "rb-construction-drilling#hard", "rb-port-gantry", "rb-port-gantry#hard", "rb-station-robot-cell", "rb-station-amr-fleet", "rb-station-cobot"],
+  "seeds": { "gym": "7121–7180", "stations": "7121–7130" },
+  "lm": { "version": "ra-lm/1", "train": { "epochs": 6, "lr": 0.3, "l2": 0.0001, "seed": 1 }, "T": 24, "D": 14 }
+ },
+ "training": {
+  "demonstrations": "COLEARN colSyntheticDemos, labelled synthetic: scripted expert at skill 0.85 with action noise 0.3, seed 1 (episode seeds 100004+), 40 per gym task, 20 per station; learners keep clean passes only, except step-reward (steps dropped by its reward model, no run filter)",
+  "heldOutTasks": "the three hard variants are never trained on: every learned model trains on the base task's demonstrations and is run on the variant",
+  "dagger": "rounds 1 and 3, 20 rollouts per round on seeds 800100+; labels are the scripted expert's action on the clone's states, not a person's",
+  "stepReward": "200 synthetic window pairs (rt8WindowPairs, seed 1), 150 fit rt6FitReward, drop a step when sigmoid(reward − median) < 0.25",
+  "ra-lm": "one model for all nine trained tasks (six gym base tasks, three stations); task text = scenario name, blurb, actions, rules, variant parameters and the linked station's step titles, prompts and hazards (exports/unity/SmartCitiX/Content/stations/*.json); station steps add the current step's text; TF-IDF hashed into 24 buckets; masked softmax over tᵀ·W·[s,1]; continuous parameters from the 5 nearest training moments of the same task and label; consented takes: none present headless",
+  "devDisclosure": "development used seeds 1–20 only (gym) and 1–3 (stations): the cache key fix, the reactive agent's n/a scenarios, and the ra-lm parameter head (ridge regression replaced by nearest moments after teleop scored 0 of 20 on dev seeds). Nothing was run on 7121–7180 before this commit."
+ },
+ "governor": "vbGovernor.monitor on every step of a seeded safe simulated job at the scenario's site (half the rig's speed limit, nearest person 8 m); a broken rule is a deviation and the governor halts the run with a protective stop; target always the simulator",
+ "metrics": {
+  "success": "the scenario's own pass (rb-env summary.passed) and no governor stop",
+  "ruleBreaks": "count of safe-practice rule violations reported by the scenario (before the halt)",
+  "steps": "mean steps per episode",
+  "stops": "episodes the governor halted (protective stop)",
+  "governorChecked": "steps the governor monitored / steps run (declared threshold: 1.000)",
+  "physical": "dispatches to a non-sim target (declared threshold: 0)",
+  "interval": "Wilson score 95% per proportion; Newcombe hybrid score 95% for a difference"
+ },
+ "comparisons": {
+  "leaderboard": "pooled success over the nine gym scenarios per family (reactive only where ROBOTRAIN-7 wrote rules; DAgger and step-reward gym only), and over all twelve",
+  "smallModelHeadline": "ra-lm minus bc, pooled success on the three hard variants (held-out tasks), seeds 7121–7180, 180 episodes each; measured once; reported whatever it is, with the Newcombe interval",
+  "smallModelSecondary": "ra-lm minus bc over all twelve scenarios on the held-out seeds; and ra-lm minus the text ablation (the same model and data with the instruction blanked)",
+  "noClaim": "no claim is made from a difference whose interval spans 0"
+ }
+}

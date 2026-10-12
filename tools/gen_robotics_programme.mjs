@@ -36,6 +36,10 @@ async function main() {
   const loop = rp.rpLoop({ dx: tree.dx, col: tree.col });
   const recorder = rp.rpRecorder({ rt: tree.rt });
   const gapCov = rp.rpGapCoverage(opts);
+  // ROBO-ARENA: the read-only "Robot arena" panel, rendered from the measured docs/evals/arena.json (static, no script).
+  const arenaPath = join(ROOT, "docs/evals/arena.json");
+  const raPanel = existsSync(join(ROOT, "WebXR/shared/ra-panel.js")) ? await imp("WebXR/shared/ra-panel.js") : null;
+  const arenaHtml = raPanel ? raPanel.raPanelHtml(existsSync(arenaPath) ? JSON.parse(readFileSync(arenaPath, "utf8")) : null) : "";
   const stdLabel = (id) => rp.RP_STANDARDS.find((s) => s.id === id)?.label ?? id;
 
   const trackHtml = rp.RP_TRACKS.map((t) => {
@@ -99,7 +103,7 @@ async function main() {
   .rp-out { margin-top: var(--at-sp-3); padding: var(--at-sp-3) var(--at-sp-4); border-radius: var(--at-r-md); background: var(--at-surface-2); }
   main a { color: var(--at-primary); }
   code { overflow-wrap: anywhere; }
-  [hidden] { display: none !important; }
+  [hidden] { display: none !important; }${raPanel ? raPanel.RA_PANEL_CSS : ""}
 </style>
 </head>
 <body class="at-root">
@@ -115,6 +119,7 @@ async function main() {
       <div class="at-hero__actions">
         <a class="at-btn at-btn--primary" href="#tracks">See the tracks</a>
         <a class="at-btn at-btn--secondary" href="#loop">The learning loop</a>
+        <a class="at-btn at-btn--secondary" href="#arena">Robot arena</a>
         <a class="at-btn at-btn--secondary" href="#cohort">Run a cohort</a>
       </div>
     </div>
@@ -144,6 +149,8 @@ async function main() {
     <p class="rp-muted" data-rp-gaps="${gapCov.covered}/${gapCov.of}">Gap stations (ROBOTRAIN): ${gapCov.covered} of ${gapCov.of} covered — ${gapCov.gaps.map((g) => `${esc(g.title)}: ${g.inTree && g.inLevel ? sLink(g.id) : `<code>${esc(g.id)}</code> pending`}`).join("; ")}.</p>
     <p class="rp-muted" data-rp-consent>Training data is collected only with opt-in consent from signed-in adults — never in K-12, demo or signed-out sessions. It stays on the device (there is no upload endpoint), and revoking consent deletes it and marks dependent policies stale.</p>
   </section>
+
+  ${arenaHtml}
 
   <section aria-labelledby="h-cohort" id="cohort">
     <div class="at-section-head"><div><h2 id="h-cohort">Run a cohort</h2><p>Creates the organisation, a cohort with its seats and class code, and the level's module with its due date, on this device. No payment.</p></div></div>

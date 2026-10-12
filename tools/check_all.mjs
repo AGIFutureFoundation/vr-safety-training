@@ -110,6 +110,8 @@ const CHECKERS = [
   "check_roboscenarios.mjs",
   // ROBOEXPORT: the sim-to-real readiness package — exports/robotics current and labelled synthetic, cards complete, the policy report current, the learner-data terms say only what the code enforces, no hardware claim (docs/consoles/ROBOEXPORT.md).
   "check_roboexport.mjs",
+  // ROBO-ARENA: every robot model family on the same scenarios and seeds through the governor, the small language-conditioned model (not a large language model), the trainable robotics sets and the read-only arena panel (docs/consoles/ROBO-ARENA.md).
+  "check_arena.mjs",
   // VBRIDGE: software-agent jobs reach simulated robots only, through the safety governor (docs/consoles/VBRIDGE.md).
   "check_vbridge.mjs",
   // OMEGA-HIVE: seven software agents coordinate the robot jobs through the governor — persona, style, grounding, distinctiveness, voice on the device only, approvals, audit (docs/consoles/OMEGA-HIVE.md).
