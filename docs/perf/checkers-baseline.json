@@ -107,6 +107,7 @@
     "check_landmarks.mjs": 71300,
     "check_interiors.mjs": 1500,
     "check_la_rooms.mjs": 1500,
+    "check_robo_interiors.mjs": 1500,
     "check_npc.mjs": 1332,
     "check_terraform.mjs": 69431,
     "check_cityworks.mjs": 58400,
@@ -164,6 +165,7 @@
     "check_colearn.mjs": "2026-10-06 03:26 UTC: new (console COLEARN). 31.5 s wall (11 s CPU) on a loaded machine: loads the SmartCiti.X suite for the three station wrappers (a random policy runs each to the 20,000-step cap), trains and evaluates BC on 60 held-out seeds per game, filtered and unfiltered, 2 x 300 simulated tutor learners, and compares docs/evals/colearn.json.",
     "check_agentgym.mjs": "2026-10-06 03:50 UTC: new (console AGENTGYM). 5.2 s standalone under load ~13: 5 stations x 4 baselines x 2 seeds twice, two small evals, 15 parity replays, consent tests in memory.",
     "check_vbridge.mjs": "2026-10-06 04:35 UTC: new (console VBRIDGE). 0.4-0.6 s standalone: governor reasons, job lifecycles, provider configs, the GAME export compare, 200 adversarial + 200 safe governor checks and 50 sim lifecycles.",
-    "check_silica.mjs": "2026-10-06 03:40 UTC: new (console SILICA). 4.9 s standalone: the SmartCiti.X suite load, 18 seeded agent runs plus 5 calibration runs of the drilling station, the consent gate, and the study aggregates (recomputed when the read-only clone is present)."
+    "check_silica.mjs": "2026-10-06 03:40 UTC: new (console SILICA). 4.9 s standalone: the SmartCiti.X suite load, 18 seeded agent runs plus 5 calibration runs of the drilling station, the consent gate, and the study aggregates (recomputed when the read-only clone is present).",
+    "check_robo_interiors.mjs": "2026-10-12 (console ROBO-INTERIORS): new. An ESTIMATE (about 1.5 s standalone headless on a loaded shared machine), to re-measure on a quiet gate: six robotics rooms built and furnished on three tiers, budgets and texture bytes measured, 70 A* walks with NEWTON's avatar step, door spots on five maps, the mount round trip; the --browser walk-through is opt-in and not in the gate."
   }
 }
