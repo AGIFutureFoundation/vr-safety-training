@@ -79167,6 +79167,15 @@ function rbSharedData() {
 //   ent3Lineage() -> { nodes: [{ id, type, label, status }], edges: [{ from, to, kind }] }
 //   ent3Fleet() -> one row per robot site: { siteId, name, parish, rig, deployment, evalScore, stale }
 //   ent3AuditList(), ent3VerifyAudit() -> { ok, brokenAt }
+//   GOVERNOR-2 — moving the registry between devices (a file the person carries; nothing is sent):
+//   ent3Export({ at }) -> { schema: ENT3_EXPORT_SCHEMA, exportedAt, registry: { consents, datasets, policies, deployments },
+//                           lineage: ent3Lineage(), audit: [line], head: { seq, hash, lines }, digest }
+//   ent3Import(doc) -> { ok, reason?, detail?, mode: "adopt" | "fast-forward" | "already-current", added: { lines, consents,
+//                        datasets, policies, deployments } }
+//     Refusal reasons: bad-schema, chain-broken, head-mismatch, digest-mismatch, lineage-mismatch, unaudited-record,
+//     forked (the two chains diverge after a common prefix). Merge is a fast-forward keyed by id, so nothing duplicates
+//     and importing the same document twice adds nothing. FNV is not a secure hash: this catches edits and forks, it is
+//     not proof against someone who rewrites a whole history on a device that never held the original.
 //
 // Every top-level name starts with `ent3`/`ENT3_` (the bundler shares one scope).
 
@@ -79199,14 +79208,14 @@ function ent3Text(v, max = 120) { return String(v ?? "").replace(/[\u0000-\u001f
 function ent3Id(v) { const t = ent3Text(v, 80); return /^[A-Za-z0-9][A-Za-z0-9._:@-]*$/.test(t) ? t : null; }
 function ent3Now() { return new Date().toISOString(); }
 
-function ent3Empty() { return { v: ENT3_SCHEMA_VERSION, consents: [], datasets: [], policies: [], deployments: [], audit: [] }; }
+function ent3Empty() { return { v: ENT3_SCHEMA_VERSION, consents: [], datasets: [], policies: [], deployments: [], audit: [], imports: [] }; }
 
 function ent3Load() {
   try {
     const raw = JSON.parse(ent3Store()?.getItem(ENT3_KEY) || "null");
     if (!raw || raw.v !== ENT3_SCHEMA_VERSION) return ent3Empty();
     const arr = (k) => (Array.isArray(raw[k]) ? raw[k] : []);
-    return { v: ENT3_SCHEMA_VERSION, consents: arr("consents"), datasets: arr("datasets"), policies: arr("policies"), deployments: arr("deployments"), audit: arr("audit") };
+    return { v: ENT3_SCHEMA_VERSION, consents: arr("consents"), datasets: arr("datasets"), policies: arr("policies"), deployments: arr("deployments"), audit: arr("audit"), imports: arr("imports") };
   } catch (_) { return ent3Empty(); }
 }
 function ent3Save(state) {
@@ -79402,8 +79411,8 @@ function ent3Fleet() {
 
 // ------------------------------------------------------------------ lineage
 
-function ent3Lineage() {
-  const state = ent3Load();
+function ent3Lineage(from = null) {
+  const state = from ?? ent3Load();
   const nodes = []; const edges = [];
   for (const c of state.consents) nodes.push({ id: `consent:${c.consentId}`, type: "consent", label: c.consentId, status: c.state });
   for (const d of state.datasets) {
@@ -79481,6 +79490,82 @@ function ent3Revoke(target = {}, reason = "", { at = null } = {}) {
   ent3Save(state);
   return out;
 }
+
+// ------------------------------------------------------------------ export / import between devices (GOVERNOR-2)
+
+const ENT3_EXPORT_SCHEMA = "smartcitix.holodeck.ent3-registry@1";
+const ENT3_KINDS = Object.freeze([["consents", "consentId", "consent-register"], ["datasets", "id", "dataset-register"], ["policies", "id", "policy-register"], ["deployments", "siteId", "deploy"]]);
+
+function ent3Canon(v) {
+  if (Array.isArray(v)) return `[${v.map(ent3Canon).join(",")}]`;
+  if (v && typeof v === "object") return `{${Object.keys(v).sort().map((k) => `${JSON.stringify(k)}:${ent3Canon(v[k])}`).join(",")}}`;
+  return JSON.stringify(v ?? null);
+}
+function ent3Digest(registry, head) { const body = `${ent3Canon(registry)}|${head.seq}|${head.hash}`; return ent3Fnv(body) + ent3Fnv(body.split("").reverse().join("")); }
+function ent3Head(audit) { const last = audit[audit.length - 1]; return last ? { seq: last.seq, hash: last.hash, lines: audit.length } : { seq: -1, hash: "genesis", lines: 0 }; }
+function ent3Copy(v) { return JSON.parse(JSON.stringify(v)); }
+
+/** The whole registry as one JSON document for another device: records, the lineage graph, the audit chain and its head. */
+function ent3Export({ at = null } = {}) {
+  const state = ent3Load();
+  const registry = { consents: ent3Copy(state.consents), datasets: ent3Copy(state.datasets), policies: ent3Copy(state.policies), deployments: ent3Copy(state.deployments) };
+  const head = ent3Head(state.audit);
+  return { schema: ENT3_EXPORT_SCHEMA, exportedAt: at ?? ent3Now(), registry, lineage: ent3Lineage(state), audit: ent3Copy(state.audit), head, digest: ent3Digest(registry, head) };
+}
+
+/** Check an exported document on its own: schema, chain, head, digest, lineage, and an audit line for every record. */
+function ent3VerifyExport(doc) {
+  const no = (reason, detail) => ({ ok: false, reason, detail });
+  if (!doc || typeof doc !== "object" || doc.schema !== ENT3_EXPORT_SCHEMA || !doc.registry || !Array.isArray(doc.audit) || !doc.head) return no("bad-schema", `not a ${ENT3_EXPORT_SCHEMA} document`);
+  for (const [k] of ENT3_KINDS) if (!Array.isArray(doc.registry[k])) return no("bad-schema", `registry.${k} is missing`);
+  const v = ent3VerifyAudit(doc.audit);
+  if (!v.ok) return no("chain-broken", `the audit chain breaks at line ${v.brokenAt} of ${v.lines}`);
+  const head = ent3Head(doc.audit);
+  if (doc.head.seq !== head.seq || doc.head.hash !== head.hash || doc.head.lines !== head.lines) return no("head-mismatch", `the stated head (line ${doc.head.seq}) is not the chain's last line (${head.seq})`);
+  if (doc.digest !== ent3Digest(doc.registry, doc.head)) return no("digest-mismatch", "the records do not match the digest sealed with the chain head");
+  if (ent3Canon(ent3Lineage({ ...ent3Empty(), ...doc.registry })) !== ent3Canon(doc.lineage)) return no("lineage-mismatch", "the lineage graph is not the one the records give");
+  for (const [k, key, action] of ENT3_KINDS) {
+    for (const r of doc.registry[k]) {
+      const id = String(r?.[key] ?? "");
+      const hit = doc.audit.some((l) => l.action === action && (action === "deploy" ? String(l.detail).endsWith(` ${id} (sim)`) : String(l.detail).startsWith(id)));
+      if (!id || !hit) return no("unaudited-record", `${k} record ${id || "?"} has no ${action} line in the audit chain`);
+    }
+  }
+  return { ok: true };
+}
+
+/**
+ * Import another device's export. Verifies it first (a tampered document is refused with a named reason), then
+ * merges by fast-forward: this device's chain must be a prefix of the imported one (adopt its newer lines and
+ * records), or the imported chain a prefix of this device's (nothing to add). Two chains that diverge are a fork,
+ * refused. Records are keyed by id, so an import never duplicates one. The import itself is noted outside the chain
+ * (state.imports), so both devices keep the same chain and can keep exchanging files.
+ */
+function ent3Import(doc, { at = null } = {}) {
+  const zero = { lines: 0, consents: 0, datasets: 0, policies: 0, deployments: 0 };
+  const v = ent3VerifyExport(doc);
+  if (!v.ok) return { ...v, mode: null, added: zero };
+  const state = ent3Load();
+  const mine = state.audit; const theirs = doc.audit;
+  const common = Math.min(mine.length, theirs.length);
+  for (let i = 0; i < common; i += 1) if (mine[i].hash !== theirs[i].hash) return { ok: false, reason: "forked", detail: `the imported chain and this device's chain diverge at line ${i}`, mode: null, added: zero };
+  if (theirs.length <= mine.length) return { ok: true, mode: "already-current", added: zero };
+  const added = { ...zero, lines: theirs.length - mine.length };
+  for (const [k, key] of ENT3_KINDS) {
+    const have = new Set(state[k].map((r) => r[key]));
+    const local = state[k].filter((r) => !doc.registry[k].some((x) => x[key] === r[key]));
+    if (local.length && mine.length) return { ok: false, reason: "forked", detail: `this device holds ${k} the imported chain does not (${local.map((r) => r[key]).slice(0, 3).join(", ")})`, mode: null, added: zero };
+    added[k] = doc.registry[k].filter((r) => !have.has(r[key])).length;
+  }
+  const mode = mine.length ? "fast-forward" : "adopt";
+  const next = { ...state, consents: ent3Copy(doc.registry.consents), datasets: ent3Copy(doc.registry.datasets), policies: ent3Copy(doc.registry.policies), deployments: ent3Copy(doc.registry.deployments), audit: ent3Copy(theirs) };
+  next.imports = [...(state.imports ?? []), { at: at ?? ent3Now(), mode, head: { ...doc.head }, exportedAt: ent3Text(doc.exportedAt, 40), added }];
+  ent3Save(next);
+  return { ok: true, mode, added };
+}
+
+/** Imports this device has taken (kept beside the chain, not in it). */
+function ent3Imports() { return ent3Load().imports.map((x) => ({ ...x })); }
 
 // ------------------------------------------------------------------ sample
 
@@ -79697,6 +79782,27 @@ function ent3Table(headers, rows, empty) {
   if (!rows.length) { const tr = ent3El("tr"); const td = ent3El("td", "muted", empty); td.colSpan = headers.length; tr.append(td); tb.append(tr); }
   t.append(tb); wrap.append(t); return wrap;
 }
+// GOVERNOR-2: the registry moves between devices as a file the person carries (nothing is sent anywhere).
+function ent3DownloadRegistry() {
+  const doc = ent3Export();
+  const blob = new Blob([JSON.stringify(doc, null, 2)], { type: "application/json" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = `ent3-registry-${doc.exportedAt.slice(0, 10)}-line${doc.head.seq}.json`;
+  document.body.append(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  ent3Say(`Exported the registry: ${doc.head.lines} audit line(s), ${doc.lineage.nodes.length} lineage node(s).`);
+  return doc;
+}
+const ENT3_IMPORT_SAY = { "bad-schema": "not a registry export", "chain-broken": "the audit chain was edited", "head-mismatch": "the chain head does not match", "digest-mismatch": "the records were edited after export", "lineage-mismatch": "the lineage graph was edited", "unaudited-record": "a record has no audit line", forked: "it forks from this device's chain" };
+function ent3ReadRegistryText(text) {
+  let doc = null;
+  try { doc = JSON.parse(text); } catch (_) { doc = null; }
+  const r = ent3Import(doc);
+  ent3Say(r.ok ? (r.mode === "already-current" ? "Nothing new: this device already holds that chain." : `Imported (${r.mode}): ${r.added.lines} audit line(s), ${r.added.consents} consent(s), ${r.added.datasets} dataset(s), ${r.added.policies} policy(ies), ${r.added.deployments} deployment(s).`) : `Refused (${r.reason}): ${ENT3_IMPORT_SAY[r.reason] ?? ""} — ${r.detail ?? ""}`);
+  ent3Render();
+  return r;
+}
 function ent3Method(id) { return ENT3_METHODS.find((m) => m.id === id)?.label ?? id; }
 function ent3Score(e) { return e ? `${e.metric} ${e.value}${e.measured ? "" : " (sample figure)"} — ${e.suite}, n=${e.n}` : "no eval"; }
 
@@ -79741,6 +79847,16 @@ function ent3Render() {
   bp.append(ent3El("p", null, d.enabled ? `Provider: ${d.provider} · capabilities: ${d.capabilities.join(", ")} · proxy: ${d.proxy ?? "on-device mock"}` : "Billing: off (not configured for this deployment)."));
   out.push(bp);
 
+  const xp = ent3Panel("Move the registry between devices", "Export registry writes the records, the lineage graph and the audit chain with its head to a JSON file you carry to another device. Import registry checks the chain, the head and the records, refuses a tampered or forked file and says why, then merges by fast-forward without duplicating anything. Nothing is sent anywhere.");
+  const picker = ent3El("input"); picker.type = "file"; picker.accept = "application/json,.json"; picker.hidden = true; picker.id = "ent3-import-file";
+  picker.addEventListener("change", () => { const f = picker.files?.[0]; if (!f) return; f.text().then(ent3ReadRegistryText); picker.value = ""; });
+  const xrow = ent3El("div", "row");
+  xrow.append(ent3Btn("Export registry", ent3DownloadRegistry), ent3Btn("Import registry", () => picker.click()), picker);
+  xp.append(xrow);
+  const lastIn = ent3Imports().slice(-1)[0];
+  xp.append(ent3El("p", "fine", lastIn ? `Last import: ${lastIn.mode}, ${lastIn.added.lines} line(s) up to line ${lastIn.head.seq}, ${String(lastIn.at).slice(0, 19).replace("T", " ")}.` : "No import on this device yet."));
+  out.push(xp);
+
   const ap = ent3Panel("Audit log (append-only)", "Every registry change, oldest first. Each line carries the hash of the one before it; the check below re-walks the chain. Tamper-evident on this device, not cryptographic proof.");
   const v = ent3VerifyAudit();
   ap.append(ent3El("p", v.ok ? "ent3-ok" : "ent3-bad", v.ok ? `Chain verified: ${v.lines} line(s) intact.` : `Chain broken at line ${v.brokenAt} of ${v.lines}.`));
@@ -79759,7 +79875,7 @@ function ent3MountGovernanceView(root, { toast = null, config = null } = {}) {
   if (!document.getElementById("ent3-style")) { const s = document.createElement("style"); s.id = "ent3-style"; s.textContent = ENT3_CSS; document.head.appendChild(s); }
   try { addEventListener("gt:profile", ent3Render); } catch (_) { /* headless */ }
   ent3Render();
-  return { render: ent3Render, setConfig: (c) => { ent3View.config = c ?? null; ent3Render(); } };
+  return { render: ent3Render, setConfig: (c) => { ent3View.config = c ?? null; ent3Render(); }, exportRegistry: ent3DownloadRegistry, importRegistryText: ent3ReadRegistryText };
 }
 
 

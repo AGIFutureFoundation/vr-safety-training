@@ -165479,6 +165479,15 @@ function rtMountTeleop(el, { seed = 7001, store = dxStore, signals = null, reduc
 //   ent3Lineage() -> { nodes: [{ id, type, label, status }], edges: [{ from, to, kind }] }
 //   ent3Fleet() -> one row per robot site: { siteId, name, parish, rig, deployment, evalScore, stale }
 //   ent3AuditList(), ent3VerifyAudit() -> { ok, brokenAt }
+//   GOVERNOR-2 — moving the registry between devices (a file the person carries; nothing is sent):
+//   ent3Export({ at }) -> { schema: ENT3_EXPORT_SCHEMA, exportedAt, registry: { consents, datasets, policies, deployments },
+//                           lineage: ent3Lineage(), audit: [line], head: { seq, hash, lines }, digest }
+//   ent3Import(doc) -> { ok, reason?, detail?, mode: "adopt" | "fast-forward" | "already-current", added: { lines, consents,
+//                        datasets, policies, deployments } }
+//     Refusal reasons: bad-schema, chain-broken, head-mismatch, digest-mismatch, lineage-mismatch, unaudited-record,
+//     forked (the two chains diverge after a common prefix). Merge is a fast-forward keyed by id, so nothing duplicates
+//     and importing the same document twice adds nothing. FNV is not a secure hash: this catches edits and forks, it is
+//     not proof against someone who rewrites a whole history on a device that never held the original.
 //
 // Every top-level name starts with `ent3`/`ENT3_` (the bundler shares one scope).
 
@@ -165511,14 +165520,14 @@ function ent3Text(v, max = 120) { return String(v ?? "").replace(/[\u0000-\u001f
 function ent3Id(v) { const t = ent3Text(v, 80); return /^[A-Za-z0-9][A-Za-z0-9._:@-]*$/.test(t) ? t : null; }
 function ent3Now() { return new Date().toISOString(); }
 
-function ent3Empty() { return { v: ENT3_SCHEMA_VERSION, consents: [], datasets: [], policies: [], deployments: [], audit: [] }; }
+function ent3Empty() { return { v: ENT3_SCHEMA_VERSION, consents: [], datasets: [], policies: [], deployments: [], audit: [], imports: [] }; }
 
 function ent3Load() {
   try {
     const raw = JSON.parse(ent3Store()?.getItem(ENT3_KEY) || "null");
     if (!raw || raw.v !== ENT3_SCHEMA_VERSION) return ent3Empty();
     const arr = (k) => (Array.isArray(raw[k]) ? raw[k] : []);
-    return { v: ENT3_SCHEMA_VERSION, consents: arr("consents"), datasets: arr("datasets"), policies: arr("policies"), deployments: arr("deployments"), audit: arr("audit") };
+    return { v: ENT3_SCHEMA_VERSION, consents: arr("consents"), datasets: arr("datasets"), policies: arr("policies"), deployments: arr("deployments"), audit: arr("audit"), imports: arr("imports") };
   } catch (_) { return ent3Empty(); }
 }
 function ent3Save(state) {
@@ -165714,8 +165723,8 @@ function ent3Fleet() {
 
 // ------------------------------------------------------------------ lineage
 
-function ent3Lineage() {
-  const state = ent3Load();
+function ent3Lineage(from = null) {
+  const state = from ?? ent3Load();
   const nodes = []; const edges = [];
   for (const c of state.consents) nodes.push({ id: `consent:${c.consentId}`, type: "consent", label: c.consentId, status: c.state });
   for (const d of state.datasets) {
@@ -165794,6 +165803,82 @@ function ent3Revoke(target = {}, reason = "", { at = null } = {}) {
   return out;
 }
 
+// ------------------------------------------------------------------ export / import between devices (GOVERNOR-2)
+
+const ENT3_EXPORT_SCHEMA = "smartcitix.holodeck.ent3-registry@1";
+const ENT3_KINDS = Object.freeze([["consents", "consentId", "consent-register"], ["datasets", "id", "dataset-register"], ["policies", "id", "policy-register"], ["deployments", "siteId", "deploy"]]);
+
+function ent3Canon(v) {
+  if (Array.isArray(v)) return `[${v.map(ent3Canon).join(",")}]`;
+  if (v && typeof v === "object") return `{${Object.keys(v).sort().map((k) => `${JSON.stringify(k)}:${ent3Canon(v[k])}`).join(",")}}`;
+  return JSON.stringify(v ?? null);
+}
+function ent3Digest(registry, head) { const body = `${ent3Canon(registry)}|${head.seq}|${head.hash}`; return ent3Fnv(body) + ent3Fnv(body.split("").reverse().join("")); }
+function ent3Head(audit) { const last = audit[audit.length - 1]; return last ? { seq: last.seq, hash: last.hash, lines: audit.length } : { seq: -1, hash: "genesis", lines: 0 }; }
+function ent3Copy(v) { return JSON.parse(JSON.stringify(v)); }
+
+/** The whole registry as one JSON document for another device: records, the lineage graph, the audit chain and its head. */
+function ent3Export({ at = null } = {}) {
+  const state = ent3Load();
+  const registry = { consents: ent3Copy(state.consents), datasets: ent3Copy(state.datasets), policies: ent3Copy(state.policies), deployments: ent3Copy(state.deployments) };
+  const head = ent3Head(state.audit);
+  return { schema: ENT3_EXPORT_SCHEMA, exportedAt: at ?? ent3Now(), registry, lineage: ent3Lineage(state), audit: ent3Copy(state.audit), head, digest: ent3Digest(registry, head) };
+}
+
+/** Check an exported document on its own: schema, chain, head, digest, lineage, and an audit line for every record. */
+function ent3VerifyExport(doc) {
+  const no = (reason, detail) => ({ ok: false, reason, detail });
+  if (!doc || typeof doc !== "object" || doc.schema !== ENT3_EXPORT_SCHEMA || !doc.registry || !Array.isArray(doc.audit) || !doc.head) return no("bad-schema", `not a ${ENT3_EXPORT_SCHEMA} document`);
+  for (const [k] of ENT3_KINDS) if (!Array.isArray(doc.registry[k])) return no("bad-schema", `registry.${k} is missing`);
+  const v = ent3VerifyAudit(doc.audit);
+  if (!v.ok) return no("chain-broken", `the audit chain breaks at line ${v.brokenAt} of ${v.lines}`);
+  const head = ent3Head(doc.audit);
+  if (doc.head.seq !== head.seq || doc.head.hash !== head.hash || doc.head.lines !== head.lines) return no("head-mismatch", `the stated head (line ${doc.head.seq}) is not the chain's last line (${head.seq})`);
+  if (doc.digest !== ent3Digest(doc.registry, doc.head)) return no("digest-mismatch", "the records do not match the digest sealed with the chain head");
+  if (ent3Canon(ent3Lineage({ ...ent3Empty(), ...doc.registry })) !== ent3Canon(doc.lineage)) return no("lineage-mismatch", "the lineage graph is not the one the records give");
+  for (const [k, key, action] of ENT3_KINDS) {
+    for (const r of doc.registry[k]) {
+      const id = String(r?.[key] ?? "");
+      const hit = doc.audit.some((l) => l.action === action && (action === "deploy" ? String(l.detail).endsWith(` ${id} (sim)`) : String(l.detail).startsWith(id)));
+      if (!id || !hit) return no("unaudited-record", `${k} record ${id || "?"} has no ${action} line in the audit chain`);
+    }
+  }
+  return { ok: true };
+}
+
+/**
+ * Import another device's export. Verifies it first (a tampered document is refused with a named reason), then
+ * merges by fast-forward: this device's chain must be a prefix of the imported one (adopt its newer lines and
+ * records), or the imported chain a prefix of this device's (nothing to add). Two chains that diverge are a fork,
+ * refused. Records are keyed by id, so an import never duplicates one. The import itself is noted outside the chain
+ * (state.imports), so both devices keep the same chain and can keep exchanging files.
+ */
+function ent3Import(doc, { at = null } = {}) {
+  const zero = { lines: 0, consents: 0, datasets: 0, policies: 0, deployments: 0 };
+  const v = ent3VerifyExport(doc);
+  if (!v.ok) return { ...v, mode: null, added: zero };
+  const state = ent3Load();
+  const mine = state.audit; const theirs = doc.audit;
+  const common = Math.min(mine.length, theirs.length);
+  for (let i = 0; i < common; i += 1) if (mine[i].hash !== theirs[i].hash) return { ok: false, reason: "forked", detail: `the imported chain and this device's chain diverge at line ${i}`, mode: null, added: zero };
+  if (theirs.length <= mine.length) return { ok: true, mode: "already-current", added: zero };
+  const added = { ...zero, lines: theirs.length - mine.length };
+  for (const [k, key] of ENT3_KINDS) {
+    const have = new Set(state[k].map((r) => r[key]));
+    const local = state[k].filter((r) => !doc.registry[k].some((x) => x[key] === r[key]));
+    if (local.length && mine.length) return { ok: false, reason: "forked", detail: `this device holds ${k} the imported chain does not (${local.map((r) => r[key]).slice(0, 3).join(", ")})`, mode: null, added: zero };
+    added[k] = doc.registry[k].filter((r) => !have.has(r[key])).length;
+  }
+  const mode = mine.length ? "fast-forward" : "adopt";
+  const next = { ...state, consents: ent3Copy(doc.registry.consents), datasets: ent3Copy(doc.registry.datasets), policies: ent3Copy(doc.registry.policies), deployments: ent3Copy(doc.registry.deployments), audit: ent3Copy(theirs) };
+  next.imports = [...(state.imports ?? []), { at: at ?? ent3Now(), mode, head: { ...doc.head }, exportedAt: ent3Text(doc.exportedAt, 40), added }];
+  ent3Save(next);
+  return { ok: true, mode, added };
+}
+
+/** Imports this device has taken (kept beside the chain, not in it). */
+function ent3Imports() { return ent3Load().imports.map((x) => ({ ...x })); }
+
 // ------------------------------------------------------------------ sample
 
 /**
@@ -165833,7 +165918,7 @@ function ent3LoadSample({ at = null } = {}) {
 // Simulated robots only; the build holds no token and makes no payments.
 //
 // SEAM: VB_SHARED = { schema, phases, terminal, moves, roles, memoTypes, deadlineTicks, policies,
-//                     governor: { rules, tasks, rigLimits, physical, order, note } }
+//                     governor: { rules, tasks, rigLimits, physical, rateLimit, anomaly, order, note } }
 //
 // Every top-level name starts with `VB_` (the bundler shares one scope).
 
@@ -165848,8 +165933,53 @@ const VB_REASONS = Object.freeze([
   { id: "stale-policy", text: "The policy is stale: it was trained on (or built from) data whose consent was revoked. Retrain before it runs." },
   { id: "over-speed", text: "The requested speed is above the site's limit (or above the reduced speed with a person inside the warning distance)." },
   { id: "inside-separation", text: "A person is closer than the site's minimum separation distance. The robot holds a protective stop." },
+  // GOVERNOR-2: two safeguards beside the rules. Both come after every hard rule, so they can add a refusal but never
+  // outrank the e-stop or a hard rule, and neither can turn a refusal into a permission.
+  { id: "rate-limited", text: "This agent has sent more requests in the last minute than the governor's per-agent limit allows. Wait, or ask a person to look at why it is sending so many." },
+  { id: "anomalous", text: "The request passes every rule but is far outside what this site has accepted before (the explanation names the feature). A person should look at it before it runs." },
 ]);
 const VB_REASON_IDS = Object.freeze(VB_REASONS.map((r) => r.id));
+
+/**
+ * GOVERNOR-2 — the per-agent rate limit: a sliding window per agent id (the command's clientId). Every new job request counts
+ * (a repeat check of a job id already admitted is a step of that job, as a GAME session's function calls are),
+ * refused ones included, so an agent that keeps hammering stays limited. Time is the command's `atMs` when it carries
+ * one, else the governor's `now()` when one is handed in (the parishes panel stamps its queued jobs with scenario times), else a logical
+ * clock where each decision counts as `logicalTickMs` (deterministic, like the audit line clock).
+ */
+const VB_RATE_LIMIT = Object.freeze({ perMinute: 20, windowMs: 60000, logicalTickMs: 1000, note: "default 20 requests per agent per minute; configurable per governor (vbGovernor({ rate: { perMinute } }))" });
+
+/**
+ * GOVERNOR-2 — the learned anomaly check beside the rules: a one-sided per-feature z-score against a history of
+ * accepted jobs, fitted per task type. A request is anomalous when any feature sits more than `threshold` standard
+ * deviations past the accepted mean in its risky direction (dir 1: higher is riskier, dir -1: lower is riskier).
+ * Features a request does not carry are skipped. `log: true` features are compared on a log scale. The history is a
+ * SEEDED, PROCEDURAL stand-in for a site's accepted-job log (the ranges below; vbAnomalyHistory builds it), not data
+ * from any real site; a deployment hands in its own log (vbGovernor({ anomaly: { history } })).
+ */
+const VB_ANOMALY = Object.freeze({
+  threshold: 4,
+  minSd: 0.001,
+  features: Object.freeze([
+    { id: "payloadKg", label: "payload (kg)", dir: 1, log: false },
+    { id: "speedFrac", label: "requested speed as a share of the speed limit that applies (reduced inside the warning distance)", dir: 1, log: false },
+    { id: "nearestPersonM", label: "distance to the nearest person (m)", dir: -1, log: false },
+    { id: "cadenceS", label: "seconds since this agent's previous request", dir: -1, log: true },
+  ]),
+  history: Object.freeze({
+    seed: 20261012,
+    perTask: 120,
+    cadenceS: [2, 600],
+    nearestPersonM: [3, 14],
+    tasks: Object.freeze({
+      "rb-amr-fleet-routing": { payloadKg: [2, 40], speedFrac: [0.3, 1.0] },
+      "rb-cobot-zone-setup": { payloadKg: [0, 1.5], speedFrac: [0.2, 0.9] },
+      "rb-teleop-pick-place": { payloadKg: [0.1, 3], speedFrac: [0.1, 0.8] },
+      "rb-cell-entry": { payloadKg: [0, 8], speedFrac: [0.2, 1.0] },
+    }),
+  }),
+  note: "adds a refusal, never a permission; never outranks the e-stop or a hard rule; the history ranges are procedural simulation parameters, not ratings of any machine",
+});
 
 /** The physical-robot path: needs a named human approver and ships disabled. Frozen; there is no setter. */
 const VB_PHYSICAL = Object.freeze({ enabled: false, requires: "a named human approver at the site, on top of every governor rule", note: "disabled in this build: agent commands reach simulated robots only" });
@@ -165916,6 +166046,8 @@ const VB_SHARED = Object.freeze({
     tasks: VB_TASKS,
     rigLimits: VB_RIG_LIMITS,
     physical: VB_PHYSICAL,
+    rateLimit: VB_RATE_LIMIT,
+    anomaly: { threshold: VB_ANOMALY.threshold, features: VB_ANOMALY.features, note: VB_ANOMALY.note },
     note: "Agent-originated commands reach simulated robots only. Every decision is written to a hash-chained audit log (ENTERPRISE-3). Rig limits are procedural simulation parameters (stop and warn distances match RB_SSM), not ratings of any machine.",
   },
 });
@@ -165940,6 +166072,13 @@ const VB_SHARED = Object.freeze({
 //   * a policy trained on revoked data is refused (ENTERPRISE-3's stale lineage:
 //     ent3Revoke marks dependent policies stale), and so is a policy nobody
 //     registered;
+//   * GOVERNOR-2: a per-agent rate limit (a sliding window per clientId, the
+//     default in VB_RATE_LIMIT) and a learned anomaly check (a one-sided
+//     per-feature z-score against a history of accepted jobs, VB_ANOMALY) sit
+//     beside the rules. Both come after every hard rule in the precedence
+//     order: they add a refusal, never a permission, and never outrank the
+//     e-stop or a hard rule. The anomaly refusal names the feature, its value,
+//     the accepted mean and how many standard deviations away it sits;
 //   * every decision — allow or refuse, and every stop during a run — is
 //     written to an append-only, hash-chained log here AND, when ENTERPRISE-3's
 //     registry is handed in, to its audit log (ent3AuditAppend).
@@ -165950,13 +166089,19 @@ const VB_SHARED = Object.freeze({
 // table (VB_PROVIDER_POLICIES). No network code, no keys, no wallet, no chain.
 //
 // SEAM:
-//   vbGovernor({ ent3, limits, estops, at }) -> {
-//     check(command)   -> { ok, decision: "allow-sim" | "refuse", reasons: [id], primary, text, line }
+//   vbGovernor({ ent3, limits, estops, at, now, rate, anomaly }) -> {
+//     check(command)   -> { ok, decision: "allow-sim" | "refuse", reasons: [id], primary, text, line,
+//                           explain: { rate: { agent, count, perMinute, windowS } | null, anomaly: vbAnomalyScore(...) | null } }
 //     monitor(sample)  -> { action: "continue" | "slow" | "protective-stop" | "estop", reason, line? }
 //     setEstop(siteId, held), estopHeld(siteId), log(), verify()
 //   }
 //   command = { jobId, clientId, taskType, siteId, target: { kind: "sim" | "physical", robotId, approver? },
-//               speed (m/s), nearestPersonM (m), policyId }
+//               speed (m/s), nearestPersonM (m), policyId, payloadKg?, atMs? }
+//   `now()` (ms) is the clock for the rate limit when a command has no atMs; `rate` = { perMinute, windowMs } overrides
+//   VB_RATE_LIMIT; `anomaly` = { history } | { model } replaces the seeded procedural history.
+//   vbAnomalyHistory(cfg) -> [{ taskType, payloadKg, speedFrac, nearestPersonM, cadenceS }]   (seeded, every row rule-legal)
+//   vbAnomalyModel(history) -> { threshold, features, tasks: { [taskType]: { [featureId]: { mean, sd, n } } } }
+//   vbAnomalyScore(model, taskType, features) -> { anomalous, top: { id, label, value, mean, sd, z } | null, z, text }
 //
 // Every top-level name starts with `vb`/`VB_` (the bundler shares one scope).
 
@@ -165978,10 +166123,89 @@ function vbSiteLimits(siteId, limits = VB_RIG_LIMITS) {
   return site ? { site, ...limits[site.rig] } : null;
 }
 
+// ------------------------------------------------------------------ GOVERNOR-2: the anomaly check beside the rules
+
+function vbMulberry(seed) {
+  let a = seed >>> 0;
+  return () => { a = (a + 0x6d2b79f5) >>> 0; let t = a; t = Math.imul(t ^ (t >>> 15), t | 1); t ^= t + Math.imul(t ^ (t >>> 7), t | 61); return ((t ^ (t >>> 14)) >>> 0) / 4294967296; };
+}
+function vbNum(v) { if (v === null || v === undefined || v === "") return undefined; const n = Number(v); return Number.isFinite(n) ? n : undefined; }
+function vbFmt(n) { const a = Math.abs(n); return a >= 100 ? n.toFixed(0) : a >= 10 ? n.toFixed(1) : a >= 0.1 ? n.toFixed(2) : n.toFixed(3); }
+
+/**
+ * The seeded accepted-job history: a procedural stand-in for a site's log of jobs it accepted (VB_ANOMALY.history's
+ * ranges). Every row is rule-legal: the person is outside the stop distance and the speed is a share of the limit
+ * that applies (the reduced speed inside the warning distance). Deterministic for a seed.
+ */
+function vbAnomalyHistory(cfg = VB_ANOMALY.history) {
+  const rnd = vbMulberry(cfg.seed);
+  const u = (r) => r[0] + rnd() * (r[1] - r[0]);
+  const [c0, c1] = cfg.cadenceS;
+  const rows = [];
+  for (const [taskType, r] of Object.entries(cfg.tasks)) {
+    for (let i = 0; i < cfg.perTask; i += 1) {
+      rows.push({ taskType, payloadKg: +u(r.payloadKg).toFixed(3), speedFrac: +u(r.speedFrac).toFixed(4), nearestPersonM: +u(cfg.nearestPersonM).toFixed(3), cadenceS: +Math.exp(Math.log(c0) + rnd() * (Math.log(c1) - Math.log(c0))).toFixed(3) });
+    }
+  }
+  return rows;
+}
+
+/** Fit the per-task, per-feature mean and standard deviation (log scale for `log` features). Plain JSON. */
+function vbAnomalyModel(history = vbAnomalyHistory(), cfg = VB_ANOMALY) {
+  const byTask = {};
+  for (const row of Array.isArray(history) ? history : []) { if (row && typeof row.taskType === "string") (byTask[row.taskType] = byTask[row.taskType] ?? []).push(row); }
+  const model = { threshold: cfg.threshold, features: cfg.features.map((f) => ({ ...f })), tasks: {}, n: 0 };
+  for (const [t, rows] of Object.entries(byTask)) {
+    model.tasks[t] = {};
+    model.n += rows.length;
+    for (const f of cfg.features) {
+      const xs = rows.map((r) => vbNum(r[f.id])).filter((x) => x !== undefined).map((x) => (f.log ? Math.log(Math.max(x, 0.001)) : x));
+      if (xs.length < 2) continue;
+      const mean = xs.reduce((a, b) => a + b, 0) / xs.length;
+      const sd = Math.max(cfg.minSd, Math.sqrt(xs.reduce((a, b) => a + (b - mean) ** 2, 0) / (xs.length - 1)));
+      model.tasks[t][f.id] = { mean: +mean.toFixed(6), sd: +sd.toFixed(6), n: xs.length };
+    }
+  }
+  return model;
+}
+
+/**
+ * Score one request's features against the model for its task. One-sided: only the risky direction counts
+ * (a heavier payload, a faster request, a closer person, a quicker repeat). Explainable: `top` names the feature
+ * furthest past the accepted mean, and `text` says it in a sentence. An unknown task or a missing feature is skipped.
+ */
+function vbAnomalyScore(model, taskType, feats = {}) {
+  const stats = model?.tasks?.[taskType];
+  const z = {};
+  let top = null;
+  if (stats) {
+    for (const f of model.features) {
+      const v = vbNum(feats[f.id]); const st = stats[f.id];
+      if (v === undefined || !st) continue;
+      const x = f.log ? Math.log(Math.max(v, 0.001)) : v;
+      const zz = (f.dir * (x - st.mean)) / st.sd;
+      z[f.id] = +zz.toFixed(2);
+      if (!top || zz > top.z) top = { id: f.id, label: f.label, value: v, mean: f.log ? Math.exp(st.mean) : st.mean, sd: st.sd, z: +zz.toFixed(2), dir: f.dir, log: f.log };
+    }
+  }
+  const anomalous = !!top && top.z > model.threshold;
+  const text = top ? `${top.label} ${vbFmt(top.value)} is ${vbFmt(Math.abs(top.z))} sd ${top.dir > 0 ? "above" : "below"} the accepted ${top.log ? "typical value" : "mean"} ${vbFmt(top.mean)} for ${taskType}${top.log ? " (log scale)" : ""}; the threshold is ${model.threshold} sd` : "no feature to compare";
+  return { anomalous, top, z, text };
+}
+
+let vbDefaultModelCache = null;
+function vbDefaultModel() { if (!vbDefaultModelCache) vbDefaultModelCache = vbAnomalyModel(); return vbDefaultModelCache; }
+
 /** Build a governor. Deterministic: `at(seq)` gives each line's time (a logical clock by default). */
-function vbGovernor({ ent3 = null, limits = VB_RIG_LIMITS, estops = [], at = null } = {}) {
+function vbGovernor({ ent3 = null, limits = VB_RIG_LIMITS, estops = [], at = null, now = null, rate = null, anomaly = null } = {}) {
   const held = new Set(estops);
   const chain = [];
+  const rateCfg = { ...VB_RATE_LIMIT, ...(rate && typeof rate === "object" ? rate : {}) };
+  if (!(rateCfg.perMinute >= 1)) rateCfg.perMinute = VB_RATE_LIMIT.perMinute;
+  if (!(rateCfg.windowMs >= 1)) rateCfg.windowMs = VB_RATE_LIMIT.windowMs;
+  const model = anomaly?.model ?? (anomaly?.history ? vbAnomalyModel(anomaly.history) : vbDefaultModel());
+  const perAgent = new Map();
+  let decisions = 0;
   const clock = typeof at === "function" ? at : (seq) => `T+${String(seq).padStart(5, "0")}`;
 
   function write(action, detail) {
@@ -166024,11 +166248,43 @@ function vbGovernor({ ent3 = null, limits = VB_RIG_LIMITS, estops = [], at = nul
       if (Number.isFinite(sep) && sep < lim.minSeparation) reasons.add("inside-separation");
     } else if (!VB_TASKS[c.taskType]) reasons.add("task-not-allowed");
     if (vbText(c.policyId)) { const st = policyStatus(c.policyId, c.siteId); if (st === "unregistered") reasons.add("unregistered-policy"); if (st === "stale") reasons.add("stale-policy"); }
+    // GOVERNOR-2: the per-agent sliding window. Every new request counts, refused ones included. A repeat check of a
+    // job id this agent already had admitted inside the window is a step of that job (a GAME session's function calls
+    // share one job id), so it is not counted again and has no cadence.
+    const atMs = vbNum(c.atMs);
+    const t = atMs !== undefined ? atMs : (typeof now === "function" ? Number(now()) : decisions * rateCfg.logicalTickMs);
+    decisions += 1;
+    const agent = vbText(c.clientId, 40); const jobKey = vbText(c.jobId, 80);
+    let rateInfo = null; let cadenceS;
+    if (agent) {
+      const past = perAgent.get(agent) ?? [];
+      const inWindow = past.filter((x) => x.t > t - rateCfg.windowMs && x.t <= t);
+      const step = !!jobKey && inWindow.some((x) => x.jobId === jobKey && x.admitted);
+      if (!step) {
+        if (past.length) cadenceS = Math.max(0, (t - past[past.length - 1].t) / 1000);
+        const counted = inWindow.length;
+        const entry = { t, jobId: jobKey, admitted: counted < rateCfg.perMinute };
+        if (!entry.admitted) { reasons.add("rate-limited"); rateInfo = { agent, count: counted, perMinute: rateCfg.perMinute, windowS: rateCfg.windowMs / 1000 }; }
+        inWindow.push(entry);
+      }
+      perAgent.set(agent, inWindow);
+    }
+    // GOVERNOR-2: the anomaly check, beside the rules (it only ever adds a reason).
+    let anomalyInfo = null;
+    if (lim && VB_TASKS[c.taskType]) {
+      const cap = Number.isFinite(sep) && sep < lim.warn ? lim.maxSpeed * RB_SSM.reducedSpeed : lim.maxSpeed;
+      anomalyInfo = vbAnomalyScore(model, c.taskType, { payloadKg: vbNum(c.payloadKg), speedFrac: Number.isFinite(speed) && cap > 0 ? speed / cap : undefined, nearestPersonM: Number.isFinite(sep) ? sep : undefined, cadenceS });
+      if (anomalyInfo.anomalous) reasons.add("anomalous");
+    }
     const ordered = VB_REASON_IDS.filter((r) => reasons.has(r));
     const ok = ordered.length === 0;
     const decision = ok ? "allow-sim" : "refuse";
-    const line = write(ok ? "vb-allow" : "vb-refuse", `${vbText(c.jobId, 40) || "?"} ${vbText(c.taskType, 40) || "?"} @ ${vbText(c.siteId, 60) || "?"} by ${vbText(c.clientId, 40) || "?"}: ${ok ? "allowed in the sim" : `refused (${ordered.join(", ")})`}`);
-    return { ok, decision, reasons: ordered, primary: ordered[0] ?? null, text: ok ? "Allowed to run on the simulated robot, under supervision." : VB_REASONS.find((r) => r.id === ordered[0]).text, line };
+    const why = [rateInfo ? `${rateInfo.count} requests in ${rateInfo.windowS} s, limit ${rateInfo.perMinute}/min` : "", anomalyInfo?.anomalous ? `${anomalyInfo.top.id} ${vbFmt(anomalyInfo.top.value)} at ${vbFmt(anomalyInfo.top.z)} sd` : ""].filter(Boolean).join("; ");
+    const line = write(ok ? "vb-allow" : "vb-refuse", `${vbText(c.jobId, 40) || "?"} ${vbText(c.taskType, 40) || "?"} @ ${vbText(c.siteId, 60) || "?"} by ${agent || "?"}: ${ok ? "allowed in the sim" : `refused (${ordered.join(", ")})${why ? ` [${why}]` : ""}`}`);
+    let text = ok ? "Allowed to run on the simulated robot, under supervision." : VB_REASONS.find((r) => r.id === ordered[0]).text;
+    if (ordered[0] === "rate-limited") text += ` (${rateInfo.agent}: ${rateInfo.count} requests in the last ${rateInfo.windowS} s; the limit is ${rateInfo.perMinute} per minute.)`;
+    if (ordered[0] === "anomalous") text += ` Why: ${anomalyInfo.text}.`;
+    return { ok, decision, reasons: ordered, primary: ordered[0] ?? null, text, line, explain: { rate: rateInfo, anomaly: anomalyInfo } };
   }
 
   /** One sample during a run: the e-stop wins, then separation, then speed. */
@@ -166055,6 +166311,8 @@ function vbGovernor({ ent3 = null, limits = VB_RIG_LIMITS, estops = [], at = nul
       return { ok: true, brokenAt: null, lines: chain.length };
     },
     physical: VB_PHYSICAL,
+    rateLimit: { perMinute: rateCfg.perMinute, windowMs: rateCfg.windowMs },
+    anomalyModel: model,
   };
 }
 
@@ -166119,7 +166377,9 @@ function vbMove(job, to, from, type, content) {
   return job;
 }
 
-/** A new job in REQUEST. `request` = { taskType, siteId, robotId, target, speed, nearestPersonM, policyId, note }. */
+/** A new job in REQUEST. `request` = { taskType, siteId, robotId, target, speed, nearestPersonM, policyId, note, payloadKg?, atMs? }
+ *  (GOVERNOR-2: `payloadKg` feeds the anomaly check and `atMs` the per-agent rate limit; both are kept only when given,
+ *  so jobs without them hash exactly as before). */
 function vbCreateJob({ seed = 1, client = { id: "client-mock-1", name: "Mock client agent" }, request = {} } = {}) {
   const site = RB_SITES.find((s) => s.id === request.siteId) ?? null;
   const req = {
@@ -166127,6 +166387,8 @@ function vbCreateJob({ seed = 1, client = { id: "client-mock-1", name: "Mock cli
     target: { kind: request.target?.kind ?? "sim", robotId: String(request.target?.robotId ?? (site ? `${site.id}:${site.rig}` : "")), ...(request.target?.approver ? { approver: String(request.target.approver) } : {}) },
     speed: Number(request.speed ?? 0), nearestPersonM: Number(request.nearestPersonM ?? 10),
     policyId: String(request.policyId ?? "vb-scripted-expert"), note: String(request.note ?? "").slice(0, 160),
+    ...(request.payloadKg != null && Number.isFinite(Number(request.payloadKg)) ? { payloadKg: Number(request.payloadKg) } : {}),
+    ...(request.atMs != null && Number.isFinite(Number(request.atMs)) ? { atMs: Number(request.atMs) } : {}),
   };
   const id = `vbjob-${vbHash({ seed, client: client.id, req })}`;
   const job = { schema: VB_SCHEMA, id, seed: seed >>> 0, tick: 0, phase: "REQUEST", phaseId: 0, client: { id: String(client.id), name: String(client.name ?? client.id) }, provider: { id: site ? `provider-${site.id}` : "provider-unknown", policyId: req.policyId }, evaluator: { id: "evaluator-scenario-scoring" }, request: req, governor: null, approval: null, deliverable: null, evaluation: null, memos: [] };
@@ -166136,13 +166398,15 @@ function vbCreateJob({ seed = 1, client = { id: "client-mock-1", name: "Mock cli
 
 /** The governor's command for a job. */
 function vbCommand(job) {
-  return { jobId: job.id, clientId: job.client.id, taskType: job.request.taskType, siteId: job.request.siteId, target: job.request.target, speed: job.request.speed, nearestPersonM: job.request.nearestPersonM, policyId: job.request.policyId };
+  const r = job.request;
+  return { jobId: job.id, clientId: job.client.id, taskType: r.taskType, siteId: r.siteId, target: r.target, speed: r.speed, nearestPersonM: r.nearestPersonM, policyId: r.policyId, ...(r.payloadKg !== undefined ? { payloadKg: r.payloadKg } : {}), ...(r.atMs !== undefined ? { atMs: r.atMs } : {}) };
 }
 
 /** NEGOTIATION: the provider checks the job with the governor and states its terms, or the job is REJECTED. */
 function vbNegotiate(job, governor) {
   const d = governor.check(vbCommand(job));
   job.governor = { decision: d.decision, reasons: d.reasons, primary: d.primary, auditSeq: d.line?.seq ?? null };
+  if (!d.ok && (d.primary === "rate-limited" || d.primary === "anomalous")) job.governor.why = d.text;
   if (!d.ok) return vbMove(job, "REJECTED", "provider", "NOTIFICATION", { refusedBy: "safety governor", reasons: d.reasons, text: d.text });
   return vbMove(job, "NEGOTIATION", "provider", "MESSAGE", { terms: ["runs on the simulated robot only", "a human supervisor approves before it starts", "the e-stop wins at any moment", "every decision is logged"], policyId: job.request.policyId });
 }
@@ -166418,6 +166682,8 @@ function vbProviderCompare({ jobsPerTask = 10, seed = 1, n = 40, skill = 0.85 } 
 // registry is handed in, its local audit log.
 //
 // SEAM: vbMountDispatch(el, { reducedMotion, ent3, stationHref, policyFor }) -> { next(), approve(), refuse(), estop(), state() }
+//   GOVERNOR-2: queue entry 9 is a burst (24 requests a second apart from one mock agent: the last 4 are refused as
+//   rate-limited) and entry 10 a rule-legal 25 kg pick-and-place (refused as anomalous, the card names the feature).
 //   `policyFor(policyId, env, seed)` is vb-colearn.js' provider hook (ROBOTRAIN-2): jobs that name `vb-colearn-bc-knn` run a
 //   COLEARN-trained behaviour-cloning policy as the provider; without the hook they run the scripted expert. The governor
 //   checks every step either way.
@@ -166439,13 +166705,24 @@ const VB_PANEL_QUEUE = Object.freeze([
   // ROBOTRAIN-2: the same cell job and a zone set-up, provided by the COLEARN-trained policy (vb-colearn.js) instead of the script.
   { seed: 107, client: { id: "client-mock-1" }, request: { taskType: "rb-cell-entry", siteId: "rb-site-soma-robot-cell", speed: 0.4, nearestPersonM: 8, policyId: "vb-colearn-bc-knn", note: "clear a jam in the cell (learned policy)" } },
   { seed: 108, client: { id: "client-mock-2" }, request: { taskType: "rb-cobot-zone-setup", siteId: "rb-site-san-jose-robotics-lab", speed: 0.2, nearestPersonM: 8, policyId: "vb-colearn-bc-knn", note: "set the zones (learned policy)" } },
+  // GOVERNOR-2: an agent that sends 24 requests in 24 seconds (the governor's limit is VB_RATE_LIMIT.perMinute a minute),
+  // and a request that passes every rule but carries a payload far beyond anything the site has accepted.
+  { seed: 109, burst: 24, client: { id: "client-mock-4" }, request: { taskType: "rb-amr-fleet-routing", siteId: "rb-site-west-oakland-warehouse", speed: 0.6, nearestPersonM: 9, policyId: "vb-scripted-expert", payloadKg: 12, note: "route totes (sent again and again)" } },
+  { seed: 110, client: { id: "client-mock-3" }, request: { taskType: "rb-teleop-pick-place", siteId: "rb-site-san-jose-robotics-lab", speed: 0.1, nearestPersonM: 8, policyId: "vb-scripted-expert", payloadKg: 25, note: "move a 25 kg casting" } },
 ]);
+
+/** GOVERNOR-2: scenario time between two queued jobs (a mock agent sends about one job every 45 s). */
+const VB_PANEL_ARRIVAL_MS = 45000;
 
 const VB_PANEL_CSS = ".vb-panel{font:13px/1.4 system-ui,sans-serif;padding:10px;border:1px solid #2c5a63;border-radius:10px;background:#0b1a1f;color:#dff6fa;margin:8px 0}.vb-panel h3{margin:0 0 6px;font-size:15px}.vb-panel .vb-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}.vb-panel button{background:#16343b;color:#dff6fa;border:1px solid #3d7480;border-radius:6px;padding:5px 9px;cursor:pointer}.vb-panel button[data-vb=estop]{background:#7a1717;border-color:#d2312b}.vb-panel .vb-note{opacity:.8;font-size:12px}.vb-panel .vb-card{white-space:pre-line;margin-top:6px}.vb-panel .vb-phase{font-weight:600;color:#5ec8d8}";
 
 function vbMountDispatch(el, { reducedMotion = false, ent3 = null, stationHref = null, policyFor = null, providerLabel = null } = {}) {
   if (!el || typeof document === "undefined") return null;
   const gov = vbGovernor({ ent3 });
+  // GOVERNOR-2: the queue is a scenario, so its jobs carry the scenario's arrival times (VB_PANEL_ARRIVAL_MS apart, a
+  // burst a second apart), not the moment a button was pressed: a fast click-through or a scripted drive must not look
+  // like an agent sending at machine speed to the rate limit and the anomaly check.
+  let simT = 0; let burstNote = "";
   const box = document.createElement("section");
   box.className = "vb-panel"; box.id = "vb-dispatch";
   const style = document.createElement("style"); style.textContent = VB_PANEL_CSS; box.appendChild(style);
@@ -166469,11 +166746,12 @@ function vbMountDispatch(el, { reducedMotion = false, ent3 = null, stationHref =
     if (!job) { phase.textContent = "No job yet"; card.textContent = ""; return; }
     phase.textContent = `Phase: ${job.phase}`;
     const r = job.request;
-    const lines = [`From: ${job.client.id} (mock client agent)`, `Task: ${VB_TASKS[r.taskType]?.label ?? r.taskType}`, `Site: ${siteName(r.siteId)}`, `Speed ${r.speed} m/s · nearest person ${r.nearestPersonM} m · policy ${r.policyId} · target ${r.target.kind}`];
+    const lines = [`From: ${job.client.id} (mock client agent)`, `Task: ${VB_TASKS[r.taskType]?.label ?? r.taskType}`, `Site: ${siteName(r.siteId)}`, `Speed ${r.speed} m/s · nearest person ${r.nearestPersonM} m · policy ${r.policyId} · target ${r.target.kind}${r.payloadKg !== undefined ? ` · payload ${r.payloadKg} kg` : ""}`];
     // ROBOTRAIN-3: `providerLabel(taskType)` (vb-colearn.js' describe) names the training data honestly — the learner's own consented takes, or the synthetic stand-in.
     let learned = null; if (policyFor && providerLabel) { try { learned = providerLabel(r.taskType); } catch (_) { learned = null; } }
     lines.push(`Provider: ${r.policyId === "vb-colearn-bc-knn" ? (policyFor ? learned ?? "COLEARN-trained behaviour-cloning policy (synthetic demonstrations, labelled as a stand-in)" : "COLEARN policy requested, no learned provider mounted: the scripted expert runs") : r.policyId === "vb-scripted-lapsing" ? "scripted expert that lapses" : "scripted expert"}`);
-    if (job.governor) lines.push(job.governor.decision === "refuse" ? `Governor: REFUSED — ${VB_REASONS.find((x) => x.id === job.governor.primary)?.text ?? job.governor.primary}` : "Governor: allowed in the sim. Your decision.");
+    if (burstNote) lines.push(burstNote);
+    if (job.governor) lines.push(job.governor.decision === "refuse" ? `Governor: REFUSED (${job.governor.primary}) — ${job.governor.why ?? VB_REASONS.find((x) => x.id === job.governor.primary)?.text ?? job.governor.primary}` : "Governor: allowed in the sim. Your decision.");
     if (job.phase === "TRANSACTION" && frames.length) lines.push(`Run: step ${fi + 1} of ${frames.length}${frames[fi]?.info?.violations?.length ? ` — deviation: ${frames[fi].info.violations[0]}` : ""}`);
     if (job.evaluation) lines.push(`Evaluation: ${job.evaluation.accepted ? "completed" : "rejected"} — ${job.evaluation.reason}`);
     const v = gov.verify(); lines.push(`Audit: ${v.lines} line(s), chain ${v.ok ? "intact" : "BROKEN"}`);
@@ -166484,7 +166762,14 @@ function vbMountDispatch(el, { reducedMotion = false, ent3 = null, stationHref =
     next() {
       clearInterval(timer); frames = [];
       qi = (qi + 1) % VB_PANEL_QUEUE.length;
-      job = vbCreateJob(VB_PANEL_QUEUE[qi]); vbNegotiate(job, gov); show(); return job;
+      const spec = VB_PANEL_QUEUE[qi]; burstNote = "";
+      if (spec.burst) {
+        // The burst arrives a second apart, ending now; the panel shows the last request and counts the rest.
+        const t0 = simT; let refused = 0; simT += spec.burst * 1000;
+        for (let i = 0; i < spec.burst; i += 1) { job = vbCreateJob({ ...spec, seed: spec.seed * 100 + i, request: { ...spec.request, atMs: t0 + i * 1000 } }); vbNegotiate(job, gov); if (job.governor.primary === "rate-limited") refused += 1; }
+        burstNote = `Burst: ${spec.burst} requests from ${spec.client.id} in ${spec.burst} s — ${spec.burst - refused} checked as usual, ${refused} refused as rate-limited. Showing the last one.`;
+      } else { simT += VB_PANEL_ARRIVAL_MS; job = vbCreateJob({ ...spec, request: { ...spec.request, atMs: simT } }); vbNegotiate(job, gov); }
+      show(); return job;
     },
     approve() {
       if (!job || job.phase !== "NEGOTIATION") return null;
