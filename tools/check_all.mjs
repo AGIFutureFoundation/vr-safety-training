@@ -155,6 +155,8 @@ const CHECKERS = [
   "check_hd4.mjs",
   // ENV-HD-6: kind cues on the four kinds' busiest buildings, where they stand, chunk budgets, board lamp posts, Ultra's atlas (docs/consoles/ENV-HD-6.md).
   "check_hd6.mjs",
+  // ACCESS: marked, lit, step-free entrances on every enterable building, the four cued kinds' rooms in budget with pads reachable, one input grammar (docs/consoles/ACCESS.md).
+  "check_acc.mjs",
   // ROBOTS-HD: the robots in high detail on the desktop high tier, the status light from the site's / governor's state, the rooms in budget (docs/consoles/ROBOTS-HD.md).
   "check_robots_hd.mjs",
   "check_la_rooms.mjs",
