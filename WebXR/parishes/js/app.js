@@ -71,7 +71,7 @@ import { cgMountRunner, cgWorldReport } from "../../shared/cg-runner.js";
 import { AT_BUCKET_HOUR, atWeather, atWeatherOf, atSkyKind, atDarken, atFog, atSoundMix } from "../../shared/at-atmos.js";
 import { atMountAtmos, atNearness } from "../../shared/at-world.js";
 import { atMountSound } from "../../shared/at-sound.js";
-import { drMountDrills, drSetRecorder } from "../../shared/dr-drills.js";
+import { drMountDrills, drSetRecorder, drLoad } from "../../shared/dr-drills.js";
 import { rbMountRobotics, rbGamesFor, rbRegisterMechanics } from "../../shared/rb-world.js";
 import { rhdMountRobots, rhdRegisterDressers, rhdRoomLights } from "../../shared/rhd-robots-hd.js";
 // ROBO-EXTERIORS: the robot sites' buildings from outside, their streetscape, night windows and establishing shots.
@@ -87,9 +87,14 @@ import { hd6Build, hd6UltraShells } from "../../shared/hd6-kinds.js";
 import { hd4RegisterDressers, hd4OpsHome, hd4OpsSite, hd4OpsDoor, hd4OpsScreens, HD4_OPS_STYLE } from "../../shared/hd4-rooms.js";
 import { uxMountTabs, uxOnboarding } from "../../shared/ux-menu.js";
 import { dxMountConsent } from "../../shared/dx-consent-ui.js";
-import { dxFlush, dxPendingCount, dxStore, dxReadSignals, dxEligibility } from "../../shared/dx-data.js";
+import { dxFlush, dxPendingCount, dxStore, dxReadSignals, dxEligibility, dxConsent } from "../../shared/dx-data.js";
 import { dxCaptureLesson, dxCaptureDrill, dxCaptureRollout } from "../../shared/dx-world.js";
-import { colMountCoLearn } from "../../shared/col-learn.js";
+import { colMountCoLearn, colTutor } from "../../shared/col-learn.js";
+// OMEGA-CLAW (docs/consoles/OMEGA-CLAW.md): the claw's read-only panel and the persistent robot world (mounted at the end of this file).
+import { raBuild } from "../../shared/ra-arena.js";
+import { OC_RECORD } from "../../shared/oc-claw-record.js";
+import { ocWorldLoop } from "../../shared/oc-world.js";
+import { ocMountClaw, ocMountWorld } from "../../shared/oc-panel.js";
 import { rtMountTeleop } from "../../shared/rt-teleop.js";
 import { ent3AuditAppend, ent3Policies, ent3Fleet } from "../../shared/ent3-governance.js";
 import { vbMountDispatch } from "../../shared/vb-panel.js";
@@ -1785,3 +1790,15 @@ function uxAnchorPrompt() {
   p.style.left = `${Math.round(x)}px`; p.style.top = `${Math.round(y)}px`; p.style.bottom = "auto"; p.style.transform = "translate(-50%, -100%)";
   p.dataset.uxAnchor = np.near.kind;
 }
+
+// OMEGA-CLAW (docs/consoles/OMEGA-CLAW.md): the Omega Claw panel (read-only: the declared protocol's one run on held-out seeds, its
+// promotions and refusals, the chain re-walked here) and "Robots at work", the persistent world: the six robot sites keep running
+// the hive's jobs with the promoted model per task, paused while the tab is hidden, nothing uploaded, the governor on every step.
+// The learner's own drill and tutor results reach the panel only through DATAWORKS' gate (opted-in adults; never K-12, demo or
+// signed out), and stay on this device. The world starts a few seconds after load so it never competes with the first frames.
+var ocHuman = (() => { try { const ok = !npParams.has("demo") && dxEligibility(dxReadSignals(), { stage: "collect" }).eligible === true && !!dxConsent(); return ok ? { eligible: true, drills: drLoad(), tutor: colTutor().state } : null; } catch (_) { return null; } })();
+window.__parishTest.claw = (() => { try { return ocMountClaw($("menu-drills"), { record: OC_RECORD, human: ocHuman }); } catch (_) { return null; } })();
+window.__parishTest.clawWorld = null;
+var ocWorldStart = () => { try { if (window.__parishTest.clawWorld) return window.__parishTest.clawWorld; const promoted = Object.fromEntries(["rb-cell-entry", "rb-cobot-zone-setup", "rb-teleop-pick-place", "rb-amr-fleet-routing"].map((sc) => [sc, OC_RECORD.promoted?.[sc] ?? OC_RECORD.protocol.incumbent])); const loop = ocWorldLoop({ seed: 1, promoted, policyFor: (m, sc, env, seed) => { const b = raBuild(m, sc); return b?.policyFor ? b.policyFor(seed) : null; } }); window.__parishTest.clawWorld = { loop, view: ocMountWorld($("menu-drills"), { loop }) }; return window.__parishTest.clawWorld; } catch (_) { return null; } };
+window.__parishTest.clawWorldStart = ocWorldStart;
+if (!npParams.has("noworld")) setTimeout(ocWorldStart, npParams.has("worldnow") ? 0 : 4000);

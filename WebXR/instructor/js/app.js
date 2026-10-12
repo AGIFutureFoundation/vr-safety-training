@@ -27,6 +27,8 @@ import { ent3MountGovernanceView } from "./governance.js";
 import { OH_AGENTS } from "../../shared/oh-hive-data.js"; // OMEGA-HIVE: the hive roster for the governance tab (AGENT-AVATARS draws the portraits)
 // HIVE-4: the Omega Hive tab (read-only, local: a replay of the hive's seeded day, its refusals and the evals JSON).
 import { h4MountHiveTab } from "./h4-hive.js";
+import { ocMountClaw } from "../../shared/oc-panel.js"; // OMEGA-CLAW: the Omega Claw tab
+import { OC_RECORD } from "../../shared/oc-claw-record.js";
 import { PP_PROGRAMMES } from "../../shared/passport-programmes.js";
 
 // The instructor console. It owns no simulation and no records: it listens to
@@ -579,7 +581,7 @@ fetch("../flows/index.json")
 // ---------------------------------------------------------------------- views
 
 function render() {
-  for (const [name, tab, panel] of [["live", "tab-live", "view-live"], ["roster", "tab-roster", "view-roster"], ["log", "tab-log", "view-log"], ["cohort", "tab-cohort", "view-cohort"], ["billing", "tab-billing", "view-billing"], ["dean", "tab-dean", "view-dean"], ["governance", "tab-governance", "view-governance"], ["hive", "tab-hive", "view-hive"]]) {
+  for (const [name, tab, panel] of [["live", "tab-live", "view-live"], ["roster", "tab-roster", "view-roster"], ["log", "tab-log", "view-log"], ["cohort", "tab-cohort", "view-cohort"], ["billing", "tab-billing", "view-billing"], ["dean", "tab-dean", "view-dean"], ["governance", "tab-governance", "view-governance"], ["hive", "tab-hive", "view-hive"], ["claw", "tab-claw", "view-claw"]]) {
     $(tab).setAttribute("aria-selected", String(view === name));
     $(panel).hidden = view !== name;
   }
@@ -599,6 +601,9 @@ $("tab-billing").addEventListener("click", () => setView("billing"));
 $("tab-dean").addEventListener("click", () => setView("dean"));
 $("tab-governance").addEventListener("click", () => setView("governance"));
 $("tab-hive").addEventListener("click", () => setView("hive"));
+// OMEGA-CLAW: the Omega Claw tab, mounted the first time it opens (read-only; the record, no learner data on the console).
+var ocTab = null;
+$("tab-claw").addEventListener("click", () => { if (!ocTab) { try { ocTab = ocMountClaw($("oc-root"), { record: OC_RECORD, human: null }); } catch (_) { ocTab = null; } } setView("claw"); });
 
 $("send").addEventListener("click", () => {
   const text = $("note").value.trim();

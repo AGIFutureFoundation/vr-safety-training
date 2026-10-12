@@ -155,6 +155,7 @@
     <button id="tab-dean" role="tab" aria-selected="false" aria-controls="view-dean">Versions &amp; modules</button>
     <button id="tab-governance" role="tab" aria-selected="false" aria-controls="view-governance">Data governance</button>
     <button id="tab-hive" role="tab" aria-selected="false" aria-controls="view-hive">Omega Hive</button>
+    <button id="tab-claw" role="tab" aria-selected="false" aria-controls="view-claw">Omega Claw</button>
   </div>
   <p class="fine" id="en-deployment" hidden></p>
 
@@ -325,6 +326,13 @@
       <p class="fine">The Omega Hive's seven software agents (<a href="../../docs/omega-hive.md">docs/omega-hive.md</a>): each agent's card with its portrait, traits and voice, its queue and last ten lines, the governor's refusals with their reasons, and the evals table. Read-only and local: the learner's own hive when they share it from the parishes page in this browser (&ldquo;Show on the console&rdquo;), otherwise a replay of the hive's seeded day on this device; nothing is approved, written, sent or spoken here. SmartCiti.X · Powered by AGI Corp.</p>
     </section>
     <div id="h4-root"></div>
+  </section>
+
+  <section id="view-claw" role="tabpanel" aria-labelledby="tab-claw" hidden>
+    <section class="panel">
+      <p class="fine">The Omega Claw's five software agents (<a href="../../docs/omega-claw.md">docs/omega-claw.md</a>): the comparisons they declared before running, the simulated robot runs on held-out seeds, the leaderboard per scenario, promotions, and every refusal with its reason; the audit chain is re-walked in this browser. Read-only and local: nothing runs, is approved, written or sent here, and no learner's results are shown on this console. SmartCiti.X · Powered by AGI Corp.</p>
+    </section>
+    <div id="oc-root"></div>
   </section>
 
   <p class="fine">Without a relay this console is same-origin and same-device: it uses a browser BroadcastChannel, which does not cross the network. A hall with a row of laptops, or headsets mirrored to one screen, is covered by that alone. To watch from another machine, run <code>node tools/relay_server.mjs</code> and open both the console and each learner's app with <code>?relay=ws://&lt;host&gt;:8787</code> — the same JSON envelope then also travels over the WebSocket (see <a href="../../docs/instructor-console.md">docs/instructor-console.md</a>). When a simulator is embedded in a learning platform, the same events are already sent to the host page, which is the third honest path. <a href="../portal/index.html">Back to the network portal</a>. Programme bundles for a cohort: <a href="../packs/index.html">Holodeck Packs</a> (SmartCiti.X · Powered by AGI Corp).</p>

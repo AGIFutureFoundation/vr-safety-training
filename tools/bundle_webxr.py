@@ -344,6 +344,10 @@ APPS = {
             SHARED / "oh-hive.js",
             SHARED / "h5-hive-live.js",  # HIVE-5: the tab's live view of the learner's own hive on this device (receive only)
             WEBXR / "instructor/js/h4-hive.js",
+            # OMEGA-CLAW: the Omega Claw tab (read-only: the claw, its measured record and the panel; no imports beyond oc-claw.js).
+            SHARED / "oc-claw.js",
+            SHARED / "oc-claw-record.js",
+            SHARED / "oc-panel.js",
             SHARED / "account.js",
             SHARED / "controls.js",
             WEBXR / "instructor/js/app.js",
@@ -1059,6 +1063,18 @@ APPS = {
             # scripted day (before oh-panel.js and hw-hive-world.js, which import it; it imports nothing).
             SHARED / "h3-hive-day.js",
             SHARED / "oh-panel.js",
+            # OMEGA-CLAW (docs/consoles/OMEGA-CLAW.md): ROBO-ARENA's arena (raBuild builds the promoted model the persistent world runs;
+            # it needs ROBOTRAIN-6/7/8's learners and the small model's module), then the claw, its world loop (after oh-hive.js),
+            # the measured record and the panels.
+            SHARED / "rt6-learn.js",
+            SHARED / "rt7-learn.js",
+            SHARED / "rt8-learn.js",
+            SHARED / "ra-lm.js",
+            SHARED / "ra-arena.js",
+            SHARED / "oc-claw.js",
+            SHARED / "oc-world.js",
+            SHARED / "oc-claw-record.js",
+            SHARED / "oc-panel.js",
             # AGENT-AVATARS (docs/consoles/AGENT-AVATARS.md): the agents' portraits (listed above, before the hive panel), then
             # their figures (after crew.js, av-sprites.js, rb-robotics-data.js and vb-shared-data.js).
             SHARED / "aa-agent-avatars.js",
