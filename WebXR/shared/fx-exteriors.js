@@ -233,10 +233,16 @@ export function fxScene(parish, siteId, shot = "wide") {
   const [nx, nz] = fxRot(l.yaw, 0, 1); // the building's front normal (toward the pad)
   const [tx, tz] = [nx * -1, nz * -1];
   if (shot === "wide") {
-    const cx = (l.x + l.pad[0]) / 2, cz = (l.z + l.pad[2]) / 2, back = 46 + l.d / 2 + l.gap;
-    const side = [-nz, nx];
-    const px = cx + nx * back + side[0] * 22, pz = cz + nz * back + side[1] * 22;
-    return { siteId, shot, parish: parish.id, kind: l.kind, position: [px, l.y + 16, pz], target: [cx + tx * 4, l.y + l.h * 0.4, cz + tz * 4], fov: 55 };
+    const cx = (l.x + l.pad[0]) / 2, cz = (l.z + l.pad[2]) / 2, side = [-nz, nx], target = [cx + tx * 4, l.y + l.h * 0.4, cz + tz * 4];
+    // the first camera spot (16 m up) that stands clear of massing and trees, with the near half of its sight line clear too
+    const clear = (x, z, m) => { const ob = fxObstacles(parish, x, z); return ![...ob.rects, ...ob.trees].some((r) => fxHit([x - m, z - m, x + m, z + m], r)); };
+    let pos = null;
+    cam: for (const extra of [46, 38, 56, 30]) for (const lat of [22, -22, 0, 34, -34]) {
+      const back = extra + l.d / 2 + l.gap, px = cx + nx * back + side[0] * lat, pz = cz + nz * back + side[1] * lat;
+      if (clear(px, pz, 6) && [0.2, 0.35, 0.5].every((t) => clear(px + (target[0] - px) * t, pz + (target[2] - pz) * t, 2))) { pos = [px, pz]; break cam; }
+    }
+    if (pos === null) { const back = 46 + l.d / 2 + l.gap; pos = [cx + nx * back + side[0] * 22, cz + nz * back + side[1] * 22]; }
+    return { siteId, shot, parish: parish.id, kind: l.kind, position: [pos[0], l.y + 16, pos[1]], target, fov: 55 };
   }
   const [ox, oz] = l.door.out, px = ox + nx * 9 + nz * 2.5, pz = oz + nz * 9 - nx * 2.5;
   return { siteId, shot, parish: parish.id, kind: l.kind, position: [px, Math.max(l.y, npHeightAt(parish, px, pz)) + 1.7, pz], target: [l.door.x, l.y + 2.2, l.door.z], fov: 60 };
