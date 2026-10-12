@@ -79,9 +79,10 @@ export function hd3Scene(parish, siteId, shot = "wide") {
   const out = (pos, ty, fov) => ({ siteId, shot, parish: parish.id, kind: spec.kind, label: spec.label, position: pos, target: [tx, ty, tz], fov });
   const bearings = [0.45, -0.45, 0.8, -0.8, 0, 1.2, -1.2, Math.PI - 0.6, Math.PI + 0.6];
   if (shot === "wide") {
-    for (const dist of [72, 62, 86]) for (const da of bearings) {
+    // the first spot with no building within ~18 m (nothing looms in the frame's near corners), else within ~12 m, else 7 m
+    for (const m of [16, 10, 5]) for (const dist of [72, 62, 86]) for (const da of bearings) {
       const a = a0 + da, px = tx + Math.sin(a) * dist, pz = tz + Math.cos(a) * dist;
-      if (!hd3Clear(parish, px, pz, 5, i)) continue;
+      if (!hd3Clear(parish, px, pz, m, i)) continue;
       return out([px, Math.max(y, npHeightAt(parish, px, pz)) + 26, pz], y + 3, 55);
     }
     return out([tx + Math.sin(a0 + 0.45) * 72, y + 30, tz + Math.cos(a0 + 0.45) * 72], y + 3, 55);

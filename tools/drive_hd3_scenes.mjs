@@ -6,7 +6,7 @@
  * off-host requests. Files are named <map>-<kind>-<shot>-<day|night>.png. Rebuild the bundle first:
  * python3 tools/bundle_webxr.py parishes
  *
- *     node tools/drive_hd3_scenes.mjs [port=9112] [tier=high] [outDir]
+ *     node tools/drive_hd3_scenes.mjs [port=9112] [tier=high] [outDir] [shots=wide,street]
  *
  * Exits 1 when a capture fails, a page error is thrown or a request leaves the host.
  */
@@ -19,6 +19,7 @@ const { pvServe, pvLaunch, pvContext, pvLoad } = await imp("tools/lib/pv_browser
 const { HD3_SCENE_SITES, HD3_SHOTS } = await imp("WebXR/shared/hd3-scenes.js");
 
 const port = Number(process.argv[2]) || 9112, tier = process.argv[3] || "high", outDir = process.argv[4] || null;
+const only = (process.argv[5] || HD3_SHOTS.join(",")).split(","); // optional: re-shoot some shots only (e.g. "wide")
 if (outDir) mkdirSync(outDir, { recursive: true });
 const { base, close } = await pvServe(port);
 const browser = await pvLaunch();
@@ -37,7 +38,7 @@ for (const site of HD3_SCENE_SITES) {
   const presets = await page.evaluate(() => window.__parishTest.scenePresets?.().length ?? 0);
   for (const [label, idx] of [["day", 1], ["night", 3]]) {
     await page.evaluate((i) => window.__parishTest.setTime(i), idx);
-    for (const shot of HD3_SHOTS) {
+    for (const shot of HD3_SHOTS.filter((x) => only.includes(x))) {
       const sc = await page.evaluate(([id, s]) => window.__parishTest.scene(id, s), [site.id, shot]);
       await frames(40);
       const c = await page.evaluate((want) => {
