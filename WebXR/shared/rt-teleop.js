@@ -33,6 +33,7 @@ import { rbEnv, rbPolicy, rbRollout, rbScenario } from "./rb-env.js";
 import { RB_CELL_CONTROLS } from "./rb-robotics-data.js";
 import { dxMakeEpisode, dxRecorder, dxCollecting, dxStore } from "./dx-data.js";
 import { colDemosFromEpisodes, colSyntheticDemos, colTrain, colPolicy, colEvalPolicy, colRandomPolicy, colHeldOut, colGhost } from "./col-learn.js";
+import { agRate } from "./ag-feedback.js";
 
 export const RT_VERSION = "rt/1";
 export const RT_SCENARIO = "rb-teleop-pick-place";
@@ -368,6 +369,20 @@ export function rtHudLine(sc, obs, { recording = false, source = "pointer", feed
 /** The pad's default pose per task (the hand at rest in that task's frame). */
 export const RT_REST_POSE = Object.freeze({ "rb-teleop-pick-place": [0, 0.3, -0.35], "rb-cell-entry": [0, 0.9, -8] });
 
+/** ROBOTRAIN-7: one cloned robot run to show and rate: the k-NN policy rolled out once on `seed` on the model's task. The steps
+ * keep the action type and whether a rule broke (what agRate's rating episode and rt6TrajFeatures read); the summary's
+ * `station` is the task id, so ratings of the same task pair up in agPreferencePairs. */
+export function rt7RobotRun(model, seed) {
+  const sc = model.scenario, env = rbEnv(sc, { seed });
+  const { steps, summary } = rbRollout(env, { seed, policy: colPolicy(model) });
+  const broke = (s) => (s.info?.violations ?? []).length > 0;
+  return {
+    kind: "robot-game", scenario: sc,
+    summary: { station: sc, seed, passed: !!summary.passed, stationScore: Math.round((summary.score ?? 0) * 100) / 100, errors: summary.violationCount ?? 0, hazardHits: summary.violationCount ?? 0, steps: summary.steps },
+    steps: steps.map((s) => ({ t: s.info?.t ?? 0, observation: {}, action: { type: s.action?.type ?? "wait" }, info: { unsafe: broke(s), hazard: broke(s) }, done: !!s.done })),
+  };
+}
+
 /**
  * A minimal in-page driver: the mouse or a finger (pointer events; touch-action none) over `el` is the hand in the task's frame;
  * pointerdown closes the trigger, the wheel (or a second finger) sets the squeeze, a double-click is the e-stop. In WebXR,
@@ -395,13 +410,18 @@ export function rtMountTeleop(el, { seed = 7001, store = dxStore, signals = null
   for (const id of RT_TASK_IDS) { const o = doc.createElement("option"); o.value = id; o.textContent = RT_TASKS[id].label ?? id; sel.append(o); }
   const bGhost = doc.createElement("button"); bGhost.type = "button"; bGhost.className = "rt-ghost"; bGhost.textContent = "Robot demonstrates back"; bGhost.disabled = true;
   bGhost.title = "After a take: the trained policy replays its own run on this rig, one step at a time, with its explanation.";
-  row.append(sel, bGhost);
+  // ROBOTRAIN-7: rate two of the trained policy's runs (thumbs up or down) through AGENTGYM's agRate: kept on this device only
+  // while collecting (adult, signed in, opted in; never K-12, demo or signed-out); revoke on the Me tab deletes the ratings.
+  const bRate = doc.createElement("button"); bRate.type = "button"; bRate.className = "rt-rate-open"; bRate.textContent = "Rate two robot runs";
+  bRate.title = "The trained policy runs this task twice. A thumbs up or down on each is kept on this device only if you opted in (adults only).";
+  row.append(sel, bGhost, bRate);
+  const rateBox = doc.createElement("div"); rateBox.className = "rt-rate"; rateBox.setAttribute("aria-live", "polite");
   const pad = doc.createElement("div"); pad.className = "rt-pad"; pad.setAttribute("role", "application"); pad.setAttribute("aria-label", "Teleoperation pad: move the pointer to drive the gripper, hold to grip, wheel to set the grip force, double-click for e-stop");
   pad.style.cssText = "position:relative;height:160px;border:1px solid var(--at-border, #555);border-radius:8px;touch-action:none;";
-  el.append(status, row, pad);
+  el.append(status, row, pad, rateBox);
   let sc = RT_TASKS[task] ? task : RT_SCENARIO;
   let env = null, rec = null, pose = { p: RT_REST_POSE[sc].slice(), trigger: 0, squeeze: 0.5, estop: false }, timer = null, source = "pointer", xrLast = 0, touches = 0;
-  let ghost = { frames: [], i: -1, timer: null, model: null }, lastTake = null;
+  let ghost = { frames: [], i: -1, timer: null, model: null }, lastTake = null, rated = { runs: [], model: null, results: [] };
   const isCell = () => sc === "rb-cell-entry";
   const setTask = (id) => {
     if (!RT_TASKS[id]) return sc;
@@ -477,6 +497,45 @@ export function rtMountTeleop(el, { seed = 7001, store = dxStore, signals = null
     /** Step the ghost by hand (reduced motion, or a headless drive): the next frame, or null when it has ended. */
     ghost() { if (!ghost.frames.length) return null; if (ghost.i < ghost.frames.length - 1) { ghost.i += 1; ghostShow(); return ghost.frames[ghost.i]; } ghostStop(); return null; },
     lastTake() { return lastTake; },
+    /** ROBOTRAIN-7: show two of the policy's runs on this task (seeds s and s + 1) with a thumbs up and down on each. The buttons
+     * are enabled only while collecting. Returns { collecting, runs: [{ seed, passed, steps, rulesBroken }] }. */
+    rateRuns(s = seed) {
+      api.stop(); ghostStop();
+      let model = null;
+      if (modelFor) { try { model = modelFor(sc) ?? null; } catch (_) { model = null; } }
+      if (!model) { model = colTrain(sc, colDemosFromEpisodes(colSyntheticDemos(sc, { n: 30, seed: 1 }), sc).demos, { seed: 1 }); model.provenance = { own: false, source: "synthetic human stand-in (colSyntheticDemos)", n: 30, kept: model.demos }; }
+      const on = dxCollecting(signals);
+      rated = { runs: [rt7RobotRun(model, s), rt7RobotRun(model, s + 1)], model, results: [null, null] };
+      rateBox.innerHTML = "";
+      const note = doc.createElement("p"); note.className = "at-muted rt-rate-note";
+      note.textContent = on ? "Rate each run: your ratings stay on this device, and revoke on the Me tab deletes them." : "Rating is off: opt in on the Me tab first (adults only; never K-12, demo or signed-out). Nothing is kept.";
+      rateBox.append(note);
+      rated.runs.forEach((run, k) => {
+        const card = doc.createElement("div"); card.className = "rt-rate-card"; card.dataset.run = String(k);
+        card.style.cssText = "display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:4px 0;";
+        const label = doc.createElement("span"); label.className = "rt-rate-label";
+        label.textContent = `Run ${k ? "B" : "A"} (simulated): ${run.summary.passed ? "finished" : "did not finish"} in ${run.summary.steps} steps, ${run.summary.hazardHits} rule${run.summary.hazardHits === 1 ? "" : "s"} broken`;
+        const mk = (rating, text) => { const b = doc.createElement("button"); b.type = "button"; b.className = `rt-rate-${rating}`; b.textContent = text; b.disabled = !on; b.style.cssText = "min-height:44px;"; b.setAttribute("aria-label", `${text} for run ${k ? "B" : "A"}`); b.addEventListener("click", () => { api.rate(k, rating); }); return b; };
+        card.append(label, mk("up", "Thumbs up"), mk("down", "Thumbs down"));
+        rateBox.append(card);
+      });
+      status.textContent = `Two runs of the trained policy (${model.provenance?.own ? "your takes" : "synthetic demonstrations"}) on this task, ready to rate.`;
+      return { collecting: on, runs: rated.runs.map((r) => ({ seed: r.summary.seed, passed: r.summary.passed, steps: r.summary.steps, rulesBroken: r.summary.hazardHits })) };
+    },
+    /** Rate run k ("up" or "down") through agRate. Resolves { ok, episodeId } or { ok: false, reason }; inert unless collecting. */
+    async rate(k, rating) {
+      const run = rated.runs[k];
+      if (!run) return { ok: false, reason: "no run to rate: press Rate two robot runs first" };
+      const reason = rating === "up" ? (run.summary.hazardHits ? "efficient" : "safe-order") : (run.summary.hazardHits ? "unsafe-touch" : "slow");
+      const res = await agRate({ run, agent: `robot-clone:${rated.model?.provenance?.own ? "your-takes" : "synthetic"}`, rating, reason, signals, runId: `robot-clone:${run.summary.station}:${run.summary.seed}` }, { store });
+      rated.results[k] = res;
+      const card = rateBox.querySelector(`[data-run="${k}"] .rt-rate-label`);
+      if (card) card.dataset.rated = res.ok ? rating : "refused";
+      status.textContent = res.ok ? `Run ${k ? "B" : "A"} rated thumbs ${rating}: kept on this device (revoke on the Me tab deletes it).` : `Not kept: ${res.reason}`;
+      return res;
+    },
+    /** The robot-run ratings this device holds (local DX episodes; empty unless an opted-in adult rated, and after revoke). */
+    async ratings() { try { return (await store.list()).filter((e) => e.kind === "gym" && /^agent-rating:rb-/.test(String(e.scenario))); } catch (_) { return []; } },
   };
   const fromPad = (e) => {
     if (source === "xr" && Date.now() - xrLast < 1500) return;

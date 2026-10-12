@@ -136,7 +136,9 @@ export async function rt6LocalPairs({ store = dxStore, signals = null } = {}) {
   const out = [];
   for (const p of agPreferencePairs(eps)) {
     const c = byId.get(p.chosen.episodeId), r = byId.get(p.rejected.episodeId);
-    if (c && r) out.push({ ...p, source: "human", x: { chosen: rt6TrajFeatures(c), rejected: rt6TrajFeatures(r) } });
+    // ROBOTRAIN-7: a rated robot run (the teleop pad's "Rate two robot runs") is read against its task's step cap.
+    const cap = rbScenario(String(p.station ?? ""))?.maxSteps ?? null;
+    if (c && r) out.push({ ...p, source: "human", x: { chosen: rt6TrajFeatures(c, { maxSteps: cap }), rejected: rt6TrajFeatures(r, { maxSteps: cap }) } });
   }
   return out;
 }

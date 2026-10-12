@@ -190,6 +190,29 @@ const after6 = await R6.rt6LocalPairs({ store: lstore, signals: ADULT6 });
 check(before6.length === 0 && up6.ok && down6.ok && local6.length === 1 && local6[0].source === "human" && k12six.length === 0 && mixed6.sources.join() === "human,synthetic" && after6.length === 0 && (await lstore.list()).length === 0,
   `a learner's consented pairs join the fit only while collecting: before opt-in ${before6.length}, opted in ${local6.length} (source human), K-12 ${k12six.length}, after revoke ${after6.length} and the store empty`);
 
+// ROBOTRAIN-7: ratings of two cloned robot runs (the teleop pad's "Rate two robot runs", rt7RobotRun) through agRate; rt6LocalPairs
+// returns them only while collecting; K-12, demo and signed-out sessions store and return nothing; revoke empties them.
+const RTT = await import("../WebXR/shared/rt-teleop.js");
+const rstore = dx.dxMakeStore(dx.dxMemBackend());
+await dx.dxRevoke({ store: rstore });
+const rsc = "rb-teleop-pick-place", rmod = C.colTrain(rsc, C.colDemosFromEpisodes(C.colSyntheticDemos(rsc, { n: 10, seed: 1 }), rsc).demos, { seed: 1 });
+const runA7 = RTT.rt7RobotRun(rmod, 7001), runB7 = RTT.rt7RobotRun(rmod, 7002);
+const rate7 = async (signals) => { const r = [await fb.agRate({ run: runA7, agent: "robot-clone:synthetic", rating: "up", reason: "safe-order", signals }, { store: rstore }), await fb.agRate({ run: runB7, agent: "robot-clone:synthetic", rating: "down", reason: "slow", signals }, { store: rstore })]; return r.filter((x) => x.ok).length; };
+const K12_7 = { ...ADULT6, k12: true }, DEMO7 = { ...ADULT6, demo: true }, OUT7 = { ...ADULT6, signedIn: false };
+const notOpted7 = await rate7(ADULT6);
+dx.dxOptIn({ licence: "CC0-1.0", adult: true, signals: { demo: false, signedIn: true, k12: false } });
+const refused7 = { k12: await rate7(K12_7), demo: await rate7(DEMO7), signedOut: await rate7(OUT7), stored: (await rstore.list()).length };
+const kept7 = await rate7(ADULT6);
+const pairs7 = await R6.rt6LocalPairs({ store: rstore, signals: ADULT6 });
+const none7 = { k12: (await R6.rt6LocalPairs({ store: rstore, signals: K12_7 })).length, demo: (await R6.rt6LocalPairs({ store: rstore, signals: DEMO7 })).length, signedOut: (await R6.rt6LocalPairs({ store: rstore, signals: OUT7 })).length };
+await dx.dxRevoke({ store: rstore });
+const revoked7 = { pairs: (await R6.rt6LocalPairs({ store: rstore, signals: ADULT6 })).length, stored: (await rstore.list()).length };
+check(notOpted7 === 0 && refused7.k12 + refused7.demo + refused7.signedOut + refused7.stored === 0 && kept7 === 2 && pairs7.length === 1 && pairs7[0].source === "human" && pairs7[0].station === rsc && pairs7[0].x.chosen.length === R6.RT6_TRAJ_FEATURES.length && none7.k12 + none7.demo + none7.signedOut === 0 && revoked7.pairs + revoked7.stored === 0,
+  `robot-run ratings (two cloned runs of ${rsc}, thumbs up and down through agRate): kept before opt-in ${notOpted7}; opted in but K-12 ${refused7.k12}, demo ${refused7.demo}, signed-out ${refused7.signedOut}; an opted-in adult ${kept7} → rt6LocalPairs ${pairs7.length} pair (source human); K-12, demo and signed-out read ${none7.k12 + none7.demo + none7.signedOut}; after revoke ${revoked7.pairs} pairs, store ${revoked7.stored}`);
+const rtsrc = readFileSync(join(SHARED, "rt-teleop.js"), "utf8"), bundle7 = readFileSync(join(ROOT, "tools/bundle_webxr.py"), "utf8");
+check(/const on = dxCollecting\(signals\);/.test(rtsrc) && /b\.disabled = !on;/.test(rtsrc) && /await agRate\(\{ run, agent: `robot-clone:/.test(rtsrc) && bundle7.indexOf('SHARED / "ag-feedback.js"') > bundle7.indexOf('SHARED / "dx-data.js",\n            SHARED / "dx-consent-ui.js",\n            SHARED / "dx-world.js"') && bundle7.indexOf('SHARED / "ag-feedback.js"') < bundle7.indexOf('SHARED / "rt-teleop.js"'),
+  "the teleop pad's \"Rate two robot runs\": its thumbs are enabled only while collecting and store only through agRate; ag-feedback.js is bundled after dx-data.js and before rt-teleop.js");
+
 // 12 DAgger-style corrections on the hardest gap (ROBOTRAIN-6)
 console.log("12 DAgger-style corrections on rb-amr-fleet-routing#hard (ROBOTRAIN-6; the labels are the scripted expert's, not a person's)");
 const D6 = EV.dagger, V6 = EV.variants.find((v) => v.id === D6.scenario);

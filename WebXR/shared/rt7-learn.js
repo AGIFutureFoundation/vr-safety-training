@@ -12,20 +12,18 @@
 //   * A NON-PRIVILEGED REACTIVE AGENT for the gym scenarios: fixed rules over a declared list of observation fields
 //     (RT7_REACTIVE_FIELDS, the safety fields plus the task's own position and goal); the observation is cut down to those
 //     fields before any rule reads it. No search, no planner, no learning. It sits between random and the scripted expert.
-//   * ROBOT-RUN RATINGS: a learner's thumbs up or down on a cloned robot run goes through AGENTGYM's agRate (adult opt-in
-//     only; never K-12, demo or signed-out; local only; revoke deletes), keeping the run's robot steps so the reward
-//     model's trajectory features can read them (rt6LocalPairs).
+//   * ROBOT-RUN RATINGS live on the teleop pad (shared/rt-teleop.js rt7RobotRun and the pad's "Rate two robot runs"):
+//     a learner's thumbs up or down on two cloned robot runs goes through AGENTGYM's agRate (adult opt-in only; never K-12,
+//     demo or signed-out; local only; revoke deletes), and rt6LocalPairs turns them into pairs while collecting.
 //
 // SEAMS
 //   RT7_WINDOW, RT7_WINDOW_FEATURES, rt7WindowFeatures(episode, t, W) -> number[3]
 //   rt7WindowPairs(scenarioId, { n, seed }) -> { pairs, episodes }   (synthetic; agPreferencePairs' shape plus x and ceil)
 //   rt7EvalStepReward(scenarioId, opts) -> { pairs, model, accuracy, threshold, ...clone success on held-out seeds, sweep }
 //   RT7_REACTIVE_FIELDS, rt7ReactivePolicy(scenarioId) -> (observation) -> action
-//   rt7RobotRun(model, seed) -> a run for agRate (the cloned policy rolled out once; robot steps kept)
 // Every top-level name is prefixed rt7/RT7_ (the bundler shares one scope). No network code, no upload, no model call.
 
 import { rng } from "./robot.js";
-import { rbEnv, rbRollout, rbScenario } from "./rb-env.js";
 import { colSyntheticDemos, colDemosFromEpisodes, colTrain, colPolicy, colEvalPolicy, colHeldOut, colHash, colBase } from "./col-learn.js";
 import { rt6SyntheticPairs, rt6FitReward, rt6PairAccuracy, rt6RaterCeiling } from "./rt6-learn.js";
 
@@ -216,18 +214,4 @@ export function rt7ReactivePolicy(sc0) {
     };
   }
   return null;
-}
-
-// ================================================================ robot-run ratings (through AGENTGYM's agRate)
-
-/** One cloned robot run to show and rate: the k-NN policy rolled out on `seed`, with its steps kept in the shape
- * rt6TrajFeatures reads. The run's summary carries `station` = the scenario id, so ratings of the same task pair up. */
-export function rt7RobotRun(model, seed) {
-  const sc = model.scenario, env = rbEnv(sc, { seed });
-  const { steps, summary } = rbRollout(env, { seed, policy: colPolicy(model) });
-  return {
-    kind: "robot-game", scenario: sc,
-    summary: { station: sc, seed, passed: summary.passed, stationScore: Math.round((summary.score ?? 0) * 100) / 100, errors: summary.violationCount, hazardHits: summary.violationCount, steps: summary.steps, maxSteps: rbScenario(sc)?.maxSteps ?? null },
-    steps: steps.map((s) => ({ t: s.info?.t ?? 0, observation: s.observation, action: s.action, info: { unsafe: (s.info?.violations ?? []).length > 0 }, done: !!s.done })),
-  };
 }
