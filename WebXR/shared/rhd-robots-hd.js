@@ -23,7 +23,7 @@
 //   RHD_KINDS, RHD_BUDGET, RHD_LIGHT                     plain data
 //   rhdAllowed(tier, ua?)                                -> true only on the desktop high tier (not a Quest / PICO browser)
 //   rhdLightState(src)                                   -> "running" | "protective-stop" | "e-stop" | null (dark)
-//   rhdBuildRobot(THREE, kind, { zone })                 -> { kind, group, links, light, zone, meshes, triangles, calls,
+//   rhdBuildRobot(THREE, kind, { zone, detail })         -> { kind, group, links, light, zone, meshes, triangles, calls,
 //                                                             setLight(state), setZone(mode), pose(phase), roll(dist) }
 //   rhdWorst(a, b)                                       -> the more severe of two light states (e-stop > protective stop > running)
 //   rhdJobRun(vb)                                        -> { read() } the agent-jobs panel's live run: the site and each step's
@@ -48,6 +48,7 @@ export const RHD_BUDGET = {
   "cell-arm": { triangles: 2400, calls: 6 },
   drill: { triangles: 2400, calls: 5 }, // ROBOTS-HD-2: the drilling deck's robot (base, mast, light + the zone discs)
   "amr-room": { triangles: 600, calls: 3 }, // ROBOTS-HD-3: the AMR's room level (rooms only; the robot without its zone discs)
+  straddle: { triangles: 900, calls: 3 }, // ROBOTS-HD-3: the port control room's straddle carrier in the window (rooms only)
 };
 
 /** The status light's colours. Three states, each the page's own. */
@@ -324,6 +325,34 @@ function rhdGantry(THREE, root, ground) {
   return { links, light };
 }
 
+// The straddle carrier (the port control room's window, ROBOTS-HD-3): two side frames on four wheels each, legs braced to a top
+// beam, two cross beams, a cab high on one corner, a machinery house on top, a spreader on four ropes with a container under
+// it, and two amber-capable beacons with a light bar along the top beam. Built at full size in metres (local origin on the
+// ground at its centre, length along x, the two sides at ±z); the room shows it scaled down and flattened into the window
+// band. Generic by kind, no words, no maker.
+function rhdStraddle(THREE, root) {
+  const C = RHD_C, k = rhdKit(THREE);
+  for (const z of [-2.6, 2.6]) {
+    for (const x of [-3.9, -2.4, 2.4, 3.9]) k.cyl(0.75, 0.75, 0.5, 12, x, 0.75, z, C.rubber, Math.PI / 2, 0, 0);
+    k.box(9.4, 0.7, 0.7, 0, 1.6, z, C.yellow); // sill beam over the wheels
+    for (const x of [-3.9, 3.9]) k.box(0.7, 12.4, 0.7, x, 8.1, z, C.yellow); // legs
+    k.tube([-3.6, 2.2, z], [-1.2, 13.6, z], 0.18, 6, C.yellow); k.tube([3.6, 2.2, z], [1.2, 13.6, z], 0.18, 6, C.yellow); // braces
+    k.box(9.8, 1.1, 0.9, 0, 14.4, z, C.yellow); // top beam
+  }
+  for (const x of [-3.9, 3.9]) k.box(0.9, 0.9, 6.1, x, 14.4, 0, C.yellow); // cross beams
+  k.box(2.4, 2.3, 2.1, 4.3, 12.4, 3.4, C.white); k.box(2.42, 0.8, 2.12, 4.3, 12.9, 3.4, 0x0e1114); // cab, its window band
+  k.box(3.0, 1.8, 2.2, -2.6, 15.85, 0, C.grey); // machinery house on top
+  for (const [x, z] of [[-2.9, -1.0], [2.9, -1.0], [-2.9, 1.0], [2.9, 1.0]]) k.box(0.08, 4.6, 0.08, x, 11.6, z, C.dark); // ropes
+  k.box(6.4, 0.45, 2.5, 0, 9.1, 0, C.dark); // spreader
+  k.box(6.1, 2.6, 2.44, 0, 7.5, 0, C.blue); // the container it carries
+  rhdMesh(THREE, k, "rhd-straddle-body", root);
+  const lm = new THREE.MeshBasicMaterial({ color: RHD_LIGHT.off, vertexColors: true }); lm.name = "rhd-status-light";
+  for (const x of [-4.6, 4.6]) k.box(0.9, 0.9, 0.9, x, 15.4, 2.6, 0xffffff); // beacons on the top beam's ends
+  k.box(8.2, 0.45, 0.12, 0, 14.4, 3.1, 0xffffff); // light bar along the top beam's outer face
+  const light = rhdMesh(THREE, k, "rhd-status-light", root, lm);
+  return { links: {}, light };
+}
+
 // The ceiling-drilling robot (the drilling deck, ROBOTS-HD-2): a tracked base with outrigger jacks, a yellow upper body with
 // an e-stop, a mast with a feed carriage and a cable chain, a drill head with a bit inside a dust shroud and its hose, and a
 // swappable battery pack. Generic by kind; local origin at the centre of the base on the floor, the mast towards -z.
@@ -409,6 +438,7 @@ export function rhdBuildRobot(THREE, kind, { zone = false, ground = null, scale 
   else if (kind === "amr") r = rhdAmr(THREE, group, detail === "room");
   else if (kind === "gantry") r = rhdGantry(THREE, group, ground ?? group);
   else if (kind === "drill") r = rhdDrill(THREE, group);
+  else if (kind === "straddle") r = rhdStraddle(THREE, group);
   else throw new Error(`rhd: unknown robot kind "${kind}"`);
   let guard = null;
   if (kind === "cell") guard = rhdGuarding(THREE, ground ?? group);
@@ -503,12 +533,17 @@ export function rhdMountRobots({ THREE = null, robotics = null, tier = "balanced
 // -------------------------------------------------------------------------------------------------------- the rooms
 
 /** Which ROBO-INTERIORS parts each room's HD robots replace (tag + a test on the part's centre), and where the robots stand
- *  (room-local metres, yaw about +y). The port control room has no robot body (it watches the yard through its window) and
- *  keeps today's parts; the drilling deck's tracked robot is the "drill" kind (ROBOTS-HD-2), rooms only. */
+ *  (room-local metres, yaw about +y). The drilling deck's tracked robot is the "drill" kind (ROBOTS-HD-2), rooms only.
+ *  ROBOTS-HD-3: the port control room watches the yard through its window, so its robot is a straddle carrier OUT THERE: the
+ *  window is a picture plane on the shell's north wall (ixr's "window wall", z = -5.99) with the mullions 0.12 m deep in front
+ *  of it, so the carrier stands in one pane as a relief — 1:16 scale, turned three-quarters on, flattened to 7 cm between the
+ *  picture and the mullions (`relief: { scale, depth }`), its wheels on the yard's pavement band. It replaces no part, has no
+ *  floor zone (the zone would be on the yard, not the room floor) and shows the port site's state on its beacons. */
 export const RHD_ROOM_ROBOTS = {
   "ixr-cell-hall": { strip: [["cell robot", () => true]], robots: [{ kind: "cell-arm", x: 0, y: 0, z: -4, yaw: 0, light: "site" }] },
   "ixr-cobot-lab": { strip: [["cobot arm", () => true], ["second cobot cell", (y) => y > 0.95]], robots: [{ kind: "cobot", x: -0.4, y: 0.9, z: -2.2, yaw: 0, light: "site", scale: 0.85, pedestal: false }, { kind: "cobot", x: -5.12, y: 0.9, z: -4.2, yaw: 0, light: "site", scale: 0.7, pedestal: false }] },
   "ixr-amr-warehouse": { strip: [["AMR", () => true], ["docked AMR", () => true]], robots: [{ kind: "amr", x: -3.5, y: 0, z: -3.0, yaw: 0, light: "site" }, { kind: "amr", x: -10.9, y: 0, z: 3.5, yaw: Math.PI / 2, light: "site" }] },
+  "ixr-port-control": { strip: [], robots: [{ kind: "straddle", x: -0.8, y: 1.18, z: -5.95, yaw: -0.55, light: "site", zone: false, relief: { scale: 1 / 16, depth: 0.07 } }] },
   "ixr-drilling-deck": { strip: [["drilling robot", () => true], ["robot battery", () => true]], robots: [{ kind: "drill", x: 0, y: 0, z: -3.5, yaw: 0, light: "site" }] },
   "ixr-maint-bay": { strip: [["robot arm on the stand", () => true], ["AMR on the lift", () => true]], robots: [{ kind: "cell-arm", x: 3.6, y: 0.9, z: -3.2, yaw: 0, light: null, scale: 0.75, pedestal: false, parked: true }, { kind: "amr", x: 5.8, y: 0.7, z: -0.2, yaw: Math.PI / 2, light: null }] },
 };
@@ -539,13 +574,20 @@ export function rhdDressRoom({ three: THREE, group, room, tier = "high", ua = ty
   const robots = spec.robots.map((q) => {
     // ROBOTS-HD-2: a robot that shows its site's state also gets the floor zone, on the room's floor under it (a bench or a
     // stand lifts the robot, never the zone); a robot locked out on a stand or a lift has none (de-energised).
-    const floor = q.light === "site" ? new THREE.Group() : null;
+    const floor = q.light === "site" && q.zone !== false ? new THREE.Group() : null;
     if (floor) { floor.name = `rhd-room-zone-${q.kind}`; floor.position.set(q.x, 0, q.z); group.add(floor); }
     const r = rhdBuildRobot(THREE, q.kind, { scale: q.scale ?? 1, pedestal: q.pedestal !== false, zone: !!floor, ground: floor, detail: q.kind === "amr" ? "room" : "full" });
-    r.group.position.set(q.x, q.y ?? 0, q.z); r.group.rotation.y = q.yaw;
     r.pose(q.parked ? 2.2 : 0);
     r.setLight(null); // dark until the app gives it the site's state (rhdRoomLights); a robot locked out on a stand stays dark
-    group.add(r.group);
+    if (q.relief) {
+      // ROBOTS-HD-3: a relief in the window band. The holder scales the robot down and flattens it along the room's z (the
+      // window's normal); the robot turns inside it, so its depth is squeezed after the turn and it stays inside `depth`.
+      const holder = new THREE.Group(); holder.name = `rhd-relief-${q.kind}`; holder.position.set(q.x, q.y ?? 0, q.z);
+      r.group.rotation.y = q.yaw; r.group.updateMatrixWorld(true);
+      const box = new THREE.Box3().setFromObject(r.group), deep = Math.max(1e-6, box.max.z - box.min.z);
+      holder.scale.set(q.relief.scale, q.relief.scale, q.relief.depth / deep);
+      holder.add(r.group); group.add(holder);
+    } else { r.group.position.set(q.x, q.y ?? 0, q.z); r.group.rotation.y = q.yaw; group.add(r.group); }
     return { ...q, robot: r };
   });
   room.rhd = { robots, dropped, triangles: robots.reduce((a, q) => a + q.robot.triangles, 0) };

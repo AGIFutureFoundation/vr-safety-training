@@ -304,7 +304,8 @@ for (const st of STYLES) {
     const spec = RHD.RHD_ROOM_ROBOTS[st], left = [];
     b.group.traverse((o) => { if (o.isInstancedMesh && o.userData.ixrTags) left.push(...o.userData.ixrTags.filter((t) => spec.strip.some(([tag]) => tag === t))); });
     const strippedOk = st === "ixr-cobot-lab" ? left.every((t) => t === "second cobot cell") && left.length >= 1 : left.length === 0;
-    check(strippedOk && b.rhd.dropped > 0, `${st}: the HD robots replace ROBO-INTERIORS' blocky robot (${b.rhd.dropped} parts dropped${st === "ixr-cobot-lab" ? `, the second cell's bench kept` : ""})`);
+    if (st === "ixr-port-control") check(spec.strip.length === 0 && b.rhd.dropped === 0, `${st}: the straddle carrier in the window replaces nothing (the room had no robot body; ${b.rhd.dropped} parts dropped)`); // ROBOTS-HD-3
+    else check(strippedOk && b.rhd.dropped > 0, `${st}: the HD robots replace ROBO-INTERIORS' blocky robot (${b.rhd.dropped} parts dropped${st === "ixr-cobot-lab" ? `, the second cell's bench kept` : ""})`);
   }
 }
 check(inBudget === STYLES.length, `robot rooms inside IX_BUDGET with the HD robots (${IX.IX_BUDGET.meshes} meshes, ${IX.IX_BUDGET.triangles.high} tris, ${IX.IX_BUDGET.lights.high} lights): ${inBudget} of ${STYLES.length} (${withHd} carry HD robots)`);
@@ -342,6 +343,20 @@ check(L1.every((x) => x === "protective-stop") && L2.every((x) => x === null) &&
   check(fit === STYLES.length, `three agent figures at the crowd budget fit beside the HD robots under the room cap (${cap}), so none is held: ${fit} of ${STYLES.length} (${rows.join("; ")})`);
   const amrF = RHD.rhdBuildRobot(THREE, "amr"), amrR = RHD.rhdBuildRobot(THREE, "amr", { detail: "room" }), BR = RHD.RHD_BUDGET["amr-room"];
   const wh = build("ixr-amr-warehouse", "high", roomsWith({ rhd: true }));
+  // ROBOTS-HD-3: the port control room's robot, out in the yard: a straddle carrier as a relief in one window pane, inside its
+  // stated budget, between the window picture (ixr "window wall") and the mullions' front faces, inside the picture's height,
+  // clear of every mullion, its beacons showing the port site's state (dark with none) and no floor zone.
+  {
+    const pr = build("ixr-port-control", "high", roomsWith({ rhd: true })); pr.group.updateMatrixWorld(true);
+    const q = pr.rhd.robots[0], SB = RHD.RHD_BUDGET.straddle, bx = new THREE.Box3().setFromObject(q.robot.group), win = pr.group.getObjectByName("ixr-window-wall");
+    const mull = []; pr.group.traverse((o) => { if (o.isInstancedMesh && o.userData.ixrTags) { const m4 = new THREE.Matrix4(), p = new THREE.Vector3(); o.userData.ixrTags.forEach((t, i) => { if (t === "mullions") { o.getMatrixAt(i, m4); p.setFromMatrixPosition(m4); mull.push(p.x); } }); } });
+    const winH = win.geometry.parameters.height, clearOfMullions = mull.length > 0 && mull.every((x) => x + 0.04 < bx.min.x || x - 0.04 > bx.max.x);
+    const inBand = bx.min.z > win.position.z && bx.max.z < win.position.z + 0.12 && bx.min.y >= win.position.y - winH / 2 && bx.max.y <= win.position.y + winH / 2;
+    const lit = RHD.rhdRoomLights(pr, { mode: "stop", estopped: false, locked: false }, { x: 0, z: 0 }), dark = RHD.rhdRoomLights(pr, null), red = RHD.rhdRoomLights(pr, { mode: "full", estopped: true, locked: false });
+    const mp = IXR.ixrMeasure(pr);
+    check(pr.rhd.robots.length === 1 && q.kind === "straddle" && q.robot.triangles <= SB.triangles && q.robot.calls <= SB.calls && !q.robot.zone && inBand && clearOfMullions && lit[0] === "protective-stop" && dark[0] === null && red[0] === "e-stop" && mp.meshes <= IX.IX_BUDGET.meshes && mp.triangles <= IX.IX_BUDGET.triangles.high,
+      `the port control room's straddle carrier: ${q.robot.triangles} triangles, ${q.robot.calls} draw calls (<= ${SB.triangles} / ${SB.calls}); a relief ${(bx.max.z - bx.min.z).toFixed(3)} m deep between the window picture (z ${win.position.z}) and the mullions, y ${bx.min.y.toFixed(2)}-${bx.max.y.toFixed(2)} inside the picture, clear of ${mull.length} mullions; beacons ${lit[0]} / ${red[0]} / dark with no state; no floor zone; room ${mp.meshes} meshes / ${mp.triangles} tris`);
+  }
   check(amrR.triangles <= BR.triangles && amrR.calls <= BR.calls && amrR.triangles < amrF.triangles && JSON.stringify(Object.keys(amrR.links)) === JSON.stringify(Object.keys(amrF.links)) && wh.rhd.robots.every((q) => q.robot.triangles === amrR.triangles), `the AMR's room level: ${amrF.triangles} -> ${amrR.triangles} triangles, ${amrR.calls} draw calls (<= ${BR.triangles} / ${BR.calls}), same links and light; both warehouse AMRs use it; outdoors keeps the full AMR (§1)`);
 }
 
@@ -354,7 +369,7 @@ console.log("5b. the floor zone indoors: a walk past every robot");
   for (const st of Object.keys(RHD.RHD_ROOM_ROBOTS)) {
     const room = build(st, "high", roomsWith({ rhd: true }));
     const rs = room.rhd.robots, withZone = rs.filter((q) => q.robot.zone);
-    for (const q of rs) { if (q.robot.zone) { zoned++; const wp = new THREE.Vector3(); q.robot.zone.getWorldPosition(wp); if (Math.abs(wp.y) < 1e-6) onFloor++; } else if (q.light === "site") zoned = -999; }
+    for (const q of rs) { if (q.robot.zone) { zoned++; const wp = new THREE.Vector3(); q.robot.zone.getWorldPosition(wp); if (Math.abs(wp.y) < 1e-6) onFloor++; } else if (q.light === "site" && q.zone !== false) zoned = -999; } // ROBOTS-HD-3: the port room's carrier is out in the yard (zone: false)
     const start = { x: room.door.x, z: room.door.z - 0.8, yaw: 0, pitch: 0 };
     const seenIn = new Map(withZone.map((q) => [q, false]));
     // The learner walks from the door to a point beside each robot (the first walkable one of a few offsets), and back.
@@ -383,7 +398,7 @@ console.log("5b. the floor zone indoors: a walk past every robot");
     }
     IXR.ixrWalkTo(room, from, start, rec);
   }
-  check(zoned > 0 && onFloor === zoned, `every room robot that shows its site's state has a floor zone on the room floor (benches lift the robot, not the zone): ${onFloor} of ${zoned}; the maintenance bay's locked-out robots have none`);
+  check(zoned > 0 && onFloor === zoned, `every room robot that shows its site's state has a floor zone on the room floor (benches lift the robot, not the zone): ${onFloor} of ${zoned}; the maintenance bay's locked-out robots and the port room's carrier out in the yard have none`);
   check(steps > 0 && okSteps === steps && robotsShown === robotsN, `walking from the door past each robot (ixrWalkTo): the zone shows exactly inside the warning distance ${okSteps} of ${steps} robot-steps; inside it at least once for ${robotsShown} of ${robotsN} robots (${lines.join(", ")})`);
   check(darkN > 0 && darkOk === darkN, `with no site state (the site on another map) every zone stays dark: ${darkOk} of ${darkN} steps`);
 }
