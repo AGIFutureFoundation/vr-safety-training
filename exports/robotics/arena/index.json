@@ -1,0 +1,563 @@
+{
+ "schema": "smartcitix.robotics.arena-episode@1",
+ "version": "ra-ds/1",
+ "generator": "tools/ra_dataset.mjs",
+ "totals": {
+  "episodes": 351,
+  "steps": 9469,
+  "synthetic": 351,
+  "consented": 0
+ },
+ "bySplit": {
+  "train": {
+   "episodes": 237,
+   "steps": 6371
+  },
+  "validation": {
+   "episodes": 57,
+   "steps": 1547
+  },
+  "test": {
+   "episodes": 57,
+   "steps": 1551
+  }
+ },
+ "counts": {
+  "rb-cell-entry": {
+   "train": {
+    "episodes": 40,
+    "steps": 1206,
+    "synthetic": 40,
+    "consented": 0,
+    "passed": 24
+   },
+   "validation": {
+    "episodes": 10,
+    "steps": 326,
+    "synthetic": 10,
+    "consented": 0,
+    "passed": 7
+   },
+   "test": {
+    "episodes": 10,
+    "steps": 262,
+    "synthetic": 10,
+    "consented": 0,
+    "passed": 7
+   }
+  },
+  "rb-cobot-zone-setup": {
+   "train": {
+    "episodes": 40,
+    "steps": 276,
+    "synthetic": 40,
+    "consented": 0,
+    "passed": 39
+   },
+   "validation": {
+    "episodes": 9,
+    "steps": 57,
+    "synthetic": 9,
+    "consented": 0,
+    "passed": 9
+   },
+   "test": {
+    "episodes": 9,
+    "steps": 56,
+    "synthetic": 9,
+    "consented": 0,
+    "passed": 8
+   }
+  },
+  "rb-teleop-pick-place": {
+   "train": {
+    "episodes": 40,
+    "steps": 2340,
+    "synthetic": 40,
+    "consented": 0,
+    "passed": 19
+   },
+   "validation": {
+    "episodes": 10,
+    "steps": 580,
+    "synthetic": 10,
+    "consented": 0,
+    "passed": 4
+   },
+   "test": {
+    "episodes": 10,
+    "steps": 584,
+    "synthetic": 10,
+    "consented": 0,
+    "passed": 3
+   }
+  },
+  "rb-amr-fleet-routing": {
+   "train": {
+    "episodes": 37,
+    "steps": 536,
+    "synthetic": 37,
+    "consented": 0,
+    "passed": 34
+   },
+   "validation": {
+    "episodes": 8,
+    "steps": 116,
+    "synthetic": 8,
+    "consented": 0,
+    "passed": 6
+   },
+   "test": {
+    "episodes": 8,
+    "steps": 139,
+    "synthetic": 8,
+    "consented": 0,
+    "passed": 5
+   }
+  },
+  "rb-construction-drilling": {
+   "train": {
+    "episodes": 40,
+    "steps": 800,
+    "synthetic": 40,
+    "consented": 0,
+    "passed": 17
+   },
+   "validation": {
+    "episodes": 10,
+    "steps": 210,
+    "synthetic": 10,
+    "consented": 0,
+    "passed": 7
+   },
+   "test": {
+    "episodes": 10,
+    "steps": 182,
+    "synthetic": 10,
+    "consented": 0,
+    "passed": 8
+   }
+  },
+  "rb-port-gantry": {
+   "train": {
+    "episodes": 40,
+    "steps": 1213,
+    "synthetic": 40,
+    "consented": 0,
+    "passed": 25
+   },
+   "validation": {
+    "episodes": 10,
+    "steps": 258,
+    "synthetic": 10,
+    "consented": 0,
+    "passed": 7
+   },
+   "test": {
+    "episodes": 10,
+    "steps": 328,
+    "synthetic": 10,
+    "consented": 0,
+    "passed": 5
+   }
+  }
+ },
+ "actionLabels": {
+  "rb-cell-entry": {
+   "walk": 920,
+   "wait": 129,
+   "test-estop": 93,
+   "press-estop": 134,
+   "lockout": 190,
+   "verify": 44,
+   "enter": 60,
+   "clear-jam": 60,
+   "exit": 60,
+   "remove-lock": 44,
+   "restart": 60
+  },
+  "rb-cobot-zone-setup": {
+   "test": 172,
+   "set": 124,
+   "wait": 35,
+   "commit": 58
+  },
+  "rb-teleop-pick-place": {
+   "move": 2884,
+   "grip": 188,
+   "wait": 252,
+   "release": 180
+  },
+  "rb-amr-fleet-routing": {
+   "route": 721,
+   "wait": 70
+  },
+  "rb-construction-drilling": {
+   "scan": 60,
+   "barricade": 60,
+   "wait": 84,
+   "drill": 436,
+   "dust-on": 60,
+   "isolate": 98,
+   "hold": 191,
+   "change-bit": 105,
+   "restore": 98
+  },
+  "rb-port-gantry": {
+   "move": 1371,
+   "wait": 131,
+   "lift": 120,
+   "set": 120,
+   "hold": 57
+  }
+ },
+ "crossSplitRemoved": 6,
+ "crossSplitRemovedIds": [
+  {
+   "id": "col-rb-cobot-zone-setup-300013",
+   "removedFrom": "validation",
+   "keptIn": "train"
+  },
+  {
+   "id": "col-rb-cobot-zone-setup-500019",
+   "removedFrom": "test",
+   "keptIn": "train"
+  },
+  {
+   "id": "col-rb-amr-fleet-routing-300011",
+   "removedFrom": "validation",
+   "keptIn": "train"
+  },
+  {
+   "id": "col-rb-amr-fleet-routing-300017",
+   "removedFrom": "validation",
+   "keptIn": "train"
+  },
+  {
+   "id": "col-rb-amr-fleet-routing-500021",
+   "removedFrom": "test",
+   "keptIn": "train"
+  },
+  {
+   "id": "col-rb-amr-fleet-routing-500022",
+   "removedFrom": "test",
+   "keptIn": "train"
+  }
+ ],
+ "withinSplitDuplicates": 3,
+ "leakage": 0,
+ "refused": [],
+ "full": {
+  "shards": [
+   {
+    "path": "train/rb-cell-entry-000.jsonl",
+    "lines": 309,
+    "bytes": 122806
+   },
+   {
+    "path": "train/rb-cell-entry-001.jsonl",
+    "lines": 309,
+    "bytes": 122509
+   },
+   {
+    "path": "train/rb-cell-entry-002.jsonl",
+    "lines": 309,
+    "bytes": 122746
+   },
+   {
+    "path": "train/rb-cell-entry-003.jsonl",
+    "lines": 279,
+    "bytes": 110741
+   },
+   {
+    "path": "validation/rb-cell-entry-000.jsonl",
+    "lines": 305,
+    "bytes": 122816
+   },
+   {
+    "path": "validation/rb-cell-entry-001.jsonl",
+    "lines": 21,
+    "bytes": 8374
+   },
+   {
+    "path": "test/rb-cell-entry-000.jsonl",
+    "lines": 262,
+    "bytes": 103874
+   },
+   {
+    "path": "train/rb-cobot-zone-setup-000.jsonl",
+    "lines": 276,
+    "bytes": 119275
+   },
+   {
+    "path": "validation/rb-cobot-zone-setup-000.jsonl",
+    "lines": 57,
+    "bytes": 25008
+   },
+   {
+    "path": "test/rb-cobot-zone-setup-000.jsonl",
+    "lines": 56,
+    "bytes": 24213
+   },
+   {
+    "path": "train/rb-teleop-pick-place-000.jsonl",
+    "lines": 263,
+    "bytes": 122677
+   },
+   {
+    "path": "train/rb-teleop-pick-place-001.jsonl",
+    "lines": 264,
+    "bytes": 122838
+   },
+   {
+    "path": "train/rb-teleop-pick-place-002.jsonl",
+    "lines": 263,
+    "bytes": 122731
+   },
+   {
+    "path": "train/rb-teleop-pick-place-003.jsonl",
+    "lines": 263,
+    "bytes": 122794
+   },
+   {
+    "path": "train/rb-teleop-pick-place-004.jsonl",
+    "lines": 263,
+    "bytes": 122458
+   },
+   {
+    "path": "train/rb-teleop-pick-place-005.jsonl",
+    "lines": 263,
+    "bytes": 122629
+   },
+   {
+    "path": "train/rb-teleop-pick-place-006.jsonl",
+    "lines": 263,
+    "bytes": 122788
+   },
+   {
+    "path": "train/rb-teleop-pick-place-007.jsonl",
+    "lines": 263,
+    "bytes": 122714
+   },
+   {
+    "path": "train/rb-teleop-pick-place-008.jsonl",
+    "lines": 235,
+    "bytes": 109837
+   },
+   {
+    "path": "validation/rb-teleop-pick-place-000.jsonl",
+    "lines": 260,
+    "bytes": 122822
+   },
+   {
+    "path": "validation/rb-teleop-pick-place-001.jsonl",
+    "lines": 260,
+    "bytes": 122832
+   },
+   {
+    "path": "validation/rb-teleop-pick-place-002.jsonl",
+    "lines": 60,
+    "bytes": 28342
+   },
+   {
+    "path": "test/rb-teleop-pick-place-000.jsonl",
+    "lines": 263,
+    "bytes": 122573
+   },
+   {
+    "path": "test/rb-teleop-pick-place-001.jsonl",
+    "lines": 263,
+    "bytes": 122467
+   },
+   {
+    "path": "test/rb-teleop-pick-place-002.jsonl",
+    "lines": 58,
+    "bytes": 27057
+   },
+   {
+    "path": "train/rb-amr-fleet-routing-000.jsonl",
+    "lines": 262,
+    "bytes": 122788
+   },
+   {
+    "path": "train/rb-amr-fleet-routing-001.jsonl",
+    "lines": 260,
+    "bytes": 122416
+   },
+   {
+    "path": "train/rb-amr-fleet-routing-002.jsonl",
+    "lines": 14,
+    "bytes": 6573
+   },
+   {
+    "path": "validation/rb-amr-fleet-routing-000.jsonl",
+    "lines": 116,
+    "bytes": 55238
+   },
+   {
+    "path": "test/rb-amr-fleet-routing-000.jsonl",
+    "lines": 139,
+    "bytes": 64942
+   },
+   {
+    "path": "train/rb-construction-drilling-000.jsonl",
+    "lines": 289,
+    "bytes": 122584
+   },
+   {
+    "path": "train/rb-construction-drilling-001.jsonl",
+    "lines": 289,
+    "bytes": 122621
+   },
+   {
+    "path": "train/rb-construction-drilling-002.jsonl",
+    "lines": 222,
+    "bytes": 94150
+   },
+   {
+    "path": "validation/rb-construction-drilling-000.jsonl",
+    "lines": 210,
+    "bytes": 90261
+   },
+   {
+    "path": "test/rb-construction-drilling-000.jsonl",
+    "lines": 182,
+    "bytes": 77062
+   },
+   {
+    "path": "train/rb-port-gantry-000.jsonl",
+    "lines": 299,
+    "bytes": 122774
+   },
+   {
+    "path": "train/rb-port-gantry-001.jsonl",
+    "lines": 299,
+    "bytes": 122654
+   },
+   {
+    "path": "train/rb-port-gantry-002.jsonl",
+    "lines": 299,
+    "bytes": 122596
+   },
+   {
+    "path": "train/rb-port-gantry-003.jsonl",
+    "lines": 300,
+    "bytes": 122814
+   },
+   {
+    "path": "train/rb-port-gantry-004.jsonl",
+    "lines": 16,
+    "bytes": 6595
+   },
+   {
+    "path": "validation/rb-port-gantry-000.jsonl",
+    "lines": 258,
+    "bytes": 107215
+   },
+   {
+    "path": "test/rb-port-gantry-000.jsonl",
+    "lines": 300,
+    "bytes": 122814
+   },
+   {
+    "path": "test/rb-port-gantry-001.jsonl",
+    "lines": 28,
+    "bytes": 11476
+   }
+  ],
+  "contentHash": "a335ea4b7a0ae183",
+  "write": "node tools/ra_dataset.mjs --full --out <dir>"
+ },
+ "sample": [
+  {
+   "path": "sample/train/rb-cell-entry.jsonl",
+   "episodes": 1,
+   "lines": 25
+  },
+  {
+   "path": "sample/validation/rb-cell-entry.jsonl",
+   "episodes": 1,
+   "lines": 28
+  },
+  {
+   "path": "sample/test/rb-cell-entry.jsonl",
+   "episodes": 1,
+   "lines": 25
+  },
+  {
+   "path": "sample/train/rb-cobot-zone-setup.jsonl",
+   "episodes": 1,
+   "lines": 7
+  },
+  {
+   "path": "sample/validation/rb-cobot-zone-setup.jsonl",
+   "episodes": 1,
+   "lines": 6
+  },
+  {
+   "path": "sample/test/rb-cobot-zone-setup.jsonl",
+   "episodes": 1,
+   "lines": 6
+  },
+  {
+   "path": "sample/train/rb-teleop-pick-place.jsonl",
+   "episodes": 1,
+   "lines": 62
+  },
+  {
+   "path": "sample/validation/rb-teleop-pick-place.jsonl",
+   "episodes": 1,
+   "lines": 56
+  },
+  {
+   "path": "sample/test/rb-teleop-pick-place.jsonl",
+   "episodes": 1,
+   "lines": 56
+  },
+  {
+   "path": "sample/train/rb-amr-fleet-routing.jsonl",
+   "episodes": 1,
+   "lines": 18
+  },
+  {
+   "path": "sample/validation/rb-amr-fleet-routing.jsonl",
+   "episodes": 1,
+   "lines": 13
+  },
+  {
+   "path": "sample/test/rb-amr-fleet-routing.jsonl",
+   "episodes": 1,
+   "lines": 19
+  },
+  {
+   "path": "sample/train/rb-construction-drilling.jsonl",
+   "episodes": 1,
+   "lines": 20
+  },
+  {
+   "path": "sample/validation/rb-construction-drilling.jsonl",
+   "episodes": 1,
+   "lines": 19
+  },
+  {
+   "path": "sample/test/rb-construction-drilling.jsonl",
+   "episodes": 1,
+   "lines": 20
+  },
+  {
+   "path": "sample/train/rb-port-gantry.jsonl",
+   "episodes": 1,
+   "lines": 38
+  },
+  {
+   "path": "sample/validation/rb-port-gantry.jsonl",
+   "episodes": 1,
+   "lines": 12
+  },
+  {
+   "path": "sample/test/rb-port-gantry.jsonl",
+   "episodes": 1,
+   "lines": 31
+  }
+ ]
+}

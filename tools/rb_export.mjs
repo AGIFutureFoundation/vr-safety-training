@@ -219,8 +219,12 @@ export async function rxBuild({ scratch = join(tmpdir(), `rx-sample-${process.pi
 function rxWalk(dir) { const out = []; for (const f of readdirSync(dir)) { const p = join(dir, f); if (statSync(p).isDirectory()) out.push(...rxWalk(p)); else out.push(p); } return out.sort(); }
 
 /** Compare an in-memory build with exports/robotics/ on disk: { same, missing, extra, changed }. */
+/** A sibling package another console owns and checks (see rxDiff). */
+export const RX_FOREIGN = "arena/";
 export function rxDiff(files, out = RX_OUT) {
-  const disk = existsSync(out) ? rxWalk(out).map((p) => relative(out, p).split("\\").join("/")) : [];
+  // ROBO-ARENA (loop 10 round 6b) owns exports/robotics/arena/ (tools/ra_dataset.mjs); tools/check_arena.mjs rebuilds and
+  // compares it byte for byte, so it is not an "extra" here. Every other unexpected file still fails.
+  const disk = existsSync(out) ? rxWalk(out).map((p) => relative(out, p).split("\\").join("/")).filter((k) => !k.startsWith(RX_FOREIGN)) : [];
   const missing = [...files.keys()].filter((k) => !disk.includes(k));
   const extra = disk.filter((k) => !files.has(k));
   const changed = [...files.keys()].filter((k) => disk.includes(k) && readFileSync(join(out, k), "utf8") !== files.get(k));
