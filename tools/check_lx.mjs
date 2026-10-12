@@ -208,6 +208,28 @@ section("5. the figure API is called with the leader and a contract source; voic
   return `${speaks.length} speak events to the mount, voice off by default, ${caps.length} captions`;
 });
 
+section("5b. in the world: the page's figure mount gets the leader and the lesson, paced, captions always", (errs) => {
+  const added = [], attached = [], detached = [], heard = [];
+  const world = { agents: () => [{ id: "agent-evaluator" }], addAgents: (l) => added.push(...l), attach: (s) => { attached.push(s); s.on("speak", (e) => heard.push(e)); s.on("move", (e) => heard.push(e)); }, detach: (s) => detached.push(s) };
+  const timers = [];
+  const caps = [];
+  const sites = [{ id: "rb-site-soma-robot-cell", station: "ad-robot-cell-lockout-and-safe-reentry" }];
+  const run = LX.lxLessonAtRobotSite(world, sites, "ad-robot-cell-lockout-and-safe-reentry", { caption: (c) => caps.push(c), schedule: (fn, ms) => { timers.push(ms); fn(); return timers.length; }, cancel: () => {} });
+  if (!run || run.refused) { errs.push("no run"); return ""; }
+  if (added[0]?.id !== "oh-safety-steward") errs.push(`leader ${added[0]?.id} added, expected the site's home agent oh-safety-steward`);
+  if (attached.length !== 1 || detached.length !== 1) errs.push(`attached ${attached.length}, detached ${detached.length}`);
+  const speaks = heard.filter((e) => e.type === "speak");
+  if (speaks.length !== run.lesson.lines.length) errs.push(`${speaks.length} lines reached the figure of ${run.lesson.lines.length}`);
+  if (!heard.some((e) => e.type === "move" && e.to === "rb-site-soma-robot-cell")) errs.push("no move to the site");
+  if (caps.length !== run.lesson.lines.length || caps.some((c) => !c.includes("(software agent)"))) errs.push("captions not shown for every line");
+  if (run.voice.on) errs.push("voice on by default");
+  if (timers.some((ms) => ms < 400 || ms > 12000)) errs.push("pacing outside 0.4–12 s");
+  const app = readFileSync(join(ROOT, "WebXR/parishes/js/app.js"), "utf8");
+  if (!/lxLessonAtRobotSite\(aaWorld, rbWorld\?\.sites/.test(app) || !/npParams\.get\("lxLesson"\)/.test(app)) errs.push("the parishes page does not wire lxLessonAtRobotSite");
+  if (!LX.lxLessonAtRobotSite(world, sites, "no-such-station", { caption: () => {} }).refused) errs.push("a missing station ran");
+  return `${speaks.length} lines to the figure of Selka (software agent) at the robot cell, ${caps.length} captions, ${Math.round(timers.reduce((a, b) => a + b, 0) / 1000)} s paced`;
+});
+
 section("6. progress stored only for opted-in adults; revoke deletes", (errs) => {
   const pack = packs[0];
   const consentOn = { id: "c", adult: true, schema: "smartcitix.holodeck.episode" };

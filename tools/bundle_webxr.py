@@ -1118,6 +1118,11 @@ APPS = {
             # HARVEST: hidden regional and seasonal activities (after np-parishes, tf-terraform, ty-economy, at-atmos, profiles,
             # st-paths, and account.js, which brings treasures.js).
             SHARED / "hv-harvest.js",
+            # LESSONS-X: agent-led lessons at the robot sites (after dx-data.js, oh-hive-data.js, oh-voice.js and
+            # aa-agent-portraits.js above): the composer, the generated packs and steps, then the lessons.
+            SHARED / "lessons.js",
+            SHARED / "lx-packs-data.js",
+            SHARED / "lx-lessons.js",
             WEBXR / "parishes/js/app.js",
         ],
         "entry": '<script type="module" src="./js/app.js"></script>',

@@ -15,12 +15,14 @@
  *   lxAgentLesson(stationId, roster, opts)             -> { id, station, leader, lines: [{ phase, agent, text, caption, label, ground }] } | { refused, reasons }
  *   lxLessonSource(lesson, { siteId })                 -> a contract source ({ on, off, step, play, events }) for aaMountAgentAvatars
  *   lxMountLessonFigure({ mount, lesson, ...opts })    -> calls the figure API (aaMountAgentAvatars or a room mount) with the leader and the source
+ *   lxRunInWorld(world, lesson, { caption, voice })    -> the lesson through an existing figure mount (attach/addAgents), paced
+ *   lxLessonAtRobotSite(world, sites, stationId, opts) -> the parishes page's entry (?lxLesson=<stationId>, __parishTest.lxLesson)
  *   lxVoice({ on, speak, caption })                    -> say(line): caption always, voice only when on
  *   lxProgressStore({ signals, storage })              -> progress kept under DATAWORKS rules (opted-in adults only; revoke deletes)
  *   lxAssign(packId, { storage }) / lxAssigned()       -> the instructor's assignment (a pack id only, no learner data)
  */
 import { composePack, composeLesson, standardsOf, lessonProgress } from "./lessons.js";
-import { LX_PACK_DECLS, LX_PACK_PENDING, LX_STATION_STEPS } from "./lx-packs-data.js";
+import { LX_PACK_DECLS, LX_PACK_PENDING, LX_STATION_STEPS, LX_STATION_META } from "./lx-packs-data.js";
 import { OH_AGENTS, OH_AGENT_LABEL } from "./oh-hive-data.js";
 import { AA_VBRIDGE_PERSONAS } from "./aa-agent-portraits.js";
 import { ohSpeakAs } from "./oh-voice.js";
@@ -31,8 +33,10 @@ export const LX_PHASES = Object.freeze(["brief", "demo", "try", "debrief"]);
 export const LX_PROGRESS_KEY = "lx-progress-v1";
 export const LX_ASSIGN_KEY = "lx-assign-v1";
 
-/** The enterable stations, in the shape composeLesson and composePack take (as check_lessons builds it). */
-export function lxRoster(catalog) {
+/** The enterable stations, in the shape composeLesson and composePack take (as check_lessons builds it). Without a catalog,
+ * the pack stations' own catalog rows (LX_STATION_META, generated) — enough for a page that does not load catalog.json. */
+export function lxRoster(catalog = null) {
+  if (!catalog) return Object.values(LX_STATION_META).map((s) => ({ ...s, tagline: "" }));
   return (catalog?.stations ?? []).filter((s) => !s.flat).map((s) => ({
     app: s.app, id: s.id, name: s.name, category: s.category,
     certification: s.certification ?? "", tagline: s.tagline ?? "",
@@ -165,6 +169,46 @@ export function lxMountLessonFigure({ mount = null, lesson, siteId = lesson?.sit
   let world = null;
   try { world = typeof mount === "function" ? mount({ ...opts, agents: [{ ...lesson.leader, homeSite: siteId }], source }) : null; } catch (_) { world = null; }
   return { world, source };
+}
+
+/** How long a line stays up before the next: the figures' reading pace (165 words a minute), 1.5 to 12 s. */
+export function lxLineMs(text) { const w = String(text ?? "").split(/\s+/).filter(Boolean).length; return Math.max(1500, Math.min(12000, Math.round((w / 165) * 60000))); }
+
+/**
+ * Run a lesson in a world that already has the figure mount (the parishes page's aaWorld: aaMountAgentAvatars' api with
+ * attach/detach/addAgents/agents). The leader gets a figure if the mount does not have one yet (addAgents), the lesson's
+ * source is attached, and one event goes out per line at the reading pace (`schedule` is setTimeout unless given). Every
+ * line's caption goes to `caption` (always); the voice speaks only when `voice.on`. Returns { source, lesson, voice, stop() }.
+ */
+export function lxRunInWorld(world, lesson, { siteId = lesson?.site ?? null, caption = () => {}, voice = null, schedule = (fn, ms) => setTimeout(fn, ms), cancel = (h) => clearTimeout(h) } = {}) {
+  if (!world || !lesson || lesson.refused) return null;
+  try {
+    const have = typeof world.agents === "function" ? world.agents() : [];
+    const ids = new Set((have ?? []).map((a) => a?.id ?? a));
+    if (!ids.has(lesson.leader.id)) world.addAgents?.([{ ...lesson.leader, homeSite: siteId }]);
+  } catch (_) { /* the captions still run */ }
+  const source = lxLessonSource(lesson, { siteId });
+  try { world.attach?.(source); } catch (_) { /* no figure: captions only */ }
+  const v = voice ?? lxVoice({ caption });
+  let handle = null, stopped = false;
+  const next = () => {
+    if (stopped) return;
+    const ev = source.step();
+    if (!ev) { try { world.detach?.(source); } catch (_) { /* gone */ } return; }
+    let ms = 400;
+    if (ev.type === "speak") { const line = lesson.lines.find((l) => l.text === ev.text && l.phase === ev.lx.phase); if (line) v.say(line, lesson.leader); ms = lxLineMs(ev.text); }
+    handle = schedule(next, ms);
+  };
+  next();
+  return { source, lesson, voice: v, stop() { stopped = true; try { cancel(handle); } catch (_) { /* none */ } try { world.detach?.(source); } catch (_) { /* gone */ } } };
+}
+
+/** The parishes page's entry: a lesson at the robot site whose station is `stationId` (else that station's lesson with no site). */
+export function lxLessonAtRobotSite(world, sites, stationId, opts = {}) {
+  const site = (sites ?? []).find((s) => s.station === stationId) ?? null;
+  const lesson = lxAgentLesson(stationId, lxRoster(), { leader: "hive", site: site?.id ?? null });
+  if (lesson.refused) { try { opts.caption?.(`No agent-led lesson: ${lesson.reasons.join("; ")}`); } catch (_) { /* ignore */ } return { refused: true, reasons: lesson.reasons }; }
+  return lxRunInWorld(world, lesson, { ...opts, siteId: site?.id ?? null });
 }
 
 /** Captions always; the voice only when the learner turned it on (on-device voices only, via ohSpeakAs). */

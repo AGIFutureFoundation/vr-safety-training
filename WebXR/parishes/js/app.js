@@ -103,6 +103,7 @@ import { vcMountVoiceSettings } from "../../shared/vc-voices.js";
 import { vbColearnProvider, vbColearnLocalSource } from "../../shared/vb-colearn.js";
 // AGENT-AVATARS: the software agents embodied at the robot sites.
 import { aaMountAgentAvatars, aaVbridgeAgents, aaVbridgeSource, aaRoomAvatarMount, aaCrowdAvatarMount } from "../../shared/aa-agent-avatars.js";
+import { lxLessonAtRobotSite } from "../../shared/lx-lessons.js"; // LESSONS-X: agent-led lessons at the robot sites
 // HIVE-IN-WORLD: the hive's agents inside the robotics rooms, one door with the exterior, and the return into the room.
 import { hwSyncRoom, hwFxDoorAt, hwReturnHash, hwRoomFromHash, hwRouter, hwBoxesIn } from "../../shared/hw-hive-world.js";
 import { h5IsOpsRoom } from "../../shared/h5-ops-room.js";
@@ -1449,6 +1450,11 @@ var aaWorld = !rbWorld?.sites?.length ? null : (() => { // a map with no robot s
   } catch (_) { return null; }
 })();
 window.__parishTest.agentAvatars = aaWorld;
+// LESSONS-X (docs/consoles/LESSONS-X.md): an agent-led lesson at a robot site (?lxLesson=<stationId>, or __parishTest.lxLesson(id)):
+// the site's hive agent (a software agent) gives the brief, the demonstration, the try and the debrief from the station's own steps;
+// captions in the toast always, voice off unless turned on. Guarded: no figure mount, captions only.
+window.__parishTest.lxLesson = (id) => { try { return lxLessonAtRobotSite(aaWorld, rbWorld?.sites ?? [], id, { caption: (c) => npToast(c, 4200) }); } catch (_) { return null; } };
+if (npParams.get("lxLesson")) window.__parishTest.lxRun = window.__parishTest.lxLesson(npParams.get("lxLesson"));
 // HIVE-IN-WORLD (docs/consoles/HIVE-IN-WORLD.md): inside a robotics room the hive's agents homed at that site stand at the room's
 // agent spots (in the room's group, facing the spot's way) and the hive's captions show over them; one mount per open room, kept
 // in step by hwSync (every frame, and right after an enter). Only when the hive is mounted (signed in, adult, not K-12, not the demo).
