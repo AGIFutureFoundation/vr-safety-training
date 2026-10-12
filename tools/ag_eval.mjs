@@ -73,6 +73,41 @@ export async function agEvaluate({ seeds = 5, stations = null, withLegacy = fals
   };
 }
 
+/**
+ * ROBOTRAIN-6: AGENTGYM's baselines on ROBOTICS' gym scenarios (rbEnv ids, e.g. the hard variants "<id>#hard"), on the same
+ * seeds as the station rows (1..N). The pass rule is rb-env's own: finished with no safe-practice rule broken. A gym
+ * observation is numbers with no step text, so the word-overlap agents (retrieval, retrieval-ask) have nothing to read: they
+ * are listed as not applicable, never scored as zero.
+ *   node tools/ag_eval.mjs --seeds 3 --stations <ids> --scenarios rb-port-gantry#hard,... --out docs/perf/agent-baselines-robotics.json
+ */
+export async function agEvaluateScenarios({ seeds = 3, scenarios = [] } = {}) {
+  const { rbEnv, rbPolicy, rbRollout, rbScenario } = await import("../WebXR/shared/rb-env.js");
+  const { colRandomPolicy } = await import("../WebXR/shared/col-learn.js");
+  const seedList = Array.from({ length: seeds }, (_, i) => i + 1);
+  const agents = { random: (env, seed) => colRandomPolicy(env.id, seed), expert: (env, seed) => rbPolicy(env, { skill: 1, seed }) };
+  const perScenario = {};
+  for (const id of scenarios) {
+    if (!rbScenario(id)) throw new Error(`ag_eval: unknown gym scenario ${id}`);
+    perScenario[id] = {};
+    for (const [name, mk] of Object.entries(agents)) {
+      const rs = seedList.map((seed) => { const env = rbEnv(id, { seed }); return rbRollout(env, { seed, policy: mk(env, seed) }).summary; });
+      perScenario[id][name] = { passed: rs.filter((s) => s.passed).length, of: rs.length, meanSteps: +(rs.reduce((n, s) => n + s.steps, 0) / rs.length).toFixed(1), violations: rs.reduce((n, s) => n + s.violationCount, 0), truncated: rs.filter((s) => s.truncated).length };
+    }
+    perScenario[id].retrieval = null;
+    perScenario[id]["retrieval-ask"] = null;
+  }
+  return {
+    scenarioConfig: { scenarios: scenarios.length, seeds: seedList, maxSteps: Object.fromEntries(scenarios.map((id) => [id, rbScenario(id).maxSteps])), pass: "rb-env summary.passed: finished with no safe-practice rule broken" },
+    scenarioBaselines: {
+      random: "uniform random over the scenario's discrete actions (shared/col-learn.js colRandomPolicy, the floor COLEARN reports)",
+      expert: "the scenario's scripted expert (shared/rb-env.js rbPolicy at skill 1): a planner written for the scenario, an upper bound, not a learner",
+      retrieval: null, "retrieval-ask": null,
+      notApplicable: "retrieval and retrieval-ask read a station step's text; a gym observation has none, so they are not run (null), not scored as 0",
+    },
+    perScenario,
+  };
+}
+
 /** Recorded walkthroughs for the page (agent → human): expert and retrieval runs on a few stations, seed 1. */
 export async function agWriteWalkthroughs(stations = ["robot-cell", "trench-box", "valve-vault", "boiler-room"]) {
   const { agWalkthrough } = await import("../WebXR/shared/ag-gym.js");
@@ -103,6 +138,11 @@ if (import.meta.url === `file://${process.argv[1]}` && process.argv.includes("--
 } else if (import.meta.url === `file://${process.argv[1]}`) {
   const t0 = Date.now();
   const res = await agEvaluate({ seeds: nSeeds, stations: only, withLegacy: legacy, baselines: onlyBaselines, limit: +arg("limit", 0), options: arg("margin", null) != null ? { margin: +arg("margin") } : {} });
+  const scenarioIds = arg("scenarios", null)?.split(",") ?? null;
+  if (scenarioIds) {
+    Object.assign(res, await agEvaluateScenarios({ seeds: nSeeds, scenarios: scenarioIds }));
+    for (const [id, row] of Object.entries(res.perScenario)) console.log(`${id.padEnd(34)} random ${row.random.passed}/${row.random.of}  expert ${row.expert.passed}/${row.expert.of}  retrieval n/a  retrieval-ask n/a`);
+  }
   const json = JSON.stringify(res, null, 1) + "\n";
   if (out === "-") process.stdout.write(json);
   else { mkdirSync(dirname(out), { recursive: true }); writeFileSync(out, json); }
