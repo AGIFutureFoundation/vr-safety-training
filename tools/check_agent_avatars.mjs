@@ -728,7 +728,7 @@ const HDV = {};
     const bal = measureRoom("ixr-cell-hall", "room", "balanced"), low = measureRoom("ixr-cell-hall", "room", "low"), balToday = measureRoom("ixr-cell-hall", "today", "balanced");
     ok(bal.c.hd === 0 && bal.all.triangles === balToday.all.triangles && bal.all.meshes === balToday.all.meshes && bal.tex === balToday.tex && low.c.figures === 0, `balanced and the phone unchanged in a room: balanced builds today's figure (${bal.all.triangles} triangles, ${bal.all.meshes} meshes, as without the room level), the phone tier none`);
     const appSrc = read("WebXR/parishes/js/app.js");
-    ok(/var aaRoomMount = aaRoomAvatarMount\(\{ voiced: aaVoiced \}\);/.test(appSrc) && /hwSyncRoom\(hwRoomMount, \{[^\n]*mount: h5IsOpsRoom\(ixWorld\.room\) \? aaOpsMountFor\(ixWorld\.room\) : aaRoomMount \}\)/.test(appSrc) && /aaCrowdAvatarMount\(\{ voiced: aaVoiced, room, router: hwRouter, nearest: "room", learner: \(\) => ixWorld\.pose \}\)/.test(appSrc), "wiring: the page's robotics-room mount (hwSyncRoom's mount) is aaRoomAvatarMount with the voice's pending (AVATARS-HD-3: the ops room takes the crowd mount, aaCrowdAvatarMount with the room's router; §9l. AVATARS-HD-4: the console nearest the learner at the room level; §9m)");
+    ok(/var aaRoomMount = aaRoomAvatarMount\(\{ voiced: aaVoiced \}\);/.test(appSrc) && /hwSyncRoom\(hwRoomMount, \{[^\n]*mount: h5IsOpsRoom\(ixWorld\.room\) \? aaOpsMountFor\(ixWorld\.room\) : aaRoomMount \}\)/.test(appSrc) && /aaCrowdAvatarMount\(\{ voiced: aaVoiced, room, router: hwRouter, nearest: "room", learner: \(\) => ixWorld\.pose, moodOf: \(id\) => aaMoodOf\(h3Scene\?\.relay \?\? window\.__parishTest\?\.hive\?\.hive, id\) \}\)/.test(appSrc), "wiring: the page's robotics-room mount (hwSyncRoom's mount) is aaRoomAvatarMount with the voice's pending (AVATARS-HD-3: the ops room takes the crowd mount, aaCrowdAvatarMount with the room's router; §9l. AVATARS-HD-4: the console nearest the learner at the room level; §9m. AVATARS-HD-5: the mood the page's hive already has, moodOf; §9n)");
     HDV.rooms = R.map((x) => ({ st: x.st, shell: x.room.shell.triangles, today: x.today.all.triangles, room: x.room.all.triangles, full: x.full.all.triangles, meshesToday: x.today.all.meshes, meshesRoom: x.room.all.meshes, inside: x.room.inside }));
     HDV.roomsInside = { n: inRoom, of: styles.length, fullOver: overFull, worstTri: worstRoomTri };
   }
@@ -997,6 +997,78 @@ const HDV = {};
         w.dispose();
         HDV.turn = maxD;
         ok(maxD < 0.2, `a routed walk's heading through a 90° bend at 60 Hz: the largest turn between frames ${maxD.toFixed(3)} rad (a snap would be ${(Math.PI / 2).toFixed(3)}; AA_WALK_TURN ${AA.AA_WALK_TURN} m either side; the path and its clearance unchanged)`);
+      }
+      // 9n. AVATARS-HD-5. (1) Posture and glow name the same mood: the real hive with moods on, the ops room opened mid-day (the learner
+      // walks in at minute 0, 150 or 300) through hwSyncRoom with the page's mount (moodOf: the mood the page's hive already has). Each
+      // step, every built figure's posture mood (aa state) = HIVE-7's glow mood (h5 moods(), and the mood the glow last painted) = the
+      // hive's mood(id); a calm glow is steady (1) and a non-calm one never brighter. Before: the same without moodOf (posture from
+      // events only), which names a different mood from the glow until the agent's next mood event.
+      {
+        const entries = [0, 150, 300];
+        const opsDay = (seedIt) => {
+          let agree = 0, checks = 0, nonCalm = 0, glowOk = 0, kinds = new Set(), firstMiss = null;
+          for (const entry of entries) {
+            const room = buildRoom(H4R.HD4_OPS_STYLE), hive = OHH.ohHive({ seed: HIVE_SEED, ...PANEL, moods: true });
+            for (let k = 0; k < entry; k += 1) hive.step();
+            const mount = AA.aaCrowdAvatarMount({ room, router: HW.hwRouter, nearest: "room", ...(seedIt ? { moodOf: (id) => AA.aaMoodOf(hive, id) } : {}) });
+            const m = HW.hwSyncRoom(null, { room, three: RTS, agents: hive.agents, source: hive, tier: "high", mount });
+            let clock = 0; m.animate(0, 0);
+            for (let k = entry; k < 480; k += 1) {
+              hive.step(); clock += 0.5; m.animate(clock, 0.5);
+              const glow = m.moods();
+              for (const a of hive.agents) {
+                const fig = m.avatars.figure(a.id); if (!fig) continue;
+                const want = hive.mood(a.id)?.mood ?? "calm", posture = m.avatars.state(a.id).mood ?? "calm", g = glow[a.id];
+                checks += 1; if (want !== "calm") { nonCalm += 1; kinds.add(want); }
+                if (posture === want && g?.mood === want && (fig.userData.h7Mood ?? "calm") === want) agree += 1; else firstMiss ??= { entry, t: hive.now(), agent: a.id, want, posture, glow: g?.mood };
+                if (g && (want === "calm" ? g.glow === 1 : g.glow <= 1)) glowOk += 1;
+              }
+            }
+            m.dispose();
+          }
+          return { agree, checks, nonCalm, glowOk, kinds: [...kinds], firstMiss };
+        };
+        const pgBefore = opsDay(false), pg = opsDay(true);
+        HDV.ah5 = { ...(HDV.ah5 ?? {}), pg, pgBefore };
+        ok(pg.checks > 0 && pg.nonCalm > 0 && pg.agree === pg.checks && pg.glowOk === pg.checks, `posture and glow name the same mood (the real hive with moods on, seed ${HIVE_SEED}; the ops room entered at minutes ${entries.join(", ")}; the page's mount with moodOf): ${pg.agree} of ${pg.checks} figure-steps (posture = glow = hive.mood(id); ${pg.nonCalm} of them not calm: ${pg.kinds.join(", ")}); the glow steady when calm and never brighter ${pg.glowOk} of ${pg.checks}. Before (posture from events only): ${pgBefore.agree} of ${pgBefore.checks}${pgBefore.firstMiss ? ` (first miss: ${pgBefore.firstMiss.agent} at minute ${pgBefore.firstMiss.t}, glow ${pgBefore.firstMiss.glow}, posture ${pgBefore.firstMiss.posture})` : ""}`);
+        // aaMoodOf is guarded: the hive, a relay carrying .hive, a bare relay (no moods), a throwing source and an unknown mood
+        const hv = OHH.ohHive({ seed: HIVE_SEED, ...PANEL, moods: true }); for (let k = 0; k < 40; k += 1) hv.step();
+        const id0 = hv.agents[0].id, g1 = AA.aaMoodOf(hv, id0), g2 = AA.aaMoodOf({ on() {}, hive: hv }, id0), g3 = AA.aaMoodOf({ on() {} }, id0), g4 = AA.aaMoodOf({ mood() { throw new Error("x"); } }, id0), g5 = AA.aaMoodOf({ mood: () => ({ mood: "furious" }) }, id0);
+        ok(g1?.mood === hv.mood(id0).mood && g2?.mood === g1.mood && g3 === null && g4 === null && g5 === null && AA.aaMoodOf(null, id0) === null, `aaMoodOf(source, id): the hive's mood (${g1?.mood}), through a relay's .hive the same, a relay without moods null, a throwing source null, an unknown mood null`);
+      }
+      // (2) The robot rooms' cap rule, agreed with ROBOTS-HD-3 in the heartbeat: the cap counts every mesh that can be drawn, exactly as
+      // ixrMeasure counts (shown, or hidden but shown by a state: ROBOTS-HD's floor zones, the figures' talk lights); a mesh hidden for
+      // good leaves the room's group (its owner's job). The six rooms built as the page builds them on a desktop (ROBO-INTERIORS,
+      // ROBOTS-HD's robots, ENV-HD-4, ENV-HD-2), three agents through the page's room mount, captions up.
+      {
+        const RHD = await imp("WebXR/shared/rhd-robots-hd.js"), DESK = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36";
+        const dzR = {}; const regR = { ixRegisterDresser: (st, fn) => (dzR[st] ??= []).push(fn) };
+        IXR.ixrRegisterDressers(regR); RHD.rhdRegisterDressers(regR, { ua: DESK }); H4R.hd4RegisterDressers(regR, { ultra: false, ua: DESK }); HD2.hd2RegisterSkins(regR);
+        const ctxR = new Proxy({}, { get: (_t, k) => (k === "measureText" ? () => ({ width: 10 }) : typeof k === "string" && k.startsWith("create") ? () => ({ addColorStop() {} }) : () => {}), set: () => true });
+        const triM = (o) => ((o.geometry.index ? o.geometry.index.count : o.geometry.attributes.position.count) / 3) * (o.isInstancedMesh ? o.count : 1);
+        const shownIn = (o, top) => { for (let p = o; p && p !== top.parent; p = p.parent) if (!p.visible) return false; return true; };
+        const canShow = (o) => { for (let p = o; p; p = p.parent) { if (p.userData?.rhdCanShow || /^rhd-(ssm-zone|zone-|room-zone-)/.test(p.name ?? "")) return true; } return o.name === "aa-talk"; };
+        const crowdMax = AA.AA_HD_CROWD_BUDGET?.triangles ?? 540;
+        const rows = Object.keys(IXR.IXR_ROOMS).map((st) => {
+          const rb = rbData.RB_SITES.find((x) => IXR.IXR_SITE_STYLE[x.id] === st);
+          const saved = globalThis.document; delete globalThis.document;
+          const room = IX.ixBuild(st, { three: RT, tier: "high", site: IXR.ixrSiteFor(rb, null), dressers: dzR });
+          globalThis.document = { createElement: () => ({ width: 0, height: 0, getContext: () => ctxR }) };
+          const own = IXR.ixrMeasure(room).triangles, spots = room.spots?.agent ?? [], who = OHA.slice(0, AA.AA_ROOM_FIGURES).map((a) => ({ ...a, homeSite: "ah5-room" }));
+          const w = AA.aaRoomAvatarMount()({ three: RTS, parent: room.group, agents: who, tier: "high", siteAt: (id) => (id === "ah5-room" ? { x: 0, y: 0, z: 0 } : null),
+            spotFor: (a) => { const i = who.findIndex((x) => x.id === a.id), q = spots[i] ?? { x: -1.2 + i * 1.2, z: 1.5, yaw: 0 }; return { x: q.x, y: 0, z: q.z, yaw: (q.yaw ?? 0) + Math.PI }; } });
+          w.animate(0, 0, null); const silent = []; room.group.traverse((o) => { if (o.isMesh && !shownIn(o, room.group)) silent.push(o); });
+          for (const a of who) w.handle({ type: "speak", agent: a.id, text: "Checking the cell before the next simulated run." }); w.animate(0.2, 0.2, null);
+          const all = IXR.ixrMeasure(room).triangles, held = who.filter((a) => w.state(a.id).held).length, lv = who.map((a) => w.state(a.id).level ?? "held");
+          const hidden = silent.filter((o) => !canShow(o)), hiddenTris = silent.reduce((s, o) => s + triM(o), 0);
+          w.dispose(); globalThis.document = saved;
+          return { st, own, all, held, lv, hiddenTris, foreverHidden: hidden.map((o) => o.name || o.type), fits3: own + AA.AA_ROOM_FIGURES * crowdMax <= AA.AA_ROOM_TRI_CAP, robots: room.rhd?.robots?.length ?? 0 };
+        });
+        for (const r of rows) console.log(`     ${r.st.padEnd(18)} own ${r.own} triangles (HD robots ${r.robots}; hidden but can show ${r.hiddenTris}), three agents: ${r.lv.join(", ")} → ${r.all} built${r.fits3 ? "" : ` (own > ${AA.AA_ROOM_TRI_CAP} − ${AA.AA_ROOM_FIGURES} × ${crowdMax}: ROBOTS-HD-3 trims)`}`);
+        const inside = rows.filter((r) => r.all <= AA.AA_ROOM_TRI_CAP).length, heldN = rows.reduce((s, r) => s + r.held, 0), forever = rows.flatMap((r) => r.foreverHidden);
+        HDV.ah5 = { ...(HDV.ah5 ?? {}), rooms: rows, inside, heldN };
+        ok(forever.length === 0, `the cap's rule (agreed with ROBOTS-HD-3): every hidden mesh under the six robot rooms is one a state can show (the floor zones, the talk lights), so counting every mesh counts what can be drawn: hidden for good ${forever.length}${forever.length ? ` (${forever.join(", ")})` : ""}; hidden but can show ${rows.reduce((s, r) => s + r.hiddenTris, 0)} triangles in all`);
+        ok(inside === rows.length && rows.every((r) => !r.fits3 || r.held === 0), `the six robot rooms with three agents each on high: inside the cap (${AA.AA_ROOM_TRI_CAP}) ${inside} of ${rows.length}; agents held ${heldN}, only in a room whose own triangles leave less than ${AA.AA_ROOM_FIGURES} crowd figures (${crowdMax}) of room (${rows.filter((r) => !r.fits3).map((r) => r.st).join(", ") || "none"})`);
       }
       HDV.ah4 = { mixed: X.all, nearRole, capB, nearName: nearAgent?.name, trisMixed, mixedDay, md, per, stopSame, n, ex };
       X.m.dispose();
