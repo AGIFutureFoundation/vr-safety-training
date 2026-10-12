@@ -52,7 +52,7 @@ try {
   const kinds = { "fire-station": "acc-fire-bay", hospital: "acc-drop-off-lobby", school: "acc-classroom-wing", park: "acc-park-pavilion" };
   const doors = await page.evaluate((kinds) => {
     const T = window.__parishTest, out = {};
-    for (const d of T.interiors.doors) if (kinds[d.site.kind] && !out[d.site.kind]) out[d.site.kind] = { x: d.x, z: d.z, face: d.face, id: d.site.id };
+    for (const d of T.interiors.doors) if (kinds[d.site.kind] && !out[d.site.kind] && T.access.styleOf(d.site.id) === kinds[d.site.kind]) out[d.site.kind] = { x: d.x, z: d.z, face: d.face, id: d.site.id };
     return out;
   }, kinds);
   const INPUTS = ["keyboard", "touch", "gamepad", "headset"];
@@ -69,26 +69,28 @@ try {
     if (input === "headset") {
       await page.evaluate(async () => {
         const handlers = {};
-        const stub = { addEventListener: (t, f) => { handlers[t] = f; }, removeEventListener: () => {}, requestReferenceSpace: async () => ({}), requestAnimationFrame: () => 0, end: () => {} };
+        const stub = { addEventListener: (t, f) => { handlers[t] = f; }, removeEventListener: () => {}, requestReferenceSpace: async () => ({}), requestAnimationFrame: (cb) => window.requestAnimationFrame((t) => cb(t, { getViewerPose: () => null, getPose: () => null })), end: () => {} };
         window.__accSel = () => handlers.select?.({ type: "select" });
         await window.__parishTest.access.xrBegin(stub);
       });
     }
     const face = { n: Math.PI, s: 0, e: -Math.PI / 2, w: Math.PI / 2 }[d.face] ?? 0;
     await page.evaluate(({ x, z, yaw }) => { window.__parishTest.teleport(x, z, yaw, 0.05); }, { x: d.x, z: d.z, yaw: face + Math.PI });
-    await page.waitForFunction(() => window.__parishTest.np.near?.kind === "door", null, { timeout: 60000 }).catch(() => {});
+    await page.waitForFunction((id) => window.__parishTest.np.near?.kind === "door" && window.__parishTest.np.near.site.id === id, d.id, { timeout: 60000 }).catch(() => {});
     if (OUT && input === "keyboard") {
       // Step back for the entrance still: 7 m out, facing the door.
       await page.evaluate(({ x, z, f }) => { const o = { n: [0, -1], s: [0, 1], e: [1, 0], w: [-1, 0] }[f]; window.__parishTest.teleport(x + o[0] * 7, z + o[1] * 7, Math.atan2(o[0], o[1]), -0.05); }, { x: d.x, z: d.z, f: d.face });
       await page.waitForTimeout(4000);
       await page.screenshot({ path: join(OUT, `${PARISH}-${kind}-entrance-day.jpg`), type: "jpeg", quality: 88 });
       await page.evaluate(({ x, z, yaw }) => { window.__parishTest.teleport(x, z, yaw, 0.05); }, { x: d.x, z: d.z, yaw: face + Math.PI });
-      await page.waitForFunction(() => window.__parishTest.np.near?.kind === "door", null, { timeout: 60000 }).catch(() => {});
+      await page.waitForFunction((id) => window.__parishTest.np.near?.kind === "door" && window.__parishTest.np.near.site.id === id, d.id, { timeout: 60000 }).catch(() => {});
     }
     await press(input);
     await page.waitForFunction(() => window.__parishTest.interiors.mount.inside(), null, { timeout: 20000 }).catch(() => {});
     const inside = await page.evaluate(() => { const m = window.__parishTest.interiors.mount; return { inside: m.inside(), room: m.room?.id, zone: document.getElementById("hud-zone").textContent, pads: m.room?.actions.filter((a) => a.kind === "station").length, agents: m.room?.agentSpots?.length }; });
     if (OUT && inside.inside) {
+      // The still: from just inside the door, looking down the room to its back wall (the honesty sign).
+      await page.evaluate(() => { const T = window.__parishTest, m = T.interiors.mount; m.pose.x = 0.6; m.pose.z = m.room.door.z - 0.4; T.np.yaw = 0; T.np.pitch = -0.12; });
       await page.waitForTimeout(2500);
       await page.screenshot({ path: join(OUT, `${PARISH}-${inside.room}-inside.jpg`), type: "jpeg", quality: 88 });
     }
