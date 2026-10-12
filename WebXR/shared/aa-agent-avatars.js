@@ -77,7 +77,7 @@
 
 import { ctAvatarFigure, ctAvatarOption, CT_AVATAR_BUDGET } from "./crew.js";
 import { aaAgentLook, aaRoleLabel, aaHash, AA_VBRIDGE_PERSONAS } from "./aa-agent-portraits.js";
-import { aaHdSupported, aaHdSpec, aaHdGeometry, AA_HD_NEAR_EXTRA, aaHdBuild, aaHdPose, aaWordOnsets, aaHdMouth, AA_HD_GESTURE_MS, AA_HD_LOD, AA_HD_MOODS, aaHdMoodTempo } from "./aa-agent-hd.js";
+import { aaHdSupported, aaHdSpec, aaHdGeometry, AA_HD_NEAR_EXTRA, AA_HD_CROWD_BUDGET, aaHdBuild, aaHdPose, aaWordOnsets, aaHdMouth, AA_HD_GESTURE_MS, AA_HD_LOD, AA_HD_MOODS, aaHdMoodTempo } from "./aa-agent-hd.js";
 import { RB_SITES } from "./rb-robotics-data.js";
 import { VB_TASKS, VB_REASONS } from "./vb-shared-data.js";
 
@@ -91,6 +91,8 @@ export const AA_HIDE_RADIUS = 600;
 export const AA_WALK_SPEED = 2.2;
 export const AA_WALK_MAX = 150;
 export const AA_WALK_IN = 24;
+/** AVATARS-HD-4: a routed walk's heading turns through a bend over this many metres either side of the waypoint (no snap). */
+export const AA_WALK_TURN = 0.4;
 /** A line's duration with no voice driving it: 400 ms plus the words at AA_WPM, clamped. */
 export const AA_WPM = 165;
 export const AA_LINE_MS = Object.freeze({ min: 1500, max: 12000 });
@@ -179,7 +181,17 @@ export function aaVoiceHooks(world, agentId, text = null) {
 /** AVATARS-HD-2: the avatar mount for a robotics room, for hwSyncRoom(..., { mount }): the room level of the high-detail figure on the
  * desktop high tier (AA_HD_ROOM_BUDGET), so a room with H3_ROOM_FIGURES figures stays inside IX_BUDGET; balanced keeps today's figure
  * and the phone tier builds none. `extra` adds options (the page passes `voiced`). */
-export function aaRoomAvatarMount(extra = {}) { return (opts = {}) => aaMountAgentAvatars({ ...opts, ...extra, hd: "room" }); }
+export function aaRoomAvatarMount(extra = {}) { return (opts = {}) => aaMountAgentAvatars({ triCap: AA_ROOM_TRI_CAP, capFigures: AA_ROOM_FIGURES, ...opts, ...extra, hd: "room" }); }
+
+/** AVATARS-HD-4: a robotics room's triangle cap for its figures (IX_BUDGET.triangles.high, ix-interiors.js; this module imports nothing of
+ * the rooms'). With ROBOTS-HD's high-detail robots a room's own triangles grew (the AMR warehouse about 4,600 built), so three room-level
+ * figures could take a room over (7,450 built, measured in the built page at 40d97421). The room mount counts the room's triangles as
+ * ixrMeasure does (every mesh under the room's group, instanced meshes times their count) before it builds a figure: the room level when
+ * it fits, else the crowd level, else no figure (the agent is held, listed but unbuilt, until a figure leaves: state().held). */
+export const AA_ROOM_TRI_CAP = 6000;
+/** AVATARS-HD-4: the most figures a robotics room shows (hw-hive-world.js / h3 H3_ROOM_FIGURES, 3): a figure takes the room level only
+ * when the figures still to come could each have a crowd figure (AA_HD_CROWD_BUDGET) under the cap. */
+export const AA_ROOM_FIGURES = 3;
 
 /** AVATARS-HD-3: a route round a room's colliders (room-local boxes: walls, consoles, chairs, props), from `router` (hw-hive-world.js
  * hwRouter(boxesIn, opts), passed in by the caller). Defaults: a 0.3 m body and a 0.05 m margin on a 0.25 m grid (the ops room's spots
@@ -385,7 +397,7 @@ function aaCountObject(obj) {
  * answers this map's site position ({ x, y, z } / [x, z] / null when the site is not on this map). `here` passed to
  * animate is the learner's [x, z] (null = everyone near). Headless without `three`: the state machine still runs.
  */
-export function aaMountAgentAvatars({ three = null, parent = null, agents = [], source = null, siteAt = () => null, reducedMotion = false, tier = "high", groundAt = null, spotFor = null, textureScale = 1, blocked = null, route = null, hd = false, voiced = null, now = null, hdFor = null } = {}) {
+export function aaMountAgentAvatars({ three = null, parent = null, agents = [], source = null, siteAt = () => null, reducedMotion = false, tier = "high", groundAt = null, spotFor = null, textureScale = 1, blocked = null, route = null, hd = false, voiced = null, now = null, hdFor = null, triCap = null, capFigures = 1 } = {}) {
   const T = three;
   const build = !!(T && parent && AA_TIERS[tier] !== false);
   // AVATARS-HD: the high-detail figure is opt-in (the outdoor mount asks for it) and only ever on the desktop "high" tier; balanced
@@ -401,7 +413,7 @@ export function aaMountAgentAvatars({ three = null, parent = null, agents = [], 
   if (root) { root.name = "aa-agent-avatars"; parent.add(root); }
   const figures = new Map();
   const occupied = new Map(); // siteId -> Set(slot index)
-  const talkLog = [], captionLog = [], gestureLog = [], moodLog = [];
+  const talkLog = [], captionLog = [], gestureLog = [], moodLog = [], heldLog = [];
   let clock = 0, textureBytes = 0;
   const sources = new Set();
   const subs = new Map();
@@ -439,9 +451,28 @@ export function aaMountAgentAvatars({ three = null, parent = null, agents = [], 
     return { x, y, z, cx: c.x, cz: c.z, yaw: Math.atan2(c.x - x, c.z - z) };
   }
 
+  /** AVATARS-HD-4: the triangles under the parent (the room's group), counted as ixrMeasure counts them. */
+  function parentTris() {
+    let n = 0;
+    parent?.traverse?.((o) => { if (!o.isMesh) return; const g = o.geometry, c = g?.index ? g.index.count : g?.attributes?.position?.count ?? 0; n += (c / 3) * (o.isInstancedMesh ? o.count : 1); });
+    return n;
+  }
+  /** AVATARS-HD-4: the level this figure gets under the room's cap (triCap): its own level when it fits, else the crowd level, else null
+   * (no figure for now). Without a cap, its own level. */
+  function capLevel(f, want) {
+    if (!(Number(triCap) > 0)) return want;
+    const used = parentTris(), spec = f.spec ??= aaHdSpec(f.agent);
+    const built = [...figures.values()].filter((g) => g.fig).length, rest = Math.max(0, (Number(capFigures) || 1) - built - 1) * AA_HD_CROWD_BUDGET.triangles;
+    const tri = (l) => { try { return aaHdGeometry(spec, l).triangles.total; } catch (_) { return Infinity; } };
+    if (want !== "crowd" && used + tri(want) + rest <= triCap) return want; // its own level, with room left for the figures still to come
+    if (used + tri("crowd") <= triCap) return "crowd";
+    return null;
+  }
   function ensureFig(f) {
     if (!build || f.fig) return;
-    f.fig = hdOn ? aaBuildHdFigure(T, f.agent, f.look, textureScale, levelOf(f.agent)) : aaBuildFigure(T, f.agent, f.look, textureScale);
+    let lvl = hdOn ? levelOf(f.agent) : null;
+    if (hdOn) { lvl = capLevel(f, lvl); if (!lvl) { if (!f.held) { f.held = true; heldLog.push({ agent: f.agent.id, at: clock, site: f.site }); } return; } f.held = false; }
+    f.fig = hdOn ? aaBuildHdFigure(T, f.agent, f.look, textureScale, lvl) : aaBuildFigure(T, f.agent, f.look, textureScale);
     f.fig.group.position.set(f.x, f.y, f.z); f.fig.group.rotation.y = f.yaw; f.fig.group.visible = f.visible;
     root.add(f.fig.group);
     if (f.fig.labelCv) textureBytes += f.fig.labelCv.c.width * f.fig.labelCv.c.height * 4;
@@ -722,6 +753,12 @@ export function aaMountAgentAvatars({ three = null, parent = null, agents = [], 
           const a = w.pts[i - 1], b = w.pts[i], u = aaClamp((d - w.cum[i - 1]) / ((w.cum[i] - w.cum[i - 1]) || 1), 0, 1);
           f.x = a.x + (b.x - a.x) * u; f.z = a.z + (b.z - a.z) * u; f.y = w.from.y + (w.to.y - w.from.y) * k;
           f.yaw = Math.atan2(b.x - a.x, b.z - a.z);
+          // AVATARS-HD-4: the heading turns through a bend over the last and first AA_WALK_TURN m of the legs that meet there (the path
+          // itself, and so its clearance from the boxes, is unchanged): no snap at the waypoint.
+          const toEnd = w.cum[i] - d, fromStart = d - w.cum[i - 1];
+          const turn = (p, q, r, u2) => { const y0 = Math.atan2(q.x - p.x, q.z - p.z), y1 = Math.atan2(r.x - q.x, r.z - q.z); let dy = y1 - y0; dy -= Math.round(dy / (2 * Math.PI)) * 2 * Math.PI; return y0 + dy * u2; };
+          if (i < w.pts.length - 1 && toEnd < AA_WALK_TURN) f.yaw = turn(a, b, w.pts[i + 1], 0.5 * (1 - toEnd / AA_WALK_TURN));
+          else if (i > 1 && fromStart < AA_WALK_TURN) f.yaw = turn(w.pts[i - 2], a, b, 0.5 + 0.5 * (fromStart / AA_WALK_TURN));
         } else {
           f.x = w.from.x + (w.to.x - w.from.x) * k; f.z = w.from.z + (w.to.z - w.from.z) * k; f.y = w.from.y + (w.to.y - w.from.y) * k;
           f.yaw = Math.atan2(w.to.x - w.from.x, w.to.z - w.from.z);
@@ -775,7 +812,7 @@ export function aaMountAgentAvatars({ three = null, parent = null, agents = [], 
     speaking: talkOn(f), waiting: !!f.talk?.wait, line: f.talk?.text ?? null, caption: f.caption?.text ?? null, gesture: f.gesture?.kind ?? null, queued: f.queue.length,
     talkVisible: f.fig ? !!f.fig.parts.talk.visible : null, captionVisible: f.fig ? !!f.fig.caption.visible : null, headPitch: f.fig ? f.fig.parts.head.rotation.x : null, tabletY: f.fig ? f.fig.parts.tablet.position.y : null,
     mouth: f.mouthClock === clock ? f.mouth : mouthAt(f), caughtUp: f.talk?.caught ?? 0, walkPath: f.walk ? { start: f.walk.start, pts: (f.walk.pts ?? [f.walk.from, f.walk.to]).map((q) => ({ x: q.x, z: q.z })) } : null, hd: !!f.fig?.hd, voiced: !!f.talk?.voiced, boundaries: f.talk?.bw?.length ?? 0,
-    mood: f.mood?.mood ?? null, moodCause: f.mood?.cause ?? null, level: f.fig?.hd?.level ?? null }); // AVATARS-HD-4
+    mood: f.mood?.mood ?? null, moodCause: f.mood?.cause ?? null, level: f.fig?.hd?.level ?? null, held: !!f.held }); // AVATARS-HD-4
 
   return {
     root, handle, animate, attach, detach, addAgents,
@@ -786,7 +823,7 @@ export function aaMountAgentAvatars({ three = null, parent = null, agents = [], 
     talkStart, talkWord, talkEnd,
     /** AVATARS-HD-3: the current line's word boundaries as stamped (the mount's clock, s). */
     boundaryLog: (id) => (figures.get(id)?.talk?.bw ?? []).map((b) => b.at),
-    talkLog: () => talkLog.slice(), captionLog: () => captionLog.slice(), gestureLog: () => gestureLog.slice(), moodLog: () => moodLog.slice(),
+    talkLog: () => talkLog.slice(), captionLog: () => captionLog.slice(), gestureLog: () => gestureLog.slice(), moodLog: () => moodLog.slice(), heldLog: () => heldLog.slice(),
     clock: () => clock, counts, sources: () => sources.size,
     /** HIVE-3: take one figure out (a visitor that has walked out of a robotics room): its meshes and canvases are disposed and
      * its slot freed; the agent stays listed, off the map, and gets a new figure when a move next brings it here. */
@@ -801,6 +838,8 @@ export function aaMountAgentAvatars({ three = null, parent = null, agents = [], 
         for (const cv of [f.fig.labelCv, f.fig.captionCv]) if (cv?.c) textureBytes -= cv.c.width * cv.c.height * 4;
         f.fig = null;
       }
+      f.held = false;
+      for (const g of figures.values()) if (g.held && !g.offMap && build) ensureFig(g); // AVATARS-HD-4: a held agent gets its figure once one has gone
       return true;
     },
     dispose() { for (const s of [...sources]) detach(s); for (const f of figures.values()) f.fig?.hd?.skeleton?.dispose?.(); if (root) { root.parent?.remove(root); root.traverse((o) => { o.geometry?.dispose?.(); o.material?.map?.dispose?.(); o.material?.dispose?.(); }); } figures.clear(); },

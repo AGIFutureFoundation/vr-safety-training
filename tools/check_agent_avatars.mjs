@@ -971,7 +971,34 @@ const HDV = {};
       const md = runDay(true), plain = runDay(false), plainAgain = runDay(false);
       ok(md.checks > 0 && md.match === md.checks && md.log === md.changes && md.jumps === 0, `the real hive with moods on (seed ${HIVE_SEED}, 480 steps), the page's ops-room mount: ${md.changes} mood events, ${md.log} reached the figures (${md.kinds.join(", ")}); each built figure's mood = the hive's mood(id) ${md.match} of ${md.checks} step-checks; head jumps across a tempo change ${md.jumps}`);
       ok(plain.poseHash === plainAgain.poseHash && plain.log === 0, `no mood events: the bones over the hive's day are the same frame for frame (pose hash ${plain.poseHash} twice, 0 mood events; the idle clock is the mount's own clock exactly; the comparison with the base module is in the console note)`);
-      HDV.ah4 = { mixed: X.all, nearRole, nearName: nearAgent?.name, trisMixed, mixedDay, md, per, stopSame, n, ex };
+      // a robotics room's triangle cap (aaRoomAvatarMount: AA_ROOM_TRI_CAP, counted as ixrMeasure counts): with ROBOTS-HD's robots a room's
+      // own triangles grew, so a figure gets the room level when it fits, else the crowd level, else none for now (held, listed), and a held
+      // agent gets its figure when another figure leaves. A stand-in room: a group carrying a block of triangles near the cap.
+      const capRoom = (own) => {
+        const g = new RT.Group(), geo = new RT.BufferGeometry(); geo.setAttribute("position", new RT.BufferAttribute(new Float32Array(own * 9), 3)); g.add(new RT.Mesh(geo, new RT.MeshBasicMaterial()));
+        const ags = OHA.slice(0, 3).map((a) => ({ ...a, homeSite: "cap-site" }));
+        const w = AA.aaRoomAvatarMount()({ three: RTS, parent: g, agents: ags, siteAt: (id) => (id === "cap-site" ? { x: 0, y: 0, z: 0 } : null), tier: "high" });
+        const tris = () => { let n = 0; g.traverse((o) => { if (o.isMesh) n += (o.geometry.index ? o.geometry.index.count : o.geometry.attributes.position.count) / 3; }); return n; };
+        const lv = ags.map((a) => w.state(a.id).level), held = ags.filter((a) => w.state(a.id).held).map((a) => a.id), t1 = tris();
+        const rel = ags.find((a) => w.state(a.id).level); if (rel) w.release(rel.id);
+        const after = held.map((id) => w.state(id).level);
+        w.dispose();
+        return { lv, held: held.length, t1, after };
+      };
+      const capA = capRoom(4000), capB = capRoom(4600), capC = capRoom(1000);
+      ok(capA.t1 <= AA.AA_ROOM_TRI_CAP && capB.t1 <= AA.AA_ROOM_TRI_CAP && capC.lv.every((l) => l === "room") && capA.held === 0 && capA.lv.includes("room") && capB.lv.includes("crowd") && capB.held <= 1 && capB.after.every((l) => !!l), `a robotics room's triangle cap (${AA.AA_ROOM_TRI_CAP}, as ixrMeasure counts): a room of 1,000 triangles gets ${capC.lv.join(", ")}; 4,000 → ${capA.lv.map((l) => l ?? "held").join(", ")} (${capA.t1}); 4,600 (the AMR warehouse with its HD robots) → ${capB.lv.map((l) => l ?? "held").join(", ")} (${capB.t1}); a held agent gets its figure when one leaves: ${capB.after.join(", ")}`);
+      // the routed walk's heading turns through a bend (no snap): an L-shaped route walked at 60 Hz
+      {
+        const src = AA.aaEmitter(), Lroute = (from, to) => [{ x: from.x, z: to.z }, to];
+        const w = AA.aaMountAgentAvatars({ three: RTS, parent: new RT.Group(), agents: [{ ...AG.trainer, homeSite: "L-a" }], source: src, siteAt: (id) => (id === "L-a" ? { x: 0, y: 0, z: 0 } : id === "L-b" ? { x: 6, y: 0, z: 6 } : null), spotFor: (_a, id) => (id === "L-a" ? { x: 0, z: 0, yaw: 0 } : id === "L-b" ? { x: 4, z: 4, yaw: 0 } : null), route: Lroute, tier: "high", hd: "room" });
+        w.animate(0, 0, null); src.emit({ type: "move", agent: AG.trainer.id, to: "L-b" });
+        let prev = null, maxD = 0;
+        for (let k = 1; k <= 300; k += 1) { w.animate(k / 60, 1 / 60, null); const s = w.state(AG.trainer.id); if (!s.walking) break; if (prev !== null) { let d = Math.abs(s.yaw - prev); d = Math.min(d, 2 * Math.PI - d); maxD = Math.max(maxD, d); } prev = s.yaw; }
+        w.dispose();
+        HDV.turn = maxD;
+        ok(maxD < 0.2, `a routed walk's heading through a 90° bend at 60 Hz: the largest turn between frames ${maxD.toFixed(3)} rad (a snap would be ${(Math.PI / 2).toFixed(3)}; AA_WALK_TURN ${AA.AA_WALK_TURN} m either side; the path and its clearance unchanged)`);
+      }
+      HDV.ah4 = { mixed: X.all, nearRole, capB, nearName: nearAgent?.name, trisMixed, mixedDay, md, per, stopSame, n, ex };
       X.m.dispose();
     }
     globalThis.document = savedDoc;
