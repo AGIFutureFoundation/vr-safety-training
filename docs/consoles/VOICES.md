@@ -73,8 +73,8 @@ silent and its caption still shows. The Spanish text is machine-assisted and nee
 | Utterances with voice off | n/a | **0** over 102 dialogues and 68 questions; the synth is never touched (0 speaks, 0 cancels); the dialogue is identical with voice on (102 of 102) | check 3; drive A.voiceOff |
 | Talk light exactly while a line is spoken | none | **34 of 34** (start to end); the reading window with voice off 34 of 34; held still under reduced motion; in the built page 10 of 10 parish characters | check 4; drive A.allCharacters, D |
 | Meshes per figure | worst 8 (of 12) | worst **9** (of 12) while speaking; 8 idle (the light is one shared mesh, on the speaking figure only) | check 4 |
-| Cost of the light, measured in the built parishes page (idle → speaking, camera 4 m from the figure) | n/a | desktop 1280×720: 331 → **332** draw calls, 198,332 → 198,472 triangles (+140), 411 → 412 visible meshes. Phone 390×844: 133 → **134**, 62,680 → 62,820 (+140), 276 → 277. Back to idle meshes after the line. Texture bytes: 0 added | drive F |
-| Never over another line | n/a | **0 overlaps** across the checker's 136 utterances and the page (the hive's 9 lines and a character's line: 10 utterances, 0 overlaps) | check 3, 5; drive A2 |
+| Cost of the light, measured in the built parishes page (idle → speaking, camera 4 m from the figure) | n/a | desktop 1280×720: 318 → **319** draw calls, 145,726 → 145,866 triangles (+140), 411 → 412 visible meshes. Phone 390×844: 133 → **134**, 62,460 → 62,600 (+140), 276 → 277. Back to the idle mesh count after the line. Texture bytes: 0 added. The pair is read back to back; the world's own chunk streaming moves the absolute numbers between runs (an earlier run read 331 → 332 and 198,332 → 198,472: the same +1 call, +140 triangles) | drive F, final run `$SP/loop10/vc/drive-final.txt` |
+| Never over another line | n/a | **0 overlaps** across the checker's 136 utterances and the page (the hive's 7 lines and a character's line: 8 utterances, 0 overlaps, the character's line spoken between the hive's) | check 3, 5; drive A2 |
 | `check_npc` | 17,792 checks pass | **17,793** checks pass (the voice row at 390 px) | `node tools/check_npc.mjs` |
 | `check_omega_hive` | 15 passed, 0 failed | **15 passed, 0 failed**; the EVAL lines unchanged (1,529/1,529 sentences, 954/954 grounded, 0.950) | `node tools/check_omega_hive.mjs` |
 | Languages the Omega Hive speaks | 1 | **2** (English, Spanish) | check 10 |
@@ -82,7 +82,7 @@ silent and its caption still shows. The Spanish text is machine-assisted and nee
 | Hive in Spanish: grounding | n/a | **954 of 954** lines with facts; a planted number and site id are caught | check 10 |
 | Hive in Spanish: personality | n/a | naive Bayes names the speaker **0.959** (2,269 held-out lines) against chance 0.143; calm text in 1,071 strings, 0 flagged | check 10 |
 | A Spanish line read by an English or a network voice | n/a | **0**: with English voices only, 17 captions and 0 utterances; with local Spanish voices, 17 of 17 spoken by them, 0 network | check 10; drive E |
-| Page errors / off-host requests in the drive | n/a | **0 / 0** (the only failed requests are three pre-existing 404s: a satellite image and `media/backgrounds.json`) | `node tools/drive_voices.mjs 9102` |
+| Page errors / off-host requests in the drive | n/a | **0 / 0** (the only failed requests are five pre-existing 404s: `parishes/assets/geo/orleans.jpg` and `media/backgrounds.json` at four paths) | `node tools/drive_voices.mjs 9102` |
 | `check_voices` | 0 of 34 (module absent) | **10 passed, 0 failed** | `node tools/check_voices.mjs` |
 
 Honest reading:
@@ -119,7 +119,7 @@ Honest reading:
 5. Reason: the hive and the characters on one page must not talk over each other. Check: drive A2 and section 5. Observe:
    **failed**: with the hive's 11 queued lines the character the learner had just spoken to never got a turn (11 hive lines, 0
    character lines). The controller finished its own next line before telling the waiting peer. Fix: tell the peer first, so
-   linked controllers take turns at line boundaries. Then 9 hive lines and the character's line, 0 overlaps.
+   linked controllers take turns at line boundaries. Then the hive's lines and the character's line, 0 overlaps.
 6. Reason: the other three worlds. Check: drive B. Observe: Bay World and Redwood showed no NPC mount: they build the world on
    Start. After clicking Start: 8 characters each, the voice row, one pack line spoken on a local voice, the light on, 0 page errors.
 7. Reason: the hive in Spanish with grounding and style adherence per language. Check: section 10, then the page with
@@ -154,6 +154,9 @@ Honest reading:
 - `node tools/check_omega_hive.mjs`: 15 passed, 0 failed, EVAL lines unchanged.
 - `node tools/check_imports.mjs`: all 1,114 modules call only what they declare or import.
 - `node tools/check_avatars.mjs`: all avatar checks pass. `node tools/check_agent_avatars.mjs`: 69 pass. `node tools/check_storyline.mjs`: 11,547 checks, 0 failed.
+- `node tools/check_guide.mjs`: 267 passed, **1 failed** ("guide-kb.js is fresh"). Not caused here: none of the files the generator
+  reads (`docs/*.md`, `docs/programmes`, `unions.json`, `standards.json`, the catalog) differs from f4884d71, and the same single failure
+  shows with this console's docs edits reverted. Regenerate at integration with `node tools/gen_guide_kb.mjs` (mind the 672 KB cap).
 - Not run: `tools/check_all.mjs` (the coordinator gates), `check_parse` (long under load; `node --check` on every edited file passes),
   `eval_worlds` and `eval_content` (no world subject or station changed), `check_mobile`/`check_budget` (the idle scene is unchanged;
   the speaking figure's cost is measured per tier in drive F).
