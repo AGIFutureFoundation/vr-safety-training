@@ -29,6 +29,7 @@ import { OH_AGENTS } from "../../shared/oh-hive-data.js"; // OMEGA-HIVE: the hiv
 import { h4MountHiveTab } from "./h4-hive.js";
 import { ocMountClaw } from "../../shared/oc-panel.js"; // OMEGA-CLAW: the Omega Claw tab
 import { OC_RECORD, OC_RECORDS } from "../../shared/oc-claw-record.js";
+import { lxMountPackPanel } from "../../shared/lx-panel.js"; // LESSONS-X: the Agent lessons tab (packs, previews, assignment)
 import { ecoMountBlocksPanel } from "../../shared/eco-blocks.js"; // ECOSYSTEM: the Ecosystem tab (read-only "next blocks for this skill", Cognition.X extract)
 import { PP_PROGRAMMES } from "../../shared/passport-programmes.js";
 
@@ -582,7 +583,7 @@ fetch("../flows/index.json")
 // ---------------------------------------------------------------------- views
 
 function render() {
-  for (const [name, tab, panel] of [["live", "tab-live", "view-live"], ["roster", "tab-roster", "view-roster"], ["log", "tab-log", "view-log"], ["cohort", "tab-cohort", "view-cohort"], ["billing", "tab-billing", "view-billing"], ["dean", "tab-dean", "view-dean"], ["governance", "tab-governance", "view-governance"], ["hive", "tab-hive", "view-hive"], ["claw", "tab-claw", "view-claw"], ["eco", "tab-eco", "view-eco"]]) {
+  for (const [name, tab, panel] of [["live", "tab-live", "view-live"], ["roster", "tab-roster", "view-roster"], ["log", "tab-log", "view-log"], ["cohort", "tab-cohort", "view-cohort"], ["billing", "tab-billing", "view-billing"], ["dean", "tab-dean", "view-dean"], ["governance", "tab-governance", "view-governance"], ["hive", "tab-hive", "view-hive"], ["claw", "tab-claw", "view-claw"], ["eco", "tab-eco", "view-eco"], ["lx", "tab-lx", "view-lx"]]) {
     $(tab).setAttribute("aria-selected", String(view === name));
     $(panel).hidden = view !== name;
   }
@@ -608,6 +609,9 @@ $("tab-claw").addEventListener("click", () => { if (!ocTab) { try { ocTab = ocMo
 // ECOSYSTEM: the Ecosystem tab, mounted the first time it opens (read-only; committed extract, no request, no storage).
 var ecoTab = null;
 $("tab-eco").addEventListener("click", () => { if (!ecoTab) { try { ecoTab = ecoMountBlocksPanel($("eco-root")); } catch (_) { ecoTab = null; } } setView("eco"); });
+// LESSONS-X: the Agent lessons tab, mounted once the catalog has landed (packs from the real roster; assigns a pack id on this device).
+var lxTab = null;
+$("tab-lx").addEventListener("click", () => { if (!lxTab) { try { lxTab = lxMountPackPanel($("lx-root"), { catalog: rawCatalog }); } catch (_) { lxTab = null; } } setView("lx"); });
 
 $("send").addEventListener("click", () => {
   const text = $("note").value.trim();

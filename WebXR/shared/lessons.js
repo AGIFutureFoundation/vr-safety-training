@@ -147,6 +147,51 @@ export function composeLesson(text, roster, { max = 6 } = {}) {
   };
 }
 
+// LESSONS-X: the same standard pattern composeLesson uses, at module level so a
+// pack and an agent-led lesson print exactly the codes the station carries.
+const LESSON_STANDARD_RE = /\b(?:NFPA\s+\d+[A-Z]?|OSHA\s+29\s+CFR\s+[\d.]+(?:\([a-z0-9)(]+\))?|29\s+CFR\s+[\d.]+|ANSI\s+[A-Z]?[\d.]+[A-Z]?|ASTM\s+[A-Z]\d+|IEEE\s+\d+|1910\.\d+|1926\.\d+)/g;
+
+/** The standards a station's own certification line names (codes only, never the clause around them). */
+export function standardsOf(station) {
+  return [...new Set((String(station?.certification ?? "").match(LESSON_STANDARD_RE) ?? []).map((x) => x.replace(/\s+/g, " ").trim()))];
+}
+
+/**
+ * LESSONS-X: compose a lesson pack from a declared list of stations, or refuse.
+ *
+ * `spec` is `{ id, title, world, worldName, stations: [{ id, site, siteName }], standards?: [...], pass?, target? }`.
+ * `roster` is the same enterable-station list composeLesson takes; `stepsOf(id)` returns the station's own
+ * steps (`[{ id, title, cue }]`) so a lesson can be grounded in them. Nothing is filled in: a station that is
+ * not in the roster, a station with no steps to ground a lesson in, a K-12 station in an adult pack, a standard
+ * no station carries, or a points target above a clean run each refuses the whole pack with its reason.
+ * Returns `{ ok: true, pack }` or `{ ok: false, refused: true, reasons }`.
+ */
+export function composePack(spec, roster, { stepsOf = () => [], adult = true } = {}) {
+  const reasons = [];
+  const byId = new Map((roster ?? []).map((s) => [s.id, s]));
+  const asked = Array.isArray(spec?.stations) ? spec.stations : [];
+  if (!asked.length) reasons.push("names no stations");
+  const stations = [];
+  for (const a of asked) {
+    const s = byId.get(a.id);
+    if (!s) { reasons.push(`${a.id} is not an enterable station in the roster`); continue; }
+    if (adult && /^k12-/.test(s.id)) { reasons.push(`${a.id} is a K-12 station and this pack is for adults`); continue; }
+    const steps = stepsOf(s.id) ?? [];
+    if (!steps.length) { reasons.push(`${a.id} has no steps to ground a lesson in`); continue; }
+    stations.push({ order: stations.length + 1, app: s.app ?? "smartcity", id: s.id, name: s.name, site: a.site ?? null, siteName: a.siteName ?? null,
+      steps: s.stepCount ?? steps.length, interrupts: s.interruptCount ?? 0, parSeconds: s.parSeconds ?? 240, standards: standardsOf(s) });
+  }
+  const standards = [...new Set(stations.flatMap((s) => s.standards))];
+  for (const std of spec?.standards ?? []) if (!standards.includes(std)) reasons.push(`no station in the pack carries ${std}`);
+  const pass = Number.isFinite(spec?.pass) ? spec.pass : 0.7;
+  const perfect = stations.reduce((a, s) => a + s.steps * 100 + s.interrupts * 120, 0);
+  const target = Number.isFinite(spec?.target) ? spec.target : Math.round(perfect * pass);
+  if (target > perfect) reasons.push(`points target ${target} is above a clean run (${perfect})`);
+  if (reasons.length) return { ok: false, refused: true, id: spec?.id ?? null, reasons };
+  return { ok: true, pack: { id: spec.id, title: spec.title, world: spec.world, worldName: spec.worldName ?? spec.world, audience: "adults",
+    stations, standards, points: { perfect, target, pass }, estimate: { minutes: Math.round(stations.reduce((a, s) => a + s.parSeconds, 0) / 60) } } };
+}
+
 /**
  * Whether a learner's records clear the lesson.
  *

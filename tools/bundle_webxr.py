@@ -352,6 +352,13 @@ APPS = {
             # Cognition.X extract (generated) and the bridge that reads it; no request, no storage.
             SHARED / "eco-blocks-data.js",
             SHARED / "eco-blocks.js",
+            # LESSONS-X: the Agent lessons tab — the composer, the generated packs and steps, the hive's voice (local only,
+            # off by default), the lessons and the panel (after dx-data.js, oh-hive-data.js and aa-agent-portraits.js above).
+            SHARED / "lessons.js",
+            SHARED / "lx-packs-data.js",
+            SHARED / "oh-voice.js",
+            SHARED / "lx-lessons.js",
+            SHARED / "lx-panel.js",
             SHARED / "account.js",
             SHARED / "controls.js",
             WEBXR / "instructor/js/app.js",
