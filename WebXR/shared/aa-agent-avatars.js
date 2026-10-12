@@ -130,13 +130,30 @@ function aaRoundRect(g, x, y, w, h, r) {
   g.quadraticCurveTo(x + w, y + h, x + w - r, y + h); g.lineTo(x + r, y + h); g.quadraticCurveTo(x, y + h, x, y + h - r); g.lineTo(x, y + r); g.quadraticCurveTo(x, y, x + r, y); g.closePath();
 }
 
+/** Label text room on the label canvas (logical px): the width inside the rounded frame, and the smallest legible font. */
+export const AA_LABEL_TEXT = Object.freeze({ maxWidth: AA_LABEL_PX[0] - 20, minPx: 10 });
+
+/** The largest font (from `px` down to `minPx`) at which `text` fits `maxWidth` on context `g`; leaves g.font set to it. */
+export function aaFitFont(g, text, maxWidth, px, minPx = AA_LABEL_TEXT.minPx, weight = 500) {
+  let size = px, width = Infinity;
+  for (; size >= minPx; size -= 1) { g.font = `${weight} ${size}px system-ui, sans-serif`; width = Number(g.measureText(text)?.width) || 0; if (width <= maxWidth) break; }
+  if (size < minPx) { size = minPx; g.font = `${weight} ${size}px system-ui, sans-serif`; width = Number(g.measureText(text)?.width) || 0; }
+  return { px: size, width, maxWidth, fits: width <= maxWidth };
+}
+
+/** The label: the name, then "software agent · <role>" whole, each fitted to the frame (the font shrinks; fillText's maxWidth
+ * holds anything still wider), so the words "software agent" are never cut at the canvas edge. Returns the fits. */
 function aaDrawLabel(cv, name, roleText, accent) {
-  const { g, w, h } = cv;
+  const { g, w, h } = cv, max = AA_LABEL_TEXT.maxWidth;
   g.clearRect(0, 0, w, h);
   aaRoundRect(g, 2, 2, w - 4, h - 4, 14); g.fillStyle = "rgba(8,22,32,0.86)"; g.fill(); g.lineWidth = 3; g.strokeStyle = aaCss(accent); g.stroke();
   g.textAlign = "center"; g.textBaseline = "middle"; g.fillStyle = "#ffffff";
-  g.font = "600 22px system-ui, sans-serif"; g.fillText(String(name).slice(0, 22), w / 2, h * 0.34);
-  g.fillStyle = aaCss(accent); g.font = "500 17px system-ui, sans-serif"; g.fillText(roleText.slice(0, 30), w / 2, h * 0.72);
+  const nameText = String(name), nameFit = aaFitFont(g, nameText, max, 22, 12, 600);
+  g.fillText(nameText, w / 2, h * 0.34, max);
+  g.fillStyle = aaCss(accent);
+  const roleFit = aaFitFont(g, roleText, max, 17, AA_LABEL_TEXT.minPx, 500);
+  g.fillText(roleText, w / 2, h * 0.72, max);
+  return { name: { text: nameText, ...nameFit }, role: { text: roleText, ...roleFit } };
 }
 
 /** Wrap text into at most `max` lines that fit `width` (an ellipsis marks a cut). */
@@ -197,9 +214,9 @@ function aaBuildFigure(T, agent, look, textureScale = 1) {
   talk.visible = false;
   const roleText = `software agent · ${aaRoleLabel(agent)}`;
   const labelCv = aaCanvas(AA_LABEL_PX[0], AA_LABEL_PX[1], textureScale);
-  if (labelCv) aaDrawLabel(labelCv, agent.name ?? agent.id, roleText, look.accent);
+  const labelFit = labelCv ? aaDrawLabel(labelCv, agent.name ?? agent.id, roleText, look.accent) : null;
   const label = aaSprite(T, labelCv, 1.6, 0.4); label.position.set(0, headY + 0.62, 0); label.name = "aa-label";
-  label.userData.text = roleText; label.userData.name = agent.name ?? agent.id; g.add(label);
+  label.userData.text = roleText; label.userData.name = agent.name ?? agent.id; label.userData.fit = labelFit; g.add(label);
   const caption = aaSprite(T, null, 2.8, 0.7); caption.position.set(0, headY + 1.22, 0); caption.name = "aa-caption"; caption.visible = false; caption.userData.text = ""; g.add(caption);
   g.userData.aaAgent = { id: agent.id, name: agent.name ?? agent.id, label: roleText, software: true };
   return { group: g, parts, label, caption, labelCv, captionCv: null, headY, tabletRest: { y: tablet.position.y, z: tablet.position.z, rx: tablet.rotation.x }, roleText };

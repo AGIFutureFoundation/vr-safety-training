@@ -112,6 +112,32 @@ const world = AA.aaMountAgentAvatars({ three: THREE, parent, agents: OHA, source
   ok(home === 7 && spots.size === 7, "each stands at its home site, outside the warning zone, on its own spot (the steward and the auditor share the SoMa cell)", `${home}/7, ${spots.size} distinct spots`);
 }
 
+// ---------------------------------------------------------------- 2b. every label fits its canvas: "software agent" is never cut off
+{
+  // A 2D context that records fillText and measures 0.62 em a character (wider than system-ui's average), so a label that
+  // fits here fits on the page; the drive measures the real font too.
+  let font = ""; const calls = [];
+  const em = () => parseFloat(/(\d+(?:\.\d+)?)px/.exec(font)?.[1] ?? "10");
+  const ctx = new Proxy({}, {
+    get: (_t, k) => (k === "measureText" ? (s) => ({ width: String(s).length * 0.62 * em() }) : k === "fillText" ? (s, x, y, mw) => calls.push({ s: String(s), x, y, mw, px: em() }) : k === "font" ? font : () => {}),
+    set: (_t, k, v) => { if (k === "font") font = String(v); return true; },
+  });
+  const saved = globalThis.document;
+  globalThis.document = { createElement: () => ({ width: 0, height: 0, getContext: () => ctx }) };
+  const all = [...OHA, ...AA.aaVbridgeAgents("rb-site-soma-robot-cell")];
+  const wl = AA.aaMountAgentAvatars({ three: THREE, parent: new THREE.Group(), agents: all, siteAt });
+  let fit = 0, smallest = Infinity, smallestText = ""; const bad = [];
+  for (const a of all) {
+    const f = wl.figure(a.id)?.children.find((o) => o.name === "aa-label")?.userData.fit, want = `software agent · ${AP.aaRoleLabel(a)}`;
+    const drawn = calls.find((c) => c.s === want);
+    const good = f && f.role.text === want && f.role.fits && f.role.px >= AA.AA_LABEL_TEXT.minPx && f.name.fits && drawn && drawn.mw <= AA.AA_LABEL_TEXT.maxWidth && drawn.x === AA.AA_LABEL_PX[0] / 2;
+    if (good) { fit += 1; if (f.role.px < smallest) { smallest = f.role.px; smallestText = want; } } else bad.push(`${a.id}: ${want} ${f ? `${f.role.px} px, ${Math.round(f.role.width)} px wide` : "no fit"}`);
+  }
+  globalThis.document = saved;
+  ok(all.length === 11 && fit === all.length, `every one of the ${all.length} agents' labels fits its ${AA.AA_LABEL_PX[0]} px canvas: "software agent · <role>" drawn whole, centred, within ${AA.AA_LABEL_TEXT.maxWidth} px at ≥ ${AA.AA_LABEL_TEXT.minPx} px (measured at 0.62 em a character), with fillText's maxWidth holding the rest: ${fit} of ${all.length}`, bad.slice(0, 3).join("; ") || `smallest ${smallest} px ("${smallestText}")`);
+  wl.dispose();
+}
+
 // ---------------------------------------------------------------- 3. the real hive's run, played in time: talk light, captions and moves exact
 {
   const dt = 0.05; let t = 0;
