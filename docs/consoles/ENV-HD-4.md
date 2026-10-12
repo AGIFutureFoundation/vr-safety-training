@@ -84,7 +84,16 @@ Chromium, SwiftShader), the page's buttons hidden for the still, named `<site>-w
 `window.__parishTest.scene(siteId, shot, look)` takes (`<siteId>:<shot>:<look>`); the rooms open through
 `__parishTest.ixScene(style)` and `__parishTest.hd4.opsRoom()`.
 
-**For the video review and the deck (the best four):** BEST_FOUR
+**For the video review and the deck (the best four):**
+1. `west-oakland-warehouse-wide-night-night.jpg` (`rb-site-west-oakland-warehouse:wide:night`) — the distribution warehouse
+   at night: two floodlight masts, a lamp over each dock door, pools on the apron, the lit clerestory.
+2. `west-oakland-port-automation-wide-fog-dawn.jpg` (`rb-site-west-oakland-port-automation:wide:fog`) — the port control
+   tower and the container edge in a ground fog at dawn, the cranes fading behind, the yard's floodlights on.
+3. `west-oakland-port-automation-wide-rain-dusk.jpg` (`rb-site-west-oakland-port-automation:wide:rain`) — the same yard in
+   rain at dusk: streaks, puddles, the wet yard and the brighter pools, the lit cab.
+4. `room-hd4-hive-ops-lit.jpg` (`__parishTest.hd4.opsRoom()`) — the Omega Hive's operations room: seven consoles in their
+   agents' colours, the video wall either side of the honesty sign, pendant task lights.
+For Ultra, `room-ixr-cell-hall-lit-ultra.jpg` shows the trusses and cable trays over the robot cell.
 
 STILLS_TABLE
 

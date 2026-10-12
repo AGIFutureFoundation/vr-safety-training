@@ -228,7 +228,8 @@ function ixSignMaterial(THREE, lines, bg = "#101820") {
   const c = document.createElement("canvas"); c.width = 512; c.height = 256;
   const g = c.getContext("2d"); if (!g) return new THREE.MeshBasicMaterial({ color: 0x101820 });
   g.fillStyle = bg; g.fillRect(0, 0, 512, 256); g.fillStyle = "#eaf6fb"; g.textAlign = "center";
-  lines.forEach((t, i) => { g.font = i ? "22px system-ui, sans-serif" : "bold 40px system-ui, sans-serif"; g.fillText(String(t).slice(0, 44), 256, 70 + i * 44); });
+  // ENV-HD-4: a line wider than the sign is condensed to fit (fillText's maxWidth) instead of running off both edges
+  lines.forEach((t, i) => { g.font = i ? "22px system-ui, sans-serif" : "bold 40px system-ui, sans-serif"; g.fillText(String(t).slice(0, 44), 256, 70 + i * 44, 488); });
   const tex = new THREE.CanvasTexture(c); if ("colorSpace" in tex) tex.colorSpace = THREE.SRGBColorSpace;
   return new THREE.MeshBasicMaterial({ map: tex });
 }
