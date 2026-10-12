@@ -66,7 +66,7 @@ for (const [label, idx] of [["day", 1], ["night", 3]]) {
   await frames(30);
   const c = await page.evaluate(() => {
     const t = window.__parishTest, rr = t.npRenderer; rr.info.autoReset = true; rr.render(t.threeScene, t.camera);
-    let rob = 0; t.threeScene.traverse((o) => { if (o.isInstancedMesh && /-robotics$/.test(o.name) && o.visible) rob += o.count; });
+    let rob = 0; t.threeScene.traverse((o) => { if (!o.visible) return; if (o.userData?.fcGroups) rob += o.userData.fcGroups.robotics ?? 0; else if (o.isInstancedMesh && /-robotics$/.test(o.name)) rob += o.count; }); // ENV-HD-3: merged meshes carry fcGroups
     return { calls: rr.info.render.calls, triangles: rr.info.render.triangles, robotics: rob, lit: t.exteriors.counts().lit };
   });
   const ok = !!sc?.ok && c.robotics > 0;
