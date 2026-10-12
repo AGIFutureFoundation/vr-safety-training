@@ -341,6 +341,7 @@ APPS = {
             SHARED / "vb-bridge.js",
             SHARED / "oh-say.js",
             SHARED / "oh-hive.js",
+            SHARED / "h5-hive-live.js",  # HIVE-5: the tab's live view of the learner's own hive on this device (receive only)
             WEBXR / "instructor/js/h4-hive.js",
             SHARED / "account.js",
             SHARED / "controls.js",
@@ -1072,6 +1073,11 @@ APPS = {
             SHARED / "hd4-ultra.js",
             SHARED / "hd4-looks.js",
             SHARED / "hd4-rooms.js",
+            # HIVE-5 (docs/consoles/HIVE-5.md): the hive in its operations room (the seven agents at their consoles, the screens
+            # painted from the hive; after aa-agent-avatars.js, h3-hive-day.js, hd4-rooms.js and oh-hive.js, before hw-hive-world.js,
+            # which hands it the room), and the console link (the panel's hive to the instructor console on this device).
+            SHARED / "h5-ops-room.js",
+            SHARED / "h5-hive-live.js",
             # HIVE-IN-WORLD: the hive's agents inside the robotics rooms, the exterior door and the return into the room
             # (after aa-agent-avatars.js and ixr-robo-interiors.js).
             SHARED / "hw-hive-world.js",

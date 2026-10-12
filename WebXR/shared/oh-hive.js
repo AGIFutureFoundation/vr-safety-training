@@ -45,6 +45,11 @@
 //     the last one and its time on the hive clock. ohRecall reads all three from the hive's own chain (the oh-award and
 //     oh-complete lines), never from the event or the agent; `logSeq` says how much of the chain the line read.
 //   `variety: true`: ohSay's variety path (more variants; parts in the agent's last four lines are skipped when another fits).
+//   HIVE-5 (loop 10 round 5), off by default so earlier rounds' events are unchanged; the panel turns it on:
+//   `homeward: true`: an agent whose last job has ended (it holds none) and that stands away from its home robot site walks back:
+//     a `move` to its homeSite with `home: true` (no job id) and its own line (about "home"). Its next bids count the hops from
+//     home. The figures outdoors follow that move, so an agent no longer stays at its last job's site. Nothing is written to the
+//     chain for it (it is not a governance step) and the governor sees nothing new.
 //
 // Every top-level name starts with `oh`/`OH_` (the bundler shares one scope).
 
@@ -171,7 +176,7 @@ export function ohStewardReview(steward, request, decision) {
   return null;
 }
 
-export function ohHive({ seed = 1, governor = null, audit = null, agents = OH_AGENTS, jobs = null, nJobs = 200, ticksPerDay = 480, decide = null, supervisor = "Supervisor (this device)", mode = "hive", capacity = OH_CAPACITY, policyFor = null, say = ohSay, sites = RB_SITES, supervise = false, exchanges = false, memory = false, variety = false } = {}) {
+export function ohHive({ seed = 1, governor = null, audit = null, agents = OH_AGENTS, jobs = null, nJobs = 200, ticksPerDay = 480, decide = null, supervisor = "Supervisor (this device)", mode = "hive", capacity = OH_CAPACITY, policyFor = null, say = ohSay, sites = RB_SITES, supervise = false, exchanges = false, memory = false, variety = false, homeward = false } = {}) {
   const roster = agents.slice();
   const byKey = (k) => roster.find((a) => a.key === k) ?? roster[0];
   const dispatcher = byKey("dispatcher"), steward = byKey("safety-steward"), keeper = byKey("consent-keeper"), trainer = byKey("trainer"), auditor = byKey("auditor");
@@ -246,6 +251,18 @@ export function ohHive({ seed = 1, governor = null, audit = null, agents = OH_AG
     return e;
   }
   const factsOf = (j, extra = {}) => ({ jobId: j.vb?.id ?? j.firstId, to: j.spec.request.siteId, siteName: siteName(j.spec.request.siteId), task: VB_TASKS[j.spec.request.taskType]?.label ?? j.spec.request.taskType, ...extra });
+  /** HIVE-5: home after the last job (homeward only): a move to the agent's home site and its line. Null when it holds a job or is home. */
+  let homeMoves = 0;
+  function goHome(w) {
+    if (!homeward || !w?.homeSite) return null;
+    const s = state.get(w.id);
+    if (!s || s.load > 0 || s.site === w.homeSite) return null;
+    const facts = { to: w.homeSite, siteName: siteName(w.homeSite), from: s.site, hops: ohSiteHops(s.site, w.homeSite, sites), home: true };
+    s.site = w.homeSite; homeMoves += 1;
+    const e = emit({ type: "move", agent: w.id, ...facts });
+    speak(w, "home", facts);
+    return e;
+  }
 
   let superviseAll = !!supervise;
   if (superviseAll) { write("oh-supervise", `${supervisor}: supervise every job is on; each governor-allowed job waits for a decision`); speak(keeper, "supervise_on", { supervisor }); }
@@ -378,6 +395,7 @@ export function ohHive({ seed = 1, governor = null, audit = null, agents = OH_AG
     speak(w, ok ? "complete" : "halted", factsOf(j, { score, steps, ...(reason ? { reason } : {}) }));
     if (!ok) speak(trainer, "coach", factsOf(j, { score, steps, reason }));
     if (memory && ok) remember(w, j); // HIVE-4: the worker recalls its day from the chain (the oh-complete line above is in it)
+    goHome(w); // HIVE-5: its last job done, the agent walks home (homeward only)
     close(j, ok ? "completed" : "not-accepted");
   }
 
@@ -420,6 +438,7 @@ export function ohHive({ seed = 1, governor = null, audit = null, agents = OH_AG
     emit({ type: "refused", agent: keeper.id, ...factsOf(j, { reason: "supervisor-declined", by: "supervisor" }) });
     write("oh-decline", `${j.vb.id} @ ${j.spec.request.siteId}: ${supervisor} declined; the job is closed`);
     speak(keeper, "declined", factsOf(j));
+    goHome(roster.find((a) => a.id === j.winner)); // HIVE-5: an agent that had walked to a held job goes home (homeward only)
     close(j, "declined");
     return j.vb.id;
   }
@@ -449,6 +468,7 @@ export function ohHive({ seed = 1, governor = null, audit = null, agents = OH_AG
       physicalDispatched: dispatched.filter((j) => j.vb.request.target.kind !== "sim").length,
       supervise: superviseAll, dispatchedWithoutLearner: dispatched.filter((j) => !j.learnerApproved && !j.approvedSim).length,
       ...(exchanges || memory || variety ? { exchanges: log.filter((e) => e.type === "speak" && e.exchange && e.exchange.turn === 0).length, memories: log.filter((e) => e.type === "speak" && e.memory).length } : {}),
+      ...(homeward ? { homeMoves } : {}), // HIVE-5
       lines: chain.length,
     };
   }
@@ -480,6 +500,7 @@ export function ohHive({ seed = 1, governor = null, audit = null, agents = OH_AG
     governor: base,
     now() { return t; },
     talk: Object.freeze({ exchanges: !!exchanges, memory: !!memory, variety: !!variety }), // HIVE-4
+    homeward: !!homeward, // HIVE-5
   };
 }
 

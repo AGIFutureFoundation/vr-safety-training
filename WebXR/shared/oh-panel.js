@@ -17,6 +17,7 @@
 //
 // HIVE-4: the hive talks (exchanges at handoffs, each worker's memory of its day, varied wording): ohHive({ exchanges, memory,
 // variety }) are on here. A reply sits indented under its opener in the feed; memory lines are in italics. No new UI text.
+// HIVE-5: `homeward: true` too: an agent whose last job has ended walks back to its home site (outdoors as in the rooms), with a line.
 //
 // SEAM: ohMountHive(el, { reducedMotion, audit, seed, nJobs, synth, Utterance, supervise, lang, settings, reload }) ->
 //         { hive, step(), run(n), approve(jobId), decline(jobId), voice(on), supervise(on), language(code), lang, voiceController, state(), captions(), el } | null
@@ -45,7 +46,7 @@ export function ohMountHive(el, { reducedMotion = false, audit = null, seed = 1,
   if (typeof prefs.lang === "string") lang = prefs.lang; // HIVE-3: the language this profile chose wins over the page's
   const hiveLang = ohLangFor(lang ?? document.documentElement?.lang ?? "en");
   const T = h3PanelText(hiveLang);
-  const hive = ohHive({ seed, audit, nJobs, ticksPerDay, supervise, exchanges: true, memory: true, variety: true, ...(hiveLang === "en" ? {} : { say: (a, ev) => ohSay(a, ev, { lang: hiveLang }), agents: OH_AGENTS.map((a) => ohAgentIn(a, hiveLang)), supervisor: "Supervisor (este dispositivo)" }) });
+  const hive = ohHive({ seed, audit, nJobs, ticksPerDay, supervise, exchanges: true, memory: true, variety: true, homeward: true, ...(hiveLang === "en" ? {} : { say: (a, ev) => ohSay(a, ev, { lang: hiveLang }), agents: OH_AGENTS.map((a) => ohAgentIn(a, hiveLang)), supervisor: "Supervisor (este dispositivo)" }) });
   const voice = ohVoiceController({ ...(synth !== undefined ? { synth } : {}), ...(Utterance !== undefined ? { Utterance } : {}), enabled: false });
   const captions = [];
   const siteName = (id) => RB_SITES.find((s) => s.id === id)?.name ?? id;

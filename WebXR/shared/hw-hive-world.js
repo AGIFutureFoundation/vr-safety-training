@@ -28,7 +28,9 @@
 //                                      -> { room, siteId, placed, avatars, animate(t, dt), counts(), dispose() } | null
 //   hwSyncRoom(current, { room, three, agents, source, tier, reducedMotion, mount })
 //                                      -> the mount for the room open now: kept while the room stays, disposed on exit,
-//                                         re-mounted on a change (call it every frame and right after an enter)
+//                                         re-mounted on a change (call it every frame and right after an enter). HIVE-5: the
+//                                         hive operations room (hd4-hive-ops) gets h5-ops-room.js's mount (all seven agents at
+//                                         their consoles, walking out to jobs and back, the screens painted from the hive)
 //   hwFxDoorAt(fxDoor)                 -> { x, z, face } for ixrDoorsFor's doorAt (the door's outside spot), or null
 //   hwReturnHash(style)                -> "ixr=<style>" for a robotics room (appended to a station link's return), else ""
 //   hwRoomFromHash(hash, search?)      -> the ixr style a return asks to re-enter, or null
@@ -45,6 +47,7 @@
 import { aaMountAgentAvatars } from "./aa-agent-avatars.js";
 import { ixrAgentSpot, IXR_ROOMS } from "./ixr-robo-interiors.js";
 import { h3RoomPresence, H3_ROOM_FIGURES } from "./h3-hive-day.js";
+import { h5IsOpsRoom, h5MountOpsRoom } from "./h5-ops-room.js";
 
 export const HW_ROOM_TEXTURE_SCALE = Object.freeze({ high: 1, balanced: 0.5, low: 0 });
 
@@ -189,6 +192,7 @@ export function hwMountRoomAgents({ three = null, room = null, agents = [], sour
 export function hwSyncRoom(current, { room = null, three = null, agents = [], source = null, tier = "high", reducedMotion = false, mount = aaMountAgentAvatars } = {}) {
   if (current && current.room === room) return current;
   if (current) current.dispose();
+  if (h5IsOpsRoom(room) && agents?.length) return h5MountOpsRoom({ three, room, agents, source, tier, reducedMotion, mount }); // HIVE-5: the hive's own room
   if (!room || !hwIsRobotRoom(room) || !agents?.length) return null;
   return hwMountRoomAgents({ three, room, agents, source, tier, reducedMotion, mount });
 }
