@@ -1,0 +1,91 @@
+{
+ "declared": "ROBOLEARN-9 protocol 3, committed before any run on the held-out seeds 7241–7300 (loop 10 round 8). One declaration for the arena and the claw together. Earlier declarations (arena-declared.json on 7121–7180, arena-declared-r7.json on 7181–7240) and their published rows stay as they are; those ranges are spent and are never re-run.",
+ "owner": "ROBOLEARN-9 (rl9): the only console that declares on 7241–7300 this round",
+ "protocol": {
+  "version": "oc-protocol/3",
+  "runner": "tools/claw_eval.mjs --protocol 3, run once; it refuses unless this file is committed and unmodified, the code's OC_PROTOCOL_3 matches it, and docs/evals/claw3.json does not exist yet",
+  "idPrefix": "oc3",
+  "seeds": {
+   "gym": "7241–7300",
+   "stations": "7241–7250 (reserved; the claw runs the gym scenarios only, so no station seed is run under this protocol)"
+  },
+  "scenarios": [
+   "rb-cell-entry",
+   "rb-cobot-zone-setup",
+   "rb-teleop-pick-place",
+   "rb-amr-fleet-routing",
+   "rb-construction-drilling",
+   "rb-port-gantry",
+   "rb-construction-drilling#hard",
+   "rb-port-gantry#hard",
+   "rb-amr-fleet-routing#hard"
+  ],
+  "models": [
+   "random",
+   "reactive",
+   "bc",
+   "dagger-r1",
+   "dagger-r3",
+   "step-reward",
+   "ra-lm",
+   "ra-lm-h",
+   "ra-lm-h48",
+   "expert"
+  ],
+  "incumbent": "bc",
+  "incumbentFrom": "oc-protocol/2 (claw2.json): bc kept every gym scenario, 0 promotions",
+  "challengers": [
+   "ra-lm-h",
+   "ra-lm-h48",
+   "reactive",
+   "random"
+  ],
+  "negativeControl": "random",
+  "declaredComparisons": "9 scenarios × 4 challengers = 36, each run once",
+  "metric": "success: the scenario's own pass and no governor stop",
+  "interval": "Wilson score 95% per proportion; Newcombe hybrid score 95% for a difference",
+  "promotion": "unchanged from protocols 1 and 2: challenger lower bound > incumbent upper bound, ruleBreaks = 0, governorChecked = stepsRun, physical = 0; the scripted expert is never a candidate",
+  "probes": [
+   "undeclared: evaluate a comparison id that was never declared (refused, runs nothing)",
+   "seed-reused: declare a re-test of ra-lm-h on rb-cell-entry on ten of these seeds once spent, then try to run it (refused)",
+   "not-held-out: declare ra-lm-h on ten of protocol 2's spent seeds (7181–7190) (refused at declaration)"
+  ]
+ },
+ "challengers": {
+  "ra-lm-h": "ARENA-2's ra-lm-h/1 exactly as declared in arena-declared-r7.json and amendment 1 (H 24, tanh, 10 epochs, lr 0.1, l2 0.0001, seed 1, interruptText true), built as arena_eval builds it (task texts from the stations, the three station tasks in training). A new model for the claw: it has never been run by the claw on any seed range. It was run by ARENA-2 on 7181–7240; that range is not reused here.",
+  "reactive": "the hand-written reactive rule policy, until now declared only as a model. Declared now as a challenger on all nine scenarios, hard variants included. Known on 7181–7240 (claw2.json, not a declared comparison): AMR hard 55/60 and port gantry hard 60/60, 0 rule breaks. It is not a trained model and is reported as a rule policy.",
+  "ra-lm-h48": "the one declared change for the AMR base gap (ra2-next item 3), a new model id beside ra-lm-h (ra-lm-h and its published rows are unchanged)",
+  "random": "the declared negative control, expected to be refused for rule breaks"
+ },
+ "change": {
+  "model": "ra-lm-h48",
+  "oneDeclaredChange": "more hidden units: H = 48 instead of 24. Everything else is ra-lm-h/1's: tanh, 10 epochs, lr 0.1, l2 0.0001, seed 1, interruptText true, the same task texts (TF-IDF into 24 buckets), the same 14 scene features, the same label masks, the same parameter head, the same synthetic demonstrations and task balance, the three station tasks in training.",
+  "why": "ra-lm-h trails bc on AMR base, 0.717 vs 0.817 on 7181–7240 (−0.100 [−0.247, 0.052], arena.json retest7.comparisons.amr). The hidden layer is what moved ra-lm on the gaps (+0.133 [0.028, 0.235]); this asks whether more of it closes AMR.",
+  "notChosen": "the clone's per-robot order / holder features (COLEARN amr-robots): they need RA_LM_D ≥ 19, which changes the scene input for every task and every model that shares the feature code; more hidden units changes one number in one model",
+  "hyperparameters": "H 48 is the declared value. It may be changed only after runs on development seeds 1–20 (gym) and only by an amendment to this file committed before the held-out run, saying what was tried and what each scored on development seeds."
+ },
+ "comparisons": {
+  "gate": "the claw's verdict per declared comparison (promoted, not-better, rule-broken, refused), re-derived from the record's numbers",
+  "amrHeadline": "ra-lm-h48 minus bc on rb-amr-fleet-routing, seeds 7241–7300 (60 each), Newcombe interval; reported whatever it is",
+  "secondary": [
+   "ra-lm-h48 minus ra-lm-h on rb-amr-fleet-routing (the effect of the change, same seeds)",
+   "ra-lm-h minus bc on rb-amr-fleet-routing and on rb-port-gantry (the round-7 gaps, fresh seeds)",
+   "reactive minus bc on the three hard variants, each and pooled (180)"
+  ],
+  "noClaim": "no claim is made from a difference whose interval spans 0; a promotion only through the gate above",
+  "arenaRow": "docs/evals/arena.json gains retest8, copied from the claw's one run (claw3.json) with its commit cited; arena_eval does not run these seeds a second time"
+ },
+ "training": {
+  "demonstrations": "unchanged: COLEARN colSyntheticDemos, labelled synthetic, scripted expert at skill 0.85 with action noise 0.3, seed 1, 40 per gym task, 20 per station; learners keep clean passes only",
+  "heldOutTasks": "the three hard variants are never trained on",
+  "consented": "none headless. Consented learner takes (ra2-next 5) train only on the learner's own device, on development use, and never enter a held-out run under this protocol",
+  "devDisclosure": "development uses seeds 1–20 (gym) only. Nothing was run on 7241–7300 before this commit. Every development change after this commit is listed in an amendment before the held-out run."
+ },
+ "governor": "unchanged: vbGovernor.monitor on every step of a seeded safe simulated job at the scenario's site; a broken rule halts the run with a protective stop; target always the simulator; physical 0 is a threshold",
+ "consumers": {
+  "note": "Other consoles use this range only through this committed file (cite its commit). Each consumer declares its own comparison in its own file before it runs, runs once and never tunes on these seeds. The same seeds measured by different consumers is disclosed, not hidden.",
+  "STRANDS-2": "robotics/strands: may run a parity check once on gym seeds 7241–7300, citing this commit, for models in this protocol (bc, ra-lm-h exported by tools/ra_export_weights.mjs): the Python path's successes and rule breaks per scenario must equal the claw's record (claw3.json). No new model is compared on these seeds by STRANDS-2.",
+  "others": "no other consumer this round"
+ },
+ "amendments": []
+}
