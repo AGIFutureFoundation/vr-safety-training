@@ -57,6 +57,7 @@ const hdr = (id) => { const p = R.npParish(id); return { p, sites: K.hd6KindSite
 const ALL = R.npParishIds();
 const tally = Object.fromEntries(K.HD6_CUED_KINDS.map((k) => [k, { sites: 0, cued: 0, full: 0 }]));
 const fitted = new Map(); // parish id -> [{ site, balanced: {parts, skipped}, high: {parts, skipped} }]
+const skippers = [], smallUsed = {}; let smallSites = 0; // ENV-HD-8: the smaller variants
 let faults = { road: 0, water: 0, building: 0, board: 0, cue: 0, buried: 0, over: 0 }, partsSeen = 0, catalog = 0;
 for (const id of ALL) {
   const { p, sites } = hdr(id);
@@ -69,6 +70,9 @@ for (const id of ALL) {
     const t = tally[site.kind]; t.sites++;
     if (row.high.parts.length && row.balanced.parts.length) t.cued++;
     if (!row.high.skipped.length) t.full++;
+    if (row.high.skipped.length) skippers.push(`${site.id} (${row.high.skipped.join(", ")})`);
+    for (const g of row.high.small ?? []) smallUsed[g] = (smallUsed[g] ?? 0) + 1;
+    if ((row.high.small ?? []).length) smallSites++;
     for (const tier of ["balanced", "high"]) if (row[tier].parts.length * 12 > B.trianglesPerSite[tier]) faults.over++;
     // 2. where the cues stand (re-tested here against everything placed before it on the map, as the build places them)
     const board = boardsOf(p)[site.index], b = site.b;
@@ -92,6 +96,21 @@ for (const k of K.HD6_CUED_KINDS) {
   check(t.sites > 0 && t.cued === t.sites, `${k}: every site on every map takes a cue (${t.cued} of ${t.sites}; ${t.full} with every part group, the rest skip a group that cannot fit)`);
 }
 check(Object.values(tally).reduce((a, t) => a + t.sites, 0) === catalog, `every catalog site of the cued kinds is considered (${catalog} on ${ALL.length} maps)`);
+// ENV-HD-8: smaller variants (HD6_SMALL, HD6_BACK) tried before a group is skipped; ENV-HD-7 left 33 of 250 sites skipping a group
+check(K.HD6_SMALL.length > 0 && smallSites > 0 && skippers.length < 33, `sites skipping a group: 33 -> ${skippers.length} of ${catalog} (smaller variants at ${smallSites} sites: ${Object.entries(smallUsed).map(([g, n]) => `${g} ${n}`).join(", ")})`);
+note(`sites skipping a group: 33 -> ${skippers.length} of ${catalog}; smaller variants at ${smallSites} sites (${Object.entries(smallUsed).map(([g, n]) => `${g} ${n}`).join(", ")}); baydoors fallback where the bays skip`);
+note(`sites still skipping a group (the street at the door, or water round the building): ${skippers.join("; ")}`);
+{ // a smaller variant is never larger than its full group (triangles), on both tiers, at every site that uses one
+  let worse = 0;
+  for (const id of ALL) {
+    const p = R.npParish(id);
+    for (const { site, high } of fitted.get(id)) for (const g0 of high.small ?? []) {
+      const g = g0.replace(" (back)", ""), v = g0.endsWith("(back)") ? "back" : "small";
+      for (const tier of ["balanced", "high"]) if (K.hd6CueParts(p, site, tier, 1, v).filter((q) => q.group === g).length > K.hd6CueParts(p, site, tier, 1).filter((q) => q.group === g).length) worse++;
+    }
+  }
+  check(worse === 0, `every smaller variant used has no more parts than its full group (${worse} larger)`);
+}
 check(faults.over === 0, `every cued site inside HD6_KIND_BUDGET's triangles per site (${faults.over} over)`);
 check(faults.road === 0, `no cue part on a carriageway at any site (${faults.road} of ${partsSeen})`);
 check(faults.water === 0, `no cue part in the water (${faults.water})`);
@@ -132,7 +151,7 @@ for (const spec of specs) {
   check(r.balanced < r.high, `${spec.id}: balanced takes the lighter build (${r.balanced} < ${r.high} triangles)`);
   {
     const p = R.npParish(spec.parish), key = (q) => q.at.map((v) => v.toFixed(3)).join(",");
-    const same = JSON.stringify(row.high.parts.map(key).sort()) === JSON.stringify(K.hd6CueParts(p, row.site, "high").filter((q) => !["wallsign", "entry"].includes(q.group)).map(key).sort());
+    const same = JSON.stringify(row.high.parts.map(key).sort()) === JSON.stringify(K.hd6CueParts(p, row.site, "high").filter((q) => !Object.keys(K.HD6_FALLBACK).includes(q.group)) /* ENV-HD-8: every fallback group (+ baydoors) */.map(key).sort());
     check(same, `${spec.id}: ENV-HD-6's placement kept (every part where it was; the fallbacks unused)`);
   }
   cued++;

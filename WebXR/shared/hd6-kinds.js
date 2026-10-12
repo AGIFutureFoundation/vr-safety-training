@@ -28,11 +28,14 @@
 //   hd6KindSites(parish)              -> [{ index, id, kind, b, door, yaw, hero }] ENV-HD-7: every site of the four kinds on
 //                                       this map (the presets first, then by station count), not only the busiest (pure)
 //   hd6HeroSites(parish)              -> the four presets' sites only (Ultra's facades stay on these)
-//   hd6CueParts(parish, site, tier, side?) -> [{ size, at, ry, colour, group, glow }] world-space boxes (pure)
+//   hd6CueParts(parish, site, tier, side?, variant?) -> [{ size, at, ry, colour, group, glow }] world-space boxes (pure);
+//                                       ENV-HD-8: variant "full" (default, unchanged), "small" or "back" (see HD6_SMALL, HD6_BACK)
 //   hd6FitCue(parish, site, tier, taken?) -> { parts, skipped } ENV-HD-7: each part group (yard, pavilion, tower ...) placed
 //                                       on its preferred side, else the other side, else skipped: never on a carriageway, in the
 //                                       water, into another building or cue, or within 1.5 m of the board
 //   hd6Obstacles(parish, site), hd6PartFault(parish, part, ctx), hd6Footprint(part)  the fitting's pieces (pure)
+//   HD6_SMALL                         ENV-HD-8: the groups with a smaller variant (hd6CueParts(..., side, "small")), tried on both
+//                                       sides after the full group and before skipping; hd6FitCue's result adds `small: [groups]`
 //   hd6LampParts(board)               -> the boxes of one board lamp's post (pure)
 //   hd6Build({ THREE, parish, boards, tier, ua }) -> THREE.Mesh "hd6-kind-cues" | null (userData.hd6 = { sites, lamps, triangles })
 //   hd6UltraShells({ THREE, parish, doc }) -> THREE.Mesh "hd6-ultra-kinds" | null (userData.hd6 = { atlasPx, textureBytes, triangles })
@@ -86,8 +89,8 @@ export function hd6KindSites(parish) {
 export function hd6HeroSites(parish) { return hd6KindSites(parish).filter((s) => s.hero); }
 
 /** World-space boxes of one site's kind cue (local frame: +z out of the door face, x along it, y up from the ground). */
-export function hd6CueParts(parish, site, tier = "high", sideOverride = 0) {
-  const { b, yaw, kind } = site, hi = tier === "high";
+export function hd6CueParts(parish, site, tier = "high", sideOverride = 0, variant = "full") {
+  const { b, yaw, kind } = site, hi = tier === "high", sm = variant === "small"; // ENV-HD-8: the smaller variant (HD6_SMALL)
   const ns = Math.abs(Math.sin(yaw)) < 0.5, L2 = (ns ? b.w : b.d) / 2, D2 = (ns ? b.d : b.w) / 2, H = b.h;
   const cs = Math.cos(yaw), sn = Math.sin(yaw);
   // the board (6 m south of the site point) in the local frame: yards go on the side away from it
@@ -99,14 +102,26 @@ export function hd6CueParts(parish, site, tier = "high", sideOverride = 0) {
   const box = (w, h, d, x, y, z, colour, ry = 0) => parts.push({ size: [w, h, d], local: [x, y, z], ry, colour, group, glow });
   if (kind === "fire-station") {
     group = "bays";
-    const bw = 3.4, bh = Math.min(4, H - 1.3), off = Math.max(2.9, L2 * 0.5);
+    const bw = sm ? 3 : 3.4, bh = Math.min(4, H - 1.3), off = sm ? Math.min(Math.max(2.9, L2 * 0.5), Math.max(1.8, L2 - bw / 2 - 0.3)) : Math.max(2.9, L2 * 0.5), ad = sm ? 2.2 : 5;
     for (const sx of [-off, off]) {
       box(bw + 0.5, 0.35, 0.22, sx, bh + 0.17, D2 + 0.11, HD6_C.bayFrame); // header
       for (const jx of [-1, 1]) box(0.25, bh, 0.22, sx + jx * (bw / 2 + 0.12), bh / 2, D2 + 0.11, HD6_C.bayFrame); // jambs
       box(bw, bh, 0.1, sx, bh / 2, D2 + 0.06, HD6_C.bayPanel); // roll-up panel
       box(bw - 0.3, 0.45, 0.04, sx, bh * 0.68, D2 + 0.13, HD6_C.glass); // the glazed band
       if (hi) for (let k = 1; k <= 7; k++) if (Math.abs(k / 8 - 0.68) > 0.08) box(bw - 0.1, 0.05, 0.03, sx, (bh * k) / 8, D2 + 0.12, HD6_C.slat);
-      box(bw + 0.8, 0.06, 5, sx, 0.03, D2 + 2.5, HD6_C.apron); // apron
+      box(bw + 0.8, 0.06, ad, sx, 0.03, D2 + ad / 2, HD6_C.apron); // apron (ENV-HD-8: 2.2 m deep in the smaller variant)
+    }
+    // ENV-HD-8: where the bays cannot fit (the building stands at the carriageway's edge, so even the doors' frames meet it), the
+    // bay doors go flush on the wall with no apron (on the building itself, as the trim is): a fallback, built only then
+    group = "baydoors";
+    {
+      const dw = 3, doff = Math.min(Math.max(2.9, L2 * 0.5), Math.max(1.8, L2 - dw / 2 - 0.3));
+      for (const sx of [-doff, doff]) {
+        box(dw + 0.4, 0.3, 0.12, sx, bh + 0.15, D2 + 0.06, HD6_C.bayFrame);
+        for (const jx of [-1, 1]) box(0.2, bh, 0.12, sx + jx * (dw / 2 + 0.1), bh / 2, D2 + 0.06, HD6_C.bayFrame);
+        box(dw, bh, 0.06, sx, bh / 2, D2 + 0.03, HD6_C.bayPanel);
+        box(dw - 0.3, 0.45, 0.03, sx, bh * 0.68, D2 + 0.08, HD6_C.glass);
+      }
     }
     group = "trim";
     box(2 * L2 + 0.3, 0.55, 0.16, 0, H - 0.45, D2 + 0.08, HD6_C.trim); // trim band under the roof edge
@@ -119,25 +134,29 @@ export function hd6CueParts(parish, site, tier = "high", sideOverride = 0) {
     if (hi) for (let k = 0; k < 3; k++) for (const [fx, fz, w, d] of [[0, 1.62, 0.3, 0.04], [1.62, 0, 0.04, 0.3]]) box(w, 1.2, d, tx + fx * side, H + 0.8 + k * 1.8, tz + fz, HD6_C.glass);
   } else if (kind === "hospital") {
     group = "canopy";
-    const cw = Math.min(9, 2 * L2 - 1), cy = 3.6;
-    box(cw, 0.35, 6, 0, cy + 0.17, D2 + 3, HD6_C.canopy); // the canopy slab
-    box(cw + 0.1, 0.5, 0.14, 0, cy + 0.1, D2 + 6.02, HD6_C.blue); // its fascia
-    for (const px of [-cw / 2 + 0.4, cw / 2 - 0.4]) box(0.28, cy, 0.28, px, cy / 2, D2 + 5.6, HD6_C.post);
+    // ENV-HD-8: the smaller variant is a 3.4 m deep porch canopy (a street close to the door), at most 6 m wide
+    const cw = Math.min(sm ? 6 : 9, 2 * L2 - 1), cy = 3.6, cd = sm ? 3.4 : 6;
+    box(cw, 0.35, cd, 0, cy + 0.17, D2 + cd / 2, HD6_C.canopy); // the canopy slab
+    box(cw + 0.1, 0.5, 0.14, 0, cy + 0.1, D2 + cd + 0.02, HD6_C.blue); // its fascia
+    for (const px of [-cw / 2 + 0.4, cw / 2 - 0.4]) box(0.28, cy, 0.28, px, cy / 2, D2 + cd - 0.4, HD6_C.post);
     // the "H" sign: a blue square standing on the canopy's front edge, a white letter on each face (boxes, no words)
     // ENV-HD-7: the square and the letter are the lit sign (glow: drawn unlit, so it reads at night with no light)
     const sy = cy + 0.35 + 0.95;
     glow = true;
-    box(1.8, 1.8, 0.14, 0, sy, D2 + 5.75, HD6_C.blue);
+    const sz = D2 + cd - 0.25;
+    box(1.8, 1.8, 0.14, 0, sy, sz, HD6_C.blue);
     for (const fz of [0.09, -0.09]) {
-      for (const lx of [-0.42, 0.42]) box(0.26, 1.25, 0.04, lx, sy, D2 + 5.75 + fz, HD6_C.white);
-      box(0.6, 0.24, 0.04, 0, sy, D2 + 5.75 + fz, HD6_C.white);
+      for (const lx of [-0.42, 0.42]) box(0.26, 1.25, 0.04, lx, sy, sz + fz, HD6_C.white);
+      box(0.6, 0.24, 0.04, 0, sy, sz + fz, HD6_C.white);
     }
     glow = false;
-    box(0.18, 0.4, 0.18, 0, cy + 0.35 + 0.05, D2 + 5.75, HD6_C.post);
+    box(0.18, 0.4, 0.18, 0, cy + 0.35 + 0.05, sz, HD6_C.post);
     group = "lane";
     // the drop-off lane under the canopy, with kerb lines
-    box(Math.min(16, 2 * L2 + 4), 0.05, 4.4, 0, 0.03, D2 + 3.6, HD6_C.lane);
-    if (hi) for (const kz of [D2 + 1.35, D2 + 5.85]) box(Math.min(16, 2 * L2 + 4), 0.06, 0.18, 0, 0.04, kz, HD6_C.kerb);
+    // ENV-HD-8: the smaller variant is a short pull-in, 2.6 m deep and at most 10 m long, by the door
+    const lw = Math.min(sm ? 10 : 16, 2 * L2 + (sm ? 1 : 4)), ld = sm ? 2.6 : 4.4, lz = sm ? D2 + 1.5 : D2 + 3.6;
+    box(lw, 0.05, ld, 0, 0.03, lz, HD6_C.lane);
+    if (hi) for (const kz of sm ? [lz - ld / 2 - 0.05, lz + ld / 2 + 0.05] : [D2 + 1.35, D2 + 5.85]) box(lw, 0.06, 0.18, 0, 0.04, kz, HD6_C.kerb);
     // ENV-HD-7: where the canopy cannot fit (a street close to the door), the H sign goes on the wall over the door instead
     group = "wallsign"; glow = true;
     const wy = Math.min(H - 1.1, 4.4);
@@ -147,18 +166,19 @@ export function hd6CueParts(parish, site, tier = "high", sideOverride = 0) {
     glow = false;
   } else if (kind === "school") {
     group = "canopy";
-    const cy = 3.0;
-    box(5.2, 0.28, 3.4, 0, cy + 0.14, D2 + 1.7, HD6_C.schoolCanopy);
-    box(5.3, 0.42, 0.12, 0, cy + 0.05, D2 + 3.42, HD6_C.schoolPost);
-    for (const px of [-2.3, 2.3]) box(0.22, cy, 0.22, px, cy / 2, D2 + 3.1, HD6_C.schoolPost);
+    const cy = 3.0, scw = sm ? 3.6 : 5.2, scd = sm ? 2 : 3.4; // ENV-HD-8: the smaller canopy is 3.6 x 2 m
+    box(scw, 0.28, scd, 0, cy + 0.14, D2 + scd / 2, HD6_C.schoolCanopy);
+    box(scw + 0.1, 0.42, 0.12, 0, cy + 0.05, D2 + scd + 0.02, HD6_C.schoolPost);
+    for (const px of [-(scw / 2 - 0.3), scw / 2 - 0.3]) box(0.22, cy, 0.22, px, cy / 2, D2 + scd - 0.3, HD6_C.schoolPost);
     // the play yard beside the building, on the side away from the board: fence (a gate gap on its road side), surface, frame
     // ENV-HD-7: where the canopy cannot fit, a teal entrance surround (two pilasters and a lintel band) frames the door instead
     group = "entry";
     for (const px of [-1.3, 1.3]) box(0.4, Math.min(3.2, H - 0.4), 0.12, px, Math.min(3.2, H - 0.4) / 2, D2 + 0.06, HD6_C.schoolCanopy);
     box(3.0, 0.42, 0.12, 0, Math.min(3.2, H - 0.4) + 0.2, D2 + 0.06, HD6_C.schoolPost);
     group = "yard";
-    const x0 = side > 0 ? L2 + 1.5 : -L2 - 11.5, x1 = x0 + 10, z0 = -D2, z1 = D2, fh = 1.8;
-    box(10, 0.05, z1 - z0, (x0 + x1) / 2, 0.03, (z0 + z1) / 2, HD6_C.play);
+    // ENV-HD-8: the smaller yard is 7 m wide and at most 8 m deep, at the back
+    const yw = sm ? 7 : 10, x0 = side > 0 ? L2 + 1.5 : -L2 - 1.5 - yw, x1 = x0 + yw, z0 = -D2, z1 = sm ? Math.min(D2, -D2 + 8) : D2, fh = 1.8;
+    box(yw, 0.05, z1 - z0, (x0 + x1) / 2, 0.03, (z0 + z1) / 2, HD6_C.play);
     const run = (ax, az, bx2, bz2, gap = false) => {
       const len = Math.hypot(bx2 - ax, bz2 - az), n = Math.max(2, Math.round(len / 2.5)), alongX = Math.abs(bx2 - ax) > Math.abs(bz2 - az);
       for (let k = 0; k <= n; k++) { const t = k / n; box(0.1, fh, 0.1, ax + (bx2 - ax) * t, fh / 2, az + (bz2 - az) * t, HD6_C.fence); }
@@ -171,15 +191,16 @@ export function hd6CueParts(parish, site, tier = "high", sideOverride = 0) {
     };
     run(x0, z1, x1, z1, true); run(x0, z0, x1, z0); run(side > 0 ? x1 : x0, z0, side > 0 ? x1 : x0, z1);
     const fx = (x0 + x1) / 2, fz = (z0 + z1) / 2;
-    for (const [px, pz] of [[-1.5, -1], [1.5, -1], [-1.5, 1], [1.5, 1]]) box(0.12, 2.2, 0.12, fx + px, 1.1, fz + pz, HD6_C.frameA);
-    for (const pz of [-1, 1]) box(3.1, 0.1, 0.1, fx, 2.2, fz + pz, HD6_C.frameB);
+    for (const [px, pz] of [[-1.5, -1], [1.5, -1], [-1.5, 1], [1.5, 1]]) box(0.12, 2.2, 0.12, fx + px, 1.1, fz + (sm ? Math.min(1, (z1 - z0) / 2 - 0.6) : 1) * pz, HD6_C.frameA);
+    for (const pz of [-1, 1]) box(3.1, 0.1, 0.1, fx, 2.2, fz + (sm ? Math.min(1, (z1 - z0) / 2 - 0.6) : 1) * pz, HD6_C.frameB);
     if (hi) for (const px of [-1, -0.33, 0.33, 1]) box(0.08, 0.08, 2.1, fx + px * 1.5, 2.2, fz, HD6_C.frameB);
   } else if (kind === "utility" || kind === "substation") {
     // ENV-HD-7: a fenced equipment compound beside the building (side away from the board): a gravel pad, a chain-link fence
     // with a gate gap on its road side, and the kind's plant — three transformers with bushings (substation) or two cabinets
     // and a pipe rack (utility); a rooftop unit on the building. Generic by kind; no signs, no words.
     group = "compound";
-    const cw = 12, x0 = side > 0 ? L2 + 1.5 : -L2 - 1.5 - cw, x1 = x0 + cw, z0 = -D2, z1 = Math.min(D2, -D2 + 12), fh = 2.2;
+    // ENV-HD-8: the smaller compound is 8 x 8 m with two transformers (substation) or one cabinet and a short rack (utility)
+    const cw = sm ? 8 : 12, x0 = side > 0 ? L2 + 1.5 : -L2 - 1.5 - cw, x1 = x0 + cw, z0 = -D2, z1 = Math.min(D2, -D2 + (sm ? 8 : 12)), fh = 2.2;
     box(cw, 0.06, z1 - z0, (x0 + x1) / 2, 0.03, (z0 + z1) / 2, HD6_C.pad);
     const fence = (ax, az, bx2, bz2, gap) => {
       const len = Math.hypot(bx2 - ax, bz2 - az), n = Math.max(2, Math.round(len / 3)), alongX = Math.abs(bx2 - ax) > Math.abs(bz2 - az);
@@ -192,46 +213,65 @@ export function hd6CueParts(parish, site, tier = "high", sideOverride = 0) {
     fence(x0, z1, x1, z1, true); fence(x0, z0, x1, z0, false); fence(x0, z0, x0, z1, false); fence(x1, z0, x1, z1, false);
     const mx = (x0 + x1) / 2, mz = (z0 + z1) / 2;
     if (kind === "substation") {
-      for (const dx of [-3.5, 0, 3.5]) {
+      for (const dx of sm ? [-1.8, 1.8] : [-3.5, 0, 3.5]) {
         box(2, 2.2, 1.6, mx + dx, 1.1, mz, HD6_C.xfmr);
         if (hi) for (const bx2 of [-0.6, 0, 0.6]) box(0.18, 0.7, 0.18, mx + dx + bx2, 2.55, mz, HD6_C.bushing);
         if (hi) box(0.1, 1.8, 1.7, mx + dx + 1.05, 1.1, mz, HD6_C.xfmr); // cooling fins
       }
     } else {
-      for (const dx of [-3.6, -1.4]) box(1.6, 1.9, 0.9, mx + dx, 0.95, mz - 1.5, HD6_C.cabinet);
-      for (const py of [1.2, 1.9]) box(6, 0.32, 0.32, mx + 1.6, py, mz + 1.2, HD6_C.pipe); // a pipe rack
-      for (const dx of [-1.2, 4.2]) box(0.2, 2.2, 0.8, mx + dx, 1.1, mz + 1.2, HD6_C.chain);
+      for (const dx of sm ? [-2] : [-3.6, -1.4]) box(1.6, 1.9, 0.9, mx + dx, 0.95, mz - 1.5, HD6_C.cabinet);
+      const rl = sm ? 4 : 6, rx = sm ? 0.6 : 1.6;
+      for (const py of [1.2, 1.9]) box(rl, 0.32, 0.32, mx + rx, py, mz + 1.2, HD6_C.pipe); // a pipe rack
+      for (const dx of sm ? [rx - rl / 2 + 0.2, rx + rl / 2 - 0.2] : [-1.2, 4.2]) box(0.2, 2.2, 0.8, mx + dx, 1.1, mz + 1.2, HD6_C.chain);
     }
     group = "roof";
     box(Math.min(3, L2), 1.1, Math.min(2.2, D2), 0, H + 0.55, -D2 * 0.3, HD6_C.unit); // a rooftop unit
   } else if (kind === "park") {
     // the pavilion beside the building, on the side away from the board
     group = "pavilion";
-    const px = side * (L2 + 5.5), pz = 0, pw = 6, pd = 4.6, ph = 2.7;
+    // ENV-HD-8: the smaller pavilion is 4 x 3.4 m, 3.6 m from the wall (a tight lot)
+    // and the "back" variant stands the small pavilion behind the building (a street along the side), a short path from the
+    // back wall
+    const back = variant === "back", small = sm || back;
+    const px = back ? 0 : side * (L2 + (sm ? 3.6 : 5.5)), pz = back ? -(D2 + 3.2) : 0, pw = small ? 4 : 6, pd = small ? 3.4 : 4.6, ph = small ? 2.5 : 2.7;
     for (const [dx, dz] of [[-1, -1], [1, -1], [-1, 1], [1, 1]]) box(0.22, ph, 0.22, px + dx * (pw / 2 - 0.3), ph / 2, pz + dz * (pd / 2 - 0.3), HD6_C.timber);
     // the gable roof: two slabs pitched about the ridge (rotated about the pavilion's long axis by building them in pieces)
     const pitch = 0.5, half = pd / 2 + 0.4, rl = half / Math.cos(pitch);
     for (const s of [-1, 1]) parts.push({ size: [pw + 0.6, 0.16, rl], local: [px, ph + Math.sin(pitch) * half / 2 + 0.05, pz + s * half / 2], ry: 0, rx: s * pitch, colour: HD6_C.roof, group, glow });
-    box(2.2, 0.08, 0.8, px, 0.75, pz, HD6_C.timber); // picnic table
-    for (const s of [-1, 1]) box(2.2, 0.06, 0.28, px, 0.45, pz + s * 0.7, HD6_C.timber);
-    if (hi) for (const s of [-1, 1]) box(0.08, 0.72, 0.6, px + s * 0.9, 0.36, pz, HD6_C.timber);
+    const tl = small ? 1.6 : 2.2;
+    box(tl, 0.08, 0.8, px, 0.75, pz, HD6_C.timber); // picnic table
+    for (const s of [-1, 1]) box(tl, 0.06, 0.28, px, 0.45, pz + s * 0.7, HD6_C.timber);
+    if (hi) for (const s of [-1, 1]) box(0.08, 0.72, 0.6, px + s * (small ? 0.6 : 0.9), 0.36, pz, HD6_C.timber);
     // gravel paths: from the door out toward the road, and along the front to the pavilion
     group = "path";
-    box(2, 0.05, 10, 0, 0.03, D2 + 5, HD6_C.gravel);
+    const pl = sm ? 4 : 10, pfz = sm ? D2 + 1.4 : D2 + 2, pfw = sm ? 1.2 : 1.8; // ENV-HD-8: the smaller path is a 4 m stub
+    box(sm ? 1.4 : 2, 0.05, pl, 0, 0.03, D2 + pl / 2, HD6_C.gravel);
     group = "pavilion";
-    box(Math.abs(px) + 1, 0.05, 1.8, px / 2, 0.035, D2 + 2, HD6_C.gravel);
-    box(1.8, 0.05, Math.abs(D2 + 2 - pz) - pd / 2 + 1, px, 0.035, (D2 + 2 + pz + pd / 2) / 2, HD6_C.gravel);
+    if (back) {
+      box(1.2, 0.05, 1.5, 0, 0.035, -D2 - 0.75, HD6_C.gravel); // a short path from the back wall to the pavilion
+    } else {
+      box(Math.abs(px) + 1, 0.05, pfw, px / 2, 0.035, pfz, HD6_C.gravel);
+      box(pfw, 0.05, Math.abs(pfz - pz) - pd / 2 + 1, px, 0.035, (pfz + pz + pd / 2) / 2, HD6_C.gravel);
+    }
     // a planting bed along the front, the board's side of the door
     group = "bed";
-    const bedX = -side * (L2 * 0.5 + 1);
-    box(5, 0.35, 1.4, bedX, 0.17, D2 + 1.2, HD6_C.soil);
-    if (hi) for (let k = 0; k < 5; k++) box(0.6, 0.55, 0.6, bedX - 2 + k, 0.55, D2 + 1.2 + ((k % 2) - 0.5) * 0.4, HD6_C.shrub, k * 0.6);
+    // ENV-HD-8: the smaller bed is 3 x 0.9 m against the wall, three shrubs
+    // and the "back" variant lays the small bed along a side wall (the street at the door)
+    if (back) {
+      const sxw = side * (L2 + 0.55);
+      box(0.9, 0.35, 3, sxw, 0.17, 0, HD6_C.soil);
+      if (hi) for (let k = 0; k < 3; k++) box(0.6, 0.55, 0.6, sxw + ((k % 2) - 0.5) * 0.2, 0.55, k - 1, HD6_C.shrub, k * 0.6);
+    } else {
+      const bedX = -side * (L2 * 0.5 + 1), bl = sm ? 3 : 5, bd = sm ? 0.9 : 1.4, bz = sm ? D2 + 0.55 : D2 + 1.2;
+      box(bl, 0.35, bd, bedX, 0.17, bz, HD6_C.soil);
+      if (hi) for (let k = 0; k < bl; k++) box(0.6, 0.55, 0.6, bedX - (bl - 1) / 2 + k, 0.55, bz + ((k % 2) - 0.5) * (sm ? 0.2 : 0.4), HD6_C.shrub, k * 0.6);
+    }
     // a tool shed at the back corner on the pavilion's side
     group = "shed";
-    const sx = side * (L2 + 2.2), sz = -D2 + 1.5;
-    box(2.6, 2.2, 2.2, sx, 1.1, sz, HD6_C.shed);
-    box(2.9, 0.12, 2.6, sx, 2.32, sz, HD6_C.shedRoof);
-    if (hi) box(0.9, 1.8, 0.04, sx, 0.9, sz + 1.12, HD6_C.timber);
+    const shw = sm ? 1.8 : 2.6, shd = sm ? 1.6 : 2.2, sx = side * (L2 + 0.9 + shw / 2), sz = sm ? -D2 + 0.3 + shd / 2 : -D2 + 1.5; // ENV-HD-8: smaller 1.8 x 1.6 m
+    box(shw, 2.2, shd, sx, 1.1, sz, HD6_C.shed);
+    box(sm ? 2.1 : 2.9, 0.12, sm ? 2 : 2.6, sx, 2.32, sz, HD6_C.shedRoof);
+    if (hi) box(0.9, 1.8, 0.04, sx, 0.9, sz + (sm ? 0.82 : 1.12), HD6_C.timber);
     // the crew house itself: a green gable roof over the box (ridge along the long face), stepped timber gable ends and
     // corner boards, so the building reads as a park building from every side (the street camera may face its back)
     group = "roof";
@@ -287,29 +327,40 @@ const HD6_FREE = ["yard", "pavilion", "shed", "bed", "compound"];
 /** The groups that stand on or against the building itself (within 0.5 m of its walls): where the engine's building stands over
  *  water or at a carriageway's edge (a fort on a levee, a clinic on a narrow street), they may too, as the building does;
  *  the building is the engine's, not a cue's placement. */
-export const HD6_ON_BUILDING = ["roof", "trim", "wallsign", "entry"];
-const HD6_FALLBACK = { wallsign: "canopy", entry: "canopy" };
+export const HD6_ON_BUILDING = ["roof", "trim", "wallsign", "entry", "baydoors"];
+/** The fallback groups: each stands only where the group it replaces was skipped. ENV-HD-8 adds the fire station's wall-flush
+ *  bay doors (no aprons) for the bays. */
+export const HD6_FALLBACK = { wallsign: "canopy", entry: "canopy", baydoors: "bays" };
+/** ENV-HD-8: the groups with a smaller variant, tried (preferred side, then the other) after the full group and before skipping
+ *  it: 33 of 250 sites skipped a group on a tight lot (ENV-HD-7). */
+export const HD6_SMALL = ["bays", "canopy", "lane", "yard", "compound", "pavilion", "path", "bed", "shed"];
+/** ENV-HD-8: groups with a further variant after the small one (the park pavilion behind the building, the bed along a side). */
+export const HD6_BACK = ["pavilion", "bed"];
 /** One site's cue fitted to its ground (see SEAMS). `taken` collects the footprints of the cues already placed on the map. */
 export function hd6FitCue(parish, site, tier = "high", taken = []) {
   const pref = hd6PreferredSide(parish, site);
   const first = hd6CueParts(parish, site, tier, pref), flipped = hd6CueParts(parish, site, tier, -pref);
+  let smallSets = null, backSets = null; // built only when a group needs them (ENV-HD-8)
   const ctx = { obstacles: hd6Obstacles(parish, site), board: [site.b.site.position[0], site.b.site.position[1] + 6] };
-  const parts = [], skipped = [], own = [];
+  const parts = [], skipped = [], own = [], small = [];
   for (const g of [...new Set(first.map((p) => p.group))]) {
     // the fallbacks stand only where the canopy could not
     if (HD6_FALLBACK[g] && !skipped.includes(HD6_FALLBACK[g])) continue;
     let placed = null;
-    for (const set of [first, flipped]) {
+    const sets = [first, flipped];
+    if (HD6_SMALL.includes(g)) sets.push(...(smallSets ??= [hd6CueParts(parish, site, tier, pref, "small"), hd6CueParts(parish, site, tier, -pref, "small")]));
+    if (HD6_BACK.includes(g)) sets.push(...(backSets ??= [hd6CueParts(parish, site, tier, pref, "back"), hd6CueParts(parish, site, tier, -pref, "back")]));
+    for (const set of sets) {
       // the free-standing groups (yard, pavilion, shed, bed) keep clear of each other; paths, lanes and roofs may meet them
       const ps = set.filter((p) => p.group === g), all = HD6_FREE.includes(g) ? [...taken, ...own] : taken;
-      if (ps.every((p) => { const f = hd6PartFault(parish, p, { ...ctx, taken: all }); return !f || ((f === "water" || f === "road") && HD6_ON_BUILDING.includes(g)); })) { placed = ps; break; }
+      if (ps.length && ps.every((p) => { const f = hd6PartFault(parish, p, { ...ctx, taken: all }); return !f || ((f === "water" || f === "road") && HD6_ON_BUILDING.includes(g)); })) { placed = ps; if (sets.indexOf(set) > 1) small.push(sets.indexOf(set) > 3 ? `${g} (back)` : g); break; }
     }
     if (!placed) { skipped.push(g); continue; }
     parts.push(...placed);
     if (HD6_FREE.includes(g)) for (const p of placed) own.push(hd6Footprint(p));
   }
   for (const p of parts) taken.push(hd6Footprint(p));
-  return { parts, skipped };
+  return { parts, skipped, small };
 }
 
 /** One board lamp's post (world space): a pole beside the board, an arm, a lamp housing and a back plate behind the lit face.
@@ -354,8 +405,8 @@ export function hd6Build({ THREE, parish, boards = [], tier = "high", ua = typeo
   if (!THREE || !parish || (tier !== "high" && tier !== "balanced") || hd6Headset(ua)) return null;
   const parts = [], sites = [], taken = [];
   for (const s of hd6KindSites(parish)) {
-    const { parts: p, skipped } = hd6FitCue(parish, s, tier, taken);
-    sites.push({ id: s.id, kind: s.kind, hero: s.hero, parts: p.length, triangles: p.length * 12, skipped });
+    const fit = hd6FitCue(parish, s, tier, taken), { parts: p, skipped } = fit;
+    sites.push({ id: s.id, kind: s.kind, hero: s.hero, parts: p.length, triangles: p.length * 12, skipped, small: fit.small });
     parts.push(...p);
   }
   for (const bd of boards) parts.push(...hd6LampParts(bd));
