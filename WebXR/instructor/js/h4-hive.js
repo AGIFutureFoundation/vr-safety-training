@@ -7,7 +7,12 @@
 // writes nothing (no registry line, no storage), speaks nothing and listens to nothing; every agent is labelled a software agent.
 // Built from createElement/textContent only (the console's rule: ids and lines are data, never markup).
 //
-// SEAM: h4MountHiveTab(root, { seed, steps }) -> { render(steps), hive(), state() }
+// HIVE-5: live. When the learner's own hive runs in the parishes page in this browser on this device and the learner has turned
+// "Show on the console" on, the tab shows that hive's lines, held jobs, waiting requests, refusals and counts (h5LiveReader: a
+// same-origin BroadcastChannel, receive only; nothing uploaded, nothing stored). The seeded replay stays the fallback: it shows when
+// no snapshot has arrived, when the learner turns the link off, or when the page has been silent for H5_LIVE_STALE_MS.
+//
+// SEAM: h4MountHiveTab(root, { seed, steps, Channel }) -> { render(steps), hive(), state() }
 //   The portrait is AGENT-AVATARS' roster portrait (aaPortraitImg); when AVATARS-HD's new portrait export lands, swap it in here.
 //
 // Every top-level name starts with `h4`/`H4_` (the bundler shares one scope).
@@ -17,6 +22,7 @@ import { ohHive, ohClock } from "../../shared/oh-hive.js";
 import { VB_REASONS } from "../../shared/vb-shared-data.js";
 import { RB_SITES } from "../../shared/rb-robotics-data.js";
 import { aaPortraitImg } from "../../shared/aa-agent-portraits.js";
+import { h5LiveReader } from "../../shared/h5-hive-live.js";
 
 export const H4_TAB_SEED = 1;
 export const H4_TAB_STEPS = Object.freeze([60, 120, 240, 480]);
@@ -35,38 +41,58 @@ function h4Table(headers, rows, empty) {
 const h4Site = (id) => RB_SITES.find((s) => s.id === id)?.name ?? id;
 const h4Reason = (id) => VB_REASONS.find((r) => r.id === id)?.text ?? OH_REASON_PHRASES[id] ?? id;
 
-export function h4MountHiveTab(root, { seed = H4_TAB_SEED, steps = 120 } = {}) {
+export function h4MountHiveTab(root, { seed = H4_TAB_SEED, steps = 120, Channel } = {}) {
   if (!root || typeof document === "undefined") return null;
   if (!document.getElementById("h4-style")) { const s = document.createElement("style"); s.id = "h4-style"; s.textContent = H4_CSS; document.head.appendChild(s); }
-  let hive = null, at = steps, evals = null, evalsNote = "Reading WebXR/instructor/hive4-evals.json…";
+  let hive = null, at = steps, evals = null, evalsNote = "Reading WebXR/instructor/hive4-evals.json…", shownLive = false, soon = null;
   const h4Try = (i) => (i >= H4_EVALS_URLS.length ? Promise.reject(new Error("none")) : fetch(H4_EVALS_URLS[i]).then((r) => (r.ok ? r.json() : h4Try(i + 1)), () => h4Try(i + 1)));
   h4Try(0).then((j) => { evals = j; render(at); }).catch(() => { evalsNote = "The evals file (hive4-evals.json) could not be read from this origin."; render(at); });
+  // HIVE-5: the learner's own hive on this device, when its page shares it (receive only); a render at most every 300 ms.
+  const h4Soon = () => { if (soon == null) soon = setTimeout(() => { soon = null; render(at); }, 300); };
+  const reader = h5LiveReader({ ...(Channel !== undefined ? { Channel } : {}), onSnapshot: h4Soon });
+  if (typeof setInterval === "function") setInterval(() => { if (shownLive && !reader.live()) render(at); }, 2000); // the page went quiet: back to the replay
 
   function replay(n) {
     hive = ohHive({ seed, audit: null, exchanges: true, memory: true, variety: true });
     hive.run(n);
     return hive;
   }
+  /** What the tab shows: the live snapshot when there is one, else the seeded replay to hive minute n. */
+  function h4View(n) {
+    const live = reader.snapshot();
+    if (live) return { live: true, t: live.t, lines: live.lines, refusals: live.refusals.map((r) => ({ ...r, siteName: r.site })), jobs: live.jobs, pend: live.pending.map((p) => ({ ...p, siteName: p.site })), m: live.metrics ?? {} };
+    if (!hive || hive.now() !== n) replay(n);
+    const ev = hive.events();
+    return {
+      live: false, t: n,
+      lines: ev.filter((e) => e.type === "speak").map((e) => ({ t: e.t, agent: e.agent, caption: e.caption, x: e.exchange ? e.exchange.turn : null, memory: !!e.memory })),
+      refusals: ev.filter((e) => e.type === "refused").map((e) => ({ t: e.t, jobId: e.jobId, siteName: e.siteName ?? h4Site(e.to), by: e.by ?? "", reason: e.veto ?? e.reason })),
+      jobs: hive.jobs(), pend: hive.pending(), m: hive.metrics(),
+    };
+  }
 
   function render(n = at) {
-    at = n; if (!hive || hive.now() !== n) replay(n);
-    const ev = hive.events(); const speaks = ev.filter((e) => e.type === "speak");
+    at = n;
+    const v = h4View(n); shownLive = v.live;
     const out = [];
-    const intro = h4El("section", "panel");
-    intro.append(h4El("h2", null, "Omega Hive (read-only)"));
-    intro.append(h4El("p", "fine", `A replay of the hive's seeded day (seed ${seed}) on this device, to hive minute ${n} (${ohClock(n)} on the hive clock). Every agent is software: its lines are built on the device from its persona and the hive's own events, with no model or network call. Requests that name a robot wait for the learner, who decides in the parishes app; this tab approves nothing, writes nothing and speaks nothing.`));
-    const lab = h4El("label", null, "Replay to hive minute ");
-    const sel = h4El("select"); sel.id = "h4-steps"; sel.setAttribute("aria-label", "Replay the hive's day to this hive minute");
-    for (const s of H4_TAB_STEPS) { const o = h4El("option", null, `${s} (${ohClock(s)})`); o.value = String(s); if (s === n) o.selected = true; sel.append(o); }
-    sel.addEventListener("change", () => render(Number(sel.value)));
-    lab.append(sel); intro.append(lab);
-    const m = hive.metrics();
-    intro.append(h4El("p", "fine", `Completed ${m.completed} · refused by the governor ${m.refused} · vetoed ${m.vetoed} · waiting for the learner ${m.awaitingApproval} · exchanges ${m.exchanges} · memory lines ${m.memories} · dispatched steps checked ${m.dispatchedChecked} of ${m.dispatched} · physical dispatches ${m.physicalDispatched}.`));
+    const intro = h4El("section", "panel"); intro.dataset.live = String(v.live);
+    intro.append(h4El("h2", null, v.live ? "Omega Hive (live, read-only)" : "Omega Hive (read-only)"));
+    if (v.live) intro.append(h4El("p", "fine", `Live: the learner's own hive in the parishes page on this device, at hive minute ${v.t} (${ohClock(v.t)} on the hive clock). That page shares it only while the learner keeps "Show on the console" on; nothing is uploaded or stored, and this tab only reads. Every agent is software: its lines are built on the device from its persona and the hive's own events, with no model or network call. Requests that name a robot wait for the learner, who decides in the parishes app; this tab approves nothing, writes nothing and speaks nothing.`));
+    else {
+      intro.append(h4El("p", "fine", `A replay of the hive's seeded day (seed ${seed}) on this device, to hive minute ${n} (${ohClock(n)} on the hive clock). Every agent is software: its lines are built on the device from its persona and the hive's own events, with no model or network call. Requests that name a robot wait for the learner, who decides in the parishes app; this tab approves nothing, writes nothing and speaks nothing. The learner's own hive shows here live when they turn "Show on the console" on in the parishes page in this browser.`));
+      const lab = h4El("label", null, "Replay to hive minute ");
+      const sel = h4El("select"); sel.id = "h4-steps"; sel.setAttribute("aria-label", "Replay the hive's day to this hive minute");
+      for (const s of H4_TAB_STEPS) { const o = h4El("option", null, `${s} (${ohClock(s)})`); o.value = String(s); if (s === n) o.selected = true; sel.append(o); }
+      sel.addEventListener("change", () => render(Number(sel.value)));
+      lab.append(sel); intro.append(lab);
+    }
+    const m = v.m, c = (k) => (Number.isFinite(m?.[k]) ? m[k] : "–");
+    intro.append(h4El("p", "fine", `Completed ${c("completed")} · refused by the governor ${c("refused")} · vetoed ${c("vetoed")} · waiting for the learner ${c("awaitingApproval")} · exchanges ${c("exchanges")} · memory lines ${c("memories")} · dispatched steps checked ${c("dispatchedChecked")} of ${c("dispatched")} · physical dispatches ${c("physicalDispatched")}.`));
     out.push(intro);
 
     const cp = h4El("section", "panel"); cp.append(h4El("h2", null, "Agents"));
     const cards = h4El("div", "h4-cards"); cards.setAttribute("role", "list");
-    const jobs = hive.jobs(); const pend = hive.pending();
+    const jobs = v.jobs; const pend = v.pend;
     for (const a of OH_AGENTS) {
       const card = h4El("div", "h4-card"); card.setAttribute("role", "listitem"); card.dataset.agent = a.id;
       const head = h4El("div", "h4-head");
@@ -84,10 +110,10 @@ export function h4MountHiveTab(root, { seed = H4_TAB_SEED, steps = 120 } = {}) {
       const q = a.key === "consent-keeper" ? pend.map((p) => `${p.jobId} at ${p.siteName}: waiting for the learner (${p.reason})`) : mine.map((j) => `${j.jobId} at ${h4Site(j.site)}: ${j.status}`);
       card.append(h4El("h3", null, `Queue (${q.length})`));
       if (q.length) { const ul = h4El("ul", "h4-q"); for (const line of q) ul.append(h4El("li", null, line)); card.append(ul); } else card.append(h4El("p", "h4-q muted", "Nothing held."));
-      const last = speaks.filter((e) => e.agent === a.id).slice(-10);
+      const last = v.lines.filter((e) => e.agent === a.id).slice(-10);
       card.append(h4El("h3", null, `Last ${last.length} lines`));
       const ol = h4El("ol", "h4-lines");
-      for (const e of last) { const li = h4El("li", null, `${ohClock(e.t)} ${e.caption}`); if (e.exchange) li.dataset.x = String(e.exchange.turn); if (e.memory) li.dataset.memory = "true"; ol.append(li); }
+      for (const e of last) { const li = h4El("li", null, `${ohClock(e.t)} ${e.caption}`); if (e.x != null) li.dataset.x = String(e.x); if (e.memory) li.dataset.memory = "true"; ol.append(li); }
       card.append(ol);
       cards.append(card);
     }
@@ -95,7 +121,7 @@ export function h4MountHiveTab(root, { seed = H4_TAB_SEED, steps = 120 } = {}) {
 
     const rp = h4El("section", "panel"); rp.append(h4El("h2", null, "The governor's refusals, with reasons"));
     rp.append(h4El("p", "fine", "Every job passes VBRIDGE's safety governor: the e-stop comes first and the physical path is disabled. A steward veto only ever adds a refusal; the learner's decline closes a job."));
-    rp.append(h4Table(["Hive clock", "Job", "Site", "By", "Reason", "Why"], ev.filter((e) => e.type === "refused").slice(-40).reverse().map((e) => [ohClock(e.t), e.jobId, e.siteName ?? h4Site(e.to), e.by ?? "", e.veto ?? e.reason, h4Reason(e.veto ?? e.reason)]), "No refusals yet in this replay."));
+    rp.append(h4Table(["Hive clock", "Job", "Site", "By", "Reason", "Why"], v.refusals.slice(-40).reverse().map((e) => [ohClock(e.t), e.jobId, e.siteName, e.by ?? "", e.reason, h4Reason(e.reason)]), v.live ? "No refusals yet in the learner's hive." : "No refusals yet in this replay."));
     out.push(rp);
 
     const ep = h4El("section", "panel"); ep.append(h4El("h2", null, "Evals (from WebXR/instructor/hive4-evals.json)"));
@@ -106,5 +132,5 @@ export function h4MountHiveTab(root, { seed = H4_TAB_SEED, steps = 120 } = {}) {
     return n;
   }
   render(at);
-  return { render, hive: () => hive, state: () => ({ at, seed, metrics: hive?.metrics() ?? null, evals: !!evals }) };
+  return { render, hive: () => hive, state: () => { const live = reader.snapshot(); return { at, seed, live: !!live, liveT: live?.t ?? null, liveLines: live?.lines?.length ?? 0, snapshots: reader.count(), metrics: live ? live.metrics : hive?.metrics() ?? null, evals: !!evals }; } };
 }

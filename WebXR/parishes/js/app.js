@@ -96,6 +96,8 @@ import { vbColearnProvider, vbColearnLocalSource } from "../../shared/vb-colearn
 import { aaMountAgentAvatars, aaVbridgeAgents, aaVbridgeSource } from "../../shared/aa-agent-avatars.js";
 // HIVE-IN-WORLD: the hive's agents inside the robotics rooms, one door with the exterior, and the return into the room.
 import { hwSyncRoom, hwFxDoorAt, hwReturnHash, hwRoomFromHash, hwRouter, hwBoxesIn } from "../../shared/hw-hive-world.js";
+// HIVE-5: the console link (the hive's operations room comes through hwSyncRoom).
+import { h5LivePublisher, h5MountLiveToggle } from "../../shared/h5-hive-live.js";
 import { ohHive } from "../../shared/oh-hive.js";
 import { VB_REASONS } from "../../shared/vb-shared-data.js";
 import { H3_SCENE, H3_SCENE_PROLOGUE_STEPS, h3SceneHive, h3SceneRelay, h3Settings } from "../../shared/h3-hive-day.js"; // HIVE-3: the hive's scripted day
@@ -1390,6 +1392,11 @@ window.__parishTest.vbridge = vbMountDispatch($("menu-drills"), { reducedMotion:
 var h3Prefs = (() => { try { return h3Settings({ storage: gtStorage(), signals: dxReadSignals(), profile: gtProfile(), demo: npParams.has("demo") }); } catch (_) { return null; } })();
 window.__parishTest.hivePrefs = h3Prefs;
 window.__parishTest.hive = (() => { try { let ok = false; try { ok = !npParams.has("demo") && dxEligibility(dxReadSignals(), { stage: "offer" }).eligible === true; } catch (_) { ok = false; } return ok ? ohMountHive($("menu-drills"), { reducedMotion: npReduced, audit: ent3AuditAppend, seed: 1, settings: h3Prefs, onTalk: (id, on) => { if (on) { aaWorld?.talkStart(id); hwRoomMount?.avatars?.talkStart(id); } else { aaWorld?.talkEnd(id); hwRoomMount?.avatars?.talkEnd(id); } } }) : null; } catch (_) { return null; } })();
+// HIVE-5 (docs/consoles/HIVE-5.md): the console link. Off until the learner turns "Show on the console (this device)" on in the hive
+// panel; then the panel's hive reaches the instructor console open in this browser (a same-origin BroadcastChannel: nothing uploaded,
+// nothing stored, never remembered), and leaving the page turns it off. Only where the hive panel is mounted (its own gate).
+var h5Live = (() => { try { const p = window.__parishTest.hive; if (!p?.hive) return null; const pub = h5LivePublisher({ hive: p.hive }); h5MountLiveToggle(p, pub); addEventListener("pagehide", () => pub.set(false)); return pub; } catch (_) { return null; } })();
+window.__parishTest.hiveLive = h5Live;
 window.__parishTest.vbColearn = vbProvider;
 // AGENT-AVATARS (docs/consoles/AGENT-AVATARS.md): the software agents embodied at this map's robot sites — the four VBRIDGE
 // personas over the agent-jobs panel's job stream (the client asks, the governor checks, the provider walks to a running job's
