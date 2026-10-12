@@ -99,13 +99,14 @@ export const RT6_PAIR_SEED0 = 31;
  * two drawn skills, chosen by the synthetic rater. Pairs carry agPreferencePairs' shape plus `x` (both feature rows).
  */
 export function rt6SyntheticPairs(sc, { n = 200, seed = 1 } = {}) {
-  const R = rng(seed * 7919 + 17), pick = (a) => a[Math.floor(R() * a.length)];
+  const R = rng(seed * 7919 + 17);
+  const rt6Pick = (a) => a[Math.floor(R() * a.length)];
   const cap = rbScenario(sc)?.maxSteps ?? 400;
   const pairs = [], episodes = [];
   for (let i = 0; i < n; i++) {
     const ps = RT6_PAIR_SEED0 + (seed - 1) * 100000 + i;
     const run = (tag) => {
-      const skill = pick(RT6_SKILLS), noise = pick(RT6_NOISES);
+      const skill = rt6Pick(RT6_SKILLS), noise = rt6Pick(RT6_NOISES);
       const ep = colSyntheticDemos(sc, { n: 1, seed: ps, skill, noise })[0];
       ep.episodeId = `rt6-${sc}-${ps}-${tag}`;
       return ep;
