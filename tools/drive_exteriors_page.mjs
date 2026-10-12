@@ -41,9 +41,12 @@ for (const parishId of [...new Set(RB_SITES.map((s) => s.parish))]) {
   for (const s of sites) for (const shot of ["wide", "door"]) {
     const sc = await page.evaluate(([id, shot]) => window.__parishTest.scene(id, shot), [s.id, shot]);
     await frames(20);
-    const hidden = await page.evaluate(() => { window.__parishTest.exteriors.group.visible = false; return true; }) && await measure();
-    await page.evaluate(() => { window.__parishTest.exteriors.group.visible = true; });
-    const shown = await measure();
+    // hidden, shown, hidden again in one task (no frame or stream step between them): the kit's own cost on this view
+    const [hidden, shown, again] = await page.evaluate(() => {
+      const t = window.__parishTest, r = t.npRenderer, g = t.exteriors.group, m = () => { r.info.autoReset = true; r.render(t.threeScene, t.camera); return { calls: r.info.render.calls, triangles: r.info.render.triangles, geometries: r.info.memory.geometries, textures: r.info.memory.textures }; };
+      g.visible = false; const a = m(); g.visible = true; const b = m(); g.visible = false; const c = m(); g.visible = true; return [a, b, c];
+    });
+    if (hidden.calls !== again.calls) console.log(`  note: the hidden view changed between renders (${hidden.calls} vs ${again.calls} calls)`);
     const c = await page.evaluate(() => window.__parishTest.exteriors.counts());
     const ok = sc?.ok && shown.calls > hidden.calls && c.sites === sites.length;
     out.shots++; if (!ok) out.failed++;

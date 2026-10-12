@@ -1140,6 +1140,7 @@ const fxSceneHandle = (siteId, shot = "wide") => {
   np.x = sc.target[0]; np.z = sc.target[2];
   world.update(np.x, np.z, 999); cwStreetsMount.update(np.x, np.z, 999); tfLand.update(np.x, np.z, 99); atmos.update(np.x, np.z);
   fxShot = sc;
+  const menu = document.getElementById("menu"); if (menu && !np.playing) menu.hidden = true; // a clean frame for the reel (Esc brings the menu back)
   return { ok: true, ...sc };
 };
 for (const k of ["traverse", "getObjectByName", "getObjectById"]) fxSceneHandle[k] = (...args) => scene[k](...args);
