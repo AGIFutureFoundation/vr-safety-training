@@ -1067,6 +1067,11 @@ APPS = {
             SHARED / "ixr-robo-interiors.js",
             # ENV-HD-2: the canvas texture set on the most-visited INTERIORS rooms (after ixr-robo-interiors.js).
             SHARED / "hd2-room-skins.js",
+            # ENV-HD-4 (docs/consoles/ENV-HD-4.md): the opt-in Ultra setting, the robot sites' looks and site lights, the lit
+            # robot rooms and the hive operations room (after ixr-robo-interiors.js, fx-exteriors.js, oh-hive-data.js).
+            SHARED / "hd4-ultra.js",
+            SHARED / "hd4-looks.js",
+            SHARED / "hd4-rooms.js",
             # HIVE-IN-WORLD: the hive's agents inside the robotics rooms, the exterior door and the return into the room
             # (after aa-agent-avatars.js and ixr-robo-interiors.js).
             SHARED / "hw-hive-world.js",

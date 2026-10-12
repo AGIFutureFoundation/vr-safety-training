@@ -76,6 +76,11 @@ import { rbMountRobotics, rbGamesFor, rbRegisterMechanics } from "../../shared/r
 // ROBO-EXTERIORS: the robot sites' buildings from outside, their streetscape, night windows and establishing shots.
 import { fxMountExteriors, fxColliders, fxScene, fxSitesFor, fxSiteParish, fxDoorFor, FX_SHOTS } from "../../shared/fx-exteriors.js";
 import { hd3Scene, hd3ScenePresets, HD3_SCENE_SITES, HD3_SHOTS } from "../../shared/hd3-scenes.js";
+// ENV-HD-4 (docs/consoles/ENV-HD-4.md): the opt-in Ultra desktop setting, the robot sites' six looks (dawn, day, dusk, night,
+// fog, rain) with floodlights, dock lights and a wet tint, lit robot rooms and the hive's operations room.
+import { hd4UltraChoice, hd4MountUltraToggle, hd4MountUltraSites, HD4_ULTRA_BUDGET } from "../../shared/hd4-ultra.js";
+import { hd4MountSiteLights, hd4LookPresets, hd4LightLevel, hd4LookFog, hd4DawnSky, HD4_LOOKS } from "../../shared/hd4-looks.js";
+import { hd4RegisterDressers, hd4OpsHome, hd4OpsSite, hd4OpsDoor, hd4OpsScreens, HD4_OPS_STYLE } from "../../shared/hd4-rooms.js";
 import { uxMountTabs, uxOnboarding } from "../../shared/ux-menu.js";
 import { dxMountConsent } from "../../shared/dx-consent-ui.js";
 import { dxFlush, dxPendingCount, dxStore, dxReadSignals, dxEligibility } from "../../shared/dx-data.js";
@@ -123,7 +128,7 @@ const $ = (id) => document.getElementById(id);
 const NP_RUNNER = "../smartcity/index.html";
 const NP_EYE = 1.7;
 const NP_TIMES = ["dawn", "day", "dusk", "night"];
-const NP_WEATHERS = ["clear", "overcast", "fog", "wind", "storm", "live"]; // "live": ATMOS's seeded weather for this parish and hour
+const NP_WEATHERS = ["clear", "overcast", "fog", "wind", "storm", "live", "rain"]; // "live": ATMOS's seeded weather for this parish and hour; ENV-HD-4: "rain" (ATMOS's rain recipe) last, so carried indices keep their meaning
 
 // Which parish: ?parish=, else the parish of a return's site (`#site=<parish>/<site>`), else the first.
 const npParams = new URLSearchParams(location.search);
@@ -145,6 +150,8 @@ function npToast(text, ms = 3200) { const t = $("toast"); t.textContent = text; 
 
 const npTierName = tcTierChoice().tier;
 const npTierSet = tcTier();
+// ENV-HD-4: Ultra is off by default and offered only on the desktop high tier (never the phone, balanced or a headset browser).
+const hd4Ultra = hd4UltraChoice({ tier: npTierName });
 const npRenderer = new THREE.WebGLRenderer({ antialias: npTierName !== "low", preserveDrawingBuffer: true });
 tcApplyRenderer(npRenderer, npTierSet);
 npRenderer.setSize(innerWidth, innerHeight);
@@ -283,6 +290,15 @@ const ixrDoors = (() => {
     return ixrDoorsFor(parish, { sites: rbSitesFor(parish), blocked, doorAt });
   } catch { return []; }
 })();
+// ENV-HD-4: the hive operations room's door, 3 m along the wall from the dispatcher's home robot site's room door (its own
+// list, so the robot-room door counts stay as they were).
+var hd4OpsDoors = [];
+try {
+  const home = hd4OpsHome(), blds = parish.sites.map((_, i) => { try { return cwSiteBuilding(parish, i); } catch { return null; } }).filter(Boolean);
+  const blocked = (x, z) => blds.some((b) => Math.abs(x - b.cx) < b.w / 2 + 0.6 && Math.abs(z - b.cz) < b.d / 2 + 0.6) || tfWaterDepthAt(parish, x, z) > 0.02;
+  const spot = home ? hd4OpsDoor({ doors: ixrDoors, homeSite: home.id, blocked, colliders: fxColliders(parish) }) : null;
+  if (spot) hd4OpsDoors.push({ site: hd4OpsSite(home, parish), x: spot.x, z: spot.z, face: spot.face, style: HD4_OPS_STYLE, title: "Hive operations room" }); // the title is the shell sign's first line (it says "generic" below)
+} catch (e) { console.warn("hd4 ops door:", e); }
 const ixWorld = ixMountInteriors({
   three: THREE, scene, hide: [root], tier: npTierName,
   onBoard: (s) => npOpenBoard(s.board ?? s, s.kind === "robotics" ? hwReturnHash(s.style) : ""), // HIVE-IN-WORLD: the room's board returns into the room too
@@ -369,7 +385,10 @@ function npApplySky() {
   const atNear = atNearness(parish, np.x, np.z);
   atWeatherNow = atLive ? atWeather(parish.id, atHour, 1, { nearWater: atNear.water > 0.5 }) : atWeatherOf(NP_WEATHERS[np.weatherIdx], atHour);
   const weather = weatherFor(atLive ? atSkyKind(atWeatherNow) : NP_WEATHERS[np.weatherIdx]);
-  sky = buildSky(root, { time: NP_TIMES[np.timeIdx], weather, radius: 3000 });
+  // ENV-HD-4: sky.js knows day, dusk and night only, so "dawn" drew the midday sky; at dawn it now takes the low-sun palette
+  // (warm horizon, deep zenith) through the clock hour 5.5, which skyTimeBucket maps to that band.
+  sky = buildSky(root, { time: NP_TIMES[np.timeIdx] === "dawn" ? 5.5 : NP_TIMES[np.timeIdx], weather, radius: 3000 });
+  if (NP_TIMES[np.timeIdx] === "dawn") hd4DawnSky(sky.root); // ENV-HD-4: the low sun in the east and a cooler, rose-violet dome
   npRecipe = sky.recipe;
   const atDim = atDarken(atWeatherNow), atShade = (hex) => new THREE.Color(hex).multiplyScalar(atDim).getHex();
   scene.background.setHex(atShade(npRecipe.sky));
@@ -380,6 +399,7 @@ function npApplySky() {
   scene.fog.near = Math.min(vis * 0.15, atF.near); scene.fog.far = Math.min(vis, atF.far);
   atmos.set({ hour: atHour, weather: atWeatherNow });
   fxWorld?.setHour(atHour); // ROBO-EXTERIORS: lit windows from ATMOS's dusk to dawn
+  hd4Sites?.set({ band: NP_TIMES[np.timeIdx], weather: atWeatherNow }); // ENV-HD-4: floodlights, dock lights, window glow and the wet tint (the site lighting policy)
   const night = NP_TIMES[np.timeIdx] === "night";
   sun.intensity = (night ? 0.12 : NP_TIMES[np.timeIdx] === "day" ? 1.1 : 0.6) * atDim; // a storm front darkens the light
   hemi.intensity = (night ? 0.25 : 0.95) * atDim;
@@ -602,6 +622,7 @@ function npNearest() {
   for (const dd of ixDoors) { const d = Math.hypot(np.x - dd.x, np.z - dd.z); if (d < Math.min(bd, 3)) { bd = d; best = { kind: "door", site: dd.site, at: [dd.x, dd.z] }; } }
   for (const dd of ixRentalDoors()) { const d = Math.hypot(np.x - dd.x, np.z - dd.z); if (d < Math.min(bd, 2.2)) { bd = d; best = { kind: "door", site: dd.site, at: [dd.x, dd.z], style: dd.style, title: dd.title }; } }
   for (const dd of ixrDoors) { const d = Math.hypot(np.x - dd.x, np.z - dd.z); if (d < Math.min(bd, 3)) { bd = d; best = { kind: "door", site: dd.site, at: [dd.x, dd.z], style: dd.style, title: dd.title }; } } // ROBO-INTERIORS
+  for (const dd of hd4OpsDoors) { const d = Math.hypot(np.x - dd.x, np.z - dd.z); if (d < Math.min(bd, 2.4)) { bd = d; best = { kind: "door", site: dd.site, at: [dd.x, dd.z], style: dd.style, title: dd.title }; } } // ENV-HD-4: the hive operations room
   for (const s of world.lessonSigns) { const d = Math.hypot(np.x - s.x, np.z - s.z); if (d < Math.min(bd, 5)) { bd = d; best = { kind: "lesson", lesson: s.lesson, at: [s.x, s.z] }; } }
   for (const c of connectors) { const d = Math.hypot(np.x - c.from.position[0], np.z - c.from.position[1]); if (d < Math.min(bd, 7)) { bd = d; best = { kind: "connector", conn: c, at: c.from.position }; } }
   const mv = mvPark.near(np.x, np.z); // MOTORWORKS: a parked vehicle beside the learner (its body edge within the prompt distance)
@@ -1091,6 +1112,10 @@ void larDressed;
 // ROBO-INTERIORS: the six robotics rooms' dresser (props, the canvas texture set, the agent spots where the hive's avatars stand).
 var ixrDressed = ixrRegisterDressers(typeof ixRegisterDresser === "function" ? { ixRegisterDresser } : null);
 void ixrDressed;
+// ENV-HD-4: the six robot rooms' lighting on the desktop high tier (and Ultra's 2048 px floor and walls, trusses and cable trays
+// when Ultra is on), and the hive operations room's consoles; after ROBO-INTERIORS' dressers, before ENV-HD-2's skins.
+var hd4Dressed = hd4RegisterDressers(typeof ixRegisterDresser === "function" ? { ixRegisterDresser } : null, { ultra: hd4Ultra.on });
+void hd4Dressed;
 // ENV-HD-2: the same canvas texture set on the most-visited INTERIORS rooms (workshop, plant room, port shed, civic lobby,
 // classroom, apparatus bay, transit barn, clinic, warehouse): maps only, no mesh added; registered after the other dressers.
 var hd2Skinned = hd2RegisterSkins(typeof ixRegisterDresser === "function" ? { ixRegisterDresser } : null);
@@ -1195,16 +1220,40 @@ window.__parishTest.roboInteriors = {
 // hall, research lab, distribution warehouse, port control tower, construction site), its streetscape and pictogram-only
 // signs, canvas facades (1024 px on desktop high, none on the phone), lit windows at night, two establishing shots a site.
 var fxWorld = null, fxShot = null;
-try { fxWorld = fxMountExteriors({ THREE, root, parish, tier: npTierName, hour: AT_BUCKET_HOUR[NP_TIMES[np.timeIdx]] ?? 12 }); } catch (e) { console.warn("fx-exteriors:", e); }
+try { fxWorld = fxMountExteriors({ THREE, root, parish, tier: npTierName, hour: AT_BUCKET_HOUR[NP_TIMES[np.timeIdx]] ?? 12, atlasPx: hd4Ultra.on ? HD4_ULTRA_BUDGET.facadeAtlasPx : null }); } catch (e) { console.warn("fx-exteriors:", e); }
 window.__parishTest.exteriors = fxWorld;
-/** `__parishTest.scene(siteId, shot)`: frame a robot site ("wide" or "door"); a site on another map returns its URL. The
+// ENV-HD-4: Ultra's near-camera detail on the robot sites' buildings (Ultra only), and the site lights every look drives
+// (floodlight masts, lamp faces, dock lamps and light pools; desktop high tier only, a stub elsewhere).
+var hd4UltraSites = null, hd4Sites = null;
+try {
+  if (hd4Ultra.on && fxWorld) hd4UltraSites = hd4MountUltraSites({ THREE, root, layouts: fxWorld.layouts });
+  const fxMats = []; fxWorld?.group?.traverse((o) => { if (o.isMesh && !fxMats.includes(o.material)) fxMats.push(o.material); });
+  hd4Sites = hd4MountSiteLights({ THREE, root, layouts: fxWorld?.layouts ?? [], tier: npTierName, glow: fxMats.filter((m) => /^fx-atlas/.test(m.name)), wet: fxMats, groundAt: (x, z) => Math.max(npHeightAt(parish, x, z), 0) });
+  hd4Sites.set({ band: NP_TIMES[np.timeIdx], weather: atWeatherNow });
+} catch (e) { console.warn("hd4-looks:", e); }
+/** ENV-HD-4: one of the six looks (HD4_LOOKS: dawn, day, dusk, night, fog at dawn, rain at dusk) through the page's own clock
+ *  and weather; returns what it set: the fog's distances and density (ATMOS's atFog), wetness and the site light level. */
+function hd4ApplyLook(look) {
+  const L = look ? HD4_LOOKS[look] : null;
+  if (!L) return look ? { look, lookOk: false } : {};
+  const wasNight = NP_TIMES[np.timeIdx] === "night";
+  np.timeIdx = NP_TIMES.indexOf(L.time); np.weatherIdx = NP_WEATHERS.indexOf(L.weather);
+  npApplySky();
+  if (wasNight !== (NP_TIMES[np.timeIdx] === "night")) mgRemount();
+  const lf = hd4LookFog(look, scene.fog ? { near: scene.fog.near, far: scene.fog.far } : null); // fog at dawn: a ground fog at the site (floored)
+  if (lf && scene.fog) { scene.fog.near = lf.near; scene.fog.far = lf.far; }
+  const f = atFog({ weather: atWeatherNow, band: atWeatherNow?.band ?? "day", nearWater: atNearness(parish, np.x, np.z).water });
+  return { look, lookOk: true, time: L.time, weather: L.weather, fog: { near: scene.fog?.near ?? null, far: scene.fog?.far ?? null, density: f.density }, wet: atWeatherNow?.wet ?? 0, lights: hd4LightLevel({ band: L.time, weather: atWeatherNow }) };
+}
+/** `__parishTest.scene(siteId, shot, look?)`: frame a robot site ("wide" or "door"); a site on another map returns its URL.
+ * ENV-HD-4: an optional third argument applies one of the six looks (dawn, day, dusk, night, fog, rain). The
  * handle used to be the THREE.Scene itself: it stays reachable as `__parishTest.threeScene`, and the old readers' calls
  * (traverse, getObjectByName, getObjectById, children) are delegated to it, so check_harvest's live leg reads it as before. */
-const fxSceneHandle = (siteId, shot = "wide") => {
+const fxSceneHandle = (siteId, shot = "wide", look = null) => {
   // ENV-HD-3: the three busiest non-robot sites take two establishing shots each ("wide", "street"), by day or night
   const hd3 = HD3_SCENE_SITES.find((s) => s.id === siteId);
   if (hd3) {
-    if (hd3.parish !== parish.id) return { ok: false, parish: hd3.parish, href: `?parish=${encodeURIComponent(hd3.parish)}&scene=${encodeURIComponent(siteId)}:${shot}` };
+    if (hd3.parish !== parish.id) return { ok: false, parish: hd3.parish, href: `?parish=${encodeURIComponent(hd3.parish)}&scene=${encodeURIComponent(siteId)}:${shot}${look ? `:${look}` : ""}` };
     const sc = hd3Scene(parish, siteId, shot);
     if (!sc) return { ok: false, reason: `unknown shot (${HD3_SHOTS.join(", ")})` };
     np.x = sc.target[0]; np.z = sc.target[2];
@@ -1212,11 +1261,11 @@ const fxSceneHandle = (siteId, shot = "wide") => {
     fxShot = sc;
     const menu = document.getElementById("menu"); if (menu && !np.playing) menu.hidden = true;
     document.getElementById("toast")?.classList.remove("on");
-    return { ok: true, ...sc };
+    return { ok: true, ...sc, ...hd4ApplyLook(look) };
   }
   if (!fxSitesFor(parish).some((s) => s.id === siteId)) {
     const other = fxSiteParish(siteId);
-    return other ? { ok: false, parish: other, href: `?parish=${encodeURIComponent(other)}&scene=${encodeURIComponent(siteId)}:${shot}` } : { ok: false, reason: "unknown site" };
+    return other ? { ok: false, parish: other, href: `?parish=${encodeURIComponent(other)}&scene=${encodeURIComponent(siteId)}:${shot}${look ? `:${look}` : ""}` } : { ok: false, reason: "unknown site" };
   }
   const sc = fxScene(parish, siteId, shot);
   if (!sc) return { ok: false, reason: `unknown shot (${FX_SHOTS.join(", ")})` };
@@ -1224,7 +1273,7 @@ const fxSceneHandle = (siteId, shot = "wide") => {
   world.update(np.x, np.z, 999); cwStreetsMount.update(np.x, np.z, 999); tfLand.update(np.x, np.z, 99); atmos.update(np.x, np.z);
   fxShot = sc;
   const menu = document.getElementById("menu"); if (menu && !np.playing) menu.hidden = true; // a clean frame for the reel (Esc brings the menu back)
-  return { ok: true, ...sc };
+  return { ok: true, ...sc, ...hd4ApplyLook(look) };
 };
 for (const k of ["traverse", "getObjectByName", "getObjectById"]) fxSceneHandle[k] = (...args) => scene[k](...args);
 Object.defineProperty(fxSceneHandle, "children", { get: () => scene.children });
@@ -1235,7 +1284,45 @@ window.__parishTest.scenePresets = () => [
   ...NP_PARISHES.flatMap((p) => { try { return fxSitesFor(p).flatMap((s) => FX_SHOTS.map((shot) => ({ siteId: s.id, shot, parish: p.id }))); } catch { return []; } }),
   ...hd3ScenePresets(),
 ];
-{ const q = npParams.get("scene"); if (q && q.includes(":")) { const [sid, shot] = q.split(":"); window.__parishTest.scene(sid, shot); } }
+{ const q = npParams.get("scene"); if (q && q.includes(":")) { const [sid, shot, look] = q.split(":"); window.__parishTest.scene(sid, shot, look ?? null); } }
+// ENV-HD-4 (docs/consoles/ENV-HD-4.md): the looks, the Ultra state and counts, the site lights, the lit robot rooms and the
+// hive operations room for captures, and a frame-time measurement (renders the view in force n times, waiting on the GPU).
+window.__parishTest.hd4 = {
+  ultra: hd4Ultra, looks: HD4_LOOKS,
+  lookPresets: () => hd4LookPresets(NP_PARISHES, fxSitesFor),
+  applyLook: (look) => hd4ApplyLook(look),
+  sites: () => hd4Sites?.counts?.() ?? null,
+  ultraSites: () => hd4UltraSites?.counts?.() ?? null,
+  exteriors: () => fxWorld?.counts?.() ?? null,
+  opsDoors: hd4OpsDoors,
+  opsRoom() {
+    const site = hd4OpsSite(hd4OpsHome(), parish);
+    if (!site) return null;
+    if (ixWorld.inside()) { const p = ixWorld.exit(); np.x = p.x; np.z = p.z; np.yaw = p.yaw; np.pitch = p.pitch; }
+    npKeys.clear();
+    const room = ixWorld.enter(site, { x: np.x, z: np.z, yaw: np.yaw, pitch: np.pitch }, { style: HD4_OPS_STYLE, title: "Hive operations room" });
+    if (!room) return null;
+    ixWorld.pose.x = -6.6; ixWorld.pose.z = 5.4; np.yaw = Math.atan2(-6.6, 8.4); np.pitch = -0.1; np.near = null; npHud();
+    const menu = document.getElementById("menu"); if (menu && !np.playing) menu.hidden = true;
+    document.getElementById("toast")?.classList.remove("on");
+    return { style: HD4_OPS_STYLE, meshes: room.meshes(), consoles: room.hd4Ops?.consoles?.length ?? 0, spots: room.spots?.agent?.length ?? 0, screens: !!hd4OpsScreens(room), lights: room.hd4Lights ?? null };
+  },
+  screens: () => hd4OpsScreens(ixWorld.room),
+  measure() {
+    const r = ixWorld.room; if (!r) return { inside: false };
+    const m = ixrMeasure(r), info = npRenderer?.info?.render ?? {};
+    let lights = 0; r.group.traverse((o) => { if (o.isLight) lights++; });
+    return { inside: true, style: r.id, meshes: m.meshes, trianglesBuilt: m.triangles, triangles: info.triangles ?? null, calls: info.calls ?? null, lights, textureBytes: m.textureBytes, hd4Lights: r.hd4Lights ?? null, ultra: r.hd4Ultra ?? null };
+  },
+  frameTime(n = 12) {
+    const gl = npRenderer.getContext(), px = new Uint8Array(4), t = [];
+    npRenderer.render(scene, camera); gl.readPixels(0, 0, 1, 1, gl.RGBA, gl.UNSIGNED_BYTE, px);
+    for (let i = 0; i < n; i++) { const t0 = performance.now(); npRenderer.render(scene, camera); gl.readPixels(0, 0, 1, 1, gl.RGBA, gl.UNSIGNED_BYTE, px); t.push(performance.now() - t0); }
+    t.sort((a, b) => a - b);
+    const info = npRenderer.info;
+    return { n, medianMs: Math.round(t[Math.floor(n / 2)] * 10) / 10, p90Ms: Math.round(t[Math.min(n - 1, Math.floor(n * 0.9))] * 10) / 10, calls: info.render.calls, triangles: info.render.triangles, textures: info.memory.textures, geometries: info.memory.geometries };
+  },
+};
 // ENV-HD-2 (docs/consoles/ENV-HD-2.md): capture presets for the reel and the deck. `room(styleId)` opens a skinned INTERIORS
 // room (a site of that style on this map, else the map's first site, opened with the style) and stands the camera in the
 // door-side corner looking across to the far corner; `hood(siteId)` frames a robot site's neighbourhood from high above,
@@ -1601,6 +1688,12 @@ $("ux-open-ways").addEventListener("click", () => npToggle("parishes"));
   paint(); if (sys) b.disabled = true;
   b.addEventListener("click", () => { on = !on; try { localStorage.setItem("ux-reduced", on ? "1" : "0"); } catch { /* blocked */ } paint(); npToast(`Reduced motion ${on ? "on" : "off"}: reloading the world still${on ? "" : " off"}…`); setTimeout(() => location.reload(), 600); });
 }
+// ENV-HD-4: the Ultra detail toggle beside reduced motion (desktop high only, hidden elsewhere; at least 44 px tall). Switching
+// it reloads the page without any ?ultra= so the stored choice applies.
+hd4MountUltraToggle({ host: $("ux-reduced")?.parentElement ?? null, after: $("ux-reduced"), state: hd4Ultra, onChange: (on) => {
+  npToast(`Ultra detail ${on ? "on" : "off"}: reloading to draw the ${on ? "2048" : "1024"} px textures…`);
+  setTimeout(() => { try { const u = new URL(location.href); u.searchParams.delete("ultra"); location.replace(u.href); } catch { location.reload(); } }, 600);
+} });
 {
   // VOICES: the Me tab's voice settings beside reduced motion — a toggle (off until you turn it on, not remembered), a voice test and
   // a table of which on-device voice each character uses here. The characters' voice and the Omega Hive's share one line of speech.

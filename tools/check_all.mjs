@@ -140,6 +140,8 @@ const CHECKERS = [
   "check_robo_interiors.mjs",
   // ENV-HD-2: the canvas texture set on the most-visited INTERIORS rooms, meshes unchanged, texture bytes per tier (docs/consoles/ENV-HD-2.md).
   "check_room_skins.mjs",
+  // ENV-HD-4: the opt-in Ultra setting's budget, the robot sites' looks, lit robot rooms and the hive operations room (docs/consoles/ENV-HD-4.md).
+  "check_hd4.mjs",
   "check_la_rooms.mjs",
   // The parish data modules on the shared parish schema (docs/parishes.md, console DELTA); PARISH's check_parishes absorbs it.
   "check_parish_data.mjs",
