@@ -362,7 +362,7 @@ export function ocRow(id, model, d, r) {
  * published constants (RA_DEMOS: demonstrations at seed*100003 + k + 1; RA_DAGGER: rollouts at seed0 + round*100 + k)
  * and ROBOTRAIN-6's pair seeds (31 + i, each run at (31 + i)*100003 + 1) for the per-step-reward model.
  */
-export function ocRaAdapter(ra, { scenarioKinds = ["gym"] } = {}) {
+export function ocRaAdapter(ra, { scenarioKinds = ["gym"], lmOptions = null } = {}) {
   const D = ra.RA_DEMOS ?? { n: 40, seed: 1 }, G = ra.RA_DAGGER ?? { rollouts: 20, seed0: 800000 };
   const demos = Array.from({ length: D.n }, (_, k) => D.seed * 100003 + k + 1);
   const dagger = (rounds) => Array.from({ length: rounds }, (_, r) => Array.from({ length: G.rollouts }, (_, k) => G.seed0 + (r + 1) * 100 + k)).flat();
@@ -371,7 +371,7 @@ export function ocRaAdapter(ra, { scenarioKinds = ["gym"] } = {}) {
   return {
     raModels: () => ra.raModels(),
     raScenarios: () => ra.raScenarios().filter((s) => scenarioKinds.includes(s.kind)),
-    raRun: (q) => ra.raRun(q),
+    raRun: (q) => ra.raRun(lmOptions ? { ...q, lmOptions } : q),
     raLeaderboard: (rs) => ra.raLeaderboard(rs),
     trainingSeeds: (m) => seeds[m.id] ?? ocTrainingSeeds(m),
   };
@@ -443,7 +443,47 @@ export const OC_PROTOCOL = Object.freeze({
   ]),
 });
 
-/** The protocol's declarations, one per scenario. */
+/** The protocol's declarations, one per scenario (protocol 2's ids start `oc2-`, so they never meet protocol 1's). */
 export function ocProtocolDeclarations(p = OC_PROTOCOL) {
-  return p.scenarios.map((sc) => ({ id: `oc-${sc.replace(/[^a-z0-9]+/gi, "-")}`, scenarioId: sc, models: [...p.models], incumbent: p.incumbent, challengers: [...p.challengers], negativeControl: p.negativeControl, metric: p.metric, seeds: [...p.seeds] }));
+  const pre = p.idPrefix ?? "oc";
+  return p.scenarios.map((sc) => ({ id: `${pre}-${sc.replace(/[^a-z0-9]+/gi, "-")}`, scenarioId: sc, models: [...p.models], incumbent: p.incumbent, challengers: [...p.challengers], negativeControl: p.negativeControl, metric: p.metric, seeds: [...p.seeds] }));
 }
+
+/**
+ * Round 7's held-out seeds, drawn ONLY through ARENA-2's committed declaration (docs/evals/arena-declared-r7.json,
+ * commit 8ea01d3c: gym 7181–7240). The claw for protocol 2 is a NEW instance whose held-out set is these seeds alone, so
+ * protocol 1's spent seeds (7121–7180) are refused as not held out.
+ */
+export const OC_HELD_OUT_2 = Object.freeze(Array.from({ length: 60 }, (_, i) => 7181 + i));
+
+/**
+ * Round 7's protocol (committed before its one held-out run). It is the first claw comparison of the small
+ * language-conditioned model (ra-lm, ROBO-ARENA's ra/1 model, trained here; never a large language model), which round 6b
+ * could not compare because its branch carried the contract stub. Same nine gym scenarios, same eight models and the same
+ * gate as protocol 1; the incumbent is the model promoted on every scenario after protocol 1 (bc: 0 promotions there).
+ * ra-lm is built as ROBO-ARENA declared it: its task texts (raLmTaskTexts over the stations' exported steps) and the three
+ * station tasks in its training set; it runs on the gym scenarios only. ARENA-2's ra-lm-h is not in this branch (its
+ * declaration is; the model lands later), so it is not declared here. Probes: an undeclared run; a re-test on ten of
+ * these seeds once spent; and a declaration on ten of protocol 1's spent seeds, refused as not held out.
+ */
+export const OC_PROTOCOL_2 = Object.freeze({
+  version: "oc-protocol/2",
+  idPrefix: "oc2",
+  seeds: OC_HELD_OUT_2,
+  seedSource: Object.freeze({ owner: "ARENA-2", file: "docs/evals/arena-declared-r7.json", commit: "8ea01d3c", gym: "7181–7240" }),
+  scenarios: OC_PROTOCOL.scenarios,
+  models: OC_PROTOCOL.models,
+  incumbent: "bc",
+  incumbentFrom: "oc-protocol/1: bc kept every gym scenario (0 promotions)",
+  challengers: Object.freeze(["ra-lm", "dagger-r1", "dagger-r3", "step-reward", "random"]),
+  negativeControl: "random",
+  lm: "ra-lm as declared in arena-declared.json (ra/1): lmOptions { texts: raLmTaskTexts(raReadStation), stationFor: the three headless station rooms }",
+  metric: "success",
+  interval: OC_INTERVAL,
+  promotion: OC_PROTOCOL.promotion,
+  probes: Object.freeze([
+    { kind: "undeclared", id: "oc2-probe-undeclared", note: "evaluate a comparison id that was never declared" },
+    { kind: "seed-reused", id: "oc2-probe-retest", scenarioId: "rb-cell-entry", models: ["bc", "ra-lm"], incumbent: "bc", challengers: ["ra-lm"], seeds: OC_HELD_OUT_2.slice(0, 10), note: "declare a re-test of ra-lm on ten of these seeds once spent, then try to run it" },
+    { kind: "not-held-out", id: "oc2-probe-spent-r6", scenarioId: "rb-amr-fleet-routing", models: ["bc", "ra-lm"], incumbent: "bc", challengers: ["ra-lm"], seeds: OC_HELD_OUT.slice(0, 10), note: "declare ra-lm on ten of protocol 1's spent seeds (7121–7130): refused at declaration" },
+  ]),
+});
