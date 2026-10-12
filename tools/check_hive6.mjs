@@ -295,7 +295,7 @@ await check("6 hygiene: prefix, no alias, no network or model call, bundles, che
   ok(tops.length && tops.every((n) => /^(h6|H6_)/.test(n)), `a top-level name without the h6 prefix (${tops.filter((n) => !/^(h6|H6_)/.test(n)).join(", ")})`);
   ok(!/^import /m.test(src), "h6-moods.js imports nothing");
   const model = new RegExp(["cla", "ude-[a-z]+-\\d|gpt-\\d|gem", "ini-\\d"].join(""), "i");
-  for (const f of ["WebXR/shared/h6-moods.js", "WebXR/shared/oh-hive.js", "WebXR/shared/oh-say.js", "WebXR/shared/oh-panel.js", "WebXR/instructor/js/h4-hive.js", "tools/check_hive6.mjs", "docs/consoles/HIVE-6.md"]) {
+  for (const f of ["WebXR/shared/h6-moods.js", "WebXR/shared/oh-hive.js", "WebXR/shared/oh-say.js", "WebXR/shared/oh-panel.js", "WebXR/instructor/js/h4-hive.js", "tools/check_hive6.mjs", "docs/consoles/HIVE-6.md", "WebXR/shared/h5-ops-room.js", "WebXR/shared/h5-hive-live.js", "docs/consoles/HIVE-7.md"]) { // HIVE-7's files too
     const s = read(f); ok(!model.test(s), `${f}: a model identifier`); ok(!/import \{[^}]*\bas\b[^}]*\}/.test(s), `${f}: an import alias`);
   }
   ok(!/\bfetch\(|XMLHttpRequest|WebSocket|sendBeacon|EventSource|getUserMedia|SpeechRecognition|speechSynthesis/.test(code), "h6-moods.js: a network, voice or listening call");
@@ -307,7 +307,7 @@ await check("6 hygiene: prefix, no alias, no network or model call, bundles, che
   ok(/"check_hive6\.mjs"/.test(read("tools/check_all.mjs")), "check_all lists check_hive6");
   const base = JSON.parse(read("docs/perf/checkers-baseline.json") || "{}");
   ok(JSON.stringify(base).includes("check_hive6.mjs") && /ESTIMATE/.test(JSON.stringify(base).split("check_hive6.mjs").slice(-1)[0].slice(0, 300)), "the baseline row (an estimate)");
-  for (const f of ["docs/consoles/HIVE-6.md", "docs/consoles/memory/HIVE-6.md", "tools/briefs/next/h6-next.md"]) ok(existsSync(join(ROOT, f)), `${f} missing`);
+  for (const f of ["docs/consoles/HIVE-6.md", "docs/consoles/memory/HIVE-6.md", "tools/briefs/next/h6-next.md", "docs/consoles/HIVE-7.md", "docs/consoles/memory/HIVE-7.md", "tools/briefs/next/h7-next.md"]) ok(existsSync(join(ROOT, f)), `${f} missing`);
   return "prefix, no alias, no network, bundles, check_all, baseline, docs";
 });
 
