@@ -1034,6 +1034,9 @@ APPS = {
             SHARED / "oh-voice.js",
             SHARED / "vc-voices.js",  # VOICES: the characters' voice profiles (npc.js, listed earlier, imports it; used only at run time)
             SHARED / "oh-hive.js",
+            # HIVE-3: who stands in a robotics room, the hive's remembered settings, the panel's Spanish text and the hive's
+            # scripted day (before oh-panel.js and hw-hive-world.js, which import it; it imports nothing).
+            SHARED / "h3-hive-day.js",
             SHARED / "oh-panel.js",
             # AGENT-AVATARS (docs/consoles/AGENT-AVATARS.md): the agents' portraits (listed above, before the hive panel), then
             # their figures (after crew.js, av-sprites.js, rb-robotics-data.js and vb-shared-data.js).

@@ -44,6 +44,7 @@
 
 import { aaMountAgentAvatars } from "./aa-agent-avatars.js";
 import { ixrAgentSpot, IXR_ROOMS } from "./ixr-robo-interiors.js";
+import { h3RoomPresence, H3_ROOM_FIGURES } from "./h3-hive-day.js";
 
 export const HW_ROOM_TEXTURE_SCALE = Object.freeze({ high: 1, balanced: 0.5, low: 0 });
 
@@ -71,24 +72,116 @@ export function hwRoomAgents(room, agents = []) {
   return out;
 }
 
-/** Stand the room's agents at their spots, listening to the hive for captions (see the header). */
+/** Stand the room's agents at their spots, listening to the hive for captions (see the header).
+ * HIVE-3: who is in the room follows the hive (h3RoomPresence): an agent the hive sends to this site for a job comes in
+ * through the door to a free agent spot (its role's first), else a place by the door, and walks out through the door when the
+ * job ends or the hive sends it elsewhere; an agent homed here leaves the same way while a job holds it elsewhere and comes
+ * back when that job ends. At most H3_ROOM_FIGURES figures are in the room at once (a further agent waits outside until a
+ * figure has gone), and a figure that has walked out is released (its meshes and canvases disposed), so the room stays inside
+ * IX_BUDGET and IXR_TEX_BUDGET. Reduced motion: figures appear and go without walking. The hive's move events never reach the
+ * figures directly: the mount turns them into walks between the room's own places. */
 export function hwMountRoomAgents({ three = null, room = null, agents = [], source = null, tier = "high", reducedMotion = false, mount = aaMountAgentAvatars } = {}) {
   const siteId = hwRoomSiteId(room);
   if (!siteId || !room.group || typeof mount !== "function") return null;
-  const placed = hwRoomAgents(room, agents);
-  const at = new Map(placed.map((p) => [p.agent.id, p.spot]));
+  const roster = (agents ?? []).filter((a) => a?.id);
+  const byId = new Map(roster.map((a) => [a.id, a]));
+  const spots = room.spots?.agent ?? [];
   const scale = HW_ROOM_TEXTURE_SCALE[tier] ?? 1;
-  const avatars = placed.length ? mount({
-    three, parent: room.group, agents: placed.map((p) => p.agent), source, tier, reducedMotion,
-    siteAt: (id) => (id === siteId ? { x: 0, y: 0, z: 0 } : null), // any other site is off this room: the figure hides
-    spotFor: (a, id) => { const s = id === siteId ? at.get(a.id) : null; return s ? { x: s.x, y: 0, z: s.z, yaw: hwFigureYaw(s.yaw) } : null; },
+  const door = room.door && Number.isFinite(+room.door.x) && Number.isFinite(+room.door.z) ? room.door : { x: 0, z: (Number(room.d) || 10) / 2 - 1.1 };
+  // The room's places as pseudo-sites for the avatar mount: each agent spot, H3_ROOM_FIGURES places by the door (inside it,
+  // facing into the room) and the doorway itself (facing out: where a figure is released).
+  const P = "hw-room:";
+  const place = new Map();
+  for (const s of spots) place.set(`${P}spot:${s.id}`, { x: s.x, y: 0, z: s.z, yaw: hwFigureYaw(s.yaw), spot: s });
+  for (let k = 0; k < H3_ROOM_FIGURES; k += 1) {
+    const s = { id: `door-${k}`, name: "inside the door", x: door.x + (k % 2 ? -1 : 1) * (1.2 + 0.9 * Math.floor(k / 2)), z: door.z - 1.5, yaw: 0 };
+    place.set(`${P}door:${k}`, { x: s.x, y: 0, z: s.z, yaw: hwFigureYaw(s.yaw), spot: s });
+  }
+  place.set(`${P}exit`, { x: door.x, y: 0, z: door.z, yaw: 0 });
+  const relay = source && typeof source.on === "function" ? { // everything but the hive's own moves (the room has its own)
+    on: (type, fn) => { if (type !== "move") source.on(type, fn); },
+    off: (type, fn) => { if (type !== "move") source.off?.(type, fn); },
+  } : null;
+  const avatars = roster.length ? mount({
+    three, parent: room.group, agents: roster, source: relay, tier, reducedMotion,
+    siteAt: (id) => (place.has(id) ? { x: 0, y: 0, z: 0 } : null), // a real site id is off this room: its figure waits unbuilt
+    spotFor: (_a, id) => { const q = place.get(id); return q ? { x: q.x, y: 0, z: q.z, yaw: q.yaw } : null; },
     textureScale: scale > 0 ? scale : 1,
   }) : null;
+  const presence = h3RoomPresence({ agents: roster, source });
+  const holder = new Map(); // place id -> agent id
+  const where = new Map(); // agent id -> { id: place id, spot }
+  const placed = []; // live: [{ agent, spot }] for the agents standing (or walking to their place) in the room
+  const leaving = new Set(); // agents walking out (their figures still exist until released)
+  const waiting = []; // agents here by the hive with no room left: they come in when a figure has gone
+  const log = []; // { t, agent, what: "in" | "out" | "wait" | "promote", place }
+  const homeOf = (id) => byId.get(id)?.homeSite ?? null;
+  const tNow = () => avatars?.clock?.() ?? 0;
+  function freePlace(a) {
+    if (where.size + leaving.size >= H3_ROOM_FIGURES) return null; // the room's figure budget
+    const role = ixrAgentSpot(room, a);
+    const order = [...(role ? [role] : []), ...spots.filter((s) => s !== role)];
+    for (const s of order) { const id = `${P}spot:${s.id}`; if (!holder.has(id)) return id; }
+    for (let k = 0; k < H3_ROOM_FIGURES; k += 1) { const id = `${P}door:${k}`; if (!holder.has(id)) return id; }
+    return null;
+  }
+  function takePlace(a, id) { holder.set(id, a.id); const q = place.get(id); where.set(a.id, { id, spot: q.spot }); placed.push({ agent: a, spot: q.spot }); }
+  function dropPlace(id) {
+    const w = where.get(id); if (!w) return null;
+    where.delete(id); holder.delete(w.id);
+    const i = placed.findIndex((p) => p.agent.id === id); if (i >= 0) placed.splice(i, 1);
+    return w;
+  }
+  function arrive(a, walkIn) {
+    if (!avatars || where.has(a.id)) return;
+    const turning = leaving.delete(a.id); // walking out and sent back: it turns round where it is
+    const id = freePlace(a);
+    if (!id) { if (turning) leaving.add(a.id); if (!waiting.includes(a.id)) { waiting.push(a.id); log.push({ t: tNow(), agent: a.id, what: "wait" }); } return; }
+    takePlace(a, id);
+    if (walkIn && !turning && !reducedMotion) avatars.handle({ type: "move", agent: a.id, to: `${P}exit` }); // appears in the doorway
+    avatars.handle({ type: "move", agent: a.id, to: id }); // the first placement jumps; from the doorway it walks
+    log.push({ t: tNow(), agent: a.id, what: "in", place: id });
+  }
+  function release(id) { leaving.delete(id); avatars?.release?.(id); refill(); }
+  function leave(id) {
+    const wi = waiting.indexOf(id); if (wi >= 0) waiting.splice(wi, 1);
+    if (!dropPlace(id)) return;
+    log.push({ t: tNow(), agent: id, what: "out" });
+    if (reducedMotion) { avatars?.release?.(id); refill(); return; }
+    leaving.add(id);
+    avatars.handle({ type: "move", agent: id, to: `${P}exit` });
+    refill();
+  }
+  function refill() {
+    // a figure by the door steps over to a spot that has come free, then a waiting agent comes in if the budget allows
+    for (const s of spots) {
+      const sid = `${P}spot:${s.id}`; if (holder.has(sid)) continue;
+      const by = [...where.entries()].find(([, w]) => w.id.startsWith(`${P}door:`)); if (!by) break;
+      const [aid] = by; dropPlace(aid); takePlace(byId.get(aid), sid);
+      avatars.handle({ type: "move", agent: aid, to: sid }); log.push({ t: tNow(), agent: aid, what: "promote", place: sid });
+    }
+    while (waiting.length && where.size + leaving.size < H3_ROOM_FIGURES) { const aid = waiting.shift(); if (presence.at(aid) === siteId) arrive(byId.get(aid), true); }
+  }
+  for (const a of roster) if (presence.at(a.id) === siteId) arrive(a, false); // who is here as the room opens: in place at once
+  const offChange = presence.onChange((c) => {
+    const a = byId.get(c.agent); if (!a) return;
+    if (c.to === siteId) arrive(a, true); else if (c.from === siteId) leave(a.id);
+  });
   return {
-    room, siteId, placed, avatars,
-    animate(t, dt) { avatars?.animate(t, dt, null); },
-    counts() { return { agents: placed.length, spots: room.spots?.agent?.length ?? 0, ...(avatars?.counts() ?? { figures: 0, meshes: 0, sprites: 0, triangles: 0, textureBytes: 0 }) }; },
-    dispose() { try { avatars?.dispose(); } catch (_) { /* the room's own exit already disposed the meshes */ } },
+    room, siteId, placed, avatars, presence,
+    animate(t, dt) {
+      avatars?.animate(t, dt, null);
+      for (const id of [...leaving]) { const s = avatars?.state(id); if (!s || !s.walking) release(id); } // out of the doorway: gone
+    },
+    visitors() { return [...where.keys()].filter((id) => homeOf(id) !== siteId); },
+    waiting() { return waiting.slice(); },
+    leaving() { return [...leaving]; },
+    log() { return log.slice(); },
+    counts() {
+      const c = avatars?.counts() ?? { figures: 0, meshes: 0, sprites: 0, triangles: 0, textureBytes: 0 };
+      return { agents: where.size, visitors: [...where.keys()].filter((id) => homeOf(id) !== siteId).length, leaving: leaving.size, waiting: waiting.length, spots: spots.length, ...c };
+    },
+    dispose() { offChange(); presence.dispose(); try { avatars?.dispose(); } catch (_) { /* the room's own exit already disposed the meshes */ } },
   };
 }
 
