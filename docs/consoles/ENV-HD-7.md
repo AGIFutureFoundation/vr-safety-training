@@ -61,7 +61,11 @@
 | `sf-mission-fire-station-noe-valley-site-day.jpg` | a non-preset fire station | 67 | 162,512 | two red bay frames, aprons, trim band, the hose tower; the board lamp on its post |
 | `sf-marina-school-inner-richmond-site-day.jpg` | a non-preset school | 51 | 124,424 | entrance canopy, the fenced play yard with its frame |
 | `sf-marina-park-street-day.jpg` | `presidio-crew-yard:street` (camera moved) | 118 | 110,551 | the crew house's green gable roof, timber gable end and corner boards, the board and its lamp; no crown overhead, no car in the sight line |
+| `orleans-substation-lakeview-site-day.jpg` | a substation (a next kind) | 270 | 230,307 | the fenced compound with three transformers and their bushings beside the building, the rooftop unit, the board lamp |
+| `orleans-fire-station-street-night.jpg` | `no-sw-mid-city-fire-station:street`, night | 177 | 209,446 | unchanged from ENV-HD-6 (176 → 177 calls with the sign group) |
 
+Drive C (`driveC.txt`, on the final bundle: "page errors 0, external requests 0, 137 s, load 26.48"): Orleans in the page
+14 sites, 6,888 cue triangles, sign 336, 2 draw calls, 35 lamps — the same as the headless model.
 Drive A (`driveA.txt`: "page errors 0, external requests 0, 635 s, load 36.88") and drive B (`driveB.txt`: "page errors 0,
 external requests 0, 389 s, load 29.99"). The non-preset views stand 34 m out of the door face and 12 m up; the page streams
 the world round the preset it was last sent to, so the far massing is sparse in those frames (the cue mesh is map-wide).
